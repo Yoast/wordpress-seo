@@ -1,7 +1,7 @@
 export default {
 	defaultParameters: {
 		parameters: {
-			recommendedMaximumWordCount: 600,
+			recommendedMaximumLength: 600,
 			slightlyTooMany: 600,
 			farTooMany: 700,
 		},
@@ -9,7 +9,7 @@ export default {
 	},
 	cornerstoneParameters: {
 		parameters: {
-			recommendedMaximumWordCount: 500,
+			recommendedMaximumLength: 500,
 			slightlyTooMany: 600,
 			farTooMany: 500,
 		},

@@ -25,7 +25,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 		const defaultConfig = {
 			parameters: {
 				// The maximum recommended value of the subheading text.
-				recommendedMaximumWordCount: 300,
+				recommendedMaximumLength: 300,
 				slightlyTooMany: 300,
 				farTooMany: 350,
 			},
@@ -45,27 +45,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 		this.identifier = "subheadingsTooLong";
 		this._config = merge( defaultConfig, config );
 	}
-	/**
-	 * Check if there is language-specific config, and if so, overwrite the current config with it.
-	 *
-	 * @param {Researcher} researcher The researcher to use.
-	 *
-	 * @returns {Object} The config that should be used.
-	 */
-	getConfig( researcher ) {
-		const currentConfig = this._config;
-		const languageSpecificConfig = researcher.getConfig( "subheadingsTooLong" );
 
-		/*
-		 * If a language has a specific config for subheading distribution, override it with the language specific
-		 * config.
-		 */
-		if ( languageSpecificConfig ) {
-			currentConfig.parameters = languageSpecificConfig.parameters;
-		}
-
-		return currentConfig;
-	}
 	/**
 	 * Runs the getSubheadingTextLength research and checks scores based on length.
 	 *
@@ -105,6 +85,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 
 		return assessmentResult;
 	}
+
 	/**
 	 * Check if there is language-specific config, and if so, overwrite the current config with it.
 	 *
@@ -123,6 +104,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 		// Use the default language-specific config for non-cornerstone condition
 		return merge( currentConfig, languageSpecificConfig.defaultParameters );
 	}
+
 	/**
 	 * Checks the applicability of the assessment based on the presence of text, and, if required, text length.
 	 *
@@ -171,7 +153,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 	 */
 	getTooLongSubheadingTexts() {
 		return filter( this._subheadingTextsLength, function( subheading ) {
-			return subheading.countLength > this._config.parameters.recommendedMaximumWordCount;
+			return subheading.countLength > this._config.parameters.recommendedMaximumLength;
 		}.bind( this ) );
 	}
 
@@ -221,7 +203,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 							this._config.urlTitle,
 							"</a>",
 							this._tooLongTextsNumber,
-							this._config.parameters.recommendedMaximumWordCount,
+							this._config.parameters.recommendedMaximumLength,
 							this._config.urlCallToAction,
 							this._config.countTextIn
 						),
@@ -246,7 +228,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 						this._config.urlTitle,
 						"</a>",
 						this._tooLongTextsNumber,
-						this._config.parameters.recommendedMaximumWordCount,
+						this._config.parameters.recommendedMaximumLength,
 						this._config.urlCallToAction,
 						this._config.countTextIn
 					),
