@@ -220,7 +220,7 @@ describe( "A test for keyword density in Japanese", function() {
 		const result = new KeywordDensityAssessment().getResult( paper, researcher );
 		expect( result.getScore() ).toBe( -50 );
 		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
-			"The focus keyphrase was found 32 times. That's way more than the recommended maximum of 2 times for a text of " +
+			"The focus keyphrase was found 32 times. That's way more than the recommended maximum of 23 times for a text of " +
 			"this length. <a href='https://yoa.st/33w' target='_blank'>Don't overoptimize</a>!" );
 	} );
 
@@ -235,7 +235,7 @@ describe( "A test for keyword density in Japanese", function() {
 		const result = new KeywordDensityAssessment().getResult( paper, researcher );
 		expect( result.getScore() ).toBe( -10 );
 		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>:" +
-			" The focus keyphrase was found 16 times. That's more than the recommended maximum of 2 times for a text of this length." +
+			" The focus keyphrase was found 16 times. That's more than the recommended maximum of 15 times for a text of this length." +
 			" <a href='https://yoa.st/33w' target='_blank'>Don't overoptimize</a>!" );
 	} );
 
@@ -272,7 +272,7 @@ describe( "A test for keyword density in Japanese", function() {
 		const researcher = new JapaneseResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyDataJA );
 		const result = new KeywordDensityAssessment().getResult( paper, researcher );
-		expect( result.getScore() ).toBe( 4 );
+		expect( result.getScore() ).toBe( 9 );
 		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
 			"The focus keyphrase was found 8 times. This is great!" );
 	} );
