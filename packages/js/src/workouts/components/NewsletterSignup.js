@@ -48,9 +48,11 @@ const subscribedFeedback = __(
 /**
  * The newsletter signup section.
  *
+ * @param {string} gdprLink Shortlink to the Yoast Privacy policy.
+ *
  * @returns {WPElement} A newslettersignup element.
  */
-export function NewsletterSignup() {
+export function NewsletterSignup( gdprLink ) {
 	const [ newsletterEmail, setNewsletterEmail ] = useState( "" );
 	const [ signUpState, setSignUpState ] = useState( "waiting" );
 	const [ emailFeedback, setEmailFeedback ] = useState( "" );
@@ -105,8 +107,8 @@ export function NewsletterSignup() {
 								"<a>",
 								"</a>"
 							),
-							"https://yoa.st/gdpr-config-workout",
-							"yoast-configuration-workout-gdpr-link"
+							gdprLink,
+							"yoast-configuration-workout-gdpr-gdprLink"
 						)
 					}
 				/>
