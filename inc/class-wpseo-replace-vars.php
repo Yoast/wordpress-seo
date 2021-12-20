@@ -393,7 +393,7 @@ class WPSEO_Replace_Vars {
 	 * @return string|null
 	 */
 	private function retrieve_excerpt() {
-		$replacement           = null;
+		$replacement = null;
 
 		// The check `post_password_required` is because excerpt must be hidden for a post with a password.
 		if ( ! empty( $this->args->ID ) && ! post_password_required( $this->args->ID ) ) {

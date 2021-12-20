@@ -7,7 +7,6 @@ namespace Yoast\WP\SEO\Conditionals;
  *
  * @deprecated 17.9
  * @codeCoverageIgnore
- *
  */
 class Japanese_Support_Conditional extends Feature_Flag_Conditional {
 

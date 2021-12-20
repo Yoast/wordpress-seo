@@ -27,6 +27,7 @@ class Language_Helper_Test extends TestCase {
 	 */
 	protected function set_up() {
 		parent::set_up();
+		$this->instance = new Language_Helper();
 	}
 
 	/**
