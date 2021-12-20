@@ -159,6 +159,20 @@ describe( "a test for matching keyphrase in page title for Japanese", () => {
 			expect( result.allWordsFound ).toBe( false );
 			expect( result.position ).toBe( -1 );
 		} );
+
+		it( "returns an assessment result with a keyphrase in Japanese enclosed in double quotes: " +
+			"the same forms of the keyphrase are used in the title but they don't occur exactly in the same order as the keyphrase", function() {
+			const mockPaper = new Paper( "", {
+				keyword: "「小さく花の刺繍」",
+				title: "小さくて可愛い花の刺繍に関する一般一般の記事です",
+				locale: "ja",
+			} );
+			const researcher = new JapaneseResearcher( mockPaper );
+
+			result = pageTitleKeywordResearch( mockPaper, researcher );
+			expect( result.allWordsFound ).toBe( false );
+			expect( result.position ).toBe( -1 );
+		} );
 	} );
 
 	if ( isFeatureEnabled( "JAPANESE_SUPPORT" ) ) {

@@ -209,7 +209,6 @@ describe( "Test for counting the keyword in a text for Japanese", () => {
 		const mockPaper = new Paper( "私の猫はかわいいです。", { locale: "ja", keyphrase: "猫" } );
 		const researcher = buildJapaneseMockResearcher( [ [ "猫" ] ], wordsCountHelper, matchWordsHelper );
 		expect( keywordCount( mockPaper, researcher ).count ).toBe( 1 );
-		expect( keywordCount( mockPaper, researcher ).charactersCount ).toEqual( 1 );
 		expect( keywordCount( mockPaper, researcher ).markings ).toEqual( [
 			new Mark( { marked: "私の<yoastmark class='yoast-text-mark'>猫</yoastmark>はかわいいです。",
 				original: "私の猫はかわいいです。" } ) ] );
@@ -219,7 +218,6 @@ describe( "Test for counting the keyword in a text for Japanese", () => {
 		const mockPaper = new Paper( "私の猫はかわいいです。",  { locale: "ja" } );
 		const researcher = buildJapaneseMockResearcher( [ [ "猫" ], [ "会い" ] ], wordsCountHelper, matchWordsHelper );
 		expect( keywordCount( mockPaper, researcher ).count ).toBe( 0 );
-		expect( keywordCount( mockPaper, researcher ).charactersCount ).toEqual( 0 );
 		expect( keywordCount( mockPaper, researcher ).markings ).toEqual( [] );
 	} );
 
@@ -227,7 +225,6 @@ describe( "Test for counting the keyword in a text for Japanese", () => {
 		const mockPaper = new Paper( "私の猫はかわいいですかわいい。",  { locale: "ja" } );
 		const researcher = buildJapaneseMockResearcher( [ [ "猫" ], [ "かわいい" ] ], wordsCountHelper, matchWordsHelper );
 		expect( keywordCount( mockPaper, researcher ).count ).toBe( 1 );
-		expect( keywordCount( mockPaper, researcher ).charactersCount ).toEqual( 5 );
 		expect( keywordCount( mockPaper, researcher ).markings ).toEqual( [
 			new Mark( {
 				marked: "私の<yoastmark class='yoast-text-mark'>猫</yoastmark>は<yoastmark class='yoast-text-mark'>かわいい</yoastmark>" +

@@ -138,17 +138,6 @@ class Wincher_Route_Test extends TestCase {
 		Monkey\Functions\expect( 'register_rest_route' )
 			->with(
 				'yoast/v1',
-				'wincher/limits',
-				[
-					'methods'             => 'GET',
-					'callback'            => [ $this->instance, 'check_limit' ],
-					'permission_callback' => [ $this->instance, 'can_use_wincher' ],
-				]
-			);
-
-		Monkey\Functions\expect( 'register_rest_route' )
-			->with(
-				'yoast/v1',
 				'wincher/keyphrases/track',
 				[
 					'methods'             => 'POST',
@@ -289,28 +278,6 @@ class Wincher_Route_Test extends TestCase {
 		Mockery::mock( 'overload:WP_REST_Response' );
 
 		$this->assertInstanceOf( 'WP_REST_Response', $this->instance->authenticate( $request ) );
-	}
-
-	/**
-	 * Tests the checking of account limits.
-	 *
-	 * @covers ::check_limit
-	 */
-	public function test_check_limit() {
-		$request = Mockery::mock( 'WP_REST_Request', 'ArrayAccess' );
-
-		$this->account_action
-			->expects( 'check_limit' )
-			->andReturn(
-				(object) [
-					'results' => [ 'canTrack' => true ],
-					'status'  => '200',
-				]
-			);
-
-		Mockery::mock( 'overload:WP_REST_Response' );
-
-		$this->assertInstanceOf( 'WP_REST_Response', $this->instance->check_limit( $request ) );
 	}
 
 	/**

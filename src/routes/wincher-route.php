@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Routes;
 
-use WP_Query;
 use WP_REST_Request;
 use WP_REST_Response;
 use Yoast\WP\SEO\Actions\Wincher\Wincher_Account_Action;
@@ -36,13 +35,6 @@ class Wincher_Route implements Route_Interface {
 	 * @var string
 	 */
 	const AUTHENTICATION_ROUTE = self::ROUTE_PREFIX . '/authenticate';
-
-	/**
-	 * The account limit route constant.
-	 *
-	 * @var string
-	 */
-	const ACCOUNT_LIMIT_ROUTE = self::ROUTE_PREFIX . '/limits';
 
 	/**
 	 * The track bulk keyphrases route constant.
@@ -143,14 +135,6 @@ class Wincher_Route implements Route_Interface {
 
 		\register_rest_route( Main::API_V1_NAMESPACE, self::AUTHENTICATION_ROUTE, $authentication_route_args );
 
-		$check_limit_route_args = [
-			'methods'             => 'GET',
-			'callback'            => [ $this, 'check_limit' ],
-			'permission_callback' => [ $this, 'can_use_wincher' ],
-		];
-
-		\register_rest_route( Main::API_V1_NAMESPACE, self::ACCOUNT_LIMIT_ROUTE, $check_limit_route_args );
-
 		$track_keyphrases_route_args = [
 			'methods'             => 'POST',
 			'callback'            => [ $this, 'track_keyphrases' ],
@@ -211,18 +195,6 @@ class Wincher_Route implements Route_Interface {
 			->login_action
 			->authenticate( $request['code'], (string) $request['websiteId'] );
 
-		return new WP_REST_Response( $data, $data->status );
-	}
-
-	/**
-	 * Gets the account limit from Wincher.
-	 *
-	 * @param WP_REST_Request $request The request. This request should have a code param set.
-	 *
-	 * @return WP_REST_Response The response.
-	 */
-	public function check_limit( WP_REST_Request $request ) {
-		$data = $this->account_action->check_limit();
 		return new WP_REST_Response( $data, $data->status );
 	}
 
