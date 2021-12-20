@@ -31,14 +31,6 @@ class Language_Helper_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the constructor by checking the set attributes.
-	 *
-	 * @covers ::__construct
-	 */
-	public function test_constructor() {
-	}
-
-	/**
 	 * Tests that a given language has word form recognition support.
 	 *
 	 * @covers ::is_word_form_recognition_active
