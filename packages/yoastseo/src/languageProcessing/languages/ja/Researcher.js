@@ -9,7 +9,6 @@ import wordsCharacterCount from "./helpers/wordsCharacterCount";
 import customCountLength from "./helpers/countCharacters";
 import matchTransitionWordsHelper from "./helpers/matchTransitionWords";
 import getContentWords from "./helpers/getContentWords";
-import findMultiWordKeyphraseInPageTitle from "./helpers/findExactMatchMultiWordKeyphraseInTitle";
 
 // All config
 import firstWordExceptions from "./config/firstWordExceptions";
@@ -20,12 +19,13 @@ import textLength from "./config/textLength";
 import paragraphLength from "./config/paragraphLength";
 import assessmentApplicability from "./config/assessmentApplicabilityCharacterCount";
 import sentenceLength from "./config/sentenceLength";
+import keyphraseLength from "./config/keyphraseLength";
 
 // All custom researches
 import morphology from "./customResearches/getWordForms";
-import getKeywordDensity from "./customResearches/getKeywordDensity";
 import getKeyphraseLength from "./customResearches/getKeyphraseLength";
 import textLengthResearch from "./customResearches/textLength";
+import findKeywordInPageTitle from "./customResearches/findKeywordInPageTitle";
 
 /**
  * The researches contains all the researches
@@ -44,9 +44,6 @@ export default class Researcher extends AbstractResearcher {
 		delete this.defaultResearches.getPassiveVoiceResult;
 		delete this.defaultResearches.keywordCountInUrl;
 
-		// Adds the Japanese custom research to calculate the keyword density.
-		this.addResearch( "getKeywordDensity", getKeywordDensity );
-
 		Object.assign( this.config, {
 			language: "ja",
 			firstWordExceptions,
@@ -57,6 +54,8 @@ export default class Researcher extends AbstractResearcher {
 			paragraphLength,
 			assessmentApplicability,
 			sentenceLength,
+			keyphraseLength,
+			countCharacters: true,
 		} );
 
 		Object.assign( this.helpers, {
@@ -67,13 +66,13 @@ export default class Researcher extends AbstractResearcher {
 			wordsCharacterCount,
 			customCountLength,
 			matchTransitionWordsHelper,
-			findMultiWordKeyphraseInPageTitle,
 		} );
 
 		Object.assign( this.defaultResearches, {
 			morphology,
 			keyphraseLength: getKeyphraseLength,
 			wordCountInText: textLengthResearch,
+			findKeywordInPageTitle,
 		} );
 	}
 }

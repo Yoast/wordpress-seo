@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 5.8
-Stable tag: 17.7.1
+Stable tag: 17.8
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -245,7 +245,6 @@ Enhancements:
 
 * Improves the user direction in the configuration workout.
 * Adds a sleep interval to the WP CLI index command to limit server load while this command is running. Props to [roborourke](https://github.com/roborourke).
-* Optimizes and compresses several `.png` images to reduce their size. Props to [lowwebtech](https://github.com/lowwebtech).
 
 Bugfixes:
 
@@ -260,6 +259,7 @@ Other:
 
 * Fixes some styling issues in the configuration workout.
 * Prevents SEO managers from changing the site description in the configuration workout.
+* Optimizes and compresses several .png images to reduce their size. Props to [lowwebtech](https://github.com/lowwebtech).
 
 = 17.7.1 =
 Release Date: December 1st, 2021
