@@ -1,6 +1,5 @@
 /** @module analyses/getLinkStatistics */
 
-import { isFeatureEnabled } from "@yoast/feature-flag";
 import processExactMatchRequest from "../helpers/match/processExactMatchRequest";
 import filterWordsFromArray from "../helpers/word/filterWordsFromArray";
 import checkNofollow from "../helpers/link/checkNofollow.js";
@@ -166,11 +165,7 @@ const keywordInAnchor = function( paper, researcher, anchors, permalink ) {
 	const locale = paper.getLocale();
 	const topicForms = researcher.getResearch( "morphology" );
 
-	let doubleQuotes = [ "“", "”", "〝", "〞", "〟", "‟", "„", "\"" ];
-	if ( isFeatureEnabled( "JAPANESE_SUPPORT" ) ) {
-		const japaneseDoubleQuotes = [ "\u300c", "\u300d", "\u300e", "\u300f" ];
-		doubleQuotes = doubleQuotes.concat( japaneseDoubleQuotes );
-	}
+	const doubleQuotes = [ "“", "”", "〝", "〞", "〟", "‟", "„", "\"", "\u300c", "\u300d", "\u300e", "\u300f" ];
 
 	const isExactMatchRequested = processExactMatchRequest( keyword, doubleQuotes );
 

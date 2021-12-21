@@ -2,16 +2,10 @@ import getWordForms from "../../../../../src/languageProcessing/languages/ja/cus
 import { Paper } from "../../../../../index";
 import Researcher from "../../../../../src/languageProcessing/languages/ja/Researcher";
 import getMorphologyData from "../../../../specHelpers/getMorphologyData";
-import { isFeatureEnabled } from "@yoast/feature-flag";
 
 const morphologyData = getMorphologyData( "ja" );
 
 describe( "The getWordForms function", () => {
-	if ( ! isFeatureEnabled( "JAPANESE_SUPPORT" ) ) {
-		it( "is not run when the Japanese feature flag is disabled", function() {} );
-		return;
-	}
-
 	it( "creates word forms for a Japanese keyphrase.", () => {
 		const paper = new Paper(
 			"休ま",

@@ -1,4 +1,3 @@
-import { isFeatureEnabled } from "@yoast/feature-flag";
 import metaDescriptionKeyword from "../../../src/languageProcessing/researches/metaDescriptionKeyword.js";
 import Paper from "../../../src/values/Paper.js";
 import Researcher from "../../../src/languageProcessing/languages/en/Researcher";
@@ -140,70 +139,67 @@ describe( "the meta description keyword match research for languages that have c
 			expect( result ).toEqual( 2 );
 		} );
 	} );
-
-	if ( isFeatureEnabled( "JAPANESE_SUPPORT" ) ) {
-		describe( "test the research when the morphology data is available", () => {
-			it( "returns 1 when the keyword is found once in the meta description (exact match)", function() {
-				const paper = new Paper( "", { keyword: "小さい花の刺繍", description: "この記事は小さい花の刺繍をどうやってすてればいいのか、" +
-						"基本的な情報を紹介します。私は美しい猫を飼っています。" } );
-				const researcher = new JapaneseResearcher( paper );
-				researcher.addResearchData( "morphology", morphologyDataJA );
-				const result = metaDescriptionKeyword( paper, researcher );
-				expect( result ).toEqual( 1 );
-			} );
-
-			it( "returns 1 when only synonym is found once in the meta description (exact match)", function() {
-				const paper = new Paper( "", { keyword: "野生のハーブの刺繡", synonyms: "小さい花の刺繍", description: "この記事は小さい花の刺繍をどうやってすてればいいのか、" +
-						"基本的な情報を紹介します。私は美しい猫を飼っています。" } );
-				const researcher = new JapaneseResearcher( paper );
-				researcher.addResearchData( "morphology", morphologyDataJA );
-				const result = metaDescriptionKeyword( paper, researcher );
-				expect( result ).toEqual( 1 );
-			} );
-
-			it( "returns 2 when the keyword is found twice in the meta description (exact match)", function() {
-				const paper = new Paper( "", { keyword: "小さい花の刺繍", description: "この記事は小さい花の刺繍をどうやってすてればいいのか、" +
-						"基本的な情報を紹介します。この記事は小さい花の刺繍をどうやってすてればいいのか、基本的な情報を紹介します。" } );
-				const researcher = new JapaneseResearcher( paper );
-				researcher.addResearchData( "morphology", morphologyDataJA );
-				const result = metaDescriptionKeyword( paper, researcher );
-				expect( result ).toEqual( 2 );
-			} );
-
-			it( "returns 0 when no keyword is found", function() {
-				const paper = new Paper( "", { keyword: "小さい花の刺繍", description: "私は美しい猫を飼っています。" } );
-				const researcher = new JapaneseResearcher( paper );
-				researcher.addResearchData( "morphology", morphologyDataJA );
-				const result = metaDescriptionKeyword( paper, researcher );
-				expect( result ).toEqual( 0 );
-			} );
-
-			it( "returns 1 when the keyword is found once in the meta description (non-exact match)", function() {
-				const paper = new Paper( "", { keyword: "小さい花の刺繍", description: "小さくて可愛い花の刺繍に関する一般一般の記事です。私は美しい猫を飼っています。" } );
-				const researcher = new JapaneseResearcher( paper );
-				researcher.addResearchData( "morphology", morphologyDataJA );
-				const result = metaDescriptionKeyword( paper, researcher );
-				expect( result ).toEqual( 1 );
-			} );
-
-			it( "returns 1 when only synonym is found once in the meta description (non-exact match)", function() {
-				const paper = new Paper( "", { keyword: "野生のハーブの刺繡", synonyms: "小さい花の刺繍", description: "小さくて可愛い花の刺繍に関する一般一般の記事です。" +
-						"私は美しい猫を飼っています。" } );
-				const researcher = new JapaneseResearcher( paper );
-				researcher.addResearchData( "morphology", morphologyDataJA );
-				const result = metaDescriptionKeyword( paper, researcher );
-				expect( result ).toEqual( 1 );
-			} );
-
-			it( "returns 2 when both keyphrase and synonym are found in the meta description (exact match)", function() {
-				const paper = new Paper( "", { keyword: "小さい花の刺繍", synonyms: "野生のハーブの刺繡", description: "この記事は小さい花の刺繍をどうやってすてればいいのか、" +
-						"基本的な情報を紹介します。私は美しい猫を飼っています。 野生のハーブの刺繡。" } );
-				const researcher = new JapaneseResearcher( paper );
-				researcher.addResearchData( "morphology", morphologyDataJA );
-				const result = metaDescriptionKeyword( paper, researcher );
-				expect( result ).toEqual( 2 );
-			} );
+	describe( "test the research when the morphology data is available", () => {
+		it( "returns 1 when the keyword is found once in the meta description (exact match)", function() {
+			const paper = new Paper( "", { keyword: "小さい花の刺繍", description: "この記事は小さい花の刺繍をどうやってすてればいいのか、" +
+					"基本的な情報を紹介します。私は美しい猫を飼っています。" } );
+			const researcher = new JapaneseResearcher( paper );
+			researcher.addResearchData( "morphology", morphologyDataJA );
+			const result = metaDescriptionKeyword( paper, researcher );
+			expect( result ).toEqual( 1 );
 		} );
-	}
+
+		it( "returns 1 when only synonym is found once in the meta description (exact match)", function() {
+			const paper = new Paper( "", { keyword: "野生のハーブの刺繡", synonyms: "小さい花の刺繍", description: "この記事は小さい花の刺繍をどうやってすてればいいのか、" +
+					"基本的な情報を紹介します。私は美しい猫を飼っています。" } );
+			const researcher = new JapaneseResearcher( paper );
+			researcher.addResearchData( "morphology", morphologyDataJA );
+			const result = metaDescriptionKeyword( paper, researcher );
+			expect( result ).toEqual( 1 );
+		} );
+
+		it( "returns 2 when the keyword is found twice in the meta description (exact match)", function() {
+			const paper = new Paper( "", { keyword: "小さい花の刺繍", description: "この記事は小さい花の刺繍をどうやってすてればいいのか、" +
+					"基本的な情報を紹介します。この記事は小さい花の刺繍をどうやってすてればいいのか、基本的な情報を紹介します。" } );
+			const researcher = new JapaneseResearcher( paper );
+			researcher.addResearchData( "morphology", morphologyDataJA );
+			const result = metaDescriptionKeyword( paper, researcher );
+			expect( result ).toEqual( 2 );
+		} );
+
+		it( "returns 0 when no keyword is found", function() {
+			const paper = new Paper( "", { keyword: "小さい花の刺繍", description: "私は美しい猫を飼っています。" } );
+			const researcher = new JapaneseResearcher( paper );
+			researcher.addResearchData( "morphology", morphologyDataJA );
+			const result = metaDescriptionKeyword( paper, researcher );
+			expect( result ).toEqual( 0 );
+		} );
+
+		it( "returns 1 when the keyword is found once in the meta description (non-exact match)", function() {
+			const paper = new Paper( "", { keyword: "小さい花の刺繍", description: "小さくて可愛い花の刺繍に関する一般一般の記事です。私は美しい猫を飼っています。" } );
+			const researcher = new JapaneseResearcher( paper );
+			researcher.addResearchData( "morphology", morphologyDataJA );
+			const result = metaDescriptionKeyword( paper, researcher );
+			expect( result ).toEqual( 1 );
+		} );
+
+		it( "returns 1 when only synonym is found once in the meta description (non-exact match)", function() {
+			const paper = new Paper( "", { keyword: "野生のハーブの刺繡", synonyms: "小さい花の刺繍", description: "小さくて可愛い花の刺繍に関する一般一般の記事です。" +
+					"私は美しい猫を飼っています。" } );
+			const researcher = new JapaneseResearcher( paper );
+			researcher.addResearchData( "morphology", morphologyDataJA );
+			const result = metaDescriptionKeyword( paper, researcher );
+			expect( result ).toEqual( 1 );
+		} );
+
+		it( "returns 2 when both keyphrase and synonym are found in the meta description (exact match)", function() {
+			const paper = new Paper( "", { keyword: "小さい花の刺繍", synonyms: "野生のハーブの刺繡", description: "この記事は小さい花の刺繍をどうやってすてればいいのか、" +
+					"基本的な情報を紹介します。私は美しい猫を飼っています。 野生のハーブの刺繡。" } );
+			const researcher = new JapaneseResearcher( paper );
+			researcher.addResearchData( "morphology", morphologyDataJA );
+			const result = metaDescriptionKeyword( paper, researcher );
+			expect( result ).toEqual( 2 );
+		} );
+	} );
 } );
 

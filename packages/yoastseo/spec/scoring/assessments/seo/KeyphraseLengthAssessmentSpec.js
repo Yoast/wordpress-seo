@@ -4,8 +4,6 @@ import factory from "../../../specHelpers/factory.js";
 import { all as englishFunctionWords } from "../../../../src/languageProcessing/languages/en/config/functionWords";
 import { all as germanFunctionWords } from "../../../../src/languageProcessing/languages/de/config/functionWords";
 import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher";
-import { enableFeatures } from "@yoast/feature-flag";
-enableFeatures( [ "JAPANESE_SUPPORT" ] );
 
 describe( "the keyphrase length assessment", function() {
 	it( "should assess a custom paper with one-word keyphrase as bad ", function() {
