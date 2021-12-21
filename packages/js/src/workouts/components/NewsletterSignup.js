@@ -108,7 +108,7 @@ export function NewsletterSignup( gdprLink ) {
 								"</a>"
 							),
 							gdprLink,
-							"yoast-configuration-workout-gdpr-gdprLink"
+							"yoast-configuration-workout-gdpr-link"
 						)
 					}
 				/>
