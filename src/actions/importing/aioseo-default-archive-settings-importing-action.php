@@ -69,34 +69,54 @@ class Aioseo_Default_Archive_Settings_Importing_Action extends Abstract_Aioseo_S
 				'yoast_name'       => 'noindex-author-wpseo',
 				'transform_method' => 'import_author_noindex',
 			],
-			// '/date/advanced/robotsMeta/noindex'    => [
-			// 	'yoast_name'       => 'noindex-archive-wpseo',
-			// 	'transform_method' => 'import_archive_noindex',
-			// ],
+			'/date/advanced/robotsMeta/noindex'    => [
+				'yoast_name'       => 'noindex-archive-wpseo',
+				'transform_method' => 'import_date_noindex',
+			],
 		];
 	}
 	
 
 	/**
-	 * Imports the author archives noindex, taking into consideration whether they defer to global defaults.
+	 * Imports the author archives noindex.
 	 *
-	 * @param bool $default Whether author archives defer to global defaults.
-	 *
-	 * @return bool The transformed separator.
+	 * @return bool The author archives noindex.
 	 */
-	public function import_author_noindex( $noindex ) {
+	public function import_author_noindex() {
+		return $this->import_noindex( 'author' );
+	}
+	
+
+	/**
+	 * Imports the date archives noindex.
+	 *
+	 * @return bool The date archives noindex.
+	 */
+	public function import_date_noindex() {
+		return $this->import_noindex( 'date' );
+	}
+	
+
+	/**
+	 * Imports the noindex setting, taking into consideration whether they defer to global defaults.
+	 *
+	 * @param string $setting_type The setting type that we're importing the noindex for.
+	 *
+	 * @return bool The noindex setting.
+	 */
+	public function import_noindex( $setting_type ) {
 		$aioseo_settings = \json_decode( \get_option( 'aioseo_options', [] ), true );
 
-		if ( empty( $aioseo_settings ) || ! isset( $aioseo_settings['searchAppearance']['archives']['author']['advanced']['robotsMeta']['default'] ) ) {
+		if ( empty( $aioseo_settings ) || ! isset( $aioseo_settings['searchAppearance']['archives'][ $setting_type ]['advanced']['robotsMeta']['default'] ) ) {
 			return false;
 		}
 
-		$defers_to_defaults = $aioseo_settings['searchAppearance']['archives']['author']['advanced']['robotsMeta']['default'];
+		$defers_to_defaults = $aioseo_settings['searchAppearance']['archives'][ $setting_type ]['advanced']['robotsMeta']['default'];
 
 		if ( $defers_to_defaults ) {
 			return $this->get_global_noindex( $aioseo_settings );
 		}
 
-		return isset( $aioseo_settings['searchAppearance']['archives']['author']['advanced']['robotsMeta']['noindex'] ) ? $aioseo_settings['searchAppearance']['archives']['author']['advanced']['robotsMeta']['noindex'] : false;
+		return isset( $aioseo_settings['searchAppearance']['archives'][ $setting_type ]['advanced']['robotsMeta']['noindex'] ) ? $aioseo_settings['searchAppearance']['archives'][ $setting_type ]['advanced']['robotsMeta']['noindex'] : false;
 	}
 }

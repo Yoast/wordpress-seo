@@ -169,6 +169,7 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Import
 		$completed = \count( $aioseo_settings ) === 0;
 		$this->set_completed( $completed );
 
+		// Prepare the setting keys mapping.
 		$this->build_mapping();
 
 		// Prepare the replacement var mapping.
