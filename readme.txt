@@ -236,6 +236,9 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 17.9 =
+Release Date: January 4th, 2022
+
 = 17.8 =
 Release Date: December 14th, 2021
 
@@ -260,32 +263,6 @@ Other:
 * Fixes some styling issues in the configuration workout.
 * Prevents SEO managers from changing the site description in the configuration workout.
 * Optimizes and compresses several .png images to reduce their size. Props to [lowwebtech](https://github.com/lowwebtech).
-
-= 17.7.1 =
-Release Date: December 1st, 2021
-
-Bugfixes:
-
-* Fixes a bug where the notification to start configuring Yoast SEO would also been shown on existing installations.
-* Fixes a bug where Yoast addons would not inherit the auto-update settings from Yoast SEO.
-* Fixes a bug where changing the auto-update settings of another plugin could stop Yoast addons from being auto-updated.
-
-= 17.7 =
-Release Date: November 30th, 2021
-
-Meet Yoast SEO 17.7! This release introduces a new configuration workout to help you set up the Yoast SEO plugin properly from the get-go. Get the basic settings right in Yoast SEO and create a solid foundation for your SEO! Read more about what's new in Yoast SEO 17.7 in [our release post in English](https://yoa.st/release-17-7) or [our release post in Spanish](https://yoa.st/release-17-7-spanish)!
-
-Enhancements:
-
-* Replaces the configuration wizard with a configuration workout, which makes it easier to configure Yoast SEO for your website.
-* Adds a link to the archive page for the content types in the Search Appearance settings. Props to [felipelousantos](https://github.com/felipelousantos).
-* Adds a few more French transition words to be recognised by the transition words assessment. Props to [Cellophile](https://github.com/Cellophile).
-
-Bugfixes:
-
-* Fixes a bug where non-passive Greek words ending in -ου or -είτε were previously recognized as passive. Props to [artemidaspatanews](https://github.com/artemidaspatanews).
-* Fixes a bug where some post types would cause a PHP warning about custom fields.
-* Fixes a bug where memory issues could occur when indexing a site with large amounts of terms assigned to many posts.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
