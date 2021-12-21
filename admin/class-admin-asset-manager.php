@@ -89,6 +89,10 @@ class WPSEO_Admin_Asset_Manager {
 			$script->get_version(),
 			$script->is_in_footer()
 		);
+
+		if ( in_array( 'wp-i18n', $script->get_deps(), true ) ) {
+			wp_set_script_translations( $this->prefix . $script->get_name(), 'wordpress-seo' );
+		}
 	}
 
 	/**
