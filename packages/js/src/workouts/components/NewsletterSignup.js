@@ -5,7 +5,6 @@ import { isEmail } from "@wordpress/url";
 import { NewButton as Button } from "@yoast/components";
 import { addLinkToString } from "../../helpers/stringHelpers";
 import ValidatedTextInput from "../components/ValidatedTextInput";
-import { ConfigurationWorkout } from "./ConfigurationWorkout";
 import PropTypes from "prop-types";
 
 /**
