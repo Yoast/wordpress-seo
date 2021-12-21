@@ -152,6 +152,8 @@ class Indexable_Post_Type_Archive_Builder {
 
 	/**
 	 * Returns public post aggregates for a given post type.
+	 * We don't consider password protected posts to be public. This helps when building sitemaps for instance, where
+	 * password protected posts are also excluded.
 	 *
 	 * @param string $post_type The post type.
 	 *
@@ -168,6 +170,7 @@ class Indexable_Post_Type_Archive_Builder {
 			FROM {$this->wpdb->posts} AS p
 			WHERE p.post_status IN (" . implode( ', ', array_fill( 0, count( $post_statuses ), '%s' ) ) . ')
 				AND p.post_type = %s
+				AND p.post_password = ""
 		';
 
 		$replacements = \array_merge( $post_statuses, [ $post_type ] );

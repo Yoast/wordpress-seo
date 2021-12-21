@@ -182,6 +182,8 @@ class Indexable_Author_Builder {
 
 	/**
 	 * Returns public post aggregates for a given author.
+	 * We don't consider password protected posts to be public. This helps when building sitemaps for instance, where
+	 * password protected posts are also excluded.
 	 *
 	 * @param int $author_id The author ID.
 	 *
@@ -199,6 +201,7 @@ class Indexable_Author_Builder {
 			FROM {$this->wpdb->posts} AS p
 			WHERE p.post_status IN (" . implode( ', ', array_fill( 0, count( $post_statuses ), '%s' ) ) . ')
 				AND p.post_author = %d
+				AND p.post_password = ""
 				AND p.post_type IN (' . implode( ', ', array_fill( 0, count( $post_types ), '%s' ) ) . ')
 		';
 
