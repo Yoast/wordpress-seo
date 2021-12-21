@@ -7,14 +7,6 @@
  * @uses    Yoast_Form $yform Form object.
  */
 
-use Yoast\WP\SEO\Conditionals\Wincher_Conditional;
-
-// Don't render when feature flag is not enabled.
-$conditional = new Wincher_Conditional();
-if ( ! $conditional->is_met() ) {
-	return;
-}
-
 $yform = Yoast_Form::get_instance();
 
 // Ensure we don't accidentally reset the website ID.
