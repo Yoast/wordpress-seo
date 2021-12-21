@@ -2,12 +2,15 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
+use Yoast\WP\SEO\Actions\Indexing\Indexable_General_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Type_Archive_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Term_Indexation_Action;
+use Yoast\WP\SEO\Actions\Indexing\Indexation_Action_Interface;
 use Yoast\WP\SEO\Config\Indexing_Reasons;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 
 /**
  * A helper object for indexables.
@@ -43,16 +46,91 @@ class Indexable_Helper {
 	protected $indexing_helper;
 
 	/**
+	 * Manages versioning of the indexable builders.
+	 *
+	 * @var Indexable_Builder_Versions
+	 */
+	private $indexable_builder_versions;
+
+	/**
+	 * @var Indexation_Action_Interface
+	 */
+	private $indexable_post_indexation_action;
+	/**
+	 * @var Indexation_Action_Interface
+	 */
+	private $indexable_term_indexation_action;
+	/**
+	 * @var Indexation_Action_Interface
+	 */
+	private $indexable_post_type_archive_indexation_action;
+	/**
+	 * @var Indexation_Action_Interface
+	 */
+	private $indexable_general_indexation_action;
+
+	/**
 	 * Indexable_Helper constructor.
 	 *
 	 * @param Options_Helper     $options_helper     The options helper.
 	 * @param Environment_Helper $environment_helper The environment helper.
 	 * @param Indexing_Helper    $indexing_helper    The indexing helper.
 	 */
-	public function __construct( Options_Helper $options_helper, Environment_Helper $environment_helper, Indexing_Helper $indexing_helper ) {
-		$this->options_helper     = $options_helper;
-		$this->environment_helper = $environment_helper;
-		$this->indexing_helper    = $indexing_helper;
+	public function __construct(
+		Options_Helper $options_helper,
+		Environment_Helper $environment_helper,
+		Indexing_Helper $indexing_helper,
+		Indexable_Builder_Versions $indexable_builder_versions
+	) {
+		$this->options_helper             = $options_helper;
+		$this->environment_helper         = $environment_helper;
+		$this->indexing_helper            = $indexing_helper;
+		$this->indexable_builder_versions = $indexable_builder_versions;
+	}
+
+
+	/**
+	 * @required
+	 *
+	 * @param Indexable_Post_Indexation_Action $indexable_post_indexation_action
+	 *
+	 * @return void
+	 */
+	public function set_indexable_post_indexation_action( Indexable_Post_Indexation_Action $indexable_post_indexation_action ) {
+		$this->indexable_post_indexation_action = $indexable_post_indexation_action;
+	}
+
+	/**
+	 * @required
+	 *
+	 * @param Indexable_Term_Indexation_Action $indexable_term_indexation_action
+	 *
+	 * @return void
+	 */
+	public function set_indexable_term_indexation_action( Indexable_Term_Indexation_Action $indexable_term_indexation_action ) {
+		$this->indexable_term_indexation_action = $indexable_term_indexation_action;
+	}
+
+	/**
+	 * @required
+	 *
+	 * @param Indexable_Post_Type_Archive_Indexation_Action $indexable_post_type_archive_indexation_action
+	 *
+	 * @return void
+	 */
+	public function set_indexable_post_type_archive_indexation_action( Indexable_Post_Type_Archive_Indexation_Action $indexable_post_type_archive_indexation_action ) {
+		$this->indexable_post_type_archive_indexation_action = $indexable_post_type_archive_indexation_action;
+	}
+
+	/**
+	 * @required
+	 *
+	 * @param Indexable_General_Indexation_Action $indexable_general_indexation_action
+	 *
+	 * @return void
+	 */
+	public function set_indexable_general_indexation_action( Indexable_General_Indexation_Action $indexable_general_indexation_action ) {
+		$this->indexable_general_indexation_action = $indexable_general_indexation_action;
 	}
 
 	/**
@@ -158,5 +236,87 @@ class Indexable_Helper {
 	 */
 	public function finish_indexing() {
 		$this->options_helper->set( 'indexables_indexing_completed', true );
+	}
+
+	public function index_is_up_to_date() {
+		$cache_key = 'site_has_up_to_date_indexables';
+
+		$cached_value = $this->options_helper->get( $cache_key );
+		if ( $cached_value !== null ) {
+			return (bool) $cached_value;
+		}
+
+		$indexables_are_up_to_date = ! $this->has_outdated_indexables() && ! $this->is_missing_indexables();
+
+
+		$this->options_helper->set( $cache_key, true );
+
+		return true;
+	}
+
+	/**
+	 * @return bool
+	 */
+	protected function has_outdated_indexables() {
+		$object_types = [
+			'date-archive',
+			'general',
+			'home-page',
+			'post',
+			'post-type-archive',
+			'term',
+			'user',
+			'system-page',
+		];
+
+		$or_conditions = [];
+		$parameters    = [];
+		foreach ( $object_types as $object_type ) {
+			$latest_version_for_type = $this->indexable_builder_versions->get_latest_version_for_type( $object_type );
+			$or_conditions[]         = '(`object_type` = %s AND `version` != $d)';
+			$parameters[]            = $object_type;
+			$parameters[]            = $latest_version_for_type;
+		}
+
+		return (bool) $this->repository
+			->query()
+			->select( 'id' )
+			->where_raw( implode( ' OR ', $or_conditions ), $parameters )
+			->find_one();
+	}
+
+	/**
+	 * @return bool
+	 */
+	protected function is_missing_indexables() {
+		$indexing_actions = [
+			$this->indexable_post_indexation_action,
+			$this->indexable_term_indexation_action,
+			$this->indexable_post_type_archive_indexation_action,
+			$this->indexable_general_indexation_action,
+		];
+
+		foreach ( $indexing_actions as $indexing_action ) {
+			if ( $indexing_action->get_total_unindexed() > 0 ) {
+				return false;
+			}
+		}
+
+		// We don't have an author indexation action, so we need to calculate ourselves.
+
+		/*
+		 * The get_users() function disables counting, so se User_Query instead.
+		 * The count_users() function queries the wp_capability metavalue, which we don't want because of performance reasons.
+		 * The User_Query orders by user_login by default. ID is a bit faster in our case.
+		 */
+		$user_query        = new \WP_User_Query( [ 'fields' => 'ID', 'orderby' => 'ID' ] );
+		$number_of_users = $user_query->get_total();
+
+		$number_of_user_indexables = $this->repository
+			->query()
+			->where( 'object_type', 'user' )
+			->count();
+
+		return $number_of_user_indexables >= $number_of_users;
 	}
 }
