@@ -85,7 +85,7 @@ testPapers.forEach( function( testPaper ) {
 		} );
 
 		it( "returns a score and the associated feedback text for the keyphraseLength assessment", function() {
-			const isApplicable = keyphraseLengthAssessment.isApplicable( paper );
+			const isApplicable = keyphraseLengthAssessment.isApplicable( paper, researcher );
 			expect( isApplicable ).toBe( expectedResults.keyphraseLength.isApplicable );
 
 			if ( isApplicable ) {
@@ -100,10 +100,7 @@ testPapers.forEach( function( testPaper ) {
 			expect( isApplicable ).toBe( expectedResults.keywordDensity.isApplicable );
 
 			if ( isApplicable ) {
-				result.keywordDensity = keywordDensityAssessment.getResult(
-					paper,
-					researcher,
-				);
+				result.keywordDensity = keywordDensityAssessment.getResult( paper, researcher );
 				expect( result.keywordDensity.getScore() ).toBe( expectedResults.keywordDensity.score );
 				expect( result.keywordDensity.getText() ).toBe( expectedResults.keywordDensity.resultText );
 			}
@@ -121,7 +118,7 @@ testPapers.forEach( function( testPaper ) {
 		} );
 
 		it( "returns a score and the associated feedback text for the metaDescriptionLength assessment", function() {
-			const isApplicable = metaDescriptionLengthAssessment.isApplicable( paper );
+			const isApplicable = metaDescriptionLengthAssessment.isApplicable( paper, researcher );
 			expect( isApplicable ).toBe( expectedResults.metaDescriptionLength.isApplicable );
 
 			if ( isApplicable ) {
@@ -154,7 +151,7 @@ testPapers.forEach( function( testPaper ) {
 		} );
 
 		it( "returns a score and the associated feedback text for the textLength assessment", function() {
-			const isApplicable = textLengthAssessment.isApplicable( paper );
+			const isApplicable = textLengthAssessment.isApplicable( paper, researcher );
 			expect( isApplicable ).toBe( expectedResults.textLength.isApplicable );
 
 			if ( isApplicable ) {
@@ -198,7 +195,7 @@ testPapers.forEach( function( testPaper ) {
 		} );
 
 		it( "returns a score and the associated feedback text for the titleWidth assessment", function() {
-			const isApplicable = titleWidthAssessment.isApplicable( paper );
+			const isApplicable = titleWidthAssessment.isApplicable( paper, researcher );
 			expect( isApplicable ).toBe( expectedResults.titleWidth.isApplicable );
 
 			if ( isApplicable ) {
@@ -324,7 +321,7 @@ testPapers.forEach( function( testPaper ) {
 			}
 		} );
 		it( "returns a score and the associated feedback text for the imageCount assessment", function() {
-			const isApplicable = imageCountAssessment.isApplicable( paper, researcher );
+			const isApplicable = imageCountAssessment.isApplicable( paper );
 			expect( isApplicable ).toBe( expectedResults.imageCount.isApplicable );
 
 			if ( isApplicable ) {
