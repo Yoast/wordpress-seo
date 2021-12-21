@@ -5,6 +5,8 @@ import { isEmail } from "@wordpress/url";
 import { NewButton as Button } from "@yoast/components";
 import { addLinkToString } from "../../helpers/stringHelpers";
 import ValidatedTextInput from "../components/ValidatedTextInput";
+import { ConfigurationWorkout } from "./ConfigurationWorkout";
+import PropTypes from "prop-types";
 
 /**
  * A function to request a sign up to the newsletter.
@@ -48,11 +50,11 @@ const subscribedFeedback = __(
 /**
  * The newsletter signup section.
  *
- * @param {string} gdprLink Shortlink to the Yoast Privacy policy.
+ * @param {string} gdprLink Shortlink to the Yoast privacy policy.
  *
  * @returns {WPElement} A newslettersignup element.
  */
-export function NewsletterSignup( gdprLink ) {
+export function NewsletterSignup( { gdprLink } ) {
 	const [ newsletterEmail, setNewsletterEmail ] = useState( "" );
 	const [ signUpState, setSignUpState ] = useState( "waiting" );
 	const [ emailFeedback, setEmailFeedback ] = useState( "" );
@@ -124,3 +126,11 @@ export function NewsletterSignup( gdprLink ) {
 		</Fragment>
 	);
 }
+
+NewsletterSignup.propTypes = {
+	gdprLink: PropTypes.string,
+};
+
+NewsletterSignup.defaultProps = {
+	gdprLink: "",
+};
