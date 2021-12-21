@@ -12,7 +12,6 @@ module.exports = {
 				[ "packages/search-metadata-previews/CHANGELOG.md", ".tmp/pg-search-metadata-previews.md" ],
 				[ "packages/components/CHANGELOG.MD", ".tmp/pg-components.md" ],
 				[ "packages/social-metadata-forms/CHANGELOG.MD", ".tmp/pg-social-metadata-forms.md" ],
-				[ "packages/configuration-wizard/CHANGELOG.md", ".tmp/pg-configuration-wizard.md" ],
 				[ "packages/social-metadata-previews/CHANGELOG.md", ".tmp/pg-social-metadata-previews.md" ],
 				[ "packages/e2e-tests/CHANGELOG.md", ".tmp/pg-e2e-tests.md" ],
 				[ "packages/style-guide/CHANGELOG.md", ".tmp/pg-style-guide.md" ],

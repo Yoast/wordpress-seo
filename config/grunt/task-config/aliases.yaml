@@ -46,15 +46,12 @@
 # Create the relevant POT files
 'build:i18n:potFiles':
   - 'makepot'
-  - 'shell:makepot-yoast-components-configuration-wizard'
   - 'shell:makepot-wordpress-seo'
   - 'copy:makepot-wordpress-seo'
   - 'shell:makepot-yoast-js-analysis-report'
   - 'copy:makepot-yoast-js-analysis-report'
   - 'shell:makepot-yoast-js-components'
   - 'copy:makepot-yoast-js-components'
-  - 'shell:makepot-yoast-js-configuration-wizard'
-  - 'copy:makepot-yoast-js-configuration-wizard'
   - 'shell:makepot-yoast-js-helpers'
   - 'copy:makepot-yoast-js-helpers'
   - 'shell:makepot-yoast-js-search-metadata-previews'
