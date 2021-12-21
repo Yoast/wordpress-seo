@@ -346,4 +346,15 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Import
 	public function simple_import( $meta_data ) {
 		return $this->replacevar_handler->transform( $meta_data );
 	}
+
+	/**
+	 * Minimally transforms boolean data to be imported.
+	 *
+	 * @param bool $meta_data The boolean meta data to be imported.
+	 *
+	 * @return bool The transformed boolean meta data.
+	 */
+	public function simple_boolean_import( $meta_data ) {
+		return $meta_data;
+	}
 }
