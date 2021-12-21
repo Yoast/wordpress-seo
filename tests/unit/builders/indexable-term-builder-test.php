@@ -273,6 +273,7 @@ class Indexable_Term_Builder_Test extends TestCase {
 				AND		term_tax.taxonomy = %s
 				AND		term_tax.term_id = %d
 			WHERE	p.post_status IN (%s)
+			AND 	p.post_password = \"\"
 		",
 			[ 'category', 1, 'publish' ]
 		)->andReturn( 'PREPARED_QUERY' );

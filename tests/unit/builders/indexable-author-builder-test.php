@@ -127,6 +127,7 @@ class Indexable_Author_Builder_Test extends TestCase {
 			FROM {$this->wpdb->posts} AS p
 			WHERE p.post_status IN (%s)
 				AND p.post_author = %d
+				AND p.post_password = \"\"
 				AND p.post_type IN (%s, %s)
 		",
 			[ 'publish', 1, 'post', 'my-cpt' ]

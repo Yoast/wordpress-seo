@@ -66,6 +66,7 @@ class Indexable_Post_Type_Archive_Builder_Test extends TestCase {
 			FROM {$wpdb->posts} AS p
 			WHERE p.post_status IN (%s)
 				AND p.post_type = %s
+				AND p.post_password = \"\"
 		",
 			[ 'publish', 'my-post-type' ]
 		)->andReturn( 'PREPARED_QUERY' );
