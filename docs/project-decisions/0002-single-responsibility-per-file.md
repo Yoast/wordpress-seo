@@ -1,4 +1,4 @@
-# 1. Record architecture decisions
+# 2. Single responsibility per file
 
 Date: 2021-12-13
 
