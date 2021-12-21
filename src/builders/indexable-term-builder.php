@@ -256,6 +256,8 @@ class Indexable_Term_Builder {
 
 	/**
 	 * Returns public post aggregates for a given term.
+	 * We don't consider password protected posts to be public. This helps when building sitemaps for instance, where
+	 * password protected posts are also excluded.
 	 *
 	 * @param int    $term_id  The term ID.
 	 * @param string $taxonomy The taxonomy.
@@ -278,6 +280,7 @@ class Indexable_Term_Builder {
 				AND		term_tax.taxonomy = %s
 				AND		term_tax.term_id = %d
 			WHERE	p.post_status IN (" . implode( ', ', array_fill( 0, count( $post_statuses ), '%s' ) ) . ')
+			AND 	p.post_password = ""
 		';
 
 		$replacements = \array_merge( [ $taxonomy, $term_id ], $post_statuses );
