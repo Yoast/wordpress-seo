@@ -267,16 +267,8 @@ Bugfixes:
 
 Other:
 
-* Improves compatibility with PHP 8.1 by filtering invalid values.
-* Improves compatibility with PHP 8.1 by filtering invalid values.
-* Improves compatibility with PHP 8.1
-* Improves compatibility with PHP 8.1
-* Improves handling of multi-byte languages.
-* Improves compatibility with PHP 8.1 by preventing the use of null values.
-* Improves compatibility with PHP 8.1
-* Improves compatibility with PHP 8.1 by validating input types
+* Improves compatibility with PHP 8.1 by adding validations and handling deprecations.
 * Reverts the removal of the deprecated `WPSEO_Frontend` class.
-* Improves compatibility with PHP 8.1
 * Changes the font size of the alerts from 14px to 13px.
 * Updates dependencies.
 
