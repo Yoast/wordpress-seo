@@ -54,10 +54,8 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		'rssafter'                         => '', // Text area.
 
 		'noindex-author-wpseo'             => false,
-		'robots_defaults-author-wpseo'     => true,
 		'noindex-author-noposts-wpseo'     => true,
 		'noindex-archive-wpseo'            => true,
-		'robots_defaults-archive-wpseo'    => true,
 
 		'disable-author'                   => false,
 		'disable-date'                     => false,
@@ -647,7 +645,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 
 				/*
 				 * Covers:
-				 *  'noindex-author-wpseo', 'noindex-author-noposts-wpseo', 'noindex-archive-wpseo', 'robots_defaults-author-wpseo', 'robots_defaults-archive-wpseo'
+				 *  'noindex-author-wpseo', 'noindex-author-noposts-wpseo', 'noindex-archive-wpseo'
 				 *  'noindex-' . $pt->name
 				 *  'noindex-ptarchive-' . $pt->name
 				 *  'noindex-tax-' . $tax->name

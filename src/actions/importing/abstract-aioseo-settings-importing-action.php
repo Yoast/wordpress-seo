@@ -50,13 +50,6 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Import
 	protected $settings_tab = '';
 
 	/**
-	 * The name of the option where we'll save the imported setting.
-	 *
-	 * @var string
-	 */
-	protected $option_name = 'wpseo_titles';
-
-	/**
 	 * The replacevar handler.
 	 *
 	 * @var Aioseo_Replacevar_Handler
@@ -109,15 +102,6 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Import
 		}
 
 		return $source_option_name;
-	}
-
-	/**
-	 * Retrieves the name of the option where we'll save the imported setting.
-	 *
-	 * @return string The name of the option where we'll save the imported setting.
-	 */
-	public function get_option_name() {
-		return $this->option_name;
 	}
 
 	/**
@@ -342,7 +326,7 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Import
 		$yoast_key = $setting_mapping['yoast_name'];
 
 		// Check if we're supposed to save the setting.
-		if ( $this->options->get_default( $this->get_option_name(), $yoast_key ) !== null ) {
+		if ( $this->options->get_default( 'wpseo_titles', $yoast_key ) !== null ) {
 			// Then, do any needed data transfomation before actually saving the incoming data.
 			$transformed_data = \call_user_func( [ $this, $setting_mapping['transform_method'] ], $setting_value );
 
@@ -370,5 +354,26 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Import
 	 */
 	public function simple_boolean_import( $meta_data ) {
 		return $meta_data;
+	}
+	
+
+	/**
+	 * Retrieves the noindex setting set globally in AIOSEO.
+	 *
+	 * $array $aioseo_settings The AIOSEO settings that we're looking into.
+	 *
+	 * @return bool Whether global robot settings give a noindex or not.
+	 */
+	public function get_global_noindex( $aioseo_settings ) {
+		if ( empty( $aioseo_settings ) || ! isset( $aioseo_settings['searchAppearance']['advanced']['globalRobotsMeta'] ) ) {
+			return false;
+		}
+
+		$global_robot_settings = $aioseo_settings['searchAppearance']['advanced']['globalRobotsMeta'];
+		if ( ! isset( $global_robot_settings['default'] ) || $global_robot_settings['default'] === true ) {
+			return false;
+		}
+
+		return isset( $global_robot_settings['noindex'] ) ? $global_robot_settings['noindex'] : false;
 	}
 }
