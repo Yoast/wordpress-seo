@@ -1,5 +1,3 @@
-/* global wpseoAdminL10n */
-
 /* External dependencies */
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
@@ -28,7 +26,7 @@ export default function WincherPostPublish( props ) {
 		<Fragment>
 			<FieldGroup
 				label={ __( "SEO performance", "wordpress-seo" ) }
-				linkTo={ wpseoAdminL10n[ "shortlinks.wincher.seo_performance" ] }
+				linkTo={ "https://google.com" }
 				linkText={ __( "Learn more about the SEO performance feature.", "wordpress-seo" ) }
 			/>
 
