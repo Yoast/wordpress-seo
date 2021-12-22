@@ -15,11 +15,18 @@ import { LocationProvider } from "@yoast/externals/contexts";
  */
 export const isCloseEvent = ( event ) => {
 	if ( event.type === "blur" ) {
-		// The blur event type should only close the modal when the screen overlay is clicked.
-		if ( event.relatedTarget && event.relatedTarget.querySelector( ".components-modal__screen-overlay" ) ) {
-			return true;
+		// Catch any blur events that are not supposed to blur to modal, by identifying the clicked item.
+		let relatedTargetClasses = [];
+
+		// Blur events to a non-focusable HTML element do not have a relatedTarget.
+		if ( event.relatedTarget && event.relatedTarget.classList ) {
+			relatedTargetClasses = Array.from( event.relatedTarget.classList );
 		}
-		return false;
+
+		// If the modal was blurred because the media library opened don't close the modal
+		if ( relatedTargetClasses.includes( "media-modal" ) && relatedTargetClasses.includes( "wp-core-ui" ) ) {
+			return false;
+		}
 	}
 
 	return true;
