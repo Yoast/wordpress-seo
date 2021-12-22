@@ -329,7 +329,7 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Import
 		// Check if we're supposed to save the setting.
 		if ( $this->options->get_default( 'wpseo_titles', $yoast_key ) !== null ) {
 			// Then, do any needed data transfomation before actually saving the incoming data.
-			$transformed_data = \call_user_func( [ $this, $setting_mapping['transform_method'] ], $setting_value );
+			$transformed_data = \call_user_func( [ $this, $setting_mapping['transform_method'] ], $setting_value, $setting_mapping );
 
 			$this->options->set( $yoast_key, $transformed_data );
 		}
@@ -356,16 +356,14 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Import
 	public function simple_boolean_import( $meta_data ) {
 		return $meta_data;
 	}
-	
 
 	/**
 	 * Retrieves the noindex setting set globally in AIOSEO.
 	 *
-	 * $array $aioseo_settings The AIOSEO settings that we're looking into.
-	 *
 	 * @return bool Whether global robot settings give a noindex or not.
 	 */
-	public function get_global_noindex( $aioseo_settings ) {
+	public function get_global_noindex() {
+		$aioseo_settings = \json_decode( \get_option( 'aioseo_options', [] ), true );
 		if ( empty( $aioseo_settings ) || ! isset( $aioseo_settings['searchAppearance']['advanced']['globalRobotsMeta'] ) ) {
 			return false;
 		}
@@ -376,5 +374,29 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Import
 		}
 
 		return isset( $global_robot_settings['noindex'] ) ? $global_robot_settings['noindex'] : false;
+	}
+
+	/**
+	 * Imports the noindex setting, taking into consideration whether they defer to global defaults.
+	 *
+	 * @param bool  $noindex The noindex of the type, without taking into consideration whether the type defers to global defaults.
+	 * @param array $mapping The mapping of the setting we're working with.
+	 *
+	 * @return bool The noindex setting.
+	 */
+	public function import_noindex( $noindex, $mapping ) {
+		$aioseo_settings = \json_decode( \get_option( $mapping['option_name'], [] ), true );
+
+		if ( empty( $aioseo_settings ) || ! isset( $aioseo_settings['searchAppearance'][ $mapping['type'] ][ $mapping['subtype'] ]['advanced']['robotsMeta']['default'] ) ) {
+			return false;
+		}
+
+		$defers_to_defaults = $aioseo_settings['searchAppearance'][ $mapping['type'] ][ $mapping['subtype'] ]['advanced']['robotsMeta']['default'];
+
+		if ( $defers_to_defaults ) {
+			return $this->get_global_noindex();
+		}
+
+		return $noindex;
 	}
 }
