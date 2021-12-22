@@ -2,6 +2,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { useCallback, Fragment } from "@wordpress/element";
 import Modal from "../Modal";
 import PropTypes from "prop-types";
+import { intersection } from "lodash";
 import SidebarButton from "../../SidebarButton";
 import { LocationProvider } from "@yoast/externals/contexts";
 
@@ -14,22 +15,20 @@ import { LocationProvider } from "@yoast/externals/contexts";
  * @returns {boolean} False when this event should not lead to closing to modal. True otherwise.
  */
 export const isCloseEvent = ( event ) => {
+	let shouldClose = true;
 	if ( event.type === "blur" ) {
 		// Catch any blur events that are not supposed to blur to modal, by identifying the clicked item.
-		let relatedTargetClasses = [];
+		const { relatedTarget } = event;
 
 		// Blur events to a non-focusable HTML element do not have a relatedTarget.
-		if ( event.relatedTarget && event.relatedTarget.classList ) {
-			relatedTargetClasses = Array.from( event.relatedTarget.classList );
-		}
-
-		// If the modal was blurred because the media library opened don't close the modal
-		if ( relatedTargetClasses.includes( "media-modal" ) && relatedTargetClasses.includes( "wp-core-ui" ) ) {
-			return false;
+		if ( relatedTarget ) {
+			// Modal should not close if the modal blurs because the media modal is clicked
+			const mediaModalClasses = [ "media-modal", "wp-core-ui" ];
+			shouldClose = intersection( mediaModalClasses, Array.from( relatedTarget.classList ) ).length !== mediaModalClasses.length;
 		}
 	}
 
-	return true;
+	return shouldClose;
 };
 
 /**
