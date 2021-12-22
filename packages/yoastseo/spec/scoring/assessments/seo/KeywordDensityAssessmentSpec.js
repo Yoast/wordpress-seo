@@ -209,6 +209,20 @@ describe( "A test for marking the keyword", function() {
 } );
 
 describe( "A test for keyword density in Japanese", function() {
+	it( "shouldn't give NaN/infinity times of keyphrase occurrence when the keyphrase contains spaces and there is no match in the text", function() {
+		const paper = new Paper( japaneseSentence + japaneseSentenceWithKeyphrase.repeat( 32 ), {
+			keyword: "かしら かい を ばっかり",
+			locale: "ja",
+		} );
+		const researcher = new JapaneseResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyDataJA );
+		const result = new KeywordDensityAssessment().getResult( paper, researcher );
+		expect( result.getScore() ).toBe( 4 );
+		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
+			"The focus keyphrase was found 0 times. That's less than the recommended minimum of 6 times for a text of this length. " +
+			"<a href='https://yoa.st/33w' target='_blank'>Focus on your keyphrase</a>!" );
+	} );
+
 	it( "gives a very BAD result when keyword density is above 4% when the text contains way too many instances" +
 		" of the keyphrase forms", function() {
 		const paper = new Paper( japaneseSentence + japaneseSentenceWithKeyphrase.repeat( 32 ), {
