@@ -215,7 +215,7 @@ class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 
 		$this->mock_instance->expects( $setting_mapping['transform_method'] )
 			->once()
-			->with( $setting_value )
+			->with( $setting_value, $setting_mapping )
 			->andReturn( 'some_value' );
 
 		$this->options->expects( 'set' )
