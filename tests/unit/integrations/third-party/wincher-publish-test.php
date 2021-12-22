@@ -29,7 +29,7 @@ class Wincher_Publish_Test extends TestCase {
 	/**
 	 * The test instance.
 	 *
-	 * @var Wincher_Publish
+	 * @var Wincher_Publish|Mockery\LegacyMockInterface|Mockery\MockInterface
 	 */
 	private $instance;
 
@@ -66,10 +66,6 @@ class Wincher_Publish_Test extends TestCase {
 	 */
 	protected function set_up() {
 		parent::set_up();
-
-		if ( ! defined( 'YOAST_SEO_WINCHER_INTEGRATION' ) ) {
-			define( 'YOAST_SEO_WINCHER_INTEGRATION', true );
-		}
 
 		$this->options_helper    = Mockery::mock( Options_Helper::class );
 		$this->wincher_enabled   = Mockery::mock( Wincher_Enabled_Conditional::class );

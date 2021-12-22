@@ -29,7 +29,7 @@ class WPSEO_Gutenberg_Compatibility {
 	 *
 	 * @var string
 	 */
-	protected $current_version;
+	protected $current_version = '';
 
 	/**
 	 * WPSEO_Gutenberg_Compatibility constructor.

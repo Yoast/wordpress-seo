@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Integrations\Admin;
 
 use WPSEO_Admin_Asset_Manager;
+use WPSEO_Admin_Asset_Yoast_Components_L10n;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Installation_Success_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
@@ -121,6 +122,9 @@ class Installation_Success_Integration implements Integration_Interface {
 		$asset_manager->enqueue_script( 'installation-success' );
 		$asset_manager->enqueue_style( 'installation-success' );
 		$asset_manager->enqueue_style( 'monorepo' );
+
+		$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_L10n();
+		$yoast_components_l10n->localize_script( 'installation-success' );
 
 		$asset_manager->localize_script(
 			'installation-success',

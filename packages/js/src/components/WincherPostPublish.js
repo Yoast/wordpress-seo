@@ -1,7 +1,7 @@
 /* External dependencies */
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
-import { Fragment, useCallback } from "@wordpress/element";
+import { Fragment } from "@wordpress/element";
 
 /* Yoast dependencies */
 import { FieldGroup, NewButton } from "@yoast/components";
@@ -20,13 +20,7 @@ export default function WincherPostPublish( props ) {
 	const {
 		hasTrackedKeyphrases,
 		trackAll,
-		keyphrases,
 	} = props;
-
-	const trackAllOnClick = useCallback( () => {
-		trackAll( keyphrases );
-	},
-	[ trackAll, keyphrases ] );
 
 	return (
 		<Fragment>
@@ -49,7 +43,7 @@ export default function WincherPostPublish( props ) {
 			<div className="yoast">
 				<NewButton
 					variant="secondary"
-					onClick={ trackAllOnClick }
+					onClick={ trackAll }
 				>
 					{ __( "Track all keyphrases on this page", "wordpress-seo" ) }
 				</NewButton>
@@ -59,13 +53,11 @@ export default function WincherPostPublish( props ) {
 }
 
 WincherPostPublish.propTypes = {
-	keyphrases: PropTypes.array,
 	trackAll: PropTypes.func,
 	hasTrackedKeyphrases: PropTypes.bool,
 };
 
 WincherPostPublish.defaultProps = {
-	keyphrases: [],
 	trackAll: () => {},
 	hasTrackedKeyphrases: false,
 };
