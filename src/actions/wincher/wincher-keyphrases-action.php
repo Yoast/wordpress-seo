@@ -97,11 +97,7 @@ class Wincher_Keyphrases_Action {
 			// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- To ensure JS code style, this can be ignored.
 			if ( ! $limits->canTrack || $this->would_exceed_limits( $keyphrases, $limits ) ) {
 				$response = [
-					'data'   => [
-						'limit'    => $limits->limit,
-						// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- To ensure JS code style, this can be ignored.
-						'canTrack' => $limits->canTrack,
-					],
+					'limit'  => $limits->limit,
 					'error'  => 'Account limit exceeded',
 					'status' => 400,
 				];
