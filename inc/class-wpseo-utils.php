@@ -947,7 +947,7 @@ class WPSEO_Utils {
 	 * @return false|string The prepared JSON string.
 	 */
 	public static function format_json_encode( $data ) {
-		$flags = JSON_UNESCAPED_SLASHES;
+		$flags = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE;
 
 		if ( self::is_development_mode() ) {
 			$flags = ( $flags | JSON_PRETTY_PRINT );
