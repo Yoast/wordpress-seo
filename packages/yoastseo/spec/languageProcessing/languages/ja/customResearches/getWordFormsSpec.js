@@ -6,6 +6,27 @@ import getMorphologyData from "../../../../specHelpers/getMorphologyData";
 const morphologyData = getMorphologyData( "ja" );
 
 describe( "The getWordForms function", () => {
+	it( "creates word forms for a Japanese keyphrase that contains spaces", () => {
+		const paper = new Paper(
+			"休ま",
+			{
+				keyword: "かしら かい を ばっかり",
+			}
+		);
+
+		const researcher = new Researcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+
+		const forms = getWordForms( paper, researcher );
+		expect( forms ).toEqual( {
+			keyphraseForms: [ [ "かしらかう", "かしらかい", "かしらかわ", "かしらかえ", "かしらかお", "かしらかっ", "かしらかえる", "かしらかわせ",
+				"かしらかわせる", "かしらかわれ", "かしらかわれる", "かしらかおう", "かしらかく", "かしらかき", "かしらかか", "かしらかけ",
+				"かしらかこ", "かしらかける", "かしらかかせ", "かしらかかせる", "かしらかかれ", "かしらかかれる", "かしらかこう", "かしらかかっ",
+				"かしらかぐ", "かしらかぎ", "かしらかが", "かしらかげ", "かしらかご", "かしらかげる", "かしらかがせ", "かしらかがせる", "かしらかがれ",
+				"かしらかがれる", "かしらかごう" ] ],
+			synonymsForms: [],
+		} );
+	} );
 	it( "creates word forms for a Japanese keyphrase.", () => {
 		const paper = new Paper(
 			"休ま",
