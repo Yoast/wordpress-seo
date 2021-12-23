@@ -22,12 +22,10 @@ const ImageSelectButtons = ( props ) => {
 		isDisabled,
 	 } = props;
 
-	const removeImage = useCallback( () => {
-		if ( document.getElementById( replaceImageButtonId ) ) {
-			document.getElementById( replaceImageButtonId ).focus();
-		}
+	const removeImage = useCallback( ( event ) => {
+		event.target.previousElementSibling.focus();
 		onRemoveImageClick();
-	}, [ document, replaceImageButtonId, onRemoveImageClick ] );
+	}, [ onRemoveImageClick ] );
 
 	return (
 		<div className="yoast-image-select-buttons">
