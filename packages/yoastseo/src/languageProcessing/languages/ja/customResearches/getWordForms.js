@@ -38,7 +38,7 @@ function getKeyphraseForms( keyphrase, researcher ) {
 export default function( paper, researcher ) {
 	let keyphrase = paper.getKeyword().toLocaleLowerCase( "ja" ).trim();
 	// Remove spaces from the keyphrase.
-	keyphrase = keyphrase.replace( / /g, "" );
+	keyphrase = keyphrase.replace( /\s/g, "" );
 	const synonyms = parseSynonyms( paper.getSynonyms().toLocaleLowerCase( "ja" ).trim() );
 	const keyphraseForms = getKeyphraseForms( keyphrase, researcher );
 	const synonymsForms = synonyms.map( synonym => getKeyphraseForms( synonym, researcher ) );

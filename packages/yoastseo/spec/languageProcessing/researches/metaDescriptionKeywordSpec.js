@@ -147,6 +147,15 @@ describe( "the meta description keyword match research for languages that have c
 			const result = metaDescriptionKeyword( paper, researcher );
 			expect( result ).toEqual( 0 );
 		} );
+
+		it( "shouldn't give NaN/infinity times of keyphrase occurrence when the keyphrase contains tabs and " +
+			"there is no match in the text", function() {
+			const paper = new Paper( "", { keyword: "かしら	かい	を	ばっかり", description: "この記事は小さい花の刺繍をどうやってすてればいいのか、" +
+					"基本的な情報を紹介します。私は美しい猫を飼っています。 野生のハーブの刺繡。" } );
+			const researcher = new JapaneseResearcher( paper );
+			const result = metaDescriptionKeyword( paper, researcher );
+			expect( result ).toEqual( 0 );
+		} );
 	} );
 	describe( "test the research when the morphology data is available", () => {
 		it( "returns 1 when the keyword is found once in the meta description (exact match)", function() {
