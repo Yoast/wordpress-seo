@@ -316,7 +316,7 @@ class WPSEO_Admin_Asset_Manager {
 
 		$scripts['installation-success'] = [
 			'name'    => 'installation-success',
-			'src'     => 'installation-success.js',
+			'src'     => 'installation-success.min.js',
 			'deps'    => [
 				'wp-a11y',
 				'wp-dom-ready',
@@ -347,7 +347,7 @@ class WPSEO_Admin_Asset_Manager {
 
 		$scripts['workouts'] = [
 			'name'    => 'workouts',
-			'src'     => 'workouts.js',
+			'src'     => 'workouts.min.js',
 			'deps'    => [
 				'clipboard',
 				'lodash',
