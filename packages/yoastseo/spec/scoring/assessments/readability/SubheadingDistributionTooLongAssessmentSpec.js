@@ -273,11 +273,11 @@ describe( "Language-specific configuration for specific types of content is used
 	const longCornerstoneTextJapanese = "熱".repeat( 550 );
 
 	it( "should use a language-specific default configuration", function() {
-		const assessor = new SubheadingDistributionTooLong();
-		assessor.getLanguageSpecificConfig( japaneseResearcher );
-		expect( assessor._config.recommendedMaximumLength ).toEqual( japaneseConfig.defaultParameters.recommendedMaximumLength );
-		expect( assessor._config.slightlyTooMany ).toEqual( japaneseConfig.defaultParameters.slightlyTooMany );
-		expect( assessor._config.farTooMany ).toEqual( japaneseConfig.defaultParameters.farTooMany );
+		const assessment = new SubheadingDistributionTooLong();
+		assessment.getLanguageSpecificConfig( japaneseResearcher );
+		expect( assessment._config.recommendedMaximumLength ).toEqual( japaneseConfig.defaultParameters.recommendedMaximumLength );
+		expect( assessment._config.slightlyTooMany ).toEqual( japaneseConfig.defaultParameters.slightlyTooMany );
+		expect( assessment._config.farTooMany ).toEqual( japaneseConfig.defaultParameters.farTooMany );
 	} );
 
 	let cornerStoneContentAssessor = new CornerStoneContentAssessor( englishResearcher );
