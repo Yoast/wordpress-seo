@@ -193,7 +193,7 @@ before_script:
       mysql -e "CREATE DATABASE wordpress_tests;" -uroot
       cd "/tmp/wordpress/src/wp-content/plugins/$PLUGIN_SLUG"
       mkdir src/generated/assets
-      echo "<?php return [ 'post-edit-' . ( new WPSEO_Admin_Asset_Manager() )->flatten_version( WPSEO_VERSION ) . '.js' => [ 'dependencies' => [] ] ];" >> src/generated/assets/plugin.php
+      echo "<?php return [ 'post-edit.min.js' => [ 'dependencies' => [], 'version' => 'test' ], 'installation-success.min.js' => [ 'dependencies' => [], 'version' => 'test' ], 'workouts.min.js' => [ 'dependencies' => [], 'version' => 'test' ] ];" >> src/generated/assets/plugin.php
       echo "<?php return [];" >> src/generated/assets/externals.php
       echo "<?php return [];" >> src/generated/assets/languages.php
     fi
@@ -256,7 +256,8 @@ script:
   - |
     if [[ "$PHPUNIT" == "1" ]] && [[ ${TRAVIS_PHP_VERSION:0:1} == "8" || $TRAVIS_PHP_VERSION == "nightly" ]]; then
       travis_fold start "PHP.integration-tests" && travis_time_start
-      travis_retry composer require --dev phpunit/phpunit:"^7.5" --update-with-dependencies --ignore-platform-reqs --no-interaction &&
+      composer remove --dev yoast/wp-test-utils phpunit/phpunit --ignore-platform-reqs --no-interaction
+      travis_retry composer require --dev yoast/wp-test-utils:"^1.0.0" phpunit/phpunit:"^7.5" --update-with-dependencies --ignore-platform-reqs --no-interaction
       vendor/bin/phpunit -c phpunit-integration.xml.dist
       travis_time_finish && travis_fold end "PHP.integration-tests"
     fi;
@@ -269,8 +270,8 @@ script:
   - |
     if [[ "$PHPUNIT" == "1" ]] && [[ ${TRAVIS_PHP_VERSION:0:1} == "8" || $TRAVIS_PHP_VERSION == "nightly" ]]; then
       travis_fold start "PHP.tests" && travis_time_start
-      composer require --dev phpunit/phpunit:"^9.0" --update-with-dependencies --ignore-platform-reqs --no-interaction &&
-      composer update yoast/wp-test-utils --with-all-dependencies --ignore-platform-reqs --no-interaction &&
+      composer remove --dev yoast/wp-test-utils phpunit/phpunit --ignore-platform-reqs --no-interaction
+      composer require --dev yoast/wp-test-utils phpunit/phpunit:"^9.0" --update-with-dependencies --ignore-platform-reqs --no-interaction
       vendor/bin/phpunit
       travis_time_finish && travis_fold end "PHP.tests"
     fi
