@@ -387,6 +387,7 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Import
 	public function import_noindex( $noindex, $mapping ) {
 		$aioseo_settings = \json_decode( \get_option( $mapping['option_name'], [] ), true );
 
+		// Let's check first if it defers to global robot settings.
 		if ( empty( $aioseo_settings ) || ! isset( $aioseo_settings['searchAppearance'][ $mapping['type'] ][ $mapping['subtype'] ]['advanced']['robotsMeta']['default'] ) ) {
 			return false;
 		}
