@@ -105,6 +105,7 @@ WincherSEOPerformanceModal.propTypes = {
 		"none",
 		"metabox",
 		"sidebar",
+		"postpublish",
 	] ),
 };
 

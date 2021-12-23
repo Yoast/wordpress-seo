@@ -26,7 +26,7 @@ export default compose( [
 		return {
 			trackAll: () => {
 				setWincherTrackAllKeyphrases( true );
-				setWincherOpenModal( "sidebar" );
+				setWincherOpenModal( "postpublish" );
 			},
 		};
 	} ),
