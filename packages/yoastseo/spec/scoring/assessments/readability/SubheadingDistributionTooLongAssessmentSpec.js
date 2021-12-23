@@ -2,9 +2,12 @@ import SubheadingDistributionTooLong from "../../../../src/scoring/assessments/r
 import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../specHelpers/factory.js";
 import Mark from "../../../../src/values/Mark.js";
+import CornerStoneContentAssessor from "../../../../src/scoring/cornerstone/contentAssessor";
+import ProductCornerstoneContentAssessor from "../../../../src/scoring/productPages/cornerstone/contentAssessor";
 import DefaultResearcher from "../../../../src/languageProcessing/languages/_default/Researcher.js";
+import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
 import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher";
-import subheadingsTooLong from "../../../../src/languageProcessing/languages/ja/config/subheadingsTooLong.js";
+import japaneseConfig from "../../../../src/languageProcessing/languages/ja/config/subheadingsTooLong.js";
 
 const subheadingDistributionTooLong = new SubheadingDistributionTooLong();
 
@@ -260,16 +263,89 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 } );
 
 describe( "Language-specific configuration for specific types of content is used", function() {
-	const paper = new Paper( shortTextJapanese + subheading + veryLongTextJapanese );
-	const japaneseResearcher = new JapaneseResearcher( paper );
-	it( "checks whether language-specific cornerstone configuration is used", function() {
-		const subheadingDistributionTooLongJA = new SubheadingDistributionTooLong();
-		const results = new SubheadingDistributionTooLong( { cornerstoneContent: true } );
-		// Running getResult will apply language-specific configuration.
-		subheadingDistributionTooLongJA.getResult( paper, japaneseResearcher );
-		expect( results._config.recommendedMaximumLength ).toEqual( subheadingsTooLong.cornerstoneParameters.recommendedMaximumLength );
-		expect( results._config.slightlyTooMany ).toEqual( subheadingsTooLong.cornerstoneParameters.slightlyTooMany );
-		expect( results._config.farTooMany ).toEqual( subheadingsTooLong.cornerstoneParameters.farTooMany );
+	const mockPaper = new Paper( "" );
+	const mockOptions = { subheadingUrlTitle: "https://yoa.st/34x", subheadingCTAUrl: "https://yoa.st/34y" };
+	const englishResearcher = new EnglishResearcher( mockPaper );
+	const shortCornerstoneText = "a ".repeat( 225 );
+	const longCornerstoneText = "a ".repeat( 275 );
+	const japaneseResearcher = new JapaneseResearcher( mockPaper );
+	const shortCornerstoneTextJapanese = "熱".repeat( 450 );
+	const longCornerstoneTextJapanese = "熱".repeat( 550 );
+
+	it( "should use a language-specific default configuration", function() {
+		const assessor = new SubheadingDistributionTooLong();
+		assessor.getLanguageSpecificConfig( japaneseResearcher );
+		expect( assessor._config.recommendedMaximumLength ).toEqual( japaneseConfig.defaultParameters.recommendedMaximumLength );
+		expect( assessor._config.slightlyTooMany ).toEqual( japaneseConfig.defaultParameters.slightlyTooMany );
+		expect( assessor._config.farTooMany ).toEqual( japaneseConfig.defaultParameters.farTooMany );
+	} );
+
+	let cornerStoneContentAssessor = new CornerStoneContentAssessor( englishResearcher );
+	let productCornerstoneContentAssessor = new ProductCornerstoneContentAssessor( englishResearcher, mockOptions );
+
+	[ cornerStoneContentAssessor, productCornerstoneContentAssessor ].forEach( assessor => {
+		it( "should use the default cornerstone configuration", function() {
+			const assessment = assessor.getAssessment( "subheadingsTooLong" );
+			assessment.getLanguageSpecificConfig( englishResearcher );
+			expect( assessment._config.parameters.recommendedMaximumLength ).toEqual( 250 );
+			expect( assessment._config.parameters.slightlyTooMany ).toEqual( 250 );
+			expect( assessment._config.parameters.farTooMany ).toEqual( 300 );
+		} );
+
+		it( "should score short cornerstone content in English (<250 words), " +
+			"which does not have subheadings, as OK.", function() {
+			const paper = new Paper( shortCornerstoneText );
+			const assessment = assessor.getAssessment( "subheadingsTooLong" );
+			const results = assessment.getResult( paper, englishResearcher );
+			expect( results.getScore() ).toBe( 9 );
+			expect( results.getText() ).toBe( "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: " +
+				"You are not using any subheadings, but your text is short enough and probably doesn't need them." );
+		} );
+
+		it( "should score slightly too long cornerstone content in English (>250, <300 words), " +
+			"which does not have subheadings, as bad.", function() {
+			const paper = new Paper( longCornerstoneText );
+			const assessment = assessor.getAssessment( "subheadingsTooLong" );
+			const results = assessment.getResult( paper, englishResearcher );
+			expect( results.getScore() ).toBe( 2 );
+			expect( results.getText() ).toBe( "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: " +
+				"You are not using any subheadings, although your text is rather long. " +
+				"<a href='https://yoa.st/34y' target='_blank'>Try and add some subheadings</a>." );
+		} );
+	} );
+
+	cornerStoneContentAssessor = new CornerStoneContentAssessor( japaneseResearcher );
+	productCornerstoneContentAssessor = new ProductCornerstoneContentAssessor( japaneseResearcher, mockOptions );
+
+	[ cornerStoneContentAssessor, productCornerstoneContentAssessor ].forEach( assessor => {
+		it( "should use a language-specific cornerstone configuration", function() {
+			const assessment = assessor.getAssessment( "subheadingsTooLong" );
+			assessment.getLanguageSpecificConfig( japaneseResearcher );
+			expect( assessment._config.recommendedMaximumLength ).toEqual( japaneseConfig.cornerstoneParameters.recommendedMaximumLength );
+			expect( assessment._config.slightlyTooMany ).toEqual( japaneseConfig.cornerstoneParameters.slightlyTooMany );
+			expect( assessment._config.farTooMany ).toEqual( japaneseConfig.cornerstoneParameters.farTooMany );
+		} );
+
+		it( "should score short cornerstone content in Japanese (<500 characters), " +
+		"which does not have subheadings, as OK.", function() {
+			const paper = new Paper( shortCornerstoneTextJapanese );
+			const assessment = assessor.getAssessment( "subheadingsTooLong" );
+			const results = assessment.getResult( paper, japaneseResearcher );
+			expect( results.getScore() ).toBe( 9 );
+			expect( results.getText() ).toBe( "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: " +
+			"You are not using any subheadings, but your text is short enough and probably doesn't need them." );
+		} );
+
+		it( "should score slightly too long cornerstone content in Japanese (>500, <600 characters), " +
+		"which does not have subheadings, as bad.", function() {
+			const paper = new Paper( longCornerstoneTextJapanese );
+			const assessment = assessor.getAssessment( "subheadingsTooLong" );
+			const results = assessment.getResult( paper, japaneseResearcher );
+			expect( results.getScore() ).toBe( 2 );
+			expect( results.getText() ).toBe( "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: " +
+			"You are not using any subheadings, although your text is rather long. " +
+			"<a href='https://yoa.st/34y' target='_blank'>Try and add some subheadings</a>." );
+		} );
 	} );
 } );
 

@@ -57,7 +57,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 	 */
 	getResult( paper, researcher ) {
 		this._subheadingTextsLength = researcher.getResearch( "getSubheadingTextLengths" );
-		if	( researcher.getConfig( "subheadingsTooLong" ) ) {
+		if ( researcher.getConfig( "subheadingsTooLong" ) ) {
 			this._config = this.getLanguageSpecificConfig( researcher );
 		}
 		const countTextInCharacters = researcher.getConfig( "countCharacters" );
@@ -121,12 +121,11 @@ class SubheadingsDistributionTooLong extends Assessment {
 		 * characters instead of words, which also makes the minimum required length higher).
 		**/
 		if ( this._config.shouldNotAppearInShortText ) {
-			const customCountLength = researcher.getHelper( "customCountLength" );
-			const customApplicabilityConfig = researcher.getConfig( "assessmentApplicability" ).subheadingDistribution;
-			if ( customApplicabilityConfig ) {
-				this._config.applicableIfTextLongerThan = customApplicabilityConfig;
+			if ( researcher.getConfig( "subheadingsTooLong" ) ) {
+				this._config = this.getLanguageSpecificConfig( researcher );
 			}
 
+			const customCountLength = researcher.getHelper( "customCountLength" );
 			const textLength = customCountLength ? customCountLength( paper.getText() ) : researcher.getResearch( "wordCountInText" );
 
 			return paper.hasText() && textLength > this._config.applicableIfTextLongerThan;
