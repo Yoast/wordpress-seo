@@ -8,6 +8,7 @@ import { FieldGroup, NewButton } from "@yoast/components";
 
 /* Internal dependencies */
 import WincherExplanation from "./modals/WincherExplanation";
+import WincherSEOPerformanceModal from "../containers/WincherSEOPerformanceModal";
 
 /**
  * Renders the WincherPostPublish Yoast integration.
@@ -48,6 +49,8 @@ export default function WincherPostPublish( props ) {
 					{ __( "Track all keyphrases on this page", "wordpress-seo" ) }
 				</NewButton>
 			</div>
+
+			<WincherSEOPerformanceModal location="postpublish" />
 		</Fragment>
 	);
 }
