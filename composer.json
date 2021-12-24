@@ -129,5 +129,12 @@
 		"generate-unit-test": [
 			"Yoast\\WP\\SEO\\Composer\\Actions::generate_unit_test"
 		]
+	},
+	"config": {
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true,
+			"composer/package-versions-deprecated": true,
+			"composer/installers": true
+		}
 	}
 }
