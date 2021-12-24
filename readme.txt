@@ -239,7 +239,7 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 17.9 =
 Release Date: January 11th, 2022
 
-Yoast SEO 17.9 is now available! Yoast SEO now comes with a keyword tracking tool powered by Wincher that lets you monitor your keywords, straight from the plugin! Make sure to try out this new keyphrase tracking feature and let us know what you think. Read more about what's new in Yoast SEO 17.9 in [our release post in English](https://yoa.st/release-17-9) or [our release post in Spanish](https://yoa.st/release-17-9-spanish)!
+Yoast SEO 17.9 is now available! Yoast SEO now comes with a keyphrase tracking tool powered by Wincher that lets you monitor your keyphrases, straight from the plugin! Make sure to try out this new keyphrase tracking feature and let us know what you think. Read more about what's new in Yoast SEO 17.9 in [our release post in English](https://yoa.st/release-17-9) or [our release post in Spanish](https://yoa.st/release-17-9-spanish)!
 
 Enhancements:
 
