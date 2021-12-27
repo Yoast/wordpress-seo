@@ -78,8 +78,8 @@
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_coding_standards"
 		],
 		"check-cs-thresholds": [
-			"@putenv YOASTCS_THRESHOLD_ERRORS=251",
-			"@putenv YOASTCS_THRESHOLD_WARNINGS=221",
+			"@putenv YOASTCS_THRESHOLD_ERRORS=252",
+			"@putenv YOASTCS_THRESHOLD_WARNINGS=220",
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_cs_thresholds"
 		],
 		"check-cs": [
@@ -129,5 +129,12 @@
 		"generate-unit-test": [
 			"Yoast\\WP\\SEO\\Composer\\Actions::generate_unit_test"
 		]
+	},
+	"config": {
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true,
+			"composer/package-versions-deprecated": true,
+			"composer/installers": true
+		}
 	}
 }

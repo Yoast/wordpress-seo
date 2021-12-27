@@ -35,6 +35,10 @@ class Date_Helper {
 	 * @return string The formatted date.
 	 */
 	public function format( $date, $format = \DATE_W3C ) {
+		if ( ! \is_string( $date ) ) {
+			return $date;
+		}
+
 		$immutable_date = \date_create_immutable_from_format( 'Y-m-d H:i:s', $date, new DateTimeZone( 'UTC' ) );
 
 		if ( ! $immutable_date ) {
@@ -53,6 +57,10 @@ class Date_Helper {
 	 * @return string The formatted date.
 	 */
 	public function format_timestamp( $timestamp, $format = \DATE_W3C ) {
+		if ( ! \is_string( $timestamp ) && ! \is_int( $timestamp ) ) {
+			return $timestamp;
+		}
+
 		$immutable_date = \date_create_immutable_from_format( 'U', $timestamp, new DateTimeZone( 'UTC' ) );
 
 		if ( ! $immutable_date ) {
@@ -88,10 +96,18 @@ class Date_Helper {
 	 *
 	 * @param string $datetime String input to check as valid input for DateTime class.
 	 *
-	 * @return bool True when datatime is valid.
+	 * @return bool True when datetime is valid.
 	 */
 	public function is_valid_datetime( $datetime ) {
-		if ( \substr( $datetime, 0, 1 ) === '-' ) {
+		if ( $datetime === null ) {
+			/*
+			 * While not "officially" supported, `null` will be handled as `"now"` until PHP 9.0.
+			 * @link https://3v4l.org/tYp2k
+			 */
+			return true;
+		}
+
+		if ( \is_string( $datetime ) && \substr( $datetime, 0, 1 ) === '-' ) {
 			return false;
 		}
 

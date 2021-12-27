@@ -1,16 +1,10 @@
 import createWordForms from "../../../../../../src/languageProcessing/languages/ja/helpers/internal/createWordForms";
 import getMorphologyData from "../../../../../specHelpers/getMorphologyData";
-import { isFeatureEnabled } from "@yoast/feature-flag";
 
 const morphologyDataJA = getMorphologyData( "ja" ).ja;
 
 
 describe( "test for creating word forms for Japanese", function() {
-	if ( ! isFeatureEnabled( "JAPANESE_SUPPORT" ) ) {
-		it( "is not run when the Japanese feature flag is disabled", function() {} );
-		return;
-	}
-
 	it( "returns an array with the original word if the word is one character long", function() {
 		let words = createWordForms( "猫", morphologyDataJA );
 		expect( words ).toEqual( [ "猫" ] );

@@ -33,12 +33,6 @@ import WincherNoPermalinkAlert from "./modals/WincherNoPermalinkAlert";
  * @returns {wp.Element} The error message component.
  */
 const GetErrorMessage = ( { response, onLogin } ) => {
-	if ( response.status === 400 && response.results && response.results.canTrack === false ) {
-		return <WincherLimitReached
-			limit={ response.results.limit }
-		/>;
-	}
-
 	if ( response.status === 403 || response.status === 404 ) {
 		return <WincherReconnectAlert onReconnect={ onLogin } />;
 	}
@@ -58,7 +52,18 @@ GetErrorMessage.propTypes = {
  *
  * @returns {void|wp.Element} The user message.
  */
-const GetUserMessage = ( { isSuccess, response, allKeyphrasesMissRanking, onLogin } ) => {
+const GetUserMessage = ( {
+	isSuccess,
+	response,
+	allKeyphrasesMissRanking,
+	onLogin,
+	keyphraseLimitReached,
+	limit,
+} ) => {
+	if ( keyphraseLimitReached ) {
+		return <WincherLimitReached limit={ limit } />;
+	}
+
 	if ( ! isEmpty( response ) && ! isSuccess ) {
 		return <GetErrorMessage response={ response } onLogin={ onLogin } />;
 	}
@@ -75,6 +80,8 @@ GetUserMessage.propTypes = {
 	allKeyphrasesMissRanking: PropTypes.bool.isRequired,
 	response: PropTypes.object,
 	onLogin: PropTypes.func.isRequired,
+	keyphraseLimitReached: PropTypes.bool.isRequired,
+	limit: PropTypes.number.isRequired,
 };
 
 GetUserMessage.defaultProps = {
@@ -249,8 +256,6 @@ TableContent.propTypes = {
 export default function WincherSEOPerformance( props ) {
 	const {
 		isNewlyAuthenticated,
-		keyphraseLimitReached,
-		limit,
 		isLoggedIn,
 	} = props;
 
@@ -274,7 +279,6 @@ export default function WincherSEOPerformance( props ) {
 
 			<ConnectToWincher isLoggedIn={ isLoggedIn } onLogin={ onLoginCallback } />
 			<GetUserMessage { ...props } onLogin={ onLoginCallback } />
-			{ keyphraseLimitReached && <WincherLimitReached limit={ limit } /> }
 			<TableContent { ...props } />
 		</Wrapper>
 	);
@@ -284,8 +288,6 @@ WincherSEOPerformance.propTypes = {
 	isLoggedIn: PropTypes.bool,
 	isNewlyAuthenticated: PropTypes.bool,
 	keyphrases: PropTypes.array,
-	limit: PropTypes.number,
-	keyphraseLimitReached: PropTypes.bool,
 	response: PropTypes.object,
 	shouldTrackAll: PropTypes.bool,
 	permalink: PropTypes.string,
@@ -295,8 +297,6 @@ WincherSEOPerformance.defaultProps = {
 	isLoggedIn: false,
 	isNewlyAuthenticated: false,
 	keyphrases: [],
-	limit: 10,
-	keyphraseLimitReached: false,
 	response: {},
 	shouldTrackAll: false,
 	permalink: "",

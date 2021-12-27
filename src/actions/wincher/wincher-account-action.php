@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Actions\Wincher;
 
 use Yoast\WP\SEO\Config\Wincher_Client;
-use Yoast\WP\SEO\Exceptions\OAuth\Authentication_Failed_Exception;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 
 /**
@@ -57,8 +56,11 @@ class Wincher_Account_Action {
 				'usage'     => $usage,
 				'status'    => 200,
 			];
-		} catch ( Authentication_Failed_Exception $e ) {
-			return $e->get_response();
+		} catch ( \Exception $e ) {
+			return (object) [
+				'status' => $e->getCode(),
+				'error'  => $e->getMessage(),
+			];
 		}
 	}
 }

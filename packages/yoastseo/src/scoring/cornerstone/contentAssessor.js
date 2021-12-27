@@ -27,7 +27,7 @@ import TextPresence from "../assessments/readability/TextPresenceAssessment.js";
  */
 const CornerStoneContentAssessor = function( researcher, options = {} ) {
 	Assessor.call( this, researcher, options );
-	this.type = "CornerstoneContentAssessor";
+	this.type = "cornerstoneContentAssessor";
 
 	this._assessments = [
 
@@ -36,8 +36,9 @@ const CornerStoneContentAssessor = function( researcher, options = {} ) {
 			parameters:	{
 				slightlyTooMany: 250,
 				farTooMany: 300,
-				recommendedMaximumWordCount: 250,
+				recommendedMaximumLength: 250,
 			},
+			cornerstoneContent: true,
 		} ),
 		new ParagraphTooLong(),
 		new SentenceLengthInText( {

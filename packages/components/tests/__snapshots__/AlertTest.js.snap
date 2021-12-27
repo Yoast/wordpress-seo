@@ -86,7 +86,7 @@ exports[`Alert passing onDismissed makes the alert dismissable 1`] = `
   -webkit-box-align: flex-start;
   -ms-flex-align: flex-start;
   align-items: flex-start;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1.5;
   border: 1px solid rgba(0,0,0,0.2);
   padding: 16px;
@@ -111,7 +111,7 @@ exports[`Alert passing onDismissed makes the alert dismissable 1`] = `
 }
 
 .c2 {
-  margin-top: 0.125rem;
+  margin-top: 0.1rem;
   margin-right: 8px;
 }
 
@@ -215,7 +215,7 @@ exports[`Alert the Alert types match the snapshot 1`] = `
   -webkit-box-align: flex-start;
   -ms-flex-align: flex-start;
   align-items: flex-start;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1.5;
   border: 1px solid rgba(0,0,0,0.2);
   padding: 16px;
@@ -240,7 +240,7 @@ exports[`Alert the Alert types match the snapshot 1`] = `
 }
 
 .c2 {
-  margin-top: 0.125rem;
+  margin-top: 0.1rem;
   margin-right: 8px;
 }
 
@@ -287,7 +287,7 @@ exports[`Alert the Alert types match the snapshot 2`] = `
   -webkit-box-align: flex-start;
   -ms-flex-align: flex-start;
   align-items: flex-start;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1.5;
   border: 1px solid rgba(0,0,0,0.2);
   padding: 16px;
@@ -312,7 +312,7 @@ exports[`Alert the Alert types match the snapshot 2`] = `
 }
 
 .c2 {
-  margin-top: 0.125rem;
+  margin-top: 0.1rem;
   margin-right: 8px;
 }
 
@@ -359,7 +359,7 @@ exports[`Alert the Alert types match the snapshot 3`] = `
   -webkit-box-align: flex-start;
   -ms-flex-align: flex-start;
   align-items: flex-start;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1.5;
   border: 1px solid rgba(0,0,0,0.2);
   padding: 16px;
@@ -384,7 +384,7 @@ exports[`Alert the Alert types match the snapshot 3`] = `
 }
 
 .c2 {
-  margin-top: 0.125rem;
+  margin-top: 0.1rem;
   margin-right: 8px;
 }
 
@@ -431,7 +431,7 @@ exports[`Alert the Alert types match the snapshot 4`] = `
   -webkit-box-align: flex-start;
   -ms-flex-align: flex-start;
   align-items: flex-start;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1.5;
   border: 1px solid rgba(0,0,0,0.2);
   padding: 16px;
@@ -456,7 +456,7 @@ exports[`Alert the Alert types match the snapshot 4`] = `
 }
 
 .c2 {
-  margin-top: 0.125rem;
+  margin-top: 0.1rem;
   margin-right: 8px;
 }
 

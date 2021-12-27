@@ -5,7 +5,7 @@
  * @package WPSEO\Admin
  */
 
-use Yoast\WP\SEO\Config\Wincher_Links;
+use Yoast\WP\SEO\Helpers\Wordpress_Helper;
 
 /**
  * Class that holds most of the admin functionality for Yoast SEO.
@@ -302,7 +302,17 @@ class WPSEO_Admin {
 	 * Log the updated timestamp for user profiles when theme is changed.
 	 */
 	public function switch_theme() {
-		$users = get_users( [ 'who' => 'authors' ] );
+		$wordpress_helper  = new Wordpress_Helper();
+		$wordpress_version = $wordpress_helper->get_wordpress_version();
+
+		// Capability queries were only introduced in WP 5.9.
+		if ( version_compare( $wordpress_version, '5.8.99', '<' ) ) {
+			$users = get_users( [ 'who' => 'authors' ] );
+		}
+		else {
+			$users = get_users( [ 'capability' => [ 'edit_posts' ] ] );
+		}
+
 		if ( is_array( $users ) && $users !== [] ) {
 			foreach ( $users as $user ) {
 				update_user_meta( $user->ID, '_yoast_wpseo_profile_updated', time() );

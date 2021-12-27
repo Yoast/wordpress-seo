@@ -164,10 +164,7 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 
 		$this->assertEquals(
 			(object) [
-				'results' => [
-					'limit'    => 1000,
-					'canTrack' => false,
-				],
+				'limit'   => 1000,
 				'error'   => 'Account limit exceeded',
 				'status'  => 400,
 			],
@@ -196,10 +193,7 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 
 		$this->assertEquals(
 			(object) [
-				'results' => [
-					'limit'    => 1000,
-					'canTrack' => true,
-				],
+				'limit'   => 1000,
 				'error'   => 'Account limit exceeded',
 				'status'  => 400,
 			],
@@ -251,7 +245,7 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 			->andReturns( '12345' );
 
 		$this->indexable_repository
-			->expects( 'query->select->where_not_null->where->distinct->find_array' )
+			->expects( 'query->select->where_not_null->where->where_not_equal->distinct->find_array' )
 			->andReturns(
 				[
 					[ 'primary_focus_keyword' => 'yoast seo' ],
@@ -417,7 +411,7 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 	/**
 	 * Tests retrieval of tracked keyphrases chart data filtered by the passed permalink.
 	 *
-	 * @covers ::get_keyphrase_chart_data
+	 * @covers ::get_tracked_keyphrases
 	 */
 	public function test_get_tracked_keyphrases_with_permalink() {
 		$this->options_helper
@@ -474,129 +468,6 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 				],
 			],
 			$this->instance->get_tracked_keyphrases( [ 'yoast seo', 'blog seo' ], 'https://yoast.com/blog/' )
-		);
-	}
-
-	/**
-	 * Tests tracking of all keyphrases.
-	 *
-	 * @covers ::track_all
-	 */
-	public function test_track_all_keyphrases() {
-		$limits = (object) [
-			'canTrack' => true,
-			'limit'    => 1000,
-			'usage'    => 10,
-			'status'   => 200,
-		];
-
-		$this->options_helper
-			->expects( 'get' )
-			->with( 'wincher_website_id' )
-			->once()
-			->andReturns( '12345' );
-
-		$product_helper_mock = Mockery::mock( Product_Helper::class );
-		$product_helper_mock->expects( 'is_premium' )->once()->andReturn( false );
-		$helpers_mock = (object) [ 'product' => $product_helper_mock ];
-
-		Monkey\Functions\expect( 'YoastSEO' )->once()->andReturn(
-			(object) [
-				'helpers' => $helpers_mock,
-			]
-		);
-
-		$this->indexable_repository
-			->expects( 'query->select->where_not_null->where->distinct->find_array' )
-			->andReturns(
-				[
-					[ 'primary_focus_keyword' => 'yoast seo' ],
-					[ 'primary_focus_keyword' => 'blog seo' ],
-					[ 'primary_focus_keyword' => '' ],
-				]
-			);
-
-		$this->client_instance->expects( 'post' )->once()->andReturn(
-			[
-				'data' => [
-					[
-						'keyword' => 'yoast seo',
-						'id'      => 12345,
-					],
-					[
-						'keyword' => 'blog seo',
-						'id'      => 12346,
-					],
-				],
-			]
-		);
-
-		$this->assertEquals(
-			(object) [
-				'results' => [
-					'yoast seo' => [
-						'keyword' => 'yoast seo',
-						'id'      => 12345,
-					],
-					'blog seo'  => [
-						'keyword' => 'blog seo',
-						'id'      => 12346,
-					],
-				],
-			],
-			$this->instance->track_all( $limits )
-		);
-	}
-
-	/**
-	 * Tests tracking of all keyphrases where the limit will be exceeded.
-	 *
-	 * @covers ::track_all
-	 */
-	public function test_track_all_keyphrases_where_limit_will_be_exceeded() {
-		$limits = (object) [
-			'canTrack' => false,
-			'limit'    => 1000,
-			'usage'    => 1000,
-			'status'   => 200,
-		];
-
-		$this->options_helper
-			->expects( 'get' )
-			->with( 'wincher_website_id' )
-			->once()
-			->andReturns( '12345' );
-
-		$product_helper_mock = Mockery::mock( Product_Helper::class );
-		$product_helper_mock->expects( 'is_premium' )->once()->andReturn( false );
-		$helpers_mock = (object) [ 'product' => $product_helper_mock ];
-
-		Monkey\Functions\expect( 'YoastSEO' )->once()->andReturn(
-			(object) [
-				'helpers' => $helpers_mock,
-			]
-		);
-
-		$this->indexable_repository
-			->expects( 'query->select->where_not_null->where->distinct->find_array' )
-			->andReturns(
-				[
-					[ 'primary_focus_keyword' => 'yoast seo' ],
-					[ 'primary_focus_keyword' => 'blog seo' ],
-					[ 'primary_focus_keyword' => '' ],
-				]
-			);
-
-		$this->assertEquals(
-			(object) [
-				'results' => [
-					'limit'    => 1000,
-					'canTrack' => false,
-				],
-				'error'   => 'Account limit exceeded',
-				'status'  => 400,
-			],
-			$this->instance->track_all( $limits )
 		);
 	}
 }

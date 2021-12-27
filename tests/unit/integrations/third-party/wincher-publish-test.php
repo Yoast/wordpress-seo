@@ -8,6 +8,7 @@ use WP_Post;
 use Yoast\WP\SEO\Actions\Wincher\Wincher_Account_Action;
 use Yoast\WP\SEO\Actions\Wincher\Wincher_Keyphrases_Action;
 use Yoast\WP\SEO\Conditionals\Wincher_Automatically_Track_Conditional;
+use Yoast\WP\SEO\Conditionals\Wincher_Conditional;
 use Yoast\WP\SEO\Conditionals\Wincher_Enabled_Conditional;
 use Yoast\WP\SEO\Conditionals\Wincher_Token_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
@@ -28,7 +29,7 @@ class Wincher_Publish_Test extends TestCase {
 	/**
 	 * The test instance.
 	 *
-	 * @var Wincher_Publish
+	 * @var Wincher_Publish|Mockery\LegacyMockInterface|Mockery\MockInterface
 	 */
 	private $instance;
 
@@ -92,6 +93,7 @@ class Wincher_Publish_Test extends TestCase {
 	public function test_get_conditionals() {
 		$this->assertEquals(
 			[
+				Wincher_Conditional::class,
 				Wincher_Enabled_Conditional::class,
 				Wincher_Automatically_Track_Conditional::class,
 				Wincher_Token_Conditional::class,
