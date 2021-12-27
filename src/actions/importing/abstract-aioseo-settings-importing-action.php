@@ -389,7 +389,7 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Import
 
 		// Let's check first if it defers to global robot settings.
 		if ( empty( $aioseo_settings ) || ! isset( $aioseo_settings['searchAppearance'][ $mapping['type'] ][ $mapping['subtype'] ]['advanced']['robotsMeta']['default'] ) ) {
-			return false;
+			return $noindex;
 		}
 
 		$defers_to_defaults = $aioseo_settings['searchAppearance'][ $mapping['type'] ][ $mapping['subtype'] ]['advanced']['robotsMeta']['default'];
