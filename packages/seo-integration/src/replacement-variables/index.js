@@ -1,15 +1,15 @@
-import { addFilter, removeFilter } from "@wordpress/hooks";
+import { addFilter, applyFilters, removeFilter } from "@wordpress/hooks";
 import createReplacementVariables from "@yoast/replacement-variables";
 import { get, identity, mapValues } from "lodash";
 
 /**
  * Registers the replacement variables to be used inside the analysis.
  *
- * @param {Object.<string, function>} applies Apply functions, keyed per analysis type.
+ * @param {Object.<string, function>} applyers Apply functions, keyed per analysis type.
  *
  * @returns {function} Unregister function.
  */
-const registerReplacementVariables = ( applies ) => {
+const registerApplyReplacementVariables = ( applyers ) => {
 	/**
 	 * Creates an apply replacement variables function for objects for the current analysis type.
 	 *
@@ -19,7 +19,7 @@ const registerReplacementVariables = ( applies ) => {
 	 * @returns {function(Object): string} The apply replacement variables function for objects.
 	 */
 	const applyReplacementVariables = ( paper, { config: { analysisType } } ) => (
-		mapValues( paper, get( applies, analysisType, identity ) )
+		mapValues( paper, get( applyers, analysisType, identity ) )
 	);
 
 	addFilter(
@@ -39,16 +39,27 @@ const registerReplacementVariables = ( applies ) => {
  *
  * @returns {{
  *   analysisTypeReplacementVariables: Object.<string, ReplacementVariablesInterface[]>,
- *   unregisterReplacementVariables: function
+ *   unregisterApplyReplacementVariables: function
  * }} The replacement variables interface.
  */
 const createAnalysisTypeReplacementVariables = ( configurations ) => {
-	const analysisTypeReplacementVariables = mapValues( configurations, createReplacementVariables );
-	const unregisterReplacementVariables = registerReplacementVariables( mapValues( analysisTypeReplacementVariables, "apply" ) );
+	const filteredConfigurations = applyFilters( "yoast.seoIntegration.replacementVariables.configurations", configurations );
+	const analysisTypeReplacementVariables = mapValues(
+		filteredConfigurations,
+		( analysisTypeConfigurations, analysisType ) => {
+			const fitleredAnalysisTypeConfigurations = applyFilters(
+				`yoast.seoIntegration.replacementVariables.${ analysisType }.configurations`,
+				analysisTypeConfigurations,
+				{ analysisType },
+			);
+			return createReplacementVariables( fitleredAnalysisTypeConfigurations );
+		},
+	);
+	const unregisterApplyReplacementVariables = registerApplyReplacementVariables( mapValues( analysisTypeReplacementVariables, "apply" ) );
 
 	return {
 		analysisTypeReplacementVariables,
-		unregisterReplacementVariables,
+		unregisterApplyReplacementVariables,
 	};
 };
 
