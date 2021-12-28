@@ -326,12 +326,14 @@ class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 		];
 
 		return [
-			[ \json_encode( $empty_settings ), 'irrelevant', $mapping, 0, 'irrelevant', false ],
+			[ \json_encode( $empty_settings ), false, $mapping, 0, 'irrelevant', false ],
+			[ \json_encode( $empty_settings ), true, $mapping, 0, 'irrelevant', true ],
 			[ \json_encode( $global_robots_meta ), 'irrelevant', $mapping, 1, true, true ],
 			[ \json_encode( $global_robots_meta ), 'irrelevant', $mapping, 1, false, false ],
 			[ \json_encode( $no_global_robots_meta ), true, $mapping, 0, 'irrelevant', true ],
 			[ \json_encode( $no_global_robots_meta ), false, $mapping, 0, 'irrelevant', false ],
-			[ \json_encode( $malformed_global_robots_meta ), 'irrelevant', $mapping, 0, 'irrelevant', false ],
+			[ \json_encode( $malformed_global_robots_meta ), false, $mapping, 0, 'irrelevant', false ],
+			[ \json_encode( $malformed_global_robots_meta ), true, $mapping, 0, 'irrelevant', true ],
 		];
 	}
 
