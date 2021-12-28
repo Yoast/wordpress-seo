@@ -207,7 +207,13 @@ class Indexable_Link_Builder {
 			return null;
 		}
 
-		return $this->image_helper->get_attachment_image_source( $featured_id );
+		$featured_image_source = $this->image_helper->get_attachment_image_source( $featured_id );
+		
+		if( $featured_image_source === '' ) {
+				return null;
+		}
+
+		return $featured_image_source;
 	}
 
 
