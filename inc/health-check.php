@@ -153,10 +153,11 @@ abstract class WPSEO_Health_Check {
 	}
 
 	/**
-	 * Formats the test result as an array.
+	 * Formats the test result as JSON as response to an AJAX request.
 	 */
 	public function get_async_test_result() {
-		wp_send_json_success( $this->get_test_result() );
+		$result = $this->get_test_result();
+		wp_send_json_success( $result );
 	}
 
 	/**
