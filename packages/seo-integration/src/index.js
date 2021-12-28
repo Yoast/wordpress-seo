@@ -61,7 +61,7 @@ const createSeoIntegration = async ( {
 	},
 	initialState = {},
 } = {} ) => {
-	const { analyze } = await createAnalysis( {
+	const { analyze, analysisWorker } = await createAnalysis( {
 		workerUrl: analysisWorkerUrl,
 		dependencies: analysisDependencies,
 		configuration: analysisConfiguration,
@@ -75,7 +75,7 @@ const createSeoIntegration = async ( {
 	} = createAnalysisTypeReplacementVariables( mapValues( analysisTypes, "replacementVariableConfigurations" ) );
 
 	return {
-		analyze,
+		analysisWorker,
 		analysisTypeReplacementVariables,
 		unregisterReplacementVariables,
 		SeoProvider: createSeoProvider( { analysisTypeReplacementVariables } ),

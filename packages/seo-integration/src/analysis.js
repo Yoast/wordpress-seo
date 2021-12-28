@@ -47,7 +47,7 @@ const createAnalysisConfiguration = ( configuration = {} ) => {
  * @param {string[]} dependencies The dependencies to load in the worker.
  * @param {Object} configuration The base configuration of the analysis worker.
  *
- * @returns {function} The analysis worker wrapper.
+ * @returns {{ analysisWorker: Object, analyze: Function }} The analysis worker and analyze function.
  */
 const createAnalysis = async ( { workerUrl, dependencies, configuration = {} } ) => {
 	const worker = createAnalysisWorkerWrapper( { workerUrl, dependencies } );
@@ -62,6 +62,7 @@ const createAnalysis = async ( { workerUrl, dependencies, configuration = {} } )
 	}
 
 	return {
+		analysisWorker: worker,
 		analyze: createAnalyzeFunction( worker, configuration ),
 	};
 };
