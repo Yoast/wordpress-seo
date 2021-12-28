@@ -164,10 +164,7 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 
 		$this->assertEquals(
 			(object) [
-				'results' => [
-					'limit'    => 1000,
-					'canTrack' => false,
-				],
+				'limit'   => 1000,
 				'error'   => 'Account limit exceeded',
 				'status'  => 400,
 			],
@@ -196,10 +193,7 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 
 		$this->assertEquals(
 			(object) [
-				'results' => [
-					'limit'    => 1000,
-					'canTrack' => true,
-				],
+				'limit'   => 1000,
 				'error'   => 'Account limit exceeded',
 				'status'  => 400,
 			],

@@ -158,8 +158,8 @@ const WincherKeyphrasesTable = ( props ) => {
 				getTrackedKeyphrases();
 			},
 			( response ) => {
-				if ( response.status === 400 && response.results && response.results.canTrack === false ) {
-					setKeyphraseLimitReached( response.results.limit );
+				if ( response.status === 400 && response.limit ) {
+					setKeyphraseLimitReached( response.limit );
 				}
 				setRequestFailed( response );
 			},

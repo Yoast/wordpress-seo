@@ -35,10 +35,11 @@ const StorePostsAndPagesCornerstoneContentAssessor = function( researcher, optio
 			parameters:	{
 				slightlyTooMany: 250,
 				farTooMany: 300,
-				recommendedMaximumWordCount: 250,
+				recommendedMaximumLength: 250,
 			},
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify68" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify69" ),
+			cornerstoneContent: true,
 		} ),
 		new ParagraphTooLong( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify66" ),
