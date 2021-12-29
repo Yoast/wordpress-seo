@@ -4,7 +4,7 @@ import IndexingService from "./services/IndexingService";
 
 const AioseoV4 = "WPSEO_Import_AIOSEO_V4";
 
-let dropdown, importButton, importForm, spinner, loading_msg, checkMark, errorMark;
+let dropdown, importButton, importForm, spinner, loadingMessage, checkMark, errorMark;
 
 /**
  * Adds Progress UI elements in the page.
@@ -15,7 +15,7 @@ function addProgressElements() {
 	jQuery( spinner ).insertAfter( importButton );
 	jQuery( checkMark ).insertAfter( spinner );
 	jQuery( errorMark ).insertAfter( spinner );
-	jQuery( loading_msg ).insertAfter( spinner );
+	jQuery( loadingMessage ).insertAfter( spinner );
 }
 
 /**
@@ -27,7 +27,7 @@ function addProgressElements() {
  */
 function importingProgress( count ) { // eslint-disable-line no-unused-vars
 	spinner.show();
-	loading_msg.show();
+	loadingMessage.show();
 	errorMark.hide();
 
 	importButton.prop( "disabled", true );
@@ -40,7 +40,7 @@ function importingProgress( count ) { // eslint-disable-line no-unused-vars
  */
 function importingSuccess() {
 	spinner.hide();
-	loading_msg.hide();
+	loadingMessage.hide();
 	checkMark.show();
 	errorMark.hide();
 
@@ -65,7 +65,7 @@ function importingFailure( e ) {
 	console.error( plugin + " import failed: " + e );
 
 	spinner.hide();
-	loading_msg.hide();
+	loadingMessage.hide();
 	errorMark.show();
 
 	importButton.prop( "disabled", false );
@@ -108,7 +108,7 @@ function initElements() {
 			"vertical-align": "middle",
 		} )
 		.hide();
-	loading_msg = jQuery( "<span>" )
+	loadingMessage = jQuery( "<span>" )
 		.html( window.yoastImportData.assets.loading_msg )
 		.css( {
 			"margin-left": "5px",
