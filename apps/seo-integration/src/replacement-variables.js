@@ -1,5 +1,5 @@
 import { select } from "@wordpress/data";
-import { SEO_STORE_NAME } from "@yoast/seo-integration";
+import { replacementVariableConfigurations, SEO_STORE_NAME } from "@yoast/seo-integration";
 
 const logReplacementVariable = config => ( {
 	...config,
@@ -10,24 +10,23 @@ const logReplacementVariable = config => ( {
 	},
 } );
 
-export const createPostReplacementVariables = ( defaults ) => [
-	defaults.title,
-	defaults.excerpt,
-	defaults.date,
-	defaults.focusKeyphrase,
+export const createPostReplacementVariables = () => [
+	replacementVariableConfigurations.title,
+	replacementVariableConfigurations.excerpt,
+	replacementVariableConfigurations.excerptOnly,
+	replacementVariableConfigurations.date,
+	replacementVariableConfigurations.focusKeyphrase,
+	{ ...replacementVariableConfigurations.permalink, isVisible: false },
 	{
-		name: "permalink",
-		label: "Permalink",
-		getReplacement: () => select( SEO_STORE_NAME ).selectPermalink(),
-	},
-	{
-		name: "featuredImage",
-		label: "Featured image",
+		name: "featured_image",
+		getLabel: () => "Featured image",
 		getReplacement: () => select( SEO_STORE_NAME ).selectFeaturedImage()?.url ?? "",
+		isVisible: false,
 	},
 	{
 		name: "synonyms",
-		label: "Synonyms",
+		getLabel: () => "Synonyms",
 		getReplacement: () => select( SEO_STORE_NAME ).selectSynonyms(),
 	},
+	replacementVariableConfigurations.content,
 ].map( logReplacementVariable );

@@ -16,6 +16,8 @@ import createClassicEditorWatcher from "./watchers/classicEditorWatcher";
 import { getInitialState } from "./classic-editor/initial-state";
 import { getAnalysisConfiguration } from "./classic-editor/analysis";
 
+const registerApis = registerGlobalApis( "YoastSEO" );
+
 domReady( async () => {
 	// Initialize the tab behavior of the metabox.
 	initTabs( jQuery );
@@ -41,9 +43,6 @@ domReady( async () => {
 
 	// Until ALL the components are carried over, the `@yoast/editor` store is still needed.
 	initEditorStore();
-
-
-	const registerApis = registerGlobalApis( "YoastSEO" );
 
 	// - expose global API (pluggable/see scrapers).
 	registerShortcodes();

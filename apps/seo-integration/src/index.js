@@ -1,5 +1,5 @@
 import { render, StrictMode } from "@wordpress/element";
-import createSeoIntegration, { createDefaultReplacementVariableConfigurations } from "@yoast/seo-integration";
+import createSeoIntegration from "@yoast/seo-integration";
 import App from "./app";
 import "./index.css";
 import { createPostReplacementVariables } from "./replacement-variables";
@@ -7,7 +7,6 @@ import registerSeoTitleWidth from "./seo-title-width";
 
 const load = async () => {
 	registerSeoTitleWidth();
-	const defaultReplacementVariableConfigurations = createDefaultReplacementVariableConfigurations();
 
 	const { analysisTypeReplacementVariables, SeoProvider } = await createSeoIntegration( {
 		analysis: {
@@ -18,12 +17,12 @@ const load = async () => {
 				"yoast/jed.js",
 				"yoast/featureFlag.js",
 				"analysis/analysis.js",
-				"analysis/languages/default.js"
+				"analysis/languages/default.js",
 			],
 			types: {
 				post: {
 					name: "post",
-					replacementVariableConfigurations: createPostReplacementVariables( defaultReplacementVariableConfigurations ),
+					replacementVariableConfigurations: createPostReplacementVariables(),
 				},
 			},
 		},
