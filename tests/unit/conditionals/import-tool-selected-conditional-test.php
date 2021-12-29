@@ -41,6 +41,7 @@ class Import_Tool_Selected_Conditional_Test extends TestCase {
 		$_GET['page'] = 'wpseo_tools';
 
 		$this->assertFalse( $this->instance->is_met() );
+		unset( $_GET['page'] );
 	}
 
 	/**
@@ -52,5 +53,6 @@ class Import_Tool_Selected_Conditional_Test extends TestCase {
 		$_GET['tool'] = 'import-export';
 
 		$this->assertTrue( $this->instance->is_met() );
+		unset( $_GET['tool'] );
 	}
 }
