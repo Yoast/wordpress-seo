@@ -27,7 +27,26 @@
  * @property {function(string, Object?): string} apply Applies the replacement variables to a string.
  */
 
-import { map, reduce } from "lodash";
+import { map, reduce, curry } from "lodash";
+
+/**
+	 * Applies the replacement variables to a string.
+	 *
+	 * @param {ReplacementVariable[]} variables The input string.
+	 * @param {string} string The input string.
+	 * @param {Object} [context] Optional single context argument for the `getReplacement` functions.
+	 *
+	 * @returns {string} The string, but with any replacement variables replaced.
+	 */
+export const applyReplacementVariables = curry( ( variables, string, context = {} ) => reduce(
+	variables,
+	( replaced, { regexp, getReplacement } ) => (
+		regexp.test( replaced )
+			? replaced.replace( regexp, getReplacement( context ) )
+			: replaced
+	),
+	string,
+) );
 
 /**
  * Creates replacement variables and provides an apply function.
@@ -46,27 +65,9 @@ const createReplacementVariables = ( configurations ) => {
 		isVisible,
 	} ) );
 
-	/**
-	 * Applies the replacement variables to a string.
-	 *
-	 * @param {string} input The input string.
-	 * @param {Object} [context] Optional single context argument for the `getReplacement` functions.
-	 *
-	 * @returns {string} The input, but with any replacement variables replaced.
-	 */
-	const apply = ( input, context = {} ) => reduce(
-		variables,
-		( replaced, { regexp, getReplacement } ) => (
-			regexp.test( replaced )
-				? replaced.replace( regexp, getReplacement( context ) )
-				: replaced
-		),
-		input,
-	);
-
 	return {
 		variables,
-		apply,
+		apply: applyReplacementVariables( variables ),
 	};
 };
 
