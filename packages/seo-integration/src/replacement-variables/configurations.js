@@ -1,6 +1,7 @@
 import { select } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
 import { SEO_STORE_NAME } from "@yoast/seo-store";
+import { strings as stringHelpers } from "@yoast/helpers";
 
 /**
  * Holds the replacement variable configurations, for use within the SEO store context.
@@ -12,7 +13,7 @@ import { SEO_STORE_NAME } from "@yoast/seo-store";
 export const content = {
 	name: "content",
 	getLabel: () => __( "Content", "wordpress-seo" ),
-	getReplacement: () => select( SEO_STORE_NAME ).selectContent(),
+	getReplacement: () => stringHelpers.stripHTMLTags( select( SEO_STORE_NAME ).selectContent() ),
 };
 
 export const date = {
@@ -34,10 +35,10 @@ export const excerptOnly = {
 };
 
 export const focusKeyphrase = {
-	name: "focus_keyphrase",
+	name: "focuskw",
 	getLabel: () => __( "Focus keyphrase", "wordpress-seo" ),
 	getReplacement: () => select( SEO_STORE_NAME ).selectKeyphrase(),
-	regexp: new RegExp( "%%focuskw%%|%%keyword%%", "g" ),
+	regexp: new RegExp( "%%focuskw%%|%%keyword%%|%%focus_keyphrase%%", "g" ),
 };
 
 export const permalink = {
