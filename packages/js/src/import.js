@@ -26,7 +26,6 @@ function addProgressElements() {
  * @returns {void}
  */
 function importingProgress( count ) {
-	console.log( "Now processed", count, "items" );
 	spinner.show();
 	loading_msg.show();
 
@@ -39,7 +38,6 @@ function importingProgress( count ) {
  * @returns {void}
  */
 function importingSuccess() {
-	console.log( "Done!" );
 	spinner.hide();
 	loading_msg.hide();
 	checkMark.show();
