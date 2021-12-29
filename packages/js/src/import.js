@@ -4,7 +4,7 @@ import IndexingService from "./services/IndexingService";
 
 const AioseoV4 = "WPSEO_Import_AIOSEO_V4";
 
-let importButton, importForm, spinner, loading_msg, checkMark, errorMark;
+let dropdown, importButton, importForm, spinner, loading_msg, checkMark, errorMark;
 
 /**
  * Adds Progress UI elements in the page.
@@ -25,9 +25,10 @@ function addProgressElements() {
  *
  * @returns {void}
  */
-function importingProgress( count ) {
+function importingProgress( count ) { // eslint-disable-line no-unused-vars
 	spinner.show();
 	loading_msg.show();
+	errorMark.hide();
 
 	importButton.prop( "disabled", true );
 }
@@ -41,8 +42,15 @@ function importingSuccess() {
 	spinner.hide();
 	loading_msg.hide();
 	checkMark.show();
+	errorMark.hide();
 
 	importButton.prop( "disabled", false );
+
+	// Remove the plugin that we just finished import for, from the import dropdown.
+	jQuery( "option:selected", dropdown ).remove();
+	if ( dropdown.has( "option" ).length < 1 ) {
+		importButton.prop( "disabled", true );
+	}
 }
 
 /**
@@ -53,7 +61,9 @@ function importingSuccess() {
  * @returns {void}
  */
 function importingFailure( e ) {
-	console.log( "Failed: " + e );
+	const plugin = jQuery( "option:selected", dropdown ).text();
+	console.error( plugin + " import failed: " + e );
+
 	spinner.hide();
 	loading_msg.hide();
 	errorMark.show();
@@ -69,8 +79,6 @@ function importingFailure( e ) {
  * @returns {void}
  */
 function handleImportFormSubmission( event ) {
-	const dropdown = jQuery( "[name='import_external_plugin']" );
-
 	if ( dropdown.val() === AioseoV4 ) {
 		// Do not actually submit the form.
 		event.preventDefault();
@@ -78,8 +86,8 @@ function handleImportFormSubmission( event ) {
 		const indexingService = new IndexingService( window.yoastImportData );
 
 		indexingService.index( window.yoastImportData.restApi.importing_endpoints.aioseo, importingProgress )
-			.then( () => importingSuccess() )
-			.catch( e => importingFailure( e ) );
+			.then( importingSuccess )
+			.catch( importingFailure );
 	}
 }
 
@@ -91,6 +99,7 @@ function handleImportFormSubmission( event ) {
 function initElements() {
 	importButton = jQuery( "[name='import_external']" );
 	importForm = jQuery( importButton ).parents( "form:first" );
+	dropdown = jQuery( "[name='import_external_plugin']" );
 	spinner = jQuery( "<img>" )
 		.attr( "src", window.yoastImportData.assets.spinner )
 		.css( {
