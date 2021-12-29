@@ -513,6 +513,15 @@ class ORM implements \ArrayAccess {
 	}
 
 	/**
+	 * Returns the values bound to this query.
+	 *
+	 * @return array The values.
+	 */
+	public function get_values() {
+		return $this->values;
+	}
+
+	/**
 	 * Executes an aggregate query on the current connection.
 	 *
 	 * @param string $sql_function The aggregate function to call eg. MIN, COUNT, etc.

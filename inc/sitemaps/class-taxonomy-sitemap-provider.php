@@ -5,36 +5,10 @@
  * @package WPSEO\XML_Sitemaps
  */
 
-use Yoast\WP\Lib\Model;
-use Yoast\WP\SEO\Helpers\XML_Sitemap_Helper;
-use Yoast\WP\SEO\Repositories\Indexable_Repository;
-
 /**
  * Sitemap provider for author archives.
  */
-class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
-
-	/**
-	 * The indexable repository.
-	 *
-	 * @var Indexable_Repository
-	 */
-	private $repository;
-
-	/**
-	 * The XML sitemap helper.
-	 *
-	 * @var XML_Sitemap_Helper
-	 */
-	private $xml_sitemap_helper;
-
-	/**
-	 * Set up object properties for data reuse.
-	 */
-	public function __construct() {
-		$this->repository         = YoastSEO()->classes->get( Indexable_Repository::class );
-		$this->xml_sitemap_helper = YoastSEO()->helpers->xml_sitemap;
-	}
+class WPSEO_Taxonomy_Sitemap_Provider extends WPSEO_Indexable_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 	/**
 	 * Check if provider supports given item type.
@@ -55,83 +29,47 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	}
 
 	/**
-	 * Retrieves the links for the sitemap.
+	 * Returns the object type for this sitemap.
 	 *
-	 * @param int $max_entries Entries per sitemap.
-	 *
-	 * @return array
+	 * @return string The object type.
 	 */
-	public function get_index_links( $max_entries ) {
-		$index = [];
+	protected function get_object_type() {
+		return 'term';
+	}
 
-		$taxonomies = $this->repository
-			->query_where_noindex( false, 'term' )
-			->select( 'object_sub_type' )
-			->select_expr( 'MAX( `object_last_modified` ) AS max_object_last_modified' )
-			->select_expr( 'COUNT(*) AS count' )
-			->where( 'is_publicly_viewable', true )
-			->group_by( 'object_sub_type' )
-			->find_many();
-
-		foreach ( $taxonomies as $taxonomy ) {
-			/**
-			 * Filter to exclude the taxonomy from the XML sitemap.
-			 *
-			 * @param bool   $exclude       Defaults to false.
-			 * @param string $taxonomy_name Name of the taxonomy to exclude..
-			 */
-			if ( apply_filters( 'wpseo_sitemap_exclude_taxonomy', false, $taxonomy->object_sub_type ) ) {
-				continue;
-			}
-
-			$max_pages = 1;
-
-			if ( $taxonomy->count > $max_entries ) {
-				$max_pages = (int) ceil( $taxonomy->count / $max_entries );
-			}
-
-			// Our orm doesn't support querying table subqueries, which we need in order to get row numbers in MySQL < 8.
-			// Get the highest object_last_modified value for every link in the index.
-			if ( $max_pages > 1 ) {
-				global $wpdb;
-				$sql = 'SELECT object_last_modified
-				    FROM ( SELECT @rownum:=0 ) init
-				    JOIN ' . Model::get_table_name( 'Indexable' ) . '
-				    WHERE `object_type` = "term"
-				      AND `object_sub_type` = %s
-				      AND is_publicly_viewable = 1
-				      AND ( `is_robots_noindex` = 0 OR `is_robots_noindex` IS NULL )
-				      AND ( @rownum:=@rownum+1 ) %% %d = 0
-				    ORDER BY object_last_modified ASC';
-
-				// phpcs:ignore WordPress.DB
-				$query = $wpdb->prepare( $sql, $taxonomy->object_sub_type, $max_entries );
-				// phpcs:ignore WordPress.DB
-				$most_recent_mod_date_per_page = $wpdb->get_col( $query );
-
-				// The last page doesn't always get a proper last_mod date from this query. So we use the most recent date from the taxonomy instead.
-				if ( ( $taxonomy->count % $max_entries ) !== 0 ) {
-					$most_recent_mod_date_per_page[] = $taxonomy->max_object_last_modified;
-				}
-
-				$page_counter = 1;
-				foreach ( $most_recent_mod_date_per_page as $most_recent_mod_date_of_page ) {
-					$index[] = [
-						'loc'     => WPSEO_Sitemaps_Router::get_base_url( $taxonomy->object_sub_type . '-sitemap' . $page_counter . '.xml' ),
-						'lastmod' => $most_recent_mod_date_of_page,
-					];
-					$page_counter++;
-				}
-			}
-			else {
-				$index[] = [
-					'loc'     => WPSEO_Sitemaps_Router::get_base_url( $taxonomy->object_sub_type . '-sitemap.xml' ),
-					'lastmod' => $taxonomy->max_object_last_modified,
-				];
-			}
+	/**
+	 * Whether or not a specific object sub type should be excluded.
+	 *
+	 * @param string $object_sub_type The object sub type.
+	 *
+	 * @return boolean Whether or not it should be excluded.
+	 */
+	protected function should_exclude_object_sub_type( $object_sub_type ) {
+		/**
+		 * Filter to exclude the taxonomy from the XML sitemap.
+		 *
+		 * @param bool   $exclude       Defaults to false.
+		 * @param string $taxonomy_name Name of the taxonomy to exclude..
+		 */
+		if ( apply_filters( 'wpseo_sitemap_exclude_taxonomy', false, $object_sub_type ) ) {
+			return true;
 		}
 
-		return $index;
+		return false;
+	}
+
+	/**
+	 * Returns a list of all object IDs that should be excluded.
+	 *
+	 * @return int[]
+	 */
+	protected function get_excluded_object_ids() {
+		/**
+		 * Filter: 'wpseo_exclude_from_sitemap_by_term_ids' - Allow excluding terms by ID.
+		 *
+		 * @api array $terms_to_exclude The terms to exclude.
+		 */
+		return apply_filters( 'wpseo_exclude_from_sitemap_by_term_ids', [] );
 	}
 
 	/**
@@ -156,18 +94,13 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		$query = $this->repository
 			->query_where_noindex( false, 'term', $type )
 			->select_many( 'id', 'object_id', 'permalink', 'object_last_modified' )
+			->where( 'is_publicly_viewable', true )
 			->order_by_asc( 'object_last_modified' )
 			->offset( $offset )
 			->limit( $steps );
 
-		/**
-		 * Filter: 'wpseo_exclude_from_sitemap_by_term_ids' - Allow excluding terms by ID.
-		 *
-		 * @api array $terms_to_exclude The terms to exclude.
-		 */
-		$terms_to_exclude = apply_filters( 'wpseo_exclude_from_sitemap_by_term_ids', [] );
-
-		if ( count( $terms_to_exclude ) > 0 ) {
+		$terms_to_exclude = $this->get_excluded_object_ids();
+		if ( is_array( $terms_to_exclude ) && count( $terms_to_exclude ) > 0 ) {
 			$query->where_not_in( 'object_id', $terms_to_exclude );
 		}
 
