@@ -80,7 +80,7 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Query is prepared by our ORM.
 		$raw_query = $wpdb->prepare( $query->get_sql(), $query->get_values() );
 
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Complex query is not possible without a direct query.
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery -- Complex query is not possible without a direct query.
 		$last_modified_per_page = $wpdb->get_col(
 			// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Variables are secure.
 			$wpdb->prepare(
