@@ -52,7 +52,7 @@ abstract class WPSEO_Indexable_Sitemap_Provider implements WPSEO_Sitemap_Provide
 			->order_by_asc( 'object_last_modified' );
 
 		$excluded_object_ids = $this->get_excluded_object_ids();
-		if ( is_array( $excluded_object_ids ) && count( $excluded_object_ids ) > 0 ) {
+		if ( count( $excluded_object_ids ) > 0 ) {
 			$query->where_not_in( 'object_id', $excluded_object_ids );
 		}
 

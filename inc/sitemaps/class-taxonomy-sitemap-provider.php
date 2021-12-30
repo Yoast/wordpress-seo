@@ -69,7 +69,15 @@ class WPSEO_Taxonomy_Sitemap_Provider extends WPSEO_Indexable_Sitemap_Provider i
 		 *
 		 * @api array $terms_to_exclude The terms to exclude.
 		 */
-		return apply_filters( 'wpseo_exclude_from_sitemap_by_term_ids', [] );
+		$excluded_term_ids = apply_filters( 'wpseo_exclude_from_sitemap_by_term_ids', [] );
+
+		if ( ! is_array( $excluded_term_ids ) ) {
+			return [];
+		}
+
+		$excluded_term_ids = array_map( 'intval', $excluded_term_ids );
+
+		return array_unique( $excluded_term_ids );
 	}
 
 	/**

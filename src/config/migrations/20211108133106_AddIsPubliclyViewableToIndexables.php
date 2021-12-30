@@ -34,6 +34,8 @@ class AddIsPubliclyViewableToIndexables extends Migration {
 				'default' => null,
 			]
 		);
+
+		$this->query( "UPDATE $table_name SET is_publicly_viewable = is_public" );
 	}
 
 	/**
@@ -60,6 +62,3 @@ class AddIsPubliclyViewableToIndexables extends Migration {
 		return Model::get_table_name( 'Indexable' );
 	}
 }
-
-
-
