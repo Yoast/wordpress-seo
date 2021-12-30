@@ -60,7 +60,6 @@ class WPSEO_Taxonomy_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Taxonomy_Sitemap_Provider::get_sitemap_links
 	 */
 	public function test_get_sitemap_links() {
-
 		$category_id = $this->factory->category->create();
 		$post_id     = $this->factory->post->create();
 		wp_set_post_categories( $post_id, $category_id );
