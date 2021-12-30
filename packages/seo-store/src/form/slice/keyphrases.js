@@ -1,5 +1,5 @@
-import { createSlice, nanoid } from "@reduxjs/toolkit";
-import { get, keys } from "lodash";
+import { createSlice, nanoid, createSelector } from "@reduxjs/toolkit";
+import { get, keys, map } from "lodash";
 import { FOCUS_KEYPHRASE_ID } from "../../common/constants";
 
 export const MAX_RELATED_KEYPHRASES = 4;
@@ -74,11 +74,23 @@ const keyphrasesSlice = createSlice( {
 	},
 } );
 
-export const keyphrasesSelectors = {
-	selectKeyphrases: state => get( state, "form.keyphrases", {} ),
+const selectors = {
+	selectKeyphraseEntries: state => get( state, "form.keyphrases", {} ),
 	selectKeyphrase: ( state, id = FOCUS_KEYPHRASE_ID ) => get( state, `form.keyphrases.${ id }.keyphrase` ),
-	selectSynonyms: ( state, id = FOCUS_KEYPHRASE_ID ) => get( state, `form.keyphrases.${ id }.synonyms` ),
+	selectKeyphraseSynonyms: ( state, id = FOCUS_KEYPHRASE_ID ) => get( state, `form.keyphrases.${ id }.synonyms` ),
 	selectKeyphraseIds: ( state ) => keys( get( state, "form.keyphrases" ) ),
+};
+
+export const keyphrasesSelectors = {
+	...selectors,
+	selectKeyphrases: createSelector(
+		selectors.selectKeyphraseEntries,
+		( keyphraseEntries ) => map( keyphraseEntries, "keyphrase" ),
+	),
+	selectSynonyms: createSelector(
+		selectors.selectKeyphraseEntries,
+		( keyphraseEntries ) => map( keyphraseEntries, "synonyms" ),
+	),
 };
 
 export const keyphrasesActions = keyphrasesSlice.actions;

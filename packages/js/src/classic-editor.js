@@ -1,7 +1,7 @@
 /* global wpseoScriptData wpseoPrimaryCategoryL10n */
 
 import domReady from "@wordpress/dom-ready";
-import createSeoIntegration, { SEO_STORE_NAME } from "@yoast/seo-integration";
+import createSeoIntegration from "@yoast/seo-integration";
 import registerShortcodes from "./classic-editor/shortcodes";
 import { registerReactComponent, renderReactRoot } from "./helpers/reactRoot";
 import registerGlobalApis from "./helpers/register-global-apis";
@@ -12,7 +12,7 @@ import initPrimaryCategory from "./initializers/primary-category";
 import initEditorStore from "./classic-editor/editor-store";
 import Metabox from "./classic-editor/components/metabox";
 import { MetaboxFill, MetaboxSlot } from "./classic-editor/components/metabox/slot-fill";
-import createClassicEditorWatcher from "./watchers/classicEditorWatcher";
+import createClassicEditorWatcher from "./classic-editor/watcher";
 import { getInitialState } from "./classic-editor/initial-state";
 import { getAnalysisConfiguration } from "./classic-editor/analysis";
 
@@ -33,15 +33,12 @@ domReady( async () => {
 		initPrimaryCategory( jQuery );
 	}
 
-
-	const watcher = createClassicEditorWatcher( { storeName: SEO_STORE_NAME } );
-
 	const { SeoProvider } = await createSeoIntegration( {
 		analysis: getAnalysisConfiguration(),
 		initialState: getInitialState(),
 	} );
 
-	// Until ALL the components are carried over, the `@yoast/editor` store is still needed.
+	// Until ALL the components are carried over, the `@yoast-seo/editor` store is still needed.
 	initEditorStore();
 
 	// - expose global API (pluggable/see scrapers).
@@ -50,7 +47,8 @@ domReady( async () => {
 	// - create a SEO data watcher that updates our hidden fields so that the changed data is saved along with the WP save.
 	// - traffic light & admin bar: update analysis scores?
 
-	// Start watching the editor data.
+	// Start watching and syncing between store and editor data.
+	const watcher = createClassicEditorWatcher();
 	watcher.watch();
 
 	// We have to do this differently: all the components are coupled to the store, which we are changing :)
