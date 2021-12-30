@@ -5,7 +5,7 @@ import { SEO_STORE_NAME } from "@yoast/seo-integration";
 import { addEventHandler as addTinyMceEventListener, getContentTinyMce } from "../lib/tinymce";
 import * as dom from "./helpers/dom";
 
-const SYNC_DEBOUNCE_MS = 200;
+const SYNC_DEBOUNCE_TIME = 200;
 const { DOM_IDS, DOM_QUERIES } = dom;
 
 /**
@@ -21,7 +21,7 @@ const watchDomChanges = () => {
 	 * @param {Function} action Store action to dispatch.
 	 * @returns {Function} Value change event handler.
 	 */
-	const createHandleValueChange = ( action ) => debounce( ( event ) => action( get( event, "target.value", "" ) ), SYNC_DEBOUNCE_MS );
+	const createHandleValueChange = ( action ) => debounce( ( event ) => action( get( event, "target.value", "" ) ), SYNC_DEBOUNCE_TIME );
 
 	/**
 	 * Creates a store sync that subscribes to DOM changes and maybe dispatches an store action.
@@ -88,7 +88,7 @@ const watchDomChanges = () => {
 	 * @param {Function} action Store action.
 	 * @returns {Function} Value change event handler.
 	 */
-	const createHandleTinyMceValueChange = ( domId, action ) => debounce( () => action( getContentTinyMce( domId ) ), SYNC_DEBOUNCE_MS );
+	const createHandleTinyMceValueChange = ( domId, action ) => debounce( () => action( getContentTinyMce( domId ) ), SYNC_DEBOUNCE_TIME );
 	const tinyMceEventNames = [ "input", "change", "cut", "paste" ];
 
 	// Sync TinyMCE editor changes to store.
@@ -145,7 +145,7 @@ const watchStoreChanges = () => {
 
 		// Update DOM if store value changed.
 		domSet( storeValue );
-	}, SYNC_DEBOUNCE_MS ) );
+	}, SYNC_DEBOUNCE_TIME ) );
 
 	// Sync simple store changes to hidden inputs.
 	createDomSync( selectors.selectSeoTitle, { domGet: dom.getSeoTitle, domSet: dom.setSeoTitle }, "seoTitle" );
