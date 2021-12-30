@@ -47,7 +47,7 @@ abstract class WPSEO_Indexable_Sitemap_Provider implements WPSEO_Sitemap_Provide
 
 		$query = $this->repository
 			->query_where_noindex( false, $this->get_object_type() )
-			->select( 'id' )
+			->select_many( 'id', 'object_sub_type' )
 			->where( 'is_publicly_viewable', true )
 			->order_by_asc( 'object_sub_type' )
 			->order_by_asc( 'object_last_modified' );
@@ -84,19 +84,19 @@ abstract class WPSEO_Indexable_Sitemap_Provider implements WPSEO_Sitemap_Provide
             // phpcs:enable
 		);
 
-		$index = [];
+		$links = [];
 		$page  = 1;
 		foreach ( $last_object_per_page as $index => $object ) {
 			if ( $this->should_exclude_object_sub_type( $object->object_sub_type ) ) {
 				continue;
 			}
 
-			$next_object_is_not_same_sub_type = ! ( isset( $last_object_per_page[ ( $index + 1 ) ] ) && $last_object_per_page[ ( $index + 1 ) ] === $object->object_sub_type );
+			$next_object_is_not_same_sub_type = ! isset( $last_object_per_page[ ( $index + 1 ) ] ) || $last_object_per_page[ ( $index + 1 ) ]->object_sub_type !== $object->object_sub_type;
 			if ( $page === 1 && $next_object_is_not_same_sub_type ) {
 				$page = '';
 			}
 
-			$index[] = [
+			$links[] = [
 				'loc'     => WPSEO_Sitemaps_Router::get_base_url( $object->object_sub_type . '-sitemap' . $page . '.xml' ),
 				'lastmod' => $object->object_last_modified,
 			];
@@ -104,9 +104,12 @@ abstract class WPSEO_Indexable_Sitemap_Provider implements WPSEO_Sitemap_Provide
 			if ( $next_object_is_not_same_sub_type ) {
 				$page = 1;
 			}
+			else {
+				$page += 1;
+			}
 		}
 
-		return $index;
+		return $links;
 	}
 
 	/**
