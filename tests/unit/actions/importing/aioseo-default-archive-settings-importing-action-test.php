@@ -164,14 +164,15 @@ class Aioseo_Default_Archive_Settings_Importing_Action_Test extends TestCase {
 	/**
 	 * Tests mapping AIOSEO default archive settings.
 	 *
-	 * @param string $setting       The setting at hand, eg. post or movie-category, separator etc.
-	 * @param string $setting_value The value of the AIOSEO setting at hand.
-	 * @param int    $times         The times that we will import each setting, if any.
+	 * @param string $setting         The setting at hand, eg. post or movie-category, separator etc.
+	 * @param string $setting_value   The value of the AIOSEO setting at hand.
+	 * @param int    $times           The times that we will import each setting, if any.
+	 * @param int    $transform_times The times that we will transform each setting, if any.
 	 *
 	 * @dataProvider provider_map
 	 * @covers ::map
 	 */
-	public function test_map( $setting, $setting_value, $times ) {
+	public function test_map( $setting, $setting_value, $times, $transform_times ) {
 		$this->mock_instance->build_mapping();
 		$aioseo_options_to_yoast_map = $this->mock_instance->get_aioseo_options_to_yoast_map();
 
@@ -180,7 +181,7 @@ class Aioseo_Default_Archive_Settings_Importing_Action_Test extends TestCase {
 			->andReturn( 'not_null' );
 
 		$this->replacevar_handler->shouldReceive( 'transform' )
-			->times( $times )
+			->times( $transform_times )
 			->with( $setting_value )
 			->andReturn( $setting_value );
 
@@ -197,12 +198,14 @@ class Aioseo_Default_Archive_Settings_Importing_Action_Test extends TestCase {
 	 */
 	public function provider_map() {
 		return [
-			[ '/author/title', 'Author Title', 1 ],
-			[ '/author/metaDescription', 'Author Desc', 1 ],
-			[ '/date/show', 'Date Title', 0 ],
-			[ '/date/metaDescription', 'Date Title', 1 ],
-			[ '/search/title', 'Search Title', 1 ],
-			[ '/randomSetting', 'randomeValue', 0 ],
+			[ '/author/title', 'Author Title', 1, 1 ],
+			[ '/author/metaDescription', 'Author Desc', 1, 1 ],
+			[ '/author/advanced/robotsMeta/noindex', true, 1, 0 ],
+			[ '/date/show', 'Date Title', 0, 0 ],
+			[ '/date/metaDescription', 'Date Title', 1, 1 ],
+			[ '/date/advanced/robotsMeta/noindex', true, 1, 0 ],
+			[ '/search/title', 'Search Title', 1, 1 ],
+			[ '/randomSetting', 'randomeValue', 0, 0 ],
 		];
 	}
 

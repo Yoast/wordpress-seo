@@ -1,3 +1,5 @@
+/* global wpseoAdminL10n */
+
 /* External dependencies */
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
@@ -8,6 +10,7 @@ import { FieldGroup, NewButton } from "@yoast/components";
 
 /* Internal dependencies */
 import WincherExplanation from "./modals/WincherExplanation";
+import WincherSEOPerformanceModal from "../containers/WincherSEOPerformanceModal";
 
 /**
  * Renders the WincherPostPublish Yoast integration.
@@ -26,7 +29,7 @@ export default function WincherPostPublish( props ) {
 		<Fragment>
 			<FieldGroup
 				label={ __( "SEO performance", "wordpress-seo" ) }
-				linkTo={ "https://google.com" }
+				linkTo={ wpseoAdminL10n[ "shortlinks.wincher.seo_performance" ] }
 				linkText={ __( "Learn more about the SEO performance feature.", "wordpress-seo" ) }
 			/>
 
@@ -48,6 +51,8 @@ export default function WincherPostPublish( props ) {
 					{ __( "Track all keyphrases on this page", "wordpress-seo" ) }
 				</NewButton>
 			</div>
+
+			<WincherSEOPerformanceModal location="postpublish" />
 		</Fragment>
 	);
 }

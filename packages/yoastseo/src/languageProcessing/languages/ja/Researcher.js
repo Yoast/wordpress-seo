@@ -19,6 +19,7 @@ import textLength from "./config/textLength";
 import paragraphLength from "./config/paragraphLength";
 import assessmentApplicability from "./config/assessmentApplicabilityCharacterCount";
 import sentenceLength from "./config/sentenceLength";
+import subheadingsTooLong from "./config/subheadingsTooLong";
 import keyphraseLength from "./config/keyphraseLength";
 
 // All custom researches
@@ -55,6 +56,7 @@ export default class Researcher extends AbstractResearcher {
 			assessmentApplicability,
 			sentenceLength,
 			keyphraseLength,
+			subheadingsTooLong,
 			countCharacters: true,
 		} );
 

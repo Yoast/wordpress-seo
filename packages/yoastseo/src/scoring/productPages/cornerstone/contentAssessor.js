@@ -26,11 +26,12 @@ const ProductCornerstoneContentAssessor = function( researcher, options ) {
 			parameters:	{
 				slightlyTooMany: 250,
 				farTooMany: 300,
-				recommendedMaximumWordCount: 250,
+				recommendedMaximumLength: 250,
 			},
 			shouldNotAppearInShortText: true,
 			urlTitle: createAnchorOpeningTag( options.subheadingUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.subheadingCTAUrl ),
+			cornerstoneContent: true,
 		} ),
 		new ParagraphTooLong( {
 			parameters: {

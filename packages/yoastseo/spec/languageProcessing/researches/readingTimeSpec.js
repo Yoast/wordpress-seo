@@ -1,4 +1,3 @@
-import { enableFeatures } from "@yoast/feature-flag";
 import readingTime from "../../../src/languageProcessing/researches/readingTime.js";
 import Paper from "../../../src/values/Paper.js";
 import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";
@@ -135,8 +134,6 @@ describe( "Calculates the reading time for the paper (rounded up to the next hig
 		expect( readingTime( mockPaper, researcher ) ).toEqual( 2 );
 	} );
 } );
-
-enableFeatures( [ "JAPANESE_SUPPORT" ] );
 
 describe( "Calculates the reading time for the paper (rounded up to the next highest full minute), using characters per minute formula", function() {
 	it( "calculates the reading time for a Japanese paper with a short text", function() {

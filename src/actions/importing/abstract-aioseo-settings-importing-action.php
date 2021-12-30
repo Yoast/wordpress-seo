@@ -169,8 +169,6 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Import
 		$completed = \count( $aioseo_settings ) === 0;
 		$this->set_completed( $completed );
 
-		$last_imported_setting = '';
-
 		// Prepare the setting keys mapping.
 		$this->build_mapping();
 
@@ -179,6 +177,7 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Import
 			$this->replacevar_handler->compose_map( $aioseo_var, $yoast_var );
 		}
 
+		$last_imported_setting = '';
 		try {
 			foreach ( $aioseo_settings as $setting => $setting_value ) {
 				// Map and import the values of the setting we're working with (eg. post, book-category, etc.) to the respective Yoast option.
@@ -330,7 +329,7 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Import
 		// Check if we're supposed to save the setting.
 		if ( $this->options->get_default( 'wpseo_titles', $yoast_key ) !== null ) {
 			// Then, do any needed data transfomation before actually saving the incoming data.
-			$transformed_data = \call_user_func( [ $this, $setting_mapping['transform_method'] ], $setting_value );
+			$transformed_data = \call_user_func( [ $this, $setting_mapping['transform_method'] ], $setting_value, $setting_mapping );
 
 			$this->options->set( $yoast_key, $transformed_data );
 		}
@@ -345,5 +344,60 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Import
 	 */
 	public function simple_import( $meta_data ) {
 		return $this->replacevar_handler->transform( $meta_data );
+	}
+
+	/**
+	 * Minimally transforms boolean data to be imported.
+	 *
+	 * @param bool $meta_data The boolean meta data to be imported.
+	 *
+	 * @return bool The transformed boolean meta data.
+	 */
+	public function simple_boolean_import( $meta_data ) {
+		return $meta_data;
+	}
+
+	/**
+	 * Retrieves the noindex setting set globally in AIOSEO.
+	 *
+	 * @return bool Whether global robot settings give a noindex or not.
+	 */
+	public function get_global_noindex() {
+		$aioseo_settings = \json_decode( \get_option( 'aioseo_options', [] ), true );
+		if ( empty( $aioseo_settings ) || ! isset( $aioseo_settings['searchAppearance']['advanced']['globalRobotsMeta'] ) ) {
+			return false;
+		}
+
+		$global_robot_settings = $aioseo_settings['searchAppearance']['advanced']['globalRobotsMeta'];
+		if ( ! isset( $global_robot_settings['default'] ) || $global_robot_settings['default'] === true ) {
+			return false;
+		}
+
+		return isset( $global_robot_settings['noindex'] ) ? $global_robot_settings['noindex'] : false;
+	}
+
+	/**
+	 * Imports the noindex setting, taking into consideration whether they defer to global defaults.
+	 *
+	 * @param bool  $noindex The noindex of the type, without taking into consideration whether the type defers to global defaults.
+	 * @param array $mapping The mapping of the setting we're working with.
+	 *
+	 * @return bool The noindex setting.
+	 */
+	public function import_noindex( $noindex, $mapping ) {
+		$aioseo_settings = \json_decode( \get_option( $mapping['option_name'], [] ), true );
+
+		// Let's check first if it defers to global robot settings.
+		if ( empty( $aioseo_settings ) || ! isset( $aioseo_settings['searchAppearance'][ $mapping['type'] ][ $mapping['subtype'] ]['advanced']['robotsMeta']['default'] ) ) {
+			return $noindex;
+		}
+
+		$defers_to_defaults = $aioseo_settings['searchAppearance'][ $mapping['type'] ][ $mapping['subtype'] ]['advanced']['robotsMeta']['default'];
+
+		if ( $defers_to_defaults ) {
+			return $this->get_global_noindex();
+		}
+
+		return $noindex;
 	}
 }
