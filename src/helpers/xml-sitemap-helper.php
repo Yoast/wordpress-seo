@@ -88,10 +88,22 @@ class XML_Sitemap_Helper {
 
 		$links = [];
 		foreach ( $indexables as $indexable ) {
+			$images = isset( $images_by_id[ $indexable->id ] ) ? $images_by_id[ $indexable->id ] : [];
+
+			if ( $indexable->object_type === 'post' ) {
+				/**
+				 * Filter images to be included for the post in XML sitemap.
+				 *
+				 * @param array $images  Array of image items.
+				 * @param int   $post_id ID of the post.
+				 */
+				$images = \apply_filters( 'wpseo_sitemap_urlimages', $images, $indexable->object_id );
+			}
+
 			$url = [
 				'loc'    => $indexable->permalink,
 				'mod'    => $indexable->object_last_modified,
-				'images' => isset( $images_by_id[ $indexable->id ] ) ? $images_by_id[ $indexable->id ] : [],
+				'images' => $images,
 			];
 
 			/**
