@@ -5,6 +5,8 @@
  * @package WPSEO\Tests\Sitemaps
  */
 
+use Yoast\WP\SEO\Builders\Indexable_Builder;
+
 /**
  * Class WPSEO_Author_Sitemap_Provider_Test.
  *

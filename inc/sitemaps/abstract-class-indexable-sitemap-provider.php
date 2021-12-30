@@ -18,14 +18,14 @@ abstract class WPSEO_Indexable_Sitemap_Provider implements WPSEO_Sitemap_Provide
 	 *
 	 * @var Indexable_Repository
 	 */
-	private $repository;
+	protected $repository;
 
 	/**
 	 * The XML sitemap helper.
 	 *
 	 * @var XML_Sitemap_Helper
 	 */
-	private $xml_sitemap_helper;
+	protected $xml_sitemap_helper;
 
 	/**
 	 * Set up object properties for data reuse.
