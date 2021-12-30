@@ -81,7 +81,7 @@ class WPSEO_Post_Type_Sitemap_Provider extends WPSEO_Indexable_Sitemap_Provider 
 			->offset( $offset )
 			->limit( $max_entries );
 
-		$posts_to_exclude = $this->get_excluded_posts( $type );
+		$posts_to_exclude = $this->get_excluded_object_ids( $type );
 		if ( count( $posts_to_exclude ) > 0 ) {
 			$query->where_not_in( 'object_id', $posts_to_exclude );
 		}

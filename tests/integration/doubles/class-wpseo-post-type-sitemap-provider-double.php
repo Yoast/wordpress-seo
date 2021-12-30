@@ -24,11 +24,9 @@ class WPSEO_Post_Type_Sitemap_Provider_Double extends WPSEO_Post_Type_Sitemap_Pr
 	/**
 	 * Retrieves a list with the excluded post ids.
 	 *
-	 * @param string $post_type Post type.
-	 *
 	 * @return array Array with post ids to exclude.
 	 */
-	public function get_excluded_posts( $post_type ) {
-		return parent::get_excluded_posts( $post_type );
+	public function get_excluded_object_ids() {
+		return parent::get_excluded_object_ids();
 	}
 }
