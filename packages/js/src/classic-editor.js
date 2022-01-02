@@ -4,7 +4,7 @@ import { get, debounce } from "lodash";
 import domReady from "@wordpress/dom-ready";
 import { dispatch } from "@wordpress/data";
 import createSeoIntegration, { SEO_STORE_NAME } from "@yoast/seo-integration";
-import registerShortcodes from "./classic-editor/shortcodes";
+import registerShortcodes from "./classic-editor/plugins/shortcodes";
 import { registerReactComponent, renderReactRoot } from "./helpers/reactRoot";
 import registerGlobalApis from "./helpers/register-global-apis";
 import initAdmin from "./initializers/admin";
