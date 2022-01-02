@@ -59,7 +59,7 @@ function initFeaturedImagePlugin() {
 		return paper;
 	}
 
-	addFilter( "yoast.seoStore.analysis.preparePaper", "yoast-seo", addFeaturedImageToPaperContents );
+	addFilter( "yoast.seoStore.analysis.preparePaper", "yoast/free/addFeaturedImageToPaperContents", addFeaturedImageToPaperContents );
 }
 
 export default initFeaturedImagePlugin;
