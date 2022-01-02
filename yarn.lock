@@ -5527,9 +5527,6 @@
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
 
-"@yoast/browserslist-config@file:packages/browserslist-config":
-  version "1.2.2"
-
 "@yoast/grunt-plugin-tasks@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@yoast/grunt-plugin-tasks/-/grunt-plugin-tasks-2.2.1.tgz#854914c3ad92f5f7570b2475ccffec3e36d41e42"
@@ -8096,7 +8093,7 @@ buffer@^4.3.0:
     ieee754 "^1.1.4"
     isarray "^1.0.0"
 
-buffer@^5.1.0, buffer@^5.2.1, buffer@^5.4.3, buffer@^5.5.0:
+buffer@^5.0.3, buffer@^5.1.0, buffer@^5.2.1, buffer@^5.4.3, buffer@^5.5.0:
   version "5.7.1"
   resolved "https://registry.yarnpkg.com/buffer/-/buffer-5.7.1.tgz#ba62e7c13133053582197160851a8f648e99eed0"
   integrity sha512-EHcyIPBQ4BSGlvjB16k5KgAJ27CIsHY/2JBmCRReo48y9rQ3MaUzWX3KVlBa4U7MyX02HdVj0K7C3WaB3ju7FQ==
@@ -9747,7 +9744,7 @@ css-select@^3.1.2:
     domutils "^2.4.3"
     nth-check "^2.0.0"
 
-css-to-react-native@^2.2.1:
+css-to-react-native@^2.0.3, css-to-react-native@^2.2.1:
   version "2.3.2"
   resolved "https://registry.yarnpkg.com/css-to-react-native/-/css-to-react-native-2.3.2.tgz#e75e2f8f7aa385b4c3611c52b074b70a002f2e7d"
   integrity sha512-VOFaeZA053BqvvvqIA8c9n0+9vFppVBAHCp6JgFTtTMU3Mzi+XnelJ9XC9ul3BqFzZyQ5N+H0SnwsWT2Ebchxw==
@@ -11193,11 +11190,6 @@ eslint-config-prettier@^7.1.0:
   resolved "https://registry.yarnpkg.com/eslint-config-prettier/-/eslint-config-prettier-7.2.0.tgz#f4a4bd2832e810e8cc7c1411ec85b3e85c0c53f9"
   integrity sha512-rV4Qu0C3nfJKPOAhFujFxB7RMP+URFyQqqOZW9DMRD7ZDTFyjaIlETU3xzHELt++4ugC0+Jm084HQYkkJe+Ivg==
 
-"eslint-config-yoast@file:packages/eslint":
-  version "5.0.17"
-  dependencies:
-    js-yaml "^3.6.0"
-
 eslint-import-resolver-node@^0.3.4:
   version "0.3.4"
   resolved "https://registry.yarnpkg.com/eslint-import-resolver-node/-/eslint-import-resolver-node-0.3.4.tgz#85ffa81942c25012d8231096ddf679c03042c717"
@@ -12207,6 +12199,19 @@ fbjs@^0.8.1, fbjs@^0.8.4:
     promise "^7.1.1"
     setimmediate "^1.0.5"
     ua-parser-js "^0.7.9"
+
+fbjs@^0.8.9:
+  version "0.8.18"
+  resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.18.tgz#9835e0addb9aca2eff53295cd79ca1cfc7c9662a"
+  integrity sha512-EQaWFK+fEPSoibjNy8IxUtaFOMXcWsY0JaVrQoZR9zC8N2Ygf9iDITPWjUTVIax95b6I742JFLqASHfsag/vKA==
+  dependencies:
+    core-js "^1.0.0"
+    isomorphic-fetch "^2.1.1"
+    loose-envify "^1.0.0"
+    object-assign "^4.1.0"
+    promise "^7.1.1"
+    setimmediate "^1.0.5"
+    ua-parser-js "^0.7.30"
 
 fbjs@^2.0.0:
   version "2.0.0"
@@ -13974,7 +13979,7 @@ hmac-drbg@^1.0.1:
     minimalistic-assert "^1.0.0"
     minimalistic-crypto-utils "^1.0.1"
 
-hoist-non-react-statics@^1.0.0:
+hoist-non-react-statics@^1.0.0, hoist-non-react-statics@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-1.2.0.tgz#aa448cf0986d55cc40773b17174b7dd066cb7cfb"
   integrity sha1-qkSM8JhtVcxAdzsXF0t90GbLfPs=
@@ -24082,6 +24087,20 @@ style-value-types@^3.1.9:
     hey-listen "^1.0.8"
     tslib "^1.10.0"
 
+styled-components@^2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/styled-components/-/styled-components-2.4.1.tgz#663bd0485d4b6ab46f946210dc03d2398d1ade74"
+  integrity sha1-ZjvQSF1LarRvlGIQ3APSOY0a3nQ=
+  dependencies:
+    buffer "^5.0.3"
+    css-to-react-native "^2.0.3"
+    fbjs "^0.8.9"
+    hoist-non-react-statics "^1.2.0"
+    is-plain-object "^2.0.1"
+    prop-types "^15.5.4"
+    stylis "^3.4.0"
+    supports-color "^3.2.3"
+
 styled-components@^5.2.1:
   version "5.2.3"
   resolved "https://registry.yarnpkg.com/styled-components/-/styled-components-5.2.3.tgz#752669fd694aac10de814d96efc287dde0d11385"
@@ -24188,6 +24207,11 @@ stylelint@^13.8.0:
     table "^6.0.7"
     v8-compile-cache "^2.2.0"
     write-file-atomic "^3.0.3"
+
+stylis@^3.4.0:
+  version "3.5.4"
+  resolved "https://registry.yarnpkg.com/stylis/-/stylis-3.5.4.tgz#f665f25f5e299cf3d64654ab949a57c768b73fbe"
+  integrity sha512-8/3pSmthWM7lsPBKv7NXkzn2Uc9W7NotcwGNpJaa3k7WMM1XDCA4MgT5k/8BIexd5ydZdboXtU90XH9Ec4Bv/Q==
 
 subarg@^1.0.0:
   version "1.0.0"
@@ -25060,6 +25084,11 @@ ua-parser-js@^0.7.18:
   version "0.7.25"
   resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.25.tgz#67689fa263a87a52dabbc251ede89891f59156ce"
   integrity sha512-8NFExdfI24Ny8R3Vc6+uUytP/I7dpqk3JERlvxPWlrtx5YboqCgxAXYKPAifbPLV2zKbgmmPL53ufW7mUC/VOQ==
+
+ua-parser-js@^0.7.30:
+  version "0.7.31"
+  resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.31.tgz#649a656b191dffab4f21d5e053e27ca17cbff5c6"
+  integrity sha512-qLK/Xe9E2uzmYI3qLeOmI0tEOt+TBBQyUIAh4aAgU05FVYzeZrKUdkAZfBNVGRaHVgV0TDkdEngJSw/SyQchkQ==
 
 ua-parser-js@^0.7.9:
   version "0.7.18"

@@ -26,6 +26,7 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
+    "@yoast/helpers": "^0.16.0",
     "@yoast/replacement-variables": "link:packages/replacement-variables",
     "@yoast/seo-store": "link:packages/seo-store",
     "lodash": "^4.17.21"
