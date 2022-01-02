@@ -5,6 +5,8 @@ import {Toggle, SvgIcon, SimulatedLabel} from '@yoast/components';
 import { __ } from "@wordpress/i18n";
 import popupWindow from '../helpers/popupWindow';
 import {AuthenticationModal} from './modals/wordproof/AuthenticationModal';
+import {handleAPIResponse} from '../helpers/wincherEndpoints';
+import {getSettings} from '../helpers/wordproofEndpoints';
 
 
 const Timestamp = styled.div`
@@ -24,14 +26,17 @@ function HelpIcon(props) {
 }
 
 function SettingsLink(props) {
-	const data = window.wpseoWordProof.data || {};
+	const data = window.wordproofSdk.data || {};
 
 	if (!props.isAuthenticated)
 		return( "" );
 
 	return (
-		<a href={data.popup_redirect_settings_url} onClick={ (e) => { e.preventDefault() && props.openSettings()} }
-		>{__( "Manage WordProof settings", "wordpress-seo" )}</a>
+		<a href={data.popup_redirect_settings_url} onClick={( e ) => {
+			e.preventDefault();
+			props.openSettings();
+		}}
+		>{__( 'Manage WordProof settings', 'wordpress-seo' )}</a>
 	);
 
 }
@@ -43,6 +48,19 @@ function ToggleWrapper(props) {
 		</div>
 	);
 }
+
+const retrieveSettings = async() => {
+
+	return await handleAPIResponse(
+		() => getSettings(),
+		async( response ) => {
+			return response;
+		},
+		async( response ) => {
+			return false;
+		},
+	);
+};
 
 /**
  * The TimestampToggle Component.
@@ -56,12 +74,24 @@ class TimestampToggle extends Component {
 		this.openSettings = this.openSettings.bind(this);
 		this.openAuthentication = this.openAuthentication.bind(this);
 
-		const data = window.wpseoWordProof.data || {};
+		const data = window.wordproofSdk.data || {};
 
 		this.state = {
 			isOpen: false,
-			isAuthenticated: data.is_authenticated
+			isAuthenticated: data.is_authenticated,
+			isDisabled: data.timestamp_current_post_type
 		};
+	}
+
+	updateStateFromSettings(settings) {
+
+		if (!settings)
+			return;
+
+		this.setState({
+			isAuthenticated: settings.is_authenticated,
+			isDisabled: settings.timestamp_current_post_type
+		})
 	}
 
 	setIsOpen(bool) {
@@ -73,16 +103,23 @@ class TimestampToggle extends Component {
 	}
 
 	openSettings() {
-		const data = window.wpseoWordProof.data || {};
+		const data = window.wordproofSdk.data || {};
+
+		window.addEventListener("focus", async (e) => {
+
+			let settingsResponse = await retrieveSettings();
+			this.updateStateFromSettings(settingsResponse)
+
+		}, { once: true });
 
 		popupWindow( window, data.popup_redirect_settings_url )
 	}
 
 	openAuthentication() {
-		const data = window.wpseoWordProof.data || {};
+		const data = window.wordproofSdk.data || {};
 
 		if (this.state.isAuthenticated)
-			this.openSettings();
+			return this.openSettings();
 
 		this.setIsOpen(true);
 		popupWindow(window, data.popup_redirect_authentication_url);
@@ -110,6 +147,7 @@ class TimestampToggle extends Component {
 							labelText={ __( "Timestamp this page", "wordpress-seo" ) }
 							isEnabled={ this.props.isEnabled }
 							onSetToggleState={ this.props.onToggle }
+							disable={ this.state.isDisabled }
 						/>
 					</ToggleWrapper>
 					<SettingsLink isAuthenticated={ this.state.isAuthenticated } openSettings={ this.openSettings }/>
