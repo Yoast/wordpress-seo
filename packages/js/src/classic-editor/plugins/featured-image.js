@@ -31,6 +31,10 @@ function getSelectedImage( mediaFrame ) {
 function getCurrentFeaturedImage() {
 	const featuredImageElement = document.querySelector( "#set-post-thumbnail > img" );
 
+	if ( ! featuredImageElement ) {
+		return "";
+	}
+
 	const src = featuredImageElement.getAttribute( "src" );
 	const alt = featuredImageElement.getAttribute( "alt" );
 	const width = featuredImageElement.getAttribute( "width" );
