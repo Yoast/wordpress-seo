@@ -2,7 +2,7 @@ import {Modal} from '@wordpress/components';
 import {Fragment, useCallback, useEffect, useState} from '@wordpress/element';
 import {__} from '@wordpress/i18n';
 import {Button, SvgIcon} from '@yoast/components';
-import {getAuthorization} from '../../../helpers/wordproofEndpoints';
+import {getAuthentication} from '../../../helpers/wordproofEndpoints';
 import {handleAPIResponse} from '../../../helpers/wincherEndpoints';
 
 /**
@@ -14,7 +14,7 @@ import {handleAPIResponse} from '../../../helpers/wincherEndpoints';
 const performAuthenticationRequest = async() => {
 
 	return await handleAPIResponse(
-		() => getAuthorization(),
+		() => getAuthentication(),
 		async( response ) => {
 			return response.is_authenticated;
 		},
