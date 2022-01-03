@@ -55,6 +55,10 @@ export default class MetaDescriptionLengthAssessment extends Assessment {
 	getResult( paper, researcher ) {
 		const descriptionLength = researcher.getResearch( "metaDescriptionLength" );
 		const assessmentResult = new AssessmentResult();
+		const languageSpecificConfig = researcher.getConfig( "metaDescriptionLength" );
+		if ( languageSpecificConfig ) {
+			this._config = merge( this._config, languageSpecificConfig );
+		}
 
 		assessmentResult.setScore( this.calculateScore( descriptionLength ) );
 		assessmentResult.setText( this.translateScore( descriptionLength ) );
