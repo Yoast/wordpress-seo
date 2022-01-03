@@ -126,7 +126,7 @@ Want more information on search engine optimization and Yoast SEO? Have a look a
 * Also follow Yoast on [Facebook](https://facebook.com/yoast), [Instagram](https://www.instagram.com/yoast/) & [Twitter](https://twitter.com/yoast).
 
 == Installation ==
-Starting with Yoast SEO consists of just two steps: installing and setting up the plugin. Yoast SEO is designed to work with your site’s specific needs, so don’t forget to go through the Yoast SEO configuration wizard as explained in the ‘after activation’ step!
+Starting with Yoast SEO consists of just two steps: installing and setting up the plugin. Yoast SEO is designed to work with your site’s specific needs, so don’t forget to go through the Yoast SEO configuration workout as explained in the ‘after activation’ step!
 
 ### INSTALL YOAST SEO FROM WITHIN WORDPRESS
 
@@ -143,8 +143,8 @@ Starting with Yoast SEO consists of just two steps: installing and setting up th
 
 ### AFTER ACTIVATION
 
-1. You should see (a notice to start) the Yoast SEO configuration wizard;
-1. Go through the configuration wizard and set up the plugin for your site;
+1. You should see (a notice to start) the Yoast SEO configuration workout;
+1. Go through the configuration workout and set up the plugin for your site;
 1. You’re done!
 
 == Frequently Asked Questions ==
@@ -239,6 +239,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 17.9 =
 Release Date: January 11th, 2022
 
+Yoast SEO 17.9 is now available! Yoast SEO now comes with a keyphrase tracking tool powered by Wincher that lets you monitor your keyphrases, straight from the plugin! Make sure to try out this new keyphrase tracking feature and let us know what you think. Read more about what's new in Yoast SEO 17.9 in [our release post in English](https://yoa.st/release-17-9) or [our release post in Spanish](https://yoa.st/release-17-9-spanish)!
+
 Enhancements:
 
 * Introduces a keyphrase position tracking tool that gives insight into how your content ranks in the search results. Powered by Wincher.
@@ -252,33 +254,20 @@ Enhancements:
 * Improves the Workouts overview for mobile screens.
 * Makes sure we don't output the same `sameAs` URL twice on `Person` and `Organization`.
 * Adds "Blog Post" / `BlogPosting` as a potential Schema `Article` type.
-* Prepares for compatibility with PHP 8.1 by implementing magic methods used by PHP 7.4 and up.
-* Improves compatibility with PHP 8.1 by verifying the return type of a WordPress function.
-* Prevents many deprecation warnings in preparation for PHP 8.1 compatibility. Props to [@jrfnl](https://github.com/jrfnl).
 
 Bugfixes:
 
-* Fixes a bug where using the plugin would throw a fatal error ("Table yoast_wp_seo_models_indexable doesn't exist") when using PHP 8.1.
-* Fixes a bug where a deprecation notice would be displayed when using WordPress 5.9.
-* Fixes a bug where the `og:image:type` meta was not output correctly. Props to [@dodomorandi](https://github.com/dodomorandi).
-* Fixes a bug where the incoming link count of a post would not return to zero if all incoming links are removed.
-* Fixes a bug where the meta description gets trimmed to an empty string if the text doesn't have any space. Props to [@waviaei](https://github.com/waviaei).
-* Fixes a bug where Link keyphrase assessment could not find a match when the keyphrase is enclosed in double quotes in English and other languages.
+* Fixes a bug where a fatal error would be thrown when using PHP 8.1.
+* Fixes a bug where the `og:image:type` meta would not be output correctly. Props to [@dodomorandi](https://github.com/dodomorandi).
+* Fixes a bug where the incoming link count of a post would not return to zero if all incoming links were removed.
+* Fixes a bug where the meta description would get trimmed to an empty string if the text doesn't have any space. Props to [@waviaei](https://github.com/waviaei).
+* Fixes a bug where Link keyphrase assessment would not find a match when the keyphrase is enclosed in double quotes.
 
 Other:
 
-* Improves compatibility with PHP 8.1 by filtering invalid values.
-* Improves compatibility with PHP 8.1 by filtering invalid values.
-* Improves compatibility with PHP 8.1
-* Improves compatibility with PHP 8.1
-* Improves handling of multi-byte languages.
-* Improves compatibility with PHP 8.1 by preventing the use of null values.
-* Improves compatibility with PHP 8.1
-* Improves compatibility with PHP 8.1 by validating input types
+* Improves compatibility with PHP 8.1 by adding validations and handling deprecations.
 * Reverts the removal of the deprecated `WPSEO_Frontend` class.
-* Improves compatibility with PHP 8.1
 * Changes the font size of the alerts from 14px to 13px.
-* Updates dependencies.
 
 = 17.8 =
 Release Date: December 14th, 2021

@@ -56,6 +56,10 @@ const usePrevious = ( value ) => {
 	return ref.current;
 };
 
+const debouncedGetKeyphrases = debounce( getKeyphrases, 500, {
+	leading: true,
+} );
+
 /**
  * The WincherKeyphrasesTable component.
  *
@@ -111,7 +115,7 @@ const WincherKeyphrasesTable = ( props ) => {
 	 *
 	 * @returns {void}
 	 */
-	const getTrackedKeyphrases = useMemo( () => debounce( async() => {
+	const getTrackedKeyphrases = useMemo( () => async() => {
 		await handleAPIResponse(
 			() => {
 				// Ensure that we're not waiting for multiple of these requests at once.
@@ -119,7 +123,7 @@ const WincherKeyphrasesTable = ( props ) => {
 					abortController.current.abort();
 				}
 				abortController.current = typeof AbortController === "undefined" ? null : new AbortController();
-				return getKeyphrases( keyphrases, permalink, abortController.current.signal );
+				return debouncedGetKeyphrases( keyphrases, permalink, abortController.current.signal );
 			},
 			( response ) => {
 				setRequestSucceeded( response );
@@ -129,7 +133,7 @@ const WincherKeyphrasesTable = ( props ) => {
 				setRequestFailed( response );
 			}
 		);
-	}, 300, { leading: true } ), [
+	}, [
 		setRequestSucceeded,
 		setRequestFailed,
 		setTrackedKeyphrases,
@@ -158,8 +162,8 @@ const WincherKeyphrasesTable = ( props ) => {
 				getTrackedKeyphrases();
 			},
 			( response ) => {
-				if ( response.status === 400 && response.results && response.results.canTrack === false ) {
-					setKeyphraseLimitReached( response.results.limit );
+				if ( response.status === 400 && response.limit ) {
+					setKeyphraseLimitReached( response.limit );
 				}
 				setRequestFailed( response );
 			},
