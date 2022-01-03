@@ -47,12 +47,12 @@ const createAnalysisTypeReplacementVariables = ( configurations ) => {
 	const analysisTypeReplacementVariables = mapValues(
 		filteredConfigurations,
 		( analysisTypeConfigurations, analysisType ) => {
-			const fitleredAnalysisTypeConfigurations = applyFilters(
+			const filteredAnalysisTypeConfigurations = applyFilters(
 				`yoast.seoIntegration.replacementVariables.${ analysisType }.configurations`,
 				analysisTypeConfigurations,
 				{ analysisType },
 			);
-			return createReplacementVariables( fitleredAnalysisTypeConfigurations );
+			return createReplacementVariables( filteredAnalysisTypeConfigurations );
 		},
 	);
 	const unregisterApplyReplacementVariables = registerApplyReplacementVariables( mapValues( analysisTypeReplacementVariables, "apply" ) );
