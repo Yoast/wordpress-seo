@@ -5,6 +5,8 @@
  * @package WPSEO\Tests\Sitemaps
  */
 
+use Yoast\WP\SEO\Integrations\Watchers\Indexable_Static_Home_Page_Watcher;
+
 /**
  * Class WPSEO_Post_Type_Sitemap_Provider_Test.
  *
@@ -41,6 +43,8 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Post_Type_Sitemap_Provider::get_index_links
 	 */
 	public function test_get_index_links_no_entries() {
+		$this->factory->post->create();
+		$this->factory->post->create( [ 'post_type' => 'page' ] );
 		$index_links = self::$class_instance->get_index_links( 1 );
 		$this->assertNotEmpty( $index_links );
 		$this->assertContains( 'http://example.org/post-sitemap.xml', $index_links[0] );
@@ -146,6 +150,8 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 		$current_page_on_front  = (int) get_option( 'page_on_front' );
 		$current_page_for_posts = (int) get_option( 'page_for_posts' );
 
+		// This generates the home page indexable.
+		YoastSEO()->meta->for_home_page();
 		$front_page = $this->factory()->post->create_and_get( [ 'post_type' => 'page' ] );
 		$posts_page = $this->factory()->post->create_and_get( [ 'post_type' => 'page' ] );
 		$post_id    = $this->factory()->post->create_and_get( [ 'post_type' => 'post' ] );

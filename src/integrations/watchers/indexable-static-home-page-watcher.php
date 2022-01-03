@@ -2,7 +2,7 @@
 
 namespace Yoast\WP\SEO\Integrations\Watchers;
 
-use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
@@ -13,21 +13,14 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
  */
 class Indexable_Static_Home_Page_Watcher implements Integration_Interface {
 
+	use No_Conditionals;
+
 	/**
 	 * The indexable repository.
 	 *
 	 * @var Indexable_Repository
 	 */
 	protected $repository;
-
-	/**
-	 * Returns the conditionals based on which this loadable should be active.
-	 *
-	 * @return array
-	 */
-	public static function get_conditionals() {
-		return [ Admin_Conditional::class ];
-	}
 
 	/**
 	 * Indexable_Static_Home_Page_Watcher constructor.

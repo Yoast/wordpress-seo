@@ -101,6 +101,30 @@ class WPSEO_Post_Type_Sitemap_Provider extends WPSEO_Indexable_Sitemap_Provider 
 					array_unshift( $indexables, $home_page );
 				}
 			}
+			elseif ( $type === 'post' ) {
+				$posts_page     = null;
+				$show_on_front  = \get_option( 'show_on_front' );
+				$page_for_posts = \get_option( 'page_for_posts' );
+				if ( $page_for_posts && $show_on_front === 'page' ) {
+					$posts_page = $this->repository
+						->query_where_noindex( false, 'post', 'page' )
+						->select_many( 'id', 'object_id', 'permalink', 'object_last_modified' )
+						->where( 'is_publicly_viewable', true )
+						->where( 'object_id', $page_for_posts )
+						->find_one();
+				}
+				elseif ( $show_on_front === 'posts' ) {
+					$posts_page = $this->repository
+						->query_where_noindex( false, 'home-page' )
+						->select_many( 'id', 'object_id', 'permalink', 'object_last_modified' )
+						->where( 'is_publicly_viewable', true )
+						->find_one();
+				}
+				if ( $posts_page ) {
+					// Prepend posts page.
+					array_unshift( $indexables, $posts_page );
+				}
+			}
 			else {
 				$archive_page = $this->repository
 					->query_where_noindex( false, 'post-type-archive', $type )

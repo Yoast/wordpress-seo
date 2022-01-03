@@ -143,8 +143,9 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		$offset = ( ( $current_page - 1 ) * $max_entries );
 
-		$query = $this->repository
-			->query_where_noindex( false, 'user' )
+		$noindex_authors_with_no_posts = WPSEO_Options::get( 'noindex-author-noposts-wpseo' );
+		$query                         = $this->repository
+			->query_where_noindex( false, 'user', null, $noindex_authors_with_no_posts )
 			->select_many( 'id', 'object_id', 'permalink', 'object_last_modified' )
 			->order_by_asc( 'object_last_modified' )
 			->offset( $offset )
