@@ -1,4 +1,6 @@
 import { addFilter } from "@wordpress/hooks";
+import { SEO_STORE_NAME } from "@yoast/seo-integration";
+import { dispatch } from "@wordpress/data";
 
 /**
  * Creates image HTML from the given WordPress media frame.
@@ -45,6 +47,8 @@ function getCurrentFeaturedImage() {
 function initFeaturedImagePlugin() {
 	let featuredImageHtml = "";
 
+	const { analyze } = dispatch( SEO_STORE_NAME );
+
 	const frame = window.wp.media.featuredImage.frame();
 
 	// Set the featured image currently selected in the editor.
@@ -53,6 +57,8 @@ function initFeaturedImagePlugin() {
 	// Change the featured image when one is selected in the editor.
 	frame.on( "select", () => {
 		featuredImageHtml = getSelectedImage( frame );
+		// Trigger a new analysis.
+		analyze();
 	} );
 
 	// Remove the featured image when it is removed in the editor.
@@ -60,6 +66,8 @@ function initFeaturedImagePlugin() {
 	if ( removeFeaturedImageLink ) {
 		removeFeaturedImageLink.addEventListener( "click", () => {
 			featuredImageHtml = "";
+			// Trigger a new analysis.
+			analyze();
 		} );
 	}
 
