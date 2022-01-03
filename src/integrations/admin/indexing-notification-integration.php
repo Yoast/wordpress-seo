@@ -181,8 +181,8 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	public static function get_conditionals() {
 		return [
 			Admin_Conditional::class,
-			Not_Admin_Ajax::class,
-			User_Can_Manage_Wpseo_Options::class,
+			Not_Admin_Ajax_Conditional::class,
+			User_Can_Manage_Wpseo_Options_Conditional::class,
 		];
 	}
 
