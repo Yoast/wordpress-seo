@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Conditionals;
 /**
  * Conditional that is only met when the current user has the `wpseo_manage_options` capability.
  */
-class User_Can_Manage_Wpseo_Options implements Conditional {
+class User_Can_Manage_Wpseo_Options_Conditional implements Conditional {
 
 	/**
 	 * Returns whether or not this conditional is met.

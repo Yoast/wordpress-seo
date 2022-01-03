@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Conditionals;
 /**
  * Conditional that is only met when not in a admin-ajax request.
  */
-class Not_Admin_Ajax implements Conditional {
+class Not_Admin_Ajax_Conditional implements Conditional {
 
 	/**
 	 * Returns whether or not this conditional is met.
