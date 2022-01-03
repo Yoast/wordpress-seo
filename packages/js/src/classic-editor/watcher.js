@@ -21,7 +21,7 @@ const { DOM_IDS, DOM_QUERIES } = dom;
 const createHandleValueChange = ( action ) => debounce( ( event ) => action( get( event, "target.value", "" ) ), SYNC_DEBOUNCE_TIME );
 
 /**
- * Creates a store sync that subscribes to DOM changes and maybe dispatches an store action.
+ * Creates a store sync that subscribes to DOM changes and maybe dispatches a store action.
  *
  * @param {string} domId Id of DOM element to listen to.
  * @param {Function} action Store action to dispatch.
@@ -54,6 +54,7 @@ const createTinyMceContentSync = ( domId, action ) => {
 
 // Store cache for performance.
 let storeCache = {};
+
 /**
  * Creates a debounced DOM sync that subscribes to store changes and maybe updates a DOM element.
  *
@@ -71,7 +72,7 @@ const createDomSync = ( selector, { domGet, domSet }, storeCacheKey = "" ) => su
 		return false;
 	}
 	if ( isEqual( domGet(), storeValue ) ) {
-		// Store change is alreday in DOM.
+		// Store change is already in DOM.
 		return false;
 	}
 	if ( storeCacheKey ) {
@@ -103,7 +104,7 @@ const createUpdateSeoScore = ( selectIsActive, domSet ) => ( score ) => {
 };
 
 /**
- * Create an readability score updating function for DOM and legacy UI.
+ * Create a readability score updating function for DOM and legacy UI.
  *
  * @param {Function} selectIsActive Selector that checks if analysis is active.
  * @param {Function} domSet Function that sets DOM elements prop.
@@ -122,7 +123,7 @@ const createUpdateReadabilityScore = ( selectIsActive, domSet ) => ( score ) => 
 };
 
 /**
- * Watches and syncs post DOM change to the store.
+ * Watches and syncs post DOM changes to the store.
  *
  * @returns {void}
  */
@@ -171,7 +172,7 @@ const syncPostToStore = () => {
 };
 
 /**
- * Watches and syncs store change to the post DOM.
+ * Watches and syncs store changes to the post DOM.
  *
  * @returns {void}
  */
@@ -201,7 +202,7 @@ const syncStoreToPost = () => {
 };
 
 /**
- * Watches and syncs term DOM change to the store.
+ * Watches and syncs term DOM changes to the store.
  *
  * @returns {void}
  */
@@ -223,7 +224,7 @@ const syncTermToStore = () => {
 };
 
 /**
- * Watches and syncs store change to the term DOM.
+ * Watches and syncs store changes to the term DOM.
  *
  * @returns {void}
  */
@@ -263,7 +264,7 @@ export const initPostWatcher = () => {
 };
 
 /**
- * Wachtes term changes.
+ * Watches term changes.
  *
  * @returns {void}
  */

@@ -21,7 +21,7 @@ import { getAnalysisConfiguration } from "./classic-editor/analysis";
 import { refreshDelay } from "./analysis/constants";
 import { initTermDescriptionTinyMce } from "./initializers/tiny-mce";
 
-// These are either "1" or undefined
+// These are either "1" or undefined.
 const isPost = Boolean( get( window, "wpseoScriptData.isPost" ) );
 const isTerm = Boolean( get( window, "wpseoScriptData.isTerm" ) );
 
@@ -73,12 +73,12 @@ const registerYoastApis = ( { analysisWorker } ) => registerGlobalApis(
 const initPost = async () => {
 	// Register shortcodes to work on paper data.
 	registerShortcodes();
-	// Initialize the publish box
+	// Initialize the publish box.
 	initPublishBox();
 	// Create SEO integration with post state.
 	const { SeoProvider, analysisWorker } = await createSeoIntegration( {
 		analysis: getAnalysisConfiguration(),
-		initialState: getInitialPostState( { isPost, isTerm } ),
+		initialState: getInitialPostState(),
 	} );
 	// Register global Yoast APIs
 	registerYoastApis( { analysisWorker } );
@@ -94,7 +94,7 @@ const initPost = async () => {
  * @returns {void}
  */
 const initTerm = async () => {
-	// Initialize TinyMCE description editor for terms
+	// Initialize TinyMCE description editor for terms.
 	initTermDescriptionTinyMce( jQuery );
 	// Create SEO integration with term state.
 	const { SeoProvider, analysisWorker } = await createSeoIntegration( {

@@ -5,7 +5,7 @@ import { excerptFromContent } from "../../helpers/replacementVariableHelpers";
 import firstImageUrlInContent from "../../helpers/firstImageUrlInContent";
 
 export const DOM_IDS = {
-	// Post editor
+	// Post editor.
 	POST_TITLE: "title",
 	POST_CONTENT: "content",
 	POST_EXCERPT: "excerpt",
@@ -18,7 +18,7 @@ export const DOM_IDS = {
 	POST_DATE_YEAR: "aa",
 	POST_DATE_HOUR: "hh",
 	POST_DATE_MINUTE: "mn",
-	// Term editor
+	// Term editor.
 	TERM_NAME: "name",
 	TERM_DESCRIPTION: "description",
 	TERM_SLUG: "slug",
@@ -32,14 +32,14 @@ export const DOM_QUERIES = {
 };
 
 export const DOM_YOAST_IDS = {
-	// Post
+	// Post.
 	POST_SEO_TITLE: "yoast_wpseo_title",
 	POST_META_DESCRIPTION: "yoast_wpseo_metadesc",
 	POST_FOCUS_KEYPHRASE: "yoast_wpseo_focuskw",
 	POST_IS_CORNERSTONE: "yoast_wpseo_is_cornerstone",
 	POST_SEO_SCORE: "yoast_wpseo_linkdex",
 	POST_READABILITY_SCORE: "yoast_wpseo_content_score",
-	// Term
+	// Term.
 	TERM_SEO_TITLE: "hidden_wpseo_title",
 	TERM_META_DESCRIPTION: "hidden_wpseo_desc",
 	TERM_FOCUS_KEYPHRASE: "hidden_wpseo_focuskw",
@@ -260,7 +260,7 @@ export const getPostReadabilityScore = createGetDomElementProp( DOM_YOAST_IDS.PO
 export const getTermReadabilityScore = createGetDomElementProp( DOM_YOAST_IDS.TERM_READABILITY_SCORE );
 
 /**
- * Set the post SEO title value prop on its DOM element.
+ * Sets the post SEO title value prop on its DOM element.
  *
  * @param {*} value The value to set.
  * @returns {HTMLElement} The DOM element.
@@ -268,7 +268,7 @@ export const getTermReadabilityScore = createGetDomElementProp( DOM_YOAST_IDS.TE
 export const setPostSeoTitle = createSetDomElementProp( DOM_YOAST_IDS.POST_SEO_TITLE );
 
 /**
- * Set the term SEO title value prop on its DOM element.
+ * Sets the term SEO title value prop on its DOM element.
  *
  * @param {*} value The value to set.
  * @returns {HTMLElement} The DOM element.
@@ -276,7 +276,7 @@ export const setPostSeoTitle = createSetDomElementProp( DOM_YOAST_IDS.POST_SEO_T
 export const setTermSeoTitle = createSetDomElementProp( DOM_YOAST_IDS.TERM_SEO_TITLE );
 
 /**
-  * Set the post meta description value prop on its DOM element.
+  * Sets the post meta description value prop on its DOM element.
   *
   * @param {*} value The value to set.
   * @returns {HTMLElement} The DOM element.
@@ -284,7 +284,7 @@ export const setTermSeoTitle = createSetDomElementProp( DOM_YOAST_IDS.TERM_SEO_T
 export const setPostMetaDescription = createSetDomElementProp( DOM_YOAST_IDS.POST_META_DESCRIPTION );
 
 /**
-  * Set the term meta description value prop on its DOM element.
+  * Sets the term meta description value prop on its DOM element.
   *
   * @param {*} value The value to set.
   * @returns {HTMLElement} The DOM element.
@@ -292,7 +292,7 @@ export const setPostMetaDescription = createSetDomElementProp( DOM_YOAST_IDS.POS
 export const setTermMetaDescription = createSetDomElementProp( DOM_YOAST_IDS.TERM_META_DESCRIPTION );
 
 /**
-  * Set the post is cornerstone value prop on its DOM element.
+  * Sets the post is cornerstone value prop on its DOM element.
   *
   * @param {boolean} value The value to set.
   * @returns {HTMLElement} The DOM element.
@@ -300,7 +300,7 @@ export const setTermMetaDescription = createSetDomElementProp( DOM_YOAST_IDS.TER
 export const setPostIsCornerstone = ( value ) => set( document.getElementById( DOM_YOAST_IDS.POST_IS_CORNERSTONE ), "value", value ? 1 : 0 );
 
 /**
-  * Set the term is cornerstone value prop on its DOM element.
+  * Sets the term is cornerstone value prop on its DOM element.
   *
   * @param {boolean} value The value to set.
   * @returns {HTMLElement} The DOM element.
@@ -308,7 +308,7 @@ export const setPostIsCornerstone = ( value ) => set( document.getElementById( D
 export const setTermIsCornerstone = ( value ) => set( document.getElementById( DOM_YOAST_IDS.TERM_IS_CORNERSTONE ), "value", value ? 1 : 0 );
 
 /**
-  * Set the post focus keyphrase value prop on its DOM element.
+  * Sets the post focus keyphrase value prop on its DOM element.
   *
   * @param {boolean} value The value to set.
   * @returns {HTMLElement} The DOM element.
@@ -316,7 +316,7 @@ export const setTermIsCornerstone = ( value ) => set( document.getElementById( D
 export const setPostFocusKeyphrase = createSetDomElementProp( DOM_YOAST_IDS.POST_FOCUS_KEYPHRASE );
 
 /**
-  * Set the term focus keyphrase value prop on its DOM element.
+  * Sets the term focus keyphrase value prop on its DOM element.
   *
   * @param {boolean} value The value to set.
   * @returns {HTMLElement} The DOM element.
@@ -324,7 +324,7 @@ export const setPostFocusKeyphrase = createSetDomElementProp( DOM_YOAST_IDS.POST
 export const setTermFocusKeyphrase = createSetDomElementProp( DOM_YOAST_IDS.TERM_FOCUS_KEYPHRASE );
 
 /**
-  * Set the post SEO score value prop on its DOM element.
+  * Sets the post SEO score value prop on its DOM element.
   *
   * @param {boolean} value The value to set.
   * @returns {HTMLElement} The DOM element.
@@ -332,7 +332,7 @@ export const setTermFocusKeyphrase = createSetDomElementProp( DOM_YOAST_IDS.TERM
 export const setPostSeoScore = createSetDomElementProp( DOM_YOAST_IDS.POST_SEO_SCORE );
 
 /**
-  * Set the term SEO score value prop on its DOM element.
+  * Sets the term SEO score value prop on its DOM element.
   *
   * @param {boolean} value The value to set.
   * @returns {HTMLElement} The DOM element.
@@ -340,7 +340,7 @@ export const setPostSeoScore = createSetDomElementProp( DOM_YOAST_IDS.POST_SEO_S
 export const setTermSeoScore = createSetDomElementProp( DOM_YOAST_IDS.TERM_SEO_SCORE );
 
 /**
-  * Set the post readability score value prop on its DOM element.
+  * Sets the post readability score value prop on its DOM element.
   *
   * @param {boolean} value The value to set.
   * @returns {HTMLElement} The DOM element.
@@ -348,7 +348,7 @@ export const setTermSeoScore = createSetDomElementProp( DOM_YOAST_IDS.TERM_SEO_S
 export const setPostReadabilityScore = createSetDomElementProp( DOM_YOAST_IDS.POST_READABILITY_SCORE );
 
 /**
-  * Set the term readability score value prop on its DOM element.
+  * Sets the term readability score value prop on its DOM element.
   *
   * @param {boolean} value The value to set.
   * @returns {HTMLElement} The DOM element.
