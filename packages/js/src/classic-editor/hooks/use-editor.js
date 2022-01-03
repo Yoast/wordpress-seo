@@ -1,5 +1,5 @@
 /* global tinymce */
-import { DOM_IDS } from "../dom";
+import { DOM_IDS } from "../helpers/dom";
 import { useCallback, useEffect, useState } from "@wordpress/element";
 
 /**

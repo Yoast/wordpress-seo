@@ -10,7 +10,7 @@ import SidebarItem from "../../../components/SidebarItem";
 import SchemaTabContainer from "../../../containers/SchemaTab";
 import SEMrushRelatedKeyphrases from "../../../containers/SEMrushRelatedKeyphrases";
 import Warning from "../../../containers/Warning";
-import marksDecorator from "../../decorators/marks";
+import { useMarker, useMarkerStatus } from "../../hooks/use-marker";
 import { EDITOR_STORE_NAME } from "../../editor-store";
 import AdvancedSettings from "../advanced-settings";
 import CornerstoneContent from "../cornerstone-content";
@@ -25,13 +25,13 @@ import SeoAnalysis from "../seo-analysis";
  * @returns {JSX.Element} The Metabox.
  */
 const Metabox = () => {
-	marksDecorator();
-
 	const settings = useSelect( select => select( EDITOR_STORE_NAME ).getPreferences() );
 	const isSeoAnalysisActive = useSelect( select => select( SEO_STORE_NAME ).selectIsSeoAnalysisActive() );
 	const isReadabilityAnalysisActive = useSelect( select => select( SEO_STORE_NAME ).selectIsReadabilityAnalysisActive() );
 
 	useAnalyze();
+	useMarker();
+	useMarkerStatus();
 
 	return (
 		<Fragment>

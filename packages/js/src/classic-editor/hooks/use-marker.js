@@ -3,19 +3,16 @@ import { useEffect } from "@wordpress/element";
 import { MARKER_STATUS, SEO_STORE_NAME } from "@yoast/seo-integration";
 import { forEach } from "lodash";
 import { markers } from "yoastseo";
-import useEditor from "../hooks/useEditor";
+import useEditor from "../hooks/use-editor";
 
 /**
- * @param  {string} target eew.
- * @param  {string} name eew.
- * @param  {object} descriptor eew.
+ * Handles the active marker, updating the markings in the editor.
  *
  * @returns {void}
  */
-const marksDecorator = () => {
+export const useMarker = () => {
 	const activeMarkerId = useSelect( select => select( SEO_STORE_NAME ).selectActiveMarkerId() );
 	const marks = useSelect( select => select( SEO_STORE_NAME ).selectActiveMarks() );
-	const { updateActiveMarker, updateMarkerStatus } = useDispatch( SEO_STORE_NAME );
 
 	const editor = useEditor();
 
@@ -54,6 +51,17 @@ const marksDecorator = () => {
 			markElement.setAttribute( "data-mce-bogus", "1" );
 		} );
 	}, [ editor, activeMarkerId, marks ] );
+};
+
+/**
+ * Handles the marker status, depending on the editor mode.
+ *
+ * @returns {void}
+ */
+export const useMarkerStatus = () => {
+	const { updateActiveMarker, updateMarkerStatus } = useDispatch( SEO_STORE_NAME );
+
+	const editor = useEditor();
 
 	// Update the marker status relative to the editor its visibility.
 	useEffect( () => {
@@ -71,5 +79,3 @@ const marksDecorator = () => {
 		} );
 	}, [ editor ] );
 };
-
-export default marksDecorator;
