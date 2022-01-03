@@ -7,7 +7,7 @@ import { addFilter } from "@wordpress/hooks";
  *
  * @returns {string} The image HTML.
  */
-function getImageHtml( mediaFrame ) {
+function getSelectedImage( mediaFrame ) {
 	if ( ! ( mediaFrame && mediaFrame.state() ) ) {
 		return "";
 	}
@@ -17,6 +17,22 @@ function getImageHtml( mediaFrame ) {
 	const alt = selectedImage.get( "alt" );
 	const width = selectedImage.get( "width" );
 	const height = selectedImage.get( "height" );
+
+	return `<img src="${ src }" alt="${ alt }" width="${ width }" height="${ height }"/>`;
+}
+
+/**
+ * Gets the featured image that is currently set within the editor.
+ *
+ * @returns {string} The featured image that is currently set, as an HTML string.
+ */
+function getCurrentFeaturedImage() {
+	const featuredImageElement = document.querySelector( "#set-post-thumbnail > img" );
+
+	const src = featuredImageElement.getAttribute( "src" );
+	const alt = featuredImageElement.getAttribute( "alt" );
+	const width = featuredImageElement.getAttribute( "width" );
+	const height = featuredImageElement.getAttribute( "height" );
 
 	return `<img src="${ src }" alt="${ alt }" width="${ width }" height="${ height }"/>`;
 }
@@ -32,11 +48,11 @@ function initFeaturedImagePlugin() {
 	const frame = window.wp.media.featuredImage.frame();
 
 	// Set the featured image currently selected in the editor.
-	featuredImageHtml = getImageHtml( frame );
+	featuredImageHtml = getCurrentFeaturedImage();
 
 	// Change the featured image when one is selected in the editor.
 	frame.on( "select", () => {
-		featuredImageHtml = getImageHtml( frame );
+		featuredImageHtml = getSelectedImage( frame );
 	} );
 
 	// Remove the featured image when it is removed in the editor.
