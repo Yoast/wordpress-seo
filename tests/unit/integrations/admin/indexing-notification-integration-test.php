@@ -244,9 +244,11 @@ class Indexing_Notification_Integration_Test extends TestCase {
 	 */
 	public function test_get_conditionals() {
 		static::assertSame(
-			[ Admin_Conditional::class,
-			  Not_Admin_Ajax_Conditional::class,
-			  User_Can_Manage_Wpseo_Options_Conditional::class ],
+			[
+				Admin_Conditional::class,
+				Not_Admin_Ajax_Conditional::class,
+				User_Can_Manage_Wpseo_Options_Conditional::class,
+			],
 			Indexing_Notification_Integration::get_conditionals()
 		);
 	}
