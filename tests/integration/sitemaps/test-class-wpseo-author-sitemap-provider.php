@@ -93,6 +93,11 @@ class WPSEO_Author_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 		$admin_id  = $this->factory->user->create( [ 'role' => 'administrator' ] );
 		$editor_id = $this->factory->user->create( [ 'role' => 'editor' ] );
 
+		// Fetch indexables to force them being build.
+		YoastSEO()->meta->for_author( $author_id );
+		YoastSEO()->meta->for_author( $admin_id );
+		YoastSEO()->meta->for_author( $editor_id );
+
 		// Checks which users are in the sitemap.
 		$sitemap_links = self::$class_instance->get_sitemap_links( 'author', 10, 1 );
 
