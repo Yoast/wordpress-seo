@@ -102,7 +102,6 @@ class WPSEO_Taxonomy_Sitemap_Provider extends WPSEO_Indexable_Sitemap_Provider i
 		$query = $this->repository
 			->query_where_noindex( false, 'term', $type )
 			->select_many( 'id', 'object_id', 'permalink', 'object_last_modified' )
-			->where( 'is_publicly_viewable', true )
 			->order_by_asc( 'object_last_modified' )
 			->offset( $offset )
 			->limit( $steps );

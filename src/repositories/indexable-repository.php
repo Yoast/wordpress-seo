@@ -187,8 +187,9 @@ class Indexable_Repository {
 		}
 
 		if ( $noindex === false ) {
-			// Consider password protected posts as noindex.
+			// Consider hidden and password protected posts as noindex.
 			$query->where( 'is_protected', false );
+			$query->where( 'is_publicly_viewable', true );
 		}
 
 		$default_noindex = $this->robots_helper->get_default_noindex_for_object( $object_type, $object_sub_type );

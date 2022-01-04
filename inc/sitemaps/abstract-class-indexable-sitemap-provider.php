@@ -48,8 +48,6 @@ abstract class WPSEO_Indexable_Sitemap_Provider implements WPSEO_Sitemap_Provide
 		$query = $this->repository
 			->query_where_noindex( false, $this->get_object_type() )
 			->select_many( 'id', 'object_sub_type' )
-			->where( 'is_publicly_viewable', true )
-			->where( 'is_protected', false )
 			->order_by_asc( 'object_sub_type' )
 			->order_by_asc( 'object_last_modified' );
 

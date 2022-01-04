@@ -95,6 +95,8 @@ class Indexable_Author_Builder {
 
 		$indexable = $this->set_aggregate_values( $indexable );
 
+		$indexable->is_publicly_viewable = $indexable->number_of_publicly_viewable_posts > 0;
+
 		$indexable->version = $this->version;
 
 		return $indexable;
