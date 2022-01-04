@@ -1,12 +1,11 @@
-/* eslint-disable no-unused-expressions */
-import { get, set, debounce, forEach, isEqual } from "lodash";
-import { subscribe, dispatch, select } from "@wordpress/data";
+import { dispatch, select, subscribe } from "@wordpress/data";
 import { SEO_STORE_NAME } from "@yoast/seo-integration";
-import { addEventHandler as addTinyMceEventListener, getContentTinyMce } from "../lib/tinymce";
+import { debounce, forEach, get, isEqual, isFunction, set } from "lodash";
 import getIndicatorForScore from "../analysis/getIndicatorForScore";
+import { addEventHandler as addTinyMceEventListener, getContentTinyMce } from "../lib/tinymce";
+import { update as updateAdminBar } from "../ui/adminBar";
 import * as publishBox from "../ui/publishBox";
 import { update as updateTrafficLight } from "../ui/trafficLight";
-import { update as updateAdminBar } from "../ui/adminBar";
 import * as dom from "./helpers/dom";
 
 const SYNC_DEBOUNCE_TIME = 200;
@@ -129,7 +128,7 @@ const createUpdateReadabilityScore = ( selectIsActive, domSet ) => ( score ) => 
  */
 const syncPostToStore = () => {
 	const actions = dispatch( SEO_STORE_NAME );
-	// Sync simple editor changes to store.
+	// Sync simple editor changes to the store.
 	createStoreSync( DOM_IDS.POST_TITLE, actions.updateTitle, "input" );
 	createStoreSync( DOM_IDS.POST_EXCERPT, actions.updateExcerpt, "input" );
 
@@ -139,8 +138,9 @@ const syncPostToStore = () => {
 	 * @returns {void}
 	 */
 	const createSlugSync = () => {
+		/* eslint-disable-next-line no-unused-expressions */
 		document.querySelector( DOM_QUERIES.POST_EDIT_SLUG_BUTTON )?.addEventListener( "click", () => {
-			// Hack to back of queue
+			// Hack to back of queue.
 			setTimeout( () => {
 				createStoreSync(
 					DOM_IDS.POST_SLUG_NEW,
@@ -158,7 +158,7 @@ const syncPostToStore = () => {
 			}, 0 );
 		} );
 	};
-	// Sync post slug field changes to store
+	// Sync post slug field changes to store.
 	createSlugSync();
 
 	// Sync multiple date fields changes to store.
@@ -166,6 +166,47 @@ const syncPostToStore = () => {
 		[ DOM_IDS.POST_DATE_MONTH, DOM_IDS.POST_DATE_DAY, DOM_IDS.POST_DATE_YEAR ],
 		( domId ) => createStoreSync( domId, () => actions.updateDate( dom.getPostDate() ) )
 	);
+
+	/**
+	 * Handles attaching listeners to the set and remove of the featured image.
+	 *
+	 * @returns {void}
+	 */
+	const createFeaturedImageSync = () => {
+		// Safety check.
+		if ( ! isFunction( window.wp?.media?.featuredImage?.frame ) ) {
+			return;
+		}
+
+		const frame = window.wp.media.featuredImage.frame();
+
+		// Change the featured image when one is selected in the editor.
+		frame.on( "select", () => {
+			// Get the image from the featured image API here, the HTML is not yet there.
+			const image = frame.state().get( "selection" ).first();
+
+			actions.updateFeaturedImage( {
+				id: image.get( "id" ),
+				url: image.get( "url" ),
+				width: image.get( "width" ),
+				height: image.get( "height" ),
+				alt: image.get( "alt" ),
+			} );
+		} );
+
+		// Remove the featured image when it is removed in the editor. Listen to a parent that always exists.
+		/* eslint-disable-next-line no-unused-expressions */
+		document.getElementById( DOM_IDS.POST_FEATURED_IMAGE_PARENT )?.addEventListener(
+			"click",
+			e => {
+				if ( e.target.id === DOM_IDS.POST_FEATURED_IMAGE_REMOVE ) {
+					actions.updateFeaturedImage( {} );
+				}
+			}
+		);
+	};
+	// Sync post featured image fields changes to store.
+	createFeaturedImageSync();
 
 	// Sync TinyMCE editor changes to store.
 	createTinyMceContentSync( DOM_IDS.POST_CONTENT, actions.updateContent );

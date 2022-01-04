@@ -1,8 +1,6 @@
-import { get, set, isEqual } from "lodash";
-
-import { getContentTinyMce } from "../../lib/tinymce";
+import { get, isEqual, set, flow } from "lodash";
 import { excerptFromContent } from "../../helpers/replacementVariableHelpers";
-import firstImageUrlInContent from "../../helpers/firstImageUrlInContent";
+import { getContentTinyMce } from "../../lib/tinymce";
 
 export const DOM_IDS = {
 	// Post editor.
@@ -11,6 +9,8 @@ export const DOM_IDS = {
 	POST_EXCERPT: "excerpt",
 	POST_PERMALINK: "sample-permalink",
 	POST_FEATURED_IMAGE_ID: "_thumbnail_id",
+	POST_FEATURED_IMAGE_PARENT: "postimagediv",
+	POST_FEATURED_IMAGE_REMOVE: "remove-post-thumbnail",
 	POST_SLUG_NEW: "new-post-slug",
 	POST_SLUG_EDIT: "editable-post-name-full",
 	POST_DATE_MONTH: "mm",
@@ -204,18 +204,58 @@ export const getTermPermalink = () => get( window, "wpseoScriptData.metabox.base
 export const getPostExcerpt = () => get( document.getElementById( DOM_IDS.POST_EXCERPT ), "value", "" ) || excerptFromContent( getPostContent() );
 
 /**
- * Returns the post featured image source if one is set.
+ * Gets the post featured image source if one is set.
  *
- * @returns {string} The source of the post featured image.
+ * @returns {string} The featured image source or an empty string.
  */
-const getPostFeaturedImageSetInEditor = () => document.querySelector( DOM_QUERIES.POST_FEATURED_IMAGE )?.getAttribute( "src" );
+const getPostFeaturedImageUrl = () => document.querySelector( DOM_QUERIES.POST_FEATURED_IMAGE )?.getAttribute( "src" ) || "";
 
 /**
- * Gets the featured image if one is set. Falls back to the first image from the content.
+ * Gets the post featured image ID if one is set.
  *
- * @returns {string} The featured image URL.
+ * @returns {number} The featured image ID or -1, or NaN if parsing to a number went wrong.
  */
-export const getPostFeaturedImageUrl = () => getPostFeaturedImageSetInEditor() || firstImageUrlInContent( getPostContent() ) || "";
+const getPostFeaturedImageId = flow( [ createGetDomElementProp( DOM_IDS.POST_FEATURED_IMAGE_ID ), parseInt ] );
+
+/**
+ * Gets the post featured image width if one is set.
+ *
+ * @returns {number} The featured image width or -1, or NaN if parsing to a number went wrong.
+ */
+const getPostFeaturedImageWidth = flow( [
+	() => document.querySelector( DOM_QUERIES.POST_FEATURED_IMAGE )?.getAttribute( "width" ) || "-1",
+	parseInt,
+] );
+
+/**
+ * Gets the post featured image height if one is set.
+ *
+ * @returns {number} The featured image height or -1, or NaN if parsing to a number went wrong.
+ */
+const getPostFeaturedImageHeight = flow( [
+	() => document.querySelector( DOM_QUERIES.POST_FEATURED_IMAGE )?.getAttribute( "height" ) || "-1",
+	parseInt,
+] );
+
+/**
+ * Gets the post featured image alt if one is set.
+ *
+ * @returns {string} The featured image alt or an empty string.
+ */
+const getPostFeaturedImageAlt = () => document.querySelector( DOM_QUERIES.POST_FEATURED_IMAGE )?.getAttribute( "alt" ) || "";
+
+/**
+ * Gets the featured image from the document.
+ *
+ * @returns {{ id: number, url: string, width: number, height: number, alt: string }} The featured image.
+ */
+export const getPostFeaturedImage = () => ( {
+	id: getPostFeaturedImageId(),
+	url: getPostFeaturedImageUrl(),
+	width: getPostFeaturedImageWidth(),
+	height: getPostFeaturedImageHeight(),
+	alt: getPostFeaturedImageAlt(),
+} );
 
 /**
  * Gets the post focus keyphrase from the document.
@@ -276,81 +316,81 @@ export const setPostSeoTitle = createSetDomElementProp( DOM_YOAST_IDS.POST_SEO_T
 export const setTermSeoTitle = createSetDomElementProp( DOM_YOAST_IDS.TERM_SEO_TITLE );
 
 /**
-  * Sets the post meta description value prop on its DOM element.
-  *
-  * @param {*} value The value to set.
-  * @returns {HTMLElement} The DOM element.
-  */
+ * Sets the post meta description value prop on its DOM element.
+ *
+ * @param {*} value The value to set.
+ * @returns {HTMLElement} The DOM element.
+ */
 export const setPostMetaDescription = createSetDomElementProp( DOM_YOAST_IDS.POST_META_DESCRIPTION );
 
 /**
-  * Sets the term meta description value prop on its DOM element.
-  *
-  * @param {*} value The value to set.
-  * @returns {HTMLElement} The DOM element.
-  */
+ * Sets the term meta description value prop on its DOM element.
+ *
+ * @param {*} value The value to set.
+ * @returns {HTMLElement} The DOM element.
+ */
 export const setTermMetaDescription = createSetDomElementProp( DOM_YOAST_IDS.TERM_META_DESCRIPTION );
 
 /**
-  * Sets the post is cornerstone value prop on its DOM element.
-  *
-  * @param {boolean} value The value to set.
-  * @returns {HTMLElement} The DOM element.
-  */
+ * Sets the post is cornerstone value prop on its DOM element.
+ *
+ * @param {boolean} value The value to set.
+ * @returns {HTMLElement} The DOM element.
+ */
 export const setPostIsCornerstone = ( value ) => set( document.getElementById( DOM_YOAST_IDS.POST_IS_CORNERSTONE ), "value", value ? 1 : 0 );
 
 /**
-  * Sets the term is cornerstone value prop on its DOM element.
-  *
-  * @param {boolean} value The value to set.
-  * @returns {HTMLElement} The DOM element.
-  */
+ * Sets the term is cornerstone value prop on its DOM element.
+ *
+ * @param {boolean} value The value to set.
+ * @returns {HTMLElement} The DOM element.
+ */
 export const setTermIsCornerstone = ( value ) => set( document.getElementById( DOM_YOAST_IDS.TERM_IS_CORNERSTONE ), "value", value ? 1 : 0 );
 
 /**
-  * Sets the post focus keyphrase value prop on its DOM element.
-  *
-  * @param {boolean} value The value to set.
-  * @returns {HTMLElement} The DOM element.
-  */
+ * Sets the post focus keyphrase value prop on its DOM element.
+ *
+ * @param {boolean} value The value to set.
+ * @returns {HTMLElement} The DOM element.
+ */
 export const setPostFocusKeyphrase = createSetDomElementProp( DOM_YOAST_IDS.POST_FOCUS_KEYPHRASE );
 
 /**
-  * Sets the term focus keyphrase value prop on its DOM element.
-  *
-  * @param {boolean} value The value to set.
-  * @returns {HTMLElement} The DOM element.
-  */
+ * Sets the term focus keyphrase value prop on its DOM element.
+ *
+ * @param {boolean} value The value to set.
+ * @returns {HTMLElement} The DOM element.
+ */
 export const setTermFocusKeyphrase = createSetDomElementProp( DOM_YOAST_IDS.TERM_FOCUS_KEYPHRASE );
 
 /**
-  * Sets the post SEO score value prop on its DOM element.
-  *
-  * @param {boolean} value The value to set.
-  * @returns {HTMLElement} The DOM element.
-  */
+ * Sets the post SEO score value prop on its DOM element.
+ *
+ * @param {boolean} value The value to set.
+ * @returns {HTMLElement} The DOM element.
+ */
 export const setPostSeoScore = createSetDomElementProp( DOM_YOAST_IDS.POST_SEO_SCORE );
 
 /**
-  * Sets the term SEO score value prop on its DOM element.
-  *
-  * @param {boolean} value The value to set.
-  * @returns {HTMLElement} The DOM element.
-  */
+ * Sets the term SEO score value prop on its DOM element.
+ *
+ * @param {boolean} value The value to set.
+ * @returns {HTMLElement} The DOM element.
+ */
 export const setTermSeoScore = createSetDomElementProp( DOM_YOAST_IDS.TERM_SEO_SCORE );
 
 /**
-  * Sets the post readability score value prop on its DOM element.
-  *
-  * @param {boolean} value The value to set.
-  * @returns {HTMLElement} The DOM element.
-  */
+ * Sets the post readability score value prop on its DOM element.
+ *
+ * @param {boolean} value The value to set.
+ * @returns {HTMLElement} The DOM element.
+ */
 export const setPostReadabilityScore = createSetDomElementProp( DOM_YOAST_IDS.POST_READABILITY_SCORE );
 
 /**
-  * Sets the term readability score value prop on its DOM element.
-  *
-  * @param {boolean} value The value to set.
-  * @returns {HTMLElement} The DOM element.
-  */
+ * Sets the term readability score value prop on its DOM element.
+ *
+ * @param {boolean} value The value to set.
+ * @returns {HTMLElement} The DOM element.
+ */
 export const setTermReadabilityScore = createSetDomElementProp( DOM_YOAST_IDS.TERM_READABILITY_SCORE );

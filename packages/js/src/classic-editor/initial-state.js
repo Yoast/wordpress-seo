@@ -22,9 +22,7 @@ export const getInitialPostState = () => ( {
 		permalink: dom.getPostPermalink(),
 		excerpt: dom.getPostExcerpt(),
 		content: dom.getPostContent(),
-		featuredImage: {
-			url: dom.getPostFeaturedImageUrl(),
-		},
+		featuredImage: dom.getPostFeaturedImage(),
 	},
 	form: {
 		seo: {
