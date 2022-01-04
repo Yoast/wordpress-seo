@@ -394,8 +394,8 @@ class WPSEO_Replace_Vars {
 	 */
 	private function retrieve_excerpt() {
 		$replacement = null;
-		$locale = \get_locale();
-		$limit = ( $locale === 'ja' ) ? 80 : 156;
+		$locale      = \get_locale();
+		$limit       = ( $locale === 'ja' ) ? 80 : 156;
 
 		// The check `post_password_required` is because excerpt must be hidden for a post with a password.
 		if ( ! empty( $this->args->ID ) && ! post_password_required( $this->args->ID ) ) {
