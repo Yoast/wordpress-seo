@@ -1,4 +1,4 @@
-import { get, isEqual, set, flow } from "lodash";
+import { flow, get, isEqual, set } from "lodash";
 import { excerptFromContent } from "../../helpers/replacementVariableHelpers";
 import { getContentTinyMce } from "../../lib/tinymce";
 
@@ -16,8 +16,9 @@ export const DOM_IDS = {
 	POST_DATE_MONTH: "mm",
 	POST_DATE_DAY: "jj",
 	POST_DATE_YEAR: "aa",
-	POST_DATE_HOUR: "hh",
-	POST_DATE_MINUTE: "mn",
+	POST_DATE_HOURS: "hh",
+	POST_DATE_MINUTES: "mn",
+	POST_DATE_SECONDS: "ss",
 	// Term editor.
 	TERM_NAME: "name",
 	TERM_DESCRIPTION: "description",
@@ -54,7 +55,7 @@ export const DOM_YOAST_IDS = {
  *
  * @param {string} domId Id of DOM element.
  * @param {string} [prop] Name of the prop to get. Defaults to value prop.
- * @param {*} [defaultValue] Default to return if prop is not found. Default to empty string.
+ * @param {*} [defaultValue] Default to return if prop is not found. Defaults to empty string.
  * @returns {Function} Function that gets prop from DOM element.
  */
 const createGetDomElementProp = ( domId, prop = "value", defaultValue = "" ) => () => get( document.getElementById( domId ), prop, defaultValue );
@@ -107,30 +108,65 @@ export const getTermDescription = () => getContentTinyMce( DOM_IDS.TERM_DESCRIPT
 /**
  * Gets the post date month from the document.
  *
- * @returns {string} The post date month or an empty string.
+ * @returns {number} The post date month or 1.
  */
-export const getPostDateMonth = createGetDomElementProp( DOM_IDS.POST_DATE_MONTH );
+const getPostDateMonth = createAsInteger( createGetDomElementProp( DOM_IDS.POST_DATE_MONTH, "value", 1 ) );
 
 /**
  * Gets the post date day from the document.
  *
- * @returns {string} The post date day or an empty string.
+ * @returns {number} The post date day or 1.
  */
-export const getPostDateDay = createGetDomElementProp( DOM_IDS.POST_DATE_DAY );
+const getPostDateDay = createAsInteger( createGetDomElementProp( DOM_IDS.POST_DATE_DAY, "value", 1 ) );
 
 /**
  * Gets the post date year from the document.
  *
- * @returns {string} The post date year or an empty string.
+ * @returns {number} The post date year or 1970.
  */
-export const getPostDateYear = createGetDomElementProp( DOM_IDS.POST_DATE_YEAR );
+const getPostDateYear = createAsInteger( createGetDomElementProp( DOM_IDS.POST_DATE_YEAR, "value", 1970 ) );
+
+/**
+ * Gets the post date hour from the document.
+ *
+ * @returns {number} The post date hour or 0.
+ */
+const getPostDateHours = createAsInteger( createGetDomElementProp( DOM_IDS.POST_DATE_HOURS, "value", 0 ) );
+
+/**
+ * Gets the post date minute from the document.
+ *
+ * @returns {number} The post date minute or 0.
+ */
+const getPostDateMinutes = createAsInteger( createGetDomElementProp( DOM_IDS.POST_DATE_MINUTES, "value", 0 ) );
+
+/**
+ * Gets the post date second from the document.
+ *
+ * @returns {number} The post date second or 0.
+ */
+const getPostDateSeconds = createAsInteger( createGetDomElementProp( DOM_IDS.POST_DATE_SECONDS, "value", 0 ) );
 
 /**
  * Gets the post date from the document.
  *
- * @returns {string} The post date or an empty string.
+ * Note: the inputs are not UTC, but rather the site's timezone.
+ * Therefor, the site's timezone is needed to transform to UTC properly.
+ *
+ * @returns {string} The post date ISO string.
  */
-export const getPostDate = () => `${ getPostDateYear() }-${ getPostDateMonth() }-${ getPostDateDay() }`;
+export const getPostDate = () => {
+	// Try to get the site's timezone from the window.
+	const timezone = get( window, "wpseoScriptData.siteTimezone", "+00:00" );
+
+	// Input the date as a string, since this is the only way to input with timezone other than the browser timezone.
+	const date = new Date(
+		`${ getPostDateYear() }-${ getPostDateMonth() }-${ getPostDateDay() } ` +
+		`${ getPostDateHours() }:${ getPostDateMinutes() }:${ getPostDateSeconds() } ${ timezone }`
+	);
+
+	return new Date( date ).toISOString();
+};
 
 /**
  * Gets the post SEO title from the document.
