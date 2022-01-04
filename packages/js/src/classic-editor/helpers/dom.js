@@ -199,18 +199,18 @@ export const getPostMetaDescription = createGetDomElementProp( DOM_YOAST_IDS.POS
 export const getTermMetaDescription = createGetDomElementProp( DOM_YOAST_IDS.TERM_META_DESCRIPTION );
 
 /**
- * Gets the term focus keyphrase from the document.
+ * Gets whether the post is cornerstone content from the document.
  *
- * @returns {string} The term focus keyphrase or an empty string.
+ * @returns {boolean} Whether the post is cornerstone content.
  */
-export const getPostIsCornerstone = () => isEqual( "1", get( document.getElementById( DOM_YOAST_IDS.POST_IS_CORNERSTONE ), "value", "0" ) );
+export const getPostIsCornerstone = () => isEqual( get( document.getElementById( DOM_YOAST_IDS.POST_IS_CORNERSTONE ), "value", "0" ), "1" );
 
 /**
- * Gets the term focus keyphrase from the document.
+ * Gets whether the term is cornerstone content from the document.
  *
- * @returns {string} The term focus keyphrase or an empty string.
+ * @returns {boolean} Whether the term is cornerstone content.
  */
-export const getTermIsCornerstone = () => isEqual( "1", get( document.getElementById( DOM_YOAST_IDS.TERM_IS_CORNERSTONE ), "value", "0" ) );
+export const getTermIsCornerstone = () => isEqual( get( document.getElementById( DOM_YOAST_IDS.TERM_IS_CORNERSTONE ), "value", "0" ), "1" );
 
 /**
  * Gets the post slug from the document.
