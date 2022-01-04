@@ -1,7 +1,8 @@
 /* global wpseoScriptData wpseoPrimaryCategoryL10n */
 
 import domReady from "@wordpress/dom-ready";
-import createSeoIntegration from "@yoast/seo-integration";
+import { dispatch } from "@wordpress/data";
+import createSeoIntegration, { SEO_STORE_NAME } from "@yoast/seo-integration";
 import registerShortcodes from "./classic-editor/shortcodes";
 import { registerReactComponent, renderReactRoot } from "./helpers/reactRoot";
 import registerGlobalApis from "./helpers/register-global-apis";
@@ -15,6 +16,8 @@ import { MetaboxFill, MetaboxSlot } from "./classic-editor/components/metabox/sl
 import createClassicEditorWatcher from "./classic-editor/watcher";
 import { getInitialState } from "./classic-editor/initial-state";
 import { getAnalysisConfiguration } from "./classic-editor/analysis";
+import { refreshDelay } from "./analysis/constants";
+import { debounce } from "lodash";
 
 const registerApis = registerGlobalApis( "YoastSEO" );
 
@@ -33,10 +36,24 @@ domReady( async () => {
 		initPrimaryCategory( jQuery );
 	}
 
-	const { SeoProvider } = await createSeoIntegration( {
+	const { SeoProvider, analysisWorker } = await createSeoIntegration( {
 		analysis: getAnalysisConfiguration(),
 		initialState: getInitialState(),
 	} );
+
+	/*
+	 * Register the analysis worker on `window.YoastSEO.analysis.worker`
+	 * and refreshing the analysis on `window.YoastSEO.app.refresh`
+	 * for backwards compatibility with the add-ons.
+	 */
+	registerApis( [
+		{ analysis: { worker: analysisWorker } },
+		{
+			app: {
+				refresh: debounce( () => dispatch( SEO_STORE_NAME ).analyze(), refreshDelay ),
+			},
+		},
+	] );
 
 	// Until ALL the components are carried over, the `@yoast-seo/editor` store is still needed.
 	initEditorStore();
