@@ -7,5 +7,5 @@
  * @returns {string} The sanitized text.
  */
 export default function( text ) {
-	return text.replace( /<br.*?>\s*<br.*?>/gm, "</p><p>" );
+	return text.replace( /<br.*?>\s*<\/br.*?>/gm, "</p><p>" );
 }
