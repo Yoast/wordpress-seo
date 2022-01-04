@@ -31,7 +31,7 @@ describe( "a test for assessing the meta description length", function() {
 		const assessment = descriptionLengthAssessment.getResult( mockPaper, Factory.buildMockResearcher( 400 ) );
 
 		expect( assessment.getScore() ).toEqual( 6 );
-		expect( descriptionLengthAssessment.getMaximumLength() ).toEqual( 156 );
+		expect( descriptionLengthAssessment.getMaximumLength( "en" ) ).toEqual( 156 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34d' target='_blank'>Meta description length</a>: " +
 			"The meta description is over 156 characters. To ensure the entire description will be visible, " +
 			"<a href='https://yoa.st/34e' target='_blank'>you should reduce the length</a>!" );
@@ -81,7 +81,7 @@ describe( "a test for assessing the meta description length in Japanese", functi
 			const assessment = descriptionLengthAssessment.getResult( mockPaper, researcher );
 
 			expect( assessment.getScore() ).toEqual( 6 );
-			expect( descriptionLengthAssessment.getMaximumLength() ).toEqual( 80 );
+			expect( descriptionLengthAssessment.getMaximumLength( "ja" ) ).toEqual( 80 );
 			expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34d' target='_blank'>Meta description length</a>: " +
 				"The meta description is over 80 characters. To ensure the entire description will be visible, " +
 				"<a href='https://yoa.st/34e' target='_blank'>you should reduce the length</a>!" );
