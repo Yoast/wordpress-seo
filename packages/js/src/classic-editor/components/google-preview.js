@@ -6,6 +6,7 @@ import { useSelect } from "@wordpress/data";
 
 import { EDITOR_STORE_NAME } from "../editor-store";
 import MetaboxCollapsible from "../../components/MetaboxCollapsible";
+import firstImageUrlInContent from "../../helpers/firstImageUrlInContent";
 
 /**
  * The Google preview component.
@@ -15,8 +16,11 @@ import MetaboxCollapsible from "../../components/MetaboxCollapsible";
 const GooglePreview = () => {
 	const shoppingData = useSelect( select => select( EDITOR_STORE_NAME ).getShoppingData() );
 	const siteIconUrl = useSelect( select => select( EDITOR_STORE_NAME ).getSiteIconUrlFromSettings() );
-	const previewImageUrl = useSelect( select => select( EDITOR_STORE_NAME ).getSnippetEditorPreviewImageUrl() );
 	const analysisType = useSelect( select => select( SEO_STORE_NAME ).selectAnalysisType() );
+	const featuredImage = useSelect( select => select( SEO_STORE_NAME ).selectFeaturedImage() );
+	const content = useSelect( select => select( SEO_STORE_NAME ).selectContent() );
+
+	const featuredImageUrl = featuredImage.url || firstImageUrlInContent( content );
 
 	return (
 		<MetaboxCollapsible
@@ -27,7 +31,7 @@ const GooglePreview = () => {
 				as={ SnippetEditor }
 				shoppingData={ shoppingData }
 				faviconSrc={ siteIconUrl }
-				mobileImageSrc={ previewImageUrl }
+				mobileImageSrc={ featuredImageUrl }
 				isTaxonomy={ analysisType === "term" }
 			/>
 		</MetaboxCollapsible>
