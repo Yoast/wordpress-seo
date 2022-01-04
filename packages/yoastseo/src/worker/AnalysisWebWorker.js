@@ -15,7 +15,6 @@ import Paper from "../values/Paper";
 import AssessmentResult from "../values/AssessmentResult";
 import RelatedKeywordAssessor from "../scoring/relatedKeywordAssessor";
 import removeHtmlBlocks from "../languageProcessing/helpers/html/htmlParser";
-import sanitizeLineBreakTag from "../languageProcessing/helpers/sanitize/sanitizeLineBreakTag";
 
 // Internal dependencies.
 import CornerstoneContentAssessor from "../scoring/cornerstone/contentAssessor";
@@ -888,7 +887,6 @@ export default class AnalysisWebWorker {
 	async analyze( id, { paper, relatedKeywords = {} } ) {
 		// Automatically add paragraph tags, like Wordpress does, on blocks padded by double newlines or html elements.
 		paper._text = autop( paper._text );
-
 		paper._text = removeHtmlBlocks( paper._text );
 		const paperHasChanges = this._paper === null || ! this._paper.equals( paper );
 		const shouldReadabilityUpdate = this.shouldReadabilityUpdate( paper );
