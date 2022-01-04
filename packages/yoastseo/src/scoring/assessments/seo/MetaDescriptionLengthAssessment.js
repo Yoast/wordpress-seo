@@ -4,6 +4,7 @@ import Assessment from "../assessment";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import AssessmentResult from "../../../values/AssessmentResult";
 import japaneseConfig from "../../../languageProcessing/languages/ja/config/metaDescriptionLength";
+
 /**
  * Assessment for calculating the length of the meta description.
  */
