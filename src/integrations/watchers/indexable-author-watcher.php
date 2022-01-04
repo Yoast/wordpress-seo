@@ -55,6 +55,8 @@ class Indexable_Author_Watcher implements Integration_Interface {
 		\add_action( 'user_register', [ $this, 'build_indexable' ], \PHP_INT_MAX );
 		\add_action( 'profile_update', [ $this, 'build_indexable' ], \PHP_INT_MAX );
 		\add_action( 'deleted_user', [ $this, 'delete_indexable' ] );
+		\add_action( 'added_user_meta', [ $this, 'process_meta_change' ], 10, 3 );
+		\add_action( 'updated_user_meta', [ $this, 'process_meta_change' ], 10, 3 );
 	}
 
 	/**
@@ -88,6 +90,27 @@ class Indexable_Author_Watcher implements Integration_Interface {
 		if ( $indexable ) {
 			$indexable->object_last_modified = \max( $indexable->object_last_modified, \current_time( 'mysql' ) );
 			$indexable->save();
+		}
+	}
+
+	/**
+	 * Build a user indexable if the updated meta is in a list of watched meta keys.
+	 *
+	 * @param int    $meta_id   ID of updated metadata entry.
+	 * @param int    $object_id Post ID.
+	 * @param string $meta_key  Metadata key.
+	 *
+	 * @return void
+	 */
+	public function process_meta_change( $meta_id, $object_id, $meta_key ) {
+		$watched_meta_keys = [
+			'wpseo_title',
+			'wpseo_metadesc',
+			'wpseo_noindex_author',
+		];
+
+		if ( in_array( (string) $meta_key, $watched_meta_keys, true ) ) {
+			$this->build_indexable( $object_id );
 		}
 	}
 }

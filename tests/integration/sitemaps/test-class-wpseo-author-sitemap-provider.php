@@ -128,15 +128,7 @@ class WPSEO_Author_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 		$this->factory->post->create_many( 3, [ 'post_author' => $user_id ] );
 
 		// Excludes the user from the sitemaps.
-		/**
-		 * The indexable repository.
-		 *
-		 * @var Indexable_Repository $repository
-		 */
-		$repository                   = YoastSEO()->classes->get( Indexable_Repository::class );
-		$indexable                    = $repository->find_by_id_and_type( $user_id, 'user' );
-		$indexable->is_robots_noindex = true;
-		$indexable->save();
+		update_user_meta( $user_id, 'wpseo_noindex_author', 'on' );
 
 		// Checks which authors are in the sitemap, there should be none.
 		self::$class_instance->get_sitemap_links( 'author', 10, 1 );
