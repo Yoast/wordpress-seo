@@ -1,7 +1,7 @@
 import { select } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
-import { SEO_STORE_NAME } from "@yoast/seo-store";
 import { strings as stringHelpers } from "@yoast/helpers";
+import { SEO_STORE_NAME } from "@yoast/seo-store";
 
 /**
  * Holds the replacement variable configurations, for use within the SEO store context.
@@ -19,7 +19,15 @@ export const content = {
 export const date = {
 	name: "date",
 	getLabel: () => __( "Date", "wordpress-seo" ),
-	getReplacement: () => select( SEO_STORE_NAME ).selectDate(),
+	getReplacement: () => new Date( select( SEO_STORE_NAME ).selectDate() ).toLocaleDateString(
+		// eslint-disable-next-line no-undefined
+		undefined,
+		{
+			day: "numeric",
+			month: "long",
+			year: "numeric",
+		},
+	),
 };
 
 export const excerpt = {
