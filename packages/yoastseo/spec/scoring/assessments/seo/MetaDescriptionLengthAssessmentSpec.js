@@ -99,16 +99,18 @@ describe( "a test for assessing the meta description length in Japanese", functi
 		} );
 	} );
 	describe( "a test in a cornerstone content", () => {
+		const cornerstoneDescriptionLengthAssessment = new MetaDescriptionLengthAssessment( {
+			scores:	{
+				tooLong: 3,
+				tooShort: 3,
+			},
+		} );
+
 		it( "assesses an empty description", function() {
 			const mockPaper = new Paper( "" );
 			const researcher = new JapaneseResearcher( mockPaper );
 
-			const metaDescriptionLengthResult = new MetaDescriptionLengthAssessment( {
-				scores:	{
-					tooLong: 3,
-					tooShort: 3,
-				},
-			} ).getResult( mockPaper, researcher );
+			const metaDescriptionLengthResult = cornerstoneDescriptionLengthAssessment.getResult( mockPaper, researcher );
 
 			expect( metaDescriptionLengthResult.getScore() ).toEqual( 1 );
 			expect( metaDescriptionLengthResult.getText() ).toEqual( "<a href='https://yoa.st/34d' target='_blank'>Meta description length" +
@@ -120,12 +122,7 @@ describe( "a test for assessing the meta description length in Japanese", functi
 			const mockPaper = new Paper( "", { description: "塾ちッり暮検ラヌコリ信字花キ口昇動フス季紅ネ綸乾んみ。" } );
 			const researcher = new JapaneseResearcher( mockPaper );
 
-			const metaDescriptionLengthResult = new MetaDescriptionLengthAssessment( {
-				scores:	{
-					tooLong: 3,
-					tooShort: 3,
-				},
-			} ).getResult( mockPaper, researcher );
+			const metaDescriptionLengthResult = cornerstoneDescriptionLengthAssessment.getResult( mockPaper, researcher );
 
 			expect( metaDescriptionLengthResult.getScore() ).toEqual( 3 );
 			expect( metaDescriptionLengthResult.getText() ).toEqual(   "<a href='https://yoa.st/34d' target='_blank'>" +
@@ -140,12 +137,7 @@ describe( "a test for assessing the meta description length in Japanese", functi
 					"よ並道ネホル長英ツヤ第野ヒソア問適チホレ番参び給財がをざイ同綸乾んみ。" } );
 			const researcher = new JapaneseResearcher( mockPaper );
 
-			const metaDescriptionLengthResult = new MetaDescriptionLengthAssessment( {
-				scores:	{
-					tooLong: 3,
-					tooShort: 3,
-				},
-			} ).getResult( mockPaper, researcher );
+			const metaDescriptionLengthResult = cornerstoneDescriptionLengthAssessment.getResult( mockPaper, researcher );
 
 			expect( metaDescriptionLengthResult.getScore() ).toEqual( 3 );
 			expect( metaDescriptionLengthResult.getText() ).toEqual( "<a href='https://yoa.st/34d' target='_blank'>" +
@@ -158,12 +150,7 @@ describe( "a test for assessing the meta description length in Japanese", functi
 					"れみゅ政週ゆら図現よぜフを田報ロユ速年文みーがま郎在ぎフ。" } );
 			const researcher = new JapaneseResearcher( mockPaper );
 
-			const metaDescriptionLengthResult = new MetaDescriptionLengthAssessment( {
-				scores:	{
-					tooLong: 3,
-					tooShort: 3,
-				},
-			} ).getResult( mockPaper, researcher );
+			const metaDescriptionLengthResult = cornerstoneDescriptionLengthAssessment.getResult( mockPaper, researcher );
 
 			expect( metaDescriptionLengthResult.getScore() ).toEqual( 9 );
 			expect( metaDescriptionLengthResult.getText() ).toEqual(  "<a href='https://yoa.st/34d' target='_blank'>" +
