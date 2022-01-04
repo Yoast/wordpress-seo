@@ -69,6 +69,14 @@ const createGetDomElementProp = ( domId, prop = "value", defaultValue = "" ) => 
 const createSetDomElementProp = ( domId, prop = "value" ) => ( value ) => set( document.getElementById( domId ), prop, value );
 
 /**
+ * Create a function that parses the return value of function to an integer.
+ *
+ * @param {Function} fn The function that should return a value.
+ * @returns {Function} Function that wraps the fn and parses the return value to an integer.
+ */
+const createAsInteger = fn => flow( [ fn, parseInt ] );
+
+/**
  * Gets the post title from the document.
  *
  * @returns {string} The post title or an empty string.
@@ -216,27 +224,25 @@ const getPostFeaturedImageUrl = () => document.querySelector( DOM_QUERIES.POST_F
  *
  * @returns {number} The featured image ID or -1, or NaN if parsing to a number went wrong.
  */
-const getPostFeaturedImageId = flow( [ createGetDomElementProp( DOM_IDS.POST_FEATURED_IMAGE_ID ), parseInt ] );
+const getPostFeaturedImageId = createAsInteger( createGetDomElementProp( DOM_IDS.POST_FEATURED_IMAGE_ID ) );
 
 /**
  * Gets the post featured image width if one is set.
  *
  * @returns {number} The featured image width or -1, or NaN if parsing to a number went wrong.
  */
-const getPostFeaturedImageWidth = flow( [
-	() => document.querySelector( DOM_QUERIES.POST_FEATURED_IMAGE )?.getAttribute( "width" ) || "-1",
-	parseInt,
-] );
+const getPostFeaturedImageWidth = createAsInteger(
+	() => document.querySelector( DOM_QUERIES.POST_FEATURED_IMAGE )?.getAttribute( "width" ) || "-1"
+);
 
 /**
  * Gets the post featured image height if one is set.
  *
  * @returns {number} The featured image height or -1, or NaN if parsing to a number went wrong.
  */
-const getPostFeaturedImageHeight = flow( [
-	() => document.querySelector( DOM_QUERIES.POST_FEATURED_IMAGE )?.getAttribute( "height" ) || "-1",
-	parseInt,
-] );
+const getPostFeaturedImageHeight = createAsInteger(
+	() => document.querySelector( DOM_QUERIES.POST_FEATURED_IMAGE )?.getAttribute( "height" ) || "-1"
+);
 
 /**
  * Gets the post featured image alt if one is set.
