@@ -144,7 +144,7 @@ class Indexable_Post_Builder {
 
 		$indexable->number_of_pages                   = $this->get_number_of_pages_for_post( $post );
 		$indexable->post_status                       = $post->post_status;
-		$indexable->is_protected                      = $post->post_password !== '';
+		$indexable->is_protected                      = $this->is_protected( $post );
 		$indexable->is_publicly_viewable              = $this->is_post_publicly_viewable( $post );
 		$indexable->number_of_publicly_viewable_posts = 0;
 		$indexable->blog_id                           = \get_current_blog_id();
@@ -232,6 +232,30 @@ class Indexable_Post_Builder {
 
 		// If the attachment has a parent, the is_public should be NULL.
 		return null;
+	}
+
+	/**
+	 * Determines the value for is_protected.
+	 *
+	 * @param WP_Post $post The post.
+	 *
+	 * @return boolean Whether or not the attachment should count as protected.
+	 */
+	protected function is_protected( $post ) {
+		if ( $post->post_password !== '' ) {
+			return true;
+		}
+
+		if ( $post->post_status !== 'inherit' ) {
+			return false;
+		}
+
+		// If the attachment has no parent, it can not be protected via it's parent.
+		if ( empty( $post->post_parent ) ) {
+			return false;
+		}
+
+		return post_password_required( $post->post_parent );
 	}
 
 	/**
@@ -396,6 +420,10 @@ class Indexable_Post_Builder {
 	 */
 	protected function is_post_publicly_viewable( $post ) {
 		if ( ! $post ) {
+			return false;
+		}
+
+		if ( $post->post_password ) {
 			return false;
 		}
 

@@ -114,6 +114,11 @@ class WPSEO_Taxonomy_Sitemap_Provider extends WPSEO_Indexable_Sitemap_Provider i
 
 		$indexables = $query->find_many();
 
+		// If total post type count is lower than the offset, an invalid page is requested.
+		if ( count( $indexables ) === 0 ) {
+			throw new OutOfBoundsException( 'Invalid sitemap page requested' );
+		}
+
 		return $this->xml_sitemap_helper->convert_indexables_to_sitemap_links( $indexables, 'term' );
 	}
 

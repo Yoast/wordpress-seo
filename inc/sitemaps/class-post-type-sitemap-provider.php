@@ -77,6 +77,7 @@ class WPSEO_Post_Type_Sitemap_Provider extends WPSEO_Indexable_Sitemap_Provider 
 			->query_where_noindex( false, 'post', $type )
 			->select_many( 'id', 'object_id', 'permalink', 'object_last_modified' )
 			->where( 'is_publicly_viewable', true )
+			->where( 'is_protected', false )
 			->order_by_asc( 'object_last_modified' )
 			->offset( $offset )
 			->limit( $max_entries );

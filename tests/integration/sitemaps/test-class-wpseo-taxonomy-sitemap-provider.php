@@ -41,6 +41,7 @@ class WPSEO_Taxonomy_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 		$category_id = $this->factory->category->create();
 		$post_id     = $this->factory->post->create();
 		wp_set_post_categories( $post_id, $category_id );
+		$this->factory->post->update_object( $post_id, [] );
 
 		$index_links = self::$class_instance->get_index_links( 1 );
 		$this->assertNotEmpty( $index_links );
@@ -49,6 +50,7 @@ class WPSEO_Taxonomy_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 		$category2_id = $this->factory->category->create();
 		$post2_id     = $this->factory->post->create();
 		wp_set_post_categories( $post2_id, $category2_id );
+		$this->factory->post->update_object( $post2_id, [] );
 		$index_links = self::$class_instance->get_index_links( 1 );
 		$this->assertContains( 'http://example.org/category-sitemap1.xml', $index_links[0] );
 		$this->assertContains( 'http://example.org/category-sitemap2.xml', $index_links[1] );

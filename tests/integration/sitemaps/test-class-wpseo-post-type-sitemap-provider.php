@@ -86,39 +86,6 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Makes sure the filtered out entries do not cause a sitemap index link to return a 404.
-	 *
-	 * @covers WPSEO_Post_Type_Sitemap_Provider::get_index_links
-	 */
-	public function test_get_index_links_empty_bucket() {
-
-		$this->factory->post->create();
-		$this->excluded_posts = [ $this->factory->post->create() ]; // Remove this post.
-		$this->factory->post->create();
-
-		add_filter( 'wpseo_exclude_from_sitemap_by_post_ids', [ $this, 'exclude_post' ] );
-		add_filter( 'wpseo_sitemap_entries_per_page', [ $this, 'return_one' ] );
-
-		// Fetch the global sitemap.
-		set_query_var( 'sitemap', 'post' );
-
-		// Set the page to the second one, which should not contain an entry, but should exist.
-		set_query_var( 'sitemap_n', '2' );
-
-		// Load the sitemap.
-		$sitemaps = new WPSEO_Sitemaps_Double();
-		$sitemaps->redirect( $GLOBALS['wp_the_query'] );
-
-		// Expect an empty list to be output.
-		$this->expectOutputContains(
-			'xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\r\n" . '</urlset>'
-		);
-
-		// Remove the filter.
-		remove_filter( 'wpseo_exclude_from_sitemap_by_post_ids', [ $this, 'exclude_post' ] );
-	}
-
-	/**
 	 * Makes sure invalid sitemap pages return no contents (404).
 	 *
 	 * @covers WPSEO_Post_Type_Sitemap_Provider::get_index_links
@@ -286,10 +253,11 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 				'post_password' => 'secret',
 			]
 		);
+		$this->factory->post->create();
 
 		// Expect the protected post should not be added.
 		$this->assertCount(
-			0,
+			1,
 			self::$class_instance->get_sitemap_links( 'post', 100, 0 ),
 			'Password protected posts should not be in the sitemap'
 		);
@@ -349,8 +317,17 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 			]
 		);
 
+		$other_post_id = $this->factory->post->create();
+		$this->factory->post->create(
+			[
+				'post_parent' => $other_post_id,
+				'post_type'   => 'attachment',
+				'post_status' => 'inherit',
+			]
+		);
+
 		// Expect the attachment not to be added to the list.
-		$this->assertCount( 0, self::$class_instance->get_sitemap_links( 'attachment', 100, 0 ) );
+		$this->assertCount( 1, self::$class_instance->get_sitemap_links( 'attachment', 100, 0 ) );
 	}
 
 	/**

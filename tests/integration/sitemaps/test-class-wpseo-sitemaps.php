@@ -40,6 +40,8 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 	public function test_post_sitemap( $expected_output ) {
 		self::$class_instance->reset();
 
+		$this->factory->post->create();
+
 		set_query_var( 'sitemap', 'post' );
 
 		self::$class_instance->redirect( $GLOBALS['wp_the_query'] );
