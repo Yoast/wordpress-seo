@@ -153,7 +153,7 @@ const syncPostToStore = () => {
 			}
 		} );
 	};
-	// Sync post slug changes to store.
+	// Sync post slug changes to the store.
 	createSlugSync();
 
 	/**
@@ -167,7 +167,7 @@ const syncPostToStore = () => {
 			actions.updateDate( dom.getPostDate() );
 		} );
 	};
-	// Sync date changes to store.
+	// Sync date changes to the store.
 	createDateSync();
 
 	/**
@@ -208,11 +208,13 @@ const syncPostToStore = () => {
 			}
 		);
 	};
-	// Sync post featured image fields changes to store.
+	// Sync post featured image fields changes to the store.
 	createFeaturedImageSync();
 
-	// Sync TinyMCE editor changes to store.
+	// Sync TinyMCE editor changes to the store.
 	createTinyMceContentSync( DOM_IDS.POST_CONTENT, actions.updateContent );
+	// Sync editor changes to the store when in text mode.
+	createStoreSync( DOM_IDS.POST_CONTENT, actions.updateContent, "input" );
 };
 
 /**
@@ -252,7 +254,7 @@ const syncStoreToPost = () => {
  */
 const syncTermToStore = () => {
 	const actions = dispatch( SEO_STORE_NAME );
-	// Sync term field changes to store.
+	// Sync term field changes to the store.
 	createStoreSync( DOM_IDS.TERM_NAME, actions.updateTitle, "input" );
 	createStoreSync(
 		DOM_IDS.TERM_SLUG,
@@ -263,8 +265,10 @@ const syncTermToStore = () => {
 		"input"
 	);
 
-	// Sync TinyMCE editor changes to store.
+	// Sync TinyMCE editor changes to the store.
 	createTinyMceContentSync( DOM_IDS.TERM_DESCRIPTION, actions.updateContent );
+	// Sync editor changes to the store when in text mode.
+	createStoreSync( DOM_IDS.TERM_DESCRIPTION, actions.updateContent, "input" );
 };
 
 /**
