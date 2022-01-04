@@ -3,7 +3,7 @@ import Paper from "../../../../src/values/Paper.js";
 import functionWords from "../../../../src/languageProcessing/languages/ja/config/functionWords";
 import subheadingsTooLong from "../../../../src/languageProcessing/languages/ja/config/subheadingsTooLong";
 import sentenceLength from "../../../../src/languageProcessing/languages/ja/config/sentenceLength";
-
+import metaDescriptionLength from "../../../../src/languageProcessing/languages/ja/config/metaDescriptionLength";
 import getMorphologyData from "../../../specHelpers/getMorphologyData";
 
 const morphologyDataJA = getMorphologyData( "ja" );
@@ -27,6 +27,10 @@ describe( "a test for Japanese Researcher", function() {
 
 	it( "returns the Japanese sentence length configuration", function() {
 		expect( researcher.getConfig( "sentenceLength" ) ).toEqual( sentenceLength );
+	} );
+
+	it( "returns the Japanese meta description length configuration", function() {
+		expect( researcher.getConfig( "metaDescriptionLength" ) ).toEqual( metaDescriptionLength );
 	} );
 
 	it( "returns the Japanese function words", function() {
