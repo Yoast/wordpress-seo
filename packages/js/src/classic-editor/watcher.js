@@ -161,11 +161,18 @@ const syncPostToStore = () => {
 	// Sync post slug field changes to store.
 	createSlugSync();
 
-	// Sync multiple date fields changes to store.
-	forEach(
-		[ DOM_IDS.POST_DATE_MONTH, DOM_IDS.POST_DATE_DAY, DOM_IDS.POST_DATE_YEAR ],
-		( domId ) => createStoreSync( domId, () => actions.updateDate( dom.getPostDate() ) )
-	);
+	/**
+	 * Handles attaching listeners to saving the date (published or publish on).
+	 *
+	 * @returns {void}
+	 */
+	const createDateSync = () => {
+		document.querySelector( DOM_QUERIES.POST_SAVE_DATE_BUTTON )?.addEventListener( "click", () => {
+			actions.updateDate( dom.getPostDate() );
+		} );
+	};
+	// Sync date changes to store.
+	createDateSync();
 
 	/**
 	 * Handles attaching listeners to the set and remove of the featured image.

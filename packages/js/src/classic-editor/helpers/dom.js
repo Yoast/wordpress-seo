@@ -29,6 +29,7 @@ export const DOM_QUERIES = {
 	POST_SAVE_SLUG_BUTTON: "#edit-slug-buttons .save",
 	POST_CANCEL_SLUG_BUTTON: "#edit-slug-buttons .cancel",
 	POST_FEATURED_IMAGE: "#set-post-thumbnail img",
+	POST_SAVE_DATE_BUTTON: "#timestampdiv .save-timestamp",
 };
 
 export const DOM_YOAST_IDS = {
