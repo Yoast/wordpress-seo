@@ -13,6 +13,7 @@ export const DOM_IDS = {
 	POST_FEATURED_IMAGE_REMOVE: "remove-post-thumbnail",
 	POST_SLUG_NEW: "new-post-slug",
 	POST_SLUG_EDIT: "editable-post-name-full",
+	POST_SLUG_EDIT_PARENT: "edit-slug-box",
 	POST_DATE_MONTH: "mm",
 	POST_DATE_DAY: "jj",
 	POST_DATE_YEAR: "aa",
@@ -25,12 +26,13 @@ export const DOM_IDS = {
 	TERM_SLUG: "slug",
 };
 
+export const DOM_CLASSES = {
+	POST_SLUG_SAVE_BUTTON: "save",
+};
+
 export const DOM_QUERIES = {
-	POST_EDIT_SLUG_BUTTON: "#edit-slug-buttons .edit-slug",
-	POST_SAVE_SLUG_BUTTON: "#edit-slug-buttons .save",
-	POST_CANCEL_SLUG_BUTTON: "#edit-slug-buttons .cancel",
 	POST_FEATURED_IMAGE: "#set-post-thumbnail img",
-	POST_SAVE_DATE_BUTTON: "#timestampdiv .save-timestamp",
+	POST_DATE_SAVE_BUTTON: "#timestampdiv .save-timestamp",
 };
 
 export const DOM_YOAST_IDS = {

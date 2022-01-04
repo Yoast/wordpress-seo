@@ -9,7 +9,7 @@ import { update as updateTrafficLight } from "../ui/trafficLight";
 import * as dom from "./helpers/dom";
 
 const SYNC_DEBOUNCE_TIME = 200;
-const { DOM_IDS, DOM_QUERIES } = dom;
+const { DOM_IDS, DOM_CLASSES, DOM_QUERIES } = dom;
 
 /**
  * Creates a debounced function that handles value change events on DOM elements.
@@ -133,32 +133,27 @@ const syncPostToStore = () => {
 	createStoreSync( DOM_IDS.POST_EXCERPT, actions.updateExcerpt, "input" );
 
 	/**
-	 * Handles attaching listeners to opening and closing of edit post slug field.
+	 * Handles attaching listeners to post slug editing.
 	 *
 	 * @returns {void}
 	 */
 	const createSlugSync = () => {
-		/* eslint-disable-next-line no-unused-expressions */
-		document.querySelector( DOM_QUERIES.POST_EDIT_SLUG_BUTTON )?.addEventListener( "click", () => {
-			// Hack to back of queue.
-			setTimeout( () => {
-				createStoreSync(
-					DOM_IDS.POST_SLUG_NEW,
-					( slug ) => {
-						actions.updateSlug( slug );
-						actions.updatePermalink( get( window, "wpseoScriptData.metabox.base_url", "" ) + slug );
-					},
-					"input"
-				);
-				// Reattach edit slug button listener if field is closed.
-				forEach(
-					[ DOM_QUERIES.POST_SAVE_SLUG_BUTTON, DOM_QUERIES.POST_CANCEL_SLUG_BUTTON ],
-					( domQuery ) => document.querySelector( domQuery )?.addEventListener( "click", createSlugSync )
-				);
-			}, 0 );
+		/*
+		 * Listen to the parent div because otherwise we need to rebind more:
+		 * The save button is only there in edit mode, but even the button container seems to be removed and re-added.
+		 */
+		// eslint-disable-next-line no-unused-expressions
+		document.getElementById( DOM_IDS.POST_SLUG_EDIT_PARENT )?.addEventListener( "click", e => {
+			if ( e.target.classList.contains( DOM_CLASSES.POST_SLUG_SAVE_BUTTON ) ) {
+				const slug = document.getElementById( DOM_IDS.POST_SLUG_NEW )?.value;
+				if ( slug ) {
+					actions.updateSlug( slug );
+					actions.updatePermalink( get( window, "wpseoScriptData.metabox.base_url", "" ) + slug );
+				}
+			}
 		} );
 	};
-	// Sync post slug field changes to store.
+	// Sync post slug changes to store.
 	createSlugSync();
 
 	/**
@@ -167,7 +162,8 @@ const syncPostToStore = () => {
 	 * @returns {void}
 	 */
 	const createDateSync = () => {
-		document.querySelector( DOM_QUERIES.POST_SAVE_DATE_BUTTON )?.addEventListener( "click", () => {
+		// eslint-disable-next-line no-unused-expressions
+		document.querySelector( DOM_QUERIES.POST_DATE_SAVE_BUTTON )?.addEventListener( "click", () => {
 			actions.updateDate( dom.getPostDate() );
 		} );
 	};
@@ -202,7 +198,7 @@ const syncPostToStore = () => {
 		} );
 
 		// Remove the featured image when it is removed in the editor. Listen to a parent that always exists.
-		/* eslint-disable-next-line no-unused-expressions */
+		// eslint-disable-next-line no-unused-expressions
 		document.getElementById( DOM_IDS.POST_FEATURED_IMAGE_PARENT )?.addEventListener(
 			"click",
 			e => {
