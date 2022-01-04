@@ -1,21 +1,21 @@
-/* global wpseoScriptData wpseoAdminL10n */
-
+/* eslint-disable complexity */
 import { Fill } from "@wordpress/components";
 import { useSelect } from "@wordpress/data";
 import { Fragment } from "@wordpress/element";
 import { SEO_STORE_NAME, useAnalyze } from "@yoast/seo-integration";
-import GooglePreview from "../google-preview";
-import SeoAnalysis from "../seo-analysis";
-import ReadabilityAnalysis from "../readability-analysis";
+import { get } from "lodash";
 import SocialMetadataPortal from "../../../components/portals/SocialMetadataPortal";
 import SidebarItem from "../../../components/SidebarItem";
-import AdvancedSettings from "../advanced-settings";
-import CornerstoneContent from "../cornerstone-content";
 import SchemaTabContainer from "../../../containers/SchemaTab";
 import SEMrushRelatedKeyphrases from "../../../containers/SEMrushRelatedKeyphrases";
 import Warning from "../../../containers/Warning";
 import { EDITOR_STORE_NAME } from "../../editor-store";
+import AdvancedSettings from "../advanced-settings";
+import CornerstoneContent from "../cornerstone-content";
 import FocusKeyphraseInput from "../focus-keyphrase-input";
+import GooglePreview from "../google-preview";
+import ReadabilityAnalysis from "../readability-analysis";
+import SeoAnalysis from "../seo-analysis";
 
 /**
  * Creates the Metabox component.
@@ -27,6 +27,10 @@ const Metabox = () => {
 	const isSeoAnalysisActive = useSelect( select => select( SEO_STORE_NAME ).selectIsSeoAnalysisActive() );
 	const isReadabilityAnalysisActive = useSelect( select => select( SEO_STORE_NAME ).selectIsReadabilityAnalysisActive() );
 
+	const focusKeyphraseInfoLink = get( window, [ "wpseoAdminL10n", "shortlinks.focus_keyword_info" ] );
+	const cornerstoneContentInfoLink = get( window, [ "wpseoAdminL10n", "shortlinks.cornerstone_content_info" ] );
+	const isPremium = Boolean( get( window, "wpseoScriptData.metabox.isPremium", false ) );
+
 	useAnalyze();
 
 	return (
@@ -36,8 +40,8 @@ const Metabox = () => {
 			</SidebarItem>
 			{ isSeoAnalysisActive &&
 				<SidebarItem key="keyword-input" renderPriority={ 8 }>
-					<FocusKeyphraseInput focusKeyphraseInfoLink={ wpseoAdminL10n[ "shortlinks.focus_keyword_info" ] } />
-					{ ! wpseoScriptData.metabox.isPremium &&
+					<FocusKeyphraseInput focusKeyphraseInfoLink={ focusKeyphraseInfoLink } />
+					{ ! isPremium &&
 						<Fill name="YoastRelatedKeyphrases">
 							<SEMrushRelatedKeyphrases />
 						</Fill>
@@ -62,7 +66,7 @@ const Metabox = () => {
 			}
 			{ settings.isCornerstoneActive &&
 				<SidebarItem key="cornerstone" renderPriority={ 30 }>
-					<CornerstoneContent cornerstoneContentInfoLink={ wpseoAdminL10n[ "shortlinks.cornerstone_content_info" ] } />
+					<CornerstoneContent cornerstoneContentInfoLink={ cornerstoneContentInfoLink } />
 				</SidebarItem>
 			}
 			{ settings.displayAdvancedTab &&

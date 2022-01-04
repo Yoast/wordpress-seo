@@ -162,36 +162,36 @@ export const customFields = map(
 		getLabel: () => sprintf(
 			// translators: %s expands to the name of the custom field.
 			__( "%s (custom field)", "wordpress-seo" ),
-			key,
+			key
 		),
 		getReplacement: () => value,
-	} ),
+	} )
 );
 
 export const customTaxonomies = map(
 	get( window, "wpseoScriptData.analysis.plugins.replaceVars.replace_vars.custom_taxonomies", {} ),
-	( { name, description }, key ) => ( {
+	( { name }, key ) => ( {
 		name: `ct_${ key }`,
 		getLabel: () => sprintf(
 			// translators: %s expands to the key of the custom taxonomy.
 			__( "%s (custom taxonomy)", "wordpress-seo" ),
-			key,
+			key
 		),
 		getReplacement: () => name,
-	} ),
+	} )
 );
 
 export const customTaxonomyDescriptions = map(
 	get( window, "wpseoScriptData.analysis.plugins.replaceVars.replace_vars.custom_taxonomies", {} ),
-	( { name, description }, key ) => ( {
+	( { _, description }, key ) => ( {
 		name: `ct_desc_${ key }`,
 		getLabel: () => sprintf(
 			// translators: %s expands to the key of the custom taxonomy.
 			__( "%s description (custom taxonomy)", "wordpress-seo" ),
-			key,
+			key
 		),
 		getReplacement: () => description,
-	} ),
+	} )
 );
 
 
