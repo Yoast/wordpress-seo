@@ -183,7 +183,7 @@ export const customTaxonomies = map(
 
 export const customTaxonomyDescriptions = map(
 	get( window, "wpseoScriptData.analysis.plugins.replaceVars.replace_vars.custom_taxonomies", {} ),
-	( { _, description }, key ) => ( {
+	( { description }, key ) => ( {
 		name: `ct_desc_${ key }`,
 		getLabel: () => sprintf(
 			// translators: %s expands to the key of the custom taxonomy.
