@@ -394,6 +394,8 @@ class WPSEO_Replace_Vars {
 	 */
 	private function retrieve_excerpt() {
 		$replacement = null;
+		$locale = \get_locale();
+		$limit = ( $locale === 'ja' ) ? 80 : 156;
 
 		// The check `post_password_required` is because excerpt must be hidden for a post with a password.
 		if ( ! empty( $this->args->ID ) && ! post_password_required( $this->args->ID ) ) {
@@ -404,11 +406,11 @@ class WPSEO_Replace_Vars {
 				$content = strip_shortcodes( $this->args->post_content );
 				$content = wp_strip_all_tags( $content );
 
-				if ( strlen( utf8_decode( $content ) ) <= 156 ) {
+				if ( strlen( utf8_decode( $content ) ) <= $limit ) {
 					return $content;
 				}
 
-				$replacement = wp_html_excerpt( $content, 156 );
+				$replacement = wp_html_excerpt( $content, $limit );
 
 				// Check if the description has space and trim the auto-generated string to a word boundary.
 				if ( strrpos( $replacement, ' ' ) ) {
