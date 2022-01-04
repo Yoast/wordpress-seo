@@ -82,6 +82,7 @@ class WPSEO_Admin_Pages {
 
 		$script_data = [
 			'userLanguageCode' => WPSEO_Language_Utils::get_language( \get_user_locale() ),
+			'siteTimezone'     => \wp_timezone_string(),
 			'dismissedAlerts'  => $dismissed_alerts,
 		];
 
