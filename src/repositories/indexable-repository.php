@@ -186,6 +186,11 @@ class Indexable_Repository {
 			$query->where( 'object_sub_type', $object_sub_type );
 		}
 
+		if ( $noindex === false ) {
+			// Consider password protected posts as noindex.
+			$query->where( 'is_protected', false );
+		}
+
 		$default_noindex = $this->robots_helper->get_default_noindex_for_object( $object_type, $object_sub_type );
 
 		$condition = 'is_robots_noindex = %d ';
