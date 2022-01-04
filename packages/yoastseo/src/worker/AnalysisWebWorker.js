@@ -889,9 +889,6 @@ export default class AnalysisWebWorker {
 		// Automatically add paragraph tags, like Wordpress does, on blocks padded by double newlines or html elements.
 		paper._text = autop( paper._text );
 
-		// Replaces line break tags containing attribute(s) with paragraph tag.
-		paper._text = sanitizeLineBreakTag( paper._text );
-
 		paper._text = removeHtmlBlocks( paper._text );
 		const paperHasChanges = this._paper === null || ! this._paper.equals( paper );
 		const shouldReadabilityUpdate = this.shouldReadabilityUpdate( paper );
