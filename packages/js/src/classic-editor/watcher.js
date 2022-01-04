@@ -8,7 +8,7 @@ import * as publishBox from "../ui/publishBox";
 import { update as updateTrafficLight } from "../ui/trafficLight";
 import * as dom from "./helpers/dom";
 
-const SYNC_DEBOUNCE_TIME = 200;
+const SYNC_DEBOUNCE_TIME = 500;
 const { DOM_IDS, DOM_CLASSES, DOM_QUERIES } = dom;
 
 /**
