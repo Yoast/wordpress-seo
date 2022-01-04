@@ -91,12 +91,12 @@ class WincherKeyphrasesTable extends Component {
 
 		await handleAPIResponse(
 			() => trackKeyphrases( keyphrases ),
-			async( response ) => {
+			async ( response ) => {
 				setRequestSucceeded( response );
 				addTrackedKeyphrase( response.results );
 				await this.getTrackedKeyphrases( Object.keys( this.props.trackedKeyphrases ) );
 			},
-			async( response ) => {
+			async ( response ) => {
 				setRequestFailed( response );
 				keyphrasesArray.map( k => removeTrackedKeyphrase( k ) );
 			},
@@ -146,7 +146,7 @@ class WincherKeyphrasesTable extends Component {
 				setRequestSucceeded( response );
 				removeTrackedKeyphrase( keyphrase );
 			},
-			async( response ) => {
+			async ( response ) => {
 				setRequestFailed( response );
 				addTrackedKeyphrase( { [ keyphrase ]: oldData } );
 			}
@@ -170,7 +170,7 @@ class WincherKeyphrasesTable extends Component {
 
 		await handleAPIResponse(
 			() => getKeyphrases( keyphrases, permalink ),
-			async( response ) => {
+			async ( response ) => {
 				setRequestSucceeded( response );
 				setTrackedKeyphrases( response.results );
 
@@ -179,7 +179,7 @@ class WincherKeyphrasesTable extends Component {
 					return;
 				}
 			},
-			async( response ) => {
+			async ( response ) => {
 				setRequestFailed( response );
 			}
 		);
@@ -222,7 +222,7 @@ class WincherKeyphrasesTable extends Component {
 		}
 
 		if ( permalink ) {
-			this.interval = setInterval( async() => {
+			this.interval = setInterval( async () => {
 				await this.getTrackedKeyphrases( keyphrases );
 			}, 10000 );
 
@@ -241,7 +241,7 @@ class WincherKeyphrasesTable extends Component {
 
 		clearInterval( this.interval );
 		if ( this.someKeyphrasesHaveNoRankingData() ) {
-			this.interval = setInterval( async() => {
+			this.interval = setInterval( async () => {
 				await this.getTrackedKeyphrases( keyphrases );
 			}, 10000 );
 		}
