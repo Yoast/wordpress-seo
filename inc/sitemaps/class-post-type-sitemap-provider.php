@@ -192,6 +192,18 @@ class WPSEO_Post_Type_Sitemap_Provider extends WPSEO_Indexable_Sitemap_Provider 
 	protected function get_excluded_object_ids() {
 		$excluded_posts_ids = [];
 
+		// The homepage is covered by the home-page indexable.
+		$homepage_post_id = (int) get_option( 'page_on_front' );
+		if ( ! empty( $homepage_post_id ) ) {
+			$excluded_posts_ids[] = $homepage_post_id;
+		}
+
+		// The posts page is added to the posts sitemap after filtering. Prevent it from being duplicated in the page sitemap.
+		$posts_page_id = (int) get_option( 'page_for_posts' );
+		if ( ! empty( $posts_page_id ) ) {
+			$excluded_posts_ids[] = $posts_page_id;
+		}
+
 		/**
 		 * Filter: 'wpseo_exclude_from_sitemap_by_post_ids' - Allow extending and modifying the posts to exclude.
 		 *
