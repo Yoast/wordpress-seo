@@ -44,6 +44,10 @@
     "start": "wp-scripts start --config config/webpack/webpack.config.js"
   },
   "dependencies": {},
+  "resolutions": {
+	"postcss": "8.4.5",
+	"autoprefixer": "10.4.1"
+  },
   "devDependencies": {
     "@babel/plugin-transform-runtime": "^7.13.10",
     "@slack/webhook": "^5.0.2",
@@ -78,6 +82,7 @@
     "react-test-renderer": "^16.14.0",
     "readline-sync": "^1.4.9",
     "shusher": "^0.1.1",
+    "tailwindcss": "^3.0.11",
     "tmp": "^0.1.0",
     "typescript": "^4.2.4"
   },
