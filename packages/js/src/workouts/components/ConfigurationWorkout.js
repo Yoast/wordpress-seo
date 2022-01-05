@@ -11,6 +11,7 @@ import { ReactComponent as WorkoutDoneImage } from "../../../../../images/mirror
 import { ReactComponent as WorkoutStartImage } from "../../../images/motivated_bubble_woman_1_optim.svg";
 import { addLinkToString } from "../../helpers/stringHelpers.js";
 import { Step, Steps, FinishButtonSection } from "./Steps";
+import Example from "./StepsTest";
 import { STEPS, WORKOUTS } from "../config";
 import { OrganizationSection } from "./OrganizationSection";
 import { PersonSection } from "./PersonSection";
@@ -475,6 +476,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 	/* eslint-disable max-len */
 	return (
 		<div id="yoast-configuration-workout" className="card">
+			<Example />
 			<h2 id="yoast-configuration-workout-title">{ __( "Configuration", "wordpress-seo" ) }</h2>
 			<h3 id="yoast-configuration-workout-tagline">{
 				// translators: %1$s is replaced by "Yoast SEO"
