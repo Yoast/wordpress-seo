@@ -87,7 +87,7 @@ Please note that the implementor is responsible for updating the correct fields 
 const { SeoProvider, analysisWorker } = createSeoIntegration( {
     analysis: {
         workerUrl: "url-to-worker.example",
-		dependencies: {
+        dependencies: {
             lodash: "url-to-lodash.example",
         },
 		types: {
@@ -110,7 +110,7 @@ const { SeoProvider, analysisWorker } = createSeoIntegration( {
         editor: {
             title: "title from DOM",
             content: "content from DOM",
-        }
+        },
     }
 } );
 
@@ -176,7 +176,7 @@ Container component that connects its `as` prop Component to SEO form data in th
 **`replacementVariableConfigurations`** `Object`\
 Object of default replacement variables from the SEO store. Includes replacement variable configurations for: `title`, `content`, `excerpt`, `permalink` and `focusKeyphrase`.
 
-## Available filters
+## Extensibility
 This package provide some `@wordpress/hooks` filters for extending its functionality:
 
 **`yoast.seoIntegration.analysis.configuration`** `Filter`\
