@@ -125,7 +125,8 @@ export function initialize() {
 		event.preventDefault();
 
 		// Pretend to click on the readability tab to make it focused.
-		document.querySelector( "#wpseo-meta-tab-readability" ).click();
+		// eslint-disable-next-line no-unused-expressions
+		document.querySelector( "#wpseo-meta-tab-readability" )?.click();
 
 		scrollToCollapsible( "#wpseo-meta-section-readability" );
 	} );
