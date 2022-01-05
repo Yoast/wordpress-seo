@@ -80,7 +80,7 @@ const initPost = async () => {
 		analysis: getAnalysisConfiguration(),
 		initialState: getInitialPostState(),
 	} );
-	// Register global Yoast APIs
+	// Register global Yoast APIs.
 	registerYoastApis( { analysisWorker } );
 	// Start watching for DOM/store changes.
 	initPostWatcher();
@@ -101,7 +101,7 @@ const initTerm = async () => {
 		analysis: getAnalysisConfiguration(),
 		initialState: getInitialTermState(),
 	} );
-	// Register global Yoast APIs
+	// Register global Yoast APIs.
 	registerYoastApis( { analysisWorker } );
 	// Start watching for DOM/store changes.
 	initTermWatcher();
