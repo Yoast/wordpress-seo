@@ -42,8 +42,8 @@ const expectedResults = {
 	metaDescriptionLength: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/34d' target='_blank'>Meta description length</a>: The meta description is too short " +
-			"(under 120 characters). Up to 156 characters are available. <a href='https://yoa.st/34e' target='_blank'>Use the space</a>!",
+		resultText: "<a href='https://yoa.st/34d' target='_blank'>Meta description length</a>: The meta description is over 80 characters." +
+			" To ensure the entire description will be visible, <a href='https://yoa.st/34e' target='_blank'>you should reduce the length</a>!",
 	},
 	subheadingsKeyword: {
 		isApplicable: true,
