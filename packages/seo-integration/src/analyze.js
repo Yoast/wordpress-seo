@@ -22,7 +22,8 @@ const createPaper = ( data, keyphrase, configuration ) => {
 			description: data.metaDescription,
 			title: data.seoTitle,
 			titleWidth: data.seoTitleWidth,
-			permalink: data.slug,
+			permalink: data.permalink,
+			url: data.slug,
 			date: data.date,
 			// Configuration data.
 			locale: configuration.locale,
