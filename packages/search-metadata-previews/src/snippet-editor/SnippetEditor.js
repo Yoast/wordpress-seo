@@ -77,10 +77,11 @@ function getTitleProgress( title ) {
  * @param {string}  date            The meta description date.
  * @param {bool}    isCornerstone   Whether the cornerstone content toggle is on or off.
  * @param {bool}    isTaxonomy      Whether the page is a taxonomy page.
+ * @param {string}  locale          The locale.
  *
  * @returns {Object} The description progress.
  */
-function getDescriptionProgress( description, date, isCornerstone, isTaxonomy ) {
+function getDescriptionProgress( description, date, isCornerstone, isTaxonomy, locale ) {
 	const descriptionLength = languageProcessing.countMetaDescriptionLength( date, description );
 
 	// Override the default config if the cornerstone content toggle is on and it is not a taxonomy page.
@@ -91,8 +92,8 @@ function getDescriptionProgress( description, date, isCornerstone, isTaxonomy ) 
 		},
 	} ) : new MetaDescriptionLengthAssessment();
 
-	const score = metaDescriptionLengthAssessment.calculateScore( descriptionLength );
-	const maximumLength = metaDescriptionLengthAssessment.getMaximumLength();
+	const score = metaDescriptionLengthAssessment.calculateScore( descriptionLength, locale  );
+	const maximumLength = metaDescriptionLengthAssessment.getMaximumLength( locale );
 
 	return {
 		max: maximumLength,
@@ -148,7 +149,8 @@ class SnippetEditor extends React.Component {
 				measurementData.description,
 				this.props.date,
 				this.props.isCornerstone,
-				this.props.isTaxonomy
+				this.props.isTaxonomy,
+				this.props.locale
 			),
 		};
 
@@ -177,7 +179,8 @@ class SnippetEditor extends React.Component {
 			prevProps.data.slug !== nextProps.data.slug ||
 			prevProps.data.title !== nextProps.data.title ||
 			prevProps.isCornerstone !== nextProps.isCornerstone ||
-			prevProps.isTaxonomy !== nextProps.isTaxonomy
+			prevProps.isTaxonomy !== nextProps.isTaxonomy ||
+			prevProps.locale !== nextProps.locale
 		) {
 			isDirty = true;
 		}
@@ -210,7 +213,8 @@ class SnippetEditor extends React.Component {
 						data.description,
 						nextProps.date,
 						nextProps.isCornerstone,
-						nextProps.isTaxonomy ),
+						nextProps.isTaxonomy,
+						nextProps.locale ),
 				}
 			);
 		}

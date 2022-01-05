@@ -164,14 +164,15 @@ class Aioseo_Taxonomy_Settings_Importing_Action_Test extends TestCase {
 	/**
 	 * Tests mapping AIOSEO Taxonomy settings.
 	 *
-	 * @param string $setting       The setting at hand, eg. post or movie-category, separator etc.
-	 * @param string $setting_value The value of the AIOSEO setting at hand.
-	 * @param int    $times         The times that we will import each setting, if any.
+	 * @param string $setting         The setting at hand, eg. post or movie-category, separator etc.
+	 * @param string $setting_value   The value of the AIOSEO setting at hand.
+	 * @param int    $times           The times that we will import each setting, if any.
+	 * @param int    $transform_times The times that we will transform each setting, if any.
 	 *
 	 * @dataProvider provider_map
 	 * @covers ::map
 	 */
-	public function test_map( $setting, $setting_value, $times ) {
+	public function test_map( $setting, $setting_value, $times, $transform_times ) {
 		$taxonomies = [
 			(object) [
 				'name' => 'category',
@@ -196,7 +197,7 @@ class Aioseo_Taxonomy_Settings_Importing_Action_Test extends TestCase {
 			->andReturn( 'not_null' );
 
 		$this->replacevar_handler->shouldReceive( 'transform' )
-			->times( $times )
+			->times( $transform_times )
 			->with( $setting_value )
 			->andReturn( $setting_value );
 
@@ -213,13 +214,16 @@ class Aioseo_Taxonomy_Settings_Importing_Action_Test extends TestCase {
 	 */
 	public function provider_map() {
 		return [
-			[ '/category/title', 'Category Title', 1 ],
-			[ '/category/metaDescription', 'Category Desc', 1 ],
-			[ '/post_tag/show', 'Tag Title', 0 ],
-			[ '/post_tag/metaDescription', 'Tag Title', 1 ],
-			[ '/book-category/title', 'Category Title', 1 ],
-			[ '/book-category/metaDescription', 'Category Desc', 1 ],
-			[ '/randomSetting', 'randomeValue', 0 ],
+			[ '/category/title', 'Category Title', 1, 1 ],
+			[ '/category/metaDescription', 'Category Desc', 1, 1 ],
+			[ '/category/advanced/robotsMeta/noindex', true, 1, 0 ],
+			[ '/post_tag/show', 'Tag Title', 0, 0 ],
+			[ '/post_tag/metaDescription', 'Tag Title', 1, 1 ],
+			[ '/post_tag/advanced/robotsMeta/noindex', true, 1, 0 ],
+			[ '/book-category/title', 'Category Title', 1, 1 ],
+			[ '/book-category/metaDescription', 'Category Desc', 1, 1 ],
+			[ '/book-category/advanced/robotsMeta/noindex', true, 1, 0 ],
+			[ '/randomSetting', 'randomeValue', 0, 0 ],
 		];
 	}
 
