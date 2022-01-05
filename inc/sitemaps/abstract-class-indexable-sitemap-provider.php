@@ -57,21 +57,24 @@ abstract class WPSEO_Indexable_Sitemap_Provider implements WPSEO_Sitemap_Provide
 		}
 
 		$table_name = Model::get_table_name( 'Indexable' );
-        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Query is prepared by our ORM.
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Query is prepared by our ORM.
 		$raw_query = $wpdb->prepare( $query->get_sql(), $query->get_values() );
 
-        // phpcs:ignore WordPress.DB.DirectDatabaseQuery -- Complex query is not possible without a direct query.
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery -- Complex query is not possible without a direct query.
 		$last_object_per_page = $wpdb->get_results(
-            // phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Variables are secure.
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Variables are secure.
 			$wpdb->prepare(
-				// This query pulls only every Nth last_modified from the database, resetting row counts when the sub type changes.
+			// This query pulls only every Nth last_modified from the database, resetting row counts when the sub type changes.
 				"
 					SELECT i.object_sub_type, i.object_last_modified
 					FROM $table_name AS i
 					INNER JOIN (
 						SELECT id
 						FROM (
-							SELECT IF( @previous_sub_type = object_sub_type, @row:=@row+1, @row:=0) AS rownum, @previous_sub_type:=object_sub_type AS previous_sub_type, id
+							SELECT 
+								IF( @previous_sub_type = object_sub_type, @row:=@row+1, @row:=0) AS rownum, 
+								@previous_sub_type:=object_sub_type AS previous_sub_type,
+								id
 							FROM ( $raw_query ) AS sorted, ( SELECT @row:=-1, @previous_sub_type:=null ) AS init
 						) AS ranked
 						WHERE rownum MOD %d = 0
@@ -80,7 +83,7 @@ abstract class WPSEO_Indexable_Sitemap_Provider implements WPSEO_Sitemap_Provide
 				",
 				$max_entries
 			)
-            // phpcs:enable
+		// phpcs:enable
 		);
 
 		$links      = [];

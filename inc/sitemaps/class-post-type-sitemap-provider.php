@@ -57,11 +57,11 @@ class WPSEO_Post_Type_Sitemap_Provider extends WPSEO_Indexable_Sitemap_Provider 
 	 */
 	protected function should_exclude_object_sub_type( $object_sub_type ) {
 		/**
-			 * Filter decision if post type is excluded from the XML sitemap.
-			 *
-			 * @param bool   $exclude   Default false.
-			 * @param string $post_type Post type name.
-			 */
+		 * Filter decision if post type is excluded from the XML sitemap.
+		 *
+		 * @param bool   $exclude   Default false.
+		 * @param string $post_type Post type name.
+		 */
 		if ( apply_filters( 'wpseo_sitemap_exclude_post_type', false, $object_sub_type ) ) {
 			return true;
 		}
