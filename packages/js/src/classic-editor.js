@@ -50,7 +50,7 @@ domReady( async () => {
 		{ analysis: { worker: analysisWorker } },
 		{
 			app: {
-				refresh: debounce( () => dispatch( SEO_STORE_NAME ).analyze(), refreshDelay ),
+				refresh: debounce( dispatch( SEO_STORE_NAME ).analyze, refreshDelay ),
 			},
 		},
 	] );
