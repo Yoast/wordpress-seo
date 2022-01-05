@@ -77,7 +77,7 @@ const createSetDomElementProp = ( domId, prop = "value" ) => ( value ) => set( d
  * @param {Function} fn The function that should return a value.
  * @returns {Function} Function that wraps the fn and parses the return value to an integer.
  */
-const createAsInteger = fn => flow( [ fn, parseInt ] );
+const createAsInteger = ( fn ) => flow( [ fn, parseInt ] );
 
 /**
  * Gets the post title from the document.
@@ -213,14 +213,25 @@ export const getPostIsCornerstone = () => isEqual( get( document.getElementById(
 export const getTermIsCornerstone = () => isEqual( get( document.getElementById( DOM_YOAST_IDS.TERM_IS_CORNERSTONE ), "value", "0" ), "1" );
 
 /**
+ * Gets the post edit slug from the document.
+ *
+ * @returns {string} The post edit slug or an empty string.
+ */
+export const getPostNewSlug = () => get( document.getElementById( DOM_IDS.POST_SLUG_NEW ), "value" );
+
+/**
+ * Gets the post edit slug from the document.
+ *
+ * @returns {string} The post edit slug or an empty string.
+ */
+export const getPostEditSlug = () => get( document.getElementById( DOM_IDS.POST_SLUG_EDIT ), "textContent" );
+
+/**
  * Gets the post slug from the document.
  *
  * @returns {string} The post slug or an empty string.
  */
-export const getPostSlug = () => (
-	get( document.getElementById( DOM_IDS.POST_SLUG_NEW ), "value" ) ||
-	get( document.getElementById( DOM_IDS.POST_SLUG_EDIT ), "textContent" )
-);
+export const getPostSlug = () => getPostNewSlug() || getPostEditSlug();
 
 /**
  * Gets the term slug from the document.

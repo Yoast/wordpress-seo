@@ -143,9 +143,9 @@ const syncPostToStore = () => {
 		 * The save button is only there in edit mode, but even the button container seems to be removed and re-added.
 		 */
 		// eslint-disable-next-line no-unused-expressions
-		document.getElementById( DOM_IDS.POST_SLUG_EDIT_PARENT )?.addEventListener( "click", e => {
-			if ( e.target.classList.contains( DOM_CLASSES.POST_SLUG_SAVE_BUTTON ) ) {
-				const slug = document.getElementById( DOM_IDS.POST_SLUG_NEW )?.value;
+		document.getElementById( DOM_IDS.POST_SLUG_EDIT_PARENT )?.addEventListener( "click", ( event ) => {
+			if ( event.target.classList.contains( DOM_CLASSES.POST_SLUG_SAVE_BUTTON ) ) {
+				const slug = dom.getPostNewSlug();
 				if ( slug ) {
 					actions.updateSlug( slug );
 					actions.updatePermalink( get( window, "wpseoScriptData.metabox.base_url", "" ) + slug );
@@ -201,8 +201,8 @@ const syncPostToStore = () => {
 		// eslint-disable-next-line no-unused-expressions
 		document.getElementById( DOM_IDS.POST_FEATURED_IMAGE_PARENT )?.addEventListener(
 			"click",
-			e => {
-				if ( e.target.id === DOM_IDS.POST_FEATURED_IMAGE_REMOVE ) {
+			( event ) => {
+				if ( event.target.id === DOM_IDS.POST_FEATURED_IMAGE_REMOVE ) {
 					actions.updateFeaturedImage( {} );
 				}
 			}
