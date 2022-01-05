@@ -50,8 +50,8 @@ abstract class Abstract_Aioseo_Settings_Importing_Action_Double extends Abstract
 	 *
 	 * @return bool Whether global robot settings give a noindex or not.
 	 */
-	public function get_global_noindex() {
-		return parent::get_global_noindex();
+	public function get_global_robot_settings() {
+		return parent::get_global_robot_settings();
 	}
 
 	/**
@@ -62,7 +62,7 @@ abstract class Abstract_Aioseo_Settings_Importing_Action_Double extends Abstract
 	 *
 	 * @return bool The noindex setting.
 	 */
-	public function import_noindex( $noindex, $mapping ) {
-		return parent::import_noindex( $noindex, $mapping );
+	public function transform_robot_setting( $noindex, $mapping ) {
+		return parent::transform_robot_setting( $noindex, $mapping );
 	}
 }

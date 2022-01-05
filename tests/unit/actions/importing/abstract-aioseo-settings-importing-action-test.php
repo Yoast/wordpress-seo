@@ -231,41 +231,41 @@ class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 	 * @param array $aioseo_options The AIOSEO settings.
 	 * @param bool  $global_noindex The global noindex.
 	 *
-	 * @dataProvider provider_get_global_noindex
-	 * @covers ::get_global_noindex
+	 * @dataProvider provider_get_global_robot_settings
+	 * @covers ::get_global_robot_settings
 	 */
-	public function test_get_global_noindex( $aioseo_options, $global_noindex ) {
+	public function test_get_global_robot_settings( $aioseo_options, $global_noindex ) {
 		Monkey\Functions\expect( 'get_option' )
 			->once()
 			->andReturn( $aioseo_options );
 
-		$result = $this->mock_instance->get_global_noindex();
+		$result = $this->mock_instance->get_global_robot_settings();
 		$this->assertTrue( $global_noindex === $result );
 	}
 
 	/**
 	 * Tests the getting of the noindex setting set globally in AIOSEO.
 	 *
-	 * @param array $aioseo_options           The AIOSEO settings.
-	 * @param bool  $noindex                  The noindex of the type, without taking into consideration whether the type defers to global defaults.
-	 * @param array $mapping                  The mapping of the setting we're working with.
-	 * @param int   $get_global_noindex_times The times the get_global_noindex() is called.
-	 * @param bool  $global_noindex_value     What the get_global_noindex() returns.
-	 * @param bool  $expected_noindex         The expected result.
+	 * @param array $aioseo_options                  The AIOSEO settings.
+	 * @param bool  $noindex                         The noindex of the type, without taking into consideration whether the type defers to global defaults.
+	 * @param array $mapping                         The mapping of the setting we're working with.
+	 * @param int   $get_global_robot_settings_times The times the get_global_robot_settings() is called.
+	 * @param bool  $global_noindex_value            What the get_global_robot_settings() returns.
+	 * @param bool  $expected_noindex                The expected result.
 	 *
-	 * @dataProvider provider_import_noindex
-	 * @covers ::import_noindex
+	 * @dataProvider provider_transform_robot_setting
+	 * @covers ::transform_robot_setting
 	 */
-	public function test_import_noindex( $aioseo_options, $noindex, $mapping, $get_global_noindex_times, $global_noindex_value, $expected_noindex ) {
+	public function test_transform_robot_setting( $aioseo_options, $noindex, $mapping, $get_global_robot_settings_times, $global_noindex_value, $expected_noindex ) {
 		Monkey\Functions\expect( 'get_option' )
 			->once()
 			->andReturn( $aioseo_options );
 
-		$this->mock_instance->expects( 'get_global_noindex' )
-			->times( $get_global_noindex_times )
+		$this->mock_instance->expects( 'get_global_robot_settings' )
+			->times( $get_global_robot_settings_times )
 			->andReturn( $global_noindex_value );
 
-		$result = $this->mock_instance->import_noindex( $noindex, $mapping );
+		$result = $this->mock_instance->transform_robot_setting( $noindex, $mapping );
 		$this->assertTrue( $expected_noindex === $result );
 	}
 
@@ -274,7 +274,7 @@ class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 	 *
 	 * @return string
 	 */
-	public function provider_import_noindex() {
+	public function provider_transform_robot_setting() {
 		$mapping = [
 			'option_name' => 'aioseo_table',
 			'type'        => 'type',
@@ -342,7 +342,7 @@ class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 	 *
 	 * @return string
 	 */
-	public function provider_get_global_noindex() {
+	public function provider_get_global_robot_settings() {
 		$empty_settings = [];
 
 		$no_global_robots_meta = [
