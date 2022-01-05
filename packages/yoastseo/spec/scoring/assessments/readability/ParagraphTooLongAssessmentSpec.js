@@ -154,7 +154,8 @@ describe( "A test for marking the sentences", function() {
 		];
 		expect( assessment.getMarks( paper, paragraphTooLong ) ).toEqual( expected );
 	} );
-	it( "should return markers for a default text where the text contains <br> tags with attribute", function() {
+	it( "should return markers for a default text where the text contains <br> tags with attribute," +
+		" where <br> has a closing tag", function() {
 		const assessment = new ParagraphTooLongAssessment();
 		const paper = new Paper( "<p>Lorem ipsum dolor sit amet, in magna dolor voluptaria vel, duis aliquid perfecto ius ea, ad pri " +
 			"corpora petentium torquatos. Eu vidit rationibus vel. No vis partem nominavi neglegentur. Omnis dicat everti ut eam, " +
@@ -198,7 +199,51 @@ describe( "A test for marking the sentences", function() {
 		];
 		expect( assessment.getMarks( paper, paragraphTooLong ) ).toEqual( expected );
 	} );
-
+	it( "should return markers for a default text where the text contains <br> tags with attribute," +
+		" where <br> doesn't have a closing tag", function() {
+		const assessment = new ParagraphTooLongAssessment();
+		const paper = new Paper( "<p>Lorem ipsum dolor sit amet, in magna dolor voluptaria vel, duis aliquid perfecto ius ea, ad pri " +
+			"corpora petentium torquatos. Eu vidit rationibus vel. No vis partem nominavi neglegentur. Omnis dicat everti ut eam, " +
+			"eos ne atqui facer antiopam. Et pri vivendo sensibus perpetua, aperiam epicurei menandri an vix, sea prima accumsan " +
+			"signiferumque ad. Nisl commune ei est, ut eum stet cibo, duo malis veniam ut. Cu est veritus adolescens vituperatoribus, " +
+			"at eam movet perfecto. Magna consequat at cum. Vel ad fabellas accusata, vel ea erat lorem mediocritatem, dissentiunt " +
+			"liberavisse per ex. Duo putant vituperata eu, sit at tota etiam deseruisse. Sed in autem mucius. Errem omnium facilis mea an. " +
+			"Eu usu eripuit dissentiet, duo ei perfecto argumentum. Diceret forensibus cu has, quo alia nihil et, convenire adversarium " +
+			"efficiantur per id. His mazim virtute ornatus ei, has id vocibus docendi percipitur. Wisi nusquam pri no, putent menandri " +
+			"ad duo. Nullam nostrum salutandi eum id, per agam exerci an.<br data-mce-fragment=\"1\"><br data-mce-fragment=\"1\">" +
+			"Sadipscing neglegentur in vim. Et vero zril nec. Utinam sententiae percipitur ius no, pri ornatus facilisi vulputate ut. " +
+			"Velit tractatos consequat ea duo, ad duo sanctus vituperata, eos cu augue delenit liberavisse. Sit ut viris " +
+			"vocibus rationibus, ex eruditi copiosae evertitur nam. Mei veniam mentitum definitiones ex, harum maluisset " +
+			"cu usu.<br data-mce-fragment=\"1\"><br data-mce-fragment=\"1\">Ne mel consetetur incorrupte, id habemus omittantur " +
+			"efficiantur est. Delenit facilisi neglegentur est cu, eam ut viris vocent aliquam. Copiosae senserit ut vix, " +
+			"epicuri perfecto eam ne. Vis summo delicatissimi in, cu porro facete phaedrum nam. <br data-mce-fragment=\"1\">" +
+			"<br data-mce-fragment=\"1\">Utamur discere phaedrum eu nam. Ne quidam placerat per, qui inani diceret cu, " +
+			"at nec quot petentium efficiendi. Sea te persius vulputate. Docendi temporibus et quo. Ad duo appareat lobortis definitionem.!</p>" );
+		const paragraphTooLong = new EnglishResearcher( paper );
+		const expected = [
+			new Mark( {
+				original: "Lorem ipsum dolor sit amet, in magna dolor voluptaria vel, duis aliquid perfecto ius ea, " +
+					"ad pri corpora petentium torquatos. Eu vidit rationibus vel. No vis partem nominavi neglegentur. Omnis dicat everti " +
+					"ut eam, eos ne atqui facer antiopam. Et pri vivendo sensibus perpetua, aperiam epicurei menandri an vix, sea prima " +
+					"accumsan signiferumque ad. Nisl commune ei est, ut eum stet cibo, duo malis veniam ut. Cu est veritus adolescens " +
+					"vituperatoribus, at eam movet perfecto. Magna consequat at cum. Vel ad fabellas accusata, vel ea erat lorem mediocritatem, " +
+					"dissentiunt liberavisse per ex. Duo putant vituperata eu, sit at tota etiam deseruisse. Sed in autem mucius. Errem omnium " +
+					"facilis mea an. Eu usu eripuit dissentiet, duo ei perfecto argumentum. Diceret forensibus cu has, quo alia nihil et, " +
+					"convenire adversarium efficiantur per id. His mazim virtute ornatus ei, has id vocibus docendi percipitur. " +
+					"Wisi nusquam pri no, putent menandri ad duo. Nullam nostrum salutandi eum id, per agam exerci an.",
+				marked: "<yoastmark class='yoast-text-mark'>Lorem ipsum dolor sit amet, in magna dolor voluptaria vel, " +
+					"duis aliquid perfecto ius ea, " +
+					"ad pri corpora petentium torquatos. Eu vidit rationibus vel. No vis partem nominavi neglegentur. Omnis dicat everti " +
+					"ut eam, eos ne atqui facer antiopam. Et pri vivendo sensibus perpetua, aperiam epicurei menandri an vix, sea prima " +
+					"accumsan signiferumque ad. Nisl commune ei est, ut eum stet cibo, duo malis veniam ut. Cu est veritus adolescens " +
+					"vituperatoribus, at eam movet perfecto. Magna consequat at cum. Vel ad fabellas accusata, vel ea erat lorem mediocritatem, " +
+					"dissentiunt liberavisse per ex. Duo putant vituperata eu, sit at tota etiam deseruisse. Sed in autem mucius. Errem omnium " +
+					"facilis mea an. Eu usu eripuit dissentiet, duo ei perfecto argumentum. Diceret forensibus cu has, quo alia nihil et, " +
+					"convenire adversarium efficiantur per id. His mazim virtute ornatus ei, has id vocibus docendi percipitur. " +
+					"Wisi nusquam pri no, putent menandri ad duo. Nullam nostrum salutandi eum id, per agam exerci an.</yoastmark>" } ),
+		];
+		expect( assessment.getMarks( paper, paragraphTooLong ) ).toEqual( expected );
+	} );
 	it( "should return markers for a text in Japanese", function() {
 		const paper = new Paper( "接続詞は、文と文との中間に位置しています。前文と後文との間にあって、両者の関係を示している言葉です。学校文法では、接続詞は文の成分" +
 			"としては独立語として扱われておりますが、独立語でないとする文法学説もあります。松下文法では一品詞としないで副詞に含め、山田文法では副詞の一類として接続副詞" +
