@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 #wpseo-workouts-container-free h1,
 #wpseo-workouts-container-free h3 {
 	color: #a4286a;
