@@ -2,17 +2,27 @@
 
 This package aims to provide a simple solution for replacing *variables* with their corresponding *values* in a text based on a set of *replacement variables*. Use this package to configure what variables are supported and how these should be replaced when the variable is encountered in a text.
 
+> This package is agnostic, meaning it should be able to work for all platforms. When adding code, be sure it is not specific to a single platform, for instace WordPress.
+
 ## Installation
 
-To install this package run the following command in your terminal:
+```sh
+yarn add @yoast/replacement-variables
+# For local development
+yarn link @yoast/replacement-variables
+```
+
+This package is built with Babel. To build this package run the following command in your terminal:
 
 ```sh
-# Yarn
-yarn add @yoast/replacement-variables
-
-# NPM
-npm install @yoast/replacement-variables
+yarn build
+# For local development
+yarn watch
 ```
+
+This package is published on the NPM registry. To publish a new version ...
+
+> Publish strategy not decided upon.
 
 ## Using `createReplacementVariables`
 

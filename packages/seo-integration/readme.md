@@ -9,7 +9,9 @@ This package aims to provide a simple solution for integrating an editor with Yo
 3. Triggers new analyses whenever this data changes.
 4. Applies replacement variables to paper data before it is sent to the worker for analysis.
 
-## Installation & building
+> This package is agnostic, meaning it should be able to work for all platforms. When adding code, be sure it is not specific to a single platform, for instace WordPress.
+
+## Installation, building & publishing
 
 To install this package run the following command in your terminal:
 
@@ -26,6 +28,10 @@ yarn build
 # For local development
 yarn watch
 ```
+
+This package is published on the NPM registry. To publish a new version ...
+
+> Publish strategy not decided upon.
 
 ## Using `createSeoIntegration`
 
@@ -139,10 +145,10 @@ const selectors = select( SEO_STORE_NAME );
 ```
 
 **`FOCUS_KEYPHRASE_ID`** `String`\
-Identifier of the focus keyphrase. Use it when working with the focus keyphrase, instead of using the string "focus" directly.
+Identifier of the focus keyphrase. Use it when referencing the focus keyphrase, instead of using the string "focus" directly.
 
 **`useAnalysis`** `Function`\
-React hook to enable the analysis. When this hook is in a rendered component, the Redux store will start requesting analyses based on changes to the editor data in store.
+React hook to enable the analysis. When this hook is in a renderd component, Redux will trigger new analyses when store data changes and add new analysis results to the store.
 
 ```js
 const Component = ( { children } ) => {
