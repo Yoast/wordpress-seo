@@ -1,6 +1,13 @@
-# SEO Integration `@yoast/seo-integration`
+# `@yoast/seo-integration`
 
-This package aims to provide a simple solution for integrating an editor with Yoast SEO analyses. It combines the functionality of `@yoast/replacement-variables` and `@yoast/seo-store` into a single interface. Based on a configuration object, this package spins up the analysis worker, registers the WordPress data store for keeping data, and applies replacement variables. It should be the **only** package you need for integrating an editor with the Yoast SEO and readability analysis. In the future, this package will include all available Yoast features and replace all other ways of integrating Yoast SEO.
+This package aims to provide a simple solution for integrating an editor with Yoast. It should be the **only** package you need for integrating an editor with the Yoast SEO and readability analysis. In the future, this package will include all available Yoast features and replace all other ways of integrating Yoast.
+
+`@yoast/seo-integration` combines the functionality of `@yoast/replacement-variables` and `@yoast/seo-store` into a single interface. It  currently does four things that every editor integration with Yoast has to account for:
+
+1. Create an analysis worker that can analyze papers.
+2. Manage analysis paper and Yoast form data in a Redux store.
+3. Triggers new analyses whenever this data changes.
+4. Applies replacement variables to paper data before it is sent to the worker for analysis.
 
 ## Installation & building
 
@@ -22,7 +29,7 @@ yarn watch
 
 ## Using `createSeoIntegration`
 
-The package is built around a single `createSeoIntegration` factory which accepts an integration configuration and returns tools for easily integrating an editor with Yoast SEO.
+The package is built around a single `createSeoIntegration` factory which accepts a configuration and returns tools for easily integrating an editor with Yoast SEO.
 
 
 ### Arguments
@@ -74,6 +81,8 @@ An object keyed by analysis type that contains replacement variables for that an
 
 ### Example usage
 
+Please note that the implementor is responsible for updating the correct fields in the Redux store whenever editor data changes. This "watcher" concept is illustrated on the last lines of below example integration.
+
 ```js
 const { SeoProvider, analysisWorker } = createSeoIntegration( {
     analysis: {
@@ -114,8 +123,10 @@ ReactDOM.render(
     </SeoProvider>
     document.getElementById( "root" ),
 );
+// Sync editor changes to the store, causing a new analyses to trigger. We call this a "watcher".
+const actions = dispatch( SEO_STORE_NAME );
+document.getElementById( "content" ).on( "change", ( event ) => actions.updateContent( event.target.value ) );
 ```
-
 
 ## Other exports
 
