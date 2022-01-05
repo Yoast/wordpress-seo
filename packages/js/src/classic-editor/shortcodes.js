@@ -154,11 +154,6 @@ const parseShortcodes = text => {
  * @returns {function} Unregister function.
  */
 const registerShortcodes = () => {
-	const isPost = get( window, "wpseoScriptData.isPost", "" ) === "1";
-	if ( ! isPost ) {
-		return;
-	}
-
 	// Priority of 11 to run it after the replacement variables (priority 10). As a shortcode is not expected to have replacement variables.
 	addFilter(
 		"yoast.seoStore.analysis.preparePaper",

@@ -172,6 +172,7 @@ class WPSEO_Taxonomy {
 				],
 				'metabox'          => $this->localize_term_scraper_script(),
 				'userLanguageCode' => WPSEO_Language_Utils::get_language( \get_user_locale() ),
+				'siteTimezone'     => \wp_timezone_string(),
 				'isTerm'           => true,
 			];
 			$asset_manager->localize_script( $term_edit_handle, 'wpseoScriptData', $script_data );

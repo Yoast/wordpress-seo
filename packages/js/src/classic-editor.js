@@ -1,5 +1,6 @@
-/* global wpseoScriptData wpseoPrimaryCategoryL10n */
+/* global wpseoPrimaryCategoryL10n */
 
+import { get, debounce } from "lodash";
 import domReady from "@wordpress/dom-ready";
 import { dispatch } from "@wordpress/data";
 import createSeoIntegration, { SEO_STORE_NAME } from "@yoast/seo-integration";
@@ -10,84 +11,125 @@ import initAdmin from "./initializers/admin";
 import initAdminMedia from "./initializers/admin-media";
 import initTabs from "./initializers/metabox-tabs";
 import initPrimaryCategory from "./initializers/primary-category";
+import { initialize as initPublishBox } from "./ui/publishBox";
 import initEditorStore from "./classic-editor/editor-store";
 import Metabox from "./classic-editor/components/metabox";
 import { MetaboxFill, MetaboxSlot } from "./classic-editor/components/metabox/slot-fill";
-import createClassicEditorWatcher from "./classic-editor/watcher";
-import { getInitialState } from "./classic-editor/initial-state";
+import { initPostWatcher, initTermWatcher } from "./classic-editor/watcher";
+import { getInitialPostState, getInitialTermState } from "./classic-editor/initial-state";
 import { getAnalysisConfiguration } from "./classic-editor/analysis";
 import { refreshDelay } from "./analysis/constants";
-import { debounce } from "lodash";
+import { initTermDescriptionTinyMce } from "./initializers/tiny-mce";
 
-const registerApis = registerGlobalApis( "YoastSEO" );
+// These are either "1" or undefined.
+const isPost = Boolean( get( window, "wpseoScriptData.isPost" ) );
+const isTerm = Boolean( get( window, "wpseoScriptData.isTerm" ) );
+
+/**
+ * Renders the metabox React components.
+ *
+ * @param {Object} options Options object.
+ * @param {JSX.Element} options.SeoProvider SeoProvider component.
+ * @returns {void}
+ */
+const renderMetabox = ( { SeoProvider } ) => renderReactRoot( {
+	target: "wpseo-metabox-root",
+	children: (
+		<SeoProvider>
+			<MetaboxSlot />
+			<MetaboxFill>
+				<Metabox />
+			</MetaboxFill>
+		</SeoProvider>
+	),
+	theme: { isRtl: Boolean( get( window, "wpseoScriptData.metabox.isRtl", false ) ) },
+	location: "metabox",
+} );
+
+/**
+ * Registers Yoast API's on the global for backwards compatibility.
+ *
+ * @param {Object} options Options object.
+ * @param {JSX.Element} options.analysisWorker The ananlysis worker interface.
+ * @returns {void}
+ */
+const registerYoastApis = ( { analysisWorker } ) => registerGlobalApis(
+	"YoastSEO",
+	[
+		// YoastSEO._registerReactComponent: Render new components inside the React tree.
+		{ _registerReactComponent: registerReactComponent },
+		// YoastSEO.analysis.worker: access the analysis worker directly.
+		{ analysis: { worker: analysisWorker } },
+		// YoastSEO.app.refresh: refresh the analysis by dispatching the analyze action.
+		{ app: { refresh: debounce( dispatch( SEO_STORE_NAME ).analyze, refreshDelay ) } },
+	]
+);
+
+/**
+ * Initialize the post specific logic.
+ *
+ * @returns {void}
+ */
+const initPost = async () => {
+	// Register shortcodes to work on paper data.
+	registerShortcodes();
+	// Initialize the publish box.
+	initPublishBox();
+	// Create SEO integration with post state.
+	const { SeoProvider, analysisWorker } = await createSeoIntegration( {
+		analysis: getAnalysisConfiguration(),
+		initialState: getInitialPostState(),
+	} );
+	// Register global Yoast APIs.
+	registerYoastApis( { analysisWorker } );
+	// Start watching for DOM/store changes.
+	initPostWatcher();
+	// Render metabox with provider.
+	renderMetabox( { SeoProvider } );
+};
+
+/**
+ * Initialize the term specific logic.
+ *
+ * @returns {void}
+ */
+const initTerm = async () => {
+	// Initialize TinyMCE description editor for terms.
+	initTermDescriptionTinyMce( jQuery );
+	// Create SEO integration with term state.
+	const { SeoProvider, analysisWorker } = await createSeoIntegration( {
+		analysis: getAnalysisConfiguration(),
+		initialState: getInitialTermState(),
+	} );
+	// Register global Yoast APIs.
+	registerYoastApis( { analysisWorker } );
+	// Start watching for DOM/store changes.
+	initTermWatcher();
+	// Render metabox with provider.
+	renderMetabox( { SeoProvider } );
+};
 
 domReady( async () => {
 	// Initialize the tab behavior of the metabox.
 	initTabs( jQuery );
-
 	// Initialize global admin scripts.
 	initAdmin( jQuery );
-
 	// Initialize the media library for our social settings.
 	initAdminMedia( jQuery );
-
+	// Until ALL the components are carried over, the `@yoast-seo/editor` store is still needed.
+	initEditorStore();
 	// Initialize the primary category integration.
 	if ( typeof wpseoPrimaryCategoryL10n !== "undefined" ) {
 		initPrimaryCategory( jQuery );
 	}
-
-	const { SeoProvider, analysisWorker } = await createSeoIntegration( {
-		analysis: getAnalysisConfiguration(),
-		initialState: getInitialState(),
-	} );
-
-	/*
-	 * Register the analysis worker on `window.YoastSEO.analysis.worker`
-	 * and refreshing the analysis on `window.YoastSEO.app.refresh`
-	 * for backwards compatibility with the add-ons.
-	 */
-	registerApis( [
-		{ analysis: { worker: analysisWorker } },
-		{
-			app: {
-				refresh: debounce( dispatch( SEO_STORE_NAME ).analyze, refreshDelay ),
-			},
-		},
-	] );
-
-	// Until ALL the components are carried over, the `@yoast-seo/editor` store is still needed.
-	initEditorStore();
-
-	// - expose global API (pluggable/see scrapers).
-	registerShortcodes();
-
-	// - create a SEO data watcher that updates our hidden fields so that the changed data is saved along with the WP save.
-	// - traffic light & admin bar: update analysis scores?
-
-	// Start watching and syncing between store and editor data.
-	const watcher = createClassicEditorWatcher();
-	watcher.watch();
-
-	// We have to do this differently: all the components are coupled to the store, which we are changing :)
-	// Responsibility:
-	// - render metabox
-	// - provide slot/fill mechanism
-	// Expose registerReactComponent as an alternative to registerPlugin.
-	registerApis( [ { _registerReactComponent: registerReactComponent } ] );
-
-	renderReactRoot( {
-		target: "wpseo-metabox-root",
-		children: (
-			<SeoProvider>
-				<MetaboxSlot />
-				<MetaboxFill>
-					<Metabox />
-				</MetaboxFill>
-			</SeoProvider>
-		),
-		theme: { isRtl: Boolean( wpseoScriptData.metabox.isRtl ) },
-		location: "metabox",
-	} );
-
+	// Initialize post logic if post page.
+	if ( isPost ) {
+		await initPost();
+	}
+	// Initialize term logic if term page.
+	if ( isTerm ) {
+		await initTerm();
+	}
+	// All systems go!
 	jQuery( window ).trigger( "YoastSEO:ready" );
 } );
