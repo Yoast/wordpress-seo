@@ -83,12 +83,15 @@ abstract class WPSEO_Indexable_Sitemap_Provider implements WPSEO_Sitemap_Provide
             // phpcs:enable
 		);
 
-		$links = [];
-		$page  = 1;
+		$links      = [];
+		$page       = 1;
+		$page_types = [];
 		foreach ( $last_object_per_page as $index => $object ) {
 			if ( $this->should_exclude_object_sub_type( $object->object_sub_type ) ) {
 				continue;
 			}
+
+			$page_types[ $object->object_sub_type ] = true;
 
 			$next_object_is_not_same_sub_type = ! isset( $last_object_per_page[ ( $index + 1 ) ] ) || $last_object_per_page[ ( $index + 1 ) ]->object_sub_type !== $object->object_sub_type;
 			if ( $page === 1 && $next_object_is_not_same_sub_type ) {
@@ -105,7 +108,27 @@ abstract class WPSEO_Indexable_Sitemap_Provider implements WPSEO_Sitemap_Provide
 			}
 		}
 
+		foreach ( $this->get_non_empty_types() as $object_sub_type ) {
+			if ( ! isset( $page_types[ $object_sub_type ] ) || $page_types[ $object_sub_type ] !== true ) {
+				$links[] = [
+					'loc'     => WPSEO_Sitemaps_Router::get_base_url( $object_sub_type . '-sitemap.xml' ),
+					'lastmod' => null,
+				];
+			}
+		}
+
 		return $links;
+	}
+
+	/**
+	 * Gets a list of object subtypes that should have at least one link on the sitemap index.
+	 * This is needed for sitemaps that add links to the first page of the sitemap. If there are no posts,
+	 * there would not be a link on the sitemap index, unless if the object subtype is defined here.
+	 *
+	 * @return string[] A list of indexable subtypes that should get at least one link on the sitemap index.
+	 */
+	protected function get_non_empty_types() {
+		return [];
 	}
 
 	/**

@@ -43,8 +43,6 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Post_Type_Sitemap_Provider::get_index_links
 	 */
 	public function test_get_index_links_no_entries() {
-		$this->factory->post->create();
-		$this->factory->post->create( [ 'post_type' => 'page' ] );
 		$index_links = self::$class_instance->get_index_links( 1 );
 		$this->assertNotEmpty( $index_links );
 		$this->assertContains( 'http://example.org/post-sitemap.xml', $index_links[0] );

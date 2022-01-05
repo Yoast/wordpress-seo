@@ -31,6 +31,24 @@ class WPSEO_Post_Type_Sitemap_Provider extends WPSEO_Indexable_Sitemap_Provider 
 	}
 
 	/**
+	 * Gets a list of sitemap types that will always have at least one archive entry in the sitemap,
+	 * even if there are no posts of that type.
+	 *
+	 * @return string[] A list of indexable subtypes that should get at least one link on the sitemap index.
+	 */
+	protected function get_non_empty_types() {
+		$indexed_archives = $this->repository
+			->query_where_noindex( false, 'post-type-archive' )
+			->select_many( 'object_sub_type' )
+			->find_array();
+		$indexed_archives = wp_list_pluck( $indexed_archives, 'object_sub_type' );
+
+		// Post and page sitemaps always get a link to the homepage or posts page.
+		return array_merge( $indexed_archives, [ 'post', 'page' ] );
+	}
+
+
+	/**
 	 * Whether or not a specific object sub type should be excluded.
 	 *
 	 * @param string $object_sub_type The object sub type.
