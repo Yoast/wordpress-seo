@@ -18,7 +18,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group importing
  *
  * @coversDefaultClass \Yoast\WP\SEO\Actions\Importing\Abstract_Aioseo_Settings_Importing_Action
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded, Yoast.Yoast.AlternativeFunctions.json_encode_json_encode
  */
 class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 
@@ -215,7 +215,7 @@ class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 
 		$this->mock_instance->expects( $setting_mapping['transform_method'] )
 			->once()
-			->with( $setting_value )
+			->with( $setting_value, $setting_mapping )
 			->andReturn( 'some_value' );
 
 		$this->options->expects( 'set' )
@@ -223,6 +223,200 @@ class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 			->with( $setting_mapping['yoast_name'], 'some_value' );
 
 		$this->mock_instance->import_single_setting( $setting, $setting_value, $setting_mapping );
+	}
+
+	/**
+	 * Tests the getting of the noindex setting set globally in AIOSEO.
+	 *
+	 * @param array $aioseo_options The AIOSEO settings.
+	 * @param bool  $global_noindex The global noindex.
+	 *
+	 * @dataProvider provider_get_global_noindex
+	 * @covers ::get_global_noindex
+	 */
+	public function test_get_global_noindex( $aioseo_options, $global_noindex ) {
+		Monkey\Functions\expect( 'get_option' )
+			->once()
+			->andReturn( $aioseo_options );
+
+		$result = $this->mock_instance->get_global_noindex();
+		$this->assertTrue( $global_noindex === $result );
+	}
+
+	/**
+	 * Tests the getting of the noindex setting set globally in AIOSEO.
+	 *
+	 * @param array $aioseo_options           The AIOSEO settings.
+	 * @param bool  $noindex                  The noindex of the type, without taking into consideration whether the type defers to global defaults.
+	 * @param array $mapping                  The mapping of the setting we're working with.
+	 * @param int   $get_global_noindex_times The times the get_global_noindex() is called.
+	 * @param bool  $global_noindex_value     What the get_global_noindex() returns.
+	 * @param bool  $expected_noindex         The expected result.
+	 *
+	 * @dataProvider provider_import_noindex
+	 * @covers ::import_noindex
+	 */
+	public function test_import_noindex( $aioseo_options, $noindex, $mapping, $get_global_noindex_times, $global_noindex_value, $expected_noindex ) {
+		Monkey\Functions\expect( 'get_option' )
+			->once()
+			->andReturn( $aioseo_options );
+
+		$this->mock_instance->expects( 'get_global_noindex' )
+			->times( $get_global_noindex_times )
+			->andReturn( $global_noindex_value );
+
+		$result = $this->mock_instance->import_noindex( $noindex, $mapping );
+		$this->assertTrue( $expected_noindex === $result );
+	}
+
+	/**
+	 * Data provider for test_query().
+	 *
+	 * @return string
+	 */
+	public function provider_import_noindex() {
+		$mapping = [
+			'option_name' => 'aioseo_table',
+			'type'        => 'type',
+			'subtype'     => 'subtype',
+		];
+
+		$empty_settings = [];
+
+		$global_robots_meta = [
+			'searchAppearance' => [
+				'type' => [
+					'subtype' => [
+						'advanced' => [
+							'robotsMeta' => [
+								'default' => true,
+							],
+						],
+					],
+				],
+			],
+		];
+
+		$no_global_robots_meta = [
+			'searchAppearance' => [
+				'type' => [
+					'subtype' => [
+						'advanced' => [
+							'robotsMeta' => [
+								'default' => false,
+							],
+						],
+					],
+				],
+			],
+		];
+
+		$malformed_global_robots_meta = [
+			'searchAppearance' => [
+				'type' => [
+					'subtype' => [
+						'advanced' => [
+							'robotsMeta' => [
+								'not_default' => 'random',
+							],
+						],
+					],
+				],
+			],
+		];
+
+		return [
+			[ \json_encode( $empty_settings ), false, $mapping, 0, 'irrelevant', false ],
+			[ \json_encode( $empty_settings ), true, $mapping, 0, 'irrelevant', true ],
+			[ \json_encode( $global_robots_meta ), 'irrelevant', $mapping, 1, true, true ],
+			[ \json_encode( $global_robots_meta ), 'irrelevant', $mapping, 1, false, false ],
+			[ \json_encode( $no_global_robots_meta ), true, $mapping, 0, 'irrelevant', true ],
+			[ \json_encode( $no_global_robots_meta ), false, $mapping, 0, 'irrelevant', false ],
+			[ \json_encode( $malformed_global_robots_meta ), false, $mapping, 0, 'irrelevant', false ],
+			[ \json_encode( $malformed_global_robots_meta ), true, $mapping, 0, 'irrelevant', true ],
+		];
+	}
+
+	/**
+	 * Data provider for test_query().
+	 *
+	 * @return string
+	 */
+	public function provider_get_global_noindex() {
+		$empty_settings = [];
+
+		$no_global_robots_meta = [
+			'searchAppearance' => [
+				'advanced' => [
+					'not_globalRobotsMeta' => [
+						'default' => true,
+					],
+				],
+			],
+		];
+
+		$no_set_default_global = [
+			'searchAppearance' => [
+				'advanced' => [
+					'globalRobotsMeta' => [
+						'not_default' => 'whatever',
+					],
+				],
+			],
+		];
+
+		$default_global = [
+			'searchAppearance' => [
+				'advanced' => [
+					'globalRobotsMeta' => [
+						'default' => true,
+					],
+				],
+			],
+		];
+
+		$no_default_no_noindex_global = [
+			'searchAppearance' => [
+				'advanced' => [
+					'globalRobotsMeta' => [
+						'default'     => false,
+						'not_noindex' => 'whatever',
+					],
+				],
+			],
+		];
+
+		$no_default_noindex_global = [
+			'searchAppearance' => [
+				'advanced' => [
+					'globalRobotsMeta' => [
+						'default' => false,
+						'noindex' => true,
+					],
+				],
+			],
+		];
+
+		$no_default_disabled_noindex_global = [
+			'searchAppearance' => [
+				'advanced' => [
+					'globalRobotsMeta' => [
+						'default' => false,
+						'noindex' => false,
+					],
+				],
+			],
+		];
+
+		return [
+			[ \json_encode( $empty_settings ), false ],
+			[ \json_encode( $no_global_robots_meta ), false ],
+			[ \json_encode( $no_set_default_global ), false ],
+			[ \json_encode( $default_global ), false ],
+			[ \json_encode( $no_default_no_noindex_global ), false ],
+			[ \json_encode( $no_default_noindex_global ), true ],
+			[ \json_encode( $no_default_disabled_noindex_global ), false ],
+		];
 	}
 
 	/**

@@ -76,13 +76,20 @@ class Aioseo_Custom_Archive_Settings_Importing_Action extends Abstract_Aioseo_Se
 		foreach ( $post_type_objects as $pt ) {
 			// Use all the custom post types that have archives.
 			if ( ! $pt->_builtin && $this->post_type->has_archive( $pt ) ) {
-				$this->aioseo_options_to_yoast_map[ '/' . $pt->name . '/title' ]           = [
+				$this->aioseo_options_to_yoast_map[ '/' . $pt->name . '/title' ]                       = [
 					'yoast_name'       => 'title-ptarchive-' . $pt->name,
 					'transform_method' => 'simple_import',
 				];
-				$this->aioseo_options_to_yoast_map[ '/' . $pt->name . '/metaDescription' ] = [
+				$this->aioseo_options_to_yoast_map[ '/' . $pt->name . '/metaDescription' ]             = [
 					'yoast_name'       => 'metadesc-ptarchive-' . $pt->name,
 					'transform_method' => 'simple_import',
+				];
+				$this->aioseo_options_to_yoast_map[ '/' . $pt->name . '/advanced/robotsMeta/noindex' ] = [
+					'yoast_name'       => 'noindex-ptarchive-' . $pt->name,
+					'transform_method' => 'import_noindex',
+					'type'             => 'archives',
+					'subtype'          => $pt->name,
+					'option_name'      => 'aioseo_options_dynamic',
 				];
 			}
 		}

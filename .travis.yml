@@ -139,8 +139,8 @@ install:
       # Then switch back to the PHP version we want to test and delete the vendor directory.
       phpenv local 7.1
       travis_retry composer install --no-interaction --ignore-platform-reqs
-      travis_retry composer remove humbug/php-scoper --dev --ignore-platform-reqs
-      travis_retry composer remove atanamo/php-codeshift --dev --ignore-platform-reqs
+      travis_retry composer remove humbug/php-scoper --dev --ignore-platform-reqs --no-interaction
+      travis_retry composer remove atanamo/php-codeshift --dev --ignore-platform-reqs --no-interaction
       # Dependency injection compilation only works on PHP 7+.
       # It makes use of reflection-based PHP code that only works on PHP 7+.
       travis_retry composer du
@@ -150,7 +150,7 @@ install:
   - |
     if [[ "$COVERAGE" == "1" ]]; then
       # Install phpcov so we can combine the coverage results of unit and integration tests.
-      travis_retry composer require phpunit/phpcov ^3.1
+      travis_retry composer require phpunit/phpcov ^3.1 --no-interaction
     fi
   - |
     if [[ ${TRAVIS_PHP_VERSION:0:1} == "8" || $TRAVIS_PHP_VERSION == "nightly" ]]; then
@@ -161,7 +161,7 @@ install:
       travis_retry composer install --no-interaction --no-scripts
       travis_retry composer du --no-scripts
     elif [[ "$TRAVIS_BUILD_STAGE_NAME" == "🚀 deployment" ]]; then
-      travis_retry composer update
+      travis_retry composer update --no-interaction
       travis_retry composer install --no-dev --no-interaction
       composer du
     fi
@@ -193,7 +193,7 @@ before_script:
       mysql -e "CREATE DATABASE wordpress_tests;" -uroot
       cd "/tmp/wordpress/src/wp-content/plugins/$PLUGIN_SLUG"
       mkdir src/generated/assets
-      echo "<?php return [ 'post-edit-' . ( new WPSEO_Admin_Asset_Manager() )->flatten_version( WPSEO_VERSION ) . '.js' => [ 'dependencies' => [] ] ];" >> src/generated/assets/plugin.php
+      echo "<?php return [ 'post-edit.min.js' => [ 'dependencies' => [], 'version' => 'test' ], 'installation-success.min.js' => [ 'dependencies' => [], 'version' => 'test' ], 'workouts.min.js' => [ 'dependencies' => [], 'version' => 'test' ] ];" >> src/generated/assets/plugin.php
       echo "<?php return [];" >> src/generated/assets/externals.php
       echo "<?php return [];" >> src/generated/assets/languages.php
     fi
@@ -269,8 +269,8 @@ script:
   - |
     if [[ "$PHPUNIT" == "1" ]] && [[ ${TRAVIS_PHP_VERSION:0:1} == "8" || $TRAVIS_PHP_VERSION == "nightly" ]]; then
       travis_fold start "PHP.tests" && travis_time_start
-      composer require --dev phpunit/phpunit:"^9.0" --update-with-dependencies --ignore-platform-reqs --no-interaction &&
-      composer update yoast/wp-test-utils --with-all-dependencies --ignore-platform-reqs --no-interaction &&
+      travis_retry composer require --dev phpunit/phpunit:"^9.0" --update-with-dependencies --ignore-platform-reqs --no-interaction &&
+      travis_retry composer update yoast/wp-test-utils --with-all-dependencies --ignore-platform-reqs --no-interaction &&
       vendor/bin/phpunit
       travis_time_finish && travis_fold end "PHP.tests"
     fi

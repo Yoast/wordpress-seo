@@ -4,6 +4,7 @@ import { debounce, isUndefined } from "lodash-es";
 import analysis from "yoastseo";
 import { excerptFromContent, fillReplacementVariables, mapCustomFields, mapCustomTaxonomies } from "../helpers/replacementVariableHelpers";
 import * as tmceHelper from "../lib/tinymce";
+import getContentLocale from "./getContentLocale";
 
 const { removeMarks } = analysis.markers;
 const { updateReplacementVariable, updateData, hideReplacementVariables, setContentImage } = actions;
@@ -185,12 +186,13 @@ export default class ClassicEditorData {
 	getExcerpt( useFallBack = true ) {
 		const excerptElement = document.getElementById( "excerpt" );
 		const excerptValue = excerptElement && excerptElement.value || "";
+		const limit = ( getContentLocale() === "ja" ) ? 80 : 156;
 
 		if ( excerptValue !== "" || useFallBack === false ) {
 			return excerptValue;
 		}
 
-		return excerptFromContent( this.getContent() );
+		return excerptFromContent( this.getContent(), limit );
 	}
 
 	/**

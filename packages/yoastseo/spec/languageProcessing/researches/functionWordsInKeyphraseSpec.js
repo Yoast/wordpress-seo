@@ -81,4 +81,9 @@ describe( "Test for checking if the keyphrase contains only Japanese function wo
 		const mockPaper = new Paper( "私の猫は愛らしいです。", { keyword: "からかいをばっかり", locale: "ja" } );
 		expect( functionWordsInKeyphrase( mockPaper, new JapaneseResearcher( mockPaper ) ) ).toBe( true );
 	} );
+
+	it( "returns true if all the words in the keyphrase are function words (separated by spaces)", () => {
+		const mockPaper = new Paper( "私の猫は愛らしいです。", { keyword: "かしら かい を ばっかり", locale: "ja" } );
+		expect( functionWordsInKeyphrase( mockPaper, new JapaneseResearcher( mockPaper ) ) ).toBe( true );
+	} );
 } );

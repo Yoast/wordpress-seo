@@ -21,6 +21,7 @@ import assessmentApplicability from "./config/assessmentApplicabilityCharacterCo
 import sentenceLength from "./config/sentenceLength";
 import subheadingsTooLong from "./config/subheadingsTooLong";
 import keyphraseLength from "./config/keyphraseLength";
+import metaDescriptionLength from "./config/metaDescriptionLength";
 
 // All custom researches
 import morphology from "./customResearches/getWordForms";
@@ -58,6 +59,7 @@ export default class Researcher extends AbstractResearcher {
 			keyphraseLength,
 			subheadingsTooLong,
 			countCharacters: true,
+			metaDescriptionLength,
 		} );
 
 		Object.assign( this.helpers, {

@@ -4,6 +4,7 @@ import { debounce } from "lodash-es";
 import { languageProcessing } from "yoastseo";
 import { reapplyAnnotationsForSelectedBlock } from "../decorator/gutenberg";
 import { excerptFromContent, fillReplacementVariables, mapCustomFields, mapCustomTaxonomies } from "../helpers/replacementVariableHelpers";
+import getContentLocale from "./getContentLocale";
 
 const {
 	updateReplacementVariable,
@@ -175,12 +176,13 @@ export default class BlockEditorData {
 		const content = this.getPostAttribute( "content" );
 		const contentImage = this.calculateContentImage( content );
 		const excerpt = this.getPostAttribute( "excerpt" ) || "";
+		const limit = ( getContentLocale() === "ja" ) ? 80 : 156;
 
 		return {
 			content,
 			title: this.getPostAttribute( "title" ) || "",
 			slug: this.getSlug(),
-			excerpt: excerpt || excerptFromContent( content ),
+			excerpt: excerpt || excerptFromContent( content, limit ),
 			// eslint-disable-next-line camelcase
 			excerpt_only: excerpt,
 			snippetPreviewImageURL: this.getFeaturedImage() || contentImage,

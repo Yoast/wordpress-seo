@@ -25,6 +25,8 @@ export function openModal( props ) {
 	const { keyphrases, onNoKeyphraseSet, onOpen, location } = props;
 
 	if ( ! keyphrases.length ) {
+		// This is fragile, should replace with a real React ref.
+		document.querySelector( "#focus-keyword-input-sidebar" ).focus();
 		onNoKeyphraseSet();
 
 		return;
@@ -105,6 +107,7 @@ WincherSEOPerformanceModal.propTypes = {
 		"none",
 		"metabox",
 		"sidebar",
+		"postpublish",
 	] ),
 };
 

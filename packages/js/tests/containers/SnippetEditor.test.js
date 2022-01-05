@@ -37,6 +37,7 @@ describe( "SnippetEditor container", () => {
 					getSnippetEditorWordsToHighlight: jest.fn().mockReturnValue( [ "active" ] ),
 					isCornerstoneContent: jest.fn().mockReturnValue( true ),
 					getIsTerm: jest.fn().mockReturnValue( true ),
+					getContentLocale: jest.fn().mockReturnValue( "en" ),
 				};
 			}
 		} );
@@ -74,6 +75,7 @@ describe( "SnippetEditor container", () => {
 			wordsToHighlight: [ "active" ],
 			isCornerstone: true,
 			isTaxonomy: true,
+			locale: "en",
 		};
 
 		const result = mapSelectToProps( select );
