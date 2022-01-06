@@ -2,7 +2,7 @@
 
 This package aims to provide a simple solution for integrating an editor with Yoast. It should be the **only** package you need for integrating an editor with the Yoast SEO and readability analysis. In the future, this package will include all available Yoast features and replace all other ways of integrating Yoast.
 
-`@yoast/seo-integration` combines the functionality of `@yoast/replacement-variables` and `@yoast/seo-store` into a single interface. It  currently does four things that every editor integration with Yoast has to account for:
+`@yoast/seo-integration` combines the functionality of `@yoast/replacement-variables` and `@yoast/seo-store` into a single interface. It currently does four things that every editor integration with Yoast has to account for:
 
 1. Create an analysis worker that can analyze papers.
 2. Manage analysis paper and Yoast form data in a Redux store.
@@ -64,10 +64,10 @@ Initial Redux store state. Please see the docs of `@yoast/seo-store` for what th
 The factory returns an object with the following props:
 
 **`analysisWorker`** `Object`\
-The analaysis worker interface.
+The analysis worker interface.
 
 **`SeoProvider`** `Component`\
-A context provider component for rendering the `SeoContext` into a React tree. You can access the context using the `useSeoContext` hook also exported from from this package. The `SeoContext` contains the following props:
+A context provider component for rendering the `SeoContext` into a React tree. You can access the context using the `useSeoContext` hook also exported from this package. The `SeoContext` contains the following props:
 
 - **`analysisTypeReplacementVariables`** `Object`\
 An object keyed by analysis type that contains replacement variables for that analysis type. Please see the docs of `@yoast/replacement-variables` for what a replacement variable object looks like.
@@ -90,21 +90,21 @@ const { SeoProvider, analysisWorker } = createSeoIntegration( {
         dependencies: {
             lodash: "url-to-lodash.example",
         },
-		types: {
-			post: {
-				name: "post",
-				replacementVariableConfigurations: [
+        types: {
+            post: {
+                name: "post",
+                replacementVariableConfigurations: [
                     {
                         name: "var_name",
                         label: "Variable Name",
                         getReplacement: () => "Replacement",
                     }
                 ],
-			},
-		},
-		configuration: {
-			locale: "en_US",
-		},
+            },
+        },
+        configuration: {
+            locale: "en_US",
+        },
     },
     initialState: {
         editor: {
@@ -142,7 +142,7 @@ const selectors = select( SEO_STORE_NAME );
 Identifier of the focus keyphrase. Use it when working with the focus keyphrase, instead of using the string "focus" directly.
 
 **`useAnalysis`** `Function`\
-React hook to enable the analysis. When this hook is in a renderd component, the Redux store will start requesting analyses based on changes to the editor data in store.
+React hook to enable the analysis. When this hook is in a rendered component, the Redux store will start requesting analyses based on changes to the editor data in store.
 
 ```js
 const Component = ( { children } ) => {
@@ -168,22 +168,22 @@ Container component that connects its `as` prop Component to relevant readabilit
 ```
 
 **`SeoResultsContainer`** `Function`\
-Container component that connects its `as` prop Component to relevant SEO results data in the store. See `ReadabilityResultsContainer` for a similair example implementation.
+Container component that connects its `as` prop Component to relevant SEO results data in the store. See `ReadabilityResultsContainer` for a similar example implementation.
 
 **`GooglePreviewContainer`** `Function`\
-Container component that connects its `as` prop Component to SEO form data in the store. See `ReadabilityResultsContainer` for a similair example implementation.
+Container component that connects its `as` prop Component to SEO form data in the store. See `ReadabilityResultsContainer` for a similar example implementation.
 
 **`replacementVariableConfigurations`** `Object`\
 Object of default replacement variables from the SEO store. Includes replacement variable configurations for: `title`, `content`, `excerpt`, `permalink` and `focusKeyphrase`.
 
 ## Extensibility
-This package provide some `@wordpress/hooks` filters for extending its functionality:
+This package provides some `@wordpress/hooks` filters for extending its functionality:
 
 **`yoast.seoIntegration.analysis.configuration`** `Filter`\
-Filters the analysis worker configuration. Functinos registered here accept the unfiltered analysis configuration and must return a valid analysis worker configuration.
+Filters the analysis worker configuration. Functions registered here accept the unfiltered analysis configuration and must return a valid analysis worker configuration.
 
 **`yoast.seoIntegration.replacementVariables.configurations`** `Filter`\
-Filters the replacement variable confiugrations. Use it for adding or modifying replacement variables. Functions registered here accept the unfiltered replacement variable configurations and  must return valid replacement variable configurations.
+Filters the replacement variable configurations. Use it for adding or modifying replacement variables. Functions registered here accept the unfiltered replacement variable configurations and  must return valid replacement variable configurations.
 
 ```js
 addFilter(
@@ -193,7 +193,7 @@ addFilter(
         ...replacementVariableConfigurations,
         post: [],
     } ),
-    10, // Filter order
+    10, // Filter order. Lower means earlier, compared to others.
 );
 ```
 
@@ -210,4 +210,4 @@ addFilter(
 );
 ```
 
-**The `@yoast/seo-store` package provides a filter for adding/modifying paper data, please reference this imporant filter there.**
+**The `@yoast/seo-store` package provides a filter for adding/modifying paper data, please reference this important filter there.**
