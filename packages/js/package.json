@@ -2,11 +2,13 @@
   "name": "@yoast/wordpress-seo",
   "version": "1.0.0",
   "scripts": {
-    "test": "jest -u",
+    "test": "wp-scripts test-unit-js",
     "lint": "eslint src tests --max-warnings=151"
   },
   "jest": {
-    "setupTestFrameworkScriptFile": "<rootDir>/tests/setupTests.js",
+    "setupFilesAfterEnv": [
+      "<rootDir>/tests/setupTests.js"
+    ],
     "transformIgnorePatterns": [
       "[/\\\\]node_modules[/\\\\](?!yoast-components|yoastseo|lodash-es|lodash|@yoast).+\\.js$"
     ],
@@ -68,6 +70,7 @@
   },
   "devDependencies": {
     "@wordpress/dependency-extraction-webpack-plugin": "^2.8.0",
+    "@wordpress/scripts": "^14.1.1",
     "case-sensitive-paths-webpack-plugin": "^2.1.2"
   },
   "peerDependencies": {
