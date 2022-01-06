@@ -154,10 +154,13 @@ const parseShortcodes = text => {
  * @returns {function} Unregister function.
  */
 const registerShortcodes = () => {
+	const hookName = "yoast.seoStore.analysis.preparePaper";
+	const namespace = "yoast/free/shortcodePlugin";
+
 	// Priority of 11 to run it after the replacement variables (priority 10). As a shortcode is not expected to have replacement variables.
 	addFilter(
-		"yoast.seoStore.analysis.preparePaper",
-		"yoast/free/parseShortcodes",
+		hookName,
+		namespace,
 		paper => ( {
 			...paper,
 			content: parseShortcodes( paper.content ),
@@ -165,7 +168,7 @@ const registerShortcodes = () => {
 		11
 	);
 
-	return () => removeFilter( "yoast.seoStore.analysis.preparePaper", "yoast/free/parseShortcodes" );
+	return () => removeFilter( hookName, namespace );
 };
 
 export default registerShortcodes;

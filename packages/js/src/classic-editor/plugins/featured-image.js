@@ -7,9 +7,9 @@ import { SEO_STORE_NAME } from "@yoast/seo-integration";
  *
  * @returns {void}
  */
-function registersFeaturedImagePlugin() {
+function registerFeaturedImagePlugin() {
 	const hookName = "yoast.seoStore.analysis.preparePaper";
-	const namespace = "yoast/free/measureSeoTitleWidth";
+	const namespace = "yoast/free/featuredImagePlugin";
 
 	/**
 	 * Adds the featured image to the paper.
@@ -39,4 +39,4 @@ function registersFeaturedImagePlugin() {
 	return () => removeFilter( hookName, namespace );
 }
 
-export default registersFeaturedImagePlugin;
+export default registerFeaturedImagePlugin;
