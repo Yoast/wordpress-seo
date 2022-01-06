@@ -1,16 +1,8 @@
 import { initializeData } from "../src/initializers/edit.js";
-import ClassicEditorData from "../src/analysis/classicEditorData.js";
 import BlockEditorData from "../src/analysis/blockEditorData.js";
 import isBlockEditor from "../src/helpers/isBlockEditor";
 
 jest.mock( "react-dom" );
-jest.mock( "../src/analysis/classicEditorData.js", () => {
-	return jest.fn().mockImplementation( () => {
-		return {
-			initialize: () => {},
-		};
-	} );
-} );
 
 jest.mock( "../src/analysis/data.js", () => {
 	return jest.fn().mockImplementation( () => {
@@ -57,18 +49,5 @@ describe( "initialize", () => {
 				},
 			},
 		};
-	} );
-
-	it( "initializes an instance of the ClassicEditorData class if Gutenberg data is not available", () => {
-		window.wpseoScriptData.metabox = {
-			intl: {
-				locale: "en_EN",
-			},
-		};
-		isBlockEditor.mockImplementation( () => {
-			return false;
-		} );
-		initializeData( {}, {}, {} );
-		expect( ClassicEditorData ).toHaveBeenCalledTimes( 1 );
 	} );
 } );

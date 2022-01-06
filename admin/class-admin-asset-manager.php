@@ -234,7 +234,6 @@ class WPSEO_Admin_Asset_Manager {
 			'block-editor',
 			'classic-editor',
 			'post-edit',
-			'classic-editor-integration',
 			'help-scout-beacon',
 		];
 		$additional_dependencies = [
