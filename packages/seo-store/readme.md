@@ -28,7 +28,7 @@ This package is published on the NPM registry. To publish a new version ...
 
 ## Redux best practices, Redux Toolkit & the duck structure
 
-It's worth mentioning that even though this package was built with `@wordpress/data`, it follows standard Redux best practices like no derived data in state, event-like actions ("this happended" over "set something in state"), flexible reducers and status constants over status booleans. We use Redux Toolkit to adhere to these standards and for its great tooling in working with Redux. Read more on Redux best practices and tooling in [the Redux styleguide](https://redux.js.org/style-guide/style-guide) and [the Redux Toolkit docs](https://redux-toolkit.js.org.
+It's worth mentioning that even though this package was built with `@wordpress/data`, it follows standard Redux best practices like no derived data in state, event-like actions ("this happended" over "set something in state"), flexible reducers and status constants over status booleans. We use Redux Toolkit to adhere to these standards and for its great tooling in working with Redux. Read more on Redux best practices and tooling in [the Redux styleguide](https://redux.js.org/style-guide/style-guide) and [the Redux Toolkit docs](https://redux-toolkit.js.org).
 
 The file and state structure is organised in a duck pattern, meaning the files and state object are split based on features rather than types. Read more about this pattern in [the Redux docs](https://redux.js.org/faq/code-structure). In example:
 
