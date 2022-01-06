@@ -92,8 +92,8 @@ class TitleKeywordAssessment extends Assessment {
 	calculateResult( keyword, language ) {
 		const feedbackStrings = this._config.feedbackStrings;
 		if ( language === "ja" ) {
-			feedbackStrings.bad = "For the best SEO results include all words of your keyphrase in the SEO title, " +
-					"and put the keyphrase at the beginning of the title";
+			feedbackStrings.bad = __( "For the best SEO results include all words of your keyphrase in the SEO title, " +
+					"and put the keyphrase at the beginning of the title", "wordpress-seo" );
 		}
 		const exactMatchFound = this._keywordMatches.exactMatchFound;
 		const position = this._keywordMatches.position;
