@@ -20,6 +20,7 @@ import initPrimaryCategory from "./initializers/primary-category";
 import { initTermDescriptionTinyMce } from "./initializers/tiny-mce";
 import { initialize as initPublishBox } from "./ui/publishBox";
 import initFeaturedImagePlugin from "./classic-editor/plugins/featured-image";
+import registerMarkdownPlugin from "./classic-editor/plugins/markdown";
 
 // These are either "1" or undefined.
 const isPost = Boolean( get( window, "wpseoScriptData.isPost" ) );
@@ -122,6 +123,8 @@ domReady( async () => {
 	initEditorStore();
 	// Register SEO title width plugin.
 	registerSeoTitleWidth();
+	// Register markdown plugin.
+	registerMarkdownPlugin();
 	// Initialize the primary category integration.
 	if ( get( window, "wpseoPrimaryCategoryL10n", false ) ) {
 		initPrimaryCategory( jQuery );
