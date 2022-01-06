@@ -193,7 +193,7 @@ before_script:
       mysql -e "CREATE DATABASE wordpress_tests;" -uroot
       cd "/tmp/wordpress/src/wp-content/plugins/$PLUGIN_SLUG"
       mkdir src/generated/assets
-      echo "<?php return [ 'post-edit.min.js' => [ 'dependencies' => [], 'version' => 'test' ], 'installation-success.min.js' => [ 'dependencies' => [], 'version' => 'test' ], 'workouts.min.js' => [ 'dependencies' => [], 'version' => 'test' ] ];" >> src/generated/assets/plugin.php
+      echo "<?php return [ 'post-edit.js' => [ 'dependencies' => [], 'version' => 'test' ], 'installation-success.js' => [ 'dependencies' => [], 'version' => 'test' ], 'workouts.js' => [ 'dependencies' => [], 'version' => 'test' ] ];" >> src/generated/assets/plugin.php
       echo "<?php return [];" >> src/generated/assets/externals.php
       echo "<?php return [];" >> src/generated/assets/languages.php
     fi
