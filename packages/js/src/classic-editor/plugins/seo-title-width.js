@@ -10,7 +10,7 @@ import { helpers } from "yoastseo";
  */
 const registerSeoTitleWidth = () => {
 	const hookName = "yoast.seoStore.analysis.preparePaper";
-	const namespace = "yoast/seo-integration-app/measureSeoTitleWidth";
+	const namespace = "yoast/free/measureSeoTitleWidth";
 
 	addFilter(
 		hookName,
@@ -20,7 +20,7 @@ const registerSeoTitleWidth = () => {
 			seoTitleWidth: helpers.measureTextWidth( paper.seoTitle ),
 		} ),
 		// Priority of 11, because no replacevars are used in the SEO title width.
-		11,
+		11
 	);
 
 	return () => removeFilter( hookName, namespace );
