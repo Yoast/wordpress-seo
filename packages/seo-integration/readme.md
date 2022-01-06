@@ -4,12 +4,14 @@ This package aims to provide a simple solution for integrating an editor with Yo
 
 `@yoast/seo-integration` combines the functionality of `@yoast/replacement-variables` and `@yoast/seo-store` into a single interface. It currently does four things that every editor integration with Yoast has to account for:
 
-1. Create an analysis worker that can analyze papers.
-2. Manage analysis paper and Yoast form data in a Redux store.
-3. Triggers new analyses whenever this data changes.
-4. Applies replacement variables to paper data before it is sent to the worker for analysis.
+1. Create an analysis worker that can analyze papers. (via configuration of `createSeoIntegration`)
+2. Manage analysis paper and Yoast form data in a Redux store. (via actions and selectors in `@yoast/seo-store`)
+3. Triggers new analyses whenever this data changes. (via rendered `useAnalysis` hook)
+4. Applies replacement variables to paper data before it is sent to the worker for analysis. (via `preparePaper` filter)
 
-## Installation & building
+> This package is platform-agnostic, meaning it should be able to work for all platforms. When adding code, be sure it is not specific to a single platform, for instance WordPress.
+
+## Installation, building & publishing
 
 To install this package run the following command in your terminal:
 
@@ -26,6 +28,10 @@ yarn build
 # For local development
 yarn watch
 ```
+
+This package is published on the NPM registry. To publish a new version ...
+
+> Publish strategy not decided upon.
 
 ## Using `createSeoIntegration`
 
@@ -119,7 +125,7 @@ analysisWorker.sendMessage( "Do something custom" );
 // Render the UI wrapped in the SeoProvider.
 ReactDOM.render(
     <SeoProvider>
-        <App/>
+        <App />
     </SeoProvider>
     document.getElementById( "root" ),
 );
@@ -139,10 +145,10 @@ const selectors = select( SEO_STORE_NAME );
 ```
 
 **`FOCUS_KEYPHRASE_ID`** `String`\
-Identifier of the focus keyphrase. Use it when working with the focus keyphrase, instead of using the string "focus" directly.
+Identifier of the focus keyphrase. Use it when referencing the focus keyphrase, instead of using the string "focus" directly.
 
 **`useAnalysis`** `Function`\
-React hook to enable the analysis. When this hook is in a rendered component, the Redux store will start requesting analyses based on changes to the editor data in store.
+React hook to enable the analysis. When this hook is in a rendered component, Redux will trigger new analyses when store data changes and add new analysis results to the store.
 
 ```js
 const Component = ( { children } ) => {
@@ -174,7 +180,16 @@ Container component that connects its `as` prop Component to relevant SEO result
 Container component that connects its `as` prop Component to SEO form data in the store. See `ReadabilityResultsContainer` for a similar example implementation.
 
 **`replacementVariableConfigurations`** `Object`\
-Object of default replacement variables from the SEO store. Includes replacement variable configurations for: `title`, `content`, `excerpt`, `permalink` and `focusKeyphrase`.
+Object of default replacement variables from the SEO store. Includes replacement variable configurations for: `title`, `content`, `excerpt`, `permalink` and `focusKeyphrase`. Use it in your replacement variable configuration when using `createSeoIntegration` if you want to support these default replacement variables.
+
+```js
+import { replacementVariableConfigurations as defaultConfigs } from @yoast/seo-integration
+const configs = [
+    defaultConfigs.title,
+    defaultConfigs.content,
+    ...customReplacementVariables
+];
+```
 
 ## Extensibility
 This package provides some `@wordpress/hooks` filters for extending its functionality:

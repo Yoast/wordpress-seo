@@ -2,21 +2,31 @@
 
 This package aims to provide a simple solution for replacing *variables* with their corresponding *values* in a text based on a set of *replacement variables*. Use this package to configure what variables are supported and how these should be replaced when the variable is encountered in a text.
 
+> This package is platform-agnostic, meaning it should be able to work for all platforms. When adding code, be sure it is not specific to a single platform, for instance WordPress.
+
 ## Installation
 
-To install this package run the following command in your terminal:
+```sh
+yarn add @yoast/replacement-variables
+# For local development
+yarn link @yoast/replacement-variables
+```
+
+This package is built with Babel. To build this package run the following command in your terminal:
 
 ```sh
-# Yarn
-yarn add @yoast/replacement-variables
-
-# NPM
-npm install @yoast/replacement-variables
+yarn build
+# For local development
+yarn watch
 ```
+
+This package is published on the NPM registry. To publish a new version ...
+
+> Publish strategy not decided upon.
 
 ## Using `createReplacementVariables`
 
-This package exports a single factory function called `createReplacementVariables` which accepts an array of replacement variable configuratinos and return an interface for applying the variables to a text.
+This package exports a single factory function called `createReplacementVariables` which accepts an array of replacement variable configurations and returns an interface for applying the variables to a text.
 
 ### Arguments
 
@@ -30,7 +40,7 @@ The name of the replacement variable. The convention here is to use `snake_case`
 The label of the replacement variable to display in user interface if needed.
 
 - **`getReplacement`** `Function`\
-A pure function that returns the replacement value for the variable. The function can accept a single **`context`** `Object` argument and must return a `String`. This function can get data from anyhwere, ie. a Redux store selector, a global variable or just a static string.
+A pure function that returns the replacement value for the variable. The function can accept a single **`context`** `Object` argument and must return a `String`. This function can get data from anywhere, i.e. a Redux store selector, a global variable or just a static string.
 
 - **`regexp`** `RegExp` - *Optional*\
 Optional custom Regular Expression for locating the variable in a string. Defaults to `%%name%%`.
