@@ -16,14 +16,16 @@ function initFeaturedImagePlugin() {
 	 * @returns {Object} The paper with the featured image added.
 	 */
 	function addFeaturedImageToPaperContents( paper ) {
-		const { src, alt, width, height } = select( SEO_STORE_NAME ).selectFeaturedImage();
+		const { url, alt, width, height } = select( SEO_STORE_NAME ).selectFeaturedImage();
 
-		if ( ! src ) {
+		console.log( { url, alt, width, height } );
+
+		if ( ! url ) {
 			// Do not add the image to the paper's content if no featured image is set.
 			return paper;
 		}
 
-		const featuredImageHtml = `<img src="${ src }" alt="${ alt }" width="${ width }" height="${ height }"/>`;
+		const featuredImageHtml = `<img src="${ url }" alt="${ alt }" width="${ width }" height="${ height }"/>`;
 
 		paper.content += featuredImageHtml;
 
