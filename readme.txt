@@ -251,6 +251,7 @@ Enhancements:
 * Adapts Keyphrase in title scoring criteria for Japanese: the exact match keyphrase is not required for Japanese unless the keyphrase is enclosed in double quotes.
 * Disables the Keyphrase in slug assessment for Japanese due to currently being unable to match keyphrases written in Japanese characters in slugs written in Latin characters.
 * Improves the accuracy of the Estimated Reading Time results for Japanese.
+* Adapts the recommended meta description length and meta description preview limit for Japanese.
 * Improves the Workouts overview for mobile screens.
 * Makes sure we don't output the same `sameAs` URL twice on `Person` and `Organization`.
 * Adds "Blog Post" / `BlogPosting` as a potential Schema `Article` type.
@@ -262,6 +263,7 @@ Bugfixes:
 * Fixes a bug where the incoming link count of a post would not return to zero if all incoming links were removed.
 * Fixes a bug where the meta description would get trimmed to an empty string if the text doesn't have any space. Props to [@waviaei](https://github.com/waviaei).
 * Fixes a bug where Link keyphrase assessment would not find a match when the keyphrase is enclosed in double quotes.
+* Fixes a bug where `<br>` tags with attributes in the text would not be converted to paragraph tags. As a result some long paragraphs in the text might not have been highlighted in the Paragraph length assessment.
 
 Other:
 
