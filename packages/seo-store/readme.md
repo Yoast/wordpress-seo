@@ -2,7 +2,7 @@
 
 This package aims to provide a single Redux store for all Yoast features. It contains analysis paper data, Yoast form data, and in the future will contain all Yoast options and features.
 
-> This package is agnostic, meaning it should be able to work for all platforms. When adding code, be sure it is not specific to a single platform, for instace WordPress.
+> This package is platform agnostic, meaning it should be able to work for all platforms. When adding code, be sure it is not specific to a single platform, for instace WordPress.
 
 ## Installation & building
 

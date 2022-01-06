@@ -9,7 +9,7 @@ This package aims to provide a simple solution for integrating an editor with Yo
 3. Triggers new analyses whenever this data changes.
 4. Applies replacement variables to paper data before it is sent to the worker for analysis.
 
-> This package is agnostic, meaning it should be able to work for all platforms. When adding code, be sure it is not specific to a single platform, for instace WordPress.
+> This package is platform agnostic, meaning it should be able to work for all platforms. When adding code, be sure it is not specific to a single platform, for instace WordPress.
 
 ## Installation, building & publishing
 

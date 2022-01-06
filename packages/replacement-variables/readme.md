@@ -2,7 +2,7 @@
 
 This package aims to provide a simple solution for replacing *variables* with their corresponding *values* in a text based on a set of *replacement variables*. Use this package to configure what variables are supported and how these should be replaced when the variable is encountered in a text.
 
-> This package is agnostic, meaning it should be able to work for all platforms. When adding code, be sure it is not specific to a single platform, for instace WordPress.
+> This package is platform agnostic, meaning it should be able to work for all platforms. When adding code, be sure it is not specific to a single platform, for instace WordPress.
 
 ## Installation
 
