@@ -193,10 +193,6 @@ module.exports = function( grunt ) {
 			command: "composer check-branch-cs",
 		},
 
-		"unlink-monorepo": {
-			command: "yarn unlink-monorepo",
-		},
-
 		"get-monorepo-versions": {
 			command: "yarn list --pattern 'yoastseo|yoast-components' --depth=0",
 		},
