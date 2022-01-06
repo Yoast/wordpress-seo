@@ -75,8 +75,6 @@ const initPost = async () => {
 	initFeaturedImagePlugin();
 	// Register shortcodes to work on paper data.
 	registerShortcodes();
-	// Register SEO title width plugin.
-	registerSeoTitleWidth();
 	// Initialize the publish box.
 	initPublishBox();
 	// Create SEO integration with post state.
@@ -98,8 +96,6 @@ const initPost = async () => {
  * @returns {void}
  */
 const initTerm = async () => {
-	// Register SEO title width plugin.
-	registerSeoTitleWidth();
 	// Initialize TinyMCE description editor for terms.
 	initTermDescriptionTinyMce( jQuery );
 	// Create SEO integration with term state.
@@ -124,6 +120,8 @@ domReady( async () => {
 	initAdminMedia( jQuery );
 	// Until ALL the components are carried over, the `@yoast-seo/editor` store is still needed.
 	initEditorStore();
+	// Register SEO title width plugin.
+	registerSeoTitleWidth();
 	// Initialize the primary category integration.
 	if ( get( window, "wpseoPrimaryCategoryL10n", false ) ) {
 		initPrimaryCategory( jQuery );
