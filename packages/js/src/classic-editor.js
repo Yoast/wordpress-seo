@@ -8,6 +8,7 @@ import Metabox from "./classic-editor/components/metabox";
 import { MetaboxFill, MetaboxSlot } from "./classic-editor/components/metabox/slot-fill";
 import initEditorStore from "./classic-editor/editor-store";
 import { getInitialPostState, getInitialTermState } from "./classic-editor/initial-state";
+import registerSeoTitleWidth from "./classic-editor/plugins/seo-title-width";
 import registerShortcodes from "./classic-editor/shortcodes";
 import { initPostWatcher, initTermWatcher } from "./classic-editor/watcher";
 import { registerReactComponent, renderReactRoot } from "./helpers/reactRoot";
@@ -74,6 +75,8 @@ const initPost = async () => {
 	initFeaturedImagePlugin();
 	// Register shortcodes to work on paper data.
 	registerShortcodes();
+	// Register SEO title width plugin.
+	registerSeoTitleWidth();
 	// Initialize the publish box.
 	initPublishBox();
 	// Create SEO integration with post state.
@@ -95,6 +98,8 @@ const initPost = async () => {
  * @returns {void}
  */
 const initTerm = async () => {
+	// Register SEO title width plugin.
+	registerSeoTitleWidth();
 	// Initialize TinyMCE description editor for terms.
 	initTermDescriptionTinyMce( jQuery );
 	// Create SEO integration with term state.
