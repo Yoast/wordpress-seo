@@ -180,7 +180,16 @@ Container component that connects its `as` prop Component to relevant SEO result
 Container component that connects its `as` prop Component to SEO form data in the store. See `ReadabilityResultsContainer` for a similar example implementation.
 
 **`replacementVariableConfigurations`** `Object`\
-Object of default replacement variables from the SEO store. Includes replacement variable configurations for: `title`, `content`, `excerpt`, `permalink` and `focusKeyphrase`.
+Object of default replacement variables from the SEO store. Includes replacement variable configurations for: `title`, `content`, `excerpt`, `permalink` and `focusKeyphrase`. Use it in your replacement variable configuration when using `createSeoIntegration` if you want to support these default replacement variables.
+
+```js
+import { replacementVariableConfigurations as defaultConfigs } from @yoast/seo-integration
+const configs = [
+    defaultConfigs.title,
+    defaultConfigs.content,
+    ...customReplacementVariables
+];
+```
 
 ## Extensibility
 This package provides some `@wordpress/hooks` filters for extending its functionality:
