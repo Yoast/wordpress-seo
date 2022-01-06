@@ -4,7 +4,7 @@ import { get, debounce } from "lodash";
 import domReady from "@wordpress/dom-ready";
 import { dispatch } from "@wordpress/data";
 import createSeoIntegration, { SEO_STORE_NAME } from "@yoast/seo-integration";
-import registerShortcodes from "./classic-editor/shortcodes";
+import registerShortcodes from "./classic-editor/plugins/shortcodes";
 import { registerReactComponent, renderReactRoot } from "./helpers/reactRoot";
 import registerGlobalApis from "./helpers/register-global-apis";
 import initAdmin from "./initializers/admin";
@@ -20,6 +20,7 @@ import { getInitialPostState, getInitialTermState } from "./classic-editor/initi
 import { getAnalysisConfiguration } from "./classic-editor/analysis";
 import { refreshDelay } from "./analysis/constants";
 import { initTermDescriptionTinyMce } from "./initializers/tiny-mce";
+import initFeaturedImagePlugin from "./classic-editor/plugins/featured-image";
 
 // These are either "1" or undefined.
 const isPost = Boolean( get( window, "wpseoScriptData.isPost" ) );
@@ -71,6 +72,8 @@ const registerYoastApis = ( { analysisWorker } ) => registerGlobalApis(
  * @returns {void}
  */
 const initPost = async () => {
+	// Initialze featured image plugin.
+	initFeaturedImagePlugin();
 	// Register shortcodes to work on paper data.
 	registerShortcodes();
 	// Initialize the publish box.
