@@ -18,8 +18,6 @@ function initFeaturedImagePlugin() {
 	function addFeaturedImageToPaperContents( paper ) {
 		const { url, alt, width, height } = select( SEO_STORE_NAME ).selectFeaturedImage();
 
-		console.log( { url, alt, width, height } );
-
 		if ( ! url ) {
 			// Do not add the image to the paper's content if no featured image is set.
 			return paper;
