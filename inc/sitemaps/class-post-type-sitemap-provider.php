@@ -47,7 +47,6 @@ class WPSEO_Post_Type_Sitemap_Provider extends WPSEO_Indexable_Sitemap_Provider 
 		return array_merge( $indexed_archives, [ 'post', 'page' ] );
 	}
 
-
 	/**
 	 * Whether or not a specific object sub type should be excluded.
 	 *
