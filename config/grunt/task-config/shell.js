@@ -24,6 +24,30 @@ module.exports = function( grunt ) {
 	// Temporarily disable require-jsdoc due to the structure of the code below.
 	/* eslint-disable require-jsdoc */
 	return {
+		"build-seo-store": {
+			command: "cd packages/seo-store && yarn build",
+		},
+
+		"build-replacement-variables": {
+			command: "cd packages/replacement-variables && yarn build",
+		},
+
+		"build-seo-integration": {
+			command: "cd packages/seo-integration && yarn build",
+		},
+
+		"build-seo-store-prod": {
+			command: "cd packages/seo-store && yarn build:prod",
+		},
+
+		"build-replacement-variables-prod": {
+			command: "cd packages/replacement-variables && yarn build:prod",
+		},
+
+		"build-seo-integration-prod": {
+			command: "cd packages/seo-integration && yarn build:prod",
+		},
+
 		"combine-pot-files": {
 			fromFiles: [
 				"languages/<%= pkg.plugin.textdomain %>-temp.pot",
