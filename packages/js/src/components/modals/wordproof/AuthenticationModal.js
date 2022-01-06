@@ -60,9 +60,9 @@ export const AuthenticationModal = ( props ) => {
 				icon={<span className="yoast-icon"/>}
 			>
 				<div>
-					<SvgIcon icon="loading-spinner"/>
+					<SvgIcon icon="loading-spinner" className={"block"}/>
 					<em>{__(
-						'Waiting to be authenticated. Please login or signup in the opened window.',
+						'Waiting to be authenticated.  Please login or signup in the opened window.',
 						'wordpress-seo-premium' )}</em>
 				</div>
 			</Modal>
@@ -77,6 +77,7 @@ export const AuthenticationModal = ( props ) => {
 			>
 				<div className="wordproof__authentication_outcome">
 					<div>
+						{/* TODO: Add image */}
 						{/* TODO: replace page with post type. Correctly display strong tag. */}
 						<p>{__( 'Your page is now protect via the blockchain!', 'wordpress-seo' )}</p>
 						<p>{!! __( 'The page will automatically be Timestamped every time you <strong>update</strong> or <strong>publish</strong>.!', 'wordpress-seo' )}</p>

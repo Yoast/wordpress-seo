@@ -89,7 +89,6 @@ class TimestampToggle extends Component {
 			return;
 
 		this.setState({
-			isAuthenticated: settings.is_authenticated,
 			isDisabled: settings.timestamp_current_post_type
 		})
 	}
