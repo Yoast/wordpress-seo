@@ -25,7 +25,10 @@ function initFeaturedImagePlugin() {
 
 		const featuredImageHtml = `<img src="${ url }" alt="${ alt }" width="${ width }" height="${ height }"/>`;
 
-		paper.content += featuredImageHtml;
+		paper = {
+			...paper,
+			content: paper.content + featuredImageHtml,
+		};
 
 		return paper;
 	}
