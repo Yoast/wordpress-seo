@@ -52,7 +52,7 @@ class Fix_News_Dependencies_Integration implements Integration_Interface {
 		$is_block_editor  = WP_Screen::get()->is_block_editor();
 		$post_edit_handle = 'post-edit';
 		if ( ! $is_block_editor ) {
-			$post_edit_handle = 'post-edit-classic';
+			$post_edit_handle = 'classic-editor';
 		}
 
 		$scripts->registered['wpseo-news-editor']->deps[] = WPSEO_Admin_Asset_Manager::PREFIX . $post_edit_handle;
