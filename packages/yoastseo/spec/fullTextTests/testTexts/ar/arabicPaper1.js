@@ -101,8 +101,8 @@ const expectedResults = {
 	},
 	textParagraphTooLong: {
 		isApplicable: true,
-		score: 3,
-		resultText: "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: 1 of the paragraphs contains more than the recommended maximum of 150 words. <a href='https://yoa.st/35e' target='_blank'>Shorten your paragraphs</a>!",
+		score: 9,
+		resultText: "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: None of the paragraphs are too long. Great job!",
 	},
 	textSentenceLength: {
 		isApplicable: true,
