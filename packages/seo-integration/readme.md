@@ -4,10 +4,10 @@ This package aims to provide a simple solution for integrating an editor with Yo
 
 `@yoast/seo-integration` combines the functionality of `@yoast/replacement-variables` and `@yoast/seo-store` into a single interface. It currently does four things that every editor integration with Yoast has to account for:
 
-1. Create an analysis worker that can analyze papers.
-2. Manage analysis paper and Yoast form data in a Redux store.
-3. Triggers new analyses whenever this data changes.
-4. Applies replacement variables to paper data before it is sent to the worker for analysis.
+1. Create an analysis worker that can analyze papers. (via configuration of `createSeoIntegration`)
+2. Manage analysis paper and Yoast form data in a Redux store. (via actions and selectors in `@yoast/seo-store`)
+3. Triggers new analyses whenever this data changes. (via rendered `useAnalysis` hook)
+4. Applies replacement variables to paper data before it is sent to the worker for analysis. (via `preparePaper` filter)
 
 > This package is platform agnostic, meaning it should be able to work for all platforms. When adding code, be sure it is not specific to a single platform, for instace WordPress.
 
@@ -125,7 +125,7 @@ analysisWorker.sendMessage( "Do something custom" );
 // Render the UI wrapped in the SeoProvider.
 ReactDOM.render(
     <SeoProvider>
-        <App/>
+        <App />
     </SeoProvider>
     document.getElementById( "root" ),
 );
