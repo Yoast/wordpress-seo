@@ -9,7 +9,7 @@ This package aims to provide a simple solution for integrating an editor with Yo
 3. Triggers new analyses whenever this data changes. (via rendered `useAnalysis` hook)
 4. Applies replacement variables to paper data before it is sent to the worker for analysis. (via `preparePaper` filter)
 
-> This package is platform agnostic, meaning it should be able to work for all platforms. When adding code, be sure it is not specific to a single platform, for instace WordPress.
+> This package is platform-agnostic, meaning it should be able to work for all platforms. When adding code, be sure it is not specific to a single platform, for instance WordPress.
 
 ## Installation, building & publishing
 
@@ -148,7 +148,7 @@ const selectors = select( SEO_STORE_NAME );
 Identifier of the focus keyphrase. Use it when referencing the focus keyphrase, instead of using the string "focus" directly.
 
 **`useAnalysis`** `Function`\
-React hook to enable the analysis. When this hook is in a renderd component, Redux will trigger new analyses when store data changes and add new analysis results to the store.
+React hook to enable the analysis. When this hook is in a rendered component, Redux will trigger new analyses when store data changes and add new analysis results to the store.
 
 ```js
 const Component = ( { children } ) => {

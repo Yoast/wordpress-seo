@@ -2,7 +2,7 @@
 
 This package aims to provide a single Redux store for all Yoast features. It contains analysis paper data, Yoast form data, and in the future will contain all Yoast options and features.
 
-> This package is platform agnostic, meaning it should be able to work for all platforms. When adding code, be sure it is not specific to a single platform, for instace WordPress.
+> This package is platform-agnostic, meaning it should be able to work for all platforms. When adding code, be sure it is not specific to a single platform, for instance WordPress.
 
 ## Installation & building
 
@@ -151,7 +151,7 @@ const analyze = async ( paper, keyphrases, config ) => {
     const results = await fetchAnalysisResults( paper, keyphrases );
     return {
         seo: { ...results.seo },
-        redability: { ...results.readabilty }, 
+        redability: { ...results.readabilty },
         ...etc
     }
 };
@@ -177,7 +177,7 @@ const selectors = select( SEO_STORE_NAME );
 Identifier of the focus keyphrase. Use it when referencing the focus keyphrase, instead of using the string "focus" directly.
 
 **`useAnalysis`** `Function`\
-React hook to enable the analysis. When this hook is in a renderd component, Redux will trigger new analyses when store data changes and add new analysis results to the store.
+React hook to enable the analysis. When this hook is in a rendered component, Redux will trigger new analyses when store data changes and add new analysis results to the store.
 
 ```js
 const Component = ( { children } ) => {
@@ -188,10 +188,10 @@ const Component = ( { children } ) => {
 
 ## Extensibility
 
-This package provide some `@wordpress/hooks` filters for extending its functionality:
+This package provides some `@wordpress/hooks` filters for extending its functionality:
 
 **`yoast.seoStore.analysis.preparePaper`** `Filter`\
-Filters the analysis paper data before it is send to the `analyze` function. Functions registered here accept the unfiltered paper data and must return valid paper data.
+Filters the analysis paper data before it is sent to the `analyze` function. Functions registered here accept the unfiltered paper data and must return valid paper data.
 
 **This filter is the primary API for extending paper data to be analyzed.**
 
@@ -199,7 +199,7 @@ Filters the analysis paper data before it is send to the `analyze` function. Fun
 addFilter(
     "yoast.seoStore.analysis.preparePaper",
     "addPaperData",
-    ( paper ) => ( {
+    ( paper, { keyphrases, config } ) => ( {
         ...paper,
         changeData: `${ paper.content } - add something to the paper content`,
         newData: "string",
@@ -209,4 +209,4 @@ addFilter(
 ```
 
 **`yoast.seoStore.analysis.processResults`** `Filter`\
-Filters the analysis results before it is send dispatched to the store. Functions registered here accept the unfiltered results and must return valid analysis results.
+Filters the analysis results before it is sent to the store. Functions registered here accept the unfiltered results and must return valid analysis results.
