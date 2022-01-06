@@ -38,7 +38,7 @@ class TitleKeywordAssessment extends Assessment {
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/33h" ),
 			feedbackStrings: {
 				bad: __( "For the best SEO results write the exact match of your keyphrase in the SEO title, " +
-					"and put the keyphrase at the beginning of the title", "wordpress-seo" )
+					"and put the keyphrase at the beginning of the title", "wordpress-seo" ),
 			},
 		};
 
