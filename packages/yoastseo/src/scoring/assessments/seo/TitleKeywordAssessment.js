@@ -37,8 +37,8 @@ class TitleKeywordAssessment extends Assessment {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/33g" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/33h" ),
 			feedbackStrings: {
-				bad: "For the best SEO results write the exact match of your keyphrase in the SEO title, " +
-					"and put the keyphrase at the beginning of the title",
+				bad: __( "For the best SEO results write the exact match of your keyphrase in the SEO title, " +
+					"and put the keyphrase at the beginning of the title", "wordpress-seo" )
 			},
 		};
 
@@ -206,7 +206,7 @@ class TitleKeywordAssessment extends Assessment {
 			score: this._config.scores.bad,
 			resultText: sprintf(
 				/* Translators: %1$s and %2$s expand to a link on yoast.com,
-				%3$s expands to the anchor end tag, %4$s expands to the keyword of the article. */
+				%3$s expands to the anchor end tag, %4$s expands to the keyword of the article, %5$s expands to the call to action text. */
 				__(
 					// eslint-disable-next-line max-len
 					"%1$sKeyphrase in title%3$s: Not all the words from your keyphrase \"%4$s\" appear in the SEO title. %2$s%5$s%3$s.",
