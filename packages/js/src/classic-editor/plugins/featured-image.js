@@ -25,12 +25,10 @@ function initFeaturedImagePlugin() {
 
 		const featuredImageHtml = `<img src="${ url }" alt="${ alt }" width="${ width }" height="${ height }"/>`;
 
-		paper = {
+		return {
 			...paper,
 			content: paper.content + featuredImageHtml,
 		};
-
-		return paper;
 	}
 
 	addFilter( "yoast.seoStore.analysis.preparePaper", "yoast/free/addFeaturedImageToPaperContents", addFeaturedImageToPaperContents );
