@@ -129,8 +129,13 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 			'taxonomies' => $mapped_taxonomies,
 		];
 
-		$asset_manager->localize_script( 'post-edit', 'wpseoPrimaryCategoryL10n', $data );
-		$asset_manager->localize_script( 'post-edit-classic', 'wpseoPrimaryCategoryL10n', $data );
+		$is_block_editor  = WP_Screen::get()->is_block_editor();
+		$post_edit_handle = 'post-edit';
+		if ( ! $is_block_editor ) {
+			$post_edit_handle = 'classic-editor';
+		}
+
+		$asset_manager->localize_script( $post_edit_handle, 'wpseoPrimaryCategoryL10n', $data );
 	}
 
 	/**

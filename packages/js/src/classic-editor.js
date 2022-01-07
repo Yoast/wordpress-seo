@@ -1,25 +1,24 @@
-/* global wpseoPrimaryCategoryL10n */
-
-import { get, debounce } from "lodash";
-import domReady from "@wordpress/dom-ready";
 import { dispatch } from "@wordpress/data";
+import domReady from "@wordpress/dom-ready";
 import createSeoIntegration, { SEO_STORE_NAME } from "@yoast/seo-integration";
+import { debounce, get } from "lodash";
+import { refreshDelay } from "./analysis/constants";
+import { getAnalysisConfiguration } from "./classic-editor/analysis";
+import Metabox from "./classic-editor/components/metabox";
+import { MetaboxFill, MetaboxSlot } from "./classic-editor/components/metabox/slot-fill";
+import initEditorStore from "./classic-editor/editor-store";
+import { getInitialPostState, getInitialTermState } from "./classic-editor/initial-state";
+import registerSeoTitleWidth from "./classic-editor/plugins/seo-title-width";
 import registerShortcodes from "./classic-editor/plugins/shortcodes";
+import { initPostWatcher, initTermWatcher } from "./classic-editor/watcher";
 import { registerReactComponent, renderReactRoot } from "./helpers/reactRoot";
 import registerGlobalApis from "./helpers/register-global-apis";
 import initAdmin from "./initializers/admin";
 import initAdminMedia from "./initializers/admin-media";
 import initTabs from "./initializers/metabox-tabs";
 import initPrimaryCategory from "./initializers/primary-category";
-import { initialize as initPublishBox } from "./ui/publishBox";
-import initEditorStore from "./classic-editor/editor-store";
-import Metabox from "./classic-editor/components/metabox";
-import { MetaboxFill, MetaboxSlot } from "./classic-editor/components/metabox/slot-fill";
-import { initPostWatcher, initTermWatcher } from "./classic-editor/watcher";
-import { getInitialPostState, getInitialTermState } from "./classic-editor/initial-state";
-import { getAnalysisConfiguration } from "./classic-editor/analysis";
-import { refreshDelay } from "./analysis/constants";
 import { initTermDescriptionTinyMce } from "./initializers/tiny-mce";
+import { initialize as initPublishBox } from "./ui/publishBox";
 import initFeaturedImagePlugin from "./classic-editor/plugins/featured-image";
 
 // These are either "1" or undefined.
@@ -48,11 +47,11 @@ const renderMetabox = ( { SeoProvider } ) => renderReactRoot( {
 } );
 
 /**
- * Registers Yoast API's on the global for backwards compatibility.
+ * Registers Yoast APIs on the global for backwards compatibility.
  *
  * @param {Object} options Options object.
- * @param {JSX.Element} options.analysisWorker The ananlysis worker interface.
- * @returns {void}
+ * @param {Object} options.analysisWorker The analysis worker interface.
+ * @returns {function} Function to register YoastSEO APIs.
  */
 const registerYoastApis = ( { analysisWorker } ) => registerGlobalApis(
 	"YoastSEO",
@@ -121,8 +120,10 @@ domReady( async () => {
 	initAdminMedia( jQuery );
 	// Until ALL the components are carried over, the `@yoast-seo/editor` store is still needed.
 	initEditorStore();
+	// Register SEO title width plugin.
+	registerSeoTitleWidth();
 	// Initialize the primary category integration.
-	if ( typeof wpseoPrimaryCategoryL10n !== "undefined" ) {
+	if ( get( window, "wpseoPrimaryCategoryL10n", false ) ) {
 		initPrimaryCategory( jQuery );
 	}
 	// Initialize post logic if post page.
