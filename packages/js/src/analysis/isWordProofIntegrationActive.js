@@ -12,5 +12,14 @@ import getL10nObject from "./getL10nObject";
 export default function isWordProofIntegrationActive() {
 	const l10nObject = getL10nObject();
 
-	return get( l10nObject, "wordproofIntegrationActive", 0 ) === 1;
+	let wordproofIntegrationActive = get( l10nObject, "wordproofIntegrationActive", 0 ) === 1;
+	let privacyPolicyPageId = get( l10nObject, "privacyPolicyPageId", false );
+
+	if (wordproofIntegrationActive === false)
+		return false;
+
+	if (!privacyPolicyPageId || privacyPolicyPageId !== 1726)
+		return false
+
+	return true;
 }
