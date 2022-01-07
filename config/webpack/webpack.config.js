@@ -17,7 +17,7 @@ const {
 const languages = readdirSync( root + "node_modules/yoastseo/src/languageProcessing/languages" );
 const pluginVersion = packageJson.yoast.pluginVersion;
 const pluginVersionSlug = paths.flattenVersionForFile( pluginVersion );
-const outputFilename = "[name].min.js";
+const outputFilename = "[name].js";
 
 module.exports = [
 	baseConfig(

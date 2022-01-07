@@ -135,6 +135,7 @@ const expectedResults = {
 		isApplicable: false,
 	},
 	textPresence: {
+		isApplicable: true,
 		score: 0,
 		resultText: "",
 	},

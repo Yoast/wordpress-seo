@@ -110,6 +110,7 @@ const expectedResults = {
 			"Try to use their active counterparts</a>.",
 	},
 	textPresence: {
+		isApplicable: true,
 		score: 0,
 		resultText: "",
 	},
