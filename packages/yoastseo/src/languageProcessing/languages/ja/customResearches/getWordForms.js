@@ -13,12 +13,12 @@ import processExactMatchRequest from "../../../helpers/match/processExactMatchRe
  * @returns {Array<string[]>} The word forms for each word in the keyphrase.
  */
 function getKeyphraseForms( keyphrase, researcher ) {
-	const keyphraseWords = getContentWords( keyphrase );
-
 	const exactMatch = processExactMatchRequest( keyphrase );
 	if ( exactMatch.exactMatchRequested ) {
 		return [ [ exactMatch.keyphrase ] ];
 	}
+
+	const keyphraseWords = getContentWords( keyphrase );
 
 	const morphologyData = get( researcher.getData( "morphology" ), "ja", false );
 
