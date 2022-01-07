@@ -6,8 +6,6 @@ import processExactMatchRequest from "../../../helpers/match/processExactMatchRe
  *
  * @param {string}  text               The text to find the word to match.
  * @param {string}  wordToMatch        The word to match.
- * @param {string}  originalKephrase   The unprocessed keyphrase returned directly from the paper (`paper.getKeyword()`).
- * Passing this as an argument is crucial so we can know that the original keyphrase is enclosed in double quotes or not.
  *
  * @returns {Array} An array of the matched word(s).
  */
