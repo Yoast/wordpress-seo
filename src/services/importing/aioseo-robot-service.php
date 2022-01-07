@@ -35,7 +35,7 @@ class Aioseo_Robots_Service {
 	 * @param bool   $setting_value The value of the robot setting.
 	 * @param array  $mapping The mapping of the setting we're working with.
 	 *
-	 * @return bool The noindex setting.
+	 * @return bool The transformed robot setting.
 	 */
 	public function transform_robot_setting( $setting_name, $setting_value, $mapping ) {
 		$aioseo_settings = \json_decode( \get_option( $mapping['option_name'], [] ), true );
@@ -52,5 +52,18 @@ class Aioseo_Robots_Service {
 		}
 
 		return $setting_value;
+	}
+
+	/**
+	 * Gets the subtype's robot setting from the db.
+	 *
+	 * @param array $mapping The mapping of the setting we're working with.
+	 *
+	 * @return bool The robot setting.
+	 */
+	public function get_subtype_robot_setting( $mapping ) {
+		$aioseo_settings = \json_decode( \get_option( $mapping['option_name'], [] ), true );
+
+		return $aioseo_settings['searchAppearance'][ $mapping['type'] ][ $mapping['subtype'] ]['advanced']['robotsMeta'][ $mapping['robot_type'] ];
 	}
 }

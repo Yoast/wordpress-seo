@@ -61,23 +61,38 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 			'yoast_name'       => 'twitter_description',
 			'transform_method' => 'simple_import',
 		],
+		'robots_noindex'     => [
+			'yoast_name'       => 'is_robots_noindex',
+			'transform_method' => 'post_robots_noindex_import',
+			'robots_import'    => true,
+		],
 		'robots_nofollow'     => [
 			'yoast_name'       => 'is_robots_nofollow',
 			'transform_method' => 'post_general_robots_import',
 			'robots_import'    => true,
 			'aioseo_key'       => 'robots_nofollow',
 			'robot_type'       => 'nofollow',
-			'type'             => 'postTypes',
-			'option_name'      => 'aioseo_options_dynamic',
 		],
-		'robots_noindex'     => [
-			'yoast_name'       => 'is_robots_noindex',
-			'transform_method' => 'post_robots_noindex_import',
+		'robots_noarchive'    => [
+			'yoast_name'       => 'is_robots_noarchive',
+			'transform_method' => 'post_general_robots_import',
 			'robots_import'    => true,
-			'aioseo_key'       => 'robots_noindex',
-			'robot_type'       => 'noindex',
-			'type'             => 'postTypes',
-			'option_name'      => 'aioseo_options_dynamic',
+			'aioseo_key'       => 'robots_noarchive',
+			'robot_type'       => 'noarchive',
+		],
+		'robots_nosnippet'     => [
+			'yoast_name'       => 'is_robots_nosnippet',
+			'transform_method' => 'post_general_robots_import',
+			'robots_import'    => true,
+			'aioseo_key'       => 'robots_nosnippet',
+			'robot_type'       => 'nosnippet',
+		],
+		'robots_noimageindex'     => [
+			'yoast_name'       => 'is_robots_noimageindex',
+			'transform_method' => 'post_general_robots_import',
+			'robots_import'    => true,
+			'aioseo_key'       => 'robots_noimageindex',
+			'robot_type'       => 'noimageindex',
 		],
 	];
 
@@ -268,12 +283,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	 * @return Indexable The created indexables.
 	 */
 	public function map( $indexable, $aioseo_indexable ) {
-		// Do not overwrite any existing values.
 		foreach ( $this->aioseo_to_yoast_map as $aioseo_key => $yoast_mapping ) {
-			if ( ! empty( $indexable->{$yoast_mapping['yoast_name']} ) ) {
-				continue;
-			}
-
 			// For robots import.
 			if ( isset( $yoast_mapping['robots_import'] ) && $yoast_mapping['robots_import'] ) {
 				$yoast_mapping['subtype'] = $indexable->object_sub_type;
@@ -283,6 +293,11 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 			}
 
 			// For import of everything else.
+			// Do not overwrite any existing values.
+			if ( ! empty( $indexable->{$yoast_mapping['yoast_name']} ) ) {
+				continue;
+			}
+
 			if ( ! empty( $aioseo_indexable[ $aioseo_key ] ) ) {
 				$indexable->{$yoast_mapping['yoast_name']} = \call_user_func( [ $this, $yoast_mapping['transform_method'] ], $aioseo_indexable[ $aioseo_key ], $yoast_mapping );
 			}
@@ -373,7 +388,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	}
 
 	/**
-	 * Imports the post's noindex setting.
+	 * Imports the post's robots setting.
 	 *
 	 * @param bool  $aioseo_robots_settings AIOSEO's set of robot settings for the post.
 	 * @param array $mapping The mapping of the setting we're working with.
@@ -381,8 +396,12 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	 * @return bool|null The value of Yoast's noindex setting for the post.
 	 */
 	public function post_general_robots_import( $aioseo_robots_settings, $mapping ) {
+		$mapping['type']        = 'postTypes';
+		$mapping['option_name'] = 'aioseo_options_dynamic';
+
 		if ( $aioseo_robots_settings['robots_default'] ) {
-			return $this->robots->transform_robot_setting( $mapping['robot_type'], $aioseo_robots_settings[ $mapping['aioseo_key'] ], $mapping );
+			$subtype_setting = $this->robots->get_subtype_robot_setting( $mapping );
+			return $this->robots->transform_robot_setting( $mapping['robot_type'], $subtype_setting, $mapping );
 		}
 
 		return $aioseo_robots_settings[ $mapping['aioseo_key'] ];
