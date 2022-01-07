@@ -19,8 +19,6 @@ export default function( text, array, locale = "en_EN", matchWordCustomHelper ) 
 	let matches = [];
 	let positions = [];
 
-	array = array.map( normalizeQuotes );
-
 	unique( array ).forEach( function( wordToMatch ) {
 		const occurrence = matchTextWithWord( text, wordToMatch, locale, matchWordCustomHelper );
 		count += occurrence.count;
