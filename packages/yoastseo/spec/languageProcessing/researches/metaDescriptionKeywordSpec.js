@@ -174,14 +174,14 @@ describe( "the meta description keyword match research for languages that have c
 		} );
 
 		it( "returns 1 when the keyphrase is enclosed in double quotes and there is an exact match in the meta description text", function() {
-			const paper = new Paper( "", { keyword: "「小さい花の刺繍」", synonyms: "野生のハーブの刺繡", description: "小さい花の刺繍。", locale: "ja" }  );
+			const paper = new Paper( "", { keyword: "『小さい花の刺繍』", synonyms: "野生のハーブの刺繡", description: "小さい花の刺繍。", locale: "ja" }  );
 			const researcher = new JapaneseResearcher( paper );
 			const result = metaDescriptionKeyword( paper, researcher );
 			expect( result ).toEqual( 1 );
 		} );
 
 		it( "returns 2 when the keyphrase is enclosed in double quotes, and when there are 2 matches in the meta description text", function() {
-			const paper = new Paper( "", { keyword: "「小さい花の刺繍」",
+			const paper = new Paper( "", { keyword: "『小さい花の刺繍』",
 				synonyms: "野生のハーブの刺繡",
 				description: "小さい花の刺繍これによって少しでも夏休み明けの感染者数を抑えたいという事だけど、小さい花の刺繍。",
 				locale: "ja" } );
@@ -255,7 +255,7 @@ describe( "the meta description keyword match research for languages that have c
 
 		it( "returns 0 when the keyphrase is enclosed in double quotes, but the meta description text contains " +
 			"different form of the keyphrase", function() {
-			const paper = new Paper( "", { keyword: "「小さい花の刺繍」",
+			const paper = new Paper( "", { keyword: "『小さい花の刺繍』",
 				synonyms: "野生のハーブの刺繡",
 				description: "小さくて可愛い花の刺繍に関する一般一般の記事です。私は美しい猫を飼っています。",
 				locale: "ja" } );
