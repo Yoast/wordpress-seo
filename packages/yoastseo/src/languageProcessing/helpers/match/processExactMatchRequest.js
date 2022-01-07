@@ -1,5 +1,6 @@
 /**
  * Checks if exact match functionality is requested by enclosing the keyphrase in double quotation marks.
+ * This function should be called after the single and double quotes are normalised using `normalizeQuotes()`.
  *
  * @param {string}  keyphrase       The keyphrase to check. This must be the keyphrase accessed directly from the Paper.
  *
