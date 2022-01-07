@@ -19,14 +19,16 @@ import { map } from "lodash-es";
  *
  * @returns {Object} An array with all matches of the text, the number of the matches, and the lowest number of positions of the matches.
  */
-export default function( text, wordToMatch, locale, matchWordCustomHelper, originalKeyphrase ) {
+export default function( text, wordToMatch, locale, matchWordCustomHelper ) {
 	text = stripSomeTags( text );
 	text = unifyWhitespace( text );
 	text = normalizeQuotes( text );
-	wordToMatch = stripSpaces( normalizeQuotes( wordToMatch ) );
+
+	// Japanese keyphrase quotes doesn't need to be normalized.
+	wordToMatch = ( locale === "ja" ) ? wordToMatch : ( normalizeQuotes( wordToMatch ) );
 
 	let matches = matchWordCustomHelper
-		? matchWordCustomHelper( text, wordToMatch, originalKeyphrase )
+		? matchWordCustomHelper( text, wordToMatch )
 		: matchStringWithTransliteration( text, wordToMatch, locale );
 
 	matches = map( matches, function( keyword ) {
