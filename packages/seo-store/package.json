@@ -17,8 +17,9 @@
   "author": "Team Yoast",
   "license": "GPL-3.0",
   "scripts": {
-    "build": "yarn clean && babel src --out-dir build",
-    "watch": "yarn clean && babel src --watch --out-dir build",
+    "build": "yarn clean && babel src --out-dir build --source-maps",
+    "build:prod": "yarn clean && babel src --out-dir build",
+    "watch": "yarn clean && babel src --watch --out-dir build --source-maps",
     "clean": "rimraf build",
     "lint": "eslint src --max-warnings=0",
     "lint:watch": "esw src --max-warnings=0 --watch",
