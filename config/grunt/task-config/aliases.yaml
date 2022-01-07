@@ -28,18 +28,8 @@
 'build:js':
   - 'clean:build-assets-js'
   - 'copy:js-dependencies'
-  - 'build:seo-integration'
-  - 'shell:webpack'
-
-'build:seo-integration':
-  - 'shell:build-seo-store'
-  - 'shell:build-replacement-variables'
   - 'shell:build-seo-integration'
-
-'build:seo-integration-prod':
-  - 'shell:build-seo-store-prod'
-  - 'shell:build-replacement-variables-prod'
-  - 'shell:build-seo-integration-prod'
+  - 'shell:webpack'
 
 # Build CSS for development
 'build:css':
@@ -167,7 +157,7 @@ release:
   - 'shell:install-schema-blocks'
 'release:js':
   - 'copy:js-dependencies'
-  - 'build:seo-integration-prod'
+  - 'shell:build-seo-integration-prod'
   - 'shell:webpack-prod'
 
 # Build CSS for production
