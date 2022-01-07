@@ -1,8 +1,7 @@
-import { get, includes } from "lodash-es";
+import { get } from "lodash-es";
 import parseSynonyms from "../../../helpers/sanitize/parseSynonyms";
 import getContentWords from "../helpers/getContentWords";
 import createWordForms from "../helpers/internal/createWordForms";
-import processExactMatchRequest from "../../../helpers/match/processExactMatchRequest"
 
 /**
  * Creates word forms for each word in the given keyphrase.
