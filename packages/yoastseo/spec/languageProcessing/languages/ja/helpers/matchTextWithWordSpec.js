@@ -25,4 +25,10 @@ describe( "test for matching Japanese word in the text", function() {
 
 		expect( words ).toEqual( [ "者数", "者数" ] );
 	} );
+
+	it( "doesn't break when the word to match and the original keyphrase are empty", function() {
+		const words = matchTextWithWord( "これによって少しでも夏休み明けの感染者数を抑えたいという事だけど、どうなるかな者数。", "", "" );
+
+		expect( words ).toEqual( [] );
+	} );
 } );

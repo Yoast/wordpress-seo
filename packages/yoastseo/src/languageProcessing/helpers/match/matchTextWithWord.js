@@ -15,16 +15,20 @@ import { map } from "lodash-es";
  * @param {string}      wordToMatch             The word to match in the text
  * @param {string}      locale                  The locale used for transliteration.
  * @param {function}    matchWordCustomHelper   The helper function to match word in text.
+ * @param {string}      originalKeyphrase       The unprocessed keyphrase returned directly from the paper (`paper.getKeyword()`).
  *
  * @returns {Object} An array with all matches of the text, the number of the matches, and the lowest number of positions of the matches.
  */
-export default function( text, wordToMatch, locale, matchWordCustomHelper ) {
+export default function( text, wordToMatch, locale, matchWordCustomHelper, originalKeyphrase ) {
 	text = stripSomeTags( text );
 	text = unifyWhitespace( text );
 	text = normalizeQuotes( text );
 	wordToMatch = stripSpaces( normalizeQuotes( wordToMatch ) );
 
-	let matches = matchWordCustomHelper ? matchWordCustomHelper( text, wordToMatch ) : matchStringWithTransliteration( text, wordToMatch, locale );
+	let matches = matchWordCustomHelper
+		? matchWordCustomHelper( text, wordToMatch, originalKeyphrase )
+		: matchStringWithTransliteration( text, wordToMatch, locale );
+
 	matches = map( matches, function( keyword ) {
 		return stripSpaces( removePunctuation( keyword ) );
 	} );

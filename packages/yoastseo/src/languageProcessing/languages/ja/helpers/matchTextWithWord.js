@@ -11,7 +11,7 @@ import processExactMatchRequest from "../../../helpers/match/processExactMatchRe
  *
  * @returns {Array} An array of the matched word(s).
  */
-export default function( text, wordToMatch, originalKephrase ) {
+export default function( text, wordToMatch, originalKephrase = "" ) {
 	// Check if the exact match is requested.
 	const isExactMatchRequested = processExactMatchRequest( originalKephrase );
 	if ( isExactMatchRequested.exactMatchRequested ) {

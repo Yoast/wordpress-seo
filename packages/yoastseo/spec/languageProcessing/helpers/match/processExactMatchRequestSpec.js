@@ -29,4 +29,11 @@ describe( "a test for processing exact match request for a keyphrase", function(
 			keyphrase: "小さい花の刺繍",
 		} );
 	} );
+	it( "doesn't break when the keyphrase is empty", function() {
+		const keyphrase = "";
+		expect( processExactMatchRequest( keyphrase ) ).toEqual( {
+			exactMatchRequested: false,
+			keyphrase: "",
+		} );
+	} );
 } );

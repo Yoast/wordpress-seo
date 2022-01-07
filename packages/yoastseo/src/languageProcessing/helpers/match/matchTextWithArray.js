@@ -11,10 +11,11 @@ import { uniq as unique } from "lodash-es";
  * @param {Array}       array                   The array with strings to match.
  * @param {String}      [locale = "en_EN"]      The locale of the text to get transliterations.
  * @param {function}    matchWordCustomHelper   The language-specific helper function to match word in text.
+ * @param {string}      originalKeyphrase       The unprocessed keyphrase returned directly from the paper (`paper.getKeyword()`).
  *
  * @returns {Object} An array with all matches of the text, the number of the matches, and the lowest number of positions of the matches.
  */
-export default function( text, array, locale = "en_EN", matchWordCustomHelper ) {
+export default function( text, array, locale = "en_EN", matchWordCustomHelper, originalKeyphrase ) {
 	let count = 0;
 	let matches = [];
 	let positions = [];
@@ -22,7 +23,7 @@ export default function( text, array, locale = "en_EN", matchWordCustomHelper ) 
 	array = array.map( normalizeQuotes );
 
 	unique( array ).forEach( function( wordToMatch ) {
-		const occurrence = matchTextWithWord( text, wordToMatch, locale, matchWordCustomHelper );
+		const occurrence = matchTextWithWord( text, wordToMatch, locale, matchWordCustomHelper, originalKeyphrase );
 		count += occurrence.count;
 		matches = matches.concat( occurrence.matches );
 		positions.push( occurrence.position );
