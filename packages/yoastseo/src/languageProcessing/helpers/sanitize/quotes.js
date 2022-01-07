@@ -15,7 +15,7 @@ function normalizeSingleQuotes( text ) {
  * @returns {string} The normalized text.
  */
 function normalizeDoubleQuotes( text ) {
-	return text.replace( /[“”〝〞〟‟„]/g, "\"" );
+	return text.replace( /[“”〝〞〟‟„『』]/g, "\"" );
 }
 
 /**
