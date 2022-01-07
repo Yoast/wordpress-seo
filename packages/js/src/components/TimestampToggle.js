@@ -1,7 +1,9 @@
 import {Component} from '@wordpress/element';
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import {Toggle, SvgIcon, SimulatedLabel} from '@yoast/components';
+import {
+	Toggle, FieldGroup,
+} from '@yoast/components';
 import { __ } from "@wordpress/i18n";
 import popupWindow from '../helpers/popupWindow';
 import {AuthenticationModal} from './modals/wordproof/AuthenticationModal';
@@ -13,17 +15,6 @@ const Timestamp = styled.div`
 	display: flex;
 	margin-top: 8px;
 `;
-
-function HelpIcon(props) {
-	return (
-		<span className={'yoast-help'} onClick={ props.openAuthentication }>
-			<span className={'yoast-help__icon'}>
-				<SvgIcon className={'yoast-help'}
-						 icon={'question-circle'}/>
-			</span>
-		</span>
-	);
-}
 
 function SettingsLink(props) {
 	const data = window.wordproofSdk.data || {};
@@ -132,25 +123,23 @@ class TimestampToggle extends Component {
 	render() {
 		return (
 			<Timestamp>
-				<div className={"yoast-field-group"}>
-					<div className={"yoast-field-group__title"}>
-						<SimulatedLabel
-							htmlFor={ this.props.id }>
-							{__( "Timestamp with WordProof", "wordpress-seo" )}
-						</SimulatedLabel>
-						<HelpIcon openAuthentication={ this.openAuthentication } />
-					</div>
+				<FieldGroup
+					linkText={ __("Learn more about timestamping", "wordpress-seo") }
+					linkTo={ "https://yoa.st/wordproof" }
+					htmlFor={ this.props.id  }
+					label={ __( "Timestamp with WordProof", "wordpress-seo" ) }
+					hasNewBadge={ true } >
 					<ToggleWrapper isAuthenticated={ this.state.isAuthenticated } openAuthentication={ this.openAuthentication }>
 						<Toggle className={"yoast-field-group__radiobutton"}
-							id={ this.props.id }
-							labelText={ __( "Timestamp this page", "wordpress-seo" ) }
-							isEnabled={ this.props.isEnabled }
-							onSetToggleState={ this.props.onToggle }
-							disable={ this.state.isDisabled }
+								id={ this.props.id }
+								labelText={ __( "Timestamp this page", "wordpress-seo" ) }
+								isEnabled={ this.props.isEnabled }
+								onSetToggleState={ this.props.onToggle }
+								disable={ this.state.isDisabled }
 						/>
 					</ToggleWrapper>
 					<SettingsLink isAuthenticated={ this.state.isAuthenticated } openSettings={ this.openSettings }/>
-				</div>
+				</FieldGroup>
 
 				<AuthenticationModal isOpen={ this.state.isOpen } setIsOpen={ this.setIsOpen }
 									 isAuthenticated={ this.state.isAuthenticated } setIsAuthenticated={ this.setIsAuthenticated }/>
