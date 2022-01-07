@@ -290,6 +290,7 @@ const AdvancedSettings = ( props ) => {
 		editorContext,
 		isBreadcrumbsDisabled,
 		isPrivateBlog,
+		isWordProofIntegrationActive
 	} = props;
 
 	useEffect( () => {
@@ -345,7 +346,7 @@ const AdvancedSettings = ( props ) => {
 				! isBreadcrumbsDisabled && <BreadcrumbsTitle { ...breadcrumbsTitleProps } />
 			}
 			<CanonicalURL { ...canonicalProps } />
-			<WordProofTimestamp { ...timestampProps } />
+			{ isWordProofIntegrationActive && <WordProofTimestamp { ...timestampProps } />}
 		</Fragment>
 	);
 };
@@ -368,6 +369,7 @@ AdvancedSettings.propTypes = {
 	onNoFollowChange: PropTypes.func,
 	breadcrumbsTitle: PropTypes.string,
 	onBreadcrumbsTitleChange: PropTypes.func,
+	isWordProofIntegrationActive: PropTypes.bool.isRequired,
 };
 
 AdvancedSettings.defaultProps = {
