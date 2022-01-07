@@ -165,9 +165,7 @@ const keywordInAnchor = function( paper, researcher, anchors, permalink ) {
 	const locale = paper.getLocale();
 	const topicForms = researcher.getResearch( "morphology" );
 
-	const doubleQuotes = [ "“", "”", "〝", "〞", "〟", "‟", "„", "\"", "\u300c", "\u300d", "\u300e", "\u300f" ];
-
-	const isExactMatchRequested = processExactMatchRequest( keyword, doubleQuotes );
+	const isExactMatchRequested = processExactMatchRequest( keyword );
 
 	// Check if any anchors contain keyphrase or synonyms in them.
 	anchors = filterAnchorsContainingTopic( anchors, topicForms, locale, customHelpers.matchWordCustomHelper, isExactMatchRequested );
