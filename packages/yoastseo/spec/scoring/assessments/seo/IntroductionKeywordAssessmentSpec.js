@@ -128,6 +128,19 @@ describe( "a test for the keyphrase in first paragraph assessment when the exact
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33e' target='_blank'>Keyphrase in introduction</a>: Well done!" );
 	} );
 
+	it( "still returns a good result when the first paragraph doesn't contain the exact match of the keyphrase," +
+		" but it does contain the exact match of the synonym", function() {
+		const mockPaper = new Paper( "A cat loves an activity in nature. A cat is enjoying a walk in nature.", {
+			keyword: "\"walking in nature\"",
+			synonyms: "\"activity in nature\"",
+		} );
+		const researcher = new EnglishResearcher( mockPaper );
+		const assessment = new IntroductionKeywordAssessment().getResult( mockPaper, researcher );
+
+		expect( assessment.getScore() ).toBe( 9 );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33e' target='_blank'>Keyphrase in introduction</a>: Well done!" );
+	} );
+
 	it( "returns a bad result when the first paragraph doesn't contain the exact match of the keyphrase in Japanese", function() {
 		const mockPaper = new Paper( "小さくて可愛い花の刺繍に関する一般一般の記事です。私は美しい猫を飼っています。",
 			{
@@ -161,6 +174,20 @@ describe( "a test for the keyphrase in first paragraph assessment when the exact
 			{
 				keyword: "「小さい花の刺繍」",
 				synonyms: "野生のハーブの刺繡",
+			}  );
+		const researcher = new JapaneseResearcher( mockPaper );
+		const assessment = new IntroductionKeywordAssessment().getResult( mockPaper, researcher );
+
+		expect( assessment.getScore() ).toBe( 9 );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33e' target='_blank'>Keyphrase in introduction</a>: Well done!" );
+	} );
+
+	it( "still returns a good result when the first paragraph doesn't contain the exact match of the keyphrase," +
+		" but it does contain the exact match of the synonym", function() {
+		const mockPaper = new Paper( "小さくて可愛い花の刺繍に関する一般一般の記事です。私は美しい猫を飼っています。野生のハーブの刺繡。",
+			{
+				keyword: "「小さい花の刺繍」",
+				synonyms: "『野生のハーブの刺繡』",
 			}  );
 		const researcher = new JapaneseResearcher( mockPaper );
 		const assessment = new IntroductionKeywordAssessment().getResult( mockPaper, researcher );
