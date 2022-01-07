@@ -13,13 +13,10 @@ export default function isWordProofIntegrationActive() {
 	const l10nObject = getL10nObject();
 
 	let wordproofIntegrationActive = get( l10nObject, "wordproofIntegrationActive", 0 ) === 1;
-	let privacyPolicyPageId = get( l10nObject, "privacyPolicyPageId", false );
+	let currentPostIsPrivacyPolicyPage = get( l10nObject, "currentPostIsPrivacyPolicyPage", 0 ) === 1;
 
-	if (wordproofIntegrationActive === false)
-		return false;
+	if (wordproofIntegrationActive === true && currentPostIsPrivacyPolicyPage === true)
+		return true;
 
-	if (!privacyPolicyPageId || privacyPolicyPageId !== 1726)
-		return false
-
-	return true;
+	return false;
 }

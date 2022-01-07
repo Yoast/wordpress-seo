@@ -22,7 +22,10 @@ class WordProof_Helper {
 	 *
 	 * @return string
 	 */
-	public function get_privacy_policy_page_id() {
-		return intval( \get_site_option( 'wp_page_for_privacy_policy', false ) );
+	public function current_page_is_privacy_policy() {
+		global $post;
+
+		$privacyPolicyPostId = intval( \get_site_option( 'wp_page_for_privacy_policy', false ) );
+		return $post->ID === $privacyPolicyPostId;
 	}
 }
