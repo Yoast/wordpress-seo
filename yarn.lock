@@ -18,6 +18,22 @@
     "@nicolo-ribaudo/chokidar-2" "2.1.8-no-fsevents.3"
     chokidar "^3.4.0"
 
+"@babel/cli@^7.16.7":
+  version "7.16.7"
+  resolved "https://registry.yarnpkg.com/@babel/cli/-/cli-7.16.7.tgz#4184b5ec6a22106e9dd64bbcaa2eb22675ff595d"
+  integrity sha512-0iBF+G2Qml0y3mY5dirolyToLSR88a/KB6F2Gm8J/lOnyL8wbEOHak0DHF8gjc9XZGgTDGv/jYXNiapvsYyHTA==
+  dependencies:
+    commander "^4.0.1"
+    convert-source-map "^1.1.0"
+    fs-readdir-recursive "^1.1.0"
+    glob "^7.0.0"
+    make-dir "^2.1.0"
+    slash "^2.0.0"
+    source-map "^0.5.0"
+  optionalDependencies:
+    "@nicolo-ribaudo/chokidar-2" "2.1.8-no-fsevents.3"
+    chokidar "^3.4.0"
+
 "@babel/code-frame@7.12.11":
   version "7.12.11"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.12.11.tgz#f4ad435aa263db935b8f10f2c552d23fb716a63f"
