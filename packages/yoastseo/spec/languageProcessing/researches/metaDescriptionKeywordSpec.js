@@ -127,6 +127,13 @@ describe( "the metadescription keyword match research", function() {
 		const result = metaDescriptionKeyword( paper, researcher );
 		expect( result ).toEqual( 2 );
 	} );
+	it( "returns 1 when the synonym is enclosed in double quotes and there is 1 match in the text", function() {
+		const paper = new Paper( "", { keyword: "hounds and felines", synonyms: "\"cats and dogs\"",
+			description: "Cats and dogs are great." }  );
+		const researcher = new Researcher( paper );
+		const result = metaDescriptionKeyword( paper, researcher );
+		expect( result ).toEqual( 1 );
+	} );
 } );
 
 describe( "the meta description keyword match research for languages that have custom helper to match words", function() {
@@ -188,6 +195,13 @@ describe( "the meta description keyword match research for languages that have c
 			const researcher = new JapaneseResearcher( paper );
 			const result = metaDescriptionKeyword( paper, researcher );
 			expect( result ).toEqual( 2 );
+		} );
+
+		it( "returns 1 when the synonym is enclosed in double quotes and there is an exact match in the meta description text", function() {
+			const paper = new Paper( "", { keyword: "野生のハーブの刺繡", synonyms: "『小さい花の刺繍』", description: "小さい花の刺繍。", locale: "ja" }  );
+			const researcher = new JapaneseResearcher( paper );
+			const result = metaDescriptionKeyword( paper, researcher );
+			expect( result ).toEqual( 1 );
 		} );
 	} );
 

@@ -107,6 +107,20 @@ describe( "a test for the meta description keyword assessment when the exact mat
 			"description</a>: Keyphrase or synonym appear in the meta description. Well done!" );
 	} );
 
+	it( "still returns a good result when the meta description doesn't contain the exact match of the keyphrase," +
+		" but it does contain the exact match of the synonym", function() {
+		const mockPaper = new Paper( "", { keyword: "\"walking in nature\"",
+			synonyms: "\"activity in nature\"",
+			description: "A cat loves an activity in nature. A walk in nature." } );
+		const researcher = new EnglishResearcher( mockPaper );
+		const assessment = new MetaDescriptionKeywordAssessment().getResult( mockPaper, researcher );
+
+		expect( assessment.getScore() ).toBe( 9 );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33k' target='_blank'>Keyphrase in meta " +
+			"description</a>: Keyphrase or synonym appear in the meta description. Well done!" );
+	} );
+
+
 	it( "returns a bad result when the meta description doesn't contain the exact match of the keyphrase in Japanese", function() {
 		const mockPaper = new Paper( "", { keyword: "『小さい花の刺繍』",
 			synonyms: "野生のハーブの刺繡",
@@ -136,6 +150,19 @@ describe( "a test for the meta description keyword assessment when the exact mat
 		" but it does contain the synonym", function() {
 		const mockPaper = new Paper( "", { keyword: "「小さい花の刺繍」",
 			synonyms: "野生のハーブの刺繡",
+			description: "小さくて可愛い花の刺繍に関する一般一般の記事です。私は美しい猫を飼っています。野生のハーブの刺繡。" }  );
+		const researcher = new JapaneseResearcher( mockPaper );
+		const assessment = new MetaDescriptionKeywordAssessment().getResult( mockPaper, researcher );
+
+		expect( assessment.getScore() ).toBe( 9 );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33k' target='_blank'>Keyphrase in meta " +
+			"description</a>: Keyphrase or synonym appear in the meta description. Well done!" );
+	} );
+
+	it( "still returns a good result when the meta description doesn't contain the exact match of the keyphrase," +
+		" but it does contain the exact match of the synonym", function() {
+		const mockPaper = new Paper( "", { keyword: "『小さい花の刺繍』",
+			synonyms: "『野生のハーブの刺繡』",
 			description: "小さくて可愛い花の刺繍に関する一般一般の記事です。私は美しい猫を飼っています。野生のハーブの刺繡。" }  );
 		const researcher = new JapaneseResearcher( mockPaper );
 		const assessment = new MetaDescriptionKeywordAssessment().getResult( mockPaper, researcher );
