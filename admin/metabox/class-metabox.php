@@ -307,7 +307,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$values['wincherIntegrationActive'] = 0;
 		}
 
-		if ( !$values['privacyPolicyPageId'] || $this->post->ID !== $values['privacyPolicyPageId'] ) {
+		if ( !$values['privacyPolicyPageId'] || $this->get_metabox_post()->ID !== $values['privacyPolicyPageId'] ) {
 			$values['wordproofIntegrationActive'] = 0;
 		}
 
