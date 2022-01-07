@@ -13,9 +13,9 @@ import processExactMatchRequest from "../../../helpers/match/processExactMatchRe
  * @returns {Array<string[]>} The word forms for each word in the keyphrase.
  */
 function getKeyphraseForms( keyphrase, researcher ) {
-	const exactMatch = processExactMatchRequest( keyphrase );
-	if ( exactMatch.exactMatchRequested ) {
-		return [ [ exactMatch.keyphrase ] ];
+	const doubleQuotes = [ "“", "”", "〝", "〞", "〟", "‟", "„", "\"", "\u300c", "\u300d", "\u300e", "\u300f" ];
+	if ( doubleQuotes.includes( keyphrase[ 0 ] ) && doubleQuotes.includes( keyphrase[ keyphrase.length - 1 ] ) ) {
+		return [ [ keyphrase ] ];
 	}
 
 	const keyphraseWords = getContentWords( keyphrase );
