@@ -24,6 +24,7 @@ class Option_Wpseo_Watcher implements Integration_Interface {
 	public function register_hooks() {
 		\add_action( 'update_option_wpseo', [ $this, 'check_semrush_option_disabled' ], 10, 2 );
 		\add_action( 'update_option_wpseo', [ $this, 'check_wincher_option_disabled' ], 10, 2 );
+		\add_action( 'update_option_wpseo', [ $this, 'check_wordproof_option_disabled' ], 10, 2 );
 	}
 
 	/**
@@ -57,6 +58,26 @@ class Option_Wpseo_Watcher implements Integration_Interface {
 		$disabled = $this->check_token_option_disabled( 'wincher_integration_active', 'wincher_tokens', $new_value );
 		if ( $disabled ) {
 			\YoastSEO()->helpers->options->set( 'wincher_website_id', '' );
+		}
+		return $disabled;
+	}
+
+	/**
+	 * Checks if the WordProof integration is disabled; if so, deletes the tokens
+	 * and website id.
+	 *
+	 * We delete them if the WordProof integration is disabled, no matter if the
+	 * value has actually changed or not.
+	 *
+	 * @param array $old_value The old value of the option.
+	 * @param array $new_value The new value of the option.
+	 *
+	 * @return bool Whether the WordProof tokens have been deleted or not.
+	 */
+	public function check_wordproof_option_disabled( $old_value, $new_value ) {
+		$disabled = $this->check_token_option_disabled( 'wordproof_integration_active', 'wordproof_tokens', $new_value );
+		if ( $disabled ) {
+			\YoastSEO()->helpers->wordproof->remove_site_options();
 		}
 		return $disabled;
 	}
