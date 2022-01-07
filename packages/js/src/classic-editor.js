@@ -9,7 +9,7 @@ import { MetaboxFill, MetaboxSlot } from "./classic-editor/components/metabox/sl
 import initEditorStore from "./classic-editor/editor-store";
 import { getInitialPostState, getInitialTermState } from "./classic-editor/initial-state";
 import registerSeoTitleWidth from "./classic-editor/plugins/seo-title-width";
-import registerShortcodes from "./classic-editor/shortcodes";
+import registerShortcodes from "./classic-editor/plugins/shortcodes";
 import { initPostWatcher, initTermWatcher } from "./classic-editor/watcher";
 import { registerReactComponent, renderReactRoot } from "./helpers/reactRoot";
 import registerGlobalApis from "./helpers/register-global-apis";
