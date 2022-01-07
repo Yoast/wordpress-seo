@@ -44,10 +44,6 @@
     "start": "wp-scripts start --config config/webpack/webpack.config.js"
   },
   "dependencies": {},
-  "resolutions": {
-	"postcss": "8.4.5",
-	"autoprefixer": "10.4.1"
-  },
   "devDependencies": {
     "@babel/plugin-transform-runtime": "^7.13.10",
     "@slack/webhook": "^5.0.2",
@@ -57,7 +53,8 @@
     "@wordpress/dependency-extraction-webpack-plugin": "^3.1.0",
     "@wordpress/scripts": "^14.1.1",
     "@yoast/browserslist-config": "file:packages/browserslist-config",
-    "@yoast/grunt-plugin-tasks": "^2.2.1",
+    "@yoast/grunt-plugin-tasks": "https://github.com/Yoast/plugin-grunt-tasks.git#DUPP-194-upgrade-postcss-related-packages-for-tailwind",
+    "autoprefixer": "^10.0.0",
     "babel-plugin-dynamic-import-webpack": "^1.1.0",
     "colors": "^1.4.0",
     "cross-env": "^7.0.3",
@@ -79,6 +76,9 @@
     "jest-styled-components": "^7.0.3",
     "lerna": "^4.0.0",
     "node-fetch": "^2.6.1",
+    "postcss": "^8.0.0",
+    "postcss-import": "^14.0.2",
+    "postcss-loader": "^4.0.0",
     "react-test-renderer": "^16.14.0",
     "readline-sync": "^1.4.9",
     "shusher": "^0.1.1",

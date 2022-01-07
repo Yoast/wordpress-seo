@@ -1,9 +1,10 @@
+const path = require( "path" );
 const autoPrefixer = require( "autoprefixer" );
 const cssNano = require( "cssnano" );
 const postCSSImport = require( "postcss-import" );
 const tailwindcss = require( "tailwindcss" );
 
-// https://github.com/nDmitry/grunt-postcss
+// https://github.com/C-Lodder/grunt-postcss
 module.exports = {
 	build: {
 		options: {
@@ -14,7 +15,7 @@ module.exports = {
 			processors: [
 				autoPrefixer(),
 				postCSSImport(),
-				tailwindcss(),
+				tailwindcss( path.resolve( __dirname, "../../../tailwind.config.js" ) ),
 			],
 		},
 		src: "css/dist/*.css",
@@ -25,7 +26,7 @@ module.exports = {
 			processors: [
 				autoPrefixer(),
 				postCSSImport(),
-				tailwindcss(),
+				tailwindcss( path.resolve( __dirname, "../../../tailwind.config.js" ) ),
 				cssNano(),
 			],
 		},

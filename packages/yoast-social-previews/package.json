@@ -23,6 +23,7 @@
     "yoastseo": "git+https://github.com/Yoast/YoastSEO.js.git#master"
   },
   "devDependencies": {
+    "@lodder/grunt-postcss": "^3.1.1",
     "autoprefixer": "^6.3.1",
     "grunt": "^1.0.1",
     "grunt-browserify": "^5.0.0",
@@ -33,7 +34,6 @@
     "grunt-contrib-watch": "^1.0.0",
     "grunt-lodash": "^0.5.0",
     "grunt-po2json": "^0.3.0",
-    "grunt-postcss": "^0.8.0",
     "grunt-sass": "^3.0.0",
     "grunt-shell": "^2.0.0",
     "istanbul": "^0.4.0",
