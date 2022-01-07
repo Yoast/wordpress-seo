@@ -182,7 +182,7 @@ class WPSEO_Metabox_Formatter {
 			'wincherWebsiteId'            => WPSEO_Options::get( 'wincher_website_id', '' ),
 			'wincherAutoAddKeyphrases'    => WPSEO_Options::get( 'wincher_automatically_add_keyphrases', false ),
 			'wordproofIntegrationActive'  => $is_wordproof_active ? 1 : 0,
-			'privacyPolicyPageId' 		  => YoastSEO()->helpers->site->get_privacy_policy_page_id(),
+			'privacyPolicyPageId' 		  => YoastSEO()->helpers->wordproof->get_privacy_policy_page_id(),
 
 			/**
 			 * Filter to determine whether the PreviouslyUsedKeyword assessment should run.
