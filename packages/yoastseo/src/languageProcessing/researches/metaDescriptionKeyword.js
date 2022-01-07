@@ -30,12 +30,14 @@ const replaceFoundKeywordForms = function( description, matchedKeywordForms, max
  * @param {Object}      topicForms      The keyphrase (and its optional synonyms') word forms.
  * @param {string}      locale          The current locale.
  * @param {function}    matchWordCustomHelper   The language-specific helper function to match word in text.
+ * @param {string}      originalKeyphrase       The unprocessed keyphrase returned directly from the paper (`paper.getKeyword()`).
  *
  * @returns {Number} The number of matched keyphrases in the sentence.
  */
-const matchPerSentence = function( sentence, topicForms, locale, matchWordCustomHelper ) {
+const matchPerSentence = function( sentence, topicForms, locale, matchWordCustomHelper, originalKeyphrase ) {
 	// Focus keyphrase matches.
-	const matchesKeyphrase = topicForms.keyphraseForms.map( keywordForms => matchWords( sentence, keywordForms, locale, matchWordCustomHelper ) );
+	const matchesKeyphrase = topicForms.keyphraseForms.map( keywordForms =>
+		matchWords( sentence, keywordForms, locale, matchWordCustomHelper, originalKeyphrase ) );
 
 	// Count the number of matches that contain every word in the entire keyphrase.
 	const fullKeyphraseMatches = Math.min( ...matchesKeyphrase.map( match => match.count ) );
@@ -70,6 +72,7 @@ const matchPerSentence = function( sentence, topicForms, locale, matchWordCustom
 export default function( paper, researcher ) {
 	const description = paper.getDescription();
 	const locale = paper.getLocale();
+	const originalKeyphrase = paper.getKeyword();
 
 	const topicForms = researcher.getResearch( "morphology" );
 	const matchWordCustomHelper = researcher.getHelper( "matchWordCustomHelper" );
@@ -77,7 +80,7 @@ export default function( paper, researcher ) {
 	const sentences = getSentences( description );
 
 	const sentenceMatches = sentences.map(
-		sentence => matchPerSentence( sentence, topicForms, locale, matchWordCustomHelper )
+		sentence => matchPerSentence( sentence, topicForms, locale, matchWordCustomHelper, originalKeyphrase )
 	);
 
 	return sentenceMatches.reduce( ( sum, count ) => sum + count, 0 );
