@@ -91,7 +91,7 @@ class Yoast_Integration_Toggles {
 				'order'           => 15,
 			],
 			(object) [
-				/* translators: %s: WordProof */
+				/* translators: %s expands to WordProof */
 				'name'            => sprintf( __( '%s integration', 'wordpress-seo' ), 'WordProof' ),
 				'setting'         => 'wordproof_integration_active',
 				'label'           => sprintf(
