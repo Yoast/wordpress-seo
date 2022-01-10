@@ -3,7 +3,7 @@
 namespace Yoast\WP\SEO\Integrations\Third_Party;
 
 use WordProof\SDK\WordPressSDK;
-use Yoast\WP\SEO\Conditionals\Third_Party\WordProof_Core_Inactive_Conditional;
+use Yoast\WP\SEO\Conditionals\Third_Party\WordProof_Plugin_Inactive_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
@@ -18,7 +18,7 @@ class WordProof implements Integration_Interface
 	 */
 	public static function get_conditionals()
 	{
-		return [WordProof_Core_Inactive_Conditional::class];
+		return [WordProof_Plugin_Inactive_Conditional::class];
 	}
 
 	/**

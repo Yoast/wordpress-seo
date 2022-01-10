@@ -7,7 +7,7 @@ use Yoast\WP\SEO\Conditionals\Conditional;
 /**
  * Conditional that is met when the WordProof Timestamp plugin is inactive.
  */
-class WordProof_Core_Inactive_Conditional implements Conditional {
+class WordProof_Plugin_Inactive_Conditional implements Conditional {
 
 	/**
 	 * Returns whether or not the WordProof Timestamp plugin is active.
