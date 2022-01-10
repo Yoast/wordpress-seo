@@ -45,25 +45,39 @@ class Aioseo_Default_Archive_Settings_Importing_Action extends Abstract_Aioseo_S
 	 */
 	protected function build_mapping() {
 		$this->aioseo_options_to_yoast_map = [
-			'/author/title'           => [
+			'/author/title'                       => [
 				'yoast_name'       => 'title-author-wpseo',
 				'transform_method' => 'simple_import',
 			],
-			'/author/metaDescription' => [
+			'/author/metaDescription'             => [
 				'yoast_name'       => 'metadesc-author-wpseo',
 				'transform_method' => 'simple_import',
 			],
-			'/date/title'             => [
+			'/date/title'                         => [
 				'yoast_name'       => 'title-archive-wpseo',
 				'transform_method' => 'simple_import',
 			],
-			'/date/metaDescription'   => [
+			'/date/metaDescription'               => [
 				'yoast_name'       => 'metadesc-archive-wpseo',
 				'transform_method' => 'simple_import',
 			],
-			'/search/title'           => [
+			'/search/title'                       => [
 				'yoast_name'       => 'title-search-wpseo',
 				'transform_method' => 'simple_import',
+			],
+			'/author/advanced/robotsMeta/noindex' => [
+				'yoast_name'       => 'noindex-author-wpseo',
+				'transform_method' => 'import_noindex',
+				'type'             => 'archives',
+				'subtype'          => 'author',
+				'option_name'      => 'aioseo_options',
+			],
+			'/date/advanced/robotsMeta/noindex'   => [
+				'yoast_name'       => 'noindex-archive-wpseo',
+				'transform_method' => 'import_noindex',
+				'type'             => 'archives',
+				'subtype'          => 'date',
+				'option_name'      => 'aioseo_options',
 			],
 		];
 	}

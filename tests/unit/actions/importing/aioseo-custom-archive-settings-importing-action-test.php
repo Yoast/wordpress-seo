@@ -161,14 +161,15 @@ class Aioseo_Custom_Archive_Settings_Importing_Action_Test extends TestCase {
 	/**
 	 * Tests mapping AIOSEO custom archive settings.
 	 *
-	 * @param string $setting       The setting at hand, eg. post or movie-category, separator etc.
-	 * @param string $setting_value The value of the AIOSEO setting at hand.
-	 * @param int    $times         The times that we will import each setting, if any.
+	 * @param string $setting         The setting at hand, eg. post or movie-category, separator etc.
+	 * @param string $setting_value   The value of the AIOSEO setting at hand.
+	 * @param int    $times           The times that we will import each setting, if any.
+	 * @param int    $transform_times The times that we will transform each setting, if any.
 	 *
 	 * @dataProvider provider_map
 	 * @covers ::map
 	 */
-	public function test_map( $setting, $setting_value, $times ) {
+	public function test_map( $setting, $setting_value, $times, $transform_times ) {
 		$archives = [
 			(object) [
 				'name'     => 'book',
@@ -194,7 +195,7 @@ class Aioseo_Custom_Archive_Settings_Importing_Action_Test extends TestCase {
 			->andReturn( 'not_null' );
 
 		$this->replacevar_handler->shouldReceive( 'transform' )
-			->times( $times )
+			->times( $transform_times )
 			->with( $setting_value )
 			->andReturn( $setting_value );
 
@@ -211,11 +212,13 @@ class Aioseo_Custom_Archive_Settings_Importing_Action_Test extends TestCase {
 	 */
 	public function provider_map() {
 		return [
-			[ '/book/title', 'Book Title', 1 ],
-			[ '/book/metaDescription', 'Book Desc', 1 ],
-			[ '/movie/show', 'Movie Title', 0 ],
-			[ '/movie/metaDescription', 'Movie Title', 1 ],
-			[ '/randome/key', 'random value', 0 ],
+			[ '/book/title', 'Book Title', 1, 1 ],
+			[ '/book/metaDescription', 'Book Desc', 1, 1 ],
+			[ '/book/advanced/robotsMeta/noindex', true, 1, 0 ],
+			[ '/movie/show', 'Movie Title', 0, 0 ],
+			[ '/movie/metaDescription', 'Movie Title', 1, 1 ],
+			[ '/movie/advanced/robotsMeta/noindex', true, 1, 0 ],
+			[ '/randome/key', 'random value', 0, 0 ],
 		];
 	}
 

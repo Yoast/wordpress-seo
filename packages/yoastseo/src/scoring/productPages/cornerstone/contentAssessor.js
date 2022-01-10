@@ -28,6 +28,7 @@ const ProductCornerstoneContentAssessor = function( researcher, options ) {
 				farTooMany: 300,
 				recommendedMaximumLength: 250,
 			},
+			applicableIfTextLongerThan: 250,
 			shouldNotAppearInShortText: true,
 			urlTitle: createAnchorOpeningTag( options.subheadingUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.subheadingCTAUrl ),

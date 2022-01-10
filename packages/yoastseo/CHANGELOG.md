@@ -22,6 +22,7 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 * Removes feature flag for Greek support to prepare Greek for release.
 * Adds a few entries to the list of `multipleWords` for French transition words.
 * Removes feature flag for Japanese support to prepare Japanese for release.
+* Adds Japanese configuration for meta description length.
 
 ### Bugfixes
 * Moves the initialization of Keyphrase distribution assessment inside `AnalysisWebWorker.js`.

@@ -103,6 +103,9 @@ import slovakPaper3 from "./sk/slovakPaper3";
 // Greek paper
 import greekPaper from "./el/greekPaper";
 
+// Japanese paper
+import japanesePaper from "./ja/japanesePaper";
+
 /**
  * FrenchPaper1 & portuguesePaper3 are temporarily disabled until we figure out why there are small differences
  * in passive voice detection since upgrading from node v10 to the lts version.
@@ -168,5 +171,6 @@ export default [
 	farsiPaper2,
 	farsiPaper3,
 	greekPaper,
+	japanesePaper,
 ];
 

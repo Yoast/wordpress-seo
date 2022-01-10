@@ -59,13 +59,20 @@ class Aioseo_Taxonomy_Settings_Importing_Action extends Abstract_Aioseo_Settings
 
 		foreach ( $taxonomy_objects as $tax ) {
 			// Use all the public taxonomies.
-			$this->aioseo_options_to_yoast_map[ '/' . $tax->name . '/title' ]           = [
+			$this->aioseo_options_to_yoast_map[ '/' . $tax->name . '/title' ]                       = [
 				'yoast_name'       => 'title-tax-' . $tax->name,
 				'transform_method' => 'simple_import',
 			];
-			$this->aioseo_options_to_yoast_map[ '/' . $tax->name . '/metaDescription' ] = [
+			$this->aioseo_options_to_yoast_map[ '/' . $tax->name . '/metaDescription' ]             = [
 				'yoast_name'       => 'metadesc-tax-' . $tax->name,
 				'transform_method' => 'simple_import',
+			];
+			$this->aioseo_options_to_yoast_map[ '/' . $tax->name . '/advanced/robotsMeta/noindex' ] = [
+				'yoast_name'       => 'noindex-tax-' . $tax->name,
+				'transform_method' => 'import_noindex',
+				'type'             => 'taxonomies',
+				'subtype'          => $tax->name,
+				'option_name'      => 'aioseo_options_dynamic',
 			];
 		}
 	}
