@@ -29,22 +29,26 @@ export const AuthenticationModal = ( props ) => {
 	const {isOpen, setIsOpen, isAuthenticated, setIsAuthenticated} = props;
 	const [isLoading, setIsLoading] = useState( true );
 
-	useEffect( async() => {
+	useEffect( () => {
 		if (isOpen && isLoading && isAuthenticated) {
 			setIsLoading( false );
 		}
+
 		if (isOpen && ! isAuthenticated) {
 			setIsLoading( true );
 		}
 
-		while (isOpen && isLoading && ! isAuthenticated) {
-			let isAuthenticatedRequestResponse = await performAuthenticationRequest();
-			if (isAuthenticatedRequestResponse !== isAuthenticated) {
-				setIsAuthenticated( isAuthenticatedRequestResponse );
-			}
+		( async() => {
+			while (isOpen && isLoading && ! isAuthenticated) {
 
-			await new Promise( r => setTimeout( r, 2000 ) );
-		}
+				let isAuthenticatedRequestResponse = await performAuthenticationRequest();
+				if (isAuthenticatedRequestResponse !== isAuthenticated) {
+					setIsAuthenticated( isAuthenticatedRequestResponse );
+				}
+				await new Promise( r => setTimeout( r, 2000 ) );
+			}
+		})();
+
 	}, [isOpen, isAuthenticated, isLoading] );
 
 	const closeModal = useCallback( () => setIsOpen( false ), [] );

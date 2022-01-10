@@ -1,9 +1,7 @@
 import {Component} from '@wordpress/element';
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import {
-	Toggle, FieldGroup,
-} from '@yoast/components';
+import { Toggle, FieldGroup } from '@yoast/components';
 import { __ } from "@wordpress/i18n";
 import popupWindow from '../helpers/popupWindow';
 import {AuthenticationModal} from './modals/wordproof/AuthenticationModal';
@@ -84,8 +82,8 @@ class TimestampToggle extends Component {
 		})
 	}
 
-	setIsOpen(bool) {
-		this.setState({isOpen: bool})
+	setIsOpen(value) {
+		this.setState({isOpen: value})
 	}
 
 	setIsAuthenticated(bool) {
