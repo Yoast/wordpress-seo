@@ -5,7 +5,7 @@ export const SET_NO_FOLLOW = "SET_NO_FOLLOW";
 export const SET_ADVANCED = "SET_ADVANCED";
 export const SET_BREADCRUMBS_TITLE = "SET_BREADCRUMBS_TITLE";
 export const SET_CANONICAL_URL = "SET_CANONICAL_URL";
-export const SET_TIMESTAMP = "SET_TIMESTAMP";
+export const SET_WORDPROOF_TIMESTAMP = "SET_WORDPROOF_TIMESTAMP";
 export const LOAD_ADVANCED_SETTINGS = "LOAD_ADVANCED_SETTINGS";
 
 /**
@@ -75,9 +75,9 @@ export const setCanonical = ( value ) => {
  *
  * @returns {Object} The action object.
  */
-export const setTimestamp = ( value ) => {
-	AdvancedFields.timestamp = value;
-	return { type: SET_TIMESTAMP, value };
+export const setWordProofTimestamp = ( value ) => {
+	AdvancedFields.wordproofTimestamp = value;
+	return { type: SET_WORDPROOF_TIMESTAMP, value };
 };
 
 /**
@@ -94,7 +94,7 @@ export const loadAdvancedSettingsData = () => {
 			advanced: AdvancedFields.advanced.split( "," ),
 			breadcrumbsTitle: AdvancedFields.breadcrumbsTitle,
 			canonical: AdvancedFields.canonical,
-			timestamp: AdvancedFields.timestamp,
+			wordproofTimestamp: AdvancedFields.wordproofTimestamp,
 			isLoading: false,
 		},
 	};

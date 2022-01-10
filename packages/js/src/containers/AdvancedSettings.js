@@ -13,7 +13,7 @@ export default compose( [
 			getAdvanced,
 			getBreadcrumbsTitle,
 			getCanonical,
-			getTimestamp,
+			getWordProofTimestamp,
 			getIsLoading,
 			getEditorContext,
 			getPreferences,
@@ -27,7 +27,7 @@ export default compose( [
 			advanced: getAdvanced(),
 			breadcrumbsTitle: getBreadcrumbsTitle(),
 			canonical: getCanonical(),
-			timestamp: getTimestamp(),
+			wordproofTimestamp: getWordProofTimestamp(),
 			isLoading: getIsLoading(),
 			editorContext: getEditorContext(),
 			isBreadcrumbsDisabled,
@@ -43,7 +43,7 @@ export default compose( [
 			setAdvanced,
 			setBreadcrumbsTitle,
 			setCanonical,
-			setTimestamp,
+			setWordProofTimestamp,
 			loadAdvancedSettingsData,
 		} = dispatch( "yoast-seo/editor" );
 
@@ -53,7 +53,7 @@ export default compose( [
 			onAdvancedChange: setAdvanced,
 			onBreadcrumbsTitleChange: setBreadcrumbsTitle,
 			onCanonicalChange: setCanonical,
-			onTimestampChange: setTimestamp,
+			onWordProofTimestampChange: setWordProofTimestamp,
 			onLoad: loadAdvancedSettingsData,
 		};
 	} ),

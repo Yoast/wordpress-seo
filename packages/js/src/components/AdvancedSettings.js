@@ -239,20 +239,20 @@ CanonicalURL.propTypes = {
 };
 
 /**
- * Functional component for the timestamp toggle.
+ * Functional component for the WordProof timestamp toggle.
  *
  * @param {Object} props The props object
  *
  * @returns {JSX.Element} The canonical URL.
  */
-const WordProofTimestamp = ( { timestamp, onTimestampChange } ) => {
+const WordProofTimestamp = ( { wordproofTimestamp, onWordProofTimestampChange } ) => {
 	return <LocationConsumer>
 		{
 			location => {
 				return <WordProofTimestampToggle
-					id={ join( [ "yoast-timestamp", location ] ) }
-					isEnabled={ timestamp }
-					onToggle={ onTimestampChange }
+					id={ join( [ "yoast-wordproof-timestamp", location ] ) }
+					isEnabled={ wordproofTimestamp }
+					onToggle={ onWordProofTimestampChange }
 				/>;
 			}
 		}
@@ -260,8 +260,8 @@ const WordProofTimestamp = ( { timestamp, onTimestampChange } ) => {
 };
 
 WordProofTimestamp.propTypes = {
-	timestamp: PropTypes.bool,
-	onTimestampChange: PropTypes.func,
+	wordproofTimestamp: PropTypes.bool,
+	onWordProofTimestampChange: PropTypes.func,
 };
 
 /**
@@ -278,13 +278,13 @@ const AdvancedSettings = ( props ) => {
 		advanced,
 		breadcrumbsTitle,
 		canonical,
-		timestamp,
+		wordproofTimestamp,
 		onNoIndexChange,
 		onNoFollowChange,
 		onAdvancedChange,
 		onBreadcrumbsTitleChange,
 		onCanonicalChange,
-		onTimestampChange,
+		onWordProofTimestampChange,
 		onLoad,
 		isLoading,
 		editorContext,
@@ -328,9 +328,9 @@ const AdvancedSettings = ( props ) => {
 		onCanonicalChange,
 	};
 
-	const timestampProps = {
-		timestamp,
-		onTimestampChange,
+	const wordproofTimestampProps = {
+		wordproofTimestamp,
+		onWordProofTimestampChange,
 	};
 
 	if ( isLoading ) {
@@ -346,7 +346,7 @@ const AdvancedSettings = ( props ) => {
 				! isBreadcrumbsDisabled && <BreadcrumbsTitle { ...breadcrumbsTitleProps } />
 			}
 			<CanonicalURL { ...canonicalProps } />
-			{ isWordProofIntegrationActive && <WordProofTimestamp { ...timestampProps } /> }
+			{ isWordProofIntegrationActive && <WordProofTimestamp { ...wordproofTimestampProps } /> }
 		</Fragment>
 	);
 };
@@ -354,10 +354,10 @@ const AdvancedSettings = ( props ) => {
 AdvancedSettings.propTypes = {
 	noIndex: PropTypes.string.isRequired,
 	canonical: PropTypes.string.isRequired,
-	timestamp: PropTypes.bool,
+	wordproofTimestamp: PropTypes.bool,
 	onNoIndexChange: PropTypes.func.isRequired,
 	onCanonicalChange: PropTypes.func.isRequired,
-	onTimestampChange: PropTypes.func,
+	onWordProofTimestampChange: PropTypes.func,
 	onLoad: PropTypes.func.isRequired,
 	isLoading: PropTypes.bool.isRequired,
 	editorContext: PropTypes.object.isRequired,
@@ -380,8 +380,8 @@ AdvancedSettings.defaultProps = {
 	breadcrumbsTitle: "",
 	onBreadcrumbsTitleChange: () => {},
 	isPrivateBlog: false,
-	onTimestampChange: () => {},
-	timestamp: false,
+	onWordProofTimestampChange: () => {},
+	wordproofTimestamp: false,
 };
 
 export default AdvancedSettings;

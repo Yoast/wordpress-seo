@@ -46,13 +46,13 @@ export const getBreadcrumbsTitle = state => get( state, "advancedSettings.breadc
 export const getCanonical = state => get( state, "advancedSettings.canonical", "" );
 
 /**
- * Gets the Twitter image src from the state.
+ * Gets the WordProof timestamp value.
  *
  * @param {Object} state The state.
  *
- * @returns {String} Twitter image src.
+ * @returns {Boolean} WordProof timestamp value.
  */
-export const getTimestamp = state => get( state, "advancedSettings.timestamp", true );
+export const getWordProofTimestamp = state => get( state, "advancedSettings.wordproofTimestamp", false );
 
 /** Gets the Twitter image src from the state.
  *
