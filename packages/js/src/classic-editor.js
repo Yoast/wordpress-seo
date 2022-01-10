@@ -8,8 +8,6 @@ import Metabox from "./classic-editor/components/metabox";
 import { MetaboxFill, MetaboxSlot } from "./classic-editor/components/metabox/slot-fill";
 import initEditorStore from "./classic-editor/editor-store";
 import { getInitialPostState, getInitialTermState } from "./classic-editor/initial-state";
-import registerSeoTitleWidth from "./classic-editor/plugins/seo-title-width";
-import registerShortcodePlugin from "./classic-editor/plugins/shortcodes";
 import { initPostWatcher, initTermWatcher } from "./classic-editor/watcher";
 import { registerReactComponent, renderReactRoot } from "./helpers/reactRoot";
 import registerGlobalApis from "./helpers/register-global-apis";
@@ -19,8 +17,7 @@ import initTabs from "./initializers/metabox-tabs";
 import initPrimaryCategory from "./initializers/primary-category";
 import { initTermDescriptionTinyMce } from "./initializers/tiny-mce";
 import { initialize as initPublishBox } from "./ui/publishBox";
-import registerFeaturedImagePlugin from "./classic-editor/plugins/featured-image";
-import registerMarkdownPlugin from "./classic-editor/plugins/markdown";
+import { registerMarkdownPlugin, registerFeaturedImagePlugin, registerShortcodePlugin, registerSeoTitleWidthPlugin } from "./classic-editor/plugins";
 
 // These are either "1" or undefined.
 const isPost = Boolean( get( window, "wpseoScriptData.isPost" ) );
@@ -126,7 +123,7 @@ domReady( async () => {
 	// Until ALL the components are carried over, the `@yoast-seo/editor` store is still needed.
 	initEditorStore();
 	// Register SEO title width plugin.
-	registerSeoTitleWidth();
+	registerSeoTitleWidthPlugin();
 	// Register markdown plugin.
 	registerMarkdownPlugin();
 	// Initialize the primary category integration.
