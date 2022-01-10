@@ -1,14 +1,22 @@
 import marked from "marked";
 import { addFilter, removeFilter } from "@wordpress/hooks";
 
+/**
+ * Registers a paper data plugin to parse Markdown content.
+ *
+ * @returns {void}
+ */
 const registerMarkdownPlugin = () => {
-    const hookName = "yoast.seoStore.analysis.preparePaper";
+	const hookName = "yoast.seoStore.analysis.preparePaper";
 	const namespace = "yoast/free/markdownPlugin";
 
 	addFilter(
 		hookName,
 		namespace,
 		( { content, ...paper } ) => {
+			console.warn( "content", content );
+			console.warn( "marked( content )", marked( content ) );
+
 			return {
 				...paper,
 				content: marked( content ),
@@ -16,7 +24,7 @@ const registerMarkdownPlugin = () => {
 		},
 		10
 	);
-    return () => removeFilter( hookName, namespace );
+	return () => removeFilter( hookName, namespace );
 };
 
 export default registerMarkdownPlugin;
