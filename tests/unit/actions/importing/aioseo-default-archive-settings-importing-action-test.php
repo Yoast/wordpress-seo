@@ -7,6 +7,7 @@ use Brain\Monkey;
 use Yoast\WP\SEO\Actions\Importing\Aioseo_Default_Archive_Settings_Importing_Action;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Services\Importing\Aioseo_Replacevar_Handler;
+use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Service;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Actions\Importing\Aioseo_Default_Archive_Settings_Importing_Action_Double;
 
@@ -48,6 +49,13 @@ class Aioseo_Default_Archive_Settings_Importing_Action_Test extends TestCase {
 	 * @var Mockery\MockInterface|Aioseo_Replacevar_Handler
 	 */
 	protected $replacevar_handler;
+
+	/**
+	 * The robots service.
+	 *
+	 * @var Mockery\MockInterface|Aioseo_Robots_Service
+	 */
+	protected $robots;
 
 	/**
 	 * An array of the total Default Archive Settings we can import.
@@ -109,10 +117,11 @@ class Aioseo_Default_Archive_Settings_Importing_Action_Test extends TestCase {
 
 		$this->options            = Mockery::mock( Options_Helper::class );
 		$this->replacevar_handler = Mockery::mock( Aioseo_Replacevar_Handler::class );
-		$this->instance           = new Aioseo_Default_Archive_Settings_Importing_Action( $this->options, $this->replacevar_handler );
+		$this->robots             = Mockery::mock( Aioseo_Robots_Service::class );
+		$this->instance           = new Aioseo_Default_Archive_Settings_Importing_Action( $this->options, $this->replacevar_handler, $this->robots );
 		$this->mock_instance      = Mockery::mock(
 			Aioseo_Default_Archive_Settings_Importing_Action_Double::class,
-			[ $this->options, $this->replacevar_handler ]
+			[ $this->options, $this->replacevar_handler, $this->robots ]
 		)->makePartial()->shouldAllowMockingProtectedMethods();
 	}
 
@@ -164,15 +173,16 @@ class Aioseo_Default_Archive_Settings_Importing_Action_Test extends TestCase {
 	/**
 	 * Tests mapping AIOSEO default archive settings.
 	 *
-	 * @param string $setting         The setting at hand, eg. post or movie-category, separator etc.
-	 * @param string $setting_value   The value of the AIOSEO setting at hand.
-	 * @param int    $times           The times that we will import each setting, if any.
-	 * @param int    $transform_times The times that we will transform each setting, if any.
+	 * @param string $setting                The setting at hand, eg. post or movie-category, separator etc.
+	 * @param string $setting_value          The value of the AIOSEO setting at hand.
+	 * @param int    $times                  The times that we will import each setting, if any.
+	 * @param int    $transform_times        The times that we will transform each setting, if any.
+	 * @param int    $transform_robots_times The times that we will transform each robot setting, if any.
 	 *
 	 * @dataProvider provider_map
 	 * @covers ::map
 	 */
-	public function test_map( $setting, $setting_value, $times, $transform_times ) {
+	public function test_map( $setting, $setting_value, $times, $transform_times, $transform_robots_times ) {
 		$this->mock_instance->build_mapping();
 		$aioseo_options_to_yoast_map = $this->mock_instance->get_aioseo_options_to_yoast_map();
 
@@ -184,6 +194,13 @@ class Aioseo_Default_Archive_Settings_Importing_Action_Test extends TestCase {
 			->times( $transform_times )
 			->with( $setting_value )
 			->andReturn( $setting_value );
+
+		if ( $transform_robots_times > 0 ) {
+			$this->robots->shouldReceive( 'transform_robot_setting' )
+				->times( $transform_robots_times )
+				->with( 'noindex', $setting_value, $aioseo_options_to_yoast_map[ $setting ] )
+				->andReturn( $setting_value );
+		}
 
 		$this->options->shouldReceive( 'set' )
 			->times( $times );
@@ -198,14 +215,14 @@ class Aioseo_Default_Archive_Settings_Importing_Action_Test extends TestCase {
 	 */
 	public function provider_map() {
 		return [
-			[ '/author/title', 'Author Title', 1, 1 ],
-			[ '/author/metaDescription', 'Author Desc', 1, 1 ],
-			[ '/author/advanced/robotsMeta/noindex', true, 1, 0 ],
-			[ '/date/show', 'Date Title', 0, 0 ],
-			[ '/date/metaDescription', 'Date Title', 1, 1 ],
-			[ '/date/advanced/robotsMeta/noindex', true, 1, 0 ],
-			[ '/search/title', 'Search Title', 1, 1 ],
-			[ '/randomSetting', 'randomeValue', 0, 0 ],
+			[ '/author/title', 'Author Title', 1, 1, 0 ],
+			[ '/author/metaDescription', 'Author Desc', 1, 1, 0 ],
+			[ '/author/advanced/robotsMeta/noindex', true, 1, 0, 1 ],
+			[ '/date/show', 'Date Title', 0, 0, 0 ],
+			[ '/date/metaDescription', 'Date Title', 1, 1, 0 ],
+			[ '/date/advanced/robotsMeta/noindex', true, 1, 0, 1 ],
+			[ '/search/title', 'Search Title', 1, 1, 0 ],
+			[ '/randomSetting', 'randomeValue', 0, 0, 0 ],
 		];
 	}
 

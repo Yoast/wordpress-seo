@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Doubles\Actions\Importing;
 use Yoast\WP\SEO\Actions\Importing\Abstract_Aioseo_Settings_Importing_Action;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Services\Importing\Aioseo_Replacevar_Handler;
+use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Service;
 
 /**
  * Class Abstract_Aioseo_Settings_Importing_Action_Double
@@ -27,11 +28,19 @@ abstract class Abstract_Aioseo_Settings_Importing_Action_Double extends Abstract
 	 */
 	protected $replacevar_handler;
 
+	/**
+	 * The robots service.
+	 *
+	 * @var Aioseo_Robots_Service
+	 */
+	protected $robots;
+
 	public function __construct(
 		Options_Helper $options,
-		Aioseo_Replacevar_Handler $replacevar_handler
+		Aioseo_Replacevar_Handler $replacevar_handler,
+		Aioseo_Robots_Service $robots
 	) {
-		return parent::__construct( $options, $replacevar_handler );
+		return parent::__construct( $options, $replacevar_handler, $robots );
 	}
 
 	/**
@@ -43,15 +52,6 @@ abstract class Abstract_Aioseo_Settings_Importing_Action_Double extends Abstract
 	 */
 	public function get_source_option_name() {
 		return parent::get_source_option_name();
-	}
-
-	/**
-	 * Retrieves the noindex setting set globally in AIOSEO.
-	 *
-	 * @return bool Whether global robot settings give a noindex or not.
-	 */
-	public function get_global_robot_settings() {
-		return parent::get_global_robot_settings();
 	}
 
 	/**

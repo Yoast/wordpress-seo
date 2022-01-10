@@ -6,6 +6,7 @@ use Yoast\WP\SEO\Actions\Importing\Aioseo_Custom_Archive_Settings_Importing_Acti
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Services\Importing\Aioseo_Replacevar_Handler;
+use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Service;
 
 /**
  * Class Aioseo_Custom_Archive_Settings_Importing_Action_Double
@@ -35,12 +36,20 @@ abstract class Aioseo_Custom_Archive_Settings_Importing_Action_Double extends Ai
 	 */
 	protected $replacevar_handler;
 
+	/**
+	 * The robots service.
+	 *
+	 * @var Mockery\MockInterface|Aioseo_Robots_Service
+	 */
+	protected $robots;
+
 	public function __construct(
 		Options_Helper $options,
 		Post_Type_Helper $post_type,
-		Aioseo_Replacevar_Handler $replacevar_handler
+		Aioseo_Replacevar_Handler $replacevar_handler,
+		Aioseo_Robots_Service $robots
 	) {
-		return parent::__construct( $options, $post_type, $replacevar_handler );
+		return parent::__construct( $options, $post_type, $replacevar_handler, $robots );
 	}
 
 	/**

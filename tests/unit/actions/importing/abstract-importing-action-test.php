@@ -4,13 +4,10 @@ namespace Yoast\WP\SEO\Tests\Unit\Actions\Importing;
 
 use Mockery;
 use Yoast\WP\Lib\ORM;
-use Yoast\WP\SEO\Helpers\Meta_Helper;
-use Yoast\WP\SEO\Helpers\Indexable_To_Postmeta_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Helpers\Wpdb_Helper;
-use Yoast\WP\SEO\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\Services\Importing\Aioseo_Replacevar_Handler;
+use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Service;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Actions\Importing\Abstract_Importing_Action_Double;
-use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -39,15 +36,31 @@ class Abstract_Importing_Action_Test extends TestCase {
 	protected $options;
 
 	/**
+	 * The replacevar handler.
+	 *
+	 * @var Mockery\MockInterface|Aioseo_Replacevar_Handler
+	 */
+	protected $replacevar_handler;
+
+	/**
+	 * The robots service.
+	 *
+	 * @var Mockery\MockInterface|Aioseo_Robots_Service
+	 */
+	protected $robots;
+
+	/**
 	 * Sets up the test class.
 	 */
 	protected function set_up() {
 		parent::set_up();
 
-		$this->options       = Mockery::mock( Options_Helper::class );
-		$this->mock_instance = Mockery::mock(
+		$this->options            = Mockery::mock( Options_Helper::class );
+		$this->replacevar_handler = Mockery::mock( Aioseo_Replacevar_Handler::class );
+		$this->robots             = Mockery::mock( Aioseo_Robots_Service::class );
+		$this->mock_instance      = Mockery::mock(
 			Abstract_Importing_Action_Double::class,
-			[ $this->options ]
+			[ $this->options, $this->replacevar_handler, $this->robots ]
 		)->makePartial()->shouldAllowMockingProtectedMethods();
 	}
 

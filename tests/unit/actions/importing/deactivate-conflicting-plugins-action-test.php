@@ -4,10 +4,9 @@ namespace Yoast\WP\SEO\Tests\Unit\Actions\Importing;
 
 use Mockery;
 use Yoast\WP\SEO\Actions\Importing\Deactivate_Conflicting_Plugins_Action;
-use Yoast\WP\SEO\Helpers\Indexable_To_Postmeta_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Helpers\Wpdb_Helper;
-use Yoast\WP\SEO\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\Services\Importing\Aioseo_Replacevar_Handler;
+use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Service;
 use Yoast\WP\SEO\Services\Importing\Conflicting_Plugins_Service;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -37,13 +36,31 @@ class Deactivate_Conflicting_Plugins_Action_Test extends TestCase {
 	protected $conflicting_plugins_service;
 
 	/**
+	 * The replacevar handler.
+	 *
+	 * @var Mockery\MockInterface|Aioseo_Replacevar_Handler
+	 */
+	protected $replacevar_handler;
+
+	/**
+	 * The robots service.
+	 *
+	 * @var Mockery\MockInterface|Aioseo_Robots_Service
+	 */
+	protected $robots;
+
+	/**
 	 * {@inheritDoc}
 	 */
 	public function set_up() {
 		$this->conflicting_plugins_service = Mockery::mock( Conflicting_Plugins_Service::class );
+		$this->replacevar_handler          = Mockery::mock( Aioseo_Replacevar_Handler::class );
+		$this->robots                      = Mockery::mock( Aioseo_Robots_Service::class );
 
 		$this->deactivate_conflicting_plugins_action = new Deactivate_Conflicting_Plugins_Action(
 			Mockery::mock( Options_Helper::class ),
+			$this->replacevar_handler,
+			$this->robots,
 			$this->conflicting_plugins_service
 		);
 	}
