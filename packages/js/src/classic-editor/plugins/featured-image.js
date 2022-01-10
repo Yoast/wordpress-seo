@@ -1,4 +1,4 @@
-import { addFilter } from "@wordpress/hooks";
+import { addFilter, removeFilter } from "@wordpress/hooks";
 import { select } from "@wordpress/data";
 import { SEO_STORE_NAME } from "@yoast/seo-integration";
 
@@ -7,7 +7,10 @@ import { SEO_STORE_NAME } from "@yoast/seo-integration";
  *
  * @returns {void}
  */
-function initFeaturedImagePlugin() {
+function registerFeaturedImagePlugin() {
+	const hookName = "yoast.seoStore.analysis.preparePaper";
+	const namespace = "yoast/free/featuredImagePlugin";
+
 	/**
 	 * Adds the featured image to the paper.
 	 *
@@ -31,7 +34,9 @@ function initFeaturedImagePlugin() {
 		};
 	}
 
-	addFilter( "yoast.seoStore.analysis.preparePaper", "yoast/free/addFeaturedImageToPaperContents", addFeaturedImageToPaperContents );
+	addFilter( hookName, namespace, addFeaturedImageToPaperContents, 10 );
+
+	return () => removeFilter( hookName, namespace );
 }
 
-export default initFeaturedImagePlugin;
+export default registerFeaturedImagePlugin;

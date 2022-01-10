@@ -8,8 +8,6 @@ import Metabox from "./classic-editor/components/metabox";
 import { MetaboxFill, MetaboxSlot } from "./classic-editor/components/metabox/slot-fill";
 import initEditorStore from "./classic-editor/editor-store";
 import { getInitialPostState, getInitialTermState } from "./classic-editor/initial-state";
-import registerSeoTitleWidth from "./classic-editor/plugins/seo-title-width";
-import registerShortcodes from "./classic-editor/plugins/shortcodes";
 import { initPostWatcher, initTermWatcher } from "./classic-editor/watcher";
 import { registerReactComponent, renderReactRoot } from "./helpers/reactRoot";
 import registerGlobalApis from "./helpers/register-global-apis";
@@ -19,7 +17,7 @@ import initTabs from "./initializers/metabox-tabs";
 import initPrimaryCategory from "./initializers/primary-category";
 import { initTermDescriptionTinyMce } from "./initializers/tiny-mce";
 import { initialize as initPublishBox } from "./ui/publishBox";
-import initFeaturedImagePlugin from "./classic-editor/plugins/featured-image";
+import { registerMarkdownPlugin, registerFeaturedImagePlugin, registerShortcodePlugin, registerSeoTitleWidthPlugin } from "./classic-editor/plugins";
 
 // These are either "1" or undefined.
 const isPost = Boolean( get( window, "wpseoScriptData.isPost" ) );
@@ -72,9 +70,13 @@ const registerYoastApis = ( { analysisWorker } ) => registerGlobalApis(
  */
 const initPost = async () => {
 	// Initialze featured image plugin.
-	initFeaturedImagePlugin();
+	registerFeaturedImagePlugin();
 	// Register shortcodes to work on paper data.
-	registerShortcodes();
+	registerShortcodePlugin();
+	// Register markdown plugin if enabled.
+	if ( get( window, "wpseoScriptData.metabox.markdownEnabled", false ) ) {
+		registerMarkdownPlugin();
+	}
 	// Initialize the publish box.
 	initPublishBox();
 	// Create SEO integration with post state.
@@ -121,7 +123,9 @@ domReady( async () => {
 	// Until ALL the components are carried over, the `@yoast-seo/editor` store is still needed.
 	initEditorStore();
 	// Register SEO title width plugin.
-	registerSeoTitleWidth();
+	registerSeoTitleWidthPlugin();
+	// Register markdown plugin.
+	registerMarkdownPlugin();
 	// Initialize the primary category integration.
 	if ( get( window, "wpseoPrimaryCategoryL10n", false ) ) {
 		initPrimaryCategory( jQuery );
