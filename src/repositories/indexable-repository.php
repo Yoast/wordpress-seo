@@ -189,7 +189,8 @@ class Indexable_Repository {
 		$default_noindex = $this->robots_helper->get_default_noindex_for_object( $object_type, $object_sub_type );
 
 		$conditions = '`is_robots_noindex` = %d ';
-		$values     = [ (int) $noindex ];
+		$values     = [ $noindex ];
+
 		// If the requested noindex value matches the default, include NULL values in the result.
 		if ( $default_noindex === $noindex ) {
 			$conditions = '(' . $conditions . 'OR `is_robots_noindex` IS NULL )';
@@ -202,7 +203,7 @@ class Indexable_Repository {
 		}
 		else {
 			$conditions = '(' . $conditions . ') OR `is_protected` = %d OR `is_publicly_viewable` != %d';
-			$values     = array_merge( $values, [ (int) $noindex, (int) $noindex ] );
+			$values     = array_merge( $values, [ $noindex, $noindex ] );
 		}
 
 		// Let the number of posts in an archive determine the noindex value.
@@ -216,7 +217,7 @@ class Indexable_Repository {
 			}
 		}
 
-		return $query->where_raw( $conditions, (int) $values );
+		return $query->where_raw( $conditions, $values );
 	}
 
 	/**
