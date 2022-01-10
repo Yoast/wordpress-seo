@@ -16,16 +16,4 @@ class WordProof_Helper {
 		return delete_site_option( 'wordproof_access_token' )
 			&& delete_site_option( 'wordproof_source_id' );
 	}
-
-	/**
-	 * Retrieves the site privacy policy page id.
-	 *
-	 * @return string
-	 */
-	public function current_page_is_privacy_policy() {
-		global $post;
-
-		$privacyPolicyPostId = intval( \get_site_option( 'wp_page_for_privacy_policy', false ) );
-		return $post->ID === $privacyPolicyPostId;
-	}
 }
