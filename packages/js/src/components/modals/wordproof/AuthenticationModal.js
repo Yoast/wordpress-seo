@@ -13,7 +13,7 @@ import { handleAPIResponse } from "../../../helpers/api";
 
 const performAuthenticationRequest = async() => {
 	return await handleAPIResponse(
-		() => getAuthentication(),
+		getAuthentication,
 		( response ) => {
 			return response.is_authenticated;
 		},
