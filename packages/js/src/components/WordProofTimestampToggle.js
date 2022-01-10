@@ -9,13 +9,13 @@ import {handleAPIResponse} from '../helpers/wincherEndpoints';
 import {getSettings} from '../helpers/wordproofEndpoints';
 
 
-const Timestamp = styled.div`
+const WordProofTimestamp = styled.div`
 	display: flex;
 	margin-top: 8px;
 `;
 
 function SettingsLink(props) {
-	const data = window.wordproofSdk.data || {};
+	const data = window.wordproofSdk?.data || {};
 
 	if (!props.isAuthenticated)
 		return( "" );
@@ -52,9 +52,9 @@ const retrieveSettings = async() => {
 };
 
 /**
- * The TimestampToggle Component.
+ * The WordProofTimestampToggle Component.
  */
-class TimestampToggle extends Component {
+class WordProofTimestampToggle extends Component {
 	constructor(props) {
 		super(props);
 
@@ -63,7 +63,7 @@ class TimestampToggle extends Component {
 		this.openSettings = this.openSettings.bind(this);
 		this.openAuthentication = this.openAuthentication.bind(this);
 
-		const data = window.wordproofSdk.data || {};
+		const data = window.wordproofSdk?.data || {};
 
 		this.state = {
 			isOpen: false,
@@ -91,7 +91,7 @@ class TimestampToggle extends Component {
 	}
 
 	openSettings() {
-		const data = window.wordproofSdk.data || {};
+		const data = window.wordproofSdk?.data || {};
 
 		window.addEventListener("focus", async (e) => {
 
@@ -104,7 +104,7 @@ class TimestampToggle extends Component {
 	}
 
 	openAuthentication() {
-		const data = window.wordproofSdk.data || {};
+		const data = window.wordproofSdk?.data || {};
 
 		if (this.state.isAuthenticated)
 			return this.openSettings();
@@ -114,13 +114,13 @@ class TimestampToggle extends Component {
 	}
 
 	/**
-	 * Renders the TimestampToggle component.
+	 * Renders the WordProofTimestampToggle component.
 	 *
-	 * @returns {wp.Element} the CornerstoneToggle component.
+	 * @returns {wp.Element} the WordProofTimestampToggle component.
 	 */
 	render() {
 		return (
-			<Timestamp>
+			<WordProofTimestamp>
 				<FieldGroup
 					linkText={ __("Learn more about timestamping", "wordpress-seo") }
 					linkTo={ "https://yoa.st/wordproof-integration" }
@@ -141,21 +141,21 @@ class TimestampToggle extends Component {
 
 				<AuthenticationModal isOpen={ this.state.isOpen } setIsOpen={ this.setIsOpen }
 									 isAuthenticated={ this.state.isAuthenticated } setIsAuthenticated={ this.setIsAuthenticated }/>
-			</Timestamp>
+			</WordProofTimestamp>
 		);
 	}
 }
 
-TimestampToggle.propTypes = {
+WordProofTimestampToggle.propTypes = {
 	id: PropTypes.string,
 	isEnabled: PropTypes.bool,
 	onToggle: PropTypes.func
 };
 
-TimestampToggle.defaultProps = {
+WordProofTimestampToggle.defaultProps = {
 	id: "timestamp-toggle",
 	isEnabled: true,
 	onToggle: () => {}
 };
 
-export default TimestampToggle;
+export default WordProofTimestampToggle;

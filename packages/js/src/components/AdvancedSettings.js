@@ -5,7 +5,7 @@ import { Alert, MultiSelect, RadioButtonGroup, Select, TextInput } from "@yoast/
 import { join } from "@yoast/helpers";
 import PropTypes from "prop-types";
 import { LocationConsumer } from "@yoast/externals/contexts";
-import TimestampToggle from "./TimestampToggle";
+import WordProofTimestampToggle from "./WordProofTimestampToggle";
 
 /**
  * Boolean that tells whether the current object refers to a post or a taxonomy.
@@ -249,7 +249,7 @@ const WordProofTimestamp = ( { timestamp, onTimestampChange } ) => {
 	return <LocationConsumer>
 		{
 			location => {
-				return <TimestampToggle
+				return <WordProofTimestampToggle
 					id={ join( [ "yoast-timestamp", location ] ) }
 					isEnabled={ timestamp }
 					onToggle={ onTimestampChange }
