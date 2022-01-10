@@ -13,15 +13,10 @@ const registerMarkdownPlugin = () => {
 	addFilter(
 		hookName,
 		namespace,
-		( { content, ...paper } ) => {
-			console.warn( "content", content );
-			console.warn( "marked( content )", marked( content ) );
-
-			return {
-				...paper,
-				content: marked( content ),
-			};
-		},
+		( { content, ...paper } ) => ( {
+			...paper,
+			content: marked( content ),
+		} ),
 		10
 	);
 	return () => removeFilter( hookName, namespace );
