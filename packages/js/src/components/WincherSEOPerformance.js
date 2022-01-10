@@ -20,7 +20,8 @@ import WincherExplanation from "./modals/WincherExplanation";
 import WincherNoKeyphraseSet from "./modals/WincherNoKeyphraseSet";
 import WincherAutoTrackingEnabledAlert from "./modals/WincherAutoTrackingEnabledAlert";
 import LoginPopup from "../helpers/loginPopup";
-import { authenticate, getAuthorizationUrl, handleAPIResponse } from "../helpers/wincherEndpoints";
+import { authenticate, getAuthorizationUrl } from "../helpers/wincherEndpoints";
+import { handleAPIResponse } from "../helpers/api";
 import WincherReconnectAlert from "./modals/WincherReconnectAlert";
 import WincherNoPermalinkAlert from "./modals/WincherNoPermalinkAlert";
 

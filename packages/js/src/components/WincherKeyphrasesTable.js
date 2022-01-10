@@ -15,10 +15,11 @@ import WincherTableRow from "./WincherTableRow";
 import {
 	getAccountLimits,
 	getKeyphrases,
-	handleAPIResponse,
 	trackKeyphrases,
 	untrackKeyphrase,
 } from "../helpers/wincherEndpoints";
+
+import { handleAPIResponse } from "../helpers/api";
 
 const GetMoreInsightsLink = makeOutboundLink();
 

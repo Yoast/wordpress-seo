@@ -3,7 +3,7 @@ import { Fragment, useCallback, useEffect, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Button, SvgIcon } from "@yoast/components";
 import { getAuthentication } from "../../../helpers/wordproofEndpoints";
-import { handleAPIResponse } from "../../../helpers/wincherEndpoints";
+import { handleAPIResponse } from "../../../helpers/api";
 
 /**
  * Determines the text on the button to open a workout.

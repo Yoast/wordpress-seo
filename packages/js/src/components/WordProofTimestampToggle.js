@@ -5,7 +5,7 @@ import { Toggle, FieldGroup } from '@yoast/components';
 import { __ } from "@wordpress/i18n";
 import popupWindow from '../helpers/popupWindow';
 import {AuthenticationModal} from './modals/wordproof/AuthenticationModal';
-import {handleAPIResponse} from '../helpers/wincherEndpoints';
+import {handleAPIResponse} from '../helpers/api';
 import {getSettings} from '../helpers/wordproofEndpoints';
 
 

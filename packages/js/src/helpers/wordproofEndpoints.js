@@ -1,4 +1,4 @@
-import { callEndpoint } from "./wincherEndpoints";
+import { callEndpoint } from "./api";
 
 /**
  * Returns the authorization data.
@@ -11,6 +11,12 @@ export async function getAuthentication() {
 		method: "GET",
 	} );
 }
+
+/**
+ * Return the site settings data
+ *
+ * @returns {Promise<*>}
+ */
 export async function getSettings() {
 	return await callEndpoint( {
 		path: "wordproof/v1/settings",
