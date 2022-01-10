@@ -186,32 +186,37 @@ class Indexable_Repository {
 			$query->where( 'object_sub_type', $object_sub_type );
 		}
 
+		$default_noindex = $this->robots_helper->get_default_noindex_for_object( $object_type, $object_sub_type );
+
+		$conditions = '`is_robots_noindex` = %d ';
+		$values     = [ (int) $noindex ];
+		// If the requested noindex value matches the default, include NULL values in the result.
+		if ( $default_noindex === $noindex ) {
+			$conditions = '(' . $conditions . 'OR `is_robots_noindex` IS NULL )';
+		}
+
 		if ( $noindex === false ) {
 			// Consider hidden and password protected posts as noindex.
 			$query->where( 'is_protected', false );
 			$query->where( 'is_publicly_viewable', true );
 		}
-
-		$default_noindex = $this->robots_helper->get_default_noindex_for_object( $object_type, $object_sub_type );
-
-		$condition = 'is_robots_noindex = %d ';
-		// If the requested noindex value matches the default, include NULL values in the result.
-		if ( $default_noindex === $noindex ) {
-			$condition = '(' . $condition . 'OR is_robots_noindex IS NULL )';
+		else {
+			$conditions = '(' . $conditions . ') OR `is_protected` = %d OR `is_publicly_viewable` != %d';
+			$values     = array_merge( $values, [ (int) $noindex, (int) $noindex ] );
 		}
 
 		// Let the number of posts in an archive determine the noindex value.
 		$is_archive_type = in_array( $object_type, [ 'post-type-archive', 'term', 'user', 'home-page' ], true );
 		if ( $is_archive_type && $noindex_empty_archives ) {
 			if ( $noindex === true ) {
-				$condition = '(' . $condition . ') OR number_of_publicly_viewable_posts = 0';
+				$conditions = '(' . $conditions . ') OR `number_of_publicly_viewable_posts` = 0';
 			}
 			else {
-				$condition = '(' . $condition . ') AND number_of_publicly_viewable_posts > 0';
+				$conditions = '(' . $conditions . ') AND `number_of_publicly_viewable_posts` > 0';
 			}
 		}
 
-		return $query->where_raw( $condition, (int) $noindex );
+		return $query->where_raw( $conditions, (int) $values );
 	}
 
 	/**
