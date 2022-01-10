@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c065d95ce575729ddc7ff443910f423c",
+    "content-hash": "28088ed35fe456ea23b7c7b1a2e04537",
     "packages": [
         {
             "name": "composer/installers",
@@ -621,16 +621,16 @@
         },
         {
             "name": "wordproof/wordpress-sdk",
-            "version": "1.0.0",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wordproof/wordpress-sdk.git",
-                "reference": "af7e914741936952d155d465710b74b20715a45e"
+                "reference": "b75ae9450a02e61626b0e22868ca17bdd06ca7a6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wordproof/wordpress-sdk/zipball/af7e914741936952d155d465710b74b20715a45e",
-                "reference": "af7e914741936952d155d465710b74b20715a45e",
+                "url": "https://api.github.com/repos/wordproof/wordpress-sdk/zipball/b75ae9450a02e61626b0e22868ca17bdd06ca7a6",
+                "reference": "b75ae9450a02e61626b0e22868ca17bdd06ca7a6",
                 "shasum": ""
             },
             "require": {
@@ -665,9 +665,9 @@
             "description": "WordPress SDK",
             "support": {
                 "issues": "https://github.com/wordproof/wordpress-sdk/issues",
-                "source": "https://github.com/wordproof/wordpress-sdk/tree/1.0.0"
+                "source": "https://github.com/wordproof/wordpress-sdk/tree/1.0.2"
             },
-            "time": "2022-01-06T07:41:34+00:00"
+            "time": "2022-01-07T13:22:30+00:00"
         },
         {
             "name": "yoast/i18n-module",
