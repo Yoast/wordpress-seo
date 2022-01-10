@@ -95,7 +95,7 @@ class Yoast_Integration_Toggles {
 				'name'            => sprintf( __( '%s integration', 'wordpress-seo' ), 'WordProof' ),
 				'setting'         => 'wordproof_integration_active',
 				'label'           => sprintf(
-				/* translators: 1: WordProof */
+				/* translators: %s expands to WordProof */
 					__( '%1$s can be used to timestamp your privacy page.', 'wordpress-seo' ),
 					'WordProof'
 				),
