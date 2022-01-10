@@ -9,7 +9,7 @@ import { MetaboxFill, MetaboxSlot } from "./classic-editor/components/metabox/sl
 import initEditorStore from "./classic-editor/editor-store";
 import { getInitialPostState, getInitialTermState } from "./classic-editor/initial-state";
 import registerSeoTitleWidth from "./classic-editor/plugins/seo-title-width";
-import registerShortcodes from "./classic-editor/plugins/shortcodes";
+import registerShortcodePlugin from "./classic-editor/plugins/shortcodes";
 import { initPostWatcher, initTermWatcher } from "./classic-editor/watcher";
 import { registerReactComponent, renderReactRoot } from "./helpers/reactRoot";
 import registerGlobalApis from "./helpers/register-global-apis";
@@ -19,7 +19,7 @@ import initTabs from "./initializers/metabox-tabs";
 import initPrimaryCategory from "./initializers/primary-category";
 import { initTermDescriptionTinyMce } from "./initializers/tiny-mce";
 import { initialize as initPublishBox } from "./ui/publishBox";
-import initFeaturedImagePlugin from "./classic-editor/plugins/featured-image";
+import registerFeaturedImagePlugin from "./classic-editor/plugins/featured-image";
 import registerMarkdownPlugin from "./classic-editor/plugins/markdown";
 
 // These are either "1" or undefined.
@@ -73,9 +73,13 @@ const registerYoastApis = ( { analysisWorker } ) => registerGlobalApis(
  */
 const initPost = async () => {
 	// Initialze featured image plugin.
-	initFeaturedImagePlugin();
+	registerFeaturedImagePlugin();
 	// Register shortcodes to work on paper data.
-	registerShortcodes();
+	registerShortcodePlugin();
+	// Register markdown plugin if enabled.
+	if ( get( window, "wpseoScriptData.metabox.markdownEnabled", false ) ) {
+		registerMarkdownPlugin();
+	}
 	// Initialize the publish box.
 	initPublishBox();
 	// Create SEO integration with post state.
