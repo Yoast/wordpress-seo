@@ -13,23 +13,37 @@ const steps = [
 	{ name: "Preview", description: "Iusto et officia maiores porro ad non quas.", href: "#", status: "upcoming" },
 ];
 
+/**
+ * Joins the classnames.
+ *
+ * @param {Object} classes The classes.
+ * @returns {string} The joined classnames.
+ */
 function classNames( ...classes ) {
 	return classes.filter( Boolean ).join( " " );
 }
 
+/**
+ * Example stepper.
+ *
+ * @returns {JSX.Element} The example stepper.
+ * @constructor
+ */
 export default function Example() {
 	return (
 		<nav aria-label="Progress">
-			<ol role="list" className="overflow-hidden">
+			<ol className="overflow-hidden">
+				{ /* eslint-disable-next-line complexity */ }
 				{ steps.map( ( step, stepIdx ) => (
-					<li key={ step.name } className={ classNames( stepIdx !== steps.length - 1 ? "pb-10" : "", "relative" ) }>
-						{ step.status === "complete" ? (
+					<li key={ step.name } className={ classNames( stepIdx === steps.length - 1 ? "" : "pb-10", "relative" ) }>
+						{ ( step.status === "complete" ) &&
 							<>
-								{ stepIdx !== steps.length - 1 ? (
+								{ stepIdx !== steps.length - 1 &&
 									<div className="-ml-px absolute mt-0.5 top-4 left-4 w-0.5 h-full bg-indigo-600" aria-hidden="true" />
-								) : null }
+								}
 								<a href={ step.href } className="relative flex items-start group">
 									<span className="h-9 flex items-center">
+										{ /* eslint-disable-next-line max-len */ }
 										<span className="relative z-10 w-8 h-8 flex items-center justify-center bg-indigo-600 rounded-full group-hover:bg-indigo-800">
 											<CheckIcon className="w-5 h-5 text-white" aria-hidden="true" />
 										</span>
@@ -40,13 +54,15 @@ export default function Example() {
 									</span>
 								</a>
 							</>
-						) : step.status === "current" ? (
+						}
+						{ ( step.status === "current" ) &&
 							<>
-								{ stepIdx !== steps.length - 1 ? (
+								{ stepIdx === steps.length - 1 ? null : (
 									<div className="-ml-px absolute mt-0.5 top-4 left-4 w-0.5 h-full bg-gray-300" aria-hidden="true" />
-								) : null }
+								) }
 								<a href={ step.href } className="relative flex items-start group" aria-current="step">
 									<span className="h-9 flex items-center" aria-hidden="true">
+										{ /* eslint-disable-next-line max-len */ }
 										<span className="relative z-10 w-8 h-8 flex items-center justify-center bg-white border-2 border-indigo-600 rounded-full">
 											<span className="h-2.5 w-2.5 bg-indigo-600 rounded-full" />
 										</span>
@@ -57,13 +73,15 @@ export default function Example() {
 									</span>
 								</a>
 							</>
-						) : (
+						}
+						{ ( step.status !== "complete" && step.status !== "current" ) &&
 							<>
-								{ stepIdx !== steps.length - 1 ? (
+								{ ( stepIdx !== steps.length - 1 ) &&
 									<div className="-ml-px absolute mt-0.5 top-4 left-4 w-0.5 h-full bg-gray-300" aria-hidden="true" />
-								) : null }
+								}
 								<a href={ step.href } className="relative flex items-start group">
 									<span className="h-9 flex items-center" aria-hidden="true">
+										{ /* eslint-disable-next-line max-len */ }
 										<span className="relative z-10 w-8 h-8 flex items-center justify-center bg-white border-2 border-gray-300 rounded-full group-hover:border-gray-400">
 											<span className="h-2.5 w-2.5 bg-transparent rounded-full group-hover:bg-gray-300" />
 										</span>
@@ -74,7 +92,7 @@ export default function Example() {
 									</span>
 								</a>
 							</>
-						) }
+						}
 					</li>
 				) ) }
 			</ol>
