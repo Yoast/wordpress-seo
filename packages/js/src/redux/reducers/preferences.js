@@ -7,7 +7,7 @@ import isSEMrushIntegrationActive from "../../analysis/isSEMrushIntegrationActiv
 import isZapierIntegrationActive from "../../analysis/isZapierIntegrationActive";
 import isZapierConnected from "../../analysis/isZapierConnected";
 import isWincherIntegrationActive from "../../analysis/isWincherIntegrationActive";
-import isWordProofIntegrationActive from '../../analysis/isWordProofIntegrationActive';
+import isWordProofIntegrationActive from "../../analysis/isWordProofIntegrationActive";
 
 /**
  * Gets the default state.

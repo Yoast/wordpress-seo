@@ -32,7 +32,7 @@ export default compose( [
 			editorContext: getEditorContext(),
 			isBreadcrumbsDisabled,
 			isPrivateBlog,
-			isWordProofIntegrationActive
+			isWordProofIntegrationActive,
 		};
 	} ),
 

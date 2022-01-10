@@ -8,8 +8,8 @@
  * @param window
  * @returns {Window}
  */
-export default function popupWindow (
-	window, url, windowName = '', width = 800, height = 600, ) {
+export default function popupWindow(
+	window, url, windowName = "", width = 800, height = 600 ) {
 	const y = window.top.outerHeight / 2 + window.top.screenY - ( height / 2 );
 	const x = window.top.outerWidth / 2 + window.top.screenX - ( width / 2 );
 	return window.open( url, windowName,

@@ -1,4 +1,4 @@
-import {callEndpoint} from './wincherEndpoints';
+import { callEndpoint } from "./wincherEndpoints";
 
 /**
  * Returns the authorization data.
