@@ -61,7 +61,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 			'yoast_name'       => 'twitter_description',
 			'transform_method' => 'simple_import',
 		],
-		'robots_noindex'     => [
+		'robots_noindex'      => [
 			'yoast_name'       => 'is_robots_noindex',
 			'transform_method' => 'post_robots_noindex_import',
 			'robots_import'    => true,
@@ -80,14 +80,14 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 			'aioseo_key'       => 'robots_noarchive',
 			'robot_type'       => 'noarchive',
 		],
-		'robots_nosnippet'     => [
+		'robots_nosnippet'    => [
 			'yoast_name'       => 'is_robots_nosnippet',
 			'transform_method' => 'post_general_robots_import',
 			'robots_import'    => true,
 			'aioseo_key'       => 'robots_nosnippet',
 			'robot_type'       => 'nosnippet',
 		],
-		'robots_noimageindex'     => [
+		'robots_noimageindex' => [
 			'yoast_name'       => 'is_robots_noimageindex',
 			'transform_method' => 'post_general_robots_import',
 			'robots_import'    => true,
@@ -286,7 +286,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 		foreach ( $this->aioseo_to_yoast_map as $aioseo_key => $yoast_mapping ) {
 			// For robots import.
 			if ( isset( $yoast_mapping['robots_import'] ) && $yoast_mapping['robots_import'] ) {
-				$yoast_mapping['subtype'] = $indexable->object_sub_type;
+				$yoast_mapping['subtype']                  = $indexable->object_sub_type;
 				$indexable->{$yoast_mapping['yoast_name']} = \call_user_func( [ $this, $yoast_mapping['transform_method'] ], $aioseo_indexable, $yoast_mapping );
 
 				continue;

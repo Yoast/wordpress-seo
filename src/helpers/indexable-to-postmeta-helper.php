@@ -51,11 +51,11 @@ class Indexable_To_Postmeta_Helper {
 			'post_meta_key' => 'meta-robots-noindex',
 			'map_method'    => 'noindex_map',
 		],
-		'is_robots_nofollow'      => [
+		'is_robots_nofollow'     => [
 			'post_meta_key' => 'meta-robots-nofollow',
 			'map_method'    => 'nofollow_map',
 		],
-		'meta_robots_adv'      => [
+		'meta_robots_adv'        => [
 			'post_meta_key' => 'meta-robots-adv',
 			'map_method'    => 'robots_adv_map',
 		],
@@ -121,7 +121,6 @@ class Indexable_To_Postmeta_Helper {
 		if ( $indexable->is_robots_noindex === true ) {
 			$this->meta->set_value( $post_meta_key, 1, $indexable->object_id );
 		}
-
 	}
 
 	/**
@@ -140,7 +139,6 @@ class Indexable_To_Postmeta_Helper {
 		if ( $indexable->is_robots_nofollow === true ) {
 			$this->meta->set_value( $post_meta_key, 1, $indexable->object_id );
 		}
-
 	}
 
 	/**
@@ -153,19 +151,19 @@ class Indexable_To_Postmeta_Helper {
 	 */
 	public function robots_adv_map( $indexable, $post_meta_key ) {
 		$adv_settings_to_be_imported = [];
-		$no_adv_settings = true;
+		$no_adv_settings             = true;
 
 		if ( $indexable->is_robots_noimageindex === true ) {
 			$adv_settings_to_be_imported[] = 'noimageindex';
-			$no_adv_settings = false;
+			$no_adv_settings               = false;
 		}
 		if ( $indexable->is_robots_noarchive === true ) {
 			$adv_settings_to_be_imported[] = 'noarchive';
-			$no_adv_settings = false;
+			$no_adv_settings               = false;
 		}
 		if ( $indexable->is_robots_nosnippet === true ) {
 			$adv_settings_to_be_imported[] = 'nosnippet';
-			$no_adv_settings = false;
+			$no_adv_settings               = false;
 		}
 
 		if ( $no_adv_settings === true ) {
@@ -174,6 +172,5 @@ class Indexable_To_Postmeta_Helper {
 		}
 
 		$this->meta->set_value( $post_meta_key, \implode( ',', $adv_settings_to_be_imported ), $indexable->object_id );
-		return;
 	}
 }
