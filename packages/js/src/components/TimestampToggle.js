@@ -125,7 +125,7 @@ class TimestampToggle extends Component {
 			<Timestamp>
 				<FieldGroup
 					linkText={ __("Learn more about timestamping", "wordpress-seo") }
-					linkTo={ "https://yoa.st/wordproof" }
+					linkTo={ "https://yoa.st/wordproof-integration" }
 					htmlFor={ this.props.id  }
 					label={ __( "Timestamp with WordProof", "wordpress-seo" ) }
 					hasNewBadge={ true } >
