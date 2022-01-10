@@ -93,7 +93,7 @@ class WPSEO_Taxonomy_Sitemap_Provider extends WPSEO_Indexable_Sitemap_Provider i
 	 */
 	public function get_sitemap_links( $type, $max_entries, $current_page ) {
 		if ( ! $this->handles_type( $type ) ) {
-			return [];
+			throw new OutOfBoundsException( 'Invalid sitemap page requested' );
 		}
 
 		$steps  = $max_entries;
