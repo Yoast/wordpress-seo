@@ -41,11 +41,11 @@ function ToggleWrapper(props) {
 const retrieveSettings = async() => {
 
 	return await handleAPIResponse(
-		() => getSettings(),
-		async( response ) => {
+		getSettings,
+		( response ) => {
 			return response;
 		},
-		async( response ) => {
+		( response ) => {
 			return false;
 		},
 	);
@@ -95,7 +95,7 @@ class WordProofTimestampToggle extends Component {
 
 		window.addEventListener("focus", async (e) => {
 
-			let settingsResponse = await retrieveSettings();
+			const settingsResponse = await retrieveSettings();
 			this.updateStateFromSettings(settingsResponse)
 
 		}, { once: true });

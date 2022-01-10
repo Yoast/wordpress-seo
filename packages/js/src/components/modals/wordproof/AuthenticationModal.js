@@ -14,11 +14,10 @@ import { handleAPIResponse } from "../../../helpers/api";
 const performAuthenticationRequest = async() => {
 	return await handleAPIResponse(
 		() => getAuthentication(),
-		async( response ) => {
+		( response ) => {
 			return response.is_authenticated;
 		},
-		async( response ) => {
-			// TODO consider deleting credentials.
+		( response ) => {
 			return false;
 		}
 	);
@@ -62,8 +61,8 @@ export const AuthenticationModal = ( props ) => {
 				<div>
 					<SvgIcon icon="loading-spinner" className={ "block" } />
 					<em>{ __(
-						"Waiting to be authenticated.  Please login or signup in the opened window.",
-						"wordpress-seo-premium" ) }</em>
+						"Waiting to be authenticated. Please login or signup in the opened window.",
+						"wordpress-seo" ) }</em>
 				</div>
 			</Modal>
 			}
