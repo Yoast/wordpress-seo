@@ -15,9 +15,5 @@ export default function isWordProofIntegrationActive() {
 	const wordproofIntegrationActive = get( l10nObject, "wordproofIntegrationActive", 0 ) === 1;
 	const currentPostIsPrivacyPolicyPage = get( l10nObject, "currentPostIsPrivacyPolicyPage", 0 ) === 1;
 
-	if ( wordproofIntegrationActive === true && currentPostIsPrivacyPolicyPage === true ) {
-		return true;
-	}
-
-	return false;
+	return wordproofIntegrationActive && currentPostIsPrivacyPolicyPage;
 }
