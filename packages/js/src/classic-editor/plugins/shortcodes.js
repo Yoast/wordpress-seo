@@ -161,9 +161,9 @@ const registerShortcodes = () => {
 	addFilter(
 		hookName,
 		namespace,
-		paper => ( {
+		( { content, ...paper } ) => ( {
 			...paper,
-			content: parseShortcodes( paper.content ),
+			content: parseShortcodes( content ),
 		} ),
 		11
 	);
