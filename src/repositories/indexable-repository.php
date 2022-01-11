@@ -9,6 +9,7 @@ use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
+use Yoast\WP\SEO\Helpers\Robots_Helper;
 use Yoast\WP\SEO\Loggers\Logger;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Services\Indexables\Indexable_Version_Manager;
@@ -37,7 +38,7 @@ class Indexable_Repository {
 	 *
 	 * @var Current_Page_Helper
 	 */
-	protected $current_page;
+	protected $current_page_helper;
 
 	/**
 	 * The logger object.
@@ -68,29 +69,39 @@ class Indexable_Repository {
 	protected $version_manager;
 
 	/**
+	 * A helper class for robots values.
+	 *
+	 * @var Robots_Helper
+	 */
+	private $robots_helper;
+
+	/**
 	 * Returns the instance of this class constructed through the ORM Wrapper.
 	 *
 	 * @param Indexable_Builder              $builder              The indexable builder.
-	 * @param Current_Page_Helper            $current_page         The current post helper.
+	 * @param Current_Page_Helper            $current_page_helper  The current post helper.
 	 * @param Logger                         $logger               The logger.
 	 * @param Indexable_Hierarchy_Repository $hierarchy_repository The hierarchy repository.
 	 * @param wpdb                           $wpdb                 The WordPress database instance.
 	 * @param Indexable_Version_Manager      $version_manager      The indexable version manager.
+	 * @param Robots_Helper                  $robots_helper        A helper class for robots values.
 	 */
 	public function __construct(
 		Indexable_Builder $builder,
-		Current_Page_Helper $current_page,
+		Current_Page_Helper $current_page_helper,
 		Logger $logger,
 		Indexable_Hierarchy_Repository $hierarchy_repository,
 		wpdb $wpdb,
-		Indexable_Version_Manager $version_manager
+		Indexable_Version_Manager $version_manager,
+		Robots_Helper $robots_helper
 	) {
 		$this->builder              = $builder;
-		$this->current_page         = $current_page;
+		$this->current_page_helper  = $current_page_helper;
 		$this->logger               = $logger;
 		$this->hierarchy_repository = $hierarchy_repository;
 		$this->wpdb                 = $wpdb;
 		$this->version_manager      = $version_manager;
+		$this->robots_helper        = $robots_helper;
 	}
 
 	/**
@@ -113,31 +124,31 @@ class Indexable_Repository {
 		$indexable = false;
 
 		switch ( true ) {
-			case $this->current_page->is_simple_page():
-				$indexable = $this->find_by_id_and_type( $this->current_page->get_simple_page_id(), 'post' );
+			case $this->current_page_helper->is_simple_page():
+				$indexable = $this->find_by_id_and_type( $this->current_page_helper->get_simple_page_id(), 'post' );
 				break;
-			case $this->current_page->is_home_static_page():
-				$indexable = $this->find_by_id_and_type( $this->current_page->get_front_page_id(), 'post' );
+			case $this->current_page_helper->is_home_static_page():
+				$indexable = $this->find_by_id_and_type( $this->current_page_helper->get_front_page_id(), 'post' );
 				break;
-			case $this->current_page->is_home_posts_page():
+			case $this->current_page_helper->is_home_posts_page():
 				$indexable = $this->find_for_home_page();
 				break;
-			case $this->current_page->is_term_archive():
-				$indexable = $this->find_by_id_and_type( $this->current_page->get_term_id(), 'term' );
+			case $this->current_page_helper->is_term_archive():
+				$indexable = $this->find_by_id_and_type( $this->current_page_helper->get_term_id(), 'term' );
 				break;
-			case $this->current_page->is_date_archive():
+			case $this->current_page_helper->is_date_archive():
 				$indexable = $this->find_for_date_archive();
 				break;
-			case $this->current_page->is_search_result():
+			case $this->current_page_helper->is_search_result():
 				$indexable = $this->find_for_system_page( 'search-result' );
 				break;
-			case $this->current_page->is_post_type_archive():
-				$indexable = $this->find_for_post_type_archive( $this->current_page->get_queried_post_type() );
+			case $this->current_page_helper->is_post_type_archive():
+				$indexable = $this->find_for_post_type_archive( $this->current_page_helper->get_queried_post_type() );
 				break;
-			case $this->current_page->is_author_archive():
-				$indexable = $this->find_by_id_and_type( $this->current_page->get_author_id(), 'user' );
+			case $this->current_page_helper->is_author_archive():
+				$indexable = $this->find_by_id_and_type( $this->current_page_helper->get_author_id(), 'user' );
 				break;
-			case $this->current_page->is_404():
+			case $this->current_page_helper->is_404():
 				$indexable = $this->find_for_system_page( '404' );
 				break;
 		}
@@ -156,6 +167,48 @@ class Indexable_Repository {
 	}
 
 	/**
+	 * Gets a query that finds all indexables of a type+subtype that match the noindex value
+	 * while taking site defaults into account.
+	 *
+	 * @param bool        $noindex                The noindex value of the posts to find.
+	 * @param string      $object_type            The indexable object type.
+	 * @param string|null $object_sub_type        The indexable object subtype.
+	 * @param boolean     $noindex_empty_archives Whether an archive should be considered as noindex if it has no public posts.
+	 *
+	 * @return ORM The query object.
+	 */
+	public function query_where_noindex( $noindex, $object_type, $object_sub_type = null, $noindex_empty_archives = true ) {
+		$query = $this
+			->query()
+			->where( 'object_type', $object_type );
+
+		if ( $object_sub_type !== null ) {
+			$query->where( 'object_sub_type', $object_sub_type );
+		}
+
+		$default_noindex = $this->robots_helper->get_default_noindex_for_object( $object_type, $object_sub_type );
+
+		$condition = 'is_robots_noindex = %d ';
+		// If the requested noindex value matches the default, include NULL values in the result.
+		if ( $default_noindex === $noindex ) {
+			$condition = '(' . $condition . 'OR is_robots_noindex IS NULL )';
+		}
+
+		// Let the number of posts in an archive determine the noindex value.
+		$is_archive_type = in_array( $object_type, [ 'post-type-archive', 'term', 'user', 'home-page' ], true );
+		if ( $is_archive_type && $noindex_empty_archives ) {
+			if ( $noindex === true ) {
+				$condition = '(' . $condition . ') OR number_of_publicly_viewable_posts = 0';
+			}
+			else {
+				$condition = '(' . $condition . ') AND number_of_publicly_viewable_posts > 0';
+			}
+		}
+
+		return $query->where_raw( $condition, (int) $noindex );
+	}
+
+	/**
 	 * Retrieves an indexable by its permalink.
 	 *
 	 * @param string $permalink The indexable permalink.
@@ -166,7 +219,8 @@ class Indexable_Repository {
 		$permalink_hash = \strlen( $permalink ) . ':' . \md5( $permalink );
 
 		// Find by both permalink_hash and permalink, permalink_hash is indexed so will be used first by the DB to optimize the query.
-		return $this->query()
+		return $this
+			->query()
 			->where( 'permalink_hash', $permalink_hash )
 			->where( 'permalink', $permalink )
 			->find_one();
@@ -281,7 +335,8 @@ class Indexable_Repository {
 		 *
 		 * @var Indexable $indexable
 		 */
-		$indexable = $this->query()
+		$indexable = $this
+			->query()
 			->where( 'object_type', 'post-type-archive' )
 			->where( 'object_sub_type', $post_type )
 			->find_one();
@@ -307,7 +362,8 @@ class Indexable_Repository {
 		 *
 		 * @var Indexable $indexable
 		 */
-		$indexable = $this->query()
+		$indexable = $this
+			->query()
 			->where( 'object_type', 'system-page' )
 			->where( 'object_sub_type', $object_sub_type )
 			->find_one();
@@ -329,7 +385,8 @@ class Indexable_Repository {
 	 * @return bool|Indexable Instance of indexable.
 	 */
 	public function find_by_id_and_type( $object_id, $object_type, $auto_create = true ) {
-		$indexable = $this->query()
+		$indexable = $this
+			->query()
 			->where( 'object_id', $object_id )
 			->where( 'object_type', $object_type )
 			->find_one();
@@ -363,7 +420,8 @@ class Indexable_Repository {
 		 *
 		 * @var Indexable[] $indexables
 		 */
-		$indexables = $this->query()
+		$indexables = $this
+			->query()
 			->where_in( 'object_id', $object_ids )
 			->where( 'object_type', $object_type )
 			->find_many();
@@ -432,7 +490,8 @@ class Indexable_Repository {
 			return [];
 		}
 
-		$indexables = $this->query()
+		$indexables = $this
+			->query()
 			->where_in( 'id', $indexable_ids )
 			->order_by_expr( 'FIELD(id,' . \implode( ',', $indexable_ids ) . ')' )
 			->find_many();
@@ -449,7 +508,8 @@ class Indexable_Repository {
 	 * @return Indexable[] array of indexables.
 	 */
 	public function get_subpages_by_post_parent( $post_parent, $exclude_ids = [] ) {
-		$query = $this->query()
+		$query = $this
+			->query()
 			->where( 'post_parent', $post_parent )
 			->where( 'object_type', 'post' )
 			->where( 'post_status', 'publish' );
@@ -457,6 +517,7 @@ class Indexable_Repository {
 		if ( ! empty( $exclude_ids ) ) {
 			$query->where_not_in( 'object_id', $exclude_ids );
 		}
+
 		return $query->find_many();
 	}
 
@@ -469,7 +530,8 @@ class Indexable_Repository {
 	 * @return bool Whether or not the update was succeful.
 	 */
 	public function update_incoming_link_count( $indexable_id, $count ) {
-		return (bool) $this->query()
+		return (bool) $this
+			->query()
 			->set( 'incoming_link_count', $count )
 			->where( 'id', $indexable_id )
 			->update_many();
@@ -505,6 +567,7 @@ class Indexable_Repository {
 		if ( $this->version_manager->indexable_needs_upgrade( $indexable ) ) {
 			$indexable = $this->builder->build( $indexable );
 		}
+
 		return $indexable;
 	}
 

@@ -51,14 +51,15 @@ class Indexable_Date_Archive_Builder {
 	 * @return Indexable The extended indexable.
 	 */
 	public function build( $indexable ) {
-		$indexable->object_type       = 'date-archive';
-		$indexable->title             = $this->options->get( 'title-archive-wpseo' );
-		$indexable->description       = $this->options->get( 'metadesc-archive-wpseo' );
-		$indexable->is_robots_noindex = $this->options->get( 'noindex-archive-wpseo' );
-		$indexable->is_public         = ( (int) $indexable->is_robots_noindex !== 1 );
-		$indexable->blog_id           = \get_current_blog_id();
-		$indexable->permalink         = null;
-		$indexable->version           = $this->version;
+		$indexable->object_type          = 'date-archive';
+		$indexable->title                = $this->options->get( 'title-archive-wpseo' );
+		$indexable->description          = $this->options->get( 'metadesc-archive-wpseo' );
+		$indexable->is_robots_noindex    = $this->options->get( 'noindex-archive-wpseo' );
+		$indexable->is_publicly_viewable = ! (bool) $this->options->get( 'disable-date' );
+		$indexable->blog_id              = \get_current_blog_id();
+		$indexable->permalink            = null;
+		$indexable->version              = $this->version;
+		$indexable->set_deprecated_property( 'is_public', (int) $indexable->is_robots_noindex !== 1 );
 
 		return $indexable;
 	}

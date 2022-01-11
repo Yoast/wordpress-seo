@@ -80,6 +80,30 @@ class Post_Type_Helper {
 	}
 
 	/**
+	 * Checks whether a post_type has a publicly viewable archive.
+	 *
+	 * @param string $post_type The name of a registered post type.
+	 *
+	 * @return bool Whether a post_type has a publicly viewable archive.
+	 */
+	public function has_publicly_viewable_archive( $post_type ) {
+		$post_type_object = get_post_type_object( $post_type );
+		if ( $post_type_object === null ) {
+			return false;
+		}
+
+		if ( $post_type_object->publicly_queryable === false ) {
+			return false;
+		}
+
+		if ( $post_type_object->rewrite === false ) {
+			return false;
+		}
+
+		return $post_type_object->has_archive;
+	}
+
+	/**
 	 * Returns an array of post types that are excluded from being indexed for the
 	 * indexables.
 	 *

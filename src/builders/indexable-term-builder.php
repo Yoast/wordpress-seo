@@ -8,7 +8,6 @@ use Yoast\WP\SEO\Exceptions\Indexable\Term_Not_Found_Exception;
 use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Models\Indexable;
-use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 
 /**
@@ -98,11 +97,12 @@ class Indexable_Term_Builder {
 
 		$term_meta = $this->taxonomy_helper->get_term_meta( $term );
 
-		$indexable->object_id       = $term_id;
-		$indexable->object_type     = 'term';
-		$indexable->object_sub_type = $term->taxonomy;
-		$indexable->permalink       = $term_link;
-		$indexable->blog_id         = \get_current_blog_id();
+		$indexable->object_id            = $term_id;
+		$indexable->object_type          = 'term';
+		$indexable->object_sub_type      = $term->taxonomy;
+		$indexable->permalink            = $term_link;
+		$indexable->blog_id              = \get_current_blog_id();
+		$indexable->is_publicly_viewable = is_taxonomy_viewable( $term->taxonomy );
 
 		$indexable->primary_focus_keyword_score = $this->get_keyword_score(
 			$this->get_meta_value( 'wpseo_focuskw', $term_meta ),
@@ -110,7 +110,7 @@ class Indexable_Term_Builder {
 		);
 
 		$indexable->is_robots_noindex = $this->get_noindex_value( $this->get_meta_value( 'wpseo_noindex', $term_meta ) );
-		$indexable->is_public         = ( $indexable->is_robots_noindex === null ) ? null : ! $indexable->is_robots_noindex;
+		$indexable->set_deprecated_property( 'is_public', ( $indexable->is_robots_noindex === null ) ? null : ! $indexable->is_robots_noindex );
 
 		$this->reset_social_images( $indexable );
 
@@ -132,11 +132,25 @@ class Indexable_Term_Builder {
 		$indexable->is_robots_noimageindex = null;
 		$indexable->is_robots_nosnippet    = null;
 
-		$timestamps                      = $this->get_object_timestamps( $term_id, $term->taxonomy );
-		$indexable->object_published_at  = $timestamps->published_at;
-		$indexable->object_last_modified = $timestamps->last_modified;
+		$indexable = $this->set_aggregate_values( $indexable );
 
 		$indexable->version = $this->version;
+
+		return $indexable;
+	}
+
+	/**
+	 * Sets the aggregate values for a term indexable.
+	 *
+	 * @param Indexable $indexable The indexable to set the aggregates for.
+	 *
+	 * @return Indexable The indexable with set aggregates.
+	 */
+	public function set_aggregate_values( Indexable $indexable ) {
+		$aggregates                                   = $this->get_public_post_archive_aggregates( $indexable->object_id, $indexable->object_sub_type );
+		$indexable->object_published_at               = $aggregates->first_published_at;
+		$indexable->object_last_modified              = max( $indexable->object_last_modified, $aggregates->most_recent_last_modified );
+		$indexable->number_of_publicly_viewable_posts = $aggregates->number_of_public_posts;
 
 		return $indexable;
 	}
@@ -241,18 +255,23 @@ class Indexable_Term_Builder {
 	}
 
 	/**
-	 * Returns the timestamps for a given term.
+	 * Returns public post aggregates for a given term.
+	 * We don't consider password protected posts to be public. This helps when building sitemaps for instance, where
+	 * password protected posts are also excluded.
 	 *
 	 * @param int    $term_id  The term ID.
 	 * @param string $taxonomy The taxonomy.
 	 *
-	 * @return object An object with last_modified and published_at timestamps.
+	 * @return object An object with the number of posts, most recent last modified and first published at timestamps.
 	 */
-	protected function get_object_timestamps( $term_id, $taxonomy ) {
+	protected function get_public_post_archive_aggregates( $term_id, $taxonomy ) {
 		$post_statuses = $this->post_helper->get_public_post_statuses();
 
 		$sql = "
-			SELECT MAX(p.post_modified_gmt) AS last_modified, MIN(p.post_date_gmt) AS published_at
+			SELECT 
+				COUNT(p.ID) as number_of_public_posts,
+				MAX(p.post_modified_gmt) AS most_recent_last_modified,
+				MIN(p.post_date_gmt) AS first_published_at
 			FROM	{$this->wpdb->posts} AS p
 			INNER JOIN {$this->wpdb->term_relationships} AS term_rel
 				ON		term_rel.object_id = p.ID
@@ -260,9 +279,9 @@ class Indexable_Term_Builder {
 				ON		term_tax.term_taxonomy_id = term_rel.term_taxonomy_id
 				AND		term_tax.taxonomy = %s
 				AND		term_tax.term_id = %d
-			WHERE	p.post_status IN (" . implode( ', ', array_fill( 0, count( $post_statuses ), '%s' ) ) . ")
-				AND		p.post_password = ''
-		";
+			WHERE	p.post_status IN (" . implode( ', ', array_fill( 0, count( $post_statuses ), '%s' ) ) . ')
+			AND 	p.post_password = ""
+		';
 
 		$replacements = \array_merge( [ $taxonomy, $term_id ], $post_statuses );
 

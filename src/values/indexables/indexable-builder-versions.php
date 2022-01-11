@@ -14,17 +14,22 @@ class Indexable_Builder_Versions {
 	 * If the key is not in this list, the indexable type will not be managed.
 	 * These numbers should be increased if one of the builders implements a new feature.
 	 *
+	 * When you change the version of the indexable builder, change the plugin version number of the comment too.
+	 * This is to prevent the same builder version to be increased to the same version in multiple PRs across multiple releases.
+	 * When 2 PRs change the same builder version for the same release, it won't cause merge conflicts - which is OK, as it is the same release
+	 * But if the same version number is used for two separate releases, the later release should use a higher builder version number.
+	 *
 	 * @var array
 	 */
 	protected $indexable_builder_versions_by_type = [
-		'date-archive'      => self::DEFAULT_INDEXABLE_BUILDER_VERSION,
-		'general'           => self::DEFAULT_INDEXABLE_BUILDER_VERSION,
-		'home-page'         => 2,
-		'post'              => 2,
-		'post-type-archive' => 2,
-		'term'              => 2,
-		'user'              => 2,
-		'system-page'       => self::DEFAULT_INDEXABLE_BUILDER_VERSION,
+		'date-archive'      => 2, // Since 17.9.
+		'general'           => 2, // Since 17.9.
+		'home-page'         => 3, // Since 17.9.
+		'post'              => 3, // Since 17.9.
+		'post-type-archive' => 3, // Since 17.9.
+		'term'              => 3, // Since 17.9.
+		'user'              => 3, // Since 17.9.
+		'system-page'       => 2, // Since 17.9.
 	];
 
 	/**
