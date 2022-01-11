@@ -1,4 +1,5 @@
 import { CheckIcon } from "@heroicons/react/solid";
+import { Fragment } from "@wordpress/element";
 
 const steps = [
 	{ name: "Create account", description: "Vitae sed mi luctus laoreet.", href: "#", status: "complete" },
@@ -35,63 +36,76 @@ export default function Example() {
 			<ol className="overflow-hidden">
 				{ /* eslint-disable-next-line complexity */ }
 				{ steps.map( ( step, stepIdx ) => (
-					<li key={ step.name } className={ classNames( stepIdx === steps.length - 1 ? "" : "pb-10", "relative" ) }>
+					<li key={ step.name } className={ classNames( stepIdx === steps.length - 1 ? "" : "yst-pb-10", "yst-relative" ) }>
 						{ ( step.status === "complete" ) &&
-							<>
+							<Fragment>
 								{ stepIdx !== steps.length - 1 &&
-									<div className="-ml-px absolute mt-0.5 top-4 left-4 w-0.5 h-full bg-indigo-600" aria-hidden="true" />
+									<div
+										className="yst--ml-px yst-absolute yst-mt-0.5 yst-top-4 yst-left-4 yst-w-0.5 yst-h-full yst-bg-indigo-600"
+										aria-hidden="true"
+									/>
 								}
-								<a href={ step.href } className="relative flex items-start group">
-									<span className="h-9 flex items-center">
+								<a href={ step.href } className="yst-relative yst-flex yst-items-start yst-group">
+									<span className="yst-h-9 yst-flex yst-items-center">
 										{ /* eslint-disable-next-line max-len */ }
-										<span className="relative z-10 w-8 h-8 flex items-center justify-center bg-indigo-600 rounded-full group-hover:bg-indigo-800">
-											<CheckIcon className="w-5 h-5 text-white" aria-hidden="true" />
+										<span className="yst-relative yst-z-10 yst-w-8 yst-h-8 yst-flex yst-items-center yst-justify-center yst-bg-indigo-600 yst-rounded-full yst-group-hover:bg-indigo-800">
+											<CheckIcon className="yst-w-5 yst-h-5 yst-text-white" aria-hidden="true" />
 										</span>
 									</span>
-									<span className="ml-4 min-w-0 flex flex-col">
-										<span className="text-xs font-semibold tracking-wide uppercase">{ step.name }</span>
-										<span className="text-sm text-gray-500">{ step.description }</span>
+									<span className="yst-ml-4 yst-min-w-0 yst-flex yst-flex-col">
+										<span className="yst-text-xs yst-font-semibold yst-tracking-wide yst-uppercase">{ step.name }</span>
+										<span className="yst-text-sm yst-text-gray-500">{ step.description }</span>
 									</span>
 								</a>
-							</>
+							</Fragment>
 						}
 						{ ( step.status === "current" ) &&
-							<>
+							<Fragment>
 								{ stepIdx === steps.length - 1 ? null : (
-									<div className="-ml-px absolute mt-0.5 top-4 left-4 w-0.5 h-full bg-gray-300" aria-hidden="true" />
+									<div
+										className="yst--ml-px yst-absolute yst-mt-0.5 yst-top-4 yst-left-4 yst-w-0.5 yst-h-full yst-bg-gray-300"
+										aria-hidden="true"
+									/>
 								) }
-								<a href={ step.href } className="relative flex items-start group" aria-current="step">
-									<span className="h-9 flex items-center" aria-hidden="true">
+								<a href={ step.href } className="yst-relative yst-flex yst-items-start yst-group" aria-current="step">
+									<span className="yst-h-9 yst-flex yst-items-center" aria-hidden="true">
 										{ /* eslint-disable-next-line max-len */ }
-										<span className="relative z-10 w-8 h-8 flex items-center justify-center bg-white border-2 border-indigo-600 rounded-full">
-											<span className="h-2.5 w-2.5 bg-indigo-600 rounded-full" />
+										<span className="yst-relative yst-z-10 yst-w-8 yst-h-8 yst-flex yst-items-center yst-justify-center yst-bg-white yst-border-2 yst-border-indigo-600 yst-rounded-full">
+											<span className="yst-h-2.5 yst-w-2.5 yst-bg-indigo-600 yst-rounded-full" />
 										</span>
 									</span>
-									<span className="ml-4 min-w-0 flex flex-col">
-										<span className="text-xs font-semibold tracking-wide uppercase text-indigo-600">{ step.name }</span>
-										<span className="text-sm text-gray-500">{ step.description }</span>
+									<span className="yst-ml-4 yst-min-w-0 yst-flex yst-flex-col">
+										<span className="yst-text-xs yst-font-semibold yst-tracking-wide yst-uppercase yst-text-indigo-600">
+											{ step.name }
+										</span>
+										<span className="yst-text-sm yst-text-gray-500">{ step.description }</span>
 									</span>
 								</a>
-							</>
+							</Fragment>
 						}
 						{ ( step.status !== "complete" && step.status !== "current" ) &&
-							<>
+							<Fragment>
 								{ ( stepIdx !== steps.length - 1 ) &&
-									<div className="-ml-px absolute mt-0.5 top-4 left-4 w-0.5 h-full bg-gray-300" aria-hidden="true" />
+									<div
+										className="yst--ml-px yst-absolute yst-mt-0.5 yst-top-4 yst-left-4 yst-w-0.5 yst-h-full yst-bg-gray-300"
+										aria-hidden="true"
+									/>
 								}
-								<a href={ step.href } className="relative flex items-start group">
-									<span className="h-9 flex items-center" aria-hidden="true">
+								<a href={ step.href } className="yst-relative yst-flex yst-items-start yst-group">
+									<span className="yst-h-9 yst-flex yst-items-center" aria-hidden="true">
 										{ /* eslint-disable-next-line max-len */ }
-										<span className="relative z-10 w-8 h-8 flex items-center justify-center bg-white border-2 border-gray-300 rounded-full group-hover:border-gray-400">
-											<span className="h-2.5 w-2.5 bg-transparent rounded-full group-hover:bg-gray-300" />
+										<span className="yst-relative yst-z-10 yst-w-8 yst-h-8 yst-flex yst-items-center yst-justify-center yst-bg-white yst-border-2 yst-border-gray-300 yst-rounded-full yst-group-hover:border-gray-400">
+											<span className="yst-h-2.5 yst-w-2.5 yst-bg-transparent yst-rounded-full yst-group-hover:bg-gray-300" />
 										</span>
 									</span>
-									<span className="ml-4 min-w-0 flex flex-col">
-										<span className="text-xs font-semibold tracking-wide uppercase text-gray-500">{ step.name }</span>
-										<span className="text-sm text-gray-500">{ step.description }</span>
+									<span className="yst-ml-4 yst-min-w-0 yst-flex yst-flex-col">
+										<span className="yst-text-xs yst-font-semibold yst-tracking-wide yst-uppercase yst-text-gray-500">
+											{ step.name }
+										</span>
+										<span className="yst-text-sm yst-text-gray-500">{ step.description }</span>
 									</span>
 								</a>
-							</>
+							</Fragment>
 						}
 					</li>
 				) ) }
