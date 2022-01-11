@@ -23,7 +23,7 @@ const performAuthenticationRequest = async() => {
 	);
 };
 export const AuthenticationModal = ( props ) => {
-	const { isOpen, setIsOpen, isAuthenticated, setIsAuthenticated } = props;
+	const { isOpen, setIsOpen, isAuthenticated, setIsAuthenticated, postTypeName } = props;
 	const [ isLoading, setIsLoading ] = useState( true );
 
 	useEffect( () => {
@@ -77,9 +77,12 @@ export const AuthenticationModal = ( props ) => {
 				<div className="wordproof__authentication_outcome">
 					<div>
 						{ /* TODO: Add image */ }
-						{ /* TODO: replace page with post type. Correctly display strong tag. */ }
 						<p>{ __( "Your page is now protect via the blockchain!", "wordpress-seo" ) }</p>
-						<p>{ !! __( "The page will automatically be Timestamped every time you <strong>update</strong> or <strong>publish</strong>.!", "wordpress-seo" ) }</p>
+						<p>{ !! sprintf(
+							/* Translators: %s translates to the Post type in singular form */
+							__( "The %s will automatically be timestamped every time you <strong>update</strong> or <strong>publish</strong>.!", "wordpress-seo" ),
+							postTypeName
+						) }</p>
 					</div>
 					<br />
 					<Button

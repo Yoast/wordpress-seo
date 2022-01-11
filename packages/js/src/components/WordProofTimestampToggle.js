@@ -140,7 +140,9 @@ class WordProofTimestampToggle extends Component {
 				</FieldGroup>
 
 				<AuthenticationModal isOpen={ this.state.isOpen } setIsOpen={ this.setIsOpen }
-									 isAuthenticated={ this.state.isAuthenticated } setIsAuthenticated={ this.setIsAuthenticated }/>
+									 isAuthenticated={ this.state.isAuthenticated } setIsAuthenticated={ this.setIsAuthenticated }
+									 postTypeName={ this.props.postTypeName }
+				/>
 			</WordProofTimestamp>
 		);
 	}
