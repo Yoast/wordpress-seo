@@ -151,7 +151,6 @@ class Deactivate_Conflicting_Plugins_Action_Test extends TestCase {
 	/**
 	 * Test the get_total_unindexed method
 	 *
-	 * @covers ::query
 	 * @covers ::get_total_unindexed
 	 */
 	public function test_get_total_unindexed() {
@@ -172,7 +171,6 @@ class Deactivate_Conflicting_Plugins_Action_Test extends TestCase {
 	/**
 	 * Test the index method
 	 *
-	 * @covers ::query
 	 * @covers ::index
 	 */
 	public function test_index() {
@@ -217,7 +215,6 @@ class Deactivate_Conflicting_Plugins_Action_Test extends TestCase {
 	 * @param int $expected The expected result.
 	 *
 	 * @covers ::get_limited_unindexed_count
-	 * @covers ::query
 	 */
 	public function test_get_limited_unindexed_count( $limit, $expected ) {
 		// Arrange.

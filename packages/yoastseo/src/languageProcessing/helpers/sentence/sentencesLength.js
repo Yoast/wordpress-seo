@@ -3,12 +3,12 @@ import { forEach } from "lodash-es";
 import { stripFullTags as stripHTMLTags } from "../sanitize/stripHTMLTags.js";
 
 /**
- * Returns an array with the number of words in a sentence.
+ * Returns an array with the length of each sentence.
  *
  * @param {Array} sentences Array with sentences from text.
  * @param {Researcher} 	researcher 	The researcher to use for analysis.
  *
- * @returns {Array} Array with amount of words in each sentence.
+ * @returns {Array} Array with the length of each sentence.
  */
 export default function( sentences, researcher ) {
 	const sentencesWordCount = [];
@@ -23,7 +23,7 @@ export default function( sentences, researcher ) {
 		}
 
 		sentencesWordCount.push( {
-			sentence: strippedSentence,
+			sentence: sentence,
 			sentenceLength: length,
 		} );
 	} );

@@ -10,7 +10,6 @@ import matchWordsHelper from "../../../src/languageProcessing/languages/ja/helpe
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 import firstParagraph from "../../../src/languageProcessing/researches/findKeywordInFirstParagraph.js";
 import Paper from "../../../src/values/Paper.js";
-import { enableFeatures } from "@yoast/feature-flag";
 
 const morphologyData = getMorphologyData( "en" );
 const morphologyDataDe = getMorphologyData( "de" ).de;
@@ -659,8 +658,6 @@ const buildJapaneseMockResearcher = function( keyphraseForms, synonymsForms, hel
 		matchWordCustomHelper: helper1,
 	} );
 };
-
-enableFeatures( [ "JAPANESE_SUPPORT" ] );
 
 describe( "checks for the content words from the keyphrase in the first paragraph (Japanese, but no morphology data provided)", function() {
 	it( "returns whether all keywords were matched in one sentence", function() {

@@ -133,6 +133,7 @@ class Organization_Test extends TestCase {
 				->andReturn( $profile_value );
 		}
 		Filters\expectApplied( 'wpseo_schema_organization_social_profiles' )
+			->atMost()
 			->once()
 			->with( $profiles_expected )
 			->andReturn( $profiles_expected );
@@ -192,6 +193,7 @@ class Organization_Test extends TestCase {
 				->andReturn( $profile_value );
 		}
 		Filters\expectApplied( 'wpseo_schema_organization_social_profiles' )
+			->atMost()
 			->once()
 			->with( $profiles_expected )
 			->andReturn( $profiles_expected );
@@ -246,8 +248,7 @@ class Organization_Test extends TestCase {
 	 */
 	public function generate_provider() {
 		return [
-			// Every possible social profile filled.
-			[
+			'Every possible social profile filled' => [
 				'profiles_input'    => [
 					'facebook_site' => 'https://www.facebook.com/yoast/',
 					'instagram_url' => 'https://www.instagram.com/yoast/',
@@ -269,8 +270,7 @@ class Organization_Test extends TestCase {
 					'https://twitter.com/yoast',
 				],
 			],
-			// Without Twitter.
-			[
+			'Without Twitter' => [
 				'profiles_input'    => [
 					'facebook_site' => 'https://www.facebook.com/yoast/',
 					'instagram_url' => 'https://www.instagram.com/yoast/',
@@ -291,8 +291,7 @@ class Organization_Test extends TestCase {
 					'https://en.wikipedia.org/wiki/Yoast_SEO',
 				],
 			],
-			// Only Twitter.
-			[
+			'Only Twitter' => [
 				'profiles_input'    => [
 					'facebook_site' => '',
 					'instagram_url' => '',
@@ -304,6 +303,27 @@ class Organization_Test extends TestCase {
 					'twitter_site'  => 'yoast',
 				],
 				'profiles_expected' => [
+					'https://twitter.com/yoast',
+				],
+			],
+			'Duplicated URLs' => [
+				'profiles_input'    => [
+					'facebook_site' => 'https://www.facebook.com/yoast/',
+					'instagram_url' => 'https://www.facebook.com/yoast/',
+					'linkedin_url'  => 'https://www.linkedin.com/company/yoast-com',
+					'myspace_url'   => 'https://myspace.com/yoast/',
+					'youtube_url'   => 'https://www.youtube.com/yoast',
+					'pinterest_url' => 'https://www.pinterest.com/yoast/',
+					'wikipedia_url' => 'https://en.wikipedia.org/wiki/Yoast_SEO',
+					'twitter_site'  => 'yoast',
+				],
+				'profiles_expected' => [
+					'https://www.facebook.com/yoast/',
+					'https://www.linkedin.com/company/yoast-com',
+					'https://myspace.com/yoast/',
+					'https://www.youtube.com/yoast',
+					'https://www.pinterest.com/yoast/',
+					'https://en.wikipedia.org/wiki/Yoast_SEO',
 					'https://twitter.com/yoast',
 				],
 			],

@@ -21,6 +21,8 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 * Removes hyphens from a keyphrase for the Keyphrase in slug assessment. Also removes the functionality that would look for the keyphrase in the unparsed slug if it was not found in the parsed slug, as it is made redundant by the new functionality.
 * Removes feature flag for Greek support to prepare Greek for release.
 * Adds a few entries to the list of `multipleWords` for French transition words.
+* Removes feature flag for Japanese support to prepare Japanese for release.
+* Adds Japanese configuration for meta description length.
 
 ### Bugfixes
 * Moves the initialization of Keyphrase distribution assessment inside `AnalysisWebWorker.js`.
@@ -50,13 +52,13 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 * Adds a feature-flag for Japanese support.
 * Implements the consecutive sentences assessment for Greek to ensure variety in a text.
 * Adds Greek transition words and activates the transition words assessment.
-* Adds a language folder and Researcher for Greek. 
+* Adds a language folder and Researcher for Greek.
 * Moves the initialization of Keyphrase distribution assessment inside `AnalysisWebWorker.js`.
 * Makes passive voice and function words in keyphrase assessments available for Greek.
 * Adds a paper and unit tests to test the assessments for Greek and edits a typo in the Greek morphologyData file path in `getMorphologyData.js`.
 * Adds a `getContentWords` helper and adds function words list for Japanese.
 * Updates README.md for Greek support.
-* Creates a helper for splitting a Japanese text into words using the TinySegmenter package, and adds Japanese punctuation to the removePunctuation helper. Also changes the global Jest testing environment from `node` to `jsdom`. 
+* Creates a helper for splitting a Japanese text into words using the TinySegmenter package, and adds Japanese punctuation to the removePunctuation helper. Also changes the global Jest testing environment from `node` to `jsdom`.
 * Adds external stemmer for Greek.
 * Improves keyphrase recognition in Greek by filtering out function words such as `στον`, `τρίτος`, `τέτοιους`, `ποιανής`.
 * Implements passive voice assessment for Greek.
@@ -70,12 +72,12 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 * Adapts `matchKeywordInSubheadings` research for Japanese.
 * Adapts `keyphraseDistribution` research for Japanese and adds Japanese topic length criteria config.
 * Adapts `getSubheadingTextLengths` for Japanese.
-* Adds the option to pass a language-specific `getWords` helper to the `getSentenceBeginnings` research. 
-* Adds Japanese sentence beginning exceptions. 
+* Adds the option to pass a language-specific `getWords` helper to the `getSentenceBeginnings` research.
+* Adds Japanese sentence beginning exceptions.
 * Activates the consecutive sentences assessment for Japanese.
 * Adapts `getParagraphLength` research for Japanese.
 * Adapts the `sentencesCountFromText` research for Japanese.
-* Adapts the `getProminentWordsForInsights` research for Japanese. 
+* Adapts the `getProminentWordsForInsights` research for Japanese.
 * Fixes the prominent words functionality in content-analysis app.
 * Adds unit tests that cover Japanese strings in `metaDescriptionLengthSpec` research file.
 * Adds the option to pass a custom matchWordInText helper and a helper for matching multiword keyphrases in the findKeywordInPageTitle research.
@@ -84,7 +86,29 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 * Adds a custom `morphology` research for the Japanese language and edits an HTML tag typo in `matchStringWithRegexSpec.js`.
 * Adapts `getProminentWordsForInternalLinking` research for Japanese.
 * Adds `customGetStemmer` and `determineStem` helper for Japanese.
-
+* Cleans up spec descriptions for assessing text and paragraph length.
+* Updates `README.md` for Japanese support.
+* Adapt the `getKeywordDensity` research so that a `getWordsCustomHelper` is used when available and adds unitests for Japanese.
+* Adapts `getLinkStatistics` research for Japanese.
+* Improves the way keyphrase enclosed in double quotes is matched in Keyphrase in title assessment for Japanese.
+* Adapts Keyphrase in title assessment for Japanese and adds a custom Japanese `findKeywordInPageTitle` research file.
+* Moves `processExactMatchRequest` helper from `findKeywordInPageTitle.js` to a separate helper file.
+* Adds `position` of the matched keyphrase in the returned object of `matchTextWithArray.js` and `findKeywordFormsInString.js`.
+* Removes codes that are not relevant anymore which were introduced in [this PR](https://github.com/Yoast/wordpress-seo/pull/17577).
+* Adapts subheading distribution assessment for Japanese.
+* Fixes highlights for sentence length assessment for other editors.
+* Adapts the keyphrase length assessment for Japanese so that it uses custom scoring config and counts keyphrase length in characters instead of words.
+* Disables the keyphrase in slug assessment for Japanese.
+* Adds custom `keyphraseLength` research for Japanese.
+* Adapts the sentence length assessment for Japanese.
+* Adapts the text length assessment for Japanese.
+* Adapts the Paragraph length assessment for Japanese and adds a Japanese specific configuration file for the paragraph length assessment in non-product and product pages.
+* Changes the applicability criteria of the transition words, subheading distribution, and keyphrase density assessments for Japanese so that the minimum required text length is expressed in characters instead of words.
+* Adapts the functionality to mark words in a sentence for Japanese.
+* Adds a functionality in estimating reading time of a text to use characters per minute formula and adds the reading time score for Japanese.
+* Adds a step to exclude Table of Contents in `sanitizeString.js` helper and uses this helper in Japanese `countCharacters` and `getWords` helpers.
+* Replaces 'words' with 'characters' in the Japanese feedback strings for the Subheading distribution, Paragraph length, Sentence length, Keyphrase length, and Text length assessments.
+* Adds the option to pass a custom `matchWordInText` helper and a helper for matching Japanese keyphrases in the `findKeywordInFirstParagraph` research.
 
 ## 1.92.0
 ### Enhancements

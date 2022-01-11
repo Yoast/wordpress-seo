@@ -73,6 +73,7 @@ const ProductSEOAssessor = function( researcher, options ) {
 			veryFarBelowMinimum: 50,
 			urlTitle: createAnchorOpeningTag( options.textLengthUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.textLengthCTAUrl ),
+			customContentType: this.type,
 		} ),
 		new TitleKeywordAssessment( {
 			urlTitle: createAnchorOpeningTag( options.titleKeyphraseUrlTitle ),

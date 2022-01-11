@@ -17,8 +17,7 @@ import tr from "../../premium-configuration/data/morphologyData-tr-v1.json";
 import cs from "../../premium-configuration/data/morphologyData-cs-v1.json";
 import sk from "../../premium-configuration/data/morphologyData-sk-v1.json";
 import el from "../../premium-configuration/data/morphologyData-el-v1.json";
-
-import { isFeatureEnabled } from "@yoast/feature-flag";
+import ja from "../../premium-configuration/data/morphologyData-ja-v1.json";
 
 const morphologyData = {
 	en,
@@ -40,12 +39,8 @@ const morphologyData = {
 	cs,
 	sk,
 	el,
+	ja,
 };
-
-if ( isFeatureEnabled( "JAPANESE_SUPPORT" ) ) {
-	// eslint-disable-next-line global-require
-	morphologyData.ja = require( "../../premium-configuration/data/morphologyData-ja-v1.json" );
-}
 
 /**
  * Requires morphology data. To be used in the analysis to recognize different word forms.

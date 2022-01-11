@@ -6,6 +6,7 @@ use Symfony\Component\DependencyInjection\Definition;
 use WPSEO_Addon_Manager;
 use WPSEO_Admin_Asset_Manager;
 use WPSEO_Breadcrumbs;
+use WPSEO_Frontend;
 use WPSEO_Replace_Vars;
 use WPSEO_Shortlinker;
 use Yoast\WP\Lib\Migrations\Adapter;
@@ -32,6 +33,7 @@ $container->register( WPSEO_Shortlinker::class, WPSEO_Shortlinker::class )->setF
 
 // Backwards-compatibility classes in the global namespace.
 $container->register( WPSEO_Breadcrumbs::class, WPSEO_Breadcrumbs::class )->setAutowired( true )->setPublic( true );
+$container->register( WPSEO_Frontend::class, WPSEO_Frontend::class )->setAutowired( true )->setPublic( true );
 
 // The container itself.
 $container->setAlias( ContainerInterface::class, 'service_container' );
