@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Services\Health_Check;
 /**
  * Passes when the tagline is set to something other than the WordPress default tagline.
  */
-class Default_Tagline extends Health_Check {
+class Default_Tagline_Check extends Health_Check {
 
 	/**
 	 * Runs the health check.
@@ -17,21 +17,23 @@ class Default_Tagline extends Health_Check {
 	/**
 	 * Generates WordPress-friendly health check results.
 	 *
-	 * @var Default_Tagline_Presenter
+	 * @var Default_Tagline_Report_Builder
 	 */
-	private $presenter;
+	private $report_builder;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param  Default_Tagline_Runner    $runner The object that implements the actual health check.
-	 * @param  Default_Tagline_Presenter $presenter The object that generates WordPress-friendly results.
+	 * @param  Default_Tagline_Runner         $runner The object that implements the actual health check.
+	 * @param  Default_Tagline_Report_Builder $report_builder The object that generates WordPress-friendly results.
 	 * @return void
 	 */
-	public function __construct( Default_Tagline_Runner $runner, Default_Tagline_Presenter $presenter ) {
-		$this->runner    = $runner;
-		$this->presenter = $presenter;
-		$this->presenter->set_test_identifier( $this->get_test_identifier() );
+	public function __construct(
+		Default_Tagline_Runner $runner,
+		Default_Tagline_Report_Builder $report_builder ) {
+		$this->runner         = $runner;
+		$this->report_builder = $report_builder;
+		$this->report_builder->set_test_identifier( $this->get_test_identifier() );
 
 		$this->set_runner( $this->runner );
 	}
@@ -52,9 +54,9 @@ class Default_Tagline extends Health_Check {
 	 */
 	protected function get_result() {
 		if ( $this->runner->is_successful() ) {
-			return $this->presenter->get_success_result();
+			return $this->report_builder->get_success_result();
 		}
 
-		return $this->presenter->get_has_default_tagline_result();
+		return $this->report_builder->get_has_default_tagline_result();
 	}
 }

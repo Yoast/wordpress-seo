@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Services\Health_Check;
 /**
  * Provides an interface to build WordPress-friendly health check results.
  */
-class Presenter_Result_Builder {
+class Report_Builder {
 
 	/**
 	 * Passed health check.
@@ -61,7 +61,7 @@ class Presenter_Result_Builder {
 	 * Sets the label for the health check that the user can see.
 	 *
 	 * @param  string $label The label that the user can see.
-	 * @return Presenter_Result_Builder This builder
+	 * @return Report_Builder This builder
 	 */
 	public function set_label( $label ) {
 		$this->label = $label;
@@ -72,7 +72,7 @@ class Presenter_Result_Builder {
 	 * Sets the name for the test that the plugin uses to identify the test.
 	 *
 	 * @param  string $test_identifier The identifier for the health check.
-	 * @return Presenter_Result_Builder This builder.
+	 * @return Report_Builder This builder.
 	 */
 	public function set_test_identifier( $test_identifier ) {
 		$this->test_identifier = $test_identifier;
@@ -82,7 +82,7 @@ class Presenter_Result_Builder {
 	/**
 	 * Sets the status of the test result to GOOD (green label).
 	 *
-	 * @return Presenter_Result_Builder This builder.
+	 * @return Report_Builder This builder.
 	 */
 	public function set_status_good() {
 		$this->status = self::STATUS_GOOD;
@@ -92,7 +92,7 @@ class Presenter_Result_Builder {
 	/**
 	 * Sets the status of the test result to RECOMMENDED (orange label).
 	 *
-	 * @return Presenter_Result_Builder This builder.
+	 * @return Report_Builder This builder.
 	 */
 	public function set_status_recommended() {
 		$this->status = self::STATUS_RECOMMENDED;
@@ -102,7 +102,7 @@ class Presenter_Result_Builder {
 	/**
 	 * Sets the status of the test result to CRITICAL (red label).
 	 *
-	 * @return Presenter_Result_Builder This builder.
+	 * @return Report_Builder This builder.
 	 */
 	public function set_status_critical() {
 		$this->status = self::STATUS_CRITICAL;
@@ -113,7 +113,7 @@ class Presenter_Result_Builder {
 	 * Sets a description for the test result. This will be the heading for the result in the user interface.
 	 *
 	 * @param  string $description The description for the test result.
-	 * @return Presenter_Result_Builder This builder.
+	 * @return Report_Builder This builder.
 	 */
 	public function set_description( $description ) {
 		$this->description = $description;
@@ -124,7 +124,7 @@ class Presenter_Result_Builder {
 	 * Sets a text that describes how the user can solve the failed health check.
 	 *
 	 * @param  string $actions The descriptive text.
-	 * @return Presenter_Result_Builder This builder.
+	 * @return Report_Builder This builder.
 	 */
 	public function set_actions( $actions ) {
 		$this->actions = $actions;

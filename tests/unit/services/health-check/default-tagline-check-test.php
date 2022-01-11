@@ -3,8 +3,8 @@
 namespace Yoast\WP\SEO\Tests\Unit\Services\Health_Check;
 
 use Mockery;
-use Yoast\WP\SEO\Services\Health_Check\Default_Tagline;
-use Yoast\WP\SEO\Services\Health_Check\Default_Tagline_Presenter;
+use Yoast\WP\SEO\Services\Health_Check\Default_Tagline_Check;
+use Yoast\WP\SEO\Services\Health_Check\Default_Tagline_Report_Builder;
 use Yoast\WP\SEO\Services\Health_Check\Default_Tagline_Runner;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -13,14 +13,14 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group health-check
  *
- * @coversDefaultClass Yoast\WP\SEO\Services\Health_Check\Default_Tagline
+ * @coversDefaultClass Yoast\WP\SEO\Services\Health_Check\Default_Tagline_Check
  */
-class Default_Tagline_Test extends TestCase {
+class Default_Tagline_Check_Test extends TestCase {
 
 	/**
-	 * The Default_Tagline instance to be tested.
+	 * The Default_Tagline_Check instance to be tested.
 	 *
-	 * @var Default_Tagline
+	 * @var Default_Tagline_Check
 	 */
 	private $instance;
 
@@ -32,11 +32,11 @@ class Default_Tagline_Test extends TestCase {
 	private $runner_mock;
 
 	/**
-	 * A mock of the Default_Tagline_Presenter dependency.
+	 * A mock of the Default_Tagline_Report_Builder dependency.
 	 *
-	 * @var Default_Tagline_Presenter
+	 * @var Default_Tagline_Report_Builder
 	 */
-	private $presenter_mock;
+	private $report_builder_mock;
 
 	/**
 	 * Set up the test fixtures.
@@ -44,12 +44,12 @@ class Default_Tagline_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->runner_mock    = Mockery::mock( Default_Tagline_Runner::class );
-		$this->presenter_mock = Mockery::mock( Default_Tagline_Presenter::class );
-		$this->presenter_mock
+		$this->runner_mock         = Mockery::mock( Default_Tagline_Runner::class );
+		$this->report_builder_mock = Mockery::mock( Default_Tagline_Report_Builder::class );
+		$this->report_builder_mock
 			->shouldReceive( 'set_test_identifier' )
 			->once();
-		$this->instance = new Default_Tagline( $this->runner_mock, $this->presenter_mock );
+		$this->instance = new Default_Tagline_Check( $this->runner_mock, $this->report_builder_mock );
 	}
 
 	/**
@@ -77,7 +77,7 @@ class Default_Tagline_Test extends TestCase {
 			->shouldReceive( 'is_successful' )
 			->once()
 			->andReturn( true );
-		$this->presenter_mock
+		$this->report_builder_mock
 			->shouldReceive( 'get_success_result' )
 			->once()
 			->andReturn( $expected );
@@ -102,7 +102,7 @@ class Default_Tagline_Test extends TestCase {
 			->shouldReceive( 'is_successful' )
 			->once()
 			->andReturn( false );
-		$this->presenter_mock
+		$this->report_builder_mock
 			->shouldReceive( 'get_has_default_tagline_result' )
 			->once()
 			->andReturn( $expected );

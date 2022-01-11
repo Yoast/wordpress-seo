@@ -82,7 +82,7 @@ class Health_Check_Test extends TestCase {
 	}
 
 	/**
-	 * Checks if get_test_label() generates a lowercase string with the 'yoast-' prefix and its whitespace replaced by dashes.
+	 * Checks if get_test_identifier() generates a lowercase string with the 'yoast-' prefix and its whitespace replaced by dashes.
 	 *
 	 * @covers ::get_test_identifier
 	 */
