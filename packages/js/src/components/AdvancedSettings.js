@@ -245,7 +245,7 @@ CanonicalURL.propTypes = {
  *
  * @returns {JSX.Element} The canonical URL.
  */
-const WordProofTimestamp = ( { wordproofTimestamp, onWordProofTimestampChange } ) => {
+const WordProofTimestamp = ( { wordproofTimestamp, onWordProofTimestampChange, postTypeName } ) => {
 	return <LocationConsumer>
 		{
 			location => {
@@ -253,6 +253,7 @@ const WordProofTimestamp = ( { wordproofTimestamp, onWordProofTimestampChange } 
 					id={ join( [ "yoast-wordproof-timestamp", location ] ) }
 					isEnabled={ wordproofTimestamp }
 					onToggle={ onWordProofTimestampChange }
+					postTypeName={ postTypeName }
 				/>;
 			}
 		}
@@ -262,6 +263,7 @@ const WordProofTimestamp = ( { wordproofTimestamp, onWordProofTimestampChange } 
 WordProofTimestamp.propTypes = {
 	wordproofTimestamp: PropTypes.bool,
 	onWordProofTimestampChange: PropTypes.func,
+	postTypeName: PropTypes.string
 };
 
 /**
@@ -331,6 +333,7 @@ const AdvancedSettings = ( props ) => {
 	const wordproofTimestampProps = {
 		wordproofTimestamp,
 		onWordProofTimestampChange,
+		postTypeName: editorContext.postTypeNameSingular,
 	};
 
 	if ( isLoading ) {

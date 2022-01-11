@@ -2,7 +2,7 @@ import {Component} from '@wordpress/element';
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { Toggle, FieldGroup } from '@yoast/components';
-import { __ } from "@wordpress/i18n";
+import {__, sprintf} from '@wordpress/i18n';
 import popupWindow from '../helpers/popupWindow';
 import {AuthenticationModal} from './modals/wordproof/AuthenticationModal';
 import {handleAPIResponse} from '../helpers/api';
@@ -126,7 +126,11 @@ class WordProofTimestampToggle extends Component {
 					<ToggleWrapper isAuthenticated={ this.state.isAuthenticated } openAuthentication={ this.openAuthentication }>
 						<Toggle className={"yoast-field-group__radiobutton"}
 								id={ this.props.id }
-								labelText={ __( "Timestamp this page", "wordpress-seo" ) }
+								labelText={ sprintf(
+									/* Translators: %s translates to the Post type in singular form */
+									__( "Timestamp this %s", "wordpress-seo" ),
+									this.props.postTypeName
+								) }
 								isEnabled={ this.props.isEnabled }
 								onSetToggleState={ this.props.onToggle }
 								disable={ this.state.isDisabled }
@@ -145,13 +149,15 @@ class WordProofTimestampToggle extends Component {
 WordProofTimestampToggle.propTypes = {
 	id: PropTypes.string,
 	isEnabled: PropTypes.bool,
-	onToggle: PropTypes.func
+	onToggle: PropTypes.func,
+	postTypeName: PropTypes.string
 };
 
 WordProofTimestampToggle.defaultProps = {
 	id: "timestamp-toggle",
 	isEnabled: true,
-	onToggle: () => {}
+	onToggle: () => {},
+	postTypeName: 'post'
 };
 
 export default WordProofTimestampToggle;
