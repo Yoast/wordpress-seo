@@ -11,6 +11,7 @@ import Mark from "../../../src/values/Mark";
 import Researcher from "../../../src/languageProcessing/languages/en/Researcher";
 import ItalianResearcher from "../../../src/languageProcessing/languages/it/Researcher";
 import DefaultResearcher from "../../../src/languageProcessing/languages/_default/Researcher";
+import JapaneseResearcher from "../../../src/languageProcessing/languages/ja/Researcher";
 import factory from "../../specHelpers/factory";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 import { realWorldULExample1, realWorldULExample2 } from "../helpers/sanitize/mergeListItemsSpec";
@@ -827,17 +828,27 @@ describe( "Test for the research for Japanese language", function() {
 				synonyms: "「猫用フード」,「猫用食品」",
 			}
 		);
-		const keyphraseForms = [ [ "「猫餌」" ] ];
-		const synonymsForms = [ [ [ "「猫用フード」" ], [ "「猫用食品」" ] ] ];
 
-		const researcher = buildJapaneseMockResearcher( keyphraseForms, synonymsForms, getContentWordsHelper,
-			matchWordsHelper, wordsCharacterCountHelper, japaneseTopicLength, japaneseFunctionWords );
+		const researcher = new JapaneseResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyDataJA );
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
-			keyphraseDistributionScore: 50,
+			keyphraseDistributionScore: 0,
 			sentencesToHighlight: [
 				new Mark( {
 					marked: "<yoastmark class='yoast-text-mark'>猫餌</yoastmark>猫が食べるものです。",
 					original: "猫餌猫が食べるものです。",
+				} ),
+				new Mark( {
+					marked: "どちらもとても可愛くて甘い猫で、のような猫<yoastmark class='yoast-text-mark'>猫用フード</yoastmark>。",
+					original: "どちらもとても可愛くて甘い猫で、のような猫猫用フード。",
+				} ),
+				new Mark( {
+					marked: "彼らが好きなタイプの<yoastmark class='yoast-text-mark'>猫用フード</yoastmark>は新鮮なものです。",
+					original: "彼らが好きなタイプの猫用フードは新鮮なものです。",
+				} ),
+				new Mark( {
+					marked: "加工が少ない<yoastmark class='yoast-text-mark'>猫用食品</yoastmark>の一種。",
+					original: "加工が少ない猫用食品の一種。",
 				} ),
 			],
 		} );
@@ -850,23 +861,67 @@ describe( "Test for the research for Japanese language", function() {
 			{
 				locale: "ja",
 				keyword: "『猫餌』",
-				synonyms: "『猫用フード」,「猫用食品』",
+				synonyms: "『猫用フード』,『猫用食品』",
 			}
 		);
-		const keyphraseForms = [ [ "『猫餌』" ] ];
-		const synonymsForms = [ [ "『猫用フード, 猫用食品』" ] ];
 
-		const researcher = buildJapaneseMockResearcher( keyphraseForms, synonymsForms, getContentWordsHelper,
-			matchWordsHelper, wordsCharacterCountHelper, japaneseTopicLength, japaneseFunctionWords );
-
+		const researcher = new JapaneseResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyDataJA );
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
-			keyphraseDistributionScore: 50,
+			keyphraseDistributionScore: 0,
 			sentencesToHighlight: [
 				new Mark( {
 					marked: "<yoastmark class='yoast-text-mark'>猫餌</yoastmark>猫が食べるものです。",
 					original: "猫餌猫が食べるものです。",
 				} ),
+				new Mark( {
+					marked: "どちらもとても可愛くて甘い猫で、のような猫<yoastmark class='yoast-text-mark'>猫用フード</yoastmark>。",
+					original: "どちらもとても可愛くて甘い猫で、のような猫猫用フード。",
+				} ),
+				new Mark( {
+					marked: "彼らが好きなタイプの<yoastmark class='yoast-text-mark'>猫用フード</yoastmark>は新鮮なものです。",
+					original: "彼らが好きなタイプの猫用フードは新鮮なものです。",
+				} ),
+				new Mark( {
+					marked: "加工が少ない<yoastmark class='yoast-text-mark'>猫用食品</yoastmark>の一種。",
+					original: "加工が少ない猫用食品の一種。",
+				} ),
 			],
+		} );
+	} );
+
+	it( "doesn't count non-exact matches of a keyphrase when an exact match is requested", function() {
+		const paper = new Paper(
+			"小さくて可愛い花の刺繍に関する一般一般の記事です。私は美しい猫を飼っています。野生のハーブの刺繡。",
+			{
+				locale: "ja",
+				keyword: "『小さい花の刺繍』",
+			}
+		);
+
+		const researcher = new JapaneseResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyDataJA );
+		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
+			keyphraseDistributionScore: 100,
+			sentencesToHighlight: [],
+		} );
+	} );
+
+	it( "doesn't count non-exact matches of a synonym when an exact match is requested", function() {
+		const paper = new Paper(
+			"小さくて可愛い花の刺繍に関する一般一般の記事です。私は美しい猫を飼っています。野生のハーブの刺繡。",
+			{
+				locale: "ja",
+				keyword: "犬",
+				synonyms: "『小さい花の刺繍』"
+			}
+		);
+
+		const researcher = new JapaneseResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyDataJA );
+		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
+			keyphraseDistributionScore: 100,
+			sentencesToHighlight: [],
 		} );
 	} );
 
