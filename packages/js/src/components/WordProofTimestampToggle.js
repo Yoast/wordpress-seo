@@ -1,6 +1,5 @@
-import {Component} from '@wordpress/element';
+import {Component, Fragment} from '@wordpress/element';
 import PropTypes from "prop-types";
-import styled from "styled-components";
 import { Toggle, FieldGroup } from '@yoast/components';
 import {__, sprintf} from '@wordpress/i18n';
 import popupWindow from '../helpers/popupWindow';
@@ -9,10 +8,6 @@ import {handleAPIResponse} from '../helpers/api';
 import {getSettings} from '../helpers/wordproofEndpoints';
 import { get } from "lodash";
 
-const WordProofTimestamp = styled.div`
-	display: flex;
-	margin-top: 8px;
-`;
 
 function SettingsLink(props) {
 	if (!props.isAuthenticated)
@@ -26,14 +21,6 @@ function SettingsLink(props) {
 		>{__( 'Manage WordProof settings', 'wordpress-seo' )}</a>
 	);
 
-}
-
-function ToggleWrapper(props) {
-	return(
-		<div onClick={ () => { (!props.isAuthenticated) ? props.openAuthentication() : '' }}>
-			{ props.children }
-		</div>
-	);
 }
 
 const retrieveSettings = async() => {
@@ -60,6 +47,7 @@ class WordProofTimestampToggle extends Component {
 		this.setIsAuthenticated = this.setIsAuthenticated.bind(this);
 		this.openSettings = this.openSettings.bind(this);
 		this.openAuthentication = this.openAuthentication.bind(this);
+		this.handleToggle = this.handleToggle.bind(this);
 
 		const data = get( window, "wordproofSdk.data", {} );
 
@@ -102,11 +90,16 @@ class WordProofTimestampToggle extends Component {
 	}
 
 	openAuthentication() {
-		if (this.state.isAuthenticated)
-			return this.openSettings();
-
 		this.setIsOpen(true);
 		popupWindow(window, this.state.authenticationUrl);
+	}
+
+	handleToggle(value) {
+		this.props.onToggle(value);
+
+		if (!this.state.isAuthenticated) {
+			this.openAuthentication();
+		}
 	}
 
 	/**
@@ -116,14 +109,14 @@ class WordProofTimestampToggle extends Component {
 	 */
 	render() {
 		return (
-			<WordProofTimestamp>
+			<Fragment>
 				<FieldGroup
+					style={ {display: 'flex', marginTop: '8px'} }
 					linkText={ __("Learn more about timestamping", "wordpress-seo") }
 					linkTo={ "https://yoa.st/wordproof-integration" }
 					htmlFor={ this.props.id  }
 					label={ __( "Timestamp with WordProof", "wordpress-seo" ) }
 					hasNewBadge={ true } >
-					<ToggleWrapper isAuthenticated={ this.state.isAuthenticated } openAuthentication={ this.openAuthentication }>
 						<Toggle className={"yoast-field-group__radiobutton"}
 								id={ this.props.id }
 								labelText={ sprintf(
@@ -132,10 +125,9 @@ class WordProofTimestampToggle extends Component {
 									this.props.postTypeName
 								) }
 								isEnabled={ this.props.isEnabled }
-								onSetToggleState={ this.props.onToggle }
+								onSetToggleState={ this.handleToggle }
 								disable={ this.state.isDisabled }
 						/>
-					</ToggleWrapper>
 					<SettingsLink isAuthenticated={ this.state.isAuthenticated } openSettings={ this.openSettings } settingsUrl={ this.state.settingsUrl }/>
 				</FieldGroup>
 
@@ -143,7 +135,7 @@ class WordProofTimestampToggle extends Component {
 									 isAuthenticated={ this.state.isAuthenticated } setIsAuthenticated={ this.setIsAuthenticated }
 									 postTypeName={ this.props.postTypeName }
 				/>
-			</WordProofTimestamp>
+			</Fragment>
 		);
 	}
 }
