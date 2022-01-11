@@ -36,7 +36,7 @@ class WordProof implements Integration_Interface
 
 	public function sdk_setup()
 	{
-		WordPressSDK::getInstance('yoast', 'staging')
+		WordPressSDK::getInstance('yoast')
 			->certificate()
 			->initialize();
 	}
