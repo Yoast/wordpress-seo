@@ -38,6 +38,7 @@ module.exports = function( grunt ) {
 			jsDist: "js/dist/",
 			languages: "languages/",
 			logs: "logs/",
+			packages: "packages/",
 			svnCheckoutDir: ".wordpress-svn",
 			assets: "svn-assets",
 			vendor: "vendor/",
@@ -83,6 +84,7 @@ module.exports = function( grunt ) {
 				yoastJsSearchMetadataPreviews: "<%= paths.languages %>yoast-js-search-metadata-previews.pot",
 				yoastJsSocialMetadataForms: "<%= paths.languages %>yoast-js-social-metadata-forms.pot",
 				yoastJsReplacementVariableEditor: "<%= paths.languages %>yoast-js-replacement-variable-editor.pot",
+				yoastJsSeoIntegration: "<%= paths.languages %>yoast-js-seo-integration.pot",
 
 				yoastseojs: "<%= paths.languages %>yoast-seo-js.pot",
 				yoastComponents: "<%= paths.languages %>yoast-components.pot",

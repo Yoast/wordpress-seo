@@ -62,6 +62,7 @@ module.exports = function( grunt ) {
 				"<%= files.pot.yoastJsSearchMetadataPreviews %>",
 				"<%= files.pot.yoastJsSocialMetadataForms %>",
 				"<%= files.pot.yoastJsReplacementVariableEditor %>",
+				"<%= files.pot.yoastJsSeoIntegration %>",
 				"<%= files.pot.yoastComponentsConfigurationWizard %>",
 				"<%= files.pot.yoastComponentsRemaining %>",
 			],
@@ -100,6 +101,9 @@ module.exports = function( grunt ) {
 		},
 		"makepot-yoast-js-replacement-variable-editor": {
 			command: "yarn i18n-yoast-js-replacement-variable-editor",
+		},
+		"makepot-yoast-js-seo-integration": {
+			command: "yarn i18n-yoast-js-seo-integration",
 		},
 
 		"makepot-yoast-components-configuration-wizard": {
