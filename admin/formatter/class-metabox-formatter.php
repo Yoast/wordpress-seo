@@ -181,8 +181,7 @@ class WPSEO_Metabox_Formatter {
 			'wincherLoginStatus'          => $is_wincher_active ? YoastSEO()->helpers->wincher->login_status() : false,
 			'wincherWebsiteId'            => WPSEO_Options::get( 'wincher_website_id', '' ),
 			'wincherAutoAddKeyphrases'    => WPSEO_Options::get( 'wincher_automatically_add_keyphrases', false ),
-			'wordproofIntegrationActive'  => $is_wordproof_active ? 1 : 0,
-			'currentPostIsPrivacyPolicyPage'=> YoastSEO()->helpers->current_page->current_post_is_privacy_policy() ? 1 : 0,
+			'wordproofIntegrationActive'  => YoastSEO()->helpers->wordproof->is_active() ? 1 : 0,
 
 			/**
 			 * Filter to determine whether the PreviouslyUsedKeyword assessment should run.

@@ -206,7 +206,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		);
 
 		WPSEO_Meta::$meta_fields['advanced']['wordproof_timestamp']['title'] = __( 'Timestamp this %1$s', 'wordpress-seo' );
-		WPSEO_Meta::$meta_fields['advanced']['wordproof_timestamp']['description'] = __( 'WordProof can be used to timestamp your privacy page.', 'wordpress-seo' );
+		WPSEO_Meta::$meta_fields['advanced']['wordproof_timestamp']['description'] = __( 'Use WordProof to timestamp this page to comply with legal regulations and join the fight for a more transparant and accountable internet.', 'wordpress-seo' );
 		WPSEO_Meta::$meta_fields['advanced']['wordproof_timestamp']['options']['0'] = __( 'Off', 'wordpress-seo' );
 		WPSEO_Meta::$meta_fields['advanced']['wordproof_timestamp']['options']['1'] = __( 'On', 'wordpress-seo' );
 

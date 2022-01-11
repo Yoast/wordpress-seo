@@ -49,4 +49,18 @@ class Woocommerce_Helper {
 
 		return true;
 	}
+
+	/**
+	 * Checks if the current page is a WooCommerce shop page.
+	 *
+	 * @return bool True when the page is a shop page.
+	 */
+	public function current_post_is_terms_and_conditions_page() {
+		if ( ! \function_exists( 'wc_terms_and_conditions_page_id' ) ) {
+			return false;
+		}
+
+		global $post;
+		return intval( $post->ID ) === intval( \wc_terms_and_conditions_page_id() );
+	}
 }
