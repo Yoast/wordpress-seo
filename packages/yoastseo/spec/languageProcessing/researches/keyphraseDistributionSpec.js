@@ -913,7 +913,7 @@ describe( "Test for the research for Japanese language", function() {
 			{
 				locale: "ja",
 				keyword: "犬",
-				synonyms: "『小さい花の刺繍』"
+				synonyms: "『小さい花の刺繍』",
 			}
 		);
 
