@@ -78,10 +78,14 @@ export const AuthenticationModal = ( props ) => {
 			>
 				<div className="wordproof__authentication_outcome">
 					<div>
-						<p>{ __( "Your page is now protect via the blockchain!", "wordpress-seo" ) }</p>
 						<p>{ sprintf(
 							/* Translators: %s translates to the Post type in singular form */
-							__( "The %s will automatically be timestamped every time you update or publish!", "wordpress-seo" ),
+							__( "Your %s is now protect via the blockchain!", "wordpress-seo" ),
+							postTypeName
+						) }</p>
+						<p>{ sprintf(
+							/* Translators: %s translates to the Post type in singular form */
+							__( "This %s will automatically be timestamped every time you update or publish.", "wordpress-seo" ),
 							postTypeName
 						) }</p>
 
