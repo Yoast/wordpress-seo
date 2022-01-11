@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Actions\Importing;
 
 use Exception;
+use WPSEO_Utils;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Services\Importing\Aioseo_Replacevar_Handler;
 use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Service;
@@ -192,6 +193,9 @@ abstract class Abstract_Importing_Action implements Importing_Action_Interface {
 	 * @return string The transformed meta data.
 	 */
 	public function simple_import( $meta_data ) {
-		return $this->replacevar_handler->transform( $meta_data );
+		// Transform the replace vars into Yoast replace vars.
+		$transformed_data = $this->replacevar_handler->transform( $meta_data );
+
+		return WPSEO_Utils::sanitize_text_field( \html_entity_decode( $transformed_data ) );
 	}
 }
