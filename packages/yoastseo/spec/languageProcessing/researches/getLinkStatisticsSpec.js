@@ -711,6 +711,32 @@ describe( "a test for anchors and its attributes when the exact match of a keyph
 		expect( foundLinks.keyword.matchedAnchors ).toEqual( [] );
 	} );
 
+	// The unit test below is skipped for now as matcing synonym enclosed in double quotes still doesn't work for English.
+	xit( "assesses the anchor text where all content words in the text are present in one of the synonyms, " +
+		"and the synonym is enclosed in double quotes ", function() {
+		const paperAttributes = {
+			keyword: "something and tortie",
+			synonyms: "\"cats and dogs\", tortoiseshell",
+			url: "http://yoast.com",
+			permalink: "http://yoast.com",
+		};
+		const mockPaper = new Paper( "A text with a <a href='http://yoast.com'>link</a>, <a href='http://example.com'>cats and dogs</a>",
+			paperAttributes );
+		const researcher = new EnglishResearcher( mockPaper );
+
+		foundLinks = linkCount( mockPaper, researcher );
+
+		expect( foundLinks.total ).toBe( 2 );
+		expect( foundLinks.internalTotal ).toBe( 1 );
+		expect( foundLinks.externalTotal ).toBe( 1 );
+		expect( foundLinks.externalDofollow ).toBe( 1 );
+		expect( foundLinks.internalDofollow ).toBe( 1 );
+		expect( foundLinks.keyword.totalKeyword ).toBe( 1 );
+		expect( foundLinks.keyword.matchedAnchors ).toEqual( [
+			"<a href='http://example.com'>cats and dogs</a>",
+		] );
+	} );
+
 	it( "checks the keyphrase in the anchor text when the keyphrase is enclosed in double quotes", function() {
 		const paperAttributes = {
 			keyword: "「読ん一冊の本」",
@@ -750,6 +776,30 @@ describe( "a test for anchors and its attributes when the exact match of a keyph
 		foundLinks = linkCount( mockPaper, researcher );
 		expect( foundLinks.keyword.totalKeyword ).toBe( 0 );
 		expect( foundLinks.keyword.matchedAnchors ).toEqual( [] );
+	} );
+
+	it( "assesses the anchor text where all content words in the text are present in the synonym, " +
+		"and the synonym is enclosed in Japanese quotes", function() {
+		const paperAttributes = {
+			keyword: "言葉",
+			synonyms: "「小さく花の刺繍」",
+			url: "http://yoast.com",
+			permalink: "http://yoast.com",
+		};
+		const mockPaper = new Paper( "言葉 <a href='http://yoast.com'>リンク</a>, <a href='http://example.com'>小さく花の刺繍</a>", paperAttributes );
+		const researcher = new JapaneseResearcher( mockPaper );
+
+		foundLinks = linkCount( mockPaper, researcher );
+
+		expect( foundLinks.total ).toBe( 2 );
+		expect( foundLinks.internalTotal ).toBe( 1 );
+		expect( foundLinks.externalTotal ).toBe( 1 );
+		expect( foundLinks.externalDofollow ).toBe( 1 );
+		expect( foundLinks.internalDofollow ).toBe( 1 );
+		expect( foundLinks.keyword.totalKeyword ).toBe( 1 );
+		expect( foundLinks.keyword.matchedAnchors ).toEqual( [
+			"<a href='http://example.com'>小さく花の刺繍</a>",
+		] );
 	} );
 } );
 
@@ -883,6 +933,7 @@ describe( "a test for anchors and its attributes in languages that have a custom
 			] );
 		} );
 	} );
+
 	describe( "a test for when the morphology data is available", () => {
 		it( "assesses the anchor text where not all content words in the text present in the keyphrse", function() {
 			const paperAttributes = {
