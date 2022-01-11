@@ -83,6 +83,7 @@
     "yoastseo": "^1.91.0"
   },
   "devDependencies": {
+    "@lodder/grunt-postcss": "^3.1.1",
     "@yoast/browserslist-config": "^1.2.2",
     "autoprefixer": "^6.4.0",
     "babel-core": "^6.25.0",
@@ -99,7 +100,6 @@
     "concurrently": "^3.5.0",
     "grunt": "^1.0.1",
     "grunt-contrib-copy": "^1.0.0",
-    "grunt-postcss": "^0.8.0",
     "grunt-sass": "^3.0.0",
     "load-grunt-config": "^0.19.2",
     "material-ui": "^0.18.6",

@@ -29,6 +29,7 @@
     "node": ">=8.0.0"
   },
   "devDependencies": {
+    "@lodder/grunt-postcss": "^3.1.1",
     "@yoast/browserslist-config": "^1.2.2",
     "autoprefixer": "^9.0.0",
     "babel-cli": "^6.16.0",
@@ -49,7 +50,6 @@
     "grunt-eslint": "^21.0.0",
     "grunt-exorcise": "^2.1.1",
     "grunt-po2json": "git+https://github.com/atimmer/grunt-po2json.git#f26c05653af89ef0f7a72456dbe141eb56bf5471",
-    "grunt-postcss": "^0.9.0",
     "grunt-sass": "^3.0.0",
     "grunt-shell": "^2.0.0",
     "istanbul": "^0.4.0",
@@ -63,6 +63,7 @@
   },
   "dependencies": {
     "@wordpress/autop": "^2.0.2",
+    "@wordpress/i18n": "^3.19.1",
     "@yoast/feature-flag": "^0.5.2",
     "error-polyfill": "^0.1.2",
     "htmlparser2": "^3.9.2",
@@ -71,9 +72,8 @@
     "loglevel": "^1.6.1",
     "parse5": "^5.1.0",
     "sassdash": "0.9.0",
-    "tokenizer2": "^2.0.1",
     "tiny-segmenter": "^0.2.0",
-    "@wordpress/i18n": "^3.19.1"
+    "tokenizer2": "^2.0.1"
   },
   "browserify": {
     "transform": [
