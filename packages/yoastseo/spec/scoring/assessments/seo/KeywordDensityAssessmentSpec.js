@@ -206,8 +206,8 @@ describe( "A test for marking the keyword", function() {
 				original: "This is the release of YoastSEO 9.3." } ) ];
 		expect( keywordDensityAssessment.getMarks() ).toEqual( expected );
 	} );
-	xit( "returns markers for a Japanese keyphrase enclosed in double quotes", function() {
-		const paper = new Paper( japaneseSentenceWithKeyphraseExactMatch.repeat( 8 ), {
+	it( "returns markers for a Japanese keyphrase enclosed in double quotes", function() {
+		const paper = new Paper( japaneseSentenceWithKeyphraseExactMatch.repeat( 3 ), {
 			keyword: "『一冊の本を読む』",
 			locale: "ja",
 		} );
@@ -218,20 +218,23 @@ describe( "A test for marking the keyword", function() {
 		const result = assessment.getResult( paper, researcher );
 		const marks = [
 			new Mark( {
-				marked: "一日<yoastmark class='yoast-text-mark'>一冊の本を読む</yoastmark>のはできるかどうかやってみます。一日<yoastmark class='yoast-text-mark'>" +
-					"一冊の本を読む</yoastmark>のはできるかどうかやってみます。一日<yoastmark class='yoast-text-mark'>一冊の本を読む</yoastmark>" +
-					"のはできるかどうかやってみます。一日<yoastmark class='yoast-text-mark'>一冊の本を読む</yoastmark>のはできるかどうかやってみます。" +
-					"一日<yoastmark class='yoast-text-mark'>一冊の本を読む</yoastmark>のはできるかどうかやってみます。一日<yoastmark class='yoast-text-mark'>" +
-					"一冊の本を読む</yoastmark>のはできるかどうかやってみます。一日<yoastmark class='yoast-text-mark'>一冊の本を読む</yoastmark>" +
-					"のはできるかどうかやってみます。一日<yoastmark class='yoast-text-mark'>一冊の本を読む</yoastmark>のはできるかどうかやってみます。",
-				original: "一日一冊の本を読むのはできるかどうかやってみます。一日一冊の本を読むのはできるかどうかやってみます。一日一冊の本を読むのはできるかどうかやってみます。" +
-					"一日一冊の本を読むのはできるかどうかやってみます。一日一冊の本を読むのはできるかどうかやってみます。一日一冊の本を読むのはできるかどうかやってみます。" +
-					"一日一冊の本を読むのはできるかどうかやってみます。一日一冊の本を読むのはできるかどうかやってみます。",
-			} ) ];
+				marked: "一日<yoastmark class='yoast-text-mark'>一冊の本を読む</yoastmark>のはできるかどうかやってみます。",
+				original: "一日一冊の本を読むのはできるかどうかやってみます。",
+			} ),
+			new Mark( {
+				marked: "一日<yoastmark class='yoast-text-mark'>一冊の本を読む</yoastmark>のはできるかどうかやってみます。",
+				original: "一日一冊の本を読むのはできるかどうかやってみます。",
+			} ),
+			new Mark( {
+				marked: "一日<yoastmark class='yoast-text-mark'>一冊の本を読む</yoastmark>のはできるかどうかやってみます。",
+				original: "一日一冊の本を読むのはできるかどうかやってみます。",
+			} ),
+		];
 
 		expect( result.getScore() ).toBe( -50 );
-		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: The focus keyphrase was found 8 times." +
-			" That's way more than the recommended maximum of 4 times for a text of this length. <a href='https://yoa.st/33w' target='_blank'>Don't" +
+		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
+			"The focus keyphrase was found 3 times." +
+			" That's way more than the recommended maximum of 2 times for a text of this length. <a href='https://yoa.st/33w' target='_blank'>Don't" +
 			" overoptimize</a>!" );
 		expect( assessment.getMarks() ).toEqual( marks );
 	} );
