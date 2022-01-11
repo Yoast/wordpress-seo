@@ -61,13 +61,12 @@ const filterAnchorsLinkingToSelf = function( anchors, permalink ) {
  * @param {Object}  topicForms  The object with topicForms.
  * @param {string}  locale      The locale of the paper.
  * @param {function}    matchWordCustomHelper The helper function to match word in text.
- * @param {object}      isExactMatchRequested   An object containing the keyphrase and information whether the exact match has been requested.
  *
  * @returns {Array} The array of all anchors that contain keyphrase or synonyms.
  */
-const filterAnchorsContainingTopic = function( anchors, topicForms, locale, matchWordCustomHelper, isExactMatchRequested ) {
+const filterAnchorsContainingTopic = function( anchors, topicForms, locale, matchWordCustomHelper ) {
 	const anchorsContainingKeyphraseOrSynonyms = anchors.map( function( anchor ) {
-		return findKeywordInUrl( anchor, topicForms, locale, matchWordCustomHelper, isExactMatchRequested );
+		return findKeywordInUrl( anchor, topicForms, locale, matchWordCustomHelper );
 	} );
 	anchors = anchors.filter( function( anchor, index ) {
 		return anchorsContainingKeyphraseOrSynonyms[ index ] === true;
@@ -110,7 +109,7 @@ const filterAnchorsContainedInTopic = function( anchors, topicForms, locale, cus
 			anchorWords = filteredAnchorWords;
 		}
 
-		// Check if the exact match is requested and every content words in the anchor text is included in the keyphrase.
+		// Check if the exact match is requested for the keyword and every content words in the anchor text is included in the keyphrase.
 		if ( isExactMatchRequested.exactMatchRequested &&
 			anchorWords.every( anchorWord => isExactMatchRequested.keyphrase.includes( anchorWord ) ) ) {
 			anchorsContainedInTopic.push( true );
@@ -119,6 +118,13 @@ const filterAnchorsContainedInTopic = function( anchors, topicForms, locale, cus
 		// Check if anchorWords are contained in the topic phrase words.
 		for ( let i = 0; i < keyphraseAndSynonymsWords.length; i++ ) {
 			const topicForm =  keyphraseAndSynonymsWords[ i ];
+			// Check again for potential exact match request for synonym that was not detected in the previous check.
+			// If the exact match is requested for synonym, the anchor text should not be segmented (currently this only works for Japanese).
+			const isExactMatch = processExactMatchRequest( topicForm[ 0 ] );
+			if ( isExactMatch.exactMatchRequested ) {
+				anchorWords = [ currentAnchor ];
+			}
+
 			if ( anchorWords.every( anchorWord => matchTextWithArray( anchorWord, topicForm, locale, matchWordCustomHelper ).count > 0 ) ) {
 				anchorsContainedInTopic.push( true );
 				break;
@@ -168,7 +174,7 @@ const keywordInAnchor = function( paper, researcher, anchors, permalink ) {
 	const isExactMatchRequested = processExactMatchRequest( keyword );
 
 	// Check if any anchors contain keyphrase or synonyms in them.
-	anchors = filterAnchorsContainingTopic( anchors, topicForms, locale, customHelpers.matchWordCustomHelper, isExactMatchRequested );
+	anchors = filterAnchorsContainingTopic( anchors, topicForms, locale, customHelpers.matchWordCustomHelper );
 	if ( anchors.length === 0 ) {
 		return result;
 	}
