@@ -712,7 +712,7 @@ describe( "a test for anchors and its attributes when the exact match of a keyph
 	} );
 
 	// The unit test below is skipped for now as matcing synonym enclosed in double quotes still doesn't work for English.
-	xit( "assesses the anchor text where all content words in the text are present in one of the synonyms, " +
+	it( "assesses the anchor text where all content words in the text are present in one of the synonyms, " +
 		"and the synonym is enclosed in double quotes ", function() {
 		const paperAttributes = {
 			keyword: "something and tortie",

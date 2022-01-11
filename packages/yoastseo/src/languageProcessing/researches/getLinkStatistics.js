@@ -1,17 +1,16 @@
 /** @module analyses/getLinkStatistics */
 
-import processExactMatchRequest from "../helpers/match/processExactMatchRequest";
-import filterWordsFromArray from "../helpers/word/filterWordsFromArray";
+import { flatten, uniq } from "lodash-es";
 import checkNofollow from "../helpers/link/checkNofollow.js";
-import getWords from "../helpers/word/getWords";
-import findKeywordInUrl from "../helpers/match/findKeywordInUrl.js";
 import getAnchors from "../helpers/link/getAnchorsFromText.js";
 import getLinkType from "../helpers/link/getLinkType.js";
+import findKeywordInUrl from "../helpers/match/findKeywordInUrl.js";
 import matchTextWithArray from "../helpers/match/matchTextWithArray";
+import processExactMatchRequest from "../helpers/match/processExactMatchRequest";
+import parseSynonyms from "../helpers/sanitize/parseSynonyms";
 import urlHelper from "../helpers/url/url.js";
-
-import { flatten } from "lodash-es";
-import { uniq } from "lodash-es";
+import filterWordsFromArray from "../helpers/word/filterWordsFromArray";
+import getWords from "../helpers/word/getWords";
 
 let functionWords = [];
 
@@ -81,12 +80,12 @@ const filterAnchorsContainingTopic = function( anchors, topicForms, locale, matc
  * @param {Array}  anchors    An array with all anchors from the paper.
  * @param {Object} topicForms An object containing word forms of words included in the keyphrase or a synonym.
  * @param {string} locale     The locale of the paper.
- * @param {object} customHelpers            An object containing custom helpers.
- * @param {object} isExactMatchRequested    An object containing the keyphrase and information whether the exact match has been requested.
+ * @param {object} customHelpers       An object containing custom helpers.
+ * @param {array} exactMatchRequest    An array objects containing the keyphrase and information whether the exact match has been requested.
  *
  * @returns {Array} The array of all anchors contained in the keyphrase or synonyms.
  */
-const filterAnchorsContainedInTopic = function( anchors, topicForms, locale, customHelpers, isExactMatchRequested  ) {
+const filterAnchorsContainedInTopic = function( anchors, topicForms, locale, customHelpers, exactMatchRequest  ) {
 	const matchWordCustomHelper = customHelpers.matchWordCustomHelper;
 	const getWordsCustomHelper = customHelpers.getWordsCustomHelper;
 
@@ -109,21 +108,20 @@ const filterAnchorsContainedInTopic = function( anchors, topicForms, locale, cus
 			anchorWords = filteredAnchorWords;
 		}
 
-		// Check if the exact match is requested for the keyword and every content words in the anchor text is included in the keyphrase.
-		if ( isExactMatchRequested.exactMatchRequested &&
-			anchorWords.every( anchorWord => isExactMatchRequested.keyphrase.includes( anchorWord ) ) ) {
-			anchorsContainedInTopic.push( true );
-		}
+		exactMatchRequest.forEach( request => {
+			/*
+			 * Check if the exact match is requested for the keyword and every content words in the anchor text is included
+			 * in the keyphrase or synonym.
+			 */
+			if ( request.exactMatchRequested &&
+				anchorWords.every( anchorWord => request.keyphrase.includes( anchorWord ) ) ) {
+				anchorsContainedInTopic.push( true );
+			}
+		} );
 
 		// Check if anchorWords are contained in the topic phrase words.
 		for ( let i = 0; i < keyphraseAndSynonymsWords.length; i++ ) {
 			const topicForm =  keyphraseAndSynonymsWords[ i ];
-			// Check again for potential exact match request for synonym that was not detected in the previous check.
-			// If the exact match is requested for synonym, the anchor text should not be segmented (currently this only works for Japanese).
-			const isExactMatch = processExactMatchRequest( topicForm[ 0 ] );
-			if ( isExactMatch.exactMatchRequested ) {
-				anchorWords = [ currentAnchor ];
-			}
 
 			if ( anchorWords.every( anchorWord => matchTextWithArray( anchorWord, topicForm, locale, matchWordCustomHelper ).count > 0 ) ) {
 				anchorsContainedInTopic.push( true );
@@ -156,6 +154,8 @@ const keywordInAnchor = function( paper, researcher, anchors, permalink ) {
 	const result = { totalKeyword: 0, matchedAnchors: [] };
 
 	const keyword = paper.getKeyword();
+	const originalTopics = parseSynonyms( paper.getSynonyms() );
+	originalTopics.push( keyword );
 
 	// If no keyword is set, return empty result.
 	if ( keyword === "" ) {
@@ -170,9 +170,8 @@ const keywordInAnchor = function( paper, researcher, anchors, permalink ) {
 
 	const locale = paper.getLocale();
 	const topicForms = researcher.getResearch( "morphology" );
-
-	const isExactMatchRequested = processExactMatchRequest( keyword );
-
+	// Check if exact match is requested for every topic.
+	const isExactMatchRequested = originalTopics.map( originalTopic => processExactMatchRequest( originalTopic ) );
 	// Check if any anchors contain keyphrase or synonyms in them.
 	anchors = filterAnchorsContainingTopic( anchors, topicForms, locale, customHelpers.matchWordCustomHelper );
 	if ( anchors.length === 0 ) {
