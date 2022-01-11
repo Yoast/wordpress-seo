@@ -1,7 +1,6 @@
 /** @module stringProcessing/matchTextWithArray */
 
 import matchTextWithWord from "./matchTextWithWord";
-import { normalize as normalizeQuotes } from "../sanitize/quotes.js";
 import { uniq as unique } from "lodash-es";
 
 /**
