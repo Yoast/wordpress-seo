@@ -171,7 +171,7 @@ const getSentenceScores = function( sentences, topicFormsInOneArray, locale, fun
 		}
 	}
 
-	// Maximize scores: Give every sentence a maximal score that it got from analysis of all topics
+	// Maximize scores: Give every sentence a maximal score that it got from analysis of all topics???
 	const maximizedSentenceScores = maximizeSentenceScores( sentenceScores );
 
 	// Zip an array combining each sentence with the associated maximized score.
@@ -216,13 +216,13 @@ const keyphraseDistributionResearcher = function( paper, researcher ) {
 		originalTopic.push( getContentWordsHelper( paper.getKeyword() ) );
 		parseSynonyms( paper.getSynonyms() ).forEach( synonym => originalTopic.push( getContentWordsHelper( synonym ) ) );
 	}
-
 	const locale = paper.getLocale();
 	const topicFormsInOneArray = [ topicForms.keyphraseForms ];
-
 	topicForms.synonymsForms.forEach( function( synonym ) {
 		topicFormsInOneArray.push( synonym );
 	} );
+
+	console.log( topicForms.synonymsForms );
 
 	const allTopicWords = unique( flattenDeep( topicFormsInOneArray ) ).sort( ( a, b ) => b.length - a.length );
 
