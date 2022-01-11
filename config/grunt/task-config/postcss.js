@@ -14,8 +14,8 @@ module.exports = {
 			},
 			processors: [
 				autoPrefixer(),
-				postCSSImport(),
 				tailwindcss( path.resolve( __dirname, "../../../tailwind.config.js" ) ),
+				postCSSImport(),
 			],
 		},
 		src: "css/dist/*.css",
@@ -25,8 +25,8 @@ module.exports = {
 			map: false,
 			processors: [
 				autoPrefixer(),
-				postCSSImport(),
 				tailwindcss( path.resolve( __dirname, "../../../tailwind.config.js" ) ),
+				postCSSImport(),
 				cssNano(),
 			],
 		},
