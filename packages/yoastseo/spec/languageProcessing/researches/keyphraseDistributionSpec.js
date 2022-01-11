@@ -21,6 +21,7 @@ import japaneseFunctionWords from "../../../src/languageProcessing/languages/ja/
 import japaneseTopicLength from "../../../src/languageProcessing/languages/ja/config/topicLength";
 
 const morphologyData = getMorphologyData( "en" );
+const morphologyDataJA = getMorphologyData( "ja" );
 
 describe( "Test for maximizing sentence scores", function() {
 	it( "returns the largest score per sentence over all topics", function() {
@@ -805,6 +806,65 @@ describe( "Test for the research for Japanese language", function() {
 				new Mark( {
 					marked: "加工が少ない<yoastmark class='yoast-text-mark'>猫用</yoastmark><yoastmark class='yoast-text-mark'>食品</yoastmark>の一種。",
 					original: "加工が少ない猫用食品の一種。",
+				} ),
+			],
+		} );
+	} );
+
+	const japaneseSentencesExactMatch = "猫餌猫が食べるものです。" +
+		"どちらもとても可愛くて甘い猫で、のような猫猫用フード。" +
+		"彼らが好きなタイプの猫用フードは新鮮なものです。" +
+		"加工が少ない猫用食品の一種。";
+
+
+	it( "returns a score over all sentences and all topic forms (short topic); returns markers for sentences that contain the keyphrase " +
+		"in single quotation marks", function() {
+		const paper = new Paper(
+			japaneseSentencesExactMatch,
+			{
+				locale: "ja",
+				keyword: "「猫餌」",
+				synonyms: "「猫用フード」,「猫用食品」",
+			}
+		);
+		const keyphraseForms = [ [ "「猫餌」" ] ];
+		const synonymsForms = [ [ [ "「猫用フード」" ], [ "「猫用食品」" ] ] ];
+
+		const researcher = buildJapaneseMockResearcher( keyphraseForms, synonymsForms, getContentWordsHelper,
+			matchWordsHelper, wordsCharacterCountHelper, japaneseTopicLength, japaneseFunctionWords );
+		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
+			keyphraseDistributionScore: 50,
+			sentencesToHighlight: [
+				new Mark( {
+					marked: "<yoastmark class='yoast-text-mark'>猫餌</yoastmark>猫が食べるものです。",
+					original: "猫餌猫が食べるものです。",
+				} ),
+			],
+		} );
+	} );
+
+	it( "returns a score over all sentences and all topic forms (short topic); returns markers for sentences that contain the keyphrase " +
+		"in double quotation marks", function() {
+		const paper = new Paper(
+			japaneseSentencesExactMatch,
+			{
+				locale: "ja",
+				keyword: "『猫餌』",
+				synonyms: "『猫用フード」,「猫用食品』",
+			}
+		);
+		const keyphraseForms = [ [ "『猫餌』" ] ];
+		const synonymsForms = [ [ "『猫用フード, 猫用食品』" ] ];
+
+		const researcher = buildJapaneseMockResearcher( keyphraseForms, synonymsForms, getContentWordsHelper,
+			matchWordsHelper, wordsCharacterCountHelper, japaneseTopicLength, japaneseFunctionWords );
+
+		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
+			keyphraseDistributionScore: 50,
+			sentencesToHighlight: [
+				new Mark( {
+					marked: "<yoastmark class='yoast-text-mark'>猫餌</yoastmark>猫が食べるものです。",
+					original: "猫餌猫が食べるものです。",
 				} ),
 			],
 		} );
