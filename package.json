@@ -55,7 +55,7 @@
     "@yoast/browserslist-config": "file:packages/browserslist-config",
     "@yoast/grunt-plugin-tasks": "^2.2.1",
     "babel-plugin-dynamic-import-webpack": "^1.1.0",
-    "colors": "^1.4.0",
+    "colors": "1.4.0",
     "cross-env": "^7.0.3",
     "dotenv": "^8.2.0",
     "enzyme": "^3.11.0",
