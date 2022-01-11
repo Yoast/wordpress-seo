@@ -4,6 +4,8 @@ import { __ } from "@wordpress/i18n";
 import { Button, SvgIcon } from "@yoast/components";
 import { getAuthentication } from "../../../helpers/wordproofEndpoints";
 import { handleAPIResponse } from "../../../helpers/api";
+import { ReactComponent as WordProofConnectedImage } from "../../../../../../images/mirrored_fit_bubble_woman_1_optim.svg";
+
 
 /**
  * Determines the text on the button to open a workout.
@@ -76,13 +78,19 @@ export const AuthenticationModal = ( props ) => {
 			>
 				<div className="wordproof__authentication_outcome">
 					<div>
-						{ /* TODO: Add image */ }
 						<p>{ __( "Your page is now protect via the blockchain!", "wordpress-seo" ) }</p>
-						<p>{ !! sprintf(
+						<p>{ sprintf(
 							/* Translators: %s translates to the Post type in singular form */
-							__( "The %s will automatically be timestamped every time you <strong>update</strong> or <strong>publish</strong>.!", "wordpress-seo" ),
+							__( "The %s will automatically be timestamped every time you update or publish!", "wordpress-seo" ),
 							postTypeName
 						) }</p>
+
+						<div style={{
+							display: 'flex',
+							justifyContent: 'center',
+						}}>
+							<WordProofConnectedImage style={{width: '150px'}}/>
+						</div>
 					</div>
 					<br />
 					<Button
