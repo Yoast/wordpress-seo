@@ -43,7 +43,7 @@ class WordProof implements Integration_Interface
 
 	public function add_post_meta_key($array)
 	{
-		$array[] = '_yoast_wpseo_timestamp';
+		$array[] = '_yoast_wpseo_wordproof_timestamp';
 		return $array;
 	}
 }
