@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Actions\Importing;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Services\Importing\Aioseo_Replacevar_Handler;
+use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Service;
 /**
  * Importing action for AIOSEO custom archive settings data.
  *
@@ -54,13 +55,15 @@ class Aioseo_Custom_Archive_Settings_Importing_Action extends Abstract_Aioseo_Se
 	 * @param Options_Helper            $options            The options helper.
 	 * @param Post_Type_Helper          $post_type          The post type helper.
 	 * @param Aioseo_Replacevar_Handler $replacevar_handler The replacevar handler.
+	 * @param Aioseo_Robots_Service     $robots             The robots service.
 	 */
 	public function __construct(
 		Options_Helper $options,
 		Post_Type_Helper $post_type,
-		Aioseo_Replacevar_Handler $replacevar_handler
+		Aioseo_Replacevar_Handler $replacevar_handler,
+		Aioseo_Robots_Service $robots
 	) {
-		parent::__construct( $options, $replacevar_handler );
+		parent::__construct( $options, $replacevar_handler, $robots );
 
 		$this->post_type = $post_type;
 	}

@@ -7,6 +7,7 @@ use Brain\Monkey;
 use Yoast\WP\SEO\Actions\Importing\Aioseo_Posttype_Defaults_Settings_Importing_Action;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Services\Importing\Aioseo_Replacevar_Handler;
+use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Service;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Actions\Importing\Aioseo_Posttype_Defaults_Settings_Importing_Action_Double;
 
@@ -48,6 +49,13 @@ class Aioseo_Posttype_Defaults_Settings_Importing_Action_Test extends TestCase {
 	 * @var Mockery\MockInterface|Aioseo_Replacevar_Handler
 	 */
 	protected $replacevar_handler;
+
+	/**
+	 * The robots service.
+	 *
+	 * @var Mockery\MockInterface|Aioseo_Robots_Service
+	 */
+	protected $robots;
 
 	/**
 	 * An array of the total Posttype Defaults Settings we can import.
@@ -123,10 +131,11 @@ class Aioseo_Posttype_Defaults_Settings_Importing_Action_Test extends TestCase {
 
 		$this->options            = Mockery::mock( Options_Helper::class );
 		$this->replacevar_handler = Mockery::mock( Aioseo_Replacevar_Handler::class );
-		$this->instance           = new Aioseo_Posttype_Defaults_Settings_Importing_Action( $this->options, $this->replacevar_handler );
+		$this->robots             = Mockery::mock( Aioseo_Robots_Service::class );
+		$this->instance           = new Aioseo_Posttype_Defaults_Settings_Importing_Action( $this->options, $this->replacevar_handler, $this->robots );
 		$this->mock_instance      = Mockery::mock(
 			Aioseo_Posttype_Defaults_Settings_Importing_Action_Double::class,
-			[ $this->options, $this->replacevar_handler ]
+			[ $this->options, $this->replacevar_handler, $this->robots ]
 		)->makePartial()->shouldAllowMockingProtectedMethods();
 	}
 
@@ -178,15 +187,16 @@ class Aioseo_Posttype_Defaults_Settings_Importing_Action_Test extends TestCase {
 	/**
 	 * Tests mapping AIOSEO Posttype Defaults settings.
 	 *
-	 * @param string $setting         The setting at hand, eg. post or movie-category, separator etc.
-	 * @param string $setting_value   The value of the AIOSEO setting at hand.
-	 * @param int    $times           The times that we will import each setting, if any.
-	 * @param int    $transform_times The times that we will transform each setting, if any.
+	 * @param string $setting                The setting at hand, eg. post or movie-category, separator etc.
+	 * @param string $setting_value          The value of the AIOSEO setting at hand.
+	 * @param int    $times                  The times that we will import each setting, if any.
+	 * @param int    $transform_times        The times that we will transform each setting, if any.
+	 * @param int    $transform_robots_times The times that we will transform each robot setting, if any.
 	 *
 	 * @dataProvider provider_map
 	 * @covers ::map
 	 */
-	public function test_map( $setting, $setting_value, $times, $transform_times ) {
+	public function test_map( $setting, $setting_value, $times, $transform_times, $transform_robots_times ) {
 		$posttypes = [
 			(object) [
 				'name' => 'post',
@@ -214,6 +224,13 @@ class Aioseo_Posttype_Defaults_Settings_Importing_Action_Test extends TestCase {
 			->times( $transform_times )
 			->with( $setting_value )
 			->andReturn( $setting_value );
+
+		if ( $transform_robots_times > 0 ) {
+			$this->robots->shouldReceive( 'transform_robot_setting' )
+				->times( $transform_robots_times )
+				->with( 'noindex', $setting_value, $aioseo_options_to_yoast_map[ $setting ] )
+				->andReturn( $setting_value );
+		}
 
 		$this->options->shouldReceive( 'set' )
 			->times( $times );
@@ -256,20 +273,20 @@ class Aioseo_Posttype_Defaults_Settings_Importing_Action_Test extends TestCase {
 	 */
 	public function provider_map() {
 		return [
-			[ '/post/title', 'Post Title', 1, 1 ],
-			[ '/post/metaDescription', 'Post Desc', 1, 1 ],
-			[ '/post/show', true, 0, 0 ],
-			[ '/post/advanced/robotsMeta/noindex', true, 1, 0 ],
-			[ '/page/title', 'Page Title', 1, 1 ],
-			[ '/page/metaDescription', 'Page Desc', 1, 1 ],
-			[ '/page/show', true, 0, 0 ],
-			[ '/page/advanced/robotsMeta/noindex', true, 1, 0 ],
-			[ '/attachment/title', 'Media Title', 1, 1 ],
-			[ '/attachment/metaDescription', 'Media Desc', 1, 1 ],
-			[ '/attachment/show', true, 0, 0 ],
-			[ '/attachment/advanced/robotsMeta/noindex', true, 1, 0 ],
-			[ '/attachment/redirectAttachmentUrls', true, 1, 0 ],
-			[ '/random/key', 'random value', 0, 0 ],
+			[ '/post/title', 'Post Title', 1, 1, 0 ],
+			[ '/post/metaDescription', 'Post Desc', 1, 1, 0 ],
+			[ '/post/show', true, 0, 0, 0 ],
+			[ '/post/advanced/robotsMeta/noindex', true, 1, 0, 1 ],
+			[ '/page/title', 'Page Title', 1, 1, 0 ],
+			[ '/page/metaDescription', 'Page Desc', 1, 1, 0 ],
+			[ '/page/show', true, 0, 0, 0 ],
+			[ '/page/advanced/robotsMeta/noindex', true, 1, 0, 1 ],
+			[ '/attachment/title', 'Media Title', 1, 1, 0 ],
+			[ '/attachment/metaDescription', 'Media Desc', 1, 1, 0 ],
+			[ '/attachment/show', true, 0, 0, 0 ],
+			[ '/attachment/advanced/robotsMeta/noindex', true, 1, 0, 1 ],
+			[ '/attachment/redirectAttachmentUrls', true, 1, 0, 0 ],
+			[ '/random/key', 'random value', 0, 0, 0 ],
 		];
 	}
 
