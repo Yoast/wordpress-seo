@@ -243,6 +243,16 @@ const stepNumberNameMap = {
 	5: STEPS.configuration.newsletterSignup,
 };
 
+function Step1( props ) {
+	return <Fragment>
+		<div id="yoast-configuration-workout-indexing-container" className="indexation-container">
+			<p>
+				Hello! I am a nice step! Woop Woop!
+			</p>
+		</div>
+	</Fragment>;
+}
+
 /* eslint-disable max-statements */
 /**
  * The configuration workout.
@@ -473,10 +483,30 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 
 	const siteRepresentsPerson = state.companyOrPerson === "person";
 
+	// PROBABLY DELETE BETWEEN HERE....
+	const [ currentStep, setCurrentStep ] = useState( 0 );
+
+	function determineStatus( stepNumber ) {
+		if ( stepNumber === currentStep ) {
+			return "current";
+		}
+		return currentStep > stepNumber ? "complete" : "upcoming";
+	}
+	// AND HERE....
+
 	/* eslint-disable max-len */
 	return (
 		<div id="yoast-configuration-workout" className="card">
-			<Example />
+			<Example
+				steps={ [
+					{ name: "Step 1", description: "The first of many?", component: Step1, status: determineStatus( 0 ) },
+					{ name: "Step 2", description: "Bladiebla", component: Step1, status: determineStatus( 1 ) },
+					{ name: "Step 3", description: "Bladiebla", component: Step1, status: determineStatus( 2 ) },
+					{ name: "Step 4", description: "Bladiebla", component: Step1, status: determineStatus( 3 ) },
+					{ name: "Step 5", description: "The last of many?", component: Step1, status: determineStatus( 4 ) },
+				] }
+				setActiveStep={ setCurrentStep }
+			/>
 			<h2 id="yoast-configuration-workout-title">{ __( "Configuration", "wordpress-seo" ) }</h2>
 			<h3 id="yoast-configuration-workout-tagline">{
 				// translators: %1$s is replaced by "Yoast SEO"
