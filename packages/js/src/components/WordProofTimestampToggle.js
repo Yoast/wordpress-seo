@@ -7,7 +7,7 @@ import popupWindow from '../helpers/popupWindow';
 import {AuthenticationModal} from './modals/wordproof/AuthenticationModal';
 import {handleAPIResponse} from '../helpers/api';
 import {getSettings} from '../helpers/wordproofEndpoints';
-
+import { get } from "lodash";
 
 const WordProofTimestamp = styled.div`
 	display: flex;
@@ -15,13 +15,11 @@ const WordProofTimestamp = styled.div`
 `;
 
 function SettingsLink(props) {
-	const data = window.wordproofSdk?.data || {};
-
 	if (!props.isAuthenticated)
 		return( "" );
 
 	return (
-		<a href={data.popup_redirect_settings_url} onClick={( e ) => {
+		<a href={props.settingsUrl} onClick={( e ) => {
 			e.preventDefault();
 			props.openSettings();
 		}}
@@ -63,12 +61,14 @@ class WordProofTimestampToggle extends Component {
 		this.openSettings = this.openSettings.bind(this);
 		this.openAuthentication = this.openAuthentication.bind(this);
 
-		const data = window.wordproofSdk?.data || {};
+		const data = get( window, "wordproofSdk.data", {} );
 
 		this.state = {
 			isOpen: false,
 			isAuthenticated: data.is_authenticated,
-			isDisabled: data.timestamp_current_post_type
+			isDisabled: data.timestamp_current_post_type,
+			settingsUrl: data.popup_redirect_settings_url,
+			authenticationUrl: data.popup_redirect_authentication_url,
 		};
 	}
 
@@ -91,8 +91,6 @@ class WordProofTimestampToggle extends Component {
 	}
 
 	openSettings() {
-		const data = window.wordproofSdk?.data || {};
-
 		window.addEventListener("focus", async (e) => {
 
 			const settingsResponse = await retrieveSettings();
@@ -100,17 +98,15 @@ class WordProofTimestampToggle extends Component {
 
 		}, { once: true });
 
-		popupWindow( window, data.popup_redirect_settings_url )
+		popupWindow( window, this.state.settingsUrl )
 	}
 
 	openAuthentication() {
-		const data = window.wordproofSdk?.data || {};
-
 		if (this.state.isAuthenticated)
 			return this.openSettings();
 
 		this.setIsOpen(true);
-		popupWindow(window, data.popup_redirect_authentication_url);
+		popupWindow(window, this.state.authenticationUrl);
 	}
 
 	/**
@@ -136,7 +132,7 @@ class WordProofTimestampToggle extends Component {
 								disable={ this.state.isDisabled }
 						/>
 					</ToggleWrapper>
-					<SettingsLink isAuthenticated={ this.state.isAuthenticated } openSettings={ this.openSettings }/>
+					<SettingsLink isAuthenticated={ this.state.isAuthenticated } openSettings={ this.openSettings } settingsUrl={ this.state.settingsUrl }/>
 				</FieldGroup>
 
 				<AuthenticationModal isOpen={ this.state.isOpen } setIsOpen={ this.setIsOpen }
