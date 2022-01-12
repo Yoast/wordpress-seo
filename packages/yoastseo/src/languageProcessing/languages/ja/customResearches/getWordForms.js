@@ -2,6 +2,7 @@ import { get } from "lodash-es";
 import parseSynonyms from "../../../helpers/sanitize/parseSynonyms";
 import getContentWords from "../helpers/getContentWords";
 import createWordForms from "../helpers/internal/createWordForms";
+import doubleQuotes from "../../../helpers/sanitize/doubleQuotes";
 
 /**
  * Creates word forms for each word in the given keyphrase.
@@ -12,7 +13,6 @@ import createWordForms from "../helpers/internal/createWordForms";
  * @returns {Array<string[]>} The word forms for each word in the keyphrase.
  */
 function getKeyphraseForms( keyphrase, researcher ) {
-	const doubleQuotes = [ "“", "”", "〝", "〞", "〟", "‟", "„", "\"", "\u300c", "\u300d", "\u300e", "\u300f" ];
 	if ( doubleQuotes.includes( keyphrase[ 0 ] ) && doubleQuotes.includes( keyphrase[ keyphrase.length - 1 ] ) ) {
 		return [ [ keyphrase ] ];
 	}
