@@ -45,8 +45,20 @@ class Default_Tagline_Report_Builder_Test extends TestCase {
 	}
 
 	/**
+	 * Tear down the test fixtures. Add assertions made by Mockery.
+	 *
+	 * @return void
+	 */
+	public function tear_down() {
+		$container = Mockery::getContainer();
+		$this->addToAssertionCount( $container->mockery_getExpectationCount() );
+		parent::tear_down();
+	}
+
+	/**
 	 * Checks if the Report_Builder is called when setting a test identifier.
 	 *
+	 * @covers ::__construct
 	 * @covers ::set_test_identifier
 	 */
 	public function test_sets_identifier_correctly() {
@@ -63,6 +75,7 @@ class Default_Tagline_Report_Builder_Test extends TestCase {
 	/**
 	 * Check if the success report is built correctly.
 	 *
+	 * @covers ::__construct
 	 * @covers ::get_success_result
 	 */
 	public function test_creates_success_report_correctly() {
@@ -94,6 +107,7 @@ class Default_Tagline_Report_Builder_Test extends TestCase {
 	/**
 	 * Check if the failure report is built correctly.
 	 *
+	 * @covers ::__construct
 	 * @covers ::get_has_default_tagline_result
 	 * @covers ::get_actions
 	 */
