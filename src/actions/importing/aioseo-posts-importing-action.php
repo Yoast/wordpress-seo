@@ -10,7 +10,8 @@ use Yoast\WP\SEO\Helpers\Wpdb_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Services\Importing\Aioseo_Replacevar_Handler;
-use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Service;
+use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Provider_Service;
+use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Transformer_Service;
 
 /**
  * Importing action for AIOSEO post data.
@@ -127,13 +128,14 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	/**
 	 * Class constructor.
 	 *
-	 * @param Indexable_Repository         $indexable_repository        The indexables repository.
-	 * @param wpdb                         $wpdb                        The WordPress database instance.
-	 * @param Indexable_To_Postmeta_Helper $indexable_to_postmeta       The indexable_to_postmeta helper.
-	 * @param Options_Helper               $options                     The options helper.
-	 * @param Wpdb_Helper                  $wpdb_helper                 The wpdb_helper helper.
-	 * @param Aioseo_Replacevar_Handler    $replacevar_handler          The replacevar handler.
-	 * @param Aioseo_Robots_Service        $robots                      The robots service.
+	 * @param Indexable_Repository              $indexable_repository  The indexables repository.
+	 * @param wpdb                              $wpdb                  The WordPress database instance.
+	 * @param Indexable_To_Postmeta_Helper      $indexable_to_postmeta The indexable_to_postmeta helper.
+	 * @param Options_Helper                    $options               The options helper.
+	 * @param Wpdb_Helper                       $wpdb_helper           The wpdb_helper helper.
+	 * @param Aioseo_Replacevar_Handler         $replacevar_handler    The replacevar handler.
+	 * @param Aioseo_Robots_Provider_Service    $robots_provider       The robots provider service.
+	 * @param Aioseo_Robots_Transformer_Service $robots_transformer    The robots transfomer service.
 	 */
 	public function __construct(
 		Indexable_Repository $indexable_repository,
@@ -142,8 +144,9 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 		Options_Helper $options,
 		Wpdb_Helper $wpdb_helper,
 		Aioseo_Replacevar_Handler $replacevar_handler,
-		Aioseo_Robots_Service $robots ) {
-		parent::__construct( $options, $replacevar_handler, $robots );
+		Aioseo_Robots_Provider_Service $robots_provider,
+		Aioseo_Robots_Transformer_Service $robots_transformer ) {
+		parent::__construct( $options, $replacevar_handler, $robots_provider, $robots_transformer );
 
 		$this->indexable_repository  = $indexable_repository;
 		$this->wpdb                  = $wpdb;
@@ -402,8 +405,8 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 
 		if ( $aioseo_robots_settings['robots_default'] ) {
 			// Let's first get the subtype's setting value and then transform it taking into consideration whether it defers to global defaults.
-			$subtype_setting = $this->robots->get_subtype_robot_setting( $mapping );
-			return $this->robots->transform_robot_setting( $mapping['robot_type'], $subtype_setting, $mapping );
+			$subtype_setting = $this->robots_provider->get_subtype_robot_setting( $mapping );
+			return $this->robots_transformer->transform_robot_setting( $mapping['robot_type'], $subtype_setting, $mapping );
 		}
 
 		return $aioseo_robots_settings[ $mapping['aioseo_key'] ];

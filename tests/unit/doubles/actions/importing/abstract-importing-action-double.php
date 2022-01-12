@@ -5,7 +5,8 @@ namespace Yoast\WP\SEO\Tests\Unit\Doubles\Actions\Importing;
 use Yoast\WP\SEO\Actions\Importing\Abstract_Importing_Action;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Services\Importing\Aioseo_Replacevar_Handler;
-use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Service;
+use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Provider_Service;
+use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Transformer_Service;
 
 /**
  * Class Abstract_Importing_Action_Double
@@ -29,27 +30,36 @@ abstract class Abstract_Importing_Action_Double extends Abstract_Importing_Actio
 	protected $replacevar_handler;
 
 	/**
-	 * The robots service.
+	 * The robots provider service.
 	 *
-	 * @var Aioseo_Robots_Service
+	 * @var Aioseo_Robots_Provider_Service
 	 */
-	protected $robots;
+	protected $robots_provider;
+
+	/**
+	 * The robots transformer service.
+	 *
+	 * @var Aioseo_Robots_Transformer_Service
+	 */
+	protected $robots_transformer;
 
 	/**
 	 * Abstract_Importing_Action_Double constructor.
 	 *
-	 * @param Options_Helper            $options            The options helper.
-	 * @param Aioseo_Replacevar_Handler $replacevar_handler The replacevar handler.
-	 * @param Aioseo_Robots_Service     $robots             The robots service.
+	 * @param Options_Helper                    $options            The options helper.
+	 * @param Aioseo_Replacevar_Handler         $replacevar_handler The replacevar handler.
+	 * @param Aioseo_Robots_Provider_Service    $robots_provider    The robots service.
+	 * @param Aioseo_Robots_Transformer_Service $robots_transformer The robots service.
 	 *
 	 * @return string The completed id.
 	 */
 	public function __construct(
 		Options_Helper $options,
 		Aioseo_Replacevar_Handler $replacevar_handler,
-		Aioseo_Robots_Service $robots
+		Aioseo_Robots_Provider_Service $robots_provider,
+		Aioseo_Robots_Transformer_Service $robots_transformer
 	) {
-		return parent::__construct( $options, $replacevar_handler, $robots );
+		return parent::__construct( $options, $replacevar_handler, $robots_provider, $robots_transformer );
 	}
 
 	/**

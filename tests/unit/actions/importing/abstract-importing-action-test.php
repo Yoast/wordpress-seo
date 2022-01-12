@@ -6,7 +6,8 @@ use Mockery;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Services\Importing\Aioseo_Replacevar_Handler;
-use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Service;
+use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Provider_Service;
+use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Transformer_Service;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Actions\Importing\Abstract_Importing_Action_Double;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -43,11 +44,18 @@ class Abstract_Importing_Action_Test extends TestCase {
 	protected $replacevar_handler;
 
 	/**
-	 * The robots service.
+	 * The robots provider service.
 	 *
-	 * @var Mockery\MockInterface|Aioseo_Robots_Service
+	 * @var Mockery\MockInterface|Aioseo_Robots_Provider_Service
 	 */
-	protected $robots;
+	protected $robots_provider;
+
+	/**
+	 * The robots transformer service.
+	 *
+	 * @var Mockery\MockInterface|Aioseo_Robots_Transformer_Service
+	 */
+	protected $robots_transformer;
 
 	/**
 	 * Sets up the test class.
@@ -57,10 +65,11 @@ class Abstract_Importing_Action_Test extends TestCase {
 
 		$this->options            = Mockery::mock( Options_Helper::class );
 		$this->replacevar_handler = Mockery::mock( Aioseo_Replacevar_Handler::class );
-		$this->robots             = Mockery::mock( Aioseo_Robots_Service::class );
+		$this->robots_provider    = Mockery::mock( Aioseo_Robots_Provider_Service::class );
+		$this->robots_transformer = Mockery::mock( Aioseo_Robots_Transformer_Service::class );
 		$this->mock_instance      = Mockery::mock(
 			Abstract_Importing_Action_Double::class,
-			[ $this->options, $this->replacevar_handler, $this->robots ]
+			[ $this->options, $this->replacevar_handler, $this->robots_provider, $this->robots_transformer ]
 		)->makePartial()->shouldAllowMockingProtectedMethods();
 	}
 

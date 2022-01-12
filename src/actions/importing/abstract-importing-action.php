@@ -5,7 +5,8 @@ namespace Yoast\WP\SEO\Actions\Importing;
 use Exception;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Services\Importing\Aioseo_Replacevar_Handler;
-use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Service;
+use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Provider_Service;
+use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Transformer_Service;
 
 /**
  * Importing action interface.
@@ -41,27 +42,37 @@ abstract class Abstract_Importing_Action implements Importing_Action_Interface {
 	protected $replacevar_handler;
 
 	/**
-	 * The robots service.
+	 * The robots provider service.
 	 *
-	 * @var Aioseo_Robots_Service
+	 * @var Aioseo_Robots_Provider_Service
 	 */
-	protected $robots;
+	protected $robots_provider;
+
+	/**
+	 * The robots transformer service.
+	 *
+	 * @var Aioseo_Robots_Transformer_Service
+	 */
+	protected $robots_transformer;
 
 	/**
 	 * Abstract_Importing_Action constructor.
 	 *
-	 * @param Options_Helper            $options            The options helper.
-	 * @param Aioseo_Replacevar_Handler $replacevar_handler The replacevar handler.
-	 * @param Aioseo_Robots_Service     $robots             The robots service.
+	 * @param Options_Helper                    $options            The options helper.
+	 * @param Aioseo_Replacevar_Handler         $replacevar_handler The replacevar handler.
+	 * @param Aioseo_Robots_Provider_Service    $robots_provider    The robots provider service.
+	 * @param Aioseo_Robots_Transformer_Service $robots_transformer The robots transfomer service.
 	 */
 	public function __construct(
 		Options_Helper $options,
 		Aioseo_Replacevar_Handler $replacevar_handler,
-		Aioseo_Robots_Service $robots
+		Aioseo_Robots_Provider_Service $robots_provider,
+		Aioseo_Robots_Transformer_Service $robots_transformer
 	) {
 		$this->options            = $options;
 		$this->replacevar_handler = $replacevar_handler;
-		$this->robots             = $robots;
+		$this->robots_provider    = $robots_provider;
+		$this->robots_transformer = $robots_transformer;
 	}
 
 	/**

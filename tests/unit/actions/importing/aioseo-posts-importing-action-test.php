@@ -11,7 +11,8 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Wpdb_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Services\Importing\Aioseo_Replacevar_Handler;
-use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Service;
+use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Provider_Service;
+use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Transformer_Service;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Actions\Importing\Aioseo_Posts_Importing_Action_Double;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -91,11 +92,18 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 	protected $replacevar_handler;
 
 	/**
-	 * The robots service.
+	 * The robots provider service.
 	 *
-	 * @var Mockery\MockInterface|Aioseo_Robots_Service
+	 * @var Mockery\MockInterface|Aioseo_Robots_Provider_Service
 	 */
-	protected $robots;
+	protected $robots_provider;
+
+	/**
+	 * The robots transformer service.
+	 *
+	 * @var Mockery\MockInterface|Aioseo_Robots_Transformer_Service
+	 */
+	protected $robots_transformer;
 
 	/**
 	 * Sets up the test class.
@@ -110,8 +118,9 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 		$this->options               = Mockery::mock( Options_Helper::class );
 		$this->wpdb_helper           = Mockery::mock( Wpdb_Helper::class );
 		$this->replacevar_handler    = Mockery::mock( Aioseo_Replacevar_Handler::class );
-		$this->robots                = Mockery::mock( Aioseo_Robots_Service::class );
-		$this->instance              = new Aioseo_Posts_Importing_Action( $this->indexable_repository, $this->wpdb, $this->indexable_to_postmeta, $this->options, $this->wpdb_helper, $this->replacevar_handler, $this->robots );
+		$this->robots_provider       = Mockery::mock( Aioseo_Robots_Provider_Service::class );
+		$this->robots_transformer    = Mockery::mock( Aioseo_Robots_Transformer_Service::class );
+		$this->instance              = new Aioseo_Posts_Importing_Action( $this->indexable_repository, $this->wpdb, $this->indexable_to_postmeta, $this->options, $this->wpdb_helper, $this->replacevar_handler, $this->robots_provider, $this->robots_transformer );
 		$this->mock_instance         = Mockery::mock(
 			Aioseo_Posts_Importing_Action_Double::class,
 			[
@@ -121,7 +130,8 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 				$this->options,
 				$this->wpdb_helper,
 				$this->replacevar_handler,
-				$this->robots,
+				$this->robots_provider,
+				$this->robots_transformer,
 			]
 		)->makePartial()->shouldAllowMockingProtectedMethods();
 
@@ -288,10 +298,10 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			->with( $aioseio_indexable['twitter_description'] )
 			->andReturn( $aioseio_indexable['twitter_description'] );
 
-		$this->robots->shouldReceive( 'get_subtype_robot_setting' )
+		$this->robots_provider->shouldReceive( 'get_subtype_robot_setting' )
 			->andReturn( 'robot_setting' );
 
-		$this->robots->shouldReceive( 'transform_robot_setting' )
+		$this->robots_transformer->shouldReceive( 'transform_robot_setting' )
 			->andReturn( 'robot_value' );
 
 		$indexable = $this->instance->map( $indexable, $aioseio_indexable );
@@ -355,10 +365,10 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			->with( $aioseio_indexable['twitter_description'] )
 			->andReturn( $aioseio_indexable['twitter_description'] );
 
-		$this->robots->shouldReceive( 'get_subtype_robot_setting' )
+		$this->robots_provider->shouldReceive( 'get_subtype_robot_setting' )
 			->andReturn( 'robot_setting' );
 
-		$this->robots->shouldReceive( 'transform_robot_setting' )
+		$this->robots_transformer->shouldReceive( 'transform_robot_setting' )
 			->andReturn( 'robot_value' );
 
 		$indexable = $this->instance->map( $indexable, $aioseio_indexable );
@@ -393,10 +403,10 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 		$this->replacevar_handler->shouldReceive( 'transform' )
 			->never();
 
-		$this->robots->shouldReceive( 'get_subtype_robot_setting' )
+		$this->robots_provider->shouldReceive( 'get_subtype_robot_setting' )
 			->andReturn( 'robot_setting' );
 
-		$this->robots->shouldReceive( 'transform_robot_setting' )
+		$this->robots_transformer->shouldReceive( 'transform_robot_setting' )
 			->andReturn( 'robot_value' );
 
 		$indexable = $this->instance->map( $indexable, $aioseio_indexable );

@@ -8,7 +8,8 @@ use Yoast\WP\SEO\Actions\Importing\Aioseo_Custom_Archive_Settings_Importing_Acti
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Services\Importing\Aioseo_Replacevar_Handler;
-use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Service;
+use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Provider_Service;
+use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Transformer_Service;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Actions\Importing\Aioseo_Custom_Archive_Settings_Importing_Action_Double;
 
@@ -59,11 +60,18 @@ class Aioseo_Custom_Archive_Settings_Importing_Action_Test extends TestCase {
 	protected $replacevar_handler;
 
 	/**
-	 * The robots service.
+	 * The robots provider service.
 	 *
-	 * @var Mockery\MockInterface|Aioseo_Robots_Service
+	 * @var Mockery\MockInterface|Aioseo_Robots_Provider_Service
 	 */
-	protected $robots;
+	protected $robots_provider;
+
+	/**
+	 * The robots transformer service.
+	 *
+	 * @var Mockery\MockInterface|Aioseo_Robots_Transformer_Service
+	 */
+	protected $robots_transformer;
 
 	/**
 	 * An array of the total Custom Archive Settings we can import.
@@ -114,11 +122,12 @@ class Aioseo_Custom_Archive_Settings_Importing_Action_Test extends TestCase {
 		$this->options            = Mockery::mock( Options_Helper::class );
 		$this->post_type          = Mockery::mock( Post_Type_Helper::class );
 		$this->replacevar_handler = Mockery::mock( Aioseo_Replacevar_Handler::class );
-		$this->robots             = Mockery::mock( Aioseo_Robots_Service::class );
-		$this->instance           = new Aioseo_Custom_Archive_Settings_Importing_Action( $this->options, $this->post_type, $this->replacevar_handler, $this->robots );
+		$this->robots_provider    = Mockery::mock( Aioseo_Robots_Provider_Service::class );
+		$this->robots_transformer = Mockery::mock( Aioseo_Robots_Transformer_Service::class );
+		$this->instance           = new Aioseo_Custom_Archive_Settings_Importing_Action( $this->options, $this->post_type, $this->replacevar_handler, $this->robots_provider, $this->robots_transformer );
 		$this->mock_instance      = Mockery::mock(
 			Aioseo_Custom_Archive_Settings_Importing_Action_Double::class,
-			[ $this->options, $this->post_type, $this->replacevar_handler, $this->robots ]
+			[ $this->options, $this->post_type, $this->replacevar_handler, $this->robots_provider, $this->robots_transformer ]
 		)->makePartial()->shouldAllowMockingProtectedMethods();
 	}
 
@@ -210,7 +219,7 @@ class Aioseo_Custom_Archive_Settings_Importing_Action_Test extends TestCase {
 			->andReturn( $setting_value );
 
 		if ( $transform_robots_times > 0 ) {
-			$this->robots->shouldReceive( 'transform_robot_setting' )
+			$this->robots_transformer->shouldReceive( 'transform_robot_setting' )
 				->times( $transform_robots_times )
 				->with( 'noindex', $setting_value, $aioseo_options_to_yoast_map[ $setting ] )
 				->andReturn( $setting_value );
