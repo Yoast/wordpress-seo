@@ -87,6 +87,10 @@ module.exports = {
 		src: "gettext.pot",
 		dest: "<%= files.pot.yoastJsReplacementVariableEditor %>",
 	},
+	"makepot-yoast-js-seo-integration": {
+		src: "gettext.pot",
+		dest: "<%= files.pot.yoastJsSeoIntegration %>",
+	},
 	"makepot-yoastseojs": {
 		src: "gettext.pot",
 		dest: "<%= files.pot.yoastseojs %>",
