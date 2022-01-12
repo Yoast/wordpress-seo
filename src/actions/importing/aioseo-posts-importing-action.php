@@ -71,28 +71,24 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 			'yoast_name'       => 'is_robots_nofollow',
 			'transform_method' => 'post_general_robots_import',
 			'robots_import'    => true,
-			'aioseo_key'       => 'robots_nofollow',
 			'robot_type'       => 'nofollow',
 		],
 		'robots_noarchive'    => [
 			'yoast_name'       => 'is_robots_noarchive',
 			'transform_method' => 'post_general_robots_import',
 			'robots_import'    => true,
-			'aioseo_key'       => 'robots_noarchive',
 			'robot_type'       => 'noarchive',
 		],
 		'robots_nosnippet'    => [
 			'yoast_name'       => 'is_robots_nosnippet',
 			'transform_method' => 'post_general_robots_import',
 			'robots_import'    => true,
-			'aioseo_key'       => 'robots_nosnippet',
 			'robot_type'       => 'nosnippet',
 		],
 		'robots_noimageindex' => [
 			'yoast_name'       => 'is_robots_noimageindex',
 			'transform_method' => 'post_general_robots_import',
 			'robots_import'    => true,
-			'aioseo_key'       => 'robots_noimageindex',
 			'robot_type'       => 'noimageindex',
 		],
 	];
@@ -290,7 +286,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 			// For robots import.
 			if ( isset( $yoast_mapping['robots_import'] ) && $yoast_mapping['robots_import'] ) {
 				$yoast_mapping['subtype']                  = $indexable->object_sub_type;
-				$indexable->{$yoast_mapping['yoast_name']} = \call_user_func( [ $this, $yoast_mapping['transform_method'] ], $aioseo_indexable, $yoast_mapping );
+				$indexable->{$yoast_mapping['yoast_name']} = \call_user_func( [ $this, $yoast_mapping['transform_method'] ], $aioseo_indexable, $yoast_mapping, $aioseo_key );
 
 				continue;
 			}
@@ -399,7 +395,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	 *
 	 * @return bool|null The value of Yoast's noindex setting for the post.
 	 */
-	public function post_general_robots_import( $aioseo_robots_settings, $mapping ) {
+	public function post_general_robots_import( $aioseo_robots_settings, $mapping, $aioseo_key ) {
 		$mapping['type']        = 'postTypes';
 		$mapping['option_name'] = 'aioseo_options_dynamic';
 
@@ -409,6 +405,6 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 			return $this->robots_transformer->transform_robot_setting( $mapping['robot_type'], $subtype_setting, $mapping );
 		}
 
-		return $aioseo_robots_settings[ $mapping['aioseo_key'] ];
+		return $aioseo_robots_settings[ $aioseo_key ];
 	}
 }
