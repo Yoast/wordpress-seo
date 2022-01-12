@@ -77,11 +77,11 @@ const filterAnchorsContainingTopic = function( anchors, topicForms, locale, matc
 /**
  * Filters anchors that are contained within keyphrase or synonyms.
  *
- * @param {Array}  anchors    An array with all anchors from the paper.
- * @param {Object} topicForms An object containing word forms of words included in the keyphrase or a synonym.
- * @param {string} locale     The locale of the paper.
- * @param {object} customHelpers       An object containing custom helpers.
- * @param {array} exactMatchRequest    An array objects containing the keyphrase and information whether the exact match has been requested.
+ * @param {Array}       anchors             An array with all anchors from the paper.
+ * @param {Object}      topicForms          An object containing word forms of words included in the keyphrase or a synonym.
+ * @param {string}      locale              The locale of the paper.
+ * @param {Object}      customHelpers       An object containing custom helpers.
+ * @param {Object[]}    exactMatchRequest   An array of objects containing the keyphrase and information whether the exact match has been requested.
  *
  * @returns {Array} The array of all anchors contained in the keyphrase or synonyms.
  */
