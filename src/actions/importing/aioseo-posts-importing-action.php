@@ -390,8 +390,9 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	/**
 	 * Imports the post's robots setting.
 	 *
-	 * @param bool  $aioseo_robots_settings AIOSEO's set of robot settings for the post.
-	 * @param array $mapping The mapping of the setting we're working with.
+	 * @param bool   $aioseo_robots_settings AIOSEO's set of robot settings for the post.
+	 * @param array  $mapping The mapping of the setting we're working with.
+	 * @param string $aioseo_key The AIOSEO key that contains the robot setting we're working with.
 	 *
 	 * @return bool|null The value of Yoast's noindex setting for the post.
 	 */
