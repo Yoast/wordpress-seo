@@ -117,6 +117,11 @@ class SEO_Links_Repository {
 			->group_by( 'target_indexable_id' )
 			->find_array();
 
+		// If the above query fails, do not update anything.
+		if ( ! is_array( $indexable_counts ) ) {
+			return [];
+		}
+
 		// Get all ID's returned from the query and set them as keys for easy access.
 		$returned_ids = array_flip( array_column( $indexable_counts, 'target_indexable_id' ) );
 
