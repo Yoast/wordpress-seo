@@ -1,18 +1,6 @@
 import { CheckIcon } from "@heroicons/react/solid";
 import { Fragment } from "@wordpress/element";
-
-const steps = [
-	{ name: "Create account", description: "Vitae sed mi luctus laoreet.", href: "#", status: "complete" },
-	{
-		name: "Profile information",
-		description: "Cursus semper viverra facilisis et et some more.",
-		href: "#",
-		status: "current",
-	},
-	{ name: "Business information", description: "Penatibus eu quis ante.", href: "#", status: "upcoming" },
-	{ name: "Theme", description: "Faucibus nec enim leo et.", href: "#", status: "upcoming" },
-	{ name: "Preview", description: "Iusto et officia maiores porro ad non quas.", href: "#", status: "upcoming" },
-];
+import { __ } from "@wordpress/i18n";
 
 /**
  * Joins the classnames.
@@ -29,24 +17,24 @@ function classNames( ...classes ) {
  *
  * @returns {JSX.Element} The example stepper.
  */
-export default function Steps( { steps, setActiveStep } ) {
+export default function Stepper( { steps, setActiveStep } ) {
 	return (
 		<ol className="yst-overflow-hidden">
 			{ /* eslint-disable-next-line complexity */ }
 			{ steps.map( ( step, stepIdx ) => (
-				<li key={ step.name } className={ classNames( stepIdx === steps.length - 1 ? "" : "yst-pb-10", "yst-relative" ) }>
+				<li key={ step.name } className={ stepIdx === steps.length - 1 ? "" : "yst-pb-10", "yst-relative" }>
 					{ ( step.status === "complete" ) &&
 						<Fragment>
 							{ stepIdx !== steps.length - 1 &&
 								<div
-									className="yst--ml-px yst-absolute yst-mt-0.5 yst-top-4 yst-left-4 yst-w-0.5 yst-h-full yst-bg-indigo-600"
+									className="yst--ml-px yst-absolute yst-mt-0.5 yst-top-4 yst-left-4 yst-w-0.5 yst-h-full yst-bg-primary-500"
 									aria-hidden="true"
 								/>
 							}
-							<button onClick={ () => setActiveStep( stepIdx ) } className="yst-relative yst-flex yst-items-start yst-group">
+							<div className="yst-relative yst-flex yst-items-start yst-group">
 								<span className="yst-h-9 yst-flex yst-items-center">
 									{ /* eslint-disable-next-line max-len */ }
-									<span className="yst-relative yst-z-10 yst-w-8 yst-h-8 yst-flex yst-items-center yst-justify-center yst-bg-indigo-600 yst-rounded-full yst-group-hover:bg-indigo-800">
+									<span className="yst-relative yst-z-10 yst-w-8 yst-h-8 yst-flex yst-items-center yst-justify-center yst-bg-primary-500 yst-rounded-full yst-group-hover:bg-primary-700">
 										<CheckIcon className="yst-w-5 yst-h-5 yst-text-white" aria-hidden="true" />
 									</span>
 								</span>
@@ -54,7 +42,7 @@ export default function Steps( { steps, setActiveStep } ) {
 									<span className="yst-text-xs yst-font-semibold yst-tracking-wide yst-uppercase">{ step.name }</span>
 									<span className="yst-text-sm yst-text-gray-500">{ step.description }</span>
 								</span>
-							</button>
+							</div>
 						</Fragment>
 					}
 					{ ( step.status === "current" ) &&
@@ -65,21 +53,30 @@ export default function Steps( { steps, setActiveStep } ) {
 									aria-hidden="true"
 								/>
 							) }
-							<button onClick={ () => setActiveStep( stepIdx ) } className="yst-relative yst-flex yst-items-start yst-group" aria-current="step">
+							<div className="yst-relative yst-flex yst-items-start yst-group" aria-current="step">
 								<span className="yst-h-9 yst-flex yst-items-center" aria-hidden="true">
 									{ /* eslint-disable-next-line max-len */ }
-									<span className="yst-relative yst-z-10 yst-w-8 yst-h-8 yst-flex yst-items-center yst-justify-center yst-bg-white yst-border-2 yst-border-indigo-600 yst-rounded-full">
-										<span className="yst-h-2.5 yst-w-2.5 yst-bg-indigo-600 yst-rounded-full" />
+									<span className="yst-relative yst-z-10 yst-w-8 yst-h-8 yst-flex yst-items-center yst-justify-center yst-bg-white yst-border-2 yst-border-primary-500 yst-rounded-full">
+										<span className="yst-h-2.5 yst-w-2.5 yst-bg-primary-500 yst-rounded-full" />
 									</span>
 								</span>
 								<span className="yst-ml-4 yst-min-w-0 yst-flex yst-flex-col">
-									<span className="yst-text-xs yst-font-semibold yst-tracking-wide yst-uppercase yst-text-indigo-600">
+									<span className="yst-text-xs yst-font-semibold yst-tracking-wide yst-uppercase yst-text-primary-500">
 										{ step.name }
 									</span>
 									<span className="yst-text-sm yst-text-gray-500">{ step.description }</span>
 								</span>
-							</button>
+							</div>
 							<step.component />
+							<button
+								onClick={ () => setActiveStep( stepIdx + 1 ) }
+								className="yst-inline-flex yst-justify-center yst-py-2 yst-px-3 yst-border yst-shadow-sm yst-rounded-md yst-text-sm yst-font-medium yst-leading-4 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-indigo-500 yst-no-underline yst-text-white yst-bg-primary-500 yst-border-transparent hover:yst-bg-primary-700 disabled:yst-bg-primary-700"
+							>
+								{ __( "Save and continue", "wordpress-seo" ) }
+							</button>
+							<button onClick={ () => setActiveStep( stepIdx - 1 ) }>
+								{ __( "Go back", "wordpress-seo" ) }
+							</button>
 						</Fragment>
 					}
 					{ ( step.status !== "complete" && step.status !== "current" ) &&
@@ -90,7 +87,7 @@ export default function Steps( { steps, setActiveStep } ) {
 									aria-hidden="true"
 								/>
 							}
-							<button onClick={ () => setActiveStep( stepIdx ) } className="yst-relative yst-flex yst-items-start yst-group">
+							<div className="yst-relative yst-flex yst-items-start yst-group">
 								<span className="yst-h-9 yst-flex yst-items-center" aria-hidden="true">
 									{ /* eslint-disable-next-line max-len */ }
 									<span className="yst-relative yst-z-10 yst-w-8 yst-h-8 yst-flex yst-items-center yst-justify-center yst-bg-white yst-border-2 yst-border-gray-300 yst-rounded-full yst-group-hover:border-gray-400">
@@ -103,7 +100,7 @@ export default function Steps( { steps, setActiveStep } ) {
 									</span>
 									<span className="yst-text-sm yst-text-gray-500">{ step.description }</span>
 								</span>
-							</button>
+							</div>
 						</Fragment>
 					}
 				</li>
