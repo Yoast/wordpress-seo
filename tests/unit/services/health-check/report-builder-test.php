@@ -179,7 +179,7 @@ class Report_Builder_Test extends TestCase {
 
 		$actual = $report['actions'];
 
-		$this->assertContains( $expected, $actual );
+		$this->assertStringContainsString( $expected, $actual );
 	}
 
 	/**
