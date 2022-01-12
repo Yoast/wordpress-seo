@@ -242,11 +242,11 @@ Release Date: January 25th, 2022
 Enhancements:
 
 * Limits a potentially slow query to certain routes, which makes it so it gets called fewer times.
-* Enhances schema presentation for languages that are not alphanumeric. Props to [sous-studio](https://github.com/sous-studio)
+* Enhances schema presentation for languages that are not alphanumeric. Props to [sous-studio](https://github.com/sous-studio).
 
 Bugfixes:
 
-* Fixes a bug where removing an image from our Facebook Preview and Twitter Preview modals could lead to a confusing accessibility experience due to focus loss.
+* Fixes a bug where removing an image from our Facebook Preview and Twitter Preview modals could lead to a confusing experience due to focus loss.
 * Fixes a bug where clicking outside of a Yoast modal in the block editor would not close the modal.
 
 = 17.9 =
