@@ -1,3 +1,4 @@
+/* global moment */
 import { flow, get, isEqual, set } from "lodash";
 import { excerptFromContent } from "../../helpers/replacementVariableHelpers";
 import { getContentTinyMce } from "../../lib/tinymce";
@@ -161,13 +162,30 @@ export const getPostDate = () => {
 	// Try to get the site's timezone from the window.
 	const timezone = get( window, "wpseoScriptData.siteTimezone", "+00:00" );
 
-	// Input the date as a string, since this is the only way to input with timezone other than the browser timezone.
-	const date = new Date(
-		`${ getPostDateYear() }-${ getPostDateMonth() }-${ getPostDateDay() } ` +
-		`${ getPostDateHours() }:${ getPostDateMinutes() }:${ getPostDateSeconds() } ${ timezone }`
-	);
+	/*
+	 * Check if the timezone is a custom UTC offset instead of a named one.
+	 * WordPress supports setting a custom offset, e.g. +08:45.
+	 */
+	if ( timezone.startsWith( "-" ) || timezone.startsWith( "+" ) ) {
+		// Input the date as a string, since this is the only way to input with timezone other than the browser timezone.
+		const date = new Date(
+			`${ getPostDateYear() }-${ getPostDateMonth() }-${ getPostDateDay() } ` +
+			`${ getPostDateHours() }:${ getPostDateMinutes() }:${ getPostDateSeconds() } ${ timezone }`
+		);
 
-	return new Date( date ).toISOString();
+		return new Date( date ).toISOString();
+	}
+
+	// Use moment if the timezone is a named, e.g. Europe/Amsterdam.
+	return moment.tz( [
+		getPostDateYear(),
+		// The month in the input goes from 1 to 12, we need 0 - 11.
+		getPostDateMonth() - 1,
+		getPostDateDay(),
+		getPostDateHours(),
+		getPostDateMinutes(),
+		getPostDateSeconds(),
+	], timezone ).toISOString();
 };
 
 /**
