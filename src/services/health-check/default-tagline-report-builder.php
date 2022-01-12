@@ -9,13 +9,6 @@ namespace Yoast\WP\SEO\Services\Health_Check;
 class Default_Tagline_Report_Builder {
 
 	/**
-	 * The name that WordPress needs to identify this test.
-	 *
-	 * @var string
-	 */
-	private $test_identifier;
-
-	/**
 	 * The builder object that generates WordPress-friendly test results.
 	 *
 	 * @var Report_Builder
@@ -39,8 +32,7 @@ class Default_Tagline_Report_Builder {
 	 * @return void
 	 */
 	public function set_test_identifier( $test_identifier ) {
-		$this->test_identifier = $test_identifier;
-		$this->report_builder->set_test_identifier( $this->test_identifier );
+		$this->report_builder->set_test_identifier( $test_identifier );
 	}
 
 	/**
