@@ -81,8 +81,7 @@ const findKeyphraseInPageTitle = function( paper, researcher ) {
 	const result = { exactMatchFound: false, allWordsFound: false, position: -1, exactMatchKeyphrase: false  };
 
 	// Check if the keyphrase is enclosed in double quotation marks to ensure that only exact matches are processed.
-	const doubleQuotes = [ "“", "”", "〝", "〞", "〟", "‟", "„", "\"" ];
-	const exactMatchRequest = processExactMatchRequest( keyword, doubleQuotes );
+	const exactMatchRequest = processExactMatchRequest( keyword );
 
 	if ( exactMatchRequest.exactMatchRequested ) {
 		keyword = exactMatchRequest.keyphrase;

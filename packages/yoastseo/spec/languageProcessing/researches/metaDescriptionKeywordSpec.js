@@ -111,6 +111,29 @@ describe( "the metadescription keyword match research", function() {
 		const result = metaDescriptionKeyword( paper, researcher );
 		expect( result ).toEqual( 2 );
 	} );
+
+	it( "returns 1 when the keyphrase is enclosed in double quotes and there is a match in the text", function() {
+		const paper = new Paper( "", { keyword: "\"cats and dogs\"", synonyms: "hounds and felines",
+			description: "Cats and dogs are great." }  );
+		const researcher = new Researcher( paper );
+		const result = metaDescriptionKeyword( paper, researcher );
+		expect( result ).toEqual( 1 );
+	} );
+
+	it( "returns 2 when the keyphrase is enclosed in double quotes and there are 2 matches in the text", function() {
+		const paper = new Paper( "", { keyword: "\"cats and dogs\"", synonyms: "hounds and felines",
+			description: "Cats and dogs are great, cats and dogs." }  );
+		const researcher = new Researcher( paper );
+		const result = metaDescriptionKeyword( paper, researcher );
+		expect( result ).toEqual( 2 );
+	} );
+	it( "returns 1 when the synonym is enclosed in double quotes and there is 1 match in the text", function() {
+		const paper = new Paper( "", { keyword: "hounds and felines", synonyms: "\"cats and dogs\"",
+			description: "Cats and dogs are great." }  );
+		const researcher = new Researcher( paper );
+		const result = metaDescriptionKeyword( paper, researcher );
+		expect( result ).toEqual( 1 );
+	} );
 } );
 
 describe( "the meta description keyword match research for languages that have custom helper to match words", function() {
@@ -156,7 +179,31 @@ describe( "the meta description keyword match research for languages that have c
 			const result = metaDescriptionKeyword( paper, researcher );
 			expect( result ).toEqual( 0 );
 		} );
+
+		it( "returns 1 when the keyphrase is enclosed in double quotes and there is an exact match in the meta description text", function() {
+			const paper = new Paper( "", { keyword: "『小さい花の刺繍』", synonyms: "野生のハーブの刺繡", description: "小さい花の刺繍。" }  );
+			const researcher = new JapaneseResearcher( paper );
+			const result = metaDescriptionKeyword( paper, researcher );
+			expect( result ).toEqual( 1 );
+		} );
+
+		it( "returns 2 when the keyphrase is enclosed in double quotes, and when there are 2 matches in the meta description text", function() {
+			const paper = new Paper( "", { keyword: "『小さい花の刺繍』",
+				synonyms: "野生のハーブの刺繡",
+				description: "小さい花の刺繍これによって少しでも夏休み明けの感染者数を抑えたいという事だけど、小さい花の刺繍。" } );
+			const researcher = new JapaneseResearcher( paper );
+			const result = metaDescriptionKeyword( paper, researcher );
+			expect( result ).toEqual( 2 );
+		} );
+
+		it( "returns 1 when the synonym is enclosed in double quotes and there is an exact match in the meta description text", function() {
+			const paper = new Paper( "", { keyword: "野生のハーブの刺繡", synonyms: "『小さい花の刺繍』", description: "小さい花の刺繍。" }  );
+			const researcher = new JapaneseResearcher( paper );
+			const result = metaDescriptionKeyword( paper, researcher );
+			expect( result ).toEqual( 1 );
+		} );
 	} );
+
 	describe( "test the research when the morphology data is available", () => {
 		it( "returns 1 when the keyword is found once in the meta description (exact match)", function() {
 			const paper = new Paper( "", { keyword: "小さい花の刺繍", description: "この記事は小さい花の刺繍をどうやってすてればいいのか、" +
@@ -217,6 +264,18 @@ describe( "the meta description keyword match research for languages that have c
 			researcher.addResearchData( "morphology", morphologyDataJA );
 			const result = metaDescriptionKeyword( paper, researcher );
 			expect( result ).toEqual( 2 );
+		} );
+
+		it( "returns 0 when the keyphrase is enclosed in double quotes, but the meta description text contains " +
+			"different form of the keyphrase", function() {
+			const paper = new Paper( "", { keyword: "『小さい花の刺繍』",
+				synonyms: "野生のハーブの刺繡",
+				description: "小さくて可愛い花の刺繍に関する一般一般の記事です。私は美しい猫を飼っています。" } );
+			const researcher = new JapaneseResearcher( paper );
+			researcher.addResearchData( "morphology", morphologyDataJA );
+
+			const result = metaDescriptionKeyword( paper, researcher );
+			expect( result ).toEqual( 0 );
 		} );
 	} );
 } );

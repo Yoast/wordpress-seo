@@ -1,7 +1,8 @@
-import { get, includes } from "lodash-es";
+import { get } from "lodash-es";
 import parseSynonyms from "../../../helpers/sanitize/parseSynonyms";
 import getContentWords from "../helpers/getContentWords";
 import createWordForms from "../helpers/internal/createWordForms";
+import doubleQuotes from "../../../helpers/sanitize/doubleQuotes";
 
 /**
  * Creates word forms for each word in the given keyphrase.
@@ -12,14 +13,11 @@ import createWordForms from "../helpers/internal/createWordForms";
  * @returns {Array<string[]>} The word forms for each word in the keyphrase.
  */
 function getKeyphraseForms( keyphrase, researcher ) {
-	const keyphraseWords = getContentWords( keyphrase );
-
-	// The keyphrase is in double quotes: use it as an exact match keyphrase.
-	const doubleQuotes = [ "「", "」", "『", "』", "“", "”", "〝", "〞", "〟", "‟", "„", "\"" ];
-	if ( includes( doubleQuotes, keyphrase[ 0 ] ) && includes( doubleQuotes, keyphrase[ keyphrase.length - 1 ] ) ) {
-		keyphrase = keyphrase.substring( 1, keyphrase.length - 1 );
+	if ( doubleQuotes.includes( keyphrase[ 0 ] ) && doubleQuotes.includes( keyphrase[ keyphrase.length - 1 ] ) ) {
 		return [ [ keyphrase ] ];
 	}
+
+	const keyphraseWords = getContentWords( keyphrase );
 
 	const morphologyData = get( researcher.getData( "morphology" ), "ja", false );
 

@@ -93,7 +93,7 @@ describe( "The getWordForms function", () => {
 
 		const forms = getWordForms( paper, researcher );
 		expect( forms ).toEqual( {
-			keyphraseForms: [ [ "休め" ] ],
+			keyphraseForms: [ [ "\"休め\"" ] ],
 			synonymsForms: [],
 		} );
 	} );
@@ -110,7 +110,7 @@ describe( "The getWordForms function", () => {
 
 		const forms = getWordForms( paper, researcher );
 		expect( forms ).toEqual( {
-			keyphraseForms: [ [ "頑張り" ] ],
+			keyphraseForms: [ [ "「頑張り」" ] ],
 			synonymsForms: [],
 		} );
 	} );
@@ -151,7 +151,7 @@ describe( "The getWordForms function", () => {
 		expect( forms ).toEqual( {
 			keyphraseForms: [ [ "話す", "話し", "話さ", "話せ", "話そ", "話せる", "話させ", "話させる", "話され", "話される", "話そう" ] ],
 			synonymsForms: [
-				[ [ "休め" ] ],
+				[ [ "『休め』" ] ],
 				[ [ "及ぶ", "及び", "及ば", "及べ", "及ぼ", "及ん", "及べる", "及ばせ", "及ばせる", "及ばれ", "及ばれる", "及ぼう" ] ],
 			],
 		} );
@@ -258,7 +258,8 @@ describe( "The getWordForms function", () => {
 			synonymsForms: [ [ [ "及ぼ" ] ] ],
 		} );
 	} );
-	it( "a test to make sure that createWordForms is not accessed when there is no morpohlogyData file available (using a word that ends in る)", () => {
+	it( "a test to make sure that createWordForms is not accessed when there is no morpohlogyData file " +
+		"available (using a word that ends in る)", () => {
 		const paper = new Paper(
 			"話せる及ん",
 			{
@@ -274,7 +275,8 @@ describe( "The getWordForms function", () => {
 			synonymsForms: [ [ [ "及ぼ" ] ] ],
 		} );
 	} );
-	it( "creates forms for a Japanese keyphrase consisting of multiple words, including function words, when no morphologyData file is available.", () => {
+	it( "creates forms for a Japanese keyphrase consisting of multiple words, including function words, " +
+		"when no morphologyData file is available.", () => {
 		const paper = new Paper(
 			"犬です。",
 			{
