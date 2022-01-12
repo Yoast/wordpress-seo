@@ -14,6 +14,11 @@ import createWordForms from "../helpers/internal/createWordForms";
 function getKeyphraseForms( keyphrase, researcher ) {
 	const keyphraseWords = getContentWords( keyphrase );
 
+	// If the keyphrase does not contain content words, return an empty list.
+	if ( keyphraseWords.length === 0 ) {
+		return [ [] ];
+	}
+
 	// The keyphrase is in double quotes: use it as an exact match keyphrase.
 	const doubleQuotes = [ "「", "」", "『", "』", "“", "”", "〝", "〞", "〟", "‟", "„", "\"" ];
 	if ( includes( doubleQuotes, keyphrase[ 0 ] ) && includes( doubleQuotes, keyphrase[ keyphrase.length - 1 ] ) ) {
