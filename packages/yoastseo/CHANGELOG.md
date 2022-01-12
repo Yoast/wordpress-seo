@@ -109,6 +109,9 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 * Adds a step to exclude Table of Contents in `sanitizeString.js` helper and uses this helper in Japanese `countCharacters` and `getWords` helpers.
 * Replaces 'words' with 'characters' in the Japanese feedback strings for the Subheading distribution, Paragraph length, Sentence length, Keyphrase length, and Text length assessments.
 * Adds the option to pass a custom `matchWordInText` helper and a helper for matching Japanese keyphrases in the `findKeywordInFirstParagraph` research.
+* Fixes the Japanese full text test.
+* Adds a Japanese full text test.
+
 
 ## 1.92.0
 ### Enhancements

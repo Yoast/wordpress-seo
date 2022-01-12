@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 5.8
-Stable tag: 17.8
+Stable tag: 17.9
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -236,6 +236,19 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 18.0 =
+Release Date: January 25th, 2022
+
+Enhancements:
+
+* Limits a potentially slow query to certain routes, which makes it so it gets called fewer times.
+* Enhances schema presentation for languages that are not alphanumeric. Props to [sous-studio](https://github.com/sous-studio)
+
+Bugfixes:
+
+* Fixes a bug where removing an image from our Facebook Preview and Twitter Preview modals could lead to a confusing accessibility experience due to focus loss.
+* Fixes a bug where clicking outside of a Yoast modal in the block editor would not close the modal.
+
 = 17.9 =
 Release Date: January 11th, 2022
 
@@ -270,31 +283,6 @@ Other:
 * Improves compatibility with PHP 8.1 by adding validations and handling deprecations.
 * Reverts the removal of the deprecated `WPSEO_Frontend` class.
 * Changes the font size of the alerts from 14px to 13px.
-
-= 17.8 =
-Release Date: December 14th, 2021
-
-Yoast SEO 17.8 is out now and ready for you to download. In this release, we fix a number of bugs and added a few enhancements for you to enjoy! Read more about what's new in Yoast SEO 17.8 in [our release post in English](https://yoa.st/release-17-8) or [our release post in Spanish](https://yoa.st/release-17-8-spanish)!
-
-Enhancements:
-
-* Improves the user direction in the configuration workout.
-* Adds a sleep interval to the WP CLI index command to limit server load while this command is running. Props to [roborourke](https://github.com/roborourke).
-
-Bugfixes:
-
-* Fixes a bug where on small screens the advanced setting's search engine follow checkbox would have a misplaced center.
-* Fixes a bug where the styling of the introduction dialog in Elementor would be broken due to changes in Elementor.
-* Fixes a bug where the reading time functionality for languages other than English would incorrectly output English reading speed values.
-* Fixes a bug where certain text strings in the Google, Facebook and Twitter previews would not be translated.
-* Fixes a bug where the state of indexation was not persisted when switching between workouts and the workouts page.
-* Fixes a bug where the Workouts page wouldn't display translations.
-
-Other:
-
-* Fixes some styling issues in the configuration workout.
-* Prevents SEO managers from changing the site description in the configuration workout.
-* Optimizes and compresses several .png images to reduce their size. Props to [lowwebtech](https://github.com/lowwebtech).
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
