@@ -33,13 +33,14 @@ function PrimaryButton( { stepIdx, totalSteps, onClick } ) {
  *
  * @returns {JSX.Element} The example stepper.
  */
-export default function Stepper( { steps, setActiveStep } ) {
+export default function Stepper( { steps, setActiveStep, saveStep } ) {
 	const handlePrimaryClick = useCallback(
 		( stepIdx, totalSteps ) => {
 			if ( stepIdx === totalSteps ) {
 				console.log( "finished" );
 				return;
 			}
+			saveStep( stepIdx );
 			setActiveStep( stepIdx + 1 );
 		},
 		[ setActiveStep ]
@@ -47,8 +48,8 @@ export default function Stepper( { steps, setActiveStep } ) {
 	return (
 		<ol className="yst-overflow-hidden">
 			{ /* eslint-disable-next-line complexity */ }
-			{ steps.map( ( step, stepIdx ) => (
-				<li key={ step.name } className={ stepIdx === steps.length - 1 ? "" : "yst-pb-10", "yst-relative" }>
+			{ steps.map( ( step, stepIdx ) => {
+				return <li key={ step.name } className={ stepIdx === steps.length - 1 ? "" : "yst-pb-10", "yst-relative" }>
 					{ ( step.status === "complete" ) &&
 						<Fragment>
 							{ stepIdx !== steps.length - 1 &&
@@ -75,7 +76,7 @@ export default function Stepper( { steps, setActiveStep } ) {
 						<Fragment>
 							{ stepIdx === steps.length - 1 ? null : (
 								<div
-									className="yst--ml-px yst-absolute yst-mt-0.5 yst-top-4 yst-left-4 yst-w-0.5 yst-h-full yst-bg-gray-300"
+									className="yst--ml-px yst-absolute yst-mt-0.5 yst-top-8 yst-left-4 yst-w-0.5 yst-h-full yst-bg-gray-300"
 									aria-hidden="true"
 								/>
 							) }
@@ -93,21 +94,23 @@ export default function Stepper( { steps, setActiveStep } ) {
 									<span className="yst-text-sm yst-text-gray-500">{ step.description }</span>
 								</span>
 							</div>
-							<step.component />
-							<button
-								onClick={ () => handlePrimaryClick( stepIdx, steps.length - 1 ) }
-								className="yst-button--primary"
-							>
-								{ stepIdx < steps.length - 1
-									? __( "Save and continue", "wordpress-seo" )
-									: __( "Finish this workout", "wordpress-seo" ) }
-							</button>
-							{ stepIdx > 0 && <button
-								onClick={ () => setActiveStep( stepIdx - 1 ) }
-								className="yst-button--secondary yst-ml-3"
-							>
-								{ __( "Go back", "wordpress-seo" ) }
-							</button> }
+							<div className="yst-ml-12 yst-mb-8 yst-mt-4">
+								<step.component { ...step.componentProps } />
+								<button
+									onClick={ () => handlePrimaryClick( stepIdx, steps.length - 1 ) }
+									className="yst-button--primary"
+								>
+									{ stepIdx < steps.length - 1
+										? __( "Save and continue", "wordpress-seo" )
+										: __( "Finish this workout", "wordpress-seo" ) }
+								</button>
+								{ stepIdx > 0 && <button
+									onClick={ () => setActiveStep( stepIdx - 1 ) }
+									className="yst-button--secondary yst-ml-3"
+								>
+									{ __( "Go back", "wordpress-seo" ) }
+								</button> }
+							</div>
 						</Fragment>
 					}
 					{ ( step.status !== "complete" && step.status !== "current" ) &&
@@ -135,7 +138,7 @@ export default function Stepper( { steps, setActiveStep } ) {
 						</Fragment>
 					}
 				</li>
-			) ) }
+			} ) }
 		</ol>
 	);
 }
