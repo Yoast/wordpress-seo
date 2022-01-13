@@ -79,6 +79,11 @@ class WordProofTimestampToggle extends Component {
 	}
 
 	openSettings() {
+		/**
+		 * When WordPress window is re-focused after WordProof settings have been
+		 * possibly updated in separate window, we should retrieve and update these settings
+		 * in the local state of this component.
+		 */
 		window.addEventListener("focus", async (e) => {
 
 			const settingsResponse = await retrieveSettings();
