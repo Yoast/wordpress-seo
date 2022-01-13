@@ -239,8 +239,7 @@ const stepNumberNameMap = {
 	1: STEPS.configuration.optimizeSeoData,
 	2: STEPS.configuration.siteRepresentation,
 	3: STEPS.configuration.socialProfiles,
-	4: STEPS.configuration.enableTracking,
-	5: STEPS.configuration.newsletterSignup,
+	4: STEPS.configuration.newsletterSignup,
 };
 
 /**
@@ -524,20 +523,20 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 	const siteRepresentsPerson = state.companyOrPerson === "person";
 
 	// PROBABLY DELETE BETWEEN HERE....
-	const [ currentStep, setCurrentStep ] = useState( 0 );
+	const [ stepIndex, setStepIndex ] = useState( 0 );
 
 	/**
 	 * Determines the step status.
 	 *
-	 * @param {int} stepNumber The number of the step.
+	 * @param {string} stepName The name of the step.
 	 *
 	 * @returns {string} The status.
 	 */
-	function determineStatus( stepNumber ) {
-		if ( stepNumber === currentStep ) {
+	function determineStatus( stepName ) {
+		if ( stepName === stepNumberNameMap[ stepIndex + 1 ] ) {
 			return "current";
 		}
-		return isStepFinished( "configuration", stepNumberNameMap[ stepNumber ] ) ? "complete" : "upcoming";
+		return isStepFinished( "configuration", stepName ) ? "complete" : "upcoming";
 	}
 	// AND HERE....
 
@@ -546,13 +545,13 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 		<div id="yoast-configuration-workout" className="card">
 			<Stepper
 				steps={ [
-					{ name: "Step 1", description: "The first of many?", component: IndexationStep, componentProps: { setIndexingState, indexingState }, status: determineStatus( 0 ) },
-					{ name: "Step 2", description: "Bladiebla", component: Step2, status: determineStatus( 1 ) },
-					{ name: "Step 3", description: "Bladiebla", component: Step2, status: determineStatus( 2 ) },
-					{ name: "Step 4", description: "Bladiebla", component: Step2, status: determineStatus( 3 ) },
-					{ name: "Step 5", description: "The last of many?", component: Step2, status: determineStatus( 4 ) },
+					{ name: "The indexables", description: "", component: IndexationStep, componentProps: { setIndexingState, indexingState }, status: determineStatus( steps.optimizeSeoData ) },
+					{ name: "Knowledge panel", description: "", component: Step2, status: determineStatus( steps.siteRepresentation ) },
+					{ name: "Social profiles", description: "optional", component: Step2, status: determineStatus( steps.socialProfiles ) },
+					{ name: "Stay up-to-date", description: "optional", component: Step2, status: determineStatus( steps.newsletterSignup ) },
+					{ name: "Finish configuration", description: "", component: Step2, status: "current" },
 				] }
-				setActiveStep={ setCurrentStep }
+				setActiveStep={ setStepIndex }
 				saveStep={ ( stepIdx ) => finishSteps( "configuration", [ stepNumberNameMap[ stepIdx + 1 ] ] ) }
 			/>
 			<h2 id="yoast-configuration-workout-title">{ __( "Configuration", "wordpress-seo" ) }</h2>
@@ -635,7 +634,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 				>
 					<div id="yoast-configuration-workout-indexing-container" className="indexation-container">
 						<WorkoutIndexation
-							indexingStateCallback={ setIndexingState }
+							sateCallback={ setIndexingState }
 							isEnabled={ ! window.wpseoWorkoutsData.shouldUpdatePremium }
 							indexingState={ indexingState }
 						/>
