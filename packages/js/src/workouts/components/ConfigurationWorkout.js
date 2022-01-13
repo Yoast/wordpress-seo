@@ -11,7 +11,7 @@ import { ReactComponent as WorkoutDoneImage } from "../../../../../images/mirror
 import { ReactComponent as WorkoutStartImage } from "../../../images/motivated_bubble_woman_1_optim.svg";
 import { addLinkToString } from "../../helpers/stringHelpers.js";
 import { Step, Steps, FinishButtonSection } from "./Steps";
-import Stepper from "./StepsTest";
+import Stepper from "./Stepper";
 import { STEPS, WORKOUTS } from "../config";
 import { OrganizationSection } from "./OrganizationSection";
 import { PersonSection } from "./PersonSection";
