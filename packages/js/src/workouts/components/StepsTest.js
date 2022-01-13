@@ -1,5 +1,5 @@
 import { CheckIcon } from "@heroicons/react/solid";
-import { Fragment } from "@wordpress/element";
+import { Fragment, useCallback } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 
 /**
@@ -13,11 +13,37 @@ function classNames( ...classes ) {
 }
 
 /**
+ * The primary button component.
+ *
+ * @param {Object} props The props.
+ *
+ * @returns {JSXElement} The Primary Button component.
+ */
+function PrimaryButton( { stepIdx, totalSteps, onClick } ) {
+	return <button
+		onClick={ () => setActiveStep( stepIdx + 1 ) }
+		className="yst-button--primary"
+	>
+		{ __( "Save and continue", "wordpress-seo" ) }
+	</button>;
+}
+
+/**
  * Example stepper.
  *
  * @returns {JSX.Element} The example stepper.
  */
 export default function Stepper( { steps, setActiveStep } ) {
+	const handlePrimaryClick = useCallback(
+		( stepIdx, totalSteps ) => {
+			if ( stepIdx === totalSteps ) {
+				console.log( "finished" );
+				return;
+			}
+			setActiveStep( stepIdx + 1 );
+		},
+		[ setActiveStep ]
+	);
 	return (
 		<ol className="yst-overflow-hidden">
 			{ /* eslint-disable-next-line complexity */ }
@@ -69,14 +95,19 @@ export default function Stepper( { steps, setActiveStep } ) {
 							</div>
 							<step.component />
 							<button
-								onClick={ () => setActiveStep( stepIdx + 1 ) }
-								className="yst-inline-flex yst-justify-center yst-py-2 yst-px-3 yst-border yst-shadow-sm yst-rounded-md yst-text-sm yst-font-medium yst-leading-4 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-indigo-500 yst-no-underline yst-text-white yst-bg-primary-500 yst-border-transparent hover:yst-bg-primary-700 disabled:yst-bg-primary-700"
+								onClick={ () => handlePrimaryClick( stepIdx, steps.length - 1 ) }
+								className="yst-button--primary"
 							>
-								{ __( "Save and continue", "wordpress-seo" ) }
+								{ stepIdx < steps.length - 1
+									? __( "Save and continue", "wordpress-seo" )
+									: __( "Finish this workout", "wordpress-seo" ) }
 							</button>
-							<button onClick={ () => setActiveStep( stepIdx - 1 ) }>
+							{ stepIdx > 0 && <button
+								onClick={ () => setActiveStep( stepIdx - 1 ) }
+								className="yst-button--secondary yst-ml-3"
+							>
 								{ __( "Go back", "wordpress-seo" ) }
-							</button>
+							</button> }
 						</Fragment>
 					}
 					{ ( step.status !== "complete" && step.status !== "current" ) &&
