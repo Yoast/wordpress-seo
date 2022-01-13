@@ -42,4 +42,15 @@ class String_Helper {
 	public function strip_shortcode( $text ) {
 		return \preg_replace( '`\[[^\]]+\]`s', '', \strip_shortcodes( $text ) );
 	}
+
+	/**
+	 * Adapts the string to use Pascal case.
+	 *
+	 * @param string $string Input.
+	 *
+	 * @return string Pascal cased string.
+	 */
+	public function to_pascal_case( $string ) {
+		return \implode( '_', \array_map( 'ucfirst', \explode( '_', $string ) ) );
+	}
 }
