@@ -30,7 +30,8 @@ class Default_Tagline_Check extends Health_Check {
 	 */
 	public function __construct(
 		Default_Tagline_Runner $runner,
-		Default_Tagline_Report_Builder $report_builder ) {
+		Default_Tagline_Report_Builder $report_builder
+	) {
 		$this->runner         = $runner;
 		$this->report_builder = $report_builder;
 		$this->report_builder->set_test_identifier( $this->get_test_identifier() );
@@ -44,7 +45,7 @@ class Default_Tagline_Check extends Health_Check {
 	 * @return string
 	 */
 	public function get_test_label() {
-		return 'Default tagline';
+		return __( 'Default tagline', 'wordpress-seo' );
 	}
 
 	/**
