@@ -48,8 +48,8 @@ export default function Stepper( { steps, setActiveStep, saveStep } ) {
 	return (
 		<ol className="yst-overflow-hidden">
 			{ /* eslint-disable-next-line complexity */ }
-			{ steps.map( ( step, stepIdx ) => {
-				return <li key={ step.name } className={ stepIdx === steps.length - 1 ? "" : "yst-pb-10", "yst-relative" }>
+			{ steps.map( ( step, stepIdx ) => (
+				 <li key={ step.name } className={ stepIdx === steps.length - 1 ? "" : "yst-pb-10", "yst-relative" }>
 					{ ( step.status === "complete" ) &&
 						<Fragment>
 							{ stepIdx !== steps.length - 1 &&
@@ -138,7 +138,7 @@ export default function Stepper( { steps, setActiveStep, saveStep } ) {
 						</Fragment>
 					}
 				</li>
-			} ) }
+			) ) }
 		</ol>
 	);
 }

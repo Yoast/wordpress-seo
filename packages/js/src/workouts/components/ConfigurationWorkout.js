@@ -526,11 +526,18 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 	// PROBABLY DELETE BETWEEN HERE....
 	const [ currentStep, setCurrentStep ] = useState( 0 );
 
+	/**
+	 * Determines the step status.
+	 *
+	 * @param {int} stepNumber The number of the step.
+	 *
+	 * @returns {string} The status.
+	 */
 	function determineStatus( stepNumber ) {
 		if ( stepNumber === currentStep ) {
 			return "current";
 		}
-		return isStepFinished( stepNumber ) ? "complete" : "upcoming";
+		return isStepFinished( "configuration", stepNumberNameMap[ stepNumber ] ) ? "complete" : "upcoming";
 	}
 	// AND HERE....
 
