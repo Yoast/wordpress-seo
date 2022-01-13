@@ -11,6 +11,33 @@
 final class WPSEO_Image_Utils_Test extends WPSEO_UnitTestCase {
 
 	/**
+	 * The id of the attachment test with.
+	 *
+	 * @var int
+	 */
+	protected static $attachment_id;
+
+	/**
+	 * Sets up an attachment post to use for tests.
+	 *
+	 * @param WP_UnitTest_Factory $factory Unit test factory instance.
+	 *
+	 * @return void
+	 */
+	public static function wpSetUpBeforeClass( $factory ) {
+		self::$attachment_id = $factory->attachment->create();
+	}
+
+	/**
+	 * Deletes the attachment post.
+	 *
+	 * @return void
+	 */
+	public static function wpTearDownAfterClass() {
+		wp_delete_attachment( self::$attachment_id );
+	}
+
+	/**
 	 * Tests getting the full image for an existing attachment.
 	 *
 	 * @covers \WPSEO_Image_Utils::get_image
@@ -212,12 +239,11 @@ final class WPSEO_Image_Utils_Test extends WPSEO_UnitTestCase {
 	 * @return array The test data.
 	 */
 	public function get_data_provider() {
-		$attachment_id = self::factory()->attachment->create();
 		return [
 			[
 				'image'         => 'This is a string',
 				'expected'      => false,
-				'attachment_id' => $attachment_id,
+				'attachment_id' => self::$attachment_id,
 				'message'       => 'With a string given as image data',
 			],
 			[
@@ -226,7 +252,7 @@ final class WPSEO_Image_Utils_Test extends WPSEO_UnitTestCase {
 					'and'  => 'height keys given',
 				],
 				'expected'      => false,
-				'attachment_id' => $attachment_id,
+				'attachment_id' => self::$attachment_id,
 				'message'       => 'An array without the width and height keys',
 			],
 			[
@@ -237,12 +263,12 @@ final class WPSEO_Image_Utils_Test extends WPSEO_UnitTestCase {
 				'expected'      => [
 					'width'  => '10',
 					'height' => '10',
-					'id'     => $attachment_id,
+					'id'     => self::$attachment_id,
 					'alt'    => '',
 					'pixels' => 100,
 					'type'   => false,
 				],
-				'attachment_id' => $attachment_id,
+				'attachment_id' => self::$attachment_id,
 				'message'       => 'With no attachment type given',
 			],
 			[
@@ -254,36 +280,36 @@ final class WPSEO_Image_Utils_Test extends WPSEO_UnitTestCase {
 				'expected'      => [
 					'width'  => '10',
 					'height' => '10',
-					'id'     => $attachment_id,
+					'id'     => self::$attachment_id,
 					'alt'    => '',
 					'pixels' => 100,
 					'type'   => false,
 				],
-				'attachment_id' => $attachment_id,
+				'attachment_id' => self::$attachment_id,
 				'message'       => 'With unwanted keys being stripped',
 			],
 			[
 				'image'         => [
-					'width'       => 100,
-					'height'      => 0,
+					'width'  => 100,
+					'height' => 0,
 				],
 				'expected'      => false,
-				'attachment_id' => $attachment_id,
+				'attachment_id' => self::$attachment_id,
 				'message'       => 'Empty height should not be parsed as valid image',
 			],
 			[
 				'image'         => [
-					'width'       => 0,
-					'height'      => 100,
+					'width'  => 0,
+					'height' => 100,
 				],
 				'expected'      => false,
-				'attachment_id' => $attachment_id,
+				'attachment_id' => self::$attachment_id,
 				'message'       => 'Empty width should not be parsed as valid image',
 			],
 			[
 				'image'         => [
-					'width'       => '10',
-					'height'      => '10',
+					'width'  => '10',
+					'height' => '10',
 				],
 				'expected'      => [
 					'width'  => '10',
@@ -298,8 +324,8 @@ final class WPSEO_Image_Utils_Test extends WPSEO_UnitTestCase {
 			],
 			[
 				'image'         => [
-					'width'       => 'string',
-					'height'      => 'string',
+					'width'  => 'string',
+					'height' => 'string',
 				],
 				'expected'      => [
 					'width'  => 'string',
