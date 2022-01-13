@@ -13,14 +13,19 @@ import doubleQuotes from "../../../helpers/sanitize/doubleQuotes";
  * @returns {Array<string[]>} The word forms for each word in the keyphrase.
  */
 function getKeyphraseForms( keyphrase, researcher ) {
+	// The keyphrase is in double quotes: use it as an exact match keyphrase.
 	if ( doubleQuotes.includes( keyphrase[ 0 ] ) && doubleQuotes.includes( keyphrase[ keyphrase.length - 1 ] ) ) {
 		return [ [ keyphrase ] ];
 	}
 
 	const keyphraseWords = getContentWords( keyphrase );
 
-	const morphologyData = get( researcher.getData( "morphology" ), "ja", false );
+	// If the keyphrase does not contain content words, return an empty list.
+	if ( keyphraseWords.length === 0 ) {
+		return [ [] ];
+	}
 
+	const morphologyData = get( researcher.getData( "morphology" ), "ja", false );
 	return keyphraseWords.map( word => morphologyData ? createWordForms( word, morphologyData ) : [ word ] );
 }
 

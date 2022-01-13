@@ -58,7 +58,7 @@ describe( "The getWordForms function", () => {
 
 		const forms = getWordForms( paper, researcher );
 		expect( forms ).toEqual( {
-			keyphraseForms: [],
+			keyphraseForms: [ [] ],
 			synonymsForms: [],
 		} );
 	} );
@@ -76,7 +76,7 @@ describe( "The getWordForms function", () => {
 
 		const forms = getWordForms( paper, researcher );
 		expect( forms ).toEqual( {
-			keyphraseForms: [],
+			keyphraseForms: [ [] ],
 			synonymsForms: [ [ [ "休む", "休み", "休ま", "休め", "休も", "休ん", "休める", "休ませ", "休ませる", "休まれ", "休まれる", "休もう" ] ] ],
 		} );
 	} );
@@ -297,6 +297,67 @@ describe( "The getWordForms function", () => {
 				[ [ "猫" ],
 					[ "及ぼ" ] ],
 			synonymsForms: [],
+		} );
+	} );
+
+	it( "should not create forms for a keyword containing a single function word", () => {
+		const paper = new Paper(
+			"犬です。",
+			{
+				/*
+				 * ばっかり - function word, is deleted
+				 */
+				keyword: "ばっかり",
+				synonyms: "",
+			}
+		);
+
+		const researcher = new Researcher( paper );
+		const forms = getWordForms( paper, researcher );
+		expect( forms ).toEqual( {
+			keyphraseForms: [ [] ],
+			synonymsForms: [],
+		} );
+	} );
+
+	it( "should not create forms for a keyword containing only function words", () => {
+		const paper = new Paper(
+			"犬です。",
+			{
+				/*
+				 * から - function word, is deleted
+				 * より - function word, is deleted
+				 */
+				keyword: "からより",
+				synonyms: "",
+			}
+		);
+
+		const researcher = new Researcher( paper );
+		const forms = getWordForms( paper, researcher );
+		expect( forms ).toEqual( {
+			keyphraseForms: [ [] ],
+			synonymsForms: [],
+		} );
+	} );
+
+	it( "should not create forms for a synonym containing only function words", () => {
+		const paper = new Paper(
+			"犬です。",
+			{
+				/*
+				 * ばっかり - function word, is deleted
+				 */
+				keyword: "猫",
+				synonyms: "からより",
+			}
+		);
+
+		const researcher = new Researcher( paper );
+		const forms = getWordForms( paper, researcher );
+		expect( forms ).toEqual( {
+			keyphraseForms: [ [ "猫" ] ],
+			synonymsForms: [ [ [] ] ],
 		} );
 	} );
 } );

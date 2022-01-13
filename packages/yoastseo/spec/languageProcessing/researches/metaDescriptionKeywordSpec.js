@@ -162,7 +162,24 @@ describe( "the meta description keyword match research for languages that have c
 			expect( result ).toEqual( 2 );
 		} );
 
-		it( "shouldn't give NaN/infinity times of keyphrase occurrence when the keyphrase contains spaces and " +
+		it( "shouldn't return NaN/infinity times of keyphrase occurrence when the keyphrase contains only function words and " +
+			"there is no match in the text", function() {
+			const paper = new Paper( "", { keyword: "ばっかり", description: "この記事は小さい花の刺繍をどうやってすてればいいのか、" +
+					"基本的な情報を紹介します。私は美しい猫を飼っています。 野生のハーブの刺繡。" } );
+			const researcher = new JapaneseResearcher( paper );
+			const result = metaDescriptionKeyword( paper, researcher );
+			expect( result ).toEqual( 0 );
+		} );
+
+		it( "shouldn't return NaN/infinity times of the synonym occurrence when the synonym contains only function words and " +
+			"there is no match in the text", function() {
+			const paper = new Paper( "", { keyword: "", synonyms: "ばっかり", description: "私は美しい猫を飼っています。" } );
+			const researcher = new JapaneseResearcher( paper );
+			const result = metaDescriptionKeyword( paper, researcher );
+			expect( result ).toEqual( 0 );
+		} );
+
+		it( "shouldn't return NaN/infinity times of keyphrase occurrence when the keyphrase contains spaces and " +
 			"there is no match in the text", function() {
 			const paper = new Paper( "", { keyword: "かしら かい を ばっかり", description: "この記事は小さい花の刺繍をどうやってすてればいいのか、" +
 					"基本的な情報を紹介します。私は美しい猫を飼っています。 野生のハーブの刺繡。" } );
@@ -171,7 +188,7 @@ describe( "the meta description keyword match research for languages that have c
 			expect( result ).toEqual( 0 );
 		} );
 
-		it( "shouldn't give NaN/infinity times of keyphrase occurrence when the keyphrase contains tabs and " +
+		it( "shouldn't return NaN/infinity times of keyphrase occurrence when the keyphrase contains tabs and " +
 			"there is no match in the text", function() {
 			const paper = new Paper( "", { keyword: "かしら	かい	を	ばっかり", description: "この記事は小さい花の刺繍をどうやってすてればいいのか、" +
 					"基本的な情報を紹介します。私は美しい猫を飼っています。 野生のハーブの刺繡。" } );
