@@ -13,22 +13,6 @@ function classNames( ...classes ) {
 }
 
 /**
- * The primary button component.
- *
- * @param {Object} props The props.
- *
- * @returns {JSXElement} The Primary Button component.
- */
-function PrimaryButton( { stepIdx, totalSteps, onClick } ) {
-	return <button
-		onClick={ () => setActiveStep( stepIdx + 1 ) }
-		className="yst-button--primary"
-	>
-		{ __( "Save and continue", "wordpress-seo" ) }
-	</button>;
-}
-
-/**
  * Example stepper.
  *
  * @returns {JSX.Element} The example stepper.
