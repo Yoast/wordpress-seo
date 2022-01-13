@@ -380,7 +380,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	 */
 	public function post_robots_noindex_import( $aioseo_robots_settings ) {
 		// If robot settings defer to default settings, we have null in the is_robots_noindex field.
-		if ( $aioseo_robots_settings['robots_default'] ) {
+		if ( isset( $aioseo_robots_settings['robots_default'] ) && $aioseo_robots_settings['robots_default'] ) {
 			return null;
 		}
 
@@ -400,7 +400,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 		$mapping['type']        = 'postTypes';
 		$mapping['option_name'] = 'aioseo_options_dynamic';
 
-		if ( $aioseo_robots_settings['robots_default'] ) {
+		if ( isset( $aioseo_robots_settings['robots_default'] ) && $aioseo_robots_settings['robots_default'] ) {
 			// Let's first get the subtype's setting value and then transform it taking into consideration whether it defers to global defaults.
 			$subtype_setting = $this->robots_provider->get_subtype_robot_setting( $mapping );
 			return $this->robots_transformer->transform_robot_setting( $mapping['robot_type'], $subtype_setting, $mapping );
