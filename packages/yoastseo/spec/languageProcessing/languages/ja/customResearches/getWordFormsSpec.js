@@ -319,6 +319,7 @@ describe( "The getWordForms function", () => {
 			synonymsForms: [],
 		} );
 	} );
+
 	it( "should not create forms for a keyword containing only function words", () => {
 		const paper = new Paper(
 			"犬です。",
@@ -337,6 +338,26 @@ describe( "The getWordForms function", () => {
 		expect( forms ).toEqual( {
 			keyphraseForms: [ [] ],
 			synonymsForms: [],
+		} );
+	} );
+
+	it( "should not create forms for a synonym containing only function words", () => {
+		const paper = new Paper(
+			"犬です。",
+			{
+				/*
+				 * ばっかり - function word, is deleted
+				 */
+				keyword: "猫",
+				synonyms: "からより",
+			}
+		);
+
+		const researcher = new Researcher( paper );
+		const forms = getWordForms( paper, researcher );
+		expect( forms ).toEqual( {
+			keyphraseForms: [ [ "猫" ] ],
+			synonymsForms: [ [ [] ] ],
 		} );
 	} );
 } );

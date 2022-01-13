@@ -171,6 +171,14 @@ describe( "the meta description keyword match research for languages that have c
 			expect( result ).toEqual( 0 );
 		} );
 
+		it( "shouldn't return NaN/infinity times of the synonym occurrence when the synonym contains only function words and " +
+			"there is no match in the text", function() {
+			const paper = new Paper( "", { keyword: "", synonyms: "ばっかり", description: "私は美しい猫を飼っています。" } );
+			const researcher = new JapaneseResearcher( paper );
+			const result = metaDescriptionKeyword( paper, researcher );
+			expect( result ).toEqual( 0 );
+		} );
+
 		it( "shouldn't return NaN/infinity times of keyphrase occurrence when the keyphrase contains spaces and " +
 			"there is no match in the text", function() {
 			const paper = new Paper( "", { keyword: "かしら かい を ばっかり", description: "この記事は小さい花の刺繍をどうやってすてればいいのか、" +
