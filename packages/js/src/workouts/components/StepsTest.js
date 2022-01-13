@@ -36,12 +36,14 @@ function PrimaryButton( { stepIdx, totalSteps, onClick } ) {
 export default function Stepper( { steps, setActiveStep, saveStep } ) {
 	const handlePrimaryClick = useCallback(
 		( stepIdx, totalSteps ) => {
-			if ( stepIdx === totalSteps ) {
+			const currentStep = stepIdx;
+			const nextStep = stepIdx + 1;
+			if ( currentStep === totalSteps ) {
 				console.log( "finished" );
 				return;
 			}
-			saveStep( stepIdx );
-			setActiveStep( stepIdx + 1 );
+			saveStep( currentStep );
+			setActiveStep( nextStep );
 		},
 		[ setActiveStep ]
 	);
