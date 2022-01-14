@@ -29,5 +29,11 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'validate_as' => null,
 			'ms_exclude'  => false,
 		],
+		'indexing_reason'						 => [
+			'default'     => '',
+			'sanitize_as' => 'text',
+			'validate_as' => null,
+			'ms_exclude'  => false,
+		],
 	];
 }

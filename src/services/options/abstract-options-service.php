@@ -23,9 +23,7 @@ abstract class Abstract_Options_Service {
 	/** @var Sanitization_Helper The sanitization helper. */
 	protected $sanitization;
 
-	/**
-	 * @var Validation_Helper
-	 */
+	/** @var Validation_Helper The validation helper. */
 	protected $validation;
 
 	public function __construct( Sanitization_Helper $sanitization, Validation_Helper $validation ) {
