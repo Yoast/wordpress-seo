@@ -1,7 +1,6 @@
 /**
  * @jest-environment jsdom
  */
-import { enableFeatures } from "@yoast/feature-flag";
 import getSentences from "../../../../src/languageProcessing/helpers/sentence/getSentences.js";
 
 import {
@@ -18,8 +17,6 @@ import {
 } from "../sanitize/mergeListItemsSpec";
 
 import { forEach } from "lodash-es";
-
-enableFeatures( [ "JAPANESE_SUPPORT" ] );
 
 /**
  * Helper to test sentence detection.

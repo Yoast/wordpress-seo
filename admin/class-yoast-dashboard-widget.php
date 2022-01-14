@@ -5,12 +5,6 @@
  * @package WPSEO\Admin
  */
 
-use Yoast\WP\SEO\Conditionals\Wincher_Conditional;
-use Yoast\WP\SEO\Config\Wincher_Client;
-use Yoast\WP\SEO\Exceptions\OAuth\Authentication_Failed_Exception;
-use Yoast\WP\SEO\Exceptions\OAuth\Tokens\Empty_Property_Exception;
-use Yoast\WP\SEO\Exceptions\OAuth\Tokens\Empty_Token_Exception;
-
 /**
  * Class to change or add WordPress dashboard widgets.
  */

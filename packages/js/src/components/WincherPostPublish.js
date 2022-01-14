@@ -1,13 +1,16 @@
+/* global wpseoAdminL10n */
+
 /* External dependencies */
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
-import { Fragment, useCallback } from "@wordpress/element";
+import { Fragment } from "@wordpress/element";
 
 /* Yoast dependencies */
 import { FieldGroup, NewButton } from "@yoast/components";
 
 /* Internal dependencies */
 import WincherExplanation from "./modals/WincherExplanation";
+import WincherSEOPerformanceModal from "../containers/WincherSEOPerformanceModal";
 
 /**
  * Renders the WincherPostPublish Yoast integration.
@@ -20,19 +23,13 @@ export default function WincherPostPublish( props ) {
 	const {
 		hasTrackedKeyphrases,
 		trackAll,
-		keyphrases,
 	} = props;
-
-	const trackAllOnClick = useCallback( () => {
-		trackAll( keyphrases );
-	},
-	[ trackAll, keyphrases ] );
 
 	return (
 		<Fragment>
 			<FieldGroup
 				label={ __( "SEO performance", "wordpress-seo" ) }
-				linkTo={ "https://google.com" }
+				linkTo={ wpseoAdminL10n[ "shortlinks.wincher.seo_performance" ] }
 				linkText={ __( "Learn more about the SEO performance feature.", "wordpress-seo" ) }
 			/>
 
@@ -49,23 +46,23 @@ export default function WincherPostPublish( props ) {
 			<div className="yoast">
 				<NewButton
 					variant="secondary"
-					onClick={ trackAllOnClick }
+					onClick={ trackAll }
 				>
 					{ __( "Track all keyphrases on this page", "wordpress-seo" ) }
 				</NewButton>
 			</div>
+
+			<WincherSEOPerformanceModal location="postpublish" />
 		</Fragment>
 	);
 }
 
 WincherPostPublish.propTypes = {
-	keyphrases: PropTypes.array,
 	trackAll: PropTypes.func,
 	hasTrackedKeyphrases: PropTypes.bool,
 };
 
 WincherPostPublish.defaultProps = {
-	keyphrases: [],
 	trackAll: () => {},
 	hasTrackedKeyphrases: false,
 };

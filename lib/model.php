@@ -3,6 +3,7 @@
 namespace Yoast\WP\Lib;
 
 use JsonSerializable;
+use ReturnTypeWillChange;
 
 /**
  * Make Model compatible with WordPress.
@@ -559,6 +560,7 @@ class Model implements JsonSerializable {
 	 *
 	 * @return array The data of this object.
 	 */
+	#[ReturnTypeWillChange]
 	public function jsonSerialize() {
 		return $this->orm->as_array();
 	}

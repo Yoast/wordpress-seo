@@ -10,13 +10,11 @@ export default compose( [
 		const {
 			getWincherTrackedKeyphrases,
 			hasWincherTrackedKeyphrases,
-			getWincherTrackableKeyphrases,
 		} = select( "yoast-seo/editor" );
 
 		return {
 			trackedKeyphrases: getWincherTrackedKeyphrases(),
 			hasTrackedKeyphrases: hasWincherTrackedKeyphrases(),
-			keyphrases: getWincherTrackableKeyphrases(),
 		};
 	} ),
 	withDispatch( ( dispatch ) => {
@@ -26,9 +24,9 @@ export default compose( [
 		} = dispatch( "yoast-seo/editor" );
 
 		return {
-			trackAll: ( keyphrases ) => {
-				setWincherTrackAllKeyphrases( keyphrases );
-				setWincherOpenModal( "sidebar" );
+			trackAll: () => {
+				setWincherTrackAllKeyphrases( true );
+				setWincherOpenModal( "postpublish" );
 			},
 		};
 	} ),

@@ -506,7 +506,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 								"Yoast SEO",
 								"</a>"
 							),
-							"https://yoa.st/config-workout-guide",
+							window.wpseoWorkoutsData.configuration.shortlinks.workoutGuide,
 							"yoast-configuration-workout-guide-link"
 						)
 					}
@@ -546,7 +546,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 							"<a>",
 							"</a>"
 						),
-						"https://yoa.st/config-workout-index-data",
+						window.wpseoWorkoutsData.configuration.shortlinks.indexData,
 						"yoast-configuration-workout-index-data-link"
 					) }
 					subtitleClass={ window.wpseoWorkoutsData.shouldUpdatePremium ? "disabled" : "" }
@@ -787,7 +787,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 					isFinished={ isStep5Finished }
 				>
 					<br />
-					<NewsletterSignup />
+					<NewsletterSignup gdprLink={ window.wpseoWorkoutsData.configuration.shortlinks.gdpr } />
 				</Step>
 				<FinishButtonSection
 					buttonId="yoast-configuration-workout-finish-workout-button"

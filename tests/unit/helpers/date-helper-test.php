@@ -189,6 +189,18 @@ class Date_Helper_Test extends TestCase {
 				'input'    => '-0001-11-30T00:00:00+00:00',
 				'expected' => false,
 			],
+			'Empty string' => [
+				'input'    => '',
+				'expected' => true,
+			],
+			'null' => [
+				'input'    => null,
+				'expected' => true,
+			],
+			'Other non-string' => [
+				'input'    => 123456789,
+				'expected' => false,
+			],
 		];
 	}
 }

@@ -20,7 +20,7 @@ class Wincher_Helper {
 	 * @return bool Whether or not the integration is active.
 	 */
 	public function is_active() {
-		// If feature flag is disabled, Wincher should not be active.
+		// If the integration is disabled, Wincher should not be active.
 		$conditional = new Wincher_Conditional();
 		if ( ! $conditional->is_met() ) {
 			return false;

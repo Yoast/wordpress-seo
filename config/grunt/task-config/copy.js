@@ -67,10 +67,6 @@ module.exports = {
 		src: "gettext.pot",
 		dest: "<%= files.pot.yoastJsComponents %>",
 	},
-	"makepot-yoast-js-configuration-wizard": {
-		src: "gettext.pot",
-		dest: "<%= files.pot.yoastJsConfigurationWizard %>",
-	},
 	"makepot-yoast-js-helpers": {
 		src: "gettext.pot",
 		dest: "<%= files.pot.yoastJsHelpers %>",

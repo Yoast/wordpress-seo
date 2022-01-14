@@ -117,6 +117,7 @@ export default compose( [
 			getSnippetEditorMode,
 			getSnippetEditorWordsToHighlight,
 			isCornerstoneContent,
+			getContentLocale,
 		} = select( "yoast-seo/editor" );
 
 		return {
@@ -132,6 +133,7 @@ export default compose( [
 			replacementVariables: getCurrentReplacementVariablesForEditor(),
 			wordsToHighlight: getSnippetEditorWordsToHighlight(),
 			isCornerstone: isCornerstoneContent(),
+			locale: getContentLocale(),
 		};
 	} ),
 	withDispatch( dispatch => {
