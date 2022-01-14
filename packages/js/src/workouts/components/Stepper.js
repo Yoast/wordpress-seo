@@ -1,29 +1,20 @@
 import { CheckIcon } from "@heroicons/react/solid";
 import { Fragment, useCallback } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-
-/**
- * Joins the classnames.
- *
- * @param {Object} classes The classes.
- * @returns {string} The joined classnames.
- */
-function classNames( ...classes ) {
-	return classes.filter( Boolean ).join( " " );
-}
+import PropTypes from "prop-types";
 
 /**
  * Example stepper.
  *
  * @returns {JSX.Element} The example stepper.
  */
-export default function Stepper( { steps, setActiveStep, saveStep } ) {
+export default function Stepper( { steps, setActiveStep, saveStep, finishStepper } ) {
 	const handlePrimaryClick = useCallback(
 		( stepIdx, totalSteps ) => {
 			const currentStep = stepIdx;
 			const nextStep = stepIdx + 1;
 			if ( currentStep === totalSteps ) {
-				console.log( "finished" );
+				finishStepper();
 				return;
 			}
 			saveStep( currentStep );
@@ -53,7 +44,7 @@ export default function Stepper( { steps, setActiveStep, saveStep } ) {
 								</span>
 								<span className="yst-ml-4 yst-min-w-0 yst-flex yst-flex-col">
 									<span className="yst-text-xs yst-font-semibold yst-tracking-wide yst-uppercase">{ step.name }</span>
-									<span className="yst-text-sm yst-text-gray-500">{ step.description }</span>
+									{ step.description && <span className="yst-text-sm yst-text-gray-500">{ step.description }</span> }
 								</span>
 							</div>
 						</Fragment>
@@ -77,11 +68,11 @@ export default function Stepper( { steps, setActiveStep, saveStep } ) {
 									<span className="yst-text-xs yst-font-semibold yst-tracking-wide yst-uppercase yst-text-primary-500">
 										{ step.name }
 									</span>
-									<span className="yst-text-sm yst-text-gray-500">{ step.description }</span>
+									{ step.description && <span className="yst-text-sm yst-text-gray-500">{ step.description }</span> }
 								</span>
 							</div>
 							<div className="yst-ml-12 yst-mb-8 yst-mt-4">
-								<step.component { ...step.componentProps } />
+								{ step.component }
 								<button
 									onClick={ () => handlePrimaryClick( stepIdx, steps.length - 1 ) }
 									className="yst-button--primary"
@@ -118,7 +109,7 @@ export default function Stepper( { steps, setActiveStep, saveStep } ) {
 									<span className="yst-text-xs yst-font-semibold yst-tracking-wide yst-uppercase yst-text-gray-500">
 										{ step.name }
 									</span>
-									<span className="yst-text-sm yst-text-gray-500">{ step.description }</span>
+									{ step.description && <span className="yst-text-sm yst-text-gray-500">{ step.description }</span> }
 								</span>
 							</div>
 						</Fragment>
@@ -128,3 +119,20 @@ export default function Stepper( { steps, setActiveStep, saveStep } ) {
 		</ol>
 	);
 }
+
+Stepper.propTypes = {
+	steps: PropTypes.arrayOf( PropTypes.shape( {
+		name: PropTypes.string.isRequired,
+		description: PropTypes.string,
+		component: PropTypes.element.isRequired,
+		status: PropTypes.oneOf( [ "complete", "current", "upcoming" ] ).isRequired,
+	} ) ).isRequired,
+	setActiveStep: PropTypes.func.isRequired,
+	saveStep: PropTypes.func,
+	finishStepper: PropTypes.func,
+};
+
+Stepper.defaultProps = {
+	saveStep: () => {},
+	finishStepper: () => {},
+};

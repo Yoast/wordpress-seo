@@ -5,16 +5,6 @@ import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 
 /**
- * Joins the classnames.
- *
- * @param {Object} classes The classes.
- * @returns {string} The joined classnames.
- */
- function classNames( ...classes ) {
-	return classes.filter( Boolean ).join( " " );
-}
-
-/**
  * The Steps component
  *
  * @param {Object} props The props.
