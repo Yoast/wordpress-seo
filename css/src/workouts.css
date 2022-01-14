@@ -2,6 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Custom button classes because we're not using a Button component. This will ensure all buttons being exactly the same. */
+.yst-button {
+	@apply yst-inline-flex yst-justify-center yst-py-2 yst-px-3 yst-border yst-shadow-sm yst-rounded-md yst-text-sm yst-font-medium yst-leading-4 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-indigo-500 yst-no-underline;
+}
+
+.yst-button--primary {
+	@apply yst-button yst-text-white yst-bg-primary-500 yst-border-transparent hover:yst-bg-primary-700 disabled:yst-bg-primary-700
+}
+
+.yst-button--secondary {
+	@apply yst-button yst-text-gray-700 yst-bg-white yst-border-gray-300 hover:yst-bg-gray-50;
+}
+
+.yst-button--danger {
+	@apply yst-text-white yst-bg-red-600 yst-border-transparent hover:yst-bg-red-700;
+}
+
+.yst-button--remove {
+	@apply yst-text-red-600 yst-underline yst-rounded-md yst-px-1.5 yst-py-1 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-indigo-500;
+}
+
 #wpseo-workouts-container-free h1,
 #wpseo-workouts-container-free h3 {
 	color: #a4286a;
