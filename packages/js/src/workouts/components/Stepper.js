@@ -92,7 +92,7 @@ export default function Stepper( { steps, setActiveStep, saveStep, finishStepper
 										<CheckIcon className="yst-w-5 yst-h-5 yst-text-white" aria-hidden="true" />
 									</span>
 								</span>
-								<span className="yst-ml-4 yst-min-w-0 yst-flex yst-flex-col">
+								<span className="yst-ml-4 yst-min-w-0 yst-flex yst-flex-col yst-self-center">
 									<span className="yst-text-xs yst-font-semibold yst-tracking-wide yst-uppercase">{ step.name }</span>
 									{ step.description && <span className="yst-text-sm yst-text-gray-500">{ step.description }</span> }
 								</span>
@@ -114,7 +114,7 @@ export default function Stepper( { steps, setActiveStep, saveStep, finishStepper
 										<span className="yst-h-2.5 yst-w-2.5 yst-bg-primary-500 yst-rounded-full" />
 									</span>
 								</span>
-								<span className="yst-ml-4 yst-min-w-0 yst-flex yst-flex-col">
+								<span className="yst-ml-4 yst-min-w-0 yst-flex yst-flex-col yst-self-center">
 									<span className="yst-text-xs yst-font-semibold yst-tracking-wide yst-uppercase yst-text-primary-500">
 										{ step.name }
 									</span>
@@ -148,7 +148,7 @@ export default function Stepper( { steps, setActiveStep, saveStep, finishStepper
 										<span className="yst-h-2.5 yst-w-2.5 yst-bg-transparent yst-rounded-full yst-group-hover:bg-gray-300" />
 									</span>
 								</span>
-								<span className="yst-ml-4 yst-min-w-0 yst-flex yst-flex-col">
+								<span className="yst-ml-4 yst-min-w-0 yst-flex yst-flex-col yst-self-center">
 									<span className="yst-text-xs yst-font-semibold yst-tracking-wide yst-uppercase yst-text-gray-500">
 										{ step.name }
 									</span>
