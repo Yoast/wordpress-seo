@@ -26,8 +26,8 @@ export const getInitialPostState = () => ( {
 	},
 	form: {
 		seo: {
-			title: dom.getPostSeoTitle(),
-			description: dom.getPostMetaDescription(),
+			title: dom.getPostSeoTitle() || window.wpseoScriptData.metabox.title_template,
+			description: dom.getPostMetaDescription() || window.wpseoScriptData.metabox.metadesc_template,
 			slug: dom.getPostSlug(),
 			isCornerstone: dom.getPostIsCornerstone(),
 		},
