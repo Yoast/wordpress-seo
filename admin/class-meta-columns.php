@@ -641,7 +641,7 @@ class WPSEO_Meta_Columns {
 		}
 
 		if ( WPSEO_Meta::get_value( 'focuskw', $post_id ) === '' ) {
-			$rank  = new WPSEO_Rank( WPSEO_Rank::NO_FOCUS );
+			$rank  = new WPSEO_Rank( WPSEO_Rank::BAD );
 			$title = __( 'Focus keyphrase not set.', 'wordpress-seo' );
 
 			return $this->render_score_indicator( $rank, $title );
