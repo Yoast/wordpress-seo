@@ -1,7 +1,7 @@
 import { ExclamationIcon } from "@heroicons/react/outline";
 import { useCallback, useEffect, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { PropTypes } from "prop-types";
+import PropTypes from "prop-types";
 import Modal from "./modal";
 
 /* eslint-disable max-len */
@@ -14,7 +14,7 @@ import Modal from "./modal";
  *
  * @returns {JSX.Element} The UnsavedChangesModal.
  */
-export default function UnsavedChangesModal() {
+export default function UnsavedChangesModal( { hasUnsavedChanges } ) {
 	const [ modalIsOpen, setModalIsOpen ] = useState( false );
 	const [ targetUrl, setTargetUrl ] = useState( "" );
 
@@ -26,16 +26,21 @@ export default function UnsavedChangesModal() {
 		window.location.replace( targetUrl );
 	}, [ targetUrl ] );
 
+	const eventHandler = useCallback( ( e ) => {
+		console.log( "in listener: ", hasUnsavedChanges );
+		if ( hasUnsavedChanges && e.target.tagName === "A" ) {
+			e.preventDefault();
+			setTargetUrl( e.target.href );
+			setModalIsOpen( true );
+		}
+	}, [ hasUnsavedChanges ] );
+
 	useEffect( () => {
-		window.addEventListener( "click", ( e ) => {
-			if ( e.target.tagName === "A" ) {
-				e.preventDefault();
-				console.log( e.target );
-				setTargetUrl( e.target.href );
-				setModalIsOpen( true );
-			}
-		} );
-	}, [] );
+		window.addEventListener( "click", eventHandler );
+		return () => {
+			window.removeEventListener( "click", eventHandler );
+		}
+	}, [ eventHandler ] );
 
 	return (
 		<Modal isOpen={ modalIsOpen } handleClose={ closeModal }>
@@ -75,6 +80,10 @@ export default function UnsavedChangesModal() {
 			</div>
 		</Modal>
 	);
+}
+
+UnsavedChangesModal.propTypes = {
+	hasUnsavedChanges: PropTypes.bool.isRequired,
 }
 
 /* eslint-enable max-len */
