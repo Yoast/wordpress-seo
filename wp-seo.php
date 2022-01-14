@@ -20,7 +20,7 @@
  * Requires PHP: 5.6.20
  *
  * WC requires at least: 3.0
- * WC tested up to: 6.0
+ * WC tested up to: 6.1
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
