@@ -60,8 +60,8 @@ export const getInitialTermState = () => ( {
 	},
 	form: {
 		seo: {
-			title: dom.getTermSeoTitle(),
-			description: dom.getTermMetaDescription(),
+			title: dom.getTermSeoTitle() || window.wpseoScriptData.metabox.title_template,
+			description: dom.getTermMetaDescription() || window.wpseoScriptData.metabox.metadesc_template,
 			slug: dom.getTermSlug(),
 			isCornerstone: dom.getTermIsCornerstone(),
 		},
