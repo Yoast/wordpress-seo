@@ -4,24 +4,74 @@ import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 
 /**
+ * The StepButtons component.
+ *
+ * @param {Object}   props               The props object.
+ * @param {number}   props.stepIdx       The index of the current step.
+ * @param {number}   props.lastIndex     The index of the last step.
+ * @param {function} props.setActiveStep A function to set a new active step.
+ * @param {function} props.saveStep      A function to save the current step.
+ * @param {function} props.finishStepper A function to finish the last step (entire stepper).
+ *
+ * @returns {WPElement} The StepButtons component.
+ */
+function StepButtons( { stepIdx, lastIndex, saveStep, setActiveStep, finishStepper } ) {
+	const handlePrimaryClick = useCallback(
+		() => {
+			const currentStep = stepIdx;
+			const nextStep = stepIdx + 1;
+			if ( currentStep === lastIndex ) {
+				finishStepper();
+			} else {
+				saveStep( currentStep );
+				setActiveStep( nextStep );
+			}
+		},
+		[ setActiveStep, saveStep, finishStepper, stepIdx, lastIndex ]
+	);
+
+	const goBack = useCallback( () => {
+		setActiveStep( stepIdx - 1 );
+	}, [ stepIdx, setActiveStep ] );
+
+	return <Fragment>
+		<button
+			onClick={ handlePrimaryClick }
+			className="yst-button--primary"
+		>
+			{ stepIdx < lastIndex
+				? __( "Save and continue", "wordpress-seo" )
+				: __( "Finish this workout", "wordpress-seo" ) }
+		</button>
+		{ stepIdx > 0 && <button
+			onClick={ goBack }
+			className="yst-button--secondary yst-ml-3"
+		>
+			{ __( "Go back", "wordpress-seo" ) }
+		</button>
+		}
+	</Fragment>;
+}
+
+StepButtons.propTypes = {
+	stepIdx: PropTypes.number.isRequired,
+	lastIndex: PropTypes.number.isRequired,
+	setActiveStep: PropTypes.func.isRequired,
+	saveStep: PropTypes.func,
+	finishStepper: PropTypes.func,
+};
+
+StepButtons.defaultProps = {
+	saveStep: () => {},
+	finishStepper: () => {},
+};
+
+/**
  * Example stepper.
  *
  * @returns {JSX.Element} The example stepper.
  */
 export default function Stepper( { steps, setActiveStep, saveStep, finishStepper } ) {
-	const handlePrimaryClick = useCallback(
-		( stepIdx, totalSteps ) => {
-			const currentStep = stepIdx;
-			const nextStep = stepIdx + 1;
-			if ( currentStep === totalSteps ) {
-				finishStepper();
-				return;
-			}
-			saveStep( currentStep );
-			setActiveStep( nextStep );
-		},
-		[ setActiveStep ]
-	);
 	return (
 		<ol className="yst-overflow-hidden">
 			{ /* eslint-disable-next-line complexity */ }
@@ -73,20 +123,13 @@ export default function Stepper( { steps, setActiveStep, saveStep, finishStepper
 							</div>
 							<div className="yst-ml-12 yst-mb-8 yst-mt-4">
 								{ step.component }
-								<button
-									onClick={ () => handlePrimaryClick( stepIdx, steps.length - 1 ) }
-									className="yst-button--primary"
-								>
-									{ stepIdx < steps.length - 1
-										? __( "Save and continue", "wordpress-seo" )
-										: __( "Finish this workout", "wordpress-seo" ) }
-								</button>
-								{ stepIdx > 0 && <button
-									onClick={ () => setActiveStep( stepIdx - 1 ) }
-									className="yst-button--secondary yst-ml-3"
-								>
-									{ __( "Go back", "wordpress-seo" ) }
-								</button> }
+								<StepButtons
+									stepIdx={ stepIdx }
+									lastIndex={ steps.length - 1 }
+									setActiveStep={ setActiveStep }
+									finishStepper={ finishStepper }
+									saveStep={ saveStep }
+								/>
 							</div>
 						</Fragment>
 					}
