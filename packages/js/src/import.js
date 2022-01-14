@@ -48,8 +48,13 @@ function importingSuccess() {
 
 	// Remove the plugin that we just finished import for, from the import dropdown.
 	jQuery( "option:selected", dropdown ).remove();
-	if ( dropdown.has( "option" ).length < 1 ) {
-		importButton.prop( "disabled", true );
+	jQuery( "option[value='']", dropdown ).prop( "selected", true );
+	dropdown.trigger( "change" );
+
+	// Dropdown will always have at least one option aka the placeholder, so let's check if it has any more options before displaying the no_data_msg.
+	if ( dropdown.children( "option" ).length < 2 ) {
+		dropdown.prop( "disabled", true );
+		jQuery( "option[value='']", dropdown ).text( window.yoastImportData.assets.no_data_msg );
 	}
 }
 
@@ -134,6 +139,37 @@ function initElements() {
 }
 
 /**
+ * Watches the import select.
+ *
+ * @returns {void}
+ */
+function watchImportSelect() {
+	dropdown.on( "change", function() {
+		if ( jQuery( this ).find( "option:selected" ).attr( "value" ) === "" ) {
+			importButton.prop( "disabled", true );
+
+			return;
+		}
+		importButton.prop( "disabled", false );
+	} );
+}
+
+/**
+ * Prepares the import select.
+ *
+ * @returns {void}
+ */
+function prepareImportSelect() {
+	if ( dropdown ) {
+		watchImportSelect();
+
+		dropdown.append(
+			"<option value='' disabled='disabled' selected hidden>" + window.yoastImportData.assets.select_placeholder + "</option>"
+		).trigger( "change" );
+	}
+}
+
+/**
  * Watches the `Import` form.
  *
  * @returns {void}
@@ -146,6 +182,7 @@ function watchImportForm() {
 
 jQuery( function() {
 	initElements();
+	prepareImportSelect();
 	watchImportForm();
 	addProgressElements();
 } );

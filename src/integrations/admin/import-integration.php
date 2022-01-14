@@ -101,8 +101,10 @@ class Import_Integration implements Integration_Interface {
 				'nonce'               => \wp_create_nonce( 'wp_rest' ),
 			],
 			'assets'  => [
-				'loading_msg' => \esc_html__( 'The import can take a long time depending on your site\'s size', 'wordpress-seo' ),
-				'spinner'     => \admin_url( 'images/loading.gif' ),
+				'loading_msg'        => \esc_html__( 'The import can take a long time depending on your site\'s size', 'wordpress-seo' ),
+				'select_placeholder' => \esc_html__( 'Select SEO plugin', 'wordpress-seo' ),
+				'no_data_msg'        => \esc_html__( 'No data found from other SEO plugins', 'wordpress-seo' ),
+				'spinner'            => \admin_url( 'images/loading.gif' ),
 			],
 		];
 
