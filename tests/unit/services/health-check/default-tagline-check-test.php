@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Services\Health_Check;
 
+use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Services\Health_Check\Default_Tagline_Check;
 use Yoast\WP\SEO\Services\Health_Check\Default_Tagline_Report_Builder;
@@ -43,6 +44,8 @@ class Default_Tagline_Check_Test extends TestCase {
 	 */
 	protected function set_up() {
 		parent::set_up();
+
+		$this->stubTranslationFunctions();
 
 		$this->runner_mock         = Mockery::mock( Default_Tagline_Runner::class );
 		$this->report_builder_mock = Mockery::mock( Default_Tagline_Report_Builder::class );
