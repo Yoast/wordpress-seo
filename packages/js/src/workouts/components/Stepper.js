@@ -69,7 +69,7 @@ StepButtons.defaultProps = {
 /**
  * Example stepper.
  *
- * @returns {JSX.Element} The example stepper.
+ * @returns {WPElement} The example stepper.
  */
 export default function Stepper( { steps, setActiveStep, saveStep, finishStepper } ) {
 	return (
