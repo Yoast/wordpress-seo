@@ -54,7 +54,7 @@ function importingSuccess() {
 	// Dropdown will always have at least one option aka the placeholder, so let's check if it has any more options before displaying the no_data_msg.
 	if ( dropdown.children( "option" ).length < 2 ) {
 		dropdown.prop( "disabled", true );
-		jQuery( "option[value='']", dropdown ).text( window.yoastImportData.assets.no_data_msg );
+		importForm.after( jQuery( "<p></p>" ).text( window.yoastImportData.assets.no_data_msg ) );
 	}
 }
 
@@ -164,7 +164,7 @@ function prepareImportSelect() {
 		watchImportSelect();
 
 		dropdown.append(
-			"<option value='' disabled='disabled' selected hidden>" + window.yoastImportData.assets.select_placeholder + "</option>"
+			"<option value='' disabled='disabled' selected hidden>&mdash; " + window.yoastImportData.assets.select_placeholder + " &mdash;</option>"
 		).trigger( "change" );
 	}
 }

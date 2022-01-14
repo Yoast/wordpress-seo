@@ -182,9 +182,9 @@ class Import_Integration_Test extends TestCase {
 				'nonce'               => 'nonce_value',
 			],
 			'assets'  => [
-				'loading_msg'        => 'The import can take a long time depending on your site\'s size',
+				'loading_msg'        => 'The import can take a long time depending on your site\'s size.',
 				'select_placeholder' => 'Select SEO plugin',
-				'no_data_msg'        => 'No data found from other SEO plugins',
+				'no_data_msg'        => 'No data found from other SEO plugins.',
 				'spinner'            => 'https://example.org/wp-admin/images/loading.gif',
 			],
 		];
