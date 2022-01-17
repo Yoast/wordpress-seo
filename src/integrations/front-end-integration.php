@@ -253,7 +253,11 @@ class Front_End_Integration implements Integration_Interface {
 		$title_presenter->replace_vars = $this->replace_vars;
 		$title_presenter->helpers      = $this->helpers;
 
-		return \esc_html( $title_presenter->get() );
+		\remove_filter( 'pre_get_document_title', [ $this, 'filter_title' ], 15 );
+		$title = \esc_html( $title_presenter->get() );
+		\add_filter( 'pre_get_document_title', [ $this, 'filter_title' ], 15 );
+
+		return $title;
 	}
 
 	/**
