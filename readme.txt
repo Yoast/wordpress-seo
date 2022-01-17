@@ -251,10 +251,12 @@ Bugfixes:
 * Fixes a bug where Japanese keyphrase enclosed in double quotes failed to be recognized in Keyword in meta description, Keyword density, Keyphrase distribution, Keyphrase in introduction, Keyphrase in image text and in Keyphrase in subheading assessments.
 * Fixes a bug where synonyms enclosed in double quotes in the Link keyphrase assessment failed to be recognized even when there were exact matches in the anchor text.  
 * Fixes a bug where incorrect assessments were shown for keyphrases only consisting of function words in Japanese.
+* Fixes a bug where the internal link update might cause a fatal error.
 
 Other:
 
 * Sets the WordPress tested up to version to 5.9.
+* Sets WooCommerce tested up to version to 6.1.
 
 = 17.9 =
 Release Date: January 11th, 2022
