@@ -8,7 +8,9 @@ namespace Yoast\WP\SEO\Services\Options;
 class Site_Options_Service extends Abstract_Options_Service {
 
 	/**
-	 * @var array The site options.
+	 * Holds the site option configurations.
+	 *
+	 * @var array
 	 */
 	protected $options = [
 		'activation_redirect_timestamp_free' => [
@@ -29,7 +31,7 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'validate_as' => null,
 			'ms_exclude'  => false,
 		],
-		'indexing_reason'						 => [
+		'indexing_reason'                    => [
 			'default'     => '',
 			'sanitize_as' => 'text',
 			'validate_as' => null,

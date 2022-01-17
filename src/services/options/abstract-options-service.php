@@ -11,21 +11,47 @@ use Yoast\WP\SEO\Helpers\Validation_Helper;
  */
 abstract class Abstract_Options_Service {
 
-	/** @var string The WordPress options' option name. */
-	const OPTION_NAME = "wpseo_options";
+	/**
+	 * Holds the WordPress options' option name.
+	 *
+	 * @var string
+	 */
+	const OPTION_NAME = 'wpseo_options';
 
-	/** @var array The options. */
+	/**
+	 * Holds the option configurations.
+	 *
+	 * @var array
+	 */
 	protected $options = [];
 
-	/** @var array The cached option values. */
+	/**
+	 * Holds the cached option values.
+	 *
+	 * @var array
+	 */
 	protected $values = null;
 
-	/** @var Sanitization_Helper The sanitization helper. */
+	/**
+	 * Holds the sanitization helper instance.
+	 *
+	 * @var Sanitization_Helper
+	 */
 	protected $sanitization;
 
-	/** @var Validation_Helper The validation helper. */
+	/**
+	 * Holds the validation helper instance.
+	 *
+	 * @var Validation_Helper
+	 */
 	protected $validation;
 
+	/**
+	 * Constructs an options service instance.
+	 *
+	 * @param Sanitization_Helper $sanitization The sanitization helper.
+	 * @param Validation_Helper   $validation   The validation helper.
+	 */
 	public function __construct( Sanitization_Helper $sanitization, Validation_Helper $validation ) {
 		$this->sanitization = $sanitization;
 		$this->validation   = $validation;
@@ -36,7 +62,7 @@ abstract class Abstract_Options_Service {
 	 *
 	 * @param string $name The option name.
 	 *
-	 * @throws \Exception When the option does not exist.
+	 * @throws Exception When the option does not exist.
 	 *
 	 * @return mixed The option value.
 	 */

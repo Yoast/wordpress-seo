@@ -5,21 +5,43 @@ namespace Yoast\WP\SEO\Helpers;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * A helper object for validation.
+ * The validation helper class.
  */
 class Validation_Helper {
 
-	/** @var ContainerInterface Container interface. */
+	/**
+	 * Holds the container interface instance.
+	 *
+	 * @var ContainerInterface
+	 */
 	private $container;
 
-	/** @var String_Helper String helper. */
+	/**
+	 * Holds the string helper instance.
+	 *
+	 * @var String_Helper
+	 */
 	private $string;
 
+	/**
+	 * Constructs a validation helper instance.
+	 *
+	 * @param ContainerInterface $container The container interface.
+	 * @param String_Helper      $string    The string helper.
+	 */
 	public function __construct( ContainerInterface $container, String_Helper $string ) {
 		$this->container = $container;
 		$this->string    = $string;
 	}
 
+	/**
+	 * Validates a value follows a certain prescription.
+	 *
+	 * @param mixed  $value       The value to validate.
+	 * @param string $validate_as What to validate as.
+	 *
+	 * @return bool Whether the value is valid.
+	 */
 	public function validate_as( $value, $validate_as ) {
 		if ( empty( $validate_as ) ) {
 			return true;
