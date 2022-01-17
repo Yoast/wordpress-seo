@@ -1,7 +1,8 @@
-import { select } from "@wordpress/data";
+import { dispatch, select } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
 import { strings as stringHelpers } from "@yoast/helpers";
 import { SEO_STORE_NAME } from "@yoast/seo-store";
+import { excerptFromContent } from "@yoast/wordpress-seo/src/helpers/replacementVariableHelpers";
 
 /**
  * Holds the replacement variable configurations, for use within the SEO store context.
@@ -33,7 +34,12 @@ export const date = {
 export const excerpt = {
 	name: "excerpt",
 	getLabel: () => __( "Excerpt", "wordpress-seo" ),
-	getReplacement: () => select( SEO_STORE_NAME ).selectExcerpt(),
+	getReplacement: () => {
+		const currentExcerpt = select( SEO_STORE_NAME ).selectExcerpt();
+		const currentContent = select( SEO_STORE_NAME ).selectContent();
+
+		return ( currentExcerpt === "" ) ? excerptFromContent( currentContent ) : currentExcerpt;
+	},
 };
 
 export const excerptOnly = {
