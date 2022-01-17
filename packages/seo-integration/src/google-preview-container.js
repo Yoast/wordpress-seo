@@ -80,7 +80,7 @@ const GooglePreviewContainer = ( { as: Component, ...restProps } ) => {
 	const title = useSelect( select => select( SEO_STORE_NAME ).selectSeoTitle() );
 	const description = useSelect( select => select( SEO_STORE_NAME ).selectMetaDescription() );
 	const slug = useSelect( select => select( SEO_STORE_NAME ).selectSlug() );
-	const date = useSelect( select => select( SEO_STORE_NAME ).selectDate() );
+	let date = useSelect( select => select( SEO_STORE_NAME ).selectDate() );
 	const focusKeyphrase = useSelect( select => select( SEO_STORE_NAME ).selectKeyphrase() );
 	const morphologyResults = useSelect( select => select( SEO_STORE_NAME ).selectResearchResults( "morphology" ) );
 	const isCornerstone = useSelect( select => select( SEO_STORE_NAME ).selectIsCornerstone() );
@@ -90,11 +90,13 @@ const GooglePreviewContainer = ( { as: Component, ...restProps } ) => {
 	const data = useMemo( () => ( { title, description, slug } ), [ title, description, slug ] );
 	const focusKeyphraseWordForms = useMemo( () => get( morphologyResults, "keyphraseForms", [] ).flat(), [ morphologyResults ] );
 	// eslint-disable-next-line no-undefined
-	const formattedDate = useMemo( () => new Date( date ).toLocaleDateString( undefined, {
-		day: "numeric",
-		month: "short",
-		year: "numeric",
-	} ), [ date ] );
+	if ( date !== "" ) {
+		date = useMemo( () => new Date( date ).toLocaleDateString( undefined, {
+			day: "numeric",
+			month: "short",
+			year: "numeric",
+		} ), [ date ] );
+	}
 
 	const baseUrl = useBaseUrl();
 	const {
@@ -125,7 +127,7 @@ const GooglePreviewContainer = ( { as: Component, ...restProps } ) => {
 	return <Component
 		baseUrl={ baseUrl }
 		data={ data }
-		date={ formattedDate }
+		date={ date }
 		keyword={ focusKeyphrase }
 		mode={ previewMode }
 		wordsToHighlight={ focusKeyphraseWordForms }
