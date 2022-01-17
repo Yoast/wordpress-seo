@@ -61,7 +61,7 @@ class Report_Builder {
 	 * Sets the label for the health check that the user can see.
 	 *
 	 * @param  string $label The label that the user can see.
-	 * @return Report_Builder This builder
+	 * @return Report_Builder This builder.
 	 */
 	public function set_label( $label ) {
 		$this->label = $label;
@@ -134,7 +134,7 @@ class Report_Builder {
 	/**
 	 * Builds an array of strings in the format that WordPress uses to display health checks (https://developer.wordpress.org/reference/hooks/site_status_test_result/).
 	 *
-	 * @return string[]
+	 * @return string[] The report in WordPress' site status report format.
 	 */
 	public function build() {
 		return [
@@ -150,7 +150,7 @@ class Report_Builder {
 	/**
 	 * Generates a badge that the user can see.
 	 *
-	 * @return string[]
+	 * @return string[] The badge.
 	 */
 	private function get_badge() {
 		return [
@@ -162,7 +162,7 @@ class Report_Builder {
 	/**
 	 * Generates the label for a badge.
 	 *
-	 * @return string
+	 * @return string The badge label.
 	 */
 	private function get_badge_label() {
 		return __( 'SEO', 'wordpress-seo' );
@@ -171,7 +171,7 @@ class Report_Builder {
 	/**
 	 * Generates the color for the badge using the current status.
 	 *
-	 * @return string
+	 * @return string The color for the badge's outline.
 	 */
 	private function get_badge_color() {
 		if ( $this->status === self::STATUS_CRITICAL || $this->status === self::STATUS_RECOMMENDED ) {
@@ -184,7 +184,7 @@ class Report_Builder {
 	/**
 	 * Concatenates the set actions with Yoast's signature.
 	 *
-	 * @return string
+	 * @return string A string containing the set actions and Yoast's signature.
 	 */
 	private function get_actions_with_signature() {
 		return $this->actions . $this->get_signature();
@@ -193,7 +193,7 @@ class Report_Builder {
 	/**
 	 * Generates Yoast's signature that's displayed at the bottom of the health check result.
 	 *
-	 * @return string
+	 * @return string Yoast's signature as an HTML string.
 	 */
 	private function get_signature() {
 		return sprintf(

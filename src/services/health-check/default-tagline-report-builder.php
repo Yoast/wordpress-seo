@@ -38,7 +38,7 @@ class Default_Tagline_Report_Builder {
 	/**
 	 * Returns the message for a successful health check.
 	 *
-	 * @return string[]
+	 * @return string[] The message as a WordPress site status report.
 	 */
 	public function get_success_result() {
 		return $this->report_builder
@@ -51,7 +51,7 @@ class Default_Tagline_Report_Builder {
 	/**
 	 * Returns the message for a failed health check. In this case, when the user still has the default WordPress tagline set.
 	 *
-	 * @return string[]
+	 * @return string[] The message as a WordPress site status report.
 	 */
 	public function get_has_default_tagline_result() {
 		return $this->report_builder
@@ -65,7 +65,7 @@ class Default_Tagline_Report_Builder {
 	/**
 	 * Returns the actions that the user should take when his tagline is still set to the WordPress default.
 	 *
-	 * @return string
+	 * @return string The actions as an HTML string.
 	 */
 	private function get_actions() {
 		$query_args    = [

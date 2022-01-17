@@ -52,7 +52,7 @@ class Health_Check_Integration implements Integration_Interface {
 	 * Adds the health checks to WordPress' site status tests.
 	 *
 	 * @param  string[] $tests Array containing WordPress site status tests.
-	 * @return string[]
+	 * @return string[] Array containing WordPress site status tests with Yoast's health checks.
 	 */
 	public function add_health_checks( $tests ) {
 		foreach ( $this->health_checks as $health_check ) {

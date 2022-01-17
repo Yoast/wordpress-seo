@@ -36,7 +36,7 @@ class Default_Tagline_Runner implements Runner_Interface {
 	/**
 	 * Returns true if the tagline is set to a non-default tagline.
 	 *
-	 * @return bool
+	 * @return bool The boolean indicating if the health check was succesful.
 	 */
 	public function is_successful() {
 		return ! $this->has_default_tagline;

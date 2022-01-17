@@ -42,7 +42,7 @@ class Default_Tagline_Check extends Health_Check {
 	/**
 	 * Returns a human-readable label for this health check.
 	 *
-	 * @return string
+	 * @return string The human-readable label.
 	 */
 	public function get_test_label() {
 		return __( 'Default tagline', 'wordpress-seo' );
@@ -51,7 +51,7 @@ class Default_Tagline_Check extends Health_Check {
 	/**
 	 * Returns the WordPress-friendly health check result.
 	 *
-	 * @return string[]
+	 * @return string[] The WordPress-friendly health check result.
 	 */
 	protected function get_result() {
 		if ( $this->runner->is_successful() ) {
