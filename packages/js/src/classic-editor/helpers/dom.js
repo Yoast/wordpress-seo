@@ -279,6 +279,11 @@ export const getTermPermalink = () => get( window, "wpseoScriptData.metabox.base
  */
 export const getPostExcerpt = () => get( document.getElementById( DOM_IDS.POST_EXCERPT ), "value", "" ) || excerptFromContent( getPostContent() );
 
+/**
+ * Gets the term excerpt from the document.
+ *
+ * @returns {string} The term excerpt.
+ */
 export const getTermExcerpt = () => excerptFromContent( getTermDescription() );
 
 /**
