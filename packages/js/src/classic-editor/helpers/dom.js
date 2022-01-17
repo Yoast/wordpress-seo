@@ -279,6 +279,8 @@ export const getTermPermalink = () => get( window, "wpseoScriptData.metabox.base
  */
 export const getPostExcerpt = () => get( document.getElementById( DOM_IDS.POST_EXCERPT ), "value", "" ) || excerptFromContent( getPostContent() );
 
+export const getTermExcerpt = () => excerptFromContent( getTermDescription() );
+
 /**
  * Gets the post featured image source if one is set.
  *
