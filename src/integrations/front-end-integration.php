@@ -220,6 +220,8 @@ class Front_End_Integration implements Integration_Interface {
 		\add_action( 'wp_head', [ $this, 'call_wpseo_head' ], 1 );
 		// Filter the title for compatibility with other plugins and themes.
 		\add_filter( 'wp_title', [ $this, 'filter_title' ], 15 );
+		// Filter the title for compatibility with block-based themes.
+		\add_filter( 'pre_get_document_title', [ $this, 'filter_title' ], 15 );
 
 		// Removes our robots presenter from the list when wp_robots is handling this.
 		\add_filter( 'wpseo_frontend_presenter_classes', [ $this, 'filter_robots_presenter' ] );
