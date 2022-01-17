@@ -251,7 +251,7 @@ Bugfixes:
 * Fixes a bug where Japanese keyphrase enclosed in double quotes failed to be recognized in Keyword in meta description, Keyword density, Keyphrase distribution, Keyphrase in introduction, Keyphrase in image text and in Keyphrase in subheading assessments.
 * Fixes a bug where synonyms enclosed in double quotes in the Link keyphrase assessment failed to be recognized even when there were exact matches in the anchor text.  
 * Fixes a bug where incorrect assessments were shown for keyphrases only consisting of function words in Japanese.
-* Fixes a bug where the internal link update might cause a fatal error.
+* Fixes a bug where a fatal error could be thrown because of a failing query when updating a post after its links were changed.
 
 Other:
 
