@@ -3,11 +3,6 @@
 namespace Yoast\WP\SEO\Tests\Unit\Doubles\Actions\Importing;
 
 use Yoast\WP\SEO\Actions\Importing\Aioseo_Custom_Archive_Settings_Importing_Action;
-use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Helpers\Post_Type_Helper;
-use Yoast\WP\SEO\Services\Importing\Aioseo_Replacevar_Handler;
-use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Provider_Service;
-use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Transformer_Service;
 
 /**
  * Class Aioseo_Custom_Archive_Settings_Importing_Action_Double
@@ -15,51 +10,6 @@ use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Transformer_Service;
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 abstract class Aioseo_Custom_Archive_Settings_Importing_Action_Double extends Aioseo_Custom_Archive_Settings_Importing_Action {
-
-	/**
-	 * The options helper.
-	 *
-	 * @var Options_Helper
-	 */
-	protected $options;
-
-	/**
-	 * The post type helper.
-	 *
-	 * @var Post_Type_Helper
-	 */
-	protected $post_type;
-
-	/**
-	 * The replacevar handler.
-	 *
-	 * @var Aioseo_Replacevar_Handler
-	 */
-	protected $replacevar_handler;
-
-	/**
-	 * The robots provider service.
-	 *
-	 * @var Aioseo_Robots_Provider_Service
-	 */
-	protected $robots_provider;
-
-	/**
-	 * The robots transformer service.
-	 *
-	 * @var Aioseo_Robots_Transformer_Service
-	 */
-	protected $robots_transformer;
-
-	public function __construct(
-		Options_Helper $options,
-		Post_Type_Helper $post_type,
-		Aioseo_Replacevar_Handler $replacevar_handler,
-		Aioseo_Robots_Provider_Service $robots_provider,
-		Aioseo_Robots_Transformer_Service $robots_transformer
-	) {
-		return parent::__construct( $options, $post_type, $replacevar_handler, $robots_provider, $robots_transformer );
-	}
 
 	/**
 	 * Gets the aioseo_options_to_yoast_map.
