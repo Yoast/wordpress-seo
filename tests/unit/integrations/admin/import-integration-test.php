@@ -60,6 +60,13 @@ class Import_Integration_Test extends TestCase {
 	protected $importing_route;
 
 	/**
+	 * The Alert Presenter class.
+	 *
+	 * @var Mockery\MockInterface|Alert_Presenter
+	 */
+	protected $alert_presenter;
+
+	/**
 	 * Sets up the tests.
 	 */
 	protected function set_up() {
@@ -72,6 +79,7 @@ class Import_Integration_Test extends TestCase {
 		$this->importer_conditional = Mockery::mock( AIOSEO_V4_Importer_Conditional::class );
 		$this->importable_detector  = Mockery::mock( Importable_Detector::class );
 		$this->importing_route      = Mockery::mock( Importing_Route::class );
+		$this->alert_presenter      = Mockery::mock( Alert_Presenter::class );
 
 		$this->instance = new Import_Integration(
 			$this->asset_manager,
@@ -167,6 +175,9 @@ class Import_Integration_Test extends TestCase {
 			->with( 'wp_rest' )
 			->andReturn( 'nonce_value' );
 
+		Monkey\Functions\expect( 'plugin_dir_url' )
+			->andReturn( 'https://example.org/wp-content/plugins/' );
+
 		Monkey\Functions\expect( 'admin_url' )
 				->with( 'images/loading.gif' )
 				->andReturn( 'https://example.org/wp-admin/images/loading.gif' );
@@ -182,8 +193,9 @@ class Import_Integration_Test extends TestCase {
 				'nonce'               => 'nonce_value',
 			],
 			'assets'  => [
-				'loading_msg' => 'The import can take a long time depending on your site\'s size',
-				'spinner'     => 'https://example.org/wp-admin/images/loading.gif',
+				'loading_msg'    => 'The import can take a long time depending on your site\'s size',
+				'import_failure' => '<div class="yoast-measure yoast-import-failure"><div class="yoast-alert yoast-alert--error"><span><img class="yoast-alert__icon" src="https://example.org/wp-content/plugins/images/alert-error-icon.svg" alt="" /></span><span>Import failed with the following error: %s</span></div></div>',
+				'spinner'        => 'https://example.org/wp-admin/images/loading.gif',
 			],
 		];
 

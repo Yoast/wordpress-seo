@@ -7,6 +7,7 @@ use Yoast\WP\SEO\Conditionals\AIOSEO_V4_Importer_Conditional;
 use Yoast\WP\SEO\Conditionals\Yoast_Tools_Page_Conditional;
 use Yoast\WP\SEO\Conditionals\Import_Tool_Selected_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
+use Yoast\WP\SEO\Presenters\Admin\Alert_Presenter;
 use Yoast\WP\SEO\Services\Importing\Importable_Detector;
 use Yoast\WP\SEO\Routes\Importing_Route;
 
@@ -94,6 +95,9 @@ class Import_Integration implements Integration_Interface {
 		\wp_enqueue_style( 'dashicons' );
 		$this->asset_manager->enqueue_script( 'import' );
 
+		/* translators: %s expands to the error that failed the import. */
+		$import_failure_alert = new Alert_Presenter( \esc_html__( 'Import failed with the following error: %s', 'wordpress-seo' ), 'error' );
+
 		$data = [
 			'restApi' => [
 				'root'                => \esc_url_raw( \rest_url() ),
@@ -101,8 +105,9 @@ class Import_Integration implements Integration_Interface {
 				'nonce'               => \wp_create_nonce( 'wp_rest' ),
 			],
 			'assets'  => [
-				'loading_msg' => \esc_html__( 'The import can take a long time depending on your site\'s size', 'wordpress-seo' ),
-				'spinner'     => \admin_url( 'images/loading.gif' ),
+				'loading_msg'    => \esc_html__( 'The import can take a long time depending on your site\'s size', 'wordpress-seo' ),
+				'import_failure' => '<div class="yoast-measure yoast-import-failure">' . $import_failure_alert->present() . '</div>',
+				'spinner'        => \admin_url( 'images/loading.gif' ),
 			],
 		];
 
