@@ -4,8 +4,8 @@ Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
-Tested up to: 5.8
-Stable tag: 17.8
+Tested up to: 5.9
+Stable tag: 17.9
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -236,6 +236,28 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 18.0 =
+Release Date: January 25th, 2022
+
+Enhancements:
+
+* Limits a potentially slow query to certain routes, which makes it so it gets called fewer times.
+* Enhances schema presentation for languages that are not alphanumeric. Props to [sous-studio](https://github.com/sous-studio).
+
+Bugfixes:
+
+* Fixes a bug where removing an image from our Facebook Preview and Twitter Preview modals could lead to a confusing experience due to focus loss.
+* Fixes a bug where clicking outside of a Yoast modal in the block editor would not close the modal.
+* Fixes a bug where Japanese keyphrase enclosed in double quotes failed to be recognized in Keyword in meta description, Keyword density, Keyphrase distribution, Keyphrase in introduction, Keyphrase in image text and in Keyphrase in subheading assessments.
+* Fixes a bug where synonyms enclosed in double quotes in the Link keyphrase assessment failed to be recognized even when there were exact matches in the anchor text.  
+* Fixes a bug where incorrect assessments were shown for keyphrases only consisting of function words in Japanese.
+* Fixes a bug where the internal link update might cause a fatal error.
+
+Other:
+
+* Sets the WordPress tested up to version to 5.9.
+* Sets WooCommerce tested up to version to 6.1.
+
 = 17.9 =
 Release Date: January 11th, 2022
 
@@ -251,6 +273,7 @@ Enhancements:
 * Adapts Keyphrase in title scoring criteria for Japanese: the exact match keyphrase is not required for Japanese unless the keyphrase is enclosed in double quotes.
 * Disables the Keyphrase in slug assessment for Japanese due to currently being unable to match keyphrases written in Japanese characters in slugs written in Latin characters.
 * Improves the accuracy of the Estimated Reading Time results for Japanese.
+* Adapts the recommended meta description length and meta description preview limit for Japanese.
 * Improves the Workouts overview for mobile screens.
 * Makes sure we don't output the same `sameAs` URL twice on `Person` and `Organization`.
 * Adds "Blog Post" / `BlogPosting` as a potential Schema `Article` type.
@@ -262,37 +285,13 @@ Bugfixes:
 * Fixes a bug where the incoming link count of a post would not return to zero if all incoming links were removed.
 * Fixes a bug where the meta description would get trimmed to an empty string if the text doesn't have any space. Props to [@waviaei](https://github.com/waviaei).
 * Fixes a bug where Link keyphrase assessment would not find a match when the keyphrase is enclosed in double quotes.
+* Fixes a bug where `<br>` tags with attributes in the text would not be converted to paragraph tags. As a result some long paragraphs in the text might not have been highlighted in the Paragraph length assessment.
 
 Other:
 
 * Improves compatibility with PHP 8.1 by adding validations and handling deprecations.
 * Reverts the removal of the deprecated `WPSEO_Frontend` class.
 * Changes the font size of the alerts from 14px to 13px.
-
-= 17.8 =
-Release Date: December 14th, 2021
-
-Yoast SEO 17.8 is out now and ready for you to download. In this release, we fix a number of bugs and added a few enhancements for you to enjoy! Read more about what's new in Yoast SEO 17.8 in [our release post in English](https://yoa.st/release-17-8) or [our release post in Spanish](https://yoa.st/release-17-8-spanish)!
-
-Enhancements:
-
-* Improves the user direction in the configuration workout.
-* Adds a sleep interval to the WP CLI index command to limit server load while this command is running. Props to [roborourke](https://github.com/roborourke).
-
-Bugfixes:
-
-* Fixes a bug where on small screens the advanced setting's search engine follow checkbox would have a misplaced center.
-* Fixes a bug where the styling of the introduction dialog in Elementor would be broken due to changes in Elementor.
-* Fixes a bug where the reading time functionality for languages other than English would incorrectly output English reading speed values.
-* Fixes a bug where certain text strings in the Google, Facebook and Twitter previews would not be translated.
-* Fixes a bug where the state of indexation was not persisted when switching between workouts and the workouts page.
-* Fixes a bug where the Workouts page wouldn't display translations.
-
-Other:
-
-* Fixes some styling issues in the configuration workout.
-* Prevents SEO managers from changing the site description in the configuration workout.
-* Optimizes and compresses several .png images to reduce their size. Props to [lowwebtech](https://github.com/lowwebtech).
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
