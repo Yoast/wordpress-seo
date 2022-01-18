@@ -1,4 +1,3 @@
-import { enableFeatures } from "@yoast/feature-flag";
 import functionWordsInKeyphrase from "../../../src/languageProcessing/researches/functionWordsInKeyphrase.js";
 import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";
 import DutchResearcher from "../../../src/languageProcessing/languages/nl/Researcher";
@@ -7,8 +6,6 @@ import DefaultResearcher from "../../../src/languageProcessing/languages/_defaul
 import JapaneseResearcher from "../../../src/languageProcessing/languages/ja/Researcher";
 
 import Paper from "../../../src/values/Paper.js";
-
-enableFeatures( [ "JAPANESE_SUPPORT" ] );
 
 describe( "Test for checking if the keyphrase contains function words only", function() {
 	it( "returns true if the keyphrase contains one function word only", function() {
@@ -82,6 +79,11 @@ describe( "Test for checking if the keyphrase contains only Japanese function wo
 
 	it( "returns true if all the words in the keyphrase are function words", () => {
 		const mockPaper = new Paper( "私の猫は愛らしいです。", { keyword: "からかいをばっかり", locale: "ja" } );
+		expect( functionWordsInKeyphrase( mockPaper, new JapaneseResearcher( mockPaper ) ) ).toBe( true );
+	} );
+
+	it( "returns true if all the words in the keyphrase are function words (separated by spaces)", () => {
+		const mockPaper = new Paper( "私の猫は愛らしいです。", { keyword: "かしら かい を ばっかり", locale: "ja" } );
 		expect( functionWordsInKeyphrase( mockPaper, new JapaneseResearcher( mockPaper ) ) ).toBe( true );
 	} );
 } );

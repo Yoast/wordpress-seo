@@ -13,7 +13,6 @@ import { ReactComponent as YoastIcon } from "../../images/Yoast_icon_kader.svg";
 import { isCloseEvent } from "./modals/editorModals/EditorModal.js";
 import SidebarButton from "./SidebarButton";
 import WincherSEOPerformance from "../containers/WincherSEOPerformance";
-import { isFeatureEnabled } from "@yoast/feature-flag";
 
 /**
  * Handles the click event on the "Track SEO performance" button.
@@ -26,6 +25,8 @@ export function openModal( props ) {
 	const { keyphrases, onNoKeyphraseSet, onOpen, location } = props;
 
 	if ( ! keyphrases.length ) {
+		// This is fragile, should replace with a real React ref.
+		document.querySelector( "#focus-keyword-input-sidebar" ).focus();
 		onNoKeyphraseSet();
 
 		return;
@@ -58,10 +59,6 @@ export function closeModal( props, event ) {
  * @returns {wp.Element} The WincherSEOPerformanceModal.
  */
 export default function WincherSEOPerformanceModal( props ) {
-	if ( ! isFeatureEnabled( "WINCHER_INTEGRATION" ) ) {
-		return null;
-	}
-
 	const { location, whichModalOpen } = props;
 
 	const onModalOpen = useCallback( () => {
@@ -110,6 +107,7 @@ WincherSEOPerformanceModal.propTypes = {
 		"none",
 		"metabox",
 		"sidebar",
+		"postpublish",
 	] ),
 };
 

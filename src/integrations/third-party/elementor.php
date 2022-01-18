@@ -485,13 +485,40 @@ class Elementor implements Integration_Interface {
 		\printf(
 			'<input type="hidden" id="%1$s" name="%1$s" value="%2$s" />',
 			\esc_attr( WPSEO_Meta::$form_prefix . 'slug' ),
-			\esc_attr( $this->get_metabox_post()->post_name )
+			\esc_attr( $this->get_post_slug() )
 		);
 
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output should be escaped in the filter.
 		echo \apply_filters( 'wpseo_elementor_hidden_fields', '' );
 
 		echo '</form>';
+	}
+
+	/**
+	 * Returns the slug for the post being edited.
+	 *
+	 * @return string
+	 */
+	protected function get_post_slug() {
+		$post = $this->get_metabox_post();
+
+		// In case get_metabox_post returns null for whatever reason.
+		if ( ! $post instanceof WP_Post ) {
+			return '';
+		}
+
+		// Drafts might not have a post_name unless the slug has been manually changed.
+		// In this case we get it using get_sample_permalink.
+		if ( ! $post->post_name ) {
+			$sample = \get_sample_permalink( $post );
+
+			// Since get_sample_permalink runs through filters, ensure that it has the expected return value.
+			if ( is_array( $sample ) && count( $sample ) === 2 && is_string( $sample[1] ) ) {
+				return $sample[1];
+			}
+		}
+
+		return $post->post_name;
 	}
 
 	/**

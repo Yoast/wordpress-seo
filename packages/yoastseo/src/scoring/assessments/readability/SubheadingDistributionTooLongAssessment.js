@@ -25,10 +25,11 @@ class SubheadingsDistributionTooLong extends Assessment {
 		const defaultConfig = {
 			parameters: {
 				// The maximum recommended value of the subheading text.
-				recommendedMaximumWordCount: 300,
+				recommendedMaximumLength: 300,
 				slightlyTooMany: 300,
 				farTooMany: 350,
 			},
+			countTextIn: __( "words", "wordpress-seo" ),
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/34x" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/34y" ),
 			scores: {
@@ -40,8 +41,8 @@ class SubheadingsDistributionTooLong extends Assessment {
 			},
 			applicableIfTextLongerThan: 300,
 			shouldNotAppearInShortText: false,
+			cornerstoneContent: false,
 		};
-
 		this.identifier = "subheadingsTooLong";
 		this._config = merge( defaultConfig, config );
 	}
@@ -56,6 +57,13 @@ class SubheadingsDistributionTooLong extends Assessment {
 	 */
 	getResult( paper, researcher ) {
 		this._subheadingTextsLength = researcher.getResearch( "getSubheadingTextLengths" );
+		if ( researcher.getConfig( "subheadingsTooLong" ) ) {
+			this._config = this.getLanguageSpecificConfig( researcher );
+		}
+		const countTextInCharacters = researcher.getConfig( "countCharacters" );
+		if ( countTextInCharacters ) {
+			this._config.countTextIn = __( "characters", "wordpress-seo" );
+		}
 
 		this._subheadingTextsLength = this._subheadingTextsLength.sort( function( a, b ) {
 			return b.countLength - a.countLength;
@@ -68,7 +76,8 @@ class SubheadingsDistributionTooLong extends Assessment {
 
 		this._hasSubheadings = this.hasSubheadings( paper );
 
-		this._textLength = getWords( paper.getText() ).length;
+		const customCountLength = researcher.getHelper( "customCountLength" );
+		this._textLength = customCountLength ? customCountLength( paper.getText() ) : getWords( paper.getText() ).length;
 
 		const calculatedResult = this.calculateResult();
 		calculatedResult.resultTextPlural = calculatedResult.resultTextPlural || "";
@@ -76,6 +85,25 @@ class SubheadingsDistributionTooLong extends Assessment {
 		assessmentResult.setText( calculatedResult.resultText );
 
 		return assessmentResult;
+	}
+
+	/**
+	 * Check if there is language-specific config, and if so, overwrite the current config with it.
+	 *
+	 * @param {Researcher} researcher The researcher to use.
+	 *
+	 * @returns {Object} The config that should be used.
+	 */
+	getLanguageSpecificConfig( researcher ) {
+		const currentConfig = this._config;
+		const languageSpecificConfig = researcher.getConfig( "subheadingsTooLong" );
+		// Check if a language has a default cornerstone configuration.
+		if ( currentConfig.cornerstoneContent === true && languageSpecificConfig.hasOwnProperty( "cornerstoneParameters" ) ) {
+			return merge( currentConfig, languageSpecificConfig.cornerstoneParameters );
+		}
+
+		// Use the default language-specific config for non-cornerstone condition
+		return merge( currentConfig, languageSpecificConfig.defaultParameters );
 	}
 
 	/**
@@ -93,12 +121,11 @@ class SubheadingsDistributionTooLong extends Assessment {
 		 * characters instead of words, which also makes the minimum required length higher).
 		**/
 		if ( this._config.shouldNotAppearInShortText ) {
-			const customCountLength = researcher.getHelper( "customCountLength" );
-			const customApplicabilityConfig = researcher.getConfig( "assessmentApplicability" ).subheadingDistribution;
-			if ( customApplicabilityConfig ) {
-				this._config.applicableIfTextLongerThan = customApplicabilityConfig;
+			if ( researcher.getConfig( "subheadingsTooLong" ) ) {
+				this._config = this.getLanguageSpecificConfig( researcher );
 			}
 
+			const customCountLength = researcher.getHelper( "customCountLength" );
 			const textLength = customCountLength ? customCountLength( paper.getText() ) : researcher.getResearch( "wordCountInText" );
 
 			return paper.hasText() && textLength > this._config.applicableIfTextLongerThan;
@@ -126,7 +153,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 	 */
 	getTooLongSubheadingTexts() {
 		return filter( this._subheadingTextsLength, function( subheading ) {
-			return subheading.countLength > this._config.parameters.recommendedMaximumWordCount;
+			return subheading.countLength > this._config.parameters.recommendedMaximumLength;
 		}.bind( this ) );
 	}
 
@@ -136,7 +163,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 	 * @returns {Object} The calculated result.
 	 */
 	calculateResult() {
-		if ( this._textLength > 300 ) {
+		if ( this._textLength > this._config.applicableIfTextLongerThan ) {
 			if ( this._hasSubheadings ) {
 				const longestSubheadingTextLength = this._subheadingTextsLength[ 0 ].countLength;
 				if ( longestSubheadingTextLength <= this._config.parameters.slightlyTooMany ) {
@@ -163,21 +190,22 @@ class SubheadingsDistributionTooLong extends Assessment {
 							/*
 							 * Translators: %1$s and %5$s expand to a link on yoast.com, %3$d to the number of text sections
 							 * not separated by subheadings, %4$d expands to the recommended number of words following a
-							 * subheading, %2$s expands to the link closing tag.
+							 * subheading, %6$s expands to the word 'words' or 'characters', %2$s expands to the link closing tag.
 							 */
 							_n(
 								// eslint-disable-next-line max-len
-								"%1$sSubheading distribution%2$s: %3$d section of your text is longer than %4$d words and is not separated by any subheadings. %5$sAdd subheadings to improve readability%2$s.",
+								"%1$sSubheading distribution%2$s: %3$d section of your text is longer than %4$d %6$s and is not separated by any subheadings. %5$sAdd subheadings to improve readability%2$s.",
 								// eslint-disable-next-line max-len
-								"%1$sSubheading distribution%2$s: %3$d sections of your text are longer than %4$d words and are not separated by any subheadings. %5$sAdd subheadings to improve readability%2$s.",
+								"%1$sSubheading distribution%2$s: %3$d sections of your text are longer than %4$d %6$s and are not separated by any subheadings. %5$sAdd subheadings to improve readability%2$s.",
 								this._tooLongTextsNumber,
 								"wordpress-seo"
 							),
 							this._config.urlTitle,
 							"</a>",
 							this._tooLongTextsNumber,
-							this._config.parameters.recommendedMaximumWordCount,
-							this._config.urlCallToAction
+							this._config.parameters.recommendedMaximumLength,
+							this._config.urlCallToAction,
+							this._config.countTextIn
 						),
 					};
 				}
@@ -187,21 +215,22 @@ class SubheadingsDistributionTooLong extends Assessment {
 					score: this._config.scores.badSubheadings,
 					resultText: sprintf(
 						/* Translators: %1$s and %5$s expand to a link on yoast.com, %3$d to the number of text sections
-						not separated by subheadings, %4$d expands to the recommended number of words following a
-						subheading, %2$s expands to the link closing tag. */
+						not separated by subheadings, %4$d expands to the recommended number of words or characters following a
+						subheading, %6$s expands to the word 'words' or 'characters', %2$s expands to the link closing tag. */
 						_n(
 							// eslint-disable-next-line max-len
-							"%1$sSubheading distribution%2$s: %3$d section of your text is longer than %4$d words and is not separated by any subheadings. %5$sAdd subheadings to improve readability%2$s.",
+							"%1$sSubheading distribution%2$s: %3$d section of your text is longer than %4$d %6$s and is not separated by any subheadings. %5$sAdd subheadings to improve readability%2$s.",
 							// eslint-disable-next-line max-len
-							"%1$sSubheading distribution%2$s: %3$d sections of your text are longer than %4$d words and are not separated by any subheadings. %5$sAdd subheadings to improve readability%2$s.",
+							"%1$sSubheading distribution%2$s: %3$d sections of your text are longer than %4$d %6$s and are not separated by any subheadings. %5$sAdd subheadings to improve readability%2$s.",
 							this._tooLongTextsNumber,
 							"wordpress-seo"
 						),
 						this._config.urlTitle,
 						"</a>",
 						this._tooLongTextsNumber,
-						this._config.parameters.recommendedMaximumWordCount,
-						this._config.urlCallToAction
+						this._config.parameters.recommendedMaximumLength,
+						this._config.urlCallToAction,
+						this._config.countTextIn
 					),
 				};
 			}

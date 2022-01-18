@@ -25,6 +25,7 @@ const entry = {
 	"externals-redux": "./packages/js/src/externals/redux.js",
 	"filter-explanation": "./packages/js/src/filter-explanation.js",
 	"help-scout-beacon": "./packages/js/src/help-scout-beacon.js",
+	"import": "./packages/js/src/import.js",
 	indexation: "./packages/js/src/indexation.js",
 	"installation-success": "./packages/js/src/installation-success.js",
 	"network-admin": "./packages/js/src/network-admin.js",

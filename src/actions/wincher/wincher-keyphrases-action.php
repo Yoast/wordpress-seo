@@ -97,11 +97,7 @@ class Wincher_Keyphrases_Action {
 			// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- To ensure JS code style, this can be ignored.
 			if ( ! $limits->canTrack || $this->would_exceed_limits( $keyphrases, $limits ) ) {
 				$response = [
-					'data'   => [
-						'limit'    => $limits->limit,
-						// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- To ensure JS code style, this can be ignored.
-						'canTrack' => $limits->canTrack,
-					],
+					'limit'  => $limits->limit,
 					'error'  => 'Account limit exceeded',
 					'status' => 400,
 				];
@@ -234,28 +230,6 @@ class Wincher_Keyphrases_Action {
 				'status' => $e->getCode(),
 			];
 		}
-	}
-
-	/**
-	 * Tracks all the available keyphrases known to Yoast SEO.
-	 *
-	 * @param object $limits The limit API request response.
-	 *
-	 * @return object The tracked keyphrases response object.
-	 */
-	public function track_all( $limits ) {
-		$keyphrases = $this->collect_all_keyphrases();
-
-		if ( empty( $keyphrases ) ) {
-			return $this->to_result_object(
-				[
-					'data'   => [],
-					'status' => 200,
-				]
-			);
-		}
-
-		return $this->track_keyphrases( $keyphrases, $limits );
 	}
 
 	/**

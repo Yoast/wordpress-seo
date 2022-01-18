@@ -147,7 +147,10 @@ class WPSEO_Sitemaps_Cache_Data_Test extends WPSEO_UnitTestCase {
 	 *
 	 * Tests if the class is serializable.
 	 *
-	 * @covers WPSEO_Sitemap_Cache_Data::set_sitemap
+	 * @covers WPSEO_Sitemap_Cache_Data::__serialize
+	 * @covers WPSEO_Sitemap_Cache_Data::__unserialize
+	 * @covers WPSEO_Sitemap_Cache_Data::serialize
+	 * @covers WPSEO_Sitemap_Cache_Data::unserialize
 	 */
 	public function test_serialize_unserialize() {
 		$sitemap = 'this is a sitemap';

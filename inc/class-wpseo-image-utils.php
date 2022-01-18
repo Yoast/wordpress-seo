@@ -186,13 +186,14 @@ class WPSEO_Image_Utils {
 		}
 
 		if ( ! $image ) {
-			$image         = image_get_intermediate_size( $attachment_id, $size );
-			$image['size'] = $size;
+			$image = image_get_intermediate_size( $attachment_id, $size );
 		}
 
 		if ( ! $image ) {
 			return false;
 		}
+
+		$image['size'] = $size;
 
 		return self::get_data( $image, $attachment_id );
 	}

@@ -1,4 +1,3 @@
-import { isFeatureEnabled } from "@yoast/feature-flag";
 import determineStem from "../../../../../../src/languageProcessing/languages/ja/helpers/internal/determineStem";
 
 import getMorphologyData from "../../../../../specHelpers/getMorphologyData";
@@ -6,10 +5,6 @@ import getMorphologyData from "../../../../../specHelpers/getMorphologyData";
 const morphologyDataJA = getMorphologyData( "ja" ).ja;
 
 describe( "Test for getting the helper to return a canonical stem for Japanese word", () => {
-	if ( ! isFeatureEnabled( "JAPANESE_SUPPORT" ) ) {
-		it( "is not run when the Japanese feature flag is disabled", function() {} );
-		return;
-	}
 	it( "returns the original word if the word is one character long or if the word doesn't match anny paradigm", function() {
 		expect( determineStem( "猫", morphologyDataJA ) ).toEqual( "猫" );
 		expect( determineStem( "バラ", morphologyDataJA ) ).toEqual( "バラ" );

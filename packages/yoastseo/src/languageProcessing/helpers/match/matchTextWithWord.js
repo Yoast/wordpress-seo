@@ -22,9 +22,12 @@ export default function( text, wordToMatch, locale, matchWordCustomHelper ) {
 	text = stripSomeTags( text );
 	text = unifyWhitespace( text );
 	text = normalizeQuotes( text );
-	wordToMatch = stripSpaces( normalizeQuotes( wordToMatch ) );
 
-	let matches = matchWordCustomHelper ? matchWordCustomHelper( text, wordToMatch ) : matchStringWithTransliteration( text, wordToMatch, locale );
+	wordToMatch = normalizeQuotes( wordToMatch );
+	let matches = matchWordCustomHelper
+		? matchWordCustomHelper( text, wordToMatch )
+		: matchStringWithTransliteration( text, wordToMatch, locale );
+
 	matches = map( matches, function( keyword ) {
 		return stripSpaces( removePunctuation( keyword ) );
 	} );
