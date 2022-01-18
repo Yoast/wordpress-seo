@@ -58,17 +58,6 @@ class Health_Check_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Tear down the test fixtures. Add assertions made by Mockery.
-	 *
-	 * @return void
-	 */
-	public function tear_down() {
-		$container = Mockery::getContainer();
-		$this->addToAssertionCount( $container->mockery_getExpectationCount() );
-		parent::tear_down();
-	}
-
-	/**
 	 * Checks if the integration has the Admin_Conditional (health check should only occur in the admin panel).
 	 *
 	 * @covers ::get_conditionals

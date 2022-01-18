@@ -46,17 +46,6 @@ class Health_Check_Test extends TestCase {
 	}
 
 	/**
-	 * Tear down the test fixtures. Add assertions made by Mockery.
-	 *
-	 * @return void
-	 */
-	public function tear_down() {
-		$container = Mockery::getContainer();
-		$this->addToAssertionCount( $container->mockery_getExpectationCount() );
-		parent::tear_down();
-	}
-
-	/**
 	 * Checks if the health check runner is called when calling run_and_get_result().
 	 *
 	 * @covers ::run_and_get_result

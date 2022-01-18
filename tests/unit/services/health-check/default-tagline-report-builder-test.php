@@ -60,17 +60,6 @@ class Default_Tagline_Report_Builder_Test extends TestCase {
 	}
 
 	/**
-	 * Tear down the test fixtures. Add assertions made by Mockery.
-	 *
-	 * @return void
-	 */
-	public function tear_down() {
-		$container = Mockery::getContainer();
-		$this->addToAssertionCount( $container->mockery_getExpectationCount() );
-		parent::tear_down();
-	}
-
-	/**
 	 * Checks if the Report_Builder is called when setting a test identifier.
 	 *
 	 * @covers ::__construct
