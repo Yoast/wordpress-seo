@@ -6,6 +6,7 @@
  */
 
 use Yoast\WP\Lib\Model;
+use Yoast\WP\SEO\Helpers\XML_Sitemap_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
