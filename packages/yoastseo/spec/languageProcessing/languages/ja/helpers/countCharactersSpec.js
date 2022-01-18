@@ -30,7 +30,6 @@ describe( "counts characters in a string", function() {
 			"<p>戦後においては一般に広義の<a href=\"https://ja.wikipedia.org/wiki/%E7%AB%A5%E8%AC%A1\">童謡</a>にカテゴライズされる本作品は、" +
 			"初出本の題名にもあるとおり青木自身は「唱歌」であるとし、「学校や家庭で」歌ってもらえれば本懐であるとしている。しかし発表当時の教育現場では、" +
 			"本作品を歌うことは原則上はできなかった。</p>";
-
-		expect( countCharactersFunction( text ) ).toBe( 760 );
+		expect( countCharactersFunction( text ) ).toBe( 757 );
 	} );
 } );
