@@ -8,7 +8,6 @@ import { handleAPIResponse } from "../helpers/api";
 import { getSettings } from "../helpers/wordproofEndpoints";
 import { get } from "lodash";
 
-
 function SettingsLink( props ) {
 	if ( ! props.isAuthenticated ) {
 		return ( "" );
@@ -21,6 +20,21 @@ function SettingsLink( props ) {
 				props.openSettings();
 			} }
 		>{ __( "Manage WordProof settings", "wordpress-seo" ) }</a>
+	);
+}
+
+function AuthenticationLink( props ) {
+	if ( props.isAuthenticated && ! props.toggleIsEnabled ) {
+		return ( "" );
+	}
+
+	return (
+		<a
+			href={ props.authenticationUrl } onClick={ ( e ) => {
+				e.preventDefault();
+				props.openAuthentication();
+			} }
+		>{ __( "Authenticate with WordProof", "wordpress-seo" ) }</a>
 	);
 }
 
@@ -134,6 +148,7 @@ class WordProofTimestampToggle extends Component {
 						disable={ this.state.isDisabled }
 					/>
 					<SettingsLink isAuthenticated={ this.state.isAuthenticated } openSettings={ this.openSettings } settingsUrl={ this.state.settingsUrl } />
+					<AuthenticationLink toggleIsEnabled={ this.props.isEnabled } isAuthenticated={ this.state.isAuthenticated } openAuthentication={ this.openAuthentication } authenticationUrl={ this.state.authenticationUrl } />
 				</FieldGroup>
 
 				<AuthenticationModal
