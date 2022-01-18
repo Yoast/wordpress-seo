@@ -162,7 +162,7 @@ export default class AdvancedFields {
 	 * @returns {boolean} The Timestamp setting.
 	 */
 	static get wordproofTimestamp() {
-		return AdvancedFields.wordproofTimestampElement && AdvancedFields.wordproofTimestampElement.value || false;
+		return AdvancedFields.wordproofTimestampElement && AdvancedFields.wordproofTimestampElement.value === "1" || false;
 	}
 
 	/**
@@ -173,6 +173,6 @@ export default class AdvancedFields {
 	 * @returns {void}
 	 */
 	static set wordproofTimestamp( value ) {
-		AdvancedFields.wordproofTimestampElement.value = value;
+		AdvancedFields.wordproofTimestampElement.value = value ? "1" : "0";
 	}
 }
