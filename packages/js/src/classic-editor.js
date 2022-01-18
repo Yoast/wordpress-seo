@@ -18,7 +18,7 @@ import initPrimaryCategory from "./initializers/primary-category";
 import { initTermDescriptionTinyMce } from "./initializers/tiny-mce";
 import { initialize as initPublishBox } from "./ui/publishBox";
 import { registerFeaturedImagePlugin, registerMarkdownPlugin, registerSeoTitleWidthPlugin, registerShortcodePlugin } from "./classic-editor/plugins";
-import { getContentTypeReplacements } from "./classic-editor/helpers/content-types";
+import { getContentTypeReplacements } from "./classic-editor/content-types";
 
 // These are either "1" or undefined.
 const isPost = Boolean( get( window, "wpseoScriptData.isPost" ) );

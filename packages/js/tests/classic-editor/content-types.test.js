@@ -1,8 +1,8 @@
-import { getContentTypeReplacements } from "../../../src/classic-editor/helpers/content-types";
+import { getContentTypeReplacements } from "../../src/classic-editor/content-types";
 import {
 	createPostReplacementVariableConfigurations,
 	createTermReplacementVariableConfigurations,
-} from "../../../src/classic-editor/replacement-variables";
+} from "../../src/classic-editor/replacement-variables";
 
 describe( "The getContentTypes function", () => {
 	it( "should return the replacement variable configuration per content type ", () => {
