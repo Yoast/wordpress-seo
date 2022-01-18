@@ -96,12 +96,10 @@ class Health_Check_Test extends TestCase {
 	 * @covers ::get_test_identifier
 	 */
 	public function test_outputs_valid_test_identifier() {
-		$input    = 'Some hEalTh Check labeL';
-		$expected = 'yoast-some-health-check-label';
-		$this->instance
-			->shouldReceive( 'get_test_label' )
-			->once()
-			->andReturn( $input );
+		// Test identifier generation depends on the name of the subclass, so we can't use the (partial) mock of the test double here.
+		$this->instance = new Health_Check_Double( $this->runner );
+
+		$expected = 'yoast-health-check-double';
 
 		$actual = $this->instance->get_test_identifier();
 
