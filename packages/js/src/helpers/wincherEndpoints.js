@@ -34,11 +34,12 @@ export async function authenticate( responseData ) {
  * Gets the tracked keyphrases data via POST.
  *
  * @param {Array}   keyphrases     The keyphrases to get the data for.
- * @param {String}  permalink  The post's/page's permalink. Optional.
+ * @param {String}  permalink  	The post's/page's permalink. Optional.
+ * @param {AbortSignal} signal (optional) Abort signal.
  *
  * @returns {Promise} The API response promise.
  */
-export async function getKeyphrases( keyphrases = null, permalink = null ) {
+export async function getKeyphrases( keyphrases = null, permalink = null, signal ) {
 	return await callEndpoint( {
 		path: "yoast/v1/wincher/keyphrases",
 		method: "POST",
@@ -46,18 +47,7 @@ export async function getKeyphrases( keyphrases = null, permalink = null ) {
 			keyphrases,
 			permalink,
 		},
-	} );
-}
-
-/**
- * Gets the currently set limit information associated with the connected Wincher account.
- *
- * @returns {Promise} The API response promise.
- */
-export async function getAccountLimits() {
-	return await callEndpoint( {
-		path: "yoast/v1/wincher/limits",
-		method: "GET",
+		signal,
 	} );
 }
 
@@ -92,17 +82,5 @@ export async function untrackKeyphrase( keyphraseID ) {
 		path: "yoast/v1/wincher/keyphrases/untrack",
 		method: "DELETE",
 		data: { keyphraseID },
-	} );
-}
-
-/**
- * Tracks all available keyphrases
- *
- * @returns {Promise} The API response promise.
- */
-export async function trackAllKeyphrases() {
-	return await callEndpoint( {
-		path: "yoast/v1/wincher/keyphrases/track/all",
-		method: "POST",
 	} );
 }
