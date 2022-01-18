@@ -95,8 +95,7 @@ class Import_Integration implements Integration_Interface {
 		\wp_enqueue_style( 'dashicons' );
 		$this->asset_manager->enqueue_script( 'import' );
 
-		/* translators: %s expands to the error that failed the import. */
-		$import_failure_alert = new Alert_Presenter( \esc_html__( 'Import failed with the following error: %s', 'wordpress-seo' ), 'error' );
+		$import_failure_alert = $this->get_import_failure_alert();
 
 		$data = [
 			'restApi' => [
@@ -106,7 +105,7 @@ class Import_Integration implements Integration_Interface {
 			],
 			'assets'  => [
 				'loading_msg'    => \esc_html__( 'The import can take a long time depending on your site\'s size', 'wordpress-seo' ),
-				'import_failure' => '<div class="yoast-measure yoast-import-failure">' . $import_failure_alert->present() . '</div>',
+				'import_failure' => '<div class="yoast-measure yoast-import-failure">' . $import_failure_alert . '</div>',
 				'spinner'        => \admin_url( 'images/loading.gif' ),
 			],
 		];
@@ -137,5 +136,20 @@ class Import_Integration implements Integration_Interface {
 		}
 
 		return $importing_endpoints;
+	}
+
+	/**
+	 * Gets the import failure alert using the Alert_Presenter.
+	 *
+	 * @return string The import failure alert.
+	 */
+	protected function get_import_failure_alert() {
+		$content  = \esc_html__( 'Import failed with the following error:', 'wordpress-seo' );
+		$content .= '<br/><br/>';
+		$content .= '%s';
+
+		$import_failure_alert = new Alert_Presenter( $content, 'error' );
+
+		return $import_failure_alert->present();
 	}
 }
