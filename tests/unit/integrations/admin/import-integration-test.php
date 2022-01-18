@@ -145,6 +145,7 @@ class Import_Integration_Test extends TestCase {
 	 *
 	 * @covers ::enqueue_import_script
 	 * @covers ::get_importing_endpoints
+	 * @covers ::get_import_failure_alert
 	 */
 	public function test_enqueue_import_script() {
 		Monkey\Functions\expect( 'wp_enqueue_style' )
