@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Repositories;
 
 use Yoast\WP\Lib\Model;
 use Yoast\WP\Lib\ORM;
+use Yoast\WP\SEO\Models\SEO_Links;
 
 /**
  * Class SEO_Links_Repository.
@@ -117,13 +118,18 @@ class SEO_Links_Repository {
 			->group_by( 'target_indexable_id' )
 			->find_array();
 
+		// If the above query fails, do not update anything.
+		if ( ! \is_array( $indexable_counts ) ) {
+			return [];
+		}
+
 		// Get all ID's returned from the query and set them as keys for easy access.
-		$returned_ids = array_flip( array_column( $indexable_counts, 'target_indexable_id' ) );
+		$returned_ids = \array_flip( \array_column( $indexable_counts, 'target_indexable_id' ) );
 
 		// Loop over the original ID's and search them in the returned ID's. If they don't exist, add them with an incoming count of 0.
 		foreach ( $indexable_ids as $id ) {
 			// Cast the ID to string, as the arrays only contain stringified versions of the ID.
-			$id = strval( $id );
+			$id = \strval( $id );
 			if ( isset( $returned_ids[ $id ] ) === false ) {
 				$indexable_counts[] = [
 					'incoming'            => '0',

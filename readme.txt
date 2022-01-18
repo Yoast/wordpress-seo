@@ -4,7 +4,7 @@ Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
-Tested up to: 5.8
+Tested up to: 5.9
 Stable tag: 17.9
 Requires PHP: 5.6.20
 
@@ -242,12 +242,21 @@ Release Date: January 25th, 2022
 Enhancements:
 
 * Limits a potentially slow query to certain routes, which makes it so it gets called fewer times.
-* Enhances schema presentation for languages that are not alphanumeric. Props to [sous-studio](https://github.com/sous-studio)
+* Enhances schema presentation for languages that are not alphanumeric. Props to [sous-studio](https://github.com/sous-studio).
 
 Bugfixes:
 
-* Fixes a bug where removing an image from our Facebook Preview and Twitter Preview modals could lead to a confusing accessibility experience due to focus loss.
+* Fixes a bug where removing an image from our Facebook Preview and Twitter Preview modals could lead to a confusing experience due to focus loss.
 * Fixes a bug where clicking outside of a Yoast modal in the block editor would not close the modal.
+* Fixes a bug where Japanese keyphrase enclosed in double quotes failed to be recognized in Keyword in meta description, Keyword density, Keyphrase distribution, Keyphrase in introduction, Keyphrase in image text and in Keyphrase in subheading assessments.
+* Fixes a bug where synonyms enclosed in double quotes in the Link keyphrase assessment failed to be recognized even when there were exact matches in the anchor text.  
+* Fixes a bug where incorrect assessments were shown for keyphrases only consisting of function words in Japanese.
+* Fixes a bug where the internal link update might cause a fatal error.
+
+Other:
+
+* Sets the WordPress tested up to version to 5.9.
+* Sets WooCommerce tested up to version to 6.1.
 
 = 17.9 =
 Release Date: January 11th, 2022
