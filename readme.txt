@@ -252,6 +252,7 @@ Bugfixes:
 * Fixes a bug where synonyms enclosed in double quotes in the Link keyphrase assessment failed to be recognized even when there were exact matches in the anchor text.  
 * Fixes a bug where incorrect assessments were shown for keyphrases only consisting of function words in Japanese.
 * Fixes a bug where a fatal error could be thrown because of a failing query when updating a post after its links were changed.
+* Fixes a bug where a fatal error would be thrown if the link count of a corrupt indexable item would get updated.
 
 Other:
 
