@@ -98,6 +98,8 @@ class Health_Check_Integration_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::add_health_checks
+	 * @covers ::is_valid_site_status_tests_array
+	 * @covers ::add_health_checks_to_site_status_tests
 	 */
 	public function test_add_health_checks_generates_correct_array() {
 		$input = [
@@ -139,6 +141,58 @@ class Health_Check_Integration_Test extends TestCase {
 			->shouldReceive( 'get_test_identifier' )
 			->andReturn( 'test1' )
 			->once();
+
+		$actual = $this->instance->add_health_checks( $input );
+
+		$this->assertEquals( $expected, $actual );
+	}
+
+	/**
+	 * Checks if a different type than a site_status_tests array is returned without modification.
+	 *
+	 * @covers ::add_health_checks
+	 * @covers ::is_valid_site_status_tests_array
+	 * @covers ::add_health_checks_to_site_status_tests
+	 */
+	public function test_other_type_returns_input() {
+		$input    = 'not-an-array';
+		$expected = $input;
+
+		$actual = $this->instance->add_health_checks( $input );
+
+		$this->assertEquals( $expected, $actual );
+	}
+
+	/**
+	 * Checks if an invalid site_status_tests array is returned without modification.
+	 *
+	 * @covers ::add_health_checks
+	 * @covers ::is_valid_site_status_tests_array
+	 * @covers ::add_health_checks_to_site_status_tests
+	 */
+	public function test_invalid_array_returns_array() {
+		$input    = [ 'some-other-array', 'structure' ];
+		$expected = $input;
+
+		$actual = $this->instance->add_health_checks( $input );
+
+		$this->assertEquals( $expected, $actual );
+	}
+
+	/**
+	 * Checks if an invalid site_status_tests array that does contain a 'direct' key is returned without modification.
+	 *
+	 * @covers ::add_health_checks
+	 * @covers ::is_valid_site_status_tests_array
+	 * @covers ::add_health_checks_to_site_status_tests
+	 */
+	public function test_invalid_array_with_direct_returns_array() {
+		$input    = [
+			'some-other-array',
+			'structure',
+			'direct' => 'not-an-array',
+		];
+		$expected = $input;
 
 		$actual = $this->instance->add_health_checks( $input );
 

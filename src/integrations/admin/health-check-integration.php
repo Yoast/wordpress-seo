@@ -49,12 +49,48 @@ class Health_Check_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Adds the health checks to WordPress' site status tests.
+	 * Checks if the input is a WordPress site status tests array, and adds Yoast's health checks if it is.
 	 *
 	 * @param  string[] $tests Array containing WordPress site status tests.
 	 * @return string[] Array containing WordPress site status tests with Yoast's health checks.
 	 */
 	public function add_health_checks( $tests ) {
+		if ( ! $this->is_valid_site_status_tests_array( $tests ) ) {
+			return $tests;
+		}
+
+		return $this->add_health_checks_to_site_status_tests( $tests );
+	}
+
+	/**
+	 * Checks if the input array is a WordPress site status tests array.
+	 *
+	 * @param  mixed $tests Array to check.
+	 * @return bool Returns true if the input array is a WordPress site status tests array.
+	 */
+	private function is_valid_site_status_tests_array( $tests ) {
+		if ( ! is_array( $tests ) ) {
+			return false;
+		}
+
+		if ( ! array_key_exists( 'direct', $tests ) ) {
+			return false;
+		}
+
+		if ( ! is_array( $tests['direct'] ) ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Adds the health checks to WordPress' site status tests.
+	 *
+	 * @param  string[] $tests Array containing WordPress site status tests.
+	 * @return string[] Array containing WordPress site status tests with Yoast's health checks.
+	 */
+	private function add_health_checks_to_site_status_tests( $tests ) {
 		foreach ( $this->health_checks as $health_check ) {
 			$tests['direct'][ $health_check->get_test_identifier() ] = [
 				'test' => [ $health_check, 'run_and_get_result' ],
