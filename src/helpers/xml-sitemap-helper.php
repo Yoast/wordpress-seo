@@ -18,14 +18,24 @@ class XML_Sitemap_Helper {
 	private $links_repository;
 
 	/**
+	 * The image helper.
+	 *
+	 * @var Image_Helper
+	 */
+	protected $image_helper;
+
+	/**
 	 * XML_Sitemap_Helper constructor.
 	 *
 	 * @param SEO_Links_Repository $links_repository The links repository.
+	 * @param Image_Helper         $image_helper     The image helper.
 	 */
 	public function __construct(
-		SEO_Links_Repository $links_repository
+		SEO_Links_Repository $links_repository,
+		Image_Helper $image_helper
 	) {
 		$this->links_repository = $links_repository;
+		$this->image_helper     = $image_helper;
 	}
 
 	/**
@@ -41,17 +51,18 @@ class XML_Sitemap_Helper {
 		$indexable_ids = [];
 
 		foreach ( $indexables as $indexable ) {
-			$indexable_ids[] = $indexable->id;
+			$indexable_ids[ $indexable->object_id ] = $indexable->id;
 		}
 
 		if ( $indexable_ids === [] ) {
 			return [];
 		}
 
-		$images = $this->links_repository->query()
+		$images = $this->links_repository
+			->query()
 			->select_many( 'indexable_id', 'url' )
 			->where( 'type', $type )
-			->where_in( 'indexable_id', $indexable_ids )
+			->where_in( 'indexable_id', array_values( $indexable_ids ) )
 			->find_many();
 
 		foreach ( $images as $image ) {
@@ -63,7 +74,66 @@ class XML_Sitemap_Helper {
 			];
 		}
 
+		// The featured image may not be in the links table. Make sure it is included in the image list.
+		foreach ( $indexable_ids as $object_id => $indexable_id ) {
+			if ( ! is_int( $object_id ) || $object_id <= 0 ) {
+				continue;
+			}
+
+			$featured_image_link = $this->get_featured_image_link( $object_id );
+
+			if ( is_null( $featured_image_link ) ) {
+				continue;
+			}
+
+			if ( ! isset( $images_by_id[ $indexable_id ] ) ) {
+				$images_by_id[ $indexable_id ] = [];
+			}
+
+			if ( ! in_array( $featured_image_link, $images_by_id[ $indexable_id ], true ) ) {
+				$images_by_id[ $indexable_id ][] = $featured_image_link;
+
+			}
+		}
 		return $images_by_id;
+	}
+
+	/**
+	 * Gets the sitemap link for a post's featured image.
+	 *
+	 * @param int $post_id The id of the post.
+	 *
+	 * @return string[]|null The featured image link. Null if the post doesn't have a featured image.
+	 */
+	private function get_featured_image_link( $post_id ) {
+		$link = $this->get_featured_image_source( $post_id );
+		if ( ! $link ) {
+			return null;
+		}
+
+		return [ 'src' => $link ];
+	}
+
+	/**
+	 * Gets the source url for a post's featured image.
+	 *
+	 * @param int $post_id The id of the post.
+	 *
+	 * @return string|null The featured image source. Null if the post doesn't have a featured image.
+	 */
+	private function get_featured_image_source( $post_id ) {
+		$featured_id = $this->image_helper->get_featured_image_id( $post_id );
+		if ( ! $featured_id ) {
+			return null;
+		}
+
+		$featured_image_source = $this->image_helper->get_attachment_image_source( $featured_id );
+
+		if ( $featured_image_source === '' ) {
+			return null;
+		}
+
+		return $featured_image_source;
 	}
 
 	/**
