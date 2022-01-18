@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Integrations\Third_Party;
 
+use WordProof\SDK\Helpers\PostMeta;
 use WordProof\SDK\WordPressSDK;
 use Yoast\WP\SEO\Conditionals\Third_Party\WordProof_Plugin_Inactive_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -11,6 +12,8 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
  */
 class WordProof implements Integration_Interface
 {
+
+	protected $post_meta_key = "_yoast_wpseo_wordproof_timestamp";
 	/**
 	 * Returns the conditionals based in which this loadable should be active.
 	 *
@@ -32,6 +35,7 @@ class WordProof implements Integration_Interface
 	{
 		\add_action('init', [$this, 'sdk_setup'], 11);
 		\add_filter('wordproof_timestamp_post_meta_key_overrides', [$this, 'add_post_meta_key']);
+		\add_filter('wordproof_timestamp_show_certificate', [$this, 'show_certificate'], 10, 2);
 	}
 
 	public function sdk_setup()
@@ -43,7 +47,16 @@ class WordProof implements Integration_Interface
 
 	public function add_post_meta_key($array)
 	{
-		$array[] = '_yoast_wpseo_wordproof_timestamp';
+		$array[] = $this->post_meta_key;
 		return $array;
+	}
+
+	public function show_certificate($value, $post)
+	{
+		ray($value, $post->ID, PostMeta::get($post->ID, $this->post_meta_key))->blue();
+		if (!$value)
+			return $value;
+
+		return boolval(PostMeta::get($post->ID, $this->post_meta_key));
 	}
 }
