@@ -29,8 +29,7 @@ export const AuthenticationModal = ( props ) => {
 	const [ isLoading, setIsLoading ] = useState( true );
 
 	useEffect( () => {
-
-		const authenticate = async () => {
+		const authenticate = async() => {
 			setIsLoading( true );
 			const isAuthenticated = await performAuthenticationRequest();
 
@@ -46,7 +45,6 @@ export const AuthenticationModal = ( props ) => {
 		if ( isOpen && ! isAuthenticated ) {
 			authenticate();
 		}
-
 	}, [ isOpen, isAuthenticated, isLoading ] );
 
 	const closeModal = useCallback( () => setIsOpen( false ), [] );
@@ -90,11 +88,13 @@ export const AuthenticationModal = ( props ) => {
 							postTypeName
 						) }</p>
 
-						<div style={{
-							display: 'flex',
-							justifyContent: 'center',
-						}}>
-							<WordProofConnectedImage style={{width: '150px'}}/>
+						<div
+							style={ {
+								display: "flex",
+								justifyContent: "center",
+							} }
+						>
+							<WordProofConnectedImage style={ { width: "150px" } } />
 						</div>
 					</div>
 					<br />

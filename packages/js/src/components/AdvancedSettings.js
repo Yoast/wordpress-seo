@@ -263,7 +263,7 @@ const WordProofTimestamp = ( { wordproofTimestamp, onWordProofTimestampChange, p
 WordProofTimestamp.propTypes = {
 	wordproofTimestamp: PropTypes.bool,
 	onWordProofTimestampChange: PropTypes.func,
-	postTypeName: PropTypes.string
+	postTypeName: PropTypes.string,
 };
 
 /**

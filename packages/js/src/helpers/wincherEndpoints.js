@@ -1,5 +1,5 @@
 import { isArray } from "lodash-es";
-import {callEndpoint} from './api';
+import { callEndpoint } from "./api";
 
 /**
  * Returns the authorization URL.
