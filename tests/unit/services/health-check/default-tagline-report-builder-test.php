@@ -6,6 +6,7 @@ use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Services\Health_Check\Default_Tagline_Report_Builder;
 use Yoast\WP\SEO\Services\Health_Check\Report_Builder;
+use Yoast\WP\SEO\Services\Health_Check\Report_Builder_Factory;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 // phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
@@ -32,13 +33,27 @@ class Default_Tagline_Report_Builder_Test extends TestCase {
 	private $report_builder;
 
 	/**
+	 * The mocked Report_Builder_Factory that returns the Report_Builder mock.
+	 *
+	 * @var Report_Builder_Factory
+	 */
+	private $report_builder_factory;
+
+	/**
 	 * Set up the test fixtures.
 	 */
 	public function set_up() {
 		parent::set_up();
 
-		$this->report_builder = Mockery::mock( Report_Builder::class );
-		$this->instance       = new Default_Tagline_Report_Builder( $this->report_builder );
+		$this->report_builder         = Mockery::mock( Report_Builder::class );
+		$this->report_builder_factory = Mockery::mock( Report_Builder_Factory::class );
+
+		$this->report_builder_factory
+			->shouldReceive( 'create' )
+			->once()
+			->andReturn( $this->report_builder );
+
+		$this->instance = new Default_Tagline_Report_Builder( $this->report_builder_factory );
 
 		$this->stubEscapeFunctions();
 		$this->stubTranslationFunctions();
