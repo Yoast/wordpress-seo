@@ -189,6 +189,25 @@ export const getPostDate = () => {
 };
 
 /**
+ * Gets the current post's categories from the document.
+ *
+ * @returns {{name: string, id: string}[]} The post's categories.
+ */
+export const getPostCategories = () => {
+	const checkboxes = [ ...document.querySelectorAll( "#categorychecklist input[type=checkbox]" ) ];
+
+	if ( checkboxes ) {
+		return checkboxes.map( checkbox => (
+			{
+				id: checkbox.value,
+				name: checkbox.parentElement.innerText.trim(),
+			}
+		) );
+	}
+	return [];
+};
+
+/**
  * Gets the post SEO title from the document.
  *
  * @returns {string} The post SEO title or an empty string.
