@@ -102,7 +102,7 @@ class WordProofTimestampToggle extends Component {
 	handleToggle(value) {
 		this.props.onToggle(value);
 
-		if (!this.state.isAuthenticated) {
+		if (!this.state.isAuthenticated && value) {
 			this.openAuthentication();
 		}
 	}
