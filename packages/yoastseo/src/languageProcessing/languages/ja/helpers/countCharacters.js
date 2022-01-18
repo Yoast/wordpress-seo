@@ -11,8 +11,8 @@ const { sanitizeString } = languageProcessing;
 export default function( text ) {
 	// eslint-disable-next-line max-len
 	const urlRegex = new RegExp("(http(s)?:\\/\\/.)?(www\\.|ftp:\\/\\/)?[-a-zA-Z0-9@:%._\\/+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\/+.~#?&()=]*)", "igm" );
-	text = sanitizeString( text );
 	text = text.replace( urlRegex, "" );
+	text = sanitizeString( text );
 
 	return text.length;
 }
