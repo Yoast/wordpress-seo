@@ -1,7 +1,7 @@
-import { createPostReplacementVariableConfigurations, createTermReplacementVariableConfigurations } from "../replacement-variables";
+import { createPostReplacementVariableConfigurations, createTermReplacementVariableConfigurations } from "./replacement-variables";
 
 /**
- * Return the replacement variable configuration per content type.
+ * Returns the replacement variable configuration per content type.
  *
  * @returns {object} The replacements per content type.
  */
