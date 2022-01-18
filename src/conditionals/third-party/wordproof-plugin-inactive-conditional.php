@@ -15,6 +15,6 @@ class WordProof_Plugin_Inactive_Conditional implements Conditional {
 	 * @return bool Whether or not the WordProof Timestamp plugin is active.
 	 */
 	public function is_met() {
-		return !\defined( 'WORDPROOF_VERSION' );
+		return ! \defined( 'WORDPROOF_VERSION' );
 	}
 }

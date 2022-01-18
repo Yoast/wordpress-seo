@@ -8,20 +8,26 @@ use Yoast\WP\SEO\Conditionals\Third_Party\WordProof_Plugin_Inactive_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
- * WooCommerce integration.
+ * Class WordProof
+ *
+ * @package Yoast\WP\SEO\Integrations\Third_Party
  */
-class WordProof implements Integration_Interface
-{
+class WordProof implements Integration_Interface {
 
-	protected $post_meta_key = "_yoast_wpseo_wordproof_timestamp";
+	/**
+	 * The Yoast meta key used to save if a post should be timestamped.
+	 *
+	 * @var string The Yoast meta key used to save if a post should be timestamped.
+	 */
+	protected $post_meta_key = '_yoast_wpseo_wordproof_timestamp';
+
 	/**
 	 * Returns the conditionals based in which this loadable should be active.
 	 *
 	 * @return array
 	 */
-	public static function get_conditionals()
-	{
-		return [WordProof_Plugin_Inactive_Conditional::class];
+	public static function get_conditionals() {
+		 return [ WordProof_Plugin_Inactive_Conditional::class ];
 	}
 
 	/**
@@ -31,32 +37,44 @@ class WordProof implements Integration_Interface
 	 *
 	 * @return void
 	 */
-	public function register_hooks()
-	{
-		\add_action('init', [$this, 'sdk_setup'], 11);
-		\add_filter('wordproof_timestamp_post_meta_key_overrides', [$this, 'add_post_meta_key']);
-		\add_filter('wordproof_timestamp_show_certificate', [$this, 'show_certificate'], 10, 2);
+	public function register_hooks() {
+		\add_action( 'init', [ $this, 'sdk_setup' ], 11 );
+		\add_filter( 'wordproof_timestamp_post_meta_key_overrides', [ $this, 'add_post_meta_key' ] );
+		\add_filter( 'wordproof_timestamp_show_certificate', [ $this, 'show_certificate' ], 10, 2 );
 	}
 
-	public function sdk_setup()
-	{
-		WordPressSDK::getInstance('yoast', 'staging')
+	/**
+	 * Initializes the WordProof WordPress SDK.
+	 */
+	public function sdk_setup() {
+		WordPressSDK::getInstance( 'yoast', 'staging' )
 			->certificate()
 			->initialize();
 	}
 
-	public function add_post_meta_key($array)
-	{
+	/**
+	 * Add the Yoast post meta key for the included WordProof SDK to determine if the post should be timestamped.
+	 *
+	 * @param array $array The array containing meta keys that should be used.
+	 * @return array
+	 */
+	public function add_post_meta_key( $array ) {
 		$array[] = $this->post_meta_key;
 		return $array;
 	}
 
-	public function show_certificate($value, $post)
-	{
-		ray($value, $post->ID, PostMeta::get($post->ID, $this->post_meta_key))->blue();
-		if (!$value)
+	/**
+	 * This filters hides the certificate if the Yoast post meta key is not set to true.
+	 *
+	 * @param bool    $value If the certificate should be shown.
+	 * @param WP_Post $post The post object of the post for which to determine the certificate should be shown.
+	 * @return bool|null
+	 */
+	public function show_certificate( $value, $post ) {
+		if ( ! $value ) {
 			return $value;
+		}
 
-		return boolval(PostMeta::get($post->ID, $this->post_meta_key));
+		return boolval( PostMeta::get( $post->ID, $this->post_meta_key ) );
 	}
 }

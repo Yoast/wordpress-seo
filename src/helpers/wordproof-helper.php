@@ -28,16 +28,23 @@ class WordProof_Helper {
 	 */
 	protected $options;
 
-	public function __construct(Current_Page_Helper $current_page, Woocommerce_Helper $woocommerce, Options_Helper $options) {
+	/**
+	 * WordProof_Helper constructor.
+	 *
+	 * @param Current_Page_Helper $current_page The current page helper.
+	 * @param Woocommerce_Helper  $woocommerce The woocommerce helper.
+	 * @param Options_Helper      $options The options helper.
+	 */
+	public function __construct( Current_Page_Helper $current_page, Woocommerce_Helper $woocommerce, Options_Helper $options ) {
 		$this->current_page = $current_page;
-		$this->woocommerce = $woocommerce;
-		$this->options = $options;
+		$this->woocommerce  = $woocommerce;
+		$this->options      = $options;
 	}
 
 	/**
 	 * Remove site options after disabling the integration.
 	 *
-	 * @return bool
+	 * @return bool Returns if the options are deleted
 	 */
 	public function remove_site_options() {
 		return delete_site_option( 'wordproof_access_token' )
@@ -47,13 +54,14 @@ class WordProof_Helper {
 	/**
 	 * Return if WordProof should be active for this post editor page.
 	 *
-	 * @return bool
+	 * @return bool Returns if WordProof should be active for this page.
 	 */
 	public function is_active() {
 		$is_wordproof_active = $this->options->get( 'wordproof_integration_active', true );
 
-		if ( ! $is_wordproof_active )
+		if ( ! $is_wordproof_active ) {
 			return false;
+		}
 
 		return ( $this->current_page->current_post_is_privacy_policy() || $this->woocommerce->current_post_is_terms_and_conditions_page() );
 	}
