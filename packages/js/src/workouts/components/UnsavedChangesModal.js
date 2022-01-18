@@ -26,33 +26,31 @@ export default function UnsavedChangesModal( { hasUnsavedChanges } ) {
 		window.location.replace( targetUrl );
 	}, [ targetUrl ] );
 
-	const clickEventHandler = useCallback( ( e ) => {
-		console.log("A clicked")
-		if ( hasUnsavedChanges && e.target.tagName === "A" ) {
-			e.preventDefault();
-			setTargetUrl( e.target.href );
+	const popStateEventHandler = useCallback( ( e ) => {
+		console.log( "popstate" );
+		if ( hasUnsavedChanges  ) {
+			history.go( 1 );
 			setModalIsOpen( true );
 		}
 	}, [ hasUnsavedChanges ] );
 
-	const popStateEventHandler = useCallback( ( e ) => {
-		console.log("popstate")
+	const beforeUnloadEventHandler = useCallback( ( e ) => {
+		console.log( "beforeunload" );
 		if ( hasUnsavedChanges  ) {
 			e.preventDefault();
-			history.go(1);
-			setModalIsOpen( true );
+			e.returnValue = "this is a test!";
 		}
 	}, [ hasUnsavedChanges ] );
-	
+
 	useEffect( () => {
-		window.addEventListener( "click", clickEventHandler );
 		window.addEventListener( "popstate", popStateEventHandler );
+		window.addEventListener( "beforeunload", beforeUnloadEventHandler );
 
 		return () => {
-			window.removeEventListener( "click", clickEventHandler );
 			window.removeEventListener( "popstate", popStateEventHandler );
+			window.removeEventListener( "beforeunload", beforeUnloadEventHandler );
 		}
-	}, [ clickEventHandler, popStateEventHandler ] );
+	}, [ beforeUnloadEventHandler, popStateEventHandler ] );
 
 	return (
 		<Modal isOpen={ modalIsOpen } handleClose={ closeModal }>
