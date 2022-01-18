@@ -106,7 +106,7 @@ class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 			->with( $expected_finished );
 
 		$unindexed_count = $this->mock_instance->get_total_unindexed();
-		$this->assertEquals( $unindexed_count, $expected_unindexed_count );
+		$this->assertSame( $expected_unindexed_count, $unindexed_count );
 	}
 
 	/**
@@ -130,7 +130,7 @@ class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 			->with( $expected_finished );
 
 		$unindexed_count = $this->mock_instance->get_limited_unindexed_count( 1 );
-		$this->assertEquals( $unindexed_count, $expected_unindexed_count );
+		$this->assertSame( $expected_unindexed_count, $unindexed_count );
 	}
 
 	/**
@@ -178,7 +178,7 @@ class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 			->with( $this->options, 'cursor_id', $last_key );
 
 		$created_settings = $this->mock_instance->index();
-		$this->assertEquals( $created_settings, $expected_created_settings );
+		$this->assertSame( $expected_created_settings, $created_settings );
 	}
 
 	/**
@@ -212,7 +212,7 @@ class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 			->andReturn( $cursor );
 
 		$unimported_chunk = $this->mock_instance->get_unimported_chunk( $importable_data, $limit );
-		$this->assertTrue( $unimported_chunk === $expected );
+		$this->assertSame( $expected, $unimported_chunk );
 	}
 
 	/**

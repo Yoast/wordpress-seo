@@ -65,8 +65,8 @@ class Aioseo_Robots_Transformer_Service_Test extends TestCase {
 			->with( $setting_name )
 			->andReturn( $global_setting_value );
 
-		$result = $this->aioseo_robots_transformer_service->transform_robot_setting( $setting_name, $setting_value, $mapping );
-		$this->assertTrue( $expected_result === $result );
+		$actual_result = $this->aioseo_robots_transformer_service->transform_robot_setting( $setting_name, $setting_value, $mapping );
+		$this->assertSame( $expected_result, $actual_result );
 	}
 
 	/**

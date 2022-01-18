@@ -189,7 +189,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			->andReturn( [ '1338', '1339', '1340' ] );
 
 		$limited_unimported_rows = $this->mock_instance->get_limited_unindexed_count( 25 );
-		$this->assertEquals( 3, $limited_unimported_rows );
+		$this->assertSame( 3, $limited_unimported_rows );
 	}
 
 	/**
@@ -306,17 +306,17 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 
 		$indexable = $this->instance->map( $indexable, $aioseio_indexable );
 
-		$this->assertEquals( 'title1', $indexable->title );
-		$this->assertEquals( 'description1', $indexable->description );
-		$this->assertEquals( 'og_title1', $indexable->open_graph_title );
-		$this->assertEquals( 'og_description1', $indexable->open_graph_description );
-		$this->assertEquals( 'twitter_title1', $indexable->twitter_title );
-		$this->assertEquals( 'twitter_description1', $indexable->twitter_description );
-		$this->assertEquals( null, $indexable->is_robots_noindex );
-		$this->assertEquals( 'robot_value', $indexable->is_robots_nofollow );
-		$this->assertEquals( 'robot_value', $indexable->is_robots_noarchive );
-		$this->assertEquals( 'robot_value', $indexable->is_robots_nosnippet );
-		$this->assertEquals( 'robot_value', $indexable->is_robots_noimageindex );
+		$this->assertSame( 'title1', $indexable->title );
+		$this->assertSame( 'description1', $indexable->description );
+		$this->assertSame( 'og_title1', $indexable->open_graph_title );
+		$this->assertSame( 'og_description1', $indexable->open_graph_description );
+		$this->assertSame( 'twitter_title1', $indexable->twitter_title );
+		$this->assertSame( 'twitter_description1', $indexable->twitter_description );
+		$this->assertSame( null, $indexable->is_robots_noindex );
+		$this->assertSame( 'robot_value', $indexable->is_robots_nofollow );
+		$this->assertSame( 'robot_value', $indexable->is_robots_noarchive );
+		$this->assertSame( 'robot_value', $indexable->is_robots_nosnippet );
+		$this->assertSame( 'robot_value', $indexable->is_robots_noimageindex );
 	}
 
 	/**
@@ -373,12 +373,12 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 
 		$indexable = $this->instance->map( $indexable, $aioseio_indexable );
 
-		$this->assertEquals( 'existing_title', $indexable->title );
-		$this->assertEquals( 'existing_dsc', $indexable->description );
-		$this->assertEquals( 'og_title1', $indexable->open_graph_title );
-		$this->assertEquals( 'og_description1', $indexable->open_graph_description );
-		$this->assertEquals( 'twitter_title1', $indexable->twitter_title );
-		$this->assertEquals( 'twitter_description1', $indexable->twitter_description );
+		$this->assertSame( 'existing_title', $indexable->title );
+		$this->assertSame( 'existing_dsc', $indexable->description );
+		$this->assertSame( 'og_title1', $indexable->open_graph_title );
+		$this->assertSame( 'og_description1', $indexable->open_graph_description );
+		$this->assertSame( 'twitter_title1', $indexable->twitter_title );
+		$this->assertSame( 'twitter_description1', $indexable->twitter_description );
 	}
 
 	/**

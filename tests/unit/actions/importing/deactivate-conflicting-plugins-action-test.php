@@ -192,7 +192,7 @@ class Deactivate_Conflicting_Plugins_Action_Test extends TestCase {
 		$result = $this->deactivate_conflicting_plugins_action->get_total_unindexed();
 
 		// Assert.
-		$this->assertEquals( 4, $result );
+		$this->assertSame( 4, $result );
 	}
 
 	/**
@@ -217,7 +217,7 @@ class Deactivate_Conflicting_Plugins_Action_Test extends TestCase {
 		$result = $this->deactivate_conflicting_plugins_action->index();
 
 		// Assert.
-		$this->assertEquals( [], $result );
+		$this->assertSame( [], $result );
 	}
 
 	/**
@@ -230,7 +230,7 @@ class Deactivate_Conflicting_Plugins_Action_Test extends TestCase {
 		$result = $this->deactivate_conflicting_plugins_action->get_limit();
 
 		// Assert.
-		$this->assertEquals( 52, $result );
+		$this->assertSame( 52, $result );
 	}
 
 	/**
@@ -255,7 +255,7 @@ class Deactivate_Conflicting_Plugins_Action_Test extends TestCase {
 		$result = $this->deactivate_conflicting_plugins_action->get_limited_unindexed_count( $limit );
 
 		// Assert.
-		$this->assertEquals( $expected, $result );
+		$this->assertSame( $expected, $result );
 	}
 
 	/**

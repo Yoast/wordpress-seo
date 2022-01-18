@@ -93,7 +93,7 @@ class Abstract_Importing_Action_Test extends TestCase {
 			->andReturn( $expected_option );
 
 		$completed = $this->mock_instance->get_completed();
-		$this->assertEquals( true, $completed );
+		$this->assertSame( true, $completed );
 	}
 
 	/**
@@ -116,7 +116,7 @@ class Abstract_Importing_Action_Test extends TestCase {
 			->andReturn( $expected_option );
 
 		$completed = $this->mock_instance->get_completed();
-		$this->assertEquals( false, $completed );
+		$this->assertSame( false, $completed );
 	}
 
 	/**

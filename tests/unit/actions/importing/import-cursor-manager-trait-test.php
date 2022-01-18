@@ -55,7 +55,7 @@ class Import_Cursor_Manager_Trait_Test extends TestCase {
 		$result = $this->get_cursor( $this->options_helper, self::CURSOR_ID );
 
 		// Assert.
-		self::assertEquals( 1337, $result );
+		self::assertSame( 1337, $result );
 	}
 
 	/**
@@ -74,7 +74,7 @@ class Import_Cursor_Manager_Trait_Test extends TestCase {
 		$result = $this->get_cursor( $this->options_helper, self::CURSOR_ID );
 
 		// Assert.
-		self::assertEquals( 0, $result );
+		self::assertSame( 0, $result );
 	}
 
 	/**

@@ -141,7 +141,7 @@ class Aioseo_Default_Archive_Settings_Importing_Action_Test extends TestCase {
 	 */
 	public function test_get_source_option_name() {
 		$source_option_name = $this->instance->get_source_option_name();
-		$this->assertEquals( $source_option_name, 'aioseo_options' );
+		$this->assertSame( 'aioseo_options', $source_option_name );
 	}
 
 	/**
@@ -164,7 +164,7 @@ class Aioseo_Default_Archive_Settings_Importing_Action_Test extends TestCase {
 			->andReturn( $expected );
 
 		$settings_to_import = $this->mock_instance->query();
-		$this->assertTrue( $settings_to_import === $expected );
+		$this->assertSame( $expected, $settings_to_import );
 	}
 
 	/**
@@ -176,7 +176,7 @@ class Aioseo_Default_Archive_Settings_Importing_Action_Test extends TestCase {
 		$flattened_sesttings = $this->mock_instance->flatten_settings( $this->full_settings_to_import );
 		$expected_result     = $this->flattened_settings_to_import;
 
-		$this->assertTrue( $expected_result === $flattened_sesttings );
+		$this->assertSame( $expected_result, $flattened_sesttings );
 	}
 
 	/**

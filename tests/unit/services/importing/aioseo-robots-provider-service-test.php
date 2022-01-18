@@ -34,21 +34,21 @@ class Aioseo_Robots_Provider_Service_Test extends TestCase {
 	/**
 	 * Tests the getting of the noindex setting set globally in AIOSEO.
 	 *
-	 * @param array  $aioseo_options The AIOSEO settings.
-	 * @param string $setting        The setting we're working with.
-	 * @param bool   $result         The expected result.
+	 * @param array  $aioseo_options  The AIOSEO settings.
+	 * @param string $setting         The setting we're working with.
+	 * @param bool   $expected_result The expected result.
 	 *
 	 * @dataProvider provider_get_global_robot_settings
 	 * @covers ::get_global_robot_settings
 	 */
-	public function test_get_global_robot_settings( $aioseo_options, $setting, $result ) {
+	public function test_get_global_robot_settings( $aioseo_options, $setting, $expected_result ) {
 		Monkey\Functions\expect( 'get_option' )
 			->once()
 			->with( 'aioseo_options', [] )
 			->andReturn( $aioseo_options );
 
 		$actual_result = $this->aioseo_robots_provider_service->get_global_robot_settings( $setting );
-		$this->assertTrue( $result === $actual_result );
+		$this->assertSame( $expected_result, $actual_result );
 	}
 
 	/**
@@ -67,8 +67,8 @@ class Aioseo_Robots_Provider_Service_Test extends TestCase {
 			->with( $mapping['option_name'], [] )
 			->andReturn( $aioseo_options );
 
-		$result = $this->aioseo_robots_provider_service->get_subtype_robot_setting( $mapping );
-		$this->assertTrue( $expected_result === $result );
+		$actual_result = $this->aioseo_robots_provider_service->get_subtype_robot_setting( $mapping );
+		$this->assertSame( $expected_result, $actual_result );
 	}
 
 	/**
