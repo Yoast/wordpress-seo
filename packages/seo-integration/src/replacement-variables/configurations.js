@@ -1,4 +1,4 @@
-import { dispatch, select } from "@wordpress/data";
+import { select } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
 import { strings as stringHelpers } from "@yoast/helpers";
 import { SEO_STORE_NAME } from "@yoast/seo-store";
