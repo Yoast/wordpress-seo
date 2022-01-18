@@ -96,18 +96,6 @@ const { SeoProvider, analysisWorker } = createSeoIntegration( {
         dependencies: {
             lodash: "url-to-lodash.example",
         },
-        types: {
-            post: {
-                name: "post",
-                replacementVariableConfigurations: [
-                    {
-                        name: "var_name",
-                        label: "Variable Name",
-                        getReplacement: () => "Replacement",
-                    }
-                ],
-            },
-        },
         configuration: {
             locale: "en_US",
         },
@@ -117,7 +105,19 @@ const { SeoProvider, analysisWorker } = createSeoIntegration( {
             title: "title from DOM",
             content: "content from DOM",
         },
-    }
+    },
+    contentTypes: {
+      post: {
+        name: "post",
+        replacementVariableConfigurations: [
+          {
+            name: "var_name",
+            label: "Variable Name",
+            getReplacement: () => "Replacement",
+          }
+        ],
+      },
+    },
 } );
 
 // Do something custom with the analysis worker.
