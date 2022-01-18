@@ -52,12 +52,21 @@ class WordProof_Helper {
 	}
 
 	/**
+	 * Returns if the WordProof integration toggle is turned on.
+	 *
+	 * @return bool Returns if the integration toggle is set to true.
+	 */
+	public function integration_is_active() {
+		return $this->options->get( 'wordproof_integration_active', true );
+	}
+
+	/**
 	 * Return if WordProof should be active for this post editor page.
 	 *
 	 * @return bool Returns if WordProof should be active for this page.
 	 */
 	public function is_active() {
-		$is_wordproof_active = $this->options->get( 'wordproof_integration_active', true );
+		$is_wordproof_active = $this->integration_is_active();
 
 		if ( ! $is_wordproof_active ) {
 			return false;

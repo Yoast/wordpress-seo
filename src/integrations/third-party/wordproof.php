@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Integrations\Third_Party;
 use WordProof\SDK\Helpers\PostMeta;
 use WordProof\SDK\WordPressSDK;
 use Yoast\WP\SEO\Conditionals\Third_Party\WordProof_Plugin_Inactive_Conditional;
+use Yoast\WP\SEO\Helpers\WordProof_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
@@ -20,6 +21,17 @@ class WordProof implements Integration_Interface {
 	 * @var string The Yoast meta key used to save if a post should be timestamped.
 	 */
 	protected $post_meta_key = '_yoast_wpseo_wordproof_timestamp';
+
+	/**
+	 * The WordProof helper instance.
+	 *
+	 * @var WordProof_Helper $wordproof The helper instance.
+	 */
+	protected $wordproof;
+
+	public function __construct( WordProof_Helper $wordproof ) {
+		$this->wordproof = $wordproof;
+	}
 
 	/**
 	 * Returns the conditionals based in which this loadable should be active.
@@ -73,6 +85,10 @@ class WordProof implements Integration_Interface {
 	public function show_certificate( $value, $post ) {
 		if ( ! $value ) {
 			return $value;
+		}
+
+		if ( ! $this->wordproof->integration_is_active() ) {
+			return false;
 		}
 
 		return boolval( PostMeta::get( $post->ID, $this->post_meta_key ) );
