@@ -194,7 +194,7 @@ class Import_Integration_Test extends TestCase {
 			],
 			'assets'  => [
 				'loading_msg'    => 'The import can take a long time depending on your site\'s size',
-				'import_failure' => '<div class="yoast-measure yoast-import-failure"><div class="yoast-alert yoast-alert--error"><span><img class="yoast-alert__icon" src="https://example.org/wp-content/plugins/images/alert-error-icon.svg" alt="" /></span><span>Import failed with the following error: %s</span></div></div>',
+				'import_failure' => '<div class="yoast-measure yoast-import-failure"><div class="yoast-alert yoast-alert--error"><span><img class="yoast-alert__icon" src="https://example.org/wp-content/plugins/images/alert-error-icon.svg" alt="" /></span><span>Import failed with the following error:<br/><br/>%s</span></div></div>',
 				'spinner'        => 'https://example.org/wp-admin/images/loading.gif',
 			],
 		];

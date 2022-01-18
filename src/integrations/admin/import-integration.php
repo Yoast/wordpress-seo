@@ -146,7 +146,7 @@ class Import_Integration implements Integration_Interface {
 	protected function get_import_failure_alert() {
 		$content  = \esc_html__( 'Import failed with the following error:', 'wordpress-seo' );
 		$content .= '<br/><br/>';
-		$content .= '%s';
+		$content .= \esc_html( '%s' );
 
 		$import_failure_alert = new Alert_Presenter( $content, 'error' );
 
