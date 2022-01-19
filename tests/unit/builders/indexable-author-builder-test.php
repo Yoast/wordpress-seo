@@ -166,7 +166,6 @@ class Indexable_Author_Builder_Test extends TestCase {
 		$this->indexable_mock->orm->expects( 'get' )->twice()->with( 'twitter_image' );
 		$this->indexable_mock->orm->expects( 'get' )->times( 3 )->with( 'twitter_image_id' );
 		$this->indexable_mock->orm->expects( 'get' )->once()->with( 'object_last_modified' );
-
 		$this->indexable_mock->orm->expects( 'set' )->with( 'open_graph_image', 'avatar_image.jpg' );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_source', 'gravatar-image' );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'twitter_image', 'avatar_image.jpg' );
@@ -175,6 +174,7 @@ class Indexable_Author_Builder_Test extends TestCase {
 		$this->indexable_mock->orm->expects( 'set' )->with( 'object_published_at', '1234-12-12 00:00:00' );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'object_last_modified', '1234-12-12 23:59:59' );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'number_of_publicly_viewable_posts', '7' );
+		$this->indexable_mock->orm->expects( 'set' )->with( 'is_publicly_viewable', true );
 
 		Monkey\Functions\expect( 'get_avatar_url' )
 			->once()
@@ -205,10 +205,10 @@ class Indexable_Author_Builder_Test extends TestCase {
 		$this->indexable_mock->orm->expects( 'get' )->once()->with( 'twitter_image' );
 		$this->indexable_mock->orm->expects( 'get' )->twice()->with( 'twitter_image_id' );
 		$this->indexable_mock->orm->expects( 'get' )->once()->with( 'object_last_modified' );
-
 		$this->indexable_mock->orm->expects( 'set' )->with( 'object_published_at', '1234-12-12 00:00:00' );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'object_last_modified', '1234-12-12 23:59:59' );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'number_of_publicly_viewable_posts', '7' );
+		$this->indexable_mock->orm->expects( 'set' )->with( 'is_publicly_viewable', true );
 
 		Monkey\Functions\expect( 'get_avatar_url' )
 			->once()
@@ -247,7 +247,6 @@ class Indexable_Author_Builder_Test extends TestCase {
 		$this->indexable_mock->orm->expects( 'get' )->twice()->with( 'twitter_image' );
 		$this->indexable_mock->orm->expects( 'get' )->times( 3 )->with( 'twitter_image_id' );
 		$this->indexable_mock->orm->expects( 'get' )->once()->with( 'object_last_modified' );
-
 		$this->indexable_mock->orm->expects( 'set' )->with( 'open_graph_image', 'avatar_image.jpg' );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_source', 'gravatar-image' );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'twitter_image', 'avatar_image.jpg' );
@@ -256,6 +255,7 @@ class Indexable_Author_Builder_Test extends TestCase {
 		$this->indexable_mock->orm->expects( 'set' )->with( 'object_published_at', '1234-12-12 00:00:00' );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'object_last_modified', '1234-12-12 23:59:59' );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'number_of_publicly_viewable_posts', '7' );
+		$this->indexable_mock->orm->expects( 'set' )->with( 'is_publicly_viewable', true );
 
 		Monkey\Functions\expect( 'get_avatar_url' )
 			->once()

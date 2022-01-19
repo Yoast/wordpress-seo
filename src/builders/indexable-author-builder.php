@@ -88,6 +88,7 @@ class Indexable_Author_Builder {
 		$indexable->is_robots_noimageindex = null;
 		$indexable->is_robots_nosnippet    = null;
 		$indexable->blog_id                = \get_current_blog_id();
+		$indexable->is_publicly_viewable   = true;
 		$indexable->set_deprecated_property( 'is_public', ( $indexable->is_robots_noindex ) ? false : null );
 
 		$this->reset_social_images( $indexable );

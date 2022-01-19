@@ -31,6 +31,23 @@ class WPSEO_Post_Type_Sitemap_Provider extends WPSEO_Indexable_Sitemap_Provider 
 	}
 
 	/**
+	 * Gets a list of sitemap types that will always have at least one archive entry in the sitemap,
+	 * even if there are no posts of that type.
+	 *
+	 * @return string[] A list of indexable subtypes that should get at least one link on the sitemap index.
+	 */
+	protected function get_non_empty_types() {
+		$indexed_archives = $this->repository
+			->query_where_noindex( false, 'post-type-archive' )
+			->select_many( 'object_sub_type' )
+			->find_array();
+		$indexed_archives = wp_list_pluck( $indexed_archives, 'object_sub_type' );
+
+		// Post and page sitemaps always get a link to the homepage or posts page.
+		return array_merge( $indexed_archives, [ 'post', 'page' ] );
+	}
+
+	/**
 	 * Whether or not a specific object sub type should be excluded.
 	 *
 	 * @param string $object_sub_type The object sub type.
@@ -39,11 +56,11 @@ class WPSEO_Post_Type_Sitemap_Provider extends WPSEO_Indexable_Sitemap_Provider 
 	 */
 	protected function should_exclude_object_sub_type( $object_sub_type ) {
 		/**
-			 * Filter decision if post type is excluded from the XML sitemap.
-			 *
-			 * @param bool   $exclude   Default false.
-			 * @param string $post_type Post type name.
-			 */
+		 * Filter decision if post type is excluded from the XML sitemap.
+		 *
+		 * @param bool   $exclude   Default false.
+		 * @param string $post_type Post type name.
+		 */
 		if ( apply_filters( 'wpseo_sitemap_exclude_post_type', false, $object_sub_type ) ) {
 			return true;
 		}
@@ -76,8 +93,6 @@ class WPSEO_Post_Type_Sitemap_Provider extends WPSEO_Indexable_Sitemap_Provider 
 		$query = $this->repository
 			->query_where_noindex( false, 'post', $type )
 			->select_many( 'id', 'object_id', 'permalink', 'object_last_modified' )
-			->where( 'is_publicly_viewable', true )
-			->where( 'is_protected', false )
 			->order_by_asc( 'object_last_modified' )
 			->offset( $offset )
 			->limit( $max_entries );
@@ -95,7 +110,6 @@ class WPSEO_Post_Type_Sitemap_Provider extends WPSEO_Indexable_Sitemap_Provider 
 				$home_page = $this->repository
 					->query_where_noindex( false, 'home-page' )
 					->select_many( 'id', 'object_id', 'permalink', 'object_last_modified' )
-					->where( 'is_publicly_viewable', true )
 					->find_one();
 				if ( $home_page ) {
 					// Prepend homepage.
@@ -110,7 +124,6 @@ class WPSEO_Post_Type_Sitemap_Provider extends WPSEO_Indexable_Sitemap_Provider 
 					$posts_page = $this->repository
 						->query_where_noindex( false, 'post', 'page' )
 						->select_many( 'id', 'object_id', 'permalink', 'object_last_modified' )
-						->where( 'is_publicly_viewable', true )
 						->where( 'object_id', $page_for_posts )
 						->find_one();
 				}
@@ -118,7 +131,6 @@ class WPSEO_Post_Type_Sitemap_Provider extends WPSEO_Indexable_Sitemap_Provider 
 					$posts_page = $this->repository
 						->query_where_noindex( false, 'home-page' )
 						->select_many( 'id', 'object_id', 'permalink', 'object_last_modified' )
-						->where( 'is_publicly_viewable', true )
 						->find_one();
 				}
 				if ( $posts_page ) {
@@ -130,7 +142,6 @@ class WPSEO_Post_Type_Sitemap_Provider extends WPSEO_Indexable_Sitemap_Provider 
 				$archive_page = $this->repository
 					->query_where_noindex( false, 'post-type-archive', $type )
 					->select_many( 'id', 'object_id', 'permalink', 'object_last_modified' )
-					->where( 'is_publicly_viewable', true )
 					->find_one();
 				if ( $archive_page ) {
 					// Prepend archive.
@@ -179,6 +190,18 @@ class WPSEO_Post_Type_Sitemap_Provider extends WPSEO_Indexable_Sitemap_Provider 
 	 */
 	protected function get_excluded_object_ids() {
 		$excluded_posts_ids = [];
+
+		// The homepage is covered by the home-page indexable.
+		$homepage_post_id = (int) get_option( 'page_on_front' );
+		if ( ! empty( $homepage_post_id ) ) {
+			$excluded_posts_ids[] = $homepage_post_id;
+		}
+
+		// The posts page is added to the posts sitemap after filtering. Prevent it from being duplicated in the page sitemap.
+		$posts_page_id = (int) get_option( 'page_for_posts' );
+		if ( ! empty( $posts_page_id ) ) {
+			$excluded_posts_ids[] = $posts_page_id;
+		}
 
 		/**
 		 * Filter: 'wpseo_exclude_from_sitemap_by_post_ids' - Allow extending and modifying the posts to exclude.

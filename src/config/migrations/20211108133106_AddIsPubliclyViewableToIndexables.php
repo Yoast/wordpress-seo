@@ -35,7 +35,7 @@ class AddIsPubliclyViewableToIndexables extends Migration {
 			]
 		);
 
-		$this->query( "UPDATE $table_name SET is_publicly_viewable = is_public" );
+		$this->query( "UPDATE $table_name SET is_publicly_viewable = is_public IS NULL OR is_public != false" );
 	}
 
 	/**

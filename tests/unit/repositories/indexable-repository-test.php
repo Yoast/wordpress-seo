@@ -523,6 +523,189 @@ class Indexable_Repository_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the query output of the query_where_noindex function.
+	 *
+	 * @dataProvider data_query_where_noindex
+	 * @covers ::query_where_noindex
+	 *
+	 * @param bool        $noindex                The noindex value of the posts to find.
+	 * @param string|null $object_type            The indexable object type.
+	 * @param string|null $object_sub_type        The indexable object subtype.
+	 * @param bool        $noindex_empty_archives Whether an archive should be considered as noindex if it has no public posts.
+	 * @param bool        $default_noindex_value  Whether the requested type should be considered no-indexed by default.
+	 * @param string      $expected_query         The expected resulting query.
+	 *
+	 * @return void
+	 */
+	public function test_query_where_noindex( $noindex, $object_type, $object_sub_type, $noindex_empty_archives, $default_noindex_value, $expected_query ) {
+		$this->robots_helper
+			->expects( 'get_default_noindex_for_object' )
+			->once()
+			->with( $object_type, $object_sub_type )
+			->andReturn( $default_noindex_value );
+
+		$query = $this->instance->query_where_noindex( $noindex, $object_type, $object_sub_type, $noindex_empty_archives );
+		$this->assertSame( $expected_query, $query->get_sql() );
+	}
+
+	/**
+	 * Provides data to the query_where_noindex function.
+	 *
+	 * @return array[] The test data.
+	 */
+	public function data_query_where_noindex() {
+		return [
+			'querying noindex when the default is noindex should also include is_robots_noindex IS NULL values'                                                             => [
+				'noindex'                => true,
+				'object_type'            => 'user',
+				'object_sub_type'        => null,
+				'noindex_empty_archives' => false,
+				'default_noindex_value'  => true,
+				'expected_query'         => 'SELECT * FROM `wp_yoast_indexable`' .
+											' WHERE `object_type` = %s' .
+											' AND ((`is_robots_noindex` = %d OR `is_robots_noindex` IS NULL ))' .
+											' OR `is_protected` = %d' .
+											' OR `is_publicly_viewable` != %d',
+			],
+			'querying noindex when the the default is index should not include is_robots_noindex IS NULL values'                                                            => [
+				'noindex'                => true,
+				'object_type'            => 'user',
+				'object_sub_type'        => null,
+				'noindex_empty_archives' => false,
+				'default_noindex_value'  => false,
+				'expected_query'         => 'SELECT * FROM `wp_yoast_indexable`' .
+											' WHERE `object_type` = %s' .
+											' AND (`is_robots_noindex` = %d )' .
+											' OR `is_protected` = %d' .
+											' OR `is_publicly_viewable` != %d',
+			],
+			'querying index when the default is noindex should not include is_robots_noindex IS NULL values'                                                                => [
+				'noindex'                => false,
+				'object_type'            => 'user',
+				'object_sub_type'        => null,
+				'noindex_empty_archives' => false,
+				'default_noindex_value'  => true,
+				'expected_query'         => 'SELECT * FROM `wp_yoast_indexable`' .
+											' WHERE `object_type` = %s' .
+											' AND `is_protected` = %s' .
+											' AND `is_publicly_viewable` = %s' .
+											' AND `is_robots_noindex` = %d',
+			],
+			'querying index when the default index value should also include is_robots_noindex IS NULL values'                                                              => [
+				'noindex'                => false,
+				'object_type'            => 'user',
+				'object_sub_type'        => null,
+				'noindex_empty_archives' => false,
+				'default_noindex_value'  => false,
+				'expected_query'         => 'SELECT * FROM `wp_yoast_indexable`' .
+											' WHERE `object_type` = %s' .
+											' AND `is_protected` = %s' .
+											' AND `is_publicly_viewable` = %s' .
+											' AND (`is_robots_noindex` = %d OR `is_robots_noindex` IS NULL )',
+			],
+			'the query should include a match on the subtype if it is given'                                                                                                => [
+				'noindex'                => true,
+				'object_type'            => 'post',
+				'object_sub_type'        => 'my_cpt',
+				'noindex_empty_archives' => false,
+				'default_noindex_value'  => false,
+				'expected_query'         => 'SELECT * FROM `wp_yoast_indexable`' .
+											' WHERE `object_type` = %s' .
+											' AND `object_sub_type` = %s' .
+											' AND (`is_robots_noindex` = %d )' .
+											' OR `is_protected` = %d' .
+											' OR `is_publicly_viewable` != %d',
+			],
+			'the query should omit the subtype if none is given (or if it is null)'                                                                                         => [
+				'noindex'                => true,
+				'object_type'            => 'post',
+				'object_sub_type'        => null,
+				'noindex_empty_archives' => false,
+				'default_noindex_value'  => false,
+				'expected_query'         => 'SELECT * FROM `wp_yoast_indexable`' .
+											' WHERE `object_type` = %s' .
+											' AND (`is_robots_noindex` = %d )' .
+											' OR `is_protected` = %d' .
+											' OR `is_publicly_viewable` != %d',
+			],
+			'querying noindex for an archive type while empty archives are not considered no-indexed should not include the number_of_publicly_viewable_posts in the query' => [
+				'noindex'                => true,
+				'object_type'            => 'user',
+				'object_sub_type'        => null,
+				'noindex_empty_archives' => false,
+				'default_noindex_value'  => false,
+				'expected_query'         => 'SELECT * FROM `wp_yoast_indexable` ' .
+											'WHERE `object_type` = %s' .
+											' AND (`is_robots_noindex` = %d )' .
+											' OR `is_protected` = %d' .
+											' OR `is_publicly_viewable` != %d',
+			],
+			'querying index for an archive type while empty archives are not considered no-indexed should not include the number_of_publicly_viewable_posts in the query'   => [
+				'noindex'                => false,
+				'object_type'            => 'user',
+				'object_sub_type'        => null,
+				'noindex_empty_archives' => false,
+				'default_noindex_value'  => true,
+				'expected_query'         => 'SELECT * FROM `wp_yoast_indexable`' .
+											' WHERE `object_type` = %s' .
+											' AND `is_protected` = %s' .
+											' AND `is_publicly_viewable` = %s' .
+											' AND `is_robots_noindex` = %d',
+			],
+			'querying noindex for an archive type while empty archives are considered no-indexed should include the number_of_publicly_viewable_posts = 0 in the query'     => [
+				'noindex'                => true,
+				'object_type'            => 'user',
+				'object_sub_type'        => null,
+				'noindex_empty_archives' => true,
+				'default_noindex_value'  => false,
+				'expected_query'         => 'SELECT * FROM `wp_yoast_indexable`' .
+											' WHERE `object_type` = %s' .
+											' AND ((`is_robots_noindex` = %d ) OR `is_protected` = %d OR `is_publicly_viewable` != %d)' .
+											' OR `number_of_publicly_viewable_posts` = 0',
+			],
+			'querying index for an archive type while empty archives are considered no-indexed should include the number_of_publicly_viewable_posts > 0 in the query'       => [
+				'noindex'                => false,
+				'object_type'            => 'user',
+				'object_sub_type'        => null,
+				'noindex_empty_archives' => true,
+				'default_noindex_value'  => true,
+				'expected_query'         => 'SELECT * FROM `wp_yoast_indexable`' .
+											' WHERE `object_type` = %s' .
+											' AND `is_protected` = %s' .
+											' AND `is_publicly_viewable` = %s' .
+											' AND (`is_robots_noindex` = %d )' .
+											' AND `number_of_publicly_viewable_posts` > 0',
+			],
+			'querying noindex for a singular type while empty archives are considered no-indexed should not include the number_of_publicly_viewable_posts in the query'     => [
+				'noindex'                => true,
+				'object_type'            => 'post',
+				'object_sub_type'        => 'page',
+				'noindex_empty_archives' => true,
+				'default_noindex_value'  => false,
+				'expected_query'         => 'SELECT * FROM `wp_yoast_indexable`' .
+											' WHERE `object_type` = %s' .
+											' AND `object_sub_type` = %s' .
+											' AND (`is_robots_noindex` = %d )' .
+											' OR `is_protected` = %d' .
+											' OR `is_publicly_viewable` != %d',
+			],
+			'querying index for a singular type while empty archives are considered no-indexed should not include the number_of_publicly_viewable_posts in the query'       => [
+				'index'                  => false,
+				'object_type'            => 'post',
+				'object_sub_type'        => 'page',
+				'noindex_empty_archives' => true,
+				'default_noindex_value'  => true,
+				'expected_query'         => 'SELECT * FROM `wp_yoast_indexable`' .
+											' WHERE `object_type` = %s' .
+											' AND `object_sub_type` = %s' .
+											' AND `is_protected` = %s' .
+											' AND `is_publicly_viewable` = %s' .
+											' AND `is_robots_noindex` = %d',
+			],
+		];
+	}
+
+	/**
 	 * Setup a version check to steer the upgrade routine.
 	 *
 	 * @param Indexable      $indexable        The mocked indexable.
