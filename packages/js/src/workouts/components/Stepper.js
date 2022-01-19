@@ -81,6 +81,13 @@ function getClassnames( object, isSaved, isActiveStep ) {
 	return "";
 }
 
+const stepShape = PropTypes.shape( {
+	name: PropTypes.string.isRequired,
+	description: PropTypes.string,
+	component: PropTypes.element.isRequired,
+	isSaved: PropTypes.bool.isRequired,
+} );
+
 /**
  * The (Tailwind) Step component
  *
@@ -192,12 +199,7 @@ function TailwindStep( { step, stepIdx, lastStepIdx, saveStep, finishStepper, ac
 	);
 }
 TailwindStep.propTypes = {
-	step: PropTypes.arrayOf( PropTypes.shape( {
-		name: PropTypes.string.isRequired,
-		description: PropTypes.string,
-		component: PropTypes.element.isRequired,
-		isSaved: PropTypes.bool.isRequired,
-	} ) ).isRequired,
+	step: stepShape.isRequired,
 	stepIdx: PropTypes.number.isRequired,
 	lastStepIdx: PropTypes.number.isRequired,
 	setActiveStepIndex: PropTypes.func.isRequired,
@@ -236,12 +238,7 @@ export default function Stepper( { steps, setActiveStepIndex, saveStep, finishSt
 	);
 }
 Stepper.propTypes = {
-	steps: PropTypes.arrayOf( PropTypes.shape( {
-		name: PropTypes.string.isRequired,
-		description: PropTypes.string,
-		component: PropTypes.element.isRequired,
-		isSaved: PropTypes.bool.isRequired,
-	} ) ).isRequired,
+	steps: PropTypes.arrayOf( stepShape ).isRequired,
 	setActiveStepIndex: PropTypes.func.isRequired,
 	saveStep: PropTypes.func,
 	finishStepper: PropTypes.func,
