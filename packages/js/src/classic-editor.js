@@ -17,7 +17,8 @@ import initTabs from "./initializers/metabox-tabs";
 import initPrimaryCategory from "./initializers/primary-category";
 import { initTermDescriptionTinyMce } from "./initializers/tiny-mce";
 import { initialize as initPublishBox } from "./ui/publishBox";
-import { registerMarkdownPlugin, registerFeaturedImagePlugin, registerShortcodePlugin, registerSeoTitleWidthPlugin } from "./classic-editor/plugins";
+import { registerFeaturedImagePlugin, registerMarkdownPlugin, registerSeoTitleWidthPlugin, registerShortcodePlugin } from "./classic-editor/plugins";
+import { getContentTypeReplacements } from "./classic-editor/content-types";
 
 // These are either "1" or undefined.
 const isPost = Boolean( get( window, "wpseoScriptData.isPost" ) );
@@ -69,7 +70,7 @@ const registerYoastApis = ( { analysisWorker } ) => registerGlobalApis(
  * @returns {void}
  */
 const initPost = async () => {
-	// Initialze featured image plugin.
+	// Initialize featured image plugin.
 	registerFeaturedImagePlugin();
 	// Register shortcodes to work on paper data.
 	registerShortcodePlugin();
@@ -83,6 +84,7 @@ const initPost = async () => {
 	const { SeoProvider, analysisWorker } = await createSeoIntegration( {
 		analysis: getAnalysisConfiguration(),
 		initialState: getInitialPostState(),
+		contentTypes: getContentTypeReplacements(),
 	} );
 	// Register global Yoast APIs.
 	registerYoastApis( { analysisWorker } );
@@ -104,6 +106,7 @@ const initTerm = async () => {
 	const { SeoProvider, analysisWorker } = await createSeoIntegration( {
 		analysis: getAnalysisConfiguration(),
 		initialState: getInitialTermState(),
+		contentTypes: getContentTypeReplacements(),
 	} );
 	// Register global Yoast APIs.
 	registerYoastApis( { analysisWorker } );
