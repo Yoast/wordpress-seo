@@ -60,13 +60,6 @@ class Import_Integration_Test extends TestCase {
 	protected $importing_route;
 
 	/**
-	 * The Alert Presenter class.
-	 *
-	 * @var Mockery\MockInterface|Alert_Presenter
-	 */
-	protected $alert_presenter;
-
-	/**
 	 * Sets up the tests.
 	 */
 	protected function set_up() {
@@ -79,7 +72,6 @@ class Import_Integration_Test extends TestCase {
 		$this->importer_conditional = Mockery::mock( AIOSEO_V4_Importer_Conditional::class );
 		$this->importable_detector  = Mockery::mock( Importable_Detector::class );
 		$this->importing_route      = Mockery::mock( Importing_Route::class );
-		$this->alert_presenter      = Mockery::mock( Alert_Presenter::class );
 
 		$this->instance = new Import_Integration(
 			$this->asset_manager,
