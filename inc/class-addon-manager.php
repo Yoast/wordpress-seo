@@ -97,7 +97,7 @@ class WPSEO_Addon_Manager {
 		add_action( 'admin_init', [ $this, 'validate_addons' ], 15 );
 		add_filter( 'pre_set_site_transient_update_plugins', [ $this, 'check_for_updates' ] );
 		add_filter( 'plugins_api', [ $this, 'get_plugin_information' ], 10, 3 );
-		add_action( 'plugins_loaded', [ $this, 'register_expired_messages' ], 10  );
+		add_action( 'plugins_loaded', [ $this, 'register_expired_messages' ], 10 );
 	}
 
 	/**
