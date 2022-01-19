@@ -29,6 +29,12 @@ class WordProof implements Integration_Interface {
 	 */
 	protected $wordproof;
 
+	/**
+	 * The WordProof integration constructor.
+	 *
+	 * WordProof constructor.
+	 * @param WordProof_Helper $wordproof The WordProof helper instance
+	 */
 	public function __construct( WordProof_Helper $wordproof ) {
 		$this->wordproof = $wordproof;
 	}

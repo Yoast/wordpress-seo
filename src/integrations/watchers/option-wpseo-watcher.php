@@ -22,8 +22,12 @@ class Option_Wpseo_Watcher implements Integration_Interface {
 	 */
 	protected $wordproof;
 
-	public function __construct(WordProof_Helper $wordproof)
-	{
+	/**
+	 * The constructor for a watcher of WPSEO options
+	 *
+	 * @param WordProof_Helper $wordproof The WordProof helper instance
+	 */
+	public function __construct( WordProof_Helper $wordproof ) {
 		$this->wordproof = $wordproof;
 	}
 
