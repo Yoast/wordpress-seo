@@ -149,7 +149,7 @@ const wordsToStem = [
 	// A word with multiple suffixes.
 	[ "kedileriyle", "kedi" ],
 	// A word where the suffix is attached with an apostrophe
-	[ "universitesi'ne", "universite" ],
+	[ "Universitesi'ne", "universite" ],
 	[ "radyosu'nun", "radyo" ],
 	[ "aliağa'mızda", "aliağa" ],
 	[ "Istanbul'da", "istanbul" ],

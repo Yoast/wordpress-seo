@@ -22,6 +22,7 @@ export default function( text, wordToMatch, locale, matchWordCustomHelper ) {
 	text = stripSomeTags( text );
 	text = unifyWhitespace( text );
 	text = normalizeQuotes( text );
+	console.log( text );
 
 	wordToMatch = normalizeQuotes( wordToMatch );
 	let matches = matchWordCustomHelper
@@ -31,7 +32,7 @@ export default function( text, wordToMatch, locale, matchWordCustomHelper ) {
 	matches = map( matches, function( keyword ) {
 		return stripSpaces( removePunctuation( keyword ) );
 	} );
-
+	console.log( matches );
 	// Create an array of positions of matches to determine where in the text the wordToMatch occurred first.
 	const positions = map( matches, function( keyword ) {
 		return text.indexOf( keyword );

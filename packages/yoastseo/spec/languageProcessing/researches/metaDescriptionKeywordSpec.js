@@ -2,10 +2,12 @@ import metaDescriptionKeyword from "../../../src/languageProcessing/researches/m
 import Paper from "../../../src/values/Paper.js";
 import Researcher from "../../../src/languageProcessing/languages/en/Researcher";
 import JapaneseResearcher from "../../../src/languageProcessing/languages/ja/Researcher";
+import TurkishResearcher from "../../../src/languageProcessing/languages/tr/Researcher";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 
 const morphologyData = getMorphologyData( "en" );
 const morphologyDataJA = getMorphologyData( "ja" );
+const morphologyDataTR = getMorphologyData( "tr" );
 
 describe( "the metadescription keyword match research", function() {
 	it( "returns the number ( 1 ) of keywords found", function() {
@@ -293,6 +295,62 @@ describe( "the meta description keyword match research for languages that have c
 
 			const result = metaDescriptionKeyword( paper, researcher );
 			expect( result ).toEqual( 0 );
+		} );
+
+		it( "returns 1 when the keyphrase has an apostrophe and starts with an uppercase letter " +
+			"different form of the keyphrase", function() {
+			const paper = new Paper( "", { keyword: "istanbul",
+				synonyms: "",
+				description: "Excepteur Istanbul'da sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt Istanbul'dayım mollit anim id est laborum." } );
+			const researcher = new TurkishResearcher( paper );
+			researcher.addResearchData( "morphology", morphologyDataTR );
+
+			const result = metaDescriptionKeyword( paper, researcher );
+			expect( result ).toEqual( 1 );
+		} );
+		it( "returns 1 when the keyphrase has an apostrophe and starts with an uppercase letter " +
+			"different form of the keyphrase", function() {
+			const paper = new Paper( "", { keyword: "istanbul",
+				synonyms: "",
+				description: "Excepteur Istanbul'dayım sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt Istanbul'dayım mollit anim id est laborum." } );
+			const researcher = new TurkishResearcher( paper );
+			researcher.addResearchData( "morphology", morphologyDataTR );
+
+			const result = metaDescriptionKeyword( paper, researcher );
+			expect( result ).toEqual( 1 );
+		} );
+		it( "returns 1 when the keyphrase has an apostrophe and starts with an uppercase letter " +
+			"different form of the keyphrase", function() {
+			const paper = new Paper( "", { keyword: "istanbul",
+				synonyms: "",
+				description: "Excepteur Istanbul'dayım sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt Istanbul'dayım mollit anim id est laborum." } );
+			const researcher = new TurkishResearcher( paper );
+			researcher.addResearchData( "morphology", morphologyDataTR );
+
+			const result = metaDescriptionKeyword( paper, researcher );
+			expect( result ).toEqual( 1 );
+		} );
+		it( "returns 1 when the keyphrase has an apostrophe and starts with an uppercase letter " +
+			"different form of the keyphrase", function() {
+			const paper = new Paper( "", { keyword: "madonna",
+				synonyms: "",
+				description: "Excepteur Madonna’yı sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt Istanbul'dayım mollit anim id est laborum." } );
+			const researcher = new TurkishResearcher( paper );
+			researcher.addResearchData( "morphology", morphologyDataTR );
+
+			const result = metaDescriptionKeyword( paper, researcher );
+			expect( result ).toEqual( 1 );
+		} );
+		it( "returns 1 when the keyphrase has an apostrophe " +
+			"different form of the keyphrase", function() {
+			const paper = new Paper( "", { keyword: "istanbul",
+				synonyms: "",
+				description: "Excepteur istanbul'da sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt Istanbul'dayım mollit anim id est laborum." } );
+			const researcher = new TurkishResearcher( paper );
+			researcher.addResearchData( "morphology", morphologyDataTR );
+
+			const result = metaDescriptionKeyword( paper, researcher );
+			expect( result ).toEqual( 1 );
 		} );
 	} );
 } );
