@@ -64,7 +64,13 @@ function importingFailure( e ) {
 	loadingMessage.hide();
 
 	importButton.prop( "disabled", false );
-	importForm.after( window.yoastImportData.assets.import_failure.replace( /%s/g, "<strong>" + e + "</strong>" ) );
+
+	// Add a failure alert too.
+	var failureAlert = jQuery( "<div>" )
+		.addClass( "yoast-measure yoast-import-failure" )
+		.html( window.yoastImportData.assets.import_failure.replace( /%s/g, "<strong>" + e + "</strong>" ) );
+
+	importForm.after( failureAlert );
 }
 
 /**

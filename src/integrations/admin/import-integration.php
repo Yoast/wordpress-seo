@@ -105,7 +105,7 @@ class Import_Integration implements Integration_Interface {
 			],
 			'assets'  => [
 				'loading_msg'    => \esc_html__( 'The import can take a long time depending on your site\'s size', 'wordpress-seo' ),
-				'import_failure' => '<div class="yoast-measure yoast-import-failure">' . $import_failure_alert . '</div>',
+				'import_failure' => $import_failure_alert,
 				'spinner'        => \admin_url( 'images/loading.gif' ),
 			],
 		];
