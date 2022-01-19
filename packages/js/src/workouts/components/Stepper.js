@@ -113,6 +113,7 @@ function TailwindStep( { step, stepIdx, lastStepIdx, saveStep, finishStepper, ac
 	const goBack = useCallback( () => {
 		setActiveStepIndex( stepIdx - 1 );
 	}, [ stepIdx, setActiveStepIndex ] );
+
 	return (
 		<Fragment>
 			{ /* Line. */ }
@@ -161,11 +162,11 @@ function TailwindStep( { step, stepIdx, lastStepIdx, saveStep, finishStepper, ac
 				show={ isShowing }
 				unmount={ false }
 				beforeEnter={ () => setTimeout( () => setContentHeight( "auto" ), enterAnimationDelay ) }
-				enter={ `yst-transition-opacity yst-ease-linear yst-duration-[${heightAnimationDuration}ms] yst-delay-[${enterAnimationDelay}ms]` }
+				enter={ `yst-transition-opacity yst-ease-linear yst-duration-[${heightAnimationDuration.toString( 10 )}ms] yst-delay-[${enterAnimationDelay.toString( 10 )}ms]` }
 				enterFrom="yst-opacity-0"
 				enterTo="yst-opacity-100"
 				beforeLeave={ () => setContentHeight( 0 ) }
-				leave={ `yst-transition-opacity yst-ease-linear yst-duration-[${heightAnimationDuration}ms]` }
+				leave={ `yst-transition-opacity yst-ease-linear yst-duration-[${heightAnimationDuration.toString( 10 )}ms]` }
 				leaveFrom="yst-opacity-100"
 				leaveTo="yst-opacity-0"
 			>
