@@ -64,7 +64,7 @@ This PR affects the following parts of the plugin, which may require extra testi
 
 ## Other environments
 
-* [ ] This PR also affects other environments and needs to be tested there.
+* [ ] This PR also affects Shopify. I have added a changelog entry starting with `[Shopify]` and I have added test instructions for Shopify.
 
 ## Documentation
 
