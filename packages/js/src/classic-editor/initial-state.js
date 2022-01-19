@@ -27,8 +27,8 @@ export const getInitialPostState = () => ( {
 	},
 	form: {
 		seo: {
-			title: dom.getPostSeoTitle(),
-			description: dom.getPostMetaDescription(),
+			title: dom.getPostSeoTitle() || window.wpseoScriptData.metabox.title_template,
+			description: dom.getPostMetaDescription() || window.wpseoScriptData.metabox.metadesc_template,
 			slug: dom.getPostSlug(),
 			isCornerstone: dom.getPostIsCornerstone(),
 		},
@@ -57,12 +57,13 @@ export const getInitialTermState = () => ( {
 	editor: {
 		title: dom.getTermName(),
 		permalink: dom.getTermPermalink(),
+		excerpt: dom.getTermExcerpt(),
 		content: dom.getTermDescription(),
 	},
 	form: {
 		seo: {
-			title: dom.getTermSeoTitle(),
-			description: dom.getTermMetaDescription(),
+			title: dom.getTermSeoTitle() || window.wpseoScriptData.metabox.title_template,
+			description: dom.getTermMetaDescription() || window.wpseoScriptData.metabox.metadesc_template,
 			slug: dom.getTermSlug(),
 			isCornerstone: dom.getTermIsCornerstone(),
 		},
