@@ -116,28 +116,30 @@ function TailwindStep( { step, stepIdx, lastStepIdx, saveStep, finishStepper, ac
 
 	return (
 		<Fragment>
-			{ /* Line. */ }
-			{ ( stepIdx !== lastStepIdx ) &&
-			<Fragment>
-				<div
-					className={ "yst--ml-px yst-absolute yst-mt-0.5 yst-left-4 yst-w-0.5 yst-h-full yst-bg-gray-300 " + getClassnames( "line", isSaved, isActiveStep ) }
-					aria-hidden="true"
-				/>
-				<Transition
-					show={ step.isSaved && stepIdx < activeStepIndex }
-					className={ "yst--ml-px yst-absolute yst-mt-0.5 yst-left-4 yst-w-0.5 yst-h-full yst-bg-primary-500 " + getClassnames( "line", isSaved, isActiveStep ) }
-					enter="transition-all duration-300"
-					enterFrom="bottom-full"
-					enterTo="-bottom-6"
-					entered="-bottom-6"
-					leave="transition-all duration-300"
-					leaveFrom="-bottom-6"
-					leaveTo="bottom-full"
-				/>
-			</Fragment> }
+			{
+				// Line
+				( stepIdx !== lastStepIdx ) &&
+				<Fragment>
+					<div
+						className={ "yst--ml-px yst-absolute yst-mt-0.5 yst-left-4 yst-w-0.5 yst-h-full yst-bg-gray-300 yst--bottom-6" }
+						aria-hidden="true"
+					/>
+					<Transition
+						show={ stepIdx < activeStepIndex }
+						className={ "yst--ml-px yst-absolute yst-mt-0.5 yst-left-4 yst-w-0.5 yst-h-full yst-bg-primary-500" }
+						enter="yst-transition-all yst-duration-700"
+						enterFrom="yst-bottom-full"
+						enterTo="yst--bottom-6"
+						entered="yst--bottom-6"
+						leave="yst-transition-all yst-duration-700"
+						leaveFrom="yst--bottom-6"
+						leaveTo="yst-bottom-full yst-scale-50"
+					/>
+				</Fragment>
+			}
 			<div className="yst-relative yst-flex yst-items-start yst-group" aria-current={ isActiveStep ? "step" : null }>
 				{ /* Bullet. */ }
-				<span className="yst-h-9 yst-flex yst-items-center" aria-hidden={ isActiveStep ? "true" : null }>
+				<span className="yst-flex yst-items-center" aria-hidden={ isActiveStep ? "true" : null }>
 					{ /* eslint-disable-next-line max-len */ }
 					<span
 						className={ "yst-relative yst-z-10 yst-w-8 yst-h-8 yst-flex yst-items-center yst-justify-center yst-rounded-full " + getClassnames( "bullet-border", isSaved, isActiveStep ) }
