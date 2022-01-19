@@ -156,7 +156,7 @@ class Indexable_Post_Watcher implements Integration_Interface {
 	 */
 	public function updated_indexable( $indexable, $post ) {
 		// Only interested in post indexables.
-		if ( $indexable->object_type !== 'post' ) {
+		if ( $indexable->object_type !== 'post' || $indexable->post_status === 'unindexed' ) {
 			return;
 		}
 

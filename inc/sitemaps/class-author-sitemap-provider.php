@@ -138,7 +138,7 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	public function get_sitemap_links( $type, $max_entries, $current_page ) {
 
 		if ( ! $this->handles_type( 'author' ) ) {
-			return [];
+			throw new OutOfBoundsException( 'Invalid sitemap page requested' );
 		}
 
 		$offset = ( ( $current_page - 1 ) * $max_entries );
