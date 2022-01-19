@@ -5,6 +5,8 @@ namespace Yoast\WP\SEO\Actions\Importing;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Services\Importing\Aioseo_Replacevar_Handler;
+use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Provider_Service;
+use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Transformer_Service;
 /**
  * Importing action for AIOSEO custom archive settings data.
  *
@@ -51,16 +53,20 @@ class Aioseo_Custom_Archive_Settings_Importing_Action extends Abstract_Aioseo_Se
 	/**
 	 * Abstract_Importing_Action constructor.
 	 *
-	 * @param Options_Helper            $options            The options helper.
-	 * @param Post_Type_Helper          $post_type          The post type helper.
-	 * @param Aioseo_Replacevar_Handler $replacevar_handler The replacevar handler.
+	 * @param Options_Helper                    $options            The options helper.
+	 * @param Post_Type_Helper                  $post_type          The post type helper.
+	 * @param Aioseo_Replacevar_Handler         $replacevar_handler The replacevar handler.
+	 * @param Aioseo_Robots_Provider_Service    $robots_provider    The robots provider service.
+	 * @param Aioseo_Robots_Transformer_Service $robots_transformer The robots transfomer service.
 	 */
 	public function __construct(
 		Options_Helper $options,
 		Post_Type_Helper $post_type,
-		Aioseo_Replacevar_Handler $replacevar_handler
+		Aioseo_Replacevar_Handler $replacevar_handler,
+		Aioseo_Robots_Provider_Service $robots_provider,
+		Aioseo_Robots_Transformer_Service $robots_transformer
 	) {
-		parent::__construct( $options, $replacevar_handler );
+		parent::__construct( $options, $replacevar_handler, $robots_provider, $robots_transformer );
 
 		$this->post_type = $post_type;
 	}
