@@ -3,9 +3,6 @@
 namespace Yoast\WP\SEO\Tests\Unit\Doubles\Actions\Importing;
 
 use Yoast\WP\SEO\Actions\Importing\Aioseo_Posttype_Defaults_Settings_Importing_Action;
-use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Services\Importing\Aioseo_Replacevar_Handler;
-use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Service;
 
 /**
  * Class Aioseo_Posttype_Defaults_Settings_Importing_Action_Double
@@ -13,35 +10,6 @@ use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Service;
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 abstract class Aioseo_Posttype_Defaults_Settings_Importing_Action_Double extends Aioseo_Posttype_Defaults_Settings_Importing_Action {
-
-	/**
-	 * The options helper.
-	 *
-	 * @var Options_Helper
-	 */
-	protected $options;
-
-	/**
-	 * The replacevar handler.
-	 *
-	 * @var Aioseo_Replacevar_Handler
-	 */
-	protected $replacevar_handler;
-
-	/**
-	 * The robots service.
-	 *
-	 * @var Aioseo_Robots_Service
-	 */
-	protected $robots;
-
-	public function __construct(
-		Options_Helper $options,
-		Aioseo_Replacevar_Handler $replacevar_handler,
-		Aioseo_Robots_Service $robots
-	) {
-		return parent::__construct( $options, $replacevar_handler, $robots );
-	}
 
 	/**
 	 * Gets the aioseo_options_to_yoast_map.

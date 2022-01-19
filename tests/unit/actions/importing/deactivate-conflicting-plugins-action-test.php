@@ -6,7 +6,8 @@ use Mockery;
 use Yoast\WP\SEO\Actions\Importing\Deactivate_Conflicting_Plugins_Action;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Services\Importing\Aioseo_Replacevar_Handler;
-use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Service;
+use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Provider_Service;
+use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Transformer_Service;
 use Yoast\WP\SEO\Services\Importing\Conflicting_Plugins_Service;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -43,11 +44,18 @@ class Deactivate_Conflicting_Plugins_Action_Test extends TestCase {
 	protected $replacevar_handler;
 
 	/**
-	 * The robots service.
+	 * The robots provider service.
 	 *
-	 * @var Mockery\MockInterface|Aioseo_Robots_Service
+	 * @var Mockery\MockInterface|Aioseo_Robots_Provider_Service
 	 */
-	protected $robots;
+	protected $robots_provider;
+
+	/**
+	 * The robots transformer service.
+	 *
+	 * @var Mockery\MockInterface|Aioseo_Robots_Transformer_Service
+	 */
+	protected $robots_transformer;
 
 	/**
 	 * {@inheritDoc}
@@ -55,12 +63,14 @@ class Deactivate_Conflicting_Plugins_Action_Test extends TestCase {
 	public function set_up() {
 		$this->conflicting_plugins_service = Mockery::mock( Conflicting_Plugins_Service::class );
 		$this->replacevar_handler          = Mockery::mock( Aioseo_Replacevar_Handler::class );
-		$this->robots                      = Mockery::mock( Aioseo_Robots_Service::class );
+		$this->robots_provider             = Mockery::mock( Aioseo_Robots_Provider_Service::class );
+		$this->robots_transformer          = Mockery::mock( Aioseo_Robots_Transformer_Service::class );
 
 		$this->deactivate_conflicting_plugins_action = new Deactivate_Conflicting_Plugins_Action(
 			Mockery::mock( Options_Helper::class ),
 			$this->replacevar_handler,
-			$this->robots,
+			$this->robots_provider,
+			$this->robots_transformer,
 			$this->conflicting_plugins_service
 		);
 	}
@@ -182,7 +192,7 @@ class Deactivate_Conflicting_Plugins_Action_Test extends TestCase {
 		$result = $this->deactivate_conflicting_plugins_action->get_total_unindexed();
 
 		// Assert.
-		$this->assertEquals( 4, $result );
+		$this->assertSame( 4, $result );
 	}
 
 	/**
@@ -207,7 +217,7 @@ class Deactivate_Conflicting_Plugins_Action_Test extends TestCase {
 		$result = $this->deactivate_conflicting_plugins_action->index();
 
 		// Assert.
-		$this->assertEquals( [], $result );
+		$this->assertSame( [], $result );
 	}
 
 	/**
@@ -220,7 +230,7 @@ class Deactivate_Conflicting_Plugins_Action_Test extends TestCase {
 		$result = $this->deactivate_conflicting_plugins_action->get_limit();
 
 		// Assert.
-		$this->assertEquals( 52, $result );
+		$this->assertSame( 52, $result );
 	}
 
 	/**
@@ -245,7 +255,7 @@ class Deactivate_Conflicting_Plugins_Action_Test extends TestCase {
 		$result = $this->deactivate_conflicting_plugins_action->get_limited_unindexed_count( $limit );
 
 		// Assert.
-		$this->assertEquals( $expected, $result );
+		$this->assertSame( $expected, $result );
 	}
 
 	/**

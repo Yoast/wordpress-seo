@@ -331,6 +331,6 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Import
 	 * @return bool The noindex setting.
 	 */
 	public function import_noindex( $noindex, $mapping ) {
-		return $this->robots->transform_robot_setting( 'noindex', $noindex, $mapping );
+		return $this->robots_transformer->transform_robot_setting( 'noindex', $noindex, $mapping );
 	}
 }

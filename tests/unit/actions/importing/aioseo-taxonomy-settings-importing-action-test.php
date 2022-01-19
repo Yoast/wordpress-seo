@@ -7,7 +7,8 @@ use Brain\Monkey;
 use Yoast\WP\SEO\Actions\Importing\Aioseo_Taxonomy_Settings_Importing_Action;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Services\Importing\Aioseo_Replacevar_Handler;
-use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Service;
+use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Provider_Service;
+use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Transformer_Service;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Actions\Importing\Aioseo_Taxonomy_Settings_Importing_Action_Double;
 
@@ -51,11 +52,18 @@ class Aioseo_Taxonomy_Settings_Importing_Action_Test extends TestCase {
 	protected $replacevar_handler;
 
 	/**
-	 * The robots service.
+	 * The robots provider service.
 	 *
-	 * @var Mockery\MockInterface|Aioseo_Robots_Service
+	 * @var Mockery\MockInterface|Aioseo_Robots_Provider_Service
 	 */
-	protected $robots;
+	protected $robots_provider;
+
+	/**
+	 * The robots transformer service.
+	 *
+	 * @var Mockery\MockInterface|Aioseo_Robots_Transformer_Service
+	 */
+	protected $robots_transformer;
 
 	/**
 	 * An array of the total Taxonomy Settings we can import.
@@ -117,11 +125,12 @@ class Aioseo_Taxonomy_Settings_Importing_Action_Test extends TestCase {
 
 		$this->options            = Mockery::mock( Options_Helper::class );
 		$this->replacevar_handler = Mockery::mock( Aioseo_Replacevar_Handler::class );
-		$this->robots             = Mockery::mock( Aioseo_Robots_Service::class );
-		$this->instance           = new Aioseo_Taxonomy_Settings_Importing_Action( $this->options, $this->replacevar_handler, $this->robots );
+		$this->robots_provider    = Mockery::mock( Aioseo_Robots_Provider_Service::class );
+		$this->robots_transformer = Mockery::mock( Aioseo_Robots_Transformer_Service::class );
+		$this->instance           = new Aioseo_Taxonomy_Settings_Importing_Action( $this->options, $this->replacevar_handler, $this->robots_provider, $this->robots_transformer );
 		$this->mock_instance      = Mockery::mock(
 			Aioseo_Taxonomy_Settings_Importing_Action_Double::class,
-			[ $this->options, $this->replacevar_handler, $this->robots ]
+			[ $this->options, $this->replacevar_handler, $this->robots_provider, $this->robots_transformer ]
 		)->makePartial()->shouldAllowMockingProtectedMethods();
 	}
 
@@ -132,7 +141,7 @@ class Aioseo_Taxonomy_Settings_Importing_Action_Test extends TestCase {
 	 */
 	public function test_get_source_option_name() {
 		$source_option_name = $this->instance->get_source_option_name();
-		$this->assertEquals( $source_option_name, 'aioseo_options_dynamic' );
+		$this->assertSame( 'aioseo_options_dynamic', $source_option_name );
 	}
 
 	/**
@@ -155,7 +164,7 @@ class Aioseo_Taxonomy_Settings_Importing_Action_Test extends TestCase {
 			->andReturn( $expected );
 
 		$settings_to_import = $this->mock_instance->query();
-		$this->assertTrue( $settings_to_import === $expected );
+		$this->assertSame( $expected, $settings_to_import );
 	}
 
 	/**
@@ -167,7 +176,7 @@ class Aioseo_Taxonomy_Settings_Importing_Action_Test extends TestCase {
 		$flattened_sesttings = $this->mock_instance->flatten_settings( $this->full_settings_to_import );
 		$expected_result     = $this->flattened_settings_to_import;
 
-		$this->assertTrue( $expected_result === $flattened_sesttings );
+		$this->assertSame( $expected_result, $flattened_sesttings );
 	}
 
 	/**
@@ -212,7 +221,7 @@ class Aioseo_Taxonomy_Settings_Importing_Action_Test extends TestCase {
 			->andReturn( $setting_value );
 
 		if ( $transform_robots_times > 0 ) {
-			$this->robots->shouldReceive( 'transform_robot_setting' )
+			$this->robots_transformer->shouldReceive( 'transform_robot_setting' )
 				->times( $transform_robots_times )
 				->with( 'noindex', $setting_value, $aioseo_options_to_yoast_map[ $setting ] )
 				->andReturn( $setting_value );

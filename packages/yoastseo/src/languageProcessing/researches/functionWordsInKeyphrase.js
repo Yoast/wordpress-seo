@@ -1,5 +1,6 @@
 import { filter, includes, isEmpty } from "lodash-es";
 import getWords from "../helpers/word/getWords";
+import processExactMatchRequest from "../helpers/match/processExactMatchRequest";
 
 /**
  * Checks if the keyphrase contains of function words only.
@@ -17,9 +18,7 @@ export default function( paper, researcher ) {
 	const keyphrase = paper.getKeyword();
 
 	// Return false if there are double quotes around the keyphrase.
-	const doubleQuotes = [ "“", "”", "〝", "〞", "〟", "‟", "„", "\"", "「", "」", "『", "』" ];
-
-	if ( includes( doubleQuotes, keyphrase[ 0 ] ) && includes( doubleQuotes, keyphrase[ keyphrase.length - 1 ] ) ) {
+	if ( processExactMatchRequest( keyphrase ).exactMatchRequested ) {
 		return false;
 	}
 

@@ -55,7 +55,7 @@ export function getWincherTrackableKeyphrases( state ) {
 		keyphrases.push( ...premiumStore.getKeywords().map( k => k.keyword.trim() ) );
 	}
 
-	return uniq( keyphrases.filter( k => !! k ) ).sort();
+	return uniq( keyphrases.filter( k => !! k ).map( k => k.toLocaleLowerCase() ) ).sort();
 }
 
 /**

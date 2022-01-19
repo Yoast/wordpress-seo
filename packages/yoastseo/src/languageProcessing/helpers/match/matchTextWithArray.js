@@ -1,7 +1,6 @@
 /** @module stringProcessing/matchTextWithArray */
 
 import matchTextWithWord from "./matchTextWithWord";
-import { normalize as normalizeQuotes } from "../sanitize/quotes.js";
 import { uniq as unique } from "lodash-es";
 
 /**
@@ -18,8 +17,6 @@ export default function( text, array, locale = "en_EN", matchWordCustomHelper ) 
 	let count = 0;
 	let matches = [];
 	let positions = [];
-
-	array = array.map( normalizeQuotes );
 
 	unique( array ).forEach( function( wordToMatch ) {
 		const occurrence = matchTextWithWord( text, wordToMatch, locale, matchWordCustomHelper );
