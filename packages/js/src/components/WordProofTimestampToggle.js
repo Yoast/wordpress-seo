@@ -24,18 +24,18 @@ function SettingsLink( props ) {
 }
 
 function AuthenticationLink( props ) {
-	if ( props.isAuthenticated && ! props.toggleIsEnabled ) {
-		return ( "" );
-	}
-
-	return (
-		<a
-			href={ props.authenticationUrl } onClick={ ( e ) => {
+	if ( ! props.isAuthenticated && props.toggleIsEnabled ) {
+		return (
+			<a
+				href={ props.authenticationUrl } onClick={ ( e ) => {
 				e.preventDefault();
 				props.openAuthentication();
 			} }
-		>{ __( "Authenticate with WordProof", "wordpress-seo" ) }</a>
-	);
+			>{ __( "Authenticate with WordProof", "wordpress-seo" ) }</a>
+		);
+	}
+
+	return ( "" );
 }
 
 const retrieveSettings = async() => {
