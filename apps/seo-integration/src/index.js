@@ -19,17 +19,17 @@ const load = async () => {
 				"analysis/analysis.js",
 				"analysis/languages/default.js",
 			],
-			types: {
-				post: {
-					name: "post",
-					replacementVariableConfigurations: createPostReplacementVariables(),
-				},
-			},
 		},
 		initialState: {
 			editor: {
 				title: "This is the initial title",
 				content: "This is the initial content and the initial title is: %%title%%",
+			},
+		},
+		contentTypes: {
+			post: {
+				name: "post",
+				replacementVariableConfigurations: createPostReplacementVariables(),
 			},
 		},
 	} );
