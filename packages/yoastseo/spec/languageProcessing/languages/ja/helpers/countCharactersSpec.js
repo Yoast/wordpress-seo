@@ -38,10 +38,11 @@ describe( "counts characters in a string", function() {
 			"本作品を歌うことは原則上はできなかった。</p>";
 		expect( countCharactersFunction( text ) ).toBe( 757 );
 	} );
-
 	it( "makes sure that no charachters are counted when a URL is embedded in video tags", function() {
-		const text = "<!-- wp:embed {\"url\":\"https://www.youtube.com/watch?v=cbP2N1BQdYc\",\"type\":\"video\",\"providerNameSlug\":\"youtube\",\"responsive\":true,\"className\":\"wp-embed-aspect-16-9 wp-has-aspect-ratio\"} -->\n" +
-			"\t\t\t<figure class=\"wp-block-embed is-type-video is-provider-youtube wp-block-embed-youtube wp-embed-aspect-16-9 wp-has-aspect-ratio\"><div class=\"wp-block-embed__wrapper\">\n" +
+		const text = "<!-- wp:embed {\"url\":\"https://www.youtube.com/watch?v=cbP2N1BQdYc\",\"type\":\"video\"," +
+			"\"providerNameSlug\":\"youtube\",\"responsive\":true,\"className\":\"wp-embed-aspect-16-9 wp-has-aspect-ratio\"} -->\n" +
+			"\t\t\t<figure class=\"wp-block-embed is-type-video is-provider-youtube wp-block-embed-youtube wp-embed-aspect" +
+			"-16-9 wp-has-aspect-ratio\"><div class=\"wp-block-embed__wrapper\">\n" +
 			"\t\t\t\thttps://www.youtube.com/watch?v=cbP2N1BQdYc\n" +
 			"\t\t\t</div></figure><!-- /wp:embed -->";
 		expect( countCharactersFunction( text ) ).toBe( 0 );
@@ -53,17 +54,14 @@ describe( "A test to return a regex match for URLs", () => {
 		// eslint-disable-next-line max-len
 		expect( doesWordMatchRegex( "www.yoast.com", "(http(s)?:\\/\\/.)?(www\\.|ftp:\\/\\/)?[-a-zA-Z0-9@:%._\\/+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\/+.~#?&()=]*)" ) ).toEqual( true );
 	} );
-
 	it( "Returns true if there is a match against a URL starting with https", () => {
 		// eslint-disable-next-line max-len
 		expect( doesWordMatchRegex( "https://www.codecademy.com/learn/hello", "(http(s)?:\\/\\/.)?(www\\.|ftp:\\/\\/)?[-a-zA-Z0-9@:%._\\/+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\/+.~#?&()=]*)" ) ).toEqual( true );
 	} );
-
 	it( "Returns true if there is a match against a URL starting with http", () => {
 		// eslint-disable-next-line max-len
 		expect( doesWordMatchRegex( "http://foo.com/blah_blah/", "(http(s)?:\\/\\/.)?(www\\.|ftp:\\/\\/)?[-a-zA-Z0-9@:%._\\/+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\/+.~#?&()=]*)" ) ).toEqual( true );
 	} );
-
 	it( "Returns false if there is no match", () => {
 		// eslint-disable-next-line max-len
 		expect( doesWordMatchRegex( "My cat is sweet!", "(http(s)?:\\/\\/.)?(www\\.|ftp:\\/\\/)?[-a-zA-Z0-9@:%._\\/+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\/+.~#?&()=]*)" ) ).toEqual( false );
