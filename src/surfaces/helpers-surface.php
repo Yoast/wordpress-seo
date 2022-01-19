@@ -103,8 +103,28 @@ class Helpers_Surface {
 	 * @return mixed The helper class.
 	 */
 	public function __get( $helper ) {
+		return $this->container->get( $this->get_helper_class( $helper ) );
+	}
+
+	/**
+	 * Magic isset for ensuring helper exists.
+	 *
+	 * @param string $helper The helper to get.
+	 *
+	 * @return bool The helper class.
+	 */
+	public function __isset( $helper ) {
+		return $this->container->has( $this->get_helper_class( $helper ) );
+	}
+
+	/**
+	 * Get the class name from a helper slug
+	 *
+	 * @param string $helper
+	 * @return string
+	 */
+	protected function get_helper_class( string $helper ) {
 		$helper = \implode( '_', \array_map( 'ucfirst', \explode( '_', $helper ) ) );
-		$class  = "Yoast\WP\SEO\Helpers\\{$helper}_Helper";
-		return $this->container->get( $class );
+		return "Yoast\WP\SEO\Helpers\\{$helper}_Helper";
 	}
 }
