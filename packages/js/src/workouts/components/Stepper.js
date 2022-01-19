@@ -133,7 +133,7 @@ function TailwindStep( { step, stepIdx, lastStepIdx, saveStep, finishStepper, ac
 						entered="yst--bottom-6"
 						leave="yst-transition-all yst-duration-700"
 						leaveFrom="yst--bottom-6"
-						leaveTo="yst-bottom-full yst-scale-50"
+						leaveTo="yst-bottom-full"
 					/>
 				</Fragment>
 			}
