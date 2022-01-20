@@ -51,6 +51,10 @@ class Indexable_To_Postmeta_Helper {
 			'post_meta_key' => 'canonical',
 			'map_method'    => 'simple_map',
 		],
+		'primary_focus_keyword'  => [
+			'post_meta_key' => 'focuskw',
+			'map_method'    => 'simple_map',
+		],
 		'is_robots_noindex'      => [
 			'post_meta_key' => 'meta-robots-noindex',
 			'map_method'    => 'noindex_map',
