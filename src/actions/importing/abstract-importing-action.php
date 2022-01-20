@@ -229,6 +229,6 @@ abstract class Abstract_Importing_Action implements Importing_Action_Interface {
 	 * @return string The transformed meta data.
 	 */
 	public function url_import( $meta_data ) {
-		return WPSEO_Utils::sanitize_url( $meta_data );
+		return $this->utils->sanitize_url( $meta_data, null );
 	}
 }
