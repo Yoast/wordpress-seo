@@ -56,9 +56,25 @@ class WordProof implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
+		/**
+		 * Used to initialize the WordProof WordPress SDK.
+		 */
 		\add_action( 'init', [ $this, 'sdk_setup' ], 11 );
+
+		/**
+		 * Called by the WordProof WordPress SDK to determine if the post should be timestamped.
+		 */
 		\add_filter( 'wordproof_timestamp_post_meta_key_overrides', [ $this, 'add_post_meta_key' ] );
+
+		/**
+		 * Called by the WordProof WordPress SDK to determine if the certficate should be shown.
+		 */
 		\add_filter( 'wordproof_timestamp_show_certificate', [ $this, 'show_certificate' ], 10, 2 );
+
+		/**
+		 * Called by Yoast_Integration_Toggles to add extra toggles to the ones defined there.
+		 */
+		\add_filter( 'wpseo_integration_toggles', [ $this, 'add_integration_toggle' ] );
 	}
 
 	/**
@@ -98,5 +114,33 @@ class WordProof implements Integration_Interface {
 		}
 
 		return boolval( PostMeta::get( $post->ID, $this->post_meta_key ) );
+	}
+
+	/**
+	 * Adds the WordProof integration toggle to the array.
+	 *
+	 * @param array $integration_toggles The integration toggles array.
+	 *
+	 * @return array The updated integration toggles array.
+	 */
+	public function add_integration_toggle( $integration_toggles ) {
+		if ( \is_array( $integration_toggles ) ) {
+			$integration_toggles[] = (object) [
+				/* translators: %s expands to WordProof */
+				'name'            => sprintf( __( '%s integration', 'wordpress-seo' ), 'WordProof' ),
+				'setting'         => 'wordproof_integration_active',
+				'label'           => sprintf(
+				/* translators: %s expands to WordProof */
+					__( '%1$s can be used to timestamp your privacy page.', 'wordpress-seo' ),
+					'WordProof'
+				),
+				/* translators: %s expands to WordProof */
+				'read_more_label' => sprintf( __( 'Read more about how %s works.', 'wordpress-seo' ), 'WordProof ' ),
+				'read_more_url'   => 'https://yoa.st/wordproof-integration',
+				'order'           => 16,
+			];
+		}
+
+		return $integration_toggles;
 	}
 }

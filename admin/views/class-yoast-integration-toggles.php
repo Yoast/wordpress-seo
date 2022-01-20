@@ -89,20 +89,6 @@ class Yoast_Integration_Toggles {
 				'order'           => 15,
 			],
 			(object) [
-				/* translators: %s expands to WordProof */
-				'name'            => sprintf( __( '%s integration', 'wordpress-seo' ), 'WordProof' ),
-				'setting'         => 'wordproof_integration_active',
-				'label'           => sprintf(
-				/* translators: %s expands to WordProof */
-					__( '%1$s can be used to timestamp your privacy page.', 'wordpress-seo' ),
-					'WordProof'
-				),
-				/* translators: %s expands to WordProof */
-				'read_more_label' => sprintf( __( 'Read more about how %s works.', 'wordpress-seo' ), 'WordProof ' ),
-				'read_more_url'   => 'https://yoa.st/wordproof-integration',
-				'order'           => 16,
-			],
-			(object) [
 				/* translators: %s: Zapier. */
 				'name'            => \sprintf( \esc_html__( '%s integration', 'wordpress-seo' ), 'Zapier' ),
 				'premium'         => true,
