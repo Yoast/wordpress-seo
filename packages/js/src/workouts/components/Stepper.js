@@ -8,7 +8,7 @@ import AnimateHeight from "react-animate-height";
  * The StepButtons component.
  *
  * @param {Object}   props               The props object.
- * @param {number}   props.stepIdx       The index of the current step.
+ * @param {number}   props.stepIndex       The index of the current step.
  * @param {number}   props.lastIndex     The index of the last step.
  * @param {function} props.setActiveStep A function to set a new active step.
  * @param {function} props.saveStep      A function to save the current step.
@@ -16,17 +16,17 @@ import AnimateHeight from "react-animate-height";
  *
  * @returns {WPElement} The StepButtons component.
  */
-function StepButtons( { stepIdx, lastIndex, handlePrimaryClick, goBack } ) {
+function StepButtons( { stepIndex, lastIndex, handlePrimaryClick, goBack } ) {
 	return <div className="yst-mt-12">
 		<button
 			onClick={ handlePrimaryClick }
 			className="yst-button--primary"
 		>
-			{ stepIdx < lastIndex
+			{ stepIndex < lastIndex
 				? __( "Save and continue", "wordpress-seo" )
 				: __( "Finish this workout", "wordpress-seo" ) }
 		</button>
-		{ stepIdx > 0 && <button
+		{ stepIndex > 0 && <button
 			onClick={ goBack }
 			className="yst-button--secondary yst-ml-3"
 		>
@@ -37,7 +37,7 @@ function StepButtons( { stepIdx, lastIndex, handlePrimaryClick, goBack } ) {
 }
 
 StepButtons.propTypes = {
-	stepIdx: PropTypes.number.isRequired,
+	stepIndex: PropTypes.number.isRequired,
 	lastIndex: PropTypes.number.isRequired,
 	handlePrimaryClick: PropTypes.func.isRequired,
 	goBack: PropTypes.func.isRequired,
@@ -103,8 +103,8 @@ const stepShape = PropTypes.shape( {
  *
  * @returns {WPElement} The Step component.
  */
-function TailwindStep( { step, stepIdx, lastStepIdx, saveStep, finishStepper, activeStepIndex, setActiveStepIndex } ) {
-	const isActiveStep = activeStepIndex === stepIdx;
+function TailwindStep( { step, stepIndex, lastStepIndex, saveStep, finishStepper, activeStepIndex, setActiveStepIndex } ) {
+	const isActiveStep = activeStepIndex === stepIndex;
 	const isSaved = step.isSaved;
 	const bulletClassNames = getBulletClassnames( isSaved, isActiveStep );
 	const nameClassNames = getNameClassnames( isSaved, isActiveStep );
@@ -121,33 +121,33 @@ function TailwindStep( { step, stepIdx, lastStepIdx, saveStep, finishStepper, ac
 
 	const handlePrimaryClick = useCallback(
 		() => {
-			const currentStep = stepIdx;
-			const nextStep = stepIdx + 1;
-			if ( currentStep === lastStepIdx ) {
+			const currentStep = stepIndex;
+			const nextStep = stepIndex + 1;
+			if ( currentStep === lastStepIndex ) {
 				finishStepper();
 			} else {
 				saveStep( currentStep );
 				setActiveStepIndex( nextStep );
 			}
 		},
-		[ setActiveStepIndex, saveStep, finishStepper, stepIdx, lastStepIdx ]
+		[ setActiveStepIndex, saveStep, finishStepper, stepIndex, lastStepIndex ]
 	);
 	const goBack = useCallback( () => {
-		setActiveStepIndex( stepIdx - 1 );
-	}, [ stepIdx, setActiveStepIndex ] );
+		setActiveStepIndex( stepIndex - 1 );
+	}, [ stepIndex, setActiveStepIndex ] );
 
 	return (
 		<Fragment>
 			{
 				// Line
-				( stepIdx !== lastStepIdx ) &&
+				( stepIndex !== lastStepIndex ) &&
 				<Fragment>
 					<div
 						className={ "yst--ml-px yst-absolute yst-mt-0.5 yst-left-4 yst-w-0.5 yst-h-full yst-bg-gray-300 yst--bottom-6" }
 						aria-hidden="true"
 					/>
 					<Transition
-						show={ stepIdx < activeStepIndex }
+						show={ stepIndex < activeStepIndex }
 						className={ "yst--ml-px yst-absolute yst-mt-0.5 yst-left-4 yst-w-0.5 yst-h-full yst-bg-primary-500" }
 						enter="yst-transition-all yst-duration-700"
 						enterFrom="yst-bottom-full"
@@ -194,7 +194,7 @@ function TailwindStep( { step, stepIdx, lastStepIdx, saveStep, finishStepper, ac
 				leaveTo="yst-opacity-0"
 			>
 				<AnimateHeight
-					id={ `content-${stepIdx}` }
+					id={ `content-${stepIndex}` }
 					height={ contentHeight }
 					easing="ease-in-out"
 					duration={ 500 }
@@ -202,8 +202,8 @@ function TailwindStep( { step, stepIdx, lastStepIdx, saveStep, finishStepper, ac
 					<div className="yst-ml-12 yst-mt-4">
 						{ step.component }
 						<StepButtons
-							stepIdx={ stepIdx }
-							lastIndex={ lastStepIdx }
+							stepIndex={ stepIndex }
+							lastIndex={ lastStepIndex }
 							handlePrimaryClick={ handlePrimaryClick }
 							goBack={ goBack }
 						/>
@@ -215,8 +215,8 @@ function TailwindStep( { step, stepIdx, lastStepIdx, saveStep, finishStepper, ac
 }
 TailwindStep.propTypes = {
 	step: stepShape.isRequired,
-	stepIdx: PropTypes.number.isRequired,
-	lastStepIdx: PropTypes.number.isRequired,
+	stepIndex: PropTypes.number.isRequired,
+	lastStepIndex: PropTypes.number.isRequired,
 	setActiveStepIndex: PropTypes.func.isRequired,
 	saveStep: PropTypes.func,
 	finishStepper: PropTypes.func,
@@ -236,12 +236,12 @@ TailwindStep.defaultProps = {
 export default function Stepper( { steps, setActiveStepIndex, saveStep, finishStepper, activeStepIndex } ) {
 	return (
 		<ol className="yst-overflow-hidden">
-			{ steps.map( ( step, stepIdx ) => (
-				<li key={ step.name } className={ ( stepIdx === steps.length - 1 ? "" : "yst-pb-8" ) + " yst-relative" }>
+			{ steps.map( ( step, stepIndex ) => (
+				<li key={ step.name } className={ ( stepIndex === steps.length - 1 ? "" : "yst-pb-8" ) + " yst-relative" }>
 					<TailwindStep
 						step={ step }
-						stepIdx={ stepIdx }
-						lastStepIdx={ steps.length - 1 }
+						stepIndex={ stepIndex }
+						lastStepIndex={ steps.length - 1 }
 						setActiveStepIndex={ setActiveStepIndex }
 						saveStep={ saveStep }
 						finishStepper={ finishStepper }
