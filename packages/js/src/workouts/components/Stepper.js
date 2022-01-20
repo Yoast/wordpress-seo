@@ -136,6 +136,12 @@ function TailwindStep( { step, stepIndex, lastStepIndex, saveStep, finishStepper
 		setActiveStepIndex( stepIndex - 1 );
 	}, [ stepIndex, setActiveStepIndex ] );
 
+	const setHeightFull = useCallback( () => {
+		setTimeout( () => setContentHeight( "auto" ), 500 );
+	}, [] );
+
+	const setHeightZero = useCallback( () => setContentHeight( 0 ), [] );
+
 	return (
 		<Fragment>
 			{
@@ -184,11 +190,11 @@ function TailwindStep( { step, stepIndex, lastStepIndex, saveStep, finishStepper
 				show={ isActiveStep }
 				unmount={ false }
 				appear={ false }
-				beforeEnter={ () => setTimeout( () => setContentHeight( "auto" ), 500 ) }
+				beforeEnter={ setHeightFull }
 				enter={ "yst-transition-opacity yst-ease-linear yst-duration-500 yst-delay-500" }
 				enterFrom="yst-opacity-0"
 				enterTo="yst-opacity-100"
-				beforeLeave={ () => setContentHeight( 0 ) }
+				beforeLeave={ setHeightZero }
 				leave={ "yst-transition-opacity yst-ease-linear yst-duration-500" }
 				leaveFrom="yst-opacity-100"
 				leaveTo="yst-opacity-0"
