@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Integrations\Third_Party;
 
 use WordProof\SDK\Helpers\PostMeta;
 use WordProof\SDK\WordPressSDK;
+use Yoast\WP\SEO\Conditionals\Non_Multisite_Conditional;
 use Yoast\WP\SEO\Conditionals\Third_Party\WordProof_Plugin_Inactive_Conditional;
 use Yoast\WP\SEO\Helpers\WordProof_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -45,7 +46,7 @@ class WordProof implements Integration_Interface {
 	 * @return array
 	 */
 	public static function get_conditionals() {
-		 return [ WordProof_Plugin_Inactive_Conditional::class ];
+		 return [ WordProof_Plugin_Inactive_Conditional::class, Non_Multisite_Conditional::class ];
 	}
 
 	/**
