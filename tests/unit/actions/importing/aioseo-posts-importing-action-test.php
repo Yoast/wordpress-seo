@@ -11,6 +11,8 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Wpdb_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Services\Importing\Aioseo_Replacevar_Handler;
+use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Provider_Service;
+use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Transformer_Service;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Actions\Importing\Aioseo_Posts_Importing_Action_Double;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -90,6 +92,20 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 	protected $replacevar_handler;
 
 	/**
+	 * The robots provider service.
+	 *
+	 * @var Mockery\MockInterface|Aioseo_Robots_Provider_Service
+	 */
+	protected $robots_provider;
+
+	/**
+	 * The robots transformer service.
+	 *
+	 * @var Mockery\MockInterface|Aioseo_Robots_Transformer_Service
+	 */
+	protected $robots_transformer;
+
+	/**
 	 * Sets up the test class.
 	 */
 	protected function set_up() {
@@ -102,7 +118,9 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 		$this->options               = Mockery::mock( Options_Helper::class );
 		$this->wpdb_helper           = Mockery::mock( Wpdb_Helper::class );
 		$this->replacevar_handler    = Mockery::mock( Aioseo_Replacevar_Handler::class );
-		$this->instance              = new Aioseo_Posts_Importing_Action( $this->indexable_repository, $this->wpdb, $this->indexable_to_postmeta, $this->options, $this->wpdb_helper, $this->replacevar_handler );
+		$this->robots_provider       = Mockery::mock( Aioseo_Robots_Provider_Service::class );
+		$this->robots_transformer    = Mockery::mock( Aioseo_Robots_Transformer_Service::class );
+		$this->instance              = new Aioseo_Posts_Importing_Action( $this->indexable_repository, $this->wpdb, $this->indexable_to_postmeta, $this->options, $this->wpdb_helper, $this->replacevar_handler, $this->robots_provider, $this->robots_transformer );
 		$this->mock_instance         = Mockery::mock(
 			Aioseo_Posts_Importing_Action_Double::class,
 			[
@@ -112,6 +130,8 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 				$this->options,
 				$this->wpdb_helper,
 				$this->replacevar_handler,
+				$this->robots_provider,
+				$this->robots_transformer,
 			]
 		)->makePartial()->shouldAllowMockingProtectedMethods();
 
@@ -169,7 +189,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			->andReturn( [ '1338', '1339', '1340' ] );
 
 		$limited_unimported_rows = $this->mock_instance->get_limited_unindexed_count( 25 );
-		$this->assertEquals( 3, $limited_unimported_rows );
+		$this->assertSame( 3, $limited_unimported_rows );
 	}
 
 	/**
@@ -188,7 +208,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			->once()
 			->andReturn( 1337 );
 
-		$expected_query = 'SELECT title, description, og_title, og_description, twitter_title, twitter_description, id, post_id FROM wp_aioseo_posts WHERE id > %d ORDER BY id LIMIT %d';
+		$expected_query = 'SELECT title, description, og_title, og_description, twitter_title, twitter_description, robots_noindex, robots_nofollow, robots_noarchive, robots_nosnippet, robots_noimageindex, id, post_id, robots_default FROM wp_aioseo_posts WHERE id > %d ORDER BY id LIMIT %d';
 
 		$this->wpdb->expects( 'prepare' )
 			->once()
@@ -241,6 +261,11 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			'og_description'       => 'og_description1',
 			'twitter_title'        => 'twitter_title1',
 			'twitter_description'  => 'twitter_description1',
+			'robots_default'       => true,
+			'robots_nofollow'      => true,
+			'robots_noarchive'     => false,
+			'robots_nosnippet'     => true,
+			'robots_noimageindex'  => false,
 		];
 
 		$this->replacevar_handler->shouldReceive( 'transform' )
@@ -273,14 +298,25 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			->with( $aioseio_indexable['twitter_description'] )
 			->andReturn( $aioseio_indexable['twitter_description'] );
 
+		$this->robots_provider->shouldReceive( 'get_subtype_robot_setting' )
+			->andReturn( 'robot_setting' );
+
+		$this->robots_transformer->shouldReceive( 'transform_robot_setting' )
+			->andReturn( 'robot_value' );
+
 		$indexable = $this->instance->map( $indexable, $aioseio_indexable );
 
-		$this->assertEquals( 'title1', $indexable->title );
-		$this->assertEquals( 'description1', $indexable->description );
-		$this->assertEquals( 'og_title1', $indexable->open_graph_title );
-		$this->assertEquals( 'og_description1', $indexable->open_graph_description );
-		$this->assertEquals( 'twitter_title1', $indexable->twitter_title );
-		$this->assertEquals( 'twitter_description1', $indexable->twitter_description );
+		$this->assertSame( 'title1', $indexable->title );
+		$this->assertSame( 'description1', $indexable->description );
+		$this->assertSame( 'og_title1', $indexable->open_graph_title );
+		$this->assertSame( 'og_description1', $indexable->open_graph_description );
+		$this->assertSame( 'twitter_title1', $indexable->twitter_title );
+		$this->assertSame( 'twitter_description1', $indexable->twitter_description );
+		$this->assertSame( null, $indexable->is_robots_noindex );
+		$this->assertSame( 'robot_value', $indexable->is_robots_nofollow );
+		$this->assertSame( 'robot_value', $indexable->is_robots_noarchive );
+		$this->assertSame( 'robot_value', $indexable->is_robots_nosnippet );
+		$this->assertSame( 'robot_value', $indexable->is_robots_noimageindex );
 	}
 
 	/**
@@ -302,6 +338,11 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			'og_description'       => 'og_description1',
 			'twitter_title'        => 'twitter_title1',
 			'twitter_description'  => 'twitter_description1',
+			'robots_default'       => true,
+			'robots_nofollow'      => true,
+			'robots_noarchive'     => false,
+			'robots_nosnippet'     => true,
+			'robots_noimageindex'  => false,
 		];
 
 		$this->replacevar_handler->shouldReceive( 'transform' )
@@ -324,14 +365,20 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			->with( $aioseio_indexable['twitter_description'] )
 			->andReturn( $aioseio_indexable['twitter_description'] );
 
+		$this->robots_provider->shouldReceive( 'get_subtype_robot_setting' )
+			->andReturn( 'robot_setting' );
+
+		$this->robots_transformer->shouldReceive( 'transform_robot_setting' )
+			->andReturn( 'robot_value' );
+
 		$indexable = $this->instance->map( $indexable, $aioseio_indexable );
 
-		$this->assertEquals( 'existing_title', $indexable->title );
-		$this->assertEquals( 'existing_dsc', $indexable->description );
-		$this->assertEquals( 'og_title1', $indexable->open_graph_title );
-		$this->assertEquals( 'og_description1', $indexable->open_graph_description );
-		$this->assertEquals( 'twitter_title1', $indexable->twitter_title );
-		$this->assertEquals( 'twitter_description1', $indexable->twitter_description );
+		$this->assertSame( 'existing_title', $indexable->title );
+		$this->assertSame( 'existing_dsc', $indexable->description );
+		$this->assertSame( 'og_title1', $indexable->open_graph_title );
+		$this->assertSame( 'og_description1', $indexable->open_graph_description );
+		$this->assertSame( 'twitter_title1', $indexable->twitter_title );
+		$this->assertSame( 'twitter_description1', $indexable->twitter_description );
 	}
 
 	/**
@@ -345,10 +392,22 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 
 		$indexable->twitter_description = null;
 
-		$aioseio_indexable = [];
+		$aioseio_indexable = [
+			'robots_default'       => true,
+			'robots_nofollow'      => true,
+			'robots_noarchive'     => false,
+			'robots_nosnippet'     => true,
+			'robots_noimageindex'  => false,
+		];
 
 		$this->replacevar_handler->shouldReceive( 'transform' )
 			->never();
+
+		$this->robots_provider->shouldReceive( 'get_subtype_robot_setting' )
+			->andReturn( 'robot_setting' );
+
+		$this->robots_transformer->shouldReceive( 'transform_robot_setting' )
+			->andReturn( 'robot_value' );
 
 		$indexable = $this->instance->map( $indexable, $aioseio_indexable );
 

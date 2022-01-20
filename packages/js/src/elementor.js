@@ -1,7 +1,6 @@
 import { dispatch } from "@wordpress/data";
 import { doAction } from "@wordpress/hooks";
 import { applyModifications, pluginReady, pluginReloaded, registerPlugin, registerModification } from "./elementor/initializers/pluggable";
-import { setWordPressSeoL10n, setYoastComponentsL10n } from "./helpers/i18n";
 import initAnalysis, { collectData } from "./initializers/analysis";
 import initElementorEditorIntegration from "./initializers/elementor-editor-integration";
 import initializeEstimatedReadingTime from "./initializers/estimated-reading-time";
@@ -11,9 +10,6 @@ import initElementorWatcher from "./watchers/elementorWatcher";
 import initHighlightFocusKeyphraseForms from "./elementor/initializers/highlightFocusKeyphraseForms";
 import initReplaceVarPlugin, { addReplacement, ReplaceVar } from "./elementor/replaceVars/elementor-replacevar-plugin";
 import initializeIntroduction from "./elementor/initializers/introduction";
-
-setYoastComponentsL10n();
-setWordPressSeoL10n();
 
 /**
  * Initializes Yoast SEO for Elementor.

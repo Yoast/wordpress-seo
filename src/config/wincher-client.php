@@ -127,14 +127,6 @@ class Wincher_Client extends OAuth_Client {
 	 */
 	protected function do_request( $method, $url, array $options ) {
 		$options['headers'] = [ 'Content-Type' => 'application/json' ];
-
-		$options = array_merge_recursive(
-			$options,
-			[
-				'headers' => $this->provider->getHeaders( $this->get_tokens()->access_token ),
-			]
-		);
-
 		return parent::do_request( $method, $url, $options );
 	}
 }
