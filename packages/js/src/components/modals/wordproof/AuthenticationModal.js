@@ -79,12 +79,7 @@ export const AuthenticationModal = ( props ) => {
 					<div>
 						<p>{ sprintf(
 							/* Translators: %s translates to the Post type in singular form */
-							__( "Your %s is now protect via the blockchain!", "wordpress-seo" ),
-							postTypeName
-						) }</p>
-						<p>{ sprintf(
-							/* Translators: %s translates to the Post type in singular form */
-							__( "This %s will automatically be timestamped every time you update or publish.", "wordpress-seo" ),
+							__( "You have successfully connected to WordProof!\nThis %s will be timestamped as soon as you update it.", "wordpress-seo" ),
 							postTypeName
 						) }</p>
 
@@ -94,7 +89,7 @@ export const AuthenticationModal = ( props ) => {
 								justifyContent: "center",
 							} }
 						>
-							<WordProofConnectedImage style={ { width: "150px" } } />
+							<WordProofConnectedImage style={ { width: "100px" } } />
 						</div>
 					</div>
 					<br />
