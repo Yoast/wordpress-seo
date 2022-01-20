@@ -123,7 +123,7 @@ class Importable_Detector_Test extends TestCase {
 		$this->meta                  = Mockery::mock( Meta_Helper::class );
 		$this->indexable_to_postmeta = Mockery::mock( Indexable_To_Postmeta_Helper::class, [ $this->meta ] );
 		$this->options               = Mockery::mock( Options_Helper::class );
-		$this->utils              = Mockery::mock( Utils_Helper::class );
+		$this->utils                 = Mockery::mock( Utils_Helper::class );
 		$this->wpdb_helper           = Mockery::mock( Wpdb_Helper::class );
 		$this->replacevar_handler    = new Aioseo_Replacevar_Handler();
 		$this->robots_provider       = new Aioseo_Robots_Provider_Service();
