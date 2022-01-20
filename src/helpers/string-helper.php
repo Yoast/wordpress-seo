@@ -10,12 +10,12 @@ class String_Helper {
 	/**
 	 * Strips all HTML tags including script and style.
 	 *
-	 * @param string $string The string to strip the tags from.
+	 * @param string $text The text to strip the tags from.
 	 *
 	 * @return string The processed string.
 	 */
-	public function strip_all_tags( $string ) {
-		return \wp_strip_all_tags( $string );
+	public function strip_all_tags( $text ) {
+		return \wp_strip_all_tags( $text );
 	}
 
 	/**
@@ -23,12 +23,12 @@ class String_Helper {
 	 *
 	 * Replace line breaks, carriage returns, tabs with a space, then remove double spaces.
 	 *
-	 * @param string $string String input to standardize.
+	 * @param string $text Text input to standardize.
 	 *
 	 * @return string
 	 */
-	public function standardize_whitespace( $string ) {
-		return \trim( \str_replace( '  ', ' ', \str_replace( [ "\t", "\n", "\r", "\f" ], ' ', $string ) ) );
+	public function standardize_whitespace( $text ) {
+		return \trim( \str_replace( '  ', ' ', \str_replace( [ "\t", "\n", "\r", "\f" ], ' ', $text ) ) );
 	}
 
 	/**
