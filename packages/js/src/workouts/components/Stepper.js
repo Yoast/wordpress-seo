@@ -105,12 +105,14 @@ const stepShape = PropTypes.shape( {
 function TailwindStep( { step, stepIndex, lastStepIndex, saveStep, finishStepper, activeStepIndex, setActiveStepIndex } ) {
 	const isActiveStep = activeStepIndex === stepIndex;
 	const isSaved = step.isSaved;
-	const bulletClassNames = getBulletClassnames( isSaved, isActiveStep );
-	const nameClassNames = getNameClassnames( isSaved, isActiveStep );
-	const bulletContentClassNames = getBulletContentClassnames( isSaved, isActiveStep );
-
 	const [ icon, setIcon ] = useState( isSaved ? "check" : "bullet" );
 	const [ contentHeight, setContentHeight ] = useState( isActiveStep ? "auto" : 0 );
+	const [ isFaded, setIsFaded ] = useState( ! isActiveStep );
+
+	const bulletClassNames = getBulletClassnames( isSaved, isActiveStep );
+	const nameClassNames = getNameClassnames( isSaved, isActiveStep );
+	const bulletContentClassNames = getBulletContentClassnames( isSaved, ! isFaded );
+
 
 	useEffect( () => {
 		const inActiveIcon = isSaved ? "check" : "bullet";
@@ -136,11 +138,17 @@ function TailwindStep( { step, stepIndex, lastStepIndex, saveStep, finishStepper
 		setActiveStepIndex( stepIndex - 1 );
 	}, [ stepIndex, setActiveStepIndex ] );
 
-	const setHeightFull = useCallback( () => {
-		setTimeout( () => setContentHeight( "auto" ), 500 );
-	}, [] );
+	useEffect( () => {
+		if ( isActiveStep ) {
+			setTimeout( () => setContentHeight( "auto" ), 700 );
+			setTimeout( () => setIsFaded( false ), 1300 );
+		} else {
+			setIsFaded( true );
+			setTimeout( () => setContentHeight( 0 ), 200 );
+		}
+	}, [ isActiveStep ] );
 
-	const setHeightZero = useCallback( () => setContentHeight( 0 ), [] );
+	// const setHeightZero = useCallback( () => setContentHeight( 0 ), [] );
 
 	return (
 		<Fragment>
@@ -155,11 +163,11 @@ function TailwindStep( { step, stepIndex, lastStepIndex, saveStep, finishStepper
 					<Transition
 						show={ stepIndex < activeStepIndex }
 						className={ "yst--ml-px yst-absolute yst-mt-0.5 yst-left-4 yst-w-0.5 yst-h-full yst-bg-primary-500" }
-						enter="yst-transition-all yst-duration-700"
+						enter="yst-transition-all yst-duration-500"
 						enterFrom="yst-bottom-full"
 						enterTo="yst--bottom-6"
 						entered="yst--bottom-6"
-						leave="yst-transition-all yst-duration-700"
+						leave="yst-transition-all yst-duration-500 yst-delay-500"
 						leaveFrom="yst--bottom-6"
 						leaveTo="yst-bottom-full"
 					/>
@@ -185,37 +193,23 @@ function TailwindStep( { step, stepIndex, lastStepIndex, saveStep, finishStepper
 				</span>
 			</div>
 			{ /* Child component and buttons. */ }
-			<Transition
-				className=""
-				show={ isActiveStep }
-				unmount={ false }
-				appear={ false }
-				beforeEnter={ setHeightFull }
-				enter={ "yst-transition-opacity yst-ease-linear yst-duration-500 yst-delay-500" }
-				enterFrom="yst-opacity-0"
-				enterTo="yst-opacity-100"
-				beforeLeave={ setHeightZero }
-				leave={ "yst-transition-opacity yst-ease-linear yst-duration-500" }
-				leaveFrom="yst-opacity-100"
-				leaveTo="yst-opacity-0"
+			<AnimateHeight
+				id={ `content-${stepIndex}` }
+				height={ contentHeight }
+				easing="ease-in-out"
+				duration={ 500 }
 			>
-				<AnimateHeight
-					id={ `content-${stepIndex}` }
-					height={ contentHeight }
-					easing="ease-in-out"
-					duration={ 500 }
-				>
-					<div className="yst-ml-12 yst-mt-4">
-						{ step.component }
-						<StepButtons
-							stepIndex={ stepIndex }
-							lastIndex={ lastStepIndex }
-							handlePrimaryClick={ handlePrimaryClick }
-							goBack={ goBack }
-						/>
-					</div>
-				</AnimateHeight>
-			</Transition>
+				<div className={ "yst-relative yst-ml-12 yst-mt-4" }>
+					<div className={ `yst-absolute yst-transition-colors yst-duration-200 yst-inset-0 ${ isFaded ? "yst-bg-white" : "yst-pointer-events-none yst-bg-transparent" }` } />
+					{ step.component }
+					<StepButtons
+						stepIndex={ stepIndex }
+						lastIndex={ lastStepIndex }
+						handlePrimaryClick={ handlePrimaryClick }
+						goBack={ goBack }
+					/>
+				</div>
+			</AnimateHeight>
 		</Fragment>
 	);
 }
