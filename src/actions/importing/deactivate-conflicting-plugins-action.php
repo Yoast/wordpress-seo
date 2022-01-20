@@ -6,6 +6,7 @@ use wpdb;
 use Yoast\WP\SEO\Conditionals\AIOSEO_V4_Importer_Conditional;
 use Yoast\WP\SEO\Config\Conflicting_Plugins;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Utils_Helper;
 use Yoast\WP\SEO\Services\Importing\Aioseo_Replacevar_Handler;
 use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Provider_Service;
 use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Transformer_Service;
@@ -57,6 +58,7 @@ class Deactivate_Conflicting_Plugins_Action extends Abstract_Importing_Action {
 	 * Class constructor.
 	 *
 	 * @param Options_Helper                    $options                     The options helper.
+	 * @param Utils_Helper                      $utils                       The utils helper.
 	 * @param Aioseo_Replacevar_Handler         $replacevar_handler          The replacevar handler.
 	 * @param Aioseo_Robots_Provider_Service    $robots_provider             The robots provider service.
 	 * @param Aioseo_Robots_Transformer_Service $robots_transformer          The robots transfomer service.
@@ -64,12 +66,13 @@ class Deactivate_Conflicting_Plugins_Action extends Abstract_Importing_Action {
 	 */
 	public function __construct(
 		Options_Helper $options,
+		Utils_Helper $utils,
 		Aioseo_Replacevar_Handler $replacevar_handler,
 		Aioseo_Robots_Provider_Service $robots_provider,
 		Aioseo_Robots_Transformer_Service $robots_transformer,
 		Conflicting_Plugins_Service $conflicting_plugins_service
 	) {
-		parent::__construct( $options, $replacevar_handler, $robots_provider, $robots_transformer );
+		parent::__construct( $options, $utils, $replacevar_handler, $robots_provider, $robots_transformer );
 
 		$this->conflicting_plugins = $conflicting_plugins_service;
 		$this->detected_plugins    = [];

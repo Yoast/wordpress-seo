@@ -12,6 +12,7 @@ use Yoast\WP\SEO\Actions\Importing\Aioseo_Posts_Importing_Action;
 use Yoast\WP\SEO\Helpers\Meta_Helper;
 use Yoast\WP\SEO\Helpers\Indexable_To_Postmeta_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Utils_Helper;
 use Yoast\WP\SEO\Helpers\Wpdb_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Models\Indexable;
@@ -76,6 +77,13 @@ class Importer_Action_Filter_Trait_Test extends TestCase {
 	protected $options;
 
 	/**
+	 * The utils helper.
+	 *
+	 * @var Mockery\MockInterface|Utils_Helper
+	 */
+	protected $utils;
+
+	/**
 	 * The wpdb helper.
 	 *
 	 * @var Wpdb_Helper
@@ -114,6 +122,7 @@ class Importer_Action_Filter_Trait_Test extends TestCase {
 		$this->meta                  = Mockery::mock( Meta_Helper::class );
 		$this->indexable_to_postmeta = Mockery::mock( Indexable_To_Postmeta_Helper::class, [ $this->meta ] );
 		$this->options               = Mockery::mock( Options_Helper::class );
+		$this->utils                 = Mockery::mock( Utils_Helper::class );
 		$this->wpdb_helper           = Mockery::mock( Wpdb_Helper::class );
 		$this->replacevar_handler    = new Aioseo_Replacevar_Handler();
 		$this->robots_provider       = new Aioseo_Robots_Provider_Service();
@@ -126,6 +135,7 @@ class Importer_Action_Filter_Trait_Test extends TestCase {
 				$this->wpdb,
 				$this->indexable_to_postmeta,
 				$this->options,
+				$this->utils,
 				$this->wpdb_helper,
 				$this->replacevar_handler,
 				$this->robots_provider,
