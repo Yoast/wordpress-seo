@@ -105,8 +105,6 @@ class Yoast_Dashboard_Widget implements WPSEO_WordPress_Integration {
 		}
 
 		$this->asset_manager->localize_script( 'dashboard-widget', 'wpseoDashboardWidgetL10n', $this->localize_dashboard_script() );
-		$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_L10n();
-		$yoast_components_l10n->localize_script( 'dashboard-widget' );
 		$this->asset_manager->enqueue_script( 'dashboard-widget' );
 		$this->asset_manager->enqueue_style( 'wp-dashboard' );
 		$this->asset_manager->enqueue_style( 'monorepo' );

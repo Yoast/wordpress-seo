@@ -4,7 +4,7 @@ import IndexingService from "./services/IndexingService";
 
 const AioseoV4 = "WPSEO_Import_AIOSEO_V4";
 
-let dropdown, importButton, importForm, spinner, loadingMessage, checkMark, errorMark;
+let dropdown, importButton, importForm, spinner, loadingMessage, checkMark;
 
 /**
  * Adds Progress UI elements in the page.
@@ -14,7 +14,6 @@ let dropdown, importButton, importForm, spinner, loadingMessage, checkMark, erro
 function addProgressElements() {
 	jQuery( spinner ).insertAfter( importButton );
 	jQuery( checkMark ).insertAfter( spinner );
-	jQuery( errorMark ).insertAfter( spinner );
 	jQuery( loadingMessage ).insertAfter( spinner );
 }
 
@@ -28,7 +27,7 @@ function addProgressElements() {
 function importingProgress( count ) { // eslint-disable-line no-unused-vars
 	spinner.show();
 	loadingMessage.show();
-	errorMark.hide();
+	jQuery( ".yoast-import-failure" ).remove();
 
 	importButton.prop( "disabled", true );
 }
@@ -42,14 +41,19 @@ function importingSuccess() {
 	spinner.hide();
 	loadingMessage.hide();
 	checkMark.show();
-	errorMark.hide();
+	jQuery( ".yoast-import-failure" ).remove();
 
 	importButton.prop( "disabled", false );
 
 	// Remove the plugin that we just finished import for, from the import dropdown.
 	jQuery( "option:selected", dropdown ).remove();
-	if ( dropdown.has( "option" ).length < 1 ) {
-		importButton.prop( "disabled", true );
+	jQuery( "option[value='']", dropdown ).prop( "selected", true );
+	dropdown.trigger( "change" );
+
+	// Dropdown will always have at least one option aka the placeholder, so let's check if it has any more options before displaying the no_data_msg.
+	if ( dropdown.children( "option" ).length < 2 ) {
+		dropdown.prop( "disabled", true );
+		importForm.after( jQuery( "<p></p>" ).text( window.yoastImportData.assets.no_data_msg ) );
 	}
 }
 
@@ -61,14 +65,17 @@ function importingSuccess() {
  * @returns {void}
  */
 function importingFailure( e ) {
-	const plugin = jQuery( "option:selected", dropdown ).text();
-	console.error( plugin + " import failed: " + e );
-
 	spinner.hide();
 	loadingMessage.hide();
-	errorMark.show();
 
 	importButton.prop( "disabled", false );
+
+	// Add a failure alert too.
+	var failureAlert = jQuery( "<div>" )
+		.addClass( "yoast-measure yoast-import-failure" )
+		.html( window.yoastImportData.assets.import_failure.replace( /%s/g, "<strong>" + e + "</strong>" ) );
+
+	importForm.after( failureAlert );
 }
 
 /**
@@ -123,14 +130,37 @@ function initElements() {
 			color: "green",
 		} )
 		.hide();
-	errorMark = jQuery( "<span>" )
-		.addClass( "dashicons dashicons-no" )
-		.css( {
-			"margin-left": "10px",
-			"vertical-align": "middle",
-			color: "red",
-		} )
-		.hide();
+}
+
+/**
+ * Watches the import select.
+ *
+ * @returns {void}
+ */
+function watchImportSelect() {
+	dropdown.on( "change", function() {
+		if ( jQuery( this ).find( "option:selected" ).attr( "value" ) === "" ) {
+			importButton.prop( "disabled", true );
+
+			return;
+		}
+		importButton.prop( "disabled", false );
+	} );
+}
+
+/**
+ * Prepares the import select.
+ *
+ * @returns {void}
+ */
+function prepareImportSelect() {
+	if ( dropdown ) {
+		watchImportSelect();
+
+		dropdown.append(
+			"<option value='' disabled='disabled' selected hidden>&mdash; " + window.yoastImportData.assets.select_placeholder + " &mdash;</option>"
+		).trigger( "change" );
+	}
 }
 
 /**
@@ -146,6 +176,7 @@ function watchImportForm() {
 
 jQuery( function() {
 	initElements();
+	prepareImportSelect();
 	watchImportForm();
 	addProgressElements();
 } );

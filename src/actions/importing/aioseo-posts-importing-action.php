@@ -10,6 +10,8 @@ use Yoast\WP\SEO\Helpers\Wpdb_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Services\Importing\Aioseo_Replacevar_Handler;
+use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Provider_Service;
+use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Transformer_Service;
 
 /**
  * Importing action for AIOSEO post data.
@@ -36,12 +38,59 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	 * @var array
 	 */
 	protected $aioseo_to_yoast_map = [
-		'title'               => 'title',
-		'description'         => 'description',
-		'og_title'            => 'open_graph_title',
-		'og_description'      => 'open_graph_description',
-		'twitter_title'       => 'twitter_title',
-		'twitter_description' => 'twitter_description',
+		'title'               => [
+			'yoast_name'       => 'title',
+			'transform_method' => 'simple_import',
+		],
+		'description'         => [
+			'yoast_name'       => 'description',
+			'transform_method' => 'simple_import',
+		],
+		'og_title'            => [
+			'yoast_name'       => 'open_graph_title',
+			'transform_method' => 'simple_import',
+		],
+		'og_description'      => [
+			'yoast_name'       => 'open_graph_description',
+			'transform_method' => 'simple_import',
+		],
+		'twitter_title'       => [
+			'yoast_name'       => 'twitter_title',
+			'transform_method' => 'simple_import',
+		],
+		'twitter_description' => [
+			'yoast_name'       => 'twitter_description',
+			'transform_method' => 'simple_import',
+		],
+		'robots_noindex'      => [
+			'yoast_name'       => 'is_robots_noindex',
+			'transform_method' => 'post_robots_noindex_import',
+			'robots_import'    => true,
+		],
+		'robots_nofollow'     => [
+			'yoast_name'       => 'is_robots_nofollow',
+			'transform_method' => 'post_general_robots_import',
+			'robots_import'    => true,
+			'robot_type'       => 'nofollow',
+		],
+		'robots_noarchive'    => [
+			'yoast_name'       => 'is_robots_noarchive',
+			'transform_method' => 'post_general_robots_import',
+			'robots_import'    => true,
+			'robot_type'       => 'noarchive',
+		],
+		'robots_nosnippet'    => [
+			'yoast_name'       => 'is_robots_nosnippet',
+			'transform_method' => 'post_general_robots_import',
+			'robots_import'    => true,
+			'robot_type'       => 'nosnippet',
+		],
+		'robots_noimageindex' => [
+			'yoast_name'       => 'is_robots_noimageindex',
+			'transform_method' => 'post_general_robots_import',
+			'robots_import'    => true,
+			'robot_type'       => 'noimageindex',
+		],
 	];
 
 	/**
@@ -73,21 +122,16 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	protected $wpdb_helper;
 
 	/**
-	 * The replacevar handler.
-	 *
-	 * @var Aioseo_Replacevar_Handler
-	 */
-	protected $replacevar_handler;
-
-	/**
 	 * Class constructor.
 	 *
-	 * @param Indexable_Repository         $indexable_repository        The indexables repository.
-	 * @param wpdb                         $wpdb                        The WordPress database instance.
-	 * @param Indexable_To_Postmeta_Helper $indexable_to_postmeta       The indexable_to_postmeta helper.
-	 * @param Options_Helper               $options                     The options helper.
-	 * @param Wpdb_Helper                  $wpdb_helper                 The wpdb_helper helper.
-	 * @param Aioseo_Replacevar_Handler    $replacevar_handler          The replacevar handler.
+	 * @param Indexable_Repository              $indexable_repository  The indexables repository.
+	 * @param wpdb                              $wpdb                  The WordPress database instance.
+	 * @param Indexable_To_Postmeta_Helper      $indexable_to_postmeta The indexable_to_postmeta helper.
+	 * @param Options_Helper                    $options               The options helper.
+	 * @param Wpdb_Helper                       $wpdb_helper           The wpdb_helper helper.
+	 * @param Aioseo_Replacevar_Handler         $replacevar_handler    The replacevar handler.
+	 * @param Aioseo_Robots_Provider_Service    $robots_provider       The robots provider service.
+	 * @param Aioseo_Robots_Transformer_Service $robots_transformer    The robots transfomer service.
 	 */
 	public function __construct(
 		Indexable_Repository $indexable_repository,
@@ -95,14 +139,15 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 		Indexable_To_Postmeta_Helper $indexable_to_postmeta,
 		Options_Helper $options,
 		Wpdb_Helper $wpdb_helper,
-		Aioseo_Replacevar_Handler $replacevar_handler ) {
-		parent::__construct( $options );
+		Aioseo_Replacevar_Handler $replacevar_handler,
+		Aioseo_Robots_Provider_Service $robots_provider,
+		Aioseo_Robots_Transformer_Service $robots_transformer ) {
+		parent::__construct( $options, $replacevar_handler, $robots_provider, $robots_transformer );
 
 		$this->indexable_repository  = $indexable_repository;
 		$this->wpdb                  = $wpdb;
 		$this->indexable_to_postmeta = $indexable_to_postmeta;
 		$this->wpdb_helper           = $wpdb_helper;
-		$this->replacevar_handler    = $replacevar_handler;
 	}
 
 	/**
@@ -237,14 +282,23 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	 * @return Indexable The created indexables.
 	 */
 	public function map( $indexable, $aioseo_indexable ) {
-		// Do not overwrite any existing values.
-		foreach ( $this->aioseo_to_yoast_map as $aioseo_key => $yoast_key ) {
-			if ( ! empty( $indexable->{$yoast_key} ) ) {
+		foreach ( $this->aioseo_to_yoast_map as $aioseo_key => $yoast_mapping ) {
+			// For robots import.
+			if ( isset( $yoast_mapping['robots_import'] ) && $yoast_mapping['robots_import'] ) {
+				$yoast_mapping['subtype']                  = $indexable->object_sub_type;
+				$indexable->{$yoast_mapping['yoast_name']} = \call_user_func( [ $this, $yoast_mapping['transform_method'] ], $aioseo_indexable, $yoast_mapping, $aioseo_key );
+
+				continue;
+			}
+
+			// For import of everything else.
+			// Do not overwrite any existing values.
+			if ( ! empty( $indexable->{$yoast_mapping['yoast_name']} ) ) {
 				continue;
 			}
 
 			if ( ! empty( $aioseo_indexable[ $aioseo_key ] ) ) {
-				$indexable->{$yoast_key} = $this->replacevar_handler->transform( $aioseo_indexable[ $aioseo_key ] );
+				$indexable->{$yoast_mapping['yoast_name']} = \call_user_func( [ $this, $yoast_mapping['transform_method'] ], $aioseo_indexable[ $aioseo_key ], $yoast_mapping );
 			}
 		}
 
@@ -286,7 +340,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 		if ( ! $just_detect ) {
 			// If we want to import too, we need the actual needed data from AIOSEO indexables.
 			$needed_data = \array_keys( $this->aioseo_to_yoast_map );
-			\array_push( $needed_data, 'id', 'post_id' );
+			\array_push( $needed_data, 'id', 'post_id', 'robots_default' );
 
 			$select_statement = \implode( ', ', $needed_data );
 		}
@@ -315,5 +369,43 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 			$replacements
 		);
 		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+	}
+
+	/**
+	 * Imports the post's noindex setting.
+	 *
+	 * @param bool $aioseo_robots_settings AIOSEO's set of robot settings for the post.
+	 *
+	 * @return bool|null The value of Yoast's noindex setting for the post.
+	 */
+	public function post_robots_noindex_import( $aioseo_robots_settings ) {
+		// If robot settings defer to default settings, we have null in the is_robots_noindex field.
+		if ( isset( $aioseo_robots_settings['robots_default'] ) && $aioseo_robots_settings['robots_default'] ) {
+			return null;
+		}
+
+		return $aioseo_robots_settings['robots_noindex'];
+	}
+
+	/**
+	 * Imports the post's robots setting.
+	 *
+	 * @param bool   $aioseo_robots_settings AIOSEO's set of robot settings for the post.
+	 * @param array  $mapping The mapping of the setting we're working with.
+	 * @param string $aioseo_key The AIOSEO key that contains the robot setting we're working with.
+	 *
+	 * @return bool|null The value of Yoast's noindex setting for the post.
+	 */
+	public function post_general_robots_import( $aioseo_robots_settings, $mapping, $aioseo_key ) {
+		$mapping['type']        = 'postTypes';
+		$mapping['option_name'] = 'aioseo_options_dynamic';
+
+		if ( isset( $aioseo_robots_settings['robots_default'] ) && $aioseo_robots_settings['robots_default'] ) {
+			// Let's first get the subtype's setting value and then transform it taking into consideration whether it defers to global defaults.
+			$subtype_setting = $this->robots_provider->get_subtype_robot_setting( $mapping );
+			return $this->robots_transformer->transform_robot_setting( $mapping['robot_type'], $subtype_setting, $mapping );
+		}
+
+		return $aioseo_robots_settings[ $aioseo_key ];
 	}
 }
