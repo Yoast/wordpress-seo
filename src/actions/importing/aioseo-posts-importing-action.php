@@ -62,6 +62,10 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 			'yoast_name'       => 'twitter_description',
 			'transform_method' => 'simple_import',
 		],
+		'canonical_url'       => [
+			'yoast_name'       => 'canonical',
+			'transform_method' => 'url_import',
+		],
 		'robots_noindex'      => [
 			'yoast_name'       => 'is_robots_noindex',
 			'transform_method' => 'post_robots_noindex_import',
