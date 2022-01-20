@@ -63,7 +63,7 @@ function getClassnames( object, isSaved, isActiveStep ) {
 		if ( isActiveStep ) {
 			return "yst-bg-white yst-border-2 yst-border-primary-500";
 		}
-		return isSaved ? "yst-bg-primary-500"
+		return isSaved ? "yst-bg-primary-500 yst-border-2 yst-border-primary-500"
 			: "yst-bg-white yst-border-2 yst-border-gray-300";
 	}
 	if ( object === "bullet-content" ) {
@@ -88,6 +88,7 @@ const stepShape = PropTypes.shape( {
 	isSaved: PropTypes.bool.isRequired,
 } );
 
+/* eslint-disable complexity, max-len */
 /**
  * The (Tailwind) Step component
  *
@@ -95,15 +96,19 @@ const stepShape = PropTypes.shape( {
  *
  * @returns {WPElement} The Step component.
  */
-// eslint-disable-next-line complexity, require-jsdoc
 function TailwindStep( { step, stepIdx, lastStepIdx, saveStep, finishStepper, activeStepIndex, setActiveStepIndex } ) {
 	const isActiveStep = activeStepIndex === stepIdx;
 	const isSaved = step.isSaved;
-	const [ isShowing, setIsShowing ] = useState( isActiveStep );
-	const [ contentHeight, setContentHeight ] = useState( isShowing ? "auto" : 0 );
-	const heightAnimationDuration = 500;
-	const enterAnimationDelay = 500;
-	useEffect( () => setIsShowing( isActiveStep ), [ step ] );
+
+	const [ icon, setIcon ] = useState( isSaved ? "check" : "bullet" );
+
+	useEffect( () => {
+		const inActiveIcon = isSaved ? "check" : "bullet";
+		setTimeout( () => setIcon( isActiveStep ? "bullet" : inActiveIcon ), 500 );
+	}, [ isSaved, isActiveStep ] );
+
+	const [ contentHeight, setContentHeight ] = useState( isActiveStep ? "auto" : 0 );
+
 	const handlePrimaryClick = useCallback(
 		() => {
 			const currentStep = stepIdx;
@@ -145,15 +150,13 @@ function TailwindStep( { step, stepIdx, lastStepIdx, saveStep, finishStepper, ac
 				</Fragment>
 			}
 			<div className="yst-relative yst-flex yst-items-start yst-group" aria-current={ isActiveStep ? "step" : null }>
-				{ /* Bullet. */ }
 				<span className="yst-flex yst-items-center" aria-hidden={ isActiveStep ? "true" : null }>
-					{ /* eslint-disable-next-line max-len */ }
 					<span
-						className={ "yst-relative yst-z-10 yst-w-8 yst-h-8 yst-flex yst-items-center yst-justify-center yst-rounded-full " + getClassnames( "bullet-border", isSaved, isActiveStep ) }
+						className={ `yst-transition-colors yst-duration-500 yst-delay-500 yst-relative yst-z-10 yst-w-8 yst-h-8 yst-flex yst-items-center yst-justify-center yst-rounded-full ${ getClassnames( "bullet-border", isSaved, isActiveStep ) }` }
 					>
-						{ ( isSaved && ! isActiveStep )
+						{ ( icon === "check" )
 							? <CheckIcon className="yst-w-5 yst-h-5 yst-text-white" aria-hidden="true" />
-							: <span className={ "yst-h-2.5 yst-w-2.5 yst-rounded-full " + getClassnames( "bullet-content", isSaved, isActiveStep ) } />
+							: <span className={ `yst-transition-colors yst-duration-500 yst-delay-500 yst-h-2.5 yst-w-2.5 yst-rounded-full ${ getClassnames( "bullet-content", isSaved, isActiveStep ) }` } />
 						}
 					</span>
 				</span>
@@ -168,21 +171,22 @@ function TailwindStep( { step, stepIdx, lastStepIdx, saveStep, finishStepper, ac
 			{ /* Child component and buttons. */ }
 			<Transition
 				className=""
-				show={ isShowing }
+				show={ isActiveStep }
 				unmount={ false }
-				beforeEnter={ () => setTimeout( () => setContentHeight( "auto" ), enterAnimationDelay ) }
-				enter={ `yst-transition-opacity yst-ease-linear yst-duration-[${heightAnimationDuration.toString( 10 )}ms] yst-delay-[${enterAnimationDelay.toString( 10 )}ms]` }
+				appear={ false }
+				beforeEnter={ () => setTimeout( () => setContentHeight( "auto" ), 500 ) }
+				enter={ "yst-transition-opacity yst-ease-linear yst-duration-500 yst-delay-500" }
 				enterFrom="yst-opacity-0"
 				enterTo="yst-opacity-100"
 				beforeLeave={ () => setContentHeight( 0 ) }
-				leave={ `yst-transition-opacity yst-ease-linear yst-duration-[${heightAnimationDuration.toString( 10 )}ms]` }
+				leave={ "yst-transition-opacity yst-ease-linear yst-duration-500" }
 				leaveFrom="yst-opacity-100"
 				leaveTo="yst-opacity-0"
 			>
 				<AnimateHeight
 					id={ `content-${stepIdx}` }
 					height={ contentHeight }
-					duration={ heightAnimationDuration }
+					duration={ 500 }
 				>
 					<div className="yst-ml-12 yst-mb-8 yst-mt-4">
 						{ step.component }
@@ -248,3 +252,4 @@ Stepper.defaultProps = {
 	saveStep: () => { },
 	finishStepper: () => { },
 };
+/* eslint-enable complexity, max-len */
