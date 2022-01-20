@@ -58,7 +58,7 @@ class Twitter_Helpers_Surface {
 	 * @param string $helper
 	 * @return string
 	 */
-	protected function get_helper_class( string $helper ) {
+	protected function get_helper_class( $helper ) {
 		$helper = \implode( '_', \array_map( 'ucfirst', \explode( '_', $helper ) ) );
 		return "Yoast\WP\SEO\Helpers\Twitter\\{$helper}_Helper";
 	}

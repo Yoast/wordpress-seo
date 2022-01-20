@@ -69,7 +69,7 @@ class Schema_Helpers_Surface {
 	 * @param string $helper
 	 * @return string
 	 */
-	protected function get_helper_class( string $helper ) {
+	protected function get_helper_class( $helper ) {
 		if ( \in_array( $helper, $this->capitalized_helpers, true ) ) {
 			$helper = \strtoupper( $helper );
 		}
