@@ -7,6 +7,7 @@ use Yoast\WP\SEO\Conditionals\AIOSEO_V4_Importer_Conditional;
 use Yoast\WP\SEO\Conditionals\Yoast_Tools_Page_Conditional;
 use Yoast\WP\SEO\Conditionals\Import_Tool_Selected_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
+use Yoast\WP\SEO\Presenters\Admin\Alert_Presenter;
 use Yoast\WP\SEO\Services\Importing\Importable_Detector;
 use Yoast\WP\SEO\Routes\Importing_Route;
 
@@ -94,6 +95,8 @@ class Import_Integration implements Integration_Interface {
 		\wp_enqueue_style( 'dashicons' );
 		$this->asset_manager->enqueue_script( 'import' );
 
+		$import_failure_alert = $this->get_import_failure_alert();
+
 		$data = [
 			'restApi' => [
 				'root'                => \esc_url_raw( \rest_url() ),
@@ -104,6 +107,7 @@ class Import_Integration implements Integration_Interface {
 				'loading_msg'        => \esc_html__( 'The import can take a long time depending on your site\'s size.', 'wordpress-seo' ),
 				'select_placeholder' => \esc_html__( 'Select SEO plugin', 'wordpress-seo' ),
 				'no_data_msg'        => \esc_html__( 'No data found from other SEO plugins.', 'wordpress-seo' ),
+				'import_failure'     => $import_failure_alert,
 				'spinner'            => \admin_url( 'images/loading.gif' ),
 			],
 		];
@@ -134,5 +138,20 @@ class Import_Integration implements Integration_Interface {
 		}
 
 		return $importing_endpoints;
+	}
+
+	/**
+	 * Gets the import failure alert using the Alert_Presenter.
+	 *
+	 * @return string The import failure alert.
+	 */
+	protected function get_import_failure_alert() {
+		$content  = \esc_html__( 'Import failed with the following error:', 'wordpress-seo' );
+		$content .= '<br/><br/>';
+		$content .= \esc_html( '%s' );
+
+		$import_failure_alert = new Alert_Presenter( $content, 'error' );
+
+		return $import_failure_alert->present();
 	}
 }
