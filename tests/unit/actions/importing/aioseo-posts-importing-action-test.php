@@ -218,7 +218,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			->once()
 			->andReturn( 1337 );
 
-		$expected_query = 'SELECT title, description, og_title, og_description, twitter_title, twitter_description, robots_noindex, robots_nofollow, robots_noarchive, robots_nosnippet, robots_noimageindex, id, post_id, robots_default FROM wp_aioseo_posts WHERE id > %d ORDER BY id LIMIT %d';
+		$expected_query = 'SELECT title, description, og_title, og_description, twitter_title, twitter_description, canonical_url, robots_noindex, robots_nofollow, robots_noarchive, robots_nosnippet, robots_noimageindex, id, post_id, robots_default FROM wp_aioseo_posts WHERE id > %d ORDER BY id LIMIT %d';
 
 		$this->wpdb->expects( 'prepare' )
 			->once()

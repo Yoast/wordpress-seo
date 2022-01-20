@@ -47,7 +47,7 @@ class Indexable_To_Postmeta_Helper {
 			'post_meta_key' => 'twitter-description',
 			'map_method'    => 'simple_map',
 		],
-		'canonical'    => [
+		'canonical'              => [
 			'post_meta_key' => 'canonical',
 			'map_method'    => 'simple_map',
 		],
