@@ -46,7 +46,7 @@ StepButtons.propTypes = {
 /**
  * Gets the classnames for the bullet.
  *
- * @param {boolean} isSaved Whether the step is saved.
+ * @param {boolean} isSaved      Whether the step is saved.
  * @param {boolean} isActiveStep Whether the step is active.
  *
  * @returns {string} The classnames for the bullet.
@@ -61,7 +61,7 @@ function getBulletClassnames( isSaved, isActiveStep ) {
 /**
  * Gets the classnames for the step name.
  *
- * @param {boolean} isSaved Whether the step is saved.
+ * @param {boolean} isSaved      Whether the step is saved.
  * @param {boolean} isActiveStep Whether the step is active.
  *
  * @returns {string} The classnames for the step name.
@@ -76,7 +76,7 @@ function getNameClassnames( isSaved, isActiveStep ) {
 /**
  * Gets the classnames for the bullet content.
  *
- * @param {boolean} isSaved Whether the step is saved.
+ * @param {boolean} isSaved      Whether the step is saved.
  * @param {boolean} isActiveStep Whether the step is active.
  *
  * @returns {string} The classnames for the bullet content.
@@ -132,6 +132,7 @@ function TailwindStep( { step, stepIndex, lastStepIndex, saveStep, finishStepper
 		},
 		[ setActiveStepIndex, saveStep, finishStepper, stepIndex, lastStepIndex ]
 	);
+
 	const goBack = useCallback( () => {
 		setActiveStepIndex( stepIndex - 1 );
 	}, [ stepIndex, setActiveStepIndex ] );
