@@ -335,7 +335,7 @@ export const getPostExcerpt = () => get( document.getElementById( DOM_IDS.POST_E
  *
  * @returns {string} The term excerpt.
  */
-export const getTermExcerpt = () => excerptFromContent( getTermDescription() );
+export const getTermExcerpt = () => excerptFromContent( getTermDescription(), getMetaDescriptionLimit() );
 
 /**
  * Gets the post featured image source if one is set.

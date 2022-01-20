@@ -9,6 +9,7 @@ export const defaultEditorState = {
 	date: "",
 	featuredImage: {},
 	categories: [],
+	locale: "",
 };
 
 const editorSlice = createSlice( {
@@ -36,6 +37,9 @@ const editorSlice = createSlice( {
 		updateCategories: ( state, action ) => {
 			state.categories = action.payload;
 		},
+		updateLocale: ( state, action ) => {
+			state.locale = action.payload;
+		},
 	},
 } );
 
@@ -48,6 +52,7 @@ export const editorSelectors = {
 	selectDate: ( state ) => get( state, "editor.date" ),
 	selectFeaturedImage: ( state ) => get( state, "editor.featuredImage" ),
 	selectCategories: ( state ) => get( state, "editor.categories" ),
+	selectLocale: ( state ) => get( state, "editor.locale" ),
 };
 
 export const editorActions = editorSlice.actions;

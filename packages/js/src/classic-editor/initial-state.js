@@ -2,6 +2,7 @@ import * as dom from "./helpers/dom";
 import { FOCUS_KEYPHRASE_ID } from "@yoast/seo-integration";
 import isSeoAnalysisActive from "../analysis/isKeywordAnalysisActive";
 import isReadabilityAnalysisActive from "../analysis/isContentAnalysisActive";
+import getContentLocale from "../analysis/getContentLocale";
 
 /**
  * Gets the initial state for SEO store from post DOM.
@@ -24,6 +25,7 @@ export const getInitialPostState = () => ( {
 		content: dom.getPostContent(),
 		featuredImage: dom.getPostFeaturedImage(),
 		categories: dom.getPostCategories(),
+		locale: getContentLocale(),
 	},
 	form: {
 		seo: {
@@ -59,6 +61,7 @@ export const getInitialTermState = () => ( {
 		permalink: dom.getTermPermalink(),
 		excerpt: dom.getTermExcerpt(),
 		content: dom.getTermDescription(),
+		locale: getContentLocale(),
 	},
 	form: {
 		seo: {
