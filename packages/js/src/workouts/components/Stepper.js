@@ -17,7 +17,7 @@ import AnimateHeight from "react-animate-height";
  * @returns {WPElement} The StepButtons component.
  */
 function StepButtons( { stepIdx, lastIndex, handlePrimaryClick, goBack } ) {
-	return <Fragment>
+	return <div className="yst-mt-12">
 		<button
 			onClick={ handlePrimaryClick }
 			className="yst-button--primary"
@@ -33,7 +33,7 @@ function StepButtons( { stepIdx, lastIndex, handlePrimaryClick, goBack } ) {
 			{ __( "Go back", "wordpress-seo" ) }
 		</button>
 		}
-	</Fragment>;
+	</div>;
 }
 
 StepButtons.propTypes = {
@@ -44,41 +44,48 @@ StepButtons.propTypes = {
 };
 
 /**
- * Gets the classnames.
+ * Gets the classnames for the bullet.
  *
- * @param {string} object Which object to get the classnames for.
  * @param {boolean} isSaved Whether the step is saved.
  * @param {boolean} isActiveStep Whether the step is active.
  *
- * @returns {string} The classnames.
+ * @returns {string} The classnames for the bullet.
  */
-function getClassnames( object, isSaved, isActiveStep ) {
-	if ( object === "name" ) {
-		if ( isActiveStep ) {
-			return "yst-text-primary-500";
-		}
-		return isSaved ? "" : "yst-text-gray-500";
+function getBulletClassnames( isSaved, isActiveStep ) {
+	if ( isActiveStep ) {
+		return "yst-bg-white yst-border-primary-500";
 	}
-	if ( object === "bullet-border" ) {
-		if ( isActiveStep ) {
-			return "yst-bg-white yst-border-2 yst-border-primary-500";
-		}
-		return isSaved ? "yst-bg-primary-500 yst-border-2 yst-border-primary-500"
-			: "yst-bg-white yst-border-2 yst-border-gray-300";
+	return isSaved ? "yst-delay-500 yst-bg-primary-500 yst-border-primary-500" : "yst-delay-500 yst-bg-white yst-border-gray-300";
+}
+
+/**
+ * Gets the classnames for the step name.
+ *
+ * @param {boolean} isSaved Whether the step is saved.
+ * @param {boolean} isActiveStep Whether the step is active.
+ *
+ * @returns {string} The classnames for the step name.
+ */
+function getNameClassnames( isSaved, isActiveStep ) {
+	if ( isActiveStep ) {
+		return "yst-text-primary-500";
 	}
-	if ( object === "bullet-content" ) {
-		if ( isActiveStep ) {
-			return "yst-bg-primary-500";
-		}
-		return isSaved ? "" : "yst-bg-transparent";
+	return isSaved ? "" : "yst-text-gray-500";
+}
+
+/**
+ * Gets the classnames for the bullet content.
+ *
+ * @param {boolean} isSaved Whether the step is saved.
+ * @param {boolean} isActiveStep Whether the step is active.
+ *
+ * @returns {string} The classnames for the bullet content.
+ */
+function getBulletContentClassnames( isSaved, isActiveStep ) {
+	if ( isActiveStep ) {
+		return "yst-bg-primary-500";
 	}
-	if ( object === "line" ) {
-		if ( isActiveStep ) {
-			return "yst-top-8";
-		}
-		return isSaved ? "yst-top-4" : "yst-top-4";
-	}
-	return "";
+	return isSaved ? "yst-delay-500" : "yst-delay-500 yst-bg-transparent";
 }
 
 const stepShape = PropTypes.shape( {
@@ -99,15 +106,18 @@ const stepShape = PropTypes.shape( {
 function TailwindStep( { step, stepIdx, lastStepIdx, saveStep, finishStepper, activeStepIndex, setActiveStepIndex } ) {
 	const isActiveStep = activeStepIndex === stepIdx;
 	const isSaved = step.isSaved;
+	const bulletClassNames = getBulletClassnames( isSaved, isActiveStep );
+	const nameClassNames = getNameClassnames( isSaved, isActiveStep );
+	const bulletContentClassNames = getBulletContentClassnames( isSaved, isActiveStep );
 
 	const [ icon, setIcon ] = useState( isSaved ? "check" : "bullet" );
+	const [ contentHeight, setContentHeight ] = useState( isActiveStep ? "auto" : 0 );
 
 	useEffect( () => {
 		const inActiveIcon = isSaved ? "check" : "bullet";
 		setTimeout( () => setIcon( isActiveStep ? "bullet" : inActiveIcon ), 500 );
 	}, [ isSaved, isActiveStep ] );
 
-	const [ contentHeight, setContentHeight ] = useState( isActiveStep ? "auto" : 0 );
 
 	const handlePrimaryClick = useCallback(
 		() => {
@@ -152,17 +162,17 @@ function TailwindStep( { step, stepIdx, lastStepIdx, saveStep, finishStepper, ac
 			<div className="yst-relative yst-flex yst-items-start yst-group" aria-current={ isActiveStep ? "step" : null }>
 				<span className="yst-flex yst-items-center" aria-hidden={ isActiveStep ? "true" : null }>
 					<span
-						className={ `yst-transition-colors yst-duration-500 yst-delay-500 yst-relative yst-z-10 yst-w-8 yst-h-8 yst-flex yst-items-center yst-justify-center yst-rounded-full ${ getClassnames( "bullet-border", isSaved, isActiveStep ) }` }
+						className={ `yst-transition-colors yst-duration-500 yst-relative yst-border-2 yst-z-10 yst-w-8 yst-h-8 yst-flex yst-items-center yst-justify-center yst-rounded-full ${ bulletClassNames }` }
 					>
 						{ ( icon === "check" )
 							? <CheckIcon className="yst-w-5 yst-h-5 yst-text-white" aria-hidden="true" />
-							: <span className={ `yst-transition-colors yst-duration-500 yst-delay-500 yst-h-2.5 yst-w-2.5 yst-rounded-full ${ getClassnames( "bullet-content", isSaved, isActiveStep ) }` } />
+							: <span className={ `yst-transition-colors yst-duration-500 yst-h-2.5 yst-w-2.5 yst-rounded-full ${ bulletContentClassNames }` } />
 						}
 					</span>
 				</span>
 				{ /* Name and description. */ }
 				<span className="yst-ml-4 yst-min-w-0 yst-flex yst-flex-col yst-self-center">
-					<span className={ "yst-text-xs yst-font-semibold yst-tracking-wide yst-uppercase " + getClassnames( "name", isSaved, isActiveStep ) }>
+					<span className={ "yst-text-xs yst-font-semibold yst-tracking-wide yst-uppercase " + nameClassNames }>
 						{ step.name }
 					</span>
 					{ step.description && <span className="yst-text-sm yst-text-gray-500">{ step.description }</span> }
@@ -186,9 +196,10 @@ function TailwindStep( { step, stepIdx, lastStepIdx, saveStep, finishStepper, ac
 				<AnimateHeight
 					id={ `content-${stepIdx}` }
 					height={ contentHeight }
+					easing="ease-in-out"
 					duration={ 500 }
 				>
-					<div className="yst-ml-12 yst-mb-8 yst-mt-4">
+					<div className="yst-ml-12 yst-mt-4">
 						{ step.component }
 						<StepButtons
 							stepIdx={ stepIdx }
@@ -226,7 +237,7 @@ export default function Stepper( { steps, setActiveStepIndex, saveStep, finishSt
 	return (
 		<ol className="yst-overflow-hidden">
 			{ steps.map( ( step, stepIdx ) => (
-				<li key={ step.name } className={ ( stepIdx === steps.length - 1 ? "" : "yst-pb-10" ) + " yst-relative" }>
+				<li key={ step.name } className={ ( stepIdx === steps.length - 1 ? "" : "yst-pb-8" ) + " yst-relative" }>
 					<TailwindStep
 						step={ step }
 						stepIdx={ stepIdx }
