@@ -7,12 +7,11 @@ import AnimateHeight from "react-animate-height";
 /**
  * The StepButtons component.
  *
- * @param {Object}   props               The props object.
- * @param {number}   props.stepIndex       The index of the current step.
- * @param {number}   props.lastIndex     The index of the last step.
- * @param {function} props.setActiveStep A function to set a new active step.
- * @param {function} props.saveStep      A function to save the current step.
- * @param {function} props.finishStepper A function to finish the last step (entire stepper).
+ * @param {Object}   props                    The props object.
+ * @param {number}   props.stepIndex          The index of the current step.
+ * @param {number}   props.lastIndex          The index of the last step.
+ * @param {function} props.handlePrimaryClick A function to call when the primary button is clicked.
+ * @param {function} props.goBack             A function to call when the "Go Back" button is clicked.
  *
  * @returns {WPElement} The StepButtons component.
  */
