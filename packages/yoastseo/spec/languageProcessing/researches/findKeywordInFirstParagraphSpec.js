@@ -10,11 +10,11 @@ import matchWordsHelper from "../../../src/languageProcessing/languages/ja/helpe
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 import firstParagraph from "../../../src/languageProcessing/researches/findKeywordInFirstParagraph.js";
 import Paper from "../../../src/values/Paper.js";
-import { enableFeatures } from "@yoast/feature-flag";
 
 const morphologyData = getMorphologyData( "en" );
 const morphologyDataDe = getMorphologyData( "de" ).de;
 const morphologyDataFR = getMorphologyData( "fr" ).fr;
+const morphologyDataJA = getMorphologyData( "ja" );
 
 const keyphraseEN = "walking in nature benefits";
 const sentenceWithAllKeywordsEN = "I like to take walks in the nature, because my body and brain benefit from it! ";
@@ -660,8 +660,6 @@ const buildJapaneseMockResearcher = function( keyphraseForms, synonymsForms, hel
 	} );
 };
 
-enableFeatures( [ "JAPANESE_SUPPORT" ] );
-
 describe( "checks for the content words from the keyphrase in the first paragraph (Japanese, but no morphology data provided)", function() {
 	it( "returns whether all keywords were matched in one sentence", function() {
 		const paper = new Paper(
@@ -829,6 +827,87 @@ describe( "checks for the content words from a synonym phrase in the first parag
 			foundInOneSentence: false,
 			foundInParagraph: false,
 			keyphraseOrSynonym: "",
+		} );
+	} );
+} );
+
+describe( "a test for the keyphrase in first paragraph research when the exact match is requested", function() {
+	it( "returns a bad result when the first paragraph doesn't contain the exact match of the keyphrase", function() {
+		const paper = new Paper( paragraphWithParagraphMatchEN,
+			{ keyword: "\"walking in the nature\"", description: "A cat is enjoying a walk in nature." } );
+		const researcher = new EnglishResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
+			foundInOneSentence: false,
+			foundInParagraph: false,
+			keyphraseOrSynonym: "",
+		} );
+	} );
+
+	it( "returns a good result when the first paragraph contains the exact match of the keyphrase", function() {
+		const paper = new Paper( paragraphWithExactSentenceMatchEN,
+			{ keyword: "\"walking in the nature\"", description: "A cat is enjoying walking in nature." } );
+		const researcher = new EnglishResearcher( paper );
+
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
+			foundInOneSentence: true,
+			foundInParagraph: true,
+			keyphraseOrSynonym: "keyphrase",
+		} );
+	} );
+
+	it( "still returns a good result when the first paragraph doesn't contain the exact match of the keyphrase," +
+		" but it does contain the synonym", function() {
+		const paper = new Paper( "A cat loves an activity in the nature. A cat is enjoying to take a walk in the nature",
+			{ keyword: "\"walking in the nature\"",
+				synonyms: "activity in the nature" } );
+		const researcher = new EnglishResearcher( paper );
+
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
+			foundInOneSentence: true,
+			foundInParagraph: true,
+			keyphraseOrSynonym: "synonym",
+		} );
+	} );
+
+	it( "returns a bad result when the first paragraph doesn't contain the exact match of the keyphrase in Japanese", function() {
+		const paper = new Paper( "小さくて可愛い花の刺繍に関する一般一般の記事です。私は美しい猫を飼っています。", { keyword: "『小さい花の刺繍』",
+			synonyms: "野生のハーブの刺繡",
+		} );
+		const researcher = new JapaneseResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyDataJA );
+
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
+			foundInOneSentence: false,
+			foundInParagraph: false,
+			keyphraseOrSynonym: "",
+		} );
+	} );
+
+	it( "returns a good result when the first paragraph contains the exact match of the keyphrase", function() {
+		const paper = new Paper( "小さくて可愛い花の刺繍に関する一般一般の記事です。私は美しい猫を飼っています。小さい花の刺繍。",
+			{ keyword: "「小さい花の刺繍」", synonyms: "野生のハーブの刺繡" }  );
+		const researcher = new JapaneseResearcher( paper );
+
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
+			foundInOneSentence: true,
+			foundInParagraph: true,
+			keyphraseOrSynonym: "keyphrase",
+		} );
+	} );
+
+	it( "still returns a good result when the first paragraph doesn't contain the exact match of the keyphrase," +
+		" but it does contain the synonym", function() {
+		const paper = new Paper( "小さくて可愛い花の刺繍に関する一般一般の記事です。私は美しい猫を飼っています。野生のハーブの刺繡。",
+			{ keyword: "「小さい花の刺繍」",
+				synonyms: "野生のハーブの刺繡" }  );
+		const researcher = new JapaneseResearcher( paper );
+
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
+			foundInOneSentence: true,
+			foundInParagraph: true,
+			keyphraseOrSynonym: "synonym",
 		} );
 	} );
 } );

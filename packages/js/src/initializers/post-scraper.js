@@ -6,10 +6,6 @@ import {
 	isUndefined,
 	debounce,
 } from "lodash-es";
-import {
-	setReadabilityResults,
-	setSeoResultsForKeyword,
-} from "yoast-components";
 import { isShallowEqualObjects } from "@wordpress/is-shallow-equal";
 import { select, subscribe } from "@wordpress/data";
 
@@ -45,18 +41,20 @@ import handleWorkerError from "../analysis/handleWorkerError";
 import initializeUsedKeywords from "./used-keywords-assessment";
 
 // Redux dependencies.
-import { setFocusKeyword } from "../redux/actions/focusKeyword";
-import { setMarkerStatus } from "../redux/actions/markerButtons";
-import { updateData } from "../redux/actions/snippetEditor";
-import { setWordPressSeoL10n, setYoastComponentsL10n } from "../helpers/i18n";
-import { setCornerstoneContent } from "../redux/actions/cornerstoneContent";
-import { refreshSnippetEditor } from "../redux/actions/snippetEditor.js";
+import { actions } from "@yoast/externals/redux";
 
 // Helper dependencies.
 import isBlockEditor from "../helpers/isBlockEditor";
 
-setYoastComponentsL10n();
-setWordPressSeoL10n();
+const {
+	setFocusKeyword,
+	setMarkerStatus,
+	updateData,
+	setCornerstoneContent,
+	refreshSnippetEditor,
+	setReadabilityResults,
+	setSeoResultsForKeyword,
+} = actions;
 
 // Plugin class prototypes (not the instances) are being used by other plugins from the window.
 window.YoastReplaceVarPlugin = YoastReplaceVarPlugin;

@@ -42,7 +42,6 @@ class WPSEO_Admin_Pages {
 	public function init() {
 		if ( filter_input( INPUT_GET, 'wpseo_reset_defaults' ) && wp_verify_nonce( filter_input( INPUT_GET, 'nonce' ), 'wpseo_reset_defaults' ) && current_user_can( 'manage_options' ) ) {
 			WPSEO_Options::reset();
-			wp_redirect( admin_url( 'admin.php?page=' . WPSEO_Configuration_Page::PAGE_IDENTIFIER ) );
 		}
 
 		add_action( 'admin_enqueue_scripts', [ $this, 'config_page_scripts' ] );
@@ -114,9 +113,6 @@ class WPSEO_Admin_Pages {
 			 * contenteditable fields.
 			 */
 			remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
-
-			$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_L10n();
-			$yoast_components_l10n->localize_script( 'settings' );
 		}
 
 		if ( in_array( $page, [ 'wpseo_social', WPSEO_Admin::PAGE_IDENTIFIER, 'wpseo_titles', 'wpseo_workouts' ], true ) ) {

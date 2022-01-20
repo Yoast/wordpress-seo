@@ -1,24 +1,17 @@
+import { select, subscribe } from "@wordpress/data";
+import { actions } from "@yoast/externals/redux";
 import { debounce } from "lodash-es";
 import { languageProcessing } from "yoastseo";
-import { select, subscribe } from "@wordpress/data";
+import { reapplyAnnotationsForSelectedBlock } from "../decorator/gutenberg";
+import { excerptFromContent, fillReplacementVariables, mapCustomFields, mapCustomTaxonomies } from "../helpers/replacementVariableHelpers";
+import getContentLocale from "./getContentLocale";
 
-import {
+const {
 	updateReplacementVariable,
 	updateData,
 	hideReplacementVariables,
-} from "../redux/actions/snippetEditor";
-import {
 	setContentImage,
-} from "../redux/actions/settings";
-import {
-	excerptFromContent,
-	fillReplacementVariables,
-	mapCustomFields,
-	mapCustomTaxonomies,
-} from "../helpers/replacementVariableHelpers";
-import {
-	reapplyAnnotationsForSelectedBlock,
-} from "../decorator/gutenberg";
+} = actions;
 
 const $ = global.jQuery;
 
@@ -183,12 +176,13 @@ export default class BlockEditorData {
 		const content = this.getPostAttribute( "content" );
 		const contentImage = this.calculateContentImage( content );
 		const excerpt = this.getPostAttribute( "excerpt" ) || "";
+		const limit = ( getContentLocale() === "ja" ) ? 80 : 156;
 
 		return {
 			content,
 			title: this.getPostAttribute( "title" ) || "",
 			slug: this.getSlug(),
-			excerpt: excerpt || excerptFromContent( content ),
+			excerpt: excerpt || excerptFromContent( content, limit ),
 			// eslint-disable-next-line camelcase
 			excerpt_only: excerpt,
 			snippetPreviewImageURL: this.getFeaturedImage() || contentImage,
@@ -322,7 +316,7 @@ export default class BlockEditorData {
 	areNewAnalysisResultsAvailable() {
 		const yoastSeoEditorSelectors = select( "yoast-seo/editor" );
 		const readabilityResults = yoastSeoEditorSelectors.getReadabilityResults();
-		const seoResults         = yoastSeoEditorSelectors.getResultsForFocusKeyword();
+		const seoResults = yoastSeoEditorSelectors.getResultsForFocusKeyword();
 
 		if (
 			this._previousReadabilityResults !== readabilityResults ||
@@ -352,9 +346,7 @@ export default class BlockEditorData {
 	 */
 	subscribeToGutenberg() {
 		this.subscriber = debounce( this.refreshYoastSEO, 500 );
-		subscribe(
-			this.subscriber
-		);
+		subscribe( this.subscriber );
 	}
 
 	/**

@@ -216,10 +216,7 @@ abstract class OAuth_Client {
 	 */
 	protected function do_request( $method, $url, array $options ) {
 		$defaults = [
-			'headers' => $this->provider->getHeaders(),
-			'params'  => [
-				'access_token' => $this->get_tokens()->access_token,
-			],
+			'headers' => $this->provider->getHeaders( $this->get_tokens()->access_token ),
 		];
 
 		$options = \array_merge_recursive( $defaults, $options );

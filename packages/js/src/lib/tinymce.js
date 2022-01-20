@@ -6,7 +6,7 @@ import {
 
 import { editorHasMarks, editorRemoveMarks } from "../decorator/tinyMCE";
 import CompatibilityHelper from "../compatibility/compatibilityHelper";
-import { setMarkerStatus } from "../redux/actions/markerButtons";
+import { actions } from "@yoast/externals/redux";
 
 let store;
 
@@ -153,7 +153,7 @@ export function addEventHandler( editorId, events, callback ) {
  */
 export function disableMarkerButtons() {
 	if ( ! isUndefined( store ) ) {
-		store.dispatch( setMarkerStatus( "disabled" ) );
+		store.dispatch( actions.setMarkerStatus( "disabled" ) );
 	}
 }
 
@@ -164,7 +164,7 @@ export function disableMarkerButtons() {
  */
 export function enableMarkerButtons() {
 	if ( ! isUndefined( store ) ) {
-		store.dispatch( setMarkerStatus( "enabled" ) );
+		store.dispatch( actions.setMarkerStatus( "enabled" ) );
 	}
 }
 

@@ -290,7 +290,7 @@ describe( "A content assessor", function() {
 			expect( assessment._config ).toBeDefined();
 			expect( assessment._config.parameters.slightlyTooMany ).toBe( 250 );
 			expect( assessment._config.parameters.farTooMany ).toBe( 300 );
-			expect( assessment._config.parameters.recommendedMaximumWordCount ).toBe( 250 );
+			expect( assessment._config.parameters.recommendedMaximumLength ).toBe( 250 );
 			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify68' target='_blank'>" );
 			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify69' target='_blank'>" );
 		} );

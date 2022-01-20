@@ -4,13 +4,11 @@ namespace Yoast\WP\SEO\Tests\Unit\Actions\Importing;
 
 use Mockery;
 use Yoast\WP\Lib\ORM;
-use Yoast\WP\SEO\Helpers\Meta_Helper;
-use Yoast\WP\SEO\Helpers\Indexable_To_Postmeta_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Helpers\Wpdb_Helper;
-use Yoast\WP\SEO\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\Services\Importing\Aioseo_Replacevar_Handler;
+use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Provider_Service;
+use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Transformer_Service;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Actions\Importing\Abstract_Importing_Action_Double;
-use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -39,15 +37,39 @@ class Abstract_Importing_Action_Test extends TestCase {
 	protected $options;
 
 	/**
+	 * The replacevar handler.
+	 *
+	 * @var Mockery\MockInterface|Aioseo_Replacevar_Handler
+	 */
+	protected $replacevar_handler;
+
+	/**
+	 * The robots provider service.
+	 *
+	 * @var Mockery\MockInterface|Aioseo_Robots_Provider_Service
+	 */
+	protected $robots_provider;
+
+	/**
+	 * The robots transformer service.
+	 *
+	 * @var Mockery\MockInterface|Aioseo_Robots_Transformer_Service
+	 */
+	protected $robots_transformer;
+
+	/**
 	 * Sets up the test class.
 	 */
 	protected function set_up() {
 		parent::set_up();
 
-		$this->options       = Mockery::mock( Options_Helper::class );
-		$this->mock_instance = Mockery::mock(
+		$this->options            = Mockery::mock( Options_Helper::class );
+		$this->replacevar_handler = Mockery::mock( Aioseo_Replacevar_Handler::class );
+		$this->robots_provider    = Mockery::mock( Aioseo_Robots_Provider_Service::class );
+		$this->robots_transformer = Mockery::mock( Aioseo_Robots_Transformer_Service::class );
+		$this->mock_instance      = Mockery::mock(
 			Abstract_Importing_Action_Double::class,
-			[ $this->options ]
+			[ $this->options, $this->replacevar_handler, $this->robots_provider, $this->robots_transformer ]
 		)->makePartial()->shouldAllowMockingProtectedMethods();
 	}
 
@@ -71,7 +93,7 @@ class Abstract_Importing_Action_Test extends TestCase {
 			->andReturn( $expected_option );
 
 		$completed = $this->mock_instance->get_completed();
-		$this->assertEquals( true, $completed );
+		$this->assertSame( true, $completed );
 	}
 
 	/**
@@ -94,7 +116,7 @@ class Abstract_Importing_Action_Test extends TestCase {
 			->andReturn( $expected_option );
 
 		$completed = $this->mock_instance->get_completed();
-		$this->assertEquals( false, $completed );
+		$this->assertSame( false, $completed );
 	}
 
 	/**

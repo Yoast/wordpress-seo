@@ -3,9 +3,11 @@
 namespace Yoast\WP\SEO\Integrations\Admin;
 
 use WPSEO_Admin_Asset_Manager;
+use WPSEO_Admin_Asset_Yoast_Components_L10n;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Installation_Success_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
@@ -21,6 +23,13 @@ class Installation_Success_Integration implements Integration_Interface {
 	protected $options_helper;
 
 	/**
+	 * The product helper.
+	 *
+	 * @var Product_Helper
+	 */
+	protected $product_helper;
+
+	/**
 	 * {@inheritDoc}
 	 */
 	public static function get_conditionals() {
@@ -31,9 +40,11 @@ class Installation_Success_Integration implements Integration_Interface {
 	 * Installation_Success_Integration constructor.
 	 *
 	 * @param Options_Helper $options_helper The options helper.
+	 * @param Product_Helper $product_helper The product helper.
 	 */
-	public function __construct( Options_Helper $options_helper ) {
+	public function __construct( Options_Helper $options_helper, Product_Helper $product_helper ) {
 		$this->options_helper = $options_helper;
+		$this->product_helper = $product_helper;
 	}
 
 	/**
@@ -61,8 +72,21 @@ class Installation_Success_Integration implements Integration_Interface {
 		}
 		$this->options_helper->set( 'activation_redirect_timestamp_free', \time() );
 
+		// phpcs:ignore WordPress.Security.NonceVerification -- This is not a form.
+		if ( isset( $_REQUEST['activate-multi'] ) && $_REQUEST['activate-multi'] === 'true' ) {
+			return;
+		}
+
+		if ( $this->product_helper->is_premium() ) {
+			return;
+		}
+
+		if ( \is_network_admin() || \is_plugin_active_for_network( WPSEO_BASENAME ) ) {
+			return;
+		}
+
 		\wp_safe_redirect( \admin_url( 'admin.php?page=wpseo_installation_successful_free' ), 302, 'Yoast SEO' );
-		exit;
+		$this->terminate_execution();
 	}
 
 	/**
@@ -99,6 +123,9 @@ class Installation_Success_Integration implements Integration_Interface {
 		$asset_manager->enqueue_style( 'installation-success' );
 		$asset_manager->enqueue_style( 'monorepo' );
 
+		$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_L10n();
+		$yoast_components_l10n->localize_script( 'installation-success' );
+
 		$asset_manager->localize_script(
 			'installation-success',
 			'wpseoInstallationSuccess',
@@ -116,5 +143,12 @@ class Installation_Success_Integration implements Integration_Interface {
 	 */
 	public function render_page() {
 		echo '<div id="wpseo-installation-successful-free" class="yoast"></div>';
+	}
+
+	/**
+	 * Wrap the `exit` function to make unit testing easier.
+	 */
+	public function terminate_execution() {
+		exit;
 	}
 }

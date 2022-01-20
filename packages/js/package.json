@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "test": "jest -u",
-    "lint": "eslint src tests --max-warnings=164"
+    "lint": "eslint src tests --max-warnings=153"
   },
   "jest": {
     "setupTestFrameworkScriptFile": "<rootDir>/tests/setupTests.js",
@@ -36,7 +36,6 @@
     "@wordpress/element": "^2.19.1",
     "@yoast/analysis-report": "^1.21.0",
     "@yoast/components": "^2.19.0",
-    "@yoast/configuration-wizard": "^2.22.0",
     "@yoast/feature-flag": "^0.5.2",
     "@yoast/helpers": "^0.16.0",
     "@yoast/replacement-variable-editor": "^1.17.0",
@@ -51,7 +50,6 @@
     "interpolate-components": "^1.1.0",
     "jed": "^1.1.1",
     "marked": "^0.7.0",
-    "material-ui": "^0.20.0",
     "moment": "2.22.2",
     "moment-duration-format": "^2.2.2",
     "postcss-import": "^12.0.1",

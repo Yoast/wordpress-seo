@@ -1,10 +1,10 @@
 import Researcher from "../../../../src/languageProcessing/languages/ja/Researcher.js";
 import Paper from "../../../../src/values/Paper.js";
 import functionWords from "../../../../src/languageProcessing/languages/ja/config/functionWords";
+import subheadingsTooLong from "../../../../src/languageProcessing/languages/ja/config/subheadingsTooLong";
 import sentenceLength from "../../../../src/languageProcessing/languages/ja/config/sentenceLength";
-
+import metaDescriptionLength from "../../../../src/languageProcessing/languages/ja/config/metaDescriptionLength";
 import getMorphologyData from "../../../specHelpers/getMorphologyData";
-import { isFeatureEnabled } from "@yoast/feature-flag";
 
 const morphologyDataJA = getMorphologyData( "ja" );
 
@@ -17,6 +17,8 @@ describe( "a test for Japanese Researcher", function() {
 
 	it( "returns false if the default research is deleted in the Japanese Researcher", function() {
 		expect( researcher.getResearch( "getFleschReadingScore" ) ).toBe( false );
+		expect( researcher.getResearch( "getPassiveVoiceResult" ) ).toBe( false );
+		expect( researcher.getResearch( "keywordCountInUrl" ) ).toBe( false );
 	} );
 
 	it( "returns false if the Japanese Researcher doesn't have a certain helper", function() {
@@ -27,37 +29,31 @@ describe( "a test for Japanese Researcher", function() {
 		expect( researcher.getConfig( "sentenceLength" ) ).toEqual( sentenceLength );
 	} );
 
+	it( "returns the Japanese meta description length configuration", function() {
+		expect( researcher.getConfig( "metaDescriptionLength" ) ).toEqual( metaDescriptionLength );
+	} );
+
 	it( "returns the Japanese function words", function() {
 		expect( researcher.getConfig( "functionWords" ) ).toEqual( functionWords );
 	} );
 
-	it( "checks whether there is an exact match of a multiword keyphrase in title", function() {
-		expect( researcher.getHelper( "findMultiWordKeyphraseInPageTitle" )( "東海道新幹線の駅構内および列車内に広告を掲出することを。", "東海道新幹線",
-			functionWords ) ).toEqual( {
-			exactMatchFound: true,
-			allWordsFound: true,
-			position: 0,
-		} );
+	it( "returns the Japanese subheading distribution configuration", function() {
+		expect( researcher.getConfig( "subheadingsTooLong" ) ).toEqual( subheadingsTooLong );
 	} );
 
 	it( "returns the keyphrase length", function() {
 		expect( researcher.getResearch( "keyphraseLength" ).keyphraseLength ).toEqual( 7 );
 	} );
 
-	if ( isFeatureEnabled( "JAPANESE_SUPPORT" ) ) {
-		it( "returns the keyphrase unaltered when the Japanese morphology data is not available", function() {
-			expect( researcher.getHelper( "getStemmer" )( researcher )( "日帰り" ) ).toEqual(
-				"日帰り" );
-		} );
+	it( "returns the keyphrase unaltered when the Japanese morphology data is not available", function() {
+		expect( researcher.getHelper( "customGetStemmer" )( researcher )( "日帰り" ) ).toEqual(
+			"日帰り" );
+	} );
 
-		it( "creates the word forms when the Japanese morphology data is available", function() {
-			researcher.addResearchData( "morphology", morphologyDataJA );
-			expect( researcher.getHelper( "getStemmer" )( researcher )( "日帰り" ) ).toEqual(
-				[
-					"日帰る", "日帰り", "日帰ら", "日帰れ", "日帰ろ", "日帰っ", "日帰れる", "日帰らせ",
-					"日帰らせる", "日帰られ", "日帰られる", "日帰ろう",
-				]
-			);
-		} );
-	}
+	it( "creates the stem when the Japanese morphology data is available", function() {
+		researcher.addResearchData( "morphology", morphologyDataJA );
+		expect( researcher.getHelper( "customGetStemmer" )( researcher )( "日帰り" ) ).toEqual(
+			"日帰っ"
+		);
+	} );
 } );

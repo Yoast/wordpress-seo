@@ -28,7 +28,7 @@
 	},
 	"require-dev": {
 		"humbug/php-scoper": "^0.13.4",
-		"league/oauth2-client": "2.4.1",
+		"league/oauth2-client": "2.6.1",
 		"phpunit/phpunit": "^5.7",
 		"psr/container": "1.0.0",
 		"psr/log": "^1.0",
@@ -78,8 +78,8 @@
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_coding_standards"
 		],
 		"check-cs-thresholds": [
-			"@putenv YOASTCS_THRESHOLD_ERRORS=251",
-			"@putenv YOASTCS_THRESHOLD_WARNINGS=221",
+			"@putenv YOASTCS_THRESHOLD_ERRORS=252",
+			"@putenv YOASTCS_THRESHOLD_WARNINGS=219",
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_cs_thresholds"
 		],
 		"check-cs": [
@@ -129,5 +129,12 @@
 		"generate-unit-test": [
 			"Yoast\\WP\\SEO\\Composer\\Actions::generate_unit_test"
 		]
+	},
+	"config": {
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true,
+			"composer/package-versions-deprecated": true,
+			"composer/installers": true
+		}
 	}
 }

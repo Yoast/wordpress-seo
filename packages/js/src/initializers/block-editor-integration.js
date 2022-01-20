@@ -14,13 +14,12 @@ import { __, sprintf } from "@wordpress/i18n";
 import { registerFormatType } from "@wordpress/rich-text";
 import { get } from "lodash-es";
 import { Slot } from "@wordpress/components";
-
+import { actions } from "@yoast/externals/redux";
 
 /* Internal dependencies */
 import PluginIcon from "../containers/PluginIcon";
 import SidebarFill from "../containers/SidebarFill";
 import MetaboxPortal from "../components/portals/MetaboxPortal";
-import { setMarkerStatus } from "../redux/actions";
 import { isAnnotationAvailable } from "../decorator/gutenberg";
 import SidebarSlot from "../components/slots/SidebarSlot";
 import { link } from "../inline-links/edit-link";
@@ -97,6 +96,7 @@ function registerFills( store ) {
 	const preferences = store.getState().preferences;
 	const analysesEnabled = preferences.isKeywordAnalysisActive || preferences.isContentAnalysisActive;
 	const showZapierPanel = preferences.isZapierIntegrationActive && ! preferences.isZapierConnected;
+	const showWincherPanel = preferences.isKeywordAnalysisActive && preferences.isWincherIntegrationActive;
 	initiallyOpenDocumentSettings();
 
 	/**
@@ -145,7 +145,7 @@ function registerFills( store ) {
 				icon={ <Fragment /> }
 			>
 				<PostPublish />
-				{ preferences.isKeywordAnalysisActive && <WincherPostPublish /> }
+				{ showWincherPanel && <WincherPostPublish /> }
 			</PluginPostPublishPanel>
 			{ analysesEnabled && <PluginDocumentSettingPanel
 				name="document-panel"
@@ -173,7 +173,7 @@ function registerFills( store ) {
  */
 function initializeAnnotations( store ) {
 	if ( isAnnotationAvailable() ) {
-		store.dispatch( setMarkerStatus( "enabled" ) );
+		store.dispatch( actions.setMarkerStatus( "enabled" ) );
 	}
 }
 

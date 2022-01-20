@@ -97,11 +97,7 @@ class Wincher_Keyphrases_Action {
 			// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- To ensure JS code style, this can be ignored.
 			if ( ! $limits->canTrack || $this->would_exceed_limits( $keyphrases, $limits ) ) {
 				$response = [
-					'data'   => [
-						'limit'    => $limits->limit,
-						// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- To ensure JS code style, this can be ignored.
-						'canTrack' => $limits->canTrack,
-					],
+					'limit'  => $limits->limit,
 					'error'  => 'Account limit exceeded',
 					'status' => 400,
 				];
@@ -195,6 +191,17 @@ class Wincher_Keyphrases_Action {
 				$used_keyphrases = $this->collect_all_keyphrases();
 			}
 
+			// If we still have no keyphrases the API will return an error, so
+			// don't even bother sending a request.
+			if ( empty( $used_keyphrases ) ) {
+				return $this->to_result_object(
+					[
+						'data'   => [],
+						'status' => 200,
+					]
+				);
+			}
+
 			$endpoint = \sprintf(
 				self::KEYPHRASES_URL,
 				$this->options_helper->get( 'wincher_website_id' )
@@ -217,9 +224,7 @@ class Wincher_Keyphrases_Action {
 				return $this->to_result_object( $results );
 			}
 
-			if ( ! empty( $used_keyphrases ) ) {
-				$results['data'] = $this->filter_results_by_used_keyphrases( $results['data'], $used_keyphrases );
-			}
+			$results['data'] = $this->filter_results_by_used_keyphrases( $results['data'], $used_keyphrases );
 
 			// Extract the positional data and assign it to the keyphrase.
 			$results['data'] = \array_combine(
@@ -234,28 +239,6 @@ class Wincher_Keyphrases_Action {
 				'status' => $e->getCode(),
 			];
 		}
-	}
-
-	/**
-	 * Tracks all the available keyphrases known to Yoast SEO.
-	 *
-	 * @param object $limits The limit API request response.
-	 *
-	 * @return object The tracked keyphrases response object.
-	 */
-	public function track_all( $limits ) {
-		$keyphrases = $this->collect_all_keyphrases();
-
-		if ( empty( $keyphrases ) ) {
-			return $this->to_result_object(
-				[
-					'data'   => [],
-					'status' => 200,
-				]
-			);
-		}
-
-		return $this->track_keyphrases( $keyphrases, $limits );
 	}
 
 	/**
@@ -301,6 +284,7 @@ class Wincher_Keyphrases_Action {
 				->select( 'primary_focus_keyword' )
 				->where_not_null( 'primary_focus_keyword' )
 				->where( 'object_type', 'post' )
+				->where_not_equal( 'post_status', 'trash' )
 				->distinct()
 				->find_array(),
 			'primary_focus_keyword'
@@ -313,7 +297,8 @@ class Wincher_Keyphrases_Action {
 			$query = "
 				SELECT meta_value
 				FROM $wpdb->postmeta
-				WHERE meta_key = '$meta_key'
+				JOIN $wpdb->posts ON {$wpdb->posts}.id = {$wpdb->postmeta}.post_id
+				WHERE meta_key = '$meta_key' AND post_status != 'trash'
 			";
 
 			// phpcs:ignore -- ignoring since it's complaining about not using prepare when it's perfectly safe here.
