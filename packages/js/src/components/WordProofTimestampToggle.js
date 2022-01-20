@@ -5,7 +5,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import popupWindow from "../helpers/popupWindow";
 import { AuthenticationModal } from "./modals/wordproof/AuthenticationModal";
 import { handleAPIResponse } from "../helpers/api";
-import { getSettings } from "../helpers/wordproofEndpoints";
+import {getAuthentication, getSettings} from '../helpers/wordproofEndpoints';
 import { get } from "lodash";
 
 function SettingsLink( props ) {
@@ -49,6 +49,19 @@ const retrieveSettings = async() => {
 		}
 	);
 };
+
+const retrieveAuthentication = async() => {
+	return await handleAPIResponse(
+		getAuthentication,
+		( response ) => {
+			return response.is_authenticated;
+		},
+		( response ) => {
+			return false;
+		}
+	);
+};
+
 
 /**
  * The WordProofTimestampToggle Component.
@@ -100,7 +113,9 @@ class WordProofTimestampToggle extends Component {
 		 */
 		window.addEventListener( "focus", async( e ) => {
 			const settingsResponse = await retrieveSettings();
+			const authenticationResponse = await retrieveAuthentication();
 			this.updateStateFromSettings( settingsResponse );
+			this.setIsAuthenticated( authenticationResponse );
 		}, { once: true } );
 
 		popupWindow( window, this.state.settingsUrl );
