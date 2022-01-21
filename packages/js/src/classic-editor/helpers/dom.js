@@ -212,9 +212,8 @@ export const getPostCategories = () => {
 				id: checkbox.value,
 				name: [ ...checkbox.parentElement.childNodes ]
 					.filter( node => node.nodeType === Node.TEXT_NODE )
-					.map( node => node.textContent )
-					.join( " " )
-					.trim(),
+					.map( node => node.textContent )[ 0 ]
+					?.trim(),
 			}
 		) );
 	}
