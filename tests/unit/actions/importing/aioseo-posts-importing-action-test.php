@@ -25,7 +25,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group importing
  *
  * @coversDefaultClass \Yoast\WP\SEO\Actions\Importing\Aioseo_Posts_Importing_Action
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded,Yoast.Yoast.AlternativeFunctions.json_encode_json_encode
  */
 class Aioseo_Posts_Importing_Action_Test extends TestCase {
 
@@ -274,11 +274,13 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			'twitter_title'        => 'twitter_title1',
 			'twitter_description'  => 'twitter_description1',
 			'canonical_url'        => 'https://example.com/',
-			'keyphrases'           => \json_encode( [
-				'focus' => [
-					'keyphrase' => 'key phrase',
-				],
-			] ),
+			'keyphrases'           => \json_encode(
+				[
+					'focus' => [
+						'keyphrase' => 'key phrase',
+					],
+				]
+			),
 			'robots_default'       => true,
 			'robots_nofollow'      => true,
 			'robots_noarchive'     => false,
@@ -401,11 +403,13 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			'twitter_title'        => 'twitter_title1',
 			'twitter_description'  => 'twitter_description1',
 			'canonical_url'        => 'https://example.com/',
-			'keyphrases'           => \json_encode( [
-				'focus' => [
-					'not_keyphrase' => 'key phrase',
-				],
-			] ),
+			'keyphrases'           => \json_encode(
+				[
+					'focus' => [
+						'not_keyphrase' => 'key phrase',
+					],
+				]
+			),
 			'robots_default'       => true,
 			'robots_nofollow'      => true,
 			'robots_noarchive'     => false,
