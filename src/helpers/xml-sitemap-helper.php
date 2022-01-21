@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
+use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\SEO_Links_Repository;
 
@@ -18,14 +19,24 @@ class XML_Sitemap_Helper {
 	private $links_repository;
 
 	/**
+	 * The image helper.
+	 *
+	 * @var Image_Helper
+	 */
+	protected $image_helper;
+
+	/**
 	 * XML_Sitemap_Helper constructor.
 	 *
 	 * @param SEO_Links_Repository $links_repository The links repository.
+	 * @param Image_Helper         $image_helper     The image helper.
 	 */
 	public function __construct(
-		SEO_Links_Repository $links_repository
+		SEO_Links_Repository $links_repository,
+		Image_Helper $image_helper
 	) {
 		$this->links_repository = $links_repository;
+		$this->image_helper     = $image_helper;
 	}
 
 	/**
@@ -37,21 +48,24 @@ class XML_Sitemap_Helper {
 	 * @return array $images_by_id Array of images for the indexable, in XML sitemap format.
 	 */
 	public function find_images_for_indexables( $indexables, $type = 'image-in' ) {
+		global $wpdb;
+
 		$images_by_id  = [];
 		$indexable_ids = [];
 
 		foreach ( $indexables as $indexable ) {
-			$indexable_ids[] = $indexable->id;
+			$indexable_ids[ $indexable->object_id ] = $indexable->id;
 		}
 
 		if ( $indexable_ids === [] ) {
 			return [];
 		}
 
-		$images = $this->links_repository->query()
+		$images = $this->links_repository
+			->query()
 			->select_many( 'indexable_id', 'url' )
 			->where( 'type', $type )
-			->where_in( 'indexable_id', $indexable_ids )
+			->where_in( 'indexable_id', array_values( $indexable_ids ) )
 			->find_many();
 
 		foreach ( $images as $image ) {
@@ -61,6 +75,35 @@ class XML_Sitemap_Helper {
 			$images_by_id[ $image->indexable_id ][] = [
 				'src' => $image->url,
 			];
+		}
+
+		$placeholders    = \implode( ', ', \array_fill( 0, count( $indexable_ids ), '%s' ) );
+		$indexable_table = Model::get_table_name( 'Indexable' );
+		// phpcs:disable WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare -- Placeholders are in $placeholders.
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table names can not be prepared.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery -- Query can not be done without a direct query.
+		$featured_images = $wpdb->get_results(
+			$wpdb->prepare(
+				"
+				SELECT pm.post_id, i.permalink
+				FROM {$wpdb->prefix}postmeta AS pm
+				INNER JOIN $indexable_table AS i ON i.object_id = pm.meta_value AND i.object_type = 'post'
+				WHERE pm.meta_key = '_thumbnail_id' AND pm.post_id IN ( $placeholders )
+				",
+				\array_keys( $indexable_ids )
+			)
+		);
+		// phpcs:enable
+
+		foreach ( $featured_images as $featured_image ) {
+			$indexable_id        = $indexable_ids[ $featured_image->post_id ];
+			$featured_image_link = [ 'src' => $featured_image->permalink ];
+			if ( ! isset( $images_by_id[ $indexable_id ] ) ) {
+				$images_by_id[ $indexable_id ] = [];
+			}
+			if ( ! in_array( $featured_image_link, $images_by_id[ $indexable_id ], true ) ) {
+				$images_by_id[ $indexable_id ][] = $featured_image_link;
+			}
 		}
 
 		return $images_by_id;
