@@ -131,12 +131,35 @@ const createUpdateReadabilityScore = ( selectIsActive, domSet ) => ( score ) => 
  * @returns {void}
  */
 const createCategoriesSync = ( updateCategories ) => {
+	/**
+	 * Retrieves the categories from the DOM and syncs them to the SEO store.
+	 *
+	 * @returns {void}
+	 */
+	const syncCategories = () => {
+		updateCategories( getPostCategories() );
+	};
+
+	// Sync the categories whenever there are changes in the checkboxes.
 	const checkboxes = getPostCategoryCheckboxes();
 	checkboxes.forEach(
-		checkbox => checkbox.addEventListener( "input", () => {
-			updateCategories( getPostCategories() );
-		} )
+		checkbox => checkbox.addEventListener( "input", syncCategories )
 	);
+
+	const categoryChecklist = document.getElementById( "categorychecklist" );
+	if ( categoryChecklist ) {
+		// Observe the category checklist for changes and update the categories if new categories are added.
+		const observer = new MutationObserver( ( mutationList ) => {
+			updateCategories( getPostCategories() );
+
+			const addedElement = mutationList[ 0 ]?.addedNodes[ 0 ];
+			const checkbox = addedElement?.querySelector( "input[type=checkbox]" );
+			if ( checkbox ) {
+				checkbox.addEventListener( "input", syncCategories );
+			}
+		} );
+		observer.observe( categoryChecklist, { childList: true } );
+	}
 };
 
 /**
