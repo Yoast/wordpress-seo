@@ -5,12 +5,12 @@ import { createInterpolateElement, useCallback, useReducer, useState, useEffect,
 import { __, sprintf } from "@wordpress/i18n";
 import { cloneDeep } from "lodash";
 import PropTypes from "prop-types";
-
 import { Alert, NewButton as Button, RadioButtonGroup, SingleSelect, TextInput } from "@yoast/components";
 import { ReactComponent as WorkoutDoneImage } from "../../../../../images/mirrored_fit_bubble_woman_1_optim.svg";
 import { ReactComponent as WorkoutStartImage } from "../../../images/motivated_bubble_woman_1_optim.svg";
 import { addLinkToString } from "../../helpers/stringHelpers.js";
 import { Step, Steps, FinishButtonSection } from "./Steps";
+import Stepper from "./Stepper";
 import { STEPS, WORKOUTS } from "../config";
 import { OrganizationSection } from "./OrganizationSection";
 import { PersonSection } from "./PersonSection";
@@ -238,9 +238,63 @@ const stepNumberNameMap = {
 	1: STEPS.configuration.optimizeSeoData,
 	2: STEPS.configuration.siteRepresentation,
 	3: STEPS.configuration.socialProfiles,
-	4: STEPS.configuration.enableTracking,
-	5: STEPS.configuration.newsletterSignup,
+	4: STEPS.configuration.newsletterSignup,
 };
+
+/**
+ * The indexation step.
+ *
+ * @param {string} indexingState The indexing state.
+ * @param {Function} setIndexingState A callback to set the indexing state.
+ *
+ * @returns {WPElement} The indexation step.
+ */
+function IndexationStep( { indexingState, setIndexingState } ) {
+	return <Fragment>
+		<div id="yoast-configuration-workout-indexing-container" className="indexation-container">
+			<WorkoutIndexation
+				indexingStateCallback={ setIndexingState }
+				isEnabled={ ! window.wpseoWorkoutsData.shouldUpdatePremium }
+				indexingState={ indexingState }
+			/>
+		</div>
+		{ ( window.wpseoWorkoutsData.shouldUpdatePremium && indexingState !== "completed" ) && <Alert type="warning">
+			<p>{
+				// translators: %1$s is replaced by a version number.
+				sprintf( __( "This workout step is currently disabled, because you're not running the latest version of Yoast SEO Premium. " +
+				"Please update to the latest version (at least %1$s). ",
+				"wordpress-seo"
+				), "17.7"
+				)
+			}</p>
+			<p>{
+				addLinkToString(
+					sprintf(
+						// translators: %1$s and %2$s are replaced by anchor tags to make a link to the tool section.
+						__( "You can still run the SEO data optimization in the %1$sTools section%2$s. " +
+						"Once that is finished, please refresh this workout.", "wordpress-seo" ),
+						"<a>",
+						"</a>"
+					),
+					window.wpseoWorkoutsData.toolsPageUrl
+				) }
+			</p>
+		</Alert> }
+	</Fragment>;
+}
+
+IndexationStep.propTypes = {
+	indexingState: PropTypes.string.isRequired,
+	setIndexingState: PropTypes.func.isRequired,
+};
+
+function Step2() {
+	return <div><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec congue sollicitudin condimentum. Nam eu nibh id odio convallis posuere a at enim. Aenean ullamcorper libero a urna sollicitudin, ac tempus lorem gravida. Aenean convallis sed ex sed condimentum. Integer sed enim at felis semper mattis. Vestibulum luctus egestas dignissim. Curabitur consectetur nulla non erat cursus imperdiet.
+		Donec pellentesque, lectus quis tristique aliquet, mauris arcu ornare dui, vulputate dictum leo nibh maximus turpis. Curabitur vitae ornare felis, nec porttitor velit. Ut elit risus, porta quis accumsan sit amet, imperdiet eget tellus. Nullam luctus, augue nec posuere volutpat, arcu sem euismod enim, eget sagittis orci felis non eros. Interdum et malesuada fames ac ante ipsum primis in faucibus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris pharetra massa eget tempor lacinia. Aliquam in neque arcu. Sed arcu lectus, efficitur lacinia mauris ut, vestibulum venenatis justo.
+		Maecenas eget imperdiet tellus. Vivamus eu aliquet mauris. Nunc sagittis orci metus, vehicula blandit diam tristique a. In ultricies risus et nulla ornare, id ornare lorem feugiat. Ut diam elit, tincidunt non tincidunt at, porta id nisl. Nam faucibus efficitur arcu, id hendrerit augue venenatis et. In elementum felis ante, quis rutrum ante pretium nec. Sed porttitor a nisi in bibendum. In dui libero, dignissim tincidunt lobortis ut, vehicula accumsan neque. Nunc eget lectus purus. Mauris a est non sem semper suscipit. Maecenas laoreet facilisis orci in imperdiet.
+		Donec vel quam et lorem condimentum fermentum. Suspendisse viverra, risus molestie vehicula lobortis, est turpis lacinia ante, at tempor odio justo vitae risus. Nulla ut nunc at odio venenatis tincidunt. Sed tempor ac felis at viverra. Sed placerat pellentesque diam, in condimentum ante vestibulum eu. Nunc congue a velit dictum mattis. Cras vitae sodales tellus. Morbi at odio rhoncus, consequat neque sit amet, tincidunt lectus. Vestibulum condimentum arcu nibh, vitae efficitur est elementum a. In et faucibus ligula, et fringilla nulla. Fusce in mauris vel tortor accumsan iaculis at posuere dolor. Quisque luctus dapibus ligula eget porttitor. Etiam id placerat odio.
+	</p></div>;
+}
 
 /* eslint-disable max-statements */
 /**
@@ -472,9 +526,28 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 
 	const siteRepresentsPerson = state.companyOrPerson === "person";
 
+	// PROBABLY DELETE BETWEEN HERE....
+	const [ activeStepIndex, setActiveStepIndex ] = useState( 0 );
+
+	// AND HERE....
+
 	/* eslint-disable max-len */
 	return (
 		<div id="yoast-configuration-workout" className="card">
+			<Stepper
+				steps={ [
+					{ name: "The indexables", component: <IndexationStep setIndexingState={ setIndexingState } indexingState={ indexingState } />, isSaved: isStepFinished( "configuration", steps.optimizeSeoData ) },
+					{ name: "Knowledge panel", description: "", component: <Step2 />, isSaved: isStepFinished( "configuration", steps.siteRepresentation ) },
+					{ name: "Social profiles", description: "optional", component: <Step2 />, isSaved: isStepFinished( "configuration", steps.socialProfiles ) },
+					{ name: "Stay up-to-date", description: "optional", component: <Step2 />, isSaved: isStepFinished( "configuration", steps.newsletterSignup ) },
+					{ name: "Finish configuration", description: "", component: <Step2 />, isSaved: isWorkoutFinished },
+				] }
+				setActiveStepIndex={ setActiveStepIndex }
+				saveStep={ ( stepIdx ) => finishSteps( "configuration", [ stepNumberNameMap[ stepIdx + 1 ] ] ) }
+				activeStepIndex={ activeStepIndex }
+			/>
+
+
 			<h2 id="yoast-configuration-workout-title">{ __( "Configuration", "wordpress-seo" ) }</h2>
 			<h3 id="yoast-configuration-workout-tagline">{
 				// translators: %1$s is replaced by "Yoast SEO"
