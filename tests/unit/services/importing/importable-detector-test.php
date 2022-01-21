@@ -7,7 +7,7 @@ use Yoast\WP\SEO\Actions\Importing\Aioseo_Posts_Importing_Action;
 use Yoast\WP\SEO\Helpers\Meta_Helper;
 use Yoast\WP\SEO\Helpers\Indexable_To_Postmeta_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Helpers\Utils_Helper;
+use Yoast\WP\SEO\Helpers\Sanitization_Helper;
 use Yoast\WP\SEO\Helpers\Wpdb_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Models\Indexable;
@@ -78,11 +78,11 @@ class Importable_Detector_Test extends TestCase {
 	protected $options;
 
 	/**
-	 * The utils helper.
+	 * The sanitization helper.
 	 *
-	 * @var Mockery\MockInterface|Utils_Helper
+	 * @var Mockery\MockInterface|Sanitization_Helper
 	 */
-	protected $utils;
+	protected $sanitization;
 
 	/**
 	 * The wpdb helper.
@@ -123,7 +123,7 @@ class Importable_Detector_Test extends TestCase {
 		$this->meta                  = Mockery::mock( Meta_Helper::class );
 		$this->indexable_to_postmeta = Mockery::mock( Indexable_To_Postmeta_Helper::class, [ $this->meta ] );
 		$this->options               = Mockery::mock( Options_Helper::class );
-		$this->utils                 = Mockery::mock( Utils_Helper::class );
+		$this->sanitization          = Mockery::mock( Sanitization_Helper::class );
 		$this->wpdb_helper           = Mockery::mock( Wpdb_Helper::class );
 		$this->replacevar_handler    = new Aioseo_Replacevar_Handler();
 		$this->robots_provider       = new Aioseo_Robots_Provider_Service();
@@ -136,7 +136,7 @@ class Importable_Detector_Test extends TestCase {
 				$this->wpdb,
 				$this->indexable_to_postmeta,
 				$this->options,
-				$this->utils,
+				$this->sanitization,
 				$this->wpdb_helper,
 				$this->replacevar_handler,
 				$this->robots_provider,

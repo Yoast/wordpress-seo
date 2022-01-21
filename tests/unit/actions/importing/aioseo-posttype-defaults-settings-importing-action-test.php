@@ -6,7 +6,7 @@ use Mockery;
 use Brain\Monkey;
 use Yoast\WP\SEO\Actions\Importing\Aioseo_Posttype_Defaults_Settings_Importing_Action;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Helpers\Utils_Helper;
+use Yoast\WP\SEO\Helpers\Sanitization_Helper;
 use Yoast\WP\SEO\Services\Importing\Aioseo_Replacevar_Handler;
 use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Provider_Service;
 use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Transformer_Service;
@@ -46,11 +46,11 @@ class Aioseo_Posttype_Defaults_Settings_Importing_Action_Test extends TestCase {
 	protected $options;
 
 	/**
-	 * The utils helper.
+	 * The sanitization helper.
 	 *
-	 * @var Mockery\MockInterface|Utils_Helper
+	 * @var Mockery\MockInterface|Sanitization_Helper
 	 */
-	protected $utils;
+	protected $sanitization;
 
 	/**
 	 * The replacevar handler.
@@ -146,14 +146,14 @@ class Aioseo_Posttype_Defaults_Settings_Importing_Action_Test extends TestCase {
 		parent::set_up();
 
 		$this->options            = Mockery::mock( Options_Helper::class );
-		$this->utils              = Mockery::mock( Utils_Helper::class );
+		$this->sanitization       = Mockery::mock( Sanitization_Helper::class );
 		$this->replacevar_handler = Mockery::mock( Aioseo_Replacevar_Handler::class );
 		$this->robots_provider    = Mockery::mock( Aioseo_Robots_Provider_Service::class );
 		$this->robots_transformer = Mockery::mock( Aioseo_Robots_Transformer_Service::class );
-		$this->instance           = new Aioseo_Posttype_Defaults_Settings_Importing_Action( $this->options, $this->utils, $this->replacevar_handler, $this->robots_provider, $this->robots_transformer );
+		$this->instance           = new Aioseo_Posttype_Defaults_Settings_Importing_Action( $this->options, $this->sanitization, $this->replacevar_handler, $this->robots_provider, $this->robots_transformer );
 		$this->mock_instance      = Mockery::mock(
 			Aioseo_Posttype_Defaults_Settings_Importing_Action_Double::class,
-			[ $this->options, $this->utils, $this->replacevar_handler, $this->robots_provider, $this->robots_transformer ]
+			[ $this->options, $this->sanitization, $this->replacevar_handler, $this->robots_provider, $this->robots_transformer ]
 		)->makePartial()->shouldAllowMockingProtectedMethods();
 	}
 
@@ -243,7 +243,7 @@ class Aioseo_Posttype_Defaults_Settings_Importing_Action_Test extends TestCase {
 			->with( $setting_value )
 			->andReturn( $setting_value );
 
-		$this->utils->shouldReceive( 'sanitize_text_field' )
+		$this->sanitization->shouldReceive( 'sanitize_text_field' )
 			->times( $transform_times )
 			->with( $setting_value )
 			->andReturn( $setting_value );
