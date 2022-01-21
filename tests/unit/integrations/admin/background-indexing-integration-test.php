@@ -190,12 +190,7 @@ class Background_Indexing_Integration_Test extends TestCase {
 			->once()
 			->andReturn( 10 );
 
-		/**
-		 * We have to register the shutdown function here to prevent a fatal PHP error,
-		 * which would occur because the registered shutdown function is executed
-		 * after the unit test has already completed.
-		 */
-		\register_shutdown_function( [ $this, 'shutdown_indexation_expectations' ] );
+		Monkey\Functions\expect( 'register_shutdown_function' )->with( [ $this->instance, 'index' ] );
 
 		Monkey\Filters\expectApplied( 'wpseo_shutdown_indexation_limit' )
 			->andReturn( 25 );
