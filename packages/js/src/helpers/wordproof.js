@@ -93,7 +93,7 @@ export const useWordProofTimestamper = () => {
 		"wordpress-seo"
 	);
 
-	const [ timestampHash, setTimestampHash ] = useState( "" );
+	const [ timestampHash, setTimestampHash ] = useState( null );
 
 	const isBlockEditor = useSelect( ( select ) => select( "yoast-seo/editor" ).getIsBlockEditor(), [] );
 	const isBlockEditorSavePost = useSelect( ( select ) => select( "core/editor" ).isSavingPost(), [] );
@@ -130,6 +130,11 @@ export const useWordProofTimestamper = () => {
 			// How to create notifications in Elementer?
 			createSuccessNotice = () => {};
 			createErrorNotice = () => {};
+		}
+
+		// Only add notice if timestampHash is set.
+		if ( timestampHash === null ) {
+			return;
 		}
 
 		// Create the notice based on timestamp.
