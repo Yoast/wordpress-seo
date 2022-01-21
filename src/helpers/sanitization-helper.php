@@ -5,9 +5,9 @@ namespace Yoast\WP\SEO\Helpers;
 use WPSEO_Utils;
 
 /**
- * A helper object for utils.
+ * A helper object for sanitization.
  */
-class Utils_Helper {
+class Sanitization_Helper {
 
 	/**
 	 * Emulate the WP native sanitize_text_field function in a %%variable%% safe way.

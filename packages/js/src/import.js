@@ -4,7 +4,7 @@ import IndexingService from "./services/IndexingService";
 
 const AioseoV4 = "WPSEO_Import_AIOSEO_V4";
 
-let dropdown, importButton, importForm, spinner, loadingMessage, checkMark, errorMark;
+let dropdown, importButton, importForm, spinner, loadingMessage, checkMark;
 
 /**
  * Adds Progress UI elements in the page.
@@ -14,7 +14,6 @@ let dropdown, importButton, importForm, spinner, loadingMessage, checkMark, erro
 function addProgressElements() {
 	jQuery( spinner ).insertAfter( importButton );
 	jQuery( checkMark ).insertAfter( spinner );
-	jQuery( errorMark ).insertAfter( spinner );
 	jQuery( loadingMessage ).insertAfter( spinner );
 }
 
@@ -28,7 +27,7 @@ function addProgressElements() {
 function importingProgress( count ) { // eslint-disable-line no-unused-vars
 	spinner.show();
 	loadingMessage.show();
-	errorMark.hide();
+	jQuery( ".yoast-import-failure" ).remove();
 
 	importButton.prop( "disabled", true );
 }
@@ -42,7 +41,7 @@ function importingSuccess() {
 	spinner.hide();
 	loadingMessage.hide();
 	checkMark.show();
-	errorMark.hide();
+	jQuery( ".yoast-import-failure" ).remove();
 
 	importButton.prop( "disabled", false );
 
@@ -66,14 +65,17 @@ function importingSuccess() {
  * @returns {void}
  */
 function importingFailure( e ) {
-	const plugin = jQuery( "option:selected", dropdown ).text();
-	console.error( plugin + " import failed: " + e );
-
 	spinner.hide();
 	loadingMessage.hide();
-	errorMark.show();
 
 	importButton.prop( "disabled", false );
+
+	// Add a failure alert too.
+	var failureAlert = jQuery( "<div>" )
+		.addClass( "yoast-measure yoast-import-failure" )
+		.html( window.yoastImportData.assets.import_failure.replace( /%s/g, "<strong>" + e + "</strong>" ) );
+
+	importForm.after( failureAlert );
 }
 
 /**
@@ -126,14 +128,6 @@ function initElements() {
 			"margin-left": "10px",
 			"vertical-align": "middle",
 			color: "green",
-		} )
-		.hide();
-	errorMark = jQuery( "<span>" )
-		.addClass( "dashicons dashicons-no" )
-		.css( {
-			"margin-left": "10px",
-			"vertical-align": "middle",
-			color: "red",
 		} )
 		.hide();
 }

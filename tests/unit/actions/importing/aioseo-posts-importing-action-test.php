@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Actions\Importing\Aioseo_Posts_Importing_Action;
 use Yoast\WP\SEO\Helpers\Meta_Helper;
 use Yoast\WP\SEO\Helpers\Indexable_To_Postmeta_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Helpers\Utils_Helper;
+use Yoast\WP\SEO\Helpers\Sanitization_Helper;
 use Yoast\WP\SEO\Helpers\Wpdb_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Services\Importing\Aioseo_Replacevar_Handler;
@@ -79,11 +79,11 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 	protected $options;
 
 	/**
-	 * The utils helper.
+	 * The sanitization helper.
 	 *
-	 * @var Mockery\MockInterface|Utils_Helper
+	 * @var Mockery\MockInterface|Sanitization_Helper
 	 */
-	protected $utils;
+	protected $sanitization;
 
 	/**
 	 * The wpdb helper.
@@ -124,12 +124,12 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 		$this->meta                  = Mockery::mock( Meta_Helper::class );
 		$this->indexable_to_postmeta = Mockery::mock( Indexable_To_Postmeta_Helper::class, [ $this->meta ] );
 		$this->options               = Mockery::mock( Options_Helper::class );
-		$this->utils                 = Mockery::mock( Utils_Helper::class );
+		$this->sanitization          = Mockery::mock( Sanitization_Helper::class );
 		$this->wpdb_helper           = Mockery::mock( Wpdb_Helper::class );
 		$this->replacevar_handler    = Mockery::mock( Aioseo_Replacevar_Handler::class );
 		$this->robots_provider       = Mockery::mock( Aioseo_Robots_Provider_Service::class );
 		$this->robots_transformer    = Mockery::mock( Aioseo_Robots_Transformer_Service::class );
-		$this->instance              = new Aioseo_Posts_Importing_Action( $this->indexable_repository, $this->wpdb, $this->indexable_to_postmeta, $this->options, $this->utils, $this->wpdb_helper, $this->replacevar_handler, $this->robots_provider, $this->robots_transformer );
+		$this->instance              = new Aioseo_Posts_Importing_Action( $this->indexable_repository, $this->wpdb, $this->indexable_to_postmeta, $this->options, $this->sanitization, $this->wpdb_helper, $this->replacevar_handler, $this->robots_provider, $this->robots_transformer );
 		$this->mock_instance         = Mockery::mock(
 			Aioseo_Posts_Importing_Action_Double::class,
 			[
@@ -137,7 +137,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 				$this->wpdb,
 				$this->indexable_to_postmeta,
 				$this->options,
-				$this->utils,
+				$this->sanitization,
 				$this->wpdb_helper,
 				$this->replacevar_handler,
 				$this->robots_provider,
@@ -291,7 +291,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			->with( $aioseio_indexable['title'] )
 			->andReturn( $aioseio_indexable['title'] );
 
-		$this->utils->shouldReceive( 'sanitize_text_field' )
+		$this->sanitization->shouldReceive( 'sanitize_text_field' )
 			->once()
 			->with( $aioseio_indexable['title'] )
 			->andReturn( $aioseio_indexable['title'] );
@@ -301,7 +301,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			->with( $aioseio_indexable['description'] )
 			->andReturn( $aioseio_indexable['description'] );
 
-		$this->utils->shouldReceive( 'sanitize_text_field' )
+		$this->sanitization->shouldReceive( 'sanitize_text_field' )
 			->once()
 			->with( $aioseio_indexable['description'] )
 			->andReturn( $aioseio_indexable['description'] );
@@ -311,7 +311,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			->with( $aioseio_indexable['og_title'] )
 			->andReturn( $aioseio_indexable['og_title'] );
 
-		$this->utils->shouldReceive( 'sanitize_text_field' )
+		$this->sanitization->shouldReceive( 'sanitize_text_field' )
 			->once()
 			->with( $aioseio_indexable['og_title'] )
 			->andReturn( $aioseio_indexable['og_title'] );
@@ -321,7 +321,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			->with( $aioseio_indexable['og_description'] )
 			->andReturn( $aioseio_indexable['og_description'] );
 
-		$this->utils->shouldReceive( 'sanitize_text_field' )
+		$this->sanitization->shouldReceive( 'sanitize_text_field' )
 			->once()
 			->with( $aioseio_indexable['og_description'] )
 			->andReturn( $aioseio_indexable['og_description'] );
@@ -331,7 +331,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			->with( $aioseio_indexable['twitter_title'] )
 			->andReturn( $aioseio_indexable['twitter_title'] );
 
-		$this->utils->shouldReceive( 'sanitize_text_field' )
+		$this->sanitization->shouldReceive( 'sanitize_text_field' )
 			->once()
 			->with( $aioseio_indexable['twitter_title'] )
 			->andReturn( $aioseio_indexable['twitter_title'] );
@@ -341,17 +341,17 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			->with( $aioseio_indexable['twitter_description'] )
 			->andReturn( $aioseio_indexable['twitter_description'] );
 
-		$this->utils->shouldReceive( 'sanitize_text_field' )
+		$this->sanitization->shouldReceive( 'sanitize_text_field' )
 			->once()
 			->with( $aioseio_indexable['twitter_description'] )
 			->andReturn( $aioseio_indexable['twitter_description'] );
 
-		$this->utils->shouldReceive( 'sanitize_url' )
+		$this->sanitization->shouldReceive( 'sanitize_url' )
 			->once()
 			->with( $aioseio_indexable['canonical_url'], null )
 			->andReturn( $aioseio_indexable['canonical_url'] );
 
-		$this->utils->shouldReceive( 'sanitize_text_field' )
+		$this->sanitization->shouldReceive( 'sanitize_text_field' )
 			->once()
 			->with( 'key phrase' )
 			->andReturn( 'key phrase' );
@@ -418,7 +418,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			->with( $aioseio_indexable['og_title'] )
 			->andReturn( $aioseio_indexable['og_title'] );
 
-		$this->utils->shouldReceive( 'sanitize_text_field' )
+		$this->sanitization->shouldReceive( 'sanitize_text_field' )
 			->once()
 			->with( $aioseio_indexable['og_title'] )
 			->andReturn( $aioseio_indexable['og_title'] );
@@ -428,7 +428,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			->with( $aioseio_indexable['og_description'] )
 			->andReturn( $aioseio_indexable['og_description'] );
 
-		$this->utils->shouldReceive( 'sanitize_text_field' )
+		$this->sanitization->shouldReceive( 'sanitize_text_field' )
 			->once()
 			->with( $aioseio_indexable['og_description'] )
 			->andReturn( $aioseio_indexable['og_description'] );
@@ -438,7 +438,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			->with( $aioseio_indexable['twitter_title'] )
 			->andReturn( $aioseio_indexable['twitter_title'] );
 
-		$this->utils->shouldReceive( 'sanitize_text_field' )
+		$this->sanitization->shouldReceive( 'sanitize_text_field' )
 			->once()
 			->with( $aioseio_indexable['twitter_title'] )
 			->andReturn( $aioseio_indexable['twitter_title'] );
@@ -448,15 +448,15 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			->with( $aioseio_indexable['twitter_description'] )
 			->andReturn( $aioseio_indexable['twitter_description'] );
 
-		$this->utils->shouldReceive( 'sanitize_url' )
-			->once()
-			->with( $aioseio_indexable['canonical_url'], null )
-			->andReturn( $aioseio_indexable['canonical_url'] );
-
-		$this->utils->shouldReceive( 'sanitize_text_field' )
+		$this->sanitization->shouldReceive( 'sanitize_text_field' )
 			->once()
 			->with( $aioseio_indexable['twitter_description'] )
 			->andReturn( $aioseio_indexable['twitter_description'] );
+
+		$this->sanitization->shouldReceive( 'sanitize_url' )
+			->once()
+			->with( $aioseio_indexable['canonical_url'], null )
+			->andReturn( $aioseio_indexable['canonical_url'] );
 
 		$this->robots_provider->shouldReceive( 'get_subtype_robot_setting' )
 			->andReturn( 'robot_setting' );
@@ -498,10 +498,10 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 		$this->replacevar_handler->shouldReceive( 'transform' )
 			->never();
 
-		$this->utils->shouldReceive( 'sanitize_text_field' )
+		$this->sanitization->shouldReceive( 'sanitize_text_field' )
 			->never();
 
-		$this->utils->shouldReceive( 'sanitize_url' )
+		$this->sanitization->shouldReceive( 'sanitize_url' )
 			->never();
 
 		$this->robots_provider->shouldReceive( 'get_subtype_robot_setting' )

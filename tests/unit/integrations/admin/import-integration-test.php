@@ -137,6 +137,7 @@ class Import_Integration_Test extends TestCase {
 	 *
 	 * @covers ::enqueue_import_script
 	 * @covers ::get_importing_endpoints
+	 * @covers ::get_import_failure_alert
 	 */
 	public function test_enqueue_import_script() {
 		Monkey\Functions\expect( 'wp_enqueue_style' )
@@ -167,6 +168,9 @@ class Import_Integration_Test extends TestCase {
 			->with( 'wp_rest' )
 			->andReturn( 'nonce_value' );
 
+		Monkey\Functions\expect( 'plugin_dir_url' )
+			->andReturn( 'https://example.org/wp-content/plugins/' );
+
 		Monkey\Functions\expect( 'admin_url' )
 				->with( 'images/loading.gif' )
 				->andReturn( 'https://example.org/wp-admin/images/loading.gif' );
@@ -185,6 +189,7 @@ class Import_Integration_Test extends TestCase {
 				'loading_msg'        => 'The import can take a long time depending on your site\'s size.',
 				'select_placeholder' => 'Select SEO plugin',
 				'no_data_msg'        => 'No data found from other SEO plugins.',
+				'import_failure'     => '<div class="yoast-alert yoast-alert--error"><span><img class="yoast-alert__icon" src="https://example.org/wp-content/plugins/images/alert-error-icon.svg" alt="" /></span><span>Import failed with the following error:<br/><br/>%s</span></div>',
 				'spinner'            => 'https://example.org/wp-admin/images/loading.gif',
 			],
 		];

@@ -3,9 +3,8 @@
 namespace Yoast\WP\SEO\Actions\Importing;
 
 use Exception;
-use WPSEO_Utils;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Helpers\Utils_Helper;
+use Yoast\WP\SEO\Helpers\Sanitization_Helper;
 use Yoast\WP\SEO\Services\Importing\Aioseo_Replacevar_Handler;
 use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Provider_Service;
 use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Transformer_Service;
@@ -37,11 +36,11 @@ abstract class Abstract_Importing_Action implements Importing_Action_Interface {
 	protected $options;
 
 	/**
-	 * The utils helper.
+	 * The sanitization helper.
 	 *
-	 * @var Utils_Helper
+	 * @var Sanitization_Helper
 	 */
-	protected $utils;
+	protected $sanitization;
 
 	/**
 	 * The replacevar handler.
@@ -68,20 +67,20 @@ abstract class Abstract_Importing_Action implements Importing_Action_Interface {
 	 * Abstract_Importing_Action constructor.
 	 *
 	 * @param Options_Helper                    $options            The options helper.
-	 * @param Utils_Helper                      $utils              The utils helper.
+	 * @param Sanitization_Helper               $sanitization       The sanitization helper.
 	 * @param Aioseo_Replacevar_Handler         $replacevar_handler The replacevar handler.
 	 * @param Aioseo_Robots_Provider_Service    $robots_provider    The robots provider service.
 	 * @param Aioseo_Robots_Transformer_Service $robots_transformer The robots transfomer service.
 	 */
 	public function __construct(
 		Options_Helper $options,
-		Utils_Helper $utils,
+		Sanitization_Helper $sanitization,
 		Aioseo_Replacevar_Handler $replacevar_handler,
 		Aioseo_Robots_Provider_Service $robots_provider,
 		Aioseo_Robots_Transformer_Service $robots_transformer
 	) {
 		$this->options            = $options;
-		$this->utils              = $utils;
+		$this->sanitization       = $sanitization;
 		$this->replacevar_handler = $replacevar_handler;
 		$this->robots_provider    = $robots_provider;
 		$this->robots_transformer = $robots_transformer;
@@ -218,7 +217,7 @@ abstract class Abstract_Importing_Action implements Importing_Action_Interface {
 		// Transform the replace vars into Yoast replace vars.
 		$transformed_data = $this->replacevar_handler->transform( $meta_data );
 
-		return $this->utils->sanitize_text_field( \html_entity_decode( $transformed_data ) );
+		return $this->sanitization->sanitize_text_field( \html_entity_decode( $transformed_data ) );
 	}
 
 	/**
@@ -229,6 +228,6 @@ abstract class Abstract_Importing_Action implements Importing_Action_Interface {
 	 * @return string The transformed meta data.
 	 */
 	public function url_import( $meta_data ) {
-		return $this->utils->sanitize_url( $meta_data, null );
+		return $this->sanitization->sanitize_url( $meta_data, null );
 	}
 }
