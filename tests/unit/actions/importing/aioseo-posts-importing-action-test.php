@@ -129,7 +129,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 		$this->replacevar_handler    = Mockery::mock( Aioseo_Replacevar_Handler::class );
 		$this->robots_provider       = Mockery::mock( Aioseo_Robots_Provider_Service::class );
 		$this->robots_transformer    = Mockery::mock( Aioseo_Robots_Transformer_Service::class );
-		$this->instance              = new Aioseo_Posts_Importing_Action( $this->indexable_repository, $this->wpdb, $this->indexable_to_postmeta, $this->options, $this->sanitizations, $this->wpdb_helper, $this->replacevar_handler, $this->robots_provider, $this->robots_transformer );
+		$this->instance              = new Aioseo_Posts_Importing_Action( $this->indexable_repository, $this->wpdb, $this->indexable_to_postmeta, $this->options, $this->sanitization, $this->wpdb_helper, $this->replacevar_handler, $this->robots_provider, $this->robots_transformer );
 		$this->mock_instance         = Mockery::mock(
 			Aioseo_Posts_Importing_Action_Double::class,
 			[
