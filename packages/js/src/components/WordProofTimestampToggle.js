@@ -1,13 +1,17 @@
+/* eslint-disable require-jsdoc */
 import { Component, Fragment } from "@wordpress/element";
 import PropTypes from "prop-types";
 import { Toggle, FieldGroup } from "@yoast/components";
 import { __, sprintf } from "@wordpress/i18n";
 import popupWindow from "../helpers/popupWindow";
-import { AuthenticationModal } from "./modals/wordproof/AuthenticationModal";
-import { handleAPIResponse } from "../helpers/api";
-import {getAuthentication, getSettings} from '../helpers/wordproofEndpoints';
+import AuthenticationModal from "./modals/wordproof/AuthenticationModal";
+import { fetchIsAuthenticated, fetchSettings } from "../helpers/wordproof";
 import { get } from "lodash";
 
+/**
+ * @param {Object} props The props object.
+ * @returns {JSX.Element} The SettingsLink component.
+ */
 function SettingsLink( props ) {
 	if ( ! props.isAuthenticated ) {
 		return ( "" );
@@ -28,9 +32,9 @@ function AuthenticationLink( props ) {
 		return (
 			<a
 				href={ props.authenticationUrl } onClick={ ( e ) => {
-				e.preventDefault();
-				props.openAuthentication();
-			} }
+					e.preventDefault();
+					props.openAuthentication();
+				} }
 			>{ __( "Authenticate with WordProof", "wordpress-seo" ) }</a>
 		);
 	}
@@ -38,35 +42,16 @@ function AuthenticationLink( props ) {
 	return ( "" );
 }
 
-const retrieveSettings = async() => {
-	return await handleAPIResponse(
-		getSettings,
-		( response ) => {
-			return response;
-		},
-		( response ) => {
-			return false;
-		}
-	);
-};
-
-const retrieveAuthentication = async() => {
-	return await handleAPIResponse(
-		getAuthentication,
-		( response ) => {
-			return response.is_authenticated;
-		},
-		( response ) => {
-			return false;
-		}
-	);
-};
-
-
 /**
  * The WordProofTimestampToggle Component.
  */
 class WordProofTimestampToggle extends Component {
+	/**
+	 * @param {Object} props The props object.
+	 * @param {string} props.id The id for the checkbox.
+	 * @param {boolean} props.isEnabled The value of the checkbox.
+	 * @param {string} props.postTypeName The name of the post type.
+	 */
 	constructor( props ) {
 		super( props );
 
@@ -111,9 +96,9 @@ class WordProofTimestampToggle extends Component {
 		 * possibly updated in separate window, we should retrieve and update these settings
 		 * in the local state of this component.
 		 */
-		window.addEventListener( "focus", async( e ) => {
-			const settingsResponse = await retrieveSettings();
-			const authenticationResponse = await retrieveAuthentication();
+		window.addEventListener( "focus", async() => {
+			const settingsResponse = await fetchSettings();
+			const authenticationResponse = await fetchIsAuthenticated();
 			this.updateStateFromSettings( settingsResponse );
 			this.setIsAuthenticated( authenticationResponse );
 		}, { once: true } );
@@ -162,8 +147,17 @@ class WordProofTimestampToggle extends Component {
 						onSetToggleState={ this.handleToggle }
 						disable={ this.state.isDisabled }
 					/>
-					<SettingsLink isAuthenticated={ this.state.isAuthenticated } openSettings={ this.openSettings } settingsUrl={ this.state.settingsUrl } />
-					<AuthenticationLink toggleIsEnabled={ this.props.isEnabled } isAuthenticated={ this.state.isAuthenticated } openAuthentication={ this.openAuthentication } authenticationUrl={ this.state.authenticationUrl } />
+					<SettingsLink
+						isAuthenticated={ this.state.isAuthenticated }
+						openSettings={ this.openSettings }
+						settingsUrl={ this.state.settingsUrl }
+					/>
+					<AuthenticationLink
+						toggleIsEnabled={ this.props.isEnabled }
+						isAuthenticated={ this.state.isAuthenticated }
+						openAuthentication={ this.openAuthentication }
+						authenticationUrl={ this.state.authenticationUrl }
+					/>
 				</FieldGroup>
 
 				<AuthenticationModal
