@@ -92,21 +92,28 @@ class Background_Indexing_Integration_Test extends TestCase {
 	protected $indexing_helper;
 
 	/**
+	 * The Yoast_Admin_And_Dashboard_Conditional mock.
+	 *
+	 * @var Mockery\MockInterface|Yoast_Admin_And_Dashboard_Conditional
+	 */
+	protected $yoast_admin_and_dashboard_conditional;
+
+	/**
 	 * Sets up the tests.
 	 */
 	protected function set_up() {
 		parent::set_up();
 
-		$this->post_indexation              = Mockery::mock( Indexable_Post_Indexation_Action::class );
-		$this->term_indexation              = Mockery::mock( Indexable_Term_Indexation_Action::class );
-		$this->post_type_archive_indexation = Mockery::mock( Indexable_Post_Type_Archive_Indexation_Action::class );
-		$this->general_indexation           = Mockery::mock( Indexable_General_Indexation_Action::class );
-		$this->complete_indexation_action   = Mockery::mock( Indexable_Indexing_Complete_Action::class );
-		$this->post_link_indexing_action    = Mockery::mock( Post_Link_Indexing_Action::class );
-		$this->term_link_indexing_action    = Mockery::mock( Term_Link_Indexing_Action::class );
-		$this->indexing_helper              = Mockery::mock( Indexing_Helper::class );
-
-		$this->instance = new Background_Indexing_Integration(
+		$this->post_indexation                       = Mockery::mock( Indexable_Post_Indexation_Action::class );
+		$this->term_indexation                       = Mockery::mock( Indexable_Term_Indexation_Action::class );
+		$this->post_type_archive_indexation          = Mockery::mock( Indexable_Post_Type_Archive_Indexation_Action::class );
+		$this->general_indexation                    = Mockery::mock( Indexable_General_Indexation_Action::class );
+		$this->complete_indexation_action            = Mockery::mock( Indexable_Indexing_Complete_Action::class );
+		$this->post_link_indexing_action             = Mockery::mock( Post_Link_Indexing_Action::class );
+		$this->term_link_indexing_action             = Mockery::mock( Term_Link_Indexing_Action::class );
+		$this->indexing_helper                       = Mockery::mock( Indexing_Helper::class );
+		$this->yoast_admin_and_dashboard_conditional = Mockery::mock( Yoast_Admin_And_Dashboard_Conditional::class );
+		$this->instance                              = new Background_Indexing_Integration(
 			$this->post_indexation,
 			$this->term_indexation,
 			$this->post_type_archive_indexation,
@@ -114,7 +121,8 @@ class Background_Indexing_Integration_Test extends TestCase {
 			$this->complete_indexation_action,
 			$this->post_link_indexing_action,
 			$this->term_link_indexing_action,
-			$this->indexing_helper
+			$this->indexing_helper,
+			$this->yoast_admin_and_dashboard_conditional
 		);
 	}
 
@@ -126,7 +134,6 @@ class Background_Indexing_Integration_Test extends TestCase {
 	public function test_get_conditionals() {
 		static::assertEquals(
 			[
-				Yoast_Admin_And_Dashboard_Conditional::class,
 				Migrations_Conditional::class,
 				Get_Request_Conditional::class,
 			],
@@ -164,6 +171,10 @@ class Background_Indexing_Integration_Test extends TestCase {
 			Indexing_Helper::class,
 			$this->getPropertyValue( $this->instance, 'indexing_helper' )
 		);
+		static::assertInstanceOf(
+			Yoast_Admin_And_Dashboard_Conditional::class,
+			$this->getPropertyValue( $this->instance, 'yoast_admin_and_dashboard_conditional' )
+		);
 	}
 
 	/**
@@ -173,6 +184,10 @@ class Background_Indexing_Integration_Test extends TestCase {
 	 */
 	public function test_register_hooks() {
 		Monkey\Actions\expectAdded( 'admin_init' );
+		Monkey\Actions\expectAdded( 'Yoast\WP\SEO\index' );
+		Monkey\Filters\expectAdded( 'cron_schedules' );
+		Monkey\Actions\expectAdded( 'init' );
+		Monkey\Filters\expectAdded( 'wpseo_post_indexation_limit' );
 
 		$this->instance->register_hooks();
 	}
@@ -181,6 +196,7 @@ class Background_Indexing_Integration_Test extends TestCase {
 	 * Tests the enqueue_scripts method.
 	 *
 	 * @covers ::register_shutdown_indexing
+	 * @covers ::should_index_on_shutdown
 	 * @covers ::get_shutdown_limit
 	 */
 	public function test_register_shutdown_indexing() {
@@ -188,6 +204,11 @@ class Background_Indexing_Integration_Test extends TestCase {
 			->expects( 'get_limited_filtered_unindexed_count' )
 			->once()
 			->andReturn( 10 );
+
+		$this->yoast_admin_and_dashboard_conditional
+			->expects( 'is_met' )
+			->once()
+			->andReturn( true );
 
 		Monkey\Functions\expect( 'register_shutdown_function' )->with( [ $this->instance, 'index' ] );
 
@@ -198,34 +219,37 @@ class Background_Indexing_Integration_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the enqueue_scripts method when on a page that shouldn't receive shutdown background indexing.
+	 *
+	 * @covers ::register_shutdown_indexing
+	 * @covers ::should_index_on_shutdown
+	 * @covers ::get_shutdown_limit
+	 */
+	public function test_register_shutdown_indexing_on_invalid_pages() {
+		$this->yoast_admin_and_dashboard_conditional
+			->expects( 'is_met' )
+			->once()
+			->andReturn( false );
+
+		Monkey\Functions\expect( 'register_shutdown_function' )->never();
+
+		$this->instance->register_shutdown_indexing();
+	}
+
+	/**
 	 * Tests the shutdown indexing method.
 	 *
 	 * @covers ::index
 	 */
 	public function test_index() {
-		$this->term_indexation
-			->expects( 'index' )
-			->once();
+		Monkey\Functions\when( 'wp_doing_cron' )->justReturn( false );
 
-		$this->post_indexation
-			->expects( 'index' )
-			->once();
-
-		$this->general_indexation
-			->expects( 'index' )
-			->once();
-
-		$this->post_type_archive_indexation
-			->expects( 'index' )
-			->once();
-
-		$this->post_link_indexing_action
-			->expects( 'index' )
-			->once();
-
-		$this->term_link_indexing_action
-			->expects( 'index' )
-			->once();
+		$this->term_indexation->expects( 'index' )->once();
+		$this->post_indexation->expects( 'index' )->once();
+		$this->general_indexation->expects( 'index' )->once();
+		$this->post_type_archive_indexation->expects( 'index' )->once();
+		$this->post_link_indexing_action->expects( 'index' )->once();
+		$this->term_link_indexing_action->expects( 'index' )->once();
 
 		$this->complete_indexation_action
 			->expects( 'complete' )
@@ -235,15 +259,154 @@ class Background_Indexing_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Sets the expectations for the shutdown indexation.
+	 * Tests the indexing method while doing wp cron.
+	 *
+	 * @covers ::index
+	 * @covers ::should_index_on_cron
 	 */
-	public function shutdown_indexation_expectations() {
-		$this->post_indexation->expects( 'index' )->once();
+	public function test_index_with_wp_cron() {
+		Monkey\Functions\when( 'wp_doing_cron' )->justReturn( true );
+
+		Monkey\Filters\expectApplied( 'Yoast\WP\SEO\enable_cron_indexing' )
+			->with( true )
+			->andReturn( true );
+
+
+		$this->indexing_helper
+			->expects( 'is_index_up_to_date' )
+			->once()
+			->andReturn( false );
+
 		$this->term_indexation->expects( 'index' )->once();
+		$this->post_indexation->expects( 'index' )->once();
 		$this->general_indexation->expects( 'index' )->once();
 		$this->post_type_archive_indexation->expects( 'index' )->once();
-		$this->complete_indexation_action->expects( 'complete' )->once();
 		$this->post_link_indexing_action->expects( 'index' )->once();
 		$this->term_link_indexing_action->expects( 'index' )->once();
+
+		$this->complete_indexation_action
+			->expects( 'complete' )
+			->once();
+
+		$this->instance->index();
+	}
+
+	/**
+	 * Tests the indexing method while doing wp cron with wp-cron-indexing disabled.
+	 *
+	 * @covers ::index
+	 * @covers ::should_index_on_cron
+	 */
+	public function test_index_with_wp_cron_with_cron_indexing_disabled() {
+		Monkey\Functions\when( 'wp_doing_cron' )->justReturn( true );
+
+		Monkey\Filters\expectApplied( 'Yoast\WP\SEO\enable_cron_indexing' )
+			->with( true )
+			->andReturn( false );
+
+		Monkey\Functions\expect( 'wp_next_scheduled' )->once()->with( 'Yoast\WP\SEO\index' )->andReturn( 12345 );
+		Monkey\Functions\expect( 'wp_unschedule_event' )->once()->with( 12345, 'Yoast\WP\SEO\index' );
+
+		$this->instance->index();
+	}
+
+	/**
+	 * Tests the indexing method while doing wp cron with an already complete index.
+	 *
+	 * @covers ::index
+	 * @covers ::should_index_on_cron
+	 */
+	public function test_index_with_wp_cron_with_complete_index() {
+		Monkey\Functions\when( 'wp_doing_cron' )->justReturn( true );
+
+		Monkey\Filters\expectApplied( 'Yoast\WP\SEO\enable_cron_indexing' )
+			->with( true )
+			->andReturn( true );
+
+
+		$this->indexing_helper
+			->expects( 'is_index_up_to_date' )
+			->once()
+			->andReturn( true );
+
+
+		Monkey\Functions\expect( 'wp_next_scheduled' )->once()->with( 'Yoast\WP\SEO\index' )->andReturn( 12345 );
+		Monkey\Functions\expect( 'wp_unschedule_event' )->once()->with( 12345, 'Yoast\WP\SEO\index' );
+
+		$this->instance->index();
+	}
+
+	/**
+	 * Tests the indexing method while doing wp cron with an already complete index but without a scheduled cron task.
+	 *
+	 * @covers ::index
+	 * @covers ::should_index_on_cron
+	 */
+	public function test_index_with_wp_cron_with_complete_index_without_scheduled_task() {
+		Monkey\Functions\when( 'wp_doing_cron' )->justReturn( true );
+
+		Monkey\Filters\expectApplied( 'Yoast\WP\SEO\enable_cron_indexing' )
+			->with( true )
+			->andReturn( true );
+
+
+		$this->indexing_helper
+			->expects( 'is_index_up_to_date' )
+			->once()
+			->andReturn( true );
+
+
+		Monkey\Functions\expect( 'wp_next_scheduled' )->once()->with( 'Yoast\WP\SEO\index' )->andReturn( false );
+		Monkey\Functions\expect( 'wp_unschedule_event' )->never();
+
+		$this->instance->index();
+	}
+
+	public function test_schedule_cron_indexing() {
+		Monkey\Functions\when( 'time' )->justReturn( 987654321 );
+		Monkey\Functions\expect( 'wp_next_scheduled' )->once()->with( 'Yoast\WP\SEO\index' )->andReturn( false );
+		$this->indexing_helper->expects( 'is_index_up_to_date' )->once()->andReturn( false );
+		Monkey\Functions\expect( 'wp_schedule_event' )->once()->with( 987654321, 'five_minutes', 'Yoast\WP\SEO\index' );
+
+		$this->instance->schedule_cron_indexing();
+	}
+
+	public function test_schedule_cron_indexing_already_scheduled() {
+		Monkey\Functions\when( 'time' )->justReturn( 987654321 );
+		Monkey\Functions\expect( 'wp_next_scheduled' )->once()->with( 'Yoast\WP\SEO\index' )->andReturn( 987654321 );
+		Monkey\Functions\expect( 'wp_schedule_event' )->never();
+
+		$this->instance->schedule_cron_indexing();
+	}
+
+	public function test_schedule_cron_indexing_cron_indexing_disabled() {
+		Monkey\Functions\when( 'time' )->justReturn( 987654321 );
+		Monkey\Functions\expect( 'wp_next_scheduled' )->once()->with( 'Yoast\WP\SEO\index' )->andReturn( false );
+		Monkey\Filters\expectApplied( 'Yoast\WP\SEO\enable_cron_indexing' )->with( true )->andReturn( false );
+		Monkey\Functions\expect( 'wp_schedule_event' )->never();
+
+		$this->instance->schedule_cron_indexing();
+	}
+
+	public function test_schedule_cron_indexing_index_complete() {
+		Monkey\Functions\when( 'time' )->justReturn( 987654321 );
+		Monkey\Functions\expect( 'wp_next_scheduled' )->once()->with( 'Yoast\WP\SEO\index' )->andReturn( false );
+		$this->indexing_helper->expects( 'is_index_up_to_date' )->once()->andReturn( true );
+		Monkey\Functions\expect( 'wp_schedule_event' )->never();
+
+		$this->instance->schedule_cron_indexing();
+	}
+
+
+	public function test_throttle_cron_indexing() {
+		Monkey\Functions\when( 'wp_doing_cron' )->justReturn( false );
+
+		$this->assertSame( 25, $this->instance->throttle_cron_indexing( 25 ) );
+	}
+
+	public function test_throttle_cron_indexing_while_doing_cron() {
+		Monkey\Functions\when( 'wp_doing_cron' )->justReturn( true );
+
+		$this->assertSame( 5, $this->instance->throttle_cron_indexing( 25 ) );
 	}
 }
