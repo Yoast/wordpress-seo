@@ -1,12 +1,19 @@
+/* External dependencies */
 import { Modal } from "@wordpress/components";
 import { Fragment, useCallback, useEffect, useState } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Button, SvgIcon } from "@yoast/components";
+
+/* Yoast dependencies */
+import { NewButton } from "@yoast/components";
+
+/* Internal dependencies */
 import { fetchIsAuthenticated } from "../../../helpers/wordproof";
-import { ReactComponent as WordProofConnectedImage } from "../../../../../../images/mirrored_fit_bubble_woman_1_optim.svg";
+import { ReactComponent as WordProofConnectedImage } from "../../../../images/motivated_bubble_woman_1_optim.svg";
+import { ReactComponent as YoastLoadingSpinnerImage } from "../../../../images/yoast_loading_spinner.svg";
+import { ReactComponent as YoastIcon } from "../../../../images/Yoast_icon_kader.svg";
 
 const WordProofAuthenticationModal = ( props ) => {
-	const { isOpen, setIsOpen, isAuthenticated, setIsAuthenticated, postTypeName } = props;
+	const { isOpen, setIsOpen, isAuthenticated, setIsAuthenticated, postTypeName, openAuthentication } = props;
 	const [ isLoading, setIsLoading ] = useState( true );
 
 	useEffect( () => {
@@ -30,6 +37,8 @@ const WordProofAuthenticationModal = ( props ) => {
 
 	const closeModal = useCallback( () => setIsOpen( false ), [] );
 	const openModal = useCallback( () => setIsOpen( true ), [] );
+	const StyledYoastIcon = <YoastIcon style={ { width: "20px", marginRight: "10px", fill: "#a4296a" } } />;
+
 
 	return (
 		<Fragment>
@@ -38,13 +47,34 @@ const WordProofAuthenticationModal = ( props ) => {
 				onRequestClose={ closeModal }
 				title={ __( "Connecting with WordProof", "wordpress-seo" ) }
 				className="wordproof__authentication"
-				icon={ <span className="yoast-icon" /> }
+				icon={ StyledYoastIcon }
 			>
-				<div>
-					<SvgIcon icon="loading-spinner" className={ "block" } />
-					<em>{ __(
-						"Waiting to be authenticated. Please login or signup in the opened window.",
-						"wordpress-seo" ) }</em>
+				<div style={ { display: "flex", flexDirection: "column", alignItems: "center" } }>
+					<YoastLoadingSpinnerImage
+						viewBox={ "0 0 98 98" }
+						style={ { width: "100px", animation: "yoast-spin infinite 1s linear" } } />
+
+					<p style={ { maxWidth: "350px", textAlign: "center", paddingBottom: "40px", paddingTop: "10px;" } }>{ sprintf(
+						/* Translators: %s expands to WordProof */
+						__( "Using the pop-up, please create or login to your %s account.", "wordpress-seo" ),
+						"WordProof"
+					) }</p>
+
+					<NewButton variant="primary" onClick={ openAuthentication }>
+						{ __('Open new Pop-up', 'wordpress-seo' ) }
+					</NewButton>
+
+					<p>
+						{ __( "Not working?", "wordpress-seo" ) }
+						<span> </span>
+						<a target={ "_blank" } href={ "https://help.wordproof.com/en/" }>
+							{ sprintf(
+								/* Translators: %s expands to WordProof */
+								__( "Contact %s support!", "wordpress-seo" ),
+								"WordProof"
+							) }
+						</a>
+					</p>
 				</div>
 			</Modal>
 			}
@@ -54,15 +84,23 @@ const WordProofAuthenticationModal = ( props ) => {
 				onRequestClose={ closeModal }
 				title={ __( "Connected to WordProof", "wordpress-seo" ) }
 				className="wordproof__authentication"
-				icon={ <span className="yoast-icon" /> }
+				icon={ StyledYoastIcon }
 			>
 				<div className="wordproof__authentication_outcome">
 					<div>
-						<p>{ sprintf(
-							/* Translators: %s translates to the Post type in singular form */
-							__( "You have successfully connected to WordProof!\nThis %s will be timestamped as soon as you update it.", "wordpress-seo" ),
-							postTypeName
-						) }</p>
+						<p>
+							{ sprintf(
+							/* Translators: %s expands to WordProof */
+							__( "You have successfully connected to %s!", "wordpress-seo" ),
+							"WordProof"
+						) }
+						<br />
+							{ sprintf(
+								/* Translators: %s translates to the Post type in singular form */
+								__( "This %s will be timestamped as soon as you update it.", "wordpress-seo" ),
+								postTypeName
+							) }
+						</p>
 
 						<div
 							style={ {
@@ -74,12 +112,12 @@ const WordProofAuthenticationModal = ( props ) => {
 						</div>
 					</div>
 					<br />
-					<Button
+					<NewButton
 						onClick={ closeModal }
 						className="yoast__wordproof__close-modal"
 					>
 						{ __( "Continue", "wordpress-seo" ) }
-					</Button>
+					</NewButton>
 				</div>
 			</Modal>
 			}
