@@ -97,6 +97,7 @@ export const useWordProofTimestamper = () => {
 
 	const isBlockEditor = useSelect( ( select ) => select( "yoast-seo/editor" ).getIsBlockEditor(), [] );
 	const isBlockEditorSavePost = useSelect( ( select ) => select( "core/editor" ).isSavingPost(), [] );
+	const isBlockEditorAutoSavePost = useSelect( ( select ) => select( "core/editor" ).isAutosavingPost(), [] );
 	const blockEditorNoticeActions = useDispatch( "core/notices" );
 
 	const isElementorEditor = useSelect( ( select ) => select( "yoast-seo/editor" ).getIsElementorEditor(), [] );
@@ -118,38 +119,39 @@ export const useWordProofTimestamper = () => {
 		// Assign callbacks for creating block editor notices.
 		if ( isBlockEditor ) {
 			( { createErrorNotice, createSuccessNotice } = blockEditorNoticeActions );
-			console.warn( "Create block editor notice" );
 		}
 
 		// Assign callbacks for creating Elementor editor notices.
 		if ( isElementorEditor ) {
 			// eslint-disable-next-line no-warning-comments
 			// TODO: Assign success or error notice creator for Elementor based on timestamp.
+			// How to create notifications in Elementer?
 			createSuccessNotice = () => {};
 			createErrorNotice = () => {};
-			console.warn( "Create Elementor editor notice" );
 		}
 
 		// Create the notice based on timestamp.
 		if ( timestampHash ) {
 			createSuccessNotice( successNotice );
-			console.warn( "Create success notice" );
 		} else {
 			createErrorNotice( errorNotice );
-			console.warn( "Create error notice" );
 		}
 	}, [ timestampHash ] );
 
 	// Subscribe to Block editor post save.
 	useEffect( () => {
-		if ( isBlockEditorSavePost ) {
+		// eslint-disable-next-line no-warning-comments
+		// TODO: This effect also fires on first mount, causing a timestamp to be requested on page load.
+		// Probably we need to also listen to isAutoSavingPost as I added below, but untested.
+		if ( isBlockEditorSavePost && ! isBlockEditorAutoSavePost ) {
 			handleRequestTimeStamp();
 		}
-	}, [ isBlockEditorSavePost ] );
+	}, [ isBlockEditorSavePost, isBlockEditorAutoSavePost ] );
 
 	// Subscribe to Elementor editor post save.
 	if ( isElementorEditor ) {
-		console.warn( "WordProof for Elementor eneabled." );
+		// eslint-disable-next-line no-warning-comments
+		// TODO: Importing this function results in a
 		// RegisterElementorDataHookAfter( "document/save/save", "wordproof/timestamper", handleRequestTimeStamp );
 	}
 
