@@ -25,7 +25,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group importing
  *
  * @coversDefaultClass \Yoast\WP\SEO\Actions\Importing\Aioseo_Posts_Importing_Action
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded,Yoast.Yoast.AlternativeFunctions.json_encode_json_encode
  */
 class Aioseo_Posts_Importing_Action_Test extends TestCase {
 
@@ -218,7 +218,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			->once()
 			->andReturn( 1337 );
 
-		$expected_query = 'SELECT title, description, og_title, og_description, twitter_title, twitter_description, robots_noindex, robots_nofollow, robots_noarchive, robots_nosnippet, robots_noimageindex, id, post_id, robots_default FROM wp_aioseo_posts WHERE id > %d ORDER BY id LIMIT %d';
+		$expected_query = 'SELECT title, description, og_title, og_description, twitter_title, twitter_description, canonical_url, keyphrases, robots_noindex, robots_nofollow, robots_noarchive, robots_nosnippet, robots_noimageindex, id, post_id, robots_default FROM wp_aioseo_posts WHERE id > %d ORDER BY id LIMIT %d';
 
 		$this->wpdb->expects( 'prepare' )
 			->once()
@@ -259,6 +259,8 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 	 * Tests the mapping of indexable data when we have an empty Yoast indexable.
 	 *
 	 * @covers ::map
+	 * @covers ::url_import
+	 * @covers ::keyphrase_import
 	 */
 	public function test_map_with_empty_yoast_indexable() {
 		$indexable      = Mockery::mock( Indexable_Mock::class );
@@ -271,6 +273,14 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			'og_description'       => 'og_description1',
 			'twitter_title'        => 'twitter_title1',
 			'twitter_description'  => 'twitter_description1',
+			'canonical_url'        => 'https://example.com/',
+			'keyphrases'           => \json_encode(
+				[
+					'focus' => [
+						'keyphrase' => 'key phrase',
+					],
+				]
+			),
 			'robots_default'       => true,
 			'robots_nofollow'      => true,
 			'robots_noarchive'     => false,
@@ -337,6 +347,16 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			->once()
 			->with( $aioseio_indexable['twitter_description'] )
 			->andReturn( $aioseio_indexable['twitter_description'] );
+
+		$this->sanitization->shouldReceive( 'sanitize_url' )
+			->once()
+			->with( $aioseio_indexable['canonical_url'], null )
+			->andReturn( $aioseio_indexable['canonical_url'] );
+
+		$this->sanitization->shouldReceive( 'sanitize_text_field' )
+			->once()
+			->with( 'key phrase' )
+			->andReturn( 'key phrase' );
 
 		$this->robots_provider->shouldReceive( 'get_subtype_robot_setting' )
 			->andReturn( 'robot_setting' );
@@ -352,6 +372,8 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 		$this->assertSame( 'og_description1', $indexable->open_graph_description );
 		$this->assertSame( 'twitter_title1', $indexable->twitter_title );
 		$this->assertSame( 'twitter_description1', $indexable->twitter_description );
+		$this->assertSame( 'https://example.com/', $indexable->canonical );
+		$this->assertSame( 'key phrase', $indexable->primary_focus_keyword );
 		$this->assertSame( null, $indexable->is_robots_noindex );
 		$this->assertSame( 'robot_value', $indexable->is_robots_nofollow );
 		$this->assertSame( 'robot_value', $indexable->is_robots_noarchive );
@@ -363,6 +385,8 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 	 * Tests the mapping of indexable data when we have existing data in the Yoast indexable.
 	 *
 	 * @covers ::map
+	 * @covers ::url_import
+	 * @covers ::keyphrase_import
 	 */
 	public function test_map_with_existing_yoast_indexable() {
 		$indexable      = Mockery::mock( Indexable_Mock::class );
@@ -378,6 +402,14 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			'og_description'       => 'og_description1',
 			'twitter_title'        => 'twitter_title1',
 			'twitter_description'  => 'twitter_description1',
+			'canonical_url'        => 'https://example.com/',
+			'keyphrases'           => \json_encode(
+				[
+					'focus' => [
+						'not_keyphrase' => 'key phrase',
+					],
+				]
+			),
 			'robots_default'       => true,
 			'robots_nofollow'      => true,
 			'robots_noarchive'     => false,
@@ -425,6 +457,11 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			->with( $aioseio_indexable['twitter_description'] )
 			->andReturn( $aioseio_indexable['twitter_description'] );
 
+		$this->sanitization->shouldReceive( 'sanitize_url' )
+			->once()
+			->with( $aioseio_indexable['canonical_url'], null )
+			->andReturn( $aioseio_indexable['canonical_url'] );
+
 		$this->robots_provider->shouldReceive( 'get_subtype_robot_setting' )
 			->andReturn( 'robot_setting' );
 
@@ -439,6 +476,8 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 		$this->assertSame( 'og_description1', $indexable->open_graph_description );
 		$this->assertSame( 'twitter_title1', $indexable->twitter_title );
 		$this->assertSame( 'twitter_description1', $indexable->twitter_description );
+		$this->assertSame( 'https://example.com/', $indexable->canonical );
+		$this->assertSame( null, $indexable->primary_focus_keyword );
 	}
 
 	/**
@@ -464,6 +503,9 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			->never();
 
 		$this->sanitization->shouldReceive( 'sanitize_text_field' )
+			->never();
+
+		$this->sanitization->shouldReceive( 'sanitize_url' )
 			->never();
 
 		$this->robots_provider->shouldReceive( 'get_subtype_robot_setting' )

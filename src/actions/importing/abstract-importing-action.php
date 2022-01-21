@@ -219,4 +219,16 @@ abstract class Abstract_Importing_Action implements Importing_Action_Interface {
 
 		return $this->sanitization->sanitize_text_field( \html_entity_decode( $transformed_data ) );
 	}
+
+	/**
+	 * Transforms URL to be imported.
+	 *
+	 * @param string $meta_data The meta data to be imported.
+	 *
+	 * @return string The transformed meta data.
+	 */
+	public function url_import( $meta_data ) {
+		// We put null as the allowed protocols here, to have the WP default allowed protocols, see https://developer.wordpress.org/reference/functions/wp_allowed_protocols.
+		return $this->sanitization->sanitize_url( $meta_data, null );
+	}
 }

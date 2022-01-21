@@ -63,6 +63,14 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 			'yoast_name'       => 'twitter_description',
 			'transform_method' => 'simple_import',
 		],
+		'canonical_url'       => [
+			'yoast_name'       => 'canonical',
+			'transform_method' => 'url_import',
+		],
+		'keyphrases'          => [
+			'yoast_name'       => 'primary_focus_keyword',
+			'transform_method' => 'keyphrase_import',
+		],
 		'robots_noindex'      => [
 			'yoast_name'       => 'is_robots_noindex',
 			'transform_method' => 'post_robots_noindex_import',
@@ -372,6 +380,22 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 			$replacements
 		);
 		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+	}
+
+	/**
+	 * Plucks the keyphrase to be imported from the AIOSEO array of keyphrase meta data.
+	 *
+	 * @param array $meta_data The keyphrase meta data to be imported.
+	 *
+	 * @return string|null The plucked keyphrase.
+	 */
+	public function keyphrase_import( $meta_data ) {
+		$meta_data = \json_decode( $meta_data, true );
+		if ( ! isset( $meta_data['focus']['keyphrase'] ) ) {
+			return null;
+		}
+
+		return $this->sanitization->sanitize_text_field( $meta_data['focus']['keyphrase'] );
 	}
 
 	/**
