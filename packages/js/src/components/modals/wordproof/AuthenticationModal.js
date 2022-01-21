@@ -4,7 +4,7 @@ import { Fragment, useCallback, useEffect, useState } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 
 /* Yoast dependencies */
-import { NewButton } from "@yoast/components";
+import { NewButton as Button } from "@yoast/components";
 
 /* Internal dependencies */
 import { fetchIsAuthenticated } from "../../../helpers/wordproof";
@@ -60,9 +60,9 @@ const WordProofAuthenticationModal = ( props ) => {
 						"WordProof"
 					) }</p>
 
-					<NewButton variant="primary" onClick={ openAuthentication }>
+					<Button variant="primary" onClick={ openAuthentication }>
 						{ __('Open new Pop-up', 'wordpress-seo' ) }
-					</NewButton>
+					</Button>
 
 					<p>
 						{ __( "Not working?", "wordpress-seo" ) }
@@ -112,12 +112,13 @@ const WordProofAuthenticationModal = ( props ) => {
 						</div>
 					</div>
 					<br />
-					<NewButton
+					<Button
+						variant={ "secondary" }
 						onClick={ closeModal }
 						className="yoast__wordproof__close-modal"
 					>
 						{ __( "Continue", "wordpress-seo" ) }
-					</NewButton>
+					</Button>
 				</div>
 			</Modal>
 			}
