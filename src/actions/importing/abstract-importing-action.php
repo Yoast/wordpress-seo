@@ -4,6 +4,9 @@ namespace Yoast\WP\SEO\Actions\Importing;
 
 use Exception;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Services\Importing\Aioseo_Replacevar_Handler;
+use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Provider_Service;
+use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Transformer_Service;
 
 /**
  * Importing action interface.
@@ -32,12 +35,44 @@ abstract class Abstract_Importing_Action implements Importing_Action_Interface {
 	protected $options;
 
 	/**
+	 * The replacevar handler.
+	 *
+	 * @var Aioseo_Replacevar_Handler
+	 */
+	protected $replacevar_handler;
+
+	/**
+	 * The robots provider service.
+	 *
+	 * @var Aioseo_Robots_Provider_Service
+	 */
+	protected $robots_provider;
+
+	/**
+	 * The robots transformer service.
+	 *
+	 * @var Aioseo_Robots_Transformer_Service
+	 */
+	protected $robots_transformer;
+
+	/**
 	 * Abstract_Importing_Action constructor.
 	 *
-	 * @param Options_Helper $options The options helper.
+	 * @param Options_Helper                    $options            The options helper.
+	 * @param Aioseo_Replacevar_Handler         $replacevar_handler The replacevar handler.
+	 * @param Aioseo_Robots_Provider_Service    $robots_provider    The robots provider service.
+	 * @param Aioseo_Robots_Transformer_Service $robots_transformer The robots transfomer service.
 	 */
-	public function __construct( Options_Helper $options ) {
-		$this->options = $options;
+	public function __construct(
+		Options_Helper $options,
+		Aioseo_Replacevar_Handler $replacevar_handler,
+		Aioseo_Robots_Provider_Service $robots_provider,
+		Aioseo_Robots_Transformer_Service $robots_transformer
+	) {
+		$this->options            = $options;
+		$this->replacevar_handler = $replacevar_handler;
+		$this->robots_provider    = $robots_provider;
+		$this->robots_transformer = $robots_transformer;
 	}
 
 	/**
@@ -158,5 +193,16 @@ abstract class Abstract_Importing_Action implements Importing_Action_Interface {
 	 */
 	protected function get_cursor_id() {
 		return $this->get_plugin() . '_' . $this->get_type();
+	}
+
+	/**
+	 * Minimally transforms data to be imported.
+	 *
+	 * @param string $meta_data The meta data to be imported.
+	 *
+	 * @return string The transformed meta data.
+	 */
+	public function simple_import( $meta_data ) {
+		return $this->replacevar_handler->transform( $meta_data );
 	}
 }

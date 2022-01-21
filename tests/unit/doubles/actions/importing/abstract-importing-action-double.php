@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Tests\Unit\Doubles\Actions\Importing;
 
 use Yoast\WP\SEO\Actions\Importing\Abstract_Importing_Action;
-use Yoast\WP\SEO\Helpers\Options_Helper;
 
 /**
  * Class Abstract_Importing_Action_Double
@@ -11,22 +10,6 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 abstract class Abstract_Importing_Action_Double extends Abstract_Importing_Action {
-
-	/**
-	 * The options helper.
-	 *
-	 * @var Options_Helper
-	 */
-	protected $options;
-
-	/**
-	 * Gets the completed id (to be used as a key for the importing_completed option).
-	 *
-	 * @return string The completed id.
-	 */
-	public function __construct( Options_Helper $options ) {
-		return parent::__construct( $options );
-	}
 
 	/**
 	 * Gets the completed id (to be used as a key for the importing_completed option).

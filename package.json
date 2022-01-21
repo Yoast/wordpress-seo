@@ -30,16 +30,6 @@
     "build": "wp-scripts build --config config/webpack/webpack.config.js",
     "build:dev": "cross-env NODE_ENV=development wp-scripts build --config config/webpack/webpack.config.js",
     "webpack-analyze-bundle": "wp-scripts build --config config/webpack/webpack.config.js --webpack-bundle-analyzer",
-    "i18n-wordpress-seo": "cross-env NODE_ENV=production babel packages/js/src --plugins=@wordpress/babel-plugin-makepot | shusher",
-    "i18n-yoastseo-js": "cross-env NODE_ENV=production babel packages/yoastseo/src --plugins=@wordpress/babel-plugin-makepot | shusher",
-    "i18n-yoast-components": "cross-env NODE_ENV=production babel packages/yoast-components --ignore packages/yoast-components/node_modules,tests/*Test.js --plugins=@wordpress/babel-plugin-makepot | shusher",
-    "i18n-yoast-js-analysis-report": "cross-env NODE_ENV=production babel packages/analysis-report --ignore packages/analysis-report/node_modules --plugins=@wordpress/babel-plugin-makepot | shusher",
-    "i18n-yoast-js-components": "cross-env NODE_ENV=production babel packages/yoast-components packages/components --ignore packages/yoast-components/node_modules,packages/components/node_modules,tests/*Test.js --plugins=@wordpress/babel-plugin-makepot | shusher",
-    "i18n-yoast-js-configuration-wizard": "cross-env NODE_ENV=production babel packages/configuration-wizard --ignore packages/configuration-wizard/node_modules --plugins=@wordpress/babel-plugin-makepot | shusher",
-    "i18n-yoast-js-helpers": "cross-env NODE_ENV=production babel packages/helpers --ignore packages/helpers/node_modules --plugins=@wordpress/babel-plugin-makepot | shusher",
-    "i18n-yoast-js-search-metadata-previews": "cross-env NODE_ENV=production babel packages/search-metadata-previews --ignore packages/search-metadata-previews/node_modules,__mocks__/*.js --plugins=@wordpress/babel-plugin-makepot | shusher",
-    "i18n-yoast-js-social-metadata-forms": "cross-env NODE_ENV=production babel packages/social-metadata-forms --ignore packages/social-metadata-forms/node_modules,__mocks__/*.js --plugins=@wordpress/babel-plugin-makepot | shusher",
-    "i18n-yoast-js-replacement-variable-editor": "cross-env NODE_ENV=production babel packages/replacement-variable-editor --ignore packages/replacement-variable-editor/node_modules,__mocks__/*.js --plugins=@wordpress/babel-plugin-makepot | shusher",
     "prestart": "grunt build:css && grunt copy:js-dependencies",
     "start": "wp-scripts start --config config/webpack/webpack.config.js"
   },
@@ -49,14 +39,13 @@
     "@slack/webhook": "^5.0.2",
     "@typescript-eslint/eslint-plugin": "^4.24.0",
     "@typescript-eslint/parser": "^4.24.0",
-    "@wordpress/babel-plugin-makepot": "^4.1.2",
     "@wordpress/dependency-extraction-webpack-plugin": "^3.1.0",
     "@wordpress/scripts": "^14.1.1",
     "@yoast/browserslist-config": "file:packages/browserslist-config",
     "@yoast/grunt-plugin-tasks": "https://github.com/Yoast/plugin-grunt-tasks.git#DUPP-194-upgrade-postcss-related-packages-for-tailwind",
     "autoprefixer": "^10.0.0",
     "babel-plugin-dynamic-import-webpack": "^1.1.0",
-    "colors": "^1.4.0",
+    "colors": "1.4.0",
     "cross-env": "^7.0.3",
     "dotenv": "^8.2.0",
     "enzyme": "^3.11.0",
@@ -67,8 +56,6 @@
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-react": "^7.22.0",
     "grunt-git": "^1.0.14",
-    "grunt-glotpress": "https://github.com/Yoast/grunt-glotpress.git#master",
-    "grunt-po2json": "^0.3.0",
     "grunt-prompt": "^1.3.3",
     "grunt-webpack": "^3.1.3",
     "i18n-calypso": "^1.8.4",
@@ -87,7 +74,7 @@
     "typescript": "^4.2.4"
   },
   "yoast": {
-    "pluginVersion": "18.0-RC1"
+    "pluginVersion": "18.0-RC7"
   },
   "version": "0.0.0"
 }

@@ -26,27 +26,3 @@ export function setTextdomainL10n( textdomain, l10nNamespace = "wpseoYoastJSL10n
 		setLocaleData( translations, textdomain );
 	}
 }
-
-/**
- * Configures the i18n for yoast-components.
- *
- * We call translation functions using `@wordpress/i18n` so we need to register
- * all our strings there too. This function does that.
- *
- * @returns {void}
- */
-export function setYoastComponentsL10n() {
-	setTextdomainL10n( "yoast-components" );
-}
-
-/**
- * Configures the l10n for wordpress-seo-js.
- *
- * We call translation functions using `@wordpress/i18n` so we need to register
- * all our strings there too. This function does that.
- *
- * @returns {void}
- */
-export function setWordPressSeoL10n() {
-	setTextdomainL10n( "wordpress-seo" );
-}

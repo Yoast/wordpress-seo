@@ -9,7 +9,6 @@ import { SiteSEOReport as SeoAssessment } from "@yoast/analysis-report";
 import { getPostFeed } from "@yoast/helpers";
 
 // Internal dependencies.
-import { setYoastComponentsL10n } from "./helpers/i18n";
 import WincherPerformanceReport from "./components/WincherPerformanceReport";
 import { authenticate, getAuthorizationUrl, getKeyphrases } from "./helpers/wincherEndpoints";
 import LoginPopup from "./helpers/loginPopup";
@@ -310,7 +309,5 @@ class DashboardWidget extends Component {
 const element = document.getElementById( "yoast-seo-dashboard-widget" );
 
 if ( element ) {
-	setYoastComponentsL10n();
-
 	render( <DashboardWidget />, element );
 }

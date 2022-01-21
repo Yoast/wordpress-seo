@@ -42,7 +42,6 @@ import initializeUsedKeywords from "./used-keywords-assessment";
 
 // Redux dependencies.
 import { actions } from "@yoast/externals/redux";
-import { setWordPressSeoL10n, setYoastComponentsL10n } from "../helpers/i18n";
 
 // Helper dependencies.
 import isBlockEditor from "../helpers/isBlockEditor";
@@ -56,9 +55,6 @@ const {
 	setReadabilityResults,
 	setSeoResultsForKeyword,
 } = actions;
-
-setYoastComponentsL10n();
-setWordPressSeoL10n();
 
 // Plugin class prototypes (not the instances) are being used by other plugins from the window.
 window.YoastReplaceVarPlugin = YoastReplaceVarPlugin;
