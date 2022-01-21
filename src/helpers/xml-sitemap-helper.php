@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
+use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\SEO_Links_Repository;
 
@@ -47,6 +48,8 @@ class XML_Sitemap_Helper {
 	 * @return array $images_by_id Array of images for the indexable, in XML sitemap format.
 	 */
 	public function find_images_for_indexables( $indexables, $type = 'image-in' ) {
+		global $wpdb;
+
 		$images_by_id  = [];
 		$indexable_ids = [];
 
@@ -74,66 +77,36 @@ class XML_Sitemap_Helper {
 			];
 		}
 
-		// The featured image may not be in the links table. Make sure it is included in the image list.
-		foreach ( $indexable_ids as $object_id => $indexable_id ) {
-			if ( ! is_int( $object_id ) || $object_id <= 0 ) {
-				continue;
-			}
+		$placeholders    = \implode( ', ', \array_fill( 0, count( $indexable_ids ), '%s' ) );
+		$indexable_table = Model::get_table_name( 'Indexable' );
+		// phpcs:disable WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare -- Placeholders are in $placeholders.
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table names can not be prepared.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery -- Query can not be done without a direct query.
+		$featured_images = $wpdb->get_results(
+			$wpdb->prepare(
+				"
+				SELECT pm.post_id, i.permalink
+				FROM {$wpdb->prefix}postmeta AS pm
+				INNER JOIN $indexable_table AS i ON i.object_id = pm.meta_value AND i.object_type = 'post'
+				WHERE pm.meta_key = '_thumbnail_id' AND pm.post_id IN ( $placeholders )
+				",
+				\array_keys( $indexable_ids )
+			)
+		);
+		// phpcs:enable
 
-			$featured_image_link = $this->get_featured_image_link( $object_id );
-
-			if ( is_null( $featured_image_link ) ) {
-				continue;
-			}
-
+		foreach ( $featured_images as $featured_image ) {
+			$indexable_id        = $indexable_ids[ $featured_image->post_id ];
+			$featured_image_link = [ 'src' => $featured_image->permalink ];
 			if ( ! isset( $images_by_id[ $indexable_id ] ) ) {
 				$images_by_id[ $indexable_id ] = [];
 			}
-
 			if ( ! in_array( $featured_image_link, $images_by_id[ $indexable_id ], true ) ) {
 				$images_by_id[ $indexable_id ][] = $featured_image_link;
-
 			}
 		}
+
 		return $images_by_id;
-	}
-
-	/**
-	 * Gets the sitemap link for a post's featured image.
-	 *
-	 * @param int $post_id The id of the post.
-	 *
-	 * @return string[]|null The featured image link. Null if the post doesn't have a featured image.
-	 */
-	private function get_featured_image_link( $post_id ) {
-		$link = $this->get_featured_image_source( $post_id );
-		if ( ! $link ) {
-			return null;
-		}
-
-		return [ 'src' => $link ];
-	}
-
-	/**
-	 * Gets the source url for a post's featured image.
-	 *
-	 * @param int $post_id The id of the post.
-	 *
-	 * @return string|null The featured image source. Null if the post doesn't have a featured image.
-	 */
-	private function get_featured_image_source( $post_id ) {
-		$featured_id = $this->image_helper->get_featured_image_id( $post_id );
-		if ( ! $featured_id ) {
-			return null;
-		}
-
-		$featured_image_source = $this->image_helper->get_attachment_image_source( $featured_id );
-
-		if ( $featured_image_source === '' ) {
-			return null;
-		}
-
-		return $featured_image_source;
 	}
 
 	/**
