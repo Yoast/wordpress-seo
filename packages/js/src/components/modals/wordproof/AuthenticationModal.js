@@ -1,37 +1,18 @@
 import { Modal } from "@wordpress/components";
 import { Fragment, useCallback, useEffect, useState } from "@wordpress/element";
-import { __ } from "@wordpress/i18n";
+import { __, sprintf } from "@wordpress/i18n";
 import { Button, SvgIcon } from "@yoast/components";
-import { getAuthentication } from "../../../helpers/wordproofEndpoints";
-import { handleAPIResponse } from "../../../helpers/api";
+import { fetchIsAuthenticated } from "../../../helpers/wordproof";
 import { ReactComponent as WordProofConnectedImage } from "../../../../../../images/mirrored_fit_bubble_woman_1_optim.svg";
 
-
-/**
- * Determines the text on the button to open a workout.
- *
- * @returns {wp.Element} The modal.
- */
-
-const performAuthenticationRequest = async() => {
-	return await handleAPIResponse(
-		getAuthentication,
-		( response ) => {
-			return response.is_authenticated;
-		},
-		( response ) => {
-			return false;
-		}
-	);
-};
-export const AuthenticationModal = ( props ) => {
+const WordProofAuthenticationModal = ( props ) => {
 	const { isOpen, setIsOpen, isAuthenticated, setIsAuthenticated, postTypeName } = props;
 	const [ isLoading, setIsLoading ] = useState( true );
 
 	useEffect( () => {
 		const authenticate = async() => {
 			setIsLoading( true );
-			const isAuthenticated = await performAuthenticationRequest();
+			const isAuthenticated = await fetchIsAuthenticated();
 
 			if ( isAuthenticated ) {
 				setIsLoading( false );
@@ -106,4 +87,6 @@ export const AuthenticationModal = ( props ) => {
 	);
 };
 
-AuthenticationModal.propTypes = {};
+WordProofAuthenticationModal.propTypes = {};
+
+export default WordProofAuthenticationModal;
