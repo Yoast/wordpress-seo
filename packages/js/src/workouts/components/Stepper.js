@@ -93,6 +93,30 @@ const stepShape = PropTypes.shape( {
 	component: PropTypes.element.isRequired,
 	isSaved: PropTypes.bool.isRequired,
 } );
+/* eslint-disable require-jsdoc, max-len */
+function StepCircle( { isSaved, isActive, children } ) {
+	let bulletClassNames = isSaved ? "yst-delay-500 yst-bg-primary-500 yst-border-primary-500" : "yst-delay-500 yst-bg-white yst-border-gray-300";
+	if ( isActive ) {
+		bulletClassNames = "yst-bg-white yst-border-primary-500";
+	}
+	return <span
+		className={ `yst-transition-colors yst-duration-500 yst-relative yst-border-2 yst-z-10 yst-w-8 yst-h-8 yst-flex yst-items-center yst-justify-center yst-rounded-full ${ bulletClassNames }` }
+	>
+		{ children }
+	</span>;
+}
+
+function StepIcon( { isSaved, isActive } ) {
+	let bulletContentClassNames = isSaved ? "yst-delay-500" : "yst-delay-500 yst-bg-transparent";
+	if ( isActive ) {
+		bulletContentClassNames =  "yst-bg-primary-500";
+	}
+
+	// hier proberen met opactiy en absolute?
+	return ( ! isActive && isSaved )
+		? <CheckIcon className="yst-w-5 yst-h-5 yst-text-white" aria-hidden="true" />
+		: <span className={ `yst-transition-colors yst-duration-500 yst-h-2.5 yst-w-2.5 yst-rounded-full ${ bulletContentClassNames }` } />;
+}
 
 /* eslint-disable complexity, max-len */
 /**
@@ -175,14 +199,9 @@ function TailwindStep( { step, stepIndex, lastStepIndex, saveStep, finishStepper
 			}
 			<div className="yst-relative yst-flex yst-items-start yst-group" aria-current={ isActiveStep ? "step" : null }>
 				<span className="yst-flex yst-items-center" aria-hidden={ isActiveStep ? "true" : null }>
-					<span
-						className={ `yst-transition-colors yst-duration-500 yst-relative yst-border-2 yst-z-10 yst-w-8 yst-h-8 yst-flex yst-items-center yst-justify-center yst-rounded-full ${ bulletClassNames }` }
-					>
-						{ ( icon === "check" )
-							? <CheckIcon className="yst-w-5 yst-h-5 yst-text-white" aria-hidden="true" />
-							: <span className={ `yst-transition-colors yst-duration-500 yst-h-2.5 yst-w-2.5 yst-rounded-full ${ bulletContentClassNames }` } />
-						}
-					</span>
+					<StepCircle isSaved={ isSaved } isActive={ isActiveStep }>
+						<StepIcon isSaved={ isSaved } isActive={ isActiveStep } />
+					</StepCircle>
 				</span>
 				{ /* Name and description. */ }
 				<span className="yst-ml-4 yst-min-w-0 yst-flex yst-flex-col yst-self-center">
