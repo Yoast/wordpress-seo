@@ -238,21 +238,6 @@ describe( "Matches keywords in string", function() {
 		expect( result.exactMatchFound ).toBe( true );
 		expect( result.position ).toBe( 18 );
 	} );
-
-	it( "returns exact match if the keyphrase starts with an upper case for Turkish", function() {
-		const mockPaper = new Paper( "", {
-			keyword: "istanbul",
-			title: "Istanbul",
-			locale: "tr_TR",
-		} );
-		const researcher = new TurkishResearcher( mockPaper );
-		researcher.addResearchData( "morphology", morphologyDataTR );
-
-		result = pageTitleKeyword( mockPaper, researcher );
-		expect( result.exactMatchFound ).toBe( true );
-		expect( result.position ).toBe( 0 );
-	} );
-
 	it( "returns non-exact match for Turkish if the keyphrase starts with an upper case and has a suffix with an apostrophe",
 		function() {
 			const mockPaper = new Paper( "", {
@@ -279,9 +264,6 @@ describe( "Matches keywords in string", function() {
 			expect( result.exactMatchFound ).toBe( false );
 			expect( result.position ).toBe( -1 );
 		} );
-
-
-
 	it( "returns an exact match at the beginning", function() {
 		const mockPaper = new Paper( "", {
 			keyword: "\"Walking in the nature\"",

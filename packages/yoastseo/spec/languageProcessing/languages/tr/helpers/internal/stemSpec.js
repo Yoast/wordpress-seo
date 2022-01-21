@@ -152,9 +152,11 @@ const wordsToStem = [
 	[ "Universitesi'ne", "universite" ],
 	[ "radyosu'nun", "radyo" ],
 	[ "aliağa'mızda", "aliağa" ],
-	[ "Istanbul'da", "istanbul" ],
-	[ "Istanbul'dan", "istanbul" ],
-	[ "Istanbul'dayım", "istanbul" ],
+	[ "aliağa'da", "aliağa" ],
+	[ "Madonna'yı", "madonna" ],
+	// Words that end of an ending similar to a suffix
+	// [ "aliağa", "aliağa" ],
+	// [ "universite", "universite" ],
 ];
 describe( "Test for stemming Turkish words", () => {
 	it( "stems Turkish words", () => {
