@@ -16,7 +16,6 @@ use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Conditionals\Yoast_Admin_And_Dashboard_Conditional;
 use Yoast\WP\SEO\Helpers\Indexing_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Background_Indexing_Integration;
-use Yoast\WP\SEO\Integrations\Admin\Indexing_Tool_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -32,7 +31,7 @@ class Background_Indexing_Integration_Test extends TestCase {
 	/**
 	 * The indexation integration under test.
 	 *
-	 * @var Indexing_Tool_Integration
+	 * @var Background_Indexing_Integration
 	 */
 	protected $instance;
 
