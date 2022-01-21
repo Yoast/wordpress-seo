@@ -76,6 +76,11 @@ class WordProof implements Integration_Interface {
 		 * Called by Yoast_Integration_Toggles to add extra toggles to the ones defined there.
 		 */
 		\add_filter( 'wpseo_integration_toggles', [ $this, 'add_integration_toggle' ] );
+
+		/**
+		 * Called by WPSEO_Meta to add extra meta fields to the ones defined there.
+		 */
+		\add_filter( 'add_extra_wpseo_meta_fields', [ $this, 'add_meta_field' ] );
 	}
 
 	/**
@@ -143,5 +148,23 @@ class WordProof implements Integration_Interface {
 		}
 
 		return $integration_toggles;
+	}
+
+	/**
+	 * Adds the WordProof integration toggle to the array.
+	 *
+	 * @param array $fields The currently registered meta fields.
+	 *
+	 * @return array A new array with meta fields.
+	 */
+	public function add_meta_field( $fields ) {
+		$fields['advanced']['wordproof_timestamp'] = [
+			'type'          => 'hidden',
+			'title'         => '',
+			'default_value' => '',
+			'description'   => '0',
+		];
+
+		return $fields;
 	}
 }

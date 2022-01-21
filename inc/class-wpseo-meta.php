@@ -187,12 +187,6 @@ class WPSEO_Meta {
 				'default_value' => '',
 				'description'   => '', // Translation added later.
 			],
-			'wordproof_timestamp' => [
-				'type'          => 'hidden',
-				'title'         => '', // Translation added later.
-				'default_value' => 'false',
-				'description'   => '', // Translation added later.
-			],
 			'redirect'             => [
 				'type'          => 'url',
 				'title'         => '', // Translation added later.
