@@ -98,6 +98,8 @@ export const useWordProofTimestamper = () => {
 	const isBlockEditor = useSelect( ( select ) => select( "yoast-seo/editor" ).getIsBlockEditor(), [] );
 	const isBlockEditorSavePost = useSelect( ( select ) => select( "core/editor" ).isSavingPost(), [] );
 	const isBlockEditorAutoSavePost = useSelect( ( select ) => select( "core/editor" ).isAutosavingPost(), [] );
+	const didBlockEditorPostSaveRequestSucceed = useSelect( ( select ) => select( "core/editor" ).didPostSaveRequestSucceed(), [] );
+
 	const blockEditorNoticeActions = useDispatch( "core/notices" );
 
 	const isElementorEditor = useSelect( ( select ) => select( "yoast-seo/editor" ).getIsElementorEditor(), [] );
@@ -142,11 +144,10 @@ export const useWordProofTimestamper = () => {
 	useEffect( () => {
 		// eslint-disable-next-line no-warning-comments
 		// TODO: This effect also fires on first mount, causing a timestamp to be requested on page load.
-		// Probably we need to also listen to isAutoSavingPost as I added below, but untested.
-		if ( isBlockEditorSavePost && ! isBlockEditorAutoSavePost ) {
+		if ( isBlockEditorSavePost && didBlockEditorPostSaveRequestSucceed && ! isBlockEditorAutoSavePost ) {
 			handleRequestTimeStamp();
 		}
-	}, [ isBlockEditorSavePost, isBlockEditorAutoSavePost ] );
+	}, [ isBlockEditorSavePost, isBlockEditorAutoSavePost, didBlockEditorPostSaveRequestSucceed ] );
 
 	// Subscribe to Elementor editor post save.
 	if ( isElementorEditor ) {
