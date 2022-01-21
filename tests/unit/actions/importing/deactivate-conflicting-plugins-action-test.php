@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Actions\Importing;
 use Mockery;
 use Yoast\WP\SEO\Actions\Importing\Deactivate_Conflicting_Plugins_Action;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Sanitization_Helper;
 use Yoast\WP\SEO\Services\Importing\Aioseo_Replacevar_Handler;
 use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Provider_Service;
 use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Transformer_Service;
@@ -68,6 +69,7 @@ class Deactivate_Conflicting_Plugins_Action_Test extends TestCase {
 
 		$this->deactivate_conflicting_plugins_action = new Deactivate_Conflicting_Plugins_Action(
 			Mockery::mock( Options_Helper::class ),
+			Mockery::mock( Sanitization_Helper::class ),
 			$this->replacevar_handler,
 			$this->robots_provider,
 			$this->robots_transformer,

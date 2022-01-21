@@ -7,6 +7,7 @@ use Mockery;
 use Brain\Monkey;
 use Yoast\WP\SEO\Actions\Importing\Abstract_Aioseo_Settings_Importing_Action;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Sanitization_Helper;
 use Yoast\WP\SEO\Services\Importing\Aioseo_Replacevar_Handler;
 use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Provider_Service;
 use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Transformer_Service;
@@ -39,6 +40,13 @@ class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 	protected $options;
 
 	/**
+	 * The sanitization helper.
+	 *
+	 * @var Mockery\MockInterface|Sanitization_Helper
+	 */
+	protected $sanitization;
+
+	/**
 	 * The replacevar handler.
 	 *
 	 * @var Aioseo_Replacevar_Handler
@@ -66,12 +74,13 @@ class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 		parent::set_up();
 
 		$this->options            = Mockery::mock( Options_Helper::class );
+		$this->sanitization       = Mockery::mock( Sanitization_Helper::class );
 		$this->replacevar_handler = new Aioseo_Replacevar_Handler();
 		$this->robots_provider    = Mockery::mock( Aioseo_Robots_Provider_Service::class );
 		$this->robots_transformer = Mockery::mock( Aioseo_Robots_Transformer_Service::class );
 		$this->mock_instance      = Mockery::mock(
 			Abstract_Aioseo_Settings_Importing_Action_Double::class,
-			[ $this->options, $this->replacevar_handler, $this->robots_provider, $this->robots_transformer ]
+			[ $this->options, $this->sanitization, $this->replacevar_handler, $this->robots_provider, $this->robots_transformer ]
 		)->makePartial()->shouldAllowMockingProtectedMethods();
 	}
 
