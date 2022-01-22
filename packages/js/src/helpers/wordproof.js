@@ -80,7 +80,7 @@ export const requestTimestamp = async() => {
 /**
  * Timestamps the current post on save if WordProof integration is active.
  *
- * @returns {{ timestampHash: string }} Object of useful timestamp related state.
+ * @returns {{ timestampResponse: string }} Object of useful timestamp related state.
  */
 export const useWordProofTimestamper = () => {
 	const successNotice = __(
@@ -92,8 +92,12 @@ export const useWordProofTimestamper = () => {
 		"Please check if you're correctly authenticated with WordProof and try to save this page again.",
 		"wordpress-seo"
 	);
+	const noBalanceNotice = __(
+		"You are out of timestamps. Please upgrade your account by opening the WordProof settings.",
+		"wordpress-seo"
+	);
 
-	const [ timestampHash, setTimestampHash ] = useState( null );
+	const [ timestampResponse, setTimestampResponse ] = useState( null );
 
 	const isBlockEditor = useSelect( ( select ) => select( "yoast-seo/editor" ).getIsBlockEditor(), [] );
 	const isBlockEditorSavePost = useSelect( ( select ) => select( "core/editor" ).isSavingPost(), [] );
@@ -108,9 +112,9 @@ export const useWordProofTimestamper = () => {
 		debounce( async() => {
 			// Request timestamp and update is timestamped in state.
 			const success = await requestTimestamp();
-			setTimestampHash( success );
+			setTimestampResponse( success );
 		}, 500 ),
-		[ requestTimestamp, setTimestampHash ]
+		[ requestTimestamp, setTimestampResponse ]
 	);
 
 	// Add notices when is timestamped value changes.
@@ -132,18 +136,24 @@ export const useWordProofTimestamper = () => {
 			createErrorNotice = () => {};
 		}
 
-		// Only add notice if timestampHash is set.
-		if ( timestampHash === null ) {
+		// Only add notice if timestampResponse is set.
+		if ( timestampResponse === null ) {
 			return;
 		}
 
 		// Create the notice based on timestamp.
-		if ( timestampHash ) {
-			createSuccessNotice( successNotice );
+		if ( timestampResponse ) {
+
+			if ( timestampResponse.balance === 0 ) {
+				createErrorNotice( noBalanceNotice );
+			} else {
+				createSuccessNotice( successNotice );
+			}
+
 		} else {
 			createErrorNotice( errorNotice );
 		}
-	}, [ timestampHash ] );
+	}, [ timestampResponse ] );
 
 	// Subscribe to Block editor post save.
 	useEffect( () => {
@@ -162,5 +172,5 @@ export const useWordProofTimestamper = () => {
 	}
 
 	// Return useful state.
-	return { timestampHash };
+	return { timestampResponse };
 };
