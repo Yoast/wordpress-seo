@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Helpers;
 
 use Yoast\WP\SEO\Conditionals\Non_Multisite_Conditional;
+use Yoast\WP\SEO\Conditionals\Third_Party\WordProof_Plugin_Inactive_Conditional;
 
 /**
  * A helper object for WordProof integration.
@@ -54,15 +55,29 @@ class WordProof_Helper {
 	}
 
 	/**
+	 * Returns if conditionals are met. If not, the integration should be disabled.
+	 *
+	 * @return bool Returns if the integration should be disabled.
+	 */
+	public function integration_is_disabled() {
+		$conditionals = [ new WordProof_Plugin_Inactive_Conditional(), new Non_Multisite_Conditional() ];
+
+		foreach ( $conditionals as $conditional ) {
+			if ( ! $conditional->is_met() ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
 	 * Returns if the WordProof integration toggle is turned on.
 	 *
-	 * @return bool Returns if the integration toggle is set to true.
+	 * @return bool Returns if the integration toggle is set to true if conditionals are met.
 	 */
 	public function integration_is_active() {
-		// If the integration is disabled, Wincher should not be active.
-		$conditional = new Non_Multisite_Conditional();
-
-		if ( ! $conditional->is_met() ) {
+		if ( $this->integration_is_disabled() ) {
 			return false;
 		}
 
