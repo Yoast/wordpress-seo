@@ -106,6 +106,8 @@ export const useWordProofTimestamper = () => {
 	const [ timestampResponse, setTimestampResponse ] = useState( null );
 
 	const isBlockEditor = useSelect( ( select ) => select( "yoast-seo/editor" ).getIsBlockEditor(), [] );
+
+	//TODO Elementor throws error while selecting these stores.
 	const isBlockEditorSavePost = useSelect( ( select ) => select( "core/editor" ).isSavingPost(), [] );
 	const isBlockEditorAutoSavePost = useSelect( ( select ) => select( "core/editor" ).isAutosavingPost(), [] );
 	const didBlockEditorPostSaveRequestSucceed = useSelect( ( select ) => select( "core/editor" ).didPostSaveRequestSucceed(), [] );
