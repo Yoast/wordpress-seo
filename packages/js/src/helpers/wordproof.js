@@ -128,18 +128,16 @@ export const useWordProofTimestamper = () => {
 		let createSuccessNotice = noop;
 		let createErrorNotice = noop;
 
-		// Assign callbacks for creating block editor notices.
-		if ( isBlockEditor ) {
-			( { createErrorNotice, createSuccessNotice } = blockEditorNoticeActions );
-		}
-
 		// Assign callbacks for creating Elementor editor notices.
+		// With the Elementor editor opened, both isElementorEditor and isBlockEditor return true.
 		if ( isElementorEditor ) {
 			// eslint-disable-next-line no-warning-comments
 			// TODO: Assign success or error notice creator for Elementor based on timestamp.
-			// How to create notifications in Elementer?
-			createSuccessNotice = () => {};
-			createErrorNotice = () => {};
+			createSuccessNotice = ( notice ) => { console.warn( notice ) };
+			createErrorNotice = ( notice ) => { console.warn( notice ) };
+		} else if (isBlockEditor) {
+			// Assign callbacks for creating block editor notices.
+			( { createErrorNotice, createSuccessNotice } = blockEditorNoticeActions );
 		}
 
 		// Only add notice if timestampResponse is set.
