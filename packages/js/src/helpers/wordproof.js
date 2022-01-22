@@ -2,7 +2,7 @@
 import { get, debounce, noop, last } from "lodash";
 import { useSelect, useDispatch } from "@wordpress/data";
 import { useState, useEffect, useCallback } from "@wordpress/element";
-import { __ } from "@wordpress/i18n";
+import {__, sprintf} from '@wordpress/i18n';
 
 /* Internal dependencies */
 import getL10nObject from "../analysis/getL10nObject";
@@ -83,19 +83,25 @@ export const requestTimestamp = async() => {
  * @returns {{ timestampResponse: string }} Object of useful timestamp related state.
  */
 export const useWordProofTimestamper = () => {
-	const successNotice = __(
-		"WordProof has successfully timestamped this page.",
+	const successNotice = sprintf(
+		/** Translators: %s expands to WordProof */
+		__(
+		"%s has successfully timestamped this page.",
 		"wordpress-seo"
-	);
-	const errorNotice = __(
-		"WordProof failed to timestamp this page. " +
+	), "WordProof" );
+	const errorNotice = sprintf(
+		/** Translators: %s expands to WordProof */
+		__(
+		"%s failed to timestamp this page. " +
 		"Please check if you're correctly authenticated with WordProof and try to save this page again.",
 		"wordpress-seo"
-	);
-	const noBalanceNotice = __(
-		"You are out of timestamps. Please upgrade your account by opening the WordProof settings.",
+	), "WordProof" );
+	const noBalanceNotice = sprintf(
+		/** Translators: %s expands to WordProof */
+		__(
+		"You are out of timestamps. Please upgrade your account by opening the %s settings.",
 		"wordpress-seo"
-	);
+	), "WordProof" );
 
 	const [ timestampResponse, setTimestampResponse ] = useState( null );
 
