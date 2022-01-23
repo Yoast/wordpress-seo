@@ -61,6 +61,11 @@ class Woocommerce_Helper {
 		}
 
 		global $post;
+
+		if ( ! isset( $post->ID ) ) {
+			return false;
+		}
+
 		return intval( $post->ID ) === intval( \wc_terms_and_conditions_page_id() );
 	}
 }

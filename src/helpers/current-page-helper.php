@@ -446,6 +446,10 @@ class Current_Page_Helper {
 	public function current_post_is_privacy_policy() {
 		global $post;
 
+		if ( ! isset( $post->ID ) ) {
+			return false;
+		}
+
 		return intval( $post->ID ) === intval( \get_site_option( 'wp_page_for_privacy_policy', false ) );
 	}
 
