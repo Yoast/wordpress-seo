@@ -621,16 +621,16 @@
         },
         {
             "name": "wordproof/wordpress-sdk",
-            "version": "1.0.16",
+            "version": "1.0.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wordproof/wordpress-sdk.git",
-                "reference": "2ace3337d05296900aa66ee5f0de4b4778493ce4"
+                "reference": "b3e19edc37947c7c242a74289961f978a14ec412"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wordproof/wordpress-sdk/zipball/2ace3337d05296900aa66ee5f0de4b4778493ce4",
-                "reference": "2ace3337d05296900aa66ee5f0de4b4778493ce4",
+                "url": "https://api.github.com/repos/wordproof/wordpress-sdk/zipball/b3e19edc37947c7c242a74289961f978a14ec412",
+                "reference": "b3e19edc37947c7c242a74289961f978a14ec412",
                 "shasum": ""
             },
             "require": {
@@ -639,8 +639,10 @@
                 "wordproof/api-client": "^0.3.0"
             },
             "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.5",
                 "phpunit/phpunit": "^9.5",
-                "spatie/ray": "^1.21"
+                "spatie/ray": "^1.21",
+                "wpengine/wpengine-coding-standards": "dev-master"
             },
             "type": "library",
             "autoload": {
@@ -665,9 +667,9 @@
             "description": "WordPress SDK",
             "support": {
                 "issues": "https://github.com/wordproof/wordpress-sdk/issues",
-                "source": "https://github.com/wordproof/wordpress-sdk/tree/1.0.16"
+                "source": "https://github.com/wordproof/wordpress-sdk/tree/1.0.17"
             },
-            "time": "2022-01-23T07:57:33+00:00"
+            "time": "2022-01-23T12:45:36+00:00"
         },
         {
             "name": "yoast/i18n-module",
