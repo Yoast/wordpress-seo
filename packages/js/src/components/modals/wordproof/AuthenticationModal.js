@@ -97,7 +97,7 @@ const WordProofAuthenticationModal = ( props ) => {
 							{ sprintf(
 								/* Translators: %s translates to the Post type in singular form */
 								__( "This %s will be timestamped as soon as you update it.", "wordpress-seo" ),
-								postTypeName
+								postTypeName.toLowerCase()
 							) }
 						</p>
 
