@@ -36,9 +36,7 @@ const WordProofAuthenticationModal = ( props ) => {
 	}, [ isOpen, isAuthenticated, isLoading ] );
 
 	const closeModal = useCallback( () => setIsOpen( false ), [] );
-	const openModal = useCallback( () => setIsOpen( true ), [] );
 	const StyledYoastIcon = <YoastIcon style={ { width: "20px", marginRight: "10px", fill: "#a4296a" } } />;
-
 
 	return (
 		<Fragment>
@@ -52,7 +50,8 @@ const WordProofAuthenticationModal = ( props ) => {
 				<div style={ { display: "flex", flexDirection: "column", alignItems: "center" } }>
 					<YoastLoadingSpinnerImage
 						viewBox={ "0 0 98 98" }
-						style={ { width: "100px", animation: "yoast-spin infinite 1s linear" } } />
+						style={ { width: "100px", animation: "yoast-spin infinite 1s linear" } }
+					/>
 
 					<p style={ { maxWidth: "350px", textAlign: "center", paddingBottom: "40px", paddingTop: "10px;" } }>{ sprintf(
 						/* Translators: %s expands to WordProof */
@@ -61,7 +60,7 @@ const WordProofAuthenticationModal = ( props ) => {
 					) }</p>
 
 					<Button variant="primary" onClick={ openAuthentication }>
-						{ __('Open new Pop-up', 'wordpress-seo' ) }
+						{ __( "Open new Pop-up", "wordpress-seo" ) }
 					</Button>
 
 					<p>
@@ -91,10 +90,10 @@ const WordProofAuthenticationModal = ( props ) => {
 						<p>
 							{ sprintf(
 							/* Translators: %s expands to WordProof */
-							__( "You have successfully connected to %s!", "wordpress-seo" ),
-							"WordProof"
-						) }
-						<br />
+								__( "You have successfully connected to %s!", "wordpress-seo" ),
+								"WordProof"
+							) }
+							<br />
 							{ sprintf(
 								/* Translators: %s translates to the Post type in singular form */
 								__( "This %s will be timestamped as soon as you update it.", "wordpress-seo" ),

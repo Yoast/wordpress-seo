@@ -2,7 +2,7 @@
 import { get, debounce, noop, last } from "lodash";
 import { useSelect, useDispatch } from "@wordpress/data";
 import { useState, useEffect, useCallback } from "@wordpress/element";
-import {__, sprintf} from '@wordpress/i18n';
+import { __, sprintf } from "@wordpress/i18n";
 
 /* Internal dependencies */
 import getL10nObject from "../analysis/getL10nObject";
@@ -86,28 +86,29 @@ export const useWordProofTimestamper = () => {
 	const successNotice = sprintf(
 		/** Translators: %s expands to WordProof */
 		__(
-		"%s has successfully timestamped this page.",
-		"wordpress-seo"
-	), "WordProof" );
+			"%s has successfully timestamped this page.",
+			"wordpress-seo"
+		), "WordProof" );
 	const errorNotice = sprintf(
 		/** Translators: %s expands to WordProof */
 		__(
-		"%s failed to timestamp this page. " +
+			"%s failed to timestamp this page. " +
 		"Please check if you're correctly authenticated with WordProof and try to save this page again.",
-		"wordpress-seo"
-	), "WordProof" );
+			"wordpress-seo"
+		), "WordProof" );
 	const noBalanceNotice = sprintf(
 		/** Translators: %s expands to WordProof */
 		__(
-		"You are out of timestamps. Please upgrade your account by opening the %s settings.",
-		"wordpress-seo"
-	), "WordProof" );
+			"You are out of timestamps. Please upgrade your account by opening the %s settings.",
+			"wordpress-seo"
+		), "WordProof" );
 
 	const [ timestampResponse, setTimestampResponse ] = useState( null );
 
 	const isBlockEditor = useSelect( ( select ) => select( "yoast-seo/editor" ).getIsBlockEditor(), [] );
 
-	//TODO Elementor throws error while selecting these stores.
+	// eslint-disable-next-line no-warning-comments
+	// TODO: Elementor throws error while selecting these stores.
 	const isBlockEditorSavePost = useSelect( ( select ) => select( "core/editor" ).isSavingPost(), [] );
 	const isBlockEditorAutoSavePost = useSelect( ( select ) => select( "core/editor" ).isAutosavingPost(), [] );
 	const didBlockEditorPostSaveRequestSucceed = useSelect( ( select ) => select( "core/editor" ).didPostSaveRequestSucceed(), [] );
@@ -135,9 +136,13 @@ export const useWordProofTimestamper = () => {
 		if ( isElementorEditor ) {
 			// eslint-disable-next-line no-warning-comments
 			// TODO: Assign success or error notice creator for Elementor based on timestamp.
-			createSuccessNotice = ( notice ) => { console.warn( notice ) };
-			createErrorNotice = ( notice ) => { console.warn( notice ) };
-		} else if (isBlockEditor) {
+			createSuccessNotice = ( notice ) => {
+				console.warn( notice );
+			};
+			createErrorNotice = ( notice ) => {
+				console.warn( notice );
+			};
+		} else if ( isBlockEditor ) {
 			// Assign callbacks for creating block editor notices.
 			( { createErrorNotice, createSuccessNotice } = blockEditorNoticeActions );
 		}
@@ -149,13 +154,11 @@ export const useWordProofTimestamper = () => {
 
 		// Create the notice based on timestamp.
 		if ( timestampResponse ) {
-
 			if ( timestampResponse.balance === 0 ) {
 				createErrorNotice( noBalanceNotice );
 			} else {
 				createSuccessNotice( successNotice );
 			}
-
 		} else {
 			createErrorNotice( errorNotice );
 		}

@@ -4,7 +4,6 @@ import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 import { useCallback } from "@wordpress/element";
 import { colors } from "@yoast/style-guide";
-import { useSelect } from "@wordpress/data";
 
 /* Internal dependencies */
 import CollapsibleCornerstone from "../../containers/CollapsibleCornerstone";
