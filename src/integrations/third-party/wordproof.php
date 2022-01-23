@@ -2,7 +2,7 @@
 
 namespace Yoast\WP\SEO\Integrations\Third_Party;
 
-use WordProof\SDK\Helpers\PostMeta;
+use WordProof\SDK\Helpers\PostMetaHelper;
 use WordProof\SDK\WordPressSDK;
 use Yoast\WP\SEO\Conditionals\Non_Multisite_Conditional;
 use Yoast\WP\SEO\Conditionals\Third_Party\WordProof_Plugin_Inactive_Conditional;
@@ -119,7 +119,7 @@ class WordProof implements Integration_Interface {
 			return false;
 		}
 
-		return boolval( PostMeta::get( $post->ID, $this->post_meta_key ) );
+		return boolval( PostMetaHelper::get( $post->ID, $this->post_meta_key ) );
 	}
 
 	/**
