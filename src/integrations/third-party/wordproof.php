@@ -45,7 +45,7 @@ class WordProof implements Integration_Interface {
 	 * @return array
 	 */
 	public static function get_conditionals() {
-		 return [ WordProof_Plugin_Inactive_Conditional::class, Non_Multisite_Conditional::class ];
+		return [ WordProof_Plugin_Inactive_Conditional::class, Non_Multisite_Conditional::class ];
 	}
 
 	/**

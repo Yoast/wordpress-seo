@@ -849,6 +849,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		$post_id = get_queried_object_id();
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		if ( empty( $post_id ) && isset( $_GET['post'] ) ) {
 			$post_id = sanitize_text_field( filter_input( INPUT_GET, 'post' ) );
 		}
