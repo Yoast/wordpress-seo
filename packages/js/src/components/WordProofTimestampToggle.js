@@ -1,5 +1,5 @@
 /* eslint-disable require-jsdoc */
-import { Component, Fragment } from "@wordpress/element";
+import { Component, Fragment, useCallback } from "@wordpress/element";
 import PropTypes from "prop-types";
 import { Toggle, FieldGroup } from "@yoast/components";
 import { __, sprintf } from "@wordpress/i18n";
@@ -12,35 +12,52 @@ import { get } from "lodash";
  * @param {Object} props The props object.
  * @returns {JSX.Element} The SettingsLink component.
  */
-function SettingsLink( props ) {
+const SettingsLink = ( props ) => {
 	if ( ! props.isAuthenticated ) {
-		return ( "" );
+		return ( <></> );
 	}
+
+	const openLink = useCallback( event => {
+		event.preventDefault();
+		props.openSettings();
+	} );
 
 	return (
 		<a
-			href={ props.settingsUrl } onClick={ ( e ) => {
-				e.preventDefault();
-				props.openSettings();
-			} }
+			href={ props.settingsUrl } onClick={ openLink }
 		>{ __( "Manage WordProof settings", "wordpress-seo" ) }</a>
 	);
-}
+};
 
-function AuthenticationLink( props ) {
+SettingsLink.propTypes = {
+	isAuthenticated: PropTypes.bool.isRequired,
+	settingsUrl: PropTypes.string.isRequired,
+	openSettings: PropTypes.func.isRequired,
+};
+
+const AuthenticationLink = ( props ) => {
+	const openLink = useCallback( event => {
+		event.preventDefault();
+		props.openAuthentication();
+	} );
+
 	if ( ! props.isAuthenticated && props.toggleIsEnabled ) {
 		return (
 			<a
-				href={ props.authenticationUrl } onClick={ ( e ) => {
-					e.preventDefault();
-					props.openAuthentication();
-				} }
+				href={ props.authenticationUrl } onClick={ openLink }
 			>{ __( "Authenticate with WordProof", "wordpress-seo" ) }</a>
 		);
 	}
 
 	return ( "" );
-}
+};
+
+AuthenticationLink.propTypes = {
+	isAuthenticated: PropTypes.bool.isRequired,
+	toggleIsEnabled: PropTypes.bool.isRequired,
+	authenticationUrl: PropTypes.string.isRequired,
+	openAuthentication: PropTypes.func.isRequired,
+};
 
 /**
  * The WordProofTimestampToggle Component.
