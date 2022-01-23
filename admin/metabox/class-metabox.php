@@ -717,7 +717,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			return false;
 		}
 
-		if ( ! isset( $_POST['yoast_free_metabox_nonce'] ) || ! wp_verify_nonce( $_POST['yoast_free_metabox_nonce'], 'yoast_free_metabox' ) ) {
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized in wp_verify_none.
+		if ( ! isset( $_POST['yoast_free_metabox_nonce'] ) || ! wp_verify_nonce( wp_unslash( $_POST['yoast_free_metabox_nonce'] ), 'yoast_free_metabox' ) ) {
 			return false;
 		}
 
@@ -768,8 +769,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$data       = null;
 			$field_name = WPSEO_Meta::$form_prefix . $key;
 
-			if ( !isset($meta_box['type'])) {
-				ray($meta_box)->red();
+			if ( ! isset( $meta_box['type'] ) ) {
+				ray( $meta_box )->red();
 			}
 
 			if ( $meta_box['type'] === 'checkbox' ) {
