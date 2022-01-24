@@ -52,11 +52,12 @@ export default function( paper, researcher ) {
 	} );
 
 	const matches = unique( flattenDeep( keywordsFound.matches ) ).sort( ( a, b ) => b.length - a.length );
+	const keyphraseForms = flattenDeep( topicForms.keyphraseForms );
 
 	return {
 		count: keywordsFound.count,
 		matches: matches,
-		markings: markWordsInSentences( matches, keywordsFound.sentencesWithKeywords, locale, matchWordCustomHelper ),
+		markings: markWordsInSentences( keyphraseForms, keywordsFound.sentencesWithKeywords, locale, matchWordCustomHelper ),
 		length: topicForms.keyphraseForms.length,
 	};
 }

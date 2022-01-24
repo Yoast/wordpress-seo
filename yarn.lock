@@ -4362,14 +4362,6 @@
   resolved "https://registry.yarnpkg.com/@wordpress/babel-plugin-import-jsx-pragma/-/babel-plugin-import-jsx-pragma-3.1.0.tgz#0a1be89a64bb938f91b733c31bfebd89519c2548"
   integrity sha512-518mL3goaSeXtJCQcPK9OYHUUiA0sjXuoGWHBwRalkyTIQZZy5ZZzlwrlSc9ESZcOw9BZ+Uo8CJRjV2OWnx+Zw==
 
-"@wordpress/babel-plugin-makepot@^4.1.2":
-  version "4.1.2"
-  resolved "https://registry.yarnpkg.com/@wordpress/babel-plugin-makepot/-/babel-plugin-makepot-4.1.2.tgz#5b8911c4f0310bc1a9f96f0be4732a0e36919831"
-  integrity sha512-A4u9Y+08gBsvIcSzfuAKMP8lDY2tOSVWxQg5nw5pzXAhG2usx4ORIgV+hwjjNkxiEoRQ79loBXpZNeFzuJnlyg==
-  dependencies:
-    gettext-parser "^1.3.1"
-    lodash "^4.17.19"
-
 "@wordpress/babel-preset-default@^5.2.1":
   version "5.2.2"
   resolved "https://registry.yarnpkg.com/@wordpress/babel-preset-default/-/babel-preset-default-5.2.2.tgz#d94a056dfb599f5cdbf2891bcacf2d57a0b245d0"
@@ -8831,7 +8823,7 @@ colors@1.0.3:
   resolved "https://registry.yarnpkg.com/colors/-/colors-1.0.3.tgz#0433f44d809680fdeb60ed260f1b0c262e82a40b"
   integrity sha1-BDP0TYCWgP3rYO0mDxsMJi6CpAs=
 
-colors@>=0.6.0, colors@^1.1.2, colors@^1.4.0:
+colors@1.4.0, colors@>=0.6.0, colors@^1.1.2:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/colors/-/colors-1.4.0.tgz#c50491479d4c1bdaed2c9ced32cf7c7dc2360f78"
   integrity sha512-a+UqTh4kgZg/SlGvfbzDHpgRu7AAQOmmqRHJnxhRZICKFUT91brVhNNt58CMWU9PsBbv3PDCZUHbVxuDiH2mtA==
@@ -20762,6 +20754,14 @@ react-addons-shallow-compare@^15.6.2:
   integrity sha512-EDJbgKTtGRLhr3wiGDXK/+AEJ59yqGS+tKE6mue0aNXT6ZMR7VJbbzIiT6akotmHg1BLj46ElJSb+NBMp80XBg==
   dependencies:
     object-assign "^4.1.0"
+
+react-animate-height@^2.0.23:
+  version "2.0.23"
+  resolved "https://registry.yarnpkg.com/react-animate-height/-/react-animate-height-2.0.23.tgz#2e14ac707b20ae67b87766ccfd581e693e0e7ec7"
+  integrity sha512-DucSC/1QuxWEFzR9IsHMzrf2nrcZ6qAmLIFoENa2kLK7h72XybcMA9o073z7aHccFzdMEW0/fhAdnQG7a4rDow==
+  dependencies:
+    classnames "^2.2.5"
+    prop-types "^15.6.1"
 
 react-autosize-textarea@^7.0.0, react-autosize-textarea@^7.1.0:
   version "7.1.0"
