@@ -3,7 +3,6 @@ import { useCallback, useEffect, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 import Modal from "./modal";
-import { useDispatch } from "@wordpress/data";
 
 /* eslint-disable max-len */
 /**
@@ -18,7 +17,6 @@ import { useDispatch } from "@wordpress/data";
 export default function UnsavedChangesModal( { hasUnsavedChanges } ) {
 	const [ modalIsOpen, setModalIsOpen ] = useState( false );
 	const [ targetUrl, setTargetUrl ] = useState( "empty" );
-	const { clearActiveWorkout } = useDispatch( "yoast-seo/workouts" );
 
 	/**
 	 * Handles the "before page unloads" event.
@@ -68,10 +66,7 @@ export default function UnsavedChangesModal( { hasUnsavedChanges } ) {
 		if ( targetUrl === "popped" ) {
 			window.removeEventListener( "popstate", popStateEventHandler );
 			history.go( -1 );
-		}  else if ( targetUrl === "clear-active-workout" ) {
-			window.removeEventListener( "popstate", popStateEventHandler );
-			clearActiveWorkout();
-		} else {
+		}  else {
 			window.location.replace( targetUrl );
 		}
 	}, [ targetUrl ] );
@@ -87,11 +82,7 @@ export default function UnsavedChangesModal( { hasUnsavedChanges } ) {
 	const clickEventHandler = useCallback( ( event ) => {
 		if ( hasUnsavedChanges ) {
 			const adminBarTarget = event.target.closest( ".ab-item" );
-			if ( event.target.id === "yoast-workouts-back-to-workouts-button" ) {
-				event.preventDefault();
-				setTargetUrl( "clear-active-workout" );
-				setModalIsOpen( true );
-			}
+
 			if ( event.target.tagName === "A" ) {
 				event.preventDefault();
 				window.removeEventListener( "beforeunload", beforeUnloadEventHandler );
