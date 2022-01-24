@@ -75,7 +75,7 @@ const findKeyphraseInPageTitle = function( paper, researcher ) {
 	functionWords = researcher.getConfig( "functionWords" );
 
 	let keyword = escapeRegExp( paper.getKeyword() );
-	let title = paper.getTitle();
+	const title = paper.getTitle();
 	const locale = paper.getLocale();
 
 	const result = { exactMatchFound: false, allWordsFound: false, position: -1, exactMatchKeyphrase: false  };

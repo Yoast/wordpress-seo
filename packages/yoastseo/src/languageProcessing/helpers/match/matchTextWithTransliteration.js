@@ -31,10 +31,8 @@ export default function( text, keyword, locale ) {
 	if ( locale === "tr_TR" ) {
 		const turkishMappings = replaceTurkishIsMemoized( keyword );
 		keywordRegex = new RegExp( turkishMappings.map( x => addWordBoundary( x ) ).join( "|" ), "ig" );
-		console.log( keywordRegex, "keywordRegex" );
 	}
 	const matches = text.match( keywordRegex ) || [];
-	console.log ( matches, "matches" );
 
 	text = text.replace( keywordRegex, "" );
 
