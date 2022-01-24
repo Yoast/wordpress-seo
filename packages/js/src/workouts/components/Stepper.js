@@ -283,7 +283,7 @@ Stepper.defaultProps = {
  *
  * @returns {int} The index to expand.
  */
-export function getIndexToExpand( isSavedSteps ) {
+export function getInitialActiveStepIndex( isSavedSteps ) {
 	// If anything other than an array has been provided, or it is an empty array, return 0.
 	if ( ! Array.isArray( isSavedSteps ) || isSavedSteps.length === 0 ) {
 		return 0;

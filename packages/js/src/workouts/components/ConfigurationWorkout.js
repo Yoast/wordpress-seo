@@ -10,7 +10,7 @@ import { ReactComponent as WorkoutDoneImage } from "../../../../../images/mirror
 import { ReactComponent as WorkoutStartImage } from "../../../images/motivated_bubble_woman_1_optim.svg";
 import { addLinkToString } from "../../helpers/stringHelpers.js";
 import { Step, Steps, FinishButtonSection } from "./Steps";
-import Stepper, { getIndexToExpand } from "./Stepper";
+import Stepper, { getInitialActiveStepIndex } from "./Stepper";
 import { STEPS, WORKOUTS } from "../config";
 import { OrganizationSection } from "./OrganizationSection";
 import { PersonSection } from "./PersonSection";
@@ -542,7 +542,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 		isWorkoutFinished,
 	];
 
-	const [ activeStepIndex, setActiveStepIndex ] = useState( getIndexToExpand( savedSteps ) );
+	const [ activeStepIndex, setActiveStepIndex ] = useState( getInitialActiveStepIndex( savedSteps ) );
 
 	// AND HERE....
 
