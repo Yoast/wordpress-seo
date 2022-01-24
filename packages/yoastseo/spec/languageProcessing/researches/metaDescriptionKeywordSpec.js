@@ -138,6 +138,45 @@ describe( "the metadescription keyword match research", function() {
 	} );
 } );
 
+describe( "the meta description keyphrase match research for keyphrases that contain apostrophe", () => {
+	it( "returns 1 for Turkish when the keyphrase has an apostrophe and starts with an uppercase letter and a match " +
+		"with a different form is found in the meta description", function() {
+		const paper = new Paper( "", { keyword: "madonna", locale: "tr_TR",
+			synonyms: "",
+			description: "Hatta açılış töreni için Madonna'yı davet ettiğini bile duymuştum." } );
+		const researcher = new TurkishResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyDataTR );
+
+		const result = metaDescriptionKeyword( paper, researcher );
+		expect( result ).toEqual( 1 );
+	} );
+
+	it( "returns 1 for Turkish when the keyphrase has an apostrophe and starts with an uppercase letter and a match " +
+		"with a different form is found in the meta description", function() {
+		const paper = new Paper( "", { keyword: "atade", locale: "tr_TR",
+			synonyms: "",
+			description: "Kitaplar Atadeniz'in gitti, yenilerine ihtiyacımız olacak." } );
+		const researcher = new TurkishResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyDataTR );
+
+		const result = metaDescriptionKeyword( paper, researcher );
+		expect( result ).toEqual( 1 );
+	} );
+
+	xit( "returns 1 for Turkish when the keyphrase has an apostrophe and starts with an uppercase letter and a match " +
+		"with a different form is found in the meta description (this unit test is skipped for now " +
+		"since the word 'universite' is overstemmed, hence no match is found)", function() {
+		const paper = new Paper( "", { keyword: "universite", locale: "tr_TR",
+			synonyms: "",
+			description: "Universitesi'ne büyük araştırmalar yapılıyor." } );
+		const researcher = new TurkishResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyDataTR );
+
+		const result = metaDescriptionKeyword( paper, researcher );
+		expect( result ).toEqual( 1 );
+	} );
+} );
+
 describe( "the meta description keyword match research for languages that have custom helper to match words", function() {
 	// Japanese has a custom helper to match words.
 	describe( "test the research with morphology data unavailable", () => {
@@ -295,39 +334,6 @@ describe( "the meta description keyword match research for languages that have c
 
 			const result = metaDescriptionKeyword( paper, researcher );
 			expect( result ).toEqual( 0 );
-		} );
-		it( "returns 1 for Turkish when the keyphrase has an apostrophe and starts with an uppercase letter " +
-			"different form of the keyphrase", function() {
-			const paper = new Paper( "", { keyword: "madonna", locale: "tr_TR",
-				synonyms: "",
-				description: "Hatta açılış töreni için Madonna'yı davet ettiğini bile duymuştum." } );
-			const researcher = new TurkishResearcher( paper );
-			researcher.addResearchData( "morphology", morphologyDataTR );
-
-			const result = metaDescriptionKeyword( paper, researcher );
-			expect( result ).toEqual( 1 );
-		} );
-		it( "returns 1 for Turkish when the keyphrase has an apostrophe and starts with an uppercase letter " +
-			"different form of the keyphrase", function() {
-			const paper = new Paper( "", { keyword: "atade", locale: "tr_TR",
-				synonyms: "",
-				description: "Kitaplar Atadeniz'in gitti, yenilerine ihtiyacımız olacak." } );
-			const researcher = new TurkishResearcher( paper );
-			researcher.addResearchData( "morphology", morphologyDataTR );
-
-			const result = metaDescriptionKeyword( paper, researcher );
-			expect( result ).toEqual( 1 );
-		} );
-		xit( "returns 1 for Turkish when the keyphrase has an apostrophe and starts with an uppercase letter " +
-			"different form of the keyphrase", function() {
-			const paper = new Paper( "", { keyword: "universite", locale: "tr_TR",
-				synonyms: "",
-				description: "Universitesi'ne büyük araştırmalar yapılıyor." } );
-			const researcher = new TurkishResearcher( paper );
-			researcher.addResearchData( "morphology", morphologyDataTR );
-
-			const result = metaDescriptionKeyword( paper, researcher );
-			expect( result ).toEqual( 1 );
 		} );
 	} );
 } );
