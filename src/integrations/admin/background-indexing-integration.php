@@ -13,7 +13,6 @@ use Yoast\WP\SEO\Conditionals\Get_Request_Conditional;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Conditionals\Yoast_Admin_And_Dashboard_Conditional;
 use Yoast\WP\SEO\Helpers\Indexing_Helper;
-use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
@@ -87,6 +86,13 @@ class Background_Indexing_Integration implements Integration_Interface {
 	protected $yoast_admin_and_dashboard_conditional;
 
 	/**
+	 * An object that checks if we are handling a GET request.
+	 *
+	 * @var Get_Request_Conditional
+	 */
+	private $get_request_conditional;
+
+	/**
 	 * Returns the conditionals based on which this integration should be active.
 	 *
 	 * @return array The array of conditionals.
@@ -94,7 +100,6 @@ class Background_Indexing_Integration implements Integration_Interface {
 	public static function get_conditionals() {
 		return [
 			Migrations_Conditional::class,
-			Get_Request_Conditional::class,
 		];
 	}
 
@@ -120,7 +125,8 @@ class Background_Indexing_Integration implements Integration_Interface {
 		Post_Link_Indexing_Action $post_link_indexing_action,
 		Term_Link_Indexing_Action $term_link_indexing_action,
 		Indexing_Helper $indexing_helper,
-		Yoast_Admin_And_Dashboard_Conditional $yoast_admin_and_dashboard_conditional
+		Yoast_Admin_And_Dashboard_Conditional $yoast_admin_and_dashboard_conditional,
+		Get_Request_Conditional $get_request_conditional
 	) {
 		$this->post_indexation                       = $post_indexation;
 		$this->term_indexation                       = $term_indexation;
@@ -131,6 +137,7 @@ class Background_Indexing_Integration implements Integration_Interface {
 		$this->term_link_indexing_action             = $term_link_indexing_action;
 		$this->indexing_helper                       = $indexing_helper;
 		$this->yoast_admin_and_dashboard_conditional = $yoast_admin_and_dashboard_conditional;
+		$this->get_request_conditional               = $get_request_conditional;
 	}
 
 	/**
@@ -241,7 +248,7 @@ class Background_Indexing_Integration implements Integration_Interface {
 	 * @return bool Should background indexation be performed.
 	 */
 	protected function should_index_on_shutdown( $shutdown_limit ) {
-		if ( ! $this->yoast_admin_and_dashboard_conditional->is_met() ) {
+		if ( ! $this->yoast_admin_and_dashboard_conditional->is_met() || !$this->get_request_conditional->is_met() ) {
 			return false;
 		}
 
