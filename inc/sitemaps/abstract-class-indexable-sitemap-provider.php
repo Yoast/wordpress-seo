@@ -44,48 +44,7 @@ abstract class WPSEO_Indexable_Sitemap_Provider implements WPSEO_Sitemap_Provide
 	 * @return array
 	 */
 	public function get_index_links( $max_entries ) {
-		global $wpdb;
-
-		$query = $this->repository
-			->query_where_noindex( false, $this->get_object_type() )
-			->select_many( 'id', 'object_sub_type' )
-			->order_by_asc( 'object_sub_type' )
-			->order_by_asc( 'object_last_modified' );
-
-		$excluded_object_ids = $this->get_excluded_object_ids();
-		if ( count( $excluded_object_ids ) > 0 ) {
-			$query->where_not_in( 'object_id', $excluded_object_ids );
-		}
-
-		$table_name = Model::get_table_name( 'Indexable' );
-		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Query is prepared by our ORM.
-		$raw_query = $wpdb->prepare( $query->get_sql(), $query->get_values() );
-
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery -- Complex query is not possible without a direct query.
-		$last_object_per_page = $wpdb->get_results(
-		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Variables are secure.
-			$wpdb->prepare(
-			// This query pulls only every Nth last_modified from the database, resetting row counts when the sub type changes.
-				"
-					SELECT i.object_sub_type, i.object_last_modified
-					FROM $table_name AS i
-					INNER JOIN (
-						SELECT id
-						FROM (
-							SELECT 
-								IF( @previous_sub_type = object_sub_type, @row:=@row+1, @row:=0) AS rownum, 
-								@previous_sub_type:=object_sub_type AS previous_sub_type,
-								id
-							FROM ( $raw_query ) AS sorted, ( SELECT @row:=-1, @previous_sub_type:=null ) AS init
-						) AS ranked
-						WHERE rownum MOD %d = 0
-					) AS subset
-					ON subset.id = i.id
-				",
-				$max_entries
-			)
-		// phpcs:enable
-		);
+		$last_object_per_page = $this->get_last_object_per_page( $max_entries );
 
 		$links              = [];
 		$page               = 1;
@@ -122,6 +81,96 @@ abstract class WPSEO_Indexable_Sitemap_Provider implements WPSEO_Sitemap_Provide
 		}
 
 		return $links;
+	}
+
+	/**
+	 * Gets a list of sitemap objects that represent the last entry on an individual sitemap page.
+	 *
+	 * @param int $max_entries_per_page The maximum allowed number of objects on a single page.
+	 *
+	 * @return array A list of sitemap objects that represent the last entry on an individual sitemap page.
+	 */
+	protected function get_last_object_per_page( $max_entries_per_page ) {
+		global $wpdb;
+
+		$query = $this->repository
+			->query_where_noindex( false, $this->get_object_type() )
+			->select_many( 'id', 'object_sub_type' )
+			->order_by_asc( 'object_sub_type' )
+			->order_by_asc( 'object_last_modified' );
+
+		$excluded_object_ids = $this->get_excluded_object_ids();
+		if ( count( $excluded_object_ids ) > 0 ) {
+			$query->where_not_in( 'object_id', $excluded_object_ids );
+		}
+
+		$table_name = Model::get_table_name( 'Indexable' );
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Query is prepared by our ORM.
+		$raw_query = $wpdb->prepare( $query->get_sql(), $query->get_values() );
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery -- Complex query is not possible without a direct query.
+		$last_object_per_page = $wpdb->get_results(
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Variables are secure.
+			$wpdb->prepare(
+			// This query pulls only every Nth last_modified from the database, resetting row counts when the sub type changes.
+				"
+					SELECT i.object_sub_type, i.object_last_modified
+					FROM $table_name AS i
+					INNER JOIN (
+						SELECT id
+						FROM (
+							SELECT 
+								IF( @previous_sub_type = object_sub_type, @row:=@row+1, @row:=0) AS rownum, 
+								@previous_sub_type:=object_sub_type AS previous_sub_type,
+								id
+							FROM ( $raw_query ) AS sorted, ( SELECT @row:=-1, @previous_sub_type:=null ) AS init
+						) AS ranked
+						WHERE rownum MOD %d = (%d-1) -- Get the last entry of all full pages.
+					) AS subset
+					ON subset.id = i.id
+				",
+				$max_entries_per_page, $max_entries_per_page
+			)
+		// phpcs:enable
+		);
+
+		if ( ! $last_object_per_page ) {
+			$last_object_per_page = [];
+		}
+
+		// Ensure that pages with fewer objects than the max_entries get a link.
+		$post_type_aggregates = (array) $this->repository
+			->query_where_noindex( false, $this->get_object_type() )
+			->select( 'object_sub_type' )
+			->having_gt( 'number_of_posts', 0 )
+			->select_expr( 'MAX(`object_last_modified`)', 'post_type_last_modified' )
+			->select_expr( 'COUNT(`id`)', 'number_of_posts' )
+			->find_array();
+
+		foreach ( $post_type_aggregates as $post_type_aggregate ) {
+			if ( $post_type_aggregate['number_of_posts'] % $max_entries_per_page !== 0 ) {
+				$half_page_object   = (object) [
+					'object_sub_type'      => $post_type_aggregate['object_sub_type'],
+					'object_last_modified' => $post_type_aggregate['post_type_last_modified'],
+				];
+				$last_subtype_index = 0;
+				foreach ( $last_object_per_page as $index => $object ) {
+					if ( $object->object_sub_type === $post_type_aggregate['object_sub_type'] ) {
+						$last_subtype_index = $index;
+					}
+				}
+
+				// Insert after the last complete page of the same type.
+				$last_object_per_page = array_merge(
+					array_splice( $last_object_per_page, 0, $last_subtype_index + 1 ),
+					[ $half_page_object ],
+					$last_object_per_page
+				);
+			}
+		}
+
+
+		return $last_object_per_page;
 	}
 
 	/**
