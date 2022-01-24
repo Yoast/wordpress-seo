@@ -15,100 +15,119 @@ import { useDispatch } from "@wordpress/data";
  *
  * @returns {JSX.Element} The UnsavedChangesModal.
  */
-export default function UnsavedChangesModal({ hasUnsavedChanges }) {
-	const [modalIsOpen, setModalIsOpen] = useState(false);
-	const [targetUrl, setTargetUrl] = useState("empty");
-	const [target, setTarget] = useState(null);
-	const { clearActiveWorkout } = useDispatch("yoast-seo/workouts");
+export default function UnsavedChangesModal( { hasUnsavedChanges } ) {
+	const [ modalIsOpen, setModalIsOpen ] = useState( false );
+	const [ targetUrl, setTargetUrl ] = useState( "empty" );
+	const { clearActiveWorkout } = useDispatch( "yoast-seo/workouts" );
 
-	const closeModal = useCallback(() => {
-		setModalIsOpen(false);
-	}, [setModalIsOpen]);
+	/**
+	 * Handles the "before page unloads" event.
+	 *
+	 * @param {Window} event The "before page unloads" event.
+	 *
+	 * @returns {void}
+	 */
+	const beforeUnloadEventHandler = useCallback( ( event ) => {
+		if ( hasUnsavedChanges ) {
+			event.preventDefault();
+			event.returnValue = "this is a test!";
+		}
+	}, [ hasUnsavedChanges ] );
 
-	const continueNavigation = useCallback(() => {
-		if (targetUrl === "popped") {
-			window.removeEventListener("popstate", popStateEventHandler);
-			history.go(-1);
-		} else if (targetUrl === "clear-active-workout") {
-			console.log("are we here?")
-			window.removeEventListener("popstate", popStateEventHandler);
+	/**
+	 * Handles the history pop state event.
+	 *
+	 * @param {Window} event The pop state event.
+	 *
+	 * @returns {void}
+	 */
+	const popStateEventHandler = useCallback( () => {
+		if ( hasUnsavedChanges ) {
+			window.removeEventListener( "beforeunload", beforeUnloadEventHandler );
+			history.go( 1 );
+			setTargetUrl( "popped" );
+			setModalIsOpen( true );
+		}
+	}, [ hasUnsavedChanges ] );
+
+	/**
+	 * Closes the modal dialog and stays on current page.
+	 *
+	 * @returns {void}
+	 */
+	const closeModal = useCallback( () => {
+		setModalIsOpen( false );
+	}, [ setModalIsOpen ] );
+
+	/**
+	 * Closes the modal dialog and continues the navigation to the target page.
+	 *
+	 * @returns {void}
+	 */
+	const continueNavigation = useCallback( () => {
+		if ( targetUrl === "popped" ) {
+			window.removeEventListener( "popstate", popStateEventHandler );
+			history.go( -1 );
+		}  else if ( targetUrl === "clear-active-workout" ) {
+			window.removeEventListener( "popstate", popStateEventHandler );
 			clearActiveWorkout();
 		} else {
-			window.location.replace(targetUrl);
+			window.location.replace( targetUrl );
 		}
-	}, [targetUrl]);
+	}, [ targetUrl ] );
 
-	const popStateEventHandler = useCallback((e) => {
-		console.log("popstate");
-		if (hasUnsavedChanges) {
-			window.removeEventListener("beforeunload", beforeUnloadEventHandler);
-			history.go(1);
-			setTargetUrl("popped")
-			setModalIsOpen(true);
-		}
-	}, [hasUnsavedChanges]);
-
-	const beforeUnloadEventHandler = useCallback((e) => {
-		console.log("beforeunload");
-		if (hasUnsavedChanges) {
-			e.preventDefault();
-			e.returnValue = "this is a test!";
-		}
-	}, [hasUnsavedChanges]);
-
+	/**
+	 * Handles the mouse click event.
+	 *
+	 * @param {Document} event The mouse click event.
+	 *
+	 * @returns {void}
+	 */
 	// eslint-disable-next-line complexity
-	const clickEventHandler = useCallback((e) => {
-
-		if (hasUnsavedChanges) {
-			setTargetUrl("Cleaned up");
-			const adminBarTarget = e.target.closest(".ab-item");
-			console.log(e.target)
-			if (e.target.id === "yoast-workouts-back-to-workouts-button") {
-				console.log(e.target)
-				e.preventDefault();
-				setTargetUrl("clear-active-workout");
-				setModalIsOpen(true);
+	const clickEventHandler = useCallback( ( event ) => {
+		if ( hasUnsavedChanges ) {
+			const adminBarTarget = event.target.closest( ".ab-item" );
+			if ( event.target.id === "yoast-workouts-back-to-workouts-button" ) {
+				event.preventDefault();
+				setTargetUrl( "clear-active-workout" );
+				setModalIsOpen( true );
 			}
-			if (e.target.tagName === "A") {
-				console.log(" a clicked")
-				e.preventDefault();
-				window.removeEventListener("beforeunload", beforeUnloadEventHandler);
-				setTargetUrl(e.target.href);
-				setModalIsOpen(true);
-			} else if (adminBarTarget) {
-				if (adminBarTarget.href && !adminBarTarget.href.endsWith("#qm-overview")) {
-					console.log(adminBarTarget.href)
-					console.log("ab-item clicked")
-					console.log(e.target.href)
-					e.preventDefault();
-					window.removeEventListener("beforeunload", beforeUnloadEventHandler);
-					setTargetUrl(adminBarTarget.href);
-					setModalIsOpen(true);
+			if ( event.target.tagName === "A" ) {
+				event.preventDefault();
+				window.removeEventListener( "beforeunload", beforeUnloadEventHandler );
+				setTargetUrl( event.target.href );
+				setModalIsOpen( true );
+			} else if ( adminBarTarget ) {
+				if ( adminBarTarget.href && ! adminBarTarget.href.endsWith( "#qm-overview" ) ) {
+					event.preventDefault();
+					window.removeEventListener( "beforeunload", beforeUnloadEventHandler );
+					setTargetUrl( adminBarTarget.href );
+					setModalIsOpen( true );
 				}
-			} else if (e.target.className === "wp-menu-name") {
-				e.preventDefault();
-				window.removeEventListener("beforeunload", beforeUnloadEventHandler);
-				setTargetUrl(e.target.parentElement.href);
-				setModalIsOpen(true);
+			} else if ( event.target.className === "wp-menu-name" ) {
+				event.preventDefault();
+				window.removeEventListener( "beforeunload", beforeUnloadEventHandler );
+				setTargetUrl( event.target.parentElement.href );
+				setModalIsOpen( true );
 			}
 		}
-	}, [hasUnsavedChanges]);
+	}, [ hasUnsavedChanges ] );
 
-	useEffect(() => {
-		//window.addEventListener("popstate", popStateEventHandler);
-		window.addEventListener("beforeunload", beforeUnloadEventHandler);
-		window.addEventListener("click", clickEventHandler);
+	useEffect( () => {
+		window.addEventListener( "popstate", popStateEventHandler );
+		window.addEventListener( "beforeunload", beforeUnloadEventHandler );
+		window.addEventListener( "click", clickEventHandler );
 
 		return () => {
-			//window.removeEventListener("popstate", popStateEventHandler);
-			window.removeEventListener("beforeunload", beforeUnloadEventHandler);
-			window.removeEventListener("click", clickEventHandler);
-			setTargetUrl("Cleaned up");
+			window.removeEventListener( "popstate", popStateEventHandler );
+			window.removeEventListener( "beforeunload", beforeUnloadEventHandler );
+			window.removeEventListener( "click", clickEventHandler );
+			setTargetUrl( "Cleaned up" );
 		};
-	}, [beforeUnloadEventHandler, popStateEventHandler, clickEventHandler]);
+	}, [ beforeUnloadEventHandler, popStateEventHandler, clickEventHandler ] );
 
 	return (
-		<Modal isOpen={modalIsOpen} handleClose={closeModal}>
+		<Modal isOpen={ modalIsOpen } handleClose={ closeModal }>
 			<div className="sm:yst-flex sm:yst-items-start">
 				<div
 					className="yst-mx-auto yst-flex-shrink-0 yst-flex yst-items-center yst-justify-center yst-h-12 yst-w-12 yst-rounded-full yst-bg-red-100 sm:yst-mx-0 sm:yst-h-10 sm:yst-w-10"
@@ -117,13 +136,12 @@ export default function UnsavedChangesModal({ hasUnsavedChanges }) {
 				</div>
 				<div className="yst-mt-3 yst-text-center sm:yst-mt-0 sm:yst-ml-4 sm:yst-text-left">
 					<Modal.Title as="h3" className="yst-text-lg yst-leading-6 yst-font-medium yst-text-gray-900">
-						{__("Unsaved changes", "admin-ui")}
+						{ __( "Unsaved changes", "admin-ui" ) }
 					</Modal.Title>
 					<div className="yst-mt-2">
 						<p className="yst-text-sm yst-text-gray-500">
-							{__("There are unsaved changes on this page. Leaving means that those changes will be lost. Are you sure you want to leave this page?", "admin-ui")}
+							{ __( "There are unsaved changes on this page. Leaving means that those changes will be lost. Are you sure you want to leave this page?", "admin-ui" ) }
 						</p>
-						<p>{targetUrl}</p>
 					</div>
 				</div>
 			</div>
@@ -132,16 +150,16 @@ export default function UnsavedChangesModal({ hasUnsavedChanges }) {
 				<button
 					type="button"
 					className="yst-button--danger yst-w-full yst-inline-flex sm:yst-w-auto sm:yst-ml-3"
-					onClick={continueNavigation}
+					onClick={ continueNavigation }
 				>
-					{__("Yes, leave page", "admin-ui")}
+					{ __( "Yes, leave page", "admin-ui" ) }
 				</button>
 				<button
 					type="button"
 					className="yst-button--secondary yst-w-full yst-inline-flex sm:yst-w-auto sm:yst-mt-0"
-					onClick={closeModal}
+					onClick={ closeModal }
 				>
-					{__("No, continue editing", "admin-ui")}
+					{ __( "No, continue editing", "admin-ui" ) }
 				</button>
 			</div>
 		</Modal>
@@ -150,6 +168,5 @@ export default function UnsavedChangesModal({ hasUnsavedChanges }) {
 
 UnsavedChangesModal.propTypes = {
 	hasUnsavedChanges: PropTypes.bool.isRequired,
-}
-
+};
 /* eslint-enable max-len */
