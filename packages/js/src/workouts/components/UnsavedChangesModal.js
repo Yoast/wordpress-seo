@@ -82,8 +82,7 @@ export default function UnsavedChangesModal( { hasUnsavedChanges } ) {
 	const clickEventHandler = useCallback( ( event ) => {
 		if ( hasUnsavedChanges ) {
 			const adminBarTarget = event.target.closest( ".ab-item" );
-
-			if ( event.target.tagName === "A" ) {
+			if ( event.target.tagName === "A" && ! ( new URL( event.href ) ).hash ) {
 				event.preventDefault();
 				window.removeEventListener( "beforeunload", beforeUnloadEventHandler );
 				setTargetUrl( event.target.href );
