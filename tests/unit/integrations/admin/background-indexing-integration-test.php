@@ -99,6 +99,13 @@ class Background_Indexing_Integration_Test extends TestCase {
 	protected $yoast_admin_and_dashboard_conditional;
 
 	/**
+	 * The Get_Request_Conditional mock.
+	 *
+	 * @var Mockery\MockInterface|Get_Request_Conditional
+	 */
+	private $get_request_conditional;
+
+	/**
 	 * Sets up the tests.
 	 */
 	protected function set_up() {
@@ -113,6 +120,7 @@ class Background_Indexing_Integration_Test extends TestCase {
 		$this->term_link_indexing_action             = Mockery::mock( Term_Link_Indexing_Action::class );
 		$this->indexing_helper                       = Mockery::mock( Indexing_Helper::class );
 		$this->yoast_admin_and_dashboard_conditional = Mockery::mock( Yoast_Admin_And_Dashboard_Conditional::class );
+		$this->get_request_conditional               = Mockery::mock( Get_Request_Conditional::class );
 		$this->instance                              = new Background_Indexing_Integration(
 			$this->post_indexation,
 			$this->term_indexation,
@@ -122,7 +130,8 @@ class Background_Indexing_Integration_Test extends TestCase {
 			$this->post_link_indexing_action,
 			$this->term_link_indexing_action,
 			$this->indexing_helper,
-			$this->yoast_admin_and_dashboard_conditional
+			$this->yoast_admin_and_dashboard_conditional,
+			$this->get_request_conditional,
 		);
 	}
 
@@ -135,7 +144,6 @@ class Background_Indexing_Integration_Test extends TestCase {
 		static::assertEquals(
 			[
 				Migrations_Conditional::class,
-				Get_Request_Conditional::class,
 			],
 			Background_Indexing_Integration::get_conditionals()
 		);
@@ -210,6 +218,11 @@ class Background_Indexing_Integration_Test extends TestCase {
 			->once()
 			->andReturn( true );
 
+		$this->get_request_conditional
+			->expects( 'is_met' )
+			->once()
+			->andReturn( true );
+
 		Monkey\Functions\expect( 'register_shutdown_function' )->with( [ $this->instance, 'index' ] );
 
 		Monkey\Filters\expectApplied( 'wpseo_shutdown_indexation_limit' )
@@ -227,6 +240,29 @@ class Background_Indexing_Integration_Test extends TestCase {
 	 */
 	public function test_register_shutdown_indexing_on_invalid_pages() {
 		$this->yoast_admin_and_dashboard_conditional
+			->expects( 'is_met' )
+			->once()
+			->andReturn( false );
+
+		Monkey\Functions\expect( 'register_shutdown_function' )->never();
+
+		$this->instance->register_shutdown_indexing();
+	}
+
+	/**
+	 * Tests the enqueue_scripts method on post requests. This should not trigger shutdown background indexing.
+	 *
+	 * @covers ::register_shutdown_indexing
+	 * @covers ::should_index_on_shutdown
+	 * @covers ::get_shutdown_limit
+	 */
+	public function test_register_shutdown_indexing_on_post_request() {
+		$this->yoast_admin_and_dashboard_conditional
+			->expects( 'is_met' )
+			->once()
+			->andReturn( true );
+
+		$this->get_request_conditional
 			->expects( 'is_met' )
 			->once()
 			->andReturn( false );
