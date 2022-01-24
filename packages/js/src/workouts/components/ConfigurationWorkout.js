@@ -288,6 +288,12 @@ IndexationStep.propTypes = {
 	setIndexingState: PropTypes.func.isRequired,
 };
 
+/* eslint-disable max-len */
+/**
+ * Doc comment to make linter happy.
+ *
+ * @returns {JSX.Element} Example step.
+ */
 function Step2() {
 	return <div><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec congue sollicitudin condimentum. Nam eu nibh id odio convallis posuere a at enim. Aenean ullamcorper libero a urna sollicitudin, ac tempus lorem gravida. Aenean convallis sed ex sed condimentum. Integer sed enim at felis semper mattis. Vestibulum luctus egestas dignissim. Curabitur consectetur nulla non erat cursus imperdiet.
 		Donec pellentesque, lectus quis tristique aliquet, mauris arcu ornare dui, vulputate dictum leo nibh maximus turpis. Curabitur vitae ornare felis, nec porttitor velit. Ut elit risus, porta quis accumsan sit amet, imperdiet eget tellus. Nullam luctus, augue nec posuere volutpat, arcu sem euismod enim, eget sagittis orci felis non eros. Interdum et malesuada fames ac ante ipsum primis in faucibus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris pharetra massa eget tempor lacinia. Aliquam in neque arcu. Sed arcu lectus, efficitur lacinia mauris ut, vestibulum venenatis justo.
@@ -295,6 +301,7 @@ function Step2() {
 		Donec vel quam et lorem condimentum fermentum. Suspendisse viverra, risus molestie vehicula lobortis, est turpis lacinia ante, at tempor odio justo vitae risus. Nulla ut nunc at odio venenatis tincidunt. Sed tempor ac felis at viverra. Sed placerat pellentesque diam, in condimentum ante vestibulum eu. Nunc congue a velit dictum mattis. Cras vitae sodales tellus. Morbi at odio rhoncus, consequat neque sit amet, tincidunt lectus. Vestibulum condimentum arcu nibh, vitae efficitur est elementum a. In et faucibus ligula, et fringilla nulla. Fusce in mauris vel tortor accumsan iaculis at posuere dolor. Quisque luctus dapibus ligula eget porttitor. Etiam id placerat odio.
 	</p></div>;
 }
+/* eslint-enable max-len */
 
 /* eslint-disable max-statements */
 /**
@@ -534,6 +541,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 	/* eslint-disable max-len */
 	return (
 		<div id="yoast-configuration-workout" className="card">
+			{ /* eslint-disable react/jsx-no-bind */ }
 			<Stepper
 				steps={ [
 					{ name: "The indexables", component: <IndexationStep setIndexingState={ setIndexingState } indexingState={ indexingState } />, isSaved: isStepFinished( "configuration", steps.optimizeSeoData ) },
@@ -546,7 +554,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 				saveStep={ ( stepIdx ) => finishSteps( "configuration", [ stepNumberNameMap[ stepIdx + 1 ] ] ) }
 				activeStepIndex={ activeStepIndex }
 			/>
-
+			{ /* eslint-enable react/jsx-no-bind */ }
 
 			<h2 id="yoast-configuration-workout-title">{ __( "Configuration", "wordpress-seo" ) }</h2>
 			<h3 id="yoast-configuration-workout-tagline">{
