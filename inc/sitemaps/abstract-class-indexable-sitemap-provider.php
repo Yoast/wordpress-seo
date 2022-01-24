@@ -113,7 +113,7 @@ abstract class WPSEO_Indexable_Sitemap_Provider implements WPSEO_Sitemap_Provide
 		}
 
 		foreach ( $this->get_non_empty_types() as $object_sub_type ) {
-			if ( ! in_array( $object_sub_type, $present_page_types, true ) ) {
+			if ( ! in_array( $object_sub_type, $present_page_types, true ) && ! $this->should_exclude_object_sub_type( $object_sub_type ) ) {
 				$links[] = [
 					'loc'     => WPSEO_Sitemaps_Router::get_base_url( $object_sub_type . '-sitemap.xml' ),
 					'lastmod' => null,
