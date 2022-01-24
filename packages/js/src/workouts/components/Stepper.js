@@ -270,3 +270,35 @@ Stepper.defaultProps = {
 	finishStepper: () => { },
 };
 /* eslint-enable complexity, max-len */
+
+// HELPER FUNCTION. Should probably be moved to a separate helper class?
+/**
+ * Gets the index to expand on first render of the stepper.
+ *
+ * If available, the index of the first unsaved step is returned.
+ * If all steps have been finished, the index of the last step is returned.
+ * Otherwise, returns the index of the first step.
+ *
+ * @param {Boolean[]} isSavedSteps Array with the isSaved values for each of the steps.
+ *
+ * @returns {int} The index to expand.
+ */
+export function getIndexToExpand( isSavedSteps ) {
+	// If anything other than an array has been provided, or it is an empty array, return 0.
+	if ( ! Array.isArray( isSavedSteps ) || isSavedSteps.length === 0 ) {
+		return 0;
+	}
+
+	// Get the index of the first element that has not been saved yet.
+	const index = isSavedSteps.findIndex( ( element ) => element === false );
+	if ( index !== -1 ) {
+		return index;
+	}
+
+	// If all steps have been finished, return the index of the last step.
+	if ( isSavedSteps.every( Boolean ) ) {
+		return isSavedSteps.length - 1;
+	}
+
+	return 0;
+}

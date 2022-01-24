@@ -10,7 +10,7 @@ import { ReactComponent as WorkoutDoneImage } from "../../../../../images/mirror
 import { ReactComponent as WorkoutStartImage } from "../../../images/motivated_bubble_woman_1_optim.svg";
 import { addLinkToString } from "../../helpers/stringHelpers.js";
 import { Step, Steps, FinishButtonSection } from "./Steps";
-import Stepper from "./Stepper";
+import Stepper, { getIndexToExpand } from "./Stepper";
 import { STEPS, WORKOUTS } from "../config";
 import { OrganizationSection } from "./OrganizationSection";
 import { PersonSection } from "./PersonSection";
@@ -527,7 +527,15 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 	const siteRepresentsPerson = state.companyOrPerson === "person";
 
 	// PROBABLY DELETE BETWEEN HERE....
-	const [ activeStepIndex, setActiveStepIndex ] = useState( 0 );
+	const savedSteps = [
+		isStepFinished( "configuration", steps.optimizeSeoData ),
+		isStepFinished( "configuration", steps.siteRepresentation ),
+		isStepFinished( "configuration", steps.socialProfiles ),
+		isStepFinished( "configuration", steps.newsletterSignup ),
+		isWorkoutFinished,
+	];
+
+	const [ activeStepIndex, setActiveStepIndex ] = useState( getIndexToExpand( savedSteps ) );
 
 	// AND HERE....
 
