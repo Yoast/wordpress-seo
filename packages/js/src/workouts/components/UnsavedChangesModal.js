@@ -112,7 +112,6 @@ export default function UnsavedChangesModal( { hasUnsavedChanges } ) {
 			window.removeEventListener( "popstate", popStateEventHandler );
 			window.removeEventListener( "beforeunload", beforeUnloadEventHandler );
 			window.removeEventListener( "click", clickEventHandler );
-			setTargetUrl( "Cleaned up" );
 		};
 	}, [ beforeUnloadEventHandler, popStateEventHandler, clickEventHandler ] );
 
