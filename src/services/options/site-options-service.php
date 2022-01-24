@@ -29,19 +29,19 @@ class Site_Options_Service extends Abstract_Options_Service {
 		],
 		'instagram_url'                               => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'empty_string', 'url' ],
 		],
 		'linkedin_url'                                => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'empty_string', 'url' ],
 		],
 		'myspace_url'                                 => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'empty_string', 'url' ],
 		],
 		'og_default_image'                            => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'empty_string', 'url' ],
 		],
 		'og_default_image_id'                         => [
 			'default' => '',
@@ -53,7 +53,7 @@ class Site_Options_Service extends Abstract_Options_Service {
 		],
 		'og_frontpage_image'                          => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'empty_string', 'url' ],
 		],
 		'og_frontpage_image_id'                       => [
 			'default' => '',
@@ -69,7 +69,7 @@ class Site_Options_Service extends Abstract_Options_Service {
 		],
 		'pinterest_url'                               => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'empty_string', 'url' ],
 		],
 		'pinterestverify'                             => [
 			'default' => '',
@@ -89,11 +89,11 @@ class Site_Options_Service extends Abstract_Options_Service {
 		],
 		'wikipedia_url'                               => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'empty_string', 'url' ],
 		],
 		'youtube_url'                                 => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'empty_string', 'url' ],
 		],
 
 		// Taxonomy meta.
@@ -103,7 +103,7 @@ class Site_Options_Service extends Abstract_Options_Service {
 		],
 		'wpseo_canonical'                             => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'empty_string', 'url' ],
 		],
 		'wpseo_content_score'                         => [
 			'default' => '',
@@ -225,7 +225,7 @@ class Site_Options_Service extends Abstract_Options_Service {
 		],
 		'company_logo'                                => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'empty_string', 'url' ],
 		],
 		'company_logo_id'                             => [
 			'default' => '',
@@ -329,7 +329,7 @@ class Site_Options_Service extends Abstract_Options_Service {
 		],
 		'open_graph_frontpage_image'                  => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'empty_string', 'url' ],
 		],
 		'open_graph_frontpage_image_id'               => [
 			'default' => '',
@@ -341,7 +341,7 @@ class Site_Options_Service extends Abstract_Options_Service {
 		],
 		'person_logo'                                 => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'empty_string', 'url' ],
 		],
 		'person_logo_id'                              => [
 			'default' => '',
@@ -421,23 +421,23 @@ class Site_Options_Service extends Abstract_Options_Service {
 		],
 		'social-image-url-<PostTypeName>'             => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'empty_string', 'url' ],
 		],
 		'social-image-url-archive-wpseo'              => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'empty_string', 'url' ],
 		],
 		'social-image-url-author-wpseo'               => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'empty_string', 'url' ],
 		],
 		'social-image-url-ptarchive-<PostTypeName>'   => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'empty_string', 'url' ],
 		],
 		'social-image-url-tax-{TaxonomyName}'         => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'empty_string', 'url' ],
 		],
 		'social-title-<PostTypeName>'                 => [
 			'default' => '',
