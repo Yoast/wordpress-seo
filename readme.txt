@@ -239,6 +239,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 18.0 =
 Release Date: January 25th, 2022
 
+Yoast SEO 18.0 is out now! This release contains a number of bug fixes and a couple of enhancements. We've enhanced schema presentation for non-alphanumeric languages and made several improvements in both the SEO and readability analysis of the Japanese language. Read more about what's new in Yoast SEO 18.0 in [our release post in English](https://yoa.st/release-18-0) or [our release post in Spanish](https://yoa.st/release-18-0-spanish)!
+
 Enhancements:
 
 * Limits a potentially slow query to certain routes, which makes it so it gets called fewer times.
