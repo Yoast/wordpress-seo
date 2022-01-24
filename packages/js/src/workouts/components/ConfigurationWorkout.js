@@ -5,6 +5,8 @@ import { createInterpolateElement, useCallback, useReducer, useState, useEffect,
 import { __, sprintf } from "@wordpress/i18n";
 import { cloneDeep } from "lodash";
 import PropTypes from "prop-types";
+import UnsavedChangesModal from "./UnsavedChangesModal";
+
 import { Alert, NewButton as Button, RadioButtonGroup, SingleSelect, TextInput } from "@yoast/components";
 import { ReactComponent as WorkoutDoneImage } from "../../../../../images/mirrored_fit_bubble_woman_1_optim.svg";
 import { ReactComponent as WorkoutStartImage } from "../../../images/motivated_bubble_woman_1_optim.svg";
@@ -547,6 +549,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 				activeStepIndex={ activeStepIndex }
 			/>
 
+			<UnsavedChangesModal hasUnsavedChanges={ state.editedSteps.includes( activeStepIndex + 1 ) } />
 
 			<h2 id="yoast-configuration-workout-title">{ __( "Configuration", "wordpress-seo" ) }</h2>
 			<h3 id="yoast-configuration-workout-tagline">{
