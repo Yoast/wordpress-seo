@@ -255,6 +255,8 @@ Bugfixes:
 * Fixes a bug where incorrect assessments were shown for keyphrases only consisting of function words in Japanese.
 * Fixes a bug where a fatal error would be thrown if the link count of a corrupt indexable item would get updated.
 * Fixes a bug where the title tag would not be correct in Full Site Editing themes.
+* Fixes a bug where the text length assessment would count URLs from videos loaded in the article in the total amount of the copy characters in Japanese.
+* Fixes a bug where Japanese full stops in a text would be counted as three characters instead of one.
 
 Other:
 
