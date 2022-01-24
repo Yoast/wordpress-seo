@@ -125,11 +125,11 @@ export default function UnsavedChangesModal( { hasUnsavedChanges } ) {
 				</div>
 				<div className="yst-mt-3 yst-text-center sm:yst-mt-0 sm:yst-ml-4 sm:yst-text-left">
 					<Modal.Title as="h3" className="yst-text-lg yst-leading-6 yst-font-medium yst-text-gray-900">
-						{ __( "Unsaved changes", "admin-ui" ) }
+						{ __( "Unsaved changes", "wordpress-seo" ) }
 					</Modal.Title>
 					<div className="yst-mt-2">
 						<p className="yst-text-sm yst-text-gray-500">
-							{ __( "There are unsaved changes on this page. Leaving means that those changes will be lost. Are you sure you want to leave this page?", "admin-ui" ) }
+							{ __( "There are unsaved changes in this step. Leaving means that those changes will be lost. Are you sure you want to leave this step?", "wordpress-seo" ) }
 						</p>
 					</div>
 				</div>
@@ -141,14 +141,14 @@ export default function UnsavedChangesModal( { hasUnsavedChanges } ) {
 					className="yst-button--danger yst-w-full yst-inline-flex sm:yst-w-auto sm:yst-ml-3"
 					onClick={ continueNavigation }
 				>
-					{ __( "Yes, leave page", "admin-ui" ) }
+					{ __( "Yes, leave page", "wordpress-seo" ) }
 				</button>
 				<button
 					type="button"
 					className="yst-button--secondary yst-w-full yst-inline-flex sm:yst-w-auto sm:yst-mt-0"
 					onClick={ closeModal }
 				>
-					{ __( "No, continue editing", "admin-ui" ) }
+					{ __( "No, continue editing", "wordpress-seo" ) }
 				</button>
 			</div>
 		</Modal>
