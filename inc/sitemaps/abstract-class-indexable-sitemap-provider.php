@@ -142,9 +142,9 @@ abstract class WPSEO_Indexable_Sitemap_Provider implements WPSEO_Sitemap_Provide
 		$post_type_aggregates = (array) $this->repository
 			->query_where_noindex( false, $this->get_object_type() )
 			->select( 'object_sub_type' )
-			->having_gt( 'number_of_posts', 0 )
 			->select_expr( 'MAX(`object_last_modified`)', 'post_type_last_modified' )
 			->select_expr( 'COUNT(`id`)', 'number_of_posts' )
+			->having_gt( 'number_of_posts', 0 )
 			->find_array();
 
 		foreach ( $post_type_aggregates as $post_type_aggregate ) {
