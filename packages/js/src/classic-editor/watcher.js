@@ -140,26 +140,34 @@ const createCategoriesSync = ( updateCategories ) => {
 		updateCategories( getPostCategories() );
 	};
 
-	// Sync the categories whenever there are changes in the checkboxes.
-	const checkboxes = getPostCategoryCheckboxes();
-	checkboxes.forEach(
-		checkbox => checkbox.addEventListener( "input", syncCategories )
-	);
+	/**
+	 * Watches the category checkboxes for changes,
+	 * and updates the categories in the SEO store accordingly.
+	 *
+	 * @returns {void}
+	 */
+	const watchCategoryCheckboxes = () => {
+		// Sync the categories whenever there are changes in the checkboxes.
+		const checkboxes = getPostCategoryCheckboxes();
+		checkboxes.forEach(
+			checkbox => {
+				checkbox.removeEventListener( "input", syncCategories );
+				checkbox.addEventListener( "input", syncCategories );
+			}
+		);
+	};
 
 	const categoryChecklist = document.getElementById( "categorychecklist" );
 	if ( categoryChecklist ) {
 		// Observe the category checklist for changes and update the categories if new categories are added.
-		const observer = new MutationObserver( ( mutationList ) => {
+		const observer = new MutationObserver( () => {
 			updateCategories( getPostCategories() );
-
-			const addedElement = mutationList[ 0 ]?.addedNodes[ 0 ];
-			const checkbox = addedElement?.querySelector( "input[type=checkbox]" );
-			if ( checkbox ) {
-				checkbox.addEventListener( "input", syncCategories );
-			}
+			watchCategoryCheckboxes();
 		} );
-		observer.observe( categoryChecklist, { childList: true } );
+		observer.observe( categoryChecklist, { childList: true, subtree: true } );
 	}
+
+	watchCategoryCheckboxes();
 };
 
 /**
