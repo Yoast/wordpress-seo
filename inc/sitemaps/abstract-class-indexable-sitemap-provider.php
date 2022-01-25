@@ -62,9 +62,13 @@ abstract class WPSEO_Indexable_Sitemap_Provider implements WPSEO_Sitemap_Provide
 			}
 
 			$links[] = [
-				'loc'     => WPSEO_Sitemaps_Router::get_base_url( $object->object_sub_type . '-sitemap' . ( $page++ ) . '.xml' ),
+				'loc'     => WPSEO_Sitemaps_Router::get_base_url( $object->object_sub_type . '-sitemap' . ( $page ) . '.xml' ),
 				'lastmod' => $object->object_last_modified,
 			];
+
+			if ( is_int( $page ) ) {
+				++$page;
+			}
 
 			if ( $next_object_is_not_same_sub_type ) {
 				$page = 1;
