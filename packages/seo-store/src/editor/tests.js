@@ -105,25 +105,25 @@ describe( "Editor slice", () => {
 			const result = editorReducer( initialState, updateCategories( [
 				{
 					id: "1",
-					name: "category 1"
+					name: "category 1",
 				},
 				{
-					id: '2',
-					name: 'category 2'
-				}
+					id: "2",
+					name: "category 2",
+				},
 			] ) );
 
 			expect( result ).toEqual( {
 				...initialState,
 				categories: [
 					{
-						id: '1',
-						name: 'category 1'
+						id: "1",
+						name: "category 1",
 					},
 					{
-						id: '2',
-						name: 'category 2'
-					}
+						id: "2",
+						name: "category 2",
+					},
 				],
 			} );
 		} );
