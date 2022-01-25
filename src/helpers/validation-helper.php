@@ -2,7 +2,7 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
-use Yoast\WP\SEO\Exceptions\Validation\Validation_Exception;
+use Yoast\WP\SEO\Exceptions\Validation\Abstract_Validation_Exception;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -43,7 +43,7 @@ class Validation_Helper {
 	 * @param mixed $value The value to validate.
 	 * @param array $types What to validate as.
 	 *
-	 * @throws Validation_Exception When no type deemed the value valid.
+	 * @throws Abstract_Validation_Exception When no type deemed the value valid.
 	 *
 	 * @return mixed A valid value.
 	 */
@@ -71,7 +71,7 @@ class Validation_Helper {
 
 			try {
 				return $instance->validate( $value, $settings );
-			} catch ( Validation_Exception $exception ) {
+			} catch ( Abstract_Validation_Exception $exception ) {
 				// Remember this exception, as the next type might succeed.
 				$last_exception = $exception;
 			}

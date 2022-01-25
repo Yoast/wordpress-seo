@@ -7,5 +7,5 @@ use Exception;
 /**
  * Abstract option exception class.
  */
-abstract class Option_Exception extends Exception {
+abstract class Abstract_Option_Exception extends Exception {
 }

@@ -9,13 +9,15 @@ use Yoast\WP\SEO\Exceptions\Validation\Invalid_Url_Exception;
  */
 class Url_Validator extends String_Validator {
 
+	// phpcs:disable Squiz.Commenting.FunctionCommentThrowTag.WrongNumber -- Reason: The parent validate can throw too.
+
 	/**
 	 * Validates if a value is a URL.
 	 *
 	 * @param mixed $value The value to validate.
 	 *
 	 * @throws Invalid_Url_Exception When the value is an invalid URL.
-	 * @throws \Yoast\WP\SEO\Exceptions\Validation\Validation_Exception When the value is invalid.
+	 * @throws \Yoast\WP\SEO\Exceptions\Validation\Invalid_Type_Exception When the value is not a string.
 	 *
 	 * @return mixed A valid URL.
 	 */
@@ -33,6 +35,8 @@ class Url_Validator extends String_Validator {
 		return $url;
 	}
 
+	// phpcs:enable Squiz.Commenting.FunctionCommentThrowTag.WrongNumber
+
 	/**
 	 * Sanitize an url for saving to the database.
 	 * Not to be confused with the old native WP function.
@@ -41,8 +45,6 @@ class Url_Validator extends String_Validator {
 	 * @param array  $allowed_protocols Optional set of allowed protocols.
 	 *
 	 * @return string
-	 * @since 1.8.0
-	 *
 	 */
 	public function sanitize( $value, $allowed_protocols = [ 'http', 'https' ] ) {
 		$url   = '';
@@ -69,7 +71,7 @@ class Url_Validator extends String_Validator {
 		if ( isset( $parts['path'] ) && \strpos( $parts['path'], '/' ) === 0 ) {
 			$path = \explode( '/', \wp_strip_all_tags( $parts['path'] ) );
 			$path = self::sanitize_encoded_text_field( $path );
-			$url  .= \implode( '/', $path );
+			$url .= \implode( '/', $path );
 		}
 
 		if ( ! $url ) {

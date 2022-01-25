@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Exceptions\Validation;
 /**
  * Empty URL validation exception class.
  */
-class Empty_Url_Exception extends Validation_Exception {
+class Empty_Url_Exception extends Abstract_Validation_Exception {
 
 	/**
 	 * Constructs an empty URL validation exception instance.

@@ -96,7 +96,7 @@ abstract class Abstract_Options_Service {
 	 *
 	 * @throws Unknown_Exception When the option does not exist.
 	 * @throws Missing_Configuration_Key_Exception When the option does not have a `sanitize_as` key.
-	 * @throws \Yoast\WP\SEO\Exceptions\Validation\Validation_Exception When the value is invalid.
+	 * @throws \Yoast\WP\SEO\Exceptions\Validation\Abstract_Validation_Exception When the value is invalid.
 	 */
 	public function __set( $key, $value ) {
 		if ( ! \array_key_exists( $key, $this->configurations ) ) {

@@ -4,8 +4,10 @@ namespace Yoast\WP\SEO\Exceptions\Option;
 
 /**
  * Missing configuration key option exception class.
+ *
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- 4 words is fine.
  */
-class Missing_Configuration_Key_Exception extends Option_Exception {
+class Missing_Configuration_Key_Exception extends Abstract_Option_Exception {
 
 	/**
 	 * Constructs a missing key option exception instance.

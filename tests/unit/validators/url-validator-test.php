@@ -59,8 +59,7 @@ class Url_Validator_Test extends TestCase {
 	 * @param mixed  $expected  The expected result.
 	 * @param string $exception The expected exception class. Optional, use when the expected result is false.
 	 *
-	 * @throws \Yoast\WP\SEO\Exceptions\Validation\Invalid_Url_Exception
-	 * @throws \Yoast\WP\SEO\Exceptions\Validation\Validation_Exception
+	 * @throws \Yoast\WP\SEO\Exceptions\Validation\Abstract_Validation_Exception When detecting an invalid value.
 	 */
 	public function test_validate( $value, $expected, $exception = '' ) {
 		if ( ! $expected ) {

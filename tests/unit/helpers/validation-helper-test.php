@@ -77,9 +77,7 @@ class Validation_Helper_Test extends TestCase {
 	 *
 	 * @covers ::validate_as
 	 *
-	 * @throws \Yoast\WP\SEO\Exceptions\Validation\Validation_Exception
-	 *
-	 * @return void
+	 * @throws \Yoast\WP\SEO\Exceptions\Validation\Abstract_Validation_Exception When detecting an invalid value.
 	 */
 	public function test_validate_as() {
 		$empty_string_validator = Mockery::mock( Empty_String_Validator::class );
@@ -128,7 +126,13 @@ class Validation_Helper_Test extends TestCase {
 			->once()
 			->andReturn( 'https://example.org' );
 
-		$result = $this->instance->validate_as( 'https://example.org', [ 'empty_string' => 'some settings', 'url' ] );
+		$result = $this->instance->validate_as(
+			'https://example.org',
+			[
+				'empty_string' => 'some settings',
+				'url',
+			]
+		);
 		$this->assertEquals( 'https://example.org', $result );
 	}
 
@@ -137,9 +141,7 @@ class Validation_Helper_Test extends TestCase {
 	 *
 	 * @covers ::validate_as
 	 *
-	 * @throws \Yoast\WP\SEO\Exceptions\Validation\Validation_Exception
-	 *
-	 * @return void
+	 * @throws \Yoast\WP\SEO\Exceptions\Validation\Abstract_Validation_Exception When detecting an invalid value.
 	 */
 	public function test_validate_as_exception() {
 		$empty_string_validator = Mockery::mock( Empty_String_Validator::class );
@@ -176,9 +178,7 @@ class Validation_Helper_Test extends TestCase {
 	 *
 	 * @covers ::validate_as
 	 *
-	 * @throws \Yoast\WP\SEO\Exceptions\Validation\Validation_Exception
-	 *
-	 * @return void
+	 * @throws \Yoast\WP\SEO\Exceptions\Validation\Abstract_Validation_Exception When detecting an invalid value.
 	 */
 	public function test_validate_no_validator() {
 		$this->string

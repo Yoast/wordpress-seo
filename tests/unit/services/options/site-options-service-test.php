@@ -79,7 +79,12 @@ class Site_Options_Service_Test extends TestCase {
 	 * @covers ::get_values
 	 */
 	public function test_get_options_filtered() {
-		$this->assert_for_get_values( [ 'foo' => 'bar', 'bar' => 'baz' ] );
+		$this->assert_for_get_values(
+			[
+				'foo' => 'bar',
+				'bar' => 'baz',
+			]
+		);
 
 		$result = $this->instance->get_options( [ 'foo' ] );
 

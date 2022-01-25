@@ -7,5 +7,5 @@ use Exception;
 /**
  * Abstract validation exception class.
  */
-abstract class Validation_Exception extends Exception {
+abstract class Abstract_Validation_Exception extends Exception {
 }

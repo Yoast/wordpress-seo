@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Exceptions\Option;
 /**
  * Unknown option exception class.
  */
-class Unknown_Exception extends Option_Exception {
+class Unknown_Exception extends Abstract_Option_Exception {
 
 	/**
 	 * Constructs an unknown option exception instance.
