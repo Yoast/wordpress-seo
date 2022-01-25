@@ -16,11 +16,11 @@
 }
 
 .yst-button--danger {
-	@apply yst-text-white yst-bg-red-600 yst-border-transparent hover:yst-bg-red-700;
+	@apply yst-button yst-text-white yst-bg-red-600 yst-border-transparent hover:yst-bg-red-700;
 }
 
 .yst-button--remove {
-	@apply yst-text-red-600 yst-underline yst-rounded-md yst-px-1.5 yst-py-1 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-indigo-500;
+	@apply yst-button yst-text-red-600 yst-underline yst-rounded-md yst-px-1.5 yst-py-1 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-indigo-500;
 }
 
 #wpseo-workouts-container-free h1,
