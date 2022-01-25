@@ -129,7 +129,7 @@ export default function UnsavedChangesModal( { hasUnsavedChanges } ) {
 					</Modal.Title>
 					<div className="yst-mt-2">
 						<p className="yst-text-sm yst-text-gray-500">
-							{ __( "There are unsaved changes in this step. Leaving means that those changes will be lost. Are you sure you want to leave this step?", "wordpress-seo" ) }
+							{ __( "There are unsaved changes in this step. Leaving means that those changes will be lost. Are you sure you want to leave this page?", "wordpress-seo" ) }
 						</p>
 					</div>
 				</div>
