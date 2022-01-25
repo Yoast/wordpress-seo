@@ -6,6 +6,7 @@ use wpdb;
 use Yoast\WP\SEO\Conditionals\AIOSEO_V4_Importer_Conditional;
 use Yoast\WP\SEO\Helpers\Indexable_To_Postmeta_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Sanitization_Helper;
 use Yoast\WP\SEO\Helpers\Wpdb_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
@@ -61,6 +62,14 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 		'twitter_description' => [
 			'yoast_name'       => 'twitter_description',
 			'transform_method' => 'simple_import',
+		],
+		'canonical_url'       => [
+			'yoast_name'       => 'canonical',
+			'transform_method' => 'url_import',
+		],
+		'keyphrases'          => [
+			'yoast_name'       => 'primary_focus_keyword',
+			'transform_method' => 'keyphrase_import',
 		],
 		'robots_noindex'      => [
 			'yoast_name'       => 'is_robots_noindex',
@@ -128,6 +137,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	 * @param wpdb                              $wpdb                  The WordPress database instance.
 	 * @param Indexable_To_Postmeta_Helper      $indexable_to_postmeta The indexable_to_postmeta helper.
 	 * @param Options_Helper                    $options               The options helper.
+	 * @param Sanitization_Helper               $sanitization          The sanitization helper.
 	 * @param Wpdb_Helper                       $wpdb_helper           The wpdb_helper helper.
 	 * @param Aioseo_Replacevar_Handler         $replacevar_handler    The replacevar handler.
 	 * @param Aioseo_Robots_Provider_Service    $robots_provider       The robots provider service.
@@ -138,11 +148,12 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 		wpdb $wpdb,
 		Indexable_To_Postmeta_Helper $indexable_to_postmeta,
 		Options_Helper $options,
+		Sanitization_Helper $sanitization,
 		Wpdb_Helper $wpdb_helper,
 		Aioseo_Replacevar_Handler $replacevar_handler,
 		Aioseo_Robots_Provider_Service $robots_provider,
 		Aioseo_Robots_Transformer_Service $robots_transformer ) {
-		parent::__construct( $options, $replacevar_handler, $robots_provider, $robots_transformer );
+		parent::__construct( $options, $sanitization, $replacevar_handler, $robots_provider, $robots_transformer );
 
 		$this->indexable_repository  = $indexable_repository;
 		$this->wpdb                  = $wpdb;
@@ -369,6 +380,22 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 			$replacements
 		);
 		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+	}
+
+	/**
+	 * Plucks the keyphrase to be imported from the AIOSEO array of keyphrase meta data.
+	 *
+	 * @param array $meta_data The keyphrase meta data to be imported.
+	 *
+	 * @return string|null The plucked keyphrase.
+	 */
+	public function keyphrase_import( $meta_data ) {
+		$meta_data = \json_decode( $meta_data, true );
+		if ( ! isset( $meta_data['focus']['keyphrase'] ) ) {
+			return null;
+		}
+
+		return $this->sanitization->sanitize_text_field( $meta_data['focus']['keyphrase'] );
 	}
 
 	/**

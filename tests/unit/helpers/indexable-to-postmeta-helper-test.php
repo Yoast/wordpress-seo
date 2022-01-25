@@ -59,6 +59,8 @@ class Indexable_To_Postmeta_Helper_Test extends TestCase {
 		$indexable->open_graph_description = 'open_graph_description1';
 		$indexable->twitter_title          = 'twitter_title1';
 		$indexable->twitter_description    = 'twitter_description1';
+		$indexable->canonical              = 'https://example.com/';
+		$indexable->primary_focus_keyword  = 'key phrase';
 		$indexable->is_robots_noindex      = true;
 		$indexable->is_robots_nofollow     = true;
 		$indexable->is_robots_noimageindex = true;
@@ -83,6 +85,12 @@ class Indexable_To_Postmeta_Helper_Test extends TestCase {
 			->andReturn( true );
 		$this->meta->expects( 'set_value' )
 			->with( 'twitter-description', 'twitter_description1', 123 )
+			->andReturn( true );
+		$this->meta->expects( 'set_value' )
+			->with( 'canonical', 'https://example.com/', 123 )
+			->andReturn( true );
+		$this->meta->expects( 'set_value' )
+			->with( 'focuskw', 'key phrase', 123 )
 			->andReturn( true );
 		$this->meta->expects( 'set_value' )
 			->with( 'meta-robots-noindex', true, 123 )
