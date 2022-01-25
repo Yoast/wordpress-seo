@@ -60,8 +60,7 @@ export default function( paper, researcher ) {
 	 * Check if the keyword is enclosed in quotation mark.
 	 * If yes, remove the quotation marks and check if the exact match of the keyphrase is found in the title.
 	 */
-	const doubleQuotes = [ "“", "”", "〝", "〞", "〟", "‟", "„", "\"", "\u300c", "\u300d", "\u300e", "\u300f" ];
-	const exactMatchRequest = processExactMatchRequest( keyphrase, doubleQuotes );
+	const exactMatchRequest = processExactMatchRequest( keyphrase );
 	if ( exactMatchRequest.exactMatchRequested ) {
 		result.exactMatchKeyphrase = true;
 
