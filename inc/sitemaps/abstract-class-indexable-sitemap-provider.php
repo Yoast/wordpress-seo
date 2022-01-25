@@ -133,7 +133,8 @@ abstract class WPSEO_Indexable_Sitemap_Provider implements WPSEO_Sitemap_Provide
 					) AS subset
 					ON subset.id = i.id
 				",
-				$max_entries_per_page, $max_entries_per_page
+				$max_entries_per_page,
+				$max_entries_per_page
 			)
 		// phpcs:enable
 		);
@@ -170,7 +171,7 @@ abstract class WPSEO_Indexable_Sitemap_Provider implements WPSEO_Sitemap_Provide
 
 				// Insert after the last complete page of the same type.
 				$last_object_per_page = array_merge(
-					array_splice( $last_object_per_page, 0, $last_subtype_index + 1 ),
+					array_splice( $last_object_per_page, 0, ( $last_subtype_index + 1 ) ),
 					[ $half_page_object ],
 					$last_object_per_page
 				);
