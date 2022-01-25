@@ -55,6 +55,22 @@ class Indexable_To_Postmeta_Helper {
 			'post_meta_key' => 'focuskw',
 			'map_method'    => 'simple_map',
 		],
+		'open_graph_image'       => [
+			'post_meta_key' => 'opengraph-image',
+			'map_method'    => 'simple_map',
+		],
+		'open_graph_image_id'    => [
+			'post_meta_key' => 'opengraph-image-id',
+			'map_method'    => 'simple_map',
+		],
+		'twitter_image'          => [
+			'post_meta_key' => 'twitter-image',
+			'map_method'    => 'simple_map',
+		],
+		'twitter_image_id'       => [
+			'post_meta_key' => 'twitter-image-id',
+			'map_method'    => 'simple_map',
+		],
 		'is_robots_noindex'      => [
 			'post_meta_key' => 'meta-robots-noindex',
 			'map_method'    => 'noindex_map',
