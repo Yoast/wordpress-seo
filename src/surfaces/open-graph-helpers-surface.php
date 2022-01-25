@@ -10,6 +10,8 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * Surface for the indexables.
  *
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- 4 words is fine.
+ *
  * @property Open_Graph\Image_Helper $image
  */
 class Open_Graph_Helpers_Surface {
@@ -55,7 +57,8 @@ class Open_Graph_Helpers_Surface {
 	/**
 	 * Get the class name from a helper slug
 	 *
-	 * @param string $helper
+	 * @param string $helper The name of the helper.
+	 *
 	 * @return string
 	 */
 	protected function get_helper_class( $helper ) {

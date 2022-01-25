@@ -55,7 +55,8 @@ class Twitter_Helpers_Surface {
 	/**
 	 * Get the class name from a helper slug
 	 *
-	 * @param string $helper
+	 * @param string $helper The name of the helper.
+	 *
 	 * @return string
 	 */
 	protected function get_helper_class( $helper ) {
