@@ -58,9 +58,10 @@ class Indexing_Helper {
 	/**
 	 * Indexing_Helper constructor.
 	 *
-	 * @param Options_Helper            $options_helper      The options helper.
-	 * @param Date_Helper               $date_helper         The date helper.
-	 * @param Yoast_Notification_Center $notification_center The notification center.
+	 * @param Options_Helper             $options_helper             The options helper.
+	 * @param Date_Helper                $date_helper                The date helper.
+	 * @param Yoast_Notification_Center  $notification_center        The notification center.
+	 * @param Indexable_Builder_Versions $indexable_builder_versions Stores the version of each Indexable type.
 	 */
 	public function __construct(
 		Options_Helper $options_helper,

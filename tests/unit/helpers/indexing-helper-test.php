@@ -25,8 +25,8 @@ use Yoast_Notification_Center;
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Indexing_Helper
  * @covers \Yoast\WP\SEO\Helpers\Indexing_Helper
  *
- * @group helpers
- * @group indexing
+ * @group  helpers
+ * @group  indexing
  */
 class Indexing_Helper_Test extends TestCase {
 
@@ -57,7 +57,6 @@ class Indexing_Helper_Test extends TestCase {
 	 * @var Mockery\MockInterface|Yoast_Notification_Center
 	 */
 	protected $notification_center;
-
 
 	/**
 	 * The indexable builder version mock.
@@ -114,11 +113,11 @@ class Indexing_Helper_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->options_helper      = Mockery::mock( Options_Helper::class );
-		$this->date_helper         = Mockery::mock( Date_Helper::class );
-		$this->notification_center = Mockery::mock( Yoast_Notification_Center::class );
+		$this->options_helper             = Mockery::mock( Options_Helper::class );
+		$this->date_helper                = Mockery::mock( Date_Helper::class );
+		$this->notification_center        = Mockery::mock( Yoast_Notification_Center::class );
 		$this->indexable_builder_versions = Mockery::mock( Indexable_Builder_Versions::class );
-		$this->instance            = new Indexing_Helper(
+		$this->instance                   = new Indexing_Helper(
 			$this->options_helper,
 			$this->date_helper,
 			$this->notification_center,

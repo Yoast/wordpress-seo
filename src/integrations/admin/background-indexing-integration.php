@@ -115,6 +115,7 @@ class Background_Indexing_Integration implements Integration_Interface {
 	 * @param Term_Link_Indexing_Action                     $term_link_indexing_action             The term indexing action.
 	 * @param Indexing_Helper                               $indexing_helper                       The indexing helper.
 	 * @param Yoast_Admin_And_Dashboard_Conditional         $yoast_admin_and_dashboard_conditional An object that checks if we are on the Yoast admin or on the dashboard page.
+	 * @param Get_Request_Conditional                       $get_request_conditional               An object that checks if we are handling a GET request.
 	 */
 	public function __construct(
 		Indexable_Post_Indexation_Action $post_indexation,
@@ -146,6 +147,7 @@ class Background_Indexing_Integration implements Integration_Interface {
 	public function register_hooks() {
 		\add_action( 'admin_init', [ $this, 'register_shutdown_indexing' ] );
 		\add_action( 'Yoast\WP\SEO\index', [ $this, 'index' ] );
+		// phpcs:ignore WordPress.WP.CronInterval -- We use small intervals, so we can use small batches and reduce peak load.
 		\add_filter( 'cron_schedules', [ $this, 'add_cron_schedule' ] );
 		\add_action( 'init', [ $this, 'schedule_cron_indexing' ], 11 );
 		\add_filter( 'wpseo_post_indexation_limit', [ $this, 'throttle_cron_indexing' ] );
@@ -196,7 +198,7 @@ class Background_Indexing_Integration implements Integration_Interface {
 		}
 
 		$schedules['five_minutes'] = [
-			'interval' => 5 * MINUTE_IN_SECONDS,
+			'interval' => ( 5 * MINUTE_IN_SECONDS ),
 			'display'  => esc_html__( 'Every five minutes', 'wordpress-seo' ),
 		];
 
@@ -248,7 +250,7 @@ class Background_Indexing_Integration implements Integration_Interface {
 	 * @return bool Should background indexation be performed.
 	 */
 	protected function should_index_on_shutdown( $shutdown_limit ) {
-		if ( ! $this->yoast_admin_and_dashboard_conditional->is_met() || !$this->get_request_conditional->is_met() ) {
+		if ( ! $this->yoast_admin_and_dashboard_conditional->is_met() || ! $this->get_request_conditional->is_met() ) {
 			return false;
 		}
 

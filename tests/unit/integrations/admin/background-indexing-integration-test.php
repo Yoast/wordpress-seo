@@ -131,7 +131,7 @@ class Background_Indexing_Integration_Test extends TestCase {
 			$this->term_link_indexing_action,
 			$this->indexing_helper,
 			$this->yoast_admin_and_dashboard_conditional,
-			$this->get_request_conditional,
+			$this->get_request_conditional
 		);
 	}
 
@@ -276,6 +276,7 @@ class Background_Indexing_Integration_Test extends TestCase {
 	 * Tests the shutdown indexing method.
 	 *
 	 * @covers ::index
+	 * @covers ::should_index_on_cron
 	 */
 	public function test_index() {
 		Monkey\Functions\when( 'wp_doing_cron' )->justReturn( false );
@@ -398,6 +399,11 @@ class Background_Indexing_Integration_Test extends TestCase {
 		$this->instance->index();
 	}
 
+	/**
+	 * Tests that the schedule_cron_indexing function schedules a cron job that performs the Yoast\WP\SEO\index action.
+	 *
+	 * @covers ::schedule_cron_indexing
+	 */
 	public function test_schedule_cron_indexing() {
 		Monkey\Functions\when( 'time' )->justReturn( 987654321 );
 		Monkey\Functions\expect( 'wp_next_scheduled' )->once()->with( 'Yoast\WP\SEO\index' )->andReturn( false );
@@ -407,6 +413,11 @@ class Background_Indexing_Integration_Test extends TestCase {
 		$this->instance->schedule_cron_indexing();
 	}
 
+	/**
+	 * Tests that no cron job is scheduled when the cron job is already scheduled.
+	 *
+	 * @covers ::schedule_cron_indexing
+	 */
 	public function test_schedule_cron_indexing_already_scheduled() {
 		Monkey\Functions\when( 'time' )->justReturn( 987654321 );
 		Monkey\Functions\expect( 'wp_next_scheduled' )->once()->with( 'Yoast\WP\SEO\index' )->andReturn( 987654321 );
@@ -415,6 +426,11 @@ class Background_Indexing_Integration_Test extends TestCase {
 		$this->instance->schedule_cron_indexing();
 	}
 
+	/**
+	 * Tests that no cron job is scheduled when the cron indexing is disabled through the Yoast\WP\SEO\enable_cron_indexing filter.
+	 *
+	 * @covers ::schedule_cron_indexing
+	 */
 	public function test_schedule_cron_indexing_cron_indexing_disabled() {
 		Monkey\Functions\when( 'time' )->justReturn( 987654321 );
 		Monkey\Functions\expect( 'wp_next_scheduled' )->once()->with( 'Yoast\WP\SEO\index' )->andReturn( false );
@@ -424,6 +440,11 @@ class Background_Indexing_Integration_Test extends TestCase {
 		$this->instance->schedule_cron_indexing();
 	}
 
+	/**
+	 * Tests that no cron job is scheduled when the indexing process is already complete.
+	 *
+	 * @covers ::schedule_cron_indexing
+	 */
 	public function test_schedule_cron_indexing_index_complete() {
 		Monkey\Functions\when( 'time' )->justReturn( 987654321 );
 		Monkey\Functions\expect( 'wp_next_scheduled' )->once()->with( 'Yoast\WP\SEO\index' )->andReturn( false );
@@ -433,13 +454,23 @@ class Background_Indexing_Integration_Test extends TestCase {
 		$this->instance->schedule_cron_indexing();
 	}
 
-
+	/**
+	 * /**
+	 * Tests that the background indexing pace stays untouched when not doing cron.
+	 *
+	 * @covers ::throttle_cron_indexing
+	 */
 	public function test_throttle_cron_indexing() {
 		Monkey\Functions\when( 'wp_doing_cron' )->justReturn( false );
 
 		$this->assertSame( 25, $this->instance->throttle_cron_indexing( 25 ) );
 	}
 
+	/**
+	 * Tests that the background indexing pace is throttled to 5 when doing cron.
+	 *
+	 * @covers ::throttle_cron_indexing
+	 */
 	public function test_throttle_cron_indexing_while_doing_cron() {
 		Monkey\Functions\when( 'wp_doing_cron' )->justReturn( true );
 
