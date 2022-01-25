@@ -278,22 +278,15 @@ export const getTermPermalink = () => get( window, "wpseoScriptData.metabox.base
  *
  * @returns {number} 80 for texts in Japanese, 156 for other languages.
  */
-function getMetaDescriptionLimit() {
-	return getContentLocale() === "ja" ? 80 : 156;
-}
+export const getMetaDescriptionLimit = () => getContentLocale() === "ja" ? 80 : 156;
 
 /**
  * Gets the post excerpt from the document.
  *
  * @returns {string} The post excerpt or an empty string.
  */
-export const getPostExcerpt = () => {
-	let excerpt = get( document.getElementById( DOM_IDS.POST_EXCERPT ), "value", "" );
-	if ( ! excerpt ) {
-		excerpt = excerptFromContent( getPostContent(), getMetaDescriptionLimit() );
-	}
-	return excerpt;
-};
+export const getPostExcerpt = () => get( document.getElementById( DOM_IDS.POST_EXCERPT ), "value", "" ) ||
+	excerptFromContent( getPostContent(), getMetaDescriptionLimit() );
 
 /**
  * Gets the term excerpt from the document.
