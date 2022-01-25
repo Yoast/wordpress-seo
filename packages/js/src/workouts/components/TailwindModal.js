@@ -17,7 +17,7 @@ import { PropTypes } from "prop-types";
  *
  * @returns {JSX.Element} The modal element.
  */
-export default function Modal( { isOpen, handleClose, hasCloseButton, children } ) {
+export default function TailwindModal( { isOpen, handleClose, hasCloseButton, children } ) {
 	return (
 		<Transition.Root show={ isOpen } as={ Fragment }>
 			<Dialog as="div" static={ true } className="yst-fixed yst-z-10 yst-inset-0 yst-overflow-y-auto" open={ isOpen } onClose={ handleClose }>
@@ -68,17 +68,17 @@ export default function Modal( { isOpen, handleClose, hasCloseButton, children }
 	);
 }
 
-Modal.Title = Dialog.Title;
-Modal.Description = Dialog.Description;
+TailwindModal.Title = Dialog.Title;
+TailwindModal.Description = Dialog.Description;
 
-Modal.propTypes = {
+TailwindModal.propTypes = {
 	isOpen: PropTypes.bool.isRequired,
 	handleClose: PropTypes.func,
 	hasCloseButton: PropTypes.bool,
 	children: PropTypes.node.isRequired,
 };
 
-Modal.defaultProps = {
+TailwindModal.defaultProps = {
 	handleClose: noop,
 	hasCloseButton: true,
 };
