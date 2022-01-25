@@ -94,28 +94,71 @@ const stepShape = PropTypes.shape( {
 	isSaved: PropTypes.bool.isRequired,
 } );
 /* eslint-disable require-jsdoc, max-len */
-function StepCircle( { isSaved, isActive, children } ) {
-	let bulletClassNames = isSaved ? "yst-delay-500 yst-bg-primary-500 yst-border-primary-500" : "yst-delay-500 yst-bg-white yst-border-gray-300";
-	if ( isActive ) {
-		bulletClassNames = "yst-bg-white yst-border-primary-500";
-	}
+// Function StepCircle( { isSaved, isActive, children } ) {
+// 	Let bulletClassNames = isSaved ? "yst-delay-500 yst-bg-primary-500 yst-border-primary-500" : "yst-delay-500 yst-bg-white yst-border-gray-300";
+// 	If ( isActive ) {
+// 		BulletClassNames = "yst-bg-white yst-border-primary-500";
+// 	}
+// 	Return <span
+// 		ClassName={ `yst-transition-colors yst-duration-500 yst-relative yst-border-2 yst-z-10 yst-w-8 yst-h-8 yst-flex yst-items-center yst-justify-center yst-rounded-full ${ bulletClassNames }` }
+// 	>
+// 		{ children }
+// 	</span>;
+// }
+
+function StepCircle( { activeClasses, inactiveClasses, activationDelay, deactivationDelay, isActive, isSaved, children } ) {
+	const [ classes, setClasses ] = useState( "yst-opacity-0" );
+	useEffect( () => {
+		if ( isActive ) {
+			// Set deactivation delay on the active class, mind the ending space.
+			setTimeout( () => setClasses( "yst-opacity-100" ), activationDelay );
+			// setClasses( `yst-delay-[${ activationDelay }ms] yst-opacity-100` );
+			return;
+		}
+		// Set activation delay on the inactive class, mind the ending space.
+		setTimeout( () => setClasses( "yst-opacity-0" ), deactivationDelay );
+		// setClasses( `yst-delay-[${ deactivationDelay }ms] yst-opacity-0` );
+	}, [ isActive, activationDelay, deactivationDelay ] );
+
 	return <span
-		className={ `yst-transition-colors yst-duration-500 yst-relative yst-border-2 yst-z-10 yst-w-8 yst-h-8 yst-flex yst-items-center yst-justify-center yst-rounded-full ${ bulletClassNames }` }
+		className={ "yst-relative yst-z-10 yst-w-8 yst-h-8 yst-rounded-full" }
 	>
-		{ children }
+		<span
+			className={ `yst-absolute yst-inset-0 ${ inactiveClasses } yst-border-2 yst-flex yst-items-center yst-justify-center yst-rounded-full` }
+		>
+			{ children }
+		</span>
+		<span
+			className={ `yst-transition-opacity yst-duration-500 ${ classes } yst-absolute yst-inset-0 yst-bg-white yst-border-primary-500 yst-border-2 yst-flex yst-items-center yst-justify-center yst-rounded-full` }
+		>
+			{ children }
+		</span>
 	</span>;
 }
 
-function StepIcon( { isSaved, isActive } ) {
-	let bulletContentClassNames = isSaved ? "yst-delay-500" : "yst-delay-500 yst-bg-transparent";
-	if ( isActive ) {
-		bulletContentClassNames =  "yst-bg-primary-500";
-	}
+function StepIcon( { activeClasses, inactiveClasses, activationDelay, deactivationDelay, isActive, isSaved } ) {
+	const [ classes, setClasses ] = useState( "" );
+	const [ icon, setIcon ] = useState( isSaved ? "check" : "bullet" );
 
-	// hier proberen met opactiy en absolute?
-	return ( ! isActive && isSaved )
+	useEffect( () => {
+		if ( isActive ) {
+			// Set deactivation delay on the active class, mind the ending space.
+			setTimeout( () => {
+				setClasses( activeClasses );
+				setIcon( "bullet" );
+			}, activationDelay );
+			return;
+		}
+		// Set activation delay on the inactive class, mind the ending space.
+		setTimeout( () => {
+			setClasses( inactiveClasses );
+			setIcon( isSaved ? "check" : "bullet" );
+		}, deactivationDelay );
+	}, [ isActive, activeClasses, inactiveClasses, activationDelay, deactivationDelay ] );
+	// Hier proberen met opactiy en absolute?
+	return ( icon === "check" )
 		? <CheckIcon className="yst-w-5 yst-h-5 yst-text-white" aria-hidden="true" />
-		: <span className={ `yst-transition-colors yst-duration-500 yst-h-2.5 yst-w-2.5 yst-rounded-full ${ bulletContentClassNames }` } />;
+		: <span className={ `yst-transition-colors yst-duration-500 yst-h-2.5 yst-w-2.5 yst-rounded-full ${ classes }` } />;
 }
 
 /* eslint-disable complexity, max-len */
@@ -133,15 +176,13 @@ function TailwindStep( { step, stepIndex, lastStepIndex, saveStep, finishStepper
 	const [ contentHeight, setContentHeight ] = useState( isActiveStep ? "auto" : 0 );
 	const [ isFaded, setIsFaded ] = useState( ! isActiveStep );
 
-	const bulletClassNames = getBulletClassnames( isSaved, isActiveStep );
 	const nameClassNames = getNameClassnames( isSaved, isActiveStep );
-	const bulletContentClassNames = getBulletContentClassnames( isSaved, ! isFaded );
 
 
-	useEffect( () => {
-		const inActiveIcon = isSaved ? "check" : "bullet";
-		setTimeout( () => setIcon( isActiveStep ? "bullet" : inActiveIcon ), 500 );
-	}, [ isSaved, isActiveStep ] );
+	// UseEffect( () => {
+	// 	Const inActiveIcon = isSaved ? "check" : "bullet";
+	// 	SetTimeout( () => setIcon( isActiveStep ? "bullet" : inActiveIcon ), 500 );
+	// }, [ isSaved, isActiveStep ] );
 
 
 	const handlePrimaryClick = useCallback(
@@ -172,7 +213,7 @@ function TailwindStep( { step, stepIndex, lastStepIndex, saveStep, finishStepper
 		}
 	}, [ isActiveStep ] );
 
-	// const setHeightZero = useCallback( () => setContentHeight( 0 ), [] );
+	// Const setHeightZero = useCallback( () => setContentHeight( 0 ), [] );
 
 	return (
 		<Fragment>
@@ -199,8 +240,21 @@ function TailwindStep( { step, stepIndex, lastStepIndex, saveStep, finishStepper
 			}
 			<div className="yst-relative yst-flex yst-items-start yst-group" aria-current={ isActiveStep ? "step" : null }>
 				<span className="yst-flex yst-items-center" aria-hidden={ isActiveStep ? "true" : null }>
-					<StepCircle isSaved={ isSaved } isActive={ isActiveStep }>
-						<StepIcon isSaved={ isSaved } isActive={ isActiveStep } />
+					<StepCircle
+						isActive={ isActiveStep }
+						activeClasses="yst-bg-white yst-border-primary-500"
+						inactiveClasses={ isSaved ? "yst-bg-primary-500 yst-border-primary-500" : "yst-bg-white yst-border-gray-300" }
+						activationDelay={ 1500 }
+						deactivationDelay={ 0 }
+					>
+						<StepIcon
+							isActive={ isActiveStep }
+							activeClasses="yst-bg-primary-500"
+							inactiveClasses={ isSaved ? "" : "yst-bg-transparent" }
+							activationDelay={ 500 }
+							deactivationDelay={ 0 }
+							isSaved={ isSaved }
+						/>
 					</StepCircle>
 				</span>
 				{ /* Name and description. */ }
@@ -219,7 +273,7 @@ function TailwindStep( { step, stepIndex, lastStepIndex, saveStep, finishStepper
 				duration={ 500 }
 			>
 				<div className={ "yst-relative yst-ml-12 yst-mt-4" }>
-					<div className={ `yst-absolute yst-transition-colors yst-duration-200 yst-inset-0 ${ isFaded ? "yst-bg-white" : "yst-pointer-events-none yst-bg-transparent" }` } />
+					<div className={ `yst-absolute yst-transition-opacity yst-duration-200 yst-inset-0 yst-bg-white yst-pointer-events-none ${ isFaded ? "yst-opacity-100" : "yst-opacity-0" }` } />
 					{ step.component }
 					<StepButtons
 						stepIndex={ stepIndex }
