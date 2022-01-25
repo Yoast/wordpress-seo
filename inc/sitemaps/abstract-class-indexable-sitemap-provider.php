@@ -104,7 +104,7 @@ abstract class WPSEO_Indexable_Sitemap_Provider implements WPSEO_Sitemap_Provide
 			->order_by_asc( 'object_last_modified' );
 
 		$excluded_object_ids = $this->get_excluded_object_ids();
-		if ( count( $excluded_object_ids ) > 0 ) {
+		if ( is_array( $excluded_object_ids ) && count( $excluded_object_ids ) > 0 ) {
 			$query->where_not_in( 'object_id', $excluded_object_ids );
 		}
 
@@ -143,17 +143,20 @@ abstract class WPSEO_Indexable_Sitemap_Provider implements WPSEO_Sitemap_Provide
 		}
 
 		// Ensure that pages with fewer objects than the max_entries get a link.
-		$post_type_aggregates = (array) $this->repository
+		$post_type_aggregate_query = $this->repository
 			->query_where_noindex( false, $this->get_object_type() )
 			->select( 'object_sub_type' )
 			->select_expr( 'MAX(`object_last_modified`)', 'post_type_last_modified' )
 			->select_expr( 'COUNT(`id`)', 'number_of_posts' )
-			->where_not_in( 'object_id', $excluded_object_ids )
-			->having_gt( 'number_of_posts', 0 )
-			->find_array();
+			->having_gt( 'number_of_posts', 0 );
+
+		if ( is_array( $excluded_object_ids ) && count( $excluded_object_ids ) > 0 ) {
+			$post_type_aggregate_query->where_not_in( 'object_id', $excluded_object_ids );
+		}
+		$post_type_aggregates = (array) $post_type_aggregate_query->find_array();
 
 		foreach ( $post_type_aggregates as $post_type_aggregate ) {
-			if ( $post_type_aggregate['number_of_posts'] % $max_entries_per_page !== 0 ) {
+			if ( isset( $post_type_aggregate['number_of_posts'] ) && ( $post_type_aggregate['number_of_posts'] % $max_entries_per_page !== 0 ) ) {
 				$half_page_object   = (object) [
 					'object_sub_type'      => $post_type_aggregate['object_sub_type'],
 					'object_last_modified' => $post_type_aggregate['post_type_last_modified'],
