@@ -9,11 +9,11 @@ import { PropTypes } from "prop-types";
 /**
  * Modal component.
  *
- * @param {Object} props The props.
- * @param {boolean} props.isOpen Whether the modal is open.
- * @param {function} [props.handleClose] Function that is called when the user wants to close the modal.
- * @param {boolean} [props.hasCloseButton=true] Whether the modal has a close button.
- * @param {JSX.node} props.children Contents of the modal.
+ * @param {Object}   props                       The props.
+ * @param {boolean}  props.isOpen                Whether the modal is open.
+ * @param {function} [props.handleClose]         Function that is called when the user wants to close the modal.
+ * @param {boolean}  [props.hasCloseButton=true] Whether the modal has a close button.
+ * @param {JSX.node} props.children              Contents of the modal.
  *
  * @returns {JSX.Element} The modal element.
  */
