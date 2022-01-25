@@ -247,7 +247,7 @@ Bugfixes:
 
 * Fixes a bug where images inserted into our FAQ or HowTo blocks would be rendered wider then their respective container when using a Block Theme.
 * Fixes a bug where plugins that would initialize after our plugin would be unable to register certain plugin information or utilize certain hooks.
-* Fixes a bug where capitalized keyphrase would show up twice in the Wincher SEO performance tracking modal. 
+* Fixes a bug where capitalized keyphrases would show up twice in the Wincher SEO performance tracking modal. 
 
 Other:
 
