@@ -11,6 +11,7 @@ describe( "Editor slice", () => {
 		excerpt: "",
 		date: "",
 		featuredImage: {},
+		locale: "",
 	};
 
 	describe( "Reducer", () => {
@@ -83,6 +84,17 @@ describe( "Editor slice", () => {
 				featuredImage: {
 					url: "http://example.com",
 				},
+			} );
+		} );
+
+		test( "should update the locale", () => {
+			const { updateLocale } = editorActions;
+
+			const result = editorReducer( initialState, updateLocale( "ja" ) );
+
+			expect( result ).toEqual( {
+				...initialState,
+				locale: "ja",
 			} );
 		} );
 	} );
