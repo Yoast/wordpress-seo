@@ -70,7 +70,7 @@ class Url_Validator extends String_Validator {
 
 		if ( isset( $parts['path'] ) && \strpos( $parts['path'], '/' ) === 0 ) {
 			$path = \explode( '/', \wp_strip_all_tags( $parts['path'] ) );
-			$path = self::sanitize_encoded_text_field( $path );
+			$path = $this->sanitize_encoded_text_field( $path );
 			$url .= \implode( '/', $path );
 		}
 
