@@ -342,9 +342,10 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 			if ( isset( $yoast_mapping['social_image_import'] ) && $yoast_mapping['social_image_import'] ) {
 				$image_url = \call_user_func( [ $this, $yoast_mapping['transform_method'] ], $aioseo_indexable, $yoast_mapping );
 
-				$indexable->{$yoast_mapping['yoast_name']} = $image_url;
-
+				// Update the indexable's social image only where there's actually a url to import, so as not to lose the social images that we came up with when we originally built the indexable.
 				if ( ! empty( $image_url ) ) {
+					$indexable->{$yoast_mapping['yoast_name']} = $image_url;
+
 					$image_source_key             = $yoast_mapping['social_setting_prefix_yoast'] . 'image_source';
 					$indexable->$image_source_key = 'imported';
 
