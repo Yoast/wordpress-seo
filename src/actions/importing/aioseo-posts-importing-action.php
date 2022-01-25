@@ -508,19 +508,16 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 
 		$image_type = $aioseo_social_image_settings[ $mapping['social_setting_prefix_aioseo'] . 'image_type' ];
 
-		if ( $image_type === 'custom_image' ) {
-			return $this->sanitization->sanitize_url( $aioseo_social_image_settings[ $mapping['social_setting_prefix_aioseo'] . 'image_custom_url' ] );
+		switch ( $image_type ) {
+			case 'custom_image':
+				return $this->sanitization->sanitize_url( $aioseo_social_image_settings[ $mapping['social_setting_prefix_aioseo'] . 'image_custom_url' ] );
+			case 'auto':
+				return null;
+			case 'default':
+				return $this->sanitization->sanitize_url( $this->social_images_provider->get_default_social_image( \rtrim( $mapping['social_setting_prefix_aioseo'], '_' ) ) );
+			default:
+				$image_url = $aioseo_social_image_settings[ $mapping['social_setting_prefix_aioseo'] . 'image_url' ];
+				return $this->sanitization->sanitize_url( $image_url );
 		}
-
-		if ( $image_type === 'auto' ) {
-			return null;
-		}
-
-		if ( $image_type === 'default' ) {
-			return $this->sanitization->sanitize_url( $this->social_images_provider->get_default_social_image( \rtrim( $mapping['social_setting_prefix_aioseo'], '_' ) ) );
-		}
-
-		$image_url = $aioseo_social_image_settings[ $mapping['social_setting_prefix_aioseo'] . 'image_url' ];
-		return $this->sanitization->sanitize_url( $image_url );
 	}
 }
