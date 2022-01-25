@@ -274,14 +274,6 @@ export const getPostPermalink = () => get( window, "wpseoScriptData.metabox.base
 export const getTermPermalink = () => get( window, "wpseoScriptData.metabox.base_url", "" ) + getTermSlug();
 
 /**
- * Gets the locale from the document.
- * The current implementation fetches the user's language, and not the site language.
- *
- * @returns {string} The locale, defaults to en_US.
- */
-export const getLocale = () => document.getElementsByTagName( "html" )[ 0 ]?.getAttribute( "lang" ) || "en_US";
-
-/**
  * Gets the limit for the meta description based on the locale.
  *
  * @returns {number} 80 for texts in Japanese, 156 for other languages.
