@@ -2,7 +2,7 @@ import { ExclamationIcon } from "@heroicons/react/outline";
 import { useCallback, useEffect, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
-import Modal from "./modal";
+import TailwindModal from "./TailwindModal";
 
 /* eslint-disable max-len */
 /**
@@ -28,7 +28,6 @@ export default function UnsavedChangesModal( { hasUnsavedChanges } ) {
 	const beforeUnloadEventHandler = useCallback( ( event ) => {
 		if ( hasUnsavedChanges ) {
 			event.preventDefault();
-			event.returnValue = "this is a test!";
 		}
 	}, [ hasUnsavedChanges ] );
 
@@ -116,7 +115,7 @@ export default function UnsavedChangesModal( { hasUnsavedChanges } ) {
 	}, [ beforeUnloadEventHandler, popStateEventHandler, clickEventHandler ] );
 
 	return (
-		<Modal isOpen={ modalIsOpen } handleClose={ closeModal }>
+		<TailwindModal isOpen={ modalIsOpen } handleClose={ closeModal }>
 			<div className="sm:yst-flex sm:yst-items-start">
 				<div
 					className="yst-mx-auto yst-flex-shrink-0 yst-flex yst-items-center yst-justify-center yst-h-12 yst-w-12 yst-rounded-full yst-bg-red-100 sm:yst-mx-0 sm:yst-h-10 sm:yst-w-10"
@@ -124,9 +123,9 @@ export default function UnsavedChangesModal( { hasUnsavedChanges } ) {
 					<ExclamationIcon className="yst-h-6 yst-w-6 yst-text-red-600" aria-hidden="true" />
 				</div>
 				<div className="yst-mt-3 yst-text-center sm:yst-mt-0 sm:yst-ml-4 sm:yst-text-left">
-					<Modal.Title as="h3" className="yst-text-lg yst-leading-6 yst-font-medium yst-text-gray-900">
+					<TailwindModal.Title as="h3" className="yst-text-lg yst-leading-6 yst-font-medium yst-text-gray-900">
 						{ __( "Unsaved changes", "wordpress-seo" ) }
-					</Modal.Title>
+					</TailwindModal.Title>
 					<div className="yst-mt-2">
 						<p className="yst-text-sm yst-text-gray-500">
 							{ __( "There are unsaved changes in this step. Leaving means that those changes will be lost. Are you sure you want to leave this page?", "wordpress-seo" ) }
@@ -151,7 +150,7 @@ export default function UnsavedChangesModal( { hasUnsavedChanges } ) {
 					{ __( "No, continue editing", "wordpress-seo" ) }
 				</button>
 			</div>
-		</Modal>
+		</TailwindModal>
 	);
 }
 
