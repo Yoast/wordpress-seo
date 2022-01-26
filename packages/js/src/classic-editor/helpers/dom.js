@@ -189,7 +189,7 @@ export const getPostDate = () => {
 };
 
 /**
- * Get the post category checkboxes elements from the document.
+ * Gets the post category checkboxes elements from the document.
  *
  * @returns {HTMLInputElement[]} The category checkboxes.
  */
