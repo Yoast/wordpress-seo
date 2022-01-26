@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Validators;
 use Yoast\WP\SEO\Exceptions\Validation\Invalid_Empty_String_Exception;
 
 /**
- * The string validator class.
+ * The empty string validator class.
  */
 class Empty_String_Validator extends String_Validator {
 
