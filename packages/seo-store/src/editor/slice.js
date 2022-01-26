@@ -8,6 +8,7 @@ export const defaultEditorState = {
 	excerpt: "",
 	date: "",
 	featuredImage: {},
+	categories: [],
 };
 
 const editorSlice = createSlice( {
@@ -32,6 +33,9 @@ const editorSlice = createSlice( {
 		updateFeaturedImage: ( state, action ) => {
 			state.featuredImage = action.payload;
 		},
+		updateCategories: ( state, action ) => {
+			state.categories = action.payload;
+		},
 	},
 } );
 
@@ -43,6 +47,7 @@ export const editorSelectors = {
 	selectExcerpt: ( state ) => get( state, "editor.excerpt" ),
 	selectDate: ( state ) => get( state, "editor.date" ),
 	selectFeaturedImage: ( state ) => get( state, "editor.featuredImage" ),
+	selectCategories: ( state ) => get( state, "editor.categories" ),
 };
 
 export const editorActions = editorSlice.actions;

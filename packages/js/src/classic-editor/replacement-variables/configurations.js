@@ -1,7 +1,6 @@
 import { select } from "@wordpress/data";
 import { __, sprintf } from "@wordpress/i18n";
-import { replacementVariableConfigurations } from "@yoast/seo-integration";
-import { SEO_STORE_NAME } from "@yoast/seo-store/src";
+import { replacementVariableConfigurations, SEO_STORE_NAME } from "@yoast/seo-integration";
 import { get, map } from "lodash";
 
 /**
@@ -25,7 +24,10 @@ const getParentTitle = ( selectElement ) => {
 export const category = {
 	name: "category",
 	getLabel: () => __( "Category", "wordpress-seo" ),
-	getReplacement: () => get( window, "wpseoScriptData.analysis.plugins.replaceVars.replace_vars.category", "" ),
+	getReplacement: () => {
+		const categories = select( SEO_STORE_NAME ).selectCategories();
+		return categories.map( cat => cat.name ).join( ", " );
+	},
 };
 
 export const categoryDescription = {
