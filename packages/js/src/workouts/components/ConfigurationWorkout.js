@@ -296,13 +296,155 @@ IndexationStep.propTypes = {
  *
  * @returns {JSX.Element} Example step.
  */
-function Step2() {
-	return <div><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec congue sollicitudin condimentum. Nam eu nibh id odio convallis posuere a at enim. Aenean ullamcorper libero a urna sollicitudin, ac tempus lorem gravida. Aenean convallis sed ex sed condimentum. Integer sed enim at felis semper mattis. Vestibulum luctus egestas dignissim. Curabitur consectetur nulla non erat cursus imperdiet.
-		Donec pellentesque, lectus quis tristique aliquet, mauris arcu ornare dui, vulputate dictum leo nibh maximus turpis. Curabitur vitae ornare felis, nec porttitor velit. Ut elit risus, porta quis accumsan sit amet, imperdiet eget tellus. Nullam luctus, augue nec posuere volutpat, arcu sem euismod enim, eget sagittis orci felis non eros. Interdum et malesuada fames ac ante ipsum primis in faucibus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris pharetra massa eget tempor lacinia. Aliquam in neque arcu. Sed arcu lectus, efficitur lacinia mauris ut, vestibulum venenatis justo.
-		Maecenas eget imperdiet tellus. Vivamus eu aliquet mauris. Nunc sagittis orci metus, vehicula blandit diam tristique a. In ultricies risus et nulla ornare, id ornare lorem feugiat. Ut diam elit, tincidunt non tincidunt at, porta id nisl. Nam faucibus efficitur arcu, id hendrerit augue venenatis et. In elementum felis ante, quis rutrum ante pretium nec. Sed porttitor a nisi in bibendum. In dui libero, dignissim tincidunt lobortis ut, vehicula accumsan neque. Nunc eget lectus purus. Mauris a est non sem semper suscipit. Maecenas laoreet facilisis orci in imperdiet.
-		Donec vel quam et lorem condimentum fermentum. Suspendisse viverra, risus molestie vehicula lobortis, est turpis lacinia ante, at tempor odio justo vitae risus. Nulla ut nunc at odio venenatis tincidunt. Sed tempor ac felis at viverra. Sed placerat pellentesque diam, in condimentum ante vestibulum eu. Nunc congue a velit dictum mattis. Cras vitae sodales tellus. Morbi at odio rhoncus, consequat neque sit amet, tincidunt lectus. Vestibulum condimentum arcu nibh, vitae efficitur est elementum a. In et faucibus ligula, et fringilla nulla. Fusce in mauris vel tortor accumsan iaculis at posuere dolor. Quisque luctus dapibus ligula eget porttitor. Etiam id placerat odio.
-	</p></div>;
+function SiteRepresentationStep( { onOrganizationOrPersonChange, dispatch, state, siteRepresentsPerson, onSiteTaglineChange, siteRepresentationEmpty } ) {
+	return <Fragment>
+		{  window.wpseoWorkoutsData.configuration.knowledgeGraphMessage &&  <Alert type="warning">
+			{  window.wpseoWorkoutsData.configuration.knowledgeGraphMessage }
+		</Alert> }
+		{
+			window.wpseoWorkoutsData.configuration.shouldForceCompany === 0 && <SingleSelect
+				id="organization-person-select"
+				htmlFor="organization-person-select"
+				name="organization"
+				label={ __( "Does your site represent an Organization or Person?", "wordpress-seo" ) }
+				selected={ state.companyOrPerson }
+				onChange={ onOrganizationOrPersonChange }
+				options={  window.wpseoWorkoutsData.configuration.companyOrPersonOptions }
+			/>
+		}
+		{
+			window.wpseoWorkoutsData.configuration.shouldForceCompany === 1 && <TextInput
+				id="organization-forced-readonly-text"
+				name="organization"
+				label={ __( "Does your site represent an Organization or Person?", "wordpress-seo" ) }
+				value={ state.companyOrPersonLabel }
+				readOnly={ true }
+			/>
+		}
+		{ state.companyOrPerson === "company" && <Fragment>
+			{ ( ! state.companyName || ! state.companyLogo ) && <Alert type="warning">
+				{ __(
+					// eslint-disable-next-line max-len
+					"You need to set an organization name and logo for structured data to work properly.",
+					"wordpress-seo"
+				) }
+			</Alert> }
+			<OrganizationSection
+				dispatch={ dispatch }
+				imageUrl={ state.companyLogo }
+				organizationName={ state.companyName }
+			/>
+		</Fragment> }
+		{ siteRepresentsPerson && <Fragment>
+			{ ( ! state.personLogo || state.personId === 0 ) && <Alert type="warning">
+				{ __(
+					// eslint-disable-next-line max-len
+					"You need to set a person name and logo for structured data to work properly.",
+					"wordpress-seo"
+				) }
+			</Alert> }
+			<PersonSection
+				dispatch={ dispatch }
+				imageUrl={ state.personLogo }
+				personId={ state.personId }
+			/>
+		</Fragment> }
+		{ window.wpseoWorkoutsData.canEditWordPressOptions && <TextInput
+			id="site-tagline-input"
+			name="site-tagline"
+			label={ __( "Site tagline", "wordpress-seo" ) }
+			description={ sprintf( __( "Add a catchy tagline that describes your site in the best light. Use the keywords you want people to find your site with. Example: %1$s’s tagline is ‘SEO for everyone.’", "wordpress-seo" ), "Yoast" ) }
+			value={ state.siteTagline }
+			onChange={ onSiteTaglineChange }
+		/> }
+		{ siteRepresentationEmpty && <Alert type="warning">
+			{ __(
+				// eslint-disable-next-line max-len
+				"Please be aware that you need to set a name and logo in step 2 for structured data to work properly.",
+				"wordpress-seo"
+			) }
+		</Alert> }
+	</Fragment>;
 }
+
+/**
+ * Doc comment to make linter happy.
+ *
+ * @returns {JSX.Element} Example step.
+ */
+function SocialProfilesStep( { state, dispatch, setErrorFields, siteRepresentsPerson } ) {
+	return <Fragment>
+		{ state.companyOrPerson === "company" && <SocialInputSection
+			socialProfiles={ state.socialProfiles }
+			dispatch={ dispatch }
+			errorFields={ state.errorFields }
+			setErrorFields={ setErrorFields }
+		/> }
+		{ siteRepresentsPerson && <SocialInputPersonSection personId={ state.personId } /> }
+	</Fragment>;
+}
+
+/**
+ * Doc comment to make linter happy.
+ *
+ * @returns {JSX.Element} Example step.
+ */
+function PersonalPreferencesStep( { state, setTracking, isTrackingOptionSelected } ) {
+	return <Fragment>
+		<p>
+			{
+				__( "To provide the best experience for you, we need your permission to do the following things:", "wordpress-seo" )
+			}
+		</p>
+		<ul className="yoast-tracking">
+			<li> { __( "collect info about the plugins and themes you have installed;", "wordpress-seo" ) } </li>
+			<li> {
+				sprintf(
+					// translators: translates to Yoast SEO.
+					__( "see which %s features you use or don't use;", "wordpress-seo" ),
+					"Yoast SEO"
+				)
+			} </li>
+			<li> { __( "always load our customer support window so we can immediately assist you when you need help.", "wordpress-seo" ) } </li>
+		</ul>
+		<RadioButtonGroup
+			id="yoast-configuration-workout-tracking-radio-button"
+			label={ __( "Can we collect anonymous information about your website and how you use it?", "wordpress-seo" ) }
+			groupName="yoast-configuration-workout-tracking"
+			selected={ state.tracking }
+			onChange={ setTracking }
+			vertical={ true }
+			wrapperClassName={ "tracking-radiobuttons" }
+			options={ [
+				{
+					value: 0,
+					label: __( "No, don’t track my site data", "wordpress-seo" ),
+				},
+				{
+					value: 1,
+					label: __( "Yes, you can track my site data", "wordpress-seo" ),
+				},
+			] }
+		/>
+		<p>
+			<i>{
+				__( "Important: We will never sell this data. And of course, as always, we won't collect any personal data about you or your visitors!", "wordpress-seo" )
+			}</i>
+		</p>
+		{ ! isTrackingOptionSelected && <Alert type="warning">
+			{ __(
+				// eslint-disable-next-line max-len
+				"In order to complete this step please select if we are allowed to improve Yoast SEO with your data.",
+				"wordpress-seo"
+			) }
+		</Alert> }
+		<br />
+		<NewsletterSignup gdprLink={ window.wpseoWorkoutsData.configuration.shortlinks.gdpr } />
+	</Fragment>;
+}
+
+const FinishStep = () => <Fragment><p>Finish all the things</p></Fragment>;
+
 /* eslint-enable max-len */
 
 /* eslint-disable max-statements */
@@ -555,10 +697,10 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 			<Stepper
 				steps={ [
 					{ name: "The indexables", component: <IndexationStep setIndexingState={ setIndexingState } indexingState={ indexingState } />, isSaved: isStepFinished( "configuration", steps.optimizeSeoData ) },
-					{ name: "Knowledge panel", description: "", component: <Step2 />, isSaved: isStepFinished( "configuration", steps.siteRepresentation ) },
-					{ name: "Social profiles", description: "optional", component: <Step2 />, isSaved: isStepFinished( "configuration", steps.socialProfiles ) },
-					{ name: "Stay up-to-date", description: "optional", component: <Step2 />, isSaved: isStepFinished( "configuration", steps.newsletterSignup ) },
-					{ name: "Finish configuration", description: "", component: <Step2 />, isSaved: isWorkoutFinished },
+					{ name: "Knowledge panel", description: "", component: <SiteRepresentationStep onOrganizationOrPersonChange={ onOrganizationOrPersonChange } dispatch={ dispatch } state={ state } siteRepresentsPerson={ siteRepresentsPerson } onSiteTaglineChange={ onSiteTaglineChange } siteRepresentationEmpty={ siteRepresentationEmpty }/>, isSaved: isStepFinished( "configuration", steps.siteRepresentation ) },
+					{ name: "Social profiles", description: "", component: <SocialProfilesStep state={ state } dispatch={ dispatch } setErrorFields={ setErrorFields } siteRepresentsPerson={ siteRepresentsPerson } />, isSaved: isStepFinished( "configuration", steps.socialProfiles ) },
+					{ name: "Personal preferences", description: "", component: <PersonalPreferencesStep state={ state } setTracking={ setTracking } isTrackingOptionSelected={ isTrackingOptionSelected } />, isSaved: isStepFinished( "configuration", steps.newsletterSignup ) },
+					{ name: "Finish configuration", description: "", component: <FinishStep />, isSaved: isWorkoutFinished },
 				] }
 				setActiveStepIndex={ setActiveStepIndex }
 				saveStep={ ( stepIdx ) => finishSteps( "configuration", [ stepNumberNameMap[ stepIdx + 1 ] ] ) }
