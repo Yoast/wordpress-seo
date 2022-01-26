@@ -510,14 +510,14 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 
 		switch ( $image_type ) {
 			case 'custom_image':
-				return $this->sanitization->sanitize_url( $aioseo_social_image_settings[ $mapping['social_setting_prefix_aioseo'] . 'image_custom_url' ] );
+				return $this->sanitization->sanitize_url( $aioseo_social_image_settings[ $mapping['social_setting_prefix_aioseo'] . 'image_custom_url' ], null );
 			case 'auto':
 				return null;
 			case 'default':
-				return $this->sanitization->sanitize_url( $this->social_images_provider->get_default_social_image( \rtrim( $mapping['social_setting_prefix_aioseo'], '_' ) ) );
+				return $this->sanitization->sanitize_url( $this->social_images_provider->get_default_social_image( \rtrim( $mapping['social_setting_prefix_aioseo'], '_' ) ), null );
 			default:
 				$image_url = $aioseo_social_image_settings[ $mapping['social_setting_prefix_aioseo'] . 'image_url' ];
-				return $this->sanitization->sanitize_url( $image_url );
+				return $this->sanitization->sanitize_url( $image_url, null );
 		}
 	}
 }

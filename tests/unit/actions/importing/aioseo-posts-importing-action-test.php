@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Actions\Importing;
 use Mockery;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Actions\Importing\Aioseo_Posts_Importing_Action;
+use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Meta_Helper;
 use Yoast\WP\SEO\Helpers\Indexable_To_Postmeta_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
@@ -14,6 +15,7 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Services\Importing\Aioseo_Replacevar_Handler;
 use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Provider_Service;
 use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Transformer_Service;
+use Yoast\WP\SEO\Services\Importing\Aioseo_Social_Images_Provider_Service;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Actions\Importing\Aioseo_Posts_Importing_Action_Double;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -65,6 +67,13 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 	protected $meta;
 
 	/**
+	 * The mocked image helper.
+	 *
+	 * @var Mockery\MockInterface|Image_Helper
+	 */
+	protected $image;
+
+	/**
 	 * The mocked indexable_to_postmeta helper.
 	 *
 	 * @var Mockery\MockInterface|Indexable_To_Postmeta_Helper
@@ -114,34 +123,58 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 	protected $robots_transformer;
 
 	/**
+	 * The social images provider service.
+	 *
+	 * @var Mockery\MockInterface|Aioseo_Social_Images_Provider_Service
+	 */
+	protected $social_images_provider;
+
+	/**
 	 * Sets up the test class.
 	 */
 	protected function set_up() {
 		parent::set_up();
 
-		$this->indexable_repository  = Mockery::mock( Indexable_Repository::class );
-		$this->wpdb                  = Mockery::mock( 'wpdb' );
-		$this->meta                  = Mockery::mock( Meta_Helper::class );
-		$this->indexable_to_postmeta = Mockery::mock( Indexable_To_Postmeta_Helper::class, [ $this->meta ] );
-		$this->options               = Mockery::mock( Options_Helper::class );
-		$this->sanitization          = Mockery::mock( Sanitization_Helper::class );
-		$this->wpdb_helper           = Mockery::mock( Wpdb_Helper::class );
-		$this->replacevar_handler    = Mockery::mock( Aioseo_Replacevar_Handler::class );
-		$this->robots_provider       = Mockery::mock( Aioseo_Robots_Provider_Service::class );
-		$this->robots_transformer    = Mockery::mock( Aioseo_Robots_Transformer_Service::class );
-		$this->instance              = new Aioseo_Posts_Importing_Action( $this->indexable_repository, $this->wpdb, $this->indexable_to_postmeta, $this->options, $this->sanitization, $this->wpdb_helper, $this->replacevar_handler, $this->robots_provider, $this->robots_transformer );
-		$this->mock_instance         = Mockery::mock(
+		$this->indexable_repository   = Mockery::mock( Indexable_Repository::class );
+		$this->wpdb                   = Mockery::mock( 'wpdb' );
+		$this->meta                   = Mockery::mock( Meta_Helper::class );
+		$this->indexable_to_postmeta  = Mockery::mock( Indexable_To_Postmeta_Helper::class, [ $this->meta ] );
+		$this->options                = Mockery::mock( Options_Helper::class );
+		$this->image                  = Mockery::mock( Image_Helper::class );
+		$this->sanitization           = Mockery::mock( Sanitization_Helper::class );
+		$this->wpdb_helper            = Mockery::mock( Wpdb_Helper::class );
+		$this->replacevar_handler     = Mockery::mock( Aioseo_Replacevar_Handler::class );
+		$this->robots_provider        = Mockery::mock( Aioseo_Robots_Provider_Service::class );
+		$this->robots_transformer     = Mockery::mock( Aioseo_Robots_Transformer_Service::class );
+		$this->social_images_provider = Mockery::mock( Aioseo_Social_Images_Provider_Service::class );
+
+		$this->instance      = new Aioseo_Posts_Importing_Action(
+			$this->indexable_repository,
+			$this->wpdb,
+			$this->indexable_to_postmeta,
+			$this->options,
+			$this->image,
+			$this->sanitization,
+			$this->wpdb_helper,
+			$this->replacevar_handler,
+			$this->robots_provider,
+			$this->robots_transformer,
+			$this->social_images_provider
+		);
+		$this->mock_instance = Mockery::mock(
 			Aioseo_Posts_Importing_Action_Double::class,
 			[
 				$this->indexable_repository,
 				$this->wpdb,
 				$this->indexable_to_postmeta,
 				$this->options,
+				$this->image,
 				$this->sanitization,
 				$this->wpdb_helper,
 				$this->replacevar_handler,
 				$this->robots_provider,
 				$this->robots_transformer,
+				$this->social_images_provider,
 			]
 		)->makePartial()->shouldAllowMockingProtectedMethods();
 
@@ -218,7 +251,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			->once()
 			->andReturn( 1337 );
 
-		$expected_query = 'SELECT title, description, og_title, og_description, twitter_title, twitter_description, canonical_url, keyphrases, robots_noindex, robots_nofollow, robots_noarchive, robots_nosnippet, robots_noimageindex, id, post_id, robots_default FROM wp_aioseo_posts WHERE id > %d ORDER BY id LIMIT %d';
+		$expected_query = 'SELECT title, description, og_title, og_description, twitter_title, twitter_description, canonical_url, keyphrases, og_image_url, twitter_image_url, robots_noindex, robots_nofollow, robots_noarchive, robots_nosnippet, robots_noimageindex, id, post_id, robots_default, og_image_custom_url, og_image_type, twitter_image_custom_url, twitter_image_type, twitter_use_og FROM wp_aioseo_posts WHERE id > %d ORDER BY id LIMIT %d';
 
 		$this->wpdb->expects( 'prepare' )
 			->once()
@@ -228,7 +261,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			)
 			->andReturn(
 				'
-				SELECT title, description, og_title, og_description, twitter_title, twitter_description, id, post_id
+				SELECT title, description, og_title, og_description, twitter_title, twitter_description, canonical_url, keyphrases, og_image_url, twitter_image_url, robots_noindex, robots_nofollow, robots_noarchive, robots_nosnippet, robots_noimageindex, id, post_id, robots_default, og_image_custom_url, og_image_type, twitter_image_custom_url, twitter_image_type, twitter_use_og
 				FROM wp_aioseo_posts
 				WHERE id > 1337
 				ORDER BY id
@@ -267,25 +300,30 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 		$indexable->orm = Mockery::mock( ORM::class );
 
 		$aioseio_indexable = [
-			'title'                => 'title1',
-			'description'          => 'description1',
-			'og_title'             => 'og_title1',
-			'og_description'       => 'og_description1',
-			'twitter_title'        => 'twitter_title1',
-			'twitter_description'  => 'twitter_description1',
-			'canonical_url'        => 'https://example.com/',
-			'keyphrases'           => \json_encode(
+			'title'                    => 'title1',
+			'description'              => 'description1',
+			'og_title'                 => 'og_title1',
+			'og_description'           => 'og_description1',
+			'twitter_title'            => 'twitter_title1',
+			'twitter_description'      => 'twitter_description1',
+			'canonical_url'            => 'https://example.com/',
+			'keyphrases'               => \json_encode(
 				[
 					'focus' => [
 						'keyphrase' => 'key phrase',
 					],
 				]
 			),
-			'robots_default'       => true,
-			'robots_nofollow'      => true,
-			'robots_noarchive'     => false,
-			'robots_nosnippet'     => true,
-			'robots_noimageindex'  => false,
+			'og_image_custom_url'      => 'https://example.com/image1.png',
+			'og_image_type'            => 'custom_image',
+			'twitter_image_custom_url' => 'https://example.com/image2.png',
+			'twitter_image_type'       => 'custom_image',
+			'twitter_use_og'           => false,
+			'robots_default'           => true,
+			'robots_nofollow'          => true,
+			'robots_noarchive'         => false,
+			'robots_nosnippet'         => true,
+			'robots_noimageindex'      => false,
 		];
 
 		$this->replacevar_handler->shouldReceive( 'transform' )
@@ -358,11 +396,31 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			->with( 'key phrase' )
 			->andReturn( 'key phrase' );
 
+		$this->sanitization->shouldReceive( 'sanitize_url' )
+			->once()
+			->with( 'https://example.com/image1.png', null )
+			->andReturn( 'https://example.com/image1.png' );
+
+		$this->sanitization->shouldReceive( 'sanitize_url' )
+			->once()
+			->with( 'https://example.com/image2.png', null )
+			->andReturn( 'https://example.com/image2.png' );
+
 		$this->robots_provider->shouldReceive( 'get_subtype_robot_setting' )
 			->andReturn( 'robot_setting' );
 
 		$this->robots_transformer->shouldReceive( 'transform_robot_setting' )
 			->andReturn( 'robot_value' );
+
+		$this->image->shouldReceive( 'get_attachment_by_url' )
+			->once()
+			->with( 'https://example.com/image1.png' )
+			->andReturn( '123' );
+
+		$this->image->shouldReceive( 'get_attachment_by_url' )
+			->once()
+			->with( 'https://example.com/image2.png' )
+			->andReturn( '234' );
 
 		$indexable = $this->instance->map( $indexable, $aioseio_indexable );
 
@@ -374,6 +432,13 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 		$this->assertSame( 'twitter_description1', $indexable->twitter_description );
 		$this->assertSame( 'https://example.com/', $indexable->canonical );
 		$this->assertSame( 'key phrase', $indexable->primary_focus_keyword );
+		$this->assertSame( 'https://example.com/image1.png', $indexable->open_graph_image );
+		$this->assertSame( 'imported', $indexable->open_graph_image_source );
+		$this->assertSame( '123', $indexable->open_graph_image_id );
+		$this->assertSame( null, $indexable->open_graph_image_meta );
+		$this->assertSame( 'https://example.com/image2.png', $indexable->twitter_image );
+		$this->assertSame( 'imported', $indexable->twitter_image_source );
+		$this->assertSame( '234', $indexable->twitter_image_id );
 		$this->assertSame( null, $indexable->is_robots_noindex );
 		$this->assertSame( 'robot_value', $indexable->is_robots_nofollow );
 		$this->assertSame( 'robot_value', $indexable->is_robots_noarchive );
@@ -396,25 +461,29 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 		$indexable->description = 'existing_dsc';
 
 		$aioseio_indexable = [
-			'title'                => 'title1',
-			'description'          => 'description1',
-			'og_title'             => 'og_title1',
-			'og_description'       => 'og_description1',
-			'twitter_title'        => 'twitter_title1',
-			'twitter_description'  => 'twitter_description1',
-			'canonical_url'        => 'https://example.com/',
-			'keyphrases'           => \json_encode(
+			'title'                    => 'title1',
+			'description'              => 'description1',
+			'og_title'                 => 'og_title1',
+			'og_description'           => 'og_description1',
+			'twitter_title'            => 'twitter_title1',
+			'twitter_description'      => 'twitter_description1',
+			'canonical_url'            => 'https://example.com/',
+			'keyphrases'               => \json_encode(
 				[
 					'focus' => [
 						'not_keyphrase' => 'key phrase',
 					],
 				]
 			),
-			'robots_default'       => true,
-			'robots_nofollow'      => true,
-			'robots_noarchive'     => false,
-			'robots_nosnippet'     => true,
-			'robots_noimageindex'  => false,
+			'og_image_type'            => 'default',
+			'twitter_image_url'  => 'https://example.com/image2.png',
+			'twitter_image_type' => 'whatever',
+			'twitter_use_og'           => false,
+			'robots_default'           => true,
+			'robots_nofollow'          => true,
+			'robots_noarchive'         => false,
+			'robots_nosnippet'         => true,
+			'robots_noimageindex'      => false,
 		];
 
 		$this->replacevar_handler->shouldReceive( 'transform' )
@@ -462,11 +531,36 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			->with( $aioseio_indexable['canonical_url'], null )
 			->andReturn( $aioseio_indexable['canonical_url'] );
 
+		$this->social_images_provider->shouldReceive( 'get_default_social_image' )
+			->once()
+			->with( 'og' )
+			->andReturn( 'https://example.com/image3.png' );
+
+		$this->sanitization->shouldReceive( 'sanitize_url' )
+			->once()
+			->with( 'https://example.com/image3.png', null )
+			->andReturn( 'https://example.com/image3.png' );
+
+		$this->sanitization->shouldReceive( 'sanitize_url' )
+			->once()
+			->with( 'https://example.com/image2.png', null )
+			->andReturn( 'https://example.com/image2.png' );
+
 		$this->robots_provider->shouldReceive( 'get_subtype_robot_setting' )
 			->andReturn( 'robot_setting' );
 
 		$this->robots_transformer->shouldReceive( 'transform_robot_setting' )
 			->andReturn( 'robot_value' );
+
+		$this->image->shouldReceive( 'get_attachment_by_url' )
+			->once()
+			->with( 'https://example.com/image3.png' )
+			->andReturn( '123' );
+
+		$this->image->shouldReceive( 'get_attachment_by_url' )
+			->once()
+			->with( 'https://example.com/image2.png' )
+			->andReturn( '234' );
 
 		$indexable = $this->instance->map( $indexable, $aioseio_indexable );
 
@@ -478,6 +572,13 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 		$this->assertSame( 'twitter_description1', $indexable->twitter_description );
 		$this->assertSame( 'https://example.com/', $indexable->canonical );
 		$this->assertSame( null, $indexable->primary_focus_keyword );
+		$this->assertSame( 'https://example.com/image3.png', $indexable->open_graph_image );
+		$this->assertSame( 'imported', $indexable->open_graph_image_source );
+		$this->assertSame( '123', $indexable->open_graph_image_id );
+		$this->assertSame( null, $indexable->open_graph_image_meta );
+		$this->assertSame( 'https://example.com/image2.png', $indexable->twitter_image );
+		$this->assertSame( 'imported', $indexable->twitter_image_source );
+		$this->assertSame( '234', $indexable->twitter_image_id );
 	}
 
 	/**
@@ -497,6 +598,8 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			'robots_noarchive'     => false,
 			'robots_nosnippet'     => true,
 			'robots_noimageindex'  => false,
+			'og_image_type'        => 'auto',
+			'twitter_use_og'       => true,
 		];
 
 		$this->replacevar_handler->shouldReceive( 'transform' )
@@ -506,6 +609,9 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			->never();
 
 		$this->sanitization->shouldReceive( 'sanitize_url' )
+			->never();
+
+		$this->image->shouldReceive( 'get_attachment_by_url' )
 			->never();
 
 		$this->robots_provider->shouldReceive( 'get_subtype_robot_setting' )
