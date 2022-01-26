@@ -7,6 +7,7 @@ import { update as updateAdminBar } from "../ui/adminBar";
 import * as publishBox from "../ui/publishBox";
 import { update as updateTrafficLight } from "../ui/trafficLight";
 import * as dom from "./helpers/dom";
+import { getPostCategories, getPostCategoryCheckboxes } from "./helpers/dom";
 
 const SYNC_DEBOUNCE_TIME = 500;
 const { DOM_IDS, DOM_CLASSES, DOM_QUERIES } = dom;
@@ -122,6 +123,54 @@ const createUpdateReadabilityScore = ( selectIsActive, domSet ) => ( score ) => 
 };
 
 /**
+ * Watches the category checkboxes in the classic editor
+ * for changes and updates the categories in the store accordingly.
+ *
+ * @param {function} updateCategories A callback function to update the categories in the store.
+ *
+ * @returns {void}
+ */
+const createCategoriesSync = ( updateCategories ) => {
+	/**
+	 * Retrieves the categories from the DOM and syncs them to the SEO store.
+	 *
+	 * @returns {void}
+	 */
+	const syncCategories = () => {
+		updateCategories( getPostCategories() );
+	};
+
+	/**
+	 * Watches the category checkboxes for changes,
+	 * and updates the categories in the SEO store accordingly.
+	 *
+	 * @returns {void}
+	 */
+	const watchCategoryCheckboxes = () => {
+		// Sync the categories whenever there are changes in the checkboxes.
+		const checkboxes = getPostCategoryCheckboxes();
+		checkboxes.forEach(
+			checkbox => {
+				checkbox.removeEventListener( "input", syncCategories );
+				checkbox.addEventListener( "input", syncCategories );
+			}
+		);
+	};
+
+	const categoryChecklist = document.getElementById( "categorychecklist" );
+	if ( categoryChecklist ) {
+		// Observe the category checklist for changes and update the categories if new categories are added.
+		const observer = new MutationObserver( () => {
+			updateCategories( getPostCategories() );
+			watchCategoryCheckboxes();
+		} );
+		observer.observe( categoryChecklist, { childList: true, subtree: true } );
+	}
+
+	watchCategoryCheckboxes();
+};
+
+/**
  * Watches and syncs post DOM changes to the store.
  *
  * @returns {void}
@@ -215,6 +264,7 @@ const syncPostToStore = () => {
 	createTinyMceContentSync( DOM_IDS.POST_CONTENT, actions.updateContent );
 	// Sync editor changes to the store when in text mode.
 	createStoreSync( DOM_IDS.POST_CONTENT, actions.updateContent, "input" );
+	createCategoriesSync( actions.updateCategories );
 };
 
 /**

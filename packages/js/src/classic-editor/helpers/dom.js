@@ -189,6 +189,38 @@ export const getPostDate = () => {
 };
 
 /**
+ * Gets the post category checkboxes elements from the document.
+ *
+ * @returns {HTMLInputElement[]} The category checkboxes.
+ */
+export const getPostCategoryCheckboxes = () => {
+	return [ ...document.querySelectorAll( "#categorychecklist input[type=checkbox]" ) ];
+};
+
+/**
+ * Gets the current post's categories from the document.
+ *
+ * @returns {{name: string, id: string}[]} The post's categories.
+ */
+export const getPostCategories = () => {
+	const checkboxes = getPostCategoryCheckboxes();
+
+	if ( checkboxes ) {
+		const checkedCheckboxes = checkboxes.filter( checkbox => checkbox.checked );
+		return checkedCheckboxes.map( checkbox => (
+			{
+				id: checkbox.value,
+				name: [ ...checkbox.parentElement.childNodes ]
+					.filter( node => node.nodeType === Node.TEXT_NODE )
+					.map( node => node.textContent )[ 0 ]
+					?.trim(),
+			}
+		) );
+	}
+	return [];
+};
+
+/**
  * Gets the post SEO title from the document.
  *
  * @returns {string} The post SEO title or an empty string.
