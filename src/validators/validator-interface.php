@@ -12,7 +12,9 @@ interface Validator_Interface {
 	 *
 	 * @param mixed $value The value to validate.
 	 *
-	 * @return bool Whether the value is valid.
+	 * @throws \Yoast\WP\SEO\Exceptions\Validation\Abstract_Validation_Exception When the value is "unfixable".
+	 *
+	 * @return mixed A valid value.
 	 */
 	public function validate( $value );
 }

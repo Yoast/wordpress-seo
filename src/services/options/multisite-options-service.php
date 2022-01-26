@@ -12,7 +12,7 @@ class Multisite_Options_Service extends Abstract_Options_Service {
 	 *
 	 * @var array
 	 */
-	protected $options = [
+	protected $configurations = [
 		'access' => [
 			'default'    => 0,
 			'sanitizer'  => 'array',
