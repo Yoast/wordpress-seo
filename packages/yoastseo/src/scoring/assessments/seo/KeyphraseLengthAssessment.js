@@ -5,6 +5,7 @@ import Assessment from "../assessment";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import AssessmentResult from "../../../values/AssessmentResult";
 import { inRangeEndInclusive, inRangeStartEndInclusive } from "../../helpers/assessments/inRange";
+import processExactMatchRequest from "../../../languageProcessing/helpers/match/processExactMatchRequest";
 
 /**
  * Assessment to check whether the keyphrase has a good length.
@@ -67,7 +68,9 @@ class KeyphraseLengthAssessment extends Assessment {
 		this._keyphraseLengthData = researcher.getResearch( "keyphraseLength" );
 		const assessmentResult = new AssessmentResult();
 
+		// Set a variable that contains the scoring boundaries.
 		this._boundaries = this._config.parameters;
+
 		const countTextInCharacters = researcher.getConfig( "countCharacters" );
 		if ( countTextInCharacters ) {
 			this._config.countTextIn.singular = __( "character", "wordpress-seo" );
@@ -75,8 +78,18 @@ class KeyphraseLengthAssessment extends Assessment {
 		}
 
 		/*
-		 * Check whether the researcher has custom config for the scoring boundaries and override the current config with it.
-		 * If no custom config was found, make boundaries less strict if the language doesn't have function word support.
+		 * Checks whether the keyphrase length is calculated with function words filtered out AND whether the keyphrase doesn't use double quotes.
+		 * If both conditions are true, then the feedback string should output 'content words' instead of only 'words'.
+		 * */
+		const keyphrase = paper.getKeyword();
+		if ( this._keyphraseLengthData.functionWords.length === 0 && ! processExactMatchRequest( keyphrase ).exactMatchRequested ) {
+			this._config.countTextIn.singular = __( "content word", "wordpress-seo" );
+			this._config.countTextIn.plural = __( "content words", "wordpress-seo" );
+		}
+
+		/*
+		 * Checks whether the researcher has custom config for the scoring boundaries and overrides the current config with it.
+		 * If no custom config is found, makes boundaries less strict if the language doesn't have function word support.
 		 * */
 		const customConfig = researcher.getConfig( "keyphraseLength" );
 		if ( customConfig ) {
@@ -84,9 +97,6 @@ class KeyphraseLengthAssessment extends Assessment {
 		} else if ( this._keyphraseLengthData.functionWords.length === 0 ) {
 			this._config.parameters = merge( {}, this._config.parameters, this._config.parametersNoFunctionWordSupport  );
 		}
-
-		// Set a variable that contains the scoring boundaries.
-		this._boundaries = this._config.parameters;
 
 		const calculatedResult = this.calculateResult();
 
@@ -161,12 +171,12 @@ class KeyphraseLengthAssessment extends Assessment {
 						%1$d expands to the number of words / characters in the keyphrase,
 						%2$d expands to the recommended maximum of words / characters in the keyphrase,
 						%3$s and %4$s expand to links on yoast.com, %5$s expands to the anchor end tag,
-						%6$s expands to the word 'word' or 'character', %7$s expands to the word 'words or 'characters'. */
+						%6$s expands to the word 'word' or 'character' or 'content word', %7$s expands to the word 'words' or 'characters' or 'content words'. */
 						_n(
 							// eslint-disable-next-line max-len
-							"%3$sKeyphrase length%5$s: The keyphrase is %1$d %6$s long. That's shorter than the recommended minimum of %2$d %7$s. %4$sMake it longer%5$s!",
+							"%3$sKeyphrase length%5$s: The keyphrase contains %1$d %6$s. That's shorter than the recommended minimum of %2$d %7$s. %4$sMake it longer%5$s!",
 							// eslint-disable-next-line max-len
-							"%3$sKeyphrase length%5$s: The keyphrase is %1$d %7$s long. That's shorter than the recommended minimum of %2$d %7$s. %4$sMake it longer%5$s!",
+							"%3$sKeyphrase length%5$s: The keyphrase contains %1$d %7$s. That's shorter than the recommended minimum of %2$d %7$s. %4$sMake it longer%5$s!",
 							this._keyphraseLengthData.keyphraseLength,
 							"wordpress-seo"
 						),
@@ -189,10 +199,10 @@ class KeyphraseLengthAssessment extends Assessment {
 						%2$d expands to the recommended maximum of words / characters in the keyphrase,
 						%3$s and %4$s expand to links on yoast.com,
 						%5$s expands to the anchor end tag,
-						%6$s expands to the word 'words' or 'characters'. */
+						%6$s expands to the word 'words' or 'characters' or 'content words'. */
 						__(
 							// eslint-disable-next-line max-len
-							"%3$sKeyphrase length%5$s: The keyphrase is %1$d %6$s long. That's longer than the recommended maximum of %2$d %6$s. %4$sMake it shorter%5$s!",
+							"%3$sKeyphrase length%5$s: The keyphrase contains %1$d %6$s. That's longer than the recommended maximum of %2$d %6$s. %4$sMake it shorter%5$s!",
 							"wordpress-seo"
 						),
 						this._keyphraseLengthData.keyphraseLength,
@@ -214,10 +224,10 @@ class KeyphraseLengthAssessment extends Assessment {
 						%2$d expands to the recommended maximum of words / characters in the keyphrase,
 						%3$s and %4$s expand to links on yoast.com,
 						%5$s expands to the anchor end tag,
-						%6$s expands to the word 'words' or 'characters'. */
+						%6$s expands to the word 'words' or 'characters' or 'content words'. */
 						__(
 							// eslint-disable-next-line max-len
-							"%3$sKeyphrase length%5$s: The keyphrase is %1$d %6$s long. That's slightly shorter than the recommended minimum of %2$d %6$s. %4$sMake it longer%5$s!",
+							"%3$sKeyphrase length%5$s: The keyphrase contains %1$d %6$s. That's slightly shorter than the recommended minimum of %2$d %6$s. %4$sMake it longer%5$s!",
 							"wordpress-seo"
 						),
 						this._keyphraseLengthData.keyphraseLength,
@@ -239,10 +249,10 @@ class KeyphraseLengthAssessment extends Assessment {
 						%2$d expands to the recommended maximum of words / characters in the keyphrase,
 						%3$s and %4$s expand to links on yoast.com,
 						%5$s expands to the anchor end tag,
-						%6$s expands to the word 'words' or 'characters'. */
+						%6$s expands to the word 'words' or 'characters' or 'content words'. */
 						__(
 							// eslint-disable-next-line max-len
-							"%3$sKeyphrase length%5$s: The keyphrase is %1$d %6$s long. That's longer than the recommended maximum of %2$d %6$s. %4$sMake it shorter%5$s!",
+							"%3$sKeyphrase length%5$s: The keyphrase contains %1$d %6$s. That's longer than the recommended maximum of %2$d %6$s. %4$sMake it shorter%5$s!",
 							"wordpress-seo"
 						),
 						this._keyphraseLengthData.keyphraseLength,
@@ -327,10 +337,10 @@ class KeyphraseLengthAssessment extends Assessment {
 					%2$d expands to the recommended maximum of words / characters in the keyphrase,
 					%3$s and %4$s expand to links on yoast.com,
 					%5$s expands to the anchor end tag,
-					%6$s expands to the word 'words' or 'characters'. */
+					%6$s expands to the word 'words' or 'characters' or 'content words'. */
 					__(
 						// eslint-disable-next-line max-len
-						"%3$sKeyphrase length%5$s: The keyphrase is %1$d %6$s long. That's more than the recommended maximum of %2$d %6$s. %4$sMake it shorter%5$s!",
+						"%3$sKeyphrase length%5$s: The keyphrase contains %1$d %6$s. That's more than the recommended maximum of %2$d %6$s. %4$sMake it shorter%5$s!",
 						"wordpress-seo"
 					),
 					this._keyphraseLengthData.keyphraseLength,
@@ -351,10 +361,10 @@ class KeyphraseLengthAssessment extends Assessment {
 				%2$d expands to the recommended maximum of words / characters in the keyphrase,
 				%3$s and %4$s expand to links on yoast.com,
 				%5$s expands to the anchor end tag,
-				%6$s expands to the word 'words' or 'characters'. */
+				%6$s expands to the word 'words' or 'characters' or 'content words'. */
 				__(
 					// eslint-disable-next-line max-len
-					"%3$sKeyphrase length%5$s: The keyphrase is %1$d %6$s long. That's way more than the recommended maximum of %2$d %6$s. %4$sMake it shorter%5$s!",
+					"%3$sKeyphrase length%5$s: The keyphrase contains %1$d %6$s. That's way more than the recommended maximum of %2$d %6$s. %4$sMake it shorter%5$s!",
 					"wordpress-seo"
 				),
 				this._keyphraseLengthData.keyphraseLength,
