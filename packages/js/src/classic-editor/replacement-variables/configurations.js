@@ -1,22 +1,24 @@
+import { select } from "@wordpress/data";
 import { __, sprintf } from "@wordpress/i18n";
 import { replacementVariableConfigurations } from "@yoast/seo-integration";
+import { SEO_STORE_NAME } from "@yoast/seo-store/src";
 import { get, map } from "lodash";
 
 /**
  * Gets the parent title from the select element.
  *
- * @param {HTMLElement} select The select input.
+ * @param {HTMLElement} selectElement The select input.
  *
  * @returns {string} The parent title.
  */
-const getParentTitle = ( select ) => {
-	const selectedValue = get( select, "value", "" );
+const getParentTitle = ( selectElement ) => {
+	const selectedValue = get( selectElement, "value", "" );
 	// The no parent value is an empty string on hierarchical post types, and `-1` (string) on hierarchical taxonomies.
 	if ( selectedValue === "" || selectedValue === "-1" ) {
 		return "";
 	}
 
-	return get( select, `options.${ select?.selectedIndex }.text`, "" );
+	return get( selectElement, `options.${ selectElement?.selectedIndex }.text`, "" );
 };
 
 // Basic variables.
@@ -41,7 +43,14 @@ export const parentTitle = {
 export const primaryCategory = {
 	name: "primary_category",
 	getLabel: () => __( "Primary category", "wordpress-seo" ),
-	getReplacement: () => get( window, "wpseoScriptData.analysis.plugins.replaceVars.replace_vars.primary_category", "" ),
+	getReplacement: () => {
+		// Get the id of the primary category from yoast-seo/editor store.
+		const primaryCategoryID = select( "@yoast-seo/editor" ).getPrimaryTaxonomyId();
+		// Retrieve the list of the categories from the SEO store. [{ id: num, name: string }]
+		const categories = select( SEO_STORE_NAME ).selectCategories();
+		// Use the ID retrieved to retrieve the vale/name of the primary category.
+		return categories.filter( term => term.id === primaryCategoryID ).name;
+	},
 };
 
 export const searchPhrase = {
