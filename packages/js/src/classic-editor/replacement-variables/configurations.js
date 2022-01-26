@@ -46,12 +46,14 @@ export const primaryCategory = {
 	name: "primary_category",
 	getLabel: () => __( "Primary category", "wordpress-seo" ),
 	getReplacement: () => {
-		// Get the id of the primary category from yoast-seo/editor store.
-		const primaryCategoryID = select( "@yoast-seo/editor" ).getPrimaryTaxonomyId();
-		// Retrieve the list of the categories from the SEO store. [{ id: num, name: string }]
+		// Get the ID of the primary category from wpseoPrimaryCategoryL10n.
+		const primaryCategoryID = get( window, "wpseoPrimaryCategoryL10n.taxonomies.category.primary", "" );
+		// Retrieve the list of the categories from the SEO store.
 		const categories = select( SEO_STORE_NAME ).selectCategories();
-		// Use the ID retrieved to retrieve the vale/name of the primary category.
-		return categories.filter( term => term.id === primaryCategoryID ).name;
+		// Use the ID to retrieve the primary category name.
+		const primaryCategoryName = categories.filter( cat => cat.id === primaryCategoryID.toString() )[ 0 ]?.name;
+
+		return primaryCategoryName || categories[ 0 ].name;
 	},
 };
 
