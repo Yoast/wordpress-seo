@@ -2,10 +2,12 @@ import metaDescriptionKeyword from "../../../src/languageProcessing/researches/m
 import Paper from "../../../src/values/Paper.js";
 import Researcher from "../../../src/languageProcessing/languages/en/Researcher";
 import JapaneseResearcher from "../../../src/languageProcessing/languages/ja/Researcher";
+import TurkishResearcher from "../../../src/languageProcessing/languages/tr/Researcher";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 
 const morphologyData = getMorphologyData( "en" );
 const morphologyDataJA = getMorphologyData( "ja" );
+const morphologyDataTR = getMorphologyData( "tr" );
 
 describe( "the metadescription keyword match research", function() {
 	it( "returns the number ( 1 ) of keywords found", function() {
@@ -131,6 +133,45 @@ describe( "the metadescription keyword match research", function() {
 		const paper = new Paper( "", { keyword: "hounds and felines", synonyms: "\"cats and dogs\"",
 			description: "Cats and dogs are great." }  );
 		const researcher = new Researcher( paper );
+		const result = metaDescriptionKeyword( paper, researcher );
+		expect( result ).toEqual( 1 );
+	} );
+} );
+
+describe( "the meta description keyphrase match research for keyphrases that contain apostrophe", () => {
+	it( "returns 1 for Turkish when the keyphrase has an apostrophe and starts with an uppercase letter and a match " +
+		"with a different form is found in the meta description", function() {
+		const paper = new Paper( "", { keyword: "madonna", locale: "tr_TR",
+			synonyms: "",
+			description: "Hatta açılış töreni için Madonna'yı davet ettiğini bile duymuştum." } );
+		const researcher = new TurkishResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyDataTR );
+
+		const result = metaDescriptionKeyword( paper, researcher );
+		expect( result ).toEqual( 1 );
+	} );
+
+	it( "returns 1 for Turkish when the keyphrase has an apostrophe and starts with an uppercase letter and a match " +
+		"with a different form is found in the meta description", function() {
+		const paper = new Paper( "", { keyword: "atade", locale: "tr_TR",
+			synonyms: "",
+			description: "Kitaplar Atadeniz'in gitti, yenilerine ihtiyacımız olacak." } );
+		const researcher = new TurkishResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyDataTR );
+
+		const result = metaDescriptionKeyword( paper, researcher );
+		expect( result ).toEqual( 1 );
+	} );
+
+	xit( "returns 1 for Turkish when the keyphrase has an apostrophe and starts with an uppercase letter and a match " +
+		"with a different form is found in the meta description (this unit test is skipped for now " +
+		"since the word 'universite' is overstemmed, hence no match is found)", function() {
+		const paper = new Paper( "", { keyword: "universite", locale: "tr_TR",
+			synonyms: "",
+			description: "Universitesi'ne büyük araştırmalar yapılıyor." } );
+		const researcher = new TurkishResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyDataTR );
+
 		const result = metaDescriptionKeyword( paper, researcher );
 		expect( result ).toEqual( 1 );
 	} );
