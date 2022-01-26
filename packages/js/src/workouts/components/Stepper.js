@@ -43,21 +43,6 @@ StepButtons.propTypes = {
 };
 
 /**
- * Gets the classnames for the bullet.
- *
- * @param {boolean} isSaved      Whether the step is saved.
- * @param {boolean} isActiveStep Whether the step is active.
- *
- * @returns {string} The classnames for the bullet.
- */
-function getBulletClassnames( isSaved, isActiveStep ) {
-	if ( isActiveStep ) {
-		return "yst-bg-white yst-border-primary-500";
-	}
-	return isSaved ? "yst-delay-500 yst-bg-primary-500 yst-border-primary-500" : "yst-delay-500 yst-bg-white yst-border-gray-300";
-}
-
-/**
  * Gets the classnames for the step name.
  *
  * @param {boolean} isSaved      Whether the step is saved.
@@ -72,56 +57,21 @@ function getNameClassnames( isSaved, isActiveStep ) {
 	return isSaved ? "" : "yst-text-gray-500";
 }
 
-/**
- * Gets the classnames for the bullet content.
- *
- * @param {boolean} isSaved      Whether the step is saved.
- * @param {boolean} isActiveStep Whether the step is active.
- *
- * @returns {string} The classnames for the bullet content.
- */
-function getBulletContentClassnames( isSaved, isActiveStep ) {
-	if ( isActiveStep ) {
-		return "yst-bg-primary-500";
-	}
-	return isSaved ? "yst-delay-500" : "yst-delay-500 yst-bg-transparent";
-}
-
 const stepShape = PropTypes.shape( {
 	name: PropTypes.string.isRequired,
 	description: PropTypes.string,
 	component: PropTypes.element.isRequired,
 	isSaved: PropTypes.bool.isRequired,
 } );
-/* eslint-disable require-jsdoc, max-len */
-// Function StepCircle( { isSaved, isActive, children } ) {
-// 	Let bulletClassNames = isSaved ? "yst-delay-500 yst-bg-primary-500 yst-border-primary-500" : "yst-delay-500 yst-bg-white yst-border-gray-300";
-// 	If ( isActive ) {
-// 		BulletClassNames = "yst-bg-white yst-border-primary-500";
-// 	}
-// 	Return <span
-// 		ClassName={ `yst-transition-colors yst-duration-500 yst-relative yst-border-2 yst-z-10 yst-w-8 yst-h-8 yst-flex yst-items-center yst-justify-center yst-rounded-full ${ bulletClassNames }` }
-// 	>
-// 		{ children }
-// 	</span>;
-// }
 
+/**
+ * 
+ * @param {*} param0 
+ * @returns 
+ */
 function StepCircle( { activeClasses, inactiveClasses, activationDelay, deactivationDelay, isActive, isSaved, children } ) {
-	const [ classes, setClasses ] = useState( "yst-opacity-0" );
-	useEffect( () => {
-		if ( isActive ) {
-			// Set deactivation delay on the active class, mind the ending space.
-			setTimeout( () => setClasses( "yst-opacity-100" ), activationDelay );
-			// setClasses( `yst-delay-[${ activationDelay }ms] yst-opacity-100` );
-			return;
-		}
-		// Set activation delay on the inactive class, mind the ending space.
-		setTimeout( () => setClasses( "yst-opacity-0" ), deactivationDelay );
-		// setClasses( `yst-delay-[${ deactivationDelay }ms] yst-opacity-0` );
-	}, [ isActive, activationDelay, deactivationDelay ] );
-
 	return <span
-		className={ "yst-relative yst-z-10 yst-w-8 yst-h-8 yst-rounded-full" }
+		className={ "yst-relative yst-z-10 yst-w-8 yst-h-8 yst-rounded-full yst-bg-green-200" }
 	>
 		<span
 			className={ `yst-absolute yst-inset-0 ${ inactiveClasses } yst-border-2 yst-flex yst-items-center yst-justify-center yst-rounded-full` }
@@ -129,13 +79,18 @@ function StepCircle( { activeClasses, inactiveClasses, activationDelay, deactiva
 			{ children }
 		</span>
 		<span
-			className={ `yst-transition-opacity yst-duration-500 ${ classes } yst-absolute yst-inset-0 yst-bg-white yst-border-primary-500 yst-border-2 yst-flex yst-items-center yst-justify-center yst-rounded-full` }
+			className={ `yst-transition-opacity yst-duration-200 ${ isActive ? "yst-delay-[700ms] yst-opacity-100" : "yst-opacity-0" } yst-absolute yst-inset-0 yst-bg-violet-500 yst-border-primary-500 yst-border-2 yst-flex yst-items-center yst-justify-center yst-rounded-full` }
 		>
 			{ children }
 		</span>
 	</span>;
 }
 
+/**
+ * 
+ * @param {*} param0 
+ * @returns 
+ */
 function StepIcon( { activeClasses, inactiveClasses, activationDelay, deactivationDelay, isActive, isSaved } ) {
 	const [ classes, setClasses ] = useState( "" );
 	const [ icon, setIcon ] = useState( isSaved ? "check" : "bullet" );
@@ -154,11 +109,14 @@ function StepIcon( { activeClasses, inactiveClasses, activationDelay, deactivati
 			setClasses( inactiveClasses );
 			setIcon( isSaved ? "check" : "bullet" );
 		}, deactivationDelay );
-	}, [ isActive, activeClasses, inactiveClasses, activationDelay, deactivationDelay ] );
+	}, [ isActive, activeClasses, inactiveClasses, activationDelay, deactivationDelay, isSaved ] );
 	// Hier proberen met opactiy en absolute?
 	return ( icon === "check" )
 		? <CheckIcon className="yst-w-5 yst-h-5 yst-text-white" aria-hidden="true" />
-		: <span className={ `yst-transition-colors yst-duration-500 yst-h-2.5 yst-w-2.5 yst-rounded-full ${ classes }` } />;
+		: <span className="yst-relative yst-h-2.5 yst-w-2.5">
+			<span className={ "yst-absolute yst-inset-0 yst-rounded-full yst-bg-white" } />
+			<span className={ `yst-absolute yst-inset-0 yst-transition-opacity yst-duration-500 yst-rounded-full yst-bg-primary-500 ${ isActive ? "yst-opacity-100" : "yst-opacity-0" }` } />
+		</span>;
 }
 
 /* eslint-disable complexity, max-len */
@@ -172,18 +130,10 @@ function StepIcon( { activeClasses, inactiveClasses, activationDelay, deactivati
 function TailwindStep( { step, stepIndex, lastStepIndex, saveStep, finishStepper, activeStepIndex, setActiveStepIndex } ) {
 	const isActiveStep = activeStepIndex === stepIndex;
 	const isSaved = step.isSaved;
-	const [ icon, setIcon ] = useState( isSaved ? "check" : "bullet" );
 	const [ contentHeight, setContentHeight ] = useState( isActiveStep ? "auto" : 0 );
 	const [ isFaded, setIsFaded ] = useState( ! isActiveStep );
 
 	const nameClassNames = getNameClassnames( isSaved, isActiveStep );
-
-
-	// UseEffect( () => {
-	// 	Const inActiveIcon = isSaved ? "check" : "bullet";
-	// 	SetTimeout( () => setIcon( isActiveStep ? "bullet" : inActiveIcon ), 500 );
-	// }, [ isSaved, isActiveStep ] );
-
 
 	const handlePrimaryClick = useCallback(
 		() => {
@@ -244,14 +194,14 @@ function TailwindStep( { step, stepIndex, lastStepIndex, saveStep, finishStepper
 						isActive={ isActiveStep }
 						activeClasses="yst-bg-white yst-border-primary-500"
 						inactiveClasses={ isSaved ? "yst-bg-primary-500 yst-border-primary-500" : "yst-bg-white yst-border-gray-300" }
-						activationDelay={ 1500 }
+						activationDelay={ 500 }
 						deactivationDelay={ 0 }
 					>
 						<StepIcon
 							isActive={ isActiveStep }
 							activeClasses="yst-bg-primary-500"
-							inactiveClasses={ isSaved ? "" : "yst-bg-transparent" }
-							activationDelay={ 500 }
+							inactiveClasses={ "" }
+							activationDelay={ 700 }
 							deactivationDelay={ 0 }
 							isSaved={ isSaved }
 						/>
