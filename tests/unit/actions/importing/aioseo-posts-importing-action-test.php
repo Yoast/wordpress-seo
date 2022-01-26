@@ -461,29 +461,29 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 		$indexable->description = 'existing_dsc';
 
 		$aioseio_indexable = [
-			'title'                    => 'title1',
-			'description'              => 'description1',
-			'og_title'                 => 'og_title1',
-			'og_description'           => 'og_description1',
-			'twitter_title'            => 'twitter_title1',
-			'twitter_description'      => 'twitter_description1',
-			'canonical_url'            => 'https://example.com/',
-			'keyphrases'               => \json_encode(
+			'title'               => 'title1',
+			'description'         => 'description1',
+			'og_title'            => 'og_title1',
+			'og_description'      => 'og_description1',
+			'twitter_title'       => 'twitter_title1',
+			'twitter_description' => 'twitter_description1',
+			'canonical_url'       => 'https://example.com/',
+			'keyphrases'          => \json_encode(
 				[
 					'focus' => [
 						'not_keyphrase' => 'key phrase',
 					],
 				]
 			),
-			'og_image_type'            => 'default',
-			'twitter_image_url'  => 'https://example.com/image2.png',
-			'twitter_image_type' => 'whatever',
-			'twitter_use_og'           => false,
-			'robots_default'           => true,
-			'robots_nofollow'          => true,
-			'robots_noarchive'         => false,
-			'robots_nosnippet'         => true,
-			'robots_noimageindex'      => false,
+			'og_image_type'       => 'default',
+			'twitter_image_url'   => 'https://example.com/image2.png',
+			'twitter_image_type'  => 'whatever',
+			'twitter_use_og'      => false,
+			'robots_default'      => true,
+			'robots_nofollow'     => true,
+			'robots_noarchive'    => false,
+			'robots_nosnippet'    => true,
+			'robots_noimageindex' => false,
 		];
 
 		$this->replacevar_handler->shouldReceive( 'transform' )
@@ -623,5 +623,125 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 		$indexable = $this->instance->map( $indexable, $aioseio_indexable );
 
 		$this->assertNull( $indexable->twitter_description );
+	}
+
+	/**
+	 * Tests importing the og and twitter image url.
+	 *
+	 * @param bool   $aioseo_social_image_settings AIOSEO's set of social image settings for the post.
+	 * @param array  $mapping                     The mapping of the setting we're working with.
+	 * @param int    $expected_url                The URL that's expected to be imported.
+	 * @param string $sanitize_url_times          The times we're sanitizing the retrieved url.
+	 * @param string $getting_default_times       The times we're getting the default url.
+	 * @param string $social_setting              The social settings we use to get the default url.
+	 *
+	 * @dataProvider provider_social_image_url_import
+	 * @covers ::social_image_url_import
+	 */
+	public function test_social_image_url_import( $aioseo_social_image_settings, $mapping, $expected_url, $sanitize_url_times, $getting_default_times, $social_setting ) {
+		$this->sanitization->shouldReceive( 'sanitize_url' )
+			->times( $sanitize_url_times )
+			->with( $expected_url, null )
+			->andReturn( $expected_url );
+
+		$this->social_images_provider->shouldReceive( 'get_default_social_image' )
+			->times( $getting_default_times )
+			->with( $social_setting )
+			->andReturn( $expected_url );
+
+		$image_url = $this->instance->social_image_url_import( $aioseo_social_image_settings, $mapping, $expected_url );
+
+		$this->assertSame( $expected_url, $image_url );
+	}
+
+	/**
+	 * Data provider for test_transform_separator().
+	 *
+	 * @return array
+	 */
+	public function provider_social_image_url_import() {
+		$open_graph_mapping = [
+			'yoast_name'                   => 'open_graph_image',
+			'social_image_import'          => true,
+			'social_setting_prefix_aioseo' => 'og_',
+			'social_setting_prefix_yoast'  => 'open_graph_',
+			'transform_method'             => 'social_image_url_import',
+		];
+		$twitter_mapping    = [
+			'yoast_name'                   => 'twitter_image',
+			'social_image_import'          => true,
+			'social_setting_prefix_aioseo' => 'twitter_',
+			'social_setting_prefix_yoast'  => 'twitter_',
+			'transform_method'             => 'social_image_url_import',
+		];
+
+		$correct_image = 'https://example.com/correct-image.png';
+		$wrong_image   = 'https://example.com/wrong-image.png';
+
+		$aioseo_og_custom_image = [
+			'og_image_type'       => 'custom_image',
+			'og_image_custom_url' => $correct_image,
+			'og_image_url'        => $wrong_image,
+		];
+		$aioseo_og_auto         = [
+			'og_image_type'       => 'auto',
+			'og_image_custom_url' => $wrong_image,
+			'og_image_url'        => $wrong_image,
+		];
+		$aioseo_og_default      = [
+			'og_image_type'       => 'default',
+			'og_image_custom_url' => $wrong_image,
+			'og_image_url'        => $wrong_image,
+		];
+		$aioseo_og_other        = [
+			'og_image_type'       => 'featured-image',
+			'og_image_custom_url' => $wrong_image,
+			'og_image_url'        => $correct_image,
+		];
+
+		$aioseo_twitter_custom_image = [
+			'twitter_use_og'           => false,
+			'twitter_image_type'       => 'custom_image',
+			'twitter_image_custom_url' => $correct_image,
+			'twitter_image_url'        => $wrong_image,
+		];
+		$aioseo_twitter_auto         = [
+			'twitter_use_og'           => false,
+			'twitter_image_type'       => 'auto',
+			'twitter_image_custom_url' => $wrong_image,
+			'twitter_image_url'        => $wrong_image,
+		];
+		$aioseo_twitter_default      = [
+			'twitter_use_og'           => false,
+			'twitter_image_type'       => 'default',
+			'twitter_image_custom_url' => $wrong_image,
+			'twitter_image_url'        => $wrong_image,
+		];
+		$aioseo_twitter_other        = [
+			'twitter_use_og'           => false,
+			'twitter_image_type'       => 'featured-image',
+			'twitter_image_custom_url' => $wrong_image,
+			'twitter_image_url'        => $correct_image,
+		];
+		$aioseo_twitter_from_og      = [
+			'twitter_use_og'           => true,
+			'twitter_image_type'       => 'custom_image',
+			'twitter_image_custom_url' => $wrong_image,
+			'twitter_image_url'        => $wrong_image,
+			'og_image_url'             => $correct_image,
+			'og_image_type'            => 'featured-image',
+		];
+
+		return [
+			[ $aioseo_og_custom_image, $open_graph_mapping, $correct_image, 1, 0, 'irrelevant' ],
+			[ $aioseo_og_auto, $open_graph_mapping, null, 0, 0, 'irrelevant' ],
+			[ $aioseo_og_default, $open_graph_mapping, $correct_image, 1, 1, 'og' ],
+			[ $aioseo_og_other, $open_graph_mapping, $correct_image, 1, 0, 'irrelevant' ],
+			[ $aioseo_twitter_custom_image, $twitter_mapping, $correct_image, 1, 0, 'irrelevant' ],
+			[ $aioseo_twitter_auto, $twitter_mapping, null, 0, 0, 'irrelevant' ],
+			[ $aioseo_twitter_default, $twitter_mapping, $correct_image, 1, 1, 'twitter' ],
+			[ $aioseo_twitter_other, $twitter_mapping, $correct_image, 1, 0, 'irrelevant' ],
+			[ $aioseo_twitter_from_og, $twitter_mapping, $correct_image, 1, 0, 'irrelevant' ],
+		];
 	}
 }
