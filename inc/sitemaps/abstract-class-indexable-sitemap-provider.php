@@ -44,6 +44,57 @@ abstract class WPSEO_Indexable_Sitemap_Provider implements WPSEO_Sitemap_Provide
 	 * @return array
 	 */
 	public function get_index_links( $max_entries ) {
+		$last_object_per_page = $this->get_last_object_per_page( $max_entries );
+
+		$links              = [];
+		$page               = 1;
+		$present_page_types = [];
+		foreach ( $last_object_per_page as $index => $object ) {
+			if ( $this->should_exclude_object_sub_type( $object->object_sub_type ) ) {
+				continue;
+			}
+
+			$present_page_types[] = $object->object_sub_type;
+
+			$next_object_is_not_same_sub_type = ! isset( $last_object_per_page[ ( $index + 1 ) ] ) || $last_object_per_page[ ( $index + 1 ) ]->object_sub_type !== $object->object_sub_type;
+			if ( $page === 1 && $next_object_is_not_same_sub_type ) {
+				$page = '';
+			}
+
+			$links[] = [
+				'loc'     => WPSEO_Sitemaps_Router::get_base_url( $object->object_sub_type . '-sitemap' . ( $page ) . '.xml' ),
+				'lastmod' => $object->object_last_modified,
+			];
+
+			if ( is_int( $page ) ) {
+				++$page;
+			}
+
+			if ( $next_object_is_not_same_sub_type ) {
+				$page = 1;
+			}
+		}
+
+		foreach ( $this->get_non_empty_types() as $object_sub_type ) {
+			if ( ! in_array( $object_sub_type, $present_page_types, true ) ) {
+				$links[] = [
+					'loc'     => WPSEO_Sitemaps_Router::get_base_url( $object_sub_type . '-sitemap.xml' ),
+					'lastmod' => null,
+				];
+			}
+		}
+
+		return $links;
+	}
+
+	/**
+	 * Gets a list of sitemap objects that represent the last entry on an individual sitemap page.
+	 *
+	 * @param int $max_entries_per_page The maximum allowed number of objects on a single page.
+	 *
+	 * @return array A list of sitemap objects that represent the last entry on an individual sitemap page.
+	 */
+	protected function get_last_object_per_page( $max_entries_per_page ) {
 		global $wpdb;
 
 		$query = $this->repository
@@ -53,7 +104,7 @@ abstract class WPSEO_Indexable_Sitemap_Provider implements WPSEO_Sitemap_Provide
 			->order_by_asc( 'object_last_modified' );
 
 		$excluded_object_ids = $this->get_excluded_object_ids();
-		if ( count( $excluded_object_ids ) > 0 ) {
+		if ( is_array( $excluded_object_ids ) && count( $excluded_object_ids ) > 0 ) {
 			$query->where_not_in( 'object_id', $excluded_object_ids );
 		}
 
@@ -78,50 +129,56 @@ abstract class WPSEO_Indexable_Sitemap_Provider implements WPSEO_Sitemap_Provide
 								id
 							FROM ( $raw_query ) AS sorted, ( SELECT @row:=-1, @previous_sub_type:=null ) AS init
 						) AS ranked
-						WHERE rownum MOD %d = 0
+						WHERE rownum MOD %d = (%d-1) -- Get the last entry of all full pages.
 					) AS subset
 					ON subset.id = i.id
 				",
-				$max_entries
+				$max_entries_per_page,
+				$max_entries_per_page
 			)
 		// phpcs:enable
 		);
 
-		$links              = [];
-		$page               = 1;
-		$present_page_types = [];
-		foreach ( $last_object_per_page as $index => $object ) {
-			if ( $this->should_exclude_object_sub_type( $object->object_sub_type ) ) {
-				continue;
-			}
-
-			$present_page_types[] = $object->object_sub_type;
-
-			$next_object_is_not_same_sub_type = ! isset( $last_object_per_page[ ( $index + 1 ) ] ) || $last_object_per_page[ ( $index + 1 ) ]->object_sub_type !== $object->object_sub_type;
-			if ( $page === 1 && $next_object_is_not_same_sub_type ) {
-				$page = '';
-			}
-
-			$links[] = [
-				'loc'     => WPSEO_Sitemaps_Router::get_base_url( $object->object_sub_type . '-sitemap' . ( $page++ ) . '.xml' ),
-				'lastmod' => $object->object_last_modified,
-			];
-
-			if ( $next_object_is_not_same_sub_type ) {
-				$page = 1;
-			}
+		if ( ! $last_object_per_page ) {
+			$last_object_per_page = [];
 		}
 
-		foreach ( $this->get_non_empty_types() as $object_sub_type ) {
-			if ( ! in_array( $object_sub_type, $present_page_types, true ) && ! $this->should_exclude_object_sub_type( $object_sub_type ) ) {
-				$links[] = [
-					'loc'     => WPSEO_Sitemaps_Router::get_base_url( $object_sub_type . '-sitemap.xml' ),
-					'lastmod' => null,
+		// Ensure that pages with fewer objects than the max_entries get a link.
+		$post_type_aggregate_query = $this->repository
+			->query_where_noindex( false, $this->get_object_type() )
+			->select( 'object_sub_type' )
+			->select_expr( 'MAX(`object_last_modified`)', 'post_type_last_modified' )
+			->select_expr( 'COUNT(`id`)', 'number_of_posts' )
+			->having_gt( 'number_of_posts', 0 );
+
+		if ( is_array( $excluded_object_ids ) && count( $excluded_object_ids ) > 0 ) {
+			$post_type_aggregate_query->where_not_in( 'object_id', $excluded_object_ids );
+		}
+		$post_type_aggregates = (array) $post_type_aggregate_query->find_array();
+
+		foreach ( $post_type_aggregates as $post_type_aggregate ) {
+			if ( isset( $post_type_aggregate['number_of_posts'] ) && ( $post_type_aggregate['number_of_posts'] % $max_entries_per_page !== 0 ) ) {
+				$half_page_object   = (object) [
+					'object_sub_type'      => $post_type_aggregate['object_sub_type'],
+					'object_last_modified' => $post_type_aggregate['post_type_last_modified'],
 				];
+				$last_subtype_index = 0;
+				foreach ( $last_object_per_page as $index => $object ) {
+					if ( $object->object_sub_type === $post_type_aggregate['object_sub_type'] ) {
+						$last_subtype_index = $index;
+					}
+				}
+
+				// Insert after the last complete page of the same type.
+				$last_object_per_page = array_merge(
+					array_splice( $last_object_per_page, 0, ( $last_subtype_index + 1 ) ),
+					[ $half_page_object ],
+					$last_object_per_page
+				);
 			}
 		}
 
-		return $links;
+		return $last_object_per_page;
 	}
 
 	/**
