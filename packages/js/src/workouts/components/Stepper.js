@@ -73,11 +73,13 @@ function StepCircle( { activeClasses, inactiveClasses, activationDelay, deactiva
 	return <span
 		className={ "yst-relative yst-z-10 yst-w-8 yst-h-8 yst-rounded-full yst-bg-green-200" }
 	>
+		{ /* Inactive border and background, arranged via props */ }
 		<span
 			className={ `yst-absolute yst-inset-0 ${ inactiveClasses } yst-border-2 yst-flex yst-items-center yst-justify-center yst-rounded-full` }
 		>
 			{ children }
 		</span>
+		{ /* Active border and background, fading in when active */ }
 		<span
 			className={ `yst-transition-opacity yst-duration-200 ${ isActive ? "yst-delay-[700ms] yst-opacity-100" : "yst-opacity-0" } yst-absolute yst-inset-0 yst-bg-white yst-border-primary-500 yst-border-2 yst-flex yst-items-center yst-justify-center yst-rounded-full` }
 		>
@@ -109,8 +111,11 @@ function StepIcon( { activeClasses, inactiveClasses, activationDelay, deactivati
 	}, [ isActive, activeClasses, inactiveClasses, activationDelay, deactivationDelay, isSaved ] );
 
 	return <span className="yst-relative yst-h-2.5 yst-w-2.5">
+		{ /* Inactive, not-saved (upcoming) bullet */ }
 		<span className={ `yst-transition-opacity yst-duration-200 ${ icon === "bullet" ? "yst-opacity-100" : "yst-opacity-0" } yst-absolute yst-inset-0 yst-rounded-full yst-bg-transparent` } />
+		{ /* Active, (purple) bullet */ }
 		<span className={ `yst-absolute yst-inset-0 yst-transition-opacity yst-duration-200 yst-rounded-full yst-bg-primary-500 ${ icon === "activeBullet" ? "yst-opacity-100" : "yst-opacity-0" }` } />
+		{ /* Inactive, saved checkmark */ }
 		<CheckIcon className={ `yst-transition-all yst-duration-200 ${ icon === "check" ? "yst-opacity-100" : "yst-scale-0 yst-opacity-0" } yst-absolute yst-left-[-5px] yst-top-[-5px] yst-w-5 yst-h-5 yst-text-white` } aria-hidden="true" />
 	</span>;
 }
