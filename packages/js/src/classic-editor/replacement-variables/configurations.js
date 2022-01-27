@@ -46,12 +46,18 @@ export const primaryCategory = {
 	name: "primary_category",
 	getLabel: () => __( "Primary category", "wordpress-seo" ),
 	getReplacement: () => {
+		// Gets the primary category data from `yoast-seo/editor` store.
 		const primaryCategoryData = select( "yoast-seo/editor" ).getReplaceVars()
 			.filter( replaceVar => replaceVar.name === "primary_category" );
 
-		const fallbackPrimaryCategory = get( window, "wpseoPrimaryCategoryL10n.taxonomies.category" );
-		const termId = fallbackPrimaryCategory.primary;
-		const termName = fallbackPrimaryCategory.terms.filter( term => term.id === termId )[ 0 ]?.name;
+		/*
+		 * The `yoast-seo/editor` store returns an empty primary category upon opening a content
+		 * even when there is already a primary category set to it.
+		 * When this happens, we retrieve the primary content from wpseoPrimaryCategoryL10n object.
+		 */
+		const initialPrimaryCat = get( window, "wpseoPrimaryCategoryL10n.taxonomies.category" );
+		const termId = initialPrimaryCat.primary;
+		const termName = initialPrimaryCat.terms.filter( term => term.id === termId )[ 0 ]?.name;
 
 		return primaryCategoryData[ 0 ].value || termName;
 	},
