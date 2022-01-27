@@ -290,7 +290,7 @@ IndexationStep.propTypes = {
 	setIndexingState: PropTypes.func.isRequired,
 };
 
-/* eslint-disable max-len */
+/* eslint-disable max-len, react/prop-types */
 /**
  * Doc comment to make linter happy.
  *
@@ -445,7 +445,7 @@ function PersonalPreferencesStep( { state, setTracking, isTrackingOptionSelected
 
 const FinishStep = () => <Fragment><p>Finish all the things</p></Fragment>;
 
-/* eslint-enable max-len */
+/* eslint-enable max-len, react/prop-types */
 
 /* eslint-disable max-statements */
 /**
@@ -709,9 +709,17 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 			/>
 
 			<UnsavedChangesModal hasUnsavedChanges={ state.editedSteps.includes( activeStepIndex + 1 ) } />
+
+			<button
+				className="yst-button--danger yst-mt-4" onClick={
+					() => {
+						setHideOriginal( prevState => ! prevState  );
+					} }
+			>
+				Toggle original
+			</button>
 			{ /* eslint-enable react/jsx-no-bind */ }
 
-			<button className="yst-button--danger yst-mt-4" onClick={ () => { setHideOriginal( prevState => ! prevState  ); } }>Toggle original</button>
 			<div className={ hideOriginal ? "yst-hidden" : "" }>
 				<h2 id="yoast-configuration-workout-title">{ __( "Configuration", "wordpress-seo" ) }</h2>
 				<h3 id="yoast-configuration-workout-tagline">{
