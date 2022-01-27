@@ -5,7 +5,7 @@ import { isShallowEqualObjects } from "@wordpress/is-shallow-equal";
 
 import { Component } from "@wordpress/element";
 import { IconButton } from "@wordpress/components";
-import { RichText, MediaUpload } from "@wordpress/editor";
+import { RichText, MediaUpload } from "@wordpress/block-editor";
 
 /* Internal dependencies */
 import appendSpace from "../../../components/higherorder/appendSpace";
