@@ -28,12 +28,23 @@ export const SocialImage = ( props ) => {
 	if ( imageMode === "landscape" ) {
 		return <div
 			style={ {
-				background: `url(${ imageProps.src }) center / cover no-repeat`,
-				paddingBottom: `${ imageProps.aspectRatio }%`,
+				paddingBottom: `${imageProps.aspectRatio}%`,
+				position: "relative",
 			} }
-			role="img"
-			aria-label={ imageProps.alt }
-		/>;
+		>
+			<StyledImage
+				src={ imageProps.src }
+				alt={ imageProps.alt }
+				imageProperties={ imageProps }
+
+				style={ {
+					maxHeight: "100%",
+					position: "absolute",
+					width: "100%",
+					objectFit: "cover",
+				} }
+			/>
+		</div>;
 	}
 
 	return <StyledImage
