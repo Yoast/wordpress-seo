@@ -497,8 +497,8 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	 * Imports the og and twitter image url.
 	 *
 	 * @param bool      $aioseo_social_image_settings AIOSEO's set of social image settings for the post.
-	 * @param array     $mapping The mapping of the setting we're working with.
-	 * @param Indexable $indexable        The Yoast indexable we're importing into.
+	 * @param array     $mapping                      The mapping of the setting we're working with.
+	 * @param Indexable $indexable                    The Yoast indexable we're importing into.
 	 *
 	 * @return bool|null The url of the social image we're importing, null if there's none.
 	 */

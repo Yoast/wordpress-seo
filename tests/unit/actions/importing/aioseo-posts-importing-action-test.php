@@ -299,6 +299,8 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 		$indexable      = Mockery::mock( Indexable_Mock::class );
 		$indexable->orm = Mockery::mock( ORM::class );
 
+		$indexable->object_id = 123;
+
 		$aioseio_indexable = [
 			'title'                    => 'title1',
 			'description'              => 'description1',
@@ -314,10 +316,8 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 					],
 				]
 			),
-			'og_image_custom_url'      => 'https://example.com/image1.png',
-			'og_image_type'            => 'custom_image',
-			'twitter_image_custom_url' => 'https://example.com/image2.png',
-			'twitter_image_type'       => 'custom_image',
+			'og_image_type'            => 'attach',
+			'twitter_image_type'       => 'auto',
 			'twitter_use_og'           => false,
 			'robots_default'           => true,
 			'robots_nofollow'          => true,
@@ -396,10 +396,20 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			->with( 'key phrase' )
 			->andReturn( 'key phrase' );
 
+		$this->social_images_provider->shouldReceive( 'get_first_attached_image' )
+			->once()
+			->with( 123 )
+			->andReturn( 'https://example.com/image1.png' );
+
 		$this->sanitization->shouldReceive( 'sanitize_url' )
 			->once()
 			->with( 'https://example.com/image1.png', null )
 			->andReturn( 'https://example.com/image1.png' );
+
+		$this->social_images_provider->shouldReceive( 'get_auto_image' )
+			->once()
+			->with( 123 )
+			->andReturn( 'https://example.com/image2.png' );
 
 		$this->sanitization->shouldReceive( 'sanitize_url' )
 			->once()
@@ -457,6 +467,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 		$indexable      = Mockery::mock( Indexable_Mock::class );
 		$indexable->orm = Mockery::mock( ORM::class );
 
+		$indexable->object_id   = 123;
 		$indexable->title       = 'existing_title';
 		$indexable->description = 'existing_dsc';
 
@@ -475,9 +486,8 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 					],
 				]
 			),
-			'og_image_type'       => 'default',
-			'twitter_image_url'   => 'https://example.com/image2.png',
-			'twitter_image_type'  => 'whatever',
+			'og_image_type'       => 'attach',
+			'twitter_image_type'  => 'auto',
 			'twitter_use_og'      => false,
 			'robots_default'      => true,
 			'robots_nofollow'     => true,
@@ -531,9 +541,9 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			->with( $aioseio_indexable['canonical_url'], null )
 			->andReturn( $aioseio_indexable['canonical_url'] );
 
-		$this->social_images_provider->shouldReceive( 'get_default_social_image' )
+		$this->social_images_provider->shouldReceive( 'get_first_attached_image' )
 			->once()
-			->with( 'og' )
+			->with( 123 )
 			->andReturn( 'https://example.com/image3.png' );
 
 		$this->sanitization->shouldReceive( 'sanitize_url' )
@@ -541,10 +551,15 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			->with( 'https://example.com/image3.png', null )
 			->andReturn( 'https://example.com/image3.png' );
 
+		$this->social_images_provider->shouldReceive( 'get_auto_image' )
+			->once()
+			->with( 123 )
+			->andReturn( 'https://example.com/image4.png' );
+
 		$this->sanitization->shouldReceive( 'sanitize_url' )
 			->once()
-			->with( 'https://example.com/image2.png', null )
-			->andReturn( 'https://example.com/image2.png' );
+			->with( 'https://example.com/image4.png', null )
+			->andReturn( 'https://example.com/image4.png' );
 
 		$this->robots_provider->shouldReceive( 'get_subtype_robot_setting' )
 			->andReturn( 'robot_setting' );
@@ -559,7 +574,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 
 		$this->image->shouldReceive( 'get_attachment_by_url' )
 			->once()
-			->with( 'https://example.com/image2.png' )
+			->with( 'https://example.com/image4.png' )
 			->andReturn( '234' );
 
 		$indexable = $this->instance->map( $indexable, $aioseio_indexable );
@@ -576,7 +591,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 		$this->assertSame( 'imported', $indexable->open_graph_image_source );
 		$this->assertSame( '123', $indexable->open_graph_image_id );
 		$this->assertSame( null, $indexable->open_graph_image_meta );
-		$this->assertSame( 'https://example.com/image2.png', $indexable->twitter_image );
+		$this->assertSame( 'https://example.com/image4.png', $indexable->twitter_image );
 		$this->assertSame( 'imported', $indexable->twitter_image_source );
 		$this->assertSame( '234', $indexable->twitter_image_id );
 	}
@@ -598,7 +613,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			'robots_noarchive'     => false,
 			'robots_nosnippet'     => true,
 			'robots_noimageindex'  => false,
-			'og_image_type'        => 'auto',
+			'og_image_type'        => 'author',
 			'twitter_use_og'       => true,
 		];
 
@@ -631,25 +646,37 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 	 * @param bool   $aioseo_social_image_settings AIOSEO's set of social image settings for the post.
 	 * @param array  $mapping                     The mapping of the setting we're working with.
 	 * @param int    $expected_url                The URL that's expected to be imported.
-	 * @param string $sanitize_url_times          The times we're sanitizing the retrieved url.
-	 * @param string $getting_default_times       The times we're getting the default url.
+	 * @param int    $sanitize_url_times          The times we're sanitizing the retrieved url.
+	 * @param string $provider_method             The method we're using from the social images provider.
+	 * @param int    $provider_times              The times we're using the social images provider.
+	 * @param int    $get_default_times           The times we're getting the default url.
 	 * @param string $social_setting              The social settings we use to get the default url.
 	 *
 	 * @dataProvider provider_social_image_url_import
 	 * @covers ::social_image_url_import
 	 */
-	public function test_social_image_url_import( $aioseo_social_image_settings, $mapping, $expected_url, $sanitize_url_times, $getting_default_times, $social_setting ) {
+	public function test_social_image_url_import( $aioseo_social_image_settings, $mapping, $expected_url, $sanitize_url_times, $provider_method, $provider_times, $get_default_times, $social_setting ) {
+		$indexable      = Mockery::mock( Indexable_Mock::class );
+		$indexable->orm = Mockery::mock( ORM::class );
+
+		$indexable->object_id = 123;
+
+		$this->social_images_provider->shouldReceive( $provider_method )
+			->times( $provider_times )
+			->with( 123 )
+			->andReturn( $expected_url );
+
+		$this->social_images_provider->shouldReceive( 'get_default_custom_social_image' )
+			->times( $get_default_times )
+			->with( $social_setting )
+			->andReturn( $expected_url );
+
 		$this->sanitization->shouldReceive( 'sanitize_url' )
 			->times( $sanitize_url_times )
 			->with( $expected_url, null )
 			->andReturn( $expected_url );
 
-		$this->social_images_provider->shouldReceive( 'get_default_social_image' )
-			->times( $getting_default_times )
-			->with( $social_setting )
-			->andReturn( $expected_url );
-
-		$image_url = $this->instance->social_image_url_import( $aioseo_social_image_settings, $mapping, $expected_url );
+		$image_url = $this->instance->social_image_url_import( $aioseo_social_image_settings, $mapping, $indexable );
 
 		$this->assertSame( $expected_url, $image_url );
 	}
@@ -675,73 +702,83 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			'transform_method'             => 'social_image_url_import',
 		];
 
-		$correct_image = 'https://example.com/correct-image.png';
-		$wrong_image   = 'https://example.com/wrong-image.png';
+		$image = 'https://example.com/image.png';
 
 		$aioseo_og_custom_image = [
 			'og_image_type'       => 'custom_image',
-			'og_image_custom_url' => $correct_image,
-			'og_image_url'        => $wrong_image,
+			'og_image_custom_url' => $image,
+		];
+		$aioseo_og_attach       = [
+			'og_image_type'       => 'attach',
+		];
+		$aioseo_og_author       = [
+			'og_image_type'       => 'author',
 		];
 		$aioseo_og_auto         = [
 			'og_image_type'       => 'auto',
-			'og_image_custom_url' => $wrong_image,
-			'og_image_url'        => $wrong_image,
 		];
-		$aioseo_og_default      = [
-			'og_image_type'       => 'default',
-			'og_image_custom_url' => $wrong_image,
-			'og_image_url'        => $wrong_image,
+		$aioseo_og_content      = [
+			'og_image_type'       => 'content',
 		];
-		$aioseo_og_other        = [
-			'og_image_type'       => 'featured-image',
-			'og_image_custom_url' => $wrong_image,
-			'og_image_url'        => $correct_image,
+		$aioseo_og_custom       = [
+			'og_image_type'       => 'custom',
+		];
+		$aioseo_og_featured     = [
+			'og_image_type'       => 'featured',
 		];
 
 		$aioseo_twitter_custom_image = [
 			'twitter_use_og'           => false,
 			'twitter_image_type'       => 'custom_image',
-			'twitter_image_custom_url' => $correct_image,
-			'twitter_image_url'        => $wrong_image,
+			'twitter_image_custom_url' => $image,
+		];
+		$aioseo_twitter_attach       = [
+			'twitter_use_og'      => false,
+			'twitter_image_type'  => 'attach',
+		];
+		$aioseo_twitter_author       = [
+			'twitter_use_og'      => false,
+			'twitter_image_type'  => 'author',
 		];
 		$aioseo_twitter_auto         = [
-			'twitter_use_og'           => false,
-			'twitter_image_type'       => 'auto',
-			'twitter_image_custom_url' => $wrong_image,
-			'twitter_image_url'        => $wrong_image,
+			'twitter_use_og'      => false,
+			'twitter_image_type'  => 'auto',
 		];
-		$aioseo_twitter_default      = [
-			'twitter_use_og'           => false,
-			'twitter_image_type'       => 'default',
-			'twitter_image_custom_url' => $wrong_image,
-			'twitter_image_url'        => $wrong_image,
+		$aioseo_twitter_content      = [
+			'twitter_use_og'      => false,
+			'twitter_image_type'  => 'content',
 		];
-		$aioseo_twitter_other        = [
-			'twitter_use_og'           => false,
-			'twitter_image_type'       => 'featured-image',
-			'twitter_image_custom_url' => $wrong_image,
-			'twitter_image_url'        => $correct_image,
+		$aioseo_twitter_custom       = [
+			'twitter_use_og'      => false,
+			'twitter_image_type'  => 'custom',
+		];
+		$aioseo_twitter_featured     = [
+			'twitter_use_og'      => false,
+			'twitter_image_type'  => 'featured',
 		];
 		$aioseo_twitter_from_og      = [
-			'twitter_use_og'           => true,
-			'twitter_image_type'       => 'custom_image',
-			'twitter_image_custom_url' => $wrong_image,
-			'twitter_image_url'        => $wrong_image,
-			'og_image_url'             => $correct_image,
-			'og_image_type'            => 'featured-image',
+			'twitter_use_og'      => true,
+			'twitter_image_type'  => 'irrelevant',
+			'og_image_type'       => 'custom_image',
+			'og_image_custom_url' => $image,
 		];
 
 		return [
-			[ $aioseo_og_custom_image, $open_graph_mapping, $correct_image, 1, 0, 'irrelevant' ],
-			[ $aioseo_og_auto, $open_graph_mapping, null, 0, 0, 'irrelevant' ],
-			[ $aioseo_og_default, $open_graph_mapping, $correct_image, 1, 1, 'og' ],
-			[ $aioseo_og_other, $open_graph_mapping, $correct_image, 1, 0, 'irrelevant' ],
-			[ $aioseo_twitter_custom_image, $twitter_mapping, $correct_image, 1, 0, 'irrelevant' ],
-			[ $aioseo_twitter_auto, $twitter_mapping, null, 0, 0, 'irrelevant' ],
-			[ $aioseo_twitter_default, $twitter_mapping, $correct_image, 1, 1, 'twitter' ],
-			[ $aioseo_twitter_other, $twitter_mapping, $correct_image, 1, 0, 'irrelevant' ],
-			[ $aioseo_twitter_from_og, $twitter_mapping, $correct_image, 1, 0, 'irrelevant' ],
+			[ $aioseo_og_custom_image, $open_graph_mapping, $image, 1, 'irrelevant', 0, 0, 'og' ],
+			[ $aioseo_og_attach, $open_graph_mapping, $image, 1, 'get_first_attached_image', 1, 0, 'og' ],
+			[ $aioseo_og_author, $open_graph_mapping, null, 0, 'irrelevant', 0, 0, 'og' ],
+			[ $aioseo_og_auto, $open_graph_mapping, $image, 1, 'get_auto_image', 1, 0, 'og' ],
+			[ $aioseo_og_content, $open_graph_mapping, $image, 1, 'get_first_image_in_content', 1, 0, 'og' ],
+			[ $aioseo_og_custom, $open_graph_mapping, null, 0, 'irrelevant', 0, 0, 'og' ],
+			[ $aioseo_og_featured, $open_graph_mapping, $image, 1, 'get_featured_image', 1, 0, 'og' ],
+			[ $aioseo_twitter_custom_image, $twitter_mapping, $image, 1, 'irrelevant', 0, 0, 'twitter' ],
+			[ $aioseo_twitter_attach, $twitter_mapping, $image, 1, 'get_first_attached_image', 1, 0, 'twitter' ],
+			[ $aioseo_twitter_author, $twitter_mapping, null, 0, 'irrelevant', 0, 0, 'twitter' ],
+			[ $aioseo_twitter_auto, $twitter_mapping, $image, 1, 'get_auto_image', 1, 0, 'twitter' ],
+			[ $aioseo_twitter_content, $twitter_mapping, $image, 1, 'get_first_image_in_content', 1, 0, 'twitter' ],
+			[ $aioseo_twitter_custom, $twitter_mapping, null, 0, 'irrelevant', 0, 0, 'twitter' ],
+			[ $aioseo_twitter_featured, $twitter_mapping, $image, 1, 'get_featured_image', 1, 0, 'twitter' ],
+			[ $aioseo_twitter_from_og, $twitter_mapping, $image, 1, 'irrelevant', 0, 0, 'og' ],
 		];
 	}
 }

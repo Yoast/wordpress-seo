@@ -57,7 +57,7 @@ class Aioseo_Social_Images_Provider_Service {
 	 * @param string $setting        The setting we want, eg. source or custom image.
 	 * @param string $social_setting The social settings we're working with, eg. open-graph or twitter.
 	 *
-	 * @return string The global default social image.
+	 * @return string The social default.
 	 */
 	public function get_social_defaults( $setting, $social_setting ) {
 		switch ( $setting ) {
@@ -137,10 +137,10 @@ class Aioseo_Social_Images_Provider_Service {
 	 * @return string The url of the featured image.
 	 */
 	public function get_featured_image( $post_id ) {
-		$image = \get_post_thumbnail_id( $post_id );
+		$feature_image_id = \get_post_thumbnail_id( $post_id );
 
-		if ( $image ) {
-			return $this->image->get_attachment_image_source( $image, 'fullsize' );
+		if ( $feature_image_id ) {
+			return $this->image->get_attachment_image_source( $feature_image_id, 'fullsize' );
 		}
 
 		return '';
