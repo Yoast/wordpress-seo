@@ -340,7 +340,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 
 			// For social images, like open graph and twitter image.
 			if ( isset( $yoast_mapping['social_image_import'] ) && $yoast_mapping['social_image_import'] ) {
-				$image_url = \call_user_func( [ $this, $yoast_mapping['transform_method'] ], $aioseo_indexable, $yoast_mapping );
+				$image_url = \call_user_func( [ $this, $yoast_mapping['transform_method'] ], $aioseo_indexable, $yoast_mapping, $indexable );
 
 				// Update the indexable's social image only where there's actually a url to import, so as not to lose the social images that we came up with when we originally built the indexable.
 				if ( ! empty( $image_url ) ) {
@@ -496,28 +496,61 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	/**
 	 * Imports the og and twitter image url.
 	 *
-	 * @param bool  $aioseo_social_image_settings AIOSEO's set of social image settings for the post.
-	 * @param array $mapping The mapping of the setting we're working with.
+	 * @param bool      $aioseo_social_image_settings AIOSEO's set of social image settings for the post.
+	 * @param array     $mapping The mapping of the setting we're working with.
+	 * @param Indexable $indexable        The Yoast indexable we're importing into.
 	 *
-	 * @return bool|null The value of Yoast's noindex setting for the post.
+	 * @return bool|null The url of the social image we're importing, null if there's none.
 	 */
-	public function social_image_url_import( $aioseo_social_image_settings, $mapping ) {
+	public function social_image_url_import( $aioseo_social_image_settings, $mapping, $indexable ) {
 		if ( $mapping['social_setting_prefix_aioseo'] === 'twitter_' && $aioseo_social_image_settings['twitter_use_og'] ) {
 			$mapping['social_setting_prefix_aioseo'] = 'og_';
 		}
 
+		$social_setting = \rtrim( $mapping['social_setting_prefix_aioseo'], '_' );
+
 		$image_type = $aioseo_social_image_settings[ $mapping['social_setting_prefix_aioseo'] . 'image_type' ];
 
+		if ( $image_type === 'default' ) {
+			$image_type = $this->social_images_provider->get_default_social_image_source( $social_setting );
+		}
+
 		switch ( $image_type ) {
-			case 'custom_image':
-				return $this->sanitization->sanitize_url( $aioseo_social_image_settings[ $mapping['social_setting_prefix_aioseo'] . 'image_custom_url' ], null );
+			case 'attach':
+				$image_url = $this->social_images_provider->get_first_attached_image( $indexable->object_id );
+				break;
 			case 'auto':
+				$image_url = $this->social_images_provider->get_auto_image( $indexable->object_id );
+				break;
+			case 'content':
+				$image_url = $this->social_images_provider->get_first_image_in_content( $indexable->object_id );
+				break;
+			case 'custom_image':
+				$image_url = $aioseo_social_image_settings[ $mapping['social_setting_prefix_aioseo'] . 'image_custom_url' ];
+				break;
+			case 'featured':
+				$image_url = $this->social_images_provider->get_featured_image( $indexable->object_id );
+				break;
+			case 'author':
+				return null;
+			case 'custom':
 				return null;
 			case 'default':
-				return $this->sanitization->sanitize_url( $this->social_images_provider->get_default_social_image( \rtrim( $mapping['social_setting_prefix_aioseo'], '_' ) ), null );
+				$image_url = $this->social_images_provider->get_default_custom_social_image( $social_setting );
+				break;
 			default:
 				$image_url = $aioseo_social_image_settings[ $mapping['social_setting_prefix_aioseo'] . 'image_url' ];
-				return $this->sanitization->sanitize_url( $image_url, null );
+				break;
 		}
+
+		if ( empty( $image_url ) ) {
+			$image_url = $this->social_images_provider->get_default_custom_social_image( $social_setting );
+		}
+
+		if ( empty( $image_url ) ) {
+			return null;
+		}
+
+		return $this->sanitization->sanitize_url( $image_url, null );
 	}
 }
