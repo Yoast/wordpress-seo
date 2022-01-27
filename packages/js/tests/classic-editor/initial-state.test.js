@@ -1,6 +1,7 @@
 import { getInitialPostState, getInitialTermState } from "../../src/classic-editor/initial-state";
 
 jest.mock( "../../src/classic-editor/helpers/dom", () => ( {
+	...jest.requireActual( "../../src/classic-editor/helpers/dom" ),
 	getPostTitle: jest.fn( () => "Tortoiseshell cat" ),
 	getPostDate: jest.fn( () => "18 January 2022 12:17" ),
 	getPostPermalink: jest.fn( () => "www.sweetcat.com/123" ),
