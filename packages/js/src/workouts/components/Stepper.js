@@ -79,7 +79,7 @@ function StepCircle( { activeClasses, inactiveClasses, activationDelay, deactiva
 			{ children }
 		</span>
 		<span
-			className={ `yst-transition-opacity yst-duration-200 ${ isActive ? "yst-delay-[700ms] yst-opacity-100" : "yst-opacity-0" } yst-absolute yst-inset-0 yst-bg-violet-500 yst-border-primary-500 yst-border-2 yst-flex yst-items-center yst-justify-center yst-rounded-full` }
+			className={ `yst-transition-opacity yst-duration-200 ${ isActive ? "yst-delay-[700ms] yst-opacity-100" : "yst-opacity-0" } yst-absolute yst-inset-0 yst-bg-white yst-border-primary-500 yst-border-2 yst-flex yst-items-center yst-justify-center yst-rounded-full` }
 		>
 			{ children }
 		</span>
@@ -92,31 +92,27 @@ function StepCircle( { activeClasses, inactiveClasses, activationDelay, deactiva
  * @returns 
  */
 function StepIcon( { activeClasses, inactiveClasses, activationDelay, deactivationDelay, isActive, isSaved } ) {
-	const [ classes, setClasses ] = useState( "" );
 	const [ icon, setIcon ] = useState( isSaved ? "check" : "bullet" );
 
 	useEffect( () => {
 		if ( isActive ) {
 			// Set deactivation delay on the active class, mind the ending space.
 			setTimeout( () => {
-				setClasses( activeClasses );
-				setIcon( "bullet" );
+				setIcon( "activeBullet" );
 			}, activationDelay );
 			return;
 		}
 		// Set activation delay on the inactive class, mind the ending space.
 		setTimeout( () => {
-			setClasses( inactiveClasses );
 			setIcon( isSaved ? "check" : "bullet" );
 		}, deactivationDelay );
 	}, [ isActive, activeClasses, inactiveClasses, activationDelay, deactivationDelay, isSaved ] );
-	// Hier proberen met opactiy en absolute?
-	return ( icon === "check" )
-		? <CheckIcon className="yst-w-5 yst-h-5 yst-text-white" aria-hidden="true" />
-		: <span className="yst-relative yst-h-2.5 yst-w-2.5">
-			<span className={ "yst-absolute yst-inset-0 yst-rounded-full yst-bg-white" } />
-			<span className={ `yst-absolute yst-inset-0 yst-transition-opacity yst-duration-500 yst-rounded-full yst-bg-primary-500 ${ isActive ? "yst-opacity-100" : "yst-opacity-0" }` } />
-		</span>;
+
+	return <span className="yst-relative yst-h-2.5 yst-w-2.5">
+		<span className={ `yst-transition-opacity yst-duration-200 ${ icon === "bullet" ? "yst-opacity-100" : "yst-opacity-0" } yst-absolute yst-inset-0 yst-rounded-full yst-bg-transparent` } />
+		<span className={ `yst-absolute yst-inset-0 yst-transition-opacity yst-duration-200 yst-rounded-full yst-bg-primary-500 ${ icon === "activeBullet" ? "yst-opacity-100" : "yst-opacity-0" }` } />
+		<CheckIcon className={ `yst-transition-all yst-duration-200 ${ icon === "check" ? "yst-opacity-100" : "yst-scale-0 yst-opacity-0" } yst-absolute yst-left-[-5px] yst-top-[-5px] yst-w-5 yst-h-5 yst-text-white` } aria-hidden="true" />
+	</span>;
 }
 
 /* eslint-disable complexity, max-len */
@@ -195,14 +191,14 @@ function TailwindStep( { step, stepIndex, lastStepIndex, saveStep, finishStepper
 						activeClasses="yst-bg-white yst-border-primary-500"
 						inactiveClasses={ isSaved ? "yst-bg-primary-500 yst-border-primary-500" : "yst-bg-white yst-border-gray-300" }
 						activationDelay={ 500 }
-						deactivationDelay={ 0 }
+						deactivationDelay={ 200 }
 					>
 						<StepIcon
 							isActive={ isActiveStep }
 							activeClasses="yst-bg-primary-500"
 							inactiveClasses={ "" }
-							activationDelay={ 700 }
-							deactivationDelay={ 0 }
+							activationDelay={ 500 }
+							deactivationDelay={ 200 }
 							isSaved={ isSaved }
 						/>
 					</StepCircle>
@@ -223,7 +219,7 @@ function TailwindStep( { step, stepIndex, lastStepIndex, saveStep, finishStepper
 				duration={ 500 }
 			>
 				<div className={ "yst-relative yst-ml-12 yst-mt-4" }>
-					<div className={ `yst-absolute yst-transition-opacity yst-duration-200 yst-inset-0 yst-bg-white yst-pointer-events-none ${ isFaded ? "yst-opacity-100" : "yst-opacity-0" }` } />
+					<div className={ `yst-absolute yst-z-50 yst--m-2 yst-transition-opacity yst-duration-200 yst-inset-0 yst-bg-white yst-pointer-events-none ${ isFaded ? "yst-opacity-100" : "yst-opacity-0" }` } />
 					{ step.component }
 					<StepButtons
 						stepIndex={ stepIndex }
