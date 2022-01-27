@@ -1050,7 +1050,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 					</FinishButtonSection>
 				</Steps>
 			</div>
-			{ isWorkoutFinished && <div id="yoast-configuration-workout-congratulations">
+			{ isWorkoutFinished && <div className={ hideOriginal ? "yst-hidden" : "" } id="yoast-configuration-workout-congratulations">
 				<hr />
 				<h3 id="yoast-configuration-workout-congratulations-title" style={ { marginBottom: 0 } }>{ __( "Congratulations!", "wordpress-seo" ) }</h3>
 				<div id="yoast-configuration-workout-congratulations-content" style={ { display: "flex" } }>
