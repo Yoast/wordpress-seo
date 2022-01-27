@@ -443,7 +443,15 @@ function PersonalPreferencesStep( { state, setTracking, isTrackingOptionSelected
 	</Fragment>;
 }
 
-const FinishStep = () => <Fragment><p>Finish all the things</p></Fragment>;
+/**
+ * Example Finish step.
+ *
+ * @returns {JSX.Element} Finish step.
+ */
+const FinishStep = () => <Fragment>
+	<p className="yst-mb-6">You have finished all the things, yay!</p>
+	<button className="yst-button--primary">{ __( "Check out your Indexables page", "wordpress-seo" ) }</button>
+</Fragment>;
 
 /* eslint-enable max-len, react/prop-types */
 
@@ -678,12 +686,19 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 	const siteRepresentsPerson = state.companyOrPerson === "person";
 
 	// PROBABLY DELETE BETWEEN HERE....
+	const isStepperFinished = [
+		isStep1Finished,
+		isStep2Finished,
+		isStep3Finished,
+		isStep5Finished,
+	].every( Boolean );
+
 	const savedSteps = [
 		isStepFinished( "configuration", steps.optimizeSeoData ),
 		isStepFinished( "configuration", steps.siteRepresentation ),
 		isStepFinished( "configuration", steps.socialProfiles ),
 		isStepFinished( "configuration", steps.newsletterSignup ),
-		isWorkoutFinished,
+		isStepperFinished,
 	];
 
 	const [ hideOriginal, setHideOriginal ] = useState( true );
@@ -698,10 +713,10 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 			<Stepper
 				steps={ [
 					{ name: "The indexables", component: <IndexationStep setIndexingState={ setIndexingState } indexingState={ indexingState } />, isSaved: isStepFinished( "configuration", steps.optimizeSeoData ) },
-					{ name: "Knowledge panel", description: "", component: <SiteRepresentationStep onOrganizationOrPersonChange={ onOrganizationOrPersonChange } dispatch={ dispatch } state={ state } siteRepresentsPerson={ siteRepresentsPerson } onSiteTaglineChange={ onSiteTaglineChange } siteRepresentationEmpty={ siteRepresentationEmpty }/>, isSaved: isStepFinished( "configuration", steps.siteRepresentation ) },
+					{ name: "Knowledge panel", description: "", component: <SiteRepresentationStep onOrganizationOrPersonChange={ onOrganizationOrPersonChange } dispatch={ dispatch } state={ state } siteRepresentsPerson={ siteRepresentsPerson } onSiteTaglineChange={ onSiteTaglineChange } siteRepresentationEmpty={ siteRepresentationEmpty } />, isSaved: isStepFinished( "configuration", steps.siteRepresentation ) },
 					{ name: "Social profiles", description: "", component: <SocialProfilesStep state={ state } dispatch={ dispatch } setErrorFields={ setErrorFields } siteRepresentsPerson={ siteRepresentsPerson } />, isSaved: isStepFinished( "configuration", steps.socialProfiles ) },
 					{ name: "Personal preferences", description: "", component: <PersonalPreferencesStep state={ state } setTracking={ setTracking } isTrackingOptionSelected={ isTrackingOptionSelected } />, isSaved: isStepFinished( "configuration", steps.newsletterSignup ) },
-					{ name: "Finish configuration", description: "", component: <FinishStep />, isSaved: isWorkoutFinished },
+					{ name: "Finish configuration", description: "", component: <FinishStep />, isSaved: isStepperFinished },
 				] }
 				setActiveStepIndex={ setActiveStepIndex }
 				saveStep={ ( stepIdx ) => finishSteps( "configuration", [ stepNumberNameMap[ stepIdx + 1 ] ] ) }
