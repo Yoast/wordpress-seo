@@ -5,6 +5,8 @@
  * @package WPSEO\XML_Sitemaps
  */
 
+// phpcs:disable Generic.CodeAnalysis.UnusedFunctionParameter
+
 /**
  * Handles sitemaps caching and invalidation.
  *
@@ -17,6 +19,7 @@ class WPSEO_Sitemaps_Cache {
 	 * Setup context for static calls.
 	 *
 	 * @deprecated 18.1
+	 * @codeCoverageIgnore
 	 */
 	public function init() {
 		_deprecated_function( __METHOD__, '18.1' );
@@ -29,9 +32,10 @@ class WPSEO_Sitemaps_Cache {
 	 * @since      3.2
 	 *
 	 * @deprecated 18.1
+	 * @codeCoverageIgnore
 	 */
 	public function is_enabled() {
-		_deprecated_function( __METHOD__, "18.1" );
+		_deprecated_function( __METHOD__, '18.1' );
 
 		return false;
 	}
@@ -45,6 +49,7 @@ class WPSEO_Sitemaps_Cache {
 	 * @return string|bool
 	 * @since 3.2
 	 * @deprecated 18.1
+	 * @codeCoverageIgnore
 	 */
 	public function get_sitemap( $type, $page ) {
 		_deprecated_function( __METHOD__, '18.1' );
@@ -60,6 +65,7 @@ class WPSEO_Sitemaps_Cache {
 	 *
 	 * @return WPSEO_Sitemap_Cache_Data|null Null on no cache found otherwise object containing sitemap and meta data.
 	 * @deprecated 18.1
+	 * @codeCoverageIgnore
 	 */
 	public function get_sitemap_data( $type, $page ) {
 		_deprecated_function( __METHOD__, '18.1' );
@@ -78,6 +84,7 @@ class WPSEO_Sitemaps_Cache {
 	 * @return bool
 	 * @since 3.2
 	 * @deprecated 18.1
+	 * @codeCoverageIgnore
 	 */
 	public function store_sitemap( $type, $page, $sitemap, $usable = true ) {
 		_deprecated_function( __METHOD__, '18.1' );
@@ -96,6 +103,7 @@ class WPSEO_Sitemaps_Cache {
 	 * @since 1.5.4
 	 * @since 3.2   Changed from function wpseo_invalidate_sitemap_cache() to method in this class.
 	 * @deprecated 18.1
+	 * @codeCoverageIgnore
 	 */
 	public static function invalidate( $type ) {
 		_deprecated_function( __METHOD__, '18.1' );
@@ -110,6 +118,7 @@ class WPSEO_Sitemaps_Cache {
 	 * @return void
 	 * @since 3.2
 	 * @deprecated 18.1
+	 * @codeCoverageIgnore
 	 */
 	public static function invalidate_helper( $unused, $type ) {
 		_deprecated_function( __METHOD__, '18.1' );
@@ -122,6 +131,7 @@ class WPSEO_Sitemaps_Cache {
 	 *
 	 * @return bool True if the sitemap was properly invalidated. False otherwise.
 	 * @deprecated 18.1
+	 * @codeCoverageIgnore
 	 */
 	public static function invalidate_author( $user_id ) {
 		_deprecated_function( __METHOD__, '18.1' );
@@ -140,6 +150,7 @@ class WPSEO_Sitemaps_Cache {
 	 * @since 1.5.4
 	 * @since 3.2   Changed from function wpseo_invalidate_sitemap_cache_on_save_post() to method in this class.
 	 * @deprecated 18.1
+	 * @codeCoverageIgnore
 	 */
 	public static function invalidate_post( $post_id ) {
 		_deprecated_function( __METHOD__, '18.1' );
@@ -154,6 +165,7 @@ class WPSEO_Sitemaps_Cache {
 	 * @since 1.8.0
 	 * @since 3.2   Moved from WPSEO_Utils to this class.
 	 * @deprecated 18.1
+	 * @codeCoverageIgnore
 	 */
 	public static function clear( $types = [] ) {
 		_deprecated_function( __METHOD__, '18.1' );
@@ -163,6 +175,7 @@ class WPSEO_Sitemaps_Cache {
 	 * Invalidate storage for cache types queued to clear.
 	 *
 	 * @deprecated 18.1
+	 * @codeCoverageIgnore
 	 */
 	public static function clear_queued() {
 		_deprecated_function( __METHOD__, '18.1' );
@@ -176,6 +189,7 @@ class WPSEO_Sitemaps_Cache {
 	 *
 	 * @since 3.2
 	 * @deprecated 18.1
+	 * @codeCoverageIgnore
 	 */
 	public static function register_clear_on_option_update( $option, $type = '' ) {
 		_deprecated_function( __METHOD__, '18.1' );
@@ -189,8 +203,10 @@ class WPSEO_Sitemaps_Cache {
 	 * @return void
 	 * @since 3.2
 	 * @deprecated 18.1
+	 * @codeCoverageIgnore
 	 */
 	public static function clear_on_option_update( $option ) {
 		_deprecated_function( __METHOD__, '18.1' );
 	}
 }
+// phpcs:enable
