@@ -294,6 +294,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 	 * @covers ::map
 	 * @covers ::url_import
 	 * @covers ::keyphrase_import
+	 * @covers ::social_image_url_import
 	 */
 	public function test_map_with_empty_yoast_indexable() {
 		$indexable      = Mockery::mock( Indexable_Mock::class );
@@ -316,7 +317,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 					],
 				]
 			),
-			'og_image_type'            => 'attach',
+			'og_image_type'            => 'default',
 			'twitter_image_type'       => 'auto',
 			'twitter_use_og'           => false,
 			'robots_default'           => true,
@@ -395,6 +396,11 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			->once()
 			->with( 'key phrase' )
 			->andReturn( 'key phrase' );
+
+		$this->social_images_provider->shouldReceive( 'get_default_social_image_source' )
+			->once()
+			->with( 'og' )
+			->andReturn( 'attach' );
 
 		$this->social_images_provider->shouldReceive( 'get_first_attached_image' )
 			->once()
