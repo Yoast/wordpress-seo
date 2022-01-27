@@ -189,12 +189,21 @@ export const getPostDate = () => {
 };
 
 /**
- * Gets the post category checkboxes elements from the document.
+ * Gets the category checkboxes elements from the document, from the "All Categories" section.
  *
- * @returns {HTMLInputElement[]} The category checkboxes.
+ * @returns {HTMLInputElement[]} The category checkboxes from the "All Categories" section.
  */
 export const getPostCategoryCheckboxes = () => {
 	return [ ...document.querySelectorAll( "#categorychecklist input[type=checkbox]" ) ];
+};
+
+/**
+ * Gets the category checkboxes elements from the document, from the "Most Used" section.
+ *
+ * @returns {HTMLInputElement[]} The category checkboxes from the "Most Used" section.
+ */
+export const getPostMostUsedCategoryCheckboxes = () => {
+	return [ ...document.querySelectorAll( "#categorychecklist-pop input[type=checkbox]" ) ];
 };
 
 /**
@@ -203,6 +212,7 @@ export const getPostCategoryCheckboxes = () => {
  * @returns {{name: string, id: string}[]} The post's categories.
  */
 export const getPostCategories = () => {
+	// Only consider the "All Categories" section here, as including the "Most Used" section would yield duplicates.
 	const checkboxes = getPostCategoryCheckboxes();
 
 	if ( checkboxes ) {

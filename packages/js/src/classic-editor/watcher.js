@@ -7,7 +7,7 @@ import { update as updateAdminBar } from "../ui/adminBar";
 import * as publishBox from "../ui/publishBox";
 import { update as updateTrafficLight } from "../ui/trafficLight";
 import * as dom from "./helpers/dom";
-import { getPostCategories, getPostCategoryCheckboxes } from "./helpers/dom";
+import { getPostCategories, getPostCategoryCheckboxes, getPostMostUsedCategoryCheckboxes } from "./helpers/dom";
 
 const SYNC_DEBOUNCE_TIME = 500;
 const { DOM_IDS, DOM_CLASSES, DOM_QUERIES } = dom;
@@ -148,7 +148,8 @@ const createCategoriesSync = ( updateCategories ) => {
 	 */
 	const watchCategoryCheckboxes = () => {
 		// Sync the categories whenever there are changes in the checkboxes.
-		const checkboxes = getPostCategoryCheckboxes();
+		// Watch both the "All Categories" and "Most Used" sections.
+		const checkboxes = [ ...getPostCategoryCheckboxes(), ...getPostMostUsedCategoryCheckboxes() ];
 		checkboxes.forEach(
 			checkbox => {
 				checkbox.removeEventListener( "input", syncCategories );
@@ -160,6 +161,7 @@ const createCategoriesSync = ( updateCategories ) => {
 	const categoryChecklist = document.getElementById( "categorychecklist" );
 	if ( categoryChecklist ) {
 		// Observe the category checklist for changes and update the categories if new categories are added.
+		// Consider only the "All Categories" section, because newly added categories will not end up in the "Most Used" section.
 		const observer = new MutationObserver( () => {
 			updateCategories( getPostCategories() );
 			watchCategoryCheckboxes();
