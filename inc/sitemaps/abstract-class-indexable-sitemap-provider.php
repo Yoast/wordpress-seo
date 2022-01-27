@@ -178,7 +178,6 @@ abstract class WPSEO_Indexable_Sitemap_Provider implements WPSEO_Sitemap_Provide
 			}
 		}
 
-
 		return $last_object_per_page;
 	}
 

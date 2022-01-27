@@ -49,13 +49,13 @@ class WPSEO_Taxonomy_Sitemap_Provider extends WPSEO_Indexable_Sitemap_Provider i
 		 * Filter to exclude the taxonomy from the XML sitemap.
 		 *
 		 * @param bool   $exclude       Defaults to false.
-		 * @param string $taxonomy_name Name of the taxonomy to exclude..
+		 * @param string $taxonomy_name Name of the taxonomy to exclude.
 		 */
 		if ( apply_filters( 'wpseo_sitemap_exclude_taxonomy', false, $object_sub_type ) ) {
 			return true;
 		}
 
-		return false;
+		return ! $this->handles_type( $object_sub_type );
 	}
 
 	/**

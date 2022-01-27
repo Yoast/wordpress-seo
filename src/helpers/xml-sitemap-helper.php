@@ -158,6 +158,10 @@ class XML_Sitemap_Helper {
 			 */
 			$url = apply_filters( 'wpseo_sitemap_entry', $url, $object_type, $indexable->object_id );
 
+			if ( ! is_array( $url ) || ! isset( $url['loc'] ) ) {
+				continue;
+			}
+
 			$links[] = $url;
 		}
 
