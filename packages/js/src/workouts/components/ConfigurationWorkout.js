@@ -686,6 +686,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 		isWorkoutFinished,
 	];
 
+	const [ hideOriginal, setHideOriginal ] = useState( true );
 	const [ activeStepIndex, setActiveStepIndex ] = useState( getInitialActiveStepIndex( savedSteps ) );
 
 	// AND HERE....
@@ -710,130 +711,53 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 			<UnsavedChangesModal hasUnsavedChanges={ state.editedSteps.includes( activeStepIndex + 1 ) } />
 			{ /* eslint-enable react/jsx-no-bind */ }
 
-			<h2 id="yoast-configuration-workout-title">{ __( "Configuration", "wordpress-seo" ) }</h2>
-			<h3 id="yoast-configuration-workout-tagline">{
-				// translators: %1$s is replaced by "Yoast SEO"
-				sprintf( __( "Configure %1$s with optimal SEO settings for your site", "wordpress-seo" ), "Yoast SEO" )
-			}</h3>
-			<p>
-				{
-					sprintf(
-						// translators: %1$s is replaced by "Yoast SEO"
-						__(
-							"Do the five steps in this workout to configure the essential %1$s settings!",
-							"wordpress-seo"
-						),
-						"Yoast SEO"
-					)
-				}
-			</p>
-			<p>
-				<i>
+			<button className="yst-button--danger yst-mt-4" onClick={ () => { setHideOriginal( prevState => ! prevState  ); } }>Toggle original</button>
+			<div className={ hideOriginal ? "yst-hidden" : "" }>
+				<h2 id="yoast-configuration-workout-title">{ __( "Configuration", "wordpress-seo" ) }</h2>
+				<h3 id="yoast-configuration-workout-tagline">{
+					// translators: %1$s is replaced by "Yoast SEO"
+					sprintf( __( "Configure %1$s with optimal SEO settings for your site", "wordpress-seo" ), "Yoast SEO" )
+				}</h3>
+				<p>
 					{
-						addLinkToString(
-							sprintf(
-								__(
-									// translators: %1$s and %3$s are replaced by opening and closing anchor tags. %2$s is replaced by "Yoast SEO"
-									"Need more guidance? We've covered every step in more detail in the %1$s%2$s configuration workout guide.%3$s",
-									"wordpress-seo"
-								),
-								"<a>",
-								"Yoast SEO",
-								"</a>"
+						sprintf(
+							// translators: %1$s is replaced by "Yoast SEO"
+							__(
+								"Do the five steps in this workout to configure the essential %1$s settings!",
+								"wordpress-seo"
 							),
-							window.wpseoWorkoutsData.configuration.shortlinks.workoutGuide,
-							"yoast-configuration-workout-guide-link"
+							"Yoast SEO"
 						)
 					}
-				</i>
-			</p>
-			<hr id="configuration-workout-hr-top" />
-			<p id="configuration-workout-important-message">
-				{
-					createInterpolateElement(
-						sprintf(
-							__(
-								// translators: %1$s and %2$s are replaced by opening and closing <b> tags.
-								"%1$sImportant:%2$s If the SEO data optimization in step 1 is running, you can already continue to the next steps.",
-								"wordpress-seo"
-							),
-							"<b>",
-							"</b>"
-						),
+				</p>
+				<p>
+					<i>
 						{
-							b: <b />,
-						}
-					)
-				}
-			</p>
-			<Steps id="yoast-configuration-workout-steps">
-				<Step
-					id="yoast-configuration-workout-step-optimize-seo-data"
-					title={ __( "Optimize SEO data", "wordpress-seo" ) }
-					subtitle={ addLinkToString(
-						sprintf(
-							__(
-								"Click the button below to optimize your SEO data. It will let us see your site as Google does, so we can give " +
-								"you the best SEO tips and improve technical SEO issues in the background! If you have a lot of content the " +
-								"optimization might take a while. But trust us, it's worth it! %1$sLearn more about the benefits of optimized SEO data.%2$s",
-								"wordpress-seo"
-							),
-							"<a>",
-							"</a>"
-						),
-						window.wpseoWorkoutsData.configuration.shortlinks.indexData,
-						"yoast-configuration-workout-index-data-link"
-					) }
-					subtitleClass={ window.wpseoWorkoutsData.shouldUpdatePremium ? "disabled" : "" }
-					ImageComponent={ WorkoutStartImage }
-					isFinished={ isStep1Finished }
-				>
-					<div id="yoast-configuration-workout-indexing-container" className="indexation-container">
-						<WorkoutIndexation
-							indexingStateCallback={ setIndexingState }
-							isEnabled={ ! window.wpseoWorkoutsData.shouldUpdatePremium }
-							indexingState={ indexingState }
-						/>
-					</div>
-					{ ( window.wpseoWorkoutsData.shouldUpdatePremium && indexingState !== "completed" ) && <Alert type="warning">
-						<p>{
-							// translators: %1$s is replaced by a version number.
-							sprintf( __( "This workout step is currently disabled, because you're not running the latest version of Yoast SEO Premium. " +
-							"Please update to the latest version (at least %1$s). ",
-							"wordpress-seo"
-							), "17.7"
-							)
-						}</p>
-						<p>{
 							addLinkToString(
 								sprintf(
-									// translators: %1$s and %2$s are replaced by anchor tags to make a link to the tool section.
-									__( "You can still run the SEO data optimization in the %1$sTools section%2$s. " +
-									"Once that is finished, please refresh this workout.", "wordpress-seo" ),
+									__(
+										// translators: %1$s and %3$s are replaced by opening and closing anchor tags. %2$s is replaced by "Yoast SEO"
+										"Need more guidance? We've covered every step in more detail in the %1$s%2$s configuration workout guide.%3$s",
+										"wordpress-seo"
+									),
 									"<a>",
+									"Yoast SEO",
 									"</a>"
 								),
-								window.wpseoWorkoutsData.toolsPageUrl
-							) }
-						</p>
-					</Alert> }
-					<FinishButtonSection
-						buttonId="yoast-configuration-workout-step-optimize-seo-data-button"
-						stepNumber={ 1 }
-						hasDownArrow={ true }
-						finishText={ __( "Continue", "wordpress-seo" ) }
-						onFinishClick={	onFinishOptimizeSeoData }
-						isFinished={ isStep1Finished }
-						isReady={ isStepReady( 1 ) }
-					/>
-				</Step>
-				<p className="extra-list-content">
+								window.wpseoWorkoutsData.configuration.shortlinks.workoutGuide,
+								"yoast-configuration-workout-guide-link"
+							)
+						}
+					</i>
+				</p>
+				<hr id="configuration-workout-hr-top" />
+				<p id="configuration-workout-important-message">
 					{
 						createInterpolateElement(
 							sprintf(
 								__(
 									// translators: %1$s and %2$s are replaced by opening and closing <b> tags.
-									"%1$sImportant:%2$s After you’ve completed (or made any changes to) a step below, please make sure to save your changes by clicking the ‘Save and continue’ button below that step.",
+									"%1$sImportant:%2$s If the SEO data optimization in step 1 is running, you can already continue to the next steps.",
 									"wordpress-seo"
 								),
 								"<b>",
@@ -845,199 +769,279 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 						)
 					}
 				</p>
-				<Step
-					id="yoast-configuration-workout-step-site-representation"
-					title={ __( "Site representation", "wordpress-seo" ) }
-					subtitle={ __( "Tell Google what kind of site you have and increase the chance it gets features in a Google Knowledge Panel. Select ‘Organization’ if you are working on a site for a business or an organization. Select ‘Person’ if you have, say, a personal blog.", "wordpress-seo" ) }
-					isFinished={ isStep2Finished }
-				>
-					{  window.wpseoWorkoutsData.configuration.knowledgeGraphMessage &&  <Alert type="warning">
-						{  window.wpseoWorkoutsData.configuration.knowledgeGraphMessage }
-					</Alert> }
-					{
-						window.wpseoWorkoutsData.configuration.shouldForceCompany === 0 && <SingleSelect
-							id="organization-person-select"
-							htmlFor="organization-person-select"
-							name="organization"
-							label={ __( "Does your site represent an Organization or Person?", "wordpress-seo" ) }
-							selected={ state.companyOrPerson }
-							onChange={ onOrganizationOrPersonChange }
-							options={  window.wpseoWorkoutsData.configuration.companyOrPersonOptions }
-						/>
-					}
-					{
-						window.wpseoWorkoutsData.configuration.shouldForceCompany === 1 && <TextInput
-							id="organization-forced-readonly-text"
-							name="organization"
-							label={ __( "Does your site represent an Organization or Person?", "wordpress-seo" ) }
-							value={ state.companyOrPersonLabel }
-							readOnly={ true }
-						/>
-					}
-					{ state.companyOrPerson === "company" && <Fragment>
-						{ ( ! state.companyName || ! state.companyLogo ) && <Alert type="warning">
-							{ __(
-								// eslint-disable-next-line max-len
-								"You need to set an organization name and logo for structured data to work properly.",
-								"wordpress-seo"
-							) }
-						</Alert> }
-						<OrganizationSection
-							dispatch={ dispatch }
-							imageUrl={ state.companyLogo }
-							organizationName={ state.companyName }
-						/>
-					</Fragment> }
-					{ siteRepresentsPerson && <Fragment>
-						{ ( ! state.personLogo || state.personId === 0 ) && <Alert type="warning">
-							{ __(
-								// eslint-disable-next-line max-len
-								"You need to set a person name and logo for structured data to work properly.",
-								"wordpress-seo"
-							) }
-						</Alert> }
-						<PersonSection
-							dispatch={ dispatch }
-							imageUrl={ state.personLogo }
-							personId={ state.personId }
-						/>
-					</Fragment> }
-					{ window.wpseoWorkoutsData.canEditWordPressOptions && <TextInput
-						id="site-tagline-input"
-						name="site-tagline"
-						label={ __( "Site tagline", "wordpress-seo" ) }
-						description={ sprintf( __( "Add a catchy tagline that describes your site in the best light. Use the keywords you want people to find your site with. Example: %1$s’s tagline is ‘SEO for everyone.’", "wordpress-seo" ), "Yoast" ) }
-						value={ state.siteTagline }
-						onChange={ onSiteTaglineChange }
-					/> }
-					{ siteRepresentationEmpty && <Alert type="warning">
-						{ __(
-							// eslint-disable-next-line max-len
-							"Please be aware that you need to set a name and logo in step 2 for structured data to work properly.",
-							"wordpress-seo"
+				<Steps id="yoast-configuration-workout-steps">
+					<Step
+						id="yoast-configuration-workout-step-optimize-seo-data"
+						title={ __( "Optimize SEO data", "wordpress-seo" ) }
+						subtitle={ addLinkToString(
+							sprintf(
+								__(
+									"Click the button below to optimize your SEO data. It will let us see your site as Google does, so we can give " +
+									"you the best SEO tips and improve technical SEO issues in the background! If you have a lot of content the " +
+									"optimization might take a while. But trust us, it's worth it! %1$sLearn more about the benefits of optimized SEO data.%2$s",
+									"wordpress-seo"
+								),
+								"<a>",
+								"</a>"
+							),
+							window.wpseoWorkoutsData.configuration.shortlinks.indexData,
+							"yoast-configuration-workout-index-data-link"
 						) }
-					</Alert> }
-					<FinishButtonSection
-						buttonId="yoast-configuration-workout-step-site-representation-button"
-						stepNumber={ 2 }
-						isSaved={ state.savedSteps.includes( 2 ) }
-						hasDownArrow={ true }
-						finishText={ __( "Save and continue", "wordpress-seo" ) }
-						onFinishClick={ updateOnFinishSiteRepresentation }
-						isFinished={ isStep2Finished }
-						isReady={ isStepReady( 2 ) }
-					/>
-				</Step>
-				<Step
-					id="yoast-configuration-workout-step-social-profiles"
-					title={ __( "Social profiles", "wordpress-seo" ) }
-					subtitle={ state.companyOrPerson === "company" ?  __( "Do you have profiles for your site on social media? Then, add all of their URLs here, so your social profiles may also appear in a Google Knowledge Panel.", "wordpress-seo" ) : "" }
-					isFinished={ isStep3Finished }
-				>
-					{ state.companyOrPerson === "company" && <SocialInputSection
-						socialProfiles={ state.socialProfiles }
-						dispatch={ dispatch }
-						errorFields={ state.errorFields }
-						setErrorFields={ setErrorFields }
-					/> }
-					{ siteRepresentsPerson && <SocialInputPersonSection personId={ state.personId } /> }
-					<FinishButtonSection
-						buttonId="yoast-configuration-workout-step-social-profiles-button"
-						stepNumber={ 3 }
-						isSaved={ ! siteRepresentsPerson && state.savedSteps.includes( 3 ) }
-						hasDownArrow={ true }
-						finishText={ siteRepresentsPerson ? __( "Continue", "wordpress-seo" ) :  __( "Save and continue", "wordpress-seo" ) }
-						onFinishClick={ updateOnFinishSocialProfiles }
-						isFinished={ isStep3Finished }
-						isReady={ isStepReady( 3 ) }
-					/>
-				</Step>
-				<Step
-					id="yoast-configuration-workout-step-tracking"
-					title={ __( "Help us improve Yoast SEO", "wordpress-seo" ) }
-					isFinished={ isStep4Finished }
-				>
-					<p>
+						subtitleClass={ window.wpseoWorkoutsData.shouldUpdatePremium ? "disabled" : "" }
+						ImageComponent={ WorkoutStartImage }
+						isFinished={ isStep1Finished }
+					>
+						<div id="yoast-configuration-workout-indexing-container" className="indexation-container">
+							<WorkoutIndexation
+								indexingStateCallback={ setIndexingState }
+								isEnabled={ ! window.wpseoWorkoutsData.shouldUpdatePremium }
+								indexingState={ indexingState }
+							/>
+						</div>
+						{ ( window.wpseoWorkoutsData.shouldUpdatePremium && indexingState !== "completed" ) && <Alert type="warning">
+							<p>{
+								// translators: %1$s is replaced by a version number.
+								sprintf( __( "This workout step is currently disabled, because you're not running the latest version of Yoast SEO Premium. " +
+								"Please update to the latest version (at least %1$s). ",
+								"wordpress-seo"
+								), "17.7"
+								)
+							}</p>
+							<p>{
+								addLinkToString(
+									sprintf(
+										// translators: %1$s and %2$s are replaced by anchor tags to make a link to the tool section.
+										__( "You can still run the SEO data optimization in the %1$sTools section%2$s. " +
+										"Once that is finished, please refresh this workout.", "wordpress-seo" ),
+										"<a>",
+										"</a>"
+									),
+									window.wpseoWorkoutsData.toolsPageUrl
+								) }
+							</p>
+						</Alert> }
+						<FinishButtonSection
+							buttonId="yoast-configuration-workout-step-optimize-seo-data-button"
+							stepNumber={ 1 }
+							hasDownArrow={ true }
+							finishText={ __( "Continue", "wordpress-seo" ) }
+							onFinishClick={	onFinishOptimizeSeoData }
+							isFinished={ isStep1Finished }
+							isReady={ isStepReady( 1 ) }
+						/>
+					</Step>
+					<p className="extra-list-content">
 						{
-							__( "To provide the best experience for you, we need your permission to do the following things:", "wordpress-seo" )
+							createInterpolateElement(
+								sprintf(
+									__(
+										// translators: %1$s and %2$s are replaced by opening and closing <b> tags.
+										"%1$sImportant:%2$s After you’ve completed (or made any changes to) a step below, please make sure to save your changes by clicking the ‘Save and continue’ button below that step.",
+										"wordpress-seo"
+									),
+									"<b>",
+									"</b>"
+								),
+								{
+									b: <b />,
+								}
+							)
 						}
 					</p>
-					<ul className="yoast-tracking">
-						<li> { __( "collect info about the plugins and themes you have installed;", "wordpress-seo" ) } </li>
-						<li> {
-							sprintf(
-								// translators: translates to Yoast SEO.
-								__( "see which %s features you use or don't use;", "wordpress-seo" ),
-								"Yoast SEO"
-							)
-						} </li>
-						<li> { __( "always load our customer support window so we can immediately assist you when you need help.", "wordpress-seo" ) } </li>
-					</ul>
-					<RadioButtonGroup
-						id="yoast-configuration-workout-tracking-radio-button"
-						label={ __( "Can we collect anonymous information about your website and how you use it?", "wordpress-seo" ) }
-						groupName="yoast-configuration-workout-tracking"
-						selected={ state.tracking }
-						onChange={ setTracking }
-						vertical={ true }
-						wrapperClassName={ "tracking-radiobuttons" }
-						options={ [
-							{
-								value: 0,
-								label: __( "No, don’t track my site data", "wordpress-seo" ),
-							},
-							{
-								value: 1,
-								label: __( "Yes, you can track my site data", "wordpress-seo" ),
-							},
-						] }
-					/>
-					<p>
-						<i>{
-							__( "Important: We will never sell this data. And of course, as always, we won't collect any personal data about you or your visitors!", "wordpress-seo" )
-						}</i>
-					</p>
-					{ ! isTrackingOptionSelected && <Alert type="warning">
-						{ __(
-							// eslint-disable-next-line max-len
-							"In order to complete this step please select if we are allowed to improve Yoast SEO with your data.",
-							"wordpress-seo"
-						) }
-					</Alert> }
-					<FinishButtonSection
-						buttonId="yoast-configuration-workout-step-tracking-button"
-						stepNumber={ 4 }
-						isSaved={ state.savedSteps.includes( 4 ) }
-						hasDownArrow={ true }
-						finishText={ __( "Save and continue", "wordpress-seo" ) }
-						onFinishClick={ updateOnFinishEnableTracking }
+					<Step
+						id="yoast-configuration-workout-step-site-representation"
+						title={ __( "Site representation", "wordpress-seo" ) }
+						subtitle={ __( "Tell Google what kind of site you have and increase the chance it gets features in a Google Knowledge Panel. Select ‘Organization’ if you are working on a site for a business or an organization. Select ‘Person’ if you have, say, a personal blog.", "wordpress-seo" ) }
+						isFinished={ isStep2Finished }
+					>
+						{  window.wpseoWorkoutsData.configuration.knowledgeGraphMessage &&  <Alert type="warning">
+							{  window.wpseoWorkoutsData.configuration.knowledgeGraphMessage }
+						</Alert> }
+						{
+							window.wpseoWorkoutsData.configuration.shouldForceCompany === 0 && <SingleSelect
+								id="organization-person-select"
+								htmlFor="organization-person-select"
+								name="organization"
+								label={ __( "Does your site represent an Organization or Person?", "wordpress-seo" ) }
+								selected={ state.companyOrPerson }
+								onChange={ onOrganizationOrPersonChange }
+								options={  window.wpseoWorkoutsData.configuration.companyOrPersonOptions }
+							/>
+						}
+						{
+							window.wpseoWorkoutsData.configuration.shouldForceCompany === 1 && <TextInput
+								id="organization-forced-readonly-text"
+								name="organization"
+								label={ __( "Does your site represent an Organization or Person?", "wordpress-seo" ) }
+								value={ state.companyOrPersonLabel }
+								readOnly={ true }
+							/>
+						}
+						{ state.companyOrPerson === "company" && <Fragment>
+							{ ( ! state.companyName || ! state.companyLogo ) && <Alert type="warning">
+								{ __(
+									// eslint-disable-next-line max-len
+									"You need to set an organization name and logo for structured data to work properly.",
+									"wordpress-seo"
+								) }
+							</Alert> }
+							<OrganizationSection
+								dispatch={ dispatch }
+								imageUrl={ state.companyLogo }
+								organizationName={ state.companyName }
+							/>
+						</Fragment> }
+						{ siteRepresentsPerson && <Fragment>
+							{ ( ! state.personLogo || state.personId === 0 ) && <Alert type="warning">
+								{ __(
+									// eslint-disable-next-line max-len
+									"You need to set a person name and logo for structured data to work properly.",
+									"wordpress-seo"
+								) }
+							</Alert> }
+							<PersonSection
+								dispatch={ dispatch }
+								imageUrl={ state.personLogo }
+								personId={ state.personId }
+							/>
+						</Fragment> }
+						{ window.wpseoWorkoutsData.canEditWordPressOptions && <TextInput
+							id="site-tagline-input"
+							name="site-tagline"
+							label={ __( "Site tagline", "wordpress-seo" ) }
+							description={ sprintf( __( "Add a catchy tagline that describes your site in the best light. Use the keywords you want people to find your site with. Example: %1$s’s tagline is ‘SEO for everyone.’", "wordpress-seo" ), "Yoast" ) }
+							value={ state.siteTagline }
+							onChange={ onSiteTaglineChange }
+						/> }
+						{ siteRepresentationEmpty && <Alert type="warning">
+							{ __(
+								// eslint-disable-next-line max-len
+								"Please be aware that you need to set a name and logo in step 2 for structured data to work properly.",
+								"wordpress-seo"
+							) }
+						</Alert> }
+						<FinishButtonSection
+							buttonId="yoast-configuration-workout-step-site-representation-button"
+							stepNumber={ 2 }
+							isSaved={ state.savedSteps.includes( 2 ) }
+							hasDownArrow={ true }
+							finishText={ __( "Save and continue", "wordpress-seo" ) }
+							onFinishClick={ updateOnFinishSiteRepresentation }
+							isFinished={ isStep2Finished }
+							isReady={ isStepReady( 2 ) }
+						/>
+					</Step>
+					<Step
+						id="yoast-configuration-workout-step-social-profiles"
+						title={ __( "Social profiles", "wordpress-seo" ) }
+						subtitle={ state.companyOrPerson === "company" ?  __( "Do you have profiles for your site on social media? Then, add all of their URLs here, so your social profiles may also appear in a Google Knowledge Panel.", "wordpress-seo" ) : "" }
+						isFinished={ isStep3Finished }
+					>
+						{ state.companyOrPerson === "company" && <SocialInputSection
+							socialProfiles={ state.socialProfiles }
+							dispatch={ dispatch }
+							errorFields={ state.errorFields }
+							setErrorFields={ setErrorFields }
+						/> }
+						{ siteRepresentsPerson && <SocialInputPersonSection personId={ state.personId } /> }
+						<FinishButtonSection
+							buttonId="yoast-configuration-workout-step-social-profiles-button"
+							stepNumber={ 3 }
+							isSaved={ ! siteRepresentsPerson && state.savedSteps.includes( 3 ) }
+							hasDownArrow={ true }
+							finishText={ siteRepresentsPerson ? __( "Continue", "wordpress-seo" ) :  __( "Save and continue", "wordpress-seo" ) }
+							onFinishClick={ updateOnFinishSocialProfiles }
+							isFinished={ isStep3Finished }
+							isReady={ isStepReady( 3 ) }
+						/>
+					</Step>
+					<Step
+						id="yoast-configuration-workout-step-tracking"
+						title={ __( "Help us improve Yoast SEO", "wordpress-seo" ) }
 						isFinished={ isStep4Finished }
-						additionalButtonProps={ { disabled: ! isTrackingOptionSelected } }
-						isReady={ isStepReady( 4 ) }
-					/>
-				</Step>
-				<Step
-					id="yoast-configuration-workout-step-newsletter"
-					title={ __( "Sign up for the Yoast newsletter!", "wordpress-seo" ) }
-					isFinished={ isStep5Finished }
-				>
-					<br />
-					<NewsletterSignup gdprLink={ window.wpseoWorkoutsData.configuration.shortlinks.gdpr } />
-				</Step>
-				<FinishButtonSection
-					buttonId="yoast-configuration-workout-finish-workout-button"
-					finishText={ isWorkoutFinished ? __( "Do workout again", "wordpress-seo" ) : __( "Finish this workout", "wordpress-seo" ) }
-					onFinishClick={ toggleConfigurationWorkout }
-					isFinished={ false }
-					isReady={ isWorkoutFinished ? false : isStepReady( 5 ) }
-					additionalButtonProps={ { disabled: indexingState !== "completed" || ! isTrackingOptionSelected } }
-				>
-					{ indexingState !== "completed" && <Alert type="warning">
-						{ indexingState === "idle" && __( "Before you finish this workout, please start the SEO data optimization in step 1 and wait until it is completed...", "wordpress-seo" ) }
-						{ indexingState === "in_progress" && __( "Before you finish this workout, please wait on this page until the SEO data optimization in step 1 is completed...", "wordpress-seo" ) }
-					</Alert> }
-				</FinishButtonSection>
-			</Steps>
+					>
+						<p>
+							{
+								__( "To provide the best experience for you, we need your permission to do the following things:", "wordpress-seo" )
+							}
+						</p>
+						<ul className="yoast-tracking">
+							<li> { __( "collect info about the plugins and themes you have installed;", "wordpress-seo" ) } </li>
+							<li> {
+								sprintf(
+									// translators: translates to Yoast SEO.
+									__( "see which %s features you use or don't use;", "wordpress-seo" ),
+									"Yoast SEO"
+								)
+							} </li>
+							<li> { __( "always load our customer support window so we can immediately assist you when you need help.", "wordpress-seo" ) } </li>
+						</ul>
+						<RadioButtonGroup
+							id="yoast-configuration-workout-tracking-radio-button"
+							label={ __( "Can we collect anonymous information about your website and how you use it?", "wordpress-seo" ) }
+							groupName="yoast-configuration-workout-tracking"
+							selected={ state.tracking }
+							onChange={ setTracking }
+							vertical={ true }
+							wrapperClassName={ "tracking-radiobuttons" }
+							options={ [
+								{
+									value: 0,
+									label: __( "No, don’t track my site data", "wordpress-seo" ),
+								},
+								{
+									value: 1,
+									label: __( "Yes, you can track my site data", "wordpress-seo" ),
+								},
+							] }
+						/>
+						<p>
+							<i>{
+								__( "Important: We will never sell this data. And of course, as always, we won't collect any personal data about you or your visitors!", "wordpress-seo" )
+							}</i>
+						</p>
+						{ ! isTrackingOptionSelected && <Alert type="warning">
+							{ __(
+								// eslint-disable-next-line max-len
+								"In order to complete this step please select if we are allowed to improve Yoast SEO with your data.",
+								"wordpress-seo"
+							) }
+						</Alert> }
+						<FinishButtonSection
+							buttonId="yoast-configuration-workout-step-tracking-button"
+							stepNumber={ 4 }
+							isSaved={ state.savedSteps.includes( 4 ) }
+							hasDownArrow={ true }
+							finishText={ __( "Save and continue", "wordpress-seo" ) }
+							onFinishClick={ updateOnFinishEnableTracking }
+							isFinished={ isStep4Finished }
+							additionalButtonProps={ { disabled: ! isTrackingOptionSelected } }
+							isReady={ isStepReady( 4 ) }
+						/>
+					</Step>
+					<Step
+						id="yoast-configuration-workout-step-newsletter"
+						title={ __( "Sign up for the Yoast newsletter!", "wordpress-seo" ) }
+						isFinished={ isStep5Finished }
+					>
+						<br />
+						<NewsletterSignup gdprLink={ window.wpseoWorkoutsData.configuration.shortlinks.gdpr } />
+					</Step>
+					<FinishButtonSection
+						buttonId="yoast-configuration-workout-finish-workout-button"
+						finishText={ isWorkoutFinished ? __( "Do workout again", "wordpress-seo" ) : __( "Finish this workout", "wordpress-seo" ) }
+						onFinishClick={ toggleConfigurationWorkout }
+						isFinished={ false }
+						isReady={ isWorkoutFinished ? false : isStepReady( 5 ) }
+						additionalButtonProps={ { disabled: indexingState !== "completed" || ! isTrackingOptionSelected } }
+					>
+						{ indexingState !== "completed" && <Alert type="warning">
+							{ indexingState === "idle" && __( "Before you finish this workout, please start the SEO data optimization in step 1 and wait until it is completed...", "wordpress-seo" ) }
+							{ indexingState === "in_progress" && __( "Before you finish this workout, please wait on this page until the SEO data optimization in step 1 is completed...", "wordpress-seo" ) }
+						</Alert> }
+					</FinishButtonSection>
+				</Steps>
+			</div>
 			{ isWorkoutFinished && <div id="yoast-configuration-workout-congratulations">
 				<hr />
 				<h3 id="yoast-configuration-workout-congratulations-title" style={ { marginBottom: 0 } }>{ __( "Congratulations!", "wordpress-seo" ) }</h3>
