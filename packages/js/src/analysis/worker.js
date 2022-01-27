@@ -22,8 +22,32 @@ import { enabledFeatures } from "@yoast/feature-flag";
 export function createAnalysisWorker() {
 	const url    = get( window, [ "wpseoScriptData", "analysis", "worker", "url" ], "analysis-worker.js" );
 	const worker = createWorker( url );
+	const dependencies = get( window, [ "wpseoScriptData", "analysis", "worker", "dependencies" ], [] );
+	const translations = [];
+
+	for ( const dependency in dependencies ) {
+		if ( ! Object.prototype.hasOwnProperty.call( dependencies, dependency ) ) {
+			continue;
+		}
+		const translationElement = window.document.getElementById( `${dependency}-js-translations` );
+		if ( ! translationElement ) {
+			continue;
+		}
+		const text = translationElement.innerHTML.slice( 214 );
+		const split = text.indexOf( "," );
+		const domain = text.slice( 0, split - 1 );
+		try {
+			const translationData = JSON.parse( text.slice( split + 1, -4 ) );
+			translations.push( [ domain, translationData ] );
+		} catch ( e ) {
+			console.warn( `Failed to parse translation data for ${dependency} to send to the Yoast SEO worker` );
+			continue;
+		}
+	}
+
 	worker.postMessage( {
-		dependencies: get( window, [ "wpseoScriptData", "analysis", "worker", "dependencies" ], [] ),
+		dependencies,
+		translations,
 	} );
 
 	return new AnalysisWorkerWrapper( worker );
