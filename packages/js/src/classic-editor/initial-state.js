@@ -25,6 +25,7 @@ export const getInitialPostState = () => ( {
 		content: dom.getPostContent(),
 		featuredImage: dom.getPostFeaturedImage(),
 		locale: getContentLocale(),
+		categories: dom.getPostCategories(),
 	},
 	form: {
 		seo: {

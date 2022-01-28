@@ -11,6 +11,7 @@ describe( "Editor slice", () => {
 		excerpt: "",
 		date: "",
 		featuredImage: {},
+		categories: [],
 		locale: "",
 	};
 
@@ -84,6 +85,35 @@ describe( "Editor slice", () => {
 				featuredImage: {
 					url: "http://example.com",
 				},
+			} );
+		} );
+
+		test( "should update the categories", () => {
+			const { updateCategories } = editorActions;
+
+			const result = editorReducer( initialState, updateCategories( [
+				{
+					id: '1',
+					name: 'category 1'
+				},
+				{
+					id: '2',
+					name: 'category 2'
+				}
+			] ) );
+
+			expect( result ).toEqual( {
+				...initialState,
+				categories: [
+					{
+						id: '1',
+						name: 'category 1'
+					},
+					{
+						id: '2',
+						name: 'category 2'
+					}
+				],
 			} );
 		} );
 

@@ -190,6 +190,48 @@ export const getPostDate = () => {
 };
 
 /**
+ * Gets the category checkboxes elements from the document, from the "All Categories" section.
+ *
+ * @returns {HTMLInputElement[]} The category checkboxes from the "All Categories" section.
+ */
+export const getPostCategoryCheckboxes = () => {
+	return [ ...document.querySelectorAll( "#categorychecklist input[type=checkbox]" ) ];
+};
+
+/**
+ * Gets the category checkboxes elements from the document, from the "Most Used" section.
+ *
+ * @returns {HTMLInputElement[]} The category checkboxes from the "Most Used" section.
+ */
+export const getPostMostUsedCategoryCheckboxes = () => {
+	return [ ...document.querySelectorAll( "#categorychecklist-pop input[type=checkbox]" ) ];
+};
+
+/**
+ * Gets the current post's categories from the document.
+ *
+ * @returns {{name: string, id: string}[]} The post's categories.
+ */
+export const getPostCategories = () => {
+	// Only consider the "All Categories" section here, as including the "Most Used" section would yield duplicates.
+	const checkboxes = getPostCategoryCheckboxes();
+
+	if ( checkboxes ) {
+		const checkedCheckboxes = checkboxes.filter( checkbox => checkbox.checked );
+		return checkedCheckboxes.map( checkbox => (
+			{
+				id: checkbox.value,
+				name: [ ...checkbox.parentElement.childNodes ]
+					.filter( node => node.nodeType === Node.TEXT_NODE )
+					.map( node => node.textContent )[ 0 ]
+					?.trim(),
+			}
+		) );
+	}
+	return [];
+};
+
+/**
  * Gets the post SEO title from the document.
  *
  * @returns {string} The post SEO title or an empty string.
