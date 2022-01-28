@@ -5,7 +5,6 @@
   - 'build:js'
   - 'build:css'
   - 'build:images'
-  - 'build:i18n'
 
 'build-watch':
   - 'clean:vendor-prefixed'
@@ -151,7 +150,6 @@ release:
   - 'release:ts'
   - 'release:js'
   - 'release:css'
-  - 'build:i18n'
 'release:ts':
   - 'shell:install-schema-blocks'
 'release:js':
