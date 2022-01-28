@@ -131,7 +131,7 @@ abstract class WPSEO_Base_Menu implements WPSEO_WordPress_Integration {
 			$submenu_page[4],
 			$submenu_page[5],
 			$this->get_icon_svg(),
-			'99'
+			99
 		);
 
 		// If necessary, add hooks for the submenu page.
