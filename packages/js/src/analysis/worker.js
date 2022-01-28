@@ -29,6 +29,19 @@ export function createAnalysisWorker() {
 		if ( ! Object.prototype.hasOwnProperty.call( dependencies, dependency ) ) {
 			continue;
 		}
+
+		/*
+		 * Extract the locale and translation data from the translations script to send off to the worker.
+		 *
+		 * Example translationElement:
+		 * <script id="yoast-seo-analysis-package-js-translations">
+		 * 	( function( domain, translations ) {
+		 * 		var localeData = translations.locale_data[ domain ] || translations.locale_data.messages;
+		 * 		localeData[ "" ].domain = domain;
+		 * 		wp.i18n.setLocaleData( localeData, domain );
+		 * 	} )( "wordpress-seo", { "locale_data": { "messages": { "": {} } } } );
+		 * </script>
+		 */
 		const translationElement = window.document.getElementById( `${dependency}-js-translations` );
 		if ( ! translationElement ) {
 			continue;
