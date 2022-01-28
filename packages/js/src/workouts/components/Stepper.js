@@ -223,8 +223,7 @@ function TailwindStep( { step, stepIndex, lastStepIndex, saveStep, finishStepper
 				easing="ease-in-out"
 				duration={ 500 }
 			>
-				<div className={ "yst-relative yst-ml-12 yst-mt-4" }>
-					<div className={ `yst-absolute yst-z-50 yst--m-2 yst-transition-opacity yst-duration-200 yst-inset-0 yst-bg-white yst-pointer-events-none ${ isFaded ? "yst-opacity-100" : "yst-opacity-0" }` } />
+				<div className={ `yst-transition-opacity yst-duration-200 yst-relative yst-ml-12 yst-mt-4 ${ isFaded ? "yst-opacity-0 yst-no-point-events" : "yst-opacity-100" }` }>
 					{ step.component }
 					<StepButtons
 						stepIndex={ stepIndex }
