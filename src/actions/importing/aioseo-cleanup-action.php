@@ -1,0 +1,217 @@
+<?php
+
+namespace Yoast\WP\SEO\Actions\Importing;
+
+use wpdb;
+use Yoast\WP\SEO\Conditionals\AIOSEO_V4_Importer_Conditional;
+use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Wpdb_Helper;
+
+/**
+ * Importing action for cleaning up AIOSEO data.
+ *
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
+ */
+class Aioseo_Cleanup_Action extends Abstract_Importing_Action {
+
+	/**
+	 * The plugin of the action.
+	 */
+	const PLUGIN = 'aioseo';
+
+	/**
+	 * The type of the action.
+	 */
+	const TYPE = 'cleanup';
+
+	/**
+	 * The AIOSEO meta_keys to be cleaned up.
+	 *
+	 * @var array
+	 */
+	protected $aioseo_postmeta_keys = [
+		'_aioseo_title',
+		'_aioseo_description',
+		'_aioseo_og_title',
+		'_aioseo_og_description',
+		'_aioseo_twitter_title',
+		'_aioseo_twitter_description',
+	];
+
+	/**
+	 * The WordPress database instance.
+	 *
+	 * @var wpdb
+	 */
+	protected $wpdb;
+
+	/**
+	 * The wpdb helper.
+	 *
+	 * @var Wpdb_Helper
+	 */
+	protected $wpdb_helper;
+
+	/**
+	 * Class constructor.
+	 *
+	 * @param wpdb           $wpdb        The WordPress database instance.
+	 * @param Options_Helper $options     The options helper.
+	 * @param Wpdb_Helper    $wpdb_helper The wpdb_helper helper.
+	 */
+	public function __construct(
+		wpdb $wpdb,
+		Options_Helper $options,
+		Wpdb_Helper $wpdb_helper
+	) {
+		$this->wpdb        = $wpdb;
+		$this->options     = $options;
+		$this->wpdb_helper = $wpdb_helper;
+	}
+
+	/**
+	 * Retrieves the AIOSEO table name along with the db prefix.
+	 *
+	 * @return string The AIOSEO table name along with the db prefix.
+	 */
+	protected function get_aioseo_table() {
+		return $this->wpdb->prefix . 'aioseo_posts';
+	}
+
+	/**
+	 * Retrieves the postmeta along with the db prefix.
+	 *
+	 * @return string The postmeta table name along with the db prefix.
+	 */
+	protected function get_postmeta_table() {
+		return $this->wpdb->prefix . 'postmeta';
+	}
+
+	/**
+	 * Determines if the AIOSEO database table exists.
+	 *
+	 * @return bool True if the table is found.
+	 */
+	protected function aioseo_exists() {
+		return $this->wpdb_helper->table_exists( $this->get_aioseo_table() ) === true;
+	}
+
+	/**
+	 * Returns whether the AISOEO post importing action is enabled.
+	 *
+	 * @return bool True if the AISOEO post importing action is enabled.
+	 */
+	public function is_enabled() {
+		$aioseo_importer_conditional = \YoastSEO()->classes->get( AIOSEO_V4_Importer_Conditional::class );
+
+		return $aioseo_importer_conditional->is_met();
+	}
+
+	/**
+	 * Just checks if the cleanup has been completed in the past.
+	 *
+	 * @return int The total number of unimported objects.
+	 */
+	public function get_total_unindexed() {
+		if ( ! $this->aioseo_exists() ) {
+			return 0;
+		}
+
+		return ! $this->get_completed();
+	}
+
+	/**
+	 * Just checks if the cleanup has been completed in the past.
+	 *
+	 * @param int $limit The maximum number of unimported objects to be returned.
+	 *
+	 * @return int|false The limited number of unindexed posts. False if the query fails.
+	 */
+	public function get_limited_unindexed_count( $limit ) {
+		if ( ! $this->aioseo_exists() ) {
+			return 0;
+		}
+
+		return ! $this->get_completed();
+	}
+
+	/**
+	 * Cleans up AIOSEO data.
+	 *
+	 * @return Indexable[]|false An array of created indexables or false if aioseo data was not found.
+	 */
+	public function index() {
+		if ( $this->get_completed() ) {
+			return [];
+		}
+
+		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Reason: There is no unescaped user input.
+		$meta_data  = $this->wpdb->query( $this->cleanup_postmeta_query() );
+		$indexables = $this->wpdb->query( $this->truncate_query() );
+		// phpcs:enable WordPress.DB.PreparedSQL.NotPrepared
+
+
+		if ( $meta_data === false && $indexables === false ) {
+			return false;
+		}
+
+		$this->set_completed( true );
+
+		return [
+			'metadata_cleanup'   => $meta_data,
+			'indexables_cleanup' => $indexables,
+		];
+	}
+
+	/**
+	 * Creates a DELETE query string for deleting AIOSEO postmeta data.
+	 *
+	 * @return string The query to use for importing or counting the number of items to import.
+	 */
+	public function cleanup_postmeta_query() {
+		$table               = $this->get_postmeta_table();
+		$meta_keys_to_delete = $this->aioseo_postmeta_keys;
+
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no unescaped user input.
+		return $this->wpdb->prepare(
+			"DELETE FROM {$table} WHERE meta_key IN (" . \implode( ', ', \array_fill( 0, \count( $meta_keys_to_delete ), '%s' ) ) . ')',
+			$meta_keys_to_delete
+		);
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+	}
+
+	/**
+	 * Creates a TRUNCATE query string for emptying the AIOSEO indexable table.
+	 *
+	 * @return string The query to use for importing or counting the number of items to import.
+	 */
+	public function truncate_query() {
+		if ( ! $this->aioseo_exists() ) {
+			return true;
+		}
+
+		$table = $this->get_aioseo_table();
+
+		return "TRUNCATE TABLE {$table}";
+	}
+
+	/**
+	 * Used nowhere. Exists to comply with the interface.
+	 *
+	 * @return int The limit.
+	 */
+	public function get_limit() {
+		/**
+		 * Filter 'wpseo_aioseo_cleanup_limit' - Allow filtering the number of posts indexed during each indexing pass.
+		 *
+		 * @api int The maximum number of posts cleaned up.
+		 */
+		$limit = \apply_filters( 'wpseo_aioseo_cleanup_limit', 25 );
+
+		if ( ! \is_int( $limit ) || $limit < 1 ) {
+			$limit = 25;
+		}
+
+		return $limit;
+	}
+}

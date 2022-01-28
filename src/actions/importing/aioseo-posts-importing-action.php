@@ -238,8 +238,6 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	/**
 	 * Imports AIOSEO meta data and creates the respective Yoast indexables and postmeta.
 	 *
-	 * @todo: Replace the replace vars with Yoast ones.
-	 *
 	 * @return Indexable[]|false An array of created indexables or false if aioseo data was not found.
 	 */
 	public function index() {
