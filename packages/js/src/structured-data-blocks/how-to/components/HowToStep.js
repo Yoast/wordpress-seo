@@ -231,7 +231,7 @@ export default class HowToStep extends Component {
 		} = this.props;
 
 		let newText = text.slice();
-		const image = <img key={ media.id } alt={ media.alt } src={ media.url } />;
+		const image = <img key={ media.id } alt={ media.alt } src={ media.url } style="max-width:100%;" />;
 
 		if ( newText.push ) {
 			newText.push( image );

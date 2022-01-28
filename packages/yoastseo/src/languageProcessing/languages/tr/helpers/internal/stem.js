@@ -10,6 +10,7 @@ import TurkishStemmer from "../../../../../../vendor/turkishStemmer";
  */
 export default function stem( word, morphologyData ) {
 	word = word.toLowerCase();
+	word =  word.replace( "'", "" );
 
 	const stemmer = new TurkishStemmer( morphologyData );
 	stemmer.setCurrent( word );

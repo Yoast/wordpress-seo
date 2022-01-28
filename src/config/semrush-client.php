@@ -2,10 +2,13 @@
 
 namespace Yoast\WP\SEO\Config;
 
+use Yoast\WP\SEO\Exceptions\OAuth\Authentication_Failed_Exception;
 use Yoast\WP\SEO\Exceptions\OAuth\Tokens\Empty_Property_Exception;
+use Yoast\WP\SEO\Exceptions\OAuth\Tokens\Empty_Token_Exception;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Wrappers\WP_Remote_Handler;
 use YoastSEO_Vendor\GuzzleHttp\Client;
+use YoastSEO_Vendor\League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use YoastSEO_Vendor\League\OAuth2\Client\Provider\GenericProvider;
 
 /**
@@ -49,5 +52,35 @@ class SEMrush_Client extends OAuth_Client {
 			$provider,
 			$options_helper
 		);
+	}
+
+	/**
+	 * Performs the specified request.
+	 *
+	 * @param string $method  The HTTP method to use.
+	 * @param string $url     The URL to send the request to.
+	 * @param array  $options The options to pass along to the request.
+	 *
+	 * @return mixed The parsed API response.
+	 *
+	 * @throws IdentityProviderException Exception thrown if there's something wrong with the identifying data.
+	 * @throws Authentication_Failed_Exception Exception thrown if authentication has failed.
+	 * @throws Empty_Token_Exception Exception thrown if the token is empty.
+	 *
+	 * @codeCoverageIgnore
+	 */
+	public function do_request( $method, $url, array $options ) {
+		// Add the access token to the GET parameters as well since this is what
+		// the SEMRush API expects.
+		$options = array_merge_recursive(
+			$options,
+			[
+				'params' => [
+					'access_token' => $this->get_tokens()->access_token,
+				],
+			]
+		);
+
+		return parent::do_request( $method, $url, $options );
 	}
 }

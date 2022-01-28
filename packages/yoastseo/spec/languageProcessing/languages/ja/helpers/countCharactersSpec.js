@@ -1,8 +1,14 @@
+import { doesWordMatchRegex } from "../../../../../src/languageProcessing/helpers/morphology/regexHelpers";
 import countCharactersFunction from "../../../../../src/languageProcessing/languages/ja/helpers/countCharacters.js";
 
 describe( "counts characters in a string", function() {
 	it( "returns the number of characters", function() {
 		expect( countCharactersFunction( "これに対し日本国有鉄道（国鉄）は、十河信二国鉄総裁と技師長の島秀雄の下、" +
+			"高速運転が可能な標準軌新線を建設することを決定。1959年（昭和34年）4月20日、新丹那トンネル熱海口で起工式を行って着工し、" +
+			"東京オリンピック開会直前の1964年（昭和39年）10月1日に開業した。" ) ).toBe( 136 );
+	} );
+	it( "returns the number of characters not including URL characters in the count", function() {
+		expect( countCharactersFunction( "www.yoast.comこれに対し日本国有鉄道（国鉄）は、十河信二国鉄総裁と技師長の島秀雄の下、" +
 			"高速運転が可能な標準軌新線を建設することを決定。1959年（昭和34年）4月20日、新丹那トンネル熱海口で起工式を行って着工し、" +
 			"東京オリンピック開会直前の1964年（昭和39年）10月1日に開業した。" ) ).toBe( 136 );
 	} );
@@ -30,7 +36,34 @@ describe( "counts characters in a string", function() {
 			"<p>戦後においては一般に広義の<a href=\"https://ja.wikipedia.org/wiki/%E7%AB%A5%E8%AC%A1\">童謡</a>にカテゴライズされる本作品は、" +
 			"初出本の題名にもあるとおり青木自身は「唱歌」であるとし、「学校や家庭で」歌ってもらえれば本懐であるとしている。しかし発表当時の教育現場では、" +
 			"本作品を歌うことは原則上はできなかった。</p>";
+		expect( countCharactersFunction( text ) ).toBe( 757 );
+	} );
+	it( "makes sure that no charachters are counted when a URL is embedded in video tags", function() {
+		const text = "<!-- wp:embed {\"url\":\"https://www.youtube.com/watch?v=cbP2N1BQdYc\",\"type\":\"video\"," +
+			"\"providerNameSlug\":\"youtube\",\"responsive\":true,\"className\":\"wp-embed-aspect-16-9 wp-has-aspect-ratio\"} -->\n" +
+			"\t\t\t<figure class=\"wp-block-embed is-type-video is-provider-youtube wp-block-embed-youtube wp-embed-aspect" +
+			"-16-9 wp-has-aspect-ratio\"><div class=\"wp-block-embed__wrapper\">\n" +
+			"\t\t\t\thttps://www.youtube.com/watch?v=cbP2N1BQdYc\n" +
+			"\t\t\t</div></figure><!-- /wp:embed -->";
+		expect( countCharactersFunction( text ) ).toBe( 0 );
+	} );
+} );
 
-		expect( countCharactersFunction( text ) ).toBe( 760 );
+describe( "A test to return a regex match for URLs", () => {
+	it( "Returns true if there is a match against a URL starting with www", () => {
+		// eslint-disable-next-line max-len
+		expect( doesWordMatchRegex( "www.yoast.com", "(http(s)?:\\/\\/.)?(www\\.|ftp:\\/\\/)?[-a-zA-Z0-9@:%._\\/+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\/+.~#?&()=]*)" ) ).toEqual( true );
+	} );
+	it( "Returns true if there is a match against a URL starting with https", () => {
+		// eslint-disable-next-line max-len
+		expect( doesWordMatchRegex( "https://www.codecademy.com/learn/hello", "(http(s)?:\\/\\/.)?(www\\.|ftp:\\/\\/)?[-a-zA-Z0-9@:%._\\/+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\/+.~#?&()=]*)" ) ).toEqual( true );
+	} );
+	it( "Returns true if there is a match against a URL starting with http", () => {
+		// eslint-disable-next-line max-len
+		expect( doesWordMatchRegex( "http://foo.com/blah_blah/", "(http(s)?:\\/\\/.)?(www\\.|ftp:\\/\\/)?[-a-zA-Z0-9@:%._\\/+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\/+.~#?&()=]*)" ) ).toEqual( true );
+	} );
+	it( "Returns false if there is no match", () => {
+		// eslint-disable-next-line max-len
+		expect( doesWordMatchRegex( "My cat is sweet!", "(http(s)?:\\/\\/.)?(www\\.|ftp:\\/\\/)?[-a-zA-Z0-9@:%._\\/+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\/+.~#?&()=]*)" ) ).toEqual( false );
 	} );
 } );

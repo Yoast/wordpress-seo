@@ -7,7 +7,10 @@ use Mockery;
 use Brain\Monkey;
 use Yoast\WP\SEO\Actions\Importing\Abstract_Aioseo_Settings_Importing_Action;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Sanitization_Helper;
 use Yoast\WP\SEO\Services\Importing\Aioseo_Replacevar_Handler;
+use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Provider_Service;
+use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Transformer_Service;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Actions\Importing\Abstract_Aioseo_Settings_Importing_Action_Double;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -37,11 +40,32 @@ class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 	protected $options;
 
 	/**
+	 * The sanitization helper.
+	 *
+	 * @var Mockery\MockInterface|Sanitization_Helper
+	 */
+	protected $sanitization;
+
+	/**
 	 * The replacevar handler.
 	 *
 	 * @var Aioseo_Replacevar_Handler
 	 */
 	protected $replacevar_handler;
+
+	/**
+	 * The robots provider service.
+	 *
+	 * @var Mockery\MockInterface|Aioseo_Robots_Provider_Service
+	 */
+	protected $robots_provider;
+
+	/**
+	 * The robots transformer service.
+	 *
+	 * @var Mockery\MockInterface|Aioseo_Robots_Transformer_Service
+	 */
+	protected $robots_transformer;
 
 	/**
 	 * Sets up the test class.
@@ -50,10 +74,13 @@ class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 		parent::set_up();
 
 		$this->options            = Mockery::mock( Options_Helper::class );
+		$this->sanitization       = Mockery::mock( Sanitization_Helper::class );
 		$this->replacevar_handler = new Aioseo_Replacevar_Handler();
+		$this->robots_provider    = Mockery::mock( Aioseo_Robots_Provider_Service::class );
+		$this->robots_transformer = Mockery::mock( Aioseo_Robots_Transformer_Service::class );
 		$this->mock_instance      = Mockery::mock(
 			Abstract_Aioseo_Settings_Importing_Action_Double::class,
-			[ $this->options, $this->replacevar_handler ]
+			[ $this->options, $this->sanitization, $this->replacevar_handler, $this->robots_provider, $this->robots_transformer ]
 		)->makePartial()->shouldAllowMockingProtectedMethods();
 	}
 
@@ -88,7 +115,7 @@ class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 			->with( $expected_finished );
 
 		$unindexed_count = $this->mock_instance->get_total_unindexed();
-		$this->assertEquals( $unindexed_count, $expected_unindexed_count );
+		$this->assertSame( $expected_unindexed_count, $unindexed_count );
 	}
 
 	/**
@@ -112,7 +139,7 @@ class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 			->with( $expected_finished );
 
 		$unindexed_count = $this->mock_instance->get_limited_unindexed_count( 1 );
-		$this->assertEquals( $unindexed_count, $expected_unindexed_count );
+		$this->assertSame( $expected_unindexed_count, $unindexed_count );
 	}
 
 	/**
@@ -160,7 +187,7 @@ class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 			->with( $this->options, 'cursor_id', $last_key );
 
 		$created_settings = $this->mock_instance->index();
-		$this->assertEquals( $created_settings, $expected_created_settings );
+		$this->assertSame( $expected_created_settings, $created_settings );
 	}
 
 	/**
@@ -194,7 +221,7 @@ class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 			->andReturn( $cursor );
 
 		$unimported_chunk = $this->mock_instance->get_unimported_chunk( $importable_data, $limit );
-		$this->assertTrue( $unimported_chunk === $expected );
+		$this->assertSame( $expected, $unimported_chunk );
 	}
 
 	/**
@@ -223,200 +250,6 @@ class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 			->with( $setting_mapping['yoast_name'], 'some_value' );
 
 		$this->mock_instance->import_single_setting( $setting, $setting_value, $setting_mapping );
-	}
-
-	/**
-	 * Tests the getting of the noindex setting set globally in AIOSEO.
-	 *
-	 * @param array $aioseo_options The AIOSEO settings.
-	 * @param bool  $global_noindex The global noindex.
-	 *
-	 * @dataProvider provider_get_global_noindex
-	 * @covers ::get_global_noindex
-	 */
-	public function test_get_global_noindex( $aioseo_options, $global_noindex ) {
-		Monkey\Functions\expect( 'get_option' )
-			->once()
-			->andReturn( $aioseo_options );
-
-		$result = $this->mock_instance->get_global_noindex();
-		$this->assertTrue( $global_noindex === $result );
-	}
-
-	/**
-	 * Tests the getting of the noindex setting set globally in AIOSEO.
-	 *
-	 * @param array $aioseo_options           The AIOSEO settings.
-	 * @param bool  $noindex                  The noindex of the type, without taking into consideration whether the type defers to global defaults.
-	 * @param array $mapping                  The mapping of the setting we're working with.
-	 * @param int   $get_global_noindex_times The times the get_global_noindex() is called.
-	 * @param bool  $global_noindex_value     What the get_global_noindex() returns.
-	 * @param bool  $expected_noindex         The expected result.
-	 *
-	 * @dataProvider provider_import_noindex
-	 * @covers ::import_noindex
-	 */
-	public function test_import_noindex( $aioseo_options, $noindex, $mapping, $get_global_noindex_times, $global_noindex_value, $expected_noindex ) {
-		Monkey\Functions\expect( 'get_option' )
-			->once()
-			->andReturn( $aioseo_options );
-
-		$this->mock_instance->expects( 'get_global_noindex' )
-			->times( $get_global_noindex_times )
-			->andReturn( $global_noindex_value );
-
-		$result = $this->mock_instance->import_noindex( $noindex, $mapping );
-		$this->assertTrue( $expected_noindex === $result );
-	}
-
-	/**
-	 * Data provider for test_query().
-	 *
-	 * @return string
-	 */
-	public function provider_import_noindex() {
-		$mapping = [
-			'option_name' => 'aioseo_table',
-			'type'        => 'type',
-			'subtype'     => 'subtype',
-		];
-
-		$empty_settings = [];
-
-		$global_robots_meta = [
-			'searchAppearance' => [
-				'type' => [
-					'subtype' => [
-						'advanced' => [
-							'robotsMeta' => [
-								'default' => true,
-							],
-						],
-					],
-				],
-			],
-		];
-
-		$no_global_robots_meta = [
-			'searchAppearance' => [
-				'type' => [
-					'subtype' => [
-						'advanced' => [
-							'robotsMeta' => [
-								'default' => false,
-							],
-						],
-					],
-				],
-			],
-		];
-
-		$malformed_global_robots_meta = [
-			'searchAppearance' => [
-				'type' => [
-					'subtype' => [
-						'advanced' => [
-							'robotsMeta' => [
-								'not_default' => 'random',
-							],
-						],
-					],
-				],
-			],
-		];
-
-		return [
-			[ \json_encode( $empty_settings ), false, $mapping, 0, 'irrelevant', false ],
-			[ \json_encode( $empty_settings ), true, $mapping, 0, 'irrelevant', true ],
-			[ \json_encode( $global_robots_meta ), 'irrelevant', $mapping, 1, true, true ],
-			[ \json_encode( $global_robots_meta ), 'irrelevant', $mapping, 1, false, false ],
-			[ \json_encode( $no_global_robots_meta ), true, $mapping, 0, 'irrelevant', true ],
-			[ \json_encode( $no_global_robots_meta ), false, $mapping, 0, 'irrelevant', false ],
-			[ \json_encode( $malformed_global_robots_meta ), false, $mapping, 0, 'irrelevant', false ],
-			[ \json_encode( $malformed_global_robots_meta ), true, $mapping, 0, 'irrelevant', true ],
-		];
-	}
-
-	/**
-	 * Data provider for test_query().
-	 *
-	 * @return string
-	 */
-	public function provider_get_global_noindex() {
-		$empty_settings = [];
-
-		$no_global_robots_meta = [
-			'searchAppearance' => [
-				'advanced' => [
-					'not_globalRobotsMeta' => [
-						'default' => true,
-					],
-				],
-			],
-		];
-
-		$no_set_default_global = [
-			'searchAppearance' => [
-				'advanced' => [
-					'globalRobotsMeta' => [
-						'not_default' => 'whatever',
-					],
-				],
-			],
-		];
-
-		$default_global = [
-			'searchAppearance' => [
-				'advanced' => [
-					'globalRobotsMeta' => [
-						'default' => true,
-					],
-				],
-			],
-		];
-
-		$no_default_no_noindex_global = [
-			'searchAppearance' => [
-				'advanced' => [
-					'globalRobotsMeta' => [
-						'default'     => false,
-						'not_noindex' => 'whatever',
-					],
-				],
-			],
-		];
-
-		$no_default_noindex_global = [
-			'searchAppearance' => [
-				'advanced' => [
-					'globalRobotsMeta' => [
-						'default' => false,
-						'noindex' => true,
-					],
-				],
-			],
-		];
-
-		$no_default_disabled_noindex_global = [
-			'searchAppearance' => [
-				'advanced' => [
-					'globalRobotsMeta' => [
-						'default' => false,
-						'noindex' => false,
-					],
-				],
-			],
-		];
-
-		return [
-			[ \json_encode( $empty_settings ), false ],
-			[ \json_encode( $no_global_robots_meta ), false ],
-			[ \json_encode( $no_set_default_global ), false ],
-			[ \json_encode( $default_global ), false ],
-			[ \json_encode( $no_default_no_noindex_global ), false ],
-			[ \json_encode( $no_default_noindex_global ), true ],
-			[ \json_encode( $no_default_disabled_noindex_global ), false ],
-		];
 	}
 
 	/**
