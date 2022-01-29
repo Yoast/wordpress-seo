@@ -102,6 +102,8 @@ export const useWordProofTimestamper = () => {
 			"You are out of timestamps. Please upgrade your account by opening the %s settings.",
 			"wordpress-seo"
 		), "WordProof" );
+	const successNoticeOptions = { type: 'snackbar', id: 'wordproof-timestamp-notice' };
+	const errorNoticeOptions = { id: 'wordproof-timestamp-notice' };
 
 	const [ timestampResponse, setTimestampResponse ] = useState( null );
 
@@ -155,12 +157,12 @@ export const useWordProofTimestamper = () => {
 		// Create the notice based on timestamp.
 		if ( timestampResponse ) {
 			if ( timestampResponse.balance === 0 ) {
-				createErrorNotice( noBalanceNotice );
+				createErrorNotice( noBalanceNotice, noticeOptions );
 			} else {
-				createSuccessNotice( successNotice );
+				createSuccessNotice( successNotice, noticeOptions );
 			}
 		} else {
-			createErrorNotice( errorNotice );
+			createErrorNotice( errorNotice, noticeOptions );
 		}
 	}, [ timestampResponse ] );
 
