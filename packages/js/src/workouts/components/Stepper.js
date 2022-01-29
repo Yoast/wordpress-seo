@@ -4,6 +4,32 @@ import { Fragment, useCallback, useState, useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 import AnimateHeight from "react-animate-height";
+
+// CONSTANTS
+
+// Open and close duration in milliseconds.
+const openAndCloseDuration = 500;
+
+// Fade in and out duration in milliseconds.
+const fadeDuration = 200;
+
+// The duration of no movement between opening and closing steps.
+const pauseDuration = 200;
+
+// Wait for previous step to close, fade, and add the pause.
+const openDelay = openAndCloseDuration + fadeDuration + pauseDuration;
+
+// Wait for the step to have opened
+const fadeInDelay = openDelay + openAndCloseDuration;
+
+// Wait for the step to have faded out
+const closeDelay = fadeDuration;
+
+// Tailwindclasses based on the above:
+const fadeDurationClass = "yst-duration-200";
+const totalStepDurationClass = "yst-duration-700";
+const openDelayClass = "yst-delay-900";
+
 /**
  * The StepButtons component.
  *
@@ -75,7 +101,7 @@ const stepShape = PropTypes.shape( {
  */
 function ActiveCircle( { isVisible } ) {
 	return <span
-		className={ `yst-transition-opacity yst-duration-700 ${ isVisible ? "yst-opacity-100" : "yst-opacity-0" } yst-absolute yst-inset-0 yst-bg-white yst-border-primary-500 yst-border-2 yst-flex yst-items-center yst-justify-center yst-rounded-full` }
+		className={ `yst-transition-opacity ${ totalStepDurationClass } ${ isVisible ? "yst-opacity-100" : "yst-opacity-0" } yst-absolute yst-inset-0 yst-bg-white yst-border-primary-500 yst-border-2 yst-flex yst-items-center yst-justify-center yst-rounded-full` }
 	>
 		<span className={ "yst-h-2.5 yst-w-2.5 yst-rounded-full yst-bg-primary-500" } />
 	</span>;
@@ -99,7 +125,7 @@ ActiveCircle.defaultProps = {
  */
 function SavedCircle( { isVisible } ) {
 	return <span
-		className={ `yst-transition-opacity yst-duration-700 ${ isVisible ? "yst-opacity-100" : "yst-opacity-0" } yst-absolute yst-inset-0 yst-bg-primary-500 yst-border-primary-500 yst-border-2 yst-flex yst-items-center yst-justify-center yst-rounded-full` }
+		className={ `yst-transition-opacity ${ totalStepDurationClass } ${ isVisible ? "yst-opacity-100" : "yst-opacity-0" } yst-absolute yst-inset-0 yst-bg-primary-500 yst-border-primary-500 yst-border-2 yst-flex yst-items-center yst-justify-center yst-rounded-full` }
 	>
 		<CheckIcon className={ "yst-w-5 yst-h-5 yst-text-white" } aria-hidden="true" />
 	</span>;
@@ -123,7 +149,7 @@ SavedCircle.defaultProps = {
  */
 function UpcomingCircle( { isVisible } ) {
 	return <span
-		className={ `yst-transition-opacity yst-duration-700 ${ isVisible ? "yst-opacity-100" : "yst-opacity-0" } yst-absolute yst-inset-0 yst-bg-white yst-border-gray-300 yst-border-2 yst-flex yst-items-center yst-justify-center yst-rounded-full` }
+		className={ `yst-transition-opacity ${ totalStepDurationClass } ${ isVisible ? "yst-opacity-100" : "yst-opacity-0" } yst-absolute yst-inset-0 yst-bg-white yst-border-gray-300 yst-border-2 yst-flex yst-items-center yst-justify-center yst-rounded-full` }
 	>
 		<span className={ "yst-h-2.5 yst-w-2.5 yst-rounded-full yst-bg-transparent" } />
 	</span>;
@@ -136,24 +162,6 @@ UpcomingCircle.propTypes = {
 UpcomingCircle.defaultProps = {
 	isVisible: true,
 };
-
-// Open and close duration in milliseconds.
-const openAndCloseDuration = 500;
-
-// Fade in and out duration in milliseconds.
-const fadeDuration = 200;
-
-// The duration of no movement between opening and closing steps.
-const pauseDuration = 200;
-
-// Wait for previous step to close, fade, and add the pause.
-const openDelay = openAndCloseDuration + fadeDuration + pauseDuration;
-
-// Wait for the step to have opened
-const fadeInDelay = openDelay + openAndCloseDuration;
-
-// Wait for the step to have faded out
-const closeDelay = fadeDuration;
 
 /**
  * The Circle that acompanies a step, in all its active-inactive saved-unsaved flavours.
@@ -180,7 +188,7 @@ function StepCircle( { activationDelay, deactivationDelay, isActive, isSaved } )
 	}, [ isActive, activationDelay, deactivationDelay, isSaved ] );
 
 	return <span
-		className={ "yst-relative yst-z-10 yst-w-8 yst-h-8 yst-rounded-full yst-bg-green-200" }
+		className={ "yst-relative yst-z-10 yst-w-8 yst-h-8 yst-rounded-full" }
 	>
 		<UpcomingCircle isVisible={ true } />
 		<SavedCircle isVisible={ circleType === "saved" } />
@@ -294,9 +302,9 @@ function TailwindStep( { step, stepIndex, lastStepIndex, saveStep, finishStepper
 				id={ `content-${stepIndex}` }
 				height={ contentHeight }
 				easing="ease-in-out"
-				duration={ 500 }
+				duration={ openAndCloseDuration }
 			>
-				<div className={ `yst-transition-opacity yst-duration-200 yst-relative yst-ml-12 yst-mt-4 ${ isFaded ? "yst-opacity-0 yst-no-point-events" : "yst-opacity-100" }` }>
+				<div className={ `yst-transition-opacity ${ fadeDurationClass } yst-relative yst-ml-12 yst-mt-4 ${ isFaded ? "yst-opacity-0 yst-no-point-events" : "yst-opacity-100" }` }>
 					{ step.component }
 					<StepButtons
 						stepIndex={ stepIndex }
