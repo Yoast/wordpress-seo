@@ -64,61 +64,143 @@ const stepShape = PropTypes.shape( {
 	isSaved: PropTypes.bool.isRequired,
 } );
 
+
 /**
- * 
- * @param {*} param0 
- * @returns 
+ *The ActiveCircle element.
+ *
+ * @param {Object} props The props object.
+ * @param {Bool} props.isVisible Whether this circle is visible or not.
+ *
+ * @returns {WPElement} The ActiveCircle element
  */
-function StepCircle( { activeClasses, inactiveClasses, activationDelay, deactivationDelay, isActive, isSaved, children } ) {
+function ActiveCircle( { isVisible } ) {
 	return <span
-		className={ "yst-relative yst-z-10 yst-w-8 yst-h-8 yst-rounded-full yst-bg-green-200" }
+		className={ `yst-transition-opacity yst-duration-700 ${ isVisible ? "yst-opacity-100" : "yst-opacity-0" } yst-absolute yst-inset-0 yst-bg-white yst-border-primary-500 yst-border-2 yst-flex yst-items-center yst-justify-center yst-rounded-full` }
 	>
-		{ /* Inactive border and background, arranged via props */ }
-		<span
-			className={ `yst-absolute yst-inset-0 ${ inactiveClasses } yst-border-2 yst-flex yst-items-center yst-justify-center yst-rounded-full` }
-		>
-			{ children }
-		</span>
-		{ /* Active border and background, fading in when active */ }
-		<span
-			className={ `yst-transition-opacity yst-duration-200 ${ isActive ? "yst-delay-[700ms] yst-opacity-100" : "yst-opacity-0" } yst-absolute yst-inset-0 yst-bg-white yst-border-primary-500 yst-border-2 yst-flex yst-items-center yst-justify-center yst-rounded-full` }
-		>
-			{ children }
-		</span>
+		<span className={ "yst-h-2.5 yst-w-2.5 yst-rounded-full yst-bg-primary-500" } />
 	</span>;
 }
 
+ActiveCircle.propTypes = {
+	isVisible: PropTypes.bool,
+};
+
+ActiveCircle.defaultProps = {
+	isVisible: true,
+};
+
 /**
- * 
- * @param {*} param0 
- * @returns 
+ *The SavedCircle element.
+ *
+ * @param {Object} props The props object.
+ * @param {Bool} props.isVisible Whether this circle is visible or not.
+ *
+ * @returns {WPElement} The SavedCircle element
  */
-function StepIcon( { activeClasses, inactiveClasses, activationDelay, deactivationDelay, isActive, isSaved } ) {
-	const [ icon, setIcon ] = useState( isSaved ? "check" : "bullet" );
+function SavedCircle( { isVisible } ) {
+	return <span
+		className={ `yst-transition-opacity yst-duration-700 ${ isVisible ? "yst-opacity-100" : "yst-opacity-0" } yst-absolute yst-inset-0 yst-bg-primary-500 yst-border-primary-500 yst-border-2 yst-flex yst-items-center yst-justify-center yst-rounded-full` }
+	>
+		<CheckIcon className={ "yst-w-5 yst-h-5 yst-text-white" } aria-hidden="true" />
+	</span>;
+}
+
+SavedCircle.propTypes = {
+	isVisible: PropTypes.bool,
+};
+
+SavedCircle.defaultProps = {
+	isVisible: true,
+};
+
+/**
+ *The UpcomingCircle element.
+ *
+ * @param {Object} props The props object.
+ * @param {Bool} props.isVisible Whether this circle is visible or not.
+ *
+ * @returns {WPElement} The UpcomingCircle element
+ */
+function UpcomingCircle( { isVisible } ) {
+	return <span
+		className={ `yst-transition-opacity yst-duration-700 ${ isVisible ? "yst-opacity-100" : "yst-opacity-0" } yst-absolute yst-inset-0 yst-bg-white yst-border-gray-300 yst-border-2 yst-flex yst-items-center yst-justify-center yst-rounded-full` }
+	>
+		<span className={ "yst-h-2.5 yst-w-2.5 yst-rounded-full yst-bg-transparent" } />
+	</span>;
+}
+
+UpcomingCircle.propTypes = {
+	isVisible: PropTypes.bool,
+};
+
+UpcomingCircle.defaultProps = {
+	isVisible: true,
+};
+
+// Open and close duration in milliseconds.
+const openAndCloseDuration = 500;
+
+// Fade in and out duration in milliseconds.
+const fadeDuration = 200;
+
+// The duration of no movement between opening and closing steps.
+const pauseDuration = 200;
+
+// Wait for previous step to close, fade, and add the pause.
+const openDelay = openAndCloseDuration + fadeDuration + pauseDuration;
+
+// Wait for the step to have opened
+const fadeInDelay = openDelay + openAndCloseDuration;
+
+// Wait for the step to have faded out
+const closeDelay = fadeDuration;
+
+/**
+ * The Circle that acompanies a step, in all its active-inactive saved-unsaved flavours.
+ *
+ * @param {Object} props The props to pass to the StepCircle
+ *
+ * @returns {WPElement} The StepCircle component.
+ */
+function StepCircle( { activationDelay, deactivationDelay, isActive, isSaved } ) {
+	const [ circleType, setCircleType ] = useState( isSaved ? "saved" : "upcoming" );
 
 	useEffect( () => {
 		if ( isActive ) {
 			// Set deactivation delay on the active class, mind the ending space.
 			setTimeout( () => {
-				setIcon( "activeBullet" );
+				setCircleType( "active" );
 			}, activationDelay );
 			return;
 		}
 		// Set activation delay on the inactive class, mind the ending space.
 		setTimeout( () => {
-			setIcon( isSaved ? "check" : "bullet" );
+			setCircleType( isSaved ? "saved" : "upcoming" );
 		}, deactivationDelay );
-	}, [ isActive, activeClasses, inactiveClasses, activationDelay, deactivationDelay, isSaved ] );
+	}, [ isActive, activationDelay, deactivationDelay, isSaved ] );
 
-	return <span className="yst-relative yst-h-2.5 yst-w-2.5">
-		{ /* Inactive, not-saved (upcoming) bullet */ }
-		<span className={ `yst-transition-opacity yst-duration-200 ${ icon === "bullet" ? "yst-opacity-100" : "yst-opacity-0" } yst-absolute yst-inset-0 yst-rounded-full yst-bg-transparent` } />
-		{ /* Active, (purple) bullet */ }
-		<span className={ `yst-absolute yst-inset-0 yst-transition-opacity yst-duration-200 yst-rounded-full yst-bg-primary-500 ${ icon === "activeBullet" ? "yst-opacity-100" : "yst-opacity-0" }` } />
-		{ /* Inactive, saved checkmark */ }
-		<CheckIcon className={ `yst-transition-all yst-duration-200 ${ icon === "check" ? "yst-opacity-100" : "yst-scale-0 yst-opacity-0" } yst-absolute yst-left-[-5px] yst-top-[-5px] yst-w-5 yst-h-5 yst-text-white` } aria-hidden="true" />
+	return <span
+		className={ "yst-relative yst-z-10 yst-w-8 yst-h-8 yst-rounded-full yst-bg-green-200" }
+	>
+		<UpcomingCircle isVisible={ true } />
+		<SavedCircle isVisible={ circleType === "saved" } />
+		<ActiveCircle isVisible={ circleType === "active" } />
 	</span>;
 }
+
+StepCircle.propTypes = {
+	isActive: PropTypes.bool.isRequired,
+	isSaved: PropTypes.bool.isRequired,
+	activationDelay: PropTypes.number,
+	deactivationDelay: PropTypes.number,
+};
+
+StepCircle.defaultProps = {
+	activationDelay: 0,
+	deactivationDelay: 0,
+};
+
+// There is no fade out delay.
 
 /* eslint-disable complexity, max-len */
 /**
@@ -156,11 +238,12 @@ function TailwindStep( { step, stepIndex, lastStepIndex, saveStep, finishStepper
 
 	useEffect( () => {
 		if ( isActiveStep ) {
-			setTimeout( () => setContentHeight( "auto" ), 700 );
-			setTimeout( () => setIsFaded( false ), 1300 );
+			// If the step has become active, wait before the previous step has closed
+			setTimeout( () => setContentHeight( "auto" ), openDelay );
+			setTimeout( () => setIsFaded( false ), fadeInDelay );
 		} else {
 			setIsFaded( true );
-			setTimeout( () => setContentHeight( 0 ), 200 );
+			setTimeout( () => setContentHeight( 0 ), closeDelay );
 		}
 	}, [ isActiveStep ] );
 
@@ -193,20 +276,10 @@ function TailwindStep( { step, stepIndex, lastStepIndex, saveStep, finishStepper
 				<span className="yst-flex yst-items-center" aria-hidden={ isActiveStep ? "true" : null }>
 					<StepCircle
 						isActive={ isActiveStep }
-						activeClasses="yst-bg-white yst-border-primary-500"
-						inactiveClasses={ isSaved ? "yst-bg-primary-500 yst-border-primary-500" : "yst-bg-white yst-border-gray-300" }
-						activationDelay={ 500 }
-						deactivationDelay={ 200 }
-					>
-						<StepIcon
-							isActive={ isActiveStep }
-							activeClasses="yst-bg-primary-500"
-							inactiveClasses={ "" }
-							activationDelay={ 500 }
-							deactivationDelay={ 200 }
-							isSaved={ isSaved }
-						/>
-					</StepCircle>
+						isSaved={ isSaved }
+						activationDelay={ openDelay }
+						deactivationDelay={ 0 }
+					/>
 				</span>
 				{ /* Name and description. */ }
 				<span className="yst-ml-4 yst-min-w-0 yst-flex yst-flex-col yst-self-center">
