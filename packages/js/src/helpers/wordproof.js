@@ -157,12 +157,12 @@ export const useWordProofTimestamper = () => {
 		// Create the notice based on timestamp.
 		if ( timestampResponse ) {
 			if ( timestampResponse.balance === 0 ) {
-				createErrorNotice( noBalanceNotice, noticeOptions );
+				createErrorNotice( noBalanceNotice, errorNoticeOptions );
 			} else {
-				createSuccessNotice( successNotice, noticeOptions );
+				createSuccessNotice( successNotice, successNoticeOptions );
 			}
 		} else {
-			createErrorNotice( errorNotice, noticeOptions );
+			createErrorNotice( errorNotice, errorNoticeOptions );
 		}
 	}, [ timestampResponse ] );
 
