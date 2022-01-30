@@ -1,5 +1,4 @@
 import { CheckIcon } from "@heroicons/react/solid";
-import { Transition } from "@headlessui/react";
 import { Fragment, useCallback, useState, useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
@@ -246,16 +245,14 @@ function TailwindStep( { step, stepIndex, lastStepIndex, saveStep, finishStepper
 
 	useEffect( () => {
 		if ( isActiveStep ) {
-			// If the step has become active, wait before the previous step has closed
-			setTimeout( () => setContentHeight( "auto" ), openDelay );
+			setContentHeight( "auto" );
+			// Wait until all other animations are done.
 			setTimeout( () => setIsFaded( false ), fadeInDelay );
 		} else {
 			setIsFaded( true );
-			setTimeout( () => setContentHeight( 0 ), closeDelay );
+			setContentHeight( 0 );
 		}
 	}, [ isActiveStep ] );
-
-	// Const setHeightZero = useCallback( () => setContentHeight( 0 ), [] );
 
 	return (
 		<Fragment>
@@ -264,19 +261,12 @@ function TailwindStep( { step, stepIndex, lastStepIndex, saveStep, finishStepper
 				( stepIndex !== lastStepIndex ) &&
 				<Fragment>
 					<div
-						className={ "yst--ml-px yst-absolute yst-mt-0.5 yst-left-4 yst-w-0.5 yst-h-full yst-bg-gray-300 yst--bottom-6" }
+						className={ "yst--ml-px yst-absolute yst-left-4 yst-w-0.5 yst-h-full yst-bg-gray-300 yst--bottom-6" }
 						aria-hidden="true"
 					/>
-					<Transition
-						show={ stepIndex < activeStepIndex }
-						className={ "yst--ml-px yst-absolute yst-mt-0.5 yst-left-4 yst-w-0.5 yst-h-full yst-bg-primary-500" }
-						enter="yst-transition-all yst-duration-500"
-						enterFrom="yst-bottom-full"
-						enterTo="yst--bottom-6"
-						entered="yst--bottom-6"
-						leave="yst-transition-all yst-duration-500 yst-delay-500"
-						leaveFrom="yst--bottom-6"
-						leaveTo="yst-bottom-full"
+					<div
+						className={ `yst-h-full yst-transition-transform yst-ease-in-out ${ totalStepDurationClass } yst-origin-top ${ stepIndex < activeStepIndex  ? `${ openDelayClass } yst-scale-y-1` : "yst-scale-y-0" } yst--ml-px yst-absolute yst-left-4 yst-w-0.5 yst-bg-primary-500 yst-top-8` }
+						aria-hidden="true"
 					/>
 				</Fragment>
 			}
@@ -300,6 +290,7 @@ function TailwindStep( { step, stepIndex, lastStepIndex, saveStep, finishStepper
 			{ /* Child component and buttons. */ }
 			<AnimateHeight
 				id={ `content-${stepIndex}` }
+				delay={ contentHeight === 0 ? closeDelay : openDelay }
 				height={ contentHeight }
 				easing="ease-in-out"
 				duration={ openAndCloseDuration }
@@ -341,7 +332,7 @@ export default function Stepper( { steps, setActiveStepIndex, saveStep, finishSt
 	return (
 		<ol className="yst-overflow-hidden">
 			{ steps.map( ( step, stepIndex ) => (
-				<li key={ step.name } className={ ( stepIndex === steps.length - 1 ? "" : "yst-pb-8" ) + " yst-relative" }>
+				<li key={ step.name } className={ ( stepIndex === steps.length - 1 ? "" : "yst-pb-8" ) + " yst-mb-0 yst-relative" }>
 					<TailwindStep
 						step={ step }
 						stepIndex={ stepIndex }
