@@ -1,33 +1,21 @@
-import { CheckIcon } from "@heroicons/react/solid";
 import { Fragment, useCallback, useState, useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import PropTypes from "prop-types";
 import AnimateHeight from "react-animate-height";
+import PropTypes from "prop-types";
+import { stepperTimingSettings, StepCircle } from "./StepperParts";
 
-// CONSTANTS
+/* eslint-disable complexity, max-len */
 
-// Open and close duration in milliseconds.
-const openAndCloseDuration = 500;
-
-// Fade in and out duration in milliseconds.
-const fadeDuration = 200;
-
-// The duration of no movement between opening and closing steps.
-const pauseDuration = 200;
-
-// Wait for previous step to close, fade, and add the pause.
-const openDelay = openAndCloseDuration + fadeDuration + pauseDuration;
-
-// Wait for the step to have opened
-const fadeInDelay = openDelay + openAndCloseDuration;
-
-// Wait for the step to have faded out
-const closeDelay = fadeDuration;
-
-// Tailwindclasses based on the above:
-const fadeDurationClass = "yst-duration-200";
-const totalStepDurationClass = "yst-duration-700";
-const openDelayClass = "yst-delay-900";
+const {
+	openAndCloseDuration,
+	fadeDuration,
+	openDelay,
+	fadeInDelay,
+	closeDelay,
+	fadeDurationClass,
+	totalStepDurationClass,
+	openDelayClass,
+} = stepperTimingSettings;
 
 /**
  * The StepButtons component.
@@ -89,127 +77,6 @@ const stepShape = PropTypes.shape( {
 	isSaved: PropTypes.bool.isRequired,
 } );
 
-
-/**
- *The ActiveCircle element.
- *
- * @param {Object} props The props object.
- * @param {Bool} props.isVisible Whether this circle is visible or not.
- *
- * @returns {WPElement} The ActiveCircle element
- */
-function ActiveCircle( { isVisible } ) {
-	return <span
-		className={ `yst-transition-opacity ${ totalStepDurationClass } ${ isVisible ? "yst-opacity-100" : "yst-opacity-0" } yst-absolute yst-inset-0 yst-bg-white yst-border-primary-500 yst-border-2 yst-flex yst-items-center yst-justify-center yst-rounded-full` }
-	>
-		<span className={ "yst-h-2.5 yst-w-2.5 yst-rounded-full yst-bg-primary-500" } />
-	</span>;
-}
-
-ActiveCircle.propTypes = {
-	isVisible: PropTypes.bool,
-};
-
-ActiveCircle.defaultProps = {
-	isVisible: true,
-};
-
-/**
- *The SavedCircle element.
- *
- * @param {Object} props The props object.
- * @param {Bool} props.isVisible Whether this circle is visible or not.
- *
- * @returns {WPElement} The SavedCircle element
- */
-function SavedCircle( { isVisible } ) {
-	return <span
-		className={ `yst-transition-opacity ${ totalStepDurationClass } ${ isVisible ? "yst-opacity-100" : "yst-opacity-0" } yst-absolute yst-inset-0 yst-bg-primary-500 yst-border-primary-500 yst-border-2 yst-flex yst-items-center yst-justify-center yst-rounded-full` }
-	>
-		<CheckIcon className={ "yst-w-5 yst-h-5 yst-text-white" } aria-hidden="true" />
-	</span>;
-}
-
-SavedCircle.propTypes = {
-	isVisible: PropTypes.bool,
-};
-
-SavedCircle.defaultProps = {
-	isVisible: true,
-};
-
-/**
- *The UpcomingCircle element.
- *
- * @param {Object} props The props object.
- * @param {Bool} props.isVisible Whether this circle is visible or not.
- *
- * @returns {WPElement} The UpcomingCircle element
- */
-function UpcomingCircle( { isVisible } ) {
-	return <span
-		className={ `yst-transition-opacity ${ totalStepDurationClass } ${ isVisible ? "yst-opacity-100" : "yst-opacity-0" } yst-absolute yst-inset-0 yst-bg-white yst-border-gray-300 yst-border-2 yst-flex yst-items-center yst-justify-center yst-rounded-full` }
-	>
-		<span className={ "yst-h-2.5 yst-w-2.5 yst-rounded-full yst-bg-transparent" } />
-	</span>;
-}
-
-UpcomingCircle.propTypes = {
-	isVisible: PropTypes.bool,
-};
-
-UpcomingCircle.defaultProps = {
-	isVisible: true,
-};
-
-/**
- * The Circle that acompanies a step, in all its active-inactive saved-unsaved flavours.
- *
- * @param {Object} props The props to pass to the StepCircle
- *
- * @returns {WPElement} The StepCircle component.
- */
-function StepCircle( { activationDelay, deactivationDelay, isActive, isSaved } ) {
-	const [ circleType, setCircleType ] = useState( isSaved ? "saved" : "upcoming" );
-
-	useEffect( () => {
-		if ( isActive ) {
-			// Set deactivation delay on the active class, mind the ending space.
-			setTimeout( () => {
-				setCircleType( "active" );
-			}, activationDelay );
-			return;
-		}
-		// Set activation delay on the inactive class, mind the ending space.
-		setTimeout( () => {
-			setCircleType( isSaved ? "saved" : "upcoming" );
-		}, deactivationDelay );
-	}, [ isActive, activationDelay, deactivationDelay, isSaved ] );
-
-	return <span
-		className={ "yst-relative yst-z-10 yst-w-8 yst-h-8 yst-rounded-full" }
-	>
-		<UpcomingCircle isVisible={ true } />
-		<SavedCircle isVisible={ circleType === "saved" } />
-		<ActiveCircle isVisible={ circleType === "active" } />
-	</span>;
-}
-
-StepCircle.propTypes = {
-	isActive: PropTypes.bool.isRequired,
-	isSaved: PropTypes.bool.isRequired,
-	activationDelay: PropTypes.number,
-	deactivationDelay: PropTypes.number,
-};
-
-StepCircle.defaultProps = {
-	activationDelay: 0,
-	deactivationDelay: 0,
-};
-
-// There is no fade out delay.
-
-/* eslint-disable complexity, max-len */
 /**
  * The (Tailwind) Step component
  *
@@ -265,7 +132,7 @@ function TailwindStep( { step, stepIndex, lastStepIndex, saveStep, finishStepper
 						aria-hidden="true"
 					/>
 					<div
-						className={ `yst-h-full yst-transition-transform yst-ease-in-out ${ totalStepDurationClass } yst-origin-top ${ stepIndex < activeStepIndex  ? `${ openDelayClass } yst-scale-y-1` : "yst-scale-y-0" } yst--ml-px yst-absolute yst-left-4 yst-w-0.5 yst-bg-primary-500 yst-top-8` }
+						className={ `yst-h-full yst-transition-transform yst-ease-in-out ${ totalStepDurationClass } ${ stepIndex < activeStepIndex  ? "yst-scale-y-1" : `${ openDelayClass } yst-scale-y-0` } yst-origin-top yst--ml-px yst-absolute yst-left-4 yst-w-0.5 yst-bg-primary-500 yst-top-8` }
 						aria-hidden="true"
 					/>
 				</Fragment>
@@ -321,6 +188,7 @@ TailwindStep.defaultProps = {
 	saveStep: () => { },
 	finishStepper: () => { },
 };
+
 /**
  * The Tailwind Stepper component.
  *
