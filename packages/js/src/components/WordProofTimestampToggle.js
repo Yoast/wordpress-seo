@@ -124,7 +124,22 @@ class WordProofTimestampToggle extends Component {
 	}
 
 	openAuthentication() {
-		this.setIsOpen( true );
+		/**
+		 * When WordPress window is re-focused after the WordProof authentication status
+		 * have been possibly updated in separate window, we should retrieve and update
+		 * the local state of this component.
+		 */
+		window.addEventListener( "focus", async() => {
+			const authenticationResponse = await fetchIsAuthenticated();
+			this.setIsAuthenticated( authenticationResponse );
+
+			if ( authenticationResponse ) {
+				this.setIsOpen( true );
+			} else {
+				this.handleToggle( false );
+			}
+		}, { once: true } );
+
 		popupWindow( window, this.state.authenticationUrl );
 	}
 
@@ -146,9 +161,10 @@ class WordProofTimestampToggle extends Component {
 			<Fragment>
 				<FieldGroup
 					style={ { display: "flex", marginTop: "8px" } }
-					linkText={ __( "Learn more about timestamping", "wordpress-seo" ) }
+					linkText={ __( "Learn more about timestamping",
+						"wordpress-seo" ) }
 					linkTo={ "https://yoa.st/wordproof-integration" }
-					htmlFor={ this.props.id  }
+					htmlFor={ this.props.id }
 					label={ __( "Timestamp with WordProof", "wordpress-seo" ) }
 					hasNewBadge={ true }
 				>
@@ -181,9 +197,7 @@ class WordProofTimestampToggle extends Component {
 					isOpen={ this.state.isOpen }
 					setIsOpen={ this.setIsOpen }
 					isAuthenticated={ this.state.isAuthenticated }
-					setIsAuthenticated={ this.setIsAuthenticated }
 					postTypeName={ this.props.postTypeName }
-					openAuthentication={ this.openAuthentication }
 				/>
 			</Fragment>
 		);
@@ -200,7 +214,8 @@ WordProofTimestampToggle.propTypes = {
 WordProofTimestampToggle.defaultProps = {
 	id: "timestamp-toggle",
 	isEnabled: true,
-	onToggle: () => {},
+	onToggle: () => {
+	},
 	postTypeName: "post",
 };
 
