@@ -96,8 +96,9 @@ function getProtocol( url ) {
 /**
  * Determine whether a URL is internal.
  *
- * @param {string} url The URL to test.
- * @param {string} host The current host.
+ * @param {string} url 		The URL to test.
+ * @param {string} host 	The current host.
+ * @param {string} siteUrl  The current site's url (can also be only the domain part).
  *
  * @returns {boolean} Whether or not the URL is internal.
  */
@@ -120,7 +121,7 @@ function isInternalLink( url, host, siteUrl ) {
 
 	/*
      * It could be that the host is null if we only have access to the site's domain, not full url (this is the case with Shopify).
-     * In that case, a permalink identical to the parsedUrl's host would also indicate an internal link.
+     * In that case, a domain identical to the parsedUrl's host would also indicate an internal link.
      */
 	if ( parsedUrl.host === siteUrl ) {
 		return true;
