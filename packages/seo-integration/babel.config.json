@@ -1,12 +1,3 @@
 {
-  "presets": [
-    "@wordpress/babel-preset-default"
-  ],
-  "env": {
-    "test": {
-      "plugins": [
-        "babel-plugin-styled-components"
-      ]
-    }
-  }
+  "presets": [ "@wordpress/babel-preset-default" ]
 }

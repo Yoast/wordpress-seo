@@ -23,13 +23,6 @@
     "transformIgnorePatterns": [
       "[/\\\\]node_modules[/\\\\](?!lodash-es|lodash|@yoast).+\\.js$"
     ],
-    "moduleNameMapper": {
-      "^lodash-es$": "lodash",
-      "^lodash-es/(.*)$": "lodash/$1"
-    },
-    "moduleDirectories": [
-      "node_modules"
-    ],
     "timers": "fake"
   },
   "main": "build/index.js",
@@ -64,7 +57,6 @@
     "@testing-library/react-hooks": "^7.0.2",
     "@wordpress/babel-preset-default": "^6.3.4",
     "babel-jest": "^27.3.1",
-    "babel-plugin-styled-components": "^2.0.2",
     "eslint": "^8.1.0",
     "eslint-config-yoast": "^5.0.17",
     "eslint-watch": "^8.0.0",
