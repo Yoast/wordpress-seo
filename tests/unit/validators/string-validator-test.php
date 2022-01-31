@@ -4,22 +4,22 @@ namespace Yoast\WP\SEO\Tests\Unit\Validators;
 
 use Yoast\WP\SEO\Exceptions\Validation\Invalid_Type_Exception;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Yoast\WP\SEO\Validators\Integer_Validator;
+use Yoast\WP\SEO\Validators\String_Validator;
 
 /**
- * Tests the Integer_Validator class.
+ * Tests the String_Validator class.
  *
  * @group options
  * @group validators
  *
- * @coversDefaultClass \Yoast\WP\SEO\Validators\Integer_Validator
+ * @coversDefaultClass \Yoast\WP\SEO\Validators\String_Validator
  */
-class Integer_Validator_Test extends TestCase {
+class String_Validator_Test extends TestCase {
 
 	/**
 	 * Holds the instance to test.
 	 *
-	 * @var Integer_Validator
+	 * @var String_Validator
 	 */
 	protected $instance;
 
@@ -30,13 +30,13 @@ class Integer_Validator_Test extends TestCase {
 		parent::set_up();
 		$this->stubTranslationFunctions();
 
-		$this->instance = new Integer_Validator();
+		$this->instance = new String_Validator();
 	}
 
 	/**
 	 * Tests validation.
 	 *
-	 * @dataProvider integer_provider
+	 * @dataProvider string_provider
 	 *
 	 * @covers ::validate
 	 *
@@ -58,51 +58,42 @@ class Integer_Validator_Test extends TestCase {
 	}
 
 	/**
-	 * Data provider to test multiple "integers".
+	 * Data provider to test multiple "strings".
 	 *
 	 * @return array A mapping of methods and expected inputs.
 	 */
-	public function integer_provider() {
+	public function string_provider() {
 		return [
-			'integer'        => [
-				'value'    => 123,
-				'expected' => 123,
+			'string'  => [
+				'value'    => 'text',
+				'expected' => 'text',
 			],
-			'integer_string' => [
-				'value'    => '123',
-				'expected' => 123,
-			],
-			'true'           => [
-				'value'    => true,
-				'expected' => 1,
-			],
-			'string'         => [
-				'value'     => '1abc23',
+			'integer' => [
+				'value'     => 123,
 				'expected'  => false,
 				'exception' => Invalid_Type_Exception::class,
 			],
-			// Note this does not work like `true`.
-			'false'          => [
-				'value'     => false,
-				'expected'  => false,
-				'exception' => Invalid_Type_Exception::class,
-			],
-			'float'          => [
+			'float'   => [
 				'value'     => 1.23,
 				'expected'  => false,
 				'exception' => Invalid_Type_Exception::class,
 			],
-			'array'          => [
-				'value'     => [ 1 ],
+			'boolean' => [
+				'value'     => true,
 				'expected'  => false,
 				'exception' => Invalid_Type_Exception::class,
 			],
-			'object'         => [
-				'value'     => (object) [ 1 ],
+			'array'   => [
+				'value'     => [ 'text' ],
 				'expected'  => false,
 				'exception' => Invalid_Type_Exception::class,
 			],
-			'null'           => [
+			'object'  => [
+				'value'     => (object) [ 'text' ],
+				'expected'  => false,
+				'exception' => Invalid_Type_Exception::class,
+			],
+			'null'    => [
 				'value'     => null,
 				'expected'  => false,
 				'exception' => Invalid_Type_Exception::class,

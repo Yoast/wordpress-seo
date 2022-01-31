@@ -62,7 +62,7 @@ class Url_Validator_Test extends TestCase {
 	 * @throws \Yoast\WP\SEO\Exceptions\Validation\Abstract_Validation_Exception When detecting an invalid value.
 	 */
 	public function test_validate( $value, $expected, $exception = '' ) {
-		if ( ! $expected ) {
+		if ( $exception !== '' ) {
 			$this->expectException( $exception );
 			$this->instance->validate( $value );
 
