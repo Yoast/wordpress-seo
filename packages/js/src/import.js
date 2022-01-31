@@ -1,11 +1,12 @@
 import jQuery from "jquery";
-import { act } from "react-test-renderer";
 
 import IndexingService from "./services/IndexingService";
 
 const AioseoV4 = "WPSEO_Import_AIOSEO_V4";
 
-let cleanupButton, cleanupDropdown, cleanupForm, importButton, importDropdown, importForm, spinner, loadingMessageCleanup, loadingMessageImport, checkMark;
+let cleanupButton, cleanupDropdown, cleanupForm, 
+	importButton, importDropdown, importForm, 
+	spinner, loadingMessageCleanup, loadingMessageImport, checkMark;
 
 /**
  * Adds Progress UI elements in the page.
@@ -110,7 +111,7 @@ function showSuccess( isImport ) {
  *
  * @returns {void}
  */
- function importingSuccess() {
+function importingSuccess() {
 	showSuccess( true );
 }
 
@@ -135,14 +136,12 @@ function showFailure( e, isImport ) {
 	var actingForm = cleanupForm;
 	var loadingMessage = loadingMessageCleanup;
 	var actingButton = cleanupButton;
-	var actingDropdown = cleanupDropdown;
 	var failureMessage = window.yoastImportData.assets.cleanup_failure;
 
 	if ( isImport ) {
 		actingForm = importForm;
 		loadingMessage = loadingMessageImport;
 		actingButton = importButton;
-		actingDropdown = importDropdown;
 		failureMessage = window.yoastImportData.assets.import_failure;
 	}
 
