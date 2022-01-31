@@ -181,7 +181,7 @@ class Importable_Detector_Test extends TestCase {
 		$this->importing_action->expects( 'get_limited_unindexed_count' )
 			->never();
 
-		$detected = $this->mock_instance->detect();
+		$detected = $this->mock_instance->detect_importers();
 
 		$this->assertTrue( \is_array( $detected ) );
 		$this->assertTrue( \count( $detected ) === 0 );
@@ -209,7 +209,7 @@ class Importable_Detector_Test extends TestCase {
 			->once()
 			->andReturn( 4 ); // Any number between 1-25.
 
-		$detected = $this->mock_instance->detect();
+		$detected = $this->mock_instance->detect_importers();
 
 		$this->assertTrue( \is_array( $detected ) );
 
@@ -240,7 +240,7 @@ class Importable_Detector_Test extends TestCase {
 		$this->importing_action->expects( 'get_limited_unindexed_count' )
 			->never();
 
-		$detected = $this->mock_instance->detect();
+		$detected = $this->mock_instance->detect_importers();
 
 		$this->assertTrue( \is_array( $detected ) );
 		$this->assertTrue( \count( $detected ) === 0 );
@@ -268,7 +268,7 @@ class Importable_Detector_Test extends TestCase {
 			->once()
 			->andReturn( 0 );
 
-		$detected = $this->mock_instance->detect();
+		$detected = $this->mock_instance->detect_importers();
 
 		$this->assertTrue( \is_array( $detected ) );
 		$this->assertTrue( \count( $detected ) === 0 );
@@ -288,7 +288,7 @@ class Importable_Detector_Test extends TestCase {
 			->once()
 			->andReturn( false );
 
-		$detected = $this->mock_instance->detect();
+		$detected = $this->mock_instance->detect_importers();
 
 		$this->assertTrue( \is_array( $detected ) );
 		$this->assertTrue( \count( $detected ) === 0 );
