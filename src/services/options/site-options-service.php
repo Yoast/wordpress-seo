@@ -687,7 +687,7 @@ class Site_Options_Service extends Abstract_Options_Service {
 		],
 		'version'                                     => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'is_equal' => [ 'equals' => WPSEO_VERSION ] ],
 		],
 		'wincher_automatically_add_keyphrases'        => [
 			'default' => '',
