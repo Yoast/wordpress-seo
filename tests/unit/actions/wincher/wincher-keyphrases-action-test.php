@@ -353,6 +353,25 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that the API is not called when there are no keyphrases.
+	 *
+	 * @covers ::get_tracked_keyphrases
+	 */
+	public function test_get_tracked_keyphrases_does_not_call_api_when_no_keyphrases() {
+		$this->client_instance
+			->expects( 'post' )
+			->times( 0 );
+
+		$this->assertEquals(
+			(object) [
+				'results' => [],
+				'status'  => 200,
+			],
+			$this->instance->get_tracked_keyphrases( [] )
+		);
+	}
+
+	/**
 	 * Tests retrieval of tracked keyphrases filtered with the used keyphrases.
 	 *
 	 * @covers ::get_tracked_keyphrases

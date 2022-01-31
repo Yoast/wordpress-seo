@@ -89,6 +89,10 @@ class WPSEO_Admin_Asset_Manager {
 			$script->get_version(),
 			$script->is_in_footer()
 		);
+
+		if ( in_array( 'wp-i18n', $script->get_deps(), true ) ) {
+			wp_set_script_translations( $this->prefix . $script->get_name(), 'wordpress-seo' );
+		}
 	}
 
 	/**
@@ -278,7 +282,7 @@ class WPSEO_Admin_Asset_Manager {
 		$plugin_scripts   = $this->load_generated_asset_file(
 			[
 				'asset_file'      => __DIR__ . '/../src/generated/assets/plugin.php',
-				'ext_length'      => 7,
+				'ext_length'      => 3,
 				'additional_deps' => $additional_dependencies,
 				'header_scripts'  => $header_scripts,
 			]
@@ -286,7 +290,7 @@ class WPSEO_Admin_Asset_Manager {
 		$external_scripts = $this->load_generated_asset_file(
 			[
 				'asset_file'      => __DIR__ . '/../src/generated/assets/externals.php',
-				'ext_length'      => 7,
+				'ext_length'      => 3,
 				'suffix'          => '-package',
 				'base_dir'        => 'externals/',
 				'additional_deps' => $additional_dependencies,
@@ -296,7 +300,7 @@ class WPSEO_Admin_Asset_Manager {
 		$language_scripts = $this->load_generated_asset_file(
 			[
 				'asset_file'      => __DIR__ . '/../src/generated/assets/languages.php',
-				'ext_length'      => 7,
+				'ext_length'      => 3,
 				'suffix'          => '-language',
 				'base_dir'        => 'languages/',
 				'additional_deps' => $additional_dependencies,
@@ -316,7 +320,7 @@ class WPSEO_Admin_Asset_Manager {
 
 		$scripts['installation-success'] = [
 			'name'    => 'installation-success',
-			'src'     => 'installation-success.min.js',
+			'src'     => 'installation-success.js',
 			'deps'    => [
 				'wp-a11y',
 				'wp-dom-ready',
@@ -347,7 +351,7 @@ class WPSEO_Admin_Asset_Manager {
 
 		$scripts['workouts'] = [
 			'name'    => 'workouts',
-			'src'     => 'workouts.min.js',
+			'src'     => 'workouts.js',
 			'deps'    => [
 				'clipboard',
 				'lodash',

@@ -13,5 +13,6 @@ export default {
 			slightlyTooMany: 500,
 			farTooMany: 600,
 		},
+		applicableIfTextLongerThan: 500,
 	},
 };

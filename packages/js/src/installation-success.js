@@ -1,10 +1,7 @@
 import domReady from "@wordpress/dom-ready";
 import { __, sprintf } from "@wordpress/i18n";
 import { renderReactRoot } from "./helpers/reactRoot";
-import { setWordPressSeoL10n } from "./helpers/i18n";
 import { ButtonStyledLink } from "@yoast/components";
-
-setWordPressSeoL10n();
 
 /**
  * The non-functional, decorative steppers for the installation success page.

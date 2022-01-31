@@ -43,7 +43,7 @@ jobs:
       # Use 'trusty' to test against MySQL 5.6, 'xenial' contains 5.7 by default.
       dist: trusty
     - php: 7.3
-      env: WP_VERSION=master PHPUNIT=1
+      env: WP_VERSION=trunk PHPUNIT=1
     - php: 7.4
       env: WP_VERSION=latest PHPUNIT=1 PHPLINT=1
     - php: 8.0
@@ -110,7 +110,7 @@ jobs:
     # Allow failures for unstable builds.
     - php: "nightly"
     - php: 7.3
-      env: WP_VERSION=master PHPUNIT=1
+      env: WP_VERSION=trunk PHPUNIT=1
 
 cache:
   yarn: true
@@ -193,7 +193,7 @@ before_script:
       mysql -e "CREATE DATABASE wordpress_tests;" -uroot
       cd "/tmp/wordpress/src/wp-content/plugins/$PLUGIN_SLUG"
       mkdir src/generated/assets
-      echo "<?php return [ 'post-edit.min.js' => [ 'dependencies' => [], 'version' => 'test' ], 'installation-success.min.js' => [ 'dependencies' => [], 'version' => 'test' ], 'workouts.min.js' => [ 'dependencies' => [], 'version' => 'test' ] ];" >> src/generated/assets/plugin.php
+      echo "<?php return [ 'post-edit.js' => [ 'dependencies' => [], 'version' => 'test' ], 'installation-success.js' => [ 'dependencies' => [], 'version' => 'test' ], 'workouts.js' => [ 'dependencies' => [], 'version' => 'test' ] ];" >> src/generated/assets/plugin.php
       echo "<?php return [];" >> src/generated/assets/externals.php
       echo "<?php return [];" >> src/generated/assets/languages.php
     fi
@@ -249,29 +249,37 @@ script:
   # PHP Unit
   - |
     if [[ "$PHPUNIT" == "1" && ${TRAVIS_PHP_VERSION:0:1} != "8" && $TRAVIS_PHP_VERSION != "nightly" ]]; then
+      # PHP < 8
       travis_fold start "PHP.integration-tests" && travis_time_start
       vendor/bin/phpunit -c phpunit-integration.xml.dist
       travis_time_finish && travis_fold end "PHP.integration-tests"
-    fi;
-  - |
-    if [[ "$PHPUNIT" == "1" ]] && [[ ${TRAVIS_PHP_VERSION:0:1} == "8" || $TRAVIS_PHP_VERSION == "nightly" ]]; then
+    elif [[ "$PHPUNIT" == "1" ]] && [[ ${TRAVIS_PHP_VERSION:0:1} == "8" || $TRAVIS_PHP_VERSION == "nightly" ]] && [[ $WP_VERSION == "5.9" || $WP_VERSION == "latest" || $WP_VERSION == "trunk" ]]; then
+      # PHP >= 8 with WP >= 5.9
       travis_fold start "PHP.integration-tests" && travis_time_start
-      composer remove --dev yoast/wp-test-utils phpunit/phpunit --ignore-platform-reqs --no-interaction &&
-      travis_retry composer require --dev yoast/wp-test-utils:"^1.0.0" phpunit/phpunit:"^7.5" --update-with-dependencies --ignore-platform-reqs --no-interaction &&
+      travis_retry composer remove --dev phpunit/phpunit --no-update --no-interaction &&
+      travis_retry composer update yoast/wp-test-utils --no-interaction --with-dependencies --ignore-platform-req=php &&
       vendor/bin/phpunit -c phpunit-integration.xml.dist
       travis_time_finish && travis_fold end "PHP.integration-tests"
-    fi;
+    elif [[ "$PHPUNIT" == "1" ]] && [[ ${TRAVIS_PHP_VERSION:0:1} == "8" || $TRAVIS_PHP_VERSION == "nightly" ]]; then
+      # PHP >= 8 with WP < 5.9
+      travis_fold start "PHP.integration-tests" && travis_time_start
+      travis_retry composer require --dev phpunit/phpunit:"^7.5" --update-with-dependencies --ignore-platform-reqs --no-interaction &&
+      vendor/bin/phpunit -c phpunit-integration.xml.dist
+      travis_time_finish && travis_fold end "PHP.integration-tests"
+    fi
   - |
     if [[ "$PHPUNIT" == "1" && ${TRAVIS_PHP_VERSION:0:1} != "8" && $TRAVIS_PHP_VERSION != "nightly" ]]; then
+      # PHP < 8
       travis_fold start "PHP.tests" && travis_time_start
       vendor/bin/phpunit
       travis_time_finish && travis_fold end "PHP.tests"
-    fi;
+    fi
   - |
     if [[ "$PHPUNIT" == "1" ]] && [[ ${TRAVIS_PHP_VERSION:0:1} == "8" || $TRAVIS_PHP_VERSION == "nightly" ]]; then
+      # PHP >= 8
       travis_fold start "PHP.tests" && travis_time_start
-      composer remove --dev yoast/wp-test-utils phpunit/phpunit --ignore-platform-reqs --no-interaction &&
-      composer require --dev yoast/wp-test-utils phpunit/phpunit:"^9.0" --update-with-dependencies --ignore-platform-reqs --no-interaction &&
+      travis_retry composer require --dev phpunit/phpunit:"^9.0" --update-with-dependencies --ignore-platform-reqs --no-interaction &&
+      travis_retry composer update yoast/wp-test-utils --with-all-dependencies --ignore-platform-reqs --no-interaction &&
       vendor/bin/phpunit
       travis_time_finish && travis_fold end "PHP.tests"
     fi
