@@ -55,7 +55,7 @@ class Importable_Detector {
 	 *
 	 * @return array The detected importers that have data to work with.
 	 */
-	public function detect_cleanups( $plugin = null, $type = null ) {
+	public function detect_cleanups( $plugin = null ) {
 		$detectors = $this->filter_actions( $this->importers, $plugin, 'cleanup' );
 
 		$detected = [];

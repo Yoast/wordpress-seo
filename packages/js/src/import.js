@@ -4,8 +4,8 @@ import IndexingService from "./services/IndexingService";
 
 const AioseoV4 = "WPSEO_Import_AIOSEO_V4";
 
-let cleanupButton, cleanupDropdown, cleanupForm, 
-	importButton, importDropdown, importForm, 
+let cleanupButton, cleanupDropdown, cleanupForm,
+	importButton, importDropdown, importForm,
 	spinner, loadingMessageCleanup, loadingMessageImport, checkMark;
 
 /**
