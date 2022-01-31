@@ -45,7 +45,7 @@ class Site_Options_Service extends Abstract_Options_Service {
 		],
 		'og_default_image_id'                         => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'empty_string', 'integer' ],
 		],
 		'og_frontpage_desc'                           => [
 			'default' => '',
@@ -57,7 +57,7 @@ class Site_Options_Service extends Abstract_Options_Service {
 		],
 		'og_frontpage_image_id'                       => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'empty_string', 'integer' ],
 		],
 		'og_frontpage_title'                          => [
 			'default' => '',
@@ -177,7 +177,7 @@ class Site_Options_Service extends Abstract_Options_Service {
 		// Titles.
 		'activation_redirect_timestamp_free'          => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'integer' ],
 		],
 		'alternate_website_name'                      => [
 			'default' => '',
@@ -229,7 +229,7 @@ class Site_Options_Service extends Abstract_Options_Service {
 		],
 		'company_logo_id'                             => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'integer' ],
 		],
 		'company_logo_meta'                           => [
 			'default' => '',
@@ -245,7 +245,7 @@ class Site_Options_Service extends Abstract_Options_Service {
 		],
 		'company_or_person_user_id'                   => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'integer' ],
 		],
 		'disable-attachment'                          => [
 			'default' => '',
@@ -333,7 +333,7 @@ class Site_Options_Service extends Abstract_Options_Service {
 		],
 		'open_graph_frontpage_image_id'               => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'integer' ],
 		],
 		'open_graph_frontpage_title'                  => [
 			'default' => '',
@@ -345,7 +345,7 @@ class Site_Options_Service extends Abstract_Options_Service {
 		],
 		'person_logo_id'                              => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'integer' ],
 		],
 		'person_logo_meta'                            => [
 			'default' => '',
@@ -401,23 +401,23 @@ class Site_Options_Service extends Abstract_Options_Service {
 		],
 		'social-image-id-<PostTypeName>'              => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'integer' ],
 		],
 		'social-image-id-archive-wpseo'               => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'integer' ],
 		],
 		'social-image-id-author-wpseo'                => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'integer' ],
 		],
 		'social-image-id-ptarchive-<PostTypeName>'    => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'integer' ],
 		],
 		'social-image-id-tax-{TaxonomyName}'          => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'integer' ],
 		],
 		'social-image-url-<PostTypeName>'             => [
 			'default' => '',
@@ -575,7 +575,7 @@ class Site_Options_Service extends Abstract_Options_Service {
 		],
 		'first_activated_on'                          => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'integer' ],
 		],
 		'first_time_install'                          => [
 			'default' => '',
@@ -619,7 +619,7 @@ class Site_Options_Service extends Abstract_Options_Service {
 		],
 		'indexing_started'                            => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'integer' ],
 		],
 		'keyword_analysis_active'                     => [
 			'default' => '',
