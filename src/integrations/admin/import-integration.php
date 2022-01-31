@@ -167,9 +167,9 @@ class Import_Integration implements Integration_Interface {
 	 * @return string The import failure alert.
 	 */
 	protected function get_import_failure_alert( $is_import ) {
-		$content  = \esc_html__( 'Cleanup failed with the following error:', 'wordpress-seo' );
+		$content = \esc_html__( 'Cleanup failed with the following error:', 'wordpress-seo' );
 		if ( $is_import ) {
-			$content  = \esc_html__( 'Import failed with the following error:', 'wordpress-seo' );
+			$content = \esc_html__( 'Import failed with the following error:', 'wordpress-seo' );
 		}
 
 		$content .= '<br/><br/>';

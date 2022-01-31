@@ -117,7 +117,7 @@ class Aioseo_Cleanup_Action extends Abstract_Importing_Action {
 			return 0;
 		}
 
-		return ( ! $this->get_completed() ) ? 1 : 0 ;
+		return ( ! $this->get_completed() ) ? 1 : 0;
 	}
 
 	/**
@@ -132,7 +132,7 @@ class Aioseo_Cleanup_Action extends Abstract_Importing_Action {
 			return 0;
 		}
 
-		return ( ! $this->get_completed() ) ? 1 : 0 ;
+		return ( ! $this->get_completed() ) ? 1 : 0;
 	}
 
 	/**
