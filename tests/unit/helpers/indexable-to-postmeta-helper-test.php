@@ -100,13 +100,13 @@ class Indexable_To_Postmeta_Helper_Test extends TestCase {
 			->with( 'opengraph-image', 'https://example.com/og-image.png', 123 )
 			->andReturn( true );
 		$this->meta->expects( 'set_value' )
-			->with( 'opengraph-image-id', 111, 123 )
+			->with( 'opengraph-image-id', '111', 123 )
 			->andReturn( true );
 		$this->meta->expects( 'set_value' )
 			->with( 'twitter-image', 'https://example.com/twitter-image.png', 123 )
 			->andReturn( true );
 		$this->meta->expects( 'set_value' )
-			->with( 'twitter-image-id', 222, 123 )
+			->with( 'twitter-image-id', '222', 123 )
 			->andReturn( true );
 		$this->meta->expects( 'set_value' )
 			->with( 'meta-robots-noindex', true, 123 )
