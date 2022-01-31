@@ -14,6 +14,8 @@ use Yoast\WP\SEO\Helpers\Indexing_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Indexing_Tool_Integration;
+use Yoast\WP\SEO\Services\Importing\Importable_Detector;
+use Yoast\WP\SEO\Routes\Importing_Route;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -76,6 +78,20 @@ class Indexing_Tool_Integration_Test extends TestCase {
 	protected $product_helper;
 
 	/**
+	 * The Importable Detector service.
+	 *
+	 * @var Importable_Detector
+	 */
+	protected $importable_detector;
+
+	/**
+	 * The Importing Route class.
+	 *
+	 * @var Importing_Route
+	 */
+	protected $importing_route;
+
+	/**
 	 * Sets up the tests.
 	 */
 	protected function set_up() {
@@ -84,12 +100,14 @@ class Indexing_Tool_Integration_Test extends TestCase {
 		$this->stubTranslationFunctions();
 		$this->stubEscapeFunctions();
 
-		$this->asset_manager     = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
-		$this->indexable_helper  = Mockery::mock( Indexable_Helper::class );
-		$this->short_link_helper = Mockery::mock( Short_Link_Helper::class );
-		$this->indexing_helper   = Mockery::mock( Indexing_Helper::class );
-		$this->addon_manager     = Mockery::mock( WPSEO_Addon_Manager::class );
-		$this->product_helper    = Mockery::mock( Product_Helper::class );
+		$this->asset_manager       = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
+		$this->indexable_helper    = Mockery::mock( Indexable_Helper::class );
+		$this->short_link_helper   = Mockery::mock( Short_Link_Helper::class );
+		$this->indexing_helper     = Mockery::mock( Indexing_Helper::class );
+		$this->addon_manager       = Mockery::mock( WPSEO_Addon_Manager::class );
+		$this->product_helper      = Mockery::mock( Product_Helper::class );
+		$this->importable_detector = Mockery::mock( Importable_Detector::class );
+		$this->importing_route     = Mockery::mock( Importing_Route::class );
 
 		$this->instance = new Indexing_Tool_Integration(
 			$this->asset_manager,
@@ -97,7 +115,9 @@ class Indexing_Tool_Integration_Test extends TestCase {
 			$this->short_link_helper,
 			$this->indexing_helper,
 			$this->addon_manager,
-			$this->product_helper
+			$this->product_helper,
+			$this->importable_detector,
+			$this->importing_route
 		);
 	}
 
@@ -130,6 +150,14 @@ class Indexing_Tool_Integration_Test extends TestCase {
 		static::assertInstanceOf(
 			Product_Helper::class,
 			self::getPropertyValue( $this->instance, 'product_helper' )
+		);
+		static::assertInstanceOf(
+			Importable_Detector::class,
+			self::getPropertyValue( $this->instance, 'importable_detector' )
+		);
+		static::assertInstanceOf(
+			Importing_Route::class,
+			self::getPropertyValue( $this->instance, 'importing_route' )
 		);
 	}
 
@@ -166,6 +194,7 @@ class Indexing_Tool_Integration_Test extends TestCase {
 	 *
 	 * @covers ::enqueue_scripts
 	 * @covers ::get_indexing_endpoints
+	 * @covers ::get_importing_endpoints
 	 */
 	public function test_enqueue_scripts() {
 		$this->indexing_helper
@@ -228,6 +257,11 @@ class Indexing_Tool_Integration_Test extends TestCase {
 					'term_link'          => 'yoast/v1/link-indexing/terms',
 					'complete'           => 'yoast/v1/indexing/complete',
 				],
+				'importing_endpoints' => [
+					'aioseo' => [
+						'yoast/v1/import/aioseo/posts',
+					],
+				],
 				'nonce'               => 'nonce_value',
 			],
 		];
@@ -242,6 +276,20 @@ class Indexing_Tool_Integration_Test extends TestCase {
 		$this->asset_manager
 			->expects( 'localize_script' )
 			->with( 'indexation', 'yoastIndexingData', $injected_data );
+
+		$expected_detections = [
+			'aioseo' => [ 'posts' ],
+		];
+
+		$this->importable_detector
+			->expects( 'detect' )
+			->andReturn( $expected_detections );
+
+		$this->importing_route
+			->expects( 'get_endpoint' )
+			->once()
+			->with( 'aioseo', 'posts' )
+			->andReturn( 'yoast/v1/import/aioseo/posts' );
 
 		Monkey\Filters\expectApplied( 'wpseo_indexing_data' )
 			->with( $injected_data );

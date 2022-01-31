@@ -14,6 +14,8 @@ use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Presenters\Admin\Indexing_Error_Presenter;
 use Yoast\WP\SEO\Presenters\Admin\Indexing_List_Item_Presenter;
+use Yoast\WP\SEO\Services\Importing\Importable_Detector;
+use Yoast\WP\SEO\Routes\Importing_Route;
 use Yoast\WP\SEO\Routes\Indexing_Route;
 
 /**
@@ -66,6 +68,20 @@ class Indexing_Tool_Integration implements Integration_Interface {
 	protected $product_helper;
 
 	/**
+	 * The Importable Detector service.
+	 *
+	 * @var Importable_Detector
+	 */
+	protected $importable_detector;
+
+	/**
+	 * The Importing Route class.
+	 *
+	 * @var Importing_Route
+	 */
+	protected $importing_route;
+
+	/**
 	 * Returns the conditionals based on which this integration should be active.
 	 *
 	 * @return array The array of conditionals.
@@ -87,6 +103,8 @@ class Indexing_Tool_Integration implements Integration_Interface {
 	 * @param Indexing_Helper           $indexing_helper     The indexing helper.
 	 * @param WPSEO_Addon_Manager       $addon_manager       The addon manager.
 	 * @param Product_Helper            $product_helper      The product helper.
+	 * @param Importable_Detector       $importable_detector The importable detector.
+	 * @param Importing_Route           $importing_route     The importing route.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
@@ -94,14 +112,18 @@ class Indexing_Tool_Integration implements Integration_Interface {
 		Short_Link_Helper $short_link_helper,
 		Indexing_Helper $indexing_helper,
 		WPSEO_Addon_Manager $addon_manager,
-		Product_Helper $product_helper
+		Product_Helper $product_helper,
+		Importable_Detector $importable_detector,
+		Importing_Route $importing_route
 	) {
-		$this->asset_manager     = $asset_manager;
-		$this->indexable_helper  = $indexable_helper;
-		$this->short_link_helper = $short_link_helper;
-		$this->indexing_helper   = $indexing_helper;
-		$this->addon_manager     = $addon_manager;
-		$this->product_helper    = $product_helper;
+		$this->asset_manager       = $asset_manager;
+		$this->indexable_helper    = $indexable_helper;
+		$this->short_link_helper   = $short_link_helper;
+		$this->indexing_helper     = $indexing_helper;
+		$this->addon_manager       = $addon_manager;
+		$this->product_helper      = $product_helper;
+		$this->importable_detector = $importable_detector;
+		$this->importing_route     = $importing_route;
 	}
 
 	/**
@@ -130,6 +152,7 @@ class Indexing_Tool_Integration implements Integration_Interface {
 			'restApi'                     => [
 				'root'                => \esc_url_raw( \rest_url() ),
 				'indexing_endpoints'  => $this->get_indexing_endpoints(),
+				'importing_endpoints' => $this->get_importing_endpoints(),
 				'nonce'               => \wp_create_nonce( 'wp_rest' ),
 			],
 		];
@@ -202,6 +225,24 @@ class Indexing_Tool_Integration implements Integration_Interface {
 		$endpoints['complete'] = Indexing_Route::FULL_COMPLETE_ROUTE;
 
 		return $endpoints;
+	}
+
+	/**
+	 * Retrieves a list of the importing endpoints to use.
+	 *
+	 * @return array The endpoints.
+	 */
+	protected function get_importing_endpoints() {
+		$available_actions   = $this->importable_detector->detect_importers();
+		$importing_endpoints = [];
+
+		foreach ( $available_actions as $plugin => $types ) {
+			foreach ( $types as $type ) {
+				$importing_endpoints[ $plugin ][] = $this->importing_route->get_endpoint( $plugin, $type );
+			}
+		}
+
+		return $importing_endpoints;
 	}
 
 	/**
