@@ -101,7 +101,7 @@ function getProtocol( url ) {
  *
  * @returns {boolean} Whether or not the URL is internal.
  */
-function isInternalLink( url, host ) {
+function isInternalLink( url, host, permalink ) {
 	const parsedUrl = urlMethods.parse( url, false, true );
 	// Check if the URL starts with a single slash.
 	if ( url.indexOf( "//" ) === -1 && url.indexOf( "/" ) === 0 ) {
@@ -115,6 +115,14 @@ function isInternalLink( url, host ) {
 
 	// No host indicates an internal link.
 	if ( ! parsedUrl.host ) {
+		return true;
+	}
+
+	/*
+	 * It could be that the host is null if we only have access to the site's domain, not full url (this is the case with Shopify).
+	 * In that case, a permalink identical to the parsedUrl's host would also indicate an internal link.
+	 */
+	if ( parsedUrl.host === permalink ) {
 		return true;
 	}
 
