@@ -446,7 +446,7 @@ function PersonalPreferencesStep( { state, setTracking, isTrackingOptionSelected
 /**
  * Example Finish step.
  *
- * @returns {JSX.Element} Finish step.
+ * @returns {WPElement} Finish step.
  */
 const FinishStep = () => <Fragment>
 	<p className="yst-mb-6">You have finished all the things, yay!</p>
