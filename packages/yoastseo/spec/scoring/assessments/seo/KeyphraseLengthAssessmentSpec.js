@@ -19,7 +19,7 @@ describe( "the keyphrase length assessment", function() {
 		}, true ).getResult( paper, researcher );
 		expect( result.getScore() ).toEqual( 3 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
-			"The keyphrase is 1 word long. That's shorter than the recommended minimum of 4 words. " +
+			"The keyphrase contains 1 content word. That's shorter than the recommended minimum of 4 content words. " +
 			"<a href='https://yoa.st/33j' target='_blank'>Make it longer</a>!" );
 	} );
 	it( "should assess a custom paper with a slightly too short keyphrase as okay ", function() {
@@ -36,7 +36,7 @@ describe( "the keyphrase length assessment", function() {
 		}, true ).getResult( paper, researcher );
 		expect( result.getScore() ).toEqual( 6 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
-			"The keyphrase is 3 words long. That's slightly shorter than the recommended minimum of 4 words. " +
+			"The keyphrase contains 3 content words. That's slightly shorter than the recommended minimum of 4 content words. " +
 			"<a href='https://yoa.st/33j' target='_blank'>Make it longer</a>!" );
 	} );
 
@@ -69,7 +69,7 @@ describe( "the keyphrase length assessment", function() {
 		}, true ).getResult( paper, researcher );
 		expect( result.getScore() ).toEqual( 6 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
-			"The keyphrase is 7 words long. That's longer than the recommended maximum of 6 words. " +
+			"The keyphrase contains 7 content words. That's longer than the recommended maximum of 6 content words. " +
 			"<a href='https://yoa.st/33j' target='_blank'>Make it shorter</a>!" );
 	} );
 	it( "should assess a custom paper with a keyphrase that's too long as bad", function() {
@@ -86,7 +86,7 @@ describe( "the keyphrase length assessment", function() {
 		}, true ).getResult( paper, researcher );
 		expect( result.getScore() ).toEqual( 3 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
-			"The keyphrase is 9 words long. That's longer than the recommended maximum of 6 words. " +
+			"The keyphrase contains 9 content words. That's longer than the recommended maximum of 6 content words. " +
 			"<a href='https://yoa.st/33j' target='_blank'>Make it shorter</a>!" );
 	} );
 } );
@@ -106,7 +106,7 @@ describe( "the keyphrase length assessment", function() {
 		}, true ).getResult( paper, researcher );
 		expect( result.getScore() ).toEqual( 3 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
-			"The keyphrase is 1 word long. That's shorter than the recommended minimum of 3 words. " +
+			"The keyphrase contains 1 content word. That's shorter than the recommended minimum of 3 content words. " +
 			"<a href='https://yoa.st/33j' target='_blank'>Make it longer</a>!" );
 	} );
 	it( "should assess a custom paper with a slightly too short keyphrase as okay ", function() {
@@ -123,7 +123,7 @@ describe( "the keyphrase length assessment", function() {
 		}, true ).getResult( paper, researcher );
 		expect( result.getScore() ).toEqual( 6 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
-			"The keyphrase is 2 words long. That's slightly shorter than the recommended minimum of 3 words. " +
+			"The keyphrase contains 2 content words. That's slightly shorter than the recommended minimum of 3 content words. " +
 			"<a href='https://yoa.st/33j' target='_blank'>Make it longer</a>!" );
 	} );
 	it( "should assess a paper with a keyphrase that's the correct length", function() {
@@ -154,7 +154,7 @@ describe( "the keyphrase length assessment", function() {
 		}, true ).getResult( paper, researcher );
 		expect( result.getScore() ).toEqual( 6 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
-			"The keyphrase is 7 words long. That's longer than the recommended maximum of 6 words. " +
+			"The keyphrase contains 7 content words. That's longer than the recommended maximum of 6 content words. " +
 			"<a href='https://yoa.st/33j' target='_blank'>Make it shorter</a>!" );
 	} );
 	it( "should assess a custom paper with a keyphrase that's too long as bad", function() {
@@ -171,7 +171,7 @@ describe( "the keyphrase length assessment", function() {
 		}, true ).getResult( paper, researcher );
 		expect( result.getScore() ).toEqual( 3 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
-			"The keyphrase is 9 words long. That's longer than the recommended maximum of 6 words. " +
+			"The keyphrase contains 9 content words. That's longer than the recommended maximum of 6 content words. " +
 			"<a href='https://yoa.st/33j' target='_blank'>Make it shorter</a>!" );
 	} );
 } );
@@ -256,7 +256,7 @@ describe( "the keyphrase length assessment", function() {
 
 		expect( result.getScore() ).toEqual( 3 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
-			"The keyphrase is 11 words long. That's way more than the recommended maximum of 4 words. " +
+			"The keyphrase contains 11 content words. That's way more than the recommended maximum of 4 content words. " +
 			"<a href='https://yoa.st/33j' target='_blank'>Make it shorter</a>!" );
 	} );
 
@@ -278,7 +278,7 @@ describe( "the keyphrase length assessment", function() {
 
 		expect( result.getScore() ).toEqual( 6 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
-			"The keyphrase is 5 words long. That's more than the recommended maximum of 4 words. " +
+			"The keyphrase contains 5 content words. That's more than the recommended maximum of 4 content words. " +
 			"<a href='https://yoa.st/33j' target='_blank'>Make it shorter</a>!" );
 	} );
 
@@ -299,7 +299,18 @@ describe( "the keyphrase length assessment", function() {
 
 		expect( result.getScore() ).toEqual( 6 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
-			"The keyphrase is 9 words long. That's more than the recommended maximum of 6 words. " +
+			"The keyphrase contains 9 words. That's more than the recommended maximum of 6 words. " +
+			"<a href='https://yoa.st/33j' target='_blank'>Make it shorter</a>!" );
+	} );
+	it( "should assess a paper with a keyphrase in quotation marks and return string with 'words' instead of 'content words'", function() {
+		const paper = new Paper( "", { keyword: '"I am lost in space"' } );
+		const researcher = factory.buildMockResearcher( { keyphraseLength: 5, functionWords: englishFunctionWords } );
+
+		const result = new KeyphraseLengthAssessment().getResult( paper, researcher );
+
+		expect( result.getScore() ).toEqual( 6 );
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
+			"The keyphrase contains 5 words. That's more than the recommended maximum of 4 words. " +
 			"<a href='https://yoa.st/33j' target='_blank'>Make it shorter</a>!" );
 	} );
 	it( "should assess a paper with a good length keyphrase in Japanese", function() {
@@ -317,7 +328,7 @@ describe( "the keyphrase length assessment", function() {
 
 		expect( result.getScore() ).toEqual( 6 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
-			"The keyphrase is 18 characters long. That's more than the recommended maximum of 12 characters. " +
+			"The keyphrase contains 18 characters. That's more than the recommended maximum of 12 characters. " +
 			"<a href='https://yoa.st/33j' target='_blank'>Make it shorter</a>!" );
 	} );
 	it( "should assess a paper with a too long keyphrase in Japanese", function() {
@@ -327,7 +338,7 @@ describe( "the keyphrase length assessment", function() {
 
 		expect( result.getScore() ).toEqual( 3 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
-			"The keyphrase is 20 characters long. That's way more than the recommended maximum of 12 characters. " +
+			"The keyphrase contains 20 characters. That's way more than the recommended maximum of 12 characters. " +
 			"<a href='https://yoa.st/33j' target='_blank'>Make it shorter</a>!" );
 	} );
 	it( "should assess a paper with a good length keyphrase for a product page in Japanese", function() {
@@ -345,7 +356,7 @@ describe( "the keyphrase length assessment", function() {
 
 		expect( result.getScore() ).toEqual( 6 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
-			"The keyphrase is 5 characters long. That's slightly shorter than the recommended minimum of 8 characters. " +
+			"The keyphrase contains 5 characters. That's slightly shorter than the recommended minimum of 8 characters. " +
 			"<a href='https://yoa.st/33j' target='_blank'>Make it longer</a>!" );
 	} );
 	it( "should assess a paper with a too short keyphrase for a product page in Japanese", function() {
@@ -355,7 +366,7 @@ describe( "the keyphrase length assessment", function() {
 
 		expect( result.getScore() ).toEqual( 3 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
-			"The keyphrase is 1 character long. That's shorter than the recommended minimum of 8 characters. " +
+			"The keyphrase contains 1 character. That's shorter than the recommended minimum of 8 characters. " +
 			"<a href='https://yoa.st/33j' target='_blank'>Make it longer</a>!" );
 	} );
 	it( "should assess a paper with a slightly too long keyphrase for a product page in Japanese", function() {
@@ -365,7 +376,7 @@ describe( "the keyphrase length assessment", function() {
 
 		expect( result.getScore() ).toEqual( 6 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
-			"The keyphrase is 18 characters long. That's longer than the recommended maximum of 12 characters. " +
+			"The keyphrase contains 18 characters. That's longer than the recommended maximum of 12 characters. " +
 			"<a href='https://yoa.st/33j' target='_blank'>Make it shorter</a>!" );
 	} );
 	it( "should assess a paper with a too long keyphrase in Japanese", function() {
@@ -375,7 +386,7 @@ describe( "the keyphrase length assessment", function() {
 
 		expect( result.getScore() ).toEqual( 3 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: " +
-			"The keyphrase is 20 characters long. That's longer than the recommended maximum of 12 characters. " +
+			"The keyphrase contains 20 characters. That's longer than the recommended maximum of 12 characters. " +
 			"<a href='https://yoa.st/33j' target='_blank'>Make it shorter</a>!" );
 	} );
 } );
