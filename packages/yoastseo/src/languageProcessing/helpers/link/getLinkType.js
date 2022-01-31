@@ -23,7 +23,7 @@ export default function( text, url ) {
 		return "other";
 	}
 
-	if ( urlHelper.isInternalLink( anchorUrl, urlHelper.getHostname( url ) ), url ) {
+	if ( urlHelper.isInternalLink( anchorUrl, urlHelper.getHostname( url ) ) ) {
 		return "internal";
 	}
 
