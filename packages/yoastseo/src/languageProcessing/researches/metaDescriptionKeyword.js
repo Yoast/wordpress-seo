@@ -36,7 +36,6 @@ const replaceFoundKeywordForms = function( description, matchedKeywordForms, max
 const matchPerSentence = function( sentence, topicForms, locale, matchWordCustomHelper ) {
 	// Focus keyphrase matches.
 	const matchesKeyphrase = topicForms.keyphraseForms.map( keywordForms => matchWords( sentence, keywordForms, locale, matchWordCustomHelper ) );
-
 	// Count the number of matches that contain every word in the entire keyphrase.
 	const fullKeyphraseMatches = Math.min( ...matchesKeyphrase.map( match => match.count ) );
 

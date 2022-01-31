@@ -5,7 +5,7 @@ import { isShallowEqualObjects } from "@wordpress/is-shallow-equal";
 
 import { Component } from "@wordpress/element";
 import { IconButton } from "@wordpress/components";
-import { RichText, MediaUpload } from "@wordpress/editor";
+import { RichText, MediaUpload } from "@wordpress/block-editor";
 
 /* Internal dependencies */
 import appendSpace from "../../../components/higherorder/appendSpace";
@@ -243,7 +243,7 @@ export default class Question extends Component {
 		} = this.props;
 
 		let newAnswer = answer.slice();
-		const image   = <img key={ media.id } alt={ media.alt } src={ media.url } />;
+		const image   = <img key={ media.id } alt={ media.alt } src={ media.url } style="max-width:100%;" />;
 
 		if ( newAnswer.push ) {
 			newAnswer.push( image );

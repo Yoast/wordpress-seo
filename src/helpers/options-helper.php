@@ -15,13 +15,13 @@ class Options_Helper {
 	 *
 	 * @codeCoverageIgnore We have to write test when this method contains own code.
 	 *
-	 * @param string $key     The key it should return.
-	 * @param mixed  $default The default value that should be returned if the key isn't set.
+	 * @param string $key           The key it should return.
+	 * @param mixed  $default_value The default value that should be returned if the key isn't set.
 	 *
-	 * @return mixed|null Returns value if found, $default if not.
+	 * @return mixed|null Returns value if found, $default_value if not.
 	 */
-	public function get( $key, $default = null ) {
-		return WPSEO_Options::get( $key, $default );
+	public function get( $key, $default_value = null ) {
+		return WPSEO_Options::get( $key, $default_value );
 	}
 
 	/**

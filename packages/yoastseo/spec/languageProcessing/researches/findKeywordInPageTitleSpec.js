@@ -3,6 +3,7 @@ import GermanResearcher from "../../../src/languageProcessing/languages/de/Resea
 import FrenchResearcher from "../../../src/languageProcessing/languages/fr/Researcher";
 import RussianResearcher from "../../../src/languageProcessing/languages/ru/Researcher";
 import SwedishResearcher from "../../../src/languageProcessing/languages/sv/Researcher";
+import TurkishResearcher from "../../../src/languageProcessing/languages/tr/Researcher";
 import DefaultResearcher from "../../../src/languageProcessing/languages/_default/Researcher";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 import pageTitleKeyword from "../../../src/languageProcessing/researches/findKeywordInPageTitle.js";
@@ -12,6 +13,7 @@ const morphologyData = getMorphologyData( "en" );
 const morphologyDataDE = getMorphologyData( "de" ).de;
 const morphologyDataFR = getMorphologyData( "fr" ).fr;
 const morphologyDataRU = getMorphologyData( "ru" ).ru;
+const morphologyDataTR = getMorphologyData( "tr" ).tr;
 
 let result;
 
@@ -235,6 +237,42 @@ describe( "Matches keywords in string", function() {
 		result = pageTitleKeyword( mockPaper, researcher );
 		expect( result.exactMatchFound ).toBe( true );
 		expect( result.position ).toBe( 18 );
+	} );
+	it( "returns non-exact match for Turkish if the keyphrase starts with an upper case and has a suffix with an apostrophe", function() {
+		let mockPaper = new Paper( "", {
+			keyword: "atade",
+			title: "Atadeniz'in",
+			locale: "tr_TR",
+		} );
+		let researcher = new TurkishResearcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyDataTR );
+		result = pageTitleKeyword( mockPaper, researcher );
+		expect( result.exactMatchFound ).toBe( false );
+		expect( result.position ).toBe( -1 );
+
+		mockPaper = new Paper( "", {
+			keyword: "radyo",
+			title: "Radyosu'nun",
+			locale: "tr_TR",
+		} );
+		researcher = new TurkishResearcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyDataTR );
+		result = pageTitleKeyword( mockPaper, researcher );
+		expect( result.exactMatchFound ).toBe( false );
+		expect( result.position ).toBe( -1 );
+	} );
+
+	it( "returns an exact match for Turkish if the keyphrase has a suffix with an apostrophe", function() {
+		const mockPaper = new Paper( "", {
+			keyword: "radyosu'nun",
+			title: "radyosu'nun",
+			locale: "tr_TR",
+		} );
+		const researcher = new TurkishResearcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyDataTR );
+		result = pageTitleKeyword( mockPaper, researcher );
+		expect( result.exactMatchFound ).toBe( true );
+		expect( result.position ).toBe( 0 );
 	} );
 
 	it( "returns an exact match at the beginning", function() {
