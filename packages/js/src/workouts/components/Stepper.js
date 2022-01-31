@@ -7,17 +7,17 @@ import AnimateHeight from "react-animate-height";
 /**
  * The StepButtons component.
  *
- * @param {Object}   props                    The props object.
- * @param {number}   props.stepIndex          The index of the current step.
- * @param {function} props.handlePrimaryClick A function to call when the primary button is clicked.
- * @param {function} props.goBack             A function to call when the "Go Back" button is clicked.
+ * @param {Object}   props                 The props object.
+ * @param {number}   props.stepIndex       The index of the current step.
+ * @param {function} props.saveAndContinue A function to call when the primary button is clicked.
+ * @param {function} props.goBack          A function to call when the "Go Back" button is clicked.
  *
  * @returns {WPElement} The StepButtons component.
  */
-function StepButtons( { stepIndex, handlePrimaryClick, goBack } ) {
+function StepButtons( { stepIndex, saveAndContinue, goBack } ) {
 	return <div className="yst-mt-12">
 		<button
-			onClick={ handlePrimaryClick }
+			onClick={ saveAndContinue }
 			className="yst-button--primary"
 		>
 			{ __( "Save and continue", "wordpress-seo" ) }
@@ -34,7 +34,7 @@ function StepButtons( { stepIndex, handlePrimaryClick, goBack } ) {
 
 StepButtons.propTypes = {
 	stepIndex: PropTypes.number.isRequired,
-	handlePrimaryClick: PropTypes.func.isRequired,
+	saveAndContinue: PropTypes.func.isRequired,
 	goBack: PropTypes.func.isRequired,
 };
 
@@ -117,7 +117,7 @@ function TailwindStep( { step, stepIndex, isLastStep, saveStep, activeStepIndex,
 		setTimeout( () => setIcon( isActiveStep && ! isLastStep ? "bullet" : inActiveIcon ), 500 );
 	}, [ isSaved, isActiveStep ] );
 
-	const handlePrimaryClick = useCallback(
+	const saveAndContinue = useCallback(
 		() => {
 			saveStep( stepIndex );
 			setActiveStepIndex( stepIndex + 1 );
@@ -203,7 +203,7 @@ function TailwindStep( { step, stepIndex, isLastStep, saveStep, activeStepIndex,
 						{ ! isLastStep &&
 							<StepButtons
 								stepIndex={ stepIndex }
-								handlePrimaryClick={ handlePrimaryClick }
+								saveAndContinue={ saveAndContinue }
 								goBack={ goBack }
 							/>
 						}
