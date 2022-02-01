@@ -3,12 +3,15 @@
   "version": "1.0.0",
   "jest": {
     "collectCoverage": true,
+    "collectCoverageFrom": [
+      "./src/**/*.js"
+    ],
     "coverageThreshold": {
       "global": {
-        "branches": 75,
-        "functions": 7,
-        "lines": 40,
-        "statements": 40
+        "branches": 3,
+        "functions": 1,
+        "lines": 5,
+        "statements": 4
       }
     },
     "coveragePathIgnorePatterns": [
