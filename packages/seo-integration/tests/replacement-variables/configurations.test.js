@@ -1,7 +1,7 @@
 import * as data from "@wordpress/data";
 import { excerpt } from "../../src/replacement-variables/configurations";
 
-const content = jest.fn().mockReturnValue( "A calico cat is a domestic cat of any breed with a tri-color coat. The calico cat is most commonly thought " +
+const selectContent = jest.fn().mockReturnValue( "A calico cat is a domestic cat of any breed with a tri-color coat. The calico cat is most commonly thought " +
 	"of as being typically 25% to 75% white with large orange and black patches (or sometimes cream and grey patches); however, the calico cat can have" +
 	" three other colors in its pattern. They are almost exclusively female except under rare genetic conditions. Calico is not to be confused " +
 	"with a tortoiseshell, which has a mostly mottled coat of black/orange or grey/cream with relatively few to no white markings. " +
@@ -17,7 +17,7 @@ describe( "a test for getting the replacement of the variables", () => {
 		jest.spyOn( data, "select" ).mockImplementation( () => {
 			return {
 				selectExcerpt: jest.fn().mockReturnValue( "" ),
-				selectContent: content,
+				selectContent: selectContent,
 			};
 		} );
 
@@ -31,7 +31,7 @@ describe( "a test for getting the replacement of the variables", () => {
 				selectExcerpt: jest.fn().mockReturnValue( "The cat (Felis catus) is a domestic species of a small carnivorous mammal. " +
 					"It is the only domesticated species in the family Felidae and is often referred to as the domestic cat to distinguish it " +
 					"from the wild members of the family." ),
-				selectContent: content,
+				selectContent: selectContent,
 			};
 		} );
 
