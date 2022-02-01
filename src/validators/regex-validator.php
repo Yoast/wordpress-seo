@@ -9,7 +9,7 @@ use Yoast\WP\SEO\Exceptions\Validation\No_Regex_Match_Exception;
 /**
  * The regex validator class.
  */
-class Regex_Validator implements Validator_Interface {
+class Regex_Validator extends String_Validator {
 
 	/**
 	 * The setting' pattern key.
@@ -25,12 +25,15 @@ class Regex_Validator implements Validator_Interface {
 	 */
 	const GROUPS_KEY = 'groups';
 
+	// phpcs:disable Squiz.Commenting.FunctionCommentThrowTag.WrongNumber -- Reason: The parent validate can throw too.
+
 	/**
 	 * Validates if a value matches a regex.
 	 *
 	 * @param mixed $value    The value to validate.
 	 * @param array $settings Optional settings.
 	 *
+	 * @throws \Yoast\WP\SEO\Exceptions\Validation\Invalid_Type_Exception When the value is not a string.
 	 * @throws Missing_Settings_Key_Exception When settings are missing.
 	 * @throws No_Regex_Match_Exception When the value does not match a regex.
 	 * @throws No_Regex_Groups_Exception When the matches do not contain any of the specified groups.
@@ -38,17 +41,19 @@ class Regex_Validator implements Validator_Interface {
 	 * @return mixed The valid value.
 	 */
 	public function validate( $value, array $settings = null ) {
+		$string = parent::validate( $value );
+
 		if ( $settings === null || ! \array_key_exists( self::PATTERN_KEY, $settings ) ) {
 			throw new Missing_Settings_Key_Exception( self::PATTERN_KEY );
 		}
 
-		if ( \preg_match( $settings[ self::PATTERN_KEY ], $value, $matches ) !== 1 ) {
+		if ( \preg_match( $settings[ self::PATTERN_KEY ], $string, $matches ) !== 1 ) {
 			throw new No_Regex_Match_Exception( $settings[ self::PATTERN_KEY ] );
 		}
 
 		// If no groups are specified, this is the match.
 		if ( ! \array_key_exists( self::GROUPS_KEY, $settings ) ) {
-			return $value;
+			return $string;
 		}
 
 		// If a group is specified, try to change the value to the matched group.
@@ -61,4 +66,6 @@ class Regex_Validator implements Validator_Interface {
 
 		throw new No_Regex_Groups_Exception( $settings[ self::PATTERN_KEY ] );
 	}
+
+	// phpcs:enable Squiz.Commenting.FunctionCommentThrowTag.WrongNumber
 }

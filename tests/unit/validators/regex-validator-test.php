@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Validators;
 
+use Yoast\WP\SEO\Exceptions\Validation\Invalid_Type_Exception;
 use Yoast\WP\SEO\Exceptions\Validation\Missing_Settings_Key_Exception;
 use Yoast\WP\SEO\Exceptions\Validation\No_Regex_Groups_Exception;
 use Yoast\WP\SEO\Exceptions\Validation\No_Regex_Match_Exception;
@@ -133,6 +134,12 @@ class Regex_Validator_Test extends TestCase {
 				],
 				'expected'  => false,
 				'exception' => No_Regex_Groups_Exception::class,
+			],
+			'integer'                    => [
+				'value'     => 123,
+				'settings'  => [ 'pattern' => '/\d+/' ],
+				'expected'  => false,
+				'exception' => Invalid_Type_Exception::class,
 			],
 		];
 	}
