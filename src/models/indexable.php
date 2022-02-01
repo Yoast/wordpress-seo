@@ -136,6 +136,27 @@ class Indexable extends Model {
 	];
 
 	/**
+	 * Default values of certain columns.
+	 *
+	 * @var array
+	 */
+	protected $default_values = [
+		'title'                  => null,
+		'description'            => null,
+		'open_graph_title'       => null,
+		'open_graph_description' => null,
+		'twitter_title'          => null,
+		'twitter_description'    => null,
+		'canonical'              => null,
+		'primary_focus_keyword'  => null,
+		'is_robots_noindex'      => null,
+		'is_robots_nofollow'     => false,
+		'is_robots_noarchive'    => null,
+		'is_robots_noimageindex' => null,
+		'is_robots_nosnippet'    => null,
+	];
+
+	/**
 	 * The loaded indexable extensions.
 	 *
 	 * @var Indexable_Extension[]
@@ -212,5 +233,21 @@ class Indexable extends Model {
 		}
 		// We never set the fragment as the fragment is intended to be client-only.
 		$this->permalink = $permalink;
+	}
+
+	/**
+	 * Checks if an indexable field contains the default value.
+	 *
+	 * @param string $field The field that we're checking.
+	 *
+	 * @return bool True if default value.
+	 */
+	public function check_if_default_field( $field ) {
+		$defaults = $this->default_values;
+		if ( $this->$field !== $defaults[ $field ] ) {
+			return false;
+		}
+
+		return true;
 	}
 }

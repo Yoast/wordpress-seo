@@ -254,6 +254,11 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 		$completed = \count( $aioseo_indexables ) === 0;
 		$this->set_completed( $completed );
 
+		$check_defaults_fields = [];
+		foreach ( $this->aioseo_to_yoast_map as $yoast_mapping ) {
+			$check_defaults_fields[] = $yoast_mapping['yoast_name'];
+		}
+
 		$last_indexed_aioseo_id = 0;
 		foreach ( $aioseo_indexables as $aioseo_indexable ) {
 			$last_indexed_aioseo_id = $aioseo_indexable['id'];
@@ -265,11 +270,13 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 				continue;
 			}
 
-			$indexable = $this->map( $indexable, $aioseo_indexable );
-			$indexable->save();
+			if ( $this->check_if_default_indexable( $indexable, $check_defaults_fields ) ) {
+				$indexable = $this->map( $indexable, $aioseo_indexable );
+				$indexable->save();
 
-			// To ensure that indexables can be rebuild after a reset, we have to store the data in the postmeta table too.
-			$this->indexable_to_postmeta->map_to_postmeta( $indexable );
+				// To ensure that indexables can be rebuild after a reset, we have to store the data in the postmeta table too.
+				$this->indexable_to_postmeta->map_to_postmeta( $indexable );
+			}
 
 			$last_indexed_aioseo_id = $aioseo_indexable['id'];
 
@@ -434,5 +441,24 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 		}
 
 		return $aioseo_robots_settings[ $aioseo_key ];
+	}
+
+	/**
+	 * Checks whether the indexable has default values.
+	 *
+	 * @param Indexable $indexable The Yoast indexable that we're checking.
+	 * @param array     $fields    The Yoast indexable fields that we're checking against.
+	 *
+	 * @return bool Whether the indexable has default values.
+	 */
+	protected function check_if_default_indexable( $indexable, $fields ) {
+		foreach ( $fields as $field ) {
+			$is_default = $indexable->check_if_default_field( $field );
+			if ( ! $is_default ) {
+				break;
+			}
+		}
+
+		return $is_default;
 	}
 }
