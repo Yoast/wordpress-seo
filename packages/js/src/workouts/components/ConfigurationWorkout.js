@@ -290,7 +290,7 @@ IndexationStep.propTypes = {
 	setIndexingState: PropTypes.func.isRequired,
 };
 
-/* eslint-disable max-len */
+/* eslint-disable max-len, react/prop-types */
 /**
  * Doc comment to make linter happy.
  *
@@ -443,9 +443,17 @@ function PersonalPreferencesStep( { state, setTracking, isTrackingOptionSelected
 	</Fragment>;
 }
 
-const FinishStep = () => <Fragment><p>Finish all the things</p></Fragment>;
+/**
+ * Example Finish step.
+ *
+ * @returns {WPElement} Finish step.
+ */
+const FinishStep = () => <Fragment>
+	<p className="yst-mb-6">You have finished all the things, yay!</p>
+	<button className="yst-button--primary">{ __( "Check out your Indexables page", "wordpress-seo" ) }</button>
+</Fragment>;
 
-/* eslint-enable max-len */
+/* eslint-enable max-len, react/prop-types */
 
 /* eslint-disable max-statements */
 /**
@@ -678,12 +686,19 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 	const siteRepresentsPerson = state.companyOrPerson === "person";
 
 	// PROBABLY DELETE BETWEEN HERE....
+	const isStepperFinished = [
+		isStep1Finished,
+		isStep2Finished,
+		isStep3Finished,
+		isStep5Finished,
+	].every( Boolean );
+
 	const savedSteps = [
 		isStepFinished( "configuration", steps.optimizeSeoData ),
 		isStepFinished( "configuration", steps.siteRepresentation ),
 		isStepFinished( "configuration", steps.socialProfiles ),
 		isStepFinished( "configuration", steps.newsletterSignup ),
-		isWorkoutFinished,
+		isStepperFinished,
 	];
 
 	const [ hideOriginal, setHideOriginal ] = useState( true );
@@ -698,10 +713,10 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 			<Stepper
 				steps={ [
 					{ name: "The indexables", component: <IndexationStep setIndexingState={ setIndexingState } indexingState={ indexingState } />, isSaved: isStepFinished( "configuration", steps.optimizeSeoData ) },
-					{ name: "Knowledge panel", description: "", component: <SiteRepresentationStep onOrganizationOrPersonChange={ onOrganizationOrPersonChange } dispatch={ dispatch } state={ state } siteRepresentsPerson={ siteRepresentsPerson } onSiteTaglineChange={ onSiteTaglineChange } siteRepresentationEmpty={ siteRepresentationEmpty }/>, isSaved: isStepFinished( "configuration", steps.siteRepresentation ) },
+					{ name: "Knowledge panel", description: "", component: <SiteRepresentationStep onOrganizationOrPersonChange={ onOrganizationOrPersonChange } dispatch={ dispatch } state={ state } siteRepresentsPerson={ siteRepresentsPerson } onSiteTaglineChange={ onSiteTaglineChange } siteRepresentationEmpty={ siteRepresentationEmpty } />, isSaved: isStepFinished( "configuration", steps.siteRepresentation ) },
 					{ name: "Social profiles", description: "", component: <SocialProfilesStep state={ state } dispatch={ dispatch } setErrorFields={ setErrorFields } siteRepresentsPerson={ siteRepresentsPerson } />, isSaved: isStepFinished( "configuration", steps.socialProfiles ) },
 					{ name: "Personal preferences", description: "", component: <PersonalPreferencesStep state={ state } setTracking={ setTracking } isTrackingOptionSelected={ isTrackingOptionSelected } />, isSaved: isStepFinished( "configuration", steps.newsletterSignup ) },
-					{ name: "Finish configuration", description: "", component: <FinishStep />, isSaved: isWorkoutFinished },
+					{ name: "Finish configuration", description: "", component: <FinishStep />, isSaved: isStepperFinished },
 				] }
 				setActiveStepIndex={ setActiveStepIndex }
 				saveStep={ ( stepIdx ) => finishSteps( "configuration", [ stepNumberNameMap[ stepIdx + 1 ] ] ) }
@@ -709,9 +724,17 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 			/>
 
 			<UnsavedChangesModal hasUnsavedChanges={ state.editedSteps.includes( activeStepIndex + 1 ) } />
+
+			<button
+				className="yst-button--danger yst-mt-4" onClick={
+					() => {
+						setHideOriginal( prevState => ! prevState  );
+					} }
+			>
+				Toggle original
+			</button>
 			{ /* eslint-enable react/jsx-no-bind */ }
 
-			<button className="yst-button--danger yst-mt-4" onClick={ () => { setHideOriginal( prevState => ! prevState  ); } }>Toggle original</button>
 			<div className={ hideOriginal ? "yst-hidden" : "" }>
 				<h2 id="yoast-configuration-workout-title">{ __( "Configuration", "wordpress-seo" ) }</h2>
 				<h3 id="yoast-configuration-workout-tagline">{
@@ -1042,7 +1065,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 					</FinishButtonSection>
 				</Steps>
 			</div>
-			{ isWorkoutFinished && <div id="yoast-configuration-workout-congratulations">
+			{ isWorkoutFinished && <div className={ hideOriginal ? "yst-hidden" : "" } id="yoast-configuration-workout-congratulations">
 				<hr />
 				<h3 id="yoast-configuration-workout-congratulations-title" style={ { marginBottom: 0 } }>{ __( "Congratulations!", "wordpress-seo" ) }</h3>
 				<div id="yoast-configuration-workout-congratulations-content" style={ { display: "flex" } }>

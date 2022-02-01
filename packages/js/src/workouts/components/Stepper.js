@@ -7,23 +7,20 @@ import AnimateHeight from "react-animate-height";
 /**
  * The StepButtons component.
  *
- * @param {Object}   props                    The props object.
- * @param {number}   props.stepIndex          The index of the current step.
- * @param {number}   props.lastIndex          The index of the last step.
- * @param {function} props.handlePrimaryClick A function to call when the primary button is clicked.
- * @param {function} props.goBack             A function to call when the "Go Back" button is clicked.
+ * @param {Object}   props                 The props object.
+ * @param {number}   props.stepIndex       The index of the current step.
+ * @param {function} props.saveAndContinue A function to call when the primary button is clicked.
+ * @param {function} props.goBack          A function to call when the "Go Back" button is clicked.
  *
  * @returns {WPElement} The StepButtons component.
  */
-function StepButtons( { stepIndex, lastIndex, handlePrimaryClick, goBack } ) {
+function StepButtons( { stepIndex, saveAndContinue, goBack } ) {
 	return <div className="yst-mt-12">
 		<button
-			onClick={ handlePrimaryClick }
+			onClick={ saveAndContinue }
 			className="yst-button--primary"
 		>
-			{ stepIndex < lastIndex
-				? __( "Save and continue", "wordpress-seo" )
-				: __( "Finish this workout", "wordpress-seo" ) }
+			{ __( "Save and continue", "wordpress-seo" ) }
 		</button>
 		{ stepIndex > 0 && <button
 			onClick={ goBack }
@@ -37,8 +34,7 @@ function StepButtons( { stepIndex, lastIndex, handlePrimaryClick, goBack } ) {
 
 StepButtons.propTypes = {
 	stepIndex: PropTypes.number.isRequired,
-	lastIndex: PropTypes.number.isRequired,
-	handlePrimaryClick: PropTypes.func.isRequired,
+	saveAndContinue: PropTypes.func.isRequired,
 	goBack: PropTypes.func.isRequired,
 };
 
@@ -47,11 +43,12 @@ StepButtons.propTypes = {
  *
  * @param {boolean} isSaved      Whether the step is saved.
  * @param {boolean} isActiveStep Whether the step is active.
+ * @param {boolean} isLastStep   Whether it is the last step.
  *
  * @returns {string} The classnames for the bullet.
  */
-function getBulletClassnames( isSaved, isActiveStep ) {
-	if ( isActiveStep ) {
+function getBulletClassnames( isSaved, isActiveStep, isLastStep ) {
+	if ( isActiveStep && ! isLastStep ) {
 		return "yst-bg-white yst-border-primary-500";
 	}
 	return isSaved ? "yst-delay-500 yst-bg-primary-500 yst-border-primary-500" : "yst-delay-500 yst-bg-white yst-border-gray-300";
@@ -62,11 +59,12 @@ function getBulletClassnames( isSaved, isActiveStep ) {
  *
  * @param {boolean} isSaved      Whether the step is saved.
  * @param {boolean} isActiveStep Whether the step is active.
+ * @param {boolean} isLastStep   Whether it is the last step.
  *
  * @returns {string} The classnames for the step name.
  */
-function getNameClassnames( isSaved, isActiveStep ) {
-	if ( isActiveStep ) {
+function getNameClassnames( isSaved, isActiveStep, isLastStep ) {
+	if ( isActiveStep && ! isLastStep ) {
 		return "yst-text-primary-500";
 	}
 	return isSaved ? "" : "yst-text-gray-500";
@@ -77,11 +75,12 @@ function getNameClassnames( isSaved, isActiveStep ) {
  *
  * @param {boolean} isSaved      Whether the step is saved.
  * @param {boolean} isActiveStep Whether the step is active.
+ * @param {boolean} isLastStep   Whether it is the last step.
  *
  * @returns {string} The classnames for the bullet content.
  */
-function getBulletContentClassnames( isSaved, isActiveStep ) {
-	if ( isActiveStep ) {
+function getBulletContentClassnames( isSaved, isActiveStep, isLastStep ) {
+	if ( isActiveStep && ! isLastStep ) {
 		return "yst-bg-primary-500";
 	}
 	return isSaved ? "yst-delay-500" : "yst-delay-500 yst-bg-transparent";
@@ -102,34 +101,28 @@ const stepShape = PropTypes.shape( {
  *
  * @returns {WPElement} The Step component.
  */
-function TailwindStep( { step, stepIndex, lastStepIndex, saveStep, finishStepper, activeStepIndex, setActiveStepIndex } ) {
+function TailwindStep( { step, stepIndex, isLastStep, saveStep, activeStepIndex, setActiveStepIndex } ) {
 	const isActiveStep = activeStepIndex === stepIndex;
+
 	const isSaved = step.isSaved;
-	const bulletClassNames = getBulletClassnames( isSaved, isActiveStep );
-	const nameClassNames = getNameClassnames( isSaved, isActiveStep );
-	const bulletContentClassNames = getBulletContentClassnames( isSaved, isActiveStep );
+	const bulletClassNames = getBulletClassnames( isSaved, isActiveStep, isLastStep );
+	const nameClassNames = getNameClassnames( isSaved, isActiveStep, isLastStep );
+	const bulletContentClassNames = getBulletContentClassnames( isSaved, isActiveStep, isLastStep );
 
 	const [ icon, setIcon ] = useState( isSaved ? "check" : "bullet" );
 	const [ contentHeight, setContentHeight ] = useState( isActiveStep ? "auto" : 0 );
 
 	useEffect( () => {
 		const inActiveIcon = isSaved ? "check" : "bullet";
-		setTimeout( () => setIcon( isActiveStep ? "bullet" : inActiveIcon ), 500 );
+		setTimeout( () => setIcon( isActiveStep && ! isLastStep ? "bullet" : inActiveIcon ), 500 );
 	}, [ isSaved, isActiveStep ] );
 
-
-	const handlePrimaryClick = useCallback(
+	const saveAndContinue = useCallback(
 		() => {
-			const currentStep = stepIndex;
-			const nextStep = stepIndex + 1;
-			if ( currentStep === lastStepIndex ) {
-				finishStepper();
-			} else {
-				saveStep( currentStep );
-				setActiveStepIndex( nextStep );
-			}
+			saveStep( stepIndex );
+			setActiveStepIndex( stepIndex + 1 );
 		},
-		[ setActiveStepIndex, saveStep, finishStepper, stepIndex, lastStepIndex ]
+		[ setActiveStepIndex, saveStep, stepIndex ]
 	);
 
 	const goBack = useCallback( () => {
@@ -144,9 +137,8 @@ function TailwindStep( { step, stepIndex, lastStepIndex, saveStep, finishStepper
 
 	return (
 		<Fragment>
-			{
-				// Line
-				( stepIndex !== lastStepIndex ) &&
+			{ /* Line. */ }
+			{ ! isLastStep &&
 				<Fragment>
 					<div
 						className={ "yst--ml-px yst-absolute yst-mt-0.5 yst-left-4 yst-w-0.5 yst-h-full yst-bg-gray-300 yst--bottom-6" }
@@ -165,6 +157,7 @@ function TailwindStep( { step, stepIndex, lastStepIndex, saveStep, finishStepper
 					/>
 				</Fragment>
 			}
+			{ /* Bullet. */ }
 			<div className="yst-relative yst-flex yst-items-start yst-group" aria-current={ isActiveStep ? "step" : null }>
 				<span className="yst-flex yst-items-center" aria-hidden={ isActiveStep ? "true" : null }>
 					<span
@@ -207,12 +200,13 @@ function TailwindStep( { step, stepIndex, lastStepIndex, saveStep, finishStepper
 				>
 					<div className="yst-ml-12 yst-mt-4">
 						{ step.component }
-						<StepButtons
-							stepIndex={ stepIndex }
-							lastIndex={ lastStepIndex }
-							handlePrimaryClick={ handlePrimaryClick }
-							goBack={ goBack }
-						/>
+						{ ! isLastStep &&
+							<StepButtons
+								stepIndex={ stepIndex }
+								saveAndContinue={ saveAndContinue }
+								goBack={ goBack }
+							/>
+						}
 					</div>
 				</AnimateHeight>
 			</Transition>
@@ -222,15 +216,13 @@ function TailwindStep( { step, stepIndex, lastStepIndex, saveStep, finishStepper
 TailwindStep.propTypes = {
 	step: stepShape.isRequired,
 	stepIndex: PropTypes.number.isRequired,
-	lastStepIndex: PropTypes.number.isRequired,
+	isLastStep: PropTypes.bool.isRequired,
 	setActiveStepIndex: PropTypes.func.isRequired,
 	saveStep: PropTypes.func,
-	finishStepper: PropTypes.func,
 	activeStepIndex: PropTypes.number.isRequired,
 };
 TailwindStep.defaultProps = {
 	saveStep: () => { },
-	finishStepper: () => { },
 };
 /**
  * The Tailwind Stepper component.
@@ -239,7 +231,7 @@ TailwindStep.defaultProps = {
  *
  * @returns {WPElement} The Stepper component.
  */
-export default function Stepper( { steps, setActiveStepIndex, saveStep, finishStepper, activeStepIndex } ) {
+export default function Stepper( { steps, setActiveStepIndex, saveStep, activeStepIndex } ) {
 	return (
 		<ol className="yst-overflow-hidden">
 			{ steps.map( ( step, stepIndex ) => (
@@ -247,10 +239,9 @@ export default function Stepper( { steps, setActiveStepIndex, saveStep, finishSt
 					<TailwindStep
 						step={ step }
 						stepIndex={ stepIndex }
-						lastStepIndex={ steps.length - 1 }
+						isLastStep={ stepIndex === steps.length - 1 }
 						setActiveStepIndex={ setActiveStepIndex }
 						saveStep={ saveStep }
-						finishStepper={ finishStepper }
 						activeStepIndex={ activeStepIndex }
 					/>
 				</li>
@@ -262,12 +253,10 @@ Stepper.propTypes = {
 	steps: PropTypes.arrayOf( stepShape ).isRequired,
 	setActiveStepIndex: PropTypes.func.isRequired,
 	saveStep: PropTypes.func,
-	finishStepper: PropTypes.func,
 	activeStepIndex: PropTypes.number.isRequired,
 };
 Stepper.defaultProps = {
 	saveStep: () => { },
-	finishStepper: () => { },
 };
 /* eslint-enable complexity, max-len */
 
