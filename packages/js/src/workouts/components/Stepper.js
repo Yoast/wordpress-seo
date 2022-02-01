@@ -132,7 +132,7 @@ function TailwindStep( { step, stepIndex, lastStepIndex, saveStep, finishStepper
 						aria-hidden="true"
 					/>
 					<div
-						className={ `yst-h-full yst-transition-transform yst-ease-in-out ${ totalStepDurationClass } ${ stepIndex < activeStepIndex  ? "yst-scale-y-1" : `${ openDelayClass } yst-scale-y-0` } yst-origin-top yst--ml-px yst-absolute yst-left-4 yst-w-0.5 yst-bg-primary-500 yst-top-8` }
+						className={ `yst-h-12 yst-transition-transform yst-ease-in-out ${ totalStepDurationClass } ${ stepIndex < activeStepIndex  ? "yst-scale-y-1" : "yst-delay-200 yst-scale-y-0" } yst-origin-top yst--ml-px yst-absolute yst-left-4 yst-w-0.5 yst-bg-primary-500 yst-top-8` }
 						aria-hidden="true"
 					/>
 				</Fragment>
