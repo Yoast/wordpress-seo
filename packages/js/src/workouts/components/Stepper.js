@@ -82,7 +82,7 @@ const stepShape = PropTypes.shape( {
 function TailwindStep( { step, stepIndex, isLastStep, saveStep, activeStepIndex, setActiveStepIndex } ) {
 	const isActiveStep = activeStepIndex === stepIndex;
 	const isSaved = step.isSaved;
-	const nameClassNames = getNameClassnames( isSaved, isActiveStep );
+	const nameClassNames = getNameClassnames( isSaved, isActiveStep, isLastStep );
 
 	const [ contentHeight, setContentHeight ] = useState( isActiveStep ? "auto" : 0 );
 	const [ isFaded, setIsFaded ] = useState( ! isActiveStep );
