@@ -1,5 +1,14 @@
 // CONSTANTS
 
+/*
+	Stepper animations, sequence in steps:
+	1. The now inactive step fades out (fadeDuration)
+	2. The now inactive step closes (slideDuration)
+	3. Pause (pauseDuration)
+	4. The new active step opens (slideDuration)
+	5. The new active step fades in (fadeDuration)
+*/
+
 // Fade in and out duration in milliseconds.
 const fadeDuration = 200;
 
@@ -28,7 +37,7 @@ export const stepperTimings = {
 	delayBeforeClosing,
 };
 
-// Tailwindclasses based on the above:
+// Tailwind classes based on the constants defined above:
 export const stepperTimingClasses  = {
 	fadeDuration: "yst-duration-200",
 	slideDuration: "yst-duration-500",
