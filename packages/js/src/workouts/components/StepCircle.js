@@ -107,13 +107,13 @@ export function StepCircle( { activationDelay, isLastStep, deactivationDelay, is
 
 	useEffect( () => {
 		if ( isActive ) {
-			// Set deactivation delay on the active class, mind the ending space.
+			// Set deactivation delay on the active class.
 			setTimeout( () => {
 				setCircleType( isLastStep ? "saved" : "active" );
 			}, activationDelay );
 			return;
 		}
-		// Set activation delay on the inactive class, mind the ending space.
+		// Set activation delay on the inactive class.
 		setTimeout( () => {
 			setCircleType( isSaved ? "saved" : "upcoming" );
 		}, deactivationDelay );
