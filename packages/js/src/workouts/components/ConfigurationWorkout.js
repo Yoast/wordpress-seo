@@ -11,8 +11,6 @@ import { Alert, NewButton as Button, RadioButtonGroup, SingleSelect, TextInput }
 import { ReactComponent as WorkoutDoneImage } from "../../../../../images/mirrored_fit_bubble_woman_1_optim.svg";
 import { ReactComponent as WorkoutStartImage } from "../../../images/motivated_bubble_woman_1_optim.svg";
 import { addLinkToString } from "../../helpers/stringHelpers.js";
-import { Step, Steps, FinishButtonSection } from "./Steps";
-import Stepper, { getInitialActiveStepIndex } from "./Stepper";
 import { STEPS, WORKOUTS } from "../config";
 import { OrganizationSection } from "./OrganizationSection";
 import { PersonSection } from "./PersonSection";
@@ -20,6 +18,9 @@ import { NewsletterSignup } from "./NewsletterSignup";
 import { WorkoutIndexation } from "./WorkoutIndexation";
 import SocialInputSection from "./SocialInputSection";
 import SocialInputPersonSection from "./SocialInputPersonSection";
+import { Step, Steps, FinishButtonSection } from "./Steps";
+import Stepper from "./Stepper";
+import { getInitialActiveStepIndex } from "../stepper-helper";
 import { scrollToStep } from "../helpers";
 
 window.wpseoScriptData = window.wpseoScriptData || {};

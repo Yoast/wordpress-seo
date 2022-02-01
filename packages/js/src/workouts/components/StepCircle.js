@@ -1,46 +1,11 @@
 import { CheckIcon } from "@heroicons/react/solid";
 import { useState, useEffect } from "@wordpress/element";
 import PropTypes from "prop-types";
+import { stepperTimingSettings } from "../stepper-helper";
+
+const { totalStepDurationClass } = stepperTimingSettings;
 
 /* eslint-disable complexity, max-len */
-// CONSTANTS
-
-// Open and close duration in milliseconds.
-const openAndCloseDuration = 500;
-
-// Fade in and out duration in milliseconds.
-const fadeDuration = 200;
-
-// The duration of no movement between opening and closing steps.
-const pauseDuration = 200;
-
-// Wait for previous step to close, fade, and add the pause.
-const openDelay = openAndCloseDuration + fadeDuration + pauseDuration;
-
-// Wait for the step to have opened.
-const fadeInDelay = openDelay + openAndCloseDuration;
-
-// Wait for the step to have faded out.
-const closeDelay = fadeDuration;
-
-// There is no fade out delay: it is immediate.
-
-// Tailwindclasses based on the above:
-const fadeDurationClass = "yst-duration-200";
-const totalStepDurationClass = "yst-duration-[700ms]";
-const openDelayClass = "yst-delay-[900ms]";
-
-export const stepperTimingSettings  = {
-	openAndCloseDuration,
-	fadeDuration,
-	openDelay,
-	fadeInDelay,
-	closeDelay,
-	fadeDurationClass,
-	totalStepDurationClass,
-	openDelayClass,
-};
-
 /**
  * The ActiveCircle element.
  *
@@ -149,11 +114,13 @@ export function StepCircle( { activationDelay, isLastStep, deactivationDelay, is
 StepCircle.propTypes = {
 	isActive: PropTypes.bool.isRequired,
 	isSaved: PropTypes.bool.isRequired,
+	isLastStep: PropTypes.bool,
 	activationDelay: PropTypes.number,
 	deactivationDelay: PropTypes.number,
 };
 
 StepCircle.defaultProps = {
+	isLastStep: false,
 	activationDelay: 0,
 	deactivationDelay: 0,
 };
