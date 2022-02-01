@@ -149,7 +149,8 @@ abstract class WPSEO_Indexable_Sitemap_Provider implements WPSEO_Sitemap_Provide
 			->select( 'object_sub_type' )
 			->select_expr( 'MAX(`object_last_modified`)', 'post_type_last_modified' )
 			->select_expr( 'COUNT(`id`)', 'number_of_posts' )
-			->having_gt( 'number_of_posts', 0 );
+			->having_gt( 'number_of_posts', 0 )
+			->group_by( 'object_sub_type' );
 
 		if ( is_array( $excluded_object_ids ) && count( $excluded_object_ids ) > 0 ) {
 			$post_type_aggregate_query->where_not_in( 'object_id', $excluded_object_ids );
