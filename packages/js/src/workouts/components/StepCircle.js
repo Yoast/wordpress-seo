@@ -86,7 +86,12 @@ UpcomingCircle.defaultProps = {
  * @returns {WPElement} The StepCircle component.
  */
 export function StepCircle( { activationDelay, isLastStep, deactivationDelay, isActive, isSaved } ) {
-	const [ circleType, setCircleType ] = useState( isSaved ? "saved" : "upcoming" );
+	const [ circleType, setCircleType ] = useState( () => {
+		if ( isActive ) {
+			return isLastStep ? "saved" : "active";
+		}
+		return isSaved ? "saved" : "upcoming";
+	} );
 
 	useEffect( () => {
 		if ( isActive ) {
