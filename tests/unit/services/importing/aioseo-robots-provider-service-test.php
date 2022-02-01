@@ -44,7 +44,7 @@ class Aioseo_Robots_Provider_Service_Test extends TestCase {
 	public function test_get_global_robot_settings( $aioseo_options, $setting, $expected_result ) {
 		Monkey\Functions\expect( 'get_option' )
 			->once()
-			->with( 'aioseo_options', [] )
+			->with( 'aioseo_options', '' )
 			->andReturn( $aioseo_options );
 
 		$actual_result = $this->aioseo_robots_provider_service->get_global_robot_settings( $setting );
@@ -64,7 +64,7 @@ class Aioseo_Robots_Provider_Service_Test extends TestCase {
 	public function test_get_subtype_robot_setting( $aioseo_options, $mapping, $expected_result ) {
 		Monkey\Functions\expect( 'get_option' )
 			->once()
-			->with( $mapping['option_name'], [] )
+			->with( $mapping['option_name'], '' )
 			->andReturn( $aioseo_options );
 
 		$actual_result = $this->aioseo_robots_provider_service->get_subtype_robot_setting( $mapping );
@@ -124,7 +124,7 @@ class Aioseo_Robots_Provider_Service_Test extends TestCase {
 	 * @return string
 	 */
 	public function provider_get_global_robot_settings() {
-		$empty_settings = [];
+		$empty_settings = '';
 
 		$no_global_robots_meta = [
 			'searchAppearance' => [
