@@ -141,19 +141,45 @@ class Indexable extends Model {
 	 * @var array
 	 */
 	protected $default_values = [
-		'title'                  => null,
-		'description'            => null,
-		'open_graph_title'       => null,
-		'open_graph_description' => null,
-		'twitter_title'          => null,
-		'twitter_description'    => null,
-		'canonical'              => null,
-		'primary_focus_keyword'  => null,
-		'is_robots_noindex'      => null,
-		'is_robots_nofollow'     => false,
-		'is_robots_noarchive'    => null,
-		'is_robots_noimageindex' => null,
-		'is_robots_nosnippet'    => null,
+		'title'                  => [
+			'default_value'   => null,
+		],
+		'description'            => [
+			'default_value'   => null,
+		],
+		'open_graph_title'       => [
+			'default_value'   => null,
+		],
+		'open_graph_description' => [
+			'default_value'   => null,
+		],
+		'twitter_title'          => [
+			'default_value'   => null,
+		],
+		'twitter_description'    => [
+			'default_value'   => null,
+		],
+		'canonical'              => [
+			'default_value'   => null,
+		],
+		'primary_focus_keyword'  => [
+			'default_value'   => null,
+		],
+		'is_robots_noindex'      => [
+			'default_value'   => null,
+		],
+		'is_robots_nofollow'     => [
+			'default_value'   => false,
+		],
+		'is_robots_noarchive'    => [
+			'default_value'   => null,
+		],
+		'is_robots_noimageindex' => [
+			'default_value'   => null,
+		],
+		'is_robots_nosnippet'    => [
+			'default_value'   => null,
+		],
 	];
 
 	/**
@@ -244,10 +270,14 @@ class Indexable extends Model {
 	 */
 	public function check_if_default_field( $field ) {
 		$defaults = $this->default_values;
-		if ( $this->$field !== $defaults[ $field ] ) {
-			return false;
+		if ( ! isset( $defaults[ $field ] ) ) {
+			return true;
 		}
 
-		return true;
+		if ( $this->$field === $defaults[ $field ]['default_value'] ) {
+			return true;
+		}
+
+		return false;
 	}
 }
