@@ -17,10 +17,10 @@ const pauseDuration = 200;
 // Wait for previous step to close, fade, and add the pause.
 const openDelay = openAndCloseDuration + fadeDuration + pauseDuration;
 
-// Wait for the step to have opened
+// Wait for the step to have opened.
 const fadeInDelay = openDelay + openAndCloseDuration;
 
-// Wait for the step to have faded out
+// Wait for the step to have faded out.
 const closeDelay = fadeDuration;
 
 // There is no fade out delay: it is immediate.
@@ -41,12 +41,11 @@ export const stepperTimingSettings  = {
 	openDelayClass,
 };
 
-
 /**
- *The ActiveCircle element.
+ * The ActiveCircle element.
  *
  * @param {Object} props The props object.
- * @param {Bool} props.isVisible Whether this circle is visible or not.
+ * @param {bool} props.isVisible Whether this circle is visible or not.
  *
  * @returns {WPElement} The ActiveCircle element
  */
@@ -67,10 +66,10 @@ ActiveCircle.defaultProps = {
 };
 
 /**
- *The SavedCircle element.
+ * The SavedCircle element.
  *
  * @param {Object} props The props object.
- * @param {Bool} props.isVisible Whether this circle is visible or not.
+ * @param {bool} props.isVisible Whether this circle is visible or not.
  *
  * @returns {WPElement} The SavedCircle element
  */
@@ -91,10 +90,10 @@ SavedCircle.defaultProps = {
 };
 
 /**
- *The UpcomingCircle element.
+ * The UpcomingCircle element.
  *
  * @param {Object} props The props object.
- * @param {Bool} props.isVisible Whether this circle is visible or not.
+ * @param {bool} props.isVisible Whether this circle is visible or not.
  *
  * @returns {WPElement} The UpcomingCircle element
  */
@@ -115,9 +114,9 @@ UpcomingCircle.defaultProps = {
 };
 
 /**
- * The Circle that acompanies a step, in all its active-inactive saved-unsaved flavours.
+ * The Circle that accompanies a step, in all its active-inactive saved-unsaved flavours.
  *
- * @param {Object} props The props to pass to the StepCircle
+ * @param {Object} props The props to pass to the StepCircle.
  *
  * @returns {WPElement} The StepCircle component.
  */
