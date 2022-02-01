@@ -3,17 +3,17 @@ import { __ } from "@wordpress/i18n";
 import AnimateHeight from "react-animate-height";
 import PropTypes from "prop-types";
 import { StepCircle } from "./StepCircle";
-import { stepperTimingSettings } from "../stepper-helper";
+import { stepperTimings, stepperTimingClasses } from "../stepper-helper";
 
 /* eslint-disable complexity, max-len */
 const {
-	openAndCloseDuration,
-	openDelay,
-	fadeInDelay,
-	closeDelay,
-	fadeDurationClass,
-	totalStepDurationClass,
-} = stepperTimingSettings;
+	slideDuration,
+	delayBeforeOpening,
+	delayBeforeFadingIn,
+	delayBeforeClosing,
+} = stepperTimings;
+
+const { fadeDuration, delayUntilStepFaded } = stepperTimingClasses;
 
 /**
  * The StepButtons component.
@@ -103,7 +103,7 @@ function TailwindStep( { step, stepIndex, isLastStep, saveStep, activeStepIndex,
 		if ( isActiveStep ) {
 			setContentHeight( "auto" );
 			// Wait until all other animations are done.
-			setTimeout( () => setIsFaded( false ), fadeInDelay );
+			setTimeout( () => setIsFaded( false ), delayBeforeFadingIn );
 		} else {
 			setIsFaded( true );
 			setContentHeight( 0 );
@@ -120,7 +120,7 @@ function TailwindStep( { step, stepIndex, isLastStep, saveStep, activeStepIndex,
 						aria-hidden="true"
 					/>
 					<div
-						className={ `yst-h-12 yst-transition-transform yst-ease-in-out ${ totalStepDurationClass } ${ stepIndex < activeStepIndex  ? "yst-scale-y-1" : "yst-delay-200 yst-scale-y-0" } yst-origin-top yst--ml-px yst-absolute yst-left-4 yst-w-0.5 yst-bg-primary-500 yst-top-8` }
+						className={ `yst-h-12 yst-transition-transform ${ delayUntilStepFaded } yst-ease-linear ${ "yst-duration-500" } ${ stepIndex < activeStepIndex  ? "yst-scale-y-1" : "yst-scale-y-0" } yst-origin-top yst--ml-px yst-absolute yst-left-4 yst-w-0.5 yst-bg-primary-500 yst-top-8` }
 						aria-hidden="true"
 					/>
 				</Fragment>
@@ -132,7 +132,7 @@ function TailwindStep( { step, stepIndex, isLastStep, saveStep, activeStepIndex,
 						isActive={ isActiveStep }
 						isSaved={ isSaved }
 						isLastStep={ isLastStep }
-						activationDelay={ openDelay }
+						activationDelay={ delayBeforeOpening }
 						deactivationDelay={ 0 }
 					/>
 				</span>
@@ -147,12 +147,12 @@ function TailwindStep( { step, stepIndex, isLastStep, saveStep, activeStepIndex,
 			{ /* Child component and buttons. */ }
 			<AnimateHeight
 				id={ `content-${stepIndex}` }
-				delay={ contentHeight === 0 ? closeDelay : openDelay }
+				delay={ contentHeight === 0 ? delayBeforeClosing : delayBeforeOpening }
 				height={ contentHeight }
 				easing="ease-in-out"
-				duration={ openAndCloseDuration }
+				duration={ slideDuration }
 			>
-				<div className={ `yst-transition-opacity ${ fadeDurationClass } yst-relative yst-ml-12 yst-mt-4 ${ isFaded ? "yst-opacity-0 yst-no-point-events" : "yst-opacity-100" }` }>
+				<div className={ `yst-transition-opacity ${ fadeDuration } yst-relative yst-ml-12 yst-mt-4 ${ isFaded ? "yst-opacity-0 yst-no-point-events" : "yst-opacity-100" }` }>
 					{ step.component }
 					{ ! isLastStep &&
 						<StepButtons

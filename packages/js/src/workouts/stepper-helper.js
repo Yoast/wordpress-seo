@@ -1,41 +1,39 @@
 // CONSTANTS
 
-// Open and close duration in milliseconds.
-const openAndCloseDuration = 500;
-
 // Fade in and out duration in milliseconds.
 const fadeDuration = 200;
+
+// Open and close duration in milliseconds.
+const slideDuration = 500;
 
 // The duration of no movement between opening and closing steps.
 const pauseDuration = 200;
 
 // Wait for previous step to close, fade, and add the pause.
-const openDelay = openAndCloseDuration + fadeDuration + pauseDuration;
+const delayBeforeOpening = slideDuration + fadeDuration + pauseDuration;
 
 // Wait for the step to have opened.
-const fadeInDelay = openDelay + openAndCloseDuration;
+const delayBeforeFadingIn = delayBeforeOpening + slideDuration;
 
 // Wait for the step to have faded out.
-const closeDelay = fadeDuration;
+const delayBeforeClosing = fadeDuration;
 
 // There is no fade out delay: it is immediate.
 
-// Tailwindclasses based on the above:
-const fadeDurationClass = "yst-duration-200";
-const totalStepDurationClass = "yst-duration-[700ms]";
-const openDelayClass = "yst-delay-[900ms]";
-const closeDelayClass = "yst-delay-200";
-
-export const stepperTimingSettings  = {
-	openAndCloseDuration,
+export const stepperTimings = {
+	slideDuration,
 	fadeDuration,
-	openDelay,
-	fadeInDelay,
-	closeDelay,
-	fadeDurationClass,
-	totalStepDurationClass,
-	openDelayClass,
-	closeDelayClass,
+	delayBeforeOpening,
+	delayBeforeFadingIn,
+	delayBeforeClosing,
+};
+
+// Tailwindclasses based on the above:
+export const stepperTimingClasses  = {
+	fadeDuration: "yst-duration-200",
+	slideDuration: "yst-duration-500",
+	delayBeforeOpening: "yst-delay-[900ms]",
+	delayUntilStepFaded: "yst-delay-200",
 };
 
 /**
