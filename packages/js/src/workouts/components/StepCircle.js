@@ -1,22 +1,34 @@
 import { CheckIcon } from "@heroicons/react/solid";
 import { useState, useEffect } from "@wordpress/element";
 import PropTypes from "prop-types";
-import { stepperTimingSettings } from "../stepper-helper";
-
-const { totalStepDurationClass } = stepperTimingSettings;
-
+import { stepperTimingClasses } from "../stepper-helper";
 /* eslint-disable complexity, max-len */
+
+const { slideDuration, delayUntilStepFaded } = stepperTimingClasses;
+const commonCircleClasses = `yst-transition-opacity ${ slideDuration } yst-absolute yst-inset-0 yst-border-2 yst-flex yst-items-center yst-justify-center yst-rounded-full`;
+
+/**
+ * Helper function for StepCircle classes.
+ *
+ * @param {Boolean} isVisible Whether this circle is visible.
+ *
+ * @returns {String} Classes catered to this visibility state for StepCircles.
+ */
+function getCommonClasses( isVisible ) {
+	return `${ commonCircleClasses } ${ isVisible ? "yst-opacity-100" : `${ delayUntilStepFaded } yst-opacity-0` }`;
+}
+
 /**
  * The ActiveCircle element.
  *
  * @param {Object} props The props object.
  * @param {bool} props.isVisible Whether this circle is visible or not.
  *
- * @returns {WPElement} The ActiveCircle element
+ * @returns {WPElement} The ActiveCircle element.
  */
 function ActiveCircle( { isVisible } ) {
 	return <span
-		className={ `yst-transition-opacity ${ totalStepDurationClass } ${ isVisible ? "yst-opacity-100" : "yst-opacity-0" } yst-absolute yst-inset-0 yst-bg-white yst-border-primary-500 yst-border-2 yst-flex yst-items-center yst-justify-center yst-rounded-full` }
+		className={ `yst-bg-white yst-border-primary-500 ${ getCommonClasses( isVisible ) }` }
 	>
 		<span className={ "yst-h-2.5 yst-w-2.5 yst-rounded-full yst-bg-primary-500" } />
 	</span>;
@@ -40,7 +52,7 @@ ActiveCircle.defaultProps = {
  */
 function SavedCircle( { isVisible } ) {
 	return <span
-		className={ `yst-transition-opacity ${ totalStepDurationClass } ${ isVisible ? "yst-opacity-100" : "yst-opacity-0" } yst-absolute yst-inset-0 yst-bg-primary-500 yst-border-primary-500 yst-border-2 yst-flex yst-items-center yst-justify-center yst-rounded-full` }
+		className={ `yst-bg-primary-500 yst-border-primary-500 ${ getCommonClasses( isVisible ) }` }
 	>
 		<CheckIcon className={ "yst-w-5 yst-h-5 yst-text-white" } aria-hidden="true" />
 	</span>;
@@ -64,7 +76,7 @@ SavedCircle.defaultProps = {
  */
 function UpcomingCircle( { isVisible } ) {
 	return <span
-		className={ `yst-transition-opacity ${ totalStepDurationClass } ${ isVisible ? "yst-opacity-100" : "yst-opacity-0" } yst-absolute yst-inset-0 yst-bg-white yst-border-gray-300 yst-border-2 yst-flex yst-items-center yst-justify-center yst-rounded-full` }
+		className={ `yst-bg-white yst-border-gray-300 ${ getCommonClasses( isVisible ) }` }
 	>
 		<span className={ "yst-h-2.5 yst-w-2.5 yst-rounded-full yst-bg-transparent" } />
 	</span>;
