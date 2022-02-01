@@ -121,14 +121,14 @@ UpcomingCircle.defaultProps = {
  *
  * @returns {WPElement} The StepCircle component.
  */
-export function StepCircle( { activationDelay, deactivationDelay, isActive, isSaved } ) {
+export function StepCircle( { activationDelay, isLastStep, deactivationDelay, isActive, isSaved } ) {
 	const [ circleType, setCircleType ] = useState( isSaved ? "saved" : "upcoming" );
 
 	useEffect( () => {
 		if ( isActive ) {
 			// Set deactivation delay on the active class, mind the ending space.
 			setTimeout( () => {
-				setCircleType( "active" );
+				setCircleType( isLastStep ? "saved" : "active" );
 			}, activationDelay );
 			return;
 		}
@@ -136,7 +136,7 @@ export function StepCircle( { activationDelay, deactivationDelay, isActive, isSa
 		setTimeout( () => {
 			setCircleType( isSaved ? "saved" : "upcoming" );
 		}, deactivationDelay );
-	}, [ isActive, activationDelay, deactivationDelay, isSaved ] );
+	}, [ isActive, isLastStep, activationDelay, deactivationDelay, isSaved ] );
 
 	return <span
 		className={ "yst-relative yst-z-10 yst-w-8 yst-h-8 yst-rounded-full" }
