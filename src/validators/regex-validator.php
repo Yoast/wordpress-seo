@@ -38,7 +38,7 @@ class Regex_Validator extends String_Validator {
 	 * @throws No_Regex_Match_Exception When the value does not match a regex.
 	 * @throws No_Regex_Groups_Exception When the matches do not contain any of the specified groups.
 	 *
-	 * @return mixed The valid value.
+	 * @return string The valid value.
 	 */
 	public function validate( $value, array $settings = null ) {
 		$string = parent::validate( $value );
@@ -48,7 +48,7 @@ class Regex_Validator extends String_Validator {
 		}
 
 		if ( \preg_match( $settings[ self::PATTERN_KEY ], $string, $matches ) !== 1 ) {
-			throw new No_Regex_Match_Exception( $settings[ self::PATTERN_KEY ] );
+			throw new No_Regex_Match_Exception( $string, $settings[ self::PATTERN_KEY ] );
 		}
 
 		// If no groups are specified, this is the match.
@@ -64,7 +64,7 @@ class Regex_Validator extends String_Validator {
 			}
 		}
 
-		throw new No_Regex_Groups_Exception( $settings[ self::PATTERN_KEY ] );
+		throw new No_Regex_Groups_Exception( $string, $settings[ self::PATTERN_KEY ] );
 	}
 
 	// phpcs:enable Squiz.Commenting.FunctionCommentThrowTag.WrongNumber

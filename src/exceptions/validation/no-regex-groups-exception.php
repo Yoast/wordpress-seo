@@ -12,13 +12,15 @@ class No_Regex_Groups_Exception extends Abstract_Validation_Exception {
 	/**
 	 * Constructs a no regex group validation exception instance.
 	 *
+	 * @param string $value   The input value.
 	 * @param string $pattern The regex pattern.
 	 */
-	public function __construct( $pattern ) {
+	public function __construct( $value, $pattern ) {
 		parent::__construct(
 			\sprintf(
-			/* translators: %s expands to a regular expression pattern. */
+			/* translators: %1$s expands to the user input. %2$s expands to a regular expression pattern. */
 				\esc_html__( 'The value does not contain any of the groups in the pattern %s.', 'wordpress-seo' ),
+				'<strong>' . \esc_html( $value ) . '</strong>',
 				'<strong>' . \esc_html( $pattern ) . '</strong>'
 			)
 		);
