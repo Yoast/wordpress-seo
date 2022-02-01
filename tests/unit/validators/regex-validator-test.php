@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Validators;
 
 use Yoast\WP\SEO\Exceptions\Validation\Missing_Settings_Key_Exception;
+use Yoast\WP\SEO\Exceptions\Validation\No_Regex_Groups_Exception;
 use Yoast\WP\SEO\Exceptions\Validation\No_Regex_Match_Exception;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Validators\Regex_Validator;
@@ -99,6 +100,39 @@ class Regex_Validator_Test extends TestCase {
 				'settings'  => null,
 				'expected'  => false,
 				'exception' => Missing_Settings_Key_Exception::class,
+			],
+			'group'                      => [
+				'value'    => '<meta name="site-verification" content="vIeAJm5qLB3z8izGaL6bKmNEE1YkE8c9y7iRko7AEk" />',
+				'settings' => [
+					'pattern' => '/content=([\'"])?([^\'"> ]+)(?:\1|[ \/>])/',
+					'groups'  => [ 2 ],
+				],
+				'expected' => 'vIeAJm5qLB3z8izGaL6bKmNEE1YkE8c9y7iRko7AEk',
+			],
+			'groups_match_1'             => [
+				'value'    => 'abcdef-ABCDEF_0123456789',
+				'settings' => [
+					'pattern' => '/(^[A-Fa-f0-9_-]+$)|content=([\'"])?([A-Fa-f0-9_-]+)(?:\2|[ \/>])/',
+					'groups'  => [ 1, 3 ],
+				],
+				'expected' => 'abcdef-ABCDEF_0123456789',
+			],
+			'groups_match_3'             => [
+				'value'    => '<meta name="site-verification" content="abcdef-ABCDEF_0123456789" />',
+				'settings' => [
+					'pattern' => '/(^[A-Fa-f0-9_-]+$)|content=([\'"])?([A-Fa-f0-9_-]+)(?:\2|[ \/>])/',
+					'groups'  => [ 1, 3 ],
+				],
+				'expected' => 'abcdef-ABCDEF_0123456789',
+			],
+			'no_groups'                  => [
+				'value'     => 'abcdef',
+				'settings'  => [
+					'pattern' => '/([a-c]+)/',
+					'groups'  => [ 'foo' ],
+				],
+				'expected'  => false,
+				'exception' => No_Regex_Groups_Exception::class,
 			],
 		];
 	}
