@@ -43,31 +43,31 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	protected $aioseo_to_yoast_map = [
 		'title'               => [
 			'yoast_name'       => 'title',
-			'transform_method' => 'simple_import',
+			'transform_method' => 'simple_import_post',
 		],
 		'description'         => [
 			'yoast_name'       => 'description',
-			'transform_method' => 'simple_import',
+			'transform_method' => 'simple_import_post',
 		],
 		'og_title'            => [
 			'yoast_name'       => 'open_graph_title',
-			'transform_method' => 'simple_import',
+			'transform_method' => 'simple_import_post',
 		],
 		'og_description'      => [
 			'yoast_name'       => 'open_graph_description',
-			'transform_method' => 'simple_import',
+			'transform_method' => 'simple_import_post',
 		],
 		'twitter_title'       => [
 			'yoast_name'       => 'twitter_title',
-			'transform_method' => 'simple_import',
+			'transform_method' => 'twitter_import',
 		],
 		'twitter_description' => [
 			'yoast_name'       => 'twitter_description',
-			'transform_method' => 'simple_import',
+			'transform_method' => 'twitter_import',
 		],
 		'canonical_url'       => [
 			'yoast_name'       => 'canonical',
-			'transform_method' => 'url_import',
+			'transform_method' => 'url_import_post',
 		],
 		'keyphrases'          => [
 			'yoast_name'       => 'primary_focus_keyword',
@@ -366,7 +366,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 			}
 
 			if ( ! empty( $aioseo_indexable[ $aioseo_key ] ) ) {
-				$indexable->{$yoast_mapping['yoast_name']} = \call_user_func( [ $this, $yoast_mapping['transform_method'] ], $aioseo_indexable[ $aioseo_key ], $yoast_mapping );
+				$indexable->{$yoast_mapping['yoast_name']} = \call_user_func( [ $this, $yoast_mapping['transform_method'] ], $aioseo_indexable, $aioseo_key );
 			}
 		}
 
@@ -440,14 +440,61 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	}
 
 	/**
+	 * Minimally transforms data to be imported.
+	 *
+	 * @param array  $aioseo_data All of the AIOSEO data to be imported.
+	 * @param string $aioseo_key  The AIOSEO key that contains the setting we're working with.
+	 *
+	 * @return string The transformed meta data.
+	 */
+	public function simple_import_post( $aioseo_data, $aioseo_key ) {
+		return $this->simple_import( $aioseo_data[ $aioseo_key ] );
+	}
+
+	/**
+	 * Transforms URL to be imported.
+	 *
+	 * @param array  $aioseo_data All of the AIOSEO data to be imported.
+	 * @param string $aioseo_key  The AIOSEO key that contains the setting we're working with.
+	 *
+	 * @return string The transformed URL.
+	 */
+	public function url_import_post( $aioseo_data, $aioseo_key ) {
+		return $this->url_import( $aioseo_data[ $aioseo_key ] );
+	}
+
+	/**
+	 * Transforms twitter data to be imported.
+	 *
+	 * @param array  $aioseo_data All of the AIOSEO data to be imported.
+	 * @param string $aioseo_key  The AIOSEO key that contains the setting we're working with.
+	 *
+	 * @return string The transformed URL.
+	 */
+	public function twitter_import( $aioseo_data, $aioseo_key ) {
+		if ( $aioseo_data['twitter_use_og'] ) {
+			switch ( $aioseo_key ) {
+				case 'twitter_title':
+					$aioseo_key = 'og_title';
+					break;
+				case 'twitter_description':
+					$aioseo_key = 'og_description';
+					break;
+			}
+		}
+		return $this->simple_import( $aioseo_data[ $aioseo_key ] );
+	}
+
+	/**
 	 * Plucks the keyphrase to be imported from the AIOSEO array of keyphrase meta data.
 	 *
-	 * @param array $meta_data The keyphrase meta data to be imported.
+	 * @param array  $aioseo_data All of the AIOSEO data to be imported.
+	 * @param string $aioseo_key  The AIOSEO key that contains the setting we're working with, aka keyphrase.
 	 *
 	 * @return string|null The plucked keyphrase.
 	 */
-	public function keyphrase_import( $meta_data ) {
-		$meta_data = \json_decode( $meta_data, true );
+	public function keyphrase_import( $aioseo_data, $aioseo_key ) {
+		$meta_data = \json_decode( $aioseo_data[ $aioseo_key ], true );
 		if ( ! isset( $meta_data['focus']['keyphrase'] ) ) {
 			return null;
 		}
