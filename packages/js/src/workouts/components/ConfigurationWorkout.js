@@ -15,7 +15,7 @@ import { Step, Steps, FinishButtonSection } from "./Steps";
 import { OrganizationSection } from "./OrganizationSection";
 import { PersonSection } from "./PersonSection";
 import { NewsletterSignup } from "./NewsletterSignup";
-import { WorkoutIndexation } from "./WorkoutIndexation";
+import { WorkoutIndexation } from "../tailwind-components/WorkoutIndexation";
 import SocialInputSection from "./SocialInputSection";
 import SocialInputPersonSection from "./SocialInputPersonSection";
 import Stepper from "../tailwind-components/Stepper";
