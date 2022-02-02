@@ -7,7 +7,7 @@ const AioseoV4 = "WPSEO_Import_AIOSEO_V4";
 let cleanupButton, cleanupDropdown, cleanupForm,
 	importButton, importDropdown, importForm,
 	spinner, loadingMessageCleanup, loadingMessageImport, checkMark,
-	importExplanation;
+	cleanupExplanation, importExplanation;
 
 /**
  * Adds Progress UI elements in the page.
@@ -228,11 +228,14 @@ function handleCleanupFormSubmission( event ) {
  */
 function initElements() {
 	cleanupButton = jQuery( "[name='clean_external']" );
+	cleanupButton.val( window.yoastImportData.assets.replacing_texts.cleanup_button );
 	cleanupDropdown = jQuery( "[name='clean_external_plugin']" );
 	cleanupForm = jQuery( cleanupButton ).parents( "form:first" );
 	importButton = jQuery( "[name='import_external']" );
 	importDropdown = jQuery( "[name='import_external_plugin']" );
 	importForm = jQuery( importButton ).parents( "form:first" );
+	importForm.after( jQuery( "<p></p>" )
+		.html( "<strong>" + window.yoastImportData.assets.note + "</strong>" + window.yoastImportData.assets.cleanup_after_import_msg ) );
 	spinner = jQuery( "<img>" )
 		.addClass( "yoast-import-spinner" )
 		.attr( "src", window.yoastImportData.assets.spinner )
@@ -265,7 +268,9 @@ function initElements() {
 		} )
 		.hide();
 	importExplanation = jQuery( ".yoast-import-explanation" );
-	importExplanation.html( window.yoastImportData.assets.texts.select_plugin_text );
+	importExplanation.html( window.yoastImportData.assets.replacing_texts.import_explanation );
+	cleanupExplanation = jQuery( ".yoast-cleanup-explanation" );
+	cleanupExplanation.html( window.yoastImportData.assets.replacing_texts.cleanup_explanation );
 }
 
 /**
@@ -289,20 +294,22 @@ function watchSelect( dropdown ) {
 		}
 		button.prop( "disabled", false );
 
-		// Display the relevant text depending on which plugin is selected.
-		text = window.yoastImportData.assets.texts.select_header.replace( /%s/g, jQuery( this ).find( "option:selected" ).text() );
-		if ( selectedPlugin === AioseoV4 ) {
-			textSource = window.yoastImportData.assets.texts.plugins.aioseo;
-		} else {
-			textSource = window.yoastImportData.assets.texts.plugins.other;
-		}
-		text += "<ul style='list-style: disc; padding: 0 15px;'>";
-		textSource.forEach( function( dataItem ) {
-			text += "<li>" + dataItem.data_name + "<br/>" + dataItem.data_note + "</li>";
-		} );
-		text += "</ul>";
+		// Display the relevant text depending on which plugin is selected for import.
+		if ( dropdown === importDropdown ) {
+			text = window.yoastImportData.assets.replacing_texts.select_header.replace( /%s/g, jQuery( this ).find( "option:selected" ).text() );
+			if ( selectedPlugin === AioseoV4 ) {
+				textSource = window.yoastImportData.assets.replacing_texts.plugins.aioseo;
+			} else {
+				textSource = window.yoastImportData.assets.replacing_texts.plugins.other;
+			}
+			text += "<ul style='list-style: disc; padding: 0 15px;'>";
+			textSource.forEach( function( dataItem ) {
+				text += "<li>" + dataItem.data_name + "<br/>" + dataItem.data_note + "</li>";
+			} );
+			text += "</ul>";
 
-		importExplanation.html( text );
+			importExplanation.html( text );
+		}
 	} );
 }
 

@@ -103,18 +103,23 @@ class Import_Integration implements Integration_Interface {
 				'nonce'               => \wp_create_nonce( 'wp_rest' ),
 			],
 			'assets'  => [
-				'loading_msg_import'  => \esc_html__( 'The import can take a long time depending on your site\'s size.', 'wordpress-seo' ),
-				'loading_msg_cleanup' => \esc_html__( 'The cleanup can take a long time depending on your site\'s size.', 'wordpress-seo' ),
-				'select_placeholder'  => \esc_html__( 'Select SEO plugin', 'wordpress-seo' ),
-				'no_data_msg'         => \esc_html__( 'No data found from other SEO plugins.', 'wordpress-seo' ),
-				'import_failure'      => $this->get_import_failure_alert( true ),
-				'cleanup_failure'     => $this->get_import_failure_alert( false ),
-				'spinner'             => \admin_url( 'images/loading.gif' ),
-				'texts'               => [
-					'select_plugin_text'  => \esc_html__( 'Please select an SEO plugin below to see what data can be imported.', 'wordpress-seo' ),
+				'loading_msg_import'       => \esc_html__( 'The import can take a long time depending on your site\'s size.', 'wordpress-seo' ),
+				'loading_msg_cleanup'      => \esc_html__( 'The cleanup can take a long time depending on your site\'s size.', 'wordpress-seo' ),
+				'note'                     => \esc_html__( 'Note: ', 'wordpress-seo' ),
+				'cleanup_after_import_msg' => \esc_html__( 'After you\'ve imported data from another SEO plugin, please make sure to clean up all the original data from that plugin. (step 5)', 'wordpress-seo' ),
+				'loading_msg_cleanup'      => \esc_html__( 'The cleanup can take a long time depending on your site\'s size.', 'wordpress-seo' ),
+				'select_placeholder'       => \esc_html__( 'Select SEO plugin', 'wordpress-seo' ),
+				'no_data_msg'              => \esc_html__( 'No data found from other SEO plugins.', 'wordpress-seo' ),
+				'import_failure'           => $this->get_import_failure_alert( true ),
+				'cleanup_failure'          => $this->get_import_failure_alert( false ),
+				'spinner'                  => \admin_url( 'images/loading.gif' ),
+				'replacing_texts'          => [
+					'cleanup_button'       => \esc_html__( 'Clean up', 'wordpress-seo' ),
+					'import_explanation'   => \esc_html__( 'Please select an SEO plugin below to see what data can be imported.', 'wordpress-seo' ),
+					'cleanup_explanation'  => \esc_html__( 'Once you\'re certain that your site is working properly with the imported data from another SEO plugin, you can clean up all the original data from that plugin.', 'wordpress-seo' ),
 					/* translators: %s: expands to the name of the plugin that is selected to be imported */
-					'select_header'       => \esc_html__( 'The import from %s includes:', 'wordpress-seo' ),
-					'plugins'             => [
+					'select_header'        => \esc_html__( 'The import from %s includes:', 'wordpress-seo' ),
+					'plugins'              => [
 						'aioseo' => [
 							[
 								'data_name' => \esc_html__( 'Post metadata (SEO titles and descriptions)', 'wordpress-seo' ),
