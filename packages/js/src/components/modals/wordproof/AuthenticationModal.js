@@ -7,7 +7,7 @@ import {__, sprintf} from '@wordpress/i18n';
 import {NewButton as Button} from '@yoast/components';
 
 /* Internal dependencies */
-import {ReactComponent as WordProofConnectedImage} from '../../../../images/motivated_bubble_woman_1_optim.svg';
+import {ReactComponent as WordProofConnectedImage} from '../../../../images/succes_marieke_bubble_optm.svg';
 import {ReactComponent as YoastIcon} from '../../../../images/Yoast_icon_kader.svg';
 import PropTypes from 'prop-types';
 
@@ -41,6 +41,17 @@ const WordProofAuthenticationModal = ( props ) => {
 			>
 				<div className="wordproof__authentication_outcome">
 					<div>
+
+						<div
+							style={{
+								display: 'flex',
+								justifyContent: 'center',
+								marginBlock: '40px'
+							}}
+						>
+							<WordProofConnectedImage style={{width: '175px'}}/>
+						</div>
+
 						<p>
 							{sprintf(
 								/* Translators: %s expands to WordProof */
@@ -56,15 +67,6 @@ const WordProofAuthenticationModal = ( props ) => {
 								postTypeName.toLowerCase(),
 							)}
 						</p>
-
-						<div
-							style={{
-								display: 'flex',
-								justifyContent: 'center',
-							}}
-						>
-							<WordProofConnectedImage style={{width: '100px'}}/>
-						</div>
 					</div>
 					<br/>
 					<Button
