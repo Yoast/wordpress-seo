@@ -1,9 +1,20 @@
-import { CheckIcon } from "@heroicons/react/solid";
-import { Transition } from "@headlessui/react";
 import { Fragment, useCallback, useState, useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import PropTypes from "prop-types";
 import AnimateHeight from "react-animate-height";
+import PropTypes from "prop-types";
+import { StepCircle } from "./StepCircle";
+import { stepperTimings, stepperTimingClasses } from "../stepper-helper";
+
+/* eslint-disable complexity, max-len */
+const {
+	slideDuration,
+	delayBeforeOpening,
+	delayBeforeFadingIn,
+	delayBeforeClosing,
+} = stepperTimings;
+
+const { fadeDuration, delayUntilStepFaded, slideDurationClass = slideDuration } = stepperTimingClasses;
+
 /**
  * The StepButtons component.
  *
@@ -39,22 +50,6 @@ StepButtons.propTypes = {
 };
 
 /**
- * Gets the classnames for the bullet.
- *
- * @param {boolean} isSaved      Whether the step is saved.
- * @param {boolean} isActiveStep Whether the step is active.
- * @param {boolean} isLastStep   Whether it is the last step.
- *
- * @returns {string} The classnames for the bullet.
- */
-function getBulletClassnames( isSaved, isActiveStep, isLastStep ) {
-	if ( isActiveStep && ! isLastStep ) {
-		return "yst-bg-white yst-border-primary-500";
-	}
-	return isSaved ? "yst-delay-500 yst-bg-primary-500 yst-border-primary-500" : "yst-delay-500 yst-bg-white yst-border-gray-300";
-}
-
-/**
  * Gets the classnames for the step name.
  *
  * @param {boolean} isSaved      Whether the step is saved.
@@ -70,22 +65,6 @@ function getNameClassnames( isSaved, isActiveStep, isLastStep ) {
 	return isSaved ? "" : "yst-text-gray-500";
 }
 
-/**
- * Gets the classnames for the bullet content.
- *
- * @param {boolean} isSaved      Whether the step is saved.
- * @param {boolean} isActiveStep Whether the step is active.
- * @param {boolean} isLastStep   Whether it is the last step.
- *
- * @returns {string} The classnames for the bullet content.
- */
-function getBulletContentClassnames( isSaved, isActiveStep, isLastStep ) {
-	if ( isActiveStep && ! isLastStep ) {
-		return "yst-bg-primary-500";
-	}
-	return isSaved ? "yst-delay-500" : "yst-delay-500 yst-bg-transparent";
-}
-
 const stepShape = PropTypes.shape( {
 	name: PropTypes.string.isRequired,
 	description: PropTypes.string,
@@ -93,7 +72,6 @@ const stepShape = PropTypes.shape( {
 	isSaved: PropTypes.bool.isRequired,
 } );
 
-/* eslint-disable complexity, max-len */
 /**
  * The (Tailwind) Step component
  *
@@ -103,19 +81,11 @@ const stepShape = PropTypes.shape( {
  */
 function TailwindStep( { step, stepIndex, isLastStep, saveStep, activeStepIndex, setActiveStepIndex } ) {
 	const isActiveStep = activeStepIndex === stepIndex;
-
 	const isSaved = step.isSaved;
-	const bulletClassNames = getBulletClassnames( isSaved, isActiveStep, isLastStep );
 	const nameClassNames = getNameClassnames( isSaved, isActiveStep, isLastStep );
-	const bulletContentClassNames = getBulletContentClassnames( isSaved, isActiveStep, isLastStep );
 
-	const [ icon, setIcon ] = useState( isSaved ? "check" : "bullet" );
 	const [ contentHeight, setContentHeight ] = useState( isActiveStep ? "auto" : 0 );
-
-	useEffect( () => {
-		const inActiveIcon = isSaved ? "check" : "bullet";
-		setTimeout( () => setIcon( isActiveStep && ! isLastStep ? "bullet" : inActiveIcon ), 500 );
-	}, [ isSaved, isActiveStep ] );
+	const [ isFaded, setIsFaded ] = useState( ! isActiveStep );
 
 	const saveAndContinue = useCallback(
 		() => {
@@ -129,11 +99,16 @@ function TailwindStep( { step, stepIndex, isLastStep, saveStep, activeStepIndex,
 		setActiveStepIndex( stepIndex - 1 );
 	}, [ stepIndex, setActiveStepIndex ] );
 
-	const setHeightFull = useCallback( () => {
-		setTimeout( () => setContentHeight( "auto" ), 500 );
-	}, [] );
-
-	const setHeightZero = useCallback( () => setContentHeight( 0 ), [] );
+	useEffect( () => {
+		if ( isActiveStep ) {
+			setContentHeight( "auto" );
+			// Wait until all other animations are done.
+			setTimeout( () => setIsFaded( false ), delayBeforeFadingIn );
+		} else {
+			setIsFaded( true );
+			setContentHeight( 0 );
+		}
+	}, [ isActiveStep ] );
 
 	return (
 		<Fragment>
@@ -141,33 +116,25 @@ function TailwindStep( { step, stepIndex, isLastStep, saveStep, activeStepIndex,
 			{ ! isLastStep &&
 				<Fragment>
 					<div
-						className={ "yst--ml-px yst-absolute yst-mt-0.5 yst-left-4 yst-w-0.5 yst-h-full yst-bg-gray-300 yst--bottom-6" }
+						className={ "yst--ml-px yst-absolute yst-left-4 yst-w-0.5 yst-h-full yst-bg-gray-300 yst--bottom-6" }
 						aria-hidden="true"
 					/>
-					<Transition
-						show={ stepIndex < activeStepIndex }
-						className={ "yst--ml-px yst-absolute yst-mt-0.5 yst-left-4 yst-w-0.5 yst-h-full yst-bg-primary-500" }
-						enter="yst-transition-all yst-duration-700"
-						enterFrom="yst-bottom-full"
-						enterTo="yst--bottom-6"
-						entered="yst--bottom-6"
-						leave="yst-transition-all yst-duration-700"
-						leaveFrom="yst--bottom-6"
-						leaveTo="yst-bottom-full"
+					<div
+						className={ `yst-h-12 yst-transition-transform ${ delayUntilStepFaded } yst-ease-linear ${ slideDurationClass } ${ stepIndex < activeStepIndex  ? "yst-scale-y-1" : "yst-scale-y-0" } yst-origin-top yst--ml-px yst-absolute yst-left-4 yst-w-0.5 yst-bg-primary-500 yst-top-8` }
+						aria-hidden="true"
 					/>
 				</Fragment>
 			}
 			{ /* Bullet. */ }
 			<div className="yst-relative yst-flex yst-items-start yst-group" aria-current={ isActiveStep ? "step" : null }>
 				<span className="yst-flex yst-items-center" aria-hidden={ isActiveStep ? "true" : null }>
-					<span
-						className={ `yst-transition-colors yst-duration-500 yst-relative yst-border-2 yst-z-10 yst-w-8 yst-h-8 yst-flex yst-items-center yst-justify-center yst-rounded-full ${ bulletClassNames }` }
-					>
-						{ ( icon === "check" )
-							? <CheckIcon className="yst-w-5 yst-h-5 yst-text-white" aria-hidden="true" />
-							: <span className={ `yst-transition-colors yst-duration-500 yst-h-2.5 yst-w-2.5 yst-rounded-full ${ bulletContentClassNames }` } />
-						}
-					</span>
+					<StepCircle
+						isActive={ isActiveStep }
+						isSaved={ isSaved }
+						isLastStep={ isLastStep }
+						activationDelay={ delayBeforeOpening }
+						deactivationDelay={ 0 }
+					/>
 				</span>
 				{ /* Name and description. */ }
 				<span className="yst-ml-4 yst-min-w-0 yst-flex yst-flex-col yst-self-center">
@@ -178,38 +145,24 @@ function TailwindStep( { step, stepIndex, isLastStep, saveStep, activeStepIndex,
 				</span>
 			</div>
 			{ /* Child component and buttons. */ }
-			<Transition
-				className=""
-				show={ isActiveStep }
-				unmount={ false }
-				appear={ false }
-				beforeEnter={ setHeightFull }
-				enter={ "yst-transition-opacity yst-ease-linear yst-duration-500 yst-delay-500" }
-				enterFrom="yst-opacity-0"
-				enterTo="yst-opacity-100"
-				beforeLeave={ setHeightZero }
-				leave={ "yst-transition-opacity yst-ease-linear yst-duration-500" }
-				leaveFrom="yst-opacity-100"
-				leaveTo="yst-opacity-0"
+			<AnimateHeight
+				id={ `content-${stepIndex}` }
+				delay={ contentHeight === 0 ? delayBeforeClosing : delayBeforeOpening }
+				height={ contentHeight }
+				easing="ease-in-out"
+				duration={ slideDuration }
 			>
-				<AnimateHeight
-					id={ `content-${stepIndex}` }
-					height={ contentHeight }
-					easing="ease-in-out"
-					duration={ 500 }
-				>
-					<div className="yst-ml-12 yst-mt-4">
-						{ step.component }
-						{ ! isLastStep &&
-							<StepButtons
-								stepIndex={ stepIndex }
-								saveAndContinue={ saveAndContinue }
-								goBack={ goBack }
-							/>
-						}
-					</div>
-				</AnimateHeight>
-			</Transition>
+				<div className={ `yst-transition-opacity ${ fadeDuration } yst-relative yst-ml-12 yst-mt-4 ${ isFaded ? "yst-opacity-0 yst-no-point-events" : "yst-opacity-100" }` }>
+					{ step.component }
+					{ ! isLastStep &&
+						<StepButtons
+							stepIndex={ stepIndex }
+							saveAndContinue={ saveAndContinue }
+							goBack={ goBack }
+						/>
+					}
+				</div>
+			</AnimateHeight>
 		</Fragment>
 	);
 }
@@ -224,6 +177,7 @@ TailwindStep.propTypes = {
 TailwindStep.defaultProps = {
 	saveStep: () => { },
 };
+
 /**
  * The Tailwind Stepper component.
  *
@@ -235,7 +189,7 @@ export default function Stepper( { steps, setActiveStepIndex, saveStep, activeSt
 	return (
 		<ol className="yst-overflow-hidden">
 			{ steps.map( ( step, stepIndex ) => (
-				<li key={ step.name } className={ ( stepIndex === steps.length - 1 ? "" : "yst-pb-8" ) + " yst-relative" }>
+				<li key={ step.name } className={ ( stepIndex === steps.length - 1 ? "" : "yst-pb-8" ) + " yst-mb-0 yst-relative" }>
 					<TailwindStep
 						step={ step }
 						stepIndex={ stepIndex }
@@ -259,35 +213,3 @@ Stepper.defaultProps = {
 	saveStep: () => { },
 };
 /* eslint-enable complexity, max-len */
-
-// HELPER FUNCTION. Should probably be moved to a separate helper class?
-/**
- * Gets the index to expand on first render of the stepper.
- *
- * If available, the index of the first unsaved step is returned.
- * If all steps have been finished, the index of the last step is returned.
- * Otherwise, returns the index of the first step.
- *
- * @param {Boolean[]} isSavedSteps Array with the isSaved values for each of the steps.
- *
- * @returns {int} The index to expand.
- */
-export function getInitialActiveStepIndex( isSavedSteps ) {
-	// If anything other than an array has been provided, or it is an empty array, return 0.
-	if ( ! Array.isArray( isSavedSteps ) || isSavedSteps.length === 0 ) {
-		return 0;
-	}
-
-	// Get the index of the first element that has not been saved yet.
-	const index = isSavedSteps.findIndex( ( element ) => element === false );
-	if ( index !== -1 ) {
-		return index;
-	}
-
-	// If all steps have been finished, return the index of the last step.
-	if ( isSavedSteps.every( Boolean ) ) {
-		return isSavedSteps.length - 1;
-	}
-
-	return 0;
-}

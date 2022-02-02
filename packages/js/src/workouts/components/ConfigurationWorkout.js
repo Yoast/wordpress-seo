@@ -11,8 +11,6 @@ import { Alert, NewButton as Button, RadioButtonGroup, SingleSelect, TextInput }
 import { ReactComponent as WorkoutDoneImage } from "../../../../../images/mirrored_fit_bubble_woman_1_optim.svg";
 import { ReactComponent as WorkoutStartImage } from "../../../images/motivated_bubble_woman_1_optim.svg";
 import { addLinkToString } from "../../helpers/stringHelpers.js";
-import { Step, Steps, FinishButtonSection } from "./Steps";
-import Stepper, { getInitialActiveStepIndex } from "./Stepper";
 import { STEPS, WORKOUTS } from "../config";
 import { OrganizationSection } from "./OrganizationSection";
 import { PersonSection } from "./PersonSection";
@@ -20,6 +18,9 @@ import { NewsletterSignup } from "./NewsletterSignup";
 import { WorkoutIndexation } from "./WorkoutIndexation";
 import SocialInputSection from "./SocialInputSection";
 import SocialInputPersonSection from "./SocialInputPersonSection";
+import { Step, Steps, FinishButtonSection } from "./Steps";
+import Stepper from "./Stepper";
+import { getInitialActiveStepIndex } from "../stepper-helper";
 import { scrollToStep } from "../helpers";
 
 window.wpseoScriptData = window.wpseoScriptData || {};
@@ -709,89 +710,92 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 	/* eslint-disable max-len */
 	return (
 		<div id="yoast-configuration-workout" className="card">
+			<h2 id="yoast-configuration-workout-title">{ __( "Configuration", "wordpress-seo" ) }</h2>
+			<h3 id="yoast-configuration-workout-tagline">{
+				// translators: %1$s is replaced by "Yoast SEO"
+				sprintf( __( "Configure %1$s with optimal SEO settings for your site", "wordpress-seo" ), "Yoast SEO" )
+			}</h3>
+			<p>
+				{
+					sprintf(
+						// translators: %1$s is replaced by "Yoast SEO"
+						__(
+							"Do the five steps in this workout to configure the essential %1$s settings!",
+							"wordpress-seo"
+						),
+						"Yoast SEO"
+					)
+				}
+			</p>
+			<p>
+				<i>
+					{
+						addLinkToString(
+							sprintf(
+								__(
+									// translators: %1$s and %3$s are replaced by opening and closing anchor tags. %2$s is replaced by "Yoast SEO"
+									"Need more guidance? We've covered every step in more detail in the %1$s%2$s configuration workout guide.%3$s",
+									"wordpress-seo"
+								),
+								"<a>",
+								"Yoast SEO",
+								"</a>"
+							),
+							window.wpseoWorkoutsData.configuration.shortlinks.workoutGuide,
+							"yoast-configuration-workout-guide-link"
+						)
+					}
+				</i>
+			</p>
+			<hr id="configuration-workout-hr-top" />
+			<p id="configuration-workout-important-message">
+				{
+					createInterpolateElement(
+						sprintf(
+							__(
+								// translators: %1$s and %2$s are replaced by opening and closing <b> tags.
+								"%1$sImportant:%2$s If the SEO data optimization in step 1 is running, you can already continue to the next steps.",
+								"wordpress-seo"
+							),
+							"<b>",
+							"</b>"
+						),
+						{
+							b: <b />,
+						}
+					)
+				}
+			</p>
+
 			{ /* eslint-disable react/jsx-no-bind */ }
-			<Stepper
-				steps={ [
-					{ name: "The indexables", component: <IndexationStep setIndexingState={ setIndexingState } indexingState={ indexingState } />, isSaved: isStepFinished( "configuration", steps.optimizeSeoData ) },
-					{ name: "Knowledge panel", description: "", component: <SiteRepresentationStep onOrganizationOrPersonChange={ onOrganizationOrPersonChange } dispatch={ dispatch } state={ state } siteRepresentsPerson={ siteRepresentsPerson } onSiteTaglineChange={ onSiteTaglineChange } siteRepresentationEmpty={ siteRepresentationEmpty } />, isSaved: isStepFinished( "configuration", steps.siteRepresentation ) },
-					{ name: "Social profiles", description: "", component: <SocialProfilesStep state={ state } dispatch={ dispatch } setErrorFields={ setErrorFields } siteRepresentsPerson={ siteRepresentsPerson } />, isSaved: isStepFinished( "configuration", steps.socialProfiles ) },
-					{ name: "Personal preferences", description: "", component: <PersonalPreferencesStep state={ state } setTracking={ setTracking } isTrackingOptionSelected={ isTrackingOptionSelected } />, isSaved: isStepFinished( "configuration", steps.newsletterSignup ) },
-					{ name: "Finish configuration", description: "", component: <FinishStep />, isSaved: isStepperFinished },
-				] }
-				setActiveStepIndex={ setActiveStepIndex }
-				saveStep={ ( stepIdx ) => finishSteps( "configuration", [ stepNumberNameMap[ stepIdx + 1 ] ] ) }
-				activeStepIndex={ activeStepIndex }
-			/>
+			<div className="yst-mt-8">
+				<Stepper
+					steps={ [
+						{ name: "The indexables", component: <IndexationStep setIndexingState={ setIndexingState } indexingState={ indexingState } />, isSaved: isStepFinished( "configuration", steps.optimizeSeoData ) },
+						{ name: "Knowledge panel", description: "", component: <SiteRepresentationStep onOrganizationOrPersonChange={ onOrganizationOrPersonChange } dispatch={ dispatch } state={ state } siteRepresentsPerson={ siteRepresentsPerson } onSiteTaglineChange={ onSiteTaglineChange } siteRepresentationEmpty={ siteRepresentationEmpty } />, isSaved: isStepFinished( "configuration", steps.siteRepresentation ) },
+						{ name: "Social profiles", description: "", component: <SocialProfilesStep state={ state } dispatch={ dispatch } setErrorFields={ setErrorFields } siteRepresentsPerson={ siteRepresentsPerson } />, isSaved: isStepFinished( "configuration", steps.socialProfiles ) },
+						{ name: "Personal preferences", description: "", component: <PersonalPreferencesStep state={ state } setTracking={ setTracking } isTrackingOptionSelected={ isTrackingOptionSelected } />, isSaved: isStepFinished( "configuration", steps.newsletterSignup ) },
+						{ name: "Finish configuration", description: "", component: <FinishStep />, isSaved: isWorkoutFinished },
+					] }
+					setActiveStepIndex={ setActiveStepIndex }
+					saveStep={ ( stepIdx ) => finishSteps( "configuration", [ stepNumberNameMap[ stepIdx + 1 ] ] ) }
+					activeStepIndex={ activeStepIndex }
+				/>
+			</div>
 
 			<UnsavedChangesModal hasUnsavedChanges={ state.editedSteps.includes( activeStepIndex + 1 ) } />
 
 			<button
-				className="yst-button--danger yst-mt-4" onClick={
-					() => {
-						setHideOriginal( prevState => ! prevState  );
-					} }
+				className="yst-button--danger yst-mt-4"
+				onClick={ () => {
+					setHideOriginal( prevState => ! prevState  );
+				} }
 			>
 				Toggle original
 			</button>
 			{ /* eslint-enable react/jsx-no-bind */ }
 
 			<div className={ hideOriginal ? "yst-hidden" : "" }>
-				<h2 id="yoast-configuration-workout-title">{ __( "Configuration", "wordpress-seo" ) }</h2>
-				<h3 id="yoast-configuration-workout-tagline">{
-					// translators: %1$s is replaced by "Yoast SEO"
-					sprintf( __( "Configure %1$s with optimal SEO settings for your site", "wordpress-seo" ), "Yoast SEO" )
-				}</h3>
-				<p>
-					{
-						sprintf(
-							// translators: %1$s is replaced by "Yoast SEO"
-							__(
-								"Do the five steps in this workout to configure the essential %1$s settings!",
-								"wordpress-seo"
-							),
-							"Yoast SEO"
-						)
-					}
-				</p>
-				<p>
-					<i>
-						{
-							addLinkToString(
-								sprintf(
-									__(
-										// translators: %1$s and %3$s are replaced by opening and closing anchor tags. %2$s is replaced by "Yoast SEO"
-										"Need more guidance? We've covered every step in more detail in the %1$s%2$s configuration workout guide.%3$s",
-										"wordpress-seo"
-									),
-									"<a>",
-									"Yoast SEO",
-									"</a>"
-								),
-								window.wpseoWorkoutsData.configuration.shortlinks.workoutGuide,
-								"yoast-configuration-workout-guide-link"
-							)
-						}
-					</i>
-				</p>
-				<hr id="configuration-workout-hr-top" />
-				<p id="configuration-workout-important-message">
-					{
-						createInterpolateElement(
-							sprintf(
-								__(
-									// translators: %1$s and %2$s are replaced by opening and closing <b> tags.
-									"%1$sImportant:%2$s If the SEO data optimization in step 1 is running, you can already continue to the next steps.",
-									"wordpress-seo"
-								),
-								"<b>",
-								"</b>"
-							),
-							{
-								b: <b />,
-							}
-						)
-					}
-				</p>
 				<Steps id="yoast-configuration-workout-steps">
 					<Step
 						id="yoast-configuration-workout-step-optimize-seo-data"
