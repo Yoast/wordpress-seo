@@ -110,6 +110,29 @@ class Import_Integration implements Integration_Interface {
 				'import_failure'      => $this->get_import_failure_alert( true ),
 				'cleanup_failure'     => $this->get_import_failure_alert( false ),
 				'spinner'             => \admin_url( 'images/loading.gif' ),
+				'texts'               => [
+					'select_plugin_text'  => \esc_html__( 'Please select an SEO plugin below to see what data can be imported.', 'wordpress-seo' ),
+					/* translators: %s: expands to the name of the plugin that is selected to be imported */
+					'select_header'       => \esc_html__( 'The import from %s includes:', 'wordpress-seo' ),
+					'plugins'             => [
+						'aioseo' => [
+							[
+								'data_name' => \esc_html__( 'Post metadata (SEO titles and descriptions)', 'wordpress-seo' ),
+								'data_note' => \esc_html__( 'Note: This metadata will only be imported if there is no existing Yoast SEO metadata yet.', 'wordpress-seo' ),
+							],
+							[
+								'data_name' => \esc_html__( 'Default settings', 'wordpress-seo' ),
+								'data_note' => \esc_html__( 'Note: These settings will overwrite the default settings of Yoast SEO.', 'wordpress-seo' ),
+							],
+						],
+						'other' => [
+							[
+								'data_name' => \esc_html__( 'Post metadata (SEO titles and descriptions)', 'wordpress-seo' ),
+								'data_note' => \esc_html__( 'Note: This metadata will only be imported if there is no existing Yoast SEO metadata yet.', 'wordpress-seo' ),
+							],
+						],
+					],
+				],
 			],
 		];
 

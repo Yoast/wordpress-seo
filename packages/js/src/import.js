@@ -6,7 +6,8 @@ const AioseoV4 = "WPSEO_Import_AIOSEO_V4";
 
 let cleanupButton, cleanupDropdown, cleanupForm,
 	importButton, importDropdown, importForm,
-	spinner, loadingMessageCleanup, loadingMessageImport, checkMark;
+	spinner, loadingMessageCleanup, loadingMessageImport, checkMark,
+	importExplanation;
 
 /**
  * Adds Progress UI elements in the page.
@@ -263,6 +264,8 @@ function initElements() {
 			color: "green",
 		} )
 		.hide();
+	importExplanation = jQuery( ".yoast-import-explanation" );
+	importExplanation.html( window.yoastImportData.assets.texts.select_plugin_text );
 }
 
 /**
@@ -274,12 +277,32 @@ function initElements() {
  */
 function watchSelect( dropdown ) {
 	var button = dropdown.closest( "form" ).find( "input[type=submit]" );
+	var selectedPlugin, text, textSource;
+
 	dropdown.on( "change", function() {
-		if ( jQuery( this ).find( "option:selected" ).attr( "value" ) === "" ) {
+		selectedPlugin = jQuery( this ).find( "option:selected" ).attr( "value" );
+
+		// Disable the Import button if no button is selected.
+		if ( selectedPlugin === "" ) {
 			button.prop( "disabled", true );
 			return;
 		}
 		button.prop( "disabled", false );
+
+		// Display the relevant text depending on which plugin is selected.
+		text = window.yoastImportData.assets.texts.select_header.replace( /%s/g, jQuery( this ).find( "option:selected" ).text() );
+		if ( selectedPlugin === AioseoV4 ) {
+			textSource = window.yoastImportData.assets.texts.plugins.aioseo;
+		} else {
+			textSource = window.yoastImportData.assets.texts.plugins.other;
+		}
+		text += "<ul style='list-style: disc; padding: 0 15px;'>";
+		textSource.forEach( function( dataItem ) {
+			text += "<li>" + dataItem.data_name + "<br/>" + dataItem.data_note + "</li>";
+		} );
+		text += "</ul>";
+
+		importExplanation.html( text );
 	} );
 }
 

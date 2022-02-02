@@ -60,7 +60,7 @@ function wpseo_import_external_select( $name, $plugins ) {
 
 <div class="tab-block">
 	<h3><?php esc_html_e( 'Step 2: Import', 'wordpress-seo' ); ?></h3>
-	<p>
+	<p class="yoast-import-explanation">
 		<?php
 		printf(
 			/* translators: 1: expands to Yoast SEO */
