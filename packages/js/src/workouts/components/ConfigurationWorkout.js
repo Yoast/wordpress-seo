@@ -254,6 +254,27 @@ const stepNumberNameMap = {
  */
 function IndexationStep( { indexingState, setIndexingState } ) {
 	return <Fragment>
+		<div className="yst-flex yst-flex-row yst-mb-[32px]">
+			<p className="yst-text-sm yst-text-[#333333] yst-basis-9/12">
+				{ addLinkToString(
+					sprintf(
+						__(
+							"Just click the button and we’ll analyze your site just like Google does. " +
+								"Our indexables will immediately improve technical issues without you needing to do anything! " +
+								"If you have a lot of content, that optimization could take a while! But trust us, it’s worth it! " +
+								"Want to read more, %1$scheck out the benefits of the indexables squad%2$s.",
+							"wordpress-seo"
+						),
+						"<a>",
+						"</a>"
+					),
+					window.wpseoWorkoutsData.configuration.shortlinks.indexData,
+					"yoast-configuration-workout-index-data-link"
+				)
+				}
+			</p>
+			<WorkoutStartImage className="yst-h-[95px] yst-basis-3/12" />
+		</div>
 		<div id="yoast-configuration-workout-indexing-container" className="indexation-container">
 			<WorkoutIndexation
 				indexingStateCallback={ setIndexingState }
@@ -771,7 +792,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 			<div className="yst-mt-8">
 				<Stepper
 					steps={ [
-						{ name: "The indexables", component: <IndexationStep setIndexingState={ setIndexingState } indexingState={ indexingState } />, isSaved: isStepFinished( "configuration", steps.optimizeSeoData ) },
+						{ name: "Let’s analyse your site and get those indexables into action!", component: <IndexationStep setIndexingState={ setIndexingState } indexingState={ indexingState } />, isSaved: isStepFinished( "configuration", steps.optimizeSeoData ) },
 						{ name: "Knowledge panel", description: "", component: <SiteRepresentationStep
 							onOrganizationOrPersonChange={ onOrganizationOrPersonChange } dispatch={ dispatch } state={ state } siteRepresentsPerson={ siteRepresentsPerson } onSiteTaglineChange={ onSiteTaglineChange } siteRepresentationEmpty={ siteRepresentationEmpty }
 						/>, isSaved: isStepFinished( "configuration", steps.siteRepresentation ) },
