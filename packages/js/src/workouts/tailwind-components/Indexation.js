@@ -1,7 +1,7 @@
 /* global yoastIndexingData */
 import { Component, Fragment } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { NewButton, ProgressBar } from "@yoast/components";
+import { ProgressBar } from "@yoast/components";
 import { colors } from "@yoast/style-guide";
 import PropTypes from "prop-types";
 import { addHistoryState, removeSearchParam } from "../../helpers/urlHelpers";
@@ -278,12 +278,12 @@ export class Indexation extends Component {
 	 * @returns {JSX.Element|null} The start button.
 	 */
 	renderStartButton() {
-		return <NewButton
-			variant="primary"
+		return <button
+			className="yst-button--secondary"
 			onClick={ this.startIndexing }
 		>
 			{ __( "Start SEO data optimization", "wordpress-seo" ) }
-		</NewButton>;
+		</button>;
 	}
 
 	/**
@@ -292,12 +292,12 @@ export class Indexation extends Component {
 	 * @returns {JSX.Element|null} The stop button.
 	 */
 	renderStopButton() {
-		return <NewButton
-			variant="secondary"
+		return <button
+			className="yst-button--secondary"
 			onClick={ this.stopIndexing }
 		>
 			{ __( "Stop SEO data optimization", "wordpress-seo" ) }
-		</NewButton>;
+		</button>;
 	}
 
 	/**
@@ -308,12 +308,12 @@ export class Indexation extends Component {
 	renderDisabledTool() {
 		return <Fragment>
 			<p>
-				<NewButton
-					variant="secondary"
+				<button
+					className="yst-button--secondary"
 					disabled={ true }
 				>
 					{ __( "Start SEO data optimization", "wordpress-seo" ) }
-				</NewButton>
+				</button>
 			</p>
 			<Alert type={ "info" }>
 				{ __( "SEO data optimization is disabled for non-production environments.", "wordpress-seo" ) }

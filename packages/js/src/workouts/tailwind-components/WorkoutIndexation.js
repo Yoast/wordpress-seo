@@ -24,7 +24,13 @@ export function WorkoutIndexation( { indexingStateCallback, indexingState, isEna
 		if ( indexingState === "completed" ) {
 			return <Alert type="success">{ __( "SEO data optimization complete", "wordpress-seo" ) }</Alert>;
 		}
-		return <button className="yoast-button yoast-button--primary" type="button" disabled={ true }>Start SEO data optimization</button>;
+		return <button
+			className="yoast-button--primary"
+			type="button"
+			disabled={ true }
+		>
+			{ __( "Start SEO data optimization", "wordpress-seo" ) }
+		</button>;
 	}
 	return <Indexation
 		preIndexingActions={ preIndexingActions }
