@@ -382,7 +382,7 @@ export class Indexation extends Component {
 		}
 
 		if ( this.isState( STATE.COMPLETED ) || this.state.amount === 0 ) {
-			return <Alert type={ "success" }>{ __( "SEO data optimization complete", "wordpress-seo" ) }</Alert>;
+			return <Alert type="success">{ __( "We’ve successfully analyzed your site!", "wordpress-seo" ) }</Alert>;
 		}
 
 		return this.renderTool();

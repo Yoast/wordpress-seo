@@ -1,6 +1,7 @@
-// Duplicated from: admin-ui/packages/toolkit/components/alert.js
+// Duplicated from admin-ui! ( admin-ui/packages/toolkit/components/alert.js )
+// Addition: "success" case.
 
-import { InformationCircleIcon, ExclamationIcon, XCircleIcon } from "@heroicons/react/solid";
+import { InformationCircleIcon, ExclamationIcon, XCircleIcon, CheckCircleIcon } from "@heroicons/react/solid";
 import { PropTypes } from "prop-types";
 import classNames from "classnames";
 
@@ -28,6 +29,11 @@ export default function Alert( { type, children, className } ) {
 		case "error":
 			icon = <XCircleIcon aria-hidden="true" className="yst-flex-shrink-0 yst-w-5 yst-h-5 yst-text-red-500" />;
 			color = "yst-bg-red-100 yst-text-red-800";
+			break;
+		case "success":
+			icon = <CheckCircleIcon aria-hidden="true" className="yst-flex-shrink-0 yst-w-5 yst-h-5 yst-green-red-500" />;
+			color = "yst-bg-green-100 yst-text-green-800";
+			break;
 	}
 
 	const marginBottom = className.indexOf( "yst-mb-" ) === -1 ? "yst-mb-8" : "";
@@ -43,7 +49,7 @@ export default function Alert( { type, children, className } ) {
 }
 
 Alert.propTypes = {
-	type: PropTypes.oneOf( [ "info", "warning", "error" ] ),
+	type: PropTypes.oneOf( [ "info", "warning", "error", "success" ] ),
 	children: PropTypes.oneOfType( [
 		PropTypes.arrayOf( PropTypes.node ),
 		PropTypes.node,
