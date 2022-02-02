@@ -1,4 +1,4 @@
-import Indexation from "../../components/Indexation";
+import Indexation from "./Indexation";
 import PropTypes from "prop-types";
 import { Alert } from "@yoast/components";
 import { __ } from "@wordpress/i18n";
