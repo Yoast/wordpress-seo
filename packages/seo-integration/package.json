@@ -2,10 +2,30 @@
   "name": "@yoast/seo-integration",
   "version": "1.0.0",
   "jest": {
-    "testRegex": "src\\/.+\\/(?:.*[-.])?tests?\\.js$",
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "./src/**/*.js"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 3,
+        "functions": 1,
+        "lines": 5,
+        "statements": 4
+      }
+    },
+    "coveragePathIgnorePatterns": [
+      "node_modules"
+    ],
+    "testRegex": "/tests/.*\\.(js)$",
+    "testEnvironment": "jsdom",
+    "testURL": "http://localhost",
     "transform": {
       "^.+\\.jsx?$": "babel-jest"
     },
+    "transformIgnorePatterns": [
+      "[/\\\\]node_modules[/\\\\](?!lodash-es|lodash|@yoast).+\\.js$"
+    ],
     "timers": "fake"
   },
   "main": "build/index.js",
