@@ -535,30 +535,15 @@ body.folded .wpseo-admin-submit-fixed {
   padding: 16px;
   position: fixed;
   bottom: 0;
-  left: 160px;
-  right: 281px;
   background-color: white;
-  max-width: 800px;
+  width: 600px;
   box-shadow: 0 1px 8px 1px rgba(0, 0, 0, 0.5);
-  margin: 0 16px;
-}
-
-@media screen and (max-width: 1024px) {
-  .wpseo-admin-submit.wpseo-admin-submit-fixed {
-    right: 0;
-  }
-}
-
-@media only screen and (max-width: 960px) {
-  .wpseo-admin-submit.wpseo-admin-submit-fixed {
-    left: 36px;
-  }
 }
 
 @media screen and (max-width: 782px) {
   .wpseo-admin-submit.wpseo-admin-submit-fixed {
     left: 0;
-    margin: 0;
+    width: 782px;
   }
 }
 
