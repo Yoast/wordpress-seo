@@ -192,7 +192,23 @@ class Structured_Data_Blocks implements Integration_Interface {
 				if ( ! $src_matches || ! isset( $src_matches[1] ) || ! isset( $images[ $src_matches[1] ] ) ) {
 					return $matches[0];
 				}
-				return \wp_get_attachment_image( $images[ $src_matches[1] ], 'full' );
+				$attachment_id = (int) $images[ $src_matches[1] ];
+
+				/**
+				 * Filter: 'wpseo_structured_data_blocks_image_size' - Allows adjusting the image size in structured data blocks.
+				 *
+				 * @param int    $attachment_id  The attachment ID.
+				 * @param string $attachment_src The attachment src.
+				 *
+				 * @api array $pieces The schema pieces.
+				 */
+				$image_size = \apply_filters(
+					'wpseo_structured_data_blocks_image_size',
+					'full',
+					$attachment_id,
+					$src_matches[1]
+				);
+				return \wp_get_attachment_image( $attachment_id, $image_size );
 			},
 			$content
 		);
