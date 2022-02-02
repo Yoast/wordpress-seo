@@ -23,6 +23,10 @@
 	@apply yst-button yst-text-red-600 yst-underline yst-rounded-md yst-px-1.5 yst-py-1 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-indigo-500;
 }
 
+.yst-button--small {
+	@apply yst-text-[12px] yst-px-2.5 yst-py-1.5;
+}
+
 #wpseo-workouts-container-free h1,
 #wpseo-workouts-container-free h3 {
 	color: #a4286a;

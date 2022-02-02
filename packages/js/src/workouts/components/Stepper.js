@@ -79,7 +79,7 @@ const stepShape = PropTypes.shape( {
  *
  * @returns {WPElement} The Step component.
  */
-function TailwindStep( { step, stepIndex, isLastStep, saveStep, activeStepIndex, setActiveStepIndex } ) {
+function TailwindStep( { step, stepIndex, isLastStep, saveStep, activeStepIndex, setActiveStepIndex, showEditButton } ) {
 	const isActiveStep = activeStepIndex === stepIndex;
 	const isSaved = step.isSaved;
 	const nameClassNames = getNameClassnames( isSaved, isActiveStep, isLastStep );
@@ -109,6 +109,10 @@ function TailwindStep( { step, stepIndex, isLastStep, saveStep, activeStepIndex,
 			setContentHeight( 0 );
 		}
 	}, [ isActiveStep ] );
+
+	const editStep = useCallback( () => {
+		console.log( "clicked" );
+	}, [] );
 
 	return (
 		<Fragment>
@@ -143,6 +147,13 @@ function TailwindStep( { step, stepIndex, isLastStep, saveStep, activeStepIndex,
 					</span>
 					{ step.description && <span className="yst-text-sm yst-text-gray-500">{ step.description }</span> }
 				</span>
+				{ ( showEditButton && ! isLastStep ) &&
+					<button
+						className="yst-button--secondary yst-button--small yst-ml-auto"
+						onClick={ editStep }
+					>
+						Edit
+					</button> }
 			</div>
 			{ /* Child component and buttons. */ }
 			<AnimateHeight
@@ -173,9 +184,11 @@ TailwindStep.propTypes = {
 	setActiveStepIndex: PropTypes.func.isRequired,
 	saveStep: PropTypes.func,
 	activeStepIndex: PropTypes.number.isRequired,
+	showEditButton: PropTypes.bool,
 };
 TailwindStep.defaultProps = {
 	saveStep: () => { },
+	showEditButton: false,
 };
 
 /**
@@ -185,7 +198,7 @@ TailwindStep.defaultProps = {
  *
  * @returns {WPElement} The Stepper component.
  */
-export default function Stepper( { steps, setActiveStepIndex, saveStep, activeStepIndex } ) {
+export default function Stepper( { steps, setActiveStepIndex, saveStep, activeStepIndex, isStepperFinished } ) {
 	return (
 		<ol className="yst-overflow-hidden">
 			{ steps.map( ( step, stepIndex ) => (
@@ -197,6 +210,7 @@ export default function Stepper( { steps, setActiveStepIndex, saveStep, activeSt
 						setActiveStepIndex={ setActiveStepIndex }
 						saveStep={ saveStep }
 						activeStepIndex={ activeStepIndex }
+						showEditButton={ isStepperFinished }
 					/>
 				</li>
 			) ) }
@@ -208,6 +222,7 @@ Stepper.propTypes = {
 	setActiveStepIndex: PropTypes.func.isRequired,
 	saveStep: PropTypes.func,
 	activeStepIndex: PropTypes.number.isRequired,
+	isStepperFinished: PropTypes.bool.isRequired,
 };
 Stepper.defaultProps = {
 	saveStep: () => { },

@@ -772,17 +772,19 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 				<Stepper
 					steps={ [
 						{ name: "The indexables", component: <IndexationStep setIndexingState={ setIndexingState } indexingState={ indexingState } />, isSaved: isStepFinished( "configuration", steps.optimizeSeoData ) },
-						{ name: "Knowledge panel", description: "", component: <SiteRepresentationStep onOrganizationOrPersonChange={ onOrganizationOrPersonChange } dispatch={ dispatch } state={ state } siteRepresentsPerson={ siteRepresentsPerson } onSiteTaglineChange={ onSiteTaglineChange } siteRepresentationEmpty={ siteRepresentationEmpty } />, isSaved: isStepFinished( "configuration", steps.siteRepresentation ) },
+						{ name: "Knowledge panel", description: "", component: <SiteRepresentationStep
+							onOrganizationOrPersonChange={ onOrganizationOrPersonChange } dispatch={ dispatch } state={ state } siteRepresentsPerson={ siteRepresentsPerson } onSiteTaglineChange={ onSiteTaglineChange } siteRepresentationEmpty={ siteRepresentationEmpty }
+						/>, isSaved: isStepFinished( "configuration", steps.siteRepresentation ) },
 						{ name: "Social profiles", description: "", component: <SocialProfilesStep state={ state } dispatch={ dispatch } setErrorFields={ setErrorFields } siteRepresentsPerson={ siteRepresentsPerson } />, isSaved: isStepFinished( "configuration", steps.socialProfiles ) },
 						{ name: "Personal preferences", description: "", component: <PersonalPreferencesStep state={ state } setTracking={ setTracking } isTrackingOptionSelected={ isTrackingOptionSelected } />, isSaved: isStepFinished( "configuration", steps.newsletterSignup ) },
-						{ name: "Finish configuration", description: "", component: <FinishStep />, isSaved: isWorkoutFinished },
+						{ name: "Finish configuration", description: "", component: <FinishStep />, isSaved: isStepperFinished },
 					] }
 					setActiveStepIndex={ setActiveStepIndex }
 					saveStep={ ( stepIdx ) => finishSteps( "configuration", [ stepNumberNameMap[ stepIdx + 1 ] ] ) }
 					activeStepIndex={ activeStepIndex }
+					isStepperFinished={ isStepperFinished }
 				/>
 			</div>
-
 			<UnsavedChangesModal hasUnsavedChanges={ state.editedSteps.includes( activeStepIndex + 1 ) } />
 
 			<button
