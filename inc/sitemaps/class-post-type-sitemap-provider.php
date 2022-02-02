@@ -42,6 +42,9 @@ class WPSEO_Post_Type_Sitemap_Provider extends WPSEO_Indexable_Sitemap_Provider 
 			->select_many( 'object_sub_type' )
 			->find_array();
 		$indexed_archives = wp_list_pluck( $indexed_archives, 'object_sub_type' );
+		$indexed_archives = array_filter( $indexed_archives, function ( $post_type ) {
+			return ! $this->should_exclude_object_sub_type( $post_type );
+		} );
 
 		// Post and page sitemaps always get a link to the homepage or posts page.
 		return array_merge( $indexed_archives, [ 'post', 'page' ] );
