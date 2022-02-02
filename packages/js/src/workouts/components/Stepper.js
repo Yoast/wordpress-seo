@@ -2,8 +2,8 @@ import { Fragment, useCallback, useState, useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import AnimateHeight from "react-animate-height";
 import PropTypes from "prop-types";
-import { StepCircle } from "./StepCircle";
 import { stepperTimings, stepperTimingClasses } from "../stepper-helper";
+import StepHeader from "./StepHeader";
 
 /* eslint-disable complexity, max-len */
 const {
@@ -49,23 +49,6 @@ StepButtons.propTypes = {
 	goBack: PropTypes.func.isRequired,
 };
 
-
-/**
- * Gets the classnames for the step name.
- *
- * @param {boolean} isSaved      Whether the step is saved.
- * @param {boolean} isActiveStep Whether the step is active.
- * @param {boolean} isLastStep   Whether it is the last step.
- *
- * @returns {string} The classnames for the step name.
- */
-function getNameClassnames( isSaved, isActiveStep, isLastStep ) {
-	if ( isActiveStep && ! isLastStep ) {
-		return "yst-text-primary-500";
-	}
-	return isSaved ? "" : "yst-text-gray-500";
-}
-
 const stepShape = PropTypes.shape( {
 	name: PropTypes.string.isRequired,
 	description: PropTypes.string,
@@ -83,24 +66,14 @@ const stepShape = PropTypes.shape( {
 function TailwindStep( { step, stepIndex, isLastStep, saveStep, activeStepIndex, setActiveStepIndex, showEditButton } ) {
 	const isActiveStep = activeStepIndex === stepIndex;
 	const isSaved = step.isSaved;
-	const nameClassNames = getNameClassnames( isSaved, isActiveStep, isLastStep );
 
 	const [ contentHeight, setContentHeight ] = useState( isActiveStep ? "auto" : 0 );
 	const [ isFaded, setIsFaded ] = useState( ! isActiveStep );
 
-	// const saveAndContinue = useCallback(
-	// 	() => {
-	// 		saveStep( stepIndex );
-	// 		setActiveStepIndex( stepIndex + 1 );
-	// 	},
-	// 	[ setActiveStepIndex, saveStep, stepIndex ]
-	// );
-
 	const saveEditedStep = useCallback(
 		() => {
 			saveStep( stepIndex );
-			// Check if there are edited steps which are not saved, find the last one and expand it
-			// If there are no edited steps left to save, expand the last step
+			// Expand the last step?
 		},
 		[ saveStep, stepIndex ]
 	);
@@ -154,32 +127,16 @@ function TailwindStep( { step, stepIndex, isLastStep, saveStep, activeStepIndex,
 					/>
 				</Fragment>
 			}
-			{ /* Bullet. */ }
-			<div className="yst-relative yst-flex yst-items-start yst-group" aria-current={ isActiveStep ? "step" : null }>
-				<span className="yst-flex yst-items-center" aria-hidden={ isActiveStep ? "true" : null }>
-					<StepCircle
-						isActive={ isActiveStep }
-						isSaved={ isSaved }
-						isLastStep={ isLastStep }
-						activationDelay={ delayBeforeOpening }
-						deactivationDelay={ 0 }
-					/>
-				</span>
-				{ /* Name and description. */ }
-				<span className="yst-ml-4 yst-min-w-0 yst-flex yst-flex-col yst-self-center">
-					<span className={ "yst-text-xs yst-font-semibold yst-tracking-wide yst-uppercase " + nameClassNames }>
-						{ step.name }
-					</span>
-					{ step.description && <span className="yst-text-sm yst-text-gray-500">{ step.description }</span> }
-				</span>
-				{ ( showEditButton && ! isLastStep ) &&
-					<button
-						className="yst-button--secondary yst-button--small yst-ml-auto"
-						onClick={ editStep }
-					>
-						Edit
-					</button> }
-			</div>
+
+			<StepHeader
+				step={ step }
+				isActiveStep={ isActiveStep }
+				isSaved={ isSaved }
+				isLastStep={ isLastStep }
+				showEditButton={ showEditButton }
+				editStep={ editStep }
+			/>
+
 			{ /* Child component and buttons. */ }
 			<AnimateHeight
 				id={ `content-${stepIndex}` }
