@@ -129,7 +129,6 @@ function TailwindStep( { step, stepIndex, lastStepIndex, isLastStep, saveStep, a
 					/>
 				</Fragment>
 			}
-
 			<StepHeader
 				step={ step }
 				isActiveStep={ isActiveStep }
@@ -139,7 +138,6 @@ function TailwindStep( { step, stepIndex, lastStepIndex, isLastStep, saveStep, a
 				editStep={ editStep }
 				isStepBeingEdited={ isStepBeingEdited }
 			/>
-
 			{ /* Child component and buttons. */ }
 			<AnimateHeight
 				id={ `content-${stepIndex}` }

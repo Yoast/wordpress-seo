@@ -50,7 +50,7 @@ export default function StepHeader( { step, isActiveStep, isSaved, isLastStep, i
 		</span>
 		{ /* Name and description. */ }
 		<span className="yst-ml-4 yst-min-w-0 yst-flex yst-flex-col">
-			<span className={ "yst-text-xs yst-font-semibold yst-tracking-wide yst-uppercase " + nameClassNames }>
+			<span className={ "yst-text-xs yst-font-[650] yst-tracking-wide yst-uppercase " + nameClassNames }>
 				{ step.name }
 			</span>
 			{ step.description && <span className="yst-text-sm yst-text-gray-500">{ step.description }</span> }
