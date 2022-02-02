@@ -20,6 +20,14 @@ module.exports = function( grunt ) {
 	}
 
 	return {
+		"build-seo-integration": {
+			command: "yarn lerna run build --scope={'@yoast/seo-integration','@yoast/seo-store','@yoast/replacement-variables'}",
+		},
+
+		"build-seo-integration-prod": {
+			command: "yarn lerna run build:prod --scope={'@yoast/seo-integration','@yoast/seo-store','@yoast/replacement-variables'}",
+		},
+
 		webpack: {
 			command: "cross-env NODE_ENV=development yarn build",
 		},
