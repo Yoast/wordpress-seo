@@ -1,8 +1,6 @@
 /* global yoastIndexingData */
 import { Component, Fragment } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { ProgressBar } from "@yoast/components";
-import { colors } from "@yoast/style-guide";
 import PropTypes from "prop-types";
 import { addHistoryState, removeSearchParam } from "../../helpers/urlHelpers";
 import IndexingError from "./IndexingError";
@@ -327,16 +325,29 @@ export class Indexation extends Component {
 	 * @returns {JSX.Element} The progress bar, plus caption.
 	 */
 	renderProgressBar() {
+		let percentageIndexed = 1.5;
+		if ( this.isState( STATE.COMPLETED ) ) {
+			percentageIndexed = 100;
+		}
+		if ( this.isState( STATE.IN_PROGRESS ) ) {
+			percentageIndexed = ( this.state.processed / parseInt( this.state.amount, 10 ) ) * 100;
+		}
+
 		return <Fragment>
-			<ProgressBar
-				style={ { height: "16px", margin: "8px 0" } }
-				progressColor={ colors.$color_pink_dark }
-				max={ parseInt( this.state.amount, 10 ) }
-				value={ this.state.processed }
-			/>
-			<p style={ { color: colors.$palette_grey_text } }>
-				{ __( "Optimizing SEO data... This may take a while.", "wordpress-seo" ) }
-			</p>
+			<div className="yst-w-full yst-bg-gray-200 yst-rounded-full yst-h-2.5 yst-mb-4">
+				<div
+					className="yst-transition-[width] yst-ease-linear yst-bg-primary-500 yst-h-2.5 yst-rounded-full"
+					style={ { width: `${ percentageIndexed }%` } }
+				/>
+			</div>
+			{ this.isState( STATE.IN_PROGRESS ) &&
+				<p className="yst-text-sm yst-italic yst-mb-4">
+					{
+						__( "SEO data optimization is running… You can safely move on to the next steps of this configuration.",
+							"wordpress-seo" )
+					}
+				</p>
+			}
 		</Fragment>;
 	}
 
@@ -360,7 +371,7 @@ export class Indexation extends Component {
 	renderTool() {
 		return (
 			<Fragment>
-				{ this.isState( STATE.IN_PROGRESS ) && this.renderProgressBar() }
+				{ this.renderProgressBar() }
 				{ this.isState( STATE.ERRORED ) && this.renderErrorAlert() }
 				{ this.isState( STATE.IDLE ) && this.state.firstTime && this.renderFirstIndexationNotice() }
 				{ this.isState( STATE.IN_PROGRESS )
