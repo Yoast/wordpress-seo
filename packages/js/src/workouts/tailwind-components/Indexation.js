@@ -1,11 +1,12 @@
 /* global yoastIndexingData */
 import { Component, Fragment } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { Alert, NewButton, ProgressBar } from "@yoast/components";
+import { NewButton, ProgressBar } from "@yoast/components";
 import { colors } from "@yoast/style-guide";
 import PropTypes from "prop-types";
 import { addHistoryState, removeSearchParam } from "../../helpers/urlHelpers";
 import IndexingError from "./IndexingError";
+import Alert from "./alert";
 import RequestError from "../../errors/RequestError";
 import ParseError from "../../errors/ParseError";
 
