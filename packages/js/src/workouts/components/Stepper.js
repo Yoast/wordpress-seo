@@ -49,6 +49,7 @@ StepButtons.propTypes = {
 	goBack: PropTypes.func.isRequired,
 };
 
+
 /**
  * Gets the classnames for the step name.
  *
@@ -87,10 +88,34 @@ function TailwindStep( { step, stepIndex, isLastStep, saveStep, activeStepIndex,
 	const [ contentHeight, setContentHeight ] = useState( isActiveStep ? "auto" : 0 );
 	const [ isFaded, setIsFaded ] = useState( ! isActiveStep );
 
-	const saveAndContinue = useCallback(
+	// const saveAndContinue = useCallback(
+	// 	() => {
+	// 		saveStep( stepIndex );
+	// 		setActiveStepIndex( stepIndex + 1 );
+	// 	},
+	// 	[ setActiveStepIndex, saveStep, stepIndex ]
+	// );
+
+	const saveEditedStep = useCallback(
 		() => {
 			saveStep( stepIndex );
+			// Check if there are edited steps which are not saved, find the last one and expand it
+			// If there are no edited steps left to save, expand the last step
+		},
+		[ saveStep, stepIndex ]
+	);
+
+	const continueToNextStep = useCallback(
+		() => {
 			setActiveStepIndex( stepIndex + 1 );
+		},
+		[ setActiveStepIndex, stepIndex ]
+	);
+
+	const saveAndContinue = useCallback(
+		() => {
+			saveEditedStep();
+			continueToNextStep();
 		},
 		[ setActiveStepIndex, saveStep, stepIndex ]
 	);
@@ -111,8 +136,8 @@ function TailwindStep( { step, stepIndex, isLastStep, saveStep, activeStepIndex,
 	}, [ isActiveStep ] );
 
 	const editStep = useCallback( () => {
-		console.log( "clicked" );
-	}, [] );
+		setActiveStepIndex( stepIndex );
+	}, [ stepIndex, setActiveStepIndex ] );
 
 	return (
 		<Fragment>
@@ -165,12 +190,20 @@ function TailwindStep( { step, stepIndex, isLastStep, saveStep, activeStepIndex,
 			>
 				<div className={ `yst-transition-opacity ${ fadeDuration } yst-relative yst-ml-12 yst-mt-4 ${ isFaded ? "yst-opacity-0 yst-no-point-events" : "yst-opacity-100" }` }>
 					{ step.component }
-					{ ! isLastStep &&
+					{ ( ! isLastStep && ! showEditButton ) &&
 						<StepButtons
 							stepIndex={ stepIndex }
 							saveAndContinue={ saveAndContinue }
 							goBack={ goBack }
 						/>
+					}
+					{ ( ! isLastStep && showEditButton ) &&
+						<button
+							className="yst-button--primary"
+							onClick={ saveEditedStep }
+						>
+							Save Changes
+						</button>
 					}
 				</div>
 			</AnimateHeight>
