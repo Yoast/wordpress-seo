@@ -489,7 +489,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	 * Plucks the keyphrase to be imported from the AIOSEO array of keyphrase meta data.
 	 *
 	 * @param array  $aioseo_data All of the AIOSEO data to be imported.
-	 * @param string $aioseo_key  The AIOSEO key that contains the setting we're working with, aka keyphrase.
+	 * @param string $aioseo_key  The AIOSEO key that contains the setting we're working with, aka keyphrases.
 	 *
 	 * @return string|null The plucked keyphrase.
 	 */

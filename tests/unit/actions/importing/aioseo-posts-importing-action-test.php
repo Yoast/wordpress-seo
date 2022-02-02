@@ -494,7 +494,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			),
 			'og_image_type'       => 'attach',
 			'twitter_image_type'  => 'auto',
-			'twitter_use_og'      => false,
+			'twitter_use_og'      => true,
 			'robots_default'      => true,
 			'robots_nofollow'     => true,
 			'robots_noarchive'    => false,
@@ -503,44 +503,24 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 		];
 
 		$this->replacevar_handler->shouldReceive( 'transform' )
-			->once()
+			->twice()
 			->with( $aioseio_indexable['og_title'] )
 			->andReturn( $aioseio_indexable['og_title'] );
 
 		$this->sanitization->shouldReceive( 'sanitize_text_field' )
-			->once()
+			->twice()
 			->with( $aioseio_indexable['og_title'] )
 			->andReturn( $aioseio_indexable['og_title'] );
 
 		$this->replacevar_handler->shouldReceive( 'transform' )
-			->once()
+			->twice()
 			->with( $aioseio_indexable['og_description'] )
 			->andReturn( $aioseio_indexable['og_description'] );
 
 		$this->sanitization->shouldReceive( 'sanitize_text_field' )
-			->once()
+			->twice()
 			->with( $aioseio_indexable['og_description'] )
 			->andReturn( $aioseio_indexable['og_description'] );
-
-		$this->replacevar_handler->shouldReceive( 'transform' )
-			->once()
-			->with( $aioseio_indexable['twitter_title'] )
-			->andReturn( $aioseio_indexable['twitter_title'] );
-
-		$this->sanitization->shouldReceive( 'sanitize_text_field' )
-			->once()
-			->with( $aioseio_indexable['twitter_title'] )
-			->andReturn( $aioseio_indexable['twitter_title'] );
-
-		$this->replacevar_handler->shouldReceive( 'transform' )
-			->once()
-			->with( $aioseio_indexable['twitter_description'] )
-			->andReturn( $aioseio_indexable['twitter_description'] );
-
-		$this->sanitization->shouldReceive( 'sanitize_text_field' )
-			->once()
-			->with( $aioseio_indexable['twitter_description'] )
-			->andReturn( $aioseio_indexable['twitter_description'] );
 
 		$this->sanitization->shouldReceive( 'sanitize_url' )
 			->once()
@@ -548,24 +528,14 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			->andReturn( $aioseio_indexable['canonical_url'] );
 
 		$this->social_images_provider->shouldReceive( 'get_first_attached_image' )
-			->once()
+			->twice()
 			->with( 123 )
 			->andReturn( 'https://example.com/image3.png' );
 
 		$this->sanitization->shouldReceive( 'sanitize_url' )
-			->once()
+			->twice()
 			->with( 'https://example.com/image3.png', null )
 			->andReturn( 'https://example.com/image3.png' );
-
-		$this->social_images_provider->shouldReceive( 'get_auto_image' )
-			->once()
-			->with( 123 )
-			->andReturn( 'https://example.com/image4.png' );
-
-		$this->sanitization->shouldReceive( 'sanitize_url' )
-			->once()
-			->with( 'https://example.com/image4.png', null )
-			->andReturn( 'https://example.com/image4.png' );
 
 		$this->robots_provider->shouldReceive( 'get_subtype_robot_setting' )
 			->andReturn( 'robot_setting' );
@@ -574,14 +544,9 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			->andReturn( 'robot_value' );
 
 		$this->image->shouldReceive( 'get_attachment_by_url' )
-			->once()
+			->twice()
 			->with( 'https://example.com/image3.png' )
 			->andReturn( '123' );
-
-		$this->image->shouldReceive( 'get_attachment_by_url' )
-			->once()
-			->with( 'https://example.com/image4.png' )
-			->andReturn( '234' );
 
 		$indexable = $this->instance->map( $indexable, $aioseio_indexable );
 
@@ -589,17 +554,17 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 		$this->assertSame( 'existing_dsc', $indexable->description );
 		$this->assertSame( 'og_title1', $indexable->open_graph_title );
 		$this->assertSame( 'og_description1', $indexable->open_graph_description );
-		$this->assertSame( 'twitter_title1', $indexable->twitter_title );
-		$this->assertSame( 'twitter_description1', $indexable->twitter_description );
+		$this->assertSame( 'og_title1', $indexable->twitter_title );
+		$this->assertSame( 'og_description1', $indexable->twitter_description );
 		$this->assertSame( 'https://example.com/', $indexable->canonical );
 		$this->assertSame( null, $indexable->primary_focus_keyword );
 		$this->assertSame( 'https://example.com/image3.png', $indexable->open_graph_image );
 		$this->assertSame( 'imported', $indexable->open_graph_image_source );
 		$this->assertSame( '123', $indexable->open_graph_image_id );
 		$this->assertSame( null, $indexable->open_graph_image_meta );
-		$this->assertSame( 'https://example.com/image4.png', $indexable->twitter_image );
+		$this->assertSame( 'https://example.com/image3.png', $indexable->twitter_image );
 		$this->assertSame( 'imported', $indexable->twitter_image_source );
-		$this->assertSame( '234', $indexable->twitter_image_id );
+		$this->assertSame( '123', $indexable->twitter_image_id );
 	}
 
 	/**
