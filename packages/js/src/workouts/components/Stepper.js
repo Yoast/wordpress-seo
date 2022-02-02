@@ -13,7 +13,7 @@ const {
 	delayBeforeClosing,
 } = stepperTimings;
 
-const { fadeDuration, delayUntilStepFaded } = stepperTimingClasses;
+const { fadeDuration, delayUntilStepFaded, slideDurationClass = slideDuration } = stepperTimingClasses;
 
 /**
  * The StepButtons component.
@@ -120,7 +120,7 @@ function TailwindStep( { step, stepIndex, isLastStep, saveStep, activeStepIndex,
 						aria-hidden="true"
 					/>
 					<div
-						className={ `yst-h-12 yst-transition-transform ${ delayUntilStepFaded } yst-ease-linear ${ "yst-duration-500" } ${ stepIndex < activeStepIndex  ? "yst-scale-y-1" : "yst-scale-y-0" } yst-origin-top yst--ml-px yst-absolute yst-left-4 yst-w-0.5 yst-bg-primary-500 yst-top-8` }
+						className={ `yst-h-12 yst-transition-transform ${ delayUntilStepFaded } yst-ease-linear ${ slideDurationClass } ${ stepIndex < activeStepIndex  ? "yst-scale-y-1" : "yst-scale-y-0" } yst-origin-top yst--ml-px yst-absolute yst-left-4 yst-w-0.5 yst-bg-primary-500 yst-top-8` }
 						aria-hidden="true"
 					/>
 				</Fragment>
