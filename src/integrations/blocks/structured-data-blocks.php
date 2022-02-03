@@ -158,20 +158,20 @@ class Structured_Data_Blocks implements Integration_Interface {
 	/**
 	 * Optimizes images in structured data blocks.
 	 *
-	 * @param array  $data    The data from the attributes.
-	 * @param string $key     The key in the data to iterate over.
-	 * @param string $content The content.
+	 * @param array  $elements The list of elements from the block attributes.
+	 * @param string $key      The key in the data to iterate over.
+	 * @param string $content  The content.
 	 *
 	 * @return string The content with images optimized.
 	 */
-	private function optimize_images( $data, $key, $content ) {
+	private function optimize_images( $elements, $key, $content ) {
 		// First grab all image IDs from the attributes.
 		$images = [];
-		foreach ( $data as $question ) {
-			if ( ! isset( $question[ $key ] ) ) {
+		foreach ( $elements as $element ) {
+			if ( ! isset( $element[ $key ] ) ) {
 				continue;
 			}
-			foreach ( $question[ $key ] as $part ) {
+			foreach ( $element[ $key ] as $part ) {
 				if ( ! \is_array( $part ) || ! isset( $part['type'] ) || $part['type'] !== 'img' ) {
 					continue;
 				}
@@ -197,10 +197,11 @@ class Structured_Data_Blocks implements Integration_Interface {
 				/**
 				 * Filter: 'wpseo_structured_data_blocks_image_size' - Allows adjusting the image size in structured data blocks.
 				 *
-				 * @param int    $attachment_id  The attachment ID.
-				 * @param string $attachment_src The attachment src.
+				 * @since 18.2
 				 *
-				 * @api array $pieces The schema pieces.
+				 * @param string|int[] $image_size     The image size. Accepts any registered image size name, or an array of width and height values in pixels (in that order).
+				 * @param int          $attachment_id  The id of the attachment.
+				 * @param string       $attachment_src The attachment src.
 				 */
 				$image_size = \apply_filters(
 					'wpseo_structured_data_blocks_image_size',
@@ -208,7 +209,13 @@ class Structured_Data_Blocks implements Integration_Interface {
 					$attachment_id,
 					$src_matches[1]
 				);
-				return \wp_get_attachment_image( $attachment_id, $image_size );
+				$image_html = \wp_get_attachment_image( $attachment_id, $image_size );
+
+				if ( empty( $image_html ) ) {
+					return $matches[0];
+				}
+
+				return $image_html;
 			},
 			$content
 		);
