@@ -175,9 +175,9 @@ class KeyphraseLengthAssessment extends Assessment {
 						%7$s expands to the word 'words' or 'characters' or 'content words'. */
 						_n(
 							// eslint-disable-next-line max-len
-							"%3$sKeyphrase length%5$s: The keyphrase contains %1$d %6$s. That's shorter than the recommended minimum of %2$d %7$s. %4$sMake it longer%5$s!",
+							"%3$sKeyphrase length%5$s: The keyphrase contains %1$d %6$s. That's way less than the recommended minimum of %2$d %7$s. %4$sMake it longer%5$s!",
 							// eslint-disable-next-line max-len
-							"%3$sKeyphrase length%5$s: The keyphrase contains %1$d %7$s. That's shorter than the recommended minimum of %2$d %7$s. %4$sMake it longer%5$s!",
+							"%3$sKeyphrase length%5$s: The keyphrase contains %1$d %7$s. That's way less than the recommended minimum of %2$d %7$s. %4$sMake it longer%5$s!",
 							this._keyphraseLengthData.keyphraseLength,
 							"wordpress-seo"
 						),
@@ -203,7 +203,7 @@ class KeyphraseLengthAssessment extends Assessment {
 						%6$s expands to the word 'words' or 'characters' or 'content words'. */
 						__(
 							// eslint-disable-next-line max-len
-							"%3$sKeyphrase length%5$s: The keyphrase contains %1$d %6$s. That's longer than the recommended maximum of %2$d %6$s. %4$sMake it shorter%5$s!",
+							"%3$sKeyphrase length%5$s: The keyphrase contains %1$d %6$s. That's way more than the recommended maximum of %2$d %6$s. %4$sMake it shorter%5$s!",
 							"wordpress-seo"
 						),
 						this._keyphraseLengthData.keyphraseLength,
@@ -228,7 +228,7 @@ class KeyphraseLengthAssessment extends Assessment {
 						%6$s expands to the word 'words' or 'characters' or 'content words'. */
 						__(
 							// eslint-disable-next-line max-len
-							"%3$sKeyphrase length%5$s: The keyphrase contains %1$d %6$s. That's slightly shorter than the recommended minimum of %2$d %6$s. %4$sMake it longer%5$s!",
+							"%3$sKeyphrase length%5$s: The keyphrase contains %1$d %6$s. That's less than the recommended minimum of %2$d %6$s. %4$sMake it longer%5$s!",
 							"wordpress-seo"
 						),
 						this._keyphraseLengthData.keyphraseLength,
@@ -253,7 +253,7 @@ class KeyphraseLengthAssessment extends Assessment {
 						%6$s expands to the word 'words' or 'characters' or 'content words'. */
 						__(
 							// eslint-disable-next-line max-len
-							"%3$sKeyphrase length%5$s: The keyphrase contains %1$d %6$s. That's longer than the recommended maximum of %2$d %6$s. %4$sMake it shorter%5$s!",
+							"%3$sKeyphrase length%5$s: The keyphrase contains %1$d %6$s. That's more than the recommended maximum of %2$d %6$s. %4$sMake it shorter%5$s!",
 							"wordpress-seo"
 						),
 						this._keyphraseLengthData.keyphraseLength,
