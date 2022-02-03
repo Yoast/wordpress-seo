@@ -1,7 +1,7 @@
+import { select } from "@wordpress/data";
 import { __, sprintf } from "@wordpress/i18n";
 import { replacementVariableConfigurations, SEO_STORE_NAME } from "@yoast/seo-integration";
 import { get, map } from "lodash";
-import { select } from "@wordpress/data";
 
 /**
  * Gets the parent title from the select element.
@@ -45,7 +45,17 @@ export const parentTitle = {
 export const primaryCategory = {
 	name: "primary_category",
 	getLabel: () => __( "Primary category", "wordpress-seo" ),
-	getReplacement: () => get( window, "wpseoScriptData.analysis.plugins.replaceVars.replace_vars.primary_category", "" ),
+	getReplacement: () => {
+		// Gets the primary category data from `yoast-seo/editor` store.
+		const primaryTaxonomyIdFromStore = select( "yoast-seo/editor" ).getPrimaryTaxonomyId( "category" );
+		const initialPrimaryTaxonomyId = get( window, "wpseoPrimaryCategoryL10n.taxonomies.category.primary" );
+
+		// Uses the id from wpseoPrimaryCategoryL10n global variable if `yoast-seo/editor` store returns an undefined primary category id.
+		const primaryTaxonomyId = primaryTaxonomyIdFromStore || initialPrimaryTaxonomyId;
+		const categories = select( SEO_STORE_NAME ).selectCategories();
+
+		return categories.find( cat => cat.id === primaryTaxonomyId.toString() ).name;
+	},
 };
 
 export const searchPhrase = {
