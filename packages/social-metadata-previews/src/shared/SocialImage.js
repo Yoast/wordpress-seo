@@ -16,10 +16,12 @@ const StyledImage = styled.img`
 `;
 
 const StyledLandscapeImage = styled.img`
-	max-height: 100%;
-	position: absolute;
-	width: 100%;
-	object-fit: cover;
+	&&{
+		height: 100%;
+		position: absolute;
+		width: 100%;
+		object-fit: cover;
+	}
 `;
 
 const WrapperDiv = styled.div`
