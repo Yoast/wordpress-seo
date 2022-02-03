@@ -82,6 +82,7 @@ class WPSEO_Post_Type_Sitemap_Provider extends WPSEO_Indexable_Sitemap_Provider 
 		$query = $this->repository
 			->query_where_noindex( false, 'post', $type )
 			->select_many( 'id', 'object_id', 'permalink', 'object_last_modified' )
+			->where_raw( '( `canonical` IS NULL OR `canonical` = `permalink` )' )
 			->order_by_asc( 'object_last_modified' )
 			->offset( $offset )
 			->limit( $max_entries );

@@ -100,6 +100,7 @@ abstract class WPSEO_Indexable_Sitemap_Provider implements WPSEO_Sitemap_Provide
 		$query = $this->repository
 			->query_where_noindex( false, $this->get_object_type() )
 			->select_many( 'id', 'object_sub_type' )
+			->where_raw( '( `canonical` IS NULL OR `canonical` = `permalink` )' )
 			->order_by_asc( 'object_sub_type' )
 			->order_by_asc( 'object_last_modified' );
 
@@ -149,6 +150,7 @@ abstract class WPSEO_Indexable_Sitemap_Provider implements WPSEO_Sitemap_Provide
 			->select( 'object_sub_type' )
 			->select_expr( 'MAX(`object_last_modified`)', 'post_type_last_modified' )
 			->select_expr( 'COUNT(`id`)', 'number_of_posts' )
+			->where_raw( '( `canonical` IS NULL OR `canonical` = `permalink` )' )
 			->having_gt( 'number_of_posts', 0 )
 			->group_by( 'object_sub_type' );
 
