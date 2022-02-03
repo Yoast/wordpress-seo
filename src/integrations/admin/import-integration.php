@@ -107,7 +107,6 @@ class Import_Integration implements Integration_Interface {
 				'loading_msg_cleanup'      => \esc_html__( 'The cleanup can take a long time depending on your site\'s size.', 'wordpress-seo' ),
 				'note'                     => \esc_html__( 'Note: ', 'wordpress-seo' ),
 				'cleanup_after_import_msg' => \esc_html__( 'After you\'ve imported data from another SEO plugin, please make sure to clean up all the original data from that plugin. (step 5)', 'wordpress-seo' ),
-				'loading_msg_cleanup'      => \esc_html__( 'The cleanup can take a long time depending on your site\'s size.', 'wordpress-seo' ),
 				'select_placeholder'       => \esc_html__( 'Select SEO plugin', 'wordpress-seo' ),
 				'no_data_msg'              => \esc_html__( 'No data found from other SEO plugins.', 'wordpress-seo' ),
 				'import_failure'           => $this->get_import_failure_alert( true ),
