@@ -234,7 +234,7 @@ class Indexable_Helper {
 	 *
 	 * @return bool True if default value.
 	 */
-	protected function check_if_default_field( $indexable, $field ) {
+	public function check_if_default_field( $indexable, $field ) {
 		$defaults = $this->default_values;
 		if ( ! isset( $defaults[ $field ] ) ) {
 			return true;

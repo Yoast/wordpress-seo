@@ -199,4 +199,130 @@ class Indexable_Helper_Test extends TestCase {
 			[ null, false ],
 		];
 	}
+
+	/**
+	 * Tests check_if_default_indexable method.
+	 *
+	 * @dataProvider provider_check_if_default_indexable
+	 * @covers ::check_if_default_indexable
+	 *
+	 * @param array $indexable_fields The fields of the indexable that we're checking.
+	 * @param bool  $expected_result  Either true or false.
+	 */
+	public function test_check_if_default_indexable( $indexable_fields, $expected_result ) {
+		$indexable = Mockery::mock( Indexable_Mock::class );
+
+		foreach ( $indexable_fields as $field ) {
+			$field_name = $field['field_name'];
+
+			$indexable->$field_name = $field['field_value'];
+
+		}
+
+		$fields_to_check = [
+			'title',
+			'description',
+		];
+
+		$result = $this->instance->check_if_default_indexable( $indexable, $fields_to_check );
+		$this->assertSame( $expected_result, $result );
+	}
+
+	/**
+	 * DataProvider for test_check_if_default_indexable.
+	 *
+	 * @return array[]
+	 */
+	public function provider_check_if_default_indexable() {
+		$all_default_fields     = [
+			[
+				'field_name'  => 'title',
+				'field_value' => null,
+			],
+			[
+				'field_name'  => 'description',
+				'field_value' => null,
+			],
+		];
+		$one_non_default_field  = [
+			[
+				'field_name'  => 'title',
+				'field_value' => null,
+			],
+			[
+				'field_name'  => 'description',
+				'field_value' => 'not_null',
+			],
+		];
+		$all_non_default_fields = [
+			[
+				'field_name'  => 'title',
+				'field_value' => 'not_null',
+			],
+			[
+				'field_name'  => 'description',
+				'field_value' => 'not_null',
+			],
+		];
+
+		return [
+			[ $all_default_fields, true ],
+			[ $one_non_default_field, false ],
+			[ $all_non_default_fields, false ],
+		];
+	}
+
+	/**
+	 * Tests check_if_default_field method.
+	 *
+	 * @dataProvider provider_check_if_default_field
+	 * @covers ::check_if_default_field
+	 *
+	 * @param string $field_name      The indexable field we're checking.
+	 * @param string $field_value     The indexable field's value.
+	 * @param bool   $expected_result Either true or false.
+	 */
+	public function test_check_if_default_field( $field_name, $field_value, $expected_result ) {
+		$indexable              = Mockery::mock( Indexable_Mock::class );
+		$indexable->$field_name = $field_value;
+
+		$result = $this->instance->check_if_default_field( $indexable, $field_name );
+		$this->assertSame( $expected_result, $result );
+	}
+
+	/**
+	 * DataProvider for test_check_if_default_field.
+	 *
+	 * @return array[]
+	 */
+	public function provider_check_if_default_field() {
+		return [
+			[ 'title', null, true ],
+			[ 'title', 'not null', false ],
+			[ 'description', null, true ],
+			[ 'description', 'not null', false ],
+			[ 'open_graph_title', null, true ],
+			[ 'open_graph_title', 'not null', false ],
+			[ 'open_graph_description', null, true ],
+			[ 'open_graph_description', 'not null', false ],
+			[ 'twitter_title', null, true ],
+			[ 'twitter_title', 'not null', false ],
+			[ 'twitter_description', null, true ],
+			[ 'twitter_description', 'not null', false ],
+			[ 'canonical', null, true ],
+			[ 'canonical', 'not null', false ],
+			[ 'primary_focus_keyword', null, true ],
+			[ 'primary_focus_keyword', 'not null', false ],
+			[ 'is_robots_noindex', null, true ],
+			[ 'is_robots_noindex', 'not null', false ],
+			[ 'is_robots_nofollow', false, true ],
+			[ 'is_robots_nofollow', 'not false', false ],
+			[ 'is_robots_noarchive', null, true ],
+			[ 'is_robots_noarchive', 'not null', false ],
+			[ 'is_robots_noimageindex', null, true ],
+			[ 'is_robots_noimageindex', 'not null', false ],
+			[ 'is_robots_nosnippet', null, true ],
+			[ 'is_robots_nosnippet', 'not null', false ],
+		];
+	}
 }
