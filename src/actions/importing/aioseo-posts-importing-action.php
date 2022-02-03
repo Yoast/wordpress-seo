@@ -377,12 +377,6 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 				continue;
 			}
 
-			// For import of everything else.
-			// Do not overwrite any existing values.
-			if ( ! empty( $indexable->{$yoast_mapping['yoast_name']} ) ) {
-				continue;
-			}
-
 			if ( ! empty( $aioseo_indexable[ $aioseo_key ] ) ) {
 				$indexable->{$yoast_mapping['yoast_name']} = \call_user_func( [ $this, $yoast_mapping['transform_method'] ], $aioseo_indexable[ $aioseo_key ], $yoast_mapping );
 			}
