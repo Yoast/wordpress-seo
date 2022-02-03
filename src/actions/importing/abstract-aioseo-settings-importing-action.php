@@ -181,7 +181,7 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Import
 	 * @return array The (maybe chunked) unimported AiOSEO settings to import.
 	 */
 	protected function query( $limit = null ) {
-		$aioseo_settings = \json_decode( \get_option( $this->get_source_option_name(), [] ), true );
+		$aioseo_settings = \json_decode( \get_option( $this->get_source_option_name(), '' ), true );
 
 		if ( empty( $aioseo_settings ) || ! isset( $aioseo_settings['searchAppearance'][ $this->settings_tab ] ) ) {
 			return [];

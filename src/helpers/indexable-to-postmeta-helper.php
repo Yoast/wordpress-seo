@@ -55,6 +55,22 @@ class Indexable_To_Postmeta_Helper {
 			'post_meta_key' => 'focuskw',
 			'map_method'    => 'simple_map',
 		],
+		'open_graph_image'       => [
+			'post_meta_key' => 'opengraph-image',
+			'map_method'    => 'simple_map',
+		],
+		'open_graph_image_id'    => [
+			'post_meta_key' => 'opengraph-image-id',
+			'map_method'    => 'string_map',
+		],
+		'twitter_image'          => [
+			'post_meta_key' => 'twitter-image',
+			'map_method'    => 'simple_map',
+		],
+		'twitter_image_id'       => [
+			'post_meta_key' => 'twitter-image-id',
+			'map_method'    => 'string_map',
+		],
 		'is_robots_noindex'      => [
 			'post_meta_key' => 'meta-robots-noindex',
 			'map_method'    => 'noindex_map',
@@ -106,6 +122,25 @@ class Indexable_To_Postmeta_Helper {
 		}
 
 		$this->meta->set_value( $post_meta_key, $indexable->{$indexable_column}, $indexable->object_id );
+	}
+
+	/**
+	 * Uses a simple set_value for non-empty data that are being cast to string.
+	 *
+	 * @param Indexable $indexable        The Yoast indexable.
+	 * @param string    $post_meta_key    The post_meta key that will be populated.
+	 * @param string    $indexable_column The indexable data that will be mapped to post_meta.
+	 *
+	 * @return void.
+	 */
+	public function string_map( $indexable, $post_meta_key, $indexable_column ) {
+		if ( empty( $indexable->{$indexable_column} ) ) {
+			return;
+		}
+
+		$value = (string) $indexable->{$indexable_column};
+
+		$this->meta->set_value( $post_meta_key, $value, $indexable->object_id );
 	}
 
 	/**
