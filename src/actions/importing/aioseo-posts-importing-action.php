@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Actions\Importing;
 
 use wpdb;
 use Yoast\WP\SEO\Conditionals\AIOSEO_V4_Importer_Conditional;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Indexable_To_Postmeta_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Sanitization_Helper;
@@ -124,6 +125,13 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	protected $indexable_to_postmeta;
 
 	/**
+	 * The indexable helper.
+	 *
+	 * @var Indexable_Helper
+	 */
+	protected $indexable_helper;
+
+	/**
 	 * The wpdb helper.
 	 *
 	 * @var Wpdb_Helper
@@ -135,6 +143,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	 *
 	 * @param Indexable_Repository              $indexable_repository  The indexables repository.
 	 * @param wpdb                              $wpdb                  The WordPress database instance.
+	 * @param Indexable_Helper                  $indexable_helper      The indexable helper.
 	 * @param Indexable_To_Postmeta_Helper      $indexable_to_postmeta The indexable_to_postmeta helper.
 	 * @param Options_Helper                    $options               The options helper.
 	 * @param Sanitization_Helper               $sanitization          The sanitization helper.
@@ -146,6 +155,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	public function __construct(
 		Indexable_Repository $indexable_repository,
 		wpdb $wpdb,
+		Indexable_Helper $indexable_helper,
 		Indexable_To_Postmeta_Helper $indexable_to_postmeta,
 		Options_Helper $options,
 		Sanitization_Helper $sanitization,
@@ -157,6 +167,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 
 		$this->indexable_repository  = $indexable_repository;
 		$this->wpdb                  = $wpdb;
+		$this->indexable_helper      = $indexable_helper;
 		$this->indexable_to_postmeta = $indexable_to_postmeta;
 		$this->wpdb_helper           = $wpdb_helper;
 	}
@@ -270,7 +281,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 				continue;
 			}
 
-			if ( $this->check_if_default_indexable( $indexable, $check_defaults_fields ) ) {
+			if ( $this->indexable_helper->check_if_default_indexable( $indexable, $check_defaults_fields ) ) {
 				$indexable = $this->map( $indexable, $aioseo_indexable );
 				$indexable->save();
 
@@ -441,24 +452,5 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 		}
 
 		return $aioseo_robots_settings[ $aioseo_key ];
-	}
-
-	/**
-	 * Checks whether the indexable has default values.
-	 *
-	 * @param Indexable $indexable The Yoast indexable that we're checking.
-	 * @param array     $fields    The Yoast indexable fields that we're checking against.
-	 *
-	 * @return bool Whether the indexable has default values.
-	 */
-	protected function check_if_default_indexable( $indexable, $fields ) {
-		foreach ( $fields as $field ) {
-			$is_default = $indexable->check_if_default_field( $field );
-			if ( ! $is_default ) {
-				break;
-			}
-		}
-
-		return $is_default;
 	}
 }

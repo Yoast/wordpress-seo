@@ -136,53 +136,6 @@ class Indexable extends Model {
 	];
 
 	/**
-	 * Default values of certain columns.
-	 *
-	 * @var array
-	 */
-	protected $default_values = [
-		'title'                  => [
-			'default_value'   => null,
-		],
-		'description'            => [
-			'default_value'   => null,
-		],
-		'open_graph_title'       => [
-			'default_value'   => null,
-		],
-		'open_graph_description' => [
-			'default_value'   => null,
-		],
-		'twitter_title'          => [
-			'default_value'   => null,
-		],
-		'twitter_description'    => [
-			'default_value'   => null,
-		],
-		'canonical'              => [
-			'default_value'   => null,
-		],
-		'primary_focus_keyword'  => [
-			'default_value'   => null,
-		],
-		'is_robots_noindex'      => [
-			'default_value'   => null,
-		],
-		'is_robots_nofollow'     => [
-			'default_value'   => false,
-		],
-		'is_robots_noarchive'    => [
-			'default_value'   => null,
-		],
-		'is_robots_noimageindex' => [
-			'default_value'   => null,
-		],
-		'is_robots_nosnippet'    => [
-			'default_value'   => null,
-		],
-	];
-
-	/**
 	 * The loaded indexable extensions.
 	 *
 	 * @var Indexable_Extension[]
@@ -259,25 +212,5 @@ class Indexable extends Model {
 		}
 		// We never set the fragment as the fragment is intended to be client-only.
 		$this->permalink = $permalink;
-	}
-
-	/**
-	 * Checks if an indexable field contains the default value.
-	 *
-	 * @param string $field The field that we're checking.
-	 *
-	 * @return bool True if default value.
-	 */
-	public function check_if_default_field( $field ) {
-		$defaults = $this->default_values;
-		if ( ! isset( $defaults[ $field ] ) ) {
-			return true;
-		}
-
-		if ( $this->$field === $defaults[ $field ]['default_value'] ) {
-			return true;
-		}
-
-		return false;
 	}
 }
