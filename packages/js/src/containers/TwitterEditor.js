@@ -2,7 +2,7 @@
 import { compose } from "@wordpress/compose";
 import { withDispatch, withSelect, dispatch as wpDataDispatch } from "@wordpress/data";
 import { validateTwitterImage } from "@yoast/helpers";
-import { TWITTER_IMAGE_SIZES } from "@yoast/social-metadata-previews/src/helpers/determineImageProperties";
+import { TWITTER_IMAGE_SIZES } from "@yoast/social-metadata-previews";
 import { get } from "lodash";
 
 /* Internal dependencies */

@@ -2,7 +2,7 @@
 import { compose } from "@wordpress/compose";
 import { withDispatch, withSelect, dispatch as wpDataDispatch } from "@wordpress/data";
 import { validateFacebookImage } from "@yoast/helpers";
-import { FACEBOOK_IMAGE_SIZES, determineFacebookImageMode } from "@yoast/social-metadata-previews/src/helpers/determineImageProperties";
+import { FACEBOOK_IMAGE_SIZES, determineFacebookImageMode } from "@yoast/social-metadata-previews";
 
 /* Internal dependencies */
 import FacebookWrapper from "../components/social/FacebookWrapper";
