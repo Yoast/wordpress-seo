@@ -1,0 +1,64 @@
+// TODO: replace with Yoast ESLint config.
+{
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "plugins": [
+    "react",
+    "react-hooks",
+    "@typescript-eslint"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true,
+    "jest": true
+  },
+  "ignorePatterns": [
+    "node_modules",
+    "build",
+    "dist",
+    "public",
+    "!.storybook",
+    "!./*.js",
+  ],
+  "rules": {
+    // General
+    "indent": ["error", "tab"],
+    "eqeqeq": "error",
+    "no-console": "warn",
+    "no-undef": "off",
+    "no-unused-vars": "off",
+    "quotes": [ "error", "double" ],
+    "array-bracket-spacing": [ "error", "always" ],
+    "space-in-parens": [ "error", "always" ],
+    "comma-dangle": [ "error", "only-multiline" ],
+    // React
+    "react/prop-types": "off",
+    "react/display-name": "off",
+    "react/no-children-prop": "off",
+    "react/react-in-jsx-scope": "off",
+    "react/jsx-curly-spacing": [ "error", {
+      "when": "always",
+      "children": true
+    } ],
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    // TypeScript
+    "@typescript-eslint/no-var-requires": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/no-explicit-any": "error",
+    "@typescript-eslint/no-unused-vars": "warn"
+  }
+}
