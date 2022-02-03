@@ -61,6 +61,10 @@ class Indexable_To_Postmeta_Helper_Test extends TestCase {
 		$indexable->twitter_description    = 'twitter_description1';
 		$indexable->canonical              = 'https://example.com/';
 		$indexable->primary_focus_keyword  = 'key phrase';
+		$indexable->open_graph_image       = 'https://example.com/og-image.png';
+		$indexable->open_graph_image_id    = 111;
+		$indexable->twitter_image          = 'https://example.com/twitter-image.png';
+		$indexable->twitter_image_id       = 222;
 		$indexable->is_robots_noindex      = true;
 		$indexable->is_robots_nofollow     = true;
 		$indexable->is_robots_noimageindex = true;
@@ -91,6 +95,18 @@ class Indexable_To_Postmeta_Helper_Test extends TestCase {
 			->andReturn( true );
 		$this->meta->expects( 'set_value' )
 			->with( 'focuskw', 'key phrase', 123 )
+			->andReturn( true );
+		$this->meta->expects( 'set_value' )
+			->with( 'opengraph-image', 'https://example.com/og-image.png', 123 )
+			->andReturn( true );
+		$this->meta->expects( 'set_value' )
+			->with( 'opengraph-image-id', '111', 123 )
+			->andReturn( true );
+		$this->meta->expects( 'set_value' )
+			->with( 'twitter-image', 'https://example.com/twitter-image.png', 123 )
+			->andReturn( true );
+		$this->meta->expects( 'set_value' )
+			->with( 'twitter-image-id', '222', 123 )
 			->andReturn( true );
 		$this->meta->expects( 'set_value' )
 			->with( 'meta-robots-noindex', true, 123 )
