@@ -2,6 +2,8 @@
 
 namespace Yoast\WP\SEO\Validators;
 
+use Yoast\WP\SEO\Exceptions\Validation\Invalid_Type_Exception;
+
 /**
  * The array validator class.
  */
@@ -12,9 +14,15 @@ class Array_Validator implements Validator_Interface {
 	 *
 	 * @param mixed $value The value to validate.
 	 *
-	 * @return bool Whether the value is an array.
+	 * @throws Invalid_Type_Exception When the type of the value is not an array.
+	 *
+	 * @return array A valid array.
 	 */
 	public function validate( $value ) {
-		return \is_array( $value );
+		if ( ! \is_array( $value ) ) {
+			throw new Invalid_Type_Exception( \gettype( $value ), 'array' );
+		}
+
+		return $value;
 	}
 }
