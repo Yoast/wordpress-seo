@@ -35,7 +35,7 @@ const imageCallback = ( image ) => {
 		return size.width >= idealWidth && size.height >= idealHeight;
 	} );
 
-	const imageUrl = idealImageSize ? idealImageSize.url : image.sizes.full.url;
+	const imageUrl = idealImageSize ? idealImageSize.url : image.url;
 
 	wpDataDispatch( "yoast-seo/editor" ).setTwitterPreviewImage( {
 		url: imageUrl,
