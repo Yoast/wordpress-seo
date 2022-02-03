@@ -2,6 +2,7 @@
 import { compose } from "@wordpress/compose";
 import { withDispatch, withSelect, dispatch as wpDataDispatch } from "@wordpress/data";
 import { validateFacebookImage } from "@yoast/helpers";
+import { FACEBOOK_IMAGE_SIZES, determineFacebookImageMode } from "@yoast/social-metadata-previews";
 
 /* Internal dependencies */
 import FacebookWrapper from "../components/social/FacebookWrapper";
@@ -21,8 +22,20 @@ const socialMediumName = "Facebook";
  * @returns {void}
  */
 const imageCallback = ( image ) => {
+	const { width, height } = image;
+	const imageMode = determineFacebookImageMode( { width, height } );
+
+	const idealWidth = FACEBOOK_IMAGE_SIZES[ imageMode + "Width" ];
+	const idealHeight = FACEBOOK_IMAGE_SIZES[ imageMode + "Height" ];
+
+	const idealImageSize = Object.values( image.sizes ).find( size => {
+		return size.width >= idealWidth && size.height >= idealHeight;
+	} );
+
+	const imageUrl = idealImageSize ? idealImageSize.url : image.url;
+
 	wpDataDispatch( "yoast-seo/editor" ).setFacebookPreviewImage( {
-		url: image.url,
+		url: imageUrl,
 		id: image.id,
 		warnings: validateFacebookImage( image ),
 	} );
