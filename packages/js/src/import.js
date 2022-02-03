@@ -304,7 +304,7 @@ function watchSelect( dropdown ) {
 			}
 			text += "<ul style='list-style: disc; padding: 0 15px;'>";
 			textSource.forEach( function( dataItem ) {
-				text += "<li>" + dataItem.data_name + "<br/>" + dataItem.data_note + "</li>";
+				text += "<li>" + dataItem.data_name + "<br/><i>" + dataItem.data_note + "</i></li>";
 			} );
 			text += "</ul>";
 

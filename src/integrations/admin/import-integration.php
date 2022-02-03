@@ -122,7 +122,7 @@ class Import_Integration implements Integration_Interface {
 					'plugins'              => [
 						'aioseo' => [
 							[
-								'data_name' => \esc_html__( 'Post metadata (SEO titles and descriptions)', 'wordpress-seo' ),
+								'data_name' => \esc_html__( 'Post metadata (SEO titles, descriptions, etc.)', 'wordpress-seo' ),
 								'data_note' => \esc_html__( 'Note: This metadata will only be imported if there is no existing Yoast SEO metadata yet.', 'wordpress-seo' ),
 							],
 							[
@@ -132,7 +132,7 @@ class Import_Integration implements Integration_Interface {
 						],
 						'other' => [
 							[
-								'data_name' => \esc_html__( 'Post metadata (SEO titles and descriptions)', 'wordpress-seo' ),
+								'data_name' => \esc_html__( 'Post metadata (SEO titles, descriptions, etc.)', 'wordpress-seo' ),
 								'data_note' => \esc_html__( 'Note: This metadata will only be imported if there is no existing Yoast SEO metadata yet.', 'wordpress-seo' ),
 							],
 						],
