@@ -16,11 +16,11 @@ class Array_Validator implements Validator_Interface {
 	 *
 	 * @throws Invalid_Type_Exception When the type of the value is not an array.
 	 *
-	 * @return array A valid string.
+	 * @return array A valid array.
 	 */
 	public function validate( $value ) {
 		if ( ! \is_array( $value ) ) {
-			throw new Invalid_Type_Exception( \gettype( $value ), 'string' );
+			throw new Invalid_Type_Exception( \gettype( $value ), 'array' );
 		}
 
 		return $value;

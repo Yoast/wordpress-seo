@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Validators;
 
-use Brain\Monkey;
 use Yoast\WP\SEO\Exceptions\Validation\Invalid_Type_Exception;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Validators\News_Sitemap_Content_Type_Validator;
@@ -31,7 +30,6 @@ class News_Sitemap_Content_Type_Validator_Test extends TestCase {
 	 */
 	protected function set_up() {
 		parent::set_up();
-		$this->stubEscapeFunctions();
 		$this->stubTranslationFunctions();
 
 		$this->instance = new News_Sitemap_Content_Type_Validator();
@@ -43,9 +41,6 @@ class News_Sitemap_Content_Type_Validator_Test extends TestCase {
 	 * @dataProvider array_provider
 	 *
 	 * @covers ::validate
-	 * @covers ::sanitize
-	 * @covers ::sanitize_encoded_text_field
-	 * @covers ::get_charset
 	 *
 	 * @param mixed  $value     The value to test/validate.
 	 * @param mixed  $expected  The expected result.
