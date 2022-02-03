@@ -23,16 +23,16 @@ function addProgressElements() {
 /**
  * Function called when importing/cleanup progress is made.
  *
- * @param {bool} isImport Whether it's an import.
+ * @param {string} action The action it's being performed, import or cleanup.
  *
  * @returns {void}
  */
-function showProgress( isImport ) {
+function showProgress( action ) {
 	var actingForm = cleanupForm;
 	var loadingMessage = loadingMessageCleanup;
 	var actingButton = cleanupButton;
 
-	if ( isImport ) {
+	if ( action === "import" ) {
 		actingForm = importForm;
 		loadingMessage = loadingMessageImport;
 		actingButton = importButton;
@@ -53,7 +53,7 @@ function showProgress( isImport ) {
  * @returns {void}
  */
 function importingProgress( count ) { // eslint-disable-line no-unused-vars
-	showProgress( true );
+	showProgress( "import" );
 }
 
 /**
@@ -64,23 +64,23 @@ function importingProgress( count ) { // eslint-disable-line no-unused-vars
  * @returns {void}
  */
 function cleanupProgress( count ) { // eslint-disable-line no-unused-vars
-	showProgress( false );
+	showProgress( "cleanup" );
 }
 
 /**
  * Function called when importing/cleanup is completed succesfully.
  *
- * @param {bool} isImport Whether it's an import.
+ * @param {string} action The action it's being performed, import or cleanup.
  *
  * @returns {void}
  */
-function showSuccess( isImport ) {
+function showSuccess( action ) {
 	var actingForm = cleanupForm;
 	var loadingMessage = loadingMessageCleanup;
 	var actingButton = cleanupButton;
 	var actingDropdown = cleanupDropdown;
 
-	if ( isImport ) {
+	if ( action === "import" ) {
 		actingForm = importForm;
 		loadingMessage = loadingMessageImport;
 		actingButton = importButton;
@@ -112,7 +112,7 @@ function showSuccess( isImport ) {
  * @returns {void}
  */
 function importingSuccess() {
-	showSuccess( true );
+	showSuccess( "import" );
 }
 
 /**
@@ -121,24 +121,24 @@ function importingSuccess() {
  * @returns {void}
  */
 function cleanupSuccess() {
-	showSuccess( false );
+	showSuccess( "cleanup" );
 }
 
 /**
  * Function called when importing/cleanup is completed succesfully.
  *
  * @param {string} e The failure string.
- * @param {bool} isImport Whether it's an import.
+ * @param {string} action The action it's being performed, import or cleanup.
  *
  * @returns {void}
  */
-function showFailure( e, isImport ) {
+function showFailure( e, action ) {
 	var actingForm = cleanupForm;
 	var loadingMessage = loadingMessageCleanup;
 	var actingButton = cleanupButton;
 	var failureMessage = window.yoastImportData.assets.cleanup_failure;
 
-	if ( isImport ) {
+	if ( action === "import" ) {
 		actingForm = importForm;
 		loadingMessage = loadingMessageImport;
 		actingButton = importButton;
@@ -166,7 +166,7 @@ function showFailure( e, isImport ) {
  * @returns {void}
  */
 function importingFailure( e ) {
-	showFailure( e, true );
+	showFailure( e, "import" );
 }
 
 /**
@@ -177,7 +177,7 @@ function importingFailure( e ) {
  * @returns {void}
  */
 function cleanupFailure( e ) {
-	showFailure( e, false );
+	showFailure( e, "cleanup" );
 }
 
 /**
