@@ -133,7 +133,7 @@ class XML_Sitemap_Helper {
 		foreach ( $indexables as $indexable ) {
 			$images = isset( $images_by_id[ $indexable->id ] ) ? $images_by_id[ $indexable->id ] : [];
 
-			if ( $indexable->object_type === 'post' ) {
+			if ( $object_type === 'post' ) {
 				/**
 				 * Filter images to be included for the post in XML sitemap.
 				 *
