@@ -146,12 +146,12 @@ class Aioseo_Cleanup_Action extends Abstract_Importing_Action {
 		}
 
 		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Reason: There is no unescaped user input.
-		$meta_data  = $this->wpdb->query( $this->cleanup_postmeta_query() );
-		$indexables = $this->wpdb->query( $this->truncate_query() );
+		$meta_data                  = $this->wpdb->query( $this->cleanup_postmeta_query() );
+		$aioseo_table_truncate_done = $this->wpdb->query( $this->truncate_query() );
 		// phpcs:enable WordPress.DB.PreparedSQL.NotPrepared
 
 
-		if ( $meta_data === false && $indexables === false ) {
+		if ( $meta_data === false && $aioseo_table_truncate_done === false ) {
 			return false;
 		}
 
@@ -159,7 +159,7 @@ class Aioseo_Cleanup_Action extends Abstract_Importing_Action {
 
 		return [
 			'metadata_cleanup'   => $meta_data,
-			'indexables_cleanup' => $indexables,
+			'indexables_cleanup' => $aioseo_table_truncate_done,
 		];
 	}
 
