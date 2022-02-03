@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Actions\Importing;
 
 use wpdb;
 use Yoast\WP\SEO\Conditionals\AIOSEO_V4_Importer_Conditional;
+use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Indexable_To_Postmeta_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Sanitization_Helper;
@@ -13,6 +14,7 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Services\Importing\Aioseo_Replacevar_Handler;
 use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Provider_Service;
 use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Transformer_Service;
+use Yoast\WP\SEO\Services\Importing\Aioseo_Social_Images_Provider_Service;
 
 /**
  * Importing action for AIOSEO post data.
@@ -71,6 +73,20 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 			'yoast_name'       => 'primary_focus_keyword',
 			'transform_method' => 'keyphrase_import',
 		],
+		'og_image_url'        => [
+			'yoast_name'                   => 'open_graph_image',
+			'social_image_import'          => true,
+			'social_setting_prefix_aioseo' => 'og_',
+			'social_setting_prefix_yoast'  => 'open_graph_',
+			'transform_method'             => 'social_image_url_import',
+		],
+		'twitter_image_url'   => [
+			'yoast_name'                   => 'twitter_image',
+			'social_image_import'          => true,
+			'social_setting_prefix_aioseo' => 'twitter_',
+			'social_setting_prefix_yoast'  => 'twitter_',
+			'transform_method'             => 'social_image_url_import',
+		],
 		'robots_noindex'      => [
 			'yoast_name'       => 'is_robots_noindex',
 			'transform_method' => 'post_robots_noindex_import',
@@ -117,6 +133,13 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	protected $wpdb;
 
 	/**
+	 * The image helper.
+	 *
+	 * @var Image_Helper
+	 */
+	protected $image_helper;
+
+	/**
 	 * The indexable_to_postmeta helper.
 	 *
 	 * @var Indexable_To_Postmeta_Helper
@@ -131,34 +154,47 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	protected $wpdb_helper;
 
 	/**
+	 * The social images provider service.
+	 *
+	 * @var Aioseo_Social_Images_Provider_Service
+	 */
+	protected $social_images_provider;
+
+	/**
 	 * Class constructor.
 	 *
-	 * @param Indexable_Repository              $indexable_repository  The indexables repository.
-	 * @param wpdb                              $wpdb                  The WordPress database instance.
-	 * @param Indexable_To_Postmeta_Helper      $indexable_to_postmeta The indexable_to_postmeta helper.
-	 * @param Options_Helper                    $options               The options helper.
-	 * @param Sanitization_Helper               $sanitization          The sanitization helper.
-	 * @param Wpdb_Helper                       $wpdb_helper           The wpdb_helper helper.
-	 * @param Aioseo_Replacevar_Handler         $replacevar_handler    The replacevar handler.
-	 * @param Aioseo_Robots_Provider_Service    $robots_provider       The robots provider service.
-	 * @param Aioseo_Robots_Transformer_Service $robots_transformer    The robots transfomer service.
+	 * @param Indexable_Repository                  $indexable_repository   The indexables repository.
+	 * @param wpdb                                  $wpdb                   The WordPress database instance.
+	 * @param Indexable_To_Postmeta_Helper          $indexable_to_postmeta  The indexable_to_postmeta helper.
+	 * @param Options_Helper                        $options                The options helper.
+	 * @param Image_Helper                          $image                  The image helper.
+	 * @param Sanitization_Helper                   $sanitization           The sanitization helper.
+	 * @param Wpdb_Helper                           $wpdb_helper            The wpdb_helper helper.
+	 * @param Aioseo_Replacevar_Handler             $replacevar_handler     The replacevar handler.
+	 * @param Aioseo_Robots_Provider_Service        $robots_provider        The robots provider service.
+	 * @param Aioseo_Robots_Transformer_Service     $robots_transformer     The robots transfomer service.
+	 * @param Aioseo_Social_Images_Provider_Service $social_images_provider The social images provider service.
 	 */
 	public function __construct(
 		Indexable_Repository $indexable_repository,
 		wpdb $wpdb,
 		Indexable_To_Postmeta_Helper $indexable_to_postmeta,
 		Options_Helper $options,
+		Image_Helper $image,
 		Sanitization_Helper $sanitization,
 		Wpdb_Helper $wpdb_helper,
 		Aioseo_Replacevar_Handler $replacevar_handler,
 		Aioseo_Robots_Provider_Service $robots_provider,
-		Aioseo_Robots_Transformer_Service $robots_transformer ) {
+		Aioseo_Robots_Transformer_Service $robots_transformer,
+		Aioseo_Social_Images_Provider_Service $social_images_provider ) {
 		parent::__construct( $options, $sanitization, $replacevar_handler, $robots_provider, $robots_transformer );
 
-		$this->indexable_repository  = $indexable_repository;
-		$this->wpdb                  = $wpdb;
-		$this->indexable_to_postmeta = $indexable_to_postmeta;
-		$this->wpdb_helper           = $wpdb_helper;
+		$this->indexable_repository   = $indexable_repository;
+		$this->wpdb                   = $wpdb;
+		$this->image                  = $image;
+		$this->indexable_to_postmeta  = $indexable_to_postmeta;
+		$this->wpdb_helper            = $wpdb_helper;
+		$this->social_images_provider = $social_images_provider;
 	}
 
 	/**
@@ -300,6 +336,27 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 				continue;
 			}
 
+			// For social images, like open graph and twitter image.
+			if ( isset( $yoast_mapping['social_image_import'] ) && $yoast_mapping['social_image_import'] ) {
+				$image_url = \call_user_func( [ $this, $yoast_mapping['transform_method'] ], $aioseo_indexable, $yoast_mapping, $indexable );
+
+				// Update the indexable's social image only where there's actually a url to import, so as not to lose the social images that we came up with when we originally built the indexable.
+				if ( ! empty( $image_url ) ) {
+					$indexable->{$yoast_mapping['yoast_name']} = $image_url;
+
+					$image_source_key             = $yoast_mapping['social_setting_prefix_yoast'] . 'image_source';
+					$indexable->$image_source_key = 'imported';
+
+					$image_id_key             = $yoast_mapping['social_setting_prefix_yoast'] . 'image_id';
+					$indexable->$image_id_key = $this->image->get_attachment_by_url( $image_url );
+
+					if ( $yoast_mapping['yoast_name'] === 'open_graph_image' ) {
+						$indexable->open_graph_image_meta = null;
+					}
+				}
+				continue;
+			}
+
 			// For import of everything else.
 			// Do not overwrite any existing values.
 			if ( ! empty( $indexable->{$yoast_mapping['yoast_name']} ) ) {
@@ -349,7 +406,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 		if ( ! $just_detect ) {
 			// If we want to import too, we need the actual needed data from AIOSEO indexables.
 			$needed_data = \array_keys( $this->aioseo_to_yoast_map );
-			\array_push( $needed_data, 'id', 'post_id', 'robots_default' );
+			\array_push( $needed_data, 'id', 'post_id', 'robots_default', 'og_image_custom_url', 'og_image_type', 'twitter_image_custom_url', 'twitter_image_type', 'twitter_use_og' );
 
 			$select_statement = \implode( ', ', $needed_data );
 		}
@@ -432,5 +489,66 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 		}
 
 		return $aioseo_robots_settings[ $aioseo_key ];
+	}
+
+	/**
+	 * Imports the og and twitter image url.
+	 *
+	 * @param bool      $aioseo_social_image_settings AIOSEO's set of social image settings for the post.
+	 * @param array     $mapping                      The mapping of the setting we're working with.
+	 * @param Indexable $indexable                    The Yoast indexable we're importing into.
+	 *
+	 * @return bool|null The url of the social image we're importing, null if there's none.
+	 */
+	public function social_image_url_import( $aioseo_social_image_settings, $mapping, $indexable ) {
+		if ( $mapping['social_setting_prefix_aioseo'] === 'twitter_' && $aioseo_social_image_settings['twitter_use_og'] ) {
+			$mapping['social_setting_prefix_aioseo'] = 'og_';
+		}
+
+		$social_setting = \rtrim( $mapping['social_setting_prefix_aioseo'], '_' );
+
+		$image_type = $aioseo_social_image_settings[ $mapping['social_setting_prefix_aioseo'] . 'image_type' ];
+
+		if ( $image_type === 'default' ) {
+			$image_type = $this->social_images_provider->get_default_social_image_source( $social_setting );
+		}
+
+		switch ( $image_type ) {
+			case 'attach':
+				$image_url = $this->social_images_provider->get_first_attached_image( $indexable->object_id );
+				break;
+			case 'auto':
+				$image_url = $this->social_images_provider->get_auto_image( $indexable->object_id );
+				break;
+			case 'content':
+				$image_url = $this->social_images_provider->get_first_image_in_content( $indexable->object_id );
+				break;
+			case 'custom_image':
+				$image_url = $aioseo_social_image_settings[ $mapping['social_setting_prefix_aioseo'] . 'image_custom_url' ];
+				break;
+			case 'featured':
+				$image_url = $this->social_images_provider->get_featured_image( $indexable->object_id );
+				break;
+			case 'author':
+				return null;
+			case 'custom':
+				return null;
+			case 'default':
+				$image_url = $this->social_images_provider->get_default_custom_social_image( $social_setting );
+				break;
+			default:
+				$image_url = $aioseo_social_image_settings[ $mapping['social_setting_prefix_aioseo'] . 'image_url' ];
+				break;
+		}
+
+		if ( empty( $image_url ) ) {
+			$image_url = $this->social_images_provider->get_default_custom_social_image( $social_setting );
+		}
+
+		if ( empty( $image_url ) ) {
+			return null;
+		}
+
+		return $this->sanitization->sanitize_url( $image_url, null );
 	}
 }

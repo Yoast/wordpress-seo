@@ -9,6 +9,7 @@ use PHPUnit\Framework\ExpectationFailedException;
 use PHPUnit_Framework_Exception;
 use PHPUnit\Framework\Exception;
 use Yoast\WP\SEO\Actions\Importing\Aioseo_Posts_Importing_Action;
+use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Meta_Helper;
 use Yoast\WP\SEO\Helpers\Indexable_To_Postmeta_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
@@ -19,6 +20,7 @@ use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Services\Importing\Aioseo_Replacevar_Handler;
 use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Provider_Service;
 use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Transformer_Service;
+use Yoast\WP\SEO\Services\Importing\Aioseo_Social_Images_Provider_Service;
 use Yoast\WP\SEO\Services\Importing\Importable_Detector;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Actions\Importing\Aioseo_Posts_Importing_Action_Double;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Services\Importing\Importable_Detector_Double;
@@ -61,6 +63,13 @@ class Importer_Action_Filter_Trait_Test extends TestCase {
 	 * @var Mockery\MockInterface|Meta_Helper
 	 */
 	protected $meta;
+
+	/**
+	 * The mocked image helper.
+	 *
+	 * @var Mockery\MockInterface|Image_Helper
+	 */
+	protected $image;
 
 	/**
 	 * The mocked indexable_to_postmeta helper.
@@ -112,21 +121,30 @@ class Importer_Action_Filter_Trait_Test extends TestCase {
 	protected $robots_transformer;
 
 	/**
+	 * The social images provider service.
+	 *
+	 * @var Mockery\MockInterface|Aioseo_Social_Images_Provider_Service
+	 */
+	protected $social_images_provider;
+
+	/**
 	 * Set up the test fixtures.
 	 */
 	protected function set_up() {
 		parent::set_up();
 
-		$this->indexable_repository  = Mockery::mock( Indexable_Repository::class );
-		$this->wpdb                  = Mockery::mock( 'wpdb' );
-		$this->meta                  = Mockery::mock( Meta_Helper::class );
-		$this->indexable_to_postmeta = Mockery::mock( Indexable_To_Postmeta_Helper::class, [ $this->meta ] );
-		$this->options               = Mockery::mock( Options_Helper::class );
-		$this->sanitization          = Mockery::mock( Sanitization_Helper::class );
-		$this->wpdb_helper           = Mockery::mock( Wpdb_Helper::class );
-		$this->replacevar_handler    = new Aioseo_Replacevar_Handler();
-		$this->robots_provider       = new Aioseo_Robots_Provider_Service();
-		$this->robots_transformer    = new Aioseo_Robots_Transformer_Service( $this->robots_provider );
+		$this->indexable_repository   = Mockery::mock( Indexable_Repository::class );
+		$this->wpdb                   = Mockery::mock( 'wpdb' );
+		$this->meta                   = Mockery::mock( Meta_Helper::class );
+		$this->indexable_to_postmeta  = Mockery::mock( Indexable_To_Postmeta_Helper::class, [ $this->meta ] );
+		$this->options                = Mockery::mock( Options_Helper::class );
+		$this->image                  = Mockery::mock( Image_Helper::class );
+		$this->sanitization           = Mockery::mock( Sanitization_Helper::class );
+		$this->wpdb_helper            = Mockery::mock( Wpdb_Helper::class );
+		$this->replacevar_handler     = new Aioseo_Replacevar_Handler();
+		$this->robots_provider        = new Aioseo_Robots_Provider_Service();
+		$this->robots_transformer     = new Aioseo_Robots_Transformer_Service( $this->robots_provider );
+		$this->social_images_provider = Mockery::mock( Aioseo_Social_Images_Provider_Service::class );
 
 		$this->importing_action = Mockery::mock(
 			Aioseo_Posts_Importing_Action_Double::class,
@@ -135,11 +153,13 @@ class Importer_Action_Filter_Trait_Test extends TestCase {
 				$this->wpdb,
 				$this->indexable_to_postmeta,
 				$this->options,
+				$this->image,
 				$this->sanitization,
 				$this->wpdb_helper,
 				$this->replacevar_handler,
 				$this->robots_provider,
 				$this->robots_transformer,
+				$this->social_images_provider,
 			]
 		)->makePartial()->shouldAllowMockingProtectedMethods();
 

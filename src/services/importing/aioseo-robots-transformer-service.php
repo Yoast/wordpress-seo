@@ -39,7 +39,7 @@ class Aioseo_Robots_Transformer_Service {
 	 * @return bool The transformed robot setting.
 	 */
 	public function transform_robot_setting( $setting_name, $setting_value, $mapping ) {
-		$aioseo_settings = \json_decode( \get_option( $mapping['option_name'], [] ), true );
+		$aioseo_settings = \json_decode( \get_option( $mapping['option_name'], '' ), true );
 
 		// Let's check first if it defers to global robot settings.
 		if ( empty( $aioseo_settings ) || ! isset( $aioseo_settings['searchAppearance'][ $mapping['type'] ][ $mapping['subtype'] ]['advanced']['robotsMeta']['default'] ) ) {

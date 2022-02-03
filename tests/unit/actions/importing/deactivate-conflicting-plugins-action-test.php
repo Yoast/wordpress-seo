@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Services\Importing\Conflicting_Plugins_Service;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Aioseo_Posts_Importing_Action_Test class
+ * Deactivate_Conflicting_Plugins_Action_Test class
  *
  * @group actions
  * @group importing

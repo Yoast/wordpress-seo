@@ -57,7 +57,7 @@ class Aioseo_Robots_Transformer_Service_Test extends TestCase {
 	public function test_transform_robot_setting( $aioseo_options, $setting_name, $setting_value, $mapping, $get_global_robot_settings_times, $global_setting_value, $expected_result ) {
 		Monkey\Functions\expect( 'get_option' )
 			->once()
-			->with( $mapping['option_name'], [] )
+			->with( $mapping['option_name'], '' )
 			->andReturn( $aioseo_options );
 
 		$this->robots_provider->expects( 'get_global_robot_settings' )
@@ -81,7 +81,7 @@ class Aioseo_Robots_Transformer_Service_Test extends TestCase {
 			'subtype'     => 'subtype',
 		];
 
-		$empty_settings = [];
+		$empty_settings = '';
 
 		$global_robots_meta = [
 			'searchAppearance' => [
