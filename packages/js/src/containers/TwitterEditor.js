@@ -2,6 +2,8 @@
 import { compose } from "@wordpress/compose";
 import { withDispatch, withSelect, dispatch as wpDataDispatch } from "@wordpress/data";
 import { validateTwitterImage } from "@yoast/helpers";
+import { TWITTER_IMAGE_SIZES } from "@yoast/social-metadata-previews/src/helpers/determineImageProperties";
+import { get } from "lodash";
 
 /* Internal dependencies */
 import TwitterWrapper from "../components/social/TwitterWrapper";
@@ -21,8 +23,22 @@ const socialMediumName = "Twitter";
  * @returns {void}
  */
 const imageCallback = ( image ) => {
+	const twitterImageType = get( window, "wpseoScriptData.metabox.twitterCardType" );
+
+	const isLarge = twitterImageType !== "summary";
+	const imageMode = isLarge ? "landscape" : "square";
+
+	const idealWidth = TWITTER_IMAGE_SIZES[ imageMode + "Width" ];
+	const idealHeight = TWITTER_IMAGE_SIZES[ imageMode + "Height" ];
+
+	const idealImageSize = Object.values( image.sizes ).find( size => {
+		return size.width >= idealWidth && size.height >= idealHeight;
+	} );
+
+	const imageUrl = idealImageSize ? idealImageSize.url : image.sizes.full.url;
+
 	wpDataDispatch( "yoast-seo/editor" ).setTwitterPreviewImage( {
-		url: image.url,
+		url: imageUrl,
 		id: image.id,
 		warnings: validateTwitterImage( image ),
 	} );
