@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Actions\Importing;
 
 use wpdb;
 use Yoast\WP\SEO\Conditionals\AIOSEO_V4_Importer_Conditional;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Indexable_To_Postmeta_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
@@ -147,6 +148,13 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	protected $indexable_to_postmeta;
 
 	/**
+	 * The indexable helper.
+	 *
+	 * @var Indexable_Helper
+	 */
+	protected $indexable_helper;
+
+	/**
 	 * The wpdb helper.
 	 *
 	 * @var Wpdb_Helper
@@ -165,6 +173,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	 *
 	 * @param Indexable_Repository                  $indexable_repository   The indexables repository.
 	 * @param wpdb                                  $wpdb                   The WordPress database instance.
+	 * @param Indexable_Helper                      $indexable_helper      The indexable helper.
 	 * @param Indexable_To_Postmeta_Helper          $indexable_to_postmeta  The indexable_to_postmeta helper.
 	 * @param Options_Helper                        $options                The options helper.
 	 * @param Image_Helper                          $image                  The image helper.
@@ -178,6 +187,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	public function __construct(
 		Indexable_Repository $indexable_repository,
 		wpdb $wpdb,
+		Indexable_Helper $indexable_helper,
 		Indexable_To_Postmeta_Helper $indexable_to_postmeta,
 		Options_Helper $options,
 		Image_Helper $image,
@@ -192,6 +202,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 		$this->indexable_repository   = $indexable_repository;
 		$this->wpdb                   = $wpdb;
 		$this->image                  = $image;
+		$this->indexable_helper       = $indexable_helper;
 		$this->indexable_to_postmeta  = $indexable_to_postmeta;
 		$this->wpdb_helper            = $wpdb_helper;
 		$this->social_images_provider = $social_images_provider;
@@ -288,6 +299,15 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 		$completed = \count( $aioseo_indexables ) === 0;
 		$this->set_completed( $completed );
 
+		// Let's build the list of fields to check their defaults, to identify whether we're gonna import AIOSEO data in the indexable or not.
+		$check_defaults_fields = [];
+		foreach ( $this->aioseo_to_yoast_map as $yoast_mapping ) {
+			// We don't want to check all the imported fields.
+			if ( ! \in_array( $yoast_mapping['yoast_name'], [ 'open_graph_image', 'twitter_image' ], true ) ) {
+				$check_defaults_fields[] = $yoast_mapping['yoast_name'];
+			}
+		}
+
 		$last_indexed_aioseo_id = 0;
 		foreach ( $aioseo_indexables as $aioseo_indexable ) {
 			$last_indexed_aioseo_id = $aioseo_indexable['id'];
@@ -299,11 +319,13 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 				continue;
 			}
 
-			$indexable = $this->map( $indexable, $aioseo_indexable );
-			$indexable->save();
+			if ( $this->indexable_helper->check_if_default_indexable( $indexable, $check_defaults_fields ) ) {
+				$indexable = $this->map( $indexable, $aioseo_indexable );
+				$indexable->save();
 
-			// To ensure that indexables can be rebuild after a reset, we have to store the data in the postmeta table too.
-			$this->indexable_to_postmeta->map_to_postmeta( $indexable );
+				// To ensure that indexables can be rebuild after a reset, we have to store the data in the postmeta table too.
+				$this->indexable_to_postmeta->map_to_postmeta( $indexable );
+			}
 
 			$last_indexed_aioseo_id = $aioseo_indexable['id'];
 
@@ -354,12 +376,6 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 						$indexable->open_graph_image_meta = null;
 					}
 				}
-				continue;
-			}
-
-			// For import of everything else.
-			// Do not overwrite any existing values.
-			if ( ! empty( $indexable->{$yoast_mapping['yoast_name']} ) ) {
 				continue;
 			}
 
