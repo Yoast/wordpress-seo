@@ -150,19 +150,33 @@ class Import_Integration_Test extends TestCase {
 		Monkey\Functions\expect( 'rest_url' )
 			->andReturn( 'https://example.org/wp-ajax/' );
 
-		$expected_detections = [
+		$expected_import_detections = [
 			'aioseo' => [ 'posts' ],
 		];
 
+		$expected_cleanup_detections = [
+			'aioseo' => [ 'cleanup' ],
+		];
+
 		$this->importable_detector
-			->expects( 'detect' )
-			->andReturn( $expected_detections );
+			->expects( 'detect_importers' )
+			->andReturn( $expected_import_detections );
+
+		$this->importable_detector
+			->expects( 'detect_cleanups' )
+			->andReturn( $expected_cleanup_detections );
 
 		$this->importing_route
 			->expects( 'get_endpoint' )
 			->once()
 			->with( 'aioseo', 'posts' )
 			->andReturn( 'yoast/v1/import/aioseo/posts' );
+
+		$this->importing_route
+			->expects( 'get_endpoint' )
+			->once()
+			->with( 'aioseo', 'cleanup' )
+			->andReturn( 'yoast/v1/import/aioseo/cleanup' );
 
 		Monkey\Functions\expect( 'wp_create_nonce' )
 			->with( 'wp_rest' )
@@ -178,6 +192,11 @@ class Import_Integration_Test extends TestCase {
 		$injected_data = [
 			'restApi' => [
 				'root'                => 'https://example.org/wp-ajax/',
+				'cleanup_endpoints'   => [
+					'aioseo' => [
+						'yoast/v1/import/aioseo/cleanup',
+					],
+				],
 				'importing_endpoints' => [
 					'aioseo' => [
 						'yoast/v1/import/aioseo/posts',
@@ -186,11 +205,13 @@ class Import_Integration_Test extends TestCase {
 				'nonce'               => 'nonce_value',
 			],
 			'assets'  => [
-				'loading_msg'        => 'The import can take a long time depending on your site\'s size.',
-				'select_placeholder' => 'Select SEO plugin',
-				'no_data_msg'        => 'No data found from other SEO plugins.',
-				'import_failure'     => '<div class="yoast-alert yoast-alert--error"><span><img class="yoast-alert__icon" src="https://example.org/wp-content/plugins/images/alert-error-icon.svg" alt="" /></span><span>Import failed with the following error:<br/><br/>%s</span></div>',
-				'spinner'            => 'https://example.org/wp-admin/images/loading.gif',
+				'loading_msg_import'  => 'The import can take a long time depending on your site\'s size.',
+				'loading_msg_cleanup' => 'The cleanup can take a long time depending on your site\'s size.',
+				'select_placeholder'  => 'Select SEO plugin',
+				'no_data_msg'         => 'No data found from other SEO plugins.',
+				'import_failure'      => '<div class="yoast-alert yoast-alert--error"><span><img class="yoast-alert__icon" src="https://example.org/wp-content/plugins/images/alert-error-icon.svg" alt="" /></span><span>Import failed with the following error:<br/><br/>%s</span></div>',
+				'cleanup_failure'     => '<div class="yoast-alert yoast-alert--error"><span><img class="yoast-alert__icon" src="https://example.org/wp-content/plugins/images/alert-error-icon.svg" alt="" /></span><span>Cleanup failed with the following error:<br/><br/>%s</span></div>',
+				'spinner'             => 'https://example.org/wp-admin/images/loading.gif',
 			],
 		];
 

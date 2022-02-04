@@ -282,7 +282,7 @@ class Indexing_Tool_Integration_Test extends TestCase {
 		];
 
 		$this->importable_detector
-			->expects( 'detect' )
+			->expects( 'detect_importers' )
 			->andReturn( $expected_detections );
 
 		$this->importing_route

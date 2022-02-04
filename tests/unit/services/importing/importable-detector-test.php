@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Services\Importing;
 
 use Mockery;
 use Yoast\WP\SEO\Actions\Importing\Aioseo_Posts_Importing_Action;
+use Yoast\WP\SEO\Actions\Importing\Aioseo_Cleanup_Action;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Meta_Helper;
 use Yoast\WP\SEO\Helpers\Indexable_To_Postmeta_Helper;
@@ -43,6 +44,13 @@ class Importable_Detector_Test extends TestCase {
 	 * @var Aioseo_Posts_Importing_Action_Double
 	 */
 	protected $importing_action;
+
+	/**
+	 * The mocked importing action.
+	 *
+	 * @var Mockery\MockInterface|Aioseo_Cleanup_Action
+	 */
+	protected $cleanup_action;
 
 	/**
 	 * Represents the indexable repository.
@@ -164,11 +172,21 @@ class Importable_Detector_Test extends TestCase {
 			]
 		)->makePartial()->shouldAllowMockingProtectedMethods();
 
-		$this->instance      = new Importable_Detector( $this->importing_action );
+		$this->cleanup_action = Mockery::mock(
+			Aioseo_Cleanup_Action::class,
+			[
+				$this->wpdb,
+				$this->options,
+				$this->wpdb_helper,
+			]
+		)->makePartial()->shouldAllowMockingProtectedMethods();
+
+		$this->instance      = new Importable_Detector( $this->importing_action, $this->cleanup_action );
 		$this->mock_instance = Mockery::mock(
 			Importable_Detector_Double::class,
 			[
 				$this->importing_action,
+				$this->cleanup_action,
 			]
 		)->makePartial()->shouldAllowMockingProtectedMethods();
 	}
@@ -189,128 +207,190 @@ class Importable_Detector_Test extends TestCase {
 	}
 
 	/**
-	 * Tests if the detector detects when there are no importers.
+	 * Tests if the detector detects when there are no importers and cleanups.
 	 *
-	 * @covers ::detect
+	 * @covers ::detect_importers
+	 * @covers ::detect_cleanups
 	 */
 	public function test_detect_no_importers() {
+		$this->mock_instance->expects( 'filter_actions' )
+			->once()
+			->andReturn( [] );
 		$this->mock_instance->expects( 'filter_actions' )
 			->once()
 			->andReturn( [] );
 
 		$this->importing_action->expects( 'get_limited_unindexed_count' )
 			->never();
+		$this->cleanup_action->expects( 'get_limited_unindexed_count' )
+			->never();
 
-		$detected = $this->mock_instance->detect();
+		$detected_importers = $this->mock_instance->detect_importers();
+		$detected_cleanups  = $this->mock_instance->detect_cleanups();
 
-		$this->assertTrue( \is_array( $detected ) );
-		$this->assertTrue( \count( $detected ) === 0 );
+		$this->assertTrue( \is_array( $detected_importers ) );
+		$this->assertTrue( \count( $detected_importers ) === 0 );
+		$this->assertTrue( \is_array( $detected_cleanups ) );
+		$this->assertTrue( \count( $detected_cleanups ) === 0 );
 	}
 
 	/**
 	 * Tests if the detector actually detects when there are unimported data and the action hasn't been finished.
 	 *
-	 * @covers ::detect
+	 * @covers ::detect_importers
+	 * @covers ::detect_cleanups
 	 */
 	public function test_detect_data_to_import_unifinished() {
 		$this->mock_instance->expects( 'filter_actions' )
-			->once()
+			->twice()
 			->andReturn( self::getPropertyValue( $this->instance, 'importers' ) );
 
 		$this->importing_action->expects( 'is_enabled' )
-				->once()
-				->andReturn( true );
+			->twice()
+			->andReturn( true );
+
+		$this->cleanup_action->expects( 'is_enabled' )
+			->twice()
+			->andReturn( true );
 
 		$this->importing_action->expects( 'get_completed' )
+			->twice()
+			->andReturn( false );
+		$this->cleanup_action->expects( 'get_completed' )
 			->once()
-			->andReturn( false ); // Any number between 1-25.
+			->andReturn( false );
 
 		$this->importing_action->expects( 'get_limited_unindexed_count' )
-			->once()
+			->twice()
 			->andReturn( 4 ); // Any number between 1-25.
+		$this->cleanup_action->expects( 'get_limited_unindexed_count' )
+			->once()
+			->andReturn( 1 ); // Any number between 1-25.
 
-		$detected = $this->mock_instance->detect();
+		$detected_importers = $this->mock_instance->detect_importers();
+		$detected_cleanups  = $this->mock_instance->detect_cleanups();
 
-		$this->assertTrue( \is_array( $detected ) );
+		$this->assertTrue( \is_array( $detected_importers ) );
+		$this->assertTrue( \is_array( $detected_cleanups ) );
 
 		// Verify that we got data to import for the ONE importing action we have implemented at this point.
-		$this->assertTrue( \count( $detected ) === 1 );
-		$this->assertTrue( isset( $detected['aioseo'] ) );
-		$this->assertTrue( $detected['aioseo'][0] === 'posts' );
+		$this->assertTrue( \count( $detected_importers ) === 1 );
+		$this->assertTrue( isset( $detected_importers['aioseo'] ) );
+		$this->assertSame( $detected_importers['aioseo'][0], 'posts' );
+		// Verify that we got data to import for the ONE cleanup action we have implemented at this point.
+		$this->assertTrue( \count( $detected_cleanups ) === 1 );
+		$this->assertTrue( isset( $detected_cleanups['aioseo'] ) );
+		$this->assertSame( $detected_cleanups['aioseo'][1], 'cleanup' );
 	}
 
 	/**
 	 * Tests if the detector actually detects when there are unimported data but the action has been finished.
 	 *
-	 * @covers ::detect
+	 * @covers ::detect_importers
+	 * @covers ::detect_cleanups
 	 */
 	public function test_detect_data_to_import_finished() {
 		$this->mock_instance->expects( 'filter_actions' )
-			->once()
+			->twice()
 			->andReturn( self::getPropertyValue( $this->instance, 'importers' ) );
 
 		$this->importing_action->expects( 'is_enabled' )
-			->once()
+			->twice()
+			->andReturn( true );
+
+		$this->cleanup_action->expects( 'is_enabled' )
+			->twice()
 			->andReturn( true );
 
 		$this->importing_action->expects( 'get_completed' )
+			->twice()
+			->andReturn( true );
+
+		$this->cleanup_action->expects( 'get_completed' )
 			->once()
 			->andReturn( true );
 
 		$this->importing_action->expects( 'get_limited_unindexed_count' )
 			->never();
 
-		$detected = $this->mock_instance->detect();
+		$detected_importers = $this->mock_instance->detect_importers();
+		$detected_cleanups  = $this->mock_instance->detect_cleanups();
 
-		$this->assertTrue( \is_array( $detected ) );
-		$this->assertTrue( \count( $detected ) === 0 );
+		$this->assertTrue( \is_array( $detected_importers ) );
+		$this->assertTrue( \count( $detected_importers ) === 0 );
+		$this->assertTrue( \is_array( $detected_cleanups ) );
+		$this->assertTrue( \count( $detected_cleanups ) === 0 );
 	}
 
 	/**
 	 * Tests if the detector detects when there are no unimported data but the action has not finished.
 	 *
-	 * @covers ::detect
+	 * @covers ::detect_importers
+	 * @covers ::detect_cleanups
 	 */
 	public function test_detect_no_data_to_import_unfinished() {
 		$this->mock_instance->expects( 'filter_actions' )
-			->once()
+			->twice()
 			->andReturn( self::getPropertyValue( $this->instance, 'importers' ) );
 
 		$this->importing_action->expects( 'is_enabled' )
-			->once()
+			->twice()
+			->andReturn( true );
+
+		$this->cleanup_action->expects( 'is_enabled' )
+			->twice()
 			->andReturn( true );
 
 		$this->importing_action->expects( 'get_completed' )
+			->twice()
+			->andReturn( false );
+
+		$this->cleanup_action->expects( 'get_completed' )
 			->once()
 			->andReturn( false );
 
 		$this->importing_action->expects( 'get_limited_unindexed_count' )
+			->twice()
+			->andReturn( 0 );
+
+		$this->cleanup_action->expects( 'get_limited_unindexed_count' )
 			->once()
 			->andReturn( 0 );
 
-		$detected = $this->mock_instance->detect();
+		$detected_importers = $this->mock_instance->detect_importers();
+		$detected_cleanups  = $this->mock_instance->detect_cleanups();
 
-		$this->assertTrue( \is_array( $detected ) );
-		$this->assertTrue( \count( $detected ) === 0 );
+		$this->assertTrue( \is_array( $detected_importers ) );
+		$this->assertTrue( \count( $detected_importers ) === 0 );
+		$this->assertTrue( \is_array( $detected_cleanups ) );
+		$this->assertTrue( \count( $detected_cleanups ) === 0 );
 	}
 
 	/**
 	 * Tests if the detector detects when there are no enabled importers.
 	 *
-	 * @covers ::detect
+	 * @covers ::detect_importers
+	 * @covers ::detect_cleanups
 	 */
 	public function test_detect_no_data_when_no_enabled_importers() {
 		$this->mock_instance->expects( 'filter_actions' )
-			->once()
+			->twice()
 			->andReturn( self::getPropertyValue( $this->instance, 'importers' ) );
 
 		$this->importing_action->expects( 'is_enabled' )
-			->once()
+			->twice()
 			->andReturn( false );
 
-		$detected = $this->mock_instance->detect();
+		$this->cleanup_action->expects( 'is_enabled' )
+			->twice()
+			->andReturn( false );
 
-		$this->assertTrue( \is_array( $detected ) );
-		$this->assertTrue( \count( $detected ) === 0 );
+		$detected_importers = $this->mock_instance->detect_importers();
+		$detected_cleanups  = $this->mock_instance->detect_cleanups();
+
+		$this->assertTrue( \is_array( $detected_importers ) );
+		$this->assertTrue( \count( $detected_importers ) === 0 );
+		$this->assertTrue( \is_array( $detected_cleanups ) );
+		$this->assertTrue( \count( $detected_cleanups ) === 0 );
 	}
 }
