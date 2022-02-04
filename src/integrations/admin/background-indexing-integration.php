@@ -147,7 +147,7 @@ class Background_Indexing_Integration implements Integration_Interface {
 	public function register_hooks() {
 		\add_action( 'admin_init', [ $this, 'register_shutdown_indexing' ] );
 		\add_action( 'Yoast\WP\SEO\index', [ $this, 'index' ] );
-		// phpcs:ignore WordPress.WP.CronInterval -- We use small intervals, so we can use small batches and reduce peak load.
+		// phpcs:ignore WordPress.WP.CronInterval -- The sniff doesn't understand values with parentheses. https://github.com/WordPress/WordPress-Coding-Standards/issues/2025
 		\add_filter( 'cron_schedules', [ $this, 'add_cron_schedule' ] );
 		\add_action( 'init', [ $this, 'schedule_cron_indexing' ], 11 );
 		\add_filter( 'wpseo_post_indexation_limit', [ $this, 'throttle_cron_indexing' ] );
@@ -189,20 +189,20 @@ class Background_Indexing_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Adds the 'Every five minutes' cron schedule to WP-Cron.
+	 * Adds the 'Every fifteen minutes' cron schedule to WP-Cron.
 	 *
 	 * @param array $schedules The existing schedules.
 	 *
-	 * @return array The schedules containing the fire_minutes schedule.
+	 * @return array The schedules containing the fifteen_minutes schedule.
 	 */
 	public function add_cron_schedule( $schedules ) {
 		if ( ! is_array( $schedules ) ) {
 			return $schedules;
 		}
 
-		$schedules['five_minutes'] = [
-			'interval' => ( 5 * MINUTE_IN_SECONDS ),
-			'display'  => esc_html__( 'Every five minutes', 'wordpress-seo' ),
+		$schedules['fifteen_minutes'] = [
+			'interval' => ( 15 * MINUTE_IN_SECONDS ),
+			'display'  => esc_html__( 'Every fifteen minutes', 'wordpress-seo' ),
 		];
 
 		return $schedules;
@@ -215,12 +215,12 @@ class Background_Indexing_Integration implements Integration_Interface {
 	 */
 	public function schedule_cron_indexing() {
 		if ( ! wp_next_scheduled( 'Yoast\WP\SEO\index' ) && $this->should_index_on_cron() ) {
-			wp_schedule_event( time(), 'five_minutes', 'Yoast\WP\SEO\index' );
+			wp_schedule_event( time(), 'fifteen_minutes', 'Yoast\WP\SEO\index' );
 		}
 	}
 
 	/**
-	 * Limit cron indexing to 5 indexables per batch instead of 25.
+	 * Limit cron indexing to 15 indexables per batch instead of 25.
 	 *
 	 * @param int $indexation_limit The current limit (filter input).
 	 *
@@ -228,7 +228,7 @@ class Background_Indexing_Integration implements Integration_Interface {
 	 */
 	public function throttle_cron_indexing( $indexation_limit ) {
 		if ( wp_doing_cron() ) {
-			return 5;
+			return 15;
 		}
 
 		return $indexation_limit;

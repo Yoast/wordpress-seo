@@ -410,7 +410,7 @@ class Background_Indexing_Integration_Test extends TestCase {
 		Monkey\Functions\when( 'time' )->justReturn( 987654321 );
 		Monkey\Functions\expect( 'wp_next_scheduled' )->once()->with( 'Yoast\WP\SEO\index' )->andReturn( false );
 		$this->indexing_helper->expects( 'is_index_up_to_date' )->once()->andReturn( false );
-		Monkey\Functions\expect( 'wp_schedule_event' )->once()->with( 987654321, 'five_minutes', 'Yoast\WP\SEO\index' );
+		Monkey\Functions\expect( 'wp_schedule_event' )->once()->with( 987654321, 'fifteen_minutes', 'Yoast\WP\SEO\index' );
 
 		$this->instance->schedule_cron_indexing();
 	}
@@ -469,13 +469,13 @@ class Background_Indexing_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that the background indexing pace is throttled to 5 when doing cron.
+	 * Tests that the background indexing pace is throttled to 15 when doing cron.
 	 *
 	 * @covers ::throttle_cron_indexing
 	 */
 	public function test_throttle_cron_indexing_while_doing_cron() {
 		Monkey\Functions\when( 'wp_doing_cron' )->justReturn( true );
 
-		$this->assertSame( 5, $this->instance->throttle_cron_indexing( 25 ) );
+		$this->assertSame( 15, $this->instance->throttle_cron_indexing( 25 ) );
 	}
 }
