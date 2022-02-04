@@ -182,7 +182,10 @@ class Background_Indexing_Integration implements Integration_Interface {
 		$this->post_type_archive_indexation->index();
 		$this->post_link_indexing_action->index();
 		$this->term_link_indexing_action->index();
-		$this->complete_indexation_action->complete();
+
+		if ( $this->indexing_helper->is_index_up_to_date() ) {
+			$this->complete_indexation_action->complete();
+		}
 	}
 
 	/**

@@ -288,6 +288,11 @@ class Background_Indexing_Integration_Test extends TestCase {
 		$this->post_link_indexing_action->expects( 'index' )->once();
 		$this->term_link_indexing_action->expects( 'index' )->once();
 
+		$this->indexing_helper
+			->expects( 'is_index_up_to_date' )
+			->once()
+			->andReturn( true );
+
 		$this->complete_indexation_action
 			->expects( 'complete' )
 			->once();
@@ -311,8 +316,9 @@ class Background_Indexing_Integration_Test extends TestCase {
 
 		$this->indexing_helper
 			->expects( 'is_index_up_to_date' )
-			->once()
+			->times( 2 )
 			->andReturn( false );
+
 
 		$this->term_indexation->expects( 'index' )->once();
 		$this->post_indexation->expects( 'index' )->once();
@@ -320,10 +326,6 @@ class Background_Indexing_Integration_Test extends TestCase {
 		$this->post_type_archive_indexation->expects( 'index' )->once();
 		$this->post_link_indexing_action->expects( 'index' )->once();
 		$this->term_link_indexing_action->expects( 'index' )->once();
-
-		$this->complete_indexation_action
-			->expects( 'complete' )
-			->once();
 
 		$this->instance->index();
 	}
