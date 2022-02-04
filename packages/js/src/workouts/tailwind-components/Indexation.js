@@ -325,7 +325,7 @@ export class Indexation extends Component {
 	 * @returns {JSX.Element} The progress bar, plus caption.
 	 */
 	renderProgressBar() {
-		let percentageIndexed = 1.5;
+		let percentageIndexed = 0;
 		if ( this.isState( STATE.COMPLETED ) ) {
 			percentageIndexed = 100;
 		}
