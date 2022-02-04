@@ -35,8 +35,28 @@ class Importable_Detector {
 	 *
 	 * @return array The detected importers that have data to work with.
 	 */
-	public function detect( $plugin = null, $type = null ) {
+	public function detect_importers( $plugin = null, $type = null ) {
 		$detectors = $this->filter_actions( $this->importers, $plugin, $type );
+
+		$detected = [];
+		foreach ( $detectors as $detector ) {
+			if ( $detector->is_enabled() && $detector->get_type() !== 'cleanup' && ! $detector->get_completed() && $detector->get_limited_unindexed_count( 1 ) > 0 ) {
+				$detected[ $detector->get_plugin() ][] = $detector->get_type();
+			}
+		}
+
+		return $detected;
+	}
+
+	/**
+	 * Returns the detected cleanups that have data to work with.
+	 *
+	 * @param string $plugin The plugin name of the cleanup.
+	 *
+	 * @return array The detected importers that have data to work with.
+	 */
+	public function detect_cleanups( $plugin = null ) {
+		$detectors = $this->filter_actions( $this->importers, $plugin, 'cleanup' );
 
 		$detected = [];
 		foreach ( $detectors as $detector ) {

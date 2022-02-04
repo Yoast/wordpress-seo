@@ -95,20 +95,21 @@ class Import_Integration implements Integration_Interface {
 		\wp_enqueue_style( 'dashicons' );
 		$this->asset_manager->enqueue_script( 'import' );
 
-		$import_failure_alert = $this->get_import_failure_alert();
-
 		$data = [
 			'restApi' => [
 				'root'                => \esc_url_raw( \rest_url() ),
+				'cleanup_endpoints'   => $this->get_cleanup_endpoints(),
 				'importing_endpoints' => $this->get_importing_endpoints(),
 				'nonce'               => \wp_create_nonce( 'wp_rest' ),
 			],
 			'assets'  => [
-				'loading_msg'        => \esc_html__( 'The import can take a long time depending on your site\'s size.', 'wordpress-seo' ),
-				'select_placeholder' => \esc_html__( 'Select SEO plugin', 'wordpress-seo' ),
-				'no_data_msg'        => \esc_html__( 'No data found from other SEO plugins.', 'wordpress-seo' ),
-				'import_failure'     => $import_failure_alert,
-				'spinner'            => \admin_url( 'images/loading.gif' ),
+				'loading_msg_import'  => \esc_html__( 'The import can take a long time depending on your site\'s size.', 'wordpress-seo' ),
+				'loading_msg_cleanup' => \esc_html__( 'The cleanup can take a long time depending on your site\'s size.', 'wordpress-seo' ),
+				'select_placeholder'  => \esc_html__( 'Select SEO plugin', 'wordpress-seo' ),
+				'no_data_msg'         => \esc_html__( 'No data found from other SEO plugins.', 'wordpress-seo' ),
+				'import_failure'      => $this->get_import_failure_alert( true ),
+				'cleanup_failure'     => $this->get_import_failure_alert( false ),
+				'spinner'             => \admin_url( 'images/loading.gif' ),
 			],
 		];
 
@@ -128,7 +129,25 @@ class Import_Integration implements Integration_Interface {
 	 * @return array The endpoints.
 	 */
 	protected function get_importing_endpoints() {
-		$available_actions   = $this->importable_detector->detect();
+		$available_actions   = $this->importable_detector->detect_importers();
+		$importing_endpoints = [];
+
+		foreach ( $available_actions as $plugin => $types ) {
+			foreach ( $types as $type ) {
+				$importing_endpoints[ $plugin ][] = $this->importing_route->get_endpoint( $plugin, $type );
+			}
+		}
+
+		return $importing_endpoints;
+	}
+
+	/**
+	 * Retrieves a list of the importing endpoints to use.
+	 *
+	 * @return array The endpoints.
+	 */
+	protected function get_cleanup_endpoints() {
+		$available_actions   = $this->importable_detector->detect_cleanups();
 		$importing_endpoints = [];
 
 		foreach ( $available_actions as $plugin => $types ) {
@@ -143,10 +162,16 @@ class Import_Integration implements Integration_Interface {
 	/**
 	 * Gets the import failure alert using the Alert_Presenter.
 	 *
+	 * @param bool $is_import Wether it's an import or not.
+	 *
 	 * @return string The import failure alert.
 	 */
-	protected function get_import_failure_alert() {
-		$content  = \esc_html__( 'Import failed with the following error:', 'wordpress-seo' );
+	protected function get_import_failure_alert( $is_import ) {
+		$content = \esc_html__( 'Cleanup failed with the following error:', 'wordpress-seo' );
+		if ( $is_import ) {
+			$content = \esc_html__( 'Import failed with the following error:', 'wordpress-seo' );
+		}
+
 		$content .= '<br/><br/>';
 		$content .= \esc_html( '%s' );
 
