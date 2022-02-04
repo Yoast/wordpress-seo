@@ -313,8 +313,6 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 				'twitter_description',
 				'canonical',
 				'primary_focus_keyword',
-				'open_graph_image',
-				'twitter_image',
 				'is_robots_noindex',
 				'is_robots_nofollow',
 				'is_robots_noarchive',

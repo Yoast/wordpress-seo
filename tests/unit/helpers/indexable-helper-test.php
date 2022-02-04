@@ -323,7 +323,7 @@ class Indexable_Helper_Test extends TestCase {
 			[ 'is_robots_noimageindex', 'not null', false ],
 			[ 'is_robots_nosnippet', null, true ],
 			[ 'is_robots_nosnippet', 'not null', false ],
-			[ 'schema_article_type', 'irrelevant', true ], // Checking for fields that don't have an explicit default will always return true.
+			[ 'schema_article_type', 'irrelevant', false ], // Checking for fields that don't have an explicit default will always return false.
 		];
 	}
 }

@@ -299,9 +299,13 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 		$completed = \count( $aioseo_indexables ) === 0;
 		$this->set_completed( $completed );
 
+		// Let's build the list of fields to check their defaults, to identify whether we're gonna import AIOSEO data in the indexable or not.
 		$check_defaults_fields = [];
 		foreach ( $this->aioseo_to_yoast_map as $yoast_mapping ) {
-			$check_defaults_fields[] = $yoast_mapping['yoast_name'];
+			// We don't want to check all the imported fields.
+			if ( ! \in_array( $yoast_mapping['yoast_name'], [ 'open_graph_image', 'twitter_image' ], true ) ) {
+				$check_defaults_fields[] = $yoast_mapping['yoast_name'];
+			}
 		}
 
 		$last_indexed_aioseo_id = 0;
