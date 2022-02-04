@@ -54,7 +54,7 @@ const stepShape = PropTypes.shape( {
 	description: PropTypes.string,
 	component: PropTypes.element.isRequired,
 	isSaved: PropTypes.bool.isRequired,
-	saveStep: PropTypes.func,
+	beforeContinue: PropTypes.func,
 } );
 
 /**
@@ -64,7 +64,7 @@ const stepShape = PropTypes.shape( {
  *
  * @returns {WPElement} The Step component.
  */
-function TailwindStep( { step, stepIndex, lastStepIndex, isLastStep, saveStep, activeStepIndex, setActiveStepIndex, showEditButton, isStepBeingEdited, setIsStepBeingEdited } ) {
+function TailwindStep( { step, stepIndex, lastStepIndex, isLastStep, beforeContinue, activeStepIndex, setActiveStepIndex, showEditButton, isStepBeingEdited, setIsStepBeingEdited } ) {
 	const isActiveStep = activeStepIndex === stepIndex;
 	const isSaved = step.isSaved;
 
@@ -73,11 +73,13 @@ function TailwindStep( { step, stepIndex, lastStepIndex, isLastStep, saveStep, a
 
 	const saveEditedStep = useCallback(
 		() => {
-			saveStep( stepIndex );
-			setIsStepBeingEdited( false );
-			setActiveStepIndex( lastStepIndex );
+			const canContinueToNextStep = beforeContinue();
+			if ( canContinueToNextStep === true ) {
+				setIsStepBeingEdited( false );
+				setActiveStepIndex( lastStepIndex );
+			}
 		},
-		[ saveStep, stepIndex, setActiveStepIndex, setIsStepBeingEdited ]
+		[ beforeContinue, stepIndex, setActiveStepIndex, setIsStepBeingEdited ]
 	);
 
 	const continueToNextStep = useCallback(
@@ -89,10 +91,12 @@ function TailwindStep( { step, stepIndex, lastStepIndex, isLastStep, saveStep, a
 
 	const saveAndContinue = useCallback(
 		() => {
-			saveEditedStep();
-			continueToNextStep();
+			const canContinueToNextStep = beforeContinue( stepIndex );
+			if ( canContinueToNextStep === true ) {
+				continueToNextStep();
+			}
 		},
-		[ setActiveStepIndex, saveStep, stepIndex ]
+		[ setActiveStepIndex, beforeContinue, stepIndex ]
 	);
 
 	const goBack = useCallback( () => {
@@ -175,15 +179,15 @@ TailwindStep.propTypes = {
 	lastStepIndex: PropTypes.number.isRequired,
 	isLastStep: PropTypes.bool.isRequired,
 	setActiveStepIndex: PropTypes.func.isRequired,
-	saveStep: PropTypes.func,
+	beforeContinue: PropTypes.func,
 	activeStepIndex: PropTypes.number.isRequired,
 	showEditButton: PropTypes.bool,
 	setIsStepBeingEdited: PropTypes.func.isRequired,
 	isStepBeingEdited: PropTypes.bool.isRequired,
 };
 TailwindStep.defaultProps = {
-	saveStep: () => { },
 	showEditButton: false,
+	beforeContinue: () => { return true; },
 };
 
 /**
@@ -214,7 +218,7 @@ export default function Stepper( { steps, setActiveStepIndex, activeStepIndex, i
 						lastStepIndex={ steps.length - 1 }
 						isLastStep={ stepIndex === steps.length - 1 }
 						setActiveStepIndex={ setActiveStepIndex }
-						saveStep={ step.saveStep }
+						beforeContinue={ step.beforeContinue }
 						activeStepIndex={ activeStepIndex }
 						showEditButton={ showEditButton }
 						setIsStepBeingEdited={ setIsStepBeingEdited }

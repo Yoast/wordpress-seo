@@ -6,8 +6,9 @@ import { __, sprintf } from "@wordpress/i18n";
 import { cloneDeep } from "lodash";
 import PropTypes from "prop-types";
 import UnsavedChangesModal from "../tailwind-components/UnsavedChangesModal";
+import Alert from "../tailwind-components/alert";
 
-import { Alert, NewButton as Button, RadioButtonGroup, SingleSelect, TextInput } from "@yoast/components";
+import { NewButton as Button, RadioButtonGroup, SingleSelect, TextInput } from "@yoast/components";
 import { ReactComponent as WorkoutDoneImage } from "../../../../../images/mirrored_fit_bubble_woman_1_optim.svg";
 import { ReactComponent as WorkoutStartImage } from "../../../images/motivated_bubble_woman_1_optim.svg";
 import { addLinkToString } from "../../helpers/stringHelpers.js";
@@ -252,9 +253,9 @@ const stepNumberNameMap = {
  *
  * @returns {WPElement} The indexation step.
  */
-function IndexationStep( { indexingState, setIndexingState } ) {
+function IndexationStep( { indexingState, setIndexingState, showRunIndexationAlert } ) {
 	return <Fragment>
-		<div className="yst-flex yst-flex-row yst-mb-[32px]">
+		<div className="yst-flex yst-flex-row yst-mb-8">
 			<p className="yst-text-sm yst-text-[#333333] yst-basis-9/12">
 				{ addLinkToString(
 					sprintf(
@@ -303,6 +304,11 @@ function IndexationStep( { indexingState, setIndexingState } ) {
 					window.wpseoWorkoutsData.toolsPageUrl
 				) }
 			</p>
+		</Alert> }
+		{ indexingState === "idle" && showRunIndexationAlert &&
+		<Alert type="info" className="yst-mt-4">{
+			__( "Be aware that you should run the SEO data optimization for this configuration to take maximum effect.",
+				"wordpress-seo" ) }
 		</Alert> }
 	</Fragment>;
 }
@@ -497,6 +503,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 	} );
 	const [ indexingState, setIndexingState ] = useState( () => window.yoastIndexingData.amount === "0" ? "completed" : "idle" );
 	const [ siteRepresentationEmpty, setSiteRepresentationEmpty ] = useState( false );
+	const [ showRunIndexationAlert, setShowRunIndexationAlert ] = useState( false );
 	const steps = STEPS.configuration;
 
 	const isTrackingOptionSelected = state.tracking === 0 || state.tracking === 1;
@@ -731,14 +738,31 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 	 *
 	 * @param {int} stepIdx The step to-be-finished.
 	 *
-	 * @returns {void}
+	 * @returns {boolean} Whether the stepper can continue to the next step.
 	 */
-	function saveStep( stepIdx ) {
+	function finishStep( stepIdx ) {
 		finishSteps( "configuration", [ stepNumberNameMap[ stepIdx + 1 ] ] );
+		return true;
+	}
+
+	/**
+	 * Save and continue functionality for the Indexation step.
+	 *
+	 * @param {int} stepIdx The step index of the indexation step.
+	 *
+	 * @returns {boolean} Whether the stepper can continue to the next step.
+	 */
+	function beforeContinueIndexationStep( stepIdx ) {
+		if ( ! showRunIndexationAlert && indexingState === "idle" ) {
+			setShowRunIndexationAlert( true );
+			return false;
+		}
+
+		finishStep( stepIdx );
+		return true;
 	}
 
 	// AND HERE....
-
 	/* eslint-disable max-len */
 	return (
 		<div id="yoast-configuration-workout" className="card">
@@ -803,29 +827,29 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 				<Stepper
 					steps={ [
 						{ name: "Let’s analyse your site and get those indexables into action!",
-							component: <IndexationStep setIndexingState={ setIndexingState } indexingState={ indexingState } />,
+							component: <IndexationStep setIndexingState={ setIndexingState } indexingState={ indexingState } showRunIndexationAlert={ showRunIndexationAlert } />,
 							isSaved: isStepFinished( "configuration", steps.optimizeSeoData ),
-							saveStep: saveStep,
+							beforeContinue: beforeContinueIndexationStep,
 						},
 						{ name: "Knowledge panel",
 							component: <SiteRepresentationStep onOrganizationOrPersonChange={ onOrganizationOrPersonChange } dispatch={ dispatch } state={ state } siteRepresentsPerson={ siteRepresentsPerson } onSiteTaglineChange={ onSiteTaglineChange } siteRepresentationEmpty={ siteRepresentationEmpty } />,
 							isSaved: isStepFinished( "configuration", steps.siteRepresentation ),
-							saveStep: saveStep,
+							beforeContinue: finishStep,
 						},
 						{ name: "Social profiles",
 							component: <SocialProfilesStep state={ state } dispatch={ dispatch } setErrorFields={ setErrorFields } siteRepresentsPerson={ siteRepresentsPerson } />,
 							isSaved: isStepFinished( "configuration", steps.socialProfiles ),
-							saveStep: saveStep,
+							beforeContinue: finishStep,
 						},
 						{ name: "Personal preferences",
 							component: <PersonalPreferencesStep state={ state } setTracking={ setTracking } isTrackingOptionSelected={ isTrackingOptionSelected } />,
 							isSaved: isStepFinished( "configuration", steps.newsletterSignup ),
-							saveStep: saveStep,
+							beforeContinue: finishStep,
 						},
 						{ name: "Finish configuration",
 							component: <FinishStep />,
 							isSaved: isStepperFinished,
-							saveStep: saveStep,
+							beforeContinue: finishStep,
 						},
 					] }
 					setActiveStepIndex={ setActiveStepIndex }
