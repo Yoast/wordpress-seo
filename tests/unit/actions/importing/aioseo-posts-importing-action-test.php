@@ -666,7 +666,6 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			'robots_default'       => true,
 			'robots_nofollow'      => true,
 			'robots_noarchive'     => false,
-			
 			'robots_nosnippet'     => true,
 			'robots_noimageindex'  => false,
 			'og_image_type'        => 'author',
@@ -732,7 +731,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			->with( $expected_url, null )
 			->andReturn( $expected_url );
 
-		$image_url = $this->instance->social_image_url_import( $aioseo_social_image_settings, $mapping, $indexable );
+		$image_url = $this->instance->social_image_url_import( $aioseo_social_image_settings, 'not_used', $mapping, $indexable );
 
 		$this->assertSame( $expected_url, $image_url );
 	}
