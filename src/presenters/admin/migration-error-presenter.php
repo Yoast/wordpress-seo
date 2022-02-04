@@ -60,12 +60,19 @@ class Migration_Error_Presenter extends Abstract_Presenter {
 			\esc_html( $this->migration_error['message'] )
 		);
 
+		$dismiss_button = \sprintf(
+			'<p><button type="button" class="button-link hide-if-no-js" data-nonce="%1$s">%2$s</button></p>',
+			\esc_js( \wp_create_nonce( 'wpseo-ignore' ) ),
+			\esc_html__( 'Do not show me this notice again.', 'wordpress-seo' )
+		);
+
 		return \sprintf(
-			'<div class="notice notice-error"><p>%1$s</p><p>%2$s</p><p>%3$s</p>%4$s</div>',
+			'<div id="migration-error-notice" class="notice notice-error"><p>%1$s</p><p>%2$s</p><p>%3$s</p>%4$s%5$s</div>',
 			$message,
 			$support,
 			$reassurance,
-			$debug_info
+			$debug_info,
+			$dismiss_button
 		);
 	}
 }

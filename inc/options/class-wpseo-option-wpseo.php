@@ -30,6 +30,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'license_server_version'                   => false,
 		'ms_defaults_set'                          => false,
 		'ignore_search_engines_discouraged_notice' => false,
+		'ignore_migration_error_notice'            => false,
 		'indexing_first_time'                      => true,
 		'indexing_started'                         => null,
 		'indexing_reason'                          => '',
@@ -99,6 +100,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	 */
 	public $ms_exclude = [
 		'ignore_search_engines_discouraged_notice',
+		'ignore_migration_error_notice',
 		/* Privacy. */
 		'baiduverify',
 		'googleverify',
@@ -298,6 +300,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				 * (and don't need to be either as long as the default is false).
 				 */
 				case 'ignore_search_engines_discouraged_notice':
+				case 'ignore_migration_error_notice':
 				case 'ms_defaults_set':
 					if ( isset( $dirty[ $key ] ) ) {
 						$clean[ $key ] = WPSEO_Utils::validate_bool( $dirty[ $key ] );
@@ -487,6 +490,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		// Deal with value change from text string to boolean.
 		$value_change = [
 			'ignore_search_engines_discouraged_notice',
+			'ignore_migration_error_notice',
 		];
 
 		$target_values = [

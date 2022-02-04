@@ -90,6 +90,11 @@ import jQuery from "jquery";
 		jQuery( "#robotsmessage button" ).on( "click", function() {
 			wpseoSetIgnore( "search_engines_discouraged_notice", "robotsmessage", jQuery( this ).data( "nonce" ) );
 		} );
+
+		// Dismiss the "migration error" admin notice.
+		jQuery( "#migration-error-notice button" ).on( "click", function() {
+			wpseoSetIgnore( "migration_error_notice", "migration-error-notice", jQuery( this ).data( "nonce" ) );
+		} );
 	} );
 
 	window.wpseoSetIgnore = wpseoSetIgnore;
