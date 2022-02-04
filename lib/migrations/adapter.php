@@ -260,7 +260,10 @@ class Adapter {
 		$wpdb->last_error         = '';
 		$wpdb->suppress_errors    = true;
 
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name can not be prepared.
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery -- Adapter must do direct queries.
 		$result = $wpdb->query( "SELECT * FROM $table LIMIT 1" );
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		// Restore the last error, as this is not truly an error and we don't want to alarm people.
 		$wpdb->last_error      = $previous_last_error;
@@ -286,31 +289,44 @@ class Adapter {
 	 * @param string $query The query to run.
 	 *
 	 * @return bool Whether or not the query was performed succesfully.
+	 *
+	 * @throws Exception If the query fails.
 	 */
 	public function query( $query ) {
+		/**
+		 * The wpdb object.
+		 *
+		 * @var \wpdb $wpdb
+		 */
 		global $wpdb;
 
 		$query_type = $this->determine_query_type( $query );
 		$data       = [];
 		if ( $query_type === Constants::SQL_SELECT || $query_type === Constants::SQL_SHOW ) {
+			// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Query is created by the adapter so safe.
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery -- Query is created by the adapter so safe.
 			$data = $wpdb->get_results( $query, ARRAY_A );
-			if ( $data === false ) {
-				return false;
+			// phpcs:enable WordPress.DB.PreparedSQL.NotPrepared
+			if ( $data === false && $wpdb->last_error ) {
+				throw new Exception( $wpdb->last_error );
 			}
 
 			return $data;
 		}
 		else {
 			// INSERT, DELETE, etc...
+			// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Query is created by the adapter so safe.
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery -- Query is created by the adapter so safe.
 			$result = $wpdb->query( $query );
-			if ( $result === false ) {
-				return false;
+			// phpcs:enable WordPress.DB.PreparedSQL.NotPrepared
+			if ( $result === false && $wpdb->last_error ) {
+				throw new Exception( $wpdb->last_error );
 			}
 			if ( $query_type === Constants::SQL_INSERT ) {
 				return $wpdb->insert_id;
 			}
 
-			return true;
+			return $result;
 		}
 	}
 
@@ -326,7 +342,10 @@ class Adapter {
 
 		$query_type = $this->determine_query_type( $query );
 		if ( $query_type === Constants::SQL_SELECT || $query_type === Constants::SQL_SHOW ) {
+			// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Query is created by the adapter so safe.
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery -- Query is created by the adapter so safe.
 			$result = $wpdb->query( $query );
+			// phpcs:enable WordPress.DB.PreparedSQL.NotPrepared
 			if ( $result === false ) {
 				return false;
 			}
@@ -1032,6 +1051,7 @@ class Adapter {
 		if ( $this->in_transaction === true ) {
 			throw new Exception( 'Transaction already started' );
 		}
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery -- Not possible to start a transaction without direct query.
 		$wpdb->query( 'START TRANSACTION' );
 		$this->in_transaction = true;
 	}
@@ -1049,6 +1069,7 @@ class Adapter {
 		if ( $this->in_transaction === false ) {
 			throw new Exception( 'Transaction not started' );
 		}
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery -- Not possible to commit a transaction without direct query.
 		$wpdb->query( 'COMMIT' );
 		$this->in_transaction = false;
 	}
@@ -1066,6 +1087,7 @@ class Adapter {
 		if ( $this->in_transaction === false ) {
 			throw new Exception( 'Transaction not started' );
 		}
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery -- Not possible to rollback a transaction without direct query.
 		$wpdb->query( 'ROLLBACK' );
 		$this->in_transaction = false;
 	}
