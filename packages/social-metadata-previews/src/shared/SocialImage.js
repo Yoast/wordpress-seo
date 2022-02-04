@@ -15,6 +15,19 @@ const StyledImage = styled.img`
 	}
 `;
 
+const StyledLandscapeImage = styled.img`
+	&&{
+		height: 100%;
+		position: absolute;
+		width: 100%;
+		object-fit: cover;
+	}
+`;
+
+const WrapperDiv = styled.div`
+	padding-bottom: ${ props => props.aspectRatio }%;
+`;
+
 /**
  * Renders the SocialImage.
  *
@@ -26,14 +39,11 @@ export const SocialImage = ( props ) => {
 	const { imageProps, width, height, imageMode } = props;
 
 	if ( imageMode === "landscape" ) {
-		return <div
-			style={ {
-				background: `url(${ imageProps.src }) center / cover no-repeat`,
-				paddingBottom: `${ imageProps.aspectRatio }%`,
-			} }
-			role="img"
-			aria-label={ imageProps.alt }
-		/>;
+		return (
+			<WrapperDiv aspectRatio={ imageProps.aspectRatio }>
+				<StyledLandscapeImage src={ imageProps.src } alt={ imageProps.alt } />
+			</WrapperDiv>
+		);
 	}
 
 	return <StyledImage
