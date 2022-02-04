@@ -60,11 +60,13 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 		],
 		'twitter_title'       => [
 			'yoast_name'       => 'twitter_title',
-			'transform_method' => 'twitter_import',
+			'transform_method' => 'simple_import_post',
+			'twitter_import'   => true,
 		],
 		'twitter_description' => [
 			'yoast_name'       => 'twitter_description',
-			'transform_method' => 'twitter_import',
+			'transform_method' => 'simple_import_post',
+			'twitter_import'   => true,
 		],
 		'canonical_url'       => [
 			'yoast_name'       => 'canonical',
@@ -379,6 +381,12 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 				continue;
 			}
 
+			// For twitter import, take the respective open graph data if the appropriate setting is enabled.
+			if ( isset( $yoast_mapping['twitter_import'] ) && $yoast_mapping['twitter_import'] && $aioseo_indexable['twitter_use_og'] ) {
+				$aioseo_indexable['twitter_title']       = $aioseo_indexable['og_title'];
+				$aioseo_indexable['twitter_description'] = $aioseo_indexable['og_description'];
+			}
+
 			if ( ! empty( $aioseo_indexable[ $aioseo_key ] ) ) {
 				$indexable->{$yoast_mapping['yoast_name']} = $this->transform_import_data( $yoast_mapping['transform_method'], $aioseo_indexable, $aioseo_key, $yoast_mapping, $indexable );
 			}
@@ -490,28 +498,6 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	 */
 	public function url_import_post( $aioseo_data, $aioseo_key ) {
 		return $this->url_import( $aioseo_data[ $aioseo_key ] );
-	}
-
-	/**
-	 * Transforms twitter data to be imported.
-	 *
-	 * @param array  $aioseo_data All of the AIOSEO data to be imported.
-	 * @param string $aioseo_key  The AIOSEO key that contains the setting we're working with.
-	 *
-	 * @return string The transformed URL.
-	 */
-	public function twitter_import( $aioseo_data, $aioseo_key ) {
-		if ( $aioseo_data['twitter_use_og'] ) {
-			switch ( $aioseo_key ) {
-				case 'twitter_title':
-					$aioseo_key = 'og_title';
-					break;
-				case 'twitter_description':
-					$aioseo_key = 'og_description';
-					break;
-			}
-		}
-		return $this->simple_import( $aioseo_data[ $aioseo_key ] );
 	}
 
 	/**

@@ -660,9 +660,13 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 		$indexable->twitter_description = null;
 
 		$aioseio_indexable = [
+			'og_title'             => '',
+			'og_description'       => '',
+			'robots_default'       => true,
 			'robots_default'       => true,
 			'robots_nofollow'      => true,
 			'robots_noarchive'     => false,
+			
 			'robots_nosnippet'     => true,
 			'robots_noimageindex'  => false,
 			'og_image_type'        => 'author',
