@@ -663,9 +663,16 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'elementor-' . $flat_version,
 			],
 			[
+				'name' => 'tailwind',
+				'src'  => 'tailwind-' . $flat_version,
+			],
+			[
 				'name' => 'workouts',
 				'src'  => 'workouts-' . $flat_version,
-				'deps' => [ self::PREFIX . 'monorepo' ],
+				'deps' => [
+					self::PREFIX . 'tailwind',
+					self::PREFIX . 'monorepo',
+				],
 			],
 			[
 				'name' => 'installation-success',

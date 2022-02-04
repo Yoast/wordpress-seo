@@ -795,7 +795,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 			</button>
 			{ /* eslint-enable react/jsx-no-bind */ }
 
-			<div className={ hideOriginal ? "yst-hidden" : "" }>
+			<div className={ `workflow ${ hideOriginal ? "yst-hidden" : "" }` }>
 				<Steps id="yoast-configuration-workout-steps">
 					<Step
 						id="yoast-configuration-workout-step-optimize-seo-data"
