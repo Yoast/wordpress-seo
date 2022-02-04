@@ -205,13 +205,39 @@ class Import_Integration_Test extends TestCase {
 				'nonce'               => 'nonce_value',
 			],
 			'assets'  => [
-				'loading_msg_import'  => 'The import can take a long time depending on your site\'s size.',
-				'loading_msg_cleanup' => 'The cleanup can take a long time depending on your site\'s size.',
-				'select_placeholder'  => 'Select SEO plugin',
-				'no_data_msg'         => 'No data found from other SEO plugins.',
-				'import_failure'      => '<div class="yoast-alert yoast-alert--error"><span><img class="yoast-alert__icon" src="https://example.org/wp-content/plugins/images/alert-error-icon.svg" alt="" /></span><span>Import failed with the following error:<br/><br/>%s</span></div>',
-				'cleanup_failure'     => '<div class="yoast-alert yoast-alert--error"><span><img class="yoast-alert__icon" src="https://example.org/wp-content/plugins/images/alert-error-icon.svg" alt="" /></span><span>Cleanup failed with the following error:<br/><br/>%s</span></div>',
-				'spinner'             => 'https://example.org/wp-admin/images/loading.gif',
+				'loading_msg_import'       => 'The import can take a long time depending on your site\'s size.',
+				'loading_msg_cleanup'      => 'The cleanup can take a long time depending on your site\'s size.',
+				'note'                     => 'Note: ',
+				'cleanup_after_import_msg' => 'After you\'ve imported data from another SEO plugin, please make sure to clean up all the original data from that plugin. (step 5)',
+				'select_placeholder'       => 'Select SEO plugin',
+				'no_data_msg'              => 'No data found from other SEO plugins.',
+				'import_failure'           => '<div class="yoast-alert yoast-alert--error"><span><img class="yoast-alert__icon" src="https://example.org/wp-content/plugins/images/alert-error-icon.svg" alt="" /></span><span>Import failed with the following error:<br/><br/>%s</span></div>',
+				'cleanup_failure'          => '<div class="yoast-alert yoast-alert--error"><span><img class="yoast-alert__icon" src="https://example.org/wp-content/plugins/images/alert-error-icon.svg" alt="" /></span><span>Cleanup failed with the following error:<br/><br/>%s</span></div>',
+				'spinner'                  => 'https://example.org/wp-admin/images/loading.gif',
+				'replacing_texts'          => [
+					'cleanup_button'       => 'Clean up',
+					'import_explanation'   => 'Please select an SEO plugin below to see what data can be imported.',
+					'cleanup_explanation'  => 'Once you\'re certain that your site is working properly with the imported data from another SEO plugin, you can clean up all the original data from that plugin.',
+					'select_header'        => 'The import from %s includes:',
+					'plugins'              => [
+						'aioseo' => [
+							[
+								'data_name' => 'Post metadata (SEO titles, descriptions, etc.)',
+								'data_note' => 'Note: This metadata will only be imported if there is no existing Yoast SEO metadata yet.',
+							],
+							[
+								'data_name' => 'Default settings',
+								'data_note' => 'Note: These settings will overwrite the default settings of Yoast SEO.',
+							],
+						],
+						'other' => [
+							[
+								'data_name' => 'Post metadata (SEO titles, descriptions, etc.)',
+								'data_note' => 'Note: This metadata will only be imported if there is no existing Yoast SEO metadata yet.',
+							],
+						],
+					],
+				],
 			],
 		];
 
