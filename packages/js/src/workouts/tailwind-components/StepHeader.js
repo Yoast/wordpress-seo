@@ -35,7 +35,7 @@ function getNameClassnames( isSaved, isActiveStep, isLastStep ) {
  *
  * @returns {WPElement} The StepHeader component.
  */
-export default function StepHeader( { step, isActiveStep, isSaved, isLastStep, isStepBeingEdited, showEditButton, editStep } ) {
+export default function StepHeader( { name, description, isActiveStep, isSaved, isLastStep, isStepBeingEdited, showEditButton, editStep } ) {
 	const nameClassNames = getNameClassnames( isSaved, isActiveStep, isLastStep );
 
 	return <div className="yst-relative yst-flex yst-items-center yst-group" aria-current={ isActiveStep ? "step" : null }>
@@ -51,9 +51,9 @@ export default function StepHeader( { step, isActiveStep, isSaved, isLastStep, i
 		{ /* Name and description. */ }
 		<span className="yst-ml-4 yst-min-w-0 yst-flex yst-flex-col">
 			<span className={ "yst-text-xs yst-font-[650] yst-tracking-wide yst-uppercase " + nameClassNames }>
-				{ step.name }
+				{ name }
 			</span>
-			{ step.description && <span className="yst-text-sm yst-text-gray-500">{ step.description }</span> }
+			{ description && <span className="yst-text-sm yst-text-gray-500">{ description }</span> }
 		</span>
 		{ ( ! isLastStep ) &&
 			<button
@@ -68,24 +68,19 @@ export default function StepHeader( { step, isActiveStep, isSaved, isLastStep, i
 	</div>;
 }
 
-const stepShape = PropTypes.shape( {
-	name: PropTypes.string.isRequired,
-	description: PropTypes.string,
-	component: PropTypes.element.isRequired,
-	isSaved: PropTypes.bool.isRequired,
-} );
-
 StepHeader.propTypes = {
-	step: stepShape.isRequired,
+	name: PropTypes.string.isRequired,
 	isActiveStep: PropTypes.bool.isRequired,
 	isSaved: PropTypes.bool.isRequired,
 	isLastStep: PropTypes.bool.isRequired,
 	isStepBeingEdited: PropTypes.bool.isRequired,
+	description: PropTypes.string,
 	showEditButton: PropTypes.bool,
 	editStep: PropTypes.func,
 };
 
 StepHeader.defaultProps = {
+	description: "",
 	showEditButton: false,
 	editStep: null,
 };

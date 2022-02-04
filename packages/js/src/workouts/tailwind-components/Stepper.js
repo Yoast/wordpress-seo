@@ -1,4 +1,4 @@
-import { Fragment, useCallback, useState, useEffect } from "@wordpress/element";
+import { Fragment, useCallback, useState, useEffect, Children, cloneElement, createContext } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import AnimateHeight from "react-animate-height";
 import PropTypes from "prop-types";
@@ -64,9 +64,8 @@ const stepShape = PropTypes.shape( {
  *
  * @returns {WPElement} The Step component.
  */
-function TailwindStep( { step, stepIndex, lastStepIndex, isLastStep, beforeContinue, activeStepIndex, setActiveStepIndex, showEditButton, isStepBeingEdited, setIsStepBeingEdited } ) {
+export function TailwindStep( { name, description, isSaved, stepIndex, lastStepIndex, isLastStep, beforeContinue, activeStepIndex, setActiveStepIndex, showEditButton, isStepBeingEdited, setIsStepBeingEdited, children } ) {
 	const isActiveStep = activeStepIndex === stepIndex;
-	const isSaved = step.isSaved;
 
 	const [ contentHeight, setContentHeight ] = useState( isActiveStep ? "auto" : 0 );
 	const [ isFaded, setIsFaded ] = useState( ! isActiveStep );
@@ -128,7 +127,8 @@ function TailwindStep( { step, stepIndex, lastStepIndex, isLastStep, beforeConti
 				</Fragment>
 			}
 			<StepHeader
-				step={ step }
+				name={ name }
+				description={ description }
 				isActiveStep={ isActiveStep }
 				isSaved={ isSaved }
 				isLastStep={ isLastStep }
@@ -145,7 +145,7 @@ function TailwindStep( { step, stepIndex, lastStepIndex, isLastStep, beforeConti
 				duration={ slideDuration }
 			>
 				<div className={ `yst-transition-opacity ${ fadeDuration } yst-relative yst-ml-12 yst-mt-4 ${ isFaded ? "yst-opacity-0 yst-no-point-events" : "yst-opacity-100" }` }>
-					{ step.component }
+					{ children }
 					{ ( ! isLastStep && ! showEditButton ) &&
 						<StepButtons
 							stepIndex={ stepIndex }
@@ -167,21 +167,26 @@ function TailwindStep( { step, stepIndex, lastStepIndex, isLastStep, beforeConti
 	);
 }
 TailwindStep.propTypes = {
-	step: stepShape.isRequired,
+	name: PropTypes.string.isRequired,
+	isSaved: PropTypes.bool.isRequired,
 	stepIndex: PropTypes.number.isRequired,
 	lastStepIndex: PropTypes.number.isRequired,
 	isLastStep: PropTypes.bool.isRequired,
 	setActiveStepIndex: PropTypes.func.isRequired,
 	beforeContinue: PropTypes.func,
 	activeStepIndex: PropTypes.number.isRequired,
+	description: PropTypes.string,
 	showEditButton: PropTypes.bool,
 	setIsStepBeingEdited: PropTypes.func.isRequired,
 	isStepBeingEdited: PropTypes.bool.isRequired,
 };
 TailwindStep.defaultProps = {
+	description: "",
 	showEditButton: false,
 	beforeContinue: () => true,
 };
+
+const ActiveStepContext = createContext();
 
 /**
  * The Tailwind Stepper component.
@@ -190,7 +195,7 @@ TailwindStep.defaultProps = {
  *
  * @returns {WPElement} The Stepper component.
  */
-export default function Stepper( { steps, setActiveStepIndex, activeStepIndex, isStepperFinished } ) {
+export default function Stepper( { children, setActiveStepIndex, activeStepIndex, isStepperFinished } ) {
 	const [ isStepBeingEdited, setIsStepBeingEdited ] = useState( false );
 	const [ showEditButton, setShowEditButton ] = useState( isStepperFinished );
 	// The stepper needs to signal to each step to not to show edit buttons when a step is being edited (needs a function here to pass to each tailwindstep)
@@ -200,33 +205,32 @@ export default function Stepper( { steps, setActiveStepIndex, activeStepIndex, i
 			setShowEditButton( isStepperFinished );
 		}
 	}, [ isStepperFinished ] );
+	const childrenArray = Children.toArray( children );
 
 	return (
-		<ol>
-			{ steps.map( ( step, stepIndex ) => (
-				<li key={ step.name } className={ ( stepIndex === steps.length - 1 ? "" : "yst-pb-8" ) + " yst-mb-0 yst-relative" }>
-					<TailwindStep
-						step={ step }
-						stepIndex={ stepIndex }
-						lastStepIndex={ steps.length - 1 }
-						isLastStep={ stepIndex === steps.length - 1 }
-						setActiveStepIndex={ setActiveStepIndex }
-						beforeContinue={ step.beforeContinue }
-						activeStepIndex={ activeStepIndex }
-						showEditButton={ showEditButton }
-						setIsStepBeingEdited={ setIsStepBeingEdited }
-						isStepBeingEdited={ isStepBeingEdited }
-					/>
-				</li>
-			) ) }
+		<ol className="yst-overflow-hidden">
+			{ Children.map( childrenArray, ( child, stepIndex ) => {
+				console.log( child.props );
+				return <li key={ `${ child.props.name }-${ stepIndex }` } className={ ( stepIndex === children.length - 1 ? "" : "yst-pb-8" ) + " yst-mb-0 yst-relative" }>
+					{ cloneElement( child, {
+						stepIndex,
+						setActiveStepIndex,
+						activeStepIndex,
+						isStepBeingEdited,
+						setIsStepBeingEdited,
+						showEditButton,
+						setShowEditButton,
+					} ) }
+				</li>;
+			} ) }
 		</ol>
 	);
 }
+
 Stepper.propTypes = {
-	steps: PropTypes.arrayOf( stepShape ).isRequired,
 	setActiveStepIndex: PropTypes.func.isRequired,
 	activeStepIndex: PropTypes.number.isRequired,
 	isStepperFinished: PropTypes.bool.isRequired,
-
+	children: PropTypes.node.isRequired,
 };
 /* eslint-enable complexity, max-len */
