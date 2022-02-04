@@ -1,4 +1,5 @@
 import jQuery from "jquery";
+import { sprintf } from "@wordpress/i18n";
 
 import IndexingService from "./services/IndexingService";
 
@@ -154,7 +155,12 @@ function showFailure( e, action ) {
 	// Add a failure alert too.
 	var failureAlert = jQuery( "<div>" )
 		.addClass( "yoast-measure yoast-import-failure" )
-		.html( failureMessage.replace( /%s/g, "<strong>" + e + "</strong>" ) );
+		.html(
+			sprintf(
+				failureMessage,
+				"<strong>" + e + "</strong>"
+			)
+		);
 
 	actingForm.after( failureAlert );
 }
@@ -296,7 +302,10 @@ function watchSelect( dropdown ) {
 
 		// Display the relevant text depending on which plugin is selected for import.
 		if ( dropdown === importDropdown ) {
-			text = window.yoastImportData.assets.replacing_texts.select_header.replace( /%s/g, jQuery( this ).find( "option:selected" ).text() );
+			text = sprintf(
+				window.yoastImportData.assets.replacing_texts.select_header,
+				jQuery( this ).find( "option:selected" ).text()
+			);
 			if ( selectedPlugin === AioseoV4 ) {
 				textSource = window.yoastImportData.assets.replacing_texts.plugins.aioseo;
 			} else {
