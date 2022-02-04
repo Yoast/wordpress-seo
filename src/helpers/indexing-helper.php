@@ -247,7 +247,7 @@ class Indexing_Helper {
 	 * If the indexables are complete, they will always be considered complete until one or more
 	 * indexable builders get a version bump.
 	 *
-	 * @return bool|mixed
+	 * @return bool Whether the index is up to date.
 	 */
 	public function is_index_up_to_date() {
 		$last_completed_index_version = $this->options_helper->get( 'last_completely_indexed_versions' );
