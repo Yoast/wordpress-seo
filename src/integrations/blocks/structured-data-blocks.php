@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Integrations\Blocks;
 
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
+use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
@@ -21,12 +22,45 @@ class Structured_Data_Blocks implements Integration_Interface {
 	protected $asset_manager;
 
 	/**
+	 * An instance of the image helper class.
+	 *
+	 * @var Image_Helper
+	 */
+	protected $image_helper;
+
+	/**
+	 * The image caches per post.
+	 *
+	 * @var array
+	 */
+	protected $caches = [];
+
+	/**
+	 * The used cache keys per post.
+	 *
+	 * @var array
+	 */
+	protected $used_caches = [];
+
+	/**
+	 * Whether or not we've registered our shutdown function.
+	 *
+	 * @var boolean
+	 */
+	protected $registered_shutdown_function = false;
+
+	/**
 	 * Structured_Data_Blocks constructor.
 	 *
 	 * @param WPSEO_Admin_Asset_Manager $asset_manager The asset manager.
+	 * @param Image_Helper              $image_helper  The image helper.
 	 */
-	public function __construct( WPSEO_Admin_Asset_Manager $asset_manager ) {
+	public function __construct(
+		WPSEO_Admin_Asset_Manager $asset_manager,
+		Image_Helper $image_helper
+	) {
 		$this->asset_manager = $asset_manager;
+		$this->image_helper  = $image_helper;
 	}
 
 	/**
@@ -165,6 +199,135 @@ class Structured_Data_Blocks implements Integration_Interface {
 	 * @return string The content with images optimized.
 	 */
 	private function optimize_images( $elements, $key, $content ) {
+		global $post;
+
+		$this->add_images_from_attributes_to_used_cache( $post->ID, $elements, $key );
+
+		// Then replace all images with optimized versions in the content.
+		$content = \preg_replace_callback(
+			'/<img[^>]+>/',
+			function ( $matches ) {
+				\preg_match( '/src="([^"]+)"/', $matches[0], $src_matches );
+				if ( ! $src_matches || ! isset( $src_matches[1] ) ) {
+					return $matches[0];
+				}
+				$attachment_id = $this->attachment_src_to_id( $src_matches[1] );
+				if ( $attachment_id === 0 ) {
+					return $matches[0];
+				}
+				$image_size = 'full';
+				\preg_match( '/style="[^"]*width:\s*(\d+)px[^"]*"/', $matches[0], $style_matches );
+				if ( $style_matches && isset( $style_matches[1] ) ) {
+					$width        = (int) $style_matches[1];
+					$meta_data    = \wp_get_attachment_metadata( $attachment_id );
+					$aspect_ratio = ( $meta_data['height'] / $meta_data['width'] );
+					$height       = ( $width * $aspect_ratio );
+					$image_size   = [ $width, $height ];
+				}
+
+				/**
+				 * Filter: 'wpseo_structured_data_blocks_image_size' - Allows adjusting the image size in structured data blocks.
+				 *
+				 * @since 18.2
+				 *
+				 * @param string|int[] $image_size     The image size. Accepts any registered image size name, or an array of width and height values in pixels (in that order).
+				 * @param int          $attachment_id  The id of the attachment.
+				 * @param string       $attachment_src The attachment src.
+				 */
+				$image_size = \apply_filters(
+					'wpseo_structured_data_blocks_image_size',
+					$image_size,
+					$attachment_id,
+					$src_matches[1]
+				);
+				$image_html = \wp_get_attachment_image( $attachment_id, $image_size );
+
+				if ( empty( $image_html ) ) {
+					return $matches[0];
+				}
+
+				return $image_html;
+			},
+			$content
+		);
+
+		if ( ! $this->registered_shutdown_function ) {
+			\register_shutdown_function( [ $this, 'maybe_save_used_caches' ] );
+			$this->registered_shutdown_function = true;
+		}
+
+		return $content;
+	}
+
+	/**
+	 * If the caches of structured data block images have been changed, saves them.
+	 *
+	 * @return void
+	 */
+	public function maybe_save_used_caches() {
+		foreach ( $this->used_caches as $post_id => $used_cache ) {
+			if ( $used_cache === $this->caches[ $post_id ] ) {
+				continue;
+			}
+			\update_post_meta( $post_id, 'yoast-structured-data-blocks-images-cache', $used_cache );
+		}
+	}
+
+	/**
+	 * Converts an attachment src to an attachment ID.
+	 *
+	 * @param string $src The attachment src.
+	 *
+	 * @return int The attachment ID. 0 if none was found.
+	 */
+	private function attachment_src_to_id( $src ) {
+		global $post;
+
+		if ( isset( $this->used_caches[ $post->ID ][ $src ] ) ) {
+			return $this->used_caches[ $post->ID ][ $src ];
+		}
+
+		$cache = $this->get_cache_for_post( $post->ID );
+		if ( isset( $cache[ $src ] ) ) {
+			$this->used_caches[ $post->ID ][ $src ] = $cache[ $src ];
+			return $cache[ $src ];
+		}
+
+		$this->used_caches[ $post->ID ][ $src ] = $this->image_helper->get_attachment_by_url( $src );
+		return $this->used_caches[ $post->ID ][ $src ];
+	}
+
+	/**
+	 * Returns the cache from postmeta for a given post.
+	 *
+	 * @param int $post_id The post ID.
+	 *
+	 * @return array The images cache.
+	 */
+	private function get_cache_for_post( $post_id ) {
+		if ( isset( $this->caches[ $post_id ] ) ) {
+			return $this->caches[ $post_id ];
+		}
+
+		$cache = \get_post_meta( $post_id, 'yoast-structured-data-blocks-images-cache', true );
+		if ( ! $cache ) {
+			$cache = [];
+		}
+
+		$this->caches[ $post_id ] = $cache;
+		return $cache;
+	}
+
+	/**
+	 * Adds any images that have their ID in the block attributes to the cache.
+	 *
+	 * @param int    $post_id  The post ID.
+	 * @param array  $elements The elements.
+	 * @param string $key      The key in the elements we should loop over.
+	 *
+	 * @return void
+	 */
+	private function add_images_from_attributes_to_used_cache( $post_id, $elements, $key ) {
 		// First grab all image IDs from the attributes.
 		$images = [];
 		foreach ( $elements as $element ) {
@@ -184,42 +347,6 @@ class Structured_Data_Blocks implements Integration_Interface {
 			}
 		}
 
-		// Then replace all images with optimized versions in the content.
-		$content = \preg_replace_callback(
-			'/<img[^>]+>/',
-			function ( $matches ) use ( $images ) {
-				preg_match( '/src="([^"]+)"/', $matches[0], $src_matches );
-				if ( ! $src_matches || ! isset( $src_matches[1] ) || ! isset( $images[ $src_matches[1] ] ) ) {
-					return $matches[0];
-				}
-				$attachment_id = (int) $images[ $src_matches[1] ];
-
-				/**
-				 * Filter: 'wpseo_structured_data_blocks_image_size' - Allows adjusting the image size in structured data blocks.
-				 *
-				 * @since 18.2
-				 *
-				 * @param string|int[] $image_size     The image size. Accepts any registered image size name, or an array of width and height values in pixels (in that order).
-				 * @param int          $attachment_id  The id of the attachment.
-				 * @param string       $attachment_src The attachment src.
-				 */
-				$image_size = \apply_filters(
-					'wpseo_structured_data_blocks_image_size',
-					'full',
-					$attachment_id,
-					$src_matches[1]
-				);
-				$image_html = \wp_get_attachment_image( $attachment_id, $image_size );
-
-				if ( empty( $image_html ) ) {
-					return $matches[0];
-				}
-
-				return $image_html;
-			},
-			$content
-		);
-
-		return $content;
+		\array_merge( $this->used_caches[ $post_id ], $images );
 	}
 }
