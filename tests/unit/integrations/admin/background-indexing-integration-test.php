@@ -13,6 +13,7 @@ use Yoast\WP\SEO\Actions\Indexing\Post_Link_Indexing_Action;
 use Yoast\WP\SEO\Actions\Indexing\Term_Link_Indexing_Action;
 use Yoast\WP\SEO\Conditionals\Get_Request_Conditional;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
+use Yoast\WP\SEO\Conditionals\WP_CRON_Conditional;
 use Yoast\WP\SEO\Conditionals\Yoast_Admin_And_Dashboard_Conditional;
 use Yoast\WP\SEO\Helpers\Indexing_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Background_Indexing_Integration;
@@ -106,6 +107,13 @@ class Background_Indexing_Integration_Test extends TestCase {
 	private $get_request_conditional;
 
 	/**
+	 * The WP_CRON_Conditional mock.
+	 *
+	 * @var Mockery\MockInterface|WP_CRON_Conditional
+	 */
+	private $wp_cron_conditional;
+
+	/**
 	 * Sets up the tests.
 	 */
 	protected function set_up() {
@@ -121,6 +129,7 @@ class Background_Indexing_Integration_Test extends TestCase {
 		$this->indexing_helper                       = Mockery::mock( Indexing_Helper::class );
 		$this->yoast_admin_and_dashboard_conditional = Mockery::mock( Yoast_Admin_And_Dashboard_Conditional::class );
 		$this->get_request_conditional               = Mockery::mock( Get_Request_Conditional::class );
+		$this->wp_cron_conditional                   = Mockery::mock( WP_CRON_Conditional::class );
 		$this->instance                              = new Background_Indexing_Integration(
 			$this->post_indexation,
 			$this->term_indexation,
@@ -131,7 +140,8 @@ class Background_Indexing_Integration_Test extends TestCase {
 			$this->term_link_indexing_action,
 			$this->indexing_helper,
 			$this->yoast_admin_and_dashboard_conditional,
-			$this->get_request_conditional
+			$this->get_request_conditional,
+			$this->wp_cron_conditional
 		);
 	}
 
@@ -201,7 +211,7 @@ class Background_Indexing_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the enqueue_scripts method.
+	 * Tests the test_register_shutdown_indexing method.
 	 *
 	 * @covers ::register_shutdown_indexing
 	 * @covers ::should_index_on_shutdown
@@ -223,16 +233,57 @@ class Background_Indexing_Integration_Test extends TestCase {
 			->once()
 			->andReturn( true );
 
-		Monkey\Functions\expect( 'register_shutdown_function' )->with( [ $this->instance, 'index' ] );
+		$this->wp_cron_conditional
+			->expects( 'is_met' )
+			->once()
+			->andReturn( false );
 
 		Monkey\Filters\expectApplied( 'wpseo_shutdown_indexation_limit' )
 			->andReturn( 25 );
+
+		Monkey\Functions\expect( 'register_shutdown_function' )->with( [ $this->instance, 'index' ] );
 
 		$this->instance->register_shutdown_indexing();
 	}
 
 	/**
-	 * Tests the enqueue_scripts method when on a page that shouldn't receive shutdown background indexing.
+	 * Tests the test_register_shutdown_indexing method with wp-cron enabled.
+	 *
+	 * @covers ::register_shutdown_indexing
+	 * @covers ::should_index_on_shutdown
+	 * @covers ::get_shutdown_limit
+	 */
+	public function test_register_shutdown_indexing_with_wp_cron_enabled() {
+		$this->indexing_helper
+			->expects( 'get_limited_filtered_unindexed_count' )
+			->once()
+			->andReturn( 10 );
+
+		$this->yoast_admin_and_dashboard_conditional
+			->expects( 'is_met' )
+			->once()
+			->andReturn( true );
+
+		$this->get_request_conditional
+			->expects( 'is_met' )
+			->once()
+			->andReturn( true );
+
+		$this->wp_cron_conditional
+			->expects( 'is_met' )
+			->once()
+			->andReturn( true );
+
+		Monkey\Filters\expectApplied( 'wpseo_shutdown_indexation_limit' )
+			->andReturn( 25 );
+
+		Monkey\Functions\expect( 'register_shutdown_function' )->never();
+
+		$this->instance->register_shutdown_indexing();
+	}
+
+	/**
+	 * Tests the register_shutdown_indexing method when on a page that shouldn't receive shutdown background indexing.
 	 *
 	 * @covers ::register_shutdown_indexing
 	 * @covers ::should_index_on_shutdown
@@ -250,7 +301,7 @@ class Background_Indexing_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the enqueue_scripts method on post requests. This should not trigger shutdown background indexing.
+	 * Tests the register_shutdown_indexing method on post requests. This should not trigger shutdown background indexing.
 	 *
 	 * @covers ::register_shutdown_indexing
 	 * @covers ::should_index_on_shutdown
@@ -457,7 +508,6 @@ class Background_Indexing_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * /**
 	 * Tests that the background indexing pace stays untouched when not doing cron.
 	 *
 	 * @covers ::throttle_cron_indexing
