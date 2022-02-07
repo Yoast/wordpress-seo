@@ -44,31 +44,33 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	protected $aioseo_to_yoast_map = [
 		'title'               => [
 			'yoast_name'       => 'title',
-			'transform_method' => 'simple_import',
+			'transform_method' => 'simple_import_post',
 		],
 		'description'         => [
 			'yoast_name'       => 'description',
-			'transform_method' => 'simple_import',
+			'transform_method' => 'simple_import_post',
 		],
 		'og_title'            => [
 			'yoast_name'       => 'open_graph_title',
-			'transform_method' => 'simple_import',
+			'transform_method' => 'simple_import_post',
 		],
 		'og_description'      => [
 			'yoast_name'       => 'open_graph_description',
-			'transform_method' => 'simple_import',
+			'transform_method' => 'simple_import_post',
 		],
 		'twitter_title'       => [
 			'yoast_name'       => 'twitter_title',
-			'transform_method' => 'simple_import',
+			'transform_method' => 'simple_import_post',
+			'twitter_import'   => true,
 		],
 		'twitter_description' => [
 			'yoast_name'       => 'twitter_description',
-			'transform_method' => 'simple_import',
+			'transform_method' => 'simple_import_post',
+			'twitter_import'   => true,
 		],
 		'canonical_url'       => [
 			'yoast_name'       => 'canonical',
-			'transform_method' => 'url_import',
+			'transform_method' => 'url_import_post',
 		],
 		'keyphrases'          => [
 			'yoast_name'       => 'primary_focus_keyword',
@@ -353,14 +355,14 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 			// For robots import.
 			if ( isset( $yoast_mapping['robots_import'] ) && $yoast_mapping['robots_import'] ) {
 				$yoast_mapping['subtype']                  = $indexable->object_sub_type;
-				$indexable->{$yoast_mapping['yoast_name']} = \call_user_func( [ $this, $yoast_mapping['transform_method'] ], $aioseo_indexable, $yoast_mapping, $aioseo_key );
+				$indexable->{$yoast_mapping['yoast_name']} = $this->transform_import_data( $yoast_mapping['transform_method'], $aioseo_indexable, $aioseo_key, $yoast_mapping, $indexable );
 
 				continue;
 			}
 
 			// For social images, like open graph and twitter image.
 			if ( isset( $yoast_mapping['social_image_import'] ) && $yoast_mapping['social_image_import'] ) {
-				$image_url = \call_user_func( [ $this, $yoast_mapping['transform_method'] ], $aioseo_indexable, $yoast_mapping, $indexable );
+				$image_url = $this->transform_import_data( $yoast_mapping['transform_method'], $aioseo_indexable, $aioseo_key, $yoast_mapping, $indexable );
 
 				// Update the indexable's social image only where there's actually a url to import, so as not to lose the social images that we came up with when we originally built the indexable.
 				if ( ! empty( $image_url ) ) {
@@ -379,12 +381,33 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 				continue;
 			}
 
+			// For twitter import, take the respective open graph data if the appropriate setting is enabled.
+			if ( isset( $yoast_mapping['twitter_import'] ) && $yoast_mapping['twitter_import'] && $aioseo_indexable['twitter_use_og'] ) {
+				$aioseo_indexable['twitter_title']       = $aioseo_indexable['og_title'];
+				$aioseo_indexable['twitter_description'] = $aioseo_indexable['og_description'];
+			}
+
 			if ( ! empty( $aioseo_indexable[ $aioseo_key ] ) ) {
-				$indexable->{$yoast_mapping['yoast_name']} = \call_user_func( [ $this, $yoast_mapping['transform_method'] ], $aioseo_indexable[ $aioseo_key ], $yoast_mapping );
+				$indexable->{$yoast_mapping['yoast_name']} = $this->transform_import_data( $yoast_mapping['transform_method'], $aioseo_indexable, $aioseo_key, $yoast_mapping, $indexable );
 			}
 		}
 
 		return $indexable;
+	}
+
+	/**
+	 * Transforms the data to be imported.
+	 *
+	 * @param string    $transform_method The method that is going to be used for transforming the data.
+	 * @param array     $aioseo_indexable The data of the AIOSEO indexable data that is being imported.
+	 * @param string    $aioseo_key       The name of the specific set of data that is going to be transformed.
+	 * @param array     $yoast_mapping    Extra details for the import of the specific data that is going to be transformed.
+	 * @param Indexable $indexable        The Yoast indexable that we are going to import the transformed data into.
+	 *
+	 * @return string|bool|null The transformed data to be imported.
+	 */
+	protected function transform_import_data( $transform_method, $aioseo_indexable, $aioseo_key, $yoast_mapping, $indexable ) {
+		return \call_user_func( [ $this, $transform_method ], $aioseo_indexable, $aioseo_key, $yoast_mapping, $indexable );
 	}
 
 	/**
@@ -454,14 +477,39 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	}
 
 	/**
+	 * Minimally transforms data to be imported.
+	 *
+	 * @param array  $aioseo_data All of the AIOSEO data to be imported.
+	 * @param string $aioseo_key  The AIOSEO key that contains the setting we're working with.
+	 *
+	 * @return string The transformed meta data.
+	 */
+	public function simple_import_post( $aioseo_data, $aioseo_key ) {
+		return $this->simple_import( $aioseo_data[ $aioseo_key ] );
+	}
+
+	/**
+	 * Transforms URL to be imported.
+	 *
+	 * @param array  $aioseo_data All of the AIOSEO data to be imported.
+	 * @param string $aioseo_key  The AIOSEO key that contains the setting we're working with.
+	 *
+	 * @return string The transformed URL.
+	 */
+	public function url_import_post( $aioseo_data, $aioseo_key ) {
+		return $this->url_import( $aioseo_data[ $aioseo_key ] );
+	}
+
+	/**
 	 * Plucks the keyphrase to be imported from the AIOSEO array of keyphrase meta data.
 	 *
-	 * @param array $meta_data The keyphrase meta data to be imported.
+	 * @param array  $aioseo_data All of the AIOSEO data to be imported.
+	 * @param string $aioseo_key  The AIOSEO key that contains the setting we're working with, aka keyphrases.
 	 *
 	 * @return string|null The plucked keyphrase.
 	 */
-	public function keyphrase_import( $meta_data ) {
-		$meta_data = \json_decode( $meta_data, true );
+	public function keyphrase_import( $aioseo_data, $aioseo_key ) {
+		$meta_data = \json_decode( $aioseo_data[ $aioseo_key ], true );
 		if ( ! isset( $meta_data['focus']['keyphrase'] ) ) {
 			return null;
 		}
@@ -489,12 +537,12 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	 * Imports the post's robots setting.
 	 *
 	 * @param bool   $aioseo_robots_settings AIOSEO's set of robot settings for the post.
-	 * @param array  $mapping The mapping of the setting we're working with.
 	 * @param string $aioseo_key The AIOSEO key that contains the robot setting we're working with.
+	 * @param array  $mapping The mapping of the setting we're working with.
 	 *
 	 * @return bool|null The value of Yoast's noindex setting for the post.
 	 */
-	public function post_general_robots_import( $aioseo_robots_settings, $mapping, $aioseo_key ) {
+	public function post_general_robots_import( $aioseo_robots_settings, $aioseo_key, $mapping ) {
 		$mapping['type']        = 'postTypes';
 		$mapping['option_name'] = 'aioseo_options_dynamic';
 
@@ -511,12 +559,13 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	 * Imports the og and twitter image url.
 	 *
 	 * @param bool      $aioseo_social_image_settings AIOSEO's set of social image settings for the post.
+	 * @param string    $aioseo_key                   The AIOSEO key that contains the robot setting we're working with.
 	 * @param array     $mapping                      The mapping of the setting we're working with.
 	 * @param Indexable $indexable                    The Yoast indexable we're importing into.
 	 *
 	 * @return bool|null The url of the social image we're importing, null if there's none.
 	 */
-	public function social_image_url_import( $aioseo_social_image_settings, $mapping, $indexable ) {
+	public function social_image_url_import( $aioseo_social_image_settings, $aioseo_key, $mapping, $indexable ) {
 		if ( $mapping['social_setting_prefix_aioseo'] === 'twitter_' && $aioseo_social_image_settings['twitter_use_og'] ) {
 			$mapping['social_setting_prefix_aioseo'] = 'og_';
 		}
