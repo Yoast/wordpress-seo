@@ -34,6 +34,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'indexing_started'                         => null,
 		'indexing_reason'                          => '',
 		'indexables_indexing_completed'            => false,
+		'last_completely_indexed_versions'         => '',
 		// Non-form field, should only be set via validation routine.
 		'version'                                  => '', // Leave default as empty to ensure activation/upgrade works.
 		'previous_version'                         => '',
@@ -275,6 +276,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'home_url':
 				case 'zapier_api_key':
 				case 'wincher_website_id':
+				case 'last_completely_indexed_versions':
 					if ( isset( $dirty[ $key ] ) ) {
 						$clean[ $key ] = $dirty[ $key ];
 					}
