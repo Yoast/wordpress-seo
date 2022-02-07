@@ -6,7 +6,7 @@ use Brain\Monkey\Functions;
 use Mockery;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Redirect_Helper;
-use Yoast\WP\SEO\Initializers\Disable_Core_Sitemaps;
+use Yoast\WP\SEO\Integrations\Disable_Core_Sitemaps;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -51,13 +51,13 @@ class Disable_Core_Sitemaps_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the initialization.
+	 * Tests the register_hooks function.
 	 *
 	 * @covers ::__construct
 	 * @covers ::initialize
 	 */
-	public function test_initialize() {
-		$this->instance->initialize();
+	public function test_register_hooks() {
+		$this->instance->register_hooks();
 
 		$this->assertNotFalse( \has_action( 'plugins_loaded', [ $this->instance, 'maybe_disable_core_sitemaps' ] ), 'Does not have expected plugins_loaded action' );
 	}

@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Initializers;
+namespace Yoast\WP\SEO\Integrations;
 
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Helpers\Options_Helper;
@@ -9,7 +9,7 @@ use Yoast\WP\SEO\Helpers\Redirect_Helper;
 /**
  * Disables the WP core sitemaps.
  */
-class Disable_Core_Sitemaps implements Initializer_Interface {
+class Disable_Core_Sitemaps implements Integration_Interface {
 
 	use No_Conditionals;
 
@@ -43,7 +43,7 @@ class Disable_Core_Sitemaps implements Initializer_Interface {
 	/**
 	 * Disable the WP core XML sitemaps.
 	 */
-	public function initialize() {
+	public function register_hooks() {
 		// This needs to be on priority 15 as that is after our options initialize.
 		\add_action( 'plugins_loaded', [ $this, 'maybe_disable_core_sitemaps' ], 15 );
 	}
