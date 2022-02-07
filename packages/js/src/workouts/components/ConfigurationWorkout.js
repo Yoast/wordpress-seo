@@ -23,6 +23,7 @@ import Stepper from "../tailwind-components/Stepper";
 import { STEPS, WORKOUTS } from "../config";
 import { getInitialActiveStepIndex } from "../stepper-helper";
 import { scrollToStep } from "../helpers";
+import AnimateHeight from "react-animate-height";
 
 window.wpseoScriptData = window.wpseoScriptData || {};
 window.wpseoScriptData.searchAppearance = {
@@ -248,12 +249,19 @@ const stepNumberNameMap = {
 /**
  * The indexation step.
  *
- * @param {string} indexingState The indexing state.
- * @param {Function} setIndexingState A callback to set the indexing state.
+ * @param {string}   indexingState          The indexing state.
+ * @param {Function} setIndexingState       A callback to set the indexing state.
+ * @param {boolean}  showRunIndexationAlert Whether the alert to run indexation needs to be shown.
  *
  * @returns {WPElement} The indexation step.
  */
 function IndexationStep( { indexingState, setIndexingState, showRunIndexationAlert } ) {
+	const [ transitionOpacity, setTransitionOpacity ] = useState( false );
+
+	const startOpacityTransition = useCallback( () => {
+		setTransitionOpacity( true );
+	} );
+
 	return <Fragment>
 		<div className="yst-flex yst-flex-row yst-mb-8">
 			<p className="yst-text-sm yst-text-[#333333] yst-basis-9/12">
@@ -305,17 +313,33 @@ function IndexationStep( { indexingState, setIndexingState, showRunIndexationAle
 				) }
 			</p>
 		</Alert> }
-		{ indexingState === "idle" && showRunIndexationAlert &&
-		<Alert type="info" className="yst-mt-4">{
-			__( "Be aware that you should run the SEO data optimization for this configuration to take maximum effect.",
-				"wordpress-seo" ) }
-		</Alert> }
+		<AnimateHeight
+			id="indexation-alert"
+			height={ indexingState === "idle" && showRunIndexationAlert ? "auto" : 0 }
+			easing="linear"
+			duration={ 400 }
+			onAnimationEnd={ startOpacityTransition }
+		>
+			<Alert
+				type="info"
+				className={ `yst-transition-opacity yst-duration-300 yst-mt-4 ${ transitionOpacity ? "yst-opacity-100" : "yst-opacity-0" }` }
+			>
+				{
+					__( "Be aware that you should run the SEO data optimization for this configuration to take maximum effect.",
+						"wordpress-seo" )
+				}
+			</Alert>
+		</AnimateHeight>
 	</Fragment>;
 }
 
 IndexationStep.propTypes = {
 	indexingState: PropTypes.string.isRequired,
 	setIndexingState: PropTypes.func.isRequired,
+	showRunIndexationAlert: PropTypes.bool,
+};
+IndexationStep.defaultProps = {
+	showRunIndexationAlert: false,
 };
 
 /* eslint-disable max-len, react/prop-types */

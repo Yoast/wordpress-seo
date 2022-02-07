@@ -82,18 +82,11 @@ function TailwindStep( { step, stepIndex, lastStepIndex, isLastStep, beforeConti
 		[ beforeContinue, stepIndex, setActiveStepIndex, setIsStepBeingEdited ]
 	);
 
-	const continueToNextStep = useCallback(
-		() => {
-			setActiveStepIndex( stepIndex + 1 );
-		},
-		[ setActiveStepIndex, stepIndex ]
-	);
-
 	const saveAndContinue = useCallback(
 		() => {
-			const canContinueToNextStep = beforeContinue( stepIndex );
-			if ( canContinueToNextStep === true ) {
-				continueToNextStep();
+			const continueToNextStep = beforeContinue();
+			if ( continueToNextStep === true ) {
+				setActiveStepIndex( stepIndex + 1 );
 			}
 		},
 		[ setActiveStepIndex, beforeContinue, stepIndex ]
@@ -187,7 +180,7 @@ TailwindStep.propTypes = {
 };
 TailwindStep.defaultProps = {
 	showEditButton: false,
-	beforeContinue: () => { return true; },
+	beforeContinue: () => true,
 };
 
 /**
