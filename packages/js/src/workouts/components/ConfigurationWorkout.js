@@ -262,8 +262,8 @@ function IndexationStep( { indexingState, setIndexingState, showRunIndexationAle
 	} );
 
 	return <Fragment>
-		<div className="yst-flex yst-flex-row yst-mb-8">
-			<p className="yst-text-sm yst-text-[#333333] yst-whitespace-pre-line yst-basis-9/12">
+		<div className="yst-flex yst-flex-row yst-justify-between yst-flex-wrap yst-mb-8">
+			<p className="yst-text-sm yst-text-[#333333] yst-whitespace-pre-line yst-w-[463px]">
 				{ addLinkToString(
 					sprintf(
 						__( "Let’s analyze your site just like Google does and get those indexables into action by running the SEO data " +
@@ -278,7 +278,7 @@ function IndexationStep( { indexingState, setIndexingState, showRunIndexationAle
 				)
 				}
 			</p>
-			<WorkoutStartImage className="yst-h-[95px] yst-basis-3/12" />
+			<WorkoutStartImage className="yst-h-28 yst-w-24 yst-mr-6" />
 		</div>
 		<div id="yoast-configuration-workout-indexing-container" className="indexation-container">
 			<ConfigurationIndexation
