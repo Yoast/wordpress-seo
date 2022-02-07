@@ -256,24 +256,20 @@ const stepNumberNameMap = {
  * @returns {WPElement} The indexation step.
  */
 function IndexationStep( { indexingState, setIndexingState, showRunIndexationAlert } ) {
-	const [ transitionOpacity, setTransitionOpacity ] = useState( false );
-
+	const [ alertOpacity, setAlertOpacity ] = useState( "yst-opacity-0" );
 	const startOpacityTransition = useCallback( () => {
-		setTransitionOpacity( true );
+		setAlertOpacity( "yst-opacity-100" );
 	} );
 
 	return <Fragment>
 		<div className="yst-flex yst-flex-row yst-mb-8">
-			<p className="yst-text-sm yst-text-[#333333] yst-basis-9/12">
+			<p className="yst-text-sm yst-text-[#333333] yst-whitespace-pre-line yst-basis-9/12">
 				{ addLinkToString(
 					sprintf(
-						__(
-							"Just click the button and we’ll analyze your site just like Google does. " +
-								"Our indexables will immediately improve technical issues without you needing to do anything! " +
-								"If you have a lot of content, that optimization could take a while! But trust us, it’s worth it! " +
-								"Want to read more, %1$scheck out the benefits of the indexables squad%2$s.",
-							"wordpress-seo"
-						),
+						__( "Let’s analyze your site just like Google does and get those indexables into action by running the SEO data " +
+							"optimization! Our indexables will immediately improve technical issues without you needing to do anything!\n" +
+							"\nIf you have a lot of content, that optimization could take a while. But trust us, it’s worth it! " +
+							"Want to read more, %1$scheck out the benefits of the indexables squad.%2$s", "wordpress-seo" ),
 						"<a>",
 						"</a>"
 					),
@@ -322,7 +318,7 @@ function IndexationStep( { indexingState, setIndexingState, showRunIndexationAle
 		>
 			<Alert
 				type="info"
-				className={ `yst-transition-opacity yst-duration-300 yst-mt-4 ${ transitionOpacity ? "yst-opacity-100" : "yst-opacity-0" }` }
+				className={ `yst-transition-opacity yst-duration-300 yst-mt-4 ${ alertOpacity }` }
 			>
 				{
 					__( "Be aware that you should run the SEO data optimization for this configuration to take maximum effect.",
