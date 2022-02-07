@@ -6,22 +6,22 @@ use Brain\Monkey\Functions;
 use Mockery;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Redirect_Helper;
-use Yoast\WP\SEO\Integrations\Disable_Core_Sitemaps;
+use Yoast\WP\SEO\Integrations\Sitemap_Source_Determination_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Disable_Core_Sitemaps_Test.
  *
- * @coversDefaultClass \Yoast\WP\SEO\Initializers\Disable_Core_Sitemaps
+ * @coversDefaultClass \Yoast\WP\SEO\Integrations\Sitemap_Source_Determination_Integration
  *
  * @group integrations
  */
-class Disable_Core_Sitemaps_Test extends TestCase {
+class Sitemap_Source_Determination_Integration_Test extends TestCase {
 
 	/**
 	 * Represents the instance we are testing.
 	 *
-	 * @var Disable_Core_Sitemaps
+	 * @var Sitemap_Source_Determination_Integration
 	 */
 	private $instance;
 
@@ -47,7 +47,7 @@ class Disable_Core_Sitemaps_Test extends TestCase {
 
 		$this->options  = Mockery::mock( Options_Helper::class );
 		$this->redirect = Mockery::mock( Redirect_Helper::class );
-		$this->instance = new Disable_Core_Sitemaps( $this->options, $this->redirect );
+		$this->instance = new Sitemap_Source_Determination_Integration( $this->options, $this->redirect );
 	}
 
 	/**

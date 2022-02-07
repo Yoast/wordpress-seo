@@ -9,7 +9,7 @@ use Yoast\WP\SEO\Helpers\Redirect_Helper;
 /**
  * Disables the WP core sitemaps.
  */
-class Disable_Core_Sitemaps implements Integration_Interface {
+class Sitemap_Source_Determination_Integration implements Integration_Interface {
 
 	use No_Conditionals;
 
