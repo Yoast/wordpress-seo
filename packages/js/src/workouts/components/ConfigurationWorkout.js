@@ -16,7 +16,7 @@ import { Step, Steps, FinishButtonSection } from "./Steps";
 import { OrganizationSection } from "./OrganizationSection";
 import { PersonSection } from "./PersonSection";
 import { NewsletterSignup } from "./NewsletterSignup";
-import { WorkoutIndexation } from "../tailwind-components/WorkoutIndexation";
+import { ConfigurationIndexation } from "../tailwind-components/ConfigurationIndexation";
 import SocialInputSection from "./SocialInputSection";
 import SocialInputPersonSection from "./SocialInputPersonSection";
 import Stepper from "../tailwind-components/Stepper";
@@ -281,7 +281,7 @@ function IndexationStep( { indexingState, setIndexingState, showRunIndexationAle
 			<WorkoutStartImage className="yst-h-[95px] yst-basis-3/12" />
 		</div>
 		<div id="yoast-configuration-workout-indexing-container" className="indexation-container">
-			<WorkoutIndexation
+			<ConfigurationIndexation
 				indexingStateCallback={ setIndexingState }
 				isEnabled={ ! window.wpseoWorkoutsData.shouldUpdatePremium }
 				indexingState={ indexingState }
@@ -914,7 +914,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 						isFinished={ isStep1Finished }
 					>
 						<div id="yoast-configuration-workout-indexing-container" className="indexation-container">
-							<WorkoutIndexation
+							<ConfigurationIndexation
 								indexingStateCallback={ setIndexingState }
 								isEnabled={ ! window.wpseoWorkoutsData.shouldUpdatePremium }
 								indexingState={ indexingState }
