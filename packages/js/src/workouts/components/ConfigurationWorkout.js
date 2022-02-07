@@ -846,7 +846,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 			<div className="yst-mt-8">
 				<Stepper
 					steps={ [
-						{ name: "Let’s analyse your site and get those indexables into action!",
+						{ name: "SEO data optimization",
 							component: <IndexationStep setIndexingState={ setIndexingState } indexingState={ indexingState } showRunIndexationAlert={ showRunIndexationAlert } />,
 							isSaved: isStepFinished( "configuration", steps.optimizeSeoData ),
 							beforeContinue: beforeContinueIndexationStep,
