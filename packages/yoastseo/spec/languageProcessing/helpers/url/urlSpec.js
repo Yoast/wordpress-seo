@@ -201,6 +201,16 @@ describe( "A URL helper", function() {
 
 			expect( actual ).toBe( false );
 		} );
+
+		it( "returns true if the site URL is set to only the domain, and it's the same as the text link's host ", function() {
+			const urlA = "https://yoast.com/your-shopify-store-on-google/";
+			const host = null;
+			const siteUrl = "yoast.com";
+
+			const actual = url.isInternalLink( urlA, host, siteUrl );
+
+			expect( actual ).toBe( true );
+		} );
 	} );
 
 	describe( "getProtocol", function() {

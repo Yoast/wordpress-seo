@@ -233,7 +233,7 @@ class Indexing_Tool_Integration implements Integration_Interface {
 	 * @return array The endpoints.
 	 */
 	protected function get_importing_endpoints() {
-		$available_actions   = $this->importable_detector->detect();
+		$available_actions   = $this->importable_detector->detect_importers();
 		$importing_endpoints = [];
 
 		foreach ( $available_actions as $plugin => $types ) {

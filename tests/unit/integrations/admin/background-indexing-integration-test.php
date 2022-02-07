@@ -13,10 +13,10 @@ use Yoast\WP\SEO\Actions\Indexing\Post_Link_Indexing_Action;
 use Yoast\WP\SEO\Actions\Indexing\Term_Link_Indexing_Action;
 use Yoast\WP\SEO\Conditionals\Get_Request_Conditional;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
+use Yoast\WP\SEO\Conditionals\WP_CRON_Enabled_Conditional;
 use Yoast\WP\SEO\Conditionals\Yoast_Admin_And_Dashboard_Conditional;
 use Yoast\WP\SEO\Helpers\Indexing_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Background_Indexing_Integration;
-use Yoast\WP\SEO\Integrations\Admin\Indexing_Tool_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -32,7 +32,7 @@ class Background_Indexing_Integration_Test extends TestCase {
 	/**
 	 * The indexation integration under test.
 	 *
-	 * @var Indexing_Tool_Integration
+	 * @var Background_Indexing_Integration
 	 */
 	protected $instance;
 
@@ -93,21 +93,44 @@ class Background_Indexing_Integration_Test extends TestCase {
 	protected $indexing_helper;
 
 	/**
+	 * The Yoast_Admin_And_Dashboard_Conditional mock.
+	 *
+	 * @var Mockery\MockInterface|Yoast_Admin_And_Dashboard_Conditional
+	 */
+	protected $yoast_admin_and_dashboard_conditional;
+
+	/**
+	 * The Get_Request_Conditional mock.
+	 *
+	 * @var Mockery\MockInterface|Get_Request_Conditional
+	 */
+	private $get_request_conditional;
+
+	/**
+	 * The WP_CRON_Conditional mock.
+	 *
+	 * @var Mockery\MockInterface|WP_CRON_Enabled_Conditional
+	 */
+	private $wp_cron_enabled_conditional;
+
+	/**
 	 * Sets up the tests.
 	 */
 	protected function set_up() {
 		parent::set_up();
 
-		$this->post_indexation              = Mockery::mock( Indexable_Post_Indexation_Action::class );
-		$this->term_indexation              = Mockery::mock( Indexable_Term_Indexation_Action::class );
-		$this->post_type_archive_indexation = Mockery::mock( Indexable_Post_Type_Archive_Indexation_Action::class );
-		$this->general_indexation           = Mockery::mock( Indexable_General_Indexation_Action::class );
-		$this->complete_indexation_action   = Mockery::mock( Indexable_Indexing_Complete_Action::class );
-		$this->post_link_indexing_action    = Mockery::mock( Post_Link_Indexing_Action::class );
-		$this->term_link_indexing_action    = Mockery::mock( Term_Link_Indexing_Action::class );
-		$this->indexing_helper              = Mockery::mock( Indexing_Helper::class );
-
-		$this->instance = new Background_Indexing_Integration(
+		$this->post_indexation                       = Mockery::mock( Indexable_Post_Indexation_Action::class );
+		$this->term_indexation                       = Mockery::mock( Indexable_Term_Indexation_Action::class );
+		$this->post_type_archive_indexation          = Mockery::mock( Indexable_Post_Type_Archive_Indexation_Action::class );
+		$this->general_indexation                    = Mockery::mock( Indexable_General_Indexation_Action::class );
+		$this->complete_indexation_action            = Mockery::mock( Indexable_Indexing_Complete_Action::class );
+		$this->post_link_indexing_action             = Mockery::mock( Post_Link_Indexing_Action::class );
+		$this->term_link_indexing_action             = Mockery::mock( Term_Link_Indexing_Action::class );
+		$this->indexing_helper                       = Mockery::mock( Indexing_Helper::class );
+		$this->yoast_admin_and_dashboard_conditional = Mockery::mock( Yoast_Admin_And_Dashboard_Conditional::class );
+		$this->get_request_conditional               = Mockery::mock( Get_Request_Conditional::class );
+		$this->wp_cron_enabled_conditional           = Mockery::mock( WP_CRON_Enabled_Conditional::class );
+		$this->instance                              = new Background_Indexing_Integration(
 			$this->post_indexation,
 			$this->term_indexation,
 			$this->post_type_archive_indexation,
@@ -115,7 +138,10 @@ class Background_Indexing_Integration_Test extends TestCase {
 			$this->complete_indexation_action,
 			$this->post_link_indexing_action,
 			$this->term_link_indexing_action,
-			$this->indexing_helper
+			$this->indexing_helper,
+			$this->yoast_admin_and_dashboard_conditional,
+			$this->get_request_conditional,
+			$this->wp_cron_enabled_conditional
 		);
 	}
 
@@ -127,9 +153,7 @@ class Background_Indexing_Integration_Test extends TestCase {
 	public function test_get_conditionals() {
 		static::assertEquals(
 			[
-				Yoast_Admin_And_Dashboard_Conditional::class,
 				Migrations_Conditional::class,
-				Get_Request_Conditional::class,
 			],
 			Background_Indexing_Integration::get_conditionals()
 		);
@@ -165,6 +189,10 @@ class Background_Indexing_Integration_Test extends TestCase {
 			Indexing_Helper::class,
 			$this->getPropertyValue( $this->instance, 'indexing_helper' )
 		);
+		static::assertInstanceOf(
+			Yoast_Admin_And_Dashboard_Conditional::class,
+			$this->getPropertyValue( $this->instance, 'yoast_admin_and_dashboard_conditional' )
+		);
 	}
 
 	/**
@@ -174,14 +202,19 @@ class Background_Indexing_Integration_Test extends TestCase {
 	 */
 	public function test_register_hooks() {
 		Monkey\Actions\expectAdded( 'admin_init' );
+		Monkey\Actions\expectAdded( 'Yoast\WP\SEO\index' );
+		Monkey\Filters\expectAdded( 'cron_schedules' );
+		Monkey\Actions\expectAdded( 'init' );
+		Monkey\Filters\expectAdded( 'wpseo_post_indexation_limit' );
 
 		$this->instance->register_hooks();
 	}
 
 	/**
-	 * Tests the enqueue_scripts method.
+	 * Tests the test_register_shutdown_indexing method.
 	 *
 	 * @covers ::register_shutdown_indexing
+	 * @covers ::should_index_on_shutdown
 	 * @covers ::get_shutdown_limit
 	 */
 	public function test_register_shutdown_indexing() {
@@ -190,15 +223,102 @@ class Background_Indexing_Integration_Test extends TestCase {
 			->once()
 			->andReturn( 10 );
 
-		/**
-		 * We have to register the shutdown function here to prevent a fatal PHP error,
-		 * which would occur because the registered shutdown function is executed
-		 * after the unit test has already completed.
-		 */
-		\register_shutdown_function( [ $this, 'shutdown_indexation_expectations' ] );
+		$this->yoast_admin_and_dashboard_conditional
+			->expects( 'is_met' )
+			->once()
+			->andReturn( true );
+
+		$this->get_request_conditional
+			->expects( 'is_met' )
+			->once()
+			->andReturn( true );
+
+		$this->wp_cron_enabled_conditional
+			->expects( 'is_met' )
+			->once()
+			->andReturn( false );
 
 		Monkey\Filters\expectApplied( 'wpseo_shutdown_indexation_limit' )
 			->andReturn( 25 );
+
+		Monkey\Functions\expect( 'register_shutdown_function' )->with( [ $this->instance, 'index' ] );
+
+		$this->instance->register_shutdown_indexing();
+	}
+
+	/**
+	 * Tests the test_register_shutdown_indexing method with wp-cron enabled.
+	 *
+	 * @covers ::register_shutdown_indexing
+	 * @covers ::should_index_on_shutdown
+	 * @covers ::get_shutdown_limit
+	 */
+	public function test_register_shutdown_indexing_with_wp_cron_enabled() {
+		$this->indexing_helper
+			->expects( 'get_limited_filtered_unindexed_count' )
+			->once()
+			->andReturn( 10 );
+
+		$this->yoast_admin_and_dashboard_conditional
+			->expects( 'is_met' )
+			->once()
+			->andReturn( true );
+
+		$this->get_request_conditional
+			->expects( 'is_met' )
+			->once()
+			->andReturn( true );
+
+		$this->wp_cron_enabled_conditional
+			->expects( 'is_met' )
+			->once()
+			->andReturn( true );
+
+		Monkey\Filters\expectApplied( 'wpseo_shutdown_indexation_limit' )
+			->andReturn( 25 );
+
+		Monkey\Functions\expect( 'register_shutdown_function' )->never();
+
+		$this->instance->register_shutdown_indexing();
+	}
+
+	/**
+	 * Tests the register_shutdown_indexing method when on a page that shouldn't receive shutdown background indexing.
+	 *
+	 * @covers ::register_shutdown_indexing
+	 * @covers ::should_index_on_shutdown
+	 * @covers ::get_shutdown_limit
+	 */
+	public function test_register_shutdown_indexing_on_invalid_pages() {
+		$this->yoast_admin_and_dashboard_conditional
+			->expects( 'is_met' )
+			->once()
+			->andReturn( false );
+
+		Monkey\Functions\expect( 'register_shutdown_function' )->never();
+
+		$this->instance->register_shutdown_indexing();
+	}
+
+	/**
+	 * Tests the register_shutdown_indexing method on post requests. This should not trigger shutdown background indexing.
+	 *
+	 * @covers ::register_shutdown_indexing
+	 * @covers ::should_index_on_shutdown
+	 * @covers ::get_shutdown_limit
+	 */
+	public function test_register_shutdown_indexing_on_post_request() {
+		$this->yoast_admin_and_dashboard_conditional
+			->expects( 'is_met' )
+			->once()
+			->andReturn( true );
+
+		$this->get_request_conditional
+			->expects( 'is_met' )
+			->once()
+			->andReturn( false );
+
+		Monkey\Functions\expect( 'register_shutdown_function' )->never();
 
 		$this->instance->register_shutdown_indexing();
 	}
@@ -207,31 +327,22 @@ class Background_Indexing_Integration_Test extends TestCase {
 	 * Tests the shutdown indexing method.
 	 *
 	 * @covers ::index
+	 * @covers ::should_index_on_cron
 	 */
 	public function test_index() {
-		$this->term_indexation
-			->expects( 'index' )
-			->once();
+		Monkey\Functions\when( 'wp_doing_cron' )->justReturn( false );
 
-		$this->post_indexation
-			->expects( 'index' )
-			->once();
+		$this->term_indexation->expects( 'index' )->once();
+		$this->post_indexation->expects( 'index' )->once();
+		$this->general_indexation->expects( 'index' )->once();
+		$this->post_type_archive_indexation->expects( 'index' )->once();
+		$this->post_link_indexing_action->expects( 'index' )->once();
+		$this->term_link_indexing_action->expects( 'index' )->once();
 
-		$this->general_indexation
-			->expects( 'index' )
-			->once();
-
-		$this->post_type_archive_indexation
-			->expects( 'index' )
-			->once();
-
-		$this->post_link_indexing_action
-			->expects( 'index' )
-			->once();
-
-		$this->term_link_indexing_action
-			->expects( 'index' )
-			->once();
+		$this->indexing_helper
+			->expects( 'is_index_up_to_date' )
+			->once()
+			->andReturn( true );
 
 		$this->complete_indexation_action
 			->expects( 'complete' )
@@ -241,15 +352,180 @@ class Background_Indexing_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Sets the expectations for the shutdown indexation.
+	 * Tests the indexing method while doing wp cron.
+	 *
+	 * @covers ::index
+	 * @covers ::should_index_on_cron
 	 */
-	public function shutdown_indexation_expectations() {
-		$this->post_indexation->expects( 'index' )->once();
+	public function test_index_with_wp_cron() {
+		Monkey\Functions\when( 'wp_doing_cron' )->justReturn( true );
+
+		Monkey\Filters\expectApplied( 'Yoast\WP\SEO\enable_cron_indexing' )
+			->with( true )
+			->andReturn( true );
+
+
+		$this->indexing_helper
+			->expects( 'is_index_up_to_date' )
+			->times( 2 )
+			->andReturn( false );
+
+
 		$this->term_indexation->expects( 'index' )->once();
+		$this->post_indexation->expects( 'index' )->once();
 		$this->general_indexation->expects( 'index' )->once();
 		$this->post_type_archive_indexation->expects( 'index' )->once();
-		$this->complete_indexation_action->expects( 'complete' )->once();
 		$this->post_link_indexing_action->expects( 'index' )->once();
 		$this->term_link_indexing_action->expects( 'index' )->once();
+
+		$this->instance->index();
+	}
+
+	/**
+	 * Tests the indexing method while doing wp cron with wp-cron-indexing disabled.
+	 *
+	 * @covers ::index
+	 * @covers ::should_index_on_cron
+	 */
+	public function test_index_with_wp_cron_with_cron_indexing_disabled() {
+		Monkey\Functions\when( 'wp_doing_cron' )->justReturn( true );
+
+		Monkey\Filters\expectApplied( 'Yoast\WP\SEO\enable_cron_indexing' )
+			->with( true )
+			->andReturn( false );
+
+		Monkey\Functions\expect( 'wp_next_scheduled' )->once()->with( 'Yoast\WP\SEO\index' )->andReturn( 12345 );
+		Monkey\Functions\expect( 'wp_unschedule_event' )->once()->with( 12345, 'Yoast\WP\SEO\index' );
+
+		$this->instance->index();
+	}
+
+	/**
+	 * Tests the indexing method while doing wp cron with an already complete index.
+	 *
+	 * @covers ::index
+	 * @covers ::should_index_on_cron
+	 */
+	public function test_index_with_wp_cron_with_complete_index() {
+		Monkey\Functions\when( 'wp_doing_cron' )->justReturn( true );
+
+		Monkey\Filters\expectApplied( 'Yoast\WP\SEO\enable_cron_indexing' )
+			->with( true )
+			->andReturn( true );
+
+
+		$this->indexing_helper
+			->expects( 'is_index_up_to_date' )
+			->once()
+			->andReturn( true );
+
+
+		Monkey\Functions\expect( 'wp_next_scheduled' )->once()->with( 'Yoast\WP\SEO\index' )->andReturn( 12345 );
+		Monkey\Functions\expect( 'wp_unschedule_event' )->once()->with( 12345, 'Yoast\WP\SEO\index' );
+
+		$this->instance->index();
+	}
+
+	/**
+	 * Tests the indexing method while doing wp cron with an already complete index but without a scheduled cron task.
+	 *
+	 * @covers ::index
+	 * @covers ::should_index_on_cron
+	 */
+	public function test_index_with_wp_cron_with_complete_index_without_scheduled_task() {
+		Monkey\Functions\when( 'wp_doing_cron' )->justReturn( true );
+
+		Monkey\Filters\expectApplied( 'Yoast\WP\SEO\enable_cron_indexing' )
+			->with( true )
+			->andReturn( true );
+
+
+		$this->indexing_helper
+			->expects( 'is_index_up_to_date' )
+			->once()
+			->andReturn( true );
+
+
+		Monkey\Functions\expect( 'wp_next_scheduled' )->once()->with( 'Yoast\WP\SEO\index' )->andReturn( false );
+		Monkey\Functions\expect( 'wp_unschedule_event' )->never();
+
+		$this->instance->index();
+	}
+
+	/**
+	 * Tests that the schedule_cron_indexing function schedules a cron job that performs the Yoast\WP\SEO\index action.
+	 *
+	 * @covers ::schedule_cron_indexing
+	 */
+	public function test_schedule_cron_indexing() {
+		Monkey\Functions\when( 'time' )->justReturn( 987654321 );
+		Monkey\Functions\expect( 'wp_next_scheduled' )->once()->with( 'Yoast\WP\SEO\index' )->andReturn( false );
+		$this->indexing_helper->expects( 'is_index_up_to_date' )->once()->andReturn( false );
+		Monkey\Functions\expect( 'wp_schedule_event' )->once()->with( 987654321, 'fifteen_minutes', 'Yoast\WP\SEO\index' );
+
+		$this->instance->schedule_cron_indexing();
+	}
+
+	/**
+	 * Tests that no cron job is scheduled when the cron job is already scheduled.
+	 *
+	 * @covers ::schedule_cron_indexing
+	 */
+	public function test_schedule_cron_indexing_already_scheduled() {
+		Monkey\Functions\when( 'time' )->justReturn( 987654321 );
+		Monkey\Functions\expect( 'wp_next_scheduled' )->once()->with( 'Yoast\WP\SEO\index' )->andReturn( 987654321 );
+		Monkey\Functions\expect( 'wp_schedule_event' )->never();
+
+		$this->instance->schedule_cron_indexing();
+	}
+
+	/**
+	 * Tests that no cron job is scheduled when the cron indexing is disabled through the Yoast\WP\SEO\enable_cron_indexing filter.
+	 *
+	 * @covers ::schedule_cron_indexing
+	 */
+	public function test_schedule_cron_indexing_cron_indexing_disabled() {
+		Monkey\Functions\when( 'time' )->justReturn( 987654321 );
+		Monkey\Functions\expect( 'wp_next_scheduled' )->once()->with( 'Yoast\WP\SEO\index' )->andReturn( false );
+		Monkey\Filters\expectApplied( 'Yoast\WP\SEO\enable_cron_indexing' )->with( true )->andReturn( false );
+		Monkey\Functions\expect( 'wp_schedule_event' )->never();
+
+		$this->instance->schedule_cron_indexing();
+	}
+
+	/**
+	 * Tests that no cron job is scheduled when the indexing process is already complete.
+	 *
+	 * @covers ::schedule_cron_indexing
+	 */
+	public function test_schedule_cron_indexing_index_complete() {
+		Monkey\Functions\when( 'time' )->justReturn( 987654321 );
+		Monkey\Functions\expect( 'wp_next_scheduled' )->once()->with( 'Yoast\WP\SEO\index' )->andReturn( false );
+		$this->indexing_helper->expects( 'is_index_up_to_date' )->once()->andReturn( true );
+		Monkey\Functions\expect( 'wp_schedule_event' )->never();
+
+		$this->instance->schedule_cron_indexing();
+	}
+
+	/**
+	 * Tests that the background indexing pace stays untouched when not doing cron.
+	 *
+	 * @covers ::throttle_cron_indexing
+	 */
+	public function test_throttle_cron_indexing() {
+		Monkey\Functions\when( 'wp_doing_cron' )->justReturn( false );
+
+		$this->assertSame( 25, $this->instance->throttle_cron_indexing( 25 ) );
+	}
+
+	/**
+	 * Tests that the background indexing pace is throttled to 15 when doing cron.
+	 *
+	 * @covers ::throttle_cron_indexing
+	 */
+	public function test_throttle_cron_indexing_while_doing_cron() {
+		Monkey\Functions\when( 'wp_doing_cron' )->justReturn( true );
+
+		$this->assertSame( 15, $this->instance->throttle_cron_indexing( 25 ) );
 	}
 }

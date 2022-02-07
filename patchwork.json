@@ -1,0 +1,6 @@
+{
+  "redefinable-internals": [
+	"register_shutdown_function",
+	"time"
+  ]
+}

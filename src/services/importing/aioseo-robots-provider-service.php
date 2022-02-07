@@ -17,7 +17,7 @@ class Aioseo_Robots_Provider_Service {
 	 * @return bool Whether global robot settings enable or not the specific setting.
 	 */
 	public function get_global_robot_settings( $setting_name ) {
-		$aioseo_settings = \json_decode( \get_option( 'aioseo_options', [] ), true );
+		$aioseo_settings = \json_decode( \get_option( 'aioseo_options', '' ), true );
 		if ( empty( $aioseo_settings ) || ! isset( $aioseo_settings['searchAppearance']['advanced']['globalRobotsMeta'] ) ) {
 			return false;
 		}
@@ -38,7 +38,11 @@ class Aioseo_Robots_Provider_Service {
 	 * @return bool The robot setting.
 	 */
 	public function get_subtype_robot_setting( $mapping ) {
-		$aioseo_settings = \json_decode( \get_option( $mapping['option_name'], [] ), true );
+		$aioseo_settings = \json_decode( \get_option( $mapping['option_name'], '' ), true );
+
+		if ( ! isset( $aioseo_settings['searchAppearance'][ $mapping['type'] ][ $mapping['subtype'] ]['advanced']['robotsMeta'][ $mapping['robot_type'] ] ) ) {
+			return false;
+		}
 
 		return $aioseo_settings['searchAppearance'][ $mapping['type'] ][ $mapping['subtype'] ]['advanced']['robotsMeta'][ $mapping['robot_type'] ];
 	}

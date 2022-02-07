@@ -95,20 +95,48 @@ class Import_Integration implements Integration_Interface {
 		\wp_enqueue_style( 'dashicons' );
 		$this->asset_manager->enqueue_script( 'import' );
 
-		$import_failure_alert = $this->get_import_failure_alert();
-
 		$data = [
 			'restApi' => [
 				'root'                => \esc_url_raw( \rest_url() ),
+				'cleanup_endpoints'   => $this->get_cleanup_endpoints(),
 				'importing_endpoints' => $this->get_importing_endpoints(),
 				'nonce'               => \wp_create_nonce( 'wp_rest' ),
 			],
 			'assets'  => [
-				'loading_msg'        => \esc_html__( 'The import can take a long time depending on your site\'s size.', 'wordpress-seo' ),
-				'select_placeholder' => \esc_html__( 'Select SEO plugin', 'wordpress-seo' ),
-				'no_data_msg'        => \esc_html__( 'No data found from other SEO plugins.', 'wordpress-seo' ),
-				'import_failure'     => $import_failure_alert,
-				'spinner'            => \admin_url( 'images/loading.gif' ),
+				'loading_msg_import'       => \esc_html__( 'The import can take a long time depending on your site\'s size.', 'wordpress-seo' ),
+				'loading_msg_cleanup'      => \esc_html__( 'The cleanup can take a long time depending on your site\'s size.', 'wordpress-seo' ),
+				'note'                     => \esc_html__( 'Note: ', 'wordpress-seo' ),
+				'cleanup_after_import_msg' => \esc_html__( 'After you\'ve imported data from another SEO plugin, please make sure to clean up all the original data from that plugin. (step 5)', 'wordpress-seo' ),
+				'select_placeholder'       => \esc_html__( 'Select SEO plugin', 'wordpress-seo' ),
+				'no_data_msg'              => \esc_html__( 'No data found from other SEO plugins.', 'wordpress-seo' ),
+				'import_failure'           => $this->get_import_failure_alert( true ),
+				'cleanup_failure'          => $this->get_import_failure_alert( false ),
+				'spinner'                  => \admin_url( 'images/loading.gif' ),
+				'replacing_texts'          => [
+					'cleanup_button'       => \esc_html__( 'Clean up', 'wordpress-seo' ),
+					'import_explanation'   => \esc_html__( 'Please select an SEO plugin below to see what data can be imported.', 'wordpress-seo' ),
+					'cleanup_explanation'  => \esc_html__( 'Once you\'re certain that your site is working properly with the imported data from another SEO plugin, you can clean up all the original data from that plugin.', 'wordpress-seo' ),
+					/* translators: %s: expands to the name of the plugin that is selected to be imported */
+					'select_header'        => \esc_html__( 'The import from %s includes:', 'wordpress-seo' ),
+					'plugins'              => [
+						'aioseo' => [
+							[
+								'data_name' => \esc_html__( 'Post metadata (SEO titles, descriptions, etc.)', 'wordpress-seo' ),
+								'data_note' => \esc_html__( 'Note: This metadata will only be imported if there is no existing Yoast SEO metadata yet.', 'wordpress-seo' ),
+							],
+							[
+								'data_name' => \esc_html__( 'Default settings', 'wordpress-seo' ),
+								'data_note' => \esc_html__( 'Note: These settings will overwrite the default settings of Yoast SEO.', 'wordpress-seo' ),
+							],
+						],
+						'other' => [
+							[
+								'data_name' => \esc_html__( 'Post metadata (SEO titles, descriptions, etc.)', 'wordpress-seo' ),
+								'data_note' => \esc_html__( 'Note: This metadata will only be imported if there is no existing Yoast SEO metadata yet.', 'wordpress-seo' ),
+							],
+						],
+					],
+				],
 			],
 		];
 
@@ -128,7 +156,25 @@ class Import_Integration implements Integration_Interface {
 	 * @return array The endpoints.
 	 */
 	protected function get_importing_endpoints() {
-		$available_actions   = $this->importable_detector->detect();
+		$available_actions   = $this->importable_detector->detect_importers();
+		$importing_endpoints = [];
+
+		foreach ( $available_actions as $plugin => $types ) {
+			foreach ( $types as $type ) {
+				$importing_endpoints[ $plugin ][] = $this->importing_route->get_endpoint( $plugin, $type );
+			}
+		}
+
+		return $importing_endpoints;
+	}
+
+	/**
+	 * Retrieves a list of the importing endpoints to use.
+	 *
+	 * @return array The endpoints.
+	 */
+	protected function get_cleanup_endpoints() {
+		$available_actions   = $this->importable_detector->detect_cleanups();
 		$importing_endpoints = [];
 
 		foreach ( $available_actions as $plugin => $types ) {
@@ -143,10 +189,16 @@ class Import_Integration implements Integration_Interface {
 	/**
 	 * Gets the import failure alert using the Alert_Presenter.
 	 *
+	 * @param bool $is_import Wether it's an import or not.
+	 *
 	 * @return string The import failure alert.
 	 */
-	protected function get_import_failure_alert() {
-		$content  = \esc_html__( 'Import failed with the following error:', 'wordpress-seo' );
+	protected function get_import_failure_alert( $is_import ) {
+		$content = \esc_html__( 'Cleanup failed with the following error:', 'wordpress-seo' );
+		if ( $is_import ) {
+			$content = \esc_html__( 'Import failed with the following error:', 'wordpress-seo' );
+		}
+
 		$content .= '<br/><br/>';
 		$content .= \esc_html( '%s' );
 
