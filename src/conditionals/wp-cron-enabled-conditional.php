@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Conditionals;
 /**
  * Class that checks if WP_CRON is enabled.
  */
-class WP_CRON_Conditional implements Conditional {
+class WP_CRON_Enabled_Conditional implements Conditional {
 
 	/**
 	 * Checks if WP_CRON is enabled.

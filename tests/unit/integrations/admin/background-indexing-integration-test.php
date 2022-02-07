@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Actions\Indexing\Post_Link_Indexing_Action;
 use Yoast\WP\SEO\Actions\Indexing\Term_Link_Indexing_Action;
 use Yoast\WP\SEO\Conditionals\Get_Request_Conditional;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
-use Yoast\WP\SEO\Conditionals\WP_CRON_Conditional;
+use Yoast\WP\SEO\Conditionals\WP_CRON_Enabled_Conditional;
 use Yoast\WP\SEO\Conditionals\Yoast_Admin_And_Dashboard_Conditional;
 use Yoast\WP\SEO\Helpers\Indexing_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Background_Indexing_Integration;
@@ -109,9 +109,9 @@ class Background_Indexing_Integration_Test extends TestCase {
 	/**
 	 * The WP_CRON_Conditional mock.
 	 *
-	 * @var Mockery\MockInterface|WP_CRON_Conditional
+	 * @var Mockery\MockInterface|WP_CRON_Enabled_Conditional
 	 */
-	private $wp_cron_conditional;
+	private $wp_cron_enabled_conditional;
 
 	/**
 	 * Sets up the tests.
@@ -129,7 +129,7 @@ class Background_Indexing_Integration_Test extends TestCase {
 		$this->indexing_helper                       = Mockery::mock( Indexing_Helper::class );
 		$this->yoast_admin_and_dashboard_conditional = Mockery::mock( Yoast_Admin_And_Dashboard_Conditional::class );
 		$this->get_request_conditional               = Mockery::mock( Get_Request_Conditional::class );
-		$this->wp_cron_conditional                   = Mockery::mock( WP_CRON_Conditional::class );
+		$this->wp_cron_enabled_conditional           = Mockery::mock( WP_CRON_Enabled_Conditional::class );
 		$this->instance                              = new Background_Indexing_Integration(
 			$this->post_indexation,
 			$this->term_indexation,
@@ -141,7 +141,7 @@ class Background_Indexing_Integration_Test extends TestCase {
 			$this->indexing_helper,
 			$this->yoast_admin_and_dashboard_conditional,
 			$this->get_request_conditional,
-			$this->wp_cron_conditional
+			$this->wp_cron_enabled_conditional
 		);
 	}
 
@@ -233,7 +233,7 @@ class Background_Indexing_Integration_Test extends TestCase {
 			->once()
 			->andReturn( true );
 
-		$this->wp_cron_conditional
+		$this->wp_cron_enabled_conditional
 			->expects( 'is_met' )
 			->once()
 			->andReturn( false );
@@ -269,7 +269,7 @@ class Background_Indexing_Integration_Test extends TestCase {
 			->once()
 			->andReturn( true );
 
-		$this->wp_cron_conditional
+		$this->wp_cron_enabled_conditional
 			->expects( 'is_met' )
 			->once()
 			->andReturn( true );

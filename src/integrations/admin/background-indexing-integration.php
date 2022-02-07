@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Actions\Indexing\Post_Link_Indexing_Action;
 use Yoast\WP\SEO\Actions\Indexing\Term_Link_Indexing_Action;
 use Yoast\WP\SEO\Conditionals\Get_Request_Conditional;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
-use Yoast\WP\SEO\Conditionals\WP_CRON_Conditional;
+use Yoast\WP\SEO\Conditionals\WP_CRON_Enabled_Conditional;
 use Yoast\WP\SEO\Conditionals\Yoast_Admin_And_Dashboard_Conditional;
 use Yoast\WP\SEO\Helpers\Indexing_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -96,9 +96,9 @@ class Background_Indexing_Integration implements Integration_Interface {
 	/**
 	 * An object that checks if WP_CRON is enabled.
 	 *
-	 * @var WP_CRON_Conditional
+	 * @var WP_CRON_Enabled_Conditional
 	 */
-	private $wp_cron_conditional;
+	private $wp_cron_enabled_conditional;
 
 	/**
 	 * Returns the conditionals based on which this integration should be active.
@@ -124,7 +124,7 @@ class Background_Indexing_Integration implements Integration_Interface {
 	 * @param Indexing_Helper                               $indexing_helper                       The indexing helper.
 	 * @param Yoast_Admin_And_Dashboard_Conditional         $yoast_admin_and_dashboard_conditional An object that checks if we are on the Yoast admin or on the dashboard page.
 	 * @param Get_Request_Conditional                       $get_request_conditional               An object that checks if we are handling a GET request.
-	 * @param WP_CRON_Conditional                           $wp_cron_conditional                   An object that checks if WP_CRON is enabled.
+	 * @param WP_CRON_Enabled_Conditional                   $wp_cron_enabled_conditional           An object that checks if WP_CRON is enabled.
 	 */
 	public function __construct(
 		Indexable_Post_Indexation_Action $post_indexation,
@@ -137,7 +137,7 @@ class Background_Indexing_Integration implements Integration_Interface {
 		Indexing_Helper $indexing_helper,
 		Yoast_Admin_And_Dashboard_Conditional $yoast_admin_and_dashboard_conditional,
 		Get_Request_Conditional $get_request_conditional,
-		WP_CRON_Conditional $wp_cron_conditional
+		WP_CRON_Enabled_Conditional $wp_cron_enabled_conditional
 	) {
 		$this->post_indexation                       = $post_indexation;
 		$this->term_indexation                       = $term_indexation;
@@ -149,7 +149,7 @@ class Background_Indexing_Integration implements Integration_Interface {
 		$this->indexing_helper                       = $indexing_helper;
 		$this->yoast_admin_and_dashboard_conditional = $yoast_admin_and_dashboard_conditional;
 		$this->get_request_conditional               = $get_request_conditional;
-		$this->wp_cron_conditional                   = $wp_cron_conditional;
+		$this->wp_cron_enabled_conditional           = $wp_cron_enabled_conditional;
 	}
 
 	/**
@@ -273,7 +273,7 @@ class Background_Indexing_Integration implements Integration_Interface {
 			return false;
 		}
 
-		return ! $this->wp_cron_conditional->is_met();
+		return ! $this->wp_cron_enabled_conditional->is_met();
 	}
 
 	/**
