@@ -225,7 +225,7 @@ abstract class Abstract_Importing_Action implements Importing_Action_Interface {
 	 *
 	 * @param string $meta_data The meta data to be imported.
 	 *
-	 * @return string The transformed meta data.
+	 * @return string The transformed URL.
 	 */
 	public function url_import( $meta_data ) {
 		// We put null as the allowed protocols here, to have the WP default allowed protocols, see https://developer.wordpress.org/reference/functions/wp_allowed_protocols.

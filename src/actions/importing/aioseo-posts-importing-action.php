@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Actions\Importing;
 
 use wpdb;
 use Yoast\WP\SEO\Conditionals\AIOSEO_V4_Importer_Conditional;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Indexable_To_Postmeta_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
@@ -43,31 +44,33 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	protected $aioseo_to_yoast_map = [
 		'title'               => [
 			'yoast_name'       => 'title',
-			'transform_method' => 'simple_import',
+			'transform_method' => 'simple_import_post',
 		],
 		'description'         => [
 			'yoast_name'       => 'description',
-			'transform_method' => 'simple_import',
+			'transform_method' => 'simple_import_post',
 		],
 		'og_title'            => [
 			'yoast_name'       => 'open_graph_title',
-			'transform_method' => 'simple_import',
+			'transform_method' => 'simple_import_post',
 		],
 		'og_description'      => [
 			'yoast_name'       => 'open_graph_description',
-			'transform_method' => 'simple_import',
+			'transform_method' => 'simple_import_post',
 		],
 		'twitter_title'       => [
 			'yoast_name'       => 'twitter_title',
-			'transform_method' => 'simple_import',
+			'transform_method' => 'simple_import_post',
+			'twitter_import'   => true,
 		],
 		'twitter_description' => [
 			'yoast_name'       => 'twitter_description',
-			'transform_method' => 'simple_import',
+			'transform_method' => 'simple_import_post',
+			'twitter_import'   => true,
 		],
 		'canonical_url'       => [
 			'yoast_name'       => 'canonical',
-			'transform_method' => 'url_import',
+			'transform_method' => 'url_import_post',
 		],
 		'keyphrases'          => [
 			'yoast_name'       => 'primary_focus_keyword',
@@ -147,6 +150,13 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	protected $indexable_to_postmeta;
 
 	/**
+	 * The indexable helper.
+	 *
+	 * @var Indexable_Helper
+	 */
+	protected $indexable_helper;
+
+	/**
 	 * The wpdb helper.
 	 *
 	 * @var Wpdb_Helper
@@ -165,6 +175,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	 *
 	 * @param Indexable_Repository                  $indexable_repository   The indexables repository.
 	 * @param wpdb                                  $wpdb                   The WordPress database instance.
+	 * @param Indexable_Helper                      $indexable_helper      The indexable helper.
 	 * @param Indexable_To_Postmeta_Helper          $indexable_to_postmeta  The indexable_to_postmeta helper.
 	 * @param Options_Helper                        $options                The options helper.
 	 * @param Image_Helper                          $image                  The image helper.
@@ -178,6 +189,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	public function __construct(
 		Indexable_Repository $indexable_repository,
 		wpdb $wpdb,
+		Indexable_Helper $indexable_helper,
 		Indexable_To_Postmeta_Helper $indexable_to_postmeta,
 		Options_Helper $options,
 		Image_Helper $image,
@@ -192,6 +204,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 		$this->indexable_repository   = $indexable_repository;
 		$this->wpdb                   = $wpdb;
 		$this->image                  = $image;
+		$this->indexable_helper       = $indexable_helper;
 		$this->indexable_to_postmeta  = $indexable_to_postmeta;
 		$this->wpdb_helper            = $wpdb_helper;
 		$this->social_images_provider = $social_images_provider;
@@ -274,8 +287,6 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	/**
 	 * Imports AIOSEO meta data and creates the respective Yoast indexables and postmeta.
 	 *
-	 * @todo: Replace the replace vars with Yoast ones.
-	 *
 	 * @return Indexable[]|false An array of created indexables or false if aioseo data was not found.
 	 */
 	public function index() {
@@ -290,6 +301,15 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 		$completed = \count( $aioseo_indexables ) === 0;
 		$this->set_completed( $completed );
 
+		// Let's build the list of fields to check their defaults, to identify whether we're gonna import AIOSEO data in the indexable or not.
+		$check_defaults_fields = [];
+		foreach ( $this->aioseo_to_yoast_map as $yoast_mapping ) {
+			// We don't want to check all the imported fields.
+			if ( ! \in_array( $yoast_mapping['yoast_name'], [ 'open_graph_image', 'twitter_image' ], true ) ) {
+				$check_defaults_fields[] = $yoast_mapping['yoast_name'];
+			}
+		}
+
 		$last_indexed_aioseo_id = 0;
 		foreach ( $aioseo_indexables as $aioseo_indexable ) {
 			$last_indexed_aioseo_id = $aioseo_indexable['id'];
@@ -301,11 +321,13 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 				continue;
 			}
 
-			$indexable = $this->map( $indexable, $aioseo_indexable );
-			$indexable->save();
+			if ( $this->indexable_helper->check_if_default_indexable( $indexable, $check_defaults_fields ) ) {
+				$indexable = $this->map( $indexable, $aioseo_indexable );
+				$indexable->save();
 
-			// To ensure that indexables can be rebuild after a reset, we have to store the data in the postmeta table too.
-			$this->indexable_to_postmeta->map_to_postmeta( $indexable );
+				// To ensure that indexables can be rebuild after a reset, we have to store the data in the postmeta table too.
+				$this->indexable_to_postmeta->map_to_postmeta( $indexable );
+			}
 
 			$last_indexed_aioseo_id = $aioseo_indexable['id'];
 
@@ -333,14 +355,14 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 			// For robots import.
 			if ( isset( $yoast_mapping['robots_import'] ) && $yoast_mapping['robots_import'] ) {
 				$yoast_mapping['subtype']                  = $indexable->object_sub_type;
-				$indexable->{$yoast_mapping['yoast_name']} = \call_user_func( [ $this, $yoast_mapping['transform_method'] ], $aioseo_indexable, $yoast_mapping, $aioseo_key );
+				$indexable->{$yoast_mapping['yoast_name']} = $this->transform_import_data( $yoast_mapping['transform_method'], $aioseo_indexable, $aioseo_key, $yoast_mapping, $indexable );
 
 				continue;
 			}
 
 			// For social images, like open graph and twitter image.
 			if ( isset( $yoast_mapping['social_image_import'] ) && $yoast_mapping['social_image_import'] ) {
-				$image_url = \call_user_func( [ $this, $yoast_mapping['transform_method'] ], $aioseo_indexable, $yoast_mapping, $indexable );
+				$image_url = $this->transform_import_data( $yoast_mapping['transform_method'], $aioseo_indexable, $aioseo_key, $yoast_mapping, $indexable );
 
 				// Update the indexable's social image only where there's actually a url to import, so as not to lose the social images that we came up with when we originally built the indexable.
 				if ( ! empty( $image_url ) ) {
@@ -359,18 +381,33 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 				continue;
 			}
 
-			// For import of everything else.
-			// Do not overwrite any existing values.
-			if ( ! empty( $indexable->{$yoast_mapping['yoast_name']} ) ) {
-				continue;
+			// For twitter import, take the respective open graph data if the appropriate setting is enabled.
+			if ( isset( $yoast_mapping['twitter_import'] ) && $yoast_mapping['twitter_import'] && $aioseo_indexable['twitter_use_og'] ) {
+				$aioseo_indexable['twitter_title']       = $aioseo_indexable['og_title'];
+				$aioseo_indexable['twitter_description'] = $aioseo_indexable['og_description'];
 			}
 
 			if ( ! empty( $aioseo_indexable[ $aioseo_key ] ) ) {
-				$indexable->{$yoast_mapping['yoast_name']} = \call_user_func( [ $this, $yoast_mapping['transform_method'] ], $aioseo_indexable[ $aioseo_key ], $yoast_mapping );
+				$indexable->{$yoast_mapping['yoast_name']} = $this->transform_import_data( $yoast_mapping['transform_method'], $aioseo_indexable, $aioseo_key, $yoast_mapping, $indexable );
 			}
 		}
 
 		return $indexable;
+	}
+
+	/**
+	 * Transforms the data to be imported.
+	 *
+	 * @param string    $transform_method The method that is going to be used for transforming the data.
+	 * @param array     $aioseo_indexable The data of the AIOSEO indexable data that is being imported.
+	 * @param string    $aioseo_key       The name of the specific set of data that is going to be transformed.
+	 * @param array     $yoast_mapping    Extra details for the import of the specific data that is going to be transformed.
+	 * @param Indexable $indexable        The Yoast indexable that we are going to import the transformed data into.
+	 *
+	 * @return string|bool|null The transformed data to be imported.
+	 */
+	protected function transform_import_data( $transform_method, $aioseo_indexable, $aioseo_key, $yoast_mapping, $indexable ) {
+		return \call_user_func( [ $this, $transform_method ], $aioseo_indexable, $aioseo_key, $yoast_mapping, $indexable );
 	}
 
 	/**
@@ -440,14 +477,39 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	}
 
 	/**
+	 * Minimally transforms data to be imported.
+	 *
+	 * @param array  $aioseo_data All of the AIOSEO data to be imported.
+	 * @param string $aioseo_key  The AIOSEO key that contains the setting we're working with.
+	 *
+	 * @return string The transformed meta data.
+	 */
+	public function simple_import_post( $aioseo_data, $aioseo_key ) {
+		return $this->simple_import( $aioseo_data[ $aioseo_key ] );
+	}
+
+	/**
+	 * Transforms URL to be imported.
+	 *
+	 * @param array  $aioseo_data All of the AIOSEO data to be imported.
+	 * @param string $aioseo_key  The AIOSEO key that contains the setting we're working with.
+	 *
+	 * @return string The transformed URL.
+	 */
+	public function url_import_post( $aioseo_data, $aioseo_key ) {
+		return $this->url_import( $aioseo_data[ $aioseo_key ] );
+	}
+
+	/**
 	 * Plucks the keyphrase to be imported from the AIOSEO array of keyphrase meta data.
 	 *
-	 * @param array $meta_data The keyphrase meta data to be imported.
+	 * @param array  $aioseo_data All of the AIOSEO data to be imported.
+	 * @param string $aioseo_key  The AIOSEO key that contains the setting we're working with, aka keyphrases.
 	 *
 	 * @return string|null The plucked keyphrase.
 	 */
-	public function keyphrase_import( $meta_data ) {
-		$meta_data = \json_decode( $meta_data, true );
+	public function keyphrase_import( $aioseo_data, $aioseo_key ) {
+		$meta_data = \json_decode( $aioseo_data[ $aioseo_key ], true );
 		if ( ! isset( $meta_data['focus']['keyphrase'] ) ) {
 			return null;
 		}
@@ -475,12 +537,12 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	 * Imports the post's robots setting.
 	 *
 	 * @param bool   $aioseo_robots_settings AIOSEO's set of robot settings for the post.
-	 * @param array  $mapping The mapping of the setting we're working with.
 	 * @param string $aioseo_key The AIOSEO key that contains the robot setting we're working with.
+	 * @param array  $mapping The mapping of the setting we're working with.
 	 *
 	 * @return bool|null The value of Yoast's noindex setting for the post.
 	 */
-	public function post_general_robots_import( $aioseo_robots_settings, $mapping, $aioseo_key ) {
+	public function post_general_robots_import( $aioseo_robots_settings, $aioseo_key, $mapping ) {
 		$mapping['type']        = 'postTypes';
 		$mapping['option_name'] = 'aioseo_options_dynamic';
 
@@ -497,12 +559,13 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	 * Imports the og and twitter image url.
 	 *
 	 * @param bool      $aioseo_social_image_settings AIOSEO's set of social image settings for the post.
+	 * @param string    $aioseo_key                   The AIOSEO key that contains the robot setting we're working with.
 	 * @param array     $mapping                      The mapping of the setting we're working with.
 	 * @param Indexable $indexable                    The Yoast indexable we're importing into.
 	 *
 	 * @return bool|null The url of the social image we're importing, null if there's none.
 	 */
-	public function social_image_url_import( $aioseo_social_image_settings, $mapping, $indexable ) {
+	public function social_image_url_import( $aioseo_social_image_settings, $aioseo_key, $mapping, $indexable ) {
 		if ( $mapping['social_setting_prefix_aioseo'] === 'twitter_' && $aioseo_social_image_settings['twitter_use_og'] ) {
 			$mapping['social_setting_prefix_aioseo'] = 'og_';
 		}
