@@ -1,5 +1,6 @@
 /* global yoastIndexingData */
-import { Component, Fragment, useCallback, useState } from "@wordpress/element";
+import { Component, Fragment } from "@wordpress/element";
+import { Transition } from "@headlessui/react";
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 import { addHistoryState, removeSearchParam } from "../../helpers/urlHelpers";
@@ -399,7 +400,15 @@ export class Indexation extends Component {
 		}
 
 		if ( this.isState( STATE.COMPLETED ) || this.state.amount === 0 ) {
-			return <Alert type="success">{ __( "We’ve successfully analyzed your site!", "wordpress-seo" ) }</Alert>;
+			return <Transition
+				appear={ true }
+				show={ this.isState( STATE.COMPLETED ) || this.state.amount === 0 }
+				enter="yst-transition-opacity yst-duration-1000"
+				enterFrom="yst-opacity-0"
+				enterTo="yst-opacity-100"
+			>
+				<Alert type="success">{ __( "We’ve successfully analyzed your site!", "wordpress-seo" ) }</Alert>
+			</Transition>;
 		}
 
 		return this.renderTool();
