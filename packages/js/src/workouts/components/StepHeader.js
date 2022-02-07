@@ -1,6 +1,8 @@
 import { StepCircle } from "./StepCircle";
 import PropTypes from "prop-types";
-import { stepperTimings } from "../stepper-helper";
+import { stepperTimings, stepperTimingClasses } from "../stepper-helper";
+
+/* eslint-disable complexity, max-len */
 
 /**
  * Gets the classnames for the step name.
@@ -53,9 +55,12 @@ export default function StepHeader( { step, isActiveStep, isSaved, isLastStep, i
 			</span>
 			{ step.description && <span className="yst-text-sm yst-text-gray-500">{ step.description }</span> }
 		</span>
-		{ ( showEditButton && ! isLastStep && ! isStepBeingEdited ) &&
+		{ ( ! isLastStep ) &&
 			<button
-				className="yst-button--secondary yst-button--small yst-ml-auto yst-m-1"
+				className={ `yst-button--secondary yst-button--small yst-ml-auto yst-m-1 yst-transition-opacity yst-duration-1000 yst-relative yst-ease-out ${
+					( showEditButton && ! isStepBeingEdited )
+						? `${stepperTimingClasses.fadeDuration} yst-opacity-100`
+						: `${stepperTimingClasses.delayBeforeOpening} yst-opacity-0` }` }
 				onClick={ editStep }
 			>
 				Edit
@@ -85,4 +90,4 @@ StepHeader.defaultProps = {
 	editStep: null,
 };
 
-/* eslint-enable complexity */
+/* eslint-enable complexity, max-len */
