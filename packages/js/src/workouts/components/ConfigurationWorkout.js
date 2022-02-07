@@ -623,17 +623,19 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 			state.companyOrPerson === "company" &&
 			( ! state.companyName || ! state.companyLogo ) ) {
 			setSiteRepresentationEmpty( true );
+			return false;
 		} else if ( ! siteRepresentationEmpty &&
 			state.companyOrPerson === "person" &&
 			( ! state.personId || ! state.personLogo ) ) {
 			setSiteRepresentationEmpty( true );
-		} else {
-			setSiteRepresentationEmpty( false );
-			updateSiteRepresentation( state )
-				.then( () => setStepIsSaved( 2 ) )
-				.then( () => finishSteps( "configuration", [ steps.siteRepresentation ] ) );
-			scrollToStep( 3 );
+			return false;
 		}
+		setSiteRepresentationEmpty( false );
+		updateSiteRepresentation( state )
+			.then( () => setStepIsSaved( 2 ) )
+			.then( () => finishSteps( "configuration", [ steps.siteRepresentation ] ) );
+		scrollToStep( 3 );
+		return true;
 	}
 
 	/**
@@ -642,12 +644,15 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 	 * @returns {void}
 	 */
 	function updateOnFinishSocialProfiles() {
-		updateSocialProfiles( state )
+		return updateSocialProfiles( state )
 			.then( () => setStepIsSaved( 3 ) )
 			.then( () => {
 				setErrorFields( [] );
 				finishSteps( "configuration", [ steps.socialProfiles ] );
 				scrollToStep( 4 );
+			} )
+			.then( () => {
+				return true;
 			} )
 			.catch(
 				( e ) => {
@@ -665,10 +670,13 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 	 * @returns {void}
 	 */
 	function updateOnFinishEnableTracking() {
-		updateTracking( state )
+		return updateTracking( state )
 			.then( () => setStepIsSaved( 4 ) )
-			.then( () => finishSteps( "configuration", [ steps.enableTracking ] ) );
-		scrollToStep( 5 );
+			.then( () => finishSteps( "configuration", [ steps.enableTracking ] ) )
+			.then( () => {
+				scrollToStep( 5 );
+				return true;
+			} );
 	}
 
 	const toggleConfigurationWorkout = useCallback(
@@ -844,113 +852,51 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 			</p>
 			{ /* eslint-disable react/jsx-no-bind */ }
 			<div className="yst-mt-8">
-				{ /* <Stepper
-					steps={ [
-						{ name: "SEO data optimization",
-							component: <IndexationStep setIndexingState={ setIndexingState } indexingState={ indexingState } showRunIndexationAlert={ showRunIndexationAlert } />,
-							isSaved: isStepFinished( "configuration", steps.optimizeSeoData ),
-							beforeContinue: beforeContinueIndexationStep,
-						},
-						{ name: "Knowledge panel",
-							component: <SiteRepresentationStep onOrganizationOrPersonChange={ onOrganizationOrPersonChange } dispatch={ dispatch } state={ state } siteRepresentsPerson={ siteRepresentsPerson } onSiteTaglineChange={ onSiteTaglineChange } siteRepresentationEmpty={ siteRepresentationEmpty } />,
-							isSaved: isStepFinished( "configuration", steps.siteRepresentation ),
-							beforeContinue: () => {
-								finishStep( 1 );
-								return true;
-							},
-						},
-						{ name: "Social profiles",
-							component: <SocialProfilesStep state={ state } dispatch={ dispatch } setErrorFields={ setErrorFields } siteRepresentsPerson={ siteRepresentsPerson } />,
-							isSaved: isStepFinished( "configuration", steps.socialProfiles ),
-							beforeContinue: () => {
-								finishStep( 2 );
-								return true;
-							},
-						},
-						{ name: "Personal preferences",
-							component: <PersonalPreferencesStep state={ state } setTracking={ setTracking } isTrackingOptionSelected={ isTrackingOptionSelected } />,
-							isSaved: isStepFinished( "configuration", steps.newsletterSignup ),
-							beforeContinue: () => {
-								finishStep( 3 );
-								return true;
-							},
-						},
-						{ name: "Finish configuration",
-							component: <FinishStep />,
-							isSaved: isStepperFinished,
-							beforeContinue: finishStep,
-						},
-					] }
-					activeStepIndex={ activeStepIndex }
-					isStepperFinished={ isStepperFinished }
-				/> */ }
 				<Stepper
 					setActiveStepIndex={ setActiveStepIndex }
 					activeStepIndex={ activeStepIndex }
 					isStepperFinished={ isStepperFinished }
 				>
 					<Stepper.Step
-						name="indexation"
-						isSaved={ true }
-						beforeContinue={ beforeContinueIndexationStep }
+						name="SEO data optimization"
+						isFinished={ isStep1Finished }
 					>
 						<IndexationStep setIndexingState={ setIndexingState } indexingState={ indexingState } />
-						<Stepper.Buttons continueFunction={ () => { console.log( "Did an extra save thing" ); } } />
+						<Stepper.Continue
+							beforeContinue={ beforeContinueIndexationStep }
+						>
+							{ __( "Continue", "wordpress-seo" ) }
+						</Stepper.Continue>
 					</Stepper.Step>
 					<Stepper.Step
 						name="Site representation"
-						isSaved={ true }
-						beforeContinue={ () => { console.log( "saved" ); return true; } }
+						isFinished={ isStep2Finished }
 					>
 						<SiteRepresentationStep onOrganizationOrPersonChange={ onOrganizationOrPersonChange } dispatch={ dispatch } state={ state } siteRepresentsPerson={ siteRepresentsPerson } onSiteTaglineChange={ onSiteTaglineChange } siteRepresentationEmpty={ siteRepresentationEmpty } />
-						<Stepper.Buttons continueFunction={ () => { console.log( "Did an extra save thing" ); } } backFunction={ () => console.log( "Back it up" ) } backLabel="back it up!" />
+						<Stepper.Buttons beforeContinue={ updateOnFinishSiteRepresentation } continueLabel={ __( "Save and continue", "wordpress-seo" ) } backLabel="Cool custom back label" />
 					</Stepper.Step>
 					<Stepper.Step
-						name="test"
-						isSaved={ true }
-						beforeContinue={ () => { console.log( "saved" ); return true; } }
+						name="Social profiles"
+						isFinished={ isStep3Finished }
 					>
 						<SocialProfilesStep state={ state } dispatch={ dispatch } setErrorFields={ setErrorFields } siteRepresentsPerson={ siteRepresentsPerson } />
-						<Stepper.Buttons continueFunction={ () => { console.log( "Did an extra save thing" ); } } backFunction={ () => console.log( "Back it up" ) } backLabel="back it up!" />
+						<Stepper.Buttons beforeContinue={ updateOnFinishSocialProfiles } continueLabel={ __( "Save and continue", "wordpress-seo" ) } />
 					</Stepper.Step>
 					<Stepper.Step
-						name="test"
-						isSaved={ true }
-						beforeContinue={ () => { console.log( "saved" ); return true; } }
+						name="Personal preferences"
+						isFinished={ isStep4Finished }
 					>
 						<PersonalPreferencesStep state={ state } setTracking={ setTracking } isTrackingOptionSelected={ isTrackingOptionSelected } />
-						<Stepper.Buttons continueFunction={ () => { console.log( "Did an extra save thing" ); } } backFunction={ () => console.log( "Back it up" ) } backLabel="back it up!" />
+						<Stepper.Buttons beforeContinue={ updateOnFinishEnableTracking } continueLabel={ __( "Save and continue", "wordpress-seo" ) } />
 					</Stepper.Step>
 					<Stepper.Step
-						name="test"
-						isSaved={ true }
-						beforeContinue={ () => { console.log( "saved" ); return true; } }
-					>
-						<NewsletterSignup />
-						<Stepper.Buttons continueFunction={ () => { console.log( "Did an extra save thing" ); } } backFunction={ () => console.log( "Back it up" ) } backLabel="back it up!" />
-					</Stepper.Step>
-					<Stepper.Step
-						name="test"
-						isSaved={ true }
-						beforeContinue={ () => { console.log( "saved" ); return true; } }
-					>
-						<div><p>hoi Karlijn and Paolo</p></div>
-						<Stepper.Buttons continueLabel="NO GOING BACK NOW" continueFunction={ () => { console.log( "NO GOING BACK HERE" ); } } />
-					</Stepper.Step>
-					<Stepper.Step
-						name="test"
-						isSaved={ true }
-						beforeContinue={ () => { console.log( "saved" ); return true; } }
-					>
-						<div className="yst-bg-yellow-400"><p className="yst-bg-blue-500">RED</p></div>
-						<Stepper.Buttons continueFunction={ () => { console.log( "Did an extra save thing" ); } } backFunction={ () => console.log( "Back it up" ) } backLabel="back it up!" />
-					</Stepper.Step>
-					<Stepper.Step
-						name="test"
-						isSaved={ true }
-						beforeContinue={ () => { console.log( "saved" ); return true; } }
+						name="Finish configuration"
+						isFinished={ isWorkoutFinished }
 					>
 						<FinishStep />
+						<Stepper.Back className="yst-button yst-ml-3 yst-bg-cyan-600">
+							Cool back functionality
+						</Stepper.Back>
 					</Stepper.Step>
 				</Stepper>
 			</div>

@@ -15,10 +15,14 @@ const {
 
 const { fadeDuration, delayUntilStepFaded, slideDurationClass = slideDuration } = stepperTimingClasses;
 
-
 const StepperContext = createContext();
 
-function useStepperContext() {
+/**
+ * A hook for getting the StepperContext value, with an informative error message.
+ *
+ * @returns {*} The value provided to the StepperContext provider.
+ */
+export function useStepperContext() {
 	const context = useContext( StepperContext );
 	if ( ! context ) {
 	  throw new Error(
@@ -38,51 +42,107 @@ function useStepperContext() {
  *
  * @returns {WPElement} The StepButtons component.
  */
-function StepButtons( { continueFunction, backFunction, continueLabel, backLabel } ) {
-	const { stepIndex, setActiveStepIndex, lastStepIndex } = useStepperContext();
+function ContinueButton( { beforeContinue, children, ...restProps } ) {
+	const { stepIndex, setActiveStepIndex } = useStepperContext();
 
 	const forwardFunction = useCallback( async() => {
-		if ( continueFunction ) {
-			await continueFunction();
+		let canContinue = true;
+		if ( beforeContinue ) {
+			canContinue = false;
+			canContinue = await beforeContinue();
 		}
-		setActiveStepIndex( stepIndex + 1 );
-	}, [ setActiveStepIndex, stepIndex, continueFunction ] );
+		if ( canContinue ) {
+			setActiveStepIndex( stepIndex + 1 );
+		}
+	}, [ setActiveStepIndex, stepIndex, beforeContinue ] );
+
+	return <button
+		onClick={ forwardFunction }
+		className="yst-button--primary"
+		{ ...restProps }
+	>
+		{ children }
+	</button>;
+}
+
+ContinueButton.propTypes = {
+	beforeContinue: PropTypes.func,
+	children: PropTypes.node,
+};
+
+ContinueButton.defaultProps = {
+	beforeContinue: null,
+	children: <Fragment>{ __( "Continue", "wordpress-seo" ) }</Fragment>,
+};
+
+/**
+ * The StepButtons component.
+ *
+ * @param {Object}   props                 The props object.
+ * @param {number}   props.stepIndex       The index of the current step.
+ * @param {function} props.saveAndContinue A function to call when the primary button is clicked.
+ * @param {function} props.goBack          A function to call when the "Go Back" button is clicked.
+ *
+ * @returns {WPElement} The StepButtons component.
+ */
+function BackButton( { beforeBack, children, ...restProps } ) {
+	const { stepIndex, setActiveStepIndex } = useStepperContext();
 
 	const backwardFunction = useCallback( async() => {
-		if ( backFunction ) {
-			await backFunction();
+		if ( beforeBack ) {
+			await beforeBack();
 		}
 		setActiveStepIndex( stepIndex - 1 );
-	}, [ setActiveStepIndex, stepIndex, continueFunction ] );
+	}, [ setActiveStepIndex, stepIndex, beforeBack ] );
 
+	return <button
+		onClick={ backwardFunction }
+		className="yst-button--secondary"
+		{ ...restProps }
+	>
+		{ children }
+	</button>;
+}
+
+BackButton.propTypes = {
+	beforeBack: PropTypes.func,
+	children: PropTypes.node,
+};
+
+BackButton.defaultProps = {
+	beforeBack: null,
+	children: <Fragment>{ __( "Go back", "wordpress-seo" ) }</Fragment>,
+};
+
+/**
+ * A convenience class for the most common configuration of Stepper buttons: continue and back.
+ *
+ * @param {Object} props The props for the StepButtons.
+ * @param {function} props.beforeContinue A function to call before continueing. Should return true when ready to continue.
+ * @param {function} props.beforeBack A function to call before going back. Should return true when ready to go back.
+ * @param {string} props.continueLabel A label to display on the Continue Button.
+ * @param {string} props.backLabel A label to display on the Back Button.
+ *
+ * @returns {WPElement} The most common stepper buttons: continue and back.
+ */
+function StepButtons( { beforeContinue, continueLabel, beforeBack, backLabel } ) {
 	return <div className="yst-mt-12">
-		{ stepIndex !== lastStepIndex && <button
-			onClick={ forwardFunction }
-			className="yst-button--primary"
-		>
-			{ continueLabel }
-		</button> }
-		{ ( stepIndex > 0 && backFunction ) && <button
-			onClick={ backwardFunction }
-			className="yst-button--secondary yst-ml-3"
-		>
-			{ backLabel }
-		</button>
-		}
+		<ContinueButton beforeContinue={ beforeContinue }>{ continueLabel }</ContinueButton>
+		<BackButton className="yst-button--secondary yst-ml-3" beforeBack={ beforeBack }>{ backLabel }</BackButton>
 	</div>;
 }
 
 StepButtons.propTypes = {
-	continueFunction: PropTypes.func,
-	backFunction: PropTypes.func,
+	beforeContinue: PropTypes.func,
+	beforeBack: PropTypes.func,
 	continueLabel: PropTypes.string,
 	backLabel: PropTypes.string,
 };
 
 StepButtons.defaultProps = {
-	continueFunction: null,
-	backFunction: null,
-	continueLabel: __( "Save and continue", "wordpress-seo" ),
+	beforeContinue: null,
+	beforeBack: null,
+	continueLabel: __( "Continue", "wordpress-seo" ),
 	backLabel: __( "Go back", "wordpress-seo" ),
 };
 
@@ -93,38 +153,13 @@ StepButtons.defaultProps = {
  *
  * @returns {WPElement} The Step component.
  */
-export function TailwindStep( { name, description, isSaved, beforeContinue, children } ) {
+function Step( { name, description, isFinished, children } ) {
 	const { activeStepIndex, stepIndex, setActiveStepIndex, lastStepIndex, showEditButton, isStepBeingEdited, setIsStepBeingEdited } = useStepperContext();
 	const isLastStep = stepIndex === lastStepIndex;
 	const isActiveStep = activeStepIndex === stepIndex;
 
 	const [ contentHeight, setContentHeight ] = useState( isActiveStep ? "auto" : 0 );
 	const [ isFaded, setIsFaded ] = useState( ! isActiveStep );
-
-	const saveEditedStep = useCallback(
-		() => {
-			const canContinueToNextStep = beforeContinue();
-			if ( canContinueToNextStep === true ) {
-				setIsStepBeingEdited( false );
-				setActiveStepIndex( lastStepIndex );
-			}
-		},
-		[ beforeContinue, stepIndex, setActiveStepIndex, setIsStepBeingEdited ]
-	);
-
-	const saveAndContinue = useCallback(
-		() => {
-			const continueToNextStep = beforeContinue();
-			if ( continueToNextStep === true ) {
-				setActiveStepIndex( stepIndex + 1 );
-			}
-		},
-		[ setActiveStepIndex, beforeContinue, stepIndex ]
-	);
-
-	const goBack = useCallback( () => {
-		setActiveStepIndex( stepIndex - 1 );
-	}, [ stepIndex, setActiveStepIndex ] );
 
 	useEffect( () => {
 		if ( isActiveStep ) {
@@ -161,7 +196,7 @@ export function TailwindStep( { name, description, isSaved, beforeContinue, chil
 				name={ name }
 				description={ description }
 				isActiveStep={ isActiveStep }
-				isSaved={ isSaved }
+				isFinished={ isFinished }
 				isLastStep={ isLastStep }
 				showEditButton={ showEditButton }
 				editStep={ editStep }
@@ -182,16 +217,17 @@ export function TailwindStep( { name, description, isSaved, beforeContinue, chil
 		</Fragment>
 	);
 }
-TailwindStep.propTypes = {
+
+Step.propTypes = {
 	name: PropTypes.string.isRequired,
-	isSaved: PropTypes.bool.isRequired,
 	children: PropTypes.node.isRequired,
-	beforeContinue: PropTypes.func,
+	isFinished: PropTypes.bool,
 	description: PropTypes.string,
 };
-TailwindStep.defaultProps = {
+
+Step.defaultProps = {
+	isFinished: false,
 	description: "",
-	beforeContinue: () => true,
 };
 
 /**
@@ -232,6 +268,8 @@ Stepper.propTypes = {
 	children: PropTypes.node.isRequired,
 };
 
-Stepper.Step = TailwindStep;
+Stepper.Step = Step;
+Stepper.Continue = ContinueButton;
+Stepper.Back = BackButton;
 Stepper.Buttons = StepButtons;
 /* eslint-enable complexity, max-len */

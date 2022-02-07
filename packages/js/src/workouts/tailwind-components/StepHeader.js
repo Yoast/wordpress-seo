@@ -7,17 +7,17 @@ import { stepperTimings, stepperTimingClasses } from "../stepper-helper";
 /**
  * Gets the classnames for the step name.
  *
- * @param {boolean} isSaved      Whether the step is saved.
+ * @param {boolean} isFinished   Whether the step is finished.
  * @param {boolean} isActiveStep Whether the step is active.
  * @param {boolean} isLastStep   Whether it is the last step.
  *
  * @returns {string} The classnames for the step name.
  */
-function getNameClassnames( isSaved, isActiveStep, isLastStep ) {
+function getNameClassnames( isFinished, isActiveStep, isLastStep ) {
 	if ( isActiveStep && ! isLastStep ) {
 		return "yst-text-primary-500";
 	}
-	return isSaved ? "" : "yst-text-gray-500";
+	return isFinished ? "" : "yst-text-gray-500";
 }
 
 /* eslint-disable complexity */
@@ -27,7 +27,7 @@ function getNameClassnames( isSaved, isActiveStep, isLastStep ) {
  * @param {Object}   props                   The props object.
  * @param {Object}   props.step              An object representing a step.
  * @param {boolean}  props.isActiveStep      Whether the step is active.
- * @param {boolean}  props.isSaved           Whether the step is saved.
+ * @param {boolean}  props.isFinished        Whether the step is finished.
  * @param {boolean}  props.isLastStep        Whether it is the last step.
  * @param {boolean}  props.isStepBeingEdited Whether the step is being open for editing or not.
  * @param {boolean}  props.showEditButton    Whether to show the edit button or not.
@@ -35,14 +35,14 @@ function getNameClassnames( isSaved, isActiveStep, isLastStep ) {
  *
  * @returns {WPElement} The StepHeader component.
  */
-export default function StepHeader( { name, description, isActiveStep, isSaved, isLastStep, isStepBeingEdited, showEditButton, editStep } ) {
-	const nameClassNames = getNameClassnames( isSaved, isActiveStep, isLastStep );
+export default function StepHeader( { name, description, isActiveStep, isFinished, isLastStep, isStepBeingEdited, showEditButton, editStep } ) {
+	const nameClassNames = getNameClassnames( isFinished, isActiveStep, isLastStep );
 
 	return <div className="yst-relative yst-flex yst-items-center yst-group" aria-current={ isActiveStep ? "step" : null }>
 		<span className="yst-flex yst-items-center" aria-hidden={ isActiveStep ? "true" : null }>
 			<StepCircle
 				isActive={ isActiveStep }
-				isSaved={ isSaved }
+				isFinished={ isFinished }
 				isLastStep={ isLastStep }
 				activationDelay={ stepperTimings.delayBeforeOpening }
 				deactivationDelay={ 0 }
@@ -71,7 +71,7 @@ export default function StepHeader( { name, description, isActiveStep, isSaved, 
 StepHeader.propTypes = {
 	name: PropTypes.string.isRequired,
 	isActiveStep: PropTypes.bool.isRequired,
-	isSaved: PropTypes.bool.isRequired,
+	isFinished: PropTypes.bool.isRequired,
 	isLastStep: PropTypes.bool.isRequired,
 	isStepBeingEdited: PropTypes.bool.isRequired,
 	description: PropTypes.string,
