@@ -1,5 +1,5 @@
 /* global yoastIndexingData */
-import { Component, Fragment } from "@wordpress/element";
+import { Component, Fragment, useCallback, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 import { addHistoryState, removeSearchParam } from "../../helpers/urlHelpers";
@@ -7,6 +7,7 @@ import IndexingError from "./IndexingError";
 import Alert from "./alert";
 import RequestError from "../../errors/RequestError";
 import ParseError from "../../errors/ParseError";
+import AnimateHeight from "react-animate-height";
 
 const STATE = {
 	/**
@@ -340,14 +341,19 @@ export class Indexation extends Component {
 					style={ { width: `${ percentageIndexed }%` } }
 				/>
 			</div>
-			{ this.isState( STATE.IN_PROGRESS ) &&
-				<p className="yst-text-sm yst-italic yst-mb-4">
+			<AnimateHeight
+				id="optimization-in-progress-text"
+				height={ this.isState( STATE.IN_PROGRESS ) ? "auto" : 0 }
+				easing="linear"
+				duration={ 300 }
+			>
+				<p className={ "yst-text-sm yst-italic yst-mb-4" }>
 					{
 						__( "SEO data optimization is running… You can safely move on to the next steps of this configuration.",
 							"wordpress-seo" )
 					}
 				</p>
-			}
+			</AnimateHeight>
 		</Fragment>;
 	}
 
