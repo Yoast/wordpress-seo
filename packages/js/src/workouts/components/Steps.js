@@ -13,7 +13,7 @@ import { __ } from "@wordpress/i18n";
  */
 export function Steps( props ) {
 	return (
-		<ol id={ props.id } className="yst-overflow-hidden">
+		<ol id={ props.id } className="workflow">
 			{ props.children }
 		</ol>
 	);
