@@ -220,9 +220,11 @@ class Structured_Data_Blocks implements Integration_Interface {
 				if ( $style_matches && isset( $style_matches[1] ) ) {
 					$width        = (int) $style_matches[1];
 					$meta_data    = \wp_get_attachment_metadata( $attachment_id );
-					$aspect_ratio = ( $meta_data['height'] / $meta_data['width'] );
-					$height       = ( $width * $aspect_ratio );
-					$image_size   = [ $width, $height ];
+					if ( isset( $meta_data['height'] ) && isset( $meta_data['width'] ) && $meta_data['height'] > 0 && $meta_data['width'] > 0 ) {
+						$aspect_ratio = ( $meta_data['height'] / $meta_data['width'] );
+						$height       = ( $width * $aspect_ratio );
+						$image_size   = [ $width, $height ];
+					}
 				}
 
 				/**
