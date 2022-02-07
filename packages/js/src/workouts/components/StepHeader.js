@@ -18,17 +18,22 @@ function getNameClassnames( isSaved, isActiveStep, isLastStep ) {
 	return isSaved ? "" : "yst-text-gray-500";
 }
 
+/* eslint-disable complexity */
 /**
  * The Step header component.
  *
- * @param {Object}   props                 The props object.
- * @param {number}   props.stepIndex       The index of the current step.
- * @param {function} props.saveAndContinue A function to call when the primary button is clicked.
- * @param {function} props.goBack          A function to call when the "Go Back" button is clicked.
+ * @param {Object}   props                   The props object.
+ * @param {Object}   props.step              An object representing a step.
+ * @param {boolean}  props.isActiveStep      Whether the step is active.
+ * @param {boolean}  props.isSaved           Whether the step is saved.
+ * @param {boolean}  props.isLastStep        Whether it is the last step.
+ * @param {boolean}  props.isStepBeingEdited Whether the step is being open for editing or not.
+ * @param {boolean}  props.showEditButton    Whether to show the edit button or not.
+ * @param {function} props.editStep          A function to call when the "Edit" button is pressed.
  *
- * @returns {WPElement} The StepButtons component.
+ * @returns {WPElement} The StepHeader component.
  */
-export default function StepHeader( { step, isActiveStep, isSaved, isLastStep, showEditButton, editStep } ) {
+export default function StepHeader( { step, isActiveStep, isSaved, isLastStep, isStepBeingEdited, showEditButton, editStep } ) {
 	const nameClassNames = getNameClassnames( isSaved, isActiveStep, isLastStep );
 
 	return <div className="yst-relative yst-flex yst-items-start yst-group" aria-current={ isActiveStep ? "step" : null }>
@@ -48,9 +53,9 @@ export default function StepHeader( { step, isActiveStep, isSaved, isLastStep, s
 			</span>
 			{ step.description && <span className="yst-text-sm yst-text-gray-500">{ step.description }</span> }
 		</span>
-		{ ( showEditButton && ! isLastStep ) &&
+		{ ( showEditButton && ! isLastStep && ! isStepBeingEdited ) &&
 			<button
-				className="yst-button--secondary yst-button--small yst-ml-auto"
+				className="yst-button--secondary yst-button--small yst-ml-auto yst-m-1"
 				onClick={ editStep }
 			>
 				Edit
@@ -67,14 +72,17 @@ const stepShape = PropTypes.shape( {
 
 StepHeader.propTypes = {
 	step: stepShape.isRequired,
-	isLastStep: PropTypes.bool.isRequired,
-	showEditButton: PropTypes.bool,
-	editStep: PropTypes.func,
 	isActiveStep: PropTypes.bool.isRequired,
 	isSaved: PropTypes.bool.isRequired,
+	isLastStep: PropTypes.bool.isRequired,
+	isStepBeingEdited: PropTypes.bool.isRequired,
+	showEditButton: PropTypes.bool,
+	editStep: PropTypes.func,
 };
 
 StepHeader.defaultProps = {
-	editStep: null,
 	showEditButton: false,
+	editStep: null,
 };
+
+/* eslint-enable complexity */

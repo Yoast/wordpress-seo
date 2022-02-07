@@ -63,7 +63,7 @@ const stepShape = PropTypes.shape( {
  *
  * @returns {WPElement} The Step component.
  */
-function TailwindStep( { step, stepIndex, isLastStep, saveStep, activeStepIndex, setActiveStepIndex, showEditButton } ) {
+function TailwindStep( { step, stepIndex, lastStepIndex, isLastStep, saveStep, activeStepIndex, setActiveStepIndex, showEditButton, isStepBeingEdited, setIsStepBeingEdited } ) {
 	const isActiveStep = activeStepIndex === stepIndex;
 	const isSaved = step.isSaved;
 
@@ -73,9 +73,10 @@ function TailwindStep( { step, stepIndex, isLastStep, saveStep, activeStepIndex,
 	const saveEditedStep = useCallback(
 		() => {
 			saveStep( stepIndex );
-			// Expand the last step?
+			setIsStepBeingEdited( false );
+			setActiveStepIndex( lastStepIndex );
 		},
-		[ saveStep, stepIndex ]
+		[ saveStep, stepIndex, setActiveStepIndex, setIsStepBeingEdited ]
 	);
 
 	const continueToNextStep = useCallback(
@@ -110,7 +111,8 @@ function TailwindStep( { step, stepIndex, isLastStep, saveStep, activeStepIndex,
 
 	const editStep = useCallback( () => {
 		setActiveStepIndex( stepIndex );
-	}, [ stepIndex, setActiveStepIndex ] );
+		setIsStepBeingEdited( true );
+	}, [ stepIndex, setActiveStepIndex, setIsStepBeingEdited ] );
 
 	return (
 		<Fragment>
@@ -135,6 +137,7 @@ function TailwindStep( { step, stepIndex, isLastStep, saveStep, activeStepIndex,
 				isLastStep={ isLastStep }
 				showEditButton={ showEditButton }
 				editStep={ editStep }
+				isStepBeingEdited={ isStepBeingEdited }
 			/>
 
 			{ /* Child component and buttons. */ }
@@ -170,11 +173,14 @@ function TailwindStep( { step, stepIndex, isLastStep, saveStep, activeStepIndex,
 TailwindStep.propTypes = {
 	step: stepShape.isRequired,
 	stepIndex: PropTypes.number.isRequired,
+	lastStepIndex: PropTypes.number.isRequired,
 	isLastStep: PropTypes.bool.isRequired,
 	setActiveStepIndex: PropTypes.func.isRequired,
 	saveStep: PropTypes.func,
 	activeStepIndex: PropTypes.number.isRequired,
 	showEditButton: PropTypes.bool,
+	setIsStepBeingEdited: PropTypes.func.isRequired,
+	isStepBeingEdited: PropTypes.bool.isRequired,
 };
 TailwindStep.defaultProps = {
 	saveStep: () => { },
@@ -189,6 +195,15 @@ TailwindStep.defaultProps = {
  * @returns {WPElement} The Stepper component.
  */
 export default function Stepper( { steps, setActiveStepIndex, saveStep, activeStepIndex, isStepperFinished } ) {
+	const [ isStepBeingEdited, setIsStepBeingEdited ] = useState( false );
+	const [ showEditButton, setShowEditButton ] = useState( isStepperFinished );
+	// The stepper needs to signal to each step to not to show edit buttons when a step is being edited (needs a function here to pass to each tailwindstep)
+
+	useEffect( () => {
+		if ( isStepperFinished ) {
+			setShowEditButton( isStepperFinished );
+		}
+	}, [ isStepperFinished ] );
 	return (
 		<ol className="yst-overflow-hidden">
 			{ steps.map( ( step, stepIndex ) => (
@@ -196,11 +211,14 @@ export default function Stepper( { steps, setActiveStepIndex, saveStep, activeSt
 					<TailwindStep
 						step={ step }
 						stepIndex={ stepIndex }
+						lastStepIndex={ steps.length - 1 }
 						isLastStep={ stepIndex === steps.length - 1 }
 						setActiveStepIndex={ setActiveStepIndex }
 						saveStep={ saveStep }
 						activeStepIndex={ activeStepIndex }
-						showEditButton={ isStepperFinished }
+						showEditButton={ showEditButton }
+						setIsStepBeingEdited={ setIsStepBeingEdited }
+						isStepBeingEdited={ isStepBeingEdited }
 					/>
 				</li>
 			) ) }
@@ -213,6 +231,7 @@ Stepper.propTypes = {
 	saveStep: PropTypes.func,
 	activeStepIndex: PropTypes.number.isRequired,
 	isStepperFinished: PropTypes.bool.isRequired,
+
 };
 Stepper.defaultProps = {
 	saveStep: () => { },
