@@ -33,6 +33,7 @@ describe( "a test for getting the initial state of a post or a term", () => {
 		expect( actual.editor.excerpt ).toEqual( "An example of excerpt from a content." );
 		expect( actual.editor.content ).toEqual( "Tortoiseshell is a cat coat coloring named for its similarity to tortoiseshell material." );
 		expect( actual.editor.featuredImage ).toEqual( {} );
+		expect( actual.editor.locale ).toEqual( "en_US" );
 		expect( actual.form.seo.title ).toEqual( "Tortoiseshell cat - All about cats" );
 		expect( actual.form.seo.description ).toEqual( "Cats with tortoiseshell coloration are believed to bring good luck." );
 		expect( actual.form.seo.slug ).toEqual( "www.sweetcat.com/tortoiseshell-cat" );
@@ -46,6 +47,7 @@ describe( "a test for getting the initial state of a post or a term", () => {
 		expect( actual.editor.permalink ).toEqual( "www.sweetcat.com/categories" );
 		expect( actual.editor.excerpt ).toEqual( "This is another meta description about another pretty little cat." );
 		expect( actual.editor.content ).toEqual( "This is to describe a cat, that deserves only good attributes to them." );
+		expect( actual.editor.locale ).toEqual( "en_US" );
 		expect( actual.form.seo.title ).toEqual( "A title befitting a beautiful cat" );
 		expect( actual.form.seo.description ).toEqual( "An example of a description for a cat." );
 		expect( actual.form.seo.slug ).toEqual( "www.sweetcat.com/categories/cat" );

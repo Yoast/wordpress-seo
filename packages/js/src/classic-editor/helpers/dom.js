@@ -2,6 +2,7 @@
 import { flow, get, isEqual, set } from "lodash";
 import { excerptFromContent } from "../../helpers/replacementVariableHelpers";
 import { getContentTinyMce } from "../../lib/tinymce";
+import getContentLocale from "../../analysis/getContentLocale";
 
 export const DOM_IDS = {
 	// Post editor.
@@ -315,18 +316,26 @@ export const getPostPermalink = () => get( window, "wpseoScriptData.metabox.base
 export const getTermPermalink = () => get( window, "wpseoScriptData.metabox.base_url", "" ) + getTermSlug();
 
 /**
+ * Gets the limit for the meta description based on the locale.
+ *
+ * @returns {number} 80 for texts in Japanese, 156 for other languages.
+ */
+export const getMetaDescriptionLimit = () => getContentLocale() === "ja" ? 80 : 156;
+
+/**
  * Gets the post excerpt from the document.
  *
  * @returns {string} The post excerpt or an empty string.
  */
-export const getPostExcerpt = () => get( document.getElementById( DOM_IDS.POST_EXCERPT ), "value", "" ) || excerptFromContent( getPostContent() );
+export const getPostExcerpt = () => get( document.getElementById( DOM_IDS.POST_EXCERPT ), "value", "" ) ||
+	excerptFromContent( getPostContent(), getMetaDescriptionLimit() );
 
 /**
  * Gets the term excerpt from the document.
  *
  * @returns {string} The term excerpt.
  */
-export const getTermExcerpt = () => excerptFromContent( getTermDescription() );
+export const getTermExcerpt = () => excerptFromContent( getTermDescription(), getMetaDescriptionLimit() );
 
 /**
  * Gets the post featured image source if one is set.

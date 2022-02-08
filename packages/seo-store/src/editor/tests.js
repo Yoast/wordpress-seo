@@ -11,6 +11,7 @@ describe( "Editor slice", () => {
 		excerpt: "",
 		date: "",
 		featuredImage: {},
+		locale: "",
 		categories: [],
 	};
 
@@ -87,31 +88,42 @@ describe( "Editor slice", () => {
 			} );
 		} );
 
+		test( "should update the locale", () => {
+			const { updateLocale } = editorActions;
+
+			const result = editorReducer( initialState, updateLocale( "ja" ) );
+
+			expect( result ).toEqual( {
+				...initialState,
+				locale: "ja",
+			} );
+		} );
+
 		test( "should update the categories", () => {
 			const { updateCategories } = editorActions;
 
 			const result = editorReducer( initialState, updateCategories( [
 				{
-					id: '1',
-					name: 'category 1'
+					id: "1",
+					name: "category 1",
 				},
 				{
-					id: '2',
-					name: 'category 2'
-				}
+					id: "2",
+					name: "category 2",
+				},
 			] ) );
 
 			expect( result ).toEqual( {
 				...initialState,
 				categories: [
 					{
-						id: '1',
-						name: 'category 1'
+						id: "1",
+						name: "category 1",
 					},
 					{
-						id: '2',
-						name: 'category 2'
-					}
+						id: "2",
+						name: "category 2",
+					},
 				],
 			} );
 		} );
