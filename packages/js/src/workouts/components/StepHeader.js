@@ -38,8 +38,8 @@ function getNameClassnames( isSaved, isActiveStep, isLastStep ) {
 export default function StepHeader( { step, isActiveStep, isSaved, isLastStep, isStepBeingEdited, showEditButton, editStep } ) {
 	const nameClassNames = getNameClassnames( isSaved, isActiveStep, isLastStep );
 
-	return <div className="yst-relative yst-flex yst-items-start yst-group" aria-current={ isActiveStep ? "step" : null }>
-		<span className="yst-flex yst-items-center yst-self-center" aria-hidden={ isActiveStep ? "true" : null }>
+	return <div className="yst-relative yst-flex yst-items-center yst-group" aria-current={ isActiveStep ? "step" : null }>
+		<span className="yst-flex yst-items-center" aria-hidden={ isActiveStep ? "true" : null }>
 			<StepCircle
 				isActive={ isActiveStep }
 				isSaved={ isSaved }
@@ -49,7 +49,7 @@ export default function StepHeader( { step, isActiveStep, isSaved, isLastStep, i
 			/>
 		</span>
 		{ /* Name and description. */ }
-		<span className="yst-ml-4 yst-min-w-0 yst-flex yst-flex-col yst-self-center">
+		<span className="yst-ml-4 yst-min-w-0 yst-flex yst-flex-col">
 			<span className={ "yst-text-xs yst-font-semibold yst-tracking-wide yst-uppercase " + nameClassNames }>
 				{ step.name }
 			</span>
@@ -57,7 +57,7 @@ export default function StepHeader( { step, isActiveStep, isSaved, isLastStep, i
 		</span>
 		{ ( ! isLastStep ) &&
 			<button
-				className={ `yst-button--secondary yst-button--small yst-ml-auto yst-m-1 yst-transition-opacity yst-duration-1000 yst-relative yst-ease-out ${
+				className={ `yst-button--secondary yst-button--small yst-ml-auto yst-mr-1 yst-transition-opacity yst-duration-1000 yst-relative yst-ease-out ${
 					( showEditButton && ! isStepBeingEdited )
 						? `${stepperTimingClasses.fadeDuration} yst-opacity-100`
 						: `${stepperTimingClasses.delayBeforeOpening} yst-opacity-0` }` }

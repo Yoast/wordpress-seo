@@ -205,7 +205,7 @@ export default function Stepper( { steps, setActiveStepIndex, saveStep, activeSt
 		}
 	}, [ isStepperFinished ] );
 	return (
-		<ol className="yst-overflow-hidden">
+		<ol>
 			{ steps.map( ( step, stepIndex ) => (
 				<li key={ step.name } className={ ( stepIndex === steps.length - 1 ? "" : "yst-pb-8" ) + " yst-mb-0 yst-relative" }>
 					<TailwindStep
