@@ -41,4 +41,13 @@ class Indexable_Builder_Versions {
 
 		return $this->indexable_builder_versions_by_type[ $object_type ];
 	}
+
+	/**
+	 * Get a unique key for the current state of all combined indexable versions.
+	 *
+	 * @return string a unique key for the current state of all combined indexable versions.
+	 */
+	public function get_combined_version_key() {
+		return implode( '-', array_values( $this->indexable_builder_versions_by_type ) );
+	}
 }
