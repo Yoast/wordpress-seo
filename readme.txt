@@ -246,7 +246,7 @@ Enhancements:
 
 Bugfixes:
 
-* Fixes bug where the "Save changes" button overlaps the admin sidebar on WordPress.com
+* Fixes a bug where the "Save changes" button overlaps with the admin sidebar on WordPress.com. Props to @DustyReagan.
 * Fixes a bug where a (debug) deprecation message would show in the widget editor on WordPress 5.8 and above.
 
 Other:
