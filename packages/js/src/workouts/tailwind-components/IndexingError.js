@@ -2,18 +2,6 @@ import PropTypes from "prop-types";
 import Alert from "./alert";
 import { __ } from "@wordpress/i18n";
 import RequestError from "../../errors/RequestError";
-import styled from "styled-components";
-
-const ErrorDetails = styled.div`
-	margin-top: 8px;
-`;
-
-const Preformatted = styled.pre`
-	overflow-x: scroll;
-	max-width: 500px;
-	border: 1px solid;
-	padding: 16px;
-`;
 
 /**
  * Shows a value for in the error details.
@@ -59,9 +47,9 @@ function ErrorBox( { title, value } ) {
 
 	return <details>
 		<summary>{ title }</summary>
-		<Preformatted>
+		<pre className="yst-overflow-x-scroll yst-max-w-[500px] yst-border-px yst-p-4">
 			{ value }
-		</Preformatted>
+		</pre>
 	</details>;
 }
 
@@ -87,14 +75,14 @@ export default function IndexingError( { message, error } ) {
 		<div dangerouslySetInnerHTML={ { __html: message } } />
 		<details>
 			<summary>{ __( "Error details", "wordpress-seo" ) }</summary>
-			<ErrorDetails>
+			<div className="yst-mt-2">
 				<ErrorLine title={ __( "Request URL", "wordpress-seo" ) } value={ error.url } />
 				<ErrorLine title={ __( "Request method", "wordpress-seo" ) } value={ error.method } />
 				<ErrorLine title={ __( "Status code", "wordpress-seo" ) } value={ error.statusCode } />
 				<ErrorLine title={ __( "Error message", "wordpress-seo" ) } value={ error.message } />
 				<ErrorBox title={ __( "Response", "wordpress-seo" ) } value={ error.parseString } />
 				<ErrorBox title={ __( "Error stack trace", "wordpress-seo" ) } value={ error.stackTrace } />
-			</ErrorDetails>
+			</div>
 		</details>
 	</Alert>;
 }
