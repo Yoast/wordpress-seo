@@ -45,7 +45,7 @@ class Site_Options_Service extends Abstract_Options_Service {
 		],
 		'og_default_image_id'                         => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'empty_string', 'integer' ],
 		],
 		'og_frontpage_desc'                           => [
 			'default' => '',
@@ -57,15 +57,15 @@ class Site_Options_Service extends Abstract_Options_Service {
 		],
 		'og_frontpage_image_id'                       => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'empty_string', 'integer' ],
 		],
 		'og_frontpage_title'                          => [
 			'default' => '',
 			'types'   => [ 'string' ],
 		],
 		'opengraph'                                   => [
-			'default' => '',
-			'types'   => [ 'string' ],
+			'default' => true,
+			'types'   => [ 'boolean' ],
 		],
 		'pinterest_url'                               => [
 			'default' => '',
@@ -76,8 +76,8 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'types'   => [ 'string' ],
 		],
 		'twitter'                                     => [
-			'default' => '',
-			'types'   => [ 'string' ],
+			'default' => true,
+			'types'   => [ 'boolean' ],
 		],
 		'twitter_card_type'                           => [
 			'default' => '',
@@ -177,7 +177,7 @@ class Site_Options_Service extends Abstract_Options_Service {
 		// Titles.
 		'activation_redirect_timestamp_free'          => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'integer' ],
 		],
 		'alternate_website_name'                      => [
 			'default' => '',
@@ -196,16 +196,16 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'types'   => [ 'string' ],
 		],
 		'breadcrumbs-boldlast'                        => [
-			'default' => '',
-			'types'   => [ 'string' ],
+			'default' => false,
+			'types'   => [ 'boolean' ],
 		],
 		'breadcrumbs-display-blog-page'               => [
-			'default' => '',
-			'types'   => [ 'string' ],
+			'default' => true,
+			'types'   => [ 'boolean' ],
 		],
 		'breadcrumbs-enable'                          => [
-			'default' => '',
-			'types'   => [ 'string' ],
+			'default' => true,
+			'types'   => [ 'boolean' ],
 		],
 		'breadcrumbs-home'                            => [
 			'default' => '',
@@ -229,7 +229,7 @@ class Site_Options_Service extends Abstract_Options_Service {
 		],
 		'company_logo_id'                             => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'integer' ],
 		],
 		'company_logo_meta'                           => [
 			'default' => '',
@@ -245,35 +245,36 @@ class Site_Options_Service extends Abstract_Options_Service {
 		],
 		'company_or_person_user_id'                   => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'integer' ],
 		],
 		'disable-attachment'                          => [
-			'default' => '',
-			'types'   => [ 'string' ],
+			'default' => true,
+			'types'   => [ 'boolean' ],
 		],
 		'disable-author'                              => [
-			'default' => '',
-			'types'   => [ 'string' ],
+			'default' => false,
+			'types'   => [ 'boolean' ],
 		],
 		'disable-date'                                => [
-			'default' => '',
-			'types'   => [ 'string' ],
+			'default' => false,
+			'types'   => [ 'boolean' ],
 		],
 		'disable-post_format'                         => [
-			'default' => '',
-			'types'   => [ 'string' ],
+			'default' => false,
+			'types'   => [ 'boolean' ],
 		],
 		'display-metabox-pt-<PostTypeName>'           => [
-			'default' => '',
-			'types'   => [ 'string' ],
+			'default' => false, // True for public post types.
+			'types'   => [ 'boolean' ],
 		],
 		'display-metabox-tax-<TaxonomyName>'          => [
-			'default' => '',
-			'types'   => [ 'string' ],
+			'default' => false, // True for public taxonomies.
+			'types'   => [ 'boolean' ],
 		],
 		'forcerewritetitle'                           => [
-			'default' => '',
-			'types'   => [ 'string' ],
+			'default'    => false,
+			'types'      => [ 'boolean' ],
+			'ms_exclude' => true,
 		],
 		'metadesc-<PostTypeName>'                     => [
 			'default' => '',
@@ -300,28 +301,28 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'types'   => [ 'string' ],
 		],
 		'noindex-<PostTypeName>'                      => [
-			'default' => '',
-			'types'   => [ 'string' ],
+			'default' => false,
+			'types'   => [ 'boolean' ],
 		],
 		'noindex-archive-wpseo'                       => [
-			'default' => '',
-			'types'   => [ 'string' ],
+			'default' => true,
+			'types'   => [ 'boolean' ],
 		],
 		'noindex-author-noposts-wpseo'                => [
-			'default' => '',
-			'types'   => [ 'string' ],
+			'default' => true,
+			'types'   => [ 'boolean' ],
 		],
 		'noindex-author-wpseo'                        => [
-			'default' => '',
-			'types'   => [ 'string' ],
+			'default' => false,
+			'types'   => [ 'boolean' ],
 		],
 		'noindex-ptarchive-<PostTypeName>'            => [
-			'default' => '',
-			'types'   => [ 'string' ],
+			'default' => false,
+			'types'   => [ 'boolean' ],
 		],
 		'noindex-tax-<TaxonomyName>'                  => [
-			'default' => '',
-			'types'   => [ 'string' ],
+			'default' => false, // Except when the taxonomy name === 'post_format'.
+			'types'   => [ 'boolean' ],
 		],
 		'open_graph_frontpage_desc'                   => [
 			'default' => '',
@@ -333,7 +334,7 @@ class Site_Options_Service extends Abstract_Options_Service {
 		],
 		'open_graph_frontpage_image_id'               => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'integer' ],
 		],
 		'open_graph_frontpage_title'                  => [
 			'default' => '',
@@ -345,7 +346,7 @@ class Site_Options_Service extends Abstract_Options_Service {
 		],
 		'person_logo_id'                              => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'integer' ],
 		],
 		'person_logo_meta'                            => [
 			'default' => '',
@@ -401,23 +402,23 @@ class Site_Options_Service extends Abstract_Options_Service {
 		],
 		'social-image-id-<PostTypeName>'              => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'integer' ],
 		],
 		'social-image-id-archive-wpseo'               => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'integer' ],
 		],
 		'social-image-id-author-wpseo'                => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'integer' ],
 		],
 		'social-image-id-ptarchive-<PostTypeName>'    => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'integer' ],
 		],
 		'social-image-id-tax-{TaxonomyName}'          => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'integer' ],
 		],
 		'social-image-url-<PostTypeName>'             => [
 			'default' => '',
@@ -460,8 +461,8 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'types'   => [ 'string' ],
 		],
 		'stripcategorybase'                           => [
-			'default' => '',
-			'types'   => [ 'string' ],
+			'default' => false,
+			'types'   => [ 'boolean' ],
 		],
 		'taxonomy-{TaxonomyName}-ptparent'            => [
 			'default' => '',
@@ -506,8 +507,8 @@ class Site_Options_Service extends Abstract_Options_Service {
 
 		// WPSEO.
 		'algolia_integration_active'                  => [
-			'default' => '',
-			'types'   => [ 'string' ],
+			'default' => false,
+			'types'   => [ 'boolean' ],
 		],
 		'baiduverify'                                 => [
 			'default' => '',
@@ -518,56 +519,66 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'types'   => [ 'string' ],
 		],
 		'content_analysis_active'                     => [
-			'default' => '',
-			'types'   => [ 'string' ],
+			'default'   => true,
+			'types'     => [ 'boolean' ],
+			'ms_verify' => true,
 		],
 		'custom_taxonomy_slugs'                       => [
 			'default' => '',
 			'types'   => [ 'string' ],
 		],
 		'disableadvanced_meta'                        => [
-			'default' => '',
-			'types'   => [ 'string' ],
+			'default'   => true,
+			'types'     => [ 'boolean' ],
+			'ms_verify' => true,
 		],
 		'dismiss_configuration_workout_notice'        => [
-			'default' => '',
-			'types'   => [ 'string' ],
+			'default' => false,
+			'types'   => [ 'boolean' ],
 		],
 		'dynamic_permalinks'                          => [
-			'default' => '',
-			'types'   => [ 'string' ],
+			'default' => false,
+			'types'   => [ 'boolean' ],
 		],
 		'enable_admin_bar_menu'                       => [
-			'default' => '',
-			'types'   => [ 'string' ],
+			'default'   => true,
+			'types'     => [ 'boolean' ],
+			'ms_verify' => true,
 		],
 		'enable_cornerstone_content'                  => [
-			'default' => '',
-			'types'   => [ 'string' ],
+			'default'   => true,
+			'types'     => [ 'boolean' ],
+			'ms_verify' => true,
 		],
 		'enable_enhanced_slack_sharing'               => [
-			'default' => '',
-			'types'   => [ 'string' ],
+			'default'   => true,
+			'types'     => [ 'boolean' ],
+			'ms_verify' => true,
 		],
 		'enable_headless_rest_endpoints'              => [
-			'default' => '',
-			'types'   => [ 'string' ],
+			'default'   => true,
+			'types'     => [ 'boolean' ],
+			'ms_verify' => true,
 		],
 		'enable_link_suggestions'                     => [
-			'default' => '',
-			'types'   => [ 'string' ],
+			'default'   => true,
+			'types'     => [ 'boolean' ],
+			'ms_verify' => true,
 		],
 		'enable_metabox_insights'                     => [
-			'default' => '',
-			'types'   => [ 'string' ],
+			'default'   => true,
+			'types'     => [ 'boolean' ],
+			'ms_verify' => true,
 		],
 		'enable_text_link_counter'                    => [
-			'default' => '',
-			'types'   => [ 'string' ],
+			'default'   => true,
+			'types'     => [ 'boolean' ],
+			'ms_verify' => true,
 		],
 		'enable_xml_sitemap'                          => [
-			'default' => '',
-			'types'   => [ 'string' ],
+			'default'   => true,
+			'types'     => [ 'boolean' ],
+			'ms_verify' => true,
 		],
 		'environment_type'                            => [
 			'default' => '',
@@ -575,11 +586,11 @@ class Site_Options_Service extends Abstract_Options_Service {
 		],
 		'first_activated_on'                          => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'integer' ],
 		],
 		'first_time_install'                          => [
-			'default' => '',
-			'types'   => [ 'string' ],
+			'default' => false,
+			'types'   => [ 'boolean' ],
 		],
 		'googleverify'                                => [
 			'default' => '',
@@ -594,8 +605,9 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'types'   => [ 'string' ],
 		],
 		'ignore_search_engines_discouraged_notice'    => [
-			'default' => '',
-			'types'   => [ 'string' ],
+			'default'    => false,
+			'types'      => [ 'boolean' ],
+			'ms_exclude' => true,
 		],
 		'import_cursors'                              => [
 			'default' => '',
@@ -606,12 +618,12 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'types'   => [ 'string' ],
 		],
 		'indexables_indexing_completed'               => [
-			'default' => '',
-			'types'   => [ 'string' ],
+			'default' => false,
+			'types'   => [ 'boolean' ],
 		],
 		'indexing_first_time'                         => [
-			'default' => '',
-			'types'   => [ 'string' ],
+			'default' => true,
+			'types'   => [ 'boolean' ],
 		],
 		'indexing_reason'                             => [
 			'default' => '',
@@ -619,25 +631,22 @@ class Site_Options_Service extends Abstract_Options_Service {
 		],
 		'indexing_started'                            => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'integer' ],
 		],
 		'keyword_analysis_active'                     => [
-			'default' => '',
-			'types'   => [ 'string' ],
+			'default'   => true,
+			'types'     => [ 'boolean' ],
+			'ms_verify' => true,
 		],
 		'license_server_version'                      => [
 			'default' => '',
 			'types'   => [ 'string' ],
 		],
 		'ms_defaults_set'                             => [
-			'default' => '',
-			'types'   => [ 'string' ],
+			'default' => false,
+			'types'   => [ 'boolean' ],
 		],
 		'msverify'                                    => [
-			'default' => '',
-			'types'   => [ 'string' ],
-		],
-		'myyoast-oauth'                               => [
 			'default' => '',
 			'types'   => [ 'string' ],
 		],
@@ -650,28 +659,30 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'types'   => [ 'string' ],
 		],
 		'ryte_indexability'                           => [
-			'default' => '',
-			'types'   => [ 'string' ],
+			'default'   => true,
+			'types'     => [ 'boolean' ],
+			'ms_verify' => true,
 		],
 		'semrush_country_code'                        => [
 			'default' => '',
 			'types'   => [ 'string' ],
 		],
 		'semrush_integration_active'                  => [
-			'default' => '',
-			'types'   => [ 'string' ],
+			'default'   => true,
+			'types'     => [ 'boolean' ],
+			'ms_verify' => true,
 		],
 		'semrush_tokens'                              => [
 			'default' => '',
 			'types'   => [ 'string' ],
 		],
 		'should_redirect_after_install_free'          => [
-			'default' => '',
-			'types'   => [ 'string' ],
+			'default' => false,
+			'types'   => [ 'boolean' ],
 		],
 		'show_onboarding_notice'                      => [
-			'default' => '',
-			'types'   => [ 'string' ],
+			'default' => false,
+			'types'   => [ 'boolean' ],
 		],
 		'site_type'                                   => [
 			'default' => '',
@@ -682,20 +693,22 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'types'   => [ 'string' ],
 		],
 		'tracking'                                    => [
-			'default' => '',
-			'types'   => [ 'string' ],
+			'default'   => null,
+			'types'     => [ 'boolean' ],
+			'ms_verify' => true,
 		],
 		'version'                                     => [
 			'default' => '',
 			'types'   => [ 'is_equal' => [ 'equals' => WPSEO_VERSION ] ],
 		],
 		'wincher_automatically_add_keyphrases'        => [
-			'default' => '',
-			'types'   => [ 'string' ],
+			'default' => false,
+			'types'   => [ 'boolean' ],
 		],
 		'wincher_integration_active'                  => [
-			'default' => '',
-			'types'   => [ 'string' ],
+			'default'   => true,
+			'types'     => [ 'boolean' ],
+			'ms_verify' => true,
 		],
 		'wincher_tokens'                              => [
 			'default' => '',
@@ -718,8 +731,9 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'types'   => [ 'string' ],
 		],
 		'zapier_integration_active'                   => [
-			'default' => '',
-			'types'   => [ 'string' ],
+			'default'   => false,
+			'types'     => [ 'boolean' ],
+			'ms_verify' => true,
 		],
 		'zapier_subscription'                         => [
 			'default' => '',

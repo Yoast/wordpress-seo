@@ -20,7 +20,7 @@ class Missing_Configuration_Key_Exception extends Abstract_Option_Exception {
 			\sprintf(
 			/* translators: %1$s expands to the name of the option. %2$s expands to the key that is missing. */
 				\esc_html__( 'The configuration of option "%1$s" does not have the "%2$s" key.', 'wordpress-seo' ),
-				$name,
+				\esc_html( $name ),
 				$key
 			)
 		);
