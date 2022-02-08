@@ -243,7 +243,7 @@ export default class Question extends Component {
 		} = this.props;
 
 		let newAnswer = answer.slice();
-		const image   = <img key={ media.id } alt={ media.alt } src={ media.url } style="max-width:100%;" />;
+		const image   = <img className={ `wp-image-${ media.id }` } alt={ media.alt } src={ media.url } style="max-width:100%;" />;
 
 		if ( newAnswer.push ) {
 			newAnswer.push( image );
