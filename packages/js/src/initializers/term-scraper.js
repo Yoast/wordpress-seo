@@ -32,7 +32,6 @@ import CustomAnalysisData from "../analysis/CustomAnalysisData";
 import getApplyMarks from "../analysis/getApplyMarks";
 import { refreshDelay } from "../analysis/constants";
 import handleWorkerError from "../analysis/handleWorkerError";
-import { setWordPressSeoL10n, setYoastComponentsL10n } from "../helpers/i18n";
 import initializeUsedKeywords from "./used-keywords-assessment";
 import { actions } from "@yoast/externals/redux";
 
@@ -45,9 +44,6 @@ const {
 	setReadabilityResults,
 	setSeoResultsForKeyword,
 } = actions;
-
-setYoastComponentsL10n();
-setWordPressSeoL10n();
 
 window.yoastHideMarkers = true;
 

@@ -236,6 +236,25 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 18.1 =
+Release Date: February 8th, 2022
+
+Yoast SEO 18.1 is out today! This new release brings another round of bug fixes, plus a new way for us to handle the translations in our plugin — leading to a smaller plugin size for you to install. Read more about what's new in Yoast SEO 18.1 in [our release post in English](https://yoa.st/release-8-2-22) or [our release post in Spanish](https://yoa.st/release-8-2-22-spanish)!
+
+Enhancements:
+
+* Changes the overall SEO score color on the post type overview pages to red when no keyphrase is set.
+
+Bugfixes:
+
+* Fixes a bug where images inserted into our FAQ or HowTo blocks would be rendered wider then their respective container when using a Block Theme.
+* Fixes a bug where plugins that would initialize after our plugin would be unable to register certain plugin information or utilize certain hooks.
+* Fixes a bug where capitalized keyphrases would show up twice in the Wincher SEO performance tracking modal. 
+
+Other:
+
+* Switches from packaged script translations to those from wordpress.org in order to reduce ZIP size and disk usage.
+
 = 18.0 =
 Release Date: January 25th, 2022
 
@@ -262,41 +281,6 @@ Other:
 
 * Sets the WordPress tested up to version to 5.9.
 * Sets WooCommerce tested up to version to 6.1.
-
-= 17.9 =
-Release Date: January 11th, 2022
-
-Yoast SEO 17.9 is now available! Yoast SEO now comes with a keyphrase tracking tool powered by Wincher that lets you monitor your keyphrases, straight from the plugin! Make sure to try out this new keyphrase tracking feature and let us know what you think. Read more about what's new in Yoast SEO 17.9 in [our release post in English](https://yoa.st/release-17-9) or [our release post in Spanish](https://yoa.st/release-17-9-spanish)!
-
-Enhancements:
-
-* Introduces a keyphrase position tracking tool that gives insight into how your content ranks in the search results. Powered by Wincher.
-* Improves Japanese text analysis results by adding functionality to segment Japanese texts into sentences and words.
-* Adapts relevant assessments to count text length in characters instead of words in Japanese.
-* Completes the readability analysis for Japanese by adding the transition words and sentence beginnings assessments.
-* Improves keyword detection for Japanese by adding a function words list.
-* Adapts Keyphrase in title scoring criteria for Japanese: the exact match keyphrase is not required for Japanese unless the keyphrase is enclosed in double quotes.
-* Disables the Keyphrase in slug assessment for Japanese due to currently being unable to match keyphrases written in Japanese characters in slugs written in Latin characters.
-* Improves the accuracy of the Estimated Reading Time results for Japanese.
-* Adapts the recommended meta description length and meta description preview limit for Japanese.
-* Improves the Workouts overview for mobile screens.
-* Makes sure we don't output the same `sameAs` URL twice on `Person` and `Organization`.
-* Adds "Blog Post" / `BlogPosting` as a potential Schema `Article` type.
-
-Bugfixes:
-
-* Fixes a bug where a fatal error would be thrown when using PHP 8.1.
-* Fixes a bug where the `og:image:type` meta would not be output correctly. Props to [@dodomorandi](https://github.com/dodomorandi).
-* Fixes a bug where the incoming link count of a post would not return to zero if all incoming links were removed.
-* Fixes a bug where the meta description would get trimmed to an empty string if the text doesn't have any space. Props to [@waviaei](https://github.com/waviaei).
-* Fixes a bug where Link keyphrase assessment would not find a match when the keyphrase is enclosed in double quotes.
-* Fixes a bug where `<br>` tags with attributes in the text would not be converted to paragraph tags. As a result some long paragraphs in the text might not have been highlighted in the Paragraph length assessment.
-
-Other:
-
-* Improves compatibility with PHP 8.1 by adding validations and handling deprecations.
-* Reverts the removal of the deprecated `WPSEO_Frontend` class.
-* Changes the font size of the alerts from 14px to 13px.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

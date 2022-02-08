@@ -7,10 +7,13 @@ use Yoast\WP\SEO\Actions\Importing\Aioseo_Posts_Importing_Action;
 use Yoast\WP\SEO\Helpers\Meta_Helper;
 use Yoast\WP\SEO\Helpers\Indexable_To_Postmeta_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Sanitization_Helper;
 use Yoast\WP\SEO\Helpers\Wpdb_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Services\Importing\Aioseo_Replacevar_Handler;
+use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Provider_Service;
+use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Transformer_Service;
 use Yoast\WP\SEO\Services\Importing\Importable_Detector;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Actions\Importing\Aioseo_Posts_Importing_Action_Double;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Services\Importing\Importable_Detector_Double;
@@ -75,6 +78,13 @@ class Importable_Detector_Test extends TestCase {
 	protected $options;
 
 	/**
+	 * The sanitization helper.
+	 *
+	 * @var Mockery\MockInterface|Sanitization_Helper
+	 */
+	protected $sanitization;
+
+	/**
 	 * The wpdb helper.
 	 *
 	 * @var Wpdb_Helper
@@ -89,6 +99,20 @@ class Importable_Detector_Test extends TestCase {
 	protected $replacevar_handler;
 
 	/**
+	 * The robots provider service.
+	 *
+	 * @var Mockery\MockInterface|Aioseo_Robots_Provider_Service
+	 */
+	protected $robots_provider;
+
+	/**
+	 * The robots transformer service.
+	 *
+	 * @var Mockery\MockInterface|Aioseo_Robots_Transformer_Service
+	 */
+	protected $robots_transformer;
+
+	/**
 	 * Set up the test fixtures.
 	 */
 	protected function set_up() {
@@ -99,8 +123,11 @@ class Importable_Detector_Test extends TestCase {
 		$this->meta                  = Mockery::mock( Meta_Helper::class );
 		$this->indexable_to_postmeta = Mockery::mock( Indexable_To_Postmeta_Helper::class, [ $this->meta ] );
 		$this->options               = Mockery::mock( Options_Helper::class );
+		$this->sanitization          = Mockery::mock( Sanitization_Helper::class );
 		$this->wpdb_helper           = Mockery::mock( Wpdb_Helper::class );
 		$this->replacevar_handler    = new Aioseo_Replacevar_Handler();
+		$this->robots_provider       = new Aioseo_Robots_Provider_Service();
+		$this->robots_transformer    = new Aioseo_Robots_Transformer_Service( $this->robots_provider );
 
 		$this->importing_action = Mockery::mock(
 			Aioseo_Posts_Importing_Action_Double::class,
@@ -109,8 +136,11 @@ class Importable_Detector_Test extends TestCase {
 				$this->wpdb,
 				$this->indexable_to_postmeta,
 				$this->options,
+				$this->sanitization,
 				$this->wpdb_helper,
 				$this->replacevar_handler,
+				$this->robots_provider,
+				$this->robots_transformer,
 			]
 		)->makePartial()->shouldAllowMockingProtectedMethods();
 
