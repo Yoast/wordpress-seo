@@ -39,7 +39,7 @@ export default function StepHeader( { step, isActiveStep, isSaved, isLastStep, i
 	const nameClassNames = getNameClassnames( isSaved, isActiveStep, isLastStep );
 
 	return <div className="yst-relative yst-flex yst-items-start yst-group" aria-current={ isActiveStep ? "step" : null }>
-		<span className="yst-flex yst-items-center" aria-hidden={ isActiveStep ? "true" : null }>
+		<span className="yst-flex yst-items-center yst-self-center" aria-hidden={ isActiveStep ? "true" : null }>
 			<StepCircle
 				isActive={ isActiveStep }
 				isSaved={ isSaved }
