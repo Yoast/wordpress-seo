@@ -195,8 +195,6 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			return $links;
 		}
 
-		$posts_to_exclude = $this->get_excluded_posts( $type );
-
 		while ( $total > $offset ) {
 
 			$posts = $this->get_posts( $post_type, $steps, $offset );
@@ -208,10 +206,6 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			}
 
 			foreach ( $posts as $post ) {
-
-				if ( in_array( $post->ID, $posts_to_exclude, true ) ) {
-					continue;
-				}
 
 				if ( WPSEO_Meta::get_value( 'meta-robots-noindex', $post->ID ) === '1' ) {
 					continue;
@@ -543,10 +537,16 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		";
 
 		$posts = $wpdb->get_results( $wpdb->prepare( $sql, $count, $offset ) );
+		$posts_to_exclude = $this->get_excluded_posts( $post_type );
 
 		$post_ids = [];
 
 		foreach ( $posts as $post_index => $post ) {
+			if ( in_array( $post->ID, $posts_to_exclude, true ) ) {
+				unset( $posts[ $post_index ] );
+				continue;
+			}
+			
 			$post->post_type      = $post_type;
 			$sanitized_post       = sanitize_post( $post, 'raw' );
 			$posts[ $post_index ] = new WP_Post( $sanitized_post );
