@@ -178,11 +178,14 @@ class HelpScout_Beacon implements Integration_Interface {
 		$data = [
 			'name'               => \trim( $current_user->user_firstname . ' ' . $current_user->user_lastname ),
 			'email'              => $current_user->user_email,
-			'WordPress Version'  => $this->get_wordpress_version(),
-			$this->get_server_info(),
-			'Theme'              => $this->get_theme_info(),
-			'Plugins'            => $this->get_active_plugins(),
 		];
+
+		$data = array_merge( $data, $this->get_server_info(), 
+		[
+			'WordPress Version'  => $this->get_wordpress_version(),
+			'Active theme'       => $this->get_theme_info(),
+			'Active plugins'     => $this->get_active_plugins(),
+		] );
 
 		if ( ! empty( $this->products ) ) {
 			$addon_manager = new WPSEO_Addon_Manager();
@@ -203,7 +206,7 @@ class HelpScout_Beacon implements Integration_Interface {
 	/**
 	 * Returns basic info about the server software.
 	 *
-	 * @return string
+	 * @return array
 	 */
 	private function get_server_info() {
 		$server_tracking_data = new WPSEO_Tracking_Server_Data();
@@ -211,18 +214,18 @@ class HelpScout_Beacon implements Integration_Interface {
 		$server_data          = $server_data['server'];
 
 		$fields_to_use = [
-			'IP'       => 'ip',
-			'PHP'      => 'PhpVersion',
-			'CURL'     => 'CurlVersion',
+			'Server IP'       => 'ip',
+			'PHP Version'      => 'PhpVersion',
+			'cURL Version'     => 'CurlVersion',
 		];
 
-		$server_data['CurlVersion'] = $server_data['CurlVersion']['version'] . '(SSL Support' . $server_data['CurlVersion']['sslSupport'] . ')';
+		$server_data['CurlVersion'] = $server_data['CurlVersion']['version'] . ' (SSL Support ' . $server_data['CurlVersion']['sslSupport'] . ')';
 
 		$server_info = [];
 
 		foreach ( $fields_to_use as $label => $field_to_use ) {
 			if ( isset( $server_data[ $field_to_use ] ) ) {
-				$server_info[ $field_to_use ] = \esc_html( $server_data[ $field_to_use ] ) ;
+				$server_info[ $label ] = \esc_html( $server_data[ $field_to_use ] ) ;
 			}
 		}
 
@@ -242,7 +245,7 @@ class HelpScout_Beacon implements Integration_Interface {
 		}
 
 		$product_info = \sprintf(
-			'Version: %1$s, expiration date: 2$s',
+			'Version %1$s, expiration date %2$s',
 			$plugin->product->version,
 			$plugin->expiry_date
 		);
@@ -275,7 +278,7 @@ class HelpScout_Beacon implements Integration_Interface {
 		$theme = \wp_get_theme();
 
 		$theme_info = \sprintf(
-			'%1$s (Version %2$s, URL %3$s)',
+			'%1$s (Version %2$s, %3$s)',
 			\esc_html( $theme->display( 'Name' ) ),
 			\esc_html( $theme->display( 'Version' ) ),
 			\esc_attr( $theme->display( 'ThemeURI' ) ),
@@ -298,18 +301,20 @@ class HelpScout_Beacon implements Integration_Interface {
 
 		$active_plugins = '';
 		foreach ( \wp_get_active_and_valid_plugins() as $plugin ) {
-			$plugin_data = \get_plugin_data( $plugin );
-			$plugin_file = \str_replace( \trailingslashit( \WP_PLUGIN_DIR ), '', $plugin );
+			$plugin_data             = \get_plugin_data( $plugin );
+			$plugin_file             = \str_replace( \trailingslashit( \WP_PLUGIN_DIR ), '', $plugin );
+			$plugin_update_available = '';
 
 			if ( isset( $updates_available->response[ $plugin_file ] ) ) {
-				$active_plugins .= '<i class="icon-close1"></i> ';
+				$plugin_update_available = ' [update available]';
 			}
 
 			$active_plugins .= \sprintf(
-				'<a href="%1$s">%2$s</a> v%3$s',
-				\esc_attr( $plugin_data['PluginURI'] ),
+				'%1$s (Version %2$s%3$s, %4$s), ',
 				\esc_html( $plugin_data['Name'] ),
-				\esc_html( $plugin_data['Version'] )
+				\esc_html( $plugin_data['Version'] ),
+				$plugin_update_available,
+				\esc_attr( $plugin_data['PluginURI'] )
 			);
 		}
 
