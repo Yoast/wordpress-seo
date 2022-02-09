@@ -1,19 +1,19 @@
 {
-  "name": "one-toolkit-to-rule-them-all",
+  "name": "@yoast/ui-library",
   "version": "0.0.0",
-  "description": "One toolkit to rule them all",
+  "description": "Yoast UI library",
   "main": "dist/index.js",
-  "repository": "https://github.com/nolledgeable/one-toolkit-to-rule-them-all.git",
   "author": "nolledgeable <nollegroen@gmail.com>",
   "license": "MIT",
   "private": true,
+  "sideEffects": false,
   "scripts": {
     "clean:build": "rm -rf build",
     "build:ts": "tsc",
     "build:css": "postcss src/components/style.css --dir build",
     "build": "yarn clean:build && yarn build:ts && yarn build:css",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build:storybook": "build-storybook",
+    "storybook": "start-storybook -p 6006"
   },
   "devDependencies": {
     "@babel/core": "^7.15.5",
