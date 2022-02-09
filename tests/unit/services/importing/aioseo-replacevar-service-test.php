@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group importing
  *
- * @coversDefaultClass \Yoast\WP\SEO\Services\Importing\Aioseo_Replacevar_Service
+ * @coversDefaultClass \Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Replacevar_Service
  */
 class Aioseo_Replacevar_Service_Test extends TestCase {
 

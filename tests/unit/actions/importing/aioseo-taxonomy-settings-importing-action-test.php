@@ -19,7 +19,7 @@ use Yoast\WP\SEO\Tests\Unit\Doubles\Actions\Importing\Aioseo_Taxonomy_Settings_I
  * @group actions
  * @group importing
  *
- * @coversDefaultClass \Yoast\WP\SEO\Actions\Importing\Aioseo_Taxonomy_Settings_Importing_Action
+ * @coversDefaultClass \Yoast\WP\SEO\Actions\Importing\Aioseo\Aioseo_Taxonomy_Settings_Importing_Action
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded, Yoast.Yoast.AlternativeFunctions.json_encode_json_encode
  */
 class Aioseo_Taxonomy_Settings_Importing_Action_Test extends TestCase {

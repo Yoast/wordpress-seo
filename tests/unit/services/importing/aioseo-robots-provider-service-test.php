@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group importing
  *
- * @coversDefaultClass \Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Provider_Service
+ * @coversDefaultClass \Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Provider_Service
  * @phpcs:disable Yoast.Yoast.AlternativeFunctions.json_encode_json_encode,Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Aioseo_Robots_Provider_Service_Test extends TestCase {
