@@ -264,7 +264,9 @@ class HelpScout_Beacon implements Integration_Interface {
 
 		$wordpress_version = $wp_version;
 		if ( \is_multisite() ) {
-			$wordpress_version .= ' (multisite enabled)';
+			$wordpress_version .= ' (multisite: yes)';
+		} else {
+			$wordpress_version .= ' (multisite: no)';
 		}
 
 		return $wordpress_version;
