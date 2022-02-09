@@ -155,7 +155,7 @@ function TailwindStep( { step, stepIndex, lastStepIndex, isLastStep, beforeConti
 					}
 					{ ( ! isLastStep && showEditButton ) &&
 						<button
-							className="yst-button--primary"
+							className="yst-button--primary yst-mt-12"
 							onClick={ saveEditedStep }
 						>
 							Save Changes
