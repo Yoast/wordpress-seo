@@ -178,9 +178,9 @@ class HelpScout_Beacon implements Integration_Interface {
 		$data = [
 			'name'               => \trim( $current_user->user_firstname . ' ' . $current_user->user_lastname ),
 			'email'              => $current_user->user_email,
-			'Is multisite'       => \is_multisite() ? 'True' : 'False',
 			'WordPress Version'  => $this->get_wordpress_version(),
-			'Server'             => $this->get_server_info(),
+			'Is multisite'       => \is_multisite() ? 'True' : 'False',
+			$this->get_server_info(),
 			'Theme'              => $this->get_theme_info(),
 			'Plugins'            => $this->get_active_plugins(),
 		];
@@ -213,23 +213,19 @@ class HelpScout_Beacon implements Integration_Interface {
 
 		$fields_to_use = [
 			'IP'       => 'ip',
-			'Hostname' => 'Hostname',
-			'OS'       => 'os',
 			'PHP'      => 'PhpVersion',
 			'CURL'     => 'CurlVersion',
 		];
 
 		$server_data['CurlVersion'] = $server_data['CurlVersion']['version'] . '(SSL Support' . $server_data['CurlVersion']['sslSupport'] . ')';
 
-		$server_info = '<table>';
+		$server_info = [];
 
 		foreach ( $fields_to_use as $label => $field_to_use ) {
 			if ( isset( $server_data[ $field_to_use ] ) ) {
-				$server_info .= \sprintf( '<tr><td>%1$s</td><td>%2$s</td></tr>', \esc_html( $label ), \esc_html( $server_data[ $field_to_use ] ) );
+				$server_info[ $field_to_use ] = \esc_html( $server_data[ $field_to_use ] ) ;
 			}
 		}
-
-		$server_info .= '</table>';
 
 		return $server_info;
 	}
