@@ -22,9 +22,8 @@ use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Replacevar_Service;
 use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Provider_Service;
 use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Transformer_Service;
 use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Social_Images_Provider_Service;
-use Yoast\WP\SEO\Services\Importing\Importable_Detector;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Actions\Importing\Aioseo_Posts_Importing_Action_Double;
-use Yoast\WP\SEO\Tests\Unit\Doubles\Services\Importing\Importable_Detector_Double;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Services\Importing\Importable_Detector_Service_Double;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -174,7 +173,7 @@ class Importer_Action_Filter_Trait_Test extends TestCase {
 		)->makePartial()->shouldAllowMockingProtectedMethods();
 
 		$this->mock_instance = Mockery::mock(
-			Importable_Detector_Double::class,
+			Importable_Detector_Service_Double::class,
 			[
 				$this->importing_action,
 			]

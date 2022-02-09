@@ -7,7 +7,7 @@ use Yoast\WP\SEO\Actions\Importing\Importing_Action_Interface;
 /**
  * Detects if any data from other SEO plugins is available for importing.
  */
-class Importable_Detector {
+class Importable_Detector_Service {
 
 	use Importer_Action_Filter_Trait;
 
@@ -19,7 +19,7 @@ class Importable_Detector {
 	protected $importers;
 
 	/**
-	 * Importable_Detector constructor.
+	 * Importable_Detector_Service constructor.
 	 *
 	 * @param Importing_Action_Interface ...$importers All of the known importers.
 	 */

@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Conditionals\AIOSEO_V4_Importer_Conditional;
 use Yoast\WP\SEO\Conditionals\Import_Tool_Selected_Conditional;
 use Yoast\WP\SEO\Conditionals\Yoast_Tools_Page_Conditional;
 use Yoast\WP\SEO\Integrations\Admin\Import_Integration;
-use Yoast\WP\SEO\Services\Importing\Importable_Detector;
+use Yoast\WP\SEO\Services\Importing\Importable_Detector_Service;
 use Yoast\WP\SEO\Routes\Importing_Route;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -41,7 +41,7 @@ class Import_Integration_Test extends TestCase {
 	/**
 	 * The Importable Detector service.
 	 *
-	 * @var Mockery\MockInterface|Importable_Detector
+	 * @var Mockery\MockInterface|Importable_Detector_Service
 	 */
 	protected $importable_detector;
 
@@ -70,7 +70,7 @@ class Import_Integration_Test extends TestCase {
 
 		$this->asset_manager        = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
 		$this->importer_conditional = Mockery::mock( AIOSEO_V4_Importer_Conditional::class );
-		$this->importable_detector  = Mockery::mock( Importable_Detector::class );
+		$this->importable_detector  = Mockery::mock( Importable_Detector_Service::class );
 		$this->importing_route      = Mockery::mock( Importing_Route::class );
 
 		$this->instance = new Import_Integration(
@@ -96,7 +96,7 @@ class Import_Integration_Test extends TestCase {
 			self::getPropertyValue( $this->instance, 'importer_conditional' )
 		);
 		static::assertInstanceOf(
-			Importable_Detector::class,
+			Importable_Detector_Service::class,
 			self::getPropertyValue( $this->instance, 'importable_detector' )
 		);
 		static::assertInstanceOf(

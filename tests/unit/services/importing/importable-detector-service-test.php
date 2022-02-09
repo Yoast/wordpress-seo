@@ -18,24 +18,24 @@ use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Replacevar_Service;
 use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Provider_Service;
 use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Transformer_Service;
 use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Social_Images_Provider_Service;
-use Yoast\WP\SEO\Services\Importing\Importable_Detector;
+use Yoast\WP\SEO\Services\Importing\Importable_Detector_Service;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Actions\Importing\Aioseo_Posts_Importing_Action_Double;
-use Yoast\WP\SEO\Tests\Unit\Doubles\Services\Importing\Importable_Detector_Double;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Services\Importing\Importable_Detector_Service_Double;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class Importable_Detector_Test.
+ * Class Importable_Detector_Service_Test.
  *
  * @group importing
  *
- * @coversDefaultClass \Yoast\WP\SEO\Services\Importing\Importable_Detector
+ * @coversDefaultClass \Yoast\WP\SEO\Services\Importing\Importable_Detector_Service
  */
-class Importable_Detector_Test extends TestCase {
+class Importable_Detector_Service_Test extends TestCase {
 
 	/**
 	 * Represents the instance to test.
 	 *
-	 * @var Importable_Detector
+	 * @var Importable_Detector_Service
 	 */
 	protected $instance;
 
@@ -191,9 +191,9 @@ class Importable_Detector_Test extends TestCase {
 			]
 		)->makePartial()->shouldAllowMockingProtectedMethods();
 
-		$this->instance      = new Importable_Detector( $this->importing_action, $this->cleanup_action );
+		$this->instance      = new Importable_Detector_Service( $this->importing_action, $this->cleanup_action );
 		$this->mock_instance = Mockery::mock(
-			Importable_Detector_Double::class,
+			Importable_Detector_Service_Double::class,
 			[
 				$this->importing_action,
 				$this->cleanup_action,
