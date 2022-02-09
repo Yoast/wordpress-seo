@@ -171,7 +171,7 @@ class Background_Indexing_Integration implements Integration_Interface {
 	 */
 	public function register_shutdown_indexing() {
 		if ( $this->should_index_on_shutdown( $this->get_shutdown_limit() ) ) {
-			\register_shutdown_function( [ $this, 'index' ] );
+			$this->register_shutdown_function( 'index' );
 		}
 	}
 
@@ -300,5 +300,17 @@ class Background_Indexing_Integration implements Integration_Interface {
 		if ( $scheduled ) {
 			wp_unschedule_event( $scheduled, 'Yoast\WP\SEO\index' );
 		}
+	}
+
+	/**
+	 * Registers a method to be executed on shutdown.
+	 * This wrapper mostly exists for making this class more unittestable.
+	 *
+	 * @param string $method_name The name of the method on the current instance to register.
+	 *
+	 * @return void
+	 */
+	protected function register_shutdown_function( $method_name ) {
+		\register_shutdown_function( [ $this, $method_name ] );
 	}
 }
