@@ -2,7 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Services\Importing;
 
-use Yoast\WP\SEO\Services\Importing\Aioseo_Replacevar_Handler;
+use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Replacevar_Handler;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**

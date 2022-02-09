@@ -3,8 +3,8 @@
 namespace Yoast\WP\SEO\Tests\Unit\Services\Importing;
 
 use Mockery;
-use Yoast\WP\SEO\Actions\Importing\Aioseo_Posts_Importing_Action;
-use Yoast\WP\SEO\Actions\Importing\Aioseo_Cleanup_Action;
+use Yoast\WP\SEO\Actions\Importing\Aioseo\Aioseo_Posts_Importing_Action;
+use Yoast\WP\SEO\Actions\Importing\Aioseo\Aioseo_Cleanup_Action;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Meta_Helper;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
@@ -14,10 +14,10 @@ use Yoast\WP\SEO\Helpers\Sanitization_Helper;
 use Yoast\WP\SEO\Helpers\Wpdb_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Models\Indexable;
-use Yoast\WP\SEO\Services\Importing\Aioseo_Replacevar_Handler;
-use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Provider_Service;
-use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Transformer_Service;
-use Yoast\WP\SEO\Services\Importing\Aioseo_Social_Images_Provider_Service;
+use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Replacevar_Handler;
+use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Provider_Service;
+use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Transformer_Service;
+use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Social_Images_Provider_Service;
 use Yoast\WP\SEO\Services\Importing\Importable_Detector;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Actions\Importing\Aioseo_Posts_Importing_Action_Double;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Services\Importing\Importable_Detector_Double;

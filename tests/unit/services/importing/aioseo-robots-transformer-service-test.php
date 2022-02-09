@@ -4,8 +4,8 @@ namespace Yoast\WP\SEO\Tests\Unit\Services\Importing;
 
 use Mockery;
 use Brain\Monkey;
-use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Provider_Service;
-use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Transformer_Service;
+use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Provider_Service;
+use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Transformer_Service;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
