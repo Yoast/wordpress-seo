@@ -3,7 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Actions\Importing;
 
 use Mockery;
-use Yoast\WP\SEO\Actions\Importing\Aioseo_Cleanup_Action;
+use Yoast\WP\SEO\Actions\Importing\Aioseo\Aioseo_Cleanup_Action;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Wpdb_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;

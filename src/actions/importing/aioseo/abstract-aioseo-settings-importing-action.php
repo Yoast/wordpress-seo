@@ -1,8 +1,11 @@
 <?php
 
-namespace Yoast\WP\SEO\Actions\Importing;
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Given it's a very specific case.
+namespace Yoast\WP\SEO\Actions\Importing\Aioseo;
 
 use Exception;
+use Yoast\WP\SEO\Actions\Importing\Abstract_Aioseo_Importing_Action;
+use Yoast\WP\SEO\Actions\Importing\Import_Cursor_Manager_Trait;
 use Yoast\WP\SEO\Conditionals\AIOSEO_V4_Importer_Conditional;
 
 /**
@@ -10,7 +13,7 @@ use Yoast\WP\SEO\Conditionals\AIOSEO_V4_Importer_Conditional;
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Importing_Action {
+abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Aioseo_Importing_Action {
 
 	use Import_Cursor_Manager_Trait;
 

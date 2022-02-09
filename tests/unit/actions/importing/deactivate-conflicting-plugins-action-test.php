@@ -6,9 +6,9 @@ use Mockery;
 use Yoast\WP\SEO\Actions\Importing\Deactivate_Conflicting_Plugins_Action;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Sanitization_Helper;
-use Yoast\WP\SEO\Services\Importing\Aioseo_Replacevar_Handler;
-use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Provider_Service;
-use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Transformer_Service;
+use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Replacevar_Handler;
+use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Provider_Service;
+use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Transformer_Service;
 use Yoast\WP\SEO\Services\Importing\Conflicting_Plugins_Service;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 

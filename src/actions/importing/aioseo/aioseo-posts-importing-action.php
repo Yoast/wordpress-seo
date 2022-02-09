@@ -1,8 +1,11 @@
 <?php
 
-namespace Yoast\WP\SEO\Actions\Importing;
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Given it's a very specific case.
+namespace Yoast\WP\SEO\Actions\Importing\Aioseo;
 
 use wpdb;
+use Yoast\WP\SEO\Actions\Importing\Abstract_Aioseo_Importing_Action;
+use Yoast\WP\SEO\Actions\Importing\Import_Cursor_Manager_Trait;
 use Yoast\WP\SEO\Conditionals\AIOSEO_V4_Importer_Conditional;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Image_Helper;
@@ -12,17 +15,17 @@ use Yoast\WP\SEO\Helpers\Sanitization_Helper;
 use Yoast\WP\SEO\Helpers\Wpdb_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
-use Yoast\WP\SEO\Services\Importing\Aioseo_Replacevar_Handler;
-use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Provider_Service;
-use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Transformer_Service;
-use Yoast\WP\SEO\Services\Importing\Aioseo_Social_Images_Provider_Service;
+use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Replacevar_Handler;
+use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Provider_Service;
+use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Transformer_Service;
+use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Social_Images_Provider_Service;
 
 /**
  * Importing action for AIOSEO post data.
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
+class Aioseo_Posts_Importing_Action extends Abstract_Aioseo_Importing_Action {
 
 	use Import_Cursor_Manager_Trait;
 

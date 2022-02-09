@@ -5,14 +5,16 @@ namespace Yoast\WP\SEO\Actions\Importing;
 use Exception;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Sanitization_Helper;
-use Yoast\WP\SEO\Services\Importing\Aioseo_Replacevar_Handler;
-use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Provider_Service;
-use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Transformer_Service;
+use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Replacevar_Handler;
+use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Provider_Service;
+use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Transformer_Service;
 
 /**
  * Importing action interface.
+ *
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-abstract class Abstract_Importing_Action implements Importing_Action_Interface {
+abstract class Abstract_Aioseo_Importing_Action implements Importing_Action_Interface {
 
 	/**
 	 * The plugin the class deals with.
@@ -64,7 +66,7 @@ abstract class Abstract_Importing_Action implements Importing_Action_Interface {
 	protected $robots_transformer;
 
 	/**
-	 * Abstract_Importing_Action constructor.
+	 * Abstract_Aioseo_Importing_Action constructor.
 	 *
 	 * @param Options_Helper                    $options            The options helper.
 	 * @param Sanitization_Helper               $sanitization       The sanitization helper.

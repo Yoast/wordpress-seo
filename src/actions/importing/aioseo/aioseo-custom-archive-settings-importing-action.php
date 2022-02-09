@@ -1,13 +1,14 @@
 <?php
 
-namespace Yoast\WP\SEO\Actions\Importing;
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Given it's a very specific case.
+namespace Yoast\WP\SEO\Actions\Importing\Aioseo;
 
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Sanitization_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
-use Yoast\WP\SEO\Services\Importing\Aioseo_Replacevar_Handler;
-use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Provider_Service;
-use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Transformer_Service;
+use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Replacevar_Handler;
+use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Provider_Service;
+use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Transformer_Service;
 /**
  * Importing action for AIOSEO custom archive settings data.
  *
@@ -52,7 +53,7 @@ class Aioseo_Custom_Archive_Settings_Importing_Action extends Abstract_Aioseo_Se
 	protected $post_type;
 
 	/**
-	 * Abstract_Importing_Action constructor.
+	 * Aioseo_Custom_Archive_Settings_Importing_Action constructor.
 	 *
 	 * @param Options_Helper                    $options            The options helper.
 	 * @param Sanitization_Helper               $sanitization       The sanitization helper.
