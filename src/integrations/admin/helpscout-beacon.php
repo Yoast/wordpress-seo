@@ -176,12 +176,13 @@ class HelpScout_Beacon implements Integration_Interface {
 
 		// Do not make these strings translatable! They are for our support agents, the user won't see them!
 		$data = [
-			'name'                                                   => \trim( $current_user->user_firstname . ' ' . $current_user->user_lastname ),
-			'email'                                                  => $current_user->user_email,
-			'WordPress Version'                                      => $this->get_wordpress_version(),
-			'Server'                                                 => $this->get_server_info(),
-			'<a href="' . \admin_url( 'themes.php' ) . '">Theme</a>' => $this->get_theme_info(),
-			'<a href="' . \admin_url( 'plugins.php' ) . '">Plugins</a>' => $this->get_active_plugins(),
+			'name'               => \trim( $current_user->user_firstname . ' ' . $current_user->user_lastname ),
+			'email'              => $current_user->user_email,
+			'Is multisite'       => \is_multisite() ? 'True' : 'False',
+			'WordPress Version'  => $this->get_wordpress_version(),
+			'Server'             => $this->get_server_info(),
+			'Theme'              => $this->get_theme_info(),
+			'Plugins'            => $this->get_active_plugins(),
 		];
 
 		if ( ! empty( $this->products ) ) {
