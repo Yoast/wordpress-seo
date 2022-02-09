@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Actions\Importing;
 
 use Mockery;
 use Yoast\WP\Lib\ORM;
+use Yoast\WP\SEO\Helpers\Import_Cursor_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Sanitization_Helper;
 use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Replacevar_Service;
@@ -36,6 +37,13 @@ class Abstract_Aioseo_Importing_Action_Test extends TestCase {
 	 * @var Mockery\MockInterface|Options_Helper
 	 */
 	protected $options;
+
+	/**
+	 * The mocked options helper.
+	 *
+	 * @var Mockery\MockInterface|Import_Cursor_Helper
+	 */
+	protected $import_cursor;
 
 	/**
 	 * The sanitization helper.
@@ -71,6 +79,7 @@ class Abstract_Aioseo_Importing_Action_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
+		$this->import_cursor      = Mockery::mock( Import_Cursor_Helper::class );
 		$this->options            = Mockery::mock( Options_Helper::class );
 		$this->sanitization       = Mockery::mock( Sanitization_Helper::class );
 		$this->replacevar_handler = Mockery::mock( Aioseo_Replacevar_Service::class );
@@ -78,7 +87,7 @@ class Abstract_Aioseo_Importing_Action_Test extends TestCase {
 		$this->robots_transformer = Mockery::mock( Aioseo_Robots_Transformer_Service::class );
 		$this->mock_instance      = Mockery::mock(
 			Abstract_Aioseo_Importing_Action_Double::class,
-			[ $this->options, $this->sanitization, $this->replacevar_handler, $this->robots_provider, $this->robots_transformer ]
+			[ $this->import_cursor, $this->options, $this->sanitization, $this->replacevar_handler, $this->robots_provider, $this->robots_transformer ]
 		)->makePartial()->shouldAllowMockingProtectedMethods();
 	}
 

@@ -6,6 +6,7 @@ use Mockery;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Actions\Importing\Aioseo\Aioseo_Posts_Importing_Action;
 use Yoast\WP\SEO\Helpers\Image_Helper;
+use Yoast\WP\SEO\Helpers\Import_Cursor_Helper;
 use Yoast\WP\SEO\Helpers\Meta_Helper;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Indexable_To_Postmeta_Helper;
@@ -96,6 +97,13 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 	protected $options;
 
 	/**
+	 * The mocked options helper.
+	 *
+	 * @var Mockery\MockInterface|Import_Cursor_Helper
+	 */
+	protected $import_cursor;
+
+	/**
 	 * The sanitization helper.
 	 *
 	 * @var Mockery\MockInterface|Sanitization_Helper
@@ -146,6 +154,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 		$this->indexable_repository   = Mockery::mock( Indexable_Repository::class );
 		$this->wpdb                   = Mockery::mock( 'wpdb' );
 		$this->meta                   = Mockery::mock( Meta_Helper::class );
+		$this->import_cursor          = Mockery::mock( Import_Cursor_Helper::class );
 		$this->indexable_helper       = Mockery::mock( Indexable_Helper::class );
 		$this->indexable_to_postmeta  = Mockery::mock( Indexable_To_Postmeta_Helper::class, [ $this->meta ] );
 		$this->options                = Mockery::mock( Options_Helper::class );
@@ -160,6 +169,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 		$this->instance      = new Aioseo_Posts_Importing_Action(
 			$this->indexable_repository,
 			$this->wpdb,
+			$this->import_cursor,
 			$this->indexable_helper,
 			$this->indexable_to_postmeta,
 			$this->options,
@@ -176,6 +186,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			[
 				$this->indexable_repository,
 				$this->wpdb,
+				$this->import_cursor,
 				$this->indexable_helper,
 				$this->indexable_to_postmeta,
 				$this->options,
@@ -201,7 +212,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 		$this->mock_instance->expects( 'set_completed' )
 			->once();
 
-		$this->mock_instance->expects( 'get_cursor' )
+		$this->import_cursor->expects( 'get_cursor' )
 			->once()
 			->andReturn( 1337 );
 
@@ -267,7 +278,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 		$this->mock_instance->expects( 'set_completed' )
 			->once();
 
-		$this->mock_instance->expects( 'get_cursor' )
+		$this->import_cursor->expects( 'get_cursor' )
 			->once()
 			->andReturn( 1337 );
 
@@ -325,9 +336,9 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 				->with( $indexable, $expected_check_defaults_fields )
 				->andReturn( $is_default );
 
-			$this->mock_instance->expects( 'set_cursor' )
+			$this->import_cursor->expects( 'set_cursor' )
 				->once()
-				->with( $this->options, 'aioseo_posts', $cursor_value );
+				->with( 'aioseo_posts', $cursor_value );
 
 			$this->mock_instance->index();
 	}

@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Actions\Importing;
 
 use Exception;
+use Yoast\WP\SEO\Helpers\Import_Cursor_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Sanitization_Helper;
 use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Replacevar_Service;
@@ -29,6 +30,13 @@ abstract class Abstract_Aioseo_Importing_Action implements Importing_Action_Inte
 	 * @var string
 	 */
 	const TYPE = null;
+
+	/**
+	 * The import cursor helper.
+	 *
+	 * @var Import_Cursor_Helper
+	 */
+	protected $import_cursor;
 
 	/**
 	 * The options helper.
@@ -68,6 +76,7 @@ abstract class Abstract_Aioseo_Importing_Action implements Importing_Action_Inte
 	/**
 	 * Abstract_Aioseo_Importing_Action constructor.
 	 *
+	 * @param Import_Cursor_Helper              $import_cursor      The import cursor helper.
 	 * @param Options_Helper                    $options            The options helper.
 	 * @param Sanitization_Helper               $sanitization       The sanitization helper.
 	 * @param Aioseo_Replacevar_Service         $replacevar_handler The replacevar handler.
@@ -75,12 +84,14 @@ abstract class Abstract_Aioseo_Importing_Action implements Importing_Action_Inte
 	 * @param Aioseo_Robots_Transformer_Service $robots_transformer The robots transfomer service.
 	 */
 	public function __construct(
+		Import_Cursor_Helper $import_cursor,
 		Options_Helper $options,
 		Sanitization_Helper $sanitization,
 		Aioseo_Replacevar_Service $replacevar_handler,
 		Aioseo_Robots_Provider_Service $robots_provider,
 		Aioseo_Robots_Transformer_Service $robots_transformer
 	) {
+		$this->import_cursor      = $import_cursor;
 		$this->options            = $options;
 		$this->sanitization       = $sanitization;
 		$this->replacevar_handler = $replacevar_handler;

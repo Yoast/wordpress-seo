@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Actions\Importing;
 use wpdb;
 use Yoast\WP\SEO\Conditionals\AIOSEO_V4_Importer_Conditional;
 use Yoast\WP\SEO\Config\Conflicting_Plugins;
+use Yoast\WP\SEO\Helpers\Import_Cursor_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Sanitization_Helper;
 use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Replacevar_Service;
@@ -57,6 +58,7 @@ class Deactivate_Conflicting_Plugins_Action extends Abstract_Aioseo_Importing_Ac
 	/**
 	 * Class constructor.
 	 *
+	 * @param Import_Cursor_Helper              $import_cursor               The import cursor helper.
 	 * @param Options_Helper                    $options                     The options helper.
 	 * @param Sanitization_Helper               $sanitization                The sanitization helper.
 	 * @param Aioseo_Replacevar_Service         $replacevar_handler          The replacevar handler.
@@ -65,6 +67,7 @@ class Deactivate_Conflicting_Plugins_Action extends Abstract_Aioseo_Importing_Ac
 	 * @param Conflicting_Plugins_Service       $conflicting_plugins_service The Conflicting plugins Service.
 	 */
 	public function __construct(
+		Import_Cursor_Helper $import_cursor,
 		Options_Helper $options,
 		Sanitization_Helper $sanitization,
 		Aioseo_Replacevar_Service $replacevar_handler,
@@ -72,7 +75,7 @@ class Deactivate_Conflicting_Plugins_Action extends Abstract_Aioseo_Importing_Ac
 		Aioseo_Robots_Transformer_Service $robots_transformer,
 		Conflicting_Plugins_Service $conflicting_plugins_service
 	) {
-		parent::__construct( $options, $sanitization, $replacevar_handler, $robots_provider, $robots_transformer );
+		parent::__construct( $import_cursor, $options, $sanitization, $replacevar_handler, $robots_provider, $robots_transformer );
 
 		$this->conflicting_plugins = $conflicting_plugins_service;
 		$this->detected_plugins    = [];

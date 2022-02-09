@@ -5,7 +5,6 @@ namespace Yoast\WP\SEO\Actions\Importing\Aioseo;
 
 use Exception;
 use Yoast\WP\SEO\Actions\Importing\Abstract_Aioseo_Importing_Action;
-use Yoast\WP\SEO\Actions\Importing\Import_Cursor_Manager_Trait;
 use Yoast\WP\SEO\Conditionals\AIOSEO_V4_Importer_Conditional;
 
 /**
@@ -14,8 +13,6 @@ use Yoast\WP\SEO\Conditionals\AIOSEO_V4_Importer_Conditional;
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Aioseo_Importing_Action {
-
-	use Import_Cursor_Manager_Trait;
 
 	/**
 	 * The plugin the class deals with.
@@ -170,7 +167,7 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Aioseo
 		}
 		finally {
 			$cursor_id = $this->get_cursor_id();
-			$this->set_cursor( $this->options, $cursor_id, $last_imported_setting );
+			$this->import_cursor->set_cursor( $cursor_id, $last_imported_setting );
 		}
 
 		return $created_settings;
@@ -236,7 +233,7 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Aioseo
 		\ksort( $importable_data );
 
 		$cursor_id = $this->get_cursor_id();
-		$cursor    = $this->get_cursor( $this->options, $cursor_id, '' );
+		$cursor    = $this->import_cursor->get_cursor( $cursor_id, '' );
 
 		/**
 		 * Filter 'wpseo_aioseo_<identifier>_import_cursor' - Allow filtering the value of the aioseo settings import cursor.

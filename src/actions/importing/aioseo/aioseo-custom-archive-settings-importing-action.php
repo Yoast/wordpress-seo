@@ -3,6 +3,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Given it's a very specific case.
 namespace Yoast\WP\SEO\Actions\Importing\Aioseo;
 
+use Yoast\WP\SEO\Helpers\Import_Cursor_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Sanitization_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
@@ -55,6 +56,7 @@ class Aioseo_Custom_Archive_Settings_Importing_Action extends Abstract_Aioseo_Se
 	/**
 	 * Aioseo_Custom_Archive_Settings_Importing_Action constructor.
 	 *
+	 * @param Import_Cursor_Helper              $import_cursor      The import cursor helper.
 	 * @param Options_Helper                    $options            The options helper.
 	 * @param Sanitization_Helper               $sanitization       The sanitization helper.
 	 * @param Post_Type_Helper                  $post_type          The post type helper.
@@ -63,6 +65,7 @@ class Aioseo_Custom_Archive_Settings_Importing_Action extends Abstract_Aioseo_Se
 	 * @param Aioseo_Robots_Transformer_Service $robots_transformer The robots transfomer service.
 	 */
 	public function __construct(
+		Import_Cursor_Helper $import_cursor,
 		Options_Helper $options,
 		Sanitization_Helper $sanitization,
 		Post_Type_Helper $post_type,
@@ -70,7 +73,7 @@ class Aioseo_Custom_Archive_Settings_Importing_Action extends Abstract_Aioseo_Se
 		Aioseo_Robots_Provider_Service $robots_provider,
 		Aioseo_Robots_Transformer_Service $robots_transformer
 	) {
-		parent::__construct( $options, $sanitization, $replacevar_handler, $robots_provider, $robots_transformer );
+		parent::__construct( $import_cursor, $options, $sanitization, $replacevar_handler, $robots_provider, $robots_transformer );
 
 		$this->post_type = $post_type;
 	}

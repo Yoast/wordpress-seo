@@ -6,6 +6,7 @@ use Mockery;
 use Yoast\WP\SEO\Actions\Importing\Aioseo\Aioseo_Posts_Importing_Action;
 use Yoast\WP\SEO\Actions\Importing\Aioseo\Aioseo_Cleanup_Action;
 use Yoast\WP\SEO\Helpers\Image_Helper;
+use Yoast\WP\SEO\Helpers\Import_Cursor_Helper;
 use Yoast\WP\SEO\Helpers\Meta_Helper;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Indexable_To_Postmeta_Helper;
@@ -82,6 +83,13 @@ class Importable_Detector_Service_Test extends TestCase {
 	protected $image;
 
 	/**
+	 * The mocked image helper.
+	 *
+	 * @var Mockery\MockInterface|Import_Cursor_Helper
+	 */
+	protected $import_cursor;
+
+	/**
 	 * The mocked indexable_to_postmeta helper.
 	 *
 	 * @var Mockery\MockInterface|Indexable_To_Postmeta_Helper
@@ -152,6 +160,7 @@ class Importable_Detector_Service_Test extends TestCase {
 
 		$this->indexable_repository   = Mockery::mock( Indexable_Repository::class );
 		$this->wpdb                   = Mockery::mock( 'wpdb' );
+		$this->import_cursor          = Mockery::mock( Import_Cursor_Helper::class );
 		$this->meta                   = Mockery::mock( Meta_Helper::class );
 		$this->indexable_helper       = Mockery::mock( Indexable_Helper::class );
 		$this->indexable_to_postmeta  = Mockery::mock( Indexable_To_Postmeta_Helper::class, [ $this->meta ] );
@@ -169,6 +178,7 @@ class Importable_Detector_Service_Test extends TestCase {
 			[
 				$this->indexable_repository,
 				$this->wpdb,
+				$this->import_cursor,
 				$this->indexable_helper,
 				$this->indexable_to_postmeta,
 				$this->options,

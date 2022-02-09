@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Actions\Importing;
 use Mockery;
 use Brain\Monkey;
 use Yoast\WP\SEO\Actions\Importing\Aioseo\Aioseo_Custom_Archive_Settings_Importing_Action;
+use Yoast\WP\SEO\Helpers\Import_Cursor_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Sanitization_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
@@ -45,6 +46,13 @@ class Aioseo_Custom_Archive_Settings_Importing_Action_Test extends TestCase {
 	 * @var Mockery\MockInterface|Options_Helper
 	 */
 	protected $options;
+
+	/**
+	 * The mocked options helper.
+	 *
+	 * @var Mockery\MockInterface|Import_Cursor_Helper
+	 */
+	protected $import_cursor;
 
 	/**
 	 * The sanitization helper.
@@ -127,16 +135,17 @@ class Aioseo_Custom_Archive_Settings_Importing_Action_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
+		$this->import_cursor      = Mockery::mock( Import_Cursor_Helper::class );
 		$this->options            = Mockery::mock( Options_Helper::class );
 		$this->sanitization       = Mockery::mock( Sanitization_Helper::class );
 		$this->post_type          = Mockery::mock( Post_Type_Helper::class );
 		$this->replacevar_handler = Mockery::mock( Aioseo_Replacevar_Service::class );
 		$this->robots_provider    = Mockery::mock( Aioseo_Robots_Provider_Service::class );
 		$this->robots_transformer = Mockery::mock( Aioseo_Robots_Transformer_Service::class );
-		$this->instance           = new Aioseo_Custom_Archive_Settings_Importing_Action( $this->options, $this->sanitization, $this->post_type, $this->replacevar_handler, $this->robots_provider, $this->robots_transformer );
+		$this->instance           = new Aioseo_Custom_Archive_Settings_Importing_Action( $this->import_cursor, $this->options, $this->sanitization, $this->post_type, $this->replacevar_handler, $this->robots_provider, $this->robots_transformer );
 		$this->mock_instance      = Mockery::mock(
 			Aioseo_Custom_Archive_Settings_Importing_Action_Double::class,
-			[ $this->options, $this->sanitization, $this->post_type, $this->replacevar_handler, $this->robots_provider, $this->robots_transformer ]
+			[ $this->import_cursor, $this->options, $this->sanitization, $this->post_type, $this->replacevar_handler, $this->robots_provider, $this->robots_transformer ]
 		)->makePartial()->shouldAllowMockingProtectedMethods();
 	}
 

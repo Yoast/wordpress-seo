@@ -6,6 +6,7 @@ use Exception;
 use Mockery;
 use Brain\Monkey;
 use Yoast\WP\SEO\Actions\Importing\Aioseo\Abstract_Aioseo_Settings_Importing_Action;
+use Yoast\WP\SEO\Helpers\Import_Cursor_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Sanitization_Helper;
 use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Replacevar_Service;
@@ -31,6 +32,13 @@ class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 	 * @var Abstract_Aioseo_Settings_Importing_Action_Double
 	 */
 	protected $mock_instance;
+
+	/**
+	 * The mocked options helper.
+	 *
+	 * @var Mockery\MockInterface|Import_Cursor_Helper
+	 */
+	protected $import_cursor;
 
 	/**
 	 * The mocked options helper.
@@ -73,6 +81,7 @@ class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
+		$this->import_cursor      = Mockery::mock( Import_Cursor_Helper::class );
 		$this->options            = Mockery::mock( Options_Helper::class );
 		$this->sanitization       = Mockery::mock( Sanitization_Helper::class );
 		$this->replacevar_handler = new Aioseo_Replacevar_Service();
@@ -80,7 +89,7 @@ class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 		$this->robots_transformer = Mockery::mock( Aioseo_Robots_Transformer_Service::class );
 		$this->mock_instance      = Mockery::mock(
 			Abstract_Aioseo_Settings_Importing_Action_Double::class,
-			[ $this->options, $this->sanitization, $this->replacevar_handler, $this->robots_provider, $this->robots_transformer ]
+			[ $this->import_cursor, $this->options, $this->sanitization, $this->replacevar_handler, $this->robots_provider, $this->robots_transformer ]
 		)->makePartial()->shouldAllowMockingProtectedMethods();
 	}
 
@@ -182,9 +191,9 @@ class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 		$last_key = key( $query_results );
 		reset( $query_results );
 
-		$this->mock_instance->expects( 'set_cursor' )
+		$this->import_cursor->expects( 'set_cursor' )
 			->once()
-			->with( $this->options, 'cursor_id', $last_key );
+			->with( 'cursor_id', $last_key );
 
 		$created_settings = $this->mock_instance->index();
 		$this->assertSame( $expected_created_settings, $created_settings );
@@ -206,9 +215,9 @@ class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 			->once()
 			->andReturn( 'chunk_id' );
 
-		$this->mock_instance->expects( 'get_cursor' )
+		$this->import_cursor->expects( 'get_cursor' )
 			->once()
-			->with( $this->options, 'chunk_id', '' )
+			->with( 'chunk_id', '' )
 			->andReturn( $cursor );
 
 		$this->mock_instance->expects( 'get_type' )
