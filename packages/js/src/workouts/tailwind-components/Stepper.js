@@ -158,7 +158,7 @@ function TailwindStep( { step, stepIndex, lastStepIndex, isLastStep, beforeConti
 							className="yst-button--primary yst-mt-12"
 							onClick={ saveEditedStep }
 						>
-							Save Changes
+							{ __( "Save Changes", "wordpress-seo" ) }
 						</button>
 					}
 				</div>
