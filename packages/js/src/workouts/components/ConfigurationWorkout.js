@@ -5,23 +5,25 @@ import { createInterpolateElement, useCallback, useReducer, useState, useEffect,
 import { __, sprintf } from "@wordpress/i18n";
 import { cloneDeep } from "lodash";
 import PropTypes from "prop-types";
-import UnsavedChangesModal from "./UnsavedChangesModal";
+import UnsavedChangesModal from "../tailwind-components/UnsavedChangesModal";
+import Alert from "../tailwind-components/alert";
 
-import { Alert, NewButton as Button, RadioButtonGroup, SingleSelect, TextInput } from "@yoast/components";
+import { NewButton as Button, RadioButtonGroup, SingleSelect, TextInput } from "@yoast/components";
 import { ReactComponent as WorkoutDoneImage } from "../../../../../images/mirrored_fit_bubble_woman_1_optim.svg";
 import { ReactComponent as WorkoutStartImage } from "../../../images/motivated_bubble_woman_1_optim.svg";
 import { addLinkToString } from "../../helpers/stringHelpers.js";
-import { STEPS, WORKOUTS } from "../config";
+import { Step, Steps, FinishButtonSection } from "./Steps";
 import { OrganizationSection } from "./OrganizationSection";
 import { PersonSection } from "./PersonSection";
 import { NewsletterSignup } from "./NewsletterSignup";
-import { WorkoutIndexation } from "./WorkoutIndexation";
+import { ConfigurationIndexation } from "../tailwind-components/ConfigurationIndexation";
 import SocialInputSection from "./SocialInputSection";
 import SocialInputPersonSection from "./SocialInputPersonSection";
-import { Step, Steps, FinishButtonSection } from "./Steps";
-import Stepper from "./Stepper";
+import Stepper from "../tailwind-components/Stepper";
+import { STEPS, WORKOUTS } from "../config";
 import { getInitialActiveStepIndex } from "../stepper-helper";
 import { scrollToStep } from "../helpers";
+import AnimateHeight from "react-animate-height";
 
 window.wpseoScriptData = window.wpseoScriptData || {};
 window.wpseoScriptData.searchAppearance = {
@@ -247,15 +249,39 @@ const stepNumberNameMap = {
 /**
  * The indexation step.
  *
- * @param {string} indexingState The indexing state.
- * @param {Function} setIndexingState A callback to set the indexing state.
+ * @param {string}   indexingState          The indexing state.
+ * @param {Function} setIndexingState       A callback to set the indexing state.
+ * @param {boolean}  showRunIndexationAlert Whether the alert to run indexation needs to be shown.
  *
  * @returns {WPElement} The indexation step.
  */
-function IndexationStep( { indexingState, setIndexingState } ) {
+function IndexationStep( { indexingState, setIndexingState, showRunIndexationAlert } ) {
+	const [ alertOpacity, setAlertOpacity ] = useState( "yst-opacity-0" );
+	const startOpacityTransition = useCallback( () => {
+		setAlertOpacity( "yst-opacity-100" );
+	} );
+
 	return <Fragment>
+		<div className="yst-flex yst-flex-row yst-justify-between yst-flex-wrap yst-mb-8">
+			<p className="yst-text-sm yst-text-[#333333] yst-whitespace-pre-line yst-w-[463px]">
+				{ addLinkToString(
+					sprintf(
+						__( "Let’s analyze your site just like Google does and get those indexables into action by running the SEO data " +
+							"optimization! Our indexables will immediately improve technical issues without you needing to do anything!\n" +
+							"\nIf you have a lot of content, that optimization could take a while. But trust us, it’s worth it! " +
+							"Want to read more, %1$scheck out the benefits of the indexables squad.%2$s", "wordpress-seo" ),
+						"<a>",
+						"</a>"
+					),
+					window.wpseoWorkoutsData.configuration.shortlinks.indexData,
+					"yoast-configuration-workout-index-data-link"
+				)
+				}
+			</p>
+			<WorkoutStartImage className="yst-h-28 yst-w-24 yst-mr-6" />
+		</div>
 		<div id="yoast-configuration-workout-indexing-container" className="indexation-container">
-			<WorkoutIndexation
+			<ConfigurationIndexation
 				indexingStateCallback={ setIndexingState }
 				isEnabled={ ! window.wpseoWorkoutsData.shouldUpdatePremium }
 				indexingState={ indexingState }
@@ -283,12 +309,33 @@ function IndexationStep( { indexingState, setIndexingState } ) {
 				) }
 			</p>
 		</Alert> }
+		<AnimateHeight
+			id="indexation-alert"
+			height={ indexingState === "idle" && showRunIndexationAlert ? "auto" : 0 }
+			easing="linear"
+			duration={ 400 }
+			onAnimationEnd={ startOpacityTransition }
+		>
+			<Alert
+				type="info"
+				className={ `yst-transition-opacity yst-duration-300 yst-mt-4 ${ alertOpacity }` }
+			>
+				{
+					__( "Be aware that you should run the SEO data optimization for this configuration to take maximum effect.",
+						"wordpress-seo" )
+				}
+			</Alert>
+		</AnimateHeight>
 	</Fragment>;
 }
 
 IndexationStep.propTypes = {
 	indexingState: PropTypes.string.isRequired,
 	setIndexingState: PropTypes.func.isRequired,
+	showRunIndexationAlert: PropTypes.bool,
+};
+IndexationStep.defaultProps = {
+	showRunIndexationAlert: false,
 };
 
 /* eslint-disable max-len, react/prop-types */
@@ -476,6 +523,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 	} );
 	const [ indexingState, setIndexingState ] = useState( () => window.yoastIndexingData.amount === "0" ? "completed" : "idle" );
 	const [ siteRepresentationEmpty, setSiteRepresentationEmpty ] = useState( false );
+	const [ showRunIndexationAlert, setShowRunIndexationAlert ] = useState( false );
 	const steps = STEPS.configuration;
 
 	const isTrackingOptionSelected = state.tracking === 0 || state.tracking === 1;
@@ -575,7 +623,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 			state.companyOrPerson === "company" &&
 			( ! state.companyName || ! state.companyLogo ) ) {
 			setSiteRepresentationEmpty( true );
-		} else if (  ! siteRepresentationEmpty &&
+		} else if ( ! siteRepresentationEmpty &&
 			state.companyOrPerson === "person" &&
 			( ! state.personId || ! state.personLogo ) ) {
 			setSiteRepresentationEmpty( true );
@@ -705,8 +753,36 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 	const [ hideOriginal, setHideOriginal ] = useState( true );
 	const [ activeStepIndex, setActiveStepIndex ] = useState( getInitialActiveStepIndex( savedSteps ) );
 
-	// AND HERE....
+	/**
+	 * Sets the step to finished.
+	 *
+	 * @param {int} stepIdx The step to-be-finished.
+	 *
+	 * @returns {boolean} Whether the stepper can continue to the next step.
+	 */
+	function finishStep( stepIdx ) {
+		finishSteps( "configuration", [ stepNumberNameMap[ stepIdx + 1 ] ] );
+		return true;
+	}
 
+	/**
+	 * Save and continue functionality for the Indexation step.
+	 *
+	 * @param {int} stepIdx The step index of the indexation step.
+	 *
+	 * @returns {boolean} Whether the stepper can continue to the next step.
+	 */
+	function beforeContinueIndexationStep( stepIdx ) {
+		if ( ! showRunIndexationAlert && indexingState === "idle" ) {
+			setShowRunIndexationAlert( true );
+			return false;
+		}
+
+		finishStep( stepIdx );
+		return true;
+	}
+
+	// AND HERE....
 	/* eslint-disable max-len */
 	return (
 		<div id="yoast-configuration-workout" className="card">
@@ -766,25 +842,51 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 					)
 				}
 			</p>
-
 			{ /* eslint-disable react/jsx-no-bind */ }
 			<div className="yst-mt-8">
 				<Stepper
 					steps={ [
-						{ name: "The indexables", component: <IndexationStep setIndexingState={ setIndexingState } indexingState={ indexingState } />, isSaved: isStepFinished( "configuration", steps.optimizeSeoData ) },
-						{ name: "Knowledge panel", description: "", component: <SiteRepresentationStep
-							onOrganizationOrPersonChange={ onOrganizationOrPersonChange } dispatch={ dispatch } state={ state } siteRepresentsPerson={ siteRepresentsPerson } onSiteTaglineChange={ onSiteTaglineChange } siteRepresentationEmpty={ siteRepresentationEmpty }
-						/>, isSaved: isStepFinished( "configuration", steps.siteRepresentation ) },
-						{ name: "Social profiles", description: "", component: <SocialProfilesStep state={ state } dispatch={ dispatch } setErrorFields={ setErrorFields } siteRepresentsPerson={ siteRepresentsPerson } />, isSaved: isStepFinished( "configuration", steps.socialProfiles ) },
-						{ name: "Personal preferences", description: "", component: <PersonalPreferencesStep state={ state } setTracking={ setTracking } isTrackingOptionSelected={ isTrackingOptionSelected } />, isSaved: isStepFinished( "configuration", steps.newsletterSignup ) },
-						{ name: "Finish configuration", description: "", component: <FinishStep />, isSaved: isStepperFinished },
+						{ name: "SEO data optimization",
+							component: <IndexationStep setIndexingState={ setIndexingState } indexingState={ indexingState } showRunIndexationAlert={ showRunIndexationAlert } />,
+							isSaved: isStepFinished( "configuration", steps.optimizeSeoData ),
+							beforeContinue: beforeContinueIndexationStep,
+						},
+						{ name: "Knowledge panel",
+							component: <SiteRepresentationStep onOrganizationOrPersonChange={ onOrganizationOrPersonChange } dispatch={ dispatch } state={ state } siteRepresentsPerson={ siteRepresentsPerson } onSiteTaglineChange={ onSiteTaglineChange } siteRepresentationEmpty={ siteRepresentationEmpty } />,
+							isSaved: isStepFinished( "configuration", steps.siteRepresentation ),
+							beforeContinue: () => {
+								finishStep( 1 );
+								return true;
+							},
+						},
+						{ name: "Social profiles",
+							component: <SocialProfilesStep state={ state } dispatch={ dispatch } setErrorFields={ setErrorFields } siteRepresentsPerson={ siteRepresentsPerson } />,
+							isSaved: isStepFinished( "configuration", steps.socialProfiles ),
+							beforeContinue: () => {
+								finishStep( 2 );
+								return true;
+							},
+						},
+						{ name: "Personal preferences",
+							component: <PersonalPreferencesStep state={ state } setTracking={ setTracking } isTrackingOptionSelected={ isTrackingOptionSelected } />,
+							isSaved: isStepFinished( "configuration", steps.newsletterSignup ),
+							beforeContinue: () => {
+								finishStep( 3 );
+								return true;
+							},
+						},
+						{ name: "Finish configuration",
+							component: <FinishStep />,
+							isSaved: isStepperFinished,
+							beforeContinue: finishStep,
+						},
 					] }
 					setActiveStepIndex={ setActiveStepIndex }
-					saveStep={ ( stepIdx ) => finishSteps( "configuration", [ stepNumberNameMap[ stepIdx + 1 ] ] ) }
 					activeStepIndex={ activeStepIndex }
 					isStepperFinished={ isStepperFinished }
 				/>
 			</div>
+
 			<UnsavedChangesModal hasUnsavedChanges={ state.editedSteps.includes( activeStepIndex + 1 ) } />
 
 			<button
@@ -821,7 +923,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 						isFinished={ isStep1Finished }
 					>
 						<div id="yoast-configuration-workout-indexing-container" className="indexation-container">
-							<WorkoutIndexation
+							<ConfigurationIndexation
 								indexingStateCallback={ setIndexingState }
 								isEnabled={ ! window.wpseoWorkoutsData.shouldUpdatePremium }
 								indexingState={ indexingState }

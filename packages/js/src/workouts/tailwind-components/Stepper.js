@@ -54,6 +54,7 @@ const stepShape = PropTypes.shape( {
 	description: PropTypes.string,
 	component: PropTypes.element.isRequired,
 	isSaved: PropTypes.bool.isRequired,
+	beforeContinue: PropTypes.func,
 } );
 
 /**
@@ -63,7 +64,7 @@ const stepShape = PropTypes.shape( {
  *
  * @returns {WPElement} The Step component.
  */
-function TailwindStep( { step, stepIndex, lastStepIndex, isLastStep, saveStep, activeStepIndex, setActiveStepIndex, showEditButton, isStepBeingEdited, setIsStepBeingEdited } ) {
+function TailwindStep( { step, stepIndex, lastStepIndex, isLastStep, beforeContinue, activeStepIndex, setActiveStepIndex, showEditButton, isStepBeingEdited, setIsStepBeingEdited } ) {
 	const isActiveStep = activeStepIndex === stepIndex;
 	const isSaved = step.isSaved;
 
@@ -72,26 +73,23 @@ function TailwindStep( { step, stepIndex, lastStepIndex, isLastStep, saveStep, a
 
 	const saveEditedStep = useCallback(
 		() => {
-			saveStep( stepIndex );
-			setIsStepBeingEdited( false );
-			setActiveStepIndex( lastStepIndex );
+			const canContinueToNextStep = beforeContinue();
+			if ( canContinueToNextStep === true ) {
+				setIsStepBeingEdited( false );
+				setActiveStepIndex( lastStepIndex );
+			}
 		},
-		[ saveStep, stepIndex, setActiveStepIndex, setIsStepBeingEdited ]
-	);
-
-	const continueToNextStep = useCallback(
-		() => {
-			setActiveStepIndex( stepIndex + 1 );
-		},
-		[ setActiveStepIndex, stepIndex ]
+		[ beforeContinue, stepIndex, setActiveStepIndex, setIsStepBeingEdited ]
 	);
 
 	const saveAndContinue = useCallback(
 		() => {
-			saveEditedStep();
-			continueToNextStep();
+			const continueToNextStep = beforeContinue();
+			if ( continueToNextStep === true ) {
+				setActiveStepIndex( stepIndex + 1 );
+			}
 		},
-		[ setActiveStepIndex, saveStep, stepIndex ]
+		[ setActiveStepIndex, beforeContinue, stepIndex ]
 	);
 
 	const goBack = useCallback( () => {
@@ -129,7 +127,6 @@ function TailwindStep( { step, stepIndex, lastStepIndex, isLastStep, saveStep, a
 					/>
 				</Fragment>
 			}
-
 			<StepHeader
 				step={ step }
 				isActiveStep={ isActiveStep }
@@ -139,7 +136,6 @@ function TailwindStep( { step, stepIndex, lastStepIndex, isLastStep, saveStep, a
 				editStep={ editStep }
 				isStepBeingEdited={ isStepBeingEdited }
 			/>
-
 			{ /* Child component and buttons. */ }
 			<AnimateHeight
 				id={ `content-${stepIndex}` }
@@ -159,10 +155,10 @@ function TailwindStep( { step, stepIndex, lastStepIndex, isLastStep, saveStep, a
 					}
 					{ ( ! isLastStep && showEditButton ) &&
 						<button
-							className="yst-button--primary"
+							className="yst-button--primary yst-mt-12"
 							onClick={ saveEditedStep }
 						>
-							Save Changes
+							{ __( "Save Changes", "wordpress-seo" ) }
 						</button>
 					}
 				</div>
@@ -176,15 +172,15 @@ TailwindStep.propTypes = {
 	lastStepIndex: PropTypes.number.isRequired,
 	isLastStep: PropTypes.bool.isRequired,
 	setActiveStepIndex: PropTypes.func.isRequired,
-	saveStep: PropTypes.func,
+	beforeContinue: PropTypes.func,
 	activeStepIndex: PropTypes.number.isRequired,
 	showEditButton: PropTypes.bool,
 	setIsStepBeingEdited: PropTypes.func.isRequired,
 	isStepBeingEdited: PropTypes.bool.isRequired,
 };
 TailwindStep.defaultProps = {
-	saveStep: () => { },
 	showEditButton: false,
+	beforeContinue: () => true,
 };
 
 /**
@@ -194,7 +190,7 @@ TailwindStep.defaultProps = {
  *
  * @returns {WPElement} The Stepper component.
  */
-export default function Stepper( { steps, setActiveStepIndex, saveStep, activeStepIndex, isStepperFinished } ) {
+export default function Stepper( { steps, setActiveStepIndex, activeStepIndex, isStepperFinished } ) {
 	const [ isStepBeingEdited, setIsStepBeingEdited ] = useState( false );
 	const [ showEditButton, setShowEditButton ] = useState( isStepperFinished );
 	// The stepper needs to signal to each step to not to show edit buttons when a step is being edited (needs a function here to pass to each tailwindstep)
@@ -204,6 +200,7 @@ export default function Stepper( { steps, setActiveStepIndex, saveStep, activeSt
 			setShowEditButton( isStepperFinished );
 		}
 	}, [ isStepperFinished ] );
+
 	return (
 		<ol>
 			{ steps.map( ( step, stepIndex ) => (
@@ -214,7 +211,7 @@ export default function Stepper( { steps, setActiveStepIndex, saveStep, activeSt
 						lastStepIndex={ steps.length - 1 }
 						isLastStep={ stepIndex === steps.length - 1 }
 						setActiveStepIndex={ setActiveStepIndex }
-						saveStep={ saveStep }
+						beforeContinue={ step.beforeContinue }
 						activeStepIndex={ activeStepIndex }
 						showEditButton={ showEditButton }
 						setIsStepBeingEdited={ setIsStepBeingEdited }
@@ -228,12 +225,8 @@ export default function Stepper( { steps, setActiveStepIndex, saveStep, activeSt
 Stepper.propTypes = {
 	steps: PropTypes.arrayOf( stepShape ).isRequired,
 	setActiveStepIndex: PropTypes.func.isRequired,
-	saveStep: PropTypes.func,
 	activeStepIndex: PropTypes.number.isRequired,
 	isStepperFinished: PropTypes.bool.isRequired,
 
-};
-Stepper.defaultProps = {
-	saveStep: () => { },
 };
 /* eslint-enable complexity, max-len */
