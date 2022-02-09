@@ -1,7 +1,5 @@
 /* External dependencies */
-import { get, debounce, noop, last } from "lodash";
-import { useSelect, useDispatch } from "@wordpress/data";
-import { useState, useEffect, useCallback } from "@wordpress/element";
+import { get, last } from "lodash";
 import { __, sprintf } from "@wordpress/i18n";
 
 /* Internal dependencies */
@@ -78,11 +76,15 @@ export const requestTimestamp = async() => {
 };
 
 /**
- * Timestamps the current post on save if WordProof integration is active.
+ * Handles a WordProof timestamp response.
  *
- * @returns {{ timestampResponse: string }} Object of useful timestamp related state.
+ * @param {Object} timestampResponse The timestamp response.
+ * @param {Function} createSuccessNotice Function to create a success notice.
+ * @param {Function} createErrorNotice Function to create an error notice.
+ *
+ * @returns {void}
  */
-export const useWordProofTimestamper = () => {
+export function handleTimestampResponse( timestampResponse, createSuccessNotice, createErrorNotice ) {
 	const successNotice = sprintf(
 		/** Translators: %s expands to WordProof */
 		__(
@@ -102,86 +104,18 @@ export const useWordProofTimestamper = () => {
 			"You are out of timestamps. Please upgrade your account by opening the %s settings.",
 			"wordpress-seo"
 		), "WordProof" );
-	const successNoticeOptions = { type: 'snackbar', id: 'wordproof-timestamp-notice' };
-	const errorNoticeOptions = { id: 'wordproof-timestamp-notice' };
 
-	const [ timestampResponse, setTimestampResponse ] = useState( null );
+	const successNoticeOptions = { type: "snackbar", id: "wordproof-timestamp-notice" };
+	const errorNoticeOptions = { id: "wordproof-timestamp-notice" };
 
-	const isBlockEditor = useSelect( ( select ) => select( "yoast-seo/editor" ).getIsBlockEditor(), [] );
-
-	// eslint-disable-next-line no-warning-comments
-	// TODO: Elementor throws error while selecting these stores.
-	const isBlockEditorSavePost = useSelect( ( select ) => select( "core/editor" ).isSavingPost(), [] );
-	const isBlockEditorAutoSavePost = useSelect( ( select ) => select( "core/editor" ).isAutosavingPost(), [] );
-	const didBlockEditorPostSaveRequestSucceed = useSelect( ( select ) => select( "core/editor" ).didPostSaveRequestSucceed(), [] );
-
-	const blockEditorNoticeActions = useDispatch( "core/notices" );
-
-	const isElementorEditor = useSelect( ( select ) => select( "yoast-seo/editor" ).getIsElementorEditor(), [] );
-
-	const handleRequestTimeStamp = useCallback(
-		debounce( async() => {
-			// Request timestamp and update is timestamped in state.
-			const success = await requestTimestamp();
-			setTimestampResponse( success );
-		}, 500 ),
-		[ requestTimestamp, setTimestampResponse ]
-	);
-
-	// Add notices when is timestamped value changes.
-	useEffect( () => {
-		let createSuccessNotice = noop;
-		let createErrorNotice = noop;
-
-		// Assign callbacks for creating Elementor editor notices.
-		// With the Elementor editor opened, both isElementorEditor and isBlockEditor return true.
-		if ( isElementorEditor ) {
-			// eslint-disable-next-line no-warning-comments
-			// TODO: Assign success or error notice creator for Elementor based on timestamp.
-			createSuccessNotice = ( notice ) => {
-				console.warn( notice );
-			};
-			createErrorNotice = ( notice ) => {
-				console.warn( notice );
-			};
-		} else if ( isBlockEditor ) {
-			// Assign callbacks for creating block editor notices.
-			( { createErrorNotice, createSuccessNotice } = blockEditorNoticeActions );
-		}
-
-		// Only add notice if timestampResponse is set.
-		if ( timestampResponse === null ) {
-			return;
-		}
-
-		// Create the notice based on timestamp.
-		if ( timestampResponse ) {
-			if ( timestampResponse.balance === 0 ) {
-				createErrorNotice( noBalanceNotice, errorNoticeOptions );
-			} else {
-				createSuccessNotice( successNotice, successNoticeOptions );
-			}
+	// Create the notice based on timestamp.
+	if ( timestampResponse ) {
+		if ( timestampResponse.balance === 0 ) {
+			createErrorNotice( noBalanceNotice, errorNoticeOptions );
 		} else {
-			createErrorNotice( errorNotice, errorNoticeOptions );
+			createSuccessNotice( successNotice, successNoticeOptions );
 		}
-	}, [ timestampResponse ] );
-
-	// Subscribe to Block editor post save.
-	useEffect( () => {
-		// eslint-disable-next-line no-warning-comments
-		// TODO: This effect also fires on first mount, causing a timestamp to be requested on page load.
-		if ( isBlockEditorSavePost && didBlockEditorPostSaveRequestSucceed && ! isBlockEditorAutoSavePost ) {
-			handleRequestTimeStamp();
-		}
-	}, [ isBlockEditorSavePost, isBlockEditorAutoSavePost, didBlockEditorPostSaveRequestSucceed ] );
-
-	// Subscribe to Elementor editor post save.
-	if ( isElementorEditor ) {
-		// eslint-disable-next-line no-warning-comments
-		// TODO: Importing this function results in a
-		// RegisterElementorDataHookAfter( "document/save/save", "wordproof/timestamper", handleRequestTimeStamp );
+	} else {
+		createErrorNotice( errorNotice, errorNoticeOptions );
 	}
-
-	// Return useful state.
-	return { timestampResponse };
-};
+}
