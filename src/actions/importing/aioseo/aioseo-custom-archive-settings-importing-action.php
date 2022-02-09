@@ -6,7 +6,7 @@ namespace Yoast\WP\SEO\Actions\Importing\Aioseo;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Sanitization_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
-use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Replacevar_Handler;
+use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Replacevar_Service;
 use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Provider_Service;
 use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Transformer_Service;
 /**
@@ -58,7 +58,7 @@ class Aioseo_Custom_Archive_Settings_Importing_Action extends Abstract_Aioseo_Se
 	 * @param Options_Helper                    $options            The options helper.
 	 * @param Sanitization_Helper               $sanitization       The sanitization helper.
 	 * @param Post_Type_Helper                  $post_type          The post type helper.
-	 * @param Aioseo_Replacevar_Handler         $replacevar_handler The replacevar handler.
+	 * @param Aioseo_Replacevar_Service         $replacevar_handler The replacevar handler.
 	 * @param Aioseo_Robots_Provider_Service    $robots_provider    The robots provider service.
 	 * @param Aioseo_Robots_Transformer_Service $robots_transformer The robots transfomer service.
 	 */
@@ -66,7 +66,7 @@ class Aioseo_Custom_Archive_Settings_Importing_Action extends Abstract_Aioseo_Se
 		Options_Helper $options,
 		Sanitization_Helper $sanitization,
 		Post_Type_Helper $post_type,
-		Aioseo_Replacevar_Handler $replacevar_handler,
+		Aioseo_Replacevar_Service $replacevar_handler,
 		Aioseo_Robots_Provider_Service $robots_provider,
 		Aioseo_Robots_Transformer_Service $robots_transformer
 	) {

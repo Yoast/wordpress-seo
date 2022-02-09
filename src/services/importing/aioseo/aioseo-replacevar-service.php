@@ -4,9 +4,9 @@
 namespace Yoast\WP\SEO\Services\Importing\Aioseo;
 
 /**
- * Handles AISOEO replacevars.
+ * Replaces AISOEO replacevars with Yoast ones.
  */
-class Aioseo_Replacevar_Handler {
+class Aioseo_Replacevar_Service {
 
 	/**
 	 * Mapping between the AiOSEO replace vars and the Yoast replace vars.
@@ -16,7 +16,7 @@ class Aioseo_Replacevar_Handler {
 	 * @see https://yoast.com/help/list-available-snippet-variables-yoast-seo/
 	 */
 	protected $replace_vars_map = [
-		// They key is the AiOSEO replace var, the value is the Yoast replace var (see class-wpseo-replace-vars).
+		// The key is the AiOSEO replace var, the value is the Yoast replace var (see class-wpseo-replace-vars).
 		'#archive_title'        => '%%archive_title%%',
 		'#archive_date'         => '%%date%%',
 		'#attachment_caption'   => '%%caption%%',

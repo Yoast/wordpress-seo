@@ -2,22 +2,22 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Services\Importing;
 
-use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Replacevar_Handler;
+use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Replacevar_Service;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class Aioseo_Replacevar_Handler_Test.
+ * Class Aioseo_Replacevar_Service_Test.
  *
  * @group importing
  *
- * @coversDefaultClass \Yoast\WP\SEO\Services\Importing\Aioseo_Replacevar_Handler
+ * @coversDefaultClass \Yoast\WP\SEO\Services\Importing\Aioseo_Replacevar_Service
  */
-class Aioseo_Replacevar_Handler_Test extends TestCase {
+class Aioseo_Replacevar_Service_Test extends TestCase {
 
 	/**
 	 * The class under test.
 	 *
-	 * @var Aioseo_Replacevar_Handler
+	 * @var Aioseo_Replacevar_Service
 	 */
 	protected $aioseo_replacevar_handler;
 
@@ -25,7 +25,7 @@ class Aioseo_Replacevar_Handler_Test extends TestCase {
 	 * {@inheritDoc}
 	 */
 	public function set_up() {
-		$this->aioseo_replacevar_handler = new Aioseo_Replacevar_Handler();
+		$this->aioseo_replacevar_handler = new Aioseo_Replacevar_Service();
 	}
 
 	/**

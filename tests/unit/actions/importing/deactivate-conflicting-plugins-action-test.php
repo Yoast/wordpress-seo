@@ -6,7 +6,7 @@ use Mockery;
 use Yoast\WP\SEO\Actions\Importing\Deactivate_Conflicting_Plugins_Action;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Sanitization_Helper;
-use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Replacevar_Handler;
+use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Replacevar_Service;
 use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Provider_Service;
 use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Transformer_Service;
 use Yoast\WP\SEO\Services\Importing\Conflicting_Plugins_Service;
@@ -40,7 +40,7 @@ class Deactivate_Conflicting_Plugins_Action_Test extends TestCase {
 	/**
 	 * The replacevar handler.
 	 *
-	 * @var Mockery\MockInterface|Aioseo_Replacevar_Handler
+	 * @var Mockery\MockInterface|Aioseo_Replacevar_Service
 	 */
 	protected $replacevar_handler;
 
@@ -63,7 +63,7 @@ class Deactivate_Conflicting_Plugins_Action_Test extends TestCase {
 	 */
 	public function set_up() {
 		$this->conflicting_plugins_service = Mockery::mock( Conflicting_Plugins_Service::class );
-		$this->replacevar_handler          = Mockery::mock( Aioseo_Replacevar_Handler::class );
+		$this->replacevar_handler          = Mockery::mock( Aioseo_Replacevar_Service::class );
 		$this->robots_provider             = Mockery::mock( Aioseo_Robots_Provider_Service::class );
 		$this->robots_transformer          = Mockery::mock( Aioseo_Robots_Transformer_Service::class );
 

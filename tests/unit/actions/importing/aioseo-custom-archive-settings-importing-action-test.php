@@ -8,7 +8,7 @@ use Yoast\WP\SEO\Actions\Importing\Aioseo\Aioseo_Custom_Archive_Settings_Importi
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Sanitization_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
-use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Replacevar_Handler;
+use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Replacevar_Service;
 use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Provider_Service;
 use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Transformer_Service;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -63,7 +63,7 @@ class Aioseo_Custom_Archive_Settings_Importing_Action_Test extends TestCase {
 	/**
 	 * The replacevar handler.
 	 *
-	 * @var Mockery\MockInterface|Aioseo_Replacevar_Handler
+	 * @var Mockery\MockInterface|Aioseo_Replacevar_Service
 	 */
 	protected $replacevar_handler;
 
@@ -130,7 +130,7 @@ class Aioseo_Custom_Archive_Settings_Importing_Action_Test extends TestCase {
 		$this->options            = Mockery::mock( Options_Helper::class );
 		$this->sanitization       = Mockery::mock( Sanitization_Helper::class );
 		$this->post_type          = Mockery::mock( Post_Type_Helper::class );
-		$this->replacevar_handler = Mockery::mock( Aioseo_Replacevar_Handler::class );
+		$this->replacevar_handler = Mockery::mock( Aioseo_Replacevar_Service::class );
 		$this->robots_provider    = Mockery::mock( Aioseo_Robots_Provider_Service::class );
 		$this->robots_transformer = Mockery::mock( Aioseo_Robots_Transformer_Service::class );
 		$this->instance           = new Aioseo_Custom_Archive_Settings_Importing_Action( $this->options, $this->sanitization, $this->post_type, $this->replacevar_handler, $this->robots_provider, $this->robots_transformer );

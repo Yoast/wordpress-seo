@@ -15,7 +15,7 @@ use Yoast\WP\SEO\Helpers\Sanitization_Helper;
 use Yoast\WP\SEO\Helpers\Wpdb_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
-use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Replacevar_Handler;
+use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Replacevar_Service;
 use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Provider_Service;
 use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Transformer_Service;
 use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Social_Images_Provider_Service;
@@ -184,7 +184,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Aioseo_Importing_Action {
 	 * @param Image_Helper                          $image                  The image helper.
 	 * @param Sanitization_Helper                   $sanitization           The sanitization helper.
 	 * @param Wpdb_Helper                           $wpdb_helper            The wpdb_helper helper.
-	 * @param Aioseo_Replacevar_Handler             $replacevar_handler     The replacevar handler.
+	 * @param Aioseo_Replacevar_Service             $replacevar_handler     The replacevar handler.
 	 * @param Aioseo_Robots_Provider_Service        $robots_provider        The robots provider service.
 	 * @param Aioseo_Robots_Transformer_Service     $robots_transformer     The robots transfomer service.
 	 * @param Aioseo_Social_Images_Provider_Service $social_images_provider The social images provider service.
@@ -198,7 +198,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Aioseo_Importing_Action {
 		Image_Helper $image,
 		Sanitization_Helper $sanitization,
 		Wpdb_Helper $wpdb_helper,
-		Aioseo_Replacevar_Handler $replacevar_handler,
+		Aioseo_Replacevar_Service $replacevar_handler,
 		Aioseo_Robots_Provider_Service $robots_provider,
 		Aioseo_Robots_Transformer_Service $robots_transformer,
 		Aioseo_Social_Images_Provider_Service $social_images_provider ) {
