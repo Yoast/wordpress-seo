@@ -179,7 +179,6 @@ class HelpScout_Beacon implements Integration_Interface {
 			'name'               => \trim( $current_user->user_firstname . ' ' . $current_user->user_lastname ),
 			'email'              => $current_user->user_email,
 			'WordPress Version'  => $this->get_wordpress_version(),
-			'Is multisite'       => \is_multisite() ? 'True' : 'False',
 			$this->get_server_info(),
 			'Theme'              => $this->get_theme_info(),
 			'Plugins'            => $this->get_active_plugins(),
@@ -242,10 +241,11 @@ class HelpScout_Beacon implements Integration_Interface {
 			return '';
 		}
 
-		$product_info  = '<table>';
-		$product_info .= '<tr><td>Version</td><td>' . $plugin->product->version . '</td></tr>';
-		$product_info .= '<tr><td>Expiration date</td><td>' . $plugin->expiry_date . '</td></tr>';
-		$product_info .= '</table>';
+		$product_info = \sprintf(
+			'Version: %1$s, expiration date: 2$s',
+			$plugin->product->version,
+			$plugin->expiry_date
+		);
 
 		return $product_info;
 	}
@@ -260,7 +260,7 @@ class HelpScout_Beacon implements Integration_Interface {
 
 		$wordpress_version = $wp_version;
 		if ( \is_multisite() ) {
-			$wordpress_version .= ' MULTI-SITE';
+			$wordpress_version .= ' (multisite enabled)';
 		}
 
 		return $wordpress_version;
@@ -275,15 +275,14 @@ class HelpScout_Beacon implements Integration_Interface {
 		$theme = \wp_get_theme();
 
 		$theme_info = \sprintf(
-			'<a href="%1$s">%2$s</a> v%3$s by %4$s',
-			\esc_attr( $theme->display( 'ThemeURI' ) ),
+			'%1$s (Version %2$s, URL %3$s)',
 			\esc_html( $theme->display( 'Name' ) ),
 			\esc_html( $theme->display( 'Version' ) ),
-			\esc_html( $theme->display( 'Author' ) )
+			\esc_attr( $theme->display( 'ThemeURI' ) ),
 		);
 
 		if ( \is_child_theme() ) {
-			$theme_info .= \sprintf( '<br />Child theme of: %1$s', \esc_html( $theme->display( 'Template' ) ) );
+			$theme_info .= \sprintf( ', this is a child theme of: %1$s', \esc_html( $theme->display( 'Template' ) ) );
 		}
 
 		return $theme_info;
