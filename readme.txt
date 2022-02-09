@@ -241,17 +241,17 @@ Release Date: February 22nd, 2022
 
 Enhancements:
 
-* Optimizes the images in FAQ and How To blocks to be more responsive and load faster.
+* Optimizes the images in FAQ and HowTo blocks to be more responsive and load faster.
 * Replaces indexing at the end of admin requests with WP-Cron if WP-Cron is not disabled on the site.
 
 Bugfixes:
 
-* Fixes a bug where the "Save changes" button overlaps with the admin sidebar on WordPress.com. Props to @DustyReagan.
+* Fixes a bug where the "Save changes" button would overlap with the admin sidebar on WordPress.com. Props to @DustyReagan.
 * Fixes a bug where a (debug) deprecation message would show in the widget editor on WordPress 5.8 and above.
 
 Other:
 
-* Add an isset magic method to ease working with helper surfaces. Props to @nlemoine.
+* Adds an isset magic method to ease working with helper surfaces. Props to @nlemoine.
 
 = 18.1 =
 Release Date: February 8th, 2022
