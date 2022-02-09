@@ -175,17 +175,18 @@ class HelpScout_Beacon implements Integration_Interface {
 		$current_user = \wp_get_current_user();
 
 		// Do not make these strings translatable! They are for our support agents, the user won't see them!
-		$data = [
-			'name'               => \trim( $current_user->user_firstname . ' ' . $current_user->user_lastname ),
-			'email'              => $current_user->user_email,
-		];
-
-		$data = array_merge( $data, $this->get_server_info(), 
-		[
-			'WordPress Version'  => $this->get_wordpress_version(),
-			'Active theme'       => $this->get_theme_info(),
-			'Active plugins'     => $this->get_active_plugins(),
-		] );
+		$data = array_merge(
+			[
+				'name'               => \trim( $current_user->user_firstname . ' ' . $current_user->user_lastname ),
+				'email'              => $current_user->user_email,
+			],
+			$this->get_server_info(),
+			[
+				'WordPress Version'  => $this->get_wordpress_version(),
+				'Active theme'       => $this->get_theme_info(),
+				'Active plugins'     => $this->get_active_plugins(),
+			]
+		);
 
 		if ( ! empty( $this->products ) ) {
 			$addon_manager = new WPSEO_Addon_Manager();
@@ -214,7 +215,7 @@ class HelpScout_Beacon implements Integration_Interface {
 		$server_data          = $server_data['server'];
 
 		$fields_to_use = [
-			'Server IP'       => 'ip',
+			'Server IP'        => 'ip',
 			'PHP Version'      => 'PhpVersion',
 			'cURL Version'     => 'CurlVersion',
 		];
@@ -225,7 +226,7 @@ class HelpScout_Beacon implements Integration_Interface {
 
 		foreach ( $fields_to_use as $label => $field_to_use ) {
 			if ( isset( $server_data[ $field_to_use ] ) ) {
-				$server_info[ $label ] = \esc_html( $server_data[ $field_to_use ] ) ;
+				$server_info[ $label ] = \esc_html( $server_data[ $field_to_use ] );
 			}
 		}
 
