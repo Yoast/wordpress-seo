@@ -9,6 +9,8 @@ import initAdminMedia from "./initializers/admin-media";
 import initAdmin from "./initializers/admin";
 import initEditorStore from "./initializers/editor-store";
 import initializeEstimatedReadingTime from "./initializers/estimated-reading-time";
+import { isWordProofIntegrationActive } from "./helpers/wordproof";
+import initializeWordProofIntegration from "./initializers/wordproof";
 
 // Backwards compatibility globals.
 window.wpseoPostScraperL10n = window.wpseoScriptData.metabox;
@@ -49,6 +51,10 @@ domReady( () => {
 
 	// Initialize global admin scripts.
 	initAdmin( jQuery );
+
+	if ( isWordProofIntegrationActive() ) {
+		initializeWordProofIntegration();
+	}
 
 	// Initialize the Estimated Reading Time after 500ms to avoid blocking initial loading.
 	setTimeout( initializeEstimatedReadingTime, 500 );

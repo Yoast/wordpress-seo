@@ -17,8 +17,6 @@ import SchemaTabContainer from "../../../containers/SchemaTab";
 import AdvancedSettings from "../../../containers/AdvancedSettings";
 import SEMrushRelatedKeyphrases from "../../../containers/SEMrushRelatedKeyphrases";
 import WincherSEOPerformanceModal from "../../../containers/WincherSEOPerformanceModal";
-import { isWordProofIntegrationActive } from "../../../helpers/wordproof";
-import WordProofElementorTimestamper from "../WordProofElementorTimestamper";
 
 /* eslint-disable complexity */
 /**
@@ -45,7 +43,6 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 
 	return (
 		<>
-			{ isWordProofIntegrationActive() && <WordProofElementorTimestamper /> }
 			<Fill name="YoastElementor">
 				<SidebarItem renderPriority={ 1 }>
 					<Alert />
