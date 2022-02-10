@@ -5,16 +5,23 @@
  * @package WPSEO\XML_Sitemaps
  */
 
+use Yoast\WP\SEO\Services\Sitemaps\Sitemap_State;
+
 /**
  * Rewrite setup and handling for sitemaps functionality.
  */
 class WPSEO_Sitemaps_Router {
 
 	/**
+	 * @var Sitemap_State
+	 */
+	protected $sitemap_state;
+
+	/**
 	 * Sets up init logic.
 	 */
 	public function __construct() {
-
+		$this->sitemap_state = YoastSEO()->classes->get( Sitemap_State::class );
 		add_action( 'init', [ $this, 'init' ], 1 );
 		add_filter( 'redirect_canonical', [ $this, 'redirect_canonical' ] );
 		add_action( 'template_redirect', [ $this, 'template_redirect' ], 0 );
@@ -22,8 +29,14 @@ class WPSEO_Sitemaps_Router {
 
 	/**
 	 * Sets up rewrite rules.
+	 *
+	 * If the sitemap is not presentable, we fall back to the WP Core sitemaps. Our rewrite rules, however, conflict with core's.
+	 * So we must not register our rules when we fall back to WP Core.
 	 */
 	public function init() {
+		if ( ! $this->sitemap_state->is_presentable() ) {
+			return;
+		}
 
 		global $wp;
 
@@ -122,6 +135,7 @@ class WPSEO_Sitemaps_Router {
 		 * Get the scheme from the configured home URL instead of letting WordPress
 		 * determine the scheme based on the requested URI.
 		 */
+
 		return home_url( $base . $page, wp_parse_url( get_option( 'home' ), PHP_URL_SCHEME ) );
 	}
 }

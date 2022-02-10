@@ -3,49 +3,74 @@
 namespace Yoast\WP\SEO\Integrations;
 
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
-use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Exceptions\Sitemaps\Path_Transformation_Exception;
 use Yoast\WP\SEO\Helpers\Redirect_Helper;
+use Yoast\WP\SEO\Services\Sitemaps\Sitemap_Path_Transformer;
+use Yoast\WP\SEO\Services\Sitemaps\Sitemap_State;
 
 /**
- * Disables the WP core sitemaps.
+ * Disables the WP core sitemaps or falls back to WP core sitemaps.
  */
 class Sitemap_Source_Determination_Integration implements Integration_Interface {
 
 	use No_Conditionals;
 
 	/**
-	 * The options helper.
-	 *
-	 * @var Options_Helper
-	 */
-	private $options;
-
-	/**
 	 * The redirect helper.
 	 *
 	 * @var Redirect_Helper
 	 */
-	private $redirect;
+	protected $redirect;
+
+	/**
+	 * Transforms WordPress sitemap paths into Yoast SEO sitemap paths and vice versa.
+	 *
+	 * @var Sitemap_Path_Transformer
+	 */
+	protected $path_transformer;
+
+	/**
+	 * Determines the state the Yoast SEO sitemap is currently in.
+	 *
+	 * @var Sitemap_State
+	 */
+	protected $sitemap_state;
 
 	/**
 	 * Sitemaps_Enabled_Conditional constructor.
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @param Options_Helper  $options  The options helper.
-	 * @param Redirect_Helper $redirect The redirect helper.
+	 * @param Redirect_Helper          $redirect         The redirect helper.
+	 * @param Sitemap_Path_Transformer $path_transformer A service which transforms WordPress sitemap paths into Yoast SEO paths and vice versa.
+	 * @param Sitemap_State $sitemap_state
 	 */
-	public function __construct( Options_Helper $options, Redirect_Helper $redirect ) {
-		$this->options  = $options;
-		$this->redirect = $redirect;
+	public function __construct(
+		Redirect_Helper $redirect,
+		Sitemap_Path_Transformer $path_transformer,
+		Sitemap_State $sitemap_state
+	) {
+		$this->redirect         = $redirect;
+		$this->path_transformer = $path_transformer;
+		$this->sitemap_state  = $sitemap_state;
 	}
 
 	/**
 	 * Disable the WP core XML sitemaps.
+	 * {@inheritDoc}
 	 */
 	public function register_hooks() {
-		// This needs to be on priority 15 as that is after our options initialize.
-		\add_action( 'plugins_loaded', [ $this, 'maybe_disable_core_sitemaps' ], 15 );
+		$path = $this->get_requested_path();
+		if ( \strpos( $path, 'sitemap' ) === false ) {
+			// Not a sitemap request.
+			return;
+		}
+		// Ignore xsl requests.
+		if ( \strpos( $path, '.xsl' ) !== false ) {
+			return;
+		}
+
+		\add_action( 'init', [ $this, 'determine_sitemap_provider' ], 11 );
 	}
 
 	/**
@@ -53,67 +78,77 @@ class Sitemap_Source_Determination_Integration implements Integration_Interface 
 	 *
 	 * @return void
 	 */
-	public function maybe_disable_core_sitemaps() {
-		if ( $this->options->get( 'enable_xml_sitemap' ) ) {
-			\add_filter( 'wp_sitemaps_enabled', '__return_false' );
+	public function determine_sitemap_provider() {
+		// If sitemaps are disabled, don't interfere with anything.
+		if ( ! $this->sitemap_state->is_enabled() ) {
+			return;
+		}
 
-			\add_action( 'template_redirect', [ $this, 'template_redirect' ], 0 );
+		if ( $this->sitemap_state->is_presentable() ) {
+			\add_filter( 'wp_sitemaps_enabled', '__return_false' );
+			\add_action( 'send_headers', [ $this, 'redirect_to_yoast_seo_sitemap' ] );
+		}
+		else {
+			\add_action( 'send_headers', [ $this, 'redirect_to_wp_core_sitemap' ] );
 		}
 	}
 
 	/**
-	 * Redirects requests to the WordPress sitemap to the Yoast sitemap.
+	 * Redirects requests from the WordPress core sitemap to the Yoast sitemaps.
 	 *
 	 * @return void
 	 */
-	public function template_redirect() {
-		// If there is no path, nothing to do.
-		if ( empty( $_SERVER['REQUEST_URI'] ) ) {
-			return;
-		}
-		$path = \sanitize_text_field( \wp_unslash( $_SERVER['REQUEST_URI'] ) );
-
+	public function redirect_to_yoast_seo_sitemap() {
+		$path = $this->get_requested_path();
 		// If it's not a wp-sitemap request, nothing to do.
-		if ( \substr( $path, 0, 11 ) !== '/wp-sitemap' ) {
+		if ( \strpos( $path, '/wp-sitemap' ) !== 0 ) {
 			return;
 		}
 
-		$redirect = $this->get_redirect_url( $path );
-
-		if ( ! $redirect ) {
+		try {
+			$yoast_seo_path = $this->path_transformer->transform_wp_core_to_yoast_seo( $path );
+		} catch ( Path_Transformation_Exception $exception ) {
+			// We don't have a valid Yoast SEO alternative. Don't do anything.
 			return;
 		}
 
-		$this->redirect->do_safe_redirect( \home_url( $redirect ), 301 );
+		$this->redirect->do_safe_redirect( \home_url( $yoast_seo_path ), 301 );
 	}
 
 	/**
-	 * Returns the relative sitemap URL to redirect to.
+	 * Redirects requests from the Yoast SEO to the WordPress core sitemaps.
 	 *
-	 * @param string $path The original path.
-	 *
-	 * @return string|false The path to redirct to. False if no redirect should be done.
+	 * @return void
 	 */
-	private function get_redirect_url( $path ) {
-		// Start with the simple string comparison so we avoid doing unnecessary regexes.
-		if ( $path === '/wp-sitemap.xml' ) {
-			return '/sitemap_index.xml';
+	public function redirect_to_wp_core_sitemap() {
+		$path = $this->get_requested_path();
+
+		try {
+			$wp_core_path = $this->path_transformer->transform_yoast_seo_to_wp_core( $path );
+		} catch ( Path_Transformation_Exception $exception ) {
+			// The current path isn't a Yoast SEO sitemap path, or we don't have a valid WP Core alternative. Don't do anything.
+			return;
 		}
 
-		if ( \preg_match( '/^\/wp-sitemap-(posts|taxonomies)-(\w+)-(\d+)\.xml$/', $path, $matches ) ) {
-			$index = ( (int) $matches[3] - 1 );
-			$index = ( $index === 0 ) ? '' : (string) $index;
+		// Use a 302, as this is a temporary fallback which is no longer used once all indexables are complete.
+		$this->redirect->do_safe_redirect( \home_url( $wp_core_path ), 302 );
+	}
 
-			return '/' . $matches[2] . '-sitemap' . $index . '.xml';
+	/**
+	 * Gets the requested path of the current request.
+	 *
+	 * @return string The requested path.
+	 */
+	protected function get_requested_path() {
+		static $path;
+
+		if ( isset( $path ) ) {
+			return $path;
+		}
+		if ( empty( $_SERVER['REQUEST_URI'] ) ) {
+			return '';
 		}
 
-		if ( \preg_match( '/^\/wp-sitemap-users-(\d+)\.xml$/', $path, $matches ) ) {
-			$index = ( (int) $matches[1] - 1 );
-			$index = ( $index === 0 ) ? '' : (string) $index;
-
-			return '/author-sitemap' . $index . '.xml';
-		}
-
-		return false;
+		return $path = sanitize_text_field( \wp_unslash( $_SERVER['REQUEST_URI'] ) );
 	}
 }

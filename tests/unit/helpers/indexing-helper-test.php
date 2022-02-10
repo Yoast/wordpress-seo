@@ -440,4 +440,191 @@ class Indexing_Helper_Test extends TestCase {
 
 		static::assertEquals( 30, $this->instance->get_limited_filtered_unindexed_count( 25 ) );
 	}
+
+	/**
+	 *
+	 * @covers ::is_index_up_to_date
+	 */
+	public function test_is_index_up_to_date() {
+		$this->options_helper
+			->expects( 'get' )
+			->once()
+			->with( 'last_completely_indexed_versions' )
+			->andReturn( '1-2-3-4-5' );
+
+		$this->indexable_builder_versions
+			->expects( 'get_combined_version_key' )
+			->once()
+			->andReturn( '1-2-3-4-5' );
+
+
+		$this->assertSame( $this->instance->is_index_up_to_date(), true );
+	}
+
+
+	/**
+	 *
+	 * @covers ::is_index_up_to_date
+	 */
+	public function test_is_index_up_to_date_with_specific_version() {
+		$this->options_helper
+			->expects( 'get' )
+			->once()
+			->with( 'last_completely_indexed_versions' )
+			->andReturn( '1-2-2-2-3' );
+
+		$this->indexable_builder_versions
+			->expects( 'version_compare' )
+			->once()
+			->with( '1-2-2-2-3', '>=', '1-1-2-2-2' )
+			->andReturn( true );
+
+		$this->assertTrue( $this->instance->is_index_up_to_date( '1-1-2-2-2' ) );
+	}
+
+	/**
+	 *
+	 * @covers ::is_index_up_to_date
+	 */
+	public function test_is_index_up_to_date_out_of_date() {
+		$this->options_helper
+			->expects( 'get' )
+			->once()
+			->with( 'last_completely_indexed_versions' )
+			->andReturn( '1-2-3-4-5' );
+
+		$this->indexable_builder_versions
+			->expects( 'get_combined_version_key' )
+			->once()
+			->andReturn( '4-5-6-7-8' );
+
+		$this->post_indexation
+			->expects( 'get_limited_unindexed_count' )
+			->with( 2 )
+			->once()
+			->andReturn( 5 );
+
+
+		$this->assertFalse( $this->instance->is_index_up_to_date() );
+	}
+
+	/**
+	 *
+	 * @covers ::is_index_up_to_date
+	 */
+	public function test_is_index_up_to_date_used_to_be_out_of_date() {
+		$this->options_helper
+			->expects( 'get' )
+			->once()
+			->with( 'last_completely_indexed_versions' )
+			->andReturn( '1-2-3-4-5' );
+
+		$this->indexable_builder_versions
+			->expects( 'get_combined_version_key' )
+			->once()
+			->andReturn( '4-5-6-7-8' );
+
+		$this->post_indexation
+			->expects( 'get_limited_unindexed_count' )
+			->with( 2 )
+			->once()
+			->andReturn( 0 );
+
+		$this->term_indexation
+			->expects( 'get_limited_unindexed_count' )
+			->with( 2 )
+			->once()
+			->andReturn( 0 );
+
+		$this->post_type_archive_indexation
+			->expects( 'get_limited_unindexed_count' )
+			->with( 2 )
+			->once()
+			->andReturn( 0 );
+
+		$this->general_indexation
+			->expects( 'get_limited_unindexed_count' )
+			->with( 2 )
+			->once()
+			->andReturn( 0 );
+
+		$this->post_link_indexing_action
+			->expects( 'get_limited_unindexed_count' )
+			->with( 2 )
+			->once()
+			->andReturn( 0 );
+
+		$this->term_link_indexing_action
+			->expects( 'get_limited_unindexed_count' )
+			->with( 2 )
+			->once()
+			->andReturn( 0 );
+
+		$this->options_helper
+			->expects( 'set' )
+			->once()
+			->with( 'last_completely_indexed_versions', '4-5-6-7-8' );
+
+		$this->assertTrue( $this->instance->is_index_up_to_date() );
+	}
+
+	/**
+	 *
+	 * @covers ::is_index_up_to_date
+	 */
+	public function test_is_index_up_to_date_was_never_up_to_date() {
+		$this->options_helper
+			->expects( 'get' )
+			->once()
+			->with( 'last_completely_indexed_versions' )
+			->andReturn( null );
+
+		$this->indexable_builder_versions
+			->expects( 'get_combined_version_key' )
+			->once()
+			->andReturn( '4-5-6-7-8' );
+
+		$this->post_indexation
+			->expects( 'get_limited_unindexed_count' )
+			->with( 2 )
+			->once()
+			->andReturn( 0 );
+
+		$this->term_indexation
+			->expects( 'get_limited_unindexed_count' )
+			->with( 2 )
+			->once()
+			->andReturn( 0 );
+
+		$this->post_type_archive_indexation
+			->expects( 'get_limited_unindexed_count' )
+			->with( 2 )
+			->once()
+			->andReturn( 0 );
+
+		$this->general_indexation
+			->expects( 'get_limited_unindexed_count' )
+			->with( 2 )
+			->once()
+			->andReturn( 0 );
+
+		$this->post_link_indexing_action
+			->expects( 'get_limited_unindexed_count' )
+			->with( 2 )
+			->once()
+			->andReturn( 0 );
+
+		$this->term_link_indexing_action
+			->expects( 'get_limited_unindexed_count' )
+			->with( 2 )
+			->once()
+			->andReturn( 0 );
+
+		$this->options_helper
+			->expects( 'set' )
+			->once()
+			->with( 'last_completely_indexed_versions', '4-5-6-7-8' );
+
+		$this->assertTrue( $this->instance->is_index_up_to_date() );
+	}
 }

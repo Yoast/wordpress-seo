@@ -55,4 +55,58 @@ class Indexable_Builder_Versions {
 	public function get_combined_version_key() {
 		return implode( '-', array_values( $this->indexable_builder_versions_by_type ) );
 	}
+
+	/**
+	 * Compares two combined indexable builder version strings.
+	 *
+	 * @param string $version_1 The first version to compare.
+	 * @param string $operator The compare operator.  <, lt, >, gt, !=, <>, ne, <=,le, >=, ge, ==, = or eq.
+	 * @param string $version_2 The second version to compare.
+	 *
+	 * @return bool True if the version comparison holds true, false otherwise.
+	 */
+	public function version_compare( $version_1, $operator, $version_2 ) {
+		$version_1_list = explode( '-', $version_1 );
+		$version_2_list = explode( '-', $version_2 );
+
+		if ( count( $version_1_list ) !== count( $version_2_list ) ) {
+			throw new \InvalidArgumentException( 'Expected both strings to consist of an equal number of versions. "' . $version_1 . '" and "' . $version_2 . '" given' );
+		}
+
+		$number_of_versions = count( $version_1_list );
+
+		if ( in_array( $operator, [ '<', 'lt', '>', 'gt', ] ) ) {
+			$has_at_least_once_match = false;
+			for ( $i = 0; $i < $number_of_versions; $i++ ) {
+				// The rest may be equal, as long as one version matches the operator.
+				if ( \version_compare( $version_1_list[ $i ], $version_2_list[ $i ], $operator ) ) {
+					$has_at_least_once_match = true;
+				}
+				else if ( ! \version_compare( $version_1_list[ $i ], $version_2_list[ $i ], '==' ) ) {
+					return false;
+				}
+			}
+
+			return $has_at_least_once_match;
+		}
+
+		if ( in_array( $operator, [ '!=', '<>', 'ne' ] ) ) {
+			for ( $i = 0; $i < $number_of_versions; $i++ ) {
+				if ( \version_compare( $version_1_list[ $i ], $version_2_list[ $i ], $operator ) ) {
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		// Remaining cases: <=,le, >=, ge, ==, =, eq.
+		for ( $i = 0; $i < $number_of_versions; $i++ ) {
+			if ( ! \version_compare( $version_1_list[ $i ], $version_2_list[ $i ], $operator ) ) {
+				return false;
+			}
+		}
+
+		return true;
+	}
 }

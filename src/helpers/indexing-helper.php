@@ -247,12 +247,22 @@ class Indexing_Helper {
 	 * If the indexables are complete, they will always be considered complete until one or more
 	 * indexable builders get a version bump.
 	 *
-	 * @return bool Whether the index is up to date.
+	 * @param string $version The minimum required version to be considered up to date. e.g. "2-2-3-3-3-3-3-2"
+	 *
+	 * @return bool Whether the index is up-to-date.
 	 */
-	public function is_index_up_to_date() {
+	public function is_index_up_to_date( $version = 'latest' ) {
 		$last_completed_index_version = $this->options_helper->get( 'last_completely_indexed_versions' );
-		$combined_version_key         = $this->indexable_builder_versions->get_combined_version_key();
-		if ( $last_completed_index_version === $combined_version_key ) {
+
+		if ( $version !== 'latest' && ! empty( $last_completed_index_version ) ) {
+			try {
+				return $this->indexable_builder_versions->version_compare( $last_completed_index_version, '>=', $version );
+			} catch ( \InvalidArgumentException $exception ) {
+				return false;
+			}
+		}
+		$combined_version_key = $this->indexable_builder_versions->get_combined_version_key();
+		if ( $version === 'latest' && $last_completed_index_version === $combined_version_key ) {
 			return true;
 		}
 
