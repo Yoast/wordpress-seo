@@ -78,10 +78,40 @@ ContinueButton.defaultProps = {
 /**
  * The StepButtons component.
  *
- * @param {Object}   props                 The props object.
- * @param {number}   props.stepIndex       The index of the current step.
- * @param {function} props.saveAndContinue A function to call when the primary button is clicked.
- * @param {function} props.goBack          A function to call when the "Go Back" button is clicked.
+ * @param {Object}   props The props object.
+ *
+ * @returns {WPElement} The EditButton component.
+ */
+function EditButton( { children, ...restProps } ) {
+	const { stepIndex, setActiveStepIndex } = useStepperContext();
+
+	const editFunction = useCallback( () => {
+		setActiveStepIndex( stepIndex );
+	}, [ setActiveStepIndex, stepIndex ] );
+
+	return <button
+		onClick={ editFunction }
+		className="yst-button--secondary yst-button--small"
+		{ ...restProps }
+	>
+		{ children }
+	</button>;
+}
+
+EditButton.propTypes = {
+	children: PropTypes.node,
+};
+
+EditButton.defaultProps = {
+	children: <Fragment>{ __( "Edit", "wordpress-seo" ) }</Fragment>,
+};
+
+/**
+ * The StepButtons component.
+ *
+ * @param {Object}   props            The props object.
+ * @param {number}   props.children   The children of the component.
+ * @param {function} props.beforeBack A function to call when the "Go Back" button is clicked.
  *
  * @returns {WPElement} The StepButtons component.
  */
@@ -147,13 +177,47 @@ StepButtons.defaultProps = {
 };
 
 /**
+ * 
+ * @returns 
+ */
+export function Step( { children } ) {
+	const { lastStepIndex, stepIndex, activeStepIndex } = useStepperContext();
+	return <Fragment>
+		{ /* Line. */ }
+		{ stepIndex !== lastStepIndex &&
+			<Fragment>
+				<div
+					className={ "yst--ml-px yst-absolute yst-left-4 yst-w-0.5 yst-h-full yst-bg-gray-300 yst--bottom-6" }
+					aria-hidden="true"
+				/>
+				<div
+					className={ `yst-h-12 yst-transition-transform ${ delayUntilStepFaded } yst-ease-linear ${ slideDurationClass } ${ stepIndex < activeStepIndex  ? "yst-scale-y-1" : "yst-scale-y-0" } yst-origin-top yst--ml-px yst-absolute yst-left-4 yst-w-0.5 yst-bg-primary-500 yst-top-8` }
+					aria-hidden="true"
+				/>
+			</Fragment>
+		}
+		{/* <StepHeader
+			name={ name }
+			description={ description }
+			isActiveStep={ isActiveStep }
+			isFinished={ isFinished }
+			isLastStep={ isLastStep }
+			showEditButton={ showEditButton }
+			editStep={ editStep }
+			isStepBeingEdited={ isStepBeingEdited }
+		/> */}
+		{ children }
+	</Fragment>;
+};
+
+/**
  * The (Tailwind) Step component
  *
  * @param {Object} props The props.
  *
  * @returns {WPElement} The Step component.
  */
-function Step( { name, description, isFinished, children } ) {
+function Content( { name, description, isFinished, children } ) {
 	const { activeStepIndex, stepIndex, setActiveStepIndex, lastStepIndex, showEditButton, isStepBeingEdited, setIsStepBeingEdited } = useStepperContext();
 	const isLastStep = stepIndex === lastStepIndex;
 	const isActiveStep = activeStepIndex === stepIndex;
@@ -179,29 +243,6 @@ function Step( { name, description, isFinished, children } ) {
 
 	return (
 		<Fragment>
-			{ /* Line. */ }
-			{ ! isLastStep &&
-				<Fragment>
-					<div
-						className={ "yst--ml-px yst-absolute yst-left-4 yst-w-0.5 yst-h-full yst-bg-gray-300 yst--bottom-6" }
-						aria-hidden="true"
-					/>
-					<div
-						className={ `yst-h-12 yst-transition-transform ${ delayUntilStepFaded } yst-ease-linear ${ slideDurationClass } ${ stepIndex < activeStepIndex  ? "yst-scale-y-1" : "yst-scale-y-0" } yst-origin-top yst--ml-px yst-absolute yst-left-4 yst-w-0.5 yst-bg-primary-500 yst-top-8` }
-						aria-hidden="true"
-					/>
-				</Fragment>
-			}
-			<StepHeader
-				name={ name }
-				description={ description }
-				isActiveStep={ isActiveStep }
-				isFinished={ isFinished }
-				isLastStep={ isLastStep }
-				showEditButton={ showEditButton }
-				editStep={ editStep }
-				isStepBeingEdited={ isStepBeingEdited }
-			/>
 			{ /* Child component and buttons. */ }
 			<AnimateHeight
 				id={ `content-${stepIndex}` }
@@ -218,16 +259,13 @@ function Step( { name, description, isFinished, children } ) {
 	);
 }
 
-Step.propTypes = {
-	name: PropTypes.string.isRequired,
+Content.propTypes = {
 	children: PropTypes.node.isRequired,
 	isFinished: PropTypes.bool,
-	description: PropTypes.string,
 };
 
-Step.defaultProps = {
+Content.defaultProps = {
 	isFinished: false,
-	description: "",
 };
 
 /**
@@ -268,8 +306,10 @@ Stepper.propTypes = {
 	children: PropTypes.node.isRequired,
 };
 
-Stepper.Step = Step;
-Stepper.Continue = ContinueButton;
-Stepper.Back = BackButton;
-Stepper.Buttons = StepButtons;
+Step.Content = Content;
+Step.Header = StepHeader;
+Step.Continue = ContinueButton;
+Step.Back = BackButton;
+Step.Edit = EditButton;
+Step.Buttons = StepButtons;
 /* eslint-enable complexity, max-len */

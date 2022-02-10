@@ -1,6 +1,7 @@
 import { StepCircle } from "./StepCircle";
 import PropTypes from "prop-types";
-import { stepperTimings, stepperTimingClasses } from "../stepper-helper";
+import { stepperTimings } from "../stepper-helper";
+import { useStepperContext } from "./Stepper";
 
 /* eslint-disable complexity, max-len */
 
@@ -35,7 +36,10 @@ function getNameClassnames( isFinished, isActiveStep, isLastStep ) {
  *
  * @returns {WPElement} The StepHeader component.
  */
-export default function StepHeader( { name, description, isActiveStep, isFinished, isLastStep, isStepBeingEdited, showEditButton, editStep } ) {
+export default function StepHeader( { name, description, isFinished, children } ) {
+	const { stepIndex, activeStepIndex, lastStepIndex } = useStepperContext();
+	const isActiveStep = activeStepIndex === stepIndex;
+	const isLastStep = lastStepIndex === stepIndex;
 	const nameClassNames = getNameClassnames( isFinished, isActiveStep, isLastStep );
 
 	return <div className="yst-relative yst-flex yst-items-center yst-group" aria-current={ isActiveStep ? "step" : null }>
@@ -55,34 +59,20 @@ export default function StepHeader( { name, description, isActiveStep, isFinishe
 			</span>
 			{ description && <span className="yst-text-sm yst-text-gray-500">{ description }</span> }
 		</span>
-		{ ( ! isLastStep ) &&
-			<button
-				className={ `yst-button--secondary yst-button--small yst-ml-auto yst-mr-1 yst-transition-opacity yst-duration-1000 yst-relative yst-ease-out ${
-					( showEditButton && ! isStepBeingEdited )
-						? `${stepperTimingClasses.fadeDuration} yst-opacity-100`
-						: `${stepperTimingClasses.delayBeforeOpening} yst-opacity-0` }` }
-				onClick={ editStep }
-			>
-				Edit
-			</button> }
+		{ children }
 	</div>;
 }
 
 StepHeader.propTypes = {
-	name: PropTypes.string.isRequired,
-	isActiveStep: PropTypes.bool.isRequired,
+	name: PropTypes.bool.isRequired,
 	isFinished: PropTypes.bool.isRequired,
-	isLastStep: PropTypes.bool.isRequired,
-	isStepBeingEdited: PropTypes.bool.isRequired,
 	description: PropTypes.string,
-	showEditButton: PropTypes.bool,
-	editStep: PropTypes.func,
+	children: PropTypes.node,
 };
 
 StepHeader.defaultProps = {
 	description: "",
-	showEditButton: false,
-	editStep: null,
+	children: [],
 };
 
 /* eslint-enable complexity, max-len */
