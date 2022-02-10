@@ -413,4 +413,118 @@ class Importable_Detector_Service_Test extends TestCase {
 		$this->assertTrue( \is_array( $detected_cleanups ) );
 		$this->assertTrue( \count( $detected_cleanups ) === 0 );
 	}
+
+	/**
+	 * Tests whether filter_actions returns all plugins when no plugin and type are provided.
+	 *
+	 * @return void
+	 *
+	 * @covers ::filter_actions
+	 */
+	public function test_filter_actions_no_filters() {
+		$filtered_importers_no_filters = $this->instance->filter_actions( [ $this->importing_action ] );
+
+		$this->assertTrue( \is_array( $filtered_importers_no_filters ) );
+		$this->assertTrue( \count( $filtered_importers_no_filters ) === 1 );
+		$this->assertInstanceOf(
+			Aioseo_Posts_Importing_Action::class,
+			$filtered_importers_no_filters[0]
+		);
+	}
+
+	/**
+	 * Tests whether filter_actions returns the correct importers when only the plugin is provided.
+	 *
+	 * @return void
+	 *
+	 * @covers ::filter_actions
+	 */
+	public function test_filter_actions_plugin_filter_only() {
+		$filtered_importers_plugin_filters = $this->mock_instance->filter_actions( [ $this->importing_action ], 'aioseo' );
+
+		$this->assertTrue( \is_array( $filtered_importers_plugin_filters ) );
+		$this->assertTrue( \count( $filtered_importers_plugin_filters ) === 1 );
+		$this->assertInstanceOf(
+			Aioseo_Posts_Importing_Action::class,
+			$filtered_importers_plugin_filters[0]
+		);
+	}
+
+	/**
+	 * Tests whether filter_actions returns the correct importers when only the type is provided.
+	 *
+	 * @return void
+	 *
+	 * @covers ::filter_actions
+	 */
+	public function test_filter_actions_type_filter_only() {
+		$filtered_importers_type_filters = $this->mock_instance->filter_actions( [ $this->importing_action ], false, 'posts' );
+
+		$this->assertTrue( \is_array( $filtered_importers_type_filters ) );
+		$this->assertTrue( \count( $filtered_importers_type_filters ) === 1 );
+		$this->assertInstanceOf(
+			Aioseo_Posts_Importing_Action::class,
+			$filtered_importers_type_filters[0]
+		);
+	}
+
+	/**
+	 * Tests whether filter_actions returns the correct importers when both the plugin and the type are provided.
+	 *
+	 * @return void
+	 *
+	 * @covers ::filter_actions
+	 */
+	public function test_filter_actions_plugin_and_type_filter() {
+		$filtered_importers_plugin_type_filters = $this->mock_instance->filter_actions( [ $this->importing_action ], 'aioseo', 'posts' );
+
+		$this->assertTrue( \is_array( $filtered_importers_plugin_type_filters ) );
+		$this->assertTrue( \count( $filtered_importers_plugin_type_filters ) === 1 );
+		$this->assertInstanceOf(
+			Aioseo_Posts_Importing_Action::class,
+			$filtered_importers_plugin_type_filters[0]
+		);
+	}
+
+	/**
+	 * Tests whether filter_actions returns no importers when a non-existent plugin is provided.
+	 *
+	 * @return void
+	 *
+	 * @covers ::filter_actions
+	 */
+	public function test_filter_actions_non_existent_plugin() {
+		$no_filtered_importers_plugin_filters = $this->mock_instance->filter_actions( [ $this->importing_action ], 'aioseo1' );
+
+		$this->assertTrue( \is_array( $no_filtered_importers_plugin_filters ) );
+		$this->assertTrue( \count( $no_filtered_importers_plugin_filters ) === 0 );
+	}
+
+	/**
+	 * Tests whether filter_actions returns no importers when a non-existent type is provided.
+	 *
+	 * @return void
+	 *
+	 * @covers ::filter_actions
+	 */
+	public function test_filter_actions_non_existent_type() {
+		$no_filtered_importers_type_filters = $this->mock_instance->filter_actions( [ $this->importing_action ], false, 'posts1' );
+
+		$this->assertTrue( \is_array( $no_filtered_importers_type_filters ) );
+		$this->assertTrue( \count( $no_filtered_importers_type_filters ) === 0 );
+	}
+
+	/**
+	 * Tests whether filter_actions returns no importers when a non-existent type and -plugin are provided.
+	 *
+	 * @return void
+	 *
+	 * @covers ::filter_actions
+	 */
+	public function test_filter_actions_non_existent_type_and_plugin() {
+		$no_filtered_importers_plugin_type_filters = $this->mock_instance->filter_actions( [ $this->importing_action ], 'aioseo1', 'posts1' );
+
+		$this->assertTrue( \is_array( $no_filtered_importers_plugin_type_filters ) );
+		$this->assertTrue( \count( $no_filtered_importers_plugin_type_filters ) === 0 );
+	}
 }
