@@ -368,11 +368,16 @@ class HelpScout_Beacon implements Integration_Interface {
 	 * @return string The indexables status in a string.
 	 */
 	private function get_indexables_status() {
-		$indexables_status = '';
+		$indexables_status  = 'Indexing completed: ';
+		$indexing_completed = $this->options->get( 'indexables_indexing_completed' );
+		$indexing_reason    = $this->options->get( 'indexing_reason' );
+
+		$indexables_status .= $indexing_completed ? 'yes' : 'no';
+		$indexables_status .= $indexing_reason ? ', latest indexing reason: ' . $indexing_reason : '';
 
 		foreach( ['free', 'premium' ] as $migration_name ) {
 			if ( $current_status = $this->migration_status->get_error( $migration_name ) ) {
-				$indexables_status .= 'Migration error: ' . $current_status[ 'message' ];
+				$indexables_status .= ', migration error: ' . $current_status[ 'message' ];
 			};
 		}
 
