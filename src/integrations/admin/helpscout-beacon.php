@@ -97,8 +97,9 @@ class HelpScout_Beacon implements Integration_Interface {
 	/**
 	 * Headless_Rest_Endpoints_Enabled_Conditional constructor.
 	 *
-	 * @param Options_Helper            $options       The options helper.
-	 * @param WPSEO_Admin_Asset_Manager $asset_manager The asset manager.
+	 * @param Options_Helper            $options          The options helper.
+	 * @param WPSEO_Admin_Asset_Manager $asset_manager    The asset manager.
+	 * @param Migration_Status          $migration_status The migrations status.
 	 */
 	public function __construct( Options_Helper $options, WPSEO_Admin_Asset_Manager $asset_manager, Migration_Status $migration_status ) {
 		$this->options          = $options;
@@ -191,11 +192,11 @@ class HelpScout_Beacon implements Integration_Interface {
 			],
 			$this->get_server_info(),
 			[
-				'WordPress Version'  => $this->get_wordpress_version(),
-				'Active theme'       => $this->get_theme_info(),
-				'Active plugins'     => $this->get_active_plugins(),
+				'WordPress Version'    => $this->get_wordpress_version(),
+				'Active theme'         => $this->get_theme_info(),
+				'Active plugins'       => $this->get_active_plugins(),
 				'Must-use and dropins' => $this->get_mustuse_and_dropins(),
-				'Indexables status'  => $this->get_indexables_status(),
+				'Indexables status'    => $this->get_indexables_status(),
 			]
 		);
 
@@ -242,15 +243,15 @@ class HelpScout_Beacon implements Integration_Interface {
 		}
 
 		// Get the memory limits for the server and, if different, from WordPress as well.
-		$memory_limit                   = ini_get('memory_limit');
-		$server_info[ 'Memory limits' ] = 'Server memory limit: ' . $memory_limit;
+		$memory_limit                 = ini_get( 'memory_limit' );
+		$server_info['Memory limits'] = 'Server memory limit: ' . $memory_limit;
 
-		if ( $memory_limit != WP_MEMORY_LIMIT ) {
-			$server_info[ 'Memory limits' ] .= ', WP_MEMORY_LIMIT: '. WP_MEMORY_LIMIT;
+		if ( $memory_limit !== WP_MEMORY_LIMIT ) {
+			$server_info['Memory limits'] .= ', WP_MEMORY_LIMIT: ' . WP_MEMORY_LIMIT;
 		}
 
-		if ( $memory_limit != WP_MAX_MEMORY_LIMIT ) {
-			$server_info[ 'Memory limits' ] .= ', WP_MAX_MEMORY_LIMIT: '. WP_MAX_MEMORY_LIMIT;
+		if ( $memory_limit !== WP_MAX_MEMORY_LIMIT ) {
+			$server_info['Memory limits'] .= ', WP_MAX_MEMORY_LIMIT: ' . WP_MAX_MEMORY_LIMIT;
 		}
 
 		return $server_info;
@@ -287,7 +288,8 @@ class HelpScout_Beacon implements Integration_Interface {
 		$wordpress_version = $wp_version;
 		if ( \is_multisite() ) {
 			$wordpress_version .= ' (multisite: yes)';
-		} else {
+		}
+		else {
 			$wordpress_version .= ' (multisite: no)';
 		}
 
@@ -306,7 +308,7 @@ class HelpScout_Beacon implements Integration_Interface {
 			'%1$s (Version %2$s, %3$s)',
 			\esc_html( $theme->display( 'Name' ) ),
 			\esc_html( $theme->display( 'Version' ) ),
-			\esc_attr( $theme->display( 'ThemeURI' ) ),
+			\esc_attr( $theme->display( 'ThemeURI' ) )
 		);
 
 		if ( \is_child_theme() ) {
@@ -352,10 +354,14 @@ class HelpScout_Beacon implements Integration_Interface {
 	 * @return string The active plugins.
 	 */
 	private function get_mustuse_and_dropins() {
-		if ( ! \is_array( $dropins = \get_dropins() ) ) {
+		$dropins         = \get_dropins();
+		$mustuse_plugins = \get_mu_plugins();
+
+		if ( ! \is_array( $dropins ) ) {
 			$dropins = [];
 		}
-		if ( ! \is_array( $mustuse_plugins = \get_mu_plugins() ) ) {
+
+		if ( ! \is_array( $mustuse_plugins ) ) {
 			$mustuse_plugins = [];
 		}
 
@@ -364,7 +370,7 @@ class HelpScout_Beacon implements Integration_Interface {
 
 	/**
 	 * Return the indexables status details.
-	 * 
+	 *
 	 * @return string The indexables status in a string.
 	 */
 	private function get_indexables_status() {
@@ -372,12 +378,14 @@ class HelpScout_Beacon implements Integration_Interface {
 		$indexing_completed = $this->options->get( 'indexables_indexing_completed' );
 		$indexing_reason    = $this->options->get( 'indexing_reason' );
 
-		$indexables_status .= $indexing_completed ? 'yes' : 'no';
-		$indexables_status .= $indexing_reason ? ', latest indexing reason: ' . $indexing_reason : '';
+		$indexables_status .= ( $indexing_completed ) ? 'yes' : 'no';
+		$indexables_status .= ( $indexing_reason ) ? ', latest indexing reason: ' . $indexing_reason : '';
 
-		foreach( ['free', 'premium' ] as $migration_name ) {
-			if ( $current_status = $this->migration_status->get_error( $migration_name ) ) {
-				$indexables_status .= ', migration error: ' . $current_status[ 'message' ];
+		foreach ( [ 'free', 'premium' ] as $migration_name ) {
+			$current_status = $this->migration_status->get_error( $migration_name );
+
+			if ( is_array( $current_status ) && isset( $current_status['message'] ) ) {
+				$indexables_status .= ', migration error: ' . $current_status['message'];
 			};
 		}
 
