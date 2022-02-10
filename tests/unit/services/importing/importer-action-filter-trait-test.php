@@ -10,6 +10,7 @@ use PHPUnit_Framework_Exception;
 use PHPUnit\Framework\Exception;
 use Yoast\WP\SEO\Actions\Importing\Aioseo\Aioseo_Posts_Importing_Action;
 use Yoast\WP\SEO\Helpers\Image_Helper;
+use Yoast\WP\SEO\Helpers\Import_Cursor_Helper;
 use Yoast\WP\SEO\Helpers\Meta_Helper;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Indexable_To_Postmeta_Helper;
@@ -70,6 +71,13 @@ class Importer_Action_Filter_Trait_Test extends TestCase {
 	 * @var Mockery\MockInterface|Image_Helper
 	 */
 	protected $image;
+
+	/**
+	 * The mocked import cursor helper.
+	 *
+	 * @var Mockery\MockInterface|Import_Cursor_Helper
+	 */
+	protected $import_cursor;
 
 	/**
 	 * The mocked indexable_to_postmeta helper.
@@ -147,6 +155,7 @@ class Importer_Action_Filter_Trait_Test extends TestCase {
 		$this->indexable_to_postmeta  = Mockery::mock( Indexable_To_Postmeta_Helper::class, [ $this->meta ] );
 		$this->options                = Mockery::mock( Options_Helper::class );
 		$this->image                  = Mockery::mock( Image_Helper::class );
+		$this->import_cursor          = Mockery::mock( Import_Cursor_Helper::class );
 		$this->sanitization           = Mockery::mock( Sanitization_Helper::class );
 		$this->wpdb_helper            = Mockery::mock( Wpdb_Helper::class );
 		$this->replacevar_handler     = new Aioseo_Replacevar_Service();
@@ -159,6 +168,7 @@ class Importer_Action_Filter_Trait_Test extends TestCase {
 			[
 				$this->indexable_repository,
 				$this->wpdb,
+				$this->import_cursor,
 				$this->indexable_helper,
 				$this->indexable_to_postmeta,
 				$this->options,
