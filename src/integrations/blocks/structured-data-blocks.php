@@ -200,6 +200,9 @@ class Structured_Data_Blocks implements Integration_Interface {
 	 */
 	private function optimize_images( $elements, $key, $content ) {
 		global $post;
+		if ( ! $post ) {
+			return $content;
+		}
 
 		$this->add_images_from_attributes_to_used_cache( $post->ID, $elements, $key );
 
@@ -218,8 +221,8 @@ class Structured_Data_Blocks implements Integration_Interface {
 				$image_size = 'full';
 				\preg_match( '/style="[^"]*width:\s*(\d+)px[^"]*"/', $matches[0], $style_matches );
 				if ( $style_matches && isset( $style_matches[1] ) ) {
-					$width        = (int) $style_matches[1];
-					$meta_data    = \wp_get_attachment_metadata( $attachment_id );
+					$width     = (int) $style_matches[1];
+					$meta_data = \wp_get_attachment_metadata( $attachment_id );
 					if ( isset( $meta_data['height'] ) && isset( $meta_data['width'] ) && $meta_data['height'] > 0 && $meta_data['width'] > 0 ) {
 						$aspect_ratio = ( $meta_data['height'] / $meta_data['width'] );
 						$height       = ( $width * $aspect_ratio );
