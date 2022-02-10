@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from "@wordpress/element";
 import { ImageSelect } from "@yoast/components";
 import { validateFacebookImage } from "@yoast/helpers";
 import PropTypes from "prop-types";
-import { openMedia } from "../helpers/selectMedia";
+import { fetchAttachment, openMedia } from "../helpers/selectMedia";
 
 /**
  * Renders the ImageSelect.
@@ -44,6 +44,12 @@ const ImageSelectComponent = ( { hiddenField, hiddenFieldImageId, hasImageValida
 		updateHiddenFields( emptyImage );
 		setWarnings( [] );
 	}, [ updateHiddenFields ] );
+
+	useEffect( () => {
+		if ( image.id && ! image.alt ) {
+			fetchAttachment( image.id ).then( data => setImage( data ) );
+		}
+	}, [ image ] );
 
 	return <ImageSelect
 		{ ...imageSelectProps }
