@@ -379,13 +379,13 @@ class HelpScout_Beacon implements Integration_Interface {
 		$indexing_reason    = $this->options->get( 'indexing_reason' );
 
 		$indexables_status .= ( $indexing_completed ) ? 'yes' : 'no';
-		$indexables_status .= ( $indexing_reason ) ? ', latest indexing reason: ' . $indexing_reason : '';
+		$indexables_status .= ( $indexing_reason ) ? ', latest indexing reason: ' . esc_html( $indexing_reason ) : '';
 
 		foreach ( [ 'free', 'premium' ] as $migration_name ) {
 			$current_status = $this->migration_status->get_error( $migration_name );
 
 			if ( is_array( $current_status ) && isset( $current_status['message'] ) ) {
-				$indexables_status .= ', migration error: ' . $current_status['message'];
+				$indexables_status .= ', migration error: ' . esc_html( $current_status['message'] );
 			};
 		}
 
