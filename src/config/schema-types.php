@@ -108,6 +108,27 @@ class Schema_Types {
 	}
 
 	/**
+	 * Gets the schema article types.
+	 *
+	 * @return string[] The schema article types.
+	 */
+	public function get_article_types() {
+		/**
+		 * Filter: 'wpseo_schema_article_types' - Allow developers to filter the available article types.
+		 *
+		 * Make sure when you filter this to also filter `wpseo_schema_article_types_labels`.
+		 *
+		 * @api array $schema_article_types The available schema article types.
+		 */
+		$article_types = \apply_filters( 'wpseo_schema_article_types', self::ARTICLE_TYPES );
+		if ( ! \is_array( $article_types ) ) {
+			$article_types = self::ARTICLE_TYPES;
+		}
+
+		return \array_keys( $article_types );
+	}
+
+	/**
 	 * Gets the article type options.
 	 *
 	 * @return array[] The schema article type options.

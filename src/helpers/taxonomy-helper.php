@@ -62,6 +62,18 @@ class Taxonomy_Helper {
 	}
 
 	/**
+	 * Returns an array with the taxonomies.
+	 *
+	 * @param string $output The output type to use.
+	 *
+	 * @return string[]|WP_Taxonomy[] Array with all the public taxonomies.
+	 *                                The type depends on the specified output variable.
+	 */
+	public function get_taxonomies( $output = 'names' ) {
+		return \get_taxonomies( [], $output );
+	}
+
+	/**
 	 * Retrieves the term description (without tags).
 	 *
 	 * @param int $term_id Term ID.
