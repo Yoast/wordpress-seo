@@ -182,6 +182,13 @@ class HelpScout_Beacon implements Integration_Interface {
 	 * @return string The data to pass as identifying data.
 	 */
 	protected function get_session_data() {
+		// Short-circuit if we can get the needed data from a transient.
+		$transient_data = \get_transient( 'yoast_beacon_session_data' );
+
+		if ( is_array( $transient_data ) ) {
+			return WPSEO_Utils::format_json_encode( $transient_data );
+		}
+
 		$current_user = \wp_get_current_user();
 
 		// Do not make these strings translatable! They are for our support agents, the user won't see them!
@@ -212,6 +219,9 @@ class HelpScout_Beacon implements Integration_Interface {
 				$data[ $subscription->product->name ] = $this->get_product_info( $subscription );
 			}
 		}
+
+		// Store the data in a transient for 5 minutes to prevent overhead on every backend pageload.
+		\set_transient( 'yoast_beacon_session_data', $data, 5 * MINUTE_IN_SECONDS );
 
 		return WPSEO_Utils::format_json_encode( $data );
 	}
