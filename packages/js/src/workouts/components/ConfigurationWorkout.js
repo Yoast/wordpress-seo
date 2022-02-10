@@ -19,7 +19,7 @@ import { NewsletterSignup } from "./NewsletterSignup";
 import { ConfigurationIndexation } from "../tailwind-components/ConfigurationIndexation";
 import SocialInputSection from "./SocialInputSection";
 import SocialInputPersonSection from "./SocialInputPersonSection";
-import Stepper, { TailwindStep } from "../tailwind-components/Stepper";
+import Stepper from "../tailwind-components/Stepper";
 import { STEPS, WORKOUTS } from "../config";
 import { getInitialActiveStepIndex } from "../stepper-helper";
 import { scrollToStep } from "../helpers";
@@ -887,63 +887,71 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 				<Stepper
 					setActiveStepIndex={ setActiveStepIndex }
 					activeStepIndex={ activeStepIndex }
+					isStepperFinished={ isStepperFinished }
 				>
-					<TailwindStep
+					<Stepper.Step
 						name="indexation"
 						isSaved={ true }
 						beforeContinue={ beforeContinueIndexationStep }
 					>
 						<IndexationStep setIndexingState={ setIndexingState } indexingState={ indexingState } />
-					</TailwindStep>
-					<TailwindStep
+						<Stepper.Buttons continueFunction={ () => { console.log( "Did an extra save thing" ); } } />
+					</Stepper.Step>
+					<Stepper.Step
 						name="Site representation"
 						isSaved={ true }
 						beforeContinue={ () => { console.log( "saved" ); return true; } }
 					>
 						<SiteRepresentationStep onOrganizationOrPersonChange={ onOrganizationOrPersonChange } dispatch={ dispatch } state={ state } siteRepresentsPerson={ siteRepresentsPerson } onSiteTaglineChange={ onSiteTaglineChange } siteRepresentationEmpty={ siteRepresentationEmpty } />
-					</TailwindStep>
-					<TailwindStep
+						<Stepper.Buttons continueFunction={ () => { console.log( "Did an extra save thing" ); } } backFunction={ () => console.log( "Back it up" ) } backLabel="back it up!" />
+					</Stepper.Step>
+					<Stepper.Step
 						name="test"
 						isSaved={ true }
 						beforeContinue={ () => { console.log( "saved" ); return true; } }
 					>
 						<SocialProfilesStep state={ state } dispatch={ dispatch } setErrorFields={ setErrorFields } siteRepresentsPerson={ siteRepresentsPerson } />
-					</TailwindStep>
-					<TailwindStep
+						<Stepper.Buttons continueFunction={ () => { console.log( "Did an extra save thing" ); } } backFunction={ () => console.log( "Back it up" ) } backLabel="back it up!" />
+					</Stepper.Step>
+					<Stepper.Step
 						name="test"
 						isSaved={ true }
 						beforeContinue={ () => { console.log( "saved" ); return true; } }
 					>
 						<PersonalPreferencesStep state={ state } setTracking={ setTracking } isTrackingOptionSelected={ isTrackingOptionSelected } />
-					</TailwindStep>
-					<TailwindStep
+						<Stepper.Buttons continueFunction={ () => { console.log( "Did an extra save thing" ); } } backFunction={ () => console.log( "Back it up" ) } backLabel="back it up!" />
+					</Stepper.Step>
+					<Stepper.Step
 						name="test"
 						isSaved={ true }
 						beforeContinue={ () => { console.log( "saved" ); return true; } }
 					>
 						<NewsletterSignup />
-					</TailwindStep>
-					<TailwindStep
+						<Stepper.Buttons continueFunction={ () => { console.log( "Did an extra save thing" ); } } backFunction={ () => console.log( "Back it up" ) } backLabel="back it up!" />
+					</Stepper.Step>
+					<Stepper.Step
 						name="test"
 						isSaved={ true }
 						beforeContinue={ () => { console.log( "saved" ); return true; } }
 					>
 						<div><p>hoi Karlijn and Paolo</p></div>
-					</TailwindStep>
-					<TailwindStep
+						<Stepper.Buttons continueLabel="NO GOING BACK NOW" continueFunction={ () => { console.log( "NO GOING BACK HERE" ); } } />
+					</Stepper.Step>
+					<Stepper.Step
 						name="test"
 						isSaved={ true }
 						beforeContinue={ () => { console.log( "saved" ); return true; } }
 					>
 						<div className="yst-bg-yellow-400"><p className="yst-bg-blue-500">RED</p></div>
-					</TailwindStep>
-					<TailwindStep
+						<Stepper.Buttons continueFunction={ () => { console.log( "Did an extra save thing" ); } } backFunction={ () => console.log( "Back it up" ) } backLabel="back it up!" />
+					</Stepper.Step>
+					<Stepper.Step
 						name="test"
 						isSaved={ true }
 						beforeContinue={ () => { console.log( "saved" ); return true; } }
 					>
 						<FinishStep />
-					</TailwindStep>
+					</Stepper.Step>
 				</Stepper>
 			</div>
 
