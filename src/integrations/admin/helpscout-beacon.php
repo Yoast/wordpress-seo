@@ -234,7 +234,7 @@ class HelpScout_Beacon implements Integration_Interface {
 		// Get the memory limits for the server and, if different, from WordPress as well.
 		$memory_limit                   = ini_get('memory_limit');
 		$server_info[ 'Memory limits' ] = 'Server memory limit: ' . $memory_limit;
-		
+
 		if ( $memory_limit != WP_MEMORY_LIMIT ) {
 			$server_info[ 'Memory limits' ] .= ', WP_MEMORY_LIMIT: '. WP_MEMORY_LIMIT;
 		}
@@ -259,8 +259,7 @@ class HelpScout_Beacon implements Integration_Interface {
 		}
 
 		$product_info = \sprintf(
-			'Version %1$s, expiration date %2$s',
-			$plugin->product->version,
+			'Expiration date %1$s',
 			$plugin->expiry_date
 		);
 
