@@ -18,6 +18,7 @@ const ImageSelectComponent = ( { hiddenField, hiddenFieldImageId, hasImageValida
 	const [ image, setImage ] = useState( {
 		url: hiddenFieldElement ? hiddenFieldElement.value : "",
 		id: hiddenFieldImageIdElement ? parseInt( hiddenFieldImageIdElement.value, 10 ) : "",
+		alt: "",
 	} );
 	const [ warnings, setWarnings ] = useState( [] );
 
@@ -48,6 +49,7 @@ const ImageSelectComponent = ( { hiddenField, hiddenFieldImageId, hasImageValida
 		{ ...imageSelectProps }
 		imageUrl={ image.url }
 		imageId={ image.id }
+		imageAltText={ image.alt }
 		onClick={ selectImage }
 		onRemoveImageClick={ removeImage }
 		warnings={ warnings }
