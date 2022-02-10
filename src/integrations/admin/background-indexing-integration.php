@@ -157,7 +157,7 @@ class Background_Indexing_Integration implements Integration_Interface {
 	 */
 	public function register_hooks() {
 		\add_action( 'admin_init', [ $this, 'register_shutdown_indexing' ] );
-		\add_action( 'Yoast\WP\SEO\index', [ $this, 'index' ] );
+		\add_action( 'wpseo_indexable_index_batch', [ $this, 'index' ] );
 		// phpcs:ignore WordPress.WP.CronInterval -- The sniff doesn't understand values with parentheses. https://github.com/WordPress/WordPress-Coding-Standards/issues/2025
 		\add_filter( 'cron_schedules', [ $this, 'add_cron_schedule' ] );
 		\add_action( 'init', [ $this, 'schedule_cron_indexing' ], 11 );
@@ -225,8 +225,8 @@ class Background_Indexing_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function schedule_cron_indexing() {
-		if ( ! wp_next_scheduled( 'Yoast\WP\SEO\index' ) && $this->should_index_on_cron() ) {
-			wp_schedule_event( time(), 'fifteen_minutes', 'Yoast\WP\SEO\index' );
+		if ( ! wp_next_scheduled( 'wpseo_indexable_index_batch' ) && $this->should_index_on_cron() ) {
+			wp_schedule_event( time(), 'fifteen_minutes', 'wpseo_indexable_index_batch' );
 		}
 	}
 
@@ -296,9 +296,9 @@ class Background_Indexing_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	protected function unschedule_cron_indexing() {
-		$scheduled = wp_next_scheduled( 'Yoast\WP\SEO\index' );
+		$scheduled = wp_next_scheduled( 'wpseo_indexable_index_batch' );
 		if ( $scheduled ) {
-			wp_unschedule_event( $scheduled, 'Yoast\WP\SEO\index' );
+			wp_unschedule_event( $scheduled, 'wpseo_indexable_index_batch' );
 		}
 	}
 

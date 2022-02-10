@@ -207,7 +207,7 @@ class Background_Indexing_Integration_Test extends TestCase {
 	 */
 	public function test_register_hooks() {
 		Monkey\Actions\expectAdded( 'admin_init' );
-		Monkey\Actions\expectAdded( 'Yoast\WP\SEO\index' );
+		Monkey\Actions\expectAdded( 'wpseo_indexable_index_batch' );
 		Monkey\Filters\expectAdded( 'cron_schedules' );
 		Monkey\Actions\expectAdded( 'init' );
 		Monkey\Filters\expectAdded( 'wpseo_post_indexation_limit' );
@@ -408,8 +408,8 @@ class Background_Indexing_Integration_Test extends TestCase {
 			->with( true )
 			->andReturn( false );
 
-		Monkey\Functions\expect( 'wp_next_scheduled' )->once()->with( 'Yoast\WP\SEO\index' )->andReturn( 12345 );
-		Monkey\Functions\expect( 'wp_unschedule_event' )->once()->with( 12345, 'Yoast\WP\SEO\index' );
+		Monkey\Functions\expect( 'wp_next_scheduled' )->once()->with( 'wpseo_indexable_index_batch' )->andReturn( 12345 );
+		Monkey\Functions\expect( 'wp_unschedule_event' )->once()->with( 12345, 'wpseo_indexable_index_batch' );
 
 		$this->instance->index();
 	}
@@ -434,8 +434,8 @@ class Background_Indexing_Integration_Test extends TestCase {
 			->andReturn( true );
 
 
-		Monkey\Functions\expect( 'wp_next_scheduled' )->once()->with( 'Yoast\WP\SEO\index' )->andReturn( 12345 );
-		Monkey\Functions\expect( 'wp_unschedule_event' )->once()->with( 12345, 'Yoast\WP\SEO\index' );
+		Monkey\Functions\expect( 'wp_next_scheduled' )->once()->with( 'wpseo_indexable_index_batch' )->andReturn( 12345 );
+		Monkey\Functions\expect( 'wp_unschedule_event' )->once()->with( 12345, 'wpseo_indexable_index_batch' );
 
 		$this->instance->index();
 	}
@@ -460,21 +460,21 @@ class Background_Indexing_Integration_Test extends TestCase {
 			->andReturn( true );
 
 
-		Monkey\Functions\expect( 'wp_next_scheduled' )->once()->with( 'Yoast\WP\SEO\index' )->andReturn( false );
+		Monkey\Functions\expect( 'wp_next_scheduled' )->once()->with( 'wpseo_indexable_index_batch' )->andReturn( false );
 		Monkey\Functions\expect( 'wp_unschedule_event' )->never();
 
 		$this->instance->index();
 	}
 
 	/**
-	 * Tests that the schedule_cron_indexing function schedules a cron job that performs the Yoast\WP\SEO\index action.
+	 * Tests that the schedule_cron_indexing function schedules a cron job that performs the wpseo_indexable_index_batch action.
 	 *
 	 * @covers ::schedule_cron_indexing
 	 */
 	public function test_schedule_cron_indexing() {
-		Monkey\Functions\expect( 'wp_next_scheduled' )->once()->with( 'Yoast\WP\SEO\index' )->andReturn( false );
+		Monkey\Functions\expect( 'wp_next_scheduled' )->once()->with( 'wpseo_indexable_index_batch' )->andReturn( false );
 		$this->indexing_helper->expects( 'is_index_up_to_date' )->once()->andReturn( false );
-		Monkey\Functions\expect( 'wp_schedule_event' )->once()->with( time(), 'fifteen_minutes', 'Yoast\WP\SEO\index' );
+		Monkey\Functions\expect( 'wp_schedule_event' )->once()->with( time(), 'fifteen_minutes', 'wpseo_indexable_index_batch' );
 
 		$this->instance->schedule_cron_indexing();
 	}
@@ -485,7 +485,7 @@ class Background_Indexing_Integration_Test extends TestCase {
 	 * @covers ::schedule_cron_indexing
 	 */
 	public function test_schedule_cron_indexing_already_scheduled() {
-		Monkey\Functions\expect( 'wp_next_scheduled' )->once()->with( 'Yoast\WP\SEO\index' )->andReturn( 987654321 );
+		Monkey\Functions\expect( 'wp_next_scheduled' )->once()->with( 'wpseo_indexable_index_batch' )->andReturn( 987654321 );
 		Monkey\Functions\expect( 'wp_schedule_event' )->never();
 
 		$this->instance->schedule_cron_indexing();
@@ -497,7 +497,7 @@ class Background_Indexing_Integration_Test extends TestCase {
 	 * @covers ::schedule_cron_indexing
 	 */
 	public function test_schedule_cron_indexing_cron_indexing_disabled() {
-		Monkey\Functions\expect( 'wp_next_scheduled' )->once()->with( 'Yoast\WP\SEO\index' )->andReturn( false );
+		Monkey\Functions\expect( 'wp_next_scheduled' )->once()->with( 'wpseo_indexable_index_batch' )->andReturn( false );
 		Monkey\Filters\expectApplied( 'Yoast\WP\SEO\enable_cron_indexing' )->with( true )->andReturn( false );
 		Monkey\Functions\expect( 'wp_schedule_event' )->never();
 
@@ -510,7 +510,7 @@ class Background_Indexing_Integration_Test extends TestCase {
 	 * @covers ::schedule_cron_indexing
 	 */
 	public function test_schedule_cron_indexing_index_complete() {
-		Monkey\Functions\expect( 'wp_next_scheduled' )->once()->with( 'Yoast\WP\SEO\index' )->andReturn( false );
+		Monkey\Functions\expect( 'wp_next_scheduled' )->once()->with( 'wpseo_indexable_index_batch' )->andReturn( false );
 		$this->indexing_helper->expects( 'is_index_up_to_date' )->once()->andReturn( true );
 		Monkey\Functions\expect( 'wp_schedule_event' )->never();
 
