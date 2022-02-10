@@ -13,6 +13,7 @@ use Yoast\WP\SEO\Conditionals\Get_Request_Conditional;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Conditionals\WP_CRON_Enabled_Conditional;
 use Yoast\WP\SEO\Conditionals\Yoast_Admin_And_Dashboard_Conditional;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Indexing_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
@@ -101,6 +102,13 @@ class Background_Indexing_Integration implements Integration_Interface {
 	private $wp_cron_enabled_conditional;
 
 	/**
+	 * The indexable helper
+	 *
+	 * @var Indexable_Helper
+	 */
+	private $indexable_helper;
+
+	/**
 	 * Returns the conditionals based on which this integration should be active.
 	 *
 	 * @return array The array of conditionals.
@@ -122,6 +130,7 @@ class Background_Indexing_Integration implements Integration_Interface {
 	 * @param Post_Link_Indexing_Action                     $post_link_indexing_action             The post indexing action.
 	 * @param Term_Link_Indexing_Action                     $term_link_indexing_action             The term indexing action.
 	 * @param Indexing_Helper                               $indexing_helper                       The indexing helper.
+	 * @param Indexable_Helper                              $indexable_helper                      The indexable helper.
 	 * @param Yoast_Admin_And_Dashboard_Conditional         $yoast_admin_and_dashboard_conditional An object that checks if we are on the Yoast admin or on the dashboard page.
 	 * @param Get_Request_Conditional                       $get_request_conditional               An object that checks if we are handling a GET request.
 	 * @param WP_CRON_Enabled_Conditional                   $wp_cron_enabled_conditional           An object that checks if WP_CRON is enabled.
@@ -135,6 +144,7 @@ class Background_Indexing_Integration implements Integration_Interface {
 		Post_Link_Indexing_Action $post_link_indexing_action,
 		Term_Link_Indexing_Action $term_link_indexing_action,
 		Indexing_Helper $indexing_helper,
+		Indexable_Helper $indexable_helper,
 		Yoast_Admin_And_Dashboard_Conditional $yoast_admin_and_dashboard_conditional,
 		Get_Request_Conditional $get_request_conditional,
 		WP_CRON_Enabled_Conditional $wp_cron_enabled_conditional
@@ -147,6 +157,7 @@ class Background_Indexing_Integration implements Integration_Interface {
 		$this->post_link_indexing_action             = $post_link_indexing_action;
 		$this->term_link_indexing_action             = $term_link_indexing_action;
 		$this->indexing_helper                       = $indexing_helper;
+		$this->indexable_helper                      = $indexable_helper;
 		$this->yoast_admin_and_dashboard_conditional = $yoast_admin_and_dashboard_conditional;
 		$this->get_request_conditional               = $get_request_conditional;
 		$this->wp_cron_enabled_conditional           = $wp_cron_enabled_conditional;
@@ -251,6 +262,10 @@ class Background_Indexing_Integration implements Integration_Interface {
 	 * @return bool Should cron indexation be performed.
 	 */
 	protected function should_index_on_cron() {
+		if ( ! $this->indexable_helper->should_index_indexables() ) {
+			return false;
+		}
+
 		$enabled = apply_filters( 'Yoast\WP\SEO\enable_cron_indexing', true ) === true;
 
 		return $enabled && ! $this->indexing_helper->is_index_up_to_date();
@@ -265,6 +280,10 @@ class Background_Indexing_Integration implements Integration_Interface {
 	 */
 	protected function should_index_on_shutdown( $shutdown_limit ) {
 		if ( ! $this->yoast_admin_and_dashboard_conditional->is_met() || ! $this->get_request_conditional->is_met() ) {
+			return false;
+		}
+
+		if ( ! $this->indexable_helper->should_index_indexables() ) {
 			return false;
 		}
 
