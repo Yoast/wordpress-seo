@@ -6,6 +6,7 @@ use WPSEO_Addon_Manager;
 use WPSEO_Admin_Asset_Manager;
 use WPSEO_Tracking_Server_Data;
 use WPSEO_Utils;
+use Yoast\WP\SEO\Config\Migration_Status;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -87,16 +88,24 @@ class HelpScout_Beacon implements Integration_Interface {
 	protected $asset_manager;
 
 	/**
+	 * The migration status object.
+	 *
+	 * @var Migration_Status
+	 */
+	protected $migration_status;
+
+	/**
 	 * Headless_Rest_Endpoints_Enabled_Conditional constructor.
 	 *
 	 * @param Options_Helper            $options       The options helper.
 	 * @param WPSEO_Admin_Asset_Manager $asset_manager The asset manager.
 	 */
-	public function __construct( Options_Helper $options, WPSEO_Admin_Asset_Manager $asset_manager ) {
-		$this->options       = $options;
-		$this->asset_manager = $asset_manager;
-		$this->ask_consent   = ! $this->options->get( 'tracking' );
-		$this->page          = \filter_input( \INPUT_GET, 'page', \FILTER_SANITIZE_STRING );
+	public function __construct( Options_Helper $options, WPSEO_Admin_Asset_Manager $asset_manager, Migration_Status $migration_status ) {
+		$this->options          = $options;
+		$this->asset_manager    = $asset_manager;
+		$this->ask_consent      = ! $this->options->get( 'tracking' );
+		$this->page             = \filter_input( \INPUT_GET, 'page', \FILTER_SANITIZE_STRING );
+		$this->migration_status = $migration_status;
 
 		foreach ( $this->base_pages as $page ) {
 			if ( $this->ask_consent ) {
@@ -186,6 +195,7 @@ class HelpScout_Beacon implements Integration_Interface {
 				'Active theme'       => $this->get_theme_info(),
 				'Active plugins'     => $this->get_active_plugins(),
 				'Must-use and dropins' => $this->get_mustuse_and_dropins(),
+				'Indexables status'  => $this->get_indexables_status(),
 			]
 		);
 
@@ -350,6 +360,23 @@ class HelpScout_Beacon implements Integration_Interface {
 		}
 
 		return \sprintf( 'Must-Use plugins: %1$d, Drop-ins: %2$d', \count( $mustuse_plugins ), \count( $dropins ) );
+	}
+
+	/**
+	 * Return the indexables status details.
+	 * 
+	 * @return string The indexables status in a string.
+	 */
+	private function get_indexables_status() {
+		$indexables_status = '';
+
+		foreach( ['free', 'premium' ] as $migration_name ) {
+			if ( $current_status = $this->migration_status->get_error( $migration_name ) ) {
+				$indexables_status .= 'Migration status: ' . $current_status;
+			};
+		}
+
+		return $indexables_status;
 	}
 
 	/**
