@@ -37,6 +37,7 @@ module.exports = {
 			},
 		},
 	},
+	important: true,
 	variants: {
 		extend: {
 			backgroundColor: [ "active", "group-focus", "disabled" ],
