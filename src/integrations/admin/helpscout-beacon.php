@@ -372,7 +372,7 @@ class HelpScout_Beacon implements Integration_Interface {
 
 		foreach( ['free', 'premium' ] as $migration_name ) {
 			if ( $current_status = $this->migration_status->get_error( $migration_name ) ) {
-				$indexables_status .= 'Migration status: ' . $current_status;
+				$indexables_status .= 'Migration error: ' . $current_status[ 'message' ];
 			};
 		}
 
