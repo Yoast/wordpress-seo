@@ -5,7 +5,6 @@ namespace Yoast\WP\SEO\Actions\Importing\Aioseo;
 
 use wpdb;
 use Yoast\WP\SEO\Actions\Importing\Abstract_Aioseo_Importing_Action;
-use Yoast\WP\SEO\Conditionals\AIOSEO_V4_Importer_Conditional;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Import_Cursor_Helper;
@@ -229,17 +228,6 @@ class Aioseo_Posts_Importing_Action extends Abstract_Aioseo_Importing_Action {
 	 */
 	protected function aioseo_exists() {
 		return $this->wpdb_helper->table_exists( $this->get_table() ) === true;
-	}
-
-	/**
-	 * Returns whether the AISOEO post importing action is enabled.
-	 *
-	 * @return bool True if the AISOEO post importing action is enabled.
-	 */
-	public function is_enabled() {
-		$aioseo_importer_conditional = \YoastSEO()->classes->get( AIOSEO_V4_Importer_Conditional::class );
-
-		return $aioseo_importer_conditional->is_met();
 	}
 
 	// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Reason: They are already prepared.

@@ -5,7 +5,6 @@ namespace Yoast\WP\SEO\Actions\Importing\Aioseo;
 
 use Exception;
 use Yoast\WP\SEO\Actions\Importing\Abstract_Aioseo_Importing_Action;
-use Yoast\WP\SEO\Conditionals\AIOSEO_V4_Importer_Conditional;
 
 /**
  * Abstract class for importing AIOSEO settings.
@@ -78,17 +77,6 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Aioseo
 		}
 
 		return $source_option_name;
-	}
-
-	/**
-	 * Returns whether the AISOEO settings importing action is enabled.
-	 *
-	 * @return bool True if the AISOEO settings importing action is enabled.
-	 */
-	public function is_enabled() {
-		$aioseo_importer_conditional = \YoastSEO()->classes->get( AIOSEO_V4_Importer_Conditional::class );
-
-		return $aioseo_importer_conditional->is_met();
 	}
 
 	/**

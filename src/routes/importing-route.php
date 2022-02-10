@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Routes;
 use WP_Error;
 use WP_REST_Response;
 use Yoast\WP\SEO\Actions\Importing\Importing_Action_Interface;
-use Yoast\WP\SEO\Conditionals\AIOSEO_V4_Importer_Conditional;
+use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Services\Importing\Importable_Detector_Service;
 
@@ -15,6 +15,8 @@ use Yoast\WP\SEO\Services\Importing\Importable_Detector_Service;
  * Importing route for importing from other SEO plugins.
  */
 class Importing_Route extends Abstract_Action_Route {
+
+	use No_Conditionals;
 
 	/**
 	 * The import route constant.
@@ -49,15 +51,6 @@ class Importing_Route extends Abstract_Action_Route {
 	) {
 		$this->importable_detector = $importable_detector;
 		$this->importers           = $importers;
-	}
-
-	/**
-	 * Returns the conditionals based in which this loadable should be active.
-	 *
-	 * @return array
-	 */
-	public static function get_conditionals() {
-		return [ AIOSEO_V4_Importer_Conditional::class ];
 	}
 
 	/**
