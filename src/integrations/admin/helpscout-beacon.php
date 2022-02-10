@@ -185,6 +185,7 @@ class HelpScout_Beacon implements Integration_Interface {
 				'WordPress Version'  => $this->get_wordpress_version(),
 				'Active theme'       => $this->get_theme_info(),
 				'Active plugins'     => $this->get_active_plugins(),
+				'Must-use and dropins' => $this->get_mustuse_and_dropins(),
 			]
 		);
 
@@ -255,7 +256,7 @@ class HelpScout_Beacon implements Integration_Interface {
 	}
 
 	/**
-	 * Returns the WordPress version + a suffix if current WP is multi site.
+	 * Returns the WordPress version + a suffix about the multisite status.
 	 *
 	 * @return string The WordPress version string.
 	 */
@@ -273,7 +274,7 @@ class HelpScout_Beacon implements Integration_Interface {
 	}
 
 	/**
-	 * Returns a formatted HTML string for the current theme.
+	 * Returns information about the current theme.
 	 *
 	 * @return string The theme info as string.
 	 */
@@ -295,11 +296,41 @@ class HelpScout_Beacon implements Integration_Interface {
 	}
 
 	/**
-	 * Returns a formatted HTML list of all active plugins.
+	 * Returns a CSV list of all active plugins.
 	 *
 	 * @return string The active plugins.
 	 */
 	private function get_active_plugins() {
+		$updates_available = \get_site_transient( 'update_plugins' );
+
+		$active_plugins = '';
+		foreach ( \wp_get_active_and_valid_plugins() as $plugin ) {
+			$plugin_data             = \get_plugin_data( $plugin );
+			$plugin_file             = \str_replace( \trailingslashit( \WP_PLUGIN_DIR ), '', $plugin );
+			$plugin_update_available = '';
+
+			if ( isset( $updates_available->response[ $plugin_file ] ) ) {
+				$plugin_update_available = ' [update available]';
+			}
+
+			$active_plugins .= \sprintf(
+				'%1$s (Version %2$s%3$s, %4$s), ',
+				\esc_html( $plugin_data['Name'] ),
+				\esc_html( $plugin_data['Version'] ),
+				$plugin_update_available,
+				\esc_attr( $plugin_data['PluginURI'] )
+			);
+		}
+
+		return $active_plugins;
+	}
+
+	/**
+	 * Returns a CSV list of all must-use and rop-in plugins.
+	 *
+	 * @return string The active plugins.
+	 */
+	private function get_mustuse_and_dropins() {
 		$updates_available = \get_site_transient( 'update_plugins' );
 
 		$active_plugins = '';
