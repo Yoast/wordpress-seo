@@ -231,6 +231,18 @@ class HelpScout_Beacon implements Integration_Interface {
 			}
 		}
 
+		// Get the memory limits for the server and, if different, from WordPress as well.
+		$memory_limit                   = ini_get('memory_limit');
+		$server_info[ 'Memory limits' ] = 'Server memory limit: ' . $memory_limit;
+		
+		if ( $memory_limit != WP_MEMORY_LIMIT ) {
+			$server_info[ 'Memory limits' ] .= ', WP_MEMORY_LIMIT: '. WP_MEMORY_LIMIT;
+		}
+
+		if ( $memory_limit != WP_MAX_MEMORY_LIMIT ) {
+			$server_info[ 'Memory limits' ] .= ', WP_MAX_MEMORY_LIMIT: '. WP_MAX_MEMORY_LIMIT;
+		}
+
 		return $server_info;
 	}
 
@@ -331,28 +343,14 @@ class HelpScout_Beacon implements Integration_Interface {
 	 * @return string The active plugins.
 	 */
 	private function get_mustuse_and_dropins() {
-		$updates_available = \get_site_transient( 'update_plugins' );
-
-		$active_plugins = '';
-		foreach ( \wp_get_active_and_valid_plugins() as $plugin ) {
-			$plugin_data             = \get_plugin_data( $plugin );
-			$plugin_file             = \str_replace( \trailingslashit( \WP_PLUGIN_DIR ), '', $plugin );
-			$plugin_update_available = '';
-
-			if ( isset( $updates_available->response[ $plugin_file ] ) ) {
-				$plugin_update_available = ' [update available]';
-			}
-
-			$active_plugins .= \sprintf(
-				'%1$s (Version %2$s%3$s, %4$s), ',
-				\esc_html( $plugin_data['Name'] ),
-				\esc_html( $plugin_data['Version'] ),
-				$plugin_update_available,
-				\esc_attr( $plugin_data['PluginURI'] )
-			);
+		if ( ! \is_array( $dropins = \get_dropins() ) ) {
+			$dropins = [];
+		}
+		if ( ! \is_array( $mustuse_plugins = \get_mu_plugins() ) ) {
+			$mustuse_plugins = [];
 		}
 
-		return $active_plugins;
+		return \sprintf( 'Must-Use plugins: %1$d, Drop-ins: %2$d', \count( $mustuse_plugins ), \count( $dropins ) );
 	}
 
 	/**
