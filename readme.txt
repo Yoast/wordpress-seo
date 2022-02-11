@@ -242,7 +242,7 @@ Release Date: February 22nd, 2022
 Enhancements:
 
 * Optimizes the images in FAQ and HowTo blocks to be more responsive and load faster.
-* Replaces indexing at the end of admin requests with WP-Cron if WP-Cron is not disabled on the site.
+* Adds a filter to enable/disable creating indexables: `Yoast\WP\SEO\should_index_indexables`
 
 Bugfixes:
 
