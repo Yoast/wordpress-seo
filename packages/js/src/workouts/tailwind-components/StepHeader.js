@@ -45,11 +45,9 @@ export default function StepHeader( { name, description, isFinished, children } 
 	return <div className="yst-relative yst-flex yst-items-center yst-group" aria-current={ isActiveStep ? "step" : null }>
 		<span className="yst-flex yst-items-center" aria-hidden={ isActiveStep ? "true" : null }>
 			<StepCircle
-				isActive={ isActiveStep }
-				isFinished={ isFinished }
-				isLastStep={ isLastStep }
 				activationDelay={ stepperTimings.delayBeforeOpening }
 				deactivationDelay={ 0 }
+				isFinished={ isFinished }
 			/>
 		</span>
 		{ /* Name and description. */ }
@@ -64,7 +62,7 @@ export default function StepHeader( { name, description, isFinished, children } 
 }
 
 StepHeader.propTypes = {
-	name: PropTypes.bool.isRequired,
+	name: PropTypes.string.isRequired,
 	isFinished: PropTypes.bool.isRequired,
 	description: PropTypes.string,
 	children: PropTypes.node,

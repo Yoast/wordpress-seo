@@ -125,7 +125,7 @@ export function StepCircle( { activationDelay, deactivationDelay, isFinished } )
 	>
 		<UpcomingCircle isVisible={ true } />
 		<SavedCircle isVisible={ isFinished } />
-		<ActiveCircle isVisible={ isCircleActive } />
+		<ActiveCircle isVisible={ isCircleActive && ! isLastStep } />
 	</span>;
 }
 
