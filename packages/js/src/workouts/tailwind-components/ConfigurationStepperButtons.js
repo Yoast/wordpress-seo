@@ -154,9 +154,11 @@ StepButtons.defaultProps = {
  */
 export function ConfigurationStepButtons( { stepperFinishedOnce, saveFunction, setEditState } ) {
 	const onSaveClick = useCallback( () => {
-		saveFunction();
-		setEditState( false );
-		return true;
+		const saveSuccesful = saveFunction();
+
+		// If save is not succesful: we are still editing
+		setEditState( ! saveSuccesful );
+		return saveSuccesful;
 	} );
 
 	if ( stepperFinishedOnce ) {

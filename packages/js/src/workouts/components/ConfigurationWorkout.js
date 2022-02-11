@@ -5,9 +5,9 @@ import { createInterpolateElement, useCallback, useReducer, useState, useEffect,
 import { __, sprintf } from "@wordpress/i18n";
 import { cloneDeep } from "lodash";
 import PropTypes from "prop-types";
+
 import UnsavedChangesModal from "../tailwind-components/UnsavedChangesModal";
 import Alert from "../tailwind-components/alert";
-
 import { NewButton as Button, RadioButtonGroup, SingleSelect, TextInput } from "@yoast/components";
 import { ReactComponent as WorkoutDoneImage } from "../../../../../images/mirrored_fit_bubble_woman_1_optim.svg";
 import { ReactComponent as WorkoutStartImage } from "../../../images/motivated_bubble_woman_1_optim.svg";
@@ -22,7 +22,7 @@ import SocialInputPersonSection from "./SocialInputPersonSection";
 import Stepper, { Step } from "../tailwind-components/Stepper";
 import { ContinueButton, EditButton, ConfigurationStepButtons } from "../tailwind-components/ConfigurationStepperButtons";
 import { STEPS, WORKOUTS } from "../config";
-import { getInitialActiveStepIndex, stepperTimingClasses } from "../stepper-helper";
+import { getInitialActiveStepIndex } from "../stepper-helper";
 import { scrollToStep } from "../helpers";
 import AnimateHeight from "react-animate-height";
 
