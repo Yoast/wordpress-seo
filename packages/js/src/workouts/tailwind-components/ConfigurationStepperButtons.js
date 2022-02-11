@@ -2,6 +2,8 @@ import { __ } from "@wordpress/i18n";
 import { useCallback } from "@wordpress/element";
 import PropTypes from "prop-types";
 import { Step } from "./Stepper";
+import { stepperTimingClasses } from "../stepper-helper";
+import classNames from "classnames";
 
 /**
  * A ContinueButton that always goes to the next step.
@@ -40,11 +42,20 @@ ContinueButton.defaultProps = {
  * @param {Object}   props    The props.
  * @param {NodeList} children The Component children.
  *
- * @returns {WPElement} The EditButton, that always goes to the next step.
+ * @returns {WPElement} The EditButton, that always goes to the step it is placed in.
  */
-export function EditButton( { beforeGo, children, additionalClasses, ...restProps } ) {
+export function EditButton( { beforeGo, isVisible, children, additionalClasses, ...restProps } ) {
+	const transitionClasses = `yst-transition-opacity ${stepperTimingClasses.slideDuration} yst-ease-out ${ isVisible
+		? "yst-opacity-100"
+		: `${stepperTimingClasses.delayBeforeOpening} yst-opacity-0 yst-pointer-events-none` }`;
+
+
 	return ( <Step.GoButton
-		className={ `yst-button--secondary yst-button--small ${ additionalClasses }` }
+		className={ classNames(
+			"yst-button--secondary yst-button--small",
+			transitionClasses,
+			additionalClasses
+		) }
 		destination={ 0 }
 		beforeGo={ beforeGo }
 		{ ...restProps }
@@ -55,12 +66,14 @@ export function EditButton( { beforeGo, children, additionalClasses, ...restProp
 
 EditButton.propTypes = {
 	additionalClasses: PropTypes.string,
+	isVisible: PropTypes.bool,
 	beforeGo: PropTypes.func,
 	children: PropTypes.node,
 };
 
 EditButton.defaultProps = {
 	additionalClasses: "",
+	isVisible: true,
 	beforeGo: null,
 	children: null,
 };

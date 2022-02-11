@@ -22,7 +22,7 @@ import SocialInputPersonSection from "./SocialInputPersonSection";
 import Stepper, { Step } from "../tailwind-components/Stepper";
 import { ContinueButton, EditButton, ConfigurationStepButtons } from "../tailwind-components/ConfigurationStepperButtons";
 import { STEPS, WORKOUTS } from "../config";
-import { getInitialActiveStepIndex } from "../stepper-helper";
+import { getInitialActiveStepIndex, stepperTimingClasses } from "../stepper-helper";
 import { scrollToStep } from "../helpers";
 import AnimateHeight from "react-animate-height";
 
@@ -893,7 +893,13 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 							name="SEO data optimization"
 							isFinished={ isStep1Finished }
 						>
-							{ showEditButton && <EditButton beforeGo={ beforeEditing } additionalClasses="yst-ml-auto"> { __( "Edit", "wordpress-seo" ) } </EditButton> }
+							<EditButton
+								beforeGo={ beforeEditing }
+								isVisible={ showEditButton }
+								additionalClasses={ "yst-ml-auto" }
+							>
+								{ __( "Edit", "wordpress-seo" ) }
+							</EditButton>
 						</Step.Header>
 						<Step.Content>
 							<IndexationStep setIndexingState={ setIndexingState } indexingState={ indexingState } />
@@ -911,7 +917,13 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 							name="Site representation"
 							isFinished={ isStep2Finished }
 						>
-							{ showEditButton && <EditButton beforeGo={ beforeEditing } additionalClasses="yst-ml-auto"> { __( "Edit", "wordpress-seo" ) } </EditButton> }
+							<EditButton
+								beforeGo={ beforeEditing }
+								isVisible={ showEditButton }
+								additionalClasses={ "yst-ml-auto" }
+							>
+								{ __( "Edit", "wordpress-seo" ) }
+							</EditButton>
 						</Step.Header>
 						<Step.Content>
 							<SiteRepresentationStep onOrganizationOrPersonChange={ onOrganizationOrPersonChange } dispatch={ dispatch } state={ state } siteRepresentsPerson={ siteRepresentsPerson } onSiteTaglineChange={ onSiteTaglineChange } siteRepresentationEmpty={ siteRepresentationEmpty } />
@@ -923,7 +935,13 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 							name="Social profiles"
 							isFinished={ isStep3Finished }
 						>
-							{ showEditButton && <EditButton beforeGo={ beforeEditing } additionalClasses="yst-ml-auto"> { __( "Edit", "wordpress-seo" ) } </EditButton> }
+							<EditButton
+								beforeGo={ beforeEditing }
+								isVisible={ showEditButton }
+								additionalClasses={ "yst-ml-auto" }
+							>
+								{ __( "Edit", "wordpress-seo" ) }
+							</EditButton>
 						</Step.Header>
 						<Step.Content>
 							<SocialProfilesStep state={ state } dispatch={ dispatch } setErrorFields={ setErrorFields } siteRepresentsPerson={ siteRepresentsPerson } />
@@ -935,7 +953,13 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 							name="Personal preferences"
 							isFinished={ isStep4Finished }
 						>
-							{ showEditButton && <EditButton beforeGo={ beforeEditing } additionalClasses="yst-ml-auto"> { __( "Edit", "wordpress-seo" ) } </EditButton> }
+							<EditButton
+								beforeGo={ beforeEditing }
+								isVisible={ showEditButton }
+								additionalClasses={ "yst-ml-auto" }
+							>
+								{ __( "Edit", "wordpress-seo" ) }
+							</EditButton>
 						</Step.Header>
 						<Step.Content>
 							<PersonalPreferencesStep state={ state } setTracking={ setTracking } isTrackingOptionSelected={ isTrackingOptionSelected } />
@@ -945,7 +969,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 					<Step>
 						<Step.Header
 							name="Finish configuration"
-							isFinished={ isWorkoutFinished }
+							isFinished={ isStepperFinished }
 						/>
 						<Step.Content>
 							<FinishStep />
