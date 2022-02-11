@@ -15,13 +15,14 @@ class News_Sitemap_Content_Type_Validator extends Array_Validator {
 	 * Validates if the value is an array.
 	 * Sets the passed content types to 'on'
 	 *
-	 * @param mixed $value The value to validate.
+	 * @param mixed $value    The value to validate.
+	 * @param array $settings Optional settings.     *
 	 *
 	 * @throws Invalid_Type_Exception When the value is not an array.
 	 *
 	 * @return array Array with the content type keys set to value 'on'.
 	 */
-	public function validate( $value ) {
+	public function validate( $value, array $settings = null ) {
 		parent::validate( $value );
 
 		$new_value = [];
