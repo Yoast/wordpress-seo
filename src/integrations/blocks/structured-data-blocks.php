@@ -352,6 +352,11 @@ class Structured_Data_Blocks implements Integration_Interface {
 			}
 		}
 
-		\array_merge( $this->used_caches[ $post_id ], $images );
+		if ( isset( $this->used_caches[ $post_id ] ) ) {
+			$this->used_caches[ $post_id ] = \array_merge( $this->used_caches[ $post_id ], $images );
+		}
+		else {
+			$this->used_caches[ $post_id ] = $images;
+		}
 	}
 }
