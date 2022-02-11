@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 5.9
-Stable tag: 18.0
+Stable tag: 18.1
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -236,8 +236,27 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 18.2 =
+Release Date: February 22nd, 2022
+
+Enhancements:
+
+* Optimizes the images in FAQ and HowTo blocks to be more responsive and load faster.
+* Adds a filter to enable/disable creating indexables: `Yoast\WP\SEO\should_index_indexables`
+
+Bugfixes:
+
+* Fixes a bug where the "Save changes" button would overlap with the admin sidebar on WordPress.com. Props to @DustyReagan.
+* Fixes a bug where a (debug) deprecation message would show in the widget editor on WordPress 5.8 and above.
+
+Other:
+
+* Adds an isset magic method to ease working with helper surfaces. Props to @nlemoine.
+
 = 18.1 =
 Release Date: February 8th, 2022
+
+Yoast SEO 18.1 is out today! This new release brings another round of bug fixes, plus a new way for us to handle the translations in our plugin — leading to a smaller plugin size for you to install. Read more about what's new in Yoast SEO 18.1 in [our release post in English](https://yoa.st/release-8-2-22) or [our release post in Spanish](https://yoa.st/release-8-2-22-spanish)!
 
 Enhancements:
 
@@ -252,33 +271,6 @@ Bugfixes:
 Other:
 
 * Switches from packaged script translations to those from wordpress.org in order to reduce ZIP size and disk usage.
-
-= 18.0 =
-Release Date: January 25th, 2022
-
-Yoast SEO 18.0 is out now! This release contains a number of bug fixes and a couple of enhancements. We've enhanced schema presentation for non-alphanumeric languages and made several improvements in both the SEO and readability analysis of the Japanese language. Read more about what's new in Yoast SEO 18.0 in [our release post in English](https://yoa.st/release-18-0) or [our release post in Spanish](https://yoa.st/release-18-0-spanish)!
-
-Enhancements:
-
-* Limits a potentially slow query to certain routes, which makes it so it gets called fewer times.
-* Enhances schema presentation for languages that are not alphanumeric. Props to [sous-studio](https://github.com/sous-studio).
-
-Bugfixes:
-
-* Fixes a bug where removing an image from our Facebook Preview and Twitter Preview modals could lead to a confusing experience due to focus loss.
-* Fixes a bug where clicking outside of a Yoast modal in the block editor would not close the modal.
-* Fixes a bug where Japanese keyphrase enclosed in double quotes failed to be recognized in Keyword in meta description, Keyword density, Keyphrase distribution, Keyphrase in introduction, Keyphrase in image text and in Keyphrase in subheading assessments.
-* Fixes a bug where synonyms enclosed in double quotes in the Link keyphrase assessment failed to be recognized even when there were exact matches in the anchor text.  
-* Fixes a bug where incorrect assessments were shown for keyphrases only consisting of function words in Japanese.
-* Fixes a bug where a fatal error would be thrown if the link count of a corrupt indexable item would get updated.
-* Fixes a bug where the title tag would not be correct in Full Site Editing themes.
-* Fixes a bug where the text length assessment would count URLs from videos loaded in the article in the total amount of the copy characters in Japanese.
-* Fixes a bug where Japanese full stops in a text would be counted as three characters instead of one.
-
-Other:
-
-* Sets the WordPress tested up to version to 5.9.
-* Sets WooCommerce tested up to version to 6.1.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
