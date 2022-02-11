@@ -14,14 +14,15 @@ class Empty_String_Validator extends String_Validator {
 	/**
 	 * Validates if a value is a string.
 	 *
-	 * @param mixed $value The value to validate.
+	 * @param mixed $value    The value to validate.
+	 * @param array $settings Optional settings.
 	 *
 	 * @throws Invalid_Empty_String_Exception When the value is not an empty string.
 	 * @throws \Yoast\WP\SEO\Exceptions\Validation\Invalid_Type_Exception When the value is not a string.
 	 *
 	 * @return string A valid string.
 	 */
-	public function validate( $value ) {
+	public function validate( $value, array $settings = null ) {
 		$string = parent::validate( $value );
 
 		if ( $string !== '' ) {

@@ -14,14 +14,15 @@ class Email_Validator extends String_Validator {
 	/**
 	 * Validates if a value is an email.
 	 *
-	 * @param mixed $value The value to validate.
+	 * @param mixed $value    The value to validate.
+	 * @param array $settings Optional settings.
 	 *
 	 * @throws Invalid_Email_Exception When the value is an invalid email address.
 	 * @throws \Yoast\WP\SEO\Exceptions\Validation\Invalid_Type_Exception When the value is not a string.
 	 *
 	 * @return string A valid email address.
 	 */
-	public function validate( $value ) {
+	public function validate( $value, array $settings = null ) {
 		$email = parent::validate( $value );
 
 		$email = \sanitize_email( $email );

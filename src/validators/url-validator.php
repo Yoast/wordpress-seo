@@ -14,14 +14,15 @@ class Url_Validator extends String_Validator {
 	/**
 	 * Validates if a value is a URL.
 	 *
-	 * @param mixed $value The value to validate.
+	 * @param mixed $value    The value to validate.
+	 * @param array $settings Optional settings.
 	 *
 	 * @throws Invalid_Url_Exception When the value is an invalid URL.
 	 * @throws \Yoast\WP\SEO\Exceptions\Validation\Invalid_Type_Exception When the value is not a string.
 	 *
 	 * @return mixed A valid URL.
 	 */
-	public function validate( $value ) {
+	public function validate( $value, array $settings = null ) {
 		$url = parent::validate( $value );
 
 		$url = \trim( \htmlspecialchars( $url, ENT_COMPAT, $this->get_charset(), true ) );
@@ -71,7 +72,7 @@ class Url_Validator extends String_Validator {
 		if ( isset( $parts['path'] ) && \strpos( $parts['path'], '/' ) === 0 ) {
 			$path = \explode( '/', \wp_strip_all_tags( $parts['path'] ) );
 			$path = $this->sanitize_encoded_text_field( $path );
-			$url .= \implode( '/', $path );
+			$url  .= \implode( '/', $path );
 		}
 
 		if ( ! $url ) {
