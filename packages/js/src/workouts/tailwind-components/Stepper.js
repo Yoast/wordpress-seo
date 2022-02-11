@@ -203,22 +203,12 @@ Content.propTypes = {
  *
  * @returns {WPElement} The Stepper component.
  */
-export default function Stepper( { children, setActiveStepIndex, activeStepIndex, isStepperFinished } ) {
-	const [ isStepBeingEdited, setIsStepBeingEdited ] = useState( false );
-	const [ showEditButton, setShowEditButton ] = useState( isStepperFinished );
-	// The stepper needs to signal to each step to not to show edit buttons when a step is being edited (needs a function here to pass to each tailwindstep)
-
-	useEffect( () => {
-		if ( isStepperFinished ) {
-			setShowEditButton( isStepperFinished );
-		}
-	}, [ isStepperFinished ] );
-
+export default function Stepper( { children, setActiveStepIndex, activeStepIndex } ) {
 	return (
 		<ol>
 			{ children.map( ( child, stepIndex ) => {
 				return <li key={ `${ child.props.name }-${ stepIndex }` } className={ ( stepIndex === children.length - 1 ? "" : "yst-pb-8" ) + " yst-mb-0 yst-relative" }>
-					<StepperContext.Provider value={ { stepIndex, activeStepIndex, setActiveStepIndex, lastStepIndex: children.length - 1, isStepBeingEdited, setIsStepBeingEdited, showEditButton } }>
+					<StepperContext.Provider value={ { stepIndex, activeStepIndex, setActiveStepIndex, lastStepIndex: children.length - 1 } }>
 						{ child }
 					</StepperContext.Provider>
 				</li>;
@@ -230,7 +220,6 @@ export default function Stepper( { children, setActiveStepIndex, activeStepIndex
 Stepper.propTypes = {
 	setActiveStepIndex: PropTypes.func.isRequired,
 	activeStepIndex: PropTypes.number.isRequired,
-	isStepperFinished: PropTypes.bool.isRequired,
 	children: PropTypes.node.isRequired,
 };
 
