@@ -20,7 +20,7 @@ import { ConfigurationIndexation } from "../tailwind-components/ConfigurationInd
 import SocialInputSection from "./SocialInputSection";
 import SocialInputPersonSection from "./SocialInputPersonSection";
 import Stepper, { Step } from "../tailwind-components/Stepper";
-import { ContinueButton, StepButtons } from "../tailwind-components/ConfigurationStepperButtons";
+import { ContinueButton, EditButton, ConfigurationStepButtons } from "../tailwind-components/ConfigurationStepperButtons";
 import { STEPS, WORKOUTS } from "../config";
 import { getInitialActiveStepIndex } from "../stepper-helper";
 import { scrollToStep } from "../helpers";
@@ -774,6 +774,10 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 		return true;
 	}
 
+	const [ stepperFinishedOnce, setStepperFinishedOnce ] = useState( isStepperFinished );
+	const [ isStepBeingEdited, setIsStepBeingEdited ] = useState( false );
+	const [ showEditButton, setShowEditButton ] = useState( stepperFinishedOnce && ! isStepBeingEdited );
+
 	/**
 	 * Save and continue functionality for the Indexation step.
 	 *
@@ -787,9 +791,35 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 			return false;
 		}
 
+		setIsStepBeingEdited( false );
 		finishStep( stepIdx );
 		return true;
 	}
+
+	/**
+	 * Save and continue functionality for the Indexation step.
+	 *
+	 * @param {int} stepIdx The step index of the indexation step.
+	 *
+	 * @returns {boolean} Whether the stepper can continue to the next step.
+	 */
+	function beforeEditing() {
+		setShowEditButton( false );
+		setIsStepBeingEdited( true );
+		return true;
+	}
+
+	// The first time isStepperFinished is true, set stepperFinishedOnce to true.
+	useEffect( () => {
+		if ( isStepperFinished ) {
+			setStepperFinishedOnce( true );
+		}
+	}, [ isStepperFinished ] );
+
+	// If stepperFinishedOnce changes or isStepBeingEdited changes, evaluate edit button state.
+	useEffect( () => {
+		setShowEditButton( stepperFinishedOnce && ! isStepBeingEdited );
+	}, [ stepperFinishedOnce, isStepBeingEdited ] );
 
 	// AND HERE....
 	/* eslint-disable max-len */
@@ -858,81 +888,67 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 					activeStepIndex={ activeStepIndex }
 					isStepperFinished={ isStepperFinished }
 				>
-					<Step
-						isFinished={ isStep1Finished }
-					>
+					<Step>
 						<Step.Header
 							name="SEO data optimization"
-							isFinished={ true }
+							isFinished={ isStep1Finished }
 						>
-							{ isStepperFinished && <Step.EditButton className="yst-button--secondary yst-button--small yst-ml-auto" /> }
+							{ showEditButton && <EditButton beforeGo={ beforeEditing } additionalClasses="yst-ml-auto"> { __( "Edit", "wordpress-seo" ) } </EditButton> }
 						</Step.Header>
 						<Step.Content>
 							<IndexationStep setIndexingState={ setIndexingState } indexingState={ indexingState } />
 							<ContinueButton
 								additionalClasses="yst-mt-12"
 								beforeGo={ beforeContinueIndexationStep }
+								destination={ stepperFinishedOnce ? "last" : 1 }
 							>
 								{ __( "Continue", "wordpress-seo" ) }
 							</ContinueButton>
 						</Step.Content>
 					</Step>
-					<Step
-						isFinished={ isStep2Finished }
-					>
+					<Step>
 						<Step.Header
 							name="Site representation"
-							isFinished={ true }
+							isFinished={ isStep2Finished }
 						>
-							{ isStepperFinished && <Step.EditButton className="yst-button--secondary yst-button--small yst-ml-auto" /> }
+							{ showEditButton && <EditButton beforeGo={ beforeEditing } additionalClasses="yst-ml-auto"> { __( "Edit", "wordpress-seo" ) } </EditButton> }
 						</Step.Header>
 						<Step.Content>
 							<SiteRepresentationStep onOrganizationOrPersonChange={ onOrganizationOrPersonChange } dispatch={ dispatch } state={ state } siteRepresentsPerson={ siteRepresentsPerson } onSiteTaglineChange={ onSiteTaglineChange } siteRepresentationEmpty={ siteRepresentationEmpty } />
-							<StepButtons beforeContinue={ updateOnFinishSiteRepresentation } continueLabel={ __( "Save and continue", "wordpress-seo" ) } />
+							<ConfigurationStepButtons stepperFinishedOnce={ stepperFinishedOnce } saveFunction={ updateOnFinishSiteRepresentation } setEditState={ setIsStepBeingEdited } />
 						</Step.Content>
 					</Step>
-					<Step
-						isFinished={ isStep3Finished }
-					>
+					<Step>
 						<Step.Header
 							name="Social profiles"
-							isFinished={ true }
+							isFinished={ isStep3Finished }
 						>
-							{ isStepperFinished && <Step.EditButton className="yst-button--secondary yst-button--small yst-ml-auto" /> }
+							{ showEditButton && <EditButton beforeGo={ beforeEditing } additionalClasses="yst-ml-auto"> { __( "Edit", "wordpress-seo" ) } </EditButton> }
 						</Step.Header>
 						<Step.Content>
 							<SocialProfilesStep state={ state } dispatch={ dispatch } setErrorFields={ setErrorFields } siteRepresentsPerson={ siteRepresentsPerson } />
-							<StepButtons beforeContinue={ updateOnFinishSocialProfiles } continueLabel={ __( "Save and continue", "wordpress-seo" ) } />
+							<ConfigurationStepButtons stepperFinishedOnce={ stepperFinishedOnce } saveFunction={ updateOnFinishSocialProfiles } setEditState={ setIsStepBeingEdited } />
 						</Step.Content>
 					</Step>
-					<Step
-						isFinished={ isStep4Finished }
-					>
+					<Step>
 						<Step.Header
 							name="Personal preferences"
-							isFinished={ true }
+							isFinished={ isStep4Finished }
 						>
-							{ isStepperFinished && <Step.EditButton className="yst-button--secondary yst-button--small yst-ml-auto" /> }
+							{ showEditButton && <EditButton beforeGo={ beforeEditing } additionalClasses="yst-ml-auto"> { __( "Edit", "wordpress-seo" ) } </EditButton> }
 						</Step.Header>
 						<Step.Content>
 							<PersonalPreferencesStep state={ state } setTracking={ setTracking } isTrackingOptionSelected={ isTrackingOptionSelected } />
-							<StepButtons beforeContinue={ updateOnFinishEnableTracking } continueLabel={ __( "Save and continue", "wordpress-seo" ) } />
+							<ConfigurationStepButtons stepperFinishedOnce={ stepperFinishedOnce } saveFunction={ updateOnFinishEnableTracking } setEditState={ setIsStepBeingEdited } />
 						</Step.Content>
 					</Step>
-					<Step
-						isFinished={ isWorkoutFinished }
-					>
+					<Step>
 						<Step.Header
 							name="Finish configuration"
-							isFinished={ true }
-						>
-							{ isStepperFinished && <Step.EditButton className="yst-button--secondary yst-button--small yst-ml-auto" /> }
-						</Step.Header>
+							isFinished={ isWorkoutFinished }
+						/>
 						<Step.Content>
 							<FinishStep />
-							<Step.GoButton className="yst-button yst-ml-3 yst-bg-cyan-600" destination="first">
-								Cool back functionality
-							</Step.GoButton>
 						</Step.Content>
 					</Step>
 				</Stepper>
