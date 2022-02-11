@@ -3,3 +3,4 @@
 @import "tailwindcss/utilities";
 
 @import "./Button/style";
+@import "./Title/style";
