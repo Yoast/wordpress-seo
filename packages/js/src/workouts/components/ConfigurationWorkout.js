@@ -20,6 +20,7 @@ import { ConfigurationIndexation } from "../tailwind-components/ConfigurationInd
 import SocialInputSection from "./SocialInputSection";
 import SocialInputPersonSection from "./SocialInputPersonSection";
 import Stepper, { Step } from "../tailwind-components/Stepper";
+import { ContinueButton, StepButtons } from "../tailwind-components/ConfigurationStepperButtons";
 import { STEPS, WORKOUTS } from "../config";
 import { getInitialActiveStepIndex } from "../stepper-helper";
 import { scrollToStep } from "../helpers";
@@ -864,16 +865,16 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 							name="SEO data optimization"
 							isFinished={ true }
 						>
-							<p>Karlijn is leaving sad</p>
-							{ isStepperFinished && <Step.Edit className="yst-button--secondary yst-button--small yst-ml-auto" /> }
+							{ isStepperFinished && <Step.EditButton className="yst-button--secondary yst-button--small yst-ml-auto" /> }
 						</Step.Header>
 						<Step.Content>
 							<IndexationStep setIndexingState={ setIndexingState } indexingState={ indexingState } />
-							<Step.Continue
-								beforeContinue={ beforeContinueIndexationStep }
+							<ContinueButton
+								additionalClasses="yst-mt-12"
+								beforeGo={ beforeContinueIndexationStep }
 							>
 								{ __( "Continue", "wordpress-seo" ) }
-							</Step.Continue>
+							</ContinueButton>
 						</Step.Content>
 					</Step>
 					<Step
@@ -883,12 +884,11 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 							name="Site representation"
 							isFinished={ true }
 						>
-							<p>Karlijn is leaving sad</p>
-							{ isStepperFinished && <Step.Edit className="yst-button--secondary yst-button--small yst-ml-auto" /> }
+							{ isStepperFinished && <Step.EditButton className="yst-button--secondary yst-button--small yst-ml-auto" /> }
 						</Step.Header>
 						<Step.Content>
 							<SiteRepresentationStep onOrganizationOrPersonChange={ onOrganizationOrPersonChange } dispatch={ dispatch } state={ state } siteRepresentsPerson={ siteRepresentsPerson } onSiteTaglineChange={ onSiteTaglineChange } siteRepresentationEmpty={ siteRepresentationEmpty } />
-							<Step.Buttons beforeContinue={ updateOnFinishSiteRepresentation } continueLabel={ __( "Save and continue", "wordpress-seo" ) } backLabel="Cool custom back label" />
+							<StepButtons beforeContinue={ updateOnFinishSiteRepresentation } continueLabel={ __( "Save and continue", "wordpress-seo" ) } />
 						</Step.Content>
 					</Step>
 					<Step
@@ -898,12 +898,11 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 							name="Social profiles"
 							isFinished={ true }
 						>
-							<p>Karlijn is leaving sad</p>
-							{ isStepperFinished && <Step.Edit className="yst-button--secondary yst-button--small yst-ml-auto" /> }
+							{ isStepperFinished && <Step.EditButton className="yst-button--secondary yst-button--small yst-ml-auto" /> }
 						</Step.Header>
 						<Step.Content>
 							<SocialProfilesStep state={ state } dispatch={ dispatch } setErrorFields={ setErrorFields } siteRepresentsPerson={ siteRepresentsPerson } />
-							<Step.Buttons beforeContinue={ updateOnFinishSocialProfiles } continueLabel={ __( "Save and continue", "wordpress-seo" ) } />
+							<StepButtons beforeContinue={ updateOnFinishSocialProfiles } continueLabel={ __( "Save and continue", "wordpress-seo" ) } />
 						</Step.Content>
 					</Step>
 					<Step
@@ -913,12 +912,11 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 							name="Personal preferences"
 							isFinished={ true }
 						>
-							<p>Karlijn is leaving sad</p>
-							{ isStepperFinished && <Step.Edit className="yst-button--secondary yst-button--small yst-ml-auto" /> }
+							{ isStepperFinished && <Step.EditButton className="yst-button--secondary yst-button--small yst-ml-auto" /> }
 						</Step.Header>
 						<Step.Content>
 							<PersonalPreferencesStep state={ state } setTracking={ setTracking } isTrackingOptionSelected={ isTrackingOptionSelected } />
-							<Step.Buttons beforeContinue={ updateOnFinishEnableTracking } continueLabel={ __( "Save and continue", "wordpress-seo" ) } />
+							<StepButtons beforeContinue={ updateOnFinishEnableTracking } continueLabel={ __( "Save and continue", "wordpress-seo" ) } />
 						</Step.Content>
 					</Step>
 					<Step
@@ -928,14 +926,13 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 							name="Finish configuration"
 							isFinished={ true }
 						>
-							<p>Karlijn is leaving sad</p>
-							{ isStepperFinished && <Step.Edit className="yst-button--secondary yst-button--small yst-ml-auto" /> }
+							{ isStepperFinished && <Step.EditButton className="yst-button--secondary yst-button--small yst-ml-auto" /> }
 						</Step.Header>
 						<Step.Content>
 							<FinishStep />
-							<Step.Back className="yst-button yst-ml-3 yst-bg-cyan-600">
+							<Step.GoButton className="yst-button yst-ml-3 yst-bg-cyan-600" destination="first">
 								Cool back functionality
-							</Step.Back>
+							</Step.GoButton>
 						</Step.Content>
 					</Step>
 				</Stepper>
