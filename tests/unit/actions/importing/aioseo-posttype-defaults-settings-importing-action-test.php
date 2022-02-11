@@ -201,18 +201,6 @@ class Aioseo_Posttype_Defaults_Settings_Importing_Action_Test extends TestCase {
 	}
 
 	/**
-	 * Tests flattening AIOSEO Posttype Defaults settings.
-	 *
-	 * @covers ::flatten_settings
-	 */
-	public function test_flatten_settings() {
-		$flattened_sesttings = $this->mock_instance->flatten_settings( $this->full_settings_to_import );
-		$expected_result     = $this->flattened_settings_to_import;
-
-		$this->assertSame( $expected_result, $flattened_sesttings );
-	}
-
-	/**
 	 * Tests mapping AIOSEO Posttype Defaults settings.
 	 *
 	 * @param string $setting                The setting at hand, eg. post or movie-category, separator etc.
