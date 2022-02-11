@@ -738,7 +738,6 @@ export default class HowTo extends Component {
 					unstableOnFocus={ this.focusDescription }
 					onChange={ this.onChangeDescription }
 					placeholder={ __( "Enter a description", "wordpress-seo" ) }
-					keepPlaceholderOnFocus={ true }
 				/>
 				<ul className={ listClassNames }>
 					{ this.getSteps() }
