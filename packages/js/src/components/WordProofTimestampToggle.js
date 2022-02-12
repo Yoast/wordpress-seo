@@ -3,10 +3,9 @@ import { Component, Fragment, useCallback } from "@wordpress/element";
 import PropTypes from "prop-types";
 import { Toggle, FieldGroup } from "@yoast/components";
 import { __, sprintf } from "@wordpress/i18n";
-import popupWindow from "../helpers/popupWindow";
 import AuthenticationModal from "./modals/wordproof/AuthenticationModal";
-import { fetchIsAuthenticated, fetchSettings } from "../helpers/wordproof";
 import { get } from "lodash";
+import {openAuthentication, openSettings} from '../helpers/wordproof';
 
 /**
  * @param {Object} props The props object.
@@ -19,7 +18,7 @@ const SettingsLink = ( props ) => {
 
 	const openLink = useCallback( event => {
 		event.preventDefault();
-		props.openSettings();
+		openSettings()
 	} );
 
 	return (
@@ -32,13 +31,12 @@ const SettingsLink = ( props ) => {
 SettingsLink.propTypes = {
 	isAuthenticated: PropTypes.bool.isRequired,
 	settingsUrl: PropTypes.string.isRequired,
-	openSettings: PropTypes.func.isRequired,
 };
 
 const AuthenticationLink = ( props ) => {
 	const openLink = useCallback( event => {
 		event.preventDefault();
-		props.openAuthentication();
+		openAuthentication()
 	} );
 
 	if ( ! props.isAuthenticated && props.toggleIsEnabled ) {
@@ -56,7 +54,6 @@ AuthenticationLink.propTypes = {
 	isAuthenticated: PropTypes.bool.isRequired,
 	toggleIsEnabled: PropTypes.bool.isRequired,
 	authenticationUrl: PropTypes.string.isRequired,
-	openAuthentication: PropTypes.func.isRequired,
 };
 
 /**
@@ -89,58 +86,12 @@ class WordProofTimestampToggle extends Component {
 		};
 	}
 
-	updateStateFromSettings( settings ) {
-		if ( ! settings ) {
-			return;
-		}
-
-		this.setState( {
-			isDisabled: settings.timestamp_current_post_type,
-		} );
-	}
-
 	setIsOpen( value ) {
 		this.setState( { isOpen: value } );
 	}
 
 	setIsAuthenticated( bool ) {
 		this.setState( { isAuthenticated: bool } );
-	}
-
-	openSettings() {
-		/**
-		 * When WordPress window is re-focused after WordProof settings have been
-		 * possibly updated in separate window, we should retrieve and update these settings
-		 * in the local state of this component.
-		 */
-		window.addEventListener( "focus", async() => {
-			const settingsResponse = await fetchSettings();
-			const authenticationResponse = await fetchIsAuthenticated();
-			this.updateStateFromSettings( settingsResponse );
-			this.setIsAuthenticated( authenticationResponse );
-		}, { once: true } );
-
-		popupWindow( window, this.state.settingsUrl );
-	}
-
-	openAuthentication() {
-		/**
-		 * When WordPress window is re-focused after the WordProof authentication status
-		 * have been possibly updated in separate window, we should retrieve and update
-		 * the local state of this component.
-		 */
-		window.addEventListener( "focus", async() => {
-			const authenticationResponse = await fetchIsAuthenticated();
-			this.setIsAuthenticated( authenticationResponse );
-
-			if ( authenticationResponse ) {
-				this.setIsOpen( true );
-			} else {
-				this.handleToggle( false );
-			}
-		}, { once: true } );
-
-		popupWindow( window, this.state.authenticationUrl );
 	}
 
 	handleToggle( value ) {
