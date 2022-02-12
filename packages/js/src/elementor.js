@@ -10,6 +10,8 @@ import initElementorWatcher from "./watchers/elementorWatcher";
 import initHighlightFocusKeyphraseForms from "./elementor/initializers/highlightFocusKeyphraseForms";
 import initReplaceVarPlugin, { addReplacement, ReplaceVar } from "./elementor/replaceVars/elementor-replacevar-plugin";
 import initializeIntroduction from "./elementor/initializers/introduction";
+import {isWordProofIntegrationActive} from './helpers/wordproof';
+import initializeElementorEditor from "../../../vendor/wordproof/wordpress-sdk/resources/js/initializers/elementorEditor";
 
 /**
  * Initializes Yoast SEO for Elementor.
@@ -64,6 +66,10 @@ function initialize() {
 
 	// Initialize the editor integration.
 	initElementorEditorIntegration();
+
+	if ( isWordProofIntegrationActive() ) {
+		initializeElementorEditor();
+	}
 
 	// Offer an action after our load.
 	doAction( "yoast.elementor.loaded" );
