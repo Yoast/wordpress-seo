@@ -271,7 +271,7 @@ class Structured_Data_Blocks implements Integration_Interface {
 	 */
 	public function maybe_save_used_caches() {
 		foreach ( $this->used_caches as $post_id => $used_cache ) {
-			if ( $used_cache === $this->caches[ $post_id ] ) {
+			if ( isset( $this->caches[ $post_id ] ) && $used_cache === $this->caches[ $post_id ] ) {
 				continue;
 			}
 			\update_post_meta( $post_id, 'yoast-structured-data-blocks-images-cache', $used_cache );
