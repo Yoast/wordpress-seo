@@ -1,5 +1,5 @@
 {
-  "name": "@yoast/postcss-config",
+  "name": "@yoast/postcss-preset",
   "version": "1.0.0",
   "description": "A PostCSS preset for Yoast packages.",
   "main": "index.js",
