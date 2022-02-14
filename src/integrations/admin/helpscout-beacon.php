@@ -196,6 +196,7 @@ class HelpScout_Beacon implements Integration_Interface {
 			[
 				'name'               => \trim( $current_user->user_firstname . ' ' . $current_user->user_lastname ),
 				'email'              => $current_user->user_email,
+				'Languages'          => $this->get_language_settings(),
 			],
 			$this->get_server_info(),
 			[
@@ -400,6 +401,24 @@ class HelpScout_Beacon implements Integration_Interface {
 		}
 
 		return $indexables_status;
+	}
+
+	/**
+	 * Returns language settings for the website and the current user.
+	 *
+	 * @return string The locale settings of the site and user.
+	 */
+	private function get_language_settings() {
+		$site_locale = \get_locale();
+		$user_locale = \get_user_locale();
+
+		$language_settings = sprintf(
+			'Site locale: %1$s, user locale: %2$s',
+			( is_string( $site_locale ) ) ? $site_locale : 'unknown',
+			( is_string( $user_locale ) ) ? $user_locale : 'unknown'
+		);
+
+		return $language_settings;
 	}
 
 	/**
