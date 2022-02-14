@@ -330,7 +330,7 @@ class HelpScout_Beacon implements Integration_Interface {
 	}
 
 	/**
-	 * Returns a CSV list of all active plugins.
+	 * Returns a stringified list of all active plugins, separated by a pipe.
 	 *
 	 * @return string The active plugins.
 	 */
@@ -348,7 +348,7 @@ class HelpScout_Beacon implements Integration_Interface {
 			}
 
 			$active_plugins .= \sprintf(
-				'%1$s (Version %2$s%3$s, %4$s), ',
+				'%1$s (Version %2$s%3$s, %4$s) | ',
 				\esc_html( $plugin_data['Name'] ),
 				\esc_html( $plugin_data['Version'] ),
 				$plugin_update_available,
