@@ -415,7 +415,7 @@ class HelpScout_Beacon implements Integration_Interface {
 		$language_settings = sprintf(
 			'Site locale: %1$s, user locale: %2$s',
 			( is_string( $site_locale ) ) ? \esc_html( $site_locale ) : 'unknown',
-			( is_string( $user_locale ) ) ? \esc_html( $user_locale) : 'unknown'
+			( is_string( $user_locale ) ) ? \esc_html( $user_locale ) : 'unknown'
 		);
 
 		return $language_settings;
