@@ -38,7 +38,7 @@ const imageCallback = ( image ) => {
 		url: imageUrl,
 		id: image.id,
 		warnings: validateFacebookImage( image ),
-		alt: image.alt ?? "",
+		alt: image.alt || "",
 	} );
 };
 

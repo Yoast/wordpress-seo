@@ -41,7 +41,7 @@ const imageCallback = ( image ) => {
 		url: imageUrl,
 		id: image.id,
 		warnings: validateTwitterImage( image ),
-		alt: image.alt ?? "",
+		alt: image.alt || "",
 	} );
 };
 
