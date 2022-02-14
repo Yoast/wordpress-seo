@@ -1,10 +1,4 @@
-import {
-	LOAD_TWITTER_PREVIEW,
-	SET_TWITTER_TITLE,
-	SET_TWITTER_DESCRIPTION,
-	SET_TWITTER_IMAGE,
-	CLEAR_TWITTER_IMAGE,
-} from "../actions/twitterEditor";
+import { CLEAR_TWITTER_IMAGE, LOAD_TWITTER_PREVIEW, SET_TWITTER_DESCRIPTION, SET_TWITTER_IMAGE, SET_TWITTER_TITLE } from "../actions/twitterEditor";
 
 /**
  * Initial state
@@ -16,6 +10,7 @@ const initialState = {
 	image: {
 		url: "",
 		id: "",
+		alt: "",
 	},
 };
 
@@ -36,22 +31,31 @@ const twitterReducer = ( state = initialState, action ) => {
 				description: action.description,
 				image: { id: action.id, url: action.imageUrl },
 			};
-		case SET_TWITTER_TITLE :
+		case SET_TWITTER_TITLE:
 			return { ...state, title: action.title };
 		case SET_TWITTER_DESCRIPTION :
 			return { ...state, description: action.description };
-		case SET_TWITTER_IMAGE :
-			return { ...state, image: { id: action.image.id, url: action.image.url }, warnings: action.image.warnings };
-		case CLEAR_TWITTER_IMAGE :
+		case SET_TWITTER_IMAGE:
+			return {
+				...state,
+				image: {
+					id: action.image.id,
+					url: action.image.url,
+					alt: action.image.alt || "",
+				},
+				warnings: action.image.warnings,
+			};
+		case CLEAR_TWITTER_IMAGE:
 			return {
 				...state,
 				image: {
 					url: "",
 					id: "",
+					alt: "",
 				},
 				warnings: [],
 			};
-	  default:
+		default:
 			return state;
 	}
 };

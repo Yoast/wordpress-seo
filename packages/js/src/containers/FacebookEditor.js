@@ -38,6 +38,7 @@ const imageCallback = ( image ) => {
 		url: imageUrl,
 		id: image.id,
 		warnings: validateFacebookImage( image ),
+		alt: image.alt ?? "",
 	} );
 };
 
@@ -70,6 +71,7 @@ export default compose( [
 			getSeoDescriptionTemplate,
 			getSocialDescriptionTemplate,
 			getReplacedExcerpt,
+			getFacebookAltText,
 		} = select( "yoast-seo/editor" );
 
 		const titleInputPlaceholder  = "";
@@ -99,6 +101,7 @@ export default compose( [
 			titleInputPlaceholder,
 			descriptionInputPlaceholder,
 			socialMediumName,
+			alt: getFacebookAltText(),
 		};
 	} ),
 

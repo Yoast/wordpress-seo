@@ -38,6 +38,7 @@ const getMedia = () => {
 				url: selected.attributes.url,
 				id: selected.attributes.id,
 				warnings: validateFacebookImage( image ),
+				alt: selected.attributes.alt,
 			} );
 		} );
 	}
@@ -73,6 +74,7 @@ export default compose( [
 			getSeoDescriptionTemplate,
 			getSocialDescriptionTemplate,
 			getEditorDataExcerptWithFallback,
+			getFacebookAltText,
 		} = select( "yoast-seo/editor" );
 
 		const titleInputPlaceholder  = "";
@@ -102,6 +104,7 @@ export default compose( [
 			titleInputPlaceholder,
 			descriptionInputPlaceholder,
 			socialMediumName,
+			alt: getFacebookAltText(),
 		};
 	} ),
 

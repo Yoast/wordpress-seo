@@ -41,6 +41,7 @@ const imageCallback = ( image ) => {
 		url: imageUrl,
 		id: image.id,
 		warnings: validateTwitterImage( image ),
+		alt: image.alt ?? "",
 	} );
 };
 
@@ -77,6 +78,7 @@ export default compose( [
 			getSeoDescriptionTemplate,
 			getSocialDescriptionTemplate,
 			getReplacedExcerpt,
+			getTwitterAltText,
 		} = select( "yoast-seo/editor" );
 
 		const titleInputPlaceholder  = "";
@@ -109,6 +111,7 @@ export default compose( [
 			titleInputPlaceholder,
 			descriptionInputPlaceholder,
 			socialMediumName,
+			alt: getTwitterAltText(),
 		};
 	} ),
 
