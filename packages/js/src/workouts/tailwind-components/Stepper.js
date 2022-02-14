@@ -1,4 +1,4 @@
-import { Fragment, useCallback, useState, useEffect } from "@wordpress/element";
+import { Fragment, useCallback, useState, useEffect, useContext, createContext } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import AnimateHeight from "react-animate-height";
 import PropTypes from "prop-types";
@@ -15,47 +15,139 @@ const {
 
 const { fadeDuration, delayUntilStepFaded, slideDurationClass = slideDuration } = stepperTimingClasses;
 
+const StepperContext = createContext();
+
+/**
+ * A hook for getting the StepperContext value, with an informative error message.
+ *
+ * @returns {*} The value provided to the StepperContext provider.
+ */
+export function useStepperContext() {
+	const context = useContext( StepperContext );
+	if ( ! context ) {
+	  throw new Error(
+			"Stepper compound components cannot be rendered outside the Stepper component"
+	  );
+	}
+	return context;
+}
+
+/**
+ * The component button used to navigate the steps
+ *
+ * @param {Object}     props             The props object.
+ * @param {number}     props.children    The children of the component.
+ * @param {function}   props.beforeGo    A function to call when the button is clicked.
+ * @param {int|string} props.destination A number of steps to take relative to the current step or "first" or "last".
+ *
+ * @returns {WPElement} The button element.
+ */
+function GoButton( { beforeGo, children, destination, ...restProps } ) {
+	const { stepIndex, setActiveStepIndex, lastStepIndex } = useStepperContext();
+	const goToDestination = useCallback( () => {
+		if ( typeof destination === "string" ) {
+			setActiveStepIndex( destination === "last" ? lastStepIndex : 0 );
+		} else {
+			setActiveStepIndex( stepIndex + destination );
+		}
+	}, [ stepIndex, lastStepIndex, setActiveStepIndex, destination ] );
+
+	const goFunction = useCallback( async() => {
+		let canGo = true;
+		if ( beforeGo ) {
+			canGo = false;
+			canGo = await beforeGo();
+		}
+		if ( canGo ) {
+			goToDestination();
+		}
+	}, [ goToDestination, beforeGo ] );
+
+	return <button
+		onClick={ goFunction }
+		{ ...restProps }
+	>
+		{ children }
+	</button>;
+}
+
+GoButton.propTypes = {
+	beforeGo: PropTypes.func,
+	children: PropTypes.node,
+	destination: PropTypes.oneOfType( [
+		PropTypes.number,
+		PropTypes.oneOf( [ "first", "last" ] ),
+	] ),
+};
+
+GoButton.defaultProps = {
+	beforeGo: null,
+	children: <Fragment>{ __( "Go back", "wordpress-seo" ) }</Fragment>,
+	destination: 1,
+};
+
 /**
  * The StepButtons component.
  *
- * @param {Object}   props                 The props object.
- * @param {number}   props.stepIndex       The index of the current step.
- * @param {function} props.saveAndContinue A function to call when the primary button is clicked.
- * @param {function} props.goBack          A function to call when the "Go Back" button is clicked.
+ * @param {Object}   props The props object.
  *
- * @returns {WPElement} The StepButtons component.
+ * @returns {WPElement} The EditButton component.
  */
-function StepButtons( { stepIndex, saveAndContinue, goBack } ) {
-	return <div className="yst-mt-12">
-		<button
-			onClick={ saveAndContinue }
-			className="yst-button--primary"
-		>
-			{ __( "Save and continue", "wordpress-seo" ) }
-		</button>
-		{ stepIndex > 0 && <button
-			onClick={ goBack }
-			className="yst-button--secondary yst-ml-3"
-		>
-			{ __( "Go back", "wordpress-seo" ) }
-		</button>
-		}
-	</div>;
+function EditButton( { children, ...restProps } ) {
+	const { stepIndex, setActiveStepIndex } = useStepperContext();
+
+	const editFunction = useCallback( () => {
+		setActiveStepIndex( stepIndex );
+	}, [ setActiveStepIndex, stepIndex ] );
+
+	return <button
+		onClick={ editFunction }
+		className="yst-button--secondary yst-button--small"
+		{ ...restProps }
+	>
+		{ children }
+	</button>;
 }
 
-StepButtons.propTypes = {
-	stepIndex: PropTypes.number.isRequired,
-	saveAndContinue: PropTypes.func.isRequired,
-	goBack: PropTypes.func.isRequired,
+EditButton.propTypes = {
+	children: PropTypes.node,
 };
 
-const stepShape = PropTypes.shape( {
-	name: PropTypes.string.isRequired,
-	description: PropTypes.string,
-	component: PropTypes.element.isRequired,
-	isSaved: PropTypes.bool.isRequired,
-	beforeContinue: PropTypes.func,
-} );
+EditButton.defaultProps = {
+	children: <Fragment>{ __( "Edit", "wordpress-seo" ) }</Fragment>,
+};
+
+/**
+ * The Step Element
+ *
+ * @param {Object} props            The props object.
+ * @param {Node}   props.children   The children of the component.
+ *
+ * @returns {WPElement} The Step
+ */
+export function Step( { children } ) {
+	const { lastStepIndex, stepIndex, activeStepIndex } = useStepperContext();
+	return <Fragment>
+		{ /* Line. */ }
+		{ stepIndex !== lastStepIndex &&
+			<Fragment>
+				<div
+					className={ "yst--ml-px yst-absolute yst-left-4 yst-w-0.5 yst-h-full yst-bg-gray-300 yst--bottom-6" }
+					aria-hidden="true"
+				/>
+				<div
+					className={ `yst-h-12 yst-transition-transform ${ delayUntilStepFaded } yst-ease-linear ${ slideDurationClass } ${ stepIndex < activeStepIndex  ? "yst-scale-y-1" : "yst-scale-y-0" } yst-origin-top yst--ml-px yst-absolute yst-left-4 yst-w-0.5 yst-bg-primary-500 yst-top-8` }
+					aria-hidden="true"
+				/>
+			</Fragment>
+		}
+		{ children }
+	</Fragment>;
+}
+
+Step.propTypes = {
+	children: PropTypes.node.isRequired,
+};
 
 /**
  * The (Tailwind) Step component
@@ -64,37 +156,12 @@ const stepShape = PropTypes.shape( {
  *
  * @returns {WPElement} The Step component.
  */
-function TailwindStep( { step, stepIndex, lastStepIndex, isLastStep, beforeContinue, activeStepIndex, setActiveStepIndex, showEditButton, isStepBeingEdited, setIsStepBeingEdited } ) {
+function Content( { children } ) {
+	const { activeStepIndex, stepIndex } = useStepperContext();
 	const isActiveStep = activeStepIndex === stepIndex;
-	const isSaved = step.isSaved;
 
 	const [ contentHeight, setContentHeight ] = useState( isActiveStep ? "auto" : 0 );
 	const [ isFaded, setIsFaded ] = useState( ! isActiveStep );
-
-	const saveEditedStep = useCallback(
-		() => {
-			const canContinueToNextStep = beforeContinue();
-			if ( canContinueToNextStep === true ) {
-				setIsStepBeingEdited( false );
-				setActiveStepIndex( lastStepIndex );
-			}
-		},
-		[ beforeContinue, stepIndex, setActiveStepIndex, setIsStepBeingEdited ]
-	);
-
-	const saveAndContinue = useCallback(
-		() => {
-			const continueToNextStep = beforeContinue();
-			if ( continueToNextStep === true ) {
-				setActiveStepIndex( stepIndex + 1 );
-			}
-		},
-		[ setActiveStepIndex, beforeContinue, stepIndex ]
-	);
-
-	const goBack = useCallback( () => {
-		setActiveStepIndex( stepIndex - 1 );
-	}, [ stepIndex, setActiveStepIndex ] );
 
 	useEffect( () => {
 		if ( isActiveStep ) {
@@ -107,35 +174,8 @@ function TailwindStep( { step, stepIndex, lastStepIndex, isLastStep, beforeConti
 		}
 	}, [ isActiveStep ] );
 
-	const editStep = useCallback( () => {
-		setActiveStepIndex( stepIndex );
-		setIsStepBeingEdited( true );
-	}, [ stepIndex, setActiveStepIndex, setIsStepBeingEdited ] );
-
 	return (
 		<Fragment>
-			{ /* Line. */ }
-			{ ! isLastStep &&
-				<Fragment>
-					<div
-						className={ "yst--ml-px yst-absolute yst-left-4 yst-w-0.5 yst-h-full yst-bg-gray-300 yst--bottom-6" }
-						aria-hidden="true"
-					/>
-					<div
-						className={ `yst-h-12 yst-transition-transform ${ delayUntilStepFaded } yst-ease-linear ${ slideDurationClass } ${ stepIndex < activeStepIndex  ? "yst-scale-y-1" : "yst-scale-y-0" } yst-origin-top yst--ml-px yst-absolute yst-left-4 yst-w-0.5 yst-bg-primary-500 yst-top-8` }
-						aria-hidden="true"
-					/>
-				</Fragment>
-			}
-			<StepHeader
-				step={ step }
-				isActiveStep={ isActiveStep }
-				isSaved={ isSaved }
-				isLastStep={ isLastStep }
-				showEditButton={ showEditButton }
-				editStep={ editStep }
-				isStepBeingEdited={ isStepBeingEdited }
-			/>
 			{ /* Child component and buttons. */ }
 			<AnimateHeight
 				id={ `content-${stepIndex}` }
@@ -144,43 +184,16 @@ function TailwindStep( { step, stepIndex, lastStepIndex, isLastStep, beforeConti
 				easing="ease-in-out"
 				duration={ slideDuration }
 			>
-				<div className={ `yst-transition-opacity ${ fadeDuration } yst-relative yst-ml-12 yst-mt-4 ${ isFaded ? "yst-opacity-0 yst-no-point-events" : "yst-opacity-100" }` }>
-					{ step.component }
-					{ ( ! isLastStep && ! showEditButton ) &&
-						<StepButtons
-							stepIndex={ stepIndex }
-							saveAndContinue={ saveAndContinue }
-							goBack={ goBack }
-						/>
-					}
-					{ ( ! isLastStep && showEditButton ) &&
-						<button
-							className="yst-button--primary yst-mt-12"
-							onClick={ saveEditedStep }
-						>
-							{ __( "Save Changes", "wordpress-seo" ) }
-						</button>
-					}
+				<div className={ `yst-transition-opacity ${ fadeDuration } yst-relative yst-ml-12 yst-mt-4 ${ isFaded ? "yst-opacity-0 yst-pointer-events-none" : "yst-opacity-100" }` }>
+					{ children }
 				</div>
 			</AnimateHeight>
 		</Fragment>
 	);
 }
-TailwindStep.propTypes = {
-	step: stepShape.isRequired,
-	stepIndex: PropTypes.number.isRequired,
-	lastStepIndex: PropTypes.number.isRequired,
-	isLastStep: PropTypes.bool.isRequired,
-	setActiveStepIndex: PropTypes.func.isRequired,
-	beforeContinue: PropTypes.func,
-	activeStepIndex: PropTypes.number.isRequired,
-	showEditButton: PropTypes.bool,
-	setIsStepBeingEdited: PropTypes.func.isRequired,
-	isStepBeingEdited: PropTypes.bool.isRequired,
-};
-TailwindStep.defaultProps = {
-	showEditButton: false,
-	beforeContinue: () => true,
+
+Content.propTypes = {
+	children: PropTypes.node.isRequired,
 };
 
 /**
@@ -190,43 +203,28 @@ TailwindStep.defaultProps = {
  *
  * @returns {WPElement} The Stepper component.
  */
-export default function Stepper( { steps, setActiveStepIndex, activeStepIndex, isStepperFinished } ) {
-	const [ isStepBeingEdited, setIsStepBeingEdited ] = useState( false );
-	const [ showEditButton, setShowEditButton ] = useState( isStepperFinished );
-	// The stepper needs to signal to each step to not to show edit buttons when a step is being edited (needs a function here to pass to each tailwindstep)
-
-	useEffect( () => {
-		if ( isStepperFinished ) {
-			setShowEditButton( isStepperFinished );
-		}
-	}, [ isStepperFinished ] );
-
+export default function Stepper( { children, setActiveStepIndex, activeStepIndex } ) {
 	return (
 		<ol>
-			{ steps.map( ( step, stepIndex ) => (
-				<li key={ step.name } className={ ( stepIndex === steps.length - 1 ? "" : "yst-pb-8" ) + " yst-mb-0 yst-relative" }>
-					<TailwindStep
-						step={ step }
-						stepIndex={ stepIndex }
-						lastStepIndex={ steps.length - 1 }
-						isLastStep={ stepIndex === steps.length - 1 }
-						setActiveStepIndex={ setActiveStepIndex }
-						beforeContinue={ step.beforeContinue }
-						activeStepIndex={ activeStepIndex }
-						showEditButton={ showEditButton }
-						setIsStepBeingEdited={ setIsStepBeingEdited }
-						isStepBeingEdited={ isStepBeingEdited }
-					/>
-				</li>
-			) ) }
+			{ children.map( ( child, stepIndex ) => {
+				return <li key={ `${ child.props.name }-${ stepIndex }` } className={ ( stepIndex === children.length - 1 ? "" : "yst-pb-8" ) + " yst-mb-0 yst-relative" }>
+					<StepperContext.Provider value={ { stepIndex, activeStepIndex, setActiveStepIndex, lastStepIndex: children.length - 1 } }>
+						{ child }
+					</StepperContext.Provider>
+				</li>;
+			} ) }
 		</ol>
 	);
 }
+
 Stepper.propTypes = {
-	steps: PropTypes.arrayOf( stepShape ).isRequired,
 	setActiveStepIndex: PropTypes.func.isRequired,
 	activeStepIndex: PropTypes.number.isRequired,
-	isStepperFinished: PropTypes.bool.isRequired,
-
+	children: PropTypes.node.isRequired,
 };
+
+Step.Content = Content;
+Step.Header = StepHeader;
+Step.GoButton = GoButton;
+Step.EditButton = EditButton;
 /* eslint-enable complexity, max-len */

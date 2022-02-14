@@ -2,6 +2,7 @@ import { CheckIcon } from "@heroicons/react/solid";
 import { useState, useEffect } from "@wordpress/element";
 import PropTypes from "prop-types";
 import { stepperTimingClasses } from "../stepper-helper";
+import { useStepperContext } from "./Stepper";
 /* eslint-disable complexity, max-len */
 
 const { slideDuration, delayUntilStepFaded } = stepperTimingClasses;
@@ -97,47 +98,44 @@ UpcomingCircle.defaultProps = {
  *
  * @returns {WPElement} The StepCircle component.
  */
-export function StepCircle( { activationDelay, isLastStep, deactivationDelay, isActive, isSaved } ) {
-	const [ circleType, setCircleType ] = useState( () => {
-		if ( isActive ) {
-			return isLastStep ? "saved" : "active";
-		}
-		return isSaved ? "saved" : "upcoming";
+export function StepCircle( { activationDelay, deactivationDelay, isFinished } ) {
+	const { activeStepIndex, stepIndex, lastStepIndex } = useStepperContext();
+	const isLastStep = stepIndex === lastStepIndex;
+	const isActive = activeStepIndex === stepIndex;
+	const [ isCircleActive, setCircleActive ] = useState( () => {
+		// Only return true if isActive and not the last step.
+		return isActive ? ! isLastStep : false;
 	} );
 
 	useEffect( () => {
 		if ( isActive ) {
-			// Set deactivation delay on the active class.
 			setTimeout( () => {
-				setCircleType( isLastStep ? "saved" : "active" );
+				setCircleActive( true );
 			}, activationDelay );
 			return;
 		}
 		// Set activation delay on the inactive class.
 		setTimeout( () => {
-			setCircleType( isSaved ? "saved" : "upcoming" );
+			setCircleActive( false );
 		}, deactivationDelay );
-	}, [ isActive, isLastStep, activationDelay, deactivationDelay, isSaved ] );
+	}, [ isActive, isLastStep, activationDelay, deactivationDelay ] );
 
 	return <span
 		className={ "yst-relative yst-z-10 yst-w-8 yst-h-8 yst-rounded-full" }
 	>
 		<UpcomingCircle isVisible={ true } />
-		<SavedCircle isVisible={ circleType === "saved" } />
-		<ActiveCircle isVisible={ circleType === "active" } />
+		<SavedCircle isVisible={ isFinished } />
+		<ActiveCircle isVisible={ isCircleActive && ! isLastStep } />
 	</span>;
 }
 
 StepCircle.propTypes = {
-	isActive: PropTypes.bool.isRequired,
-	isSaved: PropTypes.bool.isRequired,
-	isLastStep: PropTypes.bool,
+	isFinished: PropTypes.bool.isRequired,
 	activationDelay: PropTypes.number,
 	deactivationDelay: PropTypes.number,
 };
 
 StepCircle.defaultProps = {
-	isLastStep: false,
 	activationDelay: 0,
 	deactivationDelay: 0,
 };

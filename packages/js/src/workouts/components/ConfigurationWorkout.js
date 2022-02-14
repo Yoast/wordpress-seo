@@ -5,21 +5,22 @@ import { createInterpolateElement, useCallback, useReducer, useState, useEffect,
 import { __, sprintf } from "@wordpress/i18n";
 import { cloneDeep } from "lodash";
 import PropTypes from "prop-types";
+
 import UnsavedChangesModal from "../tailwind-components/UnsavedChangesModal";
 import Alert from "../tailwind-components/alert";
-
 import { NewButton as Button, RadioButtonGroup, SingleSelect, TextInput } from "@yoast/components";
 import { ReactComponent as WorkoutDoneImage } from "../../../../../images/mirrored_fit_bubble_woman_1_optim.svg";
 import { ReactComponent as WorkoutStartImage } from "../../../images/motivated_bubble_woman_1_optim.svg";
 import { addLinkToString } from "../../helpers/stringHelpers.js";
-import { Step, Steps, FinishButtonSection } from "./Steps";
+import { Step as OldStep, Steps, FinishButtonSection } from "./Steps";
 import { OrganizationSection } from "./OrganizationSection";
 import { PersonSection } from "./PersonSection";
 import { NewsletterSignup } from "./NewsletterSignup";
 import { ConfigurationIndexation } from "../tailwind-components/ConfigurationIndexation";
 import SocialInputSection from "./SocialInputSection";
 import SocialInputPersonSection from "./SocialInputPersonSection";
-import Stepper from "../tailwind-components/Stepper";
+import Stepper, { Step } from "../tailwind-components/Stepper";
+import { ContinueButton, EditButton, ConfigurationStepButtons } from "../tailwind-components/ConfigurationStepperButtons";
 import { STEPS, WORKOUTS } from "../config";
 import { getInitialActiveStepIndex } from "../stepper-helper";
 import { scrollToStep } from "../helpers";
@@ -623,17 +624,19 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 			state.companyOrPerson === "company" &&
 			( ! state.companyName || ! state.companyLogo ) ) {
 			setSiteRepresentationEmpty( true );
+			return false;
 		} else if ( ! siteRepresentationEmpty &&
 			state.companyOrPerson === "person" &&
 			( ! state.personId || ! state.personLogo ) ) {
 			setSiteRepresentationEmpty( true );
-		} else {
-			setSiteRepresentationEmpty( false );
-			updateSiteRepresentation( state )
-				.then( () => setStepIsSaved( 2 ) )
-				.then( () => finishSteps( "configuration", [ steps.siteRepresentation ] ) );
-			scrollToStep( 3 );
+			return false;
 		}
+		setSiteRepresentationEmpty( false );
+		updateSiteRepresentation( state )
+			.then( () => setStepIsSaved( 2 ) )
+			.then( () => finishSteps( "configuration", [ steps.siteRepresentation ] ) );
+		scrollToStep( 3 );
+		return true;
 	}
 
 	/**
@@ -642,12 +645,15 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 	 * @returns {void}
 	 */
 	function updateOnFinishSocialProfiles() {
-		updateSocialProfiles( state )
+		return updateSocialProfiles( state )
 			.then( () => setStepIsSaved( 3 ) )
 			.then( () => {
 				setErrorFields( [] );
 				finishSteps( "configuration", [ steps.socialProfiles ] );
 				scrollToStep( 4 );
+			} )
+			.then( () => {
+				return true;
 			} )
 			.catch(
 				( e ) => {
@@ -665,10 +671,13 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 	 * @returns {void}
 	 */
 	function updateOnFinishEnableTracking() {
-		updateTracking( state )
+		return updateTracking( state )
 			.then( () => setStepIsSaved( 4 ) )
-			.then( () => finishSteps( "configuration", [ steps.enableTracking ] ) );
-		scrollToStep( 5 );
+			.then( () => finishSteps( "configuration", [ steps.enableTracking ] ) )
+			.then( () => {
+				scrollToStep( 5 );
+				return true;
+			} );
 	}
 
 	const toggleConfigurationWorkout = useCallback(
@@ -765,6 +774,10 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 		return true;
 	}
 
+	const [ stepperFinishedOnce, setStepperFinishedOnce ] = useState( isStepperFinished );
+	const [ isStepBeingEdited, setIsStepBeingEdited ] = useState( false );
+	const [ showEditButton, setShowEditButton ] = useState( stepperFinishedOnce && ! isStepBeingEdited );
+
 	/**
 	 * Save and continue functionality for the Indexation step.
 	 *
@@ -778,9 +791,35 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 			return false;
 		}
 
+		setIsStepBeingEdited( false );
 		finishStep( stepIdx );
 		return true;
 	}
+
+	/**
+	 * Save and continue functionality for the Indexation step.
+	 *
+	 * @param {int} stepIdx The step index of the indexation step.
+	 *
+	 * @returns {boolean} Whether the stepper can continue to the next step.
+	 */
+	function beforeEditing() {
+		setShowEditButton( false );
+		setIsStepBeingEdited( true );
+		return true;
+	}
+
+	// The first time isStepperFinished is true, set stepperFinishedOnce to true.
+	useEffect( () => {
+		if ( isStepperFinished ) {
+			setStepperFinishedOnce( true );
+		}
+	}, [ isStepperFinished ] );
+
+	// If stepperFinishedOnce changes or isStepBeingEdited changes, evaluate edit button state.
+	useEffect( () => {
+		setShowEditButton( stepperFinishedOnce && ! isStepBeingEdited );
+	}, [ stepperFinishedOnce, isStepBeingEdited ] );
 
 	// AND HERE....
 	/* eslint-disable max-len */
@@ -845,46 +884,98 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 			{ /* eslint-disable react/jsx-no-bind */ }
 			<div className="yst-mt-8">
 				<Stepper
-					steps={ [
-						{ name: "SEO data optimization",
-							component: <IndexationStep setIndexingState={ setIndexingState } indexingState={ indexingState } showRunIndexationAlert={ showRunIndexationAlert } />,
-							isSaved: isStepFinished( "configuration", steps.optimizeSeoData ),
-							beforeContinue: beforeContinueIndexationStep,
-						},
-						{ name: "Knowledge panel",
-							component: <SiteRepresentationStep onOrganizationOrPersonChange={ onOrganizationOrPersonChange } dispatch={ dispatch } state={ state } siteRepresentsPerson={ siteRepresentsPerson } onSiteTaglineChange={ onSiteTaglineChange } siteRepresentationEmpty={ siteRepresentationEmpty } />,
-							isSaved: isStepFinished( "configuration", steps.siteRepresentation ),
-							beforeContinue: () => {
-								finishStep( 1 );
-								return true;
-							},
-						},
-						{ name: "Social profiles",
-							component: <SocialProfilesStep state={ state } dispatch={ dispatch } setErrorFields={ setErrorFields } siteRepresentsPerson={ siteRepresentsPerson } />,
-							isSaved: isStepFinished( "configuration", steps.socialProfiles ),
-							beforeContinue: () => {
-								finishStep( 2 );
-								return true;
-							},
-						},
-						{ name: "Personal preferences",
-							component: <PersonalPreferencesStep state={ state } setTracking={ setTracking } isTrackingOptionSelected={ isTrackingOptionSelected } />,
-							isSaved: isStepFinished( "configuration", steps.newsletterSignup ),
-							beforeContinue: () => {
-								finishStep( 3 );
-								return true;
-							},
-						},
-						{ name: "Finish configuration",
-							component: <FinishStep />,
-							isSaved: isStepperFinished,
-							beforeContinue: finishStep,
-						},
-					] }
 					setActiveStepIndex={ setActiveStepIndex }
 					activeStepIndex={ activeStepIndex }
 					isStepperFinished={ isStepperFinished }
-				/>
+				>
+					<Step>
+						<Step.Header
+							name="SEO data optimization"
+							isFinished={ isStep1Finished }
+						>
+							<EditButton
+								beforeGo={ beforeEditing }
+								isVisible={ showEditButton }
+								additionalClasses={ "yst-ml-auto" }
+							>
+								{ __( "Edit", "wordpress-seo" ) }
+							</EditButton>
+						</Step.Header>
+						<Step.Content>
+							<IndexationStep setIndexingState={ setIndexingState } indexingState={ indexingState } />
+							<ContinueButton
+								additionalClasses="yst-mt-12"
+								beforeGo={ beforeContinueIndexationStep }
+								destination={ stepperFinishedOnce ? "last" : 1 }
+							>
+								{ __( "Continue", "wordpress-seo" ) }
+							</ContinueButton>
+						</Step.Content>
+					</Step>
+					<Step>
+						<Step.Header
+							name="Site representation"
+							isFinished={ isStep2Finished }
+						>
+							<EditButton
+								beforeGo={ beforeEditing }
+								isVisible={ showEditButton }
+								additionalClasses={ "yst-ml-auto" }
+							>
+								{ __( "Edit", "wordpress-seo" ) }
+							</EditButton>
+						</Step.Header>
+						<Step.Content>
+							<SiteRepresentationStep onOrganizationOrPersonChange={ onOrganizationOrPersonChange } dispatch={ dispatch } state={ state } siteRepresentsPerson={ siteRepresentsPerson } onSiteTaglineChange={ onSiteTaglineChange } siteRepresentationEmpty={ siteRepresentationEmpty } />
+							<ConfigurationStepButtons stepperFinishedOnce={ stepperFinishedOnce } saveFunction={ updateOnFinishSiteRepresentation } setEditState={ setIsStepBeingEdited } />
+						</Step.Content>
+					</Step>
+					<Step>
+						<Step.Header
+							name="Social profiles"
+							isFinished={ isStep3Finished }
+						>
+							<EditButton
+								beforeGo={ beforeEditing }
+								isVisible={ showEditButton }
+								additionalClasses={ "yst-ml-auto" }
+							>
+								{ __( "Edit", "wordpress-seo" ) }
+							</EditButton>
+						</Step.Header>
+						<Step.Content>
+							<SocialProfilesStep state={ state } dispatch={ dispatch } setErrorFields={ setErrorFields } siteRepresentsPerson={ siteRepresentsPerson } />
+							<ConfigurationStepButtons stepperFinishedOnce={ stepperFinishedOnce } saveFunction={ updateOnFinishSocialProfiles } setEditState={ setIsStepBeingEdited } />
+						</Step.Content>
+					</Step>
+					<Step>
+						<Step.Header
+							name="Personal preferences"
+							isFinished={ isStep4Finished }
+						>
+							<EditButton
+								beforeGo={ beforeEditing }
+								isVisible={ showEditButton }
+								additionalClasses={ "yst-ml-auto" }
+							>
+								{ __( "Edit", "wordpress-seo" ) }
+							</EditButton>
+						</Step.Header>
+						<Step.Content>
+							<PersonalPreferencesStep state={ state } setTracking={ setTracking } isTrackingOptionSelected={ isTrackingOptionSelected } />
+							<ConfigurationStepButtons stepperFinishedOnce={ stepperFinishedOnce } saveFunction={ updateOnFinishEnableTracking } setEditState={ setIsStepBeingEdited } />
+						</Step.Content>
+					</Step>
+					<Step>
+						<Step.Header
+							name="Finish configuration"
+							isFinished={ isStepperFinished }
+						/>
+						<Step.Content>
+							<FinishStep />
+						</Step.Content>
+					</Step>
+				</Stepper>
 			</div>
 
 			<UnsavedChangesModal hasUnsavedChanges={ state.editedSteps.includes( activeStepIndex + 1 ) } />
@@ -901,7 +992,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 
 			<div className={ `workflow ${ hideOriginal ? "yst-hidden" : "" }` }>
 				<Steps id="yoast-configuration-workout-steps">
-					<Step
+					<OldStep
 						id="yoast-configuration-workout-step-optimize-seo-data"
 						title={ __( "Optimize SEO data", "wordpress-seo" ) }
 						subtitle={ addLinkToString(
@@ -960,7 +1051,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 							isFinished={ isStep1Finished }
 							isReady={ isStepReady( 1 ) }
 						/>
-					</Step>
+					</OldStep>
 					<p className="extra-list-content">
 						{
 							createInterpolateElement(
@@ -979,7 +1070,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 							)
 						}
 					</p>
-					<Step
+					<OldStep
 						id="yoast-configuration-workout-step-site-representation"
 						title={ __( "Site representation", "wordpress-seo" ) }
 						subtitle={ __( "Tell Google what kind of site you have and increase the chance it gets features in a Google Knowledge Panel. Select ‘Organization’ if you are working on a site for a business or an organization. Select ‘Person’ if you have, say, a personal blog.", "wordpress-seo" ) }
@@ -1061,8 +1152,8 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 							isFinished={ isStep2Finished }
 							isReady={ isStepReady( 2 ) }
 						/>
-					</Step>
-					<Step
+					</OldStep>
+					<OldStep
 						id="yoast-configuration-workout-step-social-profiles"
 						title={ __( "Social profiles", "wordpress-seo" ) }
 						subtitle={ state.companyOrPerson === "company" ?  __( "Do you have profiles for your site on social media? Then, add all of their URLs here, so your social profiles may also appear in a Google Knowledge Panel.", "wordpress-seo" ) : "" }
@@ -1085,8 +1176,8 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 							isFinished={ isStep3Finished }
 							isReady={ isStepReady( 3 ) }
 						/>
-					</Step>
-					<Step
+					</OldStep>
+					<OldStep
 						id="yoast-configuration-workout-step-tracking"
 						title={ __( "Help us improve Yoast SEO", "wordpress-seo" ) }
 						isFinished={ isStep4Finished }
@@ -1149,15 +1240,15 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 							additionalButtonProps={ { disabled: ! isTrackingOptionSelected } }
 							isReady={ isStepReady( 4 ) }
 						/>
-					</Step>
-					<Step
+					</OldStep>
+					<OldStep
 						id="yoast-configuration-workout-step-newsletter"
 						title={ __( "Sign up for the Yoast newsletter!", "wordpress-seo" ) }
 						isFinished={ isStep5Finished }
 					>
 						<br />
 						<NewsletterSignup gdprLink={ window.wpseoWorkoutsData.configuration.shortlinks.gdpr } />
-					</Step>
+					</OldStep>
 					<FinishButtonSection
 						buttonId="yoast-configuration-workout-finish-workout-button"
 						finishText={ isWorkoutFinished ? __( "Do workout again", "wordpress-seo" ) : __( "Finish this workout", "wordpress-seo" ) }
