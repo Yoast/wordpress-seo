@@ -30,7 +30,7 @@ import PostPublish from "../containers/PostPublish";
 import WincherPostPublish from "../containers/WincherPostPublish";
 import getL10nObject from "../analysis/getL10nObject";
 import YoastIcon from "../components/PluginIcon";
-import {isWordProofIntegrationActive} from '../helpers/wordproof';
+import { isWordProofIntegrationActive } from "../helpers/wordproof";
 
 
 /**

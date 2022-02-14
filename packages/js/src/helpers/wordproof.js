@@ -21,14 +21,14 @@ export const isWordProofIntegrationActive = () => {
 };
 
 export const openAuthentication = () => {
-	dispatchEvent('wordproof:open_authentication');
-}
+	dispatchEvent( "wordproof:open_authentication" );
+};
 
 export const openSettings = () => {
-	dispatchEvent('wordproof:open_settings');
-}
+	dispatchEvent( "wordproof:open_settings" );
+};
 
-const dispatchEvent = (name) => {
-	const event = new CustomEvent(name);
-	window.dispatchEvent(event);
-}
+const dispatchEvent = ( name ) => {
+	const event = new CustomEvent( name );
+	window.dispatchEvent( event );
+};
