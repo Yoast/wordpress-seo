@@ -592,8 +592,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 				$image_url = $aioseo_social_image_settings[ $mapping['social_setting_prefix_aioseo'] . 'image_custom_url' ];
 				break;
 			case 'featured':
-				$image_url = $this->social_images_provider->get_featured_image( $indexable->object_id );
-				break;
+				return null; // Our auto-calculation when the indexable is built/updated will take care of it, so it's not needed to transfer any data now.
 			case 'author':
 				return null;
 			case 'custom':
