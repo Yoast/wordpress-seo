@@ -35,9 +35,9 @@ export function useStepperContext() {
 /**
  * The component button used to navigate the steps
  *
- * @param {Object}   props            The props object.
- * @param {number}   props.children   The children of the component.
- * @param {function} props.beforeGo A function to call when the button is clicked.
+ * @param {Object}     props             The props object.
+ * @param {number}     props.children    The children of the component.
+ * @param {function}   props.beforeGo    A function to call when the button is clicked.
  * @param {int|string} props.destination A number of steps to take relative to the current step or "first" or "last".
  *
  * @returns {WPElement} The button element.

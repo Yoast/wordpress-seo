@@ -112,11 +112,11 @@ BackButton.defaultProps = {
 /**
  * A convenience class for the most common configuration of Stepper buttons: continue and back.
  *
- * @param {Object} props The props for the StepButtons.
+ * @param {Object}   props                The props for the StepButtons.
  * @param {function} props.beforeContinue A function to call before continueing. Should return true when ready to continue.
- * @param {function} props.beforeBack A function to call before going back. Should return true when ready to go back.
- * @param {string} props.continueLabel A label to display on the Continue Button.
- * @param {string} props.backLabel A label to display on the Back Button.
+ * @param {function} props.beforeBack     A function to call before going back. Should return true when ready to go back.
+ * @param {string}   props.continueLabel  A label to display on the Continue Button.
+ * @param {string}   props.backLabel      A label to display on the Back Button.
  *
  * @returns {WPElement} The most common stepper buttons: continue and back.
  */
@@ -146,7 +146,7 @@ StepButtons.defaultProps = {
  * "Save and continue" and "Go back" when the stepper is in progress, "Save changes" when the Stepper has been completed once.
  *
  * @param {Object}   props                     The props for the StepButtons.
- * @param {boolean}  props.stepperFinishedOnce Wether the stepper has been completed once.
+ * @param {boolean}  props.stepperFinishedOnce Whether the stepper has been completed once.
  * @param {function} props.saveFunction        A function to call upon clicking the "Save Changes" button.
  * @param {string}   props.setEditState        A function to set the edit state of the Stepper.
  *
