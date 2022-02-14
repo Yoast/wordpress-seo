@@ -9,7 +9,7 @@ self.wpseoPrimaryCategoryL10n = {
 	},
 };
 
-const categories = jest.fn().mockReturnValue( [
+let selectCategories = jest.fn().mockReturnValue( [
 	{
 		id: "1",
 		name: "category 1",
@@ -25,7 +25,7 @@ describe( "a test for getting the replacement of the variables in classic editor
 		jest.spyOn( data, "select" ).mockImplementation( () => {
 			return {
 				getPrimaryTaxonomyId: jest.fn().mockReturnValue( 2 ),
-				selectCategories: categories,
+				selectCategories: selectCategories,
 			};
 		} );
 
@@ -36,10 +36,57 @@ describe( "a test for getting the replacement of the variables in classic editor
 		jest.spyOn( data, "select" ).mockImplementation( () => {
 			return {
 				getPrimaryTaxonomyId: jest.fn().mockReturnValue( undefined ),
-				selectCategories: categories,
+				selectCategories: selectCategories,
 			};
 		} );
 
 		expect( primaryCategory.getReplacement() ).toEqual( "category 1" );
+	} );
+
+	it( "should return the replacement for primary category variable when the id from both the store " +
+		"and from wpseoPrimaryCategoryL10n is undefined, but there is one category that is selected for a post:" +
+		" the selected category is also assigned as the primary", () => {
+		self.wpseoPrimaryCategoryL10n = {
+			taxonomies: {
+				category: {
+					primary: "",
+				},
+			},
+		};
+		selectCategories = jest.fn().mockReturnValue( [
+			{
+				id: "4",
+				name: "a new category",
+			},
+		] );
+		jest.spyOn( data, "select" ).mockImplementation( () => {
+			return {
+				getPrimaryTaxonomyId: jest.fn().mockReturnValue( undefined ),
+				selectCategories: selectCategories,
+			};
+		} );
+
+		expect( primaryCategory.getReplacement() ).toEqual( "a new category" );
+	} );
+
+	it( "should return the replacement for primary category variable when the id from both the store " +
+		"and from wpseoPrimaryCategoryL10n is undefined, and there is no category that is selected for a post:" +
+		" the primary category should be an empty string", () => {
+		self.wpseoPrimaryCategoryL10n = {
+			taxonomies: {
+				category: {
+					primary: "",
+				},
+			},
+		};
+		selectCategories = jest.fn().mockReturnValue( [] );
+		jest.spyOn( data, "select" ).mockImplementation( () => {
+			return {
+				getPrimaryTaxonomyId: jest.fn().mockReturnValue( undefined ),
+				selectCategories: selectCategories,
+			};
+		} );
+
+		expect( primaryCategory.getReplacement() ).toEqual( "" );
 	} );
 } );
