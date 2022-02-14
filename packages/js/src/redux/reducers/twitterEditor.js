@@ -14,6 +14,8 @@ const initialState = {
 	},
 };
 
+/* eslint-disable complexity */
+
 /**
  * A reducer for the TwitterPreview object.
  *
@@ -59,5 +61,7 @@ const twitterReducer = ( state = initialState, action ) => {
 			return state;
 	}
 };
+
+/* eslint-enable complexity */
 
 export default twitterReducer;

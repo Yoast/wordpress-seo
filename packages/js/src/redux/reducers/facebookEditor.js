@@ -20,6 +20,8 @@ const initialState = {
 	},
 };
 
+/* eslint-disable complexity */
+
 /**
  * A reducer for the FacebookPreview object.
  *
@@ -65,5 +67,7 @@ const facebookReducer = ( state = initialState, action ) => {
 			return state;
 	}
 };
+
+/* eslint-enable complexity */
 
 export default facebookReducer;
