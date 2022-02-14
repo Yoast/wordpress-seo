@@ -3,11 +3,14 @@ import { Component, Fragment, useCallback } from "@wordpress/element";
 import PropTypes from "prop-types";
 import { Toggle, FieldGroup } from "@yoast/components";
 import { __, sprintf } from "@wordpress/i18n";
-import AuthenticationModal from "./modals/wordproof/AuthenticationModal";
+import { compose } from "@wordpress/compose";
+import { withSelect } from "@wordpress/data";
 import { get } from "lodash";
-import {openAuthentication, openSettings} from '../helpers/wordproof';
+import { openAuthentication, openSettings } from "../helpers/wordproof";
 
 /**
+ * The settings link.
+ *
  * @param {Object} props The props object.
  * @returns {JSX.Element} The SettingsLink component.
  */
@@ -16,33 +19,43 @@ const SettingsLink = ( props ) => {
 		return ( <></> );
 	}
 
+	const url = get( window, "wordproofSdk.data.popup_redirect_settings_url", {} );
+
 	const openLink = useCallback( event => {
 		event.preventDefault();
-		openSettings()
+		openSettings();
 	} );
 
 	return (
 		<a
-			href={ props.settingsUrl } onClick={ openLink }
+			href={ url } onClick={ openLink }
 		>{ __( "Manage WordProof settings", "wordpress-seo" ) }</a>
 	);
 };
 
 SettingsLink.propTypes = {
 	isAuthenticated: PropTypes.bool.isRequired,
-	settingsUrl: PropTypes.string.isRequired,
 };
 
+/**
+ * The authentication link.
+ *
+ * @param props
+ * @returns {JSX.Element|string}
+ * @constructor
+ */
 const AuthenticationLink = ( props ) => {
 	const openLink = useCallback( event => {
 		event.preventDefault();
-		openAuthentication()
+		openAuthentication();
 	} );
+
+	const url = get( window, "wordproofSdk.data.popup_redirect_authentication_url", {} );
 
 	if ( ! props.isAuthenticated && props.toggleIsEnabled ) {
 		return (
 			<a
-				href={ props.authenticationUrl } onClick={ openLink }
+				href={ url } onClick={ openLink }
 			>{ __( "Authenticate with WordProof", "wordpress-seo" ) }</a>
 		);
 	}
@@ -53,51 +66,29 @@ const AuthenticationLink = ( props ) => {
 AuthenticationLink.propTypes = {
 	isAuthenticated: PropTypes.bool.isRequired,
 	toggleIsEnabled: PropTypes.bool.isRequired,
-	authenticationUrl: PropTypes.string.isRequired,
 };
 
 /**
- * The WordProofTimestampToggle Component.
+ * The WordProofTimestampToggle component.
  */
 class WordProofTimestampToggle extends Component {
 	/**
 	 * @param {Object} props The props object.
 	 * @param {string} props.id The id for the checkbox.
 	 * @param {boolean} props.isEnabled The value of the checkbox.
-	 * @param {string} props.postTypeName The name of the post type.
+	 * @param {func} props.onToggle The callback on toggle.
+	 * @param {boolean} props.isAuthenticated If the site is authenticated.
 	 */
 	constructor( props ) {
 		super( props );
 
-		this.setIsOpen = this.setIsOpen.bind( this );
-		this.setIsAuthenticated = this.setIsAuthenticated.bind( this );
-		this.openSettings = this.openSettings.bind( this );
-		this.openAuthentication = this.openAuthentication.bind( this );
 		this.handleToggle = this.handleToggle.bind( this );
-
-		const data = get( window, "wordproofSdk.data", {} );
-
-		this.state = {
-			isOpen: false,
-			isAuthenticated: data.is_authenticated,
-			isDisabled: data.timestamp_current_post_type,
-			settingsUrl: data.popup_redirect_settings_url,
-			authenticationUrl: data.popup_redirect_authentication_url,
-		};
-	}
-
-	setIsOpen( value ) {
-		this.setState( { isOpen: value } );
-	}
-
-	setIsAuthenticated( bool ) {
-		this.setState( { isAuthenticated: bool } );
 	}
 
 	handleToggle( value ) {
 		this.props.onToggle( value );
 
-		if ( ! this.state.isAuthenticated && value ) {
+		if ( ! this.props.isAuthenticated && value ) {
 			this.openAuthentication();
 		}
 	}
@@ -129,27 +120,15 @@ class WordProofTimestampToggle extends Component {
 						) }
 						isEnabled={ this.props.isEnabled }
 						onSetToggleState={ this.handleToggle }
-						disable={ this.state.isDisabled }
 					/>
 					<SettingsLink
-						isAuthenticated={ this.state.isAuthenticated }
-						openSettings={ this.openSettings }
-						settingsUrl={ this.state.settingsUrl }
+						isAuthenticated={ this.props.isAuthenticated }
 					/>
 					<AuthenticationLink
 						toggleIsEnabled={ this.props.isEnabled }
-						isAuthenticated={ this.state.isAuthenticated }
-						openAuthentication={ this.openAuthentication }
-						authenticationUrl={ this.state.authenticationUrl }
+						isAuthenticated={ this.props.isAuthenticated }
 					/>
 				</FieldGroup>
-
-				<AuthenticationModal
-					isOpen={ this.state.isOpen }
-					setIsOpen={ this.setIsOpen }
-					isAuthenticated={ this.state.isAuthenticated }
-					postTypeName={ this.props.postTypeName }
-				/>
 			</Fragment>
 		);
 	}
@@ -160,14 +139,20 @@ WordProofTimestampToggle.propTypes = {
 	isEnabled: PropTypes.bool,
 	onToggle: PropTypes.func,
 	postTypeName: PropTypes.string,
+	isAuthenticated: PropTypes.bool.isRequired,
 };
 
 WordProofTimestampToggle.defaultProps = {
 	id: "timestamp-toggle",
 	isEnabled: true,
-	onToggle: () => {
-	},
 	postTypeName: "post",
+	onToggle: () => {},
 };
 
-export default WordProofTimestampToggle;
+export default compose( [
+	withSelect( ( select ) => {
+		return {
+			isAuthenticated: select( "wordproof" ).getIsAuthenticated(),
+		};
+	} ),
+] )( WordProofTimestampToggle );
