@@ -322,10 +322,10 @@ export class Indexation extends Component {
 	}
 
 	/**
-	 * Renders the progress bar, plus caption.
-	 *
-	 * @returns {JSX.Element} The progress bar, plus caption.
-	 */
+		 * Renders the progress bar.
+		 *
+		 * @returns {JSX.Element} The progress bar.
+		 */
 	renderProgressBar() {
 		let percentageIndexed = 0;
 		if ( this.isState( STATE.COMPLETED ) ) {
@@ -335,27 +335,33 @@ export class Indexation extends Component {
 			percentageIndexed = ( this.state.processed / parseInt( this.state.amount, 10 ) ) * 100;
 		}
 
-		return <Fragment>
-			<div className="yst-w-full yst-bg-gray-200 yst-rounded-full yst-h-2.5 yst-mb-4">
-				<div
-					className="yst-transition-[width] yst-ease-linear yst-bg-primary-500 yst-h-2.5 yst-rounded-full"
-					style={ { width: `${ percentageIndexed }%` } }
-				/>
-			</div>
-			<AnimateHeight
-				id="optimization-in-progress-text"
-				height={ this.isState( STATE.IN_PROGRESS ) ? "auto" : 0 }
-				easing="linear"
-				duration={ 300 }
-			>
-				<p className={ "yst-text-sm yst-italic yst-mb-4" }>
-					{
-						__( "SEO data optimization is running… You can safely move on to the next steps of this configuration.",
-							"wordpress-seo" )
-					}
-				</p>
-			</AnimateHeight>
-		</Fragment>;
+		return <div className="yst-w-full yst-bg-gray-200 yst-rounded-full yst-h-2.5 yst-mb-4">
+			<div
+				className="yst-transition-[width] yst-ease-linear yst-bg-primary-500 yst-h-2.5 yst-rounded-full"
+				style={ { width: `${ percentageIndexed }%` } }
+			/>
+		</div>;
+	}
+
+	/**
+	 * Renders the italics caption.
+	 *
+	 * @returns {JSX.Element} the italics caption.
+	 */
+	renderCaption() {
+		return <AnimateHeight
+			id="optimization-in-progress-text"
+			height={ this.isState( STATE.IN_PROGRESS ) ? "auto" : 0 }
+			easing="linear"
+			duration={ 300 }
+		>
+			<p className={ "yst-text-sm yst-italic yst-mb-4 yst-mt-4" }>
+				{
+					__( "SEO data optimization is running… You can safely move on to the next steps of this configuration.",
+						"wordpress-seo" )
+				}
+			</p>
+		</AnimateHeight>;
 	}
 
 	/**
@@ -385,6 +391,7 @@ export class Indexation extends Component {
 					? this.renderStopButton()
 					: this.renderStartButton()
 				}
+				{ this.renderCaption() }
 			</Fragment>
 		);
 	}
@@ -414,7 +421,6 @@ export class Indexation extends Component {
 		return this.renderTool();
 	}
 }
-
 Indexation.propTypes = {
 	indexingActions: PropTypes.object,
 	preIndexingActions: PropTypes.object,
@@ -428,3 +434,4 @@ Indexation.defaultProps = {
 };
 
 export default Indexation;
+/* eslint-enable complexity */
