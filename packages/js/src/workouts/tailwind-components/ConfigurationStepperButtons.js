@@ -138,7 +138,7 @@ StepButtons.defaultProps = {
 	beforeContinue: null,
 	continueLabel: __( "Continue", "wordpress-seo" ),
 	beforeBack: null,
-	backLabel: __( "Go Back", "wordpress-seo" ),
+	backLabel: __( "Go back", "wordpress-seo" ),
 };
 
 /**

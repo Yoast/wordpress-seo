@@ -82,7 +82,7 @@ GoButton.propTypes = {
 
 GoButton.defaultProps = {
 	beforeGo: null,
-	children: <Fragment>{ __( "Go back", "wordpress-seo" ) }</Fragment>,
+	children: <Fragment>{ __( "Continue", "wordpress-seo" ) }</Fragment>,
 	destination: 1,
 };
 
