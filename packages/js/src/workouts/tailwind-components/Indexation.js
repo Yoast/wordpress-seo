@@ -376,49 +376,46 @@ export class Indexation extends Component {
 		/>;
 	}
 
-	/**
-	 * Renders the indexing tool.
-	 *
-	 * @returns {JSX.Element} The indexing tool.
-	 */
-	renderTool() {
-		return (
-			<Fragment>
-				{ this.renderProgressBar() }
-				{ this.isState( STATE.ERRORED ) && this.renderErrorAlert() }
-				{ this.isState( STATE.IDLE ) && this.state.firstTime && this.renderFirstIndexationNotice() }
-				{ this.isState( STATE.IN_PROGRESS )
-					? this.renderStopButton()
-					: this.renderStartButton()
-				}
-				{ this.renderCaption() }
-			</Fragment>
-		);
-	}
-
+	/* eslint-disable complexity */
 	/**
 	 * Renders the component
 	 *
 	 * @returns {JSX.Element} The rendered component.
 	 */
-	render() {
+	 render() {
 		if ( this.settings.disabled ) {
 			return this.renderDisabledTool();
 		}
 
-		if ( this.isState( STATE.COMPLETED ) || this.state.amount === 0 ) {
-			return <Transition
-				appear={ true }
-				show={ this.isState( STATE.COMPLETED ) || this.state.amount === 0 }
-				enter="yst-transition-opacity yst-duration-1000"
-				enterFrom="yst-opacity-0"
-				enterTo="yst-opacity-100"
-			>
-				<Alert type="success">{ __( "We’ve successfully analyzed your site!", "wordpress-seo" ) }</Alert>
-			</Transition>;
-		}
-
-		return this.renderTool();
+		return (
+			<div className="yst-relative">
+				<Transition
+					unmount={ false }
+					appear={ true }
+					show={ this.isState( STATE.COMPLETED ) || this.state.amount === 0 }
+					enter="yst-transition-opacity yst-duration-1000"
+					enterFrom="yst-opacity-0"
+					enterTo="yst-opacity-100"
+				>
+					<Alert type="success">{ __( "We’ve successfully analyzed your site!", "wordpress-seo" ) }</Alert>
+				</Transition>
+				<Transition
+					unmount={ false }
+					show={ this.isState( STATE.IN_PROGRESS ) || ( this.isState( STATE.IDLE ) && this.state.amount > 0 ) }
+					leave="yst-transition-opacity yst-duration-1000"
+					leaveFrom="yst-opacity-100"
+					leaveTo="yst-opacity-0"
+				>
+					{ this.renderProgressBar() }
+					{ this.isState( STATE.ERRORED ) && this.renderErrorAlert() }
+					{ this.isState( STATE.IDLE ) && this.state.firstTime && this.renderFirstIndexationNotice() }
+					{ this.isState( STATE.IN_PROGRESS )
+						? this.renderStopButton()
+						: this.renderStartButton()
+					}
+					{ this.renderCaption() }
+				</Transition>
+			</div> );
 	}
 }
 Indexation.propTypes = {
