@@ -166,7 +166,6 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'youtube_url',
 		'wikipedia_url',
 		'indexables_indexing_completed',
-		'last_completely_indexed_versions',
 		'semrush_integration_active',
 		'semrush_tokens',
 		'semrush_country_code',

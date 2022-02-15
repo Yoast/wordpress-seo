@@ -54,7 +54,19 @@ export const primaryCategory = {
 		const primaryTaxonomyId = primaryTaxonomyIdFromStore || initialPrimaryTaxonomyId;
 		const categories = select( SEO_STORE_NAME ).selectCategories();
 
-		return categories.find( cat => cat.id === primaryTaxonomyId.toString() ).name;
+		const foundPrimaryCategory = categories.find( cat => cat.id === primaryTaxonomyId.toString() );
+		if ( foundPrimaryCategory ) {
+			return foundPrimaryCategory.name;
+		}
+		/*
+		  * If no primary category is found, we check further whether there is a checked category present. If there is,
+		  * it is also assigned as the primary category, otherwise an empty string is returned.
+		 */
+		if ( categories.length === 1 ) {
+			return categories[ 0 ].name;
+		}
+
+		return "";
 	},
 };
 

@@ -242,12 +242,13 @@ Release Date: February 22nd, 2022
 Enhancements:
 
 * Optimizes the images in FAQ and HowTo blocks to be more responsive and load faster.
-* Replaces indexing at the end of admin requests with WP-Cron if WP-Cron is not disabled on the site.
+* Adds a filter to enable/disable creating indexables: `Yoast\WP\SEO\should_index_indexables`
 
 Bugfixes:
 
 * Fixes a bug where the "Save changes" button would overlap with the admin sidebar on WordPress.com. Props to @DustyReagan.
 * Fixes a bug where a (debug) deprecation message would show in the widget editor on WordPress 5.8 and above.
+* Fixes a bug where a console warning would be thrown when adding a structured data block in the block editor, FSE editor or widget editor.
 
 Other:
 

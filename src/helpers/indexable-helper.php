@@ -177,11 +177,23 @@ class Indexable_Helper {
 	/**
 	 * Determines whether indexing indexables is appropriate at this time.
 	 *
-	 * @return bool Whether or not the indexables should be indexed.
+	 * @return bool Whether the indexables should be indexed.
 	 */
 	public function should_index_indexables() {
-		// Currently the only reason to index is when we're on a production website.
-		return $this->environment_helper->is_production_mode();
+		// Currently, the only reason to index is when we're on a production website.
+		$should_index = $this->environment_helper->is_production_mode();
+
+		/**
+		 * Filter: 'Yoast\WP\SEO\should_index_indexables' - Allow developers to enable / disable
+		 * creating indexables. Warning: overriding
+		 * the intended action may cause problems when moving from a staging to a
+		 * production environment because indexable permalinks may get set incorrectly.
+		 *
+		 * @since 18.2
+		 *
+		 * @param bool $should_index Whether the site's indexables should be created.
+		 */
+		return (bool) \apply_filters( 'Yoast\WP\SEO\should_index_indexables', $should_index );
 	}
 
 	/**
