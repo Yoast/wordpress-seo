@@ -13,7 +13,7 @@ class Import_Helper {
 	 * Flattens a multidimensional array of settings. Recursive.
 	 *
 	 * @param array  $array      The array to be flattened.
-	 * @param string $key_prefix The key to be used as a base.
+	 * @param string $key_prefix The key to be used as a prefix.
 	 *
 	 * @return array The flattened array.
 	 */
