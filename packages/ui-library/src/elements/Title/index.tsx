@@ -25,20 +25,20 @@ interface TitleProps {
 	[k: string]: unknown;
 }
 
-const Title: FC<TitleProps> = ({
+const Title: FC<TitleProps> = ( {
 	children,
 	as: Component = "h1",
 	size,
 	className = "",
 	...props
-}) => {
+} ) => {
 	return (
 		<Component
-			className={cx(
+			className={ cx(
 				'yst-title',
 				size ? propertyMap.size[ size ] : false,
 				className
-			)}
+			) }
 			{ ...props }
 		>
 			{ children }
