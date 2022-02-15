@@ -25,7 +25,7 @@ module.exports = {
 			src: ".babelrc",
 			dest: "dist/",
 		}, {
-			src: "README.md",
+			src: "SEO ASSESSORS.md",
 			dest: "dist/",
 		}, {
 			src: "CHANGELOG.md",
