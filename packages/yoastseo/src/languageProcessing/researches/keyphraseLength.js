@@ -1,5 +1,5 @@
 /**
- * Determines the length in words of a the keyphrase, the keyword is a keyphrase if it is more than one word.
+ * Determines the length in words of the keyphrase.
  *
  * @param {Paper} paper 			The paper to research
  * @param {Researcher} researcher 	The researcher to use for analysis
