@@ -68,5 +68,5 @@ export const As: ComponentStory<typeof Title> = () => (
 As.parameters = {
 	controls: { disable: true },
 	actions: { disable: true },
-	docs: { description: { story: "There are six available element types." } },
+	docs: { description: { story: "There are four available element types." } },
 };
