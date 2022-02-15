@@ -97,8 +97,8 @@ Per-word matching, filtering out of function words and morphological forms of ke
 | Bullet   	      | Score	     | Criterion | Feedback |
 |------------	|------------------	|---------------------	|---------------	|
 | Red   	      | -999	     | No focus keyword set		 | **Keyphrase length**: No focus keyphrase was set for this page. **Set a focus keyphrase in order to calculate your SEO score**. |
-| Red   	      | 3		     | Keyphrase length > 8 words (> 9 for languages without function words support)	 | **Keyphrase length**: The keyphrase is x words long. That's way more than the recommended maximum of 4 words. **Make it shorter!**|
-| Orange   	      | 6	     | Keyphrase length between 5-8 words (7-9 for languages without function words support)		 | **Keyphrase length**: The keyphrase is x words long. That's more than the recommended maximum of 4 words. **Make it shorter!**|
+| Red   	      | 3		     | Keyphrase length > 8 words (> 9 for languages without function words support)	 | **Keyphrase length**: The keyphrase contains x (content) words. That's way more than the recommended maximum of 4 (content) words. **Make it shorter!**|
+| Orange   	      | 6	     | Keyphrase length between 5-8 words (7-9 for languages without function words support)		 | **Keyphrase length**: The keyphrase contains x (content) words. That's more than the recommended maximum of 4 (content) words. **Make it shorter!**|
 | Green   	      | 9	     | Keyphrase length between 1-4 words (1-6 or languages without function words support)		 | **Keyphrase length**: Good job! |
 
 ### Keyword density
@@ -269,3 +269,164 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 | Orange (in cornerstone: Red)		| 6 (in cornerstone: 3)		| Not all content words are in URL		| **Keyphrase in slug**: (Part of) your keyphrase does not appear in the slug. **Change that!** |
 | Green	| 9	| For short keyphrases (1-2 content words): All content words are in URL			| **Keyphrase in slug**: Great work! |
 | Green	| 9	| For longer keyphrases (>2 content words): More than half content words are in URL		| **Keyphrase in slug**: More than half of your keyphrase appears in the slug. That's great! |
+
+### Previously used keywords
+**What it does**: Checks if the words from the keyphrase were previously used in a keyphrase for a different post.
+
+**Uses synonyms**: no
+
+**When applies**: Always.
+
+**Name in code**: PreviouslyUsedKeyword
+
+**Title URL**: https://yoa.st/33x (link placement is in bold in the feedback strings)
+
+**Call to action URL**: https://yoa.st/33y (link placement is in bold in the feedback strings)
+
+| Bullet   	      | Score	     | Criterion | Feedback |
+|------------	|------------------	|---------------------	|---------------	|
+| Red	| 1	| The keyphrase is previously used more than once	| **Previously used keyphrase**: You've used this keyphrase X times before. **Do not use your keyphrase more than once.**	|
+| Orange	| 6	| The keyphrase is previously used once	| **Previously used keyphrase**: You've used this keyphrase once before. **Do not use your keyphrase more than once.**	|
+| Green	| 9	| The keyphrase hasn't been used before	|  **Previously used keyphrase**: You've not used this keyphrase before, very good.	|
+
+### Keyphrase distribution (only in Premium)
+**What it does**: Checks how well the words from the keyphrase are distributed throughout the text. For exact implementation check out https://github.com/Yoast/YoastSEO.js/issues/1558 and https://github.com/Yoast/YoastSEO.js/issues/1868.
+
+**Uses synonyms**: yes
+
+**When applies**: If there is a text with at least 15 sentences and a keyword.
+
+**Name in code**: KeyphraseDistribution
+
+**Title URL**: https://yoa.st/33q (link placement is in bold in the feedback strings)
+
+**Call to action URL**: https://yoa.st/33u (link placement is in bold in the feedback strings)
+
+| Bullet   	      | Score	     | Criterion | Feedback |
+|------------	|------------------	|---------------------	|---------------	|
+| Grey	| 0	| Keyphrase was not set or not used in the text		| **Keyphrase distribution**: **Include your keyphrase or its synonyms in the text so that we can check keyword distribution.** |
+| Red	| 1	| The resulting score is >0.6	| **Keyphrase distribution**: Very uneven. Large parts of your text do not contain the keyphrase or its synonyms. **Distibute them more evenly.** |
+| Orange	| 6	| The resulting score is between 0.4 and 0.6		|  between 0.4 and 0.6	**Keyphrase distribution**: Uneven. Some parts of your text do not contain your keyphrase or its synonyms. **Distribute them more evenly.**	|
+| Green	| 9	| The resulting score is <0.4		| **Keyphrase distribution**: Good job! |
+
+## Other SEO assessments
+### Text length
+**What it does**: Checks if the text is long enough.
+
+**When applies**: Always.
+
+**Name in code**: TextLengthAssessment
+
+**Title URL**: https://yoa.st/34n (link placement is in bold in the feedback strings)
+
+**Call to action URL**: https://yoa.st/34o (link placement is in bold in the feedback strings)
+
+| Bullet   	      | Score	     | Criterion | Feedback |
+|------------	|------------------	|---------------------	|---------------	|
+| Red	| -20	| Between 0 and 99 words (cornerstone: between 0 and 0)		| **Text length**: the text contains X words. This is far below the recommended minimum of 300 words. **Add more content.** |
+| Red	| -10 (cornerstone: -20)		| Between 100 and 199 words (cornerstone: between 0 and 299)		| **Text length**: the text contains X words. This is far below the recommended minimum of 300 words. **Add more content.** |
+| Red	| 3 (cornerstone: -20)		| Between 200 and and 249 words (cornerstone: between 300 and 399)			| **Text length**: the text contains X words. This is below the recommended minimum of 300 words. **Add more content.** |
+| Orange	| 6	| Between 250 and 299 words (cornerstone: between 400 and 899)		| **Text length**: the text contains X words. This is slightly below the recommended minimum of 300 words. **Add a bit more copy.** (cornerstone: **Text length**: the text contains X words. This is below the recommended minimum of 900 words. **Add more content.**) |
+| Green	| 9	| More than or exactly 300 words (cornerstone: 900)		| **Text length**: the text contains X words. Good job! |
+
+### Outbound links
+**What it does**: Checks if outbound links are present and followed.
+
+**When applies**: If there is a text.
+
+**Name in code**: OutboundLinksAssessment
+
+**Title URL**: https://yoa.st/34f (link placement is in bold in the feedback strings)
+
+**Call to action URL**: https://yoa.st/34g (link placement is in bold in the feedback strings)
+
+| Bullet   	      | Score	     | Criterion | Feedback |
+|------------	|------------------	|---------------------	|---------------	|
+| Red	| 3	| No links		| **Outbound links**: No outbound links appear in this page. **Add some!** |
+| Orange	| 7	| All links are no-followed		|  **Outbound links**: All outbound links on this page are nofollowed. **Add some normal links.** |
+| Green	| 8	| There are both followed and no-followed links		| **Outbound links**: There are both nofollowed and normal outbound links on this page. Good job! |
+| Green	| 9	| All links are followed		| **Outbound links**: Good job! |
+
+### Internal links
+**What it does**: Checks if internal links are present and followed.
+
+**When applies**: If there is a text.
+
+**Name in code**: InternalLinksAssessment
+
+**Title URL**: https://yoa.st/33z (link placement is in bold in the feedback strings)
+
+**Call to action URL**: https://yoa.st/34a (link placement is in bold in the feedback strings)
+
+| Bullet   	      | Score	     | Criterion | Feedback |
+|------------	|------------------	|---------------------	|---------------	|
+| Red	| 3	| No internal links		| **Internal links**: No internal links appear in this page, **make sure to add some!** |
+| Orange	| 7	| Only no-followed internal links		| **Internal links**: The internal links in this page are all nofollowed. **Add some good internal links.** |
+| Green	| 8	| There are both followed and no-followed internal links		| **Internal links**: There are both nofollowed and normal internal links on this page. Good job! |
+| Green	| 9	| All internal links are followed		| **Internal links**: You have enough internal links. Good job! |
+
+### SEO Title width
+**What it does**: Checks if the SEO title has a good length. Note that this assessment checks the SEO title as it appears in the snippet preview. Therefore, it also takes into account the content from replacement variables.
+
+**When applies**: Always.
+
+**Name in code**: PageTitleWidthAssesment
+
+**Title URL**: https://yoa.st/34h (link placement is in bold in the feedback strings)
+
+**Call to action URL**: https://yoa.st/34i (link placement is in bold in the feedback strings)
+
+| Bullet   	      | Score	     | Criterion | Feedback |
+|------------	|------------------	|---------------------	|---------------	|
+| Red	| 1	| No title		| **SEO title width**: Please create an SEO title. |
+| Red	| 3	| Title width > 600 px		| **SEO title width**: The SEO title wider than the viewable limit. **Try to make it shorter.** |
+| Green	| 9	| Title width between 1 px and 600 px		| **SEO title width**: Good job! |
+
+### Meta description length
+**What it does**: Checks if the metadescription has a good length.
+
+**When applies**: Always.
+
+**Name in code**: MetaDescriptionLengthAssessment
+
+**Title URL**: https://yoa.st/34d (link placement is in bold in the feedback strings)
+
+**Call to action URL**: https://yoa.st/34e (link placement is in bold in the feedback strings)
+
+| Bullet   	      | Score	     | Criterion | Feedback |
+|------------	|------------------	|---------------------	|---------------	|
+| Red	| 1	| No meta description		| **Meta description length**: No meta description has been specified. Search engines will display copy from the page instead. **Make sure to write one!** |
+| Orange (corner stone: red)		| 6 (corner stone: 3)		| Meta description ≤ 120 characters		| **Meta description length**: The meta description is too short (under X characters). Up to X characters are available. **Use the space!** |
+| Orange (corner stone: red)		| 6 (corner stone: 3)		| Meta description ≥ 157 characters		| **Meta description length**: The meta description is over X characters. **To ensure the entire description will be visible, you should reduce the length!**	|
+| Green	| 9	| Meta description > 120 and < 157		| **Meta description length**: Well done! |
+
+### Single H1
+**What it does**: Checks if there is an H1 heading elsewhere than at the beginning of the text.
+
+**When applies**: When there is an H1 heading elsewhere than at the beginning of the text.
+
+**Name in code**: SingleH1Assessment
+
+**Title URL**: https://yoa.st/3a6 (link placement is in bold in the feedback strings)
+
+**Call to action URL**: https://yoa.st/3a7 (link placement is in bold in the feedback strings)
+
+| Bullet   	      | Score	     | Criterion | Feedback |
+|------------	|------------------	|---------------------	|---------------	|
+| Red	| 1	| There is an H1 heading elsewhere than the beginning of the text		| **Single title**: H1s should only be used as your main title. **Find all H1s in your text that aren't your main title and change them to a lower heading level!** |
+
+### Function words in keyphrase
+**What it does**: Checks if the keyphrase consists of only function words.
+
+**When applies**: When the keyphrase consists of only function words (and the language has function word support).
+
+**Name in code**: FunctionWordsInKeyphraseAssessment
+
+**Title URL**: https://yoa.st/functionwordskeyphrase-1 (link placement is in bold in the feedback strings)
+
+**Call to action URL**: https://yoa.st/functionwordskeyphrase-2 (link placement is in bold in the feedback strings)
+
+| Bullet   	      | Score	     | Criterion | Feedback |
+|------------	|------------------	|---------------------	|---------------	|
+| Grey	| 0	| There is a keyphrase consisting only of function words			| **Function words in keyphrase**: Your keyphrase X contains function words only. **Learn more about what makes a good keyphrase.** |
+
