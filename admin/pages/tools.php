@@ -22,7 +22,7 @@ if ( $tool_page === '' ) {
 
 	$tools['import-export'] = [
 		'title' => __( 'Import and Export', 'wordpress-seo' ),
-		'desc'  => __( 'Import settings from other SEO plugins and export your settings for re-use on (another) blog.', 'wordpress-seo' ),
+		'desc'  => __( 'Import settings from other SEO plugins and export your settings for re-use on (another) site.', 'wordpress-seo' ),
 	];
 
 	if ( WPSEO_Utils::allow_system_file_edit() === true && ! is_multisite() ) {

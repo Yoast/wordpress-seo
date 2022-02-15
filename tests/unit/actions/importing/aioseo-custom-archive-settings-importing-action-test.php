@@ -162,6 +162,7 @@ class Aioseo_Custom_Archive_Settings_Importing_Action_Test extends TestCase {
 	public function test_query( $query_results, $expected ) {
 		Monkey\Functions\expect( 'get_option' )
 			->once()
+			->with( 'aioseo_options_dynamic', '' )
 			->andReturn( $query_results );
 
 		$this->mock_instance->shouldReceive( 'get_unimported_chunk' )

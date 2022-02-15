@@ -389,10 +389,7 @@ class Front_End_Integration implements Integration_Interface {
 	private function get_needed_presenters( $page_type ) {
 		$presenters = $this->get_presenters_for_page_type( $page_type );
 
-		if ( ! \get_theme_support( 'title-tag' ) && ! $this->options->get( 'forcerewritetitle', false ) ) {
-			// Remove the title presenter if the theme is hardcoded to output a title tag so we don't have two title tags.
-			$presenters = \array_diff( $presenters, [ 'Title' ] );
-		}
+		$presenters = $this->maybe_remove_title_presenter( $presenters );
 
 		$callback   = static function ( $presenter ) {
 			return "Yoast\WP\SEO\Presenters\\{$presenter}_Presenter";
@@ -456,5 +453,26 @@ class Front_End_Integration implements Integration_Interface {
 		}
 
 		return \array_merge( $presenters, $this->closing_presenters );
+	}
+
+	/**
+	 * Checks if the Title presenter needs to be removed.
+	 *
+	 * @param string[] $presenters The presenters.
+	 *
+	 * @return string[] The presenters.
+	 */
+	private function maybe_remove_title_presenter( $presenters ) {
+		// Do not remove the title if we're on a REST request.
+		if ( $this->request->is_rest_request() ) {
+			return $presenters;
+		}
+
+		// Remove the title presenter if the theme is hardcoded to output a title tag so we don't have two title tags.
+		if ( ! \get_theme_support( 'title-tag' ) && ! $this->options->get( 'forcerewritetitle', false ) ) {
+			$presenters = \array_diff( $presenters, [ 'Title' ] );
+		}
+
+		return $presenters;
 	}
 }
