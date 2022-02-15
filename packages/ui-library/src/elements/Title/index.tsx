@@ -28,19 +28,18 @@ interface TitleProps {
 const Title: FC<TitleProps> = ({
 	children,
 	as: Component = "h1",
-	size = "1",
+	size,
 	className = "",
 	...props
 }) => {
-	const sizeClassName = propertyMap.size[ size ]
 	return (
 		<Component
 			className={cx(
 				'yst-title',
-				sizeClassName,
+				size ? propertyMap.size[ size ] : false,
 				className
 			)}
-			{...props}
+			{ ...props }
 		>
 			{ children }
 		</Component>

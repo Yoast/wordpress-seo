@@ -3,18 +3,18 @@
 }
 
 /* Sizes */
-h1, .yst-title-1 {
+h1.yst-title, .yst-title.yst-title-1 {
 	@apply yst-text-2xl;
 }
 
-h2, .yst-title-2 {
+h2.yst-title, .yst-title.yst-title-2 {
 	@apply yst-text-lg;
 }
 
-h3, .yst-title-3 {
+h3.yst-title, .yst-title.yst-title-3 {
 	@apply yst-text-sm;
 }
 
-h4, .yst-title-4 {
+h4.yst-title, .yst-title.yst-title-4 {
 	@apply yst-text-base;
 }
