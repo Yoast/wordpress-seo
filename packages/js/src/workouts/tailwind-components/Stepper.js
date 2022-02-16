@@ -205,7 +205,7 @@ Content.propTypes = {
  */
 export default function Stepper( { children, setActiveStepIndex, activeStepIndex, isStepperFinished } ) {
 	return (
-		<ol>
+		<ol className="yst-list-none">
 			{ children.map( ( child, stepIndex ) => {
 				return <li key={ `${ child.props.name }-${ stepIndex }` } className={ ( stepIndex === children.length - 1 ? "" : "yst-pb-8" ) + " yst-mb-0 yst-relative" }>
 					<StepperContext.Provider
