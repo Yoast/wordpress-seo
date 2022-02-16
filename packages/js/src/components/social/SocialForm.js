@@ -118,6 +118,7 @@ class SocialPreviewEditor extends Component {
 			description,
 			descriptionInputPlaceholder,
 			imageUrl,
+			alt,
 			title,
 			titleInputPlaceholder,
 			replacementVariables,
@@ -137,6 +138,7 @@ class SocialPreviewEditor extends Component {
 					onRemoveImageClick={ onRemoveImageClick }
 					imageSelected={ !! imageUrl }
 					imageUrl={ imageUrl }
+					imageAltText={ alt }
 					onTitleChange={ onTitleChange }
 					onSelectImageClick={ onSelectImageClick }
 					description={ description }
@@ -173,6 +175,7 @@ SocialPreviewEditor.propTypes = {
 	replacementVariables: replacementVariablesShape,
 	recommendedReplacementVariables: recommendedReplacementVariablesShape,
 	location: PropTypes.string,
+	alt: PropTypes.string,
 };
 
 SocialPreviewEditor.defaultProps = {
@@ -183,6 +186,7 @@ SocialPreviewEditor.defaultProps = {
 	descriptionInputPlaceholder: "",
 	titleInputPlaceholder: "",
 	location: "",
+	alt: "",
 };
 
 export default SocialPreviewEditor;
