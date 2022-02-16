@@ -836,14 +836,14 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			[ $aioseo_og_auto, $open_graph_mapping, $image, 1, 'get_auto_image', 1, 0, 'og' ],
 			[ $aioseo_og_content, $open_graph_mapping, $image, 1, 'get_first_image_in_content', 1, 0, 'og' ],
 			[ $aioseo_og_custom, $open_graph_mapping, null, 0, 'irrelevant', 0, 0, 'og' ],
-			[ $aioseo_og_featured, $open_graph_mapping, $image, 1, 'get_featured_image', 1, 0, 'og' ],
+			[ $aioseo_og_featured, $open_graph_mapping, null, 0, 'irrelevant', 0, 0, 'og' ],
 			[ $aioseo_twitter_custom_image, $twitter_mapping, $image, 1, 'irrelevant', 0, 0, 'twitter' ],
 			[ $aioseo_twitter_attach, $twitter_mapping, $image, 1, 'get_first_attached_image', 1, 0, 'twitter' ],
 			[ $aioseo_twitter_author, $twitter_mapping, null, 0, 'irrelevant', 0, 0, 'twitter' ],
 			[ $aioseo_twitter_auto, $twitter_mapping, $image, 1, 'get_auto_image', 1, 0, 'twitter' ],
 			[ $aioseo_twitter_content, $twitter_mapping, $image, 1, 'get_first_image_in_content', 1, 0, 'twitter' ],
 			[ $aioseo_twitter_custom, $twitter_mapping, null, 0, 'irrelevant', 0, 0, 'twitter' ],
-			[ $aioseo_twitter_featured, $twitter_mapping, $image, 1, 'get_featured_image', 1, 0, 'twitter' ],
+			[ $aioseo_twitter_featured, $twitter_mapping, null, 0, 'irrelevant', 0, 0, 'og' ],
 			[ $aioseo_twitter_from_og, $twitter_mapping, $image, 1, 'irrelevant', 0, 0, 'og' ],
 		];
 	}
