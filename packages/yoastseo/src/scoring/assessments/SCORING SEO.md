@@ -129,23 +129,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 | cat		| no	| partial match of keyhrase not regarded as competing link |
 | cat and dog food	| no 	| full match of keyphrase not regarded as competing link if the link text contains additional content words |
 
-### 7) Images
-**What it does**: Checks the presence of images in the text.
-
-**When applies**: If there is a text with at least one image present.
-
-**Name in code**: ImageCountAssessment
-
-**Title URL**: [https://yoa.st/4f4](https://yoast.com/using-images-in-your-blog-post/#utm_source=yoast-seo&utm_medium=software&utm_term=images-name&utm_content=content-analysis) (link placement is in bold in the feedback strings)
-
-**Call to action URL**: [https://yoa.st/4f5](https://yoast.com/using-images-in-your-blog-post/#utm_source=yoast-seo&utm_medium=software&utm_term=images-name&utm_content=content-analysis) (link placement is in bold in the feedback strings)
-
-| Bullet   	      | Score	     | Criterion | Feedback |
-|------------	|------------------	|---------------------	|---------------	|
-| Red	| 3	| No images		| **Images**: No images appear on this page. **Add some!** |
-| Green	| 9	| There are at least 1 image		| **Images**: Good job! |
-
-### 8) Image Keyphrase
+### 7) Image Keyphrase
 
 **What it does**: Checks if there are keyphrase or synonyms in the alt attributes of images.
 
@@ -169,7 +153,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 | Green	| 9	| There are less than 5 images and at least one has an alt-tag with a keyphrase/synonym		| **Image Keyphrase**: Good job! |
 | Green	| 9	| There are at least 5 images and between 30 and 75% have an alt-tag with a keyphrase/synonym		| **Image Keyphrase**: Good job! |
 
-### 9) Keyphrase in title
+### 8) Keyphrase in title
 **What it does**: Checks if the keyphrase is used in the page title (when function words precede the keyphrase in the title they are filtered out when determining the position of the keyphrase in the title).
 
 **Uses synonyms**: no
@@ -190,7 +174,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 | Orange	| 6	| SEO title does not contain an exact match of your keyphrase		| **Keyphrase in title**: Does not contain the exact match. **Try to write the exact match of your keyphrase in the SEO title and put it at the beginning of the title.** |
 | Green	| 9	| SEO title contains the exact match of the focus keyphrase at beginning		| **Keyphrase in title**: The exact match of the focus keyphrase appears at the beginning of the SEO title. Good job! |
 
-### 10) Keyphrase in slug
+### 9) Keyphrase in slug
 **What it does**: Checks if the keyphrase is used in the URL.
 
 **Uses synonyms**: no
@@ -209,7 +193,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 | Green	| 9	| For short keyphrases (1-2 content words): All content words are in URL			| **Keyphrase in slug**: Great work! |
 | Green	| 9	| For longer keyphrases (>2 content words): More than half content words are in URL		| **Keyphrase in slug**: More than half of your keyphrase appears in the slug. That's great! |
 
-### 11) Previously used keywords
+### 10) Previously used keywords
 **What it does**: Checks if the words from the keyphrase were previously used in a keyphrase for a different post.
 
 **Uses synonyms**: no
@@ -228,7 +212,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 | Orange	| 6	| The keyphrase is previously used once	| **Previously used keyphrase**: You've used this keyphrase once before. **Do not use your keyphrase more than once.**	|
 | Green	| 9	| The keyphrase hasn't been used before	|  **Previously used keyphrase**: You've not used this keyphrase before, very good.	|
 
-### 12) Keyphrase distribution (only in Premium)
+### 11) Keyphrase distribution (only in Premium)
 **What it does**: Checks how well the words from the keyphrase are distributed throughout the text. For exact implementation check out https://github.com/Yoast/YoastSEO.js/issues/1558 and https://github.com/Yoast/YoastSEO.js/issues/1868.
 
 **Uses synonyms**: yes
@@ -249,7 +233,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 | Green	| 9	| The resulting score is <0.4		| **Keyphrase distribution**: Good job! |
 
 ## Other SEO assessments
-### 13) Text length
+### 1) Text length
 **What it does**: Checks if the text is long enough.
 
 **When applies**: Always.
@@ -268,7 +252,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 | Orange	| 6	| Between 250 and 299 words (cornerstone: between 400 and 899)		| **Text length**: the text contains X words. This is slightly below the recommended minimum of 300 words. **Add a bit more copy.** (cornerstone: **Text length**: the text contains X words. This is below the recommended minimum of 900 words. **Add more content.**) |
 | Green	| 9	| More than or exactly 300 words (cornerstone: 900)		| **Text length**: the text contains X words. Good job! |
 
-### 14) Outbound links
+### 2) Outbound links
 **What it does**: Checks if outbound links are present and followed.
 
 **When applies**: If there is a text.
@@ -286,7 +270,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 | Green	| 8	| There are both followed and no-followed links		| **Outbound links**: There are both nofollowed and normal outbound links on this page. Good job! |
 | Green	| 9	| All links are followed		| **Outbound links**: Good job! |
 
-### 15) Internal links
+### 3) Internal links
 **What it does**: Checks if internal links are present and followed.
 
 **When applies**: If there is a text.
@@ -304,7 +288,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 | Green	| 8	| There are both followed and no-followed internal links		| **Internal links**: There are both nofollowed and normal internal links on this page. Good job! |
 | Green	| 9	| All internal links are followed		| **Internal links**: You have enough internal links. Good job! |
 
-### 16) SEO Title width
+### 4) SEO Title width
 **What it does**: Checks if the SEO title has a good length. Note that this assessment checks the SEO title as it appears in the snippet preview. Therefore, it also takes into account the content from replacement variables.
 
 **When applies**: Always.
@@ -321,8 +305,8 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 | Red	| 3	| Title width > 600 px		| **SEO title width**: The SEO title wider than the viewable limit. **Try to make it shorter.** |
 | Green	| 9	| Title width between 1 px and 600 px		| **SEO title width**: Good job! |
 
-### 17) Meta description length
-**What it does**: Checks if the metadescription has a good length.
+### 5) Meta description length
+**What it does**: Checks if the metadescription has a good length. The date (and the separator ' - ') length are also included in the calculation.
 
 **When applies**: Always.
 
@@ -335,11 +319,11 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 | Bullet   	      | Score	     | Criterion | Feedback |
 |------------	|------------------	|---------------------	|---------------	|
 | Red	| 1	| No meta description		| **Meta description length**: No meta description has been specified. Search engines will display copy from the page instead. **Make sure to write one!** |
-| Orange (corner stone: red)		| 6 (corner stone: 3)		| Meta description ≤ 120 characters		| **Meta description length**: The meta description is too short (under X characters). Up to X characters are available. **Use the space!** |
-| Orange (corner stone: red)		| 6 (corner stone: 3)		| Meta description ≥ 157 characters		| **Meta description length**: The meta description is over X characters. **To ensure the entire description will be visible, you should reduce the length!**	|
-| Green	| 9	| Meta description > 120 and < 157		| **Meta description length**: Well done! |
+| Orange (corner stone: red)		| 6 (corner stone: 3)		| Meta description (incl. the date)  ≤ 120 characters		| **Meta description length**: The meta description is too short (under X characters). Up to X characters are available. **Use the space!** |
+| Orange (corner stone: red)		| 6 (corner stone: 3)		| Meta description (incl. the date)  ≥ 157 characters		| **Meta description length**: The meta description is over X characters. **To ensure the entire description will be visible, you should reduce the length!**	|
+| Green	| 9	| Meta description (incl. the date) > 120 and < 157		| **Meta description length**: Well done! |
 
-### 18) Single title
+### 6) Single title
 **What it does**: Checks if there is an H1 heading elsewhere than at the beginning of the text.
 
 **When applies**: When there is an H1 heading elsewhere than at the beginning of the text.
@@ -354,7 +338,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 |------------	|------------------	|---------------------	|---------------	|
 | Red	| 1	| There is an H1 heading elsewhere than the beginning of the text		| **Single title**: H1s should only be used as your main title. **Find all H1s in your text that aren't your main title and change them to a lower heading level!** |
 
-### 19) Function words in keyphrase
+### 7) Function words in keyphrase
 **What it does**: Checks if the keyphrase consists of only function words.
 
 **When applies**: When the keyphrase consists of only function words (and the language has function word support).
@@ -369,3 +353,18 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 |------------	|------------------	|---------------------	|---------------	|
 | Grey	| 0	| There is a keyphrase consisting only of function words			| **Function words in keyphrase**: Your keyphrase X contains function words only. **Learn more about what makes a good keyphrase.** |
 
+### 8) Images
+**What it does**: Checks the presence of images in the text.
+
+**When applies**: If there is a text with at least one image present.
+
+**Name in code**: ImageCountAssessment
+
+**Title URL**: [https://yoa.st/4f4](https://yoast.com/using-images-in-your-blog-post/#utm_source=yoast-seo&utm_medium=software&utm_term=images-name&utm_content=content-analysis) (link placement is in bold in the feedback strings)
+
+**Call to action URL**: [https://yoa.st/4f5](https://yoast.com/using-images-in-your-blog-post/#utm_source=yoast-seo&utm_medium=software&utm_term=images-name&utm_content=content-analysis) (link placement is in bold in the feedback strings)
+
+| Bullet   	      | Score	     | Criterion | Feedback |
+|------------	|------------------	|---------------------	|---------------	|
+| Red	| 3	| No images		| **Images**: No images appear on this page. **Add some!** |
+| Green	| 9	| There are at least 1 image		| **Images**: Good job! |
