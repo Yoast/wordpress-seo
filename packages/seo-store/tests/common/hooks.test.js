@@ -1,5 +1,5 @@
 import { renderHook } from "@testing-library/react-hooks";
-import { useEffectWithDeepCompare } from "./hooks";
+import { useEffectWithDeepCompare } from "../../src/common/hooks";
 
 describe( "Common hooks", () => {
 	describe( "useEffectWithDeepCompare", () => {
