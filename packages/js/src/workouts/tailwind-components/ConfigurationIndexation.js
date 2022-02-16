@@ -22,7 +22,9 @@ window.yoast.indexing = window.yoast.indexing || {};
 export function ConfigurationIndexation( { indexingStateCallback, indexingState, isEnabled } ) {
 	if ( ! isEnabled ) {
 		if ( indexingState === "completed" ) {
-			return <Alert type="success">{ __( "We’ve successfully analyzed your site!", "wordpress-seo" ) }</Alert>;
+			return <Alert type="success">
+				{ __( "We’ve already successfully analyzed your site. You can move on to the next step.", "wordpress-seo" ) }
+			</Alert>;
 		}
 		return <button
 			className="yoast-button--secondary"

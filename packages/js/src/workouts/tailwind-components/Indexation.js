@@ -400,7 +400,9 @@ export class Indexation extends Component {
 					<Alert type="success">{ __( "We’ve successfully analyzed your site!", "wordpress-seo" ) }</Alert>
 				</Transition>
 				{ ( this.isState( STATE.IDLE ) && this.state.amount === 0 ) &&
-					<Alert type="success">{ __( "We’ve already successfully analyzed your site. You can move on to the next step.", "wordpress-seo" ) }</Alert>
+					<Alert type="success">
+						{ __( "We’ve already successfully analyzed your site. You can move on to the next step.", "wordpress-seo" ) }
+					</Alert>
 				}
 				<Transition
 					unmount={ false }
