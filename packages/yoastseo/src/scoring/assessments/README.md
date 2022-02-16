@@ -90,3 +90,42 @@ Below is a detailed overview of how scores for the readability assessments are c
 Information on the scoring criteria for the available Readability assessments can be found [here](SCORING%20READABILITY.md).
 
 ## 3. Scoring taxonomy analysis
+Taxonomy analysis has the same SEO and Readability scoring criteria as above except for the SEO assessments below:
+
+### 1) Taxonomy text length assessment
+**What it does**: Checks if the taxonomy page has a good length.
+
+**When applies**: Always.
+
+**Name in code**: TaxonomyTextLengthAssessment
+
+**Title URL**: https://yoa.st/34j (link placement is in bold in the feedback strings)
+
+**Call to action URL**: https://yoa.st/34k (link placement is in bold in the feedback strings)
+
+| Bullet	| Score	| Criterion	| Feedback |
+|------------	|------------------	|---------------------	|---------------	|
+| Red	| -20	| Between 0 and 49 words	| Text length: the text contains X words. This is far below the recommended minimum of 250 words. Add more content. |
+| Red	| -10	| Between 50 and 99 words	| Text length: the text contains X words. This is far below the recommended minimum of 250 words. Add more content. |
+| Red	| 3	| Between 100 and and 199 words	| Text length: the text contains X words. This is below the recommended minimum of 250 words. Add more content. |
+| Orange| 6	| Between 200 and 249 words	| Text length: the text contains X words. This is slightly below the recommended minimum of 250 words. Add a bit more copy. |
+| Green	| 9	| More than 250 words	| Text length: the text contains X words. Good job! |
+
+### 2) Meta description length assessment
+**What it does**: Checks if the metadescription has a good length. In a taxonomy page, the date is not displayed or included in the meta description. Hence, the date length is not included in the calculation for this assessment.
+
+**When applies**: Always.
+
+**Name in code**: MetaDescriptionLengthAssessment
+
+**Title URL**: [https://yoa.st/34d](https://yoast.com/meta-descriptions/#utm_source=yoast-seo&utm_medium=software&utm_term=length-meta-description-name&utm_content=content-analysis) (link placement is in bold in the feedback strings)
+
+**Call to action URL**: [https://yoa.st/34e](https://yoast.com/meta-descriptions/#utm_source=yoast-seo&utm_medium=software&utm_term=length-meta-description-name&utm_content=content-analysis) (link placement is in bold in the feedback strings)
+
+| Bullet   	      | Score	     | Criterion | Feedback |
+|------------	|------------------	|---------------------	|---------------	|
+| Red	| 1	| No meta description		| **Meta description length**: No meta description has been specified. Search engines will display copy from the page instead. **Make sure to write one!** |
+| Orange (corner stone: red)		| 6 (corner stone: 3)		| Meta description (incl. the date)  ≤ 120 characters		| **Meta description length**: The meta description is too short (under X characters). Up to X characters are available. **Use the space!** |
+| Orange (corner stone: red)		| 6 (corner stone: 3)		| Meta description (incl. the date)  ≥ 157 characters		| **Meta description length**: The meta description is over X characters. **To ensure the entire description will be visible, you should reduce the length!**	|
+| Green	| 9	| Meta description (incl. the date) > 120 and < 157		| **Meta description length**: Well done! |
+
