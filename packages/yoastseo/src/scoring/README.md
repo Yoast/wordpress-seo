@@ -55,7 +55,7 @@
 ## Standard Content (Readbility) assessor
 - Subheading distribution (SubheadingDistributionTooLong) -> [Cornerstone scores!](https://github.com/Yoast/wordpress-seo/blob/LINGO-498-move-documentation-from-wiki-to-readme-files-on-repo/packages/yoastseo/src/scoring/assessments/SCORING%20READABILITY.md#1-subheading-distribution)
 - Paragraph length (ParagraphTooLongAssessment)
-- Sentence length (SentenceLengthInTextAssessment)
+- Sentence length (SentenceLengthInTextAssessment) -> [Cornerstone values!](https://github.com/Yoast/wordpress-seo/blob/LINGO-498-move-documentation-from-wiki-to-readme-files-on-repo/packages/yoastseo/src/scoring/assessments/SCORING%20READABILITY.md#3-sentence-length)
 - Consecutive sentences (SentenceBeginningsAssessment)
 - Transition words (TransitionWordsAssessment)
 - Passive voice (PassiveVoiceAssessment)
