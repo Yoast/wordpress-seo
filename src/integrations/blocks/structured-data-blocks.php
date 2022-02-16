@@ -200,6 +200,9 @@ class Structured_Data_Blocks implements Integration_Interface {
 	 */
 	private function optimize_images( $elements, $key, $content ) {
 		global $post;
+		if ( ! $post ) {
+			return $content;
+		}
 
 		$this->add_images_from_attributes_to_used_cache( $post->ID, $elements, $key );
 
@@ -218,8 +221,8 @@ class Structured_Data_Blocks implements Integration_Interface {
 				$image_size = 'full';
 				\preg_match( '/style="[^"]*width:\s*(\d+)px[^"]*"/', $matches[0], $style_matches );
 				if ( $style_matches && isset( $style_matches[1] ) ) {
-					$width        = (int) $style_matches[1];
-					$meta_data    = \wp_get_attachment_metadata( $attachment_id );
+					$width     = (int) $style_matches[1];
+					$meta_data = \wp_get_attachment_metadata( $attachment_id );
 					if ( isset( $meta_data['height'] ) && isset( $meta_data['width'] ) && $meta_data['height'] > 0 && $meta_data['width'] > 0 ) {
 						$aspect_ratio = ( $meta_data['height'] / $meta_data['width'] );
 						$height       = ( $width * $aspect_ratio );
@@ -242,7 +245,12 @@ class Structured_Data_Blocks implements Integration_Interface {
 					$attachment_id,
 					$src_matches[1]
 				);
-				$image_html = \wp_get_attachment_image( $attachment_id, $image_size );
+				$image_html = \wp_get_attachment_image(
+					$attachment_id,
+					$image_size,
+					false,
+					[ 'style' => 'max-width: 100%;' ]
+				);
 
 				if ( empty( $image_html ) ) {
 					return $matches[0];
@@ -268,7 +276,7 @@ class Structured_Data_Blocks implements Integration_Interface {
 	 */
 	public function maybe_save_used_caches() {
 		foreach ( $this->used_caches as $post_id => $used_cache ) {
-			if ( $used_cache === $this->caches[ $post_id ] ) {
+			if ( isset( $this->caches[ $post_id ] ) && $used_cache === $this->caches[ $post_id ] ) {
 				continue;
 			}
 			\update_post_meta( $post_id, 'yoast-structured-data-blocks-images-cache', $used_cache );
@@ -349,6 +357,11 @@ class Structured_Data_Blocks implements Integration_Interface {
 			}
 		}
 
-		\array_merge( $this->used_caches[ $post_id ], $images );
+		if ( isset( $this->used_caches[ $post_id ] ) ) {
+			$this->used_caches[ $post_id ] = \array_merge( $this->used_caches[ $post_id ], $images );
+		}
+		else {
+			$this->used_caches[ $post_id ] = $images;
+		}
 	}
 }
