@@ -1,29 +1,34 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Unit\Actions\Importing;
+namespace Yoast\WP\SEO\Tests\Unit\Helpers;
 
 use Mockery;
-use Yoast\WP\SEO\Actions\Importing\Import_Cursor_Manager_Trait;
+use Yoast\WP\SEO\Helpers\Import_Cursor_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 // phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
 /**
- * Class Import_Cursor_Manager_Trait_Test
+ * Class Import_Cursor_Helper_Test
  *
  * @group actions
  * @group importing
  *
  * @package Yoast\WP\SEO\Tests\Unit\Actions\Importing
  *
- * @coversDefaultClass Yoast\WP\SEO\Actions\Importing\Import_Cursor_Manager_Trait
+ * @coversDefaultClass Yoast\WP\SEO\Helpers\Import_Cursor_Helper
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-class Import_Cursor_Manager_Trait_Test extends TestCase {
-
-	use Import_Cursor_Manager_Trait;
+class Import_Cursor_Helper_Test extends TestCase {
 
 	const CURSOR_ID = 'MY_CURSOR_IS_COOL';
+
+	/**
+	 * Represents the instance to test.
+	 *
+	 * @var Import_Cursor_Helper
+	 */
+	protected $instance;
 
 	/**
 	 * The options helper mock.
@@ -37,6 +42,8 @@ class Import_Cursor_Manager_Trait_Test extends TestCase {
 	 */
 	public function set_up() {
 		$this->options_helper = Mockery::Mock( Options_Helper::class );
+
+		$this->instance = new Import_Cursor_Helper( $this->options_helper );
 	}
 
 	/**
@@ -52,7 +59,7 @@ class Import_Cursor_Manager_Trait_Test extends TestCase {
 			->andReturn( [ self::CURSOR_ID => 1337 ] );
 
 		// Act.
-		$result = $this->get_cursor( $this->options_helper, self::CURSOR_ID );
+		$result = $this->instance->get_cursor( self::CURSOR_ID );
 
 		// Assert.
 		self::assertSame( 1337, $result );
@@ -71,7 +78,7 @@ class Import_Cursor_Manager_Trait_Test extends TestCase {
 			->andReturn( [] );
 
 		// Act.
-		$result = $this->get_cursor( $this->options_helper, self::CURSOR_ID );
+		$result = $this->instance->get_cursor( self::CURSOR_ID );
 
 		// Assert.
 		self::assertSame( 0, $result );
@@ -98,7 +105,7 @@ class Import_Cursor_Manager_Trait_Test extends TestCase {
 			->never();
 
 		// Act.
-		$this->set_cursor( $this->options_helper, self::CURSOR_ID, $cursor_value );
+		$this->instance->set_cursor( self::CURSOR_ID, $cursor_value );
 
 		// Assert.
 		// The cursor is never set.
@@ -141,7 +148,7 @@ class Import_Cursor_Manager_Trait_Test extends TestCase {
 			->withArgs( [ 'import_cursors', [ self::CURSOR_ID => $testcase ] ] );
 
 		// Act.
-		$this->set_cursor( $this->options_helper, self::CURSOR_ID, $testcase );
+		$this->instance->set_cursor( self::CURSOR_ID, $testcase );
 
 		// Assert.
 		// The cursor is set.

@@ -4,8 +4,9 @@ namespace Yoast\WP\SEO\Tests\Unit\Routes;
 
 use Brain\Monkey;
 use Mockery;
-use Yoast\WP\SEO\Actions\Importing\Aioseo_Posts_Importing_Action;
+use Yoast\WP\SEO\Actions\Importing\Aioseo\Aioseo_Posts_Importing_Action;
 use Yoast\WP\SEO\Routes\Importing_Route;
+use Yoast\WP\SEO\Services\Importing\Importable_Detector_Service;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Actions\Importing\Importing_Action_Interface;
 
@@ -34,6 +35,13 @@ class Importing_Route_Test extends TestCase {
 	protected $importers;
 
 	/**
+	 * The importable detector service.
+	 *
+	 * @var Mockery\MockInterface|Importable_Detector_Service
+	 */
+	protected $importable_detector;
+
+	/**
 	 * Sets up the tests.
 	 */
 	protected function set_up() {
@@ -41,11 +49,15 @@ class Importing_Route_Test extends TestCase {
 
 		Mockery::mock( '\WP_Error' );
 
-		$this->importers = [
+		$this->importable_detector = Mockery::mock( Importable_Detector_Service::class );
+		$this->importers           = [
 			$this->mockImporter( Aioseo_Posts_Importing_Action::class, 'aioseo', 'posts' ),
 		];
 
-		$this->instance = new Importing_Route( ...$this->importers );
+		$this->instance = new Importing_Route(
+			$this->importable_detector,
+			...$this->importers
+		);
 	}
 
 	/**
@@ -100,10 +112,14 @@ class Importing_Route_Test extends TestCase {
 	public function test_execute_import_aioseo_posts( $plugin, $type ) {
 		Mockery::mock( 'overload:WP_REST_Response' );
 
-		$importer = array_values( $this->importers )[0];
-		$importer->expects( 'is_compatible_with' )
+
+		$this->importable_detector->expects( 'filter_actions' )
 			->once()
-			->andReturnTrue();
+			->with( $this->importers, $plugin, $type )
+			->andReturn( $this->importers );
+
+		$importer = array_values( $this->importers )[0];
+
 		$importer->expects( 'index' )
 			->once()
 			->andReturn( [ 'test' ] );

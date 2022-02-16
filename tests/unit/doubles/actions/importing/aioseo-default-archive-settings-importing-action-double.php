@@ -2,7 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Doubles\Actions\Importing;
 
-use Yoast\WP\SEO\Actions\Importing\Aioseo_Default_Archive_Settings_Importing_Action;
+use Yoast\WP\SEO\Actions\Importing\Aioseo\Aioseo_Default_Archive_Settings_Importing_Action;
 
 /**
  * Class Aioseo_Default_Archive_Settings_Importing_Action_Double

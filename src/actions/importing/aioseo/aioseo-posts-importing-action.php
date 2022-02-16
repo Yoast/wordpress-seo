@@ -1,30 +1,31 @@
 <?php
 
-namespace Yoast\WP\SEO\Actions\Importing;
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Given it's a very specific case.
+namespace Yoast\WP\SEO\Actions\Importing\Aioseo;
 
 use wpdb;
+use Yoast\WP\SEO\Actions\Importing\Abstract_Aioseo_Importing_Action;
 use Yoast\WP\SEO\Conditionals\AIOSEO_V4_Importer_Conditional;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Image_Helper;
+use Yoast\WP\SEO\Helpers\Import_Cursor_Helper;
 use Yoast\WP\SEO\Helpers\Indexable_To_Postmeta_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Sanitization_Helper;
 use Yoast\WP\SEO\Helpers\Wpdb_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
-use Yoast\WP\SEO\Services\Importing\Aioseo_Replacevar_Handler;
-use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Provider_Service;
-use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Transformer_Service;
-use Yoast\WP\SEO\Services\Importing\Aioseo_Social_Images_Provider_Service;
+use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Replacevar_Service;
+use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Provider_Service;
+use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Transformer_Service;
+use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Social_Images_Provider_Service;
 
 /**
  * Importing action for AIOSEO post data.
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
-
-	use Import_Cursor_Manager_Trait;
+class Aioseo_Posts_Importing_Action extends Abstract_Aioseo_Importing_Action {
 
 	/**
 	 * The plugin of the action.
@@ -175,13 +176,14 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	 *
 	 * @param Indexable_Repository                  $indexable_repository   The indexables repository.
 	 * @param wpdb                                  $wpdb                   The WordPress database instance.
-	 * @param Indexable_Helper                      $indexable_helper      The indexable helper.
+	 * @param Import_Cursor_Helper                  $import_cursor          The import cursor helper.
+	 * @param Indexable_Helper                      $indexable_helper       The indexable helper.
 	 * @param Indexable_To_Postmeta_Helper          $indexable_to_postmeta  The indexable_to_postmeta helper.
 	 * @param Options_Helper                        $options                The options helper.
 	 * @param Image_Helper                          $image                  The image helper.
 	 * @param Sanitization_Helper                   $sanitization           The sanitization helper.
 	 * @param Wpdb_Helper                           $wpdb_helper            The wpdb_helper helper.
-	 * @param Aioseo_Replacevar_Handler             $replacevar_handler     The replacevar handler.
+	 * @param Aioseo_Replacevar_Service             $replacevar_handler     The replacevar handler.
 	 * @param Aioseo_Robots_Provider_Service        $robots_provider        The robots provider service.
 	 * @param Aioseo_Robots_Transformer_Service     $robots_transformer     The robots transfomer service.
 	 * @param Aioseo_Social_Images_Provider_Service $social_images_provider The social images provider service.
@@ -189,17 +191,18 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 	public function __construct(
 		Indexable_Repository $indexable_repository,
 		wpdb $wpdb,
+		Import_Cursor_Helper $import_cursor,
 		Indexable_Helper $indexable_helper,
 		Indexable_To_Postmeta_Helper $indexable_to_postmeta,
 		Options_Helper $options,
 		Image_Helper $image,
 		Sanitization_Helper $sanitization,
 		Wpdb_Helper $wpdb_helper,
-		Aioseo_Replacevar_Handler $replacevar_handler,
+		Aioseo_Replacevar_Service $replacevar_handler,
 		Aioseo_Robots_Provider_Service $robots_provider,
 		Aioseo_Robots_Transformer_Service $robots_transformer,
 		Aioseo_Social_Images_Provider_Service $social_images_provider ) {
-		parent::__construct( $options, $sanitization, $replacevar_handler, $robots_provider, $robots_transformer );
+		parent::__construct( $import_cursor, $options, $sanitization, $replacevar_handler, $robots_provider, $robots_transformer );
 
 		$this->indexable_repository   = $indexable_repository;
 		$this->wpdb                   = $wpdb;
@@ -335,7 +338,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 		}
 
 		$cursor_id = $this->get_cursor_id();
-		$this->set_cursor( $this->options, $cursor_id, $last_indexed_aioseo_id );
+		$this->import_cursor->set_cursor( $cursor_id, $last_indexed_aioseo_id );
 
 		return $created_indexables;
 	}
@@ -451,7 +454,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Importing_Action {
 		}
 
 		$cursor_id = $this->get_cursor_id();
-		$cursor    = $this->get_cursor( $this->options, $cursor_id );
+		$cursor    = $this->import_cursor->get_cursor( $cursor_id );
 
 		/**
 		 * Filter 'wpseo_aioseo_post_cursor' - Allow filtering the value of the aioseo post import cursor.

@@ -1,6 +1,7 @@
 <?php
 
-namespace Yoast\WP\SEO\Actions\Importing;
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Given it's a very specific case.
+namespace Yoast\WP\SEO\Actions\Importing\Aioseo;
 
 /**
  * Importing action for AIOSEO taxonomies settings data.
