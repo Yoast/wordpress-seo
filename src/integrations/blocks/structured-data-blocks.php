@@ -249,7 +249,7 @@ class Structured_Data_Blocks implements Integration_Interface {
 					$attachment_id,
 					$image_size,
 					false,
-					[ 'style' => 'max-width: 100%;' ]
+					[ 'style' => 'max-width: 100%; height: auto;' ]
 				);
 
 				if ( empty( $image_html ) ) {
