@@ -324,7 +324,7 @@ export class Indexation extends Component {
 	/**
 		 * Renders the progress bar.
 		 *
-		 * @returns {JSX.Element} The progress bar.
+		 * @returns {WPElement} The progress bar.
 		 */
 	renderProgressBar() {
 		let percentageIndexed = 0;
@@ -346,7 +346,7 @@ export class Indexation extends Component {
 	/**
 	 * Renders the italics caption.
 	 *
-	 * @returns {JSX.Element} the italics caption.
+	 * @returns {WPElement} the italics caption.
 	 */
 	renderCaption() {
 		return <AnimateHeight
@@ -380,7 +380,7 @@ export class Indexation extends Component {
 	/**
 	 * Renders the component
 	 *
-	 * @returns {JSX.Element} The rendered component.
+	 * @returns {WPElement} The rendered component.
 	 */
 	 render() {
 		if ( this.settings.disabled ) {
