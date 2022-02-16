@@ -1,12 +1,13 @@
 import { useCallback, useState, Fragment } from "@wordpress/element";
-import { addLinkToString } from "../../helpers/stringHelpers.js";
 import { __, sprintf } from "@wordpress/i18n";
-import { ReactComponent as WorkoutStartImage } from "../../../images/motivated_bubble_woman_1_optim.svg";
-import PropTypes from "prop-types";
-import Alert from "./alert";
-import { ConfigurationIndexation } from "./ConfigurationIndexation";
-
 import AnimateHeight from "react-animate-height";
+import PropTypes from "prop-types";
+
+import Alert from "./alert";
+import { addLinkToString } from "../../helpers/stringHelpers.js";
+import { ConfigurationIndexation } from "./ConfigurationIndexation";
+import { ReactComponent as WorkoutStartImage } from "../../../images/motivated_bubble_woman_1_optim.svg";
+
 
 /**
  * The indexation step.
