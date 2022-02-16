@@ -1,6 +1,6 @@
 # `@yoast/postcss-preset`
 
-This package aims to provide a Babel preset for building Yoast packages.
+This package aims to provide a PostCSS preset for building Yoast packages.
 
 ## Usage
 
