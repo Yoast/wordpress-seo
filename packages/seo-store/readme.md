@@ -210,3 +210,13 @@ addFilter(
 
 **`yoast.seoStore.analysis.processResults`** `Filter`\
 Filters the analysis results before it is sent to the store. Functions registered here accept the unfiltered results and must return valid analysis results.
+
+## Testing
+
+To run all tests in the `tests` directory, call:
+
+```sh
+yarn test
+```
+
+After running the tests, a coverage report will automatically be generated.
