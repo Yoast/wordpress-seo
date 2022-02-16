@@ -71,7 +71,7 @@ class Importing_Route extends Abstract_Action_Route {
 	}
 
 	/**
-	 * Executes the rest request.
+	 * Executes the rest request, but only if the respective action is enabled.
 	 *
 	 * @param mixed $data The request parameters.
 	 *
