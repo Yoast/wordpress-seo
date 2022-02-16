@@ -125,7 +125,7 @@ Taxonomy analysis has the same SEO and Readability scoring criteria as above exc
 | Bullet   	      | Score	     | Criterion | Feedback |
 |------------	|------------------	|---------------------	|---------------	|
 | Red	| 1	| No meta description		| **Meta description length**: No meta description has been specified. Search engines will display copy from the page instead. **Make sure to write one!** |
-| Orange (corner stone: red)		| 6 (corner stone: 3)		| Meta description (incl. the date)  ≤ 120 characters		| **Meta description length**: The meta description is too short (under X characters). Up to X characters are available. **Use the space!** |
-| Orange (corner stone: red)		| 6 (corner stone: 3)		| Meta description (incl. the date)  ≥ 157 characters		| **Meta description length**: The meta description is over X characters. **To ensure the entire description will be visible, you should reduce the length!**	|
-| Green	| 9	| Meta description (incl. the date) > 120 and < 157		| **Meta description length**: Well done! |
+| Orange (corner stone: red)		| 6 (corner stone: 3)		| Meta description ≤ 120 characters		| **Meta description length**: The meta description is too short (under X characters). Up to X characters are available. **Use the space!** |
+| Orange (corner stone: red)		| 6 (corner stone: 3)		| Meta description ≥ 157 characters		| **Meta description length**: The meta description is over X characters. **To ensure the entire description will be visible, you should reduce the length!**	|
+| Green	| 9	| Meta description > 120 and < 157		| **Meta description length**: Well done! |
 
