@@ -1,7 +1,7 @@
 # The overview of the SEO assessments scoring criteria
 
 ## Keyphrase-based SEO assessments
-### Keyphrase in introduction
+### 1) Keyphrase in introduction
 **What it does**: Checks whether words from the keyphrase can be found in the first paragraph of the text.
 
 **Uses synonyms**: yes
@@ -20,7 +20,7 @@
 | Orange   	      | 6	     | All content words are found in the first paragraph, but not in the same sentence	 | **Keyphrase in introduction**: Your keyphrase or its synonyms appear in the first paragraph of the copy, but not within one sentence. **Fix that**! |
 | Green   	      | 9	     | All content words from the keyphrase or synonym phrase are within one sentence in the first paragraph	 | **Keyphrase in introduction**: Well done! |
 
-### Keyphrase length
+### 2) Keyphrase length
 **What it does**: Checks whether the number of ( content ) words in the keyphrase is within the recommended limit. For languages with function word support only content words are considered. For languages without function word support all words are considered.
 
 **Uses synonyms**: no
@@ -40,7 +40,7 @@
 | Orange   	      | 6	     | Keyphrase length between 5-8 words (7-9 for languages without function words support)		 | **Keyphrase length**: The keyphrase contains x (content) words. That's more than the recommended maximum of 4 (content) words. **Make it shorter!**|
 | Green   	      | 9	     | Keyphrase length between 1-4 words (1-6 or languages without function words support)		 | **Keyphrase length**: Good job! |
 
-### Keyphrase density
+### 3) Keyphrase density
 **What it does**: Checks whether the (content) words from the keyphrase are used in the text and whether they are used often enough (but not too often). For a match to be found, all content words should occur in one sentence. Multiple occurrences of all content words within one sentence are considered multiple matches.
 
 **Uses synonyms**: no
@@ -64,7 +64,7 @@
 #### More on our minimal keyphrase usage requirements
 A [simple model](https://docs.google.com/spreadsheets/d/1rwOs-4-pJB1PBgB8hDbCPWgwTe0HYiLdQG23O2FdLq8/edit?usp=sharing) shows that as the text length (in words) goes up, the keyphrase density assessment requires a larger number of keyphrase usages. This happens in steps, which are determined by keyphrase length (shorter step for shorter keyphrases) and which do not depend on text length. The step size for the shortest keyphrase (1 word) is 214 words.
 
-### Keyphrase in meta description
+### 4) Keyphrase in meta description
 **What it does**: Checks whether all (content) words from the keyphrase are used in the metadescription. A match is counted if all words from the keyphrase appear in a sentence. Multiple matches per sentence are counted multiple times.
 
 **Uses synonyms**: yes
@@ -83,7 +83,7 @@ A [simple model](https://docs.google.com/spreadsheets/d/1rwOs-4-pJB1PBgB8hDbCPWg
 | Red	| 3	| >2 found matches		| **Keyphrase in meta description**: The meta description contains the keyphrase __ times, which is over the advised maximum of 2 times. **Limit that!** |
 | Green	| 9	| 1-2 sentences with a found match		| **Keyphrase in meta description**: Keyphrase or synonym appear in the metadescription. Well done! |
 
-### Keyphrase in subheadings
+### 5) Keyphrase in subheadings
 **What it does**: Checks whether H2 and H3 subheadings reflect the topic of the copy (based on keyphrase or synonyms). For languages with function word support, a subheading is considered to reflect the topic if at least half of words from the keyphrase are used in it. For languages without function word support, a subheading is considered to reflect the topic if all content words from the keyphrase are used in it.
 
 **Uses synonyms**: yes
@@ -103,7 +103,7 @@ A [simple model](https://docs.google.com/spreadsheets/d/1rwOs-4-pJB1PBgB8hDbCPWg
 | Green	| 9	| Between 30 and 75% of H2/H3 headings reflect the topic		| **Keyphrase in subheading**: (X of) your higher-level subheading(s) reflects the topic of your copy. Good job! |
 | Green	| 9	| The only H2/H3 subheading used in the text reflects the topic		| **Keyphrase in subheading**: Your higher-level subheading reflects the topic of your copy. Good job! |
 
-### Competing links (Link keyphrase)
+### 6) Competing links (Link keyphrase)
 **What it does**: Checks if there are links in the text, which are attached to the keyphrase.
 
 **Uses synonyms**: yes
@@ -129,7 +129,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 | cat		| no	| partial match of keyhrase not regarded as competing link |
 | cat and dog food	| no 	| full match of keyphrase not regarded as competing link if the link text contains additional content words |
 
-### Images
+### 7) Images
 **What it does**: Checks the presence of images in the text.
 
 **When applies**: If there is a text with at least one image present.
@@ -145,7 +145,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 | Red	| 3	| No images		| **Images**: No images appear on this page. **Add some!** |
 | Green	| 9	| There are at least 1 image		| **Images**: Good job! |
 
-### Image Keyphrase
+### 8) Image Keyphrase
 
 **What it does**: Checks if there are keyphrase or synonyms in the alt attributes of images.
 
@@ -169,7 +169,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 | Green	| 9	| There are less than 5 images and at least one has an alt-tag with a keyphrase/synonym		| **Image Keyphrase**: Good job! |
 | Green	| 9	| There are at least 5 images and between 30 and 75% have an alt-tag with a keyphrase/synonym		| **Image Keyphrase**: Good job! |
 
-### Keyphrase in title
+### 9) Keyphrase in title
 **What it does**: Checks if the keyphrase is used in the page title (when function words precede the keyphrase in the title they are filtered out when determining the position of the keyphrase in the title).
 
 **Uses synonyms**: no
@@ -190,7 +190,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 | Orange	| 6	| SEO title does not contain an exact match of your keyphrase		| **Keyphrase in title**: Does not contain the exact match. **Try to write the exact match of your keyphrase in the SEO title and put it at the beginning of the title.** |
 | Green	| 9	| SEO title contains the exact match of the focus keyphrase at beginning		| **Keyphrase in title**: The exact match of the focus keyphrase appears at the beginning of the SEO title. Good job! |
 
-### Keyphrase in slug
+### 10) Keyphrase in slug
 **What it does**: Checks if the keyphrase is used in the URL.
 
 **Uses synonyms**: no
@@ -209,7 +209,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 | Green	| 9	| For short keyphrases (1-2 content words): All content words are in URL			| **Keyphrase in slug**: Great work! |
 | Green	| 9	| For longer keyphrases (>2 content words): More than half content words are in URL		| **Keyphrase in slug**: More than half of your keyphrase appears in the slug. That's great! |
 
-### Previously used keywords
+### 11) Previously used keywords
 **What it does**: Checks if the words from the keyphrase were previously used in a keyphrase for a different post.
 
 **Uses synonyms**: no
@@ -228,7 +228,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 | Orange	| 6	| The keyphrase is previously used once	| **Previously used keyphrase**: You've used this keyphrase once before. **Do not use your keyphrase more than once.**	|
 | Green	| 9	| The keyphrase hasn't been used before	|  **Previously used keyphrase**: You've not used this keyphrase before, very good.	|
 
-### Keyphrase distribution (only in Premium)
+### 12) Keyphrase distribution (only in Premium)
 **What it does**: Checks how well the words from the keyphrase are distributed throughout the text. For exact implementation check out https://github.com/Yoast/YoastSEO.js/issues/1558 and https://github.com/Yoast/YoastSEO.js/issues/1868.
 
 **Uses synonyms**: yes
@@ -249,7 +249,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 | Green	| 9	| The resulting score is <0.4		| **Keyphrase distribution**: Good job! |
 
 ## Other SEO assessments
-### Text length
+### 13) Text length
 **What it does**: Checks if the text is long enough.
 
 **When applies**: Always.
@@ -268,7 +268,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 | Orange	| 6	| Between 250 and 299 words (cornerstone: between 400 and 899)		| **Text length**: the text contains X words. This is slightly below the recommended minimum of 300 words. **Add a bit more copy.** (cornerstone: **Text length**: the text contains X words. This is below the recommended minimum of 900 words. **Add more content.**) |
 | Green	| 9	| More than or exactly 300 words (cornerstone: 900)		| **Text length**: the text contains X words. Good job! |
 
-### Outbound links
+### 14) Outbound links
 **What it does**: Checks if outbound links are present and followed.
 
 **When applies**: If there is a text.
@@ -286,7 +286,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 | Green	| 8	| There are both followed and no-followed links		| **Outbound links**: There are both nofollowed and normal outbound links on this page. Good job! |
 | Green	| 9	| All links are followed		| **Outbound links**: Good job! |
 
-### Internal links
+### 15) Internal links
 **What it does**: Checks if internal links are present and followed.
 
 **When applies**: If there is a text.
@@ -304,7 +304,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 | Green	| 8	| There are both followed and no-followed internal links		| **Internal links**: There are both nofollowed and normal internal links on this page. Good job! |
 | Green	| 9	| All internal links are followed		| **Internal links**: You have enough internal links. Good job! |
 
-### SEO Title width
+### 16) SEO Title width
 **What it does**: Checks if the SEO title has a good length. Note that this assessment checks the SEO title as it appears in the snippet preview. Therefore, it also takes into account the content from replacement variables.
 
 **When applies**: Always.
@@ -321,7 +321,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 | Red	| 3	| Title width > 600 px		| **SEO title width**: The SEO title wider than the viewable limit. **Try to make it shorter.** |
 | Green	| 9	| Title width between 1 px and 600 px		| **SEO title width**: Good job! |
 
-### Meta description length
+### 17) Meta description length
 **What it does**: Checks if the metadescription has a good length.
 
 **When applies**: Always.
@@ -339,7 +339,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 | Orange (corner stone: red)		| 6 (corner stone: 3)		| Meta description ≥ 157 characters		| **Meta description length**: The meta description is over X characters. **To ensure the entire description will be visible, you should reduce the length!**	|
 | Green	| 9	| Meta description > 120 and < 157		| **Meta description length**: Well done! |
 
-### Single title
+### 18) Single title
 **What it does**: Checks if there is an H1 heading elsewhere than at the beginning of the text.
 
 **When applies**: When there is an H1 heading elsewhere than at the beginning of the text.
@@ -354,7 +354,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 |------------	|------------------	|---------------------	|---------------	|
 | Red	| 1	| There is an H1 heading elsewhere than the beginning of the text		| **Single title**: H1s should only be used as your main title. **Find all H1s in your text that aren't your main title and change them to a lower heading level!** |
 
-### Function words in keyphrase
+### 19) Function words in keyphrase
 **What it does**: Checks if the keyphrase consists of only function words.
 
 **When applies**: When the keyphrase consists of only function words (and the language has function word support).
