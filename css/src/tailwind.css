@@ -26,3 +26,13 @@
 .yst-button--small {
 	@apply yst-text-[12px] yst-px-2.5 yst-py-1.5;
 }
+
+/* Temporary fix until we solve the base layer issue with WordPress */
+.yoast a {
+	text-decoration: underline;
+	color: #1D4ED8;
+}
+
+.yoast a:visited {
+	color: #a4286a;
+}
