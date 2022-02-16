@@ -66,7 +66,7 @@ module.exports = {
 					"!vendor/yoast/license-manager/samples/**",
 					"!vendor/yoast/license-manager/class-theme-*",
 					"!**/composer.json",
-					"!**/SEO ASSESSORS.md",
+					"!**/README.md",
 				],
 				dest: "<%= files.artifact %>",
 			},
