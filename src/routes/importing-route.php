@@ -86,7 +86,7 @@ class Importing_Route extends Abstract_Action_Route {
 		try {
 			$importer = $this->get_importer( $plugin, $type );
 
-			if ( $importer === false ) {
+			if ( $importer === false || ! $importer->is_enabled() ) {
 				return new WP_Error(
 					'rest_no_route',
 					'Requested importer not found',
