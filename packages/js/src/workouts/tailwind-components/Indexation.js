@@ -392,13 +392,16 @@ export class Indexation extends Component {
 				<Transition
 					unmount={ false }
 					appear={ true }
-					show={ this.isState( STATE.COMPLETED ) || this.state.amount === 0 }
+					show={ this.isState( STATE.COMPLETED ) }
 					enter="yst-transition-opacity yst-duration-1000"
 					enterFrom="yst-opacity-0"
 					enterTo="yst-opacity-100"
 				>
 					<Alert type="success">{ __( "We’ve successfully analyzed your site!", "wordpress-seo" ) }</Alert>
 				</Transition>
+				{ ( this.isState( STATE.IDLE ) && this.state.amount === 0 ) &&
+					<Alert type="success">{ __( "We’ve already successfully analyzed your site. You can move on to the next step.", "wordpress-seo" ) }</Alert>
+				}
 				<Transition
 					unmount={ false }
 					show={ this.isState( STATE.IN_PROGRESS ) || ( this.isState( STATE.IDLE ) && this.state.amount > 0 ) }

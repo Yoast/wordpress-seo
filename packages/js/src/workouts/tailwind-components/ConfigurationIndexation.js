@@ -25,7 +25,7 @@ export function ConfigurationIndexation( { indexingStateCallback, indexingState,
 			return <Alert type="success">{ __( "We’ve successfully analyzed your site!", "wordpress-seo" ) }</Alert>;
 		}
 		return <button
-			className="yoast-button--primary"
+			className="yoast-button--secondary"
 			type="button"
 			disabled={ true }
 		>

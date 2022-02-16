@@ -461,7 +461,6 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 	const isStep4Finished = isStepFinished( "configuration", steps.enableTracking );
 	const isStep5Finished = isStepFinished( "configuration", steps.newsletterSignup );
 	const isWorkoutFinished = [
-		isStep1Finished,
 		isStep2Finished,
 		isStep3Finished,
 		isStep4Finished,
@@ -640,7 +639,6 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 
 	// PROBABLY DELETE BETWEEN HERE....
 	const isStepperFinished = [
-		isStep1Finished,
 		isStep2Finished,
 		isStep3Finished,
 		isStep5Finished,
