@@ -235,7 +235,9 @@ class Wincher_PKCE_Provider extends GenericProvider {
 
 		$this->checkResponse( $response, $parsed );
 
-		if ( ! \is_array( $parsed ) && $parsed === '' ) {
+		// We always expect an array from the API except for on DELETE requests.
+		// We convert to an array here to prevent problems with array_key_exists on PHP8.
+		if ( ! \is_array( $parsed ) ) {
 			$parsed = [ 'data' => [] ];
 		}
 
