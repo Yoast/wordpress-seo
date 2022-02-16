@@ -1,6 +1,6 @@
 # SEO Assessors
 ## Which assessor?
-[Overview of used assessors](https://drive.google.com/file/d/1jOEpNK0ZcyCAKpjaiJuBywuqNC08tlW5/view?usp=sharing) in the `yoastseo` package
+[Overview of used SEO assessors](https://drive.google.com/file/d/1jOEpNK0ZcyCAKpjaiJuBywuqNC08tlW5/view?usp=sharing) in the `yoastseo` package
 
 ## Standard SEO assessor (Focus keyphrase)
 - Keyphrase in introduction (IntroductionKeywordAssessment)
@@ -50,3 +50,14 @@
 - Previously used keywords (previouslyUsedKeywords)
 ## Premium
 - Keyword distribution is added (not on related keywords)
+
+# Content Assessors
+## Standard Content (Readbility) assessor
+- Subheading distribution (SubheadingDistributionTooLong) -> [Cornerstone scores!](https://github.com/Yoast/wordpress-seo/blob/LINGO-498-move-documentation-from-wiki-to-readme-files-on-repo/packages/yoastseo/src/scoring/assessments/SCORING%20READABILITY.md#1-subheading-distribution)
+- Paragraph length (ParagraphTooLongAssessment)
+- Sentence length (SentenceLengthInTextAssessment)
+- Consecutive sentences (SentenceBeginningsAssessment)
+- Transition words (TransitionWordsAssessment)
+- Passive voice (PassiveVoiceAssessment)
+- Text presence (TextPresenceAssessment)
+- Flesch Reading Ease (FleschReadingEaseAssessment)
