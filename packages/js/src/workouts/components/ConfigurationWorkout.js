@@ -464,7 +464,6 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 		isStep2Finished,
 		isStep3Finished,
 		isStep4Finished,
-		isStep5Finished,
 	].every( Boolean );
 
 	/**
@@ -641,23 +640,23 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 	const isStepperFinished = [
 		isStep2Finished,
 		isStep3Finished,
-		isStep5Finished,
+		isStep4Finished,
 	].every( Boolean );
+
+	const [ isIndexationStepFinished, setIndexationStepFinished ] = useState( isStepFinished( "configuration", steps.siteRepresentation ) );
 
 	/* Duplicate site representation, because in reality, the first step cannot be saved.
 	It's considered "finished" once at least the site representation has been done. */
 	const savedSteps = [
-		isStepFinished( "configuration", steps.siteRepresentation ),
+		isIndexationStepFinished,
 		isStepFinished( "configuration", steps.siteRepresentation ),
 		isStepFinished( "configuration", steps.socialProfiles ),
-		isStepFinished( "configuration", steps.newsletterSignup ),
+		isStepFinished( "configuration", steps.enableTracking ),
 		isStepperFinished,
 	];
 
 	const [ hideOriginal, setHideOriginal ] = useState( true );
 	const [ activeStepIndex, setActiveStepIndex ] = useState( getInitialActiveStepIndex( savedSteps ) );
-
-	const [ isIndexationStepFinished, setIndexationStepFinished ] = useState( isStepFinished( "configuration", steps.siteRepresentation ) );
 
 	const [ stepperFinishedOnce, setStepperFinishedOnce ] = useState( isStepperFinished );
 	const [ isStepBeingEdited, setIsStepBeingEdited ] = useState( false );
