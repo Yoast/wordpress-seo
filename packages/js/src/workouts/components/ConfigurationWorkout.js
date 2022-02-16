@@ -437,19 +437,6 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 
 	const isTrackingOptionSelected = state.tracking === 0 || state.tracking === 1;
 
-	/**
-	 * If indexing has been completed, finish step 1, else, unfinish it.
-	 */
-	useEffect( () => {
-		if ( indexingState === "completed" ) {
-			// Briefly override window variable to preserve indexingstate when navigating back and forth on the workouts page.
-			window.yoastIndexingData.amount = "0";
-			finishSteps( "configuration", [ steps.optimizeSeoData ] );
-		} else {
-			reviseStep( "configuration", steps.optimizeSeoData );
-		}
-	}, [ indexingState ] );
-
 	// Whenever a step is edited, toggle the saved state for that step.
 	useEffect( () => {
 		state.editedSteps.forEach( stepNumber => {
@@ -670,17 +657,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 	const [ hideOriginal, setHideOriginal ] = useState( true );
 	const [ activeStepIndex, setActiveStepIndex ] = useState( getInitialActiveStepIndex( savedSteps ) );
 
-	/**
-	 * Sets the step to finished.
-	 *
-	 * @param {int} stepIdx The step to-be-finished.
-	 *
-	 * @returns {boolean} Whether the stepper can continue to the next step.
-	 */
-	function finishStep( stepIdx ) {
-		finishSteps( "configuration", [ stepNumberNameMap[ stepIdx + 1 ] ] );
-		return true;
-	}
+	const [ isIndexationStepFinished, setIndexationStepFinished ] = useState( isStepFinished( "configuration", steps.siteRepresentation ) );
 
 	const [ stepperFinishedOnce, setStepperFinishedOnce ] = useState( isStepperFinished );
 	const [ isStepBeingEdited, setIsStepBeingEdited ] = useState( false );
@@ -693,14 +670,14 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 	 *
 	 * @returns {boolean} Whether the stepper can continue to the next step.
 	 */
-	function beforeContinueIndexationStep( stepIdx ) {
+	function beforeContinueIndexationStep() {
 		if ( ! showRunIndexationAlert && indexingState === "idle" ) {
 			setShowRunIndexationAlert( true );
 			return false;
 		}
 
+		setIndexationStepFinished( true );
 		setIsStepBeingEdited( false );
-		finishStep( stepIdx );
 		return true;
 	}
 
@@ -799,7 +776,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 					<Step>
 						<Step.Header
 							name="SEO data optimization"
-							isFinished={ isStep1Finished }
+							isFinished={ isIndexationStepFinished }
 						>
 							<EditButton
 								beforeGo={ beforeEditing }
