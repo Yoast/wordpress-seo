@@ -644,8 +644,10 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 		isStep5Finished,
 	].every( Boolean );
 
+	/* Duplicate site representation, because in reality, the first step cannot be saved.
+	It's considered "finished" once at least the site representation has been done. */
 	const savedSteps = [
-		isStepFinished( "configuration", steps.optimizeSeoData ),
+		isStepFinished( "configuration", steps.siteRepresentation ),
 		isStepFinished( "configuration", steps.siteRepresentation ),
 		isStepFinished( "configuration", steps.socialProfiles ),
 		isStepFinished( "configuration", steps.newsletterSignup ),
