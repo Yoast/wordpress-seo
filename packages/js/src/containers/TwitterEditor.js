@@ -1,49 +1,14 @@
 /* External dependencies */
 import { compose } from "@wordpress/compose";
 import { withDispatch, withSelect, dispatch as wpDataDispatch } from "@wordpress/data";
-import { validateTwitterImage } from "@yoast/helpers";
-import { TWITTER_IMAGE_SIZES } from "@yoast/social-metadata-previews";
-import { get } from "lodash";
 
 /* Internal dependencies */
 import TwitterWrapper from "../components/social/TwitterWrapper";
 import getL10nObject from "../analysis/getL10nObject";
 import withLocation from "../helpers/withLocation";
-import { openMedia } from "../helpers/selectMedia";
+import { openMedia, prepareTwitterPreviewImage } from "../helpers/selectMedia";
 
 const socialMediumName = "Twitter";
-
-/**
- * Callback function for selectMedia. Performs actions with the 'image' Object that it gets as an argument.
- *
- * @param {Object} image Object containing data about the selected image.
- *
- * @param {Function} onSelect Callback function received from openMedia. Gets object image' as an argument.
- *
- * @returns {void}
- */
-const imageCallback = ( image ) => {
-	const twitterImageType = get( window, "wpseoScriptData.metabox.twitterCardType" );
-
-	const isLarge = twitterImageType !== "summary";
-	const imageMode = isLarge ? "landscape" : "square";
-
-	const idealWidth = TWITTER_IMAGE_SIZES[ imageMode + "Width" ];
-	const idealHeight = TWITTER_IMAGE_SIZES[ imageMode + "Height" ];
-
-	const idealImageSize = Object.values( image.sizes ).find( size => {
-		return size.width >= idealWidth && size.height >= idealHeight;
-	} );
-
-	const imageUrl = idealImageSize ? idealImageSize.url : image.url;
-
-	wpDataDispatch( "yoast-seo/editor" ).setTwitterPreviewImage( {
-		url: imageUrl,
-		id: image.id,
-		warnings: validateTwitterImage( image ),
-		alt: image.alt || "",
-	} );
-};
 
 /**
  * Lazy function to open the media instance.
@@ -51,7 +16,7 @@ const imageCallback = ( image ) => {
  * @returns {void}
  */
 const selectMedia = () => {
-	openMedia( imageCallback );
+	openMedia( ( image ) => wpDataDispatch( "yoast-seo/editor" ).setTwitterPreviewImage( prepareTwitterPreviewImage( image ) ) );
 };
 
 /* eslint-disable complexity */

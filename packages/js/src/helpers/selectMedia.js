@@ -1,3 +1,7 @@
+import { get } from "lodash";
+import { validateFacebookImage, validateTwitterImage } from "@yoast/helpers";
+import { FACEBOOK_IMAGE_SIZES, determineFacebookImageMode, TWITTER_IMAGE_SIZES } from "@yoast/social-metadata-previews";
+
 /**
  * Strips an attachment to an object with what we want.
  *
@@ -67,3 +71,61 @@ export function fetchAttachment( id ) {
 export function openMedia( onSelect ) {
 	getMedia( onSelect ).open();
 }
+
+/**
+ * Prepares Facebook image for Redux store.
+ *
+ * @param {Object} image Object containing data about the selected image.
+ *
+ * @returns {Object} Prepared Facebook image.
+ */
+export const prepareFacebookPreviewImage = ( image ) => {
+	const { width, height } = image;
+	const imageMode = determineFacebookImageMode( { width, height } );
+
+	const idealWidth = FACEBOOK_IMAGE_SIZES[ imageMode + "Width" ];
+	const idealHeight = FACEBOOK_IMAGE_SIZES[ imageMode + "Height" ];
+
+	const idealImageSize = Object.values( image.sizes ).find( size => {
+		return size.width >= idealWidth && size.height >= idealHeight;
+	} );
+
+	const imageUrl = idealImageSize ? idealImageSize.url : image.url;
+
+	return {
+		url: imageUrl,
+		id: image.id,
+		warnings: validateFacebookImage( image ),
+		alt: image.alt || "",
+	};
+};
+
+/**
+ * Prepares Twitter image for Redux store.
+ *
+ * @param {Object} image Object containing data about the selected image.
+ *
+ * @returns {Object} Prepared Twitter image.
+ */
+export const prepareTwitterPreviewImage = ( image ) => {
+	const twitterImageType = get( window, "wpseoScriptData.metabox.twitterCardType" );
+
+	const isLarge = twitterImageType !== "summary";
+	const imageMode = isLarge ? "landscape" : "square";
+
+	const idealWidth = TWITTER_IMAGE_SIZES[ imageMode + "Width" ];
+	const idealHeight = TWITTER_IMAGE_SIZES[ imageMode + "Height" ];
+
+	const idealImageSize = Object.values( image.sizes ).find( size => {
+		return size.width >= idealWidth && size.height >= idealHeight;
+	} );
+
+	const imageUrl = idealImageSize ? idealImageSize.url : image.url;
+
+	return {
+		url: imageUrl,
+		id: image.id,
+		warnings: validateTwitterImage( image ),
+		alt: image.alt || "",
+	};
+};
