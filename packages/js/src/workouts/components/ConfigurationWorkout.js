@@ -444,6 +444,14 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 		} );
 	}, [ state.editedSteps ] );
 
+	/* Briefly override window variable because indexingstate is reinitialized when navigating back and forth on the workouts page,
+	whereas the window variable remains stale. */
+	useEffect( () => {
+		if ( indexingState === "completed" ) {
+			window.yoastIndexingData.amount = "0";
+		}
+	}, [ indexingState ] );
+
 	/**
 	 * Sets the step to isSaved.
 	 *
