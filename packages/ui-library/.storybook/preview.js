@@ -1,4 +1,4 @@
-import "../src/elements/style.css";
+import "./style.css";
 
 export const parameters = {
 	actions: {
