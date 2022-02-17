@@ -126,18 +126,18 @@ const createUpdateReadabilityScore = ( selectIsActive, domSet ) => ( score ) => 
  * Watches the category checkboxes in the classic editor
  * for changes and updates the categories in the store accordingly.
  *
- * @param {function} updateCategories A callback function to update the categories in the store.
+ * @param {function} updateTerms A callback function to update the categories in the store.
  *
  * @returns {void}
  */
-const createCategoriesSync = ( updateCategories ) => {
+const createCategoriesSync = ( updateTerms ) => {
 	/**
 	 * Retrieves the categories from the DOM and syncs them to the SEO store.
 	 *
 	 * @returns {void}
 	 */
 	const syncCategories = () => {
-		updateCategories( getPostCategories() );
+		updateTerms( { taxonomyType: "categories", terms: getPostCategories() } );
 	};
 
 	/**
@@ -163,7 +163,7 @@ const createCategoriesSync = ( updateCategories ) => {
 		// Observe the category checklist for changes and update the categories if new categories are added.
 		// Consider only the "All Categories" section, because newly added categories will not end up in the "Most Used" section.
 		const observer = new MutationObserver( () => {
-			updateCategories( getPostCategories() );
+			updateTerms( { taxonomyType: "categories", terms: getPostCategories() } );
 			watchCategoryCheckboxes();
 		} );
 		observer.observe( categoryChecklist, { childList: true, subtree: true } );
@@ -266,7 +266,7 @@ const syncPostToStore = () => {
 	createTinyMceContentSync( DOM_IDS.POST_CONTENT, actions.updateContent );
 	// Sync editor changes to the store when in text mode.
 	createStoreSync( DOM_IDS.POST_CONTENT, actions.updateContent, "input" );
-	createCategoriesSync( actions.updateCategories );
+	createCategoriesSync( actions.updateTerms );
 };
 
 /**

@@ -25,7 +25,7 @@ export const category = {
 	name: "category",
 	getLabel: () => __( "Category", "wordpress-seo" ),
 	getReplacement: () => {
-		const categories = select( SEO_STORE_NAME ).selectCategories();
+		const categories = select( SEO_STORE_NAME ).selectTerms( "categories" );
 		return categories.map( cat => cat.name ).join( ", " );
 	},
 };
@@ -52,7 +52,7 @@ export const primaryCategory = {
 
 		// Uses the id from wpseoPrimaryCategoryL10n global variable if `yoast-seo/editor` store returns an undefined primary category id.
 		const primaryTaxonomyId = primaryTaxonomyIdFromStore || initialPrimaryTaxonomyId;
-		const categories = select( SEO_STORE_NAME ).selectCategories();
+		const categories = select( SEO_STORE_NAME ).selectTerms( "categories" );
 
 		const foundPrimaryCategory = categories.find( cat => cat.id === primaryTaxonomyId.toString() );
 		if ( foundPrimaryCategory ) {
