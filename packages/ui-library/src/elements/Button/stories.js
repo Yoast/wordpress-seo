@@ -5,12 +5,12 @@ export default {
 	component: Button,
 	argTypes: {
 		children: { control: "text" },
-		as: { control: { disable: true } },
+		as: { options: [ "button", "div", "span" ] },
 	},
 	parameters: {
 		docs: {
 			description: {
-				component: "The button component is used for bladibladibla",
+				component: "The button component is used for actions.",
 			},
 		},
 	},
@@ -31,6 +31,7 @@ export const Variants = args => (
 		<Button variant="primary">Primary</Button>
 		<Button variant="secondary">Secondary</Button>
 		<Button variant="error">Error</Button>
+		<Button variant="upsell">Upsell</Button>
 	</div>
 );
 
@@ -49,10 +50,7 @@ Sizes.parameters = {
 
 export const States = args => (
 	<div className="yst-flex yst-items-end yst-gap-2">
-		<Button size="large">Loading</Button>
-		<Button size="default">Default</Button>
-		<Button size="small">Small</Button>
+		<Button isLoading={ true }>Loading</Button>
+		<Button isDisabled={ true }>Disabled</Button>
 	</div>
 );
-
-

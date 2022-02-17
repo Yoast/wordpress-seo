@@ -9,6 +9,7 @@ const classNameMap = {
 		primary: "yst-button--primary",
 		secondary: "yst-button--secondary",
 		error: "yst-button--error",
+		upsell: "yst-button--upsell",
 	},
 	size: {
 		"default": "",
@@ -18,7 +19,14 @@ const classNameMap = {
 };
 
 /**
- * @param {Object} props Props object.
+ * @param {JSX.node} children Content of the button.
+ * @param {string|function} [as="button"] Base component.
+ * @param {string} [type] Type attribute. Used when `as` is a `button`.
+ * @param {string} [variant="primary"] Button variant. See `classNameMap` for the options.
+ * @param {string} [size="default"] Button size. See `classNameMap` for the options.
+ * @param {boolean} [isLoading=false] Whether to show a spinner.
+ * @param {boolean} [isDisabled=false] Whether the button is disabled.
+ * @param {string} [className] HTML class.
  * @returns {JSX.Element} Button component.
  */
 const Button = ( {
@@ -39,6 +47,7 @@ const Button = ( {
 			"yst-button",
 			classNameMap.variant[ variant ],
 			classNameMap.size[ size ],
+			isLoading && "yst-cursor-wait",
 			className,
 		) }
 		{ ...props }
