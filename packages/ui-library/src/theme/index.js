@@ -1,6 +1,6 @@
 // TODO: Move this to Tailwind preset package.
 module.exports = {
-	fontSize: {
+	fontSizes: {
 		"xxs": "0.6rem",
 		"xs": ".75rem",
 		"sm": ".8125rem", // 13px instead of 14pxx

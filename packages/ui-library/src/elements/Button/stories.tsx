@@ -5,7 +5,7 @@ import Button from ".";
 
 
 export default {
-	title: "Elements/Forms/Button",
+	title: "Elements/Button",
 	component: Button,
 	argTypes: {
 		children: { control: "text" },

@@ -1,7 +1,10 @@
 import "../src/elements/style.css";
 
 export const parameters = {
-	actions: { argTypesRegex: "^on[A-Z].*" },
+	actions: {
+		disable: true,
+		argTypesRegex: "^on[A-Z].*",
+	},
 	controls: {
 		disable: true,
 		matchers: {
@@ -10,3 +13,5 @@ export const parameters = {
 		},
 	},
 };
+
+// TODO: disable all addons here by default and enable manually?
