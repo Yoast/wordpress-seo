@@ -9,7 +9,7 @@ use WPSEO_Admin_Utils;
 use WPSEO_Replacevar_Editor;
 use WPSEO_Shortlinker;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
-use Yoast\WP\SEO\Conditionals\Open_Graph_Conditional;
+use Yoast\WP\SEO\Conditionals\Options_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Presenters\Admin\Alert_Presenter;
 use Yoast\WP\SEO\Presenters\Admin\Badge_Presenter;
@@ -50,7 +50,7 @@ class Social_Templates_Integration implements Integration_Interface {
 	 * @return array
 	 */
 	public static function get_conditionals() {
-		return [ Admin_Conditional::class, Open_Graph_Conditional::class ];
+		return [ Admin_Conditional::class, [ Options_Conditional::class => 'opengraph' ] ];
 	}
 
 	/**

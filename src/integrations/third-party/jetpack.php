@@ -4,7 +4,7 @@ namespace Yoast\WP\SEO\Integrations\Third_Party;
 
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Conditionals\Jetpack_Conditional;
-use Yoast\WP\SEO\Conditionals\Open_Graph_Conditional;
+use Yoast\WP\SEO\Conditionals\Options_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
@@ -18,7 +18,7 @@ class Jetpack implements Integration_Interface {
 	 * @return array
 	 */
 	public static function get_conditionals() {
-		return [ Front_End_Conditional::class, Jetpack_Conditional::class, Open_Graph_Conditional::class ];
+		return [ Front_End_Conditional::class, Jetpack_Conditional::class, [ Options_Conditional::class => 'opengraph' ] ];
 	}
 
 	/**

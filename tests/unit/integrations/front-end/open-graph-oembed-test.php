@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations\Front_End;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
-use Yoast\WP\SEO\Conditionals\Open_Graph_Conditional;
+use Yoast\WP\SEO\Conditionals\Options_Conditional;
 use Yoast\WP\SEO\Integrations\Front_End\Open_Graph_OEmbed;
 use Yoast\WP\SEO\Surfaces\Meta_Surface;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -54,7 +54,7 @@ class Open_Graph_OEmbed_Test extends TestCase {
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
-			[ Front_End_Conditional::class, Open_Graph_Conditional::class ],
+			[ Front_End_Conditional::class, [ Options_Conditional::class => 'opengraph' ] ],
 			Open_Graph_OEmbed::get_conditionals()
 		);
 	}
