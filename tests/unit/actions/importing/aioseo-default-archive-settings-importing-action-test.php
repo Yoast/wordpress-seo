@@ -4,12 +4,13 @@ namespace Yoast\WP\SEO\Tests\Unit\Actions\Importing;
 
 use Mockery;
 use Brain\Monkey;
-use Yoast\WP\SEO\Actions\Importing\Aioseo_Default_Archive_Settings_Importing_Action;
+use Yoast\WP\SEO\Actions\Importing\Aioseo\Aioseo_Default_Archive_Settings_Importing_Action;
+use Yoast\WP\SEO\Helpers\Import_Cursor_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Sanitization_Helper;
-use Yoast\WP\SEO\Services\Importing\Aioseo_Replacevar_Handler;
-use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Provider_Service;
-use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Transformer_Service;
+use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Replacevar_Service;
+use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Provider_Service;
+use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Transformer_Service;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Actions\Importing\Aioseo_Default_Archive_Settings_Importing_Action_Double;
 
@@ -19,7 +20,7 @@ use Yoast\WP\SEO\Tests\Unit\Doubles\Actions\Importing\Aioseo_Default_Archive_Set
  * @group actions
  * @group importing
  *
- * @coversDefaultClass \Yoast\WP\SEO\Actions\Importing\Aioseo_Default_Archive_Settings_Importing_Action
+ * @coversDefaultClass \Yoast\WP\SEO\Actions\Importing\Aioseo\Aioseo_Default_Archive_Settings_Importing_Action
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded, Yoast.Yoast.AlternativeFunctions.json_encode_json_encode
  */
 class Aioseo_Default_Archive_Settings_Importing_Action_Test extends TestCase {
@@ -46,6 +47,13 @@ class Aioseo_Default_Archive_Settings_Importing_Action_Test extends TestCase {
 	protected $options;
 
 	/**
+	 * The mocked options helper.
+	 *
+	 * @var Mockery\MockInterface|Import_Cursor_Helper
+	 */
+	protected $import_cursor;
+
+	/**
 	 * The sanitization helper.
 	 *
 	 * @var Mockery\MockInterface|Sanitization_Helper
@@ -55,7 +63,7 @@ class Aioseo_Default_Archive_Settings_Importing_Action_Test extends TestCase {
 	/**
 	 * The replacevar handler.
 	 *
-	 * @var Mockery\MockInterface|Aioseo_Replacevar_Handler
+	 * @var Mockery\MockInterface|Aioseo_Replacevar_Service
 	 */
 	protected $replacevar_handler;
 
@@ -131,15 +139,16 @@ class Aioseo_Default_Archive_Settings_Importing_Action_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
+		$this->import_cursor      = Mockery::mock( Import_Cursor_Helper::class );
 		$this->options            = Mockery::mock( Options_Helper::class );
 		$this->sanitization       = Mockery::mock( Sanitization_Helper::class );
-		$this->replacevar_handler = Mockery::mock( Aioseo_Replacevar_Handler::class );
+		$this->replacevar_handler = Mockery::mock( Aioseo_Replacevar_Service::class );
 		$this->robots_provider    = Mockery::mock( Aioseo_Robots_Provider_Service::class );
 		$this->robots_transformer = Mockery::mock( Aioseo_Robots_Transformer_Service::class );
-		$this->instance           = new Aioseo_Default_Archive_Settings_Importing_Action( $this->options, $this->sanitization, $this->replacevar_handler, $this->robots_provider, $this->robots_transformer );
+		$this->instance           = new Aioseo_Default_Archive_Settings_Importing_Action( $this->import_cursor, $this->options, $this->sanitization, $this->replacevar_handler, $this->robots_provider, $this->robots_transformer );
 		$this->mock_instance      = Mockery::mock(
 			Aioseo_Default_Archive_Settings_Importing_Action_Double::class,
-			[ $this->options, $this->sanitization, $this->replacevar_handler, $this->robots_provider, $this->robots_transformer ]
+			[ $this->import_cursor, $this->options, $this->sanitization, $this->replacevar_handler, $this->robots_provider, $this->robots_transformer ]
 		)->makePartial()->shouldAllowMockingProtectedMethods();
 	}
 

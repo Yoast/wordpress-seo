@@ -226,3 +226,13 @@ addFilter(
 ```
 
 **The `@yoast/seo-store` package provides a filter for adding/modifying paper data, please reference this important filter there.**
+
+## Testing
+
+To run all tests in the `tests` directory, call:
+
+```sh
+yarn test
+```
+
+After running the tests, a coverage report will automatically be generated.

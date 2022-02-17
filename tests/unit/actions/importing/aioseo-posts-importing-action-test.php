@@ -4,8 +4,9 @@ namespace Yoast\WP\SEO\Tests\Unit\Actions\Importing;
 
 use Mockery;
 use Yoast\WP\Lib\ORM;
-use Yoast\WP\SEO\Actions\Importing\Aioseo_Posts_Importing_Action;
+use Yoast\WP\SEO\Actions\Importing\Aioseo\Aioseo_Posts_Importing_Action;
 use Yoast\WP\SEO\Helpers\Image_Helper;
+use Yoast\WP\SEO\Helpers\Import_Cursor_Helper;
 use Yoast\WP\SEO\Helpers\Meta_Helper;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Indexable_To_Postmeta_Helper;
@@ -13,10 +14,10 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Sanitization_Helper;
 use Yoast\WP\SEO\Helpers\Wpdb_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
-use Yoast\WP\SEO\Services\Importing\Aioseo_Replacevar_Handler;
-use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Provider_Service;
-use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Transformer_Service;
-use Yoast\WP\SEO\Services\Importing\Aioseo_Social_Images_Provider_Service;
+use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Replacevar_Service;
+use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Provider_Service;
+use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Transformer_Service;
+use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Social_Images_Provider_Service;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Actions\Importing\Aioseo_Posts_Importing_Action_Double;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -27,7 +28,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group actions
  * @group importing
  *
- * @coversDefaultClass \Yoast\WP\SEO\Actions\Importing\Aioseo_Posts_Importing_Action
+ * @coversDefaultClass \Yoast\WP\SEO\Actions\Importing\Aioseo\Aioseo_Posts_Importing_Action
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded,Yoast.Yoast.AlternativeFunctions.json_encode_json_encode
  */
 class Aioseo_Posts_Importing_Action_Test extends TestCase {
@@ -96,6 +97,13 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 	protected $options;
 
 	/**
+	 * The mocked options helper.
+	 *
+	 * @var Mockery\MockInterface|Import_Cursor_Helper
+	 */
+	protected $import_cursor;
+
+	/**
 	 * The sanitization helper.
 	 *
 	 * @var Mockery\MockInterface|Sanitization_Helper
@@ -112,7 +120,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 	/**
 	 * The replacevar handler.
 	 *
-	 * @var Mockery\MockInterface|Aioseo_Replacevar_Handler
+	 * @var Mockery\MockInterface|Aioseo_Replacevar_Service
 	 */
 	protected $replacevar_handler;
 
@@ -146,13 +154,14 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 		$this->indexable_repository   = Mockery::mock( Indexable_Repository::class );
 		$this->wpdb                   = Mockery::mock( 'wpdb' );
 		$this->meta                   = Mockery::mock( Meta_Helper::class );
+		$this->import_cursor          = Mockery::mock( Import_Cursor_Helper::class );
 		$this->indexable_helper       = Mockery::mock( Indexable_Helper::class );
 		$this->indexable_to_postmeta  = Mockery::mock( Indexable_To_Postmeta_Helper::class, [ $this->meta ] );
 		$this->options                = Mockery::mock( Options_Helper::class );
 		$this->image                  = Mockery::mock( Image_Helper::class );
 		$this->sanitization           = Mockery::mock( Sanitization_Helper::class );
 		$this->wpdb_helper            = Mockery::mock( Wpdb_Helper::class );
-		$this->replacevar_handler     = Mockery::mock( Aioseo_Replacevar_Handler::class );
+		$this->replacevar_handler     = Mockery::mock( Aioseo_Replacevar_Service::class );
 		$this->robots_provider        = Mockery::mock( Aioseo_Robots_Provider_Service::class );
 		$this->robots_transformer     = Mockery::mock( Aioseo_Robots_Transformer_Service::class );
 		$this->social_images_provider = Mockery::mock( Aioseo_Social_Images_Provider_Service::class );
@@ -160,6 +169,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 		$this->instance      = new Aioseo_Posts_Importing_Action(
 			$this->indexable_repository,
 			$this->wpdb,
+			$this->import_cursor,
 			$this->indexable_helper,
 			$this->indexable_to_postmeta,
 			$this->options,
@@ -176,6 +186,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			[
 				$this->indexable_repository,
 				$this->wpdb,
+				$this->import_cursor,
 				$this->indexable_helper,
 				$this->indexable_to_postmeta,
 				$this->options,
@@ -201,7 +212,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 		$this->mock_instance->expects( 'set_completed' )
 			->once();
 
-		$this->mock_instance->expects( 'get_cursor' )
+		$this->import_cursor->expects( 'get_cursor' )
 			->once()
 			->andReturn( 1337 );
 
@@ -267,7 +278,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 		$this->mock_instance->expects( 'set_completed' )
 			->once();
 
-		$this->mock_instance->expects( 'get_cursor' )
+		$this->import_cursor->expects( 'get_cursor' )
 			->once()
 			->andReturn( 1337 );
 
@@ -325,9 +336,9 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 				->with( $indexable, $expected_check_defaults_fields )
 				->andReturn( $is_default );
 
-			$this->mock_instance->expects( 'set_cursor' )
+			$this->import_cursor->expects( 'set_cursor' )
 				->once()
-				->with( $this->options, 'aioseo_posts', $cursor_value );
+				->with( 'aioseo_posts', $cursor_value );
 
 			$this->mock_instance->index();
 	}
@@ -825,14 +836,14 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			[ $aioseo_og_auto, $open_graph_mapping, $image, 1, 'get_auto_image', 1, 0, 'og' ],
 			[ $aioseo_og_content, $open_graph_mapping, $image, 1, 'get_first_image_in_content', 1, 0, 'og' ],
 			[ $aioseo_og_custom, $open_graph_mapping, null, 0, 'irrelevant', 0, 0, 'og' ],
-			[ $aioseo_og_featured, $open_graph_mapping, $image, 1, 'get_featured_image', 1, 0, 'og' ],
+			[ $aioseo_og_featured, $open_graph_mapping, null, 0, 'irrelevant', 0, 0, 'og' ],
 			[ $aioseo_twitter_custom_image, $twitter_mapping, $image, 1, 'irrelevant', 0, 0, 'twitter' ],
 			[ $aioseo_twitter_attach, $twitter_mapping, $image, 1, 'get_first_attached_image', 1, 0, 'twitter' ],
 			[ $aioseo_twitter_author, $twitter_mapping, null, 0, 'irrelevant', 0, 0, 'twitter' ],
 			[ $aioseo_twitter_auto, $twitter_mapping, $image, 1, 'get_auto_image', 1, 0, 'twitter' ],
 			[ $aioseo_twitter_content, $twitter_mapping, $image, 1, 'get_first_image_in_content', 1, 0, 'twitter' ],
 			[ $aioseo_twitter_custom, $twitter_mapping, null, 0, 'irrelevant', 0, 0, 'twitter' ],
-			[ $aioseo_twitter_featured, $twitter_mapping, $image, 1, 'get_featured_image', 1, 0, 'twitter' ],
+			[ $aioseo_twitter_featured, $twitter_mapping, null, 0, 'irrelevant', 0, 0, 'og' ],
 			[ $aioseo_twitter_from_og, $twitter_mapping, $image, 1, 'irrelevant', 0, 0, 'og' ],
 		];
 	}
