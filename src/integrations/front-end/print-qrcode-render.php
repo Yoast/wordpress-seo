@@ -1,16 +1,17 @@
 <?php
 
-namespace Yoast\WP\SEO\Integrations;
+namespace Yoast\WP\SEO\Integrations\Front_End;
 
 use chillerlan\QRCode\QRCode;
 use chillerlan\QRCode\QROptions;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Conditionals\Print_QR_Code_Enabled_Conditional;
+use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
  * Class that renders a QR code for URLs.
  */
-class Print_QR_Code_Render implements Integration_Interface {
+class Print_QRCode_Render implements Integration_Interface {
 
 	/**
 	 * Register the hooks.
@@ -46,12 +47,11 @@ class Print_QR_Code_Render implements Integration_Interface {
 			\wp_die( 'This is not a QR code endpoint for public consumption.' );
 		}
 
-		$options = new QROptions( [
-			'outputType' => QRCode::OUTPUT_MARKUP_SVG,
-		] );
+		$options = new QROptions( [ 'outputType' => QRCode::OUTPUT_MARKUP_SVG ] );
 		$qr_code = new QRCode( $options );
 
 		\header( 'Content-type: image/svg+xml', true );
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- We trust the QR class to output safe content.
 		echo $qr_code->render( $url );
 		exit( 200 );
 	}
