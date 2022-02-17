@@ -1,8 +1,10 @@
 <?php
 
-namespace Yoast\WP\SEO\Actions\Importing;
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Given it's a very specific case.
+namespace Yoast\WP\SEO\Actions\Importing\Aioseo;
 
 use wpdb;
+use Yoast\WP\SEO\Actions\Importing\Abstract_Aioseo_Importing_Action;
 use Yoast\WP\SEO\Conditionals\AIOSEO_V4_Importer_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Wpdb_Helper;
@@ -12,7 +14,7 @@ use Yoast\WP\SEO\Helpers\Wpdb_Helper;
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-class Aioseo_Cleanup_Action extends Abstract_Importing_Action {
+class Aioseo_Cleanup_Action extends Abstract_Aioseo_Importing_Action {
 
 	/**
 	 * The plugin of the action.
