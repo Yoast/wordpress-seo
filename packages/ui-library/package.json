@@ -13,6 +13,7 @@
     "build:css": "node ./scripts/css.copy.js",
     "build": "yarn clean:build && yarn build:js && yarn build:css",
     "build:storybook": "build-storybook",
+    "lint": "eslint src --max-warnings=0",
     "storybook": "start-storybook -p 6006"
   },
   "devDependencies": {

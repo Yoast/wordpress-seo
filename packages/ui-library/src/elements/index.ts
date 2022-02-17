@@ -1,3 +1,3 @@
-const defaultExport: string = "components";
+const defaultExport = "components";
 
 export default defaultExport;
