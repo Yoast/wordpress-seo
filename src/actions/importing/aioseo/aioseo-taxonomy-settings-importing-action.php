@@ -47,7 +47,19 @@ class Aioseo_Taxonomy_Settings_Importing_Action extends Abstract_Aioseo_Settings
 	 * @see https://yoast.com/help/list-available-snippet-variables-yoast-seo/
 	 */
 	protected $replace_vars_edited_map = [
-		'#taxonomy_title' => '%%term_title%%',
+		'#breadcrumb_404_error_format'         => '', // Empty string, as AIOSEO shows nothing for that tag.
+		'#breadcrumb_archive_post_type_format' => '', // Empty string, as AIOSEO shows nothing for that tag.
+		'#breadcrumb_archive_post_type_name'   => '', // Empty string, as AIOSEO shows nothing for that tag.
+		'#breadcrumb_author_display_name'      => '', // Empty string, as AIOSEO shows nothing for that tag.
+		'#breadcrumb_author_first_name'        => '', // Empty string, as AIOSEO shows nothing for that tag.
+		'#breadcrumb_blog_page_title'          => '', // Empty string, as AIOSEO shows nothing for that tag.
+		'#breadcrumb_label'                    => '', // Empty string, as AIOSEO shows nothing for that tag.
+		'#breadcrumb_link'                     => '', // Empty string, as AIOSEO shows nothing for that tag.
+		'#breadcrumb_search_result_format'     => '', // Empty string, as AIOSEO shows nothing for that tag.
+		'#breadcrumb_search_string'            => '', // Empty string, as AIOSEO shows nothing for that tag.
+		'#breadcrumb_separator'                => '', // Empty string, as AIOSEO shows nothing for that tag.
+		'#breadcrumb_taxonomy_title'           => '', // Empty string, as AIOSEO shows nothing for that tag.
+		'#taxonomy_title'                      => '%%term_title%%',
 	];
 
 	/**

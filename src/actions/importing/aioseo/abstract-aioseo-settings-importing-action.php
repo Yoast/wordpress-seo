@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Actions\Importing\Aioseo;
 
 use Exception;
 use Yoast\WP\SEO\Actions\Importing\Abstract_Aioseo_Importing_Action;
+use Yoast\WP\SEO\Helpers\Import_Helper;
 use Yoast\WP\SEO\Conditionals\AIOSEO_V4_Importer_Conditional;
 
 /**
@@ -57,11 +58,29 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Aioseo
 	protected $replace_vars_edited_map = [];
 
 	/**
+	 * The import helper.
+	 *
+	 * @var Import_Helper
+	 */
+	protected $import_helper;
+
+	/**
 	 * Builds the mapping that ties AOISEO option keys with Yoast ones and their data transformation method.
 	 *
 	 * @return void
 	 */
 	abstract protected function build_mapping();
+
+	/**
+	 * Sets the import helper.
+	 *
+	 * @required
+	 *
+	 * @param Import_Helper $import_helper The import helper.
+	 */
+	public function set_import_helper( Import_Helper $import_helper ) {
+		$this->import_helper = $import_helper;
+	}
 
 	/**
 	 * Retrieves the source option_name.
@@ -193,31 +212,9 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Aioseo
 			return [];
 		}
 
-		$flattened_settings = $this->flatten_settings( $settings_values );
+		$flattened_settings = $this->import_helper->flatten_settings( $settings_values );
 
 		return $this->get_unimported_chunk( $flattened_settings, $limit );
-	}
-
-	/**
-	 * Flattens the multidimensional array of AIOSEO settings. Recursive.
-	 *
-	 * @param array  $array      The array to be flattened.
-	 * @param string $key_prefix The key to be used as a base.
-	 *
-	 * @return array The flattened array.
-	 */
-	protected function flatten_settings( $array, $key_prefix = '' ) {
-		$result = [];
-		foreach ( $array as $key => $value ) {
-			if ( is_array( $value ) ) {
-				$result = array_merge( $result, $this->flatten_settings( $value, $key_prefix . '/' . $key ) );
-			}
-			else {
-				$result[ $key_prefix . '/' . $key ] = $value;
-			}
-		}
-
-		return $result;
 	}
 
 	/**
