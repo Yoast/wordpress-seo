@@ -12,6 +12,15 @@ export const parameters = {
 			date: /Date$/,
 		},
 	},
+	docs: {
+		transformSource: ( src, storyContext ) => {
+			try {
+				return storyContext.unboundStoryFn( storyContext ).template;
+			} catch ( e ) {
+				return null;
+			}
+		},
+	},
 };
 
 // TODO: disable all addons here by default and enable manually?
