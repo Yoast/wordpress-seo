@@ -229,7 +229,10 @@ class Loader {
 		foreach ( $conditionals as $conditional ) {
 			$args = [];
 			if ( \is_array( $conditional ) ) {
-				$args        = \reset( $conditional );
+				$args = \reset( $conditional );
+				if ( ! is_array( $args ) ) {
+					$args = [ $args ];
+				}
 				$conditional = \key( $conditional );
 			}
 
