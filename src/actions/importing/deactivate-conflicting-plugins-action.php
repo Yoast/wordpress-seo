@@ -94,9 +94,9 @@ class Deactivate_Conflicting_Plugins_Action extends Abstract_Aioseo_Importing_Ac
 	 * @return bool True if the updated importer framework is enabled.
 	 */
 	public function is_enabled() {
-		$aioseo_importer_conditional = \YoastSEO()->classes->get( Updated_Importer_Framework_Conditional::class );
+		$updated_importer_framework_conditional = \YoastSEO()->classes->get( Updated_Importer_Framework_Conditional::class );
 
-		return $aioseo_importer_conditional->is_met();
+		return $updated_importer_framework_conditional->is_met();
 	}
 
 	/**
