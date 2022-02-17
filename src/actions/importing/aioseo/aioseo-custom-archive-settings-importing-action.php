@@ -4,7 +4,6 @@
 namespace Yoast\WP\SEO\Actions\Importing\Aioseo;
 
 use Yoast\WP\SEO\Helpers\Import_Cursor_Helper;
-use Yoast\WP\SEO\Helpers\Import_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Sanitization_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
