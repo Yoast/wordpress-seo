@@ -322,10 +322,10 @@ export class Indexation extends Component {
 	}
 
 	/**
-		 * Renders the progress bar.
-		 *
-		 * @returns {WPElement} The progress bar.
-		 */
+	 * Renders the progress bar.
+	 *
+	 * @returns {WPElement} The progress bar.
+	 */
 	renderProgressBar() {
 		let percentageIndexed = 0;
 		if ( this.isState( STATE.COMPLETED ) ) {
