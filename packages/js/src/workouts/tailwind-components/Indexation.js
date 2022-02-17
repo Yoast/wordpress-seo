@@ -322,9 +322,9 @@ export class Indexation extends Component {
 	}
 
 	/**
-	 * Renders the progress bar, plus caption.
+	 * Renders the progress bar.
 	 *
-	 * @returns {JSX.Element} The progress bar, plus caption.
+	 * @returns {WPElement} The progress bar.
 	 */
 	renderProgressBar() {
 		let percentageIndexed = 0;
@@ -335,27 +335,33 @@ export class Indexation extends Component {
 			percentageIndexed = ( this.state.processed / parseInt( this.state.amount, 10 ) ) * 100;
 		}
 
-		return <Fragment>
-			<div className="yst-w-full yst-bg-gray-200 yst-rounded-full yst-h-2.5 yst-mb-4">
-				<div
-					className="yst-transition-[width] yst-ease-linear yst-bg-primary-500 yst-h-2.5 yst-rounded-full"
-					style={ { width: `${ percentageIndexed }%` } }
-				/>
-			</div>
-			<AnimateHeight
-				id="optimization-in-progress-text"
-				height={ this.isState( STATE.IN_PROGRESS ) ? "auto" : 0 }
-				easing="linear"
-				duration={ 300 }
-			>
-				<p className={ "yst-text-sm yst-italic yst-mb-4" }>
-					{
-						__( "SEO data optimization is running… You can safely move on to the next steps of this configuration.",
-							"wordpress-seo" )
-					}
-				</p>
-			</AnimateHeight>
-		</Fragment>;
+		return <div className="yst-w-full yst-bg-gray-200 yst-rounded-full yst-h-2.5 yst-mb-4">
+			<div
+				className="yst-transition-[width] yst-ease-linear yst-bg-primary-500 yst-h-2.5 yst-rounded-full"
+				style={ { width: `${ percentageIndexed }%` } }
+			/>
+		</div>;
+	}
+
+	/**
+	 * Renders the italics caption.
+	 *
+	 * @returns {WPElement} the italics caption.
+	 */
+	renderCaption() {
+		return <AnimateHeight
+			id="optimization-in-progress-text"
+			height={ this.isState( STATE.IN_PROGRESS ) ? "auto" : 0 }
+			easing="linear"
+			duration={ 300 }
+		>
+			<p className={ "yst-text-sm yst-italic yst-mb-4 yst-mt-4" }>
+				{
+					__( "SEO data optimization is running… You can safely move on to the next steps of this configuration.",
+						"wordpress-seo" )
+				}
+			</p>
+		</AnimateHeight>;
 	}
 
 	/**
@@ -370,51 +376,53 @@ export class Indexation extends Component {
 		/>;
 	}
 
-	/**
-	 * Renders the indexing tool.
-	 *
-	 * @returns {JSX.Element} The indexing tool.
-	 */
-	renderTool() {
-		return (
-			<Fragment>
-				{ this.renderProgressBar() }
-				{ this.isState( STATE.ERRORED ) && this.renderErrorAlert() }
-				{ this.isState( STATE.IDLE ) && this.state.firstTime && this.renderFirstIndexationNotice() }
-				{ this.isState( STATE.IN_PROGRESS )
-					? this.renderStopButton()
-					: this.renderStartButton()
-				}
-			</Fragment>
-		);
-	}
-
+	/* eslint-disable complexity */
 	/**
 	 * Renders the component
 	 *
-	 * @returns {JSX.Element} The rendered component.
+	 * @returns {WPElement} The rendered component.
 	 */
-	render() {
+	 render() {
 		if ( this.settings.disabled ) {
 			return this.renderDisabledTool();
 		}
 
-		if ( this.isState( STATE.COMPLETED ) || this.state.amount === 0 ) {
-			return <Transition
-				appear={ true }
-				show={ this.isState( STATE.COMPLETED ) || this.state.amount === 0 }
-				enter="yst-transition-opacity yst-duration-1000"
-				enterFrom="yst-opacity-0"
-				enterTo="yst-opacity-100"
-			>
-				<Alert type="success">{ __( "We’ve successfully analyzed your site!", "wordpress-seo" ) }</Alert>
-			</Transition>;
-		}
-
-		return this.renderTool();
+		return (
+			<div className="yst-relative">
+				<Transition
+					unmount={ false }
+					appear={ true }
+					show={ this.isState( STATE.COMPLETED ) }
+					enter="yst-transition-opacity yst-duration-1000"
+					enterFrom="yst-opacity-0"
+					enterTo="yst-opacity-100"
+				>
+					<Alert type="success">{ __( "We’ve successfully analyzed your site!", "wordpress-seo" ) }</Alert>
+				</Transition>
+				{ ( this.isState( STATE.IDLE ) && this.state.amount === 0 ) &&
+					<Alert type="success">
+						{ __( "We’ve already successfully analyzed your site. You can move on to the next step.", "wordpress-seo" ) }
+					</Alert>
+				}
+				<Transition
+					unmount={ false }
+					show={ this.isState( STATE.IN_PROGRESS ) || ( this.isState( STATE.IDLE ) && this.state.amount > 0 ) }
+					leave="yst-transition-opacity yst-duration-1000"
+					leaveFrom="yst-opacity-100"
+					leaveTo="yst-opacity-0"
+				>
+					{ this.renderProgressBar() }
+					{ this.isState( STATE.ERRORED ) && this.renderErrorAlert() }
+					{ this.isState( STATE.IDLE ) && this.state.firstTime && this.renderFirstIndexationNotice() }
+					{ this.isState( STATE.IN_PROGRESS )
+						? this.renderStopButton()
+						: this.renderStartButton()
+					}
+					{ this.renderCaption() }
+				</Transition>
+			</div> );
 	}
 }
-
 Indexation.propTypes = {
 	indexingActions: PropTypes.object,
 	preIndexingActions: PropTypes.object,
@@ -428,3 +436,4 @@ Indexation.defaultProps = {
 };
 
 export default Indexation;
+/* eslint-enable complexity */
