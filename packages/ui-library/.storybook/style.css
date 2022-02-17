@@ -1,0 +1,6 @@
+@import "../src/elements/button/button.css";
+@import "../src/elements/title/title.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

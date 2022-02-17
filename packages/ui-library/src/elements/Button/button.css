@@ -1,0 +1,31 @@
+@layer components {
+	.yst-button {
+		@apply yst-inline-flex yst-items-center yst-py-2 yst-px-3 yst-border yst-shadow-sm yst-rounded-md yst-text-sm yst-font-medium yst-leading-4 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-indigo-500 yst-no-underline yst-cursor-pointer disabled:yst-cursor-not-allowed;
+	}
+
+	/* Colors */
+	.yst-button--primary {
+		@apply yst-text-white yst-bg-primary-500 yst-border-transparent hover:yst-bg-primary-700;
+	}
+
+	.yst-button--secondary {
+		@apply yst-text-gray-700 yst-bg-white yst-border-gray-300 hover:yst-bg-gray-50;
+	}
+
+	.yst-button--error {
+		@apply yst-text-white yst-bg-red-600 yst-border-transparent hover:yst-bg-red-700 focus:yst-ring-red-600;
+	}
+
+	.yst-button--upsell {
+		@apply yst-text-gray-700 yst-bg-amber-400 yst-border-transparent hover:yst-bg-amber-500 focus:yst-ring-amber-400;
+	}
+
+	/* Sizes */
+	.yst-button--large {
+		@apply yst-py-3 yst-px-4;
+	}
+
+	.yst-button--small {
+		@apply yst-text-xs yst-py-1.5 yst-px-2.5;
+	}
+}

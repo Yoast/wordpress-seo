@@ -1,0 +1,6 @@
+@layer components {
+	.yst-title {
+		@apply yst-text-gray-900 yst-font-medium;
+	}
+}
+

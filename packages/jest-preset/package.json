@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A Jest preset for Yoast packages.",
   "main": "jest-preset.js",
-  "author": "Team Yoast <developer@yoast.com>",
+  "author": "Team Yoast <support@yoast.com>",
   "license": "GPL-3.0",
   "private": false,
   "devDependencies": {
