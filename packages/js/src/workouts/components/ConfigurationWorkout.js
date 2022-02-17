@@ -25,6 +25,7 @@ import { STEPS, WORKOUTS } from "../config";
 import { getInitialActiveStepIndex } from "../stepper-helper";
 import { scrollToStep } from "../helpers";
 import IndexationStep from "../tailwind-components/indexation-step";
+import SiteRepresentationStep from "../tailwind-components/site-representation-step";
 
 window.wpseoScriptData = window.wpseoScriptData || {};
 window.wpseoScriptData.searchAppearance = {
@@ -248,82 +249,6 @@ const stepNumberNameMap = {
 };
 
 /* eslint-disable max-len, react/prop-types */
-/**
- * Doc comment to make linter happy.
- *
- * @returns {JSX.Element} Example step.
- */
-function SiteRepresentationStep( { onOrganizationOrPersonChange, dispatch, state, siteRepresentsPerson, onSiteTaglineChange, siteRepresentationEmpty } ) {
-	return <Fragment>
-		{  window.wpseoWorkoutsData.configuration.knowledgeGraphMessage &&  <Alert type="warning">
-			{  window.wpseoWorkoutsData.configuration.knowledgeGraphMessage }
-		</Alert> }
-		{
-			window.wpseoWorkoutsData.configuration.shouldForceCompany === 0 && <SingleSelect
-				id="organization-person-select"
-				htmlFor="organization-person-select"
-				name="organization"
-				label={ __( "Does your site represent an Organization or Person?", "wordpress-seo" ) }
-				selected={ state.companyOrPerson }
-				onChange={ onOrganizationOrPersonChange }
-				options={  window.wpseoWorkoutsData.configuration.companyOrPersonOptions }
-			/>
-		}
-		{
-			window.wpseoWorkoutsData.configuration.shouldForceCompany === 1 && <TextInput
-				id="organization-forced-readonly-text"
-				name="organization"
-				label={ __( "Does your site represent an Organization or Person?", "wordpress-seo" ) }
-				value={ state.companyOrPersonLabel }
-				readOnly={ true }
-			/>
-		}
-		{ state.companyOrPerson === "company" && <Fragment>
-			{ ( ! state.companyName || ! state.companyLogo ) && <Alert type="warning">
-				{ __(
-					// eslint-disable-next-line max-len
-					"You need to set an organization name and logo for structured data to work properly.",
-					"wordpress-seo"
-				) }
-			</Alert> }
-			<OrganizationSection
-				dispatch={ dispatch }
-				imageUrl={ state.companyLogo }
-				organizationName={ state.companyName }
-			/>
-		</Fragment> }
-		{ siteRepresentsPerson && <Fragment>
-			{ ( ! state.personLogo || state.personId === 0 ) && <Alert type="warning">
-				{ __(
-					// eslint-disable-next-line max-len
-					"You need to set a person name and logo for structured data to work properly.",
-					"wordpress-seo"
-				) }
-			</Alert> }
-			<PersonSection
-				dispatch={ dispatch }
-				imageUrl={ state.personLogo }
-				personId={ state.personId }
-			/>
-		</Fragment> }
-		{ window.wpseoWorkoutsData.canEditWordPressOptions && <TextInput
-			id="site-tagline-input"
-			name="site-tagline"
-			label={ __( "Site tagline", "wordpress-seo" ) }
-			description={ sprintf( __( "Add a catchy tagline that describes your site in the best light. Use the keywords you want people to find your site with. Example: %1$s’s tagline is ‘SEO for everyone.’", "wordpress-seo" ), "Yoast" ) }
-			value={ state.siteTagline }
-			onChange={ onSiteTaglineChange }
-		/> }
-		{ siteRepresentationEmpty && <Alert type="warning">
-			{ __(
-				// eslint-disable-next-line max-len
-				"Please be aware that you need to set a name and logo in step 2 for structured data to work properly.",
-				"wordpress-seo"
-			) }
-		</Alert> }
-	</Fragment>;
-}
-
 /**
  * Doc comment to make linter happy.
  *
