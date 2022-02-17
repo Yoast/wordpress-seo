@@ -258,6 +258,81 @@ class Aioseo_Taxonomy_Settings_Importing_Action_Test extends TestCase {
 	}
 
 	/**
+	 * Tests composing the replacevar map.
+	 *
+	 * @covers ::index
+	 */
+	public function test_composer_replacevar_map() {
+		Monkey\Functions\expect( 'apply_filters' )
+			->once()
+			->with( 'wpseo_aioseo_taxonomy_settings_indexation_limit', 25 )
+			->andReturn( 25 );
+
+		Monkey\Functions\expect( 'get_option' )
+			->once()
+			->with( 'aioseo_options_dynamic', '' )
+			->andReturn( '' );
+
+		$this->mock_instance->expects( 'set_completed' )
+			->once()
+			->with( true );
+
+		$this->mock_instance->expects( 'build_mapping' )
+			->once();
+
+		// Here comes the things we want to actually check.
+		$this->replacevar_handler->expects( 'compose_map' )
+			->once()
+			->with( '#breadcrumb_404_error_format', '' );
+		$this->replacevar_handler->expects( 'compose_map' )
+			->once()
+			->with( '#breadcrumb_archive_post_type_format', '' );
+		$this->replacevar_handler->expects( 'compose_map' )
+			->once()
+			->with( '#breadcrumb_archive_post_type_name', '' );
+		$this->replacevar_handler->expects( 'compose_map' )
+			->once()
+			->with( '#breadcrumb_author_display_name', '' );
+		$this->replacevar_handler->expects( 'compose_map' )
+			->once()
+			->with( '#breadcrumb_author_first_name', '' );
+		$this->replacevar_handler->expects( 'compose_map' )
+			->once()
+			->with( '#breadcrumb_blog_page_title', '' );
+		$this->replacevar_handler->expects( 'compose_map' )
+			->once()
+			->with( '#breadcrumb_label', '' );
+		$this->replacevar_handler->expects( 'compose_map' )
+			->once()
+			->with( '#breadcrumb_link', '' );
+		$this->replacevar_handler->expects( 'compose_map' )
+			->once()
+			->with( '#breadcrumb_search_result_format', '' );
+		$this->replacevar_handler->expects( 'compose_map' )
+			->once()
+			->with( '#breadcrumb_search_string', '' );
+		$this->replacevar_handler->expects( 'compose_map' )
+			->once()
+			->with( '#breadcrumb_separator', '' );
+		$this->replacevar_handler->expects( 'compose_map' )
+			->once()
+			->with( '#breadcrumb_taxonomy_title', '' );
+		$this->replacevar_handler->expects( 'compose_map' )
+			->once()
+			->with( '#taxonomy_title', '%%term_title%%' );
+
+		$this->mock_instance->expects( 'get_cursor_id' )
+			->once()
+			->andReturn( 'cursor_id' );
+
+		$this->import_cursor->expects( 'set_cursor' )
+			->once()
+			->with( 'cursor_id', '' );
+
+		$this->mock_instance->index();
+	}
+
+	/**
 	 * Data provider for test_map().
 	 *
 	 * @return array
