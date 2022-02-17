@@ -1,9 +1,10 @@
 import { Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import Alert from "./alert";
+import SingleSelect from "./single-select";
 
 // Should be removed
-import { SingleSelect, TextInput } from "@yoast/components";
+import { TextInput } from "@yoast/components";
 import { OrganizationSection } from "../components/OrganizationSection";
 import { PersonSection } from "../components/PersonSection";
 
@@ -25,9 +26,9 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 				htmlFor="organization-person-select"
 				name="organization"
 				label={ __( "Does your site represent an Organization or Person?", "wordpress-seo" ) }
-				selected={ state.companyOrPerson }
+				value={ state.companyOrPerson }
 				onChange={ onOrganizationOrPersonChange }
-				options={  window.wpseoWorkoutsData.configuration.companyOrPersonOptions }
+				choices={  window.wpseoWorkoutsData.configuration.companyOrPersonOptions }
 			/>
 		}
 		{
