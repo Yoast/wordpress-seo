@@ -83,14 +83,6 @@ class Aioseo_Replacevar_Service_Test extends TestCase {
 				'expected_yoast_data' => '%%sitename%%',
 			],
 			[
-				'aioseo_data'         => '#breadcrumb_taxonomy_title',
-				'expected_yoast_data' => '',
-			],
-			[
-				'aioseo_data'         => '#breadcrumb_separator',
-				'expected_yoast_data' => '',
-			],
-			[
 				'aioseo_data'         => '#categories',
 				'expected_yoast_data' => '%%category%%',
 			],
