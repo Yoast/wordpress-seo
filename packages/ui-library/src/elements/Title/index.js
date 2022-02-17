@@ -1,6 +1,5 @@
-import React from "react";
 import PropTypes from "prop-types";
-import cx from "classnames";
+import classNames from "classnames";
 import { keys, nth } from "lodash";
 
 export const classNameMap = {
@@ -21,7 +20,7 @@ const Title = ( {
 } ) => {
 	return (
 		<Component
-			className={ cx(
+			className={ classNames(
 				'yst-title',
 				classNameMap.size[ size || nth( Component, 1 ) ],
 				className,

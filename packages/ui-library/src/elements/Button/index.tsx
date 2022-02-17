@@ -1,5 +1,5 @@
 import React, { ElementType, FC } from  "react";
-import cx from "classnames";
+import classNames from "classnames";
 
 import Spinner from "../Spinner";
 
@@ -42,7 +42,7 @@ const Button: FC<ButtonProps> = ( {
 	<Component
 		type={ type }
 		disabled={ isDisabled }
-		className={ cx(
+		className={ classNames(
 			"yst-button",
 			classNameMap.variant[ variant ],
 			classNameMap.size[ size ],
