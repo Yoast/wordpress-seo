@@ -10,8 +10,8 @@
   "scripts": {
     "clean:build": "rm -rf build",
     "build:js": "babel src --out-dir build --ignore \"src/**/*.stories.js\",\"src/**/stories.js\"",
-    "build:css": "mkdir -p build/css && node ./scripts/css.js",
-    "build": "yarn clean:build && yarn build:js",
+    "build:css": "node ./scripts/css.copy.js",
+    "build": "yarn clean:build && yarn build:js && yarn build:css",
     "build:storybook": "build-storybook",
     "storybook": "start-storybook -p 6006"
   },
