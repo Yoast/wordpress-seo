@@ -242,7 +242,6 @@ Release Date: February 22nd, 2022
 Enhancements:
 
 * Optimizes the images in FAQ and HowTo blocks to be more responsive and load faster.
-* Adds a filter to enable/disable creating indexables: `Yoast\WP\SEO\should_index_indexables`
 
 Bugfixes:
 
@@ -252,7 +251,8 @@ Bugfixes:
 
 Other:
 
-* Adds an isset magic method to ease working with helper surfaces. Props to @nlemoine.
+* Adds a filter to enable/disable creating indexables: `Yoast\WP\SEO\should_index_indexables`
+* Adds an `__isset` magic method to ease working with helper surfaces. Props to @nlemoine.
 
 = 18.1 =
 Release Date: February 8th, 2022
