@@ -360,7 +360,7 @@ class HelpScout_Beacon implements Integration_Interface {
 	}
 
 	/**
-	 * Returns a CSV list of all must-use and rop-in plugins.
+	 * Returns a CSV list of all must-use and drop-in plugins.
 	 *
 	 * @return string The active plugins.
 	 */
