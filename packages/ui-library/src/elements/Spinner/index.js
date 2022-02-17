@@ -1,20 +1,25 @@
-import React from "react";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import { keys } from "lodash";
 
 const classNameMap = {
 	variant: {
-		default: "", // Default is currentColor.
+		// Default is currentColor.
+		"default": "",
 		white: "yst-text-white",
 	},
 	size: {
-		"3": "yst-w-3 yst-h-3",
-		"4": "yst-w-4 yst-h-4",
-		"8": "yst-w-8 yst-h-8",
+		3: "yst-w-3 yst-h-3",
+		4: "yst-w-4 yst-h-4",
+		8: "yst-w-8 yst-h-8",
 	},
 };
 
+/**
+ *
+ * @param {*} param0
+ * @returns
+ */
 const Spinner = ( {
 	variant,
 	size,

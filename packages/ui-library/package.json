@@ -9,7 +9,7 @@
   "sideEffects": false,
   "scripts": {
     "clean:build": "rm -rf build",
-    "build:js": "babel src --out-dir dist --ignore \"src/**/*.stories.@(js|jsx|ts|tsx)\",\"src/**/stories.@(js|jsx|ts|tsx)\"",
+    "build:js": "babel src --out-dir dist --ignore \"src/**/*.stories.js\",\"src/**/stories.js\"",
     "build:css": "postcss src/components/style.css --dir build",
     "build": "yarn clean:build && yarn build:ts && yarn build:css",
     "build:storybook": "build-storybook",
@@ -18,6 +18,8 @@
   "devDependencies": {
     "@babel/cli": "^7.17.3",
     "@babel/core": "^7.15.5",
+    "@babel/eslint-parser": "^7.17.0",
+    "@babel/eslint-plugin": "^7.16.5",
     "@babel/parser": "^7.16.8",
     "@storybook/addon-a11y": "^6.4.14",
     "@storybook/addon-essentials": "^6.3.8",
@@ -27,17 +29,19 @@
     "@storybook/react": "^6.3.8",
     "@storybook/theming": "^6.3.9",
     "@whitespace/storybook-addon-html": "^5.0.0",
+    "@yoast/babel-preset": "link:packages/babel-preset",
+    "@yoast/postcss-preset": "link:packages/postcss-preset",
+    "@yoast/tailwindcss-preset": "link:packages/tailwindcss-preset",
     "autoprefixer": "^10.4.2",
     "babel-loader": "^8.2.2",
     "cssnano": "^5.0.15",
     "eslint": "^7.32.0",
+    "eslint-config-yoast": "^5.0.17",
     "eslint-plugin-react": "^7.26.0",
-    "eslint-plugin-react-hooks": "^4.2.0",
     "postcss": "^8.4.5",
     "postcss-cli": "^9.0.0",
     "postcss-import": "^14.0.2",
-    "tailwindcss": "^3.0.15",
-    "@yoast/babel-preset": "link:packages/babel-preset"
+    "tailwindcss": "^3.0.15"
   },
   "dependencies": {
     "@heroicons/react": "^1.0.5",
@@ -48,4 +52,3 @@
     "react-dom": "^17.0.2"
   }
 }
-

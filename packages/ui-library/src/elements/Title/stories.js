@@ -1,17 +1,10 @@
-import React from "react";
-import { keys } from "lodash";
-
-import Title, { classNameMap } from ".";
+import Title from ".";
 
 export default {
 	title: "Elements/Title",
 	component: Title,
 	argTypes: {
 		children: { control: "text" },
-		size: {
-			control: "radio",
-			options: keys( classNameMap.size ),
-		},
 		as: { control: false },
 	},
 	parameters: {
@@ -24,7 +17,7 @@ export default {
 };
 
 export const Factory = ( { children, ...args } ) => (
-	<Title {...args}>{children}</Title>
+	<Title { ...args }>{ children }</Title>
 );
 Factory.parameters = {
 	controls: { disable: false },
@@ -46,9 +39,6 @@ As.parameters = {
 	docs: { description: { story: "Control the Title Component using the `as` prop. Using a heading component without the `size` prop will infer the size from the heading component, ie. `as=\"h1\"` will automagically add size 1." } },
 };
 
-/**
- * There are four available sizes.
- */
 export const Sizes = () => (
 	<div className="yst-flex yst-flex-col yst-gap-2">
 		<Title size="1">Size 1</Title>

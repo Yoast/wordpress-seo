@@ -1,14 +1,5 @@
-// TODO: Move this to Tailwind preset package.
-const theme = require( "./src/theme" );
-
+/* eslint-disable global-require */
 module.exports = {
+	presets: [ require( "@yoast/tailwindcss-preset" ) ],
 	content: [ "./src/**/*.js" ],
-	theme: {
-		extend: {
-			fontSizes: theme.fontSizes,
-			colors: theme.colors
-		},
-	},
-	plugins: [],
-	prefix: "yst-",
 };
