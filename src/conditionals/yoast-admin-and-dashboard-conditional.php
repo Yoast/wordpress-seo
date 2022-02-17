@@ -25,7 +25,6 @@ class Yoast_Admin_And_Dashboard_Conditional implements Conditional {
 		}
 
 		$target_pages = [
-			'index.php',
 			'plugins.php',
 			'update-core.php',
 			'options-permalink.php',
