@@ -77,6 +77,6 @@ export default function( paper, researcher ) {
 ````
 _The function that builds morphological forms is memoized, so do not worry about inefficiency._
 
-Depending on the exact functionality of the SEO research, it can make use of one of the [helper functions](https://github.com/Yoast/javascript/blob/develop/packages/yoastseo/src/researches/findKeywordFormsInString.js), which were created to search for keyphrase forms or synonym forms in any supplied text string.
+Depending on the exact functionality of the SEO research, it can make use of one of the [helper functions](https://github.com/Yoast/wordpress-seo/blob/trunk/packages/yoastseo/src/languageProcessing/helpers/match/findKeywordFormsInString.js), which were created to search for keyphrase forms or synonym forms in any supplied text string.
 
 
