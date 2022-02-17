@@ -32,18 +32,6 @@ abstract class Aioseo_Posttype_Defaults_Settings_Importing_Action_Double extends
 	}
 
 	/**
-	 * Flattens the multidimensional array of AIOSEO settings. Recursive.
-	 *
-	 * @param array  $array    The array to be flattened.
-	 * @param string $main_key The key to be used as a base.
-	 *
-	 * @return array The flattened array.
-	 */
-	public function flatten_settings( $array, $main_key = '' ) {
-		return parent::flatten_settings( $array, $main_key );
-	}
-
-	/**
 	 * Maps/imports AIOSEO settings into the respective Yoast settings.
 	 *
 	 * @param string|array $setting_value The value of the AIOSEO setting at hand.

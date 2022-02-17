@@ -6,6 +6,7 @@ use Mockery;
 use Brain\Monkey;
 use Yoast\WP\SEO\Actions\Importing\Aioseo\Aioseo_Custom_Archive_Settings_Importing_Action;
 use Yoast\WP\SEO\Helpers\Import_Cursor_Helper;
+use Yoast\WP\SEO\Helpers\Import_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Sanitization_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
@@ -67,6 +68,13 @@ class Aioseo_Custom_Archive_Settings_Importing_Action_Test extends TestCase {
 	 * @var Mockery\MockInterface|Post_Type_Helper
 	 */
 	protected $post_type;
+
+	/**
+	 * The import helper.
+	 *
+	 * @var Mockery\MockInterface|Import_Helper
+	 */
+	protected $import_helper;
 
 	/**
 	 * The replacevar handler.
@@ -142,11 +150,15 @@ class Aioseo_Custom_Archive_Settings_Importing_Action_Test extends TestCase {
 		$this->replacevar_handler = Mockery::mock( Aioseo_Replacevar_Service::class );
 		$this->robots_provider    = Mockery::mock( Aioseo_Robots_Provider_Service::class );
 		$this->robots_transformer = Mockery::mock( Aioseo_Robots_Transformer_Service::class );
+		$this->import_helper      = Mockery::mock( Import_Helper::class );
 		$this->instance           = new Aioseo_Custom_Archive_Settings_Importing_Action( $this->import_cursor, $this->options, $this->sanitization, $this->post_type, $this->replacevar_handler, $this->robots_provider, $this->robots_transformer );
-		$this->mock_instance      = Mockery::mock(
+		$this->instance->set_import_helper( $this->import_helper );
+
+		$this->mock_instance = Mockery::mock(
 			Aioseo_Custom_Archive_Settings_Importing_Action_Double::class,
 			[ $this->import_cursor, $this->options, $this->sanitization, $this->post_type, $this->replacevar_handler, $this->robots_provider, $this->robots_transformer ]
 		)->makePartial()->shouldAllowMockingProtectedMethods();
+		$this->mock_instance->set_import_helper( $this->import_helper );
 	}
 
 	/**
@@ -162,37 +174,32 @@ class Aioseo_Custom_Archive_Settings_Importing_Action_Test extends TestCase {
 	/**
 	 * Tests retrieving unimported AiOSEO settings.
 	 *
-	 * @param array $query_results The results from the query.
-	 * @param bool  $expected      The expected retrieved data.
+	 * @param array $query_results        The results from the query.
+	 * @param bool  $expected_unflattened The expected unflattened retrieved data.
+	 * @param bool  $expected             The expected retrieved data.
+	 * @param int   $times                The expected times we will look for the chunked unimported settings.
 	 *
 	 * @dataProvider provider_query
 	 * @covers ::query
 	 */
-	public function test_query( $query_results, $expected ) {
+	public function test_query( $query_results, $expected_unflattened, $expected, $times ) {
 		Monkey\Functions\expect( 'get_option' )
 			->once()
 			->with( 'aioseo_options_dynamic', '' )
 			->andReturn( $query_results );
 
+		$this->import_helper->shouldReceive( 'flatten_settings' )
+			->with( $expected_unflattened )
+			->times( $times )
+			->andReturn( $expected );
+
 		$this->mock_instance->shouldReceive( 'get_unimported_chunk' )
 			->with( $expected, null )
-			->zeroOrMoreTimes()
+			->times( $times )
 			->andReturn( $expected );
 
 		$settings_to_import = $this->mock_instance->query();
 		$this->assertSame( $expected, $settings_to_import );
-	}
-
-	/**
-	 * Tests flattening AIOSEO custom archive settings.
-	 *
-	 * @covers ::flatten_settings
-	 */
-	public function test_flatten_settings() {
-		$flattened_sesttings = $this->mock_instance->flatten_settings( $this->full_settings_to_import );
-		$expected_result     = $this->flattened_settings_to_import;
-
-		$this->assertSame( $expected_result, $flattened_sesttings );
 	}
 
 	/**
@@ -338,9 +345,8 @@ class Aioseo_Custom_Archive_Settings_Importing_Action_Test extends TestCase {
 		$malformed_settings_expected = [];
 
 		return [
-			[ \json_encode( $full_settings ), $full_settings_expected ],
-			[ \json_encode( $missing_settings ), $missing_settings_expected ],
-			[ \json_encode( $missing_settings ), $missing_settings_expected ],
+			[ \json_encode( $full_settings ), $this->full_settings_to_import, $full_settings_expected, 1 ],
+			[ \json_encode( $missing_settings ), 'irrelevant', $missing_settings_expected, 0 ],
 		];
 	}
 }

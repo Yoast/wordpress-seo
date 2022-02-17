@@ -25,8 +25,6 @@ class Aioseo_Replacevar_Service {
 		'#author_last_name'          => '%%author_last_name%%',
 		'#author_name'               => '%%name%%',
 		'#blog_title'                => '%%sitename%%', // Same with #site_title.
-		'#breadcrumb_taxonomy_title' => '', // Empty string, as AIOSEO shows nothing for that tag.
-		'#breadcrumb_separator'      => '', // Empty string, as AIOSEO shows nothing for that tag.
 		'#categories'                => '%%category%%',
 		'#current_date'              => '%%currentdate%%',
 		'#current_day'               => '%%currentday%%',
