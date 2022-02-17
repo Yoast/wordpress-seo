@@ -43,7 +43,7 @@ const Button = ( {
 		) }
 		{ ...props }
 	>
-		{ isLoading && <Spinner size={ size === "small" ? 3 : 4 } className="yst-mr-2" /> }
+		{ isLoading && <Spinner size={ size === "small" ? "3" : "4" } className="yst-mr-2" /> }
 		{ children }
 	</Component>
 );
@@ -51,7 +51,7 @@ const Button = ( {
 Button.propTypes = {
 	children: PropTypes.node.isRequired,
 	as: PropTypes.elementType,
-	type: PropTypes.oneOf( [ undefined, "button", "submit" ] ),
+	type: PropTypes.oneOf( [ "button", "submit" ] ),
 	variant: PropTypes.oneOf( Object.keys( classNameMap.variant ) ),
 	size: PropTypes.oneOf( Object.keys( classNameMap.size ) ),
 	isLoading: PropTypes.bool,

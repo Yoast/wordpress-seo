@@ -1,17 +1,17 @@
 {
   "name": "@yoast/ui-library",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Yoast UI library",
-  "main": "dist/index.js",
+  "main": "build/index.js",
   "author": "Team Yoast <support@yoast.com>",
-  "license": "MIT",
-  "private": true,
+  "license": "GPL-3.0",
+  "private": false,
   "sideEffects": false,
   "scripts": {
     "clean:build": "rm -rf build",
-    "build:js": "babel src --out-dir dist --ignore \"src/**/*.stories.js\",\"src/**/stories.js\"",
-    "build:css": "postcss src/components/style.css --dir build",
-    "build": "yarn clean:build && yarn build:ts && yarn build:css",
+    "build:js": "babel src --out-dir build --ignore \"src/**/*.stories.js\",\"src/**/stories.js\"",
+    "build:css": "mkdir -p build/css && node ./scripts/css.js",
+    "build": "yarn clean:build && yarn build:js",
     "build:storybook": "build-storybook",
     "storybook": "start-storybook -p 6006"
   },
@@ -32,16 +32,12 @@
     "@yoast/babel-preset": "link:packages/babel-preset",
     "@yoast/postcss-preset": "link:packages/postcss-preset",
     "@yoast/tailwindcss-preset": "link:packages/tailwindcss-preset",
-    "autoprefixer": "^10.4.2",
     "babel-loader": "^8.2.2",
-    "cssnano": "^5.0.15",
     "eslint": "^7.32.0",
     "eslint-config-yoast": "^5.0.17",
     "eslint-plugin-react": "^7.26.0",
-    "postcss": "^8.4.5",
-    "postcss-cli": "^9.0.0",
-    "postcss-import": "^14.0.2",
-    "tailwindcss": "^3.0.15"
+    "glob": "^7.2.0",
+    "postcss": "^8.4.5"
   },
   "dependencies": {
     "@heroicons/react": "^1.0.5",

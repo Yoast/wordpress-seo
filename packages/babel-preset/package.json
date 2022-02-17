@@ -8,7 +8,7 @@
     "url": "https://github.com/yoast/wordpress-seo",
     "directory": "packages/babel-preset"
   },
-  "author": "Team Yoast <developer@yoast.com>",
+  "author": "Team Yoast <support@yoast.com>",
   "license": "GPL-3.0",
   "private": false,
   "devDependencies": {

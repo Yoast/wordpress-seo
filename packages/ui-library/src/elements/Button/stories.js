@@ -26,7 +26,7 @@ Factory.args = {
 	children: "Button Factory",
 };
 
-export const Variants = () => (
+export const Variants = args => (
 	<div className="yst-flex yst-items-end yst-gap-2">
 		<Button variant="primary">Primary</Button>
 		<Button variant="secondary">Secondary</Button>
@@ -34,7 +34,7 @@ export const Variants = () => (
 	</div>
 );
 
-export const Sizes = () => (
+export const Sizes = args => (
 	<div className="yst-flex yst-items-end yst-gap-2">
 		<Button size="large">Large</Button>
 		<Button size="default">Default</Button>
@@ -47,7 +47,7 @@ Sizes.parameters = {
 	docs: { description: { story: "There are three available sizes, please refrain from using custom sizes." } },
 };
 
-export const States = () => (
+export const States = args => (
 	<div className="yst-flex yst-items-end yst-gap-2">
 		<Button size="large">Loading</Button>
 		<Button size="default">Default</Button>

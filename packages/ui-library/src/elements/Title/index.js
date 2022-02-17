@@ -39,7 +39,7 @@ const Title = ( {
 Title.propTypes = {
 	children: PropTypes.node.isRequired,
 	as: PropTypes.elementType,
-	size: PropTypes.oneOf( [ undefined, ...Object.keys( classNameMap.size ) ] ),
+	size: PropTypes.oneOf( Object.keys( classNameMap.size ) ),
 	className: PropTypes.string,
 };
 

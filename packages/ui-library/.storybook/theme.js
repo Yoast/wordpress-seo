@@ -1,5 +1,7 @@
 import { create } from "@storybook/theming";
-import theme from "../src/theme";
+import tailwindConfig from "../tailwind.config";
+
+const theme = tailwindConfig.presets[ 0 ].theme;
 
 export default create( {
 	base: "light",
@@ -7,8 +9,8 @@ export default create( {
 	brandUrl: "https://yoast.com",
 	brandImage: "https://yoast.com/app/uploads/2021/01/yoast_logo_rgb_optm.svg",
 
-	colorPrimary: theme.colors.primary[ 500 ],
-	colorSecondary: theme.colors.primary[ 500 ],
+	colorPrimary: theme.extend.colors.primary[ 500 ],
+	colorSecondary: theme.extend.colors.primary[ 500 ],
 
 	// UI
 	appBg: "#f4f1f4",
@@ -26,7 +28,7 @@ export default create( {
 
 	// Toolbar default and active colors
 	// barTextColor: "silver",
-	barSelectedColor: theme.colors.primary[ 500 ],
+	barSelectedColor: theme.extend.colors.primary[ 500 ],
 	// barBg: "hotpink",
 
 	// Form colors
