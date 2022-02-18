@@ -44,7 +44,8 @@ class Curl_Report_Builder {
 	 */
 	public function get_success_result() {
 		return $this->report_builder
-			->set_label( sprintf( __( 'You changed the default WordPress tagline', 'wordpress-seo' ), 'Yoast' ) )
+			/* translators: %1$s expands to 'Yoast'. */
+			->set_label( sprintf( __( '%1$s premium plugin updates work fine', 'wordpress-seo' ), 'Yoast' ) )
 			->set_status_good()
 			->set_description( __( 'Great! You can activate your premium plugin(s) and receive updates.', 'wordpress-seo' ) )
 			->build();
