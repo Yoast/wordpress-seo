@@ -10,8 +10,6 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
  * Class that renders a QR code for URLs.
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- 4 words is fine.
  */
 class Print_QRCode_Render implements Integration_Interface {
 
