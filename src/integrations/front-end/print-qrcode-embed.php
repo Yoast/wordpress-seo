@@ -5,13 +5,28 @@ namespace Yoast\WP\SEO\Integrations\Front_End;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Conditionals\Print_QRCode_Enabled_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
+use Yoast\WP\SEO\Surfaces\Meta_Surface;
 
 /**
  * Class that embeds a hidden QR code image that's shown when a page is printed.
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- 4 words is fine.
  */
 class Print_QRCode_Embed implements Integration_Interface {
+
+	/**
+	 * The meta surface.
+	 *
+	 * @var Meta_Surface
+	 */
+	private $meta_surface;
+
+	/**
+	 * Print_QRCode_Embed constructor.
+	 *
+	 * @param Meta_Surface $meta_surface The meta surface.
+	 */
+	public function __construct( Meta_Surface $meta_surface ) {
+		$this->meta_surface = $meta_surface;
+	}
 
 	/**
 	 * Register the hooks.
@@ -52,7 +67,7 @@ class Print_QRCode_Embed implements Integration_Interface {
 	 */
 	public function generate_qr_code() {
 		$nonce     = \wp_create_nonce( 'yoast_seo_qr_code' );
-		$url       = \YoastSEO()->meta->for_current_page()->canonical;
+		$url       = $this->meta_surface->for_current_page()->canonical;
 		$alt_text  = __( 'QR Code for current page\'s URL.', 'wordpress-seo' );
 		$text      = __( 'Scan the QR code or go to the URL below to read this article online.', 'wordpress-seo' );
 		$image_url = \trailingslashit( \get_site_url() ) . '?nonce=' . $nonce . '&yoast_qr_code=' . rawurlencode( $url );
