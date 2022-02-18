@@ -108,6 +108,7 @@ const initTerm = async () => {
 		initialState: getInitialTermState(),
 		contentTypes: getContentTypeReplacements(),
 	} );
+	console.log( { SeoProvider } );
 	// Register global Yoast APIs.
 	registerYoastApis( { analysisWorker } );
 	// Start watching for DOM/store changes.

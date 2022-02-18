@@ -29,18 +29,19 @@ export const date = {
 		},
 	),
 };
-
+// pick excerpt from content if an exceprt field was not added
 export const excerpt = {
 	name: "excerpt",
 	getLabel: () => __( "Excerpt", "wordpress-seo" ),
 	getReplacement: () => {
 		const currentExcerpt = select( SEO_STORE_NAME ).selectExcerpt();
 		const currentContent = select( SEO_STORE_NAME ).selectContent();
+		console.log( { currentContent } );
 
 		// Limit the excerpt to 80 characters for Japanese and to 156 characters for other languages.
 		const currentLocale = select( SEO_STORE_NAME ).selectLocale();
 		const limit = currentLocale === "ja" ? 80 : 156;
-
+		console.log( excerptFromContent( currentContent, limit ) );
 		return ( currentExcerpt === "" ) ? excerptFromContent( currentContent, limit ) : currentExcerpt;
 	},
 };

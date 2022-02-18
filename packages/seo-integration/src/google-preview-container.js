@@ -118,6 +118,7 @@ const GooglePreviewContainer = ( { as: Component, ...restProps } ) => {
 				break;
 			case "description":
 				updateMetaDescription( value );
+				console.log( updateMetaDescription( value ) );
 				break;
 			default:
 				console.warn( "Unhandled change event in Google Preview container", key, value );
