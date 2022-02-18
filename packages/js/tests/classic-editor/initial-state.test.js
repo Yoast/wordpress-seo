@@ -22,6 +22,17 @@ jest.mock( "../../src/classic-editor/helpers/dom", () => ( {
 	getTermSlug: jest.fn( () => "www.sweetcat.com/categories/cat" ),
 	getTermIsCornerstone: jest.fn( () => false ),
 	getTermFocusKeyphrase: jest.fn( () => "cat" ),
+	getPostCategories: jest.fn( () => [
+		{
+			id: "1",
+			name: "category 1",
+		},
+		{
+			id: "2",
+			name: "category 2",
+		},
+	], ),
+
 } ) );
 
 describe( "a test for getting the initial state of a post or a term", () => {
@@ -39,6 +50,16 @@ describe( "a test for getting the initial state of a post or a term", () => {
 		expect( actual.form.seo.slug ).toEqual( "www.sweetcat.com/tortoiseshell-cat" );
 		expect( actual.form.seo.isCornerstone ).toEqual( false );
 		expect( actual.form.keyphrases ).toEqual( { focus: { id: "focus", keyphrase: "tortoiseshell cat" } } );
+		expect( actual.editor.taxonomies.categories ).toEqual( [
+			{
+				id: "1",
+				name: "category 1",
+			},
+			{
+				id: "2",
+				name: "category 2",
+			},
+		], )
 	} );
 
 	it( "returns the initial state of a term", () => {
