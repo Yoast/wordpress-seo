@@ -35,7 +35,6 @@ class Print_QRCode_Embed implements Integration_Interface {
 	 */
 	public function register_hooks() {
 		\add_action( 'wp_footer', [ $this, 'generate_qr_code' ] );
-		\add_action( 'wp_head', [ $this, 'enqueue_css' ] );
 	}
 
 	/**
@@ -45,19 +44,6 @@ class Print_QRCode_Embed implements Integration_Interface {
 	 */
 	public static function get_conditionals() {
 		return [ Front_End_Conditional::class, Print_QRCode_Enabled_Conditional::class ];
-	}
-
-	/**
-	 * Make sure we print the CSS nicely.
-	 *
-	 * @return void
-	 */
-	public function enqueue_css() {
-		$css = '.yoast_seo_print_only{display:none;}@media print{.yoast_seo_print_only{display:block;text-align:center;}}}';
-		// phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion -- Inline style so this isn't needed.
-		\wp_register_style( 'yoast_print_qr', false );
-		\wp_enqueue_style( 'yoast_print_qr' );
-		\wp_add_inline_style( 'yoast_print_qr', $css );
 	}
 
 	/**
@@ -72,13 +58,15 @@ class Print_QRCode_Embed implements Integration_Interface {
 		$text      = __( 'Scan the QR code or go to the URL below to read this article online.', 'wordpress-seo' );
 		$image_url = \trailingslashit( \get_site_url() ) . '?nonce=' . $nonce . '&yoast_qr_code=' . rawurlencode( $url );
 		\printf(
-			'<div id="yoast_seo_print_qrcode" class="yoast_seo_print_only"><script>' .
+			'<script id="yoast_seo_print_qrcode">' .
 				'window.onbeforeprint = function() {' .
-					'var img = document.createElement("img");' .
-					'img.src = "%4$s"; img.width= "150"; img.height = "150";' .
-					'img.alt = "%1$s"; ' .
-					'document.getElementById( "yoast_seo_print_qrcode" ).prepend( img );' .
-				'};</script><p>%2$s<br/>%3$s</p></div>' . PHP_EOL,
+					'var div = document.createElement("div");' .
+					'div.innerHTML = "<img src=\"%4$s\" width=\"150\" height=\"150\" alt=\"%1$s\" /><p>%2$s<br/>%3$s</p>";' .
+					'div.style = "text-align:center;";' .
+					'var script = document.getElementById( "yoast_seo_print_qrcode" );' .
+					'script.parentNode.insertBefore( div, script );' .
+				'};' .
+			'</script>' . PHP_EOL,
 			\esc_attr( $alt_text ),
 			\esc_html( $text ),
 			\esc_html( $url ),
