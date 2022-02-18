@@ -47,7 +47,7 @@ class Print_QRCode_Embed implements Integration_Interface {
 	}
 
 	/**
-	 * Adds an `img` tag to the current page for a QR code. Due to the CSS above this is only loaded when the page is printed.
+	 * Adds script that inserts an `img` tag to the current page for a QR code when printing.
 	 *
 	 * @return void
 	 */
