@@ -62,7 +62,7 @@
 | green	| 9	| 0.5 < kd ≤ 3 (0.5 < kd ≤ 3.5 for multiple word forms)		| **Keyphrase density**: The focus keyphrase was found X times. This is great! |
 
 #### More on our minimal keyphrase usage requirements
-A [simple model](https://docs.google.com/spreadsheets/d/1rwOs-4-pJB1PBgB8hDbCPWgwTe0HYiLdQG23O2FdLq8/edit?usp=sharing) shows that as the text length (in words) goes up, the keyphrase density assessment requires a larger number of keyphrase usages. This happens in steps, which are determined by keyphrase length (shorter step for shorter keyphrases) and which do not depend on text length. The step size for the shortest keyphrase (1 word) is 214 words.
+A simple model shows that as the text length (in words) goes up, the keyphrase density assessment requires a larger number of keyphrase usages. This happens in steps, which are determined by keyphrase length (shorter step for shorter keyphrases) and which do not depend on text length. The step size for the shortest keyphrase (1 word) is 214 words.
 
 ### 4) Keyphrase in meta description
 **What it does**: Checks whether all (content) words from the keyphrase are used in the metadescription. A match is counted if all words from the keyphrase appear in a sentence. Multiple matches per sentence are counted multiple times.

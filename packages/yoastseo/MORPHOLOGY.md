@@ -66,7 +66,7 @@ The morphology research:
    * Helper functions, e.g. language-specific stemmer function, passive voice detection function etc.
 2. The plugin [requires morphological data](https://github.com/Yoast/my-yoast/issues/1918) from the private repository `Yoast/YoastSEO.js-premium-configuration` and [supplies these data](https://github.com/Yoast/YoastSEO.js/issues/1809) to the webworker as a `researchData`.
 3. SEO assessor calls SEO assessments and SEO assessments call their specific researches as normal.
-4. Some SEO-specific researches require morphological analysis of keyphrase and synonyms, and some do not. Almost all researches that search for keyword or synonyms (in text, headings, tags, metadescription, etc.) require morphological analysis. You can see [here](https://github.com/Yoast/YoastSEO.js/issues/1558) if your research in question requires morphological analysis.
+4. Some SEO-specific researches require morphological analysis of keyphrase and synonyms, and some do not. Almost all researches that search for keyword or synonyms (in text, headings, tags, metadescription, etc.) require morphological analysis.
 In order for an SEO research to use keyphrase or synonym word-forms, it should call the morphological research within itself. Something like:
 
 ````
