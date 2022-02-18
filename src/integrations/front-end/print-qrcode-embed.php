@@ -59,13 +59,13 @@ class Print_QRCode_Embed implements Integration_Interface {
 		$image_url = \trailingslashit( \get_site_url() ) . '?nonce=' . $nonce . '&yoast_qr_code=' . rawurlencode( $url );
 		\printf(
 			'<script id="yoast_seo_print_qrcode">' .
-				'window.onbeforeprint = function() {' .
+				'window.addEventListener( "beforeprint", function() {' .
 					'var div = document.createElement( "div" );' .
 					'div.innerHTML = "<img src=\"%4$s\" width=\"150\" height=\"150\" alt=\"%1$s\" /><p>%2$s<br/>%3$s</p>";' .
 					'div.style = "text-align:center;";' .
 					'var script = document.getElementById( "yoast_seo_print_qrcode" );' .
 					'script.parentNode.insertBefore( div, script );' .
-				'};' .
+				'} );' .
 			'</script>' . PHP_EOL,
 			\esc_attr( $alt_text ),
 			\esc_html( $text ),
