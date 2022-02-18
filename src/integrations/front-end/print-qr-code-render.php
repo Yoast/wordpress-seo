@@ -1,14 +1,17 @@
 <?php
 
-namespace Yoast\WP\SEO\Integrations;
+namespace Yoast\WP\SEO\Integrations\Front_End;
 
-use chillerlan\QRCode\QRCode;
-use chillerlan\QRCode\QROptions;
+use YoastSEO_Vendor\chillerlan\QRCode\QRCode;
+use YoastSEO_Vendor\chillerlan\QRCode\QROptions;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Conditionals\Print_QR_Code_Enabled_Conditional;
+use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
  * Class that renders a QR code for URLs.
+ *
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- 4 words is fine.
  */
 class Print_QR_Code_Render implements Integration_Interface {
 
@@ -46,12 +49,17 @@ class Print_QR_Code_Render implements Integration_Interface {
 			\wp_die( 'This is not a QR code endpoint for public consumption.' );
 		}
 
-		$options = new QROptions( [
-			'outputType' => QRCode::OUTPUT_MARKUP_SVG,
-		] );
+		$options = new QROptions(
+			[
+				'version'    => 5,
+				'outputType' => QRCode::OUTPUT_MARKUP_SVG,
+				'eccLevel'   => QRCode::ECC_L,
+			]
+		);
 		$qr_code = new QRCode( $options );
 
 		\header( 'Content-type: image/svg+xml', true );
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output is SVG thus cannot be escaped, library has been reviewed.
 		echo $qr_code->render( $url );
 		exit( 200 );
 	}
