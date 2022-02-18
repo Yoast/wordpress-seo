@@ -7,7 +7,7 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 /**
  * Conditional that is only met when the Print QR code integration is enabled.
  */
-class Print_QR_Code_Enabled_Conditional implements Conditional {
+class Print_QRCode_Enabled_Conditional implements Conditional {
 
 	/**
 	 * The options helper.

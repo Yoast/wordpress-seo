@@ -3,7 +3,7 @@
 namespace Yoast\WP\SEO\Integrations\Front_End;
 
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
-use Yoast\WP\SEO\Conditionals\Print_QR_Code_Enabled_Conditional;
+use Yoast\WP\SEO\Conditionals\Print_QRCode_Enabled_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- 4 words is fine.
  */
-class Print_QR_Code_Embed implements Integration_Interface {
+class Print_QRCode_Embed implements Integration_Interface {
 
 	/**
 	 * Register the hooks.
@@ -29,7 +29,7 @@ class Print_QR_Code_Embed implements Integration_Interface {
 	 * @return array
 	 */
 	public static function get_conditionals() {
-		return [ Front_End_Conditional::class, Print_QR_Code_Enabled_Conditional::class ];
+		return [ Front_End_Conditional::class, Print_QRCode_Enabled_Conditional::class ];
 	}
 
 	/**
@@ -38,8 +38,8 @@ class Print_QR_Code_Embed implements Integration_Interface {
 	 * @return void
 	 */
 	public function enqueue_css() {
-		$css = '.yoast_seo_print_only{display:none;}@media print{.yoast_seo_print_only{display:block;text-align:center;}.yoast_seo_print_only:after{white-space:pre-wrap;content:\'\A' . __( 'Scan to read this article online.', 'wordpress-seo' ) . '\';}}';
-		// phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion -- There is no source.
+		$css = '.yoast_seo_print_only{display:none;}@media print{.yoast_seo_print_only{display:block;text-align:center;}}}';
+		// phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion -- Inline style so this isn't needed.
 		\wp_register_style( 'yoast_print_qr', false );
 		\wp_enqueue_style( 'yoast_print_qr' );
 		\wp_add_inline_style( 'yoast_print_qr', $css );
@@ -51,9 +51,17 @@ class Print_QR_Code_Embed implements Integration_Interface {
 	 * @return void
 	 */
 	public function generate_qr_code() {
-		$nonce = \wp_create_nonce( 'yoast_seo_qr_code' );
-		$url   = \rawurlencode( YoastSEO()->meta->for_current_page()->canonical );
-		$src   = \trailingslashit( \get_site_url() ) . '?nonce=' . $nonce . '&yoast_qr_code=' . $url;
-		echo '<div class="yoast_seo_print_only"><img src="' . \esc_url( $src ) . '" width="150" height="150" alt="QR Code for current page\'s URL." /></div>';
+		$nonce     = \wp_create_nonce( 'yoast_seo_qr_code' );
+		$url       = \YoastSEO()->meta->for_current_page()->canonical;
+		$alt_text  = __( 'QR Code for current page\'s URL.', 'wordpress-seo' );
+		$text      = __( 'Scan the QR code or go to the URL below to read this article online.', 'wordpress-seo' );
+		$image_url = \trailingslashit( \get_site_url() ) . '?nonce=' . $nonce . '&yoast_qr_code=' . rawurlencode( $url );
+		\printf(
+			'<div class="yoast_seo_print_only"><img src="%4$s" width="150" height="150" alt="%1$s" /><p>%2$s<br/>%3$s</p></div>' . PHP_EOL,
+			\esc_attr( $alt_text ),
+			\esc_html( $text ),
+			\esc_html( $url ),
+			\esc_url( $image_url )
+		);
 	}
 }
