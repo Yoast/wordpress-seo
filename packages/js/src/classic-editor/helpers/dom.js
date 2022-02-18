@@ -327,15 +327,7 @@ export const getMetaDescriptionLimit = () => getContentLocale() === "ja" ? 80 : 
  *
  * @returns {string} The post excerpt or an empty string.
  */
-export const getPostExcerpt = () => get( document.getElementById( DOM_IDS.POST_EXCERPT ), "value", "" ) ||
-	excerptFromContent( getPostContent(), getMetaDescriptionLimit() );
-
-/**
- * Gets the term excerpt from the document.
- *
- * @returns {string} The term excerpt.
- */
-export const getTermExcerpt = () => excerptFromContent( getTermDescription(), getMetaDescriptionLimit() );
+export const getPostExcerpt = () => get( document.getElementById( DOM_IDS.POST_EXCERPT ), "value", "" );
 
 /**
  * Gets the post featured image source if one is set.
