@@ -72,11 +72,17 @@ class Print_QRCode_Embed implements Integration_Interface {
 		$text      = __( 'Scan the QR code or go to the URL below to read this article online.', 'wordpress-seo' );
 		$image_url = \trailingslashit( \get_site_url() ) . '?nonce=' . $nonce . '&yoast_qr_code=' . rawurlencode( $url );
 		\printf(
-			'<div class="yoast_seo_print_only"><img src="%4$s" width="150" height="150" alt="%1$s" /><p>%2$s<br/>%3$s</p></div>' . PHP_EOL,
+			'<div id="yoast_seo_print_qrcode" class="yoast_seo_print_only"><script>' .
+				'window.onbeforeprint = function() {' .
+					'var img = document.createElement("img");' .
+					'img.src = "%4$s"; img.width= "150"; img.height = "150";' .
+					'img.alt = "%1$s"; ' .
+					'document.getElementById( "yoast_seo_print_qrcode" ).prepend( img );' .
+				'};</script><p>%2$s<br/>%3$s</p></div>' . PHP_EOL,
 			\esc_attr( $alt_text ),
 			\esc_html( $text ),
 			\esc_html( $url ),
-			\esc_url( $image_url )
+			\esc_url_raw( $image_url )
 		);
 	}
 }
