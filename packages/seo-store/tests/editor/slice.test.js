@@ -11,8 +11,8 @@ describe( "Editor slice", () => {
 		excerpt: "",
 		date: "",
 		featuredImage: {},
+		taxonomies: {},
 		locale: "",
-		categories: [],
 	};
 
 	describe( "Reducer", () => {
@@ -99,32 +99,36 @@ describe( "Editor slice", () => {
 			} );
 		} );
 
-		test( "should update the categories", () => {
-			const { updateCategories } = editorActions;
+		test( "should update the terms", () => {
+			const { updateTerms } = editorActions;
 
-			const result = editorReducer( initialState, updateCategories( [
+			const result = editorReducer( initialState, updateTerms( {
+				taxonomyType: "tags",
+				terms: [
 				{
 					id: "1",
-					name: "category 1",
+					name: "tag 1",
 				},
 				{
 					id: "2",
-					name: "category 2",
+					name: "tag 2",
 				},
-			] ) );
+			] } ) );
 
 			expect( result ).toEqual( {
 				...initialState,
-				categories: [
-					{
-						id: "1",
-						name: "category 1",
-					},
-					{
-						id: "2",
-						name: "category 2",
-					},
-				],
+					taxonomies: {
+						tags: [
+							{
+								id: "1",
+								name: "tag 1",
+							},
+							{
+								id: "2",
+								name: "tag 2",
+							},
+						],
+					}
 			} );
 		} );
 	} );

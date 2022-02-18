@@ -24,7 +24,9 @@ export const getInitialPostState = () => ( {
 		excerpt: dom.getPostExcerpt(),
 		content: dom.getPostContent(),
 		featuredImage: dom.getPostFeaturedImage(),
-		categories: dom.getPostCategories(),
+		taxonomies: {
+			categories: dom.getPostCategories(),
+		},
 		locale: getContentLocale(),
 	},
 	form: {

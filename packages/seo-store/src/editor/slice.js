@@ -8,7 +8,7 @@ export const defaultEditorState = {
 	excerpt: "",
 	date: "",
 	featuredImage: {},
-	categories: [],
+	taxonomies: {},
 	locale: "",
 };
 
@@ -34,8 +34,10 @@ const editorSlice = createSlice( {
 		updateFeaturedImage: ( state, action ) => {
 			state.featuredImage = action.payload;
 		},
-		updateCategories: ( state, action ) => {
-			state.categories = action.payload;
+		updateTerms: ( state, action ) => {
+			const taxonomyType = action.payload.taxonomyType;
+			const terms = action.payload.terms;
+			state.taxonomies[ taxonomyType ] = terms;
 		},
 		updateLocale: ( state, action ) => {
 			state.locale = action.payload;
@@ -51,7 +53,7 @@ export const editorSelectors = {
 	selectExcerpt: ( state ) => get( state, "editor.excerpt" ),
 	selectDate: ( state ) => get( state, "editor.date" ),
 	selectFeaturedImage: ( state ) => get( state, "editor.featuredImage" ),
-	selectCategories: ( state ) => get( state, "editor.categories" ),
+	selectTerms: ( state, taxonomyType ) =>  get( state, "editor.taxonomies." + taxonomyType, [] ),
 	selectLocale: ( state ) => get( state, "editor.locale" ),
 };
 
