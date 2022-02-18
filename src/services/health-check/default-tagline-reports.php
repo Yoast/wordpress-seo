@@ -6,7 +6,7 @@ namespace Yoast\WP\SEO\Services\Health_Check;
 /**
  * Presents a set of different messages for the Default_Tagline health check.
  */
-class Default_Tagline_Report_Builder {
+class Default_Tagline_Reports {
 
 	/**
 	 * The builder object that generates WordPress-friendly test results.

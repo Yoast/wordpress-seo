@@ -8,7 +8,7 @@ use WPSEO_Shortlinker;
 /**
  * Presents a set of different messages for the cURL health check.
  */
-class Curl_Report_Builder {
+class Curl_Reports {
 
 	/**
 	 * The builder object that generates WordPress-friendly test results.
