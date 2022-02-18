@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Routes;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Actions\Indexables\Indexable_Head_Action;
-use Yoast\WP\SEO\Conditionals\Headless_Rest_Endpoints_Enabled_Conditional;
+use Yoast\WP\SEO\Conditionals\Options_Conditional;
 use Yoast\WP\SEO\Routes\Indexables_Head_Route;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -63,7 +63,7 @@ class Indexables_Head_Route_Test extends TestCase {
 	public function test_get_conditionals() {
 		$this->assertEquals(
 			[
-				Headless_Rest_Endpoints_Enabled_Conditional::class,
+				[ Options_Conditional::class => 'enable_headless_rest_endpoints' ],
 			],
 			Indexables_Head_Route::get_conditionals()
 		);

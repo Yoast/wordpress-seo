@@ -17,7 +17,7 @@ class Options_Conditional implements Conditional_With_Arguments {
 	private $options;
 
 	/**
-	 * Open_Graph_Conditional constructor.
+	 * Options_Conditional constructor.
 	 *
 	 * @param Options_Helper $options The options helper.
 	 */

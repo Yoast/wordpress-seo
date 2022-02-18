@@ -7,7 +7,7 @@ use WP_REST_Response;
 use Yoast\WP\SEO\Actions\SEMrush\SEMrush_Login_Action;
 use Yoast\WP\SEO\Actions\SEMrush\SEMrush_Options_Action;
 use Yoast\WP\SEO\Actions\SEMrush\SEMrush_Phrases_Action;
-use Yoast\WP\SEO\Conditionals\SEMrush_Enabled_Conditional;
+use Yoast\WP\SEO\Conditionals\Options_Conditional;
 use Yoast\WP\SEO\Main;
 
 /**
@@ -84,7 +84,7 @@ class SEMrush_Route implements Route_Interface {
 	 * @return array
 	 */
 	public static function get_conditionals() {
-		return [ SEMrush_Enabled_Conditional::class ];
+		return [ [ Options_Conditional::class => 'semrush_integration_active' ] ];
 	}
 
 	/**
