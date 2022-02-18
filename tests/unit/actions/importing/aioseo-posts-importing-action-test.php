@@ -484,6 +484,11 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			->with( 'https://example.com/image1.png', null )
 			->andReturn( 'https://example.com/image1.png' );
 
+		$this->social_images_provider->shouldReceive( 'get_featured_image' )
+			->once()
+			->with( 123 )
+			->andReturn( '' );
+
 		$this->social_images_provider->shouldReceive( 'get_auto_image' )
 			->once()
 			->with( 123 )
@@ -721,7 +726,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 	 * @dataProvider provider_social_image_url_import
 	 * @covers ::social_image_url_import
 	 */
-	public function test_social_image_url_import( $aioseo_social_image_settings, $mapping, $expected_url, $sanitize_url_times, $provider_method, $provider_times, $get_default_times, $social_setting ) {
+	public function test_social_image_url_import( $aioseo_social_image_settings, $mapping, $expected_url, $sanitize_url_times, $provider_method, $provider_times, $provider_result, $get_default_times, $social_setting ) {
 		$indexable      = Mockery::mock( Indexable_Mock::class );
 		$indexable->orm = Mockery::mock( ORM::class );
 
@@ -730,7 +735,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 		$this->social_images_provider->shouldReceive( $provider_method )
 			->times( $provider_times )
 			->with( 123 )
-			->andReturn( $expected_url );
+			->andReturn( $provider_result );
 
 		$this->social_images_provider->shouldReceive( 'get_default_custom_social_image' )
 			->times( $get_default_times )
@@ -748,7 +753,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 	}
 
 	/**
-	 * Data provider for test_transform_separator().
+	 * Data provider for test_social_image_url_import().
 	 *
 	 * @return array
 	 */
@@ -830,21 +835,21 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 		];
 
 		return [
-			[ $aioseo_og_custom_image, $open_graph_mapping, $image, 1, 'irrelevant', 0, 0, 'og' ],
-			[ $aioseo_og_attach, $open_graph_mapping, $image, 1, 'get_first_attached_image', 1, 0, 'og' ],
-			[ $aioseo_og_author, $open_graph_mapping, null, 0, 'irrelevant', 0, 0, 'og' ],
-			[ $aioseo_og_auto, $open_graph_mapping, $image, 1, 'get_auto_image', 1, 0, 'og' ],
-			[ $aioseo_og_content, $open_graph_mapping, $image, 1, 'get_first_image_in_content', 1, 0, 'og' ],
-			[ $aioseo_og_custom, $open_graph_mapping, null, 0, 'irrelevant', 0, 0, 'og' ],
-			[ $aioseo_og_featured, $open_graph_mapping, null, 0, 'irrelevant', 0, 0, 'og' ],
-			[ $aioseo_twitter_custom_image, $twitter_mapping, $image, 1, 'irrelevant', 0, 0, 'twitter' ],
-			[ $aioseo_twitter_attach, $twitter_mapping, $image, 1, 'get_first_attached_image', 1, 0, 'twitter' ],
-			[ $aioseo_twitter_author, $twitter_mapping, null, 0, 'irrelevant', 0, 0, 'twitter' ],
-			[ $aioseo_twitter_auto, $twitter_mapping, $image, 1, 'get_auto_image', 1, 0, 'twitter' ],
-			[ $aioseo_twitter_content, $twitter_mapping, $image, 1, 'get_first_image_in_content', 1, 0, 'twitter' ],
-			[ $aioseo_twitter_custom, $twitter_mapping, null, 0, 'irrelevant', 0, 0, 'twitter' ],
-			[ $aioseo_twitter_featured, $twitter_mapping, null, 0, 'irrelevant', 0, 0, 'og' ],
-			[ $aioseo_twitter_from_og, $twitter_mapping, $image, 1, 'irrelevant', 0, 0, 'og' ],
+			[ $aioseo_og_custom_image, $open_graph_mapping, $image, 1, 'irrelevant', 0, $image, 0, 'og' ],
+			[ $aioseo_og_attach, $open_graph_mapping, $image, 1, 'get_first_attached_image', 1, $image, 0, 'og' ],
+			[ $aioseo_og_author, $open_graph_mapping, null, 0, 'irrelevant', 0, 'irrelevant', 0, 'og' ],
+			[ $aioseo_og_auto, $open_graph_mapping, null, 0, 'get_featured_image', 1, 'https://example.com/featured-image.png', 0, 'og' ],
+			[ $aioseo_og_content, $open_graph_mapping, $image, 1, 'get_first_image_in_content', 1, $image, 0, 'og' ],
+			[ $aioseo_og_custom, $open_graph_mapping, null, 0, 'irrelevant', 0, 'irrelevant', 0, 'og' ],
+			[ $aioseo_og_featured, $open_graph_mapping, null, 0, 'irrelevant', 0, 'irrelevant', 0, 'og' ],
+			[ $aioseo_twitter_custom_image, $twitter_mapping, $image, 1, 'irrelevant', 0, $image, 0, 'twitter' ],
+			[ $aioseo_twitter_attach, $twitter_mapping, $image, 1, 'get_first_attached_image', 1, $image, 0, 'twitter' ],
+			[ $aioseo_twitter_author, $twitter_mapping, null, 0, 'irrelevant', 0, 'irrelevant', 0, 'twitter' ],
+			[ $aioseo_twitter_auto, $twitter_mapping, null, 0, 'get_featured_image', 1, 'https://example.com/featured-image.png', 0, 'twitter' ],
+			[ $aioseo_twitter_content, $twitter_mapping, $image, 1, 'get_first_image_in_content', 1, $image, 0, 'twitter' ],
+			[ $aioseo_twitter_custom, $twitter_mapping, null, 0, 'irrelevant', 0, 'irrelevant', 0, 'twitter' ],
+			[ $aioseo_twitter_featured, $twitter_mapping, null, 0, 'irrelevant', 0, 'irrelevant', 0, 'og' ],
+			[ $aioseo_twitter_from_og, $twitter_mapping, $image, 1, 'irrelevant', 0, 'irrelevant', 0, 'og' ],
 		];
 	}
 }
