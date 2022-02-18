@@ -1,12 +1,12 @@
-import { Fragment } from "@wordpress/element";
+import { Fragment, useState, useEffect, useCallback } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import Alert from "./alert";
-import SingleSelect from "./single-select";
 
-// Should be removed
-import { TextInput } from "@yoast/components";
-import { OrganizationSection } from "../components/OrganizationSection";
-import { PersonSection } from "../components/PersonSection";
+import { addLinkToString } from "../../../../helpers/stringHelpers.js";
+import Alert from "../../base/alert";
+import SingleSelect from "../../base/single-select";
+import TextInput from "../../base/text-input";
+import { OrganizationSection } from "./organization-section";
+import { PersonSection } from "./person-section";
 
 /* eslint-disable complexity */
 
@@ -16,10 +16,36 @@ import { PersonSection } from "../components/PersonSection";
  * @returns {WPElement} Example step.
  */
 export default function SiteRepresentationStep( { onOrganizationOrPersonChange, dispatch, state, siteRepresentsPerson, onSiteTaglineChange, siteRepresentationEmpty } ) {
+	const [ companyOrPerson, setCompanyOrPerson ] = useState( "" );
+
+	useEffect( () => {
+		if ( ! state.companyName || ! state.companyLogo ) {
+			setCompanyOrPerson( "placeholder" );
+		}
+		setCompanyOrPerson( state.companyOrPerson );
+	}, [ state.companyOrPerson ] );
+
 	return <Fragment>
 		{  window.wpseoWorkoutsData.configuration.knowledgeGraphMessage &&  <Alert type="warning">
 			{  window.wpseoWorkoutsData.configuration.knowledgeGraphMessage }
 		</Alert> }
+		<p className="yst-text-sm yst-whitespace-pre-line yst-w-[463px] yst-mb-8">
+			{
+				addLinkToString(
+					sprintf(
+						__(
+							"Help us out here! Is your site about an organization or a person? " +
+							"Completing this step will help Google to understand your website, and improve your chance of getting %1$srich results%2$s.",
+							"wordpress-seo"
+						),
+						"<a>",
+						"</a>"
+					),
+					"https://where-does-this-link.go",
+					"yoast-configuration-rich-text-link"
+				)
+			}
+		</p>
 		{
 			window.wpseoWorkoutsData.configuration.shouldForceCompany === 0 && <SingleSelect
 				id="organization-person-select"

@@ -1,9 +1,12 @@
 import { Listbox, Transition } from "@headlessui/react";
-import { CheckIcon, SelectorIcon } from "@heroicons/react/solid";
+import { CheckIcon, ExclamationCircleIcon, SelectorIcon } from "@heroicons/react/solid";
 import { Fragment, useMemo } from "@wordpress/element";
 import classNames from "classnames";
 import { PropTypes } from "prop-types";
+import { getErrorAriaProps, getErrorId } from "../helpers";
+import MultiLineText from "./multi-line-text";
 
+/* eslint max-len: ["error", { "ignoreStrings": true }] */
 /**
  * The Select component.
  *
@@ -16,27 +19,35 @@ import { PropTypes } from "prop-types";
  *
  * @returns {JSX.Element} The Select element.
  */
-export default function Select( { id, value, choices, label, onChange } ) {
+export default function Select( { id, value, choices, label, onChange, error } ) {
 	// Find label to display for value of selected choice.
 	const valueLabel = useMemo( () => {
 		const selectedChoice = choices.find( ( choice ) => value === choice.value );
-		return selectedChoice ? selectedChoice.label : value;
+		return selectedChoice ? selectedChoice.label : "placeholder";
 	}, [ choices, value ] );
 
 	return (
-		<Listbox id={ id }value={ value } onChange={ onChange }>
+		<Listbox value={ value } onChange={ onChange }>
 			{ ( { open } ) => (
 				<>
 					{ label && <Listbox.Label className="yst-block yst-mb-2 yst-text-sm yst-font-medium yst-text-gray-700">{ label }</Listbox.Label> }
-					<div className="yst-mb-8 yst-max-w-sm last:yst-mb-0">
+					<div className="yst-mb-8 yst-max-w-sm yst-min-h-[42px] last:yst-mb-0">
 						<div className="yst-relative">
 							<Listbox.Button
-								className={ "yst-relative yst-w-full yst-leading-6 yst-border-gray-300 yst-py-2 yst-pl-3 yst-pr-10 yst-text-left yst-text-gray-700 yst-bg-white yst-border yst-rounded-md yst-shadow-sm yst-cursor-default focus:yst-outline-none focus:yst-ring-1 focus:yst-ring-indigo-500 focus:yst-border-indigo-500 sm:yst-text-sm" }
+								className={ classNames(
+									"yst-relative yst-w-full yst-leading-6 yst-py-2 yst-pl-3 yst-pr-10 yst-text-left yst-text-gray-700 yst-bg-white yst-border yst-rounded-md yst-shadow-sm yst-cursor-default focus:yst-outline-none focus:yst-ring-1 focus:yst-ring-indigo-500 focus:yst-border-indigo-500 sm:yst-text-sm",
+									error.isVisible ? "yst-border-red-300" : "yst-border-gray-300"
+								) }
+								{ ...getErrorAriaProps( id, error ) }
 							>
-								<span className="yst-block yst-truncate">{ valueLabel }</span>
+								<span className="yst-block yst-truncate">{ valueLabel === "" ? "Select an option" : valueLabel }</span>
 								<span className="yst-absolute yst-inset-y-0 yst-right-0 yst-flex yst-items-center yst-pr-2 yst-pointer-events-none">
 									<SelectorIcon className="yst-w-5 yst-h-5 yst-text-gray-400" aria-hidden="true" />
 								</span>
+								{ error.isVisible &&
+								<div className="yst-flex yst-items-center yst-absolute yst-inset-y-0 yst-right-0 yst-mr-8">
+									<ExclamationCircleIcon className="yst-pointer-events-none yst-h-5 yst-w-5 yst-text-red-500" />
+								</div> }
 							</Listbox.Button>
 
 							<Transition
@@ -89,6 +100,7 @@ export default function Select( { id, value, choices, label, onChange } ) {
 								</Listbox.Options>
 							</Transition>
 						</div>
+						{ error.isVisible && <MultiLineText id={ getErrorId( id ) } className="yst-mt-2 yst-text-sm yst-text-red-600" texts={ error.messages } /> }
 					</div>
 				</>
 			) }
@@ -106,4 +118,15 @@ Select.propTypes = {
 	label: PropTypes.string.isRequired,
 	onChange: PropTypes.func.isRequired,
 	id: PropTypes.string.isRequired,
+	error: PropTypes.shape( {
+		message: PropTypes.string,
+		isVisible: PropTypes.bool,
+	} ),
+};
+
+Select.defaultProps = {
+	error: {
+		message: "",
+		isVisible: false,
+	},
 };

@@ -7,7 +7,7 @@ import { cloneDeep } from "lodash";
 import PropTypes from "prop-types";
 
 import UnsavedChangesModal from "../tailwind-components/UnsavedChangesModal";
-import Alert from "../tailwind-components/alert";
+import Alert from "../tailwind-components/base/alert";
 import { NewButton as Button, RadioButtonGroup, SingleSelect, TextInput } from "@yoast/components";
 import { ReactComponent as WorkoutDoneImage } from "../../../../../images/mirrored_fit_bubble_woman_1_optim.svg";
 import { ReactComponent as WorkoutStartImage } from "../../../images/motivated_bubble_woman_1_optim.svg";
@@ -16,7 +16,7 @@ import { Step as OldStep, Steps, FinishButtonSection } from "./Steps";
 import { OrganizationSection } from "./OrganizationSection";
 import { PersonSection } from "./PersonSection";
 import { NewsletterSignup } from "./NewsletterSignup";
-import { ConfigurationIndexation } from "../tailwind-components/ConfigurationIndexation";
+import { ConfigurationIndexation } from "../tailwind-components/steps/indexation/ConfigurationIndexation";
 import SocialInputSection from "./SocialInputSection";
 import SocialInputPersonSection from "./SocialInputPersonSection";
 import Stepper, { Step } from "../tailwind-components/Stepper";
@@ -24,8 +24,8 @@ import { ContinueButton, EditButton, ConfigurationStepButtons } from "../tailwin
 import { STEPS, WORKOUTS } from "../config";
 import { getInitialActiveStepIndex } from "../stepper-helper";
 import { scrollToStep } from "../helpers";
-import IndexationStep from "../tailwind-components/indexation-step";
-import SiteRepresentationStep from "../tailwind-components/site-representation-step";
+import IndexationStep from "../tailwind-components/steps/indexation/indexation-step";
+import SiteRepresentationStep from "../tailwind-components/steps/site-representation/site-representation-step";
 
 window.wpseoScriptData = window.wpseoScriptData || {};
 window.wpseoScriptData.searchAppearance = {
@@ -563,7 +563,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 	);
 
 	const onSiteTaglineChange = useCallback(
-		( value ) => dispatch( { type: "CHANGE_SITE_TAGLINE", payload: value } ),
+		( event ) => dispatch( { type: "CHANGE_SITE_TAGLINE", payload: event.target.value } ),
 		[ dispatch ]
 	);
 
@@ -719,7 +719,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 							</EditButton>
 						</Step.Header>
 						<Step.Content>
-							<IndexationStep setIndexingState={ setIndexingState } indexingState={ indexingState } />
+							<IndexationStep setIndexingState={ setIndexingState } indexingState={ indexingState } showRunIndexationAlert={ showRunIndexationAlert } />
 							<ContinueButton
 								additionalClasses="yst-mt-12"
 								beforeGo={ beforeContinueIndexationStep }

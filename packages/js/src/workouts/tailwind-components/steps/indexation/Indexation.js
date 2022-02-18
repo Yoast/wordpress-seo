@@ -3,12 +3,13 @@ import { Component, Fragment } from "@wordpress/element";
 import { Transition } from "@headlessui/react";
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
-import { addHistoryState, removeSearchParam } from "../../helpers/urlHelpers";
-import IndexingError from "./IndexingError";
-import Alert from "./alert";
-import RequestError from "../../errors/RequestError";
-import ParseError from "../../errors/ParseError";
 import AnimateHeight from "react-animate-height";
+
+import { addHistoryState, removeSearchParam } from "../../../../helpers/urlHelpers";
+import IndexingError from "./IndexingError";
+import Alert from "../../base/alert";
+import RequestError from "../../../../errors/RequestError";
+import ParseError from "../../../../errors/ParseError";
 
 const STATE = {
 	/**
