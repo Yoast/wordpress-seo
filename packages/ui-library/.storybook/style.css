@@ -1,6 +1,14 @@
 @import "../src/base.css";
-@import "../src/elements/button/button.css";
-@import "../src/elements/title/title.css";
+@import "../src/elements/button/style.css";
+@import "../src/elements/title/style.css";
+@import "../src/elements/badge/style.css";
+@import "../src/elements/label/style.css";
+@import "../src/elements/checkbox/style.css";
+@import "../src/elements/radio/style.css";
+@import "../src/elements/alert/style.css";
+
+@import "../src/components/radio-group/style.css";
+@import "../src/components/checkbox-group/style.css";
 
 @tailwind base;
 @tailwind components;

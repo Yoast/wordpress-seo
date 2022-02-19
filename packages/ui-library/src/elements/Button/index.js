@@ -26,7 +26,7 @@ const classNameMap = {
  * @param {string} [size="default"] Button size. See `classNameMap` for the options.
  * @param {boolean} [isLoading=false] Whether to show a spinner.
  * @param {boolean} [isDisabled=false] Whether the button is disabled.
- * @param {string} [className] HTML class.
+ * @param {string} [className] CSS class.
  * @returns {JSX.Element} Button component.
  */
 const Button = ( {

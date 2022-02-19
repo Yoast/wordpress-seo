@@ -1,0 +1,12 @@
+@layer components {
+    .yst-checkbox {
+        @apply
+            yst-h-4
+            yst-w-4
+            yst-text-primary-500
+            yst-border-gray-300
+            yst-rounded
+            
+            focus:yst-ring-primary-500;
+    }
+}

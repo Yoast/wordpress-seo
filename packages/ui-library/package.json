@@ -29,6 +29,7 @@
     "@storybook/addons": "^6.3.9",
     "@storybook/react": "^6.3.8",
     "@storybook/theming": "^6.3.9",
+    "@tailwindcss/forms": "^0.4.0",
     "@whitespace/storybook-addon-html": "^5.0.0",
     "@yoast/babel-preset": "link:packages/babel-preset",
     "@yoast/postcss-preset": "link:packages/postcss-preset",
@@ -38,7 +39,8 @@
     "eslint-config-yoast": "^5.0.17",
     "eslint-plugin-react": "^7.26.0",
     "glob": "^7.2.0",
-    "postcss": "^8.4.5"
+    "postcss": "^8.4.5",
+    "tailwindcss": "^3.0.23"
   },
   "dependencies": {
     "@heroicons/react": "^1.0.5",

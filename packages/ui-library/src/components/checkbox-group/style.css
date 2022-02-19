@@ -1,0 +1,12 @@
+@layer components {
+    .yst-checkbox-group {
+
+    }
+
+    .yst-checkbox-group__options {
+        @apply
+            yst-flex
+            yst-flex-col
+            yst-gap-3;
+    }
+}

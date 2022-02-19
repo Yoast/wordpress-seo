@@ -1,4 +1,8 @@
 @layer base {
+	body {
+		@apply yst-text-sm;
+	}
+
 	a {
 		@apply yst-text-indigo-600 hover:yst-text-indigo-500 yst-underline;
 	}

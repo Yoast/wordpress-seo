@@ -1,7 +1,7 @@
 import Title from ".";
 
 export default {
-	title: "Elements/Title",
+	title: "1. Elements/Title",
 	component: Title,
 	argTypes: {
 		children: { control: "text" },

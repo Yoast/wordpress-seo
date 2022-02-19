@@ -2,7 +2,7 @@ import React from "react";
 import Link from "../link";
 
 export default {
-	title: "Elements/Link",
+	title: "1. Elements/Link",
 	component: Link,
 	argTypes: {
 		children: { control: "text" },
