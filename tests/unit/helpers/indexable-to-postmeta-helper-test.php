@@ -53,13 +53,26 @@ class Indexable_To_Postmeta_Helper_Test extends TestCase {
 		$indexable      = Mockery::mock( Indexable_Mock::class );
 		$indexable->orm = Mockery::mock( ORM::class );
 
-		$indexable->title                  = 'title1';
-		$indexable->description            = 'description1';
-		$indexable->open_graph_title       = 'open_graph_title1';
-		$indexable->open_graph_description = 'open_graph_description1';
-		$indexable->twitter_title          = 'twitter_title1';
-		$indexable->twitter_description    = 'twitter_description1';
-		$indexable->object_id              = 123;
+		$indexable->title                   = 'title1';
+		$indexable->description             = 'description1';
+		$indexable->open_graph_title        = 'open_graph_title1';
+		$indexable->open_graph_description  = 'open_graph_description1';
+		$indexable->twitter_title           = 'twitter_title1';
+		$indexable->twitter_description     = 'twitter_description1';
+		$indexable->canonical               = 'https://example.com/';
+		$indexable->primary_focus_keyword   = 'key phrase';
+		$indexable->open_graph_image        = 'https://example.com/og-image.png';
+		$indexable->open_graph_image_id     = 111;
+		$indexable->open_graph_image_source = 'set-by-user';
+		$indexable->twitter_image           = 'https://example.com/twitter-image.png';
+		$indexable->twitter_image_id        = 222;
+		$indexable->twitter_image_source    = 'featured-image';
+		$indexable->is_robots_noindex       = true;
+		$indexable->is_robots_nofollow      = true;
+		$indexable->is_robots_noimageindex  = true;
+		$indexable->is_robots_noarchive     = true;
+		$indexable->is_robots_nosnippet     = true;
+		$indexable->object_id               = 123;
 
 		$this->meta->expects( 'set_value' )
 			->with( 'title', 'title1', 123 )
@@ -79,6 +92,35 @@ class Indexable_To_Postmeta_Helper_Test extends TestCase {
 		$this->meta->expects( 'set_value' )
 			->with( 'twitter-description', 'twitter_description1', 123 )
 			->andReturn( true );
+		$this->meta->expects( 'set_value' )
+			->with( 'canonical', 'https://example.com/', 123 )
+			->andReturn( true );
+		$this->meta->expects( 'set_value' )
+			->with( 'focuskw', 'key phrase', 123 )
+			->andReturn( true );
+		$this->meta->expects( 'set_value' )
+			->with( 'opengraph-image', 'https://example.com/og-image.png', 123 )
+			->andReturn( true );
+		$this->meta->expects( 'set_value' )
+			->with( 'opengraph-image-id', '111', 123 )
+			->andReturn( true );
+		$this->meta->expects( 'set_value' )
+			->never()
+			->with( 'twitter-image', 'https://example.com/twitter-image.png', 123 )
+			->andReturn( true );
+		$this->meta->expects( 'set_value' )
+			->never()
+			->with( 'twitter-image-id', '222', 123 )
+			->andReturn( true );
+		$this->meta->expects( 'set_value' )
+			->with( 'meta-robots-noindex', true, 123 )
+			->andReturn( true );
+		$this->meta->expects( 'set_value' )
+			->with( 'meta-robots-nofollow', true, 123 )
+			->andReturn( true );
+		$this->meta->expects( 'set_value' )
+			->with( 'meta-robots-adv', 'noimageindex,noarchive,nosnippet', 123 )
+			->andReturn( true );
 
 
 		$this->instance->map_to_postmeta( $indexable );
@@ -93,10 +135,24 @@ class Indexable_To_Postmeta_Helper_Test extends TestCase {
 		$indexable      = Mockery::mock( Indexable_Mock::class );
 		$indexable->orm = Mockery::mock( ORM::class );
 
-		$indexable->object_id = 123;
+		$indexable->object_id              = 123;
+		$indexable->is_robots_noindex      = null;
+		$indexable->is_robots_nofollow     = null;
+		$indexable->is_robots_noimageindex = null;
+		$indexable->is_robots_noarchive    = null;
+		$indexable->is_robots_nosnippet    = null;
 
 		$this->meta->expects( 'set_value' )
 			->never();
+		$this->meta->expects( 'delete' )
+			->with( 'meta-robots-noindex', 123 )
+			->andReturn( true );
+		$this->meta->expects( 'delete' )
+			->with( 'meta-robots-nofollow', 123 )
+			->andReturn( true );
+		$this->meta->expects( 'delete' )
+			->with( 'meta-robots-adv', 123 )
+			->andReturn( true );
 
 		$this->instance->map_to_postmeta( $indexable );
 	}

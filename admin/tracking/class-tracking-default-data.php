@@ -17,15 +17,16 @@ class WPSEO_Tracking_Default_Data implements WPSEO_Collection {
 	 */
 	public function get() {
 		return [
-			'siteTitle'      => get_option( 'blogname' ),
-			'@timestamp'     => (int) date( 'Uv' ),
-			'wpVersion'      => $this->get_wordpress_version(),
-			'homeURL'        => home_url(),
-			'adminURL'       => admin_url(),
-			'isMultisite'    => is_multisite(),
-			'siteLanguage'   => get_bloginfo( 'language' ),
-			'gmt_offset'     => get_option( 'gmt_offset' ),
-			'timezoneString' => get_option( 'timezone_string' ),
+			'siteTitle'       => get_option( 'blogname' ),
+			'@timestamp'      => (int) date( 'Uv' ),
+			'wpVersion'       => $this->get_wordpress_version(),
+			'homeURL'         => home_url(),
+			'adminURL'        => admin_url(),
+			'isMultisite'     => is_multisite(),
+			'siteLanguage'    => get_bloginfo( 'language' ),
+			'gmt_offset'      => get_option( 'gmt_offset' ),
+			'timezoneString'  => get_option( 'timezone_string' ),
+			'migrationStatus' => get_option( 'yoast_migrations_free' ),
 		];
 	}
 

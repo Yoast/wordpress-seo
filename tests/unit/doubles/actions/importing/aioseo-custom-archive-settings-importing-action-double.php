@@ -2,10 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Doubles\Actions\Importing;
 
-use Yoast\WP\SEO\Actions\Importing\Aioseo_Custom_Archive_Settings_Importing_Action;
-use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Helpers\Post_Type_Helper;
-use Yoast\WP\SEO\Services\Importing\Aioseo_Replacevar_Handler;
+use Yoast\WP\SEO\Actions\Importing\Aioseo\Aioseo_Custom_Archive_Settings_Importing_Action;
 
 /**
  * Class Aioseo_Custom_Archive_Settings_Importing_Action_Double
@@ -13,35 +10,6 @@ use Yoast\WP\SEO\Services\Importing\Aioseo_Replacevar_Handler;
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 abstract class Aioseo_Custom_Archive_Settings_Importing_Action_Double extends Aioseo_Custom_Archive_Settings_Importing_Action {
-
-	/**
-	 * The options helper.
-	 *
-	 * @var Options_Helper
-	 */
-	protected $options;
-
-	/**
-	 * The post type helper.
-	 *
-	 * @var Post_Type_Helper
-	 */
-	protected $post_type;
-
-	/**
-	 * The replacevar handler.
-	 *
-	 * @var Aioseo_Replacevar_Handler
-	 */
-	protected $replacevar_handler;
-
-	public function __construct(
-		Options_Helper $options,
-		Post_Type_Helper $post_type,
-		Aioseo_Replacevar_Handler $replacevar_handler
-	) {
-		return parent::__construct( $options, $post_type, $replacevar_handler );
-	}
 
 	/**
 	 * Gets the aioseo_options_to_yoast_map.
@@ -61,18 +29,6 @@ abstract class Aioseo_Custom_Archive_Settings_Importing_Action_Double extends Ai
 	 */
 	public function query( $limit = null ) {
 		return parent::query( $limit );
-	}
-
-	/**
-	 * Flattens the multidimensional array of AIOSEO settings. Recursive.
-	 *
-	 * @param array  $array    The array to be flattened.
-	 * @param string $main_key The key to be used as a base.
-	 *
-	 * @return array The flattened array.
-	 */
-	public function flatten_settings( $array, $main_key = '' ) {
-		return parent::flatten_settings( $array, $main_key );
 	}
 
 	/**

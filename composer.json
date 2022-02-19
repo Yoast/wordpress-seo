@@ -37,7 +37,8 @@
 		"symfony/dependency-injection": "^3.4",
 		"yoast/php-development-environment": "^1.0",
 		"yoast/wp-test-utils": "^1.0.0",
-		"yoast/yoastcs": "^2.2.0"
+		"yoast/yoastcs": "^2.2.0",
+		"chillerlan/php-qrcode": "^1.0.9"
 	},
 	"minimum-stability": "dev",
 	"prefer-stable": true,
@@ -104,7 +105,8 @@
 		],
 		"prefix-dependencies": [
 			"composer prefix-oauth2-client",
-			"composer prefix-symfony"
+			"composer prefix-symfony",
+			"composer prefix-php-qrcode"
 		],
 		"prefix-oauth2-client": [
 			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/league/oauth2-client --config=config/php-scoper/oauth2-client.inc.php --force --quiet",
@@ -113,6 +115,9 @@
 		],
 		"prefix-symfony": [
 			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/symfony/dependency-injection --config=config/php-scoper/dependency-injection.inc.php --force --quiet"
+		],
+		"prefix-php-qrcode": [
+			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/chillerlan/php-qrcode --config=config/php-scoper/php-qrcode.inc.php --force --quiet"
 		],
 		"compile-di": [
 			"rm -f ./src/generated/container.php",

@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Conditionals\AIOSEO_V4_Importer_Conditional;
 use Yoast\WP\SEO\Conditionals\Import_Tool_Selected_Conditional;
 use Yoast\WP\SEO\Conditionals\Yoast_Tools_Page_Conditional;
 use Yoast\WP\SEO\Integrations\Admin\Import_Integration;
-use Yoast\WP\SEO\Services\Importing\Importable_Detector;
+use Yoast\WP\SEO\Services\Importing\Importable_Detector_Service;
 use Yoast\WP\SEO\Routes\Importing_Route;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -41,7 +41,7 @@ class Import_Integration_Test extends TestCase {
 	/**
 	 * The Importable Detector service.
 	 *
-	 * @var Mockery\MockInterface|Importable_Detector
+	 * @var Mockery\MockInterface|Importable_Detector_Service
 	 */
 	protected $importable_detector;
 
@@ -70,7 +70,7 @@ class Import_Integration_Test extends TestCase {
 
 		$this->asset_manager        = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
 		$this->importer_conditional = Mockery::mock( AIOSEO_V4_Importer_Conditional::class );
-		$this->importable_detector  = Mockery::mock( Importable_Detector::class );
+		$this->importable_detector  = Mockery::mock( Importable_Detector_Service::class );
 		$this->importing_route      = Mockery::mock( Importing_Route::class );
 
 		$this->instance = new Import_Integration(
@@ -96,7 +96,7 @@ class Import_Integration_Test extends TestCase {
 			self::getPropertyValue( $this->instance, 'importer_conditional' )
 		);
 		static::assertInstanceOf(
-			Importable_Detector::class,
+			Importable_Detector_Service::class,
 			self::getPropertyValue( $this->instance, 'importable_detector' )
 		);
 		static::assertInstanceOf(
@@ -137,6 +137,7 @@ class Import_Integration_Test extends TestCase {
 	 *
 	 * @covers ::enqueue_import_script
 	 * @covers ::get_importing_endpoints
+	 * @covers ::get_import_failure_alert
 	 */
 	public function test_enqueue_import_script() {
 		Monkey\Functions\expect( 'wp_enqueue_style' )
@@ -149,13 +150,21 @@ class Import_Integration_Test extends TestCase {
 		Monkey\Functions\expect( 'rest_url' )
 			->andReturn( 'https://example.org/wp-ajax/' );
 
-		$expected_detections = [
+		$expected_import_detections = [
 			'aioseo' => [ 'posts' ],
 		];
 
+		$expected_cleanup_detections = [
+			'aioseo' => [ 'cleanup' ],
+		];
+
 		$this->importable_detector
-			->expects( 'detect' )
-			->andReturn( $expected_detections );
+			->expects( 'detect_importers' )
+			->andReturn( $expected_import_detections );
+
+		$this->importable_detector
+			->expects( 'detect_cleanups' )
+			->andReturn( $expected_cleanup_detections );
 
 		$this->importing_route
 			->expects( 'get_endpoint' )
@@ -163,9 +172,18 @@ class Import_Integration_Test extends TestCase {
 			->with( 'aioseo', 'posts' )
 			->andReturn( 'yoast/v1/import/aioseo/posts' );
 
+		$this->importing_route
+			->expects( 'get_endpoint' )
+			->once()
+			->with( 'aioseo', 'cleanup' )
+			->andReturn( 'yoast/v1/import/aioseo/cleanup' );
+
 		Monkey\Functions\expect( 'wp_create_nonce' )
 			->with( 'wp_rest' )
 			->andReturn( 'nonce_value' );
+
+		Monkey\Functions\expect( 'plugin_dir_url' )
+			->andReturn( 'https://example.org/wp-content/plugins/' );
 
 		Monkey\Functions\expect( 'admin_url' )
 				->with( 'images/loading.gif' )
@@ -174,6 +192,11 @@ class Import_Integration_Test extends TestCase {
 		$injected_data = [
 			'restApi' => [
 				'root'                => 'https://example.org/wp-ajax/',
+				'cleanup_endpoints'   => [
+					'aioseo' => [
+						'yoast/v1/import/aioseo/cleanup',
+					],
+				],
 				'importing_endpoints' => [
 					'aioseo' => [
 						'yoast/v1/import/aioseo/posts',
@@ -182,8 +205,39 @@ class Import_Integration_Test extends TestCase {
 				'nonce'               => 'nonce_value',
 			],
 			'assets'  => [
-				'loading_msg' => 'The import can take a long time depending on your site\'s size',
-				'spinner'     => 'https://example.org/wp-admin/images/loading.gif',
+				'loading_msg_import'       => 'The import can take a long time depending on your site\'s size.',
+				'loading_msg_cleanup'      => 'The cleanup can take a long time depending on your site\'s size.',
+				'note'                     => 'Note: ',
+				'cleanup_after_import_msg' => 'After you\'ve imported data from another SEO plugin, please make sure to clean up all the original data from that plugin. (step 5)',
+				'select_placeholder'       => 'Select SEO plugin',
+				'no_data_msg'              => 'No data found from other SEO plugins.',
+				'import_failure'           => '<div class="yoast-alert yoast-alert--error"><span><img class="yoast-alert__icon" src="https://example.org/wp-content/plugins/images/alert-error-icon.svg" alt="" /></span><span>Import failed with the following error:<br/><br/>%s</span></div>',
+				'cleanup_failure'          => '<div class="yoast-alert yoast-alert--error"><span><img class="yoast-alert__icon" src="https://example.org/wp-content/plugins/images/alert-error-icon.svg" alt="" /></span><span>Cleanup failed with the following error:<br/><br/>%s</span></div>',
+				'spinner'                  => 'https://example.org/wp-admin/images/loading.gif',
+				'replacing_texts'          => [
+					'cleanup_button'       => 'Clean up',
+					'import_explanation'   => 'Please select an SEO plugin below to see what data can be imported.',
+					'cleanup_explanation'  => 'Once you\'re certain that your site is working properly with the imported data from another SEO plugin, you can clean up all the original data from that plugin.',
+					'select_header'        => 'The import from %s includes:',
+					'plugins'              => [
+						'aioseo' => [
+							[
+								'data_name' => 'Post metadata (SEO titles, descriptions, etc.)',
+								'data_note' => 'Note: This metadata will only be imported if there is no existing Yoast SEO metadata yet.',
+							],
+							[
+								'data_name' => 'Default settings',
+								'data_note' => 'Note: These settings will overwrite the default settings of Yoast SEO.',
+							],
+						],
+						'other' => [
+							[
+								'data_name' => 'Post metadata (SEO titles, descriptions, etc.)',
+								'data_note' => 'Note: This metadata will only be imported if there is no existing Yoast SEO metadata yet.',
+							],
+						],
+					],
+				],
 			],
 		];
 

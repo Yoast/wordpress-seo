@@ -5,7 +5,12 @@ namespace Yoast\WP\SEO\Actions\Importing;
 use wpdb;
 use Yoast\WP\SEO\Conditionals\AIOSEO_V4_Importer_Conditional;
 use Yoast\WP\SEO\Config\Conflicting_Plugins;
+use Yoast\WP\SEO\Helpers\Import_Cursor_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Sanitization_Helper;
+use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Replacevar_Service;
+use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Provider_Service;
+use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Transformer_Service;
 use Yoast\WP\SEO\Services\Importing\Conflicting_Plugins_Service;
 
 /**
@@ -13,7 +18,7 @@ use Yoast\WP\SEO\Services\Importing\Conflicting_Plugins_Service;
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-class Deactivate_Conflicting_Plugins_Action extends Abstract_Importing_Action {
+class Deactivate_Conflicting_Plugins_Action extends Abstract_Aioseo_Importing_Action {
 
 	/**
 	 * The plugin the class deals with.
@@ -28,6 +33,13 @@ class Deactivate_Conflicting_Plugins_Action extends Abstract_Importing_Action {
 	 * @var string
 	 */
 	const TYPE = 'deactivation';
+
+	/**
+	 * The replacevar handler.
+	 *
+	 * @var Aioseo_Replacevar_Service
+	 */
+	protected $replacevar_handler;
 
 	/**
 	 * Knows all plugins that might possibly conflict.
@@ -46,11 +58,24 @@ class Deactivate_Conflicting_Plugins_Action extends Abstract_Importing_Action {
 	/**
 	 * Class constructor.
 	 *
-	 * @param Options_Helper              $options                     The options helper.
-	 * @param Conflicting_Plugins_Service $conflicting_plugins_service The Conflicting plugins Service.
+	 * @param Import_Cursor_Helper              $import_cursor               The import cursor helper.
+	 * @param Options_Helper                    $options                     The options helper.
+	 * @param Sanitization_Helper               $sanitization                The sanitization helper.
+	 * @param Aioseo_Replacevar_Service         $replacevar_handler          The replacevar handler.
+	 * @param Aioseo_Robots_Provider_Service    $robots_provider             The robots provider service.
+	 * @param Aioseo_Robots_Transformer_Service $robots_transformer          The robots transfomer service.
+	 * @param Conflicting_Plugins_Service       $conflicting_plugins_service The Conflicting plugins Service.
 	 */
-	public function __construct( Options_Helper $options, Conflicting_Plugins_Service $conflicting_plugins_service ) {
-		parent::__construct( $options );
+	public function __construct(
+		Import_Cursor_Helper $import_cursor,
+		Options_Helper $options,
+		Sanitization_Helper $sanitization,
+		Aioseo_Replacevar_Service $replacevar_handler,
+		Aioseo_Robots_Provider_Service $robots_provider,
+		Aioseo_Robots_Transformer_Service $robots_transformer,
+		Conflicting_Plugins_Service $conflicting_plugins_service
+	) {
+		parent::__construct( $import_cursor, $options, $sanitization, $replacevar_handler, $robots_provider, $robots_transformer );
 
 		$this->conflicting_plugins = $conflicting_plugins_service;
 		$this->detected_plugins    = [];

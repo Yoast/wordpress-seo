@@ -2,9 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Doubles\Actions\Importing;
 
-use Yoast\WP\SEO\Actions\Importing\Aioseo_Taxonomy_Settings_Importing_Action;
-use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Services\Importing\Aioseo_Replacevar_Handler;
+use Yoast\WP\SEO\Actions\Importing\Aioseo\Aioseo_Taxonomy_Settings_Importing_Action;
 
 /**
  * Class Aioseo_Taxonomy_Settings_Importing_Action_Double
@@ -12,27 +10,6 @@ use Yoast\WP\SEO\Services\Importing\Aioseo_Replacevar_Handler;
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 abstract class Aioseo_Taxonomy_Settings_Importing_Action_Double extends Aioseo_Taxonomy_Settings_Importing_Action {
-
-	/**
-	 * The options helper.
-	 *
-	 * @var Options_Helper
-	 */
-	protected $options;
-
-	/**
-	 * The replacevar handler.
-	 *
-	 * @var Aioseo_Replacevar_Handler
-	 */
-	protected $replacevar_handler;
-
-	public function __construct(
-		Options_Helper $options,
-		Aioseo_Replacevar_Handler $replacevar_handler
-	) {
-		return parent::__construct( $options, $replacevar_handler );
-	}
 
 	/**
 	 * Gets the aioseo_options_to_yoast_map.
@@ -52,18 +29,6 @@ abstract class Aioseo_Taxonomy_Settings_Importing_Action_Double extends Aioseo_T
 	 */
 	public function query( $limit = null ) {
 		return parent::query( $limit );
-	}
-
-	/**
-	 * Flattens the multidimensional array of AIOSEO settings. Recursive.
-	 *
-	 * @param array  $array    The array to be flattened.
-	 * @param string $main_key The key to be used as a base.
-	 *
-	 * @return array The flattened array.
-	 */
-	public function flatten_settings( $array, $main_key = '' ) {
-		return parent::flatten_settings( $array, $main_key );
 	}
 
 	/**
