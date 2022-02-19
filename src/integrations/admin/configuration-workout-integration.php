@@ -343,11 +343,6 @@ class Configuration_Workout_Integration implements Integration_Interface {
 	private function get_company_or_person_options() {
 		$options = [
 			[
-				'label'  => __( 'Select an option', 'wordpress-seo' ),
-				'value' => '',
-				'id' => 'empty_company_or_person',
-			],
-			[
 				'label'  => __( 'Organization', 'wordpress-seo' ),
 				'value' => 'company',
 				'id' => 'company',

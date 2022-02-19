@@ -93,9 +93,9 @@ function configurationWorkoutReducer( state, action ) {
 		case "SET_COMPANY_OR_PERSON":
 			newState = handleStepEdit( newState, 2 );
 			newState.companyOrPerson = action.payload;
-			newState.companyOrPersonLabel = window.wpseoWorkoutsData.configuration.companyOrPersonOptions.filter( ( item ) => {
+			newState.companyOrPersonLabel = newState.companyOrPersonOptions.filter( ( item ) => {
 				return item.value === action.payload;
-			} ).pop().name;
+			} ).pop().label;
 			return newState;
 		case "CHANGE_COMPANY_NAME":
 			newState = handleStepEdit( newState, 2 );
@@ -165,9 +165,10 @@ function configurationWorkoutReducer( state, action ) {
  * @returns {Promise|bool} A promise, or false if the call fails.
  */
 async function updateSiteRepresentation( state ) {
+	// Revert emptyChoice to the actual default: "company";
 	const siteRepresentation = {
 		/* eslint-disable camelcase */
-		company_or_person: state.companyOrPerson,
+		company_or_person: state.companyOrPerson === "emptyChoice" ? "company" : state.companyOrPerson,
 		company_name: state.companyName,
 		company_logo: state.companyLogo,
 		company_logo_id: state.companyLogoId ? state.companyLogoId : 0,
@@ -256,7 +257,7 @@ const stepNumberNameMap = {
  */
 function SocialProfilesStep( { state, dispatch, setErrorFields, siteRepresentsPerson } ) {
 	return <Fragment>
-		{ state.companyOrPerson === "company" && <SocialInputSection
+		{ [ "company", "emptyChoice" ].includes( state.companyOrPerson ) && <SocialInputSection
 			socialProfiles={ state.socialProfiles }
 			dispatch={ dispatch }
 			errorFields={ state.errorFields }
@@ -335,6 +336,38 @@ const FinishStep = () => <Fragment>
 	<button className="yst-button--primary">{ __( "Check out your Indexables page", "wordpress-seo" ) }</button>
 </Fragment>;
 
+/**
+ * Calculates the initial state from the window object.
+ *
+ * @param {Object} windowObject The object to base the initial state on.
+ *
+ * @returns {Object} The initial state.
+ */
+function calculateInitialState( windowObject, isStepFinished ) {
+	// Overrule default state to empty and add empty choice.
+	let { companyOrPerson, companyName,	companyLogo, companyOrPersonOptions } = windowObject; // eslint-disable-line prefer-const
+	if ( companyOrPerson === "company" && ( ! companyName && ! companyLogo ) && ! isStepFinished( "configuration", STEPS.configuration.siteRepresentation ) ) {
+		companyOrPerson = "emptyChoice";
+		companyOrPersonOptions = [
+			{
+				id: "emptyChoice",
+				value: "emptyChoice",
+				label: __( "Select an option", "wordpress-seo" ),
+			},
+			...companyOrPersonOptions,
+		];
+	}
+
+	return {
+		...windowObject,
+		companyOrPerson,
+		companyOrPersonOptions,
+		errorFields: [],
+		editedSteps: [],
+		savedSteps: [],
+	};
+}
+
 /* eslint-enable max-len, react/prop-types */
 
 /* eslint-disable max-statements */
@@ -350,10 +383,7 @@ const FinishStep = () => <Fragment>
  */
 export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, clearActiveWorkout, isStepFinished } ) {
 	const [ state, dispatch ] = useReducer( configurationWorkoutReducer, {
-		...window.wpseoWorkoutsData.configuration,
-		errorFields: [],
-		editedSteps: [],
-		savedSteps: [],
+		...calculateInitialState( window.wpseoWorkoutsData.configuration, isStepFinished ),
 	} );
 	const [ indexingState, setIndexingState ] = useState( () => window.yoastIndexingData.amount === "0" ? "completed" : "idle" );
 	const [ siteRepresentationEmpty, setSiteRepresentationEmpty ] = useState( false );
@@ -743,8 +773,20 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 							</EditButton>
 						</Step.Header>
 						<Step.Content>
-							<SiteRepresentationStep onOrganizationOrPersonChange={ onOrganizationOrPersonChange } dispatch={ dispatch } state={ state } siteRepresentsPerson={ siteRepresentsPerson } onSiteTaglineChange={ onSiteTaglineChange } siteRepresentationEmpty={ siteRepresentationEmpty } />
-							<ConfigurationStepButtons stepperFinishedOnce={ stepperFinishedOnce } saveFunction={ updateOnFinishSiteRepresentation } setEditState={ setIsStepBeingEdited } />
+							<SiteRepresentationStep
+								onOrganizationOrPersonChange={ onOrganizationOrPersonChange }
+								dispatch={ dispatch }
+								state={ state }
+								siteRepresentsPerson={ siteRepresentsPerson }
+								onSiteTaglineChange={ onSiteTaglineChange }
+								siteRepresentationEmpty={ siteRepresentationEmpty }
+								selectIsEmpty={ ! isStep2Finished && siteRepresentationEmpty }
+							/>
+							<ConfigurationStepButtons
+								stepperFinishedOnce={ stepperFinishedOnce }
+								saveFunction={ updateOnFinishSiteRepresentation }
+								setEditState={ setIsStepBeingEdited }
+							/>
 						</Step.Content>
 					</Step>
 					<Step>

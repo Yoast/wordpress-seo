@@ -40,7 +40,7 @@ export default function Select( { id, value, choices, label, onChange, error } )
 								) }
 								{ ...getErrorAriaProps( id, error ) }
 							>
-								<span className="yst-block yst-truncate">{ valueLabel === "" ? "Select an option" : valueLabel }</span>
+								<span className="yst-block yst-truncate">{ valueLabel }</span>
 								<span className="yst-absolute yst-inset-y-0 yst-right-0 yst-flex yst-items-center yst-pr-2 yst-pointer-events-none">
 									<SelectorIcon className="yst-w-5 yst-h-5 yst-text-gray-400" aria-hidden="true" />
 								</span>

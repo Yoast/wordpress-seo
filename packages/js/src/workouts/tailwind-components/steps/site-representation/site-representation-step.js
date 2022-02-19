@@ -3,7 +3,7 @@ import { __, sprintf } from "@wordpress/i18n";
 
 import { addLinkToString } from "../../../../helpers/stringHelpers.js";
 import Alert from "../../base/alert";
-import SingleSelect from "../../base/single-select";
+import SingleSelect, { SelectWithEmpty } from "../../base/single-select";
 import TextInput from "../../base/text-input";
 import { OrganizationSection } from "./organization-section";
 import { PersonSection } from "./person-section";
@@ -16,15 +16,6 @@ import { PersonSection } from "./person-section";
  * @returns {WPElement} Example step.
  */
 export default function SiteRepresentationStep( { onOrganizationOrPersonChange, dispatch, state, siteRepresentsPerson, onSiteTaglineChange, siteRepresentationEmpty } ) {
-	const [ companyOrPerson, setCompanyOrPerson ] = useState( "" );
-
-	useEffect( () => {
-		if ( ! state.companyName || ! state.companyLogo ) {
-			setCompanyOrPerson( "placeholder" );
-		}
-		setCompanyOrPerson( state.companyOrPerson );
-	}, [ state.companyOrPerson ] );
-
 	return <Fragment>
 		{  window.wpseoWorkoutsData.configuration.knowledgeGraphMessage &&  <Alert type="warning">
 			{  window.wpseoWorkoutsData.configuration.knowledgeGraphMessage }
@@ -54,7 +45,7 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 				label={ __( "Does your site represent an Organization or Person?", "wordpress-seo" ) }
 				value={ state.companyOrPerson }
 				onChange={ onOrganizationOrPersonChange }
-				choices={  window.wpseoWorkoutsData.configuration.companyOrPersonOptions }
+				choices={ state.companyOrPersonOptions }
 			/>
 		}
 		{
