@@ -574,6 +574,10 @@ class Aioseo_Posts_Importing_Action extends Abstract_Aioseo_Importing_Action {
 				$image_url = $this->social_images_provider->get_first_attached_image( $indexable->object_id );
 				break;
 			case 'auto':
+				if ( $this->social_images_provider->get_featured_image( $indexable->object_id ) ) {
+					// If there's a featured image, lets not import it, as our indexable calculation has already set that as active social image. That way we achieve dynamicality.
+					return null;
+				}
 				$image_url = $this->social_images_provider->get_auto_image( $indexable->object_id );
 				break;
 			case 'content':
@@ -583,7 +587,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Aioseo_Importing_Action {
 				$image_url = $aioseo_social_image_settings[ $mapping['social_setting_prefix_aioseo'] . 'image_custom_url' ];
 				break;
 			case 'featured':
-				return null; // Our auto-calculation when the indexable is built/updated will take care of it, so it's not needed to transfer any data now.
+				return null; // Our auto-calculation when the indexable was built/updated has taken care of it, so it's not needed to transfer any data now.
 			case 'author':
 				return null;
 			case 'custom':
