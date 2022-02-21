@@ -26,6 +26,7 @@ export const getInitialPostState = () => ( {
 		featuredImage: dom.getPostFeaturedImage(),
 		taxonomies: {
 			categories: dom.getPostCategories(),
+			tags: dom.getPostTags(),
 		},
 		locale: getContentLocale(),
 	},

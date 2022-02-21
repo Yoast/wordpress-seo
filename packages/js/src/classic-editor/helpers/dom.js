@@ -231,6 +231,16 @@ export const getPostCategories = () => {
 	return [];
 };
 
+export const getPostTags = () => {
+	const tagsList = [ ...document.querySelectorAll( ".tagchecklist" ) ];
+	if ( tagsList.length !== 0 ) {
+		const tags = [ ...tagsList[ 0 ].childNodes ];
+		const tagNames = tags.map( tag => tag.innerText );
+	}
+
+	return "";
+};
+
 /**
  * Gets the post SEO title from the document.
  *
