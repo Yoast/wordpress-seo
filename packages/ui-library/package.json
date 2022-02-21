@@ -10,7 +10,7 @@
   "scripts": {
     "clean:build": "rm -rf build",
     "build:js": "babel src --out-dir build --ignore \"src/**/*.stories.js\",\"src/**/stories.js\"",
-    "build:css": "node ./scripts/css.copy.js",
+    "build:css": "node ./scripts/css.js",
     "build": "yarn clean:build && yarn build:js && yarn build:css",
     "build:storybook": "build-storybook",
     "lint": "eslint src --max-warnings=0",
@@ -38,7 +38,6 @@
     "eslint": "^7.32.0",
     "eslint-config-yoast": "^5.0.17",
     "eslint-plugin-react": "^7.26.0",
-    "glob": "^7.2.0",
     "postcss": "^8.4.5",
     "tailwindcss": "^3.0.23"
   },
