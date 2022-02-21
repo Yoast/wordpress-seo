@@ -1,4 +1,4 @@
-import { useState, useCallback } from "@wordpress/element";
+import { useCallback, useState } from "@wordpress/element";
 import { noop } from "lodash";
 
 import ToggleField from ".";
@@ -32,13 +32,9 @@ export const Factory = Template.bind( {} );
 Factory.parameters = {
 	controls: { disable: false },
 };
-Factory.args = {
-	id: "toggle-field",
-};
 
 export const WithLabelAndDescription = Template.bind( {} );
 WithLabelAndDescription.args = {
-	id: "checkbox-group-1",
 	name: "name-1",
 	label: "Toggle field with a label",
 	children: "Toggle field with a description.",
@@ -46,7 +42,6 @@ WithLabelAndDescription.args = {
 
 export const Checked = ( args ) => (
 	<ToggleField
-		id="checkbox-group-2"
 		name="name-2"
 		checked={ true }
 		label="Toggle field with a label"

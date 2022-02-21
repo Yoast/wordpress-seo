@@ -1,13 +1,12 @@
 /* eslint-disable no-undefined */
+import { Switch } from "@headlessui/react";
 import classNames from "classnames";
 import PropTypes from "prop-types";
-
-import Toggle from "../../elements/toggle";
 import Label from "../../elements/label";
+import Toggle from "../../elements/toggle";
 
 /**
  * @param {JSX.node} children Children are rendered below the checkbox group.
- * @param {string} id Identifier.
  * @param {JSX.node} label Label.
  * @param {boolean} [checked] Default state.
  * @param {Function} onChange Change callback.
@@ -17,32 +16,29 @@ import Label from "../../elements/label";
  */
 const ToggleField = ( {
 	children,
-	id,
 	label,
 	checked,
 	onChange,
 	className,
 	...props
 } ) => (
-	<div className={ classNames( "yst-toggle-field", className ) }>
+	<Switch.Group as="div" className={ classNames( "yst-toggle-field", className ) }>
 		{ ( label || children ) && (
 			<div className="yst-toggle-field__text">
-				{ label && <Label className="yst-toggle-field__label">{ label }</Label> }
-				{ children && <div className="yst-toggle-field__description">{ children }</div> }
+				{ label && <Label as={ Switch.Label } className="yst-toggle-field__label">{ label }</Label> }
+				{ children && <Switch.Description className="yst-toggle-field__description">{ children }</Switch.Description> }
 			</div>
 		) }
 		<Toggle
-			id={ id }
 			checked={ checked }
 			onChange={ onChange }
 			{ ...props }
 		/>
-	</div>
+	</Switch.Group>
 );
 
 ToggleField.propTypes = {
 	children: PropTypes.node,
-	id: PropTypes.string.isRequired,
 	label: PropTypes.node,
 	checked: PropTypes.bool.isRequired,
 	onChange: PropTypes.func.isRequired,

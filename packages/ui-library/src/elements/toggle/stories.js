@@ -1,5 +1,4 @@
 import { noop } from "lodash";
-
 import Toggle from ".";
 
 export default {
@@ -24,6 +23,5 @@ Factory.parameters = {
 	controls: { disable: false },
 };
 Factory.args = {
-	id: "toggle",
 	onChange: noop,
 };
