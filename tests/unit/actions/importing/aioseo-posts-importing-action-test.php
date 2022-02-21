@@ -720,6 +720,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 	 * @param int    $sanitize_url_times          The times we're sanitizing the retrieved url.
 	 * @param string $provider_method             The method we're using from the social images provider.
 	 * @param int    $provider_times              The times we're using the social images provider.
+	 * @param mixed  $provider_result             The result the social images provider returns.
 	 * @param int    $get_default_times           The times we're getting the default url.
 	 * @param string $social_setting              The social settings we use to get the default url.
 	 *
