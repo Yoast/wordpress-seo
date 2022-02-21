@@ -3,6 +3,9 @@ import Radio from ".";
 export default {
 	title: "1. Elements/Radio",
 	component: Radio,
+	argTypes: {
+		children: { control: "text" },
+	},
 	parameters: {
 		docs: {
 			description: {

@@ -9,7 +9,7 @@ import { CheckIcon, XIcon } from "@heroicons/react/solid";
  * @param {string} id Identifier.
  * @param {boolean} [checked] Default state.
  * @param {Function} onChange Change callback.
- * @param {boolean} [isDisabled] Disabled flag.
+ * @param {boolean} [disabled] Disabled flag.
  * @param {string} [className] CSS class.
  * @returns {JSX.Element} Toggle component.
  */
@@ -18,7 +18,7 @@ const Toggle = ( {
 	id,
 	checked,
 	onChange,
-	isDisabled,
+	disabled,
 	className,
 	...props
 } ) => (
@@ -26,12 +26,12 @@ const Toggle = ( {
 		as={ Component }
 		id={ id }
 		checked={ checked }
-		aria-disabled={ isDisabled }
-		onChange={ isDisabled ? noop : onChange }
+		aria-disabled={ disabled }
+		onChange={ disabled ? noop : onChange }
 		className={ classNames(
 			"yst-toggle",
 			checked && "yst-toggle--checked",
-			isDisabled && "yst-toggle--disabled",
+			disabled && "yst-toggle--disabled",
 			className,
 		) }
 		{ ...props }
@@ -71,14 +71,14 @@ Toggle.propTypes = {
 	id: PropTypes.string.isRequired,
 	checked: PropTypes.bool,
 	onChange: PropTypes.func.isRequired,
-	isDisabled: PropTypes.bool,
+	disabled: PropTypes.bool,
 	className: PropTypes.string,
 };
 
 Toggle.defaultProps = {
 	as: "button",
 	checked: false,
-	isDisabled: false,
+	disabled: false,
 	className: "",
 };
 

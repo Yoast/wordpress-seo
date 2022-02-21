@@ -3,6 +3,9 @@ import Checkbox from ".";
 export default {
 	title: "1. Elements/Checkbox",
 	component: Checkbox,
+	argTypes: {
+		children: { control: "text" },
+	},
 	parameters: {
 		docs: {
 			description: {

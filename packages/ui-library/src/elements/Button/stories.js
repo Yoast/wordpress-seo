@@ -51,6 +51,6 @@ Sizes.parameters = {
 export const States = ( args ) => (
 	<div className="yst-flex yst-items-end yst-gap-2">
 		<Button isLoading={ true }>Loading</Button>
-		<Button isDisabled={ true }>Disabled</Button>
+		<Button disabled={ true }>Disabled</Button>
 	</div>
 );

@@ -1,9 +1,7 @@
-/* eslint-disable no-undefined */
-import classNames from "classnames";
-import PropTypes from "prop-types";
 import { useCallback } from "@wordpress/element";
+import classNames from "classnames";
 import { includes, without } from "lodash";
-
+import PropTypes from "prop-types";
 import Checkbox from "../../elements/checkbox";
 import Label from "../../elements/label";
 

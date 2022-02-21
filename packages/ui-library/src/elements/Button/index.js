@@ -25,7 +25,7 @@ const classNameMap = {
  * @param {string} [variant="primary"] Button variant. See `classNameMap` for the options.
  * @param {string} [size="default"] Button size. See `classNameMap` for the options.
  * @param {boolean} [isLoading=false] Whether to show a spinner.
- * @param {boolean} [isDisabled=false] Whether the button is disabled.
+ * @param {boolean} [disabled=false] Whether the button is disabled.
  * @param {string} [className] CSS class.
  * @returns {JSX.Element} Button component.
  */
@@ -36,19 +36,19 @@ const Button = ( {
 	variant,
 	size,
 	isLoading,
-	isDisabled,
+	disabled,
 	className,
 	...props
 } ) => (
 	<Component
 		type={ type || ( Component === "button" && "button" ) }
-		disabled={ isDisabled }
+		disabled={ disabled }
 		className={ classNames(
 			"yst-button",
 			classNameMap.variant[ variant ],
 			classNameMap.size[ size ],
 			isLoading && "yst-cursor-wait",
-			isDisabled && "yst-button--disabled",
+			disabled && "yst-button--disabled",
 			className,
 		) }
 		{ ...props }
@@ -65,7 +65,7 @@ Button.propTypes = {
 	variant: PropTypes.oneOf( Object.keys( classNameMap.variant ) ),
 	size: PropTypes.oneOf( Object.keys( classNameMap.size ) ),
 	isLoading: PropTypes.bool,
-	isDisabled: PropTypes.bool,
+	disabled: PropTypes.bool,
 	className: PropTypes.string,
 };
 
@@ -75,7 +75,7 @@ Button.defaultProps = {
 	variant: "primary",
 	size: "default",
 	isLoading: false,
-	isDisabled: false,
+	disabled: false,
 	className: "",
 };
 

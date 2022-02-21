@@ -5,6 +5,9 @@ import Toggle from ".";
 export default {
 	title: "1. Elements/Toggle",
 	component: Toggle,
+	argTypes: {
+		as: { options: [ "button", "div", "span" ] },
+	},
 	parameters: {
 		docs: {
 			description: {
