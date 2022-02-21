@@ -1,6 +1,6 @@
+/* eslint-disable global-require */
 module.exports = {
 	prefix: "yst-",
-	darkMode: false,
 	theme: {
 		fontSize: {
 			xxs: "0.6rem",
@@ -40,5 +40,7 @@ module.exports = {
 			textColor: [ "active", "group-focus", "disabled" ],
 		},
 	},
-	plugins: [],
+	plugins: [
+		require( "@tailwindcss/forms" ),
+	],
 };

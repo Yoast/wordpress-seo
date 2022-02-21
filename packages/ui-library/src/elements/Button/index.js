@@ -20,13 +20,13 @@ const classNameMap = {
 
 /**
  * @param {JSX.node} children Content of the button.
- * @param {string|function} [as="button"] Base component.
+ * @param {string|JSX.Element} [as="button"] Base component.
  * @param {string} [type] Type attribute. Used when `as` is a `button`.
  * @param {string} [variant="primary"] Button variant. See `classNameMap` for the options.
  * @param {string} [size="default"] Button size. See `classNameMap` for the options.
  * @param {boolean} [isLoading=false] Whether to show a spinner.
- * @param {boolean} [isDisabled=false] Whether the button is disabled.
- * @param {string} [className] HTML class.
+ * @param {boolean} [disabled=false] Whether the button is disabled.
+ * @param {string} [className] CSS class.
  * @returns {JSX.Element} Button component.
  */
 const Button = ( {
@@ -36,18 +36,19 @@ const Button = ( {
 	variant,
 	size,
 	isLoading,
-	isDisabled,
+	disabled,
 	className,
 	...props
 } ) => (
 	<Component
 		type={ type || ( Component === "button" && "button" ) }
-		disabled={ isDisabled }
+		disabled={ disabled }
 		className={ classNames(
 			"yst-button",
 			classNameMap.variant[ variant ],
 			classNameMap.size[ size ],
 			isLoading && "yst-cursor-wait",
+			disabled && "yst-button--disabled",
 			className,
 		) }
 		{ ...props }
@@ -64,7 +65,7 @@ Button.propTypes = {
 	variant: PropTypes.oneOf( Object.keys( classNameMap.variant ) ),
 	size: PropTypes.oneOf( Object.keys( classNameMap.size ) ),
 	isLoading: PropTypes.bool,
-	isDisabled: PropTypes.bool,
+	disabled: PropTypes.bool,
 	className: PropTypes.string,
 };
 
@@ -74,7 +75,7 @@ Button.defaultProps = {
 	variant: "primary",
 	size: "default",
 	isLoading: false,
-	isDisabled: false,
+	disabled: false,
 	className: "",
 };
 

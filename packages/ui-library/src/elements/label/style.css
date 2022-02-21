@@ -1,0 +1,8 @@
+@layer components {
+    .yst-label {
+        @apply
+            yst-block
+            yst-font-medium
+            yst-text-gray-800;
+    }
+}

@@ -1,6 +1,17 @@
 import "./style.css";
 
 export const parameters = {
+	viewMode: "docs",
+	options: {
+		storySort: {
+			order: [
+				"Introduction",
+				"1. Elements",
+				"2. Components",
+				"3. Patterns",
+			],
+		},
+	  },
 	actions: {
 		disable: true,
 		argTypesRegex: "^on[A-Z].*",

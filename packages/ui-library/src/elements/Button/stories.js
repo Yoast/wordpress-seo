@@ -1,7 +1,7 @@
 import Button from ".";
 
 export default {
-	title: "Elements/Button",
+	title: "1. Elements/Button",
 	component: Button,
 	argTypes: {
 		children: { control: "text" },
@@ -26,16 +26,16 @@ Factory.args = {
 	children: "Button Factory",
 };
 
-export const Variants = args => (
+export const Variants = ( args ) => (
 	<div className="yst-flex yst-items-end yst-gap-2">
-		<Button variant="primary">Primary</Button>
+		<Button variant="primary">Primary (default)</Button>
 		<Button variant="secondary">Secondary</Button>
 		<Button variant="error">Error</Button>
 		<Button variant="upsell">Upsell</Button>
 	</div>
 );
 
-export const Sizes = args => (
+export const Sizes = ( args ) => (
 	<div className="yst-flex yst-items-end yst-gap-2">
 		<Button size="large">Large</Button>
 		<Button size="default">Default</Button>
@@ -48,9 +48,9 @@ Sizes.parameters = {
 	docs: { description: { story: "There are three available sizes, please refrain from using custom sizes." } },
 };
 
-export const States = args => (
+export const States = ( args ) => (
 	<div className="yst-flex yst-items-end yst-gap-2">
 		<Button isLoading={ true }>Loading</Button>
-		<Button isDisabled={ true }>Disabled</Button>
+		<Button disabled={ true }>Disabled</Button>
 	</div>
 );

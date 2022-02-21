@@ -1,29 +1,30 @@
 #!/usr/local/bin/node
+/* eslint-disable require-jsdoc */
 const glob = require( "glob" );
 const fs = require( "fs" );
 const path = require( "path" );
+
+// Ensure dest directory.
+try {
+	fs.mkdirSync( path.join( __dirname, "../build/css" ), { recursive: true } );
+} catch ( e ) {
+	console.error( e.toString() );
+}
 
 const copyStyles = ( scope, src, dest ) => {
 	const result = { success: 0, error: 0 };
 	const filenames = [];
 
-	try {
-		fs.mkdirSync( path.join( __dirname, dest ), { recursive: true } );
-	} catch ( e ) {
-		console.error( e.toString() );
-
-		return result;
-	}
-
 	glob.sync( src ).map(
 		file => {
 			try {
-				const filename = file.split( path.sep ).slice( -1 );
+				// Last folder name is the filename
+				const filename = file.split( path.sep ).slice( -2, -1 )[ 0 ];
 				fs.copyFileSync(
 					file,
-					path.join( __dirname, dest + filename ),
+					path.join( __dirname, `${ dest + filename }.css` ),
 				);
-				filenames.push( `@import "./${ filename }";` );
+				filenames.push( `@import "./${ filename }.css";` );
 				++result.success;
 			} catch ( e ) {
 				++result.error;
@@ -44,7 +45,7 @@ const folders = [ "elements", "components" ];
 // Index file content for our base, all our folder imports and the tailwind imports.
 let indexFileContent = "@import \"./base.css\";\n";
 
-copyStyles( "", `src/base.css`, "../build/css/" );
+fs.copyFileSync( "src/base.css", path.join( __dirname, "../build/css/base.css" ) );
 folders.forEach( folder => {
 	copyStyles( folder, `src/${ folder }/**/*.css`, "../build/css/" );
 	indexFileContent += `@import "./${ folder }.css";\n`;
