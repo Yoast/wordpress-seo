@@ -1,0 +1,29 @@
+@layer components {
+	.yst-input-field {
+		@apply yst-inline-block;
+	}
+
+	.yst-input-error {
+		@apply yst-pr-9 yst-border-red-300 yst-text-red-900 focus:yst-ring-red-500 focus:yst-border-red-500;
+	}
+
+	.yst-input-field__label {
+		@apply yst-flex yst-items-center yst-mb-2;
+	}
+
+	.yst-input-field__description {
+		@apply yst-mt-2;
+	}
+
+	.yst-input-field__error__icon {
+		@apply yst-flex yst-items-center yst-absolute yst-inset-y-0 yst-right-0 yst-mr-3;
+	}
+
+	.yst-input-field__error__icon > svg {
+		@apply yst-pointer-events-none yst-h-5 yst-w-5 yst-text-red-500;
+	}
+
+	.yst-input-field__error__description {
+		@apply yst-my-2 yst-text-sm yst-text-red-600;
+	}
+}

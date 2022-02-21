@@ -10,6 +10,7 @@
 @import "../src/elements/toggle/style.css";
 
 @import "../src/components/checkbox-group/style.css";
+@import "../src/components/input-field/style.css";
 @import "../src/components/radio-group/style.css";
 @import "../src/components/toggle-field/style.css";
 
