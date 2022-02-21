@@ -37,26 +37,26 @@ const CheckboxGroup = ( {
 	}, [ values, onChange ] );
 
 	return (
-		<div className={ classNames( "yst-checkbox-group", className ) }>
-			{ label && <Label className="yst-checkbox-group__label">{ label }</Label> }
+		<fieldset className={ classNames( "yst-checkbox-group", className ) }>
+			{ label && <Label as="legend" className="yst-checkbox-group__label">{ label }</Label> }
 			<div className="yst-checkbox-group__options">
-				{ options.map( ( item, index ) => {
-					const itemId = `${ id }-${ index }`;
+				{ options.map( ( option, index ) => {
+					const optionId = `${ id }-${ index }`;
 					return <Checkbox
-						key={ itemId }
-						id={ itemId }
+						key={ optionId }
+						id={ optionId }
 						name={ name }
-						value={ item.value }
-						checked={ includes( values, item.value ) }
+						value={ option.value }
+						checked={ includes( values, option.value ) }
 						onChange={ handleChange }
 						{ ...props }
 					>
-						{ item.label }
+						{ option.label }
 					</Checkbox>;
 				} ) }
 			</div>
 			{ children && <div className="yst-checkbox-group__description">{ children }</div> }
-		</div>
+		</fieldset>
 	);
 };
 
@@ -69,7 +69,6 @@ CheckboxGroup.propTypes = {
 	options: PropTypes.arrayOf( PropTypes.shape( {
 		value: PropTypes.string.isRequired,
 		label: PropTypes.string.isRequired,
-		defaultChecked: PropTypes.bool,
 	} ) ).isRequired,
 	onChange: PropTypes.func.isRequired,
 	className: PropTypes.string,

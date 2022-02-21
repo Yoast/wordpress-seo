@@ -1,8 +1,6 @@
 /* eslint-disable no-undefined */
 import classNames from "classnames";
 import PropTypes from "prop-types";
-import { noop } from "lodash";
-import { Switch } from "@headlessui/react";
 
 import Toggle from "../../elements/toggle";
 import Label from "../../elements/label";
@@ -26,7 +24,7 @@ const ToggleField = ( {
 	className,
 	...props
 } ) => (
-	<Switch.Group as="div" className={ classNames( "yst-toggle-field", className ) }>
+	<div className={ classNames( "yst-toggle-field", className ) }>
 		{ ( label || children ) && (
 			<div className="yst-toggle-field__text">
 				{ label && <Label className="yst-toggle-field__label">{ label }</Label> }
@@ -39,23 +37,21 @@ const ToggleField = ( {
 			onChange={ onChange }
 			{ ...props }
 		/>
-	</Switch.Group>
+	</div>
 );
 
 ToggleField.propTypes = {
 	children: PropTypes.node,
 	id: PropTypes.string.isRequired,
 	label: PropTypes.node,
-	checked: PropTypes.bool,
-	onChange: PropTypes.func,
+	checked: PropTypes.bool.isRequired,
+	onChange: PropTypes.func.isRequired,
 	className: PropTypes.string,
 };
 
 ToggleField.defaultProps = {
 	children: null,
 	label: null,
-	checked: false,
-	onChange: noop,
 	className: "",
 };
 

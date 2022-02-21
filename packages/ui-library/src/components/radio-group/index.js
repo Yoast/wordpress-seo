@@ -40,33 +40,33 @@ const RadioGroup = ( {
 	const handleChange = useCallback( ( { target } ) => target.checked && onChange( target.value ), [ onChange ] );
 
 	return (
-		<div
+		<fieldset
 			className={ classNames(
 				"yst-radio-group",
 				classNameMap.variant[ variant ],
 				className,
 			) }
 		>
-			{ label && <Label className="yst-radio-group__label">{ label }</Label> }
+			{ label && <Label as="legend" className="yst-radio-group__label">{ label }</Label> }
 			<div className="yst-radio-group__options">
-				{ options.map( ( item, index ) => {
-					const itemId = `${ id }-${ index }`;
+				{ options.map( ( option, index ) => {
+					const optionId = `${ id }-${ index }`;
 					return <Radio
-						key={ itemId }
-						id={ itemId }
+						key={ optionId }
+						id={ optionId }
 						name={ name }
-						value={ item.value }
+						value={ option.value }
 						variant={ variant }
-						checked={ value === item.value }
+						checked={ value === option.value }
 						onChange={ handleChange }
 						{ ...props }
 					>
-						{ item.label }
+						{ option.label }
 					</Radio>;
 				} ) }
 			</div>
 			{ children && <div className="yst-radio-group__description">{ children }</div> }
-		</div>
+		</fieldset>
 	);
 };
 
@@ -79,7 +79,6 @@ RadioGroup.propTypes = {
 	options: PropTypes.arrayOf( PropTypes.shape( {
 		value: PropTypes.string.isRequired,
 		label: PropTypes.string.isRequired,
-		checked: PropTypes.bool,
 	} ) ).isRequired,
 	onChange: PropTypes.func.isRequired,
 	variant: PropTypes.oneOf( Object.keys( classNameMap.variant ) ),
