@@ -1,0 +1,18 @@
+@layer components {
+	.yst-input {
+		@apply
+			yst-py-2
+			yst-px-3
+			yst-border
+			yst-border-gray-300
+			yst-rounded-md
+			yst-shadow-sm
+			yst-bg-white
+			yst-text-sm
+			yst-text-gray-700
+			yst-placeholder-gray-500
+			focus:yst-outline-none
+			focus:yst-ring-primary-500
+			focus:yst-border-primary-500;
+	}
+}
