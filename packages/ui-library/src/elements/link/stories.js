@@ -1,5 +1,5 @@
 import React from "react";
-import Link from "../link";
+import Link from ".";
 
 export default {
 	title: "1. Elements/Link",
@@ -33,7 +33,7 @@ export const Anchor = {
 	parameters: {
 		docs: {
 			description: {
-				story: "Pass the `href`, `target` and `rel` props to get the attributes."
+				story: "Pass the `href`, `target` and `rel` props to get the attributes.",
 			},
 		},
 	},
@@ -50,7 +50,7 @@ export const Button = {
 	parameters: {
 		docs: {
 			description: {
-				story: "When specifying `button`, pass the `onClick` prop to have a functional button."
+				story: "When specifying `button`, pass the `onClick` prop to have a functional button.",
 			},
 			transformSource: () => (
 				"const handleClick = () => alert( \"You clicked the button!\" )" +
@@ -76,7 +76,7 @@ export const CustomComponent = {
 	parameters: {
 		docs: {
 			description: {
-				story: "When using a custom component, that component will only look like a link by default. Please make sure the component behaves like a link."
+				story: "When using a custom component, that component will only look like a link by default. Please make sure the component behaves like a link.",
 			},
 			transformSource: () => (
 				"const Component = ( { className, children } ) => <span className={ className }>Custom { children }</span>" +
