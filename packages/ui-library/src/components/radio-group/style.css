@@ -14,10 +14,18 @@
         }
     }
 
+    .yst-radio-group__label {
+        @apply yst-mb-2;
+    }
+
     .yst-radio-group__options {
         @apply
             yst-flex
             yst-flex-col
             yst-gap-3;
+    }
+
+    .yst-radio-group__description {
+        @apply yst-mt-4;
     }
 }

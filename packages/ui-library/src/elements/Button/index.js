@@ -20,7 +20,7 @@ const classNameMap = {
 
 /**
  * @param {JSX.node} children Content of the button.
- * @param {string|function} [as="button"] Base component.
+ * @param {string|JSX.Element} [as="button"] Base component.
  * @param {string} [type] Type attribute. Used when `as` is a `button`.
  * @param {string} [variant="primary"] Button variant. See `classNameMap` for the options.
  * @param {string} [size="default"] Button size. See `classNameMap` for the options.
@@ -48,6 +48,7 @@ const Button = ( {
 			classNameMap.variant[ variant ],
 			classNameMap.size[ size ],
 			isLoading && "yst-cursor-wait",
+			isDisabled && "yst-button--disabled",
 			className,
 		) }
 		{ ...props }

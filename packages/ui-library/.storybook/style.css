@@ -6,9 +6,11 @@
 @import "../src/elements/checkbox/style.css";
 @import "../src/elements/radio/style.css";
 @import "../src/elements/alert/style.css";
+@import "../src/elements/toggle/style.css";
 
 @import "../src/components/radio-group/style.css";
 @import "../src/components/checkbox-group/style.css";
+@import "../src/components/toggle-field/style.css";
 
 @tailwind base;
 @tailwind components;
