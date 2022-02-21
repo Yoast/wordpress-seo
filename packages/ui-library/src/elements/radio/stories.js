@@ -22,10 +22,10 @@ Factory.parameters = {
 	controls: { disable: false },
 };
 Factory.args = {
-	children: "I am a radio test.",
 	id: "radio",
 	name: "name",
 	value: "value",
+	label: "I am a radio button.",
 };
 
 export const Variants = ( args ) => (

@@ -22,8 +22,8 @@ Factory.parameters = {
 	controls: { disable: false },
 };
 Factory.args = {
-	children: "I am a checkbox.",
 	id: "checkbox",
 	name: "name",
 	value: "value",
+	label: "I am a checkbox.",
 };

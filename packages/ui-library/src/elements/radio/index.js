@@ -13,19 +13,19 @@ const classNameMap = {
 };
 
 /**
- * @param {JSX.node} children Children prop is used for the checkbox label.
  * @param {string} id Identifier.
  * @param {string} name Name.
  * @param {string} value Value.
+ * @param {JSX.node} label Label.
  * @param {string} [variant] Variant.
  * @param {string} [className] CSS class.
  * @returns {JSX.Element} Radio component.
  */
 const Radio = ( {
-	children,
 	id,
 	name,
 	value,
+	label,
 	variant,
 	className,
 	...props
@@ -48,7 +48,7 @@ const Radio = ( {
 						className,
 					) }
 				>
-					{ children }
+					{ label }
 					<CheckCircleIcon className="yst-radio__check" />
 				</label>
 			</div>
@@ -64,27 +64,27 @@ const Radio = ( {
 				value={ value }
 				className={ classNames(
 					"yst-radio",
-					children && "yst-mr-3",
+					label && "yst-mr-3",
 					className,
 				) }
 				{ ...props }
 			/>
-			{ children && <Label htmlFor={ id } className="yst-radio__label">{ children }</Label> }
+			{ label && <Label htmlFor={ id } className="yst-radio__label">{ label }</Label> }
 		</div>
 	);
 };
 
 Radio.propTypes = {
-	children: PropTypes.node,
 	name: PropTypes.string.isRequired,
 	id: PropTypes.string.isRequired,
 	value: PropTypes.string.isRequired,
+	label: PropTypes.node,
 	variant: PropTypes.oneOf( Object.keys( classNameMap.variant ) ),
 	className: PropTypes.string,
 };
 
 Radio.defaultProps = {
-	children: null,
+	label: null,
 	variant: "default",
 	className: "",
 };
