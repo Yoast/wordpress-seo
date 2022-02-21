@@ -1,8 +1,7 @@
 /* eslint-disable no-undefined */
 import classNames from "classnames";
 import PropTypes from "prop-types";
-
-import Spinner from "../Spinner";
+import Spinner from "../spinner";
 
 const classNameMap = {
 	variant: {
