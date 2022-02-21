@@ -33,6 +33,7 @@ const Toggle = ( {
 		) }
 		{ ...props }
 	>
+		<span className="yst-sr-only">Toggle</span>
 		<span className="yst-toggle__handle">
 			<Transition
 				show={ checked }

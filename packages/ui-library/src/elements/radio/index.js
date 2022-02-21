@@ -32,22 +32,22 @@ const Radio = ( {
 } ) => {
 	if ( variant === "inline-block" ) {
 		return (
-			<div className="yst-inline-flex yst-items-center">
+			<div
+				className={ classNames(
+					"yst-radio",
+					"yst-radio--inline-block",
+					className,
+				 ) }
+			>
 				<input
 					type="radio"
 					id={ id }
 					name={ name }
 					value={ value }
-					className="yst-radio yst-radio--inline-block"
+					className="yst-radio__input"
 					{ ...props }
 				/>
-				<label
-					htmlFor={ id }
-					className={ classNames(
-						"yst-radio__label",
-						className,
-					) }
-				>
+				<label htmlFor={ id } className="yst-radio__label">
 					{ label }
 					<CheckCircleIcon className="yst-radio__check" />
 				</label>
@@ -56,17 +56,18 @@ const Radio = ( {
 	}
 
 	return (
-		<div className="yst-flex yst-items-center">
+		<div
+			className={ classNames(
+				"yst-radio",
+				className,
+			) }
+		>
 			<input
 				type="radio"
 				id={ id }
 				name={ name }
 				value={ value }
-				className={ classNames(
-					"yst-radio",
-					label && "yst-mr-3",
-					className,
-				) }
+				className="yst-radio__input"
 				{ ...props }
 			/>
 			{ label && <Label htmlFor={ id } className="yst-radio__label">{ label }</Label> }

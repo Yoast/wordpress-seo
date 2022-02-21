@@ -4,7 +4,7 @@ export default {
 	title: "1. Elements/Radio",
 	component: Radio,
 	argTypes: {
-		children: { control: "text" },
+		label: { control: "text" },
 	},
 	parameters: {
 		docs: {
@@ -30,8 +30,8 @@ Factory.args = {
 
 export const Variants = ( args ) => (
 	<div className="yst-flex yst-flex-col yst-gap-4">
-		<Radio id="radio-1" name="name" value="1">I am a radio button.</Radio>
+		<Radio id="radio-1" name="name" value="1" label="I am a radio button." />
 		<hr />
-		<Radio id="radio-2" name="name" value="2" variant="inline-block">Y</Radio>
+		<Radio id="radio-2" name="name" value="2" label="Y" variant="inline-block" />
 	</div>
 );

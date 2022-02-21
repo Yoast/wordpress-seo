@@ -45,12 +45,11 @@ const CheckboxGroup = ( {
 						id={ optionId }
 						name={ name }
 						value={ option.value }
+						label={ option.label }
 						checked={ includes( values, option.value ) }
 						onChange={ handleChange }
 						{ ...props }
-					>
-						{ option.label }
-					</Checkbox>;
+					/>;
 				} ) }
 			</div>
 			{ children && <div className="yst-checkbox-group__description">{ children }</div> }

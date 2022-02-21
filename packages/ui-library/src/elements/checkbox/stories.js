@@ -4,7 +4,7 @@ export default {
 	title: "1. Elements/Checkbox",
 	component: Checkbox,
 	argTypes: {
-		children: { control: "text" },
+		label: { control: "text" },
 	},
 	parameters: {
 		docs: {

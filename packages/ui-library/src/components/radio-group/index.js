@@ -56,13 +56,12 @@ const RadioGroup = ( {
 						id={ optionId }
 						name={ name }
 						value={ option.value }
+						label={ option.label }
 						variant={ variant }
 						checked={ value === option.value }
 						onChange={ handleChange }
 						{ ...props }
-					>
-						{ option.label }
-					</Radio>;
+					/>;
 				} ) }
 			</div>
 			{ children && <div className="yst-radio-group__description">{ children }</div> }

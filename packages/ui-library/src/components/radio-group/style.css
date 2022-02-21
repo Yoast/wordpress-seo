@@ -26,6 +26,6 @@
     }
 
     .yst-radio-group__description {
-        @apply yst-mt-4;
+        @apply yst-mt-2;
     }
 }

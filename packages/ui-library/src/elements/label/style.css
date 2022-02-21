@@ -1,7 +1,8 @@
 @layer components {
     .yst-label {
         @apply
-            yst-block
+            yst-flex
+            yst-items-center
             yst-font-medium
             yst-text-gray-800;
     }

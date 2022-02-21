@@ -20,20 +20,21 @@ const Checkbox = ( {
 	className,
 	...props
 } ) => (
-	<div className="yst-flex yst-items-center">
+	<div
+		className={ classNames(
+			"yst-checkbox",
+			className,
+		) }
+	>
 		<input
 			type="checkbox"
 			id={ id }
 			name={ name }
 			value={ value }
-			className={ classNames(
-				"yst-checkbox",
-				label && "yst-mr-3",
-				className,
-			) }
+			className="yst-checkbox__input"
 			{ ...props }
 		/>
-		{ label && <Label htmlFor={ id } className="yst-radio__label">{ label }</Label> }
+		{ label && <Label htmlFor={ id } className="yst-checkbox__label">{ label }</Label> }
 	</div>
 );
 
