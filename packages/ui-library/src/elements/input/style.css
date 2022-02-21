@@ -15,4 +15,11 @@
 			focus:yst-ring-primary-500
 			focus:yst-border-primary-500;
 	}
+
+	.yst-input--disabled {
+		@apply
+			yst-opacity-50
+			yst-cursor-not-allowed
+			focus:yst-ring-0;
+	}
 }

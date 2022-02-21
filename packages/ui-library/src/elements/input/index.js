@@ -28,22 +28,26 @@ export const INPUT_TYPES = {
 };
 
 /**
- * @param {string} type The type of input. See INPUT_TYPES.
- * @param {string} [className] CSS class.
+ * @param {string} [type="text"] The type of input. See INPUT_TYPES.
+ * @param {string} [className=""] CSS class.
+ * @param {boolean} [disabled=false] Whether the input is disabled.
  * @param {object} [props] Optional extra properties.
  * @returns {JSX.Element} Input component.
  */
 const Input = ( {
 	type,
 	className,
+	disabled,
 	...props
 } ) => (
 	<input
 		type={ type }
 		className={ classNames(
 			"yst-input",
+			disabled && "yst-input--disabled",
 			className,
 		) }
+		disabled={ disabled }
 		{ ...props }
 	/>
 );
@@ -51,11 +55,13 @@ const Input = ( {
 Input.propTypes = {
 	type: PropTypes.oneOf( values( INPUT_TYPES ) ),
 	className: PropTypes.string,
+	disabled: PropTypes.bool,
 };
 
 Input.defaultProps = {
 	type: "text",
 	className: "",
+	disabled: false,
 };
 
 export default Input;
