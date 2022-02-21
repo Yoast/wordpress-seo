@@ -1,8 +1,8 @@
 import { ExclamationCircleIcon } from "@heroicons/react/solid";
 import classNames from "classnames";
 import PropTypes from "prop-types";
-import Input from "../../elements/input";
 import Label from "../../elements/label";
+import TextInput from "../../elements/text-input";
 
 /**
  * @param {string} id The ID of the input.
@@ -11,10 +11,10 @@ import Label from "../../elements/label";
  * @param {string} [className] The HTML class.
  * @param {JSX.node} [description] A description.
  * @param {JSX.node} [error] An error "message".
- * @param {Object} [props] Any extra properties for the Input.
+ * @param {Object} [props] Any extra properties for the TextInput.
  * @returns {JSX.Element} The input field.
  */
-const InputField = ( {
+const TextField = ( {
 	id,
 	onChange,
 	label,
@@ -22,26 +22,29 @@ const InputField = ( {
 	description,
 	error,
 	...props
-} ) => {
-	return <div className={ classNames( "yst-input-field", className ) }>
-		{ label && <Label className="yst-input-field__label" htmlFor={ id }>{ label }</Label> }
+} ) => (
+	<div className={ classNames( "yst-text-field", className ) }>
+		{ label && <Label className="yst-text-field__label" htmlFor={ id }>{ label }</Label> }
 		<div className="yst-relative yst-inline-flex">
-			<Input
+			<TextInput
 				id={ id }
-				className={ classNames( error ? "yst-input-error" : "" ) }
 				onChange={ onChange }
+				className={ classNames(
+					"yst-text-field__input",
+					error && "yst-text-field__input--error",
+				) }
 				{ ...props }
 			/>
-			{ error && <div className="yst-input-field__error__icon">
+			{ error && <div className="yst-text-field__error-icon">
 				<ExclamationCircleIcon />
 			</div> }
 		</div>
-		{ description && <p className="yst-input-field__description">{ description }</p> }
-		{ error && <p className="yst-input-field__error__description">{ error }</p> }
-	</div>;
-};
+		{ description && <p className="yst-text-field__description">{ description }</p> }
+		{ error && <p className="yst-text-field__error">{ error }</p> }
+	</div>
+);
 
-InputField.propTypes = {
+TextField.propTypes = {
 	id: PropTypes.string.isRequired,
 	onChange: PropTypes.func.isRequired,
 	label: PropTypes.node,
@@ -50,11 +53,11 @@ InputField.propTypes = {
 	error: PropTypes.node,
 };
 
-InputField.defaultProps = {
+TextField.defaultProps = {
 	label: null,
 	className: "",
 	description: null,
 	error: null,
 };
 
-export default InputField;
+export default TextField;

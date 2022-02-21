@@ -1,5 +1,5 @@
 @layer components {
-	.yst-input {
+	.yst-text-input {
 		@apply
 			yst-py-2
 			yst-px-3
@@ -16,7 +16,7 @@
 			focus:yst-border-primary-500;
 	}
 
-	.yst-input--disabled {
+	.yst-text-input--disabled {
 		@apply
 			yst-opacity-50
 			yst-cursor-not-allowed
