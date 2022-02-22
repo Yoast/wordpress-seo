@@ -9,7 +9,7 @@ self.wpseoPrimaryCategoryL10n = {
 	},
 };
 
-let selectCategories = jest.fn().mockReturnValue( [
+let selectTerms = jest.fn().mockReturnValue( [
 	{
 		id: "1",
 		name: "category 1",
@@ -25,7 +25,7 @@ describe( "a test for getting the replacement of the variables in classic editor
 		jest.spyOn( data, "select" ).mockImplementation( () => {
 			return {
 				getPrimaryTaxonomyId: jest.fn().mockReturnValue( 2 ),
-				selectCategories: selectCategories,
+				selectTerms: selectTerms,
 			};
 		} );
 
@@ -36,7 +36,7 @@ describe( "a test for getting the replacement of the variables in classic editor
 		jest.spyOn( data, "select" ).mockImplementation( () => {
 			return {
 				getPrimaryTaxonomyId: jest.fn().mockReturnValue( undefined ),
-				selectCategories: selectCategories,
+				selectTerms: selectTerms,
 			};
 		} );
 
@@ -53,7 +53,7 @@ describe( "a test for getting the replacement of the variables in classic editor
 				},
 			},
 		};
-		selectCategories = jest.fn().mockReturnValue( [
+		selectTerms = jest.fn().mockReturnValue( [
 			{
 				id: "4",
 				name: "a new category",
@@ -62,7 +62,7 @@ describe( "a test for getting the replacement of the variables in classic editor
 		jest.spyOn( data, "select" ).mockImplementation( () => {
 			return {
 				getPrimaryTaxonomyId: jest.fn().mockReturnValue( undefined ),
-				selectCategories: selectCategories,
+				selectTerms: selectTerms,
 			};
 		} );
 
@@ -79,11 +79,11 @@ describe( "a test for getting the replacement of the variables in classic editor
 				},
 			},
 		};
-		selectCategories = jest.fn().mockReturnValue( [] );
+		selectTerms = jest.fn().mockReturnValue( [] );
 		jest.spyOn( data, "select" ).mockImplementation( () => {
 			return {
 				getPrimaryTaxonomyId: jest.fn().mockReturnValue( undefined ),
-				selectCategories: selectCategories,
+				selectTerms: selectTerms,
 			};
 		} );
 
