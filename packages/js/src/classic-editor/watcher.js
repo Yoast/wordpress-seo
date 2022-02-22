@@ -175,7 +175,7 @@ const createCategoriesSync = ( updateTerms ) => {
 /**
  * Watches the tags list in the classic editor for changes and updates the tags in the store accordingly.
  *
- * @param updateTerms 	A callback function to update the tags in the store.
+ * @param {function} updateTerms A callback function to update the categories in the store.
  *
  * @returns {void}
  */
@@ -198,7 +198,7 @@ const createTagsSync = ( updateTerms ) => {
 	 */
 	const watchTagsList = () => {
 		const tagsList = getTagsList();
-		let currentLength = tagsList.length;
+		const currentLength = tagsList.length;
 		if ( currentLength !== previousLength ) {
 			syncTags();
 			previousLength = currentLength;
@@ -311,7 +311,9 @@ const syncPostToStore = () => {
 	createTinyMceContentSync( DOM_IDS.POST_CONTENT, actions.updateContent );
 	// Sync editor changes to the store when in text mode.
 	createStoreSync( DOM_IDS.POST_CONTENT, actions.updateContent, "input" );
+	// Sync the category checkboxes changes to the store.
 	createCategoriesSync( actions.updateTerms );
+	// Sync the tag list changes to the store.
 	createTagsSync( actions.updateTerms );
 };
 
