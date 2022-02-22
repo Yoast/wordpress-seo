@@ -14,7 +14,8 @@
     "build": "yarn clean:build && yarn build:js && yarn build:css",
     "build:storybook": "build-storybook",
     "lint": "eslint src --max-warnings=0",
-    "storybook": "start-storybook -p 6006"
+    "storybook": "start-storybook -p 6006",
+    "publish:storybook": "./scripts/publish-storybook.sh"
   },
   "devDependencies": {
     "@babel/cli": "^7.17.3",
