@@ -1,10 +1,11 @@
 import { useCallback, useState, createInterpolateElement, Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import PropTypes from "prop-types";
-import { FieldGroup, ImageSelect } from "@yoast/components";
 
 import { openMedia } from "../../../../helpers/selectMedia";
-import WordPressUserSelector from "../../../../components/WordPressUserSelector";
+import UserSelector from "./user-selector";
+import Alert from "../../base/alert";
+import ImageSelect from "../../base/image-select";
 
 /**
  * The Person section.
@@ -15,7 +16,7 @@ import WordPressUserSelector from "../../../../components/WordPressUserSelector"
  * @param {bool}     isDisabled   A flag to disable the field.
  * @returns {WPElement} The person section.
  */
-export function PersonSection( { dispatch, imageUrl, personId, isDisabled } ) {
+export function PersonSection( { dispatch, imageUrl, personId } ) {
 	const [ personName, setPersonName ] = useState( "" );
 	const openImageSelect = useCallback( () => {
 		openMedia( ( selectedImage ) => {
@@ -40,7 +41,7 @@ export function PersonSection( { dispatch, imageUrl, personId, isDisabled } ) {
 		sprintf(
 			// translators: %1$s is replaced by the selected user's name, and %2$s and %3$s are opening and closing anchor tags.
 			__(
-				"You have selected the user %1$s as the person this site represents. Their user profile information will now be used in search results. %2$sUpdate their profile to make sure the information is correct.%3$s Alternatively, ask the user or an admin to do it if you are not allowed.",
+				"You have selected the user %1$s as the person this site represents. This user profile information will now be used in search results. %2$sUpdate this profile to make sure the information is correct%3$s.",
 				"wordpress-seo"
 			),
 			`<b>${ personName }</b>`,
@@ -61,28 +62,24 @@ export function PersonSection( { dispatch, imageUrl, personId, isDisabled } ) {
 
 	return (
 		<Fragment>
-			<FieldGroup
-				label={ __( "Name (important)", "wordpress-seo" ) }
-				htmlFor={ "person_id" }
-			>
-				<WordPressUserSelector
-					value={ personId }
-					onChange={ onUserChange }
-					name={ "person_id" }
-				/>
-				{ personId !== 0 && <p>{ userMessage }</p> }
-			</FieldGroup>
+			<label className="yst-block yst-mt-6 yst-mb-2 yst-font-medium" htmlFor={ "person_id" }>
+				{ __( "Name", "wordpress-seo" ) }
+			</label>
+			<UserSelector
+				value={ personId }
+				onChange={ onUserChange }
+				name={ "person_id" }
+			/>
+			{ personId !== 0 && <Alert type="info" className="yst-mt-5">{ userMessage }</Alert> }
 			<ImageSelect
-				imageUrl={ imageUrl }
-				onClick={ openImageSelect }
+				className="yst-mt-6"
+				id="person-logo-input"
+				url={ imageUrl }
+				onSelectImageClick={ openImageSelect }
 				onRemoveImageClick={ removeImage }
 				imageAltText=""
 				hasPreview={ true }
-				label={ __( "Person logo / avatar (important)", "wordpress-seo" ) }
-				isDisabled={ isDisabled }
-				replaceImageButtonId={ "person-logo-replace-button" }
-				selectImageButtonId={ "person-logo-select-button" }
-				removeImageButtonId={ "person-logo-remove-button" }
+				label={ __( "Personal logo or avatar", "wordpress-seo" ) }
 			/>
 		</Fragment>
 	);
@@ -92,11 +89,9 @@ PersonSection.propTypes = {
 	dispatch: PropTypes.func.isRequired,
 	imageUrl: PropTypes.string,
 	personId: PropTypes.number,
-	isDisabled: PropTypes.bool,
 };
 
 PersonSection.defaultProps = {
 	imageUrl: "",
 	personId: 0,
-	isDisabled: false,
 };

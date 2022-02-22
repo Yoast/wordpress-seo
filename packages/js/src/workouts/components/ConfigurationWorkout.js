@@ -13,8 +13,6 @@ import { ReactComponent as WorkoutDoneImage } from "../../../../../images/mirror
 import { ReactComponent as WorkoutStartImage } from "../../../images/motivated_bubble_woman_1_optim.svg";
 import { addLinkToString } from "../../helpers/stringHelpers.js";
 import { Step as OldStep, Steps, FinishButtonSection } from "./Steps";
-import { OrganizationSection } from "./OrganizationSection";
-import { PersonSection } from "./PersonSection";
 import { NewsletterSignup } from "./NewsletterSignup";
 import { ConfigurationIndexation } from "../tailwind-components/steps/indexation/ConfigurationIndexation";
 import SocialInputSection from "./SocialInputSection";
@@ -333,13 +331,14 @@ function PersonalPreferencesStep( { state, setTracking, isTrackingOptionSelected
  */
 const FinishStep = () => <Fragment>
 	<p className="yst-mb-6">You have finished all the things, yay!</p>
-	<button className="yst-button--primary">{ __( "Check out your Indexables page", "wordpress-seo" ) }</button>
+	<button className="yst-button yst-button--primary">{ __( "Check out your Indexables page", "wordpress-seo" ) }</button>
 </Fragment>;
 
 /**
  * Calculates the initial state from the window object.
  *
- * @param {Object} windowObject The object to base the initial state on.
+ * @param {Object}   windowObject   The object to base the initial state on.
+ * @param {function} isStepFinished A function to determine whether a step is finished.
  *
  * @returns {Object} The initial state.
  */
@@ -966,11 +965,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 									"wordpress-seo"
 								) }
 							</Alert> }
-							<OrganizationSection
-								dispatch={ dispatch }
-								imageUrl={ state.companyLogo }
-								organizationName={ state.companyName }
-							/>
+							<div>organization section was here</div>
 						</Fragment> }
 						{ siteRepresentsPerson && <Fragment>
 							{ ( ! state.personLogo || state.personId === 0 ) && <Alert type="warning">
@@ -980,11 +975,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 									"wordpress-seo"
 								) }
 							</Alert> }
-							<PersonSection
-								dispatch={ dispatch }
-								imageUrl={ state.personLogo }
-								personId={ state.personId }
-							/>
+							<div>person section was here</div>
 						</Fragment> }
 						{ window.wpseoWorkoutsData.canEditWordPressOptions && <TextInput
 							id="site-tagline-input"
