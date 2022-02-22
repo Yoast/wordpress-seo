@@ -16,6 +16,7 @@
 @import "../src/components/radio-group/style.css";
 @import "../src/components/toggle-field/style.css";
 @import "../src/components/select-field/style.css";
+@import "../src/components/textarea-field/style.css";
 
 @tailwind base;
 @tailwind components;
