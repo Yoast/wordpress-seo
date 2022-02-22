@@ -231,20 +231,32 @@ export const getPostCategories = () => {
 	return [];
 };
 
+/**
+ * Gets the tags list element from the document.
+ *
+ * @returns {*[]} The list of tags.
+ */
 export const getTagsList = () => {
-	return [ ...document.querySelectorAll( ".tagchecklist" )[ 0 ].childNodes ];
+	const tagChecklistElement = document.querySelectorAll( ".tagchecklist" );
+	if ( tagChecklistElement.length > 0 ) {
+		return [ ...tagChecklistElement[ 0 ].childNodes ];
+	}
+	return [];
 };
 
+/**
+ * Gets the current post's tags from the document.
+ *
+ * @returns {string[]} The post's tags.
+ */
 export const getPostTags = () => {
 	const tagsList = getTagsList();
-	console.log( { tagsList } );
 	if ( tagsList.length !== 0 ) {
 		let tagNames = tagsList.map( tag => tag.innerText );
 		const cleanTagNamesRegex = new RegExp( "(Remove term: )(.*)(\\n)(\\s)", "i" );
 
 		tagNames = tagNames.map( tag => tag.replace( cleanTagNamesRegex, "" ) );
 
-		console.log( tagNames, "Tag names")
 		return tagNames;
 	}
 
