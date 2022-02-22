@@ -15,7 +15,7 @@ import classNames from "classnames";
  */
 export function ContinueButton( { beforeGo, children, additionalClasses, ...restProps } ) {
 	return ( <Step.GoButton
-		className={ `yst-button--primary ${ additionalClasses }` }
+		className={ `yst-button yst-button--primary ${ additionalClasses }` }
 		destination={ 1 }
 		beforeGo={ beforeGo }
 		{ ...restProps }
@@ -52,7 +52,7 @@ export function EditButton( { beforeGo, isVisible, children, additionalClasses, 
 
 	return ( <Step.GoButton
 		className={ classNames(
-			"yst-button--secondary yst-button--small",
+			"yst-button yst-button--secondary yst-button--small",
 			transitionClasses,
 			additionalClasses
 		) }
@@ -88,7 +88,7 @@ EditButton.defaultProps = {
  */
 export function BackButton( { beforeGo, children, additionalClasses, ...restProps } ) {
 	return ( <Step.GoButton
-		className={ `yst-button--secondary ${ additionalClasses }` }
+		className={ `yst-button yst-button--secondary ${ additionalClasses }` }
 		destination={ -1 }
 		beforeGo={ beforeGo }
 		{ ...restProps }
@@ -162,7 +162,7 @@ export function ConfigurationStepButtons( { stepperFinishedOnce, saveFunction, s
 	} );
 
 	if ( stepperFinishedOnce ) {
-		return <Step.GoButton className="yst-button--primary yst-mt-12" destination="last" beforeGo={ onSaveClick }>
+		return <Step.GoButton className="yst-button yst-button--primary yst-mt-12" destination="last" beforeGo={ onSaveClick }>
 			{ __( "Save changes", "wordpress-seo" ) }
 		</Step.GoButton>;
 	}

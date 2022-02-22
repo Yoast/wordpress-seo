@@ -137,14 +137,14 @@ export default function UnsavedChangesModal( { hasUnsavedChanges } ) {
 			<div className="yst-mt-8 sm:yst-mt-6 sm:yst-flex sm:yst-flex-row-reverse">
 				<button
 					type="button"
-					className="yst-button--danger yst-w-full yst-inline-flex sm:yst-w-auto sm:yst-ml-3"
+					className="yst-button yst-button--danger yst-w-full yst-inline-flex sm:yst-w-auto sm:yst-ml-3"
 					onClick={ continueNavigation }
 				>
 					{ __( "Yes, leave page", "wordpress-seo" ) }
 				</button>
 				<button
 					type="button"
-					className="yst-button--secondary yst-w-full yst-inline-flex sm:yst-w-auto sm:yst-mt-0"
+					className="yst-button yst-button--secondary yst-w-full yst-inline-flex sm:yst-w-auto sm:yst-mt-0"
 					onClick={ closeModal }
 				>
 					{ __( "No, continue editing", "wordpress-seo" ) }

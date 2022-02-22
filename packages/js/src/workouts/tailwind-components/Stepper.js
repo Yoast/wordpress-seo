@@ -102,7 +102,7 @@ function EditButton( { children, ...restProps } ) {
 
 	return <button
 		onClick={ editFunction }
-		className="yst-button--secondary yst-button--small"
+		className="yst-button yst-button--secondary yst-button--small"
 		{ ...restProps }
 	>
 		{ children }
