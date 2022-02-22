@@ -217,7 +217,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Aioseo_Importing_Action {
 	 *
 	 * @return string The AIOSEO table name along with the db prefix.
 	 */
-	protected function get_table() {
+	public function get_table() {
 		return $this->wpdb->prefix . 'aioseo_posts';
 	}
 
@@ -226,7 +226,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Aioseo_Importing_Action {
 	 *
 	 * @return bool True if the table is found.
 	 */
-	protected function aioseo_exists() {
+	public function aioseo_exists() {
 		return $this->wpdb_helper->table_exists( $this->get_table() ) === true;
 	}
 
@@ -422,6 +422,18 @@ class Aioseo_Posts_Importing_Action extends Abstract_Aioseo_Importing_Action {
 	}
 
 	/**
+	 * Populates the needed data array based on which columns we use from the AIOSEO indexable table.
+	 *
+	 * @return array The needed data array that contains all the needed columns.
+	 */
+	public function get_needed_data() {
+		$needed_data = \array_keys( $this->aioseo_to_yoast_map );
+		\array_push( $needed_data, 'id', 'post_id', 'robots_default', 'og_image_custom_url', 'og_image_type', 'twitter_image_custom_url', 'twitter_image_type', 'twitter_use_og' );
+
+		return $needed_data;
+	}
+
+	/**
 	 * Creates a query for gathering AiOSEO data from the database.
 	 *
 	 * @param int  $limit       The maximum number of unimported objects to be returned.
@@ -435,8 +447,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Aioseo_Importing_Action {
 		$select_statement = 'id';
 		if ( ! $just_detect ) {
 			// If we want to import too, we need the actual needed data from AIOSEO indexables.
-			$needed_data = \array_keys( $this->aioseo_to_yoast_map );
-			\array_push( $needed_data, 'id', 'post_id', 'robots_default', 'og_image_custom_url', 'og_image_type', 'twitter_image_custom_url', 'twitter_image_type', 'twitter_use_og' );
+			$needed_data = $this->get_needed_data();
 
 			$select_statement = \implode( ', ', $needed_data );
 		}
