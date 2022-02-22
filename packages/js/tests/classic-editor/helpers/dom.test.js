@@ -19,15 +19,6 @@ describe( "a test for retrieving data from dom", () => {
 			"Tortoiseshell is a cat coat coloring named for its similarity to tortoiseshell material. " +
 			"Like calicos, tortoiseshell cats are almost exclusively female." );
 	} );
-
-	it( "should return the term excerpt retrieved from term content", () => {
-		getContentLocale.mockImplementation( () => "en_US" );
-
-		expect( dom.getMetaDescriptionLimit() ).toEqual( 156 );
-		expect( dom.getTermExcerpt() ).toEqual(
-			"Tortoiseshell is a cat coat coloring named for its similarity to tortoiseshell material. " +
-			"Like calicos, tortoiseshell cats are almost exclusively female." );
-	} );
 } );
 
 describe( "a test for retrieving data from dom with another locale setting", () => {
@@ -36,14 +27,6 @@ describe( "a test for retrieving data from dom with another locale setting", () 
 
 		expect( dom.getMetaDescriptionLimit() ).toEqual( 80 );
 		expect( dom.getPostExcerpt() ).toEqual(
-			"Tortoiseshell is a cat coat coloring named for its similarity to tortoiseshell" );
-	} );
-
-	it( "should return the term excerpt retrieved from term content, but use the limit for Japanese", () => {
-		getContentLocale.mockImplementation( () => "ja" );
-
-		expect( dom.getMetaDescriptionLimit() ).toEqual( 80 );
-		expect( dom.getTermExcerpt() ).toEqual(
 			"Tortoiseshell is a cat coat coloring named for its similarity to tortoiseshell" );
 	} );
 } );
