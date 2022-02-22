@@ -469,27 +469,26 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 		[ isStep1Finished ]
 	);
 
+	const isCompanyAndEmpty = state.companyOrPerson === "company" && ( ! state.companyName || ! state.companyLogo );
+	const isPersonAndEmpty = state.companyOrPerson === "person" && ( ! state.personId || ! state.personLogo );
+
 	/**
 	 * Runs checks of finishing the site representation step.
 	 *
 	 * @returns {void}
 	 */
 	function updateOnFinishSiteRepresentation() {
-		if ( ! siteRepresentationEmpty &&
-			state.companyOrPerson === "company" &&
-			( ! state.companyName || ! state.companyLogo ) ) {
+		if ( ! siteRepresentationEmpty && isCompanyAndEmpty ) {
 			setSiteRepresentationEmpty( true );
 			return false;
-		} else if ( ! siteRepresentationEmpty &&
-			state.companyOrPerson === "person" &&
-			( ! state.personId || ! state.personLogo ) ) {
+		} else if ( ! siteRepresentationEmpty && isPersonAndEmpty ) {
 			setSiteRepresentationEmpty( true );
 			return false;
 		} else if ( ! siteRepresentationEmpty && state.companyOrPerson === "emptyChoice" ) {
 			setSiteRepresentationEmpty( true );
 			return false;
 		}
-		setSiteRepresentationEmpty( false );
+		setSiteRepresentationEmpty( state.companyOrPerson === "emptyChoice" || isCompanyAndEmpty || isPersonAndEmpty );
 		updateSiteRepresentation( state )
 			.then( () => setStepIsSaved( 2 ) )
 			.then( () => finishSteps( "configuration", [ steps.siteRepresentation ] ) );
