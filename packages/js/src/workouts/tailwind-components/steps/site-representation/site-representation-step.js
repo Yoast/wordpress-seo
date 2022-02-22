@@ -26,7 +26,7 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 		{  window.wpseoWorkoutsData.configuration.knowledgeGraphMessage &&  <Alert type="warning">
 			{  window.wpseoWorkoutsData.configuration.knowledgeGraphMessage }
 		</Alert> }
-		<p className="yst-text-sm yst-whitespace-pre-line yst-w-[463px] yst-mb-8">
+		<p className="yst-text-sm yst-whitespace-pre-line yst-mb-8">
 			{
 				addLinkToString(
 					sprintf(
