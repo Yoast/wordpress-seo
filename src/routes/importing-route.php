@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Routes;
 use WP_Error;
 use WP_REST_Response;
 use Yoast\WP\SEO\Actions\Importing\Importing_Action_Interface;
-use Yoast\WP\SEO\Conditionals\AIOSEO_V4_Importer_Conditional;
+use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Services\Importing\Importable_Detector_Service;
 
@@ -15,6 +15,8 @@ use Yoast\WP\SEO\Services\Importing\Importable_Detector_Service;
  * Importing route for importing from other SEO plugins.
  */
 class Importing_Route extends Abstract_Action_Route {
+
+	use No_Conditionals;
 
 	/**
 	 * The import route constant.
@@ -52,15 +54,6 @@ class Importing_Route extends Abstract_Action_Route {
 	}
 
 	/**
-	 * Returns the conditionals based in which this loadable should be active.
-	 *
-	 * @return array
-	 */
-	public static function get_conditionals() {
-		return [ AIOSEO_V4_Importer_Conditional::class ];
-	}
-
-	/**
 	 * Registers routes with WordPress.
 	 *
 	 * @return void
@@ -78,7 +71,7 @@ class Importing_Route extends Abstract_Action_Route {
 	}
 
 	/**
-	 * Executes the rest request.
+	 * Executes the rest request, but only if the respective action is enabled.
 	 *
 	 * @param mixed $data The request parameters.
 	 *
@@ -93,7 +86,7 @@ class Importing_Route extends Abstract_Action_Route {
 		try {
 			$importer = $this->get_importer( $plugin, $type );
 
-			if ( $importer === false ) {
+			if ( $importer === false || ! $importer->is_enabled() ) {
 				return new WP_Error(
 					'rest_no_route',
 					'Requested importer not found',

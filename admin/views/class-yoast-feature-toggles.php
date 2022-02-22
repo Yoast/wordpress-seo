@@ -181,6 +181,14 @@ class Yoast_Feature_Toggles {
 				'read_more_url'   => 'https://yoa.st/help-slack-share',
 				'order'           => 105,
 			],
+			(object) [
+				'name'            => __( 'Print QR code', 'wordpress-seo' ),
+				'setting'         => 'enable_print_qr_code',
+				'label'           => __( 'This adds a QR code to every page on your site that only shows when that page is printed, so people can find the original URL.', 'wordpress-seo' ),
+				'read_more_label' => __( 'Find out how this feature might help get visitors back to your site.', 'wordpress-seo' ),
+				'read_more_url'   => 'https://yoa.st/print-qr',
+				'order'           => 110,
+			],
 		];
 
 		/**
