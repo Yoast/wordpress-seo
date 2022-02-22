@@ -99,11 +99,11 @@ export const tag = {
 	name: "tag",
 	getLabel: () => __( "Tag", "wordpress-seo" ),
 	getReplacement: () => {
-		let tags = select( SEO_STORE_NAME ).selectTerms( "tags" );
-		console.log( tags );
-		tags = tags.map( tag => tag ).join( ", " );
-		console.log( tags, "tags string" )
-		return tags;
+		// On page load, the tags are not available in the store and in that case we get them from the window.
+		const tagsFromStore = select( SEO_STORE_NAME ).selectTerms( "tags" );
+		const tagsFromWindow = get( window, "wpseoScriptData.analysis.plugins.replaceVars.replace_vars.tag" );
+
+		return tagsFromStore.length > 0 ? tagsFromStore.map( tag => tag ).join( ", " ) : tagsFromWindow;
 	},
 };
 

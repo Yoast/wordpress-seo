@@ -172,21 +172,35 @@ const createCategoriesSync = ( updateTerms ) => {
 	watchCategoryCheckboxes();
 };
 
+/**
+ * Watches the tags list in the classic editor for changes and updates the tags in the store accordingly.
+ *
+ * @param updateTerms 	A callback function to update the tags in the store.
+ *
+ * @returns {void}
+ */
 const createTagsSync = ( updateTerms ) => {
 	let previousLength = 0;
 
+	/**
+	 * Retrieves the tags from the DOM and syncs them to the SEO store.
+	 *
+	 * @returns {void}
+	 */
 	const syncTags = () => {
 		updateTerms( { taxonomyType: "tags", terms: getPostTags() } );
 	};
 
+	/**
+	 * Watches the tags list for changes, and updates the tags in the SEO store accordingly.
+	 *
+	 * @returns {void}
+	 */
 	const watchTagsList = () => {
 		const tagsList = getTagsList();
 		let currentLength = tagsList.length;
-		console.log( currentLength, "current length" );
-		console.log( previousLength, "previous length" );
 		if ( currentLength !== previousLength ) {
 			syncTags();
-			console.log( "test" );
 			previousLength = currentLength;
 		}
 	};
@@ -194,8 +208,7 @@ const createTagsSync = ( updateTerms ) => {
 	// Retrieve the Tags element.
 	const tagsElement = document.querySelector( ".tagchecklist" );
 	if ( tagsElement ) {
-		// Observe the category checklist for changes and update the categories if new categories are added.
-		// Consider only the "All Categories" section, because newly added categories will not end up in the "Most Used" section.
+		// Observe the tags list for changes and update the tags if (new) tags are added or removed.
 		const observer = new MutationObserver( () => {
 			updateTerms( { taxonomyType: "tags", terms: getPostTags() } );
 			watchTagsList();
