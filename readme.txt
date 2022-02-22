@@ -236,6 +236,20 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 18.3 =
+Release Date: March 8th, 2022
+
+Enhancements:
+
+* New feature: add a QR code to every page on your site when it's printed, that links back to the page online. Props to [Coywolf](https://coywolf.com/) for [this idea](https://twitter.com/coywolf/status/1493630040256483338?t=juq4vpF0kf4MDS3Y3GfKPg&s=08).
+* Introduces the new importer for AIOSEO
+
+Bugfixes:
+
+* Fixes a bug where the Force rewrite titles option would be shown when a user was using a block-based theme.
+* Fixes a bug where the title of a page would not get included in our `get_head` REST route.
+* Fixes potentially mangled URLs in the XML sitemaps in certain edge cases, most notably when schema-relative URLs are used.
+
 = 18.2 =
 Release Date: February 22nd, 2022
 
@@ -255,25 +269,6 @@ Other:
 
 * Adds a filter to enable/disable creating indexables: `Yoast\WP\SEO\should_index_indexables`
 * Adds an `__isset` magic method to ease working with helper surfaces. Props to @nlemoine.
-
-= 18.1 =
-Release Date: February 8th, 2022
-
-Yoast SEO 18.1 is out today! This new release brings another round of bug fixes, plus a new way for us to handle the translations in our plugin — leading to a smaller plugin size for you to install. Read more about what's new in Yoast SEO 18.1 in [our release post in English](https://yoa.st/release-8-2-22) or [our release post in Spanish](https://yoa.st/release-8-2-22-spanish)!
-
-Enhancements:
-
-* Changes the overall SEO score color on the post type overview pages to red when no keyphrase is set.
-
-Bugfixes:
-
-* Fixes a bug where images inserted into our FAQ or HowTo blocks would be rendered wider then their respective container when using a Block Theme.
-* Fixes a bug where plugins that would initialize after our plugin would be unable to register certain plugin information or utilize certain hooks.
-* Fixes a bug where capitalized keyphrases would show up twice in the Wincher SEO performance tracking modal. 
-
-Other:
-
-* Switches from packaged script translations to those from wordpress.org in order to reduce ZIP size and disk usage.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
