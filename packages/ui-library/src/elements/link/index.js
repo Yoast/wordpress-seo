@@ -1,6 +1,5 @@
 import classNames from "classnames";
 import PropTypes from "prop-types";
-import React from "react";
 
 /**
  * @param {JSX.Element} Component The component to render as.

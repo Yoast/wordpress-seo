@@ -22,7 +22,7 @@
         @apply
             yst-flex
             yst-flex-col
-            yst-gap-3;
+            yst-gap-2;
     }
 
     .yst-radio-group__description {
