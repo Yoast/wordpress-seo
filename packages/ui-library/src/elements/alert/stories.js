@@ -20,6 +20,7 @@ export const Factory = ( { children, ...args } ) => (
 	<Alert { ...args }>{ children }</Alert>
 );
 Factory.parameters = {
+	jest: "snapshot",
 	controls: { disable: false },
 };
 Factory.args = {

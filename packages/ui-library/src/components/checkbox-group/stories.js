@@ -1,4 +1,3 @@
-/* eslint-disable capitalized-comments */
 import { useState, useCallback } from "@wordpress/element";
 
 import CheckboxGroup from ".";
