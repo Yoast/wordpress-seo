@@ -7,7 +7,6 @@ import { update as updateAdminBar } from "../ui/adminBar";
 import * as publishBox from "../ui/publishBox";
 import { update as updateTrafficLight } from "../ui/trafficLight";
 import * as dom from "./helpers/dom";
-import { getPostCategories, getPostCategoryCheckboxes, getPostMostUsedCategoryCheckboxes, getPostTags, getTagsList } from "./helpers/dom";
 
 const SYNC_DEBOUNCE_TIME = 500;
 const { DOM_IDS, DOM_CLASSES, DOM_QUERIES } = dom;
@@ -137,7 +136,7 @@ const createCategoriesSync = ( updateTerms ) => {
 	 * @returns {void}
 	 */
 	const syncCategories = () => {
-		updateTerms( { taxonomyType: "categories", terms: getPostCategories() } );
+		updateTerms( { taxonomyType: "categories", terms: dom.getPostCategories() } );
 	};
 
 	/**
@@ -149,7 +148,7 @@ const createCategoriesSync = ( updateTerms ) => {
 	const watchCategoryCheckboxes = () => {
 		// Sync the categories whenever there are changes in the checkboxes.
 		// Watch both the "All Categories" and "Most Used" sections.
-		const checkboxes = [ ...getPostCategoryCheckboxes(), ...getPostMostUsedCategoryCheckboxes() ];
+		const checkboxes = [ ...dom.getPostCategoryCheckboxes(), ...dom.getPostMostUsedCategoryCheckboxes() ];
 		checkboxes.forEach(
 			checkbox => {
 				checkbox.removeEventListener( "input", syncCategories );
@@ -163,7 +162,7 @@ const createCategoriesSync = ( updateTerms ) => {
 		// Observe the category checklist for changes and update the categories if new categories are added.
 		// Consider only the "All Categories" section, because newly added categories will not end up in the "Most Used" section.
 		const observer = new MutationObserver( () => {
-			updateTerms( { taxonomyType: "categories", terms: getPostCategories() } );
+			updateTerms( { taxonomyType: "categories", terms: dom.getPostCategories() } );
 			watchCategoryCheckboxes();
 		} );
 		observer.observe( categoryChecklist, { childList: true, subtree: true } );
@@ -175,7 +174,7 @@ const createCategoriesSync = ( updateTerms ) => {
 /**
  * Watches the tags list in the classic editor for changes and updates the tags in the store accordingly.
  *
- * @param updateTerms 	A callback function to update the tags in the store.
+ * @param {function} updateTerms A callback function to update the categories in the store.
  *
  * @returns {void}
  */
@@ -188,7 +187,7 @@ const createTagsSync = ( updateTerms ) => {
 	 * @returns {void}
 	 */
 	const syncTags = () => {
-		updateTerms( { taxonomyType: "tags", terms: getPostTags() } );
+		updateTerms( { taxonomyType: "tags", terms: dom.getPostTags() } );
 	};
 
 	/**
@@ -197,8 +196,8 @@ const createTagsSync = ( updateTerms ) => {
 	 * @returns {void}
 	 */
 	const watchTagsList = () => {
-		const tagsList = getTagsList();
-		let currentLength = tagsList.length;
+		const tagsList = dom.getTagsList();
+		const currentLength = tagsList.length;
 		if ( currentLength !== previousLength ) {
 			syncTags();
 			previousLength = currentLength;
@@ -210,7 +209,7 @@ const createTagsSync = ( updateTerms ) => {
 	if ( tagsElement ) {
 		// Observe the tags list for changes and update the tags if (new) tags are added or removed.
 		const observer = new MutationObserver( () => {
-			updateTerms( { taxonomyType: "tags", terms: getPostTags() } );
+			updateTerms( { taxonomyType: "tags", terms: dom.getPostTags() } );
 			watchTagsList();
 		} );
 		observer.observe( tagsElement, { childList: true, subtree: true } );
@@ -311,7 +310,9 @@ const syncPostToStore = () => {
 	createTinyMceContentSync( DOM_IDS.POST_CONTENT, actions.updateContent );
 	// Sync editor changes to the store when in text mode.
 	createStoreSync( DOM_IDS.POST_CONTENT, actions.updateContent, "input" );
+	// Sync the category checkboxes changes to the store.
 	createCategoriesSync( actions.updateTerms );
+	// Sync the tag list changes to the store.
 	createTagsSync( actions.updateTerms );
 };
 
