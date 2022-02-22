@@ -1,9 +1,11 @@
 // Duplicated from admin-ui! ( admin-ui/packages/toolkit/components/alert.js )
-// Addition: "success" case.
+// Addition: "success" case, fade in alert.
 
+import { useCallback, useState } from "@wordpress/element";
 import { InformationCircleIcon, ExclamationIcon, XCircleIcon, CheckCircleIcon } from "@heroicons/react/solid";
 import { PropTypes } from "prop-types";
 import classNames from "classnames";
+import AnimateHeight from "react-animate-height";
 
 /**
  * Renders the alert component.
@@ -56,6 +58,50 @@ Alert.propTypes = {
 };
 
 Alert.defaultProps = {
+	type: "info",
+	className: "",
+};
+
+/**
+ * An Alert that expands and fades in.
+ * @returns {WPElement} An Alert that expands and fades in.
+ */
+export function FadeInAlert( { id, isVisible, expandDuration, type, children, className } ) {
+	const [ alertOpacity, setAlertOpacity ] = useState( "yst-opacity-0" );
+	const startOpacityTransition = useCallback( () => {
+		setAlertOpacity( "yst-opacity-100" );
+	} );
+
+	return <AnimateHeight
+		id={ id }
+		height={ isVisible ? "auto" : 0 }
+		easing="linear"
+		duration={ expandDuration }
+		onAnimationEnd={ startOpacityTransition }
+	>
+		<Alert
+			type={ type }
+			className={ classNames( "yst-transition-opacity yst-duration-300 yst-mt-4", alertOpacity, className ) }
+		>
+			{ children }
+		</Alert>
+	</AnimateHeight>;
+}
+
+FadeInAlert.propTypes = {
+	id: PropTypes.string.isRequired,
+	isVisible: PropTypes.bool.isRequired,
+	type: PropTypes.oneOf( [ "info", "warning", "error", "success" ] ),
+	children: PropTypes.oneOfType( [
+		PropTypes.arrayOf( PropTypes.node ),
+		PropTypes.node,
+	] ).isRequired,
+	expandDuration: PropTypes.number,
+	className: PropTypes.string,
+};
+
+FadeInAlert.defaultProps = {
+	expandDuration: 400,
 	type: "info",
 	className: "",
 };

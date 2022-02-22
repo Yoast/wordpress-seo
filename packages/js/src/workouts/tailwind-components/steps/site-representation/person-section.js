@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 import { openMedia } from "../../../../helpers/selectMedia";
 import UserSelector from "./user-selector";
-import Alert from "../../base/alert";
+import { FadeInAlert } from "../../base/alert";
 import ImageSelect from "../../base/image-select";
 
 /**
@@ -70,7 +70,13 @@ export function PersonSection( { dispatch, imageUrl, personId } ) {
 				onChange={ onUserChange }
 				name={ "person_id" }
 			/>
-			{ personId !== 0 && <Alert type="info" className="yst-mt-5">{ userMessage }</Alert> }
+			<FadeInAlert
+				isVisible={ personId !== 0 }
+				type="info"
+				className="yst-mt-5"
+			>
+				{ userMessage }
+			</FadeInAlert>
 			<ImageSelect
 				className="yst-mt-6"
 				id="person-logo-input"

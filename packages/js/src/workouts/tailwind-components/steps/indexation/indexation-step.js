@@ -1,9 +1,8 @@
-import { useCallback, useState, Fragment } from "@wordpress/element";
+import { Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import AnimateHeight from "react-animate-height";
 import PropTypes from "prop-types";
 
-import Alert from "../../base/alert";
+import Alert, { FadeInAlert } from "../../base/alert";
 import { addLinkToString } from "../../../../helpers/stringHelpers.js";
 import { ConfigurationIndexation } from "./ConfigurationIndexation";
 import { ReactComponent as WorkoutStartImage } from "../../../../../images/motivated_bubble_woman_1_optim.svg";
@@ -19,11 +18,6 @@ import { ReactComponent as WorkoutStartImage } from "../../../../../images/motiv
  * @returns {WPElement} The indexation step.
  */
 export default function IndexationStep( { indexingState, setIndexingState, showRunIndexationAlert } ) {
-	const [ alertOpacity, setAlertOpacity ] = useState( "yst-opacity-0" );
-	const startOpacityTransition = useCallback( () => {
-		setAlertOpacity( "yst-opacity-100" );
-	} );
-
 	return <Fragment>
 		<div className="yst-flex yst-flex-row yst-justify-between yst-flex-wrap yst-mb-8">
 			<p className="yst-text-sm yst-whitespace-pre-line yst-w-[463px]">
@@ -72,23 +66,17 @@ export default function IndexationStep( { indexingState, setIndexingState, showR
 				) }
 			</p>
 		</Alert> }
-		<AnimateHeight
+		<FadeInAlert
 			id="indexation-alert"
-			height={ indexingState === "idle" && showRunIndexationAlert ? "auto" : 0 }
-			easing="linear"
-			duration={ 400 }
-			onAnimationEnd={ startOpacityTransition }
+			isVisible={ indexingState === "idle" && showRunIndexationAlert }
+			expandDuration={ 400 }
+			type="info"
 		>
-			<Alert
-				type="info"
-				className={ `yst-transition-opacity yst-duration-300 yst-mt-4 ${ alertOpacity }` }
-			>
-				{
-					__( "Be aware that you should run the SEO data optimization for this configuration to take maximum effect.",
-						"wordpress-seo" )
-				}
-			</Alert>
-		</AnimateHeight>
+			{
+				__( "Be aware that you should run the SEO data optimization for this configuration to take maximum effect.",
+					"wordpress-seo" )
+			}
+		</FadeInAlert>
 	</Fragment>;
 }
 

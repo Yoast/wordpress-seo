@@ -1,9 +1,8 @@
-import { Fragment, useState, useCallback } from "@wordpress/element";
+import { Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import AnimateHeight from "react-animate-height";
 
 import { addLinkToString } from "../../../../helpers/stringHelpers.js";
-import Alert from "../../base/alert";
+import Alert, { FadeInAlert } from "../../base/alert";
 import SingleSelect from "../../base/single-select";
 import TextInput from "../../base/text-input";
 import { OrganizationSection } from "./organization-section";
@@ -17,11 +16,6 @@ import { PersonSection } from "./person-section";
  * @returns {WPElement} Example step.
  */
 export default function SiteRepresentationStep( { onOrganizationOrPersonChange, dispatch, state, siteRepresentationEmpty } ) {
-	const [ alertOpacity, setAlertOpacity ] = useState( "yst-opacity-0" );
-	const startOpacityTransition = useCallback( () => {
-		setAlertOpacity( "yst-opacity-100" );
-	} );
-
 	return <Fragment>
 		{  window.wpseoWorkoutsData.configuration.knowledgeGraphMessage &&  <Alert type="warning">
 			{  window.wpseoWorkoutsData.configuration.knowledgeGraphMessage }
@@ -77,29 +71,25 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 				personId={ state.personId }
 			/>
 		</Fragment> }
-		<AnimateHeight
-			id="indexation-alert"
-			height={ siteRepresentationEmpty ? "auto" : 0 }
-			easing="linear"
-			duration={ 400 }
-			onAnimationEnd={ startOpacityTransition }
+		<FadeInAlert
+			id="site-representation-empty-alert"
+			isVisible={ siteRepresentationEmpty }
+			className="yst-mt-6"
 		>
-			<Alert type="info" className={ "yst-mt-6 yst-transition-opacity yst-duration-300 " + alertOpacity }>
-				{
-					addLinkToString(
-						sprintf(
-							__(
-								"Please be aware that you need to fill out all settings in this step to get the most value out of structured data. %1$sRead more about the importance of structured data%2$s.",
-								"wordpress-seo"
-							),
-							"<a>",
-							"</a>"
+			{
+				addLinkToString(
+					sprintf(
+						__(
+							"Please be aware that you need to fill out all settings in this step to get the most value out of structured data. %1$sRead more about the importance of structured data%2$s.",
+							"wordpress-seo"
 						),
-						"https://where-does-this-link.go",
-						"yoast-configuration-structured-data-link"
-					)
-				}
-			</Alert>
-		</AnimateHeight>
+						"<a>",
+						"</a>"
+					),
+					"https://where-does-this-link.go",
+					"yoast-configuration-structured-data-link"
+				)
+			}
+		</FadeInAlert>
 	</Fragment>;
 }

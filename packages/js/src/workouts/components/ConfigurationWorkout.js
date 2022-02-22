@@ -485,6 +485,9 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 			( ! state.personId || ! state.personLogo ) ) {
 			setSiteRepresentationEmpty( true );
 			return false;
+		} else if ( ! siteRepresentationEmpty && state.companyOrPerson === "emptyChoice" ) {
+			setSiteRepresentationEmpty( true );
+			return false;
 		}
 		setSiteRepresentationEmpty( false );
 		updateSiteRepresentation( state )
