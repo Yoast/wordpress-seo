@@ -63,6 +63,16 @@ class WordProof implements Integration_Interface {
 		\add_action( 'init', [ $this, 'sdk_setup' ], 11 );
 
 		/**
+		 * Removes the post meta timestamp key for the old privacy page.
+		 */
+		\add_action( 'update_option_wp_page_for_privacy_policy', [ $this, 'disable_timestamp_for_previous_legal_page' ], 10, 2 );
+
+		/**
+		 * Removes the post meta timestamp key for the old terms and conditions page.
+		 */
+		\add_action( 'update_option_woocommerce_terms_page_id', [ $this, 'disable_timestamp_for_previous_legal_page' ], 10, 2 );
+
+		/**
 		 * Called by the WordProof WordPress SDK to determine if the post should be timestamped.
 		 */
 		\add_filter( 'wordproof_timestamp_post_meta_key_overrides', [ $this, 'add_post_meta_key' ] );
@@ -94,6 +104,17 @@ class WordProof implements Integration_Interface {
 		WordPressSDK::getInstance( $config, $translations )
 			->certificate()
 			->initialize();
+	}
+
+	/**
+	 * Removes the WordProof timestamp post meta if the privacy is changed.
+	 */
+	public function disable_timestamp_for_previous_legal_page( $old_post_id, $new_post_id ) {
+
+		if ( $old_post_id !== $new_post_id ) {
+			delete_post_meta( $old_post_id, '_yoast_wpseo_wordproof_timestamp');
+		}
+
 	}
 
 	/**
