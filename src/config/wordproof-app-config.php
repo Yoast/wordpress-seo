@@ -2,17 +2,12 @@
 
 namespace Yoast\WP\SEO\Config;
 
-use WordProof\SDK\Config\AppConfigInterface;
+use WordProof\SDK\Config\DefaultAppConfig;
 
-class WordProofAppConfig implements AppConfigInterface
+class WordProofAppConfig extends DefaultAppConfig
 {
     public function getPartner()
     {
         return 'yoast';
-    }
-
-    public function getEnvironment()
-    {
-        return 'staging';
     }
 }
