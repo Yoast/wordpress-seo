@@ -1,16 +1,19 @@
 /* eslint-disable no-undefined */
 import classNames from "classnames";
 import PropTypes from "prop-types";
-
 import Label from "../../elements/label";
 import Select from "../../elements/select";
 
 /**
  * @param {string} id Identifier.
+ * @param {string} value Selected value.
  * @param {{ value, label }[]} options Options to choose from.
  * @param {Function} onChange Change callback.
  * @param {JSX.Element} error Error node.
  * @param {string} [className] CSS class.
+ * @param {JSX.node} [label] Optional label.
+ * @param {JSX.node} [children] Optional description.
+ * @param {Object} [props] Any extra props.
  * @returns {JSX.Element} SelectField component.
  */
 const SelectField = ( {

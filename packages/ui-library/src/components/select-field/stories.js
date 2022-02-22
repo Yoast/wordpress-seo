@@ -1,6 +1,4 @@
-/* eslint-disable capitalized-comments */
-import { useState, useCallback } from "@wordpress/element";
-
+import { useCallback, useState } from "@wordpress/element";
 import SelectField from ".";
 
 export default {
@@ -48,7 +46,7 @@ Factory.args = {
 	],
 };
 
-export const WithLabelAndDescription = Template.bind();
+export const WithLabelAndDescription = Template.bind( {} );
 WithLabelAndDescription.args = {
 	id: "select-field-1",
 	name: "name-1",
@@ -62,7 +60,7 @@ WithLabelAndDescription.args = {
 	children: "Select field with a description.",
 };
 
-export const WithError = Template.bind();
+export const WithError = Template.bind( {} );
 WithError.args = {
 	id: "select-field-2",
 	name: "name-2",

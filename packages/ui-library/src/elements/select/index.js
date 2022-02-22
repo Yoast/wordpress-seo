@@ -6,10 +6,12 @@ import { CheckIcon, SelectorIcon, ExclamationCircleIcon } from "@heroicons/react
 
 /**
  * @param {string} id Identifier.
+ * @param {string} value Selected value.
  * @param {{ value, label }[]} options Options to choose from.
  * @param {Function} onChange Change callback.
  * @param {boolean} isError Error message.
  * @param {string} [className] CSS class.
+ * @param {Object} [props] Any extra props.
  * @returns {JSX.Element} Select component.
  */
 const Select = ( {
