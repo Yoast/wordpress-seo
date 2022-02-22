@@ -1,5 +1,5 @@
 import { PhotographIcon } from "@heroicons/react/outline";
-import { useCallback, useReducer } from "@wordpress/element";
+import { useCallback } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import classNames from "classnames";
 import { noop } from "lodash";
@@ -55,7 +55,7 @@ export default function ImageSelect( {
 		} else if ( url ) {
 			return <img src={ url } alt={ imageAltText } className="yst-w-full yst-h-full yst-object-contain" />;
 		}
-		return <PhotographIcon id={ `${ id }-no-image-svg` } className="yst-h-12 yst-w-12 yst-text-gray-500" />;
+		return <PhotographIcon id={ `${ id }-no-image-svg` } className="yst-w-14 yst-h-14 yst-text-gray-500" />;
 	}, [ status, id, url, imageAltText ] );
 
 	return (
