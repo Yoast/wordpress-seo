@@ -4,10 +4,10 @@ import classNames from "classnames";
 
 const classNameMap = {
 	size: {
-		1: "yst-text-2xl",
-		2: "yst-text-l",
-		3: "yst-text-sm",
-		4: "yst-text-base",
+		1: "yst-title--1",
+		2: "yst-title--2",
+		3: "yst-title--3",
+		4: "yst-title--4",
 	},
 };
 

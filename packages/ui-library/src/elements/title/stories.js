@@ -32,7 +32,7 @@ export const As = args => (
 		<Title as="h2">As h2</Title>
 		<Title as="h3">As h3</Title>
 		<Title as="h4">As h4</Title>
-		<Title as="span" size="2">As span with size 1</Title>
+		<Title as="span" size="2">As span with size 2</Title>
 	</div>
 );
 As.parameters = {
