@@ -7,7 +7,7 @@ import { update as updateAdminBar } from "../ui/adminBar";
 import * as publishBox from "../ui/publishBox";
 import { update as updateTrafficLight } from "../ui/trafficLight";
 import * as dom from "./helpers/dom";
-import { getPostCategories, getPostCategoryCheckboxes, getPostMostUsedCategoryCheckboxes } from "./helpers/dom";
+import { getPostCategories, getPostCategoryCheckboxes, getPostMostUsedCategoryCheckboxes, getPostTags, getTagsList } from "./helpers/dom";
 
 const SYNC_DEBOUNCE_TIME = 500;
 const { DOM_IDS, DOM_CLASSES, DOM_QUERIES } = dom;
@@ -172,6 +172,38 @@ const createCategoriesSync = ( updateTerms ) => {
 	watchCategoryCheckboxes();
 };
 
+const createTagsSync = ( updateTerms ) => {
+	let previousLength = 0;
+
+	const syncTags = () => {
+		updateTerms( { taxonomyType: "tags", terms: getPostTags() } );
+	};
+
+	const watchTagsList = () => {
+		const tagsList = getTagsList();
+		let currentLength = tagsList.length;
+		console.log( currentLength, "current length" );
+		console.log( previousLength, "previous length" );
+		if ( currentLength !== previousLength ) {
+			syncTags();
+			console.log( "test" );
+			previousLength = currentLength;
+		}
+	};
+
+	// Retrieve the Tags element.
+	const tagsElement = document.querySelector( ".tagchecklist" );
+	if ( tagsElement ) {
+		// Observe the category checklist for changes and update the categories if new categories are added.
+		// Consider only the "All Categories" section, because newly added categories will not end up in the "Most Used" section.
+		const observer = new MutationObserver( () => {
+			updateTerms( { taxonomyType: "tags", terms: getPostTags() } );
+			watchTagsList();
+		} );
+		observer.observe( tagsElement, { childList: true, subtree: true } );
+	}
+};
+
 /**
  * Watches and syncs post DOM changes to the store.
  *
@@ -267,6 +299,7 @@ const syncPostToStore = () => {
 	// Sync editor changes to the store when in text mode.
 	createStoreSync( DOM_IDS.POST_CONTENT, actions.updateContent, "input" );
 	createCategoriesSync( actions.updateTerms );
+	createTagsSync( actions.updateTerms );
 };
 
 /**

@@ -231,14 +231,24 @@ export const getPostCategories = () => {
 	return [];
 };
 
+export const getTagsList = () => {
+	return [ ...document.querySelectorAll( ".tagchecklist" )[ 0 ].childNodes ];
+};
+
 export const getPostTags = () => {
-	const tagsList = [ ...document.querySelectorAll( ".tagchecklist" ) ];
+	const tagsList = getTagsList();
+	console.log( { tagsList } );
 	if ( tagsList.length !== 0 ) {
-		const tags = [ ...tagsList[ 0 ].childNodes ];
-		const tagNames = tags.map( tag => tag.innerText );
+		let tagNames = tagsList.map( tag => tag.innerText );
+		const cleanTagNamesRegex = new RegExp( "(Remove term: )(.*)(\\n)(\\s)", "i" );
+
+		tagNames = tagNames.map( tag => tag.replace( cleanTagNamesRegex, "" ) );
+
+		console.log( tagNames, "Tag names")
+		return tagNames;
 	}
 
-	return "";
+	return [];
 };
 
 /**

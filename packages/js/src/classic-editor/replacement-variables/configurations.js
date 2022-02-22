@@ -98,7 +98,13 @@ export const siteDescription = {
 export const tag = {
 	name: "tag",
 	getLabel: () => __( "Tag", "wordpress-seo" ),
-	getReplacement: () => get( window, "wpseoScriptData.analysis.plugins.replaceVars.replace_vars.tag", "" ),
+	getReplacement: () => {
+		let tags = select( SEO_STORE_NAME ).selectTerms( "tags" );
+		console.log( tags );
+		tags = tags.map( tag => tag ).join( ", " );
+		console.log( tags, "tags string" )
+		return tags;
+	},
 };
 
 export const tagDescription = {
