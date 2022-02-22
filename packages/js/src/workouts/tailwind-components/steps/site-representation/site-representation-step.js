@@ -1,5 +1,7 @@
-import { Fragment } from "@wordpress/element";
+import { Fragment, useState, useCallback } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
+import ReactAnimateHeight from "react-animate-height";
+import classNames from "classnames";
 
 import { addLinkToString } from "../../../../helpers/stringHelpers.js";
 import Alert, { FadeInAlert } from "../../base/alert";
@@ -16,6 +18,11 @@ import { PersonSection } from "./person-section";
  * @returns {WPElement} Example step.
  */
 export default function SiteRepresentationStep( { onOrganizationOrPersonChange, dispatch, state, siteRepresentationEmpty } ) {
+	const [ sectionOpacity, setSectionOpacity ] = useState( state.companyOrPerson === "emptyChoice" ? "yst-opacity-0" : "yst-opacity-100" );
+	const startOpacityTransition = useCallback( () => {
+		setSectionOpacity( "yst-opacity-100" );
+	} );
+
 	return <Fragment>
 		{  window.wpseoWorkoutsData.configuration.knowledgeGraphMessage &&  <Alert type="warning">
 			{  window.wpseoWorkoutsData.configuration.knowledgeGraphMessage }
@@ -57,20 +64,25 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 				readOnly={ true }
 			/>
 		}
-		{ state.companyOrPerson === "company" && <Fragment>
-			<OrganizationSection
-				dispatch={ dispatch }
-				imageUrl={ state.companyLogo }
-				organizationName={ state.companyName }
-			/>
-		</Fragment> }
-		{ state.companyOrPerson === "person" && <Fragment>
-			<PersonSection
-				dispatch={ dispatch }
-				imageUrl={ state.personLogo }
-				personId={ state.personId }
-			/>
-		</Fragment> }
+		<ReactAnimateHeight
+			height={ [ "company", "person" ].includes( state.companyOrPerson ) ? "auto" : 0 }
+			duration={ 400 }
+			easing="linear"
+			onAnimationEnd={ startOpacityTransition }
+		>
+			<div className={ classNames( "yst-transition-opacity yst-duration-300", sectionOpacity ) }>
+				{ state.companyOrPerson === "company" && <OrganizationSection
+					dispatch={ dispatch }
+					imageUrl={ state.companyLogo }
+					organizationName={ state.companyName }
+				/> }
+				{ state.companyOrPerson === "person" && <PersonSection
+					dispatch={ dispatch }
+					imageUrl={ state.personLogo }
+					personId={ state.personId }
+				/> }
+			</div>
+		</ReactAnimateHeight>
 		<FadeInAlert
 			id="site-representation-empty-alert"
 			isVisible={ siteRepresentationEmpty }
