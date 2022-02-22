@@ -60,7 +60,7 @@ function wpseo_import_external_select( $name, $plugins ) {
 
 <div class="tab-block">
 	<h3><?php esc_html_e( 'Step 2: Import', 'wordpress-seo' ); ?></h3>
-	<p>
+	<p class="yoast-import-explanation">
 		<?php
 		printf(
 			/* translators: 1: expands to Yoast SEO */
@@ -105,7 +105,7 @@ function wpseo_import_external_select( $name, $plugins ) {
 
 <div class="tab-block">
 	<h3><?php esc_html_e( 'Step 5: Clean up', 'wordpress-seo' ); ?></h3>
-	<p>
+	<p class="yoast-cleanup-explanation">
 		<?php esc_html_e( 'Once you\'re certain your site is OK, you can clean up. This will remove all the original data.', 'wordpress-seo' ); ?>
 	</p>
 	<form action="<?php echo esc_url( admin_url( 'admin.php?page=wpseo_tools&tool=import-export#top#import-seo' ) ); ?>"

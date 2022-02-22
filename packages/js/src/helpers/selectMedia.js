@@ -17,6 +17,7 @@ function getMedia( onSelect ) {
 			height: selected.attributes.height,
 			url: selected.attributes.url,
 			id: selected.attributes.id,
+			sizes: selected.attributes.sizes,
 		};
 		onSelect( image );
 	} );

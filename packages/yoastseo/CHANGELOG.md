@@ -23,6 +23,7 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 * Adds a few entries to the list of `multipleWords` for French transition words.
 * Removes feature flag for Japanese support to prepare Japanese for release.
 * Adds Japanese configuration for meta description length.
+* Removes apostrophe before Turkish words are stemmed.
 
 ### Bugfixes
 * Moves the initialization of Keyphrase distribution assessment inside `AnalysisWebWorker.js`.
@@ -113,6 +114,7 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 * Adds the option to pass a custom `matchWordInText` helper and a helper for matching Japanese keyphrases in the `findKeywordInFirstParagraph` research.
 * Fixes the Japanese full text test.
 * Adds a Japanese full text test.
+* Recognises internal link if the site's host is null but the site domain and the link host are the same.
 
 
 ## 1.92.0
