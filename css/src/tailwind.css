@@ -2,8 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Custom button classes because we're not using a Button component. This will ensure all buttons being exactly the same. */
 @layer components {
+	/* Custom button classes because we're not using a Button component. This will ensure all buttons being exactly the same. */
 	.yst-button {
 		@apply yst-inline-flex yst-justify-center yst-py-2 yst-px-3 yst-border yst-shadow-sm yst-rounded-md yst-text-sm yst-font-medium yst-leading-4 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-indigo-500 yst-no-underline;
 	}
@@ -27,8 +27,15 @@
 	.yst-button--small {
 		@apply yst-text-[12px] yst-px-2.5 yst-py-1.5;
 	}
+
 }
 
+@layer components {
+	/* Override aggressive WordPress inputs styling */
+	.yst-input {
+		@apply yst-py-2 yst-px-3 yst-border yst-bg-white yst-rounded-md yst-shadow-sm yst-text-sm yst-placeholder-gray-500 !important;
+	}
+}
 /* Temporary fix until we solve the base layer issue with WordPress */
 .yoast a {
 	text-decoration: underline;

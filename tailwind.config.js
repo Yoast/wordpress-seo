@@ -43,5 +43,6 @@ module.exports = {
 		},
 	},
 	plugins: [],
+	important: true,
 	prefix: "yst-",
 };

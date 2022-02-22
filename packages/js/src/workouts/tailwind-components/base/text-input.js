@@ -19,11 +19,11 @@ import MultiLineText from "./multi-line-text";
  *
  * @returns {JSX.Element} The Text Input component.
  */
-export default function TextInput( { className, id, label, value, onChange, placeholder, error, type } ) {
+export default function TextInput( { className, id, label, value, onChange, placeholder, error, type, ...inputProps } ) {
 	const inputType = type ? type : "text";
 	return (
 		<div className={ className }>
-			{ label && <label className="yst-block yst-mb-2" htmlFor={ id }>
+			{ label && <label className="yst-block yst-mb-2 yst-font-medium" htmlFor={ id }>
 				{ label }
 			</label> }
 			<div className="yst-relative">
@@ -32,12 +32,13 @@ export default function TextInput( { className, id, label, value, onChange, plac
 					type={ inputType }
 					value={ value }
 					className={ classNames(
-						"yst-block yst-w-full yst-input",
-						error.isVisible ? "yst-border-red-300 yst-text-red-900 focus:yst-ring-red-500 focus:yst-border-red-500" : "yst-text-gray-700 yst-border-gray-300 focus:yst-ring-indigo-500 focus:yst-border-indigo-500"
+						"yst-block yst-w-full yst-h-[45px] yst-input",
+						error.isVisible ? "yst-border-red-300 yst-text-red-900 focus:yst-ring-red-500 focus:yst-border-red-500" : "yst-text-gray-700 yst-border-gray-300 focus:yst-ring-1 focus:yst-ring-primary-500 focus:yst-border-primary-500"
 					) }
 					onChange={ onChange }
 					placeholder={ placeholder }
 					{ ...getErrorAriaProps( id, error ) }
+					{ ...inputProps }
 				/>
 				{ error.isVisible && <div className="yst-flex yst-items-center yst-absolute yst-inset-y-0 yst-right-0 yst-mr-3">
 					<ExclamationCircleIcon className="yst-pointer-events-none yst-h-5 yst-w-5 yst-text-red-500" />

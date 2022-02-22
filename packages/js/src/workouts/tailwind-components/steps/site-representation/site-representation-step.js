@@ -1,9 +1,10 @@
-import { Fragment, useState, useEffect, useCallback } from "@wordpress/element";
+import { Fragment, useState, useCallback } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
+import AnimateHeight from "react-animate-height";
 
 import { addLinkToString } from "../../../../helpers/stringHelpers.js";
 import Alert from "../../base/alert";
-import SingleSelect, { SelectWithEmpty } from "../../base/single-select";
+import SingleSelect from "../../base/single-select";
 import TextInput from "../../base/text-input";
 import { OrganizationSection } from "./organization-section";
 import { PersonSection } from "./person-section";
@@ -15,7 +16,12 @@ import { PersonSection } from "./person-section";
  *
  * @returns {WPElement} Example step.
  */
-export default function SiteRepresentationStep( { onOrganizationOrPersonChange, dispatch, state, siteRepresentsPerson, onSiteTaglineChange, siteRepresentationEmpty } ) {
+export default function SiteRepresentationStep( { onOrganizationOrPersonChange, dispatch, state, siteRepresentationEmpty } ) {
+	const [ alertOpacity, setAlertOpacity ] = useState( "yst-opacity-0" );
+	const startOpacityTransition = useCallback( () => {
+		setAlertOpacity( "yst-opacity-100" );
+	} );
+
 	return <Fragment>
 		{  window.wpseoWorkoutsData.configuration.knowledgeGraphMessage &&  <Alert type="warning">
 			{  window.wpseoWorkoutsData.configuration.knowledgeGraphMessage }
@@ -58,47 +64,42 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 			/>
 		}
 		{ state.companyOrPerson === "company" && <Fragment>
-			{ ( ! state.companyName || ! state.companyLogo ) && <Alert type="warning">
-				{ __(
-					// eslint-disable-next-line max-len
-					"You need to set an organization name and logo for structured data to work properly.",
-					"wordpress-seo"
-				) }
-			</Alert> }
 			<OrganizationSection
 				dispatch={ dispatch }
 				imageUrl={ state.companyLogo }
 				organizationName={ state.companyName }
 			/>
 		</Fragment> }
-		{ siteRepresentsPerson && <Fragment>
-			{ ( ! state.personLogo || state.personId === 0 ) && <Alert type="warning">
-				{ __(
-					// eslint-disable-next-line max-len
-					"You need to set a person name and logo for structured data to work properly.",
-					"wordpress-seo"
-				) }
-			</Alert> }
+		{ state.companyOrPerson === "person" && <Fragment>
 			<PersonSection
 				dispatch={ dispatch }
 				imageUrl={ state.personLogo }
 				personId={ state.personId }
 			/>
 		</Fragment> }
-		{ window.wpseoWorkoutsData.canEditWordPressOptions && <TextInput
-			id="site-tagline-input"
-			name="site-tagline"
-			label={ __( "Site tagline", "wordpress-seo" ) }
-			description={ sprintf( __( "Add a catchy tagline that describes your site in the best light. Use the keywords you want people to find your site with. Example: %1$s’s tagline is ‘SEO for everyone.’", "wordpress-seo" ), "Yoast" ) }
-			value={ state.siteTagline }
-			onChange={ onSiteTaglineChange }
-		/> }
-		{ siteRepresentationEmpty && <Alert type="warning">
-			{ __(
-				// eslint-disable-next-line max-len
-				"Please be aware that you need to set a name and logo in step 2 for structured data to work properly.",
-				"wordpress-seo"
-			) }
-		</Alert> }
+		<AnimateHeight
+			id="indexation-alert"
+			height={ siteRepresentationEmpty ? "auto" : 0 }
+			easing="linear"
+			duration={ 400 }
+			onAnimationEnd={ startOpacityTransition }
+		>
+			<Alert type="info" className={ "yst-mt-6 yst-transition-opacity yst-duration-300 " + alertOpacity }>
+				{
+					addLinkToString(
+						sprintf(
+							__(
+								"Please be aware that you need to fill out all settings in this step to get the most value out of structured data. %1$sRead more about the importance of structured data%2$s.",
+								"wordpress-seo"
+							),
+							"<a>",
+							"</a>"
+						),
+						"https://where-does-this-link.go",
+						"yoast-configuration-structured-data-link"
+					)
+				}
+			</Alert>
+		</AnimateHeight>
 	</Fragment>;
 }

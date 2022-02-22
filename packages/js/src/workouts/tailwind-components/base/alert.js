@@ -36,12 +36,10 @@ export default function Alert( { type, children, className } ) {
 			break;
 	}
 
-	const marginBottom = className.indexOf( "yst-mb-" ) === -1 ? "yst-mb-8" : "";
-
 	return (
-		<div className={ classNames( "yst-flex yst-p-4 yst-rounded-md last:yst-mb-0", marginBottom, color, className ) }>
+		<div className={ classNames( "yst-flex yst-p-4 yst-rounded-md last:yst-mb-0", color, className ) }>
 			{ icon }
-			<div className="yst-flex-1 yst-ml-3 md:yst-flex md:yst-justify-between yst-text-sm">
+			<div className="yst-flex-1 yst-ml-3 yst-text-sm">
 				{ children }
 			</div>
 		</div>

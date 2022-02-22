@@ -31,11 +31,11 @@ export default function Select( { id, value, choices, label, onChange, error } )
 			{ ( { open } ) => (
 				<>
 					{ label && <Listbox.Label className="yst-block yst-mb-2 yst-text-sm yst-font-medium yst-text-gray-700">{ label }</Listbox.Label> }
-					<div className="yst-mb-8 yst-max-w-sm yst-min-h-[42px] last:yst-mb-0">
+					<div className="yst-max-w-sm">
 						<div className="yst-relative">
 							<Listbox.Button
 								className={ classNames(
-									"yst-relative yst-w-full yst-leading-6 yst-py-2 yst-pl-3 yst-pr-10 yst-text-left yst-text-gray-700 yst-bg-white yst-border yst-rounded-md yst-shadow-sm yst-cursor-default focus:yst-outline-none focus:yst-ring-1 focus:yst-ring-indigo-500 focus:yst-border-indigo-500 sm:yst-text-sm",
+									"yst-relative yst-h-[45px] yst-w-full yst-leading-6 yst-py-2 yst-pl-3 yst-pr-10 yst-text-left yst-text-gray-700 yst-bg-white yst-border yst-rounded-md yst-shadow-sm yst-cursor-default focus:yst-outline-none focus:yst-ring-1 focus:yst-ring-primary-500 focus:yst-border-primary-500 sm:yst-text-sm",
 									error.isVisible ? "yst-border-red-300" : "yst-border-gray-300"
 								) }
 								{ ...getErrorAriaProps( id, error ) }

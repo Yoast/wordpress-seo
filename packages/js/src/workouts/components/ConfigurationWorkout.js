@@ -840,7 +840,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 			<UnsavedChangesModal hasUnsavedChanges={ state.editedSteps.includes( activeStepIndex + 1 ) } />
 
 			<button
-				className="yst-button--danger yst-mt-4"
+				className="yst-button yst-button--danger yst-mt-4"
 				onClick={ () => {
 					setHideOriginal( prevState => ! prevState  );
 				} }
