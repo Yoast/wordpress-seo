@@ -35,7 +35,7 @@ overrides:
       camelcase: 1
       complexity: [ 1, 6 ]
       brace-style: 1
-      max-len: [ 2, { "code": 150, "ignoreStrings": true }]
+      max-len: [ 2, { "code": 150, "ignoreStrings": true, "ignoreTemplateLiterals": true }]
       max-statements: 1
       no-shadow: 1
       require-jsdoc: 1

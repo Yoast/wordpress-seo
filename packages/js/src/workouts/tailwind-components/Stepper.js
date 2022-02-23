@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { stepperTimings, stepperTimingClasses } from "../stepper-helper";
 import StepHeader from "./StepHeader";
 
-/* eslint-disable complexity, max-len */
+/* eslint-disable complexity */
 const {
 	slideDuration,
 	delayBeforeOpening,
@@ -227,4 +227,4 @@ Step.Content = Content;
 Step.Header = StepHeader;
 Step.GoButton = GoButton;
 Step.EditButton = EditButton;
-/* eslint-enable complexity, max-len */
+/* eslint-enable complexity */

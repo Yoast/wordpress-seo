@@ -5,7 +5,6 @@ import { __ } from "@wordpress/i18n";
 import { noop } from "lodash";
 import { PropTypes } from "prop-types";
 
-/* eslint-disable max-len */
 /**
  * Modal component.
  *
@@ -82,4 +81,3 @@ TailwindModal.defaultProps = {
 	handleClose: noop,
 	hasCloseButton: true,
 };
-/* eslint-enable max-len */

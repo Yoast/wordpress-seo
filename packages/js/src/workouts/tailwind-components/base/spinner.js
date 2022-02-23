@@ -20,7 +20,7 @@ const Spinner = ( { color, size, className } ) => {
 				`yst-w-${ size }`,
 				`yst-h-${ size }`,
 				`yst-text-${ color }`,
-				className,
+				className
 			) }
 		>
 			<circle className="yst-opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />

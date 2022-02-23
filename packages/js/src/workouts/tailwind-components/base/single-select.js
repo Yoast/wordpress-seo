@@ -6,7 +6,6 @@ import { PropTypes } from "prop-types";
 import { getErrorAriaProps, getErrorId } from "../helpers";
 import MultiLineText from "./multi-line-text";
 
-/* eslint-disable max-len */
 /**
  * The Select component.
  *
@@ -130,4 +129,3 @@ Select.defaultProps = {
 		isVisible: false,
 	},
 };
-/* eslint-enable max-len */

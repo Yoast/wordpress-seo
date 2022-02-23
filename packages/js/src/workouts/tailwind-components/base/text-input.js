@@ -5,7 +5,6 @@ import { PropTypes } from "prop-types";
 import { getErrorAriaProps, getErrorId } from "../helpers";
 import MultiLineText from "./multi-line-text";
 
-/* eslint-disable max-len */
 /**
  * The Text Input component.
  *
@@ -75,4 +74,3 @@ TextInput.defaultProps = {
 	},
 	type: "text",
 };
-/* eslint-enable max-len */

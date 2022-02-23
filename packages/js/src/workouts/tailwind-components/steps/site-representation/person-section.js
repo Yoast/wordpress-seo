@@ -36,7 +36,6 @@ export function PersonSection( { dispatch, imageUrl, personId } ) {
 		[ dispatch ]
 	);
 
-	/* eslint-disable max-len */
 	const userMessage = createInterpolateElement(
 		sprintf(
 			// translators: %1$s is replaced by the selected user's name, and %2$s and %3$s are opening and closing anchor tags.
@@ -58,7 +57,6 @@ export function PersonSection( { dispatch, imageUrl, personId } ) {
 			/>,
 		}
 	);
-	/* eslint-enable max-len */
 
 	return (
 		<Fragment>

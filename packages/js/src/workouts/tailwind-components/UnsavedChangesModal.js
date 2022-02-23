@@ -4,7 +4,6 @@ import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 import TailwindModal from "./TailwindModal";
 
-/* eslint-disable max-len */
 /**
  * Prompt the user to save when changing route.
  *
@@ -157,4 +156,3 @@ export default function UnsavedChangesModal( { hasUnsavedChanges } ) {
 UnsavedChangesModal.propTypes = {
 	hasUnsavedChanges: PropTypes.bool.isRequired,
 };
-/* eslint-enable max-len */
