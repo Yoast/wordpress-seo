@@ -44,7 +44,12 @@ export default function UnsavedChangesModal( { hasUnsavedChanges, title, descrip
 	 */
 	const popStateEventHandler = useCallback( () => {
 		if ( hasUnsavedChanges ) {
+			// Prevent browser modal popup to show on top of Yoast modal popup
 			window.removeEventListener( "beforeunload", beforeUnloadEventHandler );
+
+			// Prevent popStateEventHandler to be triggered by the history.go call
+			window.removeEventListener( "popstate", popStateEventHandler );
+
 			history.go( 1 );
 			setTargetUrl( "popped" );
 			setModalIsOpen( true );
@@ -69,7 +74,6 @@ export default function UnsavedChangesModal( { hasUnsavedChanges, title, descrip
 		if ( targetUrl === "popped" ) {
 			window.removeEventListener( "popstate", popStateEventHandler );
 			history.go( -2 );
-			setModalIsOpen( false );
 		}  else {
 			window.location.replace( targetUrl );
 		}
