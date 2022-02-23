@@ -1,4 +1,4 @@
-import { primaryCategory } from "../../../src/classic-editor/replacement-variables/configurations";
+import { primaryCategory, tag } from "../../../src/classic-editor/replacement-variables/configurations";
 import * as data from "@wordpress/data";
 
 self.wpseoPrimaryCategoryL10n = {
@@ -20,7 +20,7 @@ let selectTerms = jest.fn().mockReturnValue( [
 	},
 ] );
 
-describe( "a test for getting the replacement of the variables in classic editor", () => {
+describe( "a test for getting the replacement of the primary category variable in classic editor", () => {
 	it( "should return the replacement for primary category variable when the id from the store is not undefined", () => {
 		jest.spyOn( data, "select" ).mockImplementation( () => {
 			return {
@@ -88,5 +88,42 @@ describe( "a test for getting the replacement of the variables in classic editor
 		} );
 
 		expect( primaryCategory.getReplacement() ).toEqual( "" );
+	} );
+} );
+
+self.wpseoScriptData = {
+	analysis: {
+		plugins: {
+			replaceVars: {
+				replace_vars: {
+					tag: "cats",
+				},
+			},
+		},
+	},
+};
+
+describe( "a test for getting the replacement of the tag variable in classic editor", () => {
+	it( "should return the replacement for tag variable when the store doesn't return an empty array of tag(s)", () => {
+		selectTerms = jest.fn().mockReturnValue( [ "tortie cat", "tortoiseshell cat" ] );
+		jest.spyOn( data, "select" ).mockImplementation( () => {
+			return {
+				selectTerms: selectTerms,
+			};
+		} );
+
+		expect( tag.getReplacement() ).toEqual( "tortie cat, tortoiseshell cat" );
+	} );
+
+	it( "should return the replacement for tag variable when the store returns an empty array of tag(s): " +
+		"it should return the tags from wpseoScriptData", () => {
+		selectTerms = jest.fn().mockReturnValue( [] );
+		jest.spyOn( data, "select" ).mockImplementation( () => {
+			return {
+				selectTerms: selectTerms,
+			};
+		} );
+
+		expect( tag.getReplacement() ).toEqual( "cats" );
 	} );
 } );
