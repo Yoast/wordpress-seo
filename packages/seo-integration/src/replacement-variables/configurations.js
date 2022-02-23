@@ -29,7 +29,10 @@ export const date = {
 		},
 	),
 };
-// pick excerpt from content if an exceprt field was not added
+
+/**
+ * Picks the excerpt from content if an excerpt field was not added.
+ */
 export const excerpt = {
 	name: "excerpt",
 	getLabel: () => __( "Excerpt", "wordpress-seo" ),
