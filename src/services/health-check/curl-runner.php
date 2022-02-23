@@ -101,7 +101,6 @@ class Curl_Runner implements Runner_Interface {
 		}
 
 		$this->check_curl_is_recent();
-		$this->check_has_installed_addons();
 		$this->check_can_reach_my_yoast_api();
 	}
 

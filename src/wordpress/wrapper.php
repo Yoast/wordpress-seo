@@ -6,6 +6,7 @@ use wpdb;
 use WPSEO_Addon_Manager;
 use WPSEO_Admin_Asset_Manager;
 use WPSEO_Replace_Vars;
+use WPSEO_Ryte;
 use WPSEO_Shortlinker;
 
 /**
@@ -60,5 +61,14 @@ class Wrapper {
 	 */
 	public static function get_shortlinker() {
 		return new WPSEO_Shortlinker();
+	}
+
+	/**
+	 * Factory function for the Ryte API.
+	 *
+	 * @return WPSEO_Ryte
+	 */
+	public static function get_ryte() {
+		return new WPSEO_Ryte();
 	}
 }

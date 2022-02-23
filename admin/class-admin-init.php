@@ -51,7 +51,6 @@ class WPSEO_Admin_Init {
 
 		$health_checks = [
 			new WPSEO_Health_Check_Page_Comments(),
-			new WPSEO_Health_Check_Ryte(),
 			new WPSEO_Health_Check_Postname_Permalink(),
 			new WPSEO_Health_Check_Link_Table_Not_Accessible(),
 		];
