@@ -248,7 +248,8 @@ Bugfixes:
 
 * Fixes a bug where the Force rewrite titles option would be shown when a user was using a block-based theme.
 * Fixes a bug where the title of a page would not get included in our `get_head` REST route.
-* Fixes potentially mangled URLs in the XML sitemaps in certain edge cases, most notably when schema-relative URLs are used.
+* Fixes a bug where URLs in the XML sitemaps in certain edge cases would potentially be mangled, most notably when schema-relative URLs were being used.
+* Fixes an issue where HowTo images would not be optimized if they did not start with the site URL.
 
 = 18.2 =
 Release Date: February 22nd, 2022
