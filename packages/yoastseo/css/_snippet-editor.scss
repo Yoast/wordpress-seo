@@ -176,9 +176,6 @@ $snippet_width: 600px;
 
 				&__title, &__url, &__meta {
 					width: 100%;
-					// Worth noting that inside the yoast-section everything is already border-box.
-					// Setting this property on specific elements is needed just for the browserified example.
-					box-sizing: border-box;
 				}
 
 				&__title {
