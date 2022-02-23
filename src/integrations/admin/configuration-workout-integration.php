@@ -343,21 +343,21 @@ class Configuration_Workout_Integration implements Integration_Interface {
 	private function get_company_or_person_options() {
 		$options = [
 			[
-				'label'  => __( 'Organization', 'wordpress-seo' ),
+				'label' => __( 'Organization', 'wordpress-seo' ),
 				'value' => 'company',
-				'id' => 'company',
+				'id'    => 'company',
 			],
 			[
-				'label'  => __( 'Person', 'wordpress-seo' ),
+				'label' => __( 'Person', 'wordpress-seo' ),
 				'value' => 'person',
-				'id' => 'person',
+				'id'    => 'person',
 			],
 		];
 		if ( $this->should_force_company() ) {
 			$options = [
-				'label'  => __( 'Organization', 'wordpress-seo' ),
+				'label' => __( 'Organization', 'wordpress-seo' ),
 				'value' => 'company',
-				'id' => 'company',
+				'id'    => 'company',
 			];
 		}
 
