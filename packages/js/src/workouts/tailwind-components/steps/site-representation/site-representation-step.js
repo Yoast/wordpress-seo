@@ -40,7 +40,7 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 						"<a>",
 						"</a>"
 					),
-					"https://where-does-this-link.go",
+					"https://yoa.st/config-workout-rich-results",
 					"yoast-configuration-rich-text-link"
 				)
 			}
@@ -99,7 +99,7 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 						"<a>",
 						"</a>"
 					),
-					"https://where-does-this-link.go",
+					"https://yoa.st/config-workout-structured-data",
 					"yoast-configuration-structured-data-link"
 				)
 			}
