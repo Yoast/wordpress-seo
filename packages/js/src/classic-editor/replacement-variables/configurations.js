@@ -103,7 +103,7 @@ export const tag = {
 		const tagsFromStore = select( SEO_STORE_NAME ).selectTerms( "tags" );
 		const tagsFromWindow = get( window, "wpseoScriptData.analysis.plugins.replaceVars.replace_vars.tag" );
 
-		return tagsFromStore.length > 0 ? tagsFromStore.map( tag => tag ).join( ", " ) : tagsFromWindow;
+		return tagsFromStore.length > 0 ? tagsFromStore.map( term => term ).join( ", " ) : tagsFromWindow;
 	},
 };
 

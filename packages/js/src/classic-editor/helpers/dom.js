@@ -251,15 +251,10 @@ export const getTagsList = () => {
  */
 export const getPostTags = () => {
 	const tagsList = getTagsList();
+
 	if ( tagsList.length !== 0 ) {
-		let tagNames = tagsList.map( tag => tag.innerText );
-		const cleanTagNamesRegex = new RegExp( "(Remove term: )(.*)(\\n)(\\s)", "i" );
-
-		tagNames = tagNames.map( tag => tag.replace( cleanTagNamesRegex, "" ) );
-
-		return tagNames;
+		return tagsList.map( tag => [ ...tag.childNodes ][ 2 ].textContent );
 	}
-
 	return [];
 };
 
