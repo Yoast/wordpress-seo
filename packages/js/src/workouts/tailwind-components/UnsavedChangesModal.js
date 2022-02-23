@@ -68,7 +68,8 @@ export default function UnsavedChangesModal( { hasUnsavedChanges, title, descrip
 	const continueNavigation = useCallback( () => {
 		if ( targetUrl === "popped" ) {
 			window.removeEventListener( "popstate", popStateEventHandler );
-			history.go( -1 );
+			history.go( -2 );
+			setModalIsOpen( false );
 		}  else {
 			window.location.replace( targetUrl );
 		}
