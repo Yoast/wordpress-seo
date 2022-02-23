@@ -5,8 +5,14 @@ import PropTypes from "prop-types";
 import Alert, { FadeInAlert } from "../../base/alert";
 import { addLinkToString } from "../../../../helpers/stringHelpers.js";
 import { ConfigurationIndexation } from "./ConfigurationIndexation";
+<<<<<<< HEAD:packages/js/src/workouts/tailwind-components/steps/indexation/indexation-step.js
 import { ReactComponent as WorkoutStartImage } from "../../../../../images/motivated_bubble_woman_1_optim.svg";
+=======
+import { ReactComponent as WorkoutStartImage } from "../../../images/motivated_bubble_woman_1_optim.svg";
+import { useStepperContext } from "./Stepper";
+>>>>>>> 1dfd03ec32 (Add fourth state to indexingstate WIP):packages/js/src/workouts/tailwind-components/indexation-step.js
 
+/* eslint-disable complexity */
 
 /**
  * The indexation step.
@@ -42,6 +48,7 @@ export default function IndexationStep( { indexingState, setIndexingState, showR
 				indexingStateCallback={ setIndexingState }
 				isEnabled={ ! window.wpseoWorkoutsData.shouldUpdatePremium }
 				indexingState={ indexingState }
+				isStepperFinished={ isStepperFinished }
 			/>
 		</div>
 		{ ( window.wpseoWorkoutsData.shouldUpdatePremium && indexingState !== "completed" ) && <Alert type="warning">

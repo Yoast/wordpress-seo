@@ -223,7 +223,7 @@ export class Indexation extends Component {
 			return;
 		}
 
-		this.props.indexingStateCallback( this.state.amount === 0 ? "completed" : this.state.state );
+		this.props.indexingStateCallback( this.state.amount === 0 ? "already_done" : this.state.state );
 
 		const shouldStart = new URLSearchParams( window.location.search ).get( "start-indexation" ) === "true";
 
@@ -390,21 +390,7 @@ export class Indexation extends Component {
 
 		return (
 			<div className="yst-relative">
-				<Transition
-					unmount={ false }
-					appear={ true }
-					show={ this.isState( STATE.COMPLETED ) }
-					enter="yst-transition-opacity yst-duration-1000"
-					enterFrom="yst-opacity-0"
-					enterTo="yst-opacity-100"
-				>
-					<Alert type="success">{ __( "We’ve successfully analyzed your site!", "wordpress-seo" ) }</Alert>
-				</Transition>
-				{ ( this.isState( STATE.IDLE ) && this.state.amount === 0 ) &&
-					<Alert type="success">
-						{ __( "We’ve already successfully analyzed your site. You can move on to the next step.", "wordpress-seo" ) }
-					</Alert>
-				}
+				{ this.props.children }
 				<Transition
 					unmount={ false }
 					show={ this.isState( STATE.IN_PROGRESS ) || ( this.isState( STATE.IDLE ) && this.state.amount > 0 ) }
@@ -428,12 +414,14 @@ Indexation.propTypes = {
 	indexingActions: PropTypes.object,
 	preIndexingActions: PropTypes.object,
 	indexingStateCallback: PropTypes.func,
+	children: PropTypes.node,
 };
 
 Indexation.defaultProps = {
 	indexingActions: {},
 	preIndexingActions: {},
 	indexingStateCallback: () => {},
+	children: null,
 };
 
 export default Indexation;

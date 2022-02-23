@@ -203,12 +203,12 @@ Content.propTypes = {
  *
  * @returns {WPElement} The Stepper component.
  */
-export default function Stepper( { children, setActiveStepIndex, activeStepIndex } ) {
+export default function Stepper( { children, setActiveStepIndex, activeStepIndex, isStepperFinished } ) {
 	return (
 		<ol>
 			{ children.map( ( child, stepIndex ) => {
 				return <li key={ `${ child.props.name }-${ stepIndex }` } className={ ( stepIndex === children.length - 1 ? "" : "yst-pb-8" ) + " yst-mb-0 yst-relative" }>
-					<StepperContext.Provider value={ { stepIndex, activeStepIndex, setActiveStepIndex, lastStepIndex: children.length - 1 } }>
+					<StepperContext.Provider value={ { stepIndex, activeStepIndex, setActiveStepIndex, lastStepIndex: children.length - 1, isStepperFinished } }>
 						{ child }
 					</StepperContext.Provider>
 				</li>;
@@ -220,7 +220,12 @@ export default function Stepper( { children, setActiveStepIndex, activeStepIndex
 Stepper.propTypes = {
 	setActiveStepIndex: PropTypes.func.isRequired,
 	activeStepIndex: PropTypes.number.isRequired,
+	isStepperFinished: PropTypes.bool,
 	children: PropTypes.node.isRequired,
+};
+
+Stepper.defaultProps = {
+	isStepperFinished: false,
 };
 
 Step.Content = Content;
