@@ -3,6 +3,10 @@ import Textarea from ".";
 export default {
 	title: "1. Elements/Textarea",
 	component: Textarea,
+	argTypes: {
+		cols: { defaultValue: 20 },
+		rows: { defaultValue: 2 },
+	},
 	parameters: {
 		docs: {
 			description: {
@@ -16,14 +20,5 @@ export const Factory = {
 	component: ( args ) => <Textarea { ...args } />,
 	parameters: {
 		controls: { disable: false },
-	},
-};
-
-export const RowsAndCols = {
-	component: Factory.component.bind( {} ),
-	args: {
-		rows: 20,
-		cols: 100,
-		defaultValue: "Including a default value.",
 	},
 };

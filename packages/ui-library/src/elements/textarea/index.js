@@ -10,6 +10,8 @@ import PropTypes from "prop-types";
 const Textarea = ( {
 	className,
 	disabled,
+	cols,
+	rows,
 	...props
 } ) => (
 	<textarea
@@ -19,6 +21,8 @@ const Textarea = ( {
 			className,
 		) }
 		disabled={ disabled }
+		cols={ cols }
+		rows={ rows }
 		{ ...props }
 	/>
 );
@@ -26,11 +30,15 @@ const Textarea = ( {
 Textarea.propTypes = {
 	className: PropTypes.string,
 	disabled: PropTypes.bool,
+	cols: PropTypes.number,
+	rows: PropTypes.number
 };
 
 Textarea.defaultProps = {
 	className: "",
 	disabled: false,
+	cols: 20,
+	rows: 2
 };
 
 export default Textarea;
