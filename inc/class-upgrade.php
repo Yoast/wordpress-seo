@@ -76,7 +76,7 @@ class WPSEO_Upgrade {
 			'17.2-RC0'   => 'upgrade_172',
 			'17.7.1-RC0' => 'upgrade_1771',
 			'17.9-RC0'   => 'upgrade_179',
-			'18.3-RC0'   => 'upgrade_183',
+			'18.3-RC3'   => 'upgrade_183',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
