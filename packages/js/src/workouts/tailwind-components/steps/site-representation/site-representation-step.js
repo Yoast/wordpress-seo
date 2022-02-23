@@ -1,5 +1,6 @@
 import { Fragment, useState, useCallback } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
+import PropTypes from "prop-types";
 import ReactAnimateHeight from "react-animate-height";
 import classNames from "classnames";
 
@@ -105,3 +106,10 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 		</FadeInAlert>
 	</Fragment>;
 }
+
+SiteRepresentationStep.propTypes = {
+	onOrganizationOrPersonChange: PropTypes.func.isRequired,
+	dispatch: PropTypes.func.isRequired,
+	state: PropTypes.object.isRequired,
+	siteRepresentationEmpty: PropTypes.bool.isRequired,
+};

@@ -99,7 +99,7 @@ export default function Select( { id, value, choices, label, onChange, error } )
 								</Listbox.Options>
 							</Transition>
 						</div>
-						{ error.isVisible && <MultiLineText id={ getErrorId( id ) } className="yst-mt-2 yst-text-sm yst-text-red-600" texts={ error.messages } /> }
+						{ error.isVisible && <MultiLineText id={ getErrorId( id ) } className="yst-mt-2 yst-text-sm yst-text-red-600" texts={ error.message } /> }
 					</div>
 				</>
 			) }
