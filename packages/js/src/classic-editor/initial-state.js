@@ -61,7 +61,6 @@ export const getInitialTermState = () => ( {
 	editor: {
 		title: dom.getTermName(),
 		permalink: dom.getTermPermalink(),
-		excerpt: dom.getTermExcerpt(),
 		content: dom.getTermDescription(),
 		locale: getContentLocale(),
 	},
