@@ -6,6 +6,9 @@ use WPSEO_Ryte;
 use WPSEO_Ryte_Option;
 use WPSEO_Utils;
 
+/**
+ * Runs the Ryte health check.
+ */
 class Ryte_Runner implements Runner_Interface {
 
 	/**
