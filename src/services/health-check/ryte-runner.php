@@ -51,13 +51,16 @@ class Ryte_Runner implements Runner_Interface {
 	 *
 	 * @param WPSEO_Ryte          $ryte The WPSEO_Ryte object that the health check uses to check indexability.
 	 * @param Ryte_Option_Factory $ryte_option_factory The Ryte_Option_Factory that the health check uses to get the indexability result.
+	 * @param WPSEO_Utils         $utils The WPSEO_Utils object used to determine whether the site is in development mode.
 	 */
 	public function __construct(
 		WPSEO_Ryte $ryte,
-		Ryte_Option_Factory $ryte_option_factory
+		Ryte_Option_Factory $ryte_option_factory,
+		WPSEO_Utils $utils
 	) {
 		$this->ryte                = $ryte;
 		$this->ryte_option_factory = $ryte_option_factory;
+		$this->utils               = $utils;
 		$this->got_valid_response  = false;
 	}
 
@@ -86,12 +89,16 @@ class Ryte_Runner implements Runner_Interface {
 	 * @return void
 	 */
 	private function fetch_from_ryte() {
-		$response = $this->ryte->fetch_from_ryte();
+		$this->ryte->fetch_from_ryte();
+		$response = $this->ryte->get_response();
 
 		if ( is_array( $response ) && isset( $response['is_error'] ) ) {
 			$this->got_valid_response = false;
 			$this->response_error     = $response;
+			return;
 		}
+
+		$this->got_valid_response = true;
 	}
 
 	/**
@@ -113,7 +120,7 @@ class Ryte_Runner implements Runner_Interface {
 			return false;
 		}
 
-		if ( wp_debug_mode() || WPSEO_Utils::is_development_mode() ) {
+		if ( wp_debug_mode() || $this->utils->is_development_mode() ) {
 			return false;
 		}
 
@@ -168,6 +175,7 @@ class Ryte_Runner implements Runner_Interface {
 			return false;
 		}
 
+		// This return statement should never be reached.
 		return true;
 	}
 
@@ -178,10 +186,6 @@ class Ryte_Runner implements Runner_Interface {
 	 */
 	private function could_fetch() {
 		if ( ! $this->got_valid_response ) {
-			return false;
-		}
-
-		if ( ! $this->ryte_option->is_enabled() ) {
 			return false;
 		}
 
