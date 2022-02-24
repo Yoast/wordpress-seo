@@ -241,8 +241,8 @@ Release Date: March 8th, 2022
 
 Enhancements:
 
+* Improves the importer so you can now import `post_meta`, `robot_txt` and search appearance options when moving from All-In-One SEO to Yoast SEO.
 * New feature: adds a QR code to every page on your site when it's printed, that links back to the page online. Props to [Coywolf](https://coywolf.com/) for [this idea](https://twitter.com/coywolf/status/1493630040256483338?t=juq4vpF0kf4MDS3Y3GfKPg&s=08).
-* Introduces the new importer for AIOSEO
 
 Bugfixes:
 
