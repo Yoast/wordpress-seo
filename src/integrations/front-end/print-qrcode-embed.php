@@ -53,10 +53,11 @@ class Print_QRCode_Embed implements Integration_Interface {
 	 */
 	public function generate_qr_code() {
 		$nonce = \wp_create_nonce( 'yoast_seo_qr_code' );
-		$url   = $this->meta_surface->for_current_page()->canonical;
+		$meta  = $this->meta_surface->for_current_page();
+		$url   = $meta->canonical;
 
 		if ( empty( $url ) ) {
-			return;
+			$url = $meta->indexable->permalink;
 		}
 
 		$alt_text  = __( 'QR Code for current page\'s URL.', 'wordpress-seo' );
