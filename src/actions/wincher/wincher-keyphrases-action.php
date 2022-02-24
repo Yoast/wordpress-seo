@@ -107,7 +107,7 @@ class Wincher_Keyphrases_Action {
 
 			$formatted_keyphrases = \array_values(
 				\array_map(
-					function ( $keyphrase ) {
+					static function ( $keyphrase ) {
 						return [
 							'keyword' => $keyphrase,
 							'groups'  => [],
@@ -125,7 +125,7 @@ class Wincher_Keyphrases_Action {
 
 			// The endpoint returns a lot of stuff that we don't want/need.
 			$results['data'] = array_map(
-				function( $keyphrase ) {
+				static function( $keyphrase ) {
 					return [
 						'id'         => $keyphrase['id'],
 						'keyword'    => $keyphrase['keyword'],
@@ -330,7 +330,7 @@ class Wincher_Keyphrases_Action {
 	protected function filter_results_by_used_keyphrases( $results, $used_keyphrases ) {
 		return \array_filter(
 			$results,
-			function( $result ) use ( $used_keyphrases ) {
+			static function( $result ) use ( $used_keyphrases ) {
 				return \in_array( $result['keyword'], \array_map( 'strtolower', $used_keyphrases ), true );
 			}
 		);
