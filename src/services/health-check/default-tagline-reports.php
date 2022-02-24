@@ -7,13 +7,7 @@ namespace Yoast\WP\SEO\Services\Health_Check;
  * Presents a set of different messages for the Default_Tagline health check.
  */
 class Default_Tagline_Reports {
-
-	/**
-	 * The builder object that generates WordPress-friendly test results.
-	 *
-	 * @var Report_Builder
-	 */
-	private $report_builder;
+	use Reports_Trait;
 
 	/**
 	 * Constructor
@@ -23,16 +17,6 @@ class Default_Tagline_Reports {
 	 */
 	public function __construct( Report_Builder_Factory $report_builder_factory ) {
 		$this->report_builder = $report_builder_factory->create();
-	}
-
-	/**
-	 * Sets the name that WordPress uses to identify this health check.
-	 *
-	 * @param  string $test_identifier The identifier.
-	 * @return void
-	 */
-	public function set_test_identifier( $test_identifier ) {
-		$this->report_builder->set_test_identifier( $test_identifier );
 	}
 
 	/**
