@@ -10,6 +10,7 @@ use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Replacevar_Service;
 use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Provider_Service;
 use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Transformer_Service;
+
 /**
  * Importing action for AIOSEO custom archive settings data.
  *
