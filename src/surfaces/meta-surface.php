@@ -310,9 +310,16 @@ class Meta_Surface {
 	public function for_url( $url ) {
 		$url_parts  = \wp_parse_url( $url );
 		$site_parts = \wp_parse_url( \site_url() );
+
+		// Because wp_parse_url can also return null, false, string, or integer we abort early if there is no url/site parts array.
+		if ( ! is_array( $url_parts ) || ! is_array( $site_parts ) ) {
+			return false;
+		}
+
 		if ( $url_parts['host'] !== $site_parts['host'] ) {
 			return false;
 		}
+
 		// Ensure the scheme is consistent with values in the DB.
 		$url = $site_parts['scheme'] . '://' . $url_parts['host'] . $url_parts['path'];
 

@@ -440,7 +440,7 @@ class Meta_Surface_Test extends TestCase {
 		$wp_rewrite = Mockery::mock( 'WP_Rewrite' );
 
 		Monkey\Functions\expect( 'wp_parse_url' )
-			->times( 3 )
+			->times( 7 )
 			->andReturnUsing(
 				static function( $url, $component = -1 ) use ( $page_type, $is_date_archive ) {
 					switch ( $url ) {
@@ -463,6 +463,12 @@ class Meta_Surface_Test extends TestCase {
 								'scheme' => 'scheme',
 								'host'   => 'host',
 							];
+
+						case 'return_null':
+							return null;
+
+						case 'return_false':
+							return false;
 
 						default:
 							// phpcs:ignore WordPress.WP.AlternativeFunctions.parse_url_parse_url -- Test mock.
@@ -528,6 +534,12 @@ class Meta_Surface_Test extends TestCase {
 		$meta = $this->instance->for_url( 'url' );
 
 		$this->assertEquals( 'succeeds', $meta->test );
+
+		$meta = $this->instance->for_url( 'return_null' );
+		$this->assertEquals( false, $meta );
+
+		$meta = $this->instance->for_url( 'return_false' );
+		$this->assertEquals( false, $meta );
 	}
 
 	/**
