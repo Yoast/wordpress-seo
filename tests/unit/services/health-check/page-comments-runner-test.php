@@ -39,10 +39,10 @@ class Page_Comments_Runner_Test extends TestCase {
 	 * @covers ::is_successful
 	 */
 	public function test_returns_successful() {
-		 Monkey\Functions\expect( 'get_option' )
-			 ->once()
-			 ->with( 'page_comments' )
-			 ->andReturn( '0' );
+		Monkey\Functions\expect( 'get_option' )
+			->once()
+			->with( 'page_comments' )
+			->andReturn( '0' );
 
 		$this->instance->run();
 		$actual = $this->instance->is_successful();
