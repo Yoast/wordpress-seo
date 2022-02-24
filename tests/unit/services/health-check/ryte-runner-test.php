@@ -297,6 +297,41 @@ class Ryte_Runner_Test extends TestCase {
 	}
 
 	/**
+	 * Checks if the health check has the right state for when the indexability is unknown because it wasn't fetched.
+	 *
+	 * @return void
+	 * @covers ::__construct
+	 * @covers ::should_run
+	 * @covers ::run
+	 * @covers ::fetch_from_ryte
+	 * @covers ::set_ryte_option
+	 * @covers ::is_successful
+	 * @covers ::has_unknown_indexability
+	 * @covers ::could_fetch
+	 * @covers ::got_response_error
+	 * @covers ::get_error_response
+	 */
+	public function test_unknown_indexability_not_fetched_state() {
+		$this->set_production_with_ryte_enabled();
+		$this->ryte_mock
+			->shouldReceive( 'fetch_from_ryte' )
+			->once();
+		$this->ryte_mock
+			->shouldReceive( 'get_response' )
+			->once();
+		$this->ryte_option_mock
+			->shouldReceive( 'get_status' )
+			->andReturn( WPSEO_Ryte_Option::NOT_FETCHED );
+
+		$this->instance->run();
+
+		$this->assertFalse( $this->instance->is_successful() );
+		$this->assertTrue( $this->instance->has_unknown_indexability() );
+		$this->assertFalse( $this->instance->got_response_error() );
+		$this->assertNull( $this->instance->get_error_response() );
+	}
+
+	/**
 	 * Checks if the health check has the right state when Ryte reports that the site is not indexable.
 	 *
 	 * @return void

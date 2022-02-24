@@ -218,4 +218,37 @@ class Curl_Runner_Test extends TestCase {
 		$this->assertTrue( $this->instance->can_reach_my_yoast_api() );
 		$this->assertTrue( $this->instance->is_successful() );
 	}
+
+	/**
+	 * Checks if the health check correctly detects when there are premium plugins installed.
+	 *
+	 * @covers ::__construct
+	 * @covers ::run
+	 * @covers ::has_premium_plugins_installed
+	 */
+	public function test_detects_premium_plugins_installed() {
+		$this->my_yoast_api_request_factory_mock
+			->shouldReceive( 'create' )
+			->andReturn( $this->my_yoast_api_mock );
+
+		$this->my_yoast_api_mock
+			->shouldReceive( 'fire' )
+			->andReturn( true );
+
+		$this->addon_manager_mock
+			->shouldReceive( 'has_installed_addons' )
+			->andReturn( true );
+
+		$this->curl_helper_mock
+			->shouldReceive( 'is_installed' )
+			->andReturn( true );
+
+		$this->curl_helper_mock
+			->shouldReceive( 'get_version' )
+			->andReturn( Curl_Runner::MINIMUM_CURL_VERSION );
+
+		$this->instance->run();
+
+		$this->assertTrue( $this->instance->has_premium_plugins_installed() );
+	}
 }

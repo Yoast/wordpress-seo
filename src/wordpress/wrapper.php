@@ -8,6 +8,7 @@ use WPSEO_Admin_Asset_Manager;
 use WPSEO_Replace_Vars;
 use WPSEO_Ryte;
 use WPSEO_Shortlinker;
+use WPSEO_Utils;
 
 /**
  * Wrapper class for WordPress globals.
@@ -70,5 +71,14 @@ class Wrapper {
 	 */
 	public static function get_ryte() {
 		return new WPSEO_Ryte();
+	}
+
+	/**
+	 * Factory function for the utils class.
+	 *
+	 * @return WPSEO_Utils
+	 */
+	public static function get_utils() {
+		return new WPSEO_Utils();
 	}
 }

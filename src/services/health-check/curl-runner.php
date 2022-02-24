@@ -130,11 +130,6 @@ class Curl_Runner implements Runner_Interface {
 	private function check_curl_is_recent() {
 		$version = $this->curl_helper->get_version();
 
-		if ( is_null( $version ) ) {
-			$this->curl_is_recent = false;
-			return;
-		}
-
 		$this->curl_is_recent = version_compare( $version, self::MINIMUM_CURL_VERSION, '>=' );
 	}
 
@@ -147,10 +142,6 @@ class Curl_Runner implements Runner_Interface {
 		$api_request  = $this->my_yoast_api_request_factory->create( self::MYYOAST_API_REQUEST_URL );
 		$got_response = $api_request->fire();
 
-		if ( ! is_bool( $got_response ) ) {
-			$this->got_my_yoast_api_response = false;
-			return;
-		}
 
 		$this->got_my_yoast_api_response = $got_response;
 	}

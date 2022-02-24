@@ -2,6 +2,8 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Services\Health_Check;
 
+use Mockery;
+use WPSEO_Shortlinker;
 use Yoast\WP\SEO\Services\Health_Check\Curl_Reports;
 use Yoast\WP\SEO\Services\Health_Check\Report_Builder;
 use Yoast\WP\SEO\Services\Health_Check\Report_Builder_Factory;
@@ -48,12 +50,12 @@ class Curl_Reports_Test extends TestCase {
 
 		$report_builder_factory_mock = Mockery::mock( Report_Builder_Factory::class );
 		$this->report_builder_mock   = Mockery::mock( Report_Builder::class );
-		$this->shortlinker_mock      = Mockery::mock( 'alias:WPSEO_Shortlinker' );
+		$this->shortlinker_mock      = Mockery::mock( WPSEO_Shortlinker::class );
 		$report_builder_factory_mock->shouldReceive( 'create' )->andReturn( $this->report_builder_mock );
 
 		// Incorrectly detects direct calls to cURL.
 		// phpcs:ignore
-		$this->instance = new Curl_Reports( $report_builder_factory_mock );
+		$this->instance = new Curl_Reports( $report_builder_factory_mock, $this->shortlinker_mock );
 	}
 
 	/**
@@ -79,7 +81,6 @@ class Curl_Reports_Test extends TestCase {
 		$expected_result      = [ 'correct' ];
 		$expected_label       = 'Yoast premium plugin updates work fine';
 		$expected_description = 'Great! You can activate your premium plugin(s) and receive updates.';
-		$expected_status      = 'good';
 
 		$this->report_builder_mock->shouldReceive( 'set_label' )->once()->with( $expected_label )->andReturn( $this->report_builder_mock );
 		$this->report_builder_mock->shouldReceive( 'set_description' )->once()->with( $expected_description )->andReturn( $this->report_builder_mock );
@@ -101,9 +102,9 @@ class Curl_Reports_Test extends TestCase {
 	public function test_get_my_yoast_api_not_reachable_result() {
 		$expected_result      = [ 'correct' ];
 		$expected_label       = 'Yoast premium plugins cannot update';
-		$expected_description = 'You can <em>not</em> activate your premium plugin(s) and receive updates because Yoast SEO cannot connect to my.yoast.com. A common cause for not being able to connect is an out-of-date version of cURL, software used to connect to other servers. However, your cURL version seems fine. Please talk to your host and, if needed, the Yoast support team to figure out what is broken. <a href="" target="_blank">Read more about cURL in our help center<span class="screen-reader-text">(Opens in a new browser tab)</span></a>.';
+		$expected_description = 'You can <em>not</em> activate your premium plugin(s) and receive updates because Yoast SEO cannot connect to my.yoast.com. A common cause for not being able to connect is an out-of-date version of cURL, software used to connect to other servers. However, your cURL version seems fine. Please talk to your host and, if needed, the Yoast support team to figure out what is broken. <a href="link" target="_blank">Read more about cURL in our help center<span class="screen-reader-text">(Opens in a new browser tab)</span></a>.';
 
-		$this->shortlinker_mock->shouldReceive( 'get' )->once();
+		$this->shortlinker_mock->shouldReceive( 'get' )->once()->andReturn( 'link' );
 		$this->report_builder_mock->shouldReceive( 'set_label' )->once()->with( $expected_label )->andReturn( $this->report_builder_mock );
 		$this->report_builder_mock->shouldReceive( 'set_description' )->once()->with( $expected_description )->andReturn( $this->report_builder_mock );
 		$this->report_builder_mock->shouldReceive( 'set_status_critical' )->once()->andReturn( $this->report_builder_mock );
