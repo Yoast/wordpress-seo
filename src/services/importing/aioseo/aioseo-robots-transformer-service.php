@@ -1,8 +1,9 @@
 <?php
 
-namespace Yoast\WP\SEO\Services\Importing;
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Given it's a very specific case.
+namespace Yoast\WP\SEO\Services\Importing\Aioseo;
 
-use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Provider_Service;
+use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Provider_Service;
 
 /**
  * Transforms AISOEO search appearance robot settings.
@@ -32,9 +33,9 @@ class Aioseo_Robots_Transformer_Service {
 	/**
 	 * Transforms the robot setting, taking into consideration whether they defer to global defaults.
 	 *
-	 * @param string $setting_name The name of the robot setting, eg. noindex.
+	 * @param string $setting_name  The name of the robot setting, eg. noindex.
 	 * @param bool   $setting_value The value of the robot setting.
-	 * @param array  $mapping The mapping of the setting we're working with.
+	 * @param array  $mapping       The mapping of the setting we're working with.
 	 *
 	 * @return bool The transformed robot setting.
 	 */

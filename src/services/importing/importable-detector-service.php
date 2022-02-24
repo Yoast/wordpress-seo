@@ -7,9 +7,7 @@ use Yoast\WP\SEO\Actions\Importing\Importing_Action_Interface;
 /**
  * Detects if any data from other SEO plugins is available for importing.
  */
-class Importable_Detector {
-
-	use Importer_Action_Filter_Trait;
+class Importable_Detector_Service {
 
 	/**
 	 * All known import actions
@@ -19,7 +17,7 @@ class Importable_Detector {
 	protected $importers;
 
 	/**
-	 * Importable_Detector constructor.
+	 * Importable_Detector_Service constructor.
 	 *
 	 * @param Importing_Action_Interface ...$importers All of the known importers.
 	 */
@@ -66,5 +64,23 @@ class Importable_Detector {
 		}
 
 		return $detected;
+	}
+
+	/**
+	 * Filters all import actions from a list that do not match the given Plugin or Type.
+	 *
+	 * @param Importing_Action_Interface[] $all_actions The complete list of actions.
+	 * @param string                       $plugin      The Plugin name whose actions to keep.
+	 * @param string                       $type        The type of actions to keep.
+	 *
+	 * @return array
+	 */
+	public function filter_actions( $all_actions, $plugin = null, $type = null ) {
+		return \array_filter(
+			$all_actions,
+			static function( $action ) use ( $plugin, $type ) {
+				return $action->is_compatible_with( $plugin, $type );
+			}
+		);
 	}
 }

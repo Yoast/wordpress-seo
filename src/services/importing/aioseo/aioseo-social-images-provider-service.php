@@ -1,6 +1,7 @@
 <?php
 
-namespace Yoast\WP\SEO\Services\Importing;
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Given it's a very specific case.
+namespace Yoast\WP\SEO\Services\Importing\Aioseo;
 
 use Yoast\WP\SEO\Helpers\Image_Helper;
 
@@ -123,7 +124,7 @@ class Aioseo_Social_Images_Provider_Service {
 		);
 
 		if ( $attachments && ! empty( $attachments ) ) {
-			return $this->image->get_attachment_image_source( array_values( $attachments )[0]->ID, 'fullsize' );
+			return $this->image->get_attachment_image_source( \array_values( $attachments )[0]->ID, 'fullsize' );
 		}
 
 		return '';
@@ -154,11 +155,7 @@ class Aioseo_Social_Images_Provider_Service {
 	 * @return string The url of the featured image.
 	 */
 	public function get_auto_image( $post_id ) {
-		$image = $this->get_featured_image( $post_id );
-
-		if ( ! $image ) {
-			$image = $this->get_first_attached_image( $post_id );
-		}
+		$image = $this->get_first_attached_image( $post_id );
 
 		if ( ! $image ) {
 			$image = $this->get_first_image_in_content( $post_id );

@@ -134,7 +134,9 @@ Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recen
 
 ## Documentation
 
-The data that will be analyzed by YoastSEO.js can be modified by plugins. Plugins can also add new research and assessments. To find out how to do this, checkout out the [customization documentation](./docs/Customization.md).
+* The data that will be analyzed by YoastSEO.js can be modified by plugins. Plugins can also add new research and assessments. To find out how to do this, checkout out the [customization documentation](./docs/Customization.md).
+* Information on the design decisions within the package can be found [here](DESIGN%20DECISIONS.md).
+* Information on how morphology works in `yoastseo` package can be found [here](MORPHOLOGY.md).
 
 ## Testing
 

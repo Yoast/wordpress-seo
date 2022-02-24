@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Tests\Unit\Helpers;
 
 use Mockery;
-use wpdb;
 use Yoast\WP\SEO\Helpers\Wpdb_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 

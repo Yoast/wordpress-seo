@@ -45,7 +45,7 @@ class Structured_Data_Blocks implements Integration_Interface {
 	/**
 	 * Whether or not we've registered our shutdown function.
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $registered_shutdown_function = false;
 
@@ -245,7 +245,12 @@ class Structured_Data_Blocks implements Integration_Interface {
 					$attachment_id,
 					$src_matches[1]
 				);
-				$image_html = \wp_get_attachment_image( $attachment_id, $image_size );
+				$image_html = \wp_get_attachment_image(
+					$attachment_id,
+					$image_size,
+					false,
+					[ 'style' => 'max-width: 100%; height: auto;' ]
+				);
 
 				if ( empty( $image_html ) ) {
 					return $matches[0];

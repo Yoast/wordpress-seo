@@ -1,11 +1,12 @@
 <?php
 
-namespace Yoast\WP\SEO\Services\Importing;
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Given it's a very specific case.
+namespace Yoast\WP\SEO\Services\Importing\Aioseo;
 
 /**
- * Handles AISOEO replacevars.
+ * Replaces AISOEO replacevars with Yoast ones.
  */
-class Aioseo_Replacevar_Handler {
+class Aioseo_Replacevar_Service {
 
 	/**
 	 * Mapping between the AiOSEO replace vars and the Yoast replace vars.
@@ -15,7 +16,7 @@ class Aioseo_Replacevar_Handler {
 	 * @see https://yoast.com/help/list-available-snippet-variables-yoast-seo/
 	 */
 	protected $replace_vars_map = [
-		// They key is the AiOSEO replace var, the value is the Yoast replace var (see class-wpseo-replace-vars).
+		// The key is the AiOSEO replace var, the value is the Yoast replace var (see class-wpseo-replace-vars).
 		'#archive_title'             => '%%archive_title%%',
 		'#archive_date'              => '%%date%%',
 		'#attachment_caption'        => '%%caption%%',
@@ -24,8 +25,6 @@ class Aioseo_Replacevar_Handler {
 		'#author_last_name'          => '%%author_last_name%%',
 		'#author_name'               => '%%name%%',
 		'#blog_title'                => '%%sitename%%', // Same with #site_title.
-		'#breadcrumb_taxonomy_title' => '', // Empty string, as AIOSEO shows nothing for that tag.
-		'#breadcrumb_separator'      => '', // Empty string, as AIOSEO shows nothing for that tag.
 		'#categories'                => '%%category%%',
 		'#current_date'              => '%%currentdate%%',
 		'#current_day'               => '%%currentday%%',
@@ -77,18 +76,18 @@ class Aioseo_Replacevar_Handler {
 		$yoast_replacevar = \str_replace( \array_keys( $this->replace_vars_map ), \array_values( $this->replace_vars_map ), $aioseo_replacevar );
 
 		// Transform the '#custom_field-<custom_field>' tags into '%%cf_<custom_field>%%' ones.
-		$yoast_replacevar = preg_replace_callback(
+		$yoast_replacevar = \preg_replace_callback(
 			'/#custom_field-([a-zA-Z0-9_-]+)/',
-			function ( $cf_matches ) {
+			static function ( $cf_matches ) {
 				return '%%cf_' . $cf_matches[1] . '%%';
 			},
 			$yoast_replacevar
 		);
 
 		// Transform the '#tax_name-<custom-tax-name>' tags into '%%ct_<custom-tax-name>%%' ones.
-		$yoast_replacevar = preg_replace_callback(
+		$yoast_replacevar = \preg_replace_callback(
 			'/#tax_name-([a-zA-Z0-9_-]+)/',
-			function ( $ct_matches ) {
+			static function ( $ct_matches ) {
 				return '%%ct_' . $ct_matches[1] . '%%';
 			},
 			$yoast_replacevar

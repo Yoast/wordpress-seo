@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Services\Health_Check;
 
-use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Services\Health_Check\Default_Tagline_Check;
 use Yoast\WP\SEO\Services\Health_Check\Default_Tagline_Reports;

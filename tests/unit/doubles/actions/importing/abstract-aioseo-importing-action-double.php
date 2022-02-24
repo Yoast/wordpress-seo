@@ -2,14 +2,14 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Doubles\Actions\Importing;
 
-use Yoast\WP\SEO\Actions\Importing\Abstract_Importing_Action;
+use Yoast\WP\SEO\Actions\Importing\Abstract_Aioseo_Importing_Action;
 
 /**
- * Class Abstract_Importing_Action_Double
+ * Class Abstract_Aioseo_Importing_Action_Double
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-abstract class Abstract_Importing_Action_Double extends Abstract_Importing_Action {
+abstract class Abstract_Aioseo_Importing_Action_Double extends Abstract_Aioseo_Importing_Action {
 
 	/**
 	 * Gets the completed id (to be used as a key for the importing_completed option).
