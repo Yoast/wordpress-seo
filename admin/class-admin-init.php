@@ -50,7 +50,6 @@ class WPSEO_Admin_Init {
 		add_action( 'admin_notices', [ $this, 'search_engines_discouraged_notice' ] );
 
 		$health_checks = [
-			new WPSEO_Health_Check_Page_Comments(),
 			new WPSEO_Health_Check_Postname_Permalink(),
 			new WPSEO_Health_Check_Link_Table_Not_Accessible(),
 		];
