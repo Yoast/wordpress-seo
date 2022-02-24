@@ -2,11 +2,11 @@
 
 namespace Yoast\WP\SEO\Integrations\Front_End;
 
-use YoastSEO_Vendor\chillerlan\QRCode\QRCode;
-use YoastSEO_Vendor\chillerlan\QRCode\QROptions;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Conditionals\Print_QRCode_Enabled_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
+use YoastSEO_Vendor\chillerlan\QRCode\QRCode;
+use YoastSEO_Vendor\chillerlan\QRCode\QROptions;
 
 /**
  * Class that renders a QR code for URLs.

@@ -5,10 +5,10 @@ namespace Yoast\WP\SEO\Tests\Unit\Routes;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Actions\Importing\Aioseo\Aioseo_Posts_Importing_Action;
+use Yoast\WP\SEO\Actions\Importing\Importing_Action_Interface;
 use Yoast\WP\SEO\Routes\Importing_Route;
 use Yoast\WP\SEO\Services\Importing\Importable_Detector_Service;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Yoast\WP\SEO\Actions\Importing\Importing_Action_Interface;
 
 /**
  * Class Importing_Route_Test.

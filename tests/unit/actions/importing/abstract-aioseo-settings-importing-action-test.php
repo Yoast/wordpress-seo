@@ -2,9 +2,9 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Actions\Importing;
 
+use Brain\Monkey;
 use Exception;
 use Mockery;
-use Brain\Monkey;
 use Yoast\WP\SEO\Helpers\Import_Cursor_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Sanitization_Helper;

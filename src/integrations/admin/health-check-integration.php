@@ -2,9 +2,9 @@
 
 namespace Yoast\WP\SEO\Integrations\Admin;
 
+use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Services\Health_Check\Health_Check;
-use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 
 /**
  * Integrates health checks with WordPress' Site Health.
