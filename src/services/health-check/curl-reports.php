@@ -9,13 +9,7 @@ use WPSEO_Shortlinker;
  * Presents a set of different messages for the cURL health check.
  */
 class Curl_Reports {
-
-	/**
-	 * The builder object that generates WordPress-friendly test results.
-	 *
-	 * @var Report_Builder
-	 */
-	private $report_builder;
+	use Reports_Trait;
 
 	/**
 	 * The WPSEO_Shortlinker object used to generate short links.
@@ -37,16 +31,6 @@ class Curl_Reports {
 	) {
 		$this->report_builder = $report_builder_factory->create();
 		$this->shortlinker    = $shortlinker;
-	}
-
-	/**
-	 * Sets the name that WordPress uses to identify this health check.
-	 *
-	 * @param  string $test_identifier The identifier.
-	 * @return void
-	 */
-	public function set_test_identifier( $test_identifier ) {
-		$this->report_builder->set_test_identifier( $test_identifier );
 	}
 
 	/**

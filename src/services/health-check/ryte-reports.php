@@ -11,13 +11,7 @@ use Yoast\WP\SEO\Presenters\Admin\Alert_Presenter;
  * Presents a set of different messages for the Ryte health check.
  */
 class Ryte_Reports {
-
-	/**
-	 * The builder object that generates WordPress-friendly test results.
-	 *
-	 * @var Report_Builder
-	 */
-	private $report_builder;
+	use Reports_Trait;
 
 	/**
 	 * The Alert_Presenter factory used to generate alert messages for some reports.
@@ -49,16 +43,6 @@ class Ryte_Reports {
 		$this->report_builder          = $report_builder_factory->create();
 		$this->alert_presenter_factory = $alert_presenter_factory;
 		$this->shortlinker             = $shortlinker;
-	}
-
-	/**
-	 * Sets the name that WordPress uses to identify this health check.
-	 *
-	 * @param  string $test_identifier The identifier.
-	 * @return void
-	 */
-	public function set_test_identifier( $test_identifier ) {
-		$this->report_builder->set_test_identifier( $test_identifier );
 	}
 
 	/**
