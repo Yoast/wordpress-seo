@@ -70,7 +70,7 @@ class Wincher implements Integration_Interface {
 	public function load_toggle_additional_content( $integration ) {
 		switch ( $integration->setting ) {
 			case 'wincher_integration_active':
-				require WPSEO_PATH . 'admin/views/tabs/metas/paper-content/integrations/wincher.php';
+				require \WPSEO_PATH . 'admin/views/tabs/metas/paper-content/integrations/wincher.php';
 				break;
 			default:
 				break;

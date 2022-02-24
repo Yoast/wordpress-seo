@@ -66,7 +66,7 @@ class Print_QRCode_Embed implements Integration_Interface {
 					'var script = document.getElementById( "yoast_seo_print_qrcode" );' .
 					'script.parentNode.insertBefore( div, script );' .
 				'} );' .
-			'</script>' . PHP_EOL,
+			'</script>' . \PHP_EOL,
 			\esc_attr( $alt_text ),
 			\esc_html( $text ),
 			\esc_html( $url ),

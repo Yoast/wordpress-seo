@@ -162,7 +162,7 @@ class Workouts_Integration implements Integration_Interface {
 			[
 				'workouts'                  => $workouts_option,
 				'homeUrl'                   => \home_url(),
-				'pluginUrl'                 => \esc_url( \plugins_url( '', WPSEO_FILE ) ),
+				'pluginUrl'                 => \esc_url( \plugins_url( '', \WPSEO_FILE ) ),
 				'toolsPageUrl'              => \esc_url( \admin_url( 'admin.php?page=wpseo_tools' ) ),
 				'usersPageUrl'              => \esc_url( \admin_url( 'users.php' ) ),
 				'isPremium'                 => $this->product_helper->is_premium(),
@@ -453,7 +453,7 @@ class Workouts_Integration implements Integration_Interface {
 			return true;
 		}
 
-		$page_from_get = \filter_input( INPUT_GET, 'page' );
+		$page_from_get = \filter_input( \INPUT_GET, 'page' );
 
 		// Show on Yoast SEO pages, with some exceptions.
 		if ( $pagenow === 'admin.php' && \strpos( $page_from_get, 'wpseo' ) === 0 ) {

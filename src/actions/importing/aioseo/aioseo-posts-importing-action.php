@@ -286,7 +286,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Aioseo_Importing_Action {
 		}
 
 		$limit              = $this->get_limit();
-		$aioseo_indexables  = $this->wpdb->get_results( $this->query( $limit ), ARRAY_A );
+		$aioseo_indexables  = $this->wpdb->get_results( $this->query( $limit ), \ARRAY_A );
 		$created_indexables = [];
 
 		$completed = \count( $aioseo_indexables ) === 0;
