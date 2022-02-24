@@ -12,6 +12,7 @@ module.exports = {
 	],
 	testMatch: [
 		"**/__tests__/**/*.[jt]s",
+		"**/tests/**/*.[jt]s",
 		"**/test/*.[jt]s",
 		"**/?(*.)test.[jt]s",
 	],
