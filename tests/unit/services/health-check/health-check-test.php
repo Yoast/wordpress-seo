@@ -89,7 +89,7 @@ class Health_Check_Test extends TestCase {
 		$this->instance = new Health_Check_Double( $this->runner );
 
 		$expected = 'yoast-health-check-double';
-		$actual = $this->instance->get_test_identifier();
+		$actual   = $this->instance->get_test_identifier();
 
 		$this->assertEquals( $expected, $actual );
 	}
