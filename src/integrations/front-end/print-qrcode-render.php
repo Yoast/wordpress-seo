@@ -2,11 +2,11 @@
 
 namespace Yoast\WP\SEO\Integrations\Front_End;
 
-use YoastSEO_Vendor\chillerlan\QRCode\QRCode;
-use YoastSEO_Vendor\chillerlan\QRCode\QROptions;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Conditionals\Print_QRCode_Enabled_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
+use YoastSEO_Vendor\chillerlan\QRCode\QRCode;
+use YoastSEO_Vendor\chillerlan\QRCode\QROptions;
 
 /**
  * Class that renders a QR code for URLs.
@@ -37,12 +37,12 @@ class Print_QRCode_Render implements Integration_Interface {
 	 * @return void
 	 */
 	public function generate_qr_code() {
-		$url = \filter_input( INPUT_GET, 'yoast_qr_code', FILTER_SANITIZE_URL );
+		$url = \filter_input( \INPUT_GET, 'yoast_qr_code', \FILTER_SANITIZE_URL );
 		if ( ! isset( $url ) ) {
 			return;
 		}
 
-		$nonce = \filter_input( INPUT_GET, 'nonce', FILTER_SANITIZE_STRING );
+		$nonce = \filter_input( \INPUT_GET, 'nonce', \FILTER_SANITIZE_STRING );
 		if ( ! \wp_verify_nonce( $nonce, 'yoast_seo_qr_code' ) ) {
 			\wp_die( 'This is not a QR code endpoint for public consumption.' );
 		}

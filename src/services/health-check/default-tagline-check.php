@@ -24,7 +24,7 @@ class Default_Tagline_Check extends Health_Check {
 	/**
 	 * Constructor.
 	 *
-	 * @param  Default_Tagline_Runner         $runner The object that implements the actual health check.
+	 * @param  Default_Tagline_Runner         $runner         The object that implements the actual health check.
 	 * @param  Default_Tagline_Report_Builder $report_builder The object that generates WordPress-friendly results.
 	 * @return void
 	 */
@@ -45,7 +45,7 @@ class Default_Tagline_Check extends Health_Check {
 	 * @return string The human-readable label.
 	 */
 	public function get_test_label() {
-		return __( 'Default tagline', 'wordpress-seo' );
+		return \__( 'Default tagline', 'wordpress-seo' );
 	}
 
 	/**

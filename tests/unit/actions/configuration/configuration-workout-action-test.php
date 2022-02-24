@@ -352,11 +352,11 @@ class Configuration_Workout_Action_Test extends TestCase {
 	 *
 	 * @dataProvider enable_tracking_provider
 	 *
-	 * @param array  $params                The parameters.
-	 * @param bool   $old_value             The existing value for the option.
-	 * @param int    $times                 The number of times the Options_Helper::set is expected to be called.
-	 * @param bool   $option_result         The success state of the option setting operation.
-	 * @param object $expected              The expected result object.
+	 * @param array  $params        The parameters.
+	 * @param bool   $old_value     The existing value for the option.
+	 * @param int    $times         The number of times the Options_Helper::set is expected to be called.
+	 * @param bool   $option_result The success state of the option setting operation.
+	 * @param object $expected      The expected result object.
 	 */
 	public function test_set_enable_tracking( $params, $old_value, $times, $option_result, $expected ) {
 		$this->options_helper
