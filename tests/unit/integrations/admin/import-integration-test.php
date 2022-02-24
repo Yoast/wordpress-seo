@@ -5,7 +5,6 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations\Admin;
 use Brain\Monkey;
 use Mockery;
 use WPSEO_Admin_Asset_Manager;
-use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Conditionals\Import_Tool_Selected_Conditional;
 use Yoast\WP\SEO\Conditionals\Yoast_Tools_Page_Conditional;
 use Yoast\WP\SEO\Integrations\Admin\Import_Integration;

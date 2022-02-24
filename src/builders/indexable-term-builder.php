@@ -8,7 +8,6 @@ use Yoast\WP\SEO\Exceptions\Indexable\Term_Not_Found_Exception;
 use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Models\Indexable;
-use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 
 /**

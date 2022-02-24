@@ -5,7 +5,6 @@ namespace Yoast\WP\SEO\Tests\Unit\Actions\Importing;
 use Exception;
 use Mockery;
 use Brain\Monkey;
-use Yoast\WP\SEO\Actions\Importing\Aioseo\Abstract_Aioseo_Settings_Importing_Action;
 use Yoast\WP\SEO\Helpers\Import_Cursor_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Sanitization_Helper;

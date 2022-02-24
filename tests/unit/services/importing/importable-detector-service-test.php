@@ -14,7 +14,6 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Sanitization_Helper;
 use Yoast\WP\SEO\Helpers\Wpdb_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
-use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Replacevar_Service;
 use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Provider_Service;
 use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Transformer_Service;
