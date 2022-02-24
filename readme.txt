@@ -241,14 +241,15 @@ Release Date: March 8th, 2022
 
 Enhancements:
 
+* Improves the importer so you can now import `post_meta`, `robot_txt` and search appearance options when moving from All-In-One SEO to Yoast SEO.
 * New feature: adds a QR code to every page on your site when it's printed, that links back to the page online. Props to [Coywolf](https://coywolf.com/) for [this idea](https://twitter.com/coywolf/status/1493630040256483338?t=juq4vpF0kf4MDS3Y3GfKPg&s=08).
-* Introduces the new importer for AIOSEO
 
 Bugfixes:
 
 * Fixes a bug where the Force rewrite titles option would be shown when a user was using a block-based theme.
 * Fixes a bug where the title of a page would not get included in our `get_head` REST route.
 * Fixes a bug where URLs in the XML sitemaps in certain edge cases would potentially be mangled, most notably when schema-relative URLs were being used.
+* Fixes an issue where HowTo images would not be optimized if they did not start with the site URL.
 
 = 18.2 =
 Release Date: February 22nd, 2022
