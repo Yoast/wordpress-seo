@@ -69,6 +69,10 @@ class WPSEO_Sitemaps_Router_Test extends WPSEO_UnitTestCase {
 		update_option( 'home', 'https://example.org' );
 		$this->assertEquals( 'https://example.org/sitemap.xml', WPSEO_Sitemaps_Router::get_base_url( 'sitemap.xml' ) );
 		$this->assertNotEquals( 'http://example.org/sitemap.xml', WPSEO_Sitemaps_Router::get_base_url( 'sitemap.xml' ) );
+
+		update_option( 'home', 'example.org' );
+		$this->assertEquals( 'example.org/sitemap.xml', WPSEO_Sitemaps_Router::get_base_url( 'sitemap.xml' ) );
+		$this->assertNotEquals( 'example.org/sitemap.xml', WPSEO_Sitemaps_Router::get_base_url( 'sitemap.xml' ) );
 	}
 
 	/**
