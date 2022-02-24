@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Config;
 
+use WPSEO_Utils;
 use Yoast\WP\SEO\Exceptions\OAuth\Authentication_Failed_Exception;
 use Yoast\WP\SEO\Exceptions\OAuth\Tokens\Empty_Property_Exception;
 use Yoast\WP\SEO\Exceptions\OAuth\Tokens\Empty_Token_Exception;
@@ -79,7 +80,7 @@ class Wincher_Client extends OAuth_Client {
 
 		$url = $this->provider->getAuthorizationUrl(
 			[
-				'state' => \WPSEO_Utils::format_json_encode( [ 'domain' => $parsed_site_url['host'] ] ),
+				'state' => WPSEO_Utils::format_json_encode( [ 'domain' => $parsed_site_url['host'] ] ),
 			]
 		);
 

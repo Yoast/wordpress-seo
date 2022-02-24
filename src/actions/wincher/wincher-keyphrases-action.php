@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Actions\Wincher;
 use Exception;
 use WP_Post;
 use WPSEO_Meta;
+use WPSEO_Utils;
 use Yoast\WP\SEO\Config\Wincher_Client;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
@@ -117,7 +118,7 @@ class Wincher_Keyphrases_Action {
 				)
 			);
 
-			$results = $this->client->post( $endpoint, \WPSEO_Utils::format_json_encode( $formatted_keyphrases ) );
+			$results = $this->client->post( $endpoint, WPSEO_Utils::format_json_encode( $formatted_keyphrases ) );
 
 			if ( ! \array_key_exists( 'data', $results ) ) {
 				return $this->to_result_object( $results );
@@ -209,7 +210,7 @@ class Wincher_Keyphrases_Action {
 
 			$results = $this->client->post(
 				$endpoint,
-				\WPSEO_Utils::format_json_encode(
+				WPSEO_Utils::format_json_encode(
 					[
 						'keywords' => $used_keyphrases,
 						'url'      => $permalink,

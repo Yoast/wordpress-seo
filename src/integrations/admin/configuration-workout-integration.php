@@ -48,7 +48,7 @@ class Configuration_Workout_Integration implements Integration_Interface {
 	/**
 	 * The product helper.
 	 *
-	 * @var \Yoast\WP\SEO\Helpers\Product_Helper
+	 * @var Product_Helper
 	 */
 	private $product_helper;
 

@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Actions\Importing;
 
 use Mockery;
+use wpdb;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Actions\Importing\Aioseo\Aioseo_Posts_Importing_Action;
 use Yoast\WP\SEO\Helpers\Image_Helper;
@@ -57,7 +58,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 	/**
 	 * The mocked WordPress database object.
 	 *
-	 * @var Mockery\MockInterface|\wpdb
+	 * @var Mockery\MockInterface|wpdb
 	 */
 	protected $wpdb;
 

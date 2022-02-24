@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Config;
 use Mockery;
 use Mockery\LegacyMockInterface;
 use Mockery\MockInterface;
+use UnexpectedValueException;
 use Yoast\WP\SEO\Config\OAuth_Client;
 use Yoast\WP\SEO\Exceptions\OAuth\Authentication_Failed_Exception;
 use Yoast\WP\SEO\Exceptions\OAuth\Tokens\Empty_Token_Exception;
@@ -92,7 +93,7 @@ class OAuth_Client_Test extends TestCase {
 			->with( 'oauth_token' )
 			->andReturnNull();
 
-		$instance = \Mockery::mock(
+		$instance = Mockery::mock(
 			OAuth_Client::class,
 			[
 				'oauth_token',
@@ -141,7 +142,7 @@ class OAuth_Client_Test extends TestCase {
 				]
 			);
 
-		$instance = \Mockery::mock(
+		$instance = Mockery::mock(
 			OAuth_Client::class,
 			[
 				'oauth_token',
@@ -215,7 +216,7 @@ class OAuth_Client_Test extends TestCase {
 			)
 			->andReturns( $this->token );
 
-		$instance = \Mockery::mock(
+		$instance = Mockery::mock(
 			OAuth_Client::class,
 			[
 				'oauth_token',
@@ -257,7 +258,7 @@ class OAuth_Client_Test extends TestCase {
 			->with( 'authorization_code', [ 'code' => '' ] )
 			->andThrow( IdentityProviderException::class );
 
-		$instance = \Mockery::mock(
+		$instance = Mockery::mock(
 			OAuth_Client::class,
 			[
 				'oauth_token',
@@ -309,7 +310,7 @@ class OAuth_Client_Test extends TestCase {
 			->andReturnTrue();
 
 
-		$instance = \Mockery::mock(
+		$instance = Mockery::mock(
 			OAuth_Client::class,
 			[
 				'oauth_token',
@@ -364,7 +365,7 @@ class OAuth_Client_Test extends TestCase {
 			->once()
 			->andReturnFalse();
 
-		$instance = \Mockery::mock(
+		$instance = Mockery::mock(
 			OAuth_Client::class,
 			[
 				'oauth_token',
@@ -413,7 +414,7 @@ class OAuth_Client_Test extends TestCase {
 				]
 			);
 
-		$instance = \Mockery::mock(
+		$instance = Mockery::mock(
 			OAuth_Client::class,
 			[
 				'oauth_token',
@@ -441,7 +442,7 @@ class OAuth_Client_Test extends TestCase {
 			->with( 'oauth_token' )
 			->andReturnNull();
 
-		$instance = \Mockery::mock(
+		$instance = Mockery::mock(
 			OAuth_Client::class,
 			[
 				'oauth_token',
@@ -478,7 +479,7 @@ class OAuth_Client_Test extends TestCase {
 			->with( 'oauth_token' )
 			->andReturnNull();
 
-		$instance = \Mockery::mock(
+		$instance = Mockery::mock(
 			OAuth_Client::class,
 			[
 				'oauth_token',
@@ -519,7 +520,7 @@ class OAuth_Client_Test extends TestCase {
 				]
 			);
 
-		$instance = \Mockery::mock(
+		$instance = Mockery::mock(
 			OAuth_Client::class,
 			[
 				'oauth_token',
@@ -544,7 +545,7 @@ class OAuth_Client_Test extends TestCase {
 			->with( 'oauth_token' )
 			->andReturnNull();
 
-		$instance = \Mockery::mock(
+		$instance = Mockery::mock(
 			OAuth_Client::class,
 			[
 				'oauth_token',
@@ -578,7 +579,7 @@ class OAuth_Client_Test extends TestCase {
 				]
 			);
 
-		$instance = \Mockery::mock(
+		$instance = Mockery::mock(
 			OAuth_Client::class,
 			[
 				'oauth_token',
@@ -609,7 +610,7 @@ class OAuth_Client_Test extends TestCase {
 
 		$this->expectException( Empty_Token_Exception::class );
 
-		$instance = \Mockery::mock(
+		$instance = Mockery::mock(
 			OAuth_Client::class,
 			[
 				'oauth_token',
@@ -657,7 +658,7 @@ class OAuth_Client_Test extends TestCase {
 			->expects( 'set' )
 			->once();
 
-		$instance = \Mockery::mock(
+		$instance = Mockery::mock(
 			OAuth_Client::class,
 			[
 				'oauth_token',
@@ -698,7 +699,7 @@ class OAuth_Client_Test extends TestCase {
 				]
 			);
 
-		$instance = \Mockery::mock(
+		$instance = Mockery::mock(
 			OAuth_Client::class,
 			[
 				'oauth_token',
@@ -747,7 +748,7 @@ class OAuth_Client_Test extends TestCase {
 			->with( 'refresh_token', [ 'refresh_token' => null ] )
 			->andReturn( $this->response );
 
-		$instance = \Mockery::mock(
+		$instance = Mockery::mock(
 			OAuth_Client::class,
 			[
 				'oauth_token',
@@ -797,9 +798,9 @@ class OAuth_Client_Test extends TestCase {
 			->expects( 'getAccessToken' )
 			->once()
 			->with( 'refresh_token', [ 'refresh_token' => null ] )
-			->andThrow( \UnexpectedValueException::class );
+			->andThrow( UnexpectedValueException::class );
 
-		$instance = \Mockery::mock(
+		$instance = Mockery::mock(
 			OAuth_Client::class,
 			[
 				'oauth_token',
