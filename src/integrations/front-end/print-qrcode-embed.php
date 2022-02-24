@@ -52,19 +52,29 @@ class Print_QRCode_Embed implements Integration_Interface {
 	 * @return void
 	 */
 	public function generate_qr_code() {
-		$nonce     = \wp_create_nonce( 'yoast_seo_qr_code' );
-		$url       = $this->meta_surface->for_current_page()->canonical;
+		$nonce = \wp_create_nonce( 'yoast_seo_qr_code' );
+		$meta  = $this->meta_surface->for_current_page();
+		$url   = $meta->canonical;
+
+		if ( empty( $url ) ) {
+			$url = $meta->indexable->permalink;
+		}
+
 		$alt_text  = __( 'QR Code for current page\'s URL.', 'wordpress-seo' );
 		$text      = __( 'Scan the QR code or go to the URL below to read this article online.', 'wordpress-seo' );
 		$image_url = \trailingslashit( \get_site_url() ) . '?nonce=' . $nonce . '&yoast_qr_code=' . rawurlencode( $url );
 		\printf(
-			'<script id="yoast_seo_print_qrcode">' .
+			'<script id="yoast_seo_print_qrcode_script">' .
 				'window.addEventListener( "beforeprint", function() {' .
 					'var div = document.createElement( "div" );' .
 					'div.innerHTML = "<img src=\"%4$s\" width=\"150\" height=\"150\" alt=\"%1$s\" /><p>%2$s<br/>%3$s</p>";' .
 					'div.style = "text-align:center;";' .
-					'var script = document.getElementById( "yoast_seo_print_qrcode" );' .
+					'div.id = "yoast_seo_print_qrcode";' .
+					'var script = document.getElementById( "yoast_seo_print_qrcode_script" );' .
 					'script.parentNode.insertBefore( div, script );' .
+				'} );' .
+				'window.addEventListener( "afterprint", function() {' .
+					'document.getElementById( "yoast_seo_print_qrcode" ).remove();' .
 				'} );' .
 			'</script>' . PHP_EOL,
 			\esc_attr( $alt_text ),
