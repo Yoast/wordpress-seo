@@ -10,7 +10,6 @@ use Yoast\WP\SEO\Services\Health_Check\Report_Builder;
 use Yoast\WP\SEO\Services\Health_Check\Report_Builder_Factory;
 use Yoast\WP\SEO\Services\Health_Check\Ryte_Reports;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Brain\Monkey;
 
 /**
  * Ryte_Reports
@@ -78,7 +77,10 @@ class Ryte_Reports_Test extends TestCase {
 	 */
 	public function test_sets_identifier_correctly() {
 		$expected_test_identifier = 'identifier';
-		$this->report_builder_mock->shouldReceive( 'set_test_identifier' )->once()->with( $expected_test_identifier );
+		$this->report_builder_mock
+			->shouldReceive( 'set_test_identifier' )
+			->once()
+			->with( $expected_test_identifier );
 		$this->instance->set_test_identifier( $expected_test_identifier );
 	}
 
@@ -96,12 +98,33 @@ class Ryte_Reports_Test extends TestCase {
 		$expected_description = 'Ryte offers a free indexability check for Yoast SEO users, and it shows that your site can be found by search engines.';
 		$expected_actions     = '<a href="link" target="_blank">Go to Ryte to analyze your entire site<span class="screen-reader-text">(Opens in a new browser tab)</span></a>';
 
-		$this->shortlinker_mock->shouldReceive( 'get' )->once()->andReturn( 'link' );
-		$this->report_builder_mock->shouldReceive( 'set_label' )->once()->with( $expected_label )->andReturn( $this->report_builder_mock );
-		$this->report_builder_mock->shouldReceive( 'set_description' )->once()->with( $expected_description )->andReturn( $this->report_builder_mock );
-		$this->report_builder_mock->shouldReceive( 'set_actions' )->once()->with( $expected_actions )->andReturn( $this->report_builder_mock );
-		$this->report_builder_mock->shouldReceive( 'set_status_good' )->once()->andReturn( $this->report_builder_mock );
-		$this->report_builder_mock->shouldReceive( 'build' )->once()->andReturn( $expected_result );
+		$this->shortlinker_mock
+			->shouldReceive( 'get' )
+			->once()
+			->andReturn( 'link' );
+		$this->report_builder_mock
+			->shouldReceive( 'set_label' )
+			->once()
+			->with( $expected_label )
+			->andReturn( $this->report_builder_mock );
+		$this->report_builder_mock
+			->shouldReceive( 'set_description' )
+			->once()
+			->with( $expected_description )
+			->andReturn( $this->report_builder_mock );
+		$this->report_builder_mock
+			->shouldReceive( 'set_actions' )
+			->once()
+			->with( $expected_actions )
+			->andReturn( $this->report_builder_mock );
+		$this->report_builder_mock
+			->shouldReceive( 'set_status_good' )
+			->once()
+			->andReturn( $this->report_builder_mock );
+		$this->report_builder_mock
+			->shouldReceive( 'build' )
+			->once()
+			->andReturn( $expected_result );
 
 		$actual_result = $this->instance->get_success_result();
 
@@ -123,13 +146,37 @@ class Ryte_Reports_Test extends TestCase {
 		$expected_description = 'Ryte offers a free indexability check for Yoast SEO users and it has determined that your site cannot be found by search engines. If this site is live or about to become live, this should be fixed.';
 		$expected_actions     = '<a href="link1" target="_blank">Read more about troubleshooting search engine visibility.<span class="screen-reader-text">(Opens in a new browser tab)</span></a><br /><br /><a href="link2" target="_blank">Go to Ryte to analyze your entire site<span class="screen-reader-text">(Opens in a new browser tab)</span></a>';
 
-		$this->shortlinker_mock->shouldReceive( 'get' )->once()->andReturn( 'link1' );
-		$this->shortlinker_mock->shouldReceive( 'get' )->once()->andReturn( 'link2' );
-		$this->report_builder_mock->shouldReceive( 'set_label' )->once()->with( $expected_label )->andReturn( $this->report_builder_mock );
-		$this->report_builder_mock->shouldReceive( 'set_description' )->once()->with( $expected_description )->andReturn( $this->report_builder_mock );
-		$this->report_builder_mock->shouldReceive( 'set_actions' )->once()->with( $expected_actions )->andReturn( $this->report_builder_mock );
-		$this->report_builder_mock->shouldReceive( 'set_status_critical' )->once()->andReturn( $this->report_builder_mock );
-		$this->report_builder_mock->shouldReceive( 'build' )->once()->andReturn( $expected_result );
+		$this->shortlinker_mock
+			->shouldReceive( 'get' )
+			->once()
+			->andReturn( 'link1' );
+		$this->shortlinker_mock
+			->shouldReceive( 'get' )
+			->once()
+			->andReturn( 'link2' );
+		$this->report_builder_mock
+			->shouldReceive( 'set_label' )
+			->once()
+			->with( $expected_label )
+			->andReturn( $this->report_builder_mock );
+		$this->report_builder_mock
+			->shouldReceive( 'set_description' )
+			->once()
+			->with( $expected_description )
+			->andReturn( $this->report_builder_mock );
+		$this->report_builder_mock
+			->shouldReceive( 'set_actions' )
+			->once()
+			->with( $expected_actions )
+			->andReturn( $this->report_builder_mock );
+		$this->report_builder_mock
+			->shouldReceive( 'set_status_critical' )
+			->once()
+			->andReturn( $this->report_builder_mock );
+		$this->report_builder_mock
+			->shouldReceive( 'build' )
+			->once()
+			->andReturn( $expected_result );
 
 		$actual_result = $this->instance->get_not_indexable_result();
 
@@ -151,14 +198,41 @@ class Ryte_Reports_Test extends TestCase {
 		$expected_description = 'Ryte offers a free indexability check for Yoast SEO users and right now it has trouble determining whether search engines can find your site. This could have several (legitimate) reasons and is not a problem in itself. If this is a live site, it is recommended that you figure out why the Ryte check failed.<br />alert';
 		$expected_actions     = '<a href="link2" target="_blank">Go to Ryte to analyze your entire site<span class="screen-reader-text">(Opens in a new browser tab)</span></a>';
 
-		$this->shortlinker_mock->shouldReceive( 'get' )->once()->andReturn( 'link1' );
-		$this->shortlinker_mock->shouldReceive( 'get' )->once()->andReturn( 'link2' );
-		$this->alert_presenter_mock->shouldReceive( 'present' )->once()->andReturn( 'alert' );
-		$this->report_builder_mock->shouldReceive( 'set_label' )->once()->with( $expected_label )->andReturn( $this->report_builder_mock );
-		$this->report_builder_mock->shouldReceive( 'set_description' )->once()->with( $expected_description )->andReturn( $this->report_builder_mock );
-		$this->report_builder_mock->shouldReceive( 'set_actions' )->once()->with( $expected_actions )->andReturn( $this->report_builder_mock );
-		$this->report_builder_mock->shouldReceive( 'set_status_recommended' )->once()->andReturn( $this->report_builder_mock );
-		$this->report_builder_mock->shouldReceive( 'build' )->once()->andReturn( $expected_result );
+		$this->shortlinker_mock
+			->shouldReceive( 'get' )
+			->once()
+			->andReturn( 'link1' );
+		$this->shortlinker_mock
+			->shouldReceive( 'get' )
+			->once()
+			->andReturn( 'link2' );
+		$this->alert_presenter_mock
+			->shouldReceive( 'present' )
+			->once()
+			->andReturn( 'alert' );
+		$this->report_builder_mock
+			->shouldReceive( 'set_label' )
+			->once()
+			->with( $expected_label )
+			->andReturn( $this->report_builder_mock );
+		$this->report_builder_mock
+			->shouldReceive( 'set_description' )
+			->once()
+			->with( $expected_description )
+			->andReturn( $this->report_builder_mock );
+		$this->report_builder_mock
+			->shouldReceive( 'set_actions' )
+			->once()
+			->with( $expected_actions )
+			->andReturn( $this->report_builder_mock );
+		$this->report_builder_mock
+			->shouldReceive( 'set_status_recommended' )
+			->once()
+			->andReturn( $this->report_builder_mock );
+		$this->report_builder_mock
+			->shouldReceive( 'build' )
+			->once()
+			->andReturn( $expected_result );
 
 		$actual_result = $this->instance->get_unknown_indexability_result();
 
@@ -186,13 +260,37 @@ class Ryte_Reports_Test extends TestCase {
 		$expected_description = 'Ryte offers a free indexability check for Yoast SEO users. The request to Ryte to check whether your site can be found by search engines failed due to an error.<br><br>Error details: 400 Bad request 500';
 		$expected_actions     = 'If this is a live site, <a href="link1" target="_blank">it is recommended that you figure out why the check failed.<span class="screen-reader-text">(Opens in a new browser tab)</span></a><br /><br /><a href="link2" target="_blank">Go to Ryte to analyze your entire site<span class="screen-reader-text">(Opens in a new browser tab)</span></a>';
 
-		$this->shortlinker_mock->shouldReceive( 'get' )->once()->andReturn( 'link1' );
-		$this->shortlinker_mock->shouldReceive( 'get' )->once()->andReturn( 'link2' );
-		$this->report_builder_mock->shouldReceive( 'set_label' )->once()->with( $expected_label )->andReturn( $this->report_builder_mock );
-		$this->report_builder_mock->shouldReceive( 'set_description' )->once()->with( $expected_description )->andReturn( $this->report_builder_mock );
-		$this->report_builder_mock->shouldReceive( 'set_actions' )->once()->with( $expected_actions )->andReturn( $this->report_builder_mock );
-		$this->report_builder_mock->shouldReceive( 'set_status_recommended' )->once()->andReturn( $this->report_builder_mock );
-		$this->report_builder_mock->shouldReceive( 'build' )->once()->andReturn( $expected_result );
+		$this->shortlinker_mock
+			->shouldReceive( 'get' )
+			->once()
+			->andReturn( 'link1' );
+		$this->shortlinker_mock
+			->shouldReceive( 'get' )
+			->once()
+			->andReturn( 'link2' );
+		$this->report_builder_mock
+			->shouldReceive( 'set_label' )
+			->once()
+			->with( $expected_label )
+			->andReturn( $this->report_builder_mock );
+		$this->report_builder_mock
+			->shouldReceive( 'set_description' )
+			->once()
+			->with( $expected_description )
+			->andReturn( $this->report_builder_mock );
+		$this->report_builder_mock
+			->shouldReceive( 'set_actions' )
+			->once()
+			->with( $expected_actions )
+			->andReturn( $this->report_builder_mock );
+		$this->report_builder_mock
+			->shouldReceive( 'set_status_recommended' )
+			->once()
+			->andReturn( $this->report_builder_mock );
+		$this->report_builder_mock
+			->shouldReceive( 'build' )
+			->once()
+			->andReturn( $expected_result );
 
 		$actual_result = $this->instance->get_response_error_result( $error_response );
 

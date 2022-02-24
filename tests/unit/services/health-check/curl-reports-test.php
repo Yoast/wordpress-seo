@@ -67,7 +67,10 @@ class Curl_Reports_Test extends TestCase {
 	 */
 	public function test_sets_identifier_correctly() {
 		$expected_test_identifier = 'identifier';
-		$this->report_builder_mock->shouldReceive( 'set_test_identifier' )->once()->with( $expected_test_identifier );
+		$this->report_builder_mock
+			->shouldReceive( 'set_test_identifier' )
+			->once()
+			->with( $expected_test_identifier );
 		$this->instance->set_test_identifier( $expected_test_identifier );
 	}
 
@@ -82,10 +85,24 @@ class Curl_Reports_Test extends TestCase {
 		$expected_label       = 'Yoast premium plugin updates work fine';
 		$expected_description = 'Great! You can activate your premium plugin(s) and receive updates.';
 
-		$this->report_builder_mock->shouldReceive( 'set_label' )->once()->with( $expected_label )->andReturn( $this->report_builder_mock );
-		$this->report_builder_mock->shouldReceive( 'set_description' )->once()->with( $expected_description )->andReturn( $this->report_builder_mock );
-		$this->report_builder_mock->shouldReceive( 'set_status_good' )->once()->andReturn( $this->report_builder_mock );
-		$this->report_builder_mock->shouldReceive( 'build' )->once()->andReturn( $expected_result );
+		$this->report_builder_mock
+			->shouldReceive( 'set_label' )
+			->once()
+			->with( $expected_label )
+			->andReturn( $this->report_builder_mock );
+		$this->report_builder_mock
+			->shouldReceive( 'set_description' )
+			->once()
+			->with( $expected_description )
+			->andReturn( $this->report_builder_mock );
+		$this->report_builder_mock
+			->shouldReceive( 'set_status_good' )
+			->once()
+			->andReturn( $this->report_builder_mock );
+		$this->report_builder_mock
+			->shouldReceive( 'build' )
+			->once()
+			->andReturn( $expected_result );
 
 		$actual_result = $this->instance->get_success_result();
 
@@ -104,11 +121,28 @@ class Curl_Reports_Test extends TestCase {
 		$expected_label       = 'Yoast premium plugins cannot update';
 		$expected_description = 'You can <em>not</em> activate your premium plugin(s) and receive updates because Yoast SEO cannot connect to my.yoast.com. A common cause for not being able to connect is an out-of-date version of cURL, software used to connect to other servers. However, your cURL version seems fine. Please talk to your host and, if needed, the Yoast support team to figure out what is broken. <a href="link" target="_blank">Read more about cURL in our help center<span class="screen-reader-text">(Opens in a new browser tab)</span></a>.';
 
-		$this->shortlinker_mock->shouldReceive( 'get' )->once()->andReturn( 'link' );
-		$this->report_builder_mock->shouldReceive( 'set_label' )->once()->with( $expected_label )->andReturn( $this->report_builder_mock );
-		$this->report_builder_mock->shouldReceive( 'set_description' )->once()->with( $expected_description )->andReturn( $this->report_builder_mock );
-		$this->report_builder_mock->shouldReceive( 'set_status_critical' )->once()->andReturn( $this->report_builder_mock );
-		$this->report_builder_mock->shouldReceive( 'build' )->once()->andReturn( $expected_result );
+		$this->shortlinker_mock
+			->shouldReceive( 'get' )
+			->once()
+			->andReturn( 'link' );
+		$this->report_builder_mock
+			->shouldReceive( 'set_label' )
+			->once()
+			->with( $expected_label )
+			->andReturn( $this->report_builder_mock );
+		$this->report_builder_mock
+			->shouldReceive( 'set_description' )
+			->once()
+			->with( $expected_description )
+			->andReturn( $this->report_builder_mock );
+		$this->report_builder_mock
+			->shouldReceive( 'set_status_critical' )
+			->once()
+			->andReturn( $this->report_builder_mock );
+		$this->report_builder_mock
+			->shouldReceive( 'build' )
+			->once()
+			->andReturn( $expected_result );
 
 		$actual_result = $this->instance->get_my_yoast_api_not_reachable_result();
 
@@ -127,11 +161,27 @@ class Curl_Reports_Test extends TestCase {
 		$expected_label       = 'Yoast premium plugins cannot update';
 		$expected_description = 'You can <em>not</em> activate your premium plugin(s) and receive updates because Yoast SEO cannot connect to my.yoast.com. The cause for this error is probably that the cURL software on your server is too old. Please contact your host and ask them to update it to at least version 7.34. <a href="" target="_blank">Read more about cURL in our help center<span class="screen-reader-text">(Opens in a new browser tab)</span></a>.';
 
-		$this->shortlinker_mock->shouldReceive( 'get' )->once();
-		$this->report_builder_mock->shouldReceive( 'set_label' )->once()->with( $expected_label )->andReturn( $this->report_builder_mock );
-		$this->report_builder_mock->shouldReceive( 'set_description' )->once()->with( $expected_description )->andReturn( $this->report_builder_mock );
-		$this->report_builder_mock->shouldReceive( 'set_status_critical' )->once()->andReturn( $this->report_builder_mock );
-		$this->report_builder_mock->shouldReceive( 'build' )->once()->andReturn( $expected_result );
+		$this->shortlinker_mock
+			->shouldReceive( 'get' )
+			->once();
+		$this->report_builder_mock
+			->shouldReceive( 'set_label' )
+			->once()
+			->with( $expected_label )
+			->andReturn( $this->report_builder_mock );
+		$this->report_builder_mock
+			->shouldReceive( 'set_description' )
+			->once()
+			->with( $expected_description )
+			->andReturn( $this->report_builder_mock );
+		$this->report_builder_mock
+			->shouldReceive( 'set_status_critical' )
+			->once()
+			->andReturn( $this->report_builder_mock );
+		$this->report_builder_mock
+			->shouldReceive( 'build' )
+			->once()
+			->andReturn( $expected_result );
 
 		$actual_result = $this->instance->get_no_recent_curl_version_installed_result();
 

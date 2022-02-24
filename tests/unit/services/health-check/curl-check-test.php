@@ -82,9 +82,17 @@ class Curl_Check_Test extends TestCase {
 	public function test_returns_success_report() {
 		$expected_result = [ 'correct' ];
 
-		$this->runner_mock->shouldReceive( 'run' )->once();
-		$this->runner_mock->shouldReceive( 'is_successful' )->once()->andReturn( true );
-		$this->reports_mock->shouldReceive( 'get_success_result' )->once()->andReturn( $expected_result );
+		$this->runner_mock
+			->shouldReceive( 'run' )
+			->once();
+		$this->runner_mock
+			->shouldReceive( 'is_successful' )
+			->once()
+			->andReturn( true );
+		$this->reports_mock
+			->shouldReceive( 'get_success_result' )
+			->once()
+			->andReturn( $expected_result );
 
 		$actual_result = $this->instance->run_and_get_result();
 
@@ -103,9 +111,17 @@ class Curl_Check_Test extends TestCase {
 	public function test_returns_no_result() {
 		$expected_result = [];
 
-		$this->runner_mock->shouldReceive( 'run' )->once();
-		$this->runner_mock->shouldReceive( 'is_successful' )->once()->andReturn( false );
-		$this->runner_mock->shouldReceive( 'has_premium_plugins_installed' )->once()->andReturn( false );
+		$this->runner_mock
+			->shouldReceive( 'run' )
+			->once();
+		$this->runner_mock
+			->shouldReceive( 'is_successful' )
+			->once()
+			->andReturn( false );
+		$this->runner_mock
+			->shouldReceive( 'has_premium_plugins_installed' )
+			->once()
+			->andReturn( false );
 
 		$actual_result = $this->instance->run_and_get_result();
 
@@ -124,11 +140,25 @@ class Curl_Check_Test extends TestCase {
 	public function test_returns_no_recent_curl_version_installed_result() {
 		$expected_result = [ 'correct' ];
 
-		$this->runner_mock->shouldReceive( 'run' )->once();
-		$this->runner_mock->shouldReceive( 'is_successful' )->once()->andReturn( false );
-		$this->runner_mock->shouldReceive( 'has_premium_plugins_installed' )->once()->andReturn( true );
-		$this->runner_mock->shouldReceive( 'has_recent_curl_version_installed' )->once()->andReturn( false );
-		$this->reports_mock->shouldReceive( 'get_no_recent_curl_version_installed_result' )->once()->andReturn( $expected_result );
+		$this->runner_mock
+			->shouldReceive( 'run' )
+			->once();
+		$this->runner_mock
+			->shouldReceive( 'is_successful' )
+			->once()
+			->andReturn( false );
+		$this->runner_mock
+			->shouldReceive( 'has_premium_plugins_installed' )
+			->once()
+			->andReturn( true );
+		$this->runner_mock
+			->shouldReceive( 'has_recent_curl_version_installed' )
+			->once()
+			->andReturn( false );
+		$this->reports_mock
+			->shouldReceive( 'get_no_recent_curl_version_installed_result' )
+			->once()
+			->andReturn( $expected_result );
 
 		$actual_result = $this->instance->run_and_get_result();
 
@@ -148,12 +178,29 @@ class Curl_Check_Test extends TestCase {
 
 		$expected_result = [ 'correct' ];
 
-		$this->runner_mock->shouldReceive( 'run' )->once();
-		$this->runner_mock->shouldReceive( 'is_successful' )->once()->andReturn( false );
-		$this->runner_mock->shouldReceive( 'has_premium_plugins_installed' )->once()->andReturn( true );
-		$this->runner_mock->shouldReceive( 'has_recent_curl_version_installed' )->once()->andReturn( true );
-		$this->runner_mock->shouldReceive( 'can_reach_my_yoast_api' )->once()->andReturn( false );
-		$this->reports_mock->shouldReceive( 'get_my_yoast_api_not_reachable_result' )->once()->andReturn( $expected_result );
+		$this->runner_mock
+			->shouldReceive( 'run' )
+			->once();
+		$this->runner_mock
+			->shouldReceive( 'is_successful' )
+			->once()
+			->andReturn( false );
+		$this->runner_mock
+			->shouldReceive( 'has_premium_plugins_installed' )
+			->once()
+			->andReturn( true );
+		$this->runner_mock
+			->shouldReceive( 'has_recent_curl_version_installed' )
+			->once()
+			->andReturn( true );
+		$this->runner_mock
+			->shouldReceive( 'can_reach_my_yoast_api' )
+			->once()
+			->andReturn( false );
+		$this->reports_mock
+			->shouldReceive( 'get_my_yoast_api_not_reachable_result' )
+			->once()
+			->andReturn( $expected_result );
 
 		$actual_result = $this->instance->run_and_get_result();
 
@@ -172,11 +219,25 @@ class Curl_Check_Test extends TestCase {
 	public function test_returns_nothing_after_all_cases() {
 		$expected_result = [];
 
-		$this->runner_mock->shouldReceive( 'run' )->once();
-		$this->runner_mock->shouldReceive( 'is_successful' )->once()->andReturn( false );
-		$this->runner_mock->shouldReceive( 'has_premium_plugins_installed' )->once()->andReturn( true );
-		$this->runner_mock->shouldReceive( 'has_recent_curl_version_installed' )->once()->andReturn( true );
-		$this->runner_mock->shouldReceive( 'can_reach_my_yoast_api' )->once()->andReturn( true );
+		$this->runner_mock
+			->shouldReceive( 'run' )
+			->once();
+		$this->runner_mock
+			->shouldReceive( 'is_successful' )
+			->once()
+			->andReturn( false );
+		$this->runner_mock
+			->shouldReceive( 'has_premium_plugins_installed' )
+			->once()
+			->andReturn( true );
+		$this->runner_mock
+			->shouldReceive( 'has_recent_curl_version_installed' )
+			->once()
+			->andReturn( true );
+		$this->runner_mock
+			->shouldReceive( 'can_reach_my_yoast_api' )
+			->once()
+			->andReturn( true );
 
 		$actual_result = $this->instance->run_and_get_result();
 

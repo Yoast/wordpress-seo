@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Services\Health_Check;
 
 use WPSEO_Addon_Manager;
-use WPSEO_MyYoast_Api_Request;
 use Yoast\WP\SEO\Helpers\Curl_Helper;
 
 /**

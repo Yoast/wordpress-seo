@@ -76,7 +76,9 @@ class Ryte_Runner_Test extends TestCase {
 	 * @covers ::run
 	 */
 	public function test_doesnt_run_when_not_production() {
-		Monkey\Functions\expect( 'wp_get_environment_type' )->andReturn( 'development' );
+		Monkey\Functions\expect( 'wp_get_environment_type' )
+			->andReturn( 'development' );
+
 		$this->instance->run();
 
 		$this->assertFalse( $this->instance->should_run() );
@@ -91,9 +93,13 @@ class Ryte_Runner_Test extends TestCase {
 	 * @covers ::run
 	 */
 	public function test_doesnt_run_when_in_development_mode() {
-		Monkey\Functions\expect( 'wp_get_environment_type' )->andReturn( 'production' );
+		Monkey\Functions\expect( 'wp_get_environment_type' )
+			->andReturn( 'production' );
 		Monkey\Functions\expect( 'wp_debug_mode' );
-		$this->utils_mock->shouldReceive( 'is_development_mode' )->andReturn( true );
+		$this->utils_mock
+			->shouldReceive( 'is_development_mode' )
+			->andReturn( true );
+
 		$this->instance->run();
 
 		$this->assertFalse( $this->instance->should_run() );
@@ -108,10 +114,16 @@ class Ryte_Runner_Test extends TestCase {
 	 * @covers ::run
 	 */
 	public function test_doesnt_run_when_not_public() {
-		Monkey\Functions\expect( 'wp_get_environment_type' )->andReturn( 'production' );
+		Monkey\Functions\expect( 'wp_get_environment_type' )
+			->andReturn( 'production' );
 		Monkey\Functions\expect( 'wp_debug_mode' );
-		$this->utils_mock->shouldReceive( 'is_development_mode' )->andReturn( false );
-		Monkey\Functions\expect( 'get_option' )->with( 'blog_public' )->andReturn( '0' );
+		$this->utils_mock
+			->shouldReceive( 'is_development_mode' )
+			->andReturn( false );
+		Monkey\Functions\expect( 'get_option' )
+			->with( 'blog_public' )
+			->andReturn( '0' );
+
 		$this->instance->run();
 
 		$this->assertFalse( $this->instance->should_run() );
@@ -126,12 +138,20 @@ class Ryte_Runner_Test extends TestCase {
 	 * @covers ::run
 	 */
 	public function test_doesnt_run_when_ryte_is_disabled() {
-		Monkey\Functions\expect( 'wp_get_environment_type' )->andReturn( 'production' );
+		Monkey\Functions\expect( 'wp_get_environment_type' )
+			->andReturn( 'production' );
 		Monkey\Functions\expect( 'wp_debug_mode' );
-		$this->utils_mock->shouldReceive( 'is_development_mode' )->andReturn( false );
-		Monkey\Functions\expect( 'get_option' )->with( 'blog_public' )->andReturn( '1' );
-		$this->ryte_option_factory_mock->shouldReceive( 'create' )->andReturn( $this->ryte_option_mock );
-		$this->ryte_option_mock->shouldReceive( 'is_enabled' )->andReturn( false );
+		$this->utils_mock
+			->shouldReceive( 'is_development_mode' )
+			->andReturn( false );
+		Monkey\Functions\expect( 'get_option' )
+			->with( 'blog_public' )
+			->andReturn( '1' );
+		$this->ryte_option_factory_mock->shouldReceive( 'create' )
+			->andReturn( $this->ryte_option_mock );
+		$this->ryte_option_mock->shouldReceive( 'is_enabled' )
+			->andReturn( false );
+
 		$this->instance->run();
 
 		$this->assertFalse( $this->instance->should_run() );
@@ -372,11 +392,20 @@ class Ryte_Runner_Test extends TestCase {
 	 * @return void
 	 */
 	private function set_production_with_ryte_enabled() {
-		Monkey\Functions\expect( 'wp_get_environment_type' )->andReturn( 'production' );
+		Monkey\Functions\expect( 'wp_get_environment_type' )
+			->andReturn( 'production' );
 		Monkey\Functions\expect( 'wp_debug_mode' );
-		$this->utils_mock->shouldReceive( 'is_development_mode' )->andReturn( false );
-		Monkey\Functions\expect( 'get_option' )->with( 'blog_public' )->andReturn( '1' );
-		$this->ryte_option_factory_mock->shouldReceive( 'create' )->andReturn( $this->ryte_option_mock );
-		$this->ryte_option_mock->shouldReceive( 'is_enabled' )->andReturn( true );
+		$this->utils_mock
+			->shouldReceive( 'is_development_mode' )
+			->andReturn( false );
+		Monkey\Functions\expect( 'get_option' )
+			->with( 'blog_public' )
+			->andReturn( '1' );
+		$this->ryte_option_factory_mock
+			->shouldReceive( 'create' )
+			->andReturn( $this->ryte_option_mock );
+		$this->ryte_option_mock
+			->shouldReceive( 'is_enabled' )
+			->andReturn( true );
 	}
 }

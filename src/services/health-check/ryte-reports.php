@@ -2,10 +2,8 @@
 
 namespace Yoast\WP\SEO\Services\Health_Check;
 
-use mysql_xdevapi\XSession;
 use WPSEO_Admin_Utils;
 use WPSEO_Shortlinker;
-use Yoast\WP\SEO\Presenters\Admin\Alert_Presenter;
 
 /**
  * Presents a set of different messages for the Ryte health check.
