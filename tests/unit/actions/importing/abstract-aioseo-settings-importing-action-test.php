@@ -187,9 +187,9 @@ class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 			->once()
 			->andReturn( 'cursor_id' );
 
-		end( $query_results );
-		$last_key = key( $query_results );
-		reset( $query_results );
+		\end( $query_results );
+		$last_key = \key( $query_results );
+		\reset( $query_results );
 
 		$this->import_cursor->expects( 'set_cursor' )
 			->once()

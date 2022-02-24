@@ -89,7 +89,7 @@ class Wincher_Keyphrases_Action {
 			);
 
 			// Enforce arrrays to ensure a consistent way of preparing the request.
-			if ( ! is_array( $keyphrases ) ) {
+			if ( ! \is_array( $keyphrases ) ) {
 				$keyphrases = [ $keyphrases ];
 			}
 
@@ -124,7 +124,7 @@ class Wincher_Keyphrases_Action {
 			}
 
 			// The endpoint returns a lot of stuff that we don't want/need.
-			$results['data'] = array_map(
+			$results['data'] = \array_map(
 				static function( $keyphrase ) {
 					return [
 						'id'         => $keyphrase['id'],
@@ -260,7 +260,7 @@ class Wincher_Keyphrases_Action {
 			$keyphrases[] = $primary_keyphrase->primary_focus_keyword;
 		}
 
-		if ( YoastSEO()->helpers->product->is_premium() ) {
+		if ( \YoastSEO()->helpers->product->is_premium() ) {
 			$additional_keywords = \json_decode( WPSEO_Meta::get_value( 'focuskeywords', $post->ID ), true );
 
 			$keyphrases = \array_merge( $keyphrases, $additional_keywords );
@@ -290,7 +290,7 @@ class Wincher_Keyphrases_Action {
 			'primary_focus_keyword'
 		);
 
-		if ( YoastSEO()->helpers->product->is_premium() ) {
+		if ( \YoastSEO()->helpers->product->is_premium() ) {
 			// Collect all related keyphrases.
 			$meta_key = WPSEO_Meta::$meta_prefix . 'focuskeywords';
 
@@ -345,7 +345,7 @@ class Wincher_Keyphrases_Action {
 	 * @return bool Whether the limit is exceeded.
 	 */
 	protected function would_exceed_limits( $keyphrases, $limits ) {
-		if ( ! is_array( $keyphrases ) ) {
+		if ( ! \is_array( $keyphrases ) ) {
 			$keyphrases = [ $keyphrases ];
 		}
 
@@ -353,7 +353,7 @@ class Wincher_Keyphrases_Action {
 			return false;
 		}
 
-		return ( count( $keyphrases ) + $limits->usage ) > $limits->limit;
+		return ( \count( $keyphrases ) + $limits->usage ) > $limits->limit;
 	}
 
 	/**

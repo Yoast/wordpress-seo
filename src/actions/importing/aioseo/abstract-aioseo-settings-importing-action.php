@@ -196,7 +196,7 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Aioseo
 
 		// We specifically want the setttings of the tab we're working with, eg. postTypes, taxonomies, etc.
 		$settings_values = $aioseo_settings['searchAppearance'][ $this->settings_tab ];
-		if ( ! is_array( $settings_values ) ) {
+		if ( ! \is_array( $settings_values ) ) {
 			return [];
 		}
 

@@ -20,8 +20,8 @@ class Import_Helper {
 	public function flatten_settings( $array, $key_prefix = '' ) {
 		$result = [];
 		foreach ( $array as $key => $value ) {
-			if ( is_array( $value ) ) {
-				$result = array_merge( $result, $this->flatten_settings( $value, $key_prefix . '/' . $key ) );
+			if ( \is_array( $value ) ) {
+				$result = \array_merge( $result, $this->flatten_settings( $value, $key_prefix . '/' . $key ) );
 			}
 			else {
 				$result[ $key_prefix . '/' . $key ] = $value;

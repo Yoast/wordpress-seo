@@ -76,7 +76,7 @@ class Aioseo_Replacevar_Service {
 		$yoast_replacevar = \str_replace( \array_keys( $this->replace_vars_map ), \array_values( $this->replace_vars_map ), $aioseo_replacevar );
 
 		// Transform the '#custom_field-<custom_field>' tags into '%%cf_<custom_field>%%' ones.
-		$yoast_replacevar = preg_replace_callback(
+		$yoast_replacevar = \preg_replace_callback(
 			'/#custom_field-([a-zA-Z0-9_-]+)/',
 			static function ( $cf_matches ) {
 				return '%%cf_' . $cf_matches[1] . '%%';
@@ -85,7 +85,7 @@ class Aioseo_Replacevar_Service {
 		);
 
 		// Transform the '#tax_name-<custom-tax-name>' tags into '%%ct_<custom-tax-name>%%' ones.
-		$yoast_replacevar = preg_replace_callback(
+		$yoast_replacevar = \preg_replace_callback(
 			'/#tax_name-([a-zA-Z0-9_-]+)/',
 			static function ( $ct_matches ) {
 				return '%%ct_' . $ct_matches[1] . '%%';

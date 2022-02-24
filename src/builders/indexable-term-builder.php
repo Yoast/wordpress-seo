@@ -260,7 +260,7 @@ class Indexable_Term_Builder {
 				ON		term_tax.term_taxonomy_id = term_rel.term_taxonomy_id
 				AND		term_tax.taxonomy = %s
 				AND		term_tax.term_id = %d
-			WHERE	p.post_status IN (" . implode( ', ', array_fill( 0, count( $post_statuses ), '%s' ) ) . ")
+			WHERE	p.post_status IN (" . \implode( ', ', \array_fill( 0, \count( $post_statuses ), '%s' ) ) . ")
 				AND		p.post_password = ''
 		";
 

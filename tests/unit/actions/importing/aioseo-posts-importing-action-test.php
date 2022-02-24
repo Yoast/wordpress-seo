@@ -269,9 +269,9 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 	 * @covers ::index
 	 */
 	public function test_donot_map( $aioseo_indexables, $is_default, $check_if_default_times, $cursor_value ) {
-		if ( ! defined( 'ARRAY_A' ) ) {
+		if ( ! \defined( 'ARRAY_A' ) ) {
 			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound
-			define( 'ARRAY_A', 'ARRAY_A' );
+			\define( 'ARRAY_A', 'ARRAY_A' );
 		}
 		$indexable = Mockery::mock( Indexable_Mock::class );
 

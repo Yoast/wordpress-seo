@@ -180,7 +180,7 @@ class Indexable_Author_Builder {
 		$sql = "
 			SELECT MAX(p.post_modified_gmt) AS last_modified, MIN(p.post_date_gmt) AS published_at
 			FROM {$this->wpdb->posts} AS p
-			WHERE p.post_status IN (" . implode( ', ', array_fill( 0, count( $post_statuses ), '%s' ) ) . ")
+			WHERE p.post_status IN (" . \implode( ', ', \array_fill( 0, \count( $post_statuses ), '%s' ) ) . ")
 				AND p.post_password = ''
 				AND p.post_author = %d
 		";

@@ -219,7 +219,7 @@ class Importable_Detector_Service_Test extends TestCase {
 	public function test_construct() {
 		$this->assertTrue( \is_array( self::getPropertyValue( $this->instance, 'importers' ) ) );
 
-		$importer = array_values( self::getPropertyValue( $this->instance, 'importers' ) )[0];
+		$importer = \array_values( self::getPropertyValue( $this->instance, 'importers' ) )[0];
 		$this->assertInstanceOf(
 			Aioseo_Posts_Importing_Action::class,
 			$importer

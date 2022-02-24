@@ -37,7 +37,7 @@ class Conflicting_Plugins_Service {
 			$plugins = [ $plugins ];
 		}
 
-		if ( ! is_array( $plugins ) ) {
+		if ( ! \is_array( $plugins ) ) {
 			return;
 		}
 

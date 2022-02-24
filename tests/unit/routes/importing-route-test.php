@@ -121,7 +121,7 @@ class Importing_Route_Test extends TestCase {
 			->with( $this->importers, $plugin, $type )
 			->andReturn( $this->importers );
 
-		$importer = array_values( $this->importers )[0];
+		$importer = \array_values( $this->importers )[0];
 
 		$importer->expects( 'is_enabled' )
 			->once()

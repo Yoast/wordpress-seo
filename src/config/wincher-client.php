@@ -88,7 +88,7 @@ class Wincher_Client extends OAuth_Client {
 		// Store a session cookie with the PKCE code that we need in order to
 		// exchange the returned code for a token after authorization.
 		$secure = ! empty( $_SERVER['HTTPS'] );
-		setcookie( self::PKCE_COOKIE_NAME, $pkce_code, 0, '/', '', $secure, true );
+		\setcookie( self::PKCE_COOKIE_NAME, $pkce_code, 0, '/', '', $secure, true );
 
 		return $url;
 	}

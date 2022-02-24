@@ -80,7 +80,7 @@ class Configuration_Workout_Action {
 			}
 		}
 
-		if ( count( $failures ) === 0 ) {
+		if ( \count( $failures ) === 0 ) {
 			return (object) [
 				'success' => true,
 				'status'  => 200,
@@ -125,7 +125,7 @@ class Configuration_Workout_Action {
 			}
 		}
 
-		if ( count( $failures ) === 0 ) {
+		if ( \count( $failures ) === 0 ) {
 			return (object) [
 				'success' => true,
 				'status'  => 200,
