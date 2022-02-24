@@ -107,6 +107,23 @@ class Url_Helper_Test extends TestCase {
 	}
 
 	/**
+	 * Tests retrieving of the file extension.
+	 *
+	 * @covers ::get_extension_from_url
+	 * @covers ::get_url_path
+	 */
+	public function test_get_extension_from_url_null() {
+		Monkey\Functions\expect( 'wp_parse_url' )
+			->with( 'https://example.com', \PHP_URL_PATH )
+			->andReturn( null );
+
+		$expected = '';
+		$actual   = $this->instance->get_extension_from_url( 'https://example.com' );
+
+		$this->assertEquals( $expected, $actual );
+	}
+
+	/**
 	 * Tests retrieving of the file extension with no path present.
 	 *
 	 * @covers ::get_extension_from_url

@@ -120,7 +120,7 @@ class Url_Helper {
 	public function get_extension_from_url( $url ) {
 		$path = $this->get_url_path( $url );
 
-		if ( $path === '' ) {
+		if ( $path === '' || $path === null ) {
 			return '';
 		}
 
