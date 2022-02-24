@@ -59,8 +59,8 @@ class Wincher_Keyphrases_Action {
 	/**
 	 * Wincher_Keyphrases_Action constructor.
 	 *
-	 * @param Wincher_Client       $client         The API client.
-	 * @param Options_Helper       $options_helper The options helper.
+	 * @param Wincher_Client       $client               The API client.
+	 * @param Options_Helper       $options_helper       The options helper.
 	 * @param Indexable_Repository $indexable_repository The indexables repository.
 	 */
 	public function __construct(

@@ -715,14 +715,14 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 	 * Tests importing the og and twitter image url.
 	 *
 	 * @param bool   $aioseo_social_image_settings AIOSEO's set of social image settings for the post.
-	 * @param array  $mapping                     The mapping of the setting we're working with.
-	 * @param int    $expected_url                The URL that's expected to be imported.
-	 * @param int    $sanitize_url_times          The times we're sanitizing the retrieved url.
-	 * @param string $provider_method             The method we're using from the social images provider.
-	 * @param int    $provider_times              The times we're using the social images provider.
-	 * @param mixed  $provider_result             The result the social images provider returns.
-	 * @param int    $get_default_times           The times we're getting the default url.
-	 * @param string $social_setting              The social settings we use to get the default url.
+	 * @param array  $mapping                      The mapping of the setting we're working with.
+	 * @param int    $expected_url                 The URL that's expected to be imported.
+	 * @param int    $sanitize_url_times           The times we're sanitizing the retrieved url.
+	 * @param string $provider_method              The method we're using from the social images provider.
+	 * @param int    $provider_times               The times we're using the social images provider.
+	 * @param mixed  $provider_result              The result the social images provider returns.
+	 * @param int    $get_default_times            The times we're getting the default url.
+	 * @param string $social_setting               The social settings we use to get the default url.
 	 *
 	 * @dataProvider provider_social_image_url_import
 	 * @covers ::social_image_url_import

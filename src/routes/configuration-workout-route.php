@@ -37,7 +37,7 @@ class Configuration_Workout_Route implements Route_Interface {
 	/**
 	 *  The configuration workout action.
 	 *
-	 * @var Configuration_Workout_Action;
+	 * @var Configuration_Workout_Action
 	 */
 	private $configuration_workout_action;
 

@@ -170,7 +170,7 @@ class Indexable_Author_Builder {
 	/**
 	 * Returns the timestamps for a given author.
 	 *
-	 * @param int $author_id  The author ID.
+	 * @param int $author_id The author ID.
 	 *
 	 * @return object An object with last_modified and published_at timestamps.
 	 */

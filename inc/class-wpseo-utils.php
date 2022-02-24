@@ -1270,7 +1270,7 @@ class WPSEO_Utils {
 	 * @deprecated 15.5
 	 * @codeCoverageIgnore
 	 *
-	 * @param array  $graph The Schema graph array to output.
+	 * @param array  $graph        The Schema graph array to output.
 	 * @param string $class_to_add The (optional) class to add to the script tag.
 	 *
 	 * @return false|string A schema blob with script tags.
