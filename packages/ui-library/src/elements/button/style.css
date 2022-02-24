@@ -54,7 +54,7 @@
 
 	.yst-button--upsell {
 		@apply
-			yst-text-gray-700
+			yst-text-gray-800
 			yst-bg-amber-400
 			yst-border-transparent
 
