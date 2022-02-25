@@ -14,9 +14,14 @@ import { PersonSection } from "./person-section";
 /* eslint-disable complexity */
 
 /**
- * Doc comment to make linter happy.
+ * The site representation step.
  *
- * @returns {WPElement} Example step.
+ * @param {function} onOrganizationOrPersonChange Function to call when the organization/person select changes.
+ * @param {function} dispatch                     A dispatch function to communicate with the Stepper store.
+ * @param {Object}   state                        The Stepper store.
+ * @param {boolean}  siteRepresentationEmpty      Whether the person or organization inputs are empty.
+ *
+ * @returns {WPElement} The site representation step component.
  */
 export default function SiteRepresentationStep( { onOrganizationOrPersonChange, dispatch, state, siteRepresentationEmpty } ) {
 	const [ sectionOpacity, setSectionOpacity ] = useState( state.companyOrPerson === "emptyChoice" ? "yst-opacity-0" : "yst-opacity-100" );
