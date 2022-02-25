@@ -18,6 +18,7 @@ window.yoast.indexing = window.yoast.indexing || {};
  * @param {function} props.indexingStateCallback The function to call back on state updates.
  * @param {Boolean}  props.isEnabled             Whether the indexation component should be real or a dummy.
  * @param {string}   props.indexingState         The state of the indexation.
+ * @param {Boolean}  props.isStepperFinished     Whether the stepper has been completed.
  *
  * @returns {WPElement} A wrapped Indexation for the first-time configuration.
  */
@@ -63,10 +64,12 @@ ConfigurationIndexation.propTypes = {
 	indexingStateCallback: PropTypes.func.isRequired,
 	indexingState: PropTypes.string.isRequired,
 	isEnabled: PropTypes.bool,
+	isStepperFinished: PropTypes.bool,
 };
 
 ConfigurationIndexation.defaultProps = {
 	isEnabled: true,
+	isStepperFinished: false,
 };
 
 /**
