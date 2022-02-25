@@ -358,9 +358,17 @@ function calculateInitialState( windowObject, isStepFinished ) {
 		savedSteps: [],
 	};
 }
+
+/**
+ * A function that returns true for completed indexingstates.
+ *
+ * @param {string} indexingState The indexation state.
+ *
+ * @returns {bool} Whether indexation is done.
+ */
 function isIndexationDone( indexingState ) {
 	return [ "completed", "already_done" ].includes( indexingState );
-};
+}
 
 /* eslint-enable max-len, react/prop-types */
 
