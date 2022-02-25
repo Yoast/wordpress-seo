@@ -17,7 +17,7 @@ import MultiLineText from "./multi-line-text";
  * @param {String} type The type of the input, defaults to text.
  * @param {ValidationError} [error] Validation error object.
  *
- * @returns {JSX.Element} The Text Input component.
+ * @returns {WPElement} The Text Input component.
  */
 export default function TextInput( { className, id, label, value, onChange, placeholder, error, type, ...inputProps } ) {
 	const inputType = type ? type : "text";

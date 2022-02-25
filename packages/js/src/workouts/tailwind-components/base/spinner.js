@@ -7,7 +7,7 @@ import classNames from "classnames";
  * @param {string} props.color The color of the spinner.
  * @param {string} props.size The size of the spinner.
  * @param {string} props.className Additional CSS class names.
- * @returns {JSX.Element} The Spinner component.
+ * @returns {WPElement} The Spinner component.
  */
 const Spinner = ( { color, size, className } ) => {
 	return (

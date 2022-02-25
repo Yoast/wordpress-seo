@@ -16,7 +16,7 @@ import MultiLineText from "./multi-line-text";
  * @param {function} onChange Change handler.
  * @param {ValidationError} [error] Validation error object.
  *
- * @returns {JSX.Element} The Select element.
+ * @returns {WPElement} The Select element.
  */
 export default function Select( { id, value, choices, label, onChange, error } ) {
 	// Find label to display for value of selected choice.

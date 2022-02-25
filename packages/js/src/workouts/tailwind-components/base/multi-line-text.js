@@ -6,8 +6,8 @@ import { last } from "lodash";
  * @param {Object} props The props object.
  * @param {string[]} props.texts Array of text strings to render in multi-line format.
  * @param {string} props.id An unique identifier id to use in keying.
- * @param {string|JSX.Element} props.as Component to render as.
- * @returns {JSX.Element} The MultiLineText component.
+ * @param {string|WPElement} props.as Component to render as.
+ * @returns {WPElement} The MultiLineText component.
  */
 const MultiLineText  = ( { texts, id, as: Component, ...rest } ) => {
 	const lastText = useMemo( () => last( texts ), [ texts ] );

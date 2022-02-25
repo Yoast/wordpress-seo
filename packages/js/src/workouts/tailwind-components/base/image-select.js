@@ -12,18 +12,17 @@ import Spinner from "./spinner";
 /**
  * The ImageSelect component.
  *
- * @param {object} props The props for the Imageselect component.
- * @param {string} props.id Id attribute.
- * @param {string} props.imageAltText Alternative text for image.
- * @param {string} props.url Url for image.
- * @param {string} props.label Label.
- * @param {function} props.dispatchImageData Dispatch handler.
+ * @param {object}   props                    The props for the Imageselect component.
+ * @param {string}   props.id                 Id attribute.
+ * @param {string}   props.imageAltText       Alternative text for image.
+ * @param {string}   props.url                Url for image.
+ * @param {string}   props.label              Label.
+ * @param {function} props.onSelectImageClick Select image handler.
  * @param {function} props.onRemoveImageClick Remove image handler.
- * @param {function} props.imagePicker Image Picker instance.
- * @param {string} props.className CSS classnames.
- * @param {ValidationError} props.error Validation error object.
+ * @param {string}   props.className          CSS classnames.
+ * @param {object}   props.error              Validation error object.
  *
- * @returns {JSX.Element} The ImageSelect component.
+ * @returns {WPElement} The ImageSelect component.
  */
 export default function ImageSelect( {
 	id,
@@ -98,7 +97,6 @@ ImageSelect.propTypes = {
 	id: PropTypes.string.isRequired,
 	url: PropTypes.string,
 	imageAltText: PropTypes.string,
-	dispatchImageData: PropTypes.func,
 	onRemoveImageClick: PropTypes.func,
 	onSelectImageClick: PropTypes.func,
 	className: PropTypes.string,
@@ -113,7 +111,6 @@ ImageSelect.defaultProps = {
 	label: "",
 	url: "",
 	imageAltText: "",
-	dispatchImageData: noop,
 	onRemoveImageClick: noop,
 	onSelectImageClick: noop,
 	className: "",
