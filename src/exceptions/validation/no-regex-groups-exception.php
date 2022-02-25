@@ -19,7 +19,7 @@ class No_Regex_Groups_Exception extends Abstract_Validation_Exception {
 		parent::__construct(
 			\sprintf(
 			/* translators: %1$s expands to the user input. %2$s expands to a regular expression pattern. */
-				\esc_html__( 'The value does not contain any of the groups in the pattern %s.', 'wordpress-seo' ),
+				\esc_html__( 'The value %1$s does not contain any of the groups in the pattern %2$s.', 'wordpress-seo' ),
 				'<strong>' . \esc_html( $value ) . '</strong>',
 				'<strong>' . \esc_html( $pattern ) . '</strong>'
 			)
