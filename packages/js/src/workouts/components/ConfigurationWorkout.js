@@ -347,14 +347,6 @@ function calculateInitialState( windowObject, isStepFinished ) {
 	let { companyOrPerson, companyName,	companyLogo, companyOrPersonOptions } = windowObject; // eslint-disable-line prefer-const
 	if ( companyOrPerson === "company" && ( ! companyName && ! companyLogo ) && ! isStepFinished( "configuration", STEPS.configuration.siteRepresentation ) ) {
 		companyOrPerson = "emptyChoice";
-		companyOrPersonOptions = [
-			{
-				id: "emptyChoice",
-				value: "emptyChoice",
-				label: __( "Select an option", "wordpress-seo" ),
-			},
-			...companyOrPersonOptions,
-		];
 	}
 
 	return {

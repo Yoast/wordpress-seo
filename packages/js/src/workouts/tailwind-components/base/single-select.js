@@ -1,6 +1,7 @@
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ExclamationCircleIcon, SelectorIcon } from "@heroicons/react/solid";
 import { Fragment, useMemo } from "@wordpress/element";
+import { __ } from "@wordpress/i18n";
 import classNames from "classnames";
 import { PropTypes } from "prop-types";
 import { getErrorAriaProps, getErrorId } from "../helpers";
@@ -22,7 +23,7 @@ export default function Select( { id, value, choices, label, onChange, error } )
 	// Find label to display for value of selected choice.
 	const valueLabel = useMemo( () => {
 		const selectedChoice = choices.find( ( choice ) => value === choice.value );
-		return selectedChoice ? selectedChoice.label : "placeholder";
+		return selectedChoice ? selectedChoice.label : __( "Select an option", "wordpress-seo" );
 	}, [ choices, value ] );
 
 	return (
