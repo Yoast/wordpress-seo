@@ -6,7 +6,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { cloneDeep } from "lodash";
 import PropTypes from "prop-types";
 
-import UnsavedChangesModal from "../tailwind-components/UnsavedChangesModal";
+import UnsavedChangesModal from "../tailwind-components/unsaved-changes-modal";
 import Alert from "../tailwind-components/base/alert";
 import { NewButton as Button, RadioButtonGroup, SingleSelect, TextInput } from "@yoast/components";
 import { ReactComponent as WorkoutDoneImage } from "../../../../../images/mirrored_fit_bubble_woman_1_optim.svg";
