@@ -73,7 +73,13 @@ class Site_Options_Service extends Abstract_Options_Service {
 		],
 		'pinterestverify'                                     => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [
+				'empty_string',
+				'regex' => [
+					'pattern' => '/(^[A-Fa-f0-9_-]+$)|content=([\'"])?([A-Fa-f0-9_-]+)(?:\2|[ \/>])/',
+					'groups'  => [ 1, 3 ],
+				],
+			],
 		],
 		'twitter'                                     		  => [
 			'default' => true,
@@ -512,7 +518,13 @@ class Site_Options_Service extends Abstract_Options_Service {
 		],
 		'baiduverify'                                         => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [
+				'empty_string',
+				'regex' => [
+					'pattern' => '/(^[A-Za-z0-9_-]+$)|content=([\'"])?([A-Za-z0-9_-]+)(?:\2|[ \/>])/',
+					'groups'  => [ 1, 3 ],
+				],
+			],
 		],
 		'category_base_url'                                   => [
 			'default' => '',
@@ -594,7 +606,13 @@ class Site_Options_Service extends Abstract_Options_Service {
 		],
 		'googleverify'                                        => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [
+				'empty_string',
+				'regex' => [
+					'pattern' => '/(^[A-Za-z0-9_-]+$)|content=([\'"])?([A-Za-z0-9_-]+)(?:\2|[ \/>])/',
+					'groups'  => [ 1, 3 ],
+				],
+			],
 		],
 		'has_multiple_authors'                                => [
 			'default' => '',
@@ -648,7 +666,13 @@ class Site_Options_Service extends Abstract_Options_Service {
 		],
 		'msverify'                                            => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [
+				'empty_string',
+				'regex' => [
+					'pattern' => '/(^[A-Fa-f0-9_-]+$)|content=([\'"])?([A-Fa-f0-9_-]+)(?:\2|[ \/>])/',
+					'groups'  => [ 1, 3 ],
+				],
+			],
 		],
 		'myyoast-oauth'                                       => [
 			'default' => '',
@@ -728,7 +752,13 @@ class Site_Options_Service extends Abstract_Options_Service {
 		],
 		'yandexverify'                                        => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [
+				'empty_string',
+				'regex' => [
+					'pattern' => '/(^[A-Fa-f0-9_-]+$)|content=([\'"])?([A-Fa-f0-9_-]+)(?:\2|[ \/>])/',
+					'groups'  => [ 1, 3 ],
+				],
+			],
 		],
 		'zapier_api_key'                                      => [
 			'default' => '',
