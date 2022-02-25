@@ -32,6 +32,7 @@ export default function UnsavedChangesModal( { hasUnsavedChanges, title, descrip
 	const beforeUnloadEventHandler = useCallback( ( event ) => {
 		if ( hasUnsavedChanges ) {
 			event.preventDefault();
+			event.returnValue = "";
 		}
 	}, [ hasUnsavedChanges ] );
 
