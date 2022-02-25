@@ -2,24 +2,24 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Services\Health_Check;
 
-use Brain\Monkey;
 use Mockery;
-use Yoast\WP\SEO\Services\Health_Check\Page_Comments_Reports;
+use Yoast\WP\SEO\Services\Health_Check\Postname_Permalink_Reports;
 use Yoast\WP\SEO\Services\Health_Check\Report_Builder;
 use Yoast\WP\SEO\Services\Health_Check\Report_Builder_Factory;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
+use Brain\Monkey;
 
 /**
- * Page_Comments_Reports
+ * Postname_Permalink_Reports
  *
- * @coversDefaultClass Yoast\WP\SEO\Services\Health_Check\Page_Comments_Reports
+ * @coversDefaultClass Yoast\WP\SEO\Services\Health_Check\Postname_Permalink_Reports
  */
-class Page_Comments_Reports_Test extends TestCase {
+class Postname_Permalink_Reports_Test extends TestCase {
 
 	/**
-	 * The Page_Comments_Reports instance to be tested.
+	 * The Postname_Permalink_Reports instance to be tested.
 	 *
-	 * @var Page_Comments_Reports
+	 * @var Postname_Permalink_Reports
 	 */
 	private $instance;
 
@@ -51,7 +51,7 @@ class Page_Comments_Reports_Test extends TestCase {
 			->once()
 			->andReturn( $this->reports );
 
-		$this->instance = new Page_Comments_Reports( $this->report_builder_factory );
+		$this->instance = new Postname_Permalink_Reports( $this->report_builder_factory );
 
 		$this->stubEscapeFunctions();
 		$this->stubTranslationFunctions();
@@ -85,7 +85,7 @@ class Page_Comments_Reports_Test extends TestCase {
 
 		$this->reports
 			->shouldReceive( 'set_label' )
-			->with( 'Comments are displayed on a single page' )
+			->with( 'Your permalink structure includes the post name' )
 			->andReturn( $this->reports )
 			->once();
 		$this->reports
@@ -94,7 +94,7 @@ class Page_Comments_Reports_Test extends TestCase {
 			->once();
 		$this->reports
 			->shouldReceive( 'set_description' )
-			->with( 'Comments on your posts are displayed on a single page. This is just like we\'d suggest it. You\'re doing well!' )
+			->with( 'You do have your postname in the URL of your posts and pages.' )
 			->andReturn( $this->reports )
 			->once();
 		$this->reports
@@ -110,10 +110,11 @@ class Page_Comments_Reports_Test extends TestCase {
 	 * Check if the failure report is built correctly.
 	 *
 	 * @covers ::__construct
-	 * @covers ::get_has_comments_on_multiple_pages_result
-	 * @covers ::get_has_comments_on_multiple_pages_actions
+	 * @covers ::get_has_no_postname_in_permalink_result
+	 * @covers ::get_has_no_postname_in_permalink_description
+	 * @covers ::get_has_no_postname_in_permalink_actions
 	 */
-	public function test_creates_has_comments_on_multiple_pages() {
+	public function test_creates_has_no_postname_in_permalink_correctly() {
 		$expected = [ 'correct' ];
 
 		Monkey\Functions\expect( 'admin_url' )
@@ -121,7 +122,7 @@ class Page_Comments_Reports_Test extends TestCase {
 
 		$this->reports
 			->shouldReceive( 'set_label' )
-			->with( 'Comments break into multiple pages' )
+			->with( 'You do not have your postname in the URL of your posts and pages' )
 			->andReturn( $this->reports )
 			->once();
 		$this->reports
@@ -130,19 +131,19 @@ class Page_Comments_Reports_Test extends TestCase {
 			->once();
 		$this->reports
 			->shouldReceive( 'set_description' )
-			->with( 'Comments on your posts break into multiple pages. As this is not needed in 999 out of 1000 cases, we recommend you disable it. To fix this, uncheck "Break comments into pages..." on the Discussion Settings page.' )
+			->with( 'It\'s highly recommended to have your postname in the URL of your posts and pages. Consider setting your permalink structure to <strong>/%postname%/</strong>.' )
 			->andReturn( $this->reports )
 			->once();
 		$this->reports
 			->shouldReceive( 'set_actions' )
-			->with( '<a href="link">Go to the Discussion Settings page</a>' )
+			->with( 'You can fix this on the <a href="link">Permalink settings page</a>.' )
 			->andReturn( $this->reports )
 			->once();
 		$this->reports
 			->shouldReceive( 'build' )
 			->andReturn( $expected );
 
-		$actual = $this->instance->get_has_comments_on_multiple_pages_result();
+		$actual = $this->instance->get_has_no_postname_in_permalink_result();
 
 		$this->assertEquals( $expected, $actual );
 	}

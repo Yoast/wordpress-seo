@@ -3,20 +3,20 @@
 namespace Yoast\WP\SEO\Tests\Unit\Services\Health_Check;
 
 use Brain\Monkey;
-use Yoast\WP\SEO\Services\Health_Check\Page_Comments_Runner;
+use Yoast\WP\SEO\Services\Health_Check\Postname_Permalink_Runner;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Page_Comments_Runner_Test
+ * Postname_Permalink_Runner_Test
  *
- * @coversDefaultClass Yoast\WP\SEO\Services\Health_Check\Page_Comments_Runner
+ * @coversDefaultClass Yoast\WP\SEO\Services\Health_Check\Postname_Permalink_Runner
  */
-class Page_Comments_Runner_Test extends TestCase {
+class Postname_Permalink_Runner_Test extends TestCase {
 
 	/**
-	 * The Page_Comments_Runner instance to be tested.
+	 * The Postname_Permalink_Runner instance to be tested.
 	 *
-	 * @var Page_Comments_Runner
+	 * @var Postname_Permalink_Runner
 	 */
 	private $instance;
 
@@ -26,14 +26,11 @@ class Page_Comments_Runner_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->stubEscapeFunctions();
-		$this->stubTranslationFunctions();
-
-		$this->instance = new Page_Comments_Runner();
+		$this->instance = new Postname_Permalink_Runner();
 	}
 
 	/**
-	 * Checks if the health check succeeds when the comments are set to be on a single page.
+	 * Checks if the health check succeeds when something other than the default WordPress tagline is set.
 	 *
 	 * @covers ::run
 	 * @covers ::is_successful
@@ -41,8 +38,8 @@ class Page_Comments_Runner_Test extends TestCase {
 	public function test_returns_successful() {
 		Monkey\Functions\expect( 'get_option' )
 			->once()
-			->with( 'page_comments' )
-			->andReturn( '0' );
+			->with( 'permalink_structure' )
+			->andReturn( '%postname%' );
 
 		$this->instance->run();
 		$actual = $this->instance->is_successful();
@@ -51,7 +48,7 @@ class Page_Comments_Runner_Test extends TestCase {
 	}
 
 	/**
-	 * Checks if the health check fails when the comments are set to be on multiple pages.
+	 * Checks if the health check fails when the default WordPress tagline is set.
 	 *
 	 * @covers ::run
 	 * @covers ::is_successful
@@ -59,8 +56,8 @@ class Page_Comments_Runner_Test extends TestCase {
 	public function test_retuns_not_successful() {
 		Monkey\Functions\expect( 'get_option' )
 			->once()
-			->with( 'page_comments' )
-			->andReturn( '1' );
+			->with( 'permalink_structure' )
+			->andReturn( 'something-else' );
 
 		$this->instance->run();
 		$actual = $this->instance->is_successful();
