@@ -218,8 +218,10 @@ class Structured_Data_Blocks implements Integration_Interface {
 				if ( $attachment_id === 0 ) {
 					return $matches[0];
 				}
+
 				$image_size  = 'full';
 				$image_style = [ 'style' => 'max-width: 100%; height: auto;' ];
+
 				\preg_match( '/style="[^"]*width:\s*(\d+)px[^"]*"/', $matches[0], $style_matches );
 				if ( $style_matches && isset( $style_matches[1] ) ) {
 					$width     = (int) $style_matches[1];
