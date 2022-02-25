@@ -69,6 +69,7 @@ export function PersonSection( { dispatch, imageUrl, personId } ) {
 				name={ "person_id" }
 			/>
 			<FadeInAlert
+				id="user-representation-alert"
 				isVisible={ personId !== 0 }
 				type="info"
 				className="yst-mt-5"
