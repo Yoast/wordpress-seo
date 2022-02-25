@@ -3,9 +3,6 @@ import { __ } from "@wordpress/i18n";
 import { Transition } from "@headlessui/react";
 
 import Indexation from "./Indexation";
-import Alert from "./alert";
-
-import Indexation from "./Indexation";
 import Alert from "../../base/alert";
 
 const preIndexingActions = {};

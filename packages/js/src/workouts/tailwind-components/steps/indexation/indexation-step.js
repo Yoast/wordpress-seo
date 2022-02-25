@@ -5,12 +5,7 @@ import PropTypes from "prop-types";
 import Alert, { FadeInAlert } from "../../base/alert";
 import { addLinkToString } from "../../../../helpers/stringHelpers.js";
 import { ConfigurationIndexation } from "./ConfigurationIndexation";
-<<<<<<< HEAD:packages/js/src/workouts/tailwind-components/steps/indexation/indexation-step.js
 import { ReactComponent as WorkoutStartImage } from "../../../../../images/motivated_bubble_woman_1_optim.svg";
-=======
-import { ReactComponent as WorkoutStartImage } from "../../../images/motivated_bubble_woman_1_optim.svg";
-import { useStepperContext } from "./Stepper";
->>>>>>> 1dfd03ec32 (Add fourth state to indexingstate WIP):packages/js/src/workouts/tailwind-components/indexation-step.js
 
 /* eslint-disable complexity */
 
@@ -20,10 +15,11 @@ import { useStepperContext } from "./Stepper";
  * @param {string}   indexingState          The indexing state.
  * @param {Function} setIndexingState       A callback to set the indexing state.
  * @param {boolean}  showRunIndexationAlert Whether the alert to run indexation needs to be shown.
+ * @param {boolean}  isStepperFinished      Whether the stepper is finished.
  *
  * @returns {WPElement} The indexation step.
  */
-export default function IndexationStep( { indexingState, setIndexingState, showRunIndexationAlert } ) {
+export default function IndexationStep( { indexingState, setIndexingState, showRunIndexationAlert, isStepperFinished } ) {
 	return <Fragment>
 		<div className="yst-flex yst-flex-row yst-justify-between yst-flex-wrap yst-mb-8">
 			<p className="yst-text-sm yst-whitespace-pre-line yst-w-[463px]">
@@ -91,7 +87,9 @@ IndexationStep.propTypes = {
 	indexingState: PropTypes.string.isRequired,
 	setIndexingState: PropTypes.func.isRequired,
 	showRunIndexationAlert: PropTypes.bool,
+	isStepperFinished: PropTypes.bool,
 };
 IndexationStep.defaultProps = {
 	showRunIndexationAlert: false,
+	isStepperFinished: false,
 };
