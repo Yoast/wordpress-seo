@@ -3,12 +3,13 @@ import { Component, Fragment } from "@wordpress/element";
 import { Transition } from "@headlessui/react";
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
-import { addHistoryState, removeSearchParam } from "../../helpers/urlHelpers";
-import IndexingError from "./IndexingError";
-import Alert from "./alert";
-import RequestError from "../../errors/RequestError";
-import ParseError from "../../errors/ParseError";
 import AnimateHeight from "react-animate-height";
+
+import { addHistoryState, removeSearchParam } from "../../../../helpers/urlHelpers";
+import IndexingError from "./IndexingError";
+import Alert from "../../base/alert";
+import RequestError from "../../../../errors/RequestError";
+import ParseError from "../../../../errors/ParseError";
 
 const STATE = {
 	/**
@@ -279,7 +280,7 @@ export class Indexation extends Component {
 	 */
 	renderStartButton() {
 		return <button
-			className="yst-button--secondary"
+			className="yst-button yst-button--secondary"
 			onClick={ this.startIndexing }
 		>
 			{ __( "Start SEO data optimization", "wordpress-seo" ) }
@@ -293,7 +294,7 @@ export class Indexation extends Component {
 	 */
 	renderStopButton() {
 		return <button
-			className="yst-button--secondary"
+			className="yst-button yst-button--secondary"
 			onClick={ this.stopIndexing }
 		>
 			{ __( "Stop SEO data optimization", "wordpress-seo" ) }
@@ -309,7 +310,7 @@ export class Indexation extends Component {
 		return <Fragment>
 			<p>
 				<button
-					className="yst-button--secondary"
+					className="yst-button yst-button--secondary"
 					disabled={ true }
 				>
 					{ __( "Start SEO data optimization", "wordpress-seo" ) }

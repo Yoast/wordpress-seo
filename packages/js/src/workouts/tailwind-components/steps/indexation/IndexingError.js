@@ -1,7 +1,8 @@
 import PropTypes from "prop-types";
-import Alert from "./alert";
 import { __ } from "@wordpress/i18n";
-import RequestError from "../../errors/RequestError";
+
+import RequestError from "../../../../errors/RequestError";
+import Alert from "../../base/alert";
 
 /**
  * Shows a value for in the error details.

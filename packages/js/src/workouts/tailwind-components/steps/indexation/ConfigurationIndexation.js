@@ -1,7 +1,8 @@
-import Indexation from "./Indexation";
 import PropTypes from "prop-types";
-import Alert from "./alert";
 import { __ } from "@wordpress/i18n";
+
+import Indexation from "./Indexation";
+import Alert from "../../base/alert";
 
 const preIndexingActions = {};
 const indexingActions = {};

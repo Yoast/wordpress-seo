@@ -7,16 +7,14 @@ import { cloneDeep } from "lodash";
 import PropTypes from "prop-types";
 
 import UnsavedChangesModal from "../tailwind-components/UnsavedChangesModal";
-import Alert from "../tailwind-components/alert";
+import Alert from "../tailwind-components/base/alert";
 import { NewButton as Button, RadioButtonGroup, SingleSelect, TextInput } from "@yoast/components";
 import { ReactComponent as WorkoutDoneImage } from "../../../../../images/mirrored_fit_bubble_woman_1_optim.svg";
 import { ReactComponent as WorkoutStartImage } from "../../../images/motivated_bubble_woman_1_optim.svg";
 import { addLinkToString } from "../../helpers/stringHelpers.js";
 import { Step as OldStep, Steps, FinishButtonSection } from "./Steps";
-import { OrganizationSection } from "./OrganizationSection";
-import { PersonSection } from "./PersonSection";
 import { NewsletterSignup } from "./NewsletterSignup";
-import { ConfigurationIndexation } from "../tailwind-components/ConfigurationIndexation";
+import { ConfigurationIndexation } from "../tailwind-components/steps/indexation/ConfigurationIndexation";
 import SocialInputSection from "./SocialInputSection";
 import SocialInputPersonSection from "./SocialInputPersonSection";
 import Stepper, { Step } from "../tailwind-components/Stepper";
@@ -24,7 +22,8 @@ import { ContinueButton, EditButton, ConfigurationStepButtons } from "../tailwin
 import { STEPS, WORKOUTS } from "../config";
 import { getInitialActiveStepIndex } from "../stepper-helper";
 import { scrollToStep } from "../helpers";
-import IndexationStep from "../tailwind-components/indexation-step";
+import IndexationStep from "../tailwind-components/steps/indexation/indexation-step";
+import SiteRepresentationStep from "../tailwind-components/steps/site-representation/site-representation-step";
 
 window.wpseoScriptData = window.wpseoScriptData || {};
 window.wpseoScriptData.searchAppearance = {
@@ -92,9 +91,9 @@ function configurationWorkoutReducer( state, action ) {
 		case "SET_COMPANY_OR_PERSON":
 			newState = handleStepEdit( newState, 2 );
 			newState.companyOrPerson = action.payload;
-			newState.companyOrPersonLabel = window.wpseoWorkoutsData.configuration.companyOrPersonOptions.filter( ( item ) => {
+			newState.companyOrPersonLabel = newState.companyOrPersonOptions.filter( ( item ) => {
 				return item.value === action.payload;
-			} ).pop().name;
+			} ).pop().label;
 			return newState;
 		case "CHANGE_COMPANY_NAME":
 			newState = handleStepEdit( newState, 2 );
@@ -164,9 +163,10 @@ function configurationWorkoutReducer( state, action ) {
  * @returns {Promise|bool} A promise, or false if the call fails.
  */
 async function updateSiteRepresentation( state ) {
+	// Revert emptyChoice to the actual default: "company";
 	const siteRepresentation = {
 		/* eslint-disable camelcase */
-		company_or_person: state.companyOrPerson,
+		company_or_person: state.companyOrPerson === "emptyChoice" ? "company" : state.companyOrPerson,
 		company_name: state.companyName,
 		company_logo: state.companyLogo,
 		company_logo_id: state.companyLogoId ? state.companyLogoId : 0,
@@ -253,85 +253,9 @@ const stepNumberNameMap = {
  *
  * @returns {JSX.Element} Example step.
  */
-function SiteRepresentationStep( { onOrganizationOrPersonChange, dispatch, state, siteRepresentsPerson, onSiteTaglineChange, siteRepresentationEmpty } ) {
-	return <Fragment>
-		{  window.wpseoWorkoutsData.configuration.knowledgeGraphMessage &&  <Alert type="warning">
-			{  window.wpseoWorkoutsData.configuration.knowledgeGraphMessage }
-		</Alert> }
-		{
-			window.wpseoWorkoutsData.configuration.shouldForceCompany === 0 && <SingleSelect
-				id="organization-person-select"
-				htmlFor="organization-person-select"
-				name="organization"
-				label={ __( "Does your site represent an Organization or Person?", "wordpress-seo" ) }
-				selected={ state.companyOrPerson }
-				onChange={ onOrganizationOrPersonChange }
-				options={  window.wpseoWorkoutsData.configuration.companyOrPersonOptions }
-			/>
-		}
-		{
-			window.wpseoWorkoutsData.configuration.shouldForceCompany === 1 && <TextInput
-				id="organization-forced-readonly-text"
-				name="organization"
-				label={ __( "Does your site represent an Organization or Person?", "wordpress-seo" ) }
-				value={ state.companyOrPersonLabel }
-				readOnly={ true }
-			/>
-		}
-		{ state.companyOrPerson === "company" && <Fragment>
-			{ ( ! state.companyName || ! state.companyLogo ) && <Alert type="warning">
-				{ __(
-					// eslint-disable-next-line max-len
-					"You need to set an organization name and logo for structured data to work properly.",
-					"wordpress-seo"
-				) }
-			</Alert> }
-			<OrganizationSection
-				dispatch={ dispatch }
-				imageUrl={ state.companyLogo }
-				organizationName={ state.companyName }
-			/>
-		</Fragment> }
-		{ siteRepresentsPerson && <Fragment>
-			{ ( ! state.personLogo || state.personId === 0 ) && <Alert type="warning">
-				{ __(
-					// eslint-disable-next-line max-len
-					"You need to set a person name and logo for structured data to work properly.",
-					"wordpress-seo"
-				) }
-			</Alert> }
-			<PersonSection
-				dispatch={ dispatch }
-				imageUrl={ state.personLogo }
-				personId={ state.personId }
-			/>
-		</Fragment> }
-		{ window.wpseoWorkoutsData.canEditWordPressOptions && <TextInput
-			id="site-tagline-input"
-			name="site-tagline"
-			label={ __( "Site tagline", "wordpress-seo" ) }
-			description={ sprintf( __( "Add a catchy tagline that describes your site in the best light. Use the keywords you want people to find your site with. Example: %1$s’s tagline is ‘SEO for everyone.’", "wordpress-seo" ), "Yoast" ) }
-			value={ state.siteTagline }
-			onChange={ onSiteTaglineChange }
-		/> }
-		{ siteRepresentationEmpty && <Alert type="warning">
-			{ __(
-				// eslint-disable-next-line max-len
-				"Please be aware that you need to set a name and logo in step 2 for structured data to work properly.",
-				"wordpress-seo"
-			) }
-		</Alert> }
-	</Fragment>;
-}
-
-/**
- * Doc comment to make linter happy.
- *
- * @returns {JSX.Element} Example step.
- */
 function SocialProfilesStep( { state, dispatch, setErrorFields, siteRepresentsPerson } ) {
 	return <Fragment>
-		{ state.companyOrPerson === "company" && <SocialInputSection
+		{ [ "company", "emptyChoice" ].includes( state.companyOrPerson ) && <SocialInputSection
 			socialProfiles={ state.socialProfiles }
 			dispatch={ dispatch }
 			errorFields={ state.errorFields }
@@ -407,8 +331,33 @@ function PersonalPreferencesStep( { state, setTracking, isTrackingOptionSelected
  */
 const FinishStep = () => <Fragment>
 	<p className="yst-mb-6">You have finished all the things, yay!</p>
-	<button className="yst-button--primary">{ __( "Check out your Indexables page", "wordpress-seo" ) }</button>
+	<button className="yst-button yst-button--primary">{ __( "Check out your Indexables page", "wordpress-seo" ) }</button>
 </Fragment>;
+
+/**
+ * Calculates the initial state from the window object.
+ *
+ * @param {Object}   windowObject   The object to base the initial state on.
+ * @param {function} isStepFinished A function to determine whether a step is finished.
+ *
+ * @returns {Object} The initial state.
+ */
+function calculateInitialState( windowObject, isStepFinished ) {
+	// Overrule default state to empty and add empty choice.
+	let { companyOrPerson, companyName,	companyLogo, companyOrPersonOptions } = windowObject; // eslint-disable-line prefer-const
+	if ( companyOrPerson === "company" && ( ! companyName && ! companyLogo ) && ! isStepFinished( "configuration", STEPS.configuration.siteRepresentation ) ) {
+		companyOrPerson = "emptyChoice";
+	}
+
+	return {
+		...windowObject,
+		companyOrPerson,
+		companyOrPersonOptions,
+		errorFields: [],
+		editedSteps: [],
+		savedSteps: [],
+	};
+}
 
 /* eslint-enable max-len, react/prop-types */
 
@@ -425,10 +374,7 @@ const FinishStep = () => <Fragment>
  */
 export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, clearActiveWorkout, isStepFinished } ) {
 	const [ state, dispatch ] = useReducer( configurationWorkoutReducer, {
-		...window.wpseoWorkoutsData.configuration,
-		errorFields: [],
-		editedSteps: [],
-		savedSteps: [],
+		...calculateInitialState( window.wpseoWorkoutsData.configuration, isStepFinished ),
 	} );
 	const [ indexingState, setIndexingState ] = useState( () => window.yoastIndexingData.amount === "0" ? "completed" : "idle" );
 	const [ siteRepresentationEmpty, setSiteRepresentationEmpty ] = useState( false );
@@ -515,24 +461,26 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 		[ isStep1Finished ]
 	);
 
+	const isCompanyAndEmpty = state.companyOrPerson === "company" && ( ! state.companyName || ! state.companyLogo );
+	const isPersonAndEmpty = state.companyOrPerson === "person" && ( ! state.personId || ! state.personLogo );
+
 	/**
 	 * Runs checks of finishing the site representation step.
 	 *
 	 * @returns {void}
 	 */
 	function updateOnFinishSiteRepresentation() {
-		if ( ! siteRepresentationEmpty &&
-			state.companyOrPerson === "company" &&
-			( ! state.companyName || ! state.companyLogo ) ) {
+		if ( ! siteRepresentationEmpty && isCompanyAndEmpty ) {
 			setSiteRepresentationEmpty( true );
 			return false;
-		} else if ( ! siteRepresentationEmpty &&
-			state.companyOrPerson === "person" &&
-			( ! state.personId || ! state.personLogo ) ) {
+		} else if ( ! siteRepresentationEmpty && isPersonAndEmpty ) {
+			setSiteRepresentationEmpty( true );
+			return false;
+		} else if ( ! siteRepresentationEmpty && state.companyOrPerson === "emptyChoice" ) {
 			setSiteRepresentationEmpty( true );
 			return false;
 		}
-		setSiteRepresentationEmpty( false );
+		setSiteRepresentationEmpty( state.companyOrPerson === "emptyChoice" || isCompanyAndEmpty || isPersonAndEmpty );
 		updateSiteRepresentation( state )
 			.then( () => setStepIsSaved( 2 ) )
 			.then( () => finishSteps( "configuration", [ steps.siteRepresentation ] ) );
@@ -638,7 +586,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 	);
 
 	const onSiteTaglineChange = useCallback(
-		( value ) => dispatch( { type: "CHANGE_SITE_TAGLINE", payload: value } ),
+		( event ) => dispatch( { type: "CHANGE_SITE_TAGLINE", payload: event.target.value } ),
 		[ dispatch ]
 	);
 
@@ -794,7 +742,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 							</EditButton>
 						</Step.Header>
 						<Step.Content>
-							<IndexationStep setIndexingState={ setIndexingState } indexingState={ indexingState } />
+							<IndexationStep setIndexingState={ setIndexingState } indexingState={ indexingState } showRunIndexationAlert={ showRunIndexationAlert } />
 							<ContinueButton
 								additionalClasses="yst-mt-12"
 								beforeGo={ beforeContinueIndexationStep }
@@ -818,8 +766,20 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 							</EditButton>
 						</Step.Header>
 						<Step.Content>
-							<SiteRepresentationStep onOrganizationOrPersonChange={ onOrganizationOrPersonChange } dispatch={ dispatch } state={ state } siteRepresentsPerson={ siteRepresentsPerson } onSiteTaglineChange={ onSiteTaglineChange } siteRepresentationEmpty={ siteRepresentationEmpty } />
-							<ConfigurationStepButtons stepperFinishedOnce={ stepperFinishedOnce } saveFunction={ updateOnFinishSiteRepresentation } setEditState={ setIsStepBeingEdited } />
+							<SiteRepresentationStep
+								onOrganizationOrPersonChange={ onOrganizationOrPersonChange }
+								dispatch={ dispatch }
+								state={ state }
+								siteRepresentsPerson={ siteRepresentsPerson }
+								onSiteTaglineChange={ onSiteTaglineChange }
+								siteRepresentationEmpty={ siteRepresentationEmpty }
+								selectIsEmpty={ ! isStep2Finished && siteRepresentationEmpty }
+							/>
+							<ConfigurationStepButtons
+								stepperFinishedOnce={ stepperFinishedOnce }
+								saveFunction={ updateOnFinishSiteRepresentation }
+								setEditState={ setIsStepBeingEdited }
+							/>
 						</Step.Content>
 					</Step>
 					<Step>
@@ -873,7 +833,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 			<UnsavedChangesModal hasUnsavedChanges={ state.editedSteps.includes( activeStepIndex + 1 ) } />
 
 			<button
-				className="yst-button--danger yst-mt-4"
+				className="yst-button yst-button--danger yst-mt-4"
 				onClick={ () => {
 					setHideOriginal( prevState => ! prevState  );
 				} }
@@ -999,11 +959,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 									"wordpress-seo"
 								) }
 							</Alert> }
-							<OrganizationSection
-								dispatch={ dispatch }
-								imageUrl={ state.companyLogo }
-								organizationName={ state.companyName }
-							/>
+							<div>organization section was here</div>
 						</Fragment> }
 						{ siteRepresentsPerson && <Fragment>
 							{ ( ! state.personLogo || state.personId === 0 ) && <Alert type="warning">
@@ -1013,11 +969,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 									"wordpress-seo"
 								) }
 							</Alert> }
-							<PersonSection
-								dispatch={ dispatch }
-								imageUrl={ state.personLogo }
-								personId={ state.personId }
-							/>
+							<div>person section was here</div>
 						</Fragment> }
 						{ window.wpseoWorkoutsData.canEditWordPressOptions && <TextInput
 							id="site-tagline-input"

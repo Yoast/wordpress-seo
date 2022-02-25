@@ -138,7 +138,7 @@ class Configuration_Workout_Integration implements Integration_Interface {
 		);
 		$selected_option       = \reset( $filtered_options );
 		if ( \is_array( $selected_option ) ) {
-			$selected_option_label = $selected_option['name'];
+			$selected_option_label = $selected_option['label'];
 		}
 
 		$this->admin_asset_manager->add_inline_script(
@@ -343,14 +343,21 @@ class Configuration_Workout_Integration implements Integration_Interface {
 	private function get_company_or_person_options() {
 		$options = [
 			[
-				'name'  => __( 'Organization', 'wordpress-seo' ),
+				'label' => __( 'Organization', 'wordpress-seo' ),
 				'value' => 'company',
+				'id'    => 'company',
+			],
+			[
+				'label' => __( 'Person', 'wordpress-seo' ),
+				'value' => 'person',
+				'id'    => 'person',
 			],
 		];
-		if ( ! $this->should_force_company() ) {
-			$options[] = [
-				'name'  => __( 'Person', 'wordpress-seo' ),
-				'value' => 'person',
+		if ( $this->should_force_company() ) {
+			$options = [
+				'label' => __( 'Organization', 'wordpress-seo' ),
+				'value' => 'company',
+				'id'    => 'company',
 			];
 		}
 

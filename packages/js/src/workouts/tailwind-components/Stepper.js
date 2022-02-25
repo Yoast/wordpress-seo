@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { stepperTimings, stepperTimingClasses } from "../stepper-helper";
 import StepHeader from "./StepHeader";
 
-/* eslint-disable complexity, max-len */
+/* eslint-disable complexity */
 const {
 	slideDuration,
 	delayBeforeOpening,
@@ -102,7 +102,7 @@ function EditButton( { children, ...restProps } ) {
 
 	return <button
 		onClick={ editFunction }
-		className="yst-button--secondary yst-button--small"
+		className="yst-button yst-button--secondary yst-button--small"
 		{ ...restProps }
 	>
 		{ children }
@@ -227,4 +227,4 @@ Step.Content = Content;
 Step.Header = StepHeader;
 Step.GoButton = GoButton;
 Step.EditButton = EditButton;
-/* eslint-enable complexity, max-len */
+/* eslint-enable complexity */

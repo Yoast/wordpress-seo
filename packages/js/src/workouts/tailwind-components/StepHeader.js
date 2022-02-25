@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { stepperTimings } from "../stepper-helper";
 import { useStepperContext } from "./Stepper";
 
-/* eslint-disable complexity, max-len */
+/* eslint-disable complexity */
 
 /**
  * Gets the classnames for the step name.
@@ -73,4 +73,4 @@ StepHeader.defaultProps = {
 	children: [],
 };
 
-/* eslint-enable complexity, max-len */
+/* eslint-enable complexity */
