@@ -380,7 +380,6 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 		...calculateInitialState( window.wpseoWorkoutsData.configuration, isStepFinished ),
 	} );
 	const [ indexingState, setIndexingState ] = useState( () => window.yoastIndexingData.amount === "0" ? "already_done" : "idle" );
-	console.log( indexingState );
 	const [ siteRepresentationEmpty, setSiteRepresentationEmpty ] = useState( false );
 	const [ showRunIndexationAlert, setShowRunIndexationAlert ] = useState( false );
 	const steps = STEPS.configuration;

@@ -267,7 +267,7 @@ export class Indexation extends Component {
 	 */
 	renderFirstIndexationNotice() {
 		return (
-			<Alert type={ "info" }>
+			<Alert type={ "info" } className="yst-mb-6">
 				{ __( "This feature includes and replaces the Text Link Counter and Internal Linking Analysis", "wordpress-seo" ) }
 			</Alert>
 		);
