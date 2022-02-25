@@ -10,4 +10,9 @@ class WordProofAppConfig extends DefaultAppConfig
     {
         return 'yoast';
     }
+
+    public function getEnvironment()
+    {
+        return 'staging';
+    }
 }
