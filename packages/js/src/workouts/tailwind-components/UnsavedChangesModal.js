@@ -16,7 +16,7 @@ import TailwindModal from "./TailwindModal";
  * @param {string} props.okButtonLabel      The text label for the "OK" button.
  * @param {string} props.cancelButtonLabel  The text label for the "Cancel" button.
  *
- * @returns {JSX.Element} The UnsavedChangesModal.
+ * @returns {WPElement} The UnsavedChangesModal.
  */
 export default function UnsavedChangesModal( { hasUnsavedChanges, title, description, okButtonLabel, cancelButtonLabel } ) {
 	const [ modalIsOpen, setModalIsOpen ] = useState( false );
@@ -133,11 +133,11 @@ export default function UnsavedChangesModal( { hasUnsavedChanges, title, descrip
 				</div>
 				<div className="yst-mt-3 yst-text-center sm:yst-mt-0 sm:yst-ml-4 sm:yst-text-left">
 					<TailwindModal.Title as="h3" className="yst-text-lg yst-leading-6 yst-font-medium yst-text-gray-900">
-						{ __( title, "wordpress-seo" ) }
+						{ title }
 					</TailwindModal.Title>
 					<div className="yst-mt-2">
 						<p className="yst-text-sm yst-text-gray-500">
-							{ __( description, "wordpress-seo" ) }
+							{ description }
 						</p>
 					</div>
 				</div>
@@ -149,14 +149,14 @@ export default function UnsavedChangesModal( { hasUnsavedChanges, title, descrip
 					className="yst-button yst-button--danger yst-w-full yst-inline-flex sm:yst-w-auto sm:yst-ml-3"
 					onClick={ continueNavigation }
 				>
-					{ __( okButtonLabel, "wordpress-seo" ) }
+					{ okButtonLabel }
 				</button>
 				<button
 					type="button"
 					className="yst-button yst-button--secondary yst-w-full yst-inline-flex sm:yst-w-auto sm:yst-mt-0"
 					onClick={ closeModal }
 				>
-					{ __( cancelButtonLabel, "wordpress-seo" ) }
+					{ cancelButtonLabel }
 				</button>
 			</div>
 		</TailwindModal>
@@ -172,6 +172,6 @@ UnsavedChangesModal.propTypes = {
 };
 
 UnsavedChangesModal.defaultProps = {
-	okButtonLabel: "Ok",
-	cancelButtonLabel: "Cancel",
+	okButtonLabel: __( "Ok", "wordpress-seo" ),
+	cancelButtonLabel: __( "Cancel", "wordpress-seo" ),
 };
