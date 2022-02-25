@@ -7,6 +7,7 @@ import { addLinkToString } from "../../../../helpers/stringHelpers.js";
 import { ConfigurationIndexation } from "./ConfigurationIndexation";
 import { ReactComponent as WorkoutStartImage } from "../../../../../images/motivated_bubble_woman_1_optim.svg";
 
+/* eslint-disable complexity */
 
 /**
  * The indexation step.
@@ -14,10 +15,11 @@ import { ReactComponent as WorkoutStartImage } from "../../../../../images/motiv
  * @param {string}   indexingState          The indexing state.
  * @param {Function} setIndexingState       A callback to set the indexing state.
  * @param {boolean}  showRunIndexationAlert Whether the alert to run indexation needs to be shown.
+ * @param {boolean}  isStepperFinished      Whether the stepper is finished.
  *
  * @returns {WPElement} The indexation step.
  */
-export default function IndexationStep( { indexingState, setIndexingState, showRunIndexationAlert } ) {
+export default function IndexationStep( { indexingState, setIndexingState, showRunIndexationAlert, isStepperFinished } ) {
 	return <Fragment>
 		<div className="yst-flex yst-flex-row yst-justify-between yst-flex-wrap yst-mb-8">
 			<p className="yst-text-sm yst-whitespace-pre-line yst-w-[463px]">
@@ -42,6 +44,7 @@ export default function IndexationStep( { indexingState, setIndexingState, showR
 				indexingStateCallback={ setIndexingState }
 				isEnabled={ ! window.wpseoWorkoutsData.shouldUpdatePremium }
 				indexingState={ indexingState }
+				isStepperFinished={ isStepperFinished }
 			/>
 		</div>
 		{ ( window.wpseoWorkoutsData.shouldUpdatePremium && indexingState !== "completed" ) && <Alert type="warning">
@@ -84,7 +87,9 @@ IndexationStep.propTypes = {
 	indexingState: PropTypes.string.isRequired,
 	setIndexingState: PropTypes.func.isRequired,
 	showRunIndexationAlert: PropTypes.bool,
+	isStepperFinished: PropTypes.bool,
 };
 IndexationStep.defaultProps = {
 	showRunIndexationAlert: false,
+	isStepperFinished: false,
 };

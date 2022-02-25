@@ -359,6 +359,17 @@ function calculateInitialState( windowObject, isStepFinished ) {
 	};
 }
 
+/**
+ * A function that returns true for completed indexingstates.
+ *
+ * @param {string} indexingState The indexation state.
+ *
+ * @returns {bool} Whether indexation is done.
+ */
+function isIndexationDone( indexingState ) {
+	return [ "completed", "already_done" ].includes( indexingState );
+}
+
 /* eslint-enable max-len, react/prop-types */
 
 /* eslint-disable max-statements */
@@ -376,7 +387,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 	const [ state, dispatch ] = useReducer( configurationWorkoutReducer, {
 		...calculateInitialState( window.wpseoWorkoutsData.configuration, isStepFinished ),
 	} );
-	const [ indexingState, setIndexingState ] = useState( () => window.yoastIndexingData.amount === "0" ? "completed" : "idle" );
+	const [ indexingState, setIndexingState ] = useState( () => window.yoastIndexingData.amount === "0" ? "already_done" : "idle" );
 	const [ siteRepresentationEmpty, setSiteRepresentationEmpty ] = useState( false );
 	const [ showRunIndexationAlert, setShowRunIndexationAlert ] = useState( false );
 	const steps = STEPS.configuration;
@@ -430,7 +441,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 	function isStepReady( stepNumber ) {
 		switch ( stepNumber ) {
 			case 1:
-				return [ "in_progress", "completed" ].includes( indexingState );
+				return [ "in_progress", "completed", "already_done" ].includes( indexingState );
 			case 2:
 				if ( state.companyOrPerson === "company" ) {
 					return Boolean( state.companyLogo && state.companyName );
@@ -440,7 +451,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 			case 4:
 				return true;
 			case 5:
-				return [ isStep1Finished, isStep2Finished, isStep3Finished, isStep4Finished ].every( Boolean ) && indexingState === "completed";
+				return [ isStep1Finished, isStep2Finished, isStep3Finished, isStep4Finished ].every( Boolean ) && isIndexationDone( indexingState );
 			default:
 				return false;
 		}
@@ -742,7 +753,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 							</EditButton>
 						</Step.Header>
 						<Step.Content>
-							<IndexationStep setIndexingState={ setIndexingState } indexingState={ indexingState } showRunIndexationAlert={ showRunIndexationAlert } />
+							<IndexationStep setIndexingState={ setIndexingState } indexingState={ indexingState } showRunIndexationAlert={ showRunIndexationAlert }  isStepperFinished={ isStepperFinished } />
 							<ContinueButton
 								additionalClasses="yst-mt-12"
 								beforeGo={ beforeContinueIndexationStep }
@@ -872,7 +883,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 								indexingState={ indexingState }
 							/>
 						</div>
-						{ ( window.wpseoWorkoutsData.shouldUpdatePremium && indexingState !== "completed" ) && <Alert type="warning">
+						{ ( window.wpseoWorkoutsData.shouldUpdatePremium && ! isIndexationDone( indexingState ) ) && <Alert type="warning">
 							<p>{
 								// translators: %1$s is replaced by a version number.
 								sprintf( __( "This workout step is currently disabled, because you're not running the latest version of Yoast SEO Premium. " +
@@ -1099,7 +1110,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 						onFinishClick={ toggleConfigurationWorkout }
 						isFinished={ false }
 						isReady={ isWorkoutFinished ? false : isStepReady( 5 ) }
-						additionalButtonProps={ { disabled: indexingState !== "completed" || ! isTrackingOptionSelected } }
+						additionalButtonProps={ { disabled: ! isIndexationDone( indexingState ) || ! isTrackingOptionSelected } }
 					>
 						{ indexingState !== "completed" && <Alert type="warning">
 							{ indexingState === "idle" && __( "Before you finish this workout, please start the SEO data optimization in step 1 and wait until it is completed...", "wordpress-seo" ) }
