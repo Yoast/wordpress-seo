@@ -6,7 +6,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { cloneDeep } from "lodash";
 import PropTypes from "prop-types";
 
-import UnsavedChangesModal from "../tailwind-components/UnsavedChangesModal";
+import UnsavedChangesModal from "../tailwind-components/unsaved-changes-modal";
 import Alert from "../tailwind-components/base/alert";
 import { NewButton as Button, RadioButtonGroup, SingleSelect, TextInput } from "@yoast/components";
 import { ReactComponent as WorkoutDoneImage } from "../../../../../images/mirrored_fit_bubble_woman_1_optim.svg";
@@ -632,8 +632,6 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 	/**
 	 * Save and continue functionality for the Indexation step.
 	 *
-	 * @param {int} stepIdx The step index of the indexation step.
-	 *
 	 * @returns {boolean} Whether the stepper can continue to the next step.
 	 */
 	function beforeContinueIndexationStep() {
@@ -649,8 +647,6 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 
 	/**
 	 * Save and continue functionality for the Indexation step.
-	 *
-	 * @param {int} stepIdx The step index of the indexation step.
 	 *
 	 * @returns {boolean} Whether the stepper can continue to the next step.
 	 */
@@ -841,7 +837,21 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 				</Stepper>
 			</div>
 
-			<UnsavedChangesModal hasUnsavedChanges={ state.editedSteps.includes( activeStepIndex + 1 ) } />
+			<UnsavedChangesModal
+				hasUnsavedChanges={ state.editedSteps.includes( activeStepIndex + 1 ) }
+				title={ __( "Unsaved changes", "wordpress-seo" ) }
+				description={ __( "There are unsaved changes in this step. Leaving means that those changes will be lost. Are you sure you want to leave this page?", "wordpress-seo" ) }
+				okButtonLabel={ __( "Yes, leave page", "wordpress-seo" ) }
+				cancelButtonLabel={ __( "No, continue editing", "wordpress-seo" ) }
+			/>
+
+			<UnsavedChangesModal
+				hasUnsavedChanges={ indexingState === "in_progress" }
+				title={ __( "SEO data optimization is still running...", "wordpress-seo" ) }
+				description={ __( "The SEO data optimization is still running. Leaving this page means that this processs will be stopped. Are you sure you want to leave this page?", "wordpress-seo" ) }
+				okButtonLabel={ __( "Yes, leave page", "wordpress-seo" ) }
+				cancelButtonLabel={ __( "No, continue SEO data optimization", "wordpress-seo" ) }
+			/>
 
 			<button
 				className="yst-button yst-button--danger yst-mt-4"
