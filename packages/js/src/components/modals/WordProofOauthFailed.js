@@ -1,9 +1,6 @@
 /* External dependencies */
 import { __ } from "@wordpress/i18n";
 
-/* Yoast dependencies */
-import { Alert } from "@yoast/components";
-
 /**
  * Creates the content for the WordProof oauth failed modal.
  *

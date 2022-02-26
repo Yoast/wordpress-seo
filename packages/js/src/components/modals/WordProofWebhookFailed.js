@@ -1,9 +1,6 @@
 /* External dependencies */
 import { __ } from "@wordpress/i18n";
 
-/* Yoast dependencies */
-import { Alert } from "@yoast/components";
-
 /**
  * Creates the content for the WordProof oauth denied modal.
  *
@@ -12,9 +9,9 @@ import { Alert } from "@yoast/components";
 const WordProofWebhookFailed = () => {
 	return (
 		<>
-			{ __(
-				"The timestamp is not retrieved by your site. Please try again or contact WordProof support.",
-				"wordpress-seo"
+			{ sprintf( __(
+				"The timestamp is not retrieved by your site. Please try again or contact %s support.",
+				"wordpress-seo", "WordProof")
 			) }
 		</>
 	);

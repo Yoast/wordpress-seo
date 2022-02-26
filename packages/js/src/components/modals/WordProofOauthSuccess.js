@@ -2,8 +2,6 @@
 import { __, sprintf } from "@wordpress/i18n";
 
 /* Yoast dependencies */
-import { Alert } from "@yoast/components";
-import { NewButton as Button } from "@yoast/components";
 import { ReactComponent as WordProofConnectedImage } from "../../../images/succes_marieke_bubble_optm.svg";
 
 /**
