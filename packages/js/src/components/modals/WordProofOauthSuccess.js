@@ -2,8 +2,8 @@
 import { __, sprintf } from "@wordpress/i18n";
 
 /* Yoast dependencies */
-import { ReactComponent as WordProofConnectedImage } from "../../../images/succes_marieke_bubble_optm.svg";
-import {getWordProofSdkData} from '../../helpers/wordproof';
+import { ReactComponent as Image } from "../../../images/succes_marieke_bubble_optm.svg";
+import { getWordProofSdkData } from "../../helpers/wordproof";
 
 /**
  * Creates the content for the WordProof oauth success modal.
@@ -20,7 +20,7 @@ const WordProofOauthSuccess = () => {
 					marginBlock: "40px",
 				} }
 			>
-				<WordProofConnectedImage style={ { width: "175px" } } />
+				<Image style={ { width: "175px" } } />
 			</div>
 
 			<p>
@@ -34,7 +34,7 @@ const WordProofOauthSuccess = () => {
 				{ sprintf(
 				/* Translators: %s translates to the Post type in singular form */
 					__( "This %s will be timestamped as soon as you publish or update it.",
-						"wordpress-seo" ), getWordProofSdkData('current_post_type')
+						"wordpress-seo" ), getWordProofSdkData( "current_post_type" )
 				) }
 			</p>
 		</>

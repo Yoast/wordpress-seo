@@ -1,4 +1,5 @@
 import { useState } from "@wordpress/element";
+import { __ } from "@wordpress/i18n";
 
 import OauthDeniedModal from "./WordProofOauthDenied";
 import OauthFailedModal from "./WordProofOauthFailed";
@@ -56,28 +57,43 @@ const WordProofAuthenticationModals = () => {
 		setModal( null );
 	}
 
+	/**
+	 * Return the modal title.
+	 *
+	 * @returns string
+	 */
+	function getModalTitle() {
+		switch ( modal ) {
+			case "webhook:failed":
+				return __( "Connection failed", "wordpress-seo" );
+			default:
+				return __( "WordProof authentication", "wordpress-seo" );
+		}
+	}
+
 	return (
 		<>
 			{ modal && (
 				<Modal
 					onRequestClose={ closeModal }
-					   style={ { maxWidth: "600px" } }
+					   style={ { maxWidth: "380px" } }
+					title={ getModalTitle() }
 				>
 
 					{ modal === "oauth:success" && (
-						<OauthSuccessModal />
+						<OauthSuccessModal closeModal={ closeModal } />
 					) }
 
 					{ modal === "oauth:denied" && (
-						<OauthDeniedModal onDismissed={ closeModal } />
+						<OauthDeniedModal closeModal={ closeModal } />
 					) }
 
 					{ modal === "oauth:failed" && (
-						<OauthFailedModal onDismissed={ closeModal } />
+						<OauthFailedModal closeModal={ closeModal } />
 					) }
 
 					{ modal === "webhook:failed" && (
-						<WebhookFailedModal onDismissed={ closeModal } />
+						<WebhookFailedModal closeModal={ closeModal } />
 					) }
 
 				</Modal>
