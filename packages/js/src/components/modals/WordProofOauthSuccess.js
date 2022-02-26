@@ -3,6 +3,7 @@ import { __, sprintf } from "@wordpress/i18n";
 
 /* Yoast dependencies */
 import { ReactComponent as WordProofConnectedImage } from "../../../images/succes_marieke_bubble_optm.svg";
+import {getWordProofSdkData} from '../../helpers/wordproof';
 
 /**
  * Creates the content for the WordProof oauth success modal.
@@ -32,18 +33,10 @@ const WordProofOauthSuccess = () => {
 				<br />
 				{ sprintf(
 				/* Translators: %s translates to the Post type in singular form */
-					__( "This %s will be timestamped as soon as you update it.",
-						"wordpress-seo" ), "post" // Todo postTypeName.toLowerCase()
+					__( "This %s will be timestamped as soon as you publish or update it.",
+						"wordpress-seo" ), getWordProofSdkData('current_post_type')
 				) }
 			</p>
-			<br />
-			{ /*	<Button*/ }
-			{ /*	Variant={'secondary'}*/ }
-			{ /*	OnClick={closeModal}*/ }
-			{ /*	ClassName="yoast__wordproof__close-modal"*/ }
-			{ /*	>*/ }
-			{ /* {__( 'Continue', 'wordpress-seo' )}*/ }
-			{ /*	</Button>*/ }
 		</>
 	);
 };
