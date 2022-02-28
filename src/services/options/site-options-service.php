@@ -194,12 +194,12 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'types'   => [ 'text_field' ],
 		],
 		'breadcrumbs-404crumb'                                => [
-			'default' => '',
-			'types'   => [ 'string' ],
+			'default' => 'Error 404: Page not found',
+			'types'   => [ 'empty_string', 'wp_kses_post' ],
 		],
 		'breadcrumbs-archiveprefix'                           => [
-			'default' => '',
-			'types'   => [ 'string' ],
+			'default' => 'Archives for',
+			'types'   => [ 'empty_string', 'wp_kses_post' ],
 		],
 		'breadcrumbs-boldlast'                        		  => [
 			'default' => false,
@@ -214,20 +214,20 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'types'   => [ 'boolean' ],
 		],
 		'breadcrumbs-home'                                    => [
-			'default' => '',
-			'types'   => [ 'string' ],
+			'default' => 'Home',
+			'types'   => [ 'empty_string', 'wp_kses_post' ],
 		],
 		'breadcrumbs-prefix'                                  => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'empty_string', 'wp_kses_post' ],
 		],
 		'breadcrumbs-searchprefix'                            => [
-			'default' => '',
-			'types'   => [ 'string' ],
+			'default' => 'You searched for',
+			'types'   => [ 'empty_string', 'wp_kses_post' ],
 		],
 		'breadcrumbs-sep'                                     => [
-			'default' => '',
-			'types'   => [ 'string' ],
+			'default' => '&raquo;',
+			'types'   => [ 'empty_string', 'wp_kses_post' ],
 		],
 		'company_logo'                                        => [
 			'default' => '',
@@ -367,12 +367,12 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'types'   => [ 'string' ],
 		],
 		'rssafter'                                            => [
-			'default' => '',
-			'types'   => [ 'string' ],
+			'default' => 'The post %%POSTLINK%% appeared first on %%BLOGLINK%%',
+			'types'   => [ 'empty_string', 'wp_kses_post' ],
 		],
 		'rssbefore'                                           => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'empty_string', 'wp_kses_post' ],
 		],
 		'schema-article-type-<PostTypeName>'                  => [
 			'default' => '',
