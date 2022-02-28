@@ -14,14 +14,15 @@ class Text_Field_Validator extends String_Validator {
 	/**
 	 * Validates if a value is a single line text.
 	 *
-	 * @param mixed $value The value to validate.
+	 * @param mixed $value    The value to validate.
+	 * @param array $settings Optional settings.
 	 *
 	 * @throws Invalid_Type_Exception When the type of the value is not a string.
 	 *
 	 * @return string A valid text.
 	 */
-	public function validate( $value ) {
-		$string = parent::validate( $value );
+	public function validate( $value, array $settings = null ) {
+		$string = parent::validate( $value, $settings );
 
 		return $this->sanitize( $string );
 	}
