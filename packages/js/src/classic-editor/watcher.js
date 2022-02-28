@@ -334,6 +334,7 @@ const syncTermToStore = () => {
 const syncStoreToTerm = () => {
 	const selectors = select( SEO_STORE_NAME );
 	// Sync simple store changes to hidden inputs.
+	createDomSync( selectors.selectSlug, { domGet: dom.getTermSlug, domSet: dom.setTermSlug }, "slug" );
 	createDomSync( selectors.selectSeoTitle, { domGet: dom.getTermSeoTitle, domSet: dom.setTermSeoTitle }, "seoTitle" );
 	createDomSync( selectors.selectMetaDescription, { domGet: dom.getTermMetaDescription, domSet: dom.setTermMetaDescription }, "metaDescription" );
 	createDomSync( selectors.selectKeyphrase, { domGet: dom.getTermFocusKeyphrase, domSet: dom.setTermFocusKeyphrase }, "focusKeyphrase" );
