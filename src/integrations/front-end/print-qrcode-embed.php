@@ -60,6 +60,10 @@ class Print_QRCode_Embed implements Integration_Interface {
 			$url = $meta->indexable->permalink;
 		}
 
+		if ( empty( $url ) ) {
+			return;
+		}
+
 		$alt_text  = __( 'QR Code for current page\'s URL.', 'wordpress-seo' );
 		$text      = __( 'Scan the QR code or go to the URL below to read this article online.', 'wordpress-seo' );
 		$image_url = \trailingslashit( \get_site_url() ) . '?nonce=' . $nonce . '&yoast_qr_code=' . rawurlencode( $url );
