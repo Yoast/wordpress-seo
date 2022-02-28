@@ -1,11 +1,12 @@
-/* eslint-disable capitalized-comments */
-import path from "path";
 import initStoryshots from "@storybook/addon-storyshots";
 import { imageSnapshot } from "@storybook/addon-storyshots-puppeteer";
+import path from "path";
 
-// Some tests are allowed an increased failure threshold,
-// ie. if they contain animated elements: they are obviously
-// allowed to change slighty over test runs.
+/*
+ * Some tests are allowed an increased failure threshold,
+ * i.e. if they contain animated elements: they are obviously
+ * allowed to change slightly over test runs.
+ */
 const failureThresholds = {
 	"1-elements-button--states": 0.01,
 };
