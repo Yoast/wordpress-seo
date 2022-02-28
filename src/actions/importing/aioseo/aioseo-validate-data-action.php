@@ -48,23 +48,47 @@ class Aioseo_Validate_Data_Action extends Abstract_Aioseo_Importing_Action {
 	protected $post_importing_action;
 
 	/**
+	 * The settings importing actions.
+	 *
+	 * @var array
+	 */
+	protected $settings_importing_actions;
+
+	/**
 	 * Class constructor.
 	 *
-	 * @param wpdb                          $wpdb                  The WordPress database instance.
-	 * @param Options_Helper                $options               The options helper.
-	 * @param Wpdb_Helper                   $wpdb_helper           The wpdb_helper helper.
-	 * @param Aioseo_Posts_Importing_Action $post_importing_action The Post Importing action.
+	 * @param wpdb                                               $wpdb                              The WordPress database instance.
+	 * @param Options_Helper                                     $options                           The options helper.
+	 * @param Wpdb_Helper                                        $wpdb_helper                       The wpdb_helper helper.
+	 * @param Aioseo_Custom_Archive_Settings_Importing_Action    $custom_archive_action             The Custom Archive Settings importing action.
+	 * @param Aioseo_Default_Archive_Settings_Importing_Action   $default_archive_action            The Default Archive Settings importing action.
+	 * @param Aioseo_General_Settings_Importing_Action           $general_settings_action           The General Settings importing action.
+	 * @param Aioseo_Posttype_Defaults_Settings_Importing_Action $posttype_defaults_settings_action The Posttype Defaults Settings importing action.
+	 * @param Aioseo_Taxonomy_Settings_Importing_Action          $taxonomy_settings_action          The Taxonomy Settings importing action.
+	 * @param Aioseo_Posts_Importing_Action                      $post_importing_action             The Post importing action.
 	 */
 	public function __construct(
 		wpdb $wpdb,
 		Options_Helper $options,
 		Wpdb_Helper $wpdb_helper,
+		Aioseo_Custom_Archive_Settings_Importing_Action $custom_archive_action,
+		Aioseo_Default_Archive_Settings_Importing_Action $default_archive_action,
+		Aioseo_General_Settings_Importing_Action $general_settings_action,
+		Aioseo_Posttype_Defaults_Settings_Importing_Action $posttype_defaults_settings_action,
+		Aioseo_Taxonomy_Settings_Importing_Action $taxonomy_settings_action,
 		Aioseo_Posts_Importing_Action $post_importing_action
 	) {
-		$this->wpdb                  = $wpdb;
-		$this->options               = $options;
-		$this->wpdb_helper           = $wpdb_helper;
-		$this->post_importing_action = $post_importing_action;
+		$this->wpdb                       = $wpdb;
+		$this->options                    = $options;
+		$this->wpdb_helper                = $wpdb_helper;
+		$this->post_importing_action      = $post_importing_action;
+		$this->settings_importing_actions = [
+			$custom_archive_action,
+			$default_archive_action,
+			$general_settings_action,
+			$posttype_defaults_settings_action,
+			$taxonomy_settings_action,
+		];
 	}
 
 	/**
@@ -97,17 +121,19 @@ class Aioseo_Validate_Data_Action extends Abstract_Aioseo_Importing_Action {
 			return [];
 		}
 
-		$validated_aioseo_table = $this->validate_aioseo_table();
+		$validated_aioseo_table    = $this->validate_aioseo_table();
+		$validated_aioseo_settings = $this->validate_aioseo_settings();
 
 
-		if ( $validated_aioseo_table === false && $validated_aioseo_table === false ) {
+		if ( $validated_aioseo_table === false && $validated_aioseo_settings === false ) {
 			return false;
 		}
 
 		$this->set_completed( true );
 
 		return [
-			'validated_aioseo_table' => $validated_aioseo_table,
+			'validated_aioseo_table'    => $validated_aioseo_table,
+			'validated_aioseo_settings' => $validated_aioseo_settings,
 		];
 	}
 
@@ -132,6 +158,23 @@ class Aioseo_Validate_Data_Action extends Abstract_Aioseo_Importing_Action {
 			$column_exists = $this->wpdb->query( $query );  // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Reason: Already prepared.
 
 			if ( ! $column_exists ) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Validates the AIOSEO settings from the options table.
+	 *
+	 * @return bool Whether the AIOSEO settings from the options table exist and have the structure we expect.
+	 */
+	public function validate_aioseo_settings() {
+		foreach ( $this->settings_importing_actions as $settings_import_action ) {
+			$aioseo_settings = \json_decode( \get_option( $settings_import_action->get_source_option_name(), '' ), true );
+
+			if ( ! $settings_import_action->isset_settings_tab( $aioseo_settings ) ) {
 				return false;
 			}
 		}

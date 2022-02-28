@@ -181,6 +181,15 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Aioseo
 	}
 
 	/**
+	 * Checks if the settings tab subsetting is set in the AIOSEO option.
+	 *
+	 * @return bool Whether the settings are set.
+	 */
+	public function isset_settings_tab( $aioseo_settings ) {
+		return isset( $aioseo_settings['searchAppearance'][ $this->settings_tab ] );
+	}
+
+	/**
 	 * Queries the database and retrieves unimported AiOSEO settings (in chunks if a limit is applied).
 	 *
 	 * @param int $limit The maximum number of unimported objects to be returned.
@@ -190,7 +199,7 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Aioseo
 	protected function query( $limit = null ) {
 		$aioseo_settings = \json_decode( \get_option( $this->get_source_option_name(), '' ), true );
 
-		if ( empty( $aioseo_settings ) || ! isset( $aioseo_settings['searchAppearance'][ $this->settings_tab ] ) ) {
+		if ( empty( $aioseo_settings ) ) {
 			return [];
 		}
 
