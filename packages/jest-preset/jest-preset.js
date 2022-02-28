@@ -12,12 +12,13 @@ module.exports = {
 	],
 	testMatch: [
 		"**/__tests__/**/*.[jt]s",
+		"**/tests/**/*.[jt]s",
 		"**/test/*.[jt]s",
 		"**/?(*.)test.[jt]s",
 	],
 	transformIgnorePatterns: [ "/node_modules/(?!@yoast|yoastseo|lodash-es).+\\.js$" ],
 	testEnvironment: "jsdom",
-	testPathIgnorePatterns: [ "/node_modules/", "<rootDir>/vendor/" ],
+	testPathIgnorePatterns: [ "<rootDir>/node_modules/", "<rootDir>/vendor/" ],
 	timers: "fake",
 	transform: {
 		"^.+\\.[jt]sx?$": require.resolve( "babel-jest" ),

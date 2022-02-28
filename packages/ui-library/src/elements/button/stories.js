@@ -5,7 +5,7 @@ export default {
 	component: Button,
 	argTypes: {
 		children: { control: "text" },
-		as: { options: [ "button", "div", "span" ] },
+		as: { options: [ "button", "div", "span", "a" ] },
 	},
 	parameters: {
 		docs: {

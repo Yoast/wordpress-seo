@@ -11,7 +11,7 @@ export const parameters = {
 				"3. Patterns",
 			],
 		},
-	  },
+	},
 	actions: {
 		disable: true,
 		argTypesRegex: "^on[A-Z].*",
@@ -33,5 +33,3 @@ export const parameters = {
 		},
 	},
 };
-
-// TODO: disable all addons here by default and enable manually?
