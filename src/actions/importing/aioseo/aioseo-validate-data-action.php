@@ -4,10 +4,10 @@
 namespace Yoast\WP\SEO\Actions\Importing\Aioseo;
 
 use wpdb;
-use Yoast\WP\SEO\Actions\Importing\Abstract_Aioseo_Importing_Action;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Actions\Importing\Aioseo\Aioseo_Posts_Importing_Action;
 use Yoast\WP\SEO\Helpers\Wpdb_Helper;
+use Yoast\WP\SEO\Actions\Importing\Abstract_Aioseo_Importing_Action;
+use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Provider_Service;
 
 /**
  * Importing action for validating AIOSEO data before the import occurs.
@@ -41,6 +41,13 @@ class Aioseo_Validate_Data_Action extends Abstract_Aioseo_Importing_Action {
 	protected $wpdb_helper;
 
 	/**
+	 * The robots provider service.
+	 *
+	 * @var Aioseo_Robots_Provider_Service
+	 */
+	protected $robots_provider;
+
+	/**
 	 * The Post Importing action.
 	 *
 	 * @var Aioseo_Posts_Importing_Action
@@ -60,6 +67,7 @@ class Aioseo_Validate_Data_Action extends Abstract_Aioseo_Importing_Action {
 	 * @param wpdb                                               $wpdb                              The WordPress database instance.
 	 * @param Options_Helper                                     $options                           The options helper.
 	 * @param Wpdb_Helper                                        $wpdb_helper                       The wpdb_helper helper.
+	 * @param Aioseo_Robots_Provider_Service                     $robots_provider                   The robots provider service.
 	 * @param Aioseo_Custom_Archive_Settings_Importing_Action    $custom_archive_action             The Custom Archive Settings importing action.
 	 * @param Aioseo_Default_Archive_Settings_Importing_Action   $default_archive_action            The Default Archive Settings importing action.
 	 * @param Aioseo_General_Settings_Importing_Action           $general_settings_action           The General Settings importing action.
@@ -71,6 +79,7 @@ class Aioseo_Validate_Data_Action extends Abstract_Aioseo_Importing_Action {
 		wpdb $wpdb,
 		Options_Helper $options,
 		Wpdb_Helper $wpdb_helper,
+		Aioseo_Robots_Provider_Service $robots_provider,
 		Aioseo_Custom_Archive_Settings_Importing_Action $custom_archive_action,
 		Aioseo_Default_Archive_Settings_Importing_Action $default_archive_action,
 		Aioseo_General_Settings_Importing_Action $general_settings_action,
@@ -81,6 +90,7 @@ class Aioseo_Validate_Data_Action extends Abstract_Aioseo_Importing_Action {
 		$this->wpdb                       = $wpdb;
 		$this->options                    = $options;
 		$this->wpdb_helper                = $wpdb_helper;
+		$this->robots_provider            = $robots_provider;
 		$this->post_importing_action      = $post_importing_action;
 		$this->settings_importing_actions = [
 			$custom_archive_action,
@@ -121,19 +131,21 @@ class Aioseo_Validate_Data_Action extends Abstract_Aioseo_Importing_Action {
 			return [];
 		}
 
-		$validated_aioseo_table    = $this->validate_aioseo_table();
-		$validated_aioseo_settings = $this->validate_aioseo_settings();
+		$validated_aioseo_table          = $this->validate_aioseo_table();
+		$validated_aioseo_settings       = $this->validate_aioseo_settings();
+		$validated_global_robot_settings = $this->validate_global_robot_settings();
 
 
-		if ( $validated_aioseo_table === false && $validated_aioseo_settings === false ) {
+		if ( $validated_aioseo_table === false || $validated_aioseo_settings === false || $validated_global_robot_settings === false ) {
 			return false;
 		}
 
 		$this->set_completed( true );
 
 		return [
-			'validated_aioseo_table'    => $validated_aioseo_table,
-			'validated_aioseo_settings' => $validated_aioseo_settings,
+			'validated_aioseo_table'          => $validated_aioseo_table,
+			'validated_aioseo_settings'       => $validated_aioseo_settings,
+			'validated_global_robot_settings' => $validated_global_robot_settings,
 		];
 	}
 
@@ -177,6 +189,21 @@ class Aioseo_Validate_Data_Action extends Abstract_Aioseo_Importing_Action {
 			if ( ! $settings_import_action->isset_settings_tab( $aioseo_settings ) ) {
 				return false;
 			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Validates the AIOSEO global robots settings from the options table.
+	 *
+	 * @return bool Whether the AIOSEO global robots settings from the options table exist and have the structure we expect.
+	 */
+	public function validate_global_robot_settings() {
+		$aioseo_settings = $this->robots_provider->get_global_option();
+
+		if ( ! isset( $aioseo_settings['searchAppearance']['advanced']['globalRobotsMeta'] ) || ! isset( $aioseo_settings['searchAppearance']['advanced']['globalRobotsMeta']['default'] ) ) {
+			return false;
 		}
 
 		return true;

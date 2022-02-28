@@ -18,13 +18,13 @@ class Aioseo_Robots_Provider_Service {
 	 * @return bool Whether global robot settings enable or not the specific setting.
 	 */
 	public function get_global_robot_settings( $setting_name ) {
-		$aioseo_settings = \json_decode( \get_option( 'aioseo_options', '' ), true );
-		if ( empty( $aioseo_settings ) || ! isset( $aioseo_settings['searchAppearance']['advanced']['globalRobotsMeta'] ) ) {
+		$aioseo_settings = $this->get_global_option();
+		if ( empty( $aioseo_settings ) ) {
 			return false;
 		}
 
 		$global_robot_settings = $aioseo_settings['searchAppearance']['advanced']['globalRobotsMeta'];
-		if ( ! isset( $global_robot_settings['default'] ) || $global_robot_settings['default'] === true ) {
+		if ( $global_robot_settings['default'] === true ) {
 			return false;
 		}
 
@@ -46,5 +46,14 @@ class Aioseo_Robots_Provider_Service {
 		}
 
 		return $aioseo_settings['searchAppearance'][ $mapping['type'] ][ $mapping['subtype'] ]['advanced']['robotsMeta'][ $mapping['robot_type'] ];
+	}
+
+	/**
+	 * Retrieves the option where the global robot settings exist.
+	 *
+	 * @return array The option where the global robot settings exist.
+	 */
+	public function get_global_option() {
+		return \json_decode( \get_option( 'aioseo_options', '' ), true );
 	}
 }
