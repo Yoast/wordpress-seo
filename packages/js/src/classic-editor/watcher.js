@@ -277,6 +277,9 @@ const syncPostToStore = () => {
 const syncStoreToPost = () => {
 	const selectors = select( SEO_STORE_NAME );
 	// Sync simple store changes to hidden inputs.
+	createDomSync( selectors.selectSlug, { domGet: dom.getPostEditSlugFull, domSet: dom.setPostSlugFull }, "slug" );
+	createDomSync( selectors.selectSlug, { domGet: dom.getPostEditSlug, domSet: dom.setPostSlug }, "shortSlug" );
+	createDomSync( selectors.selectSlug, { domGet: dom.getPostName, domSet: dom.setPostName }, "postName" );
 	createDomSync( selectors.selectSeoTitle, { domGet: dom.getPostSeoTitle, domSet: dom.setPostSeoTitle }, "seoTitle" );
 	createDomSync( selectors.selectMetaDescription, { domGet: dom.getPostMetaDescription, domSet: dom.setPostMetaDescription }, "metaDescription" );
 	createDomSync( selectors.selectKeyphrase, { domGet: dom.getPostFocusKeyphrase, domSet: dom.setPostFocusKeyphrase }, "focusKeyphrase" );
