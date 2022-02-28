@@ -87,10 +87,6 @@ describe( "a test for retrieving post slugs from the DOM", () => {
 	const shortSlugText = document.createTextNode( "best-cat" );
 	shortSlugElement.appendChild( shortSlugText );
 
-	const newSlug = document.createElement( "input" );
-	newSlug.setAttribute( "id", "new-post-slug" );
-	newSlug.setAttribute( "value", "cat-snack" );
-
 	const slugEditDiv = document.createElement( "div" );
 	slugEditDiv.appendChild( fullLengthSlugElement );
 	slugEditDiv.appendChild( shortSlugElement );
@@ -123,7 +119,37 @@ describe( "a test for retrieving post slugs from the DOM", () => {
 		expect( dom.setPostName( "cat-toys-2" ) ).toEqual( postNameElement );
 		expect( dom.getPostName() ).toEqual( "cat-toys-2" );
 	} );
+	it( "should return the slug from post edit if there is no new slug available", () => {
+		expect( dom.getPostSlug() ).toEqual( "best-cat-food-2" );
+	} );
 	it( "should return the new slug if it's not undefined", () => {
+		const newSlug = document.createElement( "input" );
+		newSlug.setAttribute( "id", "new-post-slug" );
+		newSlug.setAttribute( "value", "cat-snacks" );
+		slugEditDiv.appendChild( newSlug );
+
 		expect( dom.getPostSlug() ).toEqual( "cat-snacks" );
+	} );
+	it( "should return an empty string if the new slug and slug from post edit are undefined", () => {
+		slugEditDiv.removeChild( slugEditDiv.firstChild );
+		slugEditDiv.removeChild( slugEditDiv.lastChild );
+
+		expect( dom.getPostSlug() ).toEqual( "" );
+	} );
+} );
+
+describe( "a test for retrieving term slug from the DOM", () => {
+	const slugElement = document.createElement( "input" );
+	slugElement.setAttribute( "id", "slug" );
+	slugElement.setAttribute( "value", "cat-adoption" );
+
+	document.body.appendChild( slugElement );
+
+	it( "should return the term slug", () => {
+		expect( dom.getTermSlug() ).toEqual( "cat-adoption" );
+	} );
+	it( "should overwrite the term slug value with the new value that is passed", () => {
+		expect( dom.setTermSlug( "how-to-adopt-cat" ) ).toEqual( slugElement );
+		expect( dom.getTermSlug() ).toEqual( "how-to-adopt-cat" );
 	} );
 } );
