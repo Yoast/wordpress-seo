@@ -3,10 +3,10 @@
 namespace Yoast\WP\SEO\Tests\Unit\Services\Health_Check;
 
 use Mockery;
-use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Services\Health_Check\Health_Check;
 use Yoast\WP\SEO\Services\Health_Check\Runner_Interface;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Services\Health_Check\Health_Check_Double;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Health_Check_Test

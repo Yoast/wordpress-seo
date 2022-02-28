@@ -3,18 +3,18 @@
 namespace Yoast\WP\SEO\Tests\Unit\Services\Importing;
 
 use Mockery;
-use Yoast\WP\SEO\Actions\Importing\Aioseo\Aioseo_Posts_Importing_Action;
+use wpdb;
 use Yoast\WP\SEO\Actions\Importing\Aioseo\Aioseo_Cleanup_Action;
+use Yoast\WP\SEO\Actions\Importing\Aioseo\Aioseo_Posts_Importing_Action;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Import_Cursor_Helper;
-use Yoast\WP\SEO\Helpers\Meta_Helper;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Indexable_To_Postmeta_Helper;
+use Yoast\WP\SEO\Helpers\Meta_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Sanitization_Helper;
 use Yoast\WP\SEO\Helpers\Wpdb_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
-use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Replacevar_Service;
 use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Provider_Service;
 use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Transformer_Service;
@@ -64,7 +64,7 @@ class Importable_Detector_Service_Test extends TestCase {
 	/**
 	 * The mocked WordPress database object.
 	 *
-	 * @var Mockery\MockInterface|\wpdb
+	 * @var Mockery\MockInterface|wpdb
 	 */
 	protected $wpdb;
 
@@ -219,7 +219,7 @@ class Importable_Detector_Service_Test extends TestCase {
 	public function test_construct() {
 		$this->assertTrue( \is_array( self::getPropertyValue( $this->instance, 'importers' ) ) );
 
-		$importer = array_values( self::getPropertyValue( $this->instance, 'importers' ) )[0];
+		$importer = \array_values( self::getPropertyValue( $this->instance, 'importers' ) )[0];
 		$this->assertInstanceOf(
 			Aioseo_Posts_Importing_Action::class,
 			$importer

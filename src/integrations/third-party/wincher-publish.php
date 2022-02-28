@@ -118,7 +118,7 @@ class Wincher_Publish implements Integration_Interface {
 	 * @return void
 	 */
 	public function track_request( $post ) {
-		if ( ! $post instanceof \WP_Post ) {
+		if ( ! $post instanceof WP_Post ) {
 			return;
 		}
 
