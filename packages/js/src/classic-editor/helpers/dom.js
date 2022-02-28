@@ -341,6 +341,13 @@ export const getPostSlug = () => {
 export const getTermSlug = createGetDomElementProp( DOM_IDS.TERM_SLUG );
 
 /**
+ * Sets the term slug value prop on its DOM element.
+ *
+ * @returns {HTMLElement} The DOM element.
+ */
+export const setTermSlug = createSetDomElementProp( DOM_IDS.TERM_SLUG );
+
+/**
  * Gets the post permalink from the document.
  *
  * @returns {string} The post permalink or an empty string.
