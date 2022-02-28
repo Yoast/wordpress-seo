@@ -73,3 +73,57 @@ describe( "a test for retrieving categories from the DOM", () => {
 		expect( dom.getPostCategories() ).toEqual( [ ] );
 	} );
 } );
+
+describe( "a test for retrieving post slugs from the DOM", () => {
+	const fullLengthSlugElement = document.createElement( "span" );
+	fullLengthSlugElement.setAttribute( "id", "editable-post-name-full" );
+
+	const fullLengthSlugText = document.createTextNode( "best-cat-food" );
+	fullLengthSlugElement.appendChild( fullLengthSlugText );
+
+	const shortSlugElement = document.createElement( "span" );
+	shortSlugElement.setAttribute( "id", "editable-post-name" );
+
+	const shortSlugText = document.createTextNode( "best-cat" );
+	shortSlugElement.appendChild( shortSlugText );
+
+	const newSlug = document.createElement( "input" );
+	newSlug.setAttribute( "id", "new-post-slug" );
+	newSlug.setAttribute( "value", "cat-snack" );
+
+	const slugEditDiv = document.createElement( "div" );
+	slugEditDiv.appendChild( fullLengthSlugElement );
+	slugEditDiv.appendChild( shortSlugElement );
+
+	const postNameElement = document.createElement( "input" );
+	postNameElement.setAttribute( "id", "post_name" );
+	postNameElement.setAttribute( "value", "cat-toys" );
+
+	document.body.appendChild( slugEditDiv );
+	document.body.appendChild( postNameElement );
+
+	it( "should return the post full length slug", () => {
+		expect( dom.getPostEditSlugFull() ).toEqual( "best-cat-food" );
+	} );
+	it( "should overwrite the full length slug text with the new value that is passed", () => {
+		expect( dom.setPostSlugFull( "best-cat-food-2" ) ).toEqual( fullLengthSlugElement );
+		expect( dom.getPostEditSlugFull() ).toEqual( "best-cat-food-2" );
+	} );
+	it( "should return the post shortened slug", () => {
+		expect( dom.getPostEditSlug() ).toEqual( "best-cat" );
+	} );
+	it( "should overwrite the short slug text with the new value that is passed", () => {
+		expect( dom.setPostSlug( "best-cat-2" ) ).toEqual( shortSlugElement );
+		expect( dom.getPostEditSlug() ).toEqual( "best-cat-2" );
+	} );
+	it( "should return the post name", () => {
+		expect( dom.getPostName() ).toEqual( "cat-toys" );
+	} );
+	it( "should overwrite the post name value with the new value that is passed", () => {
+		expect( dom.setPostName( "cat-toys-2" ) ).toEqual( postNameElement );
+		expect( dom.getPostName() ).toEqual( "cat-toys-2" );
+	} );
+	it( "should return the new slug if it's not undefined", () => {
+		expect( dom.getPostSlug() ).toEqual( "cat-snacks" );
+	} );
+} );
