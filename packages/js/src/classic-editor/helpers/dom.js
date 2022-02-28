@@ -1,6 +1,5 @@
 /* global moment */
 import { flow, get, isEqual, set } from "lodash";
-import { excerptFromContent } from "../../helpers/replacementVariableHelpers";
 import { getContentTinyMce } from "../../lib/tinymce";
 import getContentLocale from "../../analysis/getContentLocale";
 
