@@ -2,8 +2,8 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Services\Importing;
 
-use Mockery;
 use Brain\Monkey;
+use Mockery;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Social_Images_Provider_Service;
 use Yoast\WP\SEO\Tests\Unit\TestCase;

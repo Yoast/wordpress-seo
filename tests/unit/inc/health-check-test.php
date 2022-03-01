@@ -4,7 +4,6 @@ namespace Yoast\WP\SEO\Tests\Unit\Inc;
 
 use Brain\Monkey;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Inc\WPSEO_Health_Check_Double;
-use WPSEO_Health_Check;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**

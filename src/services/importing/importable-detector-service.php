@@ -78,7 +78,7 @@ class Importable_Detector_Service {
 	public function filter_actions( $all_actions, $plugin = null, $type = null ) {
 		return \array_filter(
 			$all_actions,
-			function( $action ) use ( $plugin, $type ) {
+			static function( $action ) use ( $plugin, $type ) {
 				return $action->is_compatible_with( $plugin, $type );
 			}
 		);
