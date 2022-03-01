@@ -48,9 +48,9 @@ abstract class OAuth_Client {
 	/**
 	 * OAuth_Client constructor.
 	 *
-	 * @param string                                $token_option      The option's name to save the token as.
-	 * @param Wincher_PKCE_Provider|GenericProvider $provider          The provider.
-	 * @param Options_Helper                        $options_helper    The Options_Helper instance.
+	 * @param string                                $token_option   The option's name to save the token as.
+	 * @param Wincher_PKCE_Provider|GenericProvider $provider       The provider.
+	 * @param Options_Helper                        $options_helper The Options_Helper instance.
 	 *
 	 * @throws Empty_Property_Exception Exception thrown if a token property is empty.
 	 */

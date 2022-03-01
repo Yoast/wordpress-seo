@@ -15,7 +15,6 @@ jest.mock( "../../src/classic-editor/helpers/dom", () => ( {
 	getPostFocusKeyphrase: jest.fn( () => "tortoiseshell cat" ),
 	getTermName: jest.fn( () => "cat" ),
 	getTermPermalink: jest.fn( () => "www.sweetcat.com/categories" ),
-	getTermExcerpt: jest.fn( () => "This is another meta description about another pretty little cat." ),
 	getTermDescription: jest.fn( () => "This is to describe a cat, that deserves only good attributes to them." ),
 	getTermSeoTitle: jest.fn( () => "A title befitting a beautiful cat" ),
 	getTermMetaDescription: jest.fn( () => "An example of a description for a cat." ),
