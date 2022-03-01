@@ -3,6 +3,13 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Given it's a very specific case.
 namespace Yoast\WP\SEO\Actions\Importing\Aioseo;
 
+use Yoast\WP\SEO\Helpers\Import_Cursor_Helper;
+use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Sanitization_Helper;
+use Yoast\WP\SEO\Helpers\Image_Helper;
+use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Replacevar_Service;
+use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Provider_Service;
+use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Transformer_Service;
 /**
  * Importing action for AIOSEO general settings.
  *
@@ -40,6 +47,38 @@ class Aioseo_General_Settings_Importing_Action extends Abstract_Aioseo_Settings_
 	protected $settings_tab = 'global';
 
 	/**
+	 * The image helper.
+	 *
+	 * @var Image_Helper
+	 */
+	protected $image;
+
+	/**
+	 * Aioseo_Custom_Archive_Settings_Importing_Action constructor.
+	 *
+	 * @param Import_Cursor_Helper              $import_cursor      The import cursor helper.
+	 * @param Options_Helper                    $options            The options helper.
+	 * @param Sanitization_Helper               $sanitization       The sanitization helper.
+	 * @param Image_Helper                      $image              The image helper.
+	 * @param Aioseo_Replacevar_Service         $replacevar_handler The replacevar handler.
+	 * @param Aioseo_Robots_Provider_Service    $robots_provider    The robots provider service.
+	 * @param Aioseo_Robots_Transformer_Service $robots_transformer The robots transfomer service.
+	 */
+	public function __construct(
+		Import_Cursor_Helper $import_cursor,
+		Options_Helper $options,
+		Sanitization_Helper $sanitization,
+		Image_Helper $image,
+		Aioseo_Replacevar_Service $replacevar_handler,
+		Aioseo_Robots_Provider_Service $robots_provider,
+		Aioseo_Robots_Transformer_Service $robots_transformer
+	) {
+		parent::__construct( $import_cursor, $options, $sanitization, $replacevar_handler, $robots_provider, $robots_transformer );
+
+		$this->image = $image;
+	}
+
+	/**
 	 * Builds the mapping that ties AOISEO option keys with Yoast ones and their data transformation method.
 	 *
 	 * @return void
@@ -72,13 +111,31 @@ class Aioseo_General_Settings_Importing_Action extends Abstract_Aioseo_Settings_
 			],
 			'/schema/organizationLogo' => [
 				'yoast_name'       => 'company_logo',
-				'transform_method' => 'simple_import',
+				'transform_method' => 'import_org_logo',
 			],
 			'/schema/personLogo'       => [
 				'yoast_name'       => 'person_logo',
 				'transform_method' => 'simple_import',
 			],
 		];
+	}
+
+	/**
+	 * Imports the organization logo while also accounting for the id of the log to be saved in the separate Yoast option.
+	 *
+	 * @param string $site_represents The site represents setting.
+	 *
+	 * @return string The transformed site represents setting.
+	 */
+	public function import_org_logo( $logo ) {
+		$logo_id = $this->image->get_attachment_by_url( $logo );
+		$this->options->set( 'company_logo_id', $logo_id );
+
+		$this->options->set( 'company_logo_meta', false );
+		$logo_meta = $this->image->get_attachment_meta_from_settings( 'company_logo' );
+		$this->options->set( 'company_logo_meta', $logo_meta );
+
+		return $this->url_import( $logo );
 	}
 
 	/**
