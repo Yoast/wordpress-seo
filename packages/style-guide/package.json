@@ -8,14 +8,11 @@
   "license": "GPL-3.0",
   "private": false,
   "scripts": {
-    "prepublishOnly": "rm -rf dist && cp -R src dist && cp package.json dist/package.json && json -I -f dist/package.json -e \"this.main='index.js'\" && mkdir dist/src && cp src/_colors.scss dist/src/_colors.scss && cp .babelrc dist/.babelrc"
+    "prepublishOnly": "rm -rf dist && cp -R src dist && cp package.json dist/package.json && json -I -f dist/package.json -e \"this.main='index.js'\""
   },
   "devDependencies": {
     "@yoast/browserslist-config": "^1.2.2",
     "browserslist": "^4.7.3",
-    "grunt": "^1.0.3",
-    "grunt-scss-to-json": "https://github.com/atimmer/grunt-scss-to-json",
-    "load-grunt-config": "^1.0.1"
   },
   "publishConfig": {
     "access": "public"
