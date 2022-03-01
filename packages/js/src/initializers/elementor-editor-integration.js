@@ -167,20 +167,6 @@ export default function initElementEditorIntegration() {
 	window.YoastSEO = window.YoastSEO || {};
 	window.YoastSEO._registerReactComponent = registerReactComponent;
 
-	// Check whether the route to our tab is active. If so, render our React root.
-	window.$e.routes.on( "run:after", function( component, route ) {
-		if ( route === "panel/page-settings/yoast-tab" ) {
-			renderReactRoot( "elementor-panel-page-settings-controls", (
-				<StyleSheetManager target={ document.getElementById( "elementor-panel-inner" ) }>
-					<div className="yoast yoast-elementor-panel__fills">
-						<ElementorSlot />
-						<ElementorFill />
-					</div>
-				</StyleSheetManager>
-			) );
-		}
-	} );
-
 	initializePostStatusListener();
 
 	// Hook into the save.
@@ -209,11 +195,21 @@ export default function initElementEditorIntegration() {
 		callback: () => {
 			try {
 				window.$e.routes.run( "panel/page-settings/yoast-tab" );
-			} catch ( error ) {
-				// The yoast tab is only available if the page settings have been visited.
+			} catch {
+				// The yoast tab is only available if the page settings has been visited.
 				window.$e.routes.run( "panel/page-settings/settings" );
 				window.$e.routes.run( "panel/page-settings/yoast-tab" );
 			}
+
+			// Render React
+			renderReactRoot( "elementor-panel-page-settings-controls", (
+				<StyleSheetManager target={ document.getElementById( "elementor-panel-inner" ) }>
+					<div className="yoast yoast-elementor-panel__fills">
+						<ElementorSlot />
+						<ElementorFill />
+					</div>
+				</StyleSheetManager>
+			) );
 		},
 	}, "more" );
 
