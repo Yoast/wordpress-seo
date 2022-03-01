@@ -80,9 +80,9 @@ class Print_QRCode_Embed implements Integration_Interface {
 			return;
 		}
 
-		$alt_text  = __( 'QR Code for current page\'s URL.', 'wordpress-seo' );
-		$text      = __( 'Scan the QR code or go to the URL below to read this article online.', 'wordpress-seo' );
-		$image_url = \trailingslashit( \get_site_url() ) . '?nonce=' . $nonce . '&yoast_qr_code=' . rawurlencode( $url );
+		$alt_text  = \__( 'QR Code for current page\'s URL.', 'wordpress-seo' );
+		$text      = \__( 'Scan the QR code or go to the URL below to read this article online.', 'wordpress-seo' );
+		$image_url = \trailingslashit( \get_site_url() ) . '?nonce=' . $nonce . '&yoast_qr_code=' . \rawurlencode( $url );
 		\printf(
 			'<script id="yoast_seo_print_qrcode_script">' .
 				'window.addEventListener( "beforeprint", function() {' .
@@ -96,7 +96,7 @@ class Print_QRCode_Embed implements Integration_Interface {
 				'window.addEventListener( "afterprint", function() {' .
 					'document.getElementById( "yoast_seo_print_qrcode" ).remove();' .
 				'} );' .
-			'</script>' . PHP_EOL,
+			'</script>' . \PHP_EOL,
 			\esc_attr( $alt_text ),
 			\esc_html( $text ),
 			\esc_html( $url ),
