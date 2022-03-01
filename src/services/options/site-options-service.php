@@ -27,63 +27,69 @@ class Site_Options_Service extends Abstract_Options_Service {
 	 */
 	protected $configurations = [
 		// Social.
-		'facebook_site'                               => [
+		'facebook_site'                                       => [
 			'default' => '',
 			'types'   => [ 'empty_string', 'url' ],
 		],
-		'instagram_url'                               => [
+		'instagram_url'                                       => [
 			'default' => '',
 			'types'   => [ 'empty_string', 'url' ],
 		],
-		'linkedin_url'                                => [
+		'linkedin_url'                                        => [
 			'default' => '',
 			'types'   => [ 'empty_string', 'url' ],
 		],
-		'myspace_url'                                 => [
+		'myspace_url'                                         => [
 			'default' => '',
 			'types'   => [ 'empty_string', 'url' ],
 		],
-		'og_default_image'                            => [
+		'og_default_image'                                    => [
 			'default' => '',
 			'types'   => [ 'empty_string', 'url' ],
 		],
-		'og_default_image_id'                         => [
+		'og_default_image_id'                                 => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'empty_string', 'integer' ],
 		],
-		'og_frontpage_desc'                           => [
+		'og_frontpage_desc'                                   => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'text_field' ],
 		],
-		'og_frontpage_image'                          => [
-			'default' => '',
-			'types'   => [ 'empty_string', 'url' ],
-		],
-		'og_frontpage_image_id'                       => [
-			'default' => '',
-			'types'   => [ 'string' ],
-		],
-		'og_frontpage_title'                          => [
-			'default' => '',
-			'types'   => [ 'string' ],
-		],
-		'opengraph'                                   => [
-			'default' => '',
-			'types'   => [ 'string' ],
-		],
-		'pinterest_url'                               => [
+		'og_frontpage_image'                                  => [
 			'default' => '',
 			'types'   => [ 'empty_string', 'url' ],
 		],
-		'pinterestverify'                             => [
+		'og_frontpage_image_id'                               => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'empty_string', 'integer' ],
 		],
-		'twitter'                                     => [
+		'og_frontpage_title'                                  => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'text_field' ],
 		],
-		'twitter_card_type'                           => [
+		'opengraph'                                   		  => [
+			'default' => true,
+			'types'   => [ 'boolean' ],
+		],
+		'pinterest_url'                                       => [
+			'default' => '',
+			'types'   => [ 'empty_string', 'url' ],
+		],
+		'pinterestverify'                                     => [
+			'default' => '',
+			'types'   => [
+				'empty_string',
+				'regex' => [
+					'pattern' => '/(^[A-Fa-f0-9_-]+$)|content=([\'"])?([A-Fa-f0-9_-]+)(?:\2|[ \/>])/',
+					'groups'  => [ 1, 3 ],
+				],
+			],
+		],
+		'twitter'                                     		  => [
+			'default' => true,
+			'types'   => [ 'boolean' ],
+		],
+		'twitter_card_type'                                   => [
 			'default' => 'summary_large_image',
 			'types'   => [
 				'in_array' => [
@@ -94,163 +100,163 @@ class Site_Options_Service extends Abstract_Options_Service {
 				],
 			],
 		],
-		'twitter_site'                                => [
+		'twitter_site'                                        => [
 			'default' => '',
 			'types'   => [ 'string' ],
 		],
-		'wikipedia_url'                               => [
+		'wikipedia_url'                                       => [
 			'default' => '',
 			'types'   => [ 'empty_string', 'url' ],
 		],
-		'youtube_url'                                 => [
+		'youtube_url'                                         => [
 			'default' => '',
 			'types'   => [ 'empty_string', 'url' ],
 		],
 
 		// Taxonomy meta.
-		'wpseo_bctitle'                               => [
+		'wpseo_bctitle-<TaxonomyName>-<TermId>'               => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'text_field' ],
 		],
-		'wpseo_canonical'                             => [
+		'wpseo_canonical-<TaxonomyName>-<TermId>'             => [
 			'default' => '',
 			'types'   => [ 'empty_string', 'url' ],
 		],
-		'wpseo_content_score'                         => [
+		'wpseo_content_score-<TaxonomyName>-<TermId>'         => [
+			'default' => '',
+			'types'   => [ 'text_field' ],
+		],
+		'wpseo_desc-<TaxonomyName>-<TermId>'                  => [
+			'default' => '',
+			'types'   => [ 'text_field' ],
+		],
+		'wpseo_focuskeywords-<TaxonomyName>-<TermId>'         => [
 			'default' => '',
 			'types'   => [ 'string' ],
 		],
-		'wpseo_desc'                                  => [
+		'wpseo_focuskw-<TaxonomyName>-<TermId>'               => [
+			'default' => '',
+			'types'   => [ 'text_field' ],
+		],
+		'wpseo_is_cornerstone-<TaxonomyName>-<TermId>'        => [
 			'default' => '',
 			'types'   => [ 'string' ],
 		],
-		'wpseo_focuskeywords'                         => [
+		'wpseo_keywordsynonyms-<TaxonomyName>-<TermId>'       => [
 			'default' => '',
 			'types'   => [ 'string' ],
 		],
-		'wpseo_focuskw'                               => [
+		'wpseo_linkdex-<TaxonomyName>-<TermId>'               => [
+			'default' => '',
+			'types'   => [ 'text_field' ],
+		],
+		'wpseo_noindex-<TaxonomyName>-<TermId>'               => [
 			'default' => '',
 			'types'   => [ 'string' ],
 		],
-		'wpseo_is_cornerstone'                        => [
+		'wpseo_opengraph-description-<TaxonomyName>-<TermId>' => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'text_field' ],
 		],
-		'wpseo_keywordsynonyms'                       => [
+		'wpseo_opengraph-image-<TaxonomyName>-<TermId>'       => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'text_field' ],
 		],
-		'wpseo_linkdex'                               => [
+		'wpseo_opengraph-image-id-<TaxonomyName>-<TermId>'    => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'text_field' ],
 		],
-		'wpseo_noindex'                               => [
+		'wpseo_opengraph-title-<TaxonomyName>-<TermId>'       => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'text_field' ],
 		],
-		'wpseo_opengraph-description'                 => [
+		'wpseo_title-<TaxonomyName>-<TermId>'                 => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'text_field' ],
 		],
-		'wpseo_opengraph-image'                       => [
+		'wpseo_twitter-description-<TaxonomyName>-<TermId>'   => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'text_field' ],
 		],
-		'wpseo_opengraph-image-id'                    => [
+		'wpseo_twitter-image-<TaxonomyName>-<TermId>'         => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'text_field' ],
 		],
-		'wpseo_opengraph-title'                       => [
+		'wpseo_twitter-image-id-<TaxonomyName>-<TermId>'      => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'text_field' ],
 		],
-		'wpseo_title'                                 => [
+		'wpseo_twitter-title-<TaxonomyName>-<TermId>'         => [
 			'default' => '',
-			'types'   => [ 'string' ],
-		],
-		'wpseo_twitter-description'                   => [
-			'default' => '',
-			'types'   => [ 'string' ],
-		],
-		'wpseo_twitter-image'                         => [
-			'default' => '',
-			'types'   => [ 'string' ],
-		],
-		'wpseo_twitter-image-id'                      => [
-			'default' => '',
-			'types'   => [ 'string' ],
-		],
-		'wpseo_twitter-title'                         => [
-			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'text_field' ],
 		],
 
 		// Titles.
-		'activation_redirect_timestamp_free'          => [
+		'activation_redirect_timestamp_free'                  => [
+			'default' => '',
+			'types'   => [ 'integer' ],
+		],
+		'alternate_website_name'                              => [
+			'default' => '',
+			'types'   => [ 'text_field' ],
+		],
+		'bctitle-ptarchive-<PostTypeName>'                    => [
+			'default' => '',
+			'types'   => [ 'text_field' ],
+		],
+		'breadcrumbs-404crumb'                                => [
 			'default' => '',
 			'types'   => [ 'string' ],
 		],
-		'alternate_website_name'                      => [
+		'breadcrumbs-archiveprefix'                           => [
 			'default' => '',
 			'types'   => [ 'string' ],
 		],
-		'bctitle-ptarchive-<PostTypeName>'            => [
+		'breadcrumbs-boldlast'                        		  => [
+			'default' => false,
+			'types'   => [ 'boolean' ],
+		],
+		'breadcrumbs-display-blog-page'               		  => [
+			'default' => true,
+			'types'   => [ 'boolean' ],
+		],
+		'breadcrumbs-enable'                          		  => [
+			'default' => true,
+			'types'   => [ 'boolean' ],
+		],
+		'breadcrumbs-home'                                    => [
 			'default' => '',
 			'types'   => [ 'string' ],
 		],
-		'breadcrumbs-404crumb'                        => [
+		'breadcrumbs-prefix'                                  => [
 			'default' => '',
 			'types'   => [ 'string' ],
 		],
-		'breadcrumbs-archiveprefix'                   => [
+		'breadcrumbs-searchprefix'                            => [
 			'default' => '',
 			'types'   => [ 'string' ],
 		],
-		'breadcrumbs-boldlast'                        => [
+		'breadcrumbs-sep'                                     => [
 			'default' => '',
 			'types'   => [ 'string' ],
 		],
-		'breadcrumbs-display-blog-page'               => [
-			'default' => '',
-			'types'   => [ 'string' ],
-		],
-		'breadcrumbs-enable'                          => [
-			'default' => '',
-			'types'   => [ 'string' ],
-		],
-		'breadcrumbs-home'                            => [
-			'default' => '',
-			'types'   => [ 'string' ],
-		],
-		'breadcrumbs-prefix'                          => [
-			'default' => '',
-			'types'   => [ 'string' ],
-		],
-		'breadcrumbs-searchprefix'                    => [
-			'default' => '',
-			'types'   => [ 'string' ],
-		],
-		'breadcrumbs-sep'                             => [
-			'default' => '',
-			'types'   => [ 'string' ],
-		],
-		'company_logo'                                => [
+		'company_logo'                                        => [
 			'default' => '',
 			'types'   => [ 'empty_string', 'url' ],
 		],
-		'company_logo_id'                             => [
+		'company_logo_id'                                     => [
+			'default' => '',
+			'types'   => [ 'integer' ],
+		],
+		'company_logo_meta'                                   => [
 			'default' => '',
 			'types'   => [ 'string' ],
 		],
-		'company_logo_meta'                           => [
+		'company_name'                                        => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'text_field' ],
 		],
-		'company_name'                                => [
-			'default' => '',
-			'types'   => [ 'string' ],
-		],
-		'company_or_person'                           => [
+		'company_or_person'                                   => [
 			'default' => 'company',
 			'types'   => [
 				'in_array' => [
@@ -261,119 +267,120 @@ class Site_Options_Service extends Abstract_Options_Service {
 				],
 			],
 		],
-		'company_or_person_user_id'                   => [
+		'company_or_person_user_id'                           => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'integer' ],
 		],
-		'disable-attachment'                          => [
+		'disable-attachment'                          		  => [
+			'default' => true,
+			'types'   => [ 'boolean' ],
+		],
+		'disable-author'                              		  => [
+			'default' => false,
+			'types'   => [ 'boolean' ],
+		],
+		'disable-date'                                		  => [
+			'default' => false,
+			'types'   => [ 'boolean' ],
+		],
+		'disable-post_format'                         		  => [
+			'default' => false,
+			'types'   => [ 'boolean' ],
+		],
+		'display-metabox-pt-<PostTypeName>'           		  => [
+			'default' => false, // True for public post types.
+			'types'   => [ 'boolean' ],
+		],
+		'display-metabox-tax-<TaxonomyName>'          		  => [
+			'default' => false, // True for public taxonomies.
+			'types'   => [ 'boolean' ],
+		],
+		'forcerewritetitle'                           		  => [
+			'default'    => false,
+			'types'      => [ 'boolean' ],
+			'ms_exclude' => true,
+		],
+		'metadesc-<PostTypeName>'                             => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'text_field' ],
 		],
-		'disable-author'                              => [
+		'metadesc-archive-wpseo'                              => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'text_field' ],
 		],
-		'disable-date'                                => [
+		'metadesc-author-wpseo'                               => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'text_field' ],
 		],
-		'disable-post_format'                         => [
+		'metadesc-home-wpseo'                                 => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'text_field' ],
 		],
-		'display-metabox-pt-<PostTypeName>'           => [
+		'metadesc-ptarchive-<PostTypeName>'                   => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'text_field' ],
 		],
-		'display-metabox-tax-<TaxonomyName>'          => [
+		'metadesc-tax-<TaxonomyName>'                         => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'text_field' ],
 		],
-		'forcerewritetitle'                           => [
+		'noindex-<PostTypeName>'                      		  => [
+			'default' => false,
+			'types'   => [ 'boolean' ],
+		],
+		'noindex-archive-wpseo'                       		  => [
+			'default' => true,
+			'types'   => [ 'boolean' ],
+		],
+		'noindex-author-noposts-wpseo'                		  => [
+			'default' => true,
+			'types'   => [ 'boolean' ],
+		],
+		'noindex-author-wpseo'                        		  => [
+			'default' => false,
+			'types'   => [ 'boolean' ],
+		],
+		'noindex-ptarchive-<PostTypeName>'            		  => [
+			'default' => false,
+			'types'   => [ 'boolean' ],
+		],
+		'noindex-tax-<TaxonomyName>'                  		  => [
+			'default' => false, // Except when the taxonomy name === 'post_format'.
+			'types'   => [ 'boolean' ],
+		],
+		'open_graph_frontpage_desc'                           => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'text_field' ],
 		],
-		'metadesc-<PostTypeName>'                     => [
-			'default' => '',
-			'types'   => [ 'string' ],
-		],
-		'metadesc-archive-wpseo'                      => [
-			'default' => '',
-			'types'   => [ 'string' ],
-		],
-		'metadesc-author-wpseo'                       => [
-			'default' => '',
-			'types'   => [ 'string' ],
-		],
-		'metadesc-home-wpseo'                         => [
-			'default' => '',
-			'types'   => [ 'string' ],
-		],
-		'metadesc-ptarchive-<PostTypeName>'           => [
-			'default' => '',
-			'types'   => [ 'string' ],
-		],
-		'metadesc-tax-<TaxonomyName>'                 => [
-			'default' => '',
-			'types'   => [ 'string' ],
-		],
-		'noindex-<PostTypeName>'                      => [
-			'default' => '',
-			'types'   => [ 'string' ],
-		],
-		'noindex-archive-wpseo'                       => [
-			'default' => '',
-			'types'   => [ 'string' ],
-		],
-		'noindex-author-noposts-wpseo'                => [
-			'default' => '',
-			'types'   => [ 'string' ],
-		],
-		'noindex-author-wpseo'                        => [
-			'default' => '',
-			'types'   => [ 'string' ],
-		],
-		'noindex-ptarchive-<PostTypeName>'            => [
-			'default' => '',
-			'types'   => [ 'string' ],
-		],
-		'noindex-tax-<TaxonomyName>'                  => [
-			'default' => '',
-			'types'   => [ 'string' ],
-		],
-		'open_graph_frontpage_desc'                   => [
-			'default' => '',
-			'types'   => [ 'string' ],
-		],
-		'open_graph_frontpage_image'                  => [
-			'default' => '',
-			'types'   => [ 'empty_string', 'url' ],
-		],
-		'open_graph_frontpage_image_id'               => [
-			'default' => '',
-			'types'   => [ 'string' ],
-		],
-		'open_graph_frontpage_title'                  => [
-			'default' => '',
-			'types'   => [ 'string' ],
-		],
-		'person_logo'                                 => [
+		'open_graph_frontpage_image'                          => [
 			'default' => '',
 			'types'   => [ 'empty_string', 'url' ],
 		],
-		'person_logo_id'                              => [
+		'open_graph_frontpage_image_id'                       => [
+			'default' => '',
+			'types'   => [ 'integer' ],
+		],
+		'open_graph_frontpage_title'                          => [
+			'default' => '%%sitename%%',
+			'types'   => [ 'text_field' ],
+		],
+		'person_logo'                                         => [
+			'default' => '',
+			'types'   => [ 'empty_string', 'url' ],
+		],
+		'person_logo_id'                                      => [
+			'default' => '',
+			'types'   => [ 'integer' ],
+		],
+		'person_logo_meta'                                    => [
 			'default' => '',
 			'types'   => [ 'string' ],
 		],
-		'person_logo_meta'                            => [
+		'person_name'                                         => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'text_field' ],
 		],
-		'person_name'                                 => [
-			'default' => '',
-			'types'   => [ 'string' ],
-		],
-		'post_types_<PostTypeName>_maintax'           => [
+		'post_types_<PostTypeName>_maintax'                   => [
 			'default' => '',
 			'types'   => [
 				'in_array_provider' => [
@@ -385,15 +392,15 @@ class Site_Options_Service extends Abstract_Options_Service {
 				'is_equal',
 			],
 		],
-		'rssafter'                                    => [
+		'rssafter'                                            => [
 			'default' => '',
 			'types'   => [ 'string' ],
 		],
-		'rssbefore'                                   => [
+		'rssbefore'                                           => [
 			'default' => '',
 			'types'   => [ 'string' ],
 		],
-		'schema-article-type-<PostTypeName>'          => [
+		'schema-article-type-<PostTypeName>'                  => [
 			'default' => 'None',
 			'types'   => [
 				'in_array_provider' => [
@@ -404,7 +411,7 @@ class Site_Options_Service extends Abstract_Options_Service {
 				],
 			],
 		],
-		'schema-page-type-<PostTypeName>'             => [
+		'schema-page-type-<PostTypeName>'                     => [
 			'default' => 'WebPage',
 			'types'   => [
 				'in_array_key' => [
@@ -412,7 +419,7 @@ class Site_Options_Service extends Abstract_Options_Service {
 				],
 			],
 		],
-		'separator'                                   => [
+		'separator'                                           => [
 			'default' => 'sc-dash',
 			'types'   => [
 				'in_array_provider' => [
@@ -423,197 +430,213 @@ class Site_Options_Service extends Abstract_Options_Service {
 				],
 			],
 		],
-		'social-description-<PostTypeName>'           => [
+		'social-description-<PostTypeName>'                   => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'text_field' ],
 		],
-		'social-description-archive-wpseo'            => [
+		'social-description-archive-wpseo'                    => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'text_field' ],
 		],
-		'social-description-author-wpseo'             => [
+		'social-description-author-wpseo'                     => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'text_field' ],
 		],
-		'social-description-ptarchive-<PostTypeName>' => [
+		'social-description-ptarchive-<PostTypeName>'         => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'text_field' ],
 		],
-		'social-description-tax-{TaxonomyName}'       => [
+		'social-description-tax-<TaxonomyName>'               => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'text_field' ],
 		],
-		'social-image-id-<PostTypeName>'              => [
+		'social-image-id-<PostTypeName>'                      => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'integer' ],
 		],
-		'social-image-id-archive-wpseo'               => [
+		'social-image-id-archive-wpseo'                       => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'integer' ],
 		],
-		'social-image-id-author-wpseo'                => [
+		'social-image-id-author-wpseo'                        => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'integer' ],
 		],
-		'social-image-id-ptarchive-<PostTypeName>'    => [
+		'social-image-id-ptarchive-<PostTypeName>'            => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'integer' ],
 		],
-		'social-image-id-tax-{TaxonomyName}'          => [
+		'social-image-id-tax-{TaxonomyName}'                  => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'integer' ],
 		],
-		'social-image-url-<PostTypeName>'             => [
+		'social-image-url-<PostTypeName>'                     => [
 			'default' => '',
 			'types'   => [ 'empty_string', 'url' ],
 		],
-		'social-image-url-archive-wpseo'              => [
+		'social-image-url-archive-wpseo'                      => [
 			'default' => '',
 			'types'   => [ 'empty_string', 'url' ],
 		],
-		'social-image-url-author-wpseo'               => [
+		'social-image-url-author-wpseo'                       => [
 			'default' => '',
 			'types'   => [ 'empty_string', 'url' ],
 		],
-		'social-image-url-ptarchive-<PostTypeName>'   => [
+		'social-image-url-ptarchive-<PostTypeName>'           => [
 			'default' => '',
 			'types'   => [ 'empty_string', 'url' ],
 		],
-		'social-image-url-tax-{TaxonomyName}'         => [
+		'social-image-url-tax-{TaxonomyName}'                 => [
 			'default' => '',
 			'types'   => [ 'empty_string', 'url' ],
 		],
-		'social-title-<PostTypeName>'                 => [
+		'social-title-<PostTypeName>'                         => [
+			'default' => '%%title%%',
+			'types'   => [ 'text_field' ],
+		],
+		'social-title-archive-wpseo'                          => [
+			'default' => '%%date%%',
+			'types'   => [ 'text_field' ],
+		],
+		'social-title-author-wpseo'                           => [
+			'default' => '%%name%%',
+			'types'   => [ 'text_field' ],
+		],
+		'social-title-ptarchive-<PostTypeName>'               => [
+			'default' => '%%pt_plural%% Archive', // Needs translation.
+			'types'   => [ 'text_field' ],
+		],
+		'social-title-tax-<TaxonomyName>'                     => [
+			'default' => '%%term_title%% Archives', // Needs translation.
+			'types'   => [ 'text_field' ],
+		],
+		'stripcategorybase'                           		  => [
+			'default' => false,
+			'types'   => [ 'boolean' ],
+		],
+		'taxonomy-<TaxonomyName>-ptparent'                    => [
 			'default' => '',
 			'types'   => [ 'string' ],
 		],
-		'social-title-archive-wpseo'                  => [
-			'default' => '',
-			'types'   => [ 'string' ],
+		'title-<PostTypeName>'                                => [
+			'default' => '%%title%% %%page%% %%sep%% %%sitename%%',
+			'types'   => [ 'text_field' ],
 		],
-		'social-title-author-wpseo'                   => [
-			'default' => '',
-			'types'   => [ 'string' ],
+		'title-404-wpseo'                                     => [
+			'default' => 'Page not found %%sep%% %%sitename%%', // Needs translation.
+			'types'   => [ 'text_field' ],
 		],
-		'social-title-ptarchive-<PostTypeName>'       => [
-			'default' => '',
-			'types'   => [ 'string' ],
+		'title-archive-wpseo'                                 => [
+			'default' => '%%date%% %%page%% %%sep%% %%sitename%%',
+			'types'   => [ 'text_field' ],
 		],
-		'social-title-tax-{TaxonomyName}'             => [
-			'default' => '',
-			'types'   => [ 'string' ],
+		'title-author-wpseo'                                  => [
+			'default' => '%%name%%, Author at %%sitename%% %%page%% ', // Needs translation.
+			'types'   => [ 'text_field' ],
 		],
-		'stripcategorybase'                           => [
-			'default' => '',
-			'types'   => [ 'string' ],
+		'title-home-wpseo'                                    => [
+			'default' => '%%sitename%% %%page%% %%sep%% %%sitedesc%%',
+			'types'   => [ 'text_field' ],
 		],
-		'taxonomy-{TaxonomyName}-ptparent'            => [
-			'default' => '',
-			'types'   => [ 'string' ],
+		'title-ptarchive-<PostTypeName>'                      => [
+			'default' => '%%pt_plural%% Archive %%page%% %%sep%% %%sitename%%', // Needs translation.
+			'types'   => [ 'text_field' ],
 		],
-		'title-<PostTypeName>'                        => [
-			'default' => '',
-			'types'   => [ 'string' ],
+		'title-search-wpseo'                                  => [
+			'default' => 'You searched for %%searchphrase%% %%page%% %%sep%% %%sitename%%', // Needs translation.
+			'types'   => [ 'text_field' ],
 		],
-		'title-404-wpseo'                             => [
-			'default' => '',
-			'types'   => [ 'string' ],
+		'title-tax-<TaxonomyName>'                            => [
+			'default' => '%%term_title%% Archives %%page%% %%sep%% %%sitename%%',
+			'types'   => [ 'text_field' ],
 		],
-		'title-archive-wpseo'                         => [
+		'website_name'                                        => [
 			'default' => '',
-			'types'   => [ 'string' ],
-		],
-		'title-author-wpseo'                          => [
-			'default' => '',
-			'types'   => [ 'string' ],
-		],
-		'title-home-wpseo'                            => [
-			'default' => '',
-			'types'   => [ 'string' ],
-		],
-		'title-ptarchive-<PostTypeName>'              => [
-			'default' => '',
-			'types'   => [ 'string' ],
-		],
-		'title-search-wpseo'                          => [
-			'default' => '',
-			'types'   => [ 'string' ],
-		],
-		'title-tax-<TaxonomyName>'                    => [
-			'default' => '',
-			'types'   => [ 'string' ],
-		],
-		'website_name'                                => [
-			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'text_field' ],
 		],
 
 		// WPSEO.
-		'algolia_integration_active'                  => [
+		'algolia_integration_active'                  		  => [
+			'default' => false,
+			'types'   => [ 'boolean' ],
+		],
+		'baiduverify'                                         => [
+			'default' => '',
+			'types'   => [
+				'empty_string',
+				'regex' => [
+					'pattern' => '/(^[A-Za-z0-9_-]+$)|content=([\'"])?([A-Za-z0-9_-]+)(?:\2|[ \/>])/',
+					'groups'  => [ 1, 3 ],
+				],
+			],
+		],
+		'category_base_url'                                   => [
 			'default' => '',
 			'types'   => [ 'string' ],
 		],
-		'baiduverify'                                 => [
+		'content_analysis_active'                     		  => [
+			'default'   => true,
+			'types'     => [ 'boolean' ],
+			'ms_verify' => true,
+		],
+		'custom_taxonomy_slugs'                               => [
 			'default' => '',
 			'types'   => [ 'string' ],
 		],
-		'category_base_url'                           => [
-			'default' => '',
-			'types'   => [ 'string' ],
+		'disableadvanced_meta'                        		  => [
+			'default'   => true,
+			'types'     => [ 'boolean' ],
+			'ms_verify' => true,
 		],
-		'content_analysis_active'                     => [
-			'default' => '',
-			'types'   => [ 'string' ],
+		'dismiss_configuration_workout_notice'        		  => [
+			'default' => false,
+			'types'   => [ 'boolean' ],
 		],
-		'custom_taxonomy_slugs'                       => [
-			'default' => '',
-			'types'   => [ 'string' ],
+		'dynamic_permalinks'                          		  => [
+			'default' => false,
+			'types'   => [ 'boolean' ],
 		],
-		'disableadvanced_meta'                        => [
-			'default' => '',
-			'types'   => [ 'string' ],
+		'enable_admin_bar_menu'                       		  => [
+			'default'   => true,
+			'types'     => [ 'boolean' ],
+			'ms_verify' => true,
 		],
-		'dismiss_configuration_workout_notice'        => [
-			'default' => '',
-			'types'   => [ 'string' ],
-		],
-		'dynamic_permalinks'                          => [
-			'default' => '',
-			'types'   => [ 'string' ],
-		],
-		'enable_admin_bar_menu'                       => [
-			'default' => '',
-			'types'   => [ 'string' ],
-		],
-		'enable_cornerstone_content'                  => [
-			'default' => '',
-			'types'   => [ 'string' ],
+		'enable_cornerstone_content'                  		  => [
+			'default'   => true,
+			'types'     => [ 'boolean' ],
+			'ms_verify' => true,
 		],
 		'enable_enhanced_slack_sharing'               => [
-			'default' => '',
-			'types'   => [ 'string' ],
+			'default'   => true,
+			'types'     => [ 'boolean' ],
+			'ms_verify' => true,
 		],
-		'enable_headless_rest_endpoints'              => [
-			'default' => '',
-			'types'   => [ 'string' ],
+		'enable_headless_rest_endpoints'              		  => [
+			'default'   => true,
+			'types'     => [ 'boolean' ],
+			'ms_verify' => true,
 		],
-		'enable_link_suggestions'                     => [
-			'default' => '',
-			'types'   => [ 'string' ],
+		'enable_link_suggestions'                     		  => [
+			'default'   => true,
+			'types'     => [ 'boolean' ],
+			'ms_verify' => true,
 		],
-		'enable_metabox_insights'                     => [
-			'default' => '',
-			'types'   => [ 'string' ],
+		'enable_metabox_insights'                     		  => [
+			'default'   => true,
+			'types'     => [ 'boolean' ],
+			'ms_verify' => true,
 		],
-		'enable_text_link_counter'                    => [
-			'default' => '',
-			'types'   => [ 'string' ],
+		'enable_text_link_counter'                    		  => [
+			'default'   => true,
+			'types'     => [ 'boolean' ],
+			'ms_verify' => true,
 		],
-		'enable_xml_sitemap'                          => [
-			'default' => '',
-			'types'   => [ 'string' ],
+		'enable_xml_sitemap'                          		  => [
+			'default'   => true,
+			'types'     => [ 'boolean' ],
+			'ms_verify' => true,
 		],
-		'environment_type'                            => [
+		'environment_type'                                    => [
 			'default' => '',
 			'types'   => [
 				'empty_string',
@@ -622,19 +645,25 @@ class Site_Options_Service extends Abstract_Options_Service {
 				],
 			],
 		],
-		'first_activated_on'                          => [
+		'first_activated_on'                                  => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [ 'integer' ],
 		],
-		'first_time_install'                          => [
+		'first_time_install'                          		  => [
+			'default' => false,
+			'types'   => [ 'boolean' ],
+		],
+		'googleverify'                                        => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [
+				'empty_string',
+				'regex' => [
+					'pattern' => '/(^[A-Za-z0-9_-]+$)|content=([\'"])?([A-Za-z0-9_-]+)(?:\2|[ \/>])/',
+					'groups'  => [ 1, 3 ],
+				],
+			],
 		],
-		'googleverify'                                => [
-			'default' => '',
-			'types'   => [ 'string' ],
-		],
-		'has_multiple_authors'                        => [
+		'has_multiple_authors'                                => [
 			'default' => '',
 			'types'   => [
 				'empty_string',
@@ -643,91 +672,101 @@ class Site_Options_Service extends Abstract_Options_Service {
 				],
 			],
 		],
-		'home_url'                                    => [
+		'home_url'                                            => [
 			'default' => '',
 			'types'   => [ 'string' ],
 		],
-		'ignore_search_engines_discouraged_notice'    => [
+		'ignore_search_engines_discouraged_notice'            => [
+			'default'    => false,
+			'types'      => [ 'boolean' ],
+			'ms_exclude' => true,
+		],
+		'import_cursors'                                      => [
 			'default' => '',
 			'types'   => [ 'string' ],
 		],
-		'import_cursors'                              => [
+		'importing_completed'                                 => [
 			'default' => '',
 			'types'   => [ 'string' ],
 		],
-		'importing_completed'                         => [
+		'indexables_indexing_completed'                       => [
+			'default' => false,
+			'types'   => [ 'boolean' ],
+		],
+		'indexing_first_time'                                 => [
+			'default' => true,
+			'types'   => [ 'boolean' ],
+		],
+		'indexing_reason'                                     => [
+			'default' => '',
+			'types'   => [ 'text_field' ],
+		],
+		'indexing_started'                                    => [
+			'default' => '',
+			'types'   => [ 'integer' ],
+		],
+		'keyword_analysis_active'                             => [
+			'default'   => true,
+			'types'     => [ 'boolean' ],
+			'ms_verify' => true,
+		],
+		'license_server_version'                              => [
 			'default' => '',
 			'types'   => [ 'string' ],
 		],
-		'indexables_indexing_completed'               => [
+		'ms_defaults_set'                                     => [
+			'default' => false,
+			'types'   => [ 'boolean' ],
+		],
+		'msverify'                                            => [
+			'default' => '',
+			'types'   => [
+				'empty_string',
+				'regex' => [
+					'pattern' => '/(^[A-Fa-f0-9_-]+$)|content=([\'"])?([A-Fa-f0-9_-]+)(?:\2|[ \/>])/',
+					'groups'  => [ 1, 3 ],
+				],
+			],
+		],
+		'myyoast-oauth'                                       => [
 			'default' => '',
 			'types'   => [ 'string' ],
 		],
-		'indexing_first_time'                         => [
+		'permalink_structure'                                 => [
 			'default' => '',
 			'types'   => [ 'string' ],
 		],
-		'indexing_reason'                             => [
+		'previous_version'                                    => [
 			'default' => '',
 			'types'   => [ 'string' ],
 		],
-		'indexing_started'                            => [
+		'ryte_indexability'                                   => [
+			'default'   => true,
+			'types'     => [ 'boolean' ],
+			'ms_verify' => true,
+		],
+		'semrush_country_code'                                => [
 			'default' => '',
 			'types'   => [ 'string' ],
 		],
-		'keyword_analysis_active'                     => [
+		'semrush_integration_active'                          => [
+			'default'   => true,
+			'types'     => [ 'boolean' ],
+			'ms_verify' => true,
+		],
+		'semrush_tokens'                                      => [
 			'default' => '',
 			'types'   => [ 'string' ],
 		],
-		'license_server_version'                      => [
-			'default' => '',
-			'types'   => [ 'string' ],
+		'should_redirect_after_install_free'                  => [
+			'default' => false,
+			'types'   => [ 'boolean' ],
 		],
-		'ms_defaults_set'                             => [
-			'default' => '',
-			'types'   => [ 'string' ],
+		'show_onboarding_notice'                              => [
+			'default' => false,
+			'types'   => [ 'boolean' ],
 		],
-		'msverify'                                    => [
-			'default' => '',
-			'types'   => [ 'string' ],
-		],
-		'myyoast-oauth'                               => [
-			'default' => '',
-			'types'   => [ 'string' ],
-		],
-		'permalink_structure'                         => [
-			'default' => '',
-			'types'   => [ 'string' ],
-		],
-		'previous_version'                            => [
-			'default' => '',
-			'types'   => [ 'string' ],
-		],
-		'ryte_indexability'                           => [
-			'default' => '',
-			'types'   => [ 'string' ],
-		],
-		'semrush_country_code'                        => [
-			'default' => '',
-			'types'   => [ 'string' ],
-		],
-		'semrush_integration_active'                  => [
-			'default' => '',
-			'types'   => [ 'string' ],
-		],
-		'semrush_tokens'                              => [
-			'default' => '',
-			'types'   => [ 'string' ],
-		],
-		'should_redirect_after_install_free'          => [
-			'default' => '',
-			'types'   => [ 'string' ],
-		],
-		'show_onboarding_notice'                      => [
-			'default' => '',
-			'types'   => [ 'string' ],
-		],
-		'site_type'                                   => [
+		'site_type'                                           => [
 			'default' => '',
 			'types'   => [
 				'empty_string',
@@ -743,51 +782,60 @@ class Site_Options_Service extends Abstract_Options_Service {
 				],
 			],
 		],
-		'tag_base_url'                                => [
+		'tag_base_url'                                        => [
 			'default' => '',
 			'types'   => [ 'string' ],
 		],
-		'tracking'                                    => [
+		'tracking'                                            => [
+			'default'   => null,
+			'types'     => [ 'boolean' ],
+			'ms_verify' => true,
+		],
+		'version'                                             => [
+			'default' => '',
+			'types'   => [ 'is_equal' => [ 'equals' => WPSEO_VERSION ] ],
+		],
+		'wincher_automatically_add_keyphrases'                => [
+			'default' => false,
+			'types'   => [ 'boolean' ],
+		],
+		'wincher_integration_active'                          => [
+			'default'   => true,
+			'types'     => [ 'boolean' ],
+			'ms_verify' => true,
+		],
+		'wincher_tokens'                                      => [
 			'default' => '',
 			'types'   => [ 'string' ],
 		],
-		'version'                                     => [
+		'wincher_website_id'                                  => [
 			'default' => '',
 			'types'   => [ 'string' ],
 		],
-		'wincher_automatically_add_keyphrases'        => [
+		'workouts_data'                                       => [
 			'default' => '',
 			'types'   => [ 'string' ],
 		],
-		'wincher_integration_active'                  => [
+		'yandexverify'                                        => [
+			'default' => '',
+			'types'   => [
+				'empty_string',
+				'regex' => [
+					'pattern' => '/(^[A-Fa-f0-9_-]+$)|content=([\'"])?([A-Fa-f0-9_-]+)(?:\2|[ \/>])/',
+					'groups'  => [ 1, 3 ],
+				],
+			],
+		],
+		'zapier_api_key'                                      => [
 			'default' => '',
 			'types'   => [ 'string' ],
 		],
-		'wincher_tokens'                              => [
-			'default' => '',
-			'types'   => [ 'string' ],
+		'zapier_integration_active'                           => [
+			'default'   => false,
+			'types'     => [ 'boolean' ],
+			'ms_verify' => true,
 		],
-		'wincher_website_id'                          => [
-			'default' => '',
-			'types'   => [ 'string' ],
-		],
-		'workouts_data'                               => [
-			'default' => '',
-			'types'   => [ 'string' ],
-		],
-		'yandexverify'                                => [
-			'default' => '',
-			'types'   => [ 'string' ],
-		],
-		'zapier_api_key'                              => [
-			'default' => '',
-			'types'   => [ 'string' ],
-		],
-		'zapier_integration_active'                   => [
-			'default' => '',
-			'types'   => [ 'string' ],
-		],
-		'zapier_subscription'                         => [
+		'zapier_subscription'                                 => [
 			'default' => '',
 			'types'   => [ 'string' ],
 		],

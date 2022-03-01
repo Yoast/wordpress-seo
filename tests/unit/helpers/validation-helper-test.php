@@ -117,7 +117,7 @@ class Validation_Helper_Test extends TestCase {
 
 		$empty_string_validator
 			->expects( 'validate' )
-			->with( 'https://example.org', 'some settings' )
+			->with( 'https://example.org', null )
 			->once()
 			->andThrow( Invalid_Empty_String_Exception::class );
 		$url_validator
@@ -128,10 +128,7 @@ class Validation_Helper_Test extends TestCase {
 
 		$result = $this->instance->validate_as(
 			'https://example.org',
-			[
-				'empty_string' => 'some settings',
-				'url',
-			]
+			[ 'empty_string', 'url' ]
 		);
 		$this->assertEquals( 'https://example.org', $result );
 	}
