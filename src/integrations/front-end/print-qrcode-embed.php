@@ -13,6 +13,13 @@ use Yoast\WP\SEO\Surfaces\Meta_Surface;
 class Print_QRCode_Embed implements Integration_Interface {
 
 	/**
+	 * The maximum length in characted that we're outputting a QR code for.
+	 *
+	 * @var int
+	 */
+	const MAX_URL_LENGTH = 2953;
+
+	/**
 	 * The meta surface.
 	 *
 	 * @var Meta_Surface
@@ -64,6 +71,15 @@ class Print_QRCode_Embed implements Integration_Interface {
 			return;
 		}
 
+		if ( $this->is_url_too_long( $url ) ) {
+			$home_meta = $this->meta_surface->for_home_page();
+			$url       = $home_meta->canonical;
+		}
+
+		if ( empty( $url ) || $this->is_url_too_long( $url ) ) {
+			return;
+		}
+
 		$alt_text  = __( 'QR Code for current page\'s URL.', 'wordpress-seo' );
 		$text      = __( 'Scan the QR code or go to the URL below to read this article online.', 'wordpress-seo' );
 		$image_url = \trailingslashit( \get_site_url() ) . '?nonce=' . $nonce . '&yoast_qr_code=' . rawurlencode( $url );
@@ -86,5 +102,20 @@ class Print_QRCode_Embed implements Integration_Interface {
 			\esc_html( $url ),
 			\esc_url_raw( $image_url )
 		);
+	}
+
+	/**
+	 * Checks if URL is too long for outputting its QR code.
+	 *
+	 * @param string $url The url under question.
+	 *
+	 * @return bool Whether the url is too long for outputting its QR code
+	 */
+	public function is_url_too_long( $url ) {
+		if ( \strlen( $url ) > self::MAX_URL_LENGTH ) {
+			return true;
+		}
+
+		return false;
 	}
 }
