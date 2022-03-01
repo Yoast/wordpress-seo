@@ -75,10 +75,7 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'default' => '',
 			'types'   => [
 				'empty_string',
-				'regex' => [
-					'pattern' => '/(^[A-Fa-f0-9_-]+$)|content=([\'"])?([A-Fa-f0-9_-]+)(?:\2|[ \/>])/',
-					'groups'  => [ 1, 3 ],
-				],
+				'verification' => [ 'pattern' => '`^[A-Fa-f0-9_-]+$`' ],
 			],
 		],
 		'twitter'                                     		  => [
@@ -520,10 +517,7 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'default' => '',
 			'types'   => [
 				'empty_string',
-				'regex' => [
-					'pattern' => '/(^[A-Za-z0-9_-]+$)|content=([\'"])?([A-Za-z0-9_-]+)(?:\2|[ \/>])/',
-					'groups'  => [ 1, 3 ],
-				],
+				'verification' => [ 'pattern' => '`^[A-Za-z0-9_-]+$`' ],
 			],
 		],
 		'category_base_url'                                   => [
@@ -608,10 +602,7 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'default' => '',
 			'types'   => [
 				'empty_string',
-				'regex' => [
-					'pattern' => '/(^[A-Za-z0-9_-]+$)|content=([\'"])?([A-Za-z0-9_-]+)(?:\2|[ \/>])/',
-					'groups'  => [ 1, 3 ],
-				],
+				'verification' => [ 'pattern' => '`^[A-Za-z0-9_-]+$`' ],
 			],
 		],
 		'has_multiple_authors'                                => [
@@ -668,10 +659,7 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'default' => '',
 			'types'   => [
 				'empty_string',
-				'regex' => [
-					'pattern' => '/(^[A-Fa-f0-9_-]+$)|content=([\'"])?([A-Fa-f0-9_-]+)(?:\2|[ \/>])/',
-					'groups'  => [ 1, 3 ],
-				],
+				'verification' => [ 'pattern' => '`^[A-Fa-f0-9_-]+$`' ],
 			],
 		],
 		'myyoast-oauth'                                       => [
@@ -754,10 +742,7 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'default' => '',
 			'types'   => [
 				'empty_string',
-				'regex' => [
-					'pattern' => '/(^[A-Fa-f0-9_-]+$)|content=([\'"])?([A-Fa-f0-9_-]+)(?:\2|[ \/>])/',
-					'groups'  => [ 1, 3 ],
-				],
+				'verification' => [ 'pattern' => '`^[A-Fa-f0-9_-]+$`' ],
 			],
 		],
 		'zapier_api_key'                                      => [
