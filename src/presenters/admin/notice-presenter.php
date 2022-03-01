@@ -113,7 +113,7 @@ class Notice_Presenter extends Abstract_Presenter {
 		$out .= '</div>';
 
 		if ( ! \is_null( $this->image_filename ) ) {
-			$out .= '<img src="' . \esc_url( plugin_dir_url( WPSEO_FILE ) . 'images/' . $this->image_filename ) . '" alt="" height="60" width="75"/>';
+			$out .= '<img src="' . \esc_url( \plugin_dir_url( \WPSEO_FILE ) . 'images/' . $this->image_filename ) . '" alt="" height="60" width="75"/>';
 		}
 
 		$out .= '</div>';

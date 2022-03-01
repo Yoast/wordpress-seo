@@ -80,7 +80,7 @@ class Installation_Success_Integration implements Integration_Interface {
 			return;
 		}
 
-		if ( \is_network_admin() || \is_plugin_active_for_network( WPSEO_BASENAME ) ) {
+		if ( \is_network_admin() || \is_plugin_active_for_network( \WPSEO_BASENAME ) ) {
 			return;
 		}
 
@@ -126,7 +126,7 @@ class Installation_Success_Integration implements Integration_Interface {
 			'installation-success',
 			'wpseoInstallationSuccess',
 			[
-				'pluginUrl'                 => \esc_url( \plugins_url( '', WPSEO_FILE ) ),
+				'pluginUrl'                 => \esc_url( \plugins_url( '', \WPSEO_FILE ) ),
 				'configurationWorkoutUrl'   => \esc_url( \admin_url( 'admin.php?page=wpseo_workouts#configuration' ) ),
 				'canDoConfigurationWorkout' => \current_user_can( 'wpseo_manage_options' ),
 				'canEditWordPressOptions'   => \current_user_can( 'manage_options' ),

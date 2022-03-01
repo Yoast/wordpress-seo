@@ -160,8 +160,8 @@ class Indexable_To_Postmeta_Helper {
 	/**
 	 * Deletes the noindex post_meta key if no noindex in the indexable. Populates the post_meta key appropriately if there is noindex in the indexable.
 	 *
-	 * @param Indexable $indexable        The Yoast indexable.
-	 * @param string    $post_meta_key    The post_meta key that will be populated.
+	 * @param Indexable $indexable     The Yoast indexable.
+	 * @param string    $post_meta_key The post_meta key that will be populated.
 	 *
 	 * @return void.
 	 */
@@ -183,8 +183,8 @@ class Indexable_To_Postmeta_Helper {
 	/**
 	 * Deletes the nofollow post_meta key if no nofollow in the indexable or if nofollow is false. Populates the post_meta key appropriately if there is a true nofollow in the indexable.
 	 *
-	 * @param Indexable $indexable        The Yoast indexable.
-	 * @param string    $post_meta_key    The post_meta key that will be populated.
+	 * @param Indexable $indexable     The Yoast indexable.
+	 * @param string    $post_meta_key The post_meta key that will be populated.
 	 *
 	 * @return void.
 	 */
@@ -201,8 +201,8 @@ class Indexable_To_Postmeta_Helper {
 	/**
 	 * Deletes the nofollow post_meta key if no nofollow in the indexable or if nofollow is false. Populates the post_meta key appropriately if there is a true nofollow in the indexable.
 	 *
-	 * @param Indexable $indexable        The Yoast indexable.
-	 * @param string    $post_meta_key    The post_meta key that will be populated.
+	 * @param Indexable $indexable     The Yoast indexable.
+	 * @param string    $post_meta_key The post_meta key that will be populated.
 	 *
 	 * @return void.
 	 */

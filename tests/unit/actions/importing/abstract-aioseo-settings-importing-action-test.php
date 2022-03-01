@@ -2,10 +2,9 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Actions\Importing;
 
+use Brain\Monkey;
 use Exception;
 use Mockery;
-use Brain\Monkey;
-use Yoast\WP\SEO\Actions\Importing\Aioseo\Abstract_Aioseo_Settings_Importing_Action;
 use Yoast\WP\SEO\Helpers\Import_Cursor_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Sanitization_Helper;
@@ -187,9 +186,9 @@ class Abstract_Aioseo_Settings_Importing_Action_Test extends TestCase {
 			->once()
 			->andReturn( 'cursor_id' );
 
-		end( $query_results );
-		$last_key = key( $query_results );
-		reset( $query_results );
+		\end( $query_results );
+		$last_key = \key( $query_results );
+		\reset( $query_results );
 
 		$this->import_cursor->expects( 'set_cursor' )
 			->once()

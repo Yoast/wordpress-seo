@@ -129,10 +129,10 @@ class WPSEO_Replace_Vars {
 	/**
 	 * Replace `%%variable_placeholders%%` with their real value based on the current requested page/post/cpt/etc.
 	 *
-	 * @param string $text   The string to replace the variables in.
-	 * @param array  $args   The object some of the replacement values might come from,
-	 *                       could be a post, taxonomy or term.
-	 * @param array  $omit   Variables that should not be replaced by this function.
+	 * @param string $text The string to replace the variables in.
+	 * @param array  $args The object some of the replacement values might come from,
+	 *                     could be a post, taxonomy or term.
+	 * @param array  $omit Variables that should not be replaced by this function.
 	 *
 	 * @return string
 	 */
@@ -783,9 +783,9 @@ class WPSEO_Replace_Vars {
 	/**
 	 * Retrieve a post/page/cpt's custom taxonomies for use as replacement string.
 	 *
-	 * @param string $var_to_replace    The complete variable to replace which includes the name of
-	 *                                  the custom taxonomy which value(s) is to be retrieved.
-	 * @param bool   $single            Whether to retrieve only the first or all values for the taxonomy.
+	 * @param string $var_to_replace The complete variable to replace which includes the name of
+	 *                               the custom taxonomy which value(s) is to be retrieved.
+	 * @param bool   $single         Whether to retrieve only the first or all values for the taxonomy.
 	 *
 	 * @return string|null
 	 */
