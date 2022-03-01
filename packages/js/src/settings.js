@@ -24,6 +24,7 @@ if ( wpseoScriptData ) {
 	}
 
 	domReady( () => {
+		// Init social settings on DOM ready because it relies on global WP APIs
 		if ( typeof wpseoScriptData.social !== "undefined" ) {
 			initSocialSettings();
 		}
