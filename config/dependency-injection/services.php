@@ -7,6 +7,7 @@ use WPSEO_Addon_Manager;
 use WPSEO_Admin_Asset_Manager;
 use WPSEO_Breadcrumbs;
 use WPSEO_Frontend;
+use WPSEO_Options;
 use WPSEO_Replace_Vars;
 use WPSEO_Ryte;
 use WPSEO_Shortlinker;
@@ -34,6 +35,7 @@ $container->register( WPSEO_Addon_Manager::class, WPSEO_Addon_Manager::class )->
 $container->register( WPSEO_Shortlinker::class, WPSEO_Shortlinker::class )->setFactory( [ Wrapper::class, 'get_shortlinker' ] )->setPublic( true );
 $container->register( WPSEO_Ryte::class, WPSEO_Ryte::class )->setFactory( [ Wrapper::class, 'get_ryte' ] )->setPublic( true );
 $container->register( WPSEO_Utils::class, WPSEO_Utils::class )->setFactory( [ Wrapper::class, 'get_utils' ] )->setPublic( true );
+$container->register( WPSEO_Options::class, WPSEO_Options::class )->setFactory( [ Wrapper::class, 'get_options' ] )->setPublic( true );
 
 // Backwards-compatibility classes in the global namespace.
 $container->register( WPSEO_Breadcrumbs::class, WPSEO_Breadcrumbs::class )->setAutowired( true )->setPublic( true );

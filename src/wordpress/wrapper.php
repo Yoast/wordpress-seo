@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\WordPress;
 use wpdb;
 use WPSEO_Addon_Manager;
 use WPSEO_Admin_Asset_Manager;
+use WPSEO_Options;
 use WPSEO_Replace_Vars;
 use WPSEO_Ryte;
 use WPSEO_Shortlinker;
@@ -80,5 +81,14 @@ class Wrapper {
 	 */
 	public static function get_utils() {
 		return new WPSEO_Utils();
+	}
+
+	/**
+	 * Factory function for the options class.
+	 *
+	 * @return WPSEO_Options
+	 */
+	public static function get_options() {
+		return WPSEO_Options::get_instance();
 	}
 }
