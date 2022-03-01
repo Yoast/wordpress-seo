@@ -1,4 +1,5 @@
 /* global wpseoScriptData */
+import domReady from "@wordpress/dom-ready";
 import jQuery from "jquery";
 import initAdmin from "./initializers/admin";
 import initAdminMedia from "./initializers/admin-media";
@@ -22,9 +23,11 @@ if ( wpseoScriptData ) {
 		initSearchAppearance();
 	}
 
-	if ( typeof wpseoScriptData.social !== "undefined" ) {
-		initSocialSettings();
-	}
+	domReady( () => {
+		if ( typeof wpseoScriptData.social !== "undefined" ) {
+			initSocialSettings();
+		}
+	} );
 }
 
 
