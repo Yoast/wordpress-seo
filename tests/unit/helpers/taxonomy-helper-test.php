@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class Robots_Helper_Test
+ * Class Taxonomy_Helper_Test.
  *
  * @group helpers
  *
@@ -104,6 +104,34 @@ class Taxonomy_Helper_Test extends TestCase {
 			->andReturn( [] );
 
 		$this->instance->get_public_taxonomies( 'objects' );
+	}
+
+	/**
+	 * Tests that the WordPress function is called with the expected parameters.
+	 *
+	 * @covers ::get_taxonomies
+	 */
+	public function test_get_taxonomies() {
+		Functions\expect( 'get_taxonomies' )
+			->once()
+			->with( [], 'names' )
+			->andReturn( [] );
+
+		$this->instance->get_taxonomies();
+	}
+
+	/**
+	 * Tests that the WordPress function is called with the expected parameters.
+	 *
+	 * @covers ::get_taxonomies
+	 */
+	public function test_get_taxonomies_with_objects() {
+		Functions\expect( 'get_taxonomies' )
+			->once()
+			->with( [], 'objects' )
+			->andReturn( [] );
+
+		$this->instance->get_taxonomies( 'objects' );
 	}
 
 	/**

@@ -2,6 +2,10 @@
 
 namespace Yoast\WP\SEO\Services\Options;
 
+use Yoast\WP\SEO\Config\Schema_Types;
+use Yoast\WP\SEO\Config\Separator_Options;
+use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
+
 /**
  * The single site options service class.
  */
@@ -86,8 +90,15 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'types'   => [ 'boolean' ],
 		],
 		'twitter_card_type'                                   => [
-			'default' => '',
-			'types'   => [ 'string' ],
+			'default' => 'summary_large_image',
+			'types'   => [
+				'in_array' => [
+					'allow' => [
+						'summary',
+						'summary_large_image',
+					],
+				],
+			],
 		],
 		'twitter_site'                                        => [
 			'default' => '',
@@ -246,8 +257,15 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'types'   => [ 'text_field' ],
 		],
 		'company_or_person'                                   => [
-			'default' => '',
-			'types'   => [ 'string' ],
+			'default' => 'company',
+			'types'   => [
+				'in_array' => [
+					'allow' => [
+						'company',
+						'person',
+					],
+				],
+			],
 		],
 		'company_or_person_user_id'                           => [
 			'default' => '',
@@ -362,9 +380,17 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'default' => '',
 			'types'   => [ 'text_field' ],
 		],
-		'post_types-<PostTypeName>-maintax'                   => [
+		'post_types_<PostTypeName>_maintax'                   => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [
+				'in_array_provider' => [
+					'provider' => [
+						'class'  => Taxonomy_Helper::class,
+						'method' => 'get_taxonomies',
+					],
+				],
+				'is_equal',
+			],
 		],
 		'rssafter'                                            => [
 			'default' => '',
@@ -375,16 +401,34 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'types'   => [ 'string' ],
 		],
 		'schema-article-type-<PostTypeName>'                  => [
-			'default' => '',
-			'types'   => [ 'string' ],
+			'default' => 'None',
+			'types'   => [
+				'in_array_provider' => [
+					'provider' => [
+						'class'  => Schema_Types::class,
+						'method' => 'get_article_types',
+					],
+				],
+			],
 		],
 		'schema-page-type-<PostTypeName>'                     => [
-			'default' => '',
-			'types'   => [ 'string' ],
+			'default' => 'WebPage',
+			'types'   => [
+				'in_array_key' => [
+					'allow' => Schema_Types::PAGE_TYPES,
+				],
+			],
 		],
 		'separator'                                           => [
-			'default' => '',
-			'types'   => [ 'string' ],
+			'default' => 'sc-dash',
+			'types'   => [
+				'in_array_provider' => [
+					'provider' => [
+						'class'  => Separator_Options::class,
+						'method' => 'get_separator_keys',
+					],
+				],
+			],
 		],
 		'social-description-<PostTypeName>'                   => [
 			'default' => '',
@@ -594,7 +638,12 @@ class Site_Options_Service extends Abstract_Options_Service {
 		],
 		'environment_type'                                    => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [
+				'empty_string',
+				'in_array' => [
+					'allow' => [ 'production', 'staging', 'development' ],
+				],
+			],
 		],
 		'first_activated_on'                                  => [
 			'default' => '',
@@ -616,7 +665,12 @@ class Site_Options_Service extends Abstract_Options_Service {
 		],
 		'has_multiple_authors'                                => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [
+				'empty_string',
+				'in_array' => [
+					'allow' => [ true, false ],
+				],
+			],
 		],
 		'home_url'                                            => [
 			'default' => '',
@@ -714,7 +768,19 @@ class Site_Options_Service extends Abstract_Options_Service {
 		],
 		'site_type'                                           => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [
+				'empty_string',
+				'in_array' => [
+					'allow' => [
+						'blog',
+						'shop',
+						'news',
+						'smallBusiness',
+						'corporateOther',
+						'personalOther',
+					],
+				],
+			],
 		],
 		'tag_base_url'                                        => [
 			'default' => '',
