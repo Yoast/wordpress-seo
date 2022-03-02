@@ -5,7 +5,6 @@ namespace Yoast\WP\SEO\Integrations\Front_End;
 use Exception;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Conditionals\Print_QRCode_Enabled_Conditional;
-use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use YoastSEO_Vendor\chillerlan\QRCode\QRCode;
 use YoastSEO_Vendor\chillerlan\QRCode\QROptions;
@@ -14,24 +13,6 @@ use YoastSEO_Vendor\chillerlan\QRCode\QROptions;
  * Class that renders a QR code for URLs.
  */
 class Print_QRCode_Render implements Integration_Interface {
-
-	/**
-	 * The Options_Helper instance.
-	 *
-	 * @var Options_Helper
-	 */
-	private $options_helper;
-
-	/**
-	 * Print_QRCode_Embed constructor.
-	 *
-	 * @param Options_Helper $options_helper The options helper.
-	 */
-	public function __construct(
-		Options_Helper $options_helper
-	) {
-		$this->options_helper = $options_helper;
-	}
 
 	/**
 	 * Register the hooks.
@@ -63,8 +44,7 @@ class Print_QRCode_Render implements Integration_Interface {
 		}
 
 		$code = \filter_input( INPUT_GET, 'code', FILTER_SANITIZE_STRING );
-		$salt = $this->options_helper->get( 'print_qr_code_salt' );
-		if ( \md5( $salt . $url ) !== $code ) {
+		if ( \wp_hash( $url ) !== $code ) {
 			\header( 'Content-Type: text/plain', true, 400 );
 			echo \esc_html( __( 'This is not a QR code endpoint for public consumption.', 'wordpress-seo' ) );
 			exit();
