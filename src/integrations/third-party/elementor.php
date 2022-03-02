@@ -199,7 +199,7 @@ class Elementor implements Integration_Interface {
 		$document->start_controls_section(
 			'yoast_temporary_section',
 			[
-				'label' => \__( 'Yoast SEO', 'wordpress-seo' ),
+				'label' => \__( 'Loading Yoast SEO...', 'wordpress-seo' ),
 				'tab'   => self::YOAST_TAB,
 			]
 		);
