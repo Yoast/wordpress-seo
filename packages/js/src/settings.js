@@ -19,16 +19,15 @@ if ( wpseoScriptData ) {
 	if ( isSearchAppearancePage || typeof wpseoScriptData.dismissedAlerts !== "undefined" ) {
 		initSettingsStore();
 	}
-	if ( isSearchAppearancePage ) {
-		initSearchAppearance();
-	}
 
 	domReady( () => {
+		if ( isSearchAppearancePage ) {
+			initSearchAppearance();
+		}
+
 		// Init social settings on DOM ready because it relies on global WP APIs
 		if ( typeof wpseoScriptData.social !== "undefined" ) {
 			initSocialSettings();
 		}
 	} );
 }
-
-
