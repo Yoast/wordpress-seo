@@ -44,7 +44,7 @@ class Print_QRCode_Render implements Integration_Interface {
 		}
 
 		$code = \filter_input( INPUT_GET, 'code', FILTER_SANITIZE_STRING );
-		if ( \wp_hash( $url ) !== $code ) {
+		if ( ! \hash_equals( \wp_hash( $url ), $code ) ) {
 			\header( 'Content-Type: text/plain', true, 400 );
 			echo \esc_html( __( 'This is not a QR code endpoint for public consumption.', 'wordpress-seo' ) );
 			exit();
