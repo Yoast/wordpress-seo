@@ -16,3 +16,826 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#. Translators: %1$s expands to the numeric Flesch reading ease score,
+#. %2$s to a link to a Yoast.com article about Flesch reading ease score,
+#. %3$s to the easyness of reading,
+#. %4$s expands to a note about the flesch reading score.
+#: js/assessments/readability/fleschReadingEaseAssessment.js:58
+#, javascript-format
+msgid ""
+"The copy scores %1$s in the %2$s test, which is considered %3$s to read. %4$s"
+msgstr ""
+
+#: js/assessments/readability/fleschReadingEaseAssessment.js:61
+msgid "very easy"
+msgstr ""
+
+#: js/assessments/readability/fleschReadingEaseAssessment.js:68
+msgid "easy"
+msgstr ""
+
+#: js/assessments/readability/fleschReadingEaseAssessment.js:75
+msgid "fairly easy"
+msgstr ""
+
+#: js/assessments/readability/fleschReadingEaseAssessment.js:82
+msgid "ok"
+msgstr ""
+
+#: js/assessments/readability/fleschReadingEaseAssessment.js:89
+msgid "fairly difficult"
+msgstr ""
+
+#: js/assessments/readability/fleschReadingEaseAssessment.js:90
+msgid "Try to make shorter sentences to improve readability."
+msgstr ""
+
+#: js/assessments/readability/fleschReadingEaseAssessment.js:97
+msgid "difficult"
+msgstr ""
+
+#: js/assessments/readability/fleschReadingEaseAssessment.js:98
+#: js/assessments/readability/fleschReadingEaseAssessment.js:105
+msgid ""
+"Try to make shorter sentences, using less difficult words to improve "
+"readability."
+msgstr ""
+
+#: js/assessments/readability/fleschReadingEaseAssessment.js:104
+msgid "very difficult"
+msgstr ""
+
+#: js/assessments/readability/paragraphTooLongAssessment.js:51
+msgid "None of the paragraphs are too long, which is great."
+msgstr ""
+
+#. Translators: %1$d expands to the number of paragraphs, %2$d expands to the recommended value
+#: js/assessments/readability/paragraphTooLongAssessment.js:58
+#, javascript-format
+msgid ""
+"%1$d of the paragraphs contains more than the recommended maximum of %2$d "
+"words. Are you sure all information is about the same topic, and therefore "
+"belongs in one single paragraph?"
+msgid_plural ""
+"%1$d of the paragraphs contain more than the recommended maximum of %2$d "
+"words. Are you sure all information within each of these paragraphs is about "
+"the same topic, and therefore belongs in a single paragraph?"
+msgstr[0] ""
+msgstr[1] ""
+
+#. Translators: %1$s expands to the number of sentences in passive voice, %2$s expands to a link on yoast.com,
+#. %3$s expands to the anchor end tag, %4$s expands to the recommended value.
+#: js/assessments/readability/passiveVoiceAssessment.js:47
+#, javascript-format
+msgid ""
+"%1$s of the sentences contain %2$spassive voice%3$s, which is less than or "
+"equal to the recommended maximum of %4$s."
+msgstr ""
+
+#. Translators: %1$s expands to the number of sentences in passive voice, %2$s expands to a link on yoast.com,
+#. %3$s expands to the anchor end tag, %4$s expands to the recommended value.
+#: js/assessments/readability/passiveVoiceAssessment.js:57
+#, javascript-format
+msgid ""
+"%1$s of the sentences contain %2$spassive voice%3$s, which is more than the "
+"recommended maximum of %4$s. Try to use their active counterparts."
+msgstr ""
+
+#. Translators: %1$d expands to the number of instances where 3 or more consecutive sentences start with the same word.
+#. %2$d expands to the number of consecutive sentences starting with the same word.
+#: js/assessments/readability/sentenceBeginningsAssessment.js:45
+#, javascript-format
+msgid ""
+"The text contains %2$d consecutive sentences starting with the same word. "
+"Try to mix things up!"
+msgid_plural ""
+"The text contains %1$d instances where %2$d or more consecutive sentences "
+"start with the same word. Try to mix things up!"
+msgstr[0] ""
+msgstr[1] ""
+
+#. Translators: %1$s expands to a link on yoast.com, %2$s expands to the recommended maximum sentence length,
+#. %3$s expands to the anchor end tag.
+#: js/assessments/readability/sentenceLengthInDescriptionAssessment.js:39
+#, javascript-format
+msgid "The meta description contains no sentences %1$sover %2$s words%3$s."
+msgstr ""
+
+#. Translators: %1$d expands to number of sentences, %2$s expands to a link on yoast.com,
+#. %3$s expands to the recommended maximum sentence length, %4$s expands to the anchor end tag.
+#: js/assessments/readability/sentenceLengthInDescriptionAssessment.js:47
+#, javascript-format
+msgid ""
+"The meta description contains %1$d sentence %2$sover %3$s words%4$s. Try to "
+"shorten this sentence."
+msgid_plural ""
+"The meta description contains %1$d sentences %2$sover %3$s words%4$s. Try to "
+"shorten these sentences."
+msgstr[0] ""
+msgstr[1] ""
+
+#. Translators: %1$d expands to percentage of sentences, %2$s expands to a link on yoast.com,
+#. %3$s expands to the recommended maximum sentence length, %4$s expands to the anchor end tag,
+#. %5$s expands to the recommended maximum percentage.
+#: js/assessments/readability/sentenceLengthInTextAssessment.js:95
+#, javascript-format
+msgid ""
+"%1$s of the sentences contain %2$smore than %3$s words%4$s, which is less "
+"than or equal to the recommended maximum of %5$s."
+msgstr ""
+
+#. Translators: %1$d expands to percentage of sentences, %2$s expands to a link on yoast.com,
+#. %3$s expands to the recommended maximum sentence length, %4$s expands to the anchor end tag,
+#. %5$s expands to the recommended maximum percentage.
+#: js/assessments/readability/sentenceLengthInTextAssessment.js:101
+#, javascript-format
+msgid ""
+"%1$s of the sentences contain %2$smore than %3$s words%4$s, which is more "
+"than the recommended maximum of %5$s. Try to shorten the sentences."
+msgstr ""
+
+#. Translators: %1$s expands to a link to https://yoa.st/headings, %2$s expands to the link closing tag.
+#: js/assessments/readability/subheadingDistributionTooLongAssessment.js:135
+#: js/assessments/readability/subheadingDistributionTooLongAssessment.js:182
+#, javascript-format
+msgid "Great job with using %1$ssubheadings%2$s!"
+msgstr ""
+
+#. Translators: %1$d expands to the number of subheadings, %2$d expands to the recommended number
+#. of words following a subheading, %3$s expands to a link to https://yoa.st/headings,
+#. %4$s expands to the link closing tag.
+#.
+#: js/assessments/readability/subheadingDistributionTooLongAssessment.js:148
+#: js/assessments/readability/subheadingDistributionTooLongAssessment.js:162
+#, javascript-format
+msgid ""
+"%1$d section of your text is longer than %2$d words and is not separated by "
+"any subheadings. Add %3$ssubheadings%4$s to improve readability."
+msgid_plural ""
+"%1$d sections of your text are longer than %2$d words and are not separated "
+"by any subheadings. Add %3$ssubheadings%4$s to improve readability."
+msgstr[0] ""
+msgstr[1] ""
+
+#. Translators: %1$s expands to a link to https://yoa.st/headings, %2$s expands to the link closing tag.
+#: js/assessments/readability/subheadingDistributionTooLongAssessment.js:172
+#, javascript-format
+msgid ""
+"You are not using any subheadings, although your text is rather long. Try "
+"and add  some %1$ssubheadings%2$s."
+msgstr ""
+
+#. Translators: %1$s expands to a link to https://yoa.st/headings, %2$s expands to the link closing tag.
+#: js/assessments/readability/subheadingDistributionTooLongAssessment.js:190
+#, javascript-format
+msgid ""
+"You are not using any %1$ssubheadings%2$s, but your text is short enough and "
+"probably doesn't need them."
+msgstr ""
+
+#: js/assessments/readability/textPresenceAssessment.js:16
+msgid ""
+"You have far too little content, please add some content to enable a good "
+"analysis."
+msgstr ""
+
+#. Translators: %1$s expands to the number of sentences containing transition words, %2$s expands to a link on yoast.com,
+#. %3$s expands to the anchor end tag, %4$s expands to the recommended value.
+#: js/assessments/readability/transitionWordsAssessment.js:56
+#, javascript-format
+msgid ""
+"%1$s of the sentences contain a %2$stransition word%3$s or phrase, which is "
+"less than the recommended minimum of %4$s."
+msgstr ""
+
+#. Translators: %1$s expands to the number of sentences containing transition words, %2$s expands to a link on yoast.com,
+#. %3$s expands to the anchor end tag.
+#: js/assessments/readability/transitionWordsAssessment.js:66
+#, javascript-format
+msgid ""
+"%1$s of the sentences contain a %2$stransition word%3$s or phrase, which is "
+"great."
+msgstr ""
+
+#. Translators: %1$s expands to the percentage of complex words, %2$s expands to a link on yoast.com,
+#. %3$d expands to the recommended maximum number of syllables,
+#. %4$s expands to the anchor end tag, %5$s expands to the recommended maximum number of syllables.
+#: js/assessments/readability/wordComplexityAssessment.js:55
+#, javascript-format
+msgid ""
+"%1$s of the words contain %2$sover %3$s syllables%4$s, which is less than or "
+"equal to the recommended maximum of %5$s."
+msgstr ""
+
+#. Translators: %1$s expands to the percentage of complex words, %2$s expands to a link on yoast.com,
+#. %3$d expands to the recommended maximum number of syllables,
+#. %4$s expands to the anchor end tag, %5$s expands to the recommended maximum number of syllables.
+#: js/assessments/readability/wordComplexityAssessment.js:66
+#, javascript-format
+msgid ""
+"%1$s of the words contain %2$sover %3$s syllables%4$s, which is more than "
+"the recommended maximum of %5$s."
+msgstr ""
+
+#. Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag
+#: js/assessments/seo/InternalLinksAssessment.js:80
+#, javascript-format
+msgid ""
+"No %1$sinternal links%2$s appear in this page, consider adding some as "
+"appropriate."
+msgstr ""
+
+#. Translators: %1$s expands the number of internal links, %2$s expands to a link on yoast.com,
+#. %3$s expands to the anchor end tag
+#: js/assessments/seo/InternalLinksAssessment.js:89
+#, javascript-format
+msgid "This page has %1$s %2$sinternal link(s)%3$s, all nofollowed."
+msgstr ""
+
+#. Translators: %1$s expands to the number of internal links, %2$s expands to a link on yoast.com,
+#. %3$s expands to the anchor end tag
+#: js/assessments/seo/InternalLinksAssessment.js:98
+#, javascript-format
+msgid "This page has %1$s %2$sinternal link(s)%3$s."
+msgstr ""
+
+#. Translators: %1$s expands to the number of nofollow links, %2$s expands to a link on yoast.com,
+#. %3$s expands to the anchor end tag, %4$s to the number of internal links
+#: js/assessments/seo/InternalLinksAssessment.js:106
+#, javascript-format
+msgid ""
+"This page has %1$s nofollowed %2$sinternal link(s)%3$s and %4$s normal "
+"internal link(s)."
+msgstr ""
+
+#. Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag.
+#: js/assessments/seo/IntroductionKeywordAssessment.js:76
+#, javascript-format
+msgid "The focus keyword appears in the %1$sfirst paragraph%2$s of the copy."
+msgstr ""
+
+#. Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag.
+#: js/assessments/seo/IntroductionKeywordAssessment.js:83
+#, javascript-format
+msgid ""
+"The focus keyword doesn't appear in the %1$sfirst paragraph%2$s of the copy. "
+"Make sure the topic is clear immediately."
+msgstr ""
+
+#. Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag.
+#: js/assessments/seo/KeyphraseLengthAssessment.js:71
+#, javascript-format
+msgid ""
+"No %1$sfocus keyword%2$s was set for this page. If you do not set a focus "
+"keyword, no score can be calculated."
+msgstr ""
+
+#. Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag
+#: js/assessments/seo/KeyphraseLengthAssessment.js:79
+#, javascript-format
+msgid "The %1$skeyphrase%2$s is over 10 words, a keyphrase should be shorter."
+msgstr ""
+
+#: js/assessments/seo/KeywordDensityAssessment.js:129
+#, javascript-format
+msgid ""
+"The exact-match %3$skeyword density%4$s is %1$s, which is too low; the focus "
+"keyword was found %2$d times."
+msgstr ""
+
+#: js/assessments/seo/KeywordDensityAssessment.js:142
+#, javascript-format
+msgid ""
+"The exact-match %3$skeyword density%4$s is %1$s, which is too low; the focus "
+"keyword was found %2$d time."
+msgid_plural ""
+"The exact-match %3$skeyword density%4$s is %1$s, which is too low; the focus "
+"keyword was found %2$d times."
+msgstr[0] ""
+msgstr[1] ""
+
+#: js/assessments/seo/KeywordDensityAssessment.js:156
+#, javascript-format
+msgid ""
+"The exact-match %3$skeyword density%4$s is %1$s, which is great; the focus "
+"keyword was found %2$d time."
+msgid_plural ""
+"The exact-match %3$skeyword density%4$s is %1$s, which is great; the focus "
+"keyword was found %2$d times."
+msgstr[0] ""
+msgstr[1] ""
+
+#: js/assessments/seo/KeywordDensityAssessment.js:171
+#, javascript-format
+msgid ""
+"The exact-match %4$skeyword density%5$s is %1$s, which is over the advised "
+"%3$s maximum; the focus keyword was found %2$d time."
+msgid_plural ""
+"The exact-match %4$skeyword density%5$s is %1$s, which is over the advised "
+"%3$s maximum; the focus keyword was found %2$d times."
+msgstr[0] ""
+msgstr[1] ""
+
+#: js/assessments/seo/KeywordDensityAssessment.js:186
+#, javascript-format
+msgid ""
+"The exact-match %4$skeyword density%5$s is %1$s, which is way over the "
+"advised %3$s maximum; the focus keyword was found %2$d time."
+msgid_plural ""
+"The exact-match %4$skeyword density%5$s is %1$s, which is way over the "
+"advised %3$s maximum; the focus keyword was found %2$d times."
+msgstr[0] ""
+msgstr[1] ""
+
+#. Translators: %1$s opens a link to a Yoast article about stop words, %2$s closes the link
+#: js/assessments/seo/keywordStopWordsAssessment.js:19
+#, javascript-format
+msgid ""
+"The focus keyword contains a stop word. This may or may not be wise "
+"depending on the circumstances. %1$sLearn more about the stop words%2$s."
+msgid_plural ""
+"The focus keyword contains %3$d stop words. This may or may not be wise "
+"depending on the circumstances. %1$sLearn more about the stop words%2$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#. Translators: %1$s expands to a link to a Yoast.com article about keyword and topic distribution,
+#. %2$s expands to the anchor end tag
+#: js/assessments/seo/LargestKeywordDistanceAssessment.js:81
+#, javascript-format
+msgid ""
+"Use your keyword or synonyms more often in your text so that we can check "
+"%1$skeyword distribution%2$s."
+msgstr ""
+
+#. Translators: %1$s expands to a link to a Yoast.com article about keyword and topic distribution,
+#. %2$s expands to the anchor end tag
+#: js/assessments/seo/LargestKeywordDistanceAssessment.js:90
+#, javascript-format
+msgid ""
+"Large parts of your text do not contain the keyword. Try to %1$sdistribute"
+"%2$s the keyword more evenly."
+msgid_plural ""
+"Large parts of your text do not contain the keyword or its synonyms. Try to "
+"%1$sdistribute%2$s them more evenly."
+msgstr[0] ""
+msgstr[1] ""
+
+#. Translators: %1$s expands to a link to a Yoast.com article about keyword and topic distribution,
+#. %2$s expands to the anchor end tag
+#: js/assessments/seo/LargestKeywordDistanceAssessment.js:99
+#, javascript-format
+msgid ""
+"Some parts of your text do not contain the keyword. Try to %1$sdistribute"
+"%2$s the keyword more evenly."
+msgid_plural ""
+"Some parts of your text do not contain the keyword or its synonyms. Try to "
+"%1$sdistribute%2$s them more evenly."
+msgstr[0] ""
+msgstr[1] ""
+
+#. Translators: %1$s expands to a link to a Yoast.com article about keyword and topic distribution,
+#. %2$s expands to the anchor end tag
+#: js/assessments/seo/LargestKeywordDistanceAssessment.js:107
+#, javascript-format
+msgid ""
+"Your keyword is %1$sdistributed%2$s evenly throughout the text. That's great."
+msgid_plural ""
+"Your keyword and its synonyms are %1$sdistributed%2$s evenly throughout the "
+"text. That's great."
+msgstr[0] ""
+msgstr[1] ""
+
+#. Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag.
+#: js/assessments/seo/MetaDescriptionKeywordAssessment.js:73
+#, javascript-format
+msgid ""
+"A meta description has been specified, but it %1$sdoes not contain the focus "
+"keyword%2$s."
+msgstr ""
+
+#. Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag
+#: js/assessments/seo/metaDescriptionLengthAssessment.js:96
+#, javascript-format
+msgid ""
+"No %1$smeta description%2$s has been specified. Search engines will display "
+"copy from the page instead."
+msgstr ""
+
+#. Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag,
+#. %3$d expands to the number of characters in the meta description, %4$d expands to
+#. the total available number of characters in the meta description
+#: js/assessments/seo/metaDescriptionLengthAssessment.js:104
+#, javascript-format
+msgid ""
+"The %1$smeta description%2$s is under %3$d characters long. However, up to "
+"%4$d characters are available."
+msgstr ""
+
+#. Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag,
+#. %3$d expands to	the total available number of characters in the meta description
+#: js/assessments/seo/metaDescriptionLengthAssessment.js:111
+#, javascript-format
+msgid ""
+"The %1$smeta description%2$s is over %3$d characters. Reducing the length "
+"will ensure the entire description will be visible."
+msgstr ""
+
+#. Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag
+#: js/assessments/seo/metaDescriptionLengthAssessment.js:117
+#, javascript-format
+msgid "The %1$smeta description%2$s has a nice length."
+msgstr ""
+
+#. Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag
+#: js/assessments/seo/outboundLinksAssessment.js:93
+#, javascript-format
+msgid ""
+"No %1$soutbound links%2$s appear in this page, consider adding some as "
+"appropriate."
+msgstr ""
+
+#. Translators: %1$s expands the number of outbound links, %2$s expands to a link on yoast.com,
+#. %3$s expands to the anchor end tag
+#: js/assessments/seo/outboundLinksAssessment.js:99
+#, javascript-format
+msgid "This page has %1$s %2$soutbound link(s)%3$s, all nofollowed."
+msgstr ""
+
+#. Translators: %1$s expands to the number of nofollow links, %2$s expands to a link on yoast.com,
+#. %3$s expands to the anchor end tag, %4$s to the number of outbound links
+#: js/assessments/seo/outboundLinksAssessment.js:105
+#, javascript-format
+msgid ""
+"This page has %1$s nofollowed %2$soutbound link(s)%3$s and %4$s normal "
+"outbound link(s)."
+msgstr ""
+
+#. Translators: %1$s expands to the number of outbound links, %2$s expands to a link on yoast.com,
+#. %3$s expands to the anchor end tag
+#: js/assessments/seo/outboundLinksAssessment.js:111
+#, javascript-format
+msgid "This page has %1$s %2$soutbound link(s)%3$s."
+msgstr ""
+
+#. Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag
+#: js/assessments/seo/pageTitleWidthAssessment.js:92
+#, javascript-format
+msgid ""
+"The %1$sSEO title%2$s is too short. Use the space to add keyword variations "
+"or create compelling call-to-action copy."
+msgstr ""
+
+#. Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag
+#: js/assessments/seo/pageTitleWidthAssessment.js:97
+#, javascript-format
+msgid "The %1$sSEO title%2$s has a nice length."
+msgstr ""
+
+#. Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag
+#: js/assessments/seo/pageTitleWidthAssessment.js:102
+#, javascript-format
+msgid "The %1$sSEO title%2$s is wider than the viewable limit."
+msgstr ""
+
+#. Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag
+#: js/assessments/seo/pageTitleWidthAssessment.js:106
+#, javascript-format
+msgid "Please create an %1$sSEO title%2$s."
+msgstr ""
+
+#. Translators: %1$d expands to the number of subheadings containing the keyword, %2$d expands to the
+#. total number of subheadings, %3$s expands to a link on yoast.com, %4$s expands to the anchor end tag
+#: js/assessments/seo/subheadingsKeywordAssessment.js:89
+#, javascript-format
+msgid ""
+"The focus keyword appears in %1$d (out of %2$d) %3$ssubheadings%4$s in your "
+"copy."
+msgstr ""
+
+#. Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag
+#: js/assessments/seo/subheadingsKeywordAssessment.js:94
+#, javascript-format
+msgid ""
+"You have not used the focus keyword in any %1$ssubheading%2$s (such as an "
+"H2) in your copy."
+msgstr ""
+
+#. Translators: %1$d expands to the number of words in the text.
+#. Translators: %1$d expands to the number of words in the text
+#: js/assessments/seo/taxonomyTextLengthAssessment.js:18
+#: js/assessments/seo/taxonomyTextLengthAssessment.js:29
+#: js/assessments/seo/taxonomyTextLengthAssessment.js:40
+#: js/assessments/seo/taxonomyTextLengthAssessment.js:51
+#: js/assessments/seo/taxonomyTextLengthAssessment.js:62
+#: js/assessments/seo/textLengthAssessment.js:90
+#: js/assessments/seo/textLengthAssessment.js:98
+#: js/assessments/seo/textLengthAssessment.js:106
+#: js/assessments/seo/textLengthAssessment.js:114
+#, javascript-format
+msgid "The text contains %1$d word."
+msgid_plural "The text contains %1$d words."
+msgstr[0] ""
+msgstr[1] ""
+
+#. Translators: The preceding sentence is "The text contains x words.", %2$s expands to a link on yoast.com,
+#. %3$s expands to the anchor end tag,	%4$s expands to the recommended minimum of words.
+#: js/assessments/seo/taxonomyTextLengthAssessment.js:21
+#: js/assessments/seo/textLengthAssessment.js:93
+#, javascript-format
+msgid ""
+"This is more than or equal to the %2$srecommended minimum%3$s of %4$d word."
+msgid_plural ""
+"This is more than or equal to the %2$srecommended minimum%3$s of %4$d words."
+msgstr[0] ""
+msgstr[1] ""
+
+#. Translators: The preceding sentence is "The text contains x words.", %2$s expands to a link on yoast.com,
+#. %3$s expands to the anchor end tag, %4$s expands to the recommended minimum of words.
+#: js/assessments/seo/taxonomyTextLengthAssessment.js:32
+#: js/assessments/seo/textLengthAssessment.js:101
+#, javascript-format
+msgid ""
+"This is slightly below the %2$srecommended minimum%3$s of %4$d word. Add a "
+"bit more copy."
+msgid_plural ""
+"This is slightly below the %2$srecommended minimum%3$s of %4$d words. Add a "
+"bit more copy."
+msgstr[0] ""
+msgstr[1] ""
+
+#. Translators: The preceding sentence is "The text contains x words.", %2$s expands to a link on yoast.com,
+#. %3$s expands to the anchor end tag, %4$s expands to the recommended minimum of words.
+#: js/assessments/seo/taxonomyTextLengthAssessment.js:43
+#: js/assessments/seo/taxonomyTextLengthAssessment.js:54
+#: js/assessments/seo/textLengthAssessment.js:109
+#, javascript-format
+msgid ""
+"This is below the %2$srecommended minimum%3$s of %4$d word. Add more content "
+"that is relevant for the topic."
+msgid_plural ""
+"This is below the %2$srecommended minimum%3$s of %4$d words. Add more "
+"content that is relevant for the topic."
+msgstr[0] ""
+msgstr[1] ""
+
+#. Translators: The preceding sentence is "The text contains x words.", %2$s expands to a link on yoast.com,
+#. %3$s expands to the anchor end tag,  %4$s expands to the recommended minimum of words.
+#: js/assessments/seo/taxonomyTextLengthAssessment.js:65
+#: js/assessments/seo/textLengthAssessment.js:117
+#, javascript-format
+msgid ""
+"This is far below the %2$srecommended minimum%3$s of %4$d word. Add more "
+"content that is relevant for the topic."
+msgid_plural ""
+"This is far below the %2$srecommended minimum%3$s of %4$d words. Add more "
+"content that is relevant for the topic."
+msgstr[0] ""
+msgstr[1] ""
+
+#. Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag
+#: js/assessments/seo/TextCompetingLinksAssessment.js:83
+#, javascript-format
+msgid ""
+"You're %1$slinking to another page with the focus keyword%2$s you want this "
+"page to rank for. Consider changing that if you truly want this page to rank."
+msgstr ""
+
+#. Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag
+#: js/assessments/seo/textImagesAssessment.js:101
+#, javascript-format
+msgid ""
+"No %1$simages%2$s appear in this page, consider adding some as appropriate."
+msgstr ""
+
+#: js/assessments/seo/textImagesAssessment.js:105
+#, javascript-format
+msgid ""
+"The %1$simages%2$s on this page contain alt attributes with the focus "
+"keyword."
+msgstr ""
+
+#: js/assessments/seo/textImagesAssessment.js:109
+#, javascript-format
+msgid ""
+"The %1$simages%2$s on this page do not have alt attributes containing the "
+"focus keyword."
+msgstr ""
+
+#: js/assessments/seo/textImagesAssessment.js:113
+#, javascript-format
+msgid "The %1$simages%2$s on this page contain alt attributes."
+msgstr ""
+
+#: js/assessments/seo/textImagesAssessment.js:117
+#, javascript-format
+msgid "The %1$simages%2$s on this page are missing alt attributes."
+msgstr ""
+
+#. Translators: %1$s expands to the keyphrase, %2$s expands to a link on yoast.com,
+#. %3$s expands to the anchor end tag.
+#: js/assessments/seo/TitleKeywordAssessment.js:85
+#, javascript-format
+msgid "The focus keyword '%1$s' does not appear in the %2$sSEO title%3$s."
+msgstr ""
+
+#. Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag.
+#: js/assessments/seo/TitleKeywordAssessment.js:93
+#, javascript-format
+msgid ""
+"The %1$sSEO title%2$s contains the focus keyword, at the beginning which is "
+"considered to improve rankings."
+msgstr ""
+
+#. Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag.
+#: js/assessments/seo/TitleKeywordAssessment.js:100
+#, javascript-format
+msgid ""
+"The %1$sSEO title%2$s contains the focus keyword, but it does not appear at "
+"the beginning; try and move it to the beginning."
+msgstr ""
+
+#. Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag
+#: js/assessments/seo/UrlKeywordAssessment.js:72
+#, javascript-format
+msgid ""
+"The focus keyword does not appear in the %1$sURL%2$s for this page. If you "
+"decide to rename the URL be sure to check the old URL 301 redirects to the "
+"new one!"
+msgstr ""
+
+#. Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag
+#: js/assessments/seo/UrlKeywordAssessment.js:80
+#, javascript-format
+msgid "The focus keyword appears in the %1$sURL%2$s for this page."
+msgstr ""
+
+#: js/assessments/seo/urlLengthAssessment.js:75
+msgid "The slug for this page is a bit long, consider shortening it."
+msgstr ""
+
+#. Translators: %1$s opens a link to a wikipedia article about stop words, %2$s closes the link
+#: js/assessments/seo/urlStopWordsAssessment.js:19
+#, javascript-format
+msgid ""
+"The slug for this page contains a %1$sstop word%2$s, consider removing it."
+msgid_plural ""
+"The slug for this page contains %1$sstop words%2$s, consider removing them."
+msgstr[0] ""
+msgstr[1] ""
+
+#. Translators: this link is referred to in the content analysis when a slug contains one or more stop words
+#: js/assessments/seo/urlStopWordsAssessment.js:40
+msgid "http://en.wikipedia.org/wiki/Stop_words"
+msgstr ""
+
+#. Translators: %1$s expands to the name of the assessment.
+#: js/assessor.js:166
+#, javascript-format
+msgid "An error occurred in the '%1$s' assessment"
+msgstr ""
+
+#: js/bundledPlugins/previouslyUsedKeywords.js:68
+#, javascript-format
+msgid "You've %1$snever used this focus keyword before%2$s, very good."
+msgstr ""
+
+#. Translators: %1$s and %2$s expand to an admin link where the focus keyword is already used. %3$s and %4$s
+#. expand to a link to an article on yoast.com about why you should not use a keyword more than once.
+#: js/bundledPlugins/previouslyUsedKeywords.js:77
+#, javascript-format
+msgid ""
+"You've used this focus keyword %1$sonce before%2$s. It’s probably a good "
+"idea to read about %3$swhy you should not use your focus keyword more than "
+"once%4$s."
+msgstr ""
+
+#. Translators: %1$s and $3$s expand to the admin search page for the focus keyword, %2$d expands to the number
+#. of times this focus keyword has been used before, %4$s and %5$s expand to a link to an article on yoast.com
+#. about why you should not use a keyword more than once.
+#: js/bundledPlugins/previouslyUsedKeywords.js:88
+#, javascript-format
+msgid ""
+"You've used this focus keyword %1$s%2$d times before%3$s. It’s probably a "
+"good idea to read about %4$swhy you should not use your focus keyword more "
+"than once%5$s."
+msgstr ""
+
+#: js/config/presenter.js:11
+msgid "Feedback"
+msgstr ""
+
+#: js/config/presenter.js:12
+msgid "Content optimization: Has feedback"
+msgstr ""
+
+#: js/config/presenter.js:17
+msgid "Bad SEO score"
+msgstr ""
+
+#: js/config/presenter.js:18
+msgid "Content optimization: Bad SEO score"
+msgstr ""
+
+#: js/config/presenter.js:19
+msgid "Needs improvement"
+msgstr ""
+
+#: js/config/presenter.js:23
+msgid "OK SEO score"
+msgstr ""
+
+#: js/config/presenter.js:24
+msgid "Content optimization: OK SEO score"
+msgstr ""
+
+#: js/config/presenter.js:25
+msgid "OK"
+msgstr ""
+
+#: js/config/presenter.js:29
+msgid "Good SEO score"
+msgstr ""
+
+#: js/config/presenter.js:30
+msgid "Content optimization: Good SEO score"
+msgstr ""
+
+#: js/config/presenter.js:31
+msgid "Good"
+msgstr ""
+
+#: js/renderers/AssessorPresenter.js:307
+msgid "Marks are disabled in current view"
+msgstr ""
+
+#: js/renderers/AssessorPresenter.js:308
+msgid "Mark this result in the text"
+msgstr ""
+
+#: js/renderers/AssessorPresenter.js:309
+msgid "Remove marks in the text"
+msgstr ""
+
+#: js/snippetPreview.js:336
+msgid "Edit snippet"
+msgstr ""
+
+#: js/snippetPreview.js:337
+msgid "SEO title"
+msgstr ""
+
+#: js/snippetPreview.js:338
+msgid "Slug"
+msgstr ""
+
+#: js/snippetPreview.js:339
+msgid "Meta description"
+msgstr ""
+
+#: js/snippetPreview.js:340
+msgid "Close snippet editor"
+msgstr ""
+
+#: js/snippetPreview.js:341
+msgid "Snippet preview"
+msgstr ""
+
+#: js/snippetPreview.js:342
+msgid "SEO title preview:"
+msgstr ""
+
+#: js/snippetPreview.js:343
+msgid "Slug preview:"
+msgstr ""
+
+#: js/snippetPreview.js:344
+msgid "Meta description preview:"
+msgstr ""
+
+#: js/snippetPreview.js:345
+msgid ""
+"You can click on each element in the preview to jump to the Snippet Editor."
+msgstr ""
+
+#: js/snippetPreview.js:346
+msgid "Desktop preview"
+msgstr ""
+
+#: js/snippetPreview.js:347
+msgid "Mobile preview"
+msgstr ""
+
+#: js/snippetPreview.js:348
+msgid "Scroll to see the preview content."
+msgstr ""
+
+#: js/snippetPreview.js:532
+msgid "Please provide an SEO title by editing the snippet below."
+msgstr ""
+
+#: js/snippetPreview.js:593
+msgid "Please provide a meta description by editing the snippet below."
+msgstr ""
