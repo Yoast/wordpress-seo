@@ -140,7 +140,7 @@ class Aioseo_Validate_Data_Action extends Abstract_Aioseo_Importing_Action {
 
 
 		if ( $validated_aioseo_table === false || $validated_aioseo_settings === false || $validated_robot_settings === false ) {
-			throw new Exception( __( 'Importing action without explicit plugin', 'wordpress-seo' ) );
+			throw new Exception( __( 'The AIOSEO import was cancelled because some AIOSEO data are missing.', 'wordpress-seo' ) );
 		}
 
 		$this->set_completed( true );
@@ -165,19 +165,12 @@ class Aioseo_Validate_Data_Action extends Abstract_Aioseo_Importing_Action {
 		$table       = $this->post_importing_action->get_table();
 		$needed_data = $this->post_importing_action->get_needed_data();
 
-		foreach ( $needed_data as $value ) {
-			$query         = $this->wpdb->prepare(
-				"SHOW COLUMNS FROM {$table} LIKE %s", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no unescaped user input.
-				$value
-			);
-			$column_exists = $this->wpdb->query( $query );  // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Reason: Already prepared.
+		$aioseo_columns = $this->wpdb->get_col(
+			"SHOW COLUMNS FROM {$table}", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no unescaped user input.
+			0
+		);
 
-			if ( ! $column_exists ) {
-				return false;
-			}
-		}
-
-		return true;
+		return $needed_data === \array_intersect( $needed_data, $aioseo_columns );
 	}
 
 	/**
