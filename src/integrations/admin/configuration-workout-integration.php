@@ -48,7 +48,7 @@ class Configuration_Workout_Integration implements Integration_Interface {
 	/**
 	 * The product helper.
 	 *
-	 * @var \Yoast\WP\SEO\Helpers\Product_Helper
+	 * @var Product_Helper
 	 */
 	private $product_helper;
 
@@ -103,9 +103,9 @@ class Configuration_Workout_Integration implements Integration_Interface {
 		$this->admin_asset_manager->enqueue_style( 'monorepo' );
 
 		$data = [
-			'disabled'     => ! YoastSEO()->helpers->indexable->should_index_indexables(),
-			'amount'       => YoastSEO()->helpers->indexing->get_filtered_unindexed_count(),
-			'firstTime'    => ( YoastSEO()->helpers->indexing->is_initial_indexing() === true ),
+			'disabled'     => ! \YoastSEO()->helpers->indexable->should_index_indexables(),
+			'amount'       => \YoastSEO()->helpers->indexing->get_filtered_unindexed_count(),
+			'firstTime'    => ( \YoastSEO()->helpers->indexing->is_initial_indexing() === true ),
 			'errorMessage' => '',
 			'restApi'      => [
 				'root'               => \esc_url_raw( \rest_url() ),
@@ -126,7 +126,7 @@ class Configuration_Workout_Integration implements Integration_Interface {
 		$social_profiles = $this->get_social_profiles();
 
 		// This filter is documented in admin/views/tabs/metas/paper-content/general/knowledge-graph.php.
-		$knowledge_graph_message = apply_filters( 'wpseo_knowledge_graph_setting_msg', '' );
+		$knowledge_graph_message = \apply_filters( 'wpseo_knowledge_graph_setting_msg', '' );
 
 		$options               = $this->get_company_or_person_options();
 		$selected_option_label = '';
@@ -343,12 +343,12 @@ class Configuration_Workout_Integration implements Integration_Interface {
 	private function get_company_or_person_options() {
 		$options = [
 			[
-				'label' => __( 'Organization', 'wordpress-seo' ),
+				'label' => \__( 'Organization', 'wordpress-seo' ),
 				'value' => 'company',
 				'id'    => 'company',
 			],
 			[
-				'label' => __( 'Person', 'wordpress-seo' ),
+				'label' => \__( 'Person', 'wordpress-seo' ),
 				'value' => 'person',
 				'id'    => 'person',
 			],

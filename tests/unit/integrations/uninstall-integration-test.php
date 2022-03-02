@@ -38,7 +38,7 @@ class Uninstall_Integration_Test extends TestCase {
 		// Arrange.
 		Monkey\Functions\expect( 'add_action' )
 			->once()
-			->with( 'uninstall_' . WPSEO_BASENAME, [ $this->instance, 'wpseo_uninstall' ] );
+			->with( 'uninstall_' . \WPSEO_BASENAME, [ $this->instance, 'wpseo_uninstall' ] );
 
 		// Act.
 		$this->instance->register_hooks();

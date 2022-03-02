@@ -2,11 +2,12 @@
 
 namespace Yoast\WP\SEO\Integrations\Front_End;
 
-use YoastSEO_Vendor\chillerlan\QRCode\QRCode;
-use YoastSEO_Vendor\chillerlan\QRCode\QROptions;
+use Exception;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Conditionals\Print_QRCode_Enabled_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
+use YoastSEO_Vendor\chillerlan\QRCode\QRCode;
+use YoastSEO_Vendor\chillerlan\QRCode\QROptions;
 
 /**
  * Class that renders a QR code for URLs.
@@ -37,22 +38,30 @@ class Print_QRCode_Render implements Integration_Interface {
 	 * @return void
 	 */
 	public function generate_qr_code() {
-		$url = \filter_input( INPUT_GET, 'yoast_qr_code', FILTER_SANITIZE_URL );
+		$url = \filter_input( \INPUT_GET, 'yoast_qr_code', \FILTER_SANITIZE_URL );
 		if ( ! isset( $url ) ) {
 			return;
 		}
 
-		$nonce = \filter_input( INPUT_GET, 'nonce', FILTER_SANITIZE_STRING );
+		$nonce = \filter_input( \INPUT_GET, 'nonce', \FILTER_SANITIZE_STRING );
 		if ( ! \wp_verify_nonce( $nonce, 'yoast_seo_qr_code' ) ) {
 			\wp_die( 'This is not a QR code endpoint for public consumption.' );
 		}
 
-		$options = new QROptions( [ 'outputType' => QRCode::OUTPUT_MARKUP_SVG ] );
-		$qr_code = new QRCode( $options );
+		try {
+			$options = new QROptions( [ 'outputType' => QRCode::OUTPUT_MARKUP_SVG ] );
+			$qr_code = new QRCode( $options );
 
-		\header( 'Content-type: image/svg+xml', true );
-		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- We trust the QR class to output safe content.
-		echo $qr_code->render( $url );
-		exit( 200 );
+			\header( 'Content-type: image/svg+xml', true );
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- We trust the QR class to output safe content.
+			echo $qr_code->render( $url );
+			exit( 200 );
+		}
+		catch ( Exception $e ) {
+			\header( 'Content-Type: text/plain', true, 400 );
+			/* translators: %1$s expands to the error message */
+			echo \esc_html( \sprintf( __( 'Failed to generate QR Code: %s', 'wordpress-seo' ), $e->getMessage() ) );
+			exit();
+		}
 	}
 }
