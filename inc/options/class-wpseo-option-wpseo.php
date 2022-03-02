@@ -88,6 +88,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'wincher_tokens'                           => [],
 		'wincher_automatically_add_keyphrases'     => false,
 		'wincher_website_id'                       => '',
+		'wordproof_integration_active'             => true,
 		'first_time_install'                       => false,
 		'should_redirect_after_install_free'       => false,
 		'activation_redirect_timestamp_free'       => 0,
@@ -436,6 +437,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 			'semrush_integration_active'     => false,
 			'zapier_integration_active'      => false,
 			'wincher_integration_active'     => false,
+			'wordproof_integration_active'   => false,
 		];
 
 		// We can reuse this logic from the base class with the above defaults to parse with the correct feature values.
