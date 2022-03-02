@@ -158,6 +158,23 @@ function sendFormData( form ) {
 }
 
 /**
+ * Renders the Yoast tab React content.
+ * @returns {void}
+ */
+function renderYoastTabReactContent() {
+	setTimeout( () => {
+		renderReactRoot( "elementor-panel-page-settings-controls", (
+			<StyleSheetManager target={ document.getElementById( "elementor-panel-inner" ) }>
+				<div className="yoast yoast-elementor-panel__fills">
+					<ElementorSlot />
+					<ElementorFill />
+				</div>
+			</StyleSheetManager>
+		) );
+	}, 200 );
+}
+
+/**
  * Initializes the Yoast elementor editor integration.
  *
  * @returns {void}
@@ -194,27 +211,23 @@ export default function initElementEditorIntegration() {
 		type: "page",
 		callback: () => {
 			try {
-				window.$e.routes.run( "panel/page-settings/yoast-tab" );
-			} catch {
+				window.$e.route( "panel/page-settings/yoast-tab" );
+			} catch ( error ) {
 				// The yoast tab is only available if the page settings has been visited.
-				window.$e.routes.run( "panel/page-settings/settings" );
-				window.$e.routes.run( "panel/page-settings/yoast-tab" );
+				window.$e.route( "panel/page-settings/settings" );
+				window.$e.route( "panel/page-settings/yoast-tab" );
 			}
-
-			// Render React
-			renderReactRoot( "elementor-panel-page-settings-controls", (
-				<StyleSheetManager target={ document.getElementById( "elementor-panel-inner" ) }>
-					<div className="yoast yoast-elementor-panel__fills">
-						<ElementorSlot />
-						<ElementorFill />
-					</div>
-				</StyleSheetManager>
-			) );
+			// Start rendering the Yoast tab React content.
+			renderYoastTabReactContent();
 		},
 	}, "more" );
+
+	// Listen for Yoast tab activation from within settings panel to start rendering the Yoast tab React content.
+	jQuery( document ).on( "click", "[data-tab=\"yoast-tab\"] > a", renderYoastTabReactContent );
 
 	yoastInputs = document.querySelectorAll( "input[name^='yoast']" );
 	storeAllValuesAsOldValues();
 
 	setInterval( () => yoastInputs.forEach( detectChange ), 500 );
 }
+
