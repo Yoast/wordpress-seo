@@ -2,8 +2,8 @@
 
 namespace Yoast\WP\Lib;
 
-use wpdb;
 use ReturnTypeWillChange;
+use wpdb;
 use Yoast\WP\SEO\Config\Migration_Status;
 
 /**

@@ -98,6 +98,7 @@ class WPSEO_Option_MS extends WPSEO_Option {
 			"{$allow_prefix}enable_link_suggestions"        => true,
 			"{$allow_prefix}tracking"                       => true,
 			"{$allow_prefix}enable_enhanced_slack_sharing"  => true,
+			"{$allow_prefix}enable_print_qr_code"           => true,
 			"{$allow_prefix}semrush_integration_active"     => true,
 			"{$allow_prefix}zapier_integration_active"      => true,
 			"{$allow_prefix}wincher_integration_active"     => true,

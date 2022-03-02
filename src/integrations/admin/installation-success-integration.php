@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Integrations\Admin;
 
 use WPSEO_Admin_Asset_Manager;
-use WPSEO_Admin_Asset_Yoast_Components_L10n;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Installation_Success_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
@@ -81,7 +80,7 @@ class Installation_Success_Integration implements Integration_Interface {
 			return;
 		}
 
-		if ( \is_network_admin() || \is_plugin_active_for_network( WPSEO_BASENAME ) ) {
+		if ( \is_network_admin() || \is_plugin_active_for_network( \WPSEO_BASENAME ) ) {
 			return;
 		}
 
@@ -123,14 +122,11 @@ class Installation_Success_Integration implements Integration_Interface {
 		$asset_manager->enqueue_style( 'installation-success' );
 		$asset_manager->enqueue_style( 'monorepo' );
 
-		$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_L10n();
-		$yoast_components_l10n->localize_script( 'installation-success' );
-
 		$asset_manager->localize_script(
 			'installation-success',
 			'wpseoInstallationSuccess',
 			[
-				'pluginUrl'                 => \esc_url( \plugins_url( '', WPSEO_FILE ) ),
+				'pluginUrl'                 => \esc_url( \plugins_url( '', \WPSEO_FILE ) ),
 				'configurationWorkoutUrl'   => \esc_url( \admin_url( 'admin.php?page=wpseo_workouts#configuration' ) ),
 				'canDoConfigurationWorkout' => \current_user_can( 'wpseo_manage_options' ),
 				'canEditWordPressOptions'   => \current_user_can( 'manage_options' ),

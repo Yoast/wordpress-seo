@@ -2,10 +2,10 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Services\Importing;
 
-use Mockery;
 use Brain\Monkey;
-use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Provider_Service;
-use Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Transformer_Service;
+use Mockery;
+use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Provider_Service;
+use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Transformer_Service;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -13,7 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group importing
  *
- * @coversDefaultClass \Yoast\WP\SEO\Services\Importing\Aioseo_Robots_Transformer_Service
+ * @coversDefaultClass \Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Transformer_Service
  * @phpcs:disable Yoast.Yoast.AlternativeFunctions.json_encode_json_encode,Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Aioseo_Robots_Transformer_Service_Test extends TestCase {
@@ -57,7 +57,7 @@ class Aioseo_Robots_Transformer_Service_Test extends TestCase {
 	public function test_transform_robot_setting( $aioseo_options, $setting_name, $setting_value, $mapping, $get_global_robot_settings_times, $global_setting_value, $expected_result ) {
 		Monkey\Functions\expect( 'get_option' )
 			->once()
-			->with( $mapping['option_name'], [] )
+			->with( $mapping['option_name'], '' )
 			->andReturn( $aioseo_options );
 
 		$this->robots_provider->expects( 'get_global_robot_settings' )
@@ -81,7 +81,7 @@ class Aioseo_Robots_Transformer_Service_Test extends TestCase {
 			'subtype'     => 'subtype',
 		];
 
-		$empty_settings = [];
+		$empty_settings = '';
 
 		$global_robots_meta = [
 			'searchAppearance' => [
