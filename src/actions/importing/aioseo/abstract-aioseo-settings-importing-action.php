@@ -327,4 +327,14 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Aioseo
 	public function import_noindex( $noindex, $mapping ) {
 		return $this->robots_transformer->transform_robot_setting( 'noindex', $noindex, $mapping );
 	}
+
+	/**
+	 * Returns a setting map of the robot setting for one subset of post types/taxonomies/archives.
+	 * For custom archives, it returns an empty array because AIOSEO excludes some custom archives from this option structure, eg. WooCommerce's products and we don't want to raise a false alarm.
+	 *
+	 * @return array The setting map of the robot setting for one subset of post types/taxonomies/archives or an empty array.
+	 */
+	public function pluck_robot_setting_from_mapping() {
+		return [];
+	}
 }

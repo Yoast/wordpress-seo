@@ -3,6 +3,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Given it's a very specific case.
 namespace Yoast\WP\SEO\Actions\Importing\Aioseo;
 
+use Exception;
 use wpdb;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Wpdb_Helper;
@@ -125,6 +126,8 @@ class Aioseo_Validate_Data_Action extends Abstract_Aioseo_Importing_Action {
 	 * Validates AIOSEO data.
 	 *
 	 * @return array|false An array of validated data or false if aioseo data did not pass validation.
+	 *
+	 * @throws Exception If the validation fails.
 	 */
 	public function index() {
 		if ( $this->get_completed() ) {
@@ -133,11 +136,11 @@ class Aioseo_Validate_Data_Action extends Abstract_Aioseo_Importing_Action {
 
 		$validated_aioseo_table          = $this->validate_aioseo_table();
 		$validated_aioseo_settings       = $this->validate_aioseo_settings();
-		$validated_global_robot_settings = $this->validate_global_robot_settings();
+		$validated_robot_settings        = $this->validate_robot_settings();
 
 
-		if ( $validated_aioseo_table === false || $validated_aioseo_settings === false || $validated_global_robot_settings === false ) {
-			return false;
+		if ( $validated_aioseo_table === false || $validated_aioseo_settings === false || $validated_robot_settings === false ) {
+			throw new Exception( __( 'Importing action without explicit plugin', 'wordpress-seo' ) );
 		}
 
 		$this->set_completed( true );
@@ -145,7 +148,7 @@ class Aioseo_Validate_Data_Action extends Abstract_Aioseo_Importing_Action {
 		return [
 			'validated_aioseo_table'          => $validated_aioseo_table,
 			'validated_aioseo_settings'       => $validated_aioseo_settings,
-			'validated_global_robot_settings' => $validated_global_robot_settings,
+			'validated_robot_settings'        => $validated_robot_settings,
 		];
 	}
 
@@ -195,15 +198,44 @@ class Aioseo_Validate_Data_Action extends Abstract_Aioseo_Importing_Action {
 	}
 
 	/**
-	 * Validates the AIOSEO global robots settings from the options table.
+	 * Validates the AIOSEO robots settings from the options table.
 	 *
-	 * @return bool Whether the AIOSEO global robots settings from the options table exist and have the structure we expect.
+	 * @return bool Whether the AIOSEO robots settings from the options table exist and have the structure we expect.
 	 */
-	public function validate_global_robot_settings() {
-		$aioseo_settings = $this->robots_provider->get_global_option();
+	public function validate_robot_settings() {
+		$post_robot_mapping            = $this->post_importing_action->enhance_mapping();
+		// We're gonna validate against posttype robot settings only for posts, assuming the robot settings stay the same for other post types. 
+		$post_robot_mapping['subtype'] = 'post';
 
-		if ( ! isset( $aioseo_settings['searchAppearance']['advanced']['globalRobotsMeta'] ) || ! isset( $aioseo_settings['searchAppearance']['advanced']['globalRobotsMeta']['default'] ) ) {
-			return false;
+		// Let's get both the aioseo_options and the aioseo_options_dynamic options.
+		$aioseo_global_settings = $this->robots_provider->get_global_option();
+		$aioseo_posts_settings = \json_decode( \get_option( $post_robot_mapping['option_name'], '' ), true );
+
+		$needed_robots_data = $this->post_importing_action->get_needed_robot_data();
+		 \array_push( $needed_robots_data, 'default', 'noindex' );
+
+		foreach ( $needed_robots_data as $robot_setting ) {
+			// Validate against global settings.
+			if ( ! isset( $aioseo_global_settings['searchAppearance']['advanced']['globalRobotsMeta'][ $robot_setting ] ) ) {
+				return false;
+			}
+
+			// Validate against posttype settings.
+			if ( ! isset( $aioseo_posts_settings['searchAppearance'][ $post_robot_mapping['type'] ][ $post_robot_mapping['subtype'] ]['advanced']['robotsMeta'][ $robot_setting ] ) ) {
+				return false;
+			}
+		}
+
+		foreach ( $this->settings_importing_actions as $settings_import_action ) {
+			$robot_setting_map = $settings_import_action->pluck_robot_setting_from_mapping();
+
+			if ( ! empty( $robot_setting_map ) ) {
+				$aioseo_settings = \json_decode( \get_option( $robot_setting_map['option_name'], '' ), true );
+
+				if ( ! isset( $aioseo_settings['searchAppearance'][ $robot_setting_map['type'] ][ $robot_setting_map['subtype'] ]['advanced']['robotsMeta']['default'] ) ) {
+					return false;
+				}
+			}
 		}
 
 		return true;
