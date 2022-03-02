@@ -47,6 +47,13 @@ class Ryte_Runner implements Runner_Interface {
 	private $ryte_option;
 
 	/**
+	 * The WPSEO_Utils class used to determine whether the site is in development mode.
+	 *
+	 * @var WPSEO_Utils
+	 */
+	private $utils;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param WPSEO_Ryte          $ryte The WPSEO_Ryte object that the health check uses to check indexability.
