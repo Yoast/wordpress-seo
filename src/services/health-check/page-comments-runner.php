@@ -15,6 +15,13 @@ class Page_Comments_Runner implements Runner_Interface {
 	private $comments_on_single_page;
 
 	/**
+	 * Constructor.
+	 */
+	public function __construct() {
+		$this->comments_on_single_page = false;
+	}
+
+	/**
 	 * Runs the health check. Checks if comments are displayed on a single page.
 	 *
 	 * @return void

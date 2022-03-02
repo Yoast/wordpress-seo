@@ -15,6 +15,13 @@ class Postname_Permalink_Runner implements Runner_Interface {
 	private $permalinks_contain_postname;
 
 	/**
+	 * Constructor.
+	 */
+	public function __construct() {
+		$this->permalinks_contain_postname = false;
+	}
+
+	/**
 	 * Runs the health check. Checks if permalinks are set to contain the post name.
 	 *
 	 * @return void

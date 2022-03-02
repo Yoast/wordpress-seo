@@ -83,7 +83,7 @@ class WPSEO_Ryte_Option {
 	/**
 	 * Getting the status from the option.
 	 *
-	 * @return string
+	 * @return integer
 	 */
 	public function get_status() {
 		if ( array_key_exists( self::STATUS, $this->ryte_option ) ) {

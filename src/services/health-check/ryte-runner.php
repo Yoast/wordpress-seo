@@ -35,14 +35,14 @@ class Ryte_Runner implements Runner_Interface {
 	/**
 	 * The error that is set when the health check gets a response error from Ryte.
 	 *
-	 * @var array
+	 * @var array|null
 	 */
 	private $response_error;
 
 	/**
 	 * The Ryte option that represents the site's indexability.
 	 *
-	 * @var WPSEO_Ryte_Option
+	 * @var WPSEO_Ryte_Option|null
 	 */
 	private $ryte_option;
 
@@ -69,6 +69,8 @@ class Ryte_Runner implements Runner_Interface {
 		$this->ryte_option_factory = $ryte_option_factory;
 		$this->utils               = $utils;
 		$this->got_valid_response  = false;
+		$this->response_error      = null;
+		$this->ryte_option         = null;
 	}
 
 	/**
@@ -153,6 +155,10 @@ class Ryte_Runner implements Runner_Interface {
 			return false;
 		}
 
+		if ( $this->ryte_option === null ) {
+			return false;
+		}
+
 		$ryte_status = $this->ryte_option->get_status();
 
 		if ( $ryte_status === WPSEO_Ryte_Option::IS_INDEXABLE ) {
@@ -170,6 +176,10 @@ class Ryte_Runner implements Runner_Interface {
 	public function has_unknown_indexability() {
 		if ( ! $this->could_fetch() ) {
 			return true;
+		}
+
+		if ( $this->ryte_option === null ) {
+			return false;
 		}
 
 		$ryte_status = $this->ryte_option->get_status();
@@ -193,6 +203,10 @@ class Ryte_Runner implements Runner_Interface {
 	 */
 	private function could_fetch() {
 		if ( ! $this->got_valid_response ) {
+			return false;
+		}
+
+		if ( $this->ryte_option === null ) {
 			return false;
 		}
 

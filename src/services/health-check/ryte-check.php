@@ -60,6 +60,11 @@ class Ryte_Check extends Health_Check {
 
 		if ( $this->runner->got_response_error() ) {
 			$error_response = $this->runner->get_error_response();
+
+			if ( $error_response === null ) {
+				return $this->reports->get_unknown_indexability_result();
+			}
+
 			return $this->reports->get_response_error_result( $error_response );
 		}
 

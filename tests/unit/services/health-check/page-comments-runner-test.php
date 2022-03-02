@@ -35,6 +35,7 @@ class Page_Comments_Runner_Test extends TestCase {
 	/**
 	 * Checks if the health check succeeds when the comments are set to be on a single page.
 	 *
+	 * @covers ::__construct
 	 * @covers ::run
 	 * @covers ::is_successful
 	 */
@@ -53,6 +54,7 @@ class Page_Comments_Runner_Test extends TestCase {
 	/**
 	 * Checks if the health check fails when the comments are set to be on multiple pages.
 	 *
+	 * @covers ::__construct
 	 * @covers ::run
 	 * @covers ::is_successful
 	 */

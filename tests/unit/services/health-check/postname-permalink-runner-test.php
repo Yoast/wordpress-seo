@@ -32,6 +32,7 @@ class Postname_Permalink_Runner_Test extends TestCase {
 	/**
 	 * Checks if the health check succeeds when something other than the default WordPress tagline is set.
 	 *
+	 * @covers ::__construct
 	 * @covers ::run
 	 * @covers ::is_successful
 	 */
@@ -50,6 +51,7 @@ class Postname_Permalink_Runner_Test extends TestCase {
 	/**
 	 * Checks if the health check fails when the default WordPress tagline is set.
 	 *
+	 * @covers ::__construct
 	 * @covers ::run
 	 * @covers ::is_successful
 	 */
