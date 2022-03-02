@@ -1,7 +1,6 @@
 import { useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 
-import OauthDeniedModal from "./WordProofOauthDenied";
 import OauthFailedModal from "./WordProofOauthFailed";
 import OauthSuccessModal from "./WordProofOauthSuccess";
 import WebhookFailedModal from "./WordProofWebhookFailed";
