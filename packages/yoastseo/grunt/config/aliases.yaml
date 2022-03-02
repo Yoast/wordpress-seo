@@ -20,5 +20,4 @@ default:
 # Create folder for npm publishing
 publish:
   - 'clean:publish'
-  - 'babel:publish'
   - 'copy:publish'

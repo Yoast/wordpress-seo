@@ -29,16 +29,14 @@
     "node": ">=8.0.0"
   },
   "devDependencies": {
-    "autoprefixer": "^9.0.0",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-register": "^6.16.3",
+    "@yoast/browserslist-config": "^1.2.2",
     "console.table": "^0.10.0",
     "grunt": "^1.0.1",
+    "grunt-contrib-clean": "^2.0.0",
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-watch": "^1.0.0",
     "grunt-eslint": "^21.0.0",
     "grunt-po2json": "git+https://github.com/atimmer/grunt-po2json.git#f26c05653af89ef0f7a72456dbe141eb56bf5471",
-    "grunt-postcss": "^0.9.0",
     "grunt-shell": "^2.0.0",
     "js-yaml": "^3.12.1",
     "load-grunt-config": "^1.0.0"
