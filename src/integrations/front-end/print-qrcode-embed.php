@@ -59,9 +59,8 @@ class Print_QRCode_Embed implements Integration_Interface {
 	 * @return void
 	 */
 	public function generate_qr_code() {
-		$nonce = \wp_create_nonce( 'yoast_seo_qr_code' );
-		$meta  = $this->meta_surface->for_current_page();
-		$url   = $meta->canonical;
+		$meta = $this->meta_surface->for_current_page();
+		$url  = $meta->canonical;
 
 		if ( empty( $url ) ) {
 			$url = $meta->indexable->permalink;
@@ -80,9 +79,10 @@ class Print_QRCode_Embed implements Integration_Interface {
 			return;
 		}
 
+		$code      = \wp_hash( $url );
 		$alt_text  = __( 'QR Code for current page\'s URL.', 'wordpress-seo' );
 		$text      = __( 'Scan the QR code or go to the URL below to read this article online.', 'wordpress-seo' );
-		$image_url = \trailingslashit( \get_site_url() ) . '?nonce=' . $nonce . '&yoast_qr_code=' . rawurlencode( $url );
+		$image_url = \trailingslashit( \get_site_url() ) . '?code=' . $code . '&yoast_qr_code=' . rawurlencode( $url );
 		\printf(
 			'<script id="yoast_seo_print_qrcode_script">' .
 				'window.addEventListener( "beforeprint", function() {' .
