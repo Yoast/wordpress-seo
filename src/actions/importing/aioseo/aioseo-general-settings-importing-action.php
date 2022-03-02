@@ -111,11 +111,11 @@ class Aioseo_General_Settings_Importing_Action extends Abstract_Aioseo_Settings_
 			],
 			'/schema/organizationLogo' => [
 				'yoast_name'       => 'company_logo',
-				'transform_method' => 'import_org_logo',
+				'transform_method' => 'import_company_logo',
 			],
 			'/schema/personLogo'       => [
 				'yoast_name'       => 'person_logo',
-				'transform_method' => 'simple_import',
+				'transform_method' => 'import_person_logo',
 			],
 		];
 	}
@@ -123,19 +123,37 @@ class Aioseo_General_Settings_Importing_Action extends Abstract_Aioseo_Settings_
 	/**
 	 * Imports the organization logo while also accounting for the id of the log to be saved in the separate Yoast option.
 	 *
-	 * @param string $site_represents The site represents setting.
+	 * @param string $logo_url The company logo url coming from AIOSEO settings.
 	 *
-	 * @return string The transformed site represents setting.
+	 * @return string The transformed company logo url.
 	 */
-	public function import_org_logo( $logo ) {
-		$logo_id = $this->image->get_attachment_by_url( $logo );
+	public function import_company_logo( $logo_url ) {
+		$logo_id = $this->image->get_attachment_by_url( $logo_url );
 		$this->options->set( 'company_logo_id', $logo_id );
 
 		$this->options->set( 'company_logo_meta', false );
 		$logo_meta = $this->image->get_attachment_meta_from_settings( 'company_logo' );
 		$this->options->set( 'company_logo_meta', $logo_meta );
 
-		return $this->url_import( $logo );
+		return $this->url_import( $logo_url );
+	}
+
+	/**
+	 * Imports the person logo while also accounting for the id of the log to be saved in the separate Yoast option.
+	 *
+	 * @param string $logo_url The person logo url coming from AIOSEO settings.
+	 *
+	 * @return string The transformed person logo url.
+	 */
+	public function import_person_logo( $logo_url ) {
+		$logo_id = $this->image->get_attachment_by_url( $logo_url );
+		$this->options->set( 'person_logo_id', $logo_id );
+
+		$this->options->set( 'person_logo_meta', false );
+		$logo_meta = $this->image->get_attachment_meta_from_settings( 'person_logo' );
+		$this->options->set( 'person_logo_meta', $logo_meta );
+
+		return $this->url_import( $logo_url );
 	}
 
 	/**
