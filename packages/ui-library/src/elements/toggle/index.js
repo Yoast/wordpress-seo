@@ -23,7 +23,7 @@ const Toggle = ( {
 	<Switch
 		as={ Component }
 		checked={ checked }
-		aria-disabled={ disabled }
+		disabled={ disabled }
 		onChange={ disabled ? noop : onChange }
 		className={ classNames(
 			"yst-toggle",
