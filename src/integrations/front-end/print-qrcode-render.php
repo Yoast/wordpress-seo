@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Integrations\Front_End;
 
+use Exception;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Conditionals\Print_QRCode_Enabled_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -47,12 +48,20 @@ class Print_QRCode_Render implements Integration_Interface {
 			\wp_die( 'This is not a QR code endpoint for public consumption.' );
 		}
 
-		$options = new QROptions( [ 'outputType' => QRCode::OUTPUT_MARKUP_SVG ] );
-		$qr_code = new QRCode( $options );
+		try {
+			$options = new QROptions( [ 'outputType' => QRCode::OUTPUT_MARKUP_SVG ] );
+			$qr_code = new QRCode( $options );
 
-		\header( 'Content-type: image/svg+xml', true );
-		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- We trust the QR class to output safe content.
-		echo $qr_code->render( $url );
-		exit( 200 );
+			\header( 'Content-type: image/svg+xml', true );
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- We trust the QR class to output safe content.
+			echo $qr_code->render( $url );
+			exit( 200 );
+		}
+		catch ( Exception $e ) {
+			\header( 'Content-Type: text/plain', true, 400 );
+			/* translators: %1$s expands to the error message */
+			echo \esc_html( \sprintf( __( 'Failed to generate QR Code: %s', 'wordpress-seo' ), $e->getMessage() ) );
+			exit();
+		}
 	}
 }
