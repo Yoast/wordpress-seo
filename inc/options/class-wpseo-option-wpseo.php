@@ -74,6 +74,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'custom_taxonomy_slugs'                    => [],
 		'enable_enhanced_slack_sharing'            => true,
 		'enable_print_qr_code'                     => true,
+		'print_qr_code_salt'                       => '',
 		'zapier_integration_active'                => false,
 		'zapier_subscription'                      => [],
 		'zapier_api_key'                           => '',
@@ -274,6 +275,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'semrush_country_code':
 				case 'license_server_version':
 				case 'home_url':
+				case 'print_qr_code_salt':
 				case 'zapier_api_key':
 				case 'wincher_website_id':
 					if ( isset( $dirty[ $key ] ) ) {
