@@ -33,14 +33,6 @@ const WordProofAuthenticationModals = () => {
 	);
 
 	window.addEventListener(
-		"wordproof:oauth:denied",
-		() => {
-			setModal( "oauth:denied" );
-		},
-		false
-	);
-
-	window.addEventListener(
 		"wordproof:webhook:failed",
 		() => {
 			setModal( "webhook:failed" );
@@ -82,10 +74,6 @@ const WordProofAuthenticationModals = () => {
 
 					{ modal === "oauth:success" && (
 						<OauthSuccessModal closeModal={ closeModal } />
-					) }
-
-					{ modal === "oauth:denied" && (
-						<OauthDeniedModal closeModal={ closeModal } />
 					) }
 
 					{ modal === "oauth:failed" && (
