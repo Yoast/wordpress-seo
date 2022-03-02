@@ -179,7 +179,7 @@ class Configuration_Workout_Integration implements Integration_Interface {
 				$this->get_company_name(),
 				$this->get_company_logo(),
 				$this->get_company_logo_id(),
-				$this->get_person_id(),
+				0,
 				$this->get_person_logo(),
 				$this->get_person_logo_id(),
 				$this->get_site_tagline(),

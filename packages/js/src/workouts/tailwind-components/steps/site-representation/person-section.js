@@ -29,8 +29,8 @@ export function PersonSection( { dispatch, imageUrl, personId } ) {
 	} );
 
 	const onUserChange = useCallback(
-		( value, name ) => {
-			setPersonName( name );
+		( { value, label } ) => {
+			setPersonName( label );
 			dispatch( { type: "SET_PERSON_ID", payload: value } );
 		},
 		[ dispatch ]
