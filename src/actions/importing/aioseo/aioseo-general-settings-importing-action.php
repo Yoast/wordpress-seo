@@ -54,7 +54,7 @@ class Aioseo_General_Settings_Importing_Action extends Abstract_Aioseo_Settings_
 	protected $image;
 
 	/**
-	 * Aioseo_Custom_Archive_Settings_Importing_Action constructor.
+	 * Aioseo_General_Settings_Importing_Action constructor.
 	 *
 	 * @param Import_Cursor_Helper              $import_cursor      The import cursor helper.
 	 * @param Options_Helper                    $options            The options helper.
