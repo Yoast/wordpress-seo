@@ -183,6 +183,8 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Aioseo
 	/**
 	 * Checks if the settings tab subsetting is set in the AIOSEO option.
 	 *
+	 * @param string $aioseo_settings The AIOSEO option.
+	 *
 	 * @return bool Whether the settings are set.
 	 */
 	public function isset_settings_tab( $aioseo_settings ) {

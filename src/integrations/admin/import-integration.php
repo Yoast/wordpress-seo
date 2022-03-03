@@ -147,13 +147,41 @@ class Import_Integration implements Integration_Interface {
 		$available_actions   = $this->importable_detector->detect_importers();
 		$importing_endpoints = [];
 
-		foreach ( $available_actions as $plugin => $types ) {
+		$available_sorted_actions = $this->sort_actions( $available_actions );
+
+		foreach ( $available_sorted_actions as $plugin => $types ) {
 			foreach ( $types as $type ) {
 				$importing_endpoints[ $plugin ][] = $this->importing_route->get_endpoint( $plugin, $type );
 			}
 		}
 
 		return $importing_endpoints;
+	}
+
+	/**
+	 * Sorts the array of importing actions, by moving any validating actions to the start for every plugin.
+	 *
+	 * @param array $available_actions The array of actions that we want to sort.
+	 *
+	 * @return array The sorted array of actions.
+	 */
+	protected function sort_actions( $available_actions ) {
+		$first_action             = 'validate_data';
+		$available_sorted_actions = [];
+
+		foreach ( $available_actions as $plugin => $plugin_available_actions ) {
+
+			$validate_action_position = array_search( $first_action, $plugin_available_actions, true );
+
+			if ( ! empty( $validate_action_position ) ) {
+				unset( $plugin_available_actions[ $validate_action_position ] );
+				array_unshift( $plugin_available_actions, $first_action );
+			}
+
+			$available_sorted_actions[ $plugin ] = $plugin_available_actions;
+		}
+
+		return $available_sorted_actions;
 	}
 
 	/**
