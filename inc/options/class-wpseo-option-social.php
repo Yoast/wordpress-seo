@@ -44,6 +44,7 @@ class WPSEO_Option_Social extends WPSEO_Option {
 		'twitter_card_type'     => 'summary_large_image',
 		'youtube_url'           => '',
 		'wikipedia_url'         => '',
+		'other_social_urls'     => [],
 	];
 
 	/**
@@ -214,6 +215,23 @@ class WPSEO_Option_Social extends WPSEO_Option {
 				case 'opengraph':
 				case 'twitter':
 					$clean[ $key ] = ( isset( $dirty[ $key ] ) ? WPSEO_Utils::validate_bool( $dirty[ $key ] ) : false );
+					break;
+
+				/* Array fields. */
+				case 'other_social_urls':
+					$clean[ $key ] = $old[ $key ];
+
+					if ( isset( $dirty[ $key ] ) ) {
+						$items = $dirty[ $key ];
+						if ( ! is_array( $items ) ) {
+							$items = json_decode( $dirty[ $key ], true );
+						}
+
+						if ( is_array( $items ) ) {
+							$clean[ $key ] = $dirty[ $key ];
+						}
+					}
+
 					break;
 			}
 		}
