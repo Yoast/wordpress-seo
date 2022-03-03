@@ -1,6 +1,5 @@
 /* global moment */
 import { flow, get, isEqual, set } from "lodash";
-import { excerptFromContent } from "../../helpers/replacementVariableHelpers";
 import { getContentTinyMce } from "../../lib/tinymce";
 import getContentLocale from "../../analysis/getContentLocale";
 
@@ -15,6 +14,8 @@ export const DOM_IDS = {
 	POST_FEATURED_IMAGE_REMOVE: "remove-post-thumbnail",
 	POST_SLUG_NEW: "new-post-slug",
 	POST_SLUG_EDIT: "editable-post-name-full",
+	POST_SLUG: "editable-post-name",
+	POST_NAME: "post_name",
 	POST_SLUG_EDIT_PARENT: "edit-slug-box",
 	POST_DATE_MONTH: "mm",
 	POST_DATE_DAY: "jj",
@@ -299,18 +300,56 @@ export const getTermIsCornerstone = () => isEqual( get( document.getElementById(
 export const getPostNewSlug = () => get( document.getElementById( DOM_IDS.POST_SLUG_NEW ), "value" );
 
 /**
- * Gets the post edit slug from the document.
+ * Gets the post edit full length slug from the document.
  *
- * @returns {string} The post edit slug or an empty string.
+ * @returns {string} The post edit full length slug or an empty string.
  */
-export const getPostEditSlug = () => get( document.getElementById( DOM_IDS.POST_SLUG_EDIT ), "textContent" );
+export const getPostEditSlugFull = () => get( document.getElementById( DOM_IDS.POST_SLUG_EDIT ), "textContent" );
+
+/**
+ * Sets the post edit full length slug value prop on its DOM element.
+ *
+ * @returns {HTMLElement} The DOM element.
+ */
+export const setPostSlugFull = createSetDomElementProp( DOM_IDS.POST_SLUG_EDIT, "textContent" );
+
+/**
+ * Gets the post edit shortened slug from the document.
+ * When the slug is too long, WordPress shortens it for the preview purpose.
+ *
+ * @returns {string} The post edit shortened slug or an empty string.
+ */
+export const getPostEditSlug = () => get( document.getElementById( DOM_IDS.POST_SLUG ), "textContent" );
+
+/**
+ * Sets the post edit shortened slug value prop on its DOM element.
+ *
+ * @returns {HTMLElement} The DOM element.
+ */
+export const setPostSlug = createSetDomElementProp( DOM_IDS.POST_SLUG, "textContent" );
+
+/**
+ * Gets the post name from the document.
+ *
+ * @returns {string} The post name or an empty string.
+ */
+export const getPostName = () => get( document.getElementById( DOM_IDS.POST_NAME ), "value" );
+
+/**
+ * Sets the post name value prop on its DOM element.
+ *
+ * @returns {HTMLElement} The DOM element.
+ */
+export const setPostName = createSetDomElementProp( DOM_IDS.POST_NAME );
 
 /**
  * Gets the post slug from the document.
  *
  * @returns {string} The post slug or an empty string.
  */
-export const getPostSlug = () => getPostNewSlug() || getPostEditSlug();
+export const getPostSlug = () => {
+	return getPostNewSlug() || getPostEditSlugFull() || "";
+};
 
 /**
  * Gets the term slug from the document.
@@ -318,6 +357,13 @@ export const getPostSlug = () => getPostNewSlug() || getPostEditSlug();
  * @returns {string} The term slug or an empty string.
  */
 export const getTermSlug = createGetDomElementProp( DOM_IDS.TERM_SLUG );
+
+/**
+ * Sets the term slug value prop on its DOM element.
+ *
+ * @returns {HTMLElement} The DOM element.
+ */
+export const setTermSlug = createSetDomElementProp( DOM_IDS.TERM_SLUG );
 
 /**
  * Gets the post permalink from the document.
