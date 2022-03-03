@@ -232,29 +232,20 @@ export const getPostCategories = () => {
 };
 
 /**
- * Gets the tags list elements from the document.
- *
- * @returns {*[]} The list of tags.
- */
-export const getTagsList = () => {
-	const tagChecklistElement = document.querySelectorAll( ".tagchecklist" );
-	if ( tagChecklistElement.length > 0 ) {
-		return [ ...tagChecklistElement[ 0 ].childNodes ];
-	}
-	return [];
-};
-
-/**
  * Gets the current post's tags from the document.
  *
  * @returns {string[]} The post's tags.
  */
 export const getPostTags = () => {
-	const tagsList = getTagsList();
+	const tagChecklistElement = document.querySelectorAll( ".tagchecklist" );
 
-	if ( tagsList.length !== 0 ) {
+	if ( tagChecklistElement.length > 0 ) {
+		// Each tag is a <li> element containing a button and two text elements. The second text element contains the name of the tag.
+		const tagsList = [ ...tagChecklistElement[ 0 ].childNodes ];
+		// Get the names of the tags.
 		return tagsList.map( tag => [ ...tag.childNodes ][ 2 ].textContent );
 	}
+
 	return [];
 };
 

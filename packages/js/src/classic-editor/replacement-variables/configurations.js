@@ -101,9 +101,10 @@ export const tag = {
 	getReplacement: () => {
 		// On page load, the tags are not available in the store and in that case we get them from the window.
 		const tagsFromStore = select( SEO_STORE_NAME ).selectTerms( "tags" );
-		const tagsFromWindow = get( window, "wpseoScriptData.analysis.plugins.replaceVars.replace_vars.tag" );
 
-		return tagsFromStore.length > 0 ? tagsFromStore.map( term => term ).join( ", " ) : tagsFromWindow;
+		return tagsFromStore.length > 0 ?
+			tagsFromStore.map( term => term ).join( ", " ) :
+			get( window, "wpseoScriptData.analysis.plugins.replaceVars.replace_vars.tag" );
 	},
 };
 

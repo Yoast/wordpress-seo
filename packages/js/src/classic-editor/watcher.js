@@ -191,13 +191,13 @@ const createTagsSync = ( updateTerms ) => {
 	};
 
 	/**
-	 * Watches the tags list for changes, and updates the tags in the SEO store accordingly.
+	 * Watches the array of tag names for changes, and updates the tags in the SEO store accordingly.
 	 *
 	 * @returns {void}
 	 */
 	const watchTagsList = () => {
-		const tagsList = dom.getTagsList();
-		const currentLength = tagsList.length;
+		const tags = dom.getPostTags();
+		const currentLength = tags.length;
 		if ( currentLength !== previousLength ) {
 			syncTags();
 			previousLength = currentLength;
