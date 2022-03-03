@@ -74,6 +74,37 @@ describe( "a test for retrieving categories from the DOM", () => {
 	} );
 } );
 
+describe( "a test for retrieving tags from the document", () => {
+	const tag1 = document.createElement( "li" );
+	const tag1ChildNode1 = document.createElement( "button" );
+	const tag1ChildNode2 = document.createTextNode( "" );
+	const tag1ChildNode3 = document.createTextNode( "cat food" );
+
+	tag1.appendChild( tag1ChildNode1 );
+	tag1.appendChild( tag1ChildNode2 );
+	tag1.appendChild( tag1ChildNode3 );
+
+	const tag2 = document.createElement( "li" );
+	const tag2ChildNode1 = document.createElement( "button" );
+	const tag2ChildNode2 = document.createTextNode( "" );
+	const tag2ChildNode3 = document.createTextNode( "cat snack" );
+
+	tag2.appendChild( tag2ChildNode1 );
+	tag2.appendChild( tag2ChildNode2 );
+	tag2.appendChild( tag2ChildNode3 );
+
+	const tagsListElement = document.createElement( "ul" );
+	tagsListElement.setAttribute( "class", "tagchecklist" );
+	tagsListElement.appendChild( tag1 );
+	tagsListElement.appendChild( tag2 );
+
+	document.body.appendChild( tagsListElement );
+
+	it( "should return the tags from the post", () => {
+		expect( dom.getPostTags() ).toEqual( [ "cat food", "cat snack" ] );
+	} );
+} );
+
 describe( "a test for retrieving post slugs from the DOM", () => {
 	const fullLengthSlugElement = document.createElement( "span" );
 	fullLengthSlugElement.setAttribute( "id", "editable-post-name-full" );

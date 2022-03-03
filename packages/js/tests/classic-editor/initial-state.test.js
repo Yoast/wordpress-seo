@@ -30,8 +30,8 @@ jest.mock( "../../src/classic-editor/helpers/dom", () => ( {
 			id: "2",
 			name: "category 2",
 		},
-	], ),
-
+	] ),
+	getPostTags: jest.fn( () => [ "cats", "dogs" ] ),
 } ) );
 
 describe( "a test for getting the initial state of a post or a term", () => {
@@ -58,7 +58,8 @@ describe( "a test for getting the initial state of a post or a term", () => {
 				id: "2",
 				name: "category 2",
 			},
-		], )
+		] );
+		expect( actual.editor.taxonomies.tags ).toEqual( [ "cats", "dogs" ] );
 	} );
 
 	it( "returns the initial state of a term", () => {
