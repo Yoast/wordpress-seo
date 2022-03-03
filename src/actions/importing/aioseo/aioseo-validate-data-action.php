@@ -134,9 +134,9 @@ class Aioseo_Validate_Data_Action extends Abstract_Aioseo_Importing_Action {
 			return [];
 		}
 
-		$validated_aioseo_table          = $this->validate_aioseo_table();
-		$validated_aioseo_settings       = $this->validate_aioseo_settings();
-		$validated_robot_settings        = $this->validate_robot_settings();
+		$validated_aioseo_table    = $this->validate_aioseo_table();
+		$validated_aioseo_settings = $this->validate_aioseo_settings();
+		$validated_robot_settings  = $this->validate_robot_settings();
 
 
 		if ( $validated_aioseo_table === false || $validated_aioseo_settings === false || $validated_robot_settings === false ) {
@@ -196,16 +196,29 @@ class Aioseo_Validate_Data_Action extends Abstract_Aioseo_Importing_Action {
 	 * @return bool Whether the AIOSEO robots settings from the options table exist and have the structure we expect.
 	 */
 	public function validate_robot_settings() {
-		$post_robot_mapping            = $this->post_importing_action->enhance_mapping();
-		// We're gonna validate against posttype robot settings only for posts, assuming the robot settings stay the same for other post types. 
+		if ( $this->validate_post_robot_settings() && $this->validate_default_robot_settings() ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Validates the post AIOSEO robots settings from the options table.
+	 *
+	 * @return bool Whether the post AIOSEO robots settings from the options table exist and have the structure we expect.
+	 */
+	private function validate_post_robot_settings() {
+		$post_robot_mapping = $this->post_importing_action->enhance_mapping();
+		// We're gonna validate against posttype robot settings only for posts, assuming the robot settings stay the same for other post types.
 		$post_robot_mapping['subtype'] = 'post';
 
 		// Let's get both the aioseo_options and the aioseo_options_dynamic options.
 		$aioseo_global_settings = $this->robots_provider->get_global_option();
-		$aioseo_posts_settings = \json_decode( \get_option( $post_robot_mapping['option_name'], '' ), true );
+		$aioseo_posts_settings  = \json_decode( \get_option( $post_robot_mapping['option_name'], '' ), true );
 
 		$needed_robots_data = $this->post_importing_action->get_needed_robot_data();
-		 \array_push( $needed_robots_data, 'default', 'noindex' );
+		\array_push( $needed_robots_data, 'default', 'noindex' );
 
 		foreach ( $needed_robots_data as $robot_setting ) {
 			// Validate against global settings.
@@ -218,6 +231,16 @@ class Aioseo_Validate_Data_Action extends Abstract_Aioseo_Importing_Action {
 				return false;
 			}
 		}
+
+		return true;
+	}
+
+	/**
+	 * Validates the default AIOSEO robots settings for search appearance settings from the options table for.
+	 *
+	 * @return bool Whether the AIOSEO robots settings for search appearance settings from the options table exist and have the structure we expect.
+	 */
+	private function validate_default_robot_settings() {
 
 		foreach ( $this->settings_importing_actions as $settings_import_action ) {
 			$robot_setting_map = $settings_import_action->pluck_robot_setting_from_mapping();
