@@ -30,8 +30,7 @@ jest.mock( "../../src/classic-editor/helpers/dom", () => ( {
 			id: "2",
 			name: "category 2",
 		},
-	], ),
-
+	] ),
 } ) );
 
 describe( "a test for getting the initial state of a post or a term", () => {
@@ -58,7 +57,7 @@ describe( "a test for getting the initial state of a post or a term", () => {
 				id: "2",
 				name: "category 2",
 			},
-		], )
+		] );
 	} );
 
 	it( "returns the initial state of a term", () => {
