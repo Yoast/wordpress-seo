@@ -282,9 +282,11 @@ class Configuration_Workout_Integration implements Integration_Interface {
 	 * @return int|null The person id, null if empty.
 	 */
 	private function get_person_name() {
-		$user      = \get_userdata( $this->get_person_id() );
-		$user_name = $user->get( 'display_name' );
-		return ( $user_name !== false ) ? $user_name : '';
+		$user = \get_userdata( $this->get_person_id() );
+		if ( $user instanceof \WP_User ) {
+			return $user->get( 'display_name' );
+		}
+		return '';
 	}
 
 	/**
