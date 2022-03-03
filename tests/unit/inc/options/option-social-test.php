@@ -103,6 +103,27 @@ class Option_Social_Test extends TestCase {
 	}
 
 	/**
+	 * Tests validate_option with invalid array data.
+	 *
+	 * @dataProvider validate_option_invalid_array_data_provider
+	 * @covers       WPSEO_Option_Social::validate_option
+	 *
+	 * @param string $expected  The expected value.
+	 * @param array  $dirty     New value for the option.
+	 * @param array  $clean     Clean value for the option, normally the defaults.
+	 * @param array  $old       Old value of the option.
+	 * @param string $slug_name The option key.
+	 */
+	public function test_validate_option_with_invalid_array_data( $expected, $dirty, $clean, $old, $slug_name ) {
+		$instance = new Option_Social_Double();
+
+		$this->assertEquals(
+			$expected,
+			$instance->validate_option( $dirty, $clean, $old )
+		);
+	}
+
+	/**
 	 * Data for the test_validate_option_with_correct_data test.
 	 *
 	 * @return array The test data.
@@ -128,16 +149,38 @@ class Option_Social_Test extends TestCase {
 				'old'      => [],
 			],
 			[
-				'expected' => [ 'youtube_url' => 'https://www.youtube.com/yoast' ],
-				'dirty'    => [ 'youtube_url' => 'https://www.youtube.com/yoast' ],
-				'clean'    => [ 'youtube_url' => 'https://www.youtube.com/yoast' ],
+				'expected' => [ 'facebook_site' => 'https://facebook.com/yoast' ],
+				'dirty'    => [ 'facebook_site' => 'https://facebook.com/yoast' ],
+				'clean'    => [ 'facebook_site' => 'https://facebook.com/yoast' ],
 				'old'      => [],
 			],
 			[
-				'expected' => [ 'youtube_url' => 'https://www.youtube.com/yoasttube' ],
-				'dirty'    => [ 'youtube_url' => 'https://www.youtube.com/yoasttube' ],
-				'clean'    => [ 'youtube_url' => 'https://www.youtube.com/yoast' ],
+				'expected' => [ 'facebook_site' => 'https://facebook.com/yoastfb' ],
+				'dirty'    => [ 'facebook_site' => 'https://facebook.com/yoastfb' ],
+				'clean'    => [ 'facebook_site' => 'https://facebook.com/yoast' ],
 				'old'      => [],
+			],
+			[
+				'expected' => [
+					'other_social_urls' => [
+						'https://www.youtube.com/yoast',
+						'https://instagram.com/yoast',
+					]
+				],
+				'dirty'    => [
+					'other_social_urls' => [
+						'https://www.youtube.com/yoast',
+						'https://instagram.com/yoast',
+					]
+				],
+				'clean'    => [
+					'other_social_urls' => [
+						'https://www.youtube.com/yoast',
+					]
+				],
+				'old'      => [
+					'other_social_urls' => [],
+				],
 			],
 		];
 	}
@@ -157,11 +200,65 @@ class Option_Social_Test extends TestCase {
 				'slug_name' => 'facebook_site',
 			],
 			[
-				'expected'  => [ 'youtube_url' => 'https://www.youtube.com/yoast' ],
-				'dirty'     => [ 'youtube_url' => 'invalidurl' ],
-				'clean'     => [ 'youtube_url' => 'https://www.youtube.com/yoast' ],
-				'old'       => [ 'youtube_url' => 'https://www.youtube.com/yoast' ],
-				'slug_name' => 'youtube_url',
+				'expected'  => [ 'facebook_site' => 'https://facebook.com/yoast' ],
+				'dirty'     => [ 'facebook_site' => 'invalidurl' ],
+				'clean'     => [ 'facebook_site' => 'https://facebook.com/yoast' ],
+				'old'       => [ 'facebook_site' => 'https://facebook.com/yoast' ],
+				'slug_name' => 'facebook_site',
+			],
+		];
+	}
+
+	/**
+	 * Data for the test_validate_option test.
+	 *
+	 * @return array The test data.
+	 */
+	public function validate_option_invalid_array_data_provider() {
+		return [
+			[
+				'expected'  => [
+					'other_social_urls' => [
+						'https://www.youtube.com/yoast',
+						'https://instagram.com/yoast',
+					]
+				],
+				'dirty'     => 'not an array',
+				'clean'     => [
+					'other_social_urls' => [
+						'https://www.youtube.com/yoast',
+						'https://instagram.com/yoast',
+					]
+				],
+				'old'       => [
+					'other_social_urls' => [
+						'https://www.youtube.com/yoast',
+						'https://instagram.com/yoast',
+					]
+				],
+				'slug_name' => 'other_social_urls',
+			],
+			[
+				'expected'  => [
+					'other_social_urls' => [
+						'https://www.youtube.com/yoast',
+						'https://instagram.com/yoast',
+					]
+				],
+				'dirty'     => 'not an array',
+				'clean'     => [
+					'other_social_urls' => [
+						'https://www.youtube.com/yoast',
+						'https://instagram.com/yoast',
+					]
+				],
+				'old'       => [
+					'other_social_urls' => [
+						'https://www.youtube.com/yoast',
+						'https://instagram.com/yoast',
+					]
+				],
+				'slug_name' => 'other_social_urls',
 			],
 		];
 	}
