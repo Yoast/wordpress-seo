@@ -4,7 +4,6 @@ import { __ } from "@wordpress/i18n";
 import { Fragment, useState, useEffect, useCallback } from "@wordpress/element";
 import classNames from "classnames";
 import PropTypes from "prop-types";
-import { noop } from "lodash";
 
 /**
  * A function needed to extract the label to display when a person is selected.
