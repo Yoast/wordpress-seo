@@ -37,7 +37,7 @@ function getOptionActiveStyles( { active } ) {
  *
  * @returns {WPElement} The Yoast version of a Tailwind Combobox.
  */
-export default function YoastComboBox( { value, onChange, options, onInputChange, placeholder } ) {
+export default function YoastComboBox( { value, label, onChange, options, onInputChange, placeholder } ) {
 	const [ filteredOptions, setFilteredOptions ] = useState( options );
 
 	const handleInputChange = useCallback( ( event ) => {
@@ -56,7 +56,7 @@ export default function YoastComboBox( { value, onChange, options, onInputChange
 		{
 			( { open } ) => {
 				return <Fragment>
-					<Combobox.Label className="yst-block yst-text-sm yst-font-medium yst-text-gray-700">{ __( "Name", "wordpress-seo" ) }</Combobox.Label>
+					{ label && <Combobox.Label className="yst-block yst-max-w-sm yst-text-sm yst-font-medium yst-text-gray-700">{ label }</Combobox.Label> }
 					<div className="yst-h-[45px] yst-max-w-sm yst-relative yst-mt-1">
 						<Combobox.Input
 							className="yst-w-full yst-rounded-md yst-border yst-border-gray-300 yst-bg-white yst-py-2 yst-pl-3 yst-pr-10 yst-shadow-sm focus:yst-border-primary-500 focus:yst-outline-none focus:yst-ring-1 focus:yst-ring-primary-500 sm:yst-text-sm"
@@ -113,12 +113,14 @@ YoastComboBox.propTypes = {
 		value: PropTypes.number,
 		label: PropTypes.string,
 	} ),
+	label: PropTypes.string,
 	onInputChange: PropTypes.func,
 	placeholder: PropTypes.string,
 };
 
 YoastComboBox.defaultProps = {
 	value: null,
+	label: "",
 	onInputChange: null,
 	placeholder: __( "Select an option", "wordpress-seo" ),
 };

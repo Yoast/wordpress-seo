@@ -30,7 +30,7 @@ export default function Select( { id, value, choices, label, onChange, error } )
 		<Listbox value={ value } onChange={ onChange }>
 			{ ( { open } ) => (
 				<>
-					{ label && <Listbox.Label className="yst-block yst-mb-2 yst-text-sm yst-font-medium yst-text-gray-700">{ label }</Listbox.Label> }
+					{ label && <Listbox.Label className="yst-block yst-max-w-sm yst-mb-2 yst-text-sm yst-font-medium yst-text-gray-700">{ label }</Listbox.Label> }
 					<div className="yst-max-w-sm">
 						<div className="yst-relative">
 							<Listbox.Button
