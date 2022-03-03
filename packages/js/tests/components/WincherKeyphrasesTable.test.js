@@ -85,8 +85,8 @@ describe( "WincherKeyphrasesTable", () => {
 		expect( rows.first().props().keyphrase ).toEqual( keyphrases[ 0 ] );
 	} );
 
-	it( "should track all keyphrases", async() => {
-		await act( async() => {
+	it( "should track all keyphrases", async () => {
+		await act( async () => {
 			mount( <WincherKeyphrasesTable
 				keyphrases={ keyphrases }
 				trackedKeyphrases={ {} }
