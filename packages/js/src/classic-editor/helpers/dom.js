@@ -232,7 +232,7 @@ export const getPostCategories = () => {
 };
 
 /**
- * Gets the tags list element from the document.
+ * Gets the tags list elements from the document.
  *
  * @returns {*[]} The list of tags.
  */
