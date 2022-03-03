@@ -253,6 +253,10 @@ Bugfixes:
 * Fixes an issue where HowTo images would not be optimized if they did not start with the site URL.
 * Fixes a bug where HowTo images with custom width would lose their custom width in the Twenty Twenty-One theme.
 
+Other:
+
+* Fixes an incompatibility with Elementor 3.6.0 where the React contents of the Yoast tab in Elementor were not rendered.
+
 = 18.2 =
 Release Date: February 22nd, 2022
 
