@@ -1,3 +1,7 @@
+const tailwindcssForms = require( "@tailwindcss/forms" )( {
+	strategy: "class",
+} );
+
 module.exports = {
 	content: [ "./packages/js/**/*.{html,js}" ],
 	theme: {
@@ -42,7 +46,9 @@ module.exports = {
 			margin: [ "last" ],
 		},
 	},
-	plugins: [],
+	plugins: [
+		tailwindcssForms,
+	],
 	important: true,
 	prefix: "yst-",
 };
