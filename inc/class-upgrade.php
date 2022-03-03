@@ -77,6 +77,7 @@ class WPSEO_Upgrade {
 			'17.7.1-RC0' => 'upgrade_1771',
 			'17.9-RC0'   => 'upgrade_179',
 			'18.3-RC3'   => 'upgrade_183',
+			'18.3-ftc'   => 'upgrade_first_time_configuration',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -868,6 +869,23 @@ class WPSEO_Upgrade {
 	 */
 	private function upgrade_183() {
 		$this->delete_post_meta( 'yoast-structured-data-blocks-images-cache' );
+	}
+
+	/**
+	 * Performs the upgrade routine for the first time configuration.
+	 *
+	 * @TODO Set the right version number when the feature branch is merged.
+	 */
+	private function upgrade_first_time_configuration() {
+		$other = [];
+		$other[] = WPSEO_Options::get( 'instagram_url' );
+		$other[] = WPSEO_Options::get( 'linkedin_url' );
+		$other[] = WPSEO_Options::get( 'myspace_url' );
+		$other[] = WPSEO_Options::get( 'pinterest_url' );
+		$other[] = WPSEO_Options::get( 'youtube_url' );
+		$other[] = WPSEO_Options::get( 'wikipedia_url' );
+
+		WPSEO_Options::set( 'other_social_urls', $other );
 	}
 
 	/**
