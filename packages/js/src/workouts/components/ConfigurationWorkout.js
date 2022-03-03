@@ -119,9 +119,10 @@ function configurationWorkoutReducer( state, action ) {
 			newState.personLogo = "";
 			newState.personLogoId = "";
 			return newState;
-		case "SET_PERSON_ID":
+		case "SET_PERSON":
 			newState = handleStepEdit( newState, 2 );
-			newState.personId = action.payload;
+			newState.personId = action.payload.value;
+			newState.personName = action.payload.label;
 			return newState;
 		case "CHANGE_SOCIAL_PROFILE":
 			newState = handleStepEdit( newState, 3 );

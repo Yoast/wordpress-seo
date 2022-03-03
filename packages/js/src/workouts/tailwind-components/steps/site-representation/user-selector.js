@@ -13,17 +13,6 @@ const HEADERS = {
 const REST_ROUTE = wpApiSettings.root;
 
 /**
- * Fetches a user.
- *
- * @param {Integer} id The id belonging to the user to fetch.
- *
- * @returns {Promise} Returns the request response as a promise.
- */
-function fetchUser( id ) {
-	return sendRequest( `${ REST_ROUTE }wp/v2/users/${ id }`, { method: "GET", headers: HEADERS } );
-}
-
-/**
  * Fetches a list of users. Filterable.
  *
  * @param {String} query A search string to search users by.
@@ -44,26 +33,11 @@ function fetchUsers( query = "" ) {
  */
 export default function UserSelector( { initialValue, onChangeCallback, placeholder } ) {
 	const [ users, setUsers ] = useState( [] );
-	const [ selectedPerson, setSelectedPerson ] = useState( null );
+	const [ selectedPerson, setSelectedPerson ] = useState( {
+		value: initialValue.id,
+		label: initialValue.name,
+	} );
 	const [ query, setQuery ] = useState( "" );
-
-	/**
-	 * If a nonzero initialValue was passed, fetch the user belonging to that id on mount.
-	 * This effect should not happen on every initialValue change, since it might be coupled to the onChangeCallback.
-	 */
-	useEffect( async() => {
-		if ( initialValue !== 0 ) {
-			const user = await fetchUser( initialValue );
-			const selectObject = {
-				value: user.id,
-				label: user.name,
-			};
-			setSelectedPerson( selectObject );
-
-			// Let wrapper know name if needed:
-			onChangeCallback( selectObject );
-		}
-	}, [] );
 
 	const handleSelectChange = useCallback( ( event ) => {
 		setQuery( "" );
@@ -99,13 +73,19 @@ export default function UserSelector( { initialValue, onChangeCallback, placehol
 }
 
 UserSelector.propTypes = {
-	initialValue: PropTypes.number,
+	initialValue: PropTypes.shape( {
+		id: PropTypes.number,
+		name: PropTypes.string,
+	} ),
 	onChangeCallback: PropTypes.func,
 	placeholder: PropTypes.string,
 };
 
 UserSelector.defaultProps = {
-	initialValue: 0,
+	initialValue: {
+		id: 0,
+		name: "",
+	},
 	onChangeCallback: noop,
 	placeholder: __( "Select a user", "wordpress-seo" ),
 };

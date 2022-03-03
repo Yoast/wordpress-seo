@@ -85,7 +85,10 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 				{ state.companyOrPerson === "person" && <PersonSection
 					dispatch={ dispatch }
 					imageUrl={ state.personLogo }
-					personId={ state.personId }
+					person={ {
+						id: state.personId,
+						name: state.personName,
+					} }
 				/> }
 			</div>
 		</ReactAnimateHeight>

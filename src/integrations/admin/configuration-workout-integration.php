@@ -151,6 +151,7 @@ class Configuration_Workout_Integration implements Integration_Interface {
 					"companyLogo": "%s",
 					"companyLogoId": %d,
 					"personId": %d,
+					"personName": "%s",
 					"personLogo": "%s",
 					"personLogoId": %d,
 					"siteTagline": "%s",
@@ -180,6 +181,7 @@ class Configuration_Workout_Integration implements Integration_Interface {
 				$this->get_company_logo(),
 				$this->get_company_logo_id(),
 				$this->get_person_id(),
+				$this->get_person_name(),
 				$this->get_person_logo(),
 				$this->get_person_logo_id(),
 				$this->get_site_tagline(),
@@ -272,6 +274,17 @@ class Configuration_Workout_Integration implements Integration_Interface {
 	 */
 	private function get_person_id() {
 		return $this->options_helper->get( 'company_or_person_user_id' );
+	}
+
+	/**
+	 * Gets the person id from the option in the database.
+	 *
+	 * @return int|null The person id, null if empty.
+	 */
+	private function get_person_name() {
+		$user      = \get_userdata( $this->get_person_id() );
+		$user_name = $user->get( 'display_name' );
+		return ( $user_name !== false ) ? $user_name : '';
 	}
 
 	/**
