@@ -41,30 +41,33 @@ const useGooglePreviewReplacementVariables = () => {
 
 /**
  * Retrieves the base URL from the permalink.
- *
  * Uses a fallback URL in order to keep working when there is no permalink (development environment).
+ *
+ * @param {string} permalink    The permalink.
+ * @param {string} slug         The slug.
  *
  * @returns {string} The base URL.
  */
-const useBaseUrl = () => {
-	const permalink = useSelect( select => select( SEO_STORE_NAME ).selectPermalink() );
-
+const useBaseUrl = ( permalink, slug ) => {
 	return useMemo( () => {
-		// Strip the last part of the permalink.
 		let url;
+		let baseUrl = "";
 		try {
 			url = new URL( permalink );
+			baseUrl = url.href;
 		} catch ( e ) {
 			// Fallback on current href
-			return window.location.href;
+			baseUrl = window.location.href;
 		}
 
+		// Strip slug from the url.
+		baseUrl = baseUrl.replace( new RegExp( slug + "$" ), "" );
 		// Enforce ending with a slash because of the internal handling in the SnippetEditor component.
-		if ( ! url.pathname.endsWith( "/" ) ) {
-			url.pathname += "/";
+		if ( ! baseUrl.endsWith( "/" ) ) {
+			baseUrl += "/";
 		}
 
-		return url.href;
+		return baseUrl;
 	}, [ permalink ] );
 };
 
@@ -84,6 +87,7 @@ const GooglePreviewContainer = ( { as: Component, ...restProps } ) => {
 	const focusKeyphrase = useSelect( select => select( SEO_STORE_NAME ).selectKeyphrase() );
 	const morphologyResults = useSelect( select => select( SEO_STORE_NAME ).selectResearchResults( "morphology" ) );
 	const isCornerstone = useSelect( select => select( SEO_STORE_NAME ).selectIsCornerstone() );
+	const permalink = useSelect( select => select( SEO_STORE_NAME ).selectPermalink() );
 	const [ previewMode, setPreviewMode ] = useState( "mobile" );
 	const { updateSlug, updateSeoTitle, updateMetaDescription } = useDispatch( SEO_STORE_NAME );
 
@@ -99,7 +103,8 @@ const GooglePreviewContainer = ( { as: Component, ...restProps } ) => {
 		} ), [ date ] );
 	}
 
-	const baseUrl = useBaseUrl();
+	const baseUrl = useBaseUrl( permalink, slug );
+
 	const {
 		replacementVariables,
 		recommendedReplacementVariables,
