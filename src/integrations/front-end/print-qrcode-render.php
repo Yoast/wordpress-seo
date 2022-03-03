@@ -43,9 +43,11 @@ class Print_QRCode_Render implements Integration_Interface {
 			return;
 		}
 
-		$nonce = \filter_input( \INPUT_GET, 'nonce', \FILTER_SANITIZE_STRING );
-		if ( ! \wp_verify_nonce( $nonce, 'yoast_seo_qr_code' ) ) {
-			\wp_die( 'This is not a QR code endpoint for public consumption.' );
+		$code = \filter_input( INPUT_GET, 'code', FILTER_SANITIZE_STRING );
+		if ( ! \hash_equals( \wp_hash( $url ), $code ) ) {
+			\header( 'Content-Type: text/plain', true, 400 );
+			echo \esc_html( __( 'This is not a QR code endpoint for public consumption.', 'wordpress-seo' ) );
+			exit();
 		}
 
 		try {
