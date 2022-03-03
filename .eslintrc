@@ -1,9 +1,7 @@
 extends: yoast
 
-parser: "@babel/eslint-parser"
-
 parserOptions:
-  ecmaVersion: 2020
+  ecmaVersion: 2018
   sourceType: module
 
 settings:
@@ -32,6 +30,9 @@ overrides:
       no-restricted-imports: "off"
   - files:
       - "packages/js/**/*.js"
+    parser: "@babel/eslint-parser"
+    parserOptions:
+      ecmaVersion: 2020
     rules:
       # Custom rules: only for temporary exceptions that should be removed over time
       camelcase: 1
