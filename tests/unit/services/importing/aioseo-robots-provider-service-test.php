@@ -126,43 +126,12 @@ class Aioseo_Robots_Provider_Service_Test extends TestCase {
 	public function provider_get_global_robot_settings() {
 		$empty_settings = '';
 
-		$no_global_robots_meta = [
-			'searchAppearance' => [
-				'advanced' => [
-					'not_globalRobotsMeta' => [
-						'default' => true,
-					],
-				],
-			],
-		];
-
-		$no_set_default_global = [
-			'searchAppearance' => [
-				'advanced' => [
-					'globalRobotsMeta' => [
-						'not_default' => 'whatever',
-					],
-				],
-			],
-		];
-
 		$default_global = [
 			'searchAppearance' => [
 				'advanced' => [
 					'globalRobotsMeta' => [
 						'default' => true,
 						'noindex' => 'whatever',
-					],
-				],
-			],
-		];
-
-		$no_default_no_noindex_global = [
-			'searchAppearance' => [
-				'advanced' => [
-					'globalRobotsMeta' => [
-						'default'     => false,
-						'not_noindex' => 'whatever',
 					],
 				],
 			],
@@ -214,10 +183,7 @@ class Aioseo_Robots_Provider_Service_Test extends TestCase {
 
 		return [
 			[ \json_encode( $empty_settings ), 'noindex', false ],
-			[ \json_encode( $no_global_robots_meta ), 'noindex', false ],
-			[ \json_encode( $no_set_default_global ), 'noindex', false ],
 			[ \json_encode( $default_global ), 'noindex', false ],
-			[ \json_encode( $no_default_no_noindex_global ), 'noindex', false ],
 			[ \json_encode( $no_default_noindex_global ), 'noindex', true ],
 			[ \json_encode( $no_default_disabled_noindex_global ), 'noindex', false ],
 			[ \json_encode( $no_default_disabled_nofollow_global ), 'nofollow', false ],

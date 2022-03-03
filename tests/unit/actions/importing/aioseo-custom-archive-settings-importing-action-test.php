@@ -305,48 +305,8 @@ class Aioseo_Custom_Archive_Settings_Importing_Action_Test extends TestCase {
 
 		$full_settings_expected = $this->flattened_settings_to_import;
 
-		$missing_settings = [
-			'searchAppearance' => [
-				'postypes'   => [
-					'post' => [
-						'title'           => 'title1',
-						'metaDescription' => 'desc1',
-					],
-				],
-				'taxonomies' => [
-					'category' => [
-						'title'           => 'title1',
-						'metaDescription' => 'desc1',
-					],
-				],
-			],
-		];
-
-		$missing_settings_expected = [];
-
-		$malformed_settings = [
-			'searchAppearance' => [
-				'archives'   => 'not_array',
-				'postypes'   => [
-					'post' => [
-						'title'           => 'title1',
-						'metaDescription' => 'desc1',
-					],
-				],
-				'taxonomies' => [
-					'category' => [
-						'title'           => 'title1',
-						'metaDescription' => 'desc1',
-					],
-				],
-			],
-		];
-
-		$malformed_settings_expected = [];
-
 		return [
 			[ \json_encode( $full_settings ), $this->full_settings_to_import, $full_settings_expected, 1 ],
-			[ \json_encode( $missing_settings ), 'irrelevant', $missing_settings_expected, 0 ],
 		];
 	}
 }
