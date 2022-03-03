@@ -60,13 +60,11 @@ export function PersonSection( { dispatch, imageUrl, personId } ) {
 
 	return (
 		<Fragment>
-			<label className="yst-block yst-mt-6 yst-mb-2 yst-font-medium" htmlFor={ "person_id" }>
-				{ __( "Name", "wordpress-seo" ) }
-			</label>
 			<UserSelector
-				value={ personId }
-				onChange={ onUserChange }
+				initialValue={ personId }
+				onChangeCallback={ onUserChange }
 				name={ "person_id" }
+				placeholder={ __( "Select a user", "wordpress-seo" ) }
 			/>
 			<FadeInAlert
 				id="user-representation-alert"
