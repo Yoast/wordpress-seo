@@ -101,7 +101,6 @@ describe( "a test for retrieving tags from the document", () => {
 	document.body.appendChild( tagsListElement );
 
 	it( "should return the tags from the post", () => {
-		expect( dom.getTagsList() ).toEqual( [ tag1, tag2 ] );
 		expect( dom.getPostTags() ).toEqual( [ "cat food", "cat snack" ] );
 	} );
 } );
