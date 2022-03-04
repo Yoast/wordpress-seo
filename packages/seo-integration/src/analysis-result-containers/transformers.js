@@ -20,8 +20,8 @@
  * @property {AnalysisReportResult[]} considerationsResults The consideration results.
  */
 
-import { isObject, reduce } from "lodash";
-import { AssessmentResult, interpreters } from "yoastseo";
+import { reduce } from "lodash";
+import { interpreters } from "yoastseo";
 
 /**
  * Maps an AssessmentResult to an analysis report result.
