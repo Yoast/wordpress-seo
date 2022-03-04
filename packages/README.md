@@ -24,7 +24,7 @@ This monorepo includes reusable packages:
   - React components that can be used to generate a preview of what a page will look like in Google's search results.
 - [@yoast/social-metadata-forms](packages/social-metadata-forms)
   - React components that can be used to render forms for controlling the social preview settings. This includes the redux store.
-- [@yoast/social-metadata-previews](packages/social-metadata-previews) *[Will replace [yoast-social-previews](packages/yoast-social-previews)]*
+- [@yoast/social-metadata-previews](packages/social-metadata-previews)
   - React components that can be used to generate a preview of what a page will look like when shared trough Facebook or Twitter.
 - [@yoast/style-guide](packages/style-guide)
   - A combination of style constants and functions that can be used to conform to the Yoast corporate identity.
@@ -32,8 +32,6 @@ This monorepo includes reusable packages:
   - ESLint configuration for Yoast projects.
 - [yoast-components](packages/yoast-components) *[deprecated. replaced by [@yoast/components](packages/components)]*
   - All-purpose React components.
-- [yoast-social-previews](packages/yoast-social-previews) *[Will be replaced by @yoast/social-metadata-previews]*
-  - Classes that can be used to generate a preview of what a page will look like when shared trough Facebook or Twitter.
 - [yoastseo](packages/yoastseo) *[Replaces [YoastSEO.js](https://github.com/yoast//yoastseo.js)]*
   - Text analysis and assessment library in JavaScript. This library can generate interesting metrics about a text and assess these metrics to give you an assessment which can be used to improve the text.
 

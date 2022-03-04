@@ -181,7 +181,7 @@ class Elementor implements Integration_Interface {
 	 * Register a panel tab slug, in order to allow adding controls to this tab.
 	 */
 	public function add_yoast_panel_tab() {
-		Controls_Manager::add_tab( $this::YOAST_TAB, \__( 'Yoast SEO', 'wordpress-seo' ) );
+		Controls_Manager::add_tab( $this::YOAST_TAB, 'Yoast SEO' );
 	}
 
 	/**
@@ -199,7 +199,7 @@ class Elementor implements Integration_Interface {
 		$document->start_controls_section(
 			'yoast_temporary_section',
 			[
-				'label' => \__( 'Yoast SEO', 'wordpress-seo' ),
+				'label' => 'Yoast SEO',
 				'tab'   => self::YOAST_TAB,
 			]
 		);
