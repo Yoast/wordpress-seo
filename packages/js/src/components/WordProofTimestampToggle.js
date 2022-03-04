@@ -99,17 +99,22 @@ class WordProofTimestampToggle extends Component {
 
 		eventsToDisableToggle.forEach( event => {
 			window.addEventListener( event, () => {
-				this.handleToggle( false );
+				this.props.onToggle( false );
 			}, false );
 		} );
+
+		window.addEventListener( "wordproof:oauth:success", () => {
+			this.props.onToggle( true );
+		}, false );
 	}
 
 	handleToggle( value ) {
-		this.props.onToggle( value );
-
 		if ( ! this.props.isAuthenticated && value ) {
 			openAuthentication();
+			return;
 		}
+
+		this.props.onToggle( value );
 	}
 
 	/**
