@@ -531,7 +531,7 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'types'   => [
 				'empty_string',
 				'sanitize_option' => [
-					'option' => 'category_base_url',
+					'option' => 'category_base',
 				],
 			],
 		],
@@ -731,7 +731,7 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'types'   => [
 				'empty_string',
 				'sanitize_option' => [
-					'option' => 'tag_base_url',
+					'option' => 'tag_base',
 				],
 			],
 		],
