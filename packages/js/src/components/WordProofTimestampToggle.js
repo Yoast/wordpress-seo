@@ -140,7 +140,7 @@ class WordProofTimestampToggle extends Component {
 						labelText={ sprintf(
 							/* Translators: %s translates to the Post type in singular form */
 							__( "Timestamp this %s", "wordpress-seo" ),
-							this.props.postTypeName
+							this.props.postTypeName.toLowerCase()
 						) }
 						isEnabled={ this.props.isEnabled }
 						onSetToggleState={ this.handleToggle }
