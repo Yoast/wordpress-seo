@@ -4,6 +4,8 @@ namespace Yoast\WP\SEO\Validators;
 
 /**
  * The sanitize option validator class.
+ *
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Wp_Kses_Post_Validator extends String_Validator {
 

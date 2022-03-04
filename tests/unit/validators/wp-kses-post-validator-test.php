@@ -13,6 +13,8 @@ use Yoast\WP\SEO\Validators\Wp_Kses_Post_Validator;
  * @group validators
  *
  * @coversDefaultClass \Yoast\WP\SEO\Validators\Wp_Kses_Post_Validator
+ *
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Wp_Kses_Post_Validator_Test extends TestCase {
 
