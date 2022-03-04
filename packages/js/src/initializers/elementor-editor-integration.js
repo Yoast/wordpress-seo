@@ -3,7 +3,6 @@ import { doAction } from "@wordpress/hooks";
 import { __, sprintf } from "@wordpress/i18n";
 import { debounce } from "lodash";
 import { StyleSheetManager } from "styled-components";
-import getL10nObject from "../analysis/getL10nObject";
 import ElementorSlot from "../elementor/components/slots/ElementorSlot";
 import ElementorFill from "../elementor/containers/ElementorFill";
 import { registerElementorDataHookAfter } from "../helpers/elementorHook";
