@@ -48,11 +48,11 @@ if ( ! defined( 'WPSEO_NAMESPACES' ) ) {
 /**
  * Autoload our class files.
  *
- * @param string $class Class name.
+ * @param string $class_name Class name.
  *
  * @return void
  */
-function wpseo_auto_load( $class ) {
+function wpseo_auto_load( $class_name ) {
 	static $classes = null;
 
 	if ( $classes === null ) {
@@ -62,9 +62,9 @@ function wpseo_auto_load( $class ) {
 		];
 	}
 
-	$cn = strtolower( $class );
+	$cn = strtolower( $class_name );
 
-	if ( ! class_exists( $class ) && isset( $classes[ $cn ] ) ) {
+	if ( ! class_exists( $class_name ) && isset( $classes[ $cn ] ) ) {
 		require_once $classes[ $cn ];
 	}
 }
