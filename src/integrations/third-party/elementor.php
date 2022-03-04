@@ -423,7 +423,7 @@ class Elementor implements Integration_Interface {
 			'media'             => [ 'choose_image' => \__( 'Use Image', 'wordpress-seo' ) ],
 			'metabox'           => $this->get_metabox_script_data(),
 			'userLanguageCode'  => WPSEO_Language_Utils::get_language( \get_user_locale() ),
-			'siteTimezone'     => \wp_timezone_string(),
+			'siteTimezone'      => \wp_timezone_string(),
 			'isPost'            => true,
 			'isBlockEditor'     => WP_Screen::get()->is_block_editor(),
 			'isElementorEditor' => true,
