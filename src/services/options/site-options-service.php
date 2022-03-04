@@ -67,7 +67,7 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'default' => '',
 			'types'   => [ 'text_field' ],
 		],
-		'opengraph'                                   		  => [
+		'opengraph'                                           => [
 			'default' => true,
 			'types'   => [ 'boolean' ],
 		],
@@ -85,7 +85,7 @@ class Site_Options_Service extends Abstract_Options_Service {
 				],
 			],
 		],
-		'twitter'                                     		  => [
+		'twitter'                                             => [
 			'default' => true,
 			'types'   => [ 'boolean' ],
 		],
@@ -212,15 +212,15 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'default' => '',
 			'types'   => [ 'string' ],
 		],
-		'breadcrumbs-boldlast'                        		  => [
+		'breadcrumbs-boldlast'                                => [
 			'default' => false,
 			'types'   => [ 'boolean' ],
 		],
-		'breadcrumbs-display-blog-page'               		  => [
+		'breadcrumbs-display-blog-page'                       => [
 			'default' => true,
 			'types'   => [ 'boolean' ],
 		],
-		'breadcrumbs-enable'                          		  => [
+		'breadcrumbs-enable'                                  => [
 			'default' => true,
 			'types'   => [ 'boolean' ],
 		],
@@ -271,31 +271,31 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'default' => '',
 			'types'   => [ 'integer' ],
 		],
-		'disable-attachment'                          		  => [
+		'disable-attachment'                                  => [
 			'default' => true,
 			'types'   => [ 'boolean' ],
 		],
-		'disable-author'                              		  => [
+		'disable-author'                                      => [
 			'default' => false,
 			'types'   => [ 'boolean' ],
 		],
-		'disable-date'                                		  => [
+		'disable-date'                                        => [
 			'default' => false,
 			'types'   => [ 'boolean' ],
 		],
-		'disable-post_format'                         		  => [
+		'disable-post_format'                                 => [
 			'default' => false,
 			'types'   => [ 'boolean' ],
 		],
-		'display-metabox-pt-<PostTypeName>'           		  => [
+		'display-metabox-pt-<PostTypeName>'                   => [
 			'default' => false, // True for public post types.
 			'types'   => [ 'boolean' ],
 		],
-		'display-metabox-tax-<TaxonomyName>'          		  => [
+		'display-metabox-tax-<TaxonomyName>'                  => [
 			'default' => false, // True for public taxonomies.
 			'types'   => [ 'boolean' ],
 		],
-		'forcerewritetitle'                           		  => [
+		'forcerewritetitle'                                   => [
 			'default'    => false,
 			'types'      => [ 'boolean' ],
 			'ms_exclude' => true,
@@ -324,27 +324,27 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'default' => '',
 			'types'   => [ 'text_field' ],
 		],
-		'noindex-<PostTypeName>'                      		  => [
+		'noindex-<PostTypeName>'                              => [
 			'default' => false,
 			'types'   => [ 'boolean' ],
 		],
-		'noindex-archive-wpseo'                       		  => [
+		'noindex-archive-wpseo'                               => [
 			'default' => true,
 			'types'   => [ 'boolean' ],
 		],
-		'noindex-author-noposts-wpseo'                		  => [
+		'noindex-author-noposts-wpseo'                        => [
 			'default' => true,
 			'types'   => [ 'boolean' ],
 		],
-		'noindex-author-wpseo'                        		  => [
+		'noindex-author-wpseo'                                => [
 			'default' => false,
 			'types'   => [ 'boolean' ],
 		],
-		'noindex-ptarchive-<PostTypeName>'            		  => [
+		'noindex-ptarchive-<PostTypeName>'                    => [
 			'default' => false,
 			'types'   => [ 'boolean' ],
 		],
-		'noindex-tax-<TaxonomyName>'                  		  => [
+		'noindex-tax-<TaxonomyName>'                          => [
 			'default' => false, // Except when the taxonomy name === 'post_format'.
 			'types'   => [ 'boolean' ],
 		],
@@ -510,7 +510,7 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'default' => '%%term_title%% Archives', // Needs translation.
 			'types'   => [ 'text_field' ],
 		],
-		'stripcategorybase'                           		  => [
+		'stripcategorybase'                                   => [
 			'default' => false,
 			'types'   => [ 'boolean' ],
 		],
@@ -556,7 +556,7 @@ class Site_Options_Service extends Abstract_Options_Service {
 		],
 
 		// WPSEO.
-		'algolia_integration_active'                  		  => [
+		'algolia_integration_active'                          => [
 			'default' => false,
 			'types'   => [ 'boolean' ],
 		],
@@ -572,9 +572,14 @@ class Site_Options_Service extends Abstract_Options_Service {
 		],
 		'category_base_url'                                   => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [
+				'empty_string',
+				'sanitize_option' => [
+					'option' => 'category_base',
+				],
+			],
 		],
-		'content_analysis_active'                     		  => [
+		'content_analysis_active'                             => [
 			'default'   => true,
 			'types'     => [ 'boolean' ],
 			'ms_verify' => true,
@@ -583,55 +588,55 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'default' => '',
 			'types'   => [ 'string' ],
 		],
-		'disableadvanced_meta'                        		  => [
+		'disableadvanced_meta'                                => [
 			'default'   => true,
 			'types'     => [ 'boolean' ],
 			'ms_verify' => true,
 		],
-		'dismiss_configuration_workout_notice'        		  => [
+		'dismiss_configuration_workout_notice'                => [
 			'default' => false,
 			'types'   => [ 'boolean' ],
 		],
-		'dynamic_permalinks'                          		  => [
+		'dynamic_permalinks'                                  => [
 			'default' => false,
 			'types'   => [ 'boolean' ],
 		],
-		'enable_admin_bar_menu'                       		  => [
+		'enable_admin_bar_menu'                               => [
 			'default'   => true,
 			'types'     => [ 'boolean' ],
 			'ms_verify' => true,
 		],
-		'enable_cornerstone_content'                  		  => [
+		'enable_cornerstone_content'                          => [
 			'default'   => true,
 			'types'     => [ 'boolean' ],
 			'ms_verify' => true,
 		],
-		'enable_enhanced_slack_sharing'               => [
+		'enable_enhanced_slack_sharing'                       => [
 			'default'   => true,
 			'types'     => [ 'boolean' ],
 			'ms_verify' => true,
 		],
-		'enable_headless_rest_endpoints'              		  => [
+		'enable_headless_rest_endpoints'                      => [
 			'default'   => true,
 			'types'     => [ 'boolean' ],
 			'ms_verify' => true,
 		],
-		'enable_link_suggestions'                     		  => [
+		'enable_link_suggestions'                             => [
 			'default'   => true,
 			'types'     => [ 'boolean' ],
 			'ms_verify' => true,
 		],
-		'enable_metabox_insights'                     		  => [
+		'enable_metabox_insights'                             => [
 			'default'   => true,
 			'types'     => [ 'boolean' ],
 			'ms_verify' => true,
 		],
-		'enable_text_link_counter'                    		  => [
+		'enable_text_link_counter'                            => [
 			'default'   => true,
 			'types'     => [ 'boolean' ],
 			'ms_verify' => true,
 		],
-		'enable_xml_sitemap'                          		  => [
+		'enable_xml_sitemap'                                  => [
 			'default'   => true,
 			'types'     => [ 'boolean' ],
 			'ms_verify' => true,
@@ -649,7 +654,7 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'default' => '',
 			'types'   => [ 'integer' ],
 		],
-		'first_time_install'                          		  => [
+		'first_time_install'                                  => [
 			'default' => false,
 			'types'   => [ 'boolean' ],
 		],
@@ -734,7 +739,12 @@ class Site_Options_Service extends Abstract_Options_Service {
 		],
 		'permalink_structure'                                 => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [
+				'empty_string',
+				'sanitize_option' => [
+					'option' => 'permalink_structure',
+				],
+			],
 		],
 		'previous_version'                                    => [
 			'default' => '',
@@ -784,7 +794,12 @@ class Site_Options_Service extends Abstract_Options_Service {
 		],
 		'tag_base_url'                                        => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [
+				'empty_string',
+				'sanitize_option' => [
+					'option' => 'tag_base',
+				],
+			],
 		],
 		'tracking'                                            => [
 			'default'   => null,
