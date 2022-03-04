@@ -19,7 +19,8 @@ const SettingsLink = ( props ) => {
 		return ( <></> );
 	}
 
-	const url = get( window, "wordproofSdk.data.popup_redirect_settings_url", {} );
+	const url = get( window, "wordproofSdk.data.popup_redirect_settings_url",
+		{} );
 
 	const openLink = useCallback( event => {
 		event.preventDefault();
@@ -50,7 +51,8 @@ const AuthenticationLink = ( props ) => {
 		openAuthentication();
 	} );
 
-	const url = get( window, "wordproofSdk.data.popup_redirect_authentication_url", {} );
+	const url = get( window,
+		"wordproofSdk.data.popup_redirect_authentication_url", {} );
 
 	if ( ! props.isAuthenticated && props.toggleIsEnabled ) {
 		return (
@@ -83,6 +85,23 @@ class WordProofTimestampToggle extends Component {
 		super( props );
 
 		this.handleToggle = this.handleToggle.bind( this );
+
+		if ( ! this.props.isAuthenticated ) {
+			this.handleToggle( false );
+		}
+
+		const eventsToDisableToggle = [
+			"wordproof:oauth:destroy",
+			"wordproof:oauth:failed",
+			"wordproof:oauth:denied",
+			"wordproof:webhook:failed",
+		];
+
+		eventsToDisableToggle.forEach( event => {
+			window.addEventListener( event, () => {
+				this.handleToggle( false );
+			}, false );
+		} );
 	}
 
 	handleToggle( value ) {
@@ -146,7 +165,8 @@ WordProofTimestampToggle.defaultProps = {
 	id: "timestamp-toggle",
 	isEnabled: true,
 	postTypeName: "post",
-	onToggle: () => {},
+	onToggle: () => {
+	},
 };
 
 export default compose( [
