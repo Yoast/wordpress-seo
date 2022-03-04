@@ -57,6 +57,8 @@ const WordProofAuthenticationModals = () => {
 		switch ( modal ) {
 			case "webhook:failed":
 				return __( "Connection failed", "wordpress-seo" );
+			case "oauth:success":
+				return __( "Connected to WordProof", "wordpress-seo" );
 			default:
 				return __( "WordProof authentication", "wordpress-seo" );
 		}
