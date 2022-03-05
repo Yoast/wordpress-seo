@@ -29,4 +29,10 @@ class WordProofTranslations implements TranslationsInterface
 		/* translators: %s expands to WordProof. */
 		return sprintf(__('The timestamp is not retrieved by your site. Please try again or contact %1$s support.', 'wordpress-seo'), 'WordProof');
 	}
+
+	public function getNotAuthenticatedNotice()
+	{
+		/* translators: %s expands to WordProof. */
+		return sprintf(__('The timestamp is not created because you need to authenticate with %s first.', 'wordpress-seo'), 'WordProof');
+	}
 }
