@@ -45,7 +45,7 @@ class Schema_IDs {
 	/**
 	 * Hash used for the logo `@id`.
 	 */
-	const PERSON_LOGO_HASH = '#personlogo';
+	const PERSON_LOGO_HASH = '#/schema/person/image/';
 
 	/**
 	 * Hash used for an Article's primary image `@id`.

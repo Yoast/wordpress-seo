@@ -67,20 +67,4 @@ class CoAuthor extends Author {
 	protected function determine_user_id() {
 		return $this->user_id;
 	}
-
-	/**
-	 * An author should not have an image from options, this only applies to persons.
-	 *
-	 * @param array  $data      The Person schema.
-	 * @param string $schema_id The string used in the `@id` for the schema.
-	 *
-	 * @return array The Person schema.
-	 */
-	protected function set_image_from_options( $data, $schema_id ) {
-		if ( $this->site_represents_current_author() ) {
-			return parent::set_image_from_options( $data, $schema_id );
-		}
-
-		return $data;
-	}
 }
