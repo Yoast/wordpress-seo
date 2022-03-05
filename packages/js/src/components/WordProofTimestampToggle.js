@@ -86,14 +86,7 @@ class WordProofTimestampToggle extends Component {
 
 		this.handleToggle = this.handleToggle.bind( this );
 
-		if ( ! this.props.isAuthenticated ) {
-			this.handleToggle( false );
-		}
-
 		const eventsToDisableToggle = [
-			"wordproof:oauth:destroy",
-			"wordproof:oauth:failed",
-			"wordproof:oauth:denied",
 			"wordproof:webhook:failed",
 		];
 
@@ -134,17 +127,20 @@ class WordProofTimestampToggle extends Component {
 					label={ __( "Timestamp with WordProof", "wordpress-seo" ) }
 					hasNewBadge={ true }
 				>
-					<Toggle
-						className={ "yoast-field-group__radiobutton" }
-						id={ this.props.id }
-						labelText={ sprintf(
-							/* Translators: %s translates to the Post type in singular form */
-							__( "Timestamp this %s", "wordpress-seo" ),
-							this.props.postTypeName.toLowerCase()
-						) }
-						isEnabled={ this.props.isEnabled }
-						onSetToggleState={ this.handleToggle }
-					/>
+					<div className={`${! this.props.isAuthenticated ? "yoast-toggle--grayed" : ""}`}>
+						<Toggle
+							className={ `yoast-field-group__radiobutton`}
+							id={ this.props.id }
+							labelText={ sprintf(
+								/* Translators: %s translates to the Post type in singular form */
+								__( "Timestamp this %s", "wordpress-seo" ),
+								this.props.postTypeName.toLowerCase()
+							) }
+							isEnabled={ this.props.isEnabled }
+							onSetToggleState={ this.handleToggle }
+						/>
+					</div>
+
 					<SettingsLink
 						isAuthenticated={ this.props.isAuthenticated }
 					/>
