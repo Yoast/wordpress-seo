@@ -2,7 +2,7 @@
 
 namespace Yoast\WP\SEO\Integrations\Third_Party;
 
-use Yoast\WP\SEO\Conditionals\Third_Party\CoAuthorsPlus_Activated_Conditional;
+use Yoast\WP\SEO\Conditionals\Third_Party\CoAuthors_Plus_Activated_Conditional;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Generators\Schema\Third_Party\CoAuthor;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -35,7 +35,7 @@ class CoAuthors_Plus implements Integration_Interface {
 	 * @return array
 	 */
 	public static function get_conditionals() {
-		return [ CoAuthorsPlus_Activated_Conditional::class ];
+		return [ CoAuthors_Plus_Activated_Conditional::class ];
 	}
 
 	/**
@@ -52,10 +52,10 @@ class CoAuthors_Plus implements Integration_Interface {
 	/**
 	 * Filters the graph output to add authors.
 	 *
-	 * @param array             $data
-	 * @param Meta_Tags_Context $context
+	 * @param array             $data    The schema graph.
+	 * @param Meta_Tags_Context $context Context object.
 	 *
-	 * @return mixed
+	 * @return array The (potentially altered) schema graph.
 	 */
 	public function filter_graph( $data, $context ) {
 		if ( ! is_singular() ) {
@@ -63,13 +63,16 @@ class CoAuthors_Plus implements Integration_Interface {
 		}
 
 		/**
+		 * Contains the authors from the CoAuthors Plus plugin.
+		 *
 		 * @var \WP_User[] $author_objects
 		 */
 		$author_objects = \get_coauthors( $context->post->ID );
 		if ( count( $author_objects ) <= 1 ) {
 			return $data;
 		}
-		$ids            = [];
+
+		$ids = [];
 
 		// Add the authors to the schema.
 		foreach ( $author_objects as $author ) {
@@ -80,7 +83,7 @@ class CoAuthors_Plus implements Integration_Interface {
 			$author_generator->context = $context;
 			$author_generator->helpers = $this->helpers;
 			$author_data               = $author_generator->generate_from_user_id( $author->ID );
-			if ( ! empty ( $author_data ) ) {
+			if ( ! empty( $author_data ) ) {
 				$data[] = $author_data;
 				$ids[]  = [ '@id' => $author_data['@id'] ];
 			}

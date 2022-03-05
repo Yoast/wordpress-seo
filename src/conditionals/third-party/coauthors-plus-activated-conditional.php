@@ -7,7 +7,7 @@ use Yoast\WP\SEO\Conditionals\Conditional;
 /**
  * Conditional that is met when the CoAuthors Plus plugin is installed and activated.
  */
-class CoAuthorsPlus_Activated_Conditional implements Conditional {
+class CoAuthors_Plus_Activated_Conditional implements Conditional {
 
 	/**
 	 * Checks if the CoAuthors Plus plugin is installed and activated.
