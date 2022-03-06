@@ -1,35 +1,31 @@
 /* eslint-disable require-jsdoc */
 import { Component, Fragment, useCallback } from "@wordpress/element";
 import PropTypes from "prop-types";
-import { Toggle, FieldGroup } from "@yoast/components";
+import {Toggle, FieldGroup} from '@yoast/components';
 import { __, sprintf } from "@wordpress/i18n";
 import { compose } from "@wordpress/compose";
 import { withSelect } from "@wordpress/data";
 import { get, noop } from "lodash";
 import { openAuthentication, openSettings } from "../helpers/wordproof";
+import { Button } from '@wordpress/components';
 
 /**
  * The settings link.
  *
  * @param {Object} props The props object.
- * @returns {JSX.Element} The settings link.
+ * @returns {JSX.Element|null} The settings link.
  */
 const SettingsLink = ( props ) => {
 	if ( ! props.isAuthenticated ) {
-		return ( <></> );
+		return null;
 	}
 
-	const url = get( window, "wordproofSdk.data.popup_redirect_settings_url", "" );
-
-	const openLink = useCallback( event => {
-		event.preventDefault();
+	const openLink = useCallback( () => {
 		openSettings();
 	} );
 
 	return (
-		<a
-			href={ url } onClick={ openLink }
-		>{ __( "Manage WordProof settings", "wordpress-seo" ) }</a>
+		<Button variant={'link'} onClick={ openLink }>{ __( "Manage WordProof settings", "wordpress-seo" ) }</Button>
 	);
 };
 
@@ -45,19 +41,13 @@ SettingsLink.propTypes = {
  * @constructor
  */
 const AuthenticationLink = ( props ) => {
-	const openLink = useCallback( event => {
-		event.preventDefault();
+	const openLink = useCallback( () => {
 		openAuthentication();
 	} );
 
-	const url = get( window,
-		"wordproofSdk.data.popup_redirect_authentication_url", "" );
-
 	if ( ! props.isAuthenticated && props.toggleIsEnabled ) {
 		return (
-			<a
-				href={ url } onClick={ openLink }
-			>{ __( "Authenticate with WordProof", "wordpress-seo" ) }</a>
+			<Button variant={'link'} onClick={ openLink }>{ __( "Authenticate with WordProof", "wordpress-seo" ) }</Button>
 		);
 	}
 
