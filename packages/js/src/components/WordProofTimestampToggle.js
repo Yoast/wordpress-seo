@@ -19,8 +19,7 @@ const SettingsLink = ( props ) => {
 		return ( <></> );
 	}
 
-	const url = get( window, "wordproofSdk.data.popup_redirect_settings_url",
-		{} );
+	const url = get( window, "wordproofSdk.data.popup_redirect_settings_url", "" );
 
 	const openLink = useCallback( event => {
 		event.preventDefault();
@@ -52,7 +51,7 @@ const AuthenticationLink = ( props ) => {
 	} );
 
 	const url = get( window,
-		"wordproofSdk.data.popup_redirect_authentication_url", {} );
+		"wordproofSdk.data.popup_redirect_authentication_url", "" );
 
 	if ( ! props.isAuthenticated && props.toggleIsEnabled ) {
 		return (
