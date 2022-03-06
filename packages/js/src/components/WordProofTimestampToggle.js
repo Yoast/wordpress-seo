@@ -74,22 +74,28 @@ class WordProofTimestampToggle extends Component {
 		super( props );
 
 		this.handleToggle = this.handleToggle.bind( this );
-
-		const eventsToDisableToggle = [
-			"wordproof:webhook:failed",
-		];
-
-		eventsToDisableToggle.forEach( event => {
-			window.addEventListener( event, () => {
-				this.props.onToggle( false );
-			}, false );
-		} );
-
-		window.addEventListener( "wordproof:oauth:success", () => {
-			this.props.onToggle( true );
-		}, false );
+		this.turnToggleOff = this.turnToggleOff.bind( this );
+		this.turnToggleOn = this.turnToggleOn.bind( this );
 	}
 
+	componentDidMount() {
+		window.addEventListener( "wordproof:webhook:failed", this.turnToggleOff, false );
+		window.addEventListener( "wordproof:oauth:success", this.turnToggleOn, false );
+	}
+
+	componentWillUnmount() {
+		window.removeEventListener( "wordproof:webhook:failed", this.turnToggleOff, false );
+		window.removeEventListener( "wordproof:oauth:success", this.turnToggleOn, false );
+	}
+
+	/**
+	 * Send new toggle value to onToggle function and open authentication
+	 * if user is not authenticated.
+	 *
+	 * @param {boolean} value The new value.
+	 *
+	 * @returns {void} Returns nothing.
+	 */
 	handleToggle( value ) {
 		if ( ! this.props.isAuthenticated && value ) {
 			openAuthentication();
@@ -97,6 +103,24 @@ class WordProofTimestampToggle extends Component {
 		}
 
 		this.props.onToggle( value );
+	}
+
+	/**
+	 * Turn on the toggle.
+	 *
+	 * @returns {void} Returns nothing.
+	 */
+	turnToggleOn() {
+		this.props.onToggle( true );
+	}
+
+	/**
+	 * Turn off the toggle.
+	 *
+	 * @returns {void} Returns nothing.
+	 */
+	turnToggleOff() {
+		this.props.onToggle( false );
 	}
 
 	/**
