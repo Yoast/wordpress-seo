@@ -15,23 +15,6 @@ import Modal from "./Modal";
 const WordProofAuthenticationModals = () => {
 	const [ modal, setModal ] = useState( null );
 
-	useEffect( () => {
-		window.addEventListener( "wordproof:oauth:success", setOauthSuccess, false );
-
-		window.addEventListener( "wordproof:oauth:failed", setOauthFailed, false );
-
-		window.addEventListener( "wordproof:webhook:failed", setWebhookFailed, false );
-
-		return () => {
-			console.warn( "removed" );
-			window.removeEventListener( "wordproof:oauth:success", setOauthSuccess, false );
-
-			window.removeEventListener( "wordproof:oauth:failed", setOauthFailed, false );
-
-			window.removeEventListener( "wordproof:webhook:failed", setWebhookFailed, false );
-		};
-	}, [] );
-
 	/**
 	 * Show oauth failed content.
 	 *
@@ -67,6 +50,23 @@ const WordProofAuthenticationModals = () => {
 	const closeModal = useCallback( () => {
 		setModal( null );
 	} );
+
+	useEffect( () => {
+		window.addEventListener( "wordproof:oauth:success", setOauthSuccess, false );
+
+		window.addEventListener( "wordproof:oauth:failed", setOauthFailed, false );
+
+		window.addEventListener( "wordproof:webhook:failed", setWebhookFailed, false );
+
+		return () => {
+			console.warn( "removed" );
+			window.removeEventListener( "wordproof:oauth:success", setOauthSuccess, false );
+
+			window.removeEventListener( "wordproof:oauth:failed", setOauthFailed, false );
+
+			window.removeEventListener( "wordproof:webhook:failed", setWebhookFailed, false );
+		};
+	}, [] );
 
 	/**
 	 * Returns the modal title.
@@ -109,7 +109,6 @@ const WordProofAuthenticationModals = () => {
 			) }
 		</>
 	);
-}
-;
+};
 
 export default WordProofAuthenticationModals;

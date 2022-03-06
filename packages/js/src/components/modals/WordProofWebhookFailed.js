@@ -57,7 +57,7 @@ const WordProofWebhookFailed = ( props ) => {
 			</div>
 
 
-			<div className={'wordproof-modal-action'}>
+			<div className={ "wordproof-modal-action" }>
 				<Button
 					variant={ "secondary" }
 					onClick={ retry }

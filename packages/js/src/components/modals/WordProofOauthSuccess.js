@@ -57,7 +57,7 @@ const WordProofOauthSuccess = ( props ) => {
 				}
 
 			</p>
-			<div className={'wordproof-modal-action'}>
+			<div className={ "wordproof-modal-action" }>
 				<Button
 					variant={ "primary" }
 					onClick={ closeModal }

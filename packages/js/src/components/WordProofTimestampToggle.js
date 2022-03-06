@@ -1,13 +1,13 @@
 /* eslint-disable require-jsdoc */
 import { Component, Fragment, useCallback } from "@wordpress/element";
 import PropTypes from "prop-types";
-import {Toggle, FieldGroup} from '@yoast/components';
+import { Toggle, FieldGroup } from "@yoast/components";
 import { __, sprintf } from "@wordpress/i18n";
 import { compose } from "@wordpress/compose";
 import { withSelect } from "@wordpress/data";
-import { get, noop } from "lodash";
+import { noop } from "lodash";
 import { openAuthentication, openSettings } from "../helpers/wordproof";
-import { Button } from '@wordpress/components';
+import { Button } from "@wordpress/components";
 
 /**
  * The settings link.
@@ -25,7 +25,7 @@ const SettingsLink = ( props ) => {
 	} );
 
 	return (
-		<Button variant={'link'} onClick={ openLink }>{ __( "Manage WordProof settings", "wordpress-seo" ) }</Button>
+		<Button variant={ "link" } onClick={ openLink }>{ __( "Manage WordProof settings", "wordpress-seo" ) }</Button>
 	);
 };
 
@@ -47,7 +47,7 @@ const AuthenticationLink = ( props ) => {
 
 	if ( ! props.isAuthenticated && props.toggleIsEnabled ) {
 		return (
-			<Button variant={'link'} onClick={ openLink }>{ __( "Authenticate with WordProof", "wordpress-seo" ) }</Button>
+			<Button variant={ "link" } onClick={ openLink }>{ __( "Authenticate with WordProof", "wordpress-seo" ) }</Button>
 		);
 	}
 
