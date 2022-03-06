@@ -1,5 +1,6 @@
 /* External dependencies */
 import { __, sprintf } from "@wordpress/i18n";
+import { createInterpolateElement } from "@wordpress/element";
 
 /* Yoast dependencies */
 import { ReactComponent as Image } from "../../../images/succes_marieke_bubble_optm.svg";
@@ -39,19 +40,25 @@ const WordProofOauthSuccess = ( props ) => {
 					"WordProof"
 				) }
 				<br />
-				{ sprintf(
-					/* Translators: %s translates to the Post type in singular form. The sentence continues with "update or publish." */
-					__( "The %s will automatically be timestamped every time you",
-						"wordpress-seo" ),
-					getWordProofSdkData( "current_post_type" )
-				) }
-				<span>&nbsp;</span>
-				<strong>{ __( "update", "wordpress-seo" ) }</strong>
-				<span>&nbsp;</span>
-				{ __( "or", "wordpress-seo" ) }
-				<span>&nbsp;</span>
-				<strong>{ __( "publish", "wordpress-seo" ) }</strong>
-				<span>.</span>
+
+				{
+					createInterpolateElement(
+						sprintf(
+							__(
+								// translators: %1$s and %2$s are replaced by opening and closing <b> tags. %3$s translates to the Post type in singular form.
+								"The %3$s will automatically be timestamped every time you %1$supdate%2$s or %1$spublish%2$s.",
+								"wordpress-seo"
+							),
+							"<b>",
+							"</b>",
+							getWordProofSdkData( "current_post_type" )
+						),
+						{
+							b: <b />,
+						}
+					)
+				}
+
 			</p>
 			<div style={ { display: "flex", justifyContent: "center" } }>
 				<Button

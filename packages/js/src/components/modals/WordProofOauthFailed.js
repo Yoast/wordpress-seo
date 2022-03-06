@@ -1,5 +1,5 @@
 /* External dependencies */
-import { __ } from "@wordpress/i18n";
+import {__, sprintf} from '@wordpress/i18n';
 
 /**
  * Creates the content for the WordProof oauth failed modal.
@@ -9,9 +9,11 @@ import { __ } from "@wordpress/i18n";
 const WordProofOauthFailed = () => {
 	return (
 		<>
-			{ __(
-				"Something went wrong authenticating your WordProof account with the WordPress site. Please try again or contact WordProof support.",
-				"wordpress-seo"
+			{ sprintf(
+				/* Translators: %1$s expands to WordProof. %2$s expands to WordPress" */
+				__( "Something went wrong authenticating your %1$s account with the %2$s site. Please try again or contact %1$s support.",
+					"wordpress-seo" ),
+				'WordProof', 'WordPress'
 			) }
 		</>
 	);

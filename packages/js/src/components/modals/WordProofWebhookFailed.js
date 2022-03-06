@@ -5,6 +5,7 @@ import { ReactComponent as Image } from "../../../images/connection-assistant.sv
 import { NewButton as Button } from "@yoast/components";
 import PropTypes from "prop-types";
 import {openAuthentication} from '../../helpers/wordproof';
+import { addLinkToString } from "../../helpers/stringHelpers.js";
 
 /**
  * Creates the content for the WordProof oauth denied modal.
@@ -45,18 +46,20 @@ const WordProofWebhookFailed = ( props ) => {
 					"wordpress-seo" )
 				}
 				<br />
+
 				{
-					/* translators: a link to an article is added behind this string. */
-					__(
-						"Find possible solutions in this",
-						"wordpress-seo" )
+					addLinkToString(
+						sprintf(
+							__(
+								"Find possible solutions in this %1$sArticle%2$s.",
+								"wordpress-seo"
+							),
+							"<a>",
+							"</a>"
+						),
+						"https://help.wordproof.com/en/articles/4823201-how-do-i-whitelist-wordproof-in-cloudflare"
+					)
 				}
-				<span> </span>
-				<a
-					href={ "https://help.wordproof.com/en/articles/4823201-how-do-i-whitelist-wordproof-in-cloudflare" }
-					target="_blank" rel="noopener noreferrer"
-				>{ __(
-						"Article", "wordpress-seo" ) }</a><span>.</span>
 			</div>
 
 
@@ -71,15 +74,21 @@ const WordProofWebhookFailed = ( props ) => {
 			</div>
 
 			<div>
-				{__( "Not working?", "wordpress-seo" ) }
-				&nbsp;
-				<a
-					href={ "https://help.wordproof.com" } target="_blank"
-					rel="noopener noreferrer"
-				>{ sprintf(
-					/* translators: %s expands to WordProof */
-						__( "Contact %s support", "wordpress-seo" ),
-						"WordProof" ) }</a>
+				{
+					addLinkToString(
+						sprintf(
+							// translators: %1$s and %2$s are replaced by opening and closing <a> tags. %3$s expands to WordProof.
+							__(
+								"Not working? %1$sContact %3$s support%2$s.",
+								"wordpress-seo"
+							),
+							"<a>",
+							"</a>",
+							"WordProof"
+						),
+						"https://help.wordproof.com"
+					)
+				}
 
 			</div>
 
