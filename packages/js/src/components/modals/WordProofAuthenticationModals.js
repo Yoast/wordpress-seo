@@ -1,9 +1,9 @@
 import { useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 
-import OauthFailedModal from "./WordProofOauthFailed";
-import OauthSuccessModal from "./WordProofOauthSuccess";
-import WebhookFailedModal from "./WordProofWebhookFailed";
+import OauthFailed from "./WordProofOauthFailed";
+import OauthSuccess from "./WordProofOauthSuccess";
+import WebhookFailed from "./WordProofWebhookFailed";
 import Modal from "./Modal";
 
 /**
@@ -74,15 +74,15 @@ const WordProofAuthenticationModals = () => {
 				>
 
 					{ modal === "oauth:success" && (
-						<OauthSuccessModal closeModal={ closeModal } />
+						<OauthSuccess closeModal={ closeModal } />
 					) }
 
 					{ modal === "oauth:failed" && (
-						<OauthFailedModal closeModal={ closeModal } />
+						<OauthFailed closeModal={ closeModal } />
 					) }
 
 					{ modal === "webhook:failed" && (
-						<WebhookFailedModal closeModal={ closeModal } />
+						<WebhookFailed closeModal={ closeModal } />
 					) }
 
 				</Modal>

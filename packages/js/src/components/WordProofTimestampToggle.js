@@ -5,7 +5,7 @@ import { Toggle, FieldGroup } from "@yoast/components";
 import { __, sprintf } from "@wordpress/i18n";
 import { compose } from "@wordpress/compose";
 import { withSelect } from "@wordpress/data";
-import { get } from "lodash";
+import { get, noop } from "lodash";
 import { openAuthentication, openSettings } from "../helpers/wordproof";
 
 /**
@@ -62,7 +62,7 @@ const AuthenticationLink = ( props ) => {
 		);
 	}
 
-	return ( "" );
+	return null;
 };
 
 AuthenticationLink.propTypes = {
@@ -166,8 +166,7 @@ WordProofTimestampToggle.defaultProps = {
 	id: "timestamp-toggle",
 	isEnabled: true,
 	postTypeName: "post",
-	onToggle: () => {
-	},
+	onToggle: noop
 };
 
 export default compose( [

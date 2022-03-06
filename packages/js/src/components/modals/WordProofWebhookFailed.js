@@ -4,6 +4,7 @@ import { useCallback } from "@wordpress/element";
 import { ReactComponent as Image } from "../../../images/connection-assistant.svg";
 import { NewButton as Button } from "@yoast/components";
 import PropTypes from "prop-types";
+import {openAuthentication} from '../../helpers/wordproof';
 
 /**
  * Creates the content for the WordProof oauth denied modal.
@@ -23,8 +24,7 @@ const WordProofWebhookFailed = ( props ) => {
 		closeModal();
 
 		event.preventDefault();
-		const retryEvent = new window.CustomEvent( "wordproof:open_authentication" );
-		window.dispatchEvent( retryEvent );
+		openAuthentication();
 	} );
 
 	return (
@@ -71,8 +71,8 @@ const WordProofWebhookFailed = ( props ) => {
 			</div>
 
 			<div>
-				{ __( "Not working?", "wordpress-seo" ) }
-				<span> </span>
+				{__( "Not working?", "wordpress-seo" ) }
+				&nbsp;
 				<a
 					href={ "https://help.wordproof.com" } target="_blank"
 					rel="noopener noreferrer"
