@@ -60,4 +60,24 @@ class WordProof_Translations implements TranslationsInterface {
 		/* translators: %s expands to WordProof. */
 		return sprintf( __( 'The timestamp is not created because you need to authenticate with %s first.', 'wordpress-seo' ), 'WordProof' );
 	}
+
+	/**
+	 * Returns authenticate button text.
+	 *
+	 * @return string The translation.
+	 */
+	public function getOpenAuthenticationButtonText()
+	{
+		return __('Open authentication', 'wordproof');
+	}
+
+	/**
+	 * Returns open settings button translation.
+	 *
+	 * @return string The translation.
+	 */
+	public function getOpenSettingsButtonText()
+	{
+		return __('Open settings', 'wordproof');
+	}
 }
