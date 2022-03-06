@@ -1,4 +1,4 @@
-import { useState } from "@wordpress/element";
+import { useState, useCallback, useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 
 import OauthFailed from "./WordProofOauthFailed";
@@ -15,45 +15,65 @@ import Modal from "./Modal";
 const WordProofAuthenticationModals = () => {
 	const [ modal, setModal ] = useState( null );
 
-	window.addEventListener(
-		"wordproof:oauth:success",
-		() => {
-			setModal( "oauth:success" );
-		},
-		false
-	);
+	useEffect( () => {
+		window.addEventListener( "wordproof:oauth:success", setOauthSuccess, false );
 
-	window.addEventListener(
-		"wordproof:oauth:failed",
-		() => {
-			setModal( "oauth:failed" );
-		},
-		false
-	);
+		window.addEventListener( "wordproof:oauth:failed", setOauthFailed, false );
 
-	window.addEventListener(
-		"wordproof:webhook:failed",
-		() => {
-			setModal( "webhook:failed" );
-		},
-		false
-	);
+		window.addEventListener( "wordproof:webhook:failed", setWebhookFailed, false );
+
+		return () => {
+			console.warn( "removed" );
+			window.removeEventListener( "wordproof:oauth:success", setOauthSuccess, false );
+
+			window.removeEventListener( "wordproof:oauth:failed", setOauthFailed, false );
+
+			window.removeEventListener( "wordproof:webhook:failed", setWebhookFailed, false );
+		};
+	}, [] );
+
+	/**
+	 * Show oauth failed content.
+	 *
+	 * @returns {void} Returns no value.
+	 */
+	const setOauthFailed = useCallback( () => {
+		setModal( "oauth:failed" );
+	} );
+
+	/**
+	 * Show oauth webhook failed content.
+	 *
+	 * @returns {void} Returns no value.
+	 */
+	const setWebhookFailed = useCallback( () => {
+		setModal( "webhook:failed" );
+	} );
+
+	/**
+	 * Show oauth success content.
+	 *
+	 * @returns {void} Returns no value.
+	 */
+	const setOauthSuccess = useCallback( () => {
+		setModal( "oauth:success" );
+	} );
 
 	/**
 	 * Stop displaying the current modal.
 	 *
 	 * @returns {void} Returns no value.
 	 */
-	function closeModal() {
+	const closeModal = useCallback( () => {
 		setModal( null );
-	}
+	} );
 
 	/**
 	 * Returns the modal title.
 	 *
 	 * @returns {string} The modal title.
 	 */
-	function getModalTitle() {
+	const getModalTitle = useCallback( () => {
 		switch ( modal ) {
 			case "webhook:failed":
 				return __( "Connection failed", "wordpress-seo" );
@@ -62,7 +82,7 @@ const WordProofAuthenticationModals = () => {
 			default:
 				return __( "WordProof authentication", "wordpress-seo" );
 		}
-	}
+	} );
 
 	return (
 		<>
@@ -78,7 +98,7 @@ const WordProofAuthenticationModals = () => {
 					) }
 
 					{ modal === "oauth:failed" && (
-						<OauthFailed closeModal={ closeModal } />
+						<OauthFailed />
 					) }
 
 					{ modal === "webhook:failed" && (
