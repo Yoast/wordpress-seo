@@ -5,8 +5,8 @@ namespace Yoast\WP\SEO\Integrations\Third_Party;
 use WordProof\SDK\Helpers\PostMetaHelper;
 use WordProof\SDK\WordPressSDK;
 use Yoast\WP\SEO\Conditionals\Third_Party\WordProof_Plugin_Inactive_Conditional;
-use Yoast\WP\SEO\Config\WordProofAppConfig;
-use Yoast\WP\SEO\Config\WordProofTranslations;
+use Yoast\WP\SEO\Config\WordProof_App_Config;
+use Yoast\WP\SEO\Config\WordProof_Translations;
 use Yoast\WP\SEO\Helpers\WordProof_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
@@ -93,8 +93,8 @@ class WordProof implements Integration_Interface {
 	 */
 	public function sdk_setup() {
 
-		$config       = new WordProofAppConfig();
-		$translations = new WordProofTranslations();
+		$config       = new WordProof_App_Config();
+		$translations = new WordProof_Translations();
 
 		WordPressSDK::getInstance( $config, $translations )
 			->certificate()
@@ -102,7 +102,10 @@ class WordProof implements Integration_Interface {
 	}
 
 	/**
-	 * Removes the WordProof timestamp post meta if the privacy is changed.
+	 * Removes the WordProof timestamp post meta if a legal page is changed.
+	 *
+	 * @param integer $old_post_id The old post id.
+	 * @param integer $new_post_id The new post id.
 	 */
 	public function disable_timestamp_for_previous_legal_page( $old_post_id, $new_post_id ) {
 

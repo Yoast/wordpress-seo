@@ -12,11 +12,11 @@ use Yoast\WP\SEO\Helpers\WordProof_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
- * Class WordProofIntegrationToggle
+ * Class WordProofIntegrationToggle.
  *
  * @package Yoast\WP\SEO\Integrations\Third_Party
  */
-class WordProofIntegrationToggle implements Integration_Interface {
+class WordProof_Integration_Toggle implements Integration_Interface {
 
 	/**
 	 * The WordProof helper instance.
@@ -40,7 +40,7 @@ class WordProofIntegrationToggle implements Integration_Interface {
 	 * @return array
 	 */
 	public static function get_conditionals() {
-		 return [ Admin_Conditional::class ];
+		return [ Admin_Conditional::class ];
 	}
 
 	/**
@@ -52,8 +52,8 @@ class WordProofIntegrationToggle implements Integration_Interface {
 	 */
 	public function register_hooks() {
 		/**
-		   * Called by Yoast_Integration_Toggles to add extra toggles to the ones defined there.
-		   */
+		 * Called by Yoast_Integration_Toggles to add extra toggles to the ones defined there.
+		 */
 		\add_filter( 'wpseo_integration_toggles', [ $this, 'add_integration_toggle' ] );
 
 		/**
@@ -99,6 +99,8 @@ class WordProofIntegrationToggle implements Integration_Interface {
 	/**
 	 * Set the default WordProof integration option value depending if the integration is disabled or not.
 	 *
+	 * @param array $defaults Array containing default wpseo options.
+	 *
 	 * @return bool
 	 */
 	public function default_values( $defaults ) {
@@ -112,12 +114,12 @@ class WordProofIntegrationToggle implements Integration_Interface {
 	/**
 	 * Add an explainer when the integration toggle is disabled.
 	 *
-	 * @param \Yoast_Feature_Toggle $integration
+	 * @param \Yoast_Feature_Toggle $integration The integration toggle class.
 	 */
 	public function after_integration_toggle( $integration ) {
 		if ( $integration->setting === 'wordproof_integration_active' ) {
 			if ( $integration->disabled ) {
-				echo '<p>' . __( 'The WordProof Timestamp plugin needs to be disabled before you can activate this integration.', 'wordpress-seo' ) . '</p>';
+				echo '<p>' . esc_html__( 'The WordProof Timestamp plugin needs to be disabled before you can activate this integration.', 'wordpress-seo' ) . '</p>';
 			}
 		}
 	}
