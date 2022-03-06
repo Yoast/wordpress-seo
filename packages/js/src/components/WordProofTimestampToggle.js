@@ -166,7 +166,7 @@ WordProofTimestampToggle.defaultProps = {
 	id: "timestamp-toggle",
 	isEnabled: true,
 	postTypeName: "post",
-	onToggle: noop
+	onToggle: noop,
 };
 
 export default compose( [

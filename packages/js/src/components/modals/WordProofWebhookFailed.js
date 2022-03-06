@@ -4,7 +4,7 @@ import { useCallback } from "@wordpress/element";
 import { ReactComponent as Image } from "../../../images/connection-assistant.svg";
 import { NewButton as Button } from "@yoast/components";
 import PropTypes from "prop-types";
-import {openAuthentication} from '../../helpers/wordproof';
+import { openAuthentication } from "../../helpers/wordproof";
 import { addLinkToString } from "../../helpers/stringHelpers.js";
 
 /**
