@@ -42,16 +42,16 @@ const WordProofAuthenticationModals = () => {
 	/**
 	 * Stop displaying the current modal.
 	 *
-	 * @returns void
+	 * @returns {void} Returns no value.
 	 */
 	function closeModal() {
 		setModal( null );
 	}
 
 	/**
-	 * Return the modal title.
+	 * Returns the modal title.
 	 *
-	 * @returns string
+	 * @returns {string} The modal title.
 	 */
 	function getModalTitle() {
 		switch ( modal ) {

@@ -1,15 +1,24 @@
 /* External dependencies */
-import { __ } from "@wordpress/i18n";
+import { __, sprintf } from "@wordpress/i18n";
 import { useCallback } from "@wordpress/element";
 import { ReactComponent as Image } from "../../../images/connection-assistant.svg";
 import { NewButton as Button } from "@yoast/components";
+import PropTypes from "prop-types";
 
 /**
  * Creates the content for the WordProof oauth denied modal.
  *
- * @returns {wp.Element} The WordProof oauth denied modal content.
+ * @param {object} props Functional Component props.
+ *
+ * @returns {JSX.Element} The WordProof oauth denied modal content.
+ *
+ * @constructor
  */
-const WordProofWebhookFailed = ( { closeModal } ) => {
+const WordProofWebhookFailed = ( props ) => {
+	const {
+		closeModal,
+	} = props;
+
 	const retry = useCallback( ( event ) => {
 		closeModal();
 
@@ -76,6 +85,10 @@ const WordProofWebhookFailed = ( { closeModal } ) => {
 
 		</div>
 	);
+};
+
+WordProofWebhookFailed.propTypes = {
+	closeModal: PropTypes.func.isRequired,
 };
 
 export default WordProofWebhookFailed;

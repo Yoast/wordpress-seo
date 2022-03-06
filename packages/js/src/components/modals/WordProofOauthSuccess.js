@@ -5,13 +5,20 @@ import { __, sprintf } from "@wordpress/i18n";
 import { ReactComponent as Image } from "../../../images/succes_marieke_bubble_optm.svg";
 import { getWordProofSdkData } from "../../helpers/wordproof";
 import { NewButton as Button } from "@yoast/components";
+import PropTypes from "prop-types";
 
 /**
  * Creates the content for the WordProof oauth success modal.
  *
- * @returns {wp.Element} The WordProof oauth success modal.
+ * @param {object} props Functional Component props.
+ *
+ * @returns {JSX.Element} The WordProof oauth success modal.
  */
-const WordProofOauthSuccess = ( { closeModal } ) => {
+const WordProofOauthSuccess = ( props ) => {
+	const {
+		closeModal,
+	} = props;
+
 	return (
 		<>
 			<div
@@ -54,6 +61,10 @@ const WordProofOauthSuccess = ( { closeModal } ) => {
 			</div>
 		</>
 	);
+};
+
+WordProofOauthSuccess.propTypes = {
+	closeModal: PropTypes.func.isRequired,
 };
 
 export default WordProofOauthSuccess;

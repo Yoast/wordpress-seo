@@ -12,7 +12,7 @@ import { openAuthentication, openSettings } from "../helpers/wordproof";
  * The settings link.
  *
  * @param {Object} props The props object.
- * @returns {JSX.Element} The SettingsLink component.
+ * @returns {JSX.Element} The settings link.
  */
 const SettingsLink = ( props ) => {
 	if ( ! props.isAuthenticated ) {
@@ -41,8 +41,8 @@ SettingsLink.propTypes = {
 /**
  * The authentication link.
  *
- * @param props
- * @returns {JSX.Element|string}
+ * @param {object} props Functional Component props.
+ * @returns {JSX.Element|string} The authentication link.
  * @constructor
  */
 const AuthenticationLink = ( props ) => {
@@ -127,9 +127,9 @@ class WordProofTimestampToggle extends Component {
 					label={ __( "Timestamp with WordProof", "wordpress-seo" ) }
 					hasNewBadge={ true }
 				>
-					<div className={`${! this.props.isAuthenticated ? "yoast-toggle--grayed" : ""}`}>
+					<div className={ `${ this.props.isAuthenticated ? "" : "yoast-toggle--grayed"}` }>
 						<Toggle
-							className={ `yoast-field-group__radiobutton`}
+							className={ "yoast-field-group__radiobutton" }
 							id={ this.props.id }
 							labelText={ sprintf(
 								/* Translators: %s translates to the Post type in singular form */

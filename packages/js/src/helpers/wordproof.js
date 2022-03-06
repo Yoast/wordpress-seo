@@ -20,15 +20,31 @@ export const isWordProofIntegrationActive = () => {
 	return get( l10nObject, "wordproofIntegrationActive", 0 ) === 1;
 };
 
-export const openAuthentication = () => {
-	dispatchEvent( "wordproof:open_authentication" );
-};
-
-export const openSettings = () => {
-	dispatchEvent( "wordproof:open_settings" );
-};
-
+/**
+ * Dispatches custom event.
+ *
+ * @param {string} name The name of the event.
+ * @returns {void} Returns void.
+ */
 const dispatchEvent = ( name ) => {
 	const event = new CustomEvent( name );
 	window.dispatchEvent( event );
 };
+
+/**
+ * Dispatches event to open authentication.
+ * @returns {void} Returns void.
+ */
+export const openAuthentication = () => {
+	dispatchEvent( "wordproof:open_authentication" );
+};
+
+/**
+ * Dispatches event to open settings.
+ * @returns {void} Returns void.
+ */
+export const openSettings = () => {
+	dispatchEvent( "wordproof:open_settings" );
+};
+
+
