@@ -22,17 +22,11 @@ const WordProofOauthSuccess = ( props ) => {
 
 	return (
 		<>
-			<div
-				style={ {
-					display: "flex",
-					justifyContent: "center",
-					marginBlock: "40px",
-				} }
-			>
-				<Image style={ { width: "175px" } } />
+			<div className={ "wordproof-modal-image" }>
+				<Image class={ "wordproof-modal-svg__success" } />
 			</div>
 
-			<p style={ { textAlign: "center" } }>
+			<p>
 				{ sprintf(
 					/* Translators: %s expands to WordProof */
 					__( "Your page is now protected via the blockchain!!",
@@ -45,7 +39,10 @@ const WordProofOauthSuccess = ( props ) => {
 					createInterpolateElement(
 						sprintf(
 							__(
-								// translators: %1$s and %2$s are replaced by opening and closing <b> tags. %3$s translates to the Post type in singular form.
+								/** translators:
+								 * %1$s and %2$s are replaced by opening and closing <b> tags.
+								 * %3$s translates to the Post type in singular form.
+								 */
 								"The %3$s will automatically be timestamped every time you %1$supdate%2$s or %1$spublish%2$s.",
 								"wordpress-seo"
 							),
@@ -60,7 +57,7 @@ const WordProofOauthSuccess = ( props ) => {
 				}
 
 			</p>
-			<div style={ { display: "flex", justifyContent: "center" } }>
+			<div className={'wordproof-modal-action'}>
 				<Button
 					variant={ "primary" }
 					onClick={ closeModal }

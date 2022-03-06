@@ -479,3 +479,35 @@
 .yoast-related-keyphrases-modal__chart {
 	display: block;
 }
+
+.wordproof-modal {
+	max-width: 380px;
+	text-align: center;
+}
+
+.wordproof-modal-image {
+	display: flex;
+	justify-content: center;
+	margin-block: 40px;
+}
+
+.wordproof-modal-svg__webhook-failed {
+	width: 100%;
+}
+
+.wordproof-modal-svg__success {
+	width: 175px;
+}
+
+.wordproof-modal-action {
+	display: flex;
+	justify-content: center;
+	margin-top: 40px;
+	margin-bottom: 10px;
+}
+
+/* Override default button padding. */
+.wordproof-modal-action > button {
+	padding-left: 20px !important;
+	padding-right: 20px !important;
+}

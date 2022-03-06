@@ -89,7 +89,7 @@ const WordProofAuthenticationModals = () => {
 			{ modal && (
 				<Modal
 					onRequestClose={ closeModal }
-					   style={ { maxWidth: "380px" } }
+					additionalClassName={ "wordproof-modal" }
 					title={ getModalTitle() }
 				>
 

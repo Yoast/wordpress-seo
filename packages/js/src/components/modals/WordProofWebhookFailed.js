@@ -29,18 +29,12 @@ const WordProofWebhookFailed = ( props ) => {
 	} );
 
 	return (
-		<div style={ { textAlign: "center" } }>
-			<div
-				style={ {
-					display: "flex",
-					justifyContent: "center",
-					marginBlock: "40px",
-				} }
-			>
-				<Image style={ { width: "100%" } } />
+		<div>
+			<div className={ "wordproof-modal-image" }>
+				<Image className={ "wordproof-modal-svg__webhook-failed" } />
 			</div>
 
-			<div style={ { marginBottom: "40px" } }>
+			<div>
 				{ __(
 					"There was a connection problem. This could be because your third party connections are blocked.",
 					"wordpress-seo" )
@@ -63,10 +57,9 @@ const WordProofWebhookFailed = ( props ) => {
 			</div>
 
 
-			<div style={ { marginBottom: "10px" } }>
+			<div className={'wordproof-modal-action'}>
 				<Button
 					variant={ "secondary" }
-					style={ { paddingLeft: "20px", paddingRight: "20px" } }
 					onClick={ retry }
 				>{ __(
 						"Try again",
