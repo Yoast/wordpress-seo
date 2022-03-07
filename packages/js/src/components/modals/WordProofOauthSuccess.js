@@ -22,16 +22,16 @@ const WordProofOauthSuccess = ( props ) => {
 
 	return (
 		<>
-			<div className={ "wordproof-modal-image" }>
-				<Image class={ "wordproof-modal-svg__success" } />
+			<div className={ "yoast-wordproof-modal-image" }>
+				<Image class={ "yoast-wordproof-modal-svg__success" } />
 			</div>
 
 			<p>
 				{ sprintf(
-					/* Translators: %s expands to WordProof */
-					__( "Your page is now protected via the blockchain!!",
+					/* Translators: %s translates to the Post type in singular form */
+					__( "Your %s is now protected via the blockchain!",
 						"wordpress-seo" ),
-					"WordProof"
+					getWordProofSdkData( "current_post_type" )
 				) }
 				<br />
 
@@ -57,7 +57,7 @@ const WordProofOauthSuccess = ( props ) => {
 				}
 
 			</p>
-			<div className={ "wordproof-modal-action" }>
+			<div className={ "yoast-wordproof-modal-action" }>
 				<Button
 					variant={ "primary" }
 					onClick={ closeModal }

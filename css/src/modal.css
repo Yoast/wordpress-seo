@@ -480,26 +480,26 @@
 	display: block;
 }
 
-.wordproof-modal {
+.yoast-wordproof-modal {
 	max-width: 380px;
 	text-align: center;
 }
 
-.wordproof-modal-image {
+.yoast-wordproof-modal-image {
 	display: flex;
 	justify-content: center;
 	margin-block: 40px;
 }
 
-.wordproof-modal-svg__webhook-failed {
+.yoast-wordproof-modal-svg__webhook-failed {
 	width: 100%;
 }
 
-.wordproof-modal-svg__success {
+.yoast-wordproof-modal-svg__success {
 	width: 175px;
 }
 
-.wordproof-modal-action {
+.yoast-wordproof-modal-action {
 	display: flex;
 	justify-content: center;
 	margin-top: 40px;
@@ -507,7 +507,7 @@
 }
 
 /* Override default button padding. */
-.wordproof-modal-action > button {
-	padding-left: 20px !important;
-	padding-right: 20px !important;
+.yoast-wordproof-modal-action.yoast-wordproof-modal-action > button {
+	padding-left: 20px;
+	padding-right: 20px;
 }

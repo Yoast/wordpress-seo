@@ -140,9 +140,8 @@ class WordProofTimestampToggle extends Component {
 					label={ __( "Timestamp with WordProof", "wordpress-seo" ) }
 					hasNewBadge={ true }
 				>
-					<div className={ `${ this.props.isAuthenticated ? "" : "yoast-toggle--grayed"}` }>
+					<div className={ `${ this.props.isAuthenticated ? "" : "yoast-wordproof-toggle-error-state"}` }>
 						<Toggle
-							className={ "yoast-field-group__radiobutton" }
 							id={ this.props.id }
 							labelText={ sprintf(
 								/* Translators: %s translates to the Post type in singular form */

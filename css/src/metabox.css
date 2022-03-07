@@ -799,4 +799,12 @@ div.interface-pinned-items button.components-button.is-pressed[aria-label="Yoast
 	color: var(--yoast-color-white);
 }
 
+.yoast-wordproof-toggle-error-state > div> div[role=checkbox][aria-checked="true"] {
+	background-color: #ffe5ae;
+}
+
+.yoast-wordproof-toggle-error-state > div > div[role=checkbox][aria-checked="true"] > span {
+	background-color: #bf7e01;
+}
+
 /*# sourceMappingURL=metabox.css.map */

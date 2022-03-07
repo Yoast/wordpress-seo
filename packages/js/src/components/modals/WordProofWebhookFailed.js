@@ -30,8 +30,8 @@ const WordProofWebhookFailed = ( props ) => {
 
 	return (
 		<div>
-			<div className={ "wordproof-modal-image" }>
-				<Image className={ "wordproof-modal-svg__webhook-failed" } />
+			<div className={ "yoast-wordproof-modal-image" }>
+				<Image className={ "yoast-wordproof-modal-svg__webhook-failed" } />
 			</div>
 
 			<div>
@@ -57,7 +57,7 @@ const WordProofWebhookFailed = ( props ) => {
 			</div>
 
 
-			<div className={ "wordproof-modal-action" }>
+			<div className={ "yoast-wordproof-modal-action" }>
 				<Button
 					variant={ "secondary" }
 					onClick={ retry }
