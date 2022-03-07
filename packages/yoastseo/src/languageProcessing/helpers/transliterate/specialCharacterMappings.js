@@ -1,7 +1,7 @@
 import isEqual from "lodash-es/isEqual";
-import filter from "lodash-es/filter";
-import includes from "lodash-es/includes";
-import memoize from "lodash-es/memoize";
+import filter from "lodash/filter";
+import includes from "lodash/includes";
+import memoize from "lodash/memoize";
 import getWords from "../word/getWords";
 
 /**
