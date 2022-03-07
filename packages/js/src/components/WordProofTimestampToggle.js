@@ -158,7 +158,13 @@ class WordProofTimestampToggle extends Component {
 						isAuthenticated={ this.props.isAuthenticated }
 					/>
 
-					<Alert className={'yoast-wordproof-metabox-alert'} type={'info'}>{ __("Unable to create new timestamps. Please authenticate with WordProof.", 'wordpress-seo') }</Alert>
+					{( ! this.props.isAuthenticated && this.props.isEnabled ) &&
+						<Alert className={'yoast-wordproof-metabox-alert'} type={'info'}>{
+							__( 'Unable to create new timestamps. Please authenticate with WordProof.',
+						'wordpress-seo' )}
+						</Alert>
+					}
+
 				</FieldGroup>
 			</Fragment>
 		);
