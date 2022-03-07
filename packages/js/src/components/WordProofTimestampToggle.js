@@ -140,18 +140,16 @@ class WordProofTimestampToggle extends Component {
 					label={ __( "Timestamp with WordProof", "wordpress-seo" ) }
 					hasNewBadge={ true }
 				>
-					<div className={ `${ this.props.isAuthenticated ? "" : "yoast-wordproof-toggle-error-state"}` }>
-						<Toggle
-							id={ this.props.id }
-							labelText={ sprintf(
-								/* Translators: %s translates to the Post type in singular form */
-								__( "Timestamp this %s", "wordpress-seo" ),
-								this.props.postTypeName.toLowerCase()
-							) }
-							isEnabled={ this.props.isEnabled }
-							onSetToggleState={ this.handleToggle }
-						/>
-					</div>
+					<Toggle
+						id={ this.props.id }
+						labelText={ sprintf(
+							/* Translators: %s translates to the Post type in singular form */
+							__( "Timestamp this %s", "wordpress-seo" ),
+							this.props.postTypeName.toLowerCase()
+						) }
+						isEnabled={ this.props.isEnabled }
+						onSetToggleState={ this.handleToggle }
+					/>
 
 					<SettingsLink
 						isAuthenticated={ this.props.isAuthenticated }
