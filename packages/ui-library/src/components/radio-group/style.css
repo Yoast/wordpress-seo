@@ -15,7 +15,7 @@
     }
 
     .yst-radio-group__label {
-        @apply yst-mb-2;
+        @apply yst-mb-1;
     }
 
     .yst-radio-group__options {
@@ -26,6 +26,6 @@
     }
 
     .yst-radio-group__description {
-        @apply yst-mt-2;
+        @apply yst-mb-4;
     }
 }

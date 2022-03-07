@@ -37,6 +37,7 @@ const CheckboxGroup = ( {
 	return (
 		<fieldset className={ classNames( "yst-checkbox-group", className ) }>
 			{ label && <Label as="legend" className="yst-checkbox-group__label">{ label }</Label> }
+			{ children && <div className="yst-checkbox-group__description">{ children }</div> }
 			<div className="yst-checkbox-group__options">
 				{ options.map( ( option, index ) => {
 					const optionId = `${ id }-${ index }`;
@@ -52,7 +53,6 @@ const CheckboxGroup = ( {
 					/>;
 				} ) }
 			</div>
-			{ children && <div className="yst-checkbox-group__description">{ children }</div> }
 		</fieldset>
 	);
 };

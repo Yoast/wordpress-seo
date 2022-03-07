@@ -39,8 +39,8 @@ const TextField = ( {
 				<ExclamationCircleIcon />
 			</div> }
 		</div>
-		{ description && <p className="yst-text-field__description">{ description }</p> }
 		{ error && <p className="yst-text-field__error">{ error }</p> }
+		{ description && <p className="yst-text-field__description">{ description }</p> }
 	</div>
 );
 

@@ -48,6 +48,7 @@ const RadioGroup = ( {
 			) }
 		>
 			{ label && <Label as="legend" className="yst-radio-group__label">{ label }</Label> }
+			{ children && <div className="yst-radio-group__description">{ children }</div> }
 			<div className="yst-radio-group__options">
 				{ options.map( ( option, index ) => {
 					const optionId = `${ id }-${ index }`;
@@ -64,7 +65,6 @@ const RadioGroup = ( {
 					/>;
 				} ) }
 			</div>
-			{ children && <div className="yst-radio-group__description">{ children }</div> }
 		</fieldset>
 	);
 };

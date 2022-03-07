@@ -24,6 +24,6 @@
 	}
 
 	.yst-text-field__error {
-		@apply yst-my-2 yst-text-sm yst-text-red-600;
+		@apply yst-mt-2 yst-text-sm yst-text-red-600;
 	}
 }

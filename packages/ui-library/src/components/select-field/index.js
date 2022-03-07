@@ -39,8 +39,8 @@ const SelectField = ( {
 				className="yst-select-field__select"
 				{ ...props }
 			/>
-			{ children && <div className="yst-select-field__description">{ children }</div> }
 			{ error && <p className="yst-select-field__error">{ error }</p> }
+			{ children && <div className="yst-select-field__description">{ children }</div> }
 		</div>
 	);
 };

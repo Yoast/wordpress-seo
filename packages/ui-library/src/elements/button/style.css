@@ -20,6 +20,7 @@
 			focus:yst-ring-indigo-500
 			
 			disabled:yst-cursor-not-allowed
+			disabled:yst-pointer-events-none
 			disabled:yst-opacity-50;
 	}
 
@@ -66,7 +67,8 @@
 	.yst-button--large {
 		@apply
 			yst-py-3
-			yst-px-4;
+			yst-px-6
+			yst-text-base;
 	}
 
 	.yst-button--small {
@@ -81,6 +83,7 @@
 		@apply
 			yst-opacity-50
 			yst-cursor-not-allowed
+			yst-pointer-events-none
 			
 			focus:yst-ring-0;
 	}
