@@ -241,7 +241,6 @@ class Author_Test extends TestCase {
 		$object_sub_type = 'post';
 		$object_id       = 1234;
 		$user_data       = (object) [
-			'ID'           => $user_id,
 			'display_name' => $this->person_data['name'],
 			'user_email'   => 'bla@example.org',
 			'user_url'     => 'https://piet.blog/',
@@ -303,7 +302,7 @@ class Author_Test extends TestCase {
 
 		$this->schema_image
 			->expects( 'simple_image_object' )
-			->with( '#/schema/person/image/', $this->person_data['image']['url'], $user_data->display_name )
+			->with( Schema_IDs::PERSON_LOGO_HASH, $this->person_data['image']['url'], $user_data->display_name )
 			->andReturn( $this->person_data['image'] );
 
 		$this->options->expects( 'get' )

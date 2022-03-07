@@ -112,7 +112,7 @@ class Person_Test extends TestCase {
 			'@type'       => [ 'Person', 'Organization' ],
 			'@id'         => 'person_id',
 			'name'        => 'John',
-			'logo'        => [ '@id' => 'https://example.com/' . Schema_IDs::PERSON_LOGO_HASH ],
+			'logo'        => [ '@id' => 'https://example.com/#/schema/person/image/' ],
 			'description' => 'Description',
 			'sameAs'      => [
 				'https://example.com/social/facebook',
@@ -352,7 +352,6 @@ class Person_Test extends TestCase {
 		$this->instance->context->site_represents = false;
 
 		$user_data = (object) [
-			'ID'           => 4,
 			'display_name' => 'John Doe',
 			'description'  => '',
 		];
