@@ -350,13 +350,11 @@ class Author_Test extends TestCase {
 	 * @covers ::set_image_from_options
 	 */
 	public function test_set_image_from_options_when_site_represents_current_author() {
-		$user_id                                         = 123;
 		$user_data                                       = (object) [
-			'ID'           => $user_id,
 			'display_name' => 'Piet',
 			'user_url'     => 'https://piet.blog/',
 		];
-		$this->instance->context->site_user_id           = $user_id;
+		$this->instance->context->site_user_id           = 123;
 		$this->instance->context->site_url               = 'http://example.com';
 		$this->instance->context->site_represents        = 'person';
 		$this->instance->context->person_logo_meta       = [
@@ -366,7 +364,7 @@ class Author_Test extends TestCase {
 		];
 		$this->instance->context->indexable              = new Indexable_Mock();
 		$this->instance->context->indexable->object_type = 'user';
-		$this->instance->context->indexable->object_id   = $user_id;
+		$this->instance->context->indexable->object_id   = 123;
 
 		Functions\expect( 'get_userdata' )
 			->with( $this->instance->context->indexable->object_id )
@@ -389,7 +387,6 @@ class Author_Test extends TestCase {
 	 */
 	public function test_generate_type_when_site_represents_current_author() {
 		$user_data                                       = (object) [
-			'ID'           => 123,
 			'display_name' => 'Piet',
 			'user_url'     => 'https://piet.blog/',
 		];

@@ -94,7 +94,6 @@ class Person_Test extends TestCase {
 		];
 
 		$user_data             = (object) [
-			'login'        => 'john',
 			'display_name' => 'John',
 			'description'  => 'Description',
 		];
@@ -209,7 +208,6 @@ class Person_Test extends TestCase {
 		$this->instance->context->site_represents = false;
 
 		$user_data = (object) [
-			'ID'           => 4,
 			'display_name' => 'John',
 			'description'  => '',
 		];
@@ -244,7 +242,6 @@ class Person_Test extends TestCase {
 		$this->instance->context->site_represents = false;
 
 		$user_data = (object) [
-			'ID'           => 4,
 			'display_name' => 'John Doe',
 			'description'  => '',
 			'user_email'   => 'johndoe@example.com',
@@ -282,7 +279,6 @@ class Person_Test extends TestCase {
 		$this->instance->context->site_represents = false;
 
 		$user_data = (object) [
-			'ID'           => 3,
 			'display_name' => 'John Doe',
 			'description'  => '',
 			'user_email'   => 'johndoe@example.com',
@@ -320,7 +316,6 @@ class Person_Test extends TestCase {
 		$this->instance->context->site_represents = false;
 
 		$user_data = (object) [
-			'ID'           => 4,
 			'display_name' => 'John Doe',
 			'description'  => '',
 		];
@@ -638,7 +633,7 @@ class Person_Test extends TestCase {
 	protected function expects_for_set_image_from_avatar( $user_data, $scenario = 'default' ) {
 		$image_schema = [
 			'@type'      => 'ImageObject',
-			'@id'        => 'https://example.com/' . Schema_IDs::PERSON_LOGO_HASH,
+			'@id'        => $this->instance->context->site_url . Schema_IDs::PERSON_LOGO_HASH,
 			'inLanguage' => 'en-US',
 			'url'        => 'https://example.com/image.png',
 			'width'      => 64,

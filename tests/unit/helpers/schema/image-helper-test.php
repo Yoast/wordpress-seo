@@ -154,7 +154,7 @@ class Image_Helper_Test extends TestCase {
 		$this->assertEquals(
 			$expected,
 			$this->instance->generate_from_attachment_id(
-				'https://example.com/' . Schema_IDs::ORGANIZATION_LOGO_HASH,
+				'https://example.com/#/schema/logo/image/',
 				1337,
 				'Company name'
 			)
