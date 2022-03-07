@@ -66,9 +66,8 @@ class WordProof_Translations implements TranslationsInterface {
 	 *
 	 * @return string The translation.
 	 */
-	public function getOpenAuthenticationButtonText()
-	{
-		return __('Open authentication', 'wordpress-seo');
+	public function getOpenAuthenticationButtonText() {
+		return __( 'Open authentication', 'wordpress-seo' );
 	}
 
 	/**
@@ -76,8 +75,7 @@ class WordProof_Translations implements TranslationsInterface {
 	 *
 	 * @return string The translation.
 	 */
-	public function getOpenSettingsButtonText()
-	{
-		return __('Open settings', 'wordpress-seo');
+	public function getOpenSettingsButtonText() {
+		return __( 'Open settings', 'wordpress-seo' );
 	}
 }
