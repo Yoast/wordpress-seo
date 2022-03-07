@@ -86,7 +86,12 @@ class YoastReusableBlocksPlugin {
 			return content;
 		}
 
-		return content.replace( reusableBlockRegex, ( match, blockId ) => this._reusableBlocks[ blockId ]?.content ?? content );
+		return content.replace( reusableBlockRegex, ( match, blockId ) => {
+			if ( this._reusableBlocks[ blockId ] && this._reusableBlocks[ blockId ].content ) {
+				return this._reusableBlocks[ blockId ].content;
+			}
+			return content;
+		} );
 	}
 
 	/**
