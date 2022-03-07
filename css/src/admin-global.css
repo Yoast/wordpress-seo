@@ -1,5 +1,5 @@
 @import url(../src/icons.css);
-@import "../../node_modules/yoastseo/css/_tooltips.scss";
+@import "../src/tooltips.css";
 
 .wpseo-premium-indicator {
   width: 1px;
