@@ -1,11 +1,9 @@
 name: "CodeQL"
 
 on:
-  # push:
-  #  branches: [develop]
-  #pull_request:
-    # The branches below must be a subset of the branches above
-  #  branches: [develop]
+  pull_request:
+    paths:
+      - '.github/workflows/codeql-analysis.yml'
   schedule:
     - cron: '0 20 * * 2'
 
