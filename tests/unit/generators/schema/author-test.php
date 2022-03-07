@@ -103,7 +103,7 @@ class Author_Test extends TestCase {
 		'name'   => 'Ad Minnie',
 		'image'  => [
 			'@type'   => 'ImageObject',
-			'@id'     => 'http://basic.wordpress.test/#personlogo',
+			'@id'     => 'http://basic.wordpress.test/#schema/person/image/9d85080a5fb7722f56e19d45349a9606',
 			'url'     => 'http://2.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=96&d=mm&r=g',
 			'caption' => 'Ad Minnie',
 		],
@@ -241,6 +241,7 @@ class Author_Test extends TestCase {
 		$object_sub_type = 'post';
 		$object_id       = 1234;
 		$user_data       = (object) [
+			'ID'           => $user_id,
 			'display_name' => $this->person_data['name'],
 			'user_email'   => 'bla@example.org',
 			'user_url'     => 'https://piet.blog/',
@@ -302,7 +303,7 @@ class Author_Test extends TestCase {
 
 		$this->schema_image
 			->expects( 'simple_image_object' )
-			->with( Schema_IDs::PERSON_LOGO_HASH, $this->person_data['image']['url'], $user_data->display_name )
+			->with( '#/schema/person/image/', $this->person_data['image']['url'], $user_data->display_name )
 			->andReturn( $this->person_data['image'] );
 
 		$this->options->expects( 'get' )
@@ -349,11 +350,13 @@ class Author_Test extends TestCase {
 	 * @covers ::set_image_from_options
 	 */
 	public function test_set_image_from_options_when_site_represents_current_author() {
+		$user_id                                         = 123;
 		$user_data                                       = (object) [
+			'ID'           => $user_id,
 			'display_name' => 'Piet',
 			'user_url'     => 'https://piet.blog/',
 		];
-		$this->instance->context->site_user_id           = 123;
+		$this->instance->context->site_user_id           = $user_id;
 		$this->instance->context->site_url               = 'http://example.com';
 		$this->instance->context->site_represents        = 'person';
 		$this->instance->context->person_logo_meta       = [
@@ -363,7 +366,7 @@ class Author_Test extends TestCase {
 		];
 		$this->instance->context->indexable              = new Indexable_Mock();
 		$this->instance->context->indexable->object_type = 'user';
-		$this->instance->context->indexable->object_id   = 123;
+		$this->instance->context->indexable->object_id   = $user_id;
 
 		Functions\expect( 'get_userdata' )
 			->with( $this->instance->context->indexable->object_id )
@@ -386,6 +389,7 @@ class Author_Test extends TestCase {
 	 */
 	public function test_generate_type_when_site_represents_current_author() {
 		$user_data                                       = (object) [
+			'ID'           => 123,
 			'display_name' => 'Piet',
 			'user_url'     => 'https://piet.blog/',
 		];

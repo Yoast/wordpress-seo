@@ -40,7 +40,7 @@ class Schema_IDs {
 	/**
 	 * Hash used for the Organization `@id`.
 	 */
-	const ORGANIZATION_LOGO_HASH = '#logo';
+	const ORGANIZATION_LOGO_HASH = '#/schema/logo/image/';
 
 	/**
 	 * Hash used for the logo `@id`.

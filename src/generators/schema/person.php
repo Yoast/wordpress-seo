@@ -171,7 +171,7 @@ class Person extends Abstract_Schema_Piece {
 	 * @return array The Person schema.
 	 */
 	protected function add_image( $data, $user_data ) {
-		$schema_id = $this->helpers->schema->id->get_user_image_id( $user_data->ID, $this->context );
+		$schema_id = $this->context->site_url . Schema_IDs::PERSON_LOGO_HASH;
 
 		$data = $this->set_image_from_options( $data, $schema_id );
 		if ( ! isset( $data['image'] ) ) {
