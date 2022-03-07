@@ -75,8 +75,8 @@ class Image_Helper {
 	 */
 	public function generate_from_attachment_id( $schema_id, $attachment_id, $caption = '' ) {
 		$data = $this->generate_object();
+		$url  = $this->image->get_attachment_image_url( $attachment_id, 'full' );
 
-		$url = $this->image->get_attachment_image_url( $attachment_id, 'full' );
 		$data['@id']        = $schema_id . md5( $url );
 		$data['url']        = $url;
 		$data['contentUrl'] = $url;
