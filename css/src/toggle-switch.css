@@ -455,4 +455,11 @@
 	}
 }
 
+.yoast-toggle--grayed > div> div[role=checkbox][aria-checked="true"] {
+	background-color: #ffe5ae;
+}
+
+.yoast-toggle--grayed > div > div[role=checkbox][aria-checked="true"] > span {
+	background-color: #bf7e01;
+}
 /*# sourceMappingURL=toggle-switch.css.map */

@@ -5,31 +5,27 @@ import { Toggle, FieldGroup } from "@yoast/components";
 import { __, sprintf } from "@wordpress/i18n";
 import { compose } from "@wordpress/compose";
 import { withSelect } from "@wordpress/data";
-import { get } from "lodash";
+import { noop } from "lodash";
 import { openAuthentication, openSettings } from "../helpers/wordproof";
+import { Button } from "@wordpress/components";
 
 /**
  * The settings link.
  *
  * @param {Object} props The props object.
- * @returns {JSX.Element} The SettingsLink component.
+ * @returns {JSX.Element|null} The settings link.
  */
 const SettingsLink = ( props ) => {
 	if ( ! props.isAuthenticated ) {
-		return ( <></> );
+		return null;
 	}
 
-	const url = get( window, "wordproofSdk.data.popup_redirect_settings_url", {} );
-
-	const openLink = useCallback( event => {
-		event.preventDefault();
+	const openLink = useCallback( () => {
 		openSettings();
 	} );
 
 	return (
-		<a
-			href={ url } onClick={ openLink }
-		>{ __( "Manage WordProof settings", "wordpress-seo" ) }</a>
+		<Button variant={ "link" } onClick={ openLink }>{ __( "Manage WordProof settings", "wordpress-seo" ) }</Button>
 	);
 };
 
@@ -40,27 +36,22 @@ SettingsLink.propTypes = {
 /**
  * The authentication link.
  *
- * @param props
- * @returns {JSX.Element|string}
+ * @param {object} props Functional Component props.
+ * @returns {JSX.Element|string} The authentication link.
  * @constructor
  */
 const AuthenticationLink = ( props ) => {
-	const openLink = useCallback( event => {
-		event.preventDefault();
+	const openLink = useCallback( () => {
 		openAuthentication();
 	} );
 
-	const url = get( window, "wordproofSdk.data.popup_redirect_authentication_url", {} );
-
 	if ( ! props.isAuthenticated && props.toggleIsEnabled ) {
 		return (
-			<a
-				href={ url } onClick={ openLink }
-			>{ __( "Authenticate with WordProof", "wordpress-seo" ) }</a>
+			<Button variant={ "link" } onClick={ openLink }>{ __( "Authenticate with WordProof", "wordpress-seo" ) }</Button>
 		);
 	}
 
-	return ( "" );
+	return null;
 };
 
 AuthenticationLink.propTypes = {
@@ -83,14 +74,53 @@ class WordProofTimestampToggle extends Component {
 		super( props );
 
 		this.handleToggle = this.handleToggle.bind( this );
+		this.turnToggleOff = this.turnToggleOff.bind( this );
+		this.turnToggleOn = this.turnToggleOn.bind( this );
 	}
 
-	handleToggle( value ) {
-		this.props.onToggle( value );
+	componentDidMount() {
+		window.addEventListener( "wordproof:webhook:failed", this.turnToggleOff, false );
+		window.addEventListener( "wordproof:oauth:success", this.turnToggleOn, false );
+	}
 
+	componentWillUnmount() {
+		window.removeEventListener( "wordproof:webhook:failed", this.turnToggleOff, false );
+		window.removeEventListener( "wordproof:oauth:success", this.turnToggleOn, false );
+	}
+
+	/**
+	 * Send new toggle value to onToggle function and open authentication
+	 * if user is not authenticated.
+	 *
+	 * @param {boolean} value The new value.
+	 *
+	 * @returns {void} Returns nothing.
+	 */
+	handleToggle( value ) {
 		if ( ! this.props.isAuthenticated && value ) {
 			openAuthentication();
+			return;
 		}
+
+		this.props.onToggle( value );
+	}
+
+	/**
+	 * Turn on the toggle.
+	 *
+	 * @returns {void} Returns nothing.
+	 */
+	turnToggleOn() {
+		this.props.onToggle( true );
+	}
+
+	/**
+	 * Turn off the toggle.
+	 *
+	 * @returns {void} Returns nothing.
+	 */
+	turnToggleOff() {
+		this.props.onToggle( false );
 	}
 
 	/**
@@ -110,17 +140,20 @@ class WordProofTimestampToggle extends Component {
 					label={ __( "Timestamp with WordProof", "wordpress-seo" ) }
 					hasNewBadge={ true }
 				>
-					<Toggle
-						className={ "yoast-field-group__radiobutton" }
-						id={ this.props.id }
-						labelText={ sprintf(
-							/* Translators: %s translates to the Post type in singular form */
-							__( "Timestamp this %s", "wordpress-seo" ),
-							this.props.postTypeName
-						) }
-						isEnabled={ this.props.isEnabled }
-						onSetToggleState={ this.handleToggle }
-					/>
+					<div className={ `${ this.props.isAuthenticated ? "" : "yoast-toggle--grayed"}` }>
+						<Toggle
+							className={ "yoast-field-group__radiobutton" }
+							id={ this.props.id }
+							labelText={ sprintf(
+								/* Translators: %s translates to the Post type in singular form */
+								__( "Timestamp this %s", "wordpress-seo" ),
+								this.props.postTypeName.toLowerCase()
+							) }
+							isEnabled={ this.props.isEnabled }
+							onSetToggleState={ this.handleToggle }
+						/>
+					</div>
+
 					<SettingsLink
 						isAuthenticated={ this.props.isAuthenticated }
 					/>
@@ -146,7 +179,7 @@ WordProofTimestampToggle.defaultProps = {
 	id: "timestamp-toggle",
 	isEnabled: true,
 	postTypeName: "post",
-	onToggle: () => {},
+	onToggle: noop,
 };
 
 export default compose( [
