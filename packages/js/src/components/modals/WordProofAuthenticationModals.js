@@ -59,7 +59,6 @@ const WordProofAuthenticationModals = () => {
 		window.addEventListener( "wordproof:webhook:failed", setWebhookFailed, false );
 
 		return () => {
-			console.warn( "removed" );
 			window.removeEventListener( "wordproof:oauth:success", setOauthSuccess, false );
 
 			window.removeEventListener( "wordproof:oauth:failed", setOauthFailed, false );
@@ -89,7 +88,7 @@ const WordProofAuthenticationModals = () => {
 			{ modal && (
 				<Modal
 					onRequestClose={ closeModal }
-					additionalClassName={ "wordproof-modal" }
+					additionalClassName={ "yoast-wordproof-modal" }
 					title={ getModalTitle() }
 				>
 

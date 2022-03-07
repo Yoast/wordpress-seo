@@ -769,10 +769,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$data       = null;
 			$field_name = WPSEO_Meta::$form_prefix . $key;
 
-			if ( ! isset( $meta_box['type'] ) ) {
-				ray( $meta_box )->red();
-			}
-
 			if ( $meta_box['type'] === 'checkbox' ) {
 				$data = isset( $_POST[ $field_name ] ) ? 'on' : 'off';
 			}
