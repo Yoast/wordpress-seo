@@ -4,10 +4,10 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations\Admin;
 
 use Brain\Monkey;
 use Mockery;
+use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Integrations\Admin\Health_Check_Integration;
 use Yoast\WP\SEO\Services\Health_Check\Runner_Interface;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Services\Health_Check\Health_Check_Double;
-use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**

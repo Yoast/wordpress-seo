@@ -3,13 +3,12 @@
 namespace Yoast\WP\SEO\Integrations\Admin;
 
 use WPSEO_Admin_Asset_Manager;
-use Yoast\WP\SEO\Conditionals\AIOSEO_V4_Importer_Conditional;
-use Yoast\WP\SEO\Conditionals\Yoast_Tools_Page_Conditional;
 use Yoast\WP\SEO\Conditionals\Import_Tool_Selected_Conditional;
+use Yoast\WP\SEO\Conditionals\Yoast_Tools_Page_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Presenters\Admin\Alert_Presenter;
-use Yoast\WP\SEO\Services\Importing\Importable_Detector_Service;
 use Yoast\WP\SEO\Routes\Importing_Route;
+use Yoast\WP\SEO\Services\Importing\Importable_Detector_Service;
 
 /**
  * Loads import script when on the Tool's page.
@@ -22,13 +21,6 @@ class Import_Integration implements Integration_Interface {
 	 * @var WPSEO_Admin_Asset_Manager
 	 */
 	protected $asset_manager;
-
-	/**
-	 * Represents the AIOSEO V4 Importer conditional.
-	 *
-	 * @var AIOSEO_V4_Importer_Conditional
-	 */
-	protected $importer_conditional;
 
 	/**
 	 * The Importable Detector service.
@@ -51,7 +43,6 @@ class Import_Integration implements Integration_Interface {
 	 */
 	public static function get_conditionals() {
 		return [
-			AIOSEO_V4_Importer_Conditional::class,
 			Import_Tool_Selected_Conditional::class,
 			Yoast_Tools_Page_Conditional::class,
 		];
@@ -60,21 +51,18 @@ class Import_Integration implements Integration_Interface {
 	/**
 	 * Import Integration constructor.
 	 *
-	 * @param WPSEO_Admin_Asset_Manager      $asset_manager        The asset manager.
-	 * @param AIOSEO_V4_Importer_Conditional $importer_conditional The AIOSEO V4 Importer conditional.
-	 * @param Importable_Detector_Service    $importable_detector  The importable detector.
-	 * @param Importing_Route                $importing_route      The importing route.
+	 * @param WPSEO_Admin_Asset_Manager   $asset_manager       The asset manager.
+	 * @param Importable_Detector_Service $importable_detector The importable detector.
+	 * @param Importing_Route             $importing_route     The importing route.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
-		AIOSEO_V4_Importer_Conditional $importer_conditional,
 		Importable_Detector_Service $importable_detector,
 		Importing_Route $importing_route
 	) {
-		$this->asset_manager        = $asset_manager;
-		$this->importer_conditional = $importer_conditional;
-		$this->importable_detector  = $importable_detector;
-		$this->importing_route      = $importing_route;
+		$this->asset_manager       = $asset_manager;
+		$this->importable_detector = $importable_detector;
+		$this->importing_route     = $importing_route;
 	}
 
 	/**

@@ -3,13 +3,14 @@
 namespace Yoast\WP\SEO\Tests\Unit\Actions\Importing;
 
 use Mockery;
+use wpdb;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Actions\Importing\Aioseo\Aioseo_Posts_Importing_Action;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Import_Cursor_Helper;
-use Yoast\WP\SEO\Helpers\Meta_Helper;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Indexable_To_Postmeta_Helper;
+use Yoast\WP\SEO\Helpers\Meta_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Sanitization_Helper;
 use Yoast\WP\SEO\Helpers\Wpdb_Helper;
@@ -57,7 +58,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 	/**
 	 * The mocked WordPress database object.
 	 *
-	 * @var Mockery\MockInterface|\wpdb
+	 * @var Mockery\MockInterface|wpdb
 	 */
 	protected $wpdb;
 
@@ -269,9 +270,9 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 	 * @covers ::index
 	 */
 	public function test_donot_map( $aioseo_indexables, $is_default, $check_if_default_times, $cursor_value ) {
-		if ( ! defined( 'ARRAY_A' ) ) {
+		if ( ! \defined( 'ARRAY_A' ) ) {
 			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound
-			define( 'ARRAY_A', 'ARRAY_A' );
+			\define( 'ARRAY_A', 'ARRAY_A' );
 		}
 		$indexable = Mockery::mock( Indexable_Mock::class );
 
@@ -483,6 +484,11 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			->once()
 			->with( 'https://example.com/image1.png', null )
 			->andReturn( 'https://example.com/image1.png' );
+
+		$this->social_images_provider->shouldReceive( 'get_featured_image' )
+			->once()
+			->with( 123 )
+			->andReturn( '' );
 
 		$this->social_images_provider->shouldReceive( 'get_auto_image' )
 			->once()
@@ -710,18 +716,19 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 	 * Tests importing the og and twitter image url.
 	 *
 	 * @param bool   $aioseo_social_image_settings AIOSEO's set of social image settings for the post.
-	 * @param array  $mapping                     The mapping of the setting we're working with.
-	 * @param int    $expected_url                The URL that's expected to be imported.
-	 * @param int    $sanitize_url_times          The times we're sanitizing the retrieved url.
-	 * @param string $provider_method             The method we're using from the social images provider.
-	 * @param int    $provider_times              The times we're using the social images provider.
-	 * @param int    $get_default_times           The times we're getting the default url.
-	 * @param string $social_setting              The social settings we use to get the default url.
+	 * @param array  $mapping                      The mapping of the setting we're working with.
+	 * @param int    $expected_url                 The URL that's expected to be imported.
+	 * @param int    $sanitize_url_times           The times we're sanitizing the retrieved url.
+	 * @param string $provider_method              The method we're using from the social images provider.
+	 * @param int    $provider_times               The times we're using the social images provider.
+	 * @param mixed  $provider_result              The result the social images provider returns.
+	 * @param int    $get_default_times            The times we're getting the default url.
+	 * @param string $social_setting               The social settings we use to get the default url.
 	 *
 	 * @dataProvider provider_social_image_url_import
 	 * @covers ::social_image_url_import
 	 */
-	public function test_social_image_url_import( $aioseo_social_image_settings, $mapping, $expected_url, $sanitize_url_times, $provider_method, $provider_times, $get_default_times, $social_setting ) {
+	public function test_social_image_url_import( $aioseo_social_image_settings, $mapping, $expected_url, $sanitize_url_times, $provider_method, $provider_times, $provider_result, $get_default_times, $social_setting ) {
 		$indexable      = Mockery::mock( Indexable_Mock::class );
 		$indexable->orm = Mockery::mock( ORM::class );
 
@@ -730,7 +737,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 		$this->social_images_provider->shouldReceive( $provider_method )
 			->times( $provider_times )
 			->with( 123 )
-			->andReturn( $expected_url );
+			->andReturn( $provider_result );
 
 		$this->social_images_provider->shouldReceive( 'get_default_custom_social_image' )
 			->times( $get_default_times )
@@ -748,7 +755,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 	}
 
 	/**
-	 * Data provider for test_transform_separator().
+	 * Data provider for test_social_image_url_import().
 	 *
 	 * @return array
 	 */
@@ -830,21 +837,21 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 		];
 
 		return [
-			[ $aioseo_og_custom_image, $open_graph_mapping, $image, 1, 'irrelevant', 0, 0, 'og' ],
-			[ $aioseo_og_attach, $open_graph_mapping, $image, 1, 'get_first_attached_image', 1, 0, 'og' ],
-			[ $aioseo_og_author, $open_graph_mapping, null, 0, 'irrelevant', 0, 0, 'og' ],
-			[ $aioseo_og_auto, $open_graph_mapping, $image, 1, 'get_auto_image', 1, 0, 'og' ],
-			[ $aioseo_og_content, $open_graph_mapping, $image, 1, 'get_first_image_in_content', 1, 0, 'og' ],
-			[ $aioseo_og_custom, $open_graph_mapping, null, 0, 'irrelevant', 0, 0, 'og' ],
-			[ $aioseo_og_featured, $open_graph_mapping, null, 0, 'irrelevant', 0, 0, 'og' ],
-			[ $aioseo_twitter_custom_image, $twitter_mapping, $image, 1, 'irrelevant', 0, 0, 'twitter' ],
-			[ $aioseo_twitter_attach, $twitter_mapping, $image, 1, 'get_first_attached_image', 1, 0, 'twitter' ],
-			[ $aioseo_twitter_author, $twitter_mapping, null, 0, 'irrelevant', 0, 0, 'twitter' ],
-			[ $aioseo_twitter_auto, $twitter_mapping, $image, 1, 'get_auto_image', 1, 0, 'twitter' ],
-			[ $aioseo_twitter_content, $twitter_mapping, $image, 1, 'get_first_image_in_content', 1, 0, 'twitter' ],
-			[ $aioseo_twitter_custom, $twitter_mapping, null, 0, 'irrelevant', 0, 0, 'twitter' ],
-			[ $aioseo_twitter_featured, $twitter_mapping, null, 0, 'irrelevant', 0, 0, 'og' ],
-			[ $aioseo_twitter_from_og, $twitter_mapping, $image, 1, 'irrelevant', 0, 0, 'og' ],
+			[ $aioseo_og_custom_image, $open_graph_mapping, $image, 1, 'irrelevant', 0, $image, 0, 'og' ],
+			[ $aioseo_og_attach, $open_graph_mapping, $image, 1, 'get_first_attached_image', 1, $image, 0, 'og' ],
+			[ $aioseo_og_author, $open_graph_mapping, null, 0, 'irrelevant', 0, 'irrelevant', 0, 'og' ],
+			[ $aioseo_og_auto, $open_graph_mapping, null, 0, 'get_featured_image', 1, 'https://example.com/featured-image.png', 0, 'og' ],
+			[ $aioseo_og_content, $open_graph_mapping, $image, 1, 'get_first_image_in_content', 1, $image, 0, 'og' ],
+			[ $aioseo_og_custom, $open_graph_mapping, null, 0, 'irrelevant', 0, 'irrelevant', 0, 'og' ],
+			[ $aioseo_og_featured, $open_graph_mapping, null, 0, 'irrelevant', 0, 'irrelevant', 0, 'og' ],
+			[ $aioseo_twitter_custom_image, $twitter_mapping, $image, 1, 'irrelevant', 0, $image, 0, 'twitter' ],
+			[ $aioseo_twitter_attach, $twitter_mapping, $image, 1, 'get_first_attached_image', 1, $image, 0, 'twitter' ],
+			[ $aioseo_twitter_author, $twitter_mapping, null, 0, 'irrelevant', 0, 'irrelevant', 0, 'twitter' ],
+			[ $aioseo_twitter_auto, $twitter_mapping, null, 0, 'get_featured_image', 1, 'https://example.com/featured-image.png', 0, 'twitter' ],
+			[ $aioseo_twitter_content, $twitter_mapping, $image, 1, 'get_first_image_in_content', 1, $image, 0, 'twitter' ],
+			[ $aioseo_twitter_custom, $twitter_mapping, null, 0, 'irrelevant', 0, 'irrelevant', 0, 'twitter' ],
+			[ $aioseo_twitter_featured, $twitter_mapping, null, 0, 'irrelevant', 0, 'irrelevant', 0, 'og' ],
+			[ $aioseo_twitter_from_og, $twitter_mapping, $image, 1, 'irrelevant', 0, 'irrelevant', 0, 'og' ],
 		];
 	}
 }

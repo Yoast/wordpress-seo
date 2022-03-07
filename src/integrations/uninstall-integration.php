@@ -19,7 +19,7 @@ class Uninstall_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
-		\add_action( 'uninstall_' . WPSEO_BASENAME, [ $this, 'wpseo_uninstall' ] );
+		\add_action( 'uninstall_' . \WPSEO_BASENAME, [ $this, 'wpseo_uninstall' ] );
 	}
 
 	/**

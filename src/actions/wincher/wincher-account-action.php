@@ -29,7 +29,7 @@ class Wincher_Account_Action {
 	/**
 	 * Wincher_Account_Action constructor.
 	 *
-	 * @param Wincher_Client $client The API client.
+	 * @param Wincher_Client $client         The API client.
 	 * @param Options_Helper $options_helper The options helper.
 	 */
 	public function __construct( Wincher_Client $client, Options_Helper $options_helper ) {

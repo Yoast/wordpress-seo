@@ -416,7 +416,7 @@ class Current_Page_Helper {
 
 		if ( $is_yoast_seo === null ) {
 			$current_page = \filter_input( \INPUT_GET, 'page' );
-			$is_yoast_seo = ( is_string( $current_page ) && \strpos( $current_page, 'wpseo_' ) === 0 );
+			$is_yoast_seo = ( \is_string( $current_page ) && \strpos( $current_page, 'wpseo_' ) === 0 );
 		}
 
 		return $is_yoast_seo;

@@ -5,13 +5,11 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations\Admin;
 use Brain\Monkey;
 use Mockery;
 use WPSEO_Admin_Asset_Manager;
-use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
-use Yoast\WP\SEO\Conditionals\AIOSEO_V4_Importer_Conditional;
 use Yoast\WP\SEO\Conditionals\Import_Tool_Selected_Conditional;
 use Yoast\WP\SEO\Conditionals\Yoast_Tools_Page_Conditional;
 use Yoast\WP\SEO\Integrations\Admin\Import_Integration;
-use Yoast\WP\SEO\Services\Importing\Importable_Detector_Service;
 use Yoast\WP\SEO\Routes\Importing_Route;
+use Yoast\WP\SEO\Services\Importing\Importable_Detector_Service;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -46,13 +44,6 @@ class Import_Integration_Test extends TestCase {
 	protected $importable_detector;
 
 	/**
-	 * The AIOSEO_V4_Importer conditional.
-	 *
-	 * @var Mockery\MockInterface|AIOSEO_V4_Importer_Conditional
-	 */
-	protected $importer_conditional;
-
-	/**
 	 * The Importing Route class.
 	 *
 	 * @var Mockery\MockInterface|Importing_Route
@@ -68,14 +59,12 @@ class Import_Integration_Test extends TestCase {
 		$this->stubTranslationFunctions();
 		$this->stubEscapeFunctions();
 
-		$this->asset_manager        = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
-		$this->importer_conditional = Mockery::mock( AIOSEO_V4_Importer_Conditional::class );
-		$this->importable_detector  = Mockery::mock( Importable_Detector_Service::class );
-		$this->importing_route      = Mockery::mock( Importing_Route::class );
+		$this->asset_manager       = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
+		$this->importable_detector = Mockery::mock( Importable_Detector_Service::class );
+		$this->importing_route     = Mockery::mock( Importing_Route::class );
 
 		$this->instance = new Import_Integration(
 			$this->asset_manager,
-			$this->importer_conditional,
 			$this->importable_detector,
 			$this->importing_route
 		);
@@ -90,10 +79,6 @@ class Import_Integration_Test extends TestCase {
 		static::assertInstanceOf(
 			WPSEO_Admin_Asset_Manager::class,
 			self::getPropertyValue( $this->instance, 'asset_manager' )
-		);
-		static::assertInstanceOf(
-			AIOSEO_V4_Importer_Conditional::class,
-			self::getPropertyValue( $this->instance, 'importer_conditional' )
 		);
 		static::assertInstanceOf(
 			Importable_Detector_Service::class,
@@ -113,7 +98,6 @@ class Import_Integration_Test extends TestCase {
 	public function test_get_conditionals() {
 		$actual   = Import_Integration::get_conditionals();
 		$expected = [
-			AIOSEO_V4_Importer_Conditional::class,
 			Import_Tool_Selected_Conditional::class,
 			Yoast_Tools_Page_Conditional::class,
 		];

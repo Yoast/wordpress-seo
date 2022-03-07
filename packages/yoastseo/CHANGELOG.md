@@ -24,6 +24,7 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 * Removes feature flag for Japanese support to prepare Japanese for release.
 * Adds Japanese configuration for meta description length.
 * Removes apostrophe before Turkish words are stemmed.
+* Improves feedback strings for the Keyphrase Length assessment by making them more explicit.
 
 ### Bugfixes
 * Moves the initialization of Keyphrase distribution assessment inside `AnalysisWebWorker.js`.
@@ -115,6 +116,7 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 * Fixes the Japanese full text test.
 * Adds a Japanese full text test.
 * Recognises internal link if the site's host is null but the site domain and the link host are the same.
+* Adds documentation of the scoring criteria of the assessments.
 
 
 ## 1.92.0
