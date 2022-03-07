@@ -1,7 +1,7 @@
 /* eslint-disable require-jsdoc */
 import { Component, Fragment, useCallback } from "@wordpress/element";
 import PropTypes from "prop-types";
-import { Toggle, FieldGroup } from "@yoast/components";
+import {Toggle, FieldGroup, Alert} from '@yoast/components';
 import { __, sprintf } from "@wordpress/i18n";
 import { compose } from "@wordpress/compose";
 import { withSelect } from "@wordpress/data";
@@ -132,7 +132,6 @@ class WordProofTimestampToggle extends Component {
 		return (
 			<Fragment>
 				<FieldGroup
-					style={ { display: "flex", marginTop: "8px" } }
 					linkText={ __( "Learn more about timestamping",
 						"wordpress-seo" ) }
 					linkTo={ "https://yoa.st/wordproof-integration" }
@@ -158,6 +157,8 @@ class WordProofTimestampToggle extends Component {
 						toggleIsEnabled={ this.props.isEnabled }
 						isAuthenticated={ this.props.isAuthenticated }
 					/>
+
+					<Alert className={'yoast-wordproof-metabox-alert'} type={'info'}>{ __("Unable to create new timestamps. Please authenticate with WordProof.", 'wordpress-seo') }</Alert>
 				</FieldGroup>
 			</Fragment>
 		);
