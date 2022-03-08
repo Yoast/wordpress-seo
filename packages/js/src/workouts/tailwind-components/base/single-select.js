@@ -71,7 +71,7 @@ export default function Select( { id, value, choices, label, onChange, error } )
 												<li
 													className={ classNames(
 														active ? "yst-text-white yst-bg-primary-600" : "yst-text-gray-900",
-														"yst-cursor-default yst-select-none yst-relative yst-py-2 yst-pl-3 yst-pr-9"
+														"yst-cursor-default yst-select-none yst-relative yst-py-2 yst-pl-3 yst-pr-9 yst-my-0"
 													) }
 												>
 													<span
