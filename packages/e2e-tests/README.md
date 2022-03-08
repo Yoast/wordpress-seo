@@ -20,11 +20,10 @@ grunt build:dev
 ```
 
 5. Start a WordPress local environment by running `yarn wp-env start`.
-6. Some tests require [this plugin](https://github.com/Yoast/wordpress-seo/blob/trunk/packages/e2e-tests/data/yoast-simple-custom-post-type.zip) to be active. Run the following command to install and activate it:
+6. Some tests require [this plugin](https://github.com/Yoast/wordpress-seo/blob/trunk/packages/e2e-tests/data/yoast-simple-custom-post-type.zip) to be installed. Run the following command to install it:
 
 ```
 yarn wp-env run tests-cli wp plugin install https://github.com/Yoast/wordpress-seo/blob/trunk/packages/e2e-tests/data/yoast-simple-custom-post-type.zip?raw=true
-yarn wp-env run tests-cli wp plugin activate yoast-simple-custom-post-type
 ```
 
 7. Move to the e2e tests package folder by doing `cd packages/e2e-tests`.
@@ -33,11 +32,10 @@ yarn wp-env run tests-cli wp plugin activate yoast-simple-custom-post-type
 
 ```
 cd ../..
-yarn wp-env run tests-cli wp plugin deactivate yoast-simple-custom-post-type
 yarn wp-env stop
 ```
 
-that deactivates the plugin and stops the WordPress local environment.
+that stops the WordPress local environment.
 
 ## Misc
 
