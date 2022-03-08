@@ -144,70 +144,69 @@ describe( "A URL helper", function() {
 
 	describe( "isInternalLink", function() {
 		it( "should identify an absolute internal link with host", function() {
-			const urlA = "http://www.google.nl";
-			const host = "www.google.nl";
+			const anchorUrl = "http://www.google.nl";
+			const siteUrl = "http://www.google.nl";
 			const expected = true;
 
-			const actual = url.isInternalLink( urlA, host );
+			const actual = url.isInternalLink( anchorUrl, siteUrl );
 
 			expect( actual ).toBe( expected );
 		} );
 
 		it( "should identify an absolute internal link without host", function() {
-			const urlA = "/test/abc";
-			const host = "www.google.nl";
+			const anchorUrl = "/test/abc";
+			const siteUrl = "http://www.google.nl";
 			const expected = true;
 
-			const actual = url.isInternalLink( urlA, host );
+			const actual = url.isInternalLink( anchorUrl, siteUrl );
 
 			expect( actual ).toBe( expected );
 		} );
 
 		it( "should identify a relative url as an internal link", function() {
-			const urlA = "test/abc";
-			const host = "www.google.nl";
+			const anchorUrl = "test/abc";
+			const siteUrl = "http://www.google.nl";
 			const expected = true;
 
-			const actual = url.isInternalLink( urlA, host );
+			const actual = url.isInternalLink( anchorUrl, siteUrl );
 
 			expect( actual ).toBe( expected );
 		} );
 
 		it( "should identify a relative url with double-dot notation as an internal link", function() {
-			const urlA = "../test/abc";
-			const host = "www.google.nl";
+			const anchorUrl = "../test/abc";
+			const siteUrl = "http://www.google.nl";
 			const expected = true;
 
-			const actual = url.isInternalLink( urlA, host );
+			const actual = url.isInternalLink( anchorUrl, siteUrl );
 
 			expect( actual ).toBe( expected );
 		} );
 
 		it( "should identify a link as external when it contains a different origin", function() {
-			const urlA = "http://www.google.nl";
-			const host = "www.abc.nl";
+			const anchorUrl = "http://www.google.nl";
+			const siteUrl = "http://www.abc.nl";
 			const expected = false;
 
-			const actual = url.isInternalLink( urlA, host );
+			const actual = url.isInternalLink( anchorUrl, siteUrl );
 
 			expect( actual ).toBe( expected );
 		} );
 
 		it( "returns false if the URL starts with a # indicating a fragment", function() {
-			const urlA = "#tortoiseshell-cat";
-			const host = "www.thehappycat.com";
+			const anchorUrl = "#tortoiseshell-cat";
+			const siteUrl = "http://www.thehappycat.com";
 
-			const actual = url.isInternalLink( urlA, host );
+			const actual = url.isInternalLink( anchorUrl, siteUrl );
 
 			expect( actual ).toBe( false );
 		} );
 
 		it( "returns true if the site URL is set to only the domain, and it's the same as the text link's host ", function() {
-			const urlA = "https://yoast.com/your-shopify-store-on-google/";
-			const host = null;
-			const siteUrl = "yoast.com";
+			const anchorUrl = "https://yoast.com/your-shopify-store-on-google/";
+			const siteDomain = "yoast.com";
 
-			const actual = url.isInternalLink( urlA, host, siteUrl );
+			const actual = url.isInternalLink( anchorUrl, siteDomain );
 
 			expect( actual ).toBe( true );
 		} );
