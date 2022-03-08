@@ -877,7 +877,7 @@ class WPSEO_Upgrade {
 	 * @TODO Set the right version number when the feature branch is merged.
 	 */
 	private function upgrade_first_time_configuration() {
-		$other = [];
+		$other   = [];
 		$other[] = WPSEO_Options::get( 'instagram_url' );
 		$other[] = WPSEO_Options::get( 'linkedin_url' );
 		$other[] = WPSEO_Options::get( 'myspace_url' );
