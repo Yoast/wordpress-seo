@@ -239,11 +239,10 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 18.3 =
 Release Date: March 8th, 2022
 
-Meet Yoast SEO 18.3! For this release, we did another round of fixes and improvements. It also introduces a nice new feature that makes the bridge between the natural world and the online one a little bit smaller. In Yoast SEO 18.3, we’re adding a QR code linking back to your article when printed. Enjoy! Read more about what's new in Yoast SEO 18.3 in [our release post in English](https://yoa.st/release-8-3-22) or [our release post in Spanish](https://yoa.st/release-8-3-22-spanish)!
+Meet Yoast SEO 18.3! For this release, we did another round of fixes and improvements. Read more about what's new in Yoast SEO 18.3 in [our release post in English](https://yoa.st/release-8-3-22) or [our release post in Spanish](https://yoa.st/release-8-3-22-spanish)!
 
 Enhancements:
 
-* Adds a QR code to every page on your site when it's printed, that links back to the page online. Props to [Coywolf](https://coywolf.com/) for [this idea](https://twitter.com/coywolf/status/1493630040256483338?t=juq4vpF0kf4MDS3Y3GfKPg&s=08).
 * Improves the importer so you can now import `post_meta`, `robot_txt` and search appearance options when moving from All-In-One SEO to Yoast SEO.
 * Improves feedback strings for the Keyphrase Length assessment by making it explicit that we only count content words for languages with function word support.
 
