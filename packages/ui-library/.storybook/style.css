@@ -12,6 +12,7 @@
 @import "../src/elements/textarea/style.css";
 
 @import "../src/components/checkbox-group/style.css";
+@import "../src/components/modal/style.css";
 @import "../src/components/text-field/style.css";
 @import "../src/components/radio-group/style.css";
 @import "../src/components/toggle-field/style.css";
