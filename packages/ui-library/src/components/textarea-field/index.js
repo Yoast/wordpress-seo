@@ -2,7 +2,7 @@ import { ExclamationCircleIcon } from "@heroicons/react/solid";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import Label from "../../elements/label";
-import TextInput from "../../elements/text-input";
+import Textarea from "../../elements/textarea";
 
 /**
  * @param {string} id The ID of the input.
@@ -11,53 +11,50 @@ import TextInput from "../../elements/text-input";
  * @param {string} [className] The HTML class.
  * @param {JSX.node} [description] A description.
  * @param {JSX.node} [error] An error "message".
- * @param {Object} [props] Any extra properties for the TextInput.
- * @returns {JSX.Element} The input field.
+ * @param {Object} [props] Any extra properties for the Textarea.
+ * @returns {JSX.Element} The textarea field.
  */
-const TextField = ( {
+const TextareaField = ( {
 	id,
-	onChange,
 	label,
 	className,
 	description,
 	error,
 	...props
 } ) => (
-	<div className={ classNames( "yst-text-field", className ) }>
-		{ label && <Label className="yst-text-field__label" htmlFor={ id }>{ label }</Label> }
+	<div className={ classNames( "yst-textarea-field", className ) }>
+		{ label && <Label className="yst-textarea-field__label" htmlFor={ id }>{ label }</Label> }
 		<div className="yst-relative">
-			<TextInput
+			<Textarea
 				id={ id }
-				onChange={ onChange }
 				className={ classNames(
-					"yst-text-field__input",
-					error && "yst-text-field__input--error",
+					"yst-textarea-field__input",
+					error && "yst-textarea-field__input--error",
 				) }
 				{ ...props }
 			/>
-			{ error && <div className="yst-text-field__error-icon">
+			{ error && <div className="yst-textarea-field__error-icon">
 				<ExclamationCircleIcon />
 			</div> }
 		</div>
-		{ error && <p className="yst-text-field__error">{ error }</p> }
-		{ description && <p className="yst-text-field__description">{ description }</p> }
+		{ error && <p className="yst-textarea-field__error">{ error }</p> }
+		{ description && <p className="yst-textarea-field__description">{ description }</p> }
 	</div>
 );
 
-TextField.propTypes = {
+TextareaField.propTypes = {
 	id: PropTypes.string.isRequired,
-	onChange: PropTypes.func.isRequired,
 	label: PropTypes.node,
 	className: PropTypes.string,
 	description: PropTypes.node,
 	error: PropTypes.node,
 };
 
-TextField.defaultProps = {
+TextareaField.defaultProps = {
 	label: null,
 	className: "",
 	description: null,
 	error: null,
 };
 
-export default TextField;
+export default TextareaField;

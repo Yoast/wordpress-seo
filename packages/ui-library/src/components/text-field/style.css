@@ -1,6 +1,6 @@
 @layer components {
 	.yst-text-field {
-		@apply yst-inline-block;
+
 	}
 
 	.yst-text-field__input--error {
