@@ -1,7 +1,7 @@
 import TextareaField from ".";
 
 export default {
-	title: "2. Components/Textarea field",
+	title: "2. Components/Textarea Field",
 	component: TextareaField,
 	argTypes: {
 		label: { control: "text" },

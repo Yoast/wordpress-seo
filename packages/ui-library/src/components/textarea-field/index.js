@@ -24,7 +24,7 @@ const TextareaField = ( {
 } ) => (
 	<div className={ classNames( "yst-textarea-field", className ) }>
 		{ label && <Label className="yst-textarea-field__label" htmlFor={ id }>{ label }</Label> }
-		<div className="yst-relative yst-inline-flex">
+		<div className="yst-relative">
 			<Textarea
 				id={ id }
 				className={ classNames(

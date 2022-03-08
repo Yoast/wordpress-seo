@@ -25,7 +25,7 @@ const TextField = ( {
 } ) => (
 	<div className={ classNames( "yst-text-field", className ) }>
 		{ label && <Label className="yst-text-field__label" htmlFor={ id }>{ label }</Label> }
-		<div className="yst-relative yst-inline-flex">
+		<div className="yst-relative">
 			<TextInput
 				id={ id }
 				onChange={ onChange }
