@@ -58,23 +58,6 @@ class Postname_Permalink_Reports_Test extends TestCase {
 	}
 
 	/**
-	 * Checks if the Report_Builder is called when setting a test identifier.
-	 *
-	 * @covers ::__construct
-	 * @covers ::set_test_identifier
-	 */
-	public function test_sets_identifier_correctly() {
-		$expected = 'correct';
-
-		$this->reports
-			->shouldReceive( 'set_test_identifier' )
-			->with( $expected )
-			->once();
-
-		$this->instance->set_test_identifier( $expected );
-	}
-
-	/**
 	 * Check if the success report is built correctly.
 	 *
 	 * @covers ::__construct

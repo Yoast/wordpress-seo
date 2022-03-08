@@ -29,8 +29,8 @@ class Curl_Reports {
 		Report_Builder_Factory $report_builder_factory,
 		WPSEO_Shortlinker $shortlinker
 	) {
-		$this->report_builder = $report_builder_factory->create();
-		$this->shortlinker    = $shortlinker;
+		$this->report_builder_factory = $report_builder_factory;
+		$this->shortlinker            = $shortlinker;
 	}
 
 	/**
@@ -39,7 +39,7 @@ class Curl_Reports {
 	 * @return string[] The message as a WordPress site status report.
 	 */
 	public function get_success_result() {
-		return $this->report_builder
+		return $this->get_report_builder()
 			/* translators: %1$s expands to 'Yoast'. */
 			->set_label( sprintf( __( '%1$s premium plugin updates work fine', 'wordpress-seo' ), 'Yoast' ) )
 			->set_status_good()
@@ -53,7 +53,7 @@ class Curl_Reports {
 	 * @return string[] The message as a WordPress site status report.
 	 */
 	public function get_my_yoast_api_not_reachable_result() {
-		return $this->report_builder
+		return $this->get_report_builder()
 			/* translators: %1$s expands to 'Yoast'. */
 			->set_label( sprintf( __( '%1$s premium plugins cannot update', 'wordpress-seo' ), 'Yoast' ) )
 			->set_status_critical()
@@ -85,7 +85,7 @@ class Curl_Reports {
 	 * @return string[] The message as a WordPress site status report.
 	 */
 	public function get_no_recent_curl_version_installed_result() {
-		return $this->report_builder
+		return $this->get_report_builder()
 			/* translators: %1$s expands to 'Yoast'. */
 			->set_label( sprintf( __( '%1$s premium plugins cannot update', 'wordpress-seo' ), 'Yoast' ) )
 			->set_status_critical()

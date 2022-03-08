@@ -58,25 +58,10 @@ class Curl_Reports_Test extends TestCase {
 	}
 
 	/**
-	 * Checks if the instance sets the identifier correctly on the Report_Builder.
-	 *
-	 * @return void
-	 * @covers ::__construct
-	 * @covers ::set_test_identifier
-	 */
-	public function test_sets_identifier_correctly() {
-		$expected_test_identifier = 'identifier';
-		$this->report_builder_mock
-			->shouldReceive( 'set_test_identifier' )
-			->once()
-			->with( $expected_test_identifier );
-		$this->instance->set_test_identifier( $expected_test_identifier );
-	}
-
-	/**
 	 * Checks if the instance builds the correct success report.
 	 *
 	 * @return void
+	 * @covers ::__construct
 	 * @covers ::get_success_result
 	 */
 	public function test_get_success_result() {
@@ -112,6 +97,7 @@ class Curl_Reports_Test extends TestCase {
 	 * Checks if the instance builds the correct report for when the MyYoast API is not reachable.
 	 *
 	 * @return void
+	 * @covers ::__construct
 	 * @covers ::get_my_yoast_api_not_reachable_result
 	 * @covers ::get_my_yoast_api_not_reachable_description
 	 */
@@ -152,6 +138,7 @@ class Curl_Reports_Test extends TestCase {
 	 * Checks if the instance builds the correct report for when there's no recent version of cURL installed.
 	 *
 	 * @return void
+	 * @covers ::__construct
 	 * @covers ::get_no_recent_curl_version_installed_result
 	 * @covers ::get_no_recent_curl_version_installed_description
 	 */

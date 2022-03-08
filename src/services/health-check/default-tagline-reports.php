@@ -16,7 +16,7 @@ class Default_Tagline_Reports {
 	 * @return void
 	 */
 	public function __construct( Report_Builder_Factory $report_builder_factory ) {
-		$this->report_builder = $report_builder_factory->create();
+		$this->report_builder_factory = $report_builder_factory;
 	}
 
 	/**
@@ -25,7 +25,7 @@ class Default_Tagline_Reports {
 	 * @return string[] The message as a WordPress site status report.
 	 */
 	public function get_success_result() {
-		return $this->report_builder
+		return $this->get_report_builder()
 			->set_label( \__( 'You changed the default WordPress tagline', 'wordpress-seo' ) )
 			->set_status_good()
 			->set_description( \__( 'You are using a custom tagline or an empty one.', 'wordpress-seo' ) )
@@ -38,7 +38,7 @@ class Default_Tagline_Reports {
 	 * @return string[] The message as a WordPress site status report.
 	 */
 	public function get_has_default_tagline_result() {
-		return $this->report_builder
+		return $this->get_report_builder()
 			->set_label( \__( 'You should change the default WordPress tagline', 'wordpress-seo' ) )
 			->set_status_recommended()
 			->set_description( \__( 'You still have the default WordPress tagline. Even an empty one is probably better.', 'wordpress-seo' ) )

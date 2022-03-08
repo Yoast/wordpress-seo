@@ -69,25 +69,10 @@ class Ryte_Reports_Test extends TestCase {
 	}
 
 	/**
-	 * Checks if the instance sets the identifier correctly on the Report_Builder.
-	 *
-	 * @return void
-	 * @covers ::__construct
-	 * @covers ::set_test_identifier
-	 */
-	public function test_sets_identifier_correctly() {
-		$expected_test_identifier = 'identifier';
-		$this->report_builder_mock
-			->shouldReceive( 'set_test_identifier' )
-			->once()
-			->with( $expected_test_identifier );
-		$this->instance->set_test_identifier( $expected_test_identifier );
-	}
-
-	/**
 	 * Checks if the instance builds the correct success report.
 	 *
 	 * @return void
+	 * @covers ::__construct
 	 * @covers ::get_success_result
 	 * @covers ::get_ryte_actions
 	 * @covers ::get_success_result_description
@@ -135,6 +120,7 @@ class Ryte_Reports_Test extends TestCase {
 	 * Checks if the instance builds the correct report for when the site is not indexable.
 	 *
 	 * @return void
+	 * @covers ::__construct
 	 * @covers ::get_ryte_actions
 	 * @covers ::get_not_indexable_result
 	 * @covers ::get_not_indexable_result_description
@@ -187,6 +173,7 @@ class Ryte_Reports_Test extends TestCase {
 	 * Checks if the instance builds the correct report for when the site's indexability could not be determined.
 	 *
 	 * @return void
+	 * @covers ::__construct
 	 * @covers ::get_ryte_actions
 	 * @covers ::get_unknown_indexability_result
 	 * @covers ::get_unknown_indexability_result_description
@@ -243,6 +230,7 @@ class Ryte_Reports_Test extends TestCase {
 	 * Checks if the instance builds the correct report for when the health check received an error from Ryte.
 	 *
 	 * @return void
+	 * @covers ::__construct
 	 * @covers ::get_ryte_actions
 	 * @covers ::get_response_error_result
 	 * @covers ::get_response_error_result_description

@@ -14,7 +14,7 @@ class Postname_Permalink_Reports {
 	 * @param  Report_Builder_Factory $report_builder_factory The factory for result builder objects. This class uses the report builder to generate WordPress-friendly health check results.
 	 */
 	public function __construct( Report_Builder_Factory $report_builder_factory ) {
-		$this->report_builder = $report_builder_factory->create();
+		$this->report_builder_factory = $report_builder_factory;
 	}
 
 	/**
@@ -23,7 +23,7 @@ class Postname_Permalink_Reports {
 	 * @return string[] The message as a WordPress site status report.
 	 */
 	public function get_success_result() {
-		return $this->report_builder
+		return $this->get_report_builder()
 			->set_label( esc_html__( 'Your permalink structure includes the post name', 'wordpress-seo' ) )
 			->set_status_good()
 			->set_description( __( 'You do have your postname in the URL of your posts and pages.', 'wordpress-seo' ) )
@@ -36,7 +36,7 @@ class Postname_Permalink_Reports {
 	 * @return string[] The message as a WordPress site status report.
 	 */
 	public function get_has_no_postname_in_permalink_result() {
-		return $this->report_builder
+		return $this->get_report_builder()
 			->set_label( __( 'You do not have your postname in the URL of your posts and pages', 'wordpress-seo' ) )
 			->set_status_recommended()
 			->set_description( $this->get_has_no_postname_in_permalink_description() )

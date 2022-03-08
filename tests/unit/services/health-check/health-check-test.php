@@ -102,9 +102,9 @@ class Health_Check_Test extends TestCase {
 	public function test_get_test_identifier_exits_early() {
 		$this->instance = Mockery::mock( Health_Check::class )->makePartial();
 
-		$actual = $this->instance->get_test_identifier();
-		$match  = str_contains( $actual, 'yoast-wp-seo-services-health-check-health-check' );
+		$actual   = $this->instance->get_test_identifier();
+		$expected = 'yoast-wp-seo-services-health-check-health-check';
 
-		$this->assertTrue( $match );
+		$this->assertStringContainsString( $expected, $actual );
 	}
 }

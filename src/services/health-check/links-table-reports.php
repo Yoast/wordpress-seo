@@ -29,8 +29,8 @@ class Links_Table_Reports {
 		Report_Builder_Factory $report_builder_factory,
 		WPSEO_Shortlinker $shortlinker
 	) {
-		$this->report_builder = $report_builder_factory->create();
-		$this->shortlinker    = $shortlinker;
+		$this->report_builder_factory = $report_builder_factory;
+		$this->shortlinker            = $shortlinker;
 	}
 
 	/**
@@ -39,7 +39,7 @@ class Links_Table_Reports {
 	 * @return string[] The message as a WordPress site status report.
 	 */
 	public function get_success_result() {
-		return $this->report_builder
+		return $this->get_report_builder()
 			->set_label( \__( 'The text link counter is working as expected', 'wordpress-seo' ) )
 			->set_status_good()
 			->set_description( $this->get_success_description() )
@@ -52,7 +52,7 @@ class Links_Table_Reports {
 	 * @return string[] The message as a WordPress site status report.
 	 */
 	public function get_links_table_not_accessible_result() {
-		return $this->report_builder
+		return $this->get_report_builder()
 			->set_label( \__( 'The text link counter feature is not working as expected', 'wordpress-seo' ) )
 			->set_status_recommended()
 			->set_description( $this->get_links_table_not_accessible_description() )

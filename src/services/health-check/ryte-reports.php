@@ -38,7 +38,7 @@ class Ryte_Reports {
 		Alert_Presenter_Factory $alert_presenter_factory,
 		WPSEO_Shortlinker $shortlinker
 	) {
-		$this->report_builder          = $report_builder_factory->create();
+		$this->report_builder_factory  = $report_builder_factory;
 		$this->alert_presenter_factory = $alert_presenter_factory;
 		$this->shortlinker             = $shortlinker;
 	}
@@ -49,7 +49,7 @@ class Ryte_Reports {
 	 * @return string[] The message as a WordPress site status report.
 	 */
 	public function get_success_result() {
-		return $this->report_builder
+		return $this->get_report_builder()
 			/* translators: %1$s expands to 'Yoast'. */
 			->set_label( __( 'Your site can be found by search engines', 'wordpress-seo' ) )
 			->set_status_good()
@@ -64,7 +64,7 @@ class Ryte_Reports {
 	 * @return string[] The message as a WordPress site status report.
 	 */
 	public function get_not_indexable_result() {
-		return $this->report_builder
+		return $this->get_report_builder()
 			/* translators: %1$s expands to 'Yoast'. */
 			->set_label( __( 'Your site cannot be found by search engines', 'wordpress-seo' ) )
 			->set_status_critical()
@@ -79,7 +79,7 @@ class Ryte_Reports {
 	 * @return string[] The message as a WordPress site status report.
 	 */
 	public function get_unknown_indexability_result() {
-		return $this->report_builder
+		return $this->get_report_builder()
 			/* translators: %1$s: Expands to 'Ryte'. */
 			->set_label( sprintf( __( '%1$s cannot determine whether your site can be found by search engines', 'wordpress-seo' ), 'Ryte' ) )
 			->set_status_recommended()
@@ -95,7 +95,7 @@ class Ryte_Reports {
 	 * @return string[] The message as a WordPress site status report.
 	 */
 	public function get_response_error_result( $response_error ) {
-		return $this->report_builder
+		return $this->get_report_builder()
 			->set_label( __( 'An error occurred while checking whether your site can be found by search engines', 'wordpress-seo' ) )
 			->set_status_recommended()
 			->set_description( $this->get_response_error_result_description( $response_error ) )
