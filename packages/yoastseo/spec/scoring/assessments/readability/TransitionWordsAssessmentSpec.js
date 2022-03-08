@@ -1,16 +1,19 @@
 import DefaultResearcher from "../../../../src/languageProcessing/languages/_default/Researcher";
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
+import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher";
 import TransitionWordsAssessment from "../../../../src/scoring/assessments/readability/TransitionWordsAssessment.js";
 import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../specHelpers/factory.js";
 import Mark from "../../../../src/values/Mark.js";
-const i18n = Factory.buildJed();
+
+const shortTextJapanese = "熱".repeat( 399 );
+const longTextJapanese = "熱".repeat( 400 );
 
 describe( "An assessment for transition word percentage", function() {
 	it( "returns the score for 0% of the sentences with transition words", function() {
 		const mockPaper = new Paper();
 		const assessment = new TransitionWordsAssessment().getResult( mockPaper, Factory.buildMockResearcher( { totalSentences: 10,
-			transitionWordSentences: 0 } ), i18n );
+			transitionWordSentences: 0 } ) );
 
 		expect( assessment.getScore() ).toEqual( 3 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: " +
@@ -21,7 +24,7 @@ describe( "An assessment for transition word percentage", function() {
 	it( "returns the score for a paper with text but no sentences (e.g. only images)", function() {
 		const mockPaper = new Paper();
 		const assessment = new TransitionWordsAssessment().getResult( mockPaper, Factory.buildMockResearcher( { totalSentences: 0,
-			transitionWordSentences: 0 } ), i18n );
+			transitionWordSentences: 0 } ) );
 
 		expect( assessment.getScore() ).toEqual( 3 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: " +
@@ -32,7 +35,7 @@ describe( "An assessment for transition word percentage", function() {
 	it( "returns the score for 10.0% of the sentences with transition words", function() {
 		const mockPaper = new Paper();
 		const assessment = new TransitionWordsAssessment().getResult( mockPaper, Factory.buildMockResearcher( { totalSentences: 10,
-			transitionWordSentences: 1 } ), i18n );
+			transitionWordSentences: 1 } ) );
 
 		expect( assessment.getScore() ).toEqual( 3 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: " +
@@ -43,7 +46,7 @@ describe( "An assessment for transition word percentage", function() {
 	it( "returns the score for 20.0% of the sentences with transition words", function() {
 		const mockPaper = new Paper();
 		const assessment = new TransitionWordsAssessment().getResult( mockPaper, Factory.buildMockResearcher( { totalSentences: 5,
-			transitionWordSentences: 1 } ), i18n );
+			transitionWordSentences: 1 } ) );
 
 		expect( assessment.getScore() ).toEqual( 6 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: " +
@@ -54,7 +57,7 @@ describe( "An assessment for transition word percentage", function() {
 	it( "returns the score for 25.0% of the sentences with transition words", function() {
 		const mockPaper = new Paper();
 		const assessment = new TransitionWordsAssessment().getResult( mockPaper, Factory.buildMockResearcher( { totalSentences: 4,
-			transitionWordSentences: 1 } ), i18n );
+			transitionWordSentences: 1 } ) );
 
 		expect( assessment.getScore() ).toEqual( 6 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: " +
@@ -65,7 +68,7 @@ describe( "An assessment for transition word percentage", function() {
 	it( "returns the score for 35.0% of the sentences with transition words", function() {
 		const mockPaper = new Paper();
 		const assessment = new TransitionWordsAssessment().getResult( mockPaper, Factory.buildMockResearcher( { totalSentences: 20,
-			transitionWordSentences: 7 } ), i18n );
+			transitionWordSentences: 7 } ) );
 		expect( assessment.getScore() ).toEqual( 9 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Well done!" );
 		expect( assessment.hasMarks() ).toBe( true );
@@ -73,7 +76,7 @@ describe( "An assessment for transition word percentage", function() {
 	it( "returns the score for 40% sentences with transition words", function() {
 		const mockPaper = new Paper();
 		const assessment = new TransitionWordsAssessment().getResult( mockPaper, Factory.buildMockResearcher( { totalSentences: 10,
-			transitionWordSentences: 4 } ), i18n );
+			transitionWordSentences: 4 } ) );
 		expect( assessment.getScore() ).toEqual( 9 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Well done!" );
 		expect( assessment.hasMarks() ).toBe( true );
@@ -82,7 +85,7 @@ describe( "An assessment for transition word percentage", function() {
 	it( "returns the score for 47% sentences with transition words", function() {
 		const mockPaper = new Paper();
 		const assessment = new TransitionWordsAssessment().getResult( mockPaper, Factory.buildMockResearcher( { totalSentences: 100,
-			transitionWordSentences: 47 } ), i18n );
+			transitionWordSentences: 47 } ) );
 		expect( assessment.getScore() ).toEqual( 9 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Well done!" );
 		expect( assessment.hasMarks() ).toBe( true );
@@ -91,7 +94,7 @@ describe( "An assessment for transition word percentage", function() {
 	it( "returns the score for 66.7% of the sentences with transition words", function() {
 		const mockPaper = new Paper();
 		const assessment = new TransitionWordsAssessment().getResult( mockPaper, Factory.buildMockResearcher( { totalSentences: 3,
-			transitionWordSentences: 2 } ), i18n );
+			transitionWordSentences: 2 } ) );
 
 		expect( assessment.getScore() ).toEqual( 9 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Well done!" );
@@ -136,6 +139,18 @@ describe( "An assessment for transition word percentage", function() {
 		const mockPaper = new Paper( "This is a string", { locale: "xx_YY" } );
 		const assessment = new TransitionWordsAssessment().isApplicable( mockPaper, new DefaultResearcher( mockPaper ) );
 		expect( assessment ).toBe( false );
+	} );
+
+	it( "is not applicable when the text is less than 400 characters in Japanese", function() {
+		const mockPaper = new Paper( shortTextJapanese );
+		const assessment = new TransitionWordsAssessment().isApplicable( mockPaper, new JapaneseResearcher( mockPaper ) );
+		expect( assessment ).toBe( false );
+	} );
+
+	it( "is applicable when the text is 400 characters or longer in Japanese", function() {
+		const mockPaper = new Paper( longTextJapanese );
+		const assessment = new TransitionWordsAssessment().isApplicable( mockPaper, new JapaneseResearcher( mockPaper ) );
+		expect( assessment ).toBe( true );
 	} );
 } );
 

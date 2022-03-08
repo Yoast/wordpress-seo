@@ -23,7 +23,8 @@ const expectedResults = {
 	keyphraseLength: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: The keyphrase is 5 words long. That's more than the recommended maximum of 4 words. <a href='https://yoa.st/33j' target='_blank'>Make it shorter</a>!",
+		resultText: "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: The keyphrase contains 5 content words. That's more than " +
+			"the recommended maximum of 4 content words. <a href='https://yoa.st/33j' target='_blank'>Make it shorter</a>!",
 	},
 	keywordDensity: {
 		isApplicable: true,
@@ -124,6 +125,7 @@ const expectedResults = {
 		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: You're using enough active voice. That's great!",
 	},
 	textPresence: {
+		isApplicable: true,
 		score: 0,
 		resultText: "",
 	},

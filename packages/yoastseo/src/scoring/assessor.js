@@ -3,6 +3,7 @@ import removeDuplicateMarks from "../markers/removeDuplicateMarks";
 import AssessmentResult from "../values/AssessmentResult.js";
 import { showTrace } from "../helpers/errors.js";
 
+import { __, sprintf } from "@wordpress/i18n";
 import { isUndefined } from "lodash-es";
 import { isFunction } from "lodash-es";
 import { forEach } from "lodash-es";
@@ -16,16 +17,14 @@ const ScoreRating = 9;
 /**
  * Creates the Assessor.
  *
- * @param {Object} i18n             The i18n object used for translations.
  * @param {Object} researcher       The researcher to use in the assessor.
  * @param {Object} options          The options for this assessor.
  * @param {Object} options.marker   The marker to pass the list of marks to.
  *
  * @constructor
  */
-const Assessor = function( i18n, researcher, options ) {
-	this.type = "Assessor";
-	this.setI18n( i18n );
+const Assessor = function( researcher, options ) {
+	this.type = "assessor";
 	this.setResearcher( researcher );
 	this._assessments = [];
 
@@ -33,23 +32,9 @@ const Assessor = function( i18n, researcher, options ) {
 };
 
 /**
- * Checks if the i18n object is defined and sets it.
- *
- * @param {Object} i18n The i18n object used for translations.
- * @throws {MissingArgument} Parameter needs to be a valid i18n object.
- * @returns {void}
- */
-Assessor.prototype.setI18n = function( i18n ) {
-	if ( isUndefined( i18n ) ) {
-		throw new MissingArgument( "The assessor requires an i18n object." );
-	}
-	this.i18n = i18n;
-};
-
-/**
  * Checks if the researcher is defined and sets it.
  *
- * @param   {Object}            researcher  The i18n object used for translations.
+ * @param   {Object} researcher The researcher to use in the assessor.
  *
  * @throws  {MissingArgument} Parameter needs to be a valid researcher object.
  * @returns {void}
@@ -185,7 +170,7 @@ Assessor.prototype.executeAssessment = function( paper, researcher, assessment )
 	var result;
 
 	try {
-		result = assessment.getResult( paper, researcher, this.i18n );
+		result = assessment.getResult( paper, researcher );
 		result.setIdentifier( assessment.identifier );
 
 		if ( result.hasMarks() ) {
@@ -204,9 +189,9 @@ Assessor.prototype.executeAssessment = function( paper, researcher, assessment )
 		result = new AssessmentResult();
 
 		result.setScore( -1 );
-		result.setText( this.i18n.sprintf(
+		result.setText( sprintf(
 			/* Translators: %1$s expands to the name of the assessment. */
-			this.i18n.dgettext( "js-text-analysis", "An error occurred in the '%1$s' assessment" ),
+			__( "An error occurred in the '%1$s' assessment", "wordpress-seo" ),
 			assessment.identifier,
 			assessmentError
 		) );

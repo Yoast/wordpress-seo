@@ -205,6 +205,11 @@ class Front_End_Integration_Test extends TestCase {
 			->once()
 			->andReturn( $this->context );
 
+		$this->request
+			->expects( 'is_rest_request' )
+			->once()
+			->andReturnFalse();
+
 		$expected = [
 			'Yoast\WP\SEO\Presenters\Debug\Marker_Open_Presenter',
 			'Yoast\WP\SEO\Presenters\Title_Presenter',
@@ -266,6 +271,11 @@ class Front_End_Integration_Test extends TestCase {
 			->once()
 			->andReturn( $this->context );
 
+		$this->request
+			->expects( 'is_rest_request' )
+			->once()
+			->andReturnFalse();
+
 		$callback = static function( $presenter ) {
 			return \get_class( $presenter );
 		};
@@ -317,6 +327,11 @@ class Front_End_Integration_Test extends TestCase {
 			->expects( 'for_current_page' )
 			->once()
 			->andReturn( $this->context );
+
+		$this->request
+			->expects( 'is_rest_request' )
+			->once()
+			->andReturnFalse();
 
 		$callback = static function( $presenter ) {
 			return \get_class( $presenter );
@@ -378,6 +393,11 @@ class Front_End_Integration_Test extends TestCase {
 			->once()
 			->andReturn( $this->context );
 
+		$this->request
+			->expects( 'is_rest_request' )
+			->once()
+			->andReturnFalse();
+
 		$callback = static function( $presenter ) {
 			return \get_class( $presenter );
 		};
@@ -386,6 +406,52 @@ class Front_End_Integration_Test extends TestCase {
 		$this->assertEquals(
 			[
 				'Yoast\WP\SEO\Presenters\Debug\Marker_Open_Presenter',
+				'Yoast\WP\SEO\Presenters\Meta_Description_Presenter',
+				'Yoast\WP\SEO\Presenters\Robots_Presenter',
+				'Yoast\WP\SEO\Presenters\Open_Graph\Locale_Presenter',
+				'Yoast\WP\SEO\Presenters\Open_Graph\Title_Presenter',
+				'Yoast\WP\SEO\Presenters\Open_Graph\Site_Name_Presenter',
+				'Yoast\WP\SEO\Presenters\Schema_Presenter',
+				'Yoast\WP\SEO\Presenters\Debug\Marker_Close_Presenter',
+			],
+			$actual
+		);
+	}
+
+	/**
+	 * Tests retrieval of the presenters on a REST request.
+	 *
+	 * @covers ::get_presenters
+	 * @covers ::get_needed_presenters
+	 * @covers ::get_presenters_for_page_type
+	 * @covers ::get_all_presenters
+	 */
+	public function test_get_presenters_for_theme_on_rest_request() {
+
+		$this->options
+			->expects( 'get' )
+			->with( 'opengraph' )
+			->andReturnTrue();
+
+		$this->context_memoizer
+			->expects( 'for_current_page' )
+			->once()
+			->andReturn( $this->context );
+
+		$this->request
+			->expects( 'is_rest_request' )
+			->once()
+			->andReturnTrue();
+
+		$callback = static function( $presenter ) {
+			return \get_class( $presenter );
+		};
+		$actual   = \array_map( $callback, \array_values( $this->instance->get_presenters( 'Error_Page' ) ) );
+
+		$this->assertEquals(
+			[
+				'Yoast\WP\SEO\Presenters\Debug\Marker_Open_Presenter',
+				'Yoast\WP\SEO\Presenters\Title_Presenter',
 				'Yoast\WP\SEO\Presenters\Meta_Description_Presenter',
 				'Yoast\WP\SEO\Presenters\Robots_Presenter',
 				'Yoast\WP\SEO\Presenters\Open_Graph\Locale_Presenter',
@@ -424,6 +490,11 @@ class Front_End_Integration_Test extends TestCase {
 			->expects( 'for_current_page' )
 			->once()
 			->andReturn( $this->context );
+
+		$this->request
+			->expects( 'is_rest_request' )
+			->once()
+			->andReturnFalse();
 
 		$callback = static function( $presenter ) {
 			return \get_class( $presenter );

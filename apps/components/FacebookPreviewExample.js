@@ -23,7 +23,6 @@ const FacebookPreviewExample = () => {
 			<h2>FacebookPreview Landscape</h2>
 			<FacebookPreview
 				siteUrl="siteUrl.com"
-				authorName="John Doe"
 				title="YoastCon Workshops"
 				description="Some description with words. In two whole sentences."
 				imageUrl="https://yoast.com/app/uploads/2015/06/How_to_choose_keywords_FI.png"
@@ -60,7 +59,6 @@ const FacebookPreviewExample = () => {
 			<h2>FacebookPreview Portrait</h2>
 			<FacebookPreview
 				siteUrl="siteUrl.com"
-				authorName="John Doe"
 				title="YoastCon Workshops"
 				description="<h1>Some description with words. And some <strong>HTML</strong> that will get stripped.</h1>"
 				imageUrl="https://yoast.com/app/uploads/2015/09/Author_Joost_x2.png"

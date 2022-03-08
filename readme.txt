@@ -4,8 +4,8 @@ Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
-Tested up to: 5.8
-Stable tag: 17.4
+Tested up to: 5.9
+Stable tag: 18.2
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -42,7 +42,7 @@ We know content is king, that's why Yoast SEO is famous for its **state-of-the-a
 
 * **SEO analysis**: an invaluable tool while writing SEO-friendly content with the right (focus) keyphrases in mind.
 * **Readability analysis**: ensures that humans and search engines can read and understand your content.
-* **Full language support** for: English, German, French, Dutch, Spanish, Italian, Russian, Indonesian, Polish, Portuguese, Arabic, Swedish, Hebrew, Hungarian, Turkish, Czech, Norwegian and Slovak.
+* **Full language support** for: English, German, French, Dutch, Spanish, Italian, Russian, Indonesian, Polish, Portuguese, Arabic, Swedish, Hebrew, Hungarian, Turkish, Czech, Norwegian, Slovak and Greek.
 * **A Google preview**, which shows what your listings will look like in the search results. Even on mobile devices!
 * **Innovative Schema blocks** for the WordPress block editor, so that your FAQ and HowTo content can be shown directly in the search results. Plus a breadcrumbs block to guide your users.
 * **[Premium] Internal linking blocks** to easily improve the structure of your content. Easily add a **table of contents block**, a **related links block**, a **subpages** block, or **siblings block**! Plus, we’ll keep adding these easy-to-add blocks to improve your site structure.
@@ -126,7 +126,7 @@ Want more information on search engine optimization and Yoast SEO? Have a look a
 * Also follow Yoast on [Facebook](https://facebook.com/yoast), [Instagram](https://www.instagram.com/yoast/) & [Twitter](https://twitter.com/yoast).
 
 == Installation ==
-Starting with Yoast SEO consists of just two steps: installing and setting up the plugin. Yoast SEO is designed to work with your site’s specific needs, so don’t forget to go through the Yoast SEO configuration wizard as explained in the ‘after activation’ step!
+Starting with Yoast SEO consists of just two steps: installing and setting up the plugin. Yoast SEO is designed to work with your site’s specific needs, so don’t forget to go through the Yoast SEO configuration workout as explained in the ‘after activation’ step!
 
 ### INSTALL YOAST SEO FROM WITHIN WORDPRESS
 
@@ -143,8 +143,8 @@ Starting with Yoast SEO consists of just two steps: installing and setting up th
 
 ### AFTER ACTIVATION
 
-1. You should see (a notice to start) the Yoast SEO configuration wizard;
-1. Go through the configuration wizard and set up the plugin for your site;
+1. You should see (a notice to start) the Yoast SEO configuration workout;
+1. Go through the configuration workout and set up the plugin for your site;
 1. You’re done!
 
 == Frequently Asked Questions ==
@@ -236,34 +236,46 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
-= 17.5 =
-Release Date: November 2nd, 2021
+= 18.3 =
+Release Date: March 8th, 2022
 
 Enhancements:
 
-* Completes the readability analysis for Greek by adding the transition words, sentence beginnings and passive voice assessments.
-* Improves keyword detection for Greek by adding function words list.
-* Reduces the right padding of the collapsible sidebar buttons to match Gutenberg's new styling.
+* Improves the importer so you can now import `post_meta`, `robot_txt` and search appearance options when moving from All-In-One SEO to Yoast SEO.
+* New feature: adds a QR code to every page on your site when it's printed, that links back to the page online. Props to [Coywolf](https://coywolf.com/) for [this idea](https://twitter.com/coywolf/status/1493630040256483338?t=juq4vpF0kf4MDS3Y3GfKPg&s=08).
+* Improves feedback strings for the Keyphrase Length assessment by making it explicit that we only count content words for languages with function word support.
 
 Bugfixes:
 
-* Fixes a bug where the analysis highlight button would be visible on WordPress taxonomies (tags/categories/custom taxonomies) even though we don't support it.
-* Fixes a bug where links to items on the same page were incorrectly identified as links to other pages, leading to an incorrect result on the Link keyphrase assessment.
+* Fixes a bug where the Force rewrite titles option would be shown when a user was using a block-based theme.
+* Fixes a bug where the title of a page would not get included in our `get_head` REST route.
+* Fixes a bug where URLs in the XML sitemaps in certain edge cases would potentially be mangled, most notably when schema-relative URLs were being used.
+* Fixes an issue where HowTo images would not be optimized if they did not start with the site URL.
+* Fixes a bug where HowTo images with custom width would lose their custom width in the Twenty Twenty-One theme.
 
-= 17.4 =
-Release Date: October 19th, 2021
+Other:
 
-Yoast SEO 17.4 is out today! This release comes with several fixes and enhancements to help database performance on larger sites by cleaning up data and streamlining retrieval. Happy updating! Read more about what's new in Yoast SEO 17.4 in [our release post](https://yoa.st/release-17-4)!
+* Fixes an incompatibility with Elementor 3.6.0 where the React contents of the Yoast tab in Elementor were not rendered.
+
+= 18.2 =
+Release Date: February 22nd, 2022
+
+Yoast SEO 18.2 is out today! This release includes more fixes and enhancements to enjoy. We improved the workings of the FAQ and How-to blocks. Happy optimizing! Read more about what's new in Yoast SEO 18.2 in [our release post in English](https://yoa.st/release-22-2-22) or [our release post in Spanish](https://yoa.st/release-22-2-22-spanish)!
 
 Enhancements:
 
-* Improves two queries used to determine whether or not a site has been fully processed using our SEO data optimization. This should prevent potential slowdowns in extremely large sites.
+* Optimizes the images in FAQ and HowTo blocks to be more responsive and load faster.
 
 Bugfixes:
 
-* Fixes a bug where the `url` property in the search page schema would be empty.
-* Fixes a bug where a duplicate canonical tag was output for web stories created with the Web Stories plugin. Props to [swissspidey](https://github.com/swissspidy).
-* Fixes a bug where a race condition could occur that caused the rewrite rules to be flushed on every page request when using a persistent cache like Redis. This may speed up your site’s load times if it’s using persistent caching.
+* Fixes a bug where the "Save changes" button would overlap with the admin sidebar on WordPress.com. Props to @DustyReagan.
+* Fixes a bug where a (debug) deprecation message would show in the widget editor on WordPress 5.8 and above.
+* Fixes a bug where a console warning would be thrown when adding a structured data block in the block editor, FSE editor or widget editor.
+
+Other:
+
+* Adds a filter to enable/disable creating indexables: `Yoast\WP\SEO\should_index_indexables`
+* Adds an `__isset` magic method to ease working with helper surfaces. Props to @nlemoine.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

@@ -15,13 +15,14 @@ import Results from "./containers/Results";
 import createInterpolateElement from "./helpers/createInterpolateElement";
 import isBlockEditor from "./helpers/isBlockEditor";
 import * as replacementVariableHelpers from "./helpers/replacementVariableHelpers";
-import * as location from "./components/contexts/location";
+import { LocationContext, LocationProvider, LocationConsumer } from "@yoast/externals/contexts";
 import Modal from "./components/modals/Modal";
 import SidebarItem from "./components/SidebarItem";
 import * as ajaxHelper from "./helpers/ajaxHelper";
 import EditorModal from "./containers/EditorModal";
 import ImageSelectPortal from "./components/portals/ImageSelectPortal";
 import PersistentDismissableAlert from "./containers/PersistentDismissableAlert";
+import WincherSEOPerformance from "./containers/WincherSEOPerformance";
 
 window.yoast = window.yoast || {};
 window.yoast.editorModules = {
@@ -42,7 +43,11 @@ window.yoast.editorModules = {
 			mapResults,
 		},
 		contexts: {
-			location,
+			location: {
+				LocationContext,
+				LocationProvider,
+				LocationConsumer,
+			},
 		},
 		SidebarItem,
 		SidebarCollapsible,
@@ -57,6 +62,7 @@ window.yoast.editorModules = {
 		PersistentDismissableAlert,
 		Results,
 		SEMrushRelatedKeyphrases,
+		WincherSEOPerformance,
 	},
 	helpers: {
 		ajaxHelper,

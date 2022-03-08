@@ -120,7 +120,6 @@ class Indexable_Post_Watcher implements Integration_Interface {
 	public function register_hooks() {
 		\add_action( 'wp_insert_post', [ $this, 'build_indexable' ], \PHP_INT_MAX );
 		\add_action( 'delete_post', [ $this, 'delete_indexable' ] );
-		\add_action( 'wpseo_save_indexable', [ $this, 'updated_indexable' ], \PHP_INT_MAX, 2 );
 
 		\add_action( 'edit_attachment', [ $this, 'build_indexable' ], \PHP_INT_MAX );
 		\add_action( 'add_attachment', [ $this, 'build_indexable' ], \PHP_INT_MAX );
@@ -142,9 +141,7 @@ class Indexable_Post_Watcher implements Integration_Interface {
 			return;
 		}
 
-		if ( $indexable->is_public ) {
-			$this->update_relations( $this->post->get_post( $post_id ) );
-		}
+		$this->update_relations( $this->post->get_post( $post_id ) );
 
 		$this->update_has_public_posts( $indexable );
 
@@ -156,25 +153,24 @@ class Indexable_Post_Watcher implements Integration_Interface {
 	/**
 	 * Updates the relations when the post indexable is built.
 	 *
-	 * @param Indexable $updated_indexable The updated indexable.
-	 * @param Indexable $old_indexable     The old indexable.
+	 * @param Indexable $indexable The indexable.
+	 * @param WP_Post   $post      The post.
 	 */
-	public function updated_indexable( $updated_indexable, $old_indexable ) {
+	public function updated_indexable( $indexable, $post ) {
 		// Only interested in post indexables.
-		if ( $updated_indexable->object_type !== 'post' ) {
+		if ( $indexable->object_type !== 'post' ) {
 			return;
 		}
 
-		$post = $this->post->get_post( $updated_indexable->object_id );
-
-		// When the indexable is public or has a change in its public state.
-		if ( $updated_indexable->is_public || $updated_indexable->is_public !== $old_indexable->is_public ) {
-			$this->update_relations( $post );
+		if ( \is_a( $post, Indexable::class ) ) {
+			\_deprecated_argument( __FUNCTION__, '17.7', 'The $old_indexable argument has been deprecated.' );
+			$post = $this->post->get_post( $indexable->object_id );
 		}
 
-		$this->update_has_public_posts( $updated_indexable );
+		$this->update_relations( $post );
+		$this->update_has_public_posts( $indexable );
 
-		$updated_indexable->save();
+		$indexable->save();
 	}
 
 	/**
@@ -201,6 +197,7 @@ class Indexable_Post_Watcher implements Integration_Interface {
 				$this->link_builder->build( $indexable, $post->post_content );
 				// Save indexable to persist the updated link count.
 				$indexable->save();
+				$this->updated_indexable( $indexable, $post );
 			}
 		} catch ( Exception $exception ) {
 			$this->logger->log( LogLevel::ERROR, $exception->getMessage() );
@@ -234,13 +231,8 @@ class Indexable_Post_Watcher implements Integration_Interface {
 	protected function update_relations( $post ) {
 		$related_indexables = $this->get_related_indexables( $post );
 
-		$updated_at = \gmdate( 'Y-m-d H:i:s' );
 		foreach ( $related_indexables as $indexable ) {
-			if ( ! $indexable->is_public ) {
-				continue;
-			}
-
-			$indexable->updated_at = $updated_at;
+			$indexable->object_last_modified = \max( $indexable->object_last_modified, $post->post_modified_gmt );
 			$indexable->save();
 		}
 	}
@@ -265,6 +257,7 @@ class Indexable_Post_Watcher implements Integration_Interface {
 
 		$taxonomies = \get_post_taxonomies( $post->ID );
 		$taxonomies = \array_filter( $taxonomies, 'is_taxonomy_viewable' );
+		$term_ids   = [];
 		foreach ( $taxonomies as $taxonomy ) {
 			$terms = \get_the_terms( $post->ID, $taxonomy );
 
@@ -272,10 +265,12 @@ class Indexable_Post_Watcher implements Integration_Interface {
 				continue;
 			}
 
-			foreach ( $terms as $term ) {
-				$related_indexables[] = $this->repository->find_by_id_and_type( $term->term_id, 'term', false );
-			}
+			$term_ids = \array_merge( $term_ids, \wp_list_pluck( $terms, 'term_id' ) );
 		}
+		$related_indexables = \array_merge(
+			$related_indexables,
+			$this->repository->find_by_multiple_ids_and_type( $term_ids, 'term', false )
+		);
 
 		return \array_filter( $related_indexables );
 	}

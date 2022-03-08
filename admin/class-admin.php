@@ -5,6 +5,8 @@
  * @package WPSEO\Admin
  */
 
+use Yoast\WP\SEO\Helpers\Wordpress_Helper;
+
 /**
  * Class that holds most of the admin functionality for Yoast SEO.
  */
@@ -73,12 +75,6 @@ class WPSEO_Admin {
 
 		if ( YoastSEO()->helpers->current_page->is_yoast_seo_page() ) {
 			add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
-		}
-
-		if ( WPSEO_Utils::is_api_available() ) {
-			$configuration = new WPSEO_Configuration_Page();
-			$configuration->set_hooks();
-			$configuration->catch_configuration_request();
 		}
 
 		$this->set_upsell_notice();
@@ -306,7 +302,17 @@ class WPSEO_Admin {
 	 * Log the updated timestamp for user profiles when theme is changed.
 	 */
 	public function switch_theme() {
-		$users = get_users( [ 'who' => 'authors' ] );
+		$wordpress_helper  = new Wordpress_Helper();
+		$wordpress_version = $wordpress_helper->get_wordpress_version();
+
+		// Capability queries were only introduced in WP 5.9.
+		if ( version_compare( $wordpress_version, '5.8.99', '<' ) ) {
+			$users = get_users( [ 'who' => 'authors' ] );
+		}
+		else {
+			$users = get_users( [ 'capability' => [ 'edit_posts' ] ] );
+		}
+
 		if ( is_array( $users ) && $users !== [] ) {
 			foreach ( $users as $user ) {
 				update_user_meta( $user->ID, '_yoast_wpseo_profile_updated', time() );
@@ -320,18 +326,22 @@ class WPSEO_Admin {
 	 * @return array
 	 */
 	private function localize_admin_global_script() {
-		return [
-			'isRtl'                   => is_rtl(),
-			'variable_warning'        => sprintf(
-				/* translators: %1$s: '%%term_title%%' variable used in titles and meta's template that's not compatible with the given template, %2$s: expands to 'HelpScout beacon' */
-				__( 'Warning: the variable %1$s cannot be used in this template. See the %2$s for more info.', 'wordpress-seo' ),
-				'<code>%s</code>',
-				'HelpScout beacon'
-			),
-			/* translators: %s: expends to Yoast SEO */
-			'help_video_iframe_title' => sprintf( __( '%s video tutorial', 'wordpress-seo' ), 'Yoast SEO' ),
-			'scrollable_table_hint'   => __( 'Scroll to see the table content.', 'wordpress-seo' ),
-		];
+		return array_merge(
+			[
+				'isRtl'                   => is_rtl(),
+				'variable_warning'        => sprintf(
+					/* translators: %1$s: '%%term_title%%' variable used in titles and meta's template that's not compatible with the given template, %2$s: expands to 'HelpScout beacon' */
+					__( 'Warning: the variable %1$s cannot be used in this template. See the %2$s for more info.', 'wordpress-seo' ),
+					'<code>%s</code>',
+					'HelpScout beacon'
+				),
+				/* translators: %s: expends to Yoast SEO */
+				'help_video_iframe_title' => sprintf( __( '%s video tutorial', 'wordpress-seo' ), 'Yoast SEO' ),
+				'scrollable_table_hint'   => __( 'Scroll to see the table content.', 'wordpress-seo' ),
+				'wincher_is_logged_in'    => WPSEO_Options::get( 'wincher_integration_active', true ) ? YoastSEO()->helpers->wincher->login_status() : false,
+			],
+			YoastSEO()->helpers->wincher->get_admin_global_links()
+		);
 	}
 
 	/**

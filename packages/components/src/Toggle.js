@@ -13,6 +13,7 @@ const ToggleDiv = styled.div`
 	width: 100%;
 	justify-content: space-between;
 	align-items: center;
+	position: relative;
 `;
 
 const ToggleLabel = styled.span`
@@ -123,12 +124,12 @@ class Toggle extends React.Component {
 		return (
 			<ToggleDiv>
 				{ /* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions */ }
-				<ToggleLabel
+				{ this.props.labelText && <ToggleLabel
 					id={ this.props.id }
 					onClick={ this.onClick }
 				>
 					{ this.props.labelText }
-				</ToggleLabel>
+				</ToggleLabel> }
 				<ToggleBar
 					isEnabled={ this.props.isEnabled }
 					onKeyDown={ this.handleOnKeyDown }
@@ -142,9 +143,9 @@ class Toggle extends React.Component {
 				>
 					<ToggleBullet isEnabled={ this.props.isEnabled } />
 				</ToggleBar>
-				<ToggleVisualLabel aria-hidden="true">
-					{ this.props.isEnabled ? __( "On", "yoast-components" ) : __( "Off", "yoast-components" ) }
-				</ToggleVisualLabel>
+				{ this.props.showToggleStateLabel && <ToggleVisualLabel aria-hidden="true">
+					{ this.props.isEnabled ? __( "On", "wordpress-seo" ) : __( "Off", "wordpress-seo" ) }
+				</ToggleVisualLabel> }
 			</ToggleDiv>
 		);
 	}
@@ -157,6 +158,7 @@ Toggle.propTypes = {
 	onToggleDisabled: PropTypes.func,
 	id: PropTypes.string.isRequired,
 	labelText: PropTypes.string.isRequired,
+	showToggleStateLabel: PropTypes.bool,
 };
 
 Toggle.defaultProps = {
@@ -165,6 +167,7 @@ Toggle.defaultProps = {
 	labelText: "",
 	disable: false,
 	onToggleDisabled: () => {},
+	showToggleStateLabel: true,
 };
 
 export default Toggle;

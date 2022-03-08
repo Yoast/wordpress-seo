@@ -40,8 +40,8 @@ function ImageSelect( props ) {
 			<span className="screen-reader-text">
 				{
 					imageSelected
-						? __( "Replace image", "yoast-components" )
-						: __( "Select image", "yoast-components" )
+						? __( "Replace image", "wordpress-seo" )
+						: __( "Select image", "wordpress-seo" )
 				}
 			</span>
 		);
@@ -91,7 +91,7 @@ export default ImageSelect;
 ImageSelect.propTypes = {
 	defaultImageUrl: PropTypes.string,
 	imageUrl: PropTypes.string,
-	imageAltText: PropTypes.string.isRequired,
+	imageAltText: PropTypes.string,
 	hasPreview: PropTypes.bool.isRequired,
 	label: PropTypes.string.isRequired,
 	onClick: PropTypes.func,
@@ -110,6 +110,7 @@ ImageSelect.propTypes = {
 ImageSelect.defaultProps = {
 	defaultImageUrl: "",
 	imageUrl: "",
+	imageAltText: "",
 	onClick: () => {},
 	onMouseEnter: () => {},
 	onMouseLeave: () => {},

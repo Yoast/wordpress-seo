@@ -143,7 +143,12 @@ class Indexable_Term_Watcher_Test extends TestCase {
 	 * @covers ::build_indexable
 	 */
 	public function test_build_indexable() {
-		$indexable = Mockery::mock( Indexable::class );
+		Monkey\Functions\expect( 'current_time' )->with( 'mysql' )->andReturn( '1234-12-12 12:12:12' );
+
+		$indexable      = Mockery::mock( Indexable::class );
+		$indexable->orm = Mockery::mock( ORM::class );
+		$indexable->orm->expects( 'get' )->with( 'object_last_modified' )->andReturn( '1234-12-12 00:00:00' );
+		$indexable->orm->expects( 'set' )->with( 'object_last_modified', '1234-12-12 12:12:12' );
 
 		$this->site
 			->expects( 'is_multisite_and_switched' )
@@ -292,7 +297,12 @@ class Indexable_Term_Watcher_Test extends TestCase {
 	 * @covers ::build_indexable
 	 */
 	public function test_build_does_not_exist() {
-		$indexable = Mockery::mock( Indexable::class );
+		Monkey\Functions\expect( 'current_time' )->with( 'mysql' )->andReturn( '1234-12-12 12:12:12' );
+
+		$indexable      = Mockery::mock( Indexable::class );
+		$indexable->orm = Mockery::mock( ORM::class );
+		$indexable->orm->expects( 'get' )->with( 'object_last_modified' )->andReturn( '1234-12-12 00:00:00' );
+		$indexable->orm->expects( 'set' )->with( 'object_last_modified', '1234-12-12 12:12:12' );
 
 		$this->site
 			->expects( 'is_multisite_and_switched' )

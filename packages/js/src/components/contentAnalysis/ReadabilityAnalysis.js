@@ -13,7 +13,7 @@ import Results from "../../containers/Results";
 import Collapsible from "../SidebarCollapsible";
 import getIndicatorForScore from "../../analysis/getIndicatorForScore";
 import { getIconForScore } from "./mapResults";
-import { LocationConsumer } from "../contexts/location";
+import { LocationConsumer } from "@yoast/externals/contexts";
 import HelpLink from "../HelpLink";
 import ReadabilityResultsPortal from "../portals/ReadabilityResultsPortal";
 

@@ -91,7 +91,7 @@ class Meta_Surface {
 	 * @return Meta|false The meta values. False if none could be found.
 	 */
 	public function for_home_page() {
-		$front_page_id = \get_option( 'page_on_front' );
+		$front_page_id = (int) \get_option( 'page_on_front' );
 		if ( \get_option( 'show_on_front' ) === 'page' && $front_page_id !== 0 ) {
 			$indexable = $this->repository->find_by_id_and_type( $front_page_id, 'post' );
 
@@ -345,8 +345,11 @@ class Meta_Surface {
 	 */
 	protected function is_date_archive_url( $url ) {
 		$path = \wp_parse_url( $url, \PHP_URL_PATH );
-		$path = \ltrim( $path, '/' );
+		if ( $path === null ) {
+			return false;
+		}
 
+		$path         = \ltrim( $path, '/' );
 		$wp_rewrite   = $this->wp_rewrite_wrapper->get();
 		$date_rewrite = $wp_rewrite->generate_rewrite_rules( $wp_rewrite->get_date_permastruct(), \EP_DATE );
 		$date_rewrite = \apply_filters( 'date_rewrite_rules', $date_rewrite );

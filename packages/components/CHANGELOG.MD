@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file. Releases wi
 
 We follow [Semantic Versioning](http://semver.org/).
 
+## Future Release
+### Other
+* Adds a way to change the link in the `WordOccurenceInsights` component.
+
+### Non user facing
+* Changes the `imageAltText` prop from the `ImageSelect` component to no longer be required.
+
+
 ## 2.20.0
 ### Enhancements
 * Adds a new `PremiumBadge` component.

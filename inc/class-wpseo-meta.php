@@ -105,18 +105,18 @@ class WPSEO_Meta {
 	 */
 	public static $meta_fields = [
 		'general'  => [
-			'focuskw'        => [
+			'focuskw' => [
 				'type'  => 'hidden',
 				'title' => '',
 			],
-			'title'          => [
+			'title' => [
 				'type'          => 'hidden',
 				'title'         => '', // Translation added later.
 				'default_value' => '',
 				'description'   => '', // Translation added later.
 				'help'          => '', // Translation added later.
 			],
-			'metadesc'       => [
+			'metadesc' => [
 				'type'          => 'hidden',
 				'title'         => '', // Translation added later.
 				'default_value' => '',
@@ -125,13 +125,13 @@ class WPSEO_Meta {
 				'description'   => '', // Translation added later.
 				'help'          => '', // Translation added later.
 			],
-			'linkdex'        => [
+			'linkdex' => [
 				'type'          => 'hidden',
 				'title'         => 'linkdex',
 				'default_value' => '0',
 				'description'   => '',
 			],
-			'content_score'  => [
+			'content_score' => [
 				'type'          => 'hidden',
 				'title'         => 'content_score',
 				'default_value' => '0',
@@ -392,7 +392,7 @@ class WPSEO_Meta {
 				$field_defs['schema_page_type']['default'] = WPSEO_Options::get( 'schema-page-type-' . $post_type );
 
 				$article_helper = new Article_Helper();
-				if ( $post_type !== 'page' && $article_helper->is_author_supported( $post_type ) ) {
+				if ( $article_helper->is_article_post_type( $post_type ) ) {
 					$default_schema_article_type = WPSEO_Options::get( 'schema-article-type-' . $post_type );
 
 					/** This filter is documented in inc/options/class-wpseo-option-titles.php */
@@ -722,9 +722,9 @@ class WPSEO_Meta {
 	 * Deletes a meta value for a post.
 	 *
 	 * @param string $key     The internal key of the meta value to change (without prefix).
-	 * @param int    $post_id The ID of the post to change the meta for.
+	 * @param int    $post_id The ID of the post to delete the meta for.
 	 *
-	 * @return bool Whether the value was changed.
+	 * @return bool Whether the delete was successful or not.
 	 */
 	public static function delete( $key, $post_id ) {
 		return delete_post_meta( $post_id, self::$meta_prefix . $key );

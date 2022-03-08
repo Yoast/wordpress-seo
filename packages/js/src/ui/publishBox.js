@@ -93,14 +93,14 @@ function scrollToCollapsible( id ) {
 	}, 1000 );
 
 	// Move focus to the collapsible.
-	$collapsible.focus();
+	$collapsible.trigger( "focus" );
 
 	// The content of the analysis is a sibling of the h2 in the collapsible.
 	const $h2 = $collapsible.parent();
 
 	// If the sibling is not there, the collapsible is collapsed, so we should open it.
 	if ( $h2.siblings().length === 0 ) {
-		$collapsible.click();
+		$collapsible.trigger( "click" );
 	}
 }
 

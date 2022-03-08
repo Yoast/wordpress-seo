@@ -257,10 +257,13 @@ export class Collapsible extends React.Component {
 	 */
 	toggleCollapse() {
 		const { isOpen } = this.state;
+		const { onToggle } = this.props;
 
-		this.setState( {
-			isOpen: ! isOpen,
-		} );
+		if ( ! onToggle || onToggle( isOpen ) !== false ) {
+			this.setState( {
+				isOpen: ! isOpen,
+			} );
+		}
 	}
 
 	/**
@@ -272,7 +275,7 @@ export class Collapsible extends React.Component {
 		const { isOpen } = this.state;
 		const { children } = this.props;
 
-		const newProps = omit( this.props, [ "children" ] );
+		const newProps = omit( this.props, [ "children", "onToggle" ] );
 
 		return (
 			<CollapsibleStateless
@@ -324,6 +327,7 @@ Collapsible.propTypes = {
 		fontSize: PropTypes.string,
 		fontWeight: PropTypes.string,
 	} ),
+	onToggle: PropTypes.func,
 };
 
 Collapsible.defaultProps = {
@@ -351,6 +355,7 @@ Collapsible.defaultProps = {
 		fontSize: "1rem",
 		fontWeight: "normal",
 	},
+	onToggle: null,
 };
 
 export default Collapsible;

@@ -1,5 +1,5 @@
 @import url(../src/icons.css);
-@import "../../node_modules/yoastseo/css/_tooltips.scss";
+@import "../src/tooltips.css";
 
 .wpseo-premium-indicator {
   width: 1px;
@@ -535,30 +535,15 @@ body.folded .wpseo-admin-submit-fixed {
   padding: 16px;
   position: fixed;
   bottom: 0;
-  left: 160px;
-  right: 281px;
   background-color: white;
-  max-width: 800px;
+  width: 600px;
   box-shadow: 0 1px 8px 1px rgba(0, 0, 0, 0.5);
-  margin: 0 16px;
-}
-
-@media screen and (max-width: 1024px) {
-  .wpseo-admin-submit.wpseo-admin-submit-fixed {
-    right: 0;
-  }
-}
-
-@media only screen and (max-width: 960px) {
-  .wpseo-admin-submit.wpseo-admin-submit-fixed {
-    left: 36px;
-  }
 }
 
 @media screen and (max-width: 782px) {
   .wpseo-admin-submit.wpseo-admin-submit-fixed {
     left: 0;
-    margin: 0;
+    width: 782px;
   }
 }
 
@@ -598,6 +583,33 @@ body.folded .wpseo-admin-submit-fixed {
 	font-size: 10px;
 }
 
+.yoast-badge--sale {
+	position: absolute;
+	margin-top: -24px;
+	right: 30px;
+	transform: rotate(14deg);
+	background-color: #a4286a;
+	color: white;
+	font-size: 12px !important;
+	border-radius: 999px !important;
+}
+
+@media (max-width: 1024px) {
+	.yoast-badge--sale {
+		display: inline-block;
+		position: unset;
+		vertical-align: top;
+	}
+}
+
+.yoast-badge__is-link:hover,
+.yoast-badge__is-link:focus {
+  background-color: #004973;
+  color: #fff;
+  outline: none;
+  box-shadow: none;
+}
+
 #wpadminbar .yoast-badge, .wp-submenu .yoast-badge {
 	min-height: 14px;
 	font-size: 9px;
@@ -616,14 +628,6 @@ body.folded .wpseo-admin-submit-fixed {
 
 .yoast-badge__is-link {
 	text-decoration: none;
-}
-
-.yoast-badge__is-link:hover,
-.yoast-badge__is-link:focus {
-	background-color: #004973;
-	color: #fff;
-	outline: none;
-	box-shadow: none;
 }
 
 .switch-container .yoast-badge {

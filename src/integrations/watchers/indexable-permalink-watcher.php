@@ -120,11 +120,11 @@ class Indexable_Permalink_Watcher implements Integration_Interface {
 	/**
 	 * Resets the term indexables when the base has been changed.
 	 *
-	 * @param string $old  Unused. The old option value.
-	 * @param string $new  Unused. The new option value.
-	 * @param string $type The option name.
+	 * @param string $old_value Unused. The old option value.
+	 * @param string $new_value Unused. The new option value.
+	 * @param string $type      The option name.
 	 */
-	public function reset_permalinks_term( $old, $new, $type ) {
+	public function reset_permalinks_term( $old_value, $new_value, $type ) {
 		$subtype = $type;
 
 		$reason = Indexing_Reasons::REASON_PERMALINK_SETTINGS;

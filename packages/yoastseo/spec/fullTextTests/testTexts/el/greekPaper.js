@@ -117,9 +117,8 @@ const expectedResults = {
 	},
 	textParagraphTooLong: {
 		isApplicable: true,
-		score: 3,
-		resultText: "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: 3 of the paragraphs contain more " +
-			"than the recommended maximum of 150 words. <a href='https://yoa.st/35e' target='_blank'>Shorten your paragraphs</a>!",
+		score: 9,
+		resultText: "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: None of the paragraphs are too long. Great job!",
 	},
 	textSentenceLength: {
 		isApplicable: true,
@@ -135,7 +134,7 @@ const expectedResults = {
 	passiveVoice: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: 24.2% of the sentences contain passive voice," +
+		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: 20.9% of the sentences contain passive voice," +
 			" which is more than the recommended maximum of 10%. <a href='https://yoa.st/34u' target='_blank'>" +
 			"Try to use their active counterparts</a>.",
 	},

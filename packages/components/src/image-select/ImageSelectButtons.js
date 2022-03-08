@@ -1,6 +1,7 @@
 import React from "react";
 import { NewButton as Button } from "../button";
 import { __ } from "@wordpress/i18n";
+import { useCallback } from "@wordpress/element";
 import PropTypes from "prop-types";
 
 /**
@@ -21,6 +22,11 @@ const ImageSelectButtons = ( props ) => {
 		isDisabled,
 	 } = props;
 
+	const removeImage = useCallback( ( event ) => {
+		event.target.previousElementSibling.focus();
+		onRemoveImageClick();
+	}, [ onRemoveImageClick ] );
+
 	return (
 		<div className="yoast-image-select-buttons">
 			<Button
@@ -31,18 +37,18 @@ const ImageSelectButtons = ( props ) => {
 			>
 				{
 					imageSelected
-						? __( "Replace image", "yoast-components" )
-						: __( "Select image", "yoast-components" )
+						? __( "Replace image", "wordpress-seo" )
+						: __( "Select image", "wordpress-seo" )
 				}
 			</Button>
 			{
 				imageSelected && <Button
 					variant="remove"
 					id={ removeImageButtonId }
-					onClick={ onRemoveImageClick }
+					onClick={ removeImage }
 					disabled={ isDisabled }
 				>
-					{ __( "Remove image", "yoast-components" ) }
+					{ __( "Remove image", "wordpress-seo" ) }
 				</Button>
 			}
 		</div>

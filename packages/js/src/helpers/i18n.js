@@ -15,34 +15,14 @@ import { get } from "lodash-es";
 export function setTextdomainL10n( textdomain, l10nNamespace = "wpseoYoastJSL10n" ) {
 	const translations = get( window, [ l10nNamespace, textdomain, "locale_data", textdomain ], false );
 
+	if ( textdomain === "yoast-components" ) {
+		textdomain = "wordpress-seo";
+	}
+
 	if ( translations === false ) {
 		// Jed needs to have meta information in the object keyed by an empty string.
 		setLocaleData( { "": {} }, textdomain );
 	} else {
 		setLocaleData( translations, textdomain );
 	}
-}
-
-/**
- * Configures the i18n for yoast-components.
- *
- * We call translation functions using `@wordpress/i18n` so we need to register
- * all our strings there too. This function does that.
- *
- * @returns {void}
- */
-export function setYoastComponentsL10n() {
-	setTextdomainL10n( "yoast-components" );
-}
-
-/**
- * Configures the l10n for wordpress-seo-js.
- *
- * We call translation functions using `@wordpress/i18n` so we need to register
- * all our strings there too. This function does that.
- *
- * @returns {void}
- */
-export function setWordPressSeoL10n() {
-	setTextdomainL10n( "wordpress-seo" );
 }

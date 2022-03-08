@@ -6,6 +6,7 @@ import isWordFormRecognitionActive from "../../analysis/isWordFormRecognitionAct
 import isSEMrushIntegrationActive from "../../analysis/isSEMrushIntegrationActive";
 import isZapierIntegrationActive from "../../analysis/isZapierIntegrationActive";
 import isZapierConnected from "../../analysis/isZapierConnected";
+import isWincherIntegrationActive from "../../analysis/isWincherIntegrationActive";
 
 /**
  * Gets the default state.
@@ -31,6 +32,7 @@ function getDefaultState() {
 		displayTwitter: window.wpseoScriptData.metabox.showSocial.twitter,
 		isZapierIntegrationActive: isZapierIntegrationActive(),
 		isZapierConnected: isZapierConnected(),
+		isWincherIntegrationActive: isWincherIntegrationActive(),
 	};
 }
 

@@ -21,10 +21,10 @@ function ProductDataDesktop( props ) {
 	const { shoppingData } = props;
 
 	/* Translators: %s expands to the actual rating, e.g. 8/10. */
-	const ratingPart = sprintf( __( "Rating: %s", "yoast-components" ), round( ( shoppingData.rating * 2 ), 1 ) + "/10" );
+	const ratingPart = sprintf( __( "Rating: %s", "wordpress-seo" ), round( ( shoppingData.rating * 2 ), 1 ) + "/10" );
 
 	/* Translators: %s expands to the review count. */
-	const reviewPart = sprintf( __( "%s reviews", "yoast-components" ), shoppingData.reviewCount );
+	const reviewPart = sprintf( __( "%s reviews", "wordpress-seo" ), shoppingData.reviewCount );
 
 	return (
 		<ProductData>

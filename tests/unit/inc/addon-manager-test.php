@@ -483,18 +483,27 @@ class Addon_Manager_Test extends TestCase {
 		$this->instance
 			->shouldReceive( 'get_installed_addons' )
 			->atMost()
-			->times( 1 )
+			->times( 2 )
 			->andReturn( $addons );
 
 		$this->instance
 			->shouldReceive( 'get_subscriptions' )
 			->andReturn( $this->get_subscriptions() );
 
+		$this->instance
+			->shouldReceive( 'extract_yoast_data' )
+			->with( $data )
+			->andReturn(
+				(object) [
+					'requires' => \YOAST_SEO_WP_REQUIRED,
+				]
+			);
+
 		if ( ! empty( $addons ) ) {
 			$product_helper_mock = Mockery::mock( Product_Helper::class );
-			$product_helper_mock->expects( 'is_premium' )->once()->andReturn( false );
+			$product_helper_mock->shouldReceive( 'is_premium' )->atMost()->times( 2 )->andReturn( false );
 			$helpers_mock = (object) [ 'product' => $product_helper_mock ];
-			Monkey\Functions\expect( 'YoastSEO' )->once()->andReturn( (object) [ 'helpers' => $helpers_mock ] );
+			Monkey\Functions\expect( 'YoastSEO' )->atMost()->times( 2 )->andReturn( (object) [ 'helpers' => $helpers_mock ] );
 		}
 
 		Monkey\Functions\expect( 'get_plugin_updates' )
@@ -509,7 +518,17 @@ class Addon_Manager_Test extends TestCase {
 				]
 			);
 
+		global $wp_version;
+		$wp_version = '5.8';
 		$this->assertEquals( $expected, $this->instance->check_for_updates( $data ), $message );
+
+		// Now check that the Premium plugin won't show updates, if the requirement for the WP version coming from Yoast free, is not met.
+		if ( isset( $addons['wp-seo-premium.php'] ) ) {
+			$wp_version = '5.7';
+			$updates    = $this->instance->check_for_updates( $data );
+
+			$this->assertTrue( isset( $updates->no_update['wp-seo-premium.php'] ) );
+		}
 	}
 
 	/**
@@ -555,6 +574,7 @@ class Addon_Manager_Test extends TestCase {
 				'new_version'      => '10.0',
 				'name'             => 'Extension',
 				'slug'             => 'yoast-seo-wordpress-premium',
+				'plugin'           => '',
 				'url'              => 'https://example.org/store',
 				'last_update'      => 'yesterday',
 				'homepage'         => 'https://example.org/store',
@@ -574,7 +594,7 @@ class Addon_Manager_Test extends TestCase {
 				],
 				'tested'           => \YOAST_SEO_WP_TESTED,
 				'requires_php'     => \YOAST_SEO_PHP_REQUIRED,
-				'requires'         => \YOAST_SEO_WP_REQUIRED,
+				'requires'         => null,
 			],
 			$this->instance->convert_subscription_to_plugin(
 				(object) [
@@ -778,6 +798,7 @@ class Addon_Manager_Test extends TestCase {
 							'new_version'      => '10.0',
 							'name'             => 'Extension',
 							'slug'             => 'yoast-seo-wordpress-premium',
+							'plugin'           => '',
 							'url'              => 'https://example.org/store',
 							'last_update'      => 'yesterday',
 							'homepage'         => 'https://example.org/store',
@@ -838,6 +859,7 @@ class Addon_Manager_Test extends TestCase {
 					'new_version'      => '10.0',
 					'name'             => 'Extension',
 					'slug'             => 'yoast-seo-wordpress-premium',
+					'plugin'           => '',
 					'url'              => 'https://example.org/store',
 					'last_update'      => 'yesterday',
 					'homepage'         => 'https://example.org/store',

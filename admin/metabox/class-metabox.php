@@ -298,6 +298,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$values['semrushIntegrationActive'] = 0;
 		}
 
+		if ( $values['wincherIntegrationActive'] && $this->post->post_type === 'attachment' ) {
+			$values['wincherIntegrationActive'] = 0;
+		}
+
 		return $values;
 	}
 
@@ -856,9 +860,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$asset_manager->enqueue_script( $post_edit_handle );
 		$asset_manager->enqueue_style( 'admin-css' );
 
-		$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_L10n();
-		$yoast_components_l10n->localize_script( $post_edit_handle );
-
 		/**
 		 * Removes the emoji script as it is incompatible with both React and any
 		 * contenteditable fields.
@@ -899,6 +900,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'userLanguageCode' => WPSEO_Language_Utils::get_language( \get_user_locale() ),
 			'isPost'           => true,
 			'isBlockEditor'    => $is_block_editor,
+			'postStatus'       => get_post_status( $post_id ),
 			'analysis'         => [
 				'plugins'                     => $plugins_script_data,
 				'worker'                      => $worker_script_data,
@@ -1087,6 +1089,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		$custom_fields = get_post_custom( $post->ID );
+
+		// If $custom_fields is an empty string or generally not an array, return early.
+		if ( ! is_array( $custom_fields ) ) {
+			return $custom_replace_vars;
+		}
 
 		foreach ( $custom_fields as $custom_field_name => $custom_field ) {
 			// Skip private custom fields.

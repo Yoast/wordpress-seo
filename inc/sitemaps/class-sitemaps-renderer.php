@@ -130,12 +130,11 @@ class WPSEO_Sitemaps_Renderer {
 	/**
 	 * Produce final XML output with debug information.
 	 *
-	 * @param string $sitemap   Sitemap XML.
-	 * @param bool   $transient Transient cache flag.
+	 * @param string $sitemap Sitemap XML.
 	 *
 	 * @return string
 	 */
-	public function get_output( $sitemap, $transient ) {
+	public function get_output( $sitemap ) {
 
 		$output = '<?xml version="1.0" encoding="' . esc_attr( $this->output_charset ) . '"?>';
 
@@ -210,16 +209,13 @@ class WPSEO_Sitemaps_Renderer {
 
 		$date = null;
 
-
 		if ( ! empty( $url['mod'] ) ) {
 			// Create a DateTime object date in the correct timezone.
 			$date = YoastSEO()->helpers->date->format( $url['mod'] );
 		}
 
-		$url['loc'] = htmlspecialchars( $url['loc'], ENT_COMPAT, $this->output_charset, false );
-
 		$output  = "\t<url>\n";
-		$output .= "\t\t<loc>" . $this->encode_url_rfc3986( $url['loc'] ) . "</loc>\n";
+		$output .= "\t\t<loc>" . $this->encode_and_escape( $url['loc'] ) . "</loc>\n";
 		$output .= empty( $date ) ? '' : "\t\t<lastmod>" . htmlspecialchars( $date, ENT_COMPAT, $this->output_charset, false ) . "</lastmod>\n";
 
 		if ( empty( $url['images'] ) ) {
@@ -233,7 +229,7 @@ class WPSEO_Sitemaps_Renderer {
 			}
 
 			$output .= "\t\t<image:image>\n";
-			$output .= "\t\t\t<image:loc>" . esc_html( $this->encode_url_rfc3986( $img['src'] ) ) . "</image:loc>\n";
+			$output .= "\t\t\t<image:loc>" . $this->encode_and_escape( $img['src'] ) . "</image:loc>\n";
 
 			if ( ! empty( $img['title'] ) ) {
 
@@ -276,6 +272,38 @@ class WPSEO_Sitemaps_Renderer {
 	}
 
 	/**
+	 * Ensure the URL is encoded per RFC3986 and correctly escaped for use in an XML sitemap.
+	 *
+	 * This method works around a two quirks in esc_url():
+	 * 1. `esc_url()` leaves schema-relative URLs alone, while according to the sitemap specs,
+	 *    the URL must always begin with a protocol.
+	 * 2. `esc_url()` escapes ampersands as `&#038;` instead of the more common `&amp;`.
+	 *    According to the specs, `&amp;` should be used, and even though this shouldn't
+	 *    really make a difference in practice, to quote Jono: "I'd be nervous about &#038;
+	 *    given how many weird and wonderful things eat sitemaps", so better safe than sorry.
+	 *
+	 * @link https://www.sitemaps.org/protocol.html#xmlTagDefinitions
+	 * @link https://www.sitemaps.org/protocol.html#escaping
+	 * @link https://developer.wordpress.org/reference/functions/esc_url/
+	 *
+	 * @param string $url URL to encode and escape.
+	 *
+	 * @return string
+	 */
+	protected function encode_and_escape( $url ) {
+		$url = $this->encode_url_rfc3986( $url );
+		$url = esc_url( $url );
+		$url = str_replace( '&#038;', '&amp;', $url );
+
+		if ( strpos( $url, '//' ) === 0 ) {
+			// Schema-relative URL for which esc_url() does not add a scheme.
+			$url = 'http:' . $url;
+		}
+
+		return $url;
+	}
+
+	/**
 	 * Apply some best effort conversion to comply with RFC3986.
 	 *
 	 * @param string $url URL to encode.
@@ -308,7 +336,7 @@ class WPSEO_Sitemaps_Renderer {
 
 			parse_str( $query, $parsed_query );
 
-			$parsed_query = http_build_query( $parsed_query, null, '&amp;', PHP_QUERY_RFC3986 );
+			$parsed_query = http_build_query( $parsed_query, '', '&amp;', PHP_QUERY_RFC3986 );
 
 			$url = str_replace( $query, $parsed_query, $url );
 		}
