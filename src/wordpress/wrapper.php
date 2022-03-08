@@ -73,13 +73,4 @@ class Wrapper {
 	public static function get_utils() {
 		return new WPSEO_Utils();
 	}
-
-	/**
-	 * Factory function for the options class.
-	 *
-	 * @return WPSEO_Options
-	 */
-	public static function get_options() {
-		return WPSEO_Options::get_instance();
-	}
 }

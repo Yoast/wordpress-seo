@@ -2,8 +2,8 @@
 
 namespace Yoast\WP\SEO\Services\Health_Check;
 
-use WPSEO_Options;
 use Yoast\WP\SEO\Config\Migration_Status;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 
 /**
  * Runs the Links_Table health check.
@@ -25,24 +25,24 @@ class Links_Table_Runner implements Runner_Interface {
 	private $migration_status;
 
 	/**
-	 * The WPSEO_Options object used to determine whether the health check should run or not.
+	 * The Options_Helper object used to determine whether the health check should run or not.
 	 *
-	 * @var WPSEO_Options
+	 * @var Options_Helper
 	 */
-	private $options;
+	private $options_helper;
 
 	/**
 	 * Constructor.
 	 *
 	 * @param Migration_Status $migration_status Object used to determine whether the links table is accessible.
-	 * @param WPSEO_Options    $options Object used to determine whether the health check should run.
+	 * @param Options_Helper   $options_helper Object used to determine whether the health check should run.
 	 */
 	public function __construct(
 		Migration_Status $migration_status,
-		WPSEO_Options $options
+		Options_Helper $options_helper
 	) {
 		$this->migration_status = $migration_status;
-		$this->options          = $options;
+		$this->options_helper   = $options_helper;
 	}
 
 	/**
@@ -64,7 +64,7 @@ class Links_Table_Runner implements Runner_Interface {
 	 * @return bool True if the text link counter feature is enabled.
 	 */
 	public function should_run() {
-		return $this->options->get( 'enable_text_link_counter' );
+		return $this->options_helper->get( 'enable_text_link_counter' );
 	}
 
 	/**

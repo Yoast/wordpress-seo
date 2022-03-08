@@ -34,7 +34,6 @@ $container->register( Yoast_Notification_Center::class, Yoast_Notification_Cente
 $container->register( WPSEO_Addon_Manager::class, WPSEO_Addon_Manager::class )->setFactory( [ Wrapper::class, 'get_addon_manager' ] )->setPublic( true );
 $container->register( WPSEO_Shortlinker::class, WPSEO_Shortlinker::class )->setFactory( [ Wrapper::class, 'get_shortlinker' ] )->setPublic( true );
 $container->register( WPSEO_Utils::class, WPSEO_Utils::class )->setFactory( [ Wrapper::class, 'get_utils' ] )->setPublic( true );
-$container->register( WPSEO_Options::class, WPSEO_Options::class )->setFactory( [ Wrapper::class, 'get_options' ] )->setPublic( true );
 
 // Backwards-compatibility classes in the global namespace.
 $container->register( WPSEO_Breadcrumbs::class, WPSEO_Breadcrumbs::class )->setAutowired( true )->setPublic( true );

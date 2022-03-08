@@ -4,8 +4,8 @@ namespace Yoast\WP\SEO\Tests\Unit\Services\Health_Check;
 
 use Brain\Monkey;
 use Mockery;
-use WPSEO_Options;
 use Yoast\WP\SEO\Config\Migration_Status;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Services\Health_Check\Links_Table_Runner;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -33,7 +33,7 @@ class Links_Table_Runner_Test extends TestCase {
 	/**
 	 * A mocked WPSEO_Options object.
 	 *
-	 * @var WPSEO_Options
+	 * @var Options_Helper
 	 */
 	private $options;
 
@@ -44,7 +44,7 @@ class Links_Table_Runner_Test extends TestCase {
 		parent::set_up();
 
 		$this->migration_status = Mockery::mock( Migration_Status::class );
-		$this->options          = Mockery::mock( WPSEO_Options::class );
+		$this->options          = Mockery::mock( Options_Helper::class );
 
 		$this->instance = new Links_Table_Runner( $this->migration_status, $this->options );
 	}
