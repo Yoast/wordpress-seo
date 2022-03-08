@@ -39,6 +39,8 @@ class YoastReusableBlocksPlugin {
 
 	/**
 	 * Checks the store for any reusable block changes, and requests a new analysis when so.
+	 *
+	 * @returns {void}
 	 */
 	reusableBlockChangeListener() {
 		const { blocks } = this._selectCoreEditor.getPostEdits();
