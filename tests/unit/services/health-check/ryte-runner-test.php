@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Tests\Unit\Services\Health_Check;
 
 use Mockery;
-use WPSEO_Ryte;
 use WPSEO_Ryte_Option;
 use WPSEO_Utils;
 use Yoast\WP\SEO\Integrations\Admin\Ryte_Integration;
@@ -27,9 +26,9 @@ class Ryte_Runner_Test extends TestCase {
 	private $instance;
 
 	/**
-	 * A mock for WPSEO_Ryte.
+	 * A mock for Ryte_Integration.
 	 *
-	 * @var WPSEO_Ryte
+	 * @var Ryte_Integration
 	 */
 	private $ryte_mock;
 
@@ -56,6 +55,8 @@ class Ryte_Runner_Test extends TestCase {
 		$this->utils_mock       = Mockery::mock( WPSEO_Utils::class );
 		$this->ryte_mock        = Mockery::mock( Ryte_Integration::class );
 		$this->ryte_option_mock = Mockery::mock( WPSEO_Ryte_Option::class );
+
+		$this->ryte_mock->shouldReceive( 'get_option' )->andReturn( $this->ryte_option_mock );
 
 		$this->instance = new Ryte_Runner( $this->ryte_mock, $this->utils_mock );
 	}

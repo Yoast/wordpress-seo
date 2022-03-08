@@ -142,6 +142,46 @@ class Curl_Runner_Test extends TestCase {
 	}
 
 	/**
+	 * Checks if the health check quits early when the installed cURL version is unknown.
+	 *
+	 * @covers ::__construct
+	 * @covers ::run
+	 * @covers ::has_recent_curl_version_installed
+	 * @covers ::can_reach_my_yoast_api
+	 * @covers ::is_successful
+	 * @covers ::check_has_installed_addons
+	 * @covers ::check_curl_installed
+	 * @covers ::check_curl_is_recent
+	 */
+	public function test_curl_version_unknown() {
+		$this->addon_manager_mock
+			->shouldReceive( 'has_installed_addons' )
+			->andReturn( true );
+
+		$this->curl_helper_mock
+			->shouldReceive( 'is_installed' )
+			->andReturn( true );
+
+		$this->curl_helper_mock
+			->shouldReceive( 'get_version' )
+			->andReturn( null );
+
+		$this->my_yoast_api_request_factory_mock
+			->shouldReceive( 'create' )
+			->andReturn( $this->my_yoast_api_mock );
+
+		$this->my_yoast_api_mock
+			->shouldReceive( 'fire' )
+			->andReturn( true );
+
+		$this->instance->run();
+
+		$this->assertFalse( $this->instance->has_recent_curl_version_installed() );
+		$this->assertTrue( $this->instance->can_reach_my_yoast_api() );
+		$this->assertFalse( $this->instance->is_successful() );
+	}
+
+	/**
 	 * Checks if the health check correctly detects when the MyYoast API isn't reachable.
 	 *
 	 * @covers ::__construct

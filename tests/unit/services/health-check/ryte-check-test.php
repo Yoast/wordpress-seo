@@ -130,6 +130,42 @@ class Ryte_Check_Test extends TestCase {
 	}
 
 	/**
+	 * Checks if the health check returns a report with an error message if the health check got an error response from Ryte without content.
+	 *
+	 * @return void
+	 * @covers ::__construct
+	 * @covers ::run_and_get_result
+	 * @covers ::get_result
+	 */
+	public function test_returns_error_response_report_unknown() {
+		$expected_report = [ 'correct' ];
+
+		$this->runner_mock
+			->shouldReceive( 'run' )
+			->once();
+		$this->runner_mock
+			->shouldReceive( 'should_run' )
+			->once()
+			->andReturns( true );
+		$this->runner_mock
+			->shouldReceive( 'got_response_error' )
+			->once()
+			->andReturns( true );
+		$this->runner_mock
+			->shouldReceive( 'get_error_response' )
+			->once()
+			->andReturns( null );
+		$this->reports_mock
+			->shouldReceive( 'get_unknown_indexability_result' )
+			->once()
+			->andReturn( $expected_report );
+
+		$actual_report = $this->instance->run_and_get_result();
+
+		$this->assertEquals( $expected_report, $actual_report );
+	}
+
+	/**
 	 * Checks if the health check returns the correct report for when the health check couldn't determine the indexability of the site.
 	 *
 	 * @return void

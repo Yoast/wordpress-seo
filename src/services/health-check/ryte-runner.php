@@ -35,7 +35,7 @@ class Ryte_Runner implements Runner_Interface {
 	/**
 	 * The Ryte option that represents the site's indexability.
 	 *
-	 * @var WPSEO_Ryte_Option|null
+	 * @var WPSEO_Ryte_Option
 	 */
 	private $ryte_option;
 
@@ -60,7 +60,7 @@ class Ryte_Runner implements Runner_Interface {
 		$this->utils              = $utils;
 		$this->got_valid_response = false;
 		$this->response_error     = null;
-		$this->ryte_option        = null;
+		$this->ryte_option        = $ryte->get_option();
 	}
 
 	/**
@@ -145,10 +145,6 @@ class Ryte_Runner implements Runner_Interface {
 			return false;
 		}
 
-		if ( $this->ryte_option === null ) {
-			return false;
-		}
-
 		$ryte_status = $this->ryte_option->get_status();
 
 		if ( $ryte_status === WPSEO_Ryte_Option::IS_INDEXABLE ) {
@@ -166,10 +162,6 @@ class Ryte_Runner implements Runner_Interface {
 	public function has_unknown_indexability() {
 		if ( ! $this->could_fetch() ) {
 			return true;
-		}
-
-		if ( $this->ryte_option === null ) {
-			return false;
 		}
 
 		$ryte_status = $this->ryte_option->get_status();
@@ -193,10 +185,6 @@ class Ryte_Runner implements Runner_Interface {
 	 */
 	private function could_fetch() {
 		if ( ! $this->got_valid_response ) {
-			return false;
-		}
-
-		if ( $this->ryte_option === null ) {
 			return false;
 		}
 

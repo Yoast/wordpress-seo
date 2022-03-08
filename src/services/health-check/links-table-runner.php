@@ -64,7 +64,13 @@ class Links_Table_Runner implements Runner_Interface {
 	 * @return bool True if the text link counter feature is enabled.
 	 */
 	public function should_run() {
-		return $this->options_helper->get( 'enable_text_link_counter' );
+		$text_link_counter_enabled = $this->options_helper->get( 'enable_text_link_counter' );
+
+		if ( ! is_bool( $text_link_counter_enabled ) ) {
+			return false;
+		}
+
+		return $text_link_counter_enabled;
 	}
 
 	/**
