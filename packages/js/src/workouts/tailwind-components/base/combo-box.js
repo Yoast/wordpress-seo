@@ -23,10 +23,12 @@ function getDisplayValue( selectedOption ) {
  *
  * @returns {string} Styles for an active option.
  */
-function getOptionActiveStyles( { active } ) {
+function getOptionActiveStyles( { active, selected } ) {
 	return classNames(
-		"yst-relative yst-cursor-default yst-select-none yst-py-2 yst-pl-3 yst-pr-9",
-		active ? "yst-bg-primary-500 yst-text-white" : "yst-text-gray-900"
+		"yst-relative yst-cursor-default yst-select-none yst-py-2 yst-pl-3 yst-pr-9 yst-my-0",
+		selected && "yst-bg-primary-500 yst-text-white",
+		( active && ! selected ) && "yst-bg-primary-200 yst-text-gray-900",
+		( ! active && ! selected ) && "yst-text-gray-900"
 	);
 }
 
@@ -77,18 +79,17 @@ export default function YoastComboBox( { value, label, onChange, options, onInpu
 									return <Combobox.Option
 										key={ `yst-option-${ option.value }` }
 										value={ option }
-										className={ getOptionActiveStyles }
+										className={ ( { selected, active } ) => {
+											return getOptionActiveStyles( { selected: selected || option.value === value.value, active } );
+										} }
 									>
-										{ ( { active, selected } ) => (
+										{ ( { selected } ) => (
 											<>
 												<span className={ classNames( "yst-block yst-truncate", selected && "yst-font-semibold" ) }>{ option.label }</span>
 
 												{ ( selected || value.value === option.value ) && (
 													<span
-														className={ classNames(
-															"yst-absolute yst-inset-y-0 yst-right-0 yst-flex yst-items-center yst-pr-4",
-															active ? "yst-text-white" : "yst-text-primary-500"
-														) }
+														className={ "yst-absolute yst-inset-y-0 yst-right-0 yst-flex yst-items-center yst-pr-4 yst-text-white" }
 													>
 														<CheckIcon className="yst-h-5 yst-w-5" aria-hidden="true" />
 													</span>
