@@ -61,12 +61,14 @@
 
     .yst-toggle__icon {
         @apply
-            yst-h-3
-            yst-w-3
+            yst-h-2.5
+            yst-w-2.5
             yst-transition-opacity
             yst-ease-out
             yst-duration-100
-            yst-text-white;
+            yst-text-white
+            yst-stroke-current
+            yst-stroke-2;
     }
 
     .yst-toggle__icon--check {
