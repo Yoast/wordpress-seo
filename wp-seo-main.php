@@ -358,10 +358,6 @@ function wpseo_init() {
 	foreach ( $integrations as $integration ) {
 		$integration->register_hooks();
 	}
-
-	// Loading Ryte integration.
-	$wpseo_ryte = new WPSEO_Ryte();
-	$wpseo_ryte->register_hooks();
 }
 
 /**

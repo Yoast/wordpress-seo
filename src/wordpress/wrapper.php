@@ -66,15 +66,6 @@ class Wrapper {
 	}
 
 	/**
-	 * Factory function for the Ryte API.
-	 *
-	 * @return WPSEO_Ryte
-	 */
-	public static function get_ryte() {
-		return new WPSEO_Ryte();
-	}
-
-	/**
 	 * Factory function for the utils class.
 	 *
 	 * @return WPSEO_Utils

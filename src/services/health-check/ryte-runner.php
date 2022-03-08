@@ -2,9 +2,9 @@
 
 namespace Yoast\WP\SEO\Services\Health_Check;
 
-use WPSEO_Ryte;
 use WPSEO_Ryte_Option;
 use WPSEO_Utils;
+use Yoast\WP\SEO\Integrations\Admin\Ryte_Integration;
 
 /**
  * Runs the Ryte health check.
@@ -12,18 +12,11 @@ use WPSEO_Utils;
 class Ryte_Runner implements Runner_Interface {
 
 	/**
-	 * The WPSEO_Ryte object that the health check uses to check the site's indexability.
+	 * The Ryte_Integration object that the health check uses to check the site's indexability.
 	 *
-	 * @var WPSEO_Ryte
+	 * @var Ryte_Integration
 	 */
 	private $ryte;
-
-	/**
-	 * Factory to create WPSEO_Ryte_Option instances.
-	 *
-	 * @var Ryte_Option_Factory
-	 */
-	private $ryte_option_factory;
 
 	/**
 	 * Set to true when the health check gets a valid response from Ryte.
@@ -56,21 +49,18 @@ class Ryte_Runner implements Runner_Interface {
 	/**
 	 * Constructor.
 	 *
-	 * @param WPSEO_Ryte          $ryte The WPSEO_Ryte object that the health check uses to check indexability.
-	 * @param Ryte_Option_Factory $ryte_option_factory The Ryte_Option_Factory that the health check uses to get the indexability result.
-	 * @param WPSEO_Utils         $utils The WPSEO_Utils object used to determine whether the site is in development mode.
+	 * @param Ryte_Integration $ryte The Ryte_Integration object that the health check uses to check indexability.
+	 * @param WPSEO_Utils      $utils The WPSEO_Utils object used to determine whether the site is in development mode.
 	 */
 	public function __construct(
-		WPSEO_Ryte $ryte,
-		Ryte_Option_Factory $ryte_option_factory,
+		Ryte_Integration $ryte,
 		WPSEO_Utils $utils
 	) {
-		$this->ryte                = $ryte;
-		$this->ryte_option_factory = $ryte_option_factory;
-		$this->utils               = $utils;
-		$this->got_valid_response  = false;
-		$this->response_error      = null;
-		$this->ryte_option         = null;
+		$this->ryte               = $ryte;
+		$this->utils              = $utils;
+		$this->got_valid_response = false;
+		$this->response_error     = null;
+		$this->ryte_option        = null;
 	}
 
 	/**
@@ -116,7 +106,7 @@ class Ryte_Runner implements Runner_Interface {
 	 * @return void
 	 */
 	private function set_ryte_option() {
-		$this->ryte_option = $this->ryte_option_factory->create();
+		$this->ryte_option = $this->ryte->get_option();
 	}
 
 	/**
@@ -137,7 +127,7 @@ class Ryte_Runner implements Runner_Interface {
 			return false;
 		}
 
-		$ryte_option = $this->ryte_option_factory->create();
+		$ryte_option = $this->ryte->get_option();
 		if ( ! $ryte_option->is_enabled() ) {
 			return false;
 		}

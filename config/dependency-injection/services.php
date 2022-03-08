@@ -33,7 +33,6 @@ $container->register( WPSEO_Admin_Asset_Manager::class, WPSEO_Admin_Asset_Manage
 $container->register( Yoast_Notification_Center::class, Yoast_Notification_Center::class )->setFactory( [ Yoast_Notification_Center::class, 'get' ] )->setPublic( true );
 $container->register( WPSEO_Addon_Manager::class, WPSEO_Addon_Manager::class )->setFactory( [ Wrapper::class, 'get_addon_manager' ] )->setPublic( true );
 $container->register( WPSEO_Shortlinker::class, WPSEO_Shortlinker::class )->setFactory( [ Wrapper::class, 'get_shortlinker' ] )->setPublic( true );
-$container->register( WPSEO_Ryte::class, WPSEO_Ryte::class )->setFactory( [ Wrapper::class, 'get_ryte' ] )->setPublic( true );
 $container->register( WPSEO_Utils::class, WPSEO_Utils::class )->setFactory( [ Wrapper::class, 'get_utils' ] )->setPublic( true );
 $container->register( WPSEO_Options::class, WPSEO_Options::class )->setFactory( [ Wrapper::class, 'get_options' ] )->setPublic( true );
 

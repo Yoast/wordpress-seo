@@ -6,6 +6,7 @@ use Mockery;
 use WPSEO_Ryte;
 use WPSEO_Ryte_Option;
 use WPSEO_Utils;
+use Yoast\WP\SEO\Integrations\Admin\Ryte_Integration;
 use Yoast\WP\SEO\Services\Health_Check\Ryte_Option_Factory;
 use Yoast\WP\SEO\Services\Health_Check\Ryte_Runner;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -33,13 +34,6 @@ class Ryte_Runner_Test extends TestCase {
 	private $ryte_mock;
 
 	/**
-	 * A mock for Ryte_Option_Factory that returns a WPSEO_Ryte_Option mock.
-	 *
-	 * @var Ryte_Option_Factory
-	 */
-	private $ryte_option_factory_mock;
-
-	/**
 	 * A mock for WPSEO_Ryte_Option.
 	 *
 	 * @var WPSEO_Ryte_Option
@@ -59,12 +53,11 @@ class Ryte_Runner_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->utils_mock               = Mockery::mock( WPSEO_Utils::class );
-		$this->ryte_mock                = Mockery::mock( WPSEO_Ryte::class );
-		$this->ryte_option_factory_mock = Mockery::mock( Ryte_Option_Factory::class );
-		$this->ryte_option_mock         = Mockery::mock( WPSEO_Ryte_Option::class );
+		$this->utils_mock       = Mockery::mock( WPSEO_Utils::class );
+		$this->ryte_mock        = Mockery::mock( Ryte_Integration::class );
+		$this->ryte_option_mock = Mockery::mock( WPSEO_Ryte_Option::class );
 
-		$this->instance = new Ryte_Runner( $this->ryte_mock, $this->ryte_option_factory_mock, $this->utils_mock );
+		$this->instance = new Ryte_Runner( $this->ryte_mock, $this->utils_mock );
 	}
 
 	/**
@@ -147,7 +140,7 @@ class Ryte_Runner_Test extends TestCase {
 		Monkey\Functions\expect( 'get_option' )
 			->with( 'blog_public' )
 			->andReturn( '1' );
-		$this->ryte_option_factory_mock->shouldReceive( 'create' )
+		$this->ryte_mock->shouldReceive( 'get_option' )
 			->andReturn( $this->ryte_option_mock );
 		$this->ryte_option_mock->shouldReceive( 'is_enabled' )
 			->andReturn( false );
@@ -401,8 +394,8 @@ class Ryte_Runner_Test extends TestCase {
 		Monkey\Functions\expect( 'get_option' )
 			->with( 'blog_public' )
 			->andReturn( '1' );
-		$this->ryte_option_factory_mock
-			->shouldReceive( 'create' )
+		$this->ryte_mock
+			->shouldReceive( 'get_option' )
 			->andReturn( $this->ryte_option_mock );
 		$this->ryte_option_mock
 			->shouldReceive( 'is_enabled' )
