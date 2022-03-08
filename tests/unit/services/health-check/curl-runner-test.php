@@ -65,8 +65,8 @@ class Curl_Runner_Test extends TestCase {
 		$this->my_yoast_api_request_factory_mock = Mockery::mock( MyYoast_API_Request_Factory::class );
 
 		// Incorrectly detects direct calls to cURL.
-		// phpcs:ignore
-		$this->instance                          = new Curl_Runner(
+		// phpcs:ignore WordPress.WP.AlternativeFunctions -- Reason: Incorrectly detects direct calls to cURL.
+		$this->instance = new Curl_Runner(
 			$this->addon_manager_mock,
 			$this->my_yoast_api_request_factory_mock,
 			$this->curl_helper_mock

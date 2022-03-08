@@ -26,9 +26,6 @@ class Page_Comments_Runner_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->stubEscapeFunctions();
-		$this->stubTranslationFunctions();
-
 		$this->instance = new Page_Comments_Runner();
 	}
 

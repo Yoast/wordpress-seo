@@ -53,8 +53,7 @@ class Curl_Reports_Test extends TestCase {
 		$this->shortlinker_mock      = Mockery::mock( WPSEO_Shortlinker::class );
 		$report_builder_factory_mock->shouldReceive( 'create' )->andReturn( $this->report_builder_mock );
 
-		// Incorrectly detects direct calls to cURL.
-		// phpcs:ignore
+		// phpcs:ignore WordPress.WP.AlternativeFunctions -- Reason: Incorrectly detects direct calls to cURL.
 		$this->instance = new Curl_Reports( $report_builder_factory_mock, $this->shortlinker_mock );
 	}
 

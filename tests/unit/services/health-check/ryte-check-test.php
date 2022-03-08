@@ -44,7 +44,6 @@ class Ryte_Check_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->stubEscapeFunctions();
 		$this->stubTranslationFunctions();
 
 		$this->runner_mock  = Mockery::mock( Ryte_Runner::class );

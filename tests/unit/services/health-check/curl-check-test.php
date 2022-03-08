@@ -44,15 +44,13 @@ class Curl_Check_Test extends TestCase {
 	public function set_up() {
 		parent::set_up();
 
-		$this->stubEscapeFunctions();
 		$this->stubTranslationFunctions();
 
 		$this->runner_mock  = Mockery::mock( Curl_Runner::class );
 		$this->reports_mock = Mockery::mock( Curl_Reports::class );
 		$this->reports_mock->shouldReceive( 'set_test_identifier' )->once();
 
-		// Incorrectly detects direct calls to cURL.
-		// phpcs:ignore
+		// phpcs:ignore WordPress.WP.AlternativeFunctions -- Reason: Incorrectly detects direct calls to cURL.
 		$this->instance = new Curl_Check( $this->runner_mock, $this->reports_mock );
 	}
 
