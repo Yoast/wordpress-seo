@@ -10,6 +10,7 @@ use Yoast\WP\SEO\Services\Health_Check\Report_Builder;
 use Yoast\WP\SEO\Services\Health_Check\Report_Builder_Factory;
 use Yoast\WP\SEO\Services\Health_Check\Ryte_Reports;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
+use Brain\Monkey;
 
 /**
  * Ryte_Reports
@@ -40,13 +41,6 @@ class Ryte_Reports_Test extends TestCase {
 	private $shortlinker_mock;
 
 	/**
-	 * A mock for Alert_Presenter.
-	 *
-	 * @var Alert_Presenter
-	 */
-	private $alert_presenter_mock;
-
-	/**
 	 * Sets up the test fixtures.
 	 *
 	 * @return void
@@ -57,15 +51,12 @@ class Ryte_Reports_Test extends TestCase {
 		$this->stubEscapeFunctions();
 		$this->stubTranslationFunctions();
 
-		$report_builder_factory_mock  = Mockery::mock( Report_Builder_Factory::class );
-		$this->report_builder_mock    = Mockery::mock( Report_Builder::class );
-		$this->shortlinker_mock       = Mockery::mock( WPSEO_Shortlinker::class );
-		$alert_presenter_factory_mock = Mockery::mock( Alert_Presenter_Factory::class );
-		$this->alert_presenter_mock   = Mockery::mock( Alert_Presenter::class );
+		$report_builder_factory_mock = Mockery::mock( Report_Builder_Factory::class );
+		$this->report_builder_mock   = Mockery::mock( Report_Builder::class );
+		$this->shortlinker_mock      = Mockery::mock( WPSEO_Shortlinker::class );
 		$report_builder_factory_mock->shouldReceive( 'create' )->andReturn( $this->report_builder_mock );
-		$alert_presenter_factory_mock->shouldReceive( 'create' )->andReturn( $this->alert_presenter_mock );
 
-		$this->instance = new Ryte_Reports( $report_builder_factory_mock, $alert_presenter_factory_mock, $this->shortlinker_mock );
+		$this->instance = new Ryte_Reports( $report_builder_factory_mock, $this->shortlinker_mock );
 	}
 
 	/**
@@ -182,9 +173,13 @@ class Ryte_Reports_Test extends TestCase {
 	public function test_get_unknown_indexability_result() {
 		$expected_result      = [ 'correct' ];
 		$expected_label       = 'Ryte cannot determine whether your site can be found by search engines';
-		$expected_description = 'Ryte offers a free indexability check for Yoast SEO users and right now it has trouble determining whether search engines can find your site. This could have several (legitimate) reasons and is not a problem in itself. If this is a live site, it is recommended that you figure out why the Ryte check failed.<br />alert';
+		$expected_description = 'Ryte offers a free indexability check for Yoast SEO users and right now it has trouble determining whether search engines can find your site. This could have several (legitimate) reasons and is not a problem in itself. If this is a live site, it is recommended that you figure out why the Ryte check failed.<br /><div class="yoast-alert yoast-alert--info"><span><img class="yoast-alert__icon" src="images/alert-info-icon.svg" alt="" /></span><span>As the indexability status of your website can only be fetched from Ryte every 15 seconds,
+			a first step could be to wait at least 15 seconds and refresh the Site Health page. If that did not help,
+			<a href="link1" target="_blank">read more about troubleshooting search engine visibility<span class="screen-reader-text">(Opens in a new browser tab)</span></a>.</span></div>';
 		$expected_actions     = '<a href="link2" target="_blank">Go to Ryte to analyze your entire site<span class="screen-reader-text">(Opens in a new browser tab)</span></a>';
 
+		Monkey\Functions\expect( 'wp_enqueue_style' );
+		Monkey\Functions\expect( 'plugin_dir_url' );
 		$this->shortlinker_mock
 			->shouldReceive( 'get' )
 			->once()
@@ -193,10 +188,6 @@ class Ryte_Reports_Test extends TestCase {
 			->shouldReceive( 'get' )
 			->once()
 			->andReturn( 'link2' );
-		$this->alert_presenter_mock
-			->shouldReceive( 'present' )
-			->once()
-			->andReturn( 'alert' );
 		$this->report_builder_mock
 			->shouldReceive( 'set_label' )
 			->once()

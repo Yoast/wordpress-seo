@@ -4,19 +4,13 @@ namespace Yoast\WP\SEO\Services\Health_Check;
 
 use WPSEO_Admin_Utils;
 use WPSEO_Shortlinker;
+use Yoast\WP\SEO\Presenters\Admin\Alert_Presenter;
 
 /**
  * Presents a set of different messages for the Ryte health check.
  */
 class Ryte_Reports {
 	use Reports_Trait;
-
-	/**
-	 * The Alert_Presenter factory used to generate alert messages for some reports.
-	 *
-	 * @var Alert_Presenter_Factory
-	 */
-	private $alert_presenter_factory;
 
 	/**
 	 * The WPSEO_Shortlinker object used to generate short links.
@@ -28,19 +22,16 @@ class Ryte_Reports {
 	/**
 	 * Constructor
 	 *
-	 * @param  Report_Builder_Factory  $report_builder_factory The factory for result builder objects. This class uses the report builder to generate WordPress-friendly health check results.
-	 * @param  Alert_Presenter_Factory $alert_presenter_factory The factory that builds Alert_Presenters. Used to generate alert messages for the actions field.
-	 * @param  WPSEO_Shortlinker       $shortlinker The WPSEO_Shortlinker object used to generate short links.
+	 * @param  Report_Builder_Factory $report_builder_factory The factory for result builder objects. This class uses the report builder to generate WordPress-friendly health check results.
+	 * @param  WPSEO_Shortlinker      $shortlinker The WPSEO_Shortlinker object used to generate short links.
 	 * @return void
 	 */
 	public function __construct(
 		Report_Builder_Factory $report_builder_factory,
-		Alert_Presenter_Factory $alert_presenter_factory,
 		WPSEO_Shortlinker $shortlinker
 	) {
-		$this->report_builder_factory  = $report_builder_factory;
-		$this->alert_presenter_factory = $alert_presenter_factory;
-		$this->shortlinker             = $shortlinker;
+		$this->report_builder_factory = $report_builder_factory;
+		$this->shortlinker            = $shortlinker;
 	}
 
 	/**
@@ -182,7 +173,7 @@ class Ryte_Reports {
 			WPSEO_Admin_Utils::get_new_tab_message() . '</a>'
 		);
 
-		$alert = $this->alert_presenter_factory->create( $alert_content, 'info' );
+		$alert = new Alert_Presenter( $alert_content, 'info' );
 		return $alert->present();
 	}
 
