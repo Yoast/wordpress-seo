@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Helpers;
 
 use WPSEO_Image_Utils;
+use Yoast\WP\SEO\Models\SEO_Links;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
@@ -36,7 +37,14 @@ class Image_Helper {
 	 *
 	 * @var Options_Helper
 	 */
-	private $options;
+	private $options_helper;
+
+	/**
+	 * The URL helper.
+	 *
+	 * @var Url_Helper
+	 */
+	private $url_helper;
 
 	/**
 	 * Image_Helper constructor.
@@ -44,9 +52,14 @@ class Image_Helper {
 	 * @param Indexable_Repository $indexable_repository The indexable repository.
 	 * @param Options_Helper       $options              The options helper.
 	 */
-	public function __construct( Indexable_Repository $indexable_repository, Options_Helper $options ) {
+	public function __construct(
+		Indexable_Repository $indexable_repository,
+		Options_Helper $options,
+		Url_Helper $url_helper
+	) {
 		$this->indexable_repository = $indexable_repository;
-		$this->options              = $options;
+		$this->options_helper       = $options;
+		$this->url_helper           = $url_helper;
 	}
 
 	/**
@@ -281,7 +294,7 @@ class Image_Helper {
 		$url = \preg_replace( '/(.*)-\d+x\d+\.(jpeg|jpg|png|gif)$/', '$1.$2', $url );
 
 		// Don't try to do this for external URLs.
-		if ( \strpos( $url, \get_site_url() ) !== 0 ) {
+		if ( $this->url_helper->get_link_type( $url ) === SEO_Links::TYPE_EXTERNAL ) {
 			return 0;
 		}
 
@@ -325,15 +338,15 @@ class Image_Helper {
 	 * @return array|bool Array with image details when the image is found, boolean when it's not found.
 	 */
 	public function get_attachment_meta_from_settings( $setting ) {
-		$image_meta = $this->options->get( $setting . '_meta', false );
+		$image_meta = $this->options_helper->get( $setting . '_meta', false );
 		if ( ! $image_meta ) {
-			$image_id = $this->options->get( $setting . '_id', false );
+			$image_id = $this->options_helper->get( $setting . '_id', false );
 			if ( $image_id ) {
 				// There is not an option to put a URL in an image field in the settings anymore, only to upload it through the media manager.
 				// This means an attachment always exists, so doing this is only needed once.
 				$image_meta = $this->get_best_attachment_variation( $image_id );
 				if ( $image_meta ) {
-					$this->options->set( $setting . '_meta', $image_meta );
+					$this->options_helper->set( $setting . '_meta', $image_meta );
 				}
 			}
 		}

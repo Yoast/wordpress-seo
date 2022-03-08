@@ -253,7 +253,7 @@ script:
       travis_fold start "PHP.integration-tests" && travis_time_start
       vendor/bin/phpunit -c phpunit-integration.xml.dist
       travis_time_finish && travis_fold end "PHP.integration-tests"
-    elif [[ "$PHPUNIT" == "1" ]] && [[ ${TRAVIS_PHP_VERSION:0:1} == "8" || $TRAVIS_PHP_VERSION == "nightly" ]] && [[ $WP_VERSION == "5.9" || $WP_VERSION == "latest" || $WP_VERSION == "trunk" ]]; then
+    elif [[ "$PHPUNIT" == "1" ]] && [[ ${TRAVIS_PHP_VERSION:0:1} == "8" || $TRAVIS_PHP_VERSION == "nightly" ]] && [[ ${WP_VERSION:0:3} == "5.9" || ${WP_VERSION:0:1} == "6" || $WP_VERSION == "trunk" ]]; then
       # PHP >= 8 with WP >= 5.9
       travis_fold start "PHP.integration-tests" && travis_time_start
       travis_retry composer remove --dev phpunit/phpunit --no-update --no-interaction &&
