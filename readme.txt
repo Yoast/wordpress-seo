@@ -236,6 +236,22 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 18.4 =
+Release Date: March 22nd, 2022
+
+Enhancements:
+
+* Adds the possibility to timestamp your Privacy Policy page by use of a WordProof certificate.
+
+Bugfixes:
+
+* Fixes a bug where the Google preview would display wrong breadcrumbs for child pages.
+* Fixes a potential error related to the `has_ancestors` column of our indexables table. Props to @junaidbhura.
+
+Other:
+
+* Sets minimum required WordPress version to 5.8.
+
 = 18.3 =
 Release Date: March 8th, 2022
 
@@ -257,26 +273,6 @@ Bugfixes:
 Other:
 
 * Fixes an incompatibility with Elementor 3.6.0 where the React contents of the Yoast tab in Elementor were not rendered.
-
-= 18.2 =
-Release Date: February 22nd, 2022
-
-Yoast SEO 18.2 is out today! This release includes more fixes and enhancements to enjoy. We improved the workings of the FAQ and How-to blocks. Happy optimizing! Read more about what's new in Yoast SEO 18.2 in [our release post in English](https://yoa.st/release-22-2-22) or [our release post in Spanish](https://yoa.st/release-22-2-22-spanish)!
-
-Enhancements:
-
-* Optimizes the images in FAQ and HowTo blocks to be more responsive and load faster.
-
-Bugfixes:
-
-* Fixes a bug where the "Save changes" button would overlap with the admin sidebar on WordPress.com. Props to @DustyReagan.
-* Fixes a bug where a (debug) deprecation message would show in the widget editor on WordPress 5.8 and above.
-* Fixes a bug where a console warning would be thrown when adding a structured data block in the block editor, FSE editor or widget editor.
-
-Other:
-
-* Adds a filter to enable/disable creating indexables: `Yoast\WP\SEO\should_index_indexables`
-* Adds an `__isset` magic method to ease working with helper surfaces. Props to @nlemoine.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
