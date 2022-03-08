@@ -54,6 +54,16 @@ export default function YoastComboBox( { value, label, onChange, options, onInpu
 		setFilteredOptions( options );
 	}, [ options ] );
 
+	/**
+	 * Returns a function that is used by the Combobox.Option className prop.
+	 * Otherwise we have no option of overriding the selected prop that they pass (and avoid arrow functions in the render).
+	 */
+	const getOptionBasedStyles = useCallback( ( optionValue, selectedValue ) => {
+		return ( { selected, active } ) => {
+			return getOptionActiveStyles( { selected: selected || optionValue === selectedValue, active } );
+		};
+	}, [ getOptionActiveStyles ] );
+
 	return <Combobox as="div" value={ value } onChange={ onChange }>
 		{
 			( { open } ) => {
@@ -79,9 +89,7 @@ export default function YoastComboBox( { value, label, onChange, options, onInpu
 									return <Combobox.Option
 										key={ `yst-option-${ option.value }` }
 										value={ option }
-										className={ ( { selected, active } ) => {
-											return getOptionActiveStyles( { selected: selected || option.value === value.value, active } );
-										} }
+										className={ getOptionBasedStyles( option.value, value.value ) }
 									>
 										{ ( { selected } ) => (
 											<>
