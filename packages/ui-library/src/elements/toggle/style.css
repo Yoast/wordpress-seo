@@ -63,6 +63,8 @@
         @apply
             yst-h-2.5
             yst-w-2.5
+            yst-shrink-0
+            yst-grow-0
             yst-transition-opacity
             yst-ease-out
             yst-duration-100

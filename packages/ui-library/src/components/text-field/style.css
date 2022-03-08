@@ -16,7 +16,7 @@
 	}
 
 	.yst-text-field__error-icon {
-		@apply yst-flex yst-items-center yst-absolute yst-inset-y-0 yst-right-0 yst-mr-3;
+		@apply yst-flex yst-shrink-0 yst-grow-0 yst-items-center yst-absolute yst-inset-y-0 yst-right-0 yst-mr-3;
 	}
 
 	.yst-text-field__error-icon > svg {

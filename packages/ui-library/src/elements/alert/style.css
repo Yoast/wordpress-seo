@@ -56,6 +56,7 @@
     /* Elements */
     .yst-alert__icon {
         @apply
+            yst-shrink-0
             yst-grow-0
             yst-h-5
             yst-w-5;
