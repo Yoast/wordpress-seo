@@ -64,7 +64,7 @@ export default function YoastComboBox( { value, label, onChange, options, onInpu
 		};
 	}, [ getOptionActiveStyles ] );
 
-	return <Combobox as="div" value={ value } onChange={ onChange }>
+	return <Combobox id="configuration-user-select" as="div" value={ value } onChange={ onChange }>
 		{
 			( { open } ) => {
 				return <Fragment>
