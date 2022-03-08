@@ -243,7 +243,6 @@ Meet Yoast SEO 18.3! For this release, we did another round of fixes and improve
 
 Enhancements:
 
-* Adds a QR code to every page on your site when it's printed, that links back to the page online. Props to [Coywolf](https://coywolf.com/) for [this idea](https://twitter.com/coywolf/status/1493630040256483338?t=juq4vpF0kf4MDS3Y3GfKPg&s=08).
 * Improves the importer so you can now import `post_meta`, `robot_txt` and search appearance options when moving from All-In-One SEO to Yoast SEO.
 * Improves feedback strings for the Keyphrase Length assessment by making it explicit that we only count content words for languages with function word support.
 
