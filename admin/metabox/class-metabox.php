@@ -204,6 +204,12 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'<a href="https://googlewebmastercentral.blogspot.com/2009/12/handling-legitimate-cross-domain.html" target="_blank" rel="noopener">',
 			WPSEO_Admin_Utils::get_new_tab_message() . '</a>'
 		);
+		/* translators: %s expands to the post type name. */
+		WPSEO_Meta::$meta_fields['advanced']['wordproof_timestamp']['title']        = __( 'Timestamp this %s', 'wordpress-seo' );
+		WPSEO_Meta::$meta_fields['advanced']['wordproof_timestamp']['description']  = __( 'Use WordProof to timestamp this page to comply with legal regulations and join the fight for a more transparant and accountable internet.', 'wordpress-seo' );
+		WPSEO_Meta::$meta_fields['advanced']['wordproof_timestamp']['options']['0'] = __( 'Off', 'wordpress-seo' );
+		WPSEO_Meta::$meta_fields['advanced']['wordproof_timestamp']['options']['1'] = __( 'On', 'wordpress-seo' );
+		WPSEO_Meta::$meta_fields['advanced']['wordproof_timestamp']['type']         = 'hidden';
 
 		WPSEO_Meta::$meta_fields['advanced']['redirect']['title']       = __( '301 Redirect', 'wordpress-seo' );
 		WPSEO_Meta::$meta_fields['advanced']['redirect']['description'] = __( 'The URL that this page should redirect to.', 'wordpress-seo' );
@@ -711,7 +717,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			return false;
 		}
 
-		if ( ! isset( $_POST['yoast_free_metabox_nonce'] ) || ! wp_verify_nonce( $_POST['yoast_free_metabox_nonce'], 'yoast_free_metabox' ) ) {
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized in wp_verify_none.
+		if ( ! isset( $_POST['yoast_free_metabox_nonce'] ) || ! wp_verify_nonce( wp_unslash( $_POST['yoast_free_metabox_nonce'] ), 'yoast_free_metabox' ) ) {
 			return false;
 		}
 
@@ -838,6 +845,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		$post_id = get_queried_object_id();
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		if ( empty( $post_id ) && isset( $_GET['post'] ) ) {
 			$post_id = sanitize_text_field( filter_input( INPUT_GET, 'post' ) );
 		}
