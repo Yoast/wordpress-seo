@@ -238,28 +238,6 @@ class Option_Social_Test extends TestCase {
 				],
 				'slug_name' => 'other_social_urls',
 			],
-			[
-				'expected'  => [
-					'other_social_urls' => [
-						'https://www.youtube.com/yoast',
-						'https://instagram.com/yoast',
-					]
-				],
-				'dirty'     => 'not an array',
-				'clean'     => [
-					'other_social_urls' => [
-						'https://www.youtube.com/yoast',
-						'https://instagram.com/yoast',
-					]
-				],
-				'old'       => [
-					'other_social_urls' => [
-						'https://www.youtube.com/yoast',
-						'https://instagram.com/yoast',
-					]
-				],
-				'slug_name' => 'other_social_urls',
-			],
 		];
 	}
 }
