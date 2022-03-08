@@ -239,7 +239,7 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 18.3 =
 Release Date: March 8th, 2022
 
-Meet Yoast SEO 18.3! For this release, we did another round of fixes and improvements. It also introduces a nice new feature that makes the bridge between the natural world and the online one a little bit smaller. In Yoast SEO 18.3, we’re adding a QR code linking back to your article when printed. Enjoy! Read more about what's new in Yoast SEO 18.3 in [our release post in English](https://yoa.st/release-8-3-22) or [our release post in Spanish](https://yoa.st/release-8-3-22-spanish)!
+Meet Yoast SEO 18.3! For this release, we did another round of fixes and improvements. Read more about what's new in Yoast SEO 18.3 in [our release post in English](https://yoa.st/release-8-3-22) or [our release post in Spanish](https://yoa.st/release-8-3-22-spanish)!
 
 Enhancements:
 
