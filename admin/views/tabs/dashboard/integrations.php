@@ -65,6 +65,10 @@ $integration_toggles = Yoast_Integration_Toggles::instance()->get_all();
 				$disabled = true;
 			}
 
+			if ( isset( $integration->disabled ) && $integration->disabled === true ) {
+				$disabled = true;
+			}
+
 			$yform->toggle_switch(
 				$integration->setting,
 				[
