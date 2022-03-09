@@ -428,7 +428,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Aioseo_Importing_Action {
 	 */
 	public function get_needed_data() {
 		$needed_data = \array_keys( $this->aioseo_to_yoast_map );
-		\array_push( $needed_data, 'id1', 'post_id', 'robots_default', 'og_image_custom_url', 'og_image_type', 'twitter_image_custom_url', 'twitter_image_type', 'twitter_use_og' );
+		\array_push( $needed_data, 'id', 'post_id', 'robots_default', 'og_image_custom_url', 'og_image_type', 'twitter_image_custom_url', 'twitter_image_type', 'twitter_use_og' );
 
 		return $needed_data;
 	}
