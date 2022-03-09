@@ -3,10 +3,10 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Given it's a very specific case.
 namespace Yoast\WP\SEO\Actions\Importing\Aioseo;
 
-use Exception;
 use wpdb;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Wpdb_Helper;
+use Yoast\WP\SEO\Exceptions\Importing\Aioseo_Validation_Exception;
 use Yoast\WP\SEO\Actions\Importing\Abstract_Aioseo_Importing_Action;
 use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Provider_Service;
 
@@ -127,7 +127,7 @@ class Aioseo_Validate_Data_Action extends Abstract_Aioseo_Importing_Action {
 	 *
 	 * @return array|false An array of validated data or false if aioseo data did not pass validation.
 	 *
-	 * @throws Exception If the validation fails.
+	 * @throws Aioseo_Validation_Exception If the validation fails.
 	 */
 	public function index() {
 		if ( $this->get_completed() ) {
@@ -140,7 +140,7 @@ class Aioseo_Validate_Data_Action extends Abstract_Aioseo_Importing_Action {
 
 
 		if ( $validated_aioseo_table === false || $validated_aioseo_settings === false || $validated_robot_settings === false ) {
-			throw new Exception( __( 'The AIOSEO import was cancelled because some AIOSEO data are missing.', 'wordpress-seo' ) );
+			throw new Aioseo_Validation_Exception();
 		}
 
 		$this->set_completed( true );

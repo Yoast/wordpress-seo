@@ -97,6 +97,7 @@ class Import_Integration implements Integration_Interface {
 				'cleanup_after_import_msg' => \esc_html__( 'After you\'ve imported data from another SEO plugin, please make sure to clean up all the original data from that plugin. (step 5)', 'wordpress-seo' ),
 				'select_placeholder'       => \esc_html__( 'Select SEO plugin', 'wordpress-seo' ),
 				'no_data_msg'              => \esc_html__( 'No data found from other SEO plugins.', 'wordpress-seo' ),
+				'validation_failure'       => $this->get_validation_failure_alert(),
 				'import_failure'           => $this->get_import_failure_alert( true ),
 				'cleanup_failure'          => $this->get_import_failure_alert( false ),
 				'spinner'                  => \admin_url( 'images/loading.gif' ),
@@ -200,6 +201,18 @@ class Import_Integration implements Integration_Interface {
 		}
 
 		return $importing_endpoints;
+	}
+
+	/**
+	 * Gets the validation failure alert using the Alert_Presenter.
+	 *
+	 * @return string The validation failure alert.
+	 */
+	protected function get_validation_failure_alert() {
+		$content                  = \esc_html( '%s' );
+		$validation_failure_alert = new Alert_Presenter( $content, 'error' );
+
+		return $validation_failure_alert->present();
 	}
 
 	/**

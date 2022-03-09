@@ -1,6 +1,7 @@
 import jQuery from "jquery";
 import { sprintf } from "@wordpress/i18n";
 
+import ImportValidationError from "./errors/ImportValidationError";
 import IndexingService from "./services/IndexingService";
 
 const AioseoV4 = "WPSEO_Import_AIOSEO_V4";
@@ -139,6 +140,7 @@ function showFailure( e, action ) {
 	var loadingMessage = loadingMessageCleanup;
 	var actingButton = cleanupButton;
 	var failureMessage = window.yoastImportData.assets.cleanup_failure;
+	var failureOutput;
 
 	if ( action === "import" ) {
 		actingForm = importForm;
@@ -152,15 +154,23 @@ function showFailure( e, action ) {
 
 	actingButton.prop( "disabled", false );
 
+	if ( e instanceof ImportValidationError ) {
+		failureMessage = window.yoastImportData.assets.validation_failure;
+		failureOutput = sprintf(
+			failureMessage,
+			e.message
+		);
+	} else {
+		failureOutput = sprintf(
+			failureMessage,
+			"<strong>" + e + "</strong>"
+		);
+	}
+
 	// Add a failure alert too.
 	var failureAlert = jQuery( "<div>" )
 		.addClass( "yoast-measure yoast-import-failure" )
-		.html(
-			sprintf(
-				failureMessage,
-				"<strong>" + e + "</strong>"
-			)
-		);
+		.html( failureOutput );
 
 	actingForm.after( failureAlert );
 }
