@@ -1,3 +1,5 @@
+/* global _ */
+
 import { __unstableSerializeAndClean, isReusableBlock } from "@wordpress/blocks";
 import { select, subscribe } from "@wordpress/data";
 import { isFunction } from "lodash";
@@ -34,7 +36,7 @@ class YoastReusableBlocksPlugin {
 	register() {
 		this._registerPlugin( "YoastReusableBlocksPlugin", { status: "ready" } );
 		this._registerModification( "content", this.parseReusableBlocks, "YoastReusableBlocksPlugin", 1 );
-		subscribe( this.reusableBlockChangeListener );
+		subscribe( _.debounce( this.reusableBlockChangeListener, 500 ) );
 	}
 
 	/**
