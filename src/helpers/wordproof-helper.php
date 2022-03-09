@@ -57,13 +57,20 @@ class WordProof_Helper {
 	/**
 	 * Returns if conditionals are met. If not, the integration should be disabled.
 	 *
-	 * @return bool Returns if the integration should be disabled.
+	 * @param bool $return_conditional If the conditional class name that was unmet should be returned.
+	 *
+	 * @return bool|string Returns if the integration should be disabled.
 	 */
-	public function integration_is_disabled() {
-		$conditionals = [ new WordProof_Plugin_Inactive_Conditional() ];
+	public function integration_is_disabled( $return_conditional = false ) {
+		$conditionals = [ new WordProof_Plugin_Inactive_Conditional(), new Non_Multisite_Conditional() ];
 
 		foreach ( $conditionals as $conditional ) {
 			if ( ! $conditional->is_met() ) {
+
+				if ( $return_conditional === true ) {
+					return ( new \ReflectionClass( $conditional ) )->getShortName();
+				}
+
 				return true;
 			}
 		}
