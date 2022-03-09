@@ -64,14 +64,14 @@ $integration_toggles = Yoast_Integration_Toggles::instance()->get_all();
 
 			$disabled = false;
 			if ( $integration->premium === true && YoastSEO()->helpers->product->is_premium() === false ) {
-				$attributes = [ 'disabled' => $disabled ];
+				$attributes = [ 'disabled' => true ];
 			}
 
 			// If the integration is disabled, do not show note showing
 			// the integration is disabled by network admin.
 			if ( isset( $integration->disabled ) && $integration->disabled === true ) {
 				$attributes = [
-					'disabled'           => $disabled,
+					'disabled'           => true,
 					'show_disabled_note' => false,
 				];
 			}
