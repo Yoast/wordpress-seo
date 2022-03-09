@@ -124,17 +124,20 @@ class WordProof_Integration_Toggle implements Integration_Interface {
 	public function after_integration_toggle( $integration ) {
 		if ( $integration->setting === 'wordproof_integration_active' ) {
 			if ( $integration->disabled ) {
-				
+
 				$conditional = $this->wordproof->integration_is_disabled( true );
 
 				if ( $conditional === 'Non_Multisite_Conditional' ) {
-					echo '<p>' . sprintf( esc_html__( 'Currently, the %s integration is not available for multisites.', 'wordpress-seo' ), 'WordProof' ) . '</p>';
+					echo '<p>' . sprintf(
+						/* translators: %s expands to WordProof */
+						esc_html__( 'Currently, the %s integration is not available for multisites.', 'wordpress-seo' ),
+						'WordProof'
+					) . '</p>';
 				}
 
 				if ( $conditional === 'WordProof_Plugin_Inactive_Conditional' ) {
 					echo '<p>' . esc_html__( 'The WordProof Timestamp plugin needs to be disabled before you can activate this integration.', 'wordpress-seo' ) . '</p>';
 				}
-
 			}
 		}
 	}
@@ -147,8 +150,11 @@ class WordProof_Integration_Toggle implements Integration_Interface {
 	public function after_network_integration_toggle( $integration ) {
 		if ( $integration->setting === 'wordproof_integration_active' ) {
 			if ( $integration->disabled ) {
-				/** Translators: %s expands to WordProof */
-				echo '<p>' . sprintf( esc_html__( 'Currently, the %s integration is not available for multisites.', 'wordpress-seo' ), 'WordProof' ) . '</p>';
+				echo '<p>' . sprintf(
+					/* translators: %s expands to WordProof */
+					esc_html__( 'Currently, the %s integration is not available for multisites.', 'wordpress-seo' ),
+					'WordProof'
+				) . '</p>';
 			}
 		}
 	}
