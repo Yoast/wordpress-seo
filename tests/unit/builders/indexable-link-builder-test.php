@@ -89,12 +89,12 @@ class Indexable_Link_Builder_Test extends TestCase {
 		$this->instance->set_dependencies( $this->indexable_repository, $this->image_helper );
 
 		Functions\expect( 'wp_list_pluck' )->andReturnUsing(
-			static function ( $array, $prop ) {
+			static function ( $haystack, $prop ) {
 				return \array_map(
 					static function ( $e ) use ( $prop ) {
 						return $e->{$prop};
 					},
-					$array
+					$haystack
 				);
 			}
 		);

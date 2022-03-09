@@ -1,0 +1,34 @@
+name: Security
+
+on:
+  # Run on all pushes and on all pull requests.
+  push:
+  pull_request:
+  # Also run this workflow every Monday at 6:00.
+  schedule:
+    - cron: '0 6 * * 1'
+  # Allow manually triggering the workflow.
+  workflow_dispatch:
+
+# Cancels all previous workflow runs for the same branch that have not yet completed.
+concurrency:
+  # The concurrency group contains the workflow name and the branch name.
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  security:
+    name: 'Security check'
+    runs-on: ubuntu-latest
+
+    # Don't run the cronjob in this workflow on forks.
+    if: github.event_name != 'schedule' || (github.event_name == 'schedule' && github.repository_owner == 'Yoast')
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # This action checks the `composer.lock` file against known security vulnerabilities in the dependencies.
+      # https://github.com/marketplace/actions/the-php-security-checker
+      - name: Run Security Check
+        uses: symfonycorp/security-checker-action@v2
