@@ -250,7 +250,7 @@ Bugfixes:
 
 Other:
 
-* Sets minimum required WordPress version to 5.8.
+* Sets the minimum required WordPress version to 5.8.
 
 = 18.3 =
 Release Date: March 8th, 2022

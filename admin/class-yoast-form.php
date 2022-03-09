@@ -815,7 +815,11 @@ class Yoast_Form {
 		printf( '<div class="%s">', esc_attr( 'switch-container' . $help_class ) );
 		echo '<fieldset id="', $var_esc, '" class="fieldset-switch-toggle"><legend>', $label, '</legend>', $help;
 
-		echo $this->get_disabled_note( $variable );
+		// Show disabled note if attribute does not exists or does exist and is set to true.
+		if ( ! isset( $attr['show_disabled_note'] ) || ( $attr['show_disabled_note'] === true ) ) {
+			echo $this->get_disabled_note( $variable );
+		}
+
 		echo '<div class="switch-toggle switch-candy switch-yoast-seo">';
 
 		foreach ( $values as $key => $value ) {

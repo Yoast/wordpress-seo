@@ -101,7 +101,7 @@ class WPSEO_Option_MS extends WPSEO_Option {
 			"{$allow_prefix}semrush_integration_active"     => true,
 			"{$allow_prefix}zapier_integration_active"      => true,
 			"{$allow_prefix}wincher_integration_active"     => true,
-			"{$allow_prefix}wordproof_integration_active"   => true,
+			"{$allow_prefix}wordproof_integration_active"   => false,
 		];
 
 		if ( is_multisite() ) {
