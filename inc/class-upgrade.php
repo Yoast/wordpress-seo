@@ -885,7 +885,7 @@ class WPSEO_Upgrade {
 		$other[] = WPSEO_Options::get( 'youtube_url' );
 		$other[] = WPSEO_Options::get( 'wikipedia_url' );
 
-		WPSEO_Options::set( 'other_social_urls', $other );
+		WPSEO_Options::set( 'other_social_urls', array_unique( array_filter( $other ) ) );
 	}
 
 	/**
