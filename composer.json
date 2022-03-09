@@ -65,10 +65,10 @@
 			"@php ./vendor/phpunit/phpunit/phpunit -c phpunit-integration.xml.dist"
 		],
 		"lint": [
-			"@php ./vendor/php-parallel-lint/php-parallel-lint/parallel-lint . -e php --show-deprecated --exclude vendor --exclude vendor_prefixed --exclude node_modules --exclude .git"
+			"@php ./vendor/php-parallel-lint/php-parallel-lint/parallel-lint . -e php --show-deprecated --exclude vendor --exclude node_modules --exclude .git"
 		],
 		"lint-files": [
-			"@php ./vendor/php-parallel-lint/php-parallel-lint/parallel-lint --show-deprecated"
+			"@php ./vendor/php-parallel-lint/php-parallel-lint/parallel-lint -e php --show-deprecated"
 		],
 		"lint-branch": [
 			"Yoast\\WP\\SEO\\Composer\\Actions::lint_branch"
