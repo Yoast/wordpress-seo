@@ -1,5 +1,6 @@
 /* global moment */
-import { flow, get, isEqual, set } from "lodash";
+import { flatten, flow, get, isEqual, set } from "lodash";
+import map from "lodash/map";
 import { getContentTinyMce } from "../../lib/tinymce";
 import getContentLocale from "../../analysis/getContentLocale";
 
@@ -248,6 +249,35 @@ export const getPostTags = () => {
 	}
 
 	return [];
+};
+
+export const getCustomTaxonomies = () => {
+	const names = map( get( window, "wpseoScriptData.analysis.plugins.replaceVars.replace_vars.custom_taxonomies" ), ( { name } ) => name );
+
+	const customTaxonomies = {};
+	names.map( name => {
+		// Check for hierarchical custom taxonomies.
+		const checkboxesElement = [ ...document.querySelectorAll( `#${ name }checklist input[type=checkbox]` ) ];
+		const customTags = getPostTags();
+
+		if ( checkboxesElement ) {
+			const checkedCheckboxes = checkboxesElement.filter( checkbox => checkbox.checked );
+			customTaxonomies[ name ] = checkedCheckboxes.map( checkbox => (
+				{
+					id: checkbox.value,
+					value: [ ...checkbox.parentElement.childNodes ]
+						.filter( node => node.nodeType === Node.TEXT_NODE )
+						.map( node => node.textContent )[ 0 ]
+						?.trim(),
+				}
+			) );
+		} else if ( customTags.length !== 0 ) {
+			// Check for non-hierarchical custom taxonomies.
+			customTaxonomies[ name ] = customTags;
+		}
+	} );
+
+	return customTaxonomies;
 };
 
 /**
