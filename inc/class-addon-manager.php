@@ -201,6 +201,31 @@ class WPSEO_Addon_Manager {
 		return $addon_versions;
 	}
 
+	public function get_installed_addons_plugin_files() {
+		$addon_versions = [];
+		foreach ( $this->get_installed_addons() as $plugin_file => $installed_addon ) {
+			$addon_versions[ $this->get_slug_by_plugin_file( $plugin_file ) ] = $plugin_file;
+		}
+
+		return $addon_versions;
+	}
+
+	/**
+	 * Retrieves the plugin information from all subscriptions.
+	 *
+	 * @return array The plugin data.
+	 */
+	public function get_plugins_information() {
+		$subscriptions = $this->get_subscriptions();
+
+		return \array_map(
+			function ( $subscription ) {
+				return $this->convert_subscription_to_plugin( $subscription, null, true );
+			},
+			$subscriptions
+		);
+	}
+
 	/**
 	 * Retrieves the plugin information from the subscriptions.
 	 *
@@ -631,7 +656,7 @@ class WPSEO_Addon_Manager {
 	 *
 	 * @return array The installed plugins.
 	 */
-	protected function get_installed_addons() {
+	public function get_installed_addons() {
 		return array_filter( $this->get_plugins(), [ $this, 'is_yoast_addon' ], ARRAY_FILTER_USE_KEY );
 	}
 
