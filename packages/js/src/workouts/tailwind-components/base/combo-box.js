@@ -5,6 +5,8 @@ import { Fragment, useState, useEffect, useCallback } from "@wordpress/element";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 
+import { getOptionActiveStyles } from "../helpers";
+
 /**
  * A function needed to extract the label to display when a person is selected.
  *
@@ -17,42 +19,35 @@ function getDisplayValue( selectedOption ) {
 }
 
 /**
- * Helper function to get active styles for select options.
- *
- * @param {boolean} options.active Whether the option is active.
- *
- * @returns {string} Styles for an active option.
- */
-function getOptionActiveStyles( { active, selected } ) {
-	return classNames(
-		"yst-relative yst-cursor-default yst-select-none yst-py-2 yst-pl-3 yst-pr-9 yst-my-0",
-		selected && "yst-bg-primary-500 yst-text-white",
-		( active && ! selected ) && "yst-bg-primary-200 yst-text-gray-900",
-		( ! active && ! selected ) && "yst-text-gray-900"
-	);
-}
-
-/**
  * The Yoast version of a Tailwind Combobox.
  *
  * @param {Object} props The props object.
  *
  * @returns {WPElement} The Yoast version of a Tailwind Combobox.
  */
-export default function YoastComboBox( { value, label, onChange, options, onInputChange, placeholder } ) {
+export default function YoastComboBox( { value, label, onChange, onQueryChange, options, placeholder } ) {
 	const [ filteredOptions, setFilteredOptions ] = useState( options );
+	const [ query, setQuery ] = useState( "" );
 
 	const handleInputChange = useCallback( ( event ) => {
-		if ( onInputChange ) {
-			onInputChange( event );
-		} else {
-			setFilteredOptions( options.filter( option => option.label.includes( event.target.value ) ) );
-		}
-	}, [ options, onInputChange ] );
+		setQuery( event.target.value );
+	}, [ setQuery ] );
+
+	const handleBlur = useCallback( () => {
+		setQuery( "" );
+	}, [ setQuery ] );
 
 	useEffect( () => {
 		setFilteredOptions( options );
 	}, [ options ] );
+
+	useEffect( () => {
+		if ( onQueryChange ) {
+			onQueryChange( query );
+		} else {
+			setFilteredOptions( options.filter( option => option.label.includes( query ) ) );
+		}
+	}, [ query, onQueryChange ] );
 
 	/**
 	 * Returns a function that is used by the Combobox.Option className prop.
@@ -64,27 +59,42 @@ export default function YoastComboBox( { value, label, onChange, options, onInpu
 		};
 	}, [ getOptionActiveStyles ] );
 
-	return <Combobox id="configuration-user-select" as="div" value={ value } onChange={ onChange }>
+	/**
+	 * Clicking the input when the options are open would trigger the Combobox.Button's click event.
+	 * Thus we need to stop the events propagation in the case an event is open.
+	 */
+	const stopEventPropagation = useCallback( ( isOpen ) => {
+		return ( event ) => {
+			if ( isOpen ) {
+				event.stopPropagation();
+			}
+		};
+	}, [] );
+
+	return <Combobox id="configuration-user-select" as="div" value={ value } onChange={ onChange } onBlur={ handleBlur }>
 		{
 			( { open } ) => {
 				return <Fragment>
-					{ label && <Combobox.Label className="yst-block yst-max-w-sm yst-text-sm yst-font-medium yst-text-gray-700">{ label }</Combobox.Label> }
-					<div className="yst-h-[45px] yst-max-w-sm yst-relative yst-mt-1">
-						<Combobox.Input
-							className="yst-w-full yst-rounded-md yst-border yst-border-gray-300 yst-bg-white yst-py-2 yst-pl-3 yst-pr-10 yst-shadow-sm focus:yst-border-primary-500 focus:yst-outline-none focus:yst-ring-1 focus:yst-ring-primary-500 sm:yst-text-sm"
-							onChange={ handleInputChange }
-							displayValue={ getDisplayValue }
-							placeholder={ placeholder }
-						/>
+					{ label && <Combobox.Label className="yst-block yst-mb-1 yst-max-w-sm yst-text-sm yst-font-medium yst-text-gray-700">{ label }</Combobox.Label> }
+					<div className="yst-h-[45px] yst-max-w-sm yst-relative">
 						<Combobox.Button
+							role="button"
 							id="configuration-user-select-button"
-							className="yst-absolute yst-inset-y-0 yst-right-0 yst-flex yst-items-center yst-rounded-r-md yst-px-2 focus:yst-outline-none"
+							className="yst-w-full yst-h-full yst-rounded-md yst-border yst-border-gray-300 yst-flex yst-items-center yst-rounded-r-md yst-pl-3 yst-pr-2 focus-within:yst-border-primary-500 focus-within:yst-outline-none focus-within:yst-ring-1 focus-within:yst-ring-primary-500"
+							as="div"
 						>
-							<SelectorIcon className="yst-h-5 yst-w-5 yst-text-gray-400" aria-hidden="true" />
+							<Combobox.Input
+								className="yst-w-full yst-text-gray-700 yst-rounded-md yst-border-0 yst-outline-none yst-bg-white yst-py-2 yst-pl-0 yst-pr-10 yst-shadow-sm sm:yst-text-sm"
+								onChange={ handleInputChange }
+								displayValue={ getDisplayValue }
+								placeholder={ placeholder }
+								onClick={ stopEventPropagation( open ) }
+							/>
+							<SelectorIcon className="yst-h-5 yst-w-5 yst-text-gray-400 yst-inset-y-0 yst-right-0" aria-hidden="true" />
 						</Combobox.Button>
 
-						{ ( filteredOptions.length > 0 && open ) && (
-							<Combobox.Options static={ true } className="yst-absolute yst-z-10 yst-mt-1 yst-max-h-60 yst-w-full yst-overflow-auto yst-rounded-md yst-bg-white yst-py-1 yst-text-base yst-shadow-lg yst-ring-1 yst-ring-black yst-ring-opacity-5 focus:yst-outline-none sm:yst-text-sm">
+						{ ( filteredOptions.length > 0 ) && (
+							<Combobox.Options className="yst-absolute yst-z-10 yst-mt-1 yst-max-h-60 yst-w-full yst-overflow-auto yst-rounded-md yst-bg-white yst-py-1 yst-text-base yst-shadow-lg yst-ring-1 yst-ring-black yst-ring-opacity-5 focus:yst-outline-none sm:yst-text-sm">
 								{ filteredOptions.map( ( option ) => {
 									return <Combobox.Option
 										key={ `yst-option-${ option.value }` }
@@ -123,13 +133,13 @@ YoastComboBox.propTypes = {
 		label: PropTypes.string,
 	} ),
 	label: PropTypes.string,
-	onInputChange: PropTypes.func,
+	onQueryChange: PropTypes.func,
 	placeholder: PropTypes.string,
 };
 
 YoastComboBox.defaultProps = {
 	value: null,
 	label: "",
-	onInputChange: null,
+	onQueryChange: null,
 	placeholder: __( "Select an option", "wordpress-seo" ),
 };
