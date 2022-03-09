@@ -1,6 +1,6 @@
 import { __unstableSerializeAndClean, isReusableBlock } from "@wordpress/blocks";
 import { select, subscribe } from "@wordpress/data";
-import { isFunction } from "lodash";
+import { isFunction, debounce } from "lodash";
 
 /**
  * Plugin to parse reusable blocks in the content before it is analyzed.
@@ -34,7 +34,7 @@ class YoastReusableBlocksPlugin {
 	register() {
 		this._registerPlugin( "YoastReusableBlocksPlugin", { status: "ready" } );
 		this._registerModification( "content", this.parseReusableBlocks, "YoastReusableBlocksPlugin", 1 );
-		subscribe( this.reusableBlockChangeListener );
+		subscribe( debounce( this.reusableBlockChangeListener, 500 ) );
 	}
 
 	/**
