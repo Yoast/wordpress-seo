@@ -65,6 +65,11 @@ class WordProof_Integration_Toggle implements Integration_Interface {
 		 * Add extra text after the integration toggle if the toggle is disabled.
 		 */
 		\add_action( 'Yoast\WP\SEO\admin_integration_after', [ $this, 'after_integration_toggle' ] );
+
+		/**
+		 * Add extra text after the network integration toggle if the toggle is disabled.
+		 */
+		\add_action( 'Yoast\WP\SEO\admin_network_integration_after', [ $this, 'after_network_integration_toggle' ] );
 	}
 
 	/**
@@ -119,7 +124,31 @@ class WordProof_Integration_Toggle implements Integration_Interface {
 	public function after_integration_toggle( $integration ) {
 		if ( $integration->setting === 'wordproof_integration_active' ) {
 			if ( $integration->disabled ) {
-				echo '<p>' . esc_html__( 'The WordProof Timestamp plugin needs to be disabled before you can activate this integration.', 'wordpress-seo' ) . '</p>';
+				
+				$conditional = $this->wordproof->integration_is_disabled( true );
+
+				if ( $conditional === 'Non_Multisite_Conditional' ) {
+					echo '<p>' . sprintf( esc_html__( 'Currently, the %s integration is not available for multisites.', 'wordpress-seo' ), 'WordProof' ) . '</p>';
+				}
+
+				if ( $conditional === 'WordProof_Plugin_Inactive_Conditional' ) {
+					echo '<p>' . esc_html__( 'The WordProof Timestamp plugin needs to be disabled before you can activate this integration.', 'wordpress-seo' ) . '</p>';
+				}
+
+			}
+		}
+	}
+
+	/**
+	 * Add an explainer when the network integration toggle is disabled.
+	 *
+	 * @param \Yoast_Feature_Toggle $integration The integration toggle class.
+	 */
+	public function after_network_integration_toggle( $integration ) {
+		if ( $integration->setting === 'wordproof_integration_active' ) {
+			if ( $integration->disabled ) {
+				/** Translators: %s expands to WordProof */
+				echo '<p>' . sprintf( esc_html__( 'Currently, the %s integration is not available for multisites.', 'wordpress-seo' ), 'WordProof' ) . '</p>';
 			}
 		}
 	}
