@@ -5,9 +5,7 @@ namespace Yoast\WP\SEO\WordPress;
 use wpdb;
 use WPSEO_Addon_Manager;
 use WPSEO_Admin_Asset_Manager;
-use WPSEO_Options;
 use WPSEO_Replace_Vars;
-use WPSEO_Ryte;
 use WPSEO_Shortlinker;
 use WPSEO_Utils;
 
