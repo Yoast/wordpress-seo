@@ -45,7 +45,7 @@ export default function YoastComboBox( { value, label, onChange, onQueryChange, 
 		if ( onQueryChange ) {
 			onQueryChange( query );
 		} else {
-			setFilteredOptions( options.filter( option => option.label.includes( query ) ) );
+			setFilteredOptions( options.filter( option => option.label.toLowerCase().includes( query.toLowerCase() ) ) );
 		}
 	}, [ query, onQueryChange ] );
 
