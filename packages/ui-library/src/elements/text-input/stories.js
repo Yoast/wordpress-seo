@@ -1,7 +1,7 @@
 import TextInput from ".";
 
 export default {
-	title: "1. Elements/Text input",
+	title: "1. Elements/Text Input",
 	component: TextInput,
 	parameters: {
 		docs: {
