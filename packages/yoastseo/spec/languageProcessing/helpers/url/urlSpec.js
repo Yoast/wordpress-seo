@@ -202,7 +202,7 @@ describe( "A URL helper", function() {
 			expect( actual ).toBe( false );
 		} );
 
-		it( "returns true if the site URL is set to only the domain, and it's the same as the text link's host ", function() {
+		it( "returns true if the site URL is set to only the domain, and it's the same as the text link's host", function() {
 			const anchorUrl = "https://yoast.com/your-shopify-store-on-google/";
 			const siteDomain = "yoast.com";
 
