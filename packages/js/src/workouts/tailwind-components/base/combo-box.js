@@ -6,6 +6,7 @@ import classNames from "classnames";
 import PropTypes from "prop-types";
 
 import { getOptionActiveStyles } from "../helpers";
+import Spinner from "./spinner";
 
 /**
  * A function needed to extract the label to display when a person is selected.
@@ -33,7 +34,7 @@ function getDisplayValue( selectedOption ) {
  *
  * @returns {WPElement} The Yoast version of a Tailwind Combobox.
  */
-export default function YoastComboBox( { value, label, onChange, onQueryChange, options, placeholder } ) {
+export default function YoastComboBox( { value, label, onChange, onQueryChange, options, placeholder, isLoading } ) {
 	const [ filteredOptions, setFilteredOptions ] = useState( options );
 	const [ query, setQuery ] = useState( "" );
 
@@ -100,19 +101,18 @@ export default function YoastComboBox( { value, label, onChange, onQueryChange, 
 							/>
 							<SelectorIcon className="yst-h-5 yst-w-5 yst-text-gray-400 yst-inset-y-0 yst-right-0" aria-hidden="true" />
 						</Combobox.Button>
-
 						{ ( filteredOptions.length > 0 ) && (
 							<Combobox.Options className="yst-absolute yst-z-10 yst-mt-1 yst-max-h-60 yst-w-full yst-overflow-auto yst-rounded-md yst-bg-white yst-text-base yst-shadow-lg yst-ring-1 yst-ring-black yst-ring-opacity-5 focus:yst-outline-none sm:yst-text-sm">
-								{ filteredOptions.map( ( option ) => {
-									return <Combobox.Option
+								{ isLoading && <div className="yst-flex yst-bg-white yst-sticky yst-z-20 yst-top-0 yst-py-2 yst-pl-3 yst-pr-9 yst-my-0"><Spinner className="yst-text-primary-500 yst-h-4 yst-w-4 yst-mr-2 yst-self-center" />{ __( "loading...", "wordpress-seo" ) }</div> }
+								{ filteredOptions.map( ( option ) => (
+									<Combobox.Option
 										key={ `yst-option-${ option.value }` }
 										value={ option }
 										className={ getOptionBasedStyles( option.value, value.value ) }
 									>
-										{ ( { selected } ) => (
-											<>
+										{ ( { selected } ) => {
+											return <>
 												<span className={ classNames( "yst-block yst-truncate", selected && "yst-font-semibold" ) }>{ option.label }</span>
-
 												{ ( selected || value.value === option.value ) && (
 													<span
 														className={ "yst-absolute yst-inset-y-0 yst-right-0 yst-flex yst-items-center yst-pr-4 yst-text-white" }
@@ -120,10 +120,10 @@ export default function YoastComboBox( { value, label, onChange, onQueryChange, 
 														<CheckIcon className="yst-h-5 yst-w-5" aria-hidden="true" />
 													</span>
 												) }
-											</>
-										) }
-									</Combobox.Option>;
-								} ) }
+											</>;
+										} }
+									</Combobox.Option>
+								 ) ) }
 							</Combobox.Options>
 						) }
 					</div>
@@ -143,6 +143,7 @@ YoastComboBox.propTypes = {
 	label: PropTypes.string,
 	onQueryChange: PropTypes.func,
 	placeholder: PropTypes.string,
+	isLoading: PropTypes.bool,
 };
 
 YoastComboBox.defaultProps = {
@@ -150,4 +151,5 @@ YoastComboBox.defaultProps = {
 	label: "",
 	onQueryChange: null,
 	placeholder: __( "Select an option", "wordpress-seo" ),
+	isLoading: false,
 };
