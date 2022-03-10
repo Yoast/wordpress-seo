@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "description": "Yoast UI library",
   "main": "build/index.js",
+  "style": "build/css/style.css",
+  "files": [ "build/**/*" ],
   "author": "Team Yoast <support@yoast.com>",
   "license": "GPL-3.0",
   "private": false,
@@ -16,6 +18,7 @@
     "build:storybook": "build-storybook",
     "publish:storybook": "./scripts/publish-storybook.sh",
     "test:storyshots": "yarn build-storybook && jest tests/storyshots.js",
+    "test": "yarn test:storyshots",
     "lint": "eslint src --max-warnings=0"
   },
   "devDependencies": {
