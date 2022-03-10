@@ -27,10 +27,12 @@ function fetchUsers( query = "" ) {
 /**
  * A user selector based on a headlessui combobox.
  *
- * @param {Object}   props            The props.
- * @param {Object}   initialValue     The option selected by default in the combo box select with shape {id, name}.
- * @param {function} onChangeCallback Function to manage a selected option.
- * @param {string}   placeholder      YoastCombobox text input placeholder.
+ * @param {Object}   props                    The props.
+ * @param {Object}   props.initialValue       The option selected by default in the combo box select with shape {id, name}.
+ * @param {number}   props.initialValue.value The id of the selected user.
+ * @param {string}   props.initialValue.label The name of the selected user.
+ * @param {function} props.onChangeCallback   Function to manage a selected option.
+ * @param {string}   props.placeholder        YoastCombobox text input placeholder.
  *
  * @returns {WPElement} A user selector based on a headlessui combobox.
  */
