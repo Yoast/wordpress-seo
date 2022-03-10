@@ -1,4 +1,3 @@
-/* eslint-disable no-undefined */
 import { Switch } from "@headlessui/react";
 import classNames from "classnames";
 import PropTypes from "prop-types";

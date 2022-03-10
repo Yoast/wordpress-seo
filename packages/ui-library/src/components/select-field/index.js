@@ -3,6 +3,7 @@ import classNames from "classnames";
 import PropTypes from "prop-types";
 import Label from "../../elements/label";
 import Select from "../../elements/select";
+import { useDescribedBy } from "../../hooks";
 
 /**
  * @param {string} id Identifier.
@@ -27,6 +28,8 @@ const SelectField = ( {
 	className,
 	...props
 } ) => {
+	const { ids, describedBy } = useDescribedBy( id, { error, description: children } );
+
 	return (
 		<div className={ classNames( "yst-select-field", className ) }>
 			{ label && <Label className="yst-select-field__label">{ label }</Label> }
@@ -37,10 +40,11 @@ const SelectField = ( {
 				onChange={ onChange }
 				isError={ Boolean( error ) }
 				className="yst-select-field__select"
+				buttonProps={ { "aria-describedby": describedBy } }
 				{ ...props }
 			/>
-			{ error && <p className="yst-select-field__error">{ error }</p> }
-			{ children && <div className="yst-select-field__description">{ children }</div> }
+			{ error && <p id={ ids.error } className="yst-select-field__error">{ error }</p> }
+			{ children && <div id={ ids.description } className="yst-select-field__description">{ children }</div> }
 		</div>
 	);
 };

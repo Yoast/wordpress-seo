@@ -3,6 +3,7 @@ import classNames from "classnames";
 import PropTypes from "prop-types";
 import Label from "../../elements/label";
 import TextInput from "../../elements/text-input";
+import { useDescribedBy } from "../../hooks";
 
 /**
  * @param {string} id The ID of the input.
@@ -22,27 +23,32 @@ const TextField = ( {
 	description,
 	error,
 	...props
-} ) => (
-	<div className={ classNames( "yst-text-field", className ) }>
-		{ label && <Label className="yst-text-field__label" htmlFor={ id }>{ label }</Label> }
-		<div className="yst-relative">
-			<TextInput
-				id={ id }
-				onChange={ onChange }
-				className={ classNames(
-					"yst-text-field__input",
-					error && "yst-text-field__input--error",
-				) }
-				{ ...props }
-			/>
-			{ error && <div className="yst-text-field__error-icon">
-				<ExclamationCircleIcon role="img" aria-hidden="true" />
-			</div> }
+} ) => {
+	const { ids, describedBy } = useDescribedBy( id, { error, description } );
+
+	return (
+		<div className={ classNames( "yst-text-field", className ) }>
+			{ label && <Label className="yst-text-field__label" htmlFor={ id }>{ label }</Label> }
+			<div className="yst-relative">
+				<TextInput
+					id={ id }
+					onChange={ onChange }
+					className={ classNames(
+						"yst-text-field__input",
+						error && "yst-text-field__input--error",
+					) }
+					aria-describedby={ describedBy }
+					{ ...props }
+				/>
+				{ error && <div className="yst-text-field__error-icon">
+					<ExclamationCircleIcon role="img" aria-hidden="true" />
+				</div> }
+			</div>
+			{ error && <p id={ ids.error } className="yst-text-field__error">{ error }</p> }
+			{ description && <p id={ ids.description } className="yst-text-field__description">{ description }</p> }
 		</div>
-		{ error && <p className="yst-text-field__error">{ error }</p> }
-		{ description && <p className="yst-text-field__description">{ description }</p> }
-	</div>
-);
+	);
+};
 
 TextField.propTypes = {
 	id: PropTypes.string.isRequired,
