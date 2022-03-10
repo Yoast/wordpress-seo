@@ -44,7 +44,6 @@ const Alert = ( {
 			{ ...props }
 		>
 			<Icon className="yst-alert__icon" />
-			{ /* TODO: @andrea this next div is purely structural. Does it affect a11y? */ }
 			<div>
 				{ children }
 			</div>

@@ -16,7 +16,7 @@ import Title from "../../elements/title";
  */
 const Modal = ( { isOpen, onClose, children, hasCloseButton, closeButtonScreenReaderText, className } ) => (
 	<Transition show={ isOpen } as={ Fragment }>
-		<Dialog as="div" className={classNames("yst-modal", className)} open={ isOpen } onClose={ onClose }>
+		<Dialog as="div" className={ classNames( "yst-modal", className ) } open={ isOpen } onClose={ onClose }>
 			<div className="yst-modal__body">
 				<Transition.Child
 					as={ Fragment }

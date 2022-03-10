@@ -66,6 +66,7 @@ export const Button = {
 	args: {
 		as: "button",
 		children: "Button",
+		// eslint-disable-next-line no-alert
 		onClick: () => alert( "You clicked the button!" ),
 	},
 };
