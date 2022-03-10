@@ -239,7 +239,7 @@ function _wpseo_activate() {
 	WPSEO_Utils::clear_cache();
 
 	// Schedule cronjob when it doesn't exists on activation.
-	$wpseo_ryte = new Ryte_Integration( new Options_Helper() );
+	$wpseo_ryte = YoastSEO()->classes->get( Ryte_Integration::class );
 	$wpseo_ryte->activate_hooks();
 
 	do_action( 'wpseo_activate' );

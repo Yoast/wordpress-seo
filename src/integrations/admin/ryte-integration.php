@@ -138,12 +138,12 @@ class Ryte_Integration implements Integration_Interface {
 	/**
 	 * Fetches the data from Ryte.
 	 *
-	 * @return bool|null Whether the request ran.
+	 * @return bool Whether the request ran.
 	 */
 	public function fetch_from_ryte() {
 		// Don't do anything when the WordPress environment type isn't "production".
 		if ( wp_get_environment_type() !== 'production' ) {
-			return null;
+			return false;
 		}
 
 		$ryte_option = $this->get_option();

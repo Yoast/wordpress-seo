@@ -59,7 +59,6 @@ class Ryte_Runner implements Runner_Interface {
 		$this->ryte               = $ryte;
 		$this->utils              = $utils;
 		$this->got_valid_response = false;
-		$this->response_error     = null;
 		$this->ryte_option        = $ryte->get_option();
 	}
 

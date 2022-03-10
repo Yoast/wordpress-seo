@@ -38,11 +38,8 @@ abstract class Health_Check {
 		$full_class_name            = \get_class( $this );
 		$class_name_backslash_index = \strrpos( $full_class_name, '\\' );
 
-		$class_name = '';
-		if ( ! $class_name_backslash_index ) {
-			$class_name = $full_class_name;
-		}
-		else {
+		$class_name = $full_class_name;
+		if ( $class_name_backslash_index ) {
 			$class_name_index = ( $class_name_backslash_index + 1 );
 			$class_name       = \substr( $full_class_name, $class_name_index );
 		}
