@@ -7539,10 +7539,6 @@
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
 
-"@yoast/babel-preset@link:packages/ui-library/packages/babel-preset":
-  version "0.0.0"
-  uid ""
-
 "@yoast/browserslist-config@file:packages/browserslist-config":
   version "1.2.2"
 
@@ -7578,18 +7574,6 @@
     grunt-wp-i18n "^1.0.3"
     load-grunt-config "^1.0.1"
     time-grunt "^1.0.0"
-
-"@yoast/jest-preset@link:packages/ui-library/packages/jest-preset":
-  version "0.0.0"
-  uid ""
-
-"@yoast/postcss-preset@link:packages/ui-library/packages/postcss-preset":
-  version "0.0.0"
-  uid ""
-
-"@yoast/tailwindcss-preset@link:packages/ui-library/packages/tailwindcss-preset":
-  version "0.0.0"
-  uid ""
 
 JSONStream@^1.0.4, JSONStream@^1.2.1, JSONStream@^1.3.5:
   version "1.3.5"
