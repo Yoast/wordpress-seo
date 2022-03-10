@@ -3,6 +3,7 @@ import { CheckIcon, ExclamationCircleIcon, SelectorIcon } from "@heroicons/react
 import { Fragment, useMemo } from "@wordpress/element";
 import classNames from "classnames";
 import PropTypes from "prop-types";
+import { useSvgAria } from "../../hooks";
 
 /**
  * @param {string} id Identifier.
@@ -29,6 +30,7 @@ const Select = ( {
 		// Default to first option if value is missing.
 		options.find( ( option ) => value === option.value ) || options[ 0 ]
 	), [ value, options ] );
+	const svgAriaProps = useSvgAria();
 
 	return (
 		<Listbox
@@ -46,9 +48,9 @@ const Select = ( {
 			<Listbox.Button className="yst-select__button" { ...buttonProps }>
 				<span className="yst-select__button-label">{ selectedOption.label }</span>
 				{ isError ? (
-					<ExclamationCircleIcon className="yst-select__button-icon yst-select__button-icon--error" role="img" aria-hidden="true" />
+					<ExclamationCircleIcon className="yst-select__button-icon yst-select__button-icon--error" { ...svgAriaProps } />
 				) : (
-					<SelectorIcon className="yst-select__button-icon" role="img" aria-hidden="true" />
+					<SelectorIcon className="yst-select__button-icon" { ...svgAriaProps } />
 				) }
 			</Listbox.Button>
 			<Transition
@@ -85,8 +87,7 @@ const Select = ( {
 												"yst-select__option-icon",
 												active && "yst-select__option-icon--active",
 											) }
-											role="img"
-											aria-hidden="true"
+											{ ...svgAriaProps }
 										/>
 									) }
 								</>

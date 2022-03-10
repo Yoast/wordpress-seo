@@ -3,6 +3,7 @@ import { CheckIcon, XIcon } from "@heroicons/react/solid";
 import classNames from "classnames";
 import { noop } from "lodash";
 import PropTypes from "prop-types";
+import { useSvgAria } from "../../hooks";
 
 /**
  * @param {string|JSX.Element} [as="button"] Base component.
@@ -19,22 +20,25 @@ const Toggle = ( {
 	disabled,
 	className,
 	...props
-} ) => (
-	<Switch
-		as={ Component }
-		checked={ checked }
-		disabled={ disabled }
-		onChange={ disabled ? noop : onChange }
-		className={ classNames(
-			"yst-toggle",
-			checked && "yst-toggle--checked",
-			disabled && "yst-toggle--disabled",
-			className,
-		) }
-		{ ...props }
-	>
-		<span className="yst-sr-only">Toggle</span>
-		<span className="yst-toggle__handle">
+} ) => {
+	const svgAriaProps = useSvgAria();
+
+	return (
+		<Switch
+			as={ Component }
+			checked={ checked }
+			disabled={ disabled }
+			onChange={ disabled ? noop : onChange }
+			className={ classNames(
+				"yst-toggle",
+				checked && "yst-toggle--checked",
+				disabled && "yst-toggle--disabled",
+				className,
+			) }
+			{ ...props }
+		>
+			<span className="yst-sr-only">Toggle</span>
+			<span className="yst-toggle__handle">
 			<Transition
 				show={ checked }
 				unmount={ false }
@@ -46,7 +50,7 @@ const Toggle = ( {
 				leaveFrom="yst-opacity-100"
 				leaveTo="yst-opacity-0 yst-hidden"
 			>
-				<CheckIcon className="yst-toggle__icon yst-toggle__icon--check" role="img" aria-hidden="true" />
+				<CheckIcon className="yst-toggle__icon yst-toggle__icon--check" { ...svgAriaProps } />
 			</Transition>
 			<Transition
 				show={ ! checked }
@@ -58,11 +62,12 @@ const Toggle = ( {
 				leaveFrom="yst-opacity-100"
 				leaveTo="yst-opacity-0 yst-hidden"
 			>
-				<XIcon className="yst-toggle__icon yst-toggle__icon--x" role="img" aria-hidden="true" />
+				<XIcon className="yst-toggle__icon yst-toggle__icon--x" { ...svgAriaProps } />
 			</Transition>
 		</span>
-	</Switch>
-);
+		</Switch>
+	);
+};
 
 Toggle.propTypes = {
 	as: PropTypes.elementType,

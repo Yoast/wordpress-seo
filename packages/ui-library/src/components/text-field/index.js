@@ -3,7 +3,7 @@ import classNames from "classnames";
 import PropTypes from "prop-types";
 import Label from "../../elements/label";
 import TextInput from "../../elements/text-input";
-import { useDescribedBy } from "../../hooks";
+import { useDescribedBy, useSvgAria } from "../../hooks";
 
 /**
  * @param {string} id The ID of the input.
@@ -25,6 +25,7 @@ const TextField = ( {
 	...props
 } ) => {
 	const { ids, describedBy } = useDescribedBy( id, { error, description } );
+	const svgAriaProps = useSvgAria();
 
 	return (
 		<div className={ classNames( "yst-text-field", className ) }>
@@ -41,7 +42,7 @@ const TextField = ( {
 					{ ...props }
 				/>
 				{ error && <div className="yst-text-field__error-icon">
-					<ExclamationCircleIcon role="img" aria-hidden="true" />
+					<ExclamationCircleIcon { ...svgAriaProps } />
 				</div> }
 			</div>
 			{ error && <p id={ ids.error } className="yst-text-field__error">{ error }</p> }

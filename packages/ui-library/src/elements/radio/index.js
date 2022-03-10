@@ -1,8 +1,7 @@
-/* eslint-disable no-undefined */
+import { CheckCircleIcon } from "@heroicons/react/solid";
 import classNames from "classnames";
 import PropTypes from "prop-types";
-import { CheckCircleIcon } from "@heroicons/react/solid";
-
+import { useSvgAria } from "../../hooks";
 import Label from "../label";
 
 const classNameMap = {
@@ -30,6 +29,8 @@ const Radio = ( {
 	className,
 	...props
 } ) => {
+	const svgAriaProps = useSvgAria();
+
 	if ( variant === "inline-block" ) {
 		return (
 			<div
@@ -37,7 +38,7 @@ const Radio = ( {
 					"yst-radio",
 					"yst-radio--inline-block",
 					className,
-				 ) }
+				) }
 			>
 				<input
 					type="radio"
@@ -49,7 +50,7 @@ const Radio = ( {
 				/>
 				<label htmlFor={ id } className="yst-radio__label">
 					{ label }
-					<CheckCircleIcon className="yst-radio__check" role="img" aria-hidden="true" />
+					<CheckCircleIcon className="yst-radio__check" { ...svgAriaProps } />
 				</label>
 			</div>
 		);

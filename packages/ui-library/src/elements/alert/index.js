@@ -1,6 +1,7 @@
 import { CheckCircleIcon, ExclamationIcon, InformationCircleIcon, XCircleIcon } from "@heroicons/react/solid";
 import classNames from "classnames";
 import PropTypes from "prop-types";
+import { useSvgAria } from "../../hooks";
 
 const classNameMap = {
 	variant: {
@@ -40,6 +41,8 @@ const Alert = ( {
 	...props
 } ) => {
 	const Icon = iconMap[ variant ];
+	const svgAriaProps = useSvgAria();
+
 	return (
 		<Component
 			className={ classNames(
@@ -50,7 +53,7 @@ const Alert = ( {
 			role={ roleMap[ role ] }
 			{ ...props }
 		>
-			<Icon className="yst-alert__icon" role="img" aria-hidden="true" />
+			<Icon className="yst-alert__icon" { ...svgAriaProps } />
 			<div>
 				{ children }
 			</div>
