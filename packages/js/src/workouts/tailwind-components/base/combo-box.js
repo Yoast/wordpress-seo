@@ -21,7 +21,13 @@ function getDisplayValue( selectedOption ) {
 /**
  * The Yoast version of a Tailwind Combobox.
  *
- * @param {Object} props The props object.
+ * @param {Object}   props               The props object.
+ * @param {Object}   props.value         Selected user in the form of {id, name}.
+ * @param {string}   props.label         Combobox label.
+ * @param {function} props.onChange      Function to manage a selected option.
+ * @param {function} props.onQueryChange Function to be called when the text inside the text input changes.
+ * @param {array}    props.options       Combobox select options.
+ * @param {string}   props.placeholder   Combobox text input placeholder.
  *
  * @returns {WPElement} The Yoast version of a Tailwind Combobox.
  */
