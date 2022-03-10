@@ -140,7 +140,6 @@ class Configuration_Workout_Integration implements Integration_Interface {
 		if ( \is_array( $selected_option ) ) {
 			$selected_option_label = $selected_option['label'];
 		}
-
 		$this->admin_asset_manager->add_inline_script(
 			'workouts',
 			\sprintf(
@@ -370,11 +369,11 @@ class Configuration_Workout_Integration implements Integration_Interface {
 		];
 		if ( $this->should_force_company() ) {
 			$options = [
-				[
-					'label' => __( 'Organization', 'wordpress-seo' ),
-					'value' => 'company',
-					'id'    => 'company',
-				],
+                [
+				'label' => \__( 'Organization', 'wordpress-seo' ),
+				'value' => 'company',
+				'id'    => 'company',
+                ],
 			];
 		}
 
