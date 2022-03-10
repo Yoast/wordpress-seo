@@ -23,11 +23,11 @@ class Classes_Surface {
 	/**
 	 * Returns the instance of a class. Handy for unhooking things.
 	 *
-	 * @param string $class The class to get the instance of.
+	 * @param string $class_name The class to get the instance of.
 	 *
 	 * @return mixed The instance of the class.
 	 */
-	public function get( $class ) {
-		return $this->container->get( $class );
+	public function get( $class_name ) {
+		return $this->container->get( $class_name );
 	}
 }

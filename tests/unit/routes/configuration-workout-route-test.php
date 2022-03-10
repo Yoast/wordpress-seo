@@ -5,7 +5,6 @@ namespace Yoast\WP\SEO\Tests\Unit\Routes;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Actions\Configuration\Configuration_Workout_Action;
-use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Routes\Configuration_Workout_Route;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 

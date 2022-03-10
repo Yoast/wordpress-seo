@@ -55,8 +55,12 @@ $integration_toggles = Yoast_Integration_Toggles::instance()->get_all();
 					'off' => __( 'Disable', 'wordpress-seo' ),
 				],
 				$integration->name,
-				$feature_help->get_button_html() . $feature_help->get_panel_html()
+				$feature_help->get_button_html() . $feature_help->get_panel_html(),
+				[ 'disabled' => $integration->disabled ]
 			);
+
+			do_action( 'Yoast\WP\SEO\admin_network_integration_after', $integration );
+
 		}
 		?>
 	</div>

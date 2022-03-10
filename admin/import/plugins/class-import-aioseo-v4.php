@@ -5,8 +5,9 @@
  * @package WPSEO\Admin\Import\Plugins
  */
 
-use Yoast\WP\SEO\Actions\Importing\Aioseo_Cleanup_Action;
-use Yoast\WP\SEO\Actions\Importing\Aioseo_Posts_Importing_Action;
+use Yoast\WP\SEO\Actions\Importing\Aioseo\Aioseo_Cleanup_Action;
+use Yoast\WP\SEO\Actions\Importing\Aioseo\Aioseo_Posts_Importing_Action;
+
 /**
  * Class with functionality to import & clean All in One SEO Pack post metadata, versions 4 and up.
  */

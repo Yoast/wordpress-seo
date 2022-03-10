@@ -2,7 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Doubles\Actions\Importing;
 
-use Yoast\WP\SEO\Actions\Importing\Aioseo_Custom_Archive_Settings_Importing_Action;
+use Yoast\WP\SEO\Actions\Importing\Aioseo\Aioseo_Custom_Archive_Settings_Importing_Action;
 
 /**
  * Class Aioseo_Custom_Archive_Settings_Importing_Action_Double
@@ -29,18 +29,6 @@ abstract class Aioseo_Custom_Archive_Settings_Importing_Action_Double extends Ai
 	 */
 	public function query( $limit = null ) {
 		return parent::query( $limit );
-	}
-
-	/**
-	 * Flattens the multidimensional array of AIOSEO settings. Recursive.
-	 *
-	 * @param array  $array    The array to be flattened.
-	 * @param string $main_key The key to be used as a base.
-	 *
-	 * @return array The flattened array.
-	 */
-	public function flatten_settings( $array, $main_key = '' ) {
-		return parent::flatten_settings( $array, $main_key );
 	}
 
 	/**

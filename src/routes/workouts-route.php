@@ -102,7 +102,7 @@ class Workouts_Route implements Route_Interface {
 
 		$result = $this->options_helper->set( 'workouts_data', $free_workouts_data );
 
-		if ( count( $free_workouts_data['configuration']['finishedSteps'] ) === 5 ) {
+		if ( \count( $free_workouts_data['configuration']['finishedSteps'] ) === 5 ) {
 			$this->options_helper->set( 'first_time_install', false );
 		}
 

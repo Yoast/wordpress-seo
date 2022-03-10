@@ -8,6 +8,9 @@ We follow [Semantic Versioning](http://semver.org/).
 ### Other
 * Adds a way to change the link in the `WordOccurenceInsights` component.
 
+### Non user facing
+* Changes the `imageAltText` prop from the `ImageSelect` component to no longer be required.
+
 
 ## 2.20.0
 ### Enhancements

@@ -4,9 +4,9 @@ namespace Yoast\WP\SEO\Tests\Unit\Routes;
 
 use Brain\Monkey;
 use Mockery;
-use Yoast\WP\SEO\Actions\Wincher\Wincher_Login_Action;
 use Yoast\WP\SEO\Actions\Wincher\Wincher_Account_Action;
 use Yoast\WP\SEO\Actions\Wincher\Wincher_Keyphrases_Action;
+use Yoast\WP\SEO\Actions\Wincher\Wincher_Login_Action;
 use Yoast\WP\SEO\Conditionals\Wincher_Enabled_Conditional;
 use Yoast\WP\SEO\Routes\Wincher_Route;
 use Yoast\WP\SEO\Tests\Unit\TestCase;

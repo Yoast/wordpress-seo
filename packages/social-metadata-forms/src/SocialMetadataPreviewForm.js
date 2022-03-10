@@ -167,6 +167,7 @@ class SocialMetadataPreviewForm extends Component {
 			recommendedReplacementVariables,
 			imageWarnings,
 			imageUrl,
+			imageAltText,
 			idSuffix,
 		} = this.props;
 
@@ -194,6 +195,7 @@ class SocialMetadataPreviewForm extends Component {
 					isActive={ activeField === "image" }
 					isHovered={ hoveredField === "image" }
 					imageUrl={ imageUrl }
+					imageAltText={ imageAltText }
 					hasPreview={ ! isPremium }
 					imageUrlInputId={ join( [ lowerCaseSocialMediumName, "url-input", idSuffix ] ) }
 					selectImageButtonId={ join( [ lowerCaseSocialMediumName, "select-button", idSuffix ] ) }
@@ -257,6 +259,7 @@ SocialMetadataPreviewForm.propTypes = {
 	recommendedReplacementVariables: PropTypes.arrayOf( PropTypes.string ),
 	imageWarnings: PropTypes.array,
 	imageUrl: PropTypes.string,
+	imageAltText: PropTypes.string,
 	titleInputPlaceholder: PropTypes.string,
 	descriptionInputPlaceholder: PropTypes.string,
 	setEditorRef: PropTypes.func,
@@ -272,6 +275,7 @@ SocialMetadataPreviewForm.defaultProps = {
 	activeField: "",
 	onSelect: () => {},
 	imageUrl: "",
+	imageAltText: "",
 	titleInputPlaceholder: "",
 	descriptionInputPlaceholder: "",
 	isPremium: false,

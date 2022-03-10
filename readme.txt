@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 5.9
-Stable tag: 18.1
+Stable tag: 18.3
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -236,42 +236,43 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
-= 18.2 =
-Release Date: February 22nd, 2022
+= 18.4 =
+Release Date: March 22nd, 2022
 
 Enhancements:
 
-* Optimizes the images in FAQ and HowTo blocks to be more responsive and load faster.
-* Adds a filter to enable/disable creating indexables: `Yoast\WP\SEO\should_index_indexables`
+* Adds the possibility to timestamp your Privacy Policy page by use of a WordProof certificate.
 
 Bugfixes:
 
-* Fixes a bug where the "Save changes" button would overlap with the admin sidebar on WordPress.com. Props to @DustyReagan.
-* Fixes a bug where a (debug) deprecation message would show in the widget editor on WordPress 5.8 and above.
-* Fixes a bug where a console warning would be thrown when adding a structured data block in the block editor, FSE editor or widget editor.
+* Fixes a bug where the Google preview would display wrong breadcrumbs for child pages.
+* Fixes a potential error related to the `has_ancestors` column of our indexables table. Props to @junaidbhura.
 
 Other:
 
-* Adds an isset magic method to ease working with helper surfaces. Props to @nlemoine.
+* Sets the minimum required WordPress version to 5.8.
 
-= 18.1 =
-Release Date: February 8th, 2022
+= 18.3 =
+Release Date: March 8th, 2022
 
-Yoast SEO 18.1 is out today! This new release brings another round of bug fixes, plus a new way for us to handle the translations in our plugin — leading to a smaller plugin size for you to install. Read more about what's new in Yoast SEO 18.1 in [our release post in English](https://yoa.st/release-8-2-22) or [our release post in Spanish](https://yoa.st/release-8-2-22-spanish)!
+Meet Yoast SEO 18.3! For this release, we did another round of fixes and improvements. Read more about what's new in Yoast SEO 18.3 in [our release post in English](https://yoa.st/release-8-3-22) or [our release post in Spanish](https://yoa.st/release-8-3-22-spanish)!
 
 Enhancements:
 
-* Changes the overall SEO score color on the post type overview pages to red when no keyphrase is set.
+* Improves the importer so you can now import `post_meta`, `robot_txt` and search appearance options when moving from All-In-One SEO to Yoast SEO.
+* Improves feedback strings for the Keyphrase Length assessment by making it explicit that we only count content words for languages with function word support.
 
 Bugfixes:
 
-* Fixes a bug where images inserted into our FAQ or HowTo blocks would be rendered wider then their respective container when using a Block Theme.
-* Fixes a bug where plugins that would initialize after our plugin would be unable to register certain plugin information or utilize certain hooks.
-* Fixes a bug where capitalized keyphrases would show up twice in the Wincher SEO performance tracking modal. 
+* Fixes a bug where the Force rewrite titles option would be shown when a user was using a block-based theme.
+* Fixes a bug where the title of a page would not get included in our `get_head` REST route.
+* Fixes a bug where URLs in the XML sitemaps in certain edge cases would potentially be mangled, most notably when schema-relative URLs were being used.
+* Fixes an issue where HowTo images would not be optimized if they did not start with the site URL.
+* Fixes a bug where HowTo images with custom width would lose their custom width in the Twenty Twenty-One theme.
 
 Other:
 
-* Switches from packaged script translations to those from wordpress.org in order to reduce ZIP size and disk usage.
+* Fixes an incompatibility with Elementor 3.6.0 where the React contents of the Yoast tab in Elementor were not rendered.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
