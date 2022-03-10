@@ -146,9 +146,9 @@ class Aioseo_Validate_Data_Action extends Abstract_Aioseo_Importing_Action {
 		$this->set_completed( true );
 
 		return [
-			'validated_aioseo_table'          => $validated_aioseo_table,
-			'validated_aioseo_settings'       => $validated_aioseo_settings,
-			'validated_robot_settings'        => $validated_robot_settings,
+			'validated_aioseo_table'    => $validated_aioseo_table,
+			'validated_aioseo_settings' => $validated_aioseo_settings,
+			'validated_robot_settings'  => $validated_robot_settings,
 		];
 	}
 
@@ -208,7 +208,7 @@ class Aioseo_Validate_Data_Action extends Abstract_Aioseo_Importing_Action {
 	 *
 	 * @return bool Whether the post AIOSEO robots settings from the options table exist and have the structure we expect.
 	 */
-	private function validate_post_robot_settings() {
+	public function validate_post_robot_settings() {
 		$post_robot_mapping = $this->post_importing_action->enhance_mapping();
 		// We're gonna validate against posttype robot settings only for posts, assuming the robot settings stay the same for other post types.
 		$post_robot_mapping['subtype'] = 'post';
@@ -236,15 +236,16 @@ class Aioseo_Validate_Data_Action extends Abstract_Aioseo_Importing_Action {
 	}
 
 	/**
-	 * Validates the default AIOSEO robots settings for search appearance settings from the options table for.
+	 * Validates the default AIOSEO robots settings for search appearance settings from the options table.
 	 *
 	 * @return bool Whether the AIOSEO robots settings for search appearance settings from the options table exist and have the structure we expect.
 	 */
-	private function validate_default_robot_settings() {
+	public function validate_default_robot_settings() {
 
 		foreach ( $this->settings_importing_actions as $settings_import_action ) {
 			$robot_setting_map = $settings_import_action->pluck_robot_setting_from_mapping();
 
+			// Some actions return empty robot settings, let's not validate against those.
 			if ( ! empty( $robot_setting_map ) ) {
 				$aioseo_settings = \json_decode( \get_option( $robot_setting_map['option_name'], '' ), true );
 

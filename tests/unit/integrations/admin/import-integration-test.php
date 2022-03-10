@@ -123,6 +123,8 @@ class Import_Integration_Test extends TestCase {
 	 * @covers ::enqueue_import_script
 	 * @covers ::get_importing_endpoints
 	 * @covers ::get_import_failure_alert
+	 * @covers ::get_validation_failure_alert
+	 * @covers ::sort_actions
 	 */
 	public function test_enqueue_import_script() {
 		Monkey\Functions\expect( 'wp_enqueue_style' )
@@ -136,7 +138,7 @@ class Import_Integration_Test extends TestCase {
 			->andReturn( 'https://example.org/wp-ajax/' );
 
 		$expected_import_detections = [
-			'aioseo' => [ 'posts' ],
+			'aioseo' => [ 'posts', 'validate_data' ],
 		];
 
 		$expected_cleanup_detections = [
@@ -156,6 +158,12 @@ class Import_Integration_Test extends TestCase {
 			->once()
 			->with( 'aioseo', 'posts' )
 			->andReturn( 'yoast/v1/import/aioseo/posts' );
+
+		$this->importing_route
+			->expects( 'get_endpoint' )
+			->once()
+			->with( 'aioseo', 'validate_data' )
+			->andReturn( 'yoast/v1/import/aioseo/validate_data' );
 
 		$this->importing_route
 			->expects( 'get_endpoint' )
@@ -184,6 +192,7 @@ class Import_Integration_Test extends TestCase {
 				],
 				'importing_endpoints' => [
 					'aioseo' => [
+						'yoast/v1/import/aioseo/validate_data',
 						'yoast/v1/import/aioseo/posts',
 					],
 				],
@@ -196,6 +205,7 @@ class Import_Integration_Test extends TestCase {
 				'cleanup_after_import_msg' => 'After you\'ve imported data from another SEO plugin, please make sure to clean up all the original data from that plugin. (step 5)',
 				'select_placeholder'       => 'Select SEO plugin',
 				'no_data_msg'              => 'No data found from other SEO plugins.',
+				'validation_failure'       => '<div class="yoast-alert yoast-alert--error"><span><img class="yoast-alert__icon" src="https://example.org/wp-content/plugins/images/alert-error-icon.svg" alt="" /></span><span>%s</span></div>',
 				'import_failure'           => '<div class="yoast-alert yoast-alert--error"><span><img class="yoast-alert__icon" src="https://example.org/wp-content/plugins/images/alert-error-icon.svg" alt="" /></span><span>Import failed with the following error:<br/><br/>%s</span></div>',
 				'cleanup_failure'          => '<div class="yoast-alert yoast-alert--error"><span><img class="yoast-alert__icon" src="https://example.org/wp-content/plugins/images/alert-error-icon.svg" alt="" /></span><span>Cleanup failed with the following error:<br/><br/>%s</span></div>',
 				'spinner'                  => 'https://example.org/wp-admin/images/loading.gif',
