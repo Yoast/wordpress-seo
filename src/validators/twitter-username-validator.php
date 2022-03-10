@@ -64,6 +64,6 @@ class Twitter_Username_Validator extends Text_Field_Validator {
 		} catch ( Abstract_Validation_Exception $e ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch -- Deliberately left empty.
 		}
 
-		throw new Invalid_Twitter_Username_Exception( $twitter_username );
+		throw new Invalid_Twitter_Username_Exception( $string );
 	}
 }
