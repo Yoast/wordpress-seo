@@ -99,7 +99,10 @@ class Site_Options_Service extends Abstract_Options_Service {
 		],
 		'twitter_site'                                        => [
 			'default' => '',
-			'types'   => [ 'string' ],
+			'types'   => [
+				'empty_string',
+				'twitter_username',
+			],
 		],
 		'wikipedia_url'                                       => [
 			'default' => '',
