@@ -123,7 +123,7 @@ class Indexable_Post_Builder_Test extends TestCase {
 	 */
 	protected function set_indexable_set_expectations( $indexable_mock, $expectations ) {
 		foreach ( $expectations as $key => $value ) {
-			$closure = function ( $actual_key, $actual_value ) use ( $key, $value ) {
+			$closure = static function ( $actual_key, $actual_value ) use ( $key, $value ) {
 				if ( $actual_key === $key && $actual_value === $value ) {
 					return true;
 

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "test": "jest -u",
-    "lint": "eslint src tests --max-warnings=153"
+    "lint": "eslint src tests --max-warnings=152"
   },
   "jest": {
     "setupTestFrameworkScriptFile": "<rootDir>/tests/setupTests.js",
@@ -31,6 +31,7 @@
   },
   "dependencies": {
     "@draft-js-plugins/mention": "^5.0.0",
+    "@wordpress/blocks": "^11.1.2",
     "@wordpress/data": "^4.10.0",
     "@wordpress/dom-ready": "^2.10.0",
     "@wordpress/element": "^2.19.1",

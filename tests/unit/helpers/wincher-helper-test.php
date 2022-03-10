@@ -7,8 +7,8 @@ use Mockery;
 use Yoast\WP\SEO\Config\Wincher_Client;
 use Yoast\WP\SEO\Exceptions\OAuth\Authentication_Failed_Exception;
 use Yoast\WP\SEO\Exceptions\OAuth\Tokens\Empty_Token_Exception;
-use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Helpers\Wincher_Helper;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Values\OAuth\OAuth_Token;
 
 /**

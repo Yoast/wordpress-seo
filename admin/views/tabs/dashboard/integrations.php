@@ -60,9 +60,20 @@ $integration_toggles = Yoast_Integration_Toggles::instance()->get_all();
 				$name .= ' ' . new Premium_Badge_Presenter( $integration->name );
 			}
 
+			$attributes = [];
+
 			$disabled = false;
 			if ( $integration->premium === true && YoastSEO()->helpers->product->is_premium() === false ) {
-				$disabled = true;
+				$attributes = [ 'disabled' => true ];
+			}
+
+			// If the integration is disabled, do not show note showing
+			// the integration is disabled by network admin.
+			if ( isset( $integration->disabled ) && $integration->disabled === true ) {
+				$attributes = [
+					'disabled'           => true,
+					'show_disabled_note' => false,
+				];
 			}
 
 			$yform->toggle_switch(
@@ -73,7 +84,7 @@ $integration_toggles = Yoast_Integration_Toggles::instance()->get_all();
 				],
 				$name,
 				$feature_help->get_button_html() . $feature_help->get_panel_html(),
-				[ 'disabled' => $disabled ]
+				$attributes
 			);
 
 			do_action( 'Yoast\WP\SEO\admin_integration_after', $integration );

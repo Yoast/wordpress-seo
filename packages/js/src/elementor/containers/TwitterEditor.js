@@ -1,57 +1,23 @@
 /* External dependencies */
 import { compose } from "@wordpress/compose";
 import { withDispatch, withSelect, dispatch as wpDataDispatch } from "@wordpress/data";
-import { validateTwitterImage } from "@yoast/helpers";
 
 /* Internal dependencies */
 import TwitterWrapper from "../../components/social/TwitterWrapper";
 import getL10nObject from "../../analysis/getL10nObject";
 import withLocation from "../../helpers/withLocation";
 import { getCurrentReplacementVariablesForEditor } from "../replaceVars/elementor-replacevar-plugin";
+import { openMedia, prepareTwitterPreviewImage } from "../../helpers/selectMedia";
 
 const socialMediumName = "Twitter";
-
-/**
- * The cached instance of the media object.
- *
- * @type {wp.media} The media object
- */
-let media = null;
-
-/**
- * Lazy function to get the media object and hook the right action dispatchers.
- *
- * @returns {void}
- */
-const getMedia = () => {
-	if ( ! media ) {
-		media = window.wp.media();
-		// Listens for the selection of an image. Then gets the right data and dispatches the data to the store.
-		media.on( "select", () => {
-			const selected = media.state().get( "selection" ).first();
-			const image = {
-				type: selected.attributes.subtype,
-				width: selected.attributes.width,
-				height: selected.attributes.height,
-			};
-			wpDataDispatch( "yoast-seo/editor" ).setTwitterPreviewImage( {
-				url: selected.attributes.url,
-				id: selected.attributes.id,
-				warnings: validateTwitterImage( image ),
-			} );
-		} );
-	}
-
-	return media;
-};
 
 /**
  * Lazy function to open the media instance.
  *
  * @returns {void}
  */
-const openMedia = () => {
-	return getMedia().open();
+const selectMedia = () => {
+	openMedia( ( image ) => wpDataDispatch( "yoast-seo/editor" ).setTwitterPreviewImage( prepareTwitterPreviewImage( image ) ) );
 };
 
 /* eslint-disable complexity */
@@ -77,6 +43,7 @@ export default compose( [
 			getSeoDescriptionTemplate,
 			getSocialDescriptionTemplate,
 			getEditorDataExcerptWithFallback,
+			getTwitterAltText,
 		} = select( "yoast-seo/editor" );
 
 		const titleInputPlaceholder  = "";
@@ -109,6 +76,7 @@ export default compose( [
 			titleInputPlaceholder,
 			descriptionInputPlaceholder,
 			socialMediumName,
+			alt: getTwitterAltText(),
 		};
 	} ),
 
@@ -121,7 +89,7 @@ export default compose( [
 		} = dispatch( "yoast-seo/editor" );
 
 		return {
-			onSelectImageClick: openMedia,
+			onSelectImageClick: selectMedia,
 			onRemoveImageClick:	clearTwitterPreviewImage,
 			onDescriptionChange: setTwitterPreviewDescription,
 			onTitleChange: setTwitterPreviewTitle,

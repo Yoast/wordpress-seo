@@ -72,7 +72,7 @@ class SEMrush_Client extends OAuth_Client {
 	public function do_request( $method, $url, array $options ) {
 		// Add the access token to the GET parameters as well since this is what
 		// the SEMRush API expects.
-		$options = array_merge_recursive(
+		$options = \array_merge_recursive(
 			$options,
 			[
 				'params' => [

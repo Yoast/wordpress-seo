@@ -14,8 +14,8 @@ use Yoast\WP\SEO\Helpers\Indexing_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Indexing_Tool_Integration;
-use Yoast\WP\SEO\Services\Importing\Importable_Detector;
 use Yoast\WP\SEO\Routes\Importing_Route;
+use Yoast\WP\SEO\Services\Importing\Importable_Detector_Service;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -80,7 +80,7 @@ class Indexing_Tool_Integration_Test extends TestCase {
 	/**
 	 * The Importable Detector service.
 	 *
-	 * @var Importable_Detector
+	 * @var Importable_Detector_Service
 	 */
 	protected $importable_detector;
 
@@ -106,7 +106,7 @@ class Indexing_Tool_Integration_Test extends TestCase {
 		$this->indexing_helper     = Mockery::mock( Indexing_Helper::class );
 		$this->addon_manager       = Mockery::mock( WPSEO_Addon_Manager::class );
 		$this->product_helper      = Mockery::mock( Product_Helper::class );
-		$this->importable_detector = Mockery::mock( Importable_Detector::class );
+		$this->importable_detector = Mockery::mock( Importable_Detector_Service::class );
 		$this->importing_route     = Mockery::mock( Importing_Route::class );
 
 		$this->instance = new Indexing_Tool_Integration(
@@ -152,7 +152,7 @@ class Indexing_Tool_Integration_Test extends TestCase {
 			self::getPropertyValue( $this->instance, 'product_helper' )
 		);
 		static::assertInstanceOf(
-			Importable_Detector::class,
+			Importable_Detector_Service::class,
 			self::getPropertyValue( $this->instance, 'importable_detector' )
 		);
 		static::assertInstanceOf(

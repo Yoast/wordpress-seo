@@ -3,7 +3,8 @@
 namespace Yoast\WP\SEO\Tests\Unit\Actions\Importing;
 
 use Mockery;
-use Yoast\WP\SEO\Actions\Importing\Aioseo_Cleanup_Action;
+use wpdb;
+use Yoast\WP\SEO\Actions\Importing\Aioseo\Aioseo_Cleanup_Action;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Wpdb_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -14,7 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group actions
  * @group importing
  *
- * @coversDefaultClass \Yoast\WP\SEO\Actions\Importing\Aioseo_Cleanup_Action
+ * @coversDefaultClass \Yoast\WP\SEO\Actions\Importing\Aioseo\Aioseo_Cleanup_Action
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Aioseo_Cleanup_Action_Test extends TestCase {
@@ -29,7 +30,7 @@ class Aioseo_Cleanup_Action_Test extends TestCase {
 	/**
 	 * The mocked WordPress database object.
 	 *
-	 * @var Mockery\MockInterface|\wpdb
+	 * @var Mockery\MockInterface|wpdb
 	 */
 	protected $wpdb;
 

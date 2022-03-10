@@ -81,6 +81,13 @@ class Yoast_Feature_Toggle {
 	protected $order = 100;
 
 	/**
+	 * Disable the integration toggle.
+	 *
+	 * @var bool
+	 */
+	protected $disabled = false;
+
+	/**
 	 * Constructor.
 	 *
 	 * Sets the feature toggle arguments.
@@ -96,6 +103,7 @@ class Yoast_Feature_Toggle {
 	 *     @type string $extra           Additional help content for the feature. Default empty string.
 	 *     @type int    $order           Value to specify the feature toggle order. A lower value indicates
 	 *                                   a higher priority. Default 100.
+	 *     @type bool   $disabled        Disable the integration toggle. Default false.
 	 * }
 	 *
 	 * @throws InvalidArgumentException Thrown when a required argument is missing.
