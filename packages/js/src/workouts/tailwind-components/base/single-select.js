@@ -59,7 +59,7 @@ export default function Select( { id, value, choices, label, onChange, error } )
 							>
 								<Listbox.Options
 									static={ true }
-									className="yst-absolute yst-z-10 yst-w-full yst-py-1 yst-mt-1 yst-overflow-auto yst-bg-white yst-rounded-md yst-shadow-lg yst-max-h-60 yst-ring-1 yst-ring-black yst-ring-opacity-5 focus:yst-outline-none sm:yst-text-sm"
+									className="yst-absolute yst-z-10 yst-w-full yst-mt-1 yst-overflow-auto yst-bg-white yst-rounded-md yst-shadow-lg yst-max-h-60 yst-ring-1 yst-ring-black yst-ring-opacity-5 focus:yst-outline-none sm:yst-text-sm"
 								>
 									{ choices.map( ( choice ) => (
 										<Listbox.Option

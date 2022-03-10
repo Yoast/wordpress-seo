@@ -94,7 +94,7 @@ export default function YoastComboBox( { value, label, onChange, onQueryChange, 
 						</Combobox.Button>
 
 						{ ( filteredOptions.length > 0 ) && (
-							<Combobox.Options className="yst-absolute yst-z-10 yst-mt-1 yst-max-h-60 yst-w-full yst-overflow-auto yst-rounded-md yst-bg-white yst-py-1 yst-text-base yst-shadow-lg yst-ring-1 yst-ring-black yst-ring-opacity-5 focus:yst-outline-none sm:yst-text-sm">
+							<Combobox.Options className="yst-absolute yst-z-10 yst-mt-1 yst-max-h-60 yst-w-full yst-overflow-auto yst-rounded-md yst-bg-white yst-text-base yst-shadow-lg yst-ring-1 yst-ring-black yst-ring-opacity-5 focus:yst-outline-none sm:yst-text-sm">
 								{ filteredOptions.map( ( option ) => {
 									return <Combobox.Option
 										key={ `yst-option-${ option.value }` }

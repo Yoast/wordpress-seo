@@ -370,9 +370,11 @@ class Configuration_Workout_Integration implements Integration_Interface {
 		];
 		if ( $this->should_force_company() ) {
 			$options = [
-				'label' => __( 'Organization', 'wordpress-seo' ),
-				'value' => 'company',
-				'id'    => 'company',
+				[
+					'label' => __( 'Organization', 'wordpress-seo' ),
+					'value' => 'company',
+					'id'    => 'company',
+				],
 			];
 		}
 
