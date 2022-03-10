@@ -2,6 +2,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { XIcon } from "@heroicons/react/outline";
 import { Fragment } from "@wordpress/element";
 import { PropTypes } from "prop-types";
+import classNames from "classnames";
 import Title from "../../elements/title";
 
 /**
@@ -10,11 +11,12 @@ import Title from "../../elements/title";
  * @param {JSX.node} children Contents of the modal.
  * @param {boolean} [hasCloseButton=true] Whether the modal has a close button.
  * @param {boolean} [closeButtonScreenReaderText="Close"] The screenreader text of the close button.
+ * @param {string} [className=""] Additional class names.
  * @returns {JSX.Element} The modal.
  */
-const Modal = ( { isOpen, onClose, children, hasCloseButton, closeButtonScreenReaderText } ) => (
+const Modal = ( { isOpen, onClose, children, hasCloseButton, closeButtonScreenReaderText, className } ) => (
 	<Transition show={ isOpen } as={ Fragment }>
-		<Dialog as="div" className="yst-modal" open={ isOpen } onClose={ onClose }>
+		<Dialog as="div" className={classNames("yst-modal", className)} open={ isOpen } onClose={ onClose }>
 			<div className="yst-modal__body">
 				<Transition.Child
 					as={ Fragment }
@@ -68,11 +70,13 @@ Modal.propTypes = {
 	children: PropTypes.node.isRequired,
 	hasCloseButton: PropTypes.bool,
 	closeButtonScreenReaderText: PropTypes.string,
+	className: PropTypes.string,
 };
 
 Modal.defaultProps = {
 	hasCloseButton: true,
 	closeButtonScreenReaderText: "Close",
+	className: "",
 };
 
 export default Modal;
