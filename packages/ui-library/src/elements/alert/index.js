@@ -19,8 +19,14 @@ const iconMap = {
 	error: XCircleIcon,
 };
 
+const roleMap = {
+	alert: "alert",
+	status: "status",
+};
+
 /**
  * @param {JSX.node} children Content of the Alert.
+ * @param {string} role The role of the Alert.
  * @param {string|function} [as="span"] Base component.
  * @param {string} [variant="info"] Alert variant. See `classNameMap` for the options.
  * @param {string} [className] CSS class.
@@ -28,6 +34,7 @@ const iconMap = {
  */
 const Alert = ( {
 	children,
+	role,
 	as: Component,
 	variant,
 	className,
@@ -41,6 +48,7 @@ const Alert = ( {
 				classNameMap.variant[ variant ],
 				className,
 			) }
+			role={ roleMap[ role ] }
 			{ ...props }
 		>
 			<Icon className="yst-alert__icon" />
@@ -56,12 +64,14 @@ Alert.propTypes = {
 	as: PropTypes.elementType,
 	variant: PropTypes.oneOf( Object.keys( classNameMap.variant ) ),
 	className: PropTypes.string,
+	role: PropTypes.oneOf( Object.keys( roleMap ) ),
 };
 
 Alert.defaultProps = {
 	as: "span",
 	variant: "info",
 	className: "",
+	role: "status",
 };
 
 export default Alert;
