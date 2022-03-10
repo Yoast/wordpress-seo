@@ -58,7 +58,6 @@ class Twitter_Username_Validator extends Text_Field_Validator {
 				[
 					'pattern' => '`^http(?:s)?://(?:www\.)?twitter\.com/(?P<handle>[A-Za-z0-9_]{1,25})/?$`',
 					'groups'  => [ 'handle' ],
-
 				]
 			);
 		} catch ( Abstract_Validation_Exception $e ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch -- Deliberately left empty.
