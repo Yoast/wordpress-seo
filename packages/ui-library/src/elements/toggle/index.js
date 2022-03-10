@@ -3,6 +3,7 @@ import { CheckIcon, XIcon } from "@heroicons/react/solid";
 import classNames from "classnames";
 import { noop } from "lodash";
 import PropTypes from "prop-types";
+import { useSvgAria } from "../../hooks";
 
 /**
  * @param {string|JSX.Element} [as="button"] Base component.
@@ -19,50 +20,54 @@ const Toggle = ( {
 	disabled,
 	className,
 	...props
-} ) => (
-	<Switch
-		as={ Component }
-		checked={ checked }
-		disabled={ disabled }
-		onChange={ disabled ? noop : onChange }
-		className={ classNames(
-			"yst-toggle",
-			checked && "yst-toggle--checked",
-			disabled && "yst-toggle--disabled",
-			className,
-		) }
-		{ ...props }
-	>
-		<span className="yst-sr-only">Toggle</span>
-		<span className="yst-toggle__handle">
-			<Transition
-				show={ checked }
-				unmount={ false }
-				as="span"
-				aria-hidden={ ! checked }
-				enter=""
-				enterFrom="yst-opacity-0 yst-hidden"
-				enterTo="yst-opacity-100"
-				leaveFrom="yst-opacity-100"
-				leaveTo="yst-opacity-0 yst-hidden"
-			>
-				<CheckIcon className="yst-toggle__icon yst-toggle__icon--check" />
-			</Transition>
-			<Transition
-				show={ ! checked }
-				unmount={ false }
-				as="span"
-				aria-hidden={ checked }
-				enterFrom="yst-opacity-0 yst-hidden"
-				enterTo="yst-opacity-100"
-				leaveFrom="yst-opacity-100"
-				leaveTo="yst-opacity-0 yst-hidden"
-			>
-				<XIcon className="yst-toggle__icon yst-toggle__icon--x" />
-			</Transition>
-		</span>
-	</Switch>
-);
+} ) => {
+	const svgAriaProps = useSvgAria();
+
+	return (
+		<Switch
+			as={ Component }
+			checked={ checked }
+			disabled={ disabled }
+			onChange={ disabled ? noop : onChange }
+			className={ classNames(
+				"yst-toggle",
+				checked && "yst-toggle--checked",
+				disabled && "yst-toggle--disabled",
+				className,
+			) }
+			{ ...props }
+		>
+			<span className="yst-sr-only">Toggle</span>
+			<span className="yst-toggle__handle">
+				<Transition
+					show={ checked }
+					unmount={ false }
+					as="span"
+					aria-hidden={ ! checked }
+					enter=""
+					enterFrom="yst-opacity-0 yst-hidden"
+					enterTo="yst-opacity-100"
+					leaveFrom="yst-opacity-100"
+					leaveTo="yst-opacity-0 yst-hidden"
+				>
+					<CheckIcon className="yst-toggle__icon yst-toggle__icon--check" { ...svgAriaProps } />
+				</Transition>
+				<Transition
+					show={ ! checked }
+					unmount={ false }
+					as="span"
+					aria-hidden={ checked }
+					enterFrom="yst-opacity-0 yst-hidden"
+					enterTo="yst-opacity-100"
+					leaveFrom="yst-opacity-100"
+					leaveTo="yst-opacity-0 yst-hidden"
+				>
+					<XIcon className="yst-toggle__icon yst-toggle__icon--x" { ...svgAriaProps } />
+				</Transition>
+			</span>
+		</Switch>
+	);
+};
 
 Toggle.propTypes = {
 	as: PropTypes.elementType,

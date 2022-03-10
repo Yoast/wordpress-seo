@@ -1,7 +1,7 @@
-/* eslint-disable no-undefined */
+import { CheckCircleIcon, ExclamationIcon, InformationCircleIcon, XCircleIcon } from "@heroicons/react/solid";
 import classNames from "classnames";
 import PropTypes from "prop-types";
-import { CheckCircleIcon, ExclamationIcon, XCircleIcon, InformationCircleIcon } from "@heroicons/react/solid";
+import { useSvgAria } from "../../hooks";
 
 const classNameMap = {
 	variant: {
@@ -19,8 +19,14 @@ const iconMap = {
 	error: XCircleIcon,
 };
 
+const roleMap = {
+	alert: "alert",
+	status: "status",
+};
+
 /**
  * @param {JSX.node} children Content of the Alert.
+ * @param {string} role The role of the Alert.
  * @param {string|function} [as="span"] Base component.
  * @param {string} [variant="info"] Alert variant. See `classNameMap` for the options.
  * @param {string} [className] CSS class.
@@ -28,12 +34,15 @@ const iconMap = {
  */
 const Alert = ( {
 	children,
+	role,
 	as: Component,
 	variant,
 	className,
 	...props
 } ) => {
 	const Icon = iconMap[ variant ];
+	const svgAriaProps = useSvgAria();
+
 	return (
 		<Component
 			className={ classNames(
@@ -41,9 +50,10 @@ const Alert = ( {
 				classNameMap.variant[ variant ],
 				className,
 			) }
+			role={ roleMap[ role ] }
 			{ ...props }
 		>
-			<Icon className="yst-alert__icon" />
+			<Icon className="yst-alert__icon" { ...svgAriaProps } />
 			<div>
 				{ children }
 			</div>
@@ -56,12 +66,14 @@ Alert.propTypes = {
 	as: PropTypes.elementType,
 	variant: PropTypes.oneOf( Object.keys( classNameMap.variant ) ),
 	className: PropTypes.string,
+	role: PropTypes.oneOf( Object.keys( roleMap ) ),
 };
 
 Alert.defaultProps = {
 	as: "span",
 	variant: "info",
 	className: "",
+	role: "status",
 };
 
 export default Alert;

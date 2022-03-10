@@ -1,8 +1,9 @@
+import { Listbox, Transition } from "@headlessui/react";
+import { CheckIcon, ExclamationCircleIcon, SelectorIcon } from "@heroicons/react/solid";
+import { Fragment, useMemo } from "@wordpress/element";
 import classNames from "classnames";
 import PropTypes from "prop-types";
-import { Fragment, useMemo } from "@wordpress/element";
-import { Listbox, Transition } from "@headlessui/react";
-import { CheckIcon, SelectorIcon, ExclamationCircleIcon } from "@heroicons/react/solid";
+import { useSvgAria } from "../../hooks";
 
 /**
  * @param {string} id Identifier.
@@ -11,6 +12,7 @@ import { CheckIcon, SelectorIcon, ExclamationCircleIcon } from "@heroicons/react
  * @param {Function} onChange Change callback.
  * @param {boolean} isError Error message.
  * @param {string} [className] CSS class.
+ * @param {Object} [buttonProps] Any extra props for the button.
  * @param {Object} [props] Any extra props.
  * @returns {JSX.Element} Select component.
  */
@@ -21,12 +23,14 @@ const Select = ( {
 	onChange,
 	isError,
 	className,
+	buttonProps,
 	...props
 } ) => {
 	const selectedOption = useMemo( () => (
 		// Default to first option if value is missing.
 		options.find( ( option ) => value === option.value ) || options[ 0 ]
 	), [ value, options ] );
+	const svgAriaProps = useSvgAria();
 
 	return (
 		<Listbox
@@ -41,12 +45,12 @@ const Select = ( {
 			) }
 			{ ...props }
 		>
-			<Listbox.Button className="yst-select__button">
+			<Listbox.Button className="yst-select__button" { ...buttonProps }>
 				<span className="yst-select__button-label">{ selectedOption.label }</span>
 				{ isError ? (
-					<ExclamationCircleIcon className="yst-select__button-icon yst-select__button-icon--error" aria-hidden="true" />
+					<ExclamationCircleIcon className="yst-select__button-icon yst-select__button-icon--error" { ...svgAriaProps } />
 				) : (
-					<SelectorIcon className="yst-select__button-icon" aria-hidden="true" />
+					<SelectorIcon className="yst-select__button-icon" { ...svgAriaProps } />
 				) }
 			</Listbox.Button>
 			<Transition
@@ -83,7 +87,7 @@ const Select = ( {
 												"yst-select__option-icon",
 												active && "yst-select__option-icon--active",
 											) }
-											aria-hidden="true"
+											{ ...svgAriaProps }
 										/>
 									) }
 								</>
@@ -107,11 +111,13 @@ Select.propTypes = {
 	onChange: PropTypes.func.isRequired,
 	isError: PropTypes.bool,
 	className: PropTypes.string,
+	buttonProps: PropTypes.object,
 };
 
 Select.defaultProps = {
 	isError: false,
 	className: "",
+	buttonProps: {},
 };
 
 export default Select;

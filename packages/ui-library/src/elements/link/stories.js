@@ -32,12 +32,12 @@ export const Anchor = {
 	parameters: {
 		docs: {
 			description: {
-				story: "Pass the `href`, `target` and `rel` props to get the attributes.",
+				story: "Pass the `href`, `target` and `rel` props to get the attributes.<br>When using target `_blank`, please add a visually hidden text inside the link to notify screen reader users to the fact that the link opens in a new tab.",
 			},
 		},
 	},
 	args: {
-		children: "yoast.com",
+		children: <><span className="yst-sr-only">(opens in a new tab)</span>yoast.com</>,
 		href: "https://yoast.com",
 		target: "_blank",
 		rel: "noopener noreferrer",

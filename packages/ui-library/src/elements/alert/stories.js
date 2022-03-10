@@ -33,8 +33,8 @@ export const Variants = ( args ) => {
 		<div className="yst-flex yst-flex-col yst-gap-2">
 			<Alert variant="info">This is an information alert { Link }. (default)</Alert>
 			<Alert variant="warning">This is a warning alert { Link }.</Alert>
-			<Alert variant="success">This is a success alert { Link }.</Alert>
-			<Alert variant="error">This is an error alert { Link }.</Alert>
+			<Alert variant="success" role="alert">This is a success alert { Link }.</Alert>
+			<Alert variant="error" role="alert">This is an error alert { Link }.</Alert>
 		</div>
 	);
 };

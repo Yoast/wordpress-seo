@@ -3,6 +3,7 @@ import classNames from "classnames";
 import PropTypes from "prop-types";
 import Label from "../../elements/label";
 import Textarea from "../../elements/textarea";
+import { useDescribedBy, useSvgAria } from "../../hooks";
 
 /**
  * @param {string} id The ID of the input.
@@ -21,26 +22,32 @@ const TextareaField = ( {
 	description,
 	error,
 	...props
-} ) => (
-	<div className={ classNames( "yst-textarea-field", className ) }>
-		{ label && <Label className="yst-textarea-field__label" htmlFor={ id }>{ label }</Label> }
-		<div className="yst-relative">
-			<Textarea
-				id={ id }
-				className={ classNames(
-					"yst-textarea-field__input",
-					error && "yst-textarea-field__input--error",
-				) }
-				{ ...props }
-			/>
-			{ error && <div className="yst-textarea-field__error-icon">
-				<ExclamationCircleIcon />
-			</div> }
+} ) => {
+	const { ids, describedBy } = useDescribedBy( id, { error, description } );
+	const svgAriaProps = useSvgAria();
+
+	return (
+		<div className={ classNames( "yst-textarea-field", className ) }>
+			{ label && <Label className="yst-textarea-field__label" htmlFor={ id }>{ label }</Label> }
+			<div className="yst-relative">
+				<Textarea
+					id={ id }
+					className={ classNames(
+						"yst-textarea-field__input",
+						error && "yst-textarea-field__input--error",
+					) }
+					aria-describedby={ describedBy }
+					{ ...props }
+				/>
+				{ error && <div className="yst-textarea-field__error-icon">
+					<ExclamationCircleIcon { ...svgAriaProps } />
+				</div> }
+			</div>
+			{ error && <p id={ ids.error } className="yst-textarea-field__error">{ error }</p> }
+			{ description && <p id={ ids.description } className="yst-textarea-field__description">{ description }</p> }
 		</div>
-		{ error && <p className="yst-textarea-field__error">{ error }</p> }
-		{ description && <p className="yst-textarea-field__description">{ description }</p> }
-	</div>
-);
+	);
+};
 
 TextareaField.propTypes = {
 	id: PropTypes.string.isRequired,
