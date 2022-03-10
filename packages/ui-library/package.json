@@ -17,7 +17,7 @@
     "storybook": "start-storybook -p 6006",
     "build:storybook": "build-storybook",
     "publish:storybook": "./scripts/publish-storybook.sh",
-    "test:storyshots": "yarn build-storybook && jest tests/storyshots.js",
+    "test:storyshots": "yarn build-storybook --quiet && jest tests/storyshots.js",
     "lint": "eslint src --max-warnings=0"
   },
   "devDependencies": {
