@@ -39,32 +39,32 @@ const Toggle = ( {
 		>
 			<span className="yst-sr-only">Toggle</span>
 			<span className="yst-toggle__handle">
-			<Transition
-				show={ checked }
-				unmount={ false }
-				as="span"
-				aria-hidden={ ! checked }
-				enter=""
-				enterFrom="yst-opacity-0 yst-hidden"
-				enterTo="yst-opacity-100"
-				leaveFrom="yst-opacity-100"
-				leaveTo="yst-opacity-0 yst-hidden"
-			>
-				<CheckIcon className="yst-toggle__icon yst-toggle__icon--check" { ...svgAriaProps } />
-			</Transition>
-			<Transition
-				show={ ! checked }
-				unmount={ false }
-				as="span"
-				aria-hidden={ checked }
-				enterFrom="yst-opacity-0 yst-hidden"
-				enterTo="yst-opacity-100"
-				leaveFrom="yst-opacity-100"
-				leaveTo="yst-opacity-0 yst-hidden"
-			>
-				<XIcon className="yst-toggle__icon yst-toggle__icon--x" { ...svgAriaProps } />
-			</Transition>
-		</span>
+				<Transition
+					show={ checked }
+					unmount={ false }
+					as="span"
+					aria-hidden={ ! checked }
+					enter=""
+					enterFrom="yst-opacity-0 yst-hidden"
+					enterTo="yst-opacity-100"
+					leaveFrom="yst-opacity-100"
+					leaveTo="yst-opacity-0 yst-hidden"
+				>
+					<CheckIcon className="yst-toggle__icon yst-toggle__icon--check" { ...svgAriaProps } />
+				</Transition>
+				<Transition
+					show={ ! checked }
+					unmount={ false }
+					as="span"
+					aria-hidden={ checked }
+					enterFrom="yst-opacity-0 yst-hidden"
+					enterTo="yst-opacity-100"
+					leaveFrom="yst-opacity-100"
+					leaveTo="yst-opacity-0 yst-hidden"
+				>
+					<XIcon className="yst-toggle__icon yst-toggle__icon--x" { ...svgAriaProps } />
+				</Transition>
+			</span>
 		</Switch>
 	);
 };

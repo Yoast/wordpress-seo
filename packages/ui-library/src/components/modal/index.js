@@ -20,7 +20,7 @@ const Modal = ( { isOpen, onClose, children, hasCloseButton, closeButtonScreenRe
 
 	return (
 		<Transition show={ isOpen } as={ Fragment }>
-			<Dialog as="div" className={ classNames("yst-modal", className) } open={ isOpen } onClose={ onClose }>
+			<Dialog as="div" className={ classNames( "yst-modal", className ) } open={ isOpen } onClose={ onClose }>
 				<div className="yst-modal__body">
 					<Transition.Child
 						as={ Fragment }
