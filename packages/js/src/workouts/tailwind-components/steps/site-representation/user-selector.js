@@ -42,13 +42,17 @@ export default function UserSelector( { initialValue, onChangeCallback, placehol
 		value: initialValue.id,
 		label: initialValue.name,
 	} );
+	const [ isLoading, setIsLoading ] = useState( false );
+
 	const handleSelectChange = useCallback( ( event ) => {
 		setSelectedPerson( event );
 		onChangeCallback( event );
 	} );
 
 	const loadUsers = useCallback( debounce( async( searchQuery ) => {
+		setIsLoading( true );
 		const usersResponse = await fetchUsers( searchQuery );
+		setIsLoading( false );
 		setUsers( usersResponse.map( ( user ) => {
 			return {
 				value: user.id,
@@ -64,6 +68,7 @@ export default function UserSelector( { initialValue, onChangeCallback, placehol
 		onQueryChange={ loadUsers }
 		options={ users }
 		placeholder={ placeholder }
+		isLoading={ isLoading }
 	/>;
 }
 
