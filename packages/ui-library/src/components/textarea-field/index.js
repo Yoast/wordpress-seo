@@ -34,7 +34,7 @@ const TextareaField = ( {
 				{ ...props }
 			/>
 			{ error && <div className="yst-textarea-field__error-icon">
-				<ExclamationCircleIcon />
+				<ExclamationCircleIcon role="img" aria-hidden="true" />
 			</div> }
 		</div>
 		{ error && <p className="yst-textarea-field__error">{ error }</p> }

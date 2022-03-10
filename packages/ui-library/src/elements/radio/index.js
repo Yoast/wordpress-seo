@@ -49,7 +49,7 @@ const Radio = ( {
 				/>
 				<label htmlFor={ id } className="yst-radio__label">
 					{ label }
-					<CheckCircleIcon className="yst-radio__check" />
+					<CheckCircleIcon className="yst-radio__check" role="img" aria-hidden="true" />
 				</label>
 			</div>
 		);

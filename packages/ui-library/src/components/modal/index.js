@@ -50,7 +50,7 @@ const Modal = ( { isOpen, onClose, children, hasCloseButton, closeButtonScreenRe
 								className="yst-modal__close-button"
 							>
 								<span className="yst-sr-only">{ closeButtonScreenReaderText }</span>
-								<XIcon className="yst-h-6 yst-w-6" />
+								<XIcon className="yst-h-6 yst-w-6" role="img" aria-hidden="true" />
 							</button>
 						</div> }
 						{ children }

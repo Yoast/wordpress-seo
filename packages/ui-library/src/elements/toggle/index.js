@@ -46,7 +46,7 @@ const Toggle = ( {
 				leaveFrom="yst-opacity-100"
 				leaveTo="yst-opacity-0 yst-hidden"
 			>
-				<CheckIcon className="yst-toggle__icon yst-toggle__icon--check" />
+				<CheckIcon className="yst-toggle__icon yst-toggle__icon--check" role="img" aria-hidden="true" />
 			</Transition>
 			<Transition
 				show={ ! checked }
@@ -58,7 +58,7 @@ const Toggle = ( {
 				leaveFrom="yst-opacity-100"
 				leaveTo="yst-opacity-0 yst-hidden"
 			>
-				<XIcon className="yst-toggle__icon yst-toggle__icon--x" />
+				<XIcon className="yst-toggle__icon yst-toggle__icon--x" role="img" aria-hidden="true" />
 			</Transition>
 		</span>
 	</Switch>

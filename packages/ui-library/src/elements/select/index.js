@@ -44,9 +44,9 @@ const Select = ( {
 			<Listbox.Button className="yst-select__button">
 				<span className="yst-select__button-label">{ selectedOption.label }</span>
 				{ isError ? (
-					<ExclamationCircleIcon className="yst-select__button-icon yst-select__button-icon--error" aria-hidden="true" />
+					<ExclamationCircleIcon className="yst-select__button-icon yst-select__button-icon--error" role="img" aria-hidden="true" />
 				) : (
-					<SelectorIcon className="yst-select__button-icon" aria-hidden="true" />
+					<SelectorIcon className="yst-select__button-icon" role="img" aria-hidden="true" />
 				) }
 			</Listbox.Button>
 			<Transition
@@ -83,6 +83,7 @@ const Select = ( {
 												"yst-select__option-icon",
 												active && "yst-select__option-icon--active",
 											) }
+											role="img"
 											aria-hidden="true"
 										/>
 									) }

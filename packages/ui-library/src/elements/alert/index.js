@@ -1,7 +1,6 @@
-/* eslint-disable no-undefined */
+import { CheckCircleIcon, ExclamationIcon, InformationCircleIcon, XCircleIcon } from "@heroicons/react/solid";
 import classNames from "classnames";
 import PropTypes from "prop-types";
-import { CheckCircleIcon, ExclamationIcon, XCircleIcon, InformationCircleIcon } from "@heroicons/react/solid";
 
 const classNameMap = {
 	variant: {
@@ -51,7 +50,7 @@ const Alert = ( {
 			role={ roleMap[ role ] }
 			{ ...props }
 		>
-			<Icon className="yst-alert__icon" />
+			<Icon className="yst-alert__icon" role="img" aria-hidden="true" />
 			<div>
 				{ children }
 			</div>
