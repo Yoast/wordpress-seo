@@ -17,7 +17,7 @@ class Aioseo_Social_Images_Provider_Service {
 	 *
 	 * @var Image_Helper
 	 */
-	protected $image_helper;
+	protected $image;
 
 	/**
 	 * Class constructor.
