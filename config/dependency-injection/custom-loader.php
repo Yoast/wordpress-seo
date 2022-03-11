@@ -65,24 +65,24 @@ class Custom_Loader extends PhpFileLoader {
 	/**
 	 * Registers a set of classes as services using PSR-4 for discovery.
 	 *
-	 * @param Definition  $prototype        A definition to use as template.
-	 * @param string      $namespace_prefix The namespace prefix of classes in the scanned directory.
-	 * @param string      $search_directory The directory to look for classes, glob-patterns allowed.
-	 * @param string|null $exclude          A globed path of files to exclude.
+	 * @param Definition  $prototype A definition to use as template.
+	 * @param string      $namespace The namespace prefix of classes in the scanned directory.
+	 * @param string      $resource  The directory to look for classes, glob-patterns allowed.
+	 * @param string|null $exclude   A globed path of files to exclude.
 	 *
 	 * @return void
 	 *
 	 * @throws InvalidArgumentException If invalid arguments are supplied.
 	 */
-	public function registerClasses( Definition $prototype, $namespace_prefix, $search_directory, $exclude = null ) {
-		if ( \substr( $namespace_prefix, -1 ) !== '\\' ) {
-			throw new InvalidArgumentException( \sprintf( 'Namespace prefix must end with a "\\": %s.', $namespace_prefix ) );
+	public function registerClasses( Definition $prototype, $namespace, $resource, $exclude = null ) {
+		if ( \substr( $namespace, -1 ) !== '\\' ) {
+			throw new InvalidArgumentException( \sprintf( 'Namespace prefix must end with a "\\": %s.', $namespace ) );
 		}
-		if ( ! \preg_match( '/^(?:[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*+\\\\)++$/', $namespace_prefix ) ) {
-			throw new InvalidArgumentException( \sprintf( 'Namespace is not a valid PSR-4 prefix: %s.', $namespace_prefix ) );
+		if ( ! \preg_match( '/^(?:[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*+\\\\)++$/', $namespace ) ) {
+			throw new InvalidArgumentException( \sprintf( 'Namespace is not a valid PSR-4 prefix: %s.', $namespace ) );
 		}
 
-		$classes = $this->findClasses( $namespace_prefix, $search_directory, $exclude );
+		$classes = $this->findClasses( $namespace, $resource, $exclude );
 		// Prepare for deep cloning.
 		// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_serialize -- Reason: There's no way for user input to get in between serialize and unserialize.
 		$serialized_prototype = \serialize( $prototype );
