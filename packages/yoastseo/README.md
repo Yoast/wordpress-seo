@@ -139,7 +139,7 @@ Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recen
 * Information on the design decisions within the package can be found [here](DESIGN%20DECISIONS.md).
 * Information on how morphology works in `yoastseo` package can be found [here](MORPHOLOGY.md).
 * Information on the `yoastseo` assessors can be found [here](https://github.com/Yoast/wordpress-seo/yoastseo/src/scoring/README.md).
-* Information on the the scoring system of the assessments can be found [here](https://github.com/Yoast/wordpress-seo/packages/yoastseo/src/scoring/assessments/README.md)
+* Information on the the scoring system of the assessments can be found [here](https://github.com/Yoast/wordpress-seo/yoastseo/src/scoring/assessments/README.md).
 
 
 ## Testing
