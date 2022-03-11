@@ -114,6 +114,8 @@ class Custom_Loader extends PhpFileLoader {
 		}
 	}
 
+	// phpcs:disable WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase -- excludePattern parameter name must match parent, which is outside of our codebase.
+
 	/**
 	 * Finds classes based on a given pattern and exclude pattern.
 	 *
@@ -205,6 +207,8 @@ class Custom_Loader extends PhpFileLoader {
 
 		return $classes;
 	}
+
+	// phpcs:enable WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase
 
 	/**
 	 * Normalizes all slashes in a file path to forward slashes.
