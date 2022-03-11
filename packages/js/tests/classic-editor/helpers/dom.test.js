@@ -102,6 +102,9 @@ describe( "a test for retrieving tags from the document", () => {
 
 	it( "should return the tags from the post", () => {
 		expect( dom.getPostTags() ).toEqual( [ "cat food", "cat snack" ] );
+		// Remove the previous tags elements after the test is run, so that this element wouldn't be returned next time the test
+		// For non-hierarchical taxonomy is run.
+		document.body.removeChild( tagsListElement );
 	} );
 } );
 
@@ -182,5 +185,105 @@ describe( "a test for retrieving term slug from the DOM", () => {
 	it( "should overwrite the term slug value with the new value that is passed", () => {
 		expect( dom.setTermSlug( "how-to-adopt-cat" ) ).toEqual( slugElement );
 		expect( dom.getTermSlug() ).toEqual( "how-to-adopt-cat" );
+	} );
+} );
+
+self.wpseoScriptData = {
+	analysis: {
+		plugins: {
+			replaceVars: {
+				replace_vars: {
+					custom_taxonomies: {
+						actors: {
+							description: "",
+							name: "actors",
+						},
+						directors: {
+							description: "",
+							name: "directors",
+						},
+					},
+				},
+			},
+		},
+	},
+};
+
+// Set to the document the hierarchical custom taxonomy elements.
+const actor1 = document.createElement( "input" );
+actor1.setAttribute( "type", "checkbox" );
+actor1.setAttribute( "value", "actor1" );
+
+const actor2 = document.createElement( "input" );
+actor2.setAttribute( "type", "checkbox" );
+actor2.setAttribute( "value", "actor2" );
+const actor3 = document.createElement( "input" );
+actor3.setAttribute( "type", "checkbox" );
+actor3.setAttribute( "value", "actor3" );
+
+const allActors = document.createElement( "div" );
+allActors.setAttribute( "id", "actorschecklist" );
+allActors.appendChild( actor1 );
+allActors.appendChild( actor2 );
+allActors.appendChild( actor3 );
+
+const mostUsedActors = document.createElement( "div" );
+mostUsedActors.setAttribute( "id", "actorschecklist-pop" );
+mostUsedActors.appendChild( actor1.cloneNode() );
+mostUsedActors.appendChild( actor2.cloneNode() );
+
+// Set to the document the non-hierarchical custom taxonomy elements.
+const director1 = document.createElement( "li" );
+const director1ChildNode1 = document.createElement( "button" );
+const director1ChildNode2 = document.createTextNode( "" );
+const director1ChildNode3 = document.createTextNode( "Steven Spielberg" );
+
+director1.appendChild( director1ChildNode1 );
+director1.appendChild( director1ChildNode2 );
+director1.appendChild( director1ChildNode3 );
+
+const director2 = document.createElement( "li" );
+const director2ChildNode1 = document.createElement( "button" );
+const director2ChildNode2 = document.createTextNode( "" );
+const director2ChildNode3 = document.createTextNode( "Spike Lee" );
+
+director2.appendChild( director2ChildNode1 );
+director2.appendChild( director2ChildNode2 );
+director2.appendChild( director2ChildNode3 );
+
+const nonHierarchicalCTElement = document.createElement( "ul" );
+nonHierarchicalCTElement.setAttribute( "class", "tagchecklist" );
+
+// Add new elements for the non-hierarchical custom taxonomies.
+nonHierarchicalCTElement.appendChild( director1 );
+nonHierarchicalCTElement.appendChild( director2 );
+
+document.body.appendChild( allActors );
+document.body.appendChild( mostUsedActors );
+document.body.appendChild( nonHierarchicalCTElement );
+
+describe( "a test for retrieving custom taxonomies from the DOM", () => {
+	const names = dom.getCTNames();
+	it( "should return the hierarchical custom taxonomies from the 'All custom taxonomies' section", () => {
+		expect( dom.getCTCheckboxes( names[ 0 ] ) ).toEqual( [ actor1, actor2, actor3 ] );
+		expect( dom.getCTCheckboxes( names[ 1 ] ) ).toEqual( [] );
+	} );
+	it( "should return the hierarchical custom taxonomies from the 'Most Used' section", () => {
+		expect( dom.getMostUsedCTCheckboxes(  names[ 0 ] ) ).toEqual( [ actor1, actor2 ] );
+		expect( dom.getMostUsedCTCheckboxes(  names[ 1 ] ) ).toEqual( [] );
+	} );
+	it( "should return the checked hierarchical custom taxonomies", () => {
+		expect( dom.getCustomTaxonomies()[ names[ 0 ] ] ).toEqual( [] );
+		actor1.checked = true;
+		expect( dom.getCustomTaxonomies()[ names[ 0 ] ][ 0 ].id ).toEqual( "actor1"  );
+		actor1.checked = false;
+		actor2.checked = true;
+		expect( dom.getCustomTaxonomies()[ names[ 0 ] ][ 0 ].id  ).toEqual( "actor2"  );
+		actor2.checked = false;
+		expect( dom.getCustomTaxonomies()[ names[ 0 ] ] ).toEqual( [] );
+	} );
+
+	it( "should return the non-hierarchical custom taxonomy from the post", () => {
+		expect( dom.getCustomTaxonomies()[ names[ 1 ] ] ).toEqual( [ "Steven Spielberg", "Spike Lee" ] );
 	} );
 } );
