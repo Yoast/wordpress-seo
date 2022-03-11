@@ -33,7 +33,7 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 		{  window.wpseoWorkoutsData.configuration.knowledgeGraphMessage &&  <Alert type="warning">
 			{  window.wpseoWorkoutsData.configuration.knowledgeGraphMessage }
 		</Alert> }
-		<p className="yst-text-sm yst-whitespace-pre-line yst-mb-8">
+		<p className="yst-text-sm yst-whitespace-pre-line yst-mb-6">
 			{
 				addLinkToString(
 					sprintf(
@@ -76,7 +76,7 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 			easing="linear"
 			onAnimationEnd={ startOpacityTransition }
 		>
-			<div className={ classNames( "yst-transition-opacity yst-duration-300", sectionOpacity ) }>
+			<div className={ classNames( "yst-transition-opacity yst-duration-300 yst-mt-6", sectionOpacity ) }>
 				{ state.companyOrPerson === "company" && <OrganizationSection
 					dispatch={ dispatch }
 					imageUrl={ state.companyLogo }
@@ -85,7 +85,10 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 				{ state.companyOrPerson === "person" && <PersonSection
 					dispatch={ dispatch }
 					imageUrl={ state.personLogo }
-					personId={ state.personId }
+					person={ {
+						id: state.personId,
+						name: state.personName,
+					} }
 				/> }
 			</div>
 		</ReactAnimateHeight>

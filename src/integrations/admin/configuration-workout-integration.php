@@ -140,7 +140,6 @@ class Configuration_Workout_Integration implements Integration_Interface {
 		if ( \is_array( $selected_option ) ) {
 			$selected_option_label = $selected_option['label'];
 		}
-
 		$this->admin_asset_manager->add_inline_script(
 			'workouts',
 			\sprintf(
@@ -151,6 +150,7 @@ class Configuration_Workout_Integration implements Integration_Interface {
 					"companyLogo": "%s",
 					"companyLogoId": %d,
 					"personId": %d,
+					"personName": "%s",
 					"personLogo": "%s",
 					"personLogoId": %d,
 					"siteTagline": "%s",
@@ -180,6 +180,7 @@ class Configuration_Workout_Integration implements Integration_Interface {
 				$this->get_company_logo(),
 				$this->get_company_logo_id(),
 				$this->get_person_id(),
+				$this->get_person_name(),
 				$this->get_person_logo(),
 				$this->get_person_logo_id(),
 				$this->get_site_tagline(),
@@ -275,6 +276,19 @@ class Configuration_Workout_Integration implements Integration_Interface {
 	}
 
 	/**
+	 * Gets the person id from the option in the database.
+	 *
+	 * @return int|null The person id, null if empty.
+	 */
+	private function get_person_name() {
+		$user = \get_userdata( $this->get_person_id() );
+		if ( $user instanceof \WP_User ) {
+			return $user->get( 'display_name' );
+		}
+		return '';
+	}
+
+	/**
 	 * Gets the person avatar from the option in the database.
 	 *
 	 * @return string The person logo.
@@ -355,9 +369,11 @@ class Configuration_Workout_Integration implements Integration_Interface {
 		];
 		if ( $this->should_force_company() ) {
 			$options = [
-				'label' => __( 'Organization', 'wordpress-seo' ),
-				'value' => 'company',
-				'id'    => 'company',
+				[
+					'label' => \__( 'Organization', 'wordpress-seo' ),
+					'value' => 'company',
+					'id'    => 'company',
+				],
 			];
 		}
 

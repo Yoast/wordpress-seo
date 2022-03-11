@@ -31,7 +31,7 @@
   },
   "dependencies": {
     "@draft-js-plugins/mention": "^5.0.0",
-    "@headlessui/react": "^1.4.2",
+    "@headlessui/react": "^1.5",
     "@heroicons/react": "^1.0.5",
     "@wordpress/data": "^4.10.0",
     "@wordpress/dom-ready": "^2.10.0",

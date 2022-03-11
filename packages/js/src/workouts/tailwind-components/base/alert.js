@@ -67,7 +67,7 @@ Alert.defaultProps = {
  * @returns {WPElement} An Alert that expands and fades in.
  */
 export function FadeInAlert( { id, isVisible, expandDuration, type, children, className } ) {
-	const [ alertOpacity, setAlertOpacity ] = useState( "yst-opacity-0" );
+	const [ alertOpacity, setAlertOpacity ] = useState( isVisible ? "yst-opacity-100" : "yst-opacity-0" );
 	const startOpacityTransition = useCallback( () => {
 		setAlertOpacity( "yst-opacity-100" );
 	} );

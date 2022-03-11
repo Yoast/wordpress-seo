@@ -44,7 +44,6 @@ export function ConfigurationIndexation( { indexingStateCallback, indexingState,
 	>
 		<Transition
 			unmount={ false }
-			appear={ true }
 			show={ [ "completed", "already_done" ].includes( indexingState ) }
 			enter="yst-transition-opacity yst-duration-1000"
 			enterFrom="yst-opacity-0"

@@ -4,7 +4,7 @@ import { Fragment, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import classNames from "classnames";
 import { PropTypes } from "prop-types";
-import { getErrorAriaProps, getErrorId } from "../helpers";
+import { getErrorAriaProps, getErrorId, getOptionActiveStyles } from "../helpers";
 import MultiLineText from "./multi-line-text";
 
 /**
@@ -30,7 +30,7 @@ export default function Select( { id, value, choices, label, onChange, error } )
 		<Listbox value={ value } onChange={ onChange }>
 			{ ( { open } ) => (
 				<>
-					{ label && <Listbox.Label className="yst-block yst-mb-2 yst-text-sm yst-font-medium yst-text-gray-700">{ label }</Listbox.Label> }
+					{ label && <Listbox.Label className="yst-block yst-max-w-sm yst-mb-1 yst-text-sm yst-font-medium yst-text-gray-700">{ label }</Listbox.Label> }
 					<div className="yst-max-w-sm">
 						<div className="yst-relative">
 							<Listbox.Button
@@ -59,7 +59,7 @@ export default function Select( { id, value, choices, label, onChange, error } )
 							>
 								<Listbox.Options
 									static={ true }
-									className="yst-absolute yst-z-10 yst-w-full yst-py-1 yst-mt-1 yst-overflow-auto yst-bg-white yst-rounded-md yst-shadow-lg yst-max-h-60 yst-ring-1 yst-ring-black yst-ring-opacity-5 focus:yst-outline-none sm:yst-text-sm"
+									className="yst-absolute yst-z-10 yst-w-full yst-mt-1 yst-overflow-auto yst-bg-white yst-rounded-md yst-shadow-lg yst-max-h-60 yst-ring-1 yst-ring-black yst-ring-opacity-5 focus:yst-outline-none sm:yst-text-sm"
 								>
 									{ choices.map( ( choice ) => (
 										<Listbox.Option
@@ -69,10 +69,7 @@ export default function Select( { id, value, choices, label, onChange, error } )
 										>
 											{ ( { selected, active } ) => (
 												<li
-													className={ classNames(
-														active ? "yst-text-white yst-bg-primary-600" : "yst-text-gray-900",
-														"yst-cursor-default yst-select-none yst-relative yst-py-2 yst-pl-3 yst-pr-9"
-													) }
+													className={ getOptionActiveStyles( { selected, active } ) }
 												>
 													<span
 														className={ classNames(
@@ -86,8 +83,7 @@ export default function Select( { id, value, choices, label, onChange, error } )
 													{ selected ? (
 														<span
 															className={ classNames(
-																active ? "yst-text-white" : "yst-text-primary-600",
-																"yst-absolute yst-inset-y-0 yst-right-0 yst-flex yst-items-center yst-pr-4"
+																"yst-text-white yst-absolute yst-inset-y-0 yst-right-0 yst-flex yst-items-center yst-pr-4"
 															) }
 														>
 															<CheckIcon className="yst-w-5 yst-h-5" aria-hidden="true" />
