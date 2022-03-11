@@ -2475,8 +2475,8 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Sets the value of the key.
 	 *
-	 * @param string|int $offset   Key.
-	 * @param mixed      $value Value.
+	 * @param string|int $offset Key.
+	 * @param mixed      $value  Value.
 	 */
 	#[ReturnTypeWillChange]
 	public function offsetSet( $offset, $value ) {
