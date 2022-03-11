@@ -179,6 +179,7 @@ const createCategoriesSync = ( updateTerms ) => {
  * @returns {void}
  */
 const createTagsSync = ( updateTerms ) => {
+	const names = dom.getCTNames();
 	let previousLength = 0;
 
 	/**
@@ -188,6 +189,7 @@ const createTagsSync = ( updateTerms ) => {
 	 */
 	const syncTags = () => {
 		updateTerms( { taxonomyType: "tags", terms: dom.getPostTags() } );
+		names.forEach( name => 	updateTerms( { taxonomyType: `customTaxonomies.${ name }`, terms: dom.getCustomTaxonomies()[ name ] } ) );
 	};
 
 	/**
@@ -207,13 +209,79 @@ const createTagsSync = ( updateTerms ) => {
 	// Retrieve the Tags element.
 	const tagsElement = document.querySelector( ".tagchecklist" );
 	if ( tagsElement ) {
-		// Observe the tags list for changes and update the tags if (new) tags are added or removed.
+		/*
+		 * Observe the tags list for changes and update the tags if (new) tags are added or removed.
+		 * Non-hierarchical custom taxonomies have the same element id with the normal tag,
+		 * Hence the custom taxonomies are also updated when there is a change.
+		 */
 		const observer = new MutationObserver( () => {
 			updateTerms( { taxonomyType: "tags", terms: dom.getPostTags() } );
+			names.forEach( name => 	updateTerms( { taxonomyType: `customTaxonomies.${ name }`, terms: dom.getCustomTaxonomies()[ name ] } ) );
 			watchTagsList();
 		} );
 		observer.observe( tagsElement, { childList: true, subtree: true } );
 	}
+
+	watchTagsList();
+};
+
+/**
+ * Watches the hierarchical custom taxonomies checkboxes in the classic editor for changes and updates
+ * the hierarchical custom taxonomies in the store accordingly.
+ *
+ * @param {function} updateTerms A callback function to update the hierarchical custom taxonomies in the store.
+ *
+ * @returns {void}
+ */
+const createCustomTaxonomiesSync = ( updateTerms ) => {
+	const names = dom.getCTNames();
+
+	/**
+	 * Retrieves the hierarchical custom taxonomies from the DOM and syncs them to the SEO store.
+	 *
+	 * @returns {void}
+	 */
+	const syncCustomTaxonomies = () => {
+		names.forEach( name => updateTerms( { taxonomyType: `customTaxonomies.${ name }`, terms: dom.getCustomTaxonomies()[ name ] } ) );
+	};
+
+	/**
+	 * Watches the hierarchical custom taxonomy checkboxes for changes,
+	 * and updates the custom taxonomies in the SEO store accordingly.
+	 *
+	 * @returns {void}
+	 */
+	const watchCTCheckboxes = () => {
+		// Sync the hierarchical custom taxonomies whenever there are changes in the checkboxes.
+		// Watch both the "All (Custom taxonomy name)" and "Most Used" sections.
+		names.forEach( name => {
+			const checkboxes = [ ...dom.getCTCheckboxes( name ), ...dom.getMostUsedCTCheckboxes( name ) ];
+			checkboxes.forEach(
+				checkbox => {
+					checkbox.removeEventListener( "input", syncCustomTaxonomies );
+					checkbox.addEventListener( "input", syncCustomTaxonomies );
+				}
+			);
+		} );
+	};
+
+	names.forEach( name => {
+		const CTChecklist = document.getElementById( `${ name }checklist` );
+		if ( CTChecklist ) {
+			/*
+			 * Observe the hierarchical custom taxonomy checklist for changes and update the custom taxonomies if new custom taxonomies are added.
+			 * Consider only the "All (Custom taxonomy name)" section, because newly added custom taxonomies
+			 * will not end up in the "Most Used" section.
+			 */
+			const observer = new MutationObserver( () => {
+				updateTerms( { taxonomyType: `customTaxonomies.${ name }`, terms: dom.getCustomTaxonomies()[ name ] } );
+				watchCTCheckboxes();
+			} );
+			observer.observe( CTChecklist, { childList: true, subtree: true } );
+		}
+	} );
+
+	watchCTCheckboxes();
 };
 
 /**
@@ -314,6 +382,8 @@ const syncPostToStore = () => {
 	createCategoriesSync( actions.updateTerms );
 	// Sync the tag list changes to the store.
 	createTagsSync( actions.updateTerms );
+	// Sync the hierarchical custom taxonomy checkboxes changes to the store.
+	createCustomTaxonomiesSync( actions.updateTerms );
 };
 
 /**
