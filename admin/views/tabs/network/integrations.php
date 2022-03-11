@@ -7,8 +7,6 @@
  * @uses Yoast_Form $yform Form object.
  */
 
-use Yoast\WP\SEO\Presenters\Admin\Badge_Presenter;
-
 if ( ! defined( 'WPSEO_VERSION' ) ) {
 	header( 'Status: 403 Forbidden' );
 	header( 'HTTP/1.1 403 Forbidden' );
@@ -50,18 +48,13 @@ $integration_toggles = Yoast_Integration_Toggles::instance()->get_all();
 				$help_text
 			);
 
-			$name = $integration->name;
-			if ( ! empty( $integration->new ) && $integration->new === true ) {
-				$name .= ' ' . new Badge_Presenter( $integration->name );
-			}
-
 			$yform->toggle_switch(
 				WPSEO_Option::ALLOW_KEY_PREFIX . $integration->setting,
 				[
 					'on'  => __( 'Allow Control', 'wordpress-seo' ),
 					'off' => __( 'Disable', 'wordpress-seo' ),
 				],
-				$name,
+				$integration->name,
 				$feature_help->get_button_html() . $feature_help->get_panel_html(),
 				[ 'disabled' => $integration->disabled ]
 			);

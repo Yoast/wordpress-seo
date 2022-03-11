@@ -8,7 +8,6 @@
  */
 
 use Yoast\WP\SEO\Presenters\Admin\Premium_Badge_Presenter;
-use Yoast\WP\SEO\Presenters\Admin\Badge_Presenter;
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
 	header( 'Status: 403 Forbidden' );
@@ -59,10 +58,6 @@ $integration_toggles = Yoast_Integration_Toggles::instance()->get_all();
 			$name = $integration->name;
 			if ( ! empty( $integration->premium ) && $integration->premium === true ) {
 				$name .= ' ' . new Premium_Badge_Presenter( $integration->name );
-			}
-
-			if ( ! empty( $integration->new ) && $integration->new === true ) {
-				$name .= ' ' . new Badge_Presenter( $integration->name );
 			}
 
 			$attributes = [];
