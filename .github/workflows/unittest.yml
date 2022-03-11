@@ -25,9 +25,11 @@ jobs:
 
     strategy:
       matrix:
-        php_version: ["5.6", "7.0", "7.2", "7.4", "8.0", "8.1"]
+        php_version: ["5.6", "7.0", "7.2", "7.4", "8.0", "8.1", "8.2"]
 
     name: "Unit Test: PHP ${{ matrix.php_version }}"
+
+    continue-on-error: ${{ matrix.php_version == '8.2' }}
 
     steps:
       - name: Checkout code

@@ -52,10 +52,15 @@ jobs:
             wp_version: "latest"
             multisite: true
 
+          # WP 6.1 is the earliest version which supports PHP 8.1.
+          - php_version: "8.2"
+            wp_version: "6.1"
+            multisite: true
+
     name: "Integration Test: PHP ${{ matrix.php_version }} | WP ${{ matrix.wp_version }}${{ matrix.multisite == true && ' (+ ms)' || '' }}"
 
     # Allow builds to fail on as-of-yet unreleased WordPress versions.
-    continue-on-error: ${{ matrix.wp_version == 'trunk' }}
+    continue-on-error: ${{ matrix.wp_version == 'trunk' || matrix.php_version == '8.2' }}
 
     services:
       mysql:
