@@ -105,6 +105,7 @@ class Yoast_Feature_Toggle {
 	 *     @type string $name            Required. Feature toggle identifier.
 	 *     @type string $setting         Required. Name of the setting the feature toggle is associated with.
 	 *     @type string $disabled        Whether the feature is premium or not.
+	 *     @type string $label           Feature toggle label.
 	 *     @type string $read_more_url   URL to learn more about the feature. Default empty string.
 	 *     @type string $read_more_label Label for the learn more link. Default empty string.
 	 *     @type string $extra           Additional help content for the feature. Default empty string.

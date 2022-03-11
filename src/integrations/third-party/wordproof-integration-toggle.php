@@ -95,7 +95,7 @@ class WordProof_Integration_Toggle implements Integration_Interface {
 				'read_more_url'   => 'https://yoa.st/wordproof-integration',
 				'order'           => 16,
 				'disabled'        => $this->wordproof->integration_is_disabled(),
-				'new'         => true,
+				'new'             => true,
 			];
 		}
 
