@@ -210,7 +210,18 @@ export const customTaxonomies = map(
 			__( "%s (custom taxonomy)", "wordpress-seo" ),
 			key
 		),
-		getReplacement: () => name,
+		getReplacement: () => {
+			const customTaxonomiesFromStore = select( SEO_STORE_NAME ).selectTerms( "customTaxonomies" );
+			let customTerm = "";
+			for ( const taxonomy in customTaxonomiesFromStore ) {
+				if ( taxonomy === name ) {
+					customTerm = customTaxonomiesFromStore[ taxonomy ].map( term => {
+						return ( typeof term === "object" ) ? term.value : term;
+					} );
+				}
+			}
+			return customTerm.join( ", " );
+		},
 	} )
 );
 
