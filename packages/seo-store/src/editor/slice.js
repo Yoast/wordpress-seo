@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { get } from "lodash";
+import { get, set } from "lodash";
 
 export const defaultEditorState = {
 	content: "",
@@ -35,9 +35,10 @@ const editorSlice = createSlice( {
 			state.featuredImage = action.payload;
 		},
 		updateTerms: ( state, action ) => {
-			const taxonomyType = action.payload.taxonomyType;
 			const terms = action.payload.terms;
-			state.taxonomies[ taxonomyType ] = terms;
+			const taxonomyType = action.payload.taxonomyType;
+
+			set( state, "taxonomies." + taxonomyType, terms );
 		},
 		updateLocale: ( state, action ) => {
 			state.locale = action.payload;
