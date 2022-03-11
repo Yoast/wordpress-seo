@@ -210,6 +210,25 @@ export const getPostMostUsedCategoryCheckboxes = () => {
 };
 
 /**
+ * Maps over a list of checked checkboxes elements and returns the value and the text content.
+ *
+ * @param {Array} checkedCheckboxes The array of checked checkboxes to map.
+ *
+ * @returns {Object[]} An array containing objects with the checked checkboxes value and text content.
+ */
+const getValuesFromCheckboxes = ( checkedCheckboxes ) => {
+	return checkedCheckboxes.map( checkbox => (
+		{
+			id: checkbox.value,
+			name: [ ...checkbox.parentElement.childNodes ]
+				.filter( node => node.nodeType === Node.TEXT_NODE )
+				.map( node => node.textContent )[ 0 ]
+				?.trim(),
+		}
+	) );
+};
+
+/**
  * Gets the current post's categories from the document.
  *
  * @returns {{name: string, id: string}[]} The post's categories.
@@ -220,15 +239,7 @@ export const getPostCategories = () => {
 
 	if ( checkboxes ) {
 		const checkedCheckboxes = checkboxes.filter( checkbox => checkbox.checked );
-		return checkedCheckboxes.map( checkbox => (
-			{
-				id: checkbox.value,
-				name: [ ...checkbox.parentElement.childNodes ]
-					.filter( node => node.nodeType === Node.TEXT_NODE )
-					.map( node => node.textContent )[ 0 ]
-					?.trim(),
-			}
-		) );
+		return getValuesFromCheckboxes( checkedCheckboxes );
 	}
 	return [];
 };
@@ -305,15 +316,7 @@ export const getCustomTaxonomies = () => {
 			customTaxonomies[ name ] = customTags;
 		} else {
 			const checkedCheckboxes = checkboxesElement.filter( checkbox => checkbox.checked );
-			customTaxonomies[ name ] = checkedCheckboxes.map( checkbox => (
-				{
-					id: checkbox.value,
-					value: [ ...checkbox.parentElement.childNodes ]
-						.filter( node => node.nodeType === Node.TEXT_NODE )
-						.map( node => node.textContent )[ 0 ]
-						?.trim(),
-				}
-			) );
+			customTaxonomies[ name ] = getValuesFromCheckboxes( checkedCheckboxes );
 		}
 	} );
 

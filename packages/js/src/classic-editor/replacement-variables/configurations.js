@@ -216,7 +216,7 @@ export const customTaxonomies = map(
 			for ( const taxonomy in customTaxonomiesFromStore ) {
 				if ( taxonomy === name ) {
 					customTerm = customTaxonomiesFromStore[ taxonomy ].map( term => {
-						return ( typeof term === "object" ) ? term.value : term;
+						return ( typeof term === "object" ) ? term.name : term;
 					} );
 				}
 			}
