@@ -47,6 +47,8 @@ class Estimated_Reading_Time_Conditional_Test extends TestCase {
 	 * Tests that the conditional is met when we are saving for Elementor.
 	 *
 	 * @covers ::is_met
+	 *
+	 * @requires PHP < 8.1
 	 */
 	public function test_ajax_elementor_save() {
 		// We are in an Ajax request.
@@ -65,6 +67,8 @@ class Estimated_Reading_Time_Conditional_Test extends TestCase {
 	 * Tests that the conditional is not met when we are not on a post, and also not in an Elementor save.
 	 *
 	 * @covers ::is_met
+	 *
+	 * @requires PHP < 8.1
 	 */
 	public function test_not_post_not_elementor_save() {
 		// We are in an Ajax request.
