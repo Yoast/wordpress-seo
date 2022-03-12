@@ -2,7 +2,7 @@ name: Security
 
 on:
   # Run on all pushes and on all pull requests.
-  push:
+#  push:
   pull_request:
   # Also run this workflow every Monday at 6:00.
   schedule:
