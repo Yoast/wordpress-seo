@@ -36,11 +36,11 @@ class Import_Helper_Test extends TestCase {
 	/**
 	 * Tests flattening settings.
 	 *
-	 * @param array $unflattened_settings        An array of settings to be flattened.
-	 * @param array $expected_flattened_settings The expected flattened settings.
-	 *
 	 * @dataProvider provider_flatten_settings
 	 * @covers ::flatten_settings
+	 *
+	 * @param array $unflattened_settings        An array of settings to be flattened.
+	 * @param array $expected_flattened_settings The expected flattened settings.
 	 */
 	public function test_flatten_settings( $unflattened_settings, $expected_flattened_settings ) {
 		$flattened_settings = $this->instance->flatten_settings( $unflattened_settings );
