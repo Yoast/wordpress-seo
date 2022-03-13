@@ -7,8 +7,8 @@
  * @uses Yoast_Form $yform Form object.
  */
 
-use Yoast\WP\SEO\Presenters\Admin\Premium_Badge_Presenter;
 use Yoast\WP\SEO\Presenters\Admin\Badge_Presenter;
+use Yoast\WP\SEO\Presenters\Admin\Premium_Badge_Presenter;
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
 	header( 'Status: 403 Forbidden' );
