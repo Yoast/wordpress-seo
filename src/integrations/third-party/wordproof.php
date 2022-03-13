@@ -130,7 +130,7 @@ class WordProof implements Integration_Interface {
 	 * This filters hides the certificate if the Yoast post meta key is not set to true.
 	 *
 	 * @param bool    $value If the certificate should be shown.
-	 * @param WP_Post $post The post object of the post for which to determine the certificate should be shown.
+	 * @param WP_Post $post  The post object of the post for which to determine the certificate should be shown.
 	 * @return bool|null
 	 */
 	public function show_certificate( $value, $post ) {

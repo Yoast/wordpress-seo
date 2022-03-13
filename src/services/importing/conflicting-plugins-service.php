@@ -70,7 +70,7 @@ class Conflicting_Plugins_Service {
 	 * @return false|array The names of all active plugins.
 	 */
 	protected function get_active_plugins() {
-		// request a list of active plugins from WordPress.
+		// Request a list of active plugins from WordPress.
 		$all_active_plugins = \get_option( 'active_plugins' );
 
 		return $this->ignore_deactivating_plugin( $all_active_plugins );

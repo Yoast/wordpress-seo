@@ -35,8 +35,8 @@ class WordProof_Helper {
 	 * WordProof_Helper constructor.
 	 *
 	 * @param Current_Page_Helper $current_page The current page helper.
-	 * @param Woocommerce_Helper  $woocommerce The woocommerce helper.
-	 * @param Options_Helper      $options The options helper.
+	 * @param Woocommerce_Helper  $woocommerce  The woocommerce helper.
+	 * @param Options_Helper      $options      The options helper.
 	 */
 	public function __construct( Current_Page_Helper $current_page, Woocommerce_Helper $woocommerce, Options_Helper $options ) {
 		$this->current_page = $current_page;

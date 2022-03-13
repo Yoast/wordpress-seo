@@ -397,7 +397,7 @@ class HelpScout_Beacon implements Integration_Interface {
 
 			if ( is_array( $current_status ) && isset( $current_status['message'] ) ) {
 				$indexables_status .= ', migration error: ' . esc_html( $current_status['message'] );
-			};
+			}
 		}
 
 		return $indexables_status;

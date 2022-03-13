@@ -272,7 +272,6 @@ class Aioseo_Social_Images_Provider_Service_Test extends TestCase {
 			],
 		];
 
-
 		$twitter_custom_image             = [
 			'social' => [
 				'twitter' => [
