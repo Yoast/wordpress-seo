@@ -347,6 +347,7 @@ class Aioseo_Custom_Archive_Settings_Importing_Action_Test extends TestCase {
 		return [
 			[ \json_encode( $full_settings ), $this->full_settings_to_import, $full_settings_expected, 1 ],
 			[ \json_encode( $missing_settings ), 'irrelevant', $missing_settings_expected, 0 ],
+			[ \json_encode( $malformed_settings ), 'irrelevant', $malformed_settings_expected, 0 ],
 		];
 	}
 }
