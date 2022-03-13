@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
+use ReflectionClass;
 use Yoast\WP\SEO\Conditionals\Non_Multisite_Conditional;
 use Yoast\WP\SEO\Conditionals\Third_Party\WordProof_Plugin_Inactive_Conditional;
 
@@ -68,7 +69,7 @@ class WordProof_Helper {
 			if ( ! $conditional->is_met() ) {
 
 				if ( $return_conditional === true ) {
-					return ( new \ReflectionClass( $conditional ) )->getShortName();
+					return ( new ReflectionClass( $conditional ) )->getShortName();
 				}
 
 				return true;

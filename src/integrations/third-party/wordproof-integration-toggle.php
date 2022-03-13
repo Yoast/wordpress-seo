@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Integrations\Third_Party;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Helpers\WordProof_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
+use Yoast_Feature_Toggle;
 
 /**
  * Class WordProofIntegrationToggle.
@@ -115,7 +116,7 @@ class WordProof_Integration_Toggle implements Integration_Interface {
 	/**
 	 * Add an explainer when the integration toggle is disabled.
 	 *
-	 * @param \Yoast_Feature_Toggle $integration The integration toggle class.
+	 * @param Yoast_Feature_Toggle $integration The integration toggle class.
 	 */
 	public function after_integration_toggle( $integration ) {
 		if ( $integration->setting === 'wordproof_integration_active' ) {
@@ -141,7 +142,7 @@ class WordProof_Integration_Toggle implements Integration_Interface {
 	/**
 	 * Add an explainer when the network integration toggle is disabled.
 	 *
-	 * @param \Yoast_Feature_Toggle $integration The integration toggle class.
+	 * @param Yoast_Feature_Toggle $integration The integration toggle class.
 	 */
 	public function after_network_integration_toggle( $integration ) {
 		if ( $integration->setting === 'wordproof_integration_active' ) {
