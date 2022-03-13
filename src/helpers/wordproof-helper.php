@@ -50,8 +50,8 @@ class WordProof_Helper {
 	 * @return bool Returns if the options are deleted
 	 */
 	public function remove_site_options() {
-		return delete_site_option( 'wordproof_access_token' )
-			&& delete_site_option( 'wordproof_source_id' );
+		return \delete_site_option( 'wordproof_access_token' )
+			&& \delete_site_option( 'wordproof_source_id' );
 	}
 
 	/**

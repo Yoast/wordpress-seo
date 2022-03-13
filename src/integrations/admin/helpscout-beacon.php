@@ -185,14 +185,14 @@ class HelpScout_Beacon implements Integration_Interface {
 		// Short-circuit if we can get the needed data from a transient.
 		$transient_data = \get_transient( 'yoast_beacon_session_data' );
 
-		if ( is_array( $transient_data ) ) {
+		if ( \is_array( $transient_data ) ) {
 			return WPSEO_Utils::format_json_encode( $transient_data );
 		}
 
 		$current_user = \wp_get_current_user();
 
 		// Do not make these strings translatable! They are for our support agents, the user won't see them!
-		$data = array_merge(
+		$data = \array_merge(
 			[
 				'name'               => \trim( $current_user->user_firstname . ' ' . $current_user->user_lastname ),
 				'email'              => $current_user->user_email,
@@ -254,7 +254,7 @@ class HelpScout_Beacon implements Integration_Interface {
 		}
 
 		// Get the memory limits for the server and, if different, from WordPress as well.
-		$memory_limit                 = ini_get( 'memory_limit' );
+		$memory_limit                 = \ini_get( 'memory_limit' );
 		$server_info['Memory limits'] = 'Server memory limit: ' . $memory_limit;
 
 		if ( $memory_limit !== WP_MEMORY_LIMIT ) {
@@ -390,13 +390,13 @@ class HelpScout_Beacon implements Integration_Interface {
 		$indexing_reason    = $this->options->get( 'indexing_reason' );
 
 		$indexables_status .= ( $indexing_completed ) ? 'yes' : 'no';
-		$indexables_status .= ( $indexing_reason ) ? ', latest indexing reason: ' . esc_html( $indexing_reason ) : '';
+		$indexables_status .= ( $indexing_reason ) ? ', latest indexing reason: ' . \esc_html( $indexing_reason ) : '';
 
 		foreach ( [ 'free', 'premium' ] as $migration_name ) {
 			$current_status = $this->migration_status->get_error( $migration_name );
 
-			if ( is_array( $current_status ) && isset( $current_status['message'] ) ) {
-				$indexables_status .= ', migration error: ' . esc_html( $current_status['message'] );
+			if ( \is_array( $current_status ) && isset( $current_status['message'] ) ) {
+				$indexables_status .= ', migration error: ' . \esc_html( $current_status['message'] );
 			}
 		}
 
@@ -412,10 +412,10 @@ class HelpScout_Beacon implements Integration_Interface {
 		$site_locale = \get_locale();
 		$user_locale = \get_user_locale();
 
-		$language_settings = sprintf(
+		$language_settings = \sprintf(
 			'Site locale: %1$s, user locale: %2$s',
-			( is_string( $site_locale ) ) ? \esc_html( $site_locale ) : 'unknown',
-			( is_string( $user_locale ) ) ? \esc_html( $user_locale ) : 'unknown'
+			( \is_string( $site_locale ) ) ? \esc_html( $site_locale ) : 'unknown',
+			( \is_string( $user_locale ) ) ? \esc_html( $user_locale ) : 'unknown'
 		);
 
 		return $language_settings;

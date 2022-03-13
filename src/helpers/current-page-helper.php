@@ -450,7 +450,7 @@ class Current_Page_Helper {
 			return false;
 		}
 
-		return intval( $post->ID ) === intval( \get_option( 'wp_page_for_privacy_policy', false ) );
+		return \intval( $post->ID ) === \intval( \get_option( 'wp_page_for_privacy_policy', false ) );
 	}
 
 	/**
