@@ -138,8 +138,8 @@ abstract class Abstract_Aioseo_Importing_Action implements Importing_Action_Inte
 	/**
 	 * Can the current action import the data from plugin $plugin of type $type?
 	 *
-	 * @param string $plugin The plugin to import from.
-	 * @param string $type   The type of data to import.
+	 * @param string|null $plugin The plugin to import from.
+	 * @param string|null $type   The type of data to import.
 	 *
 	 * @return bool True if this action can handle the combination of Plugin and Type.
 	 *

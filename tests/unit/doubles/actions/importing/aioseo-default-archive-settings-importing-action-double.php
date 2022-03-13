@@ -23,7 +23,7 @@ abstract class Aioseo_Default_Archive_Settings_Importing_Action_Double extends A
 	/**
 	 * Queries the database and retrieves unimported AiOSEO settings (in chunks if a limit is applied).
 	 *
-	 * @param int $limit The maximum number of unimported objects to be returned.
+	 * @param int|null $limit The maximum number of unimported objects to be returned.
 	 *
 	 * @return array The (maybe chunked) unimported AiOSEO settings to import.
 	 */

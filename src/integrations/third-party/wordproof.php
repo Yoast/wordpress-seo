@@ -105,8 +105,8 @@ class WordProof implements Integration_Interface {
 	/**
 	 * Removes the WordProof timestamp post meta if a legal page is changed.
 	 *
-	 * @param integer $old_post_id The old post id.
-	 * @param integer $new_post_id The new post id.
+	 * @param int $old_post_id The old post id.
+	 * @param int $new_post_id The new post id.
 	 */
 	public function disable_timestamp_for_previous_legal_page( $old_post_id, $new_post_id ) {
 
