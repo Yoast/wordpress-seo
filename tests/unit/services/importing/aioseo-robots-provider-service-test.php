@@ -73,7 +73,7 @@ class Aioseo_Robots_Provider_Service_Test extends TestCase {
 	/**
 	 * Data provider for test_query().
 	 *
-	 * @return string
+	 * @return array
 	 */
 	public function provider_get_subtype_robot_setting() {
 		$mapping = [
@@ -120,7 +120,7 @@ class Aioseo_Robots_Provider_Service_Test extends TestCase {
 	/**
 	 * Data provider for test_query().
 	 *
-	 * @return string
+	 * @return array
 	 */
 	public function provider_get_global_robot_settings() {
 		$empty_settings = '';

@@ -190,7 +190,7 @@ class Aioseo_Social_Images_Provider_Service_Test extends TestCase {
 	/**
 	 * Data provider for test_query().
 	 *
-	 * @return string
+	 * @return array
 	 */
 	public function provider_get_featured_image() {
 		return [
@@ -202,7 +202,7 @@ class Aioseo_Social_Images_Provider_Service_Test extends TestCase {
 	/**
 	 * Data provider for test_query().
 	 *
-	 * @return string
+	 * @return array
 	 */
 	public function provider_get_first_attached_image() {
 		$no_attachments = [];
@@ -226,7 +226,7 @@ class Aioseo_Social_Images_Provider_Service_Test extends TestCase {
 	/**
 	 * Data provider for test_query().
 	 *
-	 * @return string
+	 * @return array
 	 */
 	public function provider_get_first_image_in_content() {
 		return [
@@ -238,7 +238,7 @@ class Aioseo_Social_Images_Provider_Service_Test extends TestCase {
 	/**
 	 * Data provider for test_query().
 	 *
-	 * @return string
+	 * @return array
 	 */
 	public function provider_get_default_custom_social_image() {
 		$image_url      = 'https://example.com/image.png';
@@ -315,7 +315,7 @@ class Aioseo_Social_Images_Provider_Service_Test extends TestCase {
 	/**
 	 * Data provider for test_query().
 	 *
-	 * @return string
+	 * @return array
 	 */
 	public function provider_get_default_social_image_source() {
 		$empty_settings = [];

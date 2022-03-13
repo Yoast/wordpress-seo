@@ -191,7 +191,7 @@ abstract class Abstract_Aioseo_Importing_Action implements Importing_Action_Inte
 	 *
 	 * @param bool $completed Whether the importer is completed.
 	 *
-	 * @return void.
+	 * @return void
 	 */
 	public function set_completed( $completed ) {
 		$completed_id                  = $this->get_completed_id();

@@ -347,7 +347,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 	/**
 	 * Data provider for test_donot_map().
 	 *
-	 * @return string
+	 * @return array
 	 */
 	public function provider_donot_map() {
 		$aioseo_indexable = [

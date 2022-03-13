@@ -72,7 +72,7 @@ class Aioseo_Robots_Transformer_Service_Test extends TestCase {
 	/**
 	 * Data provider for test_query().
 	 *
-	 * @return string
+	 * @return array
 	 */
 	public function provider_transform_robot_setting() {
 		$mapping = [
