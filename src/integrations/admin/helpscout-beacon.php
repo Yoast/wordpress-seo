@@ -222,7 +222,7 @@ class HelpScout_Beacon implements Integration_Interface {
 		}
 
 		// Store the data in a transient for 5 minutes to prevent overhead on every backend pageload.
-		\set_transient( 'yoast_beacon_session_data', $data, ( 5 * MINUTE_IN_SECONDS ) );
+		\set_transient( 'yoast_beacon_session_data', $data, ( 5 * \MINUTE_IN_SECONDS ) );
 
 		return WPSEO_Utils::format_json_encode( $data );
 	}
@@ -257,12 +257,12 @@ class HelpScout_Beacon implements Integration_Interface {
 		$memory_limit                 = \ini_get( 'memory_limit' );
 		$server_info['Memory limits'] = 'Server memory limit: ' . $memory_limit;
 
-		if ( $memory_limit !== WP_MEMORY_LIMIT ) {
-			$server_info['Memory limits'] .= ', WP_MEMORY_LIMIT: ' . WP_MEMORY_LIMIT;
+		if ( $memory_limit !== \WP_MEMORY_LIMIT ) {
+			$server_info['Memory limits'] .= ', WP_MEMORY_LIMIT: ' . \WP_MEMORY_LIMIT;
 		}
 
-		if ( $memory_limit !== WP_MAX_MEMORY_LIMIT ) {
-			$server_info['Memory limits'] .= ', WP_MAX_MEMORY_LIMIT: ' . WP_MAX_MEMORY_LIMIT;
+		if ( $memory_limit !== \WP_MAX_MEMORY_LIMIT ) {
+			$server_info['Memory limits'] .= ', WP_MAX_MEMORY_LIMIT: ' . \WP_MAX_MEMORY_LIMIT;
 		}
 
 		return $server_info;
