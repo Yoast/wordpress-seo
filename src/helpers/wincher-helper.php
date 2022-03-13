@@ -30,7 +30,7 @@ class Wincher_Helper {
 			return false;
 		}
 
-		return ! ! WPSEO_Options::get( 'wincher_integration_active', true );
+		return (bool) WPSEO_Options::get( 'wincher_integration_active', true );
 	}
 
 	/**
