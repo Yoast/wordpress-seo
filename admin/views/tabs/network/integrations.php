@@ -67,7 +67,6 @@ $integration_toggles = Yoast_Integration_Toggles::instance()->get_all();
 			);
 
 			do_action( 'Yoast\WP\SEO\admin_network_integration_after', $integration );
-
 		}
 		?>
 	</div>

@@ -126,7 +126,6 @@ class Indexable_Post_Builder_Test extends TestCase {
 			$closure = static function ( $actual_key, $actual_value ) use ( $key, $value ) {
 				if ( $actual_key === $key && $actual_value === $value ) {
 					return true;
-
 				}
 				else {
 					return false;

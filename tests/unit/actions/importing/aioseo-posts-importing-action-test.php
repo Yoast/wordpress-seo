@@ -680,7 +680,6 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			'og_title'             => '',
 			'og_description'       => '',
 			'robots_default'       => true,
-			'robots_default'       => true,
 			'robots_nofollow'      => true,
 			'robots_noarchive'     => false,
 			'robots_nosnippet'     => true,
