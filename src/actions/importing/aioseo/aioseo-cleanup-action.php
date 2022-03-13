@@ -177,7 +177,7 @@ class Aioseo_Cleanup_Action extends Abstract_Aioseo_Importing_Action {
 	 */
 	public function truncate_query() {
 		if ( ! $this->aioseo_exists() ) {
-			return true;
+			return '';
 		}
 
 		$table = $this->get_aioseo_table();
