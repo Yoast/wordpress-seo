@@ -166,13 +166,13 @@ class Aioseo_General_Settings_Importing_Action_Test extends TestCase {
 	/**
 	 * Tests retrieving unimported AiOSEO settings.
 	 *
+	 * @dataProvider provider_query
+	 * @covers ::query
+	 *
 	 * @param array $query_results        The results from the query.
 	 * @param bool  $expected_unflattened The expected unflattened retrieved data.
 	 * @param bool  $expected             The expected retrieved data.
 	 * @param int   $times                The expected times we will look for the chunked unimported settings.
-	 *
-	 * @dataProvider provider_query
-	 * @covers ::query
 	 */
 	public function test_query( $query_results, $expected_unflattened, $expected, $times ) {
 		Monkey\Functions\expect( 'get_option' )
@@ -197,15 +197,15 @@ class Aioseo_General_Settings_Importing_Action_Test extends TestCase {
 	/**
 	 * Tests mapping AIOSEO general settings.
 	 *
+	 * @dataProvider provider_map
+	 * @covers ::map
+	 *
 	 * @param string $setting         The setting at hand, eg. post or movie-category, separator etc.
 	 * @param string $setting_value   The value of the AIOSEO setting at hand.
 	 * @param int    $times           The times that we will import each setting, if any.
 	 * @param int    $transform_times The times that we will transform each setting, if any.
 	 * @param int    $image_times     The times that we will use the image helper.
 	 * @param int    $set_image_times The times that we will set image data.
-	 *
-	 * @dataProvider provider_map
-	 * @covers ::map
 	 */
 	public function test_map( $setting, $setting_value, $times, $transform_times, $image_times, $set_image_times ) {
 		$this->mock_instance->build_mapping();
@@ -252,11 +252,11 @@ class Aioseo_General_Settings_Importing_Action_Test extends TestCase {
 	/**
 	 * Tests transforming the separator settings.
 	 *
-	 * @param string $separator               The separator.
-	 * @param string $expected_transformation The expected transformed separator.
-	 *
 	 * @dataProvider provider_transform_separator
 	 * @covers ::transform_separator
+	 *
+	 * @param string $separator               The separator.
+	 * @param string $expected_transformation The expected transformed separator.
 	 */
 	public function test_transform_separator( $separator, $expected_transformation ) {
 		$transformed_separator = $this->mock_instance->transform_separator( $separator );
@@ -267,11 +267,11 @@ class Aioseo_General_Settings_Importing_Action_Test extends TestCase {
 	/**
 	 * Tests transforming the site represents setting.
 	 *
-	 * @param string $site_represents         The site represents setting.
-	 * @param string $expected_transformation The expected transformed separator.
-	 *
 	 * @dataProvider provider_transform_site_represents
 	 * @covers ::transform_site_represents
+	 *
+	 * @param string $site_represents         The site represents setting.
+	 * @param string $expected_transformation The expected transformed separator.
 	 */
 	public function test_transform_site_represents( $site_represents, $expected_transformation ) {
 		$transformed_site_represents = $this->mock_instance->transform_site_represents( $site_represents );

@@ -102,15 +102,15 @@ class Importing_Route_Test extends TestCase {
 	/**
 	 * Tests whether a handler exists for all existing routes.
 	 *
+	 * @dataProvider all_routes
+	 *
+	 * @covers ::execute
+	 *
 	 * @param string $plugin            The plugin.
 	 * @param string $type              The type of entity to import.
 	 * @param bool   $is_enabled        Whether the action is enabled.
 	 * @param int    $index_times       The times the action will be executed.
 	 * @param string $expected_response The class of the expected response.
-	 *
-	 * @dataProvider all_routes
-	 *
-	 * @covers ::execute
 	 */
 	public function test_execute_import_aioseo_posts( $plugin, $type, $is_enabled, $index_times, $expected_response ) {
 		Mockery::mock( 'overload:WP_REST_Response' );

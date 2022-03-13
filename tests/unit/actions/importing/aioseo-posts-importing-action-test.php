@@ -261,13 +261,13 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 	/**
 	 * Tests that importing of AIOSEO data doesn't happen when there are no AIOSEO data or when Yoast data exist.
 	 *
+	 * @dataProvider provider_donot_map
+	 * @covers ::index
+	 *
 	 * @param array $aioseo_indexables      The AIOSEO indexables that were returned from the db.
 	 * @param bool  $is_default             Whether the Yoast indexable has default values.
 	 * @param int   $check_if_default_times The times we expect to check if the Yoast indexable has default values.
 	 * @param int   $cursor_value           The value we expect to give to the cursor at the end of the process.
-	 *
-	 * @dataProvider provider_donot_map
-	 * @covers ::index
 	 */
 	public function test_donot_map( $aioseo_indexables, $is_default, $check_if_default_times, $cursor_value ) {
 		if ( ! \defined( 'ARRAY_A' ) ) {
@@ -715,6 +715,9 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 	/**
 	 * Tests importing the og and twitter image url.
 	 *
+	 * @dataProvider provider_social_image_url_import
+	 * @covers ::social_image_url_import
+	 *
 	 * @param bool   $aioseo_social_image_settings AIOSEO's set of social image settings for the post.
 	 * @param array  $mapping                      The mapping of the setting we're working with.
 	 * @param int    $expected_url                 The URL that's expected to be imported.
@@ -724,9 +727,6 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 	 * @param mixed  $provider_result              The result the social images provider returns.
 	 * @param int    $get_default_times            The times we're getting the default url.
 	 * @param string $social_setting               The social settings we use to get the default url.
-	 *
-	 * @dataProvider provider_social_image_url_import
-	 * @covers ::social_image_url_import
 	 */
 	public function test_social_image_url_import( $aioseo_social_image_settings, $mapping, $expected_url, $sanitize_url_times, $provider_method, $provider_times, $provider_result, $get_default_times, $social_setting ) {
 		$indexable      = Mockery::mock( Indexable_Mock::class );
