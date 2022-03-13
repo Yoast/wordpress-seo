@@ -34,7 +34,7 @@ class Deactivate_Conflicting_Plugins_Action_Test extends TestCase {
 	/**
 	 * The service responsible for detecting conflicting plugins
 	 *
-	 * @var Mockery::mockInterface|Conflicting_Plugins_Service
+	 * @var Mockery\MockInterface|Conflicting_Plugins_Service
 	 */
 	protected $conflicting_plugins_service;
 

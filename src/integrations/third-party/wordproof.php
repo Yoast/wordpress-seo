@@ -21,14 +21,14 @@ class WordProof implements Integration_Interface {
 	/**
 	 * The Yoast meta key used to save if a post should be timestamped.
 	 *
-	 * @var string The Yoast meta key used to save if a post should be timestamped.
+	 * @var string
 	 */
 	protected $post_meta_key = '_yoast_wpseo_wordproof_timestamp';
 
 	/**
 	 * The WordProof helper instance.
 	 *
-	 * @var WordProof_Helper $wordproof The helper instance.
+	 * @var WordProof_Helper
 	 */
 	protected $wordproof;
 
