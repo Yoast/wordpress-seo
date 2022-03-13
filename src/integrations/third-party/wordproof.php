@@ -111,7 +111,7 @@ class WordProof implements Integration_Interface {
 	public function disable_timestamp_for_previous_legal_page( $old_post_id, $new_post_id ) {
 
 		if ( $old_post_id !== $new_post_id ) {
-			delete_post_meta( $old_post_id, '_yoast_wpseo_wordproof_timestamp' );
+			\delete_post_meta( $old_post_id, '_yoast_wpseo_wordproof_timestamp' );
 		}
 	}
 
@@ -142,7 +142,7 @@ class WordProof implements Integration_Interface {
 			return false;
 		}
 
-		return boolval( PostMetaHelper::get( $post->ID, $this->post_meta_key ) );
+		return \boolval( PostMetaHelper::get( $post->ID, $this->post_meta_key ) );
 	}
 
 	/**

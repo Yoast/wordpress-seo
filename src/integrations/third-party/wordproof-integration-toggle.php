@@ -83,15 +83,15 @@ class WordProof_Integration_Toggle implements Integration_Interface {
 		if ( \is_array( $integration_toggles ) ) {
 			$integration_toggles[] = (object) [
 				/* translators: %s expands to WordProof */
-				'name'            => sprintf( __( '%s integration', 'wordpress-seo' ), 'WordProof' ),
+				'name'            => \sprintf( \__( '%s integration', 'wordpress-seo' ), 'WordProof' ),
 				'setting'         => 'wordproof_integration_active',
-				'label'           => sprintf(
+				'label'           => \sprintf(
 				/* translators: %s expands to WordProof */
-					__( '%1$s can be used to timestamp your privacy page.', 'wordpress-seo' ),
+					\__( '%1$s can be used to timestamp your privacy page.', 'wordpress-seo' ),
 					'WordProof'
 				),
 				/* translators: %s expands to WordProof */
-				'read_more_label' => sprintf( __( 'Read more about how %s works.', 'wordpress-seo' ), 'WordProof ' ),
+				'read_more_label' => \sprintf( \__( 'Read more about how %s works.', 'wordpress-seo' ), 'WordProof ' ),
 				'read_more_url'   => 'https://yoa.st/wordproof-integration',
 				'order'           => 16,
 				'disabled'        => $this->wordproof->integration_is_disabled(),
@@ -129,15 +129,15 @@ class WordProof_Integration_Toggle implements Integration_Interface {
 				$conditional = $this->wordproof->integration_is_disabled( true );
 
 				if ( $conditional === 'Non_Multisite_Conditional' ) {
-					echo '<p>' . sprintf(
+					echo '<p>' . \sprintf(
 						/* translators: %s expands to WordProof */
-						esc_html__( 'Currently, the %s integration is not available for multisites.', 'wordpress-seo' ),
+						\esc_html__( 'Currently, the %s integration is not available for multisites.', 'wordpress-seo' ),
 						'WordProof'
 					) . '</p>';
 				}
 
 				if ( $conditional === 'WordProof_Plugin_Inactive_Conditional' ) {
-					echo '<p>' . esc_html__( 'The WordProof Timestamp plugin needs to be disabled before you can activate this integration.', 'wordpress-seo' ) . '</p>';
+					echo '<p>' . \esc_html__( 'The WordProof Timestamp plugin needs to be disabled before you can activate this integration.', 'wordpress-seo' ) . '</p>';
 				}
 			}
 		}
@@ -151,9 +151,9 @@ class WordProof_Integration_Toggle implements Integration_Interface {
 	public function after_network_integration_toggle( $integration ) {
 		if ( $integration->setting === 'wordproof_integration_active' ) {
 			if ( $integration->disabled ) {
-				echo '<p>' . sprintf(
+				echo '<p>' . \sprintf(
 					/* translators: %s expands to WordProof */
-					esc_html__( 'Currently, the %s integration is not available for multisites.', 'wordpress-seo' ),
+					\esc_html__( 'Currently, the %s integration is not available for multisites.', 'wordpress-seo' ),
 					'WordProof'
 				) . '</p>';
 			}
