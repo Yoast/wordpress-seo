@@ -1,6 +1,5 @@
 import * as dom from "../../../src/classic-editor/helpers/dom";
 import getContentLocale from "../../../src/analysis/getContentLocale";
-import { DOM_IDS } from "../../../src/classic-editor/helpers/dom";
 
 jest.mock( "../../../src/lib/tinymce", () => ( {
 	getContentTinyMce: jest.fn().mockReturnValue(
