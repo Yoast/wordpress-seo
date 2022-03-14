@@ -10,8 +10,6 @@ use Yoast\WP\SEO\Exceptions\Validation\Invalid_Twitter_Username_Exception;
  */
 class Twitter_Username_Validator extends Text_Field_Validator {
 
-	// phpcs:disable Squiz.Commenting.FunctionCommentThrowTag.WrongNumber -- Reason: The parent validate can throw too.
-
 	/**
 	 * Holds the regex validator instance.
 	 *
@@ -27,6 +25,8 @@ class Twitter_Username_Validator extends Text_Field_Validator {
 	public function __construct( Regex_Validator $regex_validator ) {
 		$this->regex_validator = $regex_validator;
 	}
+
+	// phpcs:disable Squiz.Commenting.FunctionCommentThrowTag.WrongNumber -- Reason: The parent validate can throw too.
 
 	/**
 	 * Validates if a value is a Twitter username.
@@ -65,4 +65,6 @@ class Twitter_Username_Validator extends Text_Field_Validator {
 
 		throw new Invalid_Twitter_Username_Exception( $string );
 	}
+
+	// phpcs:enable Squiz.Commenting.FunctionCommentThrowTag.WrongNumber
 }
