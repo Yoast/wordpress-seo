@@ -17,19 +17,18 @@ let functionWords = [];
 /**
  * Checks whether the link is pointing at itself.
  *
- * @param {Paper} paper The paper to research.
+ * @param {string} slug      	 	  The slug.
  * @param {string} anchor      	 	  The link anchor.
  * @param {string} siteUrlOrDomain    The site URL or domain of the paper.
  *
  * @returns {boolean} Whether the anchor is pointing at itself.
  */
-const linkToSelf = function( paper, anchor, siteUrlOrDomain ) {
+const linkToSelf = function( slug, anchor, siteUrlOrDomain ) {
 	const anchorLink = urlHelper.getFromAnchorTag( anchor );
 	// Relative fragment links always point to the page itself.
 	if ( urlHelper.isRelativeFragmentURL( anchorLink ) ) {
 		return true;
 	}
-	const slug = paper.getUrl();
 	if ( ! siteUrlOrDomain.startsWith( "https://" || "http://" ) ) {
 		siteUrlOrDomain = ( "http://" + siteUrlOrDomain + slug ) && ( "https://" + siteUrlOrDomain + slug );
 	}
@@ -39,14 +38,15 @@ const linkToSelf = function( paper, anchor, siteUrlOrDomain ) {
 /**
  * Filters anchors that are not pointing at itself.
  *
+ * @param {string}  slug      	 	  The slug.
  * @param {Array}   anchors     	  An array with all anchors from the paper.
  * @param {string}  siteUrlOrDomain   The site URL or domain of the paper.
  *
  * @returns {Array} The array of all anchors that are not pointing at the paper itself.
  */
-const filterAnchorsLinkingToSelf = function( anchors, siteUrlOrDomain ) {
+const filterAnchorsLinkingToSelf = function( slug, anchors, siteUrlOrDomain ) {
 	const anchorsLinkingToSelf = anchors.map( function( anchor ) {
-		return linkToSelf( anchor, siteUrlOrDomain );
+		return linkToSelf( slug, anchor, siteUrlOrDomain );
 	} );
 
 	anchors = anchors.filter( function( anchor, index ) {
@@ -155,6 +155,7 @@ const keywordInAnchor = function( paper, researcher, anchors, siteUrlOrDomain ) 
 		getWordsCustomHelper: researcher.getHelper( "getWordsCustomHelper" ),
 	};
 	const result = { totalKeyword: 0, matchedAnchors: [] };
+	const slug = paper.getUrl();
 
 	const keyword = paper.getKeyword();
 	const originalTopics = parseSynonyms( paper.getSynonyms() );
