@@ -141,7 +141,7 @@ describe( "a test for getting the replacement of the tag variable in classic edi
 } );
 
 describe( "a test for getting the replacement of the custom taxonomies (CT) variable in classic editor", () => {
-	const names = map( get( window, "wpseoScriptData.analysis.plugins.replaceVars.replace_vars.custom_taxonomies", {} ), ( term => term.name ) );
+	const names = map( get( window, "wpseoScriptData.analysis.plugins.replaceVars.replace_vars.custom_taxonomies", {} ), ( ( { name } ) => name ) );
 
 	it( "should return the replacement for both hierarchical and non-hirarchical CT variable when the store " +
 		"doesn't return an empty object of custom taxonomies", () => {
