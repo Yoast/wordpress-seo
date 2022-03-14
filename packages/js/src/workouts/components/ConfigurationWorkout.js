@@ -17,6 +17,7 @@ import { NewsletterSignup } from "./NewsletterSignup";
 import { ConfigurationIndexation } from "../tailwind-components/steps/indexation/ConfigurationIndexation";
 import SocialInputSection from "./SocialInputSection";
 import SocialInputPersonSection from "./SocialInputPersonSection";
+import SocialProfilesStep from "../tailwind-components/steps/social-profiles/social-profiles-step";
 import Stepper, { Step } from "../tailwind-components/Stepper";
 import { ContinueButton, EditButton, ConfigurationStepButtons } from "../tailwind-components/ConfigurationStepperButtons";
 import { STEPS, WORKOUTS } from "../config";
@@ -247,24 +248,6 @@ const stepNumberNameMap = {
 	3: STEPS.configuration.socialProfiles,
 	4: STEPS.configuration.newsletterSignup,
 };
-
-/* eslint-disable max-len, react/prop-types */
-/**
- * Doc comment to make linter happy.
- *
- * @returns {JSX.Element} Example step.
- */
-function SocialProfilesStep( { state, dispatch, setErrorFields, siteRepresentsPerson } ) {
-	return <Fragment>
-		{ [ "company", "emptyChoice" ].includes( state.companyOrPerson ) && <SocialInputSection
-			socialProfiles={ state.socialProfiles }
-			dispatch={ dispatch }
-			errorFields={ state.errorFields }
-			setErrorFields={ setErrorFields }
-		/> }
-		{ siteRepresentsPerson && <SocialInputPersonSection personId={ state.personId } /> }
-	</Fragment>;
-}
 
 /**
  * Doc comment to make linter happy.
