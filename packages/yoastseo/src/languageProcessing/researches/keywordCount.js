@@ -9,12 +9,17 @@ import { markWordsInSentences } from "../helpers/word/markWordsInSentences";
 /**
  * Calculates the keyword count, takes morphology into account.
  *
- * @param {object} paper The paper containing keyword and text.
- * @param {object} researcher The researcher
- * @returns {number} The keyword count.
+ * @param {object} paper        The paper containing keyword and text.
+ * @param {object} researcher   The researcher.
+ *
+ * @returns {object} An array of all the matches, markings and the keyword count.
  */
 export default function( paper, researcher ) {
 	const topicForms = researcher.getResearch( "morphology" );
+
+	// A helper to return all the matches for the keyphrase.
+	const matchWordCustomHelper = researcher.getHelper( "matchWordCustomHelper" );
+
 	const text = paper.getText();
 	const locale = paper.getLocale();
 
@@ -27,13 +32,14 @@ export default function( paper, researcher ) {
 	};
 
 	/*
-	 * Count the amount of key phrase occurrences in the sentences.
-	 * An occurrence is counted when all keywords of the key phrase are contained within the sentence.
-	 * Each sentence can contain multiple key phrases
-	 * (e.g. "The apple potato is an apple and a potato." has two occurrences of the key phrase "apple potato").
+	 * Count the amount of keyphrase occurrences in the sentences.
+	 * An occurrence is counted when all keywords of the keyphrase are contained within the sentence. Each sentence can contain multiple keyphrases.
+	 * (e.g. "The apple potato is an apple and a potato." has two occurrences of the keyphrase "apple potato").
 	 */
 	sentences.forEach( sentence => {
-		const matchesInSentence = topicForms.keyphraseForms.map( keywordForms => matchWords( sentence, keywordForms, locale ) );
+		const matchesInSentence = topicForms.keyphraseForms.map( keywordForms => matchWords( sentence,
+			keywordForms, locale, matchWordCustomHelper ) );
+
 		const hasAllKeywords = matchesInSentence.every( keywordForm => keywordForm.count > 0 );
 
 		if ( hasAllKeywords ) {
@@ -46,11 +52,12 @@ export default function( paper, researcher ) {
 	} );
 
 	const matches = unique( flattenDeep( keywordsFound.matches ) ).sort( ( a, b ) => b.length - a.length );
+	const keyphraseForms = flattenDeep( topicForms.keyphraseForms );
 
 	return {
 		count: keywordsFound.count,
 		matches: matches,
-		markings: markWordsInSentences( matches, keywordsFound.sentencesWithKeywords, locale ),
+		markings: markWordsInSentences( keyphraseForms, keywordsFound.sentencesWithKeywords, locale, matchWordCustomHelper ),
 		length: topicForms.keyphraseForms.length,
 	};
 }

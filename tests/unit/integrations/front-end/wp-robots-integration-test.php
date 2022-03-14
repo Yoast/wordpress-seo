@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Front_End;
 
-use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Conditionals\WP_Robots_Conditional;

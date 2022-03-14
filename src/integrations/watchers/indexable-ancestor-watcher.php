@@ -116,7 +116,8 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 			return false;
 		}
 
-		if ( $indexable->permalink === $indexable_before->permalink ) {
+		// If the permalink was null it means it was reset instead of changed.
+		if ( $indexable->permalink === $indexable_before->permalink || \is_null( $indexable_before->permalink ) ) {
 			return false;
 		}
 
@@ -185,7 +186,7 @@ class Indexable_Ancestor_Watcher implements Integration_Interface {
 	 * @param int $post_type The post type.
 	 */
 	public function build_post_hierarchy( $object_id, $post_type ) {
-		_deprecated_function( __METHOD__, '16.4', 'Primary_Category_Quick_Edit_Watcher::build_post_hierarchy' );
+		\_deprecated_function( __METHOD__, '16.4', 'Primary_Category_Quick_Edit_Watcher::build_post_hierarchy' );
 	}
 
 	/**

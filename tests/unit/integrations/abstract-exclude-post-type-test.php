@@ -2,8 +2,8 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Integrations;
 
-use Mockery;
 use Brain\Monkey;
+use Mockery;
 use Yoast\WP\SEO\Integrations\Abstract_Exclude_Post_Type;
 use Yoast\WP\SEO\Integrations\Exclude_Oembed_Cache_Post_Type;
 use Yoast\WP\SEO\Integrations\Third_Party\Exclude_Elementor_Post_Types;

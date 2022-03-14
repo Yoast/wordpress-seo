@@ -13,8 +13,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-use Yoast\WP\SEO\Conditionals\Japanese_Support_Conditional;
-
 /**
  * Class: WPSEO_Replace_Vars.
  *
@@ -87,7 +85,7 @@ class WPSEO_Replace_Vars {
 	 *
 	 * @see wpseo_register_var_replacement() for a usage example.
 	 *
-	 * @param string $var              The name of the variable to replace, i.e. '%%var%%'.
+	 * @param string $var_to_replace   The name of the variable to replace, i.e. '%%var%%'.
 	 *                                 Note: the surrounding %% are optional.
 	 * @param mixed  $replace_function Function or method to call to retrieve the replacement value for the variable.
 	 *                                 Uses the same format as add_filter/add_action function parameter and
@@ -97,22 +95,22 @@ class WPSEO_Replace_Vars {
 	 *
 	 * @return bool Whether the replacement function was succesfully registered.
 	 */
-	public static function register_replacement( $var, $replace_function, $type = 'advanced', $help_text = '' ) {
+	public static function register_replacement( $var_to_replace, $replace_function, $type = 'advanced', $help_text = '' ) {
 		$success = false;
 
-		if ( is_string( $var ) && $var !== '' ) {
-			$var = self::remove_var_delimiter( $var );
+		if ( is_string( $var_to_replace ) && $var_to_replace !== '' ) {
+			$var_to_replace = self::remove_var_delimiter( $var_to_replace );
 
-			if ( preg_match( '`^[A-Z0-9_-]+$`i', $var ) === false ) {
+			if ( preg_match( '`^[A-Z0-9_-]+$`i', $var_to_replace ) === false ) {
 				trigger_error( esc_html__( 'A replacement variable can only contain alphanumeric characters, an underscore or a dash. Try renaming your variable.', 'wordpress-seo' ), E_USER_WARNING );
 			}
-			elseif ( strpos( $var, 'cf_' ) === 0 || strpos( $var, 'ct_' ) === 0 ) {
+			elseif ( strpos( $var_to_replace, 'cf_' ) === 0 || strpos( $var_to_replace, 'ct_' ) === 0 ) {
 				trigger_error( esc_html__( 'A replacement variable can not start with "%%cf_" or "%%ct_" as these are reserved for the WPSEO standard variable variables for custom fields and custom taxonomies. Try making your variable name unique.', 'wordpress-seo' ), E_USER_WARNING );
 			}
-			elseif ( ! method_exists( __CLASS__, 'retrieve_' . $var ) ) {
-				if ( $var !== '' && ! isset( self::$external_replacements[ $var ] ) ) {
-					self::$external_replacements[ $var ] = $replace_function;
-					$replacement_variable                = new WPSEO_Replacement_Variable( $var, $var, $help_text );
+			elseif ( ! method_exists( __CLASS__, 'retrieve_' . $var_to_replace ) ) {
+				if ( $var_to_replace !== '' && ! isset( self::$external_replacements[ $var_to_replace ] ) ) {
+					self::$external_replacements[ $var_to_replace ] = $replace_function;
+					$replacement_variable                           = new WPSEO_Replacement_Variable( $var_to_replace, $var_to_replace, $help_text );
 					self::register_help_text( $type, $replacement_variable );
 					$success = true;
 				}
@@ -131,20 +129,20 @@ class WPSEO_Replace_Vars {
 	/**
 	 * Replace `%%variable_placeholders%%` with their real value based on the current requested page/post/cpt/etc.
 	 *
-	 * @param string $string The string to replace the variables in.
-	 * @param array  $args   The object some of the replacement values might come from,
-	 *                       could be a post, taxonomy or term.
-	 * @param array  $omit   Variables that should not be replaced by this function.
+	 * @param string $text The string to replace the variables in.
+	 * @param array  $args The object some of the replacement values might come from,
+	 *                     could be a post, taxonomy or term.
+	 * @param array  $omit Variables that should not be replaced by this function.
 	 *
 	 * @return string
 	 */
-	public function replace( $string, $args, $omit = [] ) {
+	public function replace( $text, $args, $omit = [] ) {
 
-		$string = wp_strip_all_tags( $string );
+		$text = wp_strip_all_tags( $text );
 
 		// Let's see if we can bail super early.
-		if ( strpos( $string, '%%' ) === false ) {
-			return YoastSEO()->helpers->string->standardize_whitespace( $string );
+		if ( strpos( $text, '%%' ) === false ) {
+			return YoastSEO()->helpers->string->standardize_whitespace( $text );
 		}
 
 		$args = (array) $args;
@@ -162,7 +160,7 @@ class WPSEO_Replace_Vars {
 		}
 
 		$replacements = [];
-		if ( preg_match_all( '`%%([^%]+(%%single)?)%%?`iu', $string, $matches ) ) {
+		if ( preg_match_all( '`%%([^%]+(%%single)?)%%?`iu', $text, $matches ) ) {
 			$replacements = $this->set_up_replacements( $matches, $omit );
 		}
 
@@ -178,11 +176,11 @@ class WPSEO_Replace_Vars {
 
 		// Do the actual replacements.
 		if ( is_array( $replacements ) && $replacements !== [] ) {
-			$string = str_replace(
+			$text = str_replace(
 				array_keys( $replacements ),
 				// Make sure to exclude replacement values that are arrays e.g. coming from a custom field serialized value.
 				array_filter( array_values( $replacements ), 'is_scalar' ),
-				$string
+				$text
 			);
 		}
 
@@ -198,25 +196,25 @@ class WPSEO_Replace_Vars {
 			// Remove non-replaced variables.
 			$remove = array_diff( $matches[1], $omit ); // Make sure the $omit variables do not get removed.
 			$remove = array_map( [ __CLASS__, 'add_var_delimiter' ], $remove );
-			$string = str_replace( $remove, '', $string );
+			$text   = str_replace( $remove, '', $text );
 		}
 
 		// Undouble separators which have nothing between them, i.e. where a non-replaced variable was removed.
 		if ( isset( $replacements['%%sep%%'] ) && ( is_string( $replacements['%%sep%%'] ) && $replacements['%%sep%%'] !== '' ) ) {
-			$q_sep  = preg_quote( $replacements['%%sep%%'], '`' );
-			$string = preg_replace( '`' . $q_sep . '(?:\s*' . $q_sep . ')*`u', $replacements['%%sep%%'], $string );
+			$q_sep = preg_quote( $replacements['%%sep%%'], '`' );
+			$text  = preg_replace( '`' . $q_sep . '(?:\s*' . $q_sep . ')*`u', $replacements['%%sep%%'], $text );
 		}
 
 		// Remove superfluous whitespace.
-		$string = YoastSEO()->helpers->string->standardize_whitespace( $string );
+		$text = YoastSEO()->helpers->string->standardize_whitespace( $text );
 
-		return $string;
+		return $text;
 	}
 
 	/**
 	 * Register a new replacement variable if it has not been registered already.
 	 *
-	 * @param string $var              The name of the variable to replace, i.e. '%%var%%'.
+	 * @param string $var_to_replace   The name of the variable to replace, i.e. '%%var%%'.
 	 *                                 Note: the surrounding %% are optional.
 	 * @param mixed  $replace_function Function or method to call to retrieve the replacement value for the variable.
 	 *                                 Uses the same format as add_filter/add_action function parameter and
@@ -226,9 +224,9 @@ class WPSEO_Replace_Vars {
 	 *
 	 * @return bool `true` if the replace var has been registered, `false` if not.
 	 */
-	public function safe_register_replacement( $var, $replace_function, $type = 'advanced', $help_text = '' ) {
-		if ( ! $this->has_been_registered( $var ) ) {
-			return self::register_replacement( $var, $replace_function, $type, $help_text );
+	public function safe_register_replacement( $var_to_replace, $replace_function, $type = 'advanced', $help_text = '' ) {
+		if ( ! $this->has_been_registered( $var_to_replace ) ) {
+			return self::register_replacement( $var_to_replace, $replace_function, $type, $help_text );
 		}
 		return false;
 	}
@@ -395,8 +393,9 @@ class WPSEO_Replace_Vars {
 	 * @return string|null
 	 */
 	private function retrieve_excerpt() {
-		$japanese_feature_flag = new Japanese_Support_Conditional();
-		$replacement           = null;
+		$replacement = null;
+		$locale      = \get_locale();
+		$limit       = ( $locale === 'ja' ) ? 80 : 156;
 
 		// The check `post_password_required` is because excerpt must be hidden for a post with a password.
 		if ( ! empty( $this->args->ID ) && ! post_password_required( $this->args->ID ) ) {
@@ -407,22 +406,15 @@ class WPSEO_Replace_Vars {
 				$content = strip_shortcodes( $this->args->post_content );
 				$content = wp_strip_all_tags( $content );
 
-				if ( strlen( utf8_decode( $content ) ) <= 156 ) {
+				if ( strlen( utf8_decode( $content ) ) <= $limit ) {
 					return $content;
 				}
 
-				$replacement = wp_html_excerpt( $content, 156 );
+				$replacement = wp_html_excerpt( $content, $limit );
 
-				// Check if Japanese support is enabled.
-				if ( $japanese_feature_flag->is_met() ) {
-					// Check if the description has space and trim the auto-generated string to a word boundary.
-					if ( strrpos( $replacement, ' ' ) ) {
+				// Check if the description has space and trim the auto-generated string to a word boundary.
+				if ( strrpos( $replacement, ' ' ) ) {
 						$replacement = substr( $replacement, 0, strrpos( $replacement, ' ' ) );
-					}
-				}
-				else {
-					// If Japanese support is disabled, always trim the auto-generated string to a word boundary doesn't matter whether a space is present or not.
-					$replacement = substr( $replacement, 0, strrpos( $replacement, ' ' ) );
 				}
 			}
 		}
@@ -760,16 +752,16 @@ class WPSEO_Replace_Vars {
 	/**
 	 * Retrieve a post/page/cpt's custom field value for use as replacement string.
 	 *
-	 * @param string $var The complete variable to replace which includes the name of
-	 *                    the custom field which value is to be retrieved.
+	 * @param string $var_to_replace The complete variable to replace which includes the name of
+	 *                               the custom field which value is to be retrieved.
 	 *
 	 * @return string|null
 	 */
-	private function retrieve_cf_custom_field_name( $var ) {
+	private function retrieve_cf_custom_field_name( $var_to_replace ) {
 		$replacement = null;
 
-		if ( is_string( $var ) && $var !== '' ) {
-			$field = substr( $var, 3 );
+		if ( is_string( $var_to_replace ) && $var_to_replace !== '' ) {
+			$field = substr( $var_to_replace, 3 );
 			if ( ! empty( $this->args->ID ) ) {
 				// Post meta can be arrays and in this case we need to exclude them.
 				$name = get_post_meta( $this->args->ID, $field, true );
@@ -791,17 +783,17 @@ class WPSEO_Replace_Vars {
 	/**
 	 * Retrieve a post/page/cpt's custom taxonomies for use as replacement string.
 	 *
-	 * @param string $var    The complete variable to replace which includes the name of
-	 *                       the custom taxonomy which value(s) is to be retrieved.
-	 * @param bool   $single Whether to retrieve only the first or all values for the taxonomy.
+	 * @param string $var_to_replace The complete variable to replace which includes the name of
+	 *                               the custom taxonomy which value(s) is to be retrieved.
+	 * @param bool   $single         Whether to retrieve only the first or all values for the taxonomy.
 	 *
 	 * @return string|null
 	 */
-	private function retrieve_ct_custom_tax_name( $var, $single = false ) {
+	private function retrieve_ct_custom_tax_name( $var_to_replace, $single = false ) {
 		$replacement = null;
 
-		if ( ( is_string( $var ) && $var !== '' ) && ! empty( $this->args->ID ) ) {
-			$tax  = substr( $var, 3 );
+		if ( ( is_string( $var_to_replace ) && $var_to_replace !== '' ) && ! empty( $this->args->ID ) ) {
+			$tax  = substr( $var_to_replace, 3 );
 			$name = $this->get_terms( $this->args->ID, $tax, $single );
 			if ( $name !== '' ) {
 				$replacement = $name;
@@ -814,16 +806,16 @@ class WPSEO_Replace_Vars {
 	/**
 	 * Retrieve a post/page/cpt's custom taxonomies description for use as replacement string.
 	 *
-	 * @param string $var The complete variable to replace which includes the name of
-	 *                    the custom taxonomy which description is to be retrieved.
+	 * @param string $var_to_replace The complete variable to replace which includes the name of
+	 *                               the custom taxonomy which description is to be retrieved.
 	 *
 	 * @return string|null
 	 */
-	private function retrieve_ct_desc_custom_tax_name( $var ) {
+	private function retrieve_ct_desc_custom_tax_name( $var_to_replace ) {
 		$replacement = null;
 
-		if ( is_string( $var ) && $var !== '' ) {
-			$tax = substr( $var, 8 );
+		if ( is_string( $var_to_replace ) && $var_to_replace !== '' ) {
+			$tax = substr( $var_to_replace, 8 );
 			if ( ! empty( $this->args->ID ) ) {
 				$terms = get_the_terms( $this->args->ID, $tax );
 				if ( is_array( $terms ) && $terms !== [] ) {
@@ -1503,23 +1495,23 @@ class WPSEO_Replace_Vars {
 	/**
 	 * Remove the '%%' delimiters from a variable string.
 	 *
-	 * @param string $string Variable string to be cleaned.
+	 * @param string $text Variable string to be cleaned.
 	 *
 	 * @return string
 	 */
-	private static function remove_var_delimiter( $string ) {
-		return trim( $string, '%' );
+	private static function remove_var_delimiter( $text ) {
+		return trim( $text, '%' );
 	}
 
 	/**
 	 * Add the '%%' delimiters to a variable string.
 	 *
-	 * @param string $string Variable string to be delimited.
+	 * @param string $text Variable string to be delimited.
 	 *
 	 * @return string
 	 */
-	private static function add_var_delimiter( $string ) {
-		return '%%' . $string . '%%';
+	private static function add_var_delimiter( $text ) {
+		return '%%' . $text . '%%';
 	}
 
 	/**

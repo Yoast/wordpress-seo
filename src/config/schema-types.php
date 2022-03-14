@@ -38,6 +38,7 @@ class Schema_Types {
 	 */
 	const ARTICLE_TYPES = [
 		'Article'                  => '',
+		'BlogPosting'              => '',
 		'SocialMediaPosting'       => '',
 		'NewsArticle'              => '',
 		'AdvertiserContentArticle' => '',
@@ -112,43 +113,57 @@ class Schema_Types {
 	 * @return array[] The schema article type options.
 	 */
 	public function get_article_type_options() {
-		return [
+		/**
+		 * Filter: 'wpseo_schema_article_types_labels' - Allow developers to filter the available article types and their labels.
+		 *
+		 * Make sure when you filter this to also filter `wpseo_schema_article_types`.
+		 *
+		 * @api array $schema_article_types_labels The available schema article types and their labels.
+		 */
+		return \apply_filters(
+			'wpseo_schema_article_types_labels',
 			[
-				'name'  => \__( 'Article', 'wordpress-seo' ),
-				'value' => 'Article',
-			],
-			[
-				'name'  => \__( 'Social Media Posting', 'wordpress-seo' ),
-				'value' => 'SocialMediaPosting',
-			],
-			[
-				'name'  => \__( 'News Article', 'wordpress-seo' ),
-				'value' => 'NewsArticle',
-			],
-			[
-				'name'  => \__( 'Advertiser Content Article', 'wordpress-seo' ),
-				'value' => 'AdvertiserContentArticle',
-			],
-			[
-				'name'  => \__( 'Satirical Article', 'wordpress-seo' ),
-				'value' => 'SatiricalArticle',
-			],
-			[
-				'name'  => \__( 'Scholary Article', 'wordpress-seo' ),
-				'value' => 'ScholarlyArticle',
-			],
-			[
-				'name'  => \__( 'Tech Article', 'wordpress-seo' ),
-				'value' => 'TechArticle',
-			],
-			[
-				'name'  => \__( 'Report', 'wordpress-seo' ),
-				'value' => 'Report',
-			],
-			[
-				'name'  => \__( 'None', 'wordpress-seo' ),
-				'value' => 'None',
-			],
-		];
+				[
+					'name'  => \__( 'Article', 'wordpress-seo' ),
+					'value' => 'Article',
+				],
+				[
+					'name'  => \__( 'Blog Post', 'wordpress-seo' ),
+					'value' => 'BlogPosting',
+				],
+				[
+					'name'  => \__( 'Social Media Posting', 'wordpress-seo' ),
+					'value' => 'SocialMediaPosting',
+				],
+				[
+					'name'  => \__( 'News Article', 'wordpress-seo' ),
+					'value' => 'NewsArticle',
+				],
+				[
+					'name'  => \__( 'Advertiser Content Article', 'wordpress-seo' ),
+					'value' => 'AdvertiserContentArticle',
+				],
+				[
+					'name'  => \__( 'Satirical Article', 'wordpress-seo' ),
+					'value' => 'SatiricalArticle',
+				],
+				[
+					'name'  => \__( 'Scholarly Article', 'wordpress-seo' ),
+					'value' => 'ScholarlyArticle',
+				],
+				[
+					'name'  => \__( 'Tech Article', 'wordpress-seo' ),
+					'value' => 'TechArticle',
+				],
+				[
+					'name'  => \__( 'Report', 'wordpress-seo' ),
+					'value' => 'Report',
+				],
+				[
+					'name'  => \__( 'None', 'wordpress-seo' ),
+					'value' => 'None',
+				],
+			]
+		);
 	}
 }

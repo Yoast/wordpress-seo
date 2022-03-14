@@ -2,11 +2,13 @@
 
 namespace Yoast\WP\SEO\Builders;
 
-use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
+use wpdb;
 use Yoast\WP\SEO\Exceptions\Indexable\Invalid_Term_Exception;
 use Yoast\WP\SEO\Exceptions\Indexable\Term_Not_Found_Exception;
+use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Models\Indexable;
+use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 
 /**
  * Term Builder for the indexables.
@@ -32,17 +34,37 @@ class Indexable_Term_Builder {
 	protected $version;
 
 	/**
+	 * Holds the taxonomy helper instance.
+	 *
+	 * @var Post_Helper
+	 */
+	protected $post_helper;
+
+	/**
+	 * The WPDB instance.
+	 *
+	 * @var wpdb
+	 */
+	protected $wpdb;
+
+	/**
 	 * Indexable_Term_Builder constructor.
 	 *
 	 * @param Taxonomy_Helper            $taxonomy_helper The taxonomy helper.
 	 * @param Indexable_Builder_Versions $versions        The latest version of each Indexable Builder.
+	 * @param Post_Helper                $post_helper     The post helper.
+	 * @param wpdb                       $wpdb            The WPDB instance.
 	 */
 	public function __construct(
 		Taxonomy_Helper $taxonomy_helper,
-		Indexable_Builder_Versions $versions
+		Indexable_Builder_Versions $versions,
+		Post_Helper $post_helper,
+		wpdb $wpdb
 	) {
 		$this->taxonomy_helper = $taxonomy_helper;
 		$this->version         = $versions->get_latest_version_for_type( 'term' );
+		$this->post_helper     = $post_helper;
+		$this->wpdb            = $wpdb;
 	}
 
 	/**
@@ -108,6 +130,10 @@ class Indexable_Term_Builder {
 		$indexable->is_robots_noarchive    = null;
 		$indexable->is_robots_noimageindex = null;
 		$indexable->is_robots_nosnippet    = null;
+
+		$timestamps                      = $this->get_object_timestamps( $term_id, $term->taxonomy );
+		$indexable->object_published_at  = $timestamps->published_at;
+		$indexable->object_last_modified = $timestamps->last_modified;
 
 		$indexable->version = $this->version;
 
@@ -211,5 +237,35 @@ class Indexable_Term_Builder {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Returns the timestamps for a given term.
+	 *
+	 * @param int    $term_id  The term ID.
+	 * @param string $taxonomy The taxonomy.
+	 *
+	 * @return object An object with last_modified and published_at timestamps.
+	 */
+	protected function get_object_timestamps( $term_id, $taxonomy ) {
+		$post_statuses = $this->post_helper->get_public_post_statuses();
+
+		$sql = "
+			SELECT MAX(p.post_modified_gmt) AS last_modified, MIN(p.post_date_gmt) AS published_at
+			FROM	{$this->wpdb->posts} AS p
+			INNER JOIN {$this->wpdb->term_relationships} AS term_rel
+				ON		term_rel.object_id = p.ID
+			INNER JOIN {$this->wpdb->term_taxonomy} AS term_tax
+				ON		term_tax.term_taxonomy_id = term_rel.term_taxonomy_id
+				AND		term_tax.taxonomy = %s
+				AND		term_tax.term_id = %d
+			WHERE	p.post_status IN (" . \implode( ', ', \array_fill( 0, \count( $post_statuses ), '%s' ) ) . ")
+				AND		p.post_password = ''
+		";
+
+		$replacements = \array_merge( [ $taxonomy, $term_id ], $post_statuses );
+
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- We are using wpdb prepare.
+		return $this->wpdb->get_row( $this->wpdb->prepare( $sql, $replacements ) );
 	}
 }

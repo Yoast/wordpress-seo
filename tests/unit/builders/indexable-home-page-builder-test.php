@@ -7,14 +7,15 @@ use Mockery;
 use WPSEO_Utils;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Home_Page_Builder;
-use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper as Open_Graph_Image_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Helpers\Twitter\Image_Helper as Twitter_Image_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
+use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 
 /**
  * Class Indexable_Author_Test.
@@ -89,6 +90,27 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 	private $twitter_image_mock;
 
 	/**
+	 * The post helper
+	 *
+	 * @var Post_Helper|Mockery\MockInterface
+	 */
+	protected $post_helper;
+
+	/**
+	 * The wpdb instance
+	 *
+	 * @var wpdb|Mockery\MockInterface
+	 */
+	protected $wpdb;
+
+	/**
+	 * The test instance.
+	 *
+	 * @var Indexable_Home_Page_Builder|Mockery\MockInterface
+	 */
+	protected $instance;
+
+	/**
 	 * Sets up the test class.
 	 */
 	protected function set_up() {
@@ -120,7 +142,7 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 		$this->indexable_mock->orm->expects( 'set' )->with( 'open_graph_description', 'home_og_description' );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_source', null );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_meta', null );
-		$this->indexable_mock->orm->expects( 'set' )->with( 'version', 1 );
+		$this->indexable_mock->orm->expects( 'set' )->with( 'version', 2 );
 
 		// Mock offsetExists.
 		$this->indexable_mock->orm->expects( 'offsetExists' )->with( 'description' )->andReturn( true );
@@ -143,6 +165,25 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 
 		// Mock twitter image helper.
 		$this->twitter_image_mock = Mockery::mock( Twitter_Image_Helper::class );
+
+		$this->versions = Mockery::mock( Indexable_Builder_Versions::class );
+		$this->versions
+			->expects( 'get_latest_version_for_type' )
+			->with( 'home-page' )
+			->andReturn( 2 );
+
+		$this->post_helper = Mockery::mock( Post_Helper::class );
+		$this->wpdb        = Mockery::mock( 'wpdb' );
+		$this->wpdb->posts = 'wp_posts';
+
+		$this->instance = new Indexable_Home_Page_Builder(
+			$this->options_mock,
+			$this->url_mock,
+			$this->versions,
+			$this->post_helper,
+			$this->wpdb
+		);
+		$this->instance->set_social_image_helpers( $this->image_mock, $this->open_graph_image_mock, $this->twitter_image_mock );
 	}
 
 	/**
@@ -163,13 +204,29 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 		Monkey\Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'blog_id', 1 );
 
-		$builder = new Indexable_Home_Page_Builder(
-			$this->options_mock,
-			$this->url_mock,
-			new Indexable_Builder_Versions()
+		$this->post_helper->expects( 'get_public_post_statuses' )->once()->andReturn( [ 'publish' ] );
+
+		$this->wpdb->expects( 'prepare' )->once()->with(
+			"
+			SELECT MAX(p.post_modified_gmt) AS last_modified, MIN(p.post_date_gmt) AS published_at
+			FROM {$this->wpdb->posts} AS p
+			WHERE p.post_status IN (%s)
+				AND p.post_password = ''
+				AND p.post_type = 'post'
+		",
+			[ 'publish' ]
+		)->andReturn( 'PREPARED_QUERY' );
+		$this->wpdb->expects( 'get_row' )->once()->with( 'PREPARED_QUERY' )->andReturn(
+			(object) [
+				'last_modified' => '1234-12-12 00:00:00',
+				'published_at'  => '1234-12-12 00:00:00',
+			]
 		);
-		$builder->set_social_image_helpers( $this->image_mock, $this->open_graph_image_mock, $this->twitter_image_mock );
-		$builder->build( $this->indexable_mock );
+
+		$this->indexable_mock->orm->expects( 'set' )->with( 'object_published_at', '1234-12-12 00:00:00' );
+		$this->indexable_mock->orm->expects( 'set' )->with( 'object_last_modified', '1234-12-12 00:00:00' );
+
+		$this->instance->build( $this->indexable_mock );
 	}
 
 	/**
@@ -191,13 +248,29 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 		Monkey\Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'blog_id', 1 );
 
-		$builder = new Indexable_Home_Page_Builder(
-			$this->options_mock,
-			$this->url_mock,
-			new Indexable_Builder_Versions()
+		$this->post_helper->expects( 'get_public_post_statuses' )->once()->andReturn( [ 'publish' ] );
+
+		$this->wpdb->expects( 'prepare' )->once()->with(
+			"
+			SELECT MAX(p.post_modified_gmt) AS last_modified, MIN(p.post_date_gmt) AS published_at
+			FROM {$this->wpdb->posts} AS p
+			WHERE p.post_status IN (%s)
+				AND p.post_password = ''
+				AND p.post_type = 'post'
+		",
+			[ 'publish' ]
+		)->andReturn( 'PREPARED_QUERY' );
+		$this->wpdb->expects( 'get_row' )->once()->with( 'PREPARED_QUERY' )->andReturn(
+			(object) [
+				'last_modified' => '1234-12-12 00:00:00',
+				'published_at'  => '1234-12-12 00:00:00',
+			]
 		);
-		$builder->set_social_image_helpers( $this->image_mock, $this->open_graph_image_mock, $this->twitter_image_mock );
-		$builder->build( $this->indexable_mock );
+
+		$this->indexable_mock->orm->expects( 'set' )->with( 'object_published_at', '1234-12-12 00:00:00' );
+		$this->indexable_mock->orm->expects( 'set' )->with( 'object_last_modified', '1234-12-12 00:00:00' );
+
+		$this->instance->build( $this->indexable_mock );
 	}
 
 	/**
@@ -218,12 +291,28 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 		Monkey\Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'blog_id', 1 );
 
-		$builder = new Indexable_Home_Page_Builder(
-			$this->options_mock,
-			$this->url_mock,
-			new Indexable_Builder_Versions()
+		$this->post_helper->expects( 'get_public_post_statuses' )->once()->andReturn( [ 'publish' ] );
+
+		$this->wpdb->expects( 'prepare' )->once()->with(
+			"
+			SELECT MAX(p.post_modified_gmt) AS last_modified, MIN(p.post_date_gmt) AS published_at
+			FROM {$this->wpdb->posts} AS p
+			WHERE p.post_status IN (%s)
+				AND p.post_password = ''
+				AND p.post_type = 'post'
+		",
+			[ 'publish' ]
+		)->andReturn( 'PREPARED_QUERY' );
+		$this->wpdb->expects( 'get_row' )->once()->with( 'PREPARED_QUERY' )->andReturn(
+			(object) [
+				'last_modified' => '1234-12-12 00:00:00',
+				'published_at'  => '1234-12-12 00:00:00',
+			]
 		);
-		$builder->set_social_image_helpers( $this->image_mock, $this->open_graph_image_mock, $this->twitter_image_mock );
-		$builder->build( $this->indexable_mock );
+
+		$this->indexable_mock->orm->expects( 'set' )->with( 'object_published_at', '1234-12-12 00:00:00' );
+		$this->indexable_mock->orm->expects( 'set' )->with( 'object_last_modified', '1234-12-12 00:00:00' );
+
+		$this->instance->build( $this->indexable_mock );
 	}
 }

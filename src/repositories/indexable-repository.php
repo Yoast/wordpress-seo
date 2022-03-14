@@ -478,10 +478,11 @@ class Indexable_Repository {
 	/**
 	 * Ensures that the given indexable has a permalink.
 	 *
-	 * @param Indexable $indexable The indexable.
+	 * Will be deprecated in 17.3 - Use upgrade_indexable instead.
 	 *
-	 * will be deprecated in 17.3 - Use upgrade_indexable instead.
 	 * @codeCoverageIgnore
+	 *
+	 * @param Indexable $indexable The indexable.
 	 *
 	 * @return bool|Indexable The indexable.
 	 */

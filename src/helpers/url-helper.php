@@ -61,8 +61,8 @@ class Url_Helper {
 		$network_active_plugins = \wp_get_active_network_plugins();
 
 		// Consider MU plugins and network-activated plugins as network-active.
-		$network_active = strpos( \wp_normalize_path( WPSEO_FILE ), \wp_normalize_path( WPMU_PLUGIN_DIR ) ) === 0
-			|| in_array( WP_PLUGIN_DIR . '/' . WPSEO_BASENAME, $network_active_plugins, true );
+		$network_active = \strpos( \wp_normalize_path( \WPSEO_FILE ), \wp_normalize_path( \WPMU_PLUGIN_DIR ) ) === 0
+			|| \in_array( \WP_PLUGIN_DIR . '/' . \WPSEO_BASENAME, $network_active_plugins, true );
 
 		return $network_active;
 	}
@@ -76,7 +76,7 @@ class Url_Helper {
 		/**
 		 * Action: 'wpseo_home_url' - Allows overriding of the home URL.
 		 */
-		do_action( 'wpseo_home_url' );
+		\do_action( 'wpseo_home_url' );
 
 		// If the plugin is network-activated, use the network home URL.
 		if ( self::is_plugin_network_active() ) {
@@ -100,13 +100,18 @@ class Url_Helper {
 	/**
 	 * Gets the path from the passed URL.
 	 *
-	 * @codeCoverageIgnore It only wraps a WordPress function.
-	 *
 	 * @param string $url The URL to get the path from.
 	 *
 	 * @return string The path of the URL. Returns an empty string if URL parsing fails.
 	 */
 	public function get_url_path( $url ) {
+		if ( \is_string( $url ) === false
+			&& \is_object( $url ) === false
+			|| ( \is_object( $url ) === true && \method_exists( $url, '__toString' ) === false )
+		) {
+			return '';
+		}
+
 		return (string) \wp_parse_url( $url, \PHP_URL_PATH );
 	}
 

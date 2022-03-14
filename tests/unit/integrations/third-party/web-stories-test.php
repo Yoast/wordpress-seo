@@ -66,32 +66,25 @@ class Web_Stories_Test extends TestCase {
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
 
-		\add_action( 'web_stories_enable_metadata', '__return_false' );
-		\add_action( 'web_stories_enable_schemaorg_metadata', '__return_false' );
-		\add_action( 'web_stories_enable_open_graph_metadata', '__return_false' );
-		\add_action( 'web_stories_enable_twitter_metadata', '__return_false' );
-
 		$this->assertNotFalse( \has_action( 'web_stories_enable_metadata', '__return_false' ), 'The enable metadata filter is registered.' );
 		$this->assertNotFalse( \has_action( 'web_stories_enable_schemaorg_metadata', '__return_false' ), 'The enable metadata filter is registered.' );
 		$this->assertNotFalse( \has_action( 'web_stories_enable_open_graph_metadata', '__return_false' ), 'The enable metadata filter is registered.' );
 		$this->assertNotFalse( \has_action( 'web_stories_enable_twitter_metadata', '__return_false' ), 'The enable metadata filter is registered.' );
-		$this->assertFalse( \has_action( 'web_stories_story_head', 'rel_canonical' ), 'The rel canonical action is not registered' );
-		$this->assertNotFalse( \has_action( 'web_stories_story_head', [ $this->front_end, 'call_wpseo_head' ] ), 'The wpseo head action is registered.' );
-		$this->assertNotFalse( \has_filter( 'wpseo_schema_article_post_types', [ $this->instance, 'filter_schema_article_post_types' ] ), 'The filter schema article post types function is registered.' );
+		$this->assertNotFalse( \has_action( 'web_stories_story_head', [ $this->instance, 'web_stories_story_head' ] ), 'The web-story head action is not registered' );
 		$this->assertNotFalse( \has_filter( 'wpseo_schema_article_type', [ $this->instance, 'filter_schema_article_type' ] ), 'The filter schema article type function is registered.' );
 		$this->assertNotFalse( \has_filter( 'wpseo_metadesc', [ $this->instance, 'filter_meta_description' ] ), 'The metadesc action is registered.' );
 	}
 
 	/**
-	 * Tests filter schema article post types.
+	 * Tests web_stories_story_head integration.
 	 *
-	 * @covers ::filter_schema_article_post_types
+	 * @covers ::web_stories_story_head
 	 */
-	public function test_filter_schema_article_post_types() {
-		Mockery::namedMock( '\Google\Web_Stories\Story_Post_Type', Story_Post_Type_Stub::class );
+	public function test_web_stories_story_head() {
+		$this->instance->web_stories_story_head();
 
-		$actual = $this->instance->filter_schema_article_post_types( [ 'post' ] );
-		$this->assertEquals( [ 'post', 'web-story' ], $actual );
+		$this->assertFalse( \has_action( 'web_stories_story_head', 'rel_canonical' ), 'The rel canonical action is not registered' );
+		$this->assertNotFalse( \has_action( 'web_stories_story_head', [ $this->front_end, 'call_wpseo_head' ] ), 'The wpseo head action is registered.' );
 	}
 
 	/**

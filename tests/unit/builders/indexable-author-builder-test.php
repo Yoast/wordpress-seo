@@ -6,10 +6,11 @@ use Brain\Monkey;
 use Mockery;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Author_Builder;
-use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 use Yoast\WP\SEO\Helpers\Author_Archive_Helper;
+use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
+use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 
 /**
  * Class Indexable_Author_Test.
@@ -42,6 +43,20 @@ class Indexable_Author_Builder_Test extends TestCase {
 	 * @var Indexable_Builder_Versions|Mockery\MockInterface
 	 */
 	protected $versions;
+
+	/**
+	 * The post helper
+	 *
+	 * @var Post_Helper|Mockery\MockInterface
+	 */
+	protected $post_helper;
+
+	/**
+	 * The wpdb instance
+	 *
+	 * @var wpdb|Mockery\MockInterface
+	 */
+	protected $wpdb;
 
 	/**
 	 * The class under test.
@@ -99,7 +114,11 @@ class Indexable_Author_Builder_Test extends TestCase {
 			->with( 'user' )
 			->andReturn( 2 );
 
-		$this->instance = new Indexable_Author_Builder( $this->author_archive, $this->versions );
+		$this->post_helper = Mockery::mock( Post_Helper::class );
+		$this->wpdb        = Mockery::mock( 'wpdb' );
+		$this->wpdb->posts = 'wp_posts';
+
+		$this->instance = new Indexable_Author_Builder( $this->author_archive, $this->versions, $this->post_helper, $this->wpdb );
 	}
 
 	/**
@@ -130,6 +149,28 @@ class Indexable_Author_Builder_Test extends TestCase {
 		$this->indexable_mock->orm->expects( 'set' )->with( 'twitter_image', 'avatar_image.jpg' );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'twitter_image_source', 'gravatar-image' );
 
+		$this->post_helper->expects( 'get_public_post_statuses' )->once()->andReturn( [ 'publish' ] );
+
+		$this->wpdb->expects( 'prepare' )->once()->with(
+			"
+			SELECT MAX(p.post_modified_gmt) AS last_modified, MIN(p.post_date_gmt) AS published_at
+			FROM {$this->wpdb->posts} AS p
+			WHERE p.post_status IN (%s)
+				AND p.post_password = ''
+				AND p.post_author = %d
+		",
+			[ 'publish', 1 ]
+		)->andReturn( 'PREPARED_QUERY' );
+		$this->wpdb->expects( 'get_row' )->once()->with( 'PREPARED_QUERY' )->andReturn(
+			(object) [
+				'last_modified' => '1234-12-12 00:00:00',
+				'published_at'  => '1234-12-12 00:00:00',
+			]
+		);
+
+		$this->indexable_mock->orm->expects( 'set' )->with( 'object_published_at', '1234-12-12 00:00:00' );
+		$this->indexable_mock->orm->expects( 'set' )->with( 'object_last_modified', '1234-12-12 00:00:00' );
+
 		Monkey\Functions\expect( 'get_avatar_url' )
 			->once()
 			->andReturn( 'avatar_image.jpg' );
@@ -158,6 +199,28 @@ class Indexable_Author_Builder_Test extends TestCase {
 		$this->indexable_mock->orm->expects( 'get' )->once()->with( 'twitter_image' );
 		$this->indexable_mock->orm->expects( 'get' )->twice()->with( 'twitter_image_id' );
 		$this->indexable_mock->orm->expects( 'get' )->twice()->with( 'object_id' );
+
+		$this->post_helper->expects( 'get_public_post_statuses' )->once()->andReturn( [ 'publish' ] );
+
+		$this->wpdb->expects( 'prepare' )->once()->with(
+			"
+			SELECT MAX(p.post_modified_gmt) AS last_modified, MIN(p.post_date_gmt) AS published_at
+			FROM {$this->wpdb->posts} AS p
+			WHERE p.post_status IN (%s)
+				AND p.post_password = ''
+				AND p.post_author = %d
+		",
+			[ 'publish', 1 ]
+		)->andReturn( 'PREPARED_QUERY' );
+		$this->wpdb->expects( 'get_row' )->once()->with( 'PREPARED_QUERY' )->andReturn(
+			(object) [
+				'last_modified' => '1234-12-12 00:00:00',
+				'published_at'  => '1234-12-12 00:00:00',
+			]
+		);
+
+		$this->indexable_mock->orm->expects( 'set' )->with( 'object_published_at', '1234-12-12 00:00:00' );
+		$this->indexable_mock->orm->expects( 'set' )->with( 'object_last_modified', '1234-12-12 00:00:00' );
 
 		Monkey\Functions\expect( 'get_avatar_url' )
 			->once()
@@ -200,6 +263,28 @@ class Indexable_Author_Builder_Test extends TestCase {
 		$this->indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_source', 'gravatar-image' );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'twitter_image', 'avatar_image.jpg' );
 		$this->indexable_mock->orm->expects( 'set' )->with( 'twitter_image_source', 'gravatar-image' );
+
+		$this->post_helper->expects( 'get_public_post_statuses' )->once()->andReturn( [ 'publish' ] );
+
+		$this->wpdb->expects( 'prepare' )->once()->with(
+			"
+			SELECT MAX(p.post_modified_gmt) AS last_modified, MIN(p.post_date_gmt) AS published_at
+			FROM {$this->wpdb->posts} AS p
+			WHERE p.post_status IN (%s)
+				AND p.post_password = ''
+				AND p.post_author = %d
+		",
+			[ 'publish', 1 ]
+		)->andReturn( 'PREPARED_QUERY' );
+		$this->wpdb->expects( 'get_row' )->once()->with( 'PREPARED_QUERY' )->andReturn(
+			(object) [
+				'last_modified' => '1234-12-12 00:00:00',
+				'published_at'  => '1234-12-12 00:00:00',
+			]
+		);
+
+		$this->indexable_mock->orm->expects( 'set' )->with( 'object_published_at', '1234-12-12 00:00:00' );
+		$this->indexable_mock->orm->expects( 'set' )->with( 'object_last_modified', '1234-12-12 00:00:00' );
 
 		Monkey\Functions\expect( 'get_avatar_url' )
 			->once()

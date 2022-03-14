@@ -20,8 +20,8 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Set up the class which will be tested.
 	 */
-	public static function setUpBeforeClass() {
-		parent::setUpBeforeClass();
+	public static function set_up_before_class() {
+		parent::set_up_before_class();
 
 		global $_SERVER;
 		$_SERVER['HTTP_USER_AGENT'] = 'User Agent';

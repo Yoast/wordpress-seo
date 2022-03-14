@@ -1,6 +1,3 @@
-/**
- * @jest-environment jsdom
- */
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
 import ArabicResearcher from "../../../../src/languageProcessing/languages/ar/Researcher";
 import HungarianResearcher from "../../../../src/languageProcessing/languages/hu/Researcher";

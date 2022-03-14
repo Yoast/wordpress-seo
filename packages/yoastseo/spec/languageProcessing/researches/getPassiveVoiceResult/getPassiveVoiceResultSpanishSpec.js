@@ -1,6 +1,3 @@
-/**
- * @jest-environment jsdom
- */
 import passiveVoice from "../../../../src/languageProcessing/researches/getPassiveVoiceResult.js";
 import Paper from "../../../../src/values/Paper.js";
 import SpanishResearcher from "../../../../src/languageProcessing/languages/es/Researcher";

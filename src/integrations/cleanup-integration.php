@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Integrations;
 
 use Closure;
 use Yoast\WP\Lib\Model;
+
 /**
  * Adds cleanup hooks.
  */
@@ -119,15 +120,15 @@ class Cleanup_Integration implements Integration_Interface {
 		 */
 		$additional_tasks = \apply_filters( 'wpseo_cleanup_tasks', [] );
 
-		if ( ! is_array( $additional_tasks ) ) {
+		if ( ! \is_array( $additional_tasks ) ) {
 			return [];
 		}
 
 		foreach ( $additional_tasks as $key => $value ) {
-			if ( is_int( $key ) ) {
+			if ( \is_int( $key ) ) {
 				return [];
 			}
-			if ( ( ! is_object( $value ) ) || ! ( $value instanceof Closure ) ) {
+			if ( ( ! \is_object( $value ) ) || ! ( $value instanceof Closure ) ) {
 				return [];
 			}
 		}
@@ -175,7 +176,7 @@ class Cleanup_Integration implements Integration_Interface {
 	private function start_cron_job( $task_name ) {
 		\update_option( self::CURRENT_TASK_OPTION, $task_name );
 		\wp_schedule_event(
-			( \time() + HOUR_IN_SECONDS ),
+			( \time() + \HOUR_IN_SECONDS ),
 			'hourly',
 			self::CRON_HOOK
 		);
@@ -311,6 +312,6 @@ class Cleanup_Integration implements Integration_Interface {
 		}
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: Already prepared.
-		return $wpdb->query( "DELETE FROM $table WHERE {$column} IN( " . implode( ',', $orphans ) . ' )' );
+		return $wpdb->query( "DELETE FROM $table WHERE {$column} IN( " . \implode( ',', $orphans ) . ' )' );
 	}
 }

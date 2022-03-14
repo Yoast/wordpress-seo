@@ -1,19 +1,15 @@
 import AssessorPresenter from "../../../src/scoring/renderers/AssessorPresenter.js";
 import AssessmentResult from "../../../src/values/AssessmentResult";
-import Factory from "../../specHelpers/factory.js";
 
 describe( "an AssessorPresenter", function() {
-	let i18n;
 	let assessorPresenter;
 
 	beforeEach( function() {
-		i18n = Factory.buildJed();
 		assessorPresenter = new AssessorPresenter( {
 			scorer: { __score: [], __totalScore: 0 },
 			targets: { output: "", overall: "" },
 			keyword: "",
 			assessor: {},
-			i18n: i18n,
 		} );
 	} );
 

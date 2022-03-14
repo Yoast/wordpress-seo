@@ -6,6 +6,7 @@ use Exception;
 use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Integrations\Front_End_Integration;
+use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
 use Yoast\WP\SEO\Presenters\Rel_Next_Presenter;
 use Yoast\WP\SEO\Presenters\Rel_Prev_Presenter;
@@ -21,6 +22,7 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
  * @property int         $company_logo_id                   The attachment ID for the company logo.
  * @property string      $description                       The meta description for the current page, if set.
  * @property int         $estimated_reading_time_minutes    The estimated reading time in minutes for posts.
+ * @property Indexable   $indexable                         The indexable object.
  * @property string      $main_schema_id                    Schema ID that points to the main Schema thing on the page, usually the webpage or article Schema piece.
  * @property string      $meta_description                  The meta description for the current page, if set.
  * @property string      $open_graph_article_author         The article:author value.
@@ -233,7 +235,7 @@ class Meta {
 			/**
 			 * Define a filter that removes objects of type Rel_Next_Presenter or Rel_Prev_Presenter from a list.
 			 *
-			 * @param $presenter The presenter to verify.
+			 * @param object $presenter The presenter to verify.
 			 *
 			 * @return bool True if the presenter is not a Rel_Next or Rel_Prev presenter.
 			 */
@@ -267,7 +269,7 @@ class Meta {
 	 *
 	 * @param Abstract_Indexable_Presenter $presenter The presenter whose key and value are to be converted to JSON.
 	 *
-	 * @return object
+	 * @return object|null
 	 */
 	protected function create_json_field( $presenter ) {
 		if ( $presenter->get_key() === 'NO KEY PROVIDED' ) {

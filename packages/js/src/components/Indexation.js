@@ -129,7 +129,7 @@ export class Indexation extends Component {
 	 * @returns {Promise} The indexing promise.
 	 */
 	async doIndexing( endpoint ) {
-		let url = this.settings.restApi.root + this.settings.restApi.endpoints[ endpoint ];
+		let url = this.settings.restApi.root + this.settings.restApi.indexing_endpoints[ endpoint ];
 
 		while ( this.isState( STATE.IN_PROGRESS ) && url !== false ) {
 			try {
@@ -161,7 +161,7 @@ export class Indexation extends Component {
 	 * @returns {Promise<void>} The indexing promise.
 	 */
 	async index() {
-		for ( const endpoint of Object.keys( this.settings.restApi.endpoints ) ) {
+		for ( const endpoint of Object.keys( this.settings.restApi.indexing_endpoints ) ) {
 			await this.doIndexing( endpoint );
 		}
 		/*
@@ -221,6 +221,8 @@ export class Indexation extends Component {
 			return;
 		}
 
+		this.props.indexingStateCallback( this.state.amount === 0 ? "completed" : this.state.state );
+
 		const shouldStart = new URLSearchParams( window.location.search ).get( "start-indexation" ) === "true";
 
 		if ( shouldStart ) {
@@ -228,6 +230,20 @@ export class Indexation extends Component {
 			addHistoryState( null, document.title, currentURL );
 
 			this.startIndexing();
+		}
+	}
+
+	/**
+	 * Signals state changes to an optional callback function.
+	 *
+	 * @param {Object} _prevProps The previous props, unused in the current implementation.
+	 * @param {Object} prevState  The previous state.
+	 *
+	 * @returns {void}
+	 */
+	componentDidUpdate( _prevProps, prevState ) {
+		if ( this.state.state !== prevState.state ) {
+			this.props.indexingStateCallback( this.state.state );
 		}
 	}
 
@@ -375,11 +391,13 @@ export class Indexation extends Component {
 Indexation.propTypes = {
 	indexingActions: PropTypes.object,
 	preIndexingActions: PropTypes.object,
+	indexingStateCallback: PropTypes.func,
 };
 
 Indexation.defaultProps = {
 	indexingActions: {},
 	preIndexingActions: {},
+	indexingStateCallback: () => {},
 };
 
 export default Indexation;

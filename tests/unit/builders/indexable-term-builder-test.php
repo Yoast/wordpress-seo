@@ -6,16 +6,17 @@ use Brain\Monkey;
 use Mockery;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Term_Builder;
-use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 use Yoast\WP\SEO\Exceptions\Indexable\Invalid_Term_Exception;
 use Yoast\WP\SEO\Exceptions\Indexable\Term_Not_Found_Exception;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper as OG_Image_Helper;
+use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Helpers\Twitter\Image_Helper as Twitter_Image_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Builders\Indexable_Term_Builder_Double;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
+use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 
 /**
  * Class Indexable_Term_Builder_Test.
@@ -71,6 +72,27 @@ class Indexable_Term_Builder_Test extends TestCase {
 	protected $twitter_image;
 
 	/**
+	 * The indexable builder versions
+	 *
+	 * @var Indexable_Builder_Versions|Mockery\MockInterface
+	 */
+	protected $versions;
+
+	/**
+	 * The post helper
+	 *
+	 * @var Post_Helper|Mockery\MockInterface
+	 */
+	protected $post_helper;
+
+	/**
+	 * The wpdb instance
+	 *
+	 * @var wpdb|Mockery\MockInterface
+	 */
+	protected $wpdb;
+
+	/**
 	 * Sets up the tests.
 	 */
 	protected function set_up() {
@@ -78,16 +100,30 @@ class Indexable_Term_Builder_Test extends TestCase {
 
 		$this->stubTranslationFunctions();
 
-		$this->taxonomy = Mockery::mock( Taxonomy_Helper::class );
+		$this->taxonomy                 = Mockery::mock( Taxonomy_Helper::class );
+		$this->versions                 = Mockery::mock( Indexable_Builder_Versions::class );
+		$this->post_helper              = Mockery::mock( Post_Helper::class );
+		$this->wpdb                     = Mockery::mock( 'wpdb' );
+		$this->wpdb->posts              = 'wp_posts';
+		$this->wpdb->term_relationships = 'wp_term_relationships';
+		$this->wpdb->term_taxonomy      = 'wp_term_taxonomy';
+
+		$this->versions
+			->expects( 'get_latest_version_for_type' )
+			->with( 'term' )
+			->andReturn( 1 );
 
 		$this->instance = new Indexable_Term_Builder_Double(
 			$this->taxonomy,
-			new Indexable_Builder_Versions()
+			$this->versions,
+			$this->post_helper,
+			$this->wpdb
 		);
 
 		$this->image            = Mockery::mock( Image_Helper::class );
 		$this->open_graph_image = Mockery::mock( OG_Image_Helper::class );
 		$this->twitter_image    = Mockery::mock( Twitter_Image_Helper::class );
+
 
 		$this->instance->set_social_image_helpers(
 			$this->image,
@@ -162,11 +198,9 @@ class Indexable_Term_Builder_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		$instance = new Indexable_Term_Builder( $this->taxonomy, new Indexable_Builder_Versions() );
-
 		$this->assertInstanceOf(
 			Indexable_Term_Builder::class,
-			$instance
+			$this->instance
 		);
 	}
 
@@ -211,6 +245,30 @@ class Indexable_Term_Builder_Test extends TestCase {
 					'wpseo_twitter-description'   => 'twitter_description',
 				]
 			);
+
+		$this->post_helper->expects( 'get_public_post_statuses' )->once()->andReturn( [ 'publish' ] );
+
+		$this->wpdb->expects( 'prepare' )->once()->with(
+			"
+			SELECT MAX(p.post_modified_gmt) AS last_modified, MIN(p.post_date_gmt) AS published_at
+			FROM	{$this->wpdb->posts} AS p
+			INNER JOIN {$this->wpdb->term_relationships} AS term_rel
+				ON		term_rel.object_id = p.ID
+			INNER JOIN {$this->wpdb->term_taxonomy} AS term_tax
+				ON		term_tax.term_taxonomy_id = term_rel.term_taxonomy_id
+				AND		term_tax.taxonomy = %s
+				AND		term_tax.term_id = %d
+			WHERE	p.post_status IN (%s)
+				AND		p.post_password = ''
+		",
+			[ 'category', 1, 'publish' ]
+		)->andReturn( 'PREPARED_QUERY' );
+		$this->wpdb->expects( 'get_row' )->once()->with( 'PREPARED_QUERY' )->andReturn(
+			(object) [
+				'last_modified' => '1234-12-12 00:00:00',
+				'published_at'  => '1234-12-12 00:00:00',
+			]
+		);
 
 		$indexable_mock      = Mockery::mock( Indexable::class );
 		$indexable_mock->orm = Mockery::mock( ORM::class );
@@ -296,6 +354,8 @@ class Indexable_Term_Builder_Test extends TestCase {
 
 		Monkey\Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
 		$indexable_mock->orm->expects( 'set' )->with( 'blog_id', 1 );
+		$indexable_mock->orm->expects( 'set' )->with( 'object_published_at', '1234-12-12 00:00:00' );
+		$indexable_mock->orm->expects( 'set' )->with( 'object_last_modified', '1234-12-12 00:00:00' );
 
 		$this->instance->build( 1, $indexable_mock );
 	}

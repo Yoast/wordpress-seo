@@ -4,12 +4,11 @@ namespace Yoast\WP\SEO\Tests\Unit\Builders;
 
 use Brain\Monkey;
 use Mockery;
-use PHPUnit_Framework_ExpectationFailedException;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Post_Builder;
-use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 use Yoast\WP\SEO\Exceptions\Indexable\Post_Not_Found_Exception;
 use Yoast\WP\SEO\Helpers\Image_Helper;
+use Yoast\WP\SEO\Helpers\Meta_Helper;
 use Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper as Open_Graph_Image_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
@@ -18,6 +17,7 @@ use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Builders\Indexable_Post_Builder_Double;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
+use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 
 /**
  * Class Indexable_Post_Builder_Test.
@@ -105,7 +105,8 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$this->instance = new Indexable_Post_Builder_Double(
 			$this->post,
 			$this->post_type_helper,
-			new Indexable_Builder_Versions()
+			new Indexable_Builder_Versions(),
+			new Meta_Helper()
 		);
 
 		$this->instance->set_indexable_repository( $this->indexable_repository );
@@ -124,7 +125,15 @@ class Indexable_Post_Builder_Test extends TestCase {
 	 */
 	protected function set_indexable_set_expectations( $indexable_mock, $expectations ) {
 		foreach ( $expectations as $key => $value ) {
-			$indexable_mock->orm->expects( 'set' )->with( $key, $value );
+			$closure = static function ( $actual_key, $actual_value ) use ( $key, $value ) {
+				if ( $actual_key === $key && $actual_value === $value ) {
+					return true;
+				}
+				else {
+					return false;
+				}
+			};
+			$indexable_mock->orm->expects( 'set' )->once()->withArgs( $closure );
 		}
 	}
 
@@ -205,35 +214,17 @@ class Indexable_Post_Builder_Test extends TestCase {
 
 	/**
 	 * Tests building a basic post indexable from postmeta.
+	 * If this starts failing, the $default_values of the Indexable_Helper maybe need changing too.
 	 *
+	 * @dataProvider provider_build
 	 * @covers ::build
+	 *
+	 * @param array $postmeta        The postmeta of the post.
+	 * @param array $expected_result The expected indexable values.
 	 */
-	public function test_build() {
+	public function test_build( $postmeta, $expected_result ) {
 		Monkey\Functions\expect( 'get_permalink' )->once()->with( 1 )->andReturn( 'https://permalink' );
-		Monkey\Functions\expect( 'get_post_custom' )->with( 1 )->andReturn(
-			[
-				'_yoast_wpseo_focuskw'                        => [ 'focuskeyword' ],
-				'_yoast_wpseo_linkdex'                        => [ '100' ],
-				'_yoast_wpseo_is_cornerstone'                 => [ '1' ],
-				'_yoast_wpseo_meta-robots-noindex'            => [ '1' ],
-				'_yoast_wpseo_meta-robots-adv'                => [ '' ],
-				'_yoast_wpseo_content_score'                  => [ '50' ],
-				'_yoast_wpseo_canonical'                      => [ 'https://canonical' ],
-				'_yoast_wpseo_meta-robots-nofollow'           => [ '1' ],
-				'_yoast_wpseo_title'                          => [ 'title' ],
-				'_yoast_wpseo_metadesc'                       => [ 'description' ],
-				'_yoast_wpseo_opengraph-title'                => [ 'open_graph_title' ],
-				'_yoast_wpseo_opengraph-image'                => [ 'open_graph_image' ],
-				'_yoast_wpseo_opengraph-image-id'             => [ 'open_graph_image_id' ],
-				'_yoast_wpseo_opengraph-description'          => [ 'open_graph_description' ],
-				'_yoast_wpseo_twitter-title'                  => [ 'twitter_title' ],
-				'_yoast_wpseo_twitter-image'                  => [ 'twitter_image' ],
-				'_yoast_wpseo_twitter-description'            => [ 'twitter_description' ],
-				'_yoast_wpseo_schema_page_type'               => [ 'FAQPage' ],
-				'_yoast_wpseo_schema_article_type'            => [ 'NewsArticle' ],
-				'_yoast_wpseo_estimated-reading-time-minutes' => [ '11' ],
-			]
-		);
+		Monkey\Functions\expect( 'get_post_custom' )->with( 1 )->andReturn( $postmeta );
 		Monkey\Functions\expect( 'maybe_unserialize' )->andReturnFirstArg();
 
 		$this->post->expects( 'get_post' )
@@ -241,12 +232,14 @@ class Indexable_Post_Builder_Test extends TestCase {
 			->with( 1 )
 			->andReturn(
 				(object) [
-					'post_content'  => 'The content of the post',
-					'post_type'     => 'post',
-					'post_status'   => 'publish',
-					'post_password' => '',
-					'post_author'   => '1',
-					'post_parent'   => '0',
+					'post_content'      => 'The content of the post',
+					'post_type'         => 'post',
+					'post_status'       => 'publish',
+					'post_password'     => '',
+					'post_author'       => '1',
+					'post_parent'       => '0',
+					'post_date_gmt'     => '1234-12-12 00:00:00',
+					'post_modified_gmt' => '1234-12-12 00:00:00',
 				]
 			);
 
@@ -261,44 +254,24 @@ class Indexable_Post_Builder_Test extends TestCase {
 			->andReturn( true );
 
 		$indexable_expectations = [
-			'object_id'                      => 1,
+			'object_id'                      => '1',
 			'object_type'                    => 'post',
 			'object_sub_type'                => 'post',
 			'permalink'                      => 'https://permalink',
-			'canonical'                      => 'https://canonical',
-			'title'                          => 'title',
 			'breadcrumb_title'               => 'breadcrumb_title',
-			'description'                    => 'description',
-			'open_graph_title'               => 'open_graph_title',
-			'open_graph_image'               => 'open_graph_image',
-			'open_graph_image_id'            => 'open_graph_image_id',
-			'open_graph_description'         => 'open_graph_description',
-			'twitter_title'                  => 'twitter_title',
-			'twitter_image'                  => 'twitter_image',
-			'twitter_image_id'               => null,
-			'twitter_description'            => 'twitter_description',
-			'is_cornerstone'                 => true,
-			'is_robots_noindex'              => true,
-			'is_robots_nofollow'             => true,
-			'is_robots_noarchive'            => false,
-			'is_robots_noimageindex'         => false,
-			'is_robots_nosnippet'            => false,
-			'primary_focus_keyword'          => 'focuskeyword',
-			'primary_focus_keyword_score'    => 100,
-			'readability_score'              => 50,
 			'number_of_pages'                => null,
-			'is_public'                      => 0,
+			'is_public'                      => '0',
 			'post_status'                    => 'publish',
-			'is_protected'                   => false,
-			'author_id'                      => 1,
-			'post_parent'                    => 0,
-			'has_public_posts'               => false,
-			'blog_id'                        => 1,
-			'schema_page_type'               => 'FAQPage',
-			'schema_article_type'            => 'NewsArticle',
-			'estimated_reading_time_minutes' => 11,
-			'version'                        => 1,
+			'is_protected'                   => '0',
+			'author_id'                      => '1',
+			'post_parent'                    => '0',
+			'has_public_posts'               => null,
+			'blog_id'                        => '1',
+			'version'                        => '2',
+			'object_published_at'            => '1234-12-12 00:00:00',
+			'object_last_modified'           => '1234-12-12 00:00:00',
 		];
+		$indexable_expectations = \array_merge( $indexable_expectations, $expected_result );
 
 		$this->indexable      = Mockery::mock( Indexable::class );
 		$this->indexable->orm = Mockery::mock( ORM::class );
@@ -365,6 +338,87 @@ class Indexable_Post_Builder_Test extends TestCase {
 		Monkey\Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
 
 		$this->instance->build( 1, $this->indexable );
+	}
+
+	/**
+	 * Provides data to the test_build function.
+	 *
+	 * @return array The data to provide.
+	 */
+	public function provider_build() {
+		$postmeta_set_with_missing_data                     = [
+			'_yoast_wpseo_linkdex'                        => [ '100' ],
+			'_yoast_wpseo_is_cornerstone'                 => [ '1' ],
+			'_yoast_wpseo_content_score'                  => [ '50' ],
+			'_yoast_wpseo_opengraph-image'                => [ 'open_graph_image' ],
+			'_yoast_wpseo_opengraph-image-id'             => [ 'open_graph_image_id' ],
+			'_yoast_wpseo_twitter-image'                  => [ 'twitter_image' ],
+			'_yoast_wpseo_schema_page_type'               => [ 'FAQPage' ],
+			'_yoast_wpseo_schema_article_type'            => [ 'NewsArticle' ],
+			'_yoast_wpseo_estimated-reading-time-minutes' => [ '11' ],
+		];
+		$indexable_with_default_values_for_missing_postmeta = [
+			'canonical'                      => null,
+			'title'                          => null,
+			'description'                    => null,
+			'open_graph_title'               => null,
+			'open_graph_image'               => 'open_graph_image',
+			'open_graph_image_id'            => 'open_graph_image_id',
+			'open_graph_description'         => null,
+			'twitter_title'                  => null,
+			'twitter_image'                  => 'twitter_image',
+			'twitter_image_id'               => null,
+			'twitter_description'            => null,
+			'is_cornerstone'                 => '1',
+			'is_robots_noindex'              => null,
+			'is_robots_nofollow'             => '0',
+			'is_robots_noarchive'            => null,
+			'is_robots_noimageindex'         => null,
+			'is_robots_nosnippet'            => null,
+			'primary_focus_keyword'          => null,
+			'primary_focus_keyword_score'    => null,
+			'readability_score'              => '50',
+			'schema_page_type'               => 'FAQPage',
+			'schema_article_type'            => 'NewsArticle',
+			'estimated_reading_time_minutes' => '11',
+		];
+
+		$extra_postmeta                      = [
+			'_yoast_wpseo_focuskw'                        => [ 'focuskeyword' ],
+			'_yoast_wpseo_meta-robots-noindex'            => [ '1' ],
+			'_yoast_wpseo_meta-robots-adv'                => [ '' ],
+			'_yoast_wpseo_canonical'                      => [ 'https://canonical' ],
+			'_yoast_wpseo_meta-robots-nofollow'           => [ '1' ],
+			'_yoast_wpseo_title'                          => [ 'title' ],
+			'_yoast_wpseo_metadesc'                       => [ 'description' ],
+			'_yoast_wpseo_opengraph-title'                => [ 'open_graph_title' ],
+			'_yoast_wpseo_opengraph-description'          => [ 'open_graph_description' ],
+			'_yoast_wpseo_twitter-title'                  => [ 'twitter_title' ],
+			'_yoast_wpseo_twitter-description'            => [ 'twitter_description' ],
+		];
+		$full_postmeta_set                   = \array_merge( $postmeta_set_with_missing_data, $extra_postmeta );
+		$indexable_values_for_extra_postmeta = [
+			'canonical'                      => 'https://canonical',
+			'title'                          => 'title',
+			'description'                    => 'description',
+			'open_graph_title'               => 'open_graph_title',
+			'open_graph_description'         => 'open_graph_description',
+			'twitter_title'                  => 'twitter_title',
+			'twitter_description'            => 'twitter_description',
+			'is_robots_noindex'              => '1',
+			'is_robots_nofollow'             => '1',
+			'is_robots_noarchive'            => null,
+			'is_robots_noimageindex'         => null,
+			'is_robots_nosnippet'            => null,
+			'primary_focus_keyword'          => 'focuskeyword',
+			'primary_focus_keyword_score'    => '100',
+		];
+		$indexable_with_full_postmeta_set    = \array_merge( $indexable_with_default_values_for_missing_postmeta, $indexable_values_for_extra_postmeta );
+
+		return [
+			[ $postmeta_set_with_missing_data, $indexable_with_default_values_for_missing_postmeta ],
+			[ $full_postmeta_set, $indexable_with_full_postmeta_set ],
+		];
 	}
 
 	/**
@@ -706,7 +760,6 @@ class Indexable_Post_Builder_Test extends TestCase {
 	 * Tests is_public for when the post status is not public.
 	 *
 	 * @covers ::is_public
-	 * @covers ::is_public_post_status
 	 */
 	public function test_is_public_post_status_is_not_public() {
 		$this->indexable->is_protected      = false;

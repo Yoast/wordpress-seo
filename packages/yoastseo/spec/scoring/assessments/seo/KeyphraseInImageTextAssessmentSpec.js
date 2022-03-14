@@ -1,7 +1,7 @@
 import KeyphraseInImagesAssessment from "../../../../src/scoring/assessments/seo/KeyphraseInImageTextAssessment";
 import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../specHelpers/factory.js";
-const i18n = Factory.buildJed();
+import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher";
 
 const keyphraseInImagesAssessment = new KeyphraseInImagesAssessment();
 
@@ -16,12 +16,12 @@ describe( "An image count assessment", function() {
 				withAltKeyword: 0,
 				withAltNonKeyword: 0,
 			},
-		}, true ), i18n );
+		}, true ) );
 
 		expect( assessment.getScore() ).toEqual( 6 );
-		expect( assessment.getText() ).toEqual( "Image Keyphrase</a>: " +
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: " +
 			"Images on this page have alt attributes, but you have not set your keyphrase. " +
-			"Fix that</a>!" );
+			"<a href='https://yoa.st/4f6' target='_blank'>Fix that</a>!" );
 	} );
 
 	it( "assesses 4 images, without a keyword, but with an alt-tag set", function() {
@@ -35,12 +35,12 @@ describe( "An image count assessment", function() {
 				withAltKeyword: 0,
 				withAltNonKeyword: 0,
 			},
-		}, true ), i18n );
+		}, true ) );
 
 		expect( assessment.getScore() ).toEqual( 6 );
-		expect( assessment.getText() ).toEqual( "Image Keyphrase</a>: " +
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: " +
 			"Images on this page have alt attributes, but you have not set your keyphrase. " +
-			"Fix that</a>!" );
+			"<a href='https://yoa.st/4f6' target='_blank'>Fix that</a>!" );
 	} );
 
 	it( "assesses a single image, with an alt-tag without the presence of a keyword", function() {
@@ -55,12 +55,12 @@ describe( "An image count assessment", function() {
 				withAltKeyword: 0,
 				withAltNonKeyword: 1,
 			},
-		}, true ), i18n );
+		}, true ) );
 
 		expect( assessment.getScore() ).toEqual( 6 );
-		expect( assessment.getText() ).toEqual( "Image Keyphrase</a>: " +
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: " +
 			"Images on this page do not have alt attributes with at least half of the words from your keyphrase. " +
-			"Fix that</a>!" );
+			"<a href='https://yoa.st/4f6' target='_blank'>Fix that</a>!" );
 	} );
 
 	it( "assesses four images, with an alt-tag without the presence of a keyword", function() {
@@ -76,12 +76,12 @@ describe( "An image count assessment", function() {
 				withAltKeyword: 0,
 				withAltNonKeyword: 4,
 			},
-		}, true ), i18n );
+		}, true ) );
 
 		expect( assessment.getScore() ).toEqual( 6 );
-		expect( assessment.getText() ).toEqual( "Image Keyphrase</a>: " +
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: " +
 			"Images on this page do not have alt attributes with at least half of the words from your keyphrase. " +
-			"Fix that</a>!" );
+			"<a href='https://yoa.st/4f6' target='_blank'>Fix that</a>!" );
 	} );
 
 	it( "assesses a single image, with alt-tag containing the keyphrase", function() {
@@ -96,10 +96,10 @@ describe( "An image count assessment", function() {
 				withAltKeyword: 1,
 				withAltNonKeyword: 0,
 			},
-		}, true ), i18n );
+		}, true ) );
 
 		expect( assessment.getScore() ).toEqual( 9 );
-		expect( assessment.getText() ).toEqual( "Image Keyphrase</a>: " +
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: " +
 			"Good job!" );
 	} );
 
@@ -115,10 +115,10 @@ describe( "An image count assessment", function() {
 				withAltKeyword: 1,
 				withAltNonKeyword: 1,
 			},
-		}, true ), i18n );
+		}, true ) );
 
 		expect( assessment.getScore() ).toEqual( 9 );
-		expect( assessment.getText() ).toEqual( "Image Keyphrase</a>: Good job!" );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: Good job!" );
 	} );
 
 	it( "assesses 6 images with alt-tags, in which 2 images tags contain keyphrase, 1 image tag doesn't contain keyphrase, " +
@@ -135,10 +135,10 @@ describe( "An image count assessment", function() {
 				withAltKeyword: 2,
 				withAltNonKeyword: 1,
 			},
-		}, true ), i18n );
+		}, true ) );
 
 		expect( assessment.getScore() ).toEqual( 9 );
-		expect( assessment.getText() ).toEqual( "Image Keyphrase</a>: Good job!" );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: Good job!" );
 	} );
 
 	it( "assesses 6 images with alt tags that contain the keyphrase", function() {
@@ -153,12 +153,12 @@ describe( "An image count assessment", function() {
 				withAltKeyword: 6,
 				withAltNonKeyword: 0,
 			},
-		}, true ), i18n );
+		}, true ) );
 
 		expect( assessment.getScore() ).toEqual( 6 );
-		expect( assessment.getText() ).toEqual( "Image Keyphrase</a>: " +
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: " +
 			"Out of 6 images on this page, 6 have alt attributes with words from your keyphrase or synonyms. That's a bit much. " +
-			"Only include the keyphrase or its synonyms when it really " +
+			"<a href='https://yoa.st/4f6' target='_blank'>Only include the keyphrase or its synonyms when it really " +
 			"fits the image</a>." );
 	} );
 
@@ -175,12 +175,12 @@ describe( "An image count assessment", function() {
 				withAltKeyword: 1,
 				withAltNonKeyword: 4,
 			},
-		}, true ), i18n );
+		}, true ) );
 
 		expect( assessment.getScore() ).toEqual( 6 );
-		expect( assessment.getText() ).toEqual( "Image Keyphrase</a>: " +
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: " +
 			"Out of 6 images on this page, only 1 has an alt attribute that reflects the topic of your text. " +
-			"Add your keyphrase or synonyms to the alt tags of more " +
+			"<a href='https://yoa.st/4f6' target='_blank'>Add your keyphrase or synonyms to the alt tags of more " +
 			"relevant images</a>!" );
 	} );
 
@@ -198,10 +198,10 @@ describe( "An image count assessment", function() {
 				withAltKeyword: 2,
 				withAltNonKeyword: 1,
 			},
-		}, true ), i18n );
+		}, true ) );
 
 		expect( assessment.getScore() ).toEqual( 9 );
-		expect( assessment.getText() ).toEqual( "Image Keyphrase</a>: Good job!" );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: Good job!" );
 	} );
 
 	it( "assesses 5 images, with alt tags containing keyphrase set to only 4 images", function() {
@@ -217,10 +217,10 @@ describe( "An image count assessment", function() {
 				withAltKeyword: 4,
 				withAltNonKeyword: 0,
 			},
-		}, true ), i18n );
+		}, true ) );
 
 		expect( assessment.getScore() ).toEqual( 9 );
-		expect( assessment.getText() ).toEqual( "Image Keyphrase</a>: Good job!" );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: Good job!" );
 	} );
 
 	it( "assesses 5 images, with alt tags containing keyphrase set to all 5 images", function() {
@@ -236,12 +236,12 @@ describe( "An image count assessment", function() {
 				withAltKeyword: 5,
 				withAltNonKeyword: 0,
 			},
-		}, true ), i18n );
+		}, true ) );
 
 		expect( assessment.getScore() ).toEqual( 6 );
-		expect( assessment.getText() ).toEqual( "Image Keyphrase</a>: " +
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: " +
 			"Out of 5 images on this page, 5 have alt attributes with words from your keyphrase or synonyms. That's a bit much. " +
-			"Only include the keyphrase or its synonyms when it " +
+			"<a href='https://yoa.st/4f6' target='_blank'>Only include the keyphrase or its synonyms when it " +
 			"really fits the image</a>." );
 	} );
 
@@ -258,12 +258,12 @@ describe( "An image count assessment", function() {
 				withAltKeyword: 1,
 				withAltNonKeyword: 3,
 			},
-		}, true ), i18n );
+		}, true ) );
 
 		expect( assessment.getScore() ).toEqual( 6 );
-		expect( assessment.getText() ).toEqual( "Image Keyphrase</a>: " +
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: " +
 			"Out of 5 images on this page, only 1 has an alt attribute that reflects the topic of your text. " +
-			"Add your keyphrase or synonyms to the alt tags of " +
+			"<a href='https://yoa.st/4f6' target='_blank'>Add your keyphrase or synonyms to the alt tags of " +
 			"more relevant images</a>!" );
 	} );
 
@@ -278,12 +278,37 @@ describe( "An image count assessment", function() {
 				withAltKeyword: 0,
 				withAltNonKeyword: 0,
 			},
-		}, true ), i18n );
+		}, true ) );
 
 		expect( assessment.getScore() ).toEqual( 6 );
-		expect( assessment.getText() ).toEqual( "Image Keyphrase</a>: " +
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: " +
 			"Images on this page do not have alt attributes that reflect the topic of your text. " +
-			"Add your keyphrase or synonyms to the alt tags of relevant images</a>!" );
+			"<a href='https://yoa.st/4f6' target='_blank'>Add your keyphrase or synonyms to the alt tags of relevant images</a>!" );
+	} );
+
+	it( "assesses a single image with alt-tag containing a non-exact match of the keyphrase when the keyphrase is enclosed in double quotes in Japanese", function() {
+		const mockPaper = new Paper( "These are just five words <img src='image.jpg' alt='小さくて可愛い花の刺繍に関する一般一般の記事です' />", {
+			keyword: "『小さい花の刺繍』",
+		} );
+
+		const result = keyphraseInImagesAssessment.getResult( mockPaper, new JapaneseResearcher( mockPaper ) );
+
+		expect( result.getScore() ).toEqual( 6 );
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>:" +
+			" Images on this page do not have alt attributes with at least half of the words from your keyphrase." +
+			" <a href='https://yoa.st/4f6' target='_blank'>Fix that</a>!"  );
+	} );
+
+	it( "assesses a single image with alt-tag containing an exact match of the keyphrase when the keyphrase is enclosed in double quotes in Japanese", function() {
+		const mockPaper = new Paper( "These are just five words <img src='image.jpg' alt='小さい花の刺繍' />", {
+			keyword: "『小さい花の刺繍』",
+		} );
+
+		const result = keyphraseInImagesAssessment.getResult( mockPaper, new JapaneseResearcher( mockPaper ) );
+
+		expect( result.getScore() ).toEqual( 9 );
+		expect( result.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: " +
+			"Good job!" );
 	} );
 } );
 

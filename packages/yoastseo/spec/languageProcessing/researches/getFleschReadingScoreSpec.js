@@ -1,6 +1,3 @@
-/**
- * @jest-environment jsdom
- */
 import fleschFunction from "../../../src/languageProcessing/researches/getFleschReadingScore";
 import Paper from "../../../src/values/Paper.js";
 import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";

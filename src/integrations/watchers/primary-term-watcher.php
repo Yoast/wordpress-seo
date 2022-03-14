@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Integrations\Watchers;
 
+use WP_Term;
 use WPSEO_Meta;
 use WPSEO_Primary_Term;
 use Yoast\WP\SEO\Builders\Primary_Term_Builder;
@@ -110,11 +111,11 @@ class Primary_Term_Watcher implements Integration_Interface {
 	/**
 	 * Saves the primary term for a specific taxonomy.
 	 *
-	 * @param int      $post_id  Post ID to save primary term for.
-	 * @param \WP_Term $taxonomy Taxonomy to save primary term for.
+	 * @param int     $post_id  Post ID to save primary term for.
+	 * @param WP_Term $taxonomy Taxonomy to save primary term for.
 	 */
 	protected function save_primary_term( $post_id, $taxonomy ) {
-		$primary_term = \filter_input( INPUT_POST, WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy->name . '_term', FILTER_SANITIZE_NUMBER_INT );
+		$primary_term = \filter_input( \INPUT_POST, WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy->name . '_term', \FILTER_SANITIZE_NUMBER_INT );
 
 		// We accept an empty string here because we need to save that if no terms are selected.
 		if ( $primary_term && \check_admin_referer( 'save-primary-term', WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy->name . '_nonce' ) !== null ) {

@@ -31,10 +31,10 @@ class WPSEO_Upgrade_History_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Removes the used option.
 	 */
-	public function tearDown() {
-		parent::tearDown();
-
+	public function tear_down() {
 		delete_option( self::$option_name );
+
+		parent::tear_down();
 	}
 
 	/**

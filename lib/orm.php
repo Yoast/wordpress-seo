@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\Lib;
 
+use ReturnTypeWillChange;
 use wpdb;
 use Yoast\WP\SEO\Config\Migration_Status;
 
@@ -48,6 +49,7 @@ use Yoast\WP\SEO\Config\Migration_Status;
  * @see http://www.php-fig.org/psr/psr-1/
  */
 class ORM implements \ArrayAccess {
+
 	/*
 	 * --- CLASS CONSTANTS ---
 	 */
@@ -1585,7 +1587,7 @@ class ORM implements \ArrayAccess {
 	 * Adds a HAVING ... LIKE clause to your query.
 	 *
 	 * @param string|array $column_name The table column.
-	 * @param null         $value       The value.
+	 * @param string|null  $value       The value.
 	 *
 	 * @return ORM
 	 */
@@ -1597,7 +1599,7 @@ class ORM implements \ArrayAccess {
 	 * Adds where HAVING ... NOT LIKE clause to your query.
 	 *
 	 * @param string|array $column_name The table column.
-	 * @param null         $value       The value.
+	 * @param string|null  $value       The value.
 	 *
 	 * @return ORM
 	 */
@@ -1609,7 +1611,7 @@ class ORM implements \ArrayAccess {
 	 * Adds a HAVING ... > clause to your query.
 	 *
 	 * @param string|array $column_name The table column.
-	 * @param null         $value       The value.
+	 * @param mixed        $value       The value.
 	 *
 	 * @return ORM
 	 */
@@ -1621,7 +1623,7 @@ class ORM implements \ArrayAccess {
 	 * Adds a HAVING ... < clause to your query.
 	 *
 	 * @param string|array $column_name The table column.
-	 * @param null         $value       The value.
+	 * @param mixed        $value       The value.
 	 *
 	 * @return ORM
 	 */
@@ -1633,7 +1635,7 @@ class ORM implements \ArrayAccess {
 	 * Adds a HAVING ... >= clause to your query.
 	 *
 	 * @param string|array $column_name The table column.
-	 * @param null         $value       The value. Defaults to null.
+	 * @param mixed        $value       The value. Defaults to null.
 	 *
 	 * @return ORM
 	 */
@@ -1645,7 +1647,7 @@ class ORM implements \ArrayAccess {
 	 * Adds a HAVING ... <= clause to your query.
 	 *
 	 * @param string|array $column_name The table column.
-	 * @param null         $value       The value.
+	 * @param mixed        $value       The value.
 	 *
 	 * @return ORM
 	 */
@@ -1657,7 +1659,7 @@ class ORM implements \ArrayAccess {
 	 * Adds a HAVING ... IN clause to your query.
 	 *
 	 * @param string|array $column_name The table column.
-	 * @param null         $values      The values. Defaults to null.
+	 * @param array|null   $values      The values. Defaults to null.
 	 *
 	 * @return ORM
 	 */
@@ -1669,7 +1671,7 @@ class ORM implements \ArrayAccess {
 	 * Adds a HAVING ... NOT IN clause to your query.
 	 *
 	 * @param string|array $column_name The table column.
-	 * @param null         $values      The values. Defaults to null.
+	 * @param array|null   $values      The values. Defaults to null.
 	 *
 	 * @return ORM
 	 */
@@ -2225,11 +2227,11 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Inserts multiple rows in a single query. Expects new rows as it's a strictly insert function, not an update one.
 	 *
+	 * @example From the Indexable_Link_Builder class: $this->seo_links_repository->query()->insert_many( $links );
+	 *
 	 * @param array $models Array of model instances to be inserted.
 	 *
 	 * @return bool True for successful insert, false for failed.
-	 *
-	 * @example From the Indexable_Link_Builder class: $this->seo_links_repository->query()->insert_many( $links );
 	 *
 	 * @throws \InvalidArgumentException Invalid instances to be inserted.
 	 * @throws \InvalidArgumentException Instance to be inserted is not a new one.
@@ -2378,7 +2380,7 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Builds a bulk INSERT query.
 	 *
-	 * @param array $models Array of model instances to be inserted.
+	 * @param array $models             Array of model instances to be inserted.
 	 * @param array $dirty_column_names Array of dirty fields to be used in INSERT.
 	 *
 	 * @return string The insert query.
@@ -2449,46 +2451,50 @@ class ORM implements \ArrayAccess {
 	/**
 	 * Checks whether the data has the key.
 	 *
-	 * @param mixed $key Key.
+	 * @param mixed $offset Key.
 	 *
 	 * @return bool Whether the data has the key.
 	 */
-	public function offsetExists( $key ) {
-		return \array_key_exists( $key, $this->data );
+	#[ReturnTypeWillChange]
+	public function offsetExists( $offset ) {
+		return \array_key_exists( $offset, $this->data );
 	}
 
 	/**
 	 * Retrieves the value of the key.
 	 *
-	 * @param mixed $key Key.
+	 * @param mixed $offset Key.
 	 *
 	 * @return array|mixed|null The value.
 	 */
-	public function offsetGet( $key ) {
-		return $this->get( $key );
+	#[ReturnTypeWillChange]
+	public function offsetGet( $offset ) {
+		return $this->get( $offset );
 	}
 
 	/**
 	 * Sets the value of the key.
 	 *
-	 * @param string|int $key   Key.
-	 * @param mixed      $value Value.
+	 * @param string|int $offset Key.
+	 * @param mixed      $value  Value.
 	 */
-	public function offsetSet( $key, $value ) {
-		if ( \is_null( $key ) ) {
+	#[ReturnTypeWillChange]
+	public function offsetSet( $offset, $value ) {
+		if ( \is_null( $offset ) ) {
 			return;
 		}
-		$this->set( $key, $value );
+		$this->set( $offset, $value );
 	}
 
 	/**
 	 * Removes the given key from the data.
 	 *
-	 * @param mixed $key Key.
+	 * @param mixed $offset Key.
 	 */
-	public function offsetUnset( $key ) {
-		unset( $this->data[ $key ] );
-		unset( $this->dirty_fields[ $key ] );
+	#[ReturnTypeWillChange]
+	public function offsetUnset( $offset ) {
+		unset( $this->data[ $offset ] );
+		unset( $this->dirty_fields[ $offset ] );
 	}
 
 	/*

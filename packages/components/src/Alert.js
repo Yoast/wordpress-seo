@@ -15,7 +15,7 @@ import SvgIcon from "./SvgIcon";
 const AlertContainer = styled.div`
 	display: flex;
 	align-items: flex-start;
-	font-size: 14px;
+	font-size: 13px;
 	line-height: 1.5;
 	border: 1px solid rgba(0, 0, 0, 0.2);
 	padding: 16px;
@@ -30,14 +30,14 @@ const AlertContent = styled.div`
 	a {
 		color: ${ colors.$color_alert_link_text };
 	}
-	
+
 	p {
 		margin-top: 0;
 	}
 `;
 
 const AlertIcon = styled( SvgIcon )`
-	margin-top: 0.125rem;
+	margin-top: 0.1rem;
 	${ getDirectionalStyle( "margin-right: 8px", "margin-left: 8px" ) };
 `;
 
@@ -132,7 +132,7 @@ class Alert extends React.Component {
 		}
 
 		const options          = this.getTypeDisplayOptions( this.props.type );
-		const dismissAriaLabel = this.props.dismissAriaLabel || __( "Dismiss this alert", "yoast-components" );
+		const dismissAriaLabel = this.props.dismissAriaLabel || __( "Dismiss this alert", "wordpress-seo" );
 
 		return <AlertContainer alertColor={ options.color } alertBackground={ options.background } className={ this.props.className }>
 			<AlertIcon icon={ options.icon } color={ options.color } />

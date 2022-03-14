@@ -35,6 +35,10 @@ class WebPage extends Abstract_Schema_Piece {
 			],
 		];
 
+		if ( empty( $this->context->canonical ) && \is_search() ) {
+			$data['url'] = $this->build_search_url();
+		}
+
 		if ( $this->helpers->current_page->is_front_page() ) {
 			if ( $this->context->site_represents_reference ) {
 				$data['about'] = $this->context->site_represents_reference;
@@ -120,12 +124,17 @@ class WebPage extends Abstract_Schema_Piece {
 	 * @return array The WebPage data with the potential action added.
 	 */
 	private function add_potential_action( $data ) {
+		$url = $this->context->canonical;
+		if ( empty( $url ) && \is_search() ) {
+			$url = $this->build_search_url();
+		}
+
 		/**
 		 * Filter: 'wpseo_schema_webpage_potential_action_target' - Allows filtering of the schema WebPage potentialAction target.
 		 *
 		 * @api array $targets The URLs for the WebPage potentialAction target.
 		 */
-		$targets = \apply_filters( 'wpseo_schema_webpage_potential_action_target', [ $this->context->canonical ] );
+		$targets = \apply_filters( 'wpseo_schema_webpage_potential_action_target', [ $url ] );
 
 		$data['potentialAction'][] = [
 			'@type'  => 'ReadAction',
@@ -133,5 +142,14 @@ class WebPage extends Abstract_Schema_Piece {
 		];
 
 		return $data;
+	}
+
+	/**
+	 * Creates the search URL for use when if there is no canonical.
+	 *
+	 * @return string Search URL.
+	 */
+	private function build_search_url() {
+		return $this->context->site_url . '?s=' . \get_search_query();
 	}
 }

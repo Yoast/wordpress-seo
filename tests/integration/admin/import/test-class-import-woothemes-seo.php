@@ -20,8 +20,8 @@ class WPSEO_Import_WooThemes_SEO_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Sets up the test class.
 	 */
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 
 		// These options need setting as otherwise Woo didn't handle the titles and meta desc and thus we cannot import.
 		update_option( 'seo_woo_wp_title', true );
@@ -135,12 +135,12 @@ class WPSEO_Import_WooThemes_SEO_Test extends WPSEO_UnitTestCase {
 	 * Returns a WPSEO_Import_Status object to check against.
 	 *
 	 * @param string $action The action to return.
-	 * @param bool   $bool   The status.
+	 * @param bool   $status The status.
 	 *
 	 * @return WPSEO_Import_Status Import status object.
 	 */
-	private function status( $action, $bool ) {
-		return new WPSEO_Import_Status( $action, $bool );
+	private function status( $action, $status ) {
+		return new WPSEO_Import_Status( $action, $status );
 	}
 
 	/**

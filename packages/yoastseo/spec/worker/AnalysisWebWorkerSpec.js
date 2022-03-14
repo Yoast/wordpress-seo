@@ -1,6 +1,3 @@
-/**
- * @jest-environment jsdom
- */
 // External dependencies
 import { forEach, isArray, isNumber, isObject } from "lodash-es";
 import { getLogger } from "loglevel";
@@ -23,7 +20,6 @@ import { StructuredNode } from "../../src/parsedPaper/structure/tree";
 import testTexts from "../fullTextTests/testTexts";
 
 // Test helpers
-import Factory from "../specHelpers/factory.js";
 import TestResearch from "../specHelpers/tree/TestResearch";
 import getMorphologyData from "../specHelpers/getMorphologyData";
 import TestAssessment from "../specHelpers/tree/TestAssessment";
@@ -279,9 +275,6 @@ describe( "AnalysisWebWorker", () => {
 						},
 					},
 				} ) );
-
-				expect( worker._i18n ).toBeDefined();
-				expect( worker._i18n.gettext( "test" ) ).toBe( "1234" );
 			} );
 
 			test( "sets the locale", () => {
@@ -1193,12 +1186,12 @@ describe( "AnalysisWebWorker", () => {
 			worker._configuration.useCornerstone = false;
 			let assessor = worker.createContentAssessor();
 			expect( assessor ).not.toBeNull();
-			expect( assessor.type ).toBe( "ContentAssessor" );
+			expect( assessor.type ).toBe( "contentAssessor" );
 
 			worker._configuration.useCornerstone = true;
 			assessor = worker.createContentAssessor();
 			expect( assessor ).not.toBeNull();
-			expect( assessor.type ).toBe( "CornerstoneContentAssessor" );
+			expect( assessor.type ).toBe( "cornerstoneContentAssessor" );
 		} );
 
 		test( "listens to customAnalysisType and sets the custom content assessor if available", () => {
@@ -1216,7 +1209,7 @@ describe( "AnalysisWebWorker", () => {
 			worker._CustomContentAssessorClasses.type2 = SEOAssessor;
 			const assessor = worker.createContentAssessor();
 			// Default assessor used.
-			expect( assessor.type ).toBe( "ContentAssessor" );
+			expect( assessor.type ).toBe( "contentAssessor" );
 		} );
 
 		test( "listens to customAnalysisType but returns the default content assessor if no custom analysis type is set", () => {
@@ -1225,7 +1218,7 @@ describe( "AnalysisWebWorker", () => {
 			worker._CustomContentAssessorClasses.type1 = SEOAssessor;
 			const assessor = worker.createContentAssessor();
 			// Default assessor used.
-			expect( assessor.type ).toBe( "ContentAssessor" );
+			expect( assessor.type ).toBe( "contentAssessor" );
 		} );
 
 		test( "listens to customAnalysisType and sets the custom cornerstone content assessor if available", () => {
@@ -1244,7 +1237,7 @@ describe( "AnalysisWebWorker", () => {
 			worker._CustomCornerstoneContentAssessorClasses.type2 = SEOAssessor;
 			const assessor = worker.createContentAssessor();
 			// Default assessor used.
-			expect( assessor.type ).toBe( "CornerstoneContentAssessor" );
+			expect( assessor.type ).toBe( "cornerstoneContentAssessor" );
 		} );
 
 		test( "listens to customAnalysisType but returns the default cornerstone SEO assessor if no custom analysis type is set", () => {
@@ -1253,7 +1246,7 @@ describe( "AnalysisWebWorker", () => {
 			worker._CustomCornerstoneContentAssessorClasses.type1 = SEOAssessor;
 			const assessor = worker.createContentAssessor();
 			// Default assessor used.
-			expect( assessor.type ).toBe( "CornerstoneContentAssessor" );
+			expect( assessor.type ).toBe( "cornerstoneContentAssessor" );
 		} );
 	} );
 
@@ -1280,7 +1273,7 @@ describe( "AnalysisWebWorker", () => {
 			worker._configuration.useCornerstone = true;
 			assessor = worker.createSEOAssessor();
 			expect( assessor ).not.toBeNull();
-			expect( assessor.type ).toBe( "CornerstoneSEOAssessor" );
+			expect( assessor.type ).toBe( "cornerstoneSEOAssessor" );
 		} );
 
 		test( "listens to useTaxonomy", () => {
@@ -1292,7 +1285,7 @@ describe( "AnalysisWebWorker", () => {
 			worker._configuration.useTaxonomy = true;
 			assessor = worker.createSEOAssessor();
 			expect( assessor ).not.toBeNull();
-			expect( assessor.type ).toBe( "TaxonomyAssessor" );
+			expect( assessor.type ).toBe( "taxonomyAssessor" );
 		} );
 
 		test( "listens to useKeywordDistribution", () => {
@@ -1315,7 +1308,7 @@ describe( "AnalysisWebWorker", () => {
 			worker._configuration.useKeywordDistribution = true;
 			assessor = worker.createSEOAssessor();
 			expect( assessor ).not.toBeNull();
-			expect( assessor.type ).toBe( "CornerstoneSEOAssessor" );
+			expect( assessor.type ).toBe( "cornerstoneSEOAssessor" );
 			assessment = assessor.getAssessment( "keyphraseDistribution" );
 			expect( assessment ).toBeDefined();
 			expect( assessment.identifier ).toBe( "keyphraseDistribution" );
@@ -1327,7 +1320,7 @@ describe( "AnalysisWebWorker", () => {
 			worker._CustomSEOAssessorClasses.type1 = contentAssessor;
 			const assessor = worker.createSEOAssessor();
 			// Custom assessor used.
-			expect( assessor.type ).toBe( "ContentAssessor" );
+			expect( assessor.type ).toBe( "contentAssessor" );
 		} );
 
 		test( "listens to customAnalysisType but returns the default SEO assessor if no matching custom assessor is available", () => {
@@ -1355,7 +1348,7 @@ describe( "AnalysisWebWorker", () => {
 			worker._CustomCornerstoneSEOAssessorClasses.type1 = contentAssessor;
 			const assessor = worker.createSEOAssessor();
 			// Custom assessor used.
-			expect( assessor.type ).toBe( "ContentAssessor" );
+			expect( assessor.type ).toBe( "contentAssessor" );
 		} );
 
 		test( "listens to customAnalysisType but returns the default cornerstone SEO assessor if no matching custom assessor is available", () => {
@@ -1365,7 +1358,7 @@ describe( "AnalysisWebWorker", () => {
 			worker._CustomCornerstoneSEOAssessorClasses.type2 = contentAssessor;
 			const assessor = worker.createSEOAssessor();
 			// Default assessor used.
-			expect( assessor.type ).toBe( "CornerstoneSEOAssessor" );
+			expect( assessor.type ).toBe( "cornerstoneSEOAssessor" );
 		} );
 
 		test( "listens to customAnalysisType but returns the default cornerstone SEO assessor if no custom analysis type is set", () => {
@@ -1375,7 +1368,7 @@ describe( "AnalysisWebWorker", () => {
 			worker._CustomCornerstoneSEOAssessorClasses.type1 = contentAssessor;
 			const assessor = worker.createSEOAssessor();
 			// Default assessor used.
-			expect( assessor.type ).toBe( "CornerstoneSEOAssessor" );
+			expect( assessor.type ).toBe( "cornerstoneSEOAssessor" );
 		} );
 
 		test( "adds registered assessments", () => {
@@ -1402,7 +1395,7 @@ describe( "AnalysisWebWorker", () => {
 			worker._CustomRelatedKeywordAssessorClasses.type1 = contentAssessor;
 			const assessor = worker.createRelatedKeywordsAssessor();
 			// Custom assessor used.
-			expect( assessor.type ).toBe( "ContentAssessor" );
+			expect( assessor.type ).toBe( "contentAssessor" );
 		} );
 
 		test( "listens to customAnalysisType but returns the default related keyword assessor if no matching custom assessor is available", () => {
@@ -1430,7 +1423,7 @@ describe( "AnalysisWebWorker", () => {
 			worker._CustomCornerstoneRelatedKeywordAssessorClasses.type1 = contentAssessor;
 			const assessor = worker.createRelatedKeywordsAssessor();
 			// Custom assessor used.
-			expect( assessor.type ).toBe( "ContentAssessor" );
+			expect( assessor.type ).toBe( "contentAssessor" );
 		} );
 
 		test( "listens to customAnalysisType but returns the default cornerstone SEO assessor if no matching custom assessor is available", () => {
@@ -1696,10 +1689,8 @@ describe( "AnalysisWebWorker", () => {
 			scope = createScope();
 			worker = new AnalysisWebWorker( scope, researcher );
 
-			const i18n = Factory.buildJed();
-
 			// Build the different kinds of assessors and aggregator to use.
-			assessor = new SEOAssessor( i18n, { marker: {} } );
+			assessor = new SEOAssessor( { marker: {} } );
 			treeAssessor = worker.createSEOTreeAssessor( {} );
 			scoreAggregator = new SEOScoreAggregator();
 

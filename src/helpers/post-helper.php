@@ -29,10 +29,10 @@ class Post_Helper {
 	 *
 	 * @codeCoverageIgnore It only sets dependencies.
 	 *
-	 * @param String_Helper $string The string helper.
+	 * @param String_Helper $string_helper The string helper.
 	 */
-	public function __construct( String_Helper $string ) {
-		$this->string = $string;
+	public function __construct( String_Helper $string_helper ) {
+		$this->string = $string_helper;
 	}
 
 	/**
@@ -165,7 +165,7 @@ class Post_Helper {
 	 */
 	public function is_post_indexable( $post_id ) {
 		// Don't index excluded post statuses.
-		if ( in_array( \get_post_status( $post_id ), $this->get_excluded_post_statuses(), true ) ) {
+		if ( \in_array( \get_post_status( $post_id ), $this->get_excluded_post_statuses(), true ) ) {
 			return false;
 		}
 

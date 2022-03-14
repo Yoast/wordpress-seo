@@ -1,13 +1,8 @@
-/**
- * @jest-environment jsdom
- */
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
 import Assessor from "../../../../src/scoring/collectionPages/cornerstone/relatedKeywordAssessor.js";
 import Paper from "../../../../src/values/Paper.js";
-import factory from "../../../specHelpers/factory.js";
 import getResults from "../../../specHelpers/getListOfAssessmentResults";
-const i18n = factory.buildJed();
-const assessor = new Assessor( i18n, new EnglishResearcher() );
+const assessor = new Assessor( new EnglishResearcher() );
 
 describe( "running assessments in the cornerstone related keyword collection assessor", function() {
 	it( "runs assessments without any specific requirements", function() {

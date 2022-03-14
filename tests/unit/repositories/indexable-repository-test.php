@@ -515,9 +515,9 @@ class Indexable_Repository_Test extends TestCase {
 	/**
 	 * Setup a version check to steer the upgrade routine.
 	 *
-	 * @param Indexable $indexable        The mocked indexable.
-	 * @param Indexable $indexable_result The mocked indexable after the upgrade routine is run.
-	 *                                    If not provided, or set to `null`, we expect the upgrade routine to not be triggered.
+	 * @param Indexable      $indexable        The mocked indexable.
+	 * @param Indexable|null $indexable_result The mocked indexable after the upgrade routine is run.
+	 *                                         If not provided, or set to `null`, we expect the upgrade routine to not be triggered.
 	 */
 	private function mock_version_check( $indexable, $indexable_result = null ) {
 		$this->version_manager

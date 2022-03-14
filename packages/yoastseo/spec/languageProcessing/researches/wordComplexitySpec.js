@@ -1,6 +1,3 @@
-/**
- * @jest-environment jsdom
- */
 import wordComplexity from "../../../src/languageProcessing/researches/wordComplexity.js";
 import Paper from "../../../src/values/Paper";
 import Researcher from "../../../src/languageProcessing/languages/en/Researcher";

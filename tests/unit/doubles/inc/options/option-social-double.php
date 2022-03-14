@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Doubles\Inc\Options;
 
-use WPSEO_Option;
 use WPSEO_Option_Social;
 
 /**

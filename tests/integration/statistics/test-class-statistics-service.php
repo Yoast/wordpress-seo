@@ -15,8 +15,10 @@ class WPSEO_Statistics_Service_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Reset after each test.
 	 */
-	public function tearDown() {
+	public function tear_down() {
 		delete_transient( WPSEO_Statistics_Service::CACHE_TRANSIENT_KEY );
+
+		parent::tear_down();
 	}
 
 	/**

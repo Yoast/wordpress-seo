@@ -1,18 +1,13 @@
-/**
- * @jest-environment jsdom
- */
 import DefaultResearcher from "../../../src/languageProcessing/languages/_default/Researcher";
 import Assessor from "../../../src/scoring/collectionPages/seoAssessor.js";
 import Paper from "../../../src/values/Paper.js";
-import factory from "../../specHelpers/factory.js";
 import getResults from "../../specHelpers/getAssessorResults";
-const i18n = factory.buildJed();
 
 describe( "running assessments in the collection page SEO assessor", function() {
 	let assessor;
 
 	beforeEach( () => {
-		assessor = new Assessor( i18n, new DefaultResearcher() );
+		assessor = new Assessor( new DefaultResearcher() );
 	} );
 
 	it( "runs assessments without any specific requirements", function() {

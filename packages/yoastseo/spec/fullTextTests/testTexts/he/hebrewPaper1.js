@@ -19,30 +19,30 @@ const expectedResults = {
 	introductionKeyword: {
 		isApplicable: true,
 		score: 9,
-		resultText: "Keyphrase in introduction</a>: Well done!",
+		resultText: "<a href='https://yoa.st/33e' target='_blank'>Keyphrase in introduction</a>: Well done!",
 	},
 	keyphraseLength: {
 		isApplicable: true,
 		score: 9,
-		resultText: "Keyphrase length</a>: Good job!",
+		resultText: "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: Good job!",
 	},
 	keywordDensity: {
 		isApplicable: true,
 		score: 9,
-		resultText: "Keyphrase density</a>: The focus keyphrase was found 6 times. This is great!",
+		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: The focus keyphrase was found 6 times. This is great!",
 	},
 	metaDescriptionKeyword: {
 		isApplicable: true,
 		score: 9,
-		resultText: "Keyphrase in meta description</a>: " +
+		resultText: "<a href='https://yoa.st/33k' target='_blank'>Keyphrase in meta description</a>: " +
 			"Keyphrase or synonym appear in the meta description. Well done!",
 	},
 	metaDescriptionLength: {
 		isApplicable: true,
 		score: 6,
-		resultText: "Meta description length</a>: " +
+		resultText: "<a href='https://yoa.st/34d' target='_blank'>Meta description length</a>: " +
 			"The meta description is over 156 characters. To ensure the entire description will be visible," +
-			" you should reduce the length</a>!",
+			" <a href='https://yoa.st/34e' target='_blank'>you should reduce the length</a>!",
 	},
 	subheadingsKeyword: {
 		isApplicable: false,
@@ -55,33 +55,33 @@ const expectedResults = {
 	textLength: {
 		isApplicable: true,
 		score: 9,
-		resultText: "Text length</a>: The text contains 388 words. Good job!",
+		resultText: "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 388 words. Good job!",
 	},
 	externalLinks: {
 		isApplicable: true,
 		score: 3,
-		resultText: "Outbound links</a>:" +
-			" No outbound links appear in this page. Add some</a>!",
+		resultText: "<a href='https://yoa.st/34f' target='_blank'>Outbound links</a>:" +
+			" No outbound links appear in this page. <a href='https://yoa.st/34g' target='_blank'>Add some</a>!",
 	},
 	internalLinks: {
 		isApplicable: true,
 		score: 9,
-		resultText: "Internal links</a>: You have enough internal links. Good job!",
+		resultText: "<a href='https://yoa.st/33z' target='_blank'>Internal links</a>: You have enough internal links. Good job!",
 	},
 	titleKeyword: {
 		isApplicable: true,
 		score: 9,
-		resultText: "Keyphrase in title</a>: The exact match of the focus keyphrase appears at the beginning of the SEO title. Good job!",
+		resultText: "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: The exact match of the focus keyphrase appears at the beginning of the SEO title. Good job!",
 	},
 	titleWidth: {
 		isApplicable: true,
 		score: 9,
-		resultText: "SEO title width</a>: Good job!",
+		resultText: "<a href='https://yoa.st/34h' target='_blank'>SEO title width</a>: Good job!",
 	},
 	urlKeyword: {
 		isApplicable: true,
 		score: 6,
-		resultText: "Keyphrase in slug</a>: (Part of) your keyphrase does not appear in the slug. Change that</a>!",
+		resultText: "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: (Part of) your keyphrase does not appear in the slug. <a href='https://yoa.st/33p' target='_blank'>Change that</a>!",
 	},
 	urlLength: {
 		isApplicable: true,
@@ -94,9 +94,9 @@ const expectedResults = {
 	keyphraseDistribution: {
 		isApplicable: true,
 		score: 6,
-		resultText: "Keyphrase distribution</a>: " +
+		resultText: "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: " +
 			"Uneven. Some parts of your text do not contain the keyphrase or its synonyms." +
-			" Distribute them more evenly</a>.",
+			" <a href='https://yoa.st/33u' target='_blank'>Distribute them more evenly</a>.",
 	},
 	fleschReadingEase: {
 		isApplicable: false,
@@ -104,31 +104,31 @@ const expectedResults = {
 	subheadingsTooLong: {
 		isApplicable: true,
 		score: 2,
-		resultText: "Subheading distribution</a>:" +
+		resultText: "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>:" +
 			" You are not using any subheadings, although your text is rather long." +
-			" Try and add some subheadings</a>.",
+			" <a href='https://yoa.st/34y' target='_blank'>Try and add some subheadings</a>.",
 	},
 	textParagraphTooLong: {
 		isApplicable: true,
 		score: 3,
-		resultText: "Paragraph length</a>: " +
+		resultText: "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: " +
 			"1 of the paragraphs contains more than the recommended maximum of 150 words." +
-			" Shorten your paragraphs</a>!",
+			" <a href='https://yoa.st/35e' target='_blank'>Shorten your paragraphs</a>!",
 	},
 	textSentenceLength: {
 		isApplicable: true,
 		score: 3,
-		resultText: "Sentence length</a>: 66.7% of the sentences contain more than 15 words, which is more than the recommended maximum of 25%. Try to shorten the sentences</a>.",
+		resultText: "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: 66.7% of the sentences contain more than 15 words, which is more than the recommended maximum of 25%. <a href='https://yoa.st/34w' target='_blank'>Try to shorten the sentences</a>.",
 	},
 	textTransitionWords: {
 		isApplicable: true,
 		score: 9,
-		resultText: "Transition words</a>: Well done!",
+		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Well done!",
 	},
 	passiveVoice: {
 		isApplicable: true,
 		score: 6,
-		resultText: "Passive voice</a>: 13.6% of the sentences contain passive voice, which is more than the recommended maximum of 10%. Try to use their active counterparts</a>.",
+		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: 13.6% of the sentences contain passive voice, which is more than the recommended maximum of 10%. <a href='https://yoa.st/34u' target='_blank'>Try to use their active counterparts</a>.",
 	},
 	textPresence: {
 		isApplicable: true,
@@ -138,7 +138,7 @@ const expectedResults = {
 	sentenceBeginnings: {
 		isApplicable: true,
 		score: 9,
-		resultText: "Consecutive sentences</a>:" +
+		resultText: "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>:" +
 			" There is enough variety in your sentences. That's great!",
 	},
 	imageKeyphrase: {
@@ -148,8 +148,8 @@ const expectedResults = {
 	imageCount: {
 		isApplicable: true,
 		score: 3,
-		resultText: "Images</a>: No images appear on this page." +
-			" Add some</a>!",
+		resultText: "<a href='https://yoa.st/4f4' target='_blank'>Images</a>: No images appear on this page." +
+			" <a href='https://yoa.st/4f5' target='_blank'>Add some</a>!",
 	},
 };
 

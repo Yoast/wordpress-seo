@@ -3,9 +3,9 @@
 namespace Yoast\WP\SEO\Dependency_Injection;
 
 use Symfony\Component\DependencyInjection\Definition;
+use WPSEO_Addon_Manager;
 use WPSEO_Admin_Asset_Manager;
 use WPSEO_Breadcrumbs;
-use WPSEO_Addon_Manager;
 use WPSEO_Frontend;
 use WPSEO_Replace_Vars;
 use WPSEO_Shortlinker;
@@ -46,6 +46,7 @@ include __DIR__ . '/renamed-classes.php';
 
 $yoast_seo_excluded_files = [
 	'main.php',
+	'config/wincher-pkce-provider.php',
 ];
 
 $yoast_seo_excluded_directories = [
@@ -58,6 +59,7 @@ $yoast_seo_excluded_directories = [
 	'values/semrush',
 	'surfaces/values',
 	'wordpress',
+	'values/oauth',
 ];
 
 $yoast_seo_excluded = \implode( ',', \array_merge( $yoast_seo_excluded_directories, $yoast_seo_excluded_files ) );

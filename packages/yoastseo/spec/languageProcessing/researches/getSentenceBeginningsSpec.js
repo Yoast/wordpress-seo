@@ -1,6 +1,3 @@
-/**
- * @jest-environment jsdom
- */
 import getSentenceBeginnings from "../../../src/languageProcessing/researches/getSentenceBeginnings";
 
 import Paper from "../../../src/values/Paper.js";
@@ -16,7 +13,8 @@ import SwedishResearcher from "../../../src/languageProcessing/languages/sv/Rese
 import DutchResearcher from "../../../src/languageProcessing/languages/nl/Researcher";
 import RussianResearcher from "../../../src/languageProcessing/languages/ru/Researcher";
 import ArabicResearcher from "../../../src/languageProcessing/languages/ar/Researcher";
-
+import GreekResearcher from "../../../src/languageProcessing/languages/el/Researcher";
+import JapaneseResearcher from "../../../src/languageProcessing/languages/ja/Researcher";
 
 // eslint-disable-next-line max-statements
 describe( "gets the sentence beginnings and the count of consecutive duplicates.", function() {
@@ -500,5 +498,80 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "مرحبا" );
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 2 );
+	} );
+} );
+
+describe( "gets the sentence beginnings data for Greek", () => {
+	let mockPaper;
+	let researcher;
+	it( "returns an object with sentence beginnings and counts for three sentences all starting with the same words", () => {
+		mockPaper = new Paper( "Οι γάτες είναι χαριτωμένες. Οι γάτες είναι γλυκές. Οι γάτες είναι αξιολάτρευτες.", { locale: "el" } );
+		researcher = new GreekResearcher( mockPaper );
+
+		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "οι" );
+		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 3 );
+	} );
+	it( "returns an object with sentence beginnings and counts for three sentences all starting with the same words" +
+		" that are listed in first word exception list", () => {
+		mockPaper = new Paper( " Ένα από τα πιο σημαντικά προβλήματα στην εποχή μας είναι η υπερθέρμανση του πλανήτη." +
+			" Ένα πρωινό, όπως πήγαινα στην δουλειά, βλέπω ένα μικρό γατάκι κάτω από ένα αυτοκίνητο." +
+			" Ένα παιδί έχει ανάγκη την οικογένεια του.", { locale: "el" } );
+		researcher = new GreekResearcher( mockPaper );
+
+		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "ένα από" );
+		expect( getSentenceBeginnings( mockPaper, researcher )[ 1 ].word ).toBe( "ένα πρωινό" );
+		expect( getSentenceBeginnings( mockPaper, researcher )[ 2 ].word ).toBe( "ένα παιδί" );
+	} );
+	it( "returns an object with sentence beginnings and counts for three sentences all starting with the same words" +
+		" that are listed in first word exception list and followed by a word that is also in second word exception list", () => {
+		mockPaper = new Paper( "Αυτός ο μπαμπάς είναι φοβερός. Αυτός ο παππούς είναι καλός. Αυτός ο άνδρας είναι όμορφος.", { locale: "el" } );
+		researcher = new GreekResearcher( mockPaper );
+
+		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "αυτός ο μπαμπάς" );
+		expect( getSentenceBeginnings( mockPaper, researcher )[ 1 ].word ).toBe( "αυτός ο παππούς" );
+		expect( getSentenceBeginnings( mockPaper, researcher )[ 2 ].word ).toBe( "αυτός ο άνδρας" );
+	} );
+} );
+
+describe( "tests the sentence beginnings data for Japanese", () => {
+	let mockPaper;
+	let researcher;
+	it( "returns an object with sentence beginnings and counts for two sentences in Japanese starting with different words.", function() {
+		// https://tatoeba.org/en/sentences/show/425148
+		// https://tatoeba.org/en/sentences/show/9431906
+		mockPaper = new Paper( "私たちはよくチェスをします。チェスは難しい。", { locale: "ja_JP" } );
+		researcher = new JapaneseResearcher( mockPaper );
+
+		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "私" );
+		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 1 );
+		expect( getSentenceBeginnings( mockPaper, researcher )[ 1 ].word ).toBe( "チェス" );
+		expect( getSentenceBeginnings( mockPaper, researcher )[ 1 ].count ).toBe( 1 );
+	} );
+
+	it( "returns an object with sentence beginnings and counts for two sentences in Japanese starting with the same word.", function() {
+		// https://tatoeba.org/en/sentences/show/810883
+		// https://tatoeba.org/en/sentences/show/2337881
+		mockPaper = new Paper( "寿司が好きです。寿司はおいしいです。", { locale: "ja_JP" } );
+		researcher = new JapaneseResearcher( mockPaper );
+
+		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "寿司" );
+		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 2 );
+	} );
+
+	it( "returns an object with sentence beginnings and counts for four sentences in Japanese all starting " +
+		"with one of the exception words.", function() {
+		// https://tatoeba.org/en/sentences/show/441382
+		// https://tatoeba.org/en/sentences/show/982233
+		// https://tatoeba.org/en/sentences/show/5289451
+		// https://tatoeba.org/en/sentences/show/59419
+		mockPaper = new Paper( "この犬は白いです。その猫は茶色です。その猫は幸せです。この犬、大きいよ。", { locale: "ja_JP" } );
+		researcher = new JapaneseResearcher( mockPaper );
+
+		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "この 犬" );
+		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 1 );
+		expect( getSentenceBeginnings( mockPaper, researcher )[ 1 ].word ).toBe( "その 猫" );
+		expect( getSentenceBeginnings( mockPaper, researcher )[ 1 ].count ).toBe( 2 );
+		expect( getSentenceBeginnings( mockPaper, researcher )[ 2 ].word ).toBe( "この 犬" );
+		expect( getSentenceBeginnings( mockPaper, researcher )[ 2 ].count ).toBe( 1 );
 	} );
 } );

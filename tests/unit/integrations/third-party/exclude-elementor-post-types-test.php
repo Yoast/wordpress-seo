@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Third_Party;
 
-use Brain\Monkey;
 use Yoast\WP\SEO\Conditionals\Third_Party\Elementor_Activated_Conditional;
 use Yoast\WP\SEO\Integrations\Third_Party\Exclude_Elementor_Post_Types;
 use Yoast\WP\SEO\Tests\Unit\TestCase;

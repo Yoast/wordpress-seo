@@ -3,12 +3,12 @@
  * Yoast SEO Plugin.
  *
  * @package   WPSEO\Main
- * @copyright Copyright (C) 2008-2021, Yoast BV - support@yoast.com
+ * @copyright Copyright (C) 2008-2022, Yoast BV - support@yoast.com
  * @license   http://www.gnu.org/licenses/gpl-3.0.html GNU General Public License, version 3 or higher
  *
  * @wordpress-plugin
  * Plugin Name: Yoast SEO
- * Version:     17.3-RC2
+ * Version:     18.4-RC5
  * Plugin URI:  https://yoa.st/1uj
  * Description: The first true all-in-one SEO solution for WordPress, including on-page content analysis, XML sitemaps and much more.
  * Author:      Team Yoast
@@ -16,11 +16,11 @@
  * Text Domain: wordpress-seo
  * Domain Path: /languages/
  * License:     GPL v3
- * Requires at least: 5.6
+ * Requires at least: 5.8
  * Requires PHP: 5.6.20
  *
  * WC requires at least: 3.0
- * WC tested up to: 5.6
+ * WC tested up to: 6.1
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

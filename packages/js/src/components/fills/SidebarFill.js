@@ -7,9 +7,7 @@ import { __ } from "@wordpress/i18n";
 /* Internal dependencies */
 import CollapsibleCornerstone from "../../containers/CollapsibleCornerstone";
 import Warning from "../../containers/Warning";
-import KeywordInput from "../contentAnalysis/KeywordInput";
-import ReadabilityAnalysis from "../contentAnalysis/ReadabilityAnalysis";
-import SeoAnalysis from "../contentAnalysis/SeoAnalysis";
+import { KeywordInput, ReadabilityAnalysis, SeoAnalysis } from "@yoast/externals/components";
 import SidebarItem from "../SidebarItem";
 import GooglePreviewModal from "../modals/editorModals/GooglePreviewModal";
 import TwitterPreviewModal from "../modals/editorModals/TwitterPreviewModal";
@@ -17,6 +15,7 @@ import FacebookPreviewModal from "../modals/editorModals/FacebookPreviewModal";
 import SchemaTabContainer from "../../containers/SchemaTab";
 import SidebarCollapsible from "../SidebarCollapsible";
 import AdvancedSettings from "../../containers/AdvancedSettings";
+import WincherSEOPerformanceModal from "../../containers/WincherSEOPerformanceModal";
 
 /* eslint-disable complexity */
 /**
@@ -76,6 +75,11 @@ export default function SidebarFill( { settings } ) {
 				</SidebarItem> }
 				{ settings.isCornerstoneActive && <SidebarItem key="cornerstone" renderPriority={ 30 }>
 					<CollapsibleCornerstone />
+				</SidebarItem> }
+				{ settings.isKeywordAnalysisActive && settings.isWincherIntegrationActive && <SidebarItem renderPriority={ 22 }>
+					<WincherSEOPerformanceModal
+						location="sidebar"
+					/>
 				</SidebarItem> }
 			</Fill>
 		</Fragment>

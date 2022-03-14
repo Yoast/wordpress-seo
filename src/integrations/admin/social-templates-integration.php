@@ -16,7 +16,6 @@ use Yoast\WP\SEO\Presenters\Admin\Badge_Presenter;
 use Yoast\WP\SEO\Presenters\Admin\Premium_Badge_Presenter;
 use Yoast_Form;
 
-
 /**
  * Class Social_Templates_Integration.
  *
@@ -68,10 +67,10 @@ class Social_Templates_Integration implements Integration_Interface {
 	/**
 	 * Returns the recommended replacements variables object, creating it if needed.
 	 *
-	 * @return \WPSEO_Admin_Recommended_Replace_Vars
+	 * @return WPSEO_Admin_Recommended_Replace_Vars
 	 */
 	protected function get_admin_recommended_replace_vars() {
-		if ( is_null( $this->recommended_replace_vars ) ) {
+		if ( \is_null( $this->recommended_replace_vars ) ) {
 			$this->recommended_replace_vars = new WPSEO_Admin_Recommended_Replace_Vars();
 		}
 
@@ -81,10 +80,10 @@ class Social_Templates_Integration implements Integration_Interface {
 	/**
 	 * Returns the editor specific replacements variables object, creating it if needed.
 	 *
-	 * @return \WPSEO_Admin_Editor_Specific_Replace_Vars
+	 * @return WPSEO_Admin_Editor_Specific_Replace_Vars
 	 */
 	protected function get_admin_editor_specific_replace_vars() {
-		if ( is_null( $this->editor_specific_replace_vars ) ) {
+		if ( \is_null( $this->editor_specific_replace_vars ) ) {
 			$this->editor_specific_replace_vars = new WPSEO_Admin_Editor_Specific_Replace_Vars();
 		}
 
@@ -173,8 +172,8 @@ class Social_Templates_Integration implements Integration_Interface {
 	protected function build_social_fields( Yoast_Form $yform, $identifier, $page_type_recommended, $page_type_specific ) {
 		$image_url_field_id    = 'social-image-url-' . $identifier;
 		$image_id_field_id     = 'social-image-id-' . $identifier;
-		$is_premium            = YoastSEO()->helpers->product->is_premium();
-		$is_premium_16_5_or_up = defined( '\WPSEO_PREMIUM_VERSION' ) && \version_compare( \WPSEO_PREMIUM_VERSION, '16.5-RC0', '>=' );
+		$is_premium            = \YoastSEO()->helpers->product->is_premium();
+		$is_premium_16_5_or_up = \defined( '\WPSEO_PREMIUM_VERSION' ) && \version_compare( \WPSEO_PREMIUM_VERSION, '16.5-RC0', '>=' );
 		$is_form_enabled       = $is_premium && $is_premium_16_5_or_up;
 
 		$section_class = 'yoast-settings-section';
@@ -223,7 +222,7 @@ class Social_Templates_Integration implements Integration_Interface {
 				'paper_style'             => false,
 				'label_title'             => \__( 'Social title', 'wordpress-seo' ),
 				'label_description'       => \__( 'Social description', 'wordpress-seo' ),
-				'description_placeholder' => \__( 'Modify your social description by editing it right here.', 'wordpress-seo' ),
+				'description_placeholder' => '',
 				'is_disabled'             => ! $is_form_enabled,
 			]
 		);
@@ -244,7 +243,7 @@ class Social_Templates_Integration implements Integration_Interface {
 		}
 
 		if ( ! $is_premium ) {
-			$wpseo_page = filter_input( INPUT_GET, 'page' );
+			$wpseo_page = \filter_input( \INPUT_GET, 'page' );
 
 			echo '<div class="yoast-settings-section-upsell">';
 

@@ -464,7 +464,7 @@ class Indexable_Builder_Test extends TestCase {
 			->once()
 			->with( $fake_indexable )
 			->andReturnUsing(
-				function ( $indexable ) {
+				static function ( $indexable ) {
 					$indexable->version = 2;
 					return $indexable;
 				}
@@ -513,7 +513,7 @@ class Indexable_Builder_Test extends TestCase {
 			->once()
 			->with( 1337, $this->indexable )
 			->andReturnUsing(
-				function( $id, Indexable $indexable ) {
+				static function( $id, Indexable $indexable ) {
 					$indexable->version = 2;
 					return $indexable;
 				}

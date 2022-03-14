@@ -101,7 +101,19 @@ class Breadcrumbs_Block extends Dynamic_Block {
 			$post_id = \get_the_ID();
 			if ( $post_id ) {
 				$indexable = $this->indexable_repository->find_by_id_and_type( $post_id, 'post' );
-				$context   = $this->context_memoizer->get( $indexable, 'Post_Type' );
+
+				if ( ! $indexable ) {
+					$post      = \get_post( $post_id );
+					$indexable = $this->indexable_repository->query()->create(
+						[
+							'object_id'        => $post_id,
+							'object_type'      => 'post',
+							'object_sub_type'  => $post->post_type,
+						]
+					);
+				}
+
+				$context = $this->context_memoizer->get( $indexable, 'Post_Type' );
 			}
 		}
 		if ( ! isset( $context ) ) {

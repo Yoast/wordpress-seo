@@ -3,8 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Inc;
 
 use Brain\Monkey;
-use Mockery;
-use WPSEO_Health_Check;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Inc\WPSEO_Health_Check_Double;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -17,7 +16,7 @@ class Health_Check_Test extends TestCase {
 	/**
 	 * Class instance to use for the test.
 	 *
-	 * @var Mockery\MockInterface
+	 * @var WPSEO_Health_Check_Double
 	 */
 	protected $instance;
 
@@ -29,9 +28,7 @@ class Health_Check_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->instance = Mockery::mock( WPSEO_Health_Check::class )
-			->shouldAllowMockingProtectedMethods()
-			->makePartial();
+		$this->instance = new WPSEO_Health_Check_Double();
 	}
 
 	/**
@@ -40,12 +37,12 @@ class Health_Check_Test extends TestCase {
 	 * @covers WPSEO_Health_Check::register_test
 	 */
 	public function test_register_test_for_non_async_test() {
-		$this->instance->shouldReceive( 'is_async' )->andReturnFalse();
 
 		Monkey\Functions\expect( 'add_filter' )
 			->once()
 			->with( 'site_status_tests', [ $this->instance, 'add_test' ] );
 
+		$this->assertFalse( $this->instance->is_async() );
 		$this->instance->register_test();
 	}
 
@@ -55,7 +52,7 @@ class Health_Check_Test extends TestCase {
 	 * @covers WPSEO_Health_Check::register_test
 	 */
 	public function test_register_test_for_async_test() {
-		$this->instance->shouldReceive( 'is_async' )->andReturnTrue();
+		$this->instance->async = true;
 
 		Monkey\Functions\expect( 'add_filter' )
 			->once()
@@ -65,6 +62,7 @@ class Health_Check_Test extends TestCase {
 			->once()
 			->with( 'wp_ajax_health-check-', [ $this->instance, 'get_async_test_result' ] );
 
+		$this->assertTrue( $this->instance->is_async() );
 		$this->instance->register_test();
 	}
 
@@ -113,8 +111,6 @@ class Health_Check_Test extends TestCase {
 		$this->stubEscapeFunctions();
 		$this->stubTranslationFunctions();
 
-		$this->instance->shouldReceive( 'run' )->once();
-
 		Monkey\Functions\expect( 'plugin_dir_url' )->andReturn( '' );
 
 		$this->assertEquals(
@@ -131,17 +127,20 @@ class Health_Check_Test extends TestCase {
 			],
 			$this->instance->get_test_result()
 		);
+		$this->assertTrue( $this->instance->has_run );
 	}
 
 	/**
 	 * Tests the get_async_test_result method.
 	 *
-	 * @covers WPSEO_Health_Check::get_async_test_result
+	 * @covers WPSEO_Health_Check::get_JSON_test_result
 	 */
-	public function get_async_test_result() {
-		$this->instance
-			->shouldReceive( 'run' )
-			->once();
+	public function test_get_async_test_result() {
+		$this->stubEscapeFunctions();
+		$this->stubTranslationFunctions();
+		$this->instance->async = true;
+
+		Monkey\Functions\expect( 'plugin_dir_url' )->andReturn( '' );
 
 		Monkey\Functions\expect( 'wp_send_json_success' )
 			->once()
@@ -154,10 +153,13 @@ class Health_Check_Test extends TestCase {
 						'color' => 'green',
 					],
 					'description' => '',
-					'actions'     => '',
+					'actions'     => '<p class="yoast-site-health__signature"><img src="packages/js/images/Yoast_SEO_Icon.svg" alt="" height="20" width="20" class="yoast-site-health__signature-icon">This was reported by the Yoast SEO plugin</p>',
+					'test'        => '',
 				]
 			);
 
 		$this->instance->get_async_test_result();
+
+		$this->assertTrue( $this->instance->has_run );
 	}
 }

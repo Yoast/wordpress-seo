@@ -1,3 +1,4 @@
+import { __, _n, sprintf } from "@wordpress/i18n";
 import { inRange, merge } from "lodash-es";
 
 import Assessment from "../assessment";
@@ -31,10 +32,15 @@ export default class TextLengthAssessment extends Assessment {
 				farBelowMinimum: -10,
 				veryFarBelowMinimum: -20,
 			},
-			urlTitle: "",
-			urlCallToAction: "",
+			countTextIn: {
+				singular: __( "word", "wordpress-seo" ),
+				plural: __( "words", "wordpress-seo" ),
+			},
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/34n" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/34o" ),
 
 			cornerstoneContent: false,
+			customContentType: "",
 		};
 
 		this.identifier = "textLength";
@@ -46,15 +52,25 @@ export default class TextLengthAssessment extends Assessment {
 	 *
 	 * @param {Paper}       paper       The Paper object to assess.
 	 * @param {Researcher}  researcher  The Researcher object containing all available researches.
-	 * @param {Jed}         i18n        The locale object.
 	 *
 	 * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
 	 */
-	getResult( paper, researcher, i18n ) {
+	getResult( paper, researcher ) {
 		const wordCount = researcher.getResearch( "wordCountInText" );
-		const assessmentResult = new AssessmentResult();
-		const calculatedResult = this.calculateResult( wordCount, i18n, researcher );
 
+		if	( researcher.getConfig( "textLength" ) ) {
+			this._config = this.getLanguageSpecificConfig( researcher );
+		}
+
+		const countTextInCharacters = researcher.getConfig( "countCharacters" );
+		if ( countTextInCharacters ) {
+			this._config.countTextIn.singular = __( "character", "wordpress-seo" );
+			this._config.countTextIn.plural = __( "characters", "wordpress-seo" );
+		}
+
+		const calculatedResult = this.calculateResult( wordCount );
+
+		const assessmentResult = new AssessmentResult();
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
 
@@ -62,39 +78,54 @@ export default class TextLengthAssessment extends Assessment {
 	}
 
 	/**
+	 * Check if there is language-specific config, and if so, overwrite the current config with it.
+	 *
+	 * @param {Researcher} researcher The researcher to use.
+	 *
+	 * @returns {Object} The config that should be used.
+	 */
+	getLanguageSpecificConfig( researcher ) {
+		const currentConfig = this._config;
+		const languageSpecificConfig = researcher.getConfig( "textLength" );
+
+		// Check if a language has configuration for custom content types.
+		if ( languageSpecificConfig.hasOwnProperty( currentConfig.customContentType ) ) {
+			return merge( currentConfig, languageSpecificConfig[ currentConfig.customContentType ] );
+		}
+
+		// Check if a language has a default cornerstone configuration.
+		if ( currentConfig.cornerstoneContent === true && currentConfig.customContentType === "" &&
+			languageSpecificConfig.hasOwnProperty( "defaultCornerstone" ) ) {
+			return merge( currentConfig, languageSpecificConfig.defaultCornerstone );
+		}
+
+		// Use the default language-specific config for posts and pages.
+		return merge( currentConfig, languageSpecificConfig.defaultAnalysis );
+	}
+
+	/**
 	 * Returns the score and the appropriate feedback string based on the current word count.
 	 *
 	 * @param {number}  wordCount   The amount of words to be checked against.
-	 * @param {Jed}     i18n        The locale object.
-	 * @param {Researcher} researcher The researcher used for calling research.
+	 *
 	 * @returns {Object} The score and the feedback string.
 	 */
-	calculateResult( wordCount, i18n, researcher ) {
-		let urlTitle = this._config.urlTitle;
-		let urlCallToAction = this._config.urlCallToAction;
-		// Get the links
-		const links = researcher.getData( "links" );
-		// Check if links for the assessment is available in links data
-		if ( links[ "shortlinks.metabox.SEO.title" ] && links[ "shortlinks.metabox.SEO.titleCall_to_action" ] ) {
-		// Overwrite default links with links from configuration
-			urlTitle = createAnchorOpeningTag( links[ "shortlinks.metabox.SEO.text_length" ] );
-			urlCallToAction = createAnchorOpeningTag( links[ "shortlinks.metabox.SEO.text_lengthCall_to_action" ] );
-		}
-		// Calculate scores
+	calculateResult( wordCount ) {
 		if ( wordCount >= this._config.recommendedMinimum ) {
 			return {
 				score: this._config.scores.recommendedMinimum,
-				resultText: i18n.sprintf(
-					i18n.dngettext(
-						"js-text-analysis",
-						/* Translators: %1$d expands to the number of words in the text,
-						%2$s expands to a link on yoast.com, %3$s expands to the anchor end tag */
-						"%2$sText length%3$s: The text contains %1$d word. Good job!",
-						"%2$sText length%3$s: The text contains %1$d words. Good job!",
-						wordCount ),
+				resultText: sprintf(
+					/* Translators: %1$d expands to the number of words / characters in the text,
+					%2$s expands to a link on yoast.com, %3$s expands to the anchor end tag,
+					%4$s expands to the word 'words' or 'characters'. */
+					__(
+						"%2$sText length%3$s: The text contains %1$d %4$s. Good job!",
+						"wordpress-seo"
+					),
 					wordCount,
-					urlTitle,
-					"</a>"
+					this._config.urlTitle,
+					"</a>",
+					this._config.countTextIn.plural
 				),
 			};
 		}
@@ -108,29 +139,26 @@ export default class TextLengthAssessment extends Assessment {
 
 			return {
 				score: badScore,
-				resultText: i18n.sprintf(
-					i18n.dngettext(
-						"js-text-analysis",
-						/* Translators: %1$d expands to the number of words in the text,
-						%2$s expands to a link on yoast.com, %4$s expands to the anchor end tag. */
-						"%2$sText length%4$s: The text contains %1$d word.",
-						"%2$sText length%4$s: The text contains %1$d words.",
-						wordCount
-					) + " " + i18n.dngettext(
-						"js-text-analysis",
-						/* Translators: The preceding sentence is "Text length: The text contains x words.",
-						%3$s expands to a link on yoast.com,
-						%4$s expands to the anchor end tag,
-						%5$d expands to the recommended minimum of words. */
-						"This is far below the recommended minimum of %5$d word. %3$sAdd more content%4$s.",
-						"This is far below the recommended minimum of %5$d words. %3$sAdd more content%4$s.",
-						this._config.recommendedMinimum
+				resultText: sprintf(
+					/* Translators: %1$d expands to the number of words / characters in the text,
+					%2$s expands to a link on yoast.com, %3$s expands to a link on yoast.com,
+					%4$s expands to the anchor end tag, %5$d expands to the recommended minimum of words / characters,
+					%6$s expands to the word 'word' or 'character', %7$s expands to the word 'words' or 'characters'. */
+					_n(
+						// eslint-disable-next-line max-len
+						"%2$sText length%4$s: The text contains %1$d %6$s. This is far below the recommended minimum of %5$d %7$s. %3$sAdd more content%4$s.",
+						// eslint-disable-next-line max-len
+						"%2$sText length%4$s: The text contains %1$d %7$s. This is far below the recommended minimum of %5$d %7$s. %3$sAdd more content%4$s.",
+						wordCount,
+						"wordpress-seo"
 					),
 					wordCount,
-					urlTitle,
-					urlCallToAction,
+					this._config.urlTitle,
+					this._config.urlCallToAction,
 					"</a>",
-					this._config.recommendedMinimum
+					this._config.recommendedMinimum,
+					this._config.countTextIn.singular,
+					this._config.countTextIn.plural
 				),
 			};
 		}
@@ -139,87 +167,66 @@ export default class TextLengthAssessment extends Assessment {
 			if ( this._config.cornerstoneContent === false ) {
 				return {
 					score: this._config.scores.slightlyBelowMinimum,
-					resultText: i18n.sprintf(
-						i18n.dngettext(
-							"js-text-analysis",
-							/* Translators: %1$d expands to the number of words in the text,
-							%2$s expands to a link on yoast.com, %4$s expands to the anchor end tag. */
-							"%2$sText length%4$s: The text contains %1$d word.",
-							"%2$sText length%4$s: The text contains %1$d words.",
-							wordCount
-						) + " " + i18n.dngettext(
-							"js-text-analysis",
-							/* Translators: The preceding sentence is "Text length: The text contains x words.",
-							%3$s expands to a link on yoast.com,
-							%4$s expands to the anchor end tag,
-							%5$d expands to the recommended minimum of words. */
-							"This is slightly below the recommended minimum of %5$d word. %3$sAdd a bit more copy%4$s.",
-							"This is slightly below the recommended minimum of %5$d words. %3$sAdd a bit more copy%4$s.",
-							this._config.recommendedMinimum
+					resultText: sprintf(
+						/* Translators: %1$d expands to the number of words / characters in the text,
+						%2$s expands to a link on yoast.com, %3$s expands to a link on yoast.com,
+						%4$s expands to the anchor end tag, %5$d expands to the recommended minimum of words / characters,
+						%6$s expands to the word 'words' or 'characters'. */
+						__(
+							// eslint-disable-next-line max-len
+							"%2$sText length%4$s: The text contains %1$d %6$s. This is slightly below the recommended minimum of %5$d %6$s. %3$sAdd a bit more copy%4$s.",
+							"wordpress-seo"
 						),
 						wordCount,
-						urlTitle,
-						urlCallToAction,
+						this._config.urlTitle,
+						this._config.urlCallToAction,
 						"</a>",
-						this._config.recommendedMinimum
+						this._config.recommendedMinimum,
+						this._config.countTextIn.plural
 					),
 				};
 			}
 
 			return {
 				score: this._config.scores.slightlyBelowMinimum,
-				resultText: i18n.sprintf(
-					i18n.dngettext(
-						"js-text-analysis",
-						/* Translators: %1$d expands to the number of words in the text,
-						%2$s expands to a link on yoast.com, %4$s expands to the anchor end tag. */
-						"%2$sText length%4$s: The text contains %1$d word.",
-						"%2$sText length%4$s: The text contains %1$d words.",
-						wordCount
-					) + " " + i18n.dngettext(
-						"js-text-analysis",
-						/* Translators: The preceding sentence is "Text length: The text contains x words.",
-						%3$s expands to a link on yoast.com,
-						%4$s expands to the anchor end tag,
-						%5$d expands to the recommended minimum of words. */
-						"This is below the recommended minimum of %5$d word. %3$sAdd more content%4$s.",
-						"This is below the recommended minimum of %5$d words. %3$sAdd more content%4$s.",
-						this._config.recommendedMinimum
+				resultText: sprintf(
+					/* Translators: %1$d expands to the number of words / characters in the text,
+						%2$s expands to a link on yoast.com, %3$s expands to a link on yoast.com,
+						%4$s expands to the anchor end tag, %5$d expands to the recommended minimum of words / characters,
+						%6$s expands to the word 'words' or 'characters'. */
+					__(
+						// eslint-disable-next-line max-len
+						"%2$sText length%4$s: The text contains %1$d %6$s. This is below the recommended minimum of %5$d %6$s. %3$sAdd more content%4$s.",
+						"wordpress-seo"
 					),
 					wordCount,
-					urlTitle,
-					urlCallToAction,
+					this._config.urlTitle,
+					this._config.urlCallToAction,
 					"</a>",
-					this._config.recommendedMinimum
+					this._config.recommendedMinimum,
+					this._config.countTextIn.plural
 				),
 			};
 		}
 
 		return {
 			score: this._config.scores.belowMinimum,
-			resultText: i18n.sprintf(
-				i18n.dngettext(
-					"js-text-analysis",
-					/* Translators: %1$d expands to the number of words in the text,
-					%2$s expands to a link on yoast.com, %4$s expands to the anchor end tag. */
-					"%2$sText length%4$s: The text contains %1$d word.",
-					"%2$sText length%4$s: The text contains %1$d words.",
-					wordCount
-				) + " " + i18n.dngettext(
-					"js-text-analysis",
-					/* Translators: The preceding sentence is "Text length: The text contains x words.",
-					%3$s expands to a link on yoast.com,
-					%4$s expands to the anchor end tag,
-					%5$d expands to the recommended minimum of words. */
-					"This is below the recommended minimum of %5$d word. %3$sAdd more content%4$s.",
-					"This is below the recommended minimum of %5$d words. %3$sAdd more content%4$s.",
-					this._config.recommendedMinimum
+			resultText: sprintf(
+				/* Translators: %1$d expands to the number of words / characters in the text,
+						%2$s expands to a link on yoast.com, %3$s expands to a link on yoast.com,
+						%4$s expands to the anchor end tag, %5$d expands to the recommended minimum of words / characters,
+						%6$s expands to the word 'words' or 'characters'. */
+				__(
+					// eslint-disable-next-line max-len
+					"%2$sText length%4$s: The text contains %1$d %6$s. This is below the recommended minimum of %5$d %6$s. %3$sAdd more content%4$s.",
+					"wordpress-seo"
 				),
 				wordCount,
-				urlTitle,
-				urlCallToAction,
+				this._config.urlTitle,
+				this._config.urlCallToAction,
 				"</a>",
-				this._config.recommendedMinimum
+				this._config.recommendedMinimum,
+				this._config.countTextIn.plural
 			),
 		};
 	}

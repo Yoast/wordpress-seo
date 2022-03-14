@@ -6,6 +6,7 @@ use Brain\Monkey\Filters;
 use Brain\Monkey\Functions;
 use Mockery;
 use WPSEO_Replace_Vars;
+use Yoast\WP\SEO\Config\Schema_Types;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
@@ -30,7 +31,7 @@ class Meta_Tags_Context_Test extends TestCase {
 	/**
 	 * The options helper.
 	 *
-	 * @var Options_Helper|\Mockery\Mock
+	 * @var Options_Helper|Mockery\Mock
 	 */
 	private $options;
 
@@ -302,6 +303,137 @@ class Meta_Tags_Context_Test extends TestCase {
 		$actual = $this->instance->generate_schema_page_type();
 
 		$this->assertEquals( [ 'WebPage' ], $actual );
+	}
+
+	/**
+	 * Tests the generation of the schema article type.
+	 *
+	 * @dataProvider generate_schema_article_type_provider
+	 * @covers       ::generate_schema_article_type
+	 *
+	 * @param array        $indexable            The indexable data.
+	 * @param array        $options              The data from the options.
+	 * @param array        $custom_article_types The custom article types.
+	 * @param string|array $expected             The expected value.
+	 * @param string       $message              Message to show when test fails.
+	 */
+	public function test_generate_schema_article_type( array $indexable, array $options, array $custom_article_types, $expected, $message ) {
+		$this->instance->indexable = (object) $indexable;
+
+		$this->options
+			->allows( 'get' )
+			->with( 'schema-article-type-' . $this->instance->indexable->object_sub_type )
+			->andReturn( $options['setting-for-post-type'] );
+
+		if ( ! empty( $custom_article_types ) ) {
+			Filters\expectApplied( 'wpseo_schema_article_types' )->andReturn( \array_merge( Schema_Types::ARTICLE_TYPES, $custom_article_types ) );
+		}
+
+		$this->options
+			->allows( 'get_title_default' )
+			->with( 'schema-article-type-' . $this->instance->indexable->object_sub_type )
+			->andReturn( $options['default-for-post-type'] );
+
+		Filters\expectApplied( 'wpseo_schema_article_type' );
+
+		$this->assertSame( $expected, $this->instance->generate_schema_article_type(), $message );
+	}
+
+	/**
+	 * Provides data for the generate schema page type test.
+	 *
+	 * @return array Test data to use.
+	 */
+	public function generate_schema_article_type_provider() {
+		return [
+			[
+				'indexable'            => [
+					'object_type'         => 'post',
+					'object_sub_type'     => 'post',
+					'schema_article_type' => 'Article',
+				],
+				'options'              => [
+					'setting-for-post-type' => 'Article',
+					'default-for-post-type' => 'Article',
+				],
+				'custom-article-types' => [],
+				'expected'             => 'Article',
+				'message'              => 'Tests for a regular post having article type in the indexable',
+			],
+			[
+				'indexable'            => [
+					'object_type'         => 'post',
+					'object_sub_type'     => 'post',
+					'schema_article_type' => null,
+				],
+				'options'              => [
+					'setting-for-post-type' => 'Article',
+					'default-for-post-type' => 'Article',
+				],
+				'custom-article-types' => [],
+				'expected'             => 'Article',
+				'message'              => 'Tests for a regular post having null article type in the indexable',
+			],
+			[
+				'indexable'            => [
+					'object_type'         => 'post',
+					'object_sub_type'     => 'wpseo_locations',
+					'schema_article_type' => 'None',
+				],
+				'options'              => [
+					'setting-for-post-type' => 'None',
+					'default-for-post-type' => 'None',
+				],
+				'custom-article-types' => [],
+				'expected'             => 'None',
+				'message'              => 'Tests for a post of a custom type having article type in the indexable',
+			],
+			[
+				'indexable'            => [
+					'object_type'         => 'post',
+					'object_sub_type'     => 'wpseo_locations',
+					'schema_article_type' => null,
+				],
+				'options'              => [
+					'setting-for-post-type' => 'None',
+					'default-for-post-type' => 'None',
+				],
+				'custom-article-types' => [],
+				'expected'             => 'None',
+				'message'              => 'Tests for a post of a custom type having null article type in the indexable',
+			],
+			[
+				'indexable'            => [
+					'object_type'         => 'post',
+					'object_sub_type'     => 'post',
+					'schema_article_type' => null,
+				],
+				'options'              => [
+					'setting-for-post-type' => 'OpinionNewsArticle',
+					'default-for-post-type' => 'Article',
+				],
+				'custom-article-types' => [
+					'OpinionNewsArticle'   => '',
+					'ReportageNewsArticle' => '',
+				],
+				'expected'             => 'OpinionNewsArticle',
+				'message'              => 'Tests for a regular post where a custom article type setting is being applied',
+			],
+			[
+				'indexable'            => [
+					'object_type'         => 'post',
+					'object_sub_type'     => 'post',
+					'schema_article_type' => null,
+				],
+				'options'              => [
+					'setting-for-post-type' => 'OpinionNewsArticle',
+					'default-for-post-type' => 'Article',
+				],
+				'custom-article-types' => [],
+				'expected'             => 'Article',
+				'message'              => 'Tests for a regular post where a custom article type setting is not being applied anymore',
+			],
+		];
 	}
 
 	/**

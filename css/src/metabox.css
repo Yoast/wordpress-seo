@@ -1,8 +1,8 @@
 @import url(../src/icons.css);
 @import url(../src/modal.css);
-@import "../../node_modules/draft-js-mention-plugin/lib/plugin.css";
+@import "@draft-js-plugins/mention/lib/plugin.css";
 /*!rtl:begin:ignore*/
-@import "../../node_modules/draft-js/dist/Draft.css";
+@import "draft-js/dist/Draft.css";
 /*!rtl:end:ignore*/
 
 #wpseo_meta {
@@ -788,11 +788,20 @@ div.interface-pinned-items button.components-button.is-pressed[aria-label="Yoast
 	mask-image: var(--yoast-svg-icon-chevron-up);
 }
 
+.yoast .components-panel__body-toggle {
+	padding-right: 16px;
+}
+
 /* FormTokenField ("gutenberg tag selectors") used inside the .yoast metabox will be Yoast purple. */
 .yoast .components-form-token-field__token-text,
 .yoast .components-form-token-field__remove-token.components-button {
 	background-color: var(--yoast-color-primary);
 	color: var(--yoast-color-white);
+}
+
+.yoast-wordproof-metabox-alert.yoast-wordproof-metabox-alert {
+	margin-top: 18px;
+	margin-bottom: 0px;
 }
 
 /*# sourceMappingURL=metabox.css.map */

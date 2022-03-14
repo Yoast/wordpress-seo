@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/Yoast/YoastSEO.js.svg?branch=master)](https://travis-ci.org/Yoast/js-text-analysis)
+[![Build Status](https://travis-ci.org/Yoast/YoastSEO.js.svg?branch=master)](https://travis-ci.org/Yoast/js-text-analysis)
 [![Code Climate](https://codeclimate.com/repos/5524f75d69568028f6000fda/badges/f503961401819f93c64c/gpa.svg)](https://codeclimate.com/repos/5524f75d69568028f6000fda/feed)
 [![Test Coverage](https://codeclimate.com/repos/5524f75d69568028f6000fda/badges/f503961401819f93c64c/coverage.svg)](https://codeclimate.com/repos/5524f75d69568028f6000fda/coverage)
 [![Inline docs](http://inch-ci.org/github/yoast/yoastseo.js.svg?branch=master)](http://inch-ci.org/github/yoast/yoastseo.js)
@@ -98,18 +99,20 @@ console.log( researcher.getResearch( "wordCountInText" ) );
 | Italian    	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
 | Portuguese 	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
 | Russian    	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
-| Catalan    	| ✅                	|                     	|               	|                     	|                             	|                            	|
+| Catalan    	| ✅                	| ❌<sup>4</sup>         | ❌<sup>4</sup>    | ❌<sup>4</sup>        | ❌<sup>4</sup>                 |  ❌<sup>4</sup>                  |
 | Polish     	| ✅                	| ❌<sup>3</sup>       	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
 | Swedish    	| ✅                	| ❌<sup>3</sup>       	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
-| Hungarian  	| ✅                	| ❌<sup>3</sup>        |  ✅          	|     ✅           	|         ✅             	|             ✅                 	|                            	|
+| Hungarian  	| ✅                	| ❌<sup>3</sup>        |  ✅          	    | ✅           	        | ✅             	            | ✅                 	        |
 | Indonesian 	| ✅                	| ❌<sup>3</sup>       	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
 | Arabic    	| ✅                	| ❌<sup>3</sup>        | ✅             	| ✅                   	| ✅                           	| ✅                          	|
-| Hebrew      |   ✅                | ❌<sup>3</sup>             | ✅             |    ✅               |      ✅                   |           ✅                     | ✅                         |
-| Farsi    	  |   ✅               	| ❌<sup>3</sup>            | ✅              	| ✅                    | ✅                             | ✅                          	|
+| Hebrew        | ✅                    | ❌<sup>3</sup>        | ✅                | ✅                     | ✅                            | ✅                             |
+| Farsi    	    | ✅                    | ❌<sup>3</sup>        | ✅              	| ✅                    | ✅                             | ✅                          	|
 | Turkish     	| ✅                	| ❌<sup>3</sup>       	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
 | Norwegian     | ✅                	| ❌<sup>3</sup>        | ✅                 | ✅                   	| ✅                           	| ✅                          	|
 | Czech     	| ✅                	| ❌<sup>3</sup>       	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
 | Slovak     	| ✅                	| ❌<sup>3</sup>       	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
+| Greek     	| ✅                	| ❌<sup>3</sup>       	| ✅             	| ✅                   	| ✅                           	| ✅                          	|
+| Japanese     	| ✅                	| ❌<sup>3</sup>       	| ❌<sup>5</sup>    | ✅                    | ✅                            | ✅                             |
 
 <sup>1</sup> This means the default upper limit of 20 words has been verified for this language, or the upper limit has been changed.
 
@@ -117,6 +120,9 @@ console.log( researcher.getResearch( "wordCountInText" ) );
 
 <sup>3</sup> There is no existing Flesch reading ease formula for these languages.
 
+<sup>4</sup> This means that the functionality for this assessment is currently not available for these languages.
+
+<sup>5</sup> The Passive voice check for Japanese is not implemented since the structure is the same as the potential form and can additionally be used for an honorific purpose. Identifying whether a verb is in its passive, honorific or potential form is problematic without contextual information.
 
 The following readability assessments are available for all languages:
 - sentence length (with a default upper limit of 20 words, see<sup>1</sup> above )
@@ -129,7 +135,9 @@ Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recen
 
 ## Documentation
 
-The data that will be analyzed by YoastSEO.js can be modified by plugins. Plugins can also add new research and assessments. To find out how to do this, checkout out the [customization documentation](./docs/Customization.md).
+* The data that will be analyzed by YoastSEO.js can be modified by plugins. Plugins can also add new research and assessments. To find out how to do this, checkout out the [customization documentation](./docs/Customization.md).
+* Information on the design decisions within the package can be found [here](DESIGN%20DECISIONS.md).
+* Information on how morphology works in `yoastseo` package can be found [here](MORPHOLOGY.md).
 
 ## Testing
 
@@ -159,10 +167,9 @@ Then, in the [Yoast SEO](https://github.com/Yoast/wordpress-seo) directory, assu
 
 ```bash
 npm link yoastseo
-grunt build:js && grunt build:css
 ```
 
-From that point on you need to re-do `grunt build:js && grunt build:css` when you make changes to YoastSEO.js. If you want to unlink, simply do:
+If you want to unlink, simply do:
 
 ```bash
 npm unlink yoastseo

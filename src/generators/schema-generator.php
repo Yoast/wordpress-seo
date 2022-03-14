@@ -268,10 +268,10 @@ class Schema_Generator implements Generator_Interface {
 	 * Note: We removed the Abstract_Schema_Piece type-hint from the $graph_piece_generator argument, because
 	 *       it caused conflicts with old code, Yoast SEO Video specifically.
 	 *
-	 * @param array                   $graph_piece The graph piece we're filtering.
-	 * @param string                  $identifier  The identifier of the graph piece that is being filtered.
-	 * @param Meta_Tags_Context       $context     The meta tags context.
-	 * @param Abstract_Schema_Piece   $graph_piece_generator A value object with context variables.
+	 * @param array                   $graph_piece            The graph piece we're filtering.
+	 * @param string                  $identifier             The identifier of the graph piece that is being filtered.
+	 * @param Meta_Tags_Context       $context                The meta tags context.
+	 * @param Abstract_Schema_Piece   $graph_piece_generator  A value object with context variables.
 	 * @param Abstract_Schema_Piece[] $graph_piece_generators A value object with context variables.
 	 *
 	 * @return array The filtered graph piece.
@@ -309,7 +309,8 @@ class Schema_Generator implements Generator_Interface {
 	private function get_type_from_piece( $piece ) {
 		if ( isset( $piece['@type'] ) ) {
 			if ( \is_array( $piece['@type'] ) ) {
-				return $piece['@type'];
+				// Return as-is, but remove unusable values, like sub-arrays, objects, null.
+				return \array_filter( $piece['@type'], 'is_string' );
 			}
 
 			return [ $piece['@type'] ];

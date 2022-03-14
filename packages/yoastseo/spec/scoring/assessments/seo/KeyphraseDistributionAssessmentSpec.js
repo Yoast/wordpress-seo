@@ -1,10 +1,6 @@
-/**
- * @jest-environment jsdom
- */
 import KeyphraseDistributionAssessment from "../../../../src/scoring/assessments/seo/KeyphraseDistributionAssessment.js";
 import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../specHelpers/factory.js";
-const i18n = Factory.buildJed();
 import Mark from "../../../../src/values/Mark.js";
 
 const keyphraseDistributionAssessment = new KeyphraseDistributionAssessment();
@@ -17,13 +13,12 @@ describe( "An assessment to check your keyphrase distribution", function() {
 			Factory.buildMockResearcher( {
 				keyphraseDistributionScore: 100,
 				sentencesToHighlight: [],
-			} ),
-			i18n
+			} )
 		);
 
 		expect( assessment.getScore() ).toEqual( 0 );
-		expect( assessment.getText() ).toEqual( "Keyphrase distribution</a>: " +
-			"Include your keyphrase or its synonyms in the text so that we can check keyphrase" +
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: " +
+			"<a href='https://yoa.st/33u' target='_blank'>Include your keyphrase or its synonyms in the text so that we can check keyphrase" +
 			" distribution</a>." );
 	} );
 
@@ -34,13 +29,12 @@ describe( "An assessment to check your keyphrase distribution", function() {
 			Factory.buildMockResearcher( {
 				keyphraseDistributionScore: 60,
 				sentencesToHighlight: [],
-			} ),
-			i18n
+			} )
 		);
 
 		expect( assessment.getScore() ).toEqual( 1 );
-		expect( assessment.getText() ).toEqual( "Keyphrase distribution</a>: Very uneven. " +
-			"Large parts of your text do not contain the keyphrase or its synonyms. Distribute" +
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Very uneven. " +
+			"Large parts of your text do not contain the keyphrase or its synonyms. <a href='https://yoa.st/33u' target='_blank'>Distribute" +
 			" them more evenly</a>." );
 	} );
 
@@ -51,13 +45,12 @@ describe( "An assessment to check your keyphrase distribution", function() {
 			Factory.buildMockResearcher( {
 				keyphraseDistributionScore: 40,
 				sentencesToHighlight: [],
-			} ),
-			i18n
+			} )
 		);
 
 		expect( assessment.getScore() ).toEqual( 6 );
-		expect( assessment.getText() ).toEqual( "Keyphrase distribution</a>: Uneven. " +
-			"Some parts of your text do not contain the keyphrase or its synonyms. Distribute" +
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Uneven. " +
+			"Some parts of your text do not contain the keyphrase or its synonyms. <a href='https://yoa.st/33u' target='_blank'>Distribute" +
 			" them more evenly</a>." );
 	} );
 
@@ -68,12 +61,11 @@ describe( "An assessment to check your keyphrase distribution", function() {
 			Factory.buildMockResearcher( {
 				keyphraseDistributionScore: 25,
 				sentencesToHighlight: [],
-			} ),
-			i18n
+			} )
 		);
 
 		expect( assessment.getScore() ).toEqual( 9 );
-		expect( assessment.getText() ).toEqual( "Keyphrase distribution</a>: Good job!" );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Good job!" );
 	} );
 } );
 
@@ -143,8 +135,7 @@ describe( "A test for marking keywords in the text", function() {
 							marked: "<yoastmark class='yoast-text-mark'>Another sentence.</yoastmark>",
 						} ),
 					],
-				} ),
-			i18n
+				} )
 		);
 		const expected = [
 			new Mark( {

@@ -14,7 +14,7 @@ class Orm_Double extends ORM {
 	 * Use the ORM::for_table factory method instead.
 	 *
 	 * @param string $table_name Table name.
-	 * @param array  $data Data to populate table.
+	 * @param array  $data       Data to populate table.
 	 */
 	public function __construct( $table_name, $data = [] ) {
 		$this->table_name = $table_name;

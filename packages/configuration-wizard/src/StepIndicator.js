@@ -49,7 +49,7 @@ class StepIndicator extends React.Component {
 			var currentField = this.props.steps[ name ];
 			const stepNumber = key.valueOf() + 1;
 			/* %1$d expands to the number of the step, %2$s expands to the name of the step */
-			let ariaLabel = __( "Step %1$d: %2$s", "yoast-components" );
+			let ariaLabel = __( "Step %1$d: %2$s", "wordpress-seo" );
 			ariaLabel = ariaLabel.replace( "%1$d", stepNumber ).replace( "%2$s", currentField.title );
 
 			if ( key === this.state.stepIndex ) {

@@ -55,7 +55,7 @@ class FAQ extends Abstract_Schema_Piece {
 
 		$questions = [];
 		foreach ( $this->context->blocks['yoast/faq-block'] as $index => $block ) {
-			$questions = array_merge( $questions, $block['attrs']['questions'] );
+			$questions = \array_merge( $questions, $block['attrs']['questions'] );
 		}
 		foreach ( $questions as $index => $question ) {
 			if ( ! isset( $question['jsonAnswer'] ) || empty( $question['jsonAnswer'] ) ) {

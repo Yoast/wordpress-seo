@@ -61,19 +61,19 @@ class Indexing_Error_Presenter extends Abstract_Presenter {
 	 * @return string
 	 */
 	protected function generate_first_paragraph( $is_premium, $has_valid_premium_subscription ) {
-		$message = __(
+		$message = \__(
 			'Oops, something has gone wrong and we couldn\'t complete the optimization of your SEO data. Please click the button again to re-start the process. ',
 			'wordpress-seo'
 		);
 
 		if ( $is_premium ) {
 			if ( $has_valid_premium_subscription ) {
-				$message .= __( 'If the problem persists, please contact support.', 'wordpress-seo' );
+				$message .= \__( 'If the problem persists, please contact support.', 'wordpress-seo' );
 			}
 			else {
-				$message = sprintf(
-					// translators: %1$s expands to an opening anchor tag for a link leading to the Premium installation page, %2$s expands to a closing anchor tag.
-					__(
+				$message = \sprintf(
+					/* translators: %1$s expands to an opening anchor tag for a link leading to the Premium installation page, %2$s expands to a closing anchor tag. */
+					\__(
 						'Oops, something has gone wrong and we couldn\'t complete the optimization of your SEO data. Please make sure to activate your subscription in MyYoast by completing %1$sthese steps%2$s.',
 						'wordpress-seo'
 					),
@@ -97,9 +97,9 @@ class Indexing_Error_Presenter extends Abstract_Presenter {
 	 * @return string The second paragraph of the error message.
 	 */
 	protected function generate_second_paragraph( $is_premium, $has_valid_premium_subscription ) {
-		return sprintf(
-			// translators: %1$s expands to an opening anchor tag for a link leading to the Premium installation page, %2$s expands to a closing anchor tag.
-			__(
+		return \sprintf(
+			/* translators: %1$s expands to an opening anchor tag for a link leading to the Premium installation page, %2$s expands to a closing anchor tag. */
+			\__(
 				'Below are the technical details for the error. See %1$sthis page%2$s for a more detailed explanation.',
 				'wordpress-seo'
 			),

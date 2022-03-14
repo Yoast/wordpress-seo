@@ -13,6 +13,6 @@ class Premium_Inactive_Conditional implements Conditional {
 	 * @return bool Whether or not the conditional is met.
 	 */
 	public function is_met() {
-		return ! YoastSEO()->helpers->product->is_premium();
+		return ! \YoastSEO()->helpers->product->is_premium();
 	}
 }

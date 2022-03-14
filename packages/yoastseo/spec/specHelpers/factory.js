@@ -1,23 +1,9 @@
-// Make sure the Jed object is globally available
-import Jed from "jed";
-
 /**
  * A mock factory function.
  *
  * @returns {void}
  */
 const FactoryProto = function() {};
-
-FactoryProto.prototype.buildJed = function() {
-	return new Jed( {
-		domain: "js-text-analysis",
-		locale_data: { // eslint-disable-line camelcase
-			"js-text-analysis": {
-				"": {},
-			},
-		},
-	} );
-};
 
 /**
  * Returns a mock element that lodash accepts as an element
@@ -38,11 +24,13 @@ FactoryProto.prototype.buildMockElement = function() {
  * @param {boolean} multiValue    		True if multiple values are expected.
  * @param {boolean} hasMorphologyData	True if the researcher has access to morphology data.
  * @param {Object|boolean} config		Optional config to be used for an assessment.
+ * @param {Object|boolean} helpers	Optional helpers to be used for an assessment.
  *
  * @returns {Researcher} Mock researcher.
  */
-FactoryProto.prototype.buildMockResearcher = function( expectedValue, multiValue = false, hasMorphologyData = false, config = false ) {
-	if ( multiValue && typeof expectedValue === "object" ) {
+FactoryProto.prototype.buildMockResearcher = function( expectedValue, multiValue = false, hasMorphologyData = false,
+	config = false, helpers = false ) {
+	if ( multiValue && ( typeof expectedValue === "object" || typeof helpers === "object" || typeof config === "object" ) ) {
 		return {
 			/**
 			 * Return research results by research name for multi-value mock researchers.
@@ -63,6 +51,26 @@ FactoryProto.prototype.buildMockResearcher = function( expectedValue, multiValue
 			getData: function() {
 				return hasMorphologyData;
 			},
+
+			/**
+			 * Return the helper to be used for the assessment.
+			 * @param {string} name The name of the helper.
+			 *
+			 * @returns {function} The helper for the assessment.
+			 */
+			getHelper: function( name ) {
+				return helpers[ name ];
+			},
+
+			/**
+			 * Return the config to be used for the assessment.
+			 * @param {string} name The name of the config.
+			 *
+			 * @returns {function} The config for the assessment.
+			 */
+			getConfig: function( name ) {
+				return config[ name ];
+			},
 		};
 	}
 	return {
@@ -82,6 +90,15 @@ FactoryProto.prototype.buildMockResearcher = function( expectedValue, multiValue
 		 */
 		getData: function() {
 			return hasMorphologyData;
+		},
+
+		/**
+		 * Return the helpers to be used for the assessment.
+		 *
+		 * @returns {Object} The helpers for the assessment.
+		 */
+		getHelper: function() {
+			return helpers;
 		},
 
 		/**

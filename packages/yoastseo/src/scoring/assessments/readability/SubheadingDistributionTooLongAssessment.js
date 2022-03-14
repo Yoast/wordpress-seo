@@ -1,3 +1,4 @@
+import { __, _n, sprintf } from "@wordpress/i18n";
 import { filter, merge } from "lodash-es";
 
 import Assessment from "../assessment";
@@ -24,12 +25,13 @@ class SubheadingsDistributionTooLong extends Assessment {
 		const defaultConfig = {
 			parameters: {
 				// The maximum recommended value of the subheading text.
-				recommendedMaximumWordCount: 300,
+				recommendedMaximumLength: 300,
 				slightlyTooMany: 300,
 				farTooMany: 350,
 			},
-			urlTitle: "",
-			urlCallToAction: "",
+			countTextIn: __( "words", "wordpress-seo" ),
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/34x" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/34y" ),
 			scores: {
 				goodShortTextNoSubheadings: 9,
 				goodSubheadings: 9,
@@ -37,9 +39,10 @@ class SubheadingsDistributionTooLong extends Assessment {
 				badSubheadings: 3,
 				badLongTextNoSubheadings: 2,
 			},
+			applicableIfTextLongerThan: 300,
 			shouldNotAppearInShortText: false,
+			cornerstoneContent: false,
 		};
-
 		this.identifier = "subheadingsTooLong";
 		this._config = merge( defaultConfig, config );
 	}
@@ -49,15 +52,21 @@ class SubheadingsDistributionTooLong extends Assessment {
 	 *
 	 * @param {Paper}       paper       The paper to use for the assessment.
 	 * @param {Researcher}  researcher  The researcher used for calling research.
-	 * @param {Object}      i18n        The object used for translations.
 	 *
 	 * @returns {AssessmentResult} The assessment result.
 	 */
-	getResult( paper, researcher, i18n ) {
+	getResult( paper, researcher ) {
 		this._subheadingTextsLength = researcher.getResearch( "getSubheadingTextLengths" );
+		if ( researcher.getConfig( "subheadingsTooLong" ) ) {
+			this._config = this.getLanguageSpecificConfig( researcher );
+		}
+		const countTextInCharacters = researcher.getConfig( "countCharacters" );
+		if ( countTextInCharacters ) {
+			this._config.countTextIn = __( "characters", "wordpress-seo" );
+		}
 
 		this._subheadingTextsLength = this._subheadingTextsLength.sort( function( a, b ) {
-			return b.wordCount - a.wordCount;
+			return b.countLength - a.countLength;
 		} );
 
 		this._tooLongTextsNumber = this.getTooLongSubheadingTexts().length;
@@ -67,9 +76,10 @@ class SubheadingsDistributionTooLong extends Assessment {
 
 		this._hasSubheadings = this.hasSubheadings( paper );
 
-		this._textLength = getWords( paper.getText() ).length;
+		const customCountLength = researcher.getHelper( "customCountLength" );
+		this._textLength = customCountLength ? customCountLength( paper.getText() ) : getWords( paper.getText() ).length;
 
-		const calculatedResult = this.calculateResult( i18n, researcher );
+		const calculatedResult = this.calculateResult();
 		calculatedResult.resultTextPlural = calculatedResult.resultTextPlural || "";
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
@@ -78,15 +88,50 @@ class SubheadingsDistributionTooLong extends Assessment {
 	}
 
 	/**
-	 * Checks whether the paper has text.
+	 * Check if there is language-specific config, and if so, overwrite the current config with it.
+	 *
+	 * @param {Researcher} researcher The researcher to use.
+	 *
+	 * @returns {Object} The config that should be used.
+	 */
+	getLanguageSpecificConfig( researcher ) {
+		const currentConfig = this._config;
+		const languageSpecificConfig = researcher.getConfig( "subheadingsTooLong" );
+		// Check if a language has a default cornerstone configuration.
+		if ( currentConfig.cornerstoneContent === true && languageSpecificConfig.hasOwnProperty( "cornerstoneParameters" ) ) {
+			return merge( currentConfig, languageSpecificConfig.cornerstoneParameters );
+		}
+
+		// Use the default language-specific config for non-cornerstone condition
+		return merge( currentConfig, languageSpecificConfig.defaultParameters );
+	}
+
+	/**
+	 * Checks the applicability of the assessment based on the presence of text, and, if required, text length.
 	 *
 	 * @param {Paper}       paper       The paper to use for the assessment.
+	 * @param {Researcher}  researcher  The language-specific or default researcher.
 	 *
-	 * @returns {boolean} True when there is text or when the text contains more than 300 words if "shouldNotAppearInShortText" is set to true.
+	 * @returns {boolean} True when there is text or when text is longer than the specified length and "shouldNotAppearInShortText" is set to true.
 	 */
-	isApplicable( paper ) {
-		const textLength = getWords( paper.getText() ).length;
-		return this._config.shouldNotAppearInShortText ? paper.hasText() && textLength > 300 : paper.hasText();
+	isApplicable( paper, researcher ) {
+		/**
+		 * If the assessment should not appear for shorter texts, only set the assessment as applicable if the text meets the minimum required length.
+		 * Language-specific length requirements and methods of counting text length may apply (e.g. for Japanese, the text should be counted in
+		 * characters instead of words, which also makes the minimum required length higher).
+		**/
+		if ( this._config.shouldNotAppearInShortText ) {
+			if ( researcher.getConfig( "subheadingsTooLong" ) ) {
+				this._config = this.getLanguageSpecificConfig( researcher );
+			}
+
+			const customCountLength = researcher.getHelper( "customCountLength" );
+			const textLength = customCountLength ? customCountLength( paper.getText() ) : researcher.getResearch( "wordCountInText" );
+
+			return paper.hasText() && textLength > this._config.applicableIfTextLongerThan;
+		}
+
+		return paper.hasText();
 	}
 
 	/**
@@ -108,44 +153,30 @@ class SubheadingsDistributionTooLong extends Assessment {
 	 */
 	getTooLongSubheadingTexts() {
 		return filter( this._subheadingTextsLength, function( subheading ) {
-			return subheading.wordCount > this._config.parameters.recommendedMaximumWordCount;
+			return subheading.countLength > this._config.parameters.recommendedMaximumLength;
 		}.bind( this ) );
 	}
 
 	/**
 	 * Calculates the score and creates a feedback string based on the subheading texts length.
 	 *
-	 * @param {Object} i18n The object used for translations.
-	 * @param {Researcher}  researcher  The researcher used for calling research.
 	 * @returns {Object} The calculated result.
 	 */
-	calculateResult( i18n, researcher ) {
-		let urlTitle = this._config.urlTitle;
-		let urlCallToAction = this._config.urlCallToAction;
-		// Get the links
-		const links = researcher.getData( "links" );
-		// Check if links for the assessment is available in links data
-		if ( links[ "shortlinks.metabox.readability.subheading_distribution" ] &&
-			links[ "shortlinks.metabox.readability.subheading_distributionCall_to_action" ] ) {
-			// Overwrite default links with links from configuration
-			urlTitle = createAnchorOpeningTag( links[ "shortlinks.metabox.readability.subheading_distribution" ] );
-			urlCallToAction = createAnchorOpeningTag( links[ "shortlinks.metabox.readability.subheading_distributionCall_to_action" ] );
-		}
-		// Calculates scores
-		if ( this._textLength > 300 ) {
+	calculateResult() {
+		if ( this._textLength > this._config.applicableIfTextLongerThan ) {
 			if ( this._hasSubheadings ) {
-				const longestSubheadingTextLength = this._subheadingTextsLength[ 0 ].wordCount;
+				const longestSubheadingTextLength = this._subheadingTextsLength[ 0 ].countLength;
 				if ( longestSubheadingTextLength <= this._config.parameters.slightlyTooMany ) {
 					// Green indicator.
 					return {
 						score: this._config.scores.goodSubheadings,
-						resultText: i18n.sprintf(
+						resultText: sprintf(
 							// Translators: %1$s expands to a link to https://yoa.st/headings, %2$s expands to the link closing tag.
-							i18n.dgettext(
-								"js-text-analysis",
-								"%1$sSubheading distribution%2$s: Great job!"
+							__(
+								"%1$sSubheading distribution%2$s: Great job!",
+								"wordpress-seo"
 							),
-							urlTitle,
+							this._config.urlTitle,
 							"</a>"
 						),
 					};
@@ -155,24 +186,26 @@ class SubheadingsDistributionTooLong extends Assessment {
 					// Orange indicator.
 					return {
 						score: this._config.scores.okSubheadings,
-						resultText: i18n.sprintf(
+						resultText: sprintf(
 							/*
 							 * Translators: %1$s and %5$s expand to a link on yoast.com, %3$d to the number of text sections
 							 * not separated by subheadings, %4$d expands to the recommended number of words following a
-							 * subheading, %2$s expands to the link closing tag.
+							 * subheading, %6$s expands to the word 'words' or 'characters', %2$s expands to the link closing tag.
 							 */
-							i18n.dngettext(
-								"js-text-analysis",
-								"%1$sSubheading distribution%2$s: %3$d section of your text is longer than %4$d words and" +
-								" is not separated by any subheadings. %5$sAdd subheadings to improve readability%2$s.",
-								"%1$sSubheading distribution%2$s: %3$d sections of your text are longer than %4$d words " +
-								"and are not separated by any subheadings. %5$sAdd subheadings to improve readability%2$s.",
-								this._tooLongTextsNumber ),
-							urlTitle,
+							_n(
+								// eslint-disable-next-line max-len
+								"%1$sSubheading distribution%2$s: %3$d section of your text is longer than %4$d %6$s and is not separated by any subheadings. %5$sAdd subheadings to improve readability%2$s.",
+								// eslint-disable-next-line max-len
+								"%1$sSubheading distribution%2$s: %3$d sections of your text are longer than %4$d %6$s and are not separated by any subheadings. %5$sAdd subheadings to improve readability%2$s.",
+								this._tooLongTextsNumber,
+								"wordpress-seo"
+							),
+							this._config.urlTitle,
 							"</a>",
 							this._tooLongTextsNumber,
-							this._config.parameters.recommendedMaximumWordCount,
-							urlCallToAction
+							this._config.parameters.recommendedMaximumLength,
+							this._config.urlCallToAction,
+							this._config.countTextIn
 						),
 					};
 				}
@@ -180,38 +213,40 @@ class SubheadingsDistributionTooLong extends Assessment {
 				// Red indicator.
 				return {
 					score: this._config.scores.badSubheadings,
-					resultText: i18n.sprintf(
+					resultText: sprintf(
 						/* Translators: %1$s and %5$s expand to a link on yoast.com, %3$d to the number of text sections
-						not separated by subheadings, %4$d expands to the recommended number of words following a
-						subheading, %2$s expands to the link closing tag. */
-						i18n.dngettext(
-							"js-text-analysis",
-							"%1$sSubheading distribution%2$s: %3$d section of your text is longer than %4$d words and" +
-							" is not separated by any subheadings. %5$sAdd subheadings to improve readability%2$s.",
-							"%1$sSubheading distribution%2$s: %3$d sections of your text are longer than %4$d words " +
-							"and are not separated by any subheadings. %5$sAdd subheadings to improve readability%2$s.",
-							this._tooLongTextsNumber ),
-						urlTitle,
+						not separated by subheadings, %4$d expands to the recommended number of words or characters following a
+						subheading, %6$s expands to the word 'words' or 'characters', %2$s expands to the link closing tag. */
+						_n(
+							// eslint-disable-next-line max-len
+							"%1$sSubheading distribution%2$s: %3$d section of your text is longer than %4$d %6$s and is not separated by any subheadings. %5$sAdd subheadings to improve readability%2$s.",
+							// eslint-disable-next-line max-len
+							"%1$sSubheading distribution%2$s: %3$d sections of your text are longer than %4$d %6$s and are not separated by any subheadings. %5$sAdd subheadings to improve readability%2$s.",
+							this._tooLongTextsNumber,
+							"wordpress-seo"
+						),
+						this._config.urlTitle,
 						"</a>",
 						this._tooLongTextsNumber,
-						this._config.parameters.recommendedMaximumWordCount,
-						urlCallToAction
+						this._config.parameters.recommendedMaximumLength,
+						this._config.urlCallToAction,
+						this._config.countTextIn
 					),
 				};
 			}
 			// Red indicator, use '2' so we can differentiate in external analysis.
 			return {
 				score: this._config.scores.badLongTextNoSubheadings,
-				resultText: i18n.sprintf(
+				resultText: sprintf(
 					/* Translators: %1$s and %3$s expand to a link to https://yoa.st/headings, %2$s expands to the link closing tag. */
-					i18n.dgettext(
-						"js-text-analysis",
-						"%1$sSubheading distribution%2$s: You are not using any subheadings, although your text is rather long." +
-						" %3$sTry and add some subheadings%2$s."
+					__(
+						// eslint-disable-next-line max-len
+						"%1$sSubheading distribution%2$s: You are not using any subheadings, although your text is rather long. %3$sTry and add some subheadings%2$s.",
+						"wordpress-seo"
 					),
-					urlTitle,
+					this._config.urlTitle,
 					"</a>",
-					urlCallToAction
+					this._config.urlCallToAction
 				),
 			};
 		}
@@ -219,13 +254,13 @@ class SubheadingsDistributionTooLong extends Assessment {
 			// Green indicator.
 			return {
 				score: this._config.scores.goodSubheadings,
-				resultText: i18n.sprintf(
+				resultText: sprintf(
 					/* Translators: %1$s expands to a link to https://yoa.st/headings, %2$s expands to the link closing tag. */
-					i18n.dgettext(
-						"js-text-analysis",
-						"%1$sSubheading distribution%2$s: Great job!"
+					__(
+						"%1$sSubheading distribution%2$s: Great job!",
+						"wordpress-seo"
 					),
-					urlTitle,
+					this._config.urlTitle,
 					"</a>"
 				),
 			};
@@ -233,14 +268,14 @@ class SubheadingsDistributionTooLong extends Assessment {
 		// Green indicator.
 		return {
 			score: this._config.scores.goodShortTextNoSubheadings,
-			resultText: i18n.sprintf(
+			resultText: sprintf(
 				/* Translators: %1$s expands to a link to https://yoa.st/headings, %2$s expands to the link closing tag. */
-				i18n.dgettext(
-					"js-text-analysis",
-					"%1$sSubheading distribution%2$s: You are not using any subheadings, but your text is short enough" +
-					" and probably doesn't need them."
+				__(
+					// eslint-disable-next-line max-len
+					"%1$sSubheading distribution%2$s: You are not using any subheadings, but your text is short enough and probably doesn't need them.",
+					"wordpress-seo"
 				),
-				urlTitle,
+				this._config.urlTitle,
 				"</a>"
 			),
 		};

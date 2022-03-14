@@ -4,10 +4,10 @@ namespace Yoast\WP\SEO\Actions\Indexing;
 
 use wpdb;
 use Yoast\WP\Lib\Model;
-use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 
 /**
  * Reindexing action for term indexables.
@@ -129,8 +129,7 @@ class Indexable_Term_Indexation_Action extends Abstract_Indexing_Action {
 		$indexable_table         = Model::get_table_name( 'Indexable' );
 		$taxonomy_table          = $this->wpdb->term_taxonomy;
 		$public_taxonomies       = \array_keys( $this->taxonomy->get_public_taxonomies() );
-		$taxonomies_placeholders =
-			\implode( ', ', \array_fill( 0, \count( $public_taxonomies ), '%s' ) );
+		$taxonomies_placeholders = \implode( ', ', \array_fill( 0, \count( $public_taxonomies ), '%s' ) );
 
 		$replacements = [ $this->version ];
 		\array_push( $replacements, ...$public_taxonomies );
@@ -161,8 +160,7 @@ class Indexable_Term_Indexation_Action extends Abstract_Indexing_Action {
 		$indexable_table   = Model::get_table_name( 'Indexable' );
 		$taxonomy_table    = $this->wpdb->term_taxonomy;
 		$public_taxonomies = \array_keys( $this->taxonomy->get_public_taxonomies() );
-		$placeholders      =
-			\implode( ', ', \array_fill( 0, \count( $public_taxonomies ), '%s' ) );
+		$placeholders      = \implode( ', ', \array_fill( 0, \count( $public_taxonomies ), '%s' ) );
 
 		$replacements = [ $this->version ];
 		\array_push( $replacements, ...$public_taxonomies );

@@ -58,7 +58,7 @@ abstract class Abstract_Indexing_Action implements Indexation_Action_Interface, 
 
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Function get_count_query returns a prepared query.
 		$unindexed_object_ids = $this->wpdb->get_col( $query );
-		$count                = (int) count( $unindexed_object_ids );
+		$count                = (int) \count( $unindexed_object_ids );
 
 		\set_transient( static::UNINDEXED_LIMITED_COUNT_TRANSIENT, $count, ( \MINUTE_IN_SECONDS * 15 ) );
 
@@ -75,6 +75,10 @@ abstract class Abstract_Indexing_Action implements Indexation_Action_Interface, 
 		if ( $transient !== false ) {
 			return (int) $transient;
 		}
+
+		// Store transient before doing the query so multiple requests won't make multiple queries.
+		// Only store this for 15 minutes to ensure that if the query doesn't complete a wrong count is not kept too long.
+		\set_transient( static::UNINDEXED_COUNT_TRANSIENT, 0, ( \MINUTE_IN_SECONDS * 15 ) );
 
 		$query = $this->get_count_query();
 

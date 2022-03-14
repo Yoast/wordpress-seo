@@ -22,23 +22,23 @@
 		"source": "https://github.com/Yoast/wordpress-seo"
 	},
 	"require": {
-		"php": "^5.6.20||^7.0",
-		"composer/installers": "^1.9.0",
-		"yoast/i18n-module": "^3.1.1"
+		"php": "^5.6.20 || ^7.0 || ^8.0",
+		"composer/installers": "^1.12.0",
+		"yoast/i18n-module": "^3.1.1",
+		"wordproof/wordpress-sdk": "^1.2"
 	},
 	"require-dev": {
 		"humbug/php-scoper": "^0.13.4",
-		"league/oauth2-client": "2.4.1",
-		"php-parallel-lint/php-console-highlighter": "^0.5",
-		"php-parallel-lint/php-parallel-lint": "^1.3.0",
+		"league/oauth2-client": "2.6.1",
 		"phpunit/phpunit": "^5.7",
 		"psr/container": "1.0.0",
 		"psr/log": "^1.0",
 		"symfony/config": "^3.4",
 		"symfony/dependency-injection": "^3.4",
 		"yoast/php-development-environment": "^1.0",
-		"yoast/wp-test-utils": "^0.2.1",
-		"yoast/yoastcs": "^2.1.0"
+		"yoast/wp-test-utils": "^1.0.0",
+		"yoast/yoastcs": "^2.2.1",
+		"chillerlan/php-qrcode": "^1.0.9"
 	},
 	"minimum-stability": "dev",
 	"prefer-stable": true,
@@ -65,10 +65,10 @@
 			"@php ./vendor/phpunit/phpunit/phpunit -c phpunit-integration.xml.dist"
 		],
 		"lint": [
-			"@php ./vendor/php-parallel-lint/php-parallel-lint/parallel-lint . -e php --exclude vendor --exclude vendor_prefixed --exclude node_modules --exclude .git"
+			"@php ./vendor/php-parallel-lint/php-parallel-lint/parallel-lint . -e php --show-deprecated --exclude vendor --exclude node_modules --exclude .git"
 		],
 		"lint-files": [
-			"@php ./vendor/php-parallel-lint/php-parallel-lint/parallel-lint"
+			"@php ./vendor/php-parallel-lint/php-parallel-lint/parallel-lint -e php --show-deprecated"
 		],
 		"lint-branch": [
 			"Yoast\\WP\\SEO\\Composer\\Actions::lint_branch"
@@ -80,12 +80,9 @@
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_coding_standards"
 		],
 		"check-cs-thresholds": [
-			"@putenv YOASTCS_THRESHOLD_ERRORS=255",
-			"@putenv YOASTCS_THRESHOLD_WARNINGS=222",
+			"@putenv YOASTCS_THRESHOLD_ERRORS=248",
+			"@putenv YOASTCS_THRESHOLD_WARNINGS=219",
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_cs_thresholds"
-		],
-		"check-cs-summary": [
-			"@check-cs-warnings --report=summary"
 		],
 		"check-cs": [
 			"@check-cs-warnings -n"
@@ -108,7 +105,8 @@
 		],
 		"prefix-dependencies": [
 			"composer prefix-oauth2-client",
-			"composer prefix-symfony"
+			"composer prefix-symfony",
+			"composer prefix-php-qrcode"
 		],
 		"prefix-oauth2-client": [
 			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/league/oauth2-client --config=config/php-scoper/oauth2-client.inc.php --force --quiet",
@@ -117,6 +115,9 @@
 		],
 		"prefix-symfony": [
 			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/symfony/dependency-injection --config=config/php-scoper/dependency-injection.inc.php --force --quiet"
+		],
+		"prefix-php-qrcode": [
+			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/chillerlan/php-qrcode --config=config/php-scoper/php-qrcode.inc.php --force --quiet"
 		],
 		"compile-di": [
 			"rm -f ./src/generated/container.php",
@@ -134,5 +135,12 @@
 		"generate-unit-test": [
 			"Yoast\\WP\\SEO\\Composer\\Actions::generate_unit_test"
 		]
+	},
+	"config": {
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true,
+			"composer/package-versions-deprecated": true,
+			"composer/installers": true
+		}
 	}
 }

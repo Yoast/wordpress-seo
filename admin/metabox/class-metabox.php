@@ -204,6 +204,12 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'<a href="https://googlewebmastercentral.blogspot.com/2009/12/handling-legitimate-cross-domain.html" target="_blank" rel="noopener">',
 			WPSEO_Admin_Utils::get_new_tab_message() . '</a>'
 		);
+		/* translators: %s expands to the post type name. */
+		WPSEO_Meta::$meta_fields['advanced']['wordproof_timestamp']['title']        = __( 'Timestamp this %s', 'wordpress-seo' );
+		WPSEO_Meta::$meta_fields['advanced']['wordproof_timestamp']['description']  = __( 'Use WordProof to timestamp this page to comply with legal regulations and join the fight for a more transparant and accountable internet.', 'wordpress-seo' );
+		WPSEO_Meta::$meta_fields['advanced']['wordproof_timestamp']['options']['0'] = __( 'Off', 'wordpress-seo' );
+		WPSEO_Meta::$meta_fields['advanced']['wordproof_timestamp']['options']['1'] = __( 'On', 'wordpress-seo' );
+		WPSEO_Meta::$meta_fields['advanced']['wordproof_timestamp']['type']         = 'hidden';
 
 		WPSEO_Meta::$meta_fields['advanced']['redirect']['title']       = __( '301 Redirect', 'wordpress-seo' );
 		WPSEO_Meta::$meta_fields['advanced']['redirect']['description'] = __( 'The URL that this page should redirect to.', 'wordpress-seo' );
@@ -296,6 +302,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		if ( $values['semrushIntegrationActive'] && $this->post->post_type === 'attachment' ) {
 			$values['semrushIntegrationActive'] = 0;
+		}
+
+		if ( $values['wincherIntegrationActive'] && $this->post->post_type === 'attachment' ) {
+			$values['wincherIntegrationActive'] = 0;
 		}
 
 		return $values;
@@ -707,7 +717,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			return false;
 		}
 
-		if ( ! isset( $_POST['yoast_free_metabox_nonce'] ) || ! wp_verify_nonce( $_POST['yoast_free_metabox_nonce'], 'yoast_free_metabox' ) ) {
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized in wp_verify_none.
+		if ( ! isset( $_POST['yoast_free_metabox_nonce'] ) || ! wp_verify_nonce( wp_unslash( $_POST['yoast_free_metabox_nonce'] ), 'yoast_free_metabox' ) ) {
 			return false;
 		}
 
@@ -834,6 +845,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		$post_id = get_queried_object_id();
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		if ( empty( $post_id ) && isset( $_GET['post'] ) ) {
 			$post_id = sanitize_text_field( filter_input( INPUT_GET, 'post' ) );
 		}
@@ -855,9 +867,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 		$asset_manager->enqueue_script( $post_edit_handle );
 		$asset_manager->enqueue_style( 'admin-css' );
-
-		$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_L10n();
-		$yoast_components_l10n->localize_script( $post_edit_handle );
 
 		/**
 		 * Removes the emoji script as it is incompatible with both React and any
@@ -899,6 +908,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'userLanguageCode' => WPSEO_Language_Utils::get_language( \get_user_locale() ),
 			'isPost'           => true,
 			'isBlockEditor'    => $is_block_editor,
+			'postStatus'       => get_post_status( $post_id ),
 			'analysis'         => [
 				'plugins'                     => $plugins_script_data,
 				'worker'                      => $worker_script_data,
@@ -985,11 +995,14 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'post_year',
 			'post_month',
 			'post_day',
+			'name',
 			'author_first_name',
 			'author_last_name',
 			'permalink',
 			'post_content',
 			'category_title',
+			'tag',
+			'category',
 		];
 
 		foreach ( $vars_to_cache as $var ) {
@@ -1084,6 +1097,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		$custom_fields = get_post_custom( $post->ID );
+
+		// If $custom_fields is an empty string or generally not an array, return early.
+		if ( ! is_array( $custom_fields ) ) {
+			return $custom_replace_vars;
+		}
 
 		foreach ( $custom_fields as $custom_field_name => $custom_field ) {
 			// Skip private custom fields.

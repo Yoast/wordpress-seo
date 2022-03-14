@@ -1,53 +1,57 @@
 import MetaDescriptionKeywordAssessment from "../../../../src/scoring/assessments/seo/MetaDescriptionKeywordAssessment";
 import Paper from "../../../../src/values/Paper";
 import Factory from "../../../specHelpers/factory";
-
-const i18n = Factory.buildJed();
+import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
+import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher";
+import getMorphologyData from "../../../specHelpers/getMorphologyData";
 
 const mockResearcherNoMatches = Factory.buildMockResearcher( 0 );
 const mockResearcherOneMatch = Factory.buildMockResearcher( 1 );
 const mockResearcherTwoMatches = Factory.buildMockResearcher( 2 );
 const mockResearcherThreeMatches = Factory.buildMockResearcher( 3 );
 
-describe( "the metadescription keyword assessment", function() {
+const morphologyData = getMorphologyData( "en" );
+const morphologyDataJA = getMorphologyData( "ja" );
+
+describe( "a test for the meta description keyword assessment", function() {
 	it( "returns a bad result when the meta description doesn't contain the keyword", function() {
 		const mockPaper = new Paper();
-		const assessment = new MetaDescriptionKeywordAssessment().getResult( mockPaper, mockResearcherNoMatches, i18n );
+		const assessment = new MetaDescriptionKeywordAssessment().getResult( mockPaper, mockResearcherNoMatches );
 
 		expect( assessment.getScore() ).toBe( 3 );
-		expect( assessment.getText() ).toBe( "Keyphrase in meta description</a>: " +
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33k' target='_blank'>Keyphrase in meta description</a>: " +
 			"The meta description has been specified, but it does not contain the keyphrase. " +
-			"Fix that</a>!" );
+			"<a href='https://yoa.st/33l' target='_blank'>Fix that</a>!" );
 	} );
 
 	it( "returns a good result and an appropriate feedback message when at least one sentence contains every keyword term " +
 		"at least once in the same sentence.", function() {
 		const mockPaper = new Paper();
-		const assessment = new MetaDescriptionKeywordAssessment().getResult( mockPaper, mockResearcherOneMatch, i18n );
+		const assessment = new MetaDescriptionKeywordAssessment().getResult( mockPaper, mockResearcherOneMatch );
 
 		expect( assessment.getScore() ).toBe( 9 );
-		expect( assessment.getText() ).toBe( "Keyphrase in meta description</a>: " +
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33k' target='_blank'>Keyphrase in meta description</a>: " +
 			"Keyphrase or synonym appear in the meta description. Well done!" );
 	} );
 
 	it( "returns a good result and an appropriate feedback message when the meta description contains the keyword " +
 		"two times in the same sentence", function() {
 		const mockPaper = new Paper();
-		const assessment = new MetaDescriptionKeywordAssessment().getResult( mockPaper, mockResearcherTwoMatches, i18n );
+		const assessment = new MetaDescriptionKeywordAssessment().getResult( mockPaper, mockResearcherTwoMatches );
 
 		expect( assessment.getScore() ).toBe( 9 );
-		expect( assessment.getText() ).toBe( "Keyphrase in meta " +
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33k' target='_blank'>Keyphrase in meta " +
 			"description</a>: Keyphrase or synonym appear in the meta description. Well done!" );
 	} );
 
 	it( "returns a bad result when the meta description contains the keyword three times in the same sentence", function() {
 		const mockPaper = new Paper();
-		const assessment = new MetaDescriptionKeywordAssessment().getResult( mockPaper, mockResearcherThreeMatches, i18n );
+		const assessment = new MetaDescriptionKeywordAssessment().getResult( mockPaper, mockResearcherThreeMatches );
 
 		expect( assessment.getScore() ).toBe( 3 );
-		expect( assessment.getText() ).toBe( "Keyphrase in meta " +
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33k' target='_blank'>Keyphrase in meta " +
 			"description</a>: The meta description contains the keyphrase 3 times, which is over the advised maximum " +
-			"of 2 times. Limit that</a>!" );
+			"of 2 times. <a href='https://yoa.st/33l' target='_blank'>Limit that</a>!" );
 	} );
 
 	it( "is not applicable when the paper doesn't have a keyword", function() {
@@ -67,3 +71,104 @@ describe( "the metadescription keyword assessment", function() {
 	} );
 } );
 
+describe( "a test for the meta description keyword assessment when the exact match is requested", function() {
+	it( "returns a bad result when the meta description doesn't contain the exact match of the keyphrase", function() {
+		const mockPaper = new Paper( "", { keyword: "\"walking in nature\"", description: "A cat is enjoying a walk in nature." } );
+		const researcher = new EnglishResearcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyData );
+		const assessment = new MetaDescriptionKeywordAssessment().getResult( mockPaper, researcher );
+
+		expect( assessment.getScore() ).toBe( 3 );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33k' target='_blank'>Keyphrase in meta description</a>: " +
+			"The meta description has been specified, but it does not contain the keyphrase. " +
+			"<a href='https://yoa.st/33l' target='_blank'>Fix that</a>!" );
+	} );
+
+	it( "returns a good result when the meta description contains the exact match of the keyphrase", function() {
+		const mockPaper = new Paper( "", { keyword: "\"walking in nature\"", description: "A cat is enjoying walking in nature." } );
+		const researcher = new EnglishResearcher( mockPaper );
+		const assessment = new MetaDescriptionKeywordAssessment().getResult( mockPaper, researcher );
+
+		expect( assessment.getScore() ).toBe( 9 );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33k' target='_blank'>Keyphrase in meta " +
+			"description</a>: Keyphrase or synonym appear in the meta description. Well done!" );
+	} );
+
+	it( "still returns a good result when the meta description doesn't contain the exact match of the keyphrase," +
+		" but it does contain the synonym", function() {
+		const mockPaper = new Paper( "", { keyword: "\"walking in nature\"",
+			synonyms: "activity in nature",
+			description: "A cat loves an activity in nature." } );
+		const researcher = new EnglishResearcher( mockPaper );
+		const assessment = new MetaDescriptionKeywordAssessment().getResult( mockPaper, researcher );
+
+		expect( assessment.getScore() ).toBe( 9 );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33k' target='_blank'>Keyphrase in meta " +
+			"description</a>: Keyphrase or synonym appear in the meta description. Well done!" );
+	} );
+
+	it( "still returns a good result when the meta description doesn't contain the exact match of the keyphrase," +
+		" but it does contain the exact match of the synonym", function() {
+		const mockPaper = new Paper( "", { keyword: "\"walking in nature\"",
+			synonyms: "\"activity in nature\"",
+			description: "A cat loves an activity in nature. A walk in nature." } );
+		const researcher = new EnglishResearcher( mockPaper );
+		const assessment = new MetaDescriptionKeywordAssessment().getResult( mockPaper, researcher );
+
+		expect( assessment.getScore() ).toBe( 9 );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33k' target='_blank'>Keyphrase in meta " +
+			"description</a>: Keyphrase or synonym appear in the meta description. Well done!" );
+	} );
+
+
+	it( "returns a bad result when the meta description doesn't contain the exact match of the keyphrase in Japanese", function() {
+		const mockPaper = new Paper( "", { keyword: "『小さい花の刺繍』",
+			synonyms: "野生のハーブの刺繡",
+			description: "小さくて可愛い花の刺繍に関する一般一般の記事です。私は美しい猫を飼っています。" }  );
+		const researcher = new JapaneseResearcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyDataJA );
+
+		const assessment = new MetaDescriptionKeywordAssessment().getResult( mockPaper, researcher );
+
+		expect( assessment.getScore() ).toBe( 3 );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33k' target='_blank'>Keyphrase in meta description</a>: " +
+			"The meta description has been specified, but it does not contain the keyphrase. " +
+			"<a href='https://yoa.st/33l' target='_blank'>Fix that</a>!" );
+	} );
+
+	it( "returns a good result when the meta description contains the exact match of the keyphrase", function() {
+		const mockPaper = new Paper( "", { keyword: "「小さい花の刺繍」", synonyms: "野生のハーブの刺繡", description: "小さい花の刺繍。" }  );
+		const researcher = new JapaneseResearcher( mockPaper );
+		const assessment = new MetaDescriptionKeywordAssessment().getResult( mockPaper, researcher );
+
+		expect( assessment.getScore() ).toBe( 9 );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33k' target='_blank'>Keyphrase in meta " +
+			"description</a>: Keyphrase or synonym appear in the meta description. Well done!" );
+	} );
+
+	it( "still returns a good result when the meta description doesn't contain the exact match of the keyphrase," +
+		" but it does contain the synonym", function() {
+		const mockPaper = new Paper( "", { keyword: "「小さい花の刺繍」",
+			synonyms: "野生のハーブの刺繡",
+			description: "小さくて可愛い花の刺繍に関する一般一般の記事です。私は美しい猫を飼っています。野生のハーブの刺繡。" }  );
+		const researcher = new JapaneseResearcher( mockPaper );
+		const assessment = new MetaDescriptionKeywordAssessment().getResult( mockPaper, researcher );
+
+		expect( assessment.getScore() ).toBe( 9 );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33k' target='_blank'>Keyphrase in meta " +
+			"description</a>: Keyphrase or synonym appear in the meta description. Well done!" );
+	} );
+
+	it( "still returns a good result when the meta description doesn't contain the exact match of the keyphrase," +
+		" but it does contain the exact match of the synonym", function() {
+		const mockPaper = new Paper( "", { keyword: "『小さい花の刺繍』",
+			synonyms: "『野生のハーブの刺繡』",
+			description: "小さくて可愛い花の刺繍に関する一般一般の記事です。私は美しい猫を飼っています。野生のハーブの刺繡。" }  );
+		const researcher = new JapaneseResearcher( mockPaper );
+		const assessment = new MetaDescriptionKeywordAssessment().getResult( mockPaper, researcher );
+
+		expect( assessment.getScore() ).toBe( 9 );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33k' target='_blank'>Keyphrase in meta " +
+			"description</a>: Keyphrase or synonym appear in the meta description. Well done!" );
+	} );
+} );

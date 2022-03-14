@@ -1,3 +1,4 @@
+import { __, sprintf } from "@wordpress/i18n";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import excludeTableOfContentsTag from "../../../languageProcessing/helpers/sanitize/excludeTableOfContentsTag";
 import { stripFullTags as stripHTMLTags } from "../../../languageProcessing/helpers/sanitize/stripHTMLTags";
@@ -20,8 +21,8 @@ export default class TextPresenceAssessment extends Assessment {
 		super();
 
 		const defaultConfig = {
-			urlTitle: "",
-			urlCallToAction: "",
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/35h" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/35i" ),
 		};
 
 		this.identifier = "textPresence";
@@ -33,35 +34,26 @@ export default class TextPresenceAssessment extends Assessment {
 	 *
 	 * @param {Paper}       paper       The paper to assess.
 	 * @param {Researcher}  researcher  The researcher.
-	 * @param {Jed}         i18n        The translations object.
 	 *
 	 * @returns {AssessmentResult} The result of this assessment.
 	 */
-	getResult( paper, researcher, i18n ) {
+	// eslint-disable-next-line no-unused-vars
+	getResult( paper, researcher ) {
 		const text = stripHTMLTags( excludeTableOfContentsTag( paper.getText() ) );
-		let urlTitle = this._config.urlTitle;
-		let urlCallToAction = this._config.urlCallToAction;
-		// Get the links
-		const links = researcher.getData( "links" );
-		// Check if links for the assessment is available in links data
-		if ( links[ "shortlinks.metabox.readability.text_presence" ] &&
-			links[ "shortlinks.metabox.readability.text_presenceCall_to_action" ] ) {
-			// Overwrite default links with links from configuration
-			urlTitle = createAnchorOpeningTag( links[ "shortlinks.metabox.readability.text_presence" ] );
-			urlCallToAction = createAnchorOpeningTag( links[ "shortlinks.metabox.readability.text_presenceCall_to_action" ] );
-		}
 
 		if ( text.length < 50 ) {
 			const result = new AssessmentResult();
 
-			result.setText( i18n.sprintf(
+			result.setText( sprintf(
 				/* Translators: %1$s and %3$s expand to links to articles on Yoast.com,
 				%2$s expands to the anchor end tag*/
-				i18n.dgettext( "js-text-analysis",
-					"%1$sNot enough content%2$s: %3$sPlease add some content to enable a good analysis%2$s." ),
-				urlTitle,
+				__(
+					"%1$sNot enough content%2$s: %3$sPlease add some content to enable a good analysis%2$s.",
+					"wordpress-seo"
+				),
+				this._config.urlTitle,
 				"</a>",
-				urlCallToAction ) );
+				this._config.urlCallToAction ) );
 
 			result.setScore( 3 );
 			return result;

@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Integrations\Watchers;
 
+use WP_Post;
 use WPSEO_Meta;
 use Yoast\WP\SEO\Builders\Indexable_Hierarchy_Builder;
 use Yoast\WP\SEO\Conditionals\Admin\Doing_Post_Quick_Edit_Save_Conditional;
@@ -174,7 +175,7 @@ class Primary_Category_Quick_Edit_Watcher implements Integration_Interface {
 	/**
 	 * Builds the hierarchy for a post.
 	 *
-	 * @param \WP_Post $post The post.
+	 * @param WP_Post $post The post.
 	 */
 	public function build_post_hierarchy( $post ) {
 		if ( $this->post_type_helper->is_excluded( $post->post_type ) ) {

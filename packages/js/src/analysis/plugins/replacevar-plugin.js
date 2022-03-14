@@ -1,23 +1,16 @@
 /* global wpseoScriptData, wp */
-import ReplaceVar from "../../values/replaceVar";
-import {
-	forEach,
-	filter,
-	trim,
-	isUndefined,
-} from "lodash-es";
 // @wordpress/api loads directly from the wp-api script handle.
-import {
-	loadPromise,
-	models,
-} from "@wordpress/api";
-import {
+import { loadPromise, models } from "@wordpress/api";
+import { actions } from "@yoast/externals/redux";
+import { filter, forEach, isUndefined, trim } from "lodash-es";
+import isBlockEditor from "../../helpers/isBlockEditor";
+import ReplaceVar from "../../values/replaceVar";
+
+const {
 	removeReplacementVariable,
 	updateReplacementVariable,
 	refreshSnippetEditor,
-} from "../../redux/actions/snippetEditor";
-
-import isBlockEditor from "../../helpers/isBlockEditor";
+} = actions;
 
 var modifiableFields = [
 	"content",
@@ -159,7 +152,7 @@ YoastReplaceVarPlugin.prototype.subscribeToGutenberg = function() {
 	const fetchedParents = { 0: "" };
 
 	let currentParent = null;
-	const wpData      = wp.data;
+	const wpData = wp.data;
 	wpData.subscribe( () => {
 		const newParent = wpData.select( "core/editor" ).getEditedPostAttribute( "parent" );
 		if ( typeof newParent === "undefined" || currentParent === newParent ) {
@@ -181,7 +174,7 @@ YoastReplaceVarPlugin.prototype.subscribeToGutenberg = function() {
 			page.fetch().then(
 				response => {
 					this._currentParentPageTitle = response.title.rendered;
-					fetchedParents[ newParent ]  = this._currentParentPageTitle;
+					fetchedParents[ newParent ] = this._currentParentPageTitle;
 					this.declareReloaded();
 				}
 			).fail(
@@ -261,7 +254,7 @@ YoastReplaceVarPlugin.prototype.replaceByStore = function( data ) {
 			return;
 		}
 
-		data = data.replace( "%%"  + replacementVariable.name + "%%", replacementVariable.value );
+		data = data.replace( "%%" + replacementVariable.name + "%%", replacementVariable.value );
 	} );
 
 	return data;
@@ -437,7 +430,7 @@ YoastReplaceVarPlugin.prototype.bindTaxonomyEvents = function( index, taxonomyEl
  */
 YoastReplaceVarPlugin.prototype.replaceCustomTaxonomy = function( text ) {
 	forEach( taxonomyElements, function( taxonomy, taxonomyName ) {
-		var generatedPlaceholder = "%%ct_" + taxonomyName  + "%%";
+		var generatedPlaceholder = "%%ct_" + taxonomyName + "%%";
 
 		if ( taxonomyName === "category" ) {
 			generatedPlaceholder = "%%" + taxonomyName + "%%";
@@ -472,7 +465,7 @@ YoastReplaceVarPlugin.prototype.getTaxonomyReplaceVar = function( taxonomyName )
 
 		filtered.push( item.label );
 	} );
-	return jQuery.unique( filtered ).join( ", " );
+	return jQuery.uniqueSort( filtered ).join( ", " );
 };
 
 /*

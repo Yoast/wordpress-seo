@@ -88,7 +88,7 @@
 			 * If no data was passed along use the third argument as the success callback
 			 * and the fourth argument as the error callback.
 			 */
-			if ( $.isFunction( data ) && typeof error === "undefined" ) {
+			if ( typeof data === "function" && typeof error === "undefined" ) {
 				error   = success;
 				success = data;
 				data    = {};

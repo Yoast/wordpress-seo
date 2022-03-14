@@ -52,5 +52,11 @@ describe( "Removing language-specific punctuation", function() {
 		// Urdu full stop
 		expect( removePunctuation( "گئے۔" ) ).toBe( "گئے" );
 	} );
+
+	it( "returns a word without punctuation in Japanese.", function() {
+		expect( removePunctuation( "高度。" ) ).toBe( "高度" );
+		expect( removePunctuation( "⁇" ) ).toBe( "" );
+		expect( removePunctuation( "＠東海道" ) ).toBe( "東海道" );
+	} );
 } );
 

@@ -378,9 +378,9 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	 * @param string      $taxonomy Name of the taxonomy to which the term is attached.
 	 * @param string|null $meta     Optional. Meta value to get (without prefix).
 	 *
-	 * @return mixed|bool Value for the $meta if one is given, might be the default.
-	 *                    If no meta is given, an array of all the meta data for the term.
-	 *                    False if the term does not exist or the $meta provided is invalid.
+	 * @return mixed Value for the $meta if one is given, might be the default.
+	 *               If no meta is given, an array of all the meta data for the term.
+	 *               False if the term does not exist or the $meta provided is invalid.
 	 */
 	public static function get_term_meta( $term, $taxonomy, $meta = null ) {
 		/* Figure out the term id. */
@@ -421,7 +421,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	 *
 	 * @param string $meta The meta field that is needed.
 	 *
-	 * @return bool|mixed
+	 * @return mixed
 	 */
 	public static function get_meta_without_term( $meta ) {
 		$term = $GLOBALS['wp_query']->get_queried_object();

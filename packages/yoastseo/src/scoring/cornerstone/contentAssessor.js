@@ -19,16 +19,15 @@ import TextPresence from "../assessments/readability/TextPresenceAssessment.js";
 /**
  * Creates the Assessor
  *
- * @param {object} i18n             The i18n object used for translations.
  * @param {object} researcher       The researcher used for the analysis.
  * @param {Object} options          The options for this assessor.
  * @param {Object} options.marker   The marker to pass the list of marks to.
  *
  * @constructor
  */
-const CornerStoneContentAssessor = function( i18n, researcher, options = {} ) {
-	Assessor.call( this, i18n, researcher, options );
-	this.type = "CornerstoneContentAssessor";
+const CornerStoneContentAssessor = function( researcher, options = {} ) {
+	Assessor.call( this, researcher, options );
+	this.type = "cornerstoneContentAssessor";
 
 	this._assessments = [
 
@@ -37,8 +36,10 @@ const CornerStoneContentAssessor = function( i18n, researcher, options = {} ) {
 			parameters:	{
 				slightlyTooMany: 250,
 				farTooMany: 300,
-				recommendedMaximumWordCount: 250,
+				recommendedMaximumLength: 250,
 			},
+			applicableIfTextLongerThan: 250,
+			cornerstoneContent: true,
 		} ),
 		new ParagraphTooLong(),
 		new SentenceLengthInText( {

@@ -1,3 +1,4 @@
+import { __, sprintf } from "@wordpress/i18n";
 import { map, merge } from "lodash-es";
 
 import formatNumber from "../../../helpers/formatNumber";
@@ -24,8 +25,8 @@ export default class PassiveVoiceAssessment extends Assessment {
 		super();
 
 		const defaultConfig = {
-			urlTitle: "",
-			urlCallToAction: "",
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/34t" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/34u" ),
 		};
 
 		this.identifier = "passiveVoice";
@@ -36,23 +37,10 @@ export default class PassiveVoiceAssessment extends Assessment {
 	 * Calculates the result based on the number of sentences and passives.
 	 *
 	 * @param {object} passiveVoice     The object containing the number of sentences and passives.
-	 * @param {object} i18n             The object used for translations.
-	 * @param {Researcher} researcher The researcher used for calling research.
 	 *
 	 * @returns {{score: number, text}} resultobject with score and text.
 	 */
-	calculatePassiveVoiceResult( passiveVoice, i18n, researcher ) {
-		let urlTitle = this._config.urlTitle;
-		let urlCallToAction = this._config.urlCallToAction;
-		// Get the links
-		const links = researcher.getData( "links" );
-		// Check if links for the assessment is available in links data
-		if ( links[ "shortlinks.metabox.readability.sentence_length" ] &&
-			links[ "shortlinks.metabox.readability.sentence_lengthCall_to_action" ] ) {
-			// Overwrite default links with links from configuration
-			urlTitle = createAnchorOpeningTag( links[ "shortlinks.metabox.readability.passive_voice" ] );
-			urlCallToAction = createAnchorOpeningTag( links[ "shortlinks.metabox.readability.passive_voiceCall_to_action" ] );
-		}
+	calculatePassiveVoiceResult( passiveVoice ) {
 		let score;
 		let percentage = 0;
 		const recommendedValue = 10;
@@ -83,12 +71,13 @@ export default class PassiveVoiceAssessment extends Assessment {
 			return {
 				score: score,
 				hasMarks: hasMarks,
-				text: i18n.sprintf(
+				text: sprintf(
 					/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
-					i18n.dgettext(
-						"js-text-analysis",
-						"%1$sPassive voice%2$s: You're using enough active voice. That's great!" ),
-					urlTitle,
+					__(
+						"%1$sPassive voice%2$s: You're using enough active voice. That's great!",
+						"wordpress-seo"
+					),
+					this._config.urlTitle,
 					"</a>"
 				),
 			};
@@ -96,20 +85,19 @@ export default class PassiveVoiceAssessment extends Assessment {
 		return {
 			score: score,
 			hasMarks: hasMarks,
-			text: i18n.sprintf(
+			text: sprintf(
 				/* Translators: %1$s and %5$s expand to a link on yoast.com, %2$s expands to the anchor end tag,
 				%3$s expands to the percentage of sentences in passive voice, %4$s expands to the recommended value. */
-				i18n.dgettext(
-					"js-text-analysis",
-					"%1$sPassive voice%2$s: %3$s of the sentences contain passive voice, which is more than the recommended maximum of %4$s. " +
-					"%5$sTry to use their active counterparts%2$s."
-
+				__(
+					// eslint-disable-next-line max-len
+					"%1$sPassive voice%2$s: %3$s of the sentences contain passive voice, which is more than the recommended maximum of %4$s. %5$sTry to use their active counterparts%2$s.",
+					"wordpress-seo"
 				),
-				urlTitle,
+				this._config.urlTitle,
 				"</a>",
 				percentage + "%",
 				recommendedValue + "%",
-				urlCallToAction
+				this._config.urlCallToAction
 			),
 		};
 	}
@@ -139,14 +127,13 @@ export default class PassiveVoiceAssessment extends Assessment {
 	 *
 	 * @param {object} paper        The paper to use for the assessment.
 	 * @param {object} researcher   The researcher used for calling research.
-	 * @param {object} i18n         The object used for translations.
 	 *
 	 * @returns {object} the Assessmentresult
 	 */
-	getResult( paper, researcher, i18n ) {
+	getResult( paper, researcher ) {
 		const passiveVoice = researcher.getResearch( "getPassiveVoiceResult" );
 
-		const passiveVoiceResult = this.calculatePassiveVoiceResult( passiveVoice, i18n, researcher );
+		const passiveVoiceResult = this.calculatePassiveVoiceResult( passiveVoice );
 
 		const assessmentResult = new AssessmentResult();
 

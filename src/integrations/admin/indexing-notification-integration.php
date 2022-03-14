@@ -4,10 +4,12 @@ namespace Yoast\WP\SEO\Integrations\Admin;
 
 use WPSEO_Addon_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Conditionals\Not_Admin_Ajax_Conditional;
+use Yoast\WP\SEO\Conditionals\User_Can_Manage_Wpseo_Options_Conditional;
 use Yoast\WP\SEO\Config\Indexing_Reasons;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
-use Yoast\WP\SEO\Helpers\Indexing_Helper;
 use Yoast\WP\SEO\Helpers\Environment_Helper;
+use Yoast\WP\SEO\Helpers\Indexing_Helper;
 use Yoast\WP\SEO\Helpers\Notification_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
@@ -179,6 +181,8 @@ class Indexing_Notification_Integration implements Integration_Interface {
 	public static function get_conditionals() {
 		return [
 			Admin_Conditional::class,
+			Not_Admin_Ajax_Conditional::class,
+			User_Can_Manage_Wpseo_Options_Conditional::class,
 		];
 	}
 
@@ -231,7 +235,7 @@ class Indexing_Notification_Integration implements Integration_Interface {
 		}
 
 		// Never show a notification when nothing should be indexed.
-		return $this->indexing_helper->get_filtered_unindexed_count() > 0;
+		return $this->indexing_helper->get_limited_filtered_unindexed_count( 1 ) > 0;
 	}
 
 	/**

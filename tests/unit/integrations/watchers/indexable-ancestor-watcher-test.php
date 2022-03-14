@@ -10,7 +10,6 @@ use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Helpers\Permalink_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Ancestor_Watcher;
-use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Hierarchy_Repository;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
@@ -332,12 +331,12 @@ class Indexable_Ancestor_Watcher_Test extends TestCase {
 		$term_id = 1;
 
 		Functions\expect( 'wp_list_pluck' )->andReturnUsing(
-			static function ( $array, $prop ) {
+			static function ( $haystack, $prop ) {
 				return \array_map(
 					static function ( $e ) use ( $prop ) {
 						return $e->{$prop};
 					},
-					$array
+					$haystack
 				);
 			}
 		);

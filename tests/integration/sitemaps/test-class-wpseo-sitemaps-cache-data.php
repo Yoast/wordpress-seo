@@ -22,8 +22,8 @@ class WPSEO_Sitemaps_Cache_Data_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Create subject instance.
 	 */
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 		$this->subject = new WPSEO_Sitemap_Cache_Data();
 	}
 
@@ -37,7 +37,7 @@ class WPSEO_Sitemaps_Cache_Data_Test extends WPSEO_UnitTestCase {
 		$sitemap = 'this is a sitemap';
 
 		$this->subject->set_sitemap( $sitemap );
-		$this->assertEquals( $sitemap, $this->subject->get_sitemap() );
+		$this->assertSame( $sitemap, $this->subject->get_sitemap() );
 	}
 
 	/**
@@ -51,7 +51,7 @@ class WPSEO_Sitemaps_Cache_Data_Test extends WPSEO_UnitTestCase {
 		$sitemap->doesnt = 'matter';
 
 		$this->subject->set_sitemap( $sitemap );
-		$this->assertEquals( '', $this->subject->get_sitemap() );
+		$this->assertSame( '', $this->subject->get_sitemap() );
 		$this->assertFalse( $this->subject->is_usable() );
 	}
 
@@ -64,7 +64,7 @@ class WPSEO_Sitemaps_Cache_Data_Test extends WPSEO_UnitTestCase {
 		$status = 'invalid';
 
 		$this->subject->set_status( $status );
-		$this->assertEquals( WPSEO_Sitemap_Cache_Data_Interface::UNKNOWN, $this->subject->get_status() );
+		$this->assertSame( WPSEO_Sitemap_Cache_Data_Interface::UNKNOWN, $this->subject->get_status() );
 		$this->assertFalse( $this->subject->is_usable() );
 	}
 
@@ -74,7 +74,7 @@ class WPSEO_Sitemaps_Cache_Data_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Sitemap_Cache_Data::get_status
 	 */
 	public function test_sitemap_status_unset() {
-		$this->assertEquals( WPSEO_Sitemap_Cache_Data::UNKNOWN, $this->subject->get_status() );
+		$this->assertSame( WPSEO_Sitemap_Cache_Data::UNKNOWN, $this->subject->get_status() );
 	}
 
 	/**
@@ -87,7 +87,7 @@ class WPSEO_Sitemaps_Cache_Data_Test extends WPSEO_UnitTestCase {
 		$sitemap = '';
 
 		$this->subject->set_sitemap( $sitemap );
-		$this->assertEquals( WPSEO_Sitemap_Cache_Data::ERROR, $this->subject->get_status() );
+		$this->assertSame( WPSEO_Sitemap_Cache_Data::ERROR, $this->subject->get_status() );
 	}
 
 	/**
@@ -109,16 +109,37 @@ class WPSEO_Sitemaps_Cache_Data_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @covers WPSEO_Sitemap_Cache_Data::set_status
 	 * @covers WPSEO_Sitemap_Cache_Data::get_status
+	 *
+	 * @dataProvider data_set_status_string
+	 *
+	 * @param string $input    Input to pass to set_status().
+	 * @param string $expected Expected get_status() function output.
 	 */
-	public function test_set_status_string() {
-		$this->subject->set_status( WPSEO_Sitemap_Cache_Data::OK );
-		$this->assertEquals( WPSEO_Sitemap_Cache_Data::OK, $this->subject->get_status() );
+	public function test_set_status_string( $input, $expected ) {
+		$this->subject->set_status( $input );
+		$this->assertSame( $expected, $this->subject->get_status() );
+	}
 
-		$this->subject->set_status( 'ok' );
-		$this->assertEquals( WPSEO_Sitemap_Cache_Data::OK, $this->subject->get_status() );
-
-		$this->subject->set_status( 'error' );
-		$this->assertEquals( WPSEO_Sitemap_Cache_Data::ERROR, $this->subject->get_status() );
+	/**
+	 * Data provider.
+	 *
+	 * @return array
+	 */
+	public function data_set_status_string() {
+		return [
+			'Ok using interface constant' => [
+				'input'    => WPSEO_Sitemap_Cache_Data::OK,
+				'expected' => WPSEO_Sitemap_Cache_Data::OK,
+			],
+			'Ok using hard coded string' => [
+				'input'    => 'ok',
+				'expected' => WPSEO_Sitemap_Cache_Data::OK,
+			],
+			'Error using hard coded string' => [
+				'input'    => 'error',
+				'expected' => WPSEO_Sitemap_Cache_Data::ERROR,
+			],
+		];
 	}
 
 	/**
@@ -126,7 +147,10 @@ class WPSEO_Sitemaps_Cache_Data_Test extends WPSEO_UnitTestCase {
 	 *
 	 * Tests if the class is serializable.
 	 *
-	 * @covers WPSEO_Sitemap_Cache_Data::set_sitemap
+	 * @covers WPSEO_Sitemap_Cache_Data::__serialize
+	 * @covers WPSEO_Sitemap_Cache_Data::__unserialize
+	 * @covers WPSEO_Sitemap_Cache_Data::serialize
+	 * @covers WPSEO_Sitemap_Cache_Data::unserialize
 	 */
 	public function test_serialize_unserialize() {
 		$sitemap = 'this is a sitemap';

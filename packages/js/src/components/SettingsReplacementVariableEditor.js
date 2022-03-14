@@ -1,7 +1,6 @@
 /* External dependencies */
 import { Component } from "@wordpress/element";
 import PropTypes from "prop-types";
-import { __ } from "@wordpress/i18n";
 import {
 	replacementVariablesShape,
 	recommendedReplacementVariablesShape,
@@ -36,7 +35,7 @@ class SettingsReplacementVariableEditor extends Component {
 			hasPremiumBadge,
 		} = this.props;
 
-		const placeholder = descriptionPlaceholder || __( "Modify your meta description by editing it right here", "wordpress-seo" );
+		const placeholder = descriptionPlaceholder || "";
 
 		return (
 			<SnippetPreviewSection

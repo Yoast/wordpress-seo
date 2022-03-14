@@ -6,15 +6,12 @@ import {
 	isUndefined,
 	debounce,
 } from "lodash-es";
-import {
-	setReadabilityResults,
-	setSeoResultsForKeyword,
-} from "yoast-components";
 import { isShallowEqualObjects } from "@wordpress/is-shallow-equal";
 import { select, subscribe } from "@wordpress/data";
 
 // Internal dependencies.
 import YoastReplaceVarPlugin from "../analysis/plugins/replacevar-plugin";
+import YoastReusableBlocksPlugin from "../analysis/plugins/reusable-blocks-plugin";
 import YoastShortcodePlugin from "../analysis/plugins/shortcode-plugin";
 import YoastMarkdownPlugin from "../analysis/plugins/markdown-plugin";
 import * as tinyMCEHelper from "../lib/tinymce";
@@ -44,18 +41,20 @@ import handleWorkerError from "../analysis/handleWorkerError";
 import initializeUsedKeywords from "./used-keywords-assessment";
 
 // Redux dependencies.
-import { setFocusKeyword } from "../redux/actions/focusKeyword";
-import { setMarkerStatus } from "../redux/actions/markerButtons";
-import { updateData } from "../redux/actions/snippetEditor";
-import { setWordPressSeoL10n, setYoastComponentsL10n } from "../helpers/i18n";
-import { setCornerstoneContent } from "../redux/actions/cornerstoneContent";
-import { refreshSnippetEditor } from "../redux/actions/snippetEditor.js";
+import { actions } from "@yoast/externals/redux";
 
 // Helper dependencies.
 import isBlockEditor from "../helpers/isBlockEditor";
 
-setYoastComponentsL10n();
-setWordPressSeoL10n();
+const {
+	setFocusKeyword,
+	setMarkerStatus,
+	updateData,
+	setCornerstoneContent,
+	refreshSnippetEditor,
+	setReadabilityResults,
+	setSeoResultsForKeyword,
+} = actions;
 
 // Plugin class prototypes (not the instances) are being used by other plugins from the window.
 window.YoastReplaceVarPlugin = YoastReplaceVarPlugin;
@@ -474,6 +473,11 @@ export default function initPostScraper( $, store, editorData ) {
 			pluginReady: app.pluginReady,
 			pluginReloaded: app.pluginReloaded,
 		} );
+
+		if ( isBlockEditor() ) {
+			const reusableBlocksPlugin = new YoastReusableBlocksPlugin( app.registerPlugin, app.registerModification, window.YoastSEO.app.refresh );
+			reusableBlocksPlugin.register();
+		}
 
 		if ( wpseoScriptData.metabox.markdownEnabled ) {
 			const markdownPlugin = new YoastMarkdownPlugin( app.registerPlugin, app.registerModification );

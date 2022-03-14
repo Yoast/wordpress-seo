@@ -39,7 +39,7 @@ class Yoast_Integration_Toggles_Test extends TestCase {
 		}
 
 		$this->assertEmpty( $result[0]->read_more_url );
-		$this->assertNotEmpty( $result[1]->read_more_url );
+		$this->assertNotEmpty( $result[2]->read_more_url );
 	}
 
 	/**
@@ -80,7 +80,7 @@ class Yoast_Integration_Toggles_Test extends TestCase {
 	 * @param array $toggles Current array with integration toggle objects where each object
 	 *                       should have a `name`, `setting` and `label` property.
 	 *
-	 * @return Adjusted array with integration toggle objects.
+	 * @return array Adjusted array with integration toggle objects.
 	 */
 	public function toggle_filter_callback( $toggles ) {
 		$toggles[] = (object) [

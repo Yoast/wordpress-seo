@@ -1,18 +1,13 @@
-/**
- * @jest-environment jsdom
- */
 import DefaultResearcher from "../../src/languageProcessing/languages/_default/Researcher";
 import Assessor from "../../src/scoring/taxonomyAssessor.js";
 import Paper from "../../src/values/Paper.js";
-import factory from "../specHelpers/factory.js";
-const i18n = factory.buildJed();
 import getResults from "../specHelpers/getAssessorResults";
 
 describe( "running assessments in the assessor", function() {
 	let assessor;
 
 	beforeEach( () => {
-		assessor = new Assessor( i18n, new DefaultResearcher() );
+		assessor = new Assessor( new DefaultResearcher() );
 	} );
 
 	it( "runs assessments without any specific requirements", function() {

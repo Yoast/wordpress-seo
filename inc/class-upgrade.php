@@ -73,8 +73,10 @@ class WPSEO_Upgrade {
 			'15.9.1-RC0' => 'upgrade_1591',
 			'16.2-RC0'   => 'upgrade_162',
 			'16.5-RC0'   => 'upgrade_165',
-			'17.1-RC0'   => 'upgrade_171',
 			'17.2-RC0'   => 'upgrade_172',
+			'17.7.1-RC0' => 'upgrade_1771',
+			'17.9-RC0'   => 'upgrade_179',
+			'18.3-RC3'   => 'upgrade_183',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -846,15 +848,26 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Performs the 17.1 upgrade. Removes the pipe and tilde separators and replaces them with the dash separator.
-	 *
-	 * @return void
+	 * Performs the 17.7.1 upgrade routine.
 	 */
-	private function upgrade_171() {
-		$separator = WPSEO_Options::get( 'separator' );
-		if ( $separator === 'sc-pipe' || $separator === 'sc-tilde' ) {
-			WPSEO_Options::set( 'separator', 'sc-dash' );
-		}
+	private function upgrade_1771() {
+		$enabled_auto_updates = \get_site_option( 'auto_update_plugins' );
+		$addon_update_watcher = YoastSEO()->classes->get( \Yoast\WP\SEO\Integrations\Watchers\Addon_Update_Watcher::class );
+		$addon_update_watcher->toggle_auto_updates_for_add_ons( 'auto_update_plugins', $enabled_auto_updates, [] );
+	}
+
+	/**
+	 * Performs the 17.9 upgrade routine.
+	 */
+	private function upgrade_179() {
+		WPSEO_Options::set( 'wincher_integration_active', true );
+	}
+
+	/**
+	 * Performs the 18.3 upgrade routine.
+	 */
+	private function upgrade_183() {
+		$this->delete_post_meta( 'yoast-structured-data-blocks-images-cache' );
 	}
 
 	/**
@@ -887,7 +900,7 @@ class WPSEO_Upgrade {
 	 * else to `false`.
 	 */
 	public function set_indexation_completed_option_for_145() {
-		WPSEO_Options::set( 'indexables_indexation_completed', YoastSEO()->helpers->indexing->get_unindexed_count() === 0 );
+		WPSEO_Options::set( 'indexables_indexation_completed', YoastSEO()->helpers->indexing->get_limited_filtered_unindexed_count( 1 ) === 0 );
 	}
 
 	/**

@@ -1,15 +1,15 @@
-/**
- * @jest-environment jsdom
- */
 import keywordCount from "../../../src/languageProcessing/researches/keywordCount.js";
 import Paper from "../../../src/values/Paper.js";
 import factory from "../../specHelpers/factory";
 import Mark from "../../../src/values/Mark";
+import wordsCountHelper from "../../../src/languageProcessing/languages/ja/helpers/wordsCharacterCount";
+import matchWordsHelper from "../../../src/languageProcessing/languages/ja/helpers/matchTextWithWord";
 
 /**
  * Adds morphological forms to the mock researcher.
  *
  * @param {Array} keyphraseForms The morphological forms to be added to the researcher.
+ *
  * @returns {Researcher} The mock researcher with added morphological forms.
  */
 const buildMorphologyMockResearcher = function( keyphraseForms ) {
@@ -175,5 +175,58 @@ describe( "Test for counting the keyword in a text", function() {
 	it( "doesn't match singular forms in reduplicated plurals in Indonesian", function() {
 		const mockPaper = new Paper( "Lorem ipsum dolor sit amet, consectetur keyword-keyword, keyword adipiscing elit.", { locale: "id_ID" } );
 		expect( keywordCount( mockPaper, mockResearcher ).count ).toBe( 1 );
+	} );
+} );
+
+/**
+ * Mocks Japanese Researcher.
+ * @param {Array} keyphraseForms    The morphological forms to be added to the researcher.
+ * @param {function} helper1        A helper needed for the assesment.
+ * @param {function} helper2        A helper needed for the assesment.
+ *
+ * @returns {Researcher} The mock researcher with added morphological forms and custom helper.
+ */
+const buildJapaneseMockResearcher = function( keyphraseForms, helper1, helper2 ) {
+	return factory.buildMockResearcher( {
+		morphology: {
+			keyphraseForms: keyphraseForms,
+		},
+	},
+	true,
+	true,
+	false,
+	{
+		wordsCharacterCount: helper1,
+		matchWordCustomHelper: helper2,
+	} );
+};
+
+describe( "Test for counting the keyword in a text for Japanese", () => {
+	it( "counts/marks a string of text with a keyword in it.", function() {
+		const mockPaper = new Paper( "私の猫はかわいいです。", { locale: "ja", keyphrase: "猫" } );
+		const researcher = buildJapaneseMockResearcher( [ [ "猫" ] ], wordsCountHelper, matchWordsHelper );
+		expect( keywordCount( mockPaper, researcher ).count ).toBe( 1 );
+		expect( keywordCount( mockPaper, researcher ).markings ).toEqual( [
+			new Mark( { marked: "私の<yoastmark class='yoast-text-mark'>猫</yoastmark>はかわいいです。",
+				original: "私の猫はかわいいです。" } ) ] );
+	} );
+
+	it( "counts a string of text with no keyword in it.", function() {
+		const mockPaper = new Paper( "私の猫はかわいいです。",  { locale: "ja" } );
+		const researcher = buildJapaneseMockResearcher( [ [ "猫" ], [ "会い" ] ], wordsCountHelper, matchWordsHelper );
+		expect( keywordCount( mockPaper, researcher ).count ).toBe( 0 );
+		expect( keywordCount( mockPaper, researcher ).markings ).toEqual( [] );
+	} );
+
+	it( "counts multiple occurrences of a keyphrase consisting of multiple words.", function() {
+		const mockPaper = new Paper( "私の猫はかわいいですかわいい。",  { locale: "ja" } );
+		const researcher = buildJapaneseMockResearcher( [ [ "猫" ], [ "かわいい" ] ], wordsCountHelper, matchWordsHelper );
+		expect( keywordCount( mockPaper, researcher ).count ).toBe( 1 );
+		expect( keywordCount( mockPaper, researcher ).markings ).toEqual( [
+			new Mark( {
+				marked: "私の<yoastmark class='yoast-text-mark'>猫</yoastmark>は<yoastmark class='yoast-text-mark'>かわいい</yoastmark>" +
+					"です<yoastmark class='yoast-text-mark'>かわいい</yoastmark>。",
+				original: "私の猫はかわいいですかわいい。",
+			} ) ] );
 	} );
 } );

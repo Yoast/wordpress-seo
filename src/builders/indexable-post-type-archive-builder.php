@@ -2,9 +2,11 @@
 
 namespace Yoast\WP\SEO\Builders;
 
-use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
+use wpdb;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Models\Indexable;
+use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 
 /**
  * Post type archive builder for the indexables.
@@ -30,17 +32,37 @@ class Indexable_Post_Type_Archive_Builder {
 	protected $version;
 
 	/**
+	 * Holds the taxonomy helper instance.
+	 *
+	 * @var Post_Helper
+	 */
+	protected $post_helper;
+
+	/**
+	 * The WPDB instance.
+	 *
+	 * @var wpdb
+	 */
+	protected $wpdb;
+
+	/**
 	 * Indexable_Post_Type_Archive_Builder constructor.
 	 *
-	 * @param Options_Helper             $options  The options helper.
-	 * @param Indexable_Builder_Versions $versions The latest version of each Indexable builder.
+	 * @param Options_Helper             $options     The options helper.
+	 * @param Indexable_Builder_Versions $versions    The latest version of each Indexable builder.
+	 * @param Post_Helper                $post_helper The post helper.
+	 * @param wpdb                       $wpdb        The WPDB instance.
 	 */
 	public function __construct(
 		Options_Helper $options,
-		Indexable_Builder_Versions $versions
+		Indexable_Builder_Versions $versions,
+		Post_Helper $post_helper,
+		wpdb $wpdb
 	) {
-		$this->options = $options;
-		$this->version = $versions->get_latest_version_for_type( 'post-type-archive' );
+		$this->options     = $options;
+		$this->version     = $versions->get_latest_version_for_type( 'post-type-archive' );
+		$this->post_helper = $post_helper;
+		$this->wpdb        = $wpdb;
 	}
 
 	/**
@@ -62,6 +84,10 @@ class Indexable_Post_Type_Archive_Builder {
 		$indexable->is_public         = ( (int) $indexable->is_robots_noindex !== 1 );
 		$indexable->blog_id           = \get_current_blog_id();
 		$indexable->version           = $this->version;
+
+		$timestamps                      = $this->get_object_timestamps( $post_type );
+		$indexable->object_published_at  = $timestamps->published_at;
+		$indexable->object_last_modified = $timestamps->last_modified;
 
 		return $indexable;
 	}
@@ -95,5 +121,29 @@ class Indexable_Post_Type_Archive_Builder {
 		}
 
 		return $post_type_obj->name;
+	}
+
+	/**
+	 * Returns the timestamps for a given post type.
+	 *
+	 * @param string $post_type The post type.
+	 *
+	 * @return object An object with last_modified and published_at timestamps.
+	 */
+	protected function get_object_timestamps( $post_type ) {
+		$post_statuses = $this->post_helper->get_public_post_statuses();
+
+		$sql = "
+			SELECT MAX(p.post_modified_gmt) AS last_modified, MIN(p.post_date_gmt) AS published_at
+			FROM {$this->wpdb->posts} AS p
+			WHERE p.post_status IN (" . \implode( ', ', \array_fill( 0, \count( $post_statuses ), '%s' ) ) . ")
+				AND p.post_password = ''
+				AND p.post_type = %s
+		";
+
+		$replacements = \array_merge( $post_statuses, [ $post_type ] );
+
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- We are using wpdb prepare.
+		return $this->wpdb->get_row( $this->wpdb->prepare( $sql, $replacements ) );
 	}
 }

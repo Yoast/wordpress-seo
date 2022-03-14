@@ -1,8 +1,8 @@
 import SubheadingsKeywordAssessment from "../../../../src/scoring/assessments/seo/SubHeadingsKeywordAssessment";
 import Paper from "../../../../src/values/Paper";
 import Factory from "../../../specHelpers/factory";
+import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher";
 
-const i18n = Factory.buildJed();
 const matchKeywordAssessment = new SubheadingsKeywordAssessment();
 
 describe( "An assessment for matching keywords in subheadings", () => {
@@ -10,13 +10,13 @@ describe( "An assessment for matching keywords in subheadings", () => {
 		const mockPaper = new Paper();
 		const assessment = matchKeywordAssessment.getResult(
 			mockPaper,
-			Factory.buildMockResearcher( { count: 1, matches: 0, percentReflectingTopic: 0 } ),
-			i18n
+			Factory.buildMockResearcher( { count: 1, matches: 0, percentReflectingTopic: 0 } )
 		);
 
 		expect( assessment.getScore() ).toEqual( 3 );
 		expect( assessment.getText() ).toEqual(
-			"Keyphrase in subheading</a>: Use more keyphrases or synonyms in your H2 and H3 subheadings</a>!"
+			"<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: <a href='https://yoa.st/33n' " +
+			"target='_blank'>Use more keyphrases or synonyms in your H2 and H3 subheadings</a>!"
 		);
 	} );
 
@@ -24,13 +24,13 @@ describe( "An assessment for matching keywords in subheadings", () => {
 		const mockPaper = new Paper();
 		const assessment = matchKeywordAssessment.getResult(
 			mockPaper,
-			Factory.buildMockResearcher( { count: 8, matches: 2, percentReflectingTopic: 25 } ),
-			i18n
+			Factory.buildMockResearcher( { count: 8, matches: 2, percentReflectingTopic: 25 } )
 		);
 
 		expect( assessment.getScore() ).toEqual( 3 );
 		expect( assessment.getText() ).toEqual(
-			"Keyphrase in subheading</a>: Use more keyphrases or synonyms in your H2 and H3 subheadings</a>!"
+			"<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: <a href='https://yoa.st/33n' " +
+			"target='_blank'>Use more keyphrases or synonyms in your H2 and H3 subheadings</a>!"
 		);
 	} );
 
@@ -39,13 +39,12 @@ describe( "An assessment for matching keywords in subheadings", () => {
 		const mockPaper = new Paper();
 		const assessment = matchKeywordAssessment.getResult(
 			mockPaper,
-			Factory.buildMockResearcher( { count: 1, matches: 1, percentReflectingTopic: 100 } ),
-			i18n
+			Factory.buildMockResearcher( { count: 1, matches: 1, percentReflectingTopic: 100 } )
 		);
 
 		expect( assessment.getScore() ).toEqual( 9 );
 		expect( assessment.getText() ).toEqual(
-			"Keyphrase in subheading</a>: Your H2 or H3 subheading " +
+			"<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: Your H2 or H3 subheading " +
 			"reflects the topic of your copy. Good job!"
 		);
 	} );
@@ -55,13 +54,12 @@ describe( "An assessment for matching keywords in subheadings", () => {
 		const mockPaper = new Paper();
 		const assessment = matchKeywordAssessment.getResult(
 			mockPaper,
-			Factory.buildMockResearcher( { count: 2, matches: 1, percentReflectingTopic: 50 } ),
-			i18n
+			Factory.buildMockResearcher( { count: 2, matches: 1, percentReflectingTopic: 50 } )
 		);
 
 		expect( assessment.getScore() ).toEqual( 9 );
 		expect( assessment.getText() ).toEqual(
-			"Keyphrase in subheading</a>: 1 of your H2 and H3 subheadings " +
+			"<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: 1 of your H2 and H3 subheadings " +
 			"reflects the topic of your copy. Good job!"
 		);
 	} );
@@ -71,13 +69,12 @@ describe( "An assessment for matching keywords in subheadings", () => {
 		const mockPaper = new Paper();
 		const assessment = matchKeywordAssessment.getResult(
 			mockPaper,
-			Factory.buildMockResearcher( { count: 4, matches: 2, percentReflectingTopic: 50 } ),
-			i18n
+			Factory.buildMockResearcher( { count: 4, matches: 2, percentReflectingTopic: 50 } )
 		);
 
 		expect( assessment.getScore() ).toEqual( 9 );
 		expect( assessment.getText() ).toEqual(
-			"Keyphrase in subheading</a>: 2 of your H2 and H3 subheadings " +
+			"<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: 2 of your H2 and H3 subheadings " +
 			"reflect the topic of your copy. Good job!"
 		);
 	} );
@@ -87,14 +84,37 @@ describe( "An assessment for matching keywords in subheadings", () => {
 		const mockPaper = new Paper();
 		const assessment = matchKeywordAssessment.getResult(
 			mockPaper,
-			Factory.buildMockResearcher( { count: 8, matches: 7, percentReflectingTopic: 87.5 } ),
-			i18n
+			Factory.buildMockResearcher( { count: 8, matches: 7, percentReflectingTopic: 87.5 } )
 		);
 
 		expect( assessment.getScore() ).toEqual( 3 );
 		expect( assessment.getText() ).toEqual(
-			"Keyphrase in subheading</a>: More than 75% of your H2 " +
-			"and H3 subheadings reflect the topic of your copy. That's too much. Don't over-optimize</a>!"
+			"<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: More than 75% of your H2 " +
+			"and H3 subheadings reflect the topic of your copy. That's too much. <a href='https://yoa.st/33n' " +
+			"target='_blank'>Don't over-optimize</a>!"
+		);
+	} );
+
+	it( "returns a bad score and appropriate feedback when the subheading contains a non-exact match of a Japanese keyphrase when the keyphrase" +
+		" is in double quotes.", function() {
+		const mockPaper = new Paper( "<h2>小さくて可愛い花の刺繍に関する一般一般の記事です</h2>私は美しい猫を飼っています。野生のハーブの刺繡。", { keyword: "『小さい花の刺繍』" } );
+		const result = matchKeywordAssessment.getResult( mockPaper, new JapaneseResearcher( mockPaper ) );
+
+		expect( result.getScore() ).toEqual( 3 );
+		expect( result.getText() ).toEqual(
+			"<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: <a href='https://yoa.st/33n' " +
+			"target='_blank'>Use more keyphrases or synonyms in your H2 and H3 subheadings</a>!"
+		);
+	} );
+
+	it( "returns a good score and appropriate feedback when the subheading contains an exact match of a Japanese keyphrase when the keyphrase" +
+		" is in double quotes.", function() {
+		const mockPaper = new Paper( "<h2>小さい花の刺繍</h2>私は美しい猫を飼っています。野生のハーブの刺繡。", { keyword: "『小さい花の刺繍』" } );
+		const result = matchKeywordAssessment.getResult( mockPaper, new JapaneseResearcher( mockPaper ) );
+
+		expect( result.getScore() ).toEqual( 9 );
+		expect( result.getText() ).toEqual(
+			"<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: Your H2 or H3 subheading reflects the topic of your copy. Good job!"
 		);
 	} );
 

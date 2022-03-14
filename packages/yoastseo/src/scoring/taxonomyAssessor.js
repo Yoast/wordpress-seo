@@ -28,20 +28,20 @@ export const getTextLengthAssessment = function() {
 		veryFarBelowMinimum: 50,
 		urlTitle: createAnchorOpeningTag( "https://yoa.st/34j" ),
 		urlCallToAction: createAnchorOpeningTag( "https://yoa.st/34k" ),
+		customContentType: "taxonomyAssessor",
 	} );
 };
 
 /**
  * Creates the Assessor used for taxonomy pages.
  *
- * @param {object} i18n         The i18n object used for translations.
  * @param {object} researcher   The researcher used for the analysis.
  * @param {Object} options      The options for this assessor.
  * @constructor
  */
-const TaxonomyAssessor = function( i18n, researcher, options ) {
-	Assessor.call( this, i18n, researcher, options );
-	this.type = "TaxonomyAssessor";
+const TaxonomyAssessor = function( researcher, options ) {
+	Assessor.call( this, researcher, options );
+	this.type = "taxonomyAssessor";
 
 	this._assessments = [
 		new IntroductionKeywordAssessment(),

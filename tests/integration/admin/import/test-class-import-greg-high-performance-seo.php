@@ -20,8 +20,8 @@ class WPSEO_Import_Greg_SEO_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Sets up the test class.
 	 */
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 
 		$this->class_instance = new WPSEO_Import_Greg_SEO();
 	}
@@ -126,12 +126,12 @@ class WPSEO_Import_Greg_SEO_Test extends WPSEO_UnitTestCase {
 	 * Returns a WPSEO_Import_Status object to check against.
 	 *
 	 * @param string $action The action to return.
-	 * @param bool   $bool   The status.
+	 * @param bool   $status The status.
 	 *
 	 * @return WPSEO_Import_Status Import status object.
 	 */
-	private function status( $action, $bool ) {
-		return new WPSEO_Import_Status( $action, $bool );
+	private function status( $action, $status ) {
+		return new WPSEO_Import_Status( $action, $status );
 	}
 
 	/**

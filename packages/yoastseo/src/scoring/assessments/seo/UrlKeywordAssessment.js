@@ -1,3 +1,4 @@
+import { __, sprintf } from "@wordpress/i18n";
 import { merge } from "lodash-es";
 
 import Assessment from "../assessment";
@@ -26,8 +27,8 @@ class UrlKeywordAssessment extends Assessment {
 				okay: 6,
 				good: 9,
 			},
-			urlTitle: "",
-			urlCallToAction: "",
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/33o" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/33p" ),
 		};
 
 		this.identifier = "urlKeyword";
@@ -39,16 +40,15 @@ class UrlKeywordAssessment extends Assessment {
 	 *
 	 * @param {Paper}       paper       The Paper object to assess.
 	 * @param {Researcher}  researcher  The Researcher object containing all available researches.
-	 * @param {Jed}         i18n        The object used for translations.
 	 *
 	 * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
 	 */
-	getResult( paper, researcher, i18n ) {
+	getResult( paper, researcher ) {
 		this._keywordInURL = researcher.getResearch( "keywordCountInUrl" );
 
 		const assessmentResult = new AssessmentResult();
 
-		const calculatedResult = this.calculateResult( i18n, researcher );
+		const calculatedResult = this.calculateResult();
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
 
@@ -59,44 +59,32 @@ class UrlKeywordAssessment extends Assessment {
 	 * Checks whether the paper has a keyword and a url.
 	 *
 	 * @param {Paper}       paper       The paper to use for the assessment.
+	 * @param {Researcher}  researcher  The researcher object.
 	 *
-	 * @returns {boolean} True when there is a keyword and an url.
+	 * @returns {boolean} True if the paper contains a keyword and a URL, and if the keywordCountInUrl research is available on the researcher.
 	 */
-	isApplicable( paper ) {
-		return paper.hasKeyword() && paper.hasUrl();
+	isApplicable( paper, researcher ) {
+		return paper.hasKeyword() && paper.hasUrl() && researcher.hasResearch( "keywordCountInUrl" );
 	}
 
 	/**
 	 * Determines the score and the result text based on whether or not there's a keyword in the url.
 	 *
-	 * @param {Jed} i18n The object used for translations.
-	 * @param {Researcher} researcher The researcher used for calling research.
+	 *
 	 * @returns {Object} The object with calculated score and resultText.
 	 */
-	calculateResult( i18n, researcher ) {
-		let urlTitle = this._config.urlTitle;
-		let urlCallToAction = this._config.urlCallToAction;
-		// Get the links
-		const links = researcher.getData( "links" );
-		// Check if links for the assessment is available in links data
-		if ( links[ "shortlinks.metabox.SEO.url" ] && links[ "shortlinks.metabox.SEO.urlCall_to_action" ] ) {
-			// Overwrite default links with links from configuration
-			urlTitle = createAnchorOpeningTag( links[ "shortlinks.metabox.SEO.url" ] );
-			urlCallToAction = createAnchorOpeningTag( links[ "shortlinks.metabox.SEO.urlCall_to_action" ] );
-		}
-
-		// Calculates good score
+	calculateResult() {
 		if ( this._keywordInURL.keyphraseLength < 3 ) {
 			if ( this._keywordInURL.percentWordMatches === 100 ) {
 				return {
 					score: this._config.scores.good,
-					resultText: i18n.sprintf(
+					resultText: sprintf(
 						/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
-						i18n.dgettext(
-							"js-text-analysis",
-							"%1$sKeyphrase in slug%2$s: Great work!"
+						__(
+							"%1$sKeyphrase in slug%2$s: Great work!",
+							"wordpress-seo"
 						),
-						urlTitle,
+						this._config.urlTitle,
 						"</a>"
 					),
 				};
@@ -104,14 +92,14 @@ class UrlKeywordAssessment extends Assessment {
 
 			return {
 				score: this._config.scores.okay,
-				resultText: i18n.sprintf(
+				resultText: sprintf(
 					/* Translators:  %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
-					i18n.dgettext(
-						"js-text-analysis",
-						"%1$sKeyphrase in slug%3$s: (Part of) your keyphrase does not appear in the slug. %2$sChange that%3$s!"
+					__(
+						"%1$sKeyphrase in slug%3$s: (Part of) your keyphrase does not appear in the slug. %2$sChange that%3$s!",
+						"wordpress-seo"
 					),
-					urlTitle,
-					urlCallToAction,
+					this._config.urlTitle,
+					this._config.urlCallToAction,
 					"</a>"
 				),
 			};
@@ -120,27 +108,27 @@ class UrlKeywordAssessment extends Assessment {
 		if ( this._keywordInURL.percentWordMatches > 50 ) {
 			return {
 				score: this._config.scores.good,
-				resultText: i18n.sprintf(
+				resultText: sprintf(
 					/* Translators:  %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
-					i18n.dgettext(
-						"js-text-analysis",
-						"%1$sKeyphrase in slug%2$s: More than half of your keyphrase appears in the slug. That's great!"
+					__(
+						"%1$sKeyphrase in slug%2$s: More than half of your keyphrase appears in the slug. That's great!",
+						"wordpress-seo"
 					),
-					urlTitle,
+					this._config.urlTitle,
 					"</a>"
 				),
 			};
 		}
 		return {
 			score: this._config.scores.okay,
-			resultText: i18n.sprintf(
+			resultText: sprintf(
 				/* Translators:  %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag */
-				i18n.dgettext(
-					"js-text-analysis",
-					"%1$sKeyphrase in slug%3$s: (Part of) your keyphrase does not appear in the slug. %2$sChange that%3$s!"
+				__(
+					"%1$sKeyphrase in slug%3$s: (Part of) your keyphrase does not appear in the slug. %2$sChange that%3$s!",
+					"wordpress-seo"
 				),
-				urlTitle,
-				urlCallToAction,
+				this._config.urlTitle,
+				this._config.urlCallToAction,
 				"</a>"
 			),
 		};

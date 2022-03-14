@@ -1,3 +1,4 @@
+import { __, _n, sprintf } from "@wordpress/i18n";
 import { merge } from "lodash-es";
 
 import recommendedKeywordCount from "../../helpers/assessments/recommendedKeywordCount.js";
@@ -6,8 +7,6 @@ import AssessmentResult from "../../../values/AssessmentResult";
 import { inRangeEndInclusive, inRangeStartEndInclusive, inRangeStartInclusive } from "../../helpers/assessments/inRange";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import keyphraseLengthFactor from "../../helpers/assessments/keyphraseLengthFactor.js";
-import countWords from "./../../../languageProcessing/helpers/word/countWords";
-import baseStemmer from "../../../languageProcessing/helpers/morphology/baseStemmer";
 
 /**
  * Represents the assessment that will look if the keyphrase density is within the recommended range.
@@ -61,13 +60,15 @@ class KeywordDensityAssessment extends Assessment {
 				correctDensity: 9,
 				underMinimum: 4,
 			},
-			urlTitle: "",
-			urlCallToAction: "",
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/33v" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/33w" ),
+			applicableIfTextLongerThan: 100,
 		};
 
 		this.identifier = "keywordDensity";
 		this._config = merge( defaultConfig, config );
 	}
+
 
 	/**
 	 * Determines correct boundaries depending on the availability
@@ -75,17 +76,18 @@ class KeywordDensityAssessment extends Assessment {
 	 *
 	 * @param {string} text The paper text.
 	 * @param {number} keyphraseLength The length of the keyphrase in words.
+	 * @param {function} customGetWords A helper to get words from the text for languages that don't use the default approach.
 	 *
 	 * @returns {void}
 	 */
-	setBoundaries( text, keyphraseLength ) {
+	setBoundaries( text, keyphraseLength, customGetWords ) {
 		if ( this._hasMorphologicalForms ) {
 			this._boundaries = this._config.parameters.multipleWordForms;
 		} else {
 			this._boundaries = this._config.parameters.noWordForms;
 		}
-		this._minRecommendedKeywordCount = recommendedKeywordCount( text, keyphraseLength, this._boundaries.minimum, "min" );
-		this._maxRecommendedKeywordCount = recommendedKeywordCount( text, keyphraseLength, this._boundaries.maximum, "max" );
+		this._minRecommendedKeywordCount = recommendedKeywordCount( text, keyphraseLength, this._boundaries.minimum, "min", customGetWords );
+		this._maxRecommendedKeywordCount = recommendedKeywordCount( text, keyphraseLength, this._boundaries.maximum, "max", customGetWords );
 	}
 
 	/**
@@ -93,27 +95,25 @@ class KeywordDensityAssessment extends Assessment {
 	 * result with score.
 	 *
 	 * @param {Paper} paper The paper to use for the assessment.
-	 * @param {Researcher} researcher The researcher used for calling the
-	 *                                research.
-	 * @param {Jed} i18n The object used for translations.
+	 * @param {Researcher} researcher The researcher used for calling the research.
 	 *
 	 * @returns {AssessmentResult} The result of the assessment.
 	 */
-	getResult( paper, researcher, i18n ) {
+	getResult( paper, researcher ) {
+		const customGetWords = researcher.getHelper( "getWordsCustomHelper" );
 		this._keywordCount = researcher.getResearch( "keywordCount" );
 		const keyphraseLength = this._keywordCount.length;
 
 		const assessmentResult = new AssessmentResult();
 
-		this._keywordDensityData = researcher.getResearch( "getKeywordDensity" );
+		this._keywordDensity = researcher.getResearch( "getKeywordDensity" );
 
-		this._hasMorphologicalForms = researcher.getData( "morphology" ) !== false &&
-			this._keywordDensityData.stemmer !== baseStemmer;
+		this._hasMorphologicalForms = researcher.getData( "morphology" ) !== false;
 
-		this.setBoundaries( paper.getText(), keyphraseLength );
+		this.setBoundaries( paper.getText(), keyphraseLength, customGetWords );
 
-		this._keywordDensity = this._keywordDensityData.keywordDensity * keyphraseLengthFactor( keyphraseLength );
-		const calculatedScore = this.calculateResult( i18n, researcher );
+		this._keywordDensity = this._keywordDensity * keyphraseLengthFactor( keyphraseLength );
+		const calculatedScore = this.calculateResult();
 
 		assessmentResult.setScore( calculatedScore.score );
 		assessmentResult.setText( calculatedScore.resultText );
@@ -178,40 +178,26 @@ class KeywordDensityAssessment extends Assessment {
 	/**
 	 * Returns the score for the keyphrase density.
 	 *
-	 * @param {Jed} i18n The object used for translations.
-	 * @param {Researcher} researcher The researcher used for calling research.
 	 * @returns {Object} The object with calculated score and resultText.
 	 */
-	calculateResult( i18n, researcher ) {
-		let urlTitle = this._config.urlTitle;
-		let urlCallToAction = this._config.urlCallToAction;
-		// Get the links
-		const links = researcher.getData( "links" );
-		// Check if links for the assessment is available in links data
-		if ( links[ "shortlinks.metabox.SEO.keyword_density" ] && links[ "shortlinks.metabox.SEO.keyword_densityCall_to_action" ] ) {
-			// Overwrite default links with links from configuration
-			urlTitle = createAnchorOpeningTag( links[ "shortlinks.metabox.SEO.keyword_density" ] );
-			urlCallToAction = createAnchorOpeningTag( links[ "shortlinks.metabox.SEO.keyword_densityCall_to_action" ] );
-		}
-		// Calculate scores
+	calculateResult() {
 		if ( this.hasNoMatches() ) {
 			return {
 				score: this._config.scores.underMinimum,
-				resultText: i18n.sprintf(
+				resultText: sprintf(
 					/* Translators:
 					%1$s and %4$s expand to links to Yoast.com,
 					%2$s expands to the anchor end tag,
 					%3$d expands to the recommended minimal number of times the keyphrase should occur in the text. */
-					i18n.dgettext(
-						"js-text-analysis",
-						"%1$sKeyphrase density%2$s: The focus keyphrase was found 0 times. " +
-						"That's less than the recommended minimum of %3$d times for a text of this length. " +
-						"%4$sFocus on your keyphrase%2$s!"
+					__(
+						// eslint-disable-next-line max-len
+						"%1$sKeyphrase density%2$s: The focus keyphrase was found 0 times. That's less than the recommended minimum of %3$d times for a text of this length. %4$sFocus on your keyphrase%2$s!",
+						"wordpress-seo"
 					),
-					urlTitle,
+					this._config.urlTitle,
 					"</a>",
 					this._minRecommendedKeywordCount,
-					urlCallToAction
+					this._config.urlCallToAction
 				),
 			};
 		}
@@ -219,24 +205,24 @@ class KeywordDensityAssessment extends Assessment {
 		if ( this.hasTooFewMatches() ) {
 			return {
 				score: this._config.scores.underMinimum,
-				resultText: i18n.sprintf(
+				resultText: sprintf(
 					/* Translators:
 					%1$s and %4$s expand to links to Yoast.com,
 					%2$s expands to the anchor end tag,
 					%3$d expands to the recommended minimal number of times the keyphrase should occur in the text,
 					%5$d expands to the number of times the keyphrase occurred in the text. */
-					i18n.dngettext(
-						"js-text-analysis",
-						"%1$sKeyphrase density%2$s: The focus keyphrase was found %5$d time. That's less than the " +
-						"recommended minimum of %3$d times for a text of this length. %4$sFocus on your keyphrase%2$s!",
-						"%1$sKeyphrase density%2$s: The focus keyphrase was found %5$d times. That's less than the " +
-						"recommended minimum of %3$d times for a text of this length. %4$sFocus on your keyphrase%2$s!",
-						this._keywordCount.count
+					_n(
+						// eslint-disable-next-line max-len
+						"%1$sKeyphrase density%2$s: The focus keyphrase was found %5$d time. That's less than the recommended minimum of %3$d times for a text of this length. %4$sFocus on your keyphrase%2$s!",
+						// eslint-disable-next-line max-len
+						"%1$sKeyphrase density%2$s: The focus keyphrase was found %5$d times. That's less than the recommended minimum of %3$d times for a text of this length. %4$sFocus on your keyphrase%2$s!",
+						this._keywordCount.count,
+						"wordpress-seo"
 					),
-					urlTitle,
+					this._config.urlTitle,
 					"</a>",
 					this._minRecommendedKeywordCount,
-					urlCallToAction,
+					this._config.urlCallToAction,
 					this._keywordCount.count
 				),
 			};
@@ -245,18 +231,18 @@ class KeywordDensityAssessment extends Assessment {
 		if ( this.hasGoodNumberOfMatches()  ) {
 			return {
 				score: this._config.scores.correctDensity,
-				resultText: i18n.sprintf(
+				resultText: sprintf(
 					/* Translators:
 					%1$s expands to a link to Yoast.com,
 					%2$s expands to the anchor end tag,
 					%3$d expands to the number of times the keyphrase occurred in the text. */
-					i18n.dngettext(
-						"js-text-analysis",
+					_n(
 						"%1$sKeyphrase density%2$s: The focus keyphrase was found %3$d time. This is great!",
 						"%1$sKeyphrase density%2$s: The focus keyphrase was found %3$d times. This is great!",
-						this._keywordCount.count
+						this._keywordCount.count,
+						"wordpress-seo"
 					),
-					urlTitle,
+					this._config.urlTitle,
 					"</a>",
 					this._keywordCount.count
 				),
@@ -266,24 +252,24 @@ class KeywordDensityAssessment extends Assessment {
 		if ( this.hasTooManyMatches() ) {
 			return {
 				score: this._config.scores.overMaximum,
-				resultText: i18n.sprintf(
+				resultText: sprintf(
 					/* Translators:
 					%1$s and %4$s expand to links to Yoast.com,
 					%2$s expands to the anchor end tag,
 					%3$d expands to the recommended maximal number of times the keyphrase should occur in the text,
 					%5$d expands to the number of times the keyphrase occurred in the text. */
-					i18n.dngettext(
-						"js-text-analysis",
-						"%1$sKeyphrase density%2$s: The focus keyphrase was found %5$d time. That's more than the " +
-						"recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!",
-						"%1$sKeyphrase density%2$s: The focus keyphrase was found %5$d times. That's more than the " +
-						"recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!",
-						this._keywordCount.count
+					_n(
+						// eslint-disable-next-line max-len
+						"%1$sKeyphrase density%2$s: The focus keyphrase was found %5$d time. That's more than the recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!",
+						// eslint-disable-next-line max-len
+						"%1$sKeyphrase density%2$s: The focus keyphrase was found %5$d times. That's more than the recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!",
+						this._keywordCount.count,
+						"wordpress-seo"
 					),
-					urlTitle,
+					this._config.urlTitle,
 					"</a>",
 					this._maxRecommendedKeywordCount,
-					urlCallToAction,
+					this._config.urlCallToAction,
 					this._keywordCount.count
 				),
 			};
@@ -292,24 +278,24 @@ class KeywordDensityAssessment extends Assessment {
 		// Implicitly returns this if the rounded keyphrase density is higher than overMaximum.
 		return {
 			score: this._config.scores.wayOverMaximum,
-			resultText: i18n.sprintf(
+			resultText: sprintf(
 				/* Translators:
 				%1$s and %4$s expand to links to Yoast.com,
 				%2$s expands to the anchor end tag,
 				%3$d expands to the recommended maximal number of times the keyphrase should occur in the text,
 				%5$d expands to the number of times the keyphrase occurred in the text. */
-				i18n.dngettext(
-					"js-text-analysis",
-					"%1$sKeyphrase density%2$s: The focus keyphrase was found %5$d time. That's way more than the " +
-					"recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!",
-					"%1$sKeyphrase density%2$s: The focus keyphrase was found %5$d times. That's way more than the " +
-					"recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!",
-					this._keywordCount.count
+				_n(
+					// eslint-disable-next-line max-len
+					"%1$sKeyphrase density%2$s: The focus keyphrase was found %5$d time. That's way more than the recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!",
+					// eslint-disable-next-line max-len
+					"%1$sKeyphrase density%2$s: The focus keyphrase was found %5$d times. That's way more than the recommended maximum of %3$d times for a text of this length. %4$sDon't overoptimize%2$s!",
+					this._keywordCount.count,
+					"wordpress-seo"
 				),
-				urlTitle,
+				this._config.urlTitle,
 				"</a>",
 				this._maxRecommendedKeywordCount,
-				urlCallToAction,
+				this._config.urlCallToAction,
 				this._keywordCount.count
 			),
 		};
@@ -327,15 +313,24 @@ class KeywordDensityAssessment extends Assessment {
 
 
 	/**
-	 * Checks whether the paper has a text with at least 100 words and a keyword
-	 * is set.
+	 * Checks whether the paper has a text of the minimum required length and a keyword is set. Language-specific length requirements and methods
+	 * of counting text length may apply (e.g. for Japanese, the text should be counted in characters instead of words, which also makes the minimum
+	 * required length higher).
 	 *
-	 * @param {Paper} paper The paper to use for the assessment.
+	 * @param {Paper} 		paper 		The paper to use for the assessment.
+	 * @param {Researcher}  researcher  The paper to use for the assessment.
 	 *
 	 * @returns {boolean} True if applicable.
 	 */
-	isApplicable( paper ) {
-		return paper.hasText() && paper.hasKeyword() && countWords( paper.getText() ) >= 100;
+	isApplicable( paper, researcher ) {
+		const customCountLength = researcher.getHelper( "customCountLength" );
+		const customApplicabilityConfig = researcher.getConfig( "assessmentApplicability" ).keyphraseDensity;
+		if ( customApplicabilityConfig ) {
+			this._config.applicableIfTextLongerThan = customApplicabilityConfig;
+		}
+		const textLength = customCountLength ? customCountLength( paper.getText() ) : researcher.getResearch( "wordCountInText" );
+
+		return paper.hasText() && paper.hasKeyword() && textLength >= this._config.applicableIfTextLongerThan;
 	}
 }
 

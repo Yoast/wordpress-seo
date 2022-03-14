@@ -3,13 +3,11 @@ import TreeBuilder from "../../../src/parsedPaper/build/tree";
 import { TreeResearcher } from "../../../src/parsedPaper/research";
 import Paper from "../../../src/values/Paper";
 
-import factory from "../../specHelpers/factory.js";
 import TestAggregator from "../../specHelpers/tree/TestAggregator";
 import TestAssessment from "../../specHelpers/tree/TestAssessment";
 import TestResearch from "../../specHelpers/tree/TestResearch";
 
 describe( "TreeAssessor", () => {
-	const i18n = factory.buildJed();
 	let treeBuilder;
 
 	beforeEach( () => {
@@ -23,13 +21,11 @@ describe( "TreeAssessor", () => {
 			const assessor = new TreeAssessor( {
 				researcher,
 				scoreAggregator,
-				i18n,
 			} );
 
 			expect( assessor.getAssessments() ).toEqual( [] );
 			expect( assessor.scoreAggregator ).toEqual( scoreAggregator );
 			expect( assessor.researcher ).toEqual( researcher );
-			expect( assessor.i18n ).toEqual( i18n );
 		} );
 
 		it( "creates a new TreeAssessor with assessments", () => {
@@ -42,14 +38,12 @@ describe( "TreeAssessor", () => {
 			const assessor = new TreeAssessor( {
 				researcher,
 				scoreAggregator,
-				i18n,
 				assessments,
 			} );
 
 			expect( assessor.getAssessments() ).toEqual( assessments );
 			expect( assessor.scoreAggregator ).toEqual( scoreAggregator );
 			expect( assessor.researcher ).toEqual( researcher );
-			expect( assessor.i18n ).toEqual( i18n );
 		} );
 	} );
 
@@ -64,7 +58,6 @@ describe( "TreeAssessor", () => {
 			const assessor = new TreeAssessor( {
 				researcher,
 				scoreAggregator,
-				i18n,
 				assessments,
 			} );
 
@@ -94,7 +87,6 @@ describe( "TreeAssessor", () => {
 			const assessor = new TreeAssessor( {
 				researcher,
 				scoreAggregator,
-				i18n,
 				assessments,
 			} );
 
@@ -141,7 +133,6 @@ describe( "TreeAssessor", () => {
 			const assessor = new TreeAssessor( {
 				researcher,
 				scoreAggregator,
-				i18n,
 				assessments,
 			} );
 
@@ -190,7 +181,6 @@ describe( "TreeAssessor", () => {
 			const assessor = new TreeAssessor( {
 				researcher,
 				scoreAggregator,
-				i18n,
 				assessments,
 			} );
 
@@ -219,7 +209,6 @@ describe( "TreeAssessor", () => {
 			const assessor = new TreeAssessor( {
 				researcher,
 				scoreAggregator,
-				i18n,
 				assessments,
 			} );
 
@@ -244,7 +233,6 @@ describe( "TreeAssessor", () => {
 			const assessor = new TreeAssessor( {
 				researcher,
 				scoreAggregator,
-				i18n,
 				assessments,
 			} );
 
@@ -273,7 +261,6 @@ describe( "TreeAssessor", () => {
 			const assessor = new TreeAssessor( {
 				researcher,
 				scoreAggregator,
-				i18n,
 				assessments,
 			} );
 
@@ -297,7 +284,6 @@ describe( "TreeAssessor", () => {
 			const assessor = new TreeAssessor( {
 				researcher,
 				scoreAggregator,
-				i18n,
 				assessments,
 			} );
 
@@ -319,7 +305,6 @@ describe( "TreeAssessor", () => {
 			const assessor = new TreeAssessor( {
 				researcher,
 				scoreAggregator,
-				i18n,
 				assessments,
 			} );
 

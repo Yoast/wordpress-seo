@@ -8,6 +8,7 @@
 $wpseo_plugin_dir_url = plugin_dir_url( WPSEO_FILE );
 $new_tab_message      = WPSEO_Admin_Utils::get_new_tab_message();
 ?>
+
 <div class="wpseo_content_cell" id="sidebar-container">
 	<div id="sidebar" class="yoast-sidebar">
 		<div class="wpseo_content_cell_title yoast-sidebar__title">
@@ -37,7 +38,6 @@ $new_tab_message      = WPSEO_Admin_Utils::get_new_tab_message();
 				<li><strong><?php esc_html_e( '24/7 email support', 'wordpress-seo' ); ?></strong></li>
 				<li><strong><?php esc_html_e( 'No ads!', 'wordpress-seo' ); ?></strong></li>
 			</ul>
-
 			<a id="wpseo-premium-button" class="yoast-button-upsell"
 				href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/jj' ); ?>" target="_blank">
 				<?php
@@ -47,7 +47,7 @@ $new_tab_message      = WPSEO_Admin_Utils::get_new_tab_message();
 				echo $new_tab_message;
 				echo '<span aria-hidden="true" class="yoast-button-upsell__caret"></span>';
 				?>
-			</a><br>
+			</a>
 		</div>
 		<div class="yoast-sidebar__section">
 			<h2>

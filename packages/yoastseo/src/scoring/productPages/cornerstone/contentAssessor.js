@@ -12,14 +12,13 @@ import ListsPresence from "../../assessments/readability/ListAssessment.js";
 /**
  * Creates the Assessor
  *
- * @param {object} i18n         The i18n object used for translations.
  * @param {object} researcher   The researcher to use for the analysis.
  * @param {Object} options      The options for this assessor.
  *
  * @constructor
  */
-const ProductCornerstoneContentAssessor = function( i18n, researcher, options ) {
-	Assessor.call( this, i18n, researcher, options );
+const ProductCornerstoneContentAssessor = function( researcher, options ) {
+	Assessor.call( this, researcher, options );
 	this.type = "productCornerstoneContentAssessor";
 
 	this._assessments = [
@@ -27,11 +26,13 @@ const ProductCornerstoneContentAssessor = function( i18n, researcher, options ) 
 			parameters:	{
 				slightlyTooMany: 250,
 				farTooMany: 300,
-				recommendedMaximumWordCount: 250,
+				recommendedMaximumLength: 250,
 			},
+			applicableIfTextLongerThan: 250,
 			shouldNotAppearInShortText: true,
 			urlTitle: createAnchorOpeningTag( options.subheadingUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.subheadingCTAUrl ),
+			cornerstoneContent: true,
 		} ),
 		new ParagraphTooLong( {
 			parameters: {
@@ -40,7 +41,7 @@ const ProductCornerstoneContentAssessor = function( i18n, researcher, options ) 
 			},
 			urlTitle: createAnchorOpeningTag( options.paragraphUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.paragraphCTAUrl ),
-		} ),
+		}, true ),
 		new SentenceLengthInText( {
 			slightlyTooMany: 15,
 			farTooMany: 20,

@@ -4,8 +4,6 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations;
 
 use Brain\Monkey;
 use Mockery;
-
-use PhpParser\Node\Expr\Array_;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Feature_Flag_Conditional;
@@ -51,9 +49,9 @@ class Feature_Flag_Integration_Test extends TestCase {
 
 		$this->stubEscapeFunctions();
 
-		$this->asset_manager             = \Mockery::mock( WPSEO_Admin_Asset_Manager::class );
+		$this->asset_manager             = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
 		$this->feature_flag_conditionals = [
-			\Mockery::mock( Feature_Flag_Conditional::class ),
+			Mockery::mock( Feature_Flag_Conditional::class ),
 		];
 
 		$this->instance = new Feature_Flag_Integration( $this->asset_manager, ...$this->feature_flag_conditionals );
@@ -116,7 +114,7 @@ class Feature_Flag_Integration_Test extends TestCase {
 			->with( 'feature-flag-package', 'wpseoFeatureFlags', $expected_enabled_feature_flags );
 
 		// Mock a feature flag, in this case the Schema_Blocks_Conditional, to be set.
-		$schema_blocks_conditional = \Mockery::mock( Schema_Blocks_Conditional::class );
+		$schema_blocks_conditional = Mockery::mock( Schema_Blocks_Conditional::class );
 
 		$schema_blocks_conditional
 			->expects( 'get_feature_name' )
@@ -154,7 +152,7 @@ class Feature_Flag_Integration_Test extends TestCase {
 			->with( 'feature-flag-package', 'wpseoFeatureFlags', $expected_enabled_feature_flags );
 
 		// Mock a feature flag to be set.
-		$feature_flag_1 = \Mockery::mock( Feature_Flag_Conditional::class );
+		$feature_flag_1 = Mockery::mock( Feature_Flag_Conditional::class );
 
 		$feature_flag_1
 			->expects( 'get_feature_name' )
@@ -165,7 +163,7 @@ class Feature_Flag_Integration_Test extends TestCase {
 			->andReturn( true );
 
 		// Mock a feature flag to NOT be set.
-		$feature_flag_2 = \Mockery::mock( Feature_Flag_Conditional::class );
+		$feature_flag_2 = Mockery::mock( Feature_Flag_Conditional::class );
 
 		$feature_flag_2
 			->expects( 'is_met' )
@@ -200,7 +198,7 @@ class Feature_Flag_Integration_Test extends TestCase {
 			->with( 'feature-flag-package', 'wpseoFeatureFlags', $expected_enabled_feature_flags );
 
 		// Mock a feature flag to be set.
-		$feature_flag_1 = \Mockery::mock( Feature_Flag_Conditional::class );
+		$feature_flag_1 = Mockery::mock( Feature_Flag_Conditional::class );
 
 		$feature_flag_1
 			->expects( 'get_feature_name' )
@@ -211,7 +209,7 @@ class Feature_Flag_Integration_Test extends TestCase {
 			->andReturn( true );
 
 		// Mock a feature flag to NOT be set.
-		$feature_flag_2 = \Mockery::mock( Feature_Flag_Conditional::class );
+		$feature_flag_2 = Mockery::mock( Feature_Flag_Conditional::class );
 
 		$feature_flag_2
 			->expects( 'is_met' )
@@ -247,7 +245,7 @@ class Feature_Flag_Integration_Test extends TestCase {
 			->with( 'feature-flag-package', 'wpseoFeatureFlags', $expected_enabled_feature_flags );
 
 		// Mock a feature flag to be set.
-		$feature_flag_1 = \Mockery::mock( Feature_Flag_Conditional::class );
+		$feature_flag_1 = Mockery::mock( Feature_Flag_Conditional::class );
 
 		$feature_flag_1
 			->expects( 'get_feature_name' )
@@ -258,7 +256,7 @@ class Feature_Flag_Integration_Test extends TestCase {
 			->andReturn( true );
 
 		// Mock a feature flag to NOT be set.
-		$feature_flag_2 = \Mockery::mock( Feature_Flag_Conditional::class );
+		$feature_flag_2 = Mockery::mock( Feature_Flag_Conditional::class );
 
 		$feature_flag_2
 			->expects( 'is_met' )
@@ -295,7 +293,7 @@ class Feature_Flag_Integration_Test extends TestCase {
 			->with( 'feature-flag-package', 'wpseoFeatureFlags', $expected_enabled_feature_flags );
 
 		// Mock a feature flag to be set.
-		$feature_flag_1 = \Mockery::mock( Feature_Flag_Conditional::class );
+		$feature_flag_1 = Mockery::mock( Feature_Flag_Conditional::class );
 
 		$feature_flag_1
 			->expects( 'get_feature_name' )
@@ -306,7 +304,7 @@ class Feature_Flag_Integration_Test extends TestCase {
 			->andReturn( true );
 
 		// Mock a feature flag to NOT be set.
-		$feature_flag_2 = \Mockery::mock( Feature_Flag_Conditional::class );
+		$feature_flag_2 = Mockery::mock( Feature_Flag_Conditional::class );
 
 		$feature_flag_2
 			->expects( 'is_met' )

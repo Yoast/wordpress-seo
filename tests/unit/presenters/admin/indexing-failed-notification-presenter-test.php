@@ -1,13 +1,15 @@
 <?php
 // phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
+
 namespace Yoast\WP\SEO\Tests\Unit\Presenters\Admin;
 
 use Brain\Monkey;
 use Mockery;
+use WPSEO_Addon_Manager;
 use Yoast\WP\SEO\Helpers\Product_Helper;
+use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Presenters\Admin\Indexing_Failed_Notification_Presenter;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 
 /**
  * Class Indexing_Failed_Notification_Presenter_Test
@@ -64,7 +66,7 @@ class Indexing_Failed_Notification_Presenter_Test extends TestCase {
 			->expects( 'is_premium' )
 			->andReturnTrue();
 
-		$license_manager = Mockery::mock( \WPSEO_Addon_Manager::class );
+		$license_manager = Mockery::mock( WPSEO_Addon_Manager::class );
 		$license_manager
 			->expects( 'has_valid_subscription' )
 			->andReturnFalse();
@@ -102,7 +104,7 @@ class Indexing_Failed_Notification_Presenter_Test extends TestCase {
 			->expects( 'is_premium' )
 			->andReturnTrue();
 
-		$addon_manager = Mockery::mock( \WPSEO_Addon_Manager::class );
+		$addon_manager = Mockery::mock( WPSEO_Addon_Manager::class );
 		$addon_manager
 			->expects( 'has_valid_subscription' )
 			->andReturnTrue();

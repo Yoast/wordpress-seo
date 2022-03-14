@@ -6,13 +6,13 @@
  */
 
 /**
- * Class Test_WPSEO_Sitemap_Provider_Overlap.
+ * Class WPSEO_Sitemap_Provider_Overlap_Test.
  *
  * @group sitemaps
  *
  * @covers WPSEO_Sitemaps
  */
-class Test_WPSEO_Sitemap_Provider_Overlap extends WPSEO_UnitTestCase {
+class WPSEO_Sitemap_Provider_Overlap_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Holds the instance of the class being tested.
@@ -24,32 +24,40 @@ class Test_WPSEO_Sitemap_Provider_Overlap extends WPSEO_UnitTestCase {
 	/**
 	 * Set up our double class.
 	 */
-	public static function setUpBeforeClass() {
-		parent::setUpBeforeClass();
+	public static function set_up_before_class() {
+		parent::set_up_before_class();
 
 		// Make sure the author archives are enabled.
 		WPSEO_Options::set( 'disable-author', false );
 	}
 
 	/**
-	 * Set up our double class.
+	 * Set up our double class and register the taxonomy.
 	 */
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 
 		self::$class_instance = new WPSEO_Sitemaps_Double();
 
 		// Reset the instance.
 		self::$class_instance->reset();
+
+		// Create private taxonomy "author", overlapping the "author" sitemap.
+		register_taxonomy( 'author', [ 'post' ], [ 'public' => false ] );
+	}
+
+	/**
+	 * Clean up the taxonomy.
+	 */
+	public function tear_down() {
+		unregister_taxonomy( 'author' );
+		parent::tear_down();
 	}
 
 	/**
 	 * Makes sure the private taxonomy "author" does not override the "Author" sitemap.
 	 */
 	public function test_private_taxonomy_author_overlap() {
-		// Create private taxonomy "author", overlapping the "author" sitemap.
-		register_taxonomy( 'author', [ 'post' ], [ 'public' => false ] );
-
 		// Create a user with a post.
 		$user_id = $this->factory->user->create( [ 'role' => 'author' ] );
 		$this->factory->post->create_many( 1, [ 'post_author' => $user_id ] );
@@ -66,17 +74,12 @@ class Test_WPSEO_Sitemap_Provider_Overlap extends WPSEO_UnitTestCase {
 		$this->expectOutputContains(
 			'<loc>' . $url . '</loc>'
 		);
-
-		unregister_taxonomy( 'author' );
 	}
 
 	/**
 	 * Makes sure the private taxonomy "author" does not override the "Author" sitemap.
 	 */
 	public function test_private_taxonomy_author_overlap_author_in_sitemap() {
-		// Create private taxonomy "author", overlapping the "author" sitemap.
-		register_taxonomy( 'author', [ 'post' ], [ 'public' => false ] );
-
 		// Create a user with a post.
 		$user_id = $this->factory->user->create( [ 'role' => 'author' ] );
 		$this->factory->post->create_many( 1, [ 'post_author' => $user_id ] );
@@ -91,7 +94,5 @@ class Test_WPSEO_Sitemap_Provider_Overlap extends WPSEO_UnitTestCase {
 		$this->expectOutputContains(
 			'<loc>' . get_author_posts_url( $user_id ) . '</loc>'
 		);
-
-		unregister_taxonomy( 'author' );
 	}
 }

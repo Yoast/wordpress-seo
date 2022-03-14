@@ -2,7 +2,9 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Watchers;
 
+use Brain\Monkey\Functions;
 use Mockery;
+use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Author_Watcher;
@@ -124,7 +126,13 @@ class Indexable_Author_Watcher_Test extends TestCase {
 	public function test_build_indexable() {
 		$id = 1;
 
-		$indexable_mock = Mockery::mock( Indexable::class );
+		Functions\expect( 'current_time' )->with( 'mysql' )->andReturn( '1234-12-12 12:12:12' );
+
+		$indexable_mock      = Mockery::mock( Indexable::class );
+		$indexable_mock->orm = Mockery::mock( ORM::class );
+		$indexable_mock->orm->expects( 'get' )->with( 'object_last_modified' )->andReturn( '1234-12-12 00:00:00' );
+		$indexable_mock->orm->expects( 'set' )->with( 'object_last_modified', '1234-12-12 12:12:12' );
+		$indexable_mock->expects( 'save' )->once();
 
 		$this->repository
 			->expects( 'find_by_id_and_type' )
@@ -149,7 +157,13 @@ class Indexable_Author_Watcher_Test extends TestCase {
 	public function test_build_indexable_not_found() {
 		$id = 1;
 
-		$indexable_mock = Mockery::mock( Indexable::class );
+		Functions\expect( 'current_time' )->with( 'mysql' )->andReturn( '1234-12-12 12:12:12' );
+
+		$indexable_mock      = Mockery::mock( Indexable::class );
+		$indexable_mock->orm = Mockery::mock( ORM::class );
+		$indexable_mock->orm->expects( 'get' )->with( 'object_last_modified' )->andReturn( '1234-12-12 00:00:00' );
+		$indexable_mock->orm->expects( 'set' )->with( 'object_last_modified', '1234-12-12 12:12:12' );
+		$indexable_mock->expects( 'save' )->once();
 
 		$this->repository
 			->expects( 'find_by_id_and_type' )

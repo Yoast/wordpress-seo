@@ -1,3 +1,4 @@
+import { __, sprintf } from "@wordpress/i18n";
 import { map, merge } from "lodash-es";
 
 import Assessment from "../assessment";
@@ -17,7 +18,7 @@ class SentenceLengthInTextAssessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
-	 * @param {boolean} config			The scoring configuration that should be used.
+	 * @param {object} config			The scoring configuration that should be used.
 	 * @param {boolean} isCornerstone	Whether cornerstone configuration should be used.
 	 * @param {boolean} isProduct		Whether product configuration should be used.
 
@@ -27,11 +28,12 @@ class SentenceLengthInTextAssessment extends Assessment {
 		super();
 
 		const defaultConfig = {
-			recommendedWordCount: 20,
+			recommendedLength: 20,
 			slightlyTooMany: 25,
 			farTooMany: 30,
-			urlTitle: "",
-			urlCallToAction: "",
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/34v" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/34w" ),
+			countTextIn: __( "words", "wordpress-seo" ),
 		};
 
 		// Add cornerstone and/or product-specific config if applicable.
@@ -47,13 +49,18 @@ class SentenceLengthInTextAssessment extends Assessment {
 	 *
 	 * @param {Paper} paper The paper to use for the assessment.
 	 * @param {Researcher} researcher The researcher used for calling research.
-	 * @param {object} i18n The object used for translations.
+	 *
 	 * @returns {AssessmentResult} The Assessment result.
 	 */
-	getResult( paper, researcher, i18n ) {
+	getResult( paper, researcher ) {
 		const sentences = researcher.getResearch( "countSentencesFromText" );
 		if	( researcher.getConfig( "sentenceLength" ) ) {
 			this._config = this.getLanguageSpecificConfig( researcher );
+		}
+
+		const countTextInCharacters = researcher.getConfig( "countCharacters" );
+		if ( countTextInCharacters ) {
+			this._config.countTextIn = __( "characters", "wordpress-seo" );
 		}
 
 		const percentage = this.calculatePercentage( sentences );
@@ -62,7 +69,7 @@ class SentenceLengthInTextAssessment extends Assessment {
 		const assessmentResult = new AssessmentResult();
 
 		assessmentResult.setScore( score );
-		assessmentResult.setText( this.translateScore( score, percentage, i18n, researcher ) );
+		assessmentResult.setText( this.translateScore( score, percentage ) );
 		assessmentResult.setHasMarks( ( percentage > 0 ) );
 
 		return assessmentResult;
@@ -114,8 +121,8 @@ class SentenceLengthInTextAssessment extends Assessment {
 		const currentConfig = this._config;
 		const languageSpecificConfig = researcher.getConfig( "sentenceLength" );
 
-		if ( languageSpecificConfig.hasOwnProperty( "recommendedWordCount" ) ) {
-			currentConfig.recommendedWordCount = languageSpecificConfig.recommendedWordCount;
+		if ( languageSpecificConfig.hasOwnProperty( "recommendedLength" ) ) {
+			currentConfig.recommendedLength = languageSpecificConfig.recommendedLength;
 		}
 
 		// Check if a language has specific cornerstone configuration for non-product pages.
@@ -135,47 +142,38 @@ class SentenceLengthInTextAssessment extends Assessment {
 	 *
 	 * @param {number} score The score.
 	 * @param {number} percentage The percentage.
-	 * @param {object} i18n The object used for translations.
-	 * @param {Researcher} researcher The researcher used for calling research.
 	 *
 	 * @returns {string} A string.
 	 */
-	translateScore( score, percentage,  i18n, researcher ) {
-		let urlTitle = this._config.urlTitle;
-		let urlCallToAction = this._config.urlCallToAction;
-		// Get the links
-		const links = researcher.getData( "links" );
-		// Check if links for the assessment is available in links data
-		if ( links[ "shortlinks.metabox.readability.sentence_length" ] &&
-			links[ "shortlinks.metabox.readability.sentence_lengthCall_to_action" ] ) {
-			// Overwrite default links with links from configuration
-			urlTitle = createAnchorOpeningTag( links[ "shortlinks.metabox.readability.sentence_length" ] );
-			urlCallToAction = createAnchorOpeningTag( links[ "shortlinks.metabox.readability.sentence_lengthCall_to_action" ] );
-		}
-		// Translate scores
+	translateScore( score, percentage ) {
 		if ( score >= 7 ) {
-			return i18n.sprintf(
+			return sprintf(
 				/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag */
-				i18n.dgettext( "js-text-analysis",
-					"%1$sSentence length%2$s: Great!" ),
-				urlTitle,
+				__(
+					"%1$sSentence length%2$s: Great!",
+					"wordpress-seo"
+				),
+				this._config.urlTitle,
 				"</a>"
 			);
 		}
 
-		return i18n.sprintf(
+		return sprintf(
 			/* Translators: %1$s and %6$s expand to a link on yoast.com, %2$s expands to the anchor end tag,
 			%3$d expands to percentage of sentences, %4$s expands to the recommended maximum sentence length,
-			%5$s expands to the recommended maximum percentage. */
-			i18n.dgettext( "js-text-analysis",
-				"%1$sSentence length%2$s: %3$s of the sentences contain more than %4$s words, which is more than the recommended maximum of %5$s." +
-				" %6$sTry to shorten the sentences%2$s." ),
-			urlTitle,
+			%5$s expands to the recommended maximum percentage, %7$s expands to the word 'words' or 'characters'. */
+			__(
+				// eslint-disable-next-line max-len
+				"%1$sSentence length%2$s: %3$s of the sentences contain more than %4$s %7$s, which is more than the recommended maximum of %5$s. %6$sTry to shorten the sentences%2$s.",
+				"wordpress-seo"
+			),
+			this._config.urlTitle,
 			"</a>",
 			percentage + "%",
-			this._config.recommendedWordCount,
+			this._config.recommendedLength,
 			this._config.slightlyTooMany + "%",
-			urlCallToAction
+			this._config.urlCallToAction,
+			this._config.countTextIn
 		);
 	}
 
@@ -231,7 +229,7 @@ class SentenceLengthInTextAssessment extends Assessment {
 	 * @returns {array} Array with all the sentences considered to be too long.
 	 */
 	getTooLongSentences( sentences ) {
-		return getTooLongSentences( sentences, this._config.recommendedWordCount );
+		return getTooLongSentences( sentences, this._config.recommendedLength );
 	}
 
 	/**

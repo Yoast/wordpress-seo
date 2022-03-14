@@ -5,9 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Actions\Indexing;
 use Mockery;
 use Yoast\WP\SEO\Actions\Indexing\Indexing_Prepare_Action;
 use Yoast\WP\SEO\Helpers\Indexing_Helper;
-use Yoast\WP\SEO\Integrations\Admin\Indexing_Notification_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Yoast_Notification_Center;
 
 /**
  * Class Indexing_Prepare_Action.
@@ -27,13 +25,6 @@ class Indexing_Prepare_Action_Test extends TestCase {
 	protected $indexing;
 
 	/**
-	 * The notification center.
-	 *
-	 * @var Mockery\MockInterface|Yoast_Notification_Center
-	 */
-	protected $notification_center;
-
-	/**
 	 * Instance under test.
 	 *
 	 * @var Indexing_Prepare_Action
@@ -45,13 +36,9 @@ class Indexing_Prepare_Action_Test extends TestCase {
 	 */
 	protected function set_up() {
 		parent::set_up();
-		$this->indexing            = Mockery::mock( Indexing_Helper::class );
-		$this->notification_center = Mockery::mock( Yoast_Notification_Center::class );
+		$this->indexing = Mockery::mock( Indexing_Helper::class );
 
-		$this->instance = new Indexing_Prepare_Action(
-			$this->indexing,
-			$this->notification_center
-		);
+		$this->instance = new Indexing_Prepare_Action( $this->indexing );
 	}
 
 	/**
@@ -61,7 +48,6 @@ class Indexing_Prepare_Action_Test extends TestCase {
 	 */
 	public function test_constructor() {
 		$this->assertEquals( $this->indexing, $this->getPropertyValue( $this->instance, 'indexing_helper' ) );
-		$this->assertEquals( $this->notification_center, $this->getPropertyValue( $this->instance, 'notification_center' ) );
 	}
 
 	/**
@@ -71,13 +57,9 @@ class Indexing_Prepare_Action_Test extends TestCase {
 	 */
 	public function test_prepare() {
 		$this->indexing
-			->expects( 'start' )
+			->expects( 'prepare' )
 			->once()
 			->withNoArgs();
-
-		$this->notification_center
-			->expects( 'remove_notification_by_id' )
-			->with( Indexing_Notification_Integration::NOTIFICATION_ID );
 
 		$this->instance->prepare();
 	}

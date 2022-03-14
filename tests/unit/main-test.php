@@ -2,17 +2,17 @@
 
 namespace Yoast\WP\SEO\Tests\Unit;
 
-use Yoast\WP\SEO\Tests\Unit\Doubles\Main_Double;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Integrations\Third_Party\Elementor;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Category_Permalink_Watcher;
 use Yoast\WP\SEO\Integrations\Watchers\Indexable_Permalink_Watcher;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Main_Double;
 
 /**
  * Class Loader_Test
  *
- * @coversDefaultClass \Yoast\WP\SEO\Main;
+ * @coversDefaultClass \Yoast\WP\SEO\Main
  */
 class Main_Test extends TestCase {
 
@@ -54,12 +54,6 @@ class Main_Test extends TestCase {
 
 		global $wpdb;
 		$wpdb = Mockery::mock( '\wpdb' );
-
-		// Some classes call the YoastSEO function in the constructor.
-		Monkey\Functions\expect( 'YoastSEO' )
-			->andReturn( $this->instance );
-		// Deprecated classes call _deprecated_function in the constructor.
-		Monkey\Functions\expect( '_deprecated_function' );
 	}
 
 	/**
@@ -68,16 +62,23 @@ class Main_Test extends TestCase {
 	 * @covers ::get_container
 	 */
 	public function test_surfaces() {
+
+		// Some classes call the YoastSEO function in the constructor.
+		Monkey\Functions\expect( 'YoastSEO' )
+			->andReturn( $this->instance );
+		// Deprecated classes call _deprecated_function in the constructor.
+		Monkey\Functions\expect( '_deprecated_function' );
+
 		$container = $this->instance->get_container();
 
 		foreach ( $container->getServiceIds() as $service_id ) {
-			if ( in_array( $service_id, $this->excluded_classes, true ) ) {
+			if ( \in_array( $service_id, $this->excluded_classes, true ) ) {
 				continue;
 			}
 			if ( isset( $this->aliasses[ $service_id ] ) ) {
 				$service_id = $this->aliasses[ $service_id ];
 			}
-			if ( strpos( $service_id, 'YoastSEO_Vendor' ) === 0 ) {
+			if ( \strpos( $service_id, 'YoastSEO_Vendor' ) === 0 ) {
 				continue;
 			}
 

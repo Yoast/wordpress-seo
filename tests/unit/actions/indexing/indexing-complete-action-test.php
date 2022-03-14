@@ -60,7 +60,7 @@ class Indexing_Complete_Action_Test extends TestCase {
 	 */
 	public function test_complete_method() {
 		$this->indexing
-			->expects( 'finish' )
+			->expects( 'complete' )
 			->once()
 			->withNoArgs();
 
