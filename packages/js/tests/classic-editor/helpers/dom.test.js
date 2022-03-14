@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import * as dom from "../../../src/classic-editor/helpers/dom";
 import getContentLocale from "../../../src/analysis/getContentLocale";
 

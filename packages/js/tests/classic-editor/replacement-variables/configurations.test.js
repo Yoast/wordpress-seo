@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { primaryCategory, tag, getCTReplacement } from "../../../src/classic-editor/replacement-variables/configurations";
 import * as data from "@wordpress/data";
 import { get, map } from "lodash";
