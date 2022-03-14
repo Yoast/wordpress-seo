@@ -55,4 +55,13 @@ class Aioseo_Helper {
 	public function aioseo_exists() {
 		return $this->wpdb_helper->table_exists( $this->get_table() ) === true;
 	}
+
+	/**
+	 * Retrieves the option where the global settings exist.
+	 *
+	 * @return array The option where the global settings exist.
+	 */
+	public function get_global_option() {
+		return \json_decode( \get_option( 'aioseo_options', '' ), true );
+	}
 }

@@ -7,7 +7,6 @@ use wpdb;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Exceptions\Importing\Aioseo_Validation_Exception;
 use Yoast\WP\SEO\Actions\Importing\Abstract_Aioseo_Importing_Action;
-use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Provider_Service;
 
 /**
  * Importing action for validating AIOSEO data before the import occurs.
@@ -34,13 +33,6 @@ class Aioseo_Validate_Data_Action extends Abstract_Aioseo_Importing_Action {
 	protected $wpdb;
 
 	/**
-	 * The robots provider service.
-	 *
-	 * @var Aioseo_Robots_Provider_Service
-	 */
-	protected $robots_provider;
-
-	/**
 	 * The Post Importing action.
 	 *
 	 * @var Aioseo_Posts_Importing_Action
@@ -59,7 +51,6 @@ class Aioseo_Validate_Data_Action extends Abstract_Aioseo_Importing_Action {
 	 *
 	 * @param wpdb                                               $wpdb                              The WordPress database instance.
 	 * @param Options_Helper                                     $options                           The options helper.
-	 * @param Aioseo_Robots_Provider_Service                     $robots_provider                   The robots provider service.
 	 * @param Aioseo_Custom_Archive_Settings_Importing_Action    $custom_archive_action             The Custom Archive Settings importing action.
 	 * @param Aioseo_Default_Archive_Settings_Importing_Action   $default_archive_action            The Default Archive Settings importing action.
 	 * @param Aioseo_General_Settings_Importing_Action           $general_settings_action           The General Settings importing action.
@@ -70,7 +61,6 @@ class Aioseo_Validate_Data_Action extends Abstract_Aioseo_Importing_Action {
 	public function __construct(
 		wpdb $wpdb,
 		Options_Helper $options,
-		Aioseo_Robots_Provider_Service $robots_provider,
 		Aioseo_Custom_Archive_Settings_Importing_Action $custom_archive_action,
 		Aioseo_Default_Archive_Settings_Importing_Action $default_archive_action,
 		Aioseo_General_Settings_Importing_Action $general_settings_action,
@@ -80,7 +70,6 @@ class Aioseo_Validate_Data_Action extends Abstract_Aioseo_Importing_Action {
 	) {
 		$this->wpdb                       = $wpdb;
 		$this->options                    = $options;
-		$this->robots_provider            = $robots_provider;
 		$this->post_importing_action      = $post_importing_action;
 		$this->settings_importing_actions = [
 			$custom_archive_action,
@@ -203,7 +192,7 @@ class Aioseo_Validate_Data_Action extends Abstract_Aioseo_Importing_Action {
 		$post_robot_mapping['subtype'] = 'post';
 
 		// Let's get both the aioseo_options and the aioseo_options_dynamic options.
-		$aioseo_global_settings = $this->robots_provider->get_global_option();
+		$aioseo_global_settings = $this->aioseo_helper->get_global_option();
 		$aioseo_posts_settings  = \json_decode( \get_option( $post_robot_mapping['option_name'], '' ), true );
 
 		$needed_robots_data = $this->post_importing_action->get_needed_robot_data();

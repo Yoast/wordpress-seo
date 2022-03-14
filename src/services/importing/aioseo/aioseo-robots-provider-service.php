@@ -3,12 +3,32 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Given it's a very specific case.
 namespace Yoast\WP\SEO\Services\Importing\Aioseo;
 
+use Yoast\WP\SEO\Helpers\Aioseo_Helper;
+
 /**
  * Provides AISOEO search appearance robot settings.
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Aioseo_Robots_Provider_Service {
+
+	/**
+	 * The AIOSEO helper.
+	 *
+	 * @var Aioseo_Helper
+	 */
+	protected $aioseo_helper;
+
+	/**
+	 * Class constructor.
+	 *
+	 * @param Aioseo_Helper $aioseo_helper The AIOSEO helper.
+	 */
+	public function __construct(
+		Aioseo_Helper $aioseo_helper
+	) {
+		$this->aioseo_helper = $aioseo_helper;
+	}
 
 	/**
 	 * Retrieves the robot setting set globally in AIOSEO.
@@ -18,7 +38,7 @@ class Aioseo_Robots_Provider_Service {
 	 * @return bool Whether global robot settings enable or not the specific setting.
 	 */
 	public function get_global_robot_settings( $setting_name ) {
-		$aioseo_settings = $this->get_global_option();
+		$aioseo_settings = $this->aioseo_helper->get_global_option();
 		if ( empty( $aioseo_settings ) ) {
 			return false;
 		}
@@ -42,14 +62,5 @@ class Aioseo_Robots_Provider_Service {
 		$aioseo_settings = \json_decode( \get_option( $mapping['option_name'], '' ), true );
 
 		return $aioseo_settings['searchAppearance'][ $mapping['type'] ][ $mapping['subtype'] ]['advanced']['robotsMeta'][ $mapping['robot_type'] ];
-	}
-
-	/**
-	 * Retrieves the option where the global robot settings exist.
-	 *
-	 * @return array The option where the global robot settings exist.
-	 */
-	public function get_global_option() {
-		return \json_decode( \get_option( 'aioseo_options', '' ), true );
 	}
 }
