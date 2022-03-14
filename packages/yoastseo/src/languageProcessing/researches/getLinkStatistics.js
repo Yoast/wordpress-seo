@@ -11,25 +11,29 @@ import parseSynonyms from "../helpers/sanitize/parseSynonyms";
 import urlHelper from "../helpers/url/url.js";
 import filterWordsFromArray from "../helpers/word/filterWordsFromArray";
 import getWords from "../helpers/word/getWords";
+import parseSlug from "../helpers/url/parseSlug";
 
 let functionWords = [];
 
 /**
  * Checks whether the link is pointing at itself.
  *
+ * @param {Paper} paper The paper to research.
  * @param {string} anchor      	 	  The link anchor.
  * @param {string} siteUrlOrDomain    The site URL or domain of the paper.
  *
  * @returns {boolean} Whether the anchor is pointing at itself.
  */
-const linkToSelf = function( anchor, siteUrlOrDomain ) {
+const linkToSelf = function( paper, anchor, siteUrlOrDomain ) {
 	const anchorLink = urlHelper.getFromAnchorTag( anchor );
-
 	// Relative fragment links always point to the page itself.
 	if ( urlHelper.isRelativeFragmentURL( anchorLink ) ) {
 		return true;
 	}
-
+	const slug = paper.getUrl();
+	if ( ! siteUrlOrDomain.startsWith( "https://" || "http://" ) ) {
+		siteUrlOrDomain = ( "http://" + siteUrlOrDomain + slug ) && ( "https://" + siteUrlOrDomain + slug );
+	}
 	return urlHelper.areEqual( anchorLink, siteUrlOrDomain );
 };
 
