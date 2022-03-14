@@ -231,6 +231,8 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		 * @api array $terms_to_exclude The terms to exclude.
 		 */
 		$terms_to_exclude = apply_filters( 'wpseo_exclude_from_sitemap_by_term_ids', [] );
+		
+		$tax_noindex_default = WPSEO_Options::get( "noindex-tax-{$taxonomy->name}" ) === true ? 'noindex' : 'index';
 
 		foreach ( $terms as $term ) {
 
@@ -245,6 +247,10 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			if ( $tax_noindex === 'noindex' ) {
 				continue;
 			}
+			
+			if ( $tax_noindex === 'default' && $tax_noindex_default === 'noindex' ) {
+                continue;
+            }
 
 			$url['loc'] = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'canonical' );
 
