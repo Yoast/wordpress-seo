@@ -5,7 +5,6 @@ namespace Yoast\WP\SEO\Actions\Importing\Aioseo;
 
 use wpdb;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Helpers\Wpdb_Helper;
 use Yoast\WP\SEO\Exceptions\Importing\Aioseo_Validation_Exception;
 use Yoast\WP\SEO\Actions\Importing\Abstract_Aioseo_Importing_Action;
 use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Provider_Service;
@@ -35,13 +34,6 @@ class Aioseo_Validate_Data_Action extends Abstract_Aioseo_Importing_Action {
 	protected $wpdb;
 
 	/**
-	 * The wpdb helper.
-	 *
-	 * @var Wpdb_Helper
-	 */
-	protected $wpdb_helper;
-
-	/**
 	 * The robots provider service.
 	 *
 	 * @var Aioseo_Robots_Provider_Service
@@ -67,7 +59,6 @@ class Aioseo_Validate_Data_Action extends Abstract_Aioseo_Importing_Action {
 	 *
 	 * @param wpdb                                               $wpdb                              The WordPress database instance.
 	 * @param Options_Helper                                     $options                           The options helper.
-	 * @param Wpdb_Helper                                        $wpdb_helper                       The wpdb_helper helper.
 	 * @param Aioseo_Robots_Provider_Service                     $robots_provider                   The robots provider service.
 	 * @param Aioseo_Custom_Archive_Settings_Importing_Action    $custom_archive_action             The Custom Archive Settings importing action.
 	 * @param Aioseo_Default_Archive_Settings_Importing_Action   $default_archive_action            The Default Archive Settings importing action.
@@ -79,7 +70,6 @@ class Aioseo_Validate_Data_Action extends Abstract_Aioseo_Importing_Action {
 	public function __construct(
 		wpdb $wpdb,
 		Options_Helper $options,
-		Wpdb_Helper $wpdb_helper,
 		Aioseo_Robots_Provider_Service $robots_provider,
 		Aioseo_Custom_Archive_Settings_Importing_Action $custom_archive_action,
 		Aioseo_Default_Archive_Settings_Importing_Action $default_archive_action,
@@ -90,7 +80,6 @@ class Aioseo_Validate_Data_Action extends Abstract_Aioseo_Importing_Action {
 	) {
 		$this->wpdb                       = $wpdb;
 		$this->options                    = $options;
-		$this->wpdb_helper                = $wpdb_helper;
 		$this->robots_provider            = $robots_provider;
 		$this->post_importing_action      = $post_importing_action;
 		$this->settings_importing_actions = [
@@ -158,11 +147,11 @@ class Aioseo_Validate_Data_Action extends Abstract_Aioseo_Importing_Action {
 	 * @return bool Whether the AIOSEO table exists and has the structure we expect.
 	 */
 	public function validate_aioseo_table() {
-		if ( ! $this->post_importing_action->aioseo_exists() ) {
+		if ( ! $this->aioseo_helper->aioseo_exists() ) {
 			return false;
 		}
 
-		$table       = $this->post_importing_action->get_table();
+		$table       = $this->aioseo_helper->get_table();
 		$needed_data = $this->post_importing_action->get_needed_data();
 
 		$aioseo_columns = $this->wpdb->get_col(
