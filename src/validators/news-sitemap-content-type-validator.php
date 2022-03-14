@@ -16,7 +16,7 @@ class News_Sitemap_Content_Type_Validator extends Array_Validator {
 	 * Sets the passed content types to 'on'
 	 *
 	 * @param mixed $value    The value to validate.
-	 * @param array $settings Optional settings.     *
+	 * @param array $settings Optional settings.
 	 *
 	 * @throws Invalid_Type_Exception When the value is not an array.
 	 *

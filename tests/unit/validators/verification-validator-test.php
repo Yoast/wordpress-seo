@@ -66,9 +66,11 @@ class Verification_Validator_Test extends TestCase {
 	public function test_validate() {
 		$this->regex_validator
 			->expects( 'validate' )
-			->andReturnUsing( static function ( $string ) {
-				return $string;
-			} );
+			->andReturnUsing(
+				static function ( $string ) {
+					return $string;
+				}
+			);
 
 		$actual = $this->instance->validate( 'abcd', [ 'pattern' => '`^[A-Fa-f0-9_-]+$`' ] );
 
@@ -84,13 +86,15 @@ class Verification_Validator_Test extends TestCase {
 		$this->regex_validator
 			->expects( 'validate' )
 			->twice()
-			->andReturnUsing( static function ( $string, $settings ) {
-				if ( $settings['pattern'] === '`content=([\'"])?([^\'"> ]+)(?:\1|[ />])`' ) {
-					return 'abcd';
-				}
+			->andReturnUsing(
+				static function ( $string, $settings ) {
+					if ( $settings['pattern'] === '`content=([\'"])?([^\'"> ]+)(?:\1|[ />])`' ) {
+						return 'abcd';
+					}
 
-				return $string;
-			} );
+					return $string;
+				}
+			);
 
 		$actual = $this->instance->validate( '<meta name="p:domain_verify" content="abcd"/>', [ 'pattern' => '`^[A-Fa-f0-9_-]+$`' ] );
 
@@ -106,13 +110,15 @@ class Verification_Validator_Test extends TestCase {
 		$this->regex_validator
 			->expects( 'validate' )
 			->twice()
-			->andReturnUsing( static function ( $string, $settings ) {
-				if ( $settings['pattern'] === '`content=([\'"])?([^\'"> ]+)(?:\1|[ />])`' ) {
-					throw new No_Regex_Match_Exception( $string, $settings['pattern'] );
-				}
+			->andReturnUsing(
+				static function ( $string, $settings ) {
+					if ( $settings['pattern'] === '`content=([\'"])?([^\'"> ]+)(?:\1|[ />])`' ) {
+						throw new No_Regex_Match_Exception( $string, $settings['pattern'] );
+					}
 
-				return $string;
-			} );
+					return $string;
+				}
+			);
 
 		$actual = $this->instance->validate( '<meta name="p:domain_verify" content="abcd"/>', [ 'pattern' => '`^[A-Fa-f0-9_-]+$`' ] );
 
@@ -128,9 +134,11 @@ class Verification_Validator_Test extends TestCase {
 		$this->regex_validator
 			->expects( 'validate' )
 			->twice()
-			->andReturnUsing( static function ( $string, $settings ) {
-				throw new No_Regex_Match_Exception( $string, $settings['pattern'] );
-			} );
+			->andReturnUsing(
+				static function ( $string, $settings ) {
+					throw new No_Regex_Match_Exception( $string, $settings['pattern'] );
+				}
+			);
 
 		$this->expectException( No_Regex_Match_Exception::class );
 

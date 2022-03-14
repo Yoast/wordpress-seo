@@ -129,9 +129,9 @@ class Boolean_Validator_Test extends TestCase {
 				'expected' => false,
 			],
 			// Note: `null` being sanitized to false is a bit unexpected.
-			'null'        => [
-				'value'     => null,
-				'expected'  => false,
+			'null'         => [
+				'value'    => null,
+				'expected' => false,
 			],
 			'float'        => [
 				'value'     => 1.1,
@@ -143,7 +143,7 @@ class Boolean_Validator_Test extends TestCase {
 				'expected'  => false,
 				'exception' => Invalid_Type_Exception::class,
 			],
-			'object'        => [
+			'object'       => [
 				'value'     => (object) [ true, false ],
 				'expected'  => false,
 				'exception' => Invalid_Type_Exception::class,
