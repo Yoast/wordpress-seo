@@ -167,7 +167,7 @@ const keywordInAnchor = function( paper, researcher, anchors, siteUrlOrDomain ) 
 	}
 
 	// Filter out anchors that point at the paper itself.
-	anchors = filterAnchorsLinkingToSelf( anchors, siteUrlOrDomain );
+	anchors = filterAnchorsLinkingToSelf( slug, anchors, siteUrlOrDomain );
 	if ( anchors.length === 0 ) {
 		return result;
 	}
