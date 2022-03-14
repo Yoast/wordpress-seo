@@ -15,7 +15,8 @@ const classNameMap = {
  * @param {string} id Identifier.
  * @param {string} name Name.
  * @param {string} value Value.
- * @param {JSX.node} label Label.
+ * @param {JSX.string} label Label.
+ * @param {JSX.string} srLabel Screen reader label.
  * @param {string} [variant] Variant.
  * @param {string} [className] CSS class.
  * @returns {JSX.Element} Radio component.
@@ -25,6 +26,7 @@ const Radio = ( {
 	name,
 	value,
 	label,
+	srLabel,
 	variant,
 	className,
 	...props
@@ -46,6 +48,7 @@ const Radio = ( {
 					name={ name }
 					value={ value }
 					className="yst-radio__input"
+					aria-label={ srLabel }
 					{ ...props }
 				/>
 				<label htmlFor={ id } className="yst-radio__label">
@@ -80,15 +83,37 @@ Radio.propTypes = {
 	name: PropTypes.string.isRequired,
 	id: PropTypes.string.isRequired,
 	value: PropTypes.string.isRequired,
-	label: PropTypes.node,
+	label: PropTypes.string.isRequired,
+	srLabel: PropTypes.string,
 	variant: PropTypes.oneOf( Object.keys( classNameMap.variant ) ),
 	className: PropTypes.string,
 };
 
 Radio.defaultProps = {
-	label: null,
+	srLabel: "",
 	variant: "default",
 	className: "",
 };
 
 export default Radio;
+
+
+const searchIndex = [
+	{
+		terms: [ "search appearance", "Search", "Appearance", "whatever" ],
+		result: [
+			{
+				label: "Page",
+				link: "link/to/page",
+			},
+			{
+				label: "Section",
+				link: "link/to/section",
+			},
+			{
+				label: "Field",
+				link: "link/to/field",
+			},
+		],
+	}
+]

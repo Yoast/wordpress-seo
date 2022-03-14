@@ -38,10 +38,10 @@ Factory.args = {
 	name: "name",
 	value: "1",
 	options: [
-		{ value: "1", label: "Option 1" },
-		{ value: "2", label: "Option 2" },
-		{ value: "3", label: "Option 3" },
-		{ value: "4", label: "Option 4" },
+		{ value: "1", label: "1", srLabel: "Option #1" },
+		{ value: "2", label: "2", srLabel: "Option #2" },
+		{ value: "3", label: "3", srLabel: "Option #3" },
+		{ value: "4", label: "4", srLabel: "Option #4" },
 	],
 };
 
@@ -52,10 +52,10 @@ export const Variants = ( args ) => (
 			name="name-1"
 			value="2"
 			options={ [
-				{ value: "1", label: "Option 1" },
-				{ value: "2", label: "Option 2" },
-				{ value: "3", label: "Option 3" },
-				{ value: "4", label: "Option 4" },
+				{ value: "1", label: "1", srLabel: "Option #1" },
+				{ value: "2", label: "2", srLabel: "Option #2" },
+				{ value: "3", label: "3", srLabel: "Option #3" },
+				{ value: "4", label: "4", srLabel: "Option #4" },
 			] }
 			onChange={ noop }
 		/>
@@ -66,10 +66,10 @@ export const Variants = ( args ) => (
 			value="2"
 			label="Radio group with a label"
 			options={ [
-				{ value: "1", label: "1" },
-				{ value: "2", label: "2" },
-				{ value: "3", label: "3" },
-				{ value: "4", label: "4" },
+				{ value: "1", label: "1", srLabel: "Option #1" },
+				{ value: "2", label: "2", srLabel: "Option #2" },
+				{ value: "3", label: "3", srLabel: "Option #3" },
+				{ value: "4", label: "4", srLabel: "Option #4" },
 			] }
 			onChange={ noop }
 			variant="inline-block"
@@ -85,10 +85,10 @@ WithLabelAndDescription.args = {
 	name: "name-3",
 	label: "Radio group with a label",
 	options: [
-		{ value: "1", label: "Option 1" },
-		{ value: "2", label: "Option 2" },
-		{ value: "3", label: "Option 3" },
-		{ value: "4", label: "Option 4" },
+		{ value: "1", label: "1", srLabel: "Option #1" },
+		{ value: "2", label: "2", srLabel: "Option #2" },
+		{ value: "3", label: "3", srLabel: "Option #3" },
+		{ value: "4", label: "4", srLabel: "Option #4" },
 	],
 	children: "Radio group with a description.",
 };
@@ -100,9 +100,9 @@ WithValue.args = {
 	value: "2",
 	label: "Radio group with a label",
 	options: [
-		{ value: "1", label: "Option 1" },
-		{ value: "2", label: "Option 2" },
-		{ value: "3", label: "Option 3" },
-		{ value: "4", label: "Option 4" },
+		{ value: "1", label: "1", srLabel: "Option #1" },
+		{ value: "2", label: "2", srLabel: "Option #2" },
+		{ value: "3", label: "3", srLabel: "Option #3" },
+		{ value: "4", label: "4", srLabel: "Option #4" },
 	],
 };

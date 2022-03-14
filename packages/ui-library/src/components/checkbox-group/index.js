@@ -11,7 +11,7 @@ import Label from "../../elements/label";
  * @param {string} name Name.
  * @param {string[]} values Values.
  * @param {JSX.node} label Label.
- * @param {{ value, label, defaultChecked }[]} options Options to choose from.
+ * @param {{ value: string, label: string }[]} options Options to choose from.
  * @param {Function} onChange Change handler.
  * @param {string} [className] CSS class.
  * @returns {JSX.Element} CheckboxGroup component.

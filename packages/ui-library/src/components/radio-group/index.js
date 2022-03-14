@@ -19,7 +19,7 @@ const classNameMap = {
  * @param {string} name Name.
  * @param {string} value Value.
  * @param {JSX.node} [label] Label.
- * @param {{ value, label, checked }[]} options Options to choose from.
+ * @param {{ value: string, label: string, srLabel: string }[]} options Options to choose from.
  * @param {Function} onChange Change handler.
  * @param {string} [variant] Variant.
  * @param {string} [className] CSS class.
@@ -58,6 +58,7 @@ const RadioGroup = ( {
 						name={ name }
 						value={ option.value }
 						label={ option.label }
+						srLabel={ option.srLabel }
 						variant={ variant }
 						checked={ value === option.value }
 						onChange={ handleChange }
@@ -78,6 +79,7 @@ RadioGroup.propTypes = {
 	options: PropTypes.arrayOf( PropTypes.shape( {
 		value: PropTypes.string.isRequired,
 		label: PropTypes.string.isRequired,
+		srLabel: PropTypes.string,
 	} ) ).isRequired,
 	onChange: PropTypes.func.isRequired,
 	variant: PropTypes.oneOf( Object.keys( classNameMap.variant ) ),
