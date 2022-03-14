@@ -2,18 +2,7 @@
 ---
 # Build everything
 build:
-  - 'build:css'
   - 'build:translations'
-# Build JavaScript from assets to production
-'build:browserified':
-  - 'build:js'
-  - 'browserify'
-  - 'exorcise'
-# Build CSS
-'build:css':
-  - 'copy:css'
-  - 'sass:build'
-  - 'postcss:build'
 'build:translations':
   - 'shell:makepot'
 # Check health of the project
@@ -31,5 +20,4 @@ default:
 # Create folder for npm publishing
 publish:
   - 'clean:publish'
-  - 'babel:publish'
   - 'copy:publish'

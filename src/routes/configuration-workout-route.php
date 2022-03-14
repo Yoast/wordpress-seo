@@ -2,6 +2,8 @@
 
 namespace Yoast\WP\SEO\Routes;
 
+use WP_REST_Request;
+use WP_REST_Response;
 use Yoast\WP\SEO\Actions\Configuration\Configuration_Workout_Action;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Main;
@@ -37,7 +39,7 @@ class Configuration_Workout_Route implements Route_Interface {
 	/**
 	 *  The configuration workout action.
 	 *
-	 * @var Configuration_Workout_Action;
+	 * @var Configuration_Workout_Action
 	 */
 	private $configuration_workout_action;
 
@@ -149,46 +151,46 @@ class Configuration_Workout_Route implements Route_Interface {
 	/**
 	 * Sets the site representation values.
 	 *
-	 * @param \WP_REST_Request $request The request.
+	 * @param WP_REST_Request $request The request.
 	 *
-	 * @return \WP_REST_Response
+	 * @return WP_REST_Response
 	 */
-	public function set_site_representation( \WP_REST_Request $request ) {
+	public function set_site_representation( WP_REST_Request $request ) {
 		$data = $this
 			->configuration_workout_action
 			->set_site_representation( $request->get_json_params() );
 
-		return new \WP_REST_Response( $data, $data->status );
+		return new WP_REST_Response( $data, $data->status );
 	}
 
 	/**
 	 * Sets the social profiles values.
 	 *
-	 * @param \WP_REST_Request $request The request.
+	 * @param WP_REST_Request $request The request.
 	 *
-	 * @return \WP_REST_Response
+	 * @return WP_REST_Response
 	 */
-	public function set_social_profiles( \WP_REST_Request $request ) {
+	public function set_social_profiles( WP_REST_Request $request ) {
 		$data = $this
 			->configuration_workout_action
 			->set_social_profiles( $request->get_json_params() );
 
-		return new \WP_REST_Response( $data, $data->status );
+		return new WP_REST_Response( $data, $data->status );
 	}
 
 	/**
 	 * Enables or disables tracking.
 	 *
-	 * @param \WP_REST_Request $request The request.
+	 * @param WP_REST_Request $request The request.
 	 *
-	 * @return \WP_REST_Response
+	 * @return WP_REST_Response
 	 */
-	public function set_enable_tracking( \WP_REST_Request $request ) {
+	public function set_enable_tracking( WP_REST_Request $request ) {
 		$data = $this
 			->configuration_workout_action
 			->set_enable_tracking( $request->get_json_params() );
 
-		return new \WP_REST_Response( $data, $data->status );
+		return new WP_REST_Response( $data, $data->status );
 	}
 
 	/**

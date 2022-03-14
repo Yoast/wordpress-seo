@@ -2,11 +2,8 @@
 // @phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- This namespace should reflect the namespace of the tested class.
 namespace Yoast\WP\SEO\Tests\Unit\Admin\Import\Plugins;
 
-use Mockery;
 use WPSEO_Plugin_Importers;
-use Yoast\WP\SEO\Surfaces\Classes_Surface;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Brain\Monkey\Functions;
 
 /**
  * Tests the list of importers.

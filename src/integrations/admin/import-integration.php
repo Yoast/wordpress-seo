@@ -3,12 +3,12 @@
 namespace Yoast\WP\SEO\Integrations\Admin;
 
 use WPSEO_Admin_Asset_Manager;
-use Yoast\WP\SEO\Conditionals\Yoast_Tools_Page_Conditional;
 use Yoast\WP\SEO\Conditionals\Import_Tool_Selected_Conditional;
+use Yoast\WP\SEO\Conditionals\Yoast_Tools_Page_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Presenters\Admin\Alert_Presenter;
-use Yoast\WP\SEO\Services\Importing\Importable_Detector_Service;
 use Yoast\WP\SEO\Routes\Importing_Route;
+use Yoast\WP\SEO\Services\Importing\Importable_Detector_Service;
 
 /**
  * Loads import script when on the Tool's page.

@@ -17,6 +17,8 @@ import SchemaTabContainer from "../../../containers/SchemaTab";
 import AdvancedSettings from "../../../containers/AdvancedSettings";
 import SEMrushRelatedKeyphrases from "../../../containers/SEMrushRelatedKeyphrases";
 import WincherSEOPerformanceModal from "../../../containers/WincherSEOPerformanceModal";
+import { isWordProofIntegrationActive } from "../../../helpers/wordproof";
+import WordProofAuthenticationModals from "../../../components/modals/WordProofAuthenticationModals";
 
 /* eslint-disable complexity */
 /**
@@ -42,58 +44,61 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 	}
 
 	return (
-		<Fill name="YoastElementor">
-			<SidebarItem renderPriority={ 1 }>
-				<Alert />
-			</SidebarItem>
-			{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 8 }>
-				<KeywordInput
-					isSEMrushIntegrationActive={ settings.isSEMrushIntegrationActive }
-				/>
-				{ ! window.wpseoScriptData.metabox.isPremium && <Fill name="YoastRelatedKeyphrases">
-					<SEMrushRelatedKeyphrases />
-				</Fill> }
-			</SidebarItem> }
-			<SidebarItem renderPriority={ 23 }>
-				<GooglePreviewModal />
-			</SidebarItem>
-			{ settings.displayFacebook && <SidebarItem renderPriority={ 24 }>
-				<FacebookPreviewModal />
-			</SidebarItem> }
-			{ settings.displayTwitter && <SidebarItem renderPriority={ 25 }>
-				<TwitterPreviewModal />
-			</SidebarItem> }
-			{ settings.displaySchemaSettings && <SidebarItem renderPriority={ 26 }>
-				<SidebarCollapsible
-					title={ __( "Schema", "wordpress-seo" ) }
-				>
-					<SchemaTabContainer />
-				</SidebarCollapsible>
-			</SidebarItem> }
-			{ settings.displayAdvancedTab && <SidebarItem renderPriority={ 27 }>
-				<SidebarCollapsible
-					title={ __( "Advanced", "wordpress-seo" ) }
-				>
-					<AdvancedSettings location="sidebar" />
-				</SidebarCollapsible>
-			</SidebarItem> }
-			{ settings.isContentAnalysisActive && <SidebarItem renderPriority={ 10 }>
-				<ReadabilityAnalysis />
-			</SidebarItem> }
-			{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 20 }>
-				<SeoAnalysis
-					shouldUpsell={ settings.shouldUpsell }
-					shouldUpsellWordFormRecognition={ settings.isWordFormRecognitionActive }
-				/>
-			</SidebarItem> }
-			{ settings.isKeywordAnalysisActive && settings.isWincherIntegrationActive &&
-				<SidebarItem key="wincher-seo-performance" renderPriority={ 21 }>
-					<WincherSEOPerformanceModal location="sidebar" />
+		<>
+			{ isWordProofIntegrationActive() && <WordProofAuthenticationModals /> }
+			<Fill name="YoastElementor">
+				<SidebarItem renderPriority={ 1 }>
+					<Alert />
+				</SidebarItem>
+				{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 8 }>
+					<KeywordInput
+						isSEMrushIntegrationActive={ settings.isSEMrushIntegrationActive }
+					/>
+					{ ! window.wpseoScriptData.metabox.isPremium && <Fill name="YoastRelatedKeyphrases">
+						<SEMrushRelatedKeyphrases />
+					</Fill> }
 				</SidebarItem> }
-			{ settings.isCornerstoneActive && <SidebarItem renderPriority={ 30 }>
-				<CollapsibleCornerstone />
-			</SidebarItem> }
-		</Fill>
+				<SidebarItem renderPriority={ 23 }>
+					<GooglePreviewModal />
+				</SidebarItem>
+				{ settings.displayFacebook && <SidebarItem renderPriority={ 24 }>
+					<FacebookPreviewModal />
+				</SidebarItem> }
+				{ settings.displayTwitter && <SidebarItem renderPriority={ 25 }>
+					<TwitterPreviewModal />
+				</SidebarItem> }
+				{ settings.displaySchemaSettings && <SidebarItem renderPriority={ 26 }>
+					<SidebarCollapsible
+						title={ __( "Schema", "wordpress-seo" ) }
+					>
+						<SchemaTabContainer />
+					</SidebarCollapsible>
+				</SidebarItem> }
+				{ settings.displayAdvancedTab && <SidebarItem renderPriority={ 27 }>
+					<SidebarCollapsible
+						title={ __( "Advanced", "wordpress-seo" ) }
+					>
+						<AdvancedSettings location="sidebar" />
+					</SidebarCollapsible>
+				</SidebarItem> }
+				{ settings.isContentAnalysisActive && <SidebarItem renderPriority={ 10 }>
+					<ReadabilityAnalysis />
+				</SidebarItem> }
+				{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 20 }>
+					<SeoAnalysis
+						shouldUpsell={ settings.shouldUpsell }
+						shouldUpsellWordFormRecognition={ settings.isWordFormRecognitionActive }
+					/>
+				</SidebarItem> }
+				{ settings.isKeywordAnalysisActive && settings.isWincherIntegrationActive &&
+					<SidebarItem key="wincher-seo-performance" renderPriority={ 21 }>
+						<WincherSEOPerformanceModal location="sidebar" />
+					</SidebarItem> }
+				{ settings.isCornerstoneActive && <SidebarItem renderPriority={ 30 }>
+					<CollapsibleCornerstone />
+				</SidebarItem> }
+			</Fill>
+		</>
 	);
 }
 

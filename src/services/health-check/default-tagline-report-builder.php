@@ -2,9 +2,10 @@
 
 namespace Yoast\WP\SEO\Services\Health_Check;
 
-// phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
 /**
  * Presents a set of different messages for the Default_Tagline health check.
+ *
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Default_Tagline_Report_Builder {
 
@@ -42,9 +43,9 @@ class Default_Tagline_Report_Builder {
 	 */
 	public function get_success_result() {
 		return $this->report_builder
-			->set_label( __( 'You changed the default WordPress tagline', 'wordpress-seo' ) )
+			->set_label( \__( 'You changed the default WordPress tagline', 'wordpress-seo' ) )
 			->set_status_good()
-			->set_description( __( 'You are using a custom tagline or an empty one.', 'wordpress-seo' ) )
+			->set_description( \__( 'You are using a custom tagline or an empty one.', 'wordpress-seo' ) )
 			->build();
 	}
 
@@ -55,9 +56,9 @@ class Default_Tagline_Report_Builder {
 	 */
 	public function get_has_default_tagline_result() {
 		return $this->report_builder
-			->set_label( __( 'You should change the default WordPress tagline', 'wordpress-seo' ) )
+			->set_label( \__( 'You should change the default WordPress tagline', 'wordpress-seo' ) )
 			->set_status_recommended()
-			->set_description( __( 'You still have the default WordPress tagline. Even an empty one is probably better.', 'wordpress-seo' ) )
+			->set_description( \__( 'You still have the default WordPress tagline. Even an empty one is probably better.', 'wordpress-seo' ) )
 			->set_actions( $this->get_actions() )
 			->build();
 	}
@@ -71,12 +72,12 @@ class Default_Tagline_Report_Builder {
 		$query_args    = [
 			'autofocus[control]' => 'blogdescription',
 		];
-		$customize_url = add_query_arg( $query_args, wp_customize_url() );
+		$customize_url = \add_query_arg( $query_args, \wp_customize_url() );
 
-		return sprintf(
+		return \sprintf(
 			/* translators: 1: link open tag; 2: link close tag. */
-			esc_html__( '%1$sYou can change the tagline in the customizer%2$s.', 'wordpress-seo' ),
-			'<a href="' . esc_attr( $customize_url ) . '">',
+			\esc_html__( '%1$sYou can change the tagline in the customizer%2$s.', 'wordpress-seo' ),
+			'<a href="' . \esc_attr( $customize_url ) . '">',
 			'</a>'
 		);
 	}

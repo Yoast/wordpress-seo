@@ -54,12 +54,6 @@ class Main_Test extends TestCase {
 
 		global $wpdb;
 		$wpdb = Mockery::mock( '\wpdb' );
-
-		// Some classes call the YoastSEO function in the constructor.
-		Monkey\Functions\expect( 'YoastSEO' )
-			->andReturn( $this->instance );
-		// Deprecated classes call _deprecated_function in the constructor.
-		Monkey\Functions\expect( '_deprecated_function' );
 	}
 
 	/**
@@ -68,6 +62,13 @@ class Main_Test extends TestCase {
 	 * @covers ::get_container
 	 */
 	public function test_surfaces() {
+
+		// Some classes call the YoastSEO function in the constructor.
+		Monkey\Functions\expect( 'YoastSEO' )
+			->andReturn( $this->instance );
+		// Deprecated classes call _deprecated_function in the constructor.
+		Monkey\Functions\expect( '_deprecated_function' );
+
 		$container = $this->instance->get_container();
 
 		foreach ( $container->getServiceIds() as $service_id ) {

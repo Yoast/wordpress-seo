@@ -24,32 +24,19 @@ stages:
 jobs:
   fast_finish: true
   include:
-    - php: 7.2
-      env: PHPCS=1 CHECKJS=1 SECURITY=1 TRAVIS_NODE_VERSION=14
-    - php: 7.4
-      name: "PHP 7.4: Check CS"
-      before_install: skip
-      before_script: skip
-      install:
-        - phpenv config-rm xdebug.ini || echo 'No xdebug config.'
-        - travis_retry composer install --no-interaction
-      script:
-        - composer check-cs-threshold
-      after_script: skip
     - php: 7.3.24
       env: WP_VERSION=latest WP_MULTISITE=1 COVERAGE=1
     - php: 5.6
-      env: WP_VERSION=5.6 WP_MULTISITE=1 PHPLINT=1 PHPUNIT=1
+      env: WP_VERSION=5.8 WP_MULTISITE=1 PHPUNIT=1
       # Use 'trusty' to test against MySQL 5.6, 'xenial' contains 5.7 by default.
       dist: trusty
     - php: 7.3
       env: WP_VERSION=trunk PHPUNIT=1
     - php: 7.4
-      env: WP_VERSION=latest PHPUNIT=1 PHPLINT=1
+      env: WP_VERSION=latest PHPUNIT=1
     - php: 8.0
-      env: WP_VERSION=latest PHPUNIT=1 PHPLINT=1
+      env: WP_VERSION=latest PHPUNIT=1
     - php: "nightly"
-      env: PHPLINT=1
     - stage: 🚀 deployment
       name: "Deploy to S3"
       if: branch = deploy # Only build when on the `deploy` branch, this functionality is not used yet and is taking a long time to complete.
@@ -116,20 +103,11 @@ cache:
   yarn: true
   directories:
     - $HOME/.composer/cache
-    - .cache
     - node_modules
 
 before_install:
-  - export SECURITYCHECK_DIR=/tmp/security-checker
   - if [[ -z "$CC_TEST_REPORTER_ID" ]]; then COVERAGE="0"; fi
   - if [[ "$COVERAGE" != "1" ]]; then phpenv config-rm xdebug.ini || echo 'No xdebug config.'; fi
-  - |
-    if [[ "$CHECKJS" == "1" ]]; then
-      nvm install $TRAVIS_NODE_VERSION
-      curl -o- -L https://yarnpkg.com/install.sh | bash
-      export PATH=$HOME/.yarn/bin:$PATH
-      echo -e "machine github.com\n  login $CI_GITHUB_USER_TOKEN" > ~/.netrc
-    fi
 
 install:
   - |
@@ -155,7 +133,7 @@ install:
   - |
     if [[ ${TRAVIS_PHP_VERSION:0:1} == "8" || $TRAVIS_PHP_VERSION == "nightly" ]]; then
       travis_retry composer install --no-interaction --ignore-platform-reqs --no-scripts --no-suggest
-    elif [[ "$PHPUNIT" == "1" || "$COVERAGE" == "1" || "$PHPLINT" == "1" ]]; then
+    elif [[ "$PHPUNIT" == "1" || "$COVERAGE" == "1" ]]; then
       # Run composer update as we have dev dependencies locked at PHP ^7.0 versions.
       travis_retry composer update --no-interaction --no-scripts
       travis_retry composer install --no-interaction --no-scripts
@@ -165,12 +143,6 @@ install:
       travis_retry composer install --no-dev --no-interaction
       composer du
     fi
-  - |
-    if [[ "$CHECKJS" == "1" ]]; then
-      yarn global add grunt-cli
-      yarn install
-    fi
-  - if [[ "$SECURITY" == "1" ]]; then wget -P $SECURITYCHECK_DIR https://github.com/fabpot/local-php-security-checker/releases/download/v1.2.0/local-php-security-checker_1.2.0_linux_amd64 && chmod +x $SECURITYCHECK_DIR/local-php-security-checker_1.2.0_linux_amd64;fi
 
 before_script:
   # Careful: The HTTPS version of the following URL is different, therefore we need to use HTTP.
@@ -215,37 +187,9 @@ before_script:
   - curl --version
   - git --version
   - svn --version
-  - |
-    if [[ "$CHECKJS" == "1" ]]; then
-      npm --version
-      node --version
-      yarn --version
-      grunt --version
-    fi
   - locale -a
 
 script:
-  # JavaScript checks
-  - |
-    if [[ "$CHECKJS" == "1" ]]; then
-      travis_fold start "JavaScript.check" && travis_time_start
-      yarn lint
-      travis_time_finish && travis_fold end "JavaScript.check"
-    fi
-  # JavaScript tests
-  - |
-    if [[ "$CHECKJS" == "1" ]]; then
-      travis_fold start "JavaScript.tests" && travis_time_start
-      yarn test
-      travis_time_finish && travis_fold end "JavaScript.tests"
-    fi
-  # PHP Linting
-  - |
-    if [[ "$PHPLINT" == "1" ]]; then
-      travis_fold start "PHP.check" && travis_time_start
-      composer lint
-      travis_time_finish && travis_fold end "PHP.check"
-    fi
   # PHP Unit
   - |
     if [[ "$PHPUNIT" == "1" && ${TRAVIS_PHP_VERSION:0:1} != "8" && $TRAVIS_PHP_VERSION != "nightly" ]]; then
@@ -253,7 +197,7 @@ script:
       travis_fold start "PHP.integration-tests" && travis_time_start
       vendor/bin/phpunit -c phpunit-integration.xml.dist
       travis_time_finish && travis_fold end "PHP.integration-tests"
-    elif [[ "$PHPUNIT" == "1" ]] && [[ ${TRAVIS_PHP_VERSION:0:1} == "8" || $TRAVIS_PHP_VERSION == "nightly" ]] && [[ $WP_VERSION == "5.9" || $WP_VERSION == "latest" || $WP_VERSION == "trunk" ]]; then
+    elif [[ "$PHPUNIT" == "1" ]] && [[ ${TRAVIS_PHP_VERSION:0:1} == "8" || $TRAVIS_PHP_VERSION == "nightly" ]] && [[ ${WP_VERSION:0:3} == "5.9" || ${WP_VERSION:0:1} == "6" || $WP_VERSION == "trunk" ]]; then
       # PHP >= 8 with WP >= 5.9
       travis_fold start "PHP.integration-tests" && travis_time_start
       travis_retry composer remove --dev phpunit/phpunit --no-update --no-interaction &&
@@ -295,12 +239,6 @@ script:
       vendor/bin/phpunit --coverage-php /tmp/coverage/tests.cov
       travis_time_finish && travis_fold end "PHP.coverage"
     fi
-  # Validate the composer.json file.
-  # @link https://getcomposer.org/doc/03-cli.md#validate
-  - if [[ $TRAVIS_PHP_VERSION == "5.6" || $TRAVIS_PHP_VERSION == "7.4" ]]; then composer validate --no-check-all; fi
-
-  # Check for known security vulnerabilities in the currently locked-in dependencies.
-  - if [[ "$SECURITY" == "1" ]]; then $SECURITYCHECK_DIR/local-php-security-checker_1.2.0_linux_amd64 --path=$(pwd)/composer.lock;fi
 
 after_script:
   - |

@@ -52,13 +52,13 @@ class Aioseo_Social_Images_Provider_Service_Test extends TestCase {
 	/**
 	 * Tests retrieving the default source of social images.
 	 *
-	 * @param string $aioseo_options  The AIOSEO settings coming from the db.
-	 * @param string $social_setting  The social settings we're working with, eg. open-graph or twitter.
-	 * @param string $expected_source The source that's expected to be retrieved.
-	 *
 	 * @dataProvider provider_get_default_social_image_source
 	 * @covers ::get_default_social_image_source
 	 * @covers ::get_social_defaults
+	 *
+	 * @param string $aioseo_options  The AIOSEO settings coming from the db.
+	 * @param string $social_setting  The social settings we're working with, eg. open-graph or twitter.
+	 * @param string $expected_source The source that's expected to be retrieved.
 	 */
 	public function test_get_default_social_image_source( $aioseo_options, $social_setting, $expected_source ) {
 		$this->aioseo_helper->expects( 'get_global_option' )
@@ -72,13 +72,13 @@ class Aioseo_Social_Images_Provider_Service_Test extends TestCase {
 	/**
 	 * Tests retrieving the default custom social image.
 	 *
-	 * @param string $aioseo_options The AIOSEO settings coming from the db.
-	 * @param string $social_setting The social settings we're working with, eg. open-graph or twitter.
-	 * @param string $expected_url   The URL that's expected to be retrieved.
-	 *
 	 * @dataProvider provider_get_default_custom_social_image
 	 * @covers ::get_default_custom_social_image
 	 * @covers ::get_social_defaults
+	 *
+	 * @param string $aioseo_options The AIOSEO settings coming from the db.
+	 * @param string $social_setting The social settings we're working with, eg. open-graph or twitter.
+	 * @param string $expected_url   The URL that's expected to be retrieved.
 	 */
 	public function test_get_default_custom_social_image( $aioseo_options, $social_setting, $expected_url ) {
 		$this->aioseo_helper->expects( 'get_global_option' )
@@ -92,13 +92,13 @@ class Aioseo_Social_Images_Provider_Service_Test extends TestCase {
 	/**
 	 * Tests retrieving the url of the first image in content.
 	 *
+	 * @dataProvider provider_get_first_image_in_content
+	 * @covers ::get_first_image_in_content
+	 *
 	 * @param string $gallery_image      The post's gallery image.
 	 * @param string $post_content_image The post's content image.
 	 * @param int    $post_content_times The times we'll look for the post's content image.
 	 * @param string $expected_url       The URL that's expected to be retrieved.
-	 *
-	 * @dataProvider provider_get_first_image_in_content
-	 * @covers ::get_first_image_in_content
 	 */
 	public function test_get_first_image_in_content( $gallery_image, $post_content_image, $post_content_times, $expected_url ) {
 		$post_id = 123;
@@ -120,6 +120,9 @@ class Aioseo_Social_Images_Provider_Service_Test extends TestCase {
 	/**
 	 * Tests retrieving the url of the first image in content.
 	 *
+	 * @dataProvider provider_get_first_attached_image
+	 * @covers ::get_first_attached_image
+	 *
 	 * @param string $post_type               The post's type.
 	 * @param int    $attachment_type_times   The times we'll look for attachment image source of an attachment.
 	 * @param array  $children                The post's children.
@@ -127,9 +130,6 @@ class Aioseo_Social_Images_Provider_Service_Test extends TestCase {
 	 * @param string $source_attachment       The image source for an attachment id.
 	 * @param int    $source_attachment_times The times we'll look for the image source for an attachment id.
 	 * @param string $expected_url            The URL that's expected to be retrieved.
-	 *
-	 * @dataProvider provider_get_first_attached_image
-	 * @covers ::get_first_attached_image
 	 */
 	public function test_get_first_attached_image( $post_type, $attachment_type_times, $children, $children_times, $source_attachment, $source_attachment_times, $expected_url ) {
 		$post_id = 123;
@@ -168,13 +168,13 @@ class Aioseo_Social_Images_Provider_Service_Test extends TestCase {
 	/**
 	 * Tests retrieving the url of the first image in content.
 	 *
+	 * @dataProvider provider_get_featured_image
+	 * @covers ::get_featured_image
+	 *
 	 * @param string $feature_image_id        The id of the post's featured image.
 	 * @param string $source_attachment       The image source for an attachment id.
 	 * @param int    $source_attachment_times The times we'll look for the image source for an attachment id.
 	 * @param string $expected_url            The URL that's expected to be retrieved.
-	 *
-	 * @dataProvider provider_get_featured_image
-	 * @covers ::get_featured_image
 	 */
 	public function test_get_featured_image( $feature_image_id, $source_attachment, $source_attachment_times, $expected_url ) {
 		$post_id = 123;
@@ -197,7 +197,7 @@ class Aioseo_Social_Images_Provider_Service_Test extends TestCase {
 	/**
 	 * Data provider for test_query().
 	 *
-	 * @return string
+	 * @return array
 	 */
 	public function provider_get_featured_image() {
 		return [
@@ -209,7 +209,7 @@ class Aioseo_Social_Images_Provider_Service_Test extends TestCase {
 	/**
 	 * Data provider for test_query().
 	 *
-	 * @return string
+	 * @return array
 	 */
 	public function provider_get_first_attached_image() {
 		$no_attachments = [];
@@ -233,7 +233,7 @@ class Aioseo_Social_Images_Provider_Service_Test extends TestCase {
 	/**
 	 * Data provider for test_query().
 	 *
-	 * @return string
+	 * @return array
 	 */
 	public function provider_get_first_image_in_content() {
 		return [
@@ -245,7 +245,7 @@ class Aioseo_Social_Images_Provider_Service_Test extends TestCase {
 	/**
 	 * Data provider for test_query().
 	 *
-	 * @return string
+	 * @return array
 	 */
 	public function provider_get_default_custom_social_image() {
 		$image_url      = 'https://example.com/image.png';
@@ -278,7 +278,6 @@ class Aioseo_Social_Images_Provider_Service_Test extends TestCase {
 				],
 			],
 		];
-
 
 		$twitter_custom_image             = [
 			'social' => [
@@ -322,7 +321,7 @@ class Aioseo_Social_Images_Provider_Service_Test extends TestCase {
 	/**
 	 * Data provider for test_query().
 	 *
-	 * @return string
+	 * @return array
 	 */
 	public function provider_get_default_social_image_source() {
 		$empty_settings = [];

@@ -121,7 +121,7 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Aioseo
 	/**
 	 * Returns the number of unimported objects (limited if limit is applied).
 	 *
-	 * @param int $limit The maximum number of unimported objects to be returned.
+	 * @param int|null $limit The maximum number of unimported objects to be returned.
 	 *
 	 * @return int The number of unindexed posts.
 	 */
@@ -194,7 +194,7 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Aioseo
 	/**
 	 * Queries the database and retrieves unimported AiOSEO settings (in chunks if a limit is applied).
 	 *
-	 * @param int $limit The maximum number of unimported objects to be returned.
+	 * @param int|null $limit The maximum number of unimported objects to be returned.
 	 *
 	 * @return array The (maybe chunked) unimported AiOSEO settings to import.
 	 */
@@ -207,7 +207,7 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Aioseo
 
 		// We specifically want the setttings of the tab we're working with, eg. postTypes, taxonomies, etc.
 		$settings_values = $aioseo_settings['searchAppearance'][ $this->settings_tab ];
-		if ( ! is_array( $settings_values ) ) {
+		if ( ! \is_array( $settings_values ) ) {
 			return [];
 		}
 

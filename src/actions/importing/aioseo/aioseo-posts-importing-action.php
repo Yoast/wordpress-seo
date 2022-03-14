@@ -5,9 +5,9 @@ namespace Yoast\WP\SEO\Actions\Importing\Aioseo;
 
 use wpdb;
 use Yoast\WP\SEO\Actions\Importing\Abstract_Aioseo_Importing_Action;
-use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Import_Cursor_Helper;
+use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Indexable_To_Postmeta_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Sanitization_Helper;
@@ -257,7 +257,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Aioseo_Importing_Action {
 		}
 
 		$limit              = $this->get_limit();
-		$aioseo_indexables  = $this->wpdb->get_results( $this->query( $limit ), ARRAY_A );
+		$aioseo_indexables  = $this->wpdb->get_results( $this->query( $limit ), \ARRAY_A );
 		$created_indexables = [];
 
 		$completed = \count( $aioseo_indexables ) === 0;
@@ -527,8 +527,8 @@ class Aioseo_Posts_Importing_Action extends Abstract_Aioseo_Importing_Action {
 	 * Imports the post's robots setting.
 	 *
 	 * @param bool   $aioseo_robots_settings AIOSEO's set of robot settings for the post.
-	 * @param string $aioseo_key The AIOSEO key that contains the robot setting we're working with.
-	 * @param array  $mapping The mapping of the setting we're working with.
+	 * @param string $aioseo_key             The AIOSEO key that contains the robot setting we're working with.
+	 * @param array  $mapping                The mapping of the setting we're working with.
 	 *
 	 * @return bool|null The value of Yoast's noindex setting for the post.
 	 */

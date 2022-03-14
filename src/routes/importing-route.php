@@ -60,7 +60,7 @@ class Importing_Route extends Abstract_Action_Route {
 	 * @return void
 	 */
 	public function register_routes() {
-		register_rest_route(
+		\register_rest_route(
 			Main::API_V1_NAMESPACE,
 			self::ROUTE,
 			[
@@ -99,7 +99,7 @@ class Importing_Route extends Abstract_Action_Route {
 
 			$result = $importer->index();
 
-			if ( $result === false || count( $result ) === 0 ) {
+			if ( $result === false || \count( $result ) === 0 ) {
 				$next_url = false;
 			}
 
@@ -135,7 +135,7 @@ class Importing_Route extends Abstract_Action_Route {
 	protected function get_importer( $plugin, $type ) {
 		$importers = $this->importable_detector->filter_actions( $this->importers, $plugin, $type );
 
-		if ( count( $importers ) !== 1 ) {
+		if ( \count( $importers ) !== 1 ) {
 			return false;
 		}
 

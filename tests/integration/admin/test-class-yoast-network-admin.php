@@ -79,14 +79,14 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 
 		$choices = $admin->get_site_choices();
 		$this->assertSame( $site->id, (int) key( $choices ) );
-		$this->assertContains( (string) $site->id, $choices[ $site->id ] );
-		$this->assertContains( $site->domain . $site->path, $choices[ $site->id ] );
+		$this->assertStringStartsWith( (string) $site->id, $choices[ $site->id ] );
+		$this->assertStringContainsString( $site->domain . $site->path, $choices[ $site->id ] );
 
 		$choices = $admin->get_site_choices( false, true );
 		$this->assertSame( $site->id, (int) key( $choices ) );
-		$this->assertContains( (string) $site->id, $choices[ $site->id ] );
-		$this->assertContains( $site->blogname, $choices[ $site->id ] );
-		$this->assertContains( $site->domain . $site->path, $choices[ $site->id ] );
+		$this->assertStringStartsWith( (string) $site->id, $choices[ $site->id ] );
+		$this->assertStringContainsString( $site->blogname, $choices[ $site->id ] );
+		$this->assertStringContainsString( $site->domain . $site->path, $choices[ $site->id ] );
 	}
 
 	/**

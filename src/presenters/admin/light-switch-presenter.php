@@ -77,7 +77,7 @@ class Light_Switch_Presenter extends Abstract_Presenter {
 	/**
 	 * Light_Switch_Presenter constructor.
 	 *
-	 * @param string      $var                The variable to create the checkbox for.
+	 * @param string      $variable           The variable to create the checkbox for.
 	 * @param string      $label              The visual label text for the toggle.
 	 * @param array       $buttons            Array of two visual labels for the buttons (defaults Disabled/Enabled).
 	 * @param string      $name               The name of the underlying checkbox.
@@ -89,7 +89,7 @@ class Light_Switch_Presenter extends Abstract_Presenter {
 	 * @param string      $disabled_attribute Optional. The disabled HTML attribute. Default is empty.
 	 */
 	public function __construct(
-		$var,
+		$variable,
 		$label,
 		$buttons,
 		$name,
@@ -99,7 +99,7 @@ class Light_Switch_Presenter extends Abstract_Presenter {
 		$strong = false,
 		$disabled_attribute = ''
 	) {
-		$this->var                = $var;
+		$this->var                = $variable;
 		$this->label              = $label;
 		$this->buttons            = $buttons;
 		$this->name               = $name;

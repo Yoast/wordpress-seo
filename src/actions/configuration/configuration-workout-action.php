@@ -10,13 +10,6 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 class Configuration_Workout_Action {
 
 	/**
-	 * The Options_Helper instance.
-	 *
-	 * @var Options_Helper
-	 */
-	protected $options_helper;
-
-	/**
 	 * The fields for the site representation payload.
 	 */
 	const SITE_REPRESENTATION_FIELDS = [
@@ -43,6 +36,13 @@ class Configuration_Workout_Action {
 		'youtube_url',
 		'wikipedia_url',
 	];
+
+	/**
+	 * The Options_Helper instance.
+	 *
+	 * @var Options_Helper
+	 */
+	protected $options_helper;
 
 	/**
 	 * Configuration_Workout_Action constructor.
@@ -80,7 +80,7 @@ class Configuration_Workout_Action {
 			}
 		}
 
-		if ( count( $failures ) === 0 ) {
+		if ( \count( $failures ) === 0 ) {
 			return (object) [
 				'success' => true,
 				'status'  => 200,
@@ -125,7 +125,7 @@ class Configuration_Workout_Action {
 			}
 		}
 
-		if ( count( $failures ) === 0 ) {
+		if ( \count( $failures ) === 0 ) {
 			return (object) [
 				'success' => true,
 				'status'  => 200,
