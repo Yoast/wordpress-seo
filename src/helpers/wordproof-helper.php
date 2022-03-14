@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
+use ReflectionClass;
 use Yoast\WP\SEO\Conditionals\Non_Multisite_Conditional;
 use Yoast\WP\SEO\Conditionals\Third_Party\WordProof_Plugin_Inactive_Conditional;
 
@@ -35,8 +36,8 @@ class WordProof_Helper {
 	 * WordProof_Helper constructor.
 	 *
 	 * @param Current_Page_Helper $current_page The current page helper.
-	 * @param Woocommerce_Helper  $woocommerce The woocommerce helper.
-	 * @param Options_Helper      $options The options helper.
+	 * @param Woocommerce_Helper  $woocommerce  The woocommerce helper.
+	 * @param Options_Helper      $options      The options helper.
 	 */
 	public function __construct( Current_Page_Helper $current_page, Woocommerce_Helper $woocommerce, Options_Helper $options ) {
 		$this->current_page = $current_page;
@@ -50,8 +51,8 @@ class WordProof_Helper {
 	 * @return bool Returns if the options are deleted
 	 */
 	public function remove_site_options() {
-		return delete_site_option( 'wordproof_access_token' )
-			&& delete_site_option( 'wordproof_source_id' );
+		return \delete_site_option( 'wordproof_access_token' )
+			&& \delete_site_option( 'wordproof_source_id' );
 	}
 
 	/**
@@ -68,7 +69,7 @@ class WordProof_Helper {
 			if ( ! $conditional->is_met() ) {
 
 				if ( $return_conditional === true ) {
-					return ( new \ReflectionClass( $conditional ) )->getShortName();
+					return ( new ReflectionClass( $conditional ) )->getShortName();
 				}
 
 				return true;

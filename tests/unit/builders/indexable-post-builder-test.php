@@ -8,6 +8,7 @@ use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Post_Builder;
 use Yoast\WP\SEO\Exceptions\Indexable\Post_Not_Found_Exception;
 use Yoast\WP\SEO\Helpers\Image_Helper;
+use Yoast\WP\SEO\Helpers\Meta_Helper;
 use Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper as Open_Graph_Image_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
@@ -104,7 +105,8 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$this->instance = new Indexable_Post_Builder_Double(
 			$this->post,
 			$this->post_type_helper,
-			new Indexable_Builder_Versions()
+			new Indexable_Builder_Versions(),
+			new Meta_Helper()
 		);
 
 		$this->instance->set_indexable_repository( $this->indexable_repository );
@@ -126,7 +128,6 @@ class Indexable_Post_Builder_Test extends TestCase {
 			$closure = static function ( $actual_key, $actual_value ) use ( $key, $value ) {
 				if ( $actual_key === $key && $actual_value === $value ) {
 					return true;
-
 				}
 				else {
 					return false;
@@ -215,11 +216,11 @@ class Indexable_Post_Builder_Test extends TestCase {
 	 * Tests building a basic post indexable from postmeta.
 	 * If this starts failing, the $default_values of the Indexable_Helper maybe need changing too.
 	 *
-	 * @param array $postmeta        The postmeta of the post.
-	 * @param array $expected_result The expected indexable values.
-	 *
 	 * @dataProvider provider_build
 	 * @covers ::build
+	 *
+	 * @param array $postmeta        The postmeta of the post.
+	 * @param array $expected_result The expected indexable values.
 	 */
 	public function test_build( $postmeta, $expected_result ) {
 		Monkey\Functions\expect( 'get_permalink' )->once()->with( 1 )->andReturn( 'https://permalink' );

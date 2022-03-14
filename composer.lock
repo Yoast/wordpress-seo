@@ -159,16 +159,16 @@
         },
         {
             "name": "wordproof/wordpress-sdk",
-            "version": "1.2.7",
+            "version": "1.2.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wordproof/wordpress-sdk.git",
-                "reference": "6a5ecd4956521eab77e455cb390a9acfb7ef6a09"
+                "reference": "25cc44b2abc9ad082daa42e0eba40cbc62914a95"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wordproof/wordpress-sdk/zipball/6a5ecd4956521eab77e455cb390a9acfb7ef6a09",
-                "reference": "6a5ecd4956521eab77e455cb390a9acfb7ef6a09",
+                "url": "https://api.github.com/repos/wordproof/wordpress-sdk/zipball/25cc44b2abc9ad082daa42e0eba40cbc62914a95",
+                "reference": "25cc44b2abc9ad082daa42e0eba40cbc62914a95",
                 "shasum": ""
             },
             "require": {
@@ -204,9 +204,9 @@
             "description": "WordPress SDK",
             "support": {
                 "issues": "https://github.com/wordproof/wordpress-sdk/issues",
-                "source": "https://github.com/wordproof/wordpress-sdk/tree/1.2.7"
+                "source": "https://github.com/wordproof/wordpress-sdk/tree/1.2.11"
             },
-            "time": "2022-03-08T05:35:19+00:00"
+            "time": "2022-03-14T06:57:36+00:00"
         },
         {
             "name": "yoast/i18n-module",

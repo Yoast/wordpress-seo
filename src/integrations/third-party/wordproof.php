@@ -21,14 +21,14 @@ class WordProof implements Integration_Interface {
 	/**
 	 * The Yoast meta key used to save if a post should be timestamped.
 	 *
-	 * @var string The Yoast meta key used to save if a post should be timestamped.
+	 * @var string
 	 */
 	protected $post_meta_key = '_yoast_wpseo_wordproof_timestamp';
 
 	/**
 	 * The WordProof helper instance.
 	 *
-	 * @var WordProof_Helper $wordproof The helper instance.
+	 * @var WordProof_Helper
 	 */
 	protected $wordproof;
 
@@ -105,13 +105,13 @@ class WordProof implements Integration_Interface {
 	/**
 	 * Removes the WordProof timestamp post meta if a legal page is changed.
 	 *
-	 * @param integer $old_post_id The old post id.
-	 * @param integer $new_post_id The new post id.
+	 * @param int $old_post_id The old post id.
+	 * @param int $new_post_id The new post id.
 	 */
 	public function disable_timestamp_for_previous_legal_page( $old_post_id, $new_post_id ) {
 
 		if ( $old_post_id !== $new_post_id ) {
-			delete_post_meta( $old_post_id, '_yoast_wpseo_wordproof_timestamp' );
+			\delete_post_meta( $old_post_id, '_yoast_wpseo_wordproof_timestamp' );
 		}
 	}
 
@@ -130,7 +130,7 @@ class WordProof implements Integration_Interface {
 	 * This filters hides the certificate if the Yoast post meta key is not set to true.
 	 *
 	 * @param bool    $value If the certificate should be shown.
-	 * @param WP_Post $post The post object of the post for which to determine the certificate should be shown.
+	 * @param WP_Post $post  The post object of the post for which to determine the certificate should be shown.
 	 * @return bool|null
 	 */
 	public function show_certificate( $value, $post ) {
@@ -142,7 +142,7 @@ class WordProof implements Integration_Interface {
 			return false;
 		}
 
-		return boolval( PostMetaHelper::get( $post->ID, $this->post_meta_key ) );
+		return \boolval( PostMetaHelper::get( $post->ID, $this->post_meta_key ) );
 	}
 
 	/**

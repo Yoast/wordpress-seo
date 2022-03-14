@@ -17,12 +17,12 @@ let functionWords = [];
 /**
  * Checks whether the link is pointing at itself.
  *
- * @param {string} anchor       The link anchor.
- * @param {string} permalink    The permalink of the paper.
+ * @param {string} anchor      	 	  The link anchor.
+ * @param {string} siteUrlOrDomain    The site URL or domain of the paper.
  *
  * @returns {boolean} Whether the anchor is pointing at itself.
  */
-const linkToSelf = function( anchor, permalink ) {
+const linkToSelf = function( anchor, siteUrlOrDomain ) {
 	const anchorLink = urlHelper.getFromAnchorTag( anchor );
 
 	// Relative fragment links always point to the page itself.
@@ -30,20 +30,20 @@ const linkToSelf = function( anchor, permalink ) {
 		return true;
 	}
 
-	return urlHelper.areEqual( anchorLink, permalink );
+	return urlHelper.areEqual( anchorLink, siteUrlOrDomain );
 };
 
 /**
  * Filters anchors that are not pointing at itself.
  *
- * @param {Array}   anchors     An array with all anchors from the paper.
- * @param {string}  permalink   The permalink of the paper.
+ * @param {Array}   anchors     	  An array with all anchors from the paper.
+ * @param {string}  siteUrlOrDomain   The site URL or domain of the paper.
  *
  * @returns {Array} The array of all anchors that are not pointing at the paper itself.
  */
-const filterAnchorsLinkingToSelf = function( anchors, permalink ) {
+const filterAnchorsLinkingToSelf = function( anchors, siteUrlOrDomain ) {
 	const anchorsLinkingToSelf = anchors.map( function( anchor ) {
-		return linkToSelf( anchor, permalink );
+		return linkToSelf( anchor, siteUrlOrDomain );
 	} );
 
 	anchors = anchors.filter( function( anchor, index ) {
@@ -142,11 +142,11 @@ const filterAnchorsContainedInTopic = function( anchors, topicForms, locale, cus
  * @param {Paper} paper The paper to research.
  * @param {Researcher} researcher The researcher to use.
  * @param {Array} anchors The array of anchors of the links found in the paper.
- * @param {string} permalink The string with a permalink of the paper.
+ * @param {string} siteUrlOrDomain The string with a site URL or domain of the paper.
  *
  * @returns {Object} How many anchors contained the keyphrase or synonyms, what are these anchors
  */
-const keywordInAnchor = function( paper, researcher, anchors, permalink ) {
+const keywordInAnchor = function( paper, researcher, anchors, siteUrlOrDomain ) {
 	const customHelpers = {
 		matchWordCustomHelper: researcher.getHelper( "matchWordCustomHelper" ),
 		getWordsCustomHelper: researcher.getHelper( "getWordsCustomHelper" ),
@@ -163,7 +163,7 @@ const keywordInAnchor = function( paper, researcher, anchors, permalink ) {
 	}
 
 	// Filter out anchors that point at the paper itself.
-	anchors = filterAnchorsLinkingToSelf( anchors, permalink );
+	anchors = filterAnchorsLinkingToSelf( anchors, siteUrlOrDomain );
 	if ( anchors.length === 0 ) {
 		return result;
 	}
@@ -211,7 +211,11 @@ const keywordInAnchor = function( paper, researcher, anchors, permalink ) {
 const countLinkTypes = function( paper, researcher ) {
 	functionWords = researcher.getConfig( "functionWords" );
 	const anchors = getAnchors( paper.getText() );
-	const permalink = paper.getPermalink();
+	/*
+	 * We get the site's URL (e.g., https://yoast.com) or domain (e.g., yoast.com) from the paper.
+	 * In case of WordPress, the variable is a URL. In case of Shopify, it is a domain.
+	 */
+	const siteUrlOrDomain = paper.getPermalink();
 
 	const linkCount = {
 		total: anchors.length,
@@ -234,14 +238,14 @@ const countLinkTypes = function( paper, researcher ) {
 	for ( let i = 0; i < anchors.length; i++ ) {
 		const currentAnchor = anchors[ i ];
 
-		const linkType = getLinkType( currentAnchor, permalink );
+		const linkType = getLinkType( currentAnchor, siteUrlOrDomain );
 		const linkFollow = checkNofollow( currentAnchor );
 
 		linkCount[ linkType + "Total" ]++;
 		linkCount[ linkType + linkFollow ]++;
 	}
 
-	const keywordInAnchors = keywordInAnchor( paper, researcher, anchors, permalink );
+	const keywordInAnchors = keywordInAnchor( paper, researcher, anchors, siteUrlOrDomain );
 	linkCount.keyword.totalKeyword = keywordInAnchors.totalKeyword;
 	linkCount.keyword.matchedAnchors = keywordInAnchors.matchedAnchors;
 

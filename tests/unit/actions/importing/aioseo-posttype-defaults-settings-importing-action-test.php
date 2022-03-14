@@ -191,13 +191,13 @@ class Aioseo_Posttype_Defaults_Settings_Importing_Action_Test extends TestCase {
 	/**
 	 * Tests retrieving unimported AiOSEO settings.
 	 *
+	 * @dataProvider provider_query
+	 * @covers ::query
+	 *
 	 * @param array $query_results        The results from the query.
 	 * @param bool  $expected_unflattened The expected unflattened retrieved data.
 	 * @param bool  $expected             The expected retrieved data.
 	 * @param int   $times                The expected times we will look for the chunked unimported settings.
-	 *
-	 * @dataProvider provider_query
-	 * @covers ::query
 	 */
 	public function test_query( $query_results, $expected_unflattened, $expected, $times ) {
 		Monkey\Functions\expect( 'get_option' )
@@ -222,14 +222,14 @@ class Aioseo_Posttype_Defaults_Settings_Importing_Action_Test extends TestCase {
 	/**
 	 * Tests mapping AIOSEO Posttype Defaults settings.
 	 *
+	 * @dataProvider provider_map
+	 * @covers ::map
+	 *
 	 * @param string $setting                The setting at hand, eg. post or movie-category, separator etc.
 	 * @param string $setting_value          The value of the AIOSEO setting at hand.
 	 * @param int    $times                  The times that we will import each setting, if any.
 	 * @param int    $transform_times        The times that we will transform each setting, if any.
 	 * @param int    $transform_robots_times The times that we will transform each robot setting, if any.
-	 *
-	 * @dataProvider provider_map
-	 * @covers ::map
 	 */
 	public function test_map( $setting, $setting_value, $times, $transform_times, $transform_robots_times ) {
 		$posttypes = [
@@ -281,11 +281,11 @@ class Aioseo_Posttype_Defaults_Settings_Importing_Action_Test extends TestCase {
 	/**
 	 * Tests transforming the redirect_attachment setting.
 	 *
-	 * @param string $redirect_attachment     The redirect_attachment setting.
-	 * @param string $expected_transformation The expected transformed redirect_attachment setting.
-	 *
 	 * @dataProvider provider_import_redirect_attachment
 	 * @covers ::import_redirect_attachment
+	 *
+	 * @param string $redirect_attachment     The redirect_attachment setting.
+	 * @param string $expected_transformation The expected transformed redirect_attachment setting.
 	 */
 	public function test_import_redirect_attachment( $redirect_attachment, $expected_transformation ) {
 		$transformed_redirect_attachment = $this->mock_instance->import_redirect_attachment( $redirect_attachment );
@@ -333,7 +333,7 @@ class Aioseo_Posttype_Defaults_Settings_Importing_Action_Test extends TestCase {
 	/**
 	 * Data provider for test_query().
 	 *
-	 * @return string
+	 * @return array
 	 */
 	public function provider_query() {
 		$full_settings = [
