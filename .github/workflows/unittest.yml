@@ -29,7 +29,7 @@ jobs:
 
     name: "Unit Test: PHP ${{ matrix.php_version }}"
 
-    continue-on-error: ${{ matrix.php_version == '8.2' }}
+    #continue-on-error: ${{ matrix.php_version == '8.2' }}
 
     steps:
       - name: Checkout code
