@@ -1,7 +1,7 @@
 import { useSelect } from "@wordpress/data";
 import { useMemo } from "@wordpress/element";
-import SEO_STORE_NAME from "@yoast/seo-store";
-import { FOCUS_KEYPHRASE_ID } from "@yoast/seo-store/src/common/constants";
+import { SEO_STORE_NAME }  from "@yoast/seo-store";
+import { FOCUS_KEYPHRASE_ID } from "@yoast/seo-store/build/common/constants";
 import { PropTypes } from "prop-types";
 import { useMarker } from "./hooks";
 import { transformAnalysisResults } from "./transformers";

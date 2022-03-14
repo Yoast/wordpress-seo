@@ -66,7 +66,6 @@ describe( "a test for getting the initial state of a post or a term", () => {
 		const actual = getInitialTermState();
 		expect( actual.editor.title ).toEqual( "cat" );
 		expect( actual.editor.permalink ).toEqual( "www.sweetcat.com/categories" );
-		expect( actual.editor.excerpt ).toEqual( "This is another meta description about another pretty little cat." );
 		expect( actual.editor.content ).toEqual( "This is to describe a cat, that deserves only good attributes to them." );
 		expect( actual.editor.locale ).toEqual( "en_US" );
 		expect( actual.form.seo.title ).toEqual( "A title befitting a beautiful cat" );
