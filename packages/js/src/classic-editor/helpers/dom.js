@@ -1,6 +1,5 @@
 /* global moment */
-import { flow, get, isEqual, set } from "lodash";
-import map from "lodash/map";
+import { flow, get, isEqual, set, map } from "lodash";
 import { getContentTinyMce } from "../../lib/tinymce";
 import getContentLocale from "../../analysis/getContentLocale";
 
