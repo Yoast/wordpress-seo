@@ -4,8 +4,8 @@ namespace Yoast\WP\SEO\Tests\Unit\Actions\Importing;
 
 use Mockery;
 use Yoast\WP\SEO\Actions\Importing\Aioseo\Aioseo_Cleanup_Action;
+use Yoast\WP\SEO\Helpers\Aioseo_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Helpers\Wpdb_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -41,11 +41,11 @@ class Aioseo_Cleanup_Action_Test extends TestCase {
 	protected $options;
 
 	/**
-	 * The wpdb helper.
+	 * The AIOSEO helper.
 	 *
-	 * @var Wpdb_Helper
+	 * @var Mockery\MockInterface|Aioseo_Helper
 	 */
-	protected $wpdb_helper;
+	protected $aioseo_helper;
 
 	/**
 	 * Sets up the test class.
@@ -53,10 +53,13 @@ class Aioseo_Cleanup_Action_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->wpdb        = Mockery::mock( 'wpdb' );
-		$this->options     = Mockery::mock( Options_Helper::class );
-		$this->wpdb_helper = Mockery::mock( Wpdb_Helper::class );
-		$this->instance    = new Aioseo_Cleanup_Action( $this->wpdb, $this->options, $this->wpdb_helper );
+		$this->wpdb          = Mockery::mock( 'wpdb' );
+		$this->options       = Mockery::mock( Options_Helper::class );
+		$this->aioseo_helper = Mockery::mock( Aioseo_Helper::class );
+
+		$this->instance = new Aioseo_Cleanup_Action( $this->wpdb, $this->options );
+
+		$this->instance->set_aioseo_helper( $this->aioseo_helper );
 
 		$this->wpdb->prefix = 'wp_';
 	}
@@ -73,8 +76,7 @@ class Aioseo_Cleanup_Action_Test extends TestCase {
 	 * @covers ::get_total_unindexed
 	 */
 	public function test_get_total_unindexed( $table_exists, $completed_option, $get_completed_times, $expected_result ) {
-		$this->wpdb_helper->expects( 'table_exists' )
-			->with( 'wp_aioseo_posts' )
+		$this->aioseo_helper->expects( 'aioseo_exists' )
 			->andReturn( $table_exists );
 
 		$this->options->expects( 'get' )
@@ -98,8 +100,7 @@ class Aioseo_Cleanup_Action_Test extends TestCase {
 	 * @covers ::get_limited_unindexed_count
 	 */
 	public function test_get_limited_unindexed_count( $table_exists, $completed_option, $get_completed_times, $expected_result ) {
-		$this->wpdb_helper->expects( 'table_exists' )
-			->with( 'wp_aioseo_posts' )
+		$this->aioseo_helper->expects( 'aioseo_exists' )
 			->andReturn( $table_exists );
 
 		$this->options->expects( 'get' )
@@ -165,10 +166,13 @@ class Aioseo_Cleanup_Action_Test extends TestCase {
 				$postmeta_cleanup
 			);
 
-		$this->wpdb_helper->expects( 'table_exists' )
+		$this->aioseo_helper->expects( 'aioseo_exists' )
 			->times( $query_times )
-			->with( 'wp_aioseo_posts' )
 			->andReturn( true );
+
+		$this->aioseo_helper->expects( 'get_table' )
+			->times( $query_times )
+			->andReturn( 'wp_aioseo_posts' );
 
 		$expected_truncate_query = 'TRUNCATE TABLE wp_aioseo_posts';
 		$this->wpdb->expects( 'query' )

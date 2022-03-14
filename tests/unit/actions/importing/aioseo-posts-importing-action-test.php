@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Actions\Importing;
 use Mockery;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Actions\Importing\Aioseo\Aioseo_Posts_Importing_Action;
+use Yoast\WP\SEO\Helpers\Aioseo_Helper;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Import_Cursor_Helper;
 use Yoast\WP\SEO\Helpers\Meta_Helper;
@@ -12,7 +13,6 @@ use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Indexable_To_Postmeta_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Sanitization_Helper;
-use Yoast\WP\SEO\Helpers\Wpdb_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Replacevar_Service;
 use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Provider_Service;
@@ -111,11 +111,11 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 	protected $sanitization;
 
 	/**
-	 * The wpdb helper.
+	 * The AIOSEO helper.
 	 *
-	 * @var Wpdb_Helper
+	 * @var Mockery\MockInterface|Aioseo_Helper
 	 */
-	protected $wpdb_helper;
+	protected $aioseo_helper;
 
 	/**
 	 * The replacevar handler.
@@ -160,7 +160,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 		$this->options                = Mockery::mock( Options_Helper::class );
 		$this->image                  = Mockery::mock( Image_Helper::class );
 		$this->sanitization           = Mockery::mock( Sanitization_Helper::class );
-		$this->wpdb_helper            = Mockery::mock( Wpdb_Helper::class );
+		$this->aioseo_helper          = Mockery::mock( Aioseo_Helper::class );
 		$this->replacevar_handler     = Mockery::mock( Aioseo_Replacevar_Service::class );
 		$this->robots_provider        = Mockery::mock( Aioseo_Robots_Provider_Service::class );
 		$this->robots_transformer     = Mockery::mock( Aioseo_Robots_Transformer_Service::class );
@@ -175,7 +175,6 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			$this->options,
 			$this->image,
 			$this->sanitization,
-			$this->wpdb_helper,
 			$this->replacevar_handler,
 			$this->robots_provider,
 			$this->robots_transformer,
@@ -192,13 +191,14 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 				$this->options,
 				$this->image,
 				$this->sanitization,
-				$this->wpdb_helper,
 				$this->replacevar_handler,
 				$this->robots_provider,
 				$this->robots_transformer,
 				$this->social_images_provider,
 			]
 		)->makePartial()->shouldAllowMockingProtectedMethods();
+
+		$this->mock_instance->set_aioseo_helper( $this->aioseo_helper );
 
 		$this->wpdb->prefix = 'wp_';
 	}
@@ -209,6 +209,10 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 	 * @covers ::get_total_unindexed
 	 */
 	public function test_get_total_unindexed() {
+		$this->aioseo_helper->expects( 'aioseo_exists' )
+			->once()
+			->andReturn( true );
+
 		$this->mock_instance->expects( 'set_completed' )
 			->once();
 
@@ -233,13 +237,9 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 				LIMIT 25'
 			);
 
-		$this->mock_instance->expects( 'get_table' )
-			->twice()
-			->andReturn( 'wp_aioseo_posts' );
-
-		$this->wpdb_helper->expects( 'table_exists' )
+		$this->aioseo_helper->expects( 'get_table' )
 			->once()
-			->andReturn( true );
+			->andReturn( 'wp_aioseo_posts' );
 
 		$this->wpdb->expects( 'get_col' )
 			->once()
@@ -275,6 +275,10 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 		}
 		$indexable = Mockery::mock( Indexable_Mock::class );
 
+		$this->aioseo_helper->expects( 'aioseo_exists' )
+			->once()
+			->andReturn( true );
+
 		$this->mock_instance->expects( 'set_completed' )
 			->once();
 
@@ -299,13 +303,9 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 				LIMIT 25'
 			);
 
-			$this->mock_instance->expects( 'get_table' )
-				->twice()
-				->andReturn( 'wp_aioseo_posts' );
-
-			$this->wpdb_helper->expects( 'table_exists' )
+			$this->aioseo_helper->expects( 'get_table' )
 				->once()
-				->andReturn( true );
+				->andReturn( 'wp_aioseo_posts' );
 
 			$this->wpdb->expects( 'get_results' )
 				->once()

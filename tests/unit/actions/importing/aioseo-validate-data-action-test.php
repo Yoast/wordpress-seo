@@ -11,9 +11,8 @@ use Yoast\WP\SEO\Actions\Importing\Aioseo\Aioseo_Posts_Importing_Action;
 use Yoast\WP\SEO\Actions\Importing\Aioseo\Aioseo_Posttype_Defaults_Settings_Importing_Action;
 use Yoast\WP\SEO\Actions\Importing\Aioseo\Aioseo_Taxonomy_Settings_Importing_Action;
 use Yoast\WP\SEO\Actions\Importing\Aioseo\Aioseo_Validate_Data_Action;
+use Yoast\WP\SEO\Helpers\Aioseo_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Helpers\Wpdb_Helper;
-use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Provider_Service;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -49,18 +48,11 @@ class Aioseo_Validate_Data_Action_Test extends TestCase {
 	protected $options;
 
 	/**
-	 * The wpdb helper.
+	 * The AIOSEO helper.
 	 *
-	 * @var Wpdb_Helper
+	 * @var Mockery\MockInterface|Aioseo_Helper
 	 */
-	protected $wpdb_helper;
-
-	/**
-	 * The robots provider service.
-	 *
-	 * @var Mockery\MockInterface|Aioseo_Robots_Provider_Service
-	 */
-	protected $robots_provider;
+	protected $aioseo_helper;
 
 	/**
 	 * The Post Importing action.
@@ -119,8 +111,7 @@ class Aioseo_Validate_Data_Action_Test extends TestCase {
 
 		$this->wpdb                  = Mockery::mock( 'wpdb' );
 		$this->options               = Mockery::mock( Options_Helper::class );
-		$this->wpdb_helper           = Mockery::mock( Wpdb_Helper::class );
-		$this->robots_provider       = Mockery::mock( Aioseo_Robots_Provider_Service::class );
+		$this->aioseo_helper         = Mockery::mock( Aioseo_Helper::class );
 		$this->post_importing_action = Mockery::mock( Aioseo_Posts_Importing_Action::class );
 
 		$this->custom_archive_settings_importing_action    = Mockery::mock( Aioseo_Custom_Archive_Settings_Importing_Action::class );
@@ -132,8 +123,6 @@ class Aioseo_Validate_Data_Action_Test extends TestCase {
 		$this->instance = new Aioseo_Validate_Data_Action(
 			$this->wpdb,
 			$this->options,
-			$this->wpdb_helper,
-			$this->robots_provider,
 			$this->custom_archive_settings_importing_action,
 			$this->default_archive_settings_importing_action,
 			$this->general_settings_importing_action,
@@ -141,6 +130,8 @@ class Aioseo_Validate_Data_Action_Test extends TestCase {
 			$this->taxonomy_settings_importing_action,
 			$this->post_importing_action
 		);
+
+		$this->instance->set_aioseo_helper( $this->aioseo_helper );
 	}
 
 	/**
@@ -196,11 +187,11 @@ class Aioseo_Validate_Data_Action_Test extends TestCase {
 	 * @covers ::validate_aioseo_table
 	 */
 	public function test_validate_aioseo_table( $table_exists, $needed_data, $aioseo_columns, $aioseo_columns_times, $expected_result ) {
-		$this->post_importing_action->expects( 'aioseo_exists' )
+		$this->aioseo_helper->expects( 'aioseo_exists' )
 			->once()
 			->andReturn( $table_exists );
 
-		$this->post_importing_action->expects( 'get_table' )
+		$this->aioseo_helper->expects( 'get_table' )
 			->times( $aioseo_columns_times )
 			->andReturn( 'wp_aioseo_posts' );
 
@@ -304,7 +295,7 @@ class Aioseo_Validate_Data_Action_Test extends TestCase {
 			->once()
 			->andReturn( $post_robot_mapping );
 
-		$this->robots_provider->expects( 'get_global_option' )
+		$this->aioseo_helper->expects( 'get_global_option' )
 			->once()
 			->andReturn( $aioseo_global_settings );
 
