@@ -1,5 +1,6 @@
-import { primaryCategory, tag } from "../../../src/classic-editor/replacement-variables/configurations";
+import { primaryCategory, tag, getCTReplacement } from "../../../src/classic-editor/replacement-variables/configurations";
 import * as data from "@wordpress/data";
+import { get, map } from "lodash";
 
 self.wpseoPrimaryCategoryL10n = {
 	taxonomies: {
@@ -97,6 +98,16 @@ self.wpseoScriptData = {
 			replaceVars: {
 				replace_vars: {
 					tag: "cats",
+					custom_taxonomies: {
+						actors: {
+							description: "",
+							name: "actors",
+						},
+						directors: {
+							description: "",
+							name: "directors",
+						},
+					},
 				},
 			},
 		},
@@ -125,5 +136,47 @@ describe( "a test for getting the replacement of the tag variable in classic edi
 		} );
 
 		expect( tag.getReplacement() ).toEqual( "cats" );
+	} );
+} );
+
+describe( "a test for getting the replacement of the custom taxonomies (CT) variable in classic editor", () => {
+	const names = map( get( window, "wpseoScriptData.analysis.plugins.replaceVars.replace_vars.custom_taxonomies", {} ), ( term => term.name ) );
+
+	it( "should return the replacement for both hierarchical and non-hirarchical CT variable when the store " +
+		"doesn't return an empty object of custom taxonomies", () => {
+		selectTerms = jest.fn().mockReturnValue( {
+			actors: [
+				{
+					id: "1",
+					name: "actor 1",
+				},
+				{
+					id: "2",
+					name: "actor 2",
+				},
+			],
+			directors: [ "Steven Spielberg", "Spike Lee" ],
+		} );
+		jest.spyOn( data, "select" ).mockImplementation( () => {
+			return {
+				selectTerms: selectTerms,
+			};
+		} );
+
+		expect( getCTReplacement( names[ 0 ] ) ).toEqual( "actor 1, actor 2" );
+		expect( getCTReplacement( names[ 1 ] ) ).toEqual( "Steven Spielberg, Spike Lee" );
+	} );
+
+	it( "should return an empty string as the replacement for both hierarchical and non-hirarchical CT variable when the store " +
+		"returns an empty object of custom taxonomies", () => {
+		selectTerms = jest.fn().mockReturnValue( {} );
+		jest.spyOn( data, "select" ).mockImplementation( () => {
+			return {
+				selectTerms: selectTerms,
+			};
+		} );
+
+		expect( getCTReplacement( names[ 0 ] ) ).toEqual( "" );
+		expect( getCTReplacement( names[ 1 ] ) ).toEqual( "" );
 	} );
 } );
