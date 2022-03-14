@@ -72,12 +72,12 @@ class Empty_String_Validator_Test extends TestCase {
 			],
 			'non-empty_string' => [
 				'value'     => 'text',
-				'expected' => '',
+				'expected'  => '',
 				'exception' => Invalid_Empty_String_Exception::class,
 			],
 			'integer'          => [
 				'value'     => 123,
-				'expected' => '',
+				'expected'  => '',
 				'exception' => Invalid_Type_Exception::class,
 			],
 		];
