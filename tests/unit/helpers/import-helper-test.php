@@ -5,7 +5,6 @@ namespace Yoast\WP\SEO\Tests\Unit\Helpers;
 use Yoast\WP\SEO\Helpers\Import_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
-// phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
 /**
  * Class Import_Helper_Test
  *
