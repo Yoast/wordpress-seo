@@ -114,6 +114,8 @@ class Wincher_Client extends OAuth_Client {
 	/**
 	 * Performs the specified request.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @param string $method  The HTTP method to use.
 	 * @param string $url     The URL to send the request to.
 	 * @param array  $options The options to pass along to the request.
@@ -123,8 +125,6 @@ class Wincher_Client extends OAuth_Client {
 	 * @throws IdentityProviderException Exception thrown if there's something wrong with the identifying data.
 	 * @throws Authentication_Failed_Exception Exception thrown if authentication has failed.
 	 * @throws Empty_Token_Exception Exception thrown if the token is empty.
-	 *
-	 * @codeCoverageIgnore
 	 */
 	protected function do_request( $method, $url, array $options ) {
 		$options['headers'] = [ 'Content-Type' => 'application/json' ];

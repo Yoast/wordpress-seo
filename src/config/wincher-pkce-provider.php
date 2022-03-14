@@ -16,9 +16,12 @@ use YoastSEO_Vendor\Psr\Log\InvalidArgumentException;
  * Class Wincher_PKCE_Provider
  *
  * @codeCoverageIgnore Ignoring as this class is purely a temporary wrapper until https://github.com/thephpleague/oauth2-client/pull/901 is merged.
- * @codingStandardsIgnoreStart
+ *
+ * @phpcs:disable WordPress.NamingConventions.ValidVariableName.PropertyNotSnakeCase -- This class extends an external class.
+ * @phpcs:disable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- This class extends an external class.
  */
 class Wincher_PKCE_Provider extends GenericProvider {
+
 	use BearerAuthorizationTrait;
 
 	/**
@@ -40,11 +43,11 @@ class Wincher_PKCE_Provider extends GenericProvider {
 	 *
 	 * When using PKCE this should be set before requesting an access token.
 	 *
-	 * @param string $pkceCode
+	 * @param string $pkce_code The value for the pkceCode.
 	 * @return self
 	 */
-	public function setPkceCode( $pkceCode ) {
-		$this->pkceCode = $pkceCode;
+	public function setPkceCode( $pkce_code ) {
+		$this->pkceCode = $pkce_code;
 		return $this;
 	}
 
@@ -71,9 +74,10 @@ class Wincher_PKCE_Provider extends GenericProvider {
 	 * @throws \Exception Throws exception if an invalid value is passed to random_bytes.
 	 */
 	protected function getRandomPkceCode( $length = 64 ) {
-		return substr(
-			strtr(
-				base64_encode( random_bytes( $length ) ),
+		return \substr(
+			\strtr(
+				// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode
+				\base64_encode( \random_bytes( $length ) ),
 				'+/',
 				'-_'
 			),
@@ -94,12 +98,12 @@ class Wincher_PKCE_Provider extends GenericProvider {
 	/**
 	 * Returns authorization parameters based on provided options.
 	 *
-	 * @param  array  $options  The options to use in the authorization parameters.
+	 * @param array $options The options to use in the authorization parameters.
 	 *
 	 * @return array The authorization parameters
 	 *
 	 * @throws InvalidArgumentException Throws exception if an invalid PCKE method is passed in the options.
-	 * @throws \Exception When something goes wrong with generating the PKCE code.
+	 * @throws \Exception               When something goes wrong with generating the PKCE code.
 	 */
 	protected function getAuthorizationParameters( array $options ) {
 		if ( empty( $options['state'] ) ) {
@@ -114,9 +118,9 @@ class Wincher_PKCE_Provider extends GenericProvider {
 			'response_type'   => 'code',
 		];
 
-		if ( is_array( $options['scope'] ) ) {
+		if ( \is_array( $options['scope'] ) ) {
 			$separator        = $this->getScopeSeparator();
-			$options['scope'] = implode( $separator, $options['scope'] );
+			$options['scope'] = \implode( $separator, $options['scope'] );
 		}
 
 		// Store the state as it may need to be accessed later on.
@@ -126,9 +130,10 @@ class Wincher_PKCE_Provider extends GenericProvider {
 		if ( ! empty( $pkce_method ) ) {
 			$this->pkceCode = $this->getRandomPkceCode();
 			if ( $pkce_method === 'S256' ) {
-				$options['code_challenge'] = trim(
-					strtr(
-						base64_encode( hash( 'sha256', $this->pkceCode, true ) ),
+				$options['code_challenge'] = \trim(
+					\strtr(
+						// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode
+						\base64_encode( \hash( 'sha256', $this->pkceCode, true ) ),
 						'+/',
 						'-_'
 					),
@@ -163,7 +168,7 @@ class Wincher_PKCE_Provider extends GenericProvider {
 	 *
 	 * @return AccessToken|AccessTokenInterface The access token.
 	 *
-	 * @throws IdentityProviderException Exception thrown if the provider response contains errors.
+	 * @throws UnexpectedValueException Exception thrown if the provider response contains errors.
 	 */
 	public function getAccessToken( $grant, array $options = [] ) {
 		$grant = $this->verifyGrant( $grant );
@@ -200,7 +205,7 @@ class Wincher_PKCE_Provider extends GenericProvider {
 	 * @return array The configurable options.
 	 */
 	protected function getConfigurableOptions() {
-		return array_merge(
+		return \array_merge(
 			$this->getRequiredOptions(),
 			[
 				'accessTokenMethod',
@@ -240,7 +245,7 @@ class Wincher_PKCE_Provider extends GenericProvider {
 		}
 
 		// Add the response code as this is omitted from Winchers API.
-		if ( ! array_key_exists( 'status', $parsed ) ) {
+		if ( ! \array_key_exists( 'status', $parsed ) ) {
 			$parsed['status'] = $response->getStatusCode();
 		}
 

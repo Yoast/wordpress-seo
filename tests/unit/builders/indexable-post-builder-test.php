@@ -126,7 +126,6 @@ class Indexable_Post_Builder_Test extends TestCase {
 			$closure = static function ( $actual_key, $actual_value ) use ( $key, $value ) {
 				if ( $actual_key === $key && $actual_value === $value ) {
 					return true;
-
 				}
 				else {
 					return false;
@@ -215,11 +214,11 @@ class Indexable_Post_Builder_Test extends TestCase {
 	 * Tests building a basic post indexable from postmeta.
 	 * If this starts failing, the $default_values of the Indexable_Helper maybe need changing too.
 	 *
-	 * @param array $postmeta        The postmeta of the post.
-	 * @param array $expected_result The expected indexable values.
-	 *
 	 * @dataProvider provider_build
 	 * @covers ::build
+	 *
+	 * @param array $postmeta        The postmeta of the post.
+	 * @param array $expected_result The expected indexable values.
 	 */
 	public function test_build( $postmeta, $expected_result ) {
 		Monkey\Functions\expect( 'get_permalink' )->once()->with( 1 )->andReturn( 'https://permalink' );

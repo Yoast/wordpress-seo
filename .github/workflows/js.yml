@@ -1,0 +1,66 @@
+name: CheckJS
+
+on:
+  # Run on pushes to select branches and on all pull requests.
+  push:
+    branches:
+      - master
+      - trunk
+      - 'release/**'
+      - 'hotfix/[0-9]+.[0-9]+*'
+      - 'feature/**'
+  pull_request:
+  # Allow manually triggering the workflow.
+  workflow_dispatch:
+
+# Cancels all previous workflow runs for the same branch that have not yet completed.
+concurrency:
+  # The concurrency group contains the workflow name and the branch name.
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  yarn-lint-test:
+    runs-on: ubuntu-latest
+
+    name: "CheckJS"
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # The ubuntu images come with Node, npm and yarn pre-installed.
+      # https://github.com/actions/virtual-environments/blob/main/images/linux/Ubuntu2004-Readme.md
+
+      # This action also handles the caching of the Yarn dependencies.
+      # https://github.com/actions/setup-node
+      - name: Set up node and enable caching of dependencies
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+          cache: 'yarn'
+
+      - name: Yarn install
+        run: yarn install
+
+      - name: Show debug info
+        run: |
+          npm --version
+          node --version
+          yarn --version
+          grunt --version
+
+      - name: Run Javascript lint
+        run: yarn lint
+
+      # Check out the premium config repo ahead of running the tests to prevent issues with permissions.
+      - name: Checkout premium configuration
+        uses: actions/checkout@v3
+        with:
+          repository: Yoast/YoastSEO.js-premium-configuration
+          path: packages/yoastseo/premium-configuration
+          fetch-depth: 0
+          token: ${{ secrets.YOASTBOT_CI_PAT_DIST }}
+
+      - name: Run Javascript tests
+        run: yarn test

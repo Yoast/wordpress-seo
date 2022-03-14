@@ -24,7 +24,8 @@
 	"require": {
 		"php": "^5.6.20 || ^7.0 || ^8.0",
 		"composer/installers": "^1.12.0",
-		"yoast/i18n-module": "^3.1.1"
+		"yoast/i18n-module": "^3.1.1",
+		"wordproof/wordpress-sdk": "^1.2"
 	},
 	"require-dev": {
 		"humbug/php-scoper": "^0.13.4",
@@ -64,10 +65,10 @@
 			"@php ./vendor/phpunit/phpunit/phpunit -c phpunit-integration.xml.dist"
 		],
 		"lint": [
-			"@php ./vendor/php-parallel-lint/php-parallel-lint/parallel-lint . -e php --show-deprecated --exclude vendor --exclude vendor_prefixed --exclude node_modules --exclude .git"
+			"@php ./vendor/php-parallel-lint/php-parallel-lint/parallel-lint . -e php --show-deprecated --exclude vendor --exclude node_modules --exclude .git"
 		],
 		"lint-files": [
-			"@php ./vendor/php-parallel-lint/php-parallel-lint/parallel-lint --show-deprecated"
+			"@php ./vendor/php-parallel-lint/php-parallel-lint/parallel-lint -e php --show-deprecated"
 		],
 		"lint-branch": [
 			"Yoast\\WP\\SEO\\Composer\\Actions::lint_branch"
@@ -79,7 +80,7 @@
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_coding_standards"
 		],
 		"check-cs-thresholds": [
-			"@putenv YOASTCS_THRESHOLD_ERRORS=249",
+			"@putenv YOASTCS_THRESHOLD_ERRORS=248",
 			"@putenv YOASTCS_THRESHOLD_WARNINGS=219",
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_cs_thresholds"
 		],
