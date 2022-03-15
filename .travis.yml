@@ -212,22 +212,6 @@ script:
       travis_time_finish && travis_fold end "PHP.integration-tests"
     fi
   - |
-    if [[ "$PHPUNIT" == "1" && ${TRAVIS_PHP_VERSION:0:1} != "8" && $TRAVIS_PHP_VERSION != "nightly" ]]; then
-      # PHP < 8
-      travis_fold start "PHP.tests" && travis_time_start
-      vendor/bin/phpunit
-      travis_time_finish && travis_fold end "PHP.tests"
-    fi
-  - |
-    if [[ "$PHPUNIT" == "1" ]] && [[ ${TRAVIS_PHP_VERSION:0:1} == "8" || $TRAVIS_PHP_VERSION == "nightly" ]]; then
-      # PHP >= 8
-      travis_fold start "PHP.tests" && travis_time_start
-      travis_retry composer require --dev phpunit/phpunit:"^9.0" --update-with-dependencies --ignore-platform-reqs --no-interaction &&
-      travis_retry composer update yoast/wp-test-utils --with-all-dependencies --ignore-platform-reqs --no-interaction &&
-      vendor/bin/phpunit
-      travis_time_finish && travis_fold end "PHP.tests"
-    fi
-  - |
     if [[ "$COVERAGE" == "1" ]]; then
       travis_fold start "PHP.coverage" && travis_time_start
       vendor/bin/phpunit -c phpunit-integration.xml.dist --coverage-php /tmp/coverage/integration-tests.cov
