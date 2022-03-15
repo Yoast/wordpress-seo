@@ -96,24 +96,3 @@ Radio.defaultProps = {
 };
 
 export default Radio;
-
-
-const searchIndex = [
-	{
-		terms: [ "search appearance", "Search", "Appearance", "whatever" ],
-		result: [
-			{
-				label: "Page",
-				link: "link/to/page",
-			},
-			{
-				label: "Section",
-				link: "link/to/section",
-			},
-			{
-				label: "Field",
-				link: "link/to/field",
-			},
-		],
-	}
-]
