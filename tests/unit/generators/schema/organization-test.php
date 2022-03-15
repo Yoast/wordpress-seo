@@ -297,8 +297,8 @@ class Organization_Test extends TestCase {
 			],
 			'Only Twitter' => [
 				'profiles_input'    => [
-					'facebook_site' => '',
-					'twitter_site'  => 'yoast',
+					'facebook_site'     => '',
+					'twitter_site'      => 'yoast',
 					'other_social_urls' => [],
 				],
 				'profiles_expected' => [
@@ -307,8 +307,8 @@ class Organization_Test extends TestCase {
 			],
 			'Some empty options' => [
 				'profiles_input'    => [
-					'facebook_site' => 'https://www.facebook.com/yoast/',
-					'twitter_site'  => 'yoast',
+					'facebook_site'     => 'https://www.facebook.com/yoast/',
+					'twitter_site'      => 'yoast',
 					'other_social_urls' => [
 						'',
 						'https://www.linkedin.com/company/yoast-com',
@@ -331,8 +331,8 @@ class Organization_Test extends TestCase {
 			],
 			'Duplicated URLs' => [
 				'profiles_input'    => [
-					'facebook_site' => 'https://www.facebook.com/yoast/',
-					'twitter_site'  => 'yoast',
+					'facebook_site'     => 'https://www.facebook.com/yoast/',
+					'twitter_site'      => 'yoast',
 					'other_social_urls' => [
 						'https://www.facebook.com/yoast/',
 						'https://www.linkedin.com/company/yoast-com',
