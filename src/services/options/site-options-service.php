@@ -193,7 +193,7 @@ class Site_Options_Service extends Abstract_Options_Service {
 
 		// Titles.
 		'activation_redirect_timestamp_free'                  => [
-			'default' => '',
+			'default' => 0,
 			'types'   => [ 'integer' ],
 		],
 		'alternate_website_name'                              => [
@@ -245,11 +245,11 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'types'   => [ 'empty_string', 'url' ],
 		],
 		'company_logo_id'                                     => [
-			'default' => '',
+			'default' => 0,
 			'types'   => [ 'integer' ],
 		],
 		'company_logo_meta'                                   => [
-			'default' => '',
+			'default' => false,
 			'types'   => [ 'string' ],
 		],
 		'company_name'                                        => [
@@ -268,7 +268,7 @@ class Site_Options_Service extends Abstract_Options_Service {
 			],
 		],
 		'company_or_person_user_id'                           => [
-			'default' => '',
+			'default' => false,
 			'types'   => [ 'integer' ],
 		],
 		'disable-attachment'                                  => [
@@ -357,7 +357,7 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'types'   => [ 'empty_string', 'url' ],
 		],
 		'open_graph_frontpage_image_id'                       => [
-			'default' => '',
+			'default' => 0,
 			'types'   => [ 'integer' ],
 		],
 		'open_graph_frontpage_title'                          => [
@@ -369,11 +369,11 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'types'   => [ 'empty_string', 'url' ],
 		],
 		'person_logo_id'                                      => [
-			'default' => '',
+			'default' => 0,
 			'types'   => [ 'integer' ],
 		],
 		'person_logo_meta'                                    => [
-			'default' => '',
+			'default' => false,
 			'types'   => [ 'string' ],
 		],
 		'person_name'                                         => [
@@ -393,7 +393,7 @@ class Site_Options_Service extends Abstract_Options_Service {
 			],
 		],
 		'rssafter'                                            => [
-			'default' => 'The post %%POSTLINK%% appeared first on %%BLOGLINK%%',
+			'default' => 'The post %%POSTLINK%% appeared first on %%BLOGLINK%%.',
 			'types'   => [ 'empty_string', 'wp_kses_post' ],
 		],
 		'rssbefore'                                           => [
@@ -455,11 +455,11 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'types'   => [ 'integer' ],
 		],
 		'social-image-id-archive-wpseo'                       => [
-			'default' => '',
+			'default' => 0,
 			'types'   => [ 'integer' ],
 		],
 		'social-image-id-author-wpseo'                        => [
-			'default' => '',
+			'default' => 0,
 			'types'   => [ 'integer' ],
 		],
 		'social-image-id-ptarchive-<PostTypeName>'            => [
@@ -582,7 +582,7 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'ms_verify' => true,
 		],
 		'custom_taxonomy_slugs'                               => [
-			'default' => '',
+			'default' => [],
 			'types'   => [ 'string' ],
 		],
 		'disableadvanced_meta'                                => [
@@ -648,7 +648,7 @@ class Site_Options_Service extends Abstract_Options_Service {
 			],
 		],
 		'first_activated_on'                                  => [
-			'default' => '',
+			'default' => false,
 			'types'   => [ 'integer' ],
 		],
 		'first_time_install'                                  => [
@@ -681,11 +681,11 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'ms_exclude' => true,
 		],
 		'import_cursors'                                      => [
-			'default' => '',
+			'default' => [],
 			'types'   => [ 'string' ],
 		],
 		'importing_completed'                                 => [
-			'default' => '',
+			'default' => [],
 			'types'   => [ 'string' ],
 		],
 		'indexables_indexing_completed'                       => [
@@ -701,7 +701,7 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'types'   => [ 'text_field' ],
 		],
 		'indexing_started'                                    => [
-			'default' => '',
+			'default' => null,
 			'types'   => [ 'integer' ],
 		],
 		'keyword_analysis_active'                             => [
@@ -710,7 +710,7 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'ms_verify' => true,
 		],
 		'license_server_version'                              => [
-			'default' => '',
+			'default' => false,
 			'types'   => [ 'string' ],
 		],
 		'ms_defaults_set'                                     => [
@@ -725,7 +725,13 @@ class Site_Options_Service extends Abstract_Options_Service {
 			],
 		],
 		'myyoast-oauth'                                       => [
-			'default' => '',
+			'default' => [
+				'config'        => [
+					'clientId' => null,
+					'secret'   => null,
+				],
+				'access_tokens' => [],
+			],
 			'types'   => [ 'string' ],
 		],
 		'permalink_structure'                                 => [
@@ -747,7 +753,7 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'ms_verify' => true,
 		],
 		'semrush_country_code'                                => [
-			'default' => '',
+			'default' => 'us',
 			'types'   => [ 'string' ],
 		],
 		'semrush_integration_active'                          => [
@@ -756,7 +762,7 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'ms_verify' => true,
 		],
 		'semrush_tokens'                                      => [
-			'default' => '',
+			'default' => [],
 			'types'   => [ 'string' ],
 		],
 		'should_redirect_after_install_free'                  => [
@@ -793,7 +799,7 @@ class Site_Options_Service extends Abstract_Options_Service {
 			],
 		],
 		'tracking'                                            => [
-			'default'   => null,
+			'default'   => false,
 			'types'     => [ 'boolean' ],
 			'ms_verify' => true,
 		],
@@ -811,7 +817,7 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'ms_verify' => true,
 		],
 		'wincher_tokens'                                      => [
-			'default' => '',
+			'default' => [],
 			'types'   => [ 'string' ],
 		],
 		'wincher_website_id'                                  => [
@@ -819,7 +825,7 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'types'   => [ 'string' ],
 		],
 		'workouts_data'                                       => [
-			'default' => '',
+			'default' => [ 'configuration' => [ 'finishedSteps' => [] ] ],
 			'types'   => [ 'string' ],
 		],
 		'yandexverify'                                        => [
@@ -839,7 +845,7 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'ms_verify' => true,
 		],
 		'zapier_subscription'                                 => [
-			'default' => '',
+			'default' => [],
 			'types'   => [ 'string' ],
 		],
 	];
