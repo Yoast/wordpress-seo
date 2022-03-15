@@ -141,14 +141,7 @@ class WPSEO_Options {
 	 * @return mixed
 	 */
 	public static function get_default( $option_name, $key ) {
-		if ( isset( static::$option_instances[ $option_name ] ) ) {
-			$defaults = static::$option_instances[ $option_name ]->get_defaults();
-			if ( isset( $defaults[ $key ] ) ) {
-				return $defaults[ $key ];
-			}
-		}
-
-		return null;
+		return YoastSEO()->helpers->options->get_default( $key );
 	}
 
 	/**
@@ -211,9 +204,7 @@ class WPSEO_Options {
 	 * @return array Array combining the values of all the options.
 	 */
 	public static function get_all() {
-		static::$option_values = static::get_options( static::get_option_names() );
-
-		return static::$option_values;
+		return YoastSEO()->helpers->options->get_options();
 	}
 
 	/**
@@ -247,19 +238,18 @@ class WPSEO_Options {
 	 * @return array Array containing the requested option.
 	 */
 	public static function get_option( $option_name ) {
-		$option = null;
 		if ( is_string( $option_name ) && ! empty( $option_name ) ) {
 			if ( isset( static::$option_instances[ $option_name ] ) ) {
 				if ( static::$option_instances[ $option_name ]->multisite_only !== true ) {
-					$option = get_option( $option_name );
+					return YoastSEO()->helpers->options->get_options( \array_keys( static::$option_instances[ $option_name ]->get_defaults() ) );
 				}
 				else {
-					$option = get_site_option( $option_name );
+					return get_site_option( $option_name );
 				}
 			}
 		}
 
-		return $option;
+		return null;
 	}
 
 	/**
@@ -271,14 +261,7 @@ class WPSEO_Options {
 	 * @return mixed Returns value if found, $default_value if not.
 	 */
 	public static function get( $key, $default_value = null ) {
-		if ( static::$option_values === null ) {
-			static::prime_cache();
-		}
-		if ( isset( static::$option_values[ $key ] ) ) {
-			return static::$option_values[ $key ];
-		}
-
-		return $default_value;
+		return YoastSEO()->helpers->options->get( $key, $default_value );
 	}
 
 	/**
@@ -302,23 +285,10 @@ class WPSEO_Options {
 	 * @param string $key   The key to set.
 	 * @param mixed  $value The value to set.
 	 *
-	 * @return mixed|null Returns value if found, $default if not.
+	 * @return bool Whether the save was successful.
 	 */
 	public static function set( $key, $value ) {
-		$lookup_table = static::get_lookup_table();
-
-		if ( isset( $lookup_table[ $key ] ) ) {
-			return static::save_option( $lookup_table[ $key ], $key, $value );
-		}
-
-		$patterns = static::get_pattern_table();
-		foreach ( $patterns as $pattern => $option ) {
-			if ( strpos( $key, $pattern ) === 0 ) {
-				return static::save_option( $option, $key, $value );
-			}
-		}
-
-		static::$option_values[ $key ] = $value;
+		return YoastSEO()->helpers->options->set( $key, $value );
 	}
 
 	/**
@@ -330,6 +300,8 @@ class WPSEO_Options {
 	 * @return mixed
 	 */
 	public static function get_autoloaded_option( $option, $default_value = false ) {
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+
 		$value = wp_cache_get( $option, 'options' );
 		if ( $value === false ) {
 			$passed_default = func_num_args() > 1;
@@ -384,9 +356,7 @@ class WPSEO_Options {
 	 * @return void
 	 */
 	public static function ensure_options_exist() {
-		foreach ( static::$option_instances as $instance ) {
-			$instance->maybe_add_option();
-		}
+		YoastSEO()->helpers->options->ensure_options();
 	}
 
 	/**
@@ -408,14 +378,7 @@ class WPSEO_Options {
 	 */
 	public static function reset() {
 		if ( ! is_multisite() ) {
-			$option_names = static::get_option_names();
-			if ( is_array( $option_names ) && $option_names !== [] ) {
-				foreach ( $option_names as $option_name ) {
-					delete_option( $option_name );
-					update_option( $option_name, get_option( $option_name ) );
-				}
-			}
-			unset( $option_names );
+			YoastSEO()->helpers->options->reset_options();
 		}
 		else {
 			// Reset MS blog based on network default blog setting.
@@ -497,6 +460,8 @@ class WPSEO_Options {
 	 * @return bool Returns true if the option is successfully saved in the database.
 	 */
 	public static function save_option( $wpseo_options_group_name, $option_name, $option_value ) {
+		_deprecated_function( __METHOD__, 'WPSEO xx.x', 'YoastSEO()->helpers->options->set' );
+
 		$options                 = static::get_option( $wpseo_options_group_name );
 		$options[ $option_name ] = $option_value;
 
@@ -557,6 +522,8 @@ class WPSEO_Options {
 	 * @return array The lookup table.
 	 */
 	private static function get_lookup_table() {
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+
 		$lookup_table = [];
 
 
@@ -576,6 +543,8 @@ class WPSEO_Options {
 	 * @return array The lookup table.
 	 */
 	private static function get_pattern_table() {
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+
 		$pattern_table = [];
 		foreach ( static::$options as $option_name => $option_class ) {
 			$instance = call_user_func( [ $option_class, 'get_instance' ] );

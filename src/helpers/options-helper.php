@@ -3,7 +3,10 @@
 namespace Yoast\WP\SEO\Helpers;
 
 use WPSEO_Option_Titles;
-use WPSEO_Options;
+use Yoast\WP\SEO\Exceptions\Option\Missing_Configuration_Key_Exception;
+use Yoast\WP\SEO\Exceptions\Option\Unknown_Exception;
+use Yoast\WP\SEO\Exceptions\Validation\Abstract_Validation_Exception;
+use Yoast\WP\SEO\Services\Options\Site_Options_Service;
 
 /**
  * A helper object for options.
@@ -11,9 +14,18 @@ use WPSEO_Options;
 class Options_Helper {
 
 	/**
-	 * Retrieves a single field from any option for the SEO plugin. Keys are always unique.
+	 * Holds the Site_Options_Service instance.
 	 *
-	 * @codeCoverageIgnore We have to write test when this method contains own code.
+	 * @var Site_Options_Service
+	 */
+	protected $site_options_service;
+
+	public function __construct( Site_Options_Service $site_options_service ) {
+		$this->site_options_service = $site_options_service;
+	}
+
+	/**
+	 * Retrieves a single field from any option for the SEO plugin. Keys are always unique.
 	 *
 	 * @param string $key           The key it should return.
 	 * @param mixed  $default_value The default value that should be returned if the key isn't set.
@@ -21,7 +33,11 @@ class Options_Helper {
 	 * @return mixed|null Returns value if found, $default_value if not.
 	 */
 	public function get( $key, $default_value = null ) {
-		return WPSEO_Options::get( $key, $default_value );
+		try {
+			return $this->site_options_service->__get( $key );
+		} catch ( Unknown_Exception $exception ) {
+			return $default_value;
+		}
 	}
 
 	/**
@@ -30,22 +46,63 @@ class Options_Helper {
 	 * @param string $key   The key to set.
 	 * @param mixed  $value The value to set.
 	 *
-	 * @return mixed|null Returns value if found.
+	 * @return bool Whether the save was successful.
 	 */
 	public function set( $key, $value ) {
-		return WPSEO_Options::set( $key, $value );
+		try {
+			$this->site_options_service->__set( $key, $value );
+
+			return true;
+		} catch ( Missing_Configuration_Key_Exception $exception ) {
+		} catch ( Unknown_Exception $exception ) {
+		} catch ( Abstract_Validation_Exception $exception ) {
+		}
+
+		return false;
 	}
 
 	/**
-	 * Get a specific default value for an option.
+	 * Retrieves the default value of an option.
 	 *
-	 * @param string $option_name The option for which you want to retrieve a default.
-	 * @param string $key         The key within the option who's default you want.
+	 * @param string $key The key of the option.
 	 *
-	 * @return mixed The default value.
+	 * @return mixed|null The default value, or null if the key does not exist.
 	 */
-	public function get_default( $option_name, $key ) {
-		return WPSEO_Options::get_default( $option_name, $key );
+	public function get_default( $key ) {
+		try {
+			return $this->site_options_service->get_default( $key );
+		} catch ( Unknown_Exception $exception ) {
+			return null;
+		}
+	}
+
+	/**
+	 * Retrieves the options.
+	 *
+	 * @param string[] $keys Optionally request only these options.
+	 *
+	 * @return array The options.
+	 */
+	public function get_options( array $keys = [] ) {
+		return $this->site_options_service->get_options( $keys );
+	}
+
+	/**
+	 * Saves the options if the database row does not exist.
+	 *
+	 * @return void
+	 */
+	public function ensure_options() {
+		$this->site_options_service->ensure_options();
+	}
+
+	/**
+	 * Saves the options with their default values.
+	 *
+	 * @return void
+	 */
+	public function reset_options() {
+		$this->site_options_service->reset_options();
 	}
 
 	/**
