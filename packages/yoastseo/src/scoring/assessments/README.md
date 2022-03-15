@@ -89,9 +89,6 @@ Below is a detailed overview of how scores for the readability assessments are c
 ### The overview of the Readability assessments scoring criteria
 Information on the scoring criteria for the available Readability assessments can be found [here](SCORING%20READABILITY.md).
 
-### The overview of the SEO assessments scoring criteria
-Information on the scoring criteria for the available SEO assessments can be found [here](https://github.com/Yoast/wordpress-seo/packages/yoastseo/src/scoring/assessments/SCORING%20SEO.md).
-
 ## 3. Scoring taxonomy analysis
 Taxonomy analysis has the same SEO and Readability scoring criteria as above except for the SEO assessments below:
 
