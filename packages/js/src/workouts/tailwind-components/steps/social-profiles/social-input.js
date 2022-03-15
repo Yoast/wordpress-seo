@@ -13,10 +13,15 @@ import ValidatedTextInput from "./validated-text-input";
  * @returns {WPElement} A wrapped TextInput for the social inputs.
  */
 export default function SocialInput( { onChange, socialMedium, isDisabled, ...restProps } ) {
-	const onChangeHandler = useCallback(
-		( newValue ) => onChange( newValue, socialMedium ),
-		[ socialMedium ]
-	);
+	const onChangeHandler = socialMedium === "other"
+		? useCallback(
+			( newValue ) => onChange( newValue, restProps.index ),
+			[ restProps.index ]
+		)
+		: useCallback(
+			( newValue ) => onChange( newValue, socialMedium ),
+			[ socialMedium ]
+		);
 
 	return <ValidatedTextInput
 		onChange={ onChangeHandler }
