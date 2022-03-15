@@ -163,6 +163,7 @@ class Configuration_Workout_Integration implements Integration_Interface {
 						"pinterestUrl": "%s",
 						"youtubeUrl": "%s",
 						"wikipediaUrl": "%s",
+                        "otherUrls": %s,
 					},
 					"tracking": %d,
 					"companyOrPersonOptions": %s,
@@ -192,6 +193,7 @@ class Configuration_Workout_Integration implements Integration_Interface {
 				$social_profiles['pinterest_url'],
 				$social_profiles['youtube_url'],
 				$social_profiles['wikipedia_url'],
+                WPSEO_Utils::format_json_encode( $social_profiles['other_urls'] ),
 				$this->has_tracking_enabled(),
 				WPSEO_Utils::format_json_encode( $options ),
 				$this->should_force_company(),
@@ -330,6 +332,7 @@ class Configuration_Workout_Integration implements Integration_Interface {
 			'pinterest_url'    => $this->options_helper->get( 'pinterest_url', '' ),
 			'youtube_url'      => $this->options_helper->get( 'youtube_url', '' ),
 			'wikipedia_url'    => $this->options_helper->get( 'wikipedia_url', '' ),
+            'other_urls'       => $this->options_helper->get( 'other_urls', [] ),
 		];
 	}
 
