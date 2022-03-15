@@ -417,9 +417,9 @@ class Importable_Detector_Service_Test extends TestCase {
 	/**
 	 * Tests whether filter_actions returns all plugins when no plugin and type are provided.
 	 *
-	 * @return void
-	 *
 	 * @covers ::filter_actions
+	 *
+	 * @return void
 	 */
 	public function test_filter_actions_no_filters() {
 		$filtered_importers_no_filters = $this->instance->filter_actions( [ $this->importing_action ] );
@@ -435,9 +435,9 @@ class Importable_Detector_Service_Test extends TestCase {
 	/**
 	 * Tests whether filter_actions returns the correct importers when only the plugin is provided.
 	 *
-	 * @return void
-	 *
 	 * @covers ::filter_actions
+	 *
+	 * @return void
 	 */
 	public function test_filter_actions_plugin_filter_only() {
 		$filtered_importers_plugin_filters = $this->mock_instance->filter_actions( [ $this->importing_action ], 'aioseo' );
@@ -453,9 +453,9 @@ class Importable_Detector_Service_Test extends TestCase {
 	/**
 	 * Tests whether filter_actions returns the correct importers when only the type is provided.
 	 *
-	 * @return void
-	 *
 	 * @covers ::filter_actions
+	 *
+	 * @return void
 	 */
 	public function test_filter_actions_type_filter_only() {
 		$filtered_importers_type_filters = $this->mock_instance->filter_actions( [ $this->importing_action ], false, 'posts' );
@@ -471,9 +471,9 @@ class Importable_Detector_Service_Test extends TestCase {
 	/**
 	 * Tests whether filter_actions returns the correct importers when both the plugin and the type are provided.
 	 *
-	 * @return void
-	 *
 	 * @covers ::filter_actions
+	 *
+	 * @return void
 	 */
 	public function test_filter_actions_plugin_and_type_filter() {
 		$filtered_importers_plugin_type_filters = $this->mock_instance->filter_actions( [ $this->importing_action ], 'aioseo', 'posts' );
@@ -489,9 +489,9 @@ class Importable_Detector_Service_Test extends TestCase {
 	/**
 	 * Tests whether filter_actions returns no importers when a non-existent plugin is provided.
 	 *
-	 * @return void
-	 *
 	 * @covers ::filter_actions
+	 *
+	 * @return void
 	 */
 	public function test_filter_actions_non_existent_plugin() {
 		$no_filtered_importers_plugin_filters = $this->mock_instance->filter_actions( [ $this->importing_action ], 'aioseo1' );
@@ -503,9 +503,9 @@ class Importable_Detector_Service_Test extends TestCase {
 	/**
 	 * Tests whether filter_actions returns no importers when a non-existent type is provided.
 	 *
-	 * @return void
-	 *
 	 * @covers ::filter_actions
+	 *
+	 * @return void
 	 */
 	public function test_filter_actions_non_existent_type() {
 		$no_filtered_importers_type_filters = $this->mock_instance->filter_actions( [ $this->importing_action ], false, 'posts1' );
@@ -517,9 +517,9 @@ class Importable_Detector_Service_Test extends TestCase {
 	/**
 	 * Tests whether filter_actions returns no importers when a non-existent type and -plugin are provided.
 	 *
-	 * @return void
-	 *
 	 * @covers ::filter_actions
+	 *
+	 * @return void
 	 */
 	public function test_filter_actions_non_existent_type_and_plugin() {
 		$no_filtered_importers_plugin_type_filters = $this->mock_instance->filter_actions( [ $this->importing_action ], 'aioseo1', 'posts1' );

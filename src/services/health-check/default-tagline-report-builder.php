@@ -2,9 +2,10 @@
 
 namespace Yoast\WP\SEO\Services\Health_Check;
 
-// phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
 /**
  * Presents a set of different messages for the Default_Tagline health check.
+ *
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Default_Tagline_Report_Builder {
 
