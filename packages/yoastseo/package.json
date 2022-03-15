@@ -20,7 +20,7 @@
     "build": "grunt publish",
     "lint": "grunt check",
     "pretest": "yarn install-ci",
-    "test": "jest --runInBand",
+    "test": "jest",
     "install-ci": "grunt get-premium-configuration",
     "prepublishOnly": "grunt publish"
   },
