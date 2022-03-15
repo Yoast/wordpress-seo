@@ -2,6 +2,7 @@ import { __ } from "@wordpress/i18n";
 import { useCallback } from "@wordpress/element";
 import PropTypes from "prop-types";
 
+import FieldArray from "../../base/field-array";
 import SocialInput from "./social-input";
 
 /* eslint-disable complexity */
@@ -9,13 +10,33 @@ import SocialInput from "./social-input";
  * A wrapper that combines all the SocialInputs. Intended for use in the configuration workout.
  *
  * @param {Object} props The props object.
- *
+ * @param {function} dispatch                     A dispatch function to communicate with the Stepper store.
+ * @param {Object}   state                        The Stepper store.
  * @returns {WPElement} The SocialInputSection.
  */
 export default function SocialInputSection( { socialProfiles, errorFields, dispatch, isDisabled } ) {
 	const onChangeHandler = useCallback(
 		( newValue, socialMedium ) => {
 			dispatch( { type: "CHANGE_SOCIAL_PROFILE", payload: { socialMedium, value: newValue } } );
+		},
+		[]
+	);
+	const onChangeOthersHandler = useCallback(
+		( newValue, index ) => {
+			dispatch( { type: "CHANGE_OTHERS_SOCIAL_PROFILE", payload: { index, value: newValue } } );
+		},
+		[]
+	);
+	const onAddProfileHandler = useCallback(
+		() => {
+			dispatch( { type: "ADD_OTHERS_SOCIAL_PROFILE", payload: { value: "" } } );
+		},
+		[]
+	);
+
+	const onRemoveProfileHandler = useCallback(
+		( idx ) => {
+			dispatch( { type: "REMOVE_OTHERS_SOCIAL_PROFILE", payload: { index: idx } } );
 		},
 		[]
 	);
@@ -55,59 +76,13 @@ export default function SocialInputSection( { socialProfiles, errorFields, dispa
 				isDisabled={ isDisabled }
 				{ ...getFeedback( "twitter_site" ) }
 			/>
-			<SocialInput
-				label={ __( "Instagram URL", "wordpress-seo" ) }
-				id="social-input-instagram-url"
-				value={ socialProfiles.instagramUrl }
-				socialMedium="instagramUrl"
-				onChange={ onChangeHandler }
-				isDisabled={ isDisabled }
-				{ ...getFeedback( "instagram_url" ) }
-			/>
-			<SocialInput
-				label={ __( "LinkedIn URL", "wordpress-seo" ) }
-				id="social-input-linkedin-url"
-				value={ socialProfiles.linkedinUrl }
-				socialMedium="linkedinUrl"
-				onChange={ onChangeHandler }
-				isDisabled={ isDisabled }
-				{ ...getFeedback( "linkedin_url" ) }
-			/>
-			<SocialInput
-				label={ __( "MySpace URL", "wordpress-seo" ) }
-				id="social-input-myspace-url"
-				value={ socialProfiles.myspaceUrl }
-				socialMedium="myspaceUrl"
-				onChange={ onChangeHandler }
-				isDisabled={ isDisabled }
-				{ ...getFeedback( "myspace_url" ) }
-			/>
-			<SocialInput
-				label={ __( "Pinterest URL", "wordpress-seo" ) }
-				id="social-input-pinterest-url"
-				value={ socialProfiles.pinterestUrl }
-				socialMedium="pinterestUrl"
-				onChange={ onChangeHandler }
-				isDisabled={ isDisabled }
-				{ ...getFeedback( "pinterest_url" ) }
-			/>
-			<SocialInput
-				label={ __( "YouTube URL", "wordpress-seo" ) }
-				id="social-input-youtube-url"
-				value={ socialProfiles.youtubeUrl }
-				socialMedium="youtubeUrl"
-				onChange={ onChangeHandler }
-				isDisabled={ isDisabled }
-				{ ...getFeedback( "youtube_url" ) }
-			/>
-			<SocialInput
-				label={ __( "Wikipedia URL", "wordpress-seo" ) }
-				id="social-input-wikipedia-url"
-				value={ socialProfiles.wikipediaUrl }
-				socialMedium="wikipediaUrl"
-				onChange={ onChangeHandler }
-				isDisabled={ isDisabled }
-				{ ...getFeedback( "wikipedia_url" ) }
+
+			<FieldArray
+				fieldType={ SocialInput }
+				items={ socialProfiles.otherUrls }
+				onAddProfile={ onAddProfileHandler }
+				onRemoveProfile={ onRemoveProfileHandler }
+				onChangeProfile={ onChangeOthersHandler }
 			/>
 		</div>
 	);
