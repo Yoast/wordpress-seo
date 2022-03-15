@@ -129,6 +129,18 @@ function configurationWorkoutReducer( state, action ) {
 			newState = handleStepEdit( newState, 3 );
 			newState.socialProfiles[ action.payload.socialMedium ] = action.payload.value;
 			return newState;
+		case "CHANGE_OTHERS_SOCIAL_PROFILE":
+			newState = handleStepEdit( newState, 3 );
+			newState.socialProfiles.otherUrls[ action.payload.index ] = action.payload.value;
+			return newState;
+		case "ADD_OTHERS_SOCIAL_PROFILE":
+			newState = handleStepEdit( newState, 3 );
+			newState.socialProfiles.otherUrls = [ ...newState.socialProfiles.otherUrls, action.payload.value ];
+			return newState;
+		case "REMOVE_OTHERS_SOCIAL_PROFILE":
+			newState = handleStepEdit( newState, 3 );
+			newState.socialProfiles.otherUrls = newState.socialProfiles.otherUrls.filter( ( _, idx ) => idx !== action.payload.index );
+			return newState;
 		case "SET_ERROR_FIELDS":
 			newState.errorFields = action.payload;
 			return newState;
@@ -207,6 +219,7 @@ async function updateSocialProfiles( state ) {
 		pinterest_url: state.socialProfiles.pinterestUrl,
 		youtube_url: state.socialProfiles.youtubeUrl,
 		wikipedia_url: state.socialProfiles.wikipediaUrl,
+		other_urls: state.socialProfiles.otherUrls,
 		/* eslint-enable camelcase */
 	};
 
