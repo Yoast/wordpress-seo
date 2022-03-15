@@ -9,7 +9,6 @@ export default class ImportValidationError extends Error {
 	 */
 	constructor( message ) {
 		super( message );
-		this.message = message;
 		this.name = "ImportValidationError";
 	}
 }

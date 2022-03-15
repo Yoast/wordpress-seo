@@ -155,11 +155,7 @@ function showFailure( e, action ) {
 	actingButton.prop( "disabled", false );
 
 	if ( e instanceof ImportValidationError ) {
-		failureMessage = window.yoastImportData.assets.validation_failure;
-		failureOutput = sprintf(
-			failureMessage,
-			e.message
-		);
+		failureOutput = window.yoastImportData.assets.validation_failure;
 	} else {
 		failureOutput = sprintf(
 			failureMessage,
