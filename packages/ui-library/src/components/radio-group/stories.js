@@ -78,6 +78,9 @@ export const Variants = ( args ) => (
 		</RadioGroup>
 	</div>
 );
+Variants.parameters = {
+	docs: { description: { story: "Please" } },
+};
 
 export const WithLabelAndDescription = Template.bind();
 WithLabelAndDescription.args = {
