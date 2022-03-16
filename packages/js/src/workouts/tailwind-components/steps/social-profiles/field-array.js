@@ -12,12 +12,13 @@ import { useCallback } from "@wordpress/element";
  *
  * @returns {Component} The FieldArray component.
  */
-const RemoveProfileButton = ( { index, onRemove } ) => {
+const RemoveProfileButton = ( { index, onRemove, buttonId } ) => {
 	const onRemoveHandler = useCallback( () => {
 		onRemove( index );
 	} );
 	return (
 		<button
+			id={ buttonId }
 			onClick={ onRemoveHandler }
 			className="yst-ml-2 yst-p-3 yst-text-gray-500 yst-rounded-md hover:yst-text-gray-600 focus:yst-text-gray-600 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-indigo-500"
 		>
@@ -28,6 +29,7 @@ const RemoveProfileButton = ( { index, onRemove } ) => {
 RemoveProfileButton.propTypes = {
 	index: PropTypes.number.isRequired,
 	onRemove: PropTypes.func.isRequired,
+	buttonId: PropTypes.string.isRequired,
 };
 
 /**
@@ -54,6 +56,7 @@ const FieldArray = ( { items, onAddProfile, onRemoveProfile, onChangeProfile, ad
 						/>
 					</div>
 					<RemoveProfileButton
+						buttonId={ `remove-profile-${ index }` }
 						index={ index }
 						onRemove={ onRemoveProfile }
 					/>
@@ -61,6 +64,7 @@ const FieldArray = ( { items, onAddProfile, onRemoveProfile, onChangeProfile, ad
 			) ) }
 			<button
 				type="button"
+				id="add-profile"
 				className="yst-button yst-button--secondary yst-items-center yst-mt-2"
 				onClick={ onAddProfile }
 			>
