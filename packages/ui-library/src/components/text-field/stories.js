@@ -20,6 +20,7 @@ export default {
 	args: {
 		id: "input-field",
 		onChange: noop,
+		label: "A Text Field",
 	},
 };
 
