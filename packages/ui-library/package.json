@@ -1,10 +1,12 @@
 {
   "name": "@yoast/ui-library",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Yoast UI library",
   "main": "build/index.js",
   "style": "build/css/style.css",
-  "files": [ "build/**/*" ],
+  "files": [
+    "build/**/*"
+  ],
   "author": "Team Yoast <support@yoast.com>",
   "license": "GPL-3.0",
   "private": false,
