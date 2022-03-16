@@ -112,34 +112,76 @@ class Indexable_Repository {
 	public function for_current_page() {
 		$indexable = false;
 
-		switch ( true ) {
-			case $this->current_page->is_simple_page():
-				$indexable = $this->find_by_id_and_type( $this->current_page->get_simple_page_id(), 'post' );
+		$indexable_mapping = [
+			'search' => [
+				'match_callback'    => [ $this->current_page, 'is_search_result' ],
+				'creation_callback' => function() {
+					return $this->find_for_system_page( 'search-result' );
+				},
+			],
+			'static_home_page' => [
+				'match_callback'    => [ $this->current_page, 'is_home_static_page' ],
+				'creation_callback' => function() {
+					return $this->find_by_id_and_type( $this->current_page->get_front_page_id(), 'post' );
+				},
+			],
+			'home_page' => [
+				'match_callback'    => [ $this->current_page, 'is_home_posts_page' ],
+				'creation_callback' => function() {
+					return $this->find_for_home_page();
+				},
+			],
+			'post_type' => [
+				'match_callback'    => [ $this->current_page, 'is_simple_page' ],
+				'creation_callback' => function() {
+					return $this->find_by_id_and_type( $this->current_page->get_simple_page_id(), 'post' );
+				},
+			],
+			'term_archive' => [
+				'match_callback'    => [ $this->current_page, 'is_term_archive' ],
+				'creation_callback' => function() {
+					return $this->find_by_id_and_type( $this->current_page->get_term_id(), 'term' );
+				},
+			],
+			'post_type_archive' => [
+				'match_callback'    => [ $this->current_page, 'is_post_type_archive' ],
+				'creation_callback' => function() {
+					return $this->find_for_post_type_archive( $this->current_page->get_queried_post_type() );
+				},
+			],
+			'author_archive' => [
+				'match_callback'    => [ $this->current_page, 'is_author_archive' ],
+				'creation_callback' => function() {
+					return $this->find_by_id_and_type( $this->current_page->get_author_id(), 'user' );
+				},
+			],
+			'date_archive' => [
+				'match_callback'    => [ $this->current_page, 'is_date_archive' ],
+				'creation_callback' => function() {
+					return $this->find_for_date_archive();
+				},
+			],
+			'404' => [
+				'match_callback'    => [ $this->current_page, 'is_404' ],
+				'creation_callback' => function() {
+					return $this->find_for_system_page( '404' );
+				},
+			],
+		];
+
+		/**
+		 * Filter: Allow changing and reordering the indexable mapping.
+		 *
+		 * @api array $indexable_mapping The mapping.
+		 * @param Indexable_Repository $this Helper with logic for creating indexables.
+		 */
+		$indexable_mapping = \apply_filters( 'wpseo_frontend_indexable_mapping', $indexable_mapping, $this );
+
+		foreach ( $indexable_mapping as $indexable_map ) {
+			if ( $indexable_map['match_callback']() ) {
+				$indexable = $indexable_map['creation_callback']();
 				break;
-			case $this->current_page->is_home_static_page():
-				$indexable = $this->find_by_id_and_type( $this->current_page->get_front_page_id(), 'post' );
-				break;
-			case $this->current_page->is_home_posts_page():
-				$indexable = $this->find_for_home_page();
-				break;
-			case $this->current_page->is_term_archive():
-				$indexable = $this->find_by_id_and_type( $this->current_page->get_term_id(), 'term' );
-				break;
-			case $this->current_page->is_date_archive():
-				$indexable = $this->find_for_date_archive();
-				break;
-			case $this->current_page->is_search_result():
-				$indexable = $this->find_for_system_page( 'search-result' );
-				break;
-			case $this->current_page->is_post_type_archive():
-				$indexable = $this->find_for_post_type_archive( $this->current_page->get_queried_post_type() );
-				break;
-			case $this->current_page->is_author_archive():
-				$indexable = $this->find_by_id_and_type( $this->current_page->get_author_id(), 'user' );
-				break;
-			case $this->current_page->is_404():
-				$indexable = $this->find_for_system_page( '404' );
-				break;
+			}
 		}
 
 		if ( $indexable === false ) {
