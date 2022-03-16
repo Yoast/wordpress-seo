@@ -248,8 +248,8 @@ export const getPostCategories = () => {
  *
  * @returns {string[]} The post's tags.
  */
-export const getPostTags = () => {
-	const tagChecklistElement = document.querySelectorAll( ".tagchecklist" );
+export const getPostTags = ( termID = "post_tag" ) => {
+	const tagChecklistElement = document.querySelectorAll( `#${ termID } .tagchecklist` );
 
 	if ( tagChecklistElement.length > 0 ) {
 		// Each tag is a <li> element containing a button and two text elements. The second text element contains the name of the tag.
@@ -310,7 +310,7 @@ export const getCustomTaxonomies = () => {
 	 */
 	names.forEach( name => {
 		const checkboxesElement = getCTCheckboxes( name );
-		const customTags = getPostTags();
+		const customTags = getPostTags( name );
 		if ( checkboxesElement.length === 0 ) {
 			customTaxonomies[ name ] = customTags;
 		} else {

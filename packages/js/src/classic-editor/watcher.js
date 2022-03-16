@@ -179,50 +179,56 @@ const createCategoriesSync = ( updateTerms ) => {
  * @returns {void}
  */
 const createTagsSync = ( updateTerms ) => {
-	const names = dom.getCTNames();
-	let previousLength = 0;
+	// Retrieve the Tags elements, it can be multiple in case of custom taxonomies.
+	const tagsElements = [ ...document.querySelectorAll( ".tagchecklist" ) ];
 
-	/**
-	 * Retrieves the tags from the DOM and syncs them to the SEO store.
-	 *
-	 * @returns {void}
-	 */
-	const syncTags = () => {
-		updateTerms( { taxonomyType: "tags", terms: dom.getPostTags() } );
-		names.forEach( name => 	updateTerms( { taxonomyType: `customTaxonomies.${ name }`, terms: dom.getCustomTaxonomies()[ name ] } ) );
-	};
+	tagsElements.forEach( tagsElement => {
+		const termID = tagsElement.parentElement.id;
+		let previousLength = 0;
 
-	/**
-	 * Watches the array of tag names for changes, and updates the tags in the SEO store accordingly.
-	 *
-	 * @returns {void}
-	 */
-	const watchTagsList = () => {
-		const tags = dom.getPostTags();
-		const currentLength = tags.length;
-		if ( currentLength !== previousLength ) {
-			syncTags();
-			previousLength = currentLength;
-		}
-	};
-
-	// Retrieve the Tags element.
-	const tagsElement = document.querySelector( ".tagchecklist" );
-	if ( tagsElement ) {
-		/*
-		 * Observe the tags list for changes and update the tags if (new) tags are added or removed.
-		 * Non-hierarchical custom taxonomies have the same element id with the normal tag,
-		 * Hence the custom taxonomies are also updated when there is a change.
+		/**
+		 * Retrieves the tags from the DOM and syncs them to the SEO store using the parent element id.
+		 *
+		 * @returns {void}
 		 */
-		const observer = new MutationObserver( () => {
-			updateTerms( { taxonomyType: "tags", terms: dom.getPostTags() } );
-			names.forEach( name => 	updateTerms( { taxonomyType: `customTaxonomies.${ name }`, terms: dom.getCustomTaxonomies()[ name ] } ) );
-			watchTagsList();
-		} );
-		observer.observe( tagsElement, { childList: true, subtree: true } );
-	}
+		const syncTags = () => {
+			if ( termID === "post_tag" ) {
+				updateTerms( { taxonomyType: "tags", terms: dom.getPostTags( termID ) } );
+			} else {
+				updateTerms( { taxonomyType: `customTaxonomies.${ termID }`, terms: dom.getCustomTaxonomies()[ termID ] } );
+			}
+		};
 
-	watchTagsList();
+		/**
+		 * Watches the array of tag names for changes, and updates the tags in the SEO store accordingly.
+		 *
+		 * @returns {void}
+		 */
+		const watchTagsList = () => {
+			const tags = dom.getPostTags( termID );
+			const currentLength = tags.length;
+
+			if ( currentLength !== previousLength ) {
+				syncTags();
+				previousLength = currentLength;
+			}
+		};
+
+		if ( tagsElement ) {
+			/*
+			 * Observe the tags list for changes and update the tags if (new) tags are added or removed.
+			 * Non-hierarchical custom taxonomies have the same element class with the normal tag,
+			 * Hence the custom taxonomies are also updated when there is a change.
+			 */
+			const observer = new MutationObserver( () => {
+				syncTags();
+				watchTagsList();
+			} );
+			observer.observe( tagsElement, { childList: true, subtree: true } );
+		}
+
+		watchTagsList();
+	} );
 };
 
 /**
