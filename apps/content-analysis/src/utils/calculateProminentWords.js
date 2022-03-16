@@ -9,7 +9,7 @@ import {
 	sortProminentWords,
 } from "yoastseo/src/languageProcessing/helpers/prominentWords/determineProminentWords";
 import { getSubheadingsTopLevel, removeSubheadingsTopLevel } from "yoastseo/src/languageProcessing/helpers/html/getSubheadings";
-import getMorphologyData from "./getMorphologyData";
+import getMorphologyData from "yoastseo/spec/specHelpers/getMorphologyData";
 import getResearcher from "yoastseo/spec/specHelpers/getResearcher";
 
 // Cache the relevant words.
