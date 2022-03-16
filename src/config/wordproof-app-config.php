@@ -19,13 +19,4 @@ class WordProof_App_Config extends DefaultAppConfig {
 	public function getPartner() {
 		return 'yoast';
 	}
-
-	/**
-	 * Returns the environment.
-	 *
-	 * @return string The environment.
-	 */
-	public function getEnvironment() {
-		return 'staging';
-	}
 }
