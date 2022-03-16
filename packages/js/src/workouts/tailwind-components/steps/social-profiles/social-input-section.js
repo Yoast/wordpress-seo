@@ -79,7 +79,7 @@ export default function SocialInputSection( { socialProfiles, errorFields, dispa
 
 			<FieldArray
 				fieldType={ SocialInput }
-				items={ socialProfiles.otherUrls }
+				items={ socialProfiles.otherSocialUrls }
 				onAddProfile={ onAddProfileHandler }
 				onRemoveProfile={ onRemoveProfileHandler }
 				onChangeProfile={ onChangeOthersHandler }

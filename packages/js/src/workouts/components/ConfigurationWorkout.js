@@ -131,15 +131,15 @@ function configurationWorkoutReducer( state, action ) {
 			return newState;
 		case "CHANGE_OTHERS_SOCIAL_PROFILE":
 			newState = handleStepEdit( newState, 3 );
-			newState.socialProfiles.otherUrls[ action.payload.index ] = action.payload.value;
+			newState.socialProfiles.otherSocialUrls[ action.payload.index ] = action.payload.value;
 			return newState;
 		case "ADD_OTHERS_SOCIAL_PROFILE":
 			newState = handleStepEdit( newState, 3 );
-			newState.socialProfiles.otherUrls = [ ...newState.socialProfiles.otherUrls, action.payload.value ];
+			newState.socialProfiles.otherSocialUrls = [ ...newState.socialProfiles.otherSocialUrls, action.payload.value ];
 			return newState;
 		case "REMOVE_OTHERS_SOCIAL_PROFILE":
 			newState = handleStepEdit( newState, 3 );
-			newState.socialProfiles.otherUrls = newState.socialProfiles.otherUrls.filter( ( _, idx ) => idx !== action.payload.index );
+			newState.socialProfiles.otherSocialUrls = newState.socialProfiles.otherSocialUrls.filter( ( _, idx ) => idx !== action.payload.index );
 			return newState;
 		case "SET_ERROR_FIELDS":
 			newState.errorFields = action.payload;
@@ -219,7 +219,7 @@ async function updateSocialProfiles( state ) {
 		pinterest_url: state.socialProfiles.pinterestUrl,
 		youtube_url: state.socialProfiles.youtubeUrl,
 		wikipedia_url: state.socialProfiles.wikipediaUrl,
-		other_urls: state.socialProfiles.otherUrls,
+		other_social_urls: state.socialProfiles.otherSocialUrls,
 		/* eslint-enable camelcase */
 	};
 

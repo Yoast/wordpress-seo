@@ -42,7 +42,7 @@ class Configuration_Workout_Action {
 		'pinterest_url',
 		'youtube_url',
 		'wikipedia_url',
-        'other_urls',
+        'other_social_urls',
 	];
 
 	/**
@@ -106,7 +106,7 @@ class Configuration_Workout_Action {
 		$failures = [];
 
 		foreach ( self::SOCIAL_PROFILES_FIELDS as $field_name ) {
-            if ( $field_name === "other_urls" ) continue;
+            if ( $field_name === "other_social_urls" ) continue;
 			if ( isset( $params[ $field_name ] ) ) {
 				$result = $this->options_helper->set( $field_name, $params[ $field_name ] );
 				if ( ! $result ) {
