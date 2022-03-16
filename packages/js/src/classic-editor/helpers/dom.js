@@ -244,9 +244,11 @@ export const getPostCategories = () => {
 };
 
 /**
- * Gets the current post's tags from the document.
+ * Gets the current post's tags or custom tags from the document using the ID of the parent element.
  *
- * @returns {string[]} The post's tags.
+ * @param {String} termID The parent element id of the tags or custom tags.
+ *
+ * @returns {String[]} The post's tags
  */
 export const getPostTags = ( termID = "post_tag" ) => {
 	const tagChecklistElement = document.querySelectorAll( `#${ termID } .tagchecklist` );
