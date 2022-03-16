@@ -74,7 +74,7 @@ RadioGroup.propTypes = {
 	id: PropTypes.string.isRequired,
 	name: PropTypes.string.isRequired,
 	value: PropTypes.string.isRequired,
-	label: PropTypes.node,
+	label: PropTypes.node.isRequired,
 	options: PropTypes.arrayOf( PropTypes.shape( {
 		value: PropTypes.string.isRequired,
 		label: PropTypes.string.isRequired,
@@ -86,7 +86,6 @@ RadioGroup.propTypes = {
 
 RadioGroup.defaultProps = {
 	children: null,
-	label: null,
 	variant: "default",
 	className: "",
 };

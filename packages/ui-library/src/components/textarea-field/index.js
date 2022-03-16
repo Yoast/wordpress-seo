@@ -51,14 +51,13 @@ const TextareaField = ( {
 
 TextareaField.propTypes = {
 	id: PropTypes.string.isRequired,
-	label: PropTypes.node,
+	label: PropTypes.node.isRequired,
 	className: PropTypes.string,
 	description: PropTypes.node,
 	error: PropTypes.node,
 };
 
 TextareaField.defaultProps = {
-	label: null,
 	className: "",
 	description: null,
 	error: null,
