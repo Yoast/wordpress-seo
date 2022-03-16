@@ -241,26 +241,27 @@ const createTagsSync = ( updateTerms ) => {
  */
 const createCustomTaxonomiesSync = ( updateTerms ) => {
 	const names = dom.getCTNames();
+	names.forEach( name => {
+		/**
+		 * Retrieves the hierarchical custom taxonomies from the DOM and syncs them to the SEO store.
+		 *
+		 * @returns {void}
+		 */
+		const syncCustomTaxonomies = () => {
+			updateTerms( { taxonomyType: `customTaxonomies.${ name }`, terms: dom.getCustomTaxonomies()[ name ] } );
+		};
 
-	/**
-	 * Retrieves the hierarchical custom taxonomies from the DOM and syncs them to the SEO store.
-	 *
-	 * @returns {void}
-	 */
-	const syncCustomTaxonomies = () => {
-		names.forEach( name => updateTerms( { taxonomyType: `customTaxonomies.${ name }`, terms: dom.getCustomTaxonomies()[ name ] } ) );
-	};
-
-	/**
-	 * Watches the hierarchical custom taxonomy checkboxes for changes,
-	 * and updates the custom taxonomies in the SEO store accordingly.
-	 *
-	 * @returns {void}
-	 */
-	const watchCTCheckboxes = () => {
-		// Sync the hierarchical custom taxonomies whenever there are changes in the checkboxes.
-		// Watch both the "All (Custom taxonomy name)" and "Most Used" sections.
-		names.forEach( name => {
+		/**
+		 * Watches the hierarchical custom taxonomy checkboxes for changes,
+		 * and updates the custom taxonomies in the SEO store accordingly.
+		 *
+		 * @returns {void}
+		 */
+		const watchCTCheckboxes = () => {
+			/**
+			 * Sync the hierarchical custom taxonomies whenever there are changes in the checkboxes.
+			 * Watch both the "All (Custom taxonomy name)" and "Most Used" sections.
+			 */
 			const checkboxes = [ ...dom.getCTCheckboxes( name ), ...dom.getMostUsedCTCheckboxes( name ) ];
 			checkboxes.forEach(
 				checkbox => {
@@ -268,26 +269,24 @@ const createCustomTaxonomiesSync = ( updateTerms ) => {
 					checkbox.addEventListener( "input", syncCustomTaxonomies );
 				}
 			);
-		} );
-	};
+		};
 
-	names.forEach( name => {
 		const CTChecklist = document.getElementById( `${ name }checklist` );
 		if ( CTChecklist ) {
-			/*
+			/**
 			 * Observe the hierarchical custom taxonomy checklist for changes and update the custom taxonomies if new custom taxonomies are added.
 			 * Consider only the "All (Custom taxonomy name)" section, because newly added custom taxonomies
 			 * will not end up in the "Most Used" section.
-			 */
+			 * */
 			const observer = new MutationObserver( () => {
 				updateTerms( { taxonomyType: `customTaxonomies.${ name }`, terms: dom.getCustomTaxonomies()[ name ] } );
 				watchCTCheckboxes();
 			} );
 			observer.observe( CTChecklist, { childList: true, subtree: true } );
 		}
-	} );
 
-	watchCTCheckboxes();
+		watchCTCheckboxes();
+	} );
 };
 
 /**
