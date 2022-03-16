@@ -50,21 +50,12 @@ class Organization extends Abstract_Schema_Piece {
 	 * @return array An array of social profiles.
 	 */
 	private function fetch_social_profiles() {
-		$profiles        = [];
-		$social_profiles = [
-			'facebook_site',
-			'instagram_url',
-			'linkedin_url',
-			'myspace_url',
-			'youtube_url',
-			'pinterest_url',
-			'wikipedia_url',
-		];
-		foreach ( $social_profiles as $profile ) {
-			$social_profile = $this->helpers->options->get( $profile, '' );
-			if ( $social_profile !== '' ) {
-				$profiles[] = \urldecode( $social_profile );
-			}
+		$social_profiles = $this->helpers->options->get( 'other_social_urls', [] );
+		$profiles        = \array_map( '\urldecode', \array_filter( $social_profiles ) );
+
+		$facebook = $this->helpers->options->get( 'facebook_site', '' );
+		if ( $facebook !== '' ) {
+			$profiles[] = \urldecode( $facebook );
 		}
 
 		$twitter = $this->helpers->options->get( 'twitter_site', '' );
