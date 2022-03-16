@@ -128,6 +128,9 @@ class Configuration_Workout_Route implements Route_Interface {
 				'wikipedia_url' => [
 					'type'     => 'string',
 				],
+                'other_social_urls' => [
+					'type'     => 'array',
+				],
 			],
 		];
 
