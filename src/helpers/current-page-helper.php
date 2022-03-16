@@ -38,27 +38,61 @@ class Current_Page_Helper {
 	 * @return string Page type.
 	 */
 	public function get_page_type() {
-		switch ( true ) {
-			case $this->is_search_result():
-				return 'Search_Result_Page';
-			case $this->is_static_posts_page():
-				return 'Static_Posts_Page';
-			case $this->is_home_static_page():
-				return 'Static_Home_Page';
-			case $this->is_home_posts_page():
-				return 'Home_Page';
-			case $this->is_simple_page():
-				return 'Post_Type';
-			case $this->is_post_type_archive():
-				return 'Post_Type_Archive';
-			case $this->is_term_archive():
-				return 'Term_Archive';
-			case $this->is_author_archive():
-				return 'Author_Archive';
-			case $this->is_date_archive():
-				return 'Date_Archive';
-			case $this->is_404():
-				return 'Error_Page';
+		$page_type_mapping = [
+			'search' => [
+				'type'           => 'Search_Result_Page',
+				'match_callback' => [ $this, 'is_search_result' ],
+			],
+			'static_posts_page' => [
+				'type'           => 'Static_Posts_Page',
+				'match_callback' => [ $this, 'is_static_posts_page' ],
+			],
+			'static_home_page' => [
+				'type'           => 'Static_Home_Page',
+				'match_callback' => [ $this, 'is_home_static_page' ],
+			],
+			'home_page' => [
+				'type'           => 'Home_Page',
+				'match_callback' => [ $this, 'is_home_posts_page' ],
+			],
+			'post_type' => [
+				'type'           => 'Post_Type',
+				'match_callback' => [ $this, 'is_simple_page' ],
+			],
+			'term_archive' => [
+				'type'           => 'Term_Archive',
+				'match_callback' => [ $this, 'is_term_archive' ],
+			],
+			'post_type_archive' => [
+				'type'           => 'Post_Type_Archive',
+				'match_callback' => [ $this, 'is_post_type_archive' ],
+			],
+			'author_archive' => [
+				'type'           => 'Author_Archive',
+				'match_callback' => [ $this, 'is_author_archive' ],
+			],
+			'date_archive' => [
+				'type'           => 'Date_Archive',
+				'match_callback' => [ $this, 'is_date_archive' ],
+			],
+			'404' => [
+				'type'           => 'Error_Page',
+				'match_callback' => [ $this, 'is_404' ],
+			],
+		];
+
+		/**
+		 * Filter: Allow changing and reordering the page type mapping.
+		 *
+		 * @api array $page_type_mapping The mapping.
+		 * @param Current_Page_Helper $this Helper with logic to determine current page.
+		 */
+		$page_type_mapping = \apply_filters( 'wpseo_frontend_page_type_mapping', $page_type_mapping, $this );
+
+		foreach ( $page_type_mapping as $page_type ) {
+			if ( $page_type['match_callback']() ) {
+				return $page_type['type'];
+			}
 		}
 
 		return 'Fallback';
