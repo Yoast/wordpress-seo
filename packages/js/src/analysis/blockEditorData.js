@@ -11,6 +11,7 @@ const {
 	updateData,
 	hideReplacementVariables,
 	setContentImage,
+	updateSettings,
 } = actions;
 
 const $ = global.jQuery;
@@ -168,6 +169,34 @@ export default class BlockEditorData {
 	}
 
 	/**
+	 * Gets the base url from the permalink.
+	 *
+	 * @param {string} slug The slug to strip from the permalink.
+	 *
+	 * @returns {string} The base url.
+	 */
+	getPostBaseUrl( slug ) {
+		const permalink = select( "core/editor" ).getPermalink();
+		let url;
+		let baseUrl = "";
+		try {
+			url = new URL( permalink );
+			baseUrl = url.href;
+		} catch ( e ) {
+			// Fallback on current href
+			baseUrl = window.wpseoScriptData.metabox.base_url;
+		}
+		// Strip slug from the url.
+		baseUrl = baseUrl.replace( new RegExp( slug + "/$" ), "" );
+		// Enforce ending with a slash because of the internal handling in the SnippetEditor component.
+		if ( ! baseUrl.endsWith( "/" ) ) {
+			baseUrl += "/";
+		}
+
+		return baseUrl;
+	}
+
+	/**
 	 * Collects the content, title, slug and excerpt of a post from Gutenberg.
 	 *
 	 * @returns {{content: string, title: string, slug: string, excerpt: string}} The content, title, slug and excerpt.
@@ -177,16 +206,18 @@ export default class BlockEditorData {
 		const contentImage = this.calculateContentImage( content );
 		const excerpt = this.getPostAttribute( "excerpt" ) || "";
 		const limit = ( getContentLocale() === "ja" ) ? 80 : 156;
+		const slug = this.getSlug();
 
 		return {
 			content,
 			title: this.getPostAttribute( "title" ) || "",
-			slug: this.getSlug(),
+			slug: slug,
 			excerpt: excerpt || excerptFromContent( content, limit ),
 			// eslint-disable-next-line camelcase
 			excerpt_only: excerpt,
 			snippetPreviewImageURL: this.getFeaturedImage() || contentImage,
 			contentImage,
+			baseUrl: this.getPostBaseUrl( slug ),
 		};
 	}
 
@@ -266,6 +297,11 @@ export default class BlockEditorData {
 		// Handle content image change.
 		if ( this._data.contentImage !== newData.contentImage ) {
 			this._store.dispatch( setContentImage( newData.contentImage ) );
+		}
+
+		// Handle base URL change.
+		if ( this._data.baseUrl !== newData.baseUrl ) {
+			this._store.dispatch( updateSettings( { baseUrl: newData.baseUrl } ) );
 		}
 	}
 
