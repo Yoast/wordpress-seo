@@ -1,0 +1,191 @@
+name: TestJS
+
+on:
+  # Run on pushes to select branches and on all pull requests.
+  push:
+    branches:
+      - master
+      - trunk
+      - 'release/**'
+      - 'hotfix/[0-9]+.[0-9]+*'
+      - 'feature/**'
+  pull_request:
+  # Also run this workflow every night at 04:30 (for a full test run).
+  schedule:
+    - cron: '30 4 * * *'
+  # Allow manually triggering the workflow.
+  workflow_dispatch:
+
+# Cancels all previous workflow runs for the same branch that have not yet completed.
+concurrency:
+  # The concurrency group contains the workflow name and the branch name.
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}
+  cancel-in-progress: true
+
+jobs:
+  #########################################################################################
+  # For packages in this job, the full test suite is always run.
+  #########################################################################################
+  yarn-test-full:
+    # These tests will always run the full test suite, so no need to run it again from the cron job.
+    if: github.event_name != 'schedule'
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      # As these packages are all unique, don't stop the workflow when the test run of one package fails.
+      fail-fast: false
+      matrix:
+        package:
+          - 'analysis-report'
+          - 'browserslist-config'
+          - 'components'
+          - 'configuration-wizard'
+          - 'feature-flag'
+          - 'helpers'
+          - 'js'
+          - 'replacement-variable-editor'
+          - 'schema-blocks'
+          - 'search-metadata-previews'
+          - 'social-metadata-forms'
+          - 'social-metadata-previews'
+          - 'yoast-components'
+
+    name: "TestJS - ${{ matrix.package }} (full)"
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # The ubuntu images come with Node, npm and yarn pre-installed.
+      # https://github.com/actions/virtual-environments/blob/main/images/linux/Ubuntu2004-Readme.md
+
+      # This action also handles the caching of the Yarn dependencies.
+      # https://github.com/actions/setup-node
+      - name: Set up node and enable caching of dependencies
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+          cache: 'yarn'
+
+      - name: Yarn install
+        run: yarn install
+
+      - name: Show debug info
+        run: |
+          npm --version
+          node --version
+          yarn --version
+          grunt --version
+          yarn run jest --version
+
+      - name: Show Jest version
+        run: yarn run jest --version
+        working-directory: packages/${{ matrix.package }}
+
+      - name: Show Config
+        run: yarn test --showConfig
+        working-directory: packages/${{ matrix.package }}
+
+      - name: Run Javascript tests
+        run: yarn test --ci
+        working-directory: packages/${{ matrix.package }}
+
+
+  #########################################################################################
+  # For packages in this job, by default, only the tests related to changed files are run.
+  # Once a day, every day, the full test suite is run via a cron job.
+  # Packages should (only) be moved to this job if the full test run is exceedingly slow.
+  #########################################################################################
+  yarn-test-onlyChanged:
+    runs-on: ubuntu-latest
+
+    strategy:
+      # As these packages are all unique, don't stop the workflow when the test run of one package fails.
+      fail-fast: false
+      matrix:
+        include:
+          - package:              'yoastseo'
+            needs_premium_config: true
+
+    name: "TestJS - ${{ matrix.package }}${{ github.event_name == 'schedule' && ' (full)' || ' (onlyChanged)' }}"
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # The base branch is used to allow the "regular" (PR/push) checks to only run the
+      # tests relevant for changes files.
+      - name: Determine the base branch
+        id: base_branch
+        env:
+          BASE_REF: ${{ github.base_ref }}
+        run: |
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            echo "::set-output name=NAME::$BASE_REF"
+            echo '::set-output name=CURRENT::$GITHUB_SHA'
+          else
+            echo '::set-output name=NAME::trunk'
+            echo '::set-output name=CURRENT::$GITHUB_REF'
+          fi
+
+     # Note: we need to actually check the branch out and then go back to the original branch
+     # as `changedSince` does not work if there is no local branch for the base ref.
+      - name: "Fetch base branch (for onlyChanged test runs)"
+        if: ${{ github.event_name != 'schedule' }}
+        run: |
+          git fetch --no-tags --depth=1 origin ${{ steps.base_branch.outputs.NAME }}
+          git checkout -b ${{ steps.base_branch.outputs.NAME }}
+          git checkout ${{ steps.base_branch.outputs.CURRENT }}
+
+      # Check out the premium config repo ahead of running the tests to prevent issues with permissions.
+      - name: Checkout premium configuration
+        if: ${{ matrix.needs_premium_config == true }}
+        uses: actions/checkout@v3
+        with:
+          repository: Yoast/YoastSEO.js-premium-configuration
+          path: packages/yoastseo/premium-configuration
+          fetch-depth: 0
+          token: ${{ secrets.YOASTBOT_CI_PAT_DIST }}
+
+      # The ubuntu images come with Node, npm and yarn pre-installed.
+      # https://github.com/actions/virtual-environments/blob/main/images/linux/Ubuntu2004-Readme.md
+
+      # This action also handles the caching of the Yarn dependencies.
+      # https://github.com/actions/setup-node
+      - name: Set up node and enable caching of dependencies
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+          cache: 'yarn'
+
+      - name: Yarn install
+        run: yarn install
+
+      - name: Show debug info
+        run: |
+          npm --version
+          node --version
+          yarn --version
+          grunt --version
+          yarn run jest --version
+
+      - name: Show Jest version
+        run: yarn run jest --version
+        working-directory: packages/${{ matrix.package }}
+
+      - name: Show Config
+        run: yarn test --showConfig
+        working-directory: packages/${{ matrix.package }}
+
+      # The cron job will run the full test suite, in all other cases, only the relevant tests
+      # will be run based on the changed files.
+      - name: "Run Javascript tests - onlyChanged files"
+        if: ${{ github.event_name != 'schedule' }}
+        run: yarn test --ci --changedSince="${{ steps.base_branch.outputs.NAME }}"
+        working-directory: packages/${{ matrix.package }}
+
+      - name: Run Javascript tests - full test run
+        if: ${{ github.event_name == 'schedule' }}
+        run: yarn test --ci
+        working-directory: packages/${{ matrix.package }}
