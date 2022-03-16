@@ -10,9 +10,6 @@ on:
       - 'hotfix/[0-9]+.[0-9]+*'
       - 'feature/**'
   pull_request:
-  # Also run this workflow every night at 04:30 (for a full test run).
-  schedule:
-    - cron: '30 4 * * *'
   # Allow manually triggering the workflow.
   workflow_dispatch:
 
@@ -28,8 +25,6 @@ jobs:
   #########################################################################################
   yarn-test-full:
     # These tests will always run the full test suite, so no need to run it again from the cron job.
-    if: github.event_name != 'schedule'
-
     runs-on: ubuntu-latest
 
     strategy:
@@ -93,8 +88,8 @@ jobs:
 
 
   #########################################################################################
-  # For packages in this job, by default, only the tests related to changed files are run.
-  # Once a day, every day, the full test suite is run via a cron job.
+  # Run the full test suite unless it's a pull request.
+  # For pull requests, only the tests related to changed files are run to save time.
   # Packages should (only) be moved to this job if the full test run is exceedingly slow.
   #########################################################################################
   yarn-test-onlyChanged:
@@ -108,35 +103,25 @@ jobs:
           - package:              'yoastseo'
             needs_premium_config: true
 
-    name: "TestJS - ${{ matrix.package }}${{ github.event_name == 'schedule' && ' (full)' || ' (onlyChanged)' }}"
+    name: "TestJS - ${{ matrix.package }}${{ github.event_name == 'pull_request' && ' (onlyChanged)' || ' (full)' }}"
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # The base branch is used to allow the "regular" (PR/push) checks to only run the
-      # tests relevant for changes files.
-      - name: Determine the base branch
-        id: base_branch
+      # The base branch is used to allow the PR checks to only run the tests relevant for changes files.
+      # Note: we need to actually check out the base branch and then go back to the original branch that
+      # is being tested as `changedSince` does not work if there is no local branch for the base ref.
+      # When switching back to the original branch we use the GitHub sha because that will allow us to
+      # switch back to the merge commit (which is not a branch) that is created for pull requests.
+      - name: "Fetch base branch (for onlyChanged test runs)"
+        if: ${{ github.event_name == 'pull_request' }}
         env:
           BASE_REF: ${{ github.base_ref }}
         run: |
-          if [ "${{ github.event_name }}" == "pull_request" ]; then
-            echo "::set-output name=NAME::$BASE_REF"
-            echo '::set-output name=CURRENT::$GITHUB_SHA'
-          else
-            echo '::set-output name=NAME::trunk'
-            echo '::set-output name=CURRENT::$GITHUB_REF'
-          fi
-
-     # Note: we need to actually check the branch out and then go back to the original branch
-     # as `changedSince` does not work if there is no local branch for the base ref.
-      - name: "Fetch base branch (for onlyChanged test runs)"
-        if: ${{ github.event_name != 'schedule' }}
-        run: |
-          git fetch --no-tags --depth=1 origin ${{ steps.base_branch.outputs.NAME }}
-          git checkout -b ${{ steps.base_branch.outputs.NAME }}
-          git checkout ${{ steps.base_branch.outputs.CURRENT }}
+          git fetch --no-tags --depth=1 origin $BASE_REF 
+          git checkout $BASE_REF 2>/dev/null || git checkout -b $BASE_REF
+          git checkout $GITHUB_SHA
 
       # Check out the premium config repo ahead of running the tests to prevent issues with permissions.
       - name: Checkout premium configuration
@@ -178,14 +163,16 @@ jobs:
         run: yarn test --showConfig
         working-directory: packages/${{ matrix.package }}
 
-      # The cron job will run the full test suite, in all other cases, only the relevant tests
-      # will be run based on the changed files.
-      - name: "Run Javascript tests - onlyChanged files"
-        if: ${{ github.event_name != 'schedule' }}
-        run: yarn test --ci --changedSince="${{ steps.base_branch.outputs.NAME }}"
+      # For pull requests, only the relevant tests will be run based on the changed files.
+      # For all other cases, the full test suite will be run.
+      - name: Run Javascript tests - onlyChanged files
+        if: ${{ github.event_name == 'pull_request' }}
+        env:
+          BASE_REF: ${{ github.base_ref }}
+        run: yarn test --ci --changedSince="$BASE_REF"
         working-directory: packages/${{ matrix.package }}
 
       - name: Run Javascript tests - full test run
-        if: ${{ github.event_name == 'schedule' }}
+        if: ${{ github.event_name != 'pull_request' }}
         run: yarn test --ci
         working-directory: packages/${{ matrix.package }}
