@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import { select, subscribe } from "@wordpress/data";
 import { actions } from "@yoast/externals/redux";
 import { debounce } from "lodash-es";
@@ -183,7 +184,7 @@ export default class BlockEditorData {
 			url = new URL( permalink );
 			baseUrl = url.href;
 		} catch ( e ) {
-			// Fallback on current href
+			// Fallback on the base url retrieved from the wpseoScriptData.
 			baseUrl = window.wpseoScriptData.metabox.base_url;
 		}
 		// Strip slug from the url.
@@ -276,16 +277,16 @@ export default class BlockEditorData {
 	 * @returns {void}
 	 */
 	handleEditorChange( newData ) {
-		// Handle title change
+		// Handle title change.
 		if ( this._data.title !== newData.title ) {
 			this._store.dispatch( updateReplacementVariable( "title", newData.title ) );
 		}
-		// Handle excerpt change
+		// Handle excerpt change.
 		if ( this._data.excerpt !== newData.excerpt ) {
 			this._store.dispatch( updateReplacementVariable( "excerpt", newData.excerpt ) );
 			this._store.dispatch( updateReplacementVariable( "excerpt_only", newData.excerpt_only ) );
 		}
-		// Handle slug change
+		// Handle slug change.
 		if ( this._data.slug !== newData.slug ) {
 			this._store.dispatch( updateData( { slug: newData.slug } ) );
 		}
@@ -293,12 +294,10 @@ export default class BlockEditorData {
 		if ( this._data.snippetPreviewImageURL !== newData.snippetPreviewImageURL ) {
 			this._store.dispatch( updateData( { snippetPreviewImageURL: newData.snippetPreviewImageURL } ) );
 		}
-
 		// Handle content image change.
 		if ( this._data.contentImage !== newData.contentImage ) {
 			this._store.dispatch( setContentImage( newData.contentImage ) );
 		}
-
 		// Handle base URL change.
 		if ( this._data.baseUrl !== newData.baseUrl ) {
 			this._store.dispatch( updateSettings( { baseUrl: newData.baseUrl } ) );
