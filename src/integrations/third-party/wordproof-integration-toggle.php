@@ -2,10 +2,7 @@
 
 namespace Yoast\WP\SEO\Integrations\Third_Party;
 
-use WordProof\SDK\Helpers\PostMetaHelper;
-use WordProof\SDK\WordPressSDK;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
-use Yoast\WP\SEO\Conditionals\Third_Party\Wordproof_Plugin_Inactive_Conditional;
 use Yoast\WP\SEO\Config\WordProofAppConfig;
 use Yoast\WP\SEO\Config\WordProofTranslations;
 use Yoast\WP\SEO\Helpers\Wordproof_Helper;
@@ -30,7 +27,7 @@ class Wordproof_Integration_Toggle implements Integration_Interface {
 	 *
 	 * @param Wordproof_Helper $wordproof The WordProof helper instance.
 	 */
-	public function __construct(Wordproof_Helper $wordproof ) {
+	public function __construct( Wordproof_Helper $wordproof ) {
 		$this->wordproof = $wordproof;
 	}
 
