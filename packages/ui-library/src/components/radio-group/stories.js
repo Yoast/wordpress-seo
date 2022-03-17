@@ -79,7 +79,7 @@ export const Variants = ( args ) => (
 	</div>
 );
 Variants.parameters = {
-	docs: { description: { story: "Please" } },
+	docs: { description: { story: "In the `inline-block` variant, the `srLabel` prop is used to provide screen readers with a useful label." } },
 };
 
 export const WithLabelAndDescription = Template.bind();
