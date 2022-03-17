@@ -182,12 +182,13 @@ class Breadcrumbs_Generator implements Generator_Interface {
 
 		// Basic check to make sure the filtered crumbs are in an array.
 		if ( ! is_array( $filtered_crumbs ) ) {
-			_doing_it_wrong( 
-				'add_filter(\'wpseo_breadcrumb_links\')', 
+			_doing_it_wrong(
+				'add_filter(\'wpseo_breadcrumb_links\')',
 				'The `wpseo_breadcrumb_links` filter should return a multi-dimensional array.',
-				'wordpress-seo 18.5'
+				'wordpress-seo v18.5'
 			);
-		} else {
+		}
+		else {
 			$crumbs = $filtered_crumbs;
 		}
 
