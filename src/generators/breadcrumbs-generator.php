@@ -178,7 +178,18 @@ class Breadcrumbs_Generator implements Generator_Interface {
 		 *
 		 * @api array $crumbs The crumbs array.
 		 */
-		$crumbs = \apply_filters( 'wpseo_breadcrumb_links', $crumbs );
+		$filtered_crumbs = \apply_filters( 'wpseo_breadcrumb_links', $crumbs );
+
+		// Basic check to make sure the filtered crumbs are in an array.
+		if ( ! is_array( $filtered_crumbs ) ) {
+			_doing_it_wrong( 
+				'add_filter(\'wpseo_breadcrumb_links\')', 
+				'The `wpseo_breadcrumb_links` filter should return a multi-dimensional array.',
+				'wordpress-seo 18.5'
+			);
+		} else {
+			$crumbs = $filtered_crumbs;
+		}
 
 		$filter_callback = static function( $link_info, $index ) use ( $crumbs ) {
 			/**
