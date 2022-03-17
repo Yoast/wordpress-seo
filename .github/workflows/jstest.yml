@@ -16,7 +16,7 @@ on:
 # Cancels all previous workflow runs for the same branch that have not yet completed.
 concurrency:
   # The concurrency group contains the workflow name and the branch name.
-  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -24,7 +24,6 @@ jobs:
   # For packages in this job, the full test suite is always run.
   #########################################################################################
   yarn-test-full:
-    # These tests will always run the full test suite, so no need to run it again from the cron job.
     runs-on: ubuntu-latest
 
     strategy:
@@ -88,8 +87,9 @@ jobs:
 
 
   #########################################################################################
-  # Run the full test suite unless it's a pull request.
-  # For pull requests, only the tests related to changed files are run to save time.
+  # For packages in this job, PRs will only run the tests related to changed files
+  # to make the build faster.
+  # For merges and pushes to select branches, the full test suite is still run.
   # Packages should (only) be moved to this job if the full test run is exceedingly slow.
   #########################################################################################
   yarn-test-onlyChanged:
@@ -112,15 +112,15 @@ jobs:
       # The base branch is used to allow the PR checks to only run the tests relevant for changes files.
       # Note: we need to actually check out the base branch and then go back to the original branch that
       # is being tested as `changedSince` does not work if there is no local branch for the base ref.
-      # When switching back to the original branch we use the GitHub sha because that will allow us to
+      # When switching back to the original branch we use the GitHub SHA because that will allow us to
       # switch back to the merge commit (which is not a branch) that is created for pull requests.
       - name: "Fetch base branch (for onlyChanged test runs)"
         if: ${{ github.event_name == 'pull_request' }}
         env:
           BASE_REF: ${{ github.base_ref }}
         run: |
-          git fetch --no-tags --depth=1 origin $BASE_REF 
-          git checkout $BASE_REF 2>/dev/null || git checkout -b $BASE_REF
+          git fetch --no-tags --depth=1 origin $BASE_REF
+          git checkout -b $BASE_REF
           git checkout $GITHUB_SHA
 
       # Check out the premium config repo ahead of running the tests to prevent issues with permissions.
@@ -164,7 +164,6 @@ jobs:
         working-directory: packages/${{ matrix.package }}
 
       # For pull requests, only the relevant tests will be run based on the changed files.
-      # For all other cases, the full test suite will be run.
       - name: Run Javascript tests - onlyChanged files
         if: ${{ github.event_name == 'pull_request' }}
         env:
@@ -172,6 +171,7 @@ jobs:
         run: yarn test --ci --changedSince="$BASE_REF"
         working-directory: packages/${{ matrix.package }}
 
+      # In all other cases, the full test suite will be run.
       - name: Run Javascript tests - full test run
         if: ${{ github.event_name != 'pull_request' }}
         run: yarn test --ci
