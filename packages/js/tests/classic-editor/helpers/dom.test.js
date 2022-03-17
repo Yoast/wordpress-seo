@@ -99,13 +99,17 @@ describe( "a test for retrieving tags from the document", () => {
 	tagsListElement.appendChild( tag1 );
 	tagsListElement.appendChild( tag2 );
 
-	document.body.appendChild( tagsListElement );
+	const parentElement = document.createElement( "div" );
+	parentElement.setAttribute( "id", "post_tag" );
+	parentElement.appendChild( tagsListElement );
+
+	document.body.appendChild( parentElement );
 
 	it( "should return the tags from the post", () => {
 		expect( dom.getPostTags() ).toEqual( [ "cat food", "cat snack" ] );
 		// Remove the previous tags elements after the test is run, so that this element wouldn't be returned next time the test
 		// For non-hierarchical taxonomy is run.
-		document.body.removeChild( tagsListElement );
+		document.body.removeChild( parentElement );
 	} );
 } );
 
@@ -259,9 +263,16 @@ nonHierarchicalCTElement.setAttribute( "class", "tagchecklist" );
 nonHierarchicalCTElement.appendChild( director1 );
 nonHierarchicalCTElement.appendChild( director2 );
 
+// Set the parent element for the non-hierarchical custom taxonomies.
+const nonHierarchicalParentElement = document.createElement( "div" );
+nonHierarchicalParentElement.setAttribute( "id", "directors" );
+nonHierarchicalParentElement.appendChild( nonHierarchicalCTElement );
+
+document.body.appendChild( nonHierarchicalParentElement );
+
 document.body.appendChild( allActors );
 document.body.appendChild( mostUsedActors );
-document.body.appendChild( nonHierarchicalCTElement );
+document.body.appendChild( nonHierarchicalParentElement );
 
 describe( "a test for retrieving custom taxonomies from the DOM", () => {
 	const names = dom.getCTNames();
