@@ -3,12 +3,12 @@
 namespace Yoast\WP\SEO\Helpers;
 
 use Yoast\WP\SEO\Conditionals\Non_Multisite_Conditional;
-use Yoast\WP\SEO\Conditionals\Third_Party\WordProof_Plugin_Inactive_Conditional;
+use Yoast\WP\SEO\Conditionals\Third_Party\Wordproof_Plugin_Inactive_Conditional;
 
 /**
  * A helper object for WordProof integration.
  */
-class WordProof_Helper {
+class Wordproof_Helper {
 
 	/**
 	 * Holds the Current Page helper instance.
@@ -62,7 +62,7 @@ class WordProof_Helper {
 	 * @return bool|string Returns if the integration should be disabled.
 	 */
 	public function integration_is_disabled( $return_conditional = false ) {
-		$conditionals = [ new WordProof_Plugin_Inactive_Conditional(), new Non_Multisite_Conditional() ];
+		$conditionals = [ new Wordproof_Plugin_Inactive_Conditional(), new Non_Multisite_Conditional() ];
 
 		foreach ( $conditionals as $conditional ) {
 			if ( ! $conditional->is_met() ) {
