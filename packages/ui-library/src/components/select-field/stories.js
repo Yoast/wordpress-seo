@@ -44,6 +44,7 @@ Factory.args = {
 		{ value: "3", label: "Option 3" },
 		{ value: "4", label: "Option 4" },
 	],
+	label: "A Select Field",
 };
 
 export const WithLabelAndDescription = Template.bind( {} );

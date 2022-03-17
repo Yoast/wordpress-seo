@@ -33,6 +33,10 @@ Factory.parameters = {
 	controls: { disable: false },
 };
 
+Factory.args = {
+	label: "A Toggle Field",
+};
+
 export const WithLabelAndDescription = Template.bind( {} );
 WithLabelAndDescription.args = {
 	name: "name-1",

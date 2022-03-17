@@ -38,7 +38,7 @@ const ToggleField = ( {
 
 ToggleField.propTypes = {
 	children: PropTypes.node,
-	label: PropTypes.node,
+	label: PropTypes.node.isRequired,
 	checked: PropTypes.bool.isRequired,
 	onChange: PropTypes.func.isRequired,
 	className: PropTypes.string,
@@ -46,7 +46,6 @@ ToggleField.propTypes = {
 
 ToggleField.defaultProps = {
 	children: null,
-	label: null,
 	className: "",
 };
 

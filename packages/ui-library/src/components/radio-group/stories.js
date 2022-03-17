@@ -43,6 +43,7 @@ Factory.args = {
 		{ value: "3", label: "Option 3" },
 		{ value: "4", label: "Option 4" },
 	],
+	label: "A Radio Group",
 };
 
 export const Variants = ( args ) => (
@@ -57,6 +58,7 @@ export const Variants = ( args ) => (
 				{ value: "3", label: "Option 3" },
 				{ value: "4", label: "Option 4" },
 			] }
+			label="Default Radio Group"
 			onChange={ noop }
 		/>
 		<hr />
@@ -64,7 +66,7 @@ export const Variants = ( args ) => (
 			id="radio-group-2"
 			name="name-2"
 			value="2"
-			label="Radio group with a label"
+			label="Inline-block Radio Group"
 			options={ [
 				{ value: "1", label: "1" },
 				{ value: "2", label: "2" },

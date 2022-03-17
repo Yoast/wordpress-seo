@@ -80,13 +80,12 @@ Radio.propTypes = {
 	name: PropTypes.string.isRequired,
 	id: PropTypes.string.isRequired,
 	value: PropTypes.string.isRequired,
-	label: PropTypes.node,
+	label: PropTypes.node.isRequired,
 	variant: PropTypes.oneOf( Object.keys( classNameMap.variant ) ),
 	className: PropTypes.string,
 };
 
 Radio.defaultProps = {
-	label: null,
 	variant: "default",
 	className: "",
 };
