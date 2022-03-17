@@ -44,7 +44,7 @@ describe( "Tests a string for anchors and its attributes", function() {
 		const attributes = {
 			keyword: "test",
 			url: "http://yoast.com",
-			siteUrlOrDomain: "http://yoast.com",
+			permalink: "http://yoast.com",
 		};
 
 		const mockPaper = new Paper( "string <a href='http://yoast.com/some-other-page/'>link</a>", attributes );
@@ -59,7 +59,7 @@ describe( "Tests a string for anchors and its attributes", function() {
 		const attributes = {
 			keyword: "focuskeyword",
 			url: "http://yoast.com",
-			siteUrlOrDomain: "http://yoast.com",
+			permalink: "http://yoast.com",
 		};
 
 		const mockPaper = new Paper( "string <a href='http://yoast.com/some-other-page/'>focuskeyword</a>", attributes );
@@ -75,7 +75,7 @@ describe( "Tests a string for anchors and its attributes", function() {
 		const attributes = {
 			keyword: "focuskeyword",
 			url: "http://yoast.com",
-			siteUrlOrDomain: "http://yoast.com",
+			permalink: "http://yoast.com",
 		};
 
 		const mockPaper = new Paper( "string <a href='http://example.com/some-page/'>focuskeyword</a>", attributes );
@@ -91,7 +91,7 @@ describe( "Tests a string for anchors and its attributes", function() {
 		const attributes = {
 			keyword: "focuskeyword",
 			url: "http://yoast.com/this-page/",
-			siteUrlOrDomain: "http://yoast.com/this-page/",
+			permalink: "http://yoast.com/this-page/",
 		};
 
 		const mockPaper = new Paper( "string <a href='http://yoast.com/this-page/'>focuskeyword</a>", attributes );
@@ -139,7 +139,7 @@ describe( "Tests a string for anchors and its attributes", function() {
 		const attributes = {
 			keyword: "focuskeyword",
 			url: "http://yoast.com/this-page/",
-			siteUrlOrDomain: "http://yoast.com/this-page/",
+			permalink: "http://yoast.com/this-page/",
 		};
 
 		const mockPaper = new Paper( "string <a href='#some-fragment'>focuskeyword</a>", attributes );
@@ -295,7 +295,7 @@ describe( "Tests a string for anchors and its attributes", function() {
 		const attributes = {
 			keyword: "keyword",
 			url: "http://example.org",
-			siteUrlOrDomain: "http://example.org",
+			permalink: "http://example.org",
 		};
 		let mockPaper = new Paper( "hello", attributes );
 		const researcher = new EnglishResearcher( mockPaper );
@@ -358,7 +358,7 @@ describe( "Tests a string for anchors and its attributes", function() {
 		const attributes = {
 			keyword: "keyword",
 			url: "http://example.org/keyword",
-			siteUrlOrDomain: "http://example.org/keyword",
+			permalink: "http://example.org/keyword",
 		};
 
 		const mockPaper = new Paper( "hello, here is a link with my <a href='http://example.org/keyword'>Keyword</a>", attributes );
@@ -389,7 +389,7 @@ describe( "Tests a string for anchors and its attributes", function() {
 		const attributes = {
 			keyword: "keyword",
 			url: "http://example.org/keyword#top",
-			siteUrlOrDomain: "http://example.org/keyword#top",
+			permalink: "http://example.org/keyword#top",
 		};
 
 		const mockPaper = new Paper( "hello, here is a link with my <a href='http://example.org/keyword'>Keyword</a>", attributes );
@@ -420,7 +420,7 @@ describe( "Tests a string for anchors and its attributes", function() {
 		const attributes = {
 			keyword: "keyword",
 			url: "http://example.org/keyword",
-			siteUrlOrDomain: "http://example.org/keyword",
+			permalink: "http://example.org/keyword",
 		};
 
 		const mockPaper = new Paper( "hello, here is a link with my <a href='http://example.org/keyword#top'>resume</a>", attributes );
@@ -451,7 +451,7 @@ describe( "Tests a string for anchors and its attributes", function() {
 		const attributes = {
 			keyword: "keyword",
 			url: "http://example.org/keyword",
-			siteUrlOrDomain: "http://example.org/keyword",
+			permalink: "http://example.org/keyword",
 		};
 
 		const mockPaper = new Paper( "hello, here is a link with my <a href='http://example.com/keyword#top'>resume</a>", attributes );
@@ -482,7 +482,7 @@ describe( "Tests a string for anchors and its attributes", function() {
 		const attributes = {
 			keyword: "keyword",
 			url: "http://example.org/keyword#top",
-			siteUrlOrDomain: "http://example.org/keyword#top",
+			permalink: "http://example.org/keyword#top",
 		};
 
 		const mockPaper = new Paper( "hello, here is a link with my <a href='http://example.com/keyword#top'>keyword</a>", attributes );
@@ -513,7 +513,7 @@ describe( "Tests a string for anchors and its attributes", function() {
 		const attributes = {
 			keyword: "",
 			url: "http://example.org/keyword#top",
-			siteUrlOrDomain: "http://example.org/keyword#top",
+			permalink: "http://example.org/keyword#top",
 		};
 
 		const mockPaper = new Paper( "hello, here is a link with my <a href='http://example.com/keyword#top'>keyword</a>", attributes );
@@ -544,7 +544,7 @@ describe( "Tests a string for anchors and its attributes", function() {
 		const attributes = {
 			keyword: "keyword",
 			url: "http://example.org/keyword",
-			siteUrlOrDomain: "http://example.org/keyword",
+			permalink: "http://example.org/keyword",
 		};
 
 		const mockPaper = new Paper( "hello, here is a link with my <a href='http://example.com/keyword'>keywords</a>", attributes );
@@ -562,7 +562,7 @@ describe( "Tests a string for anchors and its attributes", function() {
 		const attributes = {
 			keyword: "key word and key phrase",
 			url: "http://example.org/keyword",
-			siteUrlOrDomain: "http://example.org/keyword",
+			permalink: "http://example.org/keyword",
 		};
 
 		const mockPaper = new Paper( "hello, here is a link with my <a href='http://example.com/keyword'>keys wording phrased</a>", attributes );
@@ -581,7 +581,7 @@ describe( "Tests a string for anchors and its attributes", function() {
 			keyword: "key word and key phrase",
 			synonyms: "interesting article, and another exciting paper",
 			url: "http://example.org/keyword",
-			siteUrlOrDomain: "http://example.org/keyword",
+			permalink: "http://example.org/keyword",
 		};
 
 		const mockPaper = new Paper( "hello, here is a link with my <a href='http://example.com/keyword'>keys wording phrased</a>" +
@@ -606,7 +606,7 @@ describe( "Tests a string for anchors and its attributes", function() {
 			keyword: "key word and key phrase",
 			synonyms: "interesting article, and another exciting paper",
 			url: "http://example.org/keyword",
-			siteUrlOrDomain: "http://example.org/keyword",
+			permalink: "http://example.org/keyword",
 		};
 
 		const mockPaper = new Paper( "hello, here is a link with my <a href='http://example.com/keyword'>keys wording </a>" +
@@ -629,7 +629,7 @@ describe( "Tests a string for anchors and its attributes", function() {
 			keyword: "سوار در طبیعت",
 			synonyms: "",
 			url: "http://example.org/keyword",
-			siteUrlOrDomain: "http://example.org/keyword",
+			permalink: "http://example.org/keyword",
 			locale: "fa_IR",
 		};
 
@@ -650,7 +650,7 @@ describe( "Tests a string for anchors and its attributes", function() {
 			keyword: "fast",
 			synonyms: "",
 			url: "http://example.org/keyword",
-			siteUrlOrDomain: "http://example.org/keyword",
+			permalink: "http://example.org/keyword",
 		};
 
 		const mockPaper = new Paper( "hello, here is a link with my <a href='http://example.com/keyword'>fast one </a>" +
@@ -672,7 +672,7 @@ describe( "a test for anchors and its attributes when the exact match of a keyph
 		const attributes = {
 			keyword: "\"walking in nature\"",
 			url: "http://example.org/keyword",
-			siteUrlOrDomain: "http://example.org/keyword",
+			permalink: "http://example.org/keyword",
 		};
 
 		const mockPaper = new Paper( "hello, here is a link with my <a href='http://example.com/keyword'>walking in nature</a>", attributes );
@@ -690,7 +690,7 @@ describe( "a test for anchors and its attributes when the exact match of a keyph
 		const attributes = {
 			keyword: "\"walking in nature\"",
 			url: "http://example.org/keyword",
-			siteUrlOrDomain: "http://example.org/keyword",
+			permalink: "http://example.org/keyword",
 		};
 
 		const mockPaper = new Paper( "hello, here is a link with my <a href='http://example.com/keyword'>" +
@@ -709,7 +709,7 @@ describe( "a test for anchors and its attributes when the exact match of a keyph
 		const attributes = {
 			keyword: "\"walking in nature\"",
 			url: "http://example.org/keyword",
-			siteUrlOrDomain: "http://example.org/keyword",
+			permalink: "http://example.org/keyword",
 		};
 
 		const mockPaper = new Paper( "hello, here is a link with my <a href='http://example.com/keyword'>" +
@@ -728,7 +728,7 @@ describe( "a test for anchors and its attributes when the exact match of a keyph
 		const attributes = {
 			keyword: "\"walking in nature\"",
 			url: "http://example.org/keyword",
-			siteUrlOrDomain: "http://example.org/keyword",
+			permalink: "http://example.org/keyword",
 		};
 
 		const mockPaper = new Paper( "hello, here is a link with my <a href='http://example.com/keyword'>" +
@@ -749,7 +749,7 @@ describe( "a test for anchors and its attributes when the exact match of a keyph
 			keyword: "something and tortie",
 			synonyms: "\"cats and dogs\", tortoiseshell",
 			url: "http://yoast.com",
-			siteUrlOrDomain: "http://yoast.com",
+			permalink: "http://yoast.com",
 		};
 		const mockPaper = new Paper( "A text with a <a href='http://yoast.com'>link</a>, <a href='http://example.com'>cats and dogs</a>",
 			paperAttributes );
@@ -772,7 +772,7 @@ describe( "a test for anchors and its attributes when the exact match of a keyph
 		const paperAttributes = {
 			keyword: "「読ん一冊の本」",
 			url: "http://yoast.com",
-			siteUrlOrDomain: "http://yoast.com",
+			permalink: "http://yoast.com",
 		};
 		const mockPaper = new Paper( "言葉 <a href='http://yoast.com'>リンク</a>, <a href='http://example.com'>読ん一冊の本</a>", paperAttributes );
 		const researcher = new JapaneseResearcher( mockPaper );
@@ -786,7 +786,7 @@ describe( "a test for anchors and its attributes when the exact match of a keyph
 		const paperAttributes = {
 			keyword: "「読ん一冊の本」",
 			url: "http://yoast.com",
-			siteUrlOrDomain: "http://yoast.com",
+			permalink: "http://yoast.com",
 		};
 		const mockPaper = new Paper( "言葉 <a href='http://yoast.com'>リンク</a>, <a href='http://example.com'>から読ん一冊の本</a>", paperAttributes );
 		const researcher = new JapaneseResearcher( mockPaper );
@@ -800,7 +800,7 @@ describe( "a test for anchors and its attributes when the exact match of a keyph
 		const paperAttributes = {
 			keyword: "「読ん一冊の本」",
 			url: "http://yoast.com",
-			siteUrlOrDomain: "http://yoast.com",
+			permalink: "http://yoast.com",
 		};
 		const mockPaper = new Paper( "言葉 <a href='http://yoast.com'>リンク</a>, <a href='http://example.com'>猫から読ん一冊の本</a>", paperAttributes );
 		const researcher = new JapaneseResearcher( mockPaper );
@@ -815,7 +815,7 @@ describe( "a test for anchors and its attributes when the exact match of a keyph
 			keyword: "言葉",
 			synonyms: "「小さく花の刺繍」",
 			url: "http://yoast.com",
-			siteUrlOrDomain: "http://yoast.com",
+			permalink: "http://yoast.com",
 		};
 		const mockPaper = new Paper( "言葉 <a href='http://yoast.com'>リンク</a>, <a href='http://example.com'>小さく花の刺繍</a>", paperAttributes );
 		const researcher = new JapaneseResearcher( mockPaper );
@@ -841,7 +841,7 @@ describe( "a test for anchors and its attributes in languages that have a custom
 		let paperAttributes = {
 			keyword: "リンク",
 			url: "http://yoast.com",
-			siteUrlOrDomain: "http://yoast.com",
+			permalink: "http://yoast.com",
 		};
 
 		it( "should detect internal links", function() {
@@ -891,7 +891,7 @@ describe( "a test for anchors and its attributes in languages that have a custom
 			paperAttributes = {
 				keyword: "読ん一冊の本",
 				url: "http://yoast.com",
-				siteUrlOrDomain: "http://yoast.com",
+				permalink: "http://yoast.com",
 			};
 			const mockPaper = new Paper( "言葉 <a href='http://yoast.com'>リンク</a>, <a href='http://example.com'>猫と読ん一冊の本</a>", paperAttributes );
 			const researcher = new JapaneseResearcher( mockPaper );
@@ -908,7 +908,7 @@ describe( "a test for anchors and its attributes in languages that have a custom
 			paperAttributes = {
 				keyword: "から小さい花の刺繍",
 				url: "http://yoast.com",
-				siteUrlOrDomain: "http://yoast.com",
+				permalink: "http://yoast.com",
 			};
 			const mockPaper = new Paper( "言葉 <a href='http://yoast.com'>リンク</a>, <a href='http://example.com'>小さい花の刺繍</a>", paperAttributes );
 			const researcher = new JapaneseResearcher( mockPaper );
@@ -926,7 +926,7 @@ describe( "a test for anchors and its attributes in languages that have a custom
 			paperAttributes = {
 				keyword: "から小さく花の刺繍",
 				url: "http://yoast.com",
-				siteUrlOrDomain: "http://yoast.com",
+				permalink: "http://yoast.com",
 			};
 			const mockPaper = new Paper( "言葉 <a href='http://yoast.com'>リンク</a>, <a href='http://example.com'>小さい花の刺繍</a>", paperAttributes );
 			const researcher = new JapaneseResearcher( mockPaper );
@@ -944,7 +944,7 @@ describe( "a test for anchors and its attributes in languages that have a custom
 				keyword: "から小さく花の刺繍",
 				synonyms: "猫用のフード, 猫用食品",
 				url: "http://yoast.com",
-				siteUrlOrDomain: "http://yoast.com",
+				permalink: "http://yoast.com",
 			};
 			const mockPaper = new Paper( "言葉 <a href='http://yoast.com'>リンク</a>, <a href='http://example.com'>小さく花の刺繍</a>" +
 				" <a href='http://example.com'>から猫用のフード</a>", paperAttributes );
@@ -970,7 +970,7 @@ describe( "a test for anchors and its attributes in languages that have a custom
 			const paperAttributes = {
 				keyword: "読ん一冊の本",
 				url: "http://yoast.com",
-				siteUrlOrDomain: "http://yoast.com",
+				permalink: "http://yoast.com",
 			};
 			const mockPaper = new Paper( "言葉 <a href='http://yoast.com'>リンク</a>, <a href='http://example.com'>猫と読ん一冊の本</a>", paperAttributes );
 			const researcher = new JapaneseResearcher( mockPaper );
@@ -988,7 +988,7 @@ describe( "a test for anchors and its attributes in languages that have a custom
 			const paperAttributes = {
 				keyword: "から小さい花の刺繍",
 				url: "http://yoast.com",
-				siteUrlOrDomain: "http://yoast.com",
+				permalink: "http://yoast.com",
 			};
 			const mockPaper = new Paper( "言葉 <a href='http://yoast.com'>リンク</a>, <a href='http://example.com'>小さい花の刺繍</a>", paperAttributes );
 			const researcher = new JapaneseResearcher( mockPaper );
@@ -1007,7 +1007,7 @@ describe( "a test for anchors and its attributes in languages that have a custom
 			const paperAttributes = {
 				keyword: "から小さく花の刺繍",
 				url: "http://yoast.com",
-				siteUrlOrDomain: "http://yoast.com",
+				permalink: "http://yoast.com",
 			};
 			const mockPaper = new Paper( "言葉 <a href='http://yoast.com'>リンク</a>, <a href='http://example.com'>小さい花の刺繍</a>" +
 				" <a href='http://example.com'>小さける花の刺繍</a>", paperAttributes );
@@ -1031,7 +1031,7 @@ describe( "a test for anchors and its attributes in languages that have a custom
 				keyword: "猫用食品",
 				synonyms: "小さく花の刺繍",
 				url: "http://yoast.com",
-				siteUrlOrDomain: "http://yoast.com",
+				permalink: "http://yoast.com",
 			};
 			const mockPaper = new Paper( "言葉 <a href='http://yoast.com'>リンク</a>," +
 				" <a href='http://example.com'>から小さい花の刺繍</a>", paperAttributes );
@@ -1054,7 +1054,7 @@ describe( "a test for anchors and its attributes in languages that have a custom
 				keyword: "「小さく花の刺繍」",
 				synonyms: "something, something else",
 				url: "http://yoast.com",
-				siteUrlOrDomain: "http://yoast.com",
+				permalink: "http://yoast.com",
 			};
 			const mockPaper = new Paper( "言葉 <a href='http://yoast.com'>リンク</a>, <a href='http://example.com'>小さい花の刺繍</a>", paperAttributes );
 			const researcher = new JapaneseResearcher( mockPaper );
