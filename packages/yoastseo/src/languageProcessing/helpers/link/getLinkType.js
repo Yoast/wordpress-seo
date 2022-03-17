@@ -5,12 +5,13 @@ import urlHelper from "../url/url";
 /**
  * Determines the type of link.
  *
- * @param {string} text String with anchor tag.
- * @param {string} url URL to match against.
+ * @param {string} 	anchor 				String with anchor element.
+ * @param {string} 	siteUrlOrDomain		URL or domain to match against.
+ *
  * @returns {string} The link type (other, external or internal).
  */
-export default function( text, url ) {
-	const anchorUrl = urlHelper.getFromAnchorTag( text );
+export default function( anchor, siteUrlOrDomain ) {
+	const anchorUrl = urlHelper.getFromAnchorTag( anchor );
 
 	/**
 	 * A link is "Other" if:
@@ -23,7 +24,7 @@ export default function( text, url ) {
 		return "other";
 	}
 
-	if ( urlHelper.isInternalLink( anchorUrl, urlHelper.getHostname( url ), url ) ) {
+	if ( urlHelper.isInternalLink( anchorUrl, siteUrlOrDomain ) ) {
 		return "internal";
 	}
 

@@ -24,8 +24,6 @@ stages:
 jobs:
   fast_finish: true
   include:
-    - php: 7.2
-      env: CHECKJS=1 TRAVIS_NODE_VERSION=14
     - php: 7.3.24
       env: WP_VERSION=latest WP_MULTISITE=1 COVERAGE=1
     - php: 5.6
@@ -110,13 +108,6 @@ cache:
 before_install:
   - if [[ -z "$CC_TEST_REPORTER_ID" ]]; then COVERAGE="0"; fi
   - if [[ "$COVERAGE" != "1" ]]; then phpenv config-rm xdebug.ini || echo 'No xdebug config.'; fi
-  - |
-    if [[ "$CHECKJS" == "1" ]]; then
-      nvm install $TRAVIS_NODE_VERSION
-      curl -o- -L https://yarnpkg.com/install.sh | bash
-      export PATH=$HOME/.yarn/bin:$PATH
-      echo -e "machine github.com\n  login $CI_GITHUB_USER_TOKEN" > ~/.netrc
-    fi
 
 install:
   - |
@@ -151,11 +142,6 @@ install:
       travis_retry composer update --no-interaction
       travis_retry composer install --no-dev --no-interaction
       composer du
-    fi
-  - |
-    if [[ "$CHECKJS" == "1" ]]; then
-      yarn global add grunt-cli
-      yarn install
     fi
 
 before_script:
@@ -201,30 +187,9 @@ before_script:
   - curl --version
   - git --version
   - svn --version
-  - |
-    if [[ "$CHECKJS" == "1" ]]; then
-      npm --version
-      node --version
-      yarn --version
-      grunt --version
-    fi
   - locale -a
 
 script:
-  # JavaScript checks
-  - |
-    if [[ "$CHECKJS" == "1" ]]; then
-      travis_fold start "JavaScript.check" && travis_time_start
-      yarn lint
-      travis_time_finish && travis_fold end "JavaScript.check"
-    fi
-  # JavaScript tests
-  - |
-    if [[ "$CHECKJS" == "1" ]]; then
-      travis_fold start "JavaScript.tests" && travis_time_start
-      yarn test
-      travis_time_finish && travis_fold end "JavaScript.tests"
-    fi
   # PHP Unit
   - |
     if [[ "$PHPUNIT" == "1" && ${TRAVIS_PHP_VERSION:0:1} != "8" && $TRAVIS_PHP_VERSION != "nightly" ]]; then
@@ -245,22 +210,6 @@ script:
       travis_retry composer require --dev phpunit/phpunit:"^7.5" --update-with-dependencies --ignore-platform-reqs --no-interaction &&
       vendor/bin/phpunit -c phpunit-integration.xml.dist
       travis_time_finish && travis_fold end "PHP.integration-tests"
-    fi
-  - |
-    if [[ "$PHPUNIT" == "1" && ${TRAVIS_PHP_VERSION:0:1} != "8" && $TRAVIS_PHP_VERSION != "nightly" ]]; then
-      # PHP < 8
-      travis_fold start "PHP.tests" && travis_time_start
-      vendor/bin/phpunit
-      travis_time_finish && travis_fold end "PHP.tests"
-    fi
-  - |
-    if [[ "$PHPUNIT" == "1" ]] && [[ ${TRAVIS_PHP_VERSION:0:1} == "8" || $TRAVIS_PHP_VERSION == "nightly" ]]; then
-      # PHP >= 8
-      travis_fold start "PHP.tests" && travis_time_start
-      travis_retry composer require --dev phpunit/phpunit:"^9.0" --update-with-dependencies --ignore-platform-reqs --no-interaction &&
-      travis_retry composer update yoast/wp-test-utils --with-all-dependencies --ignore-platform-reqs --no-interaction &&
-      vendor/bin/phpunit
-      travis_time_finish && travis_fold end "PHP.tests"
     fi
   - |
     if [[ "$COVERAGE" == "1" ]]; then

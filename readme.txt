@@ -242,6 +242,7 @@ Release Date: March 22nd, 2022
 Enhancements:
 
 * Adds the possibility to timestamp your Privacy Policy page by use of a WordProof certificate.
+* Adds a `new` badge to the WordProof integration toggle.
 
 Bugfixes:
 
@@ -250,7 +251,7 @@ Bugfixes:
 
 Other:
 
-* Sets minimum required WordPress version to 5.8.
+* Sets the minimum required WordPress version to 5.8.
 
 = 18.3 =
 Release Date: March 8th, 2022

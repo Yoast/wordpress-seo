@@ -2,13 +2,15 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
+use ReflectionClass;
 use Yoast\WP\SEO\Conditionals\Non_Multisite_Conditional;
-use Yoast\WP\SEO\Conditionals\Third_Party\WordProof_Plugin_Inactive_Conditional;
+use Yoast\WP\SEO\Conditionals\Third_Party\Wordproof_Plugin_Inactive_Conditional;
+use Yoast\WP\SEO\Conditionals\User_Can_Publish_Posts_And_Pages_Conditional;
 
 /**
  * A helper object for WordProof integration.
  */
-class WordProof_Helper {
+class Wordproof_Helper {
 
 	/**
 	 * Holds the Current Page helper instance.
@@ -35,8 +37,8 @@ class WordProof_Helper {
 	 * WordProof_Helper constructor.
 	 *
 	 * @param Current_Page_Helper $current_page The current page helper.
-	 * @param Woocommerce_Helper  $woocommerce The woocommerce helper.
-	 * @param Options_Helper      $options The options helper.
+	 * @param Woocommerce_Helper  $woocommerce  The woocommerce helper.
+	 * @param Options_Helper      $options      The options helper.
 	 */
 	public function __construct( Current_Page_Helper $current_page, Woocommerce_Helper $woocommerce, Options_Helper $options ) {
 		$this->current_page = $current_page;
@@ -50,20 +52,27 @@ class WordProof_Helper {
 	 * @return bool Returns if the options are deleted
 	 */
 	public function remove_site_options() {
-		return delete_site_option( 'wordproof_access_token' )
-			&& delete_site_option( 'wordproof_source_id' );
+		return \delete_site_option( 'wordproof_access_token' )
+			&& \delete_site_option( 'wordproof_source_id' );
 	}
 
 	/**
 	 * Returns if conditionals are met. If not, the integration should be disabled.
 	 *
-	 * @return bool Returns if the integration should be disabled.
+	 * @param bool $return_conditional If the conditional class name that was unmet should be returned.
+	 *
+	 * @return bool|string Returns if the integration should be disabled.
 	 */
-	public function integration_is_disabled() {
-		$conditionals = [ new WordProof_Plugin_Inactive_Conditional() ];
+	public function integration_is_disabled( $return_conditional = false ) {
+		$conditionals = [ new Wordproof_Plugin_Inactive_Conditional(), new Non_Multisite_Conditional(), new User_Can_Publish_Posts_And_Pages_Conditional() ];
 
 		foreach ( $conditionals as $conditional ) {
 			if ( ! $conditional->is_met() ) {
+
+				if ( $return_conditional === true ) {
+					return ( new ReflectionClass( $conditional ) )->getShortName();
+				}
+
 				return true;
 			}
 		}

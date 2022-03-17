@@ -54,12 +54,6 @@ class Main_Test extends TestCase {
 
 		global $wpdb;
 		$wpdb = Mockery::mock( '\wpdb' );
-
-		// Some classes call the YoastSEO function in the constructor.
-		Monkey\Functions\expect( 'YoastSEO' )
-			->andReturn( $this->instance );
-		// Deprecated classes call _deprecated_function in the constructor.
-		Monkey\Functions\expect( '_deprecated_function' );
 	}
 
 	/**
@@ -68,6 +62,19 @@ class Main_Test extends TestCase {
 	 * @covers ::get_container
 	 */
 	public function test_surfaces() {
+		// These two expectations should be removed once the underlying issue has been resolved.
+		if ( \PHP_VERSION_ID >= 80100 ) {
+			$this->expectDeprecation();
+			$this->expectDeprecationMessage( 'Constant FILTER_SANITIZE_STRING is deprecated' );
+		}
+
+		// Deprecated classes call _deprecated_function in the constructor, so stub the function to do nothing.
+		Monkey\Functions\stubs( [ '_deprecated_function' => '__return_null' ] );
+
+		// Some classes call the YoastSEO function in the constructor.
+		Monkey\Functions\expect( 'YoastSEO' )
+			->andReturn( $this->instance );
+
 		$container = $this->instance->get_container();
 
 		foreach ( $container->getServiceIds() as $service_id ) {
