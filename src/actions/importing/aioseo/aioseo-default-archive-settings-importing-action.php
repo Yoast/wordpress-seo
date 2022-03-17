@@ -82,4 +82,22 @@ class Aioseo_Default_Archive_Settings_Importing_Action extends Abstract_Aioseo_S
 			],
 		];
 	}
+
+	/**
+	 * Returns a setting map of the robot setting for author archives.
+	 *
+	 * @return array The setting map of the robot setting for author archives.
+	 */
+	public function pluck_robot_setting_from_mapping() {
+		$this->build_mapping();
+
+		foreach ( $this->aioseo_options_to_yoast_map as $setting ) {
+			// Return the first archive setting map.
+			if ( $setting['transform_method'] === 'import_noindex' && isset( $setting['subtype'] ) && $setting['subtype'] === 'author' ) {
+				return $setting;
+			}
+		}
+
+		return [];
+	}
 }

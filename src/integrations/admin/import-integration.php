@@ -97,6 +97,7 @@ class Import_Integration implements Integration_Interface {
 				'cleanup_after_import_msg' => \esc_html__( 'After you\'ve imported data from another SEO plugin, please make sure to clean up all the original data from that plugin. (step 5)', 'wordpress-seo' ),
 				'select_placeholder'       => \esc_html__( 'Select SEO plugin', 'wordpress-seo' ),
 				'no_data_msg'              => \esc_html__( 'No data found from other SEO plugins.', 'wordpress-seo' ),
+				'validation_failure'       => $this->get_validation_failure_alert(),
 				'import_failure'           => $this->get_import_failure_alert( true ),
 				'cleanup_failure'          => $this->get_import_failure_alert( false ),
 				'spinner'                  => \admin_url( 'images/loading.gif' ),
@@ -147,13 +148,41 @@ class Import_Integration implements Integration_Interface {
 		$available_actions   = $this->importable_detector->detect_importers();
 		$importing_endpoints = [];
 
-		foreach ( $available_actions as $plugin => $types ) {
+		$available_sorted_actions = $this->sort_actions( $available_actions );
+
+		foreach ( $available_sorted_actions as $plugin => $types ) {
 			foreach ( $types as $type ) {
 				$importing_endpoints[ $plugin ][] = $this->importing_route->get_endpoint( $plugin, $type );
 			}
 		}
 
 		return $importing_endpoints;
+	}
+
+	/**
+	 * Sorts the array of importing actions, by moving any validating actions to the start for every plugin.
+	 *
+	 * @param array $available_actions The array of actions that we want to sort.
+	 *
+	 * @return array The sorted array of actions.
+	 */
+	protected function sort_actions( $available_actions ) {
+		$first_action             = 'validate_data';
+		$available_sorted_actions = [];
+
+		foreach ( $available_actions as $plugin => $plugin_available_actions ) {
+
+			$validate_action_position = array_search( $first_action, $plugin_available_actions, true );
+
+			if ( ! empty( $validate_action_position ) ) {
+				unset( $plugin_available_actions[ $validate_action_position ] );
+				array_unshift( $plugin_available_actions, $first_action );
+			}
+
+			$available_sorted_actions[ $plugin ] = $plugin_available_actions;
+		}
+
+		return $available_sorted_actions;
 	}
 
 	/**
@@ -172,6 +201,26 @@ class Import_Integration implements Integration_Interface {
 		}
 
 		return $importing_endpoints;
+	}
+
+	/**
+	 * Gets the validation failure alert using the Alert_Presenter.
+	 *
+	 * @return string The validation failure alert.
+	 */
+	protected function get_validation_failure_alert() {
+		$content  = \esc_html__( 'The AIOSEO import was cancelled because some AIOSEO data is missing. Please try and take the following steps to fix this:', 'wordpress-seo' );
+		$content .= '<br/>';
+		$content .= '<ol><li>';
+		$content .= \esc_html__( 'If you have never saved any AIOSEO \'Search Appearance\' settings, please do that first and run the import again.', 'wordpress-seo' );
+		$content .= '</li>';
+		$content .= '<li>';
+		$content .= \esc_html__( 'If you already have saved AIOSEO \'Search Appearance\' settings and the issue persists, please contact our support team so we can take a closer look.', 'wordpress-seo' );
+		$content .= '</li></ol>';
+
+		$validation_failure_alert = new Alert_Presenter( $content, 'error' );
+
+		return $validation_failure_alert->present();
 	}
 
 	/**
