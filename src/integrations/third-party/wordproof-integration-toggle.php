@@ -3,7 +3,7 @@
 namespace Yoast\WP\SEO\Integrations\Third_Party;
 
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
-use Yoast\WP\SEO\Helpers\WordProof_Helper;
+use Yoast\WP\SEO\Helpers\Wordproof_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast_Feature_Toggle;
 
@@ -12,21 +12,21 @@ use Yoast_Feature_Toggle;
  *
  * @package Yoast\WP\SEO\Integrations\Third_Party
  */
-class WordProof_Integration_Toggle implements Integration_Interface {
+class Wordproof_Integration_Toggle implements Integration_Interface {
 
 	/**
 	 * The WordProof helper instance.
 	 *
-	 * @var WordProof_Helper
+	 * @var Wordproof_Helper $wordproof The helper instance.
 	 */
 	protected $wordproof;
 
 	/**
 	 * The WordProof integration toggle constructor.
 	 *
-	 * @param WordProof_Helper $wordproof The WordProof helper instance.
+	 * @param Wordproof_Helper $wordproof The WordProof helper instance.
 	 */
-	public function __construct( WordProof_Helper $wordproof ) {
+	public function __construct( Wordproof_Helper $wordproof ) {
 		$this->wordproof = $wordproof;
 	}
 
