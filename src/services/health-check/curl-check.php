@@ -54,12 +54,12 @@ class Curl_Check extends Health_Check {
 	 * @return string[] The WordPress-friendly health check result.
 	 */
 	protected function get_result() {
-		if ( $this->runner->is_successful() ) {
-			return $this->reports->get_success_result();
-		}
-
 		if ( ! $this->runner->has_premium_plugins_installed() ) {
 			return [];
+		}
+
+		if ( $this->runner->is_successful() ) {
+			return $this->reports->get_success_result();
 		}
 
 		if ( ! $this->runner->has_recent_curl_version_installed() ) {

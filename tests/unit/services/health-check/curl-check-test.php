@@ -84,6 +84,10 @@ class Curl_Check_Test extends TestCase {
 			->shouldReceive( 'run' )
 			->once();
 		$this->runner_mock
+			->shouldReceive( 'has_premium_plugins_installed' )
+			->once()
+			->andReturn( true );
+		$this->runner_mock
 			->shouldReceive( 'is_successful' )
 			->once()
 			->andReturn( true );
@@ -112,10 +116,6 @@ class Curl_Check_Test extends TestCase {
 		$this->runner_mock
 			->shouldReceive( 'run' )
 			->once();
-		$this->runner_mock
-			->shouldReceive( 'is_successful' )
-			->once()
-			->andReturn( false );
 		$this->runner_mock
 			->shouldReceive( 'has_premium_plugins_installed' )
 			->once()
