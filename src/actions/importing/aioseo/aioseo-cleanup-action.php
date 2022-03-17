@@ -142,13 +142,14 @@ class Aioseo_Cleanup_Action extends Abstract_Aioseo_Importing_Action {
 	}
 
 	/**
-	 * Creates a TRUNCATE query string for emptying the AIOSEO indexable table.
+	 * Creates a TRUNCATE query string for emptying the AIOSEO indexable table, if it exists.
 	 *
 	 * @return string The query to use for importing or counting the number of items to import.
 	 */
 	public function truncate_query() {
 		if ( ! $this->aioseo_helper->aioseo_exists() ) {
-			return true;
+			// If the table doesn't exist, we need a string that will amount to a quick query that doesn't return false when ran.
+			return 'SELECT 1';
 		}
 
 		$table = $this->aioseo_helper->get_table();
