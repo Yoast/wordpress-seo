@@ -105,8 +105,8 @@ describe( "Tests a string for anchors and its attributes", function() {
 
 	it( "should not detect the keyword in link texts identical to the page URL", function() {
 		const attributes = {
-			keyword: "link",
-			url: "",
+			keyword: "focuskeyphrase",
+			url: "http://yoast.com/",
 			permalink: "yoast.com",
 		};
 
@@ -121,8 +121,8 @@ describe( "Tests a string for anchors and its attributes", function() {
 
 	it( "should not detect the keyword in link texts that have a scheme and are identical to the page URL", function() {
 		const attributes = {
-			keyword: "link",
-			url: "",
+			keyword: "focuskeyword",
+			url: "http://yoast.com/",
 			permalink: "http://yoast.com",
 		};
 
