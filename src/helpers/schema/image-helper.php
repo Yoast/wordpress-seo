@@ -134,6 +134,38 @@ class Image_Helper {
 	}
 
 	/**
+	 * Generates Schema for the Main Image.
+	 *
+	 * @param string            $image_id The `@id` to use for the returned image.
+	 * @param Meta_Tags_Context $context       The meta tags context.
+	 *
+	 * @return array Schema ImageObject array.
+	 */
+	public function generate_main_image( $image_id, $context ) {
+		// The Open Graph image.
+		if ( isset( $context->indexable->open_graph_image_id ) && $context->indexable->open_graph_image_source === 'set-by-user' ) {
+			return $this->generate_from_attachment_id( $image_id, $context->indexable->open_graph_image_id );
+		}
+
+		// The Twitter image.
+		if ( isset( $context->indexable->twitter_image_id ) && $context->indexable->twitter_image_source === 'set-by-user' ) {
+			return $this->generate_from_attachment_id( $image_id, $context->indexable->twitter_image_id );
+		}
+
+		// The featured image.
+		if ( $context->main_image_id ) {
+			return $this->generate_from_attachment_id( $image_id, $context->main_image_id );
+		}
+
+		// The first image in the content.
+		if ( $context->main_image_url ) {
+			return $this->generate_from_url( $image_id, $context->main_image_url );
+		}
+
+		return false;
+	}
+
+	/**
 	 * Retrieves an image's caption if set, or uses the alt tag if that's set.
 	 *
 	 * @param array  $data          An ImageObject Schema array.
