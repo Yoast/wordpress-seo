@@ -185,7 +185,7 @@ class Breadcrumbs_Generator implements Generator_Interface {
 			_doing_it_wrong(
 				'add_filter(\'wpseo_breadcrumb_links\')',
 				'The `wpseo_breadcrumb_links` filter should return a multi-dimensional array.',
-				'wordpress-seo v18.5'
+				'YoastSEO v18.5'
 			);
 		}
 		else {
