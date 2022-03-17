@@ -2,6 +2,7 @@
 import { pickBy, isObject, isFunction } from "lodash";
 
 // Internal dependencies.
+import ImportValidationError from "../errors/ImportValidationError";
 import RequestError from "../errors/RequestError";
 import ParseError from "../errors/ParseError";
 
@@ -116,7 +117,12 @@ export default class IndexingService {
 		// Throw an error when the response's status code is not in the 200-299 range.
 		if ( ! response.ok ) {
 			const stackTrace = data.data ? data.data.stackTrace : "";
-			throw new RequestError( data.message, url, "POST", response.status, stackTrace );
+			const errorCode = data.code ? data.code : "";
+			if ( errorCode === "wpseo_error_validation" ) {
+				throw new ImportValidationError( data.message );
+			} else {
+				throw new RequestError( data.message, url, "POST", response.status, stackTrace );
+			}
 		}
 
 		return data;
