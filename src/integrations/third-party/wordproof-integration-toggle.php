@@ -3,8 +3,6 @@
 namespace Yoast\WP\SEO\Integrations\Third_Party;
 
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
-use Yoast\WP\SEO\Config\WordProofAppConfig;
-use Yoast\WP\SEO\Config\WordProofTranslations;
 use Yoast\WP\SEO\Helpers\Wordproof_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast_Feature_Toggle;
