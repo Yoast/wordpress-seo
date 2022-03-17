@@ -8,7 +8,7 @@ import { useCallback } from "@wordpress/element";
  * Specialized button to remove a profile URL.
  *
  * @param {number} index    The index of the text field to be removed.
- * @param {func}   onRemove The callback to be executed upon clicking.
+ * @param {function} onRemove The callback to be executed upon clicking.
  *
  * @returns {Component} The FieldArray component.
  */
