@@ -3,8 +3,6 @@
 namespace Yoast\WP\SEO\Integrations\Third_Party;
 
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
-use Yoast\WP\SEO\Config\WordProofAppConfig;
-use Yoast\WP\SEO\Config\WordProofTranslations;
 use Yoast\WP\SEO\Helpers\Wordproof_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
@@ -151,7 +149,7 @@ class Wordproof_Integration_Toggle implements Integration_Interface {
 				echo '<p>' . sprintf(
 					/* translators: %s expands to WordProof */
 					esc_html__( 'Currently, the %s integration is not available for multisites.', 'wordpress-seo' ),
-					'WordProof'
+						'WordProof'
 				) . '</p>';
 			}
 		}
