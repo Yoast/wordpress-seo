@@ -201,6 +201,28 @@ export const customFields = map(
 	} )
 );
 
+/**
+ * Gets the replacement for the custom taxonomies (CT) variable.
+ *
+ * @param {string} name The custom taxonomy name to check.
+ *
+ * @returns {string} The replacement for the custom taxonomies variable.
+ */
+export const getCTReplacement = ( name ) => {
+	const customTaxonomiesFromStore = select( SEO_STORE_NAME ).selectTerms( "customTaxonomies" );
+	let customTerm = [];
+	for ( const taxonomy in customTaxonomiesFromStore ) {
+		if ( customTaxonomiesFromStore.hasOwnProperty( taxonomy ) ) {
+			if ( taxonomy === name ) {
+				customTerm = customTaxonomiesFromStore[ taxonomy ].map( term => {
+					return ( typeof term === "object" ) ? term.name : term;
+				} );
+			}
+		}
+	}
+	return customTerm.join( ", " );
+};
+
 export const customTaxonomies = map(
 	get( window, "wpseoScriptData.analysis.plugins.replaceVars.replace_vars.custom_taxonomies", {} ),
 	( { name }, key ) => ( {
@@ -210,7 +232,7 @@ export const customTaxonomies = map(
 			__( "%s (custom taxonomy)", "wordpress-seo" ),
 			key
 		),
-		getReplacement: () => name,
+		getReplacement: () => getCTReplacement( name ),
 	} )
 );
 
