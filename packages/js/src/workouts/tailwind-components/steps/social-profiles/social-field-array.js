@@ -15,7 +15,7 @@ import { useCallback } from "@wordpress/element";
 const RemoveProfileButton = ( { index, onRemove, buttonId } ) => {
 	const onRemoveHandler = useCallback( () => {
 		onRemove( index );
-	} );
+	}, [ onRemove, index ] );
 	return (
 		<button
 			id={ buttonId }
