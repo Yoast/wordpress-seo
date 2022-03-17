@@ -29,10 +29,15 @@ const linkToSelf = function( slug, anchor, siteUrlOrDomain ) {
 	if ( urlHelper.isRelativeFragmentURL( anchorLink ) ) {
 		return true;
 	}
-	if ( ! siteUrlOrDomain.startsWith( "https://" || "http://" ) ) {
-		siteUrlOrDomain = ( "http://" + siteUrlOrDomain + slug ) && ( "https://" + siteUrlOrDomain + slug );
+	console.log( siteUrlOrDomain );
+	if ( ! new RegExp( "^(https://|http://)" ).test( siteUrlOrDomain ) && siteUrlOrDomain !== "" ) {
+		console.log( siteUrlOrDomain );
+		siteUrlOrDomain = [ "http://" + siteUrlOrDomain + slug, "https://" + siteUrlOrDomain + slug ];
+		console.log( siteUrlOrDomain );
+	} else {
+		siteUrlOrDomain = [ siteUrlOrDomain ];
 	}
-	return urlHelper.areEqual( anchorLink, siteUrlOrDomain );
+	return siteUrlOrDomain.some( element => urlHelper.areEqual( anchorLink, element ) );
 };
 
 /**

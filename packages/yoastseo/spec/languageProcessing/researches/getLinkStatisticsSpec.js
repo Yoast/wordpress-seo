@@ -15,7 +15,7 @@ describe( "Tests a string for anchors and its attributes", function() {
 	const paperAttributes = {
 		keyword: "link",
 		url: "http://yoast.com",
-		siteUrlOrDomain: "http://yoast.com",
+		permalink: "http://yoast.com",
 	};
 
 	it( "should detect internal links", function() {
@@ -103,11 +103,27 @@ describe( "Tests a string for anchors and its attributes", function() {
 		expect( foundLinks.keyword.totalKeyword ).toBe( 0 );
 	} );
 
-	it( "should not detect the keyword in link text which links to itself, when the siteUrlOrDomain is a domain", function() {
+	it( "should not detect the keyword in link texts identical to the page URL", function() {
 		const attributes = {
-			keyword: "focuskeyword",
-			url: "http://yoast.com/this-page/",
-			siteUrlOrDomain: "yoast.com",
+			keyword: "link",
+			url: "",
+			permalink: "yoast.com",
+		};
+
+		const mockPaper = new Paper( "string <a href='http://yoast.com/'>focuskeyword</a>", attributes );
+		const researcher = new EnglishResearcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyData );
+		foundLinks = linkCount( mockPaper, researcher );
+		expect( foundLinks.total ).toBe( 1 );
+		expect( foundLinks.internalTotal ).toBe( 1 );
+		expect( foundLinks.keyword.totalKeyword ).toBe( 0 );
+	} );
+
+	it( "should not detect the keyword in link texts that have a scheme and are identical to the page URL", function() {
+		const attributes = {
+			keyword: "link",
+			url: "",
+			permalink: "http://yoast.com",
 		};
 
 		const mockPaper = new Paper( "string <a href='http://yoast.com/'>focuskeyword</a>", attributes );
