@@ -11,7 +11,6 @@ use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Indexable_To_Postmeta_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Sanitization_Helper;
-use Yoast\WP\SEO\Helpers\Wpdb_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Replacevar_Service;
@@ -157,13 +156,6 @@ class Aioseo_Posts_Importing_Action extends Abstract_Aioseo_Importing_Action {
 	protected $indexable_helper;
 
 	/**
-	 * The wpdb helper.
-	 *
-	 * @var Wpdb_Helper
-	 */
-	protected $wpdb_helper;
-
-	/**
 	 * The social images provider service.
 	 *
 	 * @var Aioseo_Social_Images_Provider_Service
@@ -181,7 +173,6 @@ class Aioseo_Posts_Importing_Action extends Abstract_Aioseo_Importing_Action {
 	 * @param Options_Helper                        $options                The options helper.
 	 * @param Image_Helper                          $image                  The image helper.
 	 * @param Sanitization_Helper                   $sanitization           The sanitization helper.
-	 * @param Wpdb_Helper                           $wpdb_helper            The wpdb_helper helper.
 	 * @param Aioseo_Replacevar_Service             $replacevar_handler     The replacevar handler.
 	 * @param Aioseo_Robots_Provider_Service        $robots_provider        The robots provider service.
 	 * @param Aioseo_Robots_Transformer_Service     $robots_transformer     The robots transfomer service.
@@ -196,7 +187,6 @@ class Aioseo_Posts_Importing_Action extends Abstract_Aioseo_Importing_Action {
 		Options_Helper $options,
 		Image_Helper $image,
 		Sanitization_Helper $sanitization,
-		Wpdb_Helper $wpdb_helper,
 		Aioseo_Replacevar_Service $replacevar_handler,
 		Aioseo_Robots_Provider_Service $robots_provider,
 		Aioseo_Robots_Transformer_Service $robots_transformer,
@@ -208,26 +198,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Aioseo_Importing_Action {
 		$this->image                  = $image;
 		$this->indexable_helper       = $indexable_helper;
 		$this->indexable_to_postmeta  = $indexable_to_postmeta;
-		$this->wpdb_helper            = $wpdb_helper;
 		$this->social_images_provider = $social_images_provider;
-	}
-
-	/**
-	 * Retrieves the AIOSEO table name along with the db prefix.
-	 *
-	 * @return string The AIOSEO table name along with the db prefix.
-	 */
-	protected function get_table() {
-		return $this->wpdb->prefix . 'aioseo_posts';
-	}
-
-	/**
-	 * Determines if the AIOSEO database table exists.
-	 *
-	 * @return bool True if the table is found.
-	 */
-	protected function aioseo_exists() {
-		return $this->wpdb_helper->table_exists( $this->get_table() ) === true;
 	}
 
 	// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Reason: They are already prepared.
@@ -238,7 +209,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Aioseo_Importing_Action {
 	 * @return int The total number of unimported objects.
 	 */
 	public function get_total_unindexed() {
-		if ( ! $this->aioseo_exists() ) {
+		if ( ! $this->aioseo_helper->aioseo_exists() ) {
 			return 0;
 		}
 
@@ -261,7 +232,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Aioseo_Importing_Action {
 	 * @return int|false The limited number of unindexed posts. False if the query fails.
 	 */
 	public function get_limited_unindexed_count( $limit ) {
-		if ( ! $this->aioseo_exists() ) {
+		if ( ! $this->aioseo_helper->aioseo_exists() ) {
 			return 0;
 		}
 
@@ -281,7 +252,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Aioseo_Importing_Action {
 	 * @return Indexable[]|false An array of created indexables or false if aioseo data was not found.
 	 */
 	public function index() {
-		if ( ! $this->aioseo_exists() ) {
+		if ( ! $this->aioseo_helper->aioseo_exists() ) {
 			return false;
 		}
 
@@ -422,6 +393,35 @@ class Aioseo_Posts_Importing_Action extends Abstract_Aioseo_Importing_Action {
 	}
 
 	/**
+	 * Populates the needed data array based on which columns we use from the AIOSEO indexable table.
+	 *
+	 * @return array The needed data array that contains all the needed columns.
+	 */
+	public function get_needed_data() {
+		$needed_data = \array_keys( $this->aioseo_to_yoast_map );
+		\array_push( $needed_data, 'id', 'post_id', 'robots_default', 'og_image_custom_url', 'og_image_type', 'twitter_image_custom_url', 'twitter_image_type', 'twitter_use_og' );
+
+		return $needed_data;
+	}
+
+	/**
+	 * Populates the needed robot data array to be used in validating against its structure.
+	 *
+	 * @return array The needed data array that contains all the needed columns.
+	 */
+	public function get_needed_robot_data() {
+		$needed_robot_data = [];
+
+		foreach ( $this->aioseo_to_yoast_map as $yoast_mapping ) {
+			if ( isset( $yoast_mapping['robot_type'] ) ) {
+				$needed_robot_data[] = $yoast_mapping['robot_type'];
+			}
+		}
+
+		return $needed_robot_data;
+	}
+
+	/**
 	 * Creates a query for gathering AiOSEO data from the database.
 	 *
 	 * @param int  $limit       The maximum number of unimported objects to be returned.
@@ -430,13 +430,12 @@ class Aioseo_Posts_Importing_Action extends Abstract_Aioseo_Importing_Action {
 	 * @return string The query to use for importing or counting the number of items to import.
 	 */
 	public function query( $limit = false, $just_detect = false ) {
-		$table = $this->get_table();
+		$table = $this->aioseo_helper->get_table();
 
 		$select_statement = 'id';
 		if ( ! $just_detect ) {
 			// If we want to import too, we need the actual needed data from AIOSEO indexables.
-			$needed_data = \array_keys( $this->aioseo_to_yoast_map );
-			\array_push( $needed_data, 'id', 'post_id', 'robots_default', 'og_image_custom_url', 'og_image_type', 'twitter_image_custom_url', 'twitter_image_type', 'twitter_use_og' );
+			$needed_data = $this->get_needed_data();
 
 			$select_statement = \implode( ', ', $needed_data );
 		}
@@ -517,7 +516,7 @@ class Aioseo_Posts_Importing_Action extends Abstract_Aioseo_Importing_Action {
 	 */
 	public function post_robots_noindex_import( $aioseo_robots_settings ) {
 		// If robot settings defer to default settings, we have null in the is_robots_noindex field.
-		if ( isset( $aioseo_robots_settings['robots_default'] ) && $aioseo_robots_settings['robots_default'] ) {
+		if ( $aioseo_robots_settings['robots_default'] ) {
 			return null;
 		}
 
@@ -534,16 +533,29 @@ class Aioseo_Posts_Importing_Action extends Abstract_Aioseo_Importing_Action {
 	 * @return bool|null The value of Yoast's noindex setting for the post.
 	 */
 	public function post_general_robots_import( $aioseo_robots_settings, $aioseo_key, $mapping ) {
-		$mapping['type']        = 'postTypes';
-		$mapping['option_name'] = 'aioseo_options_dynamic';
+		$mapping = $this->enhance_mapping( $mapping );
 
-		if ( isset( $aioseo_robots_settings['robots_default'] ) && $aioseo_robots_settings['robots_default'] ) {
+		if ( $aioseo_robots_settings['robots_default'] ) {
 			// Let's first get the subtype's setting value and then transform it taking into consideration whether it defers to global defaults.
 			$subtype_setting = $this->robots_provider->get_subtype_robot_setting( $mapping );
 			return $this->robots_transformer->transform_robot_setting( $mapping['robot_type'], $subtype_setting, $mapping );
 		}
 
 		return $aioseo_robots_settings[ $aioseo_key ];
+	}
+
+	/**
+	 * Enhances the mapping of the setting we're working with, with type and the option name, so that we can retrieve the settings for the object we're working with.
+	 *
+	 * @param array $mapping The mapping of the setting we're working with.
+	 *
+	 * @return array The enhanced mapping.
+	 */
+	public function enhance_mapping( $mapping = [] ) {
+		$mapping['type']        = 'postTypes';
+		$mapping['option_name'] = 'aioseo_options_dynamic';
+
+		return $mapping;
 	}
 
 	/**

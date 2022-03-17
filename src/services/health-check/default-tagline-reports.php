@@ -7,14 +7,8 @@ namespace Yoast\WP\SEO\Services\Health_Check;
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-class Default_Tagline_Report_Builder {
-
-	/**
-	 * The builder object that generates WordPress-friendly test results.
-	 *
-	 * @var Report_Builder
-	 */
-	private $report_builder;
+class Default_Tagline_Reports {
+	use Reports_Trait;
 
 	/**
 	 * Constructor
@@ -23,17 +17,7 @@ class Default_Tagline_Report_Builder {
 	 * @return void
 	 */
 	public function __construct( Report_Builder_Factory $report_builder_factory ) {
-		$this->report_builder = $report_builder_factory->create();
-	}
-
-	/**
-	 * Sets the name that WordPress uses to identify this health check.
-	 *
-	 * @param  string $test_identifier The identifier.
-	 * @return void
-	 */
-	public function set_test_identifier( $test_identifier ) {
-		$this->report_builder->set_test_identifier( $test_identifier );
+		$this->report_builder_factory = $report_builder_factory;
 	}
 
 	/**
@@ -42,7 +26,7 @@ class Default_Tagline_Report_Builder {
 	 * @return string[] The message as a WordPress site status report.
 	 */
 	public function get_success_result() {
-		return $this->report_builder
+		return $this->get_report_builder()
 			->set_label( \__( 'You changed the default WordPress tagline', 'wordpress-seo' ) )
 			->set_status_good()
 			->set_description( \__( 'You are using a custom tagline or an empty one.', 'wordpress-seo' ) )
@@ -55,7 +39,7 @@ class Default_Tagline_Report_Builder {
 	 * @return string[] The message as a WordPress site status report.
 	 */
 	public function get_has_default_tagline_result() {
-		return $this->report_builder
+		return $this->get_report_builder()
 			->set_label( \__( 'You should change the default WordPress tagline', 'wordpress-seo' ) )
 			->set_status_recommended()
 			->set_description( \__( 'You still have the default WordPress tagline. Even an empty one is probably better.', 'wordpress-seo' ) )

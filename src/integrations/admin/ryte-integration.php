@@ -1,21 +1,19 @@
 <?php
-/**
- * WPSEO plugin file.
- *
- * @package WPSEO\Admin
- */
+
+namespace Yoast\WP\SEO\Integrations\Admin;
+
+use chillerlan\QRCode\QROptions;
+use WP_Error;
+use WPSEO_Ryte_Option;
+use WPSEO_Ryte_Request;
+use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
  * Handles the request for getting the Ryte status.
  */
-class WPSEO_Ryte implements WPSEO_WordPress_Integration {
-
-	/**
-	 * Is the request started by pressing the fetch button.
-	 *
-	 * @var bool
-	 */
-	private $is_manual_request = false;
+class Ryte_Integration implements Integration_Interface {
 
 	/**
 	 * Holds the Ryte API response.
@@ -25,9 +23,21 @@ class WPSEO_Ryte implements WPSEO_WordPress_Integration {
 	private $ryte_response = null;
 
 	/**
-	 * Constructs the object.
+	 * The options helper object used to determine if Ryte is active or not.
+	 *
+	 * @var Options_Helper
 	 */
-	public function __construct() {
+	private $options_helper;
+
+	/**
+	 * Constructor.
+	 *
+	 * @param Options_Helper $options_helper The options helper object used to determine if Ryte is active or not.
+	 */
+	public function __construct(
+		Options_Helper $options_helper
+	) {
+		$this->options_helper = $options_helper;
 		$this->maybe_add_weekly_schedule();
 	}
 
@@ -37,7 +47,7 @@ class WPSEO_Ryte implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	public function register_hooks() {
-		if ( ! self::is_active() ) {
+		if ( ! $this->is_active() ) {
 			return;
 		}
 
@@ -46,16 +56,27 @@ class WPSEO_Ryte implements WPSEO_WordPress_Integration {
 	}
 
 	/**
+	 * Returns the conditionals based on which this loadable should be active.
+	 *
+	 * In this case: only when on an admin page.
+	 *
+	 * @return array The conditionals.
+	 */
+	public static function get_conditionals() {
+		return [ Admin_Conditional::class ];
+	}
+
+	/**
 	 * Determines if we can use the functionality.
 	 *
 	 * @return bool True if this functionality can be used.
 	 */
-	public static function is_active() {
+	public function is_active() {
 		if ( wp_doing_ajax() ) {
 			return false;
 		}
 
-		if ( ! WPSEO_Options::get( 'ryte_indexability' ) ) {
+		if ( ! $this->options_helper->get( 'ryte_indexability' ) ) {
 			return false;
 		}
 
@@ -117,12 +138,12 @@ class WPSEO_Ryte implements WPSEO_WordPress_Integration {
 	/**
 	 * Fetches the data from Ryte.
 	 *
-	 * @return bool|null Whether the request ran.
+	 * @return bool Whether the request ran.
 	 */
 	public function fetch_from_ryte() {
 		// Don't do anything when the WordPress environment type isn't "production".
 		if ( wp_get_environment_type() !== 'production' ) {
-			return;
+			return false;
 		}
 
 		$ryte_option = $this->get_option();
@@ -146,7 +167,7 @@ class WPSEO_Ryte implements WPSEO_WordPress_Integration {
 	 *
 	 * @return WPSEO_Ryte_Option The option.
 	 */
-	protected function get_option() {
+	public function get_option() {
 		return new WPSEO_Ryte_Option();
 	}
 

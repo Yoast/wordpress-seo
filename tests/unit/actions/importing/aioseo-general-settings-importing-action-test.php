@@ -280,6 +280,53 @@ class Aioseo_General_Settings_Importing_Action_Test extends TestCase {
 	}
 
 	/**
+	 * Tests returning a setting map of the robot setting for one subset of general settings.
+	 *
+	 * @covers ::pluck_robot_setting_from_mapping
+	 */
+	public function test_pluck_robot_setting_from_mapping() {
+		$robot_setting_from_mapping = $this->instance->pluck_robot_setting_from_mapping();
+		$this->assertSame( [], $robot_setting_from_mapping );
+	}
+
+	/**
+	 * Tests checking if the settings tab subsetting is set in the AIOSEO option.
+	 *
+	 * @param array $aioseo_settings The AIOSEO settings.
+	 * @param bool  $expected_result The expected result.
+	 *
+	 * @dataProvider provider_isset_settings_tab
+	 * @covers ::isset_settings_tab
+	 */
+	public function test_isset_settings_tab( $aioseo_settings, $expected_result ) {
+		$isset_settings_tab = $this->instance->isset_settings_tab( $aioseo_settings );
+		$this->assertSame( $expected_result, $isset_settings_tab );
+	}
+
+	/**
+	 * Data provider for test_isset_settings_tab().
+	 *
+	 * @return array
+	 */
+	public function provider_isset_settings_tab() {
+		$aioseo_settings_with_subsetting_set = [
+			'searchAppearance' => [
+				'global' => 'settings',
+			],
+		];
+
+		$aioseo_settings_with_subsetting_not_set = [
+			'searchAppearance' => [
+				'not_global' => 'settings',
+			],
+		];
+		return [
+			[ $aioseo_settings_with_subsetting_set, true ],
+			[ $aioseo_settings_with_subsetting_not_set, false ],
+		];
+	}
+
+	/**
 	 * Data provider for test_transform_site_represents().
 	 *
 	 * @return array
@@ -355,48 +402,8 @@ class Aioseo_General_Settings_Importing_Action_Test extends TestCase {
 
 		$full_settings_expected = $this->flattened_settings_to_import;
 
-		$missing_settings = [
-			'searchAppearance' => [
-				'postypes'   => [
-					'post' => [
-						'title'           => 'title1',
-						'metaDescription' => 'desc1',
-					],
-				],
-				'taxonomies' => [
-					'category' => [
-						'title'           => 'title1',
-						'metaDescription' => 'desc1',
-					],
-				],
-			],
-		];
-
-		$missing_settings_expected = [];
-
-		$malformed_settings = [
-			'searchAppearance' => [
-				'global'     => 'not_array',
-				'postypes'   => [
-					'post' => [
-						'title'           => 'title1',
-						'metaDescription' => 'desc1',
-					],
-				],
-				'taxonomies' => [
-					'category' => [
-						'title'           => 'title1',
-						'metaDescription' => 'desc1',
-					],
-				],
-			],
-		];
-
-		$malformed_settings_expected = [];
-
 		return [
 			[ \json_encode( $full_settings ), $this->full_settings_to_import, $full_settings_expected, 1 ],
-			[ \json_encode( $missing_settings ), 'irrelevant', $missing_settings_expected, 0 ],
 		];
 	}
 }

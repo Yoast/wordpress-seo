@@ -3,12 +3,32 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Given it's a very specific case.
 namespace Yoast\WP\SEO\Services\Importing\Aioseo;
 
+use Yoast\WP\SEO\Helpers\Aioseo_Helper;
+
 /**
  * Provides AISOEO search appearance robot settings.
  *
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Aioseo_Robots_Provider_Service {
+
+	/**
+	 * The AIOSEO helper.
+	 *
+	 * @var Aioseo_Helper
+	 */
+	protected $aioseo_helper;
+
+	/**
+	 * Class constructor.
+	 *
+	 * @param Aioseo_Helper $aioseo_helper The AIOSEO helper.
+	 */
+	public function __construct(
+		Aioseo_Helper $aioseo_helper
+	) {
+		$this->aioseo_helper = $aioseo_helper;
+	}
 
 	/**
 	 * Retrieves the robot setting set globally in AIOSEO.
@@ -18,17 +38,17 @@ class Aioseo_Robots_Provider_Service {
 	 * @return bool Whether global robot settings enable or not the specific setting.
 	 */
 	public function get_global_robot_settings( $setting_name ) {
-		$aioseo_settings = \json_decode( \get_option( 'aioseo_options', '' ), true );
-		if ( empty( $aioseo_settings ) || ! isset( $aioseo_settings['searchAppearance']['advanced']['globalRobotsMeta'] ) ) {
+		$aioseo_settings = $this->aioseo_helper->get_global_option();
+		if ( empty( $aioseo_settings ) ) {
 			return false;
 		}
 
 		$global_robot_settings = $aioseo_settings['searchAppearance']['advanced']['globalRobotsMeta'];
-		if ( ! isset( $global_robot_settings['default'] ) || $global_robot_settings['default'] === true ) {
+		if ( $global_robot_settings['default'] === true ) {
 			return false;
 		}
 
-		return isset( $global_robot_settings[ $setting_name ] ) ? $global_robot_settings[ $setting_name ] : false;
+		return $global_robot_settings[ $setting_name ];
 	}
 
 	/**
@@ -40,10 +60,6 @@ class Aioseo_Robots_Provider_Service {
 	 */
 	public function get_subtype_robot_setting( $mapping ) {
 		$aioseo_settings = \json_decode( \get_option( $mapping['option_name'], '' ), true );
-
-		if ( ! isset( $aioseo_settings['searchAppearance'][ $mapping['type'] ][ $mapping['subtype'] ]['advanced']['robotsMeta'][ $mapping['robot_type'] ] ) ) {
-			return false;
-		}
 
 		return $aioseo_settings['searchAppearance'][ $mapping['type'] ][ $mapping['subtype'] ]['advanced']['robotsMeta'][ $mapping['robot_type'] ];
 	}
