@@ -265,6 +265,10 @@ const stepNumberNameMap = {
 /**
  * Doc comment to make linter happy.
  *
+ * @param {Object}   state                    The state
+ * @param {function} setTracking              Callback function to update tracking preference
+ * @param {Boolean}  isTrackingOptionSelected Wether the tracking option is selected
+ *
  * @returns {JSX.Element} Example step.
  */
 function PersonalPreferencesStep( { state, setTracking, isTrackingOptionSelected } ) {
@@ -320,6 +324,12 @@ function PersonalPreferencesStep( { state, setTracking, isTrackingOptionSelected
 		<NewsletterSignup gdprLink={ window.wpseoWorkoutsData.configuration.shortlinks.gdpr } />
 	</Fragment>;
 }
+
+PersonalPreferencesStep.propTypes = {
+	state: PropTypes.object.isRequired,
+	setTracking: PropTypes.func.isRequired,
+	isTrackingOptionSelected: PropTypes.bool.isRequired,
+};
 
 /**
  * Example Finish step.
