@@ -170,7 +170,7 @@ export default class BlockEditorData {
 	}
 
 	/**
-	 * Gets the base url from the permalink. The base url is the full url retrieved from permalinkk minus the slug.
+	 * Gets the base url from the permalink. The base url is the full url retrieved from permalink minus the slug.
 	 *
 	 * @param {string} slug The slug to strip from the permalink.
 	 *
