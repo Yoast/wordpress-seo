@@ -27,6 +27,7 @@ export const getInitialPostState = () => ( {
 		taxonomies: {
 			categories: dom.getPostCategories(),
 			tags: dom.getPostTags(),
+			customTaxonomies: dom.getCustomTaxonomies(),
 		},
 		locale: getContentLocale(),
 	},

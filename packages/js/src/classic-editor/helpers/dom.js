@@ -1,5 +1,5 @@
 /* global moment */
-import { flow, get, isEqual, set } from "lodash";
+import { flow, get, isEqual, set, map } from "lodash";
 import { getContentTinyMce } from "../../lib/tinymce";
 import getContentLocale from "../../analysis/getContentLocale";
 
@@ -209,6 +209,25 @@ export const getPostMostUsedCategoryCheckboxes = () => {
 };
 
 /**
+ * Maps over a list of checked checkboxes elements and returns the value and the text content.
+ *
+ * @param {Array} checkedCheckboxes The array of checked checkboxes to map.
+ *
+ * @returns {Object[]} An array containing objects with the checked checkboxes value and text content.
+ */
+const getValuesFromCheckboxes = ( checkedCheckboxes ) => {
+	return checkedCheckboxes.map( checkbox => (
+		{
+			id: checkbox.value,
+			name: [ ...checkbox.parentElement.childNodes ]
+				.filter( node => node.nodeType === Node.TEXT_NODE )
+				.map( node => node.textContent )[ 0 ]
+				?.trim(),
+		}
+	) );
+};
+
+/**
  * Gets the current post's categories from the document.
  *
  * @returns {{name: string, id: string}[]} The post's categories.
@@ -219,26 +238,20 @@ export const getPostCategories = () => {
 
 	if ( checkboxes ) {
 		const checkedCheckboxes = checkboxes.filter( checkbox => checkbox.checked );
-		return checkedCheckboxes.map( checkbox => (
-			{
-				id: checkbox.value,
-				name: [ ...checkbox.parentElement.childNodes ]
-					.filter( node => node.nodeType === Node.TEXT_NODE )
-					.map( node => node.textContent )[ 0 ]
-					?.trim(),
-			}
-		) );
+		return getValuesFromCheckboxes( checkedCheckboxes );
 	}
 	return [];
 };
 
 /**
- * Gets the current post's tags from the document.
+ * Gets the current post's tags or custom tags from the document using the ID of the parent element.
  *
- * @returns {string[]} The post's tags.
+ * @param {String} termID The parent element id of the tags or custom tags.
+ *
+ * @returns {String[]} The post's tags
  */
-export const getPostTags = () => {
-	const tagChecklistElement = document.querySelectorAll( ".tagchecklist" );
+export const getPostTags = ( termID = "post_tag" ) => {
+	const tagChecklistElement = document.querySelectorAll( `#${ termID } .tagchecklist` );
 
 	if ( tagChecklistElement.length > 0 ) {
 		// Each tag is a <li> element containing a button and two text elements. The second text element contains the name of the tag.
@@ -248,6 +261,67 @@ export const getPostTags = () => {
 	}
 
 	return [];
+};
+
+/**
+ * Gets the hierarchical custom taxonomy checkboxes elements from the document, from the "All (Custom taxonomy name)" section.
+ *
+ * @param {String} name The custom taxonomy name for retrieving the element from the document.
+ *
+ * @returns {HTMLInputElement[]} The category checkboxes from the "All (Custom taxonomy name)" section.
+ */
+export const getCTCheckboxes = ( name ) => {
+	return [ ...document.querySelectorAll( `#${ name }checklist input[type=checkbox]` ) ];
+};
+
+/**
+ * Gets the hierarchical custom taxonomy checkboxes elements from the document, from the "Most Used" section.
+ *
+ * @param {String} name The custom taxonomy name for retrieving the element from the document.
+ *
+ * @returns {HTMLInputElement[]} The category checkboxes from the "Most Used" section.
+ */
+export const getMostUsedCTCheckboxes = ( name ) => {
+	return [ ...document.querySelectorAll( `#${ name }checklist-pop input[type=checkbox]` ) ];
+};
+
+/**
+ * Gets the array of names of custom taxonomies from `wpseoScriptData`.
+ *
+ * @returns {String[]} An array of the names of custom taxonomies.
+ */
+export const getCTNames = () => {
+	return map( get( window, "wpseoScriptData.analysis.plugins.replaceVars.replace_vars.custom_taxonomies" ), ( { name } ) => name );
+};
+
+/**
+ * Gets the custom taxonomies, both hierarchical and non-hierarchical from the document.
+ *
+ * @returns {Object} An object which contains the custom taxonomy data, the output structure: { name1: [ {id: "", value: ""} ], name2 [ "", "" ] }.
+ * `name1` refers to the structure of a hierarchical custom taxonomy, `name2` refers to the structure of a non-hierarchical custom taxonomy.
+ */
+export const getCustomTaxonomies = () => {
+	const names = getCTNames();
+	const customTaxonomies = {};
+
+	/*
+	 * For every custom taxonomy name retrieved from `wpseoScriptData`, we retrieve the custom element checkboxes if it's present in DOM,
+	 * save the value in the `customTaxonomies` object with the name as the key.
+	 * If the element with the name is not present in DOM, we check if there is non-hierarchical custom taxonomy,
+	 * and assign the result to the `customTaxonomies` object with the name as the key.
+	 */
+	names.forEach( name => {
+		const checkboxesElement = getCTCheckboxes( name );
+		const customTags = getPostTags( name );
+		if ( checkboxesElement.length === 0 ) {
+			customTaxonomies[ name ] = customTags;
+		} else {
+			const checkedCheckboxes = checkboxesElement.filter( checkbox => checkbox.checked );
+			customTaxonomies[ name ] = getValuesFromCheckboxes( checkedCheckboxes );
+		}
+	} );
+
+	return customTaxonomies;
 };
 
 /**
