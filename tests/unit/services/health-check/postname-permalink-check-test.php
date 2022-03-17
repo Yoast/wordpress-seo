@@ -3,38 +3,38 @@
 namespace Yoast\WP\SEO\Tests\Unit\Services\Health_Check;
 
 use Mockery;
-use Yoast\WP\SEO\Services\Health_Check\Default_Tagline_Check;
-use Yoast\WP\SEO\Services\Health_Check\Default_Tagline_Reports;
-use Yoast\WP\SEO\Services\Health_Check\Default_Tagline_Runner;
+use Yoast\WP\SEO\Services\Health_Check\Postname_Permalink_Check;
+use Yoast\WP\SEO\Services\Health_Check\Postname_Permalink_Reports;
+use Yoast\WP\SEO\Services\Health_Check\Postname_Permalink_Runner;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Default_Tagline_Test
+ * Postname_Permalink_Test
  *
  * @group health-check
  *
- * @coversDefaultClass Yoast\WP\SEO\Services\Health_Check\Default_Tagline_Check
+ * @coversDefaultClass Yoast\WP\SEO\Services\Health_Check\Postname_Permalink_Check
  */
-class Default_Tagline_Check_Test extends TestCase {
+class Postname_Permalink_Check_Test extends TestCase {
 
 	/**
-	 * The Default_Tagline_Check instance to be tested.
+	 * The Postname_Permalink_Check instance to be tested.
 	 *
-	 * @var Default_Tagline_Check
+	 * @var Postname_Permalink_Check
 	 */
 	private $instance;
 
 	/**
-	 * A mock of the Default_Tagline_Runner dependency.
+	 * A mock of the Postname_Permalink_Runner dependency.
 	 *
-	 * @var Default_Tagline_Runner
+	 * @var Postname_Permalink_Runner
 	 */
 	private $runner_mock;
 
 	/**
-	 * A mock of the Default_Tagline_Report_Builder dependency.
+	 * A mock of the Postname_Permalink_Report_Builder dependency.
 	 *
-	 * @var Default_Tagline_Reports
+	 * @var Postname_Permalink_Reports
 	 */
 	private $reports_mock;
 
@@ -46,12 +46,12 @@ class Default_Tagline_Check_Test extends TestCase {
 
 		$this->stubTranslationFunctions();
 
-		$this->runner_mock  = Mockery::mock( Default_Tagline_Runner::class );
-		$this->reports_mock = Mockery::mock( Default_Tagline_Reports::class );
+		$this->runner_mock  = Mockery::mock( Postname_Permalink_Runner::class );
+		$this->reports_mock = Mockery::mock( Postname_Permalink_Reports::class );
 		$this->reports_mock
 			->shouldReceive( 'set_test_identifier' )
 			->once();
-		$this->instance = new Default_Tagline_Check( $this->runner_mock, $this->reports_mock );
+		$this->instance = new Postname_Permalink_Check( $this->runner_mock, $this->reports_mock );
 	}
 
 	/**
@@ -105,7 +105,7 @@ class Default_Tagline_Check_Test extends TestCase {
 			->once()
 			->andReturn( false );
 		$this->reports_mock
-			->shouldReceive( 'get_has_default_tagline_result' )
+			->shouldReceive( 'get_has_no_postname_in_permalink_result' )
 			->once()
 			->andReturn( $expected );
 

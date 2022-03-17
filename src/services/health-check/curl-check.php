@@ -3,34 +3,34 @@
 namespace Yoast\WP\SEO\Services\Health_Check;
 
 /**
- * Passes when the tagline is set to something other than the WordPress default tagline.
+ * Passes if the health check can reach the MyYoast API using a recent enough cURL version.
  */
-class Default_Tagline_Check extends Health_Check {
+class Curl_Check extends Health_Check {
 
 	/**
 	 * Runs the health check.
 	 *
-	 * @var Default_Tagline_Runner
+	 * @var Curl_Runner
 	 */
 	private $runner;
 
 	/**
 	 * Generates WordPress-friendly health check results.
 	 *
-	 * @var Default_Tagline_Reports
+	 * @var Curl_Reports
 	 */
 	private $reports;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param  Default_Tagline_Runner  $runner The object that implements the actual health check.
-	 * @param  Default_Tagline_Reports $reports The object that generates WordPress-friendly results.
+	 * @param Curl_Runner  $runner The object that implements the actual health check.
+	 * @param Curl_Reports $reports The object that generates WordPress-friendly results.
 	 * @return void
 	 */
 	public function __construct(
-		Default_Tagline_Runner $runner,
-		Default_Tagline_Reports $reports
+		Curl_Runner $runner,
+		Curl_Reports $reports
 	) {
 		$this->runner  = $runner;
 		$this->reports = $reports;
@@ -45,7 +45,7 @@ class Default_Tagline_Check extends Health_Check {
 	 * @return string The human-readable label.
 	 */
 	public function get_test_label() {
-		return __( 'Default tagline', 'wordpress-seo' );
+		return __( 'cURL', 'wordpress-seo' );
 	}
 
 	/**
@@ -54,10 +54,22 @@ class Default_Tagline_Check extends Health_Check {
 	 * @return string[] The WordPress-friendly health check result.
 	 */
 	protected function get_result() {
+		if ( ! $this->runner->has_premium_plugins_installed() ) {
+			return [];
+		}
+
 		if ( $this->runner->is_successful() ) {
 			return $this->reports->get_success_result();
 		}
 
-		return $this->reports->get_has_default_tagline_result();
+		if ( ! $this->runner->has_recent_curl_version_installed() ) {
+			return $this->reports->get_no_recent_curl_version_installed_result();
+		}
+
+		if ( ! $this->runner->can_reach_my_yoast_api() ) {
+			return $this->reports->get_my_yoast_api_not_reachable_result();
+		}
+
+		return [];
 	}
 }

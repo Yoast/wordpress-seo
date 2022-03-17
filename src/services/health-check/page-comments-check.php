@@ -3,34 +3,34 @@
 namespace Yoast\WP\SEO\Services\Health_Check;
 
 /**
- * Passes when the tagline is set to something other than the WordPress default tagline.
+ * Paasses when comments are set to be on a single page.
  */
-class Default_Tagline_Check extends Health_Check {
+class Page_Comments_Check extends Health_Check {
 
 	/**
 	 * Runs the health check.
 	 *
-	 * @var Default_Tagline_Runner
+	 * @var Page_Comments_Runner
 	 */
 	private $runner;
 
 	/**
 	 * Generates WordPress-friendly health check results.
 	 *
-	 * @var Default_Tagline_Reports
+	 * @var Page_Comments_Reports
 	 */
 	private $reports;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param  Default_Tagline_Runner  $runner The object that implements the actual health check.
-	 * @param  Default_Tagline_Reports $reports The object that generates WordPress-friendly results.
+	 * @param  Page_Comments_Runner  $runner The object that implements the actual health check.
+	 * @param  Page_Comments_Reports $reports The object that generates WordPress-friendly results.
 	 * @return void
 	 */
 	public function __construct(
-		Default_Tagline_Runner $runner,
-		Default_Tagline_Reports $reports
+		Page_Comments_Runner $runner,
+		Page_Comments_Reports $reports
 	) {
 		$this->runner  = $runner;
 		$this->reports = $reports;
@@ -45,7 +45,7 @@ class Default_Tagline_Check extends Health_Check {
 	 * @return string The human-readable label.
 	 */
 	public function get_test_label() {
-		return __( 'Default tagline', 'wordpress-seo' );
+		return __( 'Page comments', 'wordpress-seo' );
 	}
 
 	/**
@@ -58,6 +58,6 @@ class Default_Tagline_Check extends Health_Check {
 			return $this->reports->get_success_result();
 		}
 
-		return $this->reports->get_has_default_tagline_result();
+		return $this->reports->get_has_comments_on_multiple_pages_result();
 	}
 }

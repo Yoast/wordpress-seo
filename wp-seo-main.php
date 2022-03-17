@@ -5,6 +5,9 @@
  * @package WPSEO\Main
  */
 
+use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Integrations\Admin\Ryte_Integration;
+
 if ( ! function_exists( 'add_filter' ) ) {
 	header( 'Status: 403 Forbidden' );
 	header( 'HTTP/1.1 403 Forbidden' );
@@ -236,7 +239,7 @@ function _wpseo_activate() {
 	WPSEO_Utils::clear_cache();
 
 	// Schedule cronjob when it doesn't exists on activation.
-	$wpseo_ryte = new WPSEO_Ryte();
+	$wpseo_ryte = YoastSEO()->classes->get( Ryte_Integration::class );
 	$wpseo_ryte->activate_hooks();
 
 	do_action( 'wpseo_activate' );
@@ -358,10 +361,6 @@ function wpseo_init() {
 	foreach ( $integrations as $integration ) {
 		$integration->register_hooks();
 	}
-
-	// Loading Ryte integration.
-	$wpseo_ryte = new WPSEO_Ryte();
-	$wpseo_ryte->register_hooks();
 }
 
 /**

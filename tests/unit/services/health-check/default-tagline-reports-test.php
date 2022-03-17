@@ -4,7 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Services\Health_Check;
 
 use Brain\Monkey;
 use Mockery;
-use Yoast\WP\SEO\Services\Health_Check\Default_Tagline_Report_Builder;
+use Yoast\WP\SEO\Services\Health_Check\Default_Tagline_Reports;
 use Yoast\WP\SEO\Services\Health_Check\Report_Builder;
 use Yoast\WP\SEO\Services\Health_Check\Report_Builder_Factory;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -12,16 +12,16 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 // phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
 
 /**
- * Default_Tagline_Report_Builder_Test
+ * Default_Tagline_Reports
  *
- * @coversDefaultClass Yoast\WP\SEO\Services\Health_Check\Default_Tagline_Report_Builder
+ * @coversDefaultClass Yoast\WP\SEO\Services\Health_Check\Default_Tagline_Reports
  */
-class Default_Tagline_Report_Builder_Test extends TestCase {
+class Default_Tagline_Reports_Test extends TestCase {
 
 	/**
-	 * The Default_Tagline_Report_Builder instance to be tested.
+	 * The Default_Tagline_Reports instance to be tested.
 	 *
-	 * @var Default_Tagline_Report_Builder
+	 * @var Default_Tagline_Reports
 	 */
 	private $instance;
 
@@ -30,7 +30,7 @@ class Default_Tagline_Report_Builder_Test extends TestCase {
 	 *
 	 * @var Report_Builder
 	 */
-	private $report_builder;
+	private $reports;
 
 	/**
 	 * The mocked Report_Builder_Factory that returns the Report_Builder mock.
@@ -45,35 +45,18 @@ class Default_Tagline_Report_Builder_Test extends TestCase {
 	public function set_up() {
 		parent::set_up();
 
-		$this->report_builder         = Mockery::mock( Report_Builder::class );
+		$this->reports                = Mockery::mock( Report_Builder::class );
 		$this->report_builder_factory = Mockery::mock( Report_Builder_Factory::class );
 
 		$this->report_builder_factory
 			->shouldReceive( 'create' )
 			->once()
-			->andReturn( $this->report_builder );
+			->andReturn( $this->reports );
 
-		$this->instance = new Default_Tagline_Report_Builder( $this->report_builder_factory );
+		$this->instance = new Default_Tagline_Reports( $this->report_builder_factory );
 
 		$this->stubEscapeFunctions();
 		$this->stubTranslationFunctions();
-	}
-
-	/**
-	 * Checks if the Report_Builder is called when setting a test identifier.
-	 *
-	 * @covers ::__construct
-	 * @covers ::set_test_identifier
-	 */
-	public function test_sets_identifier_correctly() {
-		$expected = 'correct';
-
-		$this->report_builder
-			->shouldReceive( 'set_test_identifier' )
-			->with( $expected )
-			->once();
-
-		$this->instance->set_test_identifier( $expected );
 	}
 
 	/**
@@ -85,21 +68,21 @@ class Default_Tagline_Report_Builder_Test extends TestCase {
 	public function test_creates_success_report_correctly() {
 		$expected = [ 'correct' ];
 
-		$this->report_builder
+		$this->reports
 			->shouldReceive( 'set_label' )
 			->with( 'You changed the default WordPress tagline' )
-			->andReturn( $this->report_builder )
+			->andReturn( $this->reports )
 			->once();
-		$this->report_builder
+		$this->reports
 			->shouldReceive( 'set_status_good' )
-			->andReturn( $this->report_builder )
+			->andReturn( $this->reports )
 			->once();
-		$this->report_builder
+		$this->reports
 			->shouldReceive( 'set_description' )
 			->with( 'You are using a custom tagline or an empty one.' )
-			->andReturn( $this->report_builder )
+			->andReturn( $this->reports )
 			->once();
-		$this->report_builder
+		$this->reports
 			->shouldReceive( 'build' )
 			->andReturn( $expected );
 
@@ -123,26 +106,26 @@ class Default_Tagline_Report_Builder_Test extends TestCase {
 		Monkey\Functions\expect( 'wp_customize_url' )
 			->once();
 
-		$this->report_builder
+		$this->reports
 			->shouldReceive( 'set_label' )
 			->with( 'You should change the default WordPress tagline' )
-			->andReturn( $this->report_builder )
+			->andReturn( $this->reports )
 			->once();
-		$this->report_builder
+		$this->reports
 			->shouldReceive( 'set_status_recommended' )
-			->andReturn( $this->report_builder )
+			->andReturn( $this->reports )
 			->once();
-		$this->report_builder
+		$this->reports
 			->shouldReceive( 'set_description' )
 			->with( 'You still have the default WordPress tagline. Even an empty one is probably better.' )
-			->andReturn( $this->report_builder )
+			->andReturn( $this->reports )
 			->once();
-		$this->report_builder
+		$this->reports
 			->shouldReceive( 'set_actions' )
 			->with( Mockery::any() )
-			->andReturn( $this->report_builder )
+			->andReturn( $this->reports )
 			->once();
-		$this->report_builder
+		$this->reports
 			->shouldReceive( 'build' )
 			->andReturn( $expected );
 

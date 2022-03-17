@@ -3,38 +3,38 @@
 namespace Yoast\WP\SEO\Tests\Unit\Services\Health_Check;
 
 use Mockery;
-use Yoast\WP\SEO\Services\Health_Check\Default_Tagline_Check;
-use Yoast\WP\SEO\Services\Health_Check\Default_Tagline_Reports;
-use Yoast\WP\SEO\Services\Health_Check\Default_Tagline_Runner;
+use Yoast\WP\SEO\Services\Health_Check\Links_Table_Check;
+use Yoast\WP\SEO\Services\Health_Check\Links_Table_Reports;
+use Yoast\WP\SEO\Services\Health_Check\Links_Table_Runner;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Default_Tagline_Test
+ * Links_Table_Test
  *
  * @group health-check
  *
- * @coversDefaultClass Yoast\WP\SEO\Services\Health_Check\Default_Tagline_Check
+ * @coversDefaultClass Yoast\WP\SEO\Services\Health_Check\Links_Table_Check
  */
-class Default_Tagline_Check_Test extends TestCase {
+class Links_Table_Check_Test extends TestCase {
 
 	/**
-	 * The Default_Tagline_Check instance to be tested.
+	 * The Links_Table_Check instance to be tested.
 	 *
-	 * @var Default_Tagline_Check
+	 * @var Links_Table_Check
 	 */
 	private $instance;
 
 	/**
-	 * A mock of the Default_Tagline_Runner dependency.
+	 * A mock of the Links_Table_Runner dependency.
 	 *
-	 * @var Default_Tagline_Runner
+	 * @var Links_Table_Runner
 	 */
 	private $runner_mock;
 
 	/**
-	 * A mock of the Default_Tagline_Report_Builder dependency.
+	 * A mock of the Links_Table_Report_Builder dependency.
 	 *
-	 * @var Default_Tagline_Reports
+	 * @var Links_Table_Reports
 	 */
 	private $reports_mock;
 
@@ -46,12 +46,12 @@ class Default_Tagline_Check_Test extends TestCase {
 
 		$this->stubTranslationFunctions();
 
-		$this->runner_mock  = Mockery::mock( Default_Tagline_Runner::class );
-		$this->reports_mock = Mockery::mock( Default_Tagline_Reports::class );
+		$this->runner_mock  = Mockery::mock( Links_Table_Runner::class );
+		$this->reports_mock = Mockery::mock( Links_Table_Reports::class );
 		$this->reports_mock
 			->shouldReceive( 'set_test_identifier' )
 			->once();
-		$this->instance = new Default_Tagline_Check( $this->runner_mock, $this->reports_mock );
+		$this->instance = new Links_Table_Check( $this->runner_mock, $this->reports_mock );
 	}
 
 	/**
@@ -65,6 +65,27 @@ class Default_Tagline_Check_Test extends TestCase {
 	}
 
 	/**
+	 * Checks if the health check report is empty when the health check routine has exited early.
+	 *
+	 * @covers ::get_result
+	 * @covers ::__construct
+	 */
+	public function test_early_exit_returns_empty_report() {
+		$expected = [];
+		$this->runner_mock
+			->shouldReceive( 'run' )
+			->once();
+		$this->runner_mock
+			->shouldReceive( 'should_run' )
+			->once()
+			->andReturn( false );
+
+		$actual = $this->instance->run_and_get_result();
+
+		$this->assertEquals( $expected, $actual );
+	}
+
+	/**
 	 * Checks if the correct result is returned when the health check passes.
 	 *
 	 * @covers ::get_result
@@ -75,6 +96,10 @@ class Default_Tagline_Check_Test extends TestCase {
 		$this->runner_mock
 			->shouldReceive( 'run' )
 			->once();
+		$this->runner_mock
+			->shouldReceive( 'should_run' )
+			->once()
+			->andReturn( true );
 		$this->runner_mock
 			->shouldReceive( 'is_successful' )
 			->once()
@@ -101,11 +126,15 @@ class Default_Tagline_Check_Test extends TestCase {
 			->shouldReceive( 'run' )
 			->once();
 		$this->runner_mock
+			->shouldReceive( 'should_run' )
+			->once()
+			->andReturn( true );
+		$this->runner_mock
 			->shouldReceive( 'is_successful' )
 			->once()
 			->andReturn( false );
 		$this->reports_mock
-			->shouldReceive( 'get_has_default_tagline_result' )
+			->shouldReceive( 'get_links_table_not_accessible_result' )
 			->once()
 			->andReturn( $expected );
 
