@@ -34,7 +34,7 @@ abstract class Abstract_Aioseo_Importing_Action_Double extends Abstract_Aioseo_I
 	 *
 	 * @param bool $completed Whether the importer is completed.
 	 *
-	 * @return void.
+	 * @return void
 	 */
 	public function set_completed( $completed ) {
 		parent::set_completed( $completed );

@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/Yoast/YoastSEO.js.svg?branch=master)](https://travis-ci.org/Yoast/js-text-analysis)
+[![Build Status](https://travis-ci.org/Yoast/YoastSEO.js.svg?branch=master)](https://travis-ci.org/Yoast/js-text-analysis)
 [![Code Climate](https://codeclimate.com/repos/5524f75d69568028f6000fda/badges/f503961401819f93c64c/gpa.svg)](https://codeclimate.com/repos/5524f75d69568028f6000fda/feed)
 [![Test Coverage](https://codeclimate.com/repos/5524f75d69568028f6000fda/badges/f503961401819f93c64c/coverage.svg)](https://codeclimate.com/repos/5524f75d69568028f6000fda/coverage)
 [![Inline docs](http://inch-ci.org/github/yoast/yoastseo.js.svg?branch=master)](http://inch-ci.org/github/yoast/yoastseo.js)
@@ -7,7 +8,7 @@
 
 Text analysis and assessment library in JavaScript. This library can generate interesting metrics about a text and assess these metrics to give you an assessment which can be used to improve the text.
 
-![Screenshot of the assessment of the given text](/packages/yoastseo/images/assessment.png)
+![Screenshot of the assessment of the given text](/packages/yoastseo/images/assessments.png)
 
 Also included is a preview of the Google search results which can be assessed using the library.
 
@@ -137,6 +138,9 @@ Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recen
 * The data that will be analyzed by YoastSEO.js can be modified by plugins. Plugins can also add new research and assessments. To find out how to do this, checkout out the [customization documentation](./docs/Customization.md).
 * Information on the design decisions within the package can be found [here](DESIGN%20DECISIONS.md).
 * Information on how morphology works in `yoastseo` package can be found [here](MORPHOLOGY.md).
+* Information on the `yoastseo` assessors can be found [here](https://github.com/Yoast/wordpress-seo/yoastseo/src/scoring/README.md).
+* Information on the scoring system of the assessments can be found [here](https://github.com/Yoast/wordpress-seo/yoastseo/src/scoring/assessments/README.md).
+
 
 ## Testing
 
@@ -166,10 +170,9 @@ Then, in the [Yoast SEO](https://github.com/Yoast/wordpress-seo) directory, assu
 
 ```bash
 npm link yoastseo
-grunt build:js && grunt build:css
 ```
 
-From that point on you need to re-do `grunt build:js && grunt build:css` when you make changes to YoastSEO.js. If you want to unlink, simply do:
+If you want to unlink, simply do:
 
 ```bash
 npm unlink yoastseo

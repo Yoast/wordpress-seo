@@ -67,7 +67,7 @@ Information on the scoring criteria for the available SEO assessments can be fou
 
 ## 2. Scoring readability analysis
 
-Readability analysis is a collection of assessments that check how easy it is to read a text. Some of the readability assessments are language-independent (e.g. paragraph length, subheading presence and distribution), but many are language-specific (e.g. passive voice, transition words) and are developed on a case-by-case basis. As such, which assessments are currently available will depend on the specific language (an overview of the available language-specific assessments can be found [here](https://github.com/Yoast/javascript/blob/master/packages/yoastseo/README.md#supported-languages).
+Readability analysis is a collection of assessments that check how easy it is to read a text. Some of the readability assessments are language-independent (e.g. paragraph length, subheading presence and distribution), but many are language-specific (e.g. passive voice, transition words) and are developed on a case-by-case basis. As such, which assessments are currently available will depend on the specific language (an overview of the available language-specific assessments can be found [here](https://github.com/Yoast/javascript/blob/master/packages/yoastseo/README.md#supported-languages).)
 
 Below is a detailed overview of how scores for the readability assessments are calculated, as well as the feedback that each assessment returns. Note: some of the assessment criteria are different for texts marked as cornerstone; these will be indicated when applicable. Also, some assessment criteria (e.g. recommended sentence length) differ depending on the specific language. These are not specified below for the sake of space saving.
 

@@ -4,8 +4,10 @@ namespace Yoast\WP\SEO\Tests\Unit\Helpers;
 
 use Brain\Monkey;
 use Mockery;
+use stdClass;
 use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Models\SEO_Links;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Stringable_Object_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -90,10 +92,88 @@ class Url_Helper_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that get_url_path() always returns a string and handles unexpected input gracefully.
+	 *
+	 * @dataProvider data_get_url_path
+	 *
+	 * @covers ::get_url_path
+	 *
+	 * @param mixed  $url_input Input to pass to the get_url_path() function.
+	 * @param string $expected  Output expected from the get_url_path() function.
+	 *
+	 * @return void
+	 */
+	public function test_get_url_path( $url_input, $expected ) {
+		Monkey\Functions\stubs(
+			[
+				'wp_parse_url' => static function( $url, $component ) {
+					// phpcs:ignore WordPress.WP.AlternativeFunctions.parse_url_parse_url -- Mocking wp_parse_url(), this is fine.
+					return \parse_url( $url, $component );
+				},
+			]
+		);
+
+		$this->assertSame( $expected, $this->instance->get_url_path( $url_input ) );
+	}
+
+	/**
+	 * Data provider.
+	 *
+	 * @return array
+	 */
+	public function data_get_url_path() {
+		return [
+			'URL is an empty string' => [
+				'url_input' => '',
+				'expected'  => '',
+			],
+			'URL with domain, no path' => [
+				'url_input' => 'https://example.com',
+				'expected'  => '',
+			],
+			'URL with domain, path is only slash' => [
+				'url_input' => 'https://example.com/',
+				'expected'  => '/',
+			],
+			'URL with domain and full path' => [
+				'url_input' => 'https://example.com/this/is/the/path',
+				'expected'  => '/this/is/the/path',
+			],
+			'URL with domain and full path and trailing slash' => [
+				'url_input' => 'https://example.com/this/is/the/path/',
+				'expected'  => '/this/is/the/path/',
+			],
+			'URL with domain, no path via a stringable object' => [
+				'url_input' => new Stringable_Object_Mock( 'https://example.com' ),
+				'expected'  => '',
+			],
+			'URL with domain and full path via a stringable object' => [
+				'url_input' => new Stringable_Object_Mock( 'https://example.com/this/is/the/path' ),
+				'expected'  => '/this/is/the/path',
+			],
+			'URL is not a string: null' => [
+				'url_input' => null,
+				'expected'  => '',
+			],
+			'URL is not a string: boolean true' => [
+				'url_input' => true,
+				'expected'  => '',
+			],
+			'URL is not a string: array' => [
+				'url_input' => [],
+				'expected'  => '',
+			],
+			'URL is not a string: object, but not stringable' => [
+				'url_input' => new stdClass(),
+				'expected'  => '',
+			],
+		];
+	}
+
+	/**
 	 * Tests retrieving of the file extension.
 	 *
 	 * @covers ::get_extension_from_url
-	 * @covers ::get_url_path
 	 */
 	public function test_get_extension_from_url() {
 		Monkey\Functions\expect( 'wp_parse_url' )
@@ -110,7 +190,6 @@ class Url_Helper_Test extends TestCase {
 	 * Tests retrieving of the file extension with no path present.
 	 *
 	 * @covers ::get_extension_from_url
-	 * @covers ::get_url_path
 	 */
 	public function test_get_extension_from_url_no_path() {
 		Monkey\Functions\expect( 'wp_parse_url' )
@@ -127,7 +206,6 @@ class Url_Helper_Test extends TestCase {
 	 * Tests retrieving of the file extension with no extension present.
 	 *
 	 * @covers ::get_extension_from_url
-	 * @covers ::get_url_path
 	 */
 	public function test_get_extension_from_url_no_extension() {
 		Monkey\Functions\expect( 'wp_parse_url' )

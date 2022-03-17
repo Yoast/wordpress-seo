@@ -2,9 +2,10 @@
 
 namespace Yoast\WP\SEO\Services\Health_Check;
 
-// phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
 /**
  * Presents a set of different messages for the Default_Tagline health check.
+ *
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Default_Tagline_Reports {
 	use Reports_Trait;
@@ -60,7 +61,7 @@ class Default_Tagline_Reports {
 		return \sprintf(
 			/* translators: 1: link open tag; 2: link close tag. */
 			\esc_html__( '%1$sYou can change the tagline in the customizer%2$s.', 'wordpress-seo' ),
-			'<a href="' . \esc_attr( $customize_url ) . '">',
+			'<a href="' . \esc_url( $customize_url ) . '">',
 			'</a>'
 		);
 	}

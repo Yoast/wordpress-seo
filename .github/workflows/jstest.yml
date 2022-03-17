@@ -1,0 +1,178 @@
+name: TestJS
+
+on:
+  # Run on pushes to select branches and on all pull requests.
+  push:
+    branches:
+      - master
+      - trunk
+      - 'release/**'
+      - 'hotfix/[0-9]+.[0-9]+*'
+      - 'feature/**'
+  pull_request:
+  # Allow manually triggering the workflow.
+  workflow_dispatch:
+
+# Cancels all previous workflow runs for the same branch that have not yet completed.
+concurrency:
+  # The concurrency group contains the workflow name and the branch name.
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  #########################################################################################
+  # For packages in this job, the full test suite is always run.
+  #########################################################################################
+  yarn-test-full:
+    runs-on: ubuntu-latest
+
+    strategy:
+      # As these packages are all unique, don't stop the workflow when the test run of one package fails.
+      fail-fast: false
+      matrix:
+        package:
+          - 'analysis-report'
+          - 'browserslist-config'
+          - 'components'
+          - 'configuration-wizard'
+          - 'feature-flag'
+          - 'helpers'
+          - 'js'
+          - 'replacement-variable-editor'
+          - 'schema-blocks'
+          - 'search-metadata-previews'
+          - 'social-metadata-forms'
+          - 'social-metadata-previews'
+          - 'yoast-components'
+
+    name: "TestJS - ${{ matrix.package }} (full)"
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # The ubuntu images come with Node, npm and yarn pre-installed.
+      # https://github.com/actions/virtual-environments/blob/main/images/linux/Ubuntu2004-Readme.md
+
+      # This action also handles the caching of the Yarn dependencies.
+      # https://github.com/actions/setup-node
+      - name: Set up node and enable caching of dependencies
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+          cache: 'yarn'
+
+      - name: Yarn install
+        run: yarn install
+
+      - name: Show debug info
+        run: |
+          npm --version
+          node --version
+          yarn --version
+          grunt --version
+          yarn run jest --version
+
+      - name: Show Jest version
+        run: yarn run jest --version
+        working-directory: packages/${{ matrix.package }}
+
+      - name: Show Config
+        run: yarn test --showConfig
+        working-directory: packages/${{ matrix.package }}
+
+      - name: Run Javascript tests
+        run: yarn test --ci
+        working-directory: packages/${{ matrix.package }}
+
+
+  #########################################################################################
+  # For packages in this job, PRs will only run the tests related to changed files
+  # to make the build faster.
+  # For merges and pushes to select branches, the full test suite is still run.
+  # Packages should (only) be moved to this job if the full test run is exceedingly slow.
+  #########################################################################################
+  yarn-test-onlyChanged:
+    runs-on: ubuntu-latest
+
+    strategy:
+      # As these packages are all unique, don't stop the workflow when the test run of one package fails.
+      fail-fast: false
+      matrix:
+        include:
+          - package:              'yoastseo'
+            needs_premium_config: true
+
+    name: "TestJS - ${{ matrix.package }}${{ github.event_name == 'pull_request' && ' (onlyChanged)' || ' (full)' }}"
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # The base branch is used to allow the PR checks to only run the tests relevant for changes files.
+      # Note: we need to actually check out the base branch and then go back to the original branch that
+      # is being tested as `changedSince` does not work if there is no local branch for the base ref.
+      # When switching back to the original branch we use the GitHub SHA because that will allow us to
+      # switch back to the merge commit (which is not a branch) that is created for pull requests.
+      - name: "Fetch base branch (for onlyChanged test runs)"
+        if: ${{ github.event_name == 'pull_request' }}
+        env:
+          BASE_REF: ${{ github.base_ref }}
+        run: |
+          git fetch --no-tags --depth=1 origin $BASE_REF
+          git checkout -b $BASE_REF
+          git checkout $GITHUB_SHA
+
+      # Check out the premium config repo ahead of running the tests to prevent issues with permissions.
+      - name: Checkout premium configuration
+        if: ${{ matrix.needs_premium_config == true }}
+        uses: actions/checkout@v3
+        with:
+          repository: Yoast/YoastSEO.js-premium-configuration
+          path: packages/yoastseo/premium-configuration
+          fetch-depth: 0
+          token: ${{ secrets.YOASTBOT_CI_PAT_DIST }}
+
+      # The ubuntu images come with Node, npm and yarn pre-installed.
+      # https://github.com/actions/virtual-environments/blob/main/images/linux/Ubuntu2004-Readme.md
+
+      # This action also handles the caching of the Yarn dependencies.
+      # https://github.com/actions/setup-node
+      - name: Set up node and enable caching of dependencies
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+          cache: 'yarn'
+
+      - name: Yarn install
+        run: yarn install
+
+      - name: Show debug info
+        run: |
+          npm --version
+          node --version
+          yarn --version
+          grunt --version
+          yarn run jest --version
+
+      - name: Show Jest version
+        run: yarn run jest --version
+        working-directory: packages/${{ matrix.package }}
+
+      - name: Show Config
+        run: yarn test --showConfig
+        working-directory: packages/${{ matrix.package }}
+
+      # For pull requests, only the relevant tests will be run based on the changed files.
+      - name: Run Javascript tests - onlyChanged files
+        if: ${{ github.event_name == 'pull_request' }}
+        env:
+          BASE_REF: ${{ github.base_ref }}
+        run: yarn test --ci --changedSince="$BASE_REF"
+        working-directory: packages/${{ matrix.package }}
+
+      # In all other cases, the full test suite will be run.
+      - name: Run Javascript tests - full test run
+        if: ${{ github.event_name != 'pull_request' }}
+        run: yarn test --ci
+        working-directory: packages/${{ matrix.package }}
