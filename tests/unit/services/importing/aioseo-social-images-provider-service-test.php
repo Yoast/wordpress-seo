@@ -2,8 +2,9 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Services\Importing;
 
-use Brain\Monkey;
 use Mockery;
+use Brain\Monkey;
+use Yoast\WP\SEO\Helpers\Aioseo_Helper;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Social_Images_Provider_Service;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -26,6 +27,13 @@ class Aioseo_Social_Images_Provider_Service_Test extends TestCase {
 	protected $aioseo_social_images_provider_service;
 
 	/**
+	 * The AIOSEO helper.
+	 *
+	 * @var Mockery\MockInterface|Aioseo_Helper
+	 */
+	protected $aioseo_helper;
+
+	/**
 	 * Represents the mock instance to test.
 	 *
 	 * @var Mockery\MockInterface|Image_Helper
@@ -36,8 +44,9 @@ class Aioseo_Social_Images_Provider_Service_Test extends TestCase {
 	 * {@inheritDoc}
 	 */
 	public function set_up() {
+		$this->aioseo_helper                         = Mockery::mock( Aioseo_Helper::class );
 		$this->image                                 = Mockery::mock( Image_Helper::class );
-		$this->aioseo_social_images_provider_service = new Aioseo_Social_Images_Provider_Service( $this->image );
+		$this->aioseo_social_images_provider_service = new Aioseo_Social_Images_Provider_Service( $this->aioseo_helper, $this->image );
 	}
 
 	/**
@@ -52,9 +61,8 @@ class Aioseo_Social_Images_Provider_Service_Test extends TestCase {
 	 * @param string $expected_source The source that's expected to be retrieved.
 	 */
 	public function test_get_default_social_image_source( $aioseo_options, $social_setting, $expected_source ) {
-		Monkey\Functions\expect( 'get_option' )
+		$this->aioseo_helper->expects( 'get_global_option' )
 			->once()
-			->with( 'aioseo_options', '' )
 			->andReturn( $aioseo_options );
 
 		$actual_source = $this->aioseo_social_images_provider_service->get_default_social_image_source( $social_setting );
@@ -73,9 +81,8 @@ class Aioseo_Social_Images_Provider_Service_Test extends TestCase {
 	 * @param string $expected_url   The URL that's expected to be retrieved.
 	 */
 	public function test_get_default_custom_social_image( $aioseo_options, $social_setting, $expected_url ) {
-		Monkey\Functions\expect( 'get_option' )
+		$this->aioseo_helper->expects( 'get_global_option' )
 			->once()
-			->with( 'aioseo_options', '' )
 			->andReturn( $aioseo_options );
 
 		$actual_url = $this->aioseo_social_images_provider_service->get_default_custom_social_image( $social_setting );
@@ -301,13 +308,13 @@ class Aioseo_Social_Images_Provider_Service_Test extends TestCase {
 		];
 
 		return [
-			[ \json_encode( $empty_settings ), 'irrelevant', '' ],
-			[ \json_encode( $fb_custom_image ), 'og', $image_url ],
-			[ \json_encode( $fb_malformed_no_general_key ), 'og', '' ],
-			[ \json_encode( $fb_malformed_no_social_key ), 'og', '' ],
-			[ \json_encode( $twitter_custom_image ), 'twitter', $image_url ],
-			[ \json_encode( $twitter_malformed_no_general_key ), 'twitter', '' ],
-			[ \json_encode( $twitter_malformed_no_social_key ), 'twitter', '' ],
+			[ $empty_settings, 'irrelevant', '' ],
+			[ $fb_custom_image, 'og', $image_url ],
+			[ $fb_malformed_no_general_key, 'og', '' ],
+			[ $fb_malformed_no_social_key, 'og', '' ],
+			[ $twitter_custom_image, 'twitter', $image_url ],
+			[ $twitter_malformed_no_general_key, 'twitter', '' ],
+			[ $twitter_malformed_no_social_key, 'twitter', '' ],
 		];
 	}
 
@@ -395,15 +402,15 @@ class Aioseo_Social_Images_Provider_Service_Test extends TestCase {
 		];
 
 		return [
-			[ \json_encode( $empty_settings ), 'irrelevant', '' ],
-			[ \json_encode( $fb_default_image ), 'og', 'default' ],
-			[ \json_encode( $fb_featured_image ), 'og', 'featured' ],
-			[ \json_encode( $fb_malformed_no_general_key ), 'og', '' ],
-			[ \json_encode( $fb_malformed_no_social_key ), 'og', '' ],
-			[ \json_encode( $twitter_default_image ), 'twitter', 'default' ],
-			[ \json_encode( $twitter_featured_image ), 'twitter', 'featured' ],
-			[ \json_encode( $twitter_malformed_no_general_key ), 'twitter', '' ],
-			[ \json_encode( $twitter_malformed_no_social_key ), 'twitter', '' ],
+			[ $empty_settings, 'irrelevant', '' ],
+			[ $fb_default_image, 'og', 'default' ],
+			[ $fb_featured_image, 'og', 'featured' ],
+			[ $fb_malformed_no_general_key, 'og', '' ],
+			[ $fb_malformed_no_social_key, 'og', '' ],
+			[ $twitter_default_image, 'twitter', 'default' ],
+			[ $twitter_featured_image, 'twitter', 'featured' ],
+			[ $twitter_malformed_no_general_key, 'twitter', '' ],
+			[ $twitter_malformed_no_social_key, 'twitter', '' ],
 		];
 	}
 }
