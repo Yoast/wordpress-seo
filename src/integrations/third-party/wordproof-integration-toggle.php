@@ -149,7 +149,7 @@ class Wordproof_Integration_Toggle implements Integration_Interface {
 				echo '<p>' . sprintf(
 					/* translators: %s expands to WordProof */
 					esc_html__( 'Currently, the %s integration is not available for multisites.', 'wordpress-seo' ),
-						'WordProof'
+					'WordProof'
 				) . '</p>';
 			}
 		}
