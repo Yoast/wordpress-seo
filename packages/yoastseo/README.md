@@ -8,7 +8,7 @@
 
 Text analysis and assessment library in JavaScript. This library can generate interesting metrics about a text and assess these metrics to give you an assessment which can be used to improve the text.
 
-![Screenshot of the assessment of the given text](/packages/yoastseo/images/assessments_2_50.png)
+![Screenshot of the assessment of the given text](/packages/yoastseo/images/assessments_1_75.png)
 
 Also included is a preview of the Google search results which can be assessed using the library.
 
