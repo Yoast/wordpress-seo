@@ -3,7 +3,7 @@
 namespace Yoast\WP\SEO\Integrations\Watchers;
 
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
-use Yoast\WP\SEO\Helpers\WordProof_Helper;
+use Yoast\WP\SEO\Helpers\Wordproof_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
@@ -18,16 +18,16 @@ class Option_Wpseo_Watcher implements Integration_Interface {
 	/**
 	 * Holds the WordProof helper instance.
 	 *
-	 * @var WordProof_Helper
+	 * @var Wordproof_Helper
 	 */
 	protected $wordproof;
 
 	/**
 	 * The constructor for a watcher of WPSEO options.
 	 *
-	 * @param WordProof_Helper $wordproof The WordProof helper instance.
+	 * @param Wordproof_Helper $wordproof The WordProof helper instance.
 	 */
-	public function __construct( WordProof_Helper $wordproof ) {
+	public function __construct(Wordproof_Helper $wordproof ) {
 		$this->wordproof = $wordproof;
 	}
 

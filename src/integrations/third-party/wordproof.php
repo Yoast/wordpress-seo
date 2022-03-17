@@ -5,10 +5,10 @@ namespace Yoast\WP\SEO\Integrations\Third_Party;
 use WordProof\SDK\Helpers\PostMetaHelper;
 use WordProof\SDK\WordPressSDK;
 use Yoast\WP\SEO\Conditionals\Non_Multisite_Conditional;
-use Yoast\WP\SEO\Conditionals\Third_Party\WordProof_Plugin_Inactive_Conditional;
-use Yoast\WP\SEO\Config\WordProof_App_Config;
-use Yoast\WP\SEO\Config\WordProof_Translations;
-use Yoast\WP\SEO\Helpers\WordProof_Helper;
+use Yoast\WP\SEO\Conditionals\Third_Party\Wordproof_Plugin_Inactive_Conditional;
+use Yoast\WP\SEO\Config\Wordproof_App_Config;
+use Yoast\WP\SEO\Config\Wordproof_Translations;
+use Yoast\WP\SEO\Helpers\Wordproof_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
@@ -16,10 +16,10 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
  *
  * @package Yoast\WP\SEO\Integrations\Third_Party
  */
-class WordProof implements Integration_Interface {
+class Wordproof implements Integration_Interface {
 
 	/**
-	 * The Yoast meta key used to save if a post should be timestamped.
+	 * The Yoast meta key used to save if a post shiould be timestamped.
 	 *
 	 * @var string The Yoast meta key used to save if a post should be timestamped.
 	 */
@@ -28,16 +28,16 @@ class WordProof implements Integration_Interface {
 	/**
 	 * The WordProof helper instance.
 	 *
-	 * @var WordProof_Helper $wordproof The helper instance.
+	 * @var Wordproof_Helper $wordproof The helper instance.
 	 */
 	protected $wordproof;
 
 	/**
 	 * The WordProof integration constructor.
 	 *
-	 * @param WordProof_Helper $wordproof The WordProof helper instance.
+	 * @param Wordproof_Helper $wordproof The WordProof helper instance.
 	 */
-	public function __construct( WordProof_Helper $wordproof ) {
+	public function __construct(Wordproof_Helper $wordproof ) {
 		$this->wordproof = $wordproof;
 	}
 
@@ -47,7 +47,7 @@ class WordProof implements Integration_Interface {
 	 * @return array
 	 */
 	public static function get_conditionals() {
-		return [ WordProof_Plugin_Inactive_Conditional::class, Non_Multisite_Conditional::class ];
+		return [ Wordproof_Plugin_Inactive_Conditional::class, Non_Multisite_Conditional::class ];
 	}
 
 	/**
@@ -94,8 +94,8 @@ class WordProof implements Integration_Interface {
 	 */
 	public function sdk_setup() {
 
-		$config       = new WordProof_App_Config();
-		$translations = new WordProof_Translations();
+		$config       = new Wordproof_App_Config();
+		$translations = new Wordproof_Translations();
 
 		WordPressSDK::getInstance( $config, $translations )
 			->certificate()

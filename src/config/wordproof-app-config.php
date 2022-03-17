@@ -9,7 +9,7 @@ use WordProof\SDK\Config\DefaultAppConfig;
  *
  * @package Yoast\WP\SEO\Config
  */
-class WordProof_App_Config extends DefaultAppConfig {
+class Wordproof_App_Config extends DefaultAppConfig {
 
 	/**
 	 * Returns the partner.
