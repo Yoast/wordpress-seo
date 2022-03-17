@@ -40,7 +40,7 @@ RemoveProfileButton.propTypes = {
  *
  * @returns {Component} The FieldArray component.
  */
-const FieldArray = ( { items, onAddProfile, onRemoveProfile, onChangeProfile, addButtonChildren, fieldType: Component } ) => {
+const SocialFieldArray = ( { items, onAddProfile, onRemoveProfile, onChangeProfile, addButtonChildren, fieldType: Component } ) => {
 	return (
 		<div>
 			{ items.map( ( item, index ) => (
@@ -75,7 +75,7 @@ const FieldArray = ( { items, onAddProfile, onRemoveProfile, onChangeProfile, ad
 	);
 };
 
-FieldArray.propTypes = {
+SocialFieldArray.propTypes = {
 	fieldType: PropTypes.elementType.isRequired,
 	items: PropTypes.array.isRequired,
 	onAddProfile: PropTypes.func.isRequired,
@@ -84,9 +84,9 @@ FieldArray.propTypes = {
 	addButtonChildren: PropTypes.node,
 };
 
-FieldArray.defaultProps = {
+SocialFieldArray.defaultProps = {
 	addButtonChildren: __( "Add another URL", "wordpress-seo" ),
 };
 
-export default FieldArray;
+export default SocialFieldArray;
 

@@ -2,7 +2,7 @@ import { __ } from "@wordpress/i18n";
 import { useCallback } from "@wordpress/element";
 import PropTypes from "prop-types";
 
-import FieldArray from "./field-array";
+import SocialFieldArray from "./social-field-array";
 import SocialInput from "./social-input";
 
 /* eslint-disable complexity */
@@ -77,7 +77,7 @@ export default function SocialInputSection( { socialProfiles, errorFields, dispa
 				{ ...getFeedback( "twitter_site" ) }
 			/>
 
-			<FieldArray
+			<SocialFieldArray
 				fieldType={ SocialInput }
 				items={ socialProfiles.otherSocialUrls }
 				onAddProfile={ onAddProfileHandler }
