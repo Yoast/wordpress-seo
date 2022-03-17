@@ -36,13 +36,7 @@ class Configuration_Workout_Action {
 	const SOCIAL_PROFILES_FIELDS = [
 		'facebook_site',
 		'twitter_site',
-		'instagram_url',
-		'linkedin_url',
-		'myspace_url',
-		'pinterest_url',
-		'youtube_url',
-		'wikipedia_url',
-        'other_social_urls',
+		'other_social_urls',
 	];
 
 	/**
