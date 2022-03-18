@@ -7,6 +7,7 @@ use Mockery;
 use Yoast\WP\SEO\Config\Wincher_Client;
 use Yoast\WP\SEO\Exceptions\OAuth\Authentication_Failed_Exception;
 use Yoast\WP\SEO\Exceptions\OAuth\Tokens\Empty_Token_Exception;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Wincher_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Values\OAuth\OAuth_Token;
@@ -21,11 +22,18 @@ use Yoast\WP\SEO\Values\OAuth\OAuth_Token;
 class Wincher_Helper_Test extends TestCase {
 
 	/**
-	 * The instance under test.
+	 * The instance to test.
 	 *
 	 * @var Wincher_Helper
 	 */
 	protected $instance;
+
+	/**
+	 * Holds the Options Page helper instance.
+	 *
+	 * @var Options_Helper
+	 */
+	protected $options;
 
 	/**
 	 * The token mock.
@@ -47,9 +55,24 @@ class Wincher_Helper_Test extends TestCase {
 	public function set_up() {
 		parent::set_up();
 
-		$this->instance                        = new Wincher_Helper();
+		$this->options                         = Mockery::mock( Options_Helper::class );
+		$this->instance                        = Mockery::mock( Wincher_Helper::class, [ $this->options ] )
+			->makePartial();
 		$this->token                           = Mockery::mock( OAuth_Token::class );
 		$this->authentication_failed_exception = Mockery::mock( Authentication_Failed_Exception::class );
+	}
+
+	/**
+	 * Tests if given dependencies are set as expected.
+	 *
+	 * @covers ::__construct
+	 */
+	public function test_constructor() {
+		$this->assertInstanceOf( Wincher_Helper::class, $this->instance );
+		$this->assertInstanceOf(
+			Options_Helper::class,
+			$this->getPropertyValue( $this->instance, 'options' )
+		);
 	}
 
 	/**
@@ -97,7 +120,8 @@ class Wincher_Helper_Test extends TestCase {
 	}
 
 	/**
-	 * Tests retrieval of the login status when the user is not logged in when an authentication failed exception is thrown.
+	 * Tests retrieval of the login status when the user is not logged in when an authentication failed exception is
+	 * thrown.
 	 *
 	 * @covers ::login_status
 	 */
@@ -114,7 +138,6 @@ class Wincher_Helper_Test extends TestCase {
 				'classes' => $classes,
 			]
 		);
-
 		$this->assertFalse( $this->instance->login_status() );
 	}
 

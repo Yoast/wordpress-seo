@@ -3,7 +3,9 @@
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Third_Party;
 
 use Brain\Monkey;
-use Yoast\WP\SEO\Conditionals\Wincher_Conditional;
+use Mockery;
+use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Helpers\Wincher_Helper;
 use Yoast\WP\SEO\Integrations\Third_Party\Wincher;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -19,9 +21,16 @@ class Wincher_Test extends TestCase {
 	/**
 	 * The test instance.
 	 *
-	 * @var Wincher
+	 * @var Wincher|Mockery\MockInterface
 	 */
 	private $instance;
+
+	/**
+	 * The Wincher helper instance.
+	 *
+	 * @var Wincher_Helper|Mockery\Mock
+	 */
+	protected $wincher;
 
 	/**
 	 * Sets an instance for test purposes.
@@ -29,7 +38,22 @@ class Wincher_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->instance = new Wincher();
+		$this->wincher  = Mockery::mock( Wincher_Helper::class );
+		$this->instance = Mockery::mock( Wincher::class, [ $this->wincher ] )->makePartial();
+
+	}
+
+	/**
+	 * Tests if given dependencies are set as expected.
+	 *
+	 * @covers ::__construct
+	 */
+	public function test_constructor() {
+		$this->assertInstanceOf( Wincher::class, $this->instance );
+		$this->assertInstanceOf(
+			Wincher_Helper::class,
+			$this->getPropertyValue( $this->instance, 'wincher' )
+		);
 	}
 
 	/**
@@ -40,7 +64,7 @@ class Wincher_Test extends TestCase {
 	public function test_get_conditionals() {
 		$this->assertEquals(
 			[
-				Wincher_Conditional::class,
+				Admin_Conditional::class,
 			],
 			Wincher::get_conditionals()
 		);
@@ -54,8 +78,15 @@ class Wincher_Test extends TestCase {
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
 
-		$this->assertNotFalse( Monkey\Filters\has( 'wpseo_integration_toggles', [ $this->instance, 'add_integration_toggle' ] ) );
-		$this->assertNotFalse( Monkey\Actions\has( 'Yoast\WP\SEO\admin_integration_after', [ $this->instance, 'load_toggle_additional_content' ] ) );
+		$this->assertNotFalse( Monkey\Filters\has( 'wpseo_integration_toggles', [
+			$this->instance,
+			'add_integration_toggle',
+		] ) );
+
+		$this->assertNotFalse( Monkey\Actions\has( 'Yoast\WP\SEO\admin_integration_after', [
+			$this->instance,
+			'after_integration_toggle',
+		] ) );
 	}
 
 	/**
@@ -64,32 +95,35 @@ class Wincher_Test extends TestCase {
 	 * @covers ::add_integration_toggle
 	 */
 	public function test_add_integration_toggle() {
-		$integration_toggles = [
-			(object) [
-				'name'            => 'Semrush integration',
-				'setting'         => 'semrush_integration_active',
-				'label'           => 'The Semrush integration offers suggestions and insights for keywords related to the entered focus keyphrase.',
-				'order'           => 10,
-			],
-			(object) [
-				'name'            => 'Ryte integration',
-				'setting'         => 'ryte_indexability',
-				'label'           => 'Ryte will check weekly if your site is still indexable by search engines and Yoast SEO will notify you when this is not the case.',
-				'read_more_label' => 'Read more about how Ryte works.',
-				'read_more_url'   => 'https://yoa.st/2an',
-				'order'           => 15,
-			],
-		];
-
 		Monkey\Functions\stubTranslationFunctions();
 
-		$result = $this->instance->add_integration_toggle( $integration_toggles );
+		$this->wincher->expects( 'integration_is_disabled' )->once()->andReturnFalse();
+
+		$result = $this->instance->add_integration_toggle(
+			[
+				(object) [
+					'name'    => 'Semrush integration',
+					'setting' => 'semrush_integration_active',
+					'label'   => 'The Semrush integration offers suggestions and insights for keywords related to the entered focus keyphrase.',
+					'order'   => 10,
+				],
+				(object) [
+					'name'            => 'Ryte integration',
+					'setting'         => 'ryte_indexability',
+					'label'           => 'Ryte will check weekly if your site is still indexable by search engines and Yoast SEO will notify you when this is not the case.',
+					'read_more_label' => 'Read more about how Ryte works.',
+					'read_more_url'   => 'https://yoa.st/2an',
+					'order'           => 15,
+				],
+			]
+		);
 		$this->assertEquals(
 			(object) [
-				'name'    => 'Wincher integration',
-				'setting' => 'wincher_integration_active',
-				'label'   => 'The Wincher integration offers the option to track specific keyphrases and gain insights in their positions.',
-				'order'   => 11,
+				'name'     => 'Wincher integration',
+				'setting'  => 'wincher_integration_active',
+				'label'    => 'The Wincher integration offers the option to track specific keyphrases and gain insights in their positions.',
+				'order'    => 11,
+				'disabled' => false,
 			],
 			$result[2]
 		);
