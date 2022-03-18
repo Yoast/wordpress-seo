@@ -9,7 +9,7 @@ import classNames from "classnames";
  * @param {string} props.className Additional CSS class names.
  * @returns {WPElement} The Spinner component.
  */
-const Spinner = ( { color, size, className } ) => {
+const Spinner = ( { className } ) => {
 	return (
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
@@ -17,9 +17,6 @@ const Spinner = ( { color, size, className } ) => {
 			viewBox="0 0 24 24"
 			className={ classNames(
 				"yst-animate-spin",
-				`yst-w-${ size }`,
-				`yst-h-${ size }`,
-				`yst-text-${ color }`,
 				className
 			) }
 		>
@@ -30,14 +27,10 @@ const Spinner = ( { color, size, className } ) => {
 };
 
 Spinner.propTypes = {
-	color: PropTypes.string,
-	size: PropTypes.string,
 	className: PropTypes.string,
 };
 
 Spinner.defaultProps = {
-	color: "white",
-	size: "4",
 	className: "",
 };
 
