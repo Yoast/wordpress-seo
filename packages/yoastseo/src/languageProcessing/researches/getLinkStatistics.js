@@ -31,7 +31,7 @@ const linkToSelf = function( slug, anchor, siteUrlOrDomain ) {
 	}
 	// If siteUrlOrDomain is a domain, create URLs out of it in order to compare them with the anchor URL.
 	if ( ! new RegExp( "^(https://|http://)" ).test( siteUrlOrDomain ) && siteUrlOrDomain !== "" ) {
-		siteUrlOrDomain = [ "http://" + siteUrlOrDomain + slug, "https://" + siteUrlOrDomain + slug ];
+		siteUrlOrDomain = [ "http://" + siteUrlOrDomain + "/" + slug, "https://" + siteUrlOrDomain + "/" + slug ];
 	} else {
 		siteUrlOrDomain = [ siteUrlOrDomain ];
 	}
