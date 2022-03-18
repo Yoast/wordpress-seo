@@ -26,7 +26,7 @@ class Yoast_Form_Double extends Yoast_Form {
 	 *
 	 * @return bool True if control should be disabled, false otherwise.
 	 */
-	public function is_control_disabled( $var ) {
-		return parent::is_control_disabled( $var );
+	public function is_control_disabled( $variable ) {
+		return parent::is_control_disabled( $variable );
 	}
 }
