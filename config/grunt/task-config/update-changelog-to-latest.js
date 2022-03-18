@@ -20,9 +20,8 @@ module.exports = {
 			pluginSlug: "wordpress-seo",
 			defaultChangelogEntries: "",
 			useANewLineAfterHeader: true,
-			commitChangelog: true,
-			useEditDistanceComapair: true,
-			addTheseExtraFiles: [ ],
+			commitChangelog: false,
+			changelogToInject: "./.tmp/n8nchangelog.txt",
 		},
 	},
 
