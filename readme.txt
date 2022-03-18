@@ -241,7 +241,7 @@ Release Date: March 22nd, 2022
 
 Enhancements:
 
-* Adds the possibility to timestamp your Privacy Policy page by use of a WordProof certificate.
+* Adds the possibility to timestamp your Privacy Policy page and your WooCommerce Terms and Conditions page by use of a WordProof certificate.
 * Adds a `new` badge to the WordProof integration toggle.
 
 Bugfixes:
