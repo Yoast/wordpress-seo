@@ -98,8 +98,8 @@ class WebPage extends Abstract_Schema_Piece {
 	 * @param array $data WebPage schema data.
 	 */
 	public function add_image( &$data ) {
-		if ( $this->context->has_image ) {
-			$data['primaryImageOfPage'] = [ '@id' => $this->context->canonical . Schema_IDs::PRIMARY_IMAGE_HASH ];
+		if ( $this->context->main_image_url !== null ) {
+			$data['primaryImageOfPage'] = [ '@id' => $this->context->canonical . Schema_IDs::PRIMARY_IMAGE_HASH . md5( $this->context->main_image_url ) ];
 		}
 	}
 
