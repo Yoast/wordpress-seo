@@ -103,30 +103,14 @@ describe( "Tests a string for anchors and its attributes", function() {
 		expect( foundLinks.keyword.totalKeyword ).toBe( 0 );
 	} );
 
-	it( "should not detect the keyword in link texts identical to the page URL", function() {
+	it( "should not detect the keyword in link text which links to itself also when the permalink is set to a domain, not a full URL", function() {
 		const attributes = {
 			keyword: "focuskeyphrase",
 			url: "http://yoast.com/",
 			permalink: "yoast.com",
 		};
 
-		const mockPaper = new Paper( "string <a href='http://yoast.com/'>focuskeyword</a>", attributes );
-		const researcher = new EnglishResearcher( mockPaper );
-		researcher.addResearchData( "morphology", morphologyData );
-		foundLinks = linkCount( mockPaper, researcher );
-		expect( foundLinks.total ).toBe( 1 );
-		expect( foundLinks.internalTotal ).toBe( 1 );
-		expect( foundLinks.keyword.totalKeyword ).toBe( 0 );
-	} );
-
-	it( "should not detect the keyword in link texts that have a scheme and are identical to the page URL", function() {
-		const attributes = {
-			keyword: "focuskeyword",
-			url: "http://yoast.com/",
-			permalink: "http://yoast.com",
-		};
-
-		const mockPaper = new Paper( "string <a href='http://yoast.com/'>focuskeyword</a>", attributes );
+		const mockPaper = new Paper( "string <a href='http://yoast.com/'>focuskeyphrase</a>", attributes );
 		const researcher = new EnglishResearcher( mockPaper );
 		researcher.addResearchData( "morphology", morphologyData );
 		foundLinks = linkCount( mockPaper, researcher );
