@@ -76,11 +76,46 @@ class Wincher_Helper_Test extends TestCase {
 	}
 
 	/**
+	 * Test return if conditionals are met.
+	 *
+	 * @covers ::integration_is_disabled
+	 */
+	public function test_integration_is_disabled() {
+		$this->assertFalse( $this->instance->integration_is_disabled() );
+	}
+
+	/**
+	 * Test return if conditionals are not met.
+	 *
+	 * @covers ::integration_is_disabled
+	 */
+	public function test_integration_is_disabled_unmet() {
+		Monkey\Functions\stubs( [
+			'is_multisite' => true,
+		] );
+
+		$this->assertTrue( $this->instance->integration_is_disabled( ) );
+	}
+
+	/**
+	 * Test return conditional if conditionals are not met.
+	 *
+	 * @covers ::integration_is_disabled
+	 */
+	public function test_integration_is_disabled_unmet_conditional_return() {
+		Monkey\Functions\stubs( [
+			'is_multisite' => true,
+		] );
+
+		$this->assertEquals( 'Non_Multisite_Conditional', $this->instance->integration_is_disabled( true ) );
+	}
+
+	/**
 	 * Tests retrieval of the login status.
 	 *
 	 * @covers ::login_status
 	 */
-	public function test_get_login_status() {
+	public function test_login_status() {
 		$wincher_client = Mockery::mock( Wincher_Client::class );
 		$wincher_client->expects( 'get_tokens' )->once()->andReturn( $this->token );
 		$wincher_client->expects( 'has_valid_tokens' )->once()->andReturnTrue();
@@ -102,7 +137,7 @@ class Wincher_Helper_Test extends TestCase {
 	 *
 	 * @covers ::login_status
 	 */
-	public function test_get_login_status_not_logged_in() {
+	public function test_login_status_not_logged_in() {
 		$wincher_client = Mockery::mock( Wincher_Client::class );
 		$wincher_client->expects( 'get_tokens' )->once()->andReturnNull();
 		$wincher_client->expects( 'has_valid_tokens' )->once()->andReturnFalse();
@@ -125,7 +160,7 @@ class Wincher_Helper_Test extends TestCase {
 	 *
 	 * @covers ::login_status
 	 */
-	public function test_get_login_status_not_logged_in_on_authentication_exception() {
+	public function test_login_status_not_logged_in_on_authentication_exception() {
 		$wincher_client = Mockery::mock( Wincher_Client::class );
 		$wincher_client->expects( 'get_tokens' )->once()->andThrow( $this->authentication_failed_exception );
 		$wincher_client->expects( 'has_valid_tokens' )->never();
@@ -146,7 +181,7 @@ class Wincher_Helper_Test extends TestCase {
 	 *
 	 * @covers ::login_status
 	 */
-	public function test_get_login_status_not_logged_in_on_empty_token_exception() {
+	public function test_login_status_not_logged_in_on_empty_token_exception() {
 		$wincher_client = Mockery::mock( Wincher_Client::class );
 		$wincher_client->expects( 'get_tokens' )->once()->andThrow( Empty_Token_Exception::class );
 		$wincher_client->expects( 'has_valid_tokens' )->never();
