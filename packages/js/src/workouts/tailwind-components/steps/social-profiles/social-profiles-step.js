@@ -8,25 +8,40 @@ import SocialInputPersonSection from "./social-input-person-section.js";
 
 /* eslint-disable max-len, react/prop-types */
 /**
- * Doc comment to make linter happy.
+ * Social profiles step component
  *
- * @returns {JSX.Element} Example step.
+ * @param {Object} props The props object.
+ *
+ * @returns {WPElement} The social profiles step.
  */
-export default function SocialProfilesStep( { state, dispatch, setErrorFields, siteRepresentsPerson } ) {
+export default function SocialProfilesStep( { state, dispatch, setErrorFields } ) {
+	if ( [ "company", "emptyChoice" ].includes( state.companyOrPerson ) ) {
+		return <Fragment>
+			<p>{
+				__(
+					"We need a little more help from you! Add your organization's Facebook and Twitter profile so we can optimize the metadata for those platforms too.",
+					"wordpress-seo"
+				)
+			}</p>
+			<SocialInputSection
+				socialProfiles={ state.socialProfiles }
+				dispatch={ dispatch }
+				errorFields={ state.errorFields }
+				setErrorFields={ setErrorFields }
+			/>
+		</Fragment>;
+	}
+
 	return <Fragment>
-		<p>{
-			__(
-				"We need a little more help from you! Add your Facebook and Twitter profile so we can optimize the metadata for those platforms too.",
-				"wordpress-seo"
-			)
-		}</p>
-		{ [ "company", "emptyChoice" ].includes( state.companyOrPerson ) && <SocialInputSection
-			socialProfiles={ state.socialProfiles }
-			dispatch={ dispatch }
-			errorFields={ state.errorFields }
-			setErrorFields={ setErrorFields }
-		/> }
-		{ siteRepresentsPerson && <SocialInputPersonSection personId={ state.personId } /> }
+		<Fragment>
+			<p>{
+				__(
+					"We need a little more help from you! Add your Facebook and Twitter profile so we can optimize the metadata for those platforms too.",
+					"wordpress-seo"
+				)
+			}</p>
+			<SocialInputPersonSection personId={ state.personId } />
+		</Fragment>
 	</Fragment>;
 }
 
@@ -34,5 +49,4 @@ SocialProfilesStep.propTypes = {
 	state: PropTypes.object.isRequired,
 	dispatch: PropTypes.func.isRequired,
 	setErrorFields: PropTypes.func.isRequired,
-	siteRepresentsPerson: PropTypes.bool.isRequired,
 };
