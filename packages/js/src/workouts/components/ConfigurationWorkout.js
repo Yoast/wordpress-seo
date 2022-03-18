@@ -139,7 +139,7 @@ function configurationWorkoutReducer( state, action ) {
 			return newState;
 		case "REMOVE_OTHERS_SOCIAL_PROFILE":
 			newState = handleStepEdit( newState, 3 );
-			newState.socialProfiles.otherSocialUrls = newState.socialProfiles.otherSocialUrls.filter( ( _, idx ) => idx !== action.payload.index );
+			newState.socialProfiles.otherSocialUrls.splice( action.payload.index, 1 );
 			return newState;
 		case "SET_ERROR_FIELDS":
 			newState.errorFields = action.payload;
