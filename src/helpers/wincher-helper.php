@@ -2,8 +2,7 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
-use WPSEO_Options;
-use Yoast\WP\SEO\Conditionals\Wincher_Conditional;
+use Yoast\WP\SEO\Conditionals\Non_Multisite_Conditional;
 use Yoast\WP\SEO\Config\Wincher_Client;
 use Yoast\WP\SEO\Exceptions\OAuth\Authentication_Failed_Exception;
 use Yoast\WP\SEO\Exceptions\OAuth\Tokens\Empty_Property_Exception;
@@ -15,22 +14,71 @@ use Yoast\WP\SEO\Exceptions\OAuth\Tokens\Empty_Token_Exception;
 class Wincher_Helper {
 
 	/**
-	 * Checks if the integration is active for the current user.
+	 * Holds the Options Page helper instance.
 	 *
-	 * @return bool Whether or not the integration is active.
+	 * @var Options_Helper
+	 */
+	protected $options;
+
+	/**
+	 * Options_Helper constructor.
+	 *
+	 * @param Options_Helper $options The options helper.
+	 */
+	public function __construct( Options_Helper $options ) {
+		$this->options = $options;
+	}
+
+	/**
+	 * Returns if conditionals are met. If not, the integration should be disabled.
+	 *
+	 * @param bool $return_conditional If the conditional class name that was unmet should be returned.
+	 *
+	 * @return bool|string Returns if the integration should be disabled.
+	 */
+	public function integration_is_disabled( $return_conditional = false ) {
+		$conditionals = [ new Non_Multisite_Conditional() ];
+
+		foreach ( $conditionals as $conditional ) {
+			if ( ! $conditional->is_met() ) {
+
+				if ( $return_conditional === true ) {
+					return ( new \ReflectionClass( $conditional ) )->getShortName();
+				}
+
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Returns if the Wincher integration toggle is turned on.
+	 *
+	 * @return bool Returns if the integration toggle is set to true if conditionals are met.
+	 */
+	public function integration_is_active() {
+		if ( $this->integration_is_disabled() ) {
+			return false;
+		}
+
+		return $this->options->get( 'wincher_integration_active', true );
+	}
+
+	/**
+	 * Return if Wincher should be active for this post editor page.
+	 *
+	 * @return bool Returns if Wincher should be active.
 	 */
 	public function is_active() {
-		// If the integration is disabled, Wincher should not be active.
-		$conditional = new Wincher_Conditional();
-		if ( ! $conditional->is_met() ) {
+		$is_wincher_active = $this->integration_is_active();
+
+		if ( ! $is_wincher_active ) {
 			return false;
 		}
 
-		if ( ! \current_user_can( 'publish_posts' ) && ! \current_user_can( 'publish_pages' ) ) {
-			return false;
-		}
-
-		return (bool) WPSEO_Options::get( 'wincher_integration_active', true );
+		return true;
 	}
 
 	/**
@@ -67,9 +115,9 @@ class Wincher_Helper {
 	 */
 	public function get_admin_global_links() {
 		return [
-			'links.wincher.website'   => 'https://www.wincher.com?utm_medium=plugin&utm_source=yoast&referer=yoast&partner=yoast',
-			'links.wincher.pricing'   => 'https://www.wincher.com/pricing?utm_medium=plugin&utm_source=yoast&referer=yoast&partner=yoast',
-			'links.wincher.login'     => 'https://app.wincher.com/login?utm_medium=plugin&utm_source=yoast&referer=yoast&partner=yoast',
+			'links.wincher.website' => 'https://www.wincher.com?utm_medium=plugin&utm_source=yoast&referer=yoast&partner=yoast',
+			'links.wincher.pricing' => 'https://www.wincher.com/pricing?utm_medium=plugin&utm_source=yoast&referer=yoast&partner=yoast',
+			'links.wincher.login'   => 'https://app.wincher.com/login?utm_medium=plugin&utm_source=yoast&referer=yoast&partner=yoast',
 		];
 	}
 }
