@@ -57,7 +57,7 @@ TextInput.propTypes = {
 	onChange: PropTypes.func.isRequired,
 	placeholder: PropTypes.string,
 	error: PropTypes.shape( {
-		message: PropTypes.string,
+		message: PropTypes.array,
 		isVisible: PropTypes.bool,
 	} ),
 	type: PropTypes.string,
@@ -69,7 +69,7 @@ TextInput.defaultProps = {
 	label: "",
 	placeholder: "",
 	error: {
-		message: "",
+		message: [],
 		isVisible: false,
 	},
 	type: "text",
