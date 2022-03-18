@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { useCallback } from "@wordpress/element";
 
-import ValidatedTextInput from "./validated-text-input";
+import TextInput from "../../base/text-input";
 
 /**
  * A wrapped TextInput for the social inputs
@@ -12,25 +12,28 @@ import ValidatedTextInput from "./validated-text-input";
  * @param {object}   restProps    The other props.
  * @returns {WPElement} A wrapped TextInput for the social inputs.
  */
-export default function SocialInput( { onChange, socialMedium, isDisabled, ...restProps } ) {
-	const onChangeHandler = socialMedium === "other"
-		? useCallback(
-			( newValue ) => onChange( newValue, restProps.index ),
-			[ restProps.index ]
-		)
-		: useCallback(
-			( newValue ) => onChange( newValue, socialMedium ),
-			[ socialMedium ]
-		);
+export default function SocialInput( { id, onChange, socialMedium, isDisabled, ...restProps } ) {
+	const onChangeHandler = useCallback(
+		( event ) => {
+			if ( socialMedium === "other" ) {
+				onChange( event.target.value, restProps.index );
+			} else {
+				onChange( event.target.value, socialMedium );
+			}
+		},
+		[ socialMedium, restProps.index ]
+	);
 
-	return <ValidatedTextInput
+	return <TextInput
 		onChange={ onChangeHandler }
 		readOnly={ isDisabled }
+		id={ id }
 		{ ...restProps }
 	/>;
 }
 
 SocialInput.propTypes = {
+	id: PropTypes.string.isRequired,
 	onChange: PropTypes.func.isRequired,
 	socialMedium: PropTypes.string,
 	isDisabled: PropTypes.bool,
