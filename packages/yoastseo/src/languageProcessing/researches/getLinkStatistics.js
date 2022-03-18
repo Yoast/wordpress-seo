@@ -29,11 +29,9 @@ const linkToSelf = function( slug, anchor, siteUrlOrDomain ) {
 	if ( urlHelper.isRelativeFragmentURL( anchorLink ) ) {
 		return true;
 	}
-	console.log( siteUrlOrDomain );
+	// If siteUrlOrDomain is a domain, create URLs out of it in order to compare them with the anchor URL.
 	if ( ! new RegExp( "^(https://|http://)" ).test( siteUrlOrDomain ) && siteUrlOrDomain !== "" ) {
-		console.log( siteUrlOrDomain );
 		siteUrlOrDomain = [ "http://" + siteUrlOrDomain + slug, "https://" + siteUrlOrDomain + slug ];
-		console.log( siteUrlOrDomain );
 	} else {
 		siteUrlOrDomain = [ siteUrlOrDomain ];
 	}
