@@ -112,7 +112,7 @@ export default function YoastComboBox( { value, label, onChange, onQueryChange, 
 									>
 										{ ( { selected } ) => {
 											return <>
-												<span className={ classNames( "yst-block yst-truncate", ( selected || value.label === option.label ) && "yst-font-semibold" ) }>{ option.label }</span>
+												<span className={ classNames( "yst-block yst-truncate", ( selected || value.value === option.value ) && "yst-font-semibold" ) }>{ option.label }</span>
 												{ ( selected || value.value === option.value ) && (
 													<span
 														className={ "yst-absolute yst-inset-y-0 yst-right-0 yst-flex yst-items-center yst-pr-4 yst-text-white" }
