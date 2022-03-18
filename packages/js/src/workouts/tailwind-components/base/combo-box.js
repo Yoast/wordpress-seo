@@ -103,7 +103,7 @@ export default function YoastComboBox( { value, label, onChange, onQueryChange, 
 						</Combobox.Button>
 						{ ( filteredOptions.length > 0 ) && (
 							<Combobox.Options className="yst-absolute yst-z-10 yst-mt-1 yst-max-h-60 yst-w-full yst-overflow-auto yst-rounded-md yst-bg-white yst-text-base yst-shadow-lg yst-ring-1 yst-ring-black yst-ring-opacity-5 focus:yst-outline-none sm:yst-text-sm">
-								{ isLoading && <div className="yst-flex yst-bg-white yst-sticky yst-z-20 yst-top-0 yst-py-2 yst-pl-3 yst-pr-9 yst-my-0"><Spinner className="yst-text-primary-500 yst-h-4 yst-w-4 yst-mr-2 yst-self-center" />{ __( "loading...", "wordpress-seo" ) }</div> }
+								{ isLoading && <div className="yst-flex yst-bg-white yst-sticky yst-z-20 yst-text-sm yst-italic yst-top-0 yst-py-2 yst-pl-3 yst-pr-9 yst-my-0"><Spinner className="yst-text-primary-500 yst-h-4 yst-w-4 yst-mr-2 yst-self-center" />{ __( "Loading...", "wordpress-seo" ) }</div> }
 								{ filteredOptions.map( ( option ) => (
 									<Combobox.Option
 										key={ `yst-option-${ option.value }` }
@@ -112,7 +112,7 @@ export default function YoastComboBox( { value, label, onChange, onQueryChange, 
 									>
 										{ ( { selected } ) => {
 											return <>
-												<span className={ classNames( "yst-block yst-truncate", selected && "yst-font-semibold" ) }>{ option.label }</span>
+												<span className={ classNames( "yst-block yst-truncate", ( selected || value.label === option.label ) && "yst-font-semibold" ) }>{ option.label }</span>
 												{ ( selected || value.value === option.value ) && (
 													<span
 														className={ "yst-absolute yst-inset-y-0 yst-right-0 yst-flex yst-items-center yst-pr-4 yst-text-white" }
