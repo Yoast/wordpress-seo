@@ -41,40 +41,33 @@ export default function SocialInputSection( { socialProfiles, errorFields, dispa
 		[]
 	);
 
-	const getFeedback = useCallback(
-		( socialKey ) => {
-			if ( errorFields.includes( socialKey ) ) {
-				return {
-					feedbackState: "error",
-					feedbackMessage: socialKey === "twitter_site"
-						? __( "Could not save this value. Please check the URL or username.", "wordpress-seo" )
-						: __( "Could not save this value. Please check the URL.", "wordpress-seo" ),
-				};
-			}
-			return {};
-		},
-		[ errorFields ]
-	);
-
 	return (
 		<div id="social-input-section" className="yoast-social-profiles-input-fields">
 			<SocialInput
-				label={ __( "Facebook URL", "wordpress-seo" ) }
+				className="yst-mt-4"
+				label={ __( "Facebook", "wordpress-seo" ) }
 				id="social-input-facebook-url"
 				value={ socialProfiles.facebookUrl }
 				socialMedium="facebookUrl"
 				onChange={ onChangeHandler }
 				isDisabled={ isDisabled }
-				{ ...getFeedback( "facebook_site" ) }
+				error={ {
+					message: [ __( "Could not save this value. Please check the URL.", "wordpress-seo" ) ],
+					isVisible: errorFields.includes( "facebook_site" ),
+				} }
 			/>
 			<SocialInput
-				label={ __( "Twitter URL", "wordpress-seo" ) }
+				className="yst-mt-4"
+				label={ __( "Twitter", "wordpress-seo" ) }
 				id="social-input-twitter-url"
 				value={ socialProfiles.twitterUsername }
 				socialMedium="twitterUsername"
 				onChange={ onChangeHandler }
 				isDisabled={ isDisabled }
-				{ ...getFeedback( "twitter_site" ) }
+				error={ {
+					message: [ __( "Could not save this value. Please check the URL or username.", "wordpress-seo" ) ],
+					isVisible: errorFields.includes( "twitter_site" ),
+				} }
 			/>
 
 			<SocialFieldArray
