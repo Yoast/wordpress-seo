@@ -205,16 +205,18 @@ class Configuration_Workout_Action_Test extends TestCase {
 	public function social_profiles_provider() {
 		$success_all = [
 			'params'                => [
-				'facebook_site' => 'https://facebook.com/somepage',
-				'twitter_site'  => 'somenick',
-				'instagram_url' => 'https://instagram.com/somepage',
-				'linkedin_url'  => 'https://linked.in/somepage',
-				'myspace_url'   => 'https://myspace.com/somepage',
-				'pinterest_url' => 'https://pinterest.com/somepage',
-				'youtube_url'   => 'https://youtube.com/somepage',
-				'wikipedia_url' => 'https://en.wikipedia.org/somepage',
+				'facebook_site'     => 'https://facebook.com/somepage',
+				'twitter_site'      => 'somenick',
+				'other_social_urls' => [
+					'https://instagram.com/somepage',
+					'https://linked.in/somepage',
+					'https://myspace.com/somepage',
+					'https://pinterest.com/somepage',
+					'https://youtube.com/somepage',
+					'https://en.wikipedia.org/somepage',
+				],
 			],
-			'times'                 => 8,
+			'times'                 => 3,
 			'yoast_options_results' => [ true ],
 			'expected'              => (object) [
 				'success' => true,
@@ -226,10 +228,8 @@ class Configuration_Workout_Action_Test extends TestCase {
 			'params'                => [
 				'facebook_site' => 'https://facebook.com/somepage',
 				'twitter_site'  => 'somenick',
-				'myspace_url'   => 'https://myspace.com/somepage',
-				'wikipedia_url' => 'https://en.wikipedia.org/somepage',
 			],
-			'times'                 => 4,
+			'times'                 => 2,
 			'yoast_options_results' => [ true ],
 			'expected'              => (object) [
 				'success' => true,
@@ -239,22 +239,17 @@ class Configuration_Workout_Action_Test extends TestCase {
 
 		$some_failures = [
 			'params'                => [
-				'facebook_site' => 'https://facebook.com/somepage',
-				'twitter_site'  => 'somenick',
-				'instagram_url' => 'https://instagram.com/somepage',
-				'linkedin_url'  => 'https://linked.in/somepage',
-				'myspace_url'   => 'https://myspace.com/somepage',
-				'pinterest_url' => 'https://pinterest.com/somepage',
-				'youtube_url'   => 'https://youtube.com/somepage',
-				'wikipedia_url' => 'https://en.wikipedia.org/somepage',
+				'facebook_site'     => 'https://facebook.com/somepage',
+				'twitter_site'      => 'somenick',
+				'other_social_urls' => 'https://instagram.com/somepage',
 			],
-			'times'                 => 8,
-			'yoast_options_results' => [ true, true, false, false, true, false, true, false ],
+			'times'                 => 3,
+			'yoast_options_results' => [ true, true, false ],
 			'expected'              => (object) [
 				'success'  => false,
 				'status'   => 500,
 				'error'    => 'Could not save some options in the database',
-				'failures' => [ 'instagram_url', 'linkedin_url', 'pinterest_url', 'wikipedia_url' ],
+				'failures' => [ 'other_social_urls' ],
 			],
 		];
 
@@ -272,21 +267,16 @@ class Configuration_Workout_Action_Test extends TestCase {
 	 */
 	public function test_set_social_profiles_twitter_url() {
 		$params = [
-			'facebook_site' => 'https://facebook.com/somepage',
-			'twitter_site'  => 'https://twitter.com/somenick',
-			'instagram_url' => 'https://instagram.com/somepage',
-			'linkedin_url'  => 'https://linked.in/somepage',
-			'myspace_url'   => 'https://myspace.com/somepage',
-			'pinterest_url' => 'https://pinterest.com/somepage',
-			'youtube_url'   => 'https://youtube.com/somepage',
-			'wikipedia_url' => 'https://en.wikipedia.org/somepage',
+			'facebook_site'     => 'https://facebook.com/somepage',
+			'twitter_site'      => 'https://twitter.com/somenick',
+			'other_social_urls' => 'https://instagram.com/somepage',
 		];
 
-		$yoast_options_results = [ true, false, false, false, true, false, true, false ];
+		$yoast_options_results = [ true, false, false ];
 
 		$this->options_helper
 			->expects( 'set' )
-			->times( 8 )
+			->times( 3 )
 			->andReturn( ...$yoast_options_results );
 
 		$this->options_helper
@@ -299,7 +289,7 @@ class Configuration_Workout_Action_Test extends TestCase {
 				'success'  => false,
 				'status'   => 500,
 				'error'    => 'Could not save some options in the database',
-				'failures' => [ 'instagram_url', 'linkedin_url', 'pinterest_url', 'wikipedia_url' ],
+				'failures' => [ 'other_social_urls' ],
 			],
 			$this->instance->set_social_profiles( $params )
 		);
@@ -312,21 +302,16 @@ class Configuration_Workout_Action_Test extends TestCase {
 	 */
 	public function test_set_social_profiles_twitter_url_failure() {
 		$params = [
-			'facebook_site' => 'https://facebook.com/somepage',
-			'twitter_site'  => 'https://twitter.com/somenick',
-			'instagram_url' => 'https://instagram.com/somepage',
-			'linkedin_url'  => 'https://linked.in/somepage',
-			'myspace_url'   => 'https://myspace.com/somepage',
-			'pinterest_url' => 'https://pinterest.com/somepage',
-			'youtube_url'   => 'https://youtube.com/somepage',
-			'wikipedia_url' => 'https://en.wikipedia.org/somepage',
+			'facebook_site'     => 'https://facebook.com/somepage',
+			'twitter_site'      => 'https://twitter.com/somenick',
+			'other_social_urls' => 'https://instagram.com/somepage',
 		];
 
-		$yoast_options_results = [ true, false, false, false, true, false, true, false ];
+		$yoast_options_results = [ true, false, false ];
 
 		$this->options_helper
 			->expects( 'set' )
-			->times( 8 )
+			->times( 3 )
 			->andReturn( ...$yoast_options_results );
 
 		$this->options_helper
@@ -339,7 +324,7 @@ class Configuration_Workout_Action_Test extends TestCase {
 				'success'  => false,
 				'status'   => 500,
 				'error'    => 'Could not save some options in the database',
-				'failures' => [ 'twitter_site', 'instagram_url', 'linkedin_url', 'pinterest_url', 'wikipedia_url' ],
+				'failures' => [ 'twitter_site', 'other_social_urls' ],
 			],
 			$this->instance->set_social_profiles( $params )
 		);

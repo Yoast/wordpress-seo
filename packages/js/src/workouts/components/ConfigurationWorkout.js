@@ -17,6 +17,7 @@ import { NewsletterSignup } from "./NewsletterSignup";
 import { ConfigurationIndexation } from "../tailwind-components/steps/indexation/ConfigurationIndexation";
 import SocialInputSection from "./SocialInputSection";
 import SocialInputPersonSection from "./SocialInputPersonSection";
+import SocialProfilesStep from "../tailwind-components/steps/social-profiles/social-profiles-step";
 import Stepper, { Step } from "../tailwind-components/Stepper";
 import { ContinueButton, EditButton, ConfigurationStepButtons } from "../tailwind-components/ConfigurationStepperButtons";
 import { STEPS, WORKOUTS } from "../config";
@@ -128,6 +129,18 @@ function configurationWorkoutReducer( state, action ) {
 			newState = handleStepEdit( newState, 3 );
 			newState.socialProfiles[ action.payload.socialMedium ] = action.payload.value;
 			return newState;
+		case "CHANGE_OTHERS_SOCIAL_PROFILE":
+			newState = handleStepEdit( newState, 3 );
+			newState.socialProfiles.otherSocialUrls[ action.payload.index ] = action.payload.value;
+			return newState;
+		case "ADD_OTHERS_SOCIAL_PROFILE":
+			newState = handleStepEdit( newState, 3 );
+			newState.socialProfiles.otherSocialUrls = [ ...newState.socialProfiles.otherSocialUrls, action.payload.value ];
+			return newState;
+		case "REMOVE_OTHERS_SOCIAL_PROFILE":
+			newState = handleStepEdit( newState, 3 );
+			newState.socialProfiles.otherSocialUrls.splice( action.payload.index, 1 );
+			return newState;
 		case "SET_ERROR_FIELDS":
 			newState.errorFields = action.payload;
 			return newState;
@@ -206,6 +219,7 @@ async function updateSocialProfiles( state ) {
 		pinterest_url: state.socialProfiles.pinterestUrl,
 		youtube_url: state.socialProfiles.youtubeUrl,
 		wikipedia_url: state.socialProfiles.wikipediaUrl,
+		other_social_urls: state.socialProfiles.otherSocialUrls,
 		/* eslint-enable camelcase */
 	};
 
@@ -248,26 +262,12 @@ const stepNumberNameMap = {
 	4: STEPS.configuration.newsletterSignup,
 };
 
-/* eslint-disable max-len, react/prop-types */
 /**
  * Doc comment to make linter happy.
  *
- * @returns {JSX.Element} Example step.
- */
-function SocialProfilesStep( { state, dispatch, setErrorFields, siteRepresentsPerson } ) {
-	return <Fragment>
-		{ [ "company", "emptyChoice" ].includes( state.companyOrPerson ) && <SocialInputSection
-			socialProfiles={ state.socialProfiles }
-			dispatch={ dispatch }
-			errorFields={ state.errorFields }
-			setErrorFields={ setErrorFields }
-		/> }
-		{ siteRepresentsPerson && <SocialInputPersonSection personId={ state.personId } /> }
-	</Fragment>;
-}
-
-/**
- * Doc comment to make linter happy.
+ * @param {Object}   state                    The state
+ * @param {function} setTracking              Callback function to update tracking preference
+ * @param {Boolean}  isTrackingOptionSelected Wether the tracking option is selected
  *
  * @returns {JSX.Element} Example step.
  */
@@ -324,6 +324,12 @@ function PersonalPreferencesStep( { state, setTracking, isTrackingOptionSelected
 		<NewsletterSignup gdprLink={ window.wpseoWorkoutsData.configuration.shortlinks.gdpr } />
 	</Fragment>;
 }
+
+PersonalPreferencesStep.propTypes = {
+	state: PropTypes.object.isRequired,
+	setTracking: PropTypes.func.isRequired,
+	isTrackingOptionSelected: PropTypes.bool.isRequired,
+};
 
 /**
  * Example Finish step.
@@ -778,10 +784,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 								onOrganizationOrPersonChange={ onOrganizationOrPersonChange }
 								dispatch={ dispatch }
 								state={ state }
-								siteRepresentsPerson={ siteRepresentsPerson }
-								onSiteTaglineChange={ onSiteTaglineChange }
 								siteRepresentationEmpty={ siteRepresentationEmpty }
-								selectIsEmpty={ ! isStep2Finished && siteRepresentationEmpty }
 							/>
 							<ConfigurationStepButtons
 								stepperFinishedOnce={ stepperFinishedOnce }
@@ -804,7 +807,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 							</EditButton>
 						</Step.Header>
 						<Step.Content>
-							<SocialProfilesStep state={ state } dispatch={ dispatch } setErrorFields={ setErrorFields } siteRepresentsPerson={ siteRepresentsPerson } />
+							<SocialProfilesStep state={ state } dispatch={ dispatch } setErrorFields={ setErrorFields } />
 							<ConfigurationStepButtons stepperFinishedOnce={ stepperFinishedOnce } saveFunction={ updateOnFinishSocialProfiles } setEditState={ setIsStepBeingEdited } />
 						</Step.Content>
 					</Step>

@@ -117,23 +117,8 @@ class Configuration_Workout_Route_Test extends TestCase {
 						'twitter_site' => [
 							'type'     => 'string',
 						],
-						'instagram_url' => [
-							'type'     => 'string',
-						],
-						'linkedin_url' => [
-							'type'     => 'string',
-						],
-						'myspace_url' => [
-							'type'     => 'string',
-						],
-						'pinterest_url' => [
-							'type'     => 'string',
-						],
-						'youtube_url' => [
-							'type'     => 'string',
-						],
-						'wikipedia_url' => [
-							'type'     => 'string',
+						'other_social_urls' => [
+							'type'     => 'array',
 						],
 					],
 				]

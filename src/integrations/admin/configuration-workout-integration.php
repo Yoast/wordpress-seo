@@ -157,12 +157,7 @@ class Configuration_Workout_Integration implements Integration_Interface {
 					"socialProfiles": {
 						"facebookUrl": "%s",
 						"twitterUsername": "%s",
-						"instagramUrl": "%s",
-						"linkedinUrl": "%s",
-						"myspaceUrl": "%s",
-						"pinterestUrl": "%s",
-						"youtubeUrl": "%s",
-						"wikipediaUrl": "%s",
+						"otherSocialUrls": %s,
 					},
 					"tracking": %d,
 					"companyOrPersonOptions": %s,
@@ -186,12 +181,7 @@ class Configuration_Workout_Integration implements Integration_Interface {
 				$this->get_site_tagline(),
 				$social_profiles['facebook_url'],
 				$social_profiles['twitter_username'],
-				$social_profiles['instagram_url'],
-				$social_profiles['linkedin_url'],
-				$social_profiles['myspace_url'],
-				$social_profiles['pinterest_url'],
-				$social_profiles['youtube_url'],
-				$social_profiles['wikipedia_url'],
+				WPSEO_Utils::format_json_encode( $social_profiles['other_social_urls'] ),
 				$this->has_tracking_enabled(),
 				WPSEO_Utils::format_json_encode( $options ),
 				$this->should_force_company(),
@@ -322,14 +312,9 @@ class Configuration_Workout_Integration implements Integration_Interface {
 	 */
 	private function get_social_profiles() {
 		return [
-			'facebook_url'     => $this->options_helper->get( 'facebook_site', '' ),
-			'twitter_username' => $this->options_helper->get( 'twitter_site', '' ),
-			'instagram_url'    => $this->options_helper->get( 'instagram_url', '' ),
-			'linkedin_url'     => $this->options_helper->get( 'linkedin_url', '' ),
-			'myspace_url'      => $this->options_helper->get( 'myspace_url', '' ),
-			'pinterest_url'    => $this->options_helper->get( 'pinterest_url', '' ),
-			'youtube_url'      => $this->options_helper->get( 'youtube_url', '' ),
-			'wikipedia_url'    => $this->options_helper->get( 'wikipedia_url', '' ),
+			'facebook_url'      => $this->options_helper->get( 'facebook_site', '' ),
+			'twitter_username'  => $this->options_helper->get( 'twitter_site', '' ),
+			'other_social_urls' => $this->options_helper->get( 'other_social_urls', [] ),
 		];
 	}
 

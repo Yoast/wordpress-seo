@@ -5,7 +5,22 @@
 @layer components {
 	/* Custom button classes because we're not using a Button component. This will ensure all buttons being exactly the same. */
 	.yst-button {
-		@apply yst-inline-flex yst-justify-center yst-py-2 yst-px-3 yst-border yst-shadow-sm yst-rounded-md yst-text-sm yst-font-medium yst-leading-4 focus:yst-outline-none yst-no-underline;
+		@apply
+			yst-inline-flex
+			yst-justify-center
+			yst-py-2 yst-px-3
+			yst-border
+			yst-shadow-sm
+			yst-rounded-md
+			yst-text-sm
+			yst-font-medium
+			yst-leading-4
+			yst-no-underline
+
+			focus:yst-outline-none
+			focus:yst-ring-2
+			focus:yst-ring-offset-2
+			focus:yst-ring-primary-500;
 	}
 	
 	.yst-button--primary {
