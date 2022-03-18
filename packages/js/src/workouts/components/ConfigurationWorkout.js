@@ -784,10 +784,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 								onOrganizationOrPersonChange={ onOrganizationOrPersonChange }
 								dispatch={ dispatch }
 								state={ state }
-								siteRepresentsPerson={ siteRepresentsPerson }
-								onSiteTaglineChange={ onSiteTaglineChange }
 								siteRepresentationEmpty={ siteRepresentationEmpty }
-								selectIsEmpty={ ! isStep2Finished && siteRepresentationEmpty }
 							/>
 							<ConfigurationStepButtons
 								stepperFinishedOnce={ stepperFinishedOnce }
@@ -810,7 +807,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 							</EditButton>
 						</Step.Header>
 						<Step.Content>
-							<SocialProfilesStep state={ state } dispatch={ dispatch } setErrorFields={ setErrorFields } siteRepresentsPerson={ siteRepresentsPerson } />
+							<SocialProfilesStep state={ state } dispatch={ dispatch } setErrorFields={ setErrorFields } />
 							<ConfigurationStepButtons stepperFinishedOnce={ stepperFinishedOnce } saveFunction={ updateOnFinishSocialProfiles } setEditState={ setIsStepBeingEdited } />
 						</Step.Content>
 					</Step>
