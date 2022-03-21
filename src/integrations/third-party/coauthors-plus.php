@@ -76,7 +76,7 @@ class CoAuthors_Plus implements Integration_Interface {
 
 		// Add the authors to the schema.
 		foreach ( $author_objects as $author ) {
-			if ( $author->ID === (int) $context->post->post_author || $author->ID === $context->site_user_id ) {
+			if ( $author->ID === (int) $context->post->post_author || ( $author->ID === $context->site_user_id && $context->site_represents === 'person' ) ) {
 				continue;
 			}
 			$author_generator          = new CoAuthor();
