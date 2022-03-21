@@ -30,6 +30,13 @@ class Configuration_Workout_Route implements Route_Interface {
 	const SOCIAL_PROFILES_ROUTE = '/social_profiles';
 
 	/**
+	 * Represents a person's social profiles route.
+	 *
+	 * @var string
+	 */
+	const PERSON_SOCIAL_PROFILES_ROUTE = '/person_social_profiles';
+
+	/**
 	 * Represents a route to enable/disable tracking.
 	 *
 	 * @var string
@@ -117,6 +124,60 @@ class Configuration_Workout_Route implements Route_Interface {
 		];
 
 		\register_rest_route( Main::API_V1_NAMESPACE, Workouts_Route::WORKOUTS_ROUTE . self::SOCIAL_PROFILES_ROUTE, $social_profiles_route );
+		$person_social_profiles_route = [
+			[
+				'methods'             => 'GET',
+				'callback'            => [ $this, 'get_person_social_profiles' ],
+				'permission_callback' => [ $this, 'can_manage_options' ],
+				'args'                => [
+					'person_id' => [
+						'required' => true,
+					],
+				],
+			],
+			[
+				'methods'             => 'POST',
+				'callback'            => [ $this, 'set_person_social_profiles' ],
+				'permission_callback' => [ $this, 'can_manage_options' ],
+				'args'                => [
+					'person_id' => [
+						'type'     => 'string',
+					],
+					'facebook' => [
+						'type'     => 'string',
+					],
+					'instagram' => [
+						'type'     => 'string',
+					],
+					'linkedin' => [
+						'type'     => 'string',
+					],
+					'myspace' => [
+						'type'     => 'string',
+					],
+					'pinterest' => [
+						'type'     => 'string',
+					],
+					'soundcloud' => [
+						'type'     => 'string',
+					],
+					'tumblr' => [
+						'type'     => 'string',
+					],
+					'twitter' => [
+						'type'     => 'string',
+					],
+					'youtube' => [
+						'type'     => 'string',
+					],
+					'wikipedia' => [
+						'type'     => 'string',
+					],
+				],
+			],
+		];
+
+		\register_rest_route( Main::API_V1_NAMESPACE, Workouts_Route::WORKOUTS_ROUTE . self::PERSON_SOCIAL_PROFILES_ROUTE, $person_social_profiles_route );
 
 		$enable_tracking_route = [
 			'methods'             => 'POST',
@@ -159,6 +220,36 @@ class Configuration_Workout_Route implements Route_Interface {
 		$data = $this
 			->configuration_workout_action
 			->set_social_profiles( $request->get_json_params() );
+
+		return new WP_REST_Response( $data, $data->status );
+	}
+
+	/**
+	 * Gets a person's social profiles values.
+	 *
+	 * @param WP_REST_Request $request The request.
+	 *
+	 * @return WP_REST_Response
+	 */
+	public function get_person_social_profiles( WP_REST_Request $request ) {
+		$data = $this
+			->configuration_workout_action
+			->get_person_social_profiles( $request->get_param('person_id') );
+
+		return new WP_REST_Response( $data, $data->status );
+	}
+
+	/**
+	 * Sets a person's social profiles values.
+	 *
+	 * @param WP_REST_Request $request The request.
+	 *
+	 * @return WP_REST_Response
+	 */
+	public function set_person_social_profiles( WP_REST_Request $request ) {
+		$data = $this
+			->configuration_workout_action
+			->set_person_social_profiles( $request->get_json_params() );
 
 		return new WP_REST_Response( $data, $data->status );
 	}
