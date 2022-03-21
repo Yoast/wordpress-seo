@@ -21,6 +21,7 @@ use Yoast\WP\SEO\Helpers\Site_Helper;
 use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
+use Yoast\WP\SEO\Services\Options\Site_Options_Service;
 use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Context\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
@@ -108,6 +109,13 @@ class Schema_Generator_Test extends TestCase {
 	protected $replace_vars_helper;
 
 	/**
+	 * Represents the options helper.
+	 *
+	 * @var Mockery\Mock|Options_Helper
+	 */
+	protected $options;
+
+	/**
 	 * Sets up the test.
 	 */
 	protected function set_up() {
@@ -119,11 +127,12 @@ class Schema_Generator_Test extends TestCase {
 		$this->html    = Mockery::mock( HTML_Helper::class )->makePartial();
 		$this->article = Mockery::mock( Article_Helper::class );
 		$this->date    = Mockery::mock( Date_Helper::class );
+		$this->options = Mockery::mock( Options_Helper::class );
 
 		$helpers = Mockery::mock( Helpers_Surface::class );
 
 		$helpers->current_page = $this->current_page;
-		$helpers->options      = Mockery::mock( Options_Helper::class )->makePartial();
+		$helpers->options      = $this->options;
 		$helpers->schema       = (object) [
 			'id'       => $this->id,
 			'html'     => $this->html,
@@ -223,6 +232,7 @@ class Schema_Generator_Test extends TestCase {
 	public function test_generate_with_no_blocks() {
 		$this->context->indexable->object_sub_type = 'super-custom-post-type';
 		$this->current_page->expects( 'is_paged' )->andReturns( false );
+		$this->options->expects( 'get' )->andReturns( '' );
 
 		Monkey\Functions\expect( 'is_search' )
 			->andReturn( false );
@@ -294,6 +304,7 @@ class Schema_Generator_Test extends TestCase {
 	public function test_generate_with_blocks() {
 		$this->stubEscapeFunctions();
 		$this->current_page->expects( 'is_paged' )->andReturns( false );
+		$this->options->expects( 'get' )->andReturns( '' );
 
 		$this->context->indexable->object_type     = 'post';
 		$this->context->indexable->object_sub_type = 'post';
@@ -477,6 +488,7 @@ class Schema_Generator_Test extends TestCase {
 	public function test_generate_with_block_not_having_generated_output() {
 		$this->stubEscapeFunctions();
 		$this->current_page->expects( 'is_paged' )->andReturns( false );
+		$this->options->expects( 'get' )->andReturns( '' );
 
 		$this->context->indexable->object_type     = 'post';
 		$this->context->indexable->object_sub_type = 'post';
@@ -536,6 +548,7 @@ class Schema_Generator_Test extends TestCase {
 	public function test_validate_type_singular_array() {
 		$this->context->blocks = [];
 		$this->current_page->expects( 'is_paged' )->andReturns( false );
+		$this->options->expects( 'get' )->andReturns( '' );
 
 		$this->context->indexable->object_type     = 'post';
 		$this->context->indexable->object_sub_type = 'post';
@@ -630,6 +643,7 @@ class Schema_Generator_Test extends TestCase {
 	public function test_validate_type_unique_array() {
 		$this->context->blocks = [];
 		$this->current_page->expects( 'is_paged' )->andReturns( false );
+		$this->options->expects( 'get' )->andReturns( '' );
 
 		$this->context->indexable->object_type     = 'post';
 		$this->context->indexable->object_sub_type = 'post';
@@ -727,6 +741,7 @@ class Schema_Generator_Test extends TestCase {
 			'post_modified_gmt' => 'date',
 		];
 		$this->context->has_image                  = false;
+		$this->options->expects( 'get' )->andReturns( '' );
 
 		Monkey\Functions\expect( 'post_password_required' )
 			->once()
@@ -832,6 +847,7 @@ class Schema_Generator_Test extends TestCase {
 	public function test_generate_with_search_page() {
 		$this->context->indexable->object_sub_type = 'super-custom-post-type';
 		$this->context->site_url                   = 'https://fake.url/';
+		$this->options->expects( 'get' )->andReturns( '' );
 
 		$this->context->schema_page_type = [
 			'CollectionPage',

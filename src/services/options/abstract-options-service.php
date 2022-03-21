@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Services\Options;
 
-use WPSEO_Options;
 use Yoast\WP\SEO\Exceptions\Option\Missing_Configuration_Key_Exception;
 use Yoast\WP\SEO\Exceptions\Option\Unknown_Exception;
 use Yoast\WP\SEO\Helpers\Validation_Helper;
@@ -45,6 +44,13 @@ abstract class Abstract_Options_Service {
 	 * @var array
 	 */
 	protected $values = null;
+
+	/**
+	 * Holds the cached option default values.
+	 *
+	 * @var array
+	 */
+	protected $defaults = null;
 
 	/**
 	 * Holds the validation helper instance.
@@ -124,24 +130,10 @@ abstract class Abstract_Options_Service {
 		// Validate, this can throw a Validation_Exception.
 		$value = $this->validation->validate_as( $value, $this->configurations[ $key ]['types'] );
 
-		// Only update when changed.
-		if ( $value === $this->get_values()[ $key ] ) {
-			return;
-		}
-
 		$this->set_option( $key, $value );
 	}
 
 	// phpcs:enable Squiz.Commenting.FunctionCommentThrowTag.WrongNumber
-
-	/**
-	 * Retrieves all the options.
-	 *
-	 * @return array The options.
-	 */
-	public function get_all() {
-		return $this->get_values();
-	}
 
 	/**
 	 * Retrieves the options.
@@ -167,13 +159,78 @@ abstract class Abstract_Options_Service {
 	}
 
 	/**
+	 * Saves the options if the database row does not exist.
+	 *
+	 * @return void
+	 */
+	public function ensure_options() {
+		if ( ! \get_option( $this->option_name ) ) {
+			\update_option( $this->option_name, $this->get_values() );
+		}
+	}
+
+	/**
+	 * Saves the options with their default values.
+	 *
+	 * @return void
+	 */
+	public function reset_options() {
+		\update_option( $this->option_name, $this->get_defaults() );
+	}
+
+	/**
+	 * Retrieves the default option values.
+	 *
+	 * @return array The default values.
+	 */
+	public function get_defaults() {
+		if ( $this->defaults === null ) {
+			$this->defaults = \array_combine(
+				\array_keys( $this->configurations ),
+				\array_column( $this->configurations, 'default' )
+			);
+		}
+
+		return $this->defaults;
+	}
+
+	/**
+	 * Retrieves the default option value.
+	 *
+	 * @param string $key The option key.
+	 *
+	 * @throws Unknown_Exception When the option does not exist.
+	 *
+	 * @return mixed The default value.
+	 */
+	public function get_default( $key ) {
+		if ( ! \array_key_exists( $key, $this->get_defaults() ) ) {
+			throw new Unknown_Exception( $key );
+		}
+
+		return $this->get_defaults()[ $key ];
+	}
+
+	/**
 	 * Retrieves the (cached) values.
 	 *
 	 * @return array The values.
 	 */
 	protected function get_values() {
 		if ( $this->values === null ) {
-			$this->values = WPSEO_Options::get_all();
+			$this->values = \get_option( $this->option_name );
+			// Database row does not exist. We need an array.
+			if ( ! $this->values ) {
+				$this->values = [];
+			}
+
+			// Fill with default value when the database value is missing.
+			$defaults = $this->get_defaults();
+			foreach ( $defaults as $option => $default_value ) {
+				if ( ! \array_key_exists( $option, $this->values ) ) {
+					$this->values[ $option ] = $default_value;
+				}
+			}
 		}
 
 		return $this->values;
@@ -188,9 +245,19 @@ abstract class Abstract_Options_Service {
 	 * @return void
 	 */
 	protected function set_option( $key, $value ) {
-		WPSEO_Options::set( $key, $value );
+		// Ensure the cache is filled.
+		if ( $this->values === null ) {
+			$this->get_values();
+		}
+
+		// Only save when changed.
+		if ( $value === $this->values[ $key ] ) {
+			return;
+		}
 
 		// Update the cache.
 		$this->values[ $key ] = $value;
+		// Save to the database.
+		\update_option( $this->option_name, $this->values );
 	}
 }

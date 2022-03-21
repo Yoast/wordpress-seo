@@ -164,28 +164,6 @@ class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests if unique keys are used in all options.
-	 *
-	 * @covers WPSEO_Option::get_option
-	 */
-	public function test_make_sure_keys_are_unique_over_options() {
-		$keys = [];
-
-		// Make sure the backfilling is not being done when determining "real" unique option names.
-		remove_all_actions( 'option_wpseo' );
-		remove_all_actions( 'option_wpseo_titles' );
-
-		foreach ( array_keys( WPSEO_Options::$options ) as $option_name ) {
-			$option_keys = array_keys( WPSEO_Options::get_option( $option_name ) );
-			$intersected = array_intersect( $option_keys, $keys );
-
-			$this->assertEquals( [], $intersected, 'Option keys must be unique (' . $option_name . ').' );
-
-			$keys = array_merge( $keys, $option_keys );
-		}
-	}
-
-	/**
 	 * Tests that multisite options are available via WPSEO_Options::get() in multisite.
 	 *
 	 * @group ms-required

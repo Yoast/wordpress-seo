@@ -42,7 +42,7 @@ class WPSEO_Ryte_Test extends WPSEO_UnitTestCase {
 	public function set_up() {
 		parent::set_up();
 
-		$this->options_helper  = new Options_Helper();
+		$this->options_helper  = YoastSEO()->helpers->options;
 		$this->class_instance  = new WPSEO_Ryte_Double( $this->options_helper );
 		$this->option_instance = $this->class_instance->get_option();
 	}

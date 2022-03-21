@@ -114,7 +114,7 @@ class WPSEO_Shortlinker {
 	/**
 	 * Gets the number of days the plugin has been active.
 	 *
-	 * @return int The number of days the plugin is active.
+	 * @return string The number of days the plugin is active.
 	 */
 	private function get_days_active() {
 		$date_activated = WPSEO_Options::get( 'first_activated_on' );
