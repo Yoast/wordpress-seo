@@ -245,7 +245,6 @@ In Yoast SEO 18.4, we're launching a new integration with an innovative new serv
 Enhancements:
 
 * Adds the possibility to timestamp your Privacy Policy page and your WooCommerce Terms and Conditions page by use of a WordProof certificate.
-* Adds a `new` badge to the WordProof integration toggle.
 
 Bugfixes:
 
