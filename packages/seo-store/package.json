@@ -28,7 +28,7 @@
     ],
     "timers": "fake"
   },
-  "main": "src/index.js",
+  "main": "build/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/yoast/wordpress-seo",
