@@ -33,6 +33,23 @@ class Configuration_Workout_Action {
 	];
 
 	/**
+	 * The fields for the person social profiles payload.
+	 */
+	const PERSON_SOCIAL_PROFILES_FIELDS = [
+		'facebook',
+		'twitter',
+		'instagram',
+		'linkedin',
+		'myspace',
+		'pinterest',
+		'soundcloud',
+		'tumblr',
+		'twitter',
+		'youtube',
+		'wikipedia',
+	];
+
+	/**
 	 * The Options_Helper instance.
 	 *
 	 * @var Options_Helper
@@ -131,6 +148,66 @@ class Configuration_Workout_Action {
 			'status'   => 500,
 			'error'    => 'Could not save some options in the database',
 			'failures' => $failures,
+		];
+	}
+
+	/**
+	 * Stores the values for the social profiles.
+	 *
+	 * @param array $params The values to store.
+	 *
+	 * @return object The response object.
+	 */
+	public function set_person_social_profiles( $params ) {
+		$failures = [];
+
+		foreach ( self::PERSON_SOCIAL_PROFILES_FIELDS as $field_name ) {
+			if ( isset( $params[ $field_name ] ) ) {
+				$result = $this->options_helper->set( $field_name, $params[ $field_name ] );
+				if ( ! $result ) {
+						$failures[] = $field_name;
+				}
+			}
+		}
+
+		if ( \count( $failures ) === 0 ) {
+			return (object) [
+				'success' => true,
+				'status'  => 200,
+			];
+		}
+		return (object) [
+			'success'  => false,
+			'status'   => 500,
+			'error'    => 'Could not save some options in the database',
+			'failures' => $failures,
+		];
+	}
+
+    /**
+	 * Gets the values for the social profiles.
+	 *
+	 * @param array $params the person id.
+	 *
+	 * @return object The response object.
+	 */
+	public function get_person_social_profiles( $person_id ) {
+		$social_profiles = [];
+		if (\current_user_can( 'edit_user', $person_id)) {
+			foreach ( self::PERSON_SOCIAL_PROFILES_FIELDS as $field_name ) {
+				$social_profiles[$field_name] = \get_user_meta($person_id, $field_name, true);
+			}
+			return (object) [
+				'success' => true,
+				'status'  => 200,
+				'social_profiles' => $social_profiles,
+			];
+		}
+
+		return (object) [
+			'success' => false,
+			'status'  => 500,
+			'error'    => 'The current user has not the permission to edit the selected user',
 		];
 	}
 
