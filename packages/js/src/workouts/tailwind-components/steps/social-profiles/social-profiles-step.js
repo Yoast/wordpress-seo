@@ -33,15 +33,15 @@ export default function SocialProfilesStep( { state, dispatch, setErrorFields } 
 	}
 
 	return <Fragment>
-		<Fragment>
-			<p>{
-				__(
-					"We need a little more help from you! Add your Facebook and Twitter profile so we can optimize the metadata for those platforms too.",
-					"wordpress-seo"
-				)
-			}</p>
-			<SocialInputPersonSection personId={ state.personId } />
-		</Fragment>
+		<p>{
+			__(
+				"We need a little more help from you! Add your Facebook and Twitter profile so we can optimize the metadata for those platforms too.",
+				"wordpress-seo"
+			)
+		}</p>
+		<SocialInputPersonSection
+			personId={ state.personId }
+		/>
 	</Fragment>;
 }
 

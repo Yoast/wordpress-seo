@@ -1,9 +1,12 @@
 import { createInterpolateElement, Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
+import { useCallback, useState, useEffect } from "@wordpress/element";
 import PropTypes from "prop-types";
+import apiFetch from "@wordpress/api-fetch";
 
 import { Alert } from "@yoast/components";
 import { addLinkToString } from "../../../../helpers/stringHelpers.js";
+import TextInput from "../../base/text-input";
 
 /* eslint-disable max-len */
 /**
@@ -15,9 +18,32 @@ import { addLinkToString } from "../../../../helpers/stringHelpers.js";
  * @returns {WPElement} The SocialInputPersonSection element
  */
 function SocialInputPersonSection( { personId } ) {
+	const socialUrls = [ "Facebook", "Instagram", "LinkedIn", "MySpace", "Pinterest", "SoundCloud", "Tumblr", "Twitter", "YouTube", "Wikipedia" ];
+	const [ socials, setSocials ] = useState( {} );
+	const [ canUserEdit, setCanUserEdit ] = useState( true );
+
+	const onChangeHandler = useCallback( ( event ) => {
+		// eslint-disable-next-line no-console
+		setSocials( prevState => {
+			return { ...prevState, [ event.target.dataset.socialmedium ]: event.target.value };
+		} );
+	}, [ setSocials ] );
+
+	useEffect( () => {
+		apiFetch( {
+			path: `yoast/v1/workouts/person_social_profiles?person_id=${ personId }`,
+		} ).then( response => {
+			setCanUserEdit( response.success );
+			if( response.success ) {
+				setSocials( response.social_profiles );
+			}
+		} );
+	}, [] );
+
 	return (
 		<div>
 			{
+				// No person has been selected in step 2
 				personId === 0 && <Fragment>
 					<Alert type="info">
 						{
@@ -77,33 +103,26 @@ function SocialInputPersonSection( { personId } ) {
 				</Fragment>
 			}
 			{
-				personId !== 0 && <Fragment>
-					<p>
-						{
-							addLinkToString(
-								sprintf(
-									__(
-										// translators: %1$s and %2$s are replaced by opening and closing <b> tags, %3$s and %4$s are replaced by opening and closing anchor tags
-										"In this step, you need to add the personal social profiles of the person your site represents. To do that, you should go to the user’s %1$sProfile page%2$s (opens in a new browser tab). Then, scroll down to the ‘Contact info’ section (see screenshot below) and fill in the URLs of the personal social profiles you want to add. Alternatively, ask the user or an admin to do it if you are not allowed.",
-										"wordpress-seo"
-									),
-									"<a>",
-									"</a>"
-								),
-								window.wpseoScriptData.searchAppearance.userEditUrl.replace( "{user_id}", personId ),
-								"yoast-configuration-workout-user-page-link-direct"
-							)
-						}
-					</p>
+				( personId !== 0 && canUserEdit ) && <Fragment>
+					<div id="social-input-section" className="yoast-social-profiles-input-fields">
+						{ socialUrls.map( ( social, index ) => (
+							<TextInput
+								key={ index }
+								className="yst-mt-4"
+								label={ __( social, "wordpress-seo" ) }
+								id={ social.toLowerCase() }
+								value={ socials[ social.toLowerCase() ] }
+								data-socialmedium={ social.toLowerCase() }
+								onChange={ onChangeHandler }
+								error={ {
+									message: [ __( "Error", "wordpress-seo" ) ],
+									isVisible: false,
+								} }
+							/>
+						) ) }
+					</div>
 				</Fragment>
 			}
-			<p>
-				<b>{ __( "Screenshot:", "wordpress-seo" ) }</b>
-				<img
-					src={ window.wpseoWorkoutsData.pluginUrl + "/images/profile-social-fields.png" }
-					alt={ __( "A screenshot of the Contact Info section of a user's Profile page", "wordpress-seo" ) }
-				/>
-			</p>
 		</div>
 	);
 }
