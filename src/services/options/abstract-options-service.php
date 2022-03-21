@@ -130,11 +130,6 @@ abstract class Abstract_Options_Service {
 		// Validate, this can throw a Validation_Exception.
 		$value = $this->validation->validate_as( $value, $this->configurations[ $key ]['types'] );
 
-		// Only update when changed.
-		if ( $value === $this->get_values()[ $key ] ) {
-			return;
-		}
-
 		$this->set_option( $key, $value );
 	}
 
@@ -190,7 +185,7 @@ abstract class Abstract_Options_Service {
 	 */
 	public function get_defaults() {
 		if ( $this->defaults === null ) {
-			return \array_combine(
+			$this->defaults = \array_combine(
 				\array_keys( $this->configurations ),
 				\array_column( $this->configurations, 'default' )
 			);

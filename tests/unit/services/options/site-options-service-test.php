@@ -69,7 +69,8 @@ class Site_Options_Service_Test extends TestCase {
 
 		$result = $this->instance->get_options();
 
-		$this->assertEquals( [ 'foo' => 'bar' ], $result );
+		// Check if one of is the expected. The result is also filled with the default options.
+		$this->assertContains( [ 'foo' => 'bar' ], $result );
 	}
 
 	/**
@@ -145,6 +146,7 @@ class Site_Options_Service_Test extends TestCase {
 	 * Tests the magic set' setting the default without validating.
 	 *
 	 * @covers ::__set
+	 * @covers ::set_option
 	 * @covers ::get_values
 	 */
 	public function test_set_default() {
@@ -183,6 +185,7 @@ class Site_Options_Service_Test extends TestCase {
 	 * Tests the magic set' not setting again.
 	 *
 	 * @covers ::__set
+	 * @covers ::set_option
 	 * @covers ::get_values
 	 */
 	public function test_set_same_after_sanitize() {
@@ -237,17 +240,89 @@ class Site_Options_Service_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that get all runs through internal get_values.
+	 * Tests that ensure options updates all the options.
 	 *
-	 * @covers ::get_all
+	 * @covers ::ensure_options
 	 * @covers ::get_values
 	 */
-	public function test_get_all() {
-		$this->assert_for_get_values( [ 'foo' => 'bar' ] );
+	public function test_ensure_options() {
+		Monkey\Functions\expect( 'get_option' )
+			->with( 'wpseo_options' )
+			->once()
+			->andReturn( false );
 
-		$result = $this->instance->get_all();
+		$options = [ 'foo' => 'bar' ];
+		$this->assert_for_get_values( $options );
 
-		$this->assertEquals( [ 'foo' => 'bar' ], $result );
+		Monkey\Functions\expect( 'update_option' )
+			->with( 'wpseo_options', $options )
+			->once();
+
+		$this->instance->ensure_options();
+	}
+
+	/**
+	 * Tests that ensure options does not update when it already exists.
+	 *
+	 * @covers ::ensure_options
+	 */
+	public function test_ensure_options_no_update() {
+		Monkey\Functions\expect( 'get_option' )
+			->with( 'wpseo_options' )
+			->once()
+			->andReturn( true );
+
+		Monkey\Functions\expect( 'update_option' )
+			->never();
+
+		$this->instance->ensure_options();
+	}
+
+	/**
+	 * Tests that reset options saves the defaults.
+	 *
+	 * @covers ::reset_options
+	 * @covers ::get_defaults
+	 */
+	public function test_reset_options() {
+		$defaults = $this->instance->get_defaults();
+
+		Monkey\Functions\expect( 'update_option' )
+			->with( 'wpseo_options', $defaults )
+			->once();
+
+		$this->instance->reset_options();
+	}
+
+	/**
+	 * Tests that the defaults are not null.
+	 *
+	 * @covers ::get_defaults
+	 */
+	public function test_get_defaults() {
+		$defaults = $this->instance->get_defaults();
+
+		$this->assertNotNull( $defaults );
+	}
+
+	/**
+	 * Tests that the default is returned.
+	 *
+	 * @covers ::get_default
+	 */
+	public function test_get_default() {
+		$this->assertTrue( $this->instance->get_default( 'content_analysis_active' ) );
+	}
+
+	/**
+	 * Tests that an exception is thrown when the option is unknown.
+	 *
+	 * @covers ::get_default
+	 */
+	public function test_get_default_unknown() {
+		$this->expectException( Unknown_Exception::class );
+
+		$this->instance->get_default( 'unknown' );
 	}
 
 	/**
@@ -261,6 +336,7 @@ class Site_Options_Service_Test extends TestCase {
 		Monkey\Functions\expect( 'get_option' )
 			->atLeast()
 			->once()
+			->with( 'wpseo_options' )
 			->andReturn( $values );
 	}
 }

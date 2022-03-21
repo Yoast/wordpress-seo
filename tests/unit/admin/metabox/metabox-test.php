@@ -3,7 +3,9 @@
 namespace Yoast\WP\SEO\Tests\Unit\Admin\Metabox;
 
 use Brain\Monkey;
+use Mockery;
 use WPSEO_Metabox_Section_Additional;
+use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Admin\Metabox\Metabox_Double;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -36,6 +38,12 @@ class Metabox_Test extends TestCase {
 			->with( 'wpseo_manage_options' )
 			->once()
 			->andReturnTrue();
+
+		$helper_surface          = Mockery::mock( Helpers_Surface::class );
+		$helper_surface->options = self::get_options_helper_mock( 2, 0 );
+
+		Monkey\Functions\expect( 'YoastSEO' )
+			->andReturn( (object) [ 'helpers' => $helper_surface ] );
 
 		$this->instance = new Metabox_Double();
 	}

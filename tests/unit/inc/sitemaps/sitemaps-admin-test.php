@@ -28,14 +28,7 @@ class WPSEO_Sitemaps_Admin_Test extends TestCase {
 	 *
 	 * @var Mockery\Mock
 	 */
-	private $mock_post;
-
-	/**
-	 * The options mock to use for the test.
-	 *
-	 * @var Mockery\LegacyMockInterface|Mockery\MockInterface|Options_Double
-	 */
-	private $options_mock;
+	protected $mock_post;
 
 	/**
 	 * Set up the class which will be tested.
@@ -46,7 +39,6 @@ class WPSEO_Sitemaps_Admin_Test extends TestCase {
 		parent::set_up();
 
 		$this->instance             = new WPSEO_Sitemaps_Admin();
-		$this->options_mock         = Mockery::mock( WPSEO_Options::class )->shouldAllowMockingProtectedMethods();
 		$this->mock_post            = Mockery::mock( '\WP_Post' )->makePartial();
 		$this->mock_post->post_type = 'post';
 	}
@@ -70,9 +62,9 @@ class WPSEO_Sitemaps_Admin_Test extends TestCase {
 		Monkey\Functions\expect( 'wp_cache_delete' )
 			->andReturn( true );
 
-		$this->options_mock
-			->shouldReceive( 'is_multisite' )
-			->andReturn( false );
+		Monkey\Functions\expect( 'YoastSEO' )
+			->once()
+			->andReturn( (object) [ 'helpers' => (object) [ 'options' => self::get_options_helper_mock( 1, 0 ) ] ] );
 
 		Monkey\Filters\expectApplied( 'wpseo_allow_xml_sitemap_ping' )
 			->never();
@@ -99,9 +91,9 @@ class WPSEO_Sitemaps_Admin_Test extends TestCase {
 		Monkey\Functions\expect( 'wp_cache_delete' )
 			->andReturn( true );
 
-		$this->options_mock
-			->shouldReceive( 'is_multisite' )
-			->andReturn( false );
+		Monkey\Functions\expect( 'YoastSEO' )
+			->once()
+			->andReturn( (object) [ 'helpers' => (object) [ 'options' => self::get_options_helper_mock( 1, 0 ) ] ] );
 
 		Monkey\Filters\expectApplied( 'wpseo_allow_xml_sitemap_ping' )
 			->once()
@@ -116,10 +108,11 @@ class WPSEO_Sitemaps_Admin_Test extends TestCase {
 		Monkey\Functions\expect( 'wp_schedule_single_event' )
 			->once()
 			->withArgs(
-				static function( $timestamp, $function_name ) use ( $start ) {
+				static function ( $timestamp, $function_name ) use ( $start ) {
 					if ( $function_name === 'wpseo_ping_search_engines' ) {
 						return ( $timestamp < $start + 600 );
 					}
+
 					return false;
 				}
 			);

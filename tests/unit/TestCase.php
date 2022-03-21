@@ -3,7 +3,9 @@
 namespace Yoast\WP\SEO\Tests\Unit;
 
 use Brain\Monkey;
+use Mockery;
 use WPSEO_Options;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WPTestUtils\BrainMonkey\YoastTestCase;
 
 /**
@@ -27,7 +29,7 @@ abstract class TestCase extends YoastTestCase {
 		Monkey\Functions\stubs(
 			[
 				// Null makes it so the function returns its first argument.
-				'is_admin'             => false,
+				'is_admin' => false,
 			]
 		);
 
@@ -43,5 +45,29 @@ abstract class TestCase extends YoastTestCase {
 
 		// This is required to ensure backfill and other statics are set.
 		WPSEO_Options::get_instance();
+	}
+
+	/**
+	 * Creates an Options_Helper mock.
+	 *
+	 * @param int $get_times The amount of times the get is called. Defaults to 1.
+	 * @param int $set_times The amount of times the set is called. Defaults to 1.
+	 *
+	 * @return \Mockery\MockInterface|\Yoast\WP\SEO\Helpers\Options_Helper
+	 */
+	protected function get_options_helper_mock( $get_times = 1, $set_times = 1 ) {
+		$options_helper = Mockery::mock( Options_Helper::class );
+		$options_helper->expects( 'get' )->times( $get_times )->andReturnUsing(
+			static function ( $value, $default ) {
+				return $default;
+			}
+		);
+		$options_helper->expects( 'set' )->times( $set_times )->andReturnUsing(
+			static function ( $value ) {
+				return $value;
+			}
+		);
+
+		return $options_helper;
 	}
 }

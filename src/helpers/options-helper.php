@@ -20,6 +20,11 @@ class Options_Helper {
 	 */
 	protected $site_options_service;
 
+	/**
+	 * Constructs the Site_Options_Service instance.
+	 *
+	 * @param Site_Options_Service $site_options_service The site options service.
+	 */
 	public function __construct( Site_Options_Service $site_options_service ) {
 		$this->site_options_service = $site_options_service;
 	}
@@ -27,16 +32,16 @@ class Options_Helper {
 	/**
 	 * Retrieves a single field from any option for the SEO plugin. Keys are always unique.
 	 *
-	 * @param string $key           The key it should return.
-	 * @param mixed  $default_value The default value that should be returned if the key isn't set.
+	 * @param string $key      The key it should return.
+	 * @param mixed  $fallback The fallback value that should be returned if the key isn't set.
 	 *
 	 * @return mixed|null Returns value if found, $default_value if not.
 	 */
-	public function get( $key, $default_value = null ) {
+	public function get( $key, $fallback = null ) {
 		try {
 			return $this->site_options_service->__get( $key );
 		} catch ( Unknown_Exception $exception ) {
-			return $default_value;
+			return $fallback;
 		}
 	}
 
@@ -53,9 +58,9 @@ class Options_Helper {
 			$this->site_options_service->__set( $key, $value );
 
 			return true;
-		} catch ( Missing_Configuration_Key_Exception $exception ) {
-		} catch ( Unknown_Exception $exception ) {
-		} catch ( Abstract_Validation_Exception $exception ) {
+		} catch ( Missing_Configuration_Key_Exception $exception ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch -- Deliberately left empty.
+		} catch ( Unknown_Exception $exception ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch -- Deliberately left empty.
+		} catch ( Abstract_Validation_Exception $exception ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch -- Deliberately left empty.
 		}
 
 		return false;
@@ -111,22 +116,22 @@ class Options_Helper {
 	 * @return string The title separator.
 	 */
 	public function get_title_separator() {
-		$default = $this->get_default( 'wpseo_titles', 'separator' );
+		$default = $this->get_default( 'separator' );
 
 		// Get the titles option and the separator options.
 		$separator         = $this->get( 'separator' );
-		$seperator_options = $this->get_separator_options();
+		$separator_options = $this->get_separator_options();
 
 		// This should always be set, but just to be sure.
-		if ( isset( $seperator_options[ $separator ] ) ) {
+		if ( isset( $separator_options[ $separator ] ) ) {
 			// Set the new replacement.
-			$replacement = $seperator_options[ $separator ];
+			$replacement = $separator_options[ $separator ];
 		}
-		elseif ( isset( $seperator_options[ $default ] ) ) {
-			$replacement = $seperator_options[ $default ];
+		elseif ( isset( $separator_options[ $default ] ) ) {
+			$replacement = $separator_options[ $default ];
 		}
 		else {
-			$replacement = \reset( $seperator_options );
+			$replacement = \reset( $separator_options );
 		}
 
 		/**
@@ -166,6 +171,8 @@ class Options_Helper {
 
 	/**
 	 * Get the available separator options.
+	 *
+	 * @codeCoverageIgnore We have to write test when this method contains own code.
 	 *
 	 * @return array
 	 */
