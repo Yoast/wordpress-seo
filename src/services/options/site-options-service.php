@@ -269,7 +269,11 @@ class Site_Options_Service extends Abstract_Options_Service {
 		],
 		'company_or_person_user_id'                           => [
 			'default' => false,
-			'types'   => [ 'integer' ],
+			'types'   => [
+				'empty_string',
+				'boolean',
+				'integer',
+			],
 		],
 		'disable-attachment'                                  => [
 			'default' => true,
