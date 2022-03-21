@@ -6,6 +6,7 @@ use Mockery;
 use wpdb;
 use Yoast\WP\SEO\Actions\Importing\Aioseo\Aioseo_Cleanup_Action;
 use Yoast\WP\SEO\Actions\Importing\Aioseo\Aioseo_Posts_Importing_Action;
+use Yoast\WP\SEO\Helpers\Aioseo_Helper;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Import_Cursor_Helper;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
@@ -67,6 +68,13 @@ class Importable_Detector_Service_Test extends TestCase {
 	 * @var Mockery\MockInterface|wpdb
 	 */
 	protected $wpdb;
+
+	/**
+	 * The AIOSEO helper.
+	 *
+	 * @var Mockery\MockInterface|Aioseo_Helper
+	 */
+	protected $aioseo_helper;
 
 	/**
 	 * The mocked meta helper.
@@ -161,6 +169,7 @@ class Importable_Detector_Service_Test extends TestCase {
 		$this->indexable_repository   = Mockery::mock( Indexable_Repository::class );
 		$this->wpdb                   = Mockery::mock( 'wpdb' );
 		$this->import_cursor          = Mockery::mock( Import_Cursor_Helper::class );
+		$this->aioseo_helper          = Mockery::mock( Aioseo_Helper::class );
 		$this->meta                   = Mockery::mock( Meta_Helper::class );
 		$this->indexable_helper       = Mockery::mock( Indexable_Helper::class );
 		$this->indexable_to_postmeta  = Mockery::mock( Indexable_To_Postmeta_Helper::class, [ $this->meta ] );
@@ -169,7 +178,7 @@ class Importable_Detector_Service_Test extends TestCase {
 		$this->sanitization           = Mockery::mock( Sanitization_Helper::class );
 		$this->wpdb_helper            = Mockery::mock( Wpdb_Helper::class );
 		$this->replacevar_handler     = new Aioseo_Replacevar_Service();
-		$this->robots_provider        = new Aioseo_Robots_Provider_Service();
+		$this->robots_provider        = new Aioseo_Robots_Provider_Service( $this->aioseo_helper );
 		$this->robots_transformer     = new Aioseo_Robots_Transformer_Service( $this->robots_provider );
 		$this->social_images_provider = Mockery::mock( Aioseo_Social_Images_Provider_Service::class );
 
@@ -184,7 +193,6 @@ class Importable_Detector_Service_Test extends TestCase {
 				$this->options,
 				$this->image,
 				$this->sanitization,
-				$this->wpdb_helper,
 				$this->replacevar_handler,
 				$this->robots_provider,
 				$this->robots_transformer,

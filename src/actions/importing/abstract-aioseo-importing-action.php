@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Actions\Importing;
 
 use Exception;
+use Yoast\WP\SEO\Helpers\Aioseo_Helper;
 use Yoast\WP\SEO\Helpers\Import_Cursor_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Sanitization_Helper;
@@ -30,6 +31,13 @@ abstract class Abstract_Aioseo_Importing_Action implements Importing_Action_Inte
 	 * @var string
 	 */
 	const TYPE = null;
+
+	/**
+	 * The AIOSEO helper.
+	 *
+	 * @var Aioseo_Helper
+	 */
+	protected $aioseo_helper;
 
 	/**
 	 * The import cursor helper.
@@ -97,6 +105,17 @@ abstract class Abstract_Aioseo_Importing_Action implements Importing_Action_Inte
 		$this->replacevar_handler = $replacevar_handler;
 		$this->robots_provider    = $robots_provider;
 		$this->robots_transformer = $robots_transformer;
+	}
+
+	/**
+	 * Sets the AIOSEO helper.
+	 *
+	 * @required
+	 *
+	 * @param Aioseo_Helper $aioseo_helper The AIOSEO helper.
+	 */
+	public function set_aioseo_helper( Aioseo_Helper $aioseo_helper ) {
+		$this->aioseo_helper = $aioseo_helper;
 	}
 
 	/**

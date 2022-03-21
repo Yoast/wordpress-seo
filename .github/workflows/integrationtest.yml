@@ -1,0 +1,176 @@
+name: Integration Test
+
+on:
+  # Run on pushes to select branches and on all pull requests.
+  push:
+    branches:
+      - master
+      - trunk
+      - 'release/**'
+      - 'hotfix/[0-9]+.[0-9]+*'
+      - 'feature/**'
+  pull_request:
+  # Allow manually triggering the workflow.
+  workflow_dispatch:
+
+# Cancels all previous workflow runs for the same branch that have not yet completed.
+concurrency:
+  # The concurrency group contains the workflow name and the branch name.
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  integration-test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        include:
+          - php_version: '5.6'
+            wp_version: '5.8'
+            multisite: true
+
+          - php_version: '7.0'
+            wp_version: 'latest'
+            multisite: false
+
+          - php_version: '7.3'
+            wp_version: 'trunk'
+            multisite: true
+
+          - php_version: '7.4'
+            wp_version: 'latest'
+            multisite: false
+
+          # WP 5.6 is the earliest version which (sort of) supports PHP 8.0.
+          - php_version: '8.0'
+            wp_version: '5.8'
+            multisite: false
+
+          # WP 5.9 is the earliest version which (sort of) supports PHP 8.1.
+          - php_version: '8.1'
+            wp_version: 'latest'
+            multisite: true
+
+    name: "Integration Test: PHP ${{ matrix.php_version }} | WP ${{ matrix.wp_version }}${{ matrix.multisite == true && ' (+ ms)' || '' }}"
+
+    # Allow builds to fail on as-of-yet unreleased WordPress versions.
+    continue-on-error: ${{ matrix.wp_version == 'trunk' }}
+
+    services:
+      mysql:
+        # Use MySQL 5.6 for PHP 5.6, use MySQL 5.7 for PHP 7.0 < 7.4, otherwise MySQL 8.0.
+        # Also see: https://core.trac.wordpress.org/ticket/52496
+        image: mysql:${{ ( matrix.php_version == '5.6' && '5.6' ) || ( matrix.php_version < '7.4' && '5.7' ) || '8.0' }}
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: false
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=10s --health-retries=10
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # The prefix-dependencies task makes use of reflection-based PHP code that only works on PHP > 7.2.
+      - name: Install PHP 7.x for generating the vendor_prefixed directory and dependency injection
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 7.2
+          coverage: none
+
+      - name: Install Composer dependencies, generate vendor_prefixed directory and run dependency injection
+        uses: ramsey/composer-install@v2
+
+      # Remove packages which are not PHP cross-version compatible and only used for the prefixing.
+      # - humbug/php-scoper is only needed to actually do the prefixing, so won't be shipped anyway.
+      # - league/oauth2-client and its dependencies *are* the packages being prefixed.
+      - name: Delete dependencies which are not cross-version compatible
+        run: composer remove --dev --no-scripts humbug/php-scoper league/oauth2-client
+
+      - name: Remove vendor directory
+        run: rm -rf vendor/*
+
+      - name: Install PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php_version }}
+          ini-values: zend.assertions=1, error_reporting=-1, display_errors=On
+          coverage: none
+
+      # Determine the type of Composer install which is needed.
+      # 1: WP 5.9 or higher - all PHPUnit versions needed are supported, use the most appropriate one.
+      # 2. WP < 5.9 with PHP 8.0 or higher - PHPUnit 5 - 7 supported, locked at 5.x, but needs upgrade to 7 for PHP >= 8.0.
+      # 3. WP < 5.9 with PHP < 8.0 - just use the locked PHPUnit 5 version.
+      - name: Determine the type of Composer install to use
+        id: composer_toggle
+        run: |
+          if [[ "${{ matrix.wp_version }}" =~ ^(trunk|latest|5\.9|[6789]\.[0-9])$ ]]; then
+            echo '::set-output name=TYPE::1'
+          elif [[ "${{ matrix.php_version }}" > "7.4" ]]; then
+            echo '::set-output name=TYPE::2'
+          else
+            echo '::set-output name=TYPE::3'
+          fi
+
+      - name: Debug info - show type determined
+        run: echo ${{ steps.composer_toggle.outputs.TYPE }}
+
+      # Install dependencies and handle caching in one go.
+      # Includes updating the test dependencies to the most appropriate version
+      # for the PHP/WP version combination on which the tests will be run.
+      # @link https://github.com/marketplace/actions/install-composer-dependencies
+
+      ### Install type 1.
+      - name: "Install type 1: remove PHPUnit root requirement"
+        if: ${{ steps.composer_toggle.outputs.TYPE == '1' }}
+        run: composer remove --dev phpunit/phpunit --no-update --no-scripts
+
+      - name: "Install type 1: install Composer dependencies - WP 5.9 or higher"
+        if: ${{ steps.composer_toggle.outputs.TYPE == '1' }}
+        uses: ramsey/composer-install@v2
+        with:
+          # Force a `composer update` run.
+          dependency-versions: "highest"
+          # But make it selective.
+          composer-options: "yoast/wp-test-utils --with-dependencies --no-scripts"
+
+      ### Install type 2.
+      - name: "Install type 2: conditionally require a higher PHPUnit version"
+        if: ${{ steps.composer_toggle.outputs.TYPE == '2' }}
+        run: composer require --dev phpunit/phpunit:"^7.5" --no-update --ignore-platform-req=php --no-scripts
+
+      - name: "Install type 2: install Composer dependencies - WP < 5.9 with PHP >= 8.0"
+        if: ${{ steps.composer_toggle.outputs.TYPE == '2' }}
+        uses: ramsey/composer-install@v2
+        with:
+          # Force a `composer update` run.
+          dependency-versions: "highest"
+          # But make it selective.
+          composer-options: "yoast/wp-test-utils phpunit/phpunit --with-dependencies --no-scripts --ignore-platform-req=php"
+
+      ### Install type 3.
+      #   As PHPUnit is a root requirement and some of the PHPUnit dependencies are locked at versions incompatible
+      #   with all supported PHP versions, the PHPUnit dependency needs to explicitly also be allowed to update
+      #   (within the version constraints as per the `composer.json` file, i.e. PHPUnit 5.7).
+      - name: "Install type 3: install Composer dependencies - WP < 5.9 with PHP < 8.0"
+        if: ${{ steps.composer_toggle.outputs.TYPE == '3' }}
+        uses: ramsey/composer-install@v2
+        with:
+          # Force a `composer update` run.
+          dependency-versions: "highest"
+          # But make it selective.
+          composer-options: "yoast/wp-test-utils phpunit/phpunit --with-dependencies --no-scripts"
+
+      - name: Install WP
+        shell: bash
+        run: config/scripts/install-wp-tests.sh wordpress_test root '' 127.0.0.1:3306 ${{ matrix.wp_version }}
+
+      - name: Run unit tests - single site
+        run: composer integration-test
+
+      - name: Run unit tests - multisite
+        if: ${{ matrix.multisite == true }}
+        run: composer integration-test
+        env:
+          WP_MULTISITE: 1

@@ -2,8 +2,10 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Services\Importing;
 
+use Mockery;
 use Brain\Monkey;
 use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Provider_Service;
+use Yoast\WP\SEO\Helpers\Aioseo_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -17,6 +19,13 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 class Aioseo_Robots_Provider_Service_Test extends TestCase {
 
 	/**
+	 * The AIOSEO helper.
+	 *
+	 * @var Mockery\MockInterface|Aioseo_Helper
+	 */
+	protected $aioseo_helper;
+
+	/**
 	 * The class under test.
 	 *
 	 * @var Aioseo_Robots_Provider_Service
@@ -27,7 +36,8 @@ class Aioseo_Robots_Provider_Service_Test extends TestCase {
 	 * {@inheritDoc}
 	 */
 	public function set_up() {
-		$this->aioseo_robots_provider_service = new Aioseo_Robots_Provider_Service();
+		$this->aioseo_helper                  = Mockery::mock( Aioseo_Helper::class );
+		$this->aioseo_robots_provider_service = new Aioseo_Robots_Provider_Service( $this->aioseo_helper );
 	}
 
 	/**
@@ -41,9 +51,8 @@ class Aioseo_Robots_Provider_Service_Test extends TestCase {
 	 * @param bool   $expected_result The expected result.
 	 */
 	public function test_get_global_robot_settings( $aioseo_options, $setting, $expected_result ) {
-		Monkey\Functions\expect( 'get_option' )
+		$this->aioseo_helper->expects( 'get_global_option' )
 			->once()
-			->with( 'aioseo_options', '' )
 			->andReturn( $aioseo_options );
 
 		$actual_result = $this->aioseo_robots_provider_service->get_global_robot_settings( $setting );
@@ -125,43 +134,12 @@ class Aioseo_Robots_Provider_Service_Test extends TestCase {
 	public function provider_get_global_robot_settings() {
 		$empty_settings = '';
 
-		$no_global_robots_meta = [
-			'searchAppearance' => [
-				'advanced' => [
-					'not_globalRobotsMeta' => [
-						'default' => true,
-					],
-				],
-			],
-		];
-
-		$no_set_default_global = [
-			'searchAppearance' => [
-				'advanced' => [
-					'globalRobotsMeta' => [
-						'not_default' => 'whatever',
-					],
-				],
-			],
-		];
-
 		$default_global = [
 			'searchAppearance' => [
 				'advanced' => [
 					'globalRobotsMeta' => [
 						'default' => true,
 						'noindex' => 'whatever',
-					],
-				],
-			],
-		];
-
-		$no_default_no_noindex_global = [
-			'searchAppearance' => [
-				'advanced' => [
-					'globalRobotsMeta' => [
-						'default'     => false,
-						'not_noindex' => 'whatever',
 					],
 				],
 			],
@@ -212,15 +190,12 @@ class Aioseo_Robots_Provider_Service_Test extends TestCase {
 		];
 
 		return [
-			[ \json_encode( $empty_settings ), 'noindex', false ],
-			[ \json_encode( $no_global_robots_meta ), 'noindex', false ],
-			[ \json_encode( $no_set_default_global ), 'noindex', false ],
-			[ \json_encode( $default_global ), 'noindex', false ],
-			[ \json_encode( $no_default_no_noindex_global ), 'noindex', false ],
-			[ \json_encode( $no_default_noindex_global ), 'noindex', true ],
-			[ \json_encode( $no_default_disabled_noindex_global ), 'noindex', false ],
-			[ \json_encode( $no_default_disabled_nofollow_global ), 'nofollow', false ],
-			[ \json_encode( $no_default_disabled_no_nofollow_global ), 'nofollow', true ],
+			[ $empty_settings, 'noindex', false ],
+			[ $default_global, 'noindex', false ],
+			[ $no_default_noindex_global, 'noindex', true ],
+			[ $no_default_disabled_noindex_global, 'noindex', false ],
+			[ $no_default_disabled_nofollow_global, 'nofollow', false ],
+			[ $no_default_disabled_no_nofollow_global, 'nofollow', true ],
 		];
 	}
 }

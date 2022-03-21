@@ -181,6 +181,17 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Aioseo
 	}
 
 	/**
+	 * Checks if the settings tab subsetting is set in the AIOSEO option.
+	 *
+	 * @param string $aioseo_settings The AIOSEO option.
+	 *
+	 * @return bool Whether the settings are set.
+	 */
+	public function isset_settings_tab( $aioseo_settings ) {
+		return isset( $aioseo_settings['searchAppearance'][ $this->settings_tab ] );
+	}
+
+	/**
 	 * Queries the database and retrieves unimported AiOSEO settings (in chunks if a limit is applied).
 	 *
 	 * @param int|null $limit The maximum number of unimported objects to be returned.
@@ -190,7 +201,7 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Aioseo
 	protected function query( $limit = null ) {
 		$aioseo_settings = \json_decode( \get_option( $this->get_source_option_name(), '' ), true );
 
-		if ( empty( $aioseo_settings ) || ! isset( $aioseo_settings['searchAppearance'][ $this->settings_tab ] ) ) {
+		if ( empty( $aioseo_settings ) ) {
 			return [];
 		}
 
@@ -317,5 +328,15 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Aioseo
 	 */
 	public function import_noindex( $noindex, $mapping ) {
 		return $this->robots_transformer->transform_robot_setting( 'noindex', $noindex, $mapping );
+	}
+
+	/**
+	 * Returns a setting map of the robot setting for one subset of post types/taxonomies/archives.
+	 * For custom archives, it returns an empty array because AIOSEO excludes some custom archives from this option structure, eg. WooCommerce's products and we don't want to raise a false alarm.
+	 *
+	 * @return array The setting map of the robot setting for one subset of post types/taxonomies/archives or an empty array.
+	 */
+	public function pluck_robot_setting_from_mapping() {
+		return [];
 	}
 }
