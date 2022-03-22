@@ -24,14 +24,14 @@ class Wincher_Helper_Test extends TestCase {
 	/**
 	 * The instance to test.
 	 *
-	 * @var Wincher_Helper
+	 * @var Wincher_Helper|Mockery\Mock
 	 */
 	protected $instance;
 
 	/**
 	 * Holds the Options Page helper instance.
 	 *
-	 * @var Options_Helper
+	 * @var Options_Helper|Mockery\Mock
 	 */
 	protected $options;
 
@@ -78,36 +78,51 @@ class Wincher_Helper_Test extends TestCase {
 	/**
 	 * Test return if conditionals are met.
 	 *
-	 * @covers ::integration_is_disabled
+	 * @covers ::is_active
 	 */
-	public function test_integration_is_disabled() {
-		$this->assertFalse( $this->instance->integration_is_disabled() );
+	public function test_is_active() {
+		Monkey\Functions\expect( 'current_user_can' )->andReturn( true );
+
+		$this->options->expects( 'get' )->andReturn( true );
+
+		$this->assertTrue( $this->instance->is_active() );
 	}
 
 	/**
-	 * Test return if conditionals are not met.
+	 * Test return conditional if conditionals are unmet.
 	 *
-	 * @covers ::integration_is_disabled
+	 * @covers ::is_active
 	 */
-	public function test_integration_is_disabled_unmet() {
+	public function test_is_active_unmet() {
 		Monkey\Functions\stubs( [
 			'is_multisite' => true,
 		] );
 
-		$this->assertTrue( $this->instance->integration_is_disabled( ) );
+		$this->assertFalse( $this->instance->is_active() );
 	}
 
 	/**
-	 * Test return conditional if conditionals are not met.
+	 * Test return conditional if conditionals are unmet.
 	 *
-	 * @covers ::integration_is_disabled
+	 * @covers ::is_active
 	 */
-	public function test_integration_is_disabled_unmet_conditional_return() {
+	public function test_is_active_unmet_conditional_return() {
 		Monkey\Functions\stubs( [
 			'is_multisite' => true,
 		] );
 
-		$this->assertEquals( 'Non_Multisite_Conditional', $this->instance->integration_is_disabled( true ) );
+		$this->assertEquals( 'Non_Multisite_Conditional', $this->instance->is_active( true ) );
+	}
+
+	/**
+	 * Test return if capabilities are unmet.
+	 *
+	 * @covers ::is_active
+	 */
+	public function test_is_active_unmet_capabilities() {
+		Monkey\Functions\expect( 'current_user_can' )->andReturn( false );
+
+		$this->assertFalse( $this->instance->is_active() );
 	}
 
 	/**

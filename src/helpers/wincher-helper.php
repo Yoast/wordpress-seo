@@ -30,55 +30,29 @@ class Wincher_Helper {
 	}
 
 	/**
-	 * Returns if conditionals are met. If not, the integration should be disabled.
+	 * Checks if the integration is active for the current user.
 	 *
 	 * @param bool $return_conditional If the conditional class name that was unmet should be returned.
 	 *
-	 * @return bool|string Returns if the integration should be disabled.
+	 * @return bool|string Whether the integration is active.
 	 */
-	public function integration_is_disabled( $return_conditional = false ) {
-		$conditionals = [ new Non_Multisite_Conditional() ];
+	public function is_active( $return_conditional = false ) {
+		$conditional = new Non_Multisite_Conditional();
 
-		foreach ( $conditionals as $conditional ) {
-			if ( ! $conditional->is_met() ) {
+		if ( ! $conditional->is_met() ) {
 
-				if ( $return_conditional === true ) {
-					return ( new \ReflectionClass( $conditional ) )->getShortName();
-				}
-
-				return true;
+			if ( $return_conditional === true ) {
+				return ( new \ReflectionClass( $conditional ) )->getShortName();
 			}
-		}
 
-		return false;
-	}
-
-	/**
-	 * Returns if the Wincher integration toggle is turned on.
-	 *
-	 * @return bool Returns if the integration toggle is set to true if conditionals are met.
-	 */
-	public function integration_is_active() {
-		if ( $this->integration_is_disabled() ) {
 			return false;
 		}
 
-		return $this->options->get( 'wincher_integration_active', true );
-	}
-
-	/**
-	 * Return if Wincher should be active for this post editor page.
-	 *
-	 * @return bool Returns if Wincher should be active.
-	 */
-	public function is_active() {
-		$is_wincher_active = $this->integration_is_active();
-
-		if ( ! $is_wincher_active ) {
+		if ( ! \current_user_can( 'publish_posts' ) && ! \current_user_can( 'publish_pages' ) ) {
 			return false;
 		}
 
-		return true;
+		return (bool) $this->options->get( 'wincher_integration_active', true );
 	}
 
 	/**

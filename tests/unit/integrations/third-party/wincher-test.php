@@ -38,8 +38,13 @@ class Wincher_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
+		$this->stubEscapeFunctions();
+		$this->stubTranslationFunctions();
+
 		$this->wincher  = Mockery::mock( Wincher_Helper::class );
-		$this->instance = Mockery::mock( Wincher::class, [ $this->wincher ] )->makePartial();
+		$this->instance = Mockery::mock( Wincher::class, [ $this->wincher ] )
+			->makePartial()
+			->shouldAllowMockingProtectedMethods();
 
 	}
 
@@ -97,7 +102,7 @@ class Wincher_Test extends TestCase {
 	public function test_add_integration_toggle() {
 		Monkey\Functions\stubTranslationFunctions();
 
-		$this->wincher->expects( 'integration_is_disabled' )->once()->andReturnFalse();
+		$this->wincher->expects( 'is_active' )->once()->andReturnTrue();
 
 		$result = $this->instance->add_integration_toggle(
 			[
@@ -127,5 +132,48 @@ class Wincher_Test extends TestCase {
 			],
 			$result[2]
 		);
+	}
+
+	/**
+	 * Tests the after_integration_toggle method.
+	 *
+	 * @covers ::after_integration_toggle
+	 */
+	public function test_after_integration_toggle() {
+		$wincher_integration_toggle = (object) [
+			'setting'  => 'wincher_integration_active',
+			'disabled' => true,
+		];
+
+		$this->wincher->expects( 'is_active' )->once()->andReturn( 'Non_Multisite_Conditional' );
+		$this->instance->expects( 'get_disabled_note' )->once();
+
+		$this->instance->after_integration_toggle( $wincher_integration_toggle );
+	}
+
+	/**
+	 * Tests the after_network_integration_toggle method.
+	 *
+	 * @covers ::after_network_integration_toggle
+	 */
+	public function test_after_network_integration_toggle() {
+
+		$wincher_integration_toggle = (object) [
+			'setting'  => 'wincher_integration_active',
+			'disabled' => true,
+		];
+
+		$this->instance->expects( 'get_disabled_note' )->once();
+
+		$this->instance->after_network_integration_toggle( $wincher_integration_toggle );
+	}
+
+	/**
+	 * Tests the get_disabled_note method.
+	 *
+	 * @covers ::get_disabled_note
+	 */
+	public function test_get_disabled_note() {
+		$this->assertContains( 'Currently, the Wincher integration is not available for multisites.', $this->instance->get_disabled_note() );
 	}
 }
