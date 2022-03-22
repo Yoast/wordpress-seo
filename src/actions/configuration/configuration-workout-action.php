@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Actions\Configuration;
 
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Integrations\Admin\Configuration_workout_helper;
 
 /**
  * Class Configuration_Workout_Action.
@@ -35,6 +36,7 @@ class Configuration_Workout_Action {
 	/**
 	 * The fields for the person social profiles payload.
 	 */
+	// To be removed
 	const PERSON_SOCIAL_PROFILES_FIELDS = [
 		'facebook',
 		'twitter',
@@ -160,13 +162,10 @@ class Configuration_Workout_Action {
 	 */
 	public function set_person_social_profiles( $params ) {
 		$failures = [];
-
-		foreach ( self::PERSON_SOCIAL_PROFILES_FIELDS as $field_name ) {
+        // Validation to be added
+		foreach ( Configuration_workout_helper::$person_social_profiles as $field_name ) {
 			if ( isset( $params[ $field_name ] ) ) {
-				$result = $this->options_helper->set( $field_name, $params[ $field_name ] );
-				if ( ! $result ) {
-						$failures[] = $field_name;
-				}
+				\update_user_meta( $params['person_id'], $field_name, $params[ $field_name ] );
 			}
 		}
 
@@ -184,30 +183,22 @@ class Configuration_Workout_Action {
 		];
 	}
 
-    /**
+	/**
 	 * Gets the values for the social profiles.
 	 *
-	 * @param array $params the person id.
+	 * @param int $person_id the person id.
 	 *
 	 * @return object The response object.
 	 */
 	public function get_person_social_profiles( $person_id ) {
 		$social_profiles = [];
-		if (\current_user_can( 'edit_user', $person_id)) {
-			foreach ( self::PERSON_SOCIAL_PROFILES_FIELDS as $field_name ) {
-				$social_profiles[$field_name] = \get_user_meta($person_id, $field_name, true);
-			}
-			return (object) [
-				'success' => true,
-				'status'  => 200,
-				'social_profiles' => $social_profiles,
-			];
+		foreach ( Configuration_workout_helper::$person_social_profiles as $field_name ) {
+			$social_profiles[ $field_name ] = \get_user_meta( $person_id, $field_name, true );
 		}
-
 		return (object) [
-			'success' => false,
-			'status'  => 500,
-			'error'    => 'The current user has not the permission to edit the selected user',
+			'success'         => true,
+			'status'          => 200,
+			'social_profiles' => $social_profiles,
 		];
 	}
 
