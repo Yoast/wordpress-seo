@@ -7,7 +7,7 @@ use WP_REST_Response;
 use Yoast\WP\SEO\Actions\Configuration\Configuration_Workout_Action;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Main;
-
+use Yoast\WP\SEO\Integrations\Admin\Configuration_workout_helper;
 /**
  * Configuration_Workout_Route class.
  */
@@ -128,7 +128,7 @@ class Configuration_Workout_Route implements Route_Interface {
 			[
 				'methods'             => 'GET',
 				'callback'            => [ $this, 'get_person_social_profiles' ],
-				'permission_callback' => [ $this, 'can_manage_options' ],
+				'permission_callback' => [ $this, 'can_edit_user' ],
 				'args'                => [
 					'person_id' => [
 						'required' => true,
@@ -138,10 +138,10 @@ class Configuration_Workout_Route implements Route_Interface {
 			[
 				'methods'             => 'POST',
 				'callback'            => [ $this, 'set_person_social_profiles' ],
-				'permission_callback' => [ $this, 'can_manage_options' ],
+				'permission_callback' => [ $this, 'can_edit_user' ],
 				'args'                => [
 					'person_id' => [
-						'type'     => 'string',
+						'type'     => 'integer',
 					],
 					'facebook' => [
 						'type'     => 'string',
@@ -234,7 +234,7 @@ class Configuration_Workout_Route implements Route_Interface {
 	public function get_person_social_profiles( WP_REST_Request $request ) {
 		$data = $this
 			->configuration_workout_action
-			->get_person_social_profiles( $request->get_param('person_id') );
+			->get_person_social_profiles( $request->get_param( 'person_id' ) );
 
 		return new WP_REST_Response( $data, $data->status );
 	}
@@ -276,5 +276,16 @@ class Configuration_Workout_Route implements Route_Interface {
 	 */
 	public function can_manage_options() {
 		return \current_user_can( 'wpseo_manage_options' );
+	}
+
+	/**
+	 * Checks if the current user has the capability to edit a specific user.
+	 *
+	 * @param int $user_id The id of the user to be modified.
+	 *
+	 * @return bool
+	 */
+	public function can_edit_user( $user_id ) {
+		return \current_user_can( 'edit_user', $user_id );
 	}
 }
