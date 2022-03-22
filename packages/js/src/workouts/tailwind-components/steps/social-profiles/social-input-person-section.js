@@ -1,12 +1,12 @@
 import { createInterpolateElement, Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { useCallback, useState, useEffect } from "@wordpress/element";
+import { useCallback, useEffect } from "@wordpress/element";
 import PropTypes from "prop-types";
 import apiFetch from "@wordpress/api-fetch";
 
 import { Alert } from "@yoast/components";
 import { addLinkToString } from "../../../../helpers/stringHelpers.js";
-import TextInput from "../../base/text-input";
+import SocialInput from "./social-input";
 
 /* eslint-disable max-len */
 /**
@@ -17,28 +17,27 @@ import TextInput from "../../base/text-input";
  *
  * @returns {WPElement} The SocialInputPersonSection element
  */
-function SocialInputPersonSection( { personId } ) {
+function SocialInputPersonSection( { socialProfiles, errorFields, dispatch, canEditUser, personId } ) {
 	const socialUrls = [ "Facebook", "Instagram", "LinkedIn", "MySpace", "Pinterest", "SoundCloud", "Tumblr", "Twitter", "YouTube", "Wikipedia" ];
-	const [ socials, setSocials ] = useState( {} );
-	const [ canUserEdit, setCanUserEdit ] = useState( true );
 
-	const onChangeHandler = useCallback( ( event ) => {
-		// eslint-disable-next-line no-console
-		setSocials( prevState => {
-			return { ...prevState, [ event.target.dataset.socialmedium ]: event.target.value };
-		} );
-	}, [ setSocials ] );
+	const onChangeHandler = useCallback(
+		( newValue, socialMedium ) => {
+			dispatch( { type: "CHANGE_PERSON_SOCIAL_PROFILE", payload: { socialMedium, value: newValue } } );
+		},
+		[ dispatch ]
+	);
 
 	useEffect( () => {
-		apiFetch( {
-			path: `yoast/v1/workouts/person_social_profiles?person_id=${ personId }`,
-		} ).then( response => {
-			setCanUserEdit( response.success );
-			if( response.success ) {
-				setSocials( response.social_profiles );
-			}
-		} );
-	}, [] );
+		if ( ( window.wpseoWorkoutsData.configuration.personId !== personId ) && ( canEditUser ) ) {
+			apiFetch( {
+				path: `yoast/v1/workouts/person_social_profiles?person_id=${ personId }`,
+			} ).then( response => {
+				if ( response.success ) {
+					dispatch( { type: "INIT_PERSON_SOCIAL_PROFILES", payload: { socialProfiles: response.social_profiles } } );
+				}
+			} );
+		}
+	}, [ personId ] );
 
 	return (
 		<div>
@@ -103,20 +102,20 @@ function SocialInputPersonSection( { personId } ) {
 				</Fragment>
 			}
 			{
-				( personId !== 0 && canUserEdit ) && <Fragment>
+				( personId !== 0 && canEditUser ) && <Fragment>
 					<div id="social-input-section" className="yoast-social-profiles-input-fields">
 						{ socialUrls.map( ( social, index ) => (
-							<TextInput
+							<SocialInput
 								key={ index }
 								className="yst-mt-4"
 								label={ __( social, "wordpress-seo" ) }
 								id={ social.toLowerCase() }
-								value={ socials[ social.toLowerCase() ] }
-								data-socialmedium={ social.toLowerCase() }
+								value={ socialProfiles[ social.toLowerCase() ] }
+								socialMedium={ social.toLowerCase() }
 								onChange={ onChangeHandler }
 								error={ {
-									message: [ __( "Error", "wordpress-seo" ) ],
-									isVisible: false,
+									message: [ __( "Could not save this value. Please check the URL or username.", "wordpress-seo" ) ],
+									isVisible: errorFields.includes( "twitter_site" ),
 								} }
 							/>
 						) ) }
@@ -131,10 +130,14 @@ function SocialInputPersonSection( { personId } ) {
 export default SocialInputPersonSection;
 
 SocialInputPersonSection.propTypes = {
+	socialProfiles: PropTypes.object.isRequired,
+	errorFields: PropTypes.array,
+	dispatch: PropTypes.func.isRequired,
+	canEditUser: PropTypes.bool.isRequired,
 	personId: PropTypes.number,
 };
 
 SocialInputPersonSection.defaultProps = {
+	errorFields: [],
 	personId: 0,
 };
-

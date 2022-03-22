@@ -40,6 +40,9 @@ export default function SocialProfilesStep( { state, dispatch, setErrorFields } 
 			)
 		}</p>
 		<SocialInputPersonSection
+			socialProfiles={ state.personSocialProfiles }
+			dispatch={ dispatch }
+			canEditUser={ !! state.canEditUser }
 			personId={ state.personId }
 		/>
 	</Fragment>;
