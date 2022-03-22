@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Tests\Unit\Actions\Importing;
 
 use Mockery;
-use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Helpers\Import_Cursor_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Sanitization_Helper;

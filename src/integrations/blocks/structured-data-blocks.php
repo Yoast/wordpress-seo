@@ -45,7 +45,7 @@ class Structured_Data_Blocks implements Integration_Interface {
 	/**
 	 * Whether or not we've registered our shutdown function.
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $registered_shutdown_function = false;
 

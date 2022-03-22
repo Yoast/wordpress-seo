@@ -124,7 +124,7 @@ class Aioseo_Social_Images_Provider_Service {
 		);
 
 		if ( $attachments && ! empty( $attachments ) ) {
-			return $this->image->get_attachment_image_source( array_values( $attachments )[0]->ID, 'fullsize' );
+			return $this->image->get_attachment_image_source( \array_values( $attachments )[0]->ID, 'fullsize' );
 		}
 
 		return '';

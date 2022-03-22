@@ -35,11 +35,11 @@ abstract class Health_Check {
 	 * @return string The identifier that WordPress requires.
 	 */
 	public function get_test_identifier() {
-		$class_name_with_namespace = get_class( $this );
-		$class_name_index          = ( strrpos( $class_name_with_namespace, '\\' ) + 1 );
-		$class_name                = substr( $class_name_with_namespace, $class_name_index );
-		$lowercase                 = strtolower( $class_name );
-		$whitespace_as_dashes      = str_replace( '_', '-', $lowercase );
+		$class_name_with_namespace = \get_class( $this );
+		$class_name_index          = ( \strrpos( $class_name_with_namespace, '\\' ) + 1 );
+		$class_name                = \substr( $class_name_with_namespace, $class_name_index );
+		$lowercase                 = \strtolower( $class_name );
+		$whitespace_as_dashes      = \str_replace( '_', '-', $lowercase );
 		$with_prefix               = self::TEST_IDENTIFIER_PREFIX . $whitespace_as_dashes;
 		return $with_prefix;
 	}

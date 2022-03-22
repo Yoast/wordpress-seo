@@ -51,6 +51,7 @@ class Image_Helper {
 	 *
 	 * @param Indexable_Repository $indexable_repository The indexable repository.
 	 * @param Options_Helper       $options              The options helper.
+	 * @param Url_Helper           $url_helper           The URL helper.
 	 */
 	public function __construct(
 		Indexable_Repository $indexable_repository,

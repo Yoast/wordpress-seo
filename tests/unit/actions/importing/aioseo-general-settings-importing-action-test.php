@@ -2,8 +2,8 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Actions\Importing;
 
-use Mockery;
 use Brain\Monkey;
+use Mockery;
 use Yoast\WP\SEO\Actions\Importing\Aioseo\Aioseo_General_Settings_Importing_Action;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Import_Cursor_Helper;
@@ -13,8 +13,8 @@ use Yoast\WP\SEO\Helpers\Sanitization_Helper;
 use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Replacevar_Service;
 use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Provider_Service;
 use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Transformer_Service;
-use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Actions\Importing\Aioseo_General_Settings_Importing_Action_Double;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Aioseo_General_Settings_Importing_Action_Test class

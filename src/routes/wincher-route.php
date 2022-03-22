@@ -263,7 +263,7 @@ class Wincher_Route implements Route_Interface {
 	 * @return bool Whether the website_id is valid.
 	 */
 	public function has_valid_website_id( $website_id ) {
-		return ! empty( $website_id ) && is_int( $website_id );
+		return ! empty( $website_id ) && \is_int( $website_id );
 	}
 
 	/**

@@ -3,13 +3,14 @@
 namespace Yoast\WP\SEO\Tests\Unit\Actions\Importing;
 
 use Mockery;
+use wpdb;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Actions\Importing\Aioseo\Aioseo_Posts_Importing_Action;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Import_Cursor_Helper;
-use Yoast\WP\SEO\Helpers\Meta_Helper;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Indexable_To_Postmeta_Helper;
+use Yoast\WP\SEO\Helpers\Meta_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Sanitization_Helper;
 use Yoast\WP\SEO\Helpers\Wpdb_Helper;
@@ -57,7 +58,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 	/**
 	 * The mocked WordPress database object.
 	 *
-	 * @var Mockery\MockInterface|\wpdb
+	 * @var Mockery\MockInterface|wpdb
 	 */
 	protected $wpdb;
 
@@ -269,9 +270,9 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 	 * @covers ::index
 	 */
 	public function test_donot_map( $aioseo_indexables, $is_default, $check_if_default_times, $cursor_value ) {
-		if ( ! defined( 'ARRAY_A' ) ) {
+		if ( ! \defined( 'ARRAY_A' ) ) {
 			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound
-			define( 'ARRAY_A', 'ARRAY_A' );
+			\define( 'ARRAY_A', 'ARRAY_A' );
 		}
 		$indexable = Mockery::mock( Indexable_Mock::class );
 
@@ -715,14 +716,14 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 	 * Tests importing the og and twitter image url.
 	 *
 	 * @param bool   $aioseo_social_image_settings AIOSEO's set of social image settings for the post.
-	 * @param array  $mapping                     The mapping of the setting we're working with.
-	 * @param int    $expected_url                The URL that's expected to be imported.
-	 * @param int    $sanitize_url_times          The times we're sanitizing the retrieved url.
-	 * @param string $provider_method             The method we're using from the social images provider.
-	 * @param int    $provider_times              The times we're using the social images provider.
-	 * @param mixed  $provider_result             The result the social images provider returns.
-	 * @param int    $get_default_times           The times we're getting the default url.
-	 * @param string $social_setting              The social settings we use to get the default url.
+	 * @param array  $mapping                      The mapping of the setting we're working with.
+	 * @param int    $expected_url                 The URL that's expected to be imported.
+	 * @param int    $sanitize_url_times           The times we're sanitizing the retrieved url.
+	 * @param string $provider_method              The method we're using from the social images provider.
+	 * @param int    $provider_times               The times we're using the social images provider.
+	 * @param mixed  $provider_result              The result the social images provider returns.
+	 * @param int    $get_default_times            The times we're getting the default url.
+	 * @param string $social_setting               The social settings we use to get the default url.
 	 *
 	 * @dataProvider provider_social_image_url_import
 	 * @covers ::social_image_url_import

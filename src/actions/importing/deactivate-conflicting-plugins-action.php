@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Actions\Importing;
 
-use wpdb;
 use Yoast\WP\SEO\Conditionals\Updated_Importer_Framework_Conditional;
 use Yoast\WP\SEO\Config\Conflicting_Plugins;
 use Yoast\WP\SEO\Helpers\Import_Cursor_Helper;

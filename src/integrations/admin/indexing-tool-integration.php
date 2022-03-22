@@ -14,9 +14,9 @@ use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Presenters\Admin\Indexing_Error_Presenter;
 use Yoast\WP\SEO\Presenters\Admin\Indexing_List_Item_Presenter;
-use Yoast\WP\SEO\Services\Importing\Importable_Detector_Service;
 use Yoast\WP\SEO\Routes\Importing_Route;
 use Yoast\WP\SEO\Routes\Indexing_Route;
+use Yoast\WP\SEO\Services\Importing\Importable_Detector_Service;
 
 /**
  * Class Indexing_Tool_Integration. Bridge to the Javascript indexing tool on Yoast SEO Tools page.

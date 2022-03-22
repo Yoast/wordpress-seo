@@ -2,19 +2,19 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Actions\Importing;
 
-use Mockery;
 use Brain\Monkey;
+use Mockery;
 use Yoast\WP\SEO\Actions\Importing\Aioseo\Aioseo_Custom_Archive_Settings_Importing_Action;
 use Yoast\WP\SEO\Helpers\Import_Cursor_Helper;
 use Yoast\WP\SEO\Helpers\Import_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Helpers\Sanitization_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
+use Yoast\WP\SEO\Helpers\Sanitization_Helper;
 use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Replacevar_Service;
 use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Provider_Service;
 use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Transformer_Service;
-use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Actions\Importing\Aioseo_Custom_Archive_Settings_Importing_Action_Double;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Aioseo_Custom_Archive_Settings_Importing_Action_Test class
