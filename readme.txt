@@ -265,24 +265,6 @@ Other:
 = 18.3 =
 Release Date: March 8th, 2022
 
-In Yoast SEO 18.4, we're launching a new integration with an innovative new service called [WordProof](https://wordproof.com/). WordProof offers a way to add timestamps to your content and add those to the blockchain to prove ownership. Try it out now! Read more about what's new in Yoast SEO 18.4 in [our release post in English](https://yoa.st/release-22-3-22) or [our release post in Spanish](https://yoa.st/release-22-3-22-spanish)!
-
-Enhancements:
-
-* Adds the possibility to timestamp your Privacy Policy page and your WooCommerce Terms and Conditions page by use of a WordProof certificate.
-
-Bugfixes:
-
-* Fixes a bug where the Google preview would display wrong breadcrumbs for child pages.
-* Fixes a potential error related to the `has_ancestors` column of our indexables table. Props to @junaidbhura.
-
-Other:
-
-* Sets the minimum required WordPress version to 5.8.
-
-= 18.3 =
-Release Date: March 8th, 2022
-
 Meet Yoast SEO 18.3! For this release, we did another round of fixes and improvements. Read more about what's new in Yoast SEO 18.3 in [our release post in English](https://yoa.st/release-8-3-22) or [our release post in Spanish](https://yoa.st/release-8-3-22-spanish)!
 
 Enhancements:
