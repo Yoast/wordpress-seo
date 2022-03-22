@@ -479,35 +479,3 @@
 .yoast-related-keyphrases-modal__chart {
 	display: block;
 }
-
-.yoast-wordproof-modal {
-	max-width: 380px;
-	text-align: center;
-}
-
-.yoast-wordproof-modal-image {
-	display: flex;
-	justify-content: center;
-	margin-block: 40px;
-}
-
-.yoast-wordproof-modal-svg__webhook-failed {
-	width: 100%;
-}
-
-.yoast-wordproof-modal-svg__success {
-	width: 175px;
-}
-
-.yoast-wordproof-modal-action {
-	display: flex;
-	justify-content: center;
-	margin-top: 40px;
-	margin-bottom: 10px;
-}
-
-/* Override default button padding. */
-.yoast-wordproof-modal-action.yoast-wordproof-modal-action > button {
-	padding-left: 20px;
-	padding-right: 20px;
-}
