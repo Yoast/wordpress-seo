@@ -245,7 +245,7 @@ Enhancements:
 * Changes the `@id` for images for `Person` and `Organization`, including the `logo` attribute for the latter, to be more specific to the image.
 * Improves the `ImageObject` schema piece to use the URL of the main image in posts having Open Graph or Twitter images.
 * Adds a `wpseo_schema_graph` filter to allow filtering the entire Schema graph.
-* Adds a preliminary import action validating AIOSEO data before going into the actual import
+* Adds a preliminary import action validating AIOSEO data before going into the actual import.
 
 Bugfixes:
 
