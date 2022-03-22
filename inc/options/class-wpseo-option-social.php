@@ -219,8 +219,6 @@ class WPSEO_Option_Social extends WPSEO_Option {
 
 				/* Array fields. */
 				case 'other_social_urls':
-					$clean[ $key ] = $old[ $key ];
-
 					if ( isset( $dirty[ $key ] ) ) {
 						$items = $dirty[ $key ];
 						if ( ! is_array( $items ) ) {
@@ -228,7 +226,30 @@ class WPSEO_Option_Social extends WPSEO_Option {
 						}
 
 						if ( is_array( $items ) ) {
-							$clean[ $key ] = $dirty[ $key ];
+							foreach ( $items as $item_key => $item ) {
+								$submitted_url = trim( htmlspecialchars( $item, ENT_COMPAT, get_bloginfo( 'charset' ), true ) );
+								$validated_url = filter_var( WPSEO_Utils::sanitize_url( $submitted_url ), FILTER_VALIDATE_URL );
+
+								if ( $validated_url === false ) {
+									// Restore the previous URL values, if any.
+									$old_urls = ( isset( $old[ $key ] ) ) ? $old[ $key ] : [];
+									foreach ( $old_urls as $old_item_key => $old_url ) {
+										if ( $old_url !== '' ) {
+											$url = WPSEO_Utils::sanitize_url( $old_url );
+											if ( $url !== '' ) {
+												$clean[ $key ][ $old_item_key ] = $url;
+											}
+										}
+									}
+									break;
+								}
+
+								// The URL format is valid, let's sanitize it.
+								$url = WPSEO_Utils::sanitize_url( $validated_url );
+								if ( $url !== '' ) {
+									$clean[ $key ][ $item_key ] = $url;
+								}
+							}
 						}
 					}
 
