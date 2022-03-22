@@ -83,7 +83,6 @@ class Wincher_Test extends TestCase {
 		$this->instance->register_hooks();
 
 		$this->assertNotFalse( Monkey\Filters\has( 'wpseo_integration_toggles', [ $this->instance, 'add_integration_toggle' ] ) );
-
 		$this->assertNotFalse( Monkey\Actions\has( 'Yoast\WP\SEO\admin_integration_after', [ $this->instance, 'after_integration_toggle'	] ) );
 	}
 
