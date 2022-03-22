@@ -254,7 +254,7 @@ Bugfixes:
 * Fixes a bug where in certain edge cases a database error would show during AIOSEO clean up.
 * Fixes a bug where reusable block content would not be updated in our analysis when changed in the editor.
 * Fixes a bug where the Google preview would display wrong breadcrumbs for child pages.
-* Fixes a potential error related to the `has_ancestors` column of our indexables table. Props to @junaidbhura.
+* Fixes a potential error related to the `has_ancestors` column of our indexables table. Props to [junaidbhura](https://github.com/junaidbhura).
 
 Other:
 
