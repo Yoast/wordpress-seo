@@ -1,4 +1,6 @@
-@import "./all.css";
+// Requires Sass Dash
+@import "../node_modules/sassdash/scss/sassdash";
+@import "./all";
 
 body {
 	background: #f1f1f1;
