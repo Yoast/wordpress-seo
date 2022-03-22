@@ -144,10 +144,10 @@ describe( "Replacement variables", () => {
 			{
 				name: "test",
 				getLabel: () => "Test",
-				getReplacement,
+				getReplacement
 			},
 		] );
 
-		expect( variables ).toContainEqual( { name: "test", label: "Test", getReplacement, regexp: /%%test%%/g } );
+		expect( variables ).toContainEqual( { name: "test", label: "Test", getReplacement, regexp: /%%test%%/g, isRecommended: false, isVisible: true } );
 	} );
 } );

@@ -12,23 +12,18 @@ jest.mock( "../../../src/lib/tinymce", () => ( {
 jest.mock( "../../../src/analysis/getContentLocale", () => jest.fn( () => "" ) );
 
 describe( "a test for retrieving data from dom", () => {
-	it( "should return the term excerpt retrieved from post content", () => {
+	it( "should return the correct default meta description limit", () => {
 		getContentLocale.mockImplementation( () => "en_US" );
 
 		expect( dom.getMetaDescriptionLimit() ).toEqual( 156 );
-		expect( dom.getPostExcerpt() ).toEqual(
-			"Tortoiseshell is a cat coat coloring named for its similarity to tortoiseshell material. " +
-			"Like calicos, tortoiseshell cats are almost exclusively female." );
 	} );
 } );
 
 describe( "a test for retrieving data from dom with another locale setting", () => {
-	it( "should return the term excerpt retrieved from post content, but use the limit for Japanese", () => {
+	it( "should return the meta description limit for Japanese", () => {
 		getContentLocale.mockImplementation( () => "ja" );
 
 		expect( dom.getMetaDescriptionLimit() ).toEqual( 80 );
-		expect( dom.getPostExcerpt() ).toEqual(
-			"Tortoiseshell is a cat coat coloring named for its similarity to tortoiseshell" );
 	} );
 } );
 
@@ -190,6 +185,20 @@ describe( "a test for retrieving term slug from the DOM", () => {
 	it( "should overwrite the term slug value with the new value that is passed", () => {
 		expect( dom.setTermSlug( "how-to-adopt-cat" ) ).toEqual( slugElement );
 		expect( dom.getTermSlug() ).toEqual( "how-to-adopt-cat" );
+	} );
+} );
+
+describe( "a test for retrieving the post excerpt from the DOM", () => {
+	const excerptElement = document.createElement( "input" );
+	excerptElement.setAttribute( "id", "excerpt" );
+	excerptElement.setAttribute( "value", "Tortoiseshell is a cat coat coloring named for its similarity to tortoiseshell material. " +
+		"Like calicos, tortoiseshell cats are almost exclusively female." );
+
+	document.body.appendChild( excerptElement );
+
+	it( "should return the post excerpt", () => {
+		expect( dom.getPostExcerpt() ).toEqual( "Tortoiseshell is a cat coat coloring named for its similarity to tortoiseshell material. " +
+			"Like calicos, tortoiseshell cats are almost exclusively female." );
 	} );
 } );
 

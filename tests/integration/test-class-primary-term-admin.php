@@ -106,12 +106,13 @@ class WPSEO_Primary_Term_Admin_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Primary_Term_Admin::enqueue_assets
 	 */
 	public function test_enqueue_assets_WITH_taxonomies_DO_enqueue_scripts() {
-		global $pagenow;
+		global $pagenow, $hook_suffix;
 
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 		$asset_manager->register_assets();
 
 		$pagenow = 'post-new.php';
+		$hook_suffix = $pagenow;
 
 		$taxonomies = [
 			'category' => (object) [
