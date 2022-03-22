@@ -217,7 +217,7 @@ class Front_End_Integration implements Integration_Interface {
 	 * to avoid duplicate and/or mismatched metadata.
 	 */
 	public function register_hooks() {
-		\add_action( 'wp_head', [ $this, 'call_wpseo_head' ], 1 );
+		\add_action( 'wp_head', [ $this, 'call_wpseo_head' ], \apply_filters( 'wpseo_head_priority', 1 ) );
 		// Filter the title for compatibility with other plugins and themes.
 		\add_filter( 'wp_title', [ $this, 'filter_title' ], 15 );
 		// Filter the title for compatibility with block-based themes.
