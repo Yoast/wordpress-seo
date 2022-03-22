@@ -117,6 +117,9 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 * Adds a Japanese full text test.
 * Recognises internal link if the site's host is null but the site domain and the link host are the same.
 * Adds documentation of the scoring criteria of the assessments.
+* Edits the links to two documentation files and the size of the image displaying the assessments bullets.
+* Adds links between newly created readme files and edit two minor typos.
+* Refactors the `isInternalLink` helper to improve clarity.
 
 
 ## 1.92.0
