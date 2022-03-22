@@ -13,8 +13,8 @@ module.exports = {
 		// Compile the @yoast/configuration-wizard scss
 		"@yoast/components/src/configuration-wizard/configuration-wizard.css",
 
-		// Compile the yoast-components standalone .css
-		"yoast-components/css/standalone.css",
+		// Compile the yoast-components standalone .scss
+		"yoast-components/css/standalone.scss",
 
 		// Bundle the client for webpack-dev-server
 		// And connect to the provided endpoint
