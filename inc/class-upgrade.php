@@ -872,7 +872,7 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Performs the 18.5 upgrade routine.
+	 * Performs the 18.6 upgrade routine.
 	 */
 	private function upgrade_186() {
 		if ( is_multisite() ) {
