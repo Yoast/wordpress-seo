@@ -269,6 +269,7 @@ class WPSEO_Options {
 	 */
 	public static function clear_cache() {
 		static::$option_values = null;
+		YoastSEO()->helpers->options->clear_cache();
 	}
 
 	/**

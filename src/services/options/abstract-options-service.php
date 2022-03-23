@@ -257,6 +257,17 @@ abstract class Abstract_Options_Service {
 	}
 
 	/**
+	 * Clears the cache.
+	 *
+	 * @return void
+	 */
+	public function clear_cache() {
+		$this->cached_configurations = null;
+		$this->cached_defaults       = null;
+		$this->cached_values         = null;
+	}
+
+	/**
 	 * Sets an option value, without checks.
 	 *
 	 * @param string $key   The option key.

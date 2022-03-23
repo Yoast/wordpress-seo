@@ -111,6 +111,15 @@ class Options_Helper {
 	}
 
 	/**
+	 * Clears the cache.
+	 *
+	 * @return void
+	 */
+	public function clear_cache() {
+		$this->site_options_service->clear_cache();
+	}
+
+	/**
 	 * Retrieves the title separator.
 	 *
 	 * @return string The title separator.
