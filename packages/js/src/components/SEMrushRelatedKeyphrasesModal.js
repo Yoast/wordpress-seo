@@ -190,6 +190,7 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 						onRequestClose={ this.onModalClose }
 						icon={ <YoastIcon /> }
 						additionalClassName="yoast-related-keyphrases-modal"
+						shouldCloseOnClickOutside={ false }
 					>
 						<ModalContainer
 							className="yoast-gutenberg-modal__content yoast-related-keyphrases-modal__content"
