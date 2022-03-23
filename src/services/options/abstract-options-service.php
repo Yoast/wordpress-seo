@@ -273,7 +273,7 @@ abstract class Abstract_Options_Service {
 			}
 
 			// Merge the configurations.
-			$this->cached_configurations = \array_merge( $additional_configurations, $this->configurations );
+			$this->cached_configurations = \array_merge( $additional_configurations, $this->expand_configurations( $this->configurations ) );
 		}
 
 		return $this->cached_configurations;
@@ -345,5 +345,48 @@ abstract class Abstract_Options_Service {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Expands the post types & taxonomies "wildcards" in the configurations.
+	 *
+	 * @param array $configurations The configurations to expand.
+	 *
+	 * @return array The expanded configurations.
+	 */
+	protected function expand_configurations( array $configurations ) {
+		$config = $this->expand_configurations_for( $configurations, '<PostTypeName>', \get_post_types( [ 'public' => true ] ) );
+
+		return $this->expand_configurations_for( $config, '<TaxonomyName>', \get_taxonomies( [ 'public' => true ] ) );
+	}
+
+	/**
+	 * Expands the configurations for a given search, using the names.
+	 *
+	 * This removes the found configuration and replaces it with variants, using the names.
+	 *
+	 * @param array    $configurations The configurations to expand.
+	 * @param string   $search         The text to replace.
+	 * @param string[] $names          The names to use as replacement.
+	 *
+	 * @return array The expanded configurations.
+	 */
+	protected function expand_configurations_for( array $configurations, $search, array $names ) {
+		$config = [];
+
+		foreach ( $configurations as $option => $configuration ) {
+			$index = \strpos( $option, $search );
+			// Keep other configurations.
+			if ( $index === false ) {
+				$config[ $option ] = $configuration;
+				continue;
+			}
+			// Expand the names as configurations.
+			foreach ( $names as $name ) {
+				$config[ \str_replace( $search, $name, $option ) ] = $configuration;
+			}
+		}
+
+		return $config;
 	}
 }
