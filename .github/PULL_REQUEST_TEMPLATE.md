@@ -64,7 +64,7 @@ This PR affects the following parts of the plugin, which may require extra testi
 
 ## Other environments
 
-* [ ] This PR also affects Shopify. I have added a changelog entry starting with `[shopify-seo]` and I have added test instructions for Shopify.
+* [ ] This PR also affects Shopify. I have added a changelog entry starting with `[shopify-seo]`, added test instructions for Shopify and attached the `Shopify` label to this PR.
 
 ## Documentation
 
