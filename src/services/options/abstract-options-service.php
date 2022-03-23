@@ -250,7 +250,30 @@ abstract class Abstract_Options_Service {
 	 */
 	public function get_configurations() {
 		if ( $this->cached_configurations === null ) {
-			$this->cached_configurations = $this->configurations;
+			/**
+			 * Filter 'wpseo_additional_option_configurations' - Allows developers to add option configurations.
+			 *
+			 * @see Abstract_Options_Service::$configurations
+			 *
+			 * @api array The option configurations.
+			 */
+			$additional_configurations = \apply_filters( 'wpseo_additional_option_configurations', [] );
+
+			// Ignore invalid filter result.
+			if ( ! \is_array( $additional_configurations ) ) {
+				$additional_configurations = [];
+			}
+			else {
+				// Filter out invalid configurations.
+				$additional_configurations = \array_filter(
+					$additional_configurations,
+					[ $this, 'is_valid_configuration' ],
+					ARRAY_FILTER_USE_BOTH
+				);
+			}
+
+			// Merge the configurations.
+			$this->cached_configurations = \array_merge( $additional_configurations, $this->configurations );
 		}
 
 		return $this->cached_configurations;
@@ -290,5 +313,37 @@ abstract class Abstract_Options_Service {
 		$this->cached_values[ $key ] = $value;
 		// Save to the database.
 		\update_option( $this->option_name, $this->cached_values );
+	}
+
+	/**
+	 * Determines if the passed configuration is valid.
+	 *
+	 * @param mixed $configuration The configuration.
+	 * @param mixed $option        The name of the option.
+	 *
+	 * @return bool Whether the configuration is valid.
+	 */
+	protected function is_valid_configuration( $configuration, $option ) {
+		if ( ! \is_string( $option ) ) {
+			return false;
+		}
+
+		if ( ! \is_array( $configuration ) ) {
+			return false;
+		}
+
+		if ( ! \array_key_exists( 'default', $configuration ) ) {
+			return false;
+		}
+
+		if ( ! \array_key_exists( 'types', $configuration ) ) {
+			return false;
+		}
+
+		if ( ! \is_array( $configuration['types'] ) ) {
+			return false;
+		}
+
+		return true;
 	}
 }
