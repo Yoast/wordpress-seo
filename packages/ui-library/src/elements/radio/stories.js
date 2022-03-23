@@ -32,6 +32,9 @@ export const Variants = ( args ) => (
 	<div className="yst-flex yst-flex-col yst-gap-4">
 		<Radio id="radio-1" name="name" value="1" label="I am a radio button." />
 		<hr />
-		<Radio id="radio-2" name="name" value="2" label="Y" variant="inline-block" />
+		<Radio id="radio-2" name="name" value="2" srLabel="Option #2" label="2" variant="inline-block" />
 	</div>
 );
+Variants.parameters = {
+	docs: { description: { story: "In the `inline-block` variant, the `srLabel` prop is used to provide screen readers with a useful label." } },
+};
