@@ -8,9 +8,11 @@ namespace Yoast\WP\SEO\Services\Options;
 class Multisite_Options_Service extends Abstract_Options_Service {
 
 	/**
-	 * The options.
+	 * Holds the multisite' network option configurations.
 	 *
-	 * @var array
+	 * {@inheritDoc}
+	 *
+	 * @var array[string]
 	 */
 	protected $configurations = [
 		'access' => [

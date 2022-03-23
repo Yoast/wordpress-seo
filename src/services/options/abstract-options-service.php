@@ -12,14 +12,14 @@ use Yoast\WP\SEO\Helpers\Validation_Helper;
 abstract class Abstract_Options_Service {
 
 	/**
-	 * Holds the WordPress options' option name.
+	 * Holds the name of the options row in the database.
 	 *
 	 * @var string
 	 */
 	protected $option_name;
 
 	/**
-	 * Holds the site option configurations.
+	 * Holds the option configurations.
 	 *
 	 * Note that if one "type check" passes, the whole option validation passes.
 	 *
@@ -39,33 +39,40 @@ abstract class Abstract_Options_Service {
 	protected $configurations = [];
 
 	/**
+	 * Holds the cached option configurations.
+	 *
+	 * @var array[string]
+	 */
+	protected $cached_configurations = null;
+
+	/**
 	 * Holds the cached option values.
 	 *
 	 * @var array
 	 */
-	protected $values = null;
+	protected $cached_values = null;
 
 	/**
 	 * Holds the cached option default values.
 	 *
 	 * @var array
 	 */
-	protected $defaults = null;
+	protected $cached_defaults = null;
 
 	/**
 	 * Holds the validation helper instance.
 	 *
 	 * @var Validation_Helper
 	 */
-	protected $validation;
+	protected $validation_helper;
 
 	/**
 	 * Constructs an options service instance.
 	 *
-	 * @param Validation_Helper $validation The validation helper.
+	 * @param Validation_Helper $validation_helper The validation helper.
 	 */
-	public function __construct( Validation_Helper $validation ) {
-		$this->validation = $validation;
+	public function __construct( Validation_Helper $validation_helper ) {
+		$this->validation_helper = $validation_helper;
 	}
 
 	/**
@@ -128,7 +135,7 @@ abstract class Abstract_Options_Service {
 			throw new Missing_Configuration_Key_Exception( $key, 'types' );
 		}
 		// Validate, this can throw a Validation_Exception.
-		$value = $this->validation->validate_as( $value, $this->configurations[ $key ]['types'] );
+		$value = $this->validation_helper->validate_as( $value, $this->configurations[ $key ]['types'] );
 
 		$this->set_option( $key, $value );
 	}
@@ -184,14 +191,14 @@ abstract class Abstract_Options_Service {
 	 * @return array The default values.
 	 */
 	public function get_defaults() {
-		if ( $this->defaults === null ) {
-			$this->defaults = \array_combine(
-				\array_keys( $this->configurations ),
-				\array_column( $this->configurations, 'default' )
+		if ( $this->cached_defaults === null ) {
+			$this->cached_defaults = \array_combine(
+				\array_keys( $this->get_configurations() ),
+				\array_column( $this->get_configurations(), 'default' )
 			);
 		}
 
-		return $this->defaults;
+		return $this->cached_defaults;
 	}
 
 	/**
@@ -217,23 +224,36 @@ abstract class Abstract_Options_Service {
 	 * @return array The values.
 	 */
 	protected function get_values() {
-		if ( $this->values === null ) {
-			$this->values = \get_option( $this->option_name );
+		if ( $this->cached_values === null ) {
+			$this->cached_values = \get_option( $this->option_name );
 			// Database row does not exist. We need an array.
-			if ( ! $this->values ) {
-				$this->values = [];
+			if ( ! $this->cached_values ) {
+				$this->cached_values = [];
 			}
 
 			// Fill with default value when the database value is missing.
 			$defaults = $this->get_defaults();
 			foreach ( $defaults as $option => $default_value ) {
-				if ( ! \array_key_exists( $option, $this->values ) ) {
-					$this->values[ $option ] = $default_value;
+				if ( ! \array_key_exists( $option, $this->cached_values ) ) {
+					$this->cached_values[ $option ] = $default_value;
 				}
 			}
 		}
 
-		return $this->values;
+		return $this->cached_values;
+	}
+
+	/**
+	 * Retrieves the (cached) option configurations.
+	 *
+	 * @return array The option configurations.
+	 */
+	public function get_configurations() {
+		if ( $this->cached_configurations === null ) {
+			$this->cached_configurations = $this->configurations;
+		}
+
+		return $this->cached_configurations;
 	}
 
 	/**
@@ -246,18 +266,18 @@ abstract class Abstract_Options_Service {
 	 */
 	protected function set_option( $key, $value ) {
 		// Ensure the cache is filled.
-		if ( $this->values === null ) {
+		if ( $this->cached_values === null ) {
 			$this->get_values();
 		}
 
 		// Only save when changed.
-		if ( $value === $this->values[ $key ] ) {
+		if ( $value === $this->cached_values[ $key ] ) {
 			return;
 		}
 
 		// Update the cache.
-		$this->values[ $key ] = $value;
+		$this->cached_values[ $key ] = $value;
 		// Save to the database.
-		\update_option( $this->option_name, $this->values );
+		\update_option( $this->option_name, $this->cached_values );
 	}
 }
