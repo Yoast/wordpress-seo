@@ -78,7 +78,7 @@ class Wincher implements Integration_Interface {
 					'Wincher'
 				),
 				'order'    => 11,
-				'disabled' => ( ! $this->wincher->is_active() ),
+				'disabled' => ( $this->wincher->is_disabled() ),
 			];
 		}
 
@@ -100,10 +100,10 @@ class Wincher implements Integration_Interface {
 
 			if ( $integration->disabled ) {
 
-				$conditional = $this->wincher->is_active( true );
+				$conditional = $this->wincher->is_disabled( true );
 
 				if ( $conditional === 'Non_Multisite_Conditional' ) {
-					echo $this->get_disabled_note();
+					$this->get_disabled_note();
 				}
 			}
 		}
@@ -117,17 +117,17 @@ class Wincher implements Integration_Interface {
 	public function after_network_integration_toggle( $integration ) {
 		if ( $integration->setting === 'wincher_integration_active' ) {
 			if ( $integration->disabled ) {
-				echo $this->get_disabled_note();
+				$this->get_disabled_note();
 			}
 		}
 	}
 
 	/** The disabled note */
 	protected function get_disabled_note() {
-		return '<p>' . \sprintf(
+		echo '<p>' . \sprintf(
 			/* translators: %s expands to Wincher */
-				\esc_html__( 'Currently, the %s integration is not available for multisites.', 'wordpress-seo' ),
-				'Wincher'
-			) . '</p>';
+			\esc_html__( 'Currently, the %s integration is not available for multisites.', 'wordpress-seo' ),
+			'Wincher'
+		) . '</p>';
 	}
 }

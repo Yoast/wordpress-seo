@@ -94,7 +94,7 @@ class Wincher_Test extends TestCase {
 	public function test_add_integration_toggle() {
 		Monkey\Functions\stubTranslationFunctions();
 
-		$this->wincher->expects( 'is_active' )->once()->andReturnTrue();
+		$this->wincher->expects( 'is_disabled' )->once()->andReturnFalse();
 
 		$result = $this->instance->add_integration_toggle(
 			[
@@ -137,7 +137,7 @@ class Wincher_Test extends TestCase {
 			'disabled' => true,
 		];
 
-		$this->wincher->expects( 'is_active' )->once()->andReturn( 'Non_Multisite_Conditional' );
+		$this->wincher->expects( 'is_disabled' )->once()->andReturn( 'Non_Multisite_Conditional' );
 		$this->instance->expects( 'get_disabled_note' )->once();
 
 		$this->instance->after_integration_toggle( $wincher_integration_toggle );
@@ -166,6 +166,6 @@ class Wincher_Test extends TestCase {
 	 * @covers ::get_disabled_note
 	 */
 	public function test_get_disabled_note() {
-		$this->assertContains( 'Currently, the Wincher integration is not available for multisites.', $this->instance->get_disabled_note() );
+		$this->expectOutputString( '<p>Currently, the Wincher integration is not available for multisites.</p>', $this->instance->get_disabled_note() );
 	}
 }

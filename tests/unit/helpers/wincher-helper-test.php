@@ -76,12 +76,12 @@ class Wincher_Helper_Test extends TestCase {
 	}
 
 	/**
-	 * Test return if conditionals are met.
+	 * Test return option.
 	 *
 	 * @covers ::is_active
 	 */
 	public function test_is_active() {
-		Monkey\Functions\expect( 'current_user_can' )->andReturn( true );
+		$this->instance->expects( 'is_disabled' )->andReturnFalse();
 
 		$this->options->expects( 'get' )->andReturn( true );
 
@@ -89,40 +89,55 @@ class Wincher_Helper_Test extends TestCase {
 	}
 
 	/**
-	 * Test return conditional if conditionals are unmet.
+	 * Test return if conditionals are met.
 	 *
-	 * @covers ::is_active
+	 * @covers ::is_disabled
 	 */
-	public function test_is_active_unmet() {
-		Monkey\Functions\stubs( [
-			'is_multisite' => true,
-		] );
+	public function test_is_disabled() {
+		Monkey\Functions\expect( 'current_user_can' )->andReturn( true );
 
-		$this->assertFalse( $this->instance->is_active() );
+		$this->assertFalse( $this->instance->is_disabled() );
 	}
 
 	/**
 	 * Test return conditional if conditionals are unmet.
 	 *
-	 * @covers ::is_active
+	 * @covers ::is_disabled
 	 */
-	public function test_is_active_unmet_conditional_return() {
-		Monkey\Functions\stubs( [
-			'is_multisite' => true,
-		] );
+	public function test_is_disabled_unmet() {
+		Monkey\Functions\stubs(
+			[
+				'is_multisite' => true,
+			]
+		);
 
-		$this->assertEquals( 'Non_Multisite_Conditional', $this->instance->is_active( true ) );
+		$this->assertTrue( $this->instance->is_disabled() );
+	}
+
+	/**
+	 * Test return conditional if conditionals are unmet.
+	 *
+	 * @covers ::is_disabled
+	 */
+	public function test_is_disabled_unmet_conditional_return() {
+		Monkey\Functions\stubs(
+			[
+				'is_multisite' => true,
+			]
+		);
+
+		$this->assertEquals( 'Non_Multisite_Conditional', $this->instance->is_disabled( true ) );
 	}
 
 	/**
 	 * Test return if capabilities are unmet.
 	 *
-	 * @covers ::is_active
+	 * @covers ::is_disabled
 	 */
-	public function test_is_active_unmet_capabilities() {
+	public function test_is_disabled_unmet_capabilities() {
 		Monkey\Functions\expect( 'current_user_can' )->andReturn( false );
 
-		$this->assertFalse( $this->instance->is_active() );
+		$this->assertTrue( $this->instance->is_disabled() );
 	}
 
 	/**
