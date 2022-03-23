@@ -42,12 +42,11 @@ Checkbox.propTypes = {
 	id: PropTypes.string.isRequired,
 	name: PropTypes.string.isRequired,
 	value: PropTypes.string.isRequired,
-	label: PropTypes.node,
+	label: PropTypes.node.isRequired,
 	className: PropTypes.string,
 };
 
 Checkbox.defaultProps = {
-	label: null,
 	className: "",
 };
 

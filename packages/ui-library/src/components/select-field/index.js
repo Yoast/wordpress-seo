@@ -54,7 +54,7 @@ SelectField.propTypes = {
 	id: PropTypes.string.isRequired,
 	name: PropTypes.string.isRequired,
 	value: PropTypes.string,
-	label: PropTypes.node,
+	label: PropTypes.node.isRequired,
 	options: PropTypes.arrayOf( PropTypes.shape( {
 		value: PropTypes.string.isRequired,
 		label: PropTypes.string.isRequired,
@@ -67,7 +67,6 @@ SelectField.propTypes = {
 SelectField.defaultProps = {
 	children: null,
 	value: undefined,
-	label: null,
 	error: null,
 	className: "",
 };

@@ -62,7 +62,7 @@ CheckboxGroup.propTypes = {
 	id: PropTypes.string.isRequired,
 	name: PropTypes.string.isRequired,
 	values: PropTypes.arrayOf( PropTypes.string ),
-	label: PropTypes.node,
+	label: PropTypes.node.isRequired,
 	options: PropTypes.arrayOf( PropTypes.shape( {
 		value: PropTypes.string.isRequired,
 		label: PropTypes.string.isRequired,
@@ -74,7 +74,6 @@ CheckboxGroup.propTypes = {
 CheckboxGroup.defaultProps = {
 	children: null,
 	values: [],
-	label: null,
 	className: "",
 };
 
