@@ -10,7 +10,10 @@ import SocialInputPersonSection from "./social-input-person-section.js";
 /**
  * Social profiles step component
  *
- * @param {Object} props The props object.
+ * @param {Object}   props                The props object.
+ * @param {Object}   props.state          The container's state
+ * @param {function} props.dispatch       The function to update the container's state.
+ * @param {function} props.setErrorFields The function to keep track of which text fields are not valid
  *
  * @returns {WPElement} The social profiles step.
  */
