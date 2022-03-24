@@ -479,4 +479,195 @@ class Site_Options_Service_Test extends TestCase {
 
 		$this->instance->get_default( 'unknown' );
 	}
+
+	/**
+	 * Tests that the configurations are not null.
+	 *
+	 * @covers ::get_configurations
+	 */
+	public function test_get_configurations() {
+		Monkey\Filters\expectApplied( 'wpseo_additional_option_configurations' )
+			->with( [] )
+			->once()
+			->andReturn( [] );
+
+		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
+		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->andReturn( [] );
+
+		$this->assertNotNull( $this->instance->get_configurations() );
+	}
+
+	/**
+	 * Tests that configurations can be added.
+	 *
+	 * @covers ::get_configurations
+	 * @covers ::is_valid_configuration
+	 */
+	public function test_get_configurations_additional() {
+		Monkey\Filters\expectApplied( 'wpseo_additional_option_configurations' )
+			->with( [] )
+			->once()
+			->andReturn(
+				[
+					'test' => [
+						'default' => '',
+						'types'   => [],
+					],
+				]
+			);
+
+		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
+		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->andReturn( [] );
+
+		$this->assertArrayHasKey( 'test', $this->instance->get_configurations() );
+	}
+
+	/**
+	 * Tests that additional configurations must be of type array.
+	 *
+	 * @covers ::get_configurations
+	 * @covers ::is_valid_configuration
+	 */
+	public function test_get_configurations_additional_non_array() {
+		Monkey\Filters\expectApplied( 'wpseo_additional_option_configurations' )
+			->with( [] )
+			->once()
+			->andReturn( '' );
+
+		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
+		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->andReturn( [] );
+
+		$this->assertNotNull( $this->instance->get_configurations() );
+	}
+
+	/**
+	 * Tests that additional configurations are skipped when invalid.
+	 *
+	 * @dataProvider provide_invalid_configurations
+	 *
+	 * @covers ::get_configurations
+	 * @covers ::is_valid_configuration
+	 *
+	 * @param array      $configurations The configurations to add.
+	 * @param string|int $missing_key    The key to verify is missing.
+	 */
+	public function test_get_configurations_additional_is_invalid( $configurations, $missing_key ) {
+		Monkey\Filters\expectApplied( 'wpseo_additional_option_configurations' )
+			->with( [] )
+			->once()
+			->andReturn( $configurations );
+
+		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
+		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->andReturn( [] );
+
+		$this->assertArrayNotHasKey( $missing_key, $this->instance->get_configurations() );
+	}
+
+	/**
+	 * Provides invalid configurations.
+	 *
+	 * @return array[] Invalid configurations.
+	 */
+	public function provide_invalid_configurations() {
+		return [
+			'non_string_option'       => [
+				'configurations' => [
+					123 => [
+						'default' => '',
+						'types'   => [],
+					],
+				],
+				'missing'        => 123,
+			],
+			'non_array_configuration' => [
+				'configurations' => [
+					'test' => '',
+				],
+				'missing'        => 'test',
+			],
+			'missing_default'         => [
+				'configurations' => [
+					'test' => [
+						'types' => [],
+					],
+				],
+				'missing'        => 'test',
+			],
+			'missing_types'           => [
+				'configurations' => [
+					'test' => [
+						'default' => '',
+					],
+				],
+				'missing'        => 'test',
+			],
+			'non_array_types'         => [
+				'configurations' => [
+					'test' => [
+						'default' => '',
+						'types'   => 'non-array',
+					],
+				],
+				'missing'        => 'test',
+			],
+		];
+	}
+
+	/**
+	 * Tests that configurations are expanded.
+	 *
+	 * @covers ::get_configurations
+	 * @covers ::expand_configurations
+	 * @covers ::expand_configurations_for
+	 */
+	public function test_get_configurations_expanded() {
+		Monkey\Filters\expectApplied( 'wpseo_additional_option_configurations' )
+			->with( [] )
+			->once()
+			->andReturn( [] );
+
+		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [ 'test_post_type' ] );
+		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->andReturn( [ 'test_taxonomy' ] );
+
+		$configurations = $this->instance->get_configurations();
+
+		$this->assertArrayHasKey( 'metadesc-test_post_type', $configurations );
+		$this->assertArrayHasKey( 'metadesc-tax-test_taxonomy', $configurations );
+	}
+
+	/**
+	 * Tests that clear cache resets the cache.
+	 *
+	 * @covers ::clear_cache
+	 */
+	public function test_clear_cache() {
+		$this->assertNull( $this->getPropertyValue( $this->instance, 'cached_configurations' ) );
+		$this->assertNull( $this->getPropertyValue( $this->instance, 'cached_defaults' ) );
+		$this->assertNull( $this->getPropertyValue( $this->instance, 'cached_values' ) );
+
+		Monkey\Functions\expect( 'get_option' )
+			->with( 'wpseo_options' )
+			->once()
+			->andReturn( [] );
+
+		Monkey\Filters\expectApplied( 'wpseo_additional_option_configurations' )
+			->with( [] )
+			->once()
+			->andReturn( [] );
+
+		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
+		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->andReturn( [] );
+
+		$this->instance->get_options();
+
+		$this->assertNotNull( $this->getPropertyValue( $this->instance, 'cached_configurations' ) );
+		$this->assertNotNull( $this->getPropertyValue( $this->instance, 'cached_defaults' ) );
+		$this->assertNotNull( $this->getPropertyValue( $this->instance, 'cached_values' ) );
+
+		$this->instance->clear_cache();
+
+		$this->assertNull( $this->getPropertyValue( $this->instance, 'cached_configurations' ) );
+		$this->assertNull( $this->getPropertyValue( $this->instance, 'cached_defaults' ) );
+		$this->assertNull( $this->getPropertyValue( $this->instance, 'cached_values' ) );
+	}
 }
