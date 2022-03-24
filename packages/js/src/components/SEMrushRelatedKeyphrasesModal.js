@@ -171,7 +171,7 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 	 * @returns {wp.Element} The RelatedKeyPhrasesModal modal component.
 	 */
 	render() {
-		const { keyphrase, location, whichModalOpen, isLoggedIn } = this.props;
+		const { keyphrase, location, whichModalOpen, isLoggedIn, isElementorEditor } = this.props;
 
 		return (
 			<Fragment>
@@ -190,7 +190,8 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 						onRequestClose={ this.onModalClose }
 						icon={ <YoastIcon /> }
 						additionalClassName="yoast-related-keyphrases-modal"
-						shouldCloseOnClickOutside={ false }
+						// Don't close modal on outside click in Elementor
+						shouldCloseOnClickOutside={ ! isElementorEditor }
 					>
 						<ModalContainer
 							className="yoast-gutenberg-modal__content yoast-related-keyphrases-modal__content"
@@ -232,6 +233,7 @@ SEMrushRelatedKeyphrasesModal.propTypes = {
 	onOpenWithNoKeyphrase: PropTypes.func.isRequired,
 	onClose: PropTypes.func.isRequired,
 	onAuthentication: PropTypes.func.isRequired,
+	isElementorEditor: PropTypes.bool,
 };
 
 SEMrushRelatedKeyphrasesModal.defaultProps = {
@@ -239,6 +241,7 @@ SEMrushRelatedKeyphrasesModal.defaultProps = {
 	location: "",
 	whichModalOpen: "none",
 	isLoggedIn: false,
+	isElementorEditor: false,
 };
 
 export default SEMrushRelatedKeyphrasesModal;
