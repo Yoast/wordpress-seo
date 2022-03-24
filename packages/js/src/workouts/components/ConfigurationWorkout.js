@@ -133,6 +133,10 @@ function configurationWorkoutReducer( state, action ) {
 			newState = handleStepEdit( newState, 3 );
 			newState.personSocialProfiles = action.payload.socialProfiles;
 			return newState;
+		case "SET_CAN_EDIT_USER":
+			newState = handleStepEdit( newState, 2 );
+			newState.canEditUser = action.payload.value === true ? 1 : 0;
+			return newState;
 		case "CHANGE_SOCIAL_PROFILE":
 			newState = handleStepEdit( newState, 3 );
 			newState.socialProfiles[ action.payload.socialMedium ] = action.payload.value;
@@ -243,7 +247,7 @@ async function updateSocialProfiles( state ) {
 async function updatePersonSocialProfiles( state ) {
 	const socialProfiles = {
 		/* eslint-disable camelcase */
-		person_id: state.personId,
+		user_id: state.personId,
 		facebook: state.personSocialProfiles.facebook,
 		instagram: state.personSocialProfiles.instagram,
 		linkedin: state.personSocialProfiles.linkedin,
@@ -256,7 +260,6 @@ async function updatePersonSocialProfiles( state ) {
 		wikipedia: state.personSocialProfiles.wikipedia,
 		/* eslint-enable camelcase */
 	};
-
 	const response = await apiFetch( {
 		path: "yoast/v1/workouts/person_social_profiles",
 		method: "POST",
@@ -547,6 +550,9 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 	 */
 	function updateOnFinishSocialProfiles() {
 		if ( state.companyOrPerson === "person" ) {
+			if ( ! state.canEditUser ) {
+				return true;
+			}
 			return updatePersonSocialProfiles( state )
 				.then( () => setStepIsSaved( 3 ) )
 				.then( () => {
@@ -562,6 +568,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 						if ( e.failures ) {
 							setErrorFields( e.failures );
 						}
+						console.error( e );
 						return false;
 					}
 				);
