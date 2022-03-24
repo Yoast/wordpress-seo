@@ -34,24 +34,6 @@ class Configuration_Workout_Action {
 	];
 
 	/**
-	 * The fields for the person social profiles payload.
-	 */
-	// To be removed
-	const PERSON_SOCIAL_PROFILES_FIELDS = [
-		'facebook',
-		'twitter',
-		'instagram',
-		'linkedin',
-		'myspace',
-		'pinterest',
-		'soundcloud',
-		'tumblr',
-		'twitter',
-		'youtube',
-		'wikipedia',
-	];
-
-	/**
 	 * The Options_Helper instance.
 	 *
 	 * @var Options_Helper
@@ -162,10 +144,10 @@ class Configuration_Workout_Action {
 	 */
 	public function set_person_social_profiles( $params ) {
 		$failures = [];
-        // Validation to be added
+		// Validation to be added.
 		foreach ( Configuration_workout_helper::$person_social_profiles as $field_name ) {
 			if ( isset( $params[ $field_name ] ) ) {
-				\update_user_meta( $params['person_id'], $field_name, $params[ $field_name ] );
+				\update_user_meta( $params['user_id'], $field_name, $params[ $field_name ] );
 			}
 		}
 
@@ -186,14 +168,14 @@ class Configuration_Workout_Action {
 	/**
 	 * Gets the values for the social profiles.
 	 *
-	 * @param int $person_id the person id.
+	 * @param int $user_id the person id.
 	 *
 	 * @return object The response object.
 	 */
-	public function get_person_social_profiles( $person_id ) {
+	public function get_person_social_profiles( $user_id ) {
 		$social_profiles = [];
 		foreach ( Configuration_workout_helper::$person_social_profiles as $field_name ) {
-			$social_profiles[ $field_name ] = \get_user_meta( $person_id, $field_name, true );
+			$social_profiles[ $field_name ] = \get_user_meta( $user_id, $field_name, true );
 		}
 		return (object) [
 			'success'         => true,
@@ -227,6 +209,27 @@ class Configuration_Workout_Action {
 			'success' => false,
 			'status'  => 500,
 			'error'   => 'Could not save the option in the database',
+		];
+	}
+
+	/**
+	 * Checks if the current user has the capability a specific user.
+	 *
+	 * @param int $user_id The id of the user to be edited.
+	 *
+	 * @return object The response object.
+	 */
+	public function check_capability( $user_id ) {
+		if ( \current_user_can( 'edit_user', $user_id ) ) {
+			return (object) [
+				'success' => true,
+				'status'  => 200,
+			];
+		}
+
+		return (object) [
+			'success' => false,
+			'status'  => 403,
 		];
 	}
 }
