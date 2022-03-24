@@ -124,7 +124,7 @@ class Configuration_Workout_Integration implements Integration_Interface {
 
 		$this->admin_asset_manager->localize_script( 'indexation', 'yoastIndexingData', $data );
 
-		$social_profiles = $this->get_social_profiles();
+		$social_profiles        = $this->get_social_profiles();
 		$person_social_profiles = $this->get_person_social_profiles();
 
 		// This filter is documented in admin/views/tabs/metas/paper-content/general/knowledge-graph.php.
@@ -292,7 +292,7 @@ class Configuration_Workout_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Gets Wether or not current user can edit the selected person.
+	 * Gets wether or not current user can edit the selected person.
 	 *
 	 * @return bool Wether or not current user can edit the selected person.
 	 */
@@ -359,14 +359,14 @@ class Configuration_Workout_Integration implements Integration_Interface {
 	 * @return string[] The social profiles.
 	 */
 	private function get_person_social_profiles() {
-		$person_social_profiles= \array_combine( 
-			Configuration_workout_helper::$person_social_profiles, 
-			\array_fill(0, sizeof(Configuration_workout_helper::$person_social_profiles), "")
+		$person_social_profiles = \array_combine(
+			Configuration_workout_helper::$person_social_profiles,
+			\array_fill( 0, count( Configuration_workout_helper::$person_social_profiles ), '' )
 		);
 
-		if ($this->is_company_or_person() === "person") {
-			foreach (Configuration_workout_helper::$person_social_profiles as $field_name) {
-				$person_social_profiles[$field_name] = \get_user_meta($this->get_person_id(), $field_name, true);
+		if ( $this->is_company_or_person() === 'person' ) {
+			foreach ( Configuration_workout_helper::$person_social_profiles as $field_name ) {
+				$person_social_profiles[ $field_name ] = \get_user_meta( $this->get_person_id(), $field_name, true );
 			}
 		}
 
