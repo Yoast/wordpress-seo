@@ -1,3 +1,4 @@
+import apiFetch from "@wordpress/api-fetch";
 import { useCallback, createInterpolateElement, Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import PropTypes from "prop-types";
@@ -10,13 +11,15 @@ import ImageSelect from "../../base/image-select";
 /**
  * The Person section.
  *
- * @param {function} dispatch     The function to update the container's state.
- * @param {string}   imageUrl     The image URL.
- * @param {integer}  personId     The ID of the user.
- * @param {bool}     isDisabled   A flag to disable the field.
+ * @param {Object}   props             The props object.
+ * @param {function} props.dispatch    The function to update the container's state.
+ * @param {string}   props.imageUrl    The image URL.
+ * @param {integer}  props.personId    The ID of the user.
+ * @param {Boolean}  props.canEditUser Wether the current user can edit the selected person's profile.
+
  * @returns {WPElement} The person section.
  */
-export function PersonSection( { dispatch, imageUrl, person } ) {
+export function PersonSection( { dispatch, imageUrl, person, canEditUser } ) {
 	const openImageSelect = useCallback( () => {
 		openMedia( ( selectedImage ) => {
 			dispatch( { type: "SET_PERSON_LOGO", payload: { ...selectedImage } } );
@@ -30,31 +33,60 @@ export function PersonSection( { dispatch, imageUrl, person } ) {
 	const onUserChange = useCallback(
 		( selectedPerson ) => {
 			dispatch( { type: "SET_PERSON", payload: selectedPerson } );
+			apiFetch( {
+				path: `yoast/v1/workouts/check_capability?user_id=${ selectedPerson.value  }`,
+			} ).then( response => {
+				dispatch( { type: "SET_CAN_EDIT_USER", payload: { value: response.success } } );
+			} ).catch(
+				( e ) => {
+					console.error( e.message  );
+				}
+			);
 		},
 		[ dispatch ]
 	);
 
-	const userMessage = createInterpolateElement(
-		sprintf(
-			// translators: %1$s is replaced by the selected user's name, and %2$s and %3$s are opening and closing anchor tags.
-			__(
-				"You have selected the user %1$s as the person this site represents. This user profile information will now be used in search results. %2$sUpdate this profile to make sure the information is correct%3$s.",
-				"wordpress-seo"
+	const userMessage = canEditUser
+		? createInterpolateElement(
+			sprintf(
+				// translators: %1$s is replaced by the selected user's name, and %2$s and %3$s are opening and closing anchor tags.
+				__(
+					"You have selected the user %1$s as the person this site represents. This user profile information will now be used in search results. %2$sUpdate this profile to make sure the information is correct%3$s.",
+					"wordpress-seo"
+				),
+				`<b>${ person.name }</b>`,
+				"<a>",
+				"</a>"
 			),
-			`<b>${ person.name }</b>`,
-			"<a>",
-			"</a>"
-		),
-		{
-			b: <b />,
-			// eslint-disable-next-line jsx-a11y/anchor-has-content
-			a: <a
-				id="yoast-configuration-workout-user-selector-user-link"
-				href={ window.wpseoScriptData.searchAppearance.userEditUrl.replace( "{user_id}", person.id ) }
-				target="_blank" rel="noopener noreferrer"
-			/>,
-		}
-	);
+			{
+				b: <b />,
+				// eslint-disable-next-line jsx-a11y/anchor-has-content
+				a: <a
+					id="yoast-configuration-workout-user-selector-user-link"
+					href={ window.wpseoScriptData.searchAppearance.userEditUrl.replace( "{user_id}", person.id ) }
+					target="_blank" rel="noopener noreferrer"
+				/>,
+			}
+		)
+		:  createInterpolateElement(
+			sprintf(
+				// translators: %1$s is replaced by the selected user's name, and %2$s and %3$s are opening and closing anchor tags.
+				__(
+					"You have selected the user %1$s as the person this site represents. This user profile information will now be used in search results. You're not allowed to update this user profile, so please ask this user or an admin to make sure the information is correct..",
+					"wordpress-seo"
+				),
+				`<b>${ person.name }</b>`
+			),
+			{
+				b: <b />,
+				// eslint-disable-next-line jsx-a11y/anchor-has-content
+				a: <a
+					id="yoast-configuration-workout-user-selector-user-link"
+					href={ window.wpseoScriptData.searchAppearance.userEditUrl.replace( "{user_id}", person.id ) }
+					target="_blank" rel="noopener noreferrer"
+				/>,
+			}
+		);
 
 	return (
 		<Fragment>
@@ -93,6 +125,7 @@ PersonSection.propTypes = {
 		id: PropTypes.number,
 		name: PropTypes.string,
 	} ),
+	canEditUser: PropTypes.bool.isRequired,
 };
 
 PersonSection.defaultProps = {
