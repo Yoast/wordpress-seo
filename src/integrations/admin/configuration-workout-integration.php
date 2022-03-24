@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Routes\Indexing_Route;
-use Yoast\WP\SEO\Integrations\Admin\Configuration_workout_helper;
+use Yoast\WP\SEO\Integrations\Admin\Configuration_Workout_Helper;
 
 /**
  * ConfigurationWorkoutsIntegration class
@@ -360,12 +360,12 @@ class Configuration_Workout_Integration implements Integration_Interface {
 	 */
 	private function get_person_social_profiles() {
 		$person_social_profiles = \array_combine(
-			Configuration_workout_helper::$person_social_profiles,
-			\array_fill( 0, count( Configuration_workout_helper::$person_social_profiles ), '' )
+			Configuration_Workout_Helper::$person_social_profiles,
+			\array_fill( 0, count( Configuration_Workout_Helper::$person_social_profiles ), '' )
 		);
 
 		if ( $this->is_company_or_person() === 'person' ) {
-			foreach ( Configuration_workout_helper::$person_social_profiles as $field_name ) {
+			foreach ( Configuration_Workout_Helper::$person_social_profiles as $field_name ) {
 				$person_social_profiles[ $field_name ] = \get_user_meta( $this->get_person_id(), $field_name, true );
 			}
 		}

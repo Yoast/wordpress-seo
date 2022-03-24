@@ -3,7 +3,7 @@
 namespace Yoast\WP\SEO\Actions\Configuration;
 
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Integrations\Admin\Configuration_workout_helper;
+use Yoast\WP\SEO\Integrations\Admin\Configuration_Workout_Helper;
 
 /**
  * Class Configuration_Workout_Action.
@@ -145,7 +145,7 @@ class Configuration_Workout_Action {
 	public function set_person_social_profiles( $params ) {
 		$failures = [];
 		// Validation to be added.
-		foreach ( Configuration_workout_helper::$person_social_profiles as $field_name ) {
+		foreach ( Configuration_Workout_Helper::$person_social_profiles as $field_name ) {
 			if ( isset( $params[ $field_name ] ) ) {
 				\update_user_meta( $params['user_id'], $field_name, $params[ $field_name ] );
 			}
@@ -174,7 +174,7 @@ class Configuration_Workout_Action {
 	 */
 	public function get_person_social_profiles( $user_id ) {
 		$social_profiles = [];
-		foreach ( Configuration_workout_helper::$person_social_profiles as $field_name ) {
+		foreach ( Configuration_Workout_Helper::$person_social_profiles as $field_name ) {
 			$social_profiles[ $field_name ] = \get_user_meta( $user_id, $field_name, true );
 		}
 		return (object) [

@@ -7,7 +7,6 @@ use WP_REST_Response;
 use Yoast\WP\SEO\Actions\Configuration\Configuration_Workout_Action;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Main;
-use Yoast\WP\SEO\Integrations\Admin\Configuration_workout_helper;
 /**
  * Configuration_Workout_Route class.
  */
