@@ -21,11 +21,16 @@ class Options_Helper {
 	protected $site_options_service;
 
 	/**
-	 * Constructs the Site_Options_Service instance.
+	 * Sets the dependencies.
+	 *
+	 * This method is used instead of the constructor to avoid a circular dependency:
+	 * Site_Options_Service -> Post_Type_Helper -> Options_Helper.
 	 *
 	 * @param Site_Options_Service $site_options_service The site options service.
+	 *
+	 * @required
 	 */
-	public function __construct( Site_Options_Service $site_options_service ) {
+	public function set_dependencies( Site_Options_Service $site_options_service ) {
 		$this->site_options_service = $site_options_service;
 	}
 

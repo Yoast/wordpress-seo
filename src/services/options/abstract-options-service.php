@@ -4,6 +4,8 @@ namespace Yoast\WP\SEO\Services\Options;
 
 use Yoast\WP\SEO\Exceptions\Option\Missing_Configuration_Key_Exception;
 use Yoast\WP\SEO\Exceptions\Option\Unknown_Exception;
+use Yoast\WP\SEO\Helpers\Post_Type_Helper;
+use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Helpers\Validation_Helper;
 
 /**
@@ -67,12 +69,30 @@ abstract class Abstract_Options_Service {
 	protected $validation_helper;
 
 	/**
+	 * Holds the post type helper instance.
+	 *
+	 * @var Post_Type_Helper
+	 */
+	protected $post_type_helper;
+
+	/**
+	 * Holds the taxonomy helper instance.
+	 *
+	 * @var Taxonomy_Helper
+	 */
+	protected $taxonomy_helper;
+
+	/**
 	 * Constructs an options service instance.
 	 *
 	 * @param Validation_Helper $validation_helper The validation helper.
+	 * @param Post_Type_Helper  $post_type_helper  The post type helper.
+	 * @param Taxonomy_Helper   $taxonomy_helper   The taxonomy helper.
 	 */
-	public function __construct( Validation_Helper $validation_helper ) {
+	public function __construct( Validation_Helper $validation_helper, Post_Type_Helper $post_type_helper, Taxonomy_Helper $taxonomy_helper ) {
 		$this->validation_helper = $validation_helper;
+		$this->post_type_helper  = $post_type_helper;
+		$this->taxonomy_helper   = $taxonomy_helper;
 	}
 
 	/**
@@ -219,31 +239,6 @@ abstract class Abstract_Options_Service {
 	}
 
 	/**
-	 * Retrieves the (cached) values.
-	 *
-	 * @return array The values.
-	 */
-	protected function get_values() {
-		if ( $this->cached_values === null ) {
-			$this->cached_values = \get_option( $this->option_name );
-			// Database row does not exist. We need an array.
-			if ( ! $this->cached_values ) {
-				$this->cached_values = [];
-			}
-
-			// Fill with default value when the database value is missing.
-			$defaults = $this->get_defaults();
-			foreach ( $defaults as $option => $default_value ) {
-				if ( ! \array_key_exists( $option, $this->cached_values ) ) {
-					$this->cached_values[ $option ] = $default_value;
-				}
-			}
-		}
-
-		return $this->cached_values;
-	}
-
-	/**
 	 * Retrieves the (cached) option configurations.
 	 *
 	 * @return array The option configurations.
@@ -288,6 +283,31 @@ abstract class Abstract_Options_Service {
 		$this->cached_configurations = null;
 		$this->cached_defaults       = null;
 		$this->cached_values         = null;
+	}
+
+	/**
+	 * Retrieves the (cached) values.
+	 *
+	 * @return array The values.
+	 */
+	protected function get_values() {
+		if ( $this->cached_values === null ) {
+			$this->cached_values = \get_option( $this->option_name );
+			// Database row does not exist. We need an array.
+			if ( ! $this->cached_values ) {
+				$this->cached_values = [];
+			}
+
+			// Fill with default value when the database value is missing.
+			$defaults = $this->get_defaults();
+			foreach ( $defaults as $option => $default_value ) {
+				if ( ! \array_key_exists( $option, $this->cached_values ) ) {
+					$this->cached_values[ $option ] = $default_value;
+				}
+			}
+		}
+
+		return $this->cached_values;
 	}
 
 	/**
@@ -355,9 +375,9 @@ abstract class Abstract_Options_Service {
 	 * @return array The expanded configurations.
 	 */
 	protected function expand_configurations( array $configurations ) {
-		$config = $this->expand_configurations_for( $configurations, '<PostTypeName>', \get_post_types( [ 'public' => true ] ) );
+		$config = $this->expand_configurations_for( $configurations, '<PostTypeName>', $this->post_type_helper->get_public_post_types() );
 
-		return $this->expand_configurations_for( $config, '<TaxonomyName>', \get_taxonomies( [ 'public' => true ] ) );
+		return $this->expand_configurations_for( $config, '<TaxonomyName>', $this->taxonomy_helper->get_public_taxonomies() );
 	}
 
 	/**
