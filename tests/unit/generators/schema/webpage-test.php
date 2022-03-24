@@ -593,7 +593,7 @@ class WebPage_Test extends TestCase {
 					'datePublished'      => '2345-12-12 12:12:12',
 					'dateModified'       => '2345-12-12 23:23:23',
 					'breadcrumb'         => [ '@id' => 'https://example.com/the-post/#breadcrumb' ],
-					'primaryImageOfPage' => [ '@id' => 'https://example.com/the-post/#primaryimage' . md5( 'https://example.com/main_image' ) ],
+					'primaryImageOfPage' => [ '@id' => 'https://example.com/the-post/#primaryimage/' . md5( 'https://example.com/main_image' ) ],
 					'inLanguage'         => 'the-language',
 					'potentialAction'    => [
 						[
