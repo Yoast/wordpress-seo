@@ -27,7 +27,7 @@ class Main_Image extends Abstract_Schema_Piece {
 	 * @return false|array Image Schema.
 	 */
 	public function generate() {
-		$image_id = $this->context->canonical . Schema_IDs::PRIMARY_IMAGE_HASH . '/';
+		$image_id = $this->context->canonical . Schema_IDs::PRIMARY_IMAGE_HASH;
 
 		// The Open Graph image.
 		if ( isset( $this->context->indexable->open_graph_image_id ) && $this->context->indexable->open_graph_image_source === 'set-by-user' ) {
