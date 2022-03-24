@@ -15,7 +15,7 @@ module.exports = {
 			{
 				expand: true,
 				cwd: "node_modules/select2/dist/css/",
-				src: [ "select2.min.css" ],
+				src: [ "select2.css" ],
 				dest: "css/dist/select2",
 			},
 		],
