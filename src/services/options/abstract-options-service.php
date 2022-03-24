@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Services\Options;
 
-use Yoast\WP\SEO\Exceptions\Option\Missing_Configuration_Key_Exception;
 use Yoast\WP\SEO\Exceptions\Option\Unknown_Exception;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
@@ -128,16 +127,15 @@ abstract class Abstract_Options_Service {
 	 * @param mixed  $value The option value.
 	 *
 	 * @throws Unknown_Exception When the option does not exist.
-	 * @throws Missing_Configuration_Key_Exception When the option does not have a `sanitize_as` key.
 	 * @throws \Yoast\WP\SEO\Exceptions\Validation\Abstract_Validation_Exception When the value is invalid.
 	 */
 	public function __set( $key, $value ) {
-		if ( ! \array_key_exists( $key, $this->configurations ) ) {
+		if ( ! \array_key_exists( $key, $this->get_configurations() ) ) {
 			throw new Unknown_Exception( $key );
 		}
 
 		// Presuming the default is safe.
-		if ( $value === $this->configurations[ $key ]['default'] ) {
+		if ( $value === $this->get_configurations()[ $key ]['default'] ) {
 			$this->set_option( $key, $value );
 
 			return;
@@ -147,15 +145,8 @@ abstract class Abstract_Options_Service {
 			return;
 		}
 
-		if ( ! \array_key_exists( 'types', $this->configurations[ $key ] ) ) {
-			/*
-			 * Note: this path is untested as it is configuration which is not exposed.
-			 * In theory this makes this a development only exception, until we add a filter for it.
-			 */
-			throw new Missing_Configuration_Key_Exception( $key, 'types' );
-		}
 		// Validate, this can throw a Validation_Exception.
-		$value = $this->validation_helper->validate_as( $value, $this->configurations[ $key ]['types'] );
+		$value = $this->validation_helper->validate_as( $value, $this->get_configurations()[ $key ]['types'] );
 
 		$this->set_option( $key, $value );
 	}

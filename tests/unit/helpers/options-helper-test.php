@@ -4,7 +4,6 @@ namespace Yoast\WP\SEO\Tests\Unit\Helpers;
 
 use Brain\Monkey;
 use Mockery;
-use Yoast\WP\SEO\Exceptions\Option\Missing_Configuration_Key_Exception;
 use Yoast\WP\SEO\Exceptions\Option\Unknown_Exception;
 use Yoast\WP\SEO\Exceptions\Validation\Invalid_Twitter_Username_Exception;
 use Yoast\WP\SEO\Helpers\Options_Helper;
@@ -132,6 +131,20 @@ class Options_Helper_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_set() {
+		$this->site_options_service->expects( 'get_configurations' )
+			->times( 3 )
+			->andReturn(
+				[
+					'twitter_site' => [
+						'default' => '',
+						'types'   => [
+							'empty_string',
+							'twitter_username',
+						],
+					],
+				]
+			);
+
 		Monkey\Functions\expect( 'update_option' )->once();
 
 		$this->site_options_service->expects( 'get_defaults' )->andReturn( [ 'twitter_site' => '' ] );
@@ -148,6 +161,8 @@ class Options_Helper_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_set_catch_unknown() {
+		$this->site_options_service->expects( 'get_configurations' )->andReturn( [] );
+
 		$this->assertFalse( $this->instance->set( 'unknown', '' ) );
 	}
 
@@ -158,28 +173,26 @@ class Options_Helper_Test extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function test_set_catch_missing() {
-		$this->site_options_service->expects( 'get_defaults' )
-			->andThrows( Missing_Configuration_Key_Exception::class );
-
-		$this->assertFalse( $this->instance->set( 'twitter_site', '' ) );
-	}
-
-	/**
-	 * Tests the setting of an option value failing.
-	 *
-	 * @covers ::set
-	 *
-	 * @return void
-	 */
 	public function test_set_catch_validation() {
-		$twitter_site = '#yoast';
+		$this->site_options_service->expects( 'get_configurations' )
+			->times( 3 )
+			->andReturn(
+				[
+					'twitter_site' => [
+						'default' => '',
+						'types'   => [
+							'empty_string',
+							'twitter_username',
+						],
+					],
+				]
+			);
 
 		$this->site_options_service->expects( 'get_defaults' )->andReturn( [ 'twitter_site' => '' ] );
 		$this->validation_helper->expects( 'validate_as' )
 			->andThrows( Invalid_Twitter_Username_Exception::class );
 
-		$this->assertFalse( $this->instance->set( 'twitter_site', $twitter_site ) );
+		$this->assertFalse( $this->instance->set( 'twitter_site', '#yoast' ) );
 	}
 
 	/**

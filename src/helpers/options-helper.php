@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Helpers;
 
 use WPSEO_Option_Titles;
-use Yoast\WP\SEO\Exceptions\Option\Missing_Configuration_Key_Exception;
 use Yoast\WP\SEO\Exceptions\Option\Unknown_Exception;
 use Yoast\WP\SEO\Exceptions\Validation\Abstract_Validation_Exception;
 use Yoast\WP\SEO\Services\Options\Site_Options_Service;
@@ -63,7 +62,6 @@ class Options_Helper {
 			$this->site_options_service->__set( $key, $value );
 
 			return true;
-		} catch ( Missing_Configuration_Key_Exception $exception ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch -- Deliberately left empty.
 		} catch ( Unknown_Exception $exception ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch -- Deliberately left empty.
 		} catch ( Abstract_Validation_Exception $exception ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch -- Deliberately left empty.
 		}

@@ -317,6 +317,14 @@ class Site_Options_Service_Test extends TestCase {
 	 * @covers ::__set
 	 */
 	public function test_set_unknown() {
+		Monkey\Filters\expectApplied( 'wpseo_additional_option_configurations' )
+			->with( [] )
+			->once()
+			->andReturn( [] );
+
+		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
+		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->andReturn( [] );
+
 		$this->expectException( Unknown_Exception::class );
 
 		Monkey\Functions\expect( 'update_option' )
