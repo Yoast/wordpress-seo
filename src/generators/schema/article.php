@@ -155,7 +155,7 @@ class Article extends Abstract_Schema_Piece {
 			$url = $this->context->main_image_url;
 
 			$data['image']        = [
-				'@id' => $this->context->canonical . Schema_IDs::PRIMARY_IMAGE_HASH . md5( $url ),
+				'@id' => $this->context->canonical . Schema_IDs::PRIMARY_IMAGE_HASH . '/' . md5( $url ),
 			];
 			$data['thumbnailUrl'] = $url;
 		}
