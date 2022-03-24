@@ -615,6 +615,7 @@ class WPSEO_Admin_Asset_Manager {
 			[
 				'name'    => 'select2',
 				'src'     => 'select2/select2',
+				'suffix'  => '.min',
 				'version' => '4.0.13',
 				'rtl'     => false,
 			],
