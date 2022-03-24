@@ -1,8 +1,7 @@
-import { createInterpolateElement, Fragment } from "@wordpress/element";
-import { __, sprintf } from "@wordpress/i18n";
-import { useCallback, useEffect } from "@wordpress/element";
-import PropTypes from "prop-types";
 import apiFetch from "@wordpress/api-fetch";
+import { createInterpolateElement, useCallback, useEffect, Fragment } from "@wordpress/element";
+import { __, sprintf } from "@wordpress/i18n";
+import PropTypes from "prop-types";
 
 import { Alert } from "@yoast/components";
 import { addLinkToString } from "../../../../helpers/stringHelpers.js";
@@ -10,15 +9,19 @@ import SocialInput from "./social-input";
 
 /* eslint-disable max-len */
 /**
- * The SocialInputPersonSection element, which is a screenshot and some conditionally changing text.
+ * The SocialInputPersonSection element.
  *
- * @param {Object} props          The props object.
- * @param {number} props.personId The id of the selected person.
+ * @param {Object}  props                The props object.
+ * @param {Object}  props.socialProfiles An associative array of the form {facebookUrl : url, twitterUrl : url, otherSocialUrls : { socialmedium : url } }.
+ * @param {Object}  props.errorFields    The array containing the names of the fields with an invalid value.
+ * @param {Object}  props.dispatch       A dispatch function to communicate with the Stepper store.
+ * @param {Boolean} props.canEditUser    Wether the current user can edit the selected person's profile.
+ * @param {number}  props.personId       The id of the selected person.
  *
- * @returns {WPElement} The SocialInputPersonSection element
+ * @returns {WPElement} The SocialInputPersonSection component.
  */
 function SocialInputPersonSection( { socialProfiles, errorFields, dispatch, canEditUser, personId } ) {
-	const socialUrls = [ "Facebook", "Instagram", "LinkedIn", "MySpace", "Pinterest", "SoundCloud", "Tumblr", "Twitter", "YouTube", "Wikipedia" ];
+	const socialMedia = [ "Facebook", "Instagram", "LinkedIn", "MySpace", "Pinterest", "SoundCloud", "Tumblr", "Twitter", "YouTube", "Wikipedia" ];
 
 	const onChangeHandler = useCallback(
 		( newValue, socialMedium ) => {
@@ -28,16 +31,18 @@ function SocialInputPersonSection( { socialProfiles, errorFields, dispatch, canE
 	);
 
 	useEffect( () => {
-		if ( ( window.wpseoWorkoutsData.configuration.personId !== personId ) && ( canEditUser ) ) {
-			apiFetch( {
-				path: `yoast/v1/workouts/person_social_profiles?person_id=${ personId }`,
-			} ).then( response => {
-				if ( response.success ) {
-					dispatch( { type: "INIT_PERSON_SOCIAL_PROFILES", payload: { socialProfiles: response.social_profiles } } );
-				}
-			} );
-		}
-	}, [ personId ] );
+		apiFetch( {
+			path: `yoast/v1/workouts/person_social_profiles?user_id=${ personId }`,
+		} ).then( response => {
+			if ( response.success ) {
+				dispatch( { type: "INIT_PERSON_SOCIAL_PROFILES", payload: { socialProfiles: response.social_profiles } } );
+			}
+		} ).catch(
+			( e ) => {
+				console.error( e.message );
+			}
+		);
+	}, [ personId, dispatch ] );
 
 	return (
 		<div>
@@ -102,25 +107,45 @@ function SocialInputPersonSection( { socialProfiles, errorFields, dispatch, canE
 				</Fragment>
 			}
 			{
-				( personId !== 0 && canEditUser ) && <Fragment>
+				( ( personId !== 0 ) && ( ! canEditUser ) ) &&
+				<Alert type="info" className="yst-mt-5">
+					{
+						createInterpolateElement(
+							sprintf(
+								__(
+									// translators: %1$s is replaced by the selected person's username
+									"You're not allowed to edit the social profiles of the user %1$s. Please ask this user or an admin to do this.",
+									"wordpress-seo"
+								),
+								window.wpseoWorkoutsData.configuration.personName
+							),
+							{
+								b: <b />,
+							}
+						)
+					}
+				</Alert>
+			}
+			{
+				( personId !== 0 ) &&
 					<div id="social-input-section" className="yoast-social-profiles-input-fields">
-						{ socialUrls.map( ( social, index ) => (
+						{ socialMedia.map( ( social, index ) => (
 							<SocialInput
 								key={ index }
 								className="yst-mt-4"
-								label={ __( social, "wordpress-seo" ) }
+								label={ social }
 								id={ social.toLowerCase() }
 								value={ socialProfiles[ social.toLowerCase() ] }
 								socialMedium={ social.toLowerCase() }
 								onChange={ onChangeHandler }
+								isDisabled={ ! canEditUser }
 								error={ {
 									message: [ __( "Could not save this value. Please check the URL or username.", "wordpress-seo" ) ],
-									isVisible: errorFields.includes( "twitter_site" ),
+									isVisible: errorFields.includes( social.toLowerCase() ),
 								} }
 							/>
 						) ) }
 					</div>
-				</Fragment>
 			}
 		</div>
 	);
