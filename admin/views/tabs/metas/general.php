@@ -11,7 +11,10 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-if ( ! current_theme_supports( 'title-tag' ) && ! wp_is_block_theme() ) {
+//$supports_title_tag = \current_theme_supports( 'title-tag' );
+//$is_block_theme     = ( function_exists( 'wp_is_block_theme' ) && \wp_is_block_theme() ) ? true : false;
+
+if ( ! \current_theme_supports( 'title-tag' ) && ! ( function_exists( 'wp_is_block_theme' ) && \wp_is_block_theme() ) ) {
 	$wpseo_rewrite_titles_title     = esc_html__( 'Rewrite titles', 'wordpress-seo' );
 	$wpseo_rewrite_titles_presenter = new WPSEO_Paper_Presenter(
 		$wpseo_rewrite_titles_title,
