@@ -70,6 +70,13 @@ class Site_Options_Service_Test extends TestCase {
 	 */
 	public function test_constructor() {
 		$this->assertInstanceOf( Site_Options_Service::class, $this->instance );
+		$this->assertEquals(
+			'wpseo_options',
+			$this->getPropertyValue( $this->instance, 'option_name' )
+		);
+		$this->assertNotEmpty(
+			$this->getPropertyValue( $this->instance, 'configurations' )
+		);
 		$this->assertInstanceOf(
 			Validation_Helper::class,
 			$this->getPropertyValue( $this->instance, 'validation_helper' )
