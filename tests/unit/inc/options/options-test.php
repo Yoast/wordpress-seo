@@ -83,20 +83,4 @@ class Options_Test extends TestCase {
 
 		Options_Double::set( 'website_name', 'Yoast' );
 	}
-
-	/**
-	 * Tests if the expected hooks are registered.
-	 *
-	 * @covers ::__construct
-	 * @covers ::register_hooks
-	 */
-	public function test_register_hooks() {
-		$instance = new Options_Double();
-		$instance->register_hooks();
-
-		$this->assertNotFalse( \has_action( 'registered_taxonomy', [ $instance, 'clear_cache' ] ) );
-		$this->assertNotFalse( \has_action( 'unregistered_taxonomy', [ $instance, 'clear_cache' ] ) );
-		$this->assertNotFalse( \has_action( 'registered_post_type', [ $instance, 'clear_cache' ] ) );
-		$this->assertNotFalse( \has_action( 'unregistered_post_type', [ $instance, 'clear_cache' ] ) );
-	}
 }
