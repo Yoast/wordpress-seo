@@ -156,6 +156,15 @@ class Schema_Generator implements Generator_Interface {
 			}
 		}
 
+		/**
+		 * Filter: 'wpseo_schema_graph' - Allows changing graph output.
+		 *
+		 * @api array $graph The graph to filter.
+		 *
+		 * @param Meta_Tags_Context $context A value object with context variables.
+		 */
+		$graph = \apply_filters( 'wpseo_schema_graph', $graph, $context );
+
 		return $graph;
 	}
 
