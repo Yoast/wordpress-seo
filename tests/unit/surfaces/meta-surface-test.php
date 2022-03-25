@@ -551,12 +551,12 @@ class Meta_Surface_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the url function.
+	 * Tests the for_url function with malformed and invalid URL values.
 	 *
 	 * @covers ::for_url
 	 * @dataProvider data_for_url_with_unexpected_value
 	 *
-	 * @param string $url The URL.
+	 * @param string $url The malformed/invalud URL.
 	 */
 	public function test_for_url_with_unexpected_value( $url ) {
 
@@ -572,9 +572,9 @@ class Meta_Surface_Test extends TestCase {
 	}
 
 	/**
-	 * Data provider.
+	 * Data provider for the test_for_url_with_unexpected_value test.
 	 *
-	 * @return array
+	 * @return array The test parameters.
 	 */
 	public function data_for_url_with_unexpected_value() {
 		return [
