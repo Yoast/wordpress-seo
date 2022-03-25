@@ -549,4 +549,37 @@ class Meta_Surface_Test extends TestCase {
 			'Error_Page'         => [ 'system-page', '404', 1, 'Error_Page' ],
 		];
 	}
+
+	/**
+	 * Tests the url function.
+	 *
+	 * @covers ::for_url
+	 * @dataProvider data_for_url_with_unexpected_value
+	 *
+	 * @param string $url The URL.
+	 */
+	public function test_for_url_with_unexpected_value( $url ) {
+
+		Monkey\Functions\stubs(
+			[
+				'wp_parse_url' => static function( $url ) {
+					return \parse_url( $url );
+				},
+			]
+		);
+
+		$this->assertFalse( $this->instance->for_url( $url ) );
+	}
+
+	/**
+	 * Data provider.
+	 *
+	 * @return array
+	 */
+	public function data_for_url_with_unexpected_value() {
+		return [
+			'malformed_url' => [ 'http:///example.com' ],
+			'invalid_url'   => [ '' ],
+		];
+	}
 }
