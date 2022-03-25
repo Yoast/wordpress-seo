@@ -311,7 +311,7 @@ class Meta_Surface {
 		$url_parts  = \wp_parse_url( $url );
 		$site_parts = \wp_parse_url( \site_url() );
 
-		if ( ( ! is_array( $url_parts ) || ! is_array( $site_parts ) )
+		if ( ( ! \is_array( $url_parts ) || ! \is_array( $site_parts ) )
 			|| ! isset( $url_parts['host'], $url_parts['path'], $site_parts['host'], $site_parts['scheme'] )
 		) {
 			return false;
