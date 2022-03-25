@@ -127,32 +127,6 @@ class WPSEO_Author_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Makes sure the filtered out entries do not cause a sitemap index link to return a 404.
-	 *
-	 * @covers WPSEO_Post_Type_Sitemap_Provider::get_index_links
-	 */
-	public function test_get_index_links_empty_sitemap() {
-		// Doesn't remove authors with no posts.
-		WPSEO_Options::set( 'noindex-author-noposts-wpseo', false );
-
-		// Makes sure the author archives are enabled.
-		WPSEO_Options::set( 'disable-author', false );
-
-		// Fetches the global sitemap.
-		set_query_var( 'sitemap', 'author' );
-
-		// Sets the page to the second one, which should not contain an entry, and should not exist.
-		set_query_var( 'sitemap_n', '2' );
-
-		// Loads the sitemap.
-		$sitemaps = new WPSEO_Sitemaps_Double();
-		$sitemaps->redirect( $GLOBALS['wp_the_query'] );
-
-		// Expects an empty page (404) to be returned.
-		$this->expectOutputString( '' );
-	}
-
-	/**
 	 * Makes sure there is no sitemap when the author archives have been disabled.
 	 *
 	 * @covers WPSEO_Author_Sitemap_Provider::get_index_links
@@ -176,6 +150,32 @@ class WPSEO_Author_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 
 		// Cleanup.
 		WPSEO_Options::set( 'disable-author', false );
+	}
+
+	/**
+	 * Makes sure the filtered out entries do not cause a sitemap index link to return a 404.
+	 *
+	 * @covers WPSEO_Post_Type_Sitemap_Provider::get_index_links
+	 */
+	public function test_get_index_links_empty_sitemap() {
+		// Doesn't remove authors with no posts.
+		WPSEO_Options::set( 'noindex-author-noposts-wpseo', false );
+
+		// Makes sure the author archives are enabled.
+		WPSEO_Options::set( 'disable-author', false );
+
+		// Fetches the global sitemap.
+		set_query_var( 'sitemap', 'author' );
+
+		// Sets the page to the second one, which should not contain an entry, and should not exist.
+		set_query_var( 'sitemap_n', '2' );
+
+		// Loads the sitemap.
+		$sitemaps = new WPSEO_Sitemaps_Double();
+		$sitemaps->redirect( $GLOBALS['wp_the_query'] );
+
+		// Expects an empty page (404) to be returned.
+		$this->expectOutputString( '' );
 	}
 
 	/**
