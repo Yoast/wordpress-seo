@@ -310,6 +310,13 @@ class Meta_Surface {
 	public function for_url( $url ) {
 		$url_parts  = \wp_parse_url( $url );
 		$site_parts = \wp_parse_url( \site_url() );
+
+		if ( ( ! is_array( $url_parts ) || ! is_array( $site_parts ) )
+			|| ! isset( $url_parts['host'], $site_parts['host'], $site_parts['scheme'], $url_parts['path'] )
+		) {
+			return false;
+		}
+
 		if ( $url_parts['host'] !== $site_parts['host'] ) {
 			return false;
 		}
