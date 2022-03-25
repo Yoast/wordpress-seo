@@ -255,6 +255,8 @@ Bugfixes:
 * Fixes a bug where reusable block content would not be updated in our analysis when changed in the editor.
 * Fixes a bug where the Google preview would display wrong breadcrumbs for child pages.
 * Fixes a potential error related to the `has_ancestors` column of our indexables table. Props to [junaidbhura](https://github.com/junaidbhura).
+* Fixes a fatal error in the search appearance options on WP < 5.8.3 and themes without title-tag support.
+* Fixes an issue where sitemap locations would change once the number of entries exceeded that of the first page.
 
 Other:
 
