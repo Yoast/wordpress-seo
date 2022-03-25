@@ -3,7 +3,6 @@ import { __, sprintf } from "@wordpress/i18n";
 import { isEmail } from "@wordpress/url";
 import PropTypes from "prop-types";
 
-import { NewButton as Button } from "@yoast/components";
 import { addLinkToString } from "../../../../helpers/stringHelpers";
 import TextInput from "../../base/text-input";
 
@@ -82,12 +81,26 @@ export function NewsletterSignup( { gdprLink } ) {
 
 	return (
 		<Fragment>
-			<ul className="yoast-list--usp">
-				<li>{ __( "Receive best-practice tips and learn how to rank on search engines", "wordpress-seo" ) }</li>
-				<li>{ __( "Stay up-to-date with the latest SEO news", "wordpress-seo" ) }</li>
-				<li>{ __( "Get guidance on how to use Yoast SEO to the fullest", "wordpress-seo" ) }</li>
-			</ul>
-			<div className="yoast-newsletter-signup">
+			<h3 className="yst-text-gray-900 yst-leading-6 yst-font-normal">
+				{
+					// translators: %s is replaced by "Yoast"
+					sprintf( __( "%s newsletter", "wordpress-seo" ), "Yoast SEO" )
+				}
+			</h3>
+			<p className="yst-my-2">
+				{
+					sprintf(
+						__(
+							// translators: %1$s expands to "Yoast", %2$s expands to "Yoast SEO"
+							"Sign up for the %1$s newsletter to receive best-practice tips on how to rank, stay up-to-date with the latest SEO news and get guidance on how to use %2$s to the fullest!",
+							"wordpress-seo"
+						),
+						"Yoast",
+						"Yoast SEO"
+					)
+				}
+			</p>
+			<div className="yst-flex yst-items-end yst-gap-2 yst-mt-4">
 				<TextInput
 					label={ __( "Email address", "wordpress-seo" ) }
 					id="newsletter-email"
@@ -95,33 +108,39 @@ export function NewsletterSignup( { gdprLink } ) {
 					value={ newsletterEmail }
 					onChange={ setNewsletterEmail }
 					type="email"
-					feedbackState={ signUpState }
-					feedbackMessage={ emailFeedback }
-					inputExplanation={
-						addLinkToString(
-							sprintf(
-								// translators: %1$s and %2$s are replaced by opening and closing anchor tags.
-								__(
-									"Yoast respects your privacy. Read %1$sour privacy policy%2$s on how we handle your personal information.",
-									"wordpress-seo"
-								),
-								"<a>",
-								"</a>"
-							),
-							gdprLink,
-							"yoast-configuration-workout-gdpr-link"
-						)
-					}
+					placeholder={ __( "E.g. example@email.com", "wordpress-seo" ) }
+					className="yst-grow"
+					error={ {
+						isVisible: signUpState === "error",
+						message: emailFeedback,
+					} }
 				/>
-				<Button
+				<button
 					id="newsletter-sign-up-button"
-					variant="primary"
+					className="yst-button yst-button--primary yst-h-[45px] yst-items-center"
 					onClick={ onSignUpClick }
 					disabled={ signUpState === "loading" }
 				>
 					{ __( "Sign up!", "wordpress-seo" ) }
-				</Button>
+				</button>
 			</div>
+			<p className="yst-text-sm yst-text-gray-500">
+				{
+					addLinkToString(
+						sprintf(
+							// translators: %1$s and %2$s are replaced by opening and closing anchor tags.
+							__(
+								"Yoast respects your privacy. Read %1$sour privacy policy%2$s on how we handle your personal information.",
+								"wordpress-seo"
+							),
+							"<a>",
+							"</a>"
+						),
+						gdprLink,
+						"yoast-configuration-workout-gdpr-link"
+					)
+				}
+			</p>
 		</Fragment>
 	);
 }

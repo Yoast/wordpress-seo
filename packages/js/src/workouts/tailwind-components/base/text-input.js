@@ -11,6 +11,7 @@ import MultiLineText from "./multi-line-text";
  * @param {string} [className=""] The classname for the wrapper div.
  * @param {string} id The id for the label and input field.
  * @param {string} [label=""] The text for the label.
+ * @param {string} [description=""] The text for the description.
  * @param {string} value The value for the input field.
  * @param {string} [placeholder=""] The placeholder for the input field.
  * @param {Object} onChange The function which handles the onChange event.
@@ -19,7 +20,7 @@ import MultiLineText from "./multi-line-text";
  *
  * @returns {WPElement} The Text Input component.
  */
-export default function TextInput( { className, id, label, value, onChange, placeholder, error, type, ...inputProps } ) {
+export default function TextInput( { className, id, label, description, value, onChange, placeholder, error, type, ...inputProps } ) {
 	const inputType = type ? type : "text";
 	return (
 		<div className={ className }>
@@ -45,6 +46,7 @@ export default function TextInput( { className, id, label, value, onChange, plac
 				</div> }
 			</div>
 			{ error.isVisible && <MultiLineText id={ getErrorId( id ) } className="yst-mt-2 yst-text-sm yst-text-red-600" texts={ error.message } /> }
+			{ description }
 		</div>
 	);
 }
@@ -53,6 +55,7 @@ TextInput.propTypes = {
 	className: PropTypes.string,
 	id: PropTypes.string.isRequired,
 	label: PropTypes.string,
+	description: PropTypes.node,
 	value: PropTypes.string,
 	onChange: PropTypes.func.isRequired,
 	placeholder: PropTypes.string,
@@ -67,6 +70,7 @@ TextInput.defaultProps = {
 	value: "",
 	className: "",
 	label: "",
+	description: null,
 	placeholder: "",
 	error: {
 		message: [],
