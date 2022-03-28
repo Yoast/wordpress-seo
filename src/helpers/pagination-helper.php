@@ -64,16 +64,33 @@ class Pagination_Helper {
 	 *
 	 * @return string The paginated URL.
 	 */
-	public function get_paginated_url( $url, $page, $add_pagination_base = true, $pagination_query_name = 'page' ) {
-		$wp_rewrite = $this->wp_rewrite_wrapper->get();
+	 public function get_paginated_url( $url, $page, $add_pagination_base = true, $pagination_query_name = 'page' ) {
+		$wp_rewrite     = $this->wp_rewrite_wrapper->get();
+		$url_parts      = parse_url( $url );
+		$has_url_params = array_key_exists( 'query', $url_parts );
 
 		if ( $wp_rewrite->using_permalinks() ) {
-			$url = \trailingslashit( $url );
+
+			if ( $has_url_params ) {
+				parse_str( $url_parts['query'], $query_parts );
+
+				$url_without_query_param =& $url;
+
+				$url_without_query_param = \trailingslashit( remove_query_arg( array_keys( $query_parts ), $url ) );
+			}
+
 			if ( $add_pagination_base ) {
 				$url .= \trailingslashit( $wp_rewrite->pagination_base );
 			}
 
-			return \user_trailingslashit( $url . $page );
+			if ( $has_url_params ) {
+				$url = \user_trailingslashit( $url . $page );
+
+				return add_query_arg( $query_parts, $url );
+			} else {
+				return \user_trailingslashit( $url . $page );
+			}
+
 		}
 
 		return \add_query_arg( $pagination_query_name, $page, \user_trailingslashit( $url ) );
