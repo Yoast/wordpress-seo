@@ -1,7 +1,6 @@
 import { __ } from "@wordpress/i18n";
 import { replacementVariableConfigurations } from "@yoast/seo-integration";
 import { get, includes, map } from "lodash";
-import { termTitle } from "./configurations";
 import * as configurations from "./configurations";
 
 /**
