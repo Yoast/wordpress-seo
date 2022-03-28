@@ -190,7 +190,6 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 						onRequestClose={ this.onModalClose }
 						icon={ <YoastIcon /> }
 						additionalClassName="yoast-related-keyphrases-modal"
-						// Don't close modal on outside click in Elementor
 						shouldCloseOnClickOutside={ shouldCloseOnClickOutside }
 					>
 						<ModalContainer
