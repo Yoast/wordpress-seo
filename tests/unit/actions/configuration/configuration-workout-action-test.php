@@ -33,7 +33,7 @@ class Configuration_Workout_Action_Test extends TestCase {
 	 */
 	protected $options_helper;
 
-		/**
+	/**
 	 * The options helper.
 	 *
 	 * @var Mockery\MockInterface|Configuration_Workout_Helper
@@ -46,10 +46,10 @@ class Configuration_Workout_Action_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->options_helper = Mockery::mock( Options_Helper::class );
+		$this->options_helper               = Mockery::mock( Options_Helper::class );
 		$this->configuration_workout_helper = Mockery::mock( Configuration_Workout_Helper::class );
 
-		$this->instance       = new Configuration_Workout_Action( $this->options_helper, $this->configuration_workout_helper );
+		$this->instance = new Configuration_Workout_Action( $this->options_helper, $this->configuration_workout_helper );
 	}
 
 	/**
