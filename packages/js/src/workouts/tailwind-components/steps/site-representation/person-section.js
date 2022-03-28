@@ -15,7 +15,7 @@ import ImageSelect from "../../base/image-select";
  * @param {function} props.dispatch    The function to update the container's state.
  * @param {string}   props.imageUrl    The image URL.
  * @param {integer}  props.personId    The ID of the user.
- * @param {Boolean}  props.canEditUser Wether the current user can edit the selected person's profile.
+ * @param {Boolean}  props.canEditUser Whether the current user can edit the selected person's profile.
 
  * @returns {WPElement} The person section.
  */
