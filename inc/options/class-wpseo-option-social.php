@@ -162,22 +162,10 @@ class WPSEO_Option_Social extends WPSEO_Option {
 				/* Twitter user name. */
 				case 'twitter_site':
 					if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
-						$twitter_id = sanitize_text_field( ltrim( $dirty[ $key ], '@' ) );
+						$twitter_id = $this->validate_twitter_id( $dirty[ $key ] );
 
-						/*
-						 * From the Twitter documentation about twitter screen names:
-						 * Typically a maximum of 15 characters long, but some historical accounts
-						 * may exist with longer names.
-						 * A username can only contain alphanumeric characters (letters A-Z, numbers 0-9)
-						 * with the exception of underscores.
-						 *
-						 * @link https://support.twitter.com/articles/101299-why-can-t-i-register-certain-usernames
-						 */
-						if ( preg_match( '`^[A-Za-z0-9_]{1,25}$`', $twitter_id ) ) {
+						if ( $twitter_id ) {
 							$clean[ $key ] = $twitter_id;
-						}
-						elseif ( preg_match( '`^http(?:s)?://(?:www\.)?twitter\.com/(?P<handle>[A-Za-z0-9_]{1,25})/?$`', $twitter_id, $matches ) ) {
-							$clean[ $key ] = $matches['handle'];
 						}
 						else {
 							if ( isset( $old[ $key ] ) && $old[ $key ] !== '' ) {
@@ -271,6 +259,36 @@ class WPSEO_Option_Social extends WPSEO_Option {
 		$validated_url = filter_var( WPSEO_Utils::sanitize_url( $submitted_url ), FILTER_VALIDATE_URL );
 
 		return $validated_url;
+	}
+
+	/**
+	 * Validates a twitter id.
+	 *
+	 * @param string $twitter_id The twitter id to be validated.
+	 *
+	 * @return string|false The validated twitter id or false if it is not valid.
+	 */
+	public function validate_twitter_id( $twitter_id ) {
+		$twitter_id = sanitize_text_field( ltrim( $twitter_id, '@' ) );
+
+		/*
+		 * From the Twitter documentation about twitter screen names:
+		 * Typically a maximum of 15 characters long, but some historical accounts
+		 * may exist with longer names.
+		 * A username can only contain alphanumeric characters (letters A-Z, numbers 0-9)
+		 * with the exception of underscores.
+		 *
+		 * @link https://support.twitter.com/articles/101299-why-can-t-i-register-certain-usernames
+		 */
+		if ( preg_match( '`^[A-Za-z0-9_]{1,25}$`', $twitter_id ) ) {
+			return $twitter_id;
+		}
+
+		if ( preg_match( '`^http(?:s)?://(?:www\.)?twitter\.com/(?P<handle>[A-Za-z0-9_]{1,25})/?$`', $twitter_id, $matches ) ) {
+			return $matches['handle'];
+		}
+
+		return false;
 	}
 
 	/**

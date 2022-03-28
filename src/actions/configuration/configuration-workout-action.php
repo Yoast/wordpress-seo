@@ -196,8 +196,11 @@ class Configuration_Workout_Action {
 	 * @return array An array with the setting that the non-valid twitter value is about to update.
 	 */
 	protected function get_non_valid_twitter( $twitter_site, $twitter_setting ) {
-		// @todo Implement validating twitter values.
-		return [];
+		if ( $this->options_helper->validate_twitter_id( $twitter_site ) ) {
+			return [];
+		}
+
+		return [ $twitter_setting ];
 	}
 
 	/**

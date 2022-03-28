@@ -127,4 +127,15 @@ class Options_Helper {
 	public function validate_social_url( $url ) {
 		return WPSEO_Option_Social::get_instance()->validate_social_url( $url );
 	}
+
+	/**
+	 * Validates a twitter id.
+	 *
+	 * @param string $twitter_id The twitter id to be validated.
+	 *
+	 * @return string|false The validated twitter id or false if it is not valid.
+	 */
+	public function validate_twitter_id( $twitter_id ) {
+		return WPSEO_Option_Social::get_instance()->validate_twitter_id( $twitter_id );
+	}
 }
