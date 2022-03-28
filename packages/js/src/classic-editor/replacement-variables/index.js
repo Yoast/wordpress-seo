@@ -1,6 +1,7 @@
 import { __ } from "@wordpress/i18n";
 import { replacementVariableConfigurations } from "@yoast/seo-integration";
 import { get, includes, map } from "lodash";
+import { termTitle } from "./configurations";
 import * as configurations from "./configurations";
 
 /**
@@ -86,6 +87,7 @@ export const createTermReplacementVariableConfigurations = () => setIsRecommende
 	replacementVariableConfigurations.date,
 	replacementVariableConfigurations.excerpt,
 	replacementVariableConfigurations.excerptOnly,
+	replacementVariableConfigurations.termTitle,
 	configurations.categoryDescription,
 	configurations.parentTitle,
 	configurations.siteName,
