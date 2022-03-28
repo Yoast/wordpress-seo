@@ -69,6 +69,6 @@ export const permalink = {
 export const title = {
 	name: "title",
 	getLabel: () => __( "Title", "wordpress-seo" ),
-	getReplacement: () => select( SEO_STORE_NAME ).selectTitle()},
+	getReplacement: () => select( SEO_STORE_NAME ).selectTitle(),
 };
 
