@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4a847939311e673b937a1351d6322237",
+    "content-hash": "20098d2c0c4a8497f0a7b1cd06c7a003",
     "packages": [
         {
             "name": "composer/installers",
@@ -156,6 +156,57 @@
                 }
             ],
             "time": "2021-09-13T08:19:44+00:00"
+        },
+        {
+            "name": "wordproof/wordpress-sdk",
+            "version": "1.2.16",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/wordproof/wordpress-sdk.git",
+                "reference": "b8ed1266c7ea79604029e501dc0093e9b07ea602"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/wordproof/wordpress-sdk/zipball/b8ed1266c7ea79604029e501dc0093e9b07ea602",
+                "reference": "b8ed1266c7ea79604029e501dc0093e9b07ea602",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": "^5.6.20 || ^7.0 || ^8.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.5",
+                "phpunit/phpunit": "^9",
+                "spatie/ray": "^1.21",
+                "wpengine/wpengine-coding-standards": "dev-master"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "WordProof\\SDK\\": "app"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Yurii",
+                    "email": "yurii@wordproof.com"
+                },
+                {
+                    "name": "Marijn",
+                    "email": "marijn@wordproof.com"
+                }
+            ],
+            "description": "WordPress SDK",
+            "support": {
+                "issues": "https://github.com/wordproof/wordpress-sdk/issues",
+                "source": "https://github.com/wordproof/wordpress-sdk/tree/1.2.16"
+            },
+            "time": "2022-03-18T07:11:31+00:00"
         },
         {
             "name": "yoast/i18n-module",
