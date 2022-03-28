@@ -66,13 +66,13 @@ SocialFieldArray.propTypes = {
 	onAddProfile: PropTypes.func.isRequired,
 	onRemoveProfile: PropTypes.func.isRequired,
 	onChangeProfile: PropTypes.func.isRequired,
-	addButtonChildren: PropTypes.node,
 	errorFields: PropTypes.array,
+	addButtonChildren: PropTypes.node,
 };
 
 SocialFieldArray.defaultProps = {
-	addButtonChildren: __( "Add another URL", "wordpress-seo" ),
 	errorFields: [],
+	addButtonChildren: __( "Add another URL", "wordpress-seo" ),
 };
 
 export default SocialFieldArray;
