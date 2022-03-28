@@ -14,7 +14,7 @@ import { PropTypes } from "prop-types";
  * @param {function}   props.onChangeProfile Function to call when a the content of a field is edited.
  * @param {array}      props.errorFields     The array containing the names of the fields with an invalid value.
  * @param {Node}       addButtonChildren     Children for the add item button.
- * @param {Component}  fieldType             The component to render each item with.
+ * @param {WPElement}  fieldType             The component to render each item with.
  *
  * @returns {WPElement} The FieldArray component.
  */
