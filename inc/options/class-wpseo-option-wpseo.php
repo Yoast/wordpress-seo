@@ -87,7 +87,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'wincher_tokens'                           => [],
 		'wincher_automatically_add_keyphrases'     => false,
 		'wincher_website_id'                       => '',
-		'wordproof_integration_active'             => true,
+		'wordproof_integration_active'             => false,
+		'wordproof_integration_changed'            => false,
 		'first_time_install'                       => false,
 		'should_redirect_after_install_free'       => false,
 		'activation_redirect_timestamp_free'       => 0,
@@ -381,21 +382,30 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 					}
 					break;
 
-				/*
-				 * Boolean (checkbox) fields.
-				 */
+				case 'wordproof_integration_active':
+					$clean[ $key ] = ( isset( $dirty[ $key ] ) ? WPSEO_Utils::validate_bool( $dirty[ $key ] ) : false );
+					// If the setting has changed, record it.
+					if ( $old[ $key ] !== $clean[ $key ] ) {
+						$clean['wordproof_integration_changed'] = true;
+					}
+					break;
+
 
 				/*
-				 * Covers:
-				 *  'disableadvanced_meta'
-				 *  'enable_headless_rest_endpoints'
-				 *  'yoast_tracking'
-				 *  'dynamic_permalinks'
-				 *  'indexing_first_time'
-				 *  'first_time_install'
-				 *  'should_redirect_after_install_free'
-				 *  and most of the feature variables.
-				 */
+				* Boolean (checkbox) fields.
+				*/
+
+				/*
+				* Covers:
+				*  'disableadvanced_meta'
+				*  'enable_headless_rest_endpoints'
+				*  'yoast_tracking'
+				*  'dynamic_permalinks'
+				*  'indexing_first_time'
+				*  'first_time_install'
+				*  'should_redirect_after_install_free'
+				*  and most of the feature variables.
+				*/
 				default:
 					$clean[ $key ] = ( isset( $dirty[ $key ] ) ? WPSEO_Utils::validate_bool( $dirty[ $key ] ) : false );
 					break;
