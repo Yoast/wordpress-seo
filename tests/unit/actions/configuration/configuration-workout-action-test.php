@@ -6,6 +6,7 @@ use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Actions\Configuration\Configuration_Workout_Action;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Integrations\Admin\Configuration_Workout_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -32,6 +33,13 @@ class Configuration_Workout_Action_Test extends TestCase {
 	 */
 	protected $options_helper;
 
+		/**
+	 * The options helper.
+	 *
+	 * @var Mockery\MockInterface|Configuration_Workout_Helper
+	 */
+	protected $configuration_workout_helper;
+
 	/**
 	 * Set up the test fixtures.
 	 */
@@ -39,7 +47,9 @@ class Configuration_Workout_Action_Test extends TestCase {
 		parent::set_up();
 
 		$this->options_helper = Mockery::mock( Options_Helper::class );
-		$this->instance       = new Configuration_Workout_Action( $this->options_helper );
+		$this->configuration_workout_helper = Mockery::mock( Configuration_Workout_Helper::class );
+
+		$this->instance       = new Configuration_Workout_Action( $this->options_helper, $this->configuration_workout_helper );
 	}
 
 	/**
@@ -51,6 +61,10 @@ class Configuration_Workout_Action_Test extends TestCase {
 		$this->assertInstanceOf(
 			Options_Helper::class,
 			$this->getPropertyValue( $this->instance, 'options_helper' )
+		);
+		$this->assertInstanceOf(
+			Configuration_Workout_Helper::class,
+			$this->getPropertyValue( $this->instance, 'configuration_workout_helper' )
 		);
 	}
 
