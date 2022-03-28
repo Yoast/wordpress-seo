@@ -71,4 +71,3 @@ export const title = {
 	getLabel: () => __( "Title", "wordpress-seo" ),
 	getReplacement: () => select( SEO_STORE_NAME ).selectTitle(),
 };
-
