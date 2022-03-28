@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
+use WPSEO_Option_Social;
 use WPSEO_Option_Titles;
 use WPSEO_Options;
 
@@ -114,5 +115,16 @@ class Options_Helper {
 	 */
 	protected function get_separator_options() {
 		return WPSEO_Option_Titles::get_instance()->get_separator_options();
+	}
+
+	/**
+	 * Validates a social URL.
+	 *
+	 * @param string $url The url to be validated.
+	 *
+	 * @return string|false The validated URL or false if the URL is not valid.
+	 */
+	public function validate_social_url( $url ) {
+		return WPSEO_Option_Social::get_instance()->validate_social_url( $url );
 	}
 }

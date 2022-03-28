@@ -227,8 +227,7 @@ class WPSEO_Option_Social extends WPSEO_Option {
 
 						if ( is_array( $items ) ) {
 							foreach ( $items as $item_key => $item ) {
-								$submitted_url = trim( htmlspecialchars( $item, ENT_COMPAT, get_bloginfo( 'charset' ), true ) );
-								$validated_url = filter_var( WPSEO_Utils::sanitize_url( $submitted_url ), FILTER_VALIDATE_URL );
+								$validated_url = $this->validate_social_url( $item );
 
 								if ( $validated_url === false ) {
 									// Restore the previous URL values, if any.
@@ -258,6 +257,20 @@ class WPSEO_Option_Social extends WPSEO_Option {
 		}
 
 		return $clean;
+	}
+
+	/**
+	 * Validates a social URL.
+	 *
+	 * @param string $url The url to be validated.
+	 *
+	 * @return string|false The validated URL or false if the URL is not valid.
+	 */
+	public function validate_social_url( $url ) {
+		$submitted_url = trim( htmlspecialchars( $url, ENT_COMPAT, get_bloginfo( 'charset' ), true ) );
+		$validated_url = filter_var( WPSEO_Utils::sanitize_url( $submitted_url ), FILTER_VALIDATE_URL );
+
+		return $validated_url;
 	}
 
 	/**
