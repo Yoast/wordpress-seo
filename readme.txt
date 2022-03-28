@@ -257,6 +257,7 @@ Bugfixes:
 * Fixes a potential error related to the `has_ancestors` column of our indexables table. Props to [junaidbhura](https://github.com/junaidbhura).
 * Fixes a fatal error in the search appearance options on WP < 5.8.3 and themes without title-tag support.
 * Fixes an issue where sitemap locations would change once the number of entries exceeded that of the first page.
+* Fixes a bug where Yoast modals would close after opening after editing content in Elementor.
 
 Other:
 
