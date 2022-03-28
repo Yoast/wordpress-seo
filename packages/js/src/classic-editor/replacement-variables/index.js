@@ -86,7 +86,6 @@ export const createTermReplacementVariableConfigurations = () => setIsRecommende
 	replacementVariableConfigurations.date,
 	replacementVariableConfigurations.excerpt,
 	replacementVariableConfigurations.excerptOnly,
-	replacementVariableConfigurations.termTitle,
 	configurations.categoryDescription,
 	configurations.parentTitle,
 	configurations.siteName,

@@ -129,7 +129,7 @@ export const termHierarchy = {
 export const termTitle = {
 	name: "term_title",
 	getLabel: () => __( "Term title", "wordpress-seo" ),
-	getReplacement: () => replacementVariableConfigurations.termTitle.getReplacement,
+	getReplacement: () => replacementVariableConfigurations.title.getReplacement(),
 };
 
 
