@@ -9,9 +9,9 @@ use WPSEO_Utils;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
+use Yoast\WP\SEO\Integrations\Admin\Configuration_Workout_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Routes\Indexing_Route;
-use Yoast\WP\SEO\Integrations\Admin\Configuration_Workout_Helper;
 
 /**
  * ConfigurationWorkoutsIntegration class
@@ -54,6 +54,13 @@ class Configuration_Workout_Integration implements Integration_Interface {
 	private $product_helper;
 
 	/**
+	 * The configuration helper.
+	 *
+	 * @var Configuration_Workout_Helper
+	 */
+	private $configuration_workout_helper;
+
+	/**
 	 * {@inheritDoc}
 	 */
 	public static function get_conditionals() {
@@ -63,24 +70,27 @@ class Configuration_Workout_Integration implements Integration_Interface {
 	/**
 	 * Configuration_Workout_Integration constructor.
 	 *
-	 * @param WPSEO_Admin_Asset_Manager $admin_asset_manager The admin asset manager.
-	 * @param WPSEO_Addon_Manager       $addon_manager       The addon manager.
-	 * @param WPSEO_Shortlinker         $shortlinker         The shortlinker.
-	 * @param Options_Helper            $options_helper      The options helper.
-	 * @param Product_Helper            $product_helper      The product helper.
+	 * @param WPSEO_Admin_Asset_Manager    $admin_asset_manager          The admin asset manager.
+	 * @param WPSEO_Addon_Manager          $addon_manager                The addon manager.
+	 * @param WPSEO_Shortlinker            $shortlinker                  The shortlinker.
+	 * @param Options_Helper               $options_helper               The options helper.
+	 * @param Product_Helper               $product_helper               The product helper.
+     * @param Configuration_Workout_Helper $configuration_workout_helper The configuration workout helper.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $admin_asset_manager,
 		WPSEO_Addon_Manager $addon_manager,
 		WPSEO_Shortlinker $shortlinker,
 		Options_Helper $options_helper,
-		Product_Helper $product_helper
+		Product_Helper $product_helper,
+		Configuration_Workout_Helper $configuration_workout_helper
 	) {
-		$this->admin_asset_manager = $admin_asset_manager;
-		$this->addon_manager       = $addon_manager;
-		$this->shortlinker         = $shortlinker;
-		$this->options_helper      = $options_helper;
-		$this->product_helper      = $product_helper;
+		$this->admin_asset_manager          = $admin_asset_manager;
+		$this->addon_manager                = $addon_manager;
+		$this->shortlinker                  = $shortlinker;
+		$this->options_helper               = $options_helper;
+		$this->product_helper               = $product_helper;
+        $this->configuration_workout_helper = $configuration_workout_helper;
 	}
 
 	/**
@@ -125,8 +135,13 @@ class Configuration_Workout_Integration implements Integration_Interface {
 		$this->admin_asset_manager->localize_script( 'indexation', 'yoastIndexingData', $data );
 
 		$social_profiles        = $this->get_social_profiles();
-		$person_social_profiles = $this->get_person_social_profiles();
-
+		$person_social_profiles = $this->is_company_or_person() === 'person' 
+								? $this->configuration_workout_helper->get_person_social_profiles( $this->get_person_id() )
+								: \array_combine(
+									$this->configuration_workout_helper->get_person_social_profiles_fields(),
+									\array_fill( 0, count( $this->configuration_workout_helper->get_person_social_profiles_fields() ), '' )
+								);
+								
 		// This filter is documented in admin/views/tabs/metas/paper-content/general/knowledge-graph.php.
 		$knowledge_graph_message = \apply_filters( 'wpseo_knowledge_graph_setting_msg', '' );
 
@@ -351,26 +366,6 @@ class Configuration_Workout_Integration implements Integration_Interface {
 			'twitter_username'  => $this->options_helper->get( 'twitter_site', '' ),
 			'other_social_urls' => $this->options_helper->get( 'other_social_urls', [] ),
 		];
-	}
-
-	/**
-	 * Gets the person social profiles stored in the database.
-	 *
-	 * @return string[] The social profiles.
-	 */
-	private function get_person_social_profiles() {
-		$person_social_profiles = \array_combine(
-			Configuration_Workout_Helper::$person_social_profiles,
-			\array_fill( 0, count( Configuration_Workout_Helper::$person_social_profiles ), '' )
-		);
-
-		if ( $this->is_company_or_person() === 'person' ) {
-			foreach ( Configuration_Workout_Helper::$person_social_profiles as $field_name ) {
-				$person_social_profiles[ $field_name ] = \get_user_meta( $this->get_person_id(), $field_name, true );
-			}
-		}
-
-		return $person_social_profiles;
 	}
 
 	/**

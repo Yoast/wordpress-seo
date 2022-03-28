@@ -315,6 +315,6 @@ class Configuration_Workout_Route implements Route_Interface {
 	 * @return bool
 	 */
 	public function can_edit_user( WP_REST_Request $request ) {
-		return \current_user_can( 'edit_user', $request->get_param( 'user_id' ) );
+		return $this->configuration_workout_action->check_capability( $request->get_param( 'user_id' ) );
 	}
 }
