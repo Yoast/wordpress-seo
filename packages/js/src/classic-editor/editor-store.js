@@ -19,8 +19,8 @@ const populateStore = store => {
 	store.dispatch( actions.loadCornerstoneContent() );
 	// Initialize the focus keyphrase.
 	store.dispatch( actions.loadFocusKeyword() );
-	// Hide marker buttons.
-	store.dispatch( actions.setMarkerStatus( "hidden" ) );
+	// // Hide marker buttons.
+	// store.dispatch( actions.setMarkerStatus( "hidden" ) );
 
 	store.dispatch(
 		actions.setSettings( {

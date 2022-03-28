@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { select } from "@wordpress/data";
 import { applyFilters } from "@wordpress/hooks";
 import { forEach, get, reduce } from "lodash";
-import { ASYNC_ACTIONS, ASYNC_STATUS, FOCUS_KEYPHRASE_ID, STORE_NAME } from "../../common/constants";
+import { ASYNC_ACTIONS, ASYNC_STATUS, FOCUS_KEYPHRASE_ID, STORE_NAME, MARKER_STATUS } from "../../common/constants";
 import { ANALYZE_ACTION_NAME } from "../constants";
 
 export const analysisAsyncActions = reduce(
@@ -58,6 +58,7 @@ export const defaultResultsState = {
 	},
 	research: {},
 	activeMarker: {
+		status: MARKER_STATUS.HIDDEN,
 		id: "",
 		marks: [],
 	},
@@ -70,6 +71,9 @@ const resultsSlice = createSlice( {
 		updateActiveMarker: ( state, { payload } ) => {
 			state.activeMarker.id = payload.id;
 			state.activeMarker.marks = payload.marks;
+		},
+		updateMarkerStatus: ( state, { payload } ) => {
+			state.activeMarker.status = payload;
 		},
 	},
 	extraReducers: ( builder ) => {
@@ -108,6 +112,7 @@ export const resultsSelectors = {
 	selectActiveMarker: ( state ) => get( state, "analysis.results.activeMarker" ),
 	selectActiveMarkerId: ( state ) => get( state, "analysis.results.activeMarker.id" ),
 	selectActiveMarks: ( state ) => get( state, "analysis.results.activeMarker.marks" ),
+	selectMarkerStatus: ( state ) => get( state, "analysis.results.activeMarker.status" ),
 };
 
 export const resultsActions = {

@@ -9,13 +9,14 @@ import SidebarItem from "../../../components/SidebarItem";
 import SchemaTabContainer from "../../../containers/SchemaTab";
 import SEMrushRelatedKeyphrases from "../../../containers/SEMrushRelatedKeyphrases";
 import Warning from "../../../containers/Warning";
+import { useMarker, useMarkerStatus } from "../../hooks/use-marker";
 import { EDITOR_STORE_NAME } from "../../editor-store";
 import AdvancedSettings from "../advanced-settings";
 import CornerstoneContent from "../cornerstone-content";
-import FocusKeyphraseInput from "../focus-keyphrase-input";
 import GooglePreview from "../google-preview";
 import ReadabilityAnalysis from "../readability-analysis";
 import SeoAnalysis from "../seo-analysis";
+import FocusKeyphraseInput from "../focus-keyphrase-input";
 
 /**
  * Creates the Metabox component.
@@ -32,6 +33,8 @@ const Metabox = () => {
 	const isPremium = Boolean( get( window, "wpseoScriptData.metabox.isPremium", false ) );
 
 	useAnalyze();
+	useMarker();
+	useMarkerStatus();
 
 	return (
 		<Fragment>
