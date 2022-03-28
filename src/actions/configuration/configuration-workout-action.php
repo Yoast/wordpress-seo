@@ -51,10 +51,10 @@ class Configuration_Workout_Action {
 	 * Configuration_Workout_Action constructor.
 	 *
 	 * @param Options_Helper               $options_helper The WPSEO options helper.
-     * @param Configuration_Workout_Helper $configuration_workout_helper The configuration workout helper.
+	 * @param Configuration_Workout_Helper $configuration_workout_helper The configuration workout helper.
 	 */
 	public function __construct( Options_Helper $options_helper, Configuration_Workout_Helper $configuration_workout_helper ) {
-		$this->options_helper = $options_helper;
+		$this->options_helper               = $options_helper;
 		$this->configuration_workout_helper = $configuration_workout_helper;
 	}
 
@@ -152,10 +152,13 @@ class Configuration_Workout_Action {
 	 * @return object The response object.
 	 */
 	public function set_person_social_profiles( $params ) {
-		$social_profiles = \array_filter( $params, 
+		$social_profiles = \array_filter(
+			$params,
 			function ( $key ) {
 				return $key !== 'user_id';
-			}, ARRAY_FILTER_USE_KEY );
+			},
+			ARRAY_FILTER_USE_KEY
+		);
 
 		$failures = $this->configuration_workout_helper->set_person_social_profiles( $params['user_id'], $social_profiles );
 

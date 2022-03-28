@@ -75,7 +75,7 @@ class Configuration_Workout_Integration implements Integration_Interface {
 	 * @param WPSEO_Shortlinker            $shortlinker                  The shortlinker.
 	 * @param Options_Helper               $options_helper               The options helper.
 	 * @param Product_Helper               $product_helper               The product helper.
-     * @param Configuration_Workout_Helper $configuration_workout_helper The configuration workout helper.
+	 * @param Configuration_Workout_Helper $configuration_workout_helper The configuration workout helper.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $admin_asset_manager,
@@ -90,7 +90,7 @@ class Configuration_Workout_Integration implements Integration_Interface {
 		$this->shortlinker                  = $shortlinker;
 		$this->options_helper               = $options_helper;
 		$this->product_helper               = $product_helper;
-        $this->configuration_workout_helper = $configuration_workout_helper;
+		$this->configuration_workout_helper = $configuration_workout_helper;
 	}
 
 	/**
@@ -135,13 +135,8 @@ class Configuration_Workout_Integration implements Integration_Interface {
 		$this->admin_asset_manager->localize_script( 'indexation', 'yoastIndexingData', $data );
 
 		$social_profiles        = $this->get_social_profiles();
-		$person_social_profiles = $this->is_company_or_person() === 'person' 
-								? $this->configuration_workout_helper->get_person_social_profiles( $this->get_person_id() )
-								: \array_combine(
-									$this->configuration_workout_helper->get_person_social_profiles_fields(),
-									\array_fill( 0, count( $this->configuration_workout_helper->get_person_social_profiles_fields() ), '' )
-								);
-								
+		$person_social_profiles = ( $this->is_company_or_person() === 'person' ) ? $this->configuration_workout_helper->get_person_social_profiles( $this->get_person_id() ) : \array_combine( $this->configuration_workout_helper->get_person_social_profiles_fields(), \array_fill( 0, count( $this->configuration_workout_helper->get_person_social_profiles_fields() ), '' ) );
+
 		// This filter is documented in admin/views/tabs/metas/paper-content/general/knowledge-graph.php.
 		$knowledge_graph_message = \apply_filters( 'wpseo_knowledge_graph_setting_msg', '' );
 

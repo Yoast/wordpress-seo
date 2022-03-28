@@ -16,7 +16,7 @@ class Configuration_Workout_Helper {
 
 	/**
 	 * Gets the social profiles fields names.
-	 * 
+	 *
 	 * @return string[] The social profiles fields names.
 	 */
 	public function get_person_social_profiles_fields() {
@@ -25,7 +25,7 @@ class Configuration_Workout_Helper {
 
 	/**
 	 * Gets the person social profiles stored in the database.
-	 * 
+	 *
 	 * @param int $person_id The id of the person.
 
 	 * @return array The person's social profiles.
