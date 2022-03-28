@@ -90,7 +90,7 @@ class Workouts_Route implements Route_Interface {
 	/**
 	 * Sets the workout configuration.
 	 *
-	 * @param WP_Rest_Request $request The request object.
+	 * @param WP_REST_Request $request The request object.
 	 *
 	 * @return WP_REST_Response the configuration of the workouts.
 	 */

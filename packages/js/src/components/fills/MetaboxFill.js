@@ -17,8 +17,6 @@ import SocialMetadataPortal from "../portals/SocialMetadataPortal";
 import SchemaTabContainer from "../../containers/SchemaTab";
 import SEMrushRelatedKeyphrases from "../../containers/SEMrushRelatedKeyphrases";
 import WincherSEOPerformance from "../../containers/WincherSEOPerformance";
-import { isWordProofIntegrationActive } from "../../helpers/wordproof";
-import WordProofAuthenticationModals from "../../components/modals/WordProofAuthenticationModals";
 
 
 /* eslint-disable complexity */
@@ -45,7 +43,6 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 
 	return (
 		<>
-			{ isWordProofIntegrationActive() && <WordProofAuthenticationModals /> }
 			<Fill name="YoastMetabox">
 				<SidebarItem
 					key="warning"
