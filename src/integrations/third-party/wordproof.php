@@ -2,8 +2,8 @@
 
 namespace Yoast\WP\SEO\Integrations\Third_Party;
 
-use WordProof\SDK\Helpers\PostMetaHelper;
-use WordProof\SDK\WordPressSDK;
+use YoastSEO_Vendor\WordProof\SDK\Helpers\PostMetaHelper;
+use YoastSEO_Vendor\WordProof\SDK\WordPressSDK;
 use Yoast\WP\SEO\Conditionals\Non_Multisite_Conditional;
 use Yoast\WP\SEO\Conditionals\Third_Party\Wordproof_Plugin_Inactive_Conditional;
 use Yoast\WP\SEO\Config\Wordproof_App_Config;

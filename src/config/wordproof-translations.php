@@ -2,7 +2,7 @@
 
 namespace Yoast\WP\SEO\Config;
 
-use WordProof\SDK\Translations\TranslationsInterface;
+use YoastSEO_Vendor\WordProof\SDK\Translations\TranslationsInterface;
 
 /**
  * Class WordProof_Translations

@@ -2,7 +2,7 @@
 
 namespace Yoast\WP\SEO\Config;
 
-use WordProof\SDK\Config\DefaultAppConfig;
+use YoastSEO_Vendor\WordProof\SDK\Config\DefaultAppConfig;
 
 /**
  * Class WordProof_App_Config.
