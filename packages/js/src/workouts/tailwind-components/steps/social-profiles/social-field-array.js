@@ -18,7 +18,7 @@ import { PropTypes } from "prop-types";
  *
  * @returns {WPElement} The FieldArray component.
  */
-const SocialFieldArray = ( { items, onAddProfile, onRemoveProfile, onChangeProfile, errorFields, addButtonChildren, fieldType: Component } ) => {
+const SocialFieldArray = ( { items, onAddProfile, onRemoveProfile, onChangeProfile, errorFields, addButtonChildren, fieldType: WPElement } ) => {
 	const handleRemove = useCallback( ( event ) => {
 		onRemoveProfile( parseInt( event.currentTarget.dataset.index, 10 ) );
 	}, [ onRemoveProfile ] );
