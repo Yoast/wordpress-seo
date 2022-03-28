@@ -36,6 +36,7 @@
   "dependencies": {},
   "devDependencies": {
     "@babel/plugin-transform-runtime": "^7.13.10",
+    "@lodder/grunt-postcss": "^3.1.1",
     "@slack/webhook": "^5.0.2",
     "@typescript-eslint/eslint-plugin": "^4.24.0",
     "@typescript-eslint/parser": "^4.24.0",
@@ -64,6 +65,7 @@
     "jest-styled-components": "^7.0.3",
     "lerna": "^4.0.0",
     "node-fetch": "^2.6.1",
+    "postcss": "^8.4.12",
     "react-test-renderer": "^16.14.0",
     "readline-sync": "^1.4.9",
     "shusher": "^0.1.1",
