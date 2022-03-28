@@ -13,7 +13,7 @@ export default compose( [
 		return {
 			whichModalOpen: getSEMrushModalOpen(),
 			isLoggedIn: getSEMrushLoginStatus(),
-			isElementorEditor: getIsElementorEditor(),
+			shouldCloseOnClickOutside: ! getIsElementorEditor(),
 		};
 	} ),
 	withDispatch( ( dispatch ) => {
