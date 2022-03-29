@@ -43,7 +43,7 @@ class Social_Profiles_Helper {
 	/**
 	 * Stores the values for the social profiles.
 	 *
-	 * @param int   $person_id The id of the person to edit.
+	 * @param int   $person_id       The id of the person to edit.
 	 * @param array $social_profiles The array of the person's social profiles.
 	 *
 	 * @return string[] An array of field names which failed to be saved in the db.
