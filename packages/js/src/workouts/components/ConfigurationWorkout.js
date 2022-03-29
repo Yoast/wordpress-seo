@@ -130,7 +130,6 @@ function configurationWorkoutReducer( state, action ) {
 			newState.personSocialProfiles[ action.payload.socialMedium ] = action.payload.value;
 			return newState;
 		case "INIT_PERSON_SOCIAL_PROFILES":
-			newState = handleStepEdit( newState, 3 );
 			newState.personSocialProfiles = action.payload.socialProfiles;
 			return newState;
 		case "SET_CAN_EDIT_USER":
