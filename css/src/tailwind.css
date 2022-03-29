@@ -59,20 +59,39 @@
 	color: #a4286a;
 }
 
-
-.yst-radio-group {
+.yst-radio {
+	@apply
+		yst-flex
+		yst-items-center
+		!important;
 }
 
-.yst-radio-group--inline-block {
+/* State */
+.yst-radio__input {
+	@apply
+		yst-w-4
+		yst-h-4
+		yst-m-0
+		yst-border
+		yst-rounded-full
+		yst-appearance-none
+		yst-shadow-none
+		yst-text-primary-500
+		yst-border-gray-300
 
-	.yst-radio-group__options {
-		@apply
-			yst-flex
-			yst-flex-wrap
-			yst-flex-row
-			yst-gap-2
-			!important;
-	}
+		focus:yst-outline-none
+		focus:yst-ring-2
+		focus:yst-ring-offset-2
+		focus:yst-ring-offset-white
+		focus:yst-ring-primary-500
+		checked:yst-border-[6px]
+		checked:yst-border-primary-500
+		before:yst-hidden
+		!important;
+}
+
+.yst-radio__label {
+	@apply yst-ml-3 yst-font-medium !important;
 }
 
 .yst-radio-group__label {
@@ -89,83 +108,4 @@
 
 .yst-radio-group__description {
 	@apply yst-mb-4 !important;
-}
-
-.yst-radio {
-	@apply
-		yst-flex
-		yst-items-center
-		!important;
-}
-
-/* Variants */
-.yst-radio--inline-block {
-	@apply yst-inline-flex !important;
-
-	/* Elements of the inline-block variant */
-	.yst-radio__input {
-		@apply yst-sr-only !important;
-
-		&:checked + .yst-radio__label {
-			@apply
-				yst-border-transparent
-				yst-ring-2
-				yst-ring-primary-500
-				!important;
-
-			.yst-radio__check {
-				@apply yst-visible !important;
-			}
-		}
-	}
-
-	.yst-radio__label {
-		@apply
-			yst-relative
-			yst-flex
-			yst-h-14
-			yst-w-14
-			yst-ml-0
-			yst-justify-center
-			yst-items-center
-			yst-text-base
-			yst-bg-white
-			yst-border
-			yst-rounded-lg
-			yst-shadow-sm
-			yst-cursor-pointer
-			yst-border-gray-300
-
-			hover:yst-border-gray-400
-			focus:yst-outline-none
-			!important;
-	}
-
-	.yst-radio__check {
-		@apply
-			yst-invisible
-			yst-absolute
-			yst-top-0.5
-			yst-right-0.5
-			yst-h-5
-			yst-w-5
-			yst-text-primary-600
-			!important;
-	}
-}
-
-/* State */
-.yst-radio__input {
-	@apply
-		yst-border
-		yst-h-4
-		yst-w-4
-		yst-text-primary-500
-		yst-border-gray-300
-		focus:yst-ring-primary-500
-		!important;
-}
-
-.yst-radio__label {
-	@apply yst-ml-3 !important;
 }
