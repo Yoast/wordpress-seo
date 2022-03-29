@@ -30,38 +30,22 @@ class Wincher_Helper {
 	}
 
 	/**
-	 * Checks if the integration is active for the current user.
+	 * Checks if the integration should be active for the current user.
 	 *
 	 * @return bool Whether the integration is active.
 	 */
 	public function is_active() {
-		return ! $this->is_disabled() && (bool) $this->options->get( 'wincher_integration_active', true );
-	}
-
-	/**
-	 * Checks if the integration should be disabled for the current user.
-	 *
-	 * @param bool $return_conditional If the conditional class name that was unmet should be returned.
-	 *
-	 * @return bool|string Whether the integration is active.
-	 */
-	public function is_disabled( $return_conditional = false ) {
 		$conditional = new Non_Multisite_Conditional();
 
 		if ( ! $conditional->is_met() ) {
-
-			if ( $return_conditional === true ) {
-				return ( new \ReflectionClass( $conditional ) )->getShortName();
-			}
-
-			return true;
+			return false;
 		}
 
 		if ( ! \current_user_can( 'publish_posts' ) && ! \current_user_can( 'publish_pages' ) ) {
-			return true;
+			return false;
 		}
 
-		return false;
+		return (bool) $this->options->get( 'wincher_integration_active', true );
 	}
 
 	/**

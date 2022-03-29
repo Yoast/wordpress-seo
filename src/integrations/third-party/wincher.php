@@ -78,7 +78,7 @@ class Wincher implements Integration_Interface {
 					'Wincher'
 				),
 				'order'    => 11,
-				'disabled' => ( $this->wincher->is_disabled() ),
+				'disabled' => \is_multisite(),
 			];
 		}
 
@@ -98,27 +98,20 @@ class Wincher implements Integration_Interface {
 				require \WPSEO_PATH . 'admin/views/tabs/metas/paper-content/integrations/wincher.php';
 			}
 
-			if ( $integration->disabled ) {
-
-				$conditional = $this->wincher->is_disabled( true );
-
-				if ( $conditional === 'Non_Multisite_Conditional' ) {
-					$this->get_disabled_note();
-				}
+			if ( \is_multisite() ) {
+				$this->get_disabled_note();
 			}
 		}
 	}
 
 	/**
-	 * Adds the disabled note when the network integration toggle is disabled.
+	 * Adds the disabled note to the network integration toggle.
 	 *
 	 * @param Yoast_Feature_Toggle $integration The integration toggle class.
 	 */
 	public function after_network_integration_toggle( $integration ) {
 		if ( $integration->setting === 'wincher_integration_active' ) {
-			if ( $integration->disabled ) {
-				$this->get_disabled_note();
-			}
+			$this->get_disabled_note();
 		}
 	}
 
@@ -128,10 +121,10 @@ class Wincher implements Integration_Interface {
 	 * @return void
 	 */
 	protected function get_disabled_note() {
-		echo '<p>' , \sprintf(
-			/* translators: %s expands to Wincher */
+		echo '<p>', \sprintf(
+		/* translators: %s expands to Wincher */
 			\esc_html__( 'Currently, the %s integration is not available for multisites.', 'wordpress-seo' ),
 			'Wincher'
-		) , '</p>';
+		), '</p>';
 	}
 }
