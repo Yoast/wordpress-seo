@@ -24,6 +24,7 @@ import farsiPaper from "./fa/farsiPaper";
 
 // FR: French papers
 import frenchPaper from "./fr/frenchPaper";
+// Import frenchPaper1 from "./fr/frenchPaper1";
 
 // HE: Hebrew papers
 import hebrewPaper from "./he/hebrewPaper";
@@ -51,6 +52,7 @@ import polishPaper from "./pl/polishPaper";
 
 // PT: Portuguese papers
 import portuguesePaper from "./pt/portuguesePaper";
+// Import portuguesePaper3 from "./pt/portuguesePaper3";
 
 // RU: Russian papers
 import russianPaper from "./ru/russianPaper";
@@ -72,6 +74,7 @@ import polishPaperForPerformanceTest from "./pl/polishPaperForPerformanceTest";
 /**
  * FrenchPaper1 & portuguesePaper3 are temporarily disabled until we figure out why there are small differences
  * in passive voice detection since upgrading from node v10 to the lts version.
+ * Once the node version issue is solved, these two papers should be removed.
  */
 export default [
 	englishPaper,
@@ -99,5 +102,7 @@ export default [
 	englishPaperForPerformanceTest,
 	spanishPaperForPerformanceTest,
 	polishPaperForPerformanceTest,
+	// FrenchPaper1,
+	// PortuguesePaper3
 ];
 
