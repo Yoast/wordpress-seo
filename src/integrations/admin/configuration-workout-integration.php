@@ -135,7 +135,7 @@ class Configuration_Workout_Integration implements Integration_Interface {
 		$this->admin_asset_manager->localize_script( 'indexation', 'yoastIndexingData', $data );
 
 		$social_profiles        = $this->get_social_profiles();
-		$person_social_profiles = ( $this->is_company_or_person() === 'person' ) ? $this->social_profiles_helper->get_person_social_profiles( $this->get_person_id() ) : \array_combine( $this->social_profiles_helper->get_person_social_profiles_fields(), \array_fill( 0, count( $this->social_profiles_helper->get_person_social_profiles_fields() ), '' ) );
+		$person_social_profiles = $this->social_profiles_helper->get_person_social_profiles( $this->get_person_id() );
 
 		// This filter is documented in admin/views/tabs/metas/paper-content/general/knowledge-graph.php.
 		$knowledge_graph_message = \apply_filters( 'wpseo_knowledge_graph_setting_msg', '' );
