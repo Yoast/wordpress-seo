@@ -92,28 +92,7 @@ class Wincher_Test extends TestCase {
 	 * @covers ::add_integration_toggle
 	 */
 	public function test_add_integration_toggle() {
-		Monkey\Functions\stubTranslationFunctions();
-
-		$this->wincher->expects( 'is_disabled' )->once()->andReturnFalse();
-
-		$result = $this->instance->add_integration_toggle(
-			[
-				(object) [
-					'name'    => 'Semrush integration',
-					'setting' => 'semrush_integration_active',
-					'label'   => 'The Semrush integration offers suggestions and insights for keywords related to the entered focus keyphrase.',
-					'order'   => 10,
-				],
-				(object) [
-					'name'            => 'Ryte integration',
-					'setting'         => 'ryte_indexability',
-					'label'           => 'Ryte will check weekly if your site is still indexable by search engines and Yoast SEO will notify you when this is not the case.',
-					'read_more_label' => 'Read more about how Ryte works.',
-					'read_more_url'   => 'https://yoa.st/2an',
-					'order'           => 15,
-				],
-			]
-		);
+		$result = $this->instance->add_integration_toggle( $this->get_integration_toggles() );
 		$this->assertEquals(
 			(object) [
 				'name'     => 'Wincher integration',
@@ -127,6 +106,27 @@ class Wincher_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the disabled add_integration_toggle request function.
+	 *
+	 * @covers ::add_integration_toggle
+	 */
+	public function test_add_integration_toggle_disabled() {
+		Monkey\Functions\stubs( [ 'is_multisite' => true ] );
+
+		$result = $this->instance->add_integration_toggle( $this->get_integration_toggles() );
+		$this->assertEquals(
+			(object) [
+				'name'     => 'Wincher integration',
+				'setting'  => 'wincher_integration_active',
+				'label'    => 'The Wincher integration offers the option to track specific keyphrases and gain insights in their positions.',
+				'order'    => 11,
+				'disabled' => true,
+			],
+			$result[2]
+		);
+	}
+
+	/**
 	 * Tests the after_integration_toggle method.
 	 *
 	 * @covers ::after_integration_toggle
@@ -134,10 +134,27 @@ class Wincher_Test extends TestCase {
 	public function test_after_integration_toggle() {
 		$wincher_integration_toggle = (object) [
 			'setting'  => 'wincher_integration_active',
+			'disabled' => false,
+		];
+
+		$this->instance->expects( 'get_disabled_note' )->never();
+
+		$this->instance->after_integration_toggle( $wincher_integration_toggle );
+	}
+
+	/**
+	 * Tests the disabled after_integration_toggle method.
+	 *
+	 * @covers ::after_integration_toggle
+	 */
+	public function test_after_integration_toggle_multisite() {
+		$wincher_integration_toggle = (object) [
+			'setting'  => 'wincher_integration_active',
 			'disabled' => true,
 		];
 
-		$this->wincher->expects( 'is_disabled' )->once()->andReturn( 'Non_Multisite_Conditional' );
+		Monkey\Functions\stubs( [ 'is_multisite' => true ] );
+
 		$this->instance->expects( 'get_disabled_note' )->once();
 
 		$this->instance->after_integration_toggle( $wincher_integration_toggle );
@@ -160,12 +177,22 @@ class Wincher_Test extends TestCase {
 		$this->instance->after_network_integration_toggle( $wincher_integration_toggle );
 	}
 
-	/**
-	 * Tests the get_disabled_note method.
-	 *
-	 * @covers ::get_disabled_note
-	 */
-	public function test_get_disabled_note() {
-		$this->expectOutputString( '<p>Currently, the Wincher integration is not available for multisites.</p>', $this->instance->get_disabled_note() );
+	private function get_integration_toggles() {
+		return [
+			(object) [
+				'name'    => 'Semrush integration',
+				'setting' => 'semrush_integration_active',
+				'label'   => 'The Semrush integration offers suggestions and insights for keywords related to the entered focus keyphrase.',
+				'order'   => 10,
+			],
+			(object) [
+				'name'            => 'Ryte integration',
+				'setting'         => 'ryte_indexability',
+				'label'           => 'Ryte will check weekly if your site is still indexable by search engines and Yoast SEO will notify you when this is not the case.',
+				'read_more_label' => 'Read more about how Ryte works.',
+				'read_more_url'   => 'https://yoa.st/2an',
+				'order'           => 15,
+			],
+		];
 	}
 }

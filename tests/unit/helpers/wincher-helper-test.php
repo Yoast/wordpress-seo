@@ -81,7 +81,7 @@ class Wincher_Helper_Test extends TestCase {
 	 * @covers ::is_active
 	 */
 	public function test_is_active() {
-		$this->instance->expects( 'is_disabled' )->andReturnFalse();
+		Monkey\Functions\expect( 'current_user_can' )->andReturn( true );
 
 		$this->options->expects( 'get' )->andReturn( true );
 
@@ -89,55 +89,29 @@ class Wincher_Helper_Test extends TestCase {
 	}
 
 	/**
-	 * Test return if conditionals are met.
+	 * Test return if conditionals are unmet.
 	 *
-	 * @covers ::is_disabled
+	 * @covers ::is_active
 	 */
-	public function test_is_disabled() {
-		Monkey\Functions\expect( 'current_user_can' )->andReturn( true );
-
-		$this->assertFalse( $this->instance->is_disabled() );
-	}
-
-	/**
-	 * Test return conditional if conditionals are unmet.
-	 *
-	 * @covers ::is_disabled
-	 */
-	public function test_is_disabled_unmet() {
+	public function test_is_active_unmet() {
 		Monkey\Functions\stubs(
 			[
 				'is_multisite' => true,
 			]
 		);
 
-		$this->assertTrue( $this->instance->is_disabled() );
-	}
-
-	/**
-	 * Test return conditional if conditionals are unmet.
-	 *
-	 * @covers ::is_disabled
-	 */
-	public function test_is_disabled_unmet_conditional_return() {
-		Monkey\Functions\stubs(
-			[
-				'is_multisite' => true,
-			]
-		);
-
-		$this->assertEquals( 'Non_Multisite_Conditional', $this->instance->is_disabled( true ) );
+		$this->assertFalse( $this->instance->is_active() );
 	}
 
 	/**
 	 * Test return if capabilities are unmet.
 	 *
-	 * @covers ::is_disabled
+	 * @covers ::is_active
 	 */
-	public function test_is_disabled_unmet_capabilities() {
+	public function test_is_active_unmet_capabilities() {
 		Monkey\Functions\expect( 'current_user_can' )->andReturn( false );
 
-		$this->assertTrue( $this->instance->is_disabled() );
+		$this->assertFalse( $this->instance->is_active() );
 	}
 
 	/**
