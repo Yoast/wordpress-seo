@@ -184,7 +184,7 @@ function Content( { children } ) {
 				easing="ease-in-out"
 				duration={ slideDuration }
 			>
-				<div className={ `yst-transition-opacity ${ fadeDuration } yst-relative yst-ml-12 yst-mt-4 ${ isFaded ? "yst-opacity-0 yst-pointer-events-none" : "yst-opacity-100" }` }>
+				<div className={ `yst-transition-opacity ${ fadeDuration } yst-relative yst-ml-12 yst-mt-4 yst-pb-1 ${ isFaded ? "yst-opacity-0 yst-pointer-events-none" : "yst-opacity-100" }` }>
 					{ children }
 				</div>
 			</AnimateHeight>

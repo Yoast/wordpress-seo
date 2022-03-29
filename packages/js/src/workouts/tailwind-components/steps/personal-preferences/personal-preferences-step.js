@@ -43,7 +43,7 @@ export default function PersonalPreferencesStep( { state, setTracking } ) {
 			] }
 		/> }
 		<Link
-			className="yst-block yst-mt-4"
+			className="yst-inline-block yst-mt-4"
 			href={ "yoast.com" }
 		>
 			{ __( "What data will be tracked and for what reasons?", "wordpress-seo" ) }

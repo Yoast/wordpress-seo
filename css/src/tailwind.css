@@ -59,6 +59,10 @@
 	color: #a4286a;
 }
 
+#yoast-configuration-workout p {
+	@apply yst-leading-normal yst-text-gray-500 !important;
+}
+
 .yst-radio {
 	@apply
 		yst-flex
@@ -73,6 +77,7 @@
 		yst-h-4
 		yst-m-0
 		yst-border
+		yst-transition-none
 		yst-rounded-full
 		yst-appearance-none
 		yst-shadow-none
@@ -84,7 +89,7 @@
 		focus:yst-ring-offset-2
 		focus:yst-ring-offset-white
 		focus:yst-ring-primary-500
-		checked:yst-border-[6px]
+		checked:yst-border-[5px]
 		checked:yst-border-primary-500
 		before:yst-hidden
 		!important;
