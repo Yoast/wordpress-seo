@@ -54,9 +54,9 @@ class Configuration_Workout_Integration implements Integration_Interface {
 	private $product_helper;
 
 	/**
-	 * The configuration helper.
+	 * The social profiles helper.
 	 *
-	 * @var Configuration_Workout_Helper
+	 * @var Social_Profiles_Helper
 	 */
 	private $social_profiles_helper;
 
