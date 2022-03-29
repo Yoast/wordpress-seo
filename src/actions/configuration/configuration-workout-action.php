@@ -41,9 +41,9 @@ class Configuration_Workout_Action {
 	protected $options_helper;
 
 	/**
-	 * The Configuration_Workout_Helper instance.
+	 * The Social_Profiles_Helper instance.
 	 *
-	 * @var Configuration_Workout_Helper
+	 * @var Social_Profiles_Helper
 	 */
 	protected $social_profiles_helper;
 
