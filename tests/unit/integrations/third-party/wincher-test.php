@@ -83,7 +83,7 @@ class Wincher_Test extends TestCase {
 		$this->instance->register_hooks();
 
 		$this->assertNotFalse( Monkey\Filters\has( 'wpseo_integration_toggles', [ $this->instance, 'add_integration_toggle' ] ) );
-		$this->assertNotFalse( Monkey\Actions\has( 'Yoast\WP\SEO\admin_integration_after', [ $this->instance, 'after_integration_toggle'	] ) );
+		$this->assertNotFalse( Monkey\Actions\has( 'Yoast\WP\SEO\admin_integration_after', [ $this->instance, 'after_integration_toggle' ] ) );
 	}
 
 	/**
@@ -177,6 +177,11 @@ class Wincher_Test extends TestCase {
 		$this->instance->after_network_integration_toggle( $wincher_integration_toggle );
 	}
 
+	/**
+	 * The integration toggles to test with.
+	 *
+	 * @return array The integration toggles.
+	 */
 	private function get_integration_toggles() {
 		return [
 			(object) [

@@ -118,6 +118,8 @@ class Wincher implements Integration_Interface {
 	/**
 	 * Outputs the disabled note.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @return void
 	 */
 	protected function get_disabled_note() {
