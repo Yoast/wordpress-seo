@@ -122,7 +122,11 @@ class Wincher implements Integration_Interface {
 		}
 	}
 
-	/** The disabled note */
+	/**
+	 * Outputs the disabled note.
+	 *
+	 * @return void
+	 */
 	protected function get_disabled_note() {
 		echo '<p>' , \sprintf(
 			/* translators: %s expands to Wincher */
