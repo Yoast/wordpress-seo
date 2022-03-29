@@ -50,7 +50,7 @@ class Configuration_Workout_Action {
 	/**
 	 * Configuration_Workout_Action constructor.
 	 *
-	 * @param Options_Helper         $options_helper The WPSEO options helper.
+	 * @param Options_Helper         $options_helper         The WPSEO options helper.
 	 * @param Social_Profiles_Helper $social_profiles_helper The social profiles helper.
 	 */
 	public function __construct( Options_Helper $options_helper, Social_Profiles_Helper $social_profiles_helper ) {
