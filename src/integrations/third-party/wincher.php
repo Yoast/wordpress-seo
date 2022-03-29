@@ -124,10 +124,10 @@ class Wincher implements Integration_Interface {
 
 	/** The disabled note */
 	protected function get_disabled_note() {
-		echo '<p>' . \sprintf(
+		echo '<p>' , \sprintf(
 			/* translators: %s expands to Wincher */
 			\esc_html__( 'Currently, the %s integration is not available for multisites.', 'wordpress-seo' ),
 			'Wincher'
-		) . '</p>';
+		) , '</p>';
 	}
 }
