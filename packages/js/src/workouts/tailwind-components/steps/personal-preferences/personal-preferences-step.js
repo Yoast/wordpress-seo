@@ -44,7 +44,7 @@ export default function PersonalPreferencesStep( { state, setTracking } ) {
 		/> }
 		<Link
 			className="yst-inline-block yst-mt-4"
-			href={ "yoast.com" }
+			href={ "https://yoa.st/config-workout-tracking" }
 		>
 			{ __( "What data will be tracked and for what reasons?", "wordpress-seo" ) }
 		</Link>
