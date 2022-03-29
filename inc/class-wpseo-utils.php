@@ -705,38 +705,6 @@ class WPSEO_Utils {
 	}
 
 	/**
-	 * Determine if Yoast SEO is in development mode?
-	 *
-	 * Inspired by JetPack (https://github.com/Automattic/jetpack/blob/master/class.jetpack.php#L1383-L1406).
-	 *
-	 * @since 3.0.0
-	 *
-	 * @return bool
-	 */
-	public static function is_development_mode() {
-		$development_mode = false;
-
-		if ( defined( 'YOAST_ENVIRONMENT' ) && YOAST_ENVIRONMENT === 'development' ) {
-			$development_mode = true;
-		}
-		elseif ( defined( 'WPSEO_DEBUG' ) ) {
-			$development_mode = WPSEO_DEBUG;
-		}
-		elseif ( site_url() && strpos( site_url(), '.' ) === false ) {
-			$development_mode = true;
-		}
-
-		/**
-		 * Filter the Yoast SEO development mode.
-		 *
-		 * @since 3.0
-		 *
-		 * @param bool $development_mode Is Yoast SEOs development mode active.
-		 */
-		return apply_filters( 'yoast_seo_development_mode', $development_mode );
-	}
-
-	/**
 	 * Retrieve home URL with proper trailing slash.
 	 *
 	 * @since 3.3.0
@@ -947,21 +915,7 @@ class WPSEO_Utils {
 	 * @return false|string The prepared JSON string.
 	 */
 	public static function format_json_encode( $data ) {
-		$flags = ( JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE );
-
-		if ( self::is_development_mode() ) {
-			$flags = ( $flags | JSON_PRETTY_PRINT );
-
-			/**
-			 * Filter the Yoast SEO development mode.
-			 *
-			 * @api array $data Allows filtering of the JSON data for debug purposes.
-			 */
-			$data = apply_filters( 'wpseo_debug_json_data', $data );
-		}
-
-		// phpcs:ignore Yoast.Yoast.AlternativeFunctions.json_encode_wp_json_encodeWithAdditionalParams -- This is the definition of format_json_encode.
-		return wp_json_encode( $data, $flags );
+		return YoastSEO()->helpers->json->format_encode( $data );
 	}
 
 	/**
@@ -1416,5 +1370,20 @@ SVG;
 		}
 
 		return is_super_admin();
+	}
+
+	/**
+	 * Determine if Yoast SEO is in development mode?
+	 *
+	 * Inspired by JetPack (https://github.com/Automattic/jetpack/blob/master/class.jetpack.php#L1383-L1406).
+	 *
+	 * @since 3.0.0
+	 *
+	 * @return bool
+	 */
+	public static function is_development_mode() {
+		_deprecated_function( __METHOD__, 'WPSEO xx.x', 'YoastSEO()->helpers->environment->is_yoast_seo_in_development_mode' );
+
+		return YoastSEO()->helpers->environment->is_yoast_seo_in_development_mode();
 	}
 }

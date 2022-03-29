@@ -104,17 +104,17 @@ abstract class Abstract_Main {
 	abstract protected function get_surfaces();
 
 	/**
-	 * Returns whether or not we're in an environment for Yoast development.
+	 * Returns whether we're in an environment for Yoast development.
 	 *
-	 * @return bool Whether or not to load in development mode.
+	 * @return bool Whether to load in development mode.
 	 */
 	protected function is_development() {
-		try {
-			return \WPSEO_Utils::is_development_mode();
+		if ( \defined( 'YOAST_ENVIRONMENT' ) && \YOAST_ENVIRONMENT === 'development' ) {
+			return true;
 		}
-		catch ( \Exception $exception ) {
-			// E.g. when WordPress and/or WordPress SEO are not loaded.
-			return \defined( 'YOAST_ENVIRONMENT' ) && \YOAST_ENVIRONMENT === 'development';
+		elseif ( \defined( 'WPSEO_DEBUG' ) ) {
+			return \WPSEO_DEBUG;
 		}
+		return false;
 	}
 }

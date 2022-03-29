@@ -6,6 +6,7 @@ use WPSEO_Utils;
 use Yoast\WP\SEO\Exceptions\OAuth\Authentication_Failed_Exception;
 use Yoast\WP\SEO\Exceptions\OAuth\Tokens\Empty_Property_Exception;
 use Yoast\WP\SEO\Exceptions\OAuth\Tokens\Empty_Token_Exception;
+use Yoast\WP\SEO\Helpers\Json_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Values\OAuth\OAuth_Token;
 use Yoast\WP\SEO\Wrappers\WP_Remote_Handler;
@@ -28,6 +29,13 @@ class Wincher_Client extends OAuth_Client {
 	const PKCE_TRANSIENT_NAME = 'yoast_wincher_pkce';
 
 	/**
+	 * Holds the JSON helper instance.
+	 *
+	 * @var Json_Helper
+	 */
+	protected $json_helper;
+
+	/**
 	 * The WP_Remote_Handler instance.
 	 *
 	 * @var WP_Remote_Handler
@@ -38,14 +46,17 @@ class Wincher_Client extends OAuth_Client {
 	 * Wincher_Client constructor.
 	 *
 	 * @param Options_Helper    $options_helper    The Options_Helper instance.
+	 * @param Json_Helper       $json_helper       The Json_Helper instance.
 	 * @param WP_Remote_Handler $wp_remote_handler The request handler.
 	 *
 	 * @throws Empty_Property_Exception Exception thrown if a token property is empty.
 	 */
 	public function __construct(
 		Options_Helper $options_helper,
+		Json_Helper $json_helper,
 		WP_Remote_Handler $wp_remote_handler
 	) {
+		$this->json_helper = $json_helper;
 
 		$provider = new Wincher_PKCE_Provider(
 			[
@@ -54,7 +65,13 @@ class Wincher_Client extends OAuth_Client {
 				'urlAuthorize'            => 'https://auth.wincher.com/connect/authorize',
 				'urlAccessToken'          => 'https://auth.wincher.com/connect/token',
 				'urlResourceOwnerDetails' => 'https://api.wincher.com/beta/user',
-				'scopes'                  => [ 'profile', 'account', 'websites:read', 'websites:write', 'offline_access' ],
+				'scopes'                  => [
+					'profile',
+					'account',
+					'websites:read',
+					'websites:write',
+					'offline_access',
+				],
 				'scopeSeparator'          => ' ',
 				'pkceMethod'              => 'S256',
 			],
@@ -80,7 +97,7 @@ class Wincher_Client extends OAuth_Client {
 
 		$url = $this->provider->getAuthorizationUrl(
 			[
-				'state' => WPSEO_Utils::format_json_encode( [ 'domain' => $parsed_site_url['host'] ] ),
+				'state' => $this->json_helper->format_encode( [ 'domain' => $parsed_site_url['host'] ] ),
 			]
 		);
 
@@ -98,15 +115,16 @@ class Wincher_Client extends OAuth_Client {
 	 *
 	 * @param string $code The code to send.
 	 *
-	 * @return OAuth_Token The requested tokens.
-	 *
 	 * @throws Authentication_Failed_Exception Exception thrown if authentication has failed.
+	 *
+	 * @return OAuth_Token The requested tokens.
 	 */
 	public function request_tokens( $code ) {
 		$pkce_code = \get_transient( self::PKCE_TRANSIENT_NAME );
 		if ( $pkce_code ) {
 			$this->provider->setPkceCode( $pkce_code );
 		}
+
 		return parent::request_tokens( $code );
 	}
 
@@ -119,14 +137,15 @@ class Wincher_Client extends OAuth_Client {
 	 * @param string $url     The URL to send the request to.
 	 * @param array  $options The options to pass along to the request.
 	 *
-	 * @return mixed The parsed API response.
-	 *
 	 * @throws IdentityProviderException Exception thrown if there's something wrong with the identifying data.
 	 * @throws Authentication_Failed_Exception Exception thrown if authentication has failed.
 	 * @throws Empty_Token_Exception Exception thrown if the token is empty.
+	 *
+	 * @return mixed The parsed API response.
 	 */
 	protected function do_request( $method, $url, array $options ) {
 		$options['headers'] = [ 'Content-Type' => 'application/json' ];
+
 		return parent::do_request( $method, $url, $options );
 	}
 }

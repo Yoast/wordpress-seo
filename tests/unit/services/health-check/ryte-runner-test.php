@@ -2,14 +2,14 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Services\Health_Check;
 
+use Brain\Monkey;
 use Mockery;
 use WPSEO_Ryte_Option;
-use WPSEO_Utils;
+use Yoast\WP\SEO\Helpers\Environment_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Ryte_Integration;
 use Yoast\WP\SEO\Services\Health_Check\Ryte_Option_Factory;
 use Yoast\WP\SEO\Services\Health_Check\Ryte_Runner;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Brain\Monkey;
 
 /**
  * Ryte_Runner
@@ -40,11 +40,11 @@ class Ryte_Runner_Test extends TestCase {
 	private $ryte_option_mock;
 
 	/**
-	 * A mock for WPSEO_Utils.
+	 * A mock for Environment_Helper.
 	 *
-	 * @var WPSEO_Utils
+	 * @var Environment_Helper|Mockery\Mock
 	 */
-	private $utils_mock;
+	private $environment_helper;
 
 	/**
 	 * Set up the test fixtures.
@@ -52,13 +52,13 @@ class Ryte_Runner_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->utils_mock       = Mockery::mock( WPSEO_Utils::class );
-		$this->ryte_mock        = Mockery::mock( Ryte_Integration::class );
-		$this->ryte_option_mock = Mockery::mock( WPSEO_Ryte_Option::class );
+		$this->environment_helper = Mockery::mock( Environment_Helper::class );
+		$this->ryte_mock          = Mockery::mock( Ryte_Integration::class );
+		$this->ryte_option_mock   = Mockery::mock( WPSEO_Ryte_Option::class );
 
 		$this->ryte_mock->shouldReceive( 'get_option' )->andReturn( $this->ryte_option_mock );
 
-		$this->instance = new Ryte_Runner( $this->ryte_mock, $this->utils_mock );
+		$this->instance = new Ryte_Runner( $this->ryte_mock, $this->environment_helper );
 	}
 
 	/**
@@ -90,8 +90,8 @@ class Ryte_Runner_Test extends TestCase {
 		Monkey\Functions\expect( 'wp_get_environment_type' )
 			->andReturn( 'production' );
 		Monkey\Functions\expect( 'wp_debug_mode' );
-		$this->utils_mock
-			->shouldReceive( 'is_development_mode' )
+		$this->environment_helper
+			->shouldReceive( 'is_yoast_seo_in_development_mode' )
 			->andReturn( true );
 
 		$this->instance->run();
@@ -111,8 +111,8 @@ class Ryte_Runner_Test extends TestCase {
 		Monkey\Functions\expect( 'wp_get_environment_type' )
 			->andReturn( 'production' );
 		Monkey\Functions\expect( 'wp_debug_mode' );
-		$this->utils_mock
-			->shouldReceive( 'is_development_mode' )
+		$this->environment_helper
+			->shouldReceive( 'is_yoast_seo_in_development_mode' )
 			->andReturn( false );
 		Monkey\Functions\expect( 'get_option' )
 			->with( 'blog_public' )
@@ -135,8 +135,8 @@ class Ryte_Runner_Test extends TestCase {
 		Monkey\Functions\expect( 'wp_get_environment_type' )
 			->andReturn( 'production' );
 		Monkey\Functions\expect( 'wp_debug_mode' );
-		$this->utils_mock
-			->shouldReceive( 'is_development_mode' )
+		$this->environment_helper
+			->shouldReceive( 'is_yoast_seo_in_development_mode' )
 			->andReturn( false );
 		Monkey\Functions\expect( 'get_option' )
 			->with( 'blog_public' )
@@ -201,7 +201,8 @@ class Ryte_Runner_Test extends TestCase {
 	}
 
 	/**
-	 * Checks if the health check has the right state when it wasn't able to fetch the indexability status from Ryte due to an error response.
+	 * Checks if the health check has the right state when it wasn't able to fetch the indexability status from Ryte
+	 * due to an error response.
 	 *
 	 * @return void
 	 * @covers ::__construct
@@ -389,8 +390,8 @@ class Ryte_Runner_Test extends TestCase {
 		Monkey\Functions\expect( 'wp_get_environment_type' )
 			->andReturn( 'production' );
 		Monkey\Functions\expect( 'wp_debug_mode' );
-		$this->utils_mock
-			->shouldReceive( 'is_development_mode' )
+		$this->environment_helper
+			->shouldReceive( 'is_yoast_seo_in_development_mode' )
 			->andReturn( false );
 		Monkey\Functions\expect( 'get_option' )
 			->with( 'blog_public' )

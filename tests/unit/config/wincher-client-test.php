@@ -7,6 +7,7 @@ use Mockery\LegacyMockInterface;
 use Mockery\MockInterface;
 use Yoast\WP\SEO\Config\Wincher_Client;
 use Yoast\WP\SEO\Config\Wincher_PKCE_Provider;
+use Yoast\WP\SEO\Helpers\Json_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Wrappers\WP_Remote_Handler;
@@ -21,11 +22,18 @@ use Yoast\WP\SEO\Wrappers\WP_Remote_Handler;
 class Wincher_Client_Test extends TestCase {
 
 	/**
-	 * The optins helper.
+	 * Holds the options helper instance.
 	 *
 	 * @var LegacyMockInterface|MockInterface|Options_Helper
 	 */
 	protected $options_helper;
+
+	/**
+	 * Holds the JSON helper instance.
+	 *
+	 * @var LegacyMockInterface|MockInterface|Json_Helper
+	 */
+	protected $json_helper;
 
 	/**
 	 * The test instance.
@@ -48,6 +56,7 @@ class Wincher_Client_Test extends TestCase {
 		parent::set_up();
 
 		$this->options_helper = Mockery::mock( Options_Helper::class );
+		$this->json_helper    = Mockery::mock( Json_Helper::class );
 	}
 
 	/**
@@ -73,6 +82,7 @@ class Wincher_Client_Test extends TestCase {
 			Wincher_Client::class,
 			[
 				$this->options_helper,
+				$this->json_helper,
 				Mockery::mock( WP_Remote_Handler::class ),
 			]
 		)->makePartial();
@@ -85,6 +95,11 @@ class Wincher_Client_Test extends TestCase {
 		$this->assertInstanceOf(
 			Options_Helper::class,
 			$this->getPropertyValue( $instance, 'options_helper' )
+		);
+
+		$this->assertInstanceOf(
+			Json_Helper::class,
+			$this->getPropertyValue( $instance, 'json_helper' )
 		);
 	}
 }
