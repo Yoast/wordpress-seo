@@ -12,7 +12,18 @@ class Social_Profiles_Helper {
 	 *
 	 * @var array
 	 */
-	private $person_social_profile_fields = [ 'facebook', 'instagram', 'linkedin', 'myspace', 'pinterest', 'soundcloud', 'tumblr', 'twitter', 'youtube', 'wikipedia' ];
+	private $person_social_profile_fields = [
+		'facebook',
+		'instagram',
+		'linkedin',
+		'myspace',
+		'pinterest',
+		'soundcloud',
+		'tumblr',
+		'twitter',
+		'youtube',
+		'wikipedia',
+	];
 
 	/**
 	 * Gets the social profiles fields names.
@@ -31,10 +42,17 @@ class Social_Profiles_Helper {
 	 * @return array The person's social profiles.
 	 */
 	public function get_person_social_profiles( $person_id ) {
-		$person_social_profiles = [];
+		$person_social_profiles = \array_combine( $this->person_social_profile_fields, \array_fill( 0, count( $this->person_social_profile_fields ), '' ) );
 
-		foreach ( $this->person_social_profile_fields as $field_name ) {
-			$person_social_profiles[ $field_name ] = \get_user_meta( $person_id, $field_name, true );
+		// If no person has been selected, $person_id is set to false.
+		if ( \is_numeric( $person_id ) ) {
+			foreach ( \array_keys( $person_social_profiles ) as $field_name ) {
+				$value = \get_user_meta( $person_id, $field_name, true );
+				// If $person_id is an integer but does not represent a valid user, get_user_meta returns false.
+				if ( ! is_bool( $value ) ) {
+					$person_social_profiles[ $field_name ] = $value;
+				}
+			}
 		}
 
 		return $person_social_profiles;
