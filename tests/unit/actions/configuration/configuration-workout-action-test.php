@@ -34,9 +34,9 @@ class Configuration_Workout_Action_Test extends TestCase {
 	protected $options_helper;
 
 	/**
-	 * The options helper.
+	 * The social profiles helper.
 	 *
-	 * @var Mockery\MockInterface|Configuration_Workout_Helper
+	 * @var Mockery\MockInterface|Social_profiles_Helper
 	 */
 	protected $social_profiles_helper;
 
@@ -63,7 +63,7 @@ class Configuration_Workout_Action_Test extends TestCase {
 			$this->getPropertyValue( $this->instance, 'options_helper' )
 		);
 		$this->assertInstanceOf(
-			Configuration_Workout_Helper::class,
+			Social_profiles_Helper::class,
 			$this->getPropertyValue( $this->instance, 'social_profiles_helper' )
 		);
 	}
