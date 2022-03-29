@@ -21,7 +21,7 @@ module.exports = {
 			defaultChangelogEntries: "",
 			useANewLineAfterHeader: true,
 			commitChangelog: false,
-			changelogToInject: "./.tmp/n8nchangelog.txt",
+			changelogToInject: ".tmp/n8nchangelog.txt",
 		},
 	},
 
