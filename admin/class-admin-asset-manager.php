@@ -482,7 +482,7 @@ class WPSEO_Admin_Asset_Manager {
 			'deps'    => [
 				'jquery',
 			],
-			'version' => '4.1.0-rc.0',
+			'version' => '4.0.13',
 		];
 		$scripts['select2-translations'] = [
 			'name'    => 'select2-translations',
@@ -491,7 +491,7 @@ class WPSEO_Admin_Asset_Manager {
 				'jquery',
 				self::PREFIX . 'select2-core',
 			],
-			'version' => '4.1.0-rc.0',
+			'version' => '4.0.13',
 		];
 
 		return $scripts;
@@ -616,7 +616,7 @@ class WPSEO_Admin_Asset_Manager {
 				'name'    => 'select2',
 				'src'     => 'select2/select2',
 				'suffix'  => '.min',
-				'version' => '4.1.0-rc.0',
+				'version' => '4.0.13',
 				'rtl'     => false,
 			],
 			[
