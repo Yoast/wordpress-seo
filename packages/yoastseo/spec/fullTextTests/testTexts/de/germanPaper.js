@@ -1,19 +1,17 @@
-// Paper not included in index.js, but kept for a future check of a passive voice detection issue connected to node versions.
-
 import Paper from "../../../../src/values/Paper.js";
-import content from "./frenchPaper1.html";
+import content from "./germanPaper.html";
 
-const name = "frenchPaper1";
+const name = "germanPaper1";
 
 const paper = new Paper( content, {
-	keyword: "galaxies des étoiles",
-	synonyms: "un assemblage d'étoiles",
-	description: "Une galaxie est un assemblage d'étoiles, de gaz, de poussières et peut-être essentiellement de matière noire, contenant parfois un trou noir supermassif en son centre.",
-	title: "Galaxies",
+	keyword: "Flughafen London Heathrow",
+	synonyms: "Heathrow airport",
+	description: "Ein Artikel über den größten Flughafen von London, den größten in Europa und den sechstgrößten der Welt. Heathrow wurde 1946 eröffnet.",
+	title: "Heathrow London airport",
 	titleWidth: 450,
-	locale: "fr_FR",
-	permalink: "https://fr.wikipedia.org/wiki/Galaxie",
-	url: "Galaxie",
+	locale: "de_DE",
+	permalink: "https://de.wikipedia.org/wiki/Flughafen_London_Heathrow",
+	url: "Flughafen_London_Heathrow",
 } );
 
 const expectedResults = {
@@ -30,19 +28,19 @@ const expectedResults = {
 	keywordDensity: {
 		isApplicable: true,
 		score: 4,
-		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: The focus keyphrase was found 1 time. " +
-			"That's less than the recommended minimum of 3 times for a text of this length. " +
-			"<a href='https://yoa.st/33w' target='_blank'>Focus on your keyphrase</a>!",
+		resultText: "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
+			"The focus keyphrase was found 0 times. That's less than the recommended minimum of 3 times for a text of this length." +
+			" <a href='https://yoa.st/33w' target='_blank'>Focus on your keyphrase</a>!",
 	},
 	metaDescriptionKeyword: {
 		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/33k' target='_blank'>Keyphrase in meta description</a>: Keyphrase or synonym appear in the meta description. Well done!",
+		score: 3,
+		resultText: "<a href='https://yoa.st/33k' target='_blank'>Keyphrase in meta description</a>: The meta description has been specified, but it does not contain the keyphrase. <a href='https://yoa.st/33l' target='_blank'>Fix that</a>!",
 	},
 	metaDescriptionLength: {
 		isApplicable: true,
-		score: 6,
-		resultText: "<a href='https://yoa.st/34d' target='_blank'>Meta description length</a>: The meta description is over 156 characters. To ensure the entire description will be visible, <a href='https://yoa.st/34e' target='_blank'>you should reduce the length</a>!",
+		score: 9,
+		resultText: "<a href='https://yoa.st/34d' target='_blank'>Meta description length</a>: Well done!",
 	},
 	subheadingsKeyword: {
 		isApplicable: true,
@@ -57,7 +55,7 @@ const expectedResults = {
 	textLength: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 576 words. Good job!",
+		resultText: "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 705 words. Good job!",
 	},
 	externalLinks: {
 		isApplicable: true,
@@ -72,7 +70,7 @@ const expectedResults = {
 	titleKeyword: {
 		isApplicable: true,
 		score: 2,
-		resultText: "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: Not all the words from your keyphrase \"galaxies des étoiles\" appear in the SEO title. <a href='https://yoa.st/33h' target='_blank'>For the best SEO results write the exact match of your keyphrase in the SEO title, and put the keyphrase at the beginning of the title</a>.",
+		resultText: "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: Not all the words from your keyphrase \"Flughafen London Heathrow\" appear in the SEO title. <a href='https://yoa.st/33h' target='_blank'>For the best SEO results write the exact match of your keyphrase in the SEO title, and put the keyphrase at the beginning of the title</a>.",
 	},
 	titleWidth: {
 		isApplicable: true,
@@ -81,8 +79,8 @@ const expectedResults = {
 	},
 	urlKeyword: {
 		isApplicable: true,
-		score: 6,
-		resultText: "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: (Part of) your keyphrase does not appear in the slug. <a href='https://yoa.st/33p' target='_blank'>Change that</a>!",
+		score: 9,
+		resultText: "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: More than half of your keyphrase appears in the slug. That's great!",
 	},
 	urlLength: {
 		isApplicable: true,
@@ -100,12 +98,12 @@ const expectedResults = {
 	fleschReadingEase: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 59.4 in the test, which is considered fairly difficult to read. <a href='https://yoa.st/34s' target='_blank'>Try to make shorter sentences to improve readability</a>.",
+		resultText: "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 52.4 in the test, which is considered fairly difficult to read. <a href='https://yoa.st/34s' target='_blank'>Try to make shorter sentences to improve readability</a>.",
 	},
 	subheadingsTooLong: {
 		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: Great job!",
+		score: 3,
+		resultText: "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: 1 section of your text is longer than 300 words and is not separated by any subheadings. <a href='https://yoa.st/34y' target='_blank'>Add subheadings to improve readability</a>.",
 	},
 	textParagraphTooLong: {
 		isApplicable: true,
@@ -114,18 +112,18 @@ const expectedResults = {
 	},
 	textSentenceLength: {
 		isApplicable: true,
-		score: 3,
-		resultText: "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: 72.7% of the sentences contain more than 20 words, which is more than the recommended maximum of 25%. <a href='https://yoa.st/34w' target='_blank'>Try to shorten the sentences</a>.",
+		score: 9,
+		resultText: "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: Great!",
 	},
 	textTransitionWords: {
 		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Well done!",
+		score: 3,
+		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 19.3% of the sentences contain transition words, which is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more of them</a>.",
 	},
 	passiveVoice: {
-		score: 3,
 		isApplicable: true,
-		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: 16.7% of the sentences contain passive voice, which is more than the recommended maximum of 10%. <a href='https://yoa.st/34u' target='_blank'>Try to use their active counterparts</a>.",
+		score: 9,
+		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: You're using enough active voice. That's great!",
 	},
 	textPresence: {
 		isApplicable: true,
@@ -141,7 +139,8 @@ const expectedResults = {
 		isApplicable: true,
 		score: 6,
 		resultText: "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: Images on this page do not have alt attributes " +
-			"with at least half of the words from your keyphrase.<a href='https://yoa.st/4f6' target='_blank'>Fix that!</a>!",
+			"that reflect the topic of your text. <a href='https://yoa.st/4f6' target='_blank'>Add your keyphrase or synonyms to the alt tags " +
+			"of relevant images</a>!",
 	},
 	imageCount: {
 		isApplicable: true,
@@ -161,3 +160,4 @@ export default {
 	paper: paper,
 	expectedResults: expectedResults,
 };
+
