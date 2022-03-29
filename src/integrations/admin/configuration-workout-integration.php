@@ -9,7 +9,7 @@ use WPSEO_Utils;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
-use Yoast\WP\SEO\Integrations\Admin\Configuration_Workout_Helper;
+use Yoast\WP\SEO\Integrations\Admin\Social_Profiles_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Routes\Indexing_Route;
 
@@ -58,7 +58,7 @@ class Configuration_Workout_Integration implements Integration_Interface {
 	 *
 	 * @var Configuration_Workout_Helper
 	 */
-	private $configuration_workout_helper;
+	private $social_profiles_helper;
 
 	/**
 	 * {@inheritDoc}
@@ -70,12 +70,12 @@ class Configuration_Workout_Integration implements Integration_Interface {
 	/**
 	 * Configuration_Workout_Integration constructor.
 	 *
-	 * @param WPSEO_Admin_Asset_Manager    $admin_asset_manager          The admin asset manager.
-	 * @param WPSEO_Addon_Manager          $addon_manager                The addon manager.
-	 * @param WPSEO_Shortlinker            $shortlinker                  The shortlinker.
-	 * @param Options_Helper               $options_helper               The options helper.
-	 * @param Product_Helper               $product_helper               The product helper.
-	 * @param Configuration_Workout_Helper $configuration_workout_helper The configuration workout helper.
+	 * @param WPSEO_Admin_Asset_Manager $admin_asset_manager    The admin asset manager.
+	 * @param WPSEO_Addon_Manager       $addon_manager          The addon manager.
+	 * @param WPSEO_Shortlinker         $shortlinker            The shortlinker.
+	 * @param Options_Helper            $options_helper         The options helper.
+	 * @param Product_Helper            $product_helper         The product helper.
+	 * @param Social_Profiles_Helper    $social_profiles_helper The social profiles helper.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $admin_asset_manager,
@@ -83,14 +83,14 @@ class Configuration_Workout_Integration implements Integration_Interface {
 		WPSEO_Shortlinker $shortlinker,
 		Options_Helper $options_helper,
 		Product_Helper $product_helper,
-		Configuration_Workout_Helper $configuration_workout_helper
+		Social_Profiles_Helper $social_profiles_helper
 	) {
-		$this->admin_asset_manager          = $admin_asset_manager;
-		$this->addon_manager                = $addon_manager;
-		$this->shortlinker                  = $shortlinker;
-		$this->options_helper               = $options_helper;
-		$this->product_helper               = $product_helper;
-		$this->configuration_workout_helper = $configuration_workout_helper;
+		$this->admin_asset_manager    = $admin_asset_manager;
+		$this->addon_manager          = $addon_manager;
+		$this->shortlinker            = $shortlinker;
+		$this->options_helper         = $options_helper;
+		$this->product_helper         = $product_helper;
+		$this->social_profiles_helper = $social_profiles_helper;
 	}
 
 	/**
@@ -135,7 +135,7 @@ class Configuration_Workout_Integration implements Integration_Interface {
 		$this->admin_asset_manager->localize_script( 'indexation', 'yoastIndexingData', $data );
 
 		$social_profiles        = $this->get_social_profiles();
-		$person_social_profiles = ( $this->is_company_or_person() === 'person' ) ? $this->configuration_workout_helper->get_person_social_profiles( $this->get_person_id() ) : \array_combine( $this->configuration_workout_helper->get_person_social_profiles_fields(), \array_fill( 0, count( $this->configuration_workout_helper->get_person_social_profiles_fields() ), '' ) );
+		$person_social_profiles = ( $this->is_company_or_person() === 'person' ) ? $this->social_profiles_helper->get_person_social_profiles( $this->get_person_id() ) : \array_combine( $this->social_profiles_helper->get_person_social_profiles_fields(), \array_fill( 0, count( $this->social_profiles_helper->get_person_social_profiles_fields() ), '' ) );
 
 		// This filter is documented in admin/views/tabs/metas/paper-content/general/knowledge-graph.php.
 		$knowledge_graph_message = \apply_filters( 'wpseo_knowledge_graph_setting_msg', '' );

@@ -3,7 +3,7 @@
 namespace Yoast\WP\SEO\Actions\Configuration;
 
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Integrations\Admin\Configuration_Workout_Helper;
+use Yoast\WP\SEO\Integrations\Admin\Social_Profiles_Helper;
 
 /**
  * Class Configuration_Workout_Action.
@@ -45,17 +45,17 @@ class Configuration_Workout_Action {
 	 *
 	 * @var Configuration_Workout_Helper
 	 */
-	protected $configuration_workout_helper;
+	protected $social_profiles_helper;
 
 	/**
 	 * Configuration_Workout_Action constructor.
 	 *
-	 * @param Options_Helper               $options_helper The WPSEO options helper.
-	 * @param Configuration_Workout_Helper $configuration_workout_helper The configuration workout helper.
+	 * @param Options_Helper         $options_helper The WPSEO options helper.
+	 * @param Social_Profiles_Helper $social_profiles_helper The social profiles helper.
 	 */
-	public function __construct( Options_Helper $options_helper, Configuration_Workout_Helper $configuration_workout_helper ) {
-		$this->options_helper               = $options_helper;
-		$this->configuration_workout_helper = $configuration_workout_helper;
+	public function __construct( Options_Helper $options_helper, Social_Profiles_Helper $social_profiles_helper ) {
+		$this->options_helper         = $options_helper;
+		$this->social_profiles_helper = $social_profiles_helper;
 	}
 
 	/**
@@ -160,7 +160,7 @@ class Configuration_Workout_Action {
 			ARRAY_FILTER_USE_KEY
 		);
 
-		$failures = $this->configuration_workout_helper->set_person_social_profiles( $params['user_id'], $social_profiles );
+		$failures = $this->social_profiles_helper->set_person_social_profiles( $params['user_id'], $social_profiles );
 
 		if ( \count( $failures ) === 0 ) {
 			return (object) [
@@ -188,7 +188,7 @@ class Configuration_Workout_Action {
 		return (object) [
 			'success'         => true,
 			'status'          => 200,
-			'social_profiles' => $this->configuration_workout_helper->get_person_social_profiles( $user_id ),
+			'social_profiles' => $this->social_profiles_helper->get_person_social_profiles( $user_id ),
 		];
 	}
 
@@ -228,7 +228,7 @@ class Configuration_Workout_Action {
 	 * @return object The response object.
 	 */
 	public function check_capability( $user_id ) {
-		if ( $this->configuration_workout_helper->can_edit_profile( $user_id ) ) {
+		if ( $this->social_profiles_helper->can_edit_profile( $user_id ) ) {
 			return (object) [
 				'success' => true,
 				'status'  => 200,

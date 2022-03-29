@@ -3,9 +3,9 @@
 namespace Yoast\WP\SEO\Integrations\Admin;
 
 /**
- * Class Configuration_Workout_Helper.
+ * Class Social_Profiles_Helper.
  */
-class Configuration_Workout_Helper {
+class Social_Profiles_Helper {
 
 	/**
 	 * The fields for the person social profiles payload.

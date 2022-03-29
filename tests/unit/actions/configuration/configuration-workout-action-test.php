@@ -6,7 +6,7 @@ use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Actions\Configuration\Configuration_Workout_Action;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Integrations\Admin\Configuration_Workout_Helper;
+use Yoast\WP\SEO\Integrations\Admin\Social_profiles_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -38,7 +38,7 @@ class Configuration_Workout_Action_Test extends TestCase {
 	 *
 	 * @var Mockery\MockInterface|Configuration_Workout_Helper
 	 */
-	protected $configuration_workout_helper;
+	protected $social_profiles_helper;
 
 	/**
 	 * Set up the test fixtures.
@@ -46,10 +46,10 @@ class Configuration_Workout_Action_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->options_helper               = Mockery::mock( Options_Helper::class );
-		$this->configuration_workout_helper = Mockery::mock( Configuration_Workout_Helper::class );
+		$this->options_helper         = Mockery::mock( Options_Helper::class );
+		$this->social_profiles_helper = Mockery::mock( Social_profiles_Helper::class );
 
-		$this->instance = new Configuration_Workout_Action( $this->options_helper, $this->configuration_workout_helper );
+		$this->instance = new Configuration_Workout_Action( $this->options_helper, $this->social_profiles_helper );
 	}
 
 	/**
@@ -64,7 +64,7 @@ class Configuration_Workout_Action_Test extends TestCase {
 		);
 		$this->assertInstanceOf(
 			Configuration_Workout_Helper::class,
-			$this->getPropertyValue( $this->instance, 'configuration_workout_helper' )
+			$this->getPropertyValue( $this->instance, 'social_profiles_helper' )
 		);
 	}
 
