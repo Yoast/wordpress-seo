@@ -35,7 +35,7 @@ class Wincher_Helper {
 	 * @return bool Whether the integration is active.
 	 */
 	public function is_active() {
-		return ! $this->is_disabled() && $this->options->get( 'wincher_integration_active', true );
+		return ! $this->is_disabled() && (bool) $this->options->get( 'wincher_integration_active', true );
 	}
 
 	/**
