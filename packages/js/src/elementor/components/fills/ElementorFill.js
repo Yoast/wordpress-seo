@@ -42,7 +42,8 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 	}
 
 	return (
-		<Fill name="YoastElementor">
+		<>
+			<Fill name="YoastElementor">
 			<SidebarItem renderPriority={ 1 }>
 				<Alert />
 			</SidebarItem>
@@ -86,12 +87,13 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 			</SidebarItem> }
 			{ settings.isKeywordAnalysisActive && settings.isWincherIntegrationActive &&
 				<SidebarItem key="wincher-seo-performance" renderPriority={ 21 }>
-					<WincherSEOPerformanceModal location="sidebar" />
+					<WincherSEOPerformanceModal location="sidebar" shouldCloseOnClickOutside={ false } />
+					</SidebarItem> }
+				{ settings.isCornerstoneActive && <SidebarItem renderPriority={ 30 }>
+					<CollapsibleCornerstone />
 				</SidebarItem> }
-			{ settings.isCornerstoneActive && <SidebarItem renderPriority={ 30 }>
-				<CollapsibleCornerstone />
-			</SidebarItem> }
-		</Fill>
+			</Fill>
+		</>
 	);
 }
 

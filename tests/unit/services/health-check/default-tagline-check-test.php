@@ -4,7 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Services\Health_Check;
 
 use Mockery;
 use Yoast\WP\SEO\Services\Health_Check\Default_Tagline_Check;
-use Yoast\WP\SEO\Services\Health_Check\Default_Tagline_Report_Builder;
+use Yoast\WP\SEO\Services\Health_Check\Default_Tagline_Reports;
 use Yoast\WP\SEO\Services\Health_Check\Default_Tagline_Runner;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -34,9 +34,9 @@ class Default_Tagline_Check_Test extends TestCase {
 	/**
 	 * A mock of the Default_Tagline_Report_Builder dependency.
 	 *
-	 * @var Default_Tagline_Report_Builder
+	 * @var Default_Tagline_Reports
 	 */
-	private $report_builder_mock;
+	private $reports_mock;
 
 	/**
 	 * Set up the test fixtures.
@@ -46,12 +46,12 @@ class Default_Tagline_Check_Test extends TestCase {
 
 		$this->stubTranslationFunctions();
 
-		$this->runner_mock         = Mockery::mock( Default_Tagline_Runner::class );
-		$this->report_builder_mock = Mockery::mock( Default_Tagline_Report_Builder::class );
-		$this->report_builder_mock
+		$this->runner_mock  = Mockery::mock( Default_Tagline_Runner::class );
+		$this->reports_mock = Mockery::mock( Default_Tagline_Reports::class );
+		$this->reports_mock
 			->shouldReceive( 'set_test_identifier' )
 			->once();
-		$this->instance = new Default_Tagline_Check( $this->runner_mock, $this->report_builder_mock );
+		$this->instance = new Default_Tagline_Check( $this->runner_mock, $this->reports_mock );
 	}
 
 	/**
@@ -79,7 +79,7 @@ class Default_Tagline_Check_Test extends TestCase {
 			->shouldReceive( 'is_successful' )
 			->once()
 			->andReturn( true );
-		$this->report_builder_mock
+		$this->reports_mock
 			->shouldReceive( 'get_success_result' )
 			->once()
 			->andReturn( $expected );
@@ -104,7 +104,7 @@ class Default_Tagline_Check_Test extends TestCase {
 			->shouldReceive( 'is_successful' )
 			->once()
 			->andReturn( false );
-		$this->report_builder_mock
+		$this->reports_mock
 			->shouldReceive( 'get_has_default_tagline_result' )
 			->once()
 			->andReturn( $expected );

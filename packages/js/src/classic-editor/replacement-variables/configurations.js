@@ -99,12 +99,8 @@ export const tag = {
 	name: "tag",
 	getLabel: () => __( "Tag", "wordpress-seo" ),
 	getReplacement: () => {
-		// On page load, the tags are not available in the store and in that case we get them from the window.
 		const tagsFromStore = select( SEO_STORE_NAME ).selectTerms( "tags" );
-
-		return tagsFromStore.length > 0
-			? tagsFromStore.map( term => term ).join( ", " )
-			: get( window, "wpseoScriptData.analysis.plugins.replaceVars.replace_vars.tag" );
+		return tagsFromStore.map( term => term ).join( ", " );
 	},
 };
 

@@ -100,7 +100,6 @@ self.wpseoScriptData = {
 		plugins: {
 			replaceVars: {
 				replace_vars: {
-					tag: "cats",
 					custom_taxonomies: {
 						actors: {
 							description: "",
@@ -129,8 +128,7 @@ describe( "a test for getting the replacement of the tag variable in classic edi
 		expect( tag.getReplacement() ).toEqual( "tortie cat, tortoiseshell cat" );
 	} );
 
-	it( "should return the replacement for tag variable when the store returns an empty array of tag(s): " +
-		"it should return the tags from wpseoScriptData", () => {
+	it( "should return an empty string as the replacement for tag variable when the store returns an empty array of tag(s)", () => {
 		selectTerms = jest.fn().mockReturnValue( [] );
 		jest.spyOn( data, "select" ).mockImplementation( () => {
 			return {
@@ -138,7 +136,7 @@ describe( "a test for getting the replacement of the tag variable in classic edi
 			};
 		} );
 
-		expect( tag.getReplacement() ).toEqual( "cats" );
+		expect( tag.getReplacement() ).toEqual( "" );
 	} );
 } );
 

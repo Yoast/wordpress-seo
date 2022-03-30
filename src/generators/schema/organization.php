@@ -40,7 +40,7 @@ class Organization extends Abstract_Schema_Piece {
 			'url'    => $this->context->site_url,
 			'sameAs' => \array_values( \array_unique( $this->fetch_social_profiles() ) ),
 			'logo'   => $logo,
-			'image'  => [ '@id' => $logo_schema_id ],
+			'image'  => [ '@id' => $logo['@id'] ],
 		];
 	}
 

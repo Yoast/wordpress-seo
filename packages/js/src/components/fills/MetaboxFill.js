@@ -3,6 +3,7 @@ import { Fill } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 import { useCallback } from "@wordpress/element";
+import { colors } from "@yoast/style-guide";
 
 /* Internal dependencies */
 import CollapsibleCornerstone from "../../containers/CollapsibleCornerstone";
@@ -16,7 +17,7 @@ import SocialMetadataPortal from "../portals/SocialMetadataPortal";
 import SchemaTabContainer from "../../containers/SchemaTab";
 import SEMrushRelatedKeyphrases from "../../containers/SEMrushRelatedKeyphrases";
 import WincherSEOPerformance from "../../containers/WincherSEOPerformance";
-import { colors } from "@yoast/style-guide";
+
 
 /* eslint-disable complexity */
 /**
@@ -41,7 +42,8 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 	}, [ wincherKeyphrases, setWincherNoKeyphrase ] );
 
 	return (
-		<Fill name="YoastMetabox">
+		<>
+			<Fill name="YoastMetabox">
 			<SidebarItem
 				key="warning"
 				renderPriority={ 1 }
@@ -84,24 +86,25 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 						<WincherSEOPerformance />
 					</MetaboxCollapsible>
 				</SidebarItem> }
-			{ settings.isCornerstoneActive && <SidebarItem key="cornerstone" renderPriority={ 30 }>
-				<CollapsibleCornerstone />
-			</SidebarItem> }
-			{ settings.displayAdvancedTab && <SidebarItem key="advanced" renderPriority={ 40 }>
-				<MetaboxCollapsible id={ "collapsible-advanced-settings" } title={ __( "Advanced", "wordpress-seo" ) }>
-					<AdvancedSettings />
-				</MetaboxCollapsible>
-			</SidebarItem> }
-			{ settings.displaySchemaSettings && <SidebarItem key="schema" renderPriority={ 50 }>
-				<SchemaTabContainer />
-			</SidebarItem> }
-			<SidebarItem
-				key="social"
-				renderPriority={ -1 }
-			>
-				<SocialMetadataPortal target="wpseo-section-social" />
-			</SidebarItem>
-		</Fill>
+				{ settings.isCornerstoneActive && <SidebarItem key="cornerstone" renderPriority={ 30 }>
+					<CollapsibleCornerstone />
+				</SidebarItem> }
+				{ settings.displayAdvancedTab && <SidebarItem key="advanced" renderPriority={ 40 }>
+					<MetaboxCollapsible id={ "collapsible-advanced-settings" } title={ __( "Advanced", "wordpress-seo" ) }>
+						<AdvancedSettings />
+					</MetaboxCollapsible>
+				</SidebarItem> }
+				{ settings.displaySchemaSettings && <SidebarItem key="schema" renderPriority={ 50 }>
+					<SchemaTabContainer />
+				</SidebarItem> }
+				<SidebarItem
+					key="social"
+					renderPriority={ -1 }
+				>
+					<SocialMetadataPortal target="wpseo-section-social" />
+				</SidebarItem>
+			</Fill>
+		</>
 	);
 }
 

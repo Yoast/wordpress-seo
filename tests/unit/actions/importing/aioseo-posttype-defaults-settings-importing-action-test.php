@@ -191,13 +191,13 @@ class Aioseo_Posttype_Defaults_Settings_Importing_Action_Test extends TestCase {
 	/**
 	 * Tests retrieving unimported AiOSEO settings.
 	 *
+	 * @dataProvider provider_query
+	 * @covers ::query
+	 *
 	 * @param array $query_results        The results from the query.
 	 * @param bool  $expected_unflattened The expected unflattened retrieved data.
 	 * @param bool  $expected             The expected retrieved data.
 	 * @param int   $times                The expected times we will look for the chunked unimported settings.
-	 *
-	 * @dataProvider provider_query
-	 * @covers ::query
 	 */
 	public function test_query( $query_results, $expected_unflattened, $expected, $times ) {
 		Monkey\Functions\expect( 'get_option' )
@@ -222,14 +222,14 @@ class Aioseo_Posttype_Defaults_Settings_Importing_Action_Test extends TestCase {
 	/**
 	 * Tests mapping AIOSEO Posttype Defaults settings.
 	 *
+	 * @dataProvider provider_map
+	 * @covers ::map
+	 *
 	 * @param string $setting                The setting at hand, eg. post or movie-category, separator etc.
 	 * @param string $setting_value          The value of the AIOSEO setting at hand.
 	 * @param int    $times                  The times that we will import each setting, if any.
 	 * @param int    $transform_times        The times that we will transform each setting, if any.
 	 * @param int    $transform_robots_times The times that we will transform each robot setting, if any.
-	 *
-	 * @dataProvider provider_map
-	 * @covers ::map
 	 */
 	public function test_map( $setting, $setting_value, $times, $transform_times, $transform_robots_times ) {
 		$posttypes = [
@@ -281,16 +281,63 @@ class Aioseo_Posttype_Defaults_Settings_Importing_Action_Test extends TestCase {
 	/**
 	 * Tests transforming the redirect_attachment setting.
 	 *
-	 * @param string $redirect_attachment     The redirect_attachment setting.
-	 * @param string $expected_transformation The expected transformed redirect_attachment setting.
-	 *
 	 * @dataProvider provider_import_redirect_attachment
 	 * @covers ::import_redirect_attachment
+	 *
+	 * @param string $redirect_attachment     The redirect_attachment setting.
+	 * @param string $expected_transformation The expected transformed redirect_attachment setting.
 	 */
 	public function test_import_redirect_attachment( $redirect_attachment, $expected_transformation ) {
 		$transformed_redirect_attachment = $this->mock_instance->import_redirect_attachment( $redirect_attachment );
 
 		$this->assertSame( $expected_transformation, $transformed_redirect_attachment );
+	}
+
+	/**
+	 * Tests returning a setting map of the robot setting for one subset of posttypes.
+	 *
+	 * @covers ::pluck_robot_setting_from_mapping
+	 */
+	public function test_pluck_robot_setting_from_mapping() {
+		$robot_setting_from_mapping = $this->instance->pluck_robot_setting_from_mapping();
+		$this->assertSame( [], $robot_setting_from_mapping );
+	}
+
+	/**
+	 * Tests checking if the settings tab subsetting is set in the AIOSEO option.
+	 *
+	 * @param array $aioseo_settings The AIOSEO settings.
+	 * @param bool  $expected_result The expected result.
+	 *
+	 * @dataProvider provider_isset_settings_tab
+	 * @covers ::isset_settings_tab
+	 */
+	public function test_isset_settings_tab( $aioseo_settings, $expected_result ) {
+		$isset_settings_tab = $this->instance->isset_settings_tab( $aioseo_settings );
+		$this->assertSame( $expected_result, $isset_settings_tab );
+	}
+
+	/**
+	 * Data provider for test_isset_settings_tab().
+	 *
+	 * @return array
+	 */
+	public function provider_isset_settings_tab() {
+		$aioseo_settings_with_subsetting_set = [
+			'searchAppearance' => [
+				'postTypes' => 'settings',
+			],
+		];
+
+		$aioseo_settings_with_subsetting_not_set = [
+			'searchAppearance' => [
+				'not_postTypes' => 'settings',
+			],
+		];
+		return [
+			[ $aioseo_settings_with_subsetting_set, true ],
+			[ $aioseo_settings_with_subsetting_not_set, false ],
+		];
 	}
 
 	/**
@@ -333,7 +380,7 @@ class Aioseo_Posttype_Defaults_Settings_Importing_Action_Test extends TestCase {
 	/**
 	 * Data provider for test_query().
 	 *
-	 * @return string
+	 * @return array
 	 */
 	public function provider_query() {
 		$full_settings = [
@@ -350,36 +397,8 @@ class Aioseo_Posttype_Defaults_Settings_Importing_Action_Test extends TestCase {
 
 		$full_settings_expected = $this->flattened_settings_to_import;
 
-		$missing_settings = [
-			'searchAppearance' => [
-				'archives' => [
-					'author' => [
-						'title'           => 'title1',
-						'metaDescription' => 'desc1',
-					],
-				],
-			],
-		];
-
-		$missing_settings_expected = [];
-
-		$malformed_settings = [
-			'searchAppearance' => [
-				'postTypes' => 'not_array',
-				'archives'  => [
-					'author' => [
-						'title'           => 'title1',
-						'metaDescription' => 'desc1',
-					],
-				],
-			],
-		];
-
-		$malformed_settings_expected = [];
-
 		return [
 			[ \json_encode( $full_settings ), $this->full_settings_to_import, $full_settings_expected, 1 ],
-			[ \json_encode( $missing_settings ), 'irrelevant', $missing_settings_expected, 0 ],
 		];
 	}
 }

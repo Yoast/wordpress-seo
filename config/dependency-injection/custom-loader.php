@@ -65,24 +65,24 @@ class Custom_Loader extends PhpFileLoader {
 	/**
 	 * Registers a set of classes as services using PSR-4 for discovery.
 	 *
-	 * @param Definition  $prototype        A definition to use as template.
-	 * @param string      $namespace_prefix The namespace prefix of classes in the scanned directory.
-	 * @param string      $search_directory The directory to look for classes, glob-patterns allowed.
-	 * @param string|null $exclude          A globed path of files to exclude.
+	 * @param Definition  $prototype A definition to use as template.
+	 * @param string      $namespace The namespace prefix of classes in the scanned directory.
+	 * @param string      $resource  The directory to look for classes, glob-patterns allowed.
+	 * @param string|null $exclude   A globed path of files to exclude.
 	 *
 	 * @return void
 	 *
 	 * @throws InvalidArgumentException If invalid arguments are supplied.
 	 */
-	public function registerClasses( Definition $prototype, $namespace_prefix, $search_directory, $exclude = null ) {
-		if ( \substr( $namespace_prefix, -1 ) !== '\\' ) {
-			throw new InvalidArgumentException( \sprintf( 'Namespace prefix must end with a "\\": %s.', $namespace_prefix ) );
+	public function registerClasses( Definition $prototype, $namespace, $resource, $exclude = null ) {
+		if ( \substr( $namespace, -1 ) !== '\\' ) {
+			throw new InvalidArgumentException( \sprintf( 'Namespace prefix must end with a "\\": %s.', $namespace ) );
 		}
-		if ( ! \preg_match( '/^(?:[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*+\\\\)++$/', $namespace_prefix ) ) {
-			throw new InvalidArgumentException( \sprintf( 'Namespace is not a valid PSR-4 prefix: %s.', $namespace_prefix ) );
+		if ( ! \preg_match( '/^(?:[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*+\\\\)++$/', $namespace ) ) {
+			throw new InvalidArgumentException( \sprintf( 'Namespace is not a valid PSR-4 prefix: %s.', $namespace ) );
 		}
 
-		$classes = $this->findClasses( $namespace_prefix, $search_directory, $exclude );
+		$classes = $this->findClasses( $namespace, $resource, $exclude );
 		// Prepare for deep cloning.
 		// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_serialize -- Reason: There's no way for user input to get in between serialize and unserialize.
 		$serialized_prototype = \serialize( $prototype );
@@ -114,25 +114,27 @@ class Custom_Loader extends PhpFileLoader {
 		}
 	}
 
+	// phpcs:disable WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase -- excludePattern parameter name must match parent, which is outside of our codebase.
+
 	/**
 	 * Finds classes based on a given pattern and exclude pattern.
 	 *
-	 * @param string $namespace_prefix The namespace prefix of classes in the scanned directory.
-	 * @param string $pattern          The directory to look for classes, glob-patterns allowed.
-	 * @param string $exclude          A globed path of files to exclude.
+	 * @param string $namespace      The namespace prefix of classes in the scanned directory.
+	 * @param string $pattern        The directory to look for classes, glob-patterns allowed.
+	 * @param string $excludePattern A globed path of files to exclude.
 	 *
 	 * @return array The found classes.
 	 *
 	 * @throws InvalidArgumentException If invalid arguments were supplied.
 	 */
-	private function findClasses( $namespace_prefix, $pattern, $exclude ) {
+	private function findClasses( $namespace, $pattern, $excludePattern ) {
 		$parameter_bag = $this->container->getParameterBag();
 
 		$exclude_paths  = [];
 		$exclude_prefix = null;
-		if ( $exclude ) {
-			$exclude = $parameter_bag->unescapeValue( $parameter_bag->resolveValue( $exclude ) );
-			foreach ( $this->glob( $exclude, true, $resource ) as $path => $info ) {
+		if ( $excludePattern ) {
+			$excludePattern = $parameter_bag->unescapeValue( $parameter_bag->resolveValue( $excludePattern ) );
+			foreach ( $this->glob( $excludePattern, true, $resource ) as $path => $info ) {
 				if ( $exclude_prefix === null ) {
 					$exclude_prefix = $resource->getPrefix();
 				}
@@ -152,7 +154,7 @@ class Custom_Loader extends PhpFileLoader {
 				$prefix_len = \strlen( $resource->getPrefix() );
 
 				if ( $exclude_prefix && \strpos( $exclude_prefix, $resource->getPrefix() ) !== 0 ) {
-					throw new InvalidArgumentException( \sprintf( 'Invalid "exclude" pattern when importing classes for "%s": make sure your "exclude" pattern (%s) is a subset of the "resource" pattern (%s)', $namespace_prefix, $exclude, $pattern ) );
+					throw new InvalidArgumentException( \sprintf( 'Invalid "exclude" pattern when importing classes for "%s": make sure your "exclude" pattern (%s) is a subset of the "resource" pattern (%s)', $namespace, $excludePattern, $pattern ) );
 				}
 			}
 
@@ -177,7 +179,7 @@ class Custom_Loader extends PhpFileLoader {
 			} catch ( ReflectionException $e ) {
 				$classes[ $class ] = \sprintf(
 					'While discovering services from namespace "%s", an error was thrown when processing the class "%s": "%s".',
-					$namespace_prefix,
+					$namespace,
 					$class,
 					$e->getMessage()
 				);
@@ -205,6 +207,8 @@ class Custom_Loader extends PhpFileLoader {
 
 		return $classes;
 	}
+
+	// phpcs:enable WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase
 
 	/**
 	 * Normalizes all slashes in a file path to forward slashes.

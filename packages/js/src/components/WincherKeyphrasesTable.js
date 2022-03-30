@@ -14,10 +14,11 @@ import { getDirectionalStyle, makeOutboundLink } from "@yoast/helpers";
 import WincherTableRow from "./WincherTableRow";
 import {
 	getKeyphrases,
-	handleAPIResponse,
 	trackKeyphrases,
 	untrackKeyphrase,
 } from "../helpers/wincherEndpoints";
+
+import { handleAPIResponse } from "../helpers/api";
 
 const GetMoreInsightsLink = makeOutboundLink();
 

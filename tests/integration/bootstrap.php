@@ -9,6 +9,60 @@ use Yoast\WPTestUtils\WPIntegration;
 
 require_once dirname( dirname( __DIR__ ) ) . '/vendor/yoast/wp-test-utils/src/WPIntegration/bootstrap-functions.php';
 
+
+/* *****[ Ensure a couple of required files are present ]***** */
+
+/**
+ * Creates asset files.
+ *
+ * @throws RuntimeException If the directory or file creation failed.
+ */
+function create_required_asset_files() {
+	$target_dir = dirname( dirname( __DIR__ ) ) . '/src/generated/assets';
+
+	// phpcs:disable WordPress.PHP.NoSilencedErrors.Discouraged -- Silencing warnings when function fails.
+	if ( @is_dir( $target_dir ) === false ) {
+		if ( @mkdir( $target_dir, 0777, true ) === false ) {
+			throw new RuntimeException( sprintf( 'Failed to create the %s directory.', $target_dir ) );
+		}
+	} // phpcs:enable WordPress
+
+	$required_files = [
+		'plugin.php'    => "<?php
+return [
+	'post-edit.js' => [
+		'dependencies' => [],
+		'version'      => 'test',
+	],
+	'installation-success.js' => [
+		'dependencies' => [],
+		'version'      => 'test',
+	],
+	'workouts.js' => [
+		'dependencies' => [],
+		'version'      => 'test',
+	]
+];
+",
+		'externals.php' => '<?php return [];',
+		'languages.php' => '<?php return [];',
+	];
+
+	foreach ( $required_files as $file_name => $contents ) {
+		$target_file = $target_dir . '/' . $file_name;
+		if ( file_exists( $target_file ) === false ) {
+			if ( file_put_contents( $target_file, $contents ) === false ) {
+				throw new RuntimeException( sprintf( 'Failed to write to target location: %s', $target_file ) );
+			}
+		}
+	}
+}
+
+create_required_asset_files();
+
+
+/* *****[ Wire in the integration ]***** */
+
 $_tests_dir = WPIntegration\get_path_to_wp_test_dir();
 
 // Give access to tests_add_filter() function.

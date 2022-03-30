@@ -38,7 +38,7 @@ export const isCloseEvent = ( event ) => {
  *
  * @returns {*} A button wrapped in a div.
  */
-const EditorModal = ( { id, postTypeName, children, title, isOpen, close, open } ) => {
+const EditorModal = ( { id, postTypeName, children, title, isOpen, close, open, shouldCloseOnClickOutside } ) => {
 	const requestClose = useCallback( ( event ) => {
 		// Prevent the modal from closing when the event is a false positive.
 		if ( ! isCloseEvent( event ) ) {
@@ -56,6 +56,8 @@ const EditorModal = ( { id, postTypeName, children, title, isOpen, close, open }
 						title={ title }
 						onRequestClose={ requestClose }
 						additionalClassName="yoast-collapsible-modal yoast-post-settings-modal"
+						id="id"
+						shouldCloseOnClickOutside={ shouldCloseOnClickOutside }
 					>
 						<div className="yoast-content-container">
 							<div className="yoast-modal-content">
@@ -104,6 +106,11 @@ EditorModal.propTypes = {
 	isOpen: PropTypes.bool.isRequired,
 	open: PropTypes.func.isRequired,
 	close: PropTypes.func.isRequired,
+	shouldCloseOnClickOutside: PropTypes.bool,
+};
+
+EditorModal.defaultProps = {
+	shouldCloseOnClickOutside: true,
 };
 
 export default EditorModal;

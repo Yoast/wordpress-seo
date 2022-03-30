@@ -181,8 +181,8 @@ class Wincher_Keyphrases_Action {
 	 * Gets the keyphrase data for the passed keyphrases.
 	 * Retrieves all available data if no keyphrases are provided.
 	 *
-	 * @param array  $used_keyphrases The currently used keyphrases. Optional.
-	 * @param string $permalink       The current permalink. Optional.
+	 * @param array|null  $used_keyphrases The currently used keyphrases. Optional.
+	 * @param string|null $permalink       The current permalink. Optional.
 	 *
 	 * @return object The keyphrase chart data.
 	 */
