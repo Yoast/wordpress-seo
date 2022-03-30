@@ -22,15 +22,15 @@ class Import_Cursor_Helper {
 	/**
 	 * Returns the stored cursor value.
 	 *
-	 * @param string $cursor_id The cursor id.
-	 * @param mixed  $default   The default value if no cursor has been set yet.
+	 * @param string $cursor_id     The cursor id.
+	 * @param mixed  $default_value The default value if no cursor has been set yet.
 	 *
 	 * @return int The stored cursor value.
 	 */
-	public function get_cursor( $cursor_id, $default = 0 ) {
+	public function get_cursor( $cursor_id, $default_value = 0 ) {
 		$import_cursors = $this->options->get( 'import_cursors', [] );
 
-		return ( isset( $import_cursors[ $cursor_id ] ) ) ? $import_cursors[ $cursor_id ] : $default;
+		return ( isset( $import_cursors[ $cursor_id ] ) ) ? $import_cursors[ $cursor_id ] : $default_value;
 	}
 
 	/**

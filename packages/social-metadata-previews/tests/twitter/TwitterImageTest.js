@@ -6,6 +6,7 @@ import renderer from "react-test-renderer";
 import TwitterImage from "../../src/twitter/TwitterImage";
 
 import * as determineImageProperties from "../../src/helpers/determineImageProperties";
+// eslint-disable-next-line
 determineImageProperties.handleImage = jest.fn();
 
 describe( "TwitterImage Component", () => {

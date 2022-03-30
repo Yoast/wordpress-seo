@@ -50,7 +50,7 @@ class Schema_IDs {
 	/**
 	 * Hash used for an Article's primary image `@id`.
 	 */
-	const PRIMARY_IMAGE_HASH = '#primaryimage';
+	const PRIMARY_IMAGE_HASH = '#primaryimage/';
 
 	/**
 	 * Hash used for the WebPage's `@id`.
