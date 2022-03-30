@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Helpers;
 
 use WPSEO_Option_Titles;
-use Yoast\WP\SEO\Exceptions\Option\Missing_Configuration_Key_Exception;
 use Yoast\WP\SEO\Exceptions\Option\Unknown_Exception;
 use Yoast\WP\SEO\Exceptions\Validation\Abstract_Validation_Exception;
 use Yoast\WP\SEO\Services\Options\Site_Options_Service;
@@ -21,11 +20,16 @@ class Options_Helper {
 	protected $site_options_service;
 
 	/**
-	 * Constructs the Site_Options_Service instance.
+	 * Sets the dependencies.
+	 *
+	 * This method is used instead of the constructor to avoid a circular dependency:
+	 * Site_Options_Service -> Post_Type_Helper -> Options_Helper.
 	 *
 	 * @param Site_Options_Service $site_options_service The site options service.
+	 *
+	 * @required
 	 */
-	public function __construct( Site_Options_Service $site_options_service ) {
+	public function set_dependencies( Site_Options_Service $site_options_service ) {
 		$this->site_options_service = $site_options_service;
 	}
 
@@ -58,7 +62,6 @@ class Options_Helper {
 			$this->site_options_service->__set( $key, $value );
 
 			return true;
-		} catch ( Missing_Configuration_Key_Exception $exception ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch -- Deliberately left empty.
 		} catch ( Unknown_Exception $exception ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch -- Deliberately left empty.
 		} catch ( Abstract_Validation_Exception $exception ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch -- Deliberately left empty.
 		}
@@ -108,6 +111,15 @@ class Options_Helper {
 	 */
 	public function reset_options() {
 		$this->site_options_service->reset_options();
+	}
+
+	/**
+	 * Clears the cache.
+	 *
+	 * @return void
+	 */
+	public function clear_cache() {
+		$this->site_options_service->clear_cache();
 	}
 
 	/**

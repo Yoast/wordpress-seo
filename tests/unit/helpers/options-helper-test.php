@@ -4,18 +4,20 @@ namespace Yoast\WP\SEO\Tests\Unit\Helpers;
 
 use Brain\Monkey;
 use Mockery;
-use Yoast\WP\SEO\Exceptions\Option\Missing_Configuration_Key_Exception;
 use Yoast\WP\SEO\Exceptions\Option\Unknown_Exception;
 use Yoast\WP\SEO\Exceptions\Validation\Invalid_Twitter_Username_Exception;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Post_Type_Helper;
+use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Helpers\Validation_Helper;
 use Yoast\WP\SEO\Services\Options\Site_Options_Service;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class Post_Helper_Test
+ * Class Options_Helper_Test.
  *
  * @group helpers
+ * @group options
  *
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Options_Helper
  */
@@ -40,7 +42,21 @@ class Options_Helper_Test extends TestCase {
 	 *
 	 * @var Validation_Helper|Mockery\Mock
 	 */
-	protected $validation;
+	protected $validation_helper;
+
+	/**
+	 * Holds the post type helper instance.
+	 *
+	 * @var Post_Type_Helper
+	 */
+	protected $post_type_helper;
+
+	/**
+	 * Holds the taxonomy helper instance.
+	 *
+	 * @var Taxonomy_Helper
+	 */
+	protected $taxonomy_helper;
 
 	/**
 	 * Prepares the test.
@@ -50,20 +66,30 @@ class Options_Helper_Test extends TestCase {
 		$this->stubEscapeFunctions();
 		$this->stubTranslationFunctions();
 
-		$this->validation           = Mockery::mock( Validation_Helper::class );
-		$this->site_options_service = Mockery::mock( Site_Options_Service::class, [ $this->validation ] );
+		$this->validation_helper    = Mockery::mock( Validation_Helper::class );
+		$this->post_type_helper     = Mockery::mock( Post_Type_Helper::class );
+		$this->taxonomy_helper      = Mockery::mock( Taxonomy_Helper::class );
+		$this->site_options_service = Mockery::mock(
+			Site_Options_Service::class,
+			[
+				$this->validation_helper,
+				$this->post_type_helper,
+				$this->taxonomy_helper,
+			]
+		);
 
-		$this->instance = Mockery::mock( Options_Helper::class, [ $this->site_options_service ] )
+		$this->instance = Mockery::mock( Options_Helper::class )
 			->shouldAllowMockingProtectedMethods()
 			->makePartial();
+		$this->instance->set_dependencies( $this->site_options_service );
 	}
 
 	/**
 	 * Tests if given dependencies are set as expected.
 	 *
-	 * @covers ::__construct
+	 * @covers ::set_dependencies
 	 */
-	public function test_constructor() {
+	public function test_set_dependencies() {
 		$this->assertInstanceOf( Options_Helper::class, $this->instance );
 		$this->assertInstanceOf(
 			Site_Options_Service::class,
@@ -105,10 +131,24 @@ class Options_Helper_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_set() {
+		$this->site_options_service->expects( 'get_configurations' )
+			->times( 3 )
+			->andReturn(
+				[
+					'twitter_site' => [
+						'default' => '',
+						'types'   => [
+							'empty_string',
+							'twitter_username',
+						],
+					],
+				]
+			);
+
 		Monkey\Functions\expect( 'update_option' )->once();
 
 		$this->site_options_service->expects( 'get_defaults' )->andReturn( [ 'twitter_site' => '' ] );
-		$this->validation->expects( 'validate_as' )->andReturn( 'yoast' );
+		$this->validation_helper->expects( 'validate_as' )->andReturn( 'yoast' );
 
 		$this->assertTrue( $this->instance->set( 'twitter_site', 'yoast' ) );
 	}
@@ -121,6 +161,8 @@ class Options_Helper_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_set_catch_unknown() {
+		$this->site_options_service->expects( 'get_configurations' )->andReturn( [] );
+
 		$this->assertFalse( $this->instance->set( 'unknown', '' ) );
 	}
 
@@ -131,28 +173,26 @@ class Options_Helper_Test extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function test_set_catch_missing() {
-		$this->site_options_service->expects( 'get_defaults' )
-			->andThrows( Missing_Configuration_Key_Exception::class );
-
-		$this->assertFalse( $this->instance->set( 'twitter_site', '' ) );
-	}
-
-	/**
-	 * Tests the setting of an option value failing.
-	 *
-	 * @covers ::set
-	 *
-	 * @return void
-	 */
 	public function test_set_catch_validation() {
-		$twitter_site = '#yoast';
+		$this->site_options_service->expects( 'get_configurations' )
+			->times( 3 )
+			->andReturn(
+				[
+					'twitter_site' => [
+						'default' => '',
+						'types'   => [
+							'empty_string',
+							'twitter_username',
+						],
+					],
+				]
+			);
 
 		$this->site_options_service->expects( 'get_defaults' )->andReturn( [ 'twitter_site' => '' ] );
-		$this->validation->expects( 'validate_as' )
+		$this->validation_helper->expects( 'validate_as' )
 			->andThrows( Invalid_Twitter_Username_Exception::class );
 
-		$this->assertFalse( $this->instance->set( 'twitter_site', $twitter_site ) );
+		$this->assertFalse( $this->instance->set( 'twitter_site', '#yoast' ) );
 	}
 
 	/**
@@ -222,6 +262,19 @@ class Options_Helper_Test extends TestCase {
 		$this->site_options_service->expects( 'reset_options' )->once();
 
 		$this->instance->reset_options();
+	}
+
+	/**
+	 * Tests if the clear_cache of the site_options_service is called correctly.
+	 *
+	 * @covers ::clear_cache
+	 *
+	 * @return void
+	 */
+	public function test_clear_cache() {
+		$this->site_options_service->expects( 'clear_cache' )->once();
+
+		$this->instance->clear_cache();
 	}
 
 	/**

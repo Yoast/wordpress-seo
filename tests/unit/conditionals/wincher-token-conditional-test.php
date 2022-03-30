@@ -41,7 +41,7 @@ class Wincher_Token_Conditional_Test extends TestCase {
 	}
 
 	/**
-	 * Tests if the class attributes are set propertly.
+	 * Tests if the class attributes are set properly.
 	 *
 	 * @covers ::__construct
 	 */

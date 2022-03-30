@@ -12,7 +12,7 @@ use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 class Site_Options_Service extends Abstract_Options_Service {
 
 	/**
-	 * Holds the WordPress options' option name.
+	 * Holds the name of the options row in the database.
 	 *
 	 * @var string
 	 */

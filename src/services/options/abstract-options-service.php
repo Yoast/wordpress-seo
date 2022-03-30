@@ -2,8 +2,9 @@
 
 namespace Yoast\WP\SEO\Services\Options;
 
-use Yoast\WP\SEO\Exceptions\Option\Missing_Configuration_Key_Exception;
 use Yoast\WP\SEO\Exceptions\Option\Unknown_Exception;
+use Yoast\WP\SEO\Helpers\Post_Type_Helper;
+use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Helpers\Validation_Helper;
 
 /**
@@ -12,14 +13,14 @@ use Yoast\WP\SEO\Helpers\Validation_Helper;
 abstract class Abstract_Options_Service {
 
 	/**
-	 * Holds the WordPress options' option name.
+	 * Holds the name of the options row in the database.
 	 *
 	 * @var string
 	 */
 	protected $option_name;
 
 	/**
-	 * Holds the site option configurations.
+	 * Holds the option configurations.
 	 *
 	 * Note that if one "type check" passes, the whole option validation passes.
 	 *
@@ -39,33 +40,58 @@ abstract class Abstract_Options_Service {
 	protected $configurations = [];
 
 	/**
+	 * Holds the cached option configurations.
+	 *
+	 * @var array[string]
+	 */
+	protected $cached_configurations = null;
+
+	/**
 	 * Holds the cached option values.
 	 *
 	 * @var array
 	 */
-	protected $values = null;
+	protected $cached_values = null;
 
 	/**
 	 * Holds the cached option default values.
 	 *
 	 * @var array
 	 */
-	protected $defaults = null;
+	protected $cached_defaults = null;
 
 	/**
 	 * Holds the validation helper instance.
 	 *
 	 * @var Validation_Helper
 	 */
-	protected $validation;
+	protected $validation_helper;
+
+	/**
+	 * Holds the post type helper instance.
+	 *
+	 * @var Post_Type_Helper
+	 */
+	protected $post_type_helper;
+
+	/**
+	 * Holds the taxonomy helper instance.
+	 *
+	 * @var Taxonomy_Helper
+	 */
+	protected $taxonomy_helper;
 
 	/**
 	 * Constructs an options service instance.
 	 *
-	 * @param Validation_Helper $validation The validation helper.
+	 * @param Validation_Helper $validation_helper The validation helper.
+	 * @param Post_Type_Helper  $post_type_helper  The post type helper.
+	 * @param Taxonomy_Helper   $taxonomy_helper   The taxonomy helper.
 	 */
-	public function __construct( Validation_Helper $validation ) {
-		$this->validation = $validation;
+	public function __construct( Validation_Helper $validation_helper, Post_Type_Helper $post_type_helper, Taxonomy_Helper $taxonomy_helper ) {
+		$this->validation_helper = $validation_helper;
+		$this->post_type_helper  = $post_type_helper;
+		$this->taxonomy_helper   = $taxonomy_helper;
 	}
 
 	/**
@@ -101,16 +127,15 @@ abstract class Abstract_Options_Service {
 	 * @param mixed  $value The option value.
 	 *
 	 * @throws Unknown_Exception When the option does not exist.
-	 * @throws Missing_Configuration_Key_Exception When the option does not have a `sanitize_as` key.
 	 * @throws \Yoast\WP\SEO\Exceptions\Validation\Abstract_Validation_Exception When the value is invalid.
 	 */
 	public function __set( $key, $value ) {
-		if ( ! \array_key_exists( $key, $this->configurations ) ) {
+		if ( ! \array_key_exists( $key, $this->get_configurations() ) ) {
 			throw new Unknown_Exception( $key );
 		}
 
 		// Presuming the default is safe.
-		if ( $value === $this->configurations[ $key ]['default'] ) {
+		if ( $value === $this->get_configurations()[ $key ]['default'] ) {
 			$this->set_option( $key, $value );
 
 			return;
@@ -120,15 +145,8 @@ abstract class Abstract_Options_Service {
 			return;
 		}
 
-		if ( ! \array_key_exists( 'types', $this->configurations[ $key ] ) ) {
-			/*
-			 * Note: this path is untested as it is configuration which is not exposed.
-			 * In theory this makes this a development only exception, until we add a filter for it.
-			 */
-			throw new Missing_Configuration_Key_Exception( $key, 'types' );
-		}
 		// Validate, this can throw a Validation_Exception.
-		$value = $this->validation->validate_as( $value, $this->configurations[ $key ]['types'] );
+		$value = $this->validation_helper->validate_as( $value, $this->get_configurations()[ $key ]['types'] );
 
 		$this->set_option( $key, $value );
 	}
@@ -184,14 +202,14 @@ abstract class Abstract_Options_Service {
 	 * @return array The default values.
 	 */
 	public function get_defaults() {
-		if ( $this->defaults === null ) {
-			$this->defaults = \array_combine(
-				\array_keys( $this->configurations ),
-				\array_column( $this->configurations, 'default' )
+		if ( $this->cached_defaults === null ) {
+			$this->cached_defaults = \array_combine(
+				\array_keys( $this->get_configurations() ),
+				\array_column( $this->get_configurations(), 'default' )
 			);
 		}
 
-		return $this->defaults;
+		return $this->cached_defaults;
 	}
 
 	/**
@@ -212,28 +230,75 @@ abstract class Abstract_Options_Service {
 	}
 
 	/**
+	 * Retrieves the (cached) option configurations.
+	 *
+	 * @return array The option configurations.
+	 */
+	public function get_configurations() {
+		if ( $this->cached_configurations === null ) {
+			/**
+			 * Filter 'wpseo_additional_option_configurations' - Allows developers to add option configurations.
+			 *
+			 * @see Abstract_Options_Service::$configurations
+			 *
+			 * @api array The option configurations.
+			 */
+			$additional_configurations = \apply_filters( 'wpseo_additional_option_configurations', [] );
+
+			// Ignore invalid filter result.
+			if ( ! \is_array( $additional_configurations ) ) {
+				$additional_configurations = [];
+			}
+			else {
+				// Filter out invalid configurations.
+				$additional_configurations = \array_filter(
+					$additional_configurations,
+					[ $this, 'is_valid_configuration' ],
+					ARRAY_FILTER_USE_BOTH
+				);
+			}
+
+			// Merge the configurations.
+			$this->cached_configurations = \array_merge( $additional_configurations, $this->expand_configurations( $this->configurations ) );
+		}
+
+		return $this->cached_configurations;
+	}
+
+	/**
+	 * Clears the cache.
+	 *
+	 * @return void
+	 */
+	public function clear_cache() {
+		$this->cached_configurations = null;
+		$this->cached_defaults       = null;
+		$this->cached_values         = null;
+	}
+
+	/**
 	 * Retrieves the (cached) values.
 	 *
 	 * @return array The values.
 	 */
 	protected function get_values() {
-		if ( $this->values === null ) {
-			$this->values = \get_option( $this->option_name );
+		if ( $this->cached_values === null ) {
+			$this->cached_values = \get_option( $this->option_name );
 			// Database row does not exist. We need an array.
-			if ( ! $this->values ) {
-				$this->values = [];
+			if ( ! $this->cached_values ) {
+				$this->cached_values = [];
 			}
 
 			// Fill with default value when the database value is missing.
 			$defaults = $this->get_defaults();
 			foreach ( $defaults as $option => $default_value ) {
-				if ( ! \array_key_exists( $option, $this->values ) ) {
-					$this->values[ $option ] = $default_value;
+				if ( ! \array_key_exists( $option, $this->cached_values ) ) {
+					$this->cached_values[ $option ] = $default_value;
 				}
 			}
 		}
 
-		return $this->values;
+		return $this->cached_values;
 	}
 
 	/**
@@ -246,18 +311,93 @@ abstract class Abstract_Options_Service {
 	 */
 	protected function set_option( $key, $value ) {
 		// Ensure the cache is filled.
-		if ( $this->values === null ) {
+		if ( $this->cached_values === null ) {
 			$this->get_values();
 		}
 
 		// Only save when changed.
-		if ( $value === $this->values[ $key ] ) {
+		if ( $value === $this->cached_values[ $key ] ) {
 			return;
 		}
 
 		// Update the cache.
-		$this->values[ $key ] = $value;
+		$this->cached_values[ $key ] = $value;
 		// Save to the database.
-		\update_option( $this->option_name, $this->values );
+		\update_option( $this->option_name, $this->cached_values );
+	}
+
+	/**
+	 * Determines if the passed configuration is valid.
+	 *
+	 * @param mixed $configuration The configuration.
+	 * @param mixed $option        The name of the option.
+	 *
+	 * @return bool Whether the configuration is valid.
+	 */
+	protected function is_valid_configuration( $configuration, $option ) {
+		if ( ! \is_string( $option ) ) {
+			return false;
+		}
+
+		if ( ! \is_array( $configuration ) ) {
+			return false;
+		}
+
+		if ( ! \array_key_exists( 'default', $configuration ) ) {
+			return false;
+		}
+
+		if ( ! \array_key_exists( 'types', $configuration ) ) {
+			return false;
+		}
+
+		if ( ! \is_array( $configuration['types'] ) ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Expands the post types & taxonomies "wildcards" in the configurations.
+	 *
+	 * @param array $configurations The configurations to expand.
+	 *
+	 * @return array The expanded configurations.
+	 */
+	protected function expand_configurations( array $configurations ) {
+		$config = $this->expand_configurations_for( $configurations, '<PostTypeName>', $this->post_type_helper->get_public_post_types() );
+
+		return $this->expand_configurations_for( $config, '<TaxonomyName>', $this->taxonomy_helper->get_public_taxonomies() );
+	}
+
+	/**
+	 * Expands the configurations for a given search, using the names.
+	 *
+	 * This removes the found configuration and replaces it with variants, using the names.
+	 *
+	 * @param array    $configurations The configurations to expand.
+	 * @param string   $search         The text to replace.
+	 * @param string[] $names          The names to use as replacement.
+	 *
+	 * @return array The expanded configurations.
+	 */
+	protected function expand_configurations_for( array $configurations, $search, array $names ) {
+		$config = [];
+
+		foreach ( $configurations as $option => $configuration ) {
+			$index = \strpos( $option, $search );
+			// Keep other configurations.
+			if ( $index === false ) {
+				$config[ $option ] = $configuration;
+				continue;
+			}
+			// Expand the names as configurations.
+			foreach ( $names as $name ) {
+				$config[ \str_replace( $search, $name, $option ) ] = $configuration;
+			}
+		}
+
+		return $config;
 	}
 }

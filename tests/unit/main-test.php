@@ -68,8 +68,15 @@ class Main_Test extends TestCase {
 			$this->expectDeprecationMessage( 'Constant FILTER_SANITIZE_STRING is deprecated' );
 		}
 
-		// Deprecated classes call _deprecated_function in the constructor, so stub the function to do nothing.
-		Monkey\Functions\stubs( [ '_deprecated_function' => '__return_null' ] );
+		Monkey\Functions\stubs(
+			[
+				// Deprecated classes call _deprecated_function in the constructor, so stub the function to do nothing.
+				'_deprecated_function' => '__return_null',
+				// These are used in the options service, to expand some configurations to each post type and taxonomy.
+				'get_post_types'       => [],
+				'get_taxonomies'       => [],
+			]
+		);
 
 		// Some classes call the YoastSEO function in the constructor.
 		Monkey\Functions\expect( 'YoastSEO' )

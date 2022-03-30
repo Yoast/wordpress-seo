@@ -5,7 +5,6 @@
  * @package WPSEO\Main
  */
 
-use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Ryte_Integration;
 
 if ( ! function_exists( 'add_filter' ) ) {

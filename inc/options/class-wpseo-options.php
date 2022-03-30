@@ -57,21 +57,9 @@ class WPSEO_Options {
 	 * Instantiate all the WPSEO option management classes.
 	 */
 	protected function __construct() {
-		$this->register_hooks();
-
 		foreach ( static::$options as $option_name => $option_class ) {
 			static::register_option( call_user_func( [ $option_class, 'get_instance' ] ) );
 		}
-	}
-
-	/**
-	 * Register our hooks.
-	 */
-	public function register_hooks() {
-		add_action( 'registered_taxonomy', [ $this, 'clear_cache' ] );
-		add_action( 'unregistered_taxonomy', [ $this, 'clear_cache' ] );
-		add_action( 'registered_post_type', [ $this, 'clear_cache' ] );
-		add_action( 'unregistered_post_type', [ $this, 'clear_cache' ] );
 	}
 
 	/**
@@ -269,6 +257,7 @@ class WPSEO_Options {
 	 */
 	public static function clear_cache() {
 		static::$option_values = null;
+		YoastSEO()->helpers->options->clear_cache();
 	}
 
 	/**
