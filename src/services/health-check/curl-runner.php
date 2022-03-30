@@ -58,7 +58,7 @@ class Curl_Runner implements Runner_Interface {
 	/**
 	 * Factory for the MyYoast API request object that the health check uses to check if cURL works correctly.
 	 *
-	 * @var MyYoast_API_Request_Factory
+	 * @var MyYoast_Api_Request_Factory
 	 */
 	private $my_yoast_api_request_factory;
 
