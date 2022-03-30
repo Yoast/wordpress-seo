@@ -44,36 +44,36 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 	return (
 		<>
 			<Fill name="YoastMetabox">
-			<SidebarItem
-				key="warning"
-				renderPriority={ 1 }
-			>
-				<Warning />
-			</SidebarItem>
-			{ settings.isKeywordAnalysisActive && <SidebarItem key="keyword-input" renderPriority={ 8 }>
-				<KeywordInput />
-				{ ! window.wpseoScriptData.metabox.isPremium && <Fill name="YoastRelatedKeyphrases">
-					<SEMrushRelatedKeyphrases />
-				</Fill> }
-			</SidebarItem> }
-			<SidebarItem key="google-preview" renderPriority={ 9 }>
-				<MetaboxCollapsible
-					id={ "yoast-snippet-editor-metabox" }
-					title={ __( "Google preview", "wordpress-seo" ) } initialIsOpen={ true }
+				<SidebarItem
+					key="warning"
+					renderPriority={ 1 }
 				>
-					<SnippetEditor hasPaperStyle={ false } />
-				</MetaboxCollapsible>
-			</SidebarItem>
-			{ settings.isContentAnalysisActive && <SidebarItem key="readability-analysis" renderPriority={ 10 }>
-				<ReadabilityAnalysis />
-			</SidebarItem> }
-			{ settings.isKeywordAnalysisActive && <SidebarItem key="seo-analysis" renderPriority={ 20 }>
-				<SeoAnalysis
-					shouldUpsell={ settings.shouldUpsell }
-					shouldUpsellWordFormRecognition={ settings.isWordFormRecognitionActive }
-				/>
-			</SidebarItem> }
-			{ settings.isKeywordAnalysisActive && settings.isWincherIntegrationActive &&
+					<Warning />
+				</SidebarItem>
+				{ settings.isKeywordAnalysisActive && <SidebarItem key="keyword-input" renderPriority={ 8 }>
+					<KeywordInput />
+					{ ! window.wpseoScriptData.metabox.isPremium && <Fill name="YoastRelatedKeyphrases">
+						<SEMrushRelatedKeyphrases />
+					</Fill> }
+				</SidebarItem> }
+				<SidebarItem key="google-preview" renderPriority={ 9 }>
+					<MetaboxCollapsible
+						id={ "yoast-snippet-editor-metabox" }
+						title={ __( "Google preview", "wordpress-seo" ) } initialIsOpen={ true }
+					>
+						<SnippetEditor hasPaperStyle={ false } />
+					</MetaboxCollapsible>
+				</SidebarItem>
+				{ settings.isContentAnalysisActive && <SidebarItem key="readability-analysis" renderPriority={ 10 }>
+					<ReadabilityAnalysis />
+				</SidebarItem> }
+				{ settings.isKeywordAnalysisActive && <SidebarItem key="seo-analysis" renderPriority={ 20 }>
+					<SeoAnalysis
+						shouldUpsell={ settings.shouldUpsell }
+						shouldUpsellWordFormRecognition={ settings.isWordFormRecognitionActive }
+					/>
+				</SidebarItem> }
+				{ settings.isKeywordAnalysisActive && settings.isWincherIntegrationActive &&
 				<SidebarItem key="wincher-seo-performance" renderPriority={ 25 }>
 					<MetaboxCollapsible
 						id={ "yoast-wincher-seo-performance-metabox" }
