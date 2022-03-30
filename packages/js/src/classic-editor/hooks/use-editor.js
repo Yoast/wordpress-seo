@@ -11,7 +11,7 @@ const useEditor = () => {
 	const [ editor, setEditor ] = useState( null );
 
 	const contentEditorListener = useCallback( ( e ) => {
-		if ( e.editor.id === DOM_IDS.CONTENT ) {
+		if ( e.editor.id === DOM_IDS.POST_CONTENT ) {
 			setEditor( e.editor );
 		}
 	}, [ setEditor ] );
@@ -22,7 +22,7 @@ const useEditor = () => {
 		}
 
 		// Is the editor already present? Use that.
-		const contentEditor = tinymce.get( DOM_IDS.CONTENT );
+		const contentEditor = tinymce.get( DOM_IDS.POST_CONTENT );
 		if ( contentEditor ) {
 			setEditor( contentEditor );
 			return;
