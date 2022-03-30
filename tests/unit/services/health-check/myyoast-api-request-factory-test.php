@@ -3,22 +3,22 @@
 namespace Yoast\WP\SEO\Tests\Unit\Services\Health_Check;
 
 use WPSEO_MyYoast_Api_Request;
-use Yoast\WP\SEO\Services\Health_Check\MyYoast_API_Request_Factory;
+use Yoast\WP\SEO\Services\Health_Check\MyYoast_Api_Request_Factory;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
-// phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
-
 /**
- * MyYoast_API_Request_Factory
+ * MyYoast_Api_Request_Factory_Test
  *
- * @coversDefaultClass Yoast\WP\SEO\Services\Health_Check\MyYoast_API_Request_Factory
+ * @coversDefaultClass \Yoast\WP\SEO\Services\Health_Check\MyYoast_Api_Request_Factory
+ *
+ * phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-class MyYoast_API_Request_Factory_Test extends TestCase {
+class MyYoast_Api_Request_Factory_Test extends TestCase {
 
 	/**
-	 * The MyYoast_API_Request_Factory instance to be tested.
+	 * The MyYoast_Api_Request_Factory instance to be tested.
 	 *
-	 * @var MyYoast_API_Request_Factory
+	 * @var MyYoast_Api_Request_Factory
 	 */
 	private $instance;
 
@@ -29,7 +29,7 @@ class MyYoast_API_Request_Factory_Test extends TestCase {
 	 */
 	protected function set_up() {
 		parent::set_up();
-		$this->instance = new MyYoast_API_Request_Factory();
+		$this->instance = new MyYoast_Api_Request_Factory();
 	}
 
 	/**
