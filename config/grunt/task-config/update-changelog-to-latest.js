@@ -20,7 +20,7 @@ module.exports = {
 			pluginSlug: "wordpress-seo",
 			defaultChangelogEntries: "",
 			useANewLineAfterHeader: true,
-			commitChangelog: false,
+			commitChangelog: true,
 			changelogToInject: ".tmp/n8nchangelog.txt",
 		},
 	},
