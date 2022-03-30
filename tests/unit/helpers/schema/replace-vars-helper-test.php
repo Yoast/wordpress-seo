@@ -126,7 +126,7 @@ class Replace_Vars_Helper_Test extends TestCase {
 			'main_schema_id'   => 'https://basic.wordpress.test/schema-templates/#webpage',
 			'author_id'        => 'https://basic.wordpress.test#/schema/person/a00dc884baa6bd52ebacc06cfd5aab21',
 			'person_id'        => 'https://basic.wordpress.test#/schema/person/',
-			'primary_image_id' => 'https://basic.wordpress.test/schema-templates#primaryimage',
+			'primary_image_id' => 'https://basic.wordpress.test/schema-templates#primaryimage/',
 			'webpage_id'       => 'https://basic.wordpress.test/schema-templates#webpage',
 			'website_id'       => 'https://basic.wordpress.test#website',
 			'post_date'        => '2020-10-11T13:00:00+00:00',
@@ -189,7 +189,7 @@ class Replace_Vars_Helper_Test extends TestCase {
 			'main_schema_id'   => 'https://basic.wordpress.test/schema-templates/#webpage',
 			'author_id'        => 'https://basic.wordpress.test#/schema/person/a00dc884baa6bd52ebacc06cfd5aab21',
 			'person_id'        => 'https://basic.wordpress.test#/schema/person/',
-			'primary_image_id' => 'https://basic.wordpress.test/schema-templates#primaryimage',
+			'primary_image_id' => 'https://basic.wordpress.test/schema-templates#primaryimage/',
 			'webpage_id'       => 'https://basic.wordpress.test/schema-templates#webpage',
 			'website_id'       => 'https://basic.wordpress.test#website',
 			'organization_id'  => 'https://basic.wordpress.test#organization',
@@ -287,14 +287,14 @@ class Replace_Vars_Helper_Test extends TestCase {
 	/**
 	 * Returns all the values of the given nested array as one flat array.
 	 *
-	 * @param array $array A nested array of key-value pairs.
+	 * @param array $nested_array A nested array of key-value pairs.
 	 *
 	 * @return array All of the values in the nested array.
 	 */
-	protected function array_values_recursively( $array ) {
+	protected function array_values_recursively( $nested_array ) {
 		$merged = [];
 
-		foreach ( $array as $value ) {
+		foreach ( $nested_array as $value ) {
 			if ( \is_array( $value ) ) {
 				$merged[] = $this->array_values_recursively( $value );
 			}

@@ -23,7 +23,7 @@ abstract class Aioseo_Default_Archive_Settings_Importing_Action_Double extends A
 	/**
 	 * Queries the database and retrieves unimported AiOSEO settings (in chunks if a limit is applied).
 	 *
-	 * @param int $limit The maximum number of unimported objects to be returned.
+	 * @param int|null $limit The maximum number of unimported objects to be returned.
 	 *
 	 * @return array The (maybe chunked) unimported AiOSEO settings to import.
 	 */
@@ -37,7 +37,7 @@ abstract class Aioseo_Default_Archive_Settings_Importing_Action_Double extends A
 	 * @param string|array $setting_value The value of the AIOSEO setting at hand.
 	 * @param string       $setting       The setting at hand, eg. post or movie-category, separator etc.
 	 *
-	 * @return void.
+	 * @return void
 	 */
 	public function map( $setting_value, $setting ) {
 		parent::map( $setting_value, $setting );
@@ -50,7 +50,7 @@ abstract class Aioseo_Default_Archive_Settings_Importing_Action_Double extends A
 	 * @param string $setting_value   The values of the setting.
 	 * @param array  $setting_mapping The mapping of the setting to Yoast formats.
 	 *
-	 * @return void.
+	 * @return void
 	 */
 	public function import_single_setting( $setting, $setting_value, $setting_mapping ) {
 		parent::import_single_setting( $setting, $setting_value, $setting_mapping );
