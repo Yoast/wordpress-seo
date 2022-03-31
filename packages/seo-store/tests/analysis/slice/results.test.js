@@ -6,6 +6,8 @@ import resultsReducer, {
 	resultsActions,
 	resultsSelectors,
 } from "../../../src/analysis/slice/results";
+import {useEffect} from "@wordpress/element";
+import {MARKER_STATUS} from "../../../build";
 
 describe( "Results slice", () => {
 	// eslint-disable-next-line no-undefined
@@ -28,6 +30,7 @@ describe( "Results slice", () => {
 		activeMarker: {
 			id: "",
 			marks: [],
+			status: "hidden",
 		},
 	};
 
@@ -42,12 +45,24 @@ describe( "Results slice", () => {
 			const payload = {
 				id: "1",
 				marks: [ "test" ],
+				status: "hidden",
 			};
 			const result = resultsReducer( previousState, updateActiveMarker( payload ) );
 
 			expect( result ).toEqual( {
 				...initialState,
 				activeMarker: { ...payload },
+			} );
+		} );
+
+		test( "should update the marker status", () => {
+			const { updateMarkerStatus } = resultsActions;
+
+			const payload = "enabled";
+			const result = resultsReducer( updateMarkerStatus( payload ) );
+			expect( result ).toEqual( {
+				...initialState,
+				status: { ...payload },
 			} );
 		} );
 
