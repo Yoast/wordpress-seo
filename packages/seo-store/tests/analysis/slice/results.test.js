@@ -198,6 +198,19 @@ describe( "Results slice", () => {
 
 			expect( result ).toEqual( [ "test" ] );
 		} );
+
+		test( "should select the marker status", () => {
+			const { selectMarkerStatus } = resultsSelectors;
+
+			const state = {
+				activeMarker: {
+					status: "enabled",
+				},
+			};
+			const result = selectMarkerStatus( createStoreState( state ) );
+
+			expect( result ).toEqual( "enabled" );
+		} );
 	} );
 
 	describe( "Analyze generator", () => {
