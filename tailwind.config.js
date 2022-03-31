@@ -1,7 +1,4 @@
-const tailwindcssForms = require( "@tailwindcss/forms" )( {
-	strategy: "class",
-} );
-
+/* eslint-disable global-require */
 module.exports = {
 	content: [ "./packages/js/**/*.{html,js}" ],
 	theme: {
@@ -48,8 +45,10 @@ module.exports = {
 		},
 	},
 	plugins: [
-		tailwindcssForms,
+		require( "@tailwindcss/forms" ),
 	],
-	important: true,
+	corePlugins: {
+		preflight: false,
+	},
 	prefix: "yst-",
 };
