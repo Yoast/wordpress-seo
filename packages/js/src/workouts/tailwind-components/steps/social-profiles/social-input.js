@@ -29,7 +29,7 @@ export default function SocialInput( { id, onChange, socialMedium, isDisabled, .
 
 	return <TextInput
 		onChange={ onChangeHandler }
-		readOnly={ isDisabled }
+		disabled={ isDisabled }
 		id={ id }
 		{ ...restProps }
 	/>;
