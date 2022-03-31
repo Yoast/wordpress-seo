@@ -3,7 +3,6 @@
  * WPSEO plugin file.
  *
  * @package WPSEO\Admin\Views
- *
  */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
