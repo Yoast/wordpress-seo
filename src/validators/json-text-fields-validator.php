@@ -14,6 +14,13 @@ use Yoast\WP\SEO\Helpers\Json_Helper;
 class Json_Text_Fields_Validator extends String_Validator {
 
 	/**
+	 * The setting' allow-list key.
+	 *
+	 * @var string
+	 */
+	const ALLOW_KEY = 'allow';
+
+	/**
 	 * Holds the regex validator instance.
 	 *
 	 * @var Text_Field_Validator
@@ -73,7 +80,10 @@ class Json_Text_Fields_Validator extends String_Validator {
 
 		$sanitized = [];
 		foreach ( $array as $key => $value ) {
-			$sanitized[ $this->text_field_validator->validate( $key ) ] = $this->text_field_validator->validate( $value );
+			$sanitized_key = $this->text_field_validator->validate( $key );
+			if ( $this->is_key_allowed( $sanitized_key, $settings ) ) {
+				$sanitized[ $sanitized_key ] = $this->text_field_validator->validate( $value );
+			}
 		}
 
 		$json = $this->json_helper->format_encode( $sanitized );
@@ -85,4 +95,23 @@ class Json_Text_Fields_Validator extends String_Validator {
 	}
 
 	// phpcs:enable Squiz.Commenting.FunctionCommentThrowTag.WrongNumber
+
+	/**
+	 * Checks if a key is allowed.
+	 *
+	 * The settings can have an allow-list. If that exists, the key should be present there to be allowed. Otherwise,
+	 * the key is allowed.
+	 *
+	 * @param mixed      $key      The key to check.
+	 * @param array|null $settings Optional settings.
+	 *
+	 * @return bool Whether the key is allowed.
+	 */
+	protected function is_key_allowed( $key, $settings ) {
+		if ( $settings !== null && \array_key_exists( self::ALLOW_KEY, $settings ) ) {
+			return \in_array( $key, $settings[ self::ALLOW_KEY ], true );
+		}
+
+		return true;
+	}
 }

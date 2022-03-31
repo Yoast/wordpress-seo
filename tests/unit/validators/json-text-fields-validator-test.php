@@ -16,7 +16,6 @@ use Yoast\WP\SEO\Validators\Text_Field_Validator;
  *
  * @group options
  * @group validators
- * @group test
  *
  * @coversDefaultClass \Yoast\WP\SEO\Validators\Json_Text_Fields_Validator
  *
@@ -91,6 +90,7 @@ class Json_Text_Fields_Validator_Test extends TestCase {
 	 * Tests validation, happy path.
 	 *
 	 * @covers ::validate
+	 * @covers ::is_key_allowed
 	 */
 	public function test_validate() {
 		$json  = '{ "foo": "bar", "baz": "qux" }';
@@ -106,6 +106,30 @@ class Json_Text_Fields_Validator_Test extends TestCase {
 		$this->json_helper->expects( 'format_encode' )->with( $array )->andReturn( $json );
 
 		$this->assertEquals( $json, $this->instance->validate( $json ) );
+	}
+
+	/**
+	 * Tests validation, honoring the allow-list.
+	 *
+	 * @covers ::validate
+	 * @covers ::is_key_allowed
+	 */
+	public function test_validate_allow_list() {
+		$json     = '{ "foo": "bar", "baz": "qux" }';
+		$array    = \json_decode( $json, true );
+		$expected_json = '{ "foo": "bar" }';
+		$expected_array = \json_decode( $expected_json, true );
+
+		$this->array_validator->expects( 'validate' )->with( $array )->andReturn( $array );
+
+		// Create an expectation for each key and ALLOWED value in the JSON -- i.e. skipping `qux` here.
+		foreach ( [ 'foo', 'bar', 'baz' ] as $entry ) {
+			$this->text_field_validator->expects( 'validate' )->with( $entry )->andReturnArg( 0 );
+		}
+
+		$this->json_helper->expects( 'format_encode' )->with( $expected_array )->andReturn( $expected_json );
+
+		$this->assertEquals( $expected_json, $this->instance->validate( $json, [ 'allow' => [ 'foo' ] ] ) );
 	}
 
 	/**
