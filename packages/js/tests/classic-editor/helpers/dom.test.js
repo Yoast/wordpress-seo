@@ -1,6 +1,12 @@
 /* eslint-disable camelcase */
 import * as dom from "../../../src/classic-editor/helpers/dom";
 import getContentLocale from "../../../src/analysis/getContentLocale";
+import {
+	createCategoryElements,
+	createTagElements,
+	createCustomTaxonomyElements,
+	createSlugElements,
+} from "../../testHelpers/createDomTestData";
 
 jest.mock( "../../../src/lib/tinymce", () => ( {
 	getContentTinyMce: jest.fn().mockReturnValue(
@@ -28,129 +34,71 @@ describe( "a test for retrieving data from dom with another locale setting", () 
 } );
 
 describe( "a test for retrieving categories from the DOM", () => {
-	const cat1 = document.createElement( "input" );
-	cat1.setAttribute( "type", "checkbox" );
-	cat1.setAttribute( "value", "cat1" );
-	const cat2 = document.createElement( "input" );
-	cat2.setAttribute( "type", "checkbox" );
-	cat2.setAttribute( "value", "cat2" );
-	const cat3 = document.createElement( "input" );
-	cat3.setAttribute( "type", "checkbox" );
-	cat3.setAttribute( "value", "cat3" );
+	const categoryElements = createCategoryElements();
 
-	const allCats = document.createElement( "div" );
-	allCats.setAttribute( "id", "categorychecklist" );
-	allCats.appendChild( cat1 );
-	allCats.appendChild( cat2 );
-	allCats.appendChild( cat3 );
-
-	const mostUsedCats = document.createElement( "div" );
-	mostUsedCats.setAttribute( "id", "categorychecklist-pop" );
-	mostUsedCats.appendChild( cat1.cloneNode() );
-	mostUsedCats.appendChild( cat2.cloneNode() );
-
-	document.body.appendChild( allCats );
-	document.body.appendChild( mostUsedCats );
+	document.body.appendChild( categoryElements.allCategories );
+	document.body.appendChild( categoryElements.mostUsedCategories );
 
 	it( "should return the categories from the 'All Categories' section", () => {
-		expect( dom.getPostCategoryCheckboxes() ).toEqual( [ cat1, cat2, cat3 ] );
+		expect( dom.getPostCategoryCheckboxes() ).toEqual( [
+			categoryElements.category1,
+			categoryElements.category2,
+			categoryElements.category3,
+		] );
 	} );
 	it( "should return the categories from the 'Most Used' section", () => {
-		expect( dom.getPostMostUsedCategoryCheckboxes() ).toEqual( [ cat1, cat2 ] );
+		expect( dom.getPostMostUsedCategoryCheckboxes() ).toEqual( [ categoryElements.category1, categoryElements.category2 ] );
 	} );
 	it( "should return the checked categories", () => {
 		expect( dom.getPostCategories() ).toEqual( [ ] );
-		cat1.checked = true;
+		categoryElements.category1.checked = true;
 		expect( dom.getPostCategories()[ 0 ].id ).toEqual( "cat1"  );
-		cat1.checked = false;
-		cat2.checked = true;
+		categoryElements.category1.checked = false;
+		categoryElements.category2.checked = true;
 		expect( dom.getPostCategories()[ 0 ].id ).toEqual( "cat2"  );
-		cat2.checked = false;
+		categoryElements.category2.checked = false;
 		expect( dom.getPostCategories() ).toEqual( [ ] );
 	} );
 } );
 
 describe( "a test for retrieving tags from the document", () => {
-	const tag1 = document.createElement( "li" );
-	const tag1ChildNode1 = document.createElement( "button" );
-	const tag1ChildNode2 = document.createTextNode( "" );
-	const tag1ChildNode3 = document.createTextNode( "cat food" );
+	const tagElements = createTagElements();
 
-	tag1.appendChild( tag1ChildNode1 );
-	tag1.appendChild( tag1ChildNode2 );
-	tag1.appendChild( tag1ChildNode3 );
-
-	const tag2 = document.createElement( "li" );
-	const tag2ChildNode1 = document.createElement( "button" );
-	const tag2ChildNode2 = document.createTextNode( "" );
-	const tag2ChildNode3 = document.createTextNode( "cat snack" );
-
-	tag2.appendChild( tag2ChildNode1 );
-	tag2.appendChild( tag2ChildNode2 );
-	tag2.appendChild( tag2ChildNode3 );
-
-	const tagsListElement = document.createElement( "ul" );
-	tagsListElement.setAttribute( "class", "tagchecklist" );
-	tagsListElement.appendChild( tag1 );
-	tagsListElement.appendChild( tag2 );
-
-	const parentElement = document.createElement( "div" );
-	parentElement.setAttribute( "id", "post_tag" );
-	parentElement.appendChild( tagsListElement );
-
-	document.body.appendChild( parentElement );
+	document.body.appendChild( tagElements.parentTagElement );
 
 	it( "should return the tags from the post", () => {
 		expect( dom.getPostTags() ).toEqual( [ "cat food", "cat snack" ] );
 		// Remove the previous tags elements after the test is run, so that this element wouldn't be returned next time the test
 		// For non-hierarchical taxonomy is run.
-		document.body.removeChild( parentElement );
+		document.body.removeChild( tagElements.parentTagElement );
 	} );
 } );
 
+const slugElements = createSlugElements();
+
 describe( "a test for retrieving post slugs from the DOM", () => {
-	const fullLengthSlugElement = document.createElement( "span" );
-	fullLengthSlugElement.setAttribute( "id", "editable-post-name-full" );
-
-	const fullLengthSlugText = document.createTextNode( "best-cat-food" );
-	fullLengthSlugElement.appendChild( fullLengthSlugText );
-
-	const shortSlugElement = document.createElement( "span" );
-	shortSlugElement.setAttribute( "id", "editable-post-name" );
-
-	const shortSlugText = document.createTextNode( "best-cat" );
-	shortSlugElement.appendChild( shortSlugText );
-
-	const slugEditDiv = document.createElement( "div" );
-	slugEditDiv.appendChild( fullLengthSlugElement );
-	slugEditDiv.appendChild( shortSlugElement );
-
-	const postNameElement = document.createElement( "input" );
-	postNameElement.setAttribute( "id", "post_name" );
-	postNameElement.setAttribute( "value", "cat-toys" );
-
-	document.body.appendChild( slugEditDiv );
-	document.body.appendChild( postNameElement );
+	document.body.appendChild( slugElements.slugEditDiv );
+	document.body.appendChild( slugElements.postNameElement );
 
 	it( "should return the post full length slug", () => {
 		expect( dom.getPostEditSlugFull() ).toEqual( "best-cat-food" );
 	} );
 	it( "should overwrite the full length slug text with the new value that is passed", () => {
-		expect( dom.setPostSlugFull( "best-cat-food-2" ) ).toEqual( fullLengthSlugElement );
+		expect( dom.setPostSlugFull( "best-cat-food-2" ) ).toEqual( slugElements.fullLengthSlugElement );
 		expect( dom.getPostEditSlugFull() ).toEqual( "best-cat-food-2" );
 	} );
 	it( "should return the post shortened slug", () => {
 		expect( dom.getPostEditSlug() ).toEqual( "best-cat" );
 	} );
 	it( "should overwrite the short slug text with the new value that is passed", () => {
-		expect( dom.setPostSlug( "best-cat-2" ) ).toEqual( shortSlugElement );
+		expect( dom.setPostSlug( "best-cat-2" ) ).toEqual( slugElements.shortSlugElement );
 		expect( dom.getPostEditSlug() ).toEqual( "best-cat-2" );
 	} );
 	it( "should return the post name", () => {
 		expect( dom.getPostName() ).toEqual( "cat-toys" );
 	} );
 	it( "should overwrite the post name value with the new value that is passed", () => {
-		expect( dom.setPostName( "cat-toys-2" ) ).toEqual( postNameElement );
+		expect( dom.setPostName( "cat-toys-2" ) ).toEqual( slugElements.postNameElement );
 		expect( dom.getPostName() ).toEqual( "cat-toys-2" );
 	} );
 	it( "should return the slug from post edit if there is no new slug available", () => {
@@ -160,30 +108,26 @@ describe( "a test for retrieving post slugs from the DOM", () => {
 		const newSlug = document.createElement( "input" );
 		newSlug.setAttribute( "id", "new-post-slug" );
 		newSlug.setAttribute( "value", "cat-snacks" );
-		slugEditDiv.appendChild( newSlug );
+		slugElements.slugEditDiv.appendChild( newSlug );
 
 		expect( dom.getPostSlug() ).toEqual( "cat-snacks" );
 	} );
 	it( "should return an empty string if the new slug and slug from post edit are undefined", () => {
-		slugEditDiv.removeChild( slugEditDiv.firstChild );
-		slugEditDiv.removeChild( slugEditDiv.lastChild );
+		slugElements.slugEditDiv.removeChild( slugElements.slugEditDiv.firstChild );
+		slugElements.slugEditDiv.removeChild( slugElements.slugEditDiv.lastChild );
 
 		expect( dom.getPostSlug() ).toEqual( "" );
 	} );
 } );
 
 describe( "a test for retrieving term slug from the DOM", () => {
-	const slugElement = document.createElement( "input" );
-	slugElement.setAttribute( "id", "slug" );
-	slugElement.setAttribute( "value", "cat-adoption" );
-
-	document.body.appendChild( slugElement );
+	document.body.appendChild( slugElements.termSlugElement );
 
 	it( "should return the term slug", () => {
 		expect( dom.getTermSlug() ).toEqual( "cat-adoption" );
 	} );
 	it( "should overwrite the term slug value with the new value that is passed", () => {
-		expect( dom.setTermSlug( "how-to-adopt-cat" ) ).toEqual( slugElement );
+		expect( dom.setTermSlug( "how-to-adopt-cat" ) ).toEqual( slugElements.termSlugElement );
 		expect( dom.getTermSlug() ).toEqual( "how-to-adopt-cat" );
 	} );
 } );
@@ -223,88 +167,38 @@ self.wpseoScriptData = {
 	},
 };
 
-// Set to the document the hierarchical custom taxonomy elements.
-const actor1 = document.createElement( "input" );
-actor1.setAttribute( "type", "checkbox" );
-actor1.setAttribute( "value", "actor1" );
-
-const actor2 = document.createElement( "input" );
-actor2.setAttribute( "type", "checkbox" );
-actor2.setAttribute( "value", "actor2" );
-const actor3 = document.createElement( "input" );
-actor3.setAttribute( "type", "checkbox" );
-actor3.setAttribute( "value", "actor3" );
-
-const allActors = document.createElement( "div" );
-allActors.setAttribute( "id", "actorschecklist" );
-allActors.appendChild( actor1 );
-allActors.appendChild( actor2 );
-allActors.appendChild( actor3 );
-
-const mostUsedActors = document.createElement( "div" );
-mostUsedActors.setAttribute( "id", "actorschecklist-pop" );
-mostUsedActors.appendChild( actor1.cloneNode() );
-mostUsedActors.appendChild( actor2.cloneNode() );
-
-// Set to the document the non-hierarchical custom taxonomy elements.
-const director1 = document.createElement( "li" );
-const director1ChildNode1 = document.createElement( "button" );
-const director1ChildNode2 = document.createTextNode( "" );
-const director1ChildNode3 = document.createTextNode( "Steven Spielberg" );
-
-director1.appendChild( director1ChildNode1 );
-director1.appendChild( director1ChildNode2 );
-director1.appendChild( director1ChildNode3 );
-
-const director2 = document.createElement( "li" );
-const director2ChildNode1 = document.createElement( "button" );
-const director2ChildNode2 = document.createTextNode( "" );
-const director2ChildNode3 = document.createTextNode( "Spike Lee" );
-
-director2.appendChild( director2ChildNode1 );
-director2.appendChild( director2ChildNode2 );
-director2.appendChild( director2ChildNode3 );
-
-const nonHierarchicalCTElement = document.createElement( "ul" );
-nonHierarchicalCTElement.setAttribute( "class", "tagchecklist" );
-
-// Add new elements for the non-hierarchical custom taxonomies.
-nonHierarchicalCTElement.appendChild( director1 );
-nonHierarchicalCTElement.appendChild( director2 );
-
-// Set the parent element for the non-hierarchical custom taxonomies.
-const nonHierarchicalParentElement = document.createElement( "div" );
-nonHierarchicalParentElement.setAttribute( "id", "directors" );
-nonHierarchicalParentElement.appendChild( nonHierarchicalCTElement );
-
-document.body.appendChild( nonHierarchicalParentElement );
-
-document.body.appendChild( allActors );
-document.body.appendChild( mostUsedActors );
-document.body.appendChild( nonHierarchicalParentElement );
-
 describe( "a test for retrieving custom taxonomies from the DOM", () => {
+	const customTaxonomyElements = createCustomTaxonomyElements();
+
+	document.body.appendChild( customTaxonomyElements.allActors );
+	document.body.appendChild( customTaxonomyElements.mostUsedActors );
+	document.body.appendChild( customTaxonomyElements.nonHierarchicalParentElement );
+
 	const names = dom.getCTNames();
 	it( "should return the hierarchical custom taxonomies from the 'All custom taxonomies' section", () => {
-		expect( dom.getCTCheckboxes( names[ 0 ] ) ).toEqual( [ actor1, actor2, actor3 ] );
+		expect( dom.getCTCheckboxes( names[ 0 ] ) ).toEqual( [
+			customTaxonomyElements.actor1,
+			customTaxonomyElements.actor2,
+			customTaxonomyElements.actor3,
+		] );
 		expect( dom.getCTCheckboxes( names[ 1 ] ) ).toEqual( [] );
 	} );
 	it( "should return the hierarchical custom taxonomies from the 'Most Used' section", () => {
-		expect( dom.getMostUsedCTCheckboxes(  names[ 0 ] ) ).toEqual( [ actor1, actor2 ] );
+		expect( dom.getMostUsedCTCheckboxes(  names[ 0 ] ) ).toEqual( [ customTaxonomyElements.actor1, customTaxonomyElements.actor2 ] );
 		expect( dom.getMostUsedCTCheckboxes(  names[ 1 ] ) ).toEqual( [] );
 	} );
 	it( "should return the checked hierarchical custom taxonomies", () => {
 		expect( dom.getCustomTaxonomies()[ names[ 0 ] ] ).toEqual( [] );
-		actor1.checked = true;
+		customTaxonomyElements.actor1.checked = true;
 		expect( dom.getCustomTaxonomies()[ names[ 0 ] ][ 0 ].id ).toEqual( "actor1"  );
-		actor1.checked = false;
-		actor2.checked = true;
+		customTaxonomyElements.actor1.checked = false;
+		customTaxonomyElements.actor2.checked = true;
 		expect( dom.getCustomTaxonomies()[ names[ 0 ] ][ 0 ].id  ).toEqual( "actor2"  );
-		actor2.checked = false;
+		customTaxonomyElements.actor2.checked = false;
 		expect( dom.getCustomTaxonomies()[ names[ 0 ] ] ).toEqual( [] );
 	} );
 
 	it( "should return the non-hierarchical custom taxonomy from the post", () => {
-		expect( dom.getCustomTaxonomies()[ names[ 1 ] ] ).toEqual( [ "Steven Spielberg", "Spike Lee" ] );
+		expect( dom.getCustomTaxonomies()[ names[ 1 ] ] ).toEqual( [ "Spike Lee", "Steven Spielberg" ] );
 	} );
 } );
