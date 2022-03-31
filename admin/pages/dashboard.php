@@ -54,6 +54,8 @@ $dashboard_tabs->add_tab(
 	)
 );
 
+$dashboard_tabs = apply_filters( 'wpseo_dashboard_tabs', $dashboard_tabs );
+
 do_action( 'wpseo_settings_tabs_dashboard', $dashboard_tabs );
 
 $dashboard_tabs->display( $yform );
