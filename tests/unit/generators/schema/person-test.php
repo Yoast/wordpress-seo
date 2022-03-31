@@ -112,7 +112,7 @@ class Person_Test extends TestCase {
 			'@type'       => [ 'Person', 'Organization' ],
 			'@id'         => 'person_id',
 			'name'        => 'John',
-			'logo'        => [ '@id' => 'https://example.com/#personlogo' ],
+			'logo'        => [ '@id' => 'https://example.com/#/schema/person/image/' ],
 			'description' => 'Description',
 			'sameAs'      => [
 				'https://example.com/social/facebook',
@@ -216,7 +216,7 @@ class Person_Test extends TestCase {
 			'@type' => [ 'Person', 'Organization' ],
 			'@id'   => 'person_id',
 			'name'  => 'John',
-			'logo'  => [ '@id' => 'https://example.com/#personlogo' ],
+			'logo'  => [ '@id' => 'https://example.com/#/schema/person/image/' ],
 		];
 
 		$this->expects_for_determine_user_id();
@@ -256,7 +256,7 @@ class Person_Test extends TestCase {
 			'@type' => [ 'Person', 'Organization' ],
 			'@id'   => 'person_id',
 			'name'  => $user_data->display_name,
-			'logo'  => [ '@id' => 'https://example.com/#personlogo' ],
+			'logo'  => [ '@id' => 'https://example.com/#/schema/person/image/' ],
 			'image' => $image_schema,
 		];
 
@@ -288,7 +288,7 @@ class Person_Test extends TestCase {
 			'@type' => [ 'Person', 'Organization' ],
 			'@id'   => 'person_id',
 			'name'  => 'John Doe',
-			'logo'  => [ '@id' => 'https://example.com/#personlogo' ],
+			'logo'  => [ '@id' => 'https://example.com/#/schema/person/image/' ],
 		];
 
 		$this->expects_for_determine_user_id();
@@ -324,7 +324,7 @@ class Person_Test extends TestCase {
 			'@type' => [ 'Person', 'Organization' ],
 			'@id'   => 'person_id',
 			'name'  => 'John Doe',
-			'logo'  => [ '@id' => 'https://example.com/#personlogo' ],
+			'logo'  => [ '@id' => 'https://example.com/#/schema/person/image/' ],
 		];
 
 		$this->expects_for_determine_user_id();
@@ -360,7 +360,7 @@ class Person_Test extends TestCase {
 			'@type'  => [ 'Person', 'Organization' ],
 			'@id'    => 'person_id',
 			'name'   => 'John Doe',
-			'logo'   => [ '@id' => 'https://example.com/#personlogo' ],
+			'logo'   => [ '@id' => 'https://example.com/#/schema/person/image/' ],
 			'sameAs' => [
 				'https://example.com/social/facebook',
 				'https://example.com/social/wiki',
@@ -496,7 +496,7 @@ class Person_Test extends TestCase {
 			'@type'       => [ 'Person', 'Organization' ],
 			'@id'         => 'person_id',
 			'name'        => 'John',
-			'logo'        => [ '@id' => 'https://example.com/#personlogo' ],
+			'logo'        => [ '@id' => 'https://example.com/#/schema/person/image/' ],
 			'description' => 'Description',
 			'sameAs'      => [
 				'https://example.com/social/facebook',

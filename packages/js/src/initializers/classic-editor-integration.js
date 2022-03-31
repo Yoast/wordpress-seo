@@ -1,9 +1,5 @@
 /* Internal dependencies */
 import { registerReactComponent, renderClassicEditorMetabox } from "../helpers/classicEditor";
-import { isWordProofIntegrationActive } from "../helpers/wordproof";
-
-/* External dependencies */
-import initializeWordProofForClassicEditor from "../../../../vendor/wordproof/wordpress-sdk/resources/js/initializers/classicEditor";
 
 /**
  * Initializes the Yoast Classic editor integration.
@@ -17,8 +13,4 @@ export default function initClassicEditorIntegration( store ) {
 	window.YoastSEO = window.YoastSEO || {};
 	window.YoastSEO._registerReactComponent = registerReactComponent;
 	renderClassicEditorMetabox( store );
-
-	if ( isWordProofIntegrationActive() ) {
-		initializeWordProofForClassicEditor();
-	}
 }

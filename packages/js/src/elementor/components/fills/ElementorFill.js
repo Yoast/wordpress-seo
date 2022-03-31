@@ -17,8 +17,6 @@ import SchemaTabContainer from "../../../containers/SchemaTab";
 import AdvancedSettings from "../../../containers/AdvancedSettings";
 import SEMrushRelatedKeyphrases from "../../../containers/SEMrushRelatedKeyphrases";
 import WincherSEOPerformanceModal from "../../../containers/WincherSEOPerformanceModal";
-import { isWordProofIntegrationActive } from "../../../helpers/wordproof";
-import WordProofAuthenticationModals from "../../../components/modals/WordProofAuthenticationModals";
 
 /* eslint-disable complexity */
 /**
@@ -45,7 +43,6 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 
 	return (
 		<>
-			{ isWordProofIntegrationActive() && <WordProofAuthenticationModals /> }
 			<Fill name="YoastElementor">
 				<SidebarItem renderPriority={ 1 }>
 					<Alert />
@@ -92,7 +89,7 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 				</SidebarItem> }
 				{ settings.isKeywordAnalysisActive && settings.isWincherIntegrationActive &&
 					<SidebarItem key="wincher-seo-performance" renderPriority={ 21 }>
-						<WincherSEOPerformanceModal location="sidebar" />
+						<WincherSEOPerformanceModal location="sidebar" shouldCloseOnClickOutside={ false } />
 					</SidebarItem> }
 				{ settings.isCornerstoneActive && <SidebarItem renderPriority={ 30 }>
 					<CollapsibleCornerstone />
