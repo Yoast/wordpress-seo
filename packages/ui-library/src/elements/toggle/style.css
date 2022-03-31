@@ -1,0 +1,83 @@
+@layer components {
+    .yst-toggle {
+        @apply
+            yst-relative
+            yst-inline-flex
+            yst-flex-shrink-0
+            yst-h-6
+            yst-w-11
+            yst-border-2
+            yst-border-transparent
+            yst-rounded-full
+            yst-transition-colors
+            yst-ease-in-out
+            yst-duration-200
+            yst-bg-gray-200
+            yst-cursor-pointer
+            
+            focus:yst-outline-none
+            focus:yst-ring-2
+            focus:yst-ring-offset-2
+            focus:yst-ring-primary-500;
+    }
+
+    /* States */
+    .yst-toggle--checked {
+        @apply yst-bg-primary-500;
+
+        .yst-toggle__handle {
+            @apply yst-translate-x-5;
+        }
+    }
+
+    .yst-toggle--disabled {
+        @apply
+            yst-opacity-50
+            yst-cursor-not-allowed
+            
+            focus:yst-ring-0;
+    }
+
+    /* Elements */
+    .yst-toggle__handle {
+        @apply
+            yst-pointer-events-none
+            yst-relative
+            yst-flex
+            yst-items-center
+            yst-justify-center
+            yst-h-5
+            yst-w-5
+            yst-bg-white
+            yst-rounded-full
+            yst-shadow
+            yst-transform
+            yst-ring-0
+            yst-transition
+            yst-ease-in-out
+            yst-duration-200
+            yst-translate-x-0;
+    }
+
+    .yst-toggle__icon {
+        @apply
+            yst-h-2.5
+            yst-w-2.5
+            yst-shrink-0
+            yst-grow-0
+            yst-transition-opacity
+            yst-ease-out
+            yst-duration-100
+            yst-text-white
+            yst-stroke-current
+            yst-stroke-2;
+    }
+
+    .yst-toggle__icon--check {
+        @apply yst-text-primary-500;
+    }
+
+    .yst-toggle__icon--x {
+        @apply yst-text-gray-500;
+    }
+}

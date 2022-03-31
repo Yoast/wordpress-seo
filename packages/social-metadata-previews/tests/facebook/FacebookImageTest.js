@@ -6,6 +6,7 @@ import renderer from "react-test-renderer";
 import FacebookImage from "../../src/facebook/FacebookImage";
 
 import * as determineImageProperties from "../../src/helpers/determineImageProperties";
+// eslint-disable-next-line
 determineImageProperties.handleImage = jest.fn();
 
 describe( "FacebookImage Component", () => {

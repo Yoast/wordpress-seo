@@ -63,14 +63,14 @@ class Importing_Route_Test extends TestCase {
 	/**
 	 * Creates a mock importing action.
 	 *
-	 * @param string $class  The class.
-	 * @param string $plugin The plugin.
-	 * @param string $type   The type.
+	 * @param string $importing_class The class.
+	 * @param string $plugin          The plugin.
+	 * @param string $type            The type.
 	 *
 	 * @return Importing_Action_Interface The indexing action.
 	 */
-	private function mockImporter( $class, $plugin, $type ) {
-		$importing_action = Mockery::mock( $class )
+	private function mockImporter( $importing_class, $plugin, $type ) {
+		$importing_action = Mockery::mock( $importing_class )
 			->shouldAllowMockingProtectedMethods();
 
 		$importing_action->allows( 'get_plugin' )->andReturn( $plugin );
