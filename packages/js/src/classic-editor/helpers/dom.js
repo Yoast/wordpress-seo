@@ -238,8 +238,8 @@ export const getPostTags = ( termID = "post_tag" ) => {
 	if ( tagChecklistElement.length > 0 ) {
 		// Each tag is a <li> element containing a button and two text elements. The second text element contains the name of the tag.
 		const tagsList = [ ...tagChecklistElement[ 0 ].childNodes ];
-		// Get the names of the tags.
-		return tagsList.map( tag => [ ...tag.childNodes ][ 2 ].textContent );
+		// Get the names of the tags, and sort them alphabetically.
+		return tagsList.map( tag => [ ...tag.childNodes ][ 2 ].textContent ).sort();
 	}
 
 	return [];
