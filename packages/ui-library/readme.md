@@ -1,5 +1,5 @@
 # Welcome to the Yoast UI Library
-A React component library for building Yoast user interfaces. Please visit [the Storybook](https://ui-library.yoast.com/) for an overview of all available components and how to use them.
+A React component library for building Yoast user interfaces. Please visit [the Storybook](https://ui-library.yoast.com/) for an interactive overview of all available components and examples on how to use them.
 
 ## Installation
 Start with installing the package and its peer dependencies from NPM:
@@ -67,9 +67,30 @@ The components layer contains more complex and smarter components. They are prob
 The patterns layer contains the most complex and smart components. They are the largest and often structural building blocks. They are highly opiniated, will probably contain internal state and represent structures that group multiple elements and components together into a friendly interface. Examples of patterns are `PageLayout` and `Navigation` components (both undeveloped yet), that provide an interface for structuring entire pages or responsive navigation.
 
 ## The `as` property
-Sometimes you want to render an anchor that looks like button, or a label that looks like a title. With that styling locked in this libary's React components, that is  It provides It can be read in a sentence like this: "Render `ComponentA` **as** `ComponentB`". 
+To make components in this library as flexible as possible, most of them implement the `as` propterty pattern. The idea is simple: it allows you to render a component as every valid JSX element, so HTML elements or custom React components. It can be read in a sentence like this: "Render `ComponentA` **as** `ComponentB`". Popular examples are rendering an anchor that looks like a button, or a label that looks like a title:
 
-## Local development in Storybook
+```jsx
+import { Button, Title } from "@yoast/ui-library";
 
+export default () => (
+    <>
+        <Button as="a" href="https://yoast.com">I look like a button but am actually an achor.</Button>
+        <Title as="label">I look like a title but am actually a label.</Title>
+    </>
+);
+```
+
+## Local development
+The components in this library are developed in isolation inside a [Storybook](https://storybook.js.org/), a visual tool for building component libraries. Developing components in isolation helps keep the interfaces flexibile while ignoring implementation details.
+
+```sh
+# Install dependencies
+yarn install
+# Run Storybook for local development
+yarn storybook
+# Build a static Storybook
+yarn build:storybook
+```
 
 ## Contributions
+If you've developed a React component that you think belongs in this library, feel free to reach out to the Components team or open a pull request and request a review from one of the Components teams developers.
