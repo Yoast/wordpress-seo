@@ -79,6 +79,10 @@ export function NewsletterSignup( { gdprLink } ) {
 		[ newsletterEmail ]
 	);
 
+	const onEmailChange = useCallback( ( event ) => {
+		setNewsletterEmail( event.target.value );
+	}, [ setNewsletterEmail ] );
+
 	return (
 		<Fragment>
 			<h4 className="yst-text-gray-900 yst-text-base yst-leading-6 yst-font-normal">
@@ -106,7 +110,7 @@ export function NewsletterSignup( { gdprLink } ) {
 					id="newsletter-email"
 					name="newsletter email"
 					value={ newsletterEmail }
-					onChange={ setNewsletterEmail }
+					onChange={ onEmailChange }
 					type="email"
 					placeholder={ __( "E.g. example@email.com", "wordpress-seo" ) }
 					className="yst-grow"

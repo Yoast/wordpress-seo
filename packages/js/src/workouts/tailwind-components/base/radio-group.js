@@ -22,11 +22,10 @@ const classNameMap = {
  * @param {string} id Identifier.
  * @param {string} name Name.
  * @param {string} value Value.
- * @param {JSX.string} label Label.
- * @param {JSX.string} srLabel Screen reader label.
+ * @param {string} label Label.
  * @param {string} [variant] Variant.
  * @param {string} [className] CSS class.
- * @returns {JSX.Element} Radio component.
+ * @returns {WPElement} Radio component.
  */
 const Radio = ( {
 	id,
@@ -74,7 +73,7 @@ Radio.defaultProps = {
  * @param {JSX.node} children Content of the Label.
  * @param {string|function} [as="label"] Base component.
  * @param {string} [className] CSS class.
- * @returns {JSX.Element} Label component.
+ * @returns {WPElement} Label component.
  */
 const Label = ( {
 	children,
@@ -107,11 +106,11 @@ Label.defaultProps = {
  * @param {string} name Name.
  * @param {string} value Value.
  * @param {JSX.node} [label] Label.
- * @param {{ value: string, label: string, srLabel: string }[]} options Options to choose from.
+ * @param {{ value: string, label: string }[]} options Options to choose from.
  * @param {Function} onChange Change handler.
  * @param {string} [variant] Variant.
  * @param {string} [className] CSS class.
- * @returns {JSX.Element} RadioGroup component.
+ * @returns {WPElement} RadioGroup component.
  */
 const RadioGroup = ( {
 	children,
@@ -162,19 +161,19 @@ RadioGroup.propTypes = {
 	id: PropTypes.string.isRequired,
 	name: PropTypes.string.isRequired,
 	value: PropTypes.oneOfType( [ PropTypes.string, PropTypes.number ] ).isRequired,
-	label: PropTypes.node.isRequired,
 	options: PropTypes.arrayOf( PropTypes.shape( {
 		value: PropTypes.oneOfType( [ PropTypes.string, PropTypes.number ] ).isRequired,
 		label: PropTypes.string.isRequired,
-		srLabel: PropTypes.string,
 	} ) ).isRequired,
 	onChange: PropTypes.func.isRequired,
+	label: PropTypes.node,
 	variant: PropTypes.oneOf( Object.keys( classNameMap.variant ) ),
 	className: PropTypes.string,
 };
 
 RadioGroup.defaultProps = {
 	children: null,
+	label: null,
 	variant: "default",
 	className: "",
 };

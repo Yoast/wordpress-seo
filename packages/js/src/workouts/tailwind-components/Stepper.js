@@ -13,7 +13,7 @@ const {
 	delayBeforeClosing,
 } = stepperTimings;
 
-const { fadeDuration, delayUntilStepFaded, slideDurationClass = slideDuration } = stepperTimingClasses;
+const { fadeDuration, delayUntilStepFaded, slideDuration: slideDurationClass } = stepperTimingClasses;
 
 const StepperContext = createContext();
 

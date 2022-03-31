@@ -50,7 +50,7 @@ export default function PersonalPreferencesStep( { state, setTracking } ) {
 		</Link>
 		<p className="yst-my-2">
 			<i>{
-				__( "Important: We will never sell this data. And of course, as always, we won't collect any personal data about you or your visitors!", "wordpress-seo" )
+				__( "Important: We will never sell this data. And of course, as always, we won't collect any personal data about you or your visitors.", "wordpress-seo" )
 			}</i>
 		</p>
 		<br />
