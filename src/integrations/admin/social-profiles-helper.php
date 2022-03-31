@@ -49,7 +49,7 @@ class Social_Profiles_Helper {
 			foreach ( \array_keys( $person_social_profiles ) as $field_name ) {
 				$value = \get_user_meta( $person_id, $field_name, true );
 				// If $person_id is an integer but does not represent a valid user, get_user_meta returns false.
-				if ( ! is_bool( $value ) ) {
+				if ( ! \is_bool( $value ) ) {
 					$person_social_profiles[ $field_name ] = $value;
 				}
 			}
