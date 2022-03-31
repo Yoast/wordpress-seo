@@ -141,6 +141,79 @@ class Configuration_Workout_Route_Test extends TestCase {
 				]
 			);
 
+			Monkey\Functions\expect( 'register_rest_route' )
+				->with(
+					'yoast/v1',
+					'/workouts/check_capability',
+					[
+						'methods'             => 'GET',
+						'callback'            => [ $this->instance, 'check_capability' ],
+						'args'                => [
+							'user_id' => [
+								'required' => true,
+							],
+						],
+					]
+				);
+
+			Monkey\Functions\expect( 'register_rest_route' )
+				->with(
+					'yoast/v1',
+					'/workouts/person_social_profiles',
+					[
+						[
+							'methods'             => 'GET',
+							'callback'            => [ $this->instance, 'get_person_social_profiles' ],
+							'permission_callback' => [ $this->instance, 'can_manage_options' ],
+							'args'                => [
+								'user_id' => [
+									'required' => true,
+								],
+							],
+						],
+						[
+							'methods'             => 'POST',
+							'callback'            => [ $this->instance, 'set_person_social_profiles' ],
+							'permission_callback' => [ $this->instance, 'can_edit_user' ],
+							'args'                => [
+								'user_id' => [
+									'type'     => 'integer',
+								],
+								'facebook' => [
+									'type'     => 'string',
+								],
+								'instagram' => [
+									'type'     => 'string',
+								],
+								'linkedin' => [
+									'type'     => 'string',
+								],
+								'myspace' => [
+									'type'     => 'string',
+								],
+								'pinterest' => [
+									'type'     => 'string',
+								],
+								'soundcloud' => [
+									'type'     => 'string',
+								],
+								'tumblr' => [
+									'type'     => 'string',
+								],
+								'twitter' => [
+									'type'     => 'string',
+								],
+								'youtube' => [
+									'type'     => 'string',
+								],
+								'wikipedia' => [
+									'type'     => 'string',
+								],
+							],
+						],
+					]
+				);
+
 		$this->instance->register_routes();
 	}
 
