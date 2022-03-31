@@ -2,6 +2,7 @@
 import { flow, get, isEqual, set, map } from "lodash";
 import { getContentTinyMce } from "../../lib/tinymce";
 import getContentLocale from "../../analysis/getContentLocale";
+import { getValuesFromCheckboxes } from "../../helpers/getValuesFromCheckboxes";
 
 export const DOM_IDS = {
 	// Post editor.
@@ -206,25 +207,6 @@ export const getPostCategoryCheckboxes = () => {
  */
 export const getPostMostUsedCategoryCheckboxes = () => {
 	return [ ...document.querySelectorAll( "#categorychecklist-pop input[type=checkbox]" ) ];
-};
-
-/**
- * Maps over a list of checked checkboxes elements and returns the value and the text content.
- *
- * @param {Array} checkedCheckboxes The array of checked checkboxes to map.
- *
- * @returns {Object[]} An array containing objects with the checked checkboxes value and text content.
- */
-const getValuesFromCheckboxes = ( checkedCheckboxes ) => {
-	return checkedCheckboxes.map( checkbox => (
-		{
-			id: checkbox.value,
-			name: [ ...checkbox.parentElement.childNodes ]
-				.filter( node => node.nodeType === Node.TEXT_NODE )
-				.map( node => node.textContent )[ 0 ]
-				?.trim(),
-		}
-	) );
 };
 
 /**
