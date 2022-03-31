@@ -301,7 +301,7 @@ class Schema_Generator_Test extends TestCase {
 			'post_date_gmt'     => 'date',
 			'post_modified_gmt' => 'date',
 		];
-		$this->context->has_image                  = false;
+		$this->context->primary_image_id           = null;
 
 		Monkey\Functions\expect( 'post_password_required' )
 			->once()
@@ -484,7 +484,7 @@ class Schema_Generator_Test extends TestCase {
 			'post_date_gmt'     => 'date',
 			'post_modified_gmt' => 'date',
 		];
-		$this->context->has_image                  = false;
+		$this->context->primary_image_id           = null;
 
 		Monkey\Functions\expect( 'post_password_required' )
 			->once()
@@ -543,7 +543,7 @@ class Schema_Generator_Test extends TestCase {
 			'post_date_gmt'     => 'date',
 			'post_modified_gmt' => 'date',
 		];
-		$this->context->has_image                  = false;
+		$this->context->primary_image_id           = null;
 
 		Monkey\Functions\expect( 'post_password_required' )
 			->once()
@@ -637,7 +637,7 @@ class Schema_Generator_Test extends TestCase {
 			'post_date_gmt'     => 'date',
 			'post_modified_gmt' => 'date',
 		];
-		$this->context->has_image                  = false;
+		$this->context->primary_image_id           = null;
 
 		Monkey\Functions\expect( 'post_password_required' )
 			->once()
@@ -726,7 +726,7 @@ class Schema_Generator_Test extends TestCase {
 			'post_date_gmt'     => 'date',
 			'post_modified_gmt' => 'date',
 		];
-		$this->context->has_image                  = false;
+		$this->context->primary_image_id           = null;
 
 		Monkey\Functions\expect( 'post_password_required' )
 			->once()
