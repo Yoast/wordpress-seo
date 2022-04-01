@@ -25,6 +25,7 @@ const SeoResultsContainer = ( { as: Component, keyphraseId, ...restProps } ) => 
 
 	const seoResults = useSelect( select => select( SEO_STORE_NAME ).selectSeoResults( keyphraseId ), [ keyphraseId ] );
 	const keyphrase = useSelect( select => select( SEO_STORE_NAME ).selectKeyphrase( keyphraseId ), [ keyphraseId ] );
+	const markerStatus = useSelect( select => select( SEO_STORE_NAME ).selectMarkerStatus() );
 
 	const transformedResults = useMemo(
 		() => transformAnalysisResults( seoResults, keyphraseId === FOCUS_KEYPHRASE_ID ? "" : keyphraseId ),
@@ -40,6 +41,7 @@ const SeoResultsContainer = ( { as: Component, keyphraseId, ...restProps } ) => 
 		onMarkButtonClick={ handleMarkClick }
 		headingLevel={ restProps.headingLevel ?? 2 }
 		marksButtonClassName={ restProps.marksButtonClassName ?? "yoast-mark-button" }
+		marksButtonStatus={ markerStatus }
 		{ ...restProps }
 	/>;
 };

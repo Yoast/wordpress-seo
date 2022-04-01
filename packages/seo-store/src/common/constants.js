@@ -14,3 +14,9 @@ export const ASYNC_STATUS = {
 export const STORE_NAME = "@yoast/seo";
 
 export const FOCUS_KEYPHRASE_ID = "focus";
+
+export const MARKER_STATUS = {
+	ENABLED: "enabled",
+	DISABLED: "disabled",
+	HIDDEN: "hidden",
+};

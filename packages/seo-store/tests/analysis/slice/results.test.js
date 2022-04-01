@@ -26,6 +26,7 @@ describe( "Results slice", () => {
 		},
 		research: {},
 		activeMarker: {
+			status: "hidden",
 			id: "",
 			marks: [],
 		},
@@ -45,10 +46,16 @@ describe( "Results slice", () => {
 			};
 			const result = resultsReducer( previousState, updateActiveMarker( payload ) );
 
-			expect( result ).toEqual( {
-				...initialState,
-				activeMarker: { ...payload },
-			} );
+			expect( result.activeMarker.id ).toEqual( "1" );
+			expect( result.activeMarker.marks ).toEqual( [ "test" ] );
+		} );
+
+		test( "should update the marker status", () => {
+			const { updateMarkerStatus } = resultsActions;
+
+			const payload = "enabled";
+			const result = resultsReducer( previousState, updateMarkerStatus( payload ) );
+			expect( result.activeMarker.status ).toEqual( "enabled" );
 		} );
 
 		test( "should update the status to loading", () => {
@@ -190,6 +197,19 @@ describe( "Results slice", () => {
 			const result = selectActiveMarks( createStoreState( state ) );
 
 			expect( result ).toEqual( [ "test" ] );
+		} );
+
+		test( "should select the marker status", () => {
+			const { selectMarkerStatus } = resultsSelectors;
+
+			const state = {
+				activeMarker: {
+					status: "enabled",
+				},
+			};
+			const result = selectMarkerStatus( createStoreState( state ) );
+
+			expect( result ).toEqual( "enabled" );
 		} );
 	} );
 

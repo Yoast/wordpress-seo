@@ -23,6 +23,7 @@ const ReadabilityResultsContainer = ( { as: Component, ...restProps } ) => {
 
 	const readabilityResults = useSelect( select => select( SEO_STORE_NAME ).selectReadabilityResults() );
 	const focusKeyphrase = useSelect( select => select( SEO_STORE_NAME ).selectKeyphrase() );
+	const markerStatus = useSelect( select => select( SEO_STORE_NAME ).selectMarkerStatus() );
 
 	const transformedResults = useMemo( () => transformAnalysisResults( readabilityResults ), [ readabilityResults ] );
 
@@ -35,6 +36,7 @@ const ReadabilityResultsContainer = ( { as: Component, ...restProps } ) => {
 		onMarkButtonClick={ handleMarkClick }
 		headingLevel={ restProps.headingLevel ?? 2 }
 		marksButtonClassName={ restProps.marksButtonClassName ?? "yoast-mark-button" }
+		marksButtonStatus={ markerStatus }
 		{ ...restProps }
 	/>;
 };

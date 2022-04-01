@@ -1,13 +1,13 @@
 import { combineReducers, createReduxStore, register } from "@wordpress/data";
 import { merge } from "lodash";
-import { STORE_NAME, FOCUS_KEYPHRASE_ID } from "./common/constants";
+import { STORE_NAME, FOCUS_KEYPHRASE_ID, MARKER_STATUS } from "./common/constants";
 import { ANALYZE_ACTION_NAME } from "./analysis/constants";
 import analysisReducer, { analysisActions, analysisSelectors, defaultAnalysisState } from "./analysis/slice";
 import editorReducer, { editorActions, editorSelectors, defaultEditorState } from "./editor/slice";
 import formReducer, { formActions, formSelectors, defaultFormState } from "./form/slice";
-
 export { STORE_NAME as SEO_STORE_NAME };
 export { FOCUS_KEYPHRASE_ID };
+export { MARKER_STATUS };
 
 export { useAnalyze } from "./analysis/hooks";
 
