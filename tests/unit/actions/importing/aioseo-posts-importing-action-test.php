@@ -6,6 +6,7 @@ use Mockery;
 use wpdb;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Actions\Importing\Aioseo\Aioseo_Posts_Importing_Action;
+use Yoast\WP\SEO\Helpers\Aioseo_Helper;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Import_Cursor_Helper;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
@@ -13,7 +14,6 @@ use Yoast\WP\SEO\Helpers\Indexable_To_Postmeta_Helper;
 use Yoast\WP\SEO\Helpers\Meta_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Sanitization_Helper;
-use Yoast\WP\SEO\Helpers\Wpdb_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Replacevar_Service;
 use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Provider_Service;
@@ -112,11 +112,11 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 	protected $sanitization;
 
 	/**
-	 * The wpdb helper.
+	 * The AIOSEO helper.
 	 *
-	 * @var Wpdb_Helper
+	 * @var Mockery\MockInterface|Aioseo_Helper
 	 */
-	protected $wpdb_helper;
+	protected $aioseo_helper;
 
 	/**
 	 * The replacevar handler.
@@ -161,7 +161,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 		$this->options                = Mockery::mock( Options_Helper::class );
 		$this->image                  = Mockery::mock( Image_Helper::class );
 		$this->sanitization           = Mockery::mock( Sanitization_Helper::class );
-		$this->wpdb_helper            = Mockery::mock( Wpdb_Helper::class );
+		$this->aioseo_helper          = Mockery::mock( Aioseo_Helper::class );
 		$this->replacevar_handler     = Mockery::mock( Aioseo_Replacevar_Service::class );
 		$this->robots_provider        = Mockery::mock( Aioseo_Robots_Provider_Service::class );
 		$this->robots_transformer     = Mockery::mock( Aioseo_Robots_Transformer_Service::class );
@@ -176,7 +176,6 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			$this->options,
 			$this->image,
 			$this->sanitization,
-			$this->wpdb_helper,
 			$this->replacevar_handler,
 			$this->robots_provider,
 			$this->robots_transformer,
@@ -193,13 +192,14 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 				$this->options,
 				$this->image,
 				$this->sanitization,
-				$this->wpdb_helper,
 				$this->replacevar_handler,
 				$this->robots_provider,
 				$this->robots_transformer,
 				$this->social_images_provider,
 			]
 		)->makePartial()->shouldAllowMockingProtectedMethods();
+
+		$this->mock_instance->set_aioseo_helper( $this->aioseo_helper );
 
 		$this->wpdb->prefix = 'wp_';
 	}
@@ -210,6 +210,10 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 	 * @covers ::get_total_unindexed
 	 */
 	public function test_get_total_unindexed() {
+		$this->aioseo_helper->expects( 'aioseo_exists' )
+			->once()
+			->andReturn( true );
+
 		$this->mock_instance->expects( 'set_completed' )
 			->once();
 
@@ -234,13 +238,9 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 				LIMIT 25'
 			);
 
-		$this->mock_instance->expects( 'get_table' )
-			->twice()
-			->andReturn( 'wp_aioseo_posts' );
-
-		$this->wpdb_helper->expects( 'table_exists' )
+		$this->aioseo_helper->expects( 'get_table' )
 			->once()
-			->andReturn( true );
+			->andReturn( 'wp_aioseo_posts' );
 
 		$this->wpdb->expects( 'get_col' )
 			->once()
@@ -261,13 +261,13 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 	/**
 	 * Tests that importing of AIOSEO data doesn't happen when there are no AIOSEO data or when Yoast data exist.
 	 *
+	 * @dataProvider provider_donot_map
+	 * @covers ::index
+	 *
 	 * @param array $aioseo_indexables      The AIOSEO indexables that were returned from the db.
 	 * @param bool  $is_default             Whether the Yoast indexable has default values.
 	 * @param int   $check_if_default_times The times we expect to check if the Yoast indexable has default values.
 	 * @param int   $cursor_value           The value we expect to give to the cursor at the end of the process.
-	 *
-	 * @dataProvider provider_donot_map
-	 * @covers ::index
 	 */
 	public function test_donot_map( $aioseo_indexables, $is_default, $check_if_default_times, $cursor_value ) {
 		if ( ! \defined( 'ARRAY_A' ) ) {
@@ -275,6 +275,10 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			\define( 'ARRAY_A', 'ARRAY_A' );
 		}
 		$indexable = Mockery::mock( Indexable_Mock::class );
+
+		$this->aioseo_helper->expects( 'aioseo_exists' )
+			->once()
+			->andReturn( true );
 
 		$this->mock_instance->expects( 'set_completed' )
 			->once();
@@ -300,13 +304,9 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 				LIMIT 25'
 			);
 
-			$this->mock_instance->expects( 'get_table' )
-				->twice()
-				->andReturn( 'wp_aioseo_posts' );
-
-			$this->wpdb_helper->expects( 'table_exists' )
+			$this->aioseo_helper->expects( 'get_table' )
 				->once()
-				->andReturn( true );
+				->andReturn( 'wp_aioseo_posts' );
 
 			$this->wpdb->expects( 'get_results' )
 				->once()
@@ -347,7 +347,7 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 	/**
 	 * Data provider for test_donot_map().
 	 *
-	 * @return string
+	 * @return array
 	 */
 	public function provider_donot_map() {
 		$aioseo_indexable = [
@@ -680,7 +680,6 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 			'og_title'             => '',
 			'og_description'       => '',
 			'robots_default'       => true,
-			'robots_default'       => true,
 			'robots_nofollow'      => true,
 			'robots_noarchive'     => false,
 			'robots_nosnippet'     => true,
@@ -715,6 +714,9 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 	/**
 	 * Tests importing the og and twitter image url.
 	 *
+	 * @dataProvider provider_social_image_url_import
+	 * @covers ::social_image_url_import
+	 *
 	 * @param bool   $aioseo_social_image_settings AIOSEO's set of social image settings for the post.
 	 * @param array  $mapping                      The mapping of the setting we're working with.
 	 * @param int    $expected_url                 The URL that's expected to be imported.
@@ -724,9 +726,6 @@ class Aioseo_Posts_Importing_Action_Test extends TestCase {
 	 * @param mixed  $provider_result              The result the social images provider returns.
 	 * @param int    $get_default_times            The times we're getting the default url.
 	 * @param string $social_setting               The social settings we use to get the default url.
-	 *
-	 * @dataProvider provider_social_image_url_import
-	 * @covers ::social_image_url_import
 	 */
 	public function test_social_image_url_import( $aioseo_social_image_settings, $mapping, $expected_url, $sanitize_url_times, $provider_method, $provider_times, $provider_result, $get_default_times, $social_setting ) {
 		$indexable      = Mockery::mock( Indexable_Mock::class );

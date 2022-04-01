@@ -103,7 +103,7 @@ class Author_Test extends TestCase {
 		'name'   => 'Ad Minnie',
 		'image'  => [
 			'@type'   => 'ImageObject',
-			'@id'     => 'http://basic.wordpress.test/#personlogo',
+			'@id'     => 'http://basic.wordpress.test/#schema/person/image/9d85080a5fb7722f56e19d45349a9606',
 			'url'     => 'http://2.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=96&d=mm&r=g',
 			'caption' => 'Ad Minnie',
 		],

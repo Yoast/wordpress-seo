@@ -1,0 +1,24 @@
+@layer components {
+    .yst-toggle-field {
+        @apply
+            yst-flex
+            yst-items-center
+            yst-justify-between
+            yst-max-w-sm;
+    }
+
+    .yst-toggle-field__text {
+        @apply yst-mr-6;
+    }
+
+    .yst-toggle-field__label {
+        @apply yst-mb-1;
+    }
+
+    .yst-toggle-field__options {
+        @apply
+            yst-flex
+            yst-flex-col
+            yst-gap-3;
+    }
+}

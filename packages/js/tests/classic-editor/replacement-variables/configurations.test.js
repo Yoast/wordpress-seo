@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { primaryCategory, tag, getCTReplacement } from "../../../src/classic-editor/replacement-variables/configurations";
+import { primaryCategory, tag, termTitle, getCTReplacement } from "../../../src/classic-editor/replacement-variables/configurations";
 import * as data from "@wordpress/data";
 import { get, map } from "lodash";
 
@@ -21,6 +21,8 @@ let selectTerms = jest.fn().mockReturnValue( [
 		name: "category 2",
 	},
 ] );
+
+let selectTitle;
 
 describe( "a test for getting the replacement of the primary category variable in classic editor", () => {
 	it( "should return the replacement for primary category variable when the id from the store is not undefined", () => {
@@ -98,7 +100,6 @@ self.wpseoScriptData = {
 		plugins: {
 			replaceVars: {
 				replace_vars: {
-					tag: "cats",
 					custom_taxonomies: {
 						actors: {
 							description: "",
@@ -127,8 +128,7 @@ describe( "a test for getting the replacement of the tag variable in classic edi
 		expect( tag.getReplacement() ).toEqual( "tortie cat, tortoiseshell cat" );
 	} );
 
-	it( "should return the replacement for tag variable when the store returns an empty array of tag(s): " +
-		"it should return the tags from wpseoScriptData", () => {
+	it( "should return an empty string as the replacement for tag variable when the store returns an empty array of tag(s)", () => {
 		selectTerms = jest.fn().mockReturnValue( [] );
 		jest.spyOn( data, "select" ).mockImplementation( () => {
 			return {
@@ -136,7 +136,7 @@ describe( "a test for getting the replacement of the tag variable in classic edi
 			};
 		} );
 
-		expect( tag.getReplacement() ).toEqual( "cats" );
+		expect( tag.getReplacement() ).toEqual( "" );
 	} );
 } );
 
@@ -181,3 +181,26 @@ describe( "a test for getting the replacement of the custom taxonomies (CT) vari
 		expect( getCTReplacement( names[ 1 ] ) ).toEqual( "" );
 	} );
 } );
+
+describe( "a test for getting the replacement variable of the title of a taxonomy term in classic editor", () => {
+	it( "should return the replacement variable of the title of a term", () => {
+		selectTitle = jest.fn().mockReturnValue( "a title" );
+		jest.spyOn( data, "select" ).mockImplementation( () => {
+			return {
+				selectTitle: selectTitle,
+			};
+		} );
+		expect( termTitle.getReplacement() ).toEqual( "a title" );
+	} );
+
+	it( "should return an empty string in case there is no title for a term", () => {
+		selectTitle = jest.fn().mockReturnValue( "" );
+		jest.spyOn( data, "select" ).mockImplementation( () => {
+			return {
+				selectTitle: selectTitle,
+			};
+		} );
+		expect( termTitle.getReplacement() ).toEqual( "" );
+	} );
+} );
+

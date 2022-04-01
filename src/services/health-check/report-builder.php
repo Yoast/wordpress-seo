@@ -134,7 +134,7 @@ class Report_Builder {
 	/**
 	 * Builds an array of strings in the format that WordPress uses to display health checks (https://developer.wordpress.org/reference/hooks/site_status_test_result/).
 	 *
-	 * @return string[] The report in WordPress' site status report format.
+	 * @return array The report in WordPress' site status report format.
 	 */
 	public function build() {
 		return [

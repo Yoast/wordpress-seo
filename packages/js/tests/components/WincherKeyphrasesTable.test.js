@@ -8,10 +8,10 @@ import WincherKeyphrasesTable
 	from "../../../js/src/components/WincherKeyphrasesTable";
 import { noop } from "lodash";
 import WincherTableRow from "../../src/components/WincherTableRow";
-import { handleAPIResponse, trackKeyphrases } from "../../src/helpers/wincherEndpoints";
+import { trackKeyphrases } from "../../src/helpers/wincherEndpoints";
 
 jest.mock( "../../src/helpers/wincherEndpoints" );
-handleAPIResponse.mockImplementation( async fn => {
+trackKeyphrases.mockImplementation( async fn => {
 	await fn();
 } );
 

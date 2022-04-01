@@ -50,7 +50,7 @@ class WPSEO_Taxonomy_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 		$post2_id     = $this->factory->post->create();
 		wp_set_post_categories( $post2_id, $category2_id );
 		$index_links = self::$class_instance->get_index_links( 1 );
-		$this->assertContains( 'http://example.org/category-sitemap1.xml', $index_links[0] );
+		$this->assertContains( 'http://example.org/category-sitemap.xml', $index_links[0] );
 		$this->assertContains( 'http://example.org/category-sitemap2.xml', $index_links[1] );
 	}
 

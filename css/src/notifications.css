@@ -1,5 +1,5 @@
 @import url(../src/icons.css);
-@import "../../node_modules/yoast-components/css/accessibility.scss";
+@import "../../node_modules/yoast-components/css/accessibility.css";
 .yoast-notification {
 	padding: 0 12px;
 	border-left: 4px solid #fff;
