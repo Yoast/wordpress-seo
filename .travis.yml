@@ -50,7 +50,6 @@ jobs:
             grunt set-version -new-version=$TRAVIS_TAG
             grunt update-version
           fi
-        - composer --version
         - grunt artifact
       if: ( tag IS present OR branch =~ /^feature\// OR branch =~ /^release\// OR branch =~ /^hotfix\// OR branch = trunk ) AND type != pull_request
       before_install:
@@ -75,7 +74,7 @@ cache:
   yarn: true
   directories:
     - $HOME/.composer/cache
-    - node_modules
+    
 
 before_install:
   - phpenv config-rm xdebug.ini || echo 'No xdebug config.'
