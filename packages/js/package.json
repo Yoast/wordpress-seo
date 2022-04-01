@@ -5,30 +5,6 @@
     "test": "jest -u",
     "lint": "eslint src tests --max-warnings=152"
   },
-  "jest": {
-    "setupTestFrameworkScriptFile": "<rootDir>/tests/setupTests.js",
-    "transformIgnorePatterns": [
-      "[/\\\\]node_modules[/\\\\](?!yoast-components|yoastseo|lodash-es|lodash|@yoast).+\\.js$"
-    ],
-    "testPathIgnorePatterns": [
-      "/tests/edit.test.js"
-    ],
-    "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/tests/__mocks__/fileMock.js",
-      "\\.(css|less)$": "<rootDir>/tests/__mocks__/styleMock.js",
-      "find-with-regex": "<rootDir>/node_modules/find-with-regex/lib/index.js",
-      "^lodash-es$": "lodash",
-      "^lodash-es/(.*)$": "lodash/$1"
-    },
-    "moduleDirectories": [
-      "<rootDir>/node_modules",
-      "node_modules"
-    ],
-    "snapshotSerializers": [
-      "enzyme-to-json/serializer"
-    ],
-    "testURL": "http://localhost/"
-  },
   "dependencies": {
     "@draft-js-plugins/mention": "^5.0.0",
     "@wordpress/blocks": "^11.1.2",
@@ -66,8 +42,13 @@
     "yoastseo": "^1.91.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.15.5",
     "@wordpress/dependency-extraction-webpack-plugin": "^2.8.0",
-    "case-sensitive-paths-webpack-plugin": "^2.1.2"
+    "@yoast/babel-preset": "^1.0.0",
+    "@yoast/jest-preset": "^1.0.0",
+    "babel-plugin-styled-components": "^2.0.6",
+    "case-sensitive-paths-webpack-plugin": "^2.1.2",
+    "jest": "^27.5.1"
   },
   "peerDependencies": {
     "react": "16.14.0",
