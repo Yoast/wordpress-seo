@@ -4,25 +4,63 @@
  * Creates category elements.
  *
  * @returns {{category1: HTMLInputElement, category2: HTMLInputElement, category3: HTMLInputElement,
- * allCategories: HTMLDivElement, mostUsedCategories: HTMLDivElement}} The elements created for categories.
+ * category4: HTMLInputElement, category5: HTMLInputElement, allCategories: HTMLDivElement,
+ * mostUsedCategories: HTMLDivElement}} The elements created for categories.
  */
 const createCategoryElements = () => {
 	// Create regular category elements.
 	const cat1 = document.createElement( "input" );
 	cat1.setAttribute( "type", "checkbox" );
-	cat1.setAttribute( "value", "cat1" );
+	cat1.setAttribute( "value", "1" );
+	const cat1Name = document.createTextNode( "cat1" );
+
+	const parentCat1 = document.createElement( "label" );
+	parentCat1.appendChild( cat1 );
+	parentCat1.appendChild( cat1Name );
+
 	const cat2 = document.createElement( "input" );
 	cat2.setAttribute( "type", "checkbox" );
-	cat2.setAttribute( "value", "cat2" );
+	cat2.setAttribute( "value", "2" );
+	const cat2Name = document.createTextNode( "cat2" );
+
+	const parentCat2 = document.createElement( "label" );
+	parentCat2.appendChild( cat2 );
+	parentCat2.appendChild( cat2Name );
+
 	const cat3 = document.createElement( "input" );
 	cat3.setAttribute( "type", "checkbox" );
-	cat3.setAttribute( "value", "cat3" );
+	cat3.setAttribute( "value", "3" );
+	const cat3Name = document.createTextNode( "cat3" );
+
+	const parentCat3 = document.createElement( "label" );
+	parentCat3.appendChild( cat3 );
+	parentCat3.appendChild( cat3Name );
+
+	const cat4 = document.createElement( "input" );
+	cat4.setAttribute( "type", "checkbox" );
+	cat4.setAttribute( "value", "4" );
+	const cat4Name = document.createTextNode( "Birds" );
+
+	const parentCat4 = document.createElement( "label" );
+	parentCat4.appendChild( cat4 );
+	parentCat4.appendChild( cat4Name );
+
+	const cat5 = document.createElement( "input" );
+	cat5.setAttribute( "type", "checkbox" );
+	cat5.setAttribute( "value", "5" );
+	const cat5Name = document.createTextNode( "dogs" );
+
+	const parentCat5 = document.createElement( "label" );
+	parentCat5.appendChild( cat5 );
+	parentCat5.appendChild( cat5Name );
 
 	const allCats = document.createElement( "div" );
 	allCats.setAttribute( "id", "categorychecklist" );
-	allCats.appendChild( cat1 );
-	allCats.appendChild( cat2 );
-	allCats.appendChild( cat3 );
+	allCats.appendChild( parentCat1 );
+	allCats.appendChild( parentCat2 );
+	allCats.appendChild( parentCat3 );
+	allCats.appendChild( parentCat4 );
+	allCats.appendChild( parentCat5 );
 
 	const mostUsedCats = document.createElement( "div" );
 	mostUsedCats.setAttribute( "id", "categorychecklist-pop" );
@@ -33,6 +71,8 @@ const createCategoryElements = () => {
 		category1: cat1,
 		category2: cat2,
 		category3: cat3,
+		category4: cat4,
+		category5: cat5,
 		allCategories: allCats,
 		mostUsedCategories: mostUsedCats,
 	};
@@ -87,20 +127,36 @@ const createCustomTaxonomyElements = () => {
 	// Set to the document the hierarchical custom taxonomy elements.
 	const actor1 = document.createElement( "input" );
 	actor1.setAttribute( "type", "checkbox" );
-	actor1.setAttribute( "value", "actor1" );
+	actor1.setAttribute( "value", "1" );
+	const actor1Name = document.createTextNode( "actor1" );
+
+	const parentActor1 = document.createElement( "label" );
+	parentActor1.appendChild( actor1 );
+	parentActor1.appendChild( actor1Name );
 
 	const actor2 = document.createElement( "input" );
 	actor2.setAttribute( "type", "checkbox" );
-	actor2.setAttribute( "value", "actor2" );
+	actor2.setAttribute( "value", "2" );
+	const actor2Name = document.createTextNode( "actor2" );
+
+	const parentActor2 = document.createElement( "label" );
+	parentActor2.appendChild( actor2 );
+	parentActor2.appendChild( actor2Name );
+
 	const actor3 = document.createElement( "input" );
 	actor3.setAttribute( "type", "checkbox" );
-	actor3.setAttribute( "value", "actor3" );
+	actor3.setAttribute( "value", "3" );
+	const actor3Name = document.createTextNode( "actor3" );
+
+	const parentActor3 = document.createElement( "label" );
+	parentActor3.appendChild( actor3 );
+	parentActor3.appendChild( actor3Name );
 
 	const allActors = document.createElement( "div" );
 	allActors.setAttribute( "id", "actorschecklist" );
-	allActors.appendChild( actor1 );
-	allActors.appendChild( actor2 );
-	allActors.appendChild( actor3 );
+	allActors.appendChild( parentActor1 );
+	allActors.appendChild( parentActor2 );
+	allActors.appendChild( parentActor3 );
 
 	const mostUsedActors = document.createElement( "div" );
 	mostUsedActors.setAttribute( "id", "actorschecklist-pop" );
