@@ -1,7 +1,7 @@
 import { sortArrayOfObjects } from "../../src/helpers/sortArrayOfObjects";
 
 describe( "a test for sorting array of objects alphabetically", () => {
-	it( "should returns a sorted array of objects", () => {
+	it( "should return a sorted array of objects", () => {
 		const array = [
 			{ name: "dogs" },
 			{ name: "cats" },
