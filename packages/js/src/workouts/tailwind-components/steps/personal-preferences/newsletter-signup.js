@@ -39,11 +39,7 @@ async function postSignUp( email ) {
 
 const genericErrorFeedback = __( "Oops! Something went wrong. Check your email address and try again.", "wordpress-seo" );
 const invalidEmailFeedback = __( "That is not a valid email address. Check your email address and try again.", "wordpress-seo" );
-const alreadySubscribedFeedback = __( "That email address has already been subscribed.", "wordpress-seo" );
-const subscribedFeedback = __(
-	"Thanks! Please click the link in the email we just sent you to confirm your newsletter subscription.",
-	"wordpress-seo"
-);
+const subscribedFeedback = __( "Thank you! Check your inbox for the confirmation email.", "wordpress-seo" );
 
 /**
  * The newsletter signup section.
@@ -71,15 +67,14 @@ export function NewsletterSignup( { gdprLink } ) {
 				setEmailFeedback( genericErrorFeedback );
 			} else {
 				setSignUpState( "success" );
-				setEmailFeedback(
-					response.status === "alreadySubscribed" ? alreadySubscribedFeedback : subscribedFeedback
-				);
+				setEmailFeedback( subscribedFeedback );
 			}
 		},
 		[ newsletterEmail ]
 	);
 
 	const onEmailChange = useCallback( ( event ) => {
+		setSignUpState( "waiting" );
 		setNewsletterEmail( event.target.value );
 	}, [ setNewsletterEmail ] );
 
@@ -111,18 +106,19 @@ export function NewsletterSignup( { gdprLink } ) {
 					name="newsletter email"
 					value={ newsletterEmail }
 					onChange={ onEmailChange }
+					className="yst-grow"
 					type="email"
 					placeholder={ __( "E.g. example@email.com", "wordpress-seo" ) }
-					className="yst-grow"
-					error={ {
-						isVisible: signUpState === "error",
+					feedback={ {
+						isVisible: [ "error", "success" ].includes( signUpState ),
+						type: signUpState,
 						message: [ emailFeedback ],
 					} }
 				/>
 				<button
 					id="newsletter-sign-up-button"
 					// Added a custom margin top because of the TextInput label. Aligning to flex-end won't work because of the error feedback.
-					className="yst-button yst-button--primary yst-h-[45px] yst-items-center yst-mt-[27.5px]"
+					className="yst-button yst-button--primary yst-h-[45px] yst-items-center yst-mt-[27.5px] yst-shrink-0"
 					onClick={ onSignUpClick }
 					disabled={ signUpState === "loading" }
 				>
