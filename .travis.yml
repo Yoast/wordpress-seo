@@ -41,6 +41,7 @@ jobs:
       php: 7.2
       env: TRAVIS_NODE_VERSION=14
       install:
+        - composer self-update 2.2.10
         - yarn global add grunt-cli
         - yarn install
       script:
@@ -49,6 +50,7 @@ jobs:
             grunt set-version -new-version=$TRAVIS_TAG
             grunt update-version
           fi
+        - composer --version
         - grunt artifact
       if: ( tag IS present OR branch =~ /^feature\// OR branch =~ /^release\// OR branch =~ /^hotfix\// OR branch = trunk ) AND type != pull_request
       before_install:
