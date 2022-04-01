@@ -74,7 +74,7 @@ cache:
   yarn: true
   directories:
     - $HOME/.composer/cache
-    
+    - node_modules
 
 before_install:
   - phpenv config-rm xdebug.ini || echo 'No xdebug config.'
