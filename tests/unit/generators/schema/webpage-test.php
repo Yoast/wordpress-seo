@@ -105,7 +105,6 @@ class WebPage_Test extends TestCase {
 		$this->meta_tags_context->description      = '';
 		$this->meta_tags_context->site_url         = 'https://example.com/';
 		$this->meta_tags_context->main_image_url   = null;
-		$this->meta_tags_context->primary_image_id = null;
 		$this->meta_tags_context->post             = (object) [
 			'post_date_gmt'     => '2345-12-12 12:12:12',
 			'post_modified_gmt' => '2345-12-12 23:23:23',
@@ -194,8 +193,7 @@ class WebPage_Test extends TestCase {
 	 * @param string $message        The message to show in case a test fails.
 	 */
 	public function test_generate_with_provider( $values_to_test, $expected, $message ) {
-		$this->meta_tags_context->main_image_url   = $values_to_test['main_image_url'];
-		$this->meta_tags_context->primary_image_id = $values_to_test['primary_image_id'];
+		$this->meta_tags_context->main_image_url = $values_to_test['main_image_url'];
 
 		$this->id->primary_image_hash = '#primaryimage';
 		$this->id->breadcrumb_hash    = '#breadcrumb';
@@ -558,7 +556,6 @@ class WebPage_Test extends TestCase {
 			[
 				'values_to_test' => [
 					'main_image_url'           => null,
-					'primary_image_id'         => null,
 				],
 				'expected'       => [
 					'@type'           => [ 'WebPage' ],
@@ -584,7 +581,6 @@ class WebPage_Test extends TestCase {
 			[
 				'values_to_test' => [
 					'main_image_url'           => 'https://example.com/main_image',
-					'primary_image_id'         => 'https://example.com/the-post/#primaryimage/' . md5( 'https://example.com/main_image' ),
 				],
 				'expected'       => [
 					'@type'              => [ 'WebPage' ],
@@ -611,7 +607,6 @@ class WebPage_Test extends TestCase {
 			[
 				'values_to_test' => [
 					'main_image_url'           => null,
-					'primary_image_id'         => null,
 				],
 				'expected'       => [
 					'@type'           => [ 'WebPage' ],

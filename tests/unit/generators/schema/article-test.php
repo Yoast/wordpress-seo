@@ -111,7 +111,6 @@ class Article_Test extends TestCase {
 		$this->context_mock->schema_article_type     = 'Article';
 		$this->context_mock->has_image               = true;
 		$this->context_mock->main_image_url          = 'https://www.example.com/image.jpg';
-		$this->context_mock->primary_image_id        = 'https://permalink#primaryimage/' . md5( 'https://www.example.com/image.jpg' );
 		$this->context_mock->canonical               = 'https://permalink';
 		$this->context_mock->post->post_content      = 'This is test content.';
 		$this->context_mock->post->post_title        = 'Test title';

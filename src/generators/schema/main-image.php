@@ -31,37 +31,33 @@ class Main_Image extends Abstract_Schema_Piece {
 
 		// The Open Graph image.
 		if ( isset( $this->context->indexable->open_graph_image_id ) && $this->context->indexable->open_graph_image_source === 'set-by-user' ) {
-			$generated_schema                = $this->helpers->schema->image->generate_from_attachment_id( $image_id, $this->context->indexable->open_graph_image_id );
-			$this->context->main_image_url   = $generated_schema['url'];
-			$this->context->main_image_id    = $this->context->indexable->open_graph_image_id;
-			$this->context->primary_image_id = $generated_schema['@id'];
+			$generated_schema              = $this->helpers->schema->image->generate_from_attachment_id( $image_id, $this->context->indexable->open_graph_image_id );
+			$this->context->main_image_url = $generated_schema['url'];
+			$this->context->main_image_id  = $this->context->indexable->open_graph_image_id;
 
 			return $generated_schema;
 		}
 
 		// The Twitter image.
 		if ( isset( $this->context->indexable->twitter_image_id ) && $this->context->indexable->twitter_image_source === 'set-by-user' ) {
-			$generated_schema                = $this->helpers->schema->image->generate_from_attachment_id( $image_id, $this->context->indexable->twitter_image_id );
-			$this->context->main_image_url   = $generated_schema['url'];
-			$this->context->main_image_id    = $this->context->indexable->twitter_image_id;
-			$this->context->primary_image_id = $generated_schema['@id'];
+			$generated_schema              = $this->helpers->schema->image->generate_from_attachment_id( $image_id, $this->context->indexable->twitter_image_id );
+			$this->context->main_image_url = $generated_schema['url'];
+			$this->context->main_image_id  = $this->context->indexable->twitter_image_id;
 
 			return $generated_schema;
 		}
 
 		// The featured image.
 		if ( $this->context->main_image_id ) {
-			$generated_schema                = $this->helpers->schema->image->generate_from_attachment_id( $image_id, $this->context->main_image_id );
-			$this->context->main_image_url   = $generated_schema['url'];
-			$this->context->primary_image_id = $generated_schema['@id'];
+			$generated_schema              = $this->helpers->schema->image->generate_from_attachment_id( $image_id, $this->context->main_image_id );
+			$this->context->main_image_url = $generated_schema['url'];
 
 			return $generated_schema;
 		}
 
 		// The first image in the content.
 		if ( $this->context->main_image_url ) {
-			$generated_schema                = $this->helpers->schema->image->generate_from_url( $image_id, $this->context->main_image_url );
-			$this->context->primary_image_id = $generated_schema['@id'];
+			$generated_schema = $this->helpers->schema->image->generate_from_url( $image_id, $this->context->main_image_url );
 
 			return $generated_schema;
 		}
