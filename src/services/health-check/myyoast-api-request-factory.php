@@ -8,7 +8,7 @@ use WPSEO_MyYoast_Api_Request;
 /**
  * Creates WPSEO_MyYoast_Api_Request objects.
  */
-class MyYoast_API_Request_Factory {
+class MyYoast_Api_Request_Factory {
 
 	/**
 	 * Creates a new WPSEO_MyYoast_API_Request.
