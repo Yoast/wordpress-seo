@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Helpers\Schema;
 
-use Yoast\WP\SEO\Config\Schema_IDs;
 use Yoast\WP\SEO\Helpers\Image_Helper as Main_Image_Helper;
 
 /**
@@ -74,12 +73,10 @@ class Image_Helper {
 	 * @return array Schema ImageObject array.
 	 */
 	public function generate_from_attachment_id( $schema_id, $attachment_id, $caption = '' ) {
-		$data = $this->generate_object();
-		$url  = $this->image->get_attachment_image_url( $attachment_id, 'full' );
+		$data = $this->generate_object( $schema_id );
 
-		$data['@id']        = $schema_id . md5( $url );
-		$data['url']        = $url;
-		$data['contentUrl'] = $url;
+		$data['url']        = $this->image->get_attachment_image_url( $attachment_id, 'full' );
+		$data['contentUrl'] = $data['url'];
 		$data               = $this->add_image_size( $data, $attachment_id );
 		$data               = $this->add_caption( $data, $attachment_id, $caption );
 
@@ -96,9 +93,8 @@ class Image_Helper {
 	 * @return array Schema ImageObject array.
 	 */
 	public function generate_from_attachment_meta( $schema_id, $attachment_meta, $caption = '' ) {
-		$data = $this->generate_object();
+		$data = $this->generate_object( $schema_id );
 
-		$data['@id']        = $schema_id . md5( $attachment_meta['url'] );
 		$data['url']        = $attachment_meta['url'];
 		$data['contentUrl'] = $data['url'];
 		$data['width']      = $attachment_meta['width'];
@@ -120,9 +116,8 @@ class Image_Helper {
 	 * @return array Schema ImageObject array.
 	 */
 	public function simple_image_object( $schema_id, $url, $caption = '' ) {
-		$data = $this->generate_object();
+		$data = $this->generate_object( $schema_id );
 
-		$data['@id']        = $schema_id . md5( $url );
 		$data['url']        = $url;
 		$data['contentUrl'] = $url;
 
@@ -162,11 +157,14 @@ class Image_Helper {
 	/**
 	 * Generates our bare bone ImageObject.
 	 *
+	 * @param string $schema_id The `@id` to use for the returned image.
+	 *
 	 * @return array an empty ImageObject
 	 */
-	private function generate_object() {
+	private function generate_object( $schema_id ) {
 		$data = [
 			'@type' => 'ImageObject',
+			'@id'   => $schema_id,
 		];
 
 		$data = $this->language->add_piece_language( $data );

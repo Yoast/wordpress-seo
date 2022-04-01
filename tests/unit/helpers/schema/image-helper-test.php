@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Tests\Unit\Helpers\Schema;
 
 use Mockery;
-use Yoast\WP\SEO\Config\Schema_IDs;
 use Yoast\WP\SEO\Helpers\Image_Helper as Main_Image_Helper;
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 use Yoast\WP\SEO\Helpers\Schema\Image_Helper;
@@ -37,7 +36,7 @@ class Image_Helper_Test extends TestCase {
 	/**
 	 * The language helper.
 	 *
-	 * @var Mockery\MockInterface|Language_Helper
+	 * @var Mockery\MockInterface|Languge_Helper
 	 */
 	private $language;
 
@@ -142,7 +141,7 @@ class Image_Helper_Test extends TestCase {
 
 		$expected = [
 			'@type'      => 'ImageObject',
-			'@id'        => 'https://example.com/#/schema/logo/image/' . md5( 'https://example.com/logo.jpg' ),
+			'@id'        => 'https://example.com/#logo',
 			'url'        => 'https://example.com/logo.jpg',
 			'contentUrl' => 'https://example.com/logo.jpg',
 			'width'      => 256,
@@ -154,7 +153,7 @@ class Image_Helper_Test extends TestCase {
 		$this->assertEquals(
 			$expected,
 			$this->instance->generate_from_attachment_id(
-				'https://example.com/#/schema/logo/image/',
+				'https://example.com/#logo',
 				1337,
 				'Company name'
 			)
@@ -188,7 +187,7 @@ class Image_Helper_Test extends TestCase {
 
 		$expected = [
 			'@type'      => 'ImageObject',
-			'@id'        => 'https://example.com/#/schema/logo/image/' . md5( 'https://example.com/logo.jpg' ),
+			'@id'        => 'https://example.com/#logo',
 			'url'        => 'https://example.com/logo.jpg',
 			'contentUrl' => 'https://example.com/logo.jpg',
 			'caption'    => 'Company name',
@@ -198,7 +197,7 @@ class Image_Helper_Test extends TestCase {
 		$this->assertEquals(
 			$expected,
 			$this->instance->generate_from_attachment_id(
-				'https://example.com/#/schema/logo/image/',
+				'https://example.com/#logo',
 				1337,
 				'Company name'
 			)
@@ -246,7 +245,7 @@ class Image_Helper_Test extends TestCase {
 
 		$expected = [
 			'@type'      => 'ImageObject',
-			'@id'        => 'https://example.com/#/schema/logo/image/' . md5( 'https://example.com/logo.jpg' ),
+			'@id'        => 'https://example.com/#logo',
 			'url'        => 'https://example.com/logo.jpg',
 			'contentUrl' => 'https://example.com/logo.jpg',
 			'caption'    => 'Image caption',
@@ -254,7 +253,7 @@ class Image_Helper_Test extends TestCase {
 		];
 
 		$actual = $this->instance->generate_from_attachment_id(
-			'https://example.com/#/schema/logo/image/',
+			'https://example.com/#logo',
 			1337,
 			''
 		);
@@ -297,14 +296,14 @@ class Image_Helper_Test extends TestCase {
 
 		$expected = [
 			'@type'      => 'ImageObject',
-			'@id'        => 'https://example.com/#/schema/logo/image/' . md5( 'https://example.com/logo.jpg' ),
+			'@id'        => 'https://example.com/#logo',
 			'url'        => 'https://example.com/logo.jpg',
 			'contentUrl' => 'https://example.com/logo.jpg',
 			'inLanguage' => 'language',
 		];
 
 		$actual = $this->instance->generate_from_attachment_id(
-			'https://example.com/#/schema/logo/image/',
+			'https://example.com/#logo',
 			1337,
 			''
 		);
@@ -329,7 +328,7 @@ class Image_Helper_Test extends TestCase {
 
 		$expected = [
 			'@type'      => 'ImageObject',
-			'@id'        => 'https://example.com/#/schema/logo/image/' . md5( 'https://example.com/logo.jpg' ),
+			'@id'        => 'https://example.com/#logo',
 			'url'        => 'https://example.com/logo.jpg',
 			'contentUrl' => 'https://example.com/logo.jpg',
 			'inLanguage' => 'language',
@@ -343,7 +342,7 @@ class Image_Helper_Test extends TestCase {
 			->andReturn( 'Image caption' );
 
 		$actual = $this->instance->simple_image_object(
-			'https://example.com/#/schema/logo/image/',
+			'https://example.com/#logo',
 			'https://example.com/logo.jpg',
 			'Image caption'
 		);
