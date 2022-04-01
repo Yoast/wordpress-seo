@@ -7,6 +7,38 @@ import { getErrorAriaProps } from "../helpers";
 import MultiLineText from "./multi-line-text";
 
 /**
+ * An icon for when feedback should be shown.
+ *
+ * @param {Object}  props            The props object.
+ * @param {boolean} props.hasError   Whether there is an error icon.
+ * @param {boolean} props.hasSuccess Whether there is a success icon.
+ *
+ * @returns {WPElement|null} Returns an icon or null.
+ */
+function FeedbackIcon( { hasError, hasSuccess } ) {
+	if ( hasError ) {
+		return <div className="yst-flex yst-items-center yst-absolute yst-inset-y-0 yst-right-0 yst-mr-3">
+			<ExclamationCircleIcon className="yst-pointer-events-none yst-h-5 yst-w-5 yst-text-red-500" />
+		</div>;
+	} else if ( hasSuccess ) {
+		return <div className="yst-flex yst-items-center yst-absolute yst-inset-y-0 yst-right-0 yst-mr-3">
+			<CheckCircleIcon className="yst-pointer-events-none yst-h-5 yst-w-5 yst-text-emerald-600" />
+		</div>;
+	}
+	return null;
+}
+
+FeedbackIcon.propTypes = {
+	hasError: PropTypes.bool,
+	hasSuccess: PropTypes.bool,
+};
+
+FeedbackIcon.defaultProps = {
+	hasError: false,
+	hasSuccess: false,
+};
+
+/**
  * The Text Input component.
  *
  * @param {string} [className=""] The classname for the wrapper div.
@@ -50,12 +82,7 @@ export default function TextInput( { className, id, label, description, value, o
 					{ ...getErrorAriaProps( id, feedback ) }
 					{ ...inputProps }
 				/>
-				{ hasError && <div className="yst-flex yst-items-center yst-absolute yst-inset-y-0 yst-right-0 yst-mr-3">
-					<ExclamationCircleIcon className="yst-pointer-events-none yst-h-5 yst-w-5 yst-text-red-500" />
-				</div> }
-				{ hasSuccess && <div className="yst-flex yst-items-center yst-absolute yst-inset-y-0 yst-right-0 yst-mr-3">
-					<CheckCircleIcon className="yst-pointer-events-none yst-h-5 yst-w-5 yst-text-emerald-600" />
-				</div> }
+				<FeedbackIcon hasError={ hasError } hasSuccess={ hasSuccess } />
 			</div>
 			{ feedback.isVisible && <MultiLineText
 				id={ `${ hasError ? "error-" : "success-" }${ id }` }
