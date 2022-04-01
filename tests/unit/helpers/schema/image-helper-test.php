@@ -76,7 +76,7 @@ class Image_Helper_Test extends TestCase {
 		$this->instance
 			->expects( 'generate_from_attachment_id' )
 			->once()
-			->with( '#schema-image-ABC', 1337, 'caption', true )
+			->with( '#schema-image-ABC', 1337, 'caption' )
 			->andReturn( [] );
 
 		$this->assertEquals(
@@ -100,7 +100,7 @@ class Image_Helper_Test extends TestCase {
 		$this->instance
 			->expects( 'simple_image_object' )
 			->once()
-			->with( '#schema-image-ABC', 'https://example.org/image.jpg', 'caption', true )
+			->with( '#schema-image-ABC', 'https://example.org/image.jpg', 'caption' )
 			->andReturn( [] );
 
 		$this->assertEquals(
