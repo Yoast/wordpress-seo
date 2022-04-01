@@ -44,6 +44,8 @@ describe( "a test for retrieving categories from the DOM", () => {
 			categoryElements.category1,
 			categoryElements.category2,
 			categoryElements.category3,
+			categoryElements.category4,
+			categoryElements.category5,
 		] );
 	} );
 	it( "should return the categories from the 'Most Used' section", () => {
@@ -52,10 +54,10 @@ describe( "a test for retrieving categories from the DOM", () => {
 	it( "should return the checked categories", () => {
 		expect( dom.getPostCategories() ).toEqual( [ ] );
 		categoryElements.category1.checked = true;
-		expect( dom.getPostCategories()[ 0 ].id ).toEqual( "cat1"  );
+		expect( dom.getPostCategories()[ 0 ].name ).toEqual( "cat1"  );
 		categoryElements.category1.checked = false;
 		categoryElements.category2.checked = true;
-		expect( dom.getPostCategories()[ 0 ].id ).toEqual( "cat2"  );
+		expect( dom.getPostCategories()[ 0 ].name ).toEqual( "cat2"  );
 		categoryElements.category2.checked = false;
 		expect( dom.getPostCategories() ).toEqual( [ ] );
 	} );
@@ -190,15 +192,15 @@ describe( "a test for retrieving custom taxonomies from the DOM", () => {
 	it( "should return the checked hierarchical custom taxonomies", () => {
 		expect( dom.getCustomTaxonomies()[ names[ 0 ] ] ).toEqual( [] );
 		customTaxonomyElements.actor1.checked = true;
-		expect( dom.getCustomTaxonomies()[ names[ 0 ] ][ 0 ].id ).toEqual( "actor1"  );
+		expect( dom.getCustomTaxonomies()[ names[ 0 ] ][ 0 ].name ).toEqual( "actor1"  );
 		customTaxonomyElements.actor1.checked = false;
 		customTaxonomyElements.actor2.checked = true;
-		expect( dom.getCustomTaxonomies()[ names[ 0 ] ][ 0 ].id  ).toEqual( "actor2"  );
+		expect( dom.getCustomTaxonomies()[ names[ 0 ] ][ 0 ].name  ).toEqual( "actor2"  );
 		customTaxonomyElements.actor2.checked = false;
 		expect( dom.getCustomTaxonomies()[ names[ 0 ] ] ).toEqual( [] );
 	} );
 
-	it( "should return the non-hierarchical custom taxonomy from the post", () => {
+	it( "should return the non-hierarchical custom taxonomy from the post, ordered alphabetically", () => {
 		expect( dom.getCustomTaxonomies()[ names[ 1 ] ] ).toEqual( [ "Spike Lee", "Steven Spielberg" ] );
 	} );
 } );
