@@ -104,7 +104,7 @@ export function NewsletterSignup( { gdprLink } ) {
 					)
 				}
 			</p>
-			<div className="yst-flex yst-items-end yst-gap-2 yst-mt-4">
+			<div className="yst-flex yst-items-start yst-gap-2 yst-mt-4">
 				<TextInput
 					label={ __( "Email address", "wordpress-seo" ) }
 					id="newsletter-email"
@@ -116,19 +116,20 @@ export function NewsletterSignup( { gdprLink } ) {
 					className="yst-grow"
 					error={ {
 						isVisible: signUpState === "error",
-						message: emailFeedback,
+						message: [ emailFeedback ],
 					} }
 				/>
 				<button
 					id="newsletter-sign-up-button"
-					className="yst-button yst-button--primary yst-h-[45px] yst-items-center"
+					// Added a custom margin top because of the TextInput label. Aligning to flex-end won't work because of the error feedback.
+					className="yst-button yst-button--primary yst-h-[45px] yst-items-center yst-mt-[27.5px]"
 					onClick={ onSignUpClick }
 					disabled={ signUpState === "loading" }
 				>
 					{ __( "Sign up!", "wordpress-seo" ) }
 				</button>
 			</div>
-			<p className="yst-text-gray-500 yst-text-xxs yst-leading-4 yst-mt-1">
+			<p className="yst-text-gray-500 yst-text-xxs yst-leading-4">
 				{
 					addLinkToString(
 						sprintf(

@@ -60,7 +60,7 @@
 }
 
 #yoast-configuration-workout p {
-	@apply yst-leading-normal yst-text-gray-500 !important;
+	@apply yst-leading-normal yst-text-gray-500;
 }
 
 .yst-radio {
