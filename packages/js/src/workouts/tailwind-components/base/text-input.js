@@ -82,7 +82,7 @@ TextInput.propTypes = {
 	onChange: PropTypes.func.isRequired,
 	placeholder: PropTypes.string,
 	feedback: PropTypes.shape( {
-		type: PropTypes.oneOf( [ "success", "error" ] ),
+		type: PropTypes.string,
 		message: PropTypes.array,
 		isVisible: PropTypes.bool,
 	} ),
