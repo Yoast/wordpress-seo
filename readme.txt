@@ -239,19 +239,17 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 18.5 =
 Release Date: April 5th, 2022
 
+Read more about what's new in Yoast SEO 18.4 in [our release post in English](https://yoa.st/release-5-4-22) or [our release post in Spanish](https://yoa.st/release-5-4-22-spanish)!
+
 Enhancements:
 
-* Adds an integration for [CoAuthors Plus](https://wordpress.org/plugins/co-authors-plus/). When enabled, multiple authors will be added to the schema output.
-* Changes the `@id` for images for `Person` and `Organization`, including the `logo` attribute for the latter, to be more specific to the image.
-* Improves the `ImageObject` schema piece to use the URL of the main image in posts having Open Graph or Twitter images.
-* Adds a `wpseo_schema_graph` filter to allow filtering the entire Schema graph.
-* Adds a preliminary import action validating AIOSEO data before going into the actual import.
+* Adds a preliminary validation of All-in-One SEO data before importing it into Yoast SEO.
 
 Bugfixes:
 
 * Fixes a bug where the url preview inside the snippet editor doesn't reflect the permalink consistently in the Block editor.
 * Fixes an incorrect escaping function in our health checks. Props to [BronsonQuick](https://github.com/BronsonQuick).
-* Fixes a bug where in certain edge cases a database error would show during AIOSEO clean up.
+* Fixes a bug where in certain edge cases a database error would show during clean-up of All-in-One SEO data.
 * Fixes a bug where reusable block content would not be updated in our analysis when changed in the editor.
 * Fixes a bug where the Google preview would display wrong breadcrumbs for child pages.
 * Fixes a potential error related to the `has_ancestors` column of our indexables table. Props to [junaidbhura](https://github.com/junaidbhura).

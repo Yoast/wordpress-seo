@@ -41,6 +41,7 @@ jobs:
       php: 7.2
       env: TRAVIS_NODE_VERSION=14
       install:
+        - composer self-update 2.2.10
         - yarn global add grunt-cli
         - yarn install
       script:

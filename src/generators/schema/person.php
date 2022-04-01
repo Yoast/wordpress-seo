@@ -179,8 +179,7 @@ class Person extends Abstract_Schema_Piece {
 		}
 
 		if ( \is_array( $this->type ) && \in_array( 'Organization', $this->type, true ) ) {
-			$data_logo    = isset( $data['image']['@id'] ) ? $data['image']['@id'] : $schema_id;
-			$data['logo'] = [ '@id' => $data_logo ];
+			$data['logo'] = [ '@id' => $schema_id ];
 		}
 
 		return $data;
