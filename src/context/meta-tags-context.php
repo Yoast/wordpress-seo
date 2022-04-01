@@ -50,6 +50,7 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
  * @property bool         $has_image
  * @property int          $main_image_id
  * @property string       $main_image_url
+ * @property string       $primary_image_id
  */
 class Meta_Tags_Context extends Abstract_Presentation {
 
@@ -558,6 +559,19 @@ class Meta_Tags_Context extends Abstract_Presentation {
 		}
 
 		return $url;
+	}
+
+	/**
+	 * Retrieves the ID of the primary image of the page.
+	 *
+	 * @return string|null The primary image ID.
+	 */
+	public function generate_primary_image_id() {
+		if ( $this->main_image_url !== null ) {
+			return $this->canonical . Schema_IDs::PRIMARY_IMAGE_HASH . md5( $this->main_image_url );
+		}
+
+		return null;
 	}
 
 	/**
