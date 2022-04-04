@@ -4,7 +4,7 @@ const path = require( "path" );
 
 
 /**
- * Updates versions.
+ * Updates package.json versions to the latest released WordPress versions.
  *
  * @returns {void}
  */
@@ -20,7 +20,6 @@ async function updateVersions() {
 	directories.push( ".." );
 
 	for ( const directory of directories ) {
-		let changed = false;
 		const filename = path.join( __dirname, "/../../packages/", directory, "/package.json" );
 		if ( ! existsSync( filename ) ) {
 			continue;
@@ -30,14 +29,12 @@ async function updateVersions() {
 			if ( ! gbdependencies[ dependency ] ) {
 				continue;
 			}
-			changed = true;
 			packageJson.dependencies[ dependency ] = gbdependencies[ dependency ];
 		}
 		for ( const dependency in packageJson.devDependencies ) {
 			if ( ! gbdependencies[ dependency ] ) {
 				continue;
 			}
-			changed = true;
 			packageJson.devDependencies[ dependency ] = gbdependencies[ dependency ];
 		}
 		if ( directory === ".." ) {
