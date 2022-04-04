@@ -11,13 +11,13 @@ const facebookSlice = createSlice( {
 	name: "facebook",
 	initialState: defaultFacebookState,
 	reducers: {
-		updateTitle: ( state, action ) => {
+		updateFacebookTitle: ( state, action ) => {
 			state.title = action.payload;
 		},
-		updateDescription: ( state, action ) => {
+		updateFacebookDescription: ( state, action ) => {
 			state.description = action.payload;
 		},
-		updateImage: ( state, action ) => {
+		updateFacebookImage: ( state, action ) => {
 			state.image = action.payload;
 		},
 	},
@@ -25,9 +25,9 @@ const facebookSlice = createSlice( {
 
 export const facebookSelectors = {
 	selectFacebook: ( state ) => get( state, "form.social.facebook" ),
-	selectTitle: ( state ) => get( state, "form.social.facebook.title" ),
-	selectDescription: ( state ) => get( state, "form.social.facebook.description" ),
-	selectImage: ( state ) => get( state, "form.social.facebook.image" ),
+	selectFacebookTitle: ( state ) => get( state, "form.social.facebook.title" ),
+	selectFacebookDescription: ( state ) => get( state, "form.social.facebook.description" ),
+	selectFacebookImage: ( state ) => get( state, "form.social.facebook.image" ),
 };
 
 export const facebookActions = facebookSlice.actions;
