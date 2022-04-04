@@ -239,7 +239,7 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 18.5 =
 Release Date: April 5th, 2022
 
-Read more about what's new in Yoast SEO 18.4 in [our release post in English](https://yoa.st/release-5-4-22) or [our release post in Spanish](https://yoa.st/release-5-4-22-spanish)!
+Read more about what's new in Yoast SEO 18.5 in [our release post in English](https://yoa.st/release-5-4-22) or [our release post in Spanish](https://yoa.st/release-5-4-22-spanish)!
 
 Enhancements:
 
@@ -247,14 +247,13 @@ Enhancements:
 
 Bugfixes:
 
-* Fixes a bug where the url preview inside the snippet editor doesn't reflect the permalink consistently in the Block editor.
-* Fixes an incorrect escaping function in our health checks. Props to [BronsonQuick](https://github.com/BronsonQuick).
+* Fixes a bug where the URL preview inside the snippet editor would not consistently reflect the permalink in the Block editor.
+* Fixes a bug where the Customize URL would be incorrectly escaped in our health checks. Props to [BronsonQuick](https://github.com/BronsonQuick).
 * Fixes a bug where in certain edge cases a database error would show during clean-up of All-in-One SEO data.
 * Fixes a bug where reusable block content would not be updated in our analysis when changed in the editor.
-* Fixes a bug where the Google preview would display wrong breadcrumbs for child pages.
-* Fixes a potential error related to the `has_ancestors` column of our indexables table. Props to [junaidbhura](https://github.com/junaidbhura).
-* Fixes a fatal error in the search appearance options on WP < 5.8.3 and themes without title-tag support.
-* Fixes an issue where sitemap locations would change once the number of entries exceeded that of the first page.
+* Fixes a bug where an error about incorrect values in the indexables table would be displayed on certain database setups. Props to [junaidbhura](https://github.com/junaidbhura).
+* Fixes a bug where a fatal error would be displayed in the Search Appearance options when using WordPress version 5.8.3 and below with themes without title-tag support.
+* Fixes a bug where sitemap locations would change once the number of entries exceeded that of the first page.
 * Fixes a bug where Yoast modals would close after opening after editing content in Elementor.
 
 Other:
