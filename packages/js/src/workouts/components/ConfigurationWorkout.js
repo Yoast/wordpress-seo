@@ -125,6 +125,17 @@ function configurationWorkoutReducer( state, action ) {
 			newState.personId = action.payload.value;
 			newState.personName = action.payload.label;
 			return newState;
+		case "CHANGE_PERSON_SOCIAL_PROFILE":
+			newState = handleStepEdit( newState, 3 );
+			newState.personSocialProfiles[ action.payload.socialMedium ] = action.payload.value;
+			return newState;
+		case "INIT_PERSON_SOCIAL_PROFILES":
+			newState.personSocialProfiles = action.payload.socialProfiles;
+			return newState;
+		case "SET_CAN_EDIT_USER":
+			newState = handleStepEdit( newState, 2 );
+			newState.canEditUser = ( action.payload.value === true ) ? 1 : 0;
+			return newState;
 		case "CHANGE_SOCIAL_PROFILE":
 			newState = handleStepEdit( newState, 3 );
 			newState.socialProfiles[ action.payload.socialMedium ] = action.payload.value;
@@ -213,18 +224,43 @@ async function updateSocialProfiles( state ) {
 		/* eslint-disable camelcase */
 		facebook_site: state.socialProfiles.facebookUrl,
 		twitter_site: state.socialProfiles.twitterUsername,
-		instagram_url: state.socialProfiles.instagramUrl,
-		linkedin_url: state.socialProfiles.linkedinUrl,
-		myspace_url: state.socialProfiles.myspaceUrl,
-		pinterest_url: state.socialProfiles.pinterestUrl,
-		youtube_url: state.socialProfiles.youtubeUrl,
-		wikipedia_url: state.socialProfiles.wikipediaUrl,
 		other_social_urls: state.socialProfiles.otherSocialUrls,
 		/* eslint-enable camelcase */
 	};
 
 	const response = await apiFetch( {
 		path: "yoast/v1/workouts/social_profiles",
+		method: "POST",
+		data: socialProfiles,
+	} );
+	return await response.json;
+}
+
+/**
+ * Updates the person social profiles in the database.
+ *
+ * @param {Object} state The state to save.
+ *
+ * @returns {Promise|bool} A promise, or false if the call fails.
+ */
+async function updatePersonSocialProfiles( state ) {
+	const socialProfiles = {
+		/* eslint-disable camelcase */
+		user_id: state.personId,
+		facebook: state.personSocialProfiles.facebook,
+		instagram: state.personSocialProfiles.instagram,
+		linkedin: state.personSocialProfiles.linkedin,
+		myspace: state.personSocialProfiles.myspace,
+		pinterest: state.personSocialProfiles.pinterest,
+		soundcloud: state.personSocialProfiles.soundcloud,
+		tumblr: state.personSocialProfiles.tumblr,
+		twitter: state.personSocialProfiles.twitter,
+		youtube: state.personSocialProfiles.youtube,
+		wikipedia: state.personSocialProfiles.wikipedia,
+		/* eslint-enable camelcase */
+	};
+	const response = await apiFetch( {
+		path: "yoast/v1/workouts/person_social_profiles",
 		method: "POST",
 		data: socialProfiles,
 	} );
@@ -512,6 +548,31 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 	 * @returns {void}
 	 */
 	function updateOnFinishSocialProfiles() {
+		if ( state.companyOrPerson === "person" ) {
+			if ( ! state.canEditUser ) {
+				return true;
+			}
+			return updatePersonSocialProfiles( state )
+				.then( () => setStepIsSaved( 3 ) )
+				.then( () => {
+					setErrorFields( [] );
+					finishSteps( "configuration", [ steps.socialProfiles ] );
+					scrollToStep( 4 );
+				} )
+				.then( () => {
+					return true;
+				} )
+				.catch(
+					( e ) => {
+						if ( e.failures ) {
+							setErrorFields( e.failures );
+						}
+						console.error( e );
+						return false;
+					}
+				);
+		}
+
 		return updateSocialProfiles( state )
 			.then( () => setStepIsSaved( 3 ) )
 			.then( () => {

@@ -1,16 +1,22 @@
 import { TrashIcon } from "@heroicons/react/outline";
 import { PlusIcon } from "@heroicons/react/solid";
+import { useCallback } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { PropTypes } from "prop-types";
-import { useCallback } from "@wordpress/element";
 
 /**
  * The FieldArray component.
  *
- * @param {array} data The array data.
- * @param {Node} addButtonChildren Children for the add item button.
+ * @param {Object}     props                 The props object
+ * @param {array}      props.items           The array containing the organization's social profiles.
+ * @param {function}   props.onAddProfile    Function to call when a new field is added to the field array.
+ * @param {function}   props.onRemoveProfile Function to call when a field is removed from the field array.
+ * @param {function}   props.onChangeProfile Function to call when a the content of a field is edited.
+ * @param {array}      props.errorFields     The array containing the names of the fields with an invalid value.
+ * @param {Node}       addButtonChildren     Children for the add item button.
+ * @param {WPElement}  fieldType             The component to render each item with.
  *
- * @returns {Component} The FieldArray component.
+ * @returns {WPElement} The FieldArray component.
  */
 const SocialFieldArray = ( { items, onAddProfile, onRemoveProfile, onChangeProfile, errorFields, addButtonChildren, fieldType: Component } ) => {
 	const handleRemove = useCallback( ( event ) => {
@@ -41,7 +47,7 @@ const SocialFieldArray = ( { items, onAddProfile, onRemoveProfile, onChangeProfi
 							data-index={ index }
 							onClick={ handleRemove }
 						>
-							<span className="yst-sr-only">{ __( "Delete item", "admin-ui" ) }</span>
+							<span className="yst-sr-only">{ __( "Delete item", "wordpress-seo" ) }</span>
 							<TrashIcon className="yst-relative yst--top-0.5 yst-w-5 yst-h-5" />
 						</button>
 					</div>
