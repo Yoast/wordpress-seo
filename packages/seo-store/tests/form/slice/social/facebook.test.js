@@ -1,4 +1,5 @@
-import facebookReducer, { facebookActions } from "../../../../src/form/slice/social/facebook";
+import { curry, set } from "lodash";
+import facebookReducer, { facebookActions, facebookSelectors } from "../../../../src/form/slice/social/facebook";
 
 describe( "a test for facebook slice", () => {
 	// eslint-disable-next-line no-undefined
@@ -57,6 +58,61 @@ describe( "a test for facebook slice", () => {
 					height: 600,
 					alt: "A sleeping cat",
 				},
+			} );
+		} );
+	} );
+
+	describe( "a test for facebook selectors", () => {
+		const createStoreState = curry( set )( {}, "form.social" );
+
+		test( "should select the facebook title", () => {
+			const { selectFacebookTitle } = facebookSelectors;
+
+			const state = {
+				facebook: {
+					title: "Excelling in catfluencer role on Facebook",
+				},
+			};
+			const result = selectFacebookTitle( createStoreState( state ) );
+
+			expect( result ).toEqual( "Excelling in catfluencer role on Facebook" );
+		} );
+
+		test( "should select the facebook description", () => {
+			const { selectFacebookDescription } = facebookSelectors;
+
+			const state = {
+				facebook: {
+					description: "What it means to be a catfluencer and what treats should we present to our cats so they can excel in being one.",
+				},
+			};
+			const result = selectFacebookDescription( createStoreState( state ) );
+
+			expect( result ).toEqual( "What it means to be a catfluencer and what treats should we present to our cats so they can excel in being one." );
+		} );
+
+		test( "should select the facebook image", () => {
+			const { selectFacebookImage } = facebookSelectors;
+
+			const state = {
+				facebook: {
+					image: {
+						id: 1,
+						url: "http://example.com/catfluencer-meowdel",
+						width: 500,
+						height: 600,
+						alt: "A sleeping cat",
+					},
+				},
+			};
+			const result = selectFacebookImage( createStoreState( state ) );
+
+			expect( result ).toEqual( {
+				id: 1,
+				url: "http://example.com/catfluencer-meowdel",
+				width: 500,
+				height: 600,
+				alt: "A sleeping cat",
 			} );
 		} );
 	} );
