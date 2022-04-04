@@ -43,9 +43,7 @@ async function updateVersions() {
 		if ( directory === ".." ) {
 			Object.assign( packageJson.resolutions, gbpackage.dependencies );
 		}
-		if ( changed ) {
-			writeFileSync( filename, JSON.stringify( packageJson, null, 2 ) );
-		}
+		writeFileSync( filename, JSON.stringify( packageJson, null, 2 ) + "\n" );
 	}
 }
 
