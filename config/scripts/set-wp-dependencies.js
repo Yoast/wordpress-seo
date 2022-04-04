@@ -40,6 +40,9 @@ async function updateVersions() {
 			changed = true;
 			packageJson.devDependencies[ dependency ] = gbdependencies[ dependency ];
 		}
+		if ( directory === ".." ) {
+			packageJson.resolutions = gbpackage.dependencies;
+		}
 		if ( changed ) {
 			writeFileSync( filename, JSON.stringify( packageJson, null, 2 ) );
 		}
