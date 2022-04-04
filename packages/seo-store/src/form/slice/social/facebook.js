@@ -24,10 +24,10 @@ const facebookSlice = createSlice( {
 } );
 
 export const facebookSelectors = {
-	selectFacebook: ( state ) => get( state, "facebook" ),
-	selectTitle: ( state ) => get( state, "facebook.title" ),
-	selectDescription: ( state ) => get( state, "facebook.description" ),
-	selectImage: ( state ) => get( state, "facebook.image" ),
+	selectFacebook: ( state ) => get( state, "form.social.facebook" ),
+	selectTitle: ( state ) => get( state, "form.social.facebook.title" ),
+	selectDescription: ( state ) => get( state, "form.social.facebook.description" ),
+	selectImage: ( state ) => get( state, "form.social.facebook.image" ),
 };
 
 export const facebookActions = facebookSlice.actions;
