@@ -77,6 +77,7 @@
   },
   "version": "0.0.0",
   "resolutions": {
+    "@types/react": "16.14.24",
     "@wordpress/a11y": "3.1.2",
     "@wordpress/annotations": "2.1.6",
     "@wordpress/api-fetch": "5.1.2",
