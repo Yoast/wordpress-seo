@@ -1,5 +1,4 @@
-import { getDescription, getSeoTitle } from "@yoast/wordpress-seo/src/redux/selectors";
-import facebookReducer, { facebookActions, facebookSelectors } from "../../../../src/form/slice/social/facebook";
+import facebookReducer, { facebookActions } from "../../../../src/form/slice/social/facebook";
 
 describe( "a test for facebook slice", () => {
 	// eslint-disable-next-line no-undefined
