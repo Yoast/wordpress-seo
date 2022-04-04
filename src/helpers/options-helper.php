@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Helpers;
 
 use WPSEO_Option_Titles;
+use Yoast\WP\SEO\Exceptions\Option\Save_Failed_Exception;
 use Yoast\WP\SEO\Exceptions\Option\Unknown_Exception;
 use Yoast\WP\SEO\Exceptions\Validation\Abstract_Validation_Exception;
 use Yoast\WP\SEO\Services\Options\Site_Options_Service;
@@ -64,6 +65,7 @@ class Options_Helper {
 			return true;
 		} catch ( Unknown_Exception $exception ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch -- Deliberately left empty.
 		} catch ( Abstract_Validation_Exception $exception ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch -- Deliberately left empty.
+		} catch ( Save_Failed_Exception $exception ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch -- Deliberately left empty.
 		}
 
 		return false;
