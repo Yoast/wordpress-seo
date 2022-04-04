@@ -8,7 +8,7 @@ import {
 	ToolbarGroup,
 } from "@wordpress/components";
 import { __, sprintf } from "@wordpress/i18n";
-import { createElement, useCallback } from "react";
+import { createElement, KeyboardEvent, useCallback } from "react";
 
 import HeadingLevelIcon from "./HeadingLevelIcon";
 
