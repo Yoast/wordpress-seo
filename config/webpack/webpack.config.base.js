@@ -89,7 +89,7 @@ module.exports = function( { entry, output, combinedOutputFile, cssExtractFileNa
 					}
 				},
 			} ),
-			new MiniCSSExtractPlugin( { esModule: false, filename: cssExtractFileName } ),
+			new MiniCSSExtractPlugin( { filename: cssExtractFileName } ),
 			process.env.WP_BUNDLE_ANALYZER && new BundleAnalyzerPlugin( {
 				analyzerPort: analyzerPort++,
 			} ),
