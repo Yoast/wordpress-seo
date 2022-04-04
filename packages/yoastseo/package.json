@@ -45,8 +45,8 @@
     "url": "https://github.com/Yoast/js-text-analysis/issues"
   },
   "dependencies": {
-    "@wordpress/autop": "^2.0.2",
-    "@wordpress/i18n": "^3.19.1",
+    "@wordpress/autop": "3.1.2",
+    "@wordpress/i18n": "4.1.2",
     "@yoast/feature-flag": "^0.5.2",
     "error-polyfill": "^0.1.2",
     "htmlparser2": "^3.9.2",
