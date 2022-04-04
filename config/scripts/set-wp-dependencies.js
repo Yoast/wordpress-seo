@@ -11,10 +11,13 @@ const path = require( "path" );
 async function updateVersions() {
 	const response  = await fetch( "https://raw.githubusercontent.com/WordPress/wordpress-develop/master/package.json" );
 	const gbpackage = await response.json();
+	const gbdependencies = Object.assign( {}, gbpackage.devDependencies, gbpackage.dependencies );
 
 	const directories = readdirSync( path.join( __dirname, "/../../packages" ), { withFileTypes: true } )
 		.filter( dir => dir.isDirectory() )
 		.map( dir => dir.name );
+
+	directories.push( ".." );
 
 	for ( const directory of directories ) {
 		let changed = false;
@@ -24,11 +27,18 @@ async function updateVersions() {
 		}
 		const packageJson = JSON.parse( readFileSync( filename ) );
 		for ( const dependency in packageJson.dependencies ) {
-			if ( ! gbpackage.dependencies[ dependency ] ) {
+			if ( ! gbdependencies[ dependency ] ) {
 				continue;
 			}
 			changed = true;
-			packageJson.dependencies[ dependency ] = gbpackage.dependencies[ dependency ];
+			packageJson.dependencies[ dependency ] = gbdependencies[ dependency ];
+		}
+		for ( const dependency in packageJson.devDependencies ) {
+			if ( ! gbdependencies[ dependency ] ) {
+				continue;
+			}
+			changed = true;
+			packageJson.devDependencies[ dependency ] = gbdependencies[ dependency ];
 		}
 		if ( changed ) {
 			writeFileSync( filename, JSON.stringify( packageJson, null, 2 ) );

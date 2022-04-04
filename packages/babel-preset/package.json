@@ -13,7 +13,7 @@
   "private": false,
   "devDependencies": {
     "@babel/plugin-transform-runtime": "^7.17.0",
-    "@wordpress/babel-preset-default": "^6.5.1"
+    "@wordpress/babel-preset-default": "6.2.1"
   },
   "peerDependencies": {
     "@babel/core": "^7.17.2"
