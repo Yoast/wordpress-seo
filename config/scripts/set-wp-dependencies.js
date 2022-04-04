@@ -17,6 +17,7 @@ async function updateVersions() {
 		.filter( dir => dir.isDirectory() )
 		.map( dir => dir.name );
 
+	// Add the root package.json.
 	directories.push( ".." );
 
 	for ( const directory of directories ) {
