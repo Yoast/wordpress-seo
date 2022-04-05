@@ -250,6 +250,13 @@ Bugfixes:
 * Fixes a bug where the Wincher connection flow would fail on certain installations.
 * Fixes a bug where the Wincher integration could throw a fatal error on PHP 8.0+.
 
+= 18.5.1 =
+Release Date: April 5th, 2022
+
+Bugfixes:
+
+* Fixes a bug where a fatal error would occur on the site health page if WordFence was installed and active.
+
 = 18.5 =
 Release Date: April 5th, 2022
 
