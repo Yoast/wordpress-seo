@@ -236,6 +236,14 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 18.5.1 =
+Release Date: April 5th, 2022
+
+Bugfixes:
+
+* Fixes a bug where a fatal error would occur on the site health page if WordFence was installed and active.
+* Fixes a bug where a fatal error would occur on PHP 5.6.
+
 = 18.5 =
 Release Date: April 5th, 2022
 
