@@ -58,3 +58,59 @@
 .yoast a:visited {
 	color: #a4286a;
 }
+
+#yoast-configuration-workout p {
+	@apply yst-leading-normal yst-text-gray-500;
+}
+
+.yst-radio {
+	@apply
+		yst-flex
+		yst-items-center
+		!important;
+}
+
+/* State */
+.yst-radio__input {
+	@apply
+		yst-w-4
+		yst-h-4
+		yst-m-0
+		yst-border
+		yst-transition-none
+		yst-rounded-full
+		yst-appearance-none
+		yst-shadow-none
+		yst-text-primary-500
+		yst-border-gray-300
+
+		focus:yst-outline-none
+		focus:yst-ring-2
+		focus:yst-ring-offset-2
+		focus:yst-ring-offset-white
+		focus:yst-ring-primary-500
+		checked:yst-border-[5px]
+		checked:yst-border-primary-500
+		before:yst-hidden
+		!important;
+}
+
+.yst-radio__label {
+	@apply yst-ml-3 yst-font-medium !important;
+}
+
+.yst-radio-group__label {
+	@apply yst-mb-1 !important;
+}
+
+.yst-radio-group__options {
+	@apply
+		yst-flex
+		yst-flex-col
+		yst-gap-2
+		!important;
+}
+
+.yst-radio-group__description {
+	@apply yst-mb-4 !important;
+}

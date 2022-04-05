@@ -52,9 +52,10 @@ export default function SocialInputSection( { socialProfiles, errorFields, dispa
 				value={ socialProfiles.facebookUrl }
 				socialMedium="facebookUrl"
 				onChange={ onChangeHandler }
-				error={ {
+				feedback={ {
 					message: [ __( "Could not save this value. Please check the URL.", "wordpress-seo" ) ],
 					isVisible: errorFields.includes( "facebook_site" ),
+					type: "error",
 				} }
 			/>
 			<SocialInput
@@ -64,9 +65,10 @@ export default function SocialInputSection( { socialProfiles, errorFields, dispa
 				value={ socialProfiles.twitterUsername }
 				socialMedium="twitterUsername"
 				onChange={ onChangeHandler }
-				error={ {
+				feedback={ {
 					message: [ __( "Could not save this value. Please check the URL or username.", "wordpress-seo" ) ],
 					isVisible: errorFields.includes( "twitter_site" ),
+					type: "error",
 				} }
 			/>
 
@@ -76,6 +78,7 @@ export default function SocialInputSection( { socialProfiles, errorFields, dispa
 				onRemoveProfile={ onRemoveProfileHandler }
 				onChangeProfile={ onChangeOthersHandler }
 				fieldType={ SocialInput }
+				errorFields={ errorFields }
 			/>
 		</div>
 	);
