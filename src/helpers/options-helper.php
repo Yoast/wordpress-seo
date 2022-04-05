@@ -131,11 +131,12 @@ class Options_Helper {
 	/**
 	 * Validates a twitter id.
 	 *
-	 * @param string $twitter_id The twitter id to be validated.
+	 * @param string $twitter_id    The twitter id to be validated.
+	 * @param bool   $strip_at_sign Whether or not to strip the `@` sign.
 	 *
 	 * @return string|false The validated twitter id or false if it is not valid.
 	 */
-	public function validate_twitter_id( $twitter_id ) {
-		return WPSEO_Option_Social::get_instance()->validate_twitter_id( $twitter_id );
+	public function validate_twitter_id( $twitter_id, $strip_at_sign = false ) {
+		return WPSEO_Option_Social::get_instance()->validate_twitter_id( $twitter_id, $strip_at_sign );
 	}
 }

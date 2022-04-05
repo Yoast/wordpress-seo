@@ -15,16 +15,16 @@ class Social_Profiles_Helper {
 	 * @var array
 	 */
 	private $person_social_profile_fields = [
-		'facebook',
-		'instagram',
-		'linkedin',
-		'myspace',
-		'pinterest',
-		'soundcloud',
-		'tumblr',
-		'twitter',
-		'youtube',
-		'wikipedia',
+		'facebook'   => 'get_non_valid_url',
+		'instagram'  => 'get_non_valid_url',
+		'linkedin'   => 'get_non_valid_url',
+		'myspace'    => 'get_non_valid_url',
+		'pinterest'  => 'get_non_valid_url',
+		'soundcloud' => 'get_non_valid_url',
+		'tumblr'     => 'get_non_valid_url',
+		'twitter'    => 'get_non_valid_twitter',
+		'youtube'    => 'get_non_valid_url',
+		'wikipedia'  => 'get_non_valid_url',
 	];
 
 	/**
@@ -62,7 +62,8 @@ class Social_Profiles_Helper {
 	 * @return array The person's social profiles.
 	 */
 	public function get_person_social_profiles( $person_id ) {
-		$person_social_profiles = \array_combine( $this->person_social_profile_fields, \array_fill( 0, count( $this->person_social_profile_fields ), '' ) );
+		$social_profiles_fields = \array_keys( $this->person_social_profile_fields );
+		$person_social_profiles = \array_combine( $social_profiles_fields, \array_fill( 0, count( $social_profiles_fields ), '' ) );
 
 		// If no person has been selected, $person_id is set to false.
 		if ( \is_numeric( $person_id ) ) {
@@ -88,11 +89,29 @@ class Social_Profiles_Helper {
 	 */
 	public function set_person_social_profiles( $person_id, $social_profiles ) {
 		$failures = [];
-		// Validation to be added.
-		foreach ( $this->person_social_profile_fields as $field_name ) {
-			if ( isset( $social_profiles[ $field_name ] ) ) {
-				\update_user_meta( $person_id, $field_name, $social_profiles[ $field_name ] );
+
+		// First validate all social profiles, before even attempting to save them.
+		foreach ( $this->person_social_profile_fields as $field_name => $validation_method ) {
+			if ( ! isset( $social_profiles[ $field_name ] ) ) {
+				$failures[] = $field_name;
+				continue;
 			}
+
+			if ( $social_profiles[ $field_name ] === '' ) {
+				continue;
+			}
+
+			$value_to_validate = $social_profiles[ $field_name ];
+			$failures          = \array_merge( $failures, \call_user_func( [ $this, $validation_method ], $value_to_validate, $field_name ) );
+		}
+
+		if ( ! empty( $failures ) ) {
+			return $failures;
+		}
+
+		// All social profiles look good, now let's try to save them.
+		foreach ( $this->person_social_profile_fields as $field_name => $validation_method ) {
+			\update_user_meta( $person_id, $field_name, $social_profiles[ $field_name ] );
 		}
 
 		return $failures;
@@ -106,42 +125,39 @@ class Social_Profiles_Helper {
 	 * @return string[] An array of field names which failed to be saved in the db.
 	 */
 	public function set_organization_social_profiles( $social_profiles ) {
-		$failures         = [];
-		$invalid_settings = [];
+		$failures = [];
 
 		// First validate all social profiles, before even attempting to save them.
 		foreach ( $this->organization_social_profile_fields as $field_name => $validation_method ) {
 			if ( ! isset( $social_profiles[ $field_name ] ) ) {
-				$invalid_settings[] = $field_name;
+				$failures[] = $field_name;
 				continue;
 			}
 
 			$value_to_validate = $social_profiles[ $field_name ];
-			$invalid_settings  = \array_merge( $invalid_settings, \call_user_func( [ $this, $validation_method ], $value_to_validate, $field_name ) );
+			$failures          = \array_merge( $failures, \call_user_func( [ $this, $validation_method ], $value_to_validate, $field_name ) );
 		}
 
-		if ( ! empty( $invalid_settings ) ) {
-			return $invalid_settings;
+		if ( ! empty( $failures ) ) {
+			return $failures;
 		}
 
 		// All social profiles look good, now let's try to save them.
 		foreach ( array_keys( $this->organization_social_profile_fields ) as $field_name ) {
-			if ( isset( $social_profiles[ $field_name ] ) ) {
-				$result = $this->options_helper->set( $field_name, $social_profiles[ $field_name ] );
-				if ( ! $result ) {
-					/**
-					 * The value for Twitter might have been sanitised from URL to username.
-					 * If so, $result will be false. We should check if the option value is part of the received value.
-					 */
-					if ( $field_name === 'twitter_site' ) {
-						$current_option = $this->options_helper->get( $field_name );
-						if ( ! \strpos( $social_profiles[ $field_name ], 'twitter.com/' . $current_option ) ) {
-							$failures[] = $field_name;
-						}
-					}
-					else {
+			$result = $this->options_helper->set( $field_name, $social_profiles[ $field_name ] );
+			if ( ! $result ) {
+				/**
+				 * The value for Twitter might have been sanitised from URL to username.
+				 * If so, $result will be false. We should check if the option value is part of the received value.
+				 */
+				if ( $field_name === 'twitter_site' ) {
+					$current_option = $this->options_helper->get( $field_name );
+					if ( ! \strpos( $social_profiles[ $field_name ], 'twitter.com/' . $current_option ) ) {
 						$failures[] = $field_name;
 					}
+				}
+				else {
+					$failures[] = $field_name;
 				}
 			}
 		}
@@ -209,7 +225,7 @@ class Social_Profiles_Helper {
 	 * @return array An array with the setting that the non-valid twitter value is about to update.
 	 */
 	protected function get_non_valid_twitter( $twitter_site, $twitter_setting ) {
-		if ( $this->options_helper->validate_twitter_id( $twitter_site ) ) {
+		if ( $this->options_helper->validate_twitter_id( $twitter_site, false ) ) {
 			return [];
 		}
 

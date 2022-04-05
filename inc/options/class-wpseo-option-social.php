@@ -264,12 +264,13 @@ class WPSEO_Option_Social extends WPSEO_Option {
 	/**
 	 * Validates a twitter id.
 	 *
-	 * @param string $twitter_id The twitter id to be validated.
+	 * @param string $twitter_id    The twitter id to be validated.
+	 * @param bool   $strip_at_sign Whether or not to strip the `@` sign.
 	 *
 	 * @return string|false The validated twitter id or false if it is not valid.
 	 */
-	public function validate_twitter_id( $twitter_id ) {
-		$twitter_id = sanitize_text_field( ltrim( $twitter_id, '@' ) );
+	public function validate_twitter_id( $twitter_id, $strip_at_sign = true ) {
+		$twitter_id = ( $strip_at_sign ) ? sanitize_text_field( ltrim( $twitter_id, '@' ) ) : sanitize_text_field( $twitter_id );
 
 		/*
 		 * From the Twitter documentation about twitter screen names:
