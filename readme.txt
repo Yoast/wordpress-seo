@@ -248,7 +248,6 @@ Bugfixes:
 * Fixes a bug where a version mismatch caused broken styling in WooCommerce select fields when linking products.
 * Fixes a bug where keyphrases could show up multiple times in Wincher table.
 * Fixes a bug where the Wincher connection flow would fail on certain installations.
-* Fixes a bug where Yoast modals would auto-close after opening in Elementor editor after editing a post in Elementor.
 * Fixes a bug where the Wincher integration could throw a fatal error on PHP 8.0+.
 
 = 18.5 =
