@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Services\Options;
 
+use Yoast\WP\SEO\Exceptions\Option\Delete_Failed_Exception;
 use Yoast\WP\SEO\Exceptions\Option\Save_Failed_Exception;
 use Yoast\WP\SEO\Exceptions\Option\Unknown_Exception;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
@@ -194,14 +195,14 @@ abstract class Abstract_Options_Service {
 	/**
 	 * Saves the options with their default values.
 	 *
+	 * @throws Delete_Failed_Exception When the deletion failed.
 	 * @throws Save_Failed_Exception When the save failed.
 	 *
 	 * @return void
 	 */
 	public function reset_options() {
-		if ( $this->get_values() !== $this->get_defaults() ) {
-			$this->update_options( $this->get_defaults() );
-		}
+		$this->delete_options();
+		$this->update_options( $this->get_defaults() );
 	}
 
 	/**
@@ -337,7 +338,7 @@ abstract class Abstract_Options_Service {
 	}
 
 	/**
-	 * Updates options.
+	 * Updates the options.
 	 *
 	 * @param array $values The option values.
 	 *
@@ -348,6 +349,19 @@ abstract class Abstract_Options_Service {
 	protected function update_options( $values ) {
 		if ( ! \update_option( $this->option_name, $values ) ) {
 			throw Save_Failed_Exception::for_option( $this->option_name );
+		}
+	}
+
+	/**
+	 * Deletes the options.
+	 *
+	 * @throws Delete_Failed_Exception When the deletion failed.
+	 *
+	 * @return void
+	 */
+	protected function delete_options() {
+		if ( ! \delete_option( $this->option_name ) ) {
+			throw Delete_Failed_Exception::for_option( $this->option_name );
 		}
 	}
 

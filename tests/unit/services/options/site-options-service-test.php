@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Services\Options;
 
 use Brain\Monkey;
 use Mockery;
+use Yoast\WP\SEO\Exceptions\Option\Delete_Failed_Exception;
 use Yoast\WP\SEO\Exceptions\Option\Save_Failed_Exception;
 use Yoast\WP\SEO\Exceptions\Option\Unknown_Exception;
 use Yoast\WP\SEO\Exceptions\Validation\Invalid_Url_Exception;
@@ -435,9 +436,11 @@ class Site_Options_Service_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that reset options saves the defaults.
+	 * Tests that reset options deletes all and then saves.
 	 *
 	 * @covers ::reset_options
+	 * @covers ::delete_options
+	 * @covers ::update_options
 	 */
 	public function test_reset_options() {
 		Monkey\Functions\expect( 'apply_filters' )
@@ -447,7 +450,10 @@ class Site_Options_Service_Test extends TestCase {
 		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
 		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->andReturn( [] );
 
-		Monkey\Functions\expect( 'get_option' )->with( 'wpseo_options' )->andReturn( [ 'company_name' => 'Yoast' ] );
+		Monkey\Functions\expect( 'delete_option' )
+			->with( 'wpseo_options' )
+			->once()
+			->andReturn( true );
 
 		Monkey\Functions\expect( 'update_option' )
 			->once()
@@ -457,23 +463,22 @@ class Site_Options_Service_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that reset options does not save when already set to the defaults.
+	 * Tests that reset options, deletion failed.
 	 *
 	 * @covers ::reset_options
+	 * @covers ::delete_options
+	 * @covers ::update_options
 	 */
-	public function test_reset_options_not_needed() {
-		Monkey\Functions\expect( 'apply_filters' )
+	public function test_reset_options_delete_failure() {
+		Monkey\Functions\expect( 'delete_option' )
+			->with( 'wpseo_options' )
 			->once()
-			->with( 'wpseo_additional_option_configurations', [] );
-
-		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
-		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->andReturn( [] );
-
-		$defaults = $this->instance->get_defaults();
-
-		Monkey\Functions\expect( 'get_option' )->with( 'wpseo_options' )->andReturn( $defaults );
+			->andReturn( false );
 
 		Monkey\Functions\expect( 'update_option' )->never();
+
+		$this->expectException( Delete_Failed_Exception::class );
+		$this->expectExceptionMessage( Delete_Failed_Exception::for_option( 'wpseo_options' )->getMessage() );
 
 		$this->instance->reset_options();
 	}
