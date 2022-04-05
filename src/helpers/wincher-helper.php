@@ -30,7 +30,7 @@ class Wincher_Helper {
 			return false;
 		}
 
-		return ! ! WPSEO_Options::get( 'wincher_integration_active', true );
+		return (bool) WPSEO_Options::get( 'wincher_integration_active', true );
 	}
 
 	/**
@@ -40,7 +40,7 @@ class Wincher_Helper {
 	 */
 	public function login_status() {
 		try {
-			$wincher = YoastSEO()->classes->get( Wincher_Client::class );
+			$wincher = \YoastSEO()->classes->get( Wincher_Client::class );
 		} catch ( Empty_Property_Exception $e ) {
 			// Return false if token is malformed (empty property).
 			return false;

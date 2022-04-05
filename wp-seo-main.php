@@ -5,6 +5,9 @@
  * @package WPSEO\Main
  */
 
+use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Integrations\Admin\Ryte_Integration;
+
 if ( ! function_exists( 'add_filter' ) ) {
 	header( 'Status: 403 Forbidden' );
 	header( 'HTTP/1.1 403 Forbidden' );
@@ -15,7 +18,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * {@internal Nobody should be able to overrule the real version number as this can cause
  *            serious issues with the options, so no if ( ! defined() ).}}
  */
-define( 'WPSEO_VERSION', '18.4.1' );
+define( 'WPSEO_VERSION', '18.5-RC12' );
 
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
@@ -48,11 +51,11 @@ if ( ! defined( 'WPSEO_NAMESPACES' ) ) {
 /**
  * Autoload our class files.
  *
- * @param string $class Class name.
+ * @param string $class_name Class name.
  *
  * @return void
  */
-function wpseo_auto_load( $class ) {
+function wpseo_auto_load( $class_name ) {
 	static $classes = null;
 
 	if ( $classes === null ) {
@@ -62,9 +65,9 @@ function wpseo_auto_load( $class ) {
 		];
 	}
 
-	$cn = strtolower( $class );
+	$cn = strtolower( $class_name );
 
-	if ( ! class_exists( $class ) && isset( $classes[ $cn ] ) ) {
+	if ( ! class_exists( $class_name ) && isset( $classes[ $cn ] ) ) {
 		require_once $classes[ $cn ];
 	}
 }
@@ -236,7 +239,7 @@ function _wpseo_activate() {
 	WPSEO_Utils::clear_cache();
 
 	// Schedule cronjob when it doesn't exists on activation.
-	$wpseo_ryte = new WPSEO_Ryte();
+	$wpseo_ryte = YoastSEO()->classes->get( Ryte_Integration::class );
 	$wpseo_ryte->activate_hooks();
 
 	do_action( 'wpseo_activate' );
@@ -358,10 +361,6 @@ function wpseo_init() {
 	foreach ( $integrations as $integration ) {
 		$integration->register_hooks();
 	}
-
-	// Loading Ryte integration.
-	$wpseo_ryte = new WPSEO_Ryte();
-	$wpseo_ryte->register_hooks();
 }
 
 /**

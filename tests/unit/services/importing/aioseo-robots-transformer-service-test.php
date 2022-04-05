@@ -2,8 +2,8 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Services\Importing;
 
-use Mockery;
 use Brain\Monkey;
+use Mockery;
 use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Provider_Service;
 use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Transformer_Service;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -43,6 +43,9 @@ class Aioseo_Robots_Transformer_Service_Test extends TestCase {
 	/**
 	 * Tests the getting of the noindex setting set globally in AIOSEO.
 	 *
+	 * @dataProvider provider_transform_robot_setting
+	 * @covers ::transform_robot_setting
+	 *
 	 * @param array  $aioseo_options                  The AIOSEO settings.
 	 * @param string $setting_name                    The setting name, eg. noindex, nofollow, etc.
 	 * @param bool   $setting_value                   The setting value, without taking into consideration whether the type defers to global defaults.
@@ -50,9 +53,6 @@ class Aioseo_Robots_Transformer_Service_Test extends TestCase {
 	 * @param int    $get_global_robot_settings_times The times the get_global_robot_settings() is called.
 	 * @param bool   $global_setting_value            What the get_global_robot_settings() returns.
 	 * @param bool   $expected_result                 The expected result.
-	 *
-	 * @dataProvider provider_transform_robot_setting
-	 * @covers ::transform_robot_setting
 	 */
 	public function test_transform_robot_setting( $aioseo_options, $setting_name, $setting_value, $mapping, $get_global_robot_settings_times, $global_setting_value, $expected_result ) {
 		Monkey\Functions\expect( 'get_option' )
@@ -72,7 +72,7 @@ class Aioseo_Robots_Transformer_Service_Test extends TestCase {
 	/**
 	 * Data provider for test_query().
 	 *
-	 * @return string
+	 * @return array
 	 */
 	public function provider_transform_robot_setting() {
 		$mapping = [

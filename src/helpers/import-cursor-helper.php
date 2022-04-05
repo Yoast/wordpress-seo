@@ -2,8 +2,6 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
-use Yoast\WP\SEO\Helpers\Options_Helper;
-
 /**
  * The Import Cursor Helper.
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
@@ -41,7 +39,7 @@ class Import_Cursor_Helper {
 	 * @param string $cursor_id        The cursor id.
 	 * @param int    $last_imported_id The id of the lastly imported entry.
 	 *
-	 * @return void.
+	 * @return void
 	 */
 	public function set_cursor( $cursor_id, $last_imported_id ) {
 		$current_cursors = $this->options->get( 'import_cursors', [] );

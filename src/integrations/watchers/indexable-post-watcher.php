@@ -162,8 +162,8 @@ class Indexable_Post_Watcher implements Integration_Interface {
 			return;
 		}
 
-		if ( is_a( $post, Indexable::class ) ) {
-			_deprecated_argument( __FUNCTION__, '17.7', 'The $old_indexable argument has been deprecated.' );
+		if ( \is_a( $post, Indexable::class ) ) {
+			\_deprecated_argument( __FUNCTION__, '17.7', 'The $old_indexable argument has been deprecated.' );
 			$post = $this->post->get_post( $indexable->object_id );
 		}
 
@@ -232,7 +232,7 @@ class Indexable_Post_Watcher implements Integration_Interface {
 		$related_indexables = $this->get_related_indexables( $post );
 
 		foreach ( $related_indexables as $indexable ) {
-			$indexable->object_last_modified = max( $indexable->object_last_modified, $post->post_modified_gmt );
+			$indexable->object_last_modified = \max( $indexable->object_last_modified, $post->post_modified_gmt );
 			$indexable->save();
 		}
 	}
