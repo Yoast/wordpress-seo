@@ -158,7 +158,7 @@ class Taxonomy_Metadata_Service extends Abstract_Options_Service {
 
 		$prefixed_key = $this->get_prefixed_key( $key );
 		if ( ! \array_key_exists( $prefixed_key, $values ) ) {
-			throw new Unknown_Exception( $prefixed_key );
+			throw Unknown_Exception::for_option( $prefixed_key );
 		}
 
 		return $values[ $prefixed_key ];
@@ -187,7 +187,7 @@ class Taxonomy_Metadata_Service extends Abstract_Options_Service {
 
 		$prefixed_key = $this->get_prefixed_key( $key );
 		if ( ! \array_key_exists( $prefixed_key, $this->get_configurations() ) ) {
-			throw new Unknown_Exception( $prefixed_key );
+			throw Unknown_Exception::for_option( $prefixed_key );
 		}
 
 		// Presuming the default is safe.

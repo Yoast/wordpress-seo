@@ -8,12 +8,14 @@ namespace Yoast\WP\SEO\Exceptions\Option;
 class Unknown_Exception extends Abstract_Option_Exception {
 
 	/**
-	 * Constructs an unknown option exception instance.
+	 * Creates exception for an option.
 	 *
 	 * @param string $name The option name.
+	 *
+	 * @return static Instance of the exception.
 	 */
-	public function __construct( $name ) {
-		parent::__construct(
+	public static function for_option( $name ) {
+		return new static(
 			\sprintf(
 			/* translators: %s expands to the name of the option. */
 				\esc_html__( 'Option "%s" does not exist.', 'wordpress-seo' ),

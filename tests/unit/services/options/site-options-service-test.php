@@ -187,6 +187,7 @@ class Site_Options_Service_Test extends TestCase {
 		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->andReturn( [] );
 
 		$this->expectException( Unknown_Exception::class );
+		$this->expectExceptionMessage( Unknown_Exception::for_option( 'bar' )->getMessage() );
 
 		$this->instance->bar;
 	}
@@ -322,6 +323,7 @@ class Site_Options_Service_Test extends TestCase {
 		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->andReturn( [] );
 
 		$this->expectException( Unknown_Exception::class );
+		$this->expectExceptionMessage( Unknown_Exception::for_option( 'foo' )->getMessage() );
 
 		Monkey\Functions\expect( 'update_option' )->never();
 
@@ -524,6 +526,7 @@ class Site_Options_Service_Test extends TestCase {
 		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->andReturn( [] );
 
 		$this->expectException( Unknown_Exception::class );
+		$this->expectExceptionMessage( Unknown_Exception::for_option( 'unknown' )->getMessage() );
 
 		$this->instance->get_default( 'unknown' );
 	}

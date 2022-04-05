@@ -109,7 +109,7 @@ abstract class Abstract_Options_Service {
 			return $this->get_values()[ $key ];
 		}
 
-		throw new Unknown_Exception( $key );
+		throw Unknown_Exception::for_option( $key );
 	}
 
 	/*
@@ -133,7 +133,7 @@ abstract class Abstract_Options_Service {
 	 */
 	public function __set( $key, $value ) {
 		if ( ! \array_key_exists( $key, $this->get_configurations() ) ) {
-			throw new Unknown_Exception( $key );
+			throw Unknown_Exception::for_option( $key );
 		}
 
 		// Presuming the default is safe.
@@ -231,7 +231,7 @@ abstract class Abstract_Options_Service {
 	 */
 	public function get_default( $key ) {
 		if ( ! \array_key_exists( $key, $this->get_defaults() ) ) {
-			throw new Unknown_Exception( $key );
+			throw Unknown_Exception::for_option( $key );
 		}
 
 		return $this->get_defaults()[ $key ];
