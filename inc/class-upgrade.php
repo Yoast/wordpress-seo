@@ -77,6 +77,7 @@ class WPSEO_Upgrade {
 			'17.7.1-RC0' => 'upgrade_1771',
 			'17.9-RC0'   => 'upgrade_179',
 			'18.3-RC3'   => 'upgrade_183',
+			'18.6-RC0'   => 'upgrade_186',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -868,6 +869,15 @@ class WPSEO_Upgrade {
 	 */
 	private function upgrade_183() {
 		$this->delete_post_meta( 'yoast-structured-data-blocks-images-cache' );
+	}
+
+	/**
+	 * Performs the 18.6 upgrade routine.
+	 */
+	private function upgrade_186() {
+		if ( is_multisite() ) {
+			WPSEO_Options::set( 'allow_wincher_integration_active', false );
+		}
 	}
 
 	/**

@@ -2,13 +2,31 @@
 
 namespace Yoast\WP\SEO\Integrations\Third_Party;
 
-use Yoast\WP\SEO\Conditionals\Wincher_Conditional;
+use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Helpers\Wincher_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
+use Yoast_Feature_Toggle;
 
 /**
  * Adds the Wincher integration.
  */
 class Wincher implements Integration_Interface {
+
+	/**
+	 * The Wincher helper instance.
+	 *
+	 * @var Wincher_Helper
+	 */
+	protected $wincher;
+
+	/**
+	 * The Wincher integration toggle constructor.
+	 *
+	 * @param Wincher_Helper $wincher The Wincher helper instance.
+	 */
+	public function __construct( Wincher_Helper $wincher ) {
+		$this->wincher = $wincher;
+	}
 
 	/**
 	 * Initializes the integration.
@@ -20,10 +38,16 @@ class Wincher implements Integration_Interface {
 		 * Called by Yoast_Integration_Toggles to add extra toggles to the ones defined there.
 		 */
 		\add_filter( 'wpseo_integration_toggles', [ $this, 'add_integration_toggle' ] );
+
 		/**
 		 * Called in dashboard/integrations.php to put additional content after the toggle.
 		 */
-		\add_action( 'Yoast\WP\SEO\admin_integration_after', [ $this, 'load_toggle_additional_content' ] );
+		\add_action( 'Yoast\WP\SEO\admin_integration_after', [ $this, 'after_integration_toggle' ] );
+
+		/**
+		 * Add extra text after the network integration toggle if the toggle is disabled.
+		 */
+		\add_action( 'Yoast\WP\SEO\admin_network_integration_after', [ $this, 'after_network_integration_toggle' ] );
 	}
 
 	/**
@@ -32,11 +56,11 @@ class Wincher implements Integration_Interface {
 	 * @return array The conditionals.
 	 */
 	public static function get_conditionals() {
-		return [ Wincher_Conditional::class ];
+		return [ Admin_Conditional::class ];
 	}
 
 	/**
-	 * Adds the Wincher integration toggle to the array.
+	 * Adds the Wincher integration toggle to the $integration_toggles array.
 	 *
 	 * @param array $integration_toggles The integration toggles array.
 	 *
@@ -46,14 +70,15 @@ class Wincher implements Integration_Interface {
 		if ( \is_array( $integration_toggles ) ) {
 			$integration_toggles[] = (object) [
 				/* translators: %s: 'Wincher' */
-				'name'    => \sprintf( \__( '%s integration', 'wordpress-seo' ), 'Wincher' ),
-				'setting' => 'wincher_integration_active',
-				'label'   => \sprintf(
+				'name'     => \sprintf( \__( '%s integration', 'wordpress-seo' ), 'Wincher' ),
+				'setting'  => 'wincher_integration_active',
+				'label'    => \sprintf(
 				/* translators: %s: 'Wincher' */
 					\__( 'The %s integration offers the option to track specific keyphrases and gain insights in their positions.', 'wordpress-seo' ),
 					'Wincher'
 				),
-				'order'   => 11,
+				'order'    => 11,
+				'disabled' => \is_multisite(),
 			];
 		}
 
@@ -61,19 +86,47 @@ class Wincher implements Integration_Interface {
 	}
 
 	/**
-	 * Loads additional content for the passed integration.
+	 * Adds the disabled note when the integration toggle is disabled.
 	 *
-	 * @param Object $integration The integration object.
+	 * @param Yoast_Feature_Toggle $integration The integration toggle class.
+	 */
+	public function after_integration_toggle( $integration ) {
+		if ( $integration->setting === 'wincher_integration_active' ) {
+
+			// Check if 'WPSEO_PATH' is defined else the relevant unittest will require the file.
+			if ( defined( 'WPSEO_PATH' ) ) {
+				require \WPSEO_PATH . 'admin/views/tabs/metas/paper-content/integrations/wincher.php';
+			}
+
+			if ( \is_multisite() ) {
+				$this->get_disabled_note();
+			}
+		}
+	}
+
+	/**
+	 * Adds the disabled note to the network integration toggle.
+	 *
+	 * @param Yoast_Feature_Toggle $integration The integration toggle class.
+	 */
+	public function after_network_integration_toggle( $integration ) {
+		if ( $integration->setting === 'wincher_integration_active' ) {
+			$this->get_disabled_note();
+		}
+	}
+
+	/**
+	 * Outputs the disabled note.
+	 *
+	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
-	public function load_toggle_additional_content( $integration ) {
-		switch ( $integration->setting ) {
-			case 'wincher_integration_active':
-				require \WPSEO_PATH . 'admin/views/tabs/metas/paper-content/integrations/wincher.php';
-				break;
-			default:
-				break;
-		}
+	protected function get_disabled_note() {
+		echo '<p>', \sprintf(
+		/* translators: %s expands to Wincher */
+			\esc_html__( 'Currently, the %s integration is not available for multisites.', 'wordpress-seo' ),
+			'Wincher'
+		), '</p>';
 	}
 }
