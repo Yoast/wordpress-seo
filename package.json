@@ -73,7 +73,7 @@
     "typescript": "^4.2.4"
   },
   "yoast": {
-    "pluginVersion": "18.6-RC1"
+    "pluginVersion": "18.6-RC2"
   },
   "version": "0.0.0"
 }
