@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 5.9
-Stable tag: 18.5
+Stable tag: 18.5.1
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -256,6 +256,7 @@ Release Date: April 5th, 2022
 Bugfixes:
 
 * Fixes a bug where a fatal error would occur on the site health page if WordFence was installed and active.
+* Fixes a bug where a fatal error would occur on PHP 5.6.
 
 = 18.5 =
 Release Date: April 5th, 2022
