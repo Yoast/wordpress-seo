@@ -2,7 +2,7 @@
 
 namespace Yoast\WP\SEO\Integrations\Admin;
 
-use chillerlan\QRCode\QROptions;
+use wfConfig;
 use WP_Error;
 use WPSEO_Ryte_Option;
 use WPSEO_Ryte_Request;
@@ -229,11 +229,11 @@ class Ryte_Integration implements Integration_Interface {
 	 * @return bool True if WordFence protects the site.
 	 */
 	private function wordfence_protection_enabled() {
-		if ( ! class_exists( 'wfConfig' ) ) {
+		if ( ! class_exists( wfConfig::class ) ) {
 			return false;
 		}
 
-		if ( ! method_exists( 'wfConfig', 'get' ) ) {
+		if ( ! method_exists( wfConfig::class, 'get' ) ) {
 			return false;
 		}
 
