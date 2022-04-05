@@ -2,9 +2,12 @@
 import * as dom from "../../../src/classic-editor/helpers/dom";
 import getContentLocale from "../../../src/analysis/getContentLocale";
 import {
-	createCategoryElements,
-	createTagElements,
-	createCustomTaxonomyElements,
+	createAllCategoryElements,
+	createMostUsedCategoryElements,
+	createAllTagElements,
+	createAllHierarchicalCTElements,
+	createMostUsedCTElements,
+	createNonHierarchicalCTElements,
 	createSlugElements,
 } from "../../testHelpers/createDomTestData";
 
@@ -34,45 +37,48 @@ describe( "a test for retrieving data from dom with another locale setting", () 
 } );
 
 describe( "a test for retrieving categories from the DOM", () => {
-	const categoryElements = createCategoryElements();
+	const allCategoryElements = createAllCategoryElements();
+	const mostUsedCategoryElements = createMostUsedCategoryElements();
 
-	document.body.appendChild( categoryElements.allCategories );
-	document.body.appendChild( categoryElements.mostUsedCategories );
+	document.body.append( allCategoryElements.allCategories, mostUsedCategoryElements );
 
 	it( "should return the categories from the 'All Categories' section", () => {
 		expect( dom.getPostCategoryCheckboxes() ).toEqual( [
-			categoryElements.category1,
-			categoryElements.category2,
-			categoryElements.category3,
-			categoryElements.category4,
-			categoryElements.category5,
+			allCategoryElements.allCategoryCheckboxes.cat1,
+			allCategoryElements.allCategoryCheckboxes.cat2,
+			allCategoryElements.allCategoryCheckboxes.cat3,
+			allCategoryElements.allCategoryCheckboxes.cat4,
+			allCategoryElements.allCategoryCheckboxes.cat5,
 		] );
 	} );
 	it( "should return the categories from the 'Most Used' section", () => {
-		expect( dom.getPostMostUsedCategoryCheckboxes() ).toEqual( [ categoryElements.category1, categoryElements.category2 ] );
+		expect( dom.getPostMostUsedCategoryCheckboxes() ).toEqual( [
+			allCategoryElements.allCategoryCheckboxes.cat1,
+			allCategoryElements.allCategoryCheckboxes.cat2,
+		] );
 	} );
 	it( "should return the checked categories", () => {
 		expect( dom.getPostCategories() ).toEqual( [ ] );
-		categoryElements.category1.checked = true;
+		allCategoryElements.allCategoryCheckboxes.cat1.checked = true;
 		expect( dom.getPostCategories()[ 0 ].name ).toEqual( "cat1"  );
-		categoryElements.category1.checked = false;
-		categoryElements.category2.checked = true;
+		allCategoryElements.allCategoryCheckboxes.cat1.checked = false;
+		allCategoryElements.allCategoryCheckboxes.cat2.checked = true;
 		expect( dom.getPostCategories()[ 0 ].name ).toEqual( "cat2"  );
-		categoryElements.category2.checked = false;
+		allCategoryElements.allCategoryCheckboxes.cat2.checked = false;
 		expect( dom.getPostCategories() ).toEqual( [ ] );
 	} );
 } );
 
 describe( "a test for retrieving tags from the document", () => {
-	const tagElements = createTagElements();
+	const tagElements = createAllTagElements();
 
-	document.body.appendChild( tagElements.parentTagElement );
+	document.body.appendChild( tagElements );
 
 	it( "should return the tags from the post", () => {
 		expect( dom.getPostTags() ).toEqual( [ "cat food", "cat snack" ] );
 		// Remove the previous tags elements after the test is run, so that this element wouldn't be returned next time the test
 		// For non-hierarchical taxonomy is run.
-		document.body.removeChild( tagElements.parentTagElement );
+		document.body.removeChild( tagElements );
 	} );
 } );
 
@@ -170,33 +176,38 @@ self.wpseoScriptData = {
 };
 
 describe( "a test for retrieving custom taxonomies from the DOM", () => {
-	const customTaxonomyElements = createCustomTaxonomyElements();
+	const allHierarchicalCTElements = createAllHierarchicalCTElements();
+	const mostUsedCTElements = createMostUsedCTElements();
+	const nonHierarchicalCTElements = createNonHierarchicalCTElements();
 
-	document.body.appendChild( customTaxonomyElements.allActors );
-	document.body.appendChild( customTaxonomyElements.mostUsedActors );
-	document.body.appendChild( customTaxonomyElements.nonHierarchicalParentElement );
+	document.body.appendChild( allHierarchicalCTElements.allCTElements );
+	document.body.appendChild( mostUsedCTElements );
+	document.body.appendChild( nonHierarchicalCTElements );
 
 	const names = dom.getCTNames();
 	it( "should return the hierarchical custom taxonomies from the 'All custom taxonomies' section", () => {
 		expect( dom.getCTCheckboxes( names[ 0 ] ) ).toEqual( [
-			customTaxonomyElements.actor1,
-			customTaxonomyElements.actor2,
-			customTaxonomyElements.actor3,
+			allHierarchicalCTElements.allCTCheckboxes.actor1,
+			allHierarchicalCTElements.allCTCheckboxes.actor2,
+			allHierarchicalCTElements.allCTCheckboxes.actor3,
 		] );
 		expect( dom.getCTCheckboxes( names[ 1 ] ) ).toEqual( [] );
 	} );
 	it( "should return the hierarchical custom taxonomies from the 'Most Used' section", () => {
-		expect( dom.getMostUsedCTCheckboxes(  names[ 0 ] ) ).toEqual( [ customTaxonomyElements.actor1, customTaxonomyElements.actor2 ] );
+		expect( dom.getMostUsedCTCheckboxes(  names[ 0 ] ) ).toEqual( [
+			allHierarchicalCTElements.allCTCheckboxes.actor1,
+			allHierarchicalCTElements.allCTCheckboxes.actor2,
+		] );
 		expect( dom.getMostUsedCTCheckboxes(  names[ 1 ] ) ).toEqual( [] );
 	} );
 	it( "should return the checked hierarchical custom taxonomies", () => {
 		expect( dom.getCustomTaxonomies()[ names[ 0 ] ] ).toEqual( [] );
-		customTaxonomyElements.actor1.checked = true;
+		allHierarchicalCTElements.allCTCheckboxes.actor1.checked = true;
 		expect( dom.getCustomTaxonomies()[ names[ 0 ] ][ 0 ].name ).toEqual( "actor1"  );
-		customTaxonomyElements.actor1.checked = false;
-		customTaxonomyElements.actor2.checked = true;
+		allHierarchicalCTElements.allCTCheckboxes.actor1.checked = false;
+		allHierarchicalCTElements.allCTCheckboxes.actor2.checked = true;
 		expect( dom.getCustomTaxonomies()[ names[ 0 ] ][ 0 ].name  ).toEqual( "actor2"  );
-		customTaxonomyElements.actor2.checked = false;
+		allHierarchicalCTElements.allCTCheckboxes.actor2.checked = false;
 		expect( dom.getCustomTaxonomies()[ names[ 0 ] ] ).toEqual( [] );
 	} );
 
