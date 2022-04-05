@@ -144,6 +144,10 @@ class Social_Profiles_Helper {
 
 		// All social profiles look good, now let's try to save them.
 		foreach ( array_keys( $this->organization_social_profile_fields ) as $field_name ) {
+			if ( empty( $social_profiles[ $field_name ] ) ) {
+				continue;
+			}
+
 			$result = $this->options_helper->set( $field_name, $social_profiles[ $field_name ] );
 			if ( ! $result ) {
 				/**
@@ -189,7 +193,7 @@ class Social_Profiles_Helper {
 	 * @return array An array with the setting that the non-valid url is about to update.
 	 */
 	protected function get_non_valid_url( $url, $url_setting ) {
-		if ( $this->options_helper->validate_social_url( $url ) ) {
+		if ( empty( $url ) || $this->options_helper->validate_social_url( $url ) ) {
 			return [];
 		}
 
@@ -225,7 +229,7 @@ class Social_Profiles_Helper {
 	 * @return array An array with the setting that the non-valid twitter value is about to update.
 	 */
 	protected function get_non_valid_twitter( $twitter_site, $twitter_setting ) {
-		if ( $this->options_helper->validate_twitter_id( $twitter_site, false ) ) {
+		if ( empty( $url ) || $this->options_helper->validate_twitter_id( $twitter_site, false ) ) {
 			return [];
 		}
 
