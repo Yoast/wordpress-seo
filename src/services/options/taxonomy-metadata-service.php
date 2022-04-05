@@ -229,9 +229,10 @@ class Taxonomy_Metadata_Service extends Abstract_Options_Service {
 		// Loop over the defaults. Resulting in unknown values being ignored.
 		$new_term_values = $this->get_defaults();
 		foreach ( $new_term_values as $key => $default_value ) {
-			if ( \array_key_exists( $key, $values ) ) {
+			$prefixed_key = $this->get_prefixed_key( $key );
+			if ( \array_key_exists( $prefixed_key, $values ) ) {
 				// Validate, this can throw a Validation_Exception.
-				$new_term_values[ $key ] = $this->validation_helper->validate_as( $values[ $key ], $this->get_configurations()[ $key ]['types'] );
+				$new_term_values[ $prefixed_key ] = $this->validation_helper->validate_as( $values[ $prefixed_key ], $this->get_configurations()[ $prefixed_key ]['types'] );
 			}
 		}
 
@@ -271,12 +272,16 @@ class Taxonomy_Metadata_Service extends Abstract_Options_Service {
 	}
 
 	/**
-	 * Saves the options with their default values.
+	 * Deletes the options.
+	 *
+	 * As this services lazy saves, no data is saved in the reset.
+	 *
+	 * @throws \Yoast\WP\SEO\Exceptions\Option\Delete_Failed_Exception When the deletion failed.
 	 *
 	 * @return void
 	 */
 	public function reset_options() {
-		\update_option( $this->option_name, [] );
+		$this->delete_options();
 	}
 
 	/**
@@ -357,6 +362,8 @@ class Taxonomy_Metadata_Service extends Abstract_Options_Service {
 	 * @param mixed  $value The option value.
 	 *
 	 * @throws Method_Unimplemented_Exception Always, use set_term_option instead.
+	 *
+	 * @codeCoverageIgnore Not testable, because it is never called.
 	 *
 	 * @return void
 	 */
