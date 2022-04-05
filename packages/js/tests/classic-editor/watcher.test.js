@@ -9,12 +9,13 @@ jest.mock( "@yoast/seo-integration", () => {
 	};
 } );
 
+// The code uses `debounce` which has a time component, so make sure to use fake timers.
+jest.useFakeTimers();
+
 describe( "Initializing the post watcher", () => {
 	it(
 		"adds an event listener to the post title that updates the post title in the store when its value changes.",
 		() => {
-			// The code uses `debounce` which has a time component, so make sure to use fake timers.
-			jest.useFakeTimers();
 			// Create a document with an input element for the post title.
 			const titleElement = document.createElement( "input" );
 			titleElement.setAttribute( "id", "title" );
