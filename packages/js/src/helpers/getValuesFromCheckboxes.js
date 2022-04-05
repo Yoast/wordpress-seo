@@ -1,4 +1,4 @@
-import { sortArrayOfObjects } from "./sortArrayOfObjects";
+import { sortBy } from "lodash";
 
 /**
  * Maps over a list of checked checkboxes elements and returns the value and the text content.
@@ -9,7 +9,7 @@ import { sortArrayOfObjects } from "./sortArrayOfObjects";
  * with the objects ordered alphabetically based on the object's text content.
  */
 export const getValuesFromCheckboxes = ( checkedCheckboxes ) => {
-	return sortArrayOfObjects( checkedCheckboxes.map( checkbox => (
+	const checkboxes = checkedCheckboxes.map( checkbox => (
 		{
 			id: checkbox.value,
 			name: [ ...checkbox.parentElement.childNodes ]
@@ -17,5 +17,7 @@ export const getValuesFromCheckboxes = ( checkedCheckboxes ) => {
 				.map( node => node.textContent )[ 0 ]
 				?.trim(),
 		}
-	) ) );
+	) );
+
+	return sortBy( checkboxes, checkbox => checkbox.name.toLowerCase() );
 };
