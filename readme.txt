@@ -236,6 +236,21 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 18.6 =
+Release Date: April 19th, 2022
+
+Enhancements:
+
+* Adds a disabled Wincher integration toggle to the Network admin/Multisite `integrations` tab.
+
+Bugfixes:
+
+* Fixes a bug where a version mismatch caused broken styling in WooCommerce select fields when linking products.
+* Fixes a bug where keyphrases could show up multiple times in Wincher table.
+* Fixes a bug where the Wincher connection flow would fail on certain installations.
+* Fixes a bug where Yoast modals would auto-close after opening in Elementor editor after editing a post in Elementor.
+* Fixes a bug where the Wincher integration could throw a fatal error on PHP 8.0+.
+
 = 18.5 =
 Release Date: April 5th, 2022
 
@@ -255,31 +270,6 @@ Bugfixes:
 * Fixes a bug where a fatal error would be displayed in the Search Appearance options when using WordPress version 5.8.3 and below with themes without title-tag support.
 * Fixes a bug where sitemap locations would change once the number of entries exceeded that of the first page.
 * Fixes a bug where Yoast modals would close after opening after editing content in Elementor.
-
-Other:
-
-* Sets the minimum required WordPress version to 5.8.
-
-= 18.4.1 =
-Release Date: March 22nd, 2022
-
-Other:
-
-* Reverts the 18.4 release due to errors in the WordProof integration.
-
-= 18.4 =
-Release Date: March 22nd, 2022
-
-In Yoast SEO 18.4, we're launching a new integration with an innovative new service called [WordProof](https://wordproof.com/). WordProof offers a way to add timestamps to your content and add those to the blockchain to prove ownership. Try it out now! Read more about what's new in Yoast SEO 18.4 in [our release post in English](https://yoa.st/release-22-3-22) or [our release post in Spanish](https://yoa.st/release-22-3-22-spanish)!
-
-Enhancements:
-
-* Adds the possibility to timestamp your Privacy Policy page and your WooCommerce Terms and Conditions page by use of a WordProof certificate.
-
-Bugfixes:
-
-* Fixes a bug where the Google preview would display wrong breadcrumbs for child pages.
-* Fixes a potential error related to the `has_ancestors` column of our indexables table. Props to @junaidbhura.
 
 Other:
 
