@@ -70,11 +70,11 @@ export default function TextInput( { className, id, label, description, value, o
 					type={ inputType }
 					value={ value }
 					className={ classNames(
-						"yst-block yst-w-full yst-h-[45px] yst-input",
+						"yst-block yst-w-full yst-h-[45px] yst-input focus:yst-ring-1",
 						{
 							"yst-border-red-300 yst-text-red-900 focus:yst-ring-red-500 focus:yst-border-red-500": hasError,
 							"yst-border-emerald-600 yst-text-gray-700 focus:yst-ring-emerald-600 focus:yst-border-emerald-600": hasSuccess,
-							"yst-text-gray-700 yst-border-gray-300 focus:yst-ring-1 focus:yst-ring-primary-500 focus:yst-border-primary-500": ! hasError && ! hasSuccess,
+							"yst-text-gray-700 yst-border-gray-300 focus:yst-ring-primary-500 focus:yst-border-primary-500": ! hasError && ! hasSuccess,
 						}
 					) }
 					onChange={ onChange }
