@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Helpers\Schema;
 
+use Yoast\WP\SEO\Config\Schema_IDs;
 use Yoast\WP\SEO\Helpers\Image_Helper as Main_Image_Helper;
 
 /**
@@ -51,16 +52,17 @@ class Image_Helper {
 	 * @param string $schema_id The `@id` to use for the returned image.
 	 * @param string $url       The image URL to base our object on.
 	 * @param string $caption   An optional caption.
+	 * @param bool   $hash      Whether to append a hash of the URL in the id.
 	 *
 	 * @return array Schema ImageObject array.
 	 */
-	public function generate_from_url( $schema_id, $url, $caption = '' ) {
+	public function generate_from_url( $schema_id, $url, $caption = '', $hash = true ) {
 		$attachment_id = $this->image->get_attachment_by_url( $url );
 		if ( $attachment_id > 0 ) {
-			return $this->generate_from_attachment_id( $schema_id, $attachment_id, $caption );
+			return $this->generate_from_attachment_id( $schema_id, $attachment_id, $caption, $hash );
 		}
 
-		return $this->simple_image_object( $schema_id, $url, $caption );
+		return $this->simple_image_object( $schema_id, $url, $caption, $hash );
 	}
 
 	/**
@@ -69,14 +71,19 @@ class Image_Helper {
 	 * @param string $schema_id     The `@id` to use for the returned image.
 	 * @param int    $attachment_id The attachment to retrieve data from.
 	 * @param string $caption       The caption string, if there is one.
+	 * @param bool   $hash          Whether to append a hash of the URL in the id.
 	 *
 	 * @return array Schema ImageObject array.
 	 */
-	public function generate_from_attachment_id( $schema_id, $attachment_id, $caption = '' ) {
-		$data = $this->generate_object( $schema_id );
+	public function generate_from_attachment_id( $schema_id, $attachment_id, $caption = '', $hash = true ) {
+		$data = $this->generate_object();
+		$url  = $this->image->get_attachment_image_url( $attachment_id, 'full' );
 
-		$data['url']        = $this->image->get_attachment_image_url( $attachment_id, 'full' );
-		$data['contentUrl'] = $data['url'];
+		$id_suffix = ( $hash ) ? md5( $url ) : '';
+
+		$data['@id']        = $schema_id . $id_suffix;
+		$data['url']        = $url;
+		$data['contentUrl'] = $url;
 		$data               = $this->add_image_size( $data, $attachment_id );
 		$data               = $this->add_caption( $data, $attachment_id, $caption );
 
@@ -89,12 +96,16 @@ class Image_Helper {
 	 * @param string $schema_id       The `@id` to use for the returned image.
 	 * @param array  $attachment_meta The attachment metadata.
 	 * @param string $caption         The caption string, if there is one.
+	 * @param bool   $hash            Whether to append a hash of the URL in the id.
 	 *
 	 * @return array Schema ImageObject array.
 	 */
-	public function generate_from_attachment_meta( $schema_id, $attachment_meta, $caption = '' ) {
-		$data = $this->generate_object( $schema_id );
+	public function generate_from_attachment_meta( $schema_id, $attachment_meta, $caption = '', $hash = true ) {
+		$data = $this->generate_object();
 
+		$id_suffix = ( $hash ) ? md5( $attachment_meta['url'] ) : '';
+
+		$data['@id']        = $schema_id . $id_suffix;
 		$data['url']        = $attachment_meta['url'];
 		$data['contentUrl'] = $data['url'];
 		$data['width']      = $attachment_meta['width'];
@@ -112,12 +123,16 @@ class Image_Helper {
 	 * @param string $schema_id The `@id` to use for the returned image.
 	 * @param string $url       The image URL.
 	 * @param string $caption   A caption, if set.
+	 * @param bool   $hash      Whether to append a hash of the URL in the id.
 	 *
 	 * @return array Schema ImageObject array.
 	 */
-	public function simple_image_object( $schema_id, $url, $caption = '' ) {
-		$data = $this->generate_object( $schema_id );
+	public function simple_image_object( $schema_id, $url, $caption = '', $hash = true ) {
+		$data = $this->generate_object();
 
+		$id_suffix = ( $hash ) ? md5( $url ) : '';
+
+		$data['@id']        = $schema_id . $id_suffix;
 		$data['url']        = $url;
 		$data['contentUrl'] = $url;
 
@@ -157,14 +172,11 @@ class Image_Helper {
 	/**
 	 * Generates our bare bone ImageObject.
 	 *
-	 * @param string $schema_id The `@id` to use for the returned image.
-	 *
 	 * @return array an empty ImageObject
 	 */
-	private function generate_object( $schema_id ) {
+	private function generate_object() {
 		$data = [
 			'@type' => 'ImageObject',
-			'@id'   => $schema_id,
 		];
 
 		$data = $this->language->add_piece_language( $data );

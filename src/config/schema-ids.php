@@ -40,17 +40,17 @@ class Schema_IDs {
 	/**
 	 * Hash used for the Organization `@id`.
 	 */
-	const ORGANIZATION_LOGO_HASH = '#logo';
+	const ORGANIZATION_LOGO_HASH = '#/schema/logo/image/';
 
 	/**
 	 * Hash used for the logo `@id`.
 	 */
-	const PERSON_LOGO_HASH = '#personlogo';
+	const PERSON_LOGO_HASH = '#/schema/person/image/';
 
 	/**
 	 * Hash used for an Article's primary image `@id`.
 	 */
-	const PRIMARY_IMAGE_HASH = '#primaryimage';
+	const PRIMARY_IMAGE_HASH = '#primaryimage/';
 
 	/**
 	 * Hash used for the WebPage's `@id`.

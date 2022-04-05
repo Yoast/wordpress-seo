@@ -5,7 +5,6 @@ import { Alert, MultiSelect, RadioButtonGroup, Select, TextInput } from "@yoast/
 import { join } from "@yoast/helpers";
 import PropTypes from "prop-types";
 import { LocationConsumer } from "@yoast/externals/contexts";
-import WordProofTimestampToggle from "./WordProofTimestampToggle";
 
 /**
  * Boolean that tells whether the current object refers to a post or a taxonomy.
@@ -239,34 +238,6 @@ CanonicalURL.propTypes = {
 };
 
 /**
- * Functional component for the WordProof timestamp toggle.
- *
- * @param {Object} props The props object
- *
- * @returns {JSX.Element} The canonical URL.
- */
-const WordProofTimestamp = ( { wordproofTimestamp, onWordProofTimestampChange, postTypeName } ) => {
-	return <LocationConsumer>
-		{
-			location => {
-				return <WordProofTimestampToggle
-					id={ join( [ "yoast-wordproof-timestamp", location ] ) }
-					isEnabled={ wordproofTimestamp }
-					onToggle={ onWordProofTimestampChange }
-					postTypeName={ postTypeName }
-				/>;
-			}
-		}
-	</LocationConsumer>;
-};
-
-WordProofTimestamp.propTypes = {
-	wordproofTimestamp: PropTypes.bool.isRequired,
-	onWordProofTimestampChange: PropTypes.func.isRequired,
-	postTypeName: PropTypes.string.isRequired,
-};
-
-/**
  * The Advanced Settings component.
  *
  * @param {Object} props The props object
@@ -280,19 +251,16 @@ const AdvancedSettings = ( props ) => {
 		advanced,
 		breadcrumbsTitle,
 		canonical,
-		wordproofTimestamp,
 		onNoIndexChange,
 		onNoFollowChange,
 		onAdvancedChange,
 		onBreadcrumbsTitleChange,
 		onCanonicalChange,
-		onWordProofTimestampChange,
 		onLoad,
 		isLoading,
 		editorContext,
 		isBreadcrumbsDisabled,
 		isPrivateBlog,
-		isWordProofIntegrationActive,
 	} = props;
 
 	useEffect( () => {
@@ -330,12 +298,6 @@ const AdvancedSettings = ( props ) => {
 		onCanonicalChange,
 	};
 
-	const wordproofTimestampProps = {
-		wordproofTimestamp,
-		onWordProofTimestampChange,
-		postTypeName: editorContext.postTypeNameSingular,
-	};
-
 	if ( isLoading ) {
 		return null;
 	}
@@ -349,7 +311,6 @@ const AdvancedSettings = ( props ) => {
 				! isBreadcrumbsDisabled && <BreadcrumbsTitle { ...breadcrumbsTitleProps } />
 			}
 			<CanonicalURL { ...canonicalProps } />
-			{ isWordProofIntegrationActive && <WordProofTimestamp { ...wordproofTimestampProps } /> }
 		</Fragment>
 	);
 };
@@ -357,10 +318,8 @@ const AdvancedSettings = ( props ) => {
 AdvancedSettings.propTypes = {
 	noIndex: PropTypes.string.isRequired,
 	canonical: PropTypes.string.isRequired,
-	wordproofTimestamp: PropTypes.bool,
 	onNoIndexChange: PropTypes.func.isRequired,
 	onCanonicalChange: PropTypes.func.isRequired,
-	onWordProofTimestampChange: PropTypes.func,
 	onLoad: PropTypes.func.isRequired,
 	isLoading: PropTypes.bool.isRequired,
 	editorContext: PropTypes.object.isRequired,
@@ -372,7 +331,6 @@ AdvancedSettings.propTypes = {
 	onNoFollowChange: PropTypes.func,
 	breadcrumbsTitle: PropTypes.string,
 	onBreadcrumbsTitleChange: PropTypes.func,
-	isWordProofIntegrationActive: PropTypes.bool.isRequired,
 };
 
 AdvancedSettings.defaultProps = {
@@ -383,8 +341,6 @@ AdvancedSettings.defaultProps = {
 	breadcrumbsTitle: "",
 	onBreadcrumbsTitleChange: () => {},
 	isPrivateBlog: false,
-	onWordProofTimestampChange: () => {},
-	wordproofTimestamp: false,
 };
 
 export default AdvancedSettings;

@@ -1,3 +1,5 @@
+// Paper not included in index.js, but kept for a future check of a passive voice detection issue connected to node versions.
+
 import Paper from "../../../../src/values/Paper.js";
 import content from "./frenchPaper1.html";
 
@@ -159,4 +161,3 @@ export default {
 	paper: paper,
 	expectedResults: expectedResults,
 };
-

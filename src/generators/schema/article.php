@@ -151,9 +151,9 @@ class Article extends Abstract_Schema_Piece {
 	 * @return array The Article data.
 	 */
 	private function add_image( $data ) {
-		if ( $this->context->main_image_url !== null ) {
+		if ( $this->context->main_image_url !== null && $this->context->primary_image_id !== null ) {
 			$data['image']        = [
-				'@id' => $this->context->canonical . Schema_IDs::PRIMARY_IMAGE_HASH,
+				'@id' => $this->context->primary_image_id,
 			];
 			$data['thumbnailUrl'] = $this->context->main_image_url;
 		}

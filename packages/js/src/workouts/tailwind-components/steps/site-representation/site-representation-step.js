@@ -89,6 +89,7 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 						id: state.personId,
 						name: state.personName,
 					} }
+					canEditUser={ !! state.canEditUser }
 				/> }
 			</div>
 		</ReactAnimateHeight>

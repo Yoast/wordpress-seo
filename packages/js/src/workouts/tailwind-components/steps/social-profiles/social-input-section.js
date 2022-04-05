@@ -9,12 +9,14 @@ import SocialInput from "./social-input";
 /**
  * A wrapper that combines all the SocialInputs. Intended for use in the configuration workout.
  *
- * @param {Object} props The props object.
- * @param {function} dispatch                     A dispatch function to communicate with the Stepper store.
- * @param {Object}   state                        The Stepper store.
+ * @param {Object}   props                The props object.
+ * @param {Object}   props.socialProfiles An associative array containing { socialmedium : url } pairs.
+ * @param {array}    props.errorFields    The array containing the names of the fields with an invalid value.
+ * @param {function} props.dispatch       A dispatch function to communicate with the Stepper store.
+ *
  * @returns {WPElement} The SocialInputSection.
  */
-export default function SocialInputSection( { socialProfiles, errorFields, dispatch, isDisabled } ) {
+export default function SocialInputSection( { socialProfiles, errorFields, dispatch } ) {
 	const onChangeHandler = useCallback(
 		( newValue, socialMedium ) => {
 			dispatch( { type: "CHANGE_SOCIAL_PROFILE", payload: { socialMedium, value: newValue } } );
@@ -50,7 +52,6 @@ export default function SocialInputSection( { socialProfiles, errorFields, dispa
 				value={ socialProfiles.facebookUrl }
 				socialMedium="facebookUrl"
 				onChange={ onChangeHandler }
-				isDisabled={ isDisabled }
 				error={ {
 					message: [ __( "Could not save this value. Please check the URL.", "wordpress-seo" ) ],
 					isVisible: errorFields.includes( "facebook_site" ),
@@ -63,7 +64,6 @@ export default function SocialInputSection( { socialProfiles, errorFields, dispa
 				value={ socialProfiles.twitterUsername }
 				socialMedium="twitterUsername"
 				onChange={ onChangeHandler }
-				isDisabled={ isDisabled }
 				error={ {
 					message: [ __( "Could not save this value. Please check the URL or username.", "wordpress-seo" ) ],
 					isVisible: errorFields.includes( "twitter_site" ),
@@ -71,12 +71,12 @@ export default function SocialInputSection( { socialProfiles, errorFields, dispa
 			/>
 
 			<SocialFieldArray
-				fieldType={ SocialInput }
 				items={ socialProfiles.otherSocialUrls }
 				onAddProfile={ onAddProfileHandler }
 				onRemoveProfile={ onRemoveProfileHandler }
 				onChangeProfile={ onChangeOthersHandler }
 				errorFields={ errorFields }
+				fieldType={ SocialInput }
 			/>
 		</div>
 	);
@@ -87,10 +87,8 @@ SocialInputSection.propTypes = {
 	socialProfiles: PropTypes.object.isRequired,
 	dispatch: PropTypes.func.isRequired,
 	errorFields: PropTypes.array,
-	isDisabled: PropTypes.bool,
 };
 
 SocialInputSection.defaultProps = {
 	errorFields: [],
-	isDisabled: false,
 };
