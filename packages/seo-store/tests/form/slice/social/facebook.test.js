@@ -43,7 +43,7 @@ describe( "a test for facebook slice", () => {
 
 			const result = facebookReducer( initialState, updateFacebookImage( {
 				id: 1,
-				url: "http://example.com/catfluencer",
+				url: "https://example.com/catfluencer",
 				width: 500,
 				height: 600,
 				alt: "A sleeping cat",
@@ -53,7 +53,7 @@ describe( "a test for facebook slice", () => {
 				...initialState,
 				image: {
 					id: 1,
-					url: "http://example.com/catfluencer",
+					url: "https://example.com/catfluencer",
 					width: 500,
 					height: 600,
 					alt: "A sleeping cat",
@@ -98,7 +98,7 @@ describe( "a test for facebook slice", () => {
 				facebook: {
 					image: {
 						id: 1,
-						url: "http://example.com/catfluencer-meowdel",
+						url: "https://example.com/catfluencer-meowdel",
 						width: 500,
 						height: 600,
 						alt: "A sleeping cat",
@@ -109,7 +109,7 @@ describe( "a test for facebook slice", () => {
 
 			expect( result ).toEqual( {
 				id: 1,
-				url: "http://example.com/catfluencer-meowdel",
+				url: "https://example.com/catfluencer-meowdel",
 				width: 500,
 				height: 600,
 				alt: "A sleeping cat",
