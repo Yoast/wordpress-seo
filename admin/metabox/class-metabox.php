@@ -711,7 +711,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			return false;
 		}
 
-		if ( ! isset( $_POST['yoast_free_metabox_nonce'] ) || ! wp_verify_nonce( $_POST['yoast_free_metabox_nonce'], 'yoast_free_metabox' ) ) {
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized in wp_verify_none.
+		if ( ! isset( $_POST['yoast_free_metabox_nonce'] ) || ! wp_verify_nonce( wp_unslash( $_POST['yoast_free_metabox_nonce'] ), 'yoast_free_metabox' ) ) {
 			return false;
 		}
 
@@ -838,6 +839,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		$post_id = get_queried_object_id();
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		if ( empty( $post_id ) && isset( $_GET['post'] ) ) {
 			$post_id = sanitize_text_field( filter_input( INPUT_GET, 'post' ) );
 		}
@@ -859,9 +861,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 		$asset_manager->enqueue_script( $post_edit_handle );
 		$asset_manager->enqueue_style( 'admin-css' );
-
-		$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_L10n();
-		$yoast_components_l10n->localize_script( $post_edit_handle );
 
 		/**
 		 * Removes the emoji script as it is incompatible with both React and any

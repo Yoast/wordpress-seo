@@ -4,9 +4,9 @@ namespace Yoast\WP\SEO\Tests\Unit\Routes;
 
 use Brain\Monkey;
 use Mockery;
-use Yoast\WP\SEO\Actions\Wincher\Wincher_Login_Action;
 use Yoast\WP\SEO\Actions\Wincher\Wincher_Account_Action;
 use Yoast\WP\SEO\Actions\Wincher\Wincher_Keyphrases_Action;
+use Yoast\WP\SEO\Actions\Wincher\Wincher_Login_Action;
 use Yoast\WP\SEO\Conditionals\Wincher_Enabled_Conditional;
 use Yoast\WP\SEO\Routes\Wincher_Route;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -138,17 +138,6 @@ class Wincher_Route_Test extends TestCase {
 		Monkey\Functions\expect( 'register_rest_route' )
 			->with(
 				'yoast/v1',
-				'wincher/limits',
-				[
-					'methods'             => 'GET',
-					'callback'            => [ $this->instance, 'check_limit' ],
-					'permission_callback' => [ $this->instance, 'can_use_wincher' ],
-				]
-			);
-
-		Monkey\Functions\expect( 'register_rest_route' )
-			->with(
-				'yoast/v1',
 				'wincher/keyphrases/track',
 				[
 					'methods'             => 'POST',
@@ -188,17 +177,6 @@ class Wincher_Route_Test extends TestCase {
 				[
 					'methods'             => 'DELETE',
 					'callback'            => [ $this->instance, 'untrack_keyphrase' ],
-					'permission_callback' => [ $this->instance, 'can_use_wincher' ],
-				]
-			);
-
-		Monkey\Functions\expect( 'register_rest_route' )
-			->with(
-				'yoast/v1',
-				'wincher/keyphrases/track/all',
-				[
-					'methods'             => 'POST',
-					'callback'            => [ $this->instance, 'track_all' ],
 					'permission_callback' => [ $this->instance, 'can_use_wincher' ],
 				]
 			);
@@ -300,28 +278,6 @@ class Wincher_Route_Test extends TestCase {
 		Mockery::mock( 'overload:WP_REST_Response' );
 
 		$this->assertInstanceOf( 'WP_REST_Response', $this->instance->authenticate( $request ) );
-	}
-
-	/**
-	 * Tests the checking of account limits.
-	 *
-	 * @covers ::check_limit
-	 */
-	public function test_check_limit() {
-		$request = Mockery::mock( 'WP_REST_Request', 'ArrayAccess' );
-
-		$this->account_action
-			->expects( 'check_limit' )
-			->andReturn(
-				(object) [
-					'results' => [ 'canTrack' => true ],
-					'status'  => '200',
-				]
-			);
-
-		Mockery::mock( 'overload:WP_REST_Response' );
-
-		$this->assertInstanceOf( 'WP_REST_Response', $this->instance->check_limit( $request ) );
 	}
 
 	/**
@@ -445,34 +401,5 @@ class Wincher_Route_Test extends TestCase {
 		Mockery::mock( 'overload:WP_REST_Response' );
 
 		$this->assertIsObject( $this->instance->untrack_keyphrase( $request ) );
-	}
-
-	/**
-	 * Tests the track_all route.
-	 *
-	 * @covers ::track_all
-	 */
-	public function test_track_all() {
-		$limit_response = (object) [
-			'canTrack'  => true,
-			'limit'     => 100,
-			'usage'     => 20,
-			'status'    => 200,
-		];
-
-		$request = Mockery::mock( 'WP_REST_Request', 'ArrayAccess' );
-
-		$this->account_action
-			->expects( 'check_limit' )
-			->andReturn( $limit_response );
-
-		$this->keyphrases_action
-			->expects( 'track_all' )
-			->with( $limit_response )
-			->andReturn( $limit_response );
-
-		Mockery::mock( 'overload:WP_REST_Response' );
-
-		$this->assertInstanceOf( 'WP_REST_Response', $this->instance->track_all( $request ) );
 	}
 }

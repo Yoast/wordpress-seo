@@ -3,13 +3,14 @@
 namespace Yoast\WP\SEO\Actions\Wincher;
 
 use Yoast\WP\SEO\Config\Wincher_Client;
-use Yoast\WP\SEO\Exceptions\OAuth\Authentication_Failed_Exception;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 
 /**
  * Class Wincher_Account_Action
  */
 class Wincher_Account_Action {
+
+	const ACCOUNT_URL = 'https://api.wincher.com/beta/account';
 
 	/**
 	 * The Wincher_Client instance.
@@ -25,12 +26,10 @@ class Wincher_Account_Action {
 	 */
 	protected $options_helper;
 
-	const ACCOUNT_URL = 'https://api.wincher.com/beta/account';
-
 	/**
 	 * Wincher_Account_Action constructor.
 	 *
-	 * @param Wincher_Client $client The API client.
+	 * @param Wincher_Client $client         The API client.
 	 * @param Options_Helper $options_helper The options helper.
 	 */
 	public function __construct( Wincher_Client $client, Options_Helper $options_helper ) {
@@ -57,8 +56,11 @@ class Wincher_Account_Action {
 				'usage'     => $usage,
 				'status'    => 200,
 			];
-		} catch ( Authentication_Failed_Exception $e ) {
-			return $e->get_response();
+		} catch ( \Exception $e ) {
+			return (object) [
+				'status' => $e->getCode(),
+				'error'  => $e->getMessage(),
+			];
 		}
 	}
 }

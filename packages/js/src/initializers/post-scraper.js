@@ -42,7 +42,6 @@ import initializeUsedKeywords from "./used-keywords-assessment";
 
 // Redux dependencies.
 import { actions } from "@yoast/externals/redux";
-import { setWordPressSeoL10n, setYoastComponentsL10n } from "../helpers/i18n";
 
 // Helper dependencies.
 import isBlockEditor from "../helpers/isBlockEditor";
@@ -56,9 +55,6 @@ const {
 	setReadabilityResults,
 	setSeoResultsForKeyword,
 } = actions;
-
-setYoastComponentsL10n();
-setWordPressSeoL10n();
 
 // Plugin class prototypes (not the instances) are being used by other plugins from the window.
 window.YoastReplaceVarPlugin = YoastReplaceVarPlugin;
@@ -422,8 +418,6 @@ export default function initPostScraper( $, store, editorData ) {
 		const appArgs = getAppArgs( store );
 		app = new App( appArgs );
 
-		const blockEditorDataModule = select( "core/block-editor" );
-
 		// Content analysis
 		window.YoastSEO = window.YoastSEO || {};
 		window.YoastSEO.app = app;
@@ -435,7 +429,7 @@ export default function initPostScraper( $, store, editorData ) {
 			store,
 			customAnalysisData,
 			app.pluggable,
-			blockEditorDataModule
+			select( "core/block-editor" )
 		);
 		window.YoastSEO.analysis.applyMarks = ( paper, marks ) => getApplyMarks()( paper, marks );
 
@@ -481,7 +475,7 @@ export default function initPostScraper( $, store, editorData ) {
 		} );
 
 		if ( isBlockEditor() ) {
-			const reusableBlocksPlugin = new YoastReusableBlocksPlugin( app.registerPlugin, app.registerModification, blockEditorDataModule );
+			const reusableBlocksPlugin = new YoastReusableBlocksPlugin( app.registerPlugin, app.registerModification, window.YoastSEO.app.refresh );
 			reusableBlocksPlugin.register();
 		}
 

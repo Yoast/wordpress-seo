@@ -216,10 +216,8 @@ const keyphraseDistributionResearcher = function( paper, researcher ) {
 		originalTopic.push( getContentWordsHelper( paper.getKeyword() ) );
 		parseSynonyms( paper.getSynonyms() ).forEach( synonym => originalTopic.push( getContentWordsHelper( synonym ) ) );
 	}
-
 	const locale = paper.getLocale();
 	const topicFormsInOneArray = [ topicForms.keyphraseForms ];
-
 	topicForms.synonymsForms.forEach( function( synonym ) {
 		topicFormsInOneArray.push( synonym );
 	} );
@@ -233,7 +231,7 @@ const keyphraseDistributionResearcher = function( paper, researcher ) {
 	const maxLengthDistraction = getDistraction( maximizedSentenceScores );
 
 	return {
-		sentencesToHighlight: markWordsInSentences( allTopicWords, sentenceScores.sentencesWithTopic, locale ),
+		sentencesToHighlight: markWordsInSentences( allTopicWords, sentenceScores.sentencesWithTopic, locale, matchWordCustomHelper ),
 		keyphraseDistributionScore: maxLengthDistraction / sentences.length * 100,
 	};
 };

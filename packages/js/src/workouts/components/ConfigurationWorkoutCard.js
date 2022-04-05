@@ -20,6 +20,7 @@ export default function ConfigurationWorkoutCard( {
 } ) {
 	const finishedSteps = useSelect( select => select( "yoast-seo/workouts" ).getFinishedSteps( "configuration" ) );
 	return <WorkoutCard
+		id={ "configuration-workout-card" }
 		name={ "configuration" }
 		title={ __( "Configuration", "wordpress-seo" ) }
 		// translators: %s translates to Yoast SEO.

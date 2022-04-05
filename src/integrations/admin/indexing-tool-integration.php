@@ -14,9 +14,9 @@ use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Presenters\Admin\Indexing_Error_Presenter;
 use Yoast\WP\SEO\Presenters\Admin\Indexing_List_Item_Presenter;
-use Yoast\WP\SEO\Services\Importing\Importable_Detector;
 use Yoast\WP\SEO\Routes\Importing_Route;
 use Yoast\WP\SEO\Routes\Indexing_Route;
+use Yoast\WP\SEO\Services\Importing\Importable_Detector_Service;
 
 /**
  * Class Indexing_Tool_Integration. Bridge to the Javascript indexing tool on Yoast SEO Tools page.
@@ -70,7 +70,7 @@ class Indexing_Tool_Integration implements Integration_Interface {
 	/**
 	 * The Importable Detector service.
 	 *
-	 * @var Importable_Detector
+	 * @var Importable_Detector_Service
 	 */
 	protected $importable_detector;
 
@@ -97,14 +97,14 @@ class Indexing_Tool_Integration implements Integration_Interface {
 	/**
 	 * Indexing_Integration constructor.
 	 *
-	 * @param WPSEO_Admin_Asset_Manager $asset_manager       The admin asset manager.
-	 * @param Indexable_Helper          $indexable_helper    The indexable helper.
-	 * @param Short_Link_Helper         $short_link_helper   The short link helper.
-	 * @param Indexing_Helper           $indexing_helper     The indexing helper.
-	 * @param WPSEO_Addon_Manager       $addon_manager       The addon manager.
-	 * @param Product_Helper            $product_helper      The product helper.
-	 * @param Importable_Detector       $importable_detector The importable detector.
-	 * @param Importing_Route           $importing_route     The importing route.
+	 * @param WPSEO_Admin_Asset_Manager   $asset_manager       The admin asset manager.
+	 * @param Indexable_Helper            $indexable_helper    The indexable helper.
+	 * @param Short_Link_Helper           $short_link_helper   The short link helper.
+	 * @param Indexing_Helper             $indexing_helper     The indexing helper.
+	 * @param WPSEO_Addon_Manager         $addon_manager       The addon manager.
+	 * @param Product_Helper              $product_helper      The product helper.
+	 * @param Importable_Detector_Service $importable_detector The importable detector.
+	 * @param Importing_Route             $importing_route     The importing route.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
@@ -113,7 +113,7 @@ class Indexing_Tool_Integration implements Integration_Interface {
 		Indexing_Helper $indexing_helper,
 		WPSEO_Addon_Manager $addon_manager,
 		Product_Helper $product_helper,
-		Importable_Detector $importable_detector,
+		Importable_Detector_Service $importable_detector,
 		Importing_Route $importing_route
 	) {
 		$this->asset_manager       = $asset_manager;
@@ -233,7 +233,7 @@ class Indexing_Tool_Integration implements Integration_Interface {
 	 * @return array The endpoints.
 	 */
 	protected function get_importing_endpoints() {
-		$available_actions   = $this->importable_detector->detect();
+		$available_actions   = $this->importable_detector->detect_importers();
 		$importing_endpoints = [];
 
 		foreach ( $available_actions as $plugin => $types ) {

@@ -15,7 +15,6 @@ import RussianResearcher from "../../../src/languageProcessing/languages/ru/Rese
 import ArabicResearcher from "../../../src/languageProcessing/languages/ar/Researcher";
 import GreekResearcher from "../../../src/languageProcessing/languages/el/Researcher";
 import JapaneseResearcher from "../../../src/languageProcessing/languages/ja/Researcher";
-import { enableFeatures } from "@yoast/feature-flag";
 
 // eslint-disable-next-line max-statements
 describe( "gets the sentence beginnings and the count of consecutive duplicates.", function() {
@@ -535,8 +534,6 @@ describe( "gets the sentence beginnings data for Greek", () => {
 } );
 
 describe( "tests the sentence beginnings data for Japanese", () => {
-	enableFeatures( [ "JAPANESE_SUPPORT" ] );
-
 	let mockPaper;
 	let researcher;
 	it( "returns an object with sentence beginnings and counts for two sentences in Japanese starting with different words.", function() {

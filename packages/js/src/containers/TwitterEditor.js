@@ -1,32 +1,14 @@
 /* External dependencies */
 import { compose } from "@wordpress/compose";
 import { withDispatch, withSelect, dispatch as wpDataDispatch } from "@wordpress/data";
-import { validateTwitterImage } from "@yoast/helpers";
 
 /* Internal dependencies */
 import TwitterWrapper from "../components/social/TwitterWrapper";
 import getL10nObject from "../analysis/getL10nObject";
 import withLocation from "../helpers/withLocation";
-import { openMedia } from "../helpers/selectMedia";
+import { openMedia, prepareTwitterPreviewImage } from "../helpers/selectMedia";
 
 const socialMediumName = "Twitter";
-
-/**
- * Callback function for selectMedia. Performs actions with the 'image' Object that it gets as an argument.
- *
- * @param {Object} image Object containing data about the selected image.
- *
- * @param {Function} onSelect Callback function received from openMedia. Gets object image' as an argument.
- *
- * @returns {void}
- */
-const imageCallback = ( image ) => {
-	wpDataDispatch( "yoast-seo/editor" ).setTwitterPreviewImage( {
-		url: image.url,
-		id: image.id,
-		warnings: validateTwitterImage( image ),
-	} );
-};
 
 /**
  * Lazy function to open the media instance.
@@ -34,7 +16,7 @@ const imageCallback = ( image ) => {
  * @returns {void}
  */
 const selectMedia = () => {
-	openMedia( imageCallback );
+	openMedia( ( image ) => wpDataDispatch( "yoast-seo/editor" ).setTwitterPreviewImage( prepareTwitterPreviewImage( image ) ) );
 };
 
 /* eslint-disable complexity */
@@ -61,6 +43,7 @@ export default compose( [
 			getSeoDescriptionTemplate,
 			getSocialDescriptionTemplate,
 			getReplacedExcerpt,
+			getTwitterAltText,
 		} = select( "yoast-seo/editor" );
 
 		const titleInputPlaceholder  = "";
@@ -93,6 +76,7 @@ export default compose( [
 			titleInputPlaceholder,
 			descriptionInputPlaceholder,
 			socialMediumName,
+			alt: getTwitterAltText(),
 		};
 	} ),
 

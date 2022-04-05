@@ -24,8 +24,8 @@ const expectedResults = {
 	keyphraseLength: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/shopify10' target='_blank'>Keyphrase length</a>: The keyphrase is 2 words long. That's shorter " +
-			"than the recommended minimum of 4 words. <a href='https://yoa.st/shopify11' target='_blank'>Make it longer</a>!",
+		resultText: "<a href='https://yoa.st/shopify10' target='_blank'>Keyphrase length</a>: The keyphrase contains 2 content words. That's way " +
+			"less than the recommended minimum of 4 content words. <a href='https://yoa.st/shopify11' target='_blank'>Make it longer</a>!",
 	},
 	keywordDensity: {
 		isApplicable: true,
@@ -133,6 +133,7 @@ const expectedResults = {
 		resultText: "<a href='https://yoa.st/shopify42' target='_blank'>Passive voice</a>: You're using enough active voice. That's great!",
 	},
 	textPresence: {
+		isApplicable: true,
 		score: 0,
 		resultText: "",
 	},

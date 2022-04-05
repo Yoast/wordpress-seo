@@ -2,6 +2,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { useCallback, Fragment } from "@wordpress/element";
 import Modal from "../Modal";
 import PropTypes from "prop-types";
+import { intersection } from "lodash";
 import SidebarButton from "../../SidebarButton";
 import { LocationProvider } from "@yoast/externals/contexts";
 
@@ -14,15 +15,20 @@ import { LocationProvider } from "@yoast/externals/contexts";
  * @returns {boolean} False when this event should not lead to closing to modal. True otherwise.
  */
 export const isCloseEvent = ( event ) => {
+	let shouldClose = true;
 	if ( event.type === "blur" ) {
-		// The blur event type should only close the modal when the screen overlay is clicked.
-		if ( event.relatedTarget && event.relatedTarget.querySelector( ".components-modal__screen-overlay" ) ) {
-			return true;
+		// Catch any blur events that are not supposed to blur to modal, by identifying the clicked item.
+		const { relatedTarget } = event;
+
+		// Blur events to a non-focusable HTML element do not have a relatedTarget.
+		if ( relatedTarget ) {
+			// Modal should not close if the modal blurs because the media modal is clicked
+			const mediaModalClasses = [ "media-modal", "wp-core-ui" ];
+			shouldClose = intersection( mediaModalClasses, Array.from( relatedTarget.classList ) ).length !== mediaModalClasses.length;
 		}
-		return false;
 	}
 
-	return true;
+	return shouldClose;
 };
 
 /**
@@ -32,7 +38,7 @@ export const isCloseEvent = ( event ) => {
  *
  * @returns {*} A button wrapped in a div.
  */
-const EditorModal = ( { id, postTypeName, children, title, isOpen, close, open } ) => {
+const EditorModal = ( { id, postTypeName, children, title, isOpen, close, open, shouldCloseOnClickOutside } ) => {
 	const requestClose = useCallback( ( event ) => {
 		// Prevent the modal from closing when the event is a false positive.
 		if ( ! isCloseEvent( event ) ) {
@@ -50,6 +56,8 @@ const EditorModal = ( { id, postTypeName, children, title, isOpen, close, open }
 						title={ title }
 						onRequestClose={ requestClose }
 						additionalClassName="yoast-collapsible-modal yoast-post-settings-modal"
+						id="id"
+						shouldCloseOnClickOutside={ shouldCloseOnClickOutside }
 					>
 						<div className="yoast-content-container">
 							<div className="yoast-modal-content">
@@ -98,6 +106,11 @@ EditorModal.propTypes = {
 	isOpen: PropTypes.bool.isRequired,
 	open: PropTypes.func.isRequired,
 	close: PropTypes.func.isRequired,
+	shouldCloseOnClickOutside: PropTypes.bool,
+};
+
+EditorModal.defaultProps = {
+	shouldCloseOnClickOutside: true,
 };
 
 export default EditorModal;

@@ -49,19 +49,6 @@ class WPSEO_Admin_Init {
 		 */
 		add_action( 'admin_notices', [ $this, 'search_engines_discouraged_notice' ] );
 
-		$health_checks = [
-			new WPSEO_Health_Check_Page_Comments(),
-			new WPSEO_Health_Check_Ryte(),
-			new WPSEO_Health_Check_Default_Tagline(),
-			new WPSEO_Health_Check_Postname_Permalink(),
-			new WPSEO_Health_Check_Curl_Version(),
-			new WPSEO_Health_Check_Link_Table_Not_Accessible(),
-		];
-
-		foreach ( $health_checks as $health_check ) {
-			$health_check->register_test();
-		}
-
 		$this->load_meta_boxes();
 		$this->load_taxonomy_class();
 		$this->load_admin_page_class();

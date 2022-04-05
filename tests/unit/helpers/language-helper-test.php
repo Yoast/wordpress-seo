@@ -2,8 +2,6 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Helpers;
 
-use Mockery;
-use Yoast\WP\SEO\Conditionals\Japanese_Support_Conditional;
 use Yoast\WP\SEO\Helpers\Language_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -24,30 +22,11 @@ class Language_Helper_Test extends TestCase {
 	private $instance;
 
 	/**
-	 * The Japanese support conditional.
-	 *
-	 * @var Mockery\MockInterface|Japanese_Support_Conditional
-	 */
-	protected $japanese_conditional;
-
-	/**
 	 * Sets up the tests.
 	 */
 	protected function set_up() {
 		parent::set_up();
-
-		$this->japanese_conditional = Mockery::mock( Japanese_Support_Conditional::class );
-
-		$this->instance = new Language_Helper( $this->japanese_conditional );
-	}
-
-	/**
-	 * Tests the constructor by checking the set attributes.
-	 *
-	 * @covers ::__construct
-	 */
-	public function test_constructor() {
-		$this->assertInstanceOf( Japanese_Support_Conditional::class, $this->getPropertyValue( $this, 'japanese_conditional' ) );
+		$this->instance = new Language_Helper();
 	}
 
 	/**
@@ -60,10 +39,6 @@ class Language_Helper_Test extends TestCase {
 	 * @param string $language The language to test.
 	 */
 	public function test_is_word_form_recognition_active( $language ) {
-		$this->japanese_conditional
-			->expects( 'is_met' )
-			->andReturnFalse();
-
 		$this->assertTrue( $this->instance->is_word_form_recognition_active( $language ) );
 	}
 
@@ -73,7 +48,7 @@ class Language_Helper_Test extends TestCase {
 	 * @return string[][] The dataset.
 	 */
 	public function supported_language_provider() {
-		return [ [ 'de' ], [ 'en' ], [ 'es' ], [ 'fr' ], [ 'it' ], [ 'nl' ], [ 'ru' ], [ 'id' ], [ 'pt' ], [ 'pl' ], [ 'ar' ], [ 'sv' ], [ 'he' ], [ 'hu' ], [ 'nb' ], [ 'tr' ], [ 'cs' ], [ 'sk' ], [ 'el' ] ];
+		return [ [ 'de' ], [ 'en' ], [ 'es' ], [ 'fr' ], [ 'it' ], [ 'nl' ], [ 'ru' ], [ 'id' ], [ 'pt' ], [ 'pl' ], [ 'ar' ], [ 'sv' ], [ 'he' ], [ 'hu' ], [ 'nb' ], [ 'tr' ], [ 'cs' ], [ 'sk' ], [ 'el' ], [ 'ja' ] ];
 	}
 
 	/**
@@ -86,10 +61,6 @@ class Language_Helper_Test extends TestCase {
 	 * @param string $language The language to test.
 	 */
 	public function test_has_function_word_support( $language ) {
-		$this->japanese_conditional
-			->expects( 'is_met' )
-			->andReturnFalse();
-
 		$this->assertTrue( $this->instance->has_function_word_support( $language ) );
 	}
 
@@ -120,6 +91,7 @@ class Language_Helper_Test extends TestCase {
 			[ 'sk' ],
 			[ 'fa' ],
 			[ 'el' ],
+			[ 'ja' ],
 		];
 	}
 }

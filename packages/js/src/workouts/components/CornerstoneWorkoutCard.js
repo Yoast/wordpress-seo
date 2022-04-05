@@ -24,6 +24,7 @@ export default function CornerstoneWorkoutCard( {
 	const actualUpsellLink = upsellLink ? upsellLink :  "https://yoa.st/workout-cornerstone-upsell";
 
 	return <WorkoutCard
+		id={ "cornerstone-workout-card" }
 		name={ WORKOUTS.cornerstone }
 		title={ __( "The cornerstone approach", "wordpress-seo" ) }
 		subtitle={ __( "Rank with articles you want to rank with", "wordpress-seo" ) }

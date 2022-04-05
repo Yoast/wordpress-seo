@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "test": "jest -u",
-    "lint": "eslint src tests --max-warnings=164"
+    "lint": "eslint src tests --max-warnings=152"
   },
   "jest": {
     "setupTestFrameworkScriptFile": "<rootDir>/tests/setupTests.js",
@@ -30,6 +30,8 @@
     "testURL": "http://localhost/"
   },
   "dependencies": {
+    "@draft-js-plugins/mention": "^5.0.0",
+    "@wordpress/blocks": "^11.1.2",
     "@wordpress/data": "^4.10.0",
     "@wordpress/dom-ready": "^2.10.0",
     "@wordpress/element": "^2.19.1",
@@ -44,8 +46,7 @@
     "@yoast/style-guide": "^0.13.0",
     "a11y-speak": "git+https://github.com/Yoast/a11y-speak.git#master",
     "babel-polyfill": "^6.26.0",
-    "draft-js": "^0.10.5",
-    "draft-js-mention-plugin": "^3.0.4",
+    "draft-js": "^0.11.7",
     "find-with-regex": "~1.0.2",
     "interpolate-components": "^1.1.0",
     "jed": "^1.1.1",
@@ -59,7 +60,7 @@
     "react-select": "^3.1.0",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
-    "select2": "^4.1.0-rc.0",
+    "select2": "4.0.13",
     "styled-components": "^5.2.1",
     "yoast-components": "^5.24.0",
     "yoastseo": "^1.91.0"

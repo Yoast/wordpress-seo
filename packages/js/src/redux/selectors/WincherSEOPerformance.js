@@ -1,5 +1,5 @@
 /* External dependencies */
-import { isEmpty, filter } from "lodash-es";
+import { isEmpty, filter, uniq } from "lodash-es";
 
 /* Internal dependencies */
 import getL10nObject from "../../analysis/getL10nObject";
@@ -48,13 +48,20 @@ export function hasWincherTrackedKeyphrases( state ) {
 export function getWincherTrackableKeyphrases( state ) {
 	const isPremium = getL10nObject().isPremium;
 	const premiumStore = window.wp.data.select( "yoast-seo-premium/editor" );
-	const keyphrases = [ state.focusKeyword.trim() ];
+	const tracked = Object.keys( getWincherTrackedKeyphrases( state ) || {} ).map( k => k.trim() );
+	const keyphrases = [ state.focusKeyword.trim(), ...tracked ];
 
 	if ( isPremium && premiumStore ) {
 		keyphrases.push( ...premiumStore.getKeywords().map( k => k.keyword.trim() ) );
 	}
 
-	return keyphrases.filter( k => !! k );
+	return uniq( keyphrases.filter( k => !! k ).map(
+		// Canonicalize the keyword the same way Wincher does
+		k => k
+			.replace( /["+:\s]+/g, " " )
+			.trim()
+			.toLocaleLowerCase()
+	) ).sort();
 }
 
 /**

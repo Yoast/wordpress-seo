@@ -1,4 +1,3 @@
-import { enableFeatures } from "@yoast/feature-flag";
 import { primeLanguageSpecificData } from "../../../src/languageProcessing/helpers/morphology/buildTopicStems";
 import {
 	computeScoresPerSentenceShortTopic,
@@ -12,6 +11,7 @@ import Mark from "../../../src/values/Mark";
 import Researcher from "../../../src/languageProcessing/languages/en/Researcher";
 import ItalianResearcher from "../../../src/languageProcessing/languages/it/Researcher";
 import DefaultResearcher from "../../../src/languageProcessing/languages/_default/Researcher";
+import JapaneseResearcher from "../../../src/languageProcessing/languages/ja/Researcher";
 import factory from "../../specHelpers/factory";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 import { realWorldULExample1, realWorldULExample2 } from "../helpers/sanitize/mergeListItemsSpec";
@@ -22,6 +22,7 @@ import japaneseFunctionWords from "../../../src/languageProcessing/languages/ja/
 import japaneseTopicLength from "../../../src/languageProcessing/languages/ja/config/topicLength";
 
 const morphologyData = getMorphologyData( "en" );
+const morphologyDataJA = getMorphologyData( "ja" );
 
 describe( "Test for maximizing sentence scores", function() {
 	it( "returns the largest score per sentence over all topics", function() {
@@ -774,8 +775,6 @@ const buildJapaneseMockResearcher = function( keyphraseForms, synonymsForms, get
 	} );
 };
 
-enableFeatures( [ "JAPANESE_SUPPORT" ] );
-
 describe( "Test for the research for Japanese language", function() {
 	it( "returns a score over all sentences and all topic forms (short topic); returns markers for sentences that contain the topic " +
 		"(when morphology data is available)", function() {
@@ -795,6 +794,133 @@ describe( "Test for the research for Japanese language", function() {
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
 			keyphraseDistributionScore: 25,
+			sentencesToHighlight: [
+				new Mark( {
+					marked: "どちらもとても可愛くて甘い<yoastmark class='yoast-text-mark'>猫</yoastmark>で、<yoastmark class='yoast-text-mark'>猫</yoastmark>" +
+						"の<yoastmark class='yoast-text-mark'>餌</yoastmark>を食べるのが大好きです。",
+					original: "どちらもとても可愛くて甘い猫で、猫の餌を食べるのが大好きです。",
+				} ),
+				new Mark( {
+					marked: "彼らが好きなタイプの<yoastmark class='yoast-text-mark'>猫用</yoastmark><yoastmark class='yoast-text-mark'>フード</yoastmark>は新鮮なものです。",
+					original: "彼らが好きなタイプの猫用フードは新鮮なものです。",
+				} ),
+				new Mark( {
+					marked: "加工が少ない<yoastmark class='yoast-text-mark'>猫用</yoastmark><yoastmark class='yoast-text-mark'>食品</yoastmark>の一種。",
+					original: "加工が少ない猫用食品の一種。",
+				} ),
+			],
+		} );
+	} );
+
+	const japaneseSentencesExactMatch = "猫餌猫が食べるものです。" +
+		"どちらもとても可愛くて甘い猫で、のような猫猫用フード。" +
+		"彼らが好きなタイプの猫用フードは新鮮なものです。" +
+		"加工が少ない猫用食品の一種。";
+
+
+	it( "returns a score over all sentences and all topic forms (short topic); returns markers for sentences that contain the keyphrase " +
+		"in single quotation marks", function() {
+		const paper = new Paper(
+			japaneseSentencesExactMatch,
+			{
+				locale: "ja",
+				keyword: "「猫餌」",
+				synonyms: "「猫用フード」,「猫用食品」",
+			}
+		);
+
+		const researcher = new JapaneseResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyDataJA );
+		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
+			keyphraseDistributionScore: 0,
+			sentencesToHighlight: [
+				new Mark( {
+					marked: "<yoastmark class='yoast-text-mark'>猫餌</yoastmark>猫が食べるものです。",
+					original: "猫餌猫が食べるものです。",
+				} ),
+				new Mark( {
+					marked: "どちらもとても可愛くて甘い猫で、のような猫<yoastmark class='yoast-text-mark'>猫用フード</yoastmark>。",
+					original: "どちらもとても可愛くて甘い猫で、のような猫猫用フード。",
+				} ),
+				new Mark( {
+					marked: "彼らが好きなタイプの<yoastmark class='yoast-text-mark'>猫用フード</yoastmark>は新鮮なものです。",
+					original: "彼らが好きなタイプの猫用フードは新鮮なものです。",
+				} ),
+				new Mark( {
+					marked: "加工が少ない<yoastmark class='yoast-text-mark'>猫用食品</yoastmark>の一種。",
+					original: "加工が少ない猫用食品の一種。",
+				} ),
+			],
+		} );
+	} );
+
+	it( "returns a score over all sentences and all topic forms (short topic); returns markers for sentences that contain the keyphrase " +
+		"in double quotation marks", function() {
+		const paper = new Paper(
+			japaneseSentencesExactMatch,
+			{
+				locale: "ja",
+				keyword: "『猫餌』",
+				synonyms: "『猫用フード』,『猫用食品』",
+			}
+		);
+
+		const researcher = new JapaneseResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyDataJA );
+		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
+			keyphraseDistributionScore: 0,
+			sentencesToHighlight: [
+				new Mark( {
+					marked: "<yoastmark class='yoast-text-mark'>猫餌</yoastmark>猫が食べるものです。",
+					original: "猫餌猫が食べるものです。",
+				} ),
+				new Mark( {
+					marked: "どちらもとても可愛くて甘い猫で、のような猫<yoastmark class='yoast-text-mark'>猫用フード</yoastmark>。",
+					original: "どちらもとても可愛くて甘い猫で、のような猫猫用フード。",
+				} ),
+				new Mark( {
+					marked: "彼らが好きなタイプの<yoastmark class='yoast-text-mark'>猫用フード</yoastmark>は新鮮なものです。",
+					original: "彼らが好きなタイプの猫用フードは新鮮なものです。",
+				} ),
+				new Mark( {
+					marked: "加工が少ない<yoastmark class='yoast-text-mark'>猫用食品</yoastmark>の一種。",
+					original: "加工が少ない猫用食品の一種。",
+				} ),
+			],
+		} );
+	} );
+
+	it( "doesn't count non-exact matches of a keyphrase when an exact match is requested", function() {
+		const paper = new Paper(
+			"小さくて可愛い花の刺繍に関する一般一般の記事です。私は美しい猫を飼っています。野生のハーブの刺繡。",
+			{
+				locale: "ja",
+				keyword: "『小さい花の刺繍』",
+			}
+		);
+
+		const researcher = new JapaneseResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyDataJA );
+		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
+			keyphraseDistributionScore: 100,
+			sentencesToHighlight: [],
+		} );
+	} );
+
+	it( "doesn't count non-exact matches of a synonym when an exact match is requested", function() {
+		const paper = new Paper(
+			"小さくて可愛い花の刺繍に関する一般一般の記事です。私は美しい猫を飼っています。野生のハーブの刺繡。",
+			{
+				locale: "ja",
+				keyword: "犬",
+				synonyms: "『小さい花の刺繍』",
+			}
+		);
+
+		const researcher = new JapaneseResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyDataJA );
+		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
+			keyphraseDistributionScore: 100,
 			sentencesToHighlight: [],
 		} );
 	} );
@@ -816,7 +942,21 @@ describe( "Test for the research for Japanese language", function() {
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
 			keyphraseDistributionScore: 25,
-			sentencesToHighlight: [],
+			sentencesToHighlight: [
+				new Mark( {
+					marked: "どちらもとても可愛くて甘い<yoastmark class='yoast-text-mark'>猫</yoastmark>で、<yoastmark class='yoast-text-mark'>猫</yoastmark>" +
+						"の<yoastmark class='yoast-text-mark'>餌</yoastmark>を食べるのが大好きです。",
+					original: "どちらもとても可愛くて甘い猫で、猫の餌を食べるのが大好きです。",
+				} ),
+				new Mark( {
+					marked: "彼らが好きなタイプの<yoastmark class='yoast-text-mark'>猫用</yoastmark><yoastmark class='yoast-text-mark'>フード</yoastmark>は新鮮なものです。",
+					original: "彼らが好きなタイプの猫用フードは新鮮なものです。",
+				} ),
+				new Mark( {
+					marked: "加工が少ない<yoastmark class='yoast-text-mark'>猫用</yoastmark><yoastmark class='yoast-text-mark'>食品</yoastmark>の一種。",
+					original: "加工が少ない猫用食品の一種。",
+				} ),
+			],
 		} );
 	} );
 
@@ -859,7 +999,13 @@ describe( "Test for the research for Japanese language", function() {
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
 			keyphraseDistributionScore: 50,
-			sentencesToHighlight: [],
+			sentencesToHighlight: [
+				new Mark( {
+					marked: "彼女はオンラインストアで<yoastmark class='yoast-text-mark'>黒</yoastmark>の<yoastmark class='yoast-text-mark'>長袖</yoastmark>" +
+						"<yoastmark class='yoast-text-mark'>マキシドレス</yoastmark>を購入したかった。",
+					original: "彼女はオンラインストアで黒の長袖マキシドレスを購入したかった。",
+				} ),
+			],
 		} );
 	} );
 } );

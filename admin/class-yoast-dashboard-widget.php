@@ -5,12 +5,6 @@
  * @package WPSEO\Admin
  */
 
-use Yoast\WP\SEO\Conditionals\Wincher_Conditional;
-use Yoast\WP\SEO\Config\Wincher_Client;
-use Yoast\WP\SEO\Exceptions\OAuth\Authentication_Failed_Exception;
-use Yoast\WP\SEO\Exceptions\OAuth\Tokens\Empty_Property_Exception;
-use Yoast\WP\SEO\Exceptions\OAuth\Tokens\Empty_Token_Exception;
-
 /**
  * Class to change or add WordPress dashboard widgets.
  */
@@ -111,8 +105,6 @@ class Yoast_Dashboard_Widget implements WPSEO_WordPress_Integration {
 		}
 
 		$this->asset_manager->localize_script( 'dashboard-widget', 'wpseoDashboardWidgetL10n', $this->localize_dashboard_script() );
-		$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_L10n();
-		$yoast_components_l10n->localize_script( 'dashboard-widget' );
 		$this->asset_manager->enqueue_script( 'dashboard-widget' );
 		$this->asset_manager->enqueue_style( 'wp-dashboard' );
 		$this->asset_manager->enqueue_style( 'monorepo' );
@@ -124,13 +116,7 @@ class Yoast_Dashboard_Widget implements WPSEO_WordPress_Integration {
 	 * @return array The translated strings.
 	 */
 	public function localize_dashboard_script() {
-		$is_wincher_active = WPSEO_Options::get( 'wincher_integration_active', true );
-
-		// If feature flag is disabled, Wincher should not be active.
-		$conditional = new Wincher_Conditional();
-		if ( ! $conditional->is_met() ) {
-			$is_wincher_active = false;
-		}
+		$is_wincher_active = YoastSEO()->helpers->wincher->is_active();
 
 		return [
 			'feed_header'          => sprintf(
@@ -141,8 +127,8 @@ class Yoast_Dashboard_Widget implements WPSEO_WordPress_Integration {
 			'feed_footer'          => __( 'Read more like this on our SEO blog', 'wordpress-seo' ),
 			'wp_version'           => substr( $GLOBALS['wp_version'], 0, 3 ) . '-' . ( is_plugin_active( 'classic-editor/classic-editor.php' ) ? '1' : '0' ),
 			'php_version'          => PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION,
-			'is_wincher_active'    => $is_wincher_active ? 1 : 0,
-			'wincher_is_logged_in' => $is_wincher_active ? YoastSEO()->helpers->wincher->login_status() : false,
+			'is_wincher_active'    => ( $is_wincher_active ) ? 1 : 0,
+			'wincher_is_logged_in' => ( $is_wincher_active ) ? YoastSEO()->helpers->wincher->login_status() : false,
 			'wincher_website_id'   => WPSEO_Options::get( 'wincher_website_id', '' ),
 		];
 	}

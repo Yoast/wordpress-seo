@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Integrations\Admin;
 
 use WPSEO_Addon_Manager;
 use WPSEO_Admin_Asset_Manager;
+use WPSEO_Shortlinker;
 use WPSEO_Utils;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
@@ -31,6 +32,13 @@ class Configuration_Workout_Integration implements Integration_Interface {
 	private $addon_manager;
 
 	/**
+	 * The shortlinker.
+	 *
+	 * @var WPSEO_Shortlinker
+	 */
+	private $shortlinker;
+
+	/**
 	 * The options' helper.
 	 *
 	 * @var Options_Helper
@@ -40,7 +48,7 @@ class Configuration_Workout_Integration implements Integration_Interface {
 	/**
 	 * The product helper.
 	 *
-	 * @var \Yoast\WP\SEO\Helpers\Product_Helper
+	 * @var Product_Helper
 	 */
 	private $product_helper;
 
@@ -56,17 +64,20 @@ class Configuration_Workout_Integration implements Integration_Interface {
 	 *
 	 * @param WPSEO_Admin_Asset_Manager $admin_asset_manager The admin asset manager.
 	 * @param WPSEO_Addon_Manager       $addon_manager       The addon manager.
+	 * @param WPSEO_Shortlinker         $shortlinker         The shortlinker.
 	 * @param Options_Helper            $options_helper      The options helper.
 	 * @param Product_Helper            $product_helper      The product helper.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $admin_asset_manager,
 		WPSEO_Addon_Manager $addon_manager,
+		WPSEO_Shortlinker $shortlinker,
 		Options_Helper $options_helper,
 		Product_Helper $product_helper
 	) {
 		$this->admin_asset_manager = $admin_asset_manager;
 		$this->addon_manager       = $addon_manager;
+		$this->shortlinker         = $shortlinker;
 		$this->options_helper      = $options_helper;
 		$this->product_helper      = $product_helper;
 	}
@@ -92,9 +103,9 @@ class Configuration_Workout_Integration implements Integration_Interface {
 		$this->admin_asset_manager->enqueue_style( 'monorepo' );
 
 		$data = [
-			'disabled'     => ! YoastSEO()->helpers->indexable->should_index_indexables(),
-			'amount'       => YoastSEO()->helpers->indexing->get_filtered_unindexed_count(),
-			'firstTime'    => ( YoastSEO()->helpers->indexing->is_initial_indexing() === true ),
+			'disabled'     => ! \YoastSEO()->helpers->indexable->should_index_indexables(),
+			'amount'       => \YoastSEO()->helpers->indexing->get_filtered_unindexed_count(),
+			'firstTime'    => ( \YoastSEO()->helpers->indexing->is_initial_indexing() === true ),
 			'errorMessage' => '',
 			'restApi'      => [
 				'root'               => \esc_url_raw( \rest_url() ),
@@ -115,7 +126,7 @@ class Configuration_Workout_Integration implements Integration_Interface {
 		$social_profiles = $this->get_social_profiles();
 
 		// This filter is documented in admin/views/tabs/metas/paper-content/general/knowledge-graph.php.
-		$knowledge_graph_message = apply_filters( 'wpseo_knowledge_graph_setting_msg', '' );
+		$knowledge_graph_message = \apply_filters( 'wpseo_knowledge_graph_setting_msg', '' );
 
 		$options               = $this->get_company_or_person_options();
 		$selected_option_label = '';
@@ -157,6 +168,11 @@ class Configuration_Workout_Integration implements Integration_Interface {
 					"companyOrPersonOptions": %s,
 					"shouldForceCompany": %d,
 					"knowledgeGraphMessage": "%s",
+					"shortlinks": {
+						"workoutGuide": "%s",
+						"indexData": "%s",
+						"gdpr": "%s",
+					},
 				};',
 				$this->is_company_or_person(),
 				$selected_option_label,
@@ -178,7 +194,10 @@ class Configuration_Workout_Integration implements Integration_Interface {
 				$this->has_tracking_enabled(),
 				WPSEO_Utils::format_json_encode( $options ),
 				$this->should_force_company(),
-				$knowledge_graph_message
+				$knowledge_graph_message,
+				$this->shortlinker->build_shortlink( 'https://yoa.st/config-workout-guide' ),
+				$this->shortlinker->build_shortlink( 'https://yoa.st/config-workout-index-data' ),
+				$this->shortlinker->build_shortlink( 'https://yoa.st/gdpr-config-workout' )
 			),
 			'before'
 		);
@@ -324,13 +343,13 @@ class Configuration_Workout_Integration implements Integration_Interface {
 	private function get_company_or_person_options() {
 		$options = [
 			[
-				'name'  => __( 'Organization', 'wordpress-seo' ),
+				'name'  => \__( 'Organization', 'wordpress-seo' ),
 				'value' => 'company',
 			],
 		];
 		if ( ! $this->should_force_company() ) {
 			$options[] = [
-				'name'  => __( 'Person', 'wordpress-seo' ),
+				'name'  => \__( 'Person', 'wordpress-seo' ),
 				'value' => 'person',
 			];
 		}

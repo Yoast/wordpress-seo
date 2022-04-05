@@ -64,7 +64,7 @@ This PR affects the following parts of the plugin, which may require extra testi
 
 ## Other environments
 
-* [ ] This PR also affects other environments and needs to be tested there.
+* [ ] This PR also affects Shopify. I have added a changelog entry starting with `[shopify-seo]`, added test instructions for Shopify and attached the `Shopify` label to this PR.
 
 ## Documentation
 
@@ -75,5 +75,6 @@ This PR affects the following parts of the plugin, which may require extra testi
 * [ ] I have tested this code to the best of my abilities
 * [ ] I have added unittests to verify the code works as intended
 * [ ] If any part of the code is behind a feature flag, my test instructions also cover cases where the feature flag is switched off.
+* [ ] I have written this PR in accordance with my team's definition of done.
 
 Fixes #

@@ -1,8 +1,8 @@
 import buildTree from "../../../../../src/parsedPaper/build/tree/html/buildTree";
 import { Paragraph, StructuredNode, List, ListItem } from "../../../../../src/parsedPaper/structure/tree";
 
-import htmlFile from "../../../../fullTextTests/testTexts/en/englishPaper1.html";
-import htmlFile2 from "../../../../fullTextTests/testTexts/de/germanPaper2.html";
+import htmlFile from "../../../../fullTextTests/testTexts/en/englishPaper.html";
+import htmlFile2 from "../../../../fullTextTests/testTexts/de/germanPaper.html";
 
 import fullTexts from "../../../../fullTextTests/testTexts";
 
