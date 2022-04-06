@@ -33,7 +33,7 @@ export default function Alert( { type, children, className } ) {
 			color = "yst-bg-red-100 yst-text-red-800";
 			break;
 		case "success":
-			icon = <CheckCircleIcon aria-hidden="true" className="yst-flex-shrink-0 yst-w-5 yst-h-5 yst-green-red-500" />;
+			icon = <CheckCircleIcon aria-hidden="true" className="yst-flex-shrink-0 yst-w-5 yst-h-5 yst-text-emerald-600" />;
 			color = "yst-bg-green-100 yst-text-green-800";
 			break;
 	}

@@ -139,9 +139,10 @@ function SocialInputPersonSection( { socialProfiles, errorFields, dispatch, canE
 								socialMedium={ social.toLowerCase() }
 								onChange={ onChangeHandler }
 								isDisabled={ ! canEditUser }
-								error={ {
+								feedback={ {
 									message: [ __( "Could not save this value. Please check the URL or username.", "wordpress-seo" ) ],
 									isVisible: errorFields.includes( social.toLowerCase() ),
+									type: "error",
 								} }
 							/>
 						) ) }

@@ -36,7 +36,8 @@ const SocialFieldArray = ( { items, onAddProfile, onRemoveProfile, onChangeProfi
 							socialMedium="other"
 							index={ index }
 							onChange={ onChangeProfile }
-							error={ {
+							feedback={ {
+								type: "error",
 								isVisible: errorFields.includes( "other_social_urls-" + index ),
 								message: [ __( "Could not save this value. Please check the URL.", "wordpress-seo" ) ],
 							} }
