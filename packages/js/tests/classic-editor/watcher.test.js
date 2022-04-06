@@ -3,14 +3,20 @@ import { initPostWatcher } from "../../src/classic-editor/watcher";
 
 jest.mock( "@wordpress/data" );
 
+/**
+ * Mock debounce, instead of using fake timers
+ * because of this bug https://github.com/facebook/jest/issues/3465
+ */
+jest.mock( "lodash", () => ( {
+	...jest.requireActual( "lodash" ),
+	debounce: jest.fn( fn => fn ),
+} ) );
+
 jest.mock( "@yoast/seo-integration", () => {
 	return {
 		SEO_STORE_NAME: "@yoast/seo",
 	};
 } );
-
-// The code uses `debounce` which has a time component, so make sure to use fake timers.
-jest.useFakeTimers();
 
 describe( "Initializing the post watcher", () => {
 	it(
@@ -43,12 +49,6 @@ describe( "Initializing the post watcher", () => {
 
 			titleElement.dispatchEvent( event );
 
-			// Fast-forward, run all time delayed functions (e.g. trigger the debounce immediately).
-			jest.runAllTimers();
-
 			expect( updateTitle ).toBeCalledWith( "A new title." );
-
-			// Make sure we re-instate the default timer behaviors after the test.
-			jest.useRealTimers();
 		} );
 } );
