@@ -26,7 +26,6 @@ const createCategoryElement = ( id, name ) => {
  * @returns {{allCategoryCheckboxes:{}, allCategories: HTMLDivElement}}  The created elements.
  */
 const createAllCategoryElements = () => {
-	// Create regular category elements.
 	const catElement1 = createCategoryElement( "1", "cat1" );
 	const catElement2 = createCategoryElement( "2", "cat2" );
 	const catElement3 = createCategoryElement( "3", "cat3" );
@@ -57,8 +56,8 @@ const createAllCategoryElements = () => {
  * @returns {HTMLDivElement} The created elements
  */
 const createMostUsedCategoryElements = () => {
-	const mostUsedCat1Checkbox = createCategoryElement( 1, "cat1" ).checkbox;
-	const mostUsedCat2Checkbox = createCategoryElement( 2, "cat2" ).checkbox;
+	const mostUsedCat1Checkbox = createCategoryElement( "1", "cat1" ).checkbox;
+	const mostUsedCat2Checkbox = createCategoryElement( "2", "cat2" ).checkbox;
 
 	const mostUsedCatsDiv = document.createElement( "div" );
 	mostUsedCatsDiv.setAttribute( "id", "categorychecklist-pop" );
@@ -92,9 +91,7 @@ const createTagElement = ( tag ) => {
  * @returns {HTMLDivElement} The parent element of the tags elements created.
  */
 const createAllTagElements = () => {
-	// Create regular tag elements.
 	const tag1 = createTagElement( "cat food" );
-
 	const tag2 = createTagElement( "cat snack" );
 
 	const tagsListElement = document.createElement( "ul" );
@@ -111,8 +108,8 @@ const createAllTagElements = () => {
 /**
  * Creates all hierarchical custom taxonomy elements.
  *
- * @returns {{actor1: HTMLInputElement, actor2: HTMLInputElement, actor3: HTMLInputElement,
- * mostUsedActors: HTMLDivElement, nonHierarchicalParentElement: HTMLDivElement, allActors: HTMLDivElement}} All custom taxonomy elements created.
+ * @returns {{allCTElements: HTMLDivElement, allCTCheckboxes: {actor1: HTMLInputElement, actor2: HTMLInputElement,
+ * actor3: HTMLInputElement}}}  All custom taxonomy elements created.
  */
 const createAllHierarchicalCTElements = () => {
 	// Set to the document the hierarchical custom taxonomy elements.
