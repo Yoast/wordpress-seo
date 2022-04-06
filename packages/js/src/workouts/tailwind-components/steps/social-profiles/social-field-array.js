@@ -27,7 +27,7 @@ const SocialFieldArray = ( { items, onAddProfile, onRemoveProfile, onChangeProfi
 		<div>
 			{ items.map( ( item, index ) => (
 				<div key={ `url-${ index }` }>
-					<div className="yst-flex yst-flex-row yst-items-end yst-mt-4">
+					<div className="yst-flex yst-flex-row yst-items-start yst-mt-4">
 						<Component
 							className="yst-w-full"
 							label={ __( "Other social profile", "wordpress-seo" ) }
@@ -43,7 +43,7 @@ const SocialFieldArray = ( { items, onAddProfile, onRemoveProfile, onChangeProfi
 							} }
 						/>
 						<button
-							className="yst-ml-2 yst-p-3 yst-text-gray-500 yst-rounded-md hover:yst-text-primary-500 focus:yst-text-primary-500 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-primary-500 yst-no-underline;"
+							className="yst-mt-[27.5px] yst-ml-2 yst-p-3 yst-text-gray-500 yst-rounded-md hover:yst-text-primary-500 focus:yst-text-primary-500 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-primary-500 yst-no-underline;"
 							id={ `remove-profile-${ index }` }
 							data-index={ index }
 							onClick={ handleRemove }
