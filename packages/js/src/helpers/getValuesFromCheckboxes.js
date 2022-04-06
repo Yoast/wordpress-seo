@@ -1,7 +1,7 @@
 import { sortBy } from "lodash";
 
 /**
- * Maps over a list of checked checkboxes elements and returns the value and the text content.
+ * Maps over a list of checked checkboxes elements and returns the value and the text content, ordered alphabetically.
  *
  * @param {Array} checkedCheckboxes The array of checked checkboxes to map.
  *
