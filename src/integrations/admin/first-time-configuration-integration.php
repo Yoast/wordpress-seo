@@ -13,10 +13,12 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Routes\Indexing_Route;
+
+// phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- First time configuration simply has a lot of words.
 /**
  * First_Time_Configuration_Integration class
  */
-class FirstTime_Configuration_Integration implements Integration_Interface {
+class First_Time_Configuration_Integration implements Integration_Interface {
 
 	/**
 	 * The admin asset manager.
@@ -88,26 +90,22 @@ class FirstTime_Configuration_Integration implements Integration_Interface {
 	 */
 	public function register_hooks() {
 		\add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
-		\add_filter( 'wpseo_dashboard_tabs', [ $this, 'add_first_time_configuration_tab' ] );
+		\add_action( 'wpseo_settings_tabs_dashboard', [ $this, 'add_first_time_configuration_tab' ] );
 	}
 
 	/**
 	 * Adds a dedicated tab in the General sub-page.
 	 *
 	 * @param WPSEO_Options_Tabs $dashboard_tabs Object representing the tabs of the General sub-page.
-	 *
-	 * @return WPSEO_Options_Tabs The General sub-page tabs with the one related to the first time configuration added.
 	 */
 	public function add_first_time_configuration_tab( $dashboard_tabs ) {
 		$dashboard_tabs->add_tab(
 			new WPSEO_Option_Tab(
 				'first-time-configuration',
-				__( 'First Time Configuration', 'wordpress-seo' ),
+				__( 'First time configuration', 'wordpress-seo' ),
 				[ 'save_button' => false ]
 			)
 		);
-
-		return $dashboard_tabs;
 	}
 
 	/**
