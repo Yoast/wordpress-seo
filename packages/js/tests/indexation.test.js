@@ -9,7 +9,7 @@ import Indexation from "../src/components/Indexation";
  *
  * @returns {Promise} The promise.
  */
-const fetchReponse = ( data ) => {
+const fetchResponse = ( data ) => {
 	return Promise.resolve( { text: () => Promise.resolve( JSON.stringify( data ) ), ok: true } );
 };
 
@@ -36,6 +36,7 @@ describe( "Indexation", () => {
 			amount: 5,
 			restApi: {
 				root: "https://example.com/",
+				// eslint-disable-next-line camelcase
 				indexing_endpoints: {
 					prepare: "indexing-endpoint",
 				},
@@ -43,10 +44,9 @@ describe( "Indexation", () => {
 			},
 		};
 
-		global.fetch = jest.fn();
-		global.fetch.mockImplementation( ( url ) => {
+		global.fetch = jest.fn().mockImplementation( ( url ) => {
 			if ( url === "https://example.com/indexing-endpoint" ) {
-				return fetchReponse( {
+				return fetchResponse( {
 					objects: [
 						{}, {}, {}, {}, {},
 					],
@@ -89,6 +89,7 @@ describe( "Indexation", () => {
 			amount: 5,
 			restApi: {
 				root: "https://example.com/",
+				// eslint-disable-next-line camelcase
 				indexing_endpoints: {
 					prepare: "indexing-endpoint",
 				},
@@ -120,6 +121,7 @@ describe( "Indexation", () => {
 			amount: 5,
 			restApi: {
 				root: "https://example.com/",
+				// eslint-disable-next-line camelcase
 				indexing_endpoints: {
 					indexation: "indexing-endpoint",
 				},
@@ -127,10 +129,9 @@ describe( "Indexation", () => {
 			},
 		};
 
-		global.fetch = jest.fn();
-		global.fetch.mockImplementation( ( url ) => {
+		global.fetch = jest.fn().mockImplementation( ( url ) => {
 			if ( url === "https://example.com/indexing-endpoint" ) {
-				return fetchReponse( {
+				return fetchResponse( {
 					objects: [
 						{}, {}, {}, {}, {},
 					],

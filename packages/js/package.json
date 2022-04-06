@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "test": "jest -u",
-    "lint": "eslint src tests --max-warnings=152"
+    "lint": "eslint src tests --max-warnings=149"
   },
   "dependencies": {
     "@draft-js-plugins/mention": "^5.0.0",
