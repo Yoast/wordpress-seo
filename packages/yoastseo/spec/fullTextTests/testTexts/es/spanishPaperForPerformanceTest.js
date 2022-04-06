@@ -17,7 +17,7 @@ const paper = new Paper( content, {
 	titleWidth: 450,
 	locale: "es_ES",
 	permalink: "https://ru.wikipedia.org/wiki/Зелёная_книга_(путеводитель)",
-	url: "Зелёная_книга_(путеводитель)",
+	slug: "Зелёная_книга_(путеводитель)",
 } );
 
 const expectedResults = {

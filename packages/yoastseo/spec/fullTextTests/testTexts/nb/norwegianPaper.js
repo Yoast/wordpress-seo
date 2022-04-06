@@ -12,7 +12,7 @@ const paper = new Paper( content, {
 	titleWidth: 450,
 	locale: "nb_NO",
 	permalink: "https://no.wikipedia.org/wiki/Maine_coon",
-	url: "Maine_coon",
+	slug: "Maine_coon",
 } );
 
 const expectedResults = {

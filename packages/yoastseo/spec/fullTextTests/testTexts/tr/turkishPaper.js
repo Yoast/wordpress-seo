@@ -11,7 +11,7 @@ const paper = new Paper( content, {
 	titleWidth: 450,
 	locale: "tr_TR",
 	permalink: "https://tr.wikipedia.org/wiki/Nektar",
-	url: "Nektar",
+	slug: "Nektar",
 } );
 
 const expectedResults = {

@@ -12,7 +12,7 @@ const paper = new Paper( content, {
 	titleWidth: 450,
 	locale: "sk_SK",
 	permalink: "https://sk.wikipedia.org/wiki/Britsk%C3%A1_ma%C4%8Dka",
-	url: "Britsk%C3%A1_ma%C4%8Dka",
+	slug: "Britsk%C3%A1_ma%C4%8Dka",
 } );
 
 const expectedResults = {

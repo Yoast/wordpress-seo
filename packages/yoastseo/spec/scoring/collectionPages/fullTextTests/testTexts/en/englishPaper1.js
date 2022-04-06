@@ -13,7 +13,7 @@ const paper = new Paper( content, {
 	titleWidth: 450,
 	locale: "en_EN",
 	permalink: "https://en.wikipedia.org/wiki/Batik",
-	url: "Batik",
+	slug: "Batik",
 } );
 
 const expectedResults = {

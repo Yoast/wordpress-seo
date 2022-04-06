@@ -13,7 +13,7 @@ const paper = new Paper( content, {
 	titleWidth: 450,
 	locale: "ca",
 	permalink: "https://ca.wikipedia.org/wiki/Cl%C3%A0ssic",
-	url: "Clàssic",
+	slug: "Clàssic",
 } );
 
 const expectedResults = {

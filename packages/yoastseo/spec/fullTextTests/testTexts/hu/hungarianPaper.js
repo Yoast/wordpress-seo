@@ -11,7 +11,7 @@ const paper = new Paper( content, {
 	titleWidth: 450,
 	locale: "hu_HU",
 	permalink: "https://hu.wikipedia.org/wiki/Vil%C3%A1gegyetem",
-	url: "Világegyetem",
+	slug: "Világegyetem",
 } );
 
 const expectedResults = {

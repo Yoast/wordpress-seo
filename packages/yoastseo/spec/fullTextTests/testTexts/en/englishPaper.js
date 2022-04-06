@@ -11,7 +11,7 @@ const paper = new Paper( content, {
 	titleWidth: 450,
 	locale: "en_EN",
 	permalink: "https://yoast.com/future-of-voice-search/",
-	url: "future-of-voice-search",
+	slug: "future-of-voice-search",
 } );
 
 const expectedResults = {

@@ -11,8 +11,8 @@ const paper = new Paper( content, {
 	title: "完了形",
 	titleWidth: 450,
 	locale: "ja",
-	permalink: "%E5%AE%8C%E4%BA%86%E5%BD%A2",
-	url: "https://ja.wikipedia.org/wiki/%E5%AE%8C%E4%BA%86%E5%BD%A2",
+	permalink: "https://ja.wikipedia.org/wiki/%E5%AE%8C%E4%BA%86%E5%BD%A2",
+	slug: "%E5%AE%8C%E4%BA%86%E5%BD%A2",
 } );
 
 const expectedResults = {

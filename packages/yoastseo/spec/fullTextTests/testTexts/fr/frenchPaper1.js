@@ -13,7 +13,7 @@ const paper = new Paper( content, {
 	titleWidth: 450,
 	locale: "fr_FR",
 	permalink: "https://fr.wikipedia.org/wiki/Galaxie",
-	url: "Galaxie",
+	slug: "Galaxie",
 } );
 
 const expectedResults = {

@@ -660,7 +660,7 @@ App.prototype.runAnalyzer = function() {
 		keyword: this.analyzerData.keyword,
 		synonyms: this.analyzerData.synonyms,
 		description: this.analyzerData.meta,
-		url: this.analyzerData.url,
+		slug: this.analyzerData.slug,
 		title: this.analyzerData.metaTitle,
 		titleWidth: titleWidth,
 		locale: this.config.locale,

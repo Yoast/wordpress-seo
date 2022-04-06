@@ -12,7 +12,7 @@ const paper = new Paper( content, {
 	titleWidth: 450,
 	locale: "id_ID",
 	permalink: "https://id.wikipedia.org/wiki/Persekutuan_Franka-Mongol",
-	url: "Persekutuan_Franka-Mongol",
+	slug: "Persekutuan_Franka-Mongol",
 } );
 
 const expectedResults = {

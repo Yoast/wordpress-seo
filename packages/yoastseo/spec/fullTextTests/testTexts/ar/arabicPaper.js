@@ -11,7 +11,7 @@ const paper = new Paper( content, {
 	titleWidth: 450,
 	locale: "ar",
 	permalink: "",
-	url: "العناية-بالنباتات",
+	slug: "العناية-بالنباتات",
 } );
 
 const expectedResults = {

@@ -11,7 +11,7 @@ const paper = new Paper( content, {
 	titleWidth: 450,
 	locale: "sv_SE",
 	permalink: "https://sv.wikipedia.org/wiki/Ester-Blenda-Nordström",
-	url: "Ester-Blenda-Nordström",
+	slug: "Ester-Blenda-Nordström",
 } );
 
 const expectedResults = {

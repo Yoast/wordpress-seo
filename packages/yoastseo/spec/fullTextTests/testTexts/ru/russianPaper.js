@@ -11,7 +11,7 @@ const paper = new Paper( content, {
 	titleWidth: 450,
 	locale: "ru_RU",
 	permalink: "https://ru.wikipedia.org/wiki/Роти-буайя",
-	url: "Роти-буайя",
+	slug: "Роти-буайя",
 } );
 
 const expectedResults = {

@@ -12,7 +12,7 @@ const paper = new Paper( content, {
 	titleWidth: 450,
 	locale: "cs_CZ",
 	permalink: "https://cs.wikipedia.org/wiki/Nikifor_%C4%8Cernigovskij",
-	url: "Nikifor_%C4%8Cernigovskij",
+	slug: "Nikifor_%C4%8Cernigovskij",
 } );
 
 const expectedResults = {

@@ -13,7 +13,7 @@ const paper = new Paper( content, {
 	titleWidth: 450,
 	locale: "en_EN",
 	permalink: "https://en.wikipedia.org/wiki/Cat_tree",
-	url: "Cat_tree",
+	slug: "Cat_tree",
 } );
 
 const expectedResults = {

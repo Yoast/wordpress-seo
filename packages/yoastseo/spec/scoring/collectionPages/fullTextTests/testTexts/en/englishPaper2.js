@@ -13,7 +13,7 @@ const paper = new Paper( content, {
 	titleWidth: 450,
 	locale: "en_EN",
 	permalink: "https://en.wikipedia.org/wiki/Science_fiction",
-	url: "https://en.wikipedia.org/wiki/Science_fiction",
+	slug: "https://en.wikipedia.org/wiki/Science_fiction",
 } );
 
 const expectedResults = {

@@ -11,7 +11,7 @@ const paper = new Paper( content, {
 	titleWidth: 450,
 	locale: "de_DE",
 	permalink: "https://de.wikipedia.org/wiki/Flughafen_London_Heathrow",
-	url: "Flughafen_London_Heathrow",
+	slug: "Flughafen_London_Heathrow",
 } );
 
 const expectedResults = {

@@ -8,7 +8,7 @@ const keywordInUrl = new UrlKeywordAssessment();
 
 describe( "A keyword in url count assessment", function() {
 	const mockPaper = new Paper( "sample", {
-		url: "sample-with-keyword",
+		slug: "sample-with-keyword",
 		keyword: "kéyword",
 	} );
 
@@ -98,7 +98,7 @@ describe( "tests for the assessment applicability.", function() {
 
 	it( "returns true when the paper has keyword and url.", function() {
 		const paper = new Paper( "sample keyword", {
-			url: "sample-with-keyword",
+			slug: "sample-with-keyword",
 			keyword: "kéyword",
 		} );
 		const researcher = new DefaultResearcher( paper );
@@ -108,7 +108,7 @@ describe( "tests for the assessment applicability.", function() {
 
 	it( "returns false when the researcher doesn't have the keywordCountInUrl research.", function() {
 		const paper = new Paper( "sample keyword", {
-			url: "sample-with-keyword",
+			slug: "sample-with-keyword",
 			keyword: "keyword",
 		} );
 
@@ -120,7 +120,7 @@ describe( "tests for the assessment applicability.", function() {
 
 	it( "returns true when the researcher has the keywordCountInUrl research.", function() {
 		const paper = new Paper( "sample keyword", {
-			url: "sample-with-keyword",
+			slug: "sample-with-keyword",
 			keyword: "keyword",
 		} );
 

@@ -11,7 +11,7 @@ const paper = new Paper( content, {
 	titleWidth: 450,
 	locale: "es_ES",
 	permalink: "https://es.wikipedia.org/wiki/Hey_Jude",
-	url: "Hey-Jude",
+	slug: "Hey-Jude",
 } );
 
 const expectedResults = {

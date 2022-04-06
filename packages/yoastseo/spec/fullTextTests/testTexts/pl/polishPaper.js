@@ -11,7 +11,7 @@ const paper = new Paper( content, {
 	titleWidth: 450,
 	locale: "pl_PL",
 	permalink: "https://pl.wikipedia.org/wiki/Google",
-	url: "Google",
+	slug: "Google",
 } );
 
 const expectedResults = {

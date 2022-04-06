@@ -13,7 +13,7 @@ const paper = new Paper( content, {
 	titleWidth: 450,
 	locale: "en_EN",
 	permalink: "https://en.wikipedia.org/wiki/Monstera_deliciosa",
-	url: "Monstera_deliciosa",
+	slug: "Monstera_deliciosa",
 } );
 
 const expectedResults = {

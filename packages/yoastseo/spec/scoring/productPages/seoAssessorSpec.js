@@ -148,7 +148,8 @@ describe( "running assessments in the product page SEO assessor", function() {
 	} );
 
 	it( "additionally runs assessments that require a text and a super-long url with stop words", function() {
-		assessor.assess( new Paper( "text", { url: "a-sample-url-a-sample-url-a-sample-url-a-sample-url-a-sample-url-a-sample-url-a-sample-url-a-sample-url-a-sample-url" } ) );
+		assessor.assess( new Paper( "text",
+			{ slug: "a-sample-slug-a-sample-slug-a-sample-slug-a-sample-slug-a-sample-slug-a-sample-slug-a-sample-slug-a-sample-slug" } ) );
 		const AssessmentResults = assessor.getValidResults();
 		const assessments = getResults( AssessmentResults );
 
@@ -162,7 +163,7 @@ describe( "running assessments in the product page SEO assessor", function() {
 	} );
 
 	it( "additionally runs assessments that require a text, a url and a keyword", function() {
-		assessor.assess( new Paper( "text", { keyword: "keyword", url: "sample url" } ) );
+		assessor.assess( new Paper( "text", { keyword: "keyword", slug: "sample-slug" } ) );
 		const AssessmentResults = assessor.getValidResults();
 		const assessments = getResults( AssessmentResults );
 

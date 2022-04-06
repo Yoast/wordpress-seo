@@ -12,7 +12,7 @@ const paper = new Paper( content, {
 	titleWidth: 450,
 	locale: "en_EN",
 	permalink: "https://en.wikipedia.org/wiki/Young_adult_fiction",
-	url: "Young_adult_fiction",
+	slug: "Young_adult_fiction",
 } );
 
 const expectedResults = {

@@ -11,7 +11,7 @@ const paper = new Paper( content, {
 	titleWidth: 450,
 	locale: "it_IT",
 	permalink: "https://it.wikipedia.org/wiki/Shinji-Ikari",
-	url: "Shinji-Ikari",
+	slug: "Shinji-Ikari",
 } );
 
 const expectedResults = {

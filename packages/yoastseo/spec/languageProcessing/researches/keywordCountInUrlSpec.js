@@ -10,146 +10,146 @@ const morphologyDataDe = getMorphologyData( "de" );
 
 describe( "test to check url for keyword", function() {
 	it( "returns simple matches", function() {
-		const paper = new Paper( "", { url: "url-with-keyword", keyword: "keyword" } );
+		const paper = new Paper( "", { slug: "slug-with-keyword", keyword: "keyword" } );
 		const researcher = new EnglishResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
 		expect( urlKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 1, percentWordMatches: 100 } );
 	} );
 
 	it( "returns matches for double keywords", function() {
-		const paper = new Paper( "", { url: "url-with-key-word", keyword: "key word" } );
+		const paper = new Paper( "", { slug: "slug-with-key-word", keyword: "key word" } );
 		const researcher = new EnglishResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
 		expect( urlKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 2, percentWordMatches: 100 } );
 	} );
 
 	it( "returns no matches for differently dashed words", function() {
-		const paper = new Paper( "", { url: "url-with-key-word", keyword: "keyword" } );
+		const paper = new Paper( "", { slug: "slug-with-key-word", keyword: "keyword" } );
 		const researcher = new EnglishResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
 		expect( urlKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 1, percentWordMatches: 0 } );
 	} );
 
 	it( "returns matches for equally dashed words", function() {
-		const paper = new Paper( "", { url: "url-with-key-word", keyword: "key-word" } );
+		const paper = new Paper( "", { slug: "slug-with-key-word", keyword: "key-word" } );
 		const researcher = new EnglishResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
 		expect( urlKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 2, percentWordMatches: 100 } );
 	} );
 
 	it( "returns matches for equally dashed words with more words around", function() {
-		const paper = new Paper( "", { url: "url-with-key-word", keyword: "exciting key-word exciting" } );
+		const paper = new Paper( "", { slug: "slug-with-key-word", keyword: "exciting key-word exciting" } );
 		const researcher = new EnglishResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
 		expect( urlKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 4, percentWordMatches: 50 } );
 	} );
 
 	it( "returns matches with diacritics", function() {
-		const paper = new Paper( "", { url: "url-with-key-word", keyword: "këyword" } );
+		const paper = new Paper( "", { slug: "slug-with-key-word", keyword: "këyword" } );
 		const researcher = new EnglishResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
 		expect( urlKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 1, percentWordMatches: 0 } );
 	} );
 
 	it( "returns matches for three-word long keyphrases", function() {
-		const paper = new Paper( "", { url: "url-with-yoast-seo-3", keyword: "yoast seo 3" } );
+		const paper = new Paper( "", { slug: "slug-with-yoast-seo-3", keyword: "yoast seo 3" } );
 		const researcher = new EnglishResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
 		expect( urlKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 3, percentWordMatches: 100 } );
 	} );
 
 	it( "returns matches with apostrophes", function() {
-		const paper = new Paper( "", { url: "yoasts-analyzer", keyword: "Yoast's analyzer" } );
+		const paper = new Paper( "", { slug: "yoasts-analyzer", keyword: "Yoast's analyzer" } );
 		const researcher = new EnglishResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
 		expect( urlKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 2, percentWordMatches: 100 } );
 	} );
 
 	it( "returns matches with apostrophes", function() {
-		const paper = new Paper( "", { url: "yoasts-analyzer", keyword: "Yoast's analyzer" } );
+		const paper = new Paper( "", { slug: "yoasts-analyzer", keyword: "Yoast's analyzer" } );
 		const researcher = new EnglishResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
 		expect( urlKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 2, percentWordMatches: 100 } );
 	} );
 
 	it( "returns matches with diacritics (no special locale)", function() {
-		const paper = new Paper( "", { url: "http://local.wordpress.test/acción/ ‎", keyword: "acción" } );
+		const paper = new Paper( "", { slug: "acción", keyword: "acción" } );
 		const researcher = new EnglishResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
 		expect( urlKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 1, percentWordMatches: 100 } );
 	} );
 
 	it( "returns matches with diacritics differences", function() {
-		const paper = new Paper( "", { url: "http://local.wordpress.test/accion/ ‎", keyword: "acción" } );
+		const paper = new Paper( "", { slug: "accion", keyword: "acción" } );
 		const researcher = new EnglishResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
 		expect( urlKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 1, percentWordMatches: 100 } );
 	} );
 
 	it( "returns matches with diacritics differences for Spanish", function() {
-		const paper = new Paper( "", { url: "http://local.wordpress.test/accion/ ‎", keyword: "acción", locale: "es_ES" } );
+		const paper = new Paper( "", { slug: "accion", keyword: "acción", locale: "es_ES" } );
 		const researcher = new EnglishResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
 		expect( urlKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 1, percentWordMatches: 100 } );
 	} );
 
 	it( "returns matches with diacritics for Spanish", function() {
-		const paper = new Paper( "", { url: "http://local.wordpress.test/acción/ ‎", keyword: "acción", locale: "es_ES" } );
+		const paper = new Paper( "", { slug: "acción", keyword: "acción", locale: "es_ES" } );
 		const researcher = new EnglishResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
 		expect( urlKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 1, percentWordMatches: 100 } );
 	} );
 
 	it( "returns matches with diacritics for German", function() {
-		const paper = new Paper( "", { url: "http://local.wordpress.test/natürlich/ ‎", keyword: "natürlich", locale: "de_DE" } );
+		const paper = new Paper( "", { slug: "natürlich", keyword: "natürlich", locale: "de_DE" } );
 		const researcher = new EnglishResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
 		expect( urlKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 1, percentWordMatches: 100 } );
 	} );
 
 	it( "returns matches with special diacritics rules for German", function() {
-		const paper = new Paper( "", { url: "http://local.wordpress.test/natuerlich/ ‎", keyword: "natürlich", locale: "de_DE" } );
+		const paper = new Paper( "", { slug: "natuerlich", keyword: "natürlich", locale: "de_DE" } );
 		const researcher = new GermanResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyDataDe );
 		expect( urlKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 1, percentWordMatches: 100 } );
 	} );
 
 	it( "returns matches with diacritics differences for German", function() {
-		const paper = new Paper( "", { url: "http://local.wordpress.test/naturlich/ ‎", keyword: "natürlich", locale: "de_DE" } );
+		const paper = new Paper( "", { slug: "naturlich", keyword: "natürlich", locale: "de_DE" } );
 		const researcher = new GermanResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyDataDe );
 		expect( urlKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 1, percentWordMatches: 0 } );
 	} );
 
 	it( "returns matches with diacritics differences for Swedish", function() {
-		const paper = new Paper( "", { url: "bla-bla-oeverlaatelsebesiktning", keyword: "överlåtelsebesiktning", locale: "sv_SE" } );
+		const paper = new Paper( "", { slug: "bla-bla-oeverlaatelsebesiktning", keyword: "överlåtelsebesiktning", locale: "sv_SE" } );
 		const researcher = new EnglishResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
 		expect( urlKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 1, percentWordMatches: 100 } );
 	} );
 
 	it( "returns matches with diacritics differences for Swedish", function() {
-		const paper = new Paper( "", { url: "bla-bla-overlatelsebesiktning", keyword: "överlåtelsebesiktning", locale: "sv_SE" } );
+		const paper = new Paper( "", { slug: "bla-bla-overlatelsebesiktning", keyword: "överlåtelsebesiktning", locale: "sv_SE" } );
 		const researcher = new EnglishResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
 		expect( urlKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 1, percentWordMatches: 100 } );
 	} );
 
 	it( "does not break for English if no morphology is supplied", function() {
-		const paper = new Paper( "", { url: "a-a-a-keyphrase-a-a-a", keyword: "keyphrase", locale: "en_EN" } );
+		const paper = new Paper( "", { slug: "a-a-a-keyphrase-a-a-a", keyword: "keyphrase", locale: "en_EN" } );
 		const researcher = new EnglishResearcher( paper );
 		expect( urlKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 1, percentWordMatches: 100 } );
 	} );
 
 	it( "uses morphology if supplied", function() {
-		const paper = new Paper( "", { url: "a-a-a-keyphrase-a-a-a", keyword: "keyphrases", locale: "en_EN" } );
+		const paper = new Paper( "", { slug: "a-a-a-keyphrase-a-a-a", keyword: "keyphrases", locale: "en_EN" } );
 		const researcher = new EnglishResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
 		expect( urlKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 1, percentWordMatches: 100 } );
 	} );
 
 	it( "works with multi-word keyphrases", function() {
-		const paper = new Paper( "", { url: "key-word-in-slug-how-wonderful", keyword: "key words within slugs are " +
+		const paper = new Paper( "", { slug: "key-word-in-slug-how-wonderful", keyword: "key words within slugs are " +
 				"always wonderful", locale: "en_EN" } );
 		const researcher = new EnglishResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
@@ -157,7 +157,7 @@ describe( "test to check url for keyword", function() {
 	} );
 
 	it( "works with multi-word keyphrases", function() {
-		const paper = new Paper( "", { url: "how-wonderful-key-word-in-slug", keyword: "key words within slugs are " +
+		const paper = new Paper( "", { slug: "how-wonderful-key-word-in-slug", keyword: "key words within slugs are " +
 				"always wonderful", locale: "en_EN" } );
 		const researcher = new EnglishResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
@@ -165,14 +165,14 @@ describe( "test to check url for keyword", function() {
 	} );
 
 	it( "correctly detects partial match with multi-word keyphrases", function() {
-		const paper = new Paper( "", { url: "how-wonderful-a-slug", keyword: "key words within slugs are always wonderful", locale: "en_EN" } );
+		const paper = new Paper( "", { slug: "how-wonderful-a-slug", keyword: "key words within slugs are always wonderful", locale: "en_EN" } );
 		const researcher = new EnglishResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
 		expect( urlKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 4, percentWordMatches: 50 } );
 	} );
 
 	it( "correctly deals with multiple matches with multi-word keyphrases", function() {
-		const paper = new Paper( "", { url: "how-wonderful-wonderful-a-wonderful-slug", keyword: "key words within slugs " +
+		const paper = new Paper( "", { slug: "how-wonderful-wonderful-a-wonderful-slug", keyword: "key words within slugs " +
 				"are always wonderful", locale: "en_EN" } );
 		const researcher = new EnglishResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
@@ -180,49 +180,49 @@ describe( "test to check url for keyword", function() {
 	} );
 
 	it( "returns matches for keywords in double quotes", function() {
-		const paper = new Paper( "", { url: "url-with-key-word", keyword: "\"key word\"" } );
+		const paper = new Paper( "", { slug: "slug-with-key-word", keyword: "\"key word\"" } );
 		const researcher = new EnglishResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
 		expect( urlKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 1, percentWordMatches: 100 } );
 	} );
 
 	it( "returns matches for keywords in double quotes", function() {
-		const paper = new Paper( "", { url: "url-with-key-word-and-cats-and-dogs", keyword: "\"word and cats and dogs\"" } );
+		const paper = new Paper( "", { slug: "slug-with-key-word-and-cats-and-dogs", keyword: "\"word and cats and dogs\"" } );
 		const researcher = new EnglishResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
 		expect( urlKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 1, percentWordMatches: 100 } );
 	} );
 
 	it( "returns matches for keywords in double quotes: ignores morphology", function() {
-		const paper = new Paper( "", { url: "url-with-key-word-and-cats-and-dogs", keyword: "\"words and cat and dog\"" } );
+		const paper = new Paper( "", { slug: "slug-with-key-word-and-cats-and-dogs", keyword: "\"words and cat and dog\"" } );
 		const researcher = new EnglishResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
 		expect( urlKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 1, percentWordMatches: 0 } );
 	} );
 
-	it( "works with dash as word boundary in url", function() {
-		const paper = new Paper( "", { url: "cats_and_dogs", keyword: "cats and dogs" } );
+	it( "works with underscore as word boundary in the slug", function() {
+		const paper = new Paper( "", { slug: "cats_and_dogs", keyword: "cats and dogs" } );
 		const researcher = new EnglishResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
 		expect( urlKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 2, percentWordMatches: 100 } );
 	} );
 
-	it( "works with dash within the keyword in url", function() {
-		const paper = new Paper( "", { url: "buku-buku", keyword: "buku-buku" } );
+	it( "works with dash within the keyword in the slug", function() {
+		const paper = new Paper( "", { slug: "buku-buku", keyword: "buku-buku" } );
 		const researcher = new EnglishResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
 		expect( urlKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 2, percentWordMatches: 100 } );
 	} );
 
-	it( "works with dash within the keyword in url", function() {
-		const paper = new Paper( "", { url: "on-the-go", keyword: "on-the-go" } );
+	it( "works with dash within the keyword in the slug", function() {
+		const paper = new Paper( "", { slug: "on-the-go", keyword: "on-the-go" } );
 		const researcher = new EnglishResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
 		expect( urlKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 3, percentWordMatches: 100 } );
 	} );
 
-	it( "works with dash within the keyword in url", function() {
-		const paper = new Paper( "", { url: "two-room-apartment", keyword: "two-room apartment" } );
+	it( "works with dash within the keyword in the slug", function() {
+		const paper = new Paper( "", { slug: "two-room-apartment", keyword: "two-room apartment" } );
 		const researcher = new EnglishResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
 		expect( urlKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 3, percentWordMatches: 100 } );

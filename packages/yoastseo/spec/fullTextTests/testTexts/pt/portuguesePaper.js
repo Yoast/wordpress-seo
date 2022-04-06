@@ -13,7 +13,7 @@ const paper = new Paper( content, {
 	titleWidth: 450,
 	locale: "pt_PT",
 	permalink: "https://pt.wikipedia.org/wiki/Portugal",
-	url: "Portugal",
+	slug: "Portugal",
 } );
 
 const expectedResults = {

@@ -11,7 +11,7 @@ const paper = new Paper( content, {
 	titleWidth: 450,
 	locale: "nl_NL",
 	permalink: "https://nl.wikipedia.org/wiki/Schaap_(dier)",
-	url: "Schaap_(dier)",
+	slug: "Schaap_(dier)",
 } );
 
 const expectedResults = {

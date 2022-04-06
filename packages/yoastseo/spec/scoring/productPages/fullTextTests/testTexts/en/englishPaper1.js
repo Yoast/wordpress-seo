@@ -12,7 +12,7 @@ const paper = new Paper( content, {
 	titleWidth: 450,
 	locale: "en_EN",
 	permalink: "https://en.wikipedia.org/wiki/Cat_play_and_toys",
-	url: "Cat_play_and_toys",
+	slug: "Cat_play_and_toys",
 } );
 
 const expectedResults = {

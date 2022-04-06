@@ -43,7 +43,7 @@ function dehyphenateKeyphraseForms( topicForms ) {
  */
 export default function( paper, researcher ) {
 	const topicForms = dehyphenateKeyphraseForms( researcher.getResearch( "morphology" ) );
-	const parsedSlug = parseSlug( paper.getUrl() );
+	const parsedSlug = parseSlug( paper.getSlug() );
 
 	const keyphraseInSlug = findTopicFormsInString( topicForms, parsedSlug, false, paper.getLocale() );
 
