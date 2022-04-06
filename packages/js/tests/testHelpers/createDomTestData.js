@@ -215,6 +215,8 @@ const createSlugElements = () => {
 };
 
 export {
+	createCategoryElement,
+	createTagElement,
 	createAllCategoryElements,
 	createMostUsedCategoryElements,
 	createAllTagElements,
