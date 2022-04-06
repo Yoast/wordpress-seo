@@ -177,7 +177,7 @@ Paper.prototype.getSlug = function() {
  */
 Paper.prototype.hasUrl = function() {
 	console.warn( "This function is deprecated, use hasSlug instead" );
-	return Paper.prototype.hasSlug();
+	return this.hasSlug();
 };
 
 /**
@@ -187,7 +187,7 @@ Paper.prototype.hasUrl = function() {
  */
 Paper.prototype.getUrl = function() {
 	console.warn( "This function is deprecated, use getSlug instead" );
-	return Paper.prototype.getSlug();
+	return this.getSlug();
 };
 
 /**
