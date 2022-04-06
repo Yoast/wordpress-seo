@@ -67,6 +67,18 @@ describe( "a test for retrieving categories from the DOM", () => {
 		allCategoryElements.allCategoryCheckboxes.cat2.checked = false;
 		expect( dom.getPostCategories() ).toEqual( [ ] );
 	} );
+	it( "should return the checked categories, ordered alphabetically", () => {
+		// Cat5: "dogs", cat4: "Birds", cat3: "cat3".
+		allCategoryElements.allCategoryCheckboxes.cat5.checked = true;
+		allCategoryElements.allCategoryCheckboxes.cat4.checked = true;
+		allCategoryElements.allCategoryCheckboxes.cat3.checked = true;
+
+		expect( dom.getPostCategories() ).toEqual( [
+			{ id: "4", name: "Birds" },
+			{ id: "3", name: "cat3" },
+			{ id: "5", name: "dogs" },
+		] );
+	} );
 } );
 
 describe( "a test for retrieving tags from the document", () => {
@@ -74,7 +86,7 @@ describe( "a test for retrieving tags from the document", () => {
 
 	document.body.appendChild( tagElements );
 
-	it( "should return the tags from the post", () => {
+	it( "should return the tags from the post, ordered alphabetically", () => {
 		expect( dom.getPostTags() ).toEqual( [ "cat food", "cat snack" ] );
 		// Remove the previous tags elements after the test is run, so that this element wouldn't be returned next time the test
 		// For non-hierarchical taxonomy is run.
