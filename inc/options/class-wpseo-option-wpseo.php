@@ -81,6 +81,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'algolia_integration_active'               => false,
 		'import_cursors'                           => [],
 		'workouts_data'                            => [ 'configuration' => [ 'finishedSteps' => [] ] ],
+		'configuration'                 => [ 'finishedSteps' => [] ],
 		'dismiss_configuration_workout_notice'     => false,
 		'importing_completed'                      => [],
 		'wincher_integration_active'               => true,
@@ -350,6 +351,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'zapier_subscription':
 				case 'wincher_tokens':
 				case 'workouts_data':
+				case 'configuration':
 					$clean[ $key ] = $old[ $key ];
 
 					if ( isset( $dirty[ $key ] ) ) {
