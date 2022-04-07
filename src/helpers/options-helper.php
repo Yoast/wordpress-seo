@@ -136,7 +136,7 @@ class Options_Helper {
 	 *
 	 * @return string|false The validated twitter id or false if it is not valid.
 	 */
-	public function validate_twitter_id( $twitter_id, $strip_at_sign = false ) {
+	public function validate_twitter_id( $twitter_id, $strip_at_sign = true ) {
 		return WPSEO_Option_Social::get_instance()->validate_twitter_id( $twitter_id, $strip_at_sign );
 	}
 }
