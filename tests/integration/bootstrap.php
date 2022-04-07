@@ -41,6 +41,10 @@ return [
 	'workouts.js' => [
 		'dependencies' => [],
 		'version'      => 'test',
+	],
+	'first-time-configuration.js' => [
+		'dependencies' => [],
+		'version'      => 'test',
 	]
 ];
 ",
