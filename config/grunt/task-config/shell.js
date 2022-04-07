@@ -79,11 +79,16 @@ module.exports = function( grunt ) {
 				callback: throwUncommittedChangesError,
 			},
 		},
+
 		"readme-reset-txt": {
 			command: "git checkout readme.txt",
 			options: {
 				failOnError: false,
 			},
+		},
+
+		"build-packages": {
+			command: "cd packages/js && yarn build",
 		},
 	};
 	/* eslint-enable require-jsdoc */
