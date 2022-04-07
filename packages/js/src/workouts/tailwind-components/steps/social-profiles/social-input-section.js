@@ -79,7 +79,6 @@ export default function SocialInputSection( { socialProfiles, errorFields, dispa
 				onChangeProfile={ onChangeOthersHandler }
 				errorFields={ errorFields }
 				fieldType={ SocialInput }
-				errorFields={ errorFields }
 			/>
 		</div>
 	);
