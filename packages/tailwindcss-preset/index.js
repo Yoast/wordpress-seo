@@ -43,4 +43,5 @@ module.exports = {
 	plugins: [
 		require( "@tailwindcss/forms" ),
 	],
+	content: [ "./node_modules/@yoast/ui-library/**/*.js" ],
 };
