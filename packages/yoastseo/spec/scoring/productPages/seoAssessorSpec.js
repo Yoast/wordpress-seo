@@ -339,7 +339,7 @@ describe( "running assessments in the product page SEO assessor", function() {
 			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/20' target='_blank'>" );
 		} );
 
-		test( "UrlKeywordAssessment", () => {
+		test( "SlugKeywordAssessment", () => {
 			const assessment = assessor.getAssessment( "urlKeyword" );
 
 			expect( assessment ).toBeDefined();

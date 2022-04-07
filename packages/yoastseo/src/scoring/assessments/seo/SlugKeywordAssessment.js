@@ -6,17 +6,13 @@ import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import AssessmentResult from "../../../values/AssessmentResult";
 
 /**
- * Represents the URL keyword assessments. This assessments will check if the keyword is present in the url.
+ * Represents the Slug keyword assessments. This assessments will check if the keyword is present in the slug.
  */
-class UrlKeywordAssessment extends Assessment {
+class SlugKeywordAssessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
-	 * @param {Object} config                           The configuration to use.
-	 * @param {number} [config.scores.noKeywordInUrl]   The score to return if the keyword is not in the URL.
-	 * @param {number} [config.scores.good]             The score to return if the keyword is in the URL.
-	 * @param {string} [config.url]                     The URL to the relevant KB article.
-	 *
+	 * @param {Object} config   The configuration to use.
 	 * @returns {void}
 	 */
 	constructor( config = {} ) {
@@ -31,7 +27,7 @@ class UrlKeywordAssessment extends Assessment {
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/33p" ),
 		};
 
-		this.identifier = "urlKeyword";
+		this.identifier = "slugKeyword";
 		this._config = merge( defaultConfig, config );
 	}
 
@@ -44,7 +40,7 @@ class UrlKeywordAssessment extends Assessment {
 	 * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
 	 */
 	getResult( paper, researcher ) {
-		this._keywordInURL = researcher.getResearch( "keywordCountInUrl" );
+		this._keywordInSlug = researcher.getResearch( "keywordCountInSlug" );
 
 		const assessmentResult = new AssessmentResult();
 
@@ -56,26 +52,26 @@ class UrlKeywordAssessment extends Assessment {
 	}
 
 	/**
-	 * Checks whether the paper has a keyword and a url.
+	 * Checks whether the paper has a keyword and a slug.
 	 *
 	 * @param {Paper}       paper       The paper to use for the assessment.
 	 * @param {Researcher}  researcher  The researcher object.
 	 *
-	 * @returns {boolean} True if the paper contains a keyword and a URL, and if the keywordCountInUrl research is available on the researcher.
+	 * @returns {boolean} True if the paper contains a keyword and a slug, and if the keywordCountInSlug research is available on the researcher.
 	 */
 	isApplicable( paper, researcher ) {
-		return paper.hasKeyword() && paper.hasSlug() && researcher.hasResearch( "keywordCountInUrl" );
+		return paper.hasKeyword() && paper.hasSlug() && researcher.hasResearch( "keywordCountInSlug" );
 	}
 
 	/**
-	 * Determines the score and the result text based on whether or not there's a keyword in the url.
+	 * Determines the score and the result text based on whether or not there's a keyword in the slug.
 	 *
 	 *
 	 * @returns {Object} The object with calculated score and resultText.
 	 */
 	calculateResult() {
-		if ( this._keywordInURL.keyphraseLength < 3 ) {
-			if ( this._keywordInURL.percentWordMatches === 100 ) {
+		if ( this._keywordInSlug.keyphraseLength < 3 ) {
+			if ( this._keywordInSlug.percentWordMatches === 100 ) {
 				return {
 					score: this._config.scores.good,
 					resultText: sprintf(
@@ -105,7 +101,7 @@ class UrlKeywordAssessment extends Assessment {
 			};
 		}
 
-		if ( this._keywordInURL.percentWordMatches > 50 ) {
+		if ( this._keywordInSlug.percentWordMatches > 50 ) {
 			return {
 				score: this._config.scores.good,
 				resultText: sprintf(
@@ -135,4 +131,4 @@ class UrlKeywordAssessment extends Assessment {
 	}
 }
 
-export default UrlKeywordAssessment;
+export default SlugKeywordAssessment;

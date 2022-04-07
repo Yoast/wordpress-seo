@@ -25,7 +25,7 @@ import imageCount from "./researches/imageCount.js";
 import keyphraseDistribution from "./researches/keyphraseDistribution";
 import keyphraseLength from "./researches/keyphraseLength";
 import keywordCount from "./researches/keywordCount";
-import keywordCountInUrl from "./researches/keywordCountInUrl";
+import keywordCountInSlug from "./researches/keywordCountInSlug";
 import matchKeywordInSubheadings from "./researches/matchKeywordInSubheadings";
 import metaDescriptionKeyword from "./researches/metaDescriptionKeyword";
 import metaDescriptionLength from "./researches/metaDescriptionLength.js";
@@ -72,7 +72,7 @@ export default class AbstractResearcher {
 			keyphraseDistribution,
 			keyphraseLength,
 			keywordCount,
-			keywordCountInUrl,
+			keywordCountInSlug,
 			matchKeywordInSubheadings,
 			metaDescriptionKeyword,
 			metaDescriptionLength,

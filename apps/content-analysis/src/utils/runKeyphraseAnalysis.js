@@ -10,7 +10,7 @@ import matchKeywordInSubheadings from "../../../../packages/yoastseo/src/languag
 import imageCount from "../../../../packages/yoastseo/src/languageProcessing/researches/imageCount.js";
 import altTagCount from "../../../../packages/yoastseo/src/languageProcessing/researches/altTagCount.js";
 import findKeywordInPageTitle from "../../../../packages/yoastseo/src/languageProcessing/researches/findKeywordInPageTitle.js";
-import keywordCountInUrl from "../../../../packages/yoastseo/src/languageProcessing/researches/keywordCountInUrl";
+import keywordCountInSlug from "../../../../packages/yoastseo/src/languageProcessing/researches/keywordCountInSlug";
 import keyphraseDistribution from "../../../../packages/yoastseo/src/languageProcessing/researches/keyphraseDistribution";
 
 /**
@@ -36,7 +36,7 @@ export default function( testPaper, morphologyData ) {
 	imageCount( paper );
 	altTagCount( paper, researcher );
 	findKeywordInPageTitle( paper, researcher );
-	keywordCountInUrl( paper, researcher );
+	keywordCountInSlug( paper, researcher );
 	keyphraseDistribution( paper, researcher );
 }
 

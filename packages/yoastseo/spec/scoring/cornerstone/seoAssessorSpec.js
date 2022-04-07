@@ -253,7 +253,7 @@ describe( "running assessments in the assessor", function() {
 			expect( assessment._config.scores.widthTooShort ).toBe( 9 );
 		} );
 
-		test( "UrlKeywordAssessment", () => {
+		test( "SlugKeywordAssessment", () => {
 			const assessment = assessor.getAssessment( "urlKeyword" );
 
 			expect( assessment ).toBeDefined();

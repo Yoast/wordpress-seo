@@ -12,7 +12,7 @@ import MetaDescriptionLengthAssessment from "../../../../src/scoring/assessments
 import TextLengthAssessment from "../../../../src/scoring/assessments/seo/TextLengthAssessment";
 import TitleKeywordAssessment from "../../../../src/scoring/assessments/seo/TitleKeywordAssessment";
 import TitleWidthAssessment from "../../../../src/scoring/assessments/seo/PageTitleWidthAssessment";
-import UrlKeywordAssessment from "../../../../src/scoring/assessments/seo/UrlKeywordAssessment";
+import SlugKeywordAssessment from "../../../../src/scoring/assessments/seo/SlugKeywordAssessment";
 import FunctionWordsInKeyphrase from "../../../../src/scoring/assessments/seo/FunctionWordsInKeyphraseAssessment";
 import SingleH1Assessment from "../../../../src/scoring/assessments/seo/SingleH1Assessment";
 import KeyphraseDistribution from "../../../../src/scoring/assessments/seo/KeyphraseDistributionAssessment";
@@ -79,7 +79,7 @@ testPapers.forEach( function( testPaper ) {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify52" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify53" ),
 		} );
-		const urlKeywordAssessment = new UrlKeywordAssessment( {
+		const urlKeywordAssessment = new SlugKeywordAssessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify26" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify27" ),
 		} );

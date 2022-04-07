@@ -222,7 +222,7 @@ describe( "running assessments in the collection page cornerstone SEO assessor",
 			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify53' target='_blank'>" );
 		} );
 
-		test( "UrlKeywordAssessment", () => {
+		test( "SlugKeywordAssessment", () => {
 			const assessment = assessor.getAssessment( "urlKeyword" );
 
 			expect( assessment ).toBeDefined();
