@@ -43,7 +43,7 @@
     "@wordpress/dependency-extraction-webpack-plugin": "^3.1.0",
     "@wordpress/scripts": "^14.1.1",
     "@yoast/browserslist-config": "file:packages/browserslist-config",
-    "@yoast/grunt-plugin-tasks": "^2.2.1",
+    "@yoast/grunt-plugin-tasks": "^2.3",
     "babel-plugin-dynamic-import-webpack": "^1.1.0",
     "colors": "1.4.0",
     "core-js": "^2.6.12",
@@ -73,7 +73,7 @@
     "typescript": "^4.2.4"
   },
   "yoast": {
-    "pluginVersion": "18.6-RC2"
+    "pluginVersion": "18.6-RC3"
   },
   "version": "0.0.0"
 }
