@@ -1,9 +1,13 @@
 {
   "name": "@yoast/wordpress-seo",
   "version": "1.0.0",
+  "license": "GPL-3.0",
   "scripts": {
     "test": "jest -u",
-    "lint": "eslint src tests --max-warnings=149"
+    "lint": "eslint src tests --max-warnings=149",
+    "clean": "rm -rf build",
+    "build": "yarn clean && yarn build:js",
+    "build:js": "babel src --out-dir build"
   },
   "dependencies": {
     "@draft-js-plugins/mention": "^5.0.0",
@@ -43,11 +47,16 @@
   },
   "devDependencies": {
     "@babel/core": "^7.15.5",
+    "@babel/eslint-parser": "^7.17.0",
+    "@babel/eslint-plugin": "^7.17.7",
     "@wordpress/dependency-extraction-webpack-plugin": "^2.8.0",
     "@yoast/babel-preset": "^1.0.0",
     "@yoast/jest-preset": "^1.0.0",
     "babel-plugin-styled-components": "^2.0.6",
     "case-sensitive-paths-webpack-plugin": "^2.1.2",
+    "eslint": "^7.32.0",
+    "eslint-config-yoast": "^5.0.17",
+    "eslint-plugin-jest": "^26.1.3",
     "jest": "^27.5.1"
   },
   "peerDependencies": {

@@ -79,7 +79,7 @@ describe( "Indexation", () => {
 			method: "POST",
 		} );
 
-		const alert = await component.find( "Alert" );
+		const alert = component.find( "Alert" );
 		expect( alert.text() ).toEqual( "SEO data optimization complete" );
 		expect( alert.prop( "type" ) ).toEqual( "success" );
 	} );
