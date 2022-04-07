@@ -77,14 +77,14 @@ export default class AnalysisWebWorker {
 		 * The cached analyses results.
 		 *
 		 * A single result has the following structure:
-		 * {AssessmentResult[]} readability.results An array of assessment results; in serialized format.
-		 * {number}             readability.score   The overall score.
+		 * {AssessmentResult[]} 	readability.results An array of assessment results; in serialized format.
+		 * {number}             	readability.score   The overall score.
 		 *
 		 * The results have the following structure.
-		 * {Object} readability Content assessor results.
-		 * {Object} seo         SEO assessor results, per keyword identifier or empty string for the main.
-		 * {Object} seo[ "" ]   The result of the paper analysis for the main keyword.
-		 * {Object} seo[ key ]  Same as above, but instead for a related keyword.
+		 * {Object} 				readability 		Content assessor results.
+		 * {Object} 				seo         		SEO assessor results, per keyword identifier or empty string for the main.
+		 * {Object} 				seo[ "" ]  			The result of the paper analysis for the main keyword.
+		 * {Object} 				seo[ key ]  		Same as above, but instead for a related keyword.
 		 */
 		this._results = {
 			readability: {
@@ -937,10 +937,10 @@ export default class AnalysisWebWorker {
 					this._results.seo[ result.key ] = result.results;
 				} );
 
-				// Clear the unrequested results, but only if there are requested related keywords.
+				// Clear the results of unrequested related keyphrases, but only if there are requested related keyphrases.
 				if ( requestedRelatedKeywordKeys.length > 1 ) {
 					this._results.seo = pickBy( this._results.seo,
-						( relatedKeyword, key ) => includes( requestedRelatedKeywordKeys, key )
+						( relatedKeyword, key ) => includes( requestedRelatedKeywordKeys, key ) || key === ""
 					);
 				}
 			}
