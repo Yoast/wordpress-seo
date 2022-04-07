@@ -7,10 +7,11 @@ use WP_REST_Response;
 use Yoast\WP\SEO\Actions\Configuration\First_Time_Configuration_Action;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Main;
+
+// phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- First time configuration simply has a lot of words.
 /**
  * First_Time_Configuration_Route class.
  */
-// phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- First time configuration simply has a lot of words.
 class First_Time_Configuration_Route implements Route_Interface {
 
 	use No_Conditionals;
@@ -81,7 +82,7 @@ class First_Time_Configuration_Route implements Route_Interface {
 	/**
 	 * First_Time_Configuration_Route constructor.
 	 *
-	 * @param First_Time_Configuration_Action $first_time_configuration_action; The configuration workout action.
+	 * @param First_Time_Configuration_Action $first_time_configuration_action The configuration workout action.
 	 */
 	public function __construct(
 		First_Time_Configuration_Action $first_time_configuration_action
