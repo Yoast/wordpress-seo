@@ -139,7 +139,7 @@ describe( "running assessments in the assessor", function() {
 		] );
 	} );
 
-	it( "additionally runs assessments that require a text, a url and a keyword", function() {
+	it( "additionally runs assessments that require a text, a slug and a keyword", function() {
 		assessor.assess( new Paper( "text", { keyword: "keyword", slug: "sample-slug" } ) );
 		const AssessmentResults = assessor.getValidResults();
 		const assessments = getResults( AssessmentResults );
@@ -153,7 +153,7 @@ describe( "running assessments in the assessor", function() {
 			"externalLinks",
 			"internalLinks",
 			"titleWidth",
-			"urlKeyword",
+			"slugKeyword",
 		] );
 	} );
 

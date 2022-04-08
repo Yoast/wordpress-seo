@@ -117,7 +117,7 @@ describe( "running assessments in the assessor", function() {
 			"metaDescriptionLength",
 			"textLength",
 			"titleWidth",
-			"urlKeyword",
+			"slugKeyword",
 		] );
 	} );
 

@@ -146,7 +146,7 @@ describe( "running assessments in the product page SEO assessor", function() {
 		] );
 	} );
 
-	it( "additionally runs assessments that require a text, a url and a keyword", function() {
+	it( "additionally runs assessments that require a text, a slug and a keyword", function() {
 		assessor.assess( new Paper( "text", { keyword: "keyword", slug: "sample-slug" } ) );
 		const AssessmentResults = assessor.getValidResults();
 		const assessments = getResults( AssessmentResults );
@@ -157,7 +157,7 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"metaDescriptionLength",
 			"textLength",
 			"titleWidth",
-			"urlKeyword",
+			"slugKeyword",
 			"images",
 		] );
 	} );
@@ -327,7 +327,7 @@ describe( "running assessments in the product page SEO assessor", function() {
 		} );
 
 		test( "SlugKeywordAssessment", () => {
-			const assessment = assessor.getAssessment( "urlKeyword" );
+			const assessment = assessor.getAssessment( "slugKeyword" );
 
 			expect( assessment ).toBeDefined();
 			expect( assessment._config ).toBeDefined();

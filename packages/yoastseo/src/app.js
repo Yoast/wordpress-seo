@@ -49,7 +49,7 @@ var defaults = {
 		"fleschReading",
 		"linkCount",
 		"imageCount",
-		"urlKeyword",
+		"slugKeyword",
 		"urlLength",
 		"metaDescription",
 		"pageTitleKeyword",

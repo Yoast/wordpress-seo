@@ -284,14 +284,14 @@ testPapers.forEach( function( testPaper ) {
 			}
 		} );
 
-		it( "returns a score and the associated feedback text for the urlKeyword assessment", function() {
+		it( "returns a score and the associated feedback text for the slugKeyword assessment", function() {
 			const isApplicable = slugKeywordAssessment.isApplicable( paper, researcher );
-			expect( isApplicable ).toBe( expectedResults.urlKeyword.isApplicable );
+			expect( isApplicable ).toBe( expectedResults.slugKeyword.isApplicable );
 
 			if ( isApplicable ) {
-				result.urlKeyword = slugKeywordAssessment.getResult( paper, researcher );
-				expect( result.urlKeyword.getScore() ).toBe( expectedResults.urlKeyword.score );
-				expect( result.urlKeyword.getText() ).toBe( expectedResults.urlKeyword.resultText );
+				result.slugKeyword = slugKeywordAssessment.getResult( paper, researcher );
+				expect( result.slugKeyword.getScore() ).toBe( expectedResults.slugKeyword.score );
+				expect( result.slugKeyword.getText() ).toBe( expectedResults.slugKeyword.resultText );
 			}
 		} );
 

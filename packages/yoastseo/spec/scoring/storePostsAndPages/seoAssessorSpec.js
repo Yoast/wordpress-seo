@@ -153,7 +153,7 @@ describe( "running assessments in the assessor", function() {
 			"externalLinks",
 			"internalLinks",
 			"titleWidth",
-			"urlKeyword",
+			"slugKeyword",
 		] );
 	} );
 
@@ -315,7 +315,7 @@ describe( "running assessments in the assessor", function() {
 		} );
 
 		test( "SlugKeywordAssessment", () => {
-			const assessment = assessor.getAssessment( "urlKeyword" );
+			const assessment = assessor.getAssessment( "slugKeyword" );
 
 			expect( assessment ).toBeDefined();
 			expect( assessment._config ).toBeDefined();

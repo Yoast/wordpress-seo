@@ -121,7 +121,7 @@ describe( "running assessments in the collection page SEO assessor", function() 
 		] );
 	} );
 
-	it( "additionally runs assessments that require a text, a url and a keyword", function() {
+	it( "additionally runs assessments that require a text, a slug and a keyword", function() {
 		assessor.assess( new Paper( "text", { keyword: "keyword", slug: "sample-slug" } ) );
 		const AssessmentResults = assessor.getValidResults();
 		const assessments = getResults( AssessmentResults );
@@ -132,7 +132,7 @@ describe( "running assessments in the collection page SEO assessor", function() 
 			"metaDescriptionLength",
 			"textLength",
 			"titleWidth",
-			"urlKeyword",
+			"slugKeyword",
 		] );
 	} );
 
@@ -241,8 +241,8 @@ describe( "running assessments in the collection page SEO assessor", function() 
 			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify53' target='_blank'>" );
 		} );
 
-		test( "UrlKeywordAssessment", () => {
-			const assessment = assessor.getAssessment( "urlKeyword" );
+		test( "SlugKeywordAssessment", () => {
+			const assessment = assessor.getAssessment( "slugKeyword" );
 
 			expect( assessment ).toBeDefined();
 			expect( assessment._config ).toBeDefined();
