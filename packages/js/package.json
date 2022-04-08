@@ -46,7 +46,7 @@
     "yoastseo": "^1.91.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.15.5",
+    "@babel/core": "^7.17.9",
     "@babel/eslint-parser": "^7.17.0",
     "@babel/eslint-plugin": "^7.17.7",
     "@wordpress/dependency-extraction-webpack-plugin": "^2.8.0",
