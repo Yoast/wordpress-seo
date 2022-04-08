@@ -9,6 +9,7 @@ import {
 	createMostUsedCTElements,
 	createNonHierarchicalCTElements,
 	createSlugElements,
+	createTagElement,
 } from "../../testHelpers/createDomTestData";
 
 jest.mock( "../../../src/lib/tinymce", () => ( {
@@ -84,13 +85,16 @@ describe( "a test for retrieving categories from the DOM", () => {
 describe( "a test for retrieving tags from the document", () => {
 	const tagElements = createAllTagElements();
 
-	document.body.appendChild( tagElements );
+	document.body.appendChild( tagElements.parentTagElement );
 
 	it( "should return the tags from the post, ordered alphabetically", () => {
 		expect( dom.getPostTags() ).toEqual( [ "cat food", "cat snack" ] );
-		// Remove the previous tags elements after the test is run, so that this element wouldn't be returned next time the test
-		// For non-hierarchical taxonomy is run.
-		document.body.removeChild( tagElements );
+	} );
+	it( "should return the tags alphabetically ordered, case-insensitive", () => {
+		const newTag = createTagElement( "Sneaky sloth" );
+		tagElements.tagsListElement.append( newTag );
+
+		expect( dom.getPostTags() ).toEqual( [ "cat food", "cat snack", "Sneaky sloth" ] );
 	} );
 } );
 
