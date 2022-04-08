@@ -51,6 +51,7 @@
     "@babel/eslint-plugin": "^7.17.7",
     "@wordpress/dependency-extraction-webpack-plugin": "^2.8.0",
     "@yoast/babel-preset": "^1.0.0",
+    "@yoast/browserslist-config": "^1.2.2",
     "@yoast/jest-preset": "^1.0.0",
     "babel-plugin-styled-components": "^2.0.6",
     "case-sensitive-paths-webpack-plugin": "^2.1.2",
