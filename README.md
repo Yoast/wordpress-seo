@@ -64,7 +64,7 @@ Another JavaScript alternative is `grunt webpack:watch`, this command will keep 
 
 This repository uses [the Yoast grunt tasks plugin](https://github.com/Yoast/plugin-grunt-tasks).
 
-## Support
+## Support.
 
 This is a developer's portal for Yoast SEO and should not be used for support. Please visit the
 [support forums](https://wordpress.org/support/plugin/wordpress-seo).
