@@ -1,5 +1,5 @@
 /* global moment */
-import { flow, get, isEqual, set, map } from "lodash";
+import { flow, get, isEqual, set, map, sortBy } from "lodash";
 import { getContentTinyMce } from "../../lib/tinymce";
 import getContentLocale from "../../analysis/getContentLocale";
 import { getValuesFromCheckboxes } from "../../helpers/getValuesFromCheckboxes";
@@ -238,8 +238,10 @@ export const getPostTags = ( termID = "post_tag" ) => {
 	if ( tagChecklistElement.length > 0 ) {
 		// Each tag is a <li> element containing a button and two text elements. The second text element contains the name of the tag.
 		const tagsList = [ ...tagChecklistElement[ 0 ].childNodes ];
-		// Get the names of the tags, and sort them alphabetically.
-		return tagsList.map( tag => [ ...tag.childNodes ][ 2 ].textContent ).sort();
+		// Get the names of the tags.
+		const tagsNames = tagsList.map( tag => [ ...tag.childNodes ][ 2 ].textContent );
+		// Returns the array sorted alphabetically.
+		return sortBy( tagsNames, name => name.toLowerCase() );
 	}
 
 	return [];
