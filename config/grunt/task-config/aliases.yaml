@@ -27,7 +27,6 @@
 'build:js':
   - 'clean:build-assets-js'
   - 'copy:js-dependencies'
-  - 'shell:build-packages'
   - 'shell:webpack'
 
 # Build CSS for development

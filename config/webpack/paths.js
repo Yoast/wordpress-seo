@@ -1,43 +1,51 @@
 const path = require( "path" );
 
 const jsDistPath = path.resolve( "js", "dist" );
-const jsSrcPath = path.resolve( "packages", "js", "src" );
-const cssDistPath = path.resolve( "css", "dist" );
 
-// Output filename: Entry file (relative to jsSrcPath)
-const entry = {
-	"addon-installation": "./packages/js/build/addon-installation.js",
-	"admin-global": "./packages/js/build/admin-global.js",
-	"admin-modules": "./packages/js/build/admin-modules.js",
-	"analysis-worker": "./packages/js/build/analysis-worker.js",
-	"api-client": "./packages/js/build/api-client.js",
-	"block-editor": "./packages/js/build/block-editor.js",
-	"bulk-editor": "./packages/js/build/bulk-editor.js",
-	"schema-blocks": "./packages/js/build/schema-blocks.js",
-	"classic-editor": "./packages/js/build/classic-editor.js",
-	"dashboard-widget": "./packages/js/build/dashboard-widget.js",
-	"dynamic-blocks": "./packages/js/build/dynamic-blocks.js",
-	"edit-page": "./packages/js/build/edit-page.js",
-	"editor-modules": "./packages/js/build/editor-modules.js",
-	elementor: "./packages/js/build/elementor.js",
-	"externals-components": "./packages/js/build/externals/components.js",
-	"externals-contexts": "./packages/js/build/externals/contexts.js",
-	"externals-redux": "./packages/js/build/externals/redux.js",
-	"filter-explanation": "./packages/js/build/filter-explanation.js",
-	"help-scout-beacon": "./packages/js/build/help-scout-beacon.js",
-	"import": "./packages/js/build/import.js",
-	indexation: "./packages/js/build/indexation.js",
-	"installation-success": "./packages/js/build/installation-success.js",
-	"network-admin": "./packages/js/build/network-admin.js",
-	"post-edit": "./packages/js/build/post-edit.js",
-	"quick-edit-handler": "./packages/js/build/quick-edit-handler.js",
-	"reindex-links": "./packages/js/build/reindex-links.js",
-	settings: "./packages/js/build/settings.js",
-	"structured-data-blocks": "./packages/js/build/structured-data-blocks.js",
-	"term-edit": "./packages/js/build/term-edit.js",
-	"used-keywords-assessment": "./packages/js/build/used-keywords-assessment.js",
-	"react-select": "./packages/js/build/externals/react-select.js",
-	workouts: "./packages/js/build/workouts.js",
+/**
+ * Composes a list of entries based on the current NODE_ENV mode.
+ *
+ * @returns {object} A list of entries.
+ */
+const getEntries = () => {
+	const relevantDirectory = process.env.NODE_ENV === "production" ? "build" : "src";
+
+	const sourceDirectory = `./packages/js/${ relevantDirectory }`;
+
+	return {
+		"addon-installation": sourceDirectory + "/addon-installation.js",
+		"admin-global": sourceDirectory + "/admin-global.js",
+		"admin-modules": sourceDirectory + "/admin-modules.js",
+		"analysis-worker": sourceDirectory + "/analysis-worker.js",
+		"api-client": sourceDirectory + "/api-client.js",
+		"block-editor": sourceDirectory + "/block-editor.js",
+		"bulk-editor": sourceDirectory + "/bulk-editor.js",
+		"schema-blocks": sourceDirectory + "/schema-blocks.js",
+		"classic-editor": sourceDirectory + "/classic-editor.js",
+		"dashboard-widget": sourceDirectory + "/dashboard-widget.js",
+		"dynamic-blocks": sourceDirectory + "/dynamic-blocks.js",
+		"edit-page": sourceDirectory + "/edit-page.js",
+		"editor-modules": sourceDirectory + "/editor-modules.js",
+		elementor: sourceDirectory + "/elementor.js",
+		"externals-components": sourceDirectory + "/externals/components.js",
+		"externals-contexts": sourceDirectory + "/externals/contexts.js",
+		"externals-redux": sourceDirectory + "/externals/redux.js",
+		"filter-explanation": sourceDirectory + "/filter-explanation.js",
+		"help-scout-beacon": sourceDirectory + "/help-scout-beacon.js",
+		"import": sourceDirectory + "/import.js",
+		indexation: sourceDirectory + "/indexation.js",
+		"installation-success": sourceDirectory + "/installation-success.js",
+		"network-admin": sourceDirectory + "/network-admin.js",
+		"post-edit": sourceDirectory + "/post-edit.js",
+		"quick-edit-handler": sourceDirectory + "/quick-edit-handler.js",
+		"reindex-links": sourceDirectory + "/reindex-links.js",
+		settings: sourceDirectory + "/settings.js",
+		"structured-data-blocks": sourceDirectory + "/structured-data-blocks.js",
+		"term-edit": sourceDirectory + "/term-edit.js",
+		"used-keywords-assessment": sourceDirectory + "/used-keywords-assessment.js",
+		"react-select": sourceDirectory + "/externals/react-select.js",
+		workouts: sourceDirectory + "/workouts.js",
+	};
 };
 
 /**
@@ -57,10 +65,8 @@ function flattenVersionForFile( version ) {
 }
 
 module.exports = {
-	entry,
+	entry: getEntries(),
 	jsDist: jsDistPath,
-	jsSrc: jsSrcPath,
-	cssDist: cssDistPath,
 	select2: path.resolve( "node_modules", "select2", "dist" ),
 	flattenVersionForFile,
 };
