@@ -88,7 +88,7 @@ const createTagElement = ( tag ) => {
 /**
  * Creates all tag elements.
  *
- * @returns {HTMLDivElement} The parent element of the tags elements created.
+ * @returns {{tagsListElement: HTMLUListElement, parentTagElement: HTMLDivElement}} The tags elements created.
  */
 const createAllTagElements = () => {
 	const tag1 = createTagElement( "cat food" );
@@ -102,7 +102,7 @@ const createAllTagElements = () => {
 	parentTagElement.setAttribute( "id", "post_tag" );
 	parentTagElement.appendChild( tagsListElement );
 
-	return parentTagElement;
+	return { tagsListElement, parentTagElement };
 };
 
 /**
