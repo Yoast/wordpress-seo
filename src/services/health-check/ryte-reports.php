@@ -56,7 +56,6 @@ class Ryte_Reports {
 	 */
 	public function get_not_indexable_result() {
 		return $this->get_report_builder()
-			/* translators: %1$s expands to 'Yoast'. */
 			->set_label( __( 'Your site cannot be found by search engines', 'wordpress-seo' ) )
 			->set_status_critical()
 			->set_description( $this->get_not_indexable_result_description() )
