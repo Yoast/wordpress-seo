@@ -2,12 +2,10 @@
   "name": "@yoast/wordpress-seo",
   "version": "1.0.0",
   "license": "GPL-3.0",
+  "private": true,
   "scripts": {
     "test": "jest -u",
-    "lint": "eslint src tests --max-warnings=141",
-    "clean": "rm -rf build",
-    "build": "yarn clean && yarn build:js",
-    "build:js": "babel src --out-dir build"
+    "lint": "eslint src tests --max-warnings=141"
   },
   "dependencies": {
     "@draft-js-plugins/mention": "^5.0.0",

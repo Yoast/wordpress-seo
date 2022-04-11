@@ -86,10 +86,6 @@ module.exports = function( grunt ) {
 				failOnError: false,
 			},
 		},
-
-		"build-packages": {
-			command: "cd packages/js && yarn build",
-		},
 	};
 	/* eslint-enable require-jsdoc */
 };

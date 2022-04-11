@@ -3,5 +3,4 @@
 .idea
 # Dependencies
 node_modules
-# Artifacts
-build
+
