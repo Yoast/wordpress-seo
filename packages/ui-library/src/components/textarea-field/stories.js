@@ -4,7 +4,6 @@ export default {
 	title: "2. Components/Textarea Field",
 	component: TextareaField,
 	argTypes: {
-		label: { control: "text" },
 		description: { control: "text" },
 		error: { control: "text" },
 	},

@@ -8,7 +8,7 @@ import { useDescribedBy, useSvgAria } from "../../hooks";
 /**
  * @param {string} id The ID of the input.
  * @param {function} onChange The input change handler.
- * @param {JSX.node} [label] A label.
+ * @param {string} label The label.
  * @param {string} [className] The HTML class.
  * @param {JSX.node} [description] A description.
  * @param {JSX.node} [error] An error "message".
@@ -28,7 +28,7 @@ const TextareaField = ( {
 
 	return (
 		<div className={ classNames( "yst-textarea-field", className ) }>
-			{ label && <Label className="yst-textarea-field__label" htmlFor={ id }>{ label }</Label> }
+			<Label className="yst-textarea-field__label" htmlFor={ id } label={ label } />
 			<div className="yst-relative">
 				<Textarea
 					id={ id }
@@ -51,7 +51,7 @@ const TextareaField = ( {
 
 TextareaField.propTypes = {
 	id: PropTypes.string.isRequired,
-	label: PropTypes.node.isRequired,
+	label: PropTypes.string.isRequired,
 	className: PropTypes.string,
 	description: PropTypes.node,
 	error: PropTypes.node,
