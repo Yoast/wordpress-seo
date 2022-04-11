@@ -888,7 +888,7 @@ class WPSEO_Upgrade {
 
 		WPSEO_Options::set( 'other_social_urls', array_unique( array_filter( $other ) ) );
 	}
-	
+
 	/**
 	 * Performs the 18.6 upgrade routine.
 	 */

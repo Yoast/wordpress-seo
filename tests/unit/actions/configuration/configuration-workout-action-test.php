@@ -6,7 +6,7 @@ use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Actions\Configuration\Configuration_Workout_Action;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Integrations\Admin\Social_profiles_Helper;
+use Yoast\WP\SEO\Integrations\Admin\Social_Profiles_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -36,7 +36,7 @@ class Configuration_Workout_Action_Test extends TestCase {
 	/**
 	 * The social profiles helper.
 	 *
-	 * @var Mockery\MockInterface|Social_profiles_Helper
+	 * @var Mockery\MockInterface|Social_Profiles_Helper
 	 */
 	protected $social_profiles_helper;
 
@@ -47,7 +47,7 @@ class Configuration_Workout_Action_Test extends TestCase {
 		parent::set_up();
 
 		$this->options_helper         = Mockery::mock( Options_Helper::class );
-		$this->social_profiles_helper = Mockery::mock( Social_profiles_Helper::class );
+		$this->social_profiles_helper = Mockery::mock( Social_Profiles_Helper::class );
 
 		$this->instance = new Configuration_Workout_Action( $this->options_helper, $this->social_profiles_helper );
 	}
@@ -63,7 +63,7 @@ class Configuration_Workout_Action_Test extends TestCase {
 			$this->getPropertyValue( $this->instance, 'options_helper' )
 		);
 		$this->assertInstanceOf(
-			Social_profiles_Helper::class,
+			Social_Profiles_Helper::class,
 			$this->getPropertyValue( $this->instance, 'social_profiles_helper' )
 		);
 	}
