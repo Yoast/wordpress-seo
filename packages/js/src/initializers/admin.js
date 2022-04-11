@@ -404,7 +404,7 @@ export default function initAdmin( jQuery ) {
 		} );
 
 		// Handle the link in the first-time notice when in General page.
-		jQuery( "#yoast-first-time-configuration-notice a" ).on( "click", function(){
+		jQuery( "#yoast-first-time-configuration-notice a" ).on( "click", function() {
 			jQuery( "#first-time-configuration-tab" ).click();
 		} );
 
