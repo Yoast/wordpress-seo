@@ -4,36 +4,19 @@ const fs = require( "fs" );
 const path = require( "path" );
 const execSync = require( "child_process" ).execSync;
 
-const wrapInTryCatch = fn => {
-	try {
-		return fn();
-	} catch ( e ) {
-		console.error( e.toString() );
-	}
-};
+// Define build directory.
+const BUILD_DIR = path.join( __dirname, "../build/css" );
 
-const mergeStyles = ( scope, src, dest ) => fs.writeFileSync(
-	path.join( __dirname, dest + scope + ".css" ),
-	execSync( `cat ${ src }` ),
-);
+// Cleanup.
+fs.rmSync( BUILD_DIR, { recursive: true, force: true } );
 
-// Ensure dest directory.
-wrapInTryCatch( () => fs.mkdirSync( path.join( __dirname, "../build/css" ), { recursive: true } ) );
+// Ensure CSS build directory.
+fs.mkdirSync( BUILD_DIR, { recursive: true } );
 
-// All styles file content. Imports the base, the folders and tailwind.
-let styleFileContent = "@import \"./base.css\";\n";
-
-// Merge the CSS files for each folder.
-[ "elements", "components" ].forEach( folder => {
-	wrapInTryCatch( () => mergeStyles( folder, `src/${ folder }/**/*.css`, "../build/css/" ) );
-	// Add the file to the index.
-	styleFileContent += `@import "./${ folder }.css";\n`;
+// Merge all CSS files to single style.css file.
+[ "elements", "components" ].forEach( scope => {
+	fs.appendFileSync( `${ BUILD_DIR }/style.css`, execSync( `cat src/${ scope }/**/*.css` ) );
 } );
 
 // Copy the base CSS file.
-fs.copyFileSync( "src/base.css", path.join( __dirname, "../build/css/base.css" ) );
-
-// Add Tailwind imports to the index.
-styleFileContent += "\n@tailwind base;\n@tailwind components;\n@tailwind utilities;\n";
-// Write style.css file.
-wrapInTryCatch( () => fs.writeFileSync( path.join( __dirname, "../build/css/style.css" ), styleFileContent ) );
+fs.copyFileSync( "src/base.css", `${ BUILD_DIR }/base.css` );

@@ -77,6 +77,7 @@ class WPSEO_Upgrade {
 			'17.7.1-RC0' => 'upgrade_1771',
 			'17.9-RC0'   => 'upgrade_179',
 			'18.3-RC3'   => 'upgrade_183',
+			'18.6-RC0'   => 'upgrade_186',
 			'18.3-ftc'   => 'upgrade_first_time_configuration',
 		];
 
@@ -886,6 +887,15 @@ class WPSEO_Upgrade {
 		$other[] = WPSEO_Options::get( 'wikipedia_url' );
 
 		WPSEO_Options::set( 'other_social_urls', array_unique( array_filter( $other ) ) );
+	}
+	
+	/**
+	 * Performs the 18.6 upgrade routine.
+	 */
+	private function upgrade_186() {
+		if ( is_multisite() ) {
+			WPSEO_Options::set( 'allow_wincher_integration_active', false );
+		}
 	}
 
 	/**

@@ -24,6 +24,7 @@ const entry = {
 	"externals-contexts": "./packages/js/src/externals/contexts.js",
 	"externals-redux": "./packages/js/src/externals/redux.js",
 	"filter-explanation": "./packages/js/src/filter-explanation.js",
+	"first-time-configuration": "./packages/js/src/first-time-configuration.js",
 	"help-scout-beacon": "./packages/js/src/help-scout-beacon.js",
 	"import": "./packages/js/src/import.js",
 	indexation: "./packages/js/src/indexation.js",

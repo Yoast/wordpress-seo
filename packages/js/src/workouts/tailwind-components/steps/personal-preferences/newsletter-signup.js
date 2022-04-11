@@ -38,7 +38,7 @@ async function postSignUp( email ) {
 }
 
 const genericErrorFeedback = __( "Oops! Something went wrong. Check your email address and try again.", "wordpress-seo" );
-const invalidEmailFeedback = __( "That is not a valid email address. Check your email address and try again.", "wordpress-seo" );
+const invalidEmailFeedback = __( "Please enter a valid email address.", "wordpress-seo" );
 const subscribedFeedback = __( "Thank you! Check your inbox for the confirmation email.", "wordpress-seo" );
 
 /**
