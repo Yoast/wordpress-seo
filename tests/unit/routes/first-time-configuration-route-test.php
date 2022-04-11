@@ -270,6 +270,8 @@ class First_Time_Configuration_Route_Test extends TestCase {
 	/**
 	 * Tests the can_edit_user method.
 	 *
+	 * @param bool   $can_edit The result of the check_capability call.
+	 * @param object $expected The expected result object.
 	 * @covers ::can_edit_user
 	 *
 	 * @dataProvider can_edit_user_provider

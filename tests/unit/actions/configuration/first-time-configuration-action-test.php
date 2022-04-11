@@ -458,9 +458,9 @@ class First_Time_Configuration_Action_Test extends TestCase {
 	/**
 	 * Tests the check_capability method.
 	 *
-	 * @param int    $user_id the id of the user.
-	 * @param bool   $can_edit      The result of the current_user_can call.
-	 * @param object $expected              The expected result object.
+	 * @param int    $user_id  The id of the user.
+	 * @param bool   $can_edit The result of the current_user_can call.
+	 * @param object $expected The expected result object.
 	 *
 	 * @covers ::check_capability
 	 *
