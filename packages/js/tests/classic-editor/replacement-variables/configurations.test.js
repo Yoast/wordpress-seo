@@ -156,7 +156,7 @@ describe( "a test for getting the replacement of the custom taxonomies (CT) vari
 					name: "actor 2",
 				},
 			],
-			directors: [ "Steven Spielberg", "Spike Lee" ],
+			directors: [ "Spike Lee", "Steven Spielberg" ],
 		} );
 		jest.spyOn( data, "select" ).mockImplementation( () => {
 			return {
@@ -165,7 +165,7 @@ describe( "a test for getting the replacement of the custom taxonomies (CT) vari
 		} );
 
 		expect( getCTReplacement( names[ 0 ] ) ).toEqual( "actor 1, actor 2" );
-		expect( getCTReplacement( names[ 1 ] ) ).toEqual( "Steven Spielberg, Spike Lee" );
+		expect( getCTReplacement( names[ 1 ] ) ).toEqual( "Spike Lee, Steven Spielberg" );
 	} );
 
 	it( "should return an empty string as the replacement for both hierarchical and non-hirarchical CT variable when the store " +

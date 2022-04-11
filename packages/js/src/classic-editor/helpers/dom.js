@@ -1,7 +1,8 @@
 /* global moment */
-import { flow, get, isEqual, set, map } from "lodash";
+import { flow, get, isEqual, set, map, sortBy } from "lodash";
 import { getContentTinyMce } from "../../lib/tinymce";
 import getContentLocale from "../../analysis/getContentLocale";
+import { getValuesFromCheckboxes } from "../../helpers/getValuesFromCheckboxes";
 
 export const DOM_IDS = {
 	// Post editor.
@@ -209,25 +210,6 @@ export const getPostMostUsedCategoryCheckboxes = () => {
 };
 
 /**
- * Maps over a list of checked checkboxes elements and returns the value and the text content.
- *
- * @param {Array} checkedCheckboxes The array of checked checkboxes to map.
- *
- * @returns {Object[]} An array containing objects with the checked checkboxes value and text content.
- */
-const getValuesFromCheckboxes = ( checkedCheckboxes ) => {
-	return checkedCheckboxes.map( checkbox => (
-		{
-			id: checkbox.value,
-			name: [ ...checkbox.parentElement.childNodes ]
-				.filter( node => node.nodeType === Node.TEXT_NODE )
-				.map( node => node.textContent )[ 0 ]
-				?.trim(),
-		}
-	) );
-};
-
-/**
  * Gets the current post's categories from the document.
  *
  * @returns {{name: string, id: string}[]} The post's categories.
@@ -257,7 +239,9 @@ export const getPostTags = ( termID = "post_tag" ) => {
 		// Each tag is a <li> element containing a button and two text elements. The second text element contains the name of the tag.
 		const tagsList = [ ...tagChecklistElement[ 0 ].childNodes ];
 		// Get the names of the tags.
-		return tagsList.map( tag => [ ...tag.childNodes ][ 2 ].textContent );
+		const tagsNames = tagsList.map( tag => [ ...tag.childNodes ][ 2 ].textContent );
+		// Returns the array sorted alphabetically.
+		return sortBy( tagsNames, name => name.toLowerCase() );
 	}
 
 	return [];
