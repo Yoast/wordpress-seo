@@ -13,9 +13,9 @@ export const defaultTwitterState = {
 				title: "",
 				description: "",
 				image: {},
-			}
-		}
-	}
+			},
+		},
+	},
 };
 
 const twitterSlice = createSlice( {
