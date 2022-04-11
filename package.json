@@ -35,7 +35,6 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@babel/plugin-transform-runtime": "^7.13.10",
     "@lodder/grunt-postcss": "^3.1.1",
     "@slack/webhook": "^5.0.2",
     "@typescript-eslint/eslint-plugin": "^4.24.0",
@@ -43,6 +42,7 @@
     "@wordpress/dependency-extraction-webpack-plugin": "^3.1.0",
     "@wordpress/scripts": "^14.1.1",
     "@yoast/browserslist-config": "file:packages/browserslist-config",
+    "@yoast/babel-preset": "^1.0.0",
     "@yoast/grunt-plugin-tasks": "^2.3",
     "babel-plugin-dynamic-import-webpack": "^1.1.0",
     "colors": "1.4.0",
