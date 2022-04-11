@@ -130,7 +130,7 @@ class Person extends Abstract_Schema_Piece {
 	 *
 	 * @return array An array of Schema Person data.
 	 */
-	protected function build_person_data( $user_id ) {
+	protected function build_person_data( $user_id, $add_hash = false ) {
 		$user_data = \get_userdata( $user_id );
 		$data      = [
 			'@type' => $this->type,
@@ -143,7 +143,7 @@ class Person extends Abstract_Schema_Piece {
 		}
 
 		$data['name'] = $this->helpers->schema->html->smart_strip_tags( $user_data->display_name );
-		$data         = $this->add_image( $data, $user_data );
+		$data         = $this->add_image( $data, $user_data, $add_hash );
 
 		if ( ! empty( $user_data->description ) ) {
 			$data['description'] = $this->helpers->schema->html->smart_strip_tags( $user_data->description );
@@ -170,16 +170,17 @@ class Person extends Abstract_Schema_Piece {
 	 *
 	 * @return array The Person schema.
 	 */
-	protected function add_image( $data, $user_data ) {
+	protected function add_image( $data, $user_data, $add_hash = false ) {
 		$schema_id = $this->context->site_url . Schema_IDs::PERSON_LOGO_HASH;
 
-		$data = $this->set_image_from_options( $data, $schema_id );
+		$data = $this->set_image_from_options( $data, $schema_id, $add_hash );
 		if ( ! isset( $data['image'] ) ) {
-			$data = $this->set_image_from_avatar( $data, $user_data, $schema_id );
+			$data = $this->set_image_from_avatar( $data, $user_data, $schema_id, $add_hash );
 		}
 
 		if ( \is_array( $this->type ) && \in_array( 'Organization', $this->type, true ) ) {
-			$data['logo'] = [ '@id' => $schema_id ];
+			$data_logo    = isset( $data['image']['@id'] ) ? $data['image']['@id'] : $schema_id;
+			$data['logo'] = [ '@id' => $data_logo ];
 		}
 
 		return $data;
@@ -193,12 +194,12 @@ class Person extends Abstract_Schema_Piece {
 	 *
 	 * @return array The Person schema.
 	 */
-	protected function set_image_from_options( $data, $schema_id ) {
+	protected function set_image_from_options( $data, $schema_id, $add_hash = false ) {
 		if ( $this->context->site_represents !== 'person' ) {
 			return $data;
 		}
 		if ( \is_array( $this->context->person_logo_meta ) ) {
-			$data['image'] = $this->helpers->schema->image->generate_from_attachment_meta( $schema_id, $this->context->person_logo_meta, $data['name'] );
+			$data['image'] = $this->helpers->schema->image->generate_from_attachment_meta( $schema_id, $this->context->person_logo_meta, $data['name'], $add_hash );
 		}
 
 		return $data;
@@ -213,7 +214,7 @@ class Person extends Abstract_Schema_Piece {
 	 *
 	 * @return array The Person schema.
 	 */
-	protected function set_image_from_avatar( $data, $user_data, $schema_id ) {
+	protected function set_image_from_avatar( $data, $user_data, $schema_id, $add_hash = false ) {
 		// If we don't have an image in our settings, fall back to an avatar, if we're allowed to.
 		$show_avatars = \get_option( 'show_avatars' );
 		if ( ! $show_avatars ) {
@@ -225,7 +226,7 @@ class Person extends Abstract_Schema_Piece {
 			return $data;
 		}
 
-		$data['image'] = $this->helpers->schema->image->simple_image_object( $schema_id, $url, $user_data->display_name );
+		$data['image'] = $this->helpers->schema->image->simple_image_object( $schema_id, $url, $user_data->display_name, $add_hash );
 
 		return $data;
 	}

@@ -103,9 +103,9 @@ class Author extends Person {
 	 *
 	 * @return array The Person schema.
 	 */
-	protected function set_image_from_options( $data, $schema_id ) {
+	protected function set_image_from_options( $data, $schema_id, $add_hash = false ) {
 		if ( $this->site_represents_current_author() ) {
-			return parent::set_image_from_options( $data, $schema_id );
+			return parent::set_image_from_options( $data, $schema_id, $add_hash );
 		}
 
 		return $data;
