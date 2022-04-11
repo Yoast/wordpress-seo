@@ -1,6 +1,5 @@
 const { createSlice } = require( "@reduxjs/toolkit" );
 import { get } from "lodash";
-import { reducers, selectors, actions } from "@yoast/externals/redux";
 
 /**
  * Sets the default state.
@@ -13,13 +12,7 @@ export const defaultTwitterState = {
 			twitter: {
 				title: "",
 				description: "",
-				image: {
-					id: "",
-					url: "",
-					width: "",
-					height: "",
-					alt: "",
-				}
+				image: {},
 			}
 		}
 	}
@@ -40,6 +33,13 @@ const twitterSlice = createSlice( {
 		},
 	},
 } );
+
+export const twitterSelectors = {
+	selectTwitter: ( state ) => get( state, "form.social.twitter" ),
+	selectTwitterTitle: ( state ) => get( state, "form.social.twitter.title" ),
+	selectTwitterDescription: ( state ) => get( state, "form.social.twitter.description" ),
+	selectTwitterImage: ( state ) => get( state, "form.social.twitter.image" ),
+};
 
 export const twitterActions = twitterSlice.actions;
 
