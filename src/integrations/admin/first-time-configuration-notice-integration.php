@@ -123,7 +123,7 @@ class First_Time_Configuration_Notice_Integration implements Integration_Interfa
 			\__( 'First-time SEO configuration', 'wordpress-seo' ),
 			\sprintf(
 			/* translators: 1: Link start tag to the configuration workout, 2: Yoast SEO, 3: Link closing tag. */
-				\__( 'Get started quickly with the %1$s%2$s First-time Configuration%3$s and configure Yoast SEO with the optimal SEO settings for your site!', 'wordpress-seo' ),
+				\__( 'Get started quickly with the %1$s%2$s First-time configuration%3$s and configure Yoast SEO with the optimal SEO settings for your site!', 'wordpress-seo' ),
 				'<a href="' . \esc_url( \self_admin_url( 'admin.php?page=wpseo_dashboard#top#first-time-configuration' ) ) . '">',
 				'Yoast SEO',
 				'</a>'
