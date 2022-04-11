@@ -143,7 +143,7 @@ class Social_Profiles_Helper {
 		}
 
 		// All social profiles look good, now let's try to save them.
-		foreach ( array_keys( $this->organization_social_profile_fields ) as $field_name ) {
+		foreach ( \array_keys( $this->organization_social_profile_fields ) as $field_name ) {
 			if ( empty( $social_profiles[ $field_name ] ) ) {
 				continue;
 			}
