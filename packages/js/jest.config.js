@@ -2,7 +2,6 @@ module.exports = {
 	preset: "@yoast/jest-preset",
 	setupFilesAfterEnv: [ "<rootDir>/tests/setupTests.js" ],
 	testPathIgnorePatterns: [
-		"/tests/edit.test.js",
 		"/tests/__mocks__/",
 		"/tests/containers/mockSelectors.js",
 		"/tests/helpers/factory.js",
