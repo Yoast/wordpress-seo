@@ -44,7 +44,7 @@ jest.mock( "../../src/classic-editor/helpers/dom", () => ( {
 					name: "actor 2",
 				},
 			],
-			directors: [ "Steven Spielberg", "Spike Lee" ],
+			directors: [ "Spike Lee", "Steven Spielberg" ],
 		};
 	} ),
 } ) );
@@ -85,7 +85,7 @@ describe( "a test for getting the initial state of a post or a term", () => {
 				name: "actor 2",
 			},
 		] );
-		expect( actual.editor.taxonomies.customTaxonomies.directors ).toEqual( [ "Steven Spielberg", "Spike Lee" ] );
+		expect( actual.editor.taxonomies.customTaxonomies.directors ).toEqual( [ "Spike Lee", "Steven Spielberg" ] );
 	} );
 
 	it( "returns the initial state of a term", () => {
