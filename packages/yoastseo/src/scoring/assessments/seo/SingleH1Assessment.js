@@ -13,7 +13,7 @@ import Mark from "../../../values/Mark.js";
  * Assessment to check whether the body of the text contains more than 1 H1s in the body.
  * This assessment doesn't penalize H1 that is not in the very beginning of the body.
  */
-class singleH1Assessment extends Assessment {
+class SingleH1Assessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
@@ -115,4 +115,4 @@ class singleH1Assessment extends Assessment {
 	}
 }
 
-export default singleH1Assessment;
+export default SingleH1Assessment;
