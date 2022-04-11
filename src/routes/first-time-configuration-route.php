@@ -365,7 +365,8 @@ class First_Time_Configuration_Route implements Route_Interface {
 	 * @return bool
 	 */
 	public function can_edit_user( WP_REST_Request $request ) {
-		return $this->first_time_configuration_action->check_capability( $request->get_param( 'user_id' ) );
+		$response = $this->first_time_configuration_action->check_capability( $request->get_param( 'user_id' ) );
+		return $response->success;
 	}
 
 	/**
