@@ -15,7 +15,7 @@ import { useStepperContext } from "./Stepper";
  *
  * @returns {string} The classnames for the step name.
  */
-function getNameClassnames( isFinished, isActiveStep, isLastStep ) {
+function getNameClassNames( isFinished, isActiveStep, isLastStep ) {
 	if ( isActiveStep && ! isLastStep ) {
 		return "yst-text-primary-500";
 	}
@@ -41,18 +41,18 @@ export default function StepHeader( { name, description, isFinished, children } 
 	const { stepIndex, activeStepIndex, lastStepIndex } = useStepperContext();
 	const isActiveStep = activeStepIndex === stepIndex;
 	const isLastStep = lastStepIndex === stepIndex;
-	const [ nameClassNames, setNameClassNames ] = useState( getNameClassnames( isFinished, isActiveStep, isLastStep ) );
+	const [ nameClassNames, setNameClassNames ] = useState( getNameClassNames( isFinished, isActiveStep, isLastStep ) );
 
 	/**
 	 * Delay calculating new styles for the name classnames if a step changes to isActiveStep === true.
 	 */
 	useEffect( () => {
 		if ( isActiveStep ) {
-			setTimeout( () => setNameClassNames( getNameClassnames( isFinished, isActiveStep, isLastStep ) ), stepperTimings.delayBeforeOpening );
+			setTimeout( () => setNameClassNames( getNameClassNames( isFinished, isActiveStep, isLastStep ) ), stepperTimings.delayBeforeOpening );
 		} else {
-			setNameClassNames( getNameClassnames( isFinished, isActiveStep, isLastStep ) );
+			setNameClassNames( getNameClassNames( isFinished, isActiveStep, isLastStep ) );
 		}
-	}, [ isActiveStep, isFinished, isLastStep ] );
+	}, [ isActiveStep, isFinished, isLastStep, getNameClassNames ] );
 
 	return <div className="yst-relative yst-flex yst-items-center yst-group" aria-current={ isActiveStep ? "step" : null }>
 		<span className="yst-flex yst-items-center" aria-hidden={ isActiveStep ? "true" : null }>
