@@ -162,22 +162,10 @@ class WPSEO_Option_Social extends WPSEO_Option {
 				/* Twitter user name. */
 				case 'twitter_site':
 					if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
-						$twitter_id = sanitize_text_field( ltrim( $dirty[ $key ], '@' ) );
+						$twitter_id = $this->validate_twitter_id( $dirty[ $key ] );
 
-						/*
-						 * From the Twitter documentation about twitter screen names:
-						 * Typically a maximum of 15 characters long, but some historical accounts
-						 * may exist with longer names.
-						 * A username can only contain alphanumeric characters (letters A-Z, numbers 0-9)
-						 * with the exception of underscores.
-						 *
-						 * @link https://support.twitter.com/articles/101299-why-can-t-i-register-certain-usernames
-						 */
-						if ( preg_match( '`^[A-Za-z0-9_]{1,25}$`', $twitter_id ) ) {
+						if ( $twitter_id ) {
 							$clean[ $key ] = $twitter_id;
-						}
-						elseif ( preg_match( '`^http(?:s)?://(?:www\.)?twitter\.com/(?P<handle>[A-Za-z0-9_]{1,25})/?$`', $twitter_id, $matches ) ) {
-							$clean[ $key ] = $matches['handle'];
 						}
 						else {
 							if ( isset( $old[ $key ] ) && $old[ $key ] !== '' ) {
@@ -219,8 +207,6 @@ class WPSEO_Option_Social extends WPSEO_Option {
 
 				/* Array fields. */
 				case 'other_social_urls':
-					$clean[ $key ] = $old[ $key ];
-
 					if ( isset( $dirty[ $key ] ) ) {
 						$items = $dirty[ $key ];
 						if ( ! is_array( $items ) ) {
@@ -228,7 +214,29 @@ class WPSEO_Option_Social extends WPSEO_Option {
 						}
 
 						if ( is_array( $items ) ) {
-							$clean[ $key ] = $dirty[ $key ];
+							foreach ( $items as $item_key => $item ) {
+								$validated_url = $this->validate_social_url( $item );
+
+								if ( $validated_url === false ) {
+									// Restore the previous URL values, if any.
+									$old_urls = ( isset( $old[ $key ] ) ) ? $old[ $key ] : [];
+									foreach ( $old_urls as $old_item_key => $old_url ) {
+										if ( $old_url !== '' ) {
+											$url = WPSEO_Utils::sanitize_url( $old_url );
+											if ( $url !== '' ) {
+												$clean[ $key ][ $old_item_key ] = $url;
+											}
+										}
+									}
+									break;
+								}
+
+								// The URL format is valid, let's sanitize it.
+								$url = WPSEO_Utils::sanitize_url( $validated_url );
+								if ( $url !== '' ) {
+									$clean[ $key ][ $item_key ] = $url;
+								}
+							}
 						}
 					}
 
@@ -237,6 +245,51 @@ class WPSEO_Option_Social extends WPSEO_Option {
 		}
 
 		return $clean;
+	}
+
+	/**
+	 * Validates a social URL.
+	 *
+	 * @param string $url The url to be validated.
+	 *
+	 * @return string|false The validated URL or false if the URL is not valid.
+	 */
+	public function validate_social_url( $url ) {
+		$submitted_url = trim( htmlspecialchars( $url, ENT_COMPAT, get_bloginfo( 'charset' ), true ) );
+		$validated_url = filter_var( WPSEO_Utils::sanitize_url( $submitted_url ), FILTER_VALIDATE_URL );
+
+		return $validated_url;
+	}
+
+	/**
+	 * Validates a twitter id.
+	 *
+	 * @param string $twitter_id    The twitter id to be validated.
+	 * @param bool   $strip_at_sign Whether or not to strip the `@` sign.
+	 *
+	 * @return string|false The validated twitter id or false if it is not valid.
+	 */
+	public function validate_twitter_id( $twitter_id, $strip_at_sign = true ) {
+		$twitter_id = ( $strip_at_sign ) ? sanitize_text_field( ltrim( $twitter_id, '@' ) ) : sanitize_text_field( $twitter_id );
+
+		/*
+		 * From the Twitter documentation about twitter screen names:
+		 * Typically a maximum of 15 characters long, but some historical accounts
+		 * may exist with longer names.
+		 * A username can only contain alphanumeric characters (letters A-Z, numbers 0-9)
+		 * with the exception of underscores.
+		 *
+		 * @link https://support.twitter.com/articles/101299-why-can-t-i-register-certain-usernames
+		 */
+		if ( preg_match( '`^[A-Za-z0-9_]{1,25}$`', $twitter_id ) ) {
+			return $twitter_id;
+		}
+
+		if ( preg_match( '`^http(?:s)?://(?:www\.)?twitter\.com/(?P<handle>[A-Za-z0-9_]{1,25})/?$`', $twitter_id, $matches ) ) {
+			return $matches['handle'];
+		}
+
+		return false;
 	}
 
 	/**

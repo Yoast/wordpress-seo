@@ -25,15 +25,6 @@ class Configuration_Workout_Action {
 	];
 
 	/**
-	 * The fields for the social profiles payload.
-	 */
-	const SOCIAL_PROFILES_FIELDS = [
-		'facebook_site',
-		'twitter_site',
-		'other_social_urls',
-	];
-
-	/**
 	 * The Options_Helper instance.
 	 *
 	 * @var Options_Helper
@@ -107,35 +98,15 @@ class Configuration_Workout_Action {
 	 * @return object The response object.
 	 */
 	public function set_social_profiles( $params ) {
-		$failures = [];
+		$failures = $this->social_profiles_helper->set_organization_social_profiles( $params );
 
-		foreach ( self::SOCIAL_PROFILES_FIELDS as $field_name ) {
-			if ( isset( $params[ $field_name ] ) ) {
-				$result = $this->options_helper->set( $field_name, $params[ $field_name ] );
-				if ( ! $result ) {
-					/**
-					 * The value for Twitter might have been sanitised from URL to username.
-					 * If so, $result will be false. We should check if the option value is part of the received value.
-					 */
-					if ( $field_name === 'twitter_site' ) {
-						$current_option = $this->options_helper->get( $field_name );
-						if ( ! \strpos( $params[ $field_name ], 'twitter.com/' . $current_option ) ) {
-							$failures[] = $field_name;
-						}
-					}
-					else {
-						$failures[] = $field_name;
-					}
-				}
-			}
-		}
-
-		if ( \count( $failures ) === 0 ) {
+		if ( empty( $failures ) ) {
 			return (object) [
 				'success' => true,
 				'status'  => 200,
 			];
 		}
+
 		return (object) [
 			'success'  => false,
 			'status'   => 500,

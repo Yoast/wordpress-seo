@@ -77,8 +77,8 @@ export default function SocialInputSection( { socialProfiles, errorFields, dispa
 				onAddProfile={ onAddProfileHandler }
 				onRemoveProfile={ onRemoveProfileHandler }
 				onChangeProfile={ onChangeOthersHandler }
-				fieldType={ SocialInput }
 				errorFields={ errorFields }
+				fieldType={ SocialInput }
 			/>
 		</div>
 	);
