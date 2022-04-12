@@ -175,7 +175,7 @@ abstract class Abstract_Options_Service {
 			static function ( $key ) use ( $keys ) {
 				return \in_array( $key, $keys, true );
 			},
-			ARRAY_FILTER_USE_KEY
+			\ARRAY_FILTER_USE_KEY
 		);
 	}
 

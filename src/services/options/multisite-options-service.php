@@ -22,11 +22,21 @@ class Multisite_Options_Service extends Abstract_Options_Service {
 	 * @var array[string]
 	 */
 	protected $configurations = [
-		'access' => [
-			'default'    => 0,
-			'sanitizer'  => 'array',
-			'validator'  => null,
+		'access'       => [
+			'default'    => 'admin',
+			'types'      => [
+				'in_array' => [
+					'allow' => [
+						'admin',
+						'superadmin',
+					],
+				],
+			],
 			'ms_exclude' => false,
+		],
+		'default_blog' => [
+			'default' => '',
+			'types'   => [ 'empty_string' ],
 		],
 	];
 
