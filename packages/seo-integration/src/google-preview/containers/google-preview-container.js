@@ -1,7 +1,7 @@
 import { useDispatch, useSelect } from "@wordpress/data";
-import { useCallback, useMemo, useRef, useState } from "@wordpress/element";
+import { useCallback, useMemo, useState } from "@wordpress/element";
 import { SEO_STORE_NAME } from "@yoast/seo-store";
-import { filter, get, map } from "lodash";
+import { get } from "lodash";
 import { PropTypes } from "prop-types";
 import { useReplacementVariables } from "../../hooks/useReplacementVariables";
 
