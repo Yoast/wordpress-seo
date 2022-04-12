@@ -109,15 +109,16 @@ export function StepCircle( { activationDelay, deactivationDelay, isFinished } )
 
 	useEffect( () => {
 		if ( isActive ) {
-			setTimeout( () => {
+			const delayedActiveCircle = setTimeout( () => {
 				setCircleActive( true );
 			}, activationDelay );
-			return;
+			return () => clearTimeout( delayedActiveCircle );
 		}
 		// Set activation delay on the inactive class.
-		setTimeout( () => {
+		const delayedInactiveCircle = setTimeout( () => {
 			setCircleActive( false );
 		}, deactivationDelay );
+		return () => clearTimeout( delayedInactiveCircle );
 	}, [ isActive, isLastStep, activationDelay, deactivationDelay ] );
 
 	return <span
