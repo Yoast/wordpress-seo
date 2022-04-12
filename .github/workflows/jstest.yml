@@ -44,6 +44,9 @@ jobs:
           - 'social-metadata-forms'
           - 'social-metadata-previews'
           - 'yoast-components'
+          - 'replacement-variables'
+          - 'seo-integration'
+          - 'seo-store'
 
     name: "TestJS - ${{ matrix.package }} (full)"
 
