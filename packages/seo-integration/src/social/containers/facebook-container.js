@@ -29,13 +29,11 @@ const FacebookEditorContainer = ( { as: Component, ...restProps } ) => {
 		descriptionInputPlaceholder={ descriptionInputPlaceholder }
 		socialMediumName={ socialMediumName }
 		{ ...restProps }
-	/>
-}
+	/>;
+};
 
 FacebookEditorContainer.propTypes = {
 	as: PropTypes.elementType.isRequired,
 };
-
-// FacebookEditorContainer.defaultProps = {};
 
 export default FacebookEditorContainer;
