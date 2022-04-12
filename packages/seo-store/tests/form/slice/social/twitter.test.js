@@ -6,15 +6,9 @@ describe( "a test for twitter slice", () => {
 	const previousState = undefined;
 
 	const initialState = {
-		form: {
-			social: {
-				twitter: {
-					title: "",
-					description: "",
-					image: {},
-				}
-			}
-		}
+		title: "",
+		description: "",
+		image: {},
 	};
 
 	describe( "a test for twitter reducer", () => {

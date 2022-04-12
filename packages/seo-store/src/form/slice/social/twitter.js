@@ -7,15 +7,9 @@ import { get } from "lodash";
  * @param {Object} props The properties to use.
  */
 export const defaultTwitterState = {
-	form: {
-		social: {
-			twitter: {
-				title: "",
-				description: "",
-				image: {},
-			},
-		},
-	},
+	title: "",
+	description: "",
+	image: {},
 };
 
 const twitterSlice = createSlice( {
