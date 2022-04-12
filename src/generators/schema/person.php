@@ -126,7 +126,8 @@ class Person extends Abstract_Schema_Piece {
 	/**
 	 * Builds our array of Schema Person data for a given user ID.
 	 *
-	 * @param int $user_id The user ID to use.
+	 * @param int  $user_id  The user ID to use.
+	 * @param bool $add_hash Wether or not the person's image url hash should be added to the image id.
 	 *
 	 * @return array An array of Schema Person data.
 	 */
@@ -167,6 +168,7 @@ class Person extends Abstract_Schema_Piece {
 	 *
 	 * @param array   $data      The Person schema.
 	 * @param WP_User $user_data User data.
+	 * @param bool    $add_hash  Wether or not the person's image url hash should be added to the image id.
 	 *
 	 * @return array The Person schema.
 	 */
@@ -191,10 +193,11 @@ class Person extends Abstract_Schema_Piece {
 	 *
 	 * @param array  $data      The Person schema.
 	 * @param string $schema_id The string used in the `@id` for the schema.
+	 * @param bool   $add_hash  Wether or not the person's image url hash should be added to the image id.
 	 *
 	 * @return array The Person schema.
 	 */
-	protected function set_image_from_options( $data, $schema_id, $add_hash = false, $user_data = null ) {
+	protected function set_image_from_options( $data, $schema_id, $add_hash = false ) {
 		if ( $this->context->site_represents !== 'person' ) {
 			return $data;
 		}
@@ -211,6 +214,7 @@ class Person extends Abstract_Schema_Piece {
 	 * @param array   $data      The Person schema.
 	 * @param WP_User $user_data User data.
 	 * @param string  $schema_id The string used in the `@id` for the schema.
+	 * @param bool    $add_hash  Wether or not the person's image url hash should be added to the image id.
 	 *
 	 * @return array The Person schema.
 	 */
@@ -252,6 +256,8 @@ class Person extends Abstract_Schema_Piece {
 	/**
 	 * Checks the site is represented by the same person as this indexable.
 	 *
+	 * @param WP_User $user_data User data.
+	 *
 	 * @return bool True when the site is represented by the same person as this indexable.
 	 */
 	protected function site_represents_current_author( $user_data = null ) {
@@ -266,7 +272,7 @@ class Person extends Abstract_Schema_Piece {
 			&& $this->helpers->schema->article->is_author_supported( $this->context->indexable->object_sub_type )
 			&& $this->context->schema_article_type !== 'None'
 		) {
-			$user_id = ( ! is_null( $user_data ) ) ? $user_data->ID : $this->context->indexable->author_id;
+			$user_id = ( ( ! is_null( $user_data ) ) && ( isset( $user_data->ID ) ) ) ? $user_data->ID : $this->context->indexable->author_id;
 
 			return $this->context->site_user_id === $user_id;
 		}
