@@ -53,14 +53,24 @@ class CoAuthors_Plus implements Integration_Interface {
 	/**
 	 * Filters the graph output to add authors.
 	 *
-	 * @param array             $data    The schema graph.
-	 * @param Meta_Tags_Context $context Context object.
+	 * @param array                   $data                   The schema graph.
+	 * @param Meta_Tags_Context       $context                The context object.
+	 * @param Abstract_Schema_Piece   $graph_piece_generator  The graph piece generator.
+	 * @param Abstract_Schema_Piece[] $graph_piece_generators The graph piece generators.
 	 *
 	 * @return array The (potentially altered) schema graph.
 	 */
 	public function filter_author_graph( $data, $context, $graph_piece_generator, $graph_piece_generators ) {
-		if ( isset( $data['image']['url'] ) && isset( $data['image']['@id'] ) ) {
+		if ( ! isset( $data['image']['url'] ) ) {
+			return $data;
+		}
+
+		if ( isset( $data['image']['@id'] ) ) {
 			$data['image']['@id'] .= md5( $data['image']['url'] );
+		}
+
+		if ( isset( $data['logo']['@id'] ) ) {
+			$data['logo']['@id'] .= md5( $data['image']['url'] );
 		}
 
 		return $data;
