@@ -3,6 +3,14 @@ import { SEO_STORE_NAME } from "@yoast/seo-store";
 import { PropTypes } from "prop-types";
 import { useReplacementVariables } from "../../hooks/useReplacementVariables";
 
+/**
+ * Handles known data for a Facebook editor component.
+ *
+ * @param {JSX.Element} as A Facebook editor component.
+ * @param {Object} restProps Props to pass to the Facebook editor component, that are unhandled by this container.
+ *
+ * @returns {JSX.Element} A wrapped Facebook editor component.
+ */
 const FacebookEditorContainer = ( { as: Component, ...restProps } ) => {
 	const title = useSelect( select => select( SEO_STORE_NAME ).selectFacebookTitle() );
 	const description = useSelect( select => select( SEO_STORE_NAME ).selectFacebookDescription() );
