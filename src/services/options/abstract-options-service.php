@@ -2,6 +2,8 @@
 
 namespace Yoast\WP\SEO\Services\Options;
 
+use Yoast\WP\SEO\Exceptions\Option\Delete_Failed_Exception;
+use Yoast\WP\SEO\Exceptions\Option\Save_Failed_Exception;
 use Yoast\WP\SEO\Exceptions\Option\Unknown_Exception;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
@@ -108,7 +110,7 @@ abstract class Abstract_Options_Service {
 			return $this->get_values()[ $key ];
 		}
 
-		throw new Unknown_Exception( $key );
+		throw Unknown_Exception::for_option( $key );
 	}
 
 	/*
@@ -128,15 +130,16 @@ abstract class Abstract_Options_Service {
 	 *
 	 * @throws Unknown_Exception When the option does not exist.
 	 * @throws \Yoast\WP\SEO\Exceptions\Validation\Abstract_Validation_Exception When the value is invalid.
+	 * @throws Save_Failed_Exception When the save failed.
 	 */
 	public function __set( $key, $value ) {
 		if ( ! \array_key_exists( $key, $this->get_configurations() ) ) {
-			throw new Unknown_Exception( $key );
+			throw Unknown_Exception::for_option( $key );
 		}
 
 		// Presuming the default is safe.
 		if ( $value === $this->get_configurations()[ $key ]['default'] ) {
-			$this->set_option( $key, $value );
+			$this->update_option( $key, $value );
 
 			return;
 		}
@@ -148,7 +151,7 @@ abstract class Abstract_Options_Service {
 		// Validate, this can throw a Validation_Exception.
 		$value = $this->validation_helper->validate_as( $value, $this->get_configurations()[ $key ]['types'] );
 
-		$this->set_option( $key, $value );
+		$this->update_option( $key, $value );
 	}
 
 	// phpcs:enable Squiz.Commenting.FunctionCommentThrowTag.WrongNumber
@@ -179,21 +182,27 @@ abstract class Abstract_Options_Service {
 	/**
 	 * Saves the options if the database row does not exist.
 	 *
+	 * @throws Save_Failed_Exception When the save failed.
+	 *
 	 * @return void
 	 */
 	public function ensure_options() {
 		if ( ! \get_option( $this->option_name ) ) {
-			\update_option( $this->option_name, $this->get_values() );
+			$this->update_options( $this->get_values() );
 		}
 	}
 
 	/**
 	 * Saves the options with their default values.
 	 *
+	 * @throws Delete_Failed_Exception When the deletion failed.
+	 * @throws Save_Failed_Exception When the save failed.
+	 *
 	 * @return void
 	 */
 	public function reset_options() {
-		\update_option( $this->option_name, $this->get_defaults() );
+		$this->delete_options();
+		$this->update_options( $this->get_defaults() );
 	}
 
 	/**
@@ -223,7 +232,7 @@ abstract class Abstract_Options_Service {
 	 */
 	public function get_default( $key ) {
 		if ( ! \array_key_exists( $key, $this->get_defaults() ) ) {
-			throw new Unknown_Exception( $key );
+			throw Unknown_Exception::for_option( $key );
 		}
 
 		return $this->get_defaults()[ $key ];
@@ -302,14 +311,16 @@ abstract class Abstract_Options_Service {
 	}
 
 	/**
-	 * Sets an option value, without checks.
+	 * Updates an option.
 	 *
 	 * @param string $key   The option key.
 	 * @param mixed  $value The option value.
 	 *
+	 * @throws Save_Failed_Exception When the save failed.
+	 *
 	 * @return void
 	 */
-	protected function set_option( $key, $value ) {
+	protected function update_option( $key, $value ) {
 		// Ensure the cache is filled.
 		if ( $this->cached_values === null ) {
 			$this->get_values();
@@ -323,7 +334,35 @@ abstract class Abstract_Options_Service {
 		// Update the cache.
 		$this->cached_values[ $key ] = $value;
 		// Save to the database.
-		\update_option( $this->option_name, $this->cached_values );
+		$this->update_options( $this->cached_values );
+	}
+
+	/**
+	 * Updates the options.
+	 *
+	 * @param array $values The option values.
+	 *
+	 * @throws Save_Failed_Exception When the save failed.
+	 *
+	 * @return void
+	 */
+	protected function update_options( $values ) {
+		if ( ! \update_option( $this->option_name, $values ) ) {
+			throw Save_Failed_Exception::for_option( $this->option_name );
+		}
+	}
+
+	/**
+	 * Deletes the options.
+	 *
+	 * @throws Delete_Failed_Exception When the deletion failed.
+	 *
+	 * @return void
+	 */
+	protected function delete_options() {
+		if ( ! \delete_option( $this->option_name ) ) {
+			throw Delete_Failed_Exception::for_option( $this->option_name );
+		}
 	}
 
 	/**

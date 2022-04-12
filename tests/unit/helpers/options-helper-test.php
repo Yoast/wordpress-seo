@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Helpers;
 
 use Brain\Monkey;
 use Mockery;
+use Yoast\WP\SEO\Exceptions\Option\Save_Failed_Exception;
 use Yoast\WP\SEO\Exceptions\Option\Unknown_Exception;
 use Yoast\WP\SEO\Exceptions\Validation\Invalid_Twitter_Username_Exception;
 use Yoast\WP\SEO\Helpers\Options_Helper;
@@ -145,7 +146,7 @@ class Options_Helper_Test extends TestCase {
 				]
 			);
 
-		Monkey\Functions\expect( 'update_option' )->once();
+		Monkey\Functions\expect( 'update_option' )->once()->andReturn( true );
 
 		$this->site_options_service->expects( 'get_defaults' )->andReturn( [ 'twitter_site' => '' ] );
 		$this->validation_helper->expects( 'validate_as' )->andReturn( 'yoast' );
@@ -193,6 +194,36 @@ class Options_Helper_Test extends TestCase {
 			->andThrows( Invalid_Twitter_Username_Exception::class );
 
 		$this->assertFalse( $this->instance->set( 'twitter_site', '#yoast' ) );
+	}
+
+	/**
+	 * Tests the setting of an option value failing on save.
+	 *
+	 * @covers ::set
+	 *
+	 * @return void
+	 */
+	public function test_set_catch_save_failed() {
+		$this->site_options_service->expects( 'get_configurations' )
+			->times( 3 )
+			->andReturn(
+				[
+					'twitter_site' => [
+						'default' => '',
+						'types'   => [
+							'empty_string',
+							'twitter_username',
+						],
+					],
+				]
+			);
+
+		Monkey\Functions\expect( 'update_option' )->once()->andReturn( false );
+
+		$this->site_options_service->expects( 'get_defaults' )->andReturn( [ 'twitter_site' => '' ] );
+		$this->validation_helper->expects( 'validate_as' )->andReturn( 'yoast' );
+
+		$this->assertFalse( $this->instance->set( 'twitter_site', 'yoast' ) );
 	}
 
 	/**

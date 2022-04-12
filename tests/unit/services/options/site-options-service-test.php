@@ -4,6 +4,8 @@ namespace Yoast\WP\SEO\Tests\Unit\Services\Options;
 
 use Brain\Monkey;
 use Mockery;
+use Yoast\WP\SEO\Exceptions\Option\Delete_Failed_Exception;
+use Yoast\WP\SEO\Exceptions\Option\Save_Failed_Exception;
 use Yoast\WP\SEO\Exceptions\Option\Unknown_Exception;
 use Yoast\WP\SEO\Exceptions\Validation\Invalid_Url_Exception;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
@@ -186,6 +188,7 @@ class Site_Options_Service_Test extends TestCase {
 		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->andReturn( [] );
 
 		$this->expectException( Unknown_Exception::class );
+		$this->expectExceptionMessage( Unknown_Exception::for_option( 'bar' )->getMessage() );
 
 		$this->instance->bar;
 	}
@@ -194,7 +197,8 @@ class Site_Options_Service_Test extends TestCase {
 	 * Tests the magic set' happy path.
 	 *
 	 * @covers ::__set
-	 * @covers ::set_option
+	 * @covers ::update_option
+	 * @covers ::update_options
 	 */
 	public function test_set() {
 		Monkey\Functions\expect( 'get_option' )
@@ -215,8 +219,7 @@ class Site_Options_Service_Test extends TestCase {
 			->with( 'https://example.org', [ 'empty_string', 'url' ] )
 			->andReturn( 'https://example.org' );
 
-		Monkey\Functions\expect( 'update_option' )
-			->once();
+		Monkey\Functions\expect( 'update_option' )->andReturn( true );
 
 		$this->instance->facebook_site = 'https://example.org';
 	}
@@ -225,7 +228,7 @@ class Site_Options_Service_Test extends TestCase {
 	 * Tests the magic set' setting the default without validating.
 	 *
 	 * @covers ::__set
-	 * @covers ::set_option
+	 * @covers ::update_option
 	 */
 	public function test_set_default() {
 		Monkey\Functions\expect( 'get_option' )
@@ -244,8 +247,7 @@ class Site_Options_Service_Test extends TestCase {
 			->expects( 'validate_as' )
 			->never();
 
-		Monkey\Functions\expect( 'update_option' )
-			->once();
+		Monkey\Functions\expect( 'update_option' )->andReturn( true );
 
 		$this->instance->facebook_site = '';
 	}
@@ -254,7 +256,7 @@ class Site_Options_Service_Test extends TestCase {
 	 * Tests the magic set' not setting again.
 	 *
 	 * @covers ::__set
-	 * @covers ::set_option
+	 * @covers ::update_option
 	 */
 	public function test_set_same() {
 		Monkey\Functions\expect( 'get_option' )
@@ -273,8 +275,7 @@ class Site_Options_Service_Test extends TestCase {
 			->expects( 'validate_as' )
 			->never();
 
-		Monkey\Functions\expect( 'update_option' )
-			->never();
+		Monkey\Functions\expect( 'update_option' )->never();
 
 		$this->instance->facebook_site = 'https://example.org';
 	}
@@ -283,7 +284,7 @@ class Site_Options_Service_Test extends TestCase {
 	 * Tests the magic set' not setting again.
 	 *
 	 * @covers ::__set
-	 * @covers ::set_option
+	 * @covers ::update_option
 	 */
 	public function test_set_same_after_sanitize() {
 		Monkey\Functions\expect( 'get_option' )
@@ -304,8 +305,7 @@ class Site_Options_Service_Test extends TestCase {
 			->with( 'https://example.or!!g', [ 'empty_string', 'url' ] )
 			->andReturn( 'https://example.org' );
 
-		Monkey\Functions\expect( 'update_option' )
-			->never();
+		Monkey\Functions\expect( 'update_option' )->never();
 
 		$this->instance->facebook_site = 'https://example.or!!g';
 	}
@@ -324,9 +324,9 @@ class Site_Options_Service_Test extends TestCase {
 		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->andReturn( [] );
 
 		$this->expectException( Unknown_Exception::class );
+		$this->expectExceptionMessage( Unknown_Exception::for_option( 'foo' )->getMessage() );
 
-		Monkey\Functions\expect( 'update_option' )
-			->never();
+		Monkey\Functions\expect( 'update_option' )->never();
 
 		$this->instance->foo = 'bar';
 	}
@@ -357,10 +357,41 @@ class Site_Options_Service_Test extends TestCase {
 
 		$this->expectException( Invalid_Url_Exception::class );
 
-		Monkey\Functions\expect( 'update_option' )
-			->never();
+		Monkey\Functions\expect( 'update_option' )->never();
 
 		$this->instance->facebook_site = 'bar';
+	}
+
+	/**
+	 * Tests the magic set' with "database failure".
+	 *
+	 * @covers ::__set
+	 * @covers ::update_options
+	 */
+	public function test_set_failed() {
+		Monkey\Functions\expect( 'get_option' )
+			->with( 'wpseo_options' )
+			->once()
+			->andReturn( [ 'facebook_site' => '' ] );
+
+		Monkey\Functions\expect( 'apply_filters' )
+			->once()
+			->with( 'wpseo_additional_option_configurations', [] );
+
+		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
+		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->andReturn( [] );
+
+		$this->validation_helper
+			->expects( 'validate_as' )
+			->once()
+			->with( 'https://example.org', [ 'empty_string', 'url' ] )
+			->andReturn( 'https://example.org' );
+
+		Monkey\Functions\expect( 'update_option' )->andReturn( false );
+
+		$this->expectException( Save_Failed_Exception::class );
+
+		$this->instance->facebook_site = 'https://example.org';
 	}
 
 	/**
@@ -383,8 +414,7 @@ class Site_Options_Service_Test extends TestCase {
 		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
 		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->andReturn( [] );
 
-		Monkey\Functions\expect( 'update_option' )
-			->once();
+		Monkey\Functions\expect( 'update_option' )->andReturn( true );
 
 		$this->instance->ensure_options();
 	}
@@ -400,16 +430,17 @@ class Site_Options_Service_Test extends TestCase {
 			->once()
 			->andReturn( true );
 
-		Monkey\Functions\expect( 'update_option' )
-			->never();
+		Monkey\Functions\expect( 'update_option' )->never();
 
 		$this->instance->ensure_options();
 	}
 
 	/**
-	 * Tests that reset options saves the defaults.
+	 * Tests that reset options deletes all and then saves.
 	 *
 	 * @covers ::reset_options
+	 * @covers ::delete_options
+	 * @covers ::update_options
 	 */
 	public function test_reset_options() {
 		Monkey\Functions\expect( 'apply_filters' )
@@ -419,11 +450,35 @@ class Site_Options_Service_Test extends TestCase {
 		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
 		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->andReturn( [] );
 
-		$defaults = $this->instance->get_defaults();
+		Monkey\Functions\expect( 'delete_option' )
+			->with( 'wpseo_options' )
+			->once()
+			->andReturn( true );
 
 		Monkey\Functions\expect( 'update_option' )
-			->with( 'wpseo_options', $defaults )
-			->once();
+			->once()
+			->andReturn( true );
+
+		$this->instance->reset_options();
+	}
+
+	/**
+	 * Tests that reset options, deletion failed.
+	 *
+	 * @covers ::reset_options
+	 * @covers ::delete_options
+	 * @covers ::update_options
+	 */
+	public function test_reset_options_delete_failure() {
+		Monkey\Functions\expect( 'delete_option' )
+			->with( 'wpseo_options' )
+			->once()
+			->andReturn( false );
+
+		Monkey\Functions\expect( 'update_option' )->never();
+
+		$this->expectException( Delete_Failed_Exception::class );
+		$this->expectExceptionMessage( Delete_Failed_Exception::for_option( 'wpseo_options' )->getMessage() );
 
 		$this->instance->reset_options();
 	}
@@ -476,6 +531,7 @@ class Site_Options_Service_Test extends TestCase {
 		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->andReturn( [] );
 
 		$this->expectException( Unknown_Exception::class );
+		$this->expectExceptionMessage( Unknown_Exception::for_option( 'unknown' )->getMessage() );
 
 		$this->instance->get_default( 'unknown' );
 	}
@@ -530,7 +586,8 @@ class Site_Options_Service_Test extends TestCase {
 	public function test_get_configurations_additional_non_array() {
 		Monkey\Functions\expect( 'apply_filters' )
 			->once()
-			->with( 'wpseo_additional_option_configurations', [] );
+			->with( 'wpseo_additional_option_configurations', [] )
+			->andReturn( 123 );
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
 		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->andReturn( [] );
@@ -552,7 +609,8 @@ class Site_Options_Service_Test extends TestCase {
 	public function test_get_configurations_additional_is_invalid( $configurations, $missing_key ) {
 		Monkey\Functions\expect( 'apply_filters' )
 			->once()
-			->with( 'wpseo_additional_option_configurations', [] );
+			->with( 'wpseo_additional_option_configurations', [] )
+			->andReturn( $configurations );
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
 		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->andReturn( [] );

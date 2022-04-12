@@ -5,6 +5,13 @@
  * @package WPSEO\Internals\Options
  */
 
+use Yoast\WP\SEO\Exceptions\Option\Abstract_Option_Exception;
+use Yoast\WP\SEO\Exceptions\Option\Save_Failed_Exception;
+use Yoast\WP\SEO\Exceptions\Option\Term_Not_Found_Exception;
+use Yoast\WP\SEO\Exceptions\Option\Unknown_Exception;
+use Yoast\WP\SEO\Exceptions\Validation\Abstract_Validation_Exception;
+use Yoast\WP\SEO\Services\Options\Taxonomy_Metadata_Service;
+
 /**
  * Option: wpseo_taxonomy_meta.
  */
@@ -383,34 +390,10 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	 *               False if the term does not exist or the $meta provided is invalid.
 	 */
 	public static function get_term_meta( $term, $taxonomy, $meta = null ) {
-		/* Figure out the term id. */
-		if ( is_int( $term ) ) {
-			$term = get_term_by( 'id', $term, $taxonomy );
-		}
-		elseif ( is_string( $term ) ) {
-			$term = get_term_by( 'slug', $term, $taxonomy );
-		}
-
-		if ( is_object( $term ) && isset( $term->term_id ) ) {
-			$term_id = $term->term_id;
-		}
-		else {
-			return false;
-		}
-
-		$tax_meta = self::get_term_tax_meta( $term_id, $taxonomy );
-
-		/*
-		 * Either return the complete array or a single value from it or false if the value does not exist
-		 * (shouldn't happen after merge with defaults, indicates typo in request).
-		 */
-		if ( ! isset( $meta ) ) {
-			return $tax_meta;
-		}
-
-
-		if ( isset( $tax_meta[ 'wpseo_' . $meta ] ) ) {
-			return $tax_meta[ 'wpseo_' . $meta ];
+		try {
+			return self::get_taxonomy_metadata_service()->get( $term, $taxonomy, $meta );
+		} catch ( Term_Not_Found_Exception $exception ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch -- Deliberately left empty.
+		} catch ( Unknown_Exception $exception ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch -- Deliberately left empty.
 		}
 
 		return false;
@@ -440,11 +423,11 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	 * @param array  $meta_values The values that will be saved.
 	 */
 	public static function set_values( $term_id, $taxonomy, array $meta_values ) {
-		/* Validate the post values */
-		$old   = self::get_term_meta( $term_id, $taxonomy );
-		$clean = self::validate_term_meta_data( $meta_values, $old );
-
-		self::save_clean_values( $term_id, $taxonomy, $clean );
+		try {
+			self::get_taxonomy_metadata_service()->set_options( $term_id, $taxonomy, $meta_values );
+		} catch ( Abstract_Option_Exception $exception ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch -- Deliberately left empty.
+		} catch ( Abstract_Validation_Exception $exception ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch -- Deliberately left empty.
+		}
 	}
 
 	/**
@@ -456,12 +439,13 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	 * @param string $meta_value The value of the target meta key.
 	 */
 	public static function set_value( $term_id, $taxonomy, $meta_key, $meta_value ) {
-
-		if ( substr( strtolower( $meta_key ), 0, 6 ) !== 'wpseo_' ) {
-			$meta_key = 'wpseo_' . $meta_key;
+		try {
+			self::get_taxonomy_metadata_service()->set( $term_id, $taxonomy, $meta_key, $meta_value );
+		} catch ( Save_Failed_Exception $exception ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch -- Deliberately left empty.
+		} catch ( Term_Not_Found_Exception $exception ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch -- Deliberately left empty.
+		} catch ( Unknown_Exception $exception ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch -- Deliberately left empty.
+		} catch ( Abstract_Validation_Exception $exception ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch -- Deliberately left empty.
 		}
-
-		self::set_values( $term_id, $taxonomy, [ $meta_key => $meta_value ] );
 	}
 
 	/**
@@ -474,8 +458,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	 * @return array
 	 */
 	public static function get_keyword_usage( $keyword, $current_term_id, $current_taxonomy ) {
-		$tax_meta = self::get_tax_meta();
-
+		$tax_meta = self::get_taxonomy_metadata_service()->get_options();
 
 		$found = [];
 		// @todo Check for terms of all taxonomies, not only the current taxonomy.
@@ -553,5 +536,14 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 		}
 
 		return self::$defaults_per_term;
+	}
+
+	/**
+	 * Retrieves the taxonomy metadata service.
+	 *
+	 * @return Taxonomy_Metadata_Service The taxonomy metadata service.
+	 */
+	protected static function get_taxonomy_metadata_service() {
+		return YoastSEO()->classes->get( Taxonomy_Metadata_Service::class );
 	}
 }
