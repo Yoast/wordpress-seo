@@ -19,7 +19,7 @@ abstract class Abstract_Options_Service {
 	 *
 	 * @var string
 	 */
-	protected $option_name;
+	public $option_name;
 
 	/**
 	 * Holds the option configurations.
@@ -31,8 +31,13 @@ abstract class Abstract_Options_Service {
 	 *    'name' => [                                   // The name of the option field in the database.
 	 *        'default'    => 'value',                  // The default value.
 	 *        'types'      => [ 'empty_string', 'url' ] // Which validators to use.
-	 *        'ms_exclude' => false,                    // Whether to exclude from multisite. Optional, defaults to
-	 *                                                  // false.
+	 *        'ms_verify' => true,                      // Whether to verify this option in a multisite environment.
+	 *                                                     When this key is present, the Multisite_Options_Integration
+	 *                                                     picks this configuration up and adds it to the multisite
+	 *                                                     options service. The value is then used as the default value
+	 *                                                     for that multisite option.
+	 *        'ms_exclude' => true,                     // Whether to exclude from multisite reset, when copying over
+	 *                                                     option values.
 	 *    ],
 	 * ];
 	 * </code>
