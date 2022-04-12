@@ -30,9 +30,9 @@ import createAnalysisTypeReplacementVariables from "./replacement-variables";
 import { createSeoProvider } from "./seo-context";
 
 export { SEO_STORE_NAME, FOCUS_KEYPHRASE_ID, useAnalyze, MARKER_STATUS } from "@yoast/seo-store";
-export { ReadabilityResultsContainer, SeoResultsContainer } from "./analysis-result-containers";
-export { default as GooglePreviewContainer } from "./google-preview-container";
-export { default as FacebookContainer } from "./social/facebook-container";
+export { ReadabilityResultsContainer, SeoResultsContainer } from "./analysis-results/containers";
+export { default as GooglePreviewContainer } from "./google-preview/containers/google-preview-container";
+export { default as FacebookContainer } from "./social/containers/facebook-container";
 export * as replacementVariableConfigurations from "./replacement-variables/configurations";
 export { useSeoContext } from "./seo-context";
 
