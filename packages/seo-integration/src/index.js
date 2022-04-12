@@ -25,7 +25,7 @@
 
 import registerSeoStore from "@yoast/seo-store";
 import { mapValues } from "lodash";
-import createAnalysis from "./analysis";
+import createAnalysis from "./analysis/analysis";
 import createAnalysisTypeReplacementVariables from "./replacement-variables";
 import { createSeoProvider } from "./seo-context";
 
