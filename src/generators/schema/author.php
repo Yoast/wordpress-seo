@@ -98,8 +98,10 @@ class Author extends Person {
 	/**
 	 * An author should not have an image from options, this only applies to persons.
 	 *
-	 * @param array  $data      The Person schema.
-	 * @param string $schema_id The string used in the `@id` for the schema.
+	 * @param array   $data      The Person schema.
+	 * @param string  $schema_id The string used in the `@id` for the schema.
+	 * @param bool    $add_hash  Wether or not the person's image url hash should be added to the image id.
+	 * @param WP_User $user_data User data.
 	 *
 	 * @return array The Person schema.
 	 */
