@@ -245,30 +245,12 @@ abstract class Abstract_Options_Service {
 	 */
 	public function get_configurations() {
 		if ( $this->cached_configurations === null ) {
-			/**
-			 * Filter 'wpseo_additional_option_configurations' - Allows developers to add option configurations.
-			 *
-			 * @see Abstract_Options_Service::$configurations
-			 *
-			 * @api array The option configurations.
-			 */
-			$additional_configurations = \apply_filters( 'wpseo_additional_option_configurations', [] );
-
-			// Ignore invalid filter result.
-			if ( ! \is_array( $additional_configurations ) ) {
-				$additional_configurations = [];
-			}
-			else {
-				// Filter out invalid configurations.
-				$additional_configurations = \array_filter(
-					$additional_configurations,
-					[ $this, 'is_valid_configuration' ],
-					ARRAY_FILTER_USE_BOTH
-				);
-			}
-
-			// Merge the configurations.
-			$this->cached_configurations = \array_merge( $additional_configurations, $this->expand_configurations( $this->configurations ) );
+			$this->cached_configurations = $this->expand_configurations(
+				\array_merge(
+					$this->configurations,
+					$this->get_additional_configurations()
+				)
+			);
 		}
 
 		return $this->cached_configurations;
@@ -363,6 +345,29 @@ abstract class Abstract_Options_Service {
 		if ( ! \delete_option( $this->option_name ) ) {
 			throw Delete_Failed_Exception::for_option( $this->option_name );
 		}
+	}
+
+	/**
+	 * Retrieves additional configurations.
+	 *
+	 * Override this method and call the parent to validate additional configurations.
+	 *
+	 * @param array $configurations The additional configurations to be validated.
+	 *
+	 * @return array Any additional configurations.
+	 */
+	protected function get_additional_configurations( $configurations = [] ) {
+		// Ignore non-arrays.
+		if ( ! \is_array( $configurations ) ) {
+			return [];
+		}
+
+		// Filter out invalid configurations.
+		return \array_filter(
+			$configurations,
+			[ $this, 'is_valid_configuration' ],
+			ARRAY_FILTER_USE_BOTH
+		);
 	}
 
 	/**

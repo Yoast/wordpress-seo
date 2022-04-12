@@ -298,6 +298,26 @@ class Taxonomy_Metadata_Service extends Abstract_Options_Service {
 	}
 
 	/**
+	 * Retrieves additional configurations.
+	 *
+	 * @param array $configurations The additional configurations to be validated.
+	 *
+	 * @return array Additional configurations.
+	 */
+	protected function get_additional_configurations( $configurations = [] ) {
+		/**
+		 * Filter 'wpseo_taxonomy_metadata_additional_configurations' - Allows developers to add option configurations.
+		 *
+		 * @see Abstract_Options_Service::$configurations
+		 *
+		 * @api array The option configurations.
+		 */
+		$additional_configurations = \apply_filters( 'wpseo_taxonomy_metadata_additional_configurations', $configurations );
+
+		return parent::get_additional_configurations( $additional_configurations );
+	}
+
+	/**
 	 * Retrieves the term option/metadata values.
 	 *
 	 * @param int    $term_id  The term ID.

@@ -775,4 +775,24 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'types'   => [ 'string' ],
 		],
 	];
+
+	/**
+	 * Retrieves additional configurations.
+	 *
+	 * @param array $configurations The additional configurations to be validated.
+	 *
+	 * @return array Additional configurations.
+	 */
+	protected function get_additional_configurations( $configurations = [] ) {
+		/**
+		 * Filter 'wpseo_options_additional_configurations' - Allows developers to add option configurations.
+		 *
+		 * @see Abstract_Options_Service::$configurations
+		 *
+		 * @api array The option configurations.
+		 */
+		$additional_configurations = \apply_filters( 'wpseo_options_additional_configurations', $configurations );
+
+		return parent::get_additional_configurations( $additional_configurations );
+	}
 }

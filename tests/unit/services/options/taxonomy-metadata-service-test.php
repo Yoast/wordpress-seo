@@ -123,6 +123,8 @@ class Taxonomy_Metadata_Service_Test extends TestCase {
 	 * @covers ::get_values
 	 * @covers ::get_defaults
 	 * @covers ::get_configurations
+	 * @covers ::get_additional_configurations
+	 * @covers \Yoast\WP\SEO\Services\Options\Abstract_Options_Service::get_additional_configurations
 	 * @covers ::expand_configurations
 	 */
 	public function test_get_all() {
@@ -138,7 +140,7 @@ class Taxonomy_Metadata_Service_Test extends TestCase {
 
 		Monkey\Functions\expect( 'apply_filters' )
 			->once()
-			->with( 'wpseo_additional_option_configurations', [] )
+			->with( 'wpseo_taxonomy_metadata_additional_configurations', [] )
 			->andReturn( [] );
 
 		$this->assertArrayHasKey( 'wpseo_title', $this->instance->get( 1, 'category' ) );
@@ -152,6 +154,8 @@ class Taxonomy_Metadata_Service_Test extends TestCase {
 	 * @covers ::get_term_values
 	 * @covers ::get_defaults
 	 * @covers ::get_configurations
+	 * @covers ::get_additional_configurations
+	 * @covers \Yoast\WP\SEO\Services\Options\Abstract_Options_Service::get_additional_configurations
 	 * @covers ::expand_configurations
 	 * @covers ::get_prefixed_key
 	 */
@@ -168,7 +172,7 @@ class Taxonomy_Metadata_Service_Test extends TestCase {
 
 		Monkey\Functions\expect( 'apply_filters' )
 			->once()
-			->with( 'wpseo_additional_option_configurations', [] )
+			->with( 'wpseo_taxonomy_metadata_additional_configurations', [] )
 			->andReturn( [] );
 
 		$this->assertEquals( 'bar', $this->instance->get( 'slug', 'category', 'foo' ) );
@@ -193,7 +197,7 @@ class Taxonomy_Metadata_Service_Test extends TestCase {
 
 		Monkey\Functions\expect( 'apply_filters' )
 			->once()
-			->with( 'wpseo_additional_option_configurations', [] )
+			->with( 'wpseo_taxonomy_metadata_additional_configurations', [] )
 			->andReturn( [] );
 
 		$this->assertEquals( 'bar', $this->instance->get( 'slug', 'category', 'wpseo_foo' ) );
@@ -225,6 +229,8 @@ class Taxonomy_Metadata_Service_Test extends TestCase {
 	 * @covers ::get_term_values
 	 * @covers ::get_defaults
 	 * @covers ::get_configurations
+	 * @covers ::get_additional_configurations
+	 * @covers \Yoast\WP\SEO\Services\Options\Abstract_Options_Service::get_additional_configurations
 	 * @covers ::expand_configurations
 	 * @covers ::get_prefixed_key
 	 */
@@ -241,7 +247,7 @@ class Taxonomy_Metadata_Service_Test extends TestCase {
 
 		Monkey\Functions\expect( 'apply_filters' )
 			->once()
-			->with( 'wpseo_additional_option_configurations', [] )
+			->with( 'wpseo_taxonomy_metadata_additional_configurations', [] )
 			->andReturn( [] );
 
 		$this->expectException( Unknown_Exception::class );
@@ -264,7 +270,7 @@ class Taxonomy_Metadata_Service_Test extends TestCase {
 
 		Monkey\Functions\expect( 'apply_filters' )
 			->once()
-			->with( 'wpseo_additional_option_configurations', [] )
+			->with( 'wpseo_taxonomy_metadata_additional_configurations', [] )
 			->andReturn( [] );
 
 		Monkey\Functions\expect( 'get_option' )
@@ -296,7 +302,7 @@ class Taxonomy_Metadata_Service_Test extends TestCase {
 
 		Monkey\Functions\expect( 'apply_filters' )
 			->once()
-			->with( 'wpseo_additional_option_configurations', [] )
+			->with( 'wpseo_taxonomy_metadata_additional_configurations', [] )
 			->andReturn( [] );
 
 		Monkey\Functions\expect( 'get_option' )
@@ -328,7 +334,7 @@ class Taxonomy_Metadata_Service_Test extends TestCase {
 
 		Monkey\Functions\expect( 'apply_filters' )
 			->once()
-			->with( 'wpseo_additional_option_configurations', [] )
+			->with( 'wpseo_taxonomy_metadata_additional_configurations', [] )
 			->andReturn( [] );
 
 		Monkey\Functions\expect( 'get_option' )
@@ -360,7 +366,7 @@ class Taxonomy_Metadata_Service_Test extends TestCase {
 
 		Monkey\Functions\expect( 'apply_filters' )
 			->once()
-			->with( 'wpseo_additional_option_configurations', [] )
+			->with( 'wpseo_taxonomy_metadata_additional_configurations', [] )
 			->andReturn( [] );
 
 		Monkey\Functions\expect( 'get_option' )
@@ -387,7 +393,7 @@ class Taxonomy_Metadata_Service_Test extends TestCase {
 
 		Monkey\Functions\expect( 'apply_filters' )
 			->once()
-			->with( 'wpseo_additional_option_configurations', [] )
+			->with( 'wpseo_taxonomy_metadata_additional_configurations', [] )
 			->andReturn( [] );
 
 		Monkey\Functions\expect( 'get_option' )
@@ -413,7 +419,7 @@ class Taxonomy_Metadata_Service_Test extends TestCase {
 
 		Monkey\Functions\expect( 'apply_filters' )
 			->once()
-			->with( 'wpseo_additional_option_configurations', [] )
+			->with( 'wpseo_taxonomy_metadata_additional_configurations', [] )
 			->andReturn( [] );
 
 		$this->expectException( Unknown_Exception::class );
@@ -452,7 +458,7 @@ class Taxonomy_Metadata_Service_Test extends TestCase {
 
 		Monkey\Functions\expect( 'apply_filters' )
 			->once()
-			->with( 'wpseo_additional_option_configurations', [] )
+			->with( 'wpseo_taxonomy_metadata_additional_configurations', [] )
 			->andReturn( [] );
 
 		Monkey\Functions\expect( 'get_option' )
@@ -469,7 +475,14 @@ class Taxonomy_Metadata_Service_Test extends TestCase {
 
 		Monkey\Functions\expect( 'update_option' )->once()->andReturn( true );
 
-		$this->instance->set_options( 1, 'category', [ 'wpseo_title' => 'foo', 'wpseo_desc' => 'bar' ] );
+		$this->instance->set_options(
+			1,
+			'category',
+			[
+				'wpseo_title' => 'foo',
+				'wpseo_desc'  => 'bar',
+			]
+		);
 	}
 
 	/**
@@ -485,7 +498,7 @@ class Taxonomy_Metadata_Service_Test extends TestCase {
 
 		Monkey\Functions\expect( 'apply_filters' )
 			->once()
-			->with( 'wpseo_additional_option_configurations', [] )
+			->with( 'wpseo_taxonomy_metadata_additional_configurations', [] )
 			->andReturn( [] );
 
 		// We need the defaults to try to set them again.
