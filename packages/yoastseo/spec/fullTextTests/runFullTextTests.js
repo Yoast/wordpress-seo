@@ -14,7 +14,7 @@ import OutboundLinksAssessment from "../../src/scoring/assessments/seo/OutboundL
 import InternalLinksAssessment from "../../src/scoring/assessments/seo/InternalLinksAssessment";
 import TitleKeywordAssessment from "../../src/scoring/assessments/seo/TitleKeywordAssessment";
 import TitleWidthAssessment from "../../src/scoring/assessments/seo/PageTitleWidthAssessment";
-import SlugKeywordAssessment from "../../src/scoring/assessments/seo/SlugKeywordAssessment";
+import SlugKeywordAssessment from "../../src/scoring/assessments/seo/UrlKeywordAssessment";
 import KeyphraseDistributionAssessment from "../../src/scoring/assessments/seo/KeyphraseDistributionAssessment";
 import ImageKeyphraseAssessment from "../../src/scoring/assessments/seo/KeyphraseInImageTextAssessment";
 import ImageCountAssessment from "../../src/scoring/assessments/seo/ImageCountAssessment";

@@ -6,7 +6,7 @@ import KeyphraseLengthAssessment from "./../assessments/seo/KeyphraseLengthAsses
 import KeywordDensityAssessment from "./../assessments/seo/KeywordDensityAssessment";
 import MetaDescriptionKeywordAssessment from "./../assessments/seo/MetaDescriptionKeywordAssessment";
 import TitleKeywordAssessment from "./../assessments/seo/TitleKeywordAssessment";
-import SlugKeywordAssessment from "../assessments/seo/SlugKeywordAssessment";
+import SlugKeywordAssessment from "../assessments/seo/UrlKeywordAssessment";
 import Assessor from "./../assessor";
 import MetaDescriptionLengthAssessment from "./../assessments/seo/MetaDescriptionLengthAssessment";
 import TextLengthAssessment from "./../assessments/seo/TextLengthAssessment";

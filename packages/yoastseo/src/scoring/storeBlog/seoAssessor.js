@@ -4,7 +4,7 @@ import { createAnchorOpeningTag } from "../../helpers/shortlinker";
 import KeyphraseLengthAssessment from "../assessments/seo/KeyphraseLengthAssessment";
 import MetaDescriptionKeywordAssessment from "../assessments/seo/MetaDescriptionKeywordAssessment";
 import TitleKeywordAssessment from "../assessments/seo/TitleKeywordAssessment";
-import SlugKeywordAssessment from "../assessments/seo/SlugKeywordAssessment";
+import SlugKeywordAssessment from "../assessments/seo/UrlKeywordAssessment";
 import Assessor from "../assessor";
 import MetaDescriptionLength from "../assessments/seo/MetaDescriptionLengthAssessment";
 import TitleWidth from "../assessments/seo/PageTitleWidthAssessment";

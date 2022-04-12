@@ -12,7 +12,7 @@ import MetaDescriptionLengthAssessment from "../../../../src/scoring/assessments
 import TextLengthAssessment from "../../../../src/scoring/assessments/seo/TextLengthAssessment";
 import TitleKeywordAssessment from "../../../../src/scoring/assessments/seo/TitleKeywordAssessment";
 import TitleWidthAssessment from "../../../../src/scoring/assessments/seo/PageTitleWidthAssessment";
-import SlugKeywordAssessment from "../../../../src/scoring/assessments/seo/SlugKeywordAssessment";
+import SlugKeywordAssessment from "../../../../src/scoring/assessments/seo/UrlKeywordAssessment";
 import FunctionWordsInKeyphrase from "../../../../src/scoring/assessments/seo/FunctionWordsInKeyphraseAssessment";
 import SingleH1Assessment from "../../../../src/scoring/assessments/seo/SingleH1Assessment";
 import KeyphraseDistribution from "../../../../src/scoring/assessments/seo/KeyphraseDistributionAssessment";

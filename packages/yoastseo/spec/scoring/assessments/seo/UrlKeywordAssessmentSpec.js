@@ -1,4 +1,4 @@
-import SlugKeywordAssessment from "../../../../src/scoring/assessments/seo/SlugKeywordAssessment";
+import { SlugKeywordAssessment, UrlKeywordAssessment } from "../../../../src/scoring/assessments/seo/UrlKeywordAssessment";
 import Paper from "../../../../src/values/Paper.js";
 import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher";
 import DefaultResearcher from "../../../../src/languageProcessing/languages/_default/Researcher";
@@ -131,3 +131,17 @@ describe( "tests for the assessment applicability.", function() {
 	} );
 } );
 
+
+describe( "tests proper deprecation of UrlKeywordAssessment.", function() {
+	it( "should return true when the paper has a keyword and a slug, but should throw a console warning for deprecation.", function() {
+		const paper = new Paper( "sample keyword", {
+			slug: "sample-with-keyword",
+			keyword: "keyword",
+		} );
+		const researcher = new DefaultResearcher( paper );
+
+		const consoleSpy = jest.spyOn( console, "warn" ).mockImplementation();
+		expect( new UrlKeywordAssessment().isApplicable( paper, researcher ) ).toBe( true );
+		expect( consoleSpy ).toHaveBeenCalled();
+	} );
+} );

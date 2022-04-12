@@ -6,7 +6,7 @@ import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import AssessmentResult from "../../../values/AssessmentResult";
 
 /**
- * Represents the Slug keyword assessments. This assessments will check if the keyword is present in the slug.
+ * Represents the Slug keyword assessment. This assessment checks if the keyword is present in the slug.
  */
 class SlugKeywordAssessment extends Assessment {
 	/**
@@ -130,5 +130,31 @@ class SlugKeywordAssessment extends Assessment {
 		};
 	}
 }
+
+/**
+ * This assessment checks if the keyword is present in the slug.
+ * UrlKeywordAssessment was the previous name for SlugKeywordAssessment (hence the name of this file).
+ * We keep (and expose) this assessment for backwards compatibility.
+ *
+ * @deprecated Since version 18.7. Use SlugKeywordAssessment instead.
+ */
+class UrlKeywordAssessment extends SlugKeywordAssessment {
+	/**
+	 * Sets the identifier and the config.
+	 *
+	 * @param {Object} config   The configuration to use.
+	 * @returns {void}
+	 */
+	constructor( config = {} ) {
+		super( config );
+		this.identifier = "urlKeyword";
+		console.warn( "This object is deprecated, use SlugKeywordAssessment instead." );
+	}
+}
+
+export {
+	SlugKeywordAssessment,
+	UrlKeywordAssessment,
+};
 
 export default SlugKeywordAssessment;
