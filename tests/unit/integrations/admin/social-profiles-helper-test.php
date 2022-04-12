@@ -35,9 +35,6 @@ class Social_Profiles_Helper_Test extends TestCase {
 	public function set_up() {
 		parent::set_up();
 
-		$this->stubTranslationFunctions();
-		$this->stubEscapeFunctions();
-
 		$this->options_helper = Mockery::mock( Options_Helper::class );
 		$this->instance       = new Social_Profiles_Helper( $this->options_helper );
 	}
