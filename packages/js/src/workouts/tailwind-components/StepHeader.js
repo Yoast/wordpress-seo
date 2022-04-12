@@ -48,11 +48,13 @@ export default function StepHeader( { name, description, isFinished, children } 
 	 */
 	useEffect( () => {
 		if ( isActiveStep ) {
-			setTimeout( () => setNameClassNames( getNameClassNames( isFinished, isActiveStep, isLastStep ) ), stepperTimings.delayBeforeOpening );
-		} else {
-			setNameClassNames( getNameClassNames( isFinished, isActiveStep, isLastStep ) );
+			const activeClassNames = getNameClassNames( isFinished, isActiveStep, isLastStep );
+			const delayedColoring = setTimeout( () => setNameClassNames( activeClassNames ), stepperTimings.delayBeforeOpening );
+			return () => clearTimeout( delayedColoring );
 		}
-	}, [ isActiveStep, isFinished, isLastStep, getNameClassNames ] );
+		const inActiveClassNames = getNameClassNames( isFinished, isActiveStep, isLastStep );
+		setNameClassNames( inActiveClassNames );
+	}, [ activeStepIndex, isFinished, isLastStep, getNameClassNames ] );
 
 	return <div className="yst-relative yst-flex yst-items-center yst-group" aria-current={ isActiveStep ? "step" : null }>
 		<span className="yst-flex yst-items-center" aria-hidden={ isActiveStep ? "true" : null }>
