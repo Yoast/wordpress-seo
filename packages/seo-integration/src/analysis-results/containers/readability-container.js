@@ -2,8 +2,8 @@ import { useSelect } from "@wordpress/data";
 import { useMemo } from "@wordpress/element";
 import { SEO_STORE_NAME } from "@yoast/seo-store";
 import { PropTypes } from "prop-types";
-import { useMarker } from "../../analysis-result-containers/hooks";
-import { transformAnalysisResults } from "../../analysis-result-containers/transformers";
+import { useMarker } from "../hooks/useMarker";
+import { transformAnalysisResults } from "../helpers/transformAnalysisResults";
 
 /**
  * Handles known data for a readability results component.
