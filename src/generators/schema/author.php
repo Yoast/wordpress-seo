@@ -103,8 +103,8 @@ class Author extends Person {
 	 *
 	 * @return array The Person schema.
 	 */
-	protected function set_image_from_options( $data, $schema_id, $add_hash = false ) {
-		if ( $this->site_represents_current_author() ) {
+	protected function set_image_from_options( $data, $schema_id, $add_hash = false, $user_data = null ) {
+		if ( $this->site_represents_current_author( $user_data ) ) {
 			return parent::set_image_from_options( $data, $schema_id, $add_hash );
 		}
 

@@ -173,7 +173,7 @@ class Person extends Abstract_Schema_Piece {
 	protected function add_image( $data, $user_data, $add_hash = false ) {
 		$schema_id = $this->context->site_url . Schema_IDs::PERSON_LOGO_HASH;
 
-		$data = $this->set_image_from_options( $data, $schema_id, $add_hash );
+		$data = $this->set_image_from_options( $data, $schema_id, $add_hash, $user_data );
 		if ( ! isset( $data['image'] ) ) {
 			$data = $this->set_image_from_avatar( $data, $user_data, $schema_id, $add_hash );
 		}
@@ -194,7 +194,7 @@ class Person extends Abstract_Schema_Piece {
 	 *
 	 * @return array The Person schema.
 	 */
-	protected function set_image_from_options( $data, $schema_id, $add_hash = false ) {
+	protected function set_image_from_options( $data, $schema_id, $add_hash = false, $user_data = null ) {
 		if ( $this->context->site_represents !== 'person' ) {
 			return $data;
 		}
@@ -254,7 +254,7 @@ class Person extends Abstract_Schema_Piece {
 	 *
 	 * @return bool True when the site is represented by the same person as this indexable.
 	 */
-	protected function site_represents_current_author() {
+	protected function site_represents_current_author( $user_data = null ) {
 		// Can only be the case when the site represents a user.
 		if ( $this->context->site_represents !== 'person' ) {
 			return false;
@@ -266,7 +266,9 @@ class Person extends Abstract_Schema_Piece {
 			&& $this->helpers->schema->article->is_author_supported( $this->context->indexable->object_sub_type )
 			&& $this->context->schema_article_type !== 'None'
 		) {
-			return $this->context->site_user_id === $this->context->indexable->author_id;
+			$user_id = ( ! is_null( $user_data ) ) ? $user_data->ID : $this->context->indexable->author_id;
+
+			return $this->context->site_user_id === $user_id;
 		}
 
 		// Author archive from the same user as the site represents.
