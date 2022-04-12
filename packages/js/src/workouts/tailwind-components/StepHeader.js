@@ -1,5 +1,6 @@
 import { StepCircle } from "./StepCircle";
 import PropTypes from "prop-types";
+import { useEffect, useState } from "@wordpress/element";
 import { stepperTimings } from "../stepper-helper";
 import { useStepperContext } from "./Stepper";
 
@@ -40,7 +41,18 @@ export default function StepHeader( { name, description, isFinished, children } 
 	const { stepIndex, activeStepIndex, lastStepIndex } = useStepperContext();
 	const isActiveStep = activeStepIndex === stepIndex;
 	const isLastStep = lastStepIndex === stepIndex;
-	const nameClassNames = getNameClassnames( isFinished, isActiveStep, isLastStep );
+	const [ nameClassNames, setNameClassNames ] = useState( getNameClassnames( isFinished, isActiveStep, isLastStep ) );
+
+	/**
+	 * Delay calculating new styles for the name classnames if a step changes to isActiveStep === true.
+	 */
+	useEffect( () => {
+		if ( isActiveStep ) {
+			setTimeout( () => setNameClassNames( getNameClassnames( isFinished, isActiveStep, isLastStep ) ), stepperTimings.delayBeforeOpening );
+		} else {
+			setNameClassNames( getNameClassnames( isFinished, isActiveStep, isLastStep ) );
+		}
+	}, [ isActiveStep, isFinished, isLastStep ] );
 
 	return <div className="yst-relative yst-flex yst-items-center yst-group" aria-current={ isActiveStep ? "step" : null }>
 		<span className="yst-flex yst-items-center" aria-hidden={ isActiveStep ? "true" : null }>
@@ -52,7 +64,7 @@ export default function StepHeader( { name, description, isFinished, children } 
 		</span>
 		{ /* Name and description. */ }
 		<span className="yst-ml-4 yst-min-w-0 yst-flex yst-flex-col">
-			<span className={ "yst-text-xs yst-font-[650] yst-tracking-wide yst-uppercase " + nameClassNames }>
+			<span className={ `yst-transition-colors yst-duration-500 yst-text-xs yst-font-[650] yst-tracking-wide yst-uppercase ${ nameClassNames }` }>
 				{ name }
 			</span>
 			{ description && <span className="yst-text-sm yst-text-gray-500">{ description }</span> }
