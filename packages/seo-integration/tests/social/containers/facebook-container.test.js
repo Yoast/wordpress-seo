@@ -1,22 +1,41 @@
 import { shallow } from "enzyme";
-import { default as Container } from "../../../src/social/containers/facebook-container";
-import * as data from "@wordpress/data";
 
-// Jest.mock( "@wordpress/data", () => ( {
-// 	// Inject the actual implementation of `@wordpress/data`.
-// 	...jest.requireActual( "@wordpress/data" ),
-// 	// Overwrite the `dispatch` function with out own mocked version.
-// 	UseSelect: func => func( jest.fn() ),
-// 	UseDispatch: jest.fn(),
-// } ) );
+import { useReplacementVariables } from "../../../src/hooks/useReplacementVariables";
+import { useSelect, useDispatch } from "@wordpress/data";
+
+import Container from "../../../src/social/containers/facebook-container";
+
+jest.mock( "@wordpress/data" );
+jest.mock( "../../../src/hooks/useReplacementVariables" );
 
 const Wrapper = jest.fn();
 
 
 describe( "a test for Facebook editor container", () => {
-	jest.spyOn( data, "useSelect" ).mockImplementation( jest.fn() );
+	it( "creates a new Facebook editor container", () => {
+		const select = jest.fn();
+		useSelect.mockImplementation( func => func( select ) );
 
-	const FacebookContainer = shallow( <Container as={ Wrapper } /> );
+		select.mockReturnValue( {
+			selectFacebookTitle: jest.fn( () => "title" ),
+			selectFacebookDescription: jest.fn( () => "description" ),
+			selectFacebookImage: jest.fn( () => (
+				{}
+			) ),
+		} );
 
-	expect( FacebookContainer ).toEqual();
+		useDispatch.mockReturnValue( {
+			updateFacebookTitle: jest.fn(),
+			updateFacebookDescription: jest.fn()
+		} );
+
+		useReplacementVariables.mockReturnValue( {
+			replacementVariables: jest.fn(),
+			recommendedReplacementVariables: jest.fn()
+		} );
+
+		const FacebookContainer = shallow( <Container as={ Wrapper }/> );
+
+		expect( FacebookContainer ).toEqual( {} );
+	} )
 } );

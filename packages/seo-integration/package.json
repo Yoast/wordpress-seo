@@ -20,7 +20,7 @@
     "coveragePathIgnorePatterns": [
       "node_modules"
     ],
-    "testRegex": "/tests/.*\\.(js)$",
+    "testRegex": "/tests/.*\\.test\\.(js)$",
     "testEnvironment": "jsdom",
     "testURL": "http://localhost",
     "transform": {
