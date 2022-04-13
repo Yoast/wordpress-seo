@@ -35,7 +35,6 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@babel/plugin-transform-runtime": "^7.13.10",
     "@lodder/grunt-postcss": "^3.1.1",
     "@slack/webhook": "^5.0.2",
     "@tailwindcss/forms": "^0.5.0",
@@ -43,7 +42,8 @@
     "@typescript-eslint/parser": "^4.24.0",
     "@wordpress/dependency-extraction-webpack-plugin": "^3.1.0",
     "@wordpress/scripts": "^14.1.1",
-    "@yoast/browserslist-config": "file:packages/browserslist-config",
+    "@yoast/babel-preset": "^1.0.0",
+    "@yoast/browserslist-config": "^1.2.2",
     "@yoast/grunt-plugin-tasks": "https://github.com/Yoast/plugin-grunt-tasks.git#DUPP-194-upgrade-postcss-related-packages-for-tailwind",
     "autoprefixer": "^10.0.0",
     "babel-plugin-dynamic-import-webpack": "^1.1.0",
@@ -55,7 +55,7 @@
     "enzyme-adapter-react-16": "^1.15.6",
     "enzyme-to-json": "^3.6.1",
     "eslint": "^7.32.0",
-    "eslint-config-yoast": "file:packages/eslint",
+    "eslint-config-yoast": "^5.0.17",
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-react": "^7.22.0",
     "grunt-git": "^1.0.14",
@@ -78,7 +78,7 @@
     "typescript": "^4.2.4"
   },
   "yoast": {
-    "pluginVersion": "18.6-RC2"
+    "pluginVersion": "18.6-RC3"
   },
   "version": "0.0.0"
 }
