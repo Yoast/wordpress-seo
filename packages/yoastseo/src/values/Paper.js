@@ -46,7 +46,7 @@ function Paper( text, attributes ) {
 
 	if ( attributes.hasOwnProperty( "url" ) ) {
 		console.warn( "The 'url' attribute is deprecated, use 'slug' instead." );
-		attributes.slug = attributes.url;
+		attributes.slug = attributes.url || attributes.slug;
 	}
 
 	const onlyLetters = attributes.keyword.replace( /[‘’“”"'.?!:;,¿¡«»&*@#±^%|~`[\](){}⟨⟩<>/\\–\-\u2014\u00d7\u002b\u0026\s]/g, "" );

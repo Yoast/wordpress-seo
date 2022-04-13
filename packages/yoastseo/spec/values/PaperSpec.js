@@ -46,7 +46,20 @@ describe( "Paper", function() {
 			const attributes = {
 				url: "post-slug",
 			};
-			const consoleSpy = jest.spyOn( console, "warn" ).mockImplementation( () => {} );
+			const consoleSpy = jest.spyOn( console, "warn" ).mockImplementation();
+
+			const paper = new Paper( "text", attributes );
+			expect( paper.hasSlug() ).toBe( true );
+			expect( paper.getSlug() ).toBe( "post-slug" );
+			expect( consoleSpy ).toHaveBeenCalled();
+		} );
+
+		it( "should return the slug, even though we pass an empty, deprecated url parameter", function() {
+			const attributes = {
+				slug: "post-slug",
+				url: "",
+			};
+			const consoleSpy = jest.spyOn( console, "warn" ).mockImplementation();
 
 			const paper = new Paper( "text", attributes );
 			expect( paper.hasSlug() ).toBe( true );
