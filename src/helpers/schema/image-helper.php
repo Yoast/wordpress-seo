@@ -52,6 +52,7 @@ class Image_Helper {
 	 * @param string $schema_id The `@id` to use for the returned image.
 	 * @param string $url       The image URL to base our object on.
 	 * @param string $caption   An optional caption.
+	 * @param bool   $add_hash  Whether a hash will be added as a suffix in the @id.
 	 *
 	 * @return array Schema ImageObject array.
 	 */
@@ -70,6 +71,7 @@ class Image_Helper {
 	 * @param string $schema_id     The `@id` to use for the returned image.
 	 * @param int    $attachment_id The attachment to retrieve data from.
 	 * @param string $caption       The caption string, if there is one.
+	 * @param bool   $add_hash      Whether a hash will be added as a suffix in the @id.
 	 *
 	 * @return array Schema ImageObject array.
 	 */
@@ -94,6 +96,7 @@ class Image_Helper {
 	 * @param string $schema_id       The `@id` to use for the returned image.
 	 * @param array  $attachment_meta The attachment metadata.
 	 * @param string $caption         The caption string, if there is one.
+	 * @param bool   $add_hash        Whether a hash will be added as a suffix in the @id.
 	 *
 	 * @return array Schema ImageObject array.
 	 */
@@ -120,6 +123,7 @@ class Image_Helper {
 	 * @param string $schema_id The `@id` to use for the returned image.
 	 * @param string $url       The image URL.
 	 * @param string $caption   A caption, if set.
+	 * @param bool   $add_hash  Whether a hash will be added as a suffix in the @id.
 	 *
 	 * @return array Schema ImageObject array.
 	 */
