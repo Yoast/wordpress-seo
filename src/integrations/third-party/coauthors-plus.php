@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Integrations\Third_Party;
 
+use Yoast\WP\SEO\Config\Schema_Types;
 use Yoast\WP\SEO\Conditionals\Third_Party\CoAuthors_Plus_Activated_Conditional;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Generators\Schema\Third_Party\CoAuthor;
@@ -118,9 +119,12 @@ class CoAuthors_Plus implements Integration_Interface {
 			}
 		}
 
+		$schema_types  = new Schema_Types();
+		$article_types = $schema_types->get_article_type_options_values();
+
 		// Change the author reference to reference our multiple authors.
 		foreach ( $data as $key => $piece ) {
-			if ( $piece['@type'] === 'Article' ) {
+			if ( in_array( $piece['@type'], $article_types, true ) ) {
 				$data[ $key ]['author'] = array_merge( [ $piece['author'] ], $ids );
 				break;
 			}
