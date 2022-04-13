@@ -45,6 +45,7 @@ function Paper( text, attributes ) {
 	}
 
 	if ( attributes.hasOwnProperty( "url" ) ) {
+		// The 'url' attribute has been deprecated since version 18.7. Refer to hasUrl and getUrl below.
 		console.warn( "The 'url' attribute is deprecated, use 'slug' instead." );
 		attributes.slug = attributes.url || attributes.slug;
 	}
