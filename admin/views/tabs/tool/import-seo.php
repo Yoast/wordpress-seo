@@ -95,9 +95,10 @@ function wpseo_import_external_select( $name, $plugins ) {
 	<p>
 		<?php
 		printf(
+			/* translators: 1: Link start tag to the First time configuration tab in the General page, 2: Link closing tag. */
 			esc_html__( 'You should finish the %1$sfirst time configuration%2$s to make sure your SEO data has been optimized and you’ve set the essential Yoast SEO settings for your site.', 'wordpress-seo' ),
-				'<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_dashboard#top#first-time-configuration' ) ) . '">',
-				'</a>'
+			'<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_dashboard#top#first-time-configuration' ) ) . '">',
+			'</a>'
 		);
 		?>
 	</p>
