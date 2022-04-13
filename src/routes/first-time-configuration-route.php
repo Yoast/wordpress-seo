@@ -209,6 +209,7 @@ class First_Time_Configuration_Route implements Route_Interface {
 		$check_capability_route = [
 			'methods'             => 'GET',
 			'callback'            => [ $this, 'check_capability' ],
+			'permission_callback' => [ $this, 'can_manage_options' ],
 			'args'                => [
 				'user_id' => [
 					'required' => true,
@@ -220,6 +221,7 @@ class First_Time_Configuration_Route implements Route_Interface {
 		$enable_tracking_route = [
 			'methods'             => 'POST',
 			'callback'            => [ $this, 'set_enable_tracking' ],
+			'permission_callback' => [ $this, 'can_manage_options' ],
 			'args'                => [
 				'tracking' => [
 					'type'     => 'boolean',
@@ -253,6 +255,7 @@ class First_Time_Configuration_Route implements Route_Interface {
 			[
 				'methods'             => 'GET',
 				'callback'            => [ $this, 'get_configuration_state' ],
+				'permission_callback' => [ $this, 'can_manage_options' ],
 			],
 		];
 		\register_rest_route( Main::API_V1_NAMESPACE, self::CONFIGURATION_ROUTE . self::GET_CONFIGURATION_STATE_ROUTE, $get_configuration_state_route );

@@ -186,6 +186,7 @@ class Configuration_Workout_Route implements Route_Interface {
 		$check_capability_route = [
 			'methods'             => 'GET',
 			'callback'            => [ $this, 'check_capability' ],
+			'permission_callback' => [ $this, 'can_manage_options' ],
 			'args'                => [
 				'user_id' => [
 					'required' => true,
