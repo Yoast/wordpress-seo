@@ -302,7 +302,7 @@ class Author_Test extends TestCase {
 
 		$this->schema_image
 			->expects( 'simple_image_object' )
-			->with( Schema_IDs::PERSON_LOGO_HASH, $this->person_data['image']['url'], $user_data->display_name )
+			->with( Schema_IDs::PERSON_LOGO_HASH, $this->person_data['image']['url'], $user_data->display_name, false )
 			->andReturn( $this->person_data['image'] );
 
 		$this->options->expects( 'get' )
@@ -440,7 +440,8 @@ class Author_Test extends TestCase {
 					'width'  => 100,
 					'url'    => 'http://example.com/image.png',
 				],
-				$user_data->display_name
+				$user_data->display_name,
+				false
 			)
 			->andReturn( 'our_image_schema' );
 	}
