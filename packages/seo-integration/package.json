@@ -2,6 +2,9 @@
   "name": "@yoast/seo-integration",
   "version": "1.0.0",
   "jest": {
+    "setupFilesAfterEnv": [
+      "<rootDir>/tests/setupTests.js"
+    ],
     "collectCoverage": true,
     "collectCoverageFrom": [
       "./src/**/*.js"
@@ -26,7 +29,10 @@
     "transformIgnorePatterns": [
       "[/\\\\]node_modules[/\\\\](?!lodash-es|lodash|@yoast).+\\.js$"
     ],
-    "timers": "fake"
+    "timers": "fake",
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ]
   },
   "main": "src/index.js",
   "repository": {
