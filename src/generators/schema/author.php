@@ -100,14 +100,14 @@ class Author extends Person {
 	 *
 	 * @param array   $data      The Person schema.
 	 * @param string  $schema_id The string used in the `@id` for the schema.
-	 * @param bool    $add_hash  Wether or not the person's image url hash should be added to the image id.
+	 * @param bool    $add_hash  Whether or not the person's image url hash should be added to the image id.
 	 * @param WP_User $user_data User data.
 	 *
 	 * @return array The Person schema.
 	 */
 	protected function set_image_from_options( $data, $schema_id, $add_hash = false, $user_data = null ) {
 		if ( $this->site_represents_current_author( $user_data ) ) {
-			return parent::set_image_from_options( $data, $schema_id, $add_hash );
+			return parent::set_image_from_options( $data, $schema_id, $add_hash, $user_data );
 		}
 
 		return $data;
