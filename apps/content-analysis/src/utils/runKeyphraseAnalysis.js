@@ -10,7 +10,7 @@ import matchKeywordInSubheadings from "../../../../packages/yoastseo/src/languag
 import imageCount from "../../../../packages/yoastseo/src/languageProcessing/researches/imageCount.js";
 import altTagCount from "../../../../packages/yoastseo/src/languageProcessing/researches/altTagCount.js";
 import findKeywordInPageTitle from "../../../../packages/yoastseo/src/languageProcessing/researches/findKeywordInPageTitle.js";
-import keywordCountInSlug from "../../../../packages/yoastseo/src/languageProcessing/researches/keywordCountInSlug";
+import keywordCountInSlug from "yoastseo/src/languageProcessing/researches/keywordCountInUrl";
 import keyphraseDistribution from "../../../../packages/yoastseo/src/languageProcessing/researches/keyphraseDistribution";
 
 /**

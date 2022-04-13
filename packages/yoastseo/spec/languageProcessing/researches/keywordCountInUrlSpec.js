@@ -1,4 +1,4 @@
-import slugKeyword from "../../../src/languageProcessing/researches/keywordCountInSlug.js";
+import { keywordCountInSlug as slugKeyword, keywordCountInUrl as urlKeyword } from "../../../src/languageProcessing/researches/keywordCountInUrl.js";
 import Paper from "../../../src/values/Paper.js";
 import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";
 import GermanResearcher from "../../../src/languageProcessing/languages/de/Researcher";
@@ -226,5 +226,23 @@ describe( "test to check slug for keyword", function() {
 		const researcher = new EnglishResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
 		expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 3, percentWordMatches: 100 } );
+	} );
+} );
+
+describe( "tests proper deprecation", function() {
+	it( "should return simple matches, but also throw a console warning when using the deprecated research", function() {
+		const paper = new Paper( "", { slug: "slug-with-keyword", keyword: "keyword" } );
+		const researcher = new EnglishResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		const expected = { keyphraseLength: 1, percentWordMatches: 100 };
+
+		const consoleSpy = jest.spyOn( console, "warn" ).mockImplementation();
+		expect( urlKeyword( paper, researcher ) ).toEqual( expected );
+		expect( consoleSpy ).toHaveBeenCalled();
+		expect( consoleSpy ).toHaveBeenCalledTimes( 1 );
+
+		// Also test the alternative way of calling the research via getResearch
+		expect( researcher.getResearch( "keywordCountInUrl" ) ).toEqual( expected );
+		expect( consoleSpy ).toHaveBeenCalledTimes( 2 );
 	} );
 } );
