@@ -407,7 +407,8 @@ export class Indexation extends Component {
 					}
 					{ this.renderCaption() }
 				</Transition>
-			</div> );
+			</div>
+		);
 	}
 }
 Indexation.propTypes = {
