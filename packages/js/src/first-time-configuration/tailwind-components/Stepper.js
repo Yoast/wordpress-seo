@@ -64,6 +64,7 @@ function GoButton( { beforeGo, children, destination, ...restProps } ) {
 	}, [ goToDestination, beforeGo ] );
 
 	return <button
+		type="button"
 		onClick={ goFunction }
 		{ ...restProps }
 	>
@@ -101,6 +102,7 @@ function EditButton( { children, ...restProps } ) {
 	}, [ setActiveStepIndex, stepIndex ] );
 
 	return <button
+		type="button"
 		onClick={ editFunction }
 		className="yst-button yst-button--secondary yst-button--small"
 		{ ...restProps }

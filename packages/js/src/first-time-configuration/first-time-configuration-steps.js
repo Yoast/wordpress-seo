@@ -296,7 +296,6 @@ const stepNumberNameMap = {
  */
 const FinishStep = () => <Fragment>
 	<p className="yst-mb-6">You have finished all the things, yay!</p>
-	<button className="yst-button yst-button--primary">{ __( "Check out your Indexables page", "wordpress-seo" ) }</button>
 </Fragment>;
 
 /**

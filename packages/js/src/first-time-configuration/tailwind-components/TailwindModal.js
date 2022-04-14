@@ -51,6 +51,7 @@ export default function TailwindModal( { isOpen, handleClose, hasCloseButton, ch
 						>
 							{ hasCloseButton && <div className="yst-block yst-absolute yst-top-0 yst-right-0 yst-pt-4 yst-pr-4">
 								<button
+									type="button"
 									onClick={ handleClose }
 									className="yst-bg-white yst-rounded-md yst-text-gray-400 hover:yst-text-gray-500 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-indigo-500"
 								>
