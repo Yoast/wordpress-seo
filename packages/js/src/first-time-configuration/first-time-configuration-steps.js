@@ -1,9 +1,8 @@
 import apiFetch from "@wordpress/api-fetch";
 import { compose } from "@wordpress/compose";
-import { withDispatch, withSelect } from "@wordpress/data";
-import { createInterpolateElement, useCallback, useReducer, useState, useEffect, Fragment } from "@wordpress/element";
+import { useCallback, useReducer, useState, useEffect, Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { cloneDeep } from "lodash";
+import { cloneDeep, uniq } from "lodash";
 import PropTypes from "prop-types";
 
 import UnsavedChangesModal from "./tailwind-components/unsaved-changes-modal";
@@ -146,10 +145,6 @@ function configurationWorkoutReducer( state, action ) {
 		case "SET_ERROR_FIELDS":
 			newState.errorFields = action.payload;
 			return newState;
-		case "CHANGE_SITE_TAGLINE":
-			newState = handleStepEdit( newState, 2 );
-			newState.siteTagline = action.payload;
-			return newState;
 		case "SET_TRACKING":
 			newState = handleStepEdit( newState, 4 );
 			newState.tracking = action.payload;
@@ -282,13 +277,6 @@ async function updateTracking( state ) {
 	return await response.json;
 }
 
-const stepNumberNameMap = {
-	1: STEPS.configuration.optimizeSeoData,
-	2: STEPS.configuration.siteRepresentation,
-	3: STEPS.configuration.socialProfiles,
-	4: STEPS.configuration.newsletterSignup,
-};
-
 /**
  * Example Finish step.
  *
@@ -331,18 +319,18 @@ function calculateInitialState( windowObject, isStepFinished ) {
 /**
  * The configuration workout.
  *
- * @param {function}  toggleStep                The function to toggle the step state.
- * @param {function}  finishSteps               The function to finish steps.
- * @param {function}  reviseStep                The function to revise steps.
- * @param {function}  toggleWorkout             The function to toggle the workout state.
- * @param {function}  isStepFinished            The function to check whether a step is finished.
- * @returns {WPElement} The ConfigurationWorkout component.
+ * @returns {WPElement} The FirstTimeConfigurationSteps component.
  */
-export default function FirstTimeConfigurationSteps( { finishSteps, reviseStep } ) {
+export default function FirstTimeConfigurationSteps() {
 	const [ finishedSteps, setFinishedSteps ] = useState( [] );
+
 	const isStepFinished = useCallback( ( stepIndex ) => {
 		return finishedSteps.includes( stepIndex );
 	}, [ finishedSteps ] );
+
+	const finishSteps = useCallback( ( stepNumber ) => {
+		setFinishedSteps( prevState => uniq( [ ...prevState, stepNumber ] ) );
+	}, [ setFinishedSteps ] );
 
 	const [ state, dispatch ] = useReducer( configurationWorkoutReducer, {
 		...calculateInitialState( window.wpseoFirstTimeConfigurationData, isStepFinished ),
@@ -353,13 +341,6 @@ export default function FirstTimeConfigurationSteps( { finishSteps, reviseStep }
 	const steps = STEPS.configuration;
 
 	const isTrackingOptionSelected = state.tracking === 0 || state.tracking === 1;
-
-	// Whenever a step is edited, toggle the saved state for that step.
-	useEffect( () => {
-		state.editedSteps.forEach( stepNumber => {
-			reviseStep( "configuration", stepNumberNameMap[ stepNumber ] );
-		} );
-	}, [ state.editedSteps ] );
 
 	/* Briefly override window variable because indexingstate is reinitialized when navigating back and forth on the workouts page,
 	whereas the window variable remains stale. */
@@ -414,7 +395,7 @@ export default function FirstTimeConfigurationSteps( { finishSteps, reviseStep }
 		setSiteRepresentationEmpty( state.companyOrPerson === "emptyChoice" || isCompanyAndEmpty || isPersonAndEmpty );
 		updateSiteRepresentation( state )
 			.then( () => setStepIsSaved( 2 ) )
-			.then( () => finishSteps( "configuration", [ steps.siteRepresentation ] ) );
+			.then( () => finishSteps( 2 ) );
 		return true;
 	}
 
@@ -432,7 +413,7 @@ export default function FirstTimeConfigurationSteps( { finishSteps, reviseStep }
 				.then( () => setStepIsSaved( 3 ) )
 				.then( () => {
 					setErrorFields( [] );
-					finishSteps( "configuration", [ steps.socialProfiles ] );
+					finishSteps( 3 );
 				} )
 				.then( () => {
 					return true;
@@ -452,7 +433,7 @@ export default function FirstTimeConfigurationSteps( { finishSteps, reviseStep }
 			.then( () => setStepIsSaved( 3 ) )
 			.then( () => {
 				setErrorFields( [] );
-				finishSteps( "configuration", [ steps.socialProfiles ] );
+				finishSteps( 3 );
 			} )
 			.then( () => {
 				return true;
@@ -475,7 +456,7 @@ export default function FirstTimeConfigurationSteps( { finishSteps, reviseStep }
 	function updateOnFinishEnableTracking() {
 		return updateTracking( state )
 			.then( () => setStepIsSaved( 4 ) )
-			.then( () => finishSteps( "configuration", [ steps.enableTracking ] ) )
+			.then( () => finishSteps( 4 ) )
 			.then( () => {
 				return true;
 			} );
@@ -703,10 +684,5 @@ export default function FirstTimeConfigurationSteps( { finishSteps, reviseStep }
 		/* eslint-enable max-len */
 	);
 }
-
-FirstTimeConfigurationSteps.propTypes = {
-	finishSteps: PropTypes.func.isRequired,
-	reviseStep: PropTypes.func.isRequired,
-};
 /* eslint-enable complexity */
 /* eslint-enable max-statements */
