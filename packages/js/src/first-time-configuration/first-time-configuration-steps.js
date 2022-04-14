@@ -553,63 +553,30 @@ export default function FirstTimeConfigurationSteps( { finishSteps, reviseStep }
 	// AND HERE....
 	/* eslint-disable max-len */
 	return (
-		<div id="yoast-configuration-workout" className="card">
-			<h2 id="yoast-configuration-workout-title">{ __( "Configuration", "wordpress-seo" ) }</h2>
-			<h3 id="yoast-configuration-workout-tagline">{
-				// translators: %1$s is replaced by "Yoast SEO"
-				sprintf( __( "Configure %1$s with optimal SEO settings for your site", "wordpress-seo" ), "Yoast SEO" )
-			}</h3>
-			<p>
+		<div id="yoast-configuration-workout" className="yst-card">
+			<h2 id="yoast-configuration-workout-title" className="yst-text-lg yst-text-primary-500 yst-font-medium">{ __( "Tell us about your site, so we can get your site ranked!", "wordpress-seo" ) }</h2>
+			<p className="yst-py-2">
 				{
-					sprintf(
-						// translators: %1$s is replaced by "Yoast SEO"
-						__(
-							"Do the five steps in this workout to configure the essential %1$s settings!",
-							"wordpress-seo"
-						),
-						"Yoast SEO"
-					)
-				}
-			</p>
-			<p>
-				<i>
-					{
-						addLinkToString(
-							sprintf(
-								__(
-									// translators: %1$s and %3$s are replaced by opening and closing anchor tags. %2$s is replaced by "Yoast SEO"
-									"Need more guidance? We've covered every step in more detail in the %1$s%2$s configuration workout guide.%3$s",
-									"wordpress-seo"
-								),
-								"<a>",
-								"Yoast SEO",
-								"</a>"
-							),
-							window.wpseoFirstTimeConfigurationData.shortlinks.workoutGuide,
-							"yoast-configuration-workout-guide-link"
-						)
-					}
-				</i>
-			</p>
-			<hr id="configuration-workout-hr-top" />
-			<p id="configuration-workout-important-message">
-				{
-					createInterpolateElement(
+					addLinkToString(
 						sprintf(
 							__(
-								// translators: %1$s and %2$s are replaced by opening and closing <b> tags.
-								"%1$sImportant:%2$s If the SEO data optimization in step 1 is running, you can already continue to the next steps.",
+								// translators: %1$s and %3$s are replaced by opening and closing anchor tags. %2$s is replaced by "Yoast SEO"
+								"Put the %1$s%2$s indexables squad%3$s to work! Make Google understand your site.",
 								"wordpress-seo"
 							),
-							"<b>",
-							"</b>"
+							"<a>",
+							"Yoast SEO",
+							"</a>"
 						),
-						{
-							b: <b />,
-						}
+						window.wpseoFirstTimeConfigurationData.shortlinks.workoutGuide,
+						"yoast-configuration-workout-guide-link"
 					)
 				}
 			</p>
+			<p className="yst-py-2">
+				{ __( "The Yoast indexables squad can't wait to get your site in tip-top shape for the search engines. Help us and take these 5 steps in order to put our Yoast indexables to work!", "wordpress-seo" ) }
+			</p>
+			<hr id="configuration-workout-hr-top" />
 			{ /* eslint-disable react/jsx-no-bind */ }
 			<div className="yst-mt-8">
 				<Stepper

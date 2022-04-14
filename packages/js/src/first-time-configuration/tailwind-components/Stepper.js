@@ -209,7 +209,7 @@ export default function Stepper( { children, setActiveStepIndex, activeStepIndex
 	return (
 		<ol>
 			{ children.map( ( child, stepIndex ) => {
-				return <li key={ `${ child.props.name }-${ stepIndex }` } className={ ( stepIndex === children.length - 1 ? "" : "yst-pb-8" ) + " yst-mb-0 yst-relative" }>
+				return <li key={ `${ child.props.name }-${ stepIndex }` } className={ ( stepIndex === children.length - 1 ? "" : "yst-pb-8" ) + " yst-mb-0 yst-relative yst-max-w-none" }>
 					<StepperContext.Provider
 						value={ { stepIndex, activeStepIndex, setActiveStepIndex, lastStepIndex: children.length - 1, isStepperFinished } }
 					>
