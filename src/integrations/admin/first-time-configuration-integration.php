@@ -120,6 +120,7 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 		$this->admin_asset_manager->enqueue_script( 'indexation' );
 		$this->admin_asset_manager->enqueue_script( 'first-time-configuration' );
 		$this->admin_asset_manager->enqueue_style( 'admin-css' );
+		$this->admin_asset_manager->enqueue_style( 'tailwind' );
 		$this->admin_asset_manager->enqueue_style( 'monorepo' );
 
 		$data = [
