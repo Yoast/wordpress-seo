@@ -338,7 +338,6 @@ export default function FirstTimeConfigurationSteps() {
 	const [ indexingState, setIndexingState ] = useState( () => window.yoastIndexingData.amount === "0" ? "already_done" : "idle" );
 	const [ siteRepresentationEmpty, setSiteRepresentationEmpty ] = useState( false );
 	const [ showRunIndexationAlert, setShowRunIndexationAlert ] = useState( false );
-	const steps = STEPS.configuration;
 
 	const isTrackingOptionSelected = state.tracking === 0 || state.tracking === 1;
 
@@ -509,9 +508,9 @@ export default function FirstTimeConfigurationSteps() {
 	}
 
 	/**
-	 * Save and continue functionality for the Indexation step.
+	 * Steps to take before editing.
 	 *
-	 * @returns {boolean} Whether the stepper can continue to the next step.
+	 * @returns {boolean} Always returns true to satisfy button needs.
 	 */
 	function beforeEditing() {
 		setShowEditButton( false );
