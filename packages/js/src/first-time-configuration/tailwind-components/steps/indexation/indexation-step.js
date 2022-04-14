@@ -32,7 +32,7 @@ export default function IndexationStep( { indexingState, setIndexingState, showR
 						"<a>",
 						"</a>"
 					),
-					window.wpseoWorkoutsData.configuration.shortlinks.indexData,
+					window.wpseoFirstTimeConfigurationData.shortlinks.indexData,
 					"yoast-configuration-workout-index-data-link"
 				)
 				}
@@ -42,12 +42,12 @@ export default function IndexationStep( { indexingState, setIndexingState, showR
 		<div id="yoast-configuration-workout-indexing-container" className="indexation-container">
 			<ConfigurationIndexation
 				indexingStateCallback={ setIndexingState }
-				isEnabled={ ! window.wpseoWorkoutsData.shouldUpdatePremium }
+				isEnabled={ ! window.wpseoFirstTimeConfigurationData.shouldUpdatePremium }
 				indexingState={ indexingState }
 				isStepperFinished={ isStepperFinished }
 			/>
 		</div>
-		{ ( window.wpseoWorkoutsData.shouldUpdatePremium && indexingState !== "completed" ) && <Alert type="warning">
+		{ ( window.wpseoFirstTimeConfigurationData.shouldUpdatePremium && indexingState !== "completed" ) && <Alert type="warning">
 			<p>{
 				// translators: %1$s is replaced by a version number.
 				sprintf( __( "This workout step is currently disabled, because you're not running the latest version of Yoast SEO Premium. " +
@@ -65,7 +65,7 @@ export default function IndexationStep( { indexingState, setIndexingState, showR
 						"<a>",
 						"</a>"
 					),
-					window.wpseoWorkoutsData.toolsPageUrl
+					window.wpseoFirstTimeConfigurationData.toolsPageUrl
 				) }
 			</p>
 		</Alert> }

@@ -6,16 +6,16 @@ import { __, sprintf } from "@wordpress/i18n";
 import { cloneDeep } from "lodash";
 import PropTypes from "prop-types";
 
-import UnsavedChangesModal from "../tailwind-components/unsaved-changes-modal";
-import { addLinkToString } from "../../helpers/stringHelpers.js";
-import SocialProfilesStep from "../tailwind-components/steps/social-profiles/social-profiles-step";
-import Stepper, { Step } from "../tailwind-components/Stepper";
-import { ContinueButton, EditButton, ConfigurationStepButtons } from "../tailwind-components/ConfigurationStepperButtons";
-import { STEPS, WORKOUTS } from "../config";
-import { getInitialActiveStepIndex } from "../stepper-helper";
-import IndexationStep from "../tailwind-components/steps/indexation/indexation-step";
-import SiteRepresentationStep from "../tailwind-components/steps/site-representation/site-representation-step";
-import PersonalPreferencesStep from "../tailwind-components/steps/personal-preferences/personal-preferences-step";
+import UnsavedChangesModal from "./tailwind-components/unsaved-changes-modal";
+import { addLinkToString } from "../helpers/stringHelpers.js";
+import SocialProfilesStep from "./tailwind-components/steps/social-profiles/social-profiles-step";
+import Stepper, { Step } from "./tailwind-components/Stepper";
+import { ContinueButton, EditButton, ConfigurationStepButtons } from "./tailwind-components/ConfigurationStepperButtons";
+import { STEPS } from "./config";
+import { getInitialActiveStepIndex } from "./stepper-helper";
+import IndexationStep from "./tailwind-components/steps/indexation/indexation-step";
+import SiteRepresentationStep from "./tailwind-components/steps/site-representation/site-representation-step";
+import PersonalPreferencesStep from "./tailwind-components/steps/personal-preferences/personal-preferences-step";
 
 window.wpseoScriptData = window.wpseoScriptData || {};
 window.wpseoScriptData.searchAppearance = {
@@ -192,7 +192,7 @@ async function updateSiteRepresentation( state ) {
 		/* eslint-enable camelcase */
 	};
 
-	if ( window.wpseoWorkoutsData.canEditWordPressOptions ) {
+	if ( window.wpseoFirstTimeConfigurationData.canEditWordPressOptions ) {
 		siteRepresentation.description = state.siteTagline;
 	}
 	const response = await apiFetch( {
@@ -312,8 +312,7 @@ function calculateInitialState( windowObject, isStepFinished ) {
 	let { companyOrPerson, companyName,	companyLogo, companyOrPersonOptions, shouldForceCompany } = windowObject; // eslint-disable-line prefer-const
 	if ( shouldForceCompany ) {
 		companyOrPerson = "company";
-	} else
-	if ( companyOrPerson === "company" && ( ! companyName && ! companyLogo ) && ! isStepFinished( "configuration", STEPS.configuration.siteRepresentation ) ) {
+	} else if ( companyOrPerson === "company" && ( ! companyName && ! companyLogo ) && ! isStepFinished( 2 ) ) {
 		companyOrPerson = "emptyChoice";
 	}
 
@@ -340,9 +339,14 @@ function calculateInitialState( windowObject, isStepFinished ) {
  * @param {function}  isStepFinished            The function to check whether a step is finished.
  * @returns {WPElement} The ConfigurationWorkout component.
  */
-export function ConfigurationWorkout( { finishSteps, reviseStep, isStepFinished } ) {
+export default function FirstTimeConfigurationSteps( { finishSteps, reviseStep } ) {
+	const [ finishedSteps, setFinishedSteps ] = useState( [] );
+	const isStepFinished = useCallback( ( stepIndex ) => {
+		return finishedSteps.includes( stepIndex );
+	}, [ finishedSteps ] );
+
 	const [ state, dispatch ] = useReducer( configurationWorkoutReducer, {
-		...calculateInitialState( window.wpseoWorkoutsData.configuration, isStepFinished ),
+		...calculateInitialState( window.wpseoFirstTimeConfigurationData, isStepFinished ),
 	} );
 	const [ indexingState, setIndexingState ] = useState( () => window.yoastIndexingData.amount === "0" ? "already_done" : "idle" );
 	const [ siteRepresentationEmpty, setSiteRepresentationEmpty ] = useState( false );
@@ -377,9 +381,9 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, isStepFinished 
 		dispatch( { type: "SET_STEP_SAVED", payload: stepNumber } );
 	};
 
-	const isStep2Finished = isStepFinished( "configuration", steps.siteRepresentation );
-	const isStep3Finished = isStepFinished( "configuration", steps.socialProfiles );
-	const isStep4Finished = isStepFinished( "configuration", steps.enableTracking );
+	const isStep2Finished = isStepFinished( 2 );
+	const isStep3Finished = isStepFinished( 3 );
+	const isStep4Finished = isStepFinished( 4 );
 
 	const setTracking = useCallback( ( value ) => {
 		dispatch( { type: "SET_TRACKING", payload: parseInt( value, 10 ) } );
@@ -490,15 +494,15 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, isStepFinished 
 		isStep4Finished,
 	].every( Boolean );
 
-	const [ isIndexationStepFinished, setIndexationStepFinished ] = useState( isStepFinished( "configuration", steps.siteRepresentation ) );
+	const [ isIndexationStepFinished, setIndexationStepFinished ] = useState( isStepFinished( 2 ) );
 
 	/* Duplicate site representation, because in reality, the first step cannot be saved.
 	It's considered "finished" once at least the site representation has been done. */
 	const savedSteps = [
 		isIndexationStepFinished,
-		isStepFinished( "configuration", steps.siteRepresentation ),
-		isStepFinished( "configuration", steps.socialProfiles ),
-		isStepFinished( "configuration", steps.enableTracking ),
+		isStepFinished( 2 ),
+		isStepFinished( 3 ),
+		isStepFinished( 4 ),
 		isStepperFinished,
 	];
 
@@ -582,7 +586,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, isStepFinished 
 								"Yoast SEO",
 								"</a>"
 							),
-							window.wpseoWorkoutsData.configuration.shortlinks.workoutGuide,
+							window.wpseoFirstTimeConfigurationData.shortlinks.workoutGuide,
 							"yoast-configuration-workout-guide-link"
 						)
 					}
@@ -734,52 +738,9 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, isStepFinished 
 	);
 }
 
-ConfigurationWorkout.propTypes = {
+FirstTimeConfigurationSteps.propTypes = {
 	finishSteps: PropTypes.func.isRequired,
 	reviseStep: PropTypes.func.isRequired,
-	isStepFinished: PropTypes.func.isRequired,
 };
 /* eslint-enable complexity */
-
-export default compose(
-	[
-		withSelect( ( select ) => {
-			const workouts = select( "yoast-seo/workouts" ).getWorkouts();
-			const finishedWorkouts = select( "yoast-seo/workouts" ).getFinishedWorkouts();
-			/**
-			 * Determines if a step for a particular workout is finished.
-			 * @param {string} workout The name of the workout.
-			 * @param {string} step The name of the step.
-			 * @returns {boolean} Whether or not the step is finished.
-			 */
-			const isStepFinished = ( workout, step ) => {
-				return workouts[ workout ].finishedSteps.includes( step );
-			};
-			const isWorkoutFinished = finishedWorkouts.includes( WORKOUTS.cornerstone );
-			const getIndexablesByStep = select( "yoast-seo/workouts" ).getIndexablesByStep;
-			return { finishedWorkouts, isStepFinished, isWorkoutFinished, getIndexablesByStep };
-		} ),
-		withDispatch(
-			( dispatch ) => {
-				const {
-					toggleStep,
-					finishSteps,
-					reviseStep,
-					toggleWorkout,
-					moveIndexables,
-					clearActiveWorkout,
-				} = dispatch( "yoast-seo/workouts" );
-
-				return {
-					toggleStep,
-					finishSteps,
-					reviseStep,
-					toggleWorkout,
-					moveIndexables,
-					clearActiveWorkout,
-				};
-			}
-		),
-	]
-)( ConfigurationWorkout );
 /* eslint-enable max-statements */
