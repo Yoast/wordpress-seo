@@ -148,6 +148,7 @@ class Configuration_Workout_Route_Test extends TestCase {
 					[
 						'methods'             => 'GET',
 						'callback'            => [ $this->instance, 'check_capability' ],
+						'permission_callback' => [ $this->instance, 'can_manage_options' ],
 						'args'                => [
 							'user_id' => [
 								'required' => true,

@@ -190,6 +190,7 @@ class First_Time_Configuration_Route_Test extends TestCase {
 					[
 						'methods'             => 'GET',
 						'callback'            => [ $this->instance, 'check_capability' ],
+						'permission_callback' => [ $this->instance, 'can_manage_options' ],
 						'args'                => [
 							'user_id' => [
 								'required' => true,
@@ -205,6 +206,7 @@ class First_Time_Configuration_Route_Test extends TestCase {
 					[
 						'methods'             => 'POST',
 						'callback'            => [ $this->instance, 'set_enable_tracking' ],
+						'permission_callback' => [ $this->instance, 'can_manage_options' ],
 						'args'                => [
 							'tracking' => [
 								'type'     => 'boolean',
@@ -246,6 +248,7 @@ class First_Time_Configuration_Route_Test extends TestCase {
 						[
 							'methods'             => 'GET',
 							'callback'            => [ $this->instance, 'get_configuration_state' ],
+							'permission_callback' => [ $this->instance, 'can_manage_options' ],
 						],
 					]
 				);
