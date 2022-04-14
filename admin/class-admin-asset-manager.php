@@ -386,6 +386,7 @@ class WPSEO_Admin_Asset_Manager {
 				'wp-dom-ready',
 				'wp-element',
 				'wp-i18n',
+				self::PREFIX . 'api-client',
 				self::PREFIX . 'externals-components',
 				self::PREFIX . 'externals-contexts',
 				self::PREFIX . 'externals-redux',
