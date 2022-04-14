@@ -52,7 +52,7 @@ if ( $company_or_person === 'company' ) {
 	printf(
 		/* translators: 1: link tag to the first time configuration; 2: link close tag. */
 		esc_html__( 'Your website is currently configured to represent an Organization. If you want to edit the social accounts for your site, please go to the \'Social profiles\' step of the  %1$sfirst time configuration%2$s.', 'wordpress-seo' ),
-		'<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_workouts#configuration' ) ) . '">',
+		'<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_dashboard#top#first-time-configuration' ) ) . '">',
 		'</a>'
 	);
 	echo '</p>';

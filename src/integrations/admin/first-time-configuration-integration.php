@@ -102,7 +102,7 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 		$dashboard_tabs->add_tab(
 			new WPSEO_Option_Tab(
 				'first-time-configuration',
-				__( 'First time configuration', 'wordpress-seo' ),
+				__( 'First-time configuration', 'wordpress-seo' ),
 				[ 'save_button' => false ]
 			)
 		);
