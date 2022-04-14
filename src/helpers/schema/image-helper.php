@@ -79,7 +79,7 @@ class Image_Helper {
 		$data = $this->generate_object();
 		$url  = $this->image->get_attachment_image_url( $attachment_id, 'full' );
 
-		$id_suffix = ( $add_hash ) ? md5( $url ) : '';
+		$id_suffix = ( $add_hash ) ? \md5( $url ) : '';
 
 		$data['@id']        = $schema_id . $id_suffix;
 		$data['url']        = $url;
@@ -103,7 +103,7 @@ class Image_Helper {
 	public function generate_from_attachment_meta( $schema_id, $attachment_meta, $caption = '', $add_hash = false ) {
 		$data = $this->generate_object();
 
-		$id_suffix = ( $add_hash ) ? md5( $attachment_meta['url'] ) : '';
+		$id_suffix = ( $add_hash ) ? \md5( $attachment_meta['url'] ) : '';
 
 		$data['@id']        = $schema_id . $id_suffix;
 		$data['url']        = $attachment_meta['url'];
@@ -130,7 +130,7 @@ class Image_Helper {
 	public function simple_image_object( $schema_id, $url, $caption = '', $add_hash = false ) {
 		$data = $this->generate_object();
 
-		$id_suffix = ( $add_hash ) ? md5( $url ) : '';
+		$id_suffix = ( $add_hash ) ? \md5( $url ) : '';
 
 		$data['@id']        = $schema_id . $id_suffix;
 		$data['url']        = $url;

@@ -273,7 +273,7 @@ class Person extends Abstract_Schema_Piece {
 			&& $this->helpers->schema->article->is_author_supported( $this->context->indexable->object_sub_type )
 			&& $this->context->schema_article_type !== 'None'
 		) {
-			$user_id = ( ( ! is_null( $user_data ) ) && ( isset( $user_data->ID ) ) ) ? $user_data->ID : $this->context->indexable->author_id;
+			$user_id = ( ( ! \is_null( $user_data ) ) && ( isset( $user_data->ID ) ) ) ? $user_data->ID : $this->context->indexable->author_id;
 
 			return $this->context->site_user_id === $user_id;
 		}

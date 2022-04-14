@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 
 /**
- * Integrates the multiple authors capability from Co Authors Plus into Yoast SEO schema.
+ * Integrates the multiple authors capability from CoAuthors Plus into Yoast SEO schema.
  */
 class CoAuthors_Plus implements Integration_Interface {
 
@@ -67,11 +67,11 @@ class CoAuthors_Plus implements Integration_Interface {
 		}
 
 		if ( isset( $data['image']['@id'] ) ) {
-			$data['image']['@id'] .= md5( $data['image']['url'] );
+			$data['image']['@id'] .= \md5( $data['image']['url'] );
 		}
 
 		if ( isset( $data['logo']['@id'] ) ) {
-			$data['logo']['@id'] .= md5( $data['image']['url'] );
+			$data['logo']['@id'] .= \md5( $data['image']['url'] );
 		}
 
 		return $data;
@@ -86,7 +86,7 @@ class CoAuthors_Plus implements Integration_Interface {
 	 * @return array The (potentially altered) schema graph.
 	 */
 	public function filter_graph( $data, $context ) {
-		if ( ! is_singular() ) {
+		if ( ! \is_singular() ) {
 			return $data;
 		}
 
@@ -96,7 +96,7 @@ class CoAuthors_Plus implements Integration_Interface {
 		 * @var \WP_User[] $author_objects
 		 */
 		$author_objects = \get_coauthors( $context->post->ID );
-		if ( count( $author_objects ) <= 1 ) {
+		if ( \count( $author_objects ) <= 1 ) {
 			return $data;
 		}
 
@@ -124,8 +124,8 @@ class CoAuthors_Plus implements Integration_Interface {
 
 		// Change the author reference to reference our multiple authors.
 		foreach ( $data as $key => $piece ) {
-			if ( in_array( $piece['@type'], $article_types, true ) ) {
-				$data[ $key ]['author'] = array_merge( [ $piece['author'] ], $ids );
+			if ( \in_array( $piece['@type'], $article_types, true ) ) {
+				$data[ $key ]['author'] = \array_merge( [ $piece['author'] ], $ids );
 				break;
 			}
 		}
