@@ -25,7 +25,8 @@ const GooglePreview = () => {
 	return (
 		<MetaboxCollapsible
 			id={ "yoast-snippet-editor-metabox" }
-			title={ __( "Google preview", "wordpress-seo" ) } initialIsOpen={ true }
+			title={ __( "Google preview", "wordpress-seo" ) }
+			initialIsOpen={ true }
 		>
 			<GooglePreviewContainer
 				as={ SnippetEditor }
@@ -33,6 +34,8 @@ const GooglePreview = () => {
 				faviconSrc={ siteIconUrl }
 				mobileImageSrc={ featuredImageUrl }
 				isTaxonomy={ analysisType === "term" }
+				showCloseButton={ false }
+				hasPaperStyle={ false }
 			/>
 		</MetaboxCollapsible>
 	);
