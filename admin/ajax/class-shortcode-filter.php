@@ -25,11 +25,20 @@ class WPSEO_Shortcode_Filter {
 	public function do_filter() {
 		check_ajax_referer( 'wpseo-filter-shortcodes', 'nonce' );
 
-		$shortcodes = filter_input( INPUT_POST, 'data', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
+		if ( ! isset( $_POST['data'] ) || ! \is_array( $_POST['data'] ) ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: WPSEO_Utils::format_json_encode is considered safe.
+			wp_die( WPSEO_Utils::format_json_encode( [] ) );
+		}
 
+		$shortcodes        = $_POST['data'];
 		$parsed_shortcodes = [];
 
 		foreach ( $shortcodes as $shortcode ) {
+			if ( $shortcode !== sanitize_text_field( $shortcode ) ) {
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: WPSEO_Utils::format_json_encode is considered safe.
+				wp_die( WPSEO_Utils::format_json_encode( [] ) );
+			}
+
 			$parsed_shortcodes[] = [
 				'shortcode' => $shortcode,
 				'output'    => do_shortcode( $shortcode ),
