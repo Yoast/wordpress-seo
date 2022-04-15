@@ -234,7 +234,7 @@ class First_Time_Configuration_Route implements Route_Interface {
 		$save_configuration_state_route = [
 			'methods'             => 'POST',
 			'callback'            => [ $this, 'save_configuration_state' ],
-			'permission_callback' => [ $this, 'can_edit_other_posts' ],
+			'permission_callback' => [ $this, 'can_manage_options' ],
 			'args'                => [
 				'finishedSteps' => [
 					'type'     => 'array',
