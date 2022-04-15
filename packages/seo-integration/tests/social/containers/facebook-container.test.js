@@ -11,7 +11,7 @@ jest.mock( "../../../src/hooks/useReplacementVariables" );
 const Wrapper = jest.fn();
 
 
-describe( "a test for Facebook editor container", () => {
+describe( "The FacebookContainer components", () => {
 	it( "creates a new Facebook editor container", () => {
 		const select = jest.fn();
 		useSelect.mockImplementation( func => func( select ) );
@@ -20,22 +20,48 @@ describe( "a test for Facebook editor container", () => {
 			selectFacebookTitle: jest.fn( () => "title" ),
 			selectFacebookDescription: jest.fn( () => "description" ),
 			selectFacebookImage: jest.fn( () => (
-				{}
+				{
+					url: "https://example.com/assets/images/image.jpeg",
+					alt: "A dog is sitting on the porch of a log cabin.",
+				}
 			) ),
 		} );
 
+		const updateFacebookTitle = jest.fn();
+		const updateFacebookDescription = jest.fn();
+
 		useDispatch.mockReturnValue( {
-			updateFacebookTitle: jest.fn(),
-			updateFacebookDescription: jest.fn()
+			updateFacebookTitle,
+			updateFacebookDescription
 		} );
+
+		const replacementVariables = jest.fn();
+		const recommendedReplacementVariables = jest.fn();
 
 		useReplacementVariables.mockReturnValue( {
-			replacementVariables: jest.fn(),
-			recommendedReplacementVariables: jest.fn()
+			replacementVariables,
+			recommendedReplacementVariables
 		} );
 
-		const FacebookContainer = shallow( <Container as={ Wrapper }/> );
+		const FacebookContainer = shallow( <Container as={ Wrapper } extraProp={ 10 } /> );
 
-		expect( FacebookContainer ).toEqual( {} );
+		// Name, title and description.
+		expect( FacebookContainer.props().socialMediumName ).toEqual( "Facebook" );
+		expect( FacebookContainer.props().title ).toEqual( "title" );
+		expect( FacebookContainer.props().description ).toEqual( "description" );
+		// Image.
+		expect( FacebookContainer.props().imageUrl ).toEqual( "https://example.com/assets/images/image.jpeg" );
+		expect( FacebookContainer.props().alt ).toEqual( "A dog is sitting on the porch of a log cabin." );
+		// Update actions.
+		expect( FacebookContainer.props().onTitleChange ).toEqual( updateFacebookTitle );
+		expect( FacebookContainer.props().onDescriptionChange ).toEqual( updateFacebookDescription );
+		// Replacement variables.
+		expect( FacebookContainer.props().replacementVariables ).toEqual( replacementVariables );
+		expect( FacebookContainer.props().recommendedReplacementVariables ).toEqual( recommendedReplacementVariables );
+		// Placeholders.
+		expect( FacebookContainer.props().titleInputPlaceholder ).toBe( "" );
+		expect( FacebookContainer.props().descriptionInputPlaceholder ).toBe( "" );
+		// Extra props.
+		expect( FacebookContainer.props().extraProp ).toBe( 10 );
 	} )
 } );

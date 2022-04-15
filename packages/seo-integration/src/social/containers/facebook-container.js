@@ -33,7 +33,7 @@ const FacebookEditorContainer = ( { as: Component, ...restProps } ) => {
 		onDescriptionChange={ updateFacebookDescription }
 		replacementVariables={ replacementVariables }
 		recommendedReplacementVariables={ recommendedReplacementVariables }
-		titleInputplaceholder={ titleInputPlaceholder }
+		titleInputPlaceholder={ titleInputPlaceholder }
 		descriptionInputPlaceholder={ descriptionInputPlaceholder }
 		socialMediumName={ socialMediumName }
 		{ ...restProps }
