@@ -240,13 +240,6 @@ class First_Time_Configuration_Route implements Route_Interface {
 					'type'     => 'array',
 					'required' => true,
 				],
-				'IndexablesBySteps' => [
-					'type'     => 'array',
-				],
-				'priority' => [
-					'type'     => 'integer',
-					'required' => true,
-				],
 			],
 		];
 		\register_rest_route( Main::API_V1_NAMESPACE, self::CONFIGURATION_ROUTE . self::SAVE_CONFIGURATION_STATE_ROUTE, $save_configuration_state_route );
