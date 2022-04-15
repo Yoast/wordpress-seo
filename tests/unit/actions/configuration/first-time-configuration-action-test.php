@@ -195,16 +195,20 @@ class First_Time_Configuration_Action_Test extends TestCase {
 	 *
 	 * @dataProvider social_profiles_provider
 	 *
-	 * @param array  $params                The parameters.
-	 * @param int    $times                 The number of times the Options_Helper::set is expected to be called.
-	 * @param bool[] $yoast_options_results The array of expected results.
-	 * @param object $expected              The expected result object.
+	 * @param array  $set_profiles_results The expected results for set_organization_social_profiles().
+	 * @param object $expected             The expected result object.
 	 */
-	public function test_set_social_profiles( $params, $times, $yoast_options_results, $expected ) {
-		$this->options_helper
-			->expects( 'set' )
-			->times( $times )
-			->andReturn( ...$yoast_options_results );
+	public function test_set_social_profiles( $set_profiles_results, $expected ) {
+		$params = [
+			'param1',
+			'param2',
+		];
+
+		$this->social_profiles_helper
+			->expects( 'set_organization_social_profiles' )
+			->with( $params )
+			->once()
+			->andReturn( $set_profiles_results );
 
 		$this->assertEquals(
 			$expected,
@@ -219,130 +223,38 @@ class First_Time_Configuration_Action_Test extends TestCase {
 	 */
 	public function social_profiles_provider() {
 		$success_all = [
-			'params'                => [
-				'facebook_site'     => 'https://facebook.com/somepage',
-				'twitter_site'      => 'somenick',
-				'other_social_urls' => [
-					'https://instagram.com/somepage',
-					'https://linked.in/somepage',
-					'https://myspace.com/somepage',
-					'https://pinterest.com/somepage',
-					'https://youtube.com/somepage',
-					'https://en.wikipedia.org/somepage',
-				],
-			],
-			'times'                 => 3,
-			'yoast_options_results' => [ true ],
-			'expected'              => (object) [
+			'set_profiles_results' => [],
+			'expected'             => (object) [
 				'success' => true,
 				'status'  => 200,
 			],
 		];
 
 		$success_some = [
-			'params'                => [
-				'facebook_site' => 'https://facebook.com/somepage',
-				'twitter_site'  => 'somenick',
-			],
-			'times'                 => 2,
-			'yoast_options_results' => [ true ],
-			'expected'              => (object) [
-				'success' => true,
-				'status'  => 200,
+			'set_profiles_results' => [ 'param1' ],
+			'expected'             => (object) [
+				'success'  => false,
+				'status'   => 500,
+				'error'    => 'Could not save some options in the database',
+				'failures' => [ 'param1' ],
 			],
 		];
 
-		$some_failures = [
-			'params'                => [
-				'facebook_site'     => 'https://facebook.com/somepage',
-				'twitter_site'      => 'somenick',
-				'other_social_urls' => 'https://instagram.com/somepage',
-			],
-			'times'                 => 3,
-			'yoast_options_results' => [ true, true, false ],
+		$success_none = [
+			'yoast_options_results' => [ 'param1', 'param2' ],
 			'expected'              => (object) [
 				'success'  => false,
 				'status'   => 500,
 				'error'    => 'Could not save some options in the database',
-				'failures' => [ 'other_social_urls' ],
+				'failures' => [ 'param1', 'param2' ],
 			],
 		];
 
 		return [
-			'Successful call with all params'  => $success_all,
-			'Successful call with some params' => $success_some,
-			'Some failures'                    => $some_failures,
+			'Successful call with all params' => $success_all,
+			'Failed call with some params'    => $success_some,
+			'Failed call with all params'     => $success_none,
 		];
-	}
-
-	/**
-	 * Tests setting the social profiles options in the database when Twitter value is a URL.
-	 *
-	 * @covers ::set_social_profiles
-	 */
-	public function test_set_social_profiles_twitter_url() {
-		$params = [
-			'facebook_site'     => 'https://facebook.com/somepage',
-			'twitter_site'      => 'https://twitter.com/somenick',
-			'other_social_urls' => 'https://instagram.com/somepage',
-		];
-
-		$yoast_options_results = [ true, false, false ];
-
-		$this->options_helper
-			->expects( 'set' )
-			->times( 3 )
-			->andReturn( ...$yoast_options_results );
-
-		$this->options_helper
-			->expects( 'get' )
-			->with( 'twitter_site' )
-			->andReturn( 'somenick' );
-
-		$this->assertEquals(
-			(object) [
-				'success'  => false,
-				'status'   => 500,
-				'error'    => 'Could not save some options in the database',
-				'failures' => [ 'other_social_urls' ],
-			],
-			$this->instance->set_social_profiles( $params )
-		);
-	}
-
-	/**
-	 * Tests setting the social profiles options in the database when Twitter value is a URL and saving fails.
-	 *
-	 * @covers ::set_social_profiles
-	 */
-	public function test_set_social_profiles_twitter_url_failure() {
-		$params = [
-			'facebook_site'     => 'https://facebook.com/somepage',
-			'twitter_site'      => 'https://twitter.com/somenick',
-			'other_social_urls' => 'https://instagram.com/somepage',
-		];
-
-		$yoast_options_results = [ true, false, false ];
-
-		$this->options_helper
-			->expects( 'set' )
-			->times( 3 )
-			->andReturn( ...$yoast_options_results );
-
-		$this->options_helper
-			->expects( 'get' )
-			->with( 'twitter_site' )
-			->andReturn( 'someothernick' );
-
-		$this->assertEquals(
-			(object) [
-				'success'  => false,
-				'status'   => 500,
-				'error'    => 'Could not save some options in the database',
-				'failures' => [ 'twitter_site', 'other_social_urls' ],
-			],
-			$this->instance->set_social_profiles( $params )
-		);
 	}
 
 	/**
@@ -544,9 +456,7 @@ class First_Time_Configuration_Action_Test extends TestCase {
 	public function configuration_provider() {
 		$success_save = [
 			'params'                => [
-				'finishedSteps'     => [],
-				'indexablesBySteps' => [],
-				'priority'          => 10,
+				'finishedSteps'     => [ 'step1 ' ],
 			],
 			'times'                 => 1,
 			'yoast_options_results' => [ true ],
@@ -556,11 +466,22 @@ class First_Time_Configuration_Action_Test extends TestCase {
 			],
 		];
 
-		$failed_save = [
+		$failed_save_without_params = [
 			'params'                => [
-				'finishedSteps'     => [],
-				'indexablesBySteps' => [],
-				'priority'          => 10,
+				'anotherParam'     => [],
+			],
+			'times'                 => 0,
+			'yoast_options_results' => [ true ],
+			'expected'              => (object) [
+				'success' => false,
+				'status'  => 400,
+				'error'   => 'Bad request',
+			],
+		];
+
+		$failed_save_option = [
+			'params'                => [
+				'finishedSteps'     => [ 'step1' ],
 			],
 			'times'                 => 1,
 			'yoast_options_results' => [ false ],
@@ -574,8 +495,6 @@ class First_Time_Configuration_Action_Test extends TestCase {
 		$finish_configuration = [
 			'params'                => [
 				'finishedSteps'     => [ 'step1', 'step2', 'step3', 'step4', 'step5' ],
-				'indexablesBySteps' => [],
-				'priority'          => 10,
 			],
 			'times'                 => 2,
 			'yoast_options_results' => [ true ],
@@ -586,9 +505,10 @@ class First_Time_Configuration_Action_Test extends TestCase {
 		];
 
 		return [
-			'Successful saved configuration state' => $success_save,
-			'Failed saved configuration state'     => $failed_save,
-			'Checked finished configuration'       => $finish_configuration,
+			'Successful saved configuration state'          => $success_save,
+			'Failed saved configuration state with parameters not set' => $failed_save_without_params,
+			'Failed saved configuration state option in db' => $failed_save_option,
+			'Checked finished configuration'                => $finish_configuration,
 		];
 	}
 
@@ -601,13 +521,11 @@ class First_Time_Configuration_Action_Test extends TestCase {
 
 		$expected_options_helper_return = [
 			'finishedSteps'     => [ 'step1', 'step2' ],
-			'indexablesBySteps' => [],
-			'priority'          => 10,
 		];
 
 		$this->options_helper
 			->expects( 'get' )
-			->with( 'configuration' )
+			->with( 'configuration_finished_steps' )
 			->once()
 			->andReturn( $expected_options_helper_return );
 
@@ -617,8 +535,6 @@ class First_Time_Configuration_Action_Test extends TestCase {
 				'status'  => 200,
 				'data'    => [
 					'finishedSteps'     => [ 'step1', 'step2' ],
-					'indexablesBySteps' => [],
-					'priority'          => 10,
 				],
 			],
 			$this->instance->get_configuration_state()
@@ -633,7 +549,7 @@ class First_Time_Configuration_Action_Test extends TestCase {
 	public function test_get_configuration_state_failure() {
 		$this->options_helper
 			->expects( 'get' )
-			->with( 'configuration' )
+			->with( 'configuration_finished_steps' )
 			->once()
 			->andReturn( null );
 

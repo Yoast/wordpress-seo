@@ -223,17 +223,10 @@ class First_Time_Configuration_Route_Test extends TestCase {
 					[
 						'methods'             => 'POST',
 						'callback'            => [ $this->instance, 'save_configuration_state' ],
-						'permission_callback' => [ $this->instance, 'can_edit_other_posts' ],
+						'permission_callback' => [ $this->instance, 'can_manage_options' ],
 						'args'                => [
 							'finishedSteps' => [
 								'type'     => 'array',
-								'required' => true,
-							],
-							'IndexablesBySteps' => [
-								'type'     => 'array',
-							],
-							'priority' => [
-								'type'     => 'integer',
 								'required' => true,
 							],
 						],
