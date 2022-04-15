@@ -239,9 +239,7 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 18.6 =
 Release Date: April 19th, 2022
 
-Enhancements:
-
-* Adds a disabled Wincher integration toggle to the Network admin/Multisite `integrations` tab.
+Meet Yoast SEO 18.6: a small Yoast SEO update, fixing a number of bugs, including several bugs related to the Wincher integration. With the Wincher integration, you can track the rankings of your articles in the search results. If you haven’t checked that feature out, please do so! Read more about what's new in Yoast SEO 18.6 in [our release post in English](https://yoa.st/release-19-4-22) or [our release post in Spanish](https://yoa.st/release-19-4-22-spanish)!
 
 Bugfixes:
 
@@ -249,6 +247,10 @@ Bugfixes:
 * Fixes a bug where keyphrases could show up multiple times in Wincher table.
 * Fixes a bug where the Wincher connection flow would fail on certain installations.
 * Fixes a bug where the Wincher integration could throw a fatal error on PHP 8.0+.
+
+Other:
+
+* Adds a disabled Wincher integration toggle to the Network admin/Multisite `Integrations` tab.
 
 = 18.5.1 =
 Release Date: April 5th, 2022
