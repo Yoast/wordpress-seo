@@ -90,6 +90,10 @@ class CoAuthors_Plus implements Integration_Interface {
 			return $data;
 		}
 
+		if ( ! \function_exists( '\get_coauthors' ) ) {
+			return $data;
+		}
+
 		/**
 		 * Contains the authors from the CoAuthors Plus plugin.
 		 *
