@@ -221,36 +221,37 @@ class First_Time_Configuration_Action {
 	 * @return object The response object.
 	 */
 	public function save_configuration_state( $params ) {
-		$response_object = new \stdClass();
-
 		// If the finishedSteps param is not present in the REST request, it's a malformed request.
 		if ( ! isset( $params['finishedSteps'] ) ) {
-			$response_object->success = false;
-			$response_object->status  = 400;
-			$response_object->error   = 'Bad request';
-		}
-		else {
-			// Sanitize input.
-			$finished_steps = \array_map( '\sanitize_text_field', \wp_unslash( $params['finishedSteps'] ) );
-
-			$success = $this->options_helper->set( 'configuration_finished_steps', $finished_steps );
-			if ( $success ) {
-				$response_object->success = true;
-				$response_object->status  = 200;
-				// If all the five steps of the configuration have been completed, set first_time_install option to false.
-				if ( \count( $params['finishedSteps'] ) === 5 ) {
-					$this->options_helper->set( 'first_time_install', false );
-				}
-			}
-			else {
-				// The options_helper->set operation failed.
-				$response_object->success = false;
-				$response_object->status  = 500;
-				$response_object->error   = 'Could not save the option in the database';
-			}
+			return (object) [
+				'success' => false,
+				'status'  => 400,
+				'error'   => 'Bad request',
+			];
 		}
 
-		return $response_object;
+		// Sanitize input.
+		$finished_steps = \array_map( '\sanitize_text_field', \wp_unslash( $params['finishedSteps'] ) );
+
+		$success = $this->options_helper->set( 'configuration_finished_steps', $finished_steps );
+
+		if ( ! $success ) {
+			return (object) [
+				'success' => false,
+				'status'  => 500,
+				'error'   => 'Could not save the option in the database',
+			];
+		}
+
+		// If all the five steps of the configuration have been completed, set first_time_install option to false.
+		if ( \count( $params['finishedSteps'] ) === 5 ) {
+			$this->options_helper->set( 'first_time_install', false );
+		}
+
+		return (object) [
+			'success' => true,
+			'status'  => 200,
+		];
 	}
 
 	/**
