@@ -231,8 +231,7 @@ class First_Time_Configuration_Action {
 		}
 		else {
 			// Sanitize input.
-			$finished_steps = \array_map( 'wp_unslash', $params['finishedSteps'] );
-			\array_walk( $finished_steps, 'sanitize_text_field' );
+			$finished_steps = \array_map( '\sanitize_text_field', \wp_unslash( $params['finishedSteps'] ) );
 
 			$success = $this->options_helper->set( 'configuration_finished_steps', $finished_steps );
 			if ( $success ) {
