@@ -4,15 +4,24 @@ namespace Yoast\WP\SEO\Routes;
 
 use WP_REST_Request;
 use WP_REST_Response;
-use Yoast\WP\SEO\Actions\Configuration\Configuration_Workout_Action;
+use Yoast\WP\SEO\Actions\Configuration\First_Time_Configuration_Action;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Main;
+
+// phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- First time configuration simply has a lot of words.
 /**
- * Configuration_Workout_Route class.
+ * First_Time_Configuration_Route class.
  */
-class Configuration_Workout_Route implements Route_Interface {
+class First_Time_Configuration_Route implements Route_Interface {
 
 	use No_Conditionals;
+
+	/**
+	 * Represents the first time configuration route.
+	 *
+	 * @var string
+	 */
+	const CONFIGURATION_ROUTE = '/configuration';
 
 	/**
 	 * Represents a site representation route.
@@ -50,21 +59,35 @@ class Configuration_Workout_Route implements Route_Interface {
 	const CHECK_CAPABILITY_ROUTE = '/check_capability';
 
 	/**
-	 *  The configuration workout action.
+	 * Represents a route to save the first time configuration state.
 	 *
-	 * @var Configuration_Workout_Action
+	 * @var string
 	 */
-	private $configuration_workout_action;
+	const SAVE_CONFIGURATION_STATE_ROUTE = '/save_configuration_state';
 
 	/**
-	 * Configuration_Workout_Route constructor.
+	 * Represents a route to save the first time configuration state.
 	 *
-	 * @param Configuration_Workout_Action $configuration_workout_action The configuration workout action.
+	 * @var string
+	 */
+	const GET_CONFIGURATION_STATE_ROUTE = '/get_configuration_state';
+
+	/**
+	 *  The first tinme configuration action.
+	 *
+	 * @var First_Time_Configuration_Action
+	 */
+	private $first_time_configuration_action;
+
+	/**
+	 * First_Time_Configuration_Route constructor.
+	 *
+	 * @param First_Time_Configuration_Action $first_time_configuration_action The configuration workout action.
 	 */
 	public function __construct(
-		Configuration_Workout_Action $configuration_workout_action
+		First_Time_Configuration_Action $first_time_configuration_action
 	) {
-		$this->configuration_workout_action = $configuration_workout_action;
+		$this->first_time_configuration_action = $first_time_configuration_action;
 	}
 
 	/**
@@ -109,7 +132,7 @@ class Configuration_Workout_Route implements Route_Interface {
 				],
 			],
 		];
-		\register_rest_route( Main::API_V1_NAMESPACE, Workouts_Route::WORKOUTS_ROUTE . self::SITE_REPRESENTATION_ROUTE, $site_representation_route );
+		\register_rest_route( Main::API_V1_NAMESPACE, self::CONFIGURATION_ROUTE . self::SITE_REPRESENTATION_ROUTE, $site_representation_route );
 
 		$social_profiles_route = [
 			'methods'             => 'POST',
@@ -127,7 +150,7 @@ class Configuration_Workout_Route implements Route_Interface {
 				],
 			],
 		];
-		\register_rest_route( Main::API_V1_NAMESPACE, Workouts_Route::WORKOUTS_ROUTE . self::SOCIAL_PROFILES_ROUTE, $social_profiles_route );
+		\register_rest_route( Main::API_V1_NAMESPACE, self::CONFIGURATION_ROUTE . self::SOCIAL_PROFILES_ROUTE, $social_profiles_route );
 
 		$person_social_profiles_route = [
 			[
@@ -181,7 +204,7 @@ class Configuration_Workout_Route implements Route_Interface {
 				],
 			],
 		];
-		\register_rest_route( Main::API_V1_NAMESPACE, Workouts_Route::WORKOUTS_ROUTE . self::PERSON_SOCIAL_PROFILES_ROUTE, $person_social_profiles_route );
+		\register_rest_route( Main::API_V1_NAMESPACE, self::CONFIGURATION_ROUTE . self::PERSON_SOCIAL_PROFILES_ROUTE, $person_social_profiles_route );
 
 		$check_capability_route = [
 			'methods'             => 'GET',
@@ -193,7 +216,7 @@ class Configuration_Workout_Route implements Route_Interface {
 				],
 			],
 		];
-		\register_rest_route( Main::API_V1_NAMESPACE, Workouts_Route::WORKOUTS_ROUTE . self::CHECK_CAPABILITY_ROUTE, $check_capability_route );
+		\register_rest_route( Main::API_V1_NAMESPACE, self::CONFIGURATION_ROUTE . self::CHECK_CAPABILITY_ROUTE, $check_capability_route );
 
 		$enable_tracking_route = [
 			'methods'             => 'POST',
@@ -206,7 +229,29 @@ class Configuration_Workout_Route implements Route_Interface {
 				],
 			],
 		];
-		\register_rest_route( Main::API_V1_NAMESPACE, Workouts_Route::WORKOUTS_ROUTE . self::ENABLE_TRACKING_ROUTE, $enable_tracking_route );
+		\register_rest_route( Main::API_V1_NAMESPACE, self::CONFIGURATION_ROUTE . self::ENABLE_TRACKING_ROUTE, $enable_tracking_route );
+
+		$save_configuration_state_route = [
+			'methods'             => 'POST',
+			'callback'            => [ $this, 'save_configuration_state' ],
+			'permission_callback' => [ $this, 'can_manage_options' ],
+			'args'                => [
+				'finishedSteps' => [
+					'type'     => 'array',
+					'required' => true,
+				],
+			],
+		];
+		\register_rest_route( Main::API_V1_NAMESPACE, self::CONFIGURATION_ROUTE . self::SAVE_CONFIGURATION_STATE_ROUTE, $save_configuration_state_route );
+
+		$get_configuration_state_route = [
+			[
+				'methods'             => 'GET',
+				'callback'            => [ $this, 'get_configuration_state' ],
+				'permission_callback' => [ $this, 'can_manage_options' ],
+			],
+		];
+		\register_rest_route( Main::API_V1_NAMESPACE, self::CONFIGURATION_ROUTE . self::GET_CONFIGURATION_STATE_ROUTE, $get_configuration_state_route );
 	}
 
 	/**
@@ -218,7 +263,7 @@ class Configuration_Workout_Route implements Route_Interface {
 	 */
 	public function set_site_representation( WP_REST_Request $request ) {
 		$data = $this
-			->configuration_workout_action
+			->first_time_configuration_action
 			->set_site_representation( $request->get_json_params() );
 
 		return new WP_REST_Response( $data, $data->status );
@@ -233,7 +278,7 @@ class Configuration_Workout_Route implements Route_Interface {
 	 */
 	public function set_social_profiles( WP_REST_Request $request ) {
 		$data = $this
-			->configuration_workout_action
+			->first_time_configuration_action
 			->set_social_profiles( $request->get_json_params() );
 
 		return new WP_REST_Response( $data, $data->status );
@@ -248,7 +293,7 @@ class Configuration_Workout_Route implements Route_Interface {
 	 */
 	public function get_person_social_profiles( WP_REST_Request $request ) {
 		$data = $this
-			->configuration_workout_action
+			->first_time_configuration_action
 			->get_person_social_profiles( $request->get_param( 'user_id' ) );
 
 		return new WP_REST_Response( $data, $data->status );
@@ -263,7 +308,7 @@ class Configuration_Workout_Route implements Route_Interface {
 	 */
 	public function set_person_social_profiles( WP_REST_Request $request ) {
 		$data = $this
-			->configuration_workout_action
+			->first_time_configuration_action
 			->set_person_social_profiles( $request->get_json_params() );
 
 		return new WP_REST_Response( $data, $data->status );
@@ -278,7 +323,7 @@ class Configuration_Workout_Route implements Route_Interface {
 	 */
 	public function check_capability( WP_REST_Request $request ) {
 		$data = $this
-			->configuration_workout_action
+			->first_time_configuration_action
 			->check_capability( $request->get_param( 'user_id' ) );
 
 		return new WP_REST_Response( $data );
@@ -293,7 +338,7 @@ class Configuration_Workout_Route implements Route_Interface {
 	 */
 	public function set_enable_tracking( WP_REST_Request $request ) {
 		$data = $this
-			->configuration_workout_action
+			->first_time_configuration_action
 			->set_enable_tracking( $request->get_json_params() );
 
 		return new WP_REST_Response( $data, $data->status );
@@ -316,6 +361,44 @@ class Configuration_Workout_Route implements Route_Interface {
 	 * @return bool
 	 */
 	public function can_edit_user( WP_REST_Request $request ) {
-		return $this->configuration_workout_action->check_capability( $request->get_param( 'user_id' ) );
+		$response = $this->first_time_configuration_action->check_capability( $request->get_param( 'user_id' ) );
+		return $response->success;
+	}
+
+	/**
+	 * Checks if the current user has the capability to edit posts of other users.
+	 *
+	 * @return bool
+	 */
+	public function can_edit_other_posts() {
+		return \current_user_can( 'edit_others_posts' );
+	}
+
+	/**
+	 * Saves the first time configuration state.
+	 *
+	 * @param WP_REST_Request $request The request.
+	 *
+	 * @return WP_REST_Response
+	 */
+	public function save_configuration_state( WP_REST_Request $request ) {
+		$data = $this
+			->first_time_configuration_action
+			->save_configuration_state( $request->get_json_params() );
+
+		return new WP_REST_Response( $data, $data->status );
+	}
+
+	/**
+	 * Returns the first time configuration state.
+	 *
+	 * @return WP_REST_Response the configuration of the workouts.
+	 */
+	public function get_configuration_state() {
+		$data = $this
+			->first_time_configuration_action
+			->get_configuration_state();
+
+		return new WP_REST_Response( $data, $data->status );
 	}
 }
