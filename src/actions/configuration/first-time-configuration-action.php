@@ -26,15 +26,6 @@ class First_Time_Configuration_Action {
 	];
 
 	/**
-	 * The fields for the social profiles payload.
-	 */
-	const SOCIAL_PROFILES_FIELDS = [
-		'facebook_site',
-		'twitter_site',
-		'other_social_urls',
-	];
-
-	/**
 	 * The Options_Helper instance.
 	 *
 	 * @var Options_Helper
