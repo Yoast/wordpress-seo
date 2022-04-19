@@ -553,7 +553,7 @@ export default function FirstTimeConfigurationSteps() {
 					)
 				}
 			</p>
-			<p className="yst-py-2">
+			<p className="yst-mb-6">
 				{ __( "The Yoast indexables squad can't wait to get your site in tip-top shape for the search engines. Help us and take these 5 steps in order to put our Yoast indexables to work!", "wordpress-seo" ) }
 			</p>
 			<hr id="configuration-workout-hr-top" />
