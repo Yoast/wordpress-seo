@@ -2,6 +2,9 @@
   "name": "@yoast/seo-integration",
   "version": "1.0.0",
   "jest": {
+    "setupFilesAfterEnv": [
+      "<rootDir>/tests/setupTests.js"
+    ],
     "collectCoverage": true,
     "collectCoverageFrom": [
       "./src/**/*.js"
@@ -17,7 +20,7 @@
     "coveragePathIgnorePatterns": [
       "node_modules"
     ],
-    "testRegex": "/tests/.*\\.(js)$",
+    "testRegex": "/tests/.*\\.test\\.(js)$",
     "testEnvironment": "jsdom",
     "testURL": "http://localhost",
     "transform": {
@@ -26,7 +29,10 @@
     "transformIgnorePatterns": [
       "[/\\\\]node_modules[/\\\\](?!lodash-es|lodash|@yoast).+\\.js$"
     ],
-    "timers": "fake"
+    "timers": "fake",
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ]
   },
   "main": "src/index.js",
   "repository": {
@@ -60,6 +66,9 @@
     "@testing-library/react-hooks": "^7.0.2",
     "@wordpress/babel-preset-default": "^6.3.4",
     "babel-jest": "^27.3.1",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.6",
+    "enzyme-to-json": "^3.6.1",
     "eslint": "^8.1.0",
     "eslint-config-yoast": "^5.0.17",
     "eslint-watch": "^8.0.0",
