@@ -1,0 +1,10 @@
+@layer components {
+	.yst-link {
+		@apply
+			yst-text-indigo-600
+			yst-underline
+			yst-cursor-pointer
+			
+			hover:yst-text-indigo-500;
+	}
+}
