@@ -32,7 +32,7 @@ describe( "The FacebookContainer components", () => {
 
 		useDispatch.mockReturnValue( {
 			updateFacebookTitle,
-			updateFacebookDescription
+			updateFacebookDescription,
 		} );
 
 		const replacementVariables = jest.fn();
@@ -40,7 +40,7 @@ describe( "The FacebookContainer components", () => {
 
 		useReplacementVariables.mockReturnValue( {
 			replacementVariables,
-			recommendedReplacementVariables
+			recommendedReplacementVariables,
 		} );
 
 		const FacebookContainer = shallow( <Container as={ Wrapper } extraProp={ 10 } /> );
@@ -63,5 +63,5 @@ describe( "The FacebookContainer components", () => {
 		expect( FacebookContainer.props().descriptionInputPlaceholder ).toBe( "" );
 		// Extra props.
 		expect( FacebookContainer.props().extraProp ).toBe( 10 );
-	} )
+	} );
 } );
