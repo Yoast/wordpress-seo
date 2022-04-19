@@ -111,7 +111,7 @@ class WPSEO_Primary_Term_Admin_Test extends WPSEO_UnitTestCase {
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 		$asset_manager->register_assets();
 
-		$pagenow = 'post-new.php';
+		$pagenow     = 'post-new.php';
 		$hook_suffix = $pagenow;
 
 		$taxonomies = [
