@@ -83,6 +83,7 @@ module.exports = function( grunt ) {
 				callback: throwUncommittedChangesError,
 			},
 		},
+
 		"readme-reset-txt": {
 			command: "git checkout readme.txt",
 			options: {

@@ -120,6 +120,7 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 * Edits the links to two documentation files and the size of the image displaying the assessments bullets.
 * Adds links between newly created readme files and edit two minor typos.
 * Refactors the `isInternalLink` helper to improve clarity.
+* Removes superfluous full text test papers for all languages in the yoastseo package.
 
 
 ## 1.92.0

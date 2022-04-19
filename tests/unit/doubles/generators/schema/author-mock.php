@@ -16,7 +16,7 @@ class Author_Mock extends Author {
 	 *
 	 * @return array An array of Schema Person data.
 	 */
-	public function build_person_data( $user_id ) {
-		return parent::build_person_data( $user_id );
+	public function build_person_data( $user_id, $add_hash = false ) {
+		return parent::build_person_data( $user_id, $add_hash );
 	}
 }
