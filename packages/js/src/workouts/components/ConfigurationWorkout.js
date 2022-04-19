@@ -410,7 +410,7 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 	}
 
 	const toggleConfigurationWorkout = useCallback(
-		async () => {
+		async() => {
 			const stepsToFinish = [];
 
 			if ( isWorkoutFinished ) {

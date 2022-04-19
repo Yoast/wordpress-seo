@@ -69,7 +69,7 @@ const registerYoastApis = ( { analysisWorker } ) => registerGlobalApis(
  *
  * @returns {void}
  */
-const initPost = async () => {
+const initPost = async() => {
 	// Initialize featured image plugin.
 	registerFeaturedImagePlugin();
 	// Register shortcodes to work on paper data.
@@ -99,7 +99,7 @@ const initPost = async () => {
  *
  * @returns {void}
  */
-const initTerm = async () => {
+const initTerm = async() => {
 	// Initialize TinyMCE description editor for terms.
 	initTermDescriptionTinyMce( jQuery );
 	// Create SEO integration with term state.
@@ -116,7 +116,7 @@ const initTerm = async () => {
 	renderMetabox( { SeoProvider } );
 };
 
-domReady( async () => {
+domReady( async() => {
 	// Initialize the tab behavior of the metabox.
 	initTabs( jQuery );
 	// Initialize global admin scripts.
