@@ -18,8 +18,8 @@ const FacebookEditorContainer = ( { as: Component, ...restProps } ) => {
 	const imageUrl = imageData.url;
 	const imageAlt = imageData.alt;
 	const { updateFacebookTitle, updateFacebookDescription } = useDispatch( SEO_STORE_NAME );
-	const titleInputPlaceholder  = "";
-	const descriptionInputPlaceholder  = "";
+	const titleInputPlaceholder = "";
+	const descriptionInputPlaceholder = "";
 	const socialMediumName = "Facebook";
 
 	const { replacementVariables, recommendedReplacementVariables } = useReplacementVariables();
