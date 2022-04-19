@@ -3,6 +3,7 @@ import { doAction } from "@wordpress/hooks";
 import { __, sprintf } from "@wordpress/i18n";
 import { debounce } from "lodash";
 import { StyleSheetManager } from "styled-components";
+import getL10nObject from "../analysis/getL10nObject";
 import ElementorSlot from "../elementor/components/slots/ElementorSlot";
 import ElementorFill from "../elementor/containers/ElementorFill";
 import { registerElementorDataHookAfter } from "../helpers/elementorHook";
@@ -166,14 +167,21 @@ function sendFormData( form ) {
  */
 function renderYoastTabReactContent() {
 	setTimeout( () => {
-		renderReactRoot( "elementor-panel-page-settings-controls", (
-			<StyleSheetManager target={ document.getElementById( "elementor-panel-inner" ) }>
-				<div className="yoast yoast-elementor-panel__fills">
-					<ElementorSlot />
-					<ElementorFill />
-				</div>
-			</StyleSheetManager>
-		) );
+		const localizedData = getL10nObject();
+
+		renderReactRoot( {
+			target: "elementor-panel-page-settings-controls",
+			children: (
+				<StyleSheetManager target={ document.getElementById( "elementor-panel-inner" ) }>
+					<div className="yoast yoast-elementor-panel__fills">
+						<ElementorSlot />
+						<ElementorFill />
+					</div>
+				</StyleSheetManager>
+			),
+			theme: { isRtl: localizedData.isRtl },
+			location: "sidebar",
+		} );
 	}, 200 );
 }
 
