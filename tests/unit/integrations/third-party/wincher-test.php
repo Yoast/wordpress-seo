@@ -139,6 +139,8 @@ class Wincher_Test extends TestCase {
 
 		$this->instance->expects( 'get_disabled_note' )->never();
 
+		$this->expectOutputContains( 'hidden_wincher_website_id' );
+
 		$this->instance->after_integration_toggle( $wincher_integration_toggle );
 	}
 
@@ -154,6 +156,8 @@ class Wincher_Test extends TestCase {
 		];
 
 		Monkey\Functions\stubs( [ 'is_multisite' => true ] );
+
+		$this->expectOutputContains( 'hidden_wincher_website_id' );
 
 		$this->instance->expects( 'get_disabled_note' )->once();
 
