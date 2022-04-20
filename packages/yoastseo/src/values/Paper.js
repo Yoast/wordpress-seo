@@ -45,7 +45,7 @@ function Paper( text, attributes ) {
 	}
 
 	if ( attributes.hasOwnProperty( "url" ) ) {
-		// The 'url' attribute has been deprecated since version 18.7. Refer to hasUrl and getUrl below.
+		// The 'url' attribute has been deprecated since version 18.8, refer to hasUrl and getUrl below.
 		console.warn( "The 'url' attribute is deprecated, use 'slug' instead." );
 		attributes.slug = attributes.url || attributes.slug;
 	}
@@ -182,8 +182,8 @@ Paper.prototype.hasUrl = function() {
 };
 
 /**
- * Return the url, or an empty string of no url is available.
- * @deprecated Since version 18.7. Use getSlug instead.
+ * Return the url, or an empty string if no url is available.
+ * @deprecated Since version 18.8. Use getSlug instead.
  * @returns {string} Returns the url
  */
 Paper.prototype.getUrl = function() {

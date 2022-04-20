@@ -136,7 +136,7 @@ class SlugKeywordAssessment extends Assessment {
  * UrlKeywordAssessment was the previous name for SlugKeywordAssessment (hence the name of this file).
  * We keep (and expose) this assessment for backwards compatibility.
  *
- * @deprecated Since version 18.7. Use SlugKeywordAssessment instead.
+ * @deprecated Since version 18.8 Use SlugKeywordAssessment instead.
  */
 class UrlKeywordAssessment extends SlugKeywordAssessment {
 	/**
