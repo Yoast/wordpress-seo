@@ -54,7 +54,7 @@ class Options_Conditional_Test extends TestCase {
 	 *
 	 * @return array Data for test_is_met_for_disabled_option function.
 	 */
-	public function site_representation_provider() {
+	public function option_value_provider() {
 		return [
 			[
 				'option_value' => true,
