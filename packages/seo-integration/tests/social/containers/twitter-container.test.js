@@ -1,15 +1,12 @@
 import { shallow } from "enzyme";
-
 import { useReplacementVariables } from "../../../src/hooks/useReplacementVariables";
 import { useSelect, useDispatch } from "@wordpress/data";
-
 import Container from "../../../src/social/containers/twitter-container";
 
 jest.mock( "@wordpress/data" );
 jest.mock( "../../../src/hooks/useReplacementVariables" );
 
 const Wrapper = jest.fn();
-
 
 describe( "a test for TwitterEditorContainer component", () => {
 	it( "creates a new Twitter editor container", () => {
