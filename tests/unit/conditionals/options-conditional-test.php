@@ -16,7 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  */
 class Options_Conditional_Test extends TestCase {
 
-    /**
+	/**
 	 * The options helper.
 	 *
 	 * @var Mockery\MockInterface|Options_Helper
@@ -29,7 +29,7 @@ class Options_Conditional_Test extends TestCase {
 	public function set_up() {
 		parent::set_up();
 
-        $this->options_helper = Mockery::mock( Options_Helper::class );
+		$this->options_helper = Mockery::mock( Options_Helper::class );
 		$this->instance       = new Options_Conditional( $this->options_helper );
 	}
 
@@ -37,45 +37,45 @@ class Options_Conditional_Test extends TestCase {
 	 * Tests that the conditional is met when it should be.
 	 *
 	 * @covers ::is_met
-     *
-     * @dataProvider option_value_provider
-     *
-     * @param mixed $option_value The option value to test.
-     * @param bool  $expected     The expected output of is_met.
+	 *
+	 * @dataProvider option_value_provider
+	 *
+	 * @param mixed $option_value The option value to test.
+	 * @param bool  $expected     The expected output of is_met.
 	 */
 	public function test_is_met( $option_value, $expected ) {
-        $this->options_helper->expects( 'get' )->with( 'option_name' )->andReturnTrue();
+		$this->options_helper->expects( 'get' )->with( 'option_name' )->andReturnTrue();
 
 		$this->assertEquals( true, $this->instance->is_met( 'option_name' ) );
 	}
 
-    /**
+	/**
 	 * Dataprovider for test_is_met_for_disabled_option function.
 	 *
 	 * @return array Data for test_is_met_for_disabled_option function.
 	 */
 	public function site_representation_provider() {
-        return [
-            [
-                'option_value' => true,
-                'expected'     => true,
-            ],
-            [
-                'option_value' => false,
-                'expected'     => false,
-            ],
-            [
-                'option_value' => null,
-                'expected'     => false,
-            ],
-            [
-                'option_value' => 'some_string',
-                'expected'     => false,
-            ],
-            [
-                'option_value' => 5,
-                'expected'     => false,
-            ],
-        ];
-    }
+		return [
+			[
+				'option_value' => true,
+				'expected'     => true,
+			],
+			[
+				'option_value' => false,
+				'expected'     => false,
+			],
+			[
+				'option_value' => null,
+				'expected'     => false,
+			],
+			[
+				'option_value' => 'some_string',
+				'expected'     => false,
+			],
+			[
+				'option_value' => 5,
+				'expected'     => false,
+			],
+		];
+	}
 }
