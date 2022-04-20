@@ -18,10 +18,16 @@ This monorepo includes reusable packages:
   - A set of helper functions that can be used across multiple projects.
 - [@yoast/replacement-variable-editor](replacement-variable-editor)
   - The replacement variable editor currently used in the Search Metadata previews. In the future, this component will also be used in the Social Metadata previews.
+- [@yoast/replacement-variables](replacement-variables)
+  - A platform-agnostic package providing a simple solution for replacing *variables* with their corresponding *values* in a text based on a set of *replacement variables*.
 - [@yoast/schema-blocks](schema-blocks)
-  - classes and React components used in generating schema blocks from wordpress posts.
+  - Classes and React components used in generating schema blocks from wordpress posts.
 - [@yoast/search-metadata-previews](search-metadata-previews)
   - React components that can be used to generate a preview of what a page will look like in Google's search results.
+- [@yoast/seo-integration](seo-integration)
+  - A platform-agnostic package providing a simple solution for integrating an editor with the Yoast SEO and readability analysis. This package combines the functionality of `@yoast/replacement-variables` and `@yoast/seo-store` into a single interface.
+- [@yoast/seo-store](seo-store)
+  - A platform-agnostic package providing a single Redux store for all Yoast features.
 - [@yoast/social-metadata-forms](social-metadata-forms)
   - React components that can be used to render forms for controlling the social preview settings. This includes the redux store.
 - [@yoast/social-metadata-previews](social-metadata-previews)
