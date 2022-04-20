@@ -239,8 +239,9 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 18.8 =
 Release Date: May 17th, 2022
 
+Enhancements:
 
-
+* Removes XML sitemap image properties title and caption following deprecation by Google.
 
 = 18.7 =
 Release Date: May 3rd, 2022
