@@ -319,7 +319,10 @@ const FinishStep = () => <Fragment>
  */
 function calculateInitialState( windowObject, isStepFinished ) {
 	// Overrule default state to empty and add empty choice.
-	let { companyOrPerson, companyName,	companyLogo, companyOrPersonOptions } = windowObject; // eslint-disable-line prefer-const
+	let { companyOrPerson, companyName,	companyLogo, companyOrPersonOptions, shouldForceCompany } = windowObject; // eslint-disable-line prefer-const
+	if ( shouldForceCompany ) {
+		companyOrPerson = "company";
+	} else
 	if ( companyOrPerson === "company" && ( ! companyName && ! companyLogo ) && ! isStepFinished( "configuration", STEPS.configuration.siteRepresentation ) ) {
 		companyOrPerson = "emptyChoice";
 	}
