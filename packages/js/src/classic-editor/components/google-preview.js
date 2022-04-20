@@ -36,6 +36,7 @@ const GooglePreview = () => {
 				isTaxonomy={ analysisType === "term" }
 				showCloseButton={ false }
 				hasPaperStyle={ false }
+				idSuffix={ "metabox" }
 			/>
 		</MetaboxCollapsible>
 	);
