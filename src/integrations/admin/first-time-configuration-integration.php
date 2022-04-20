@@ -149,6 +149,7 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 		// This filter is documented in admin/views/tabs/metas/paper-content/general/knowledge-graph.php.
 		$knowledge_graph_message = \apply_filters( 'wpseo_knowledge_graph_setting_msg', '' );
 
+		$finished_steps        = $this->get_finished_steps();
 		$options               = $this->get_company_or_person_options();
 		$selected_option_label = '';
 		$filtered_options      = \array_filter(
@@ -165,6 +166,7 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 			'first-time-configuration',
 			\sprintf(
 				'window.wpseoFirstTimeConfigurationData = {
+					"finishedSteps": %s,
 					"companyOrPerson": "%s",
 					"companyOrPersonLabel": "%s",
 					"companyName": "%s",
@@ -191,6 +193,7 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 						"gdpr": "%s",
 					},
 				};',
+				WPSEO_Utils::format_json_encode( $finished_steps ),
 				$this->is_company_or_person(),
 				$selected_option_label,
 				$this->get_company_name(),
@@ -242,6 +245,15 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 	}
 
 	// ** Private functions ** //
+
+	/**
+	 * Returns the finished steps array.
+	 *
+	 * @return array An array with the finished steps.
+	 */
+	private function get_finished_steps() {
+		return $this->options_helper->get( 'configuration_finished_steps', [] );
+	}
 
 	/**
 	 * Returns the entity represented by the site.
