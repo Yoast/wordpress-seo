@@ -162,7 +162,7 @@ class Workouts_Integration implements Integration_Interface {
 			[
 				'workouts'                  => $workouts_option,
 				'homeUrl'                   => \home_url(),
-				'pluginUrl'                 => \esc_url( \plugins_url( '', WPSEO_FILE ) ),
+				'pluginUrl'                 => \esc_url( \plugins_url( '', \WPSEO_FILE ) ),
 				'toolsPageUrl'              => \esc_url( \admin_url( 'admin.php?page=wpseo_tools' ) ),
 				'usersPageUrl'              => \esc_url( \admin_url( 'users.php' ) ),
 				'isPremium'                 => $this->product_helper->is_premium(),
@@ -232,7 +232,7 @@ class Workouts_Integration implements Integration_Interface {
 			\__( 'First-time SEO configuration', 'wordpress-seo' ),
 			\sprintf(
 			/* translators: 1: Link start tag to the configuration workout, 2: Yoast SEO, 3: Link closing tag. */
-				__( 'Get started quickly with the %1$s%2$s Configuration workout%3$s and configure Yoast SEO with the optimal SEO settings for your site!', 'wordpress-seo' ),
+				\__( 'Get started quickly with the %1$s%2$s Configuration workout%3$s and configure Yoast SEO with the optimal SEO settings for your site!', 'wordpress-seo' ),
 				'<a href="' . \esc_url( \self_admin_url( 'admin.php?page=wpseo_workouts' ) ) . '">',
 				'Yoast SEO',
 				'</a>'
@@ -327,8 +327,8 @@ class Workouts_Integration implements Integration_Interface {
 				'</a>'
 			);
 			$button = '<a class="yoast-button yoast-button--primary yoast-button--small" href="' . \esc_url( $url_button ) . '" target="_blank">'
-					. esc_html__( 'Get help activating your subscription', 'wordpress-seo' )
-					. '<span class="screen-reader-text">' . __( '(Opens in a new browser tab)', 'wordpress-seo' ) . '</span>'
+					. \esc_html__( 'Get help activating your subscription', 'wordpress-seo' )
+					. '<span class="screen-reader-text">' . \__( '(Opens in a new browser tab)', 'wordpress-seo' ) . '</span>'
 					. '</a>';
 		}
 
@@ -349,7 +349,7 @@ class Workouts_Integration implements Integration_Interface {
 	 */
 	private function should_update_premium() {
 		$premium_version = $this->product_helper->get_premium_version();
-		return $premium_version !== null && version_compare( $premium_version, '17.7-RC1', '<' );
+		return $premium_version !== null && \version_compare( $premium_version, '17.7-RC1', '<' );
 	}
 
 	/**
@@ -360,7 +360,7 @@ class Workouts_Integration implements Integration_Interface {
 	private function has_premium_subscription_expired() {
 		$subscription = $this->addon_manager->get_subscription( WPSEO_Addon_Manager::PREMIUM_SLUG );
 
-		return ( isset( $subscription->expiry_date ) && ( strtotime( $subscription->expiry_date ) - time() ) < 0 );
+		return ( isset( $subscription->expiry_date ) && ( \strtotime( $subscription->expiry_date ) - \time() ) < 0 );
 	}
 
 	/**
@@ -383,22 +383,22 @@ class Workouts_Integration implements Integration_Interface {
 			return '';
 		}
 		if ( $this->has_premium_subscription_expired() ) {
-			return sprintf(
+			return \sprintf(
 				/* translators: %s: expands to 'Yoast SEO Premium'. */
-				__( 'Renew %s', 'wordpress-seo' ),
+				\__( 'Renew %s', 'wordpress-seo' ),
 				'Yoast SEO Premium'
 			);
 		}
 		if ( $this->has_premium_subscription_activated() ) {
-			return sprintf(
+			return \sprintf(
 				/* translators: %s: expands to 'Yoast SEO Premium'. */
-				__( 'Update %s', 'wordpress-seo' ),
+				\__( 'Update %s', 'wordpress-seo' ),
 				'Yoast SEO Premium'
 			);
 		}
-		return sprintf(
+		return \sprintf(
 			/* translators: %s: expands to 'Yoast SEO Premium'. */
-			__( 'Activate %s', 'wordpress-seo' ),
+			\__( 'Activate %s', 'wordpress-seo' ),
 			'Yoast SEO Premium'
 		);
 	}
@@ -453,10 +453,10 @@ class Workouts_Integration implements Integration_Interface {
 			return true;
 		}
 
-		$page_from_get = filter_input( INPUT_GET, 'page' );
+		$page_from_get = \filter_input( \INPUT_GET, 'page' );
 
 		// Show on Yoast SEO pages, with some exceptions.
-		if ( $pagenow === 'admin.php' && strpos( $page_from_get, 'wpseo' ) === 0 ) {
+		if ( $pagenow === 'admin.php' && \strpos( $page_from_get, 'wpseo' ) === 0 ) {
 			$exceptions = [
 				'wpseo_workouts',
 				'wpseo_installation_successful',
@@ -479,7 +479,7 @@ class Workouts_Integration implements Integration_Interface {
 	private function is_configuration_workout_finished() {
 		$workouts_option = $this->options_helper->get( 'workouts_data', [] );
 
-		return count( $workouts_option['configuration']['finishedSteps'] ) === 5;
+		return \count( $workouts_option['configuration']['finishedSteps'] ) === 5;
 	}
 
 	/**

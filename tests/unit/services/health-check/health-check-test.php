@@ -3,10 +3,10 @@
 namespace Yoast\WP\SEO\Tests\Unit\Services\Health_Check;
 
 use Mockery;
-use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Services\Health_Check\Health_Check;
 use Yoast\WP\SEO\Services\Health_Check\Runner_Interface;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Services\Health_Check\Health_Check_Double;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Health_Check_Test
@@ -89,9 +89,22 @@ class Health_Check_Test extends TestCase {
 		$this->instance = new Health_Check_Double( $this->runner );
 
 		$expected = 'yoast-health-check-double';
-
-		$actual = $this->instance->get_test_identifier();
+		$actual   = $this->instance->get_test_identifier();
 
 		$this->assertEquals( $expected, $actual );
+	}
+
+	/**
+	 * Checks if get_test_identifier() functions correctly when the implementation is not in a namespace.
+	 *
+	 * @covers ::get_test_identifier
+	 */
+	public function test_get_test_identifier_exits_early() {
+		$this->instance = Mockery::mock( Health_Check::class )->makePartial();
+
+		$actual   = $this->instance->get_test_identifier();
+		$expected = 'yoast-wp-seo-services-health-check-health-check';
+
+		$this->assertStringContainsString( $expected, $actual );
 	}
 }

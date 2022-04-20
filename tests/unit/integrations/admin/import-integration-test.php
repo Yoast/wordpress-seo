@@ -5,13 +5,11 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations\Admin;
 use Brain\Monkey;
 use Mockery;
 use WPSEO_Admin_Asset_Manager;
-use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
-use Yoast\WP\SEO\Conditionals\AIOSEO_V4_Importer_Conditional;
 use Yoast\WP\SEO\Conditionals\Import_Tool_Selected_Conditional;
 use Yoast\WP\SEO\Conditionals\Yoast_Tools_Page_Conditional;
 use Yoast\WP\SEO\Integrations\Admin\Import_Integration;
-use Yoast\WP\SEO\Services\Importing\Importable_Detector_Service;
 use Yoast\WP\SEO\Routes\Importing_Route;
+use Yoast\WP\SEO\Services\Importing\Importable_Detector_Service;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -46,13 +44,6 @@ class Import_Integration_Test extends TestCase {
 	protected $importable_detector;
 
 	/**
-	 * The AIOSEO_V4_Importer conditional.
-	 *
-	 * @var Mockery\MockInterface|AIOSEO_V4_Importer_Conditional
-	 */
-	protected $importer_conditional;
-
-	/**
 	 * The Importing Route class.
 	 *
 	 * @var Mockery\MockInterface|Importing_Route
@@ -68,14 +59,12 @@ class Import_Integration_Test extends TestCase {
 		$this->stubTranslationFunctions();
 		$this->stubEscapeFunctions();
 
-		$this->asset_manager        = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
-		$this->importer_conditional = Mockery::mock( AIOSEO_V4_Importer_Conditional::class );
-		$this->importable_detector  = Mockery::mock( Importable_Detector_Service::class );
-		$this->importing_route      = Mockery::mock( Importing_Route::class );
+		$this->asset_manager       = Mockery::mock( WPSEO_Admin_Asset_Manager::class );
+		$this->importable_detector = Mockery::mock( Importable_Detector_Service::class );
+		$this->importing_route     = Mockery::mock( Importing_Route::class );
 
 		$this->instance = new Import_Integration(
 			$this->asset_manager,
-			$this->importer_conditional,
 			$this->importable_detector,
 			$this->importing_route
 		);
@@ -90,10 +79,6 @@ class Import_Integration_Test extends TestCase {
 		static::assertInstanceOf(
 			WPSEO_Admin_Asset_Manager::class,
 			self::getPropertyValue( $this->instance, 'asset_manager' )
-		);
-		static::assertInstanceOf(
-			AIOSEO_V4_Importer_Conditional::class,
-			self::getPropertyValue( $this->instance, 'importer_conditional' )
 		);
 		static::assertInstanceOf(
 			Importable_Detector_Service::class,
@@ -113,7 +98,6 @@ class Import_Integration_Test extends TestCase {
 	public function test_get_conditionals() {
 		$actual   = Import_Integration::get_conditionals();
 		$expected = [
-			AIOSEO_V4_Importer_Conditional::class,
 			Import_Tool_Selected_Conditional::class,
 			Yoast_Tools_Page_Conditional::class,
 		];
@@ -138,6 +122,8 @@ class Import_Integration_Test extends TestCase {
 	 * @covers ::enqueue_import_script
 	 * @covers ::get_importing_endpoints
 	 * @covers ::get_import_failure_alert
+	 * @covers ::get_validation_failure_alert
+	 * @covers ::sort_actions
 	 */
 	public function test_enqueue_import_script() {
 		Monkey\Functions\expect( 'wp_enqueue_style' )
@@ -151,7 +137,7 @@ class Import_Integration_Test extends TestCase {
 			->andReturn( 'https://example.org/wp-ajax/' );
 
 		$expected_import_detections = [
-			'aioseo' => [ 'posts' ],
+			'aioseo' => [ 'posts', 'validate_data' ],
 		];
 
 		$expected_cleanup_detections = [
@@ -171,6 +157,12 @@ class Import_Integration_Test extends TestCase {
 			->once()
 			->with( 'aioseo', 'posts' )
 			->andReturn( 'yoast/v1/import/aioseo/posts' );
+
+		$this->importing_route
+			->expects( 'get_endpoint' )
+			->once()
+			->with( 'aioseo', 'validate_data' )
+			->andReturn( 'yoast/v1/import/aioseo/validate_data' );
 
 		$this->importing_route
 			->expects( 'get_endpoint' )
@@ -199,6 +191,7 @@ class Import_Integration_Test extends TestCase {
 				],
 				'importing_endpoints' => [
 					'aioseo' => [
+						'yoast/v1/import/aioseo/validate_data',
 						'yoast/v1/import/aioseo/posts',
 					],
 				],
@@ -211,6 +204,7 @@ class Import_Integration_Test extends TestCase {
 				'cleanup_after_import_msg' => 'After you\'ve imported data from another SEO plugin, please make sure to clean up all the original data from that plugin. (step 5)',
 				'select_placeholder'       => 'Select SEO plugin',
 				'no_data_msg'              => 'No data found from other SEO plugins.',
+				'validation_failure'       => '<div class="yoast-alert yoast-alert--error"><span><img class="yoast-alert__icon" src="https://example.org/wp-content/plugins/images/alert-error-icon.svg" alt="" /></span><span>The AIOSEO import was cancelled because some AIOSEO data is missing. Please try and take the following steps to fix this:<br/><ol><li>If you have never saved any AIOSEO \'Search Appearance\' settings, please do that first and run the import again.</li><li>If you already have saved AIOSEO \'Search Appearance\' settings and the issue persists, please contact our support team so we can take a closer look.</li></ol></span></div>',
 				'import_failure'           => '<div class="yoast-alert yoast-alert--error"><span><img class="yoast-alert__icon" src="https://example.org/wp-content/plugins/images/alert-error-icon.svg" alt="" /></span><span>Import failed with the following error:<br/><br/>%s</span></div>',
 				'cleanup_failure'          => '<div class="yoast-alert yoast-alert--error"><span><img class="yoast-alert__icon" src="https://example.org/wp-content/plugins/images/alert-error-icon.svg" alt="" /></span><span>Cleanup failed with the following error:<br/><br/>%s</span></div>',
 				'spinner'                  => 'https://example.org/wp-admin/images/loading.gif',

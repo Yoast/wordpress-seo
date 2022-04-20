@@ -488,10 +488,10 @@ class WPSEO_Addon_Manager {
 	/**
 	 * Converts a subscription to plugin based format.
 	 *
-	 * @param stdClass $subscription    The subscription to convert.
-	 * @param stdClass $yoast_free_data The Yoast Free's data.
-	 * @param bool     $plugin_info     Whether we're in the plugin information modal.
-	 * @param string   $plugin_file     The plugin filename.
+	 * @param stdClass      $subscription    The subscription to convert.
+	 * @param stdClass|null $yoast_free_data The Yoast Free's data.
+	 * @param bool          $plugin_info     Whether we're in the plugin information modal.
+	 * @param string        $plugin_file     The plugin filename.
 	 *
 	 * @return stdClass The converted subscription.
 	 */

@@ -18,7 +18,7 @@ class WPSEO_Tracking_Default_Data implements WPSEO_Collection {
 	public function get() {
 		return [
 			'siteTitle'       => get_option( 'blogname' ),
-			'@timestamp'      => (int) date( 'Uv' ),
+			'@timestamp'      => (int) gmdate( 'Uv' ),
 			'wpVersion'       => $this->get_wordpress_version(),
 			'homeURL'         => home_url(),
 			'adminURL'        => admin_url(),

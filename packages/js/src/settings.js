@@ -7,14 +7,10 @@ import initSearchAppearance from "./initializers/search-appearance";
 import initSettingsStore from "./initializers/settings-store";
 import initSocialSettings from "./initializers/social-settings";
 
+initAdmin( jQuery );
+
 // eslint-disable-next-line complexity
-domReady( () => {
-	initAdmin( jQuery );
-
-	if ( ! wpseoScriptData ) {
-		return;
-	}
-
+if ( wpseoScriptData ) {
 	if ( typeof wpseoScriptData.media !== "undefined" ) {
 		initAdminMedia( jQuery );
 	}
@@ -23,11 +19,15 @@ domReady( () => {
 	if ( isSearchAppearancePage || typeof wpseoScriptData.dismissedAlerts !== "undefined" ) {
 		initSettingsStore();
 	}
-	if ( isSearchAppearancePage ) {
-		initSearchAppearance();
-	}
 
-	if ( typeof wpseoScriptData.social !== "undefined" ) {
-		initSocialSettings();
-	}
-} );
+	domReady( () => {
+		if ( isSearchAppearancePage ) {
+			initSearchAppearance();
+		}
+
+		// Init social settings on DOM ready because it relies on global WP APIs
+		if ( typeof wpseoScriptData.social !== "undefined" ) {
+			initSocialSettings();
+		}
+	} );
+}

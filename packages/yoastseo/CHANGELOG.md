@@ -24,6 +24,7 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 * Removes feature flag for Japanese support to prepare Japanese for release.
 * Adds Japanese configuration for meta description length.
 * Removes apostrophe before Turkish words are stemmed.
+* Improves feedback strings for the Keyphrase Length assessment by making them more explicit.
 
 ### Bugfixes
 * Moves the initialization of Keyphrase distribution assessment inside `AnalysisWebWorker.js`.
@@ -31,6 +32,7 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 * Removes two items from the list of morphological passive suffixes for Greek due to their overlap with bigger word groups causing false positives detection.
 * Removes spaces before and after Japanese full stops when sanitizing strings.
 * Removes URLs from Japanese texts before computing text length in the `countCharacters` function.
+* Fixes a bug where the results of the SEO analysis of the focus keyphrase were removed when more than two related keyphrases were analyzed.
 
 ### Non user facing
 * Fixes a typo that caused the `findList` research to not be used in the `ListAssessment`.
@@ -115,6 +117,12 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 * Fixes the Japanese full text test.
 * Adds a Japanese full text test.
 * Recognises internal link if the site's host is null but the site domain and the link host are the same.
+* Adds documentation of the scoring criteria of the assessments.
+* Edits the links to two documentation files and the size of the image displaying the assessments bullets.
+* Adds links between newly created readme files and edit two minor typos.
+* Refactors the `isInternalLink` helper to improve clarity.
+* Removes superfluous full text test papers for all languages in the yoastseo package.
+* Adds a spec file for `getLanguagesWithWordFormSupport.js`.
 
 
 ## 1.92.0

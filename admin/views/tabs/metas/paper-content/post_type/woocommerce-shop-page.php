@@ -12,7 +12,7 @@ $description = esc_html__( 'You haven\'t set a Shop page in your WooCommerce set
 if ( YoastSEO()->helpers->woocommerce->get_shop_page_id() !== -1 ) {
 	$description = sprintf(
 		/* translators: %1$s expands to an opening anchor tag, %2$s expands to a closing anchor tag. */
-		esc_html__( 'You can edit the SEO meta-data for this custom type on the %1$sShop page%2$s.', 'wordpress-seo' ),
+		esc_html__( 'You can edit the SEO metadata for this custom type on the %1$sShop page%2$s.', 'wordpress-seo' ),
 		'<a href="' . esc_url( get_edit_post_link( YoastSEO()->helpers->woocommerce->get_shop_page_id() ) ) . '">',
 		'</a>'
 	);

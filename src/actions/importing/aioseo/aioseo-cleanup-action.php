@@ -5,9 +5,7 @@ namespace Yoast\WP\SEO\Actions\Importing\Aioseo;
 
 use wpdb;
 use Yoast\WP\SEO\Actions\Importing\Abstract_Aioseo_Importing_Action;
-use Yoast\WP\SEO\Conditionals\AIOSEO_V4_Importer_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Helpers\Wpdb_Helper;
 
 /**
  * Importing action for cleaning up AIOSEO data.
@@ -48,36 +46,17 @@ class Aioseo_Cleanup_Action extends Abstract_Aioseo_Importing_Action {
 	protected $wpdb;
 
 	/**
-	 * The wpdb helper.
-	 *
-	 * @var Wpdb_Helper
-	 */
-	protected $wpdb_helper;
-
-	/**
 	 * Class constructor.
 	 *
 	 * @param wpdb           $wpdb        The WordPress database instance.
 	 * @param Options_Helper $options     The options helper.
-	 * @param Wpdb_Helper    $wpdb_helper The wpdb_helper helper.
 	 */
 	public function __construct(
 		wpdb $wpdb,
-		Options_Helper $options,
-		Wpdb_Helper $wpdb_helper
+		Options_Helper $options
 	) {
-		$this->wpdb        = $wpdb;
-		$this->options     = $options;
-		$this->wpdb_helper = $wpdb_helper;
-	}
-
-	/**
-	 * Retrieves the AIOSEO table name along with the db prefix.
-	 *
-	 * @return string The AIOSEO table name along with the db prefix.
-	 */
-	protected function get_aioseo_table() {
-		return $this->wpdb->prefix . 'aioseo_posts';
+		$this->wpdb    = $wpdb;
+		$this->options = $options;
 	}
 
 	/**
@@ -90,32 +69,12 @@ class Aioseo_Cleanup_Action extends Abstract_Aioseo_Importing_Action {
 	}
 
 	/**
-	 * Determines if the AIOSEO database table exists.
-	 *
-	 * @return bool True if the table is found.
-	 */
-	protected function aioseo_exists() {
-		return $this->wpdb_helper->table_exists( $this->get_aioseo_table() ) === true;
-	}
-
-	/**
-	 * Returns whether the AISOEO post importing action is enabled.
-	 *
-	 * @return bool True if the AISOEO post importing action is enabled.
-	 */
-	public function is_enabled() {
-		$aioseo_importer_conditional = \YoastSEO()->classes->get( AIOSEO_V4_Importer_Conditional::class );
-
-		return $aioseo_importer_conditional->is_met();
-	}
-
-	/**
 	 * Just checks if the cleanup has been completed in the past.
 	 *
 	 * @return int The total number of unimported objects.
 	 */
 	public function get_total_unindexed() {
-		if ( ! $this->aioseo_exists() ) {
+		if ( ! $this->aioseo_helper->aioseo_exists() ) {
 			return 0;
 		}
 
@@ -130,7 +89,7 @@ class Aioseo_Cleanup_Action extends Abstract_Aioseo_Importing_Action {
 	 * @return int|false The limited number of unindexed posts. False if the query fails.
 	 */
 	public function get_limited_unindexed_count( $limit ) {
-		if ( ! $this->aioseo_exists() ) {
+		if ( ! $this->aioseo_helper->aioseo_exists() ) {
 			return 0;
 		}
 
@@ -183,16 +142,17 @@ class Aioseo_Cleanup_Action extends Abstract_Aioseo_Importing_Action {
 	}
 
 	/**
-	 * Creates a TRUNCATE query string for emptying the AIOSEO indexable table.
+	 * Creates a TRUNCATE query string for emptying the AIOSEO indexable table, if it exists.
 	 *
 	 * @return string The query to use for importing or counting the number of items to import.
 	 */
 	public function truncate_query() {
-		if ( ! $this->aioseo_exists() ) {
-			return true;
+		if ( ! $this->aioseo_helper->aioseo_exists() ) {
+			// If the table doesn't exist, we need a string that will amount to a quick query that doesn't return false when ran.
+			return 'SELECT 1';
 		}
 
-		$table = $this->get_aioseo_table();
+		$table = $this->aioseo_helper->get_table();
 
 		return "TRUNCATE TABLE {$table}";
 	}

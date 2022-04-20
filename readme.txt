@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 5.9
-Stable tag: 18.1
+Stable tag: 18.6
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -236,42 +236,36 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
-= 18.2 =
-Release Date: February 22nd, 2022
+= 18.7 =
+Release Date: May 3rd, 2022
 
 Enhancements:
 
-* Optimizes the images in FAQ and HowTo blocks to be more responsive and load faster.
+* Adds an integration for [CoAuthors Plus](https://wordpress.org/plugins/co-authors-plus/). When enabled, multiple authors will be added to the schema output.
+* Improves the schema by changing the `@id` for images for `Person` and `Organization` including the `logo` attribute for the latter, to have a more proper format.
+* Adds a `wpseo_schema_graph` filter to allow filtering the entire Schema graph.
+* Removes penalising for H1 that is not at the beginning of the text body.
 
 Bugfixes:
 
-* Fixes a bug where the "Save changes" button would overlap with the admin sidebar on WordPress.com. Props to @DustyReagan.
-* Fixes a bug where a (debug) deprecation message would show in the widget editor on WordPress 5.8 and above.
-* Fixes a bug where a console warning would be thrown when adding a structured data block in the block editor, FSE editor or widget editor.
+* Fixes a bug in the schema where the `thumbnailUrl` attribute of the `Article` object would be wrong if the post had an Open Graph or Twitter image.
+* Fixes typos of several types in brand names and the word metadata. Props to [NekoJonez](https://github.com/NekoJonez).
 
-Other:
+= 18.6 =
+Release Date: April 19th, 2022
 
-* Adds a filter to enable/disable creating indexables: `Yoast\WP\SEO\should_index_indexables`
-* Adds an `__isset` magic method to ease working with helper surfaces. Props to @nlemoine.
-
-= 18.1 =
-Release Date: February 8th, 2022
-
-Yoast SEO 18.1 is out today! This new release brings another round of bug fixes, plus a new way for us to handle the translations in our plugin — leading to a smaller plugin size for you to install. Read more about what's new in Yoast SEO 18.1 in [our release post in English](https://yoa.st/release-8-2-22) or [our release post in Spanish](https://yoa.st/release-8-2-22-spanish)!
-
-Enhancements:
-
-* Changes the overall SEO score color on the post type overview pages to red when no keyphrase is set.
+Meet Yoast SEO 18.6: a small Yoast SEO update, fixing a number of bugs, including several bugs related to the Wincher integration. With the Wincher integration, you can track the rankings of your articles in the search results. If you haven’t checked that feature out, please do so! Read more about what's new in Yoast SEO 18.6 in [our release post in English](https://yoa.st/release-19-4-22) or [our release post in Spanish](https://yoa.st/release-19-4-22-spanish)!
 
 Bugfixes:
 
-* Fixes a bug where images inserted into our FAQ or HowTo blocks would be rendered wider then their respective container when using a Block Theme.
-* Fixes a bug where plugins that would initialize after our plugin would be unable to register certain plugin information or utilize certain hooks.
-* Fixes a bug where capitalized keyphrases would show up twice in the Wincher SEO performance tracking modal. 
+* Fixes a bug where a version mismatch caused broken styling in WooCommerce select fields when linking products.
+* Fixes a bug where keyphrases could show up multiple times in Wincher table.
+* Fixes a bug where the Wincher connection flow would fail on certain installations.
+* Fixes a bug where the Wincher integration could throw a fatal error on PHP 8.0+.
 
 Other:
 
-* Switches from packaged script translations to those from wordpress.org in order to reduce ZIP size and disk usage.
+* Adds a disabled Wincher integration toggle to the Network admin/Multisite `Integrations` tab.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

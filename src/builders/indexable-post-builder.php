@@ -4,8 +4,8 @@ namespace Yoast\WP\SEO\Builders;
 
 use WP_Error;
 use WP_Post;
-use WPSEO_Meta;
 use Yoast\WP\SEO\Exceptions\Indexable\Post_Not_Found_Exception;
+use Yoast\WP\SEO\Helpers\Meta_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Models\Indexable;
@@ -50,20 +50,30 @@ class Indexable_Post_Builder {
 	protected $version;
 
 	/**
+	 * The meta helper.
+	 *
+	 * @var Meta_Helper
+	 */
+	protected $meta;
+
+	/**
 	 * Indexable_Post_Builder constructor.
 	 *
 	 * @param Post_Helper                $post_helper      The post helper.
 	 * @param Post_Type_Helper           $post_type_helper The post type helper.
 	 * @param Indexable_Builder_Versions $versions         The indexable builder versions.
+	 * @param Meta_Helper                $meta             The meta helper.
 	 */
 	public function __construct(
 		Post_Helper $post_helper,
 		Post_Type_Helper $post_type_helper,
-		Indexable_Builder_Versions $versions
+		Indexable_Builder_Versions $versions,
+		Meta_Helper $meta
 	) {
 		$this->post_helper      = $post_helper;
 		$this->post_type_helper = $post_type_helper;
 		$this->version          = $versions->get_latest_version_for_type( 'post' );
+		$this->meta             = $meta;
 	}
 
 	/**
@@ -108,21 +118,22 @@ class Indexable_Post_Builder {
 		$indexable->permalink       = $this->get_permalink( $post->post_type, $post_id );
 
 		$indexable->primary_focus_keyword_score = $this->get_keyword_score(
-			$this->get_meta_value( $post_id, 'focuskw' ),
-			(int) $this->get_meta_value( $post_id, 'linkdex' )
+			$this->meta->get_value( 'focuskw', $post_id ),
+			(int) $this->meta->get_value( 'linkdex', $post_id )
 		);
 
-		$indexable->readability_score = (int) $this->get_meta_value( $post_id, 'content_score' );
+		$indexable->readability_score = (int) $this->meta->get_value( 'content_score', $post_id );
 
-		$indexable->is_cornerstone    = ( $this->get_meta_value( $post_id, 'is_cornerstone' ) === '1' );
+		$indexable->is_cornerstone    = ( $this->meta->get_value( 'is_cornerstone', $post_id ) === '1' );
 		$indexable->is_robots_noindex = $this->get_robots_noindex(
-			$this->get_meta_value( $post_id, 'meta-robots-noindex' )
+			(int) $this->meta->get_value( 'meta-robots-noindex', $post_id )
 		);
 
 		// Set additional meta-robots values.
-		$indexable->is_robots_nofollow = ( $this->get_meta_value( $post_id, 'meta-robots-nofollow' ) === '1' );
-		$noindex_advanced              = $this->get_meta_value( $post_id, 'meta-robots-adv' );
+		$indexable->is_robots_nofollow = ( $this->meta->get_value( 'meta-robots-nofollow', $post_id ) === '1' );
+		$noindex_advanced              = $this->meta->get_value( 'meta-robots-adv', $post_id );
 		$meta_robots                   = \explode( ',', $noindex_advanced );
+
 		foreach ( $this->get_robots_options() as $meta_robots_option ) {
 			$indexable->{'is_robots_' . $meta_robots_option} = \in_array( $meta_robots_option, $meta_robots, true ) ? 1 : null;
 		}
@@ -130,7 +141,7 @@ class Indexable_Post_Builder {
 		$this->reset_social_images( $indexable );
 
 		foreach ( $this->get_indexable_lookup() as $meta_key => $indexable_key ) {
-			$indexable->{$indexable_key} = $this->get_meta_value( $post_id, $meta_key );
+			$indexable->{$indexable_key} = $this->empty_string_to_null( $this->meta->get_value( $meta_key, $post_id ) );
 		}
 
 		if ( empty( $indexable->breadcrumb_title ) ) {
@@ -149,8 +160,8 @@ class Indexable_Post_Builder {
 		$indexable->has_public_posts = $this->has_public_posts( $indexable );
 		$indexable->blog_id          = \get_current_blog_id();
 
-		$indexable->schema_page_type    = $this->get_meta_value( $post_id, 'schema_page_type' );
-		$indexable->schema_article_type = $this->get_meta_value( $post_id, 'schema_article_type' );
+		$indexable->schema_page_type    = $this->empty_string_to_null( $this->meta->get_value( 'schema_page_type', $post_id ) );
+		$indexable->schema_article_type = $this->empty_string_to_null( $this->meta->get_value( 'schema_article_type', $post_id ) );
 
 		$indexable->object_last_modified = $post->post_modified_gmt;
 		$indexable->object_published_at  = $post->post_date_gmt;
@@ -327,23 +338,6 @@ class Indexable_Post_Builder {
 	}
 
 	/**
-	 * Retrieves the current value for the meta field.
-	 *
-	 * @param int    $post_id  The post ID to use.
-	 * @param string $meta_key Meta key to fetch.
-	 *
-	 * @return mixed The value of the indexable entry to use.
-	 */
-	protected function get_meta_value( $post_id, $meta_key ) {
-		$value = WPSEO_Meta::get_value( $meta_key, $post_id );
-		if ( \is_string( $value ) && $value === '' ) {
-			return null;
-		}
-
-		return $value;
-	}
-
-	/**
 	 * Finds an alternative image for the social image.
 	 *
 	 * @param Indexable $indexable The indexable.
@@ -414,5 +408,20 @@ class Indexable_Post_Builder {
 	 */
 	protected function should_exclude_post( $post ) {
 		return $this->post_type_helper->is_excluded( $post->post_type );
+	}
+
+	/**
+	 * Transforms an empty string into null. Leaves non-empty strings intact.
+	 *
+	 * @param string $string The string.
+	 *
+	 * @return string|null The input string or null.
+	 */
+	protected function empty_string_to_null( $string ) {
+		if ( ! is_string( $string ) || $string === '' ) {
+			return null;
+		}
+
+		return $string;
 	}
 }

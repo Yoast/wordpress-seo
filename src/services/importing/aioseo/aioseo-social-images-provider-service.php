@@ -3,6 +3,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Given it's a very specific case.
 namespace Yoast\WP\SEO\Services\Importing\Aioseo;
 
+use Yoast\WP\SEO\Helpers\Aioseo_Helper;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 
 /**
@@ -13,21 +14,31 @@ use Yoast\WP\SEO\Helpers\Image_Helper;
 class Aioseo_Social_Images_Provider_Service {
 
 	/**
+	 * The AIOSEO helper.
+	 *
+	 * @var Aioseo_Helper
+	 */
+	protected $aioseo_helper;
+
+	/**
 	 * The image helper.
 	 *
 	 * @var Image_Helper
 	 */
-	protected $image_helper;
+	protected $image;
 
 	/**
 	 * Class constructor.
 	 *
-	 * @param Image_Helper $image The image helper.
+	 * @param Aioseo_Helper $aioseo_helper The AIOSEO helper.
+	 * @param Image_Helper  $image         The image helper.
 	 */
 	public function __construct(
+		Aioseo_Helper $aioseo_helper,
 		Image_Helper $image
 	) {
-		$this->image = $image;
+		$this->aioseo_helper = $aioseo_helper;
+		$this->image         = $image;
 	}
 
 	/**
@@ -72,7 +83,7 @@ class Aioseo_Social_Images_Provider_Service {
 				return '';
 		}
 
-		$aioseo_settings = \json_decode( \get_option( 'aioseo_options', '' ), true );
+		$aioseo_settings = $this->aioseo_helper->get_global_option();
 
 		if ( $social_setting === 'og' ) {
 			$social_setting = 'facebook';
@@ -124,7 +135,7 @@ class Aioseo_Social_Images_Provider_Service {
 		);
 
 		if ( $attachments && ! empty( $attachments ) ) {
-			return $this->image->get_attachment_image_source( array_values( $attachments )[0]->ID, 'fullsize' );
+			return $this->image->get_attachment_image_source( \array_values( $attachments )[0]->ID, 'fullsize' );
 		}
 
 		return '';
@@ -155,11 +166,7 @@ class Aioseo_Social_Images_Provider_Service {
 	 * @return string The url of the featured image.
 	 */
 	public function get_auto_image( $post_id ) {
-		$image = $this->get_featured_image( $post_id );
-
-		if ( ! $image ) {
-			$image = $this->get_first_attached_image( $post_id );
-		}
+		$image = $this->get_first_attached_image( $post_id );
 
 		if ( ! $image ) {
 			$image = $this->get_first_image_in_content( $post_id );

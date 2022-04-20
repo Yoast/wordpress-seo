@@ -222,7 +222,18 @@ class Actions {
 			return 0;
 		}
 
-		\system( 'composer check-cs-warnings -- ' . \implode( ' ', \array_map( 'escapeshellarg', $php_files ) ), $exit_code );
+		/*
+		 * In CI, generate both the normal report as well as the checkstyle report.
+		 * The normal report will be shown in the actions output and ensures human readable (and colorized!) results there.
+		 * The checkstyle report is used to show the results inline in the GitHub code view.
+		 */
+		$extra_args = ( \getenv( 'CI' ) === false ) ? '' : ' --colors --report-full --report-checkstyle=./phpcs-report.xml';
+		$command    = \sprintf(
+			'composer check-cs-warnings -- %s %s',
+			\implode( ' ', \array_map( 'escapeshellarg', $php_files ) ),
+			$extra_args
+		);
+		\system( $command, $exit_code );
 
 		return $exit_code;
 	}
@@ -333,8 +344,15 @@ TPL;
 	 * @return void
 	 */
 	public static function check_cs_thresholds() {
+		$in_ci = \getenv( 'CI' );
+
 		echo 'Running coding standards checks, this may take some time.', \PHP_EOL;
+
 		$command = 'composer check-cs-warnings -- -mq --report="YoastCS\\Yoast\\Reports\\Threshold"';
+		if ( $in_ci !== false ) {
+			// Always show the results in CI in color.
+			$command .= ' --colors';
+		}
 		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- Non-WP context, this is fine.
 		@\exec( $command, $phpcs_output, $return );
 
@@ -346,7 +364,11 @@ TPL;
 			$above_threshold = false;
 		}
 
-		if ( $above_threshold === true ) {
+		/*
+		 * Don't run the branch check in CI/GH Actions as it prevents the errors from being show inline.
+		 * The GH Actions script will run this via a separate script step.
+		 */
+		if ( $above_threshold === true && $in_ci === false ) {
 			echo \PHP_EOL;
 			echo 'Running check-branch-cs.', \PHP_EOL;
 			echo 'This might show problems on untouched lines. Focus on the lines you\'ve changed first.', \PHP_EOL;

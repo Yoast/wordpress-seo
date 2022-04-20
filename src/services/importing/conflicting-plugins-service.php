@@ -24,7 +24,7 @@ class Conflicting_Plugins_Service {
 	/**
 	 * Deactivates the specified plugin(s) if any, or the entire list of known conflicting plugins.
 	 *
-	 * @param string|array|false $plugins (optional) The plugin filename, or array of plugin filenames, to deactivate.
+	 * @param string|array|false $plugins Optional. The plugin filename, or array of plugin filenames, to deactivate.
 	 */
 	public function deactivate_conflicting_plugins( $plugins = false ) {
 		// If no plugins are specified, deactivate any known conflicting plugins that are active.
@@ -37,7 +37,7 @@ class Conflicting_Plugins_Service {
 			$plugins = [ $plugins ];
 		}
 
-		if ( ! is_array( $plugins ) ) {
+		if ( ! \is_array( $plugins ) ) {
 			return;
 		}
 
@@ -70,7 +70,7 @@ class Conflicting_Plugins_Service {
 	 * @return false|array The names of all active plugins.
 	 */
 	protected function get_active_plugins() {
-		// request a list of active plugins from WordPress.
+		// Request a list of active plugins from WordPress.
 		$all_active_plugins = \get_option( 'active_plugins' );
 
 		return $this->ignore_deactivating_plugin( $all_active_plugins );

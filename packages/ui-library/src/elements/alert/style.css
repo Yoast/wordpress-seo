@@ -1,0 +1,64 @@
+@layer components {
+    .yst-alert {
+        @apply
+            yst-flex
+            yst-gap-3
+            yst-rounded-md
+            yst-p-4;
+        
+        a {
+            @apply yst-text-inherit yst-font-medium;
+        }
+    }
+
+    /* Variants */
+    .yst-alert--info {
+        @apply
+            yst-bg-blue-100
+            yst-text-blue-800;
+
+        .yst-alert__icon {
+            @apply yst-text-blue-500;
+        }
+    }
+
+    .yst-alert--warning {
+        @apply
+            yst-bg-yellow-100
+            yst-text-yellow-800;
+
+        .yst-alert__icon {
+            @apply yst-text-yellow-500;
+        }
+    }
+
+    .yst-alert--success {
+        @apply
+        yst-bg-green-100
+            yst-text-green-800;
+
+        .yst-alert__icon {
+            @apply yst-text-green-500;
+        }
+
+    }
+
+    .yst-alert--error {
+        @apply
+            yst-bg-red-100
+            yst-text-red-800;
+
+        .yst-alert__icon {
+            @apply yst-text-red-500;
+        }
+    }
+
+    /* Elements */
+    .yst-alert__icon {
+        @apply
+            yst-shrink-0
+            yst-grow-0
+            yst-h-5
+            yst-w-5;
+    }
+}
