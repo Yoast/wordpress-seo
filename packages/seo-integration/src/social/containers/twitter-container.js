@@ -6,8 +6,8 @@ import { useReplacementVariables } from "../../hooks/useReplacementVariables";
 /**
  * Handles known data for a Twitter editor component.
  *
- * @param {JSX.Element} as A Twitter editor component.
- * @param {Object} restProps Props to pass to the Twitter editor component, that are unhandled by this container.
+ * @param {JSX.Element} as          A Twitter editor component.
+ * @param {Object}      restProps   Props to pass to the Twitter editor component, that are unhandled by this container.
  *
  * @returns {JSX.Element} A wrapped Twitter editor component.
  */
