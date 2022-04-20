@@ -1,0 +1,9 @@
+@layer components {
+    .yst-file-import {}
+
+    .yst-file-import__select {}
+
+    .yst-file-import__feedback {}
+
+    .yst-file-import__progress {}
+}

@@ -1,29 +1,57 @@
-import { useState, useCallback, useEffect } from "@wordpress/element";
-import { noop, values } from "lodash";
+import { useState, useCallback, useContext, useEffect, createContext, useMemo } from "@wordpress/element";
+import { noop, values, includes, isEmpty } from "lodash";
+import classNames from "classnames";
 import PropTypes from "prop-types";
 
-const STATUS = {
+export const FILE_IMPORT_STATUS = {
 	IDLE: "idle",
 	LOADING: "loading",
 	SUCCESS: "success",
 	ERROR: "error",
 };
 
+const FileImportContext = createContext( { status: FILE_IMPORT_STATUS.IDLE } );
+
+/**
+ * @returns {Object} The current file import context.
+ */
+const useFileImportContext = () => useContext( FileImportContext );
+
+/**
+ * @param {JSX.node} children The React children.
+ * @returns {JSX.Element} Success message component that renders when file import status is 'success'.
+ */
+const Success = ( { children } ) => {
+	const { status } = useFileImportContext();
+	return status === FILE_IMPORT_STATUS.SUCCESS ? children : null;
+};
+
+/**
+ *
+ *
+ * @param {JSX.node} children The React children.
+ * @returns {JSX.Element} Error message component that renders when file import status is 'error'.
+ */
+const Error = ( { children } ) => {
+	const { status } = useFileImportContext();
+	return status === FILE_IMPORT_STATUS.ERROR ? children : null;
+};
+
 /**
  * The FileImport component.
  *
- * @param {string} value
- * @param {string} status
- * @param {Function} onChange
- * @param {Function} onAbort
- * @param {number} progress
- * @param {string} accept
- * @param {number} maxFileSize
- * @param {JSX.Element} successAs
- * @param {JSX.Element} errorAs
+ * @param {JSX.node} children The React children.
+ * @param {string} value The value.
+ * @param {"idle"|"loading"|"success"|"failure"} status The status the component should be in.
+ * @param {Function} onChange The callback for when a file is imported.
+ * @param {Function} onAbort The callback for when an file import is aborted.
+ * @param {number} progress The import progress.
+ * @param {string} accept Which filetype the file import accepts.
+ * @param {number} maxFileSize The maximum file size.
  * @returns {JSX.Element} The FileImport component.
  */
 const FileImport = ( {
+	children,
 	value,
 	status,
 	onChange,
@@ -31,20 +59,16 @@ const FileImport = ( {
 	progress = null,
 	accept = null,
 	maxFileSize = Infinity,
-	successAs: SuccessComponent = "",
-	errorAs: ErrorComponent = "",
 } ) => {
+	const [ isDragOver, setIsDragOver ] = useState( false );
 	const [ file, setFile ] = useState( {} );
 
-	const test = async () => {
+	const hasFeedback = useMemo( () => includes(
+		[ FILE_IMPORT_STATUS.LOADING, FILE_IMPORT_STATUS.SUCCESS, FILE_IMPORT_STATUS.ERROR ],
+		status,
+	), [ status ] );
 
-	};
-
-	const handleChange = useCallback( () => {
-
-	}, [ onChange ] );
-
-	const handleDrop = useCallback( () => {
+	const handleChange = useCallback( ( event ) => {
 
 	}, [ onChange ] );
 
@@ -52,27 +76,61 @@ const FileImport = ( {
 
 	}, [ onAbort ] );
 
-	return (
-		<div className="yst-file-import">
+	const handleDragEnter = useCallback( ( event ) => {
+		event.preventDefault();
+		if ( ! isEmpty( event.dataTransfer.items ) ) {
+			setIsDragOver( true );
+		}
+	}, [] );
+	const handleDragLeave = useCallback( ( event ) => {
+		event.preventDefault();
+		setIsDragOver( false );
+	}, [] );
 
-			<div className="yst-file-import__result">
-				{ status === STATUS.SUCCESS && <SuccessComponent /> }
-				{ status === STATUS.ERROR && <ErrorComponent /> }
+	const handleDrop = useCallback( ( event ) => {
+		console.warn( event.dataTransfer.files[ 0 ] );
+	}, [ onChange ] );
+
+	return (
+		<FileImportContext.Provider value={ { status } }>
+			<div className="yst-file-import">
+				<div
+					onDragEnter={ handleDragEnter }
+					onDragLeave={ handleDragLeave }
+					onDrop={ handleDrop }
+					className={ classNames( "yst-file-import__select", {
+						"yst-border-black": isDragOver,
+					} ) }
+				>
+					Select file
+				</div>
+				{ hasFeedback && (
+					<div className="yst-file-import__feedback">
+						<div className="yst-mb-3">
+							Progress bar
+						</div>
+						{ children }
+					</div>
+				) }
 			</div>
-		</div>
+		</FileImportContext.Provider>
 	);
 };
 
 FileImport.propTypes = {
-	value: PropTypes.string,
-	status: PropTypes.oneOf( values( STATUS ) ),
+	children: PropTypes.node,
+	value: PropTypes.shape( {
+
+	} ),
+	status: PropTypes.oneOf( values( FILE_IMPORT_STATUS ) ),
 	onChange: PropTypes.func.isRequired,
 	onAbort: PropTypes.func,
 	progress: PropTypes.number,
 	accept: PropTypes.string,
 	maxFileSize: PropTypes.number,
-	successAs: PropTypes.node,
-	errorAs: PropTypes.node,
 };
+
+FileImport.Success = Success;
+FileImport.Error = Error;
 
 export default FileImport;
