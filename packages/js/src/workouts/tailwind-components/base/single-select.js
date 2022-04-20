@@ -19,7 +19,7 @@ import MultiLineText from "./multi-line-text";
  *
  * @returns {WPElement} The Select element.
  */
-export default function Select( { id, value, choices, label, onChange, error } ) {
+export default function Select( { id, value, choices, label, onChange, error, disabled } ) {
 	// Find label to display for value of selected choice.
 	const valueLabel = useMemo( () => {
 		const selectedChoice = choices.find( ( choice ) => value === choice.value );
@@ -27,7 +27,7 @@ export default function Select( { id, value, choices, label, onChange, error } )
 	}, [ choices, value ] );
 
 	return (
-		<Listbox value={ value } onChange={ onChange }>
+		<Listbox value={ value } onChange={ onChange } disabled={ disabled }>
 			{ ( { open } ) => (
 				<>
 					{ label && <Listbox.Label className="yst-block yst-max-w-sm yst-mb-1 yst-text-sm yst-font-medium yst-text-gray-700">{ label }</Listbox.Label> }
@@ -36,7 +36,8 @@ export default function Select( { id, value, choices, label, onChange, error } )
 							<Listbox.Button
 								className={ classNames(
 									"yst-relative yst-h-[45px] yst-w-full yst-leading-6 yst-py-2 yst-pl-3 yst-pr-10 yst-text-left yst-text-gray-700 yst-bg-white yst-border yst-rounded-md yst-shadow-sm yst-cursor-default focus:yst-outline-none focus:yst-ring-1 focus:yst-ring-primary-500 focus:yst-border-primary-500 sm:yst-text-sm",
-									error.isVisible ? "yst-border-red-300" : "yst-border-gray-300"
+									error.isVisible ? "yst-border-red-300" : "yst-border-gray-300",
+									disabled ? "yst-opacity-50" : "yst-opacity-100"
 								) }
 								{ ...getErrorAriaProps( id, error ) }
 							>
@@ -118,6 +119,7 @@ Select.propTypes = {
 		message: PropTypes.string,
 		isVisible: PropTypes.bool,
 	} ),
+	disabled: PropTypes.bool,
 };
 
 Select.defaultProps = {
@@ -125,4 +127,5 @@ Select.defaultProps = {
 		message: "",
 		isVisible: false,
 	},
+	disabled: false,
 };
