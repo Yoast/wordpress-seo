@@ -35,8 +35,8 @@ class WPSEO_Sitemap_Image_Parser_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_get_images() {
 
-		$content_src   = 'http://example.org/content-image.jpg';
-		$post_id       = $this->factory->post->create(
+		$content_src = 'http://example.org/content-image.jpg';
+		$post_id     = $this->factory->post->create(
 			[ 'post_content' => "<img src='{$content_src}' alt='jibberish' />" ]
 		);
 

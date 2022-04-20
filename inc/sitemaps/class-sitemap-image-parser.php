@@ -178,7 +178,11 @@ class WPSEO_Sitemap_Image_Parser {
 		// Clear the errors, so they don't get kept in memory.
 		libxml_clear_errors();
 
-		/** @var DOMElement $img */
+		/**
+		 * Image attribute.
+		 *
+		 * @var DOMElement $img
+		 */
 		foreach ( $post_dom->getElementsByTagName( 'img' ) as $img ) {
 
 			$src = $img->getAttribute( 'src' );
