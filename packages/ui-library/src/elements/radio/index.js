@@ -51,7 +51,7 @@ const Radio = ( {
 					aria-label={ srLabel }
 					{ ...props }
 				/>
-				<span className="yst-radio__label_check_container">
+				<span className="yst-radio__content">
 					<Label htmlFor={ id } className="yst-radio__label" label={ label } />
 					<CheckCircleIcon className="yst-radio__check" { ...svgAriaProps } />
 				</span>

@@ -12,7 +12,7 @@
 		.yst-radio__input {
 			@apply yst-sr-only;
 
-			&:checked + .yst-radio__label_check_container {
+			&:checked + .yst-radio__content {
 				.yst-radio__label {
 					@apply yst-border-transparent yst-ring-2 yst-ring-primary-500;
 				}
@@ -23,7 +23,7 @@
 			}
 		}
 
-		.yst-radio__label_check_container {
+		.yst-radio__content {
 			@apply yst-relative;
 		}
 
