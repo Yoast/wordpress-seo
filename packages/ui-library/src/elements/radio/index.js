@@ -15,8 +15,8 @@ const classNameMap = {
  * @param {string} id Identifier.
  * @param {string} name Name.
  * @param {string} value Value.
- * @param {JSX.string} label Label.
- * @param {JSX.string} srLabel Screen reader label.
+ * @param {string} label Label.
+ * @param {string} srLabel Screen reader label.
  * @param {string} [variant] Variant.
  * @param {string} [className] CSS class.
  * @returns {JSX.Element} Radio component.
@@ -51,10 +51,10 @@ const Radio = ( {
 					aria-label={ srLabel }
 					{ ...props }
 				/>
-				<label htmlFor={ id } className="yst-radio__label">
-					{ label }
+				<span className="yst-radio__content">
+					<Label htmlFor={ id } className="yst-radio__label" label={ label } />
 					<CheckCircleIcon className="yst-radio__check" { ...svgAriaProps } />
-				</label>
+				</span>
 			</div>
 		);
 	}
@@ -74,7 +74,7 @@ const Radio = ( {
 				className="yst-radio__input"
 				{ ...props }
 			/>
-			{ label && <Label htmlFor={ id } className="yst-radio__label">{ label }</Label> }
+			<Label htmlFor={ id } className="yst-radio__label" label={ label } />
 		</div>
 	);
 };

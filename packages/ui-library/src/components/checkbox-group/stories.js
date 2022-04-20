@@ -7,7 +7,6 @@ export default {
 	component: CheckboxGroup,
 	argTypes: {
 		children: { control: "text" },
-		label: { control: "text" },
 	},
 	parameters: {
 		docs: {

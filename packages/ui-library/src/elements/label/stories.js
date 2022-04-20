@@ -4,7 +4,6 @@ export default {
 	title: "1. Elements/Label",
 	component: Label,
 	argTypes: {
-		children: { control: "text" },
 		as: { options: [ "label", "span", "div" ] },
 	},
 	parameters: {
@@ -16,12 +15,12 @@ export default {
 	},
 };
 
-export const Factory = ( { children, ...args } ) => (
-	<Label { ...args }>{ children }</Label>
+export const Factory = ( { ...args } ) => (
+	<Label { ...args } />
 );
 Factory.parameters = {
 	controls: { disable: false },
 };
 Factory.args = {
-	children: "Label Factory",
+	label: "Label Factory",
 };
