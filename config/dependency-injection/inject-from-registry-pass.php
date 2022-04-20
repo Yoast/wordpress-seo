@@ -49,6 +49,9 @@ class Inject_From_Registry_Pass extends AbstractRecursivePass {
 
 		if ( \is_subclass_of( $class_name, Loadable_Interface::class ) ) {
 			foreach ( $class_name::get_conditionals() as $type ) {
+				if ( \is_array( $type ) ) {
+					$type = \key( $type );
+				}
 				$this->add_definition( $type );
 			}
 		}

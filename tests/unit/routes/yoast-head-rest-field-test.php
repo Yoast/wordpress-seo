@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Routes;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Actions\Indexables\Indexable_Head_Action;
-use Yoast\WP\SEO\Conditionals\Headless_Rest_Endpoints_Enabled_Conditional;
+use Yoast\WP\SEO\Conditionals\Options_Conditional;
 use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
@@ -85,7 +85,7 @@ class Yoast_Head_REST_Field_Test extends TestCase {
 	 * @covers ::get_conditionals
 	 */
 	public function test_get_conditionals() {
-		$this->assertEquals( [ Headless_Rest_Endpoints_Enabled_Conditional::class ], Yoast_Head_REST_Field::get_conditionals() );
+		$this->assertEquals( [ [ Options_Conditional::class => 'enable_headless_rest_endpoints' ] ], Yoast_Head_REST_Field::get_conditionals() );
 	}
 
 	/**

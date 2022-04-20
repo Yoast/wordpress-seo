@@ -227,7 +227,16 @@ class Loader {
 	protected function conditionals_are_met( $integration_class ) {
 		$conditionals = $integration_class::get_conditionals();
 		foreach ( $conditionals as $conditional ) {
-			if ( ! $this->container->get( $conditional )->is_met() ) {
+			$args = [];
+			if ( \is_array( $conditional ) ) {
+				$args = \reset( $conditional );
+				if ( ! is_array( $args ) ) {
+					$args = [ $args ];
+				}
+				$conditional = \key( $conditional );
+			}
+
+			if ( ! $this->container->get( $conditional )->is_met( ...$args ) ) {
 				return false;
 			}
 		}

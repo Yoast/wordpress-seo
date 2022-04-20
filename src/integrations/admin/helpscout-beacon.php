@@ -95,7 +95,7 @@ class HelpScout_Beacon implements Integration_Interface {
 	protected $migration_status;
 
 	/**
-	 * Headless_Rest_Endpoints_Enabled_Conditional constructor.
+	 * Helpscout Beacon constructor.
 	 *
 	 * @param Options_Helper            $options          The options helper.
 	 * @param WPSEO_Admin_Asset_Manager $asset_manager    The asset manager.
