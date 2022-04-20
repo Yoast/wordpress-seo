@@ -29,7 +29,7 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 	} );
 
 	return <Fragment>
-		{  window.wpseoWorkoutsData.configuration.knowledgeGraphMessage &&  <Alert type="warning">
+		{  window.wpseoWorkoutsData.configuration.knowledgeGraphMessage &&  <Alert type="info">
 			{  window.wpseoWorkoutsData.configuration.knowledgeGraphMessage }
 		</Alert> }
 		<p className="yst-text-sm yst-whitespace-pre-line yst-mb-6">
@@ -58,6 +58,7 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 			value={ state.shouldForceCompany ? "company" : state.companyOrPerson }
 			onChange={ onOrganizationOrPersonChange }
 			choices={ state.companyOrPersonOptions }
+			disabled={ state.shouldForceCompany }
 		/>
 		<ReactAnimateHeight
 			height={ [ "company", "person" ].includes( state.companyOrPerson ) ? "auto" : 0 }
