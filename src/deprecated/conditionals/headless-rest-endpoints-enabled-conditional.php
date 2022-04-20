@@ -28,7 +28,7 @@ class Headless_Rest_Endpoints_Enabled_Conditional implements Conditional {
 	 * @deprecated 18.5
 	 */
 	public function __construct( Options_Helper $options ) {
-		_deprecated_constructor( self::class, '18,5' );
+		_deprecated_constructor( __CLASS__, '18,5' );
 
 		$this->options = $options;
 	}
