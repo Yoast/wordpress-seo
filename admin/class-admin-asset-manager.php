@@ -225,9 +225,9 @@ class WPSEO_Admin_Asset_Manager {
 	/**
 	 * Returns the scripts that need to be registered.
 	 *
+	 * @return array The scripts that need to be registered.
 	 * @todo Data format is not self-documenting. Needs explanation inline. R.
 	 *
-	 * @return array The scripts that need to be registered.
 	 */
 	protected function scripts_to_be_registered() {
 		$header_scripts          = [
@@ -238,20 +238,20 @@ class WPSEO_Admin_Asset_Manager {
 			'help-scout-beacon',
 		];
 		$additional_dependencies = [
-			'analysis-worker'    => [ self::PREFIX . 'analysis-package' ],
-			'api-client'         => [ 'wp-api' ],
-			'dashboard-widget'   => [ self::PREFIX . 'api-client' ],
-			'elementor'          => [
+			'analysis-worker'  => [ self::PREFIX . 'analysis-package' ],
+			'api-client'       => [ 'wp-api' ],
+			'dashboard-widget' => [ self::PREFIX . 'api-client' ],
+			'elementor'        => [
 				self::PREFIX . 'api-client',
 				self::PREFIX . 'externals-components',
 				self::PREFIX . 'externals-contexts',
 				self::PREFIX . 'externals-redux',
 			],
-			'indexation'         => [
+			'indexation'       => [
 				'jquery-ui-core',
 				'jquery-ui-progressbar',
 			],
-			'post-edit'          => [
+			'post-edit'        => [
 				self::PREFIX . 'api-client',
 				self::PREFIX . 'block-editor',
 				self::PREFIX . 'externals-components',
@@ -259,17 +259,17 @@ class WPSEO_Admin_Asset_Manager {
 				self::PREFIX . 'externals-redux',
 				self::PREFIX . 'select2',
 			],
-			'reindex-links'      => [
+			'reindex-links'    => [
 				'jquery-ui-core',
 				'jquery-ui-progressbar',
 			],
-			'settings'           => [
+			'settings'         => [
 				'jquery-ui-core',
 				'jquery-ui-progressbar',
 				self::PREFIX . 'api-client',
 				self::PREFIX . 'select2',
 			],
-			'term-edit'          => [
+			'term-edit'        => [
 				self::PREFIX . 'api-client',
 				self::PREFIX . 'classic-editor',
 				self::PREFIX . 'externals-components',
@@ -337,10 +337,11 @@ class WPSEO_Admin_Asset_Manager {
 			'name'      => 'post-edit-classic',
 			'src'       => $scripts['post-edit']['src'],
 			'deps'      => array_map(
-				static function( $dep ) {
+				static function ( $dep ) {
 					if ( $dep === self::PREFIX . 'block-editor' ) {
 						return self::PREFIX . 'classic-editor';
 					}
+
 					return $dep;
 				},
 				$scripts['post-edit']['deps']
@@ -412,24 +413,24 @@ class WPSEO_Admin_Asset_Manager {
 	/**
 	 * Loads a generated asset file.
 	 *
-	 * @param array $args {
-	 *     The arguments.
+	 * @param array                  $args            {
+	 *                                                The arguments.
 	 *
-	 *     @type string                  $asset_file      The asset file to load.
-	 *     @type int                     $ext_length      The length of the extension, including suffix, of the filename.
-	 *     @type string                  $suffix          Optional. The suffix of the asset name.
-	 *     @type array<string, string[]> $additional_deps Optional. The additional dependencies assets may have.
-	 *     @type string                  $base_dir        Optional. The base directory of the asset.
-	 *     @type string[]                $header_scripts  Optional. The script names that should be in the header.
+	 * @type string                  $asset_file      The asset file to load.
+	 * @type int                     $ext_length      The length of the extension, including suffix, of the filename.
+	 * @type string                  $suffix          Optional. The suffix of the asset name.
+	 * @type array<string, string[]> $additional_deps Optional. The additional dependencies assets may have.
+	 * @type string                  $base_dir        Optional. The base directory of the asset.
+	 * @type string[]                $header_scripts  Optional. The script names that should be in the header.
 	 * }
 	 *
 	 * @return array {
 	 *     The scripts to be registered.
 	 *
-	 *     @type string   $name      The name of the asset.
-	 *     @type string   $src       The src of the asset.
-	 *     @type string[] $deps      The dependenies of the asset.
-	 *     @type bool     $in_footer Whether or not the asset should be in the footer.
+	 * @type string                  $name            The name of the asset.
+	 * @type string                  $src             The src of the asset.
+	 * @type string[]                $deps            The dependenies of the asset.
+	 * @type bool                    $in_footer       Whether or not the asset should be in the footer.
 	 * }
 	 */
 	protected function load_generated_asset_file( $args ) {
@@ -445,8 +446,8 @@ class WPSEO_Admin_Asset_Manager {
 		$scripts = [];
 		$assets  = require $args['asset_file'];
 		foreach ( $assets as $file => $data ) {
-			$name  = substr( $file, 0, -$args['ext_length'] );
-			$name  = strtolower( preg_replace( '/([A-Z])/', '-$1', $name ) );
+			$name = substr( $file, 0, -$args['ext_length'] );
+			$name = strtolower( preg_replace( '/([A-Z])/', '-$1', $name ) );
 			$name .= $args['suffix'];
 
 			$deps = $data['dependencies'];
@@ -472,10 +473,10 @@ class WPSEO_Admin_Asset_Manager {
 	 * @return array {
 	 *     The scripts to be registered.
 	 *
-	 *     @type string   $name      The name of the asset.
-	 *     @type string   $src       The src of the asset.
-	 *     @type string[] $deps      The dependenies of the asset.
-	 *     @type bool     $in_footer Whether or not the asset should be in the footer.
+	 * @type string   $name      The name of the asset.
+	 * @type string   $src       The src of the asset.
+	 * @type string[] $deps      The dependenies of the asset.
+	 * @type bool     $in_footer Whether or not the asset should be in the footer.
 	 * }
 	 */
 	protected function load_select2_scripts() {
@@ -492,9 +493,9 @@ class WPSEO_Admin_Asset_Manager {
 		}
 
 		$scripts['select2']              = [
-			'name'    => 'select2',
-			'src'     => false,
-			'deps'    => [
+			'name' => 'select2',
+			'src'  => false,
+			'deps' => [
 				self::PREFIX . 'select2-translations',
 				self::PREFIX . 'select2-core',
 			],
@@ -526,10 +527,10 @@ class WPSEO_Admin_Asset_Manager {
 	 * @return array {
 	 *     The scripts to be registered.
 	 *
-	 *     @type string   $name      The name of the asset.
-	 *     @type string   $src       The src of the asset.
-	 *     @type string[] $deps      The dependenies of the asset.
-	 *     @type bool     $in_footer Whether or not the asset should be in the footer.
+	 * @type string   $name      The name of the asset.
+	 * @type string   $src       The src of the asset.
+	 * @type string[] $deps      The dependenies of the asset.
+	 * @type bool     $in_footer Whether or not the asset should be in the footer.
 	 * }
 	 */
 	protected function load_renamed_scripts() {
@@ -570,9 +571,9 @@ class WPSEO_Admin_Asset_Manager {
 	/**
 	 * Returns the styles that need to be registered.
 	 *
+	 * @return array Styles that need to be registered.
 	 * @todo Data format is not self-documenting. Needs explanation inline. R.
 	 *
-	 * @return array Styles that need to be registered.
 	 */
 	protected function styles_to_be_registered() {
 		$flat_version = $this->flatten_version( WPSEO_VERSION );
@@ -614,6 +615,8 @@ class WPSEO_Admin_Asset_Manager {
 					self::PREFIX . 'select2',
 					self::PREFIX . 'admin-css',
 					'wp-components',
+					self::PREFIX . 'tailwind',
+					self::PREFIX . 'monorepo',
 				],
 			],
 			[
