@@ -17,37 +17,37 @@ import Welcome from "./welcome";
 const steps = {
 	welcome: {
 		id: "welcome",
-		title: "Let's get started.",
+		title: "Start",
 		description: "Let's get started.",
 		component: Welcome,
 	},
 	about: {
 		id: "about",
-		title: "What is your post about?",
+		title: "Topic",
 		description: "What is your post about?",
 		component: About,
 	},
-	schema: {
-		id: "schema",
-		title: "What type of post is this?",
-		description: "What type of post is this?",
-		component: Schema,
-	},
 	purpose: {
 		id: "purpose",
-		title: "What’s the purpose of your text?",
+		title: "Goal",
 		description: "What’s the purpose of your text?",
 		component: Purpose,
 	},
+	schema: {
+		id: "schema",
+		title: "Type",
+		description: "What type of post is this?",
+		component: Schema,
+	},
 	layout: {
 		id: "layout",
-		title: "Choose a layout.",
+		title: "Template",
 		description: "Choose a layout.",
 		component: Layout,
 	},
 	finish: {
 		id: "finish",
-		title: "Start writing!",
+		title: "Done",
 		description: "Start writing!",
 		component: Finish,
 	},
