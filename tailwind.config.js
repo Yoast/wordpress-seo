@@ -3,7 +3,10 @@ const tailwindcssForms = require( "@tailwindcss/forms" )( {
 } );
 
 module.exports = {
-	content: [ "./packages/js/**/*.{html,js}" ],
+	content: [
+		"./packages/js/**/*.{html,js}",
+		"./node_modules/@yoast/ui-library/**/*.js",
+	],
 	theme: {
 		fontSize: {
 			xxs: "0.675rem",

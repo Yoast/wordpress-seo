@@ -15,7 +15,7 @@ module.exports = {
 			},
 			processors: [
 				postCSSImport(),
-				postCSSNesting(),
+				postCSSNesting,
 				tailwindcss( path.resolve( __dirname, "../../../tailwind.config.js" ) ),
 				autoPrefixer(),
 			],
@@ -27,7 +27,7 @@ module.exports = {
 			map: false,
 			processors: [
 				postCSSImport(),
-				postCSSNesting(),
+				postCSSNesting,
 				tailwindcss( path.resolve( __dirname, "../../../tailwind.config.js" ) ),
 				autoPrefixer(),
 				cssNano(),
