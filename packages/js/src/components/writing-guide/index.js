@@ -94,9 +94,9 @@ const WritingGuide = () => {
 	}, [ setCompletedSteps, setActiveStep, activeStep ] );
 
 	return (
-		<Modal id="yst-writing-guide" isOpen={ isActive } onClose={ () => setIsActive( false ) }>
+		<Modal isOpen={ isActive } onClose={ () => setIsActive( false ) } className="yst-writing-guide">
 			<div className="yst-flex">
-				<nav aria-label="Progress" className="yst-pr-4 yst-border-gray-300 yst-border-r">
+				<nav aria-label="Progress" className="yst-pr-4 yst-border-gray-300 yst-border-r yst-shrink-0">
 					<ol className="yst-overflow-hidden">
 						{ stepsOrder.map( ( stepKey, stepIdx ) => {
 							const step = steps[ stepKey ];

@@ -11,7 +11,7 @@
 @tailwind components;
 @tailwind utilities;
 
-#yst-writing-guide {
+.yst-writing-guide {
   @apply
     yst-text-sm
     yst-font-normal
@@ -20,7 +20,7 @@
     yst-antialiased;
 }
 
-#yst-writing-guide .yst-modal__content {
+.yst-writing-guide .yst-modal__content {
 	@apply yst-max-w-5xl;
 }
 
