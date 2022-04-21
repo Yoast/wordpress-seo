@@ -11,6 +11,10 @@
 @tailwind components;
 @tailwind utilities;
 
+#yst-writing-guide .yst-modal__content {
+	@apply yst-max-w-5xl;
+}
+
 #wpseo_meta {
   box-sizing: border-box;
 }
