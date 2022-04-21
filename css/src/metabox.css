@@ -5,6 +5,12 @@
 @import "draft-js/dist/Draft.css";
 /*!rtl:end:ignore*/
 
+@import "@yoast/ui-library";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 #wpseo_meta {
   box-sizing: border-box;
 }
