@@ -21,6 +21,7 @@ const Schema = ( { data, dispatch } ) => {
 				If you tell us which type of page you want to create, we can help you with a specific layout, provide tailored content feedback and tell Google what kind of page it is.
 			</p>
 			<Select
+				id="articleType"
 				name="articleType"
 				value={ data?.articleType }
 				onChange={ handleChange }

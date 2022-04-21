@@ -11,6 +11,15 @@
 @tailwind components;
 @tailwind utilities;
 
+#yst-writing-guide {
+  @apply
+    yst-text-sm
+    yst-font-normal
+    yst-font-sans
+    yst-text-gray-500
+    yst-antialiased;
+}
+
 #yst-writing-guide .yst-modal__content {
 	@apply yst-max-w-5xl;
 }

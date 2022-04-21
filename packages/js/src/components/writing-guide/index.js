@@ -186,7 +186,7 @@ const WritingGuide = () => {
 				<div className="yst-flex yst-grow yst-flex-col yst-justify-between yst-pl-4">
 					<ActiveStep data={ data } dispatch={ dispatch } />
 					<footer className="yst-flex yst-justify-between">
-						{ activeStepIndex < 1 ? <Button variant="secondary" onClick={ handlePrev }>Prev</Button> : <div /> }
+						{ activeStepIndex > 1 ? <Button variant="secondary" onClick={ handlePrev }>Prev</Button> : <div /> }
 						{ activeStepIndex < stepsOrder.length - 1 ? (
 							<Button onClick={ handleNext }>Next</Button>
 						) : (
