@@ -3,7 +3,7 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable require-jsdoc */
 import { useState, useCallback, useReducer } from "@wordpress/element";
-import { noop, indexOf } from "lodash";
+import { noop, indexOf, includes } from "lodash";
 import { Modal, Button } from "@yoast/ui-library";
 import classNames from "classnames";
 import { CheckIcon } from "@heroicons/react/outline";
@@ -54,7 +54,7 @@ const steps = {
 	},
 };
 
-const stepsOrder = [ "welcome", "about", "schema", "audience", "layout", "finish" ];
+const stepIdsOrder = [ "welcome", "about", "schema", "audience", "layout", "finish" ];
 
 const dataReducer = ( state = {}, action ) => {
 	switch ( action ) {
@@ -70,27 +70,27 @@ const dataReducer = ( state = {}, action ) => {
 
 const WritingGuide = () => {
 	const [ data, dispatch ] = useReducer( dataReducer );
-	const [ activeStep, setActiveStep ] = useState( "welcome" );
-	const [ completedSteps, setCompletedSteps ] = useState( [] );
+	const [ activeStepId, setActiveStepId ] = useState( "welcome" );
+	const [ completedStepIds, setCompletedStepIds ] = useState( [] );
 
-	const ActiveStep = steps[ activeStep ].component;
+	const ActiveStep = steps[ activeStepId ].component;
 
 	const handlePrev = useCallback( () => {
-		setActiveStep( stepsOrder[ indexOf( stepsOrder, activeStep ) - 1 ] );
-	}, [ setActiveStep ] );
+		setActiveStepId( stepIdsOrder[ indexOf( stepIdsOrder, activeStepId ) - 1 ] );
+	}, [ setActiveStepId ] );
 
 	const handleNext = useCallback( () => {
-		setCompletedSteps( [ ...completedSteps, activeStep ] );
-		setActiveStep( stepsOrder[ indexOf( stepsOrder, activeStep ) + 1 ] );
-	}, [ setCompletedSteps, setActiveStep ] );
+		setCompletedStepIds( [ ...completedStepIds, activeStepId ] );
+		setActiveStepId( stepIdsOrder[ indexOf( stepIdsOrder, activeStepId ) + 1 ] );
+	}, [ setCompletedStepIds, setActiveStepId ] );
 
 	return (
 		<Modal isOpen={ true } onClose={ noop }>
 			<nav aria-label="Progress" className="">
 				<ol className="yst-overflow-hidden">
-					{ stepsOrder.map( ( step, stepIdx ) => (
+					{ stepIdsOrder.map( ( step, stepIdx ) => (
 						<li key={ step.id } className={ classNames( stepIdx !== steps.length - 1 ? "yst-pb-10" : "", "yst-relative" ) }>
-							{ step.status === "complete" ? (
+							{ includes( completedStepIds, step.id ) ? (
 								<>
 									{ stepIdx !== steps.length - 1 ? (
 										<div className="yst--ml-px yst-absolute yst-mt-0.5 yst-top-4 yst-left-4 yst-w-0.5 yst-h-full yst-bg-indigo-600" aria-hidden="true" />
@@ -107,7 +107,7 @@ const WritingGuide = () => {
 										</span>
 									</a>
 								</>
-							) : step.status === "current" ? (
+							) : activeStepId === step.id ? (
 								<>
 									{ stepIdx !== steps.length - 1 ? (
 										<div className="yst--ml-px yst-absolute yst-mt-0.5 yst-top-4 yst-left-4 yst-w-0.5 yst-h-full yst-bg-gray-300" aria-hidden="true" />
