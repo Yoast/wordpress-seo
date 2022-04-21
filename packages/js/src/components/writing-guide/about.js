@@ -25,7 +25,7 @@ const About = ( { data, dispatch } ) => {
 				name="focusKeyphrase"
 				label="Focus keyphrase"
 				description="What phrase describes your post the best?"
-				value={ data?.focusKeyphrase || "" }
+				value={ data?.focusKeyphrase }
 				onChange={ handleChange }
 			/>
 			<div className="yst-space-y-4">
@@ -37,7 +37,7 @@ const About = ( { data, dispatch } ) => {
 				name="metaDescription"
 				label="Meta description"
 				description="Provide a short description of your post or page:"
-				value={ data?.metaDescription || "" }
+				value={ data?.metaDescription }
 				onChange={ handleChange }
 			/>
 		</div>
