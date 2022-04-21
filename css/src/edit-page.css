@@ -1,4 +1,11 @@
 @import url(../src/score_icon.css);
+@import "@yoast/ui-library";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
 @media screen and (max-width: 782px) {
   .column-wpseo-title,
   .column-wpseo-score,
