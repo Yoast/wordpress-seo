@@ -21,7 +21,7 @@
 }
 
 .yst-writing-guide .yst-modal__content {
-	@apply yst-max-w-5xl;
+	@apply yst-max-w-5xl yst-p-8;
 }
 
 #wpseo_meta {

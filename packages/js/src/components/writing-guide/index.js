@@ -98,7 +98,7 @@ const WritingGuide = () => {
 	return (
 		<Modal isOpen={ isActive } onClose={ () => setIsActive( false ) } className="yst-writing-guide">
 			<div className="yst-flex">
-				<nav aria-label="Progress" className="yst-pr-4 yst-border-gray-300 yst-border-r yst-shrink-0">
+				<nav aria-label="Progress" className="yst-pr-8 yst-border-gray-300 yst-border-r yst-shrink-0">
 					<ol className="yst-overflow-hidden">
 						{ stepsOrder.map( ( stepKey, stepIdx ) => {
 							const step = steps[ stepKey ];
@@ -185,7 +185,7 @@ const WritingGuide = () => {
 						} ) }
 					</ol>
 				</nav>
-				<div className="yst-flex yst-grow yst-flex-col yst-justify-between yst-pl-4">
+				<div className="yst-flex yst-grow yst-flex-col yst-justify-between yst-pl-8">
 					<ActiveStep data={ data } dispatch={ dispatch } />
 					<footer className="yst-flex yst-justify-between">
 						{ activeStepIndex > 0 ? <Button size="large" variant="secondary" onClick={ handlePrev }>Previous</Button> : <div /> }

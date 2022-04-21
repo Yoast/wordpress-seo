@@ -17,7 +17,7 @@ const Schema = ( { data, dispatch } ) => {
 	return (
 		<div>
 			<Title className="yst-mb-4">What type of post or page is it?</Title>
-			<p className="yst-mb-4">
+			<p className="yst-mb-4 yst-text-base">
 				If you tell us which type of page you want to create, we can help you with a specific layout, provide tailored content feedback and tell Google what kind of page it is.
 			</p>
 			<SelectField
