@@ -35,7 +35,8 @@ const About = ( { data, dispatch } ) => {
 			<TextareaField
 				id="writingGuide/about/metaDescription"
 				name="metaDescription"
-				label="Provide a short description of your post or page:"
+				label="Meta description"
+				description="Provide a short description of your post or page:"
 				value={ data?.metaDescription || "" }
 				onChange={ handleChange }
 			/>
