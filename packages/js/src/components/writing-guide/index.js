@@ -1,5 +1,6 @@
 /* eslint-disable require-jsdoc */
 import { useState, useCallback } from "@wordpress/element";
+import { noop } from "lodash";
 import { Modal } from "@yoast/ui-library";
 
 const STEPS = {
@@ -15,7 +16,7 @@ const WritingGuide = () => {
 	const [ activeStep, setIsActiveStep ] = useState( STEPS.welcome );
 
 	return (
-		<Modal isOpen={ true }>
+		<Modal isOpen={ true } onClose={ noop }>
 			This is a modal
 		</Modal>
 	);
