@@ -6,7 +6,7 @@ import { CheckIcon } from "@heroicons/react/outline";
 import { useCallback, useReducer, useState } from "@wordpress/element";
 import { Button, Modal } from "@yoast/ui-library";
 import classNames from "classnames";
-import { indexOf, noop } from "lodash";
+import { indexOf, noop, includes } from "lodash";
 import About from "./about";
 import Audience from "./audience";
 import Finish from "./finish";
@@ -92,47 +92,54 @@ const WritingGuide = () => {
 							const step = steps[ stepKey ];
 
 							return (
-								<li key={ step.id }
-								    className={ classNames( stepIdx !== steps.length - 1 ? "yst-pb-10" : "", "yst-relative" ) }>
-									{ step.status === "complete" ? (
+								<li
+									key={ step.id }
+									className={ classNames( stepIdx !== steps.length - 1 ? "yst-pb-10" : "", "yst-relative" ) }
+								>
+									{ includes( completedSteps, step.id ) ? (
 										<>
 											{ stepIdx !== steps.length - 1 ? (
 												<div
 													className="yst--ml-px yst-absolute yst-mt-0.5 yst-top-4 yst-left-4 yst-w-0.5 yst-h-full yst-bg-indigo-600"
-													aria-hidden="true" />
+													aria-hidden="true"
+												/>
 											) : null }
 											<a href={ step.href } className="yst-relative yst-flex yst-items-start yst-group">
-										<span className="yst-h-9 yst-flex yst-items-center">
-											<span
-												className="yst-relative yst-z-10 yst-w-8 yst-h-8 yst-flex yst-items-center yst-justify-center yst-bg-indigo-600 yst-rounded-full yst-group-hover:bg-indigo-800">
-												<CheckIcon className="yst-w-5 yst-h-5 yst-text-white" aria-hidden="true" />
-											</span>
-										</span>
+												<span className="yst-h-9 yst-flex yst-items-center">
+													<span
+														className="yst-relative yst-z-10 yst-w-8 yst-h-8 yst-flex yst-items-center yst-justify-center yst-bg-indigo-600 yst-rounded-full yst-group-hover:bg-indigo-800"
+													>
+														<CheckIcon className="yst-w-5 yst-h-5 yst-text-white" aria-hidden="true" />
+													</span>
+												</span>
 												<span className="yst-ml-4 yst-min-w-0 yst-flex yst-flex-col">
-											<span className="yst-text-xs yst-font-semibold yst-tracking-wide yst-uppercase">{ step.title }</span>
-											<span className="yst-text-sm yst-text-gray-500">{ step.description }</span>
-										</span>
+													<span className="yst-text-xs yst-font-semibold yst-tracking-wide yst-uppercase">{ step.title }</span>
+													<span className="yst-text-sm yst-text-gray-500">{ step.description }</span>
+												</span>
 											</a>
 										</>
-									) : step.status === "current" ? (
+									) : activeStep === step.id ? (
 										<>
 											{ stepIdx !== steps.length - 1 ? (
 												<div
 													className="yst--ml-px yst-absolute yst-mt-0.5 yst-top-4 yst-left-4 yst-w-0.5 yst-h-full yst-bg-gray-300"
-													aria-hidden="true" />
+													aria-hidden="true"
+												/>
 											) : null }
 											<a href={ step.href } className="yst-relative yst-flex yst-items-start yst-group" aria-current="step">
-										<span className="yst-h-9 yst-flex yst-items-center" aria-hidden="true">
-											<span
-												className="yst-relative yst-z-10 yst-w-8 yst-h-8 yst-flex yst-items-center yst-justify-center yst-bg-white yst-border-2 yst-border-indigo-600 yst-rounded-full">
-												<span className="yst-h-2.5 yst-w-2.5 yst-bg-indigo-600 yst-rounded-full" />
-											</span>
-										</span>
+												<span className="yst-h-9 yst-flex yst-items-center" aria-hidden="true">
+													<span
+														className="yst-relative yst-z-10 yst-w-8 yst-h-8 yst-flex yst-items-center yst-justify-center yst-bg-white yst-border-2 yst-border-indigo-600 yst-rounded-full"
+													>
+														<span className="yst-h-2.5 yst-w-2.5 yst-bg-indigo-600 yst-rounded-full" />
+													</span>
+												</span>
 												<span className="yst-ml-4 yst-min-w-0 yst-flex yst-flex-col">
-											<span
-												className="yst-text-xs yst-font-semibold yst-tracking-wide yst-uppercase yst-text-indigo-600">{ step.title }</span>
-											<span className="yst-text-sm yst-text-gray-500">{ step.description }</span>
-										</span>
+													<span
+														className="yst-text-xs yst-font-semibold yst-tracking-wide yst-uppercase yst-text-indigo-600"
+													>{ step.title }</span>
+													<span className="yst-text-sm yst-text-gray-500">{ step.description }</span>
+												</span>
 											</a>
 										</>
 									) : (
@@ -140,21 +147,25 @@ const WritingGuide = () => {
 											{ stepIdx !== steps.length - 1 ? (
 												<div
 													className="yst--ml-px yst-absolute yst-mt-0.5 yst-top-4 yst-left-4 yst-w-0.5 yst-h-full yst-bg-gray-300"
-													aria-hidden="true" />
+													aria-hidden="true"
+												/>
 											) : null }
 											<a href={ step.href } className="yst-relative yst-flex yst-items-start yst-group">
-										<span className="yst-h-9 yst-flex yst-items-center" aria-hidden="true">
-											<span
-												className="yst-relative yst-z-10 yst-w-8 yst-h-8 yst-flex yst-items-center yst-justify-center yst-bg-white yst-border-2 yst-border-gray-300 yst-rounded-full yst-group-hover:border-gray-400">
-												<span
-													className="yst-h-2.5 yst-w-2.5 yst-bg-transparent yst-rounded-full yst-group-hover:bg-gray-300" />
-											</span>
-										</span>
+												<span className="yst-h-9 yst-flex yst-items-center" aria-hidden="true">
+													<span
+														className="yst-relative yst-z-10 yst-w-8 yst-h-8 yst-flex yst-items-center yst-justify-center yst-bg-white yst-border-2 yst-border-gray-300 yst-rounded-full yst-group-hover:border-gray-400"
+													>
+														<span
+															className="yst-h-2.5 yst-w-2.5 yst-bg-transparent yst-rounded-full yst-group-hover:bg-gray-300"
+														/>
+													</span>
+												</span>
 												<span className="yst-ml-4 yst-min-w-0 yst-flex yst-flex-col">
-											<span
-												className="yst-text-xs yst-font-semibold yst-tracking-wide yst-uppercase yst-text-gray-500">{ step.title }</span>
-											<span className="yst-text-sm yst-text-gray-500">{ step.description }</span>
-										</span>
+													<span
+														className="yst-text-xs yst-font-semibold yst-tracking-wide yst-uppercase yst-text-gray-500"
+													>{ step.title }</span>
+													<span className="yst-text-sm yst-text-gray-500">{ step.description }</span>
+												</span>
 											</a>
 										</>
 									) }
