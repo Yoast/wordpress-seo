@@ -2,7 +2,7 @@
 /* eslint-disable complexity */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable require-jsdoc */
-import { useState, useCallback } from "@wordpress/element";
+import { useState, useCallback, useReducer } from "@wordpress/element";
 import { noop, indexOf } from "lodash";
 import { Modal, Button } from "@yoast/ui-library";
 import classNames from "classnames";
@@ -56,26 +56,39 @@ const steps = {
 
 const stepsOrder = [ "welcome", "about", "schema", "audience", "layout", "finish" ];
 
+const dataReducer = ( state = {}, action ) => {
+	switch ( action ) {
+		case "setData":
+			state.data = {
+				...state.data,
+				...action.payload,
+			};
+	}
+
+	return state;
+};
+
 const WritingGuide = () => {
+	const [ data, dispatch ] = useReducer( dataReducer );
 	const [ activeStep, setActiveStep ] = useState( "welcome" );
 	const [ completedSteps, setCompletedSteps ] = useState( [] );
 
 	const ActiveStep = steps[ activeStep ].component;
 
 	const handlePrev = useCallback( () => {
-		setActiveStep( stepsOrder( indexOf( stepsOrder, activeStep ) - 1 ) );
+		setActiveStep( stepsOrder[ indexOf( stepsOrder, activeStep ) - 1 ] );
 	}, [ setActiveStep ] );
 
 	const handleNext = useCallback( () => {
 		setCompletedSteps( [ ...completedSteps, activeStep ] );
-		setActiveStep( stepsOrder( indexOf( stepsOrder, activeStep ) + 1 ) );
+		setActiveStep( stepsOrder[ indexOf( stepsOrder, activeStep ) + 1 ] );
 	}, [ setCompletedSteps, setActiveStep ] );
 
 	return (
 		<Modal isOpen={ true } onClose={ noop }>
 			<nav aria-label="Progress" className="">
 				<ol className="yst-overflow-hidden">
-					{ steps.map( ( step, stepIdx ) => (
+					{ stepsOrder.map( ( step, stepIdx ) => (
 						<li key={ step.id } className={ classNames( stepIdx !== steps.length - 1 ? "yst-pb-10" : "", "yst-relative" ) }>
 							{ step.status === "complete" ? (
 								<>
@@ -133,7 +146,7 @@ const WritingGuide = () => {
 					) ) }
 				</ol>
 			</nav>
-			<ActiveStep />
+			<ActiveStep data={ data } dispatch={ dispatch } />
 			<footer>
 				<Button variant="secondary" onClick={ handlePrev }>Prev</Button>
 				<Button onClick={ handleNext }>Next</Button>
