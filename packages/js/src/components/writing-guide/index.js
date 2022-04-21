@@ -6,7 +6,7 @@ import { CheckIcon } from "@heroicons/react/outline";
 import { useCallback, useReducer, useState } from "@wordpress/element";
 import { Button, Modal } from "@yoast/ui-library";
 import classNames from "classnames";
-import { indexOf, noop, includes } from "lodash";
+import { indexOf, includes } from "lodash";
 import About from "./about";
 import Audience from "./audience";
 import Finish from "./finish";

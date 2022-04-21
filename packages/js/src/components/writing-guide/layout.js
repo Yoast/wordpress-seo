@@ -7,9 +7,10 @@ const Layout = () => {
 			<p className="yst-mb-4">
 				Almost there! Based on everything you’ve specified before we’d propose this layout. Do you prefer another layout? Feel free to select it!
 			</p>
-			
+
 			Layout suggestions
 		</div>
+	);
 };
 
 export default Layout;
