@@ -87,8 +87,16 @@ const FileImport = ( {
 		setIsDragOver( false );
 	}, [] );
 
+	const handleDragOver = useCallback( ( event ) => {
+		event.preventDefault();
+	}, [] );
+
 	const handleDrop = useCallback( ( event ) => {
-		console.warn( event.dataTransfer.files[ 0 ] );
+		event.preventDefault();
+		setIsDragOver( false );
+		if ( ! isEmpty( event.dataTransfer.files ) ) {
+			onChange( event.dataTransfer.files[ 0 ] );
+		}
 	}, [ onChange ] );
 
 	return (
@@ -97,6 +105,7 @@ const FileImport = ( {
 				<div
 					onDragEnter={ handleDragEnter }
 					onDragLeave={ handleDragLeave }
+					onDragOver={ handleDragOver }
 					onDrop={ handleDrop }
 					className={ classNames( "yst-file-import__select", {
 						"yst-border-black": isDragOver,

@@ -1,7 +1,9 @@
 @layer components {
     .yst-file-import {}
 
-    .yst-file-import__select {}
+    .yst-file-import__select {
+        @apply yst-border yst-border-gray-200;
+    }
 
     .yst-file-import__feedback {}
 

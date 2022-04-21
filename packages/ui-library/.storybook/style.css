@@ -18,6 +18,7 @@
 @import "../src/components/toggle-field/style.css";
 @import "../src/components/select-field/style.css";
 @import "../src/components/textarea-field/style.css";
+@import "../src/components/file-import/style.css";
 
 @tailwind base;
 @tailwind components;
