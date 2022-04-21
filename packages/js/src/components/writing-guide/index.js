@@ -57,10 +57,10 @@ const steps = {
 const stepsOrder = [ "welcome", "about", "schema", "audience", "layout", "finish" ];
 
 const dataReducer = ( state = {}, action ) => {
-	switch ( action ) {
+	switch ( action.type ) {
 		case "setData":
-			state.data = {
-				...state.data,
+			state =  {
+				...state,
 				...action.payload,
 			};
 	}
