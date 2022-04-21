@@ -1,15 +1,15 @@
 /* eslint-disable max-len */
 /* eslint-disable require-jsdoc */
 import { useCallback } from "@wordpress/element";
-import { Title, Select } from "@yoast/ui-library";
+import { Title, SelectField } from "@yoast/ui-library";
 
 const Schema = ( { data, dispatch } ) => {
-	const handleChange = useCallback( event => {
+	const handleChange = useCallback( value => {
 		dispatch( {
 			type: "setData",
 			payload: {
 				...data,
-				[ event.target.name ]: event.target.value,
+				articleType: value,
 			},
 		} );
 	}, [ data, dispatch ] );
@@ -20,9 +20,10 @@ const Schema = ( { data, dispatch } ) => {
 			<p className="yst-mb-4">
 				If you tell us which type of page you want to create, we can help you with a specific layout, provide tailored content feedback and tell Google what kind of page it is.
 			</p>
-			<Select
+			<SelectField
 				id="articleType"
 				name="articleType"
+				label="Article type"
 				value={ data?.articleType }
 				onChange={ handleChange }
 				options={ [

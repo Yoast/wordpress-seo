@@ -55,10 +55,7 @@ const steps = {
 
 const stepsOrder = [ "welcome", "about", "schema", "audience", "layout", "finish" ];
 
-const dataReducer = ( state = {
-	focusKeyphrase: "",
-	articleType: "",
-}, action ) => {
+const dataReducer = ( state, action ) => {
 	switch ( action.type ) {
 		case "setData":
 			state = {
@@ -71,7 +68,10 @@ const dataReducer = ( state = {
 };
 
 const WritingGuide = () => {
-	const [ data, dispatch ] = useReducer( dataReducer );
+	const [ data, dispatch ] = useReducer( dataReducer, {
+		focusKeyphrase: "",
+		articleType: "",
+	} );
 	const [ isActive, setIsActive ] = useState( true );
 	const [ activeStep, setActiveStep ] = useState( "welcome" );
 	const [ completedSteps, setCompletedSteps ] = useState( [] );
@@ -186,7 +186,7 @@ const WritingGuide = () => {
 				<div className="yst-flex yst-grow yst-flex-col yst-justify-between yst-pl-4">
 					<ActiveStep data={ data } dispatch={ dispatch } />
 					<footer className="yst-flex yst-justify-between">
-						{ activeStepIndex > 1 ? <Button variant="secondary" onClick={ handlePrev }>Prev</Button> : <div /> }
+						{ activeStepIndex > 0 ? <Button variant="secondary" onClick={ handlePrev }>Prev</Button> : <div /> }
 						{ activeStepIndex < stepsOrder.length - 1 ? (
 							<Button onClick={ handleNext }>Next</Button>
 						) : (

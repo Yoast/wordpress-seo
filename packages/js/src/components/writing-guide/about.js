@@ -30,7 +30,7 @@ const About = ( { data, dispatch } ) => {
 			/>
 			<div className="yst-space-y-4">
 				Read all about <Link href="https://yoast.com" rel="noopener noreferrer" target="_blank"><span className="yst-sr-only">(opens in a new tab)</span>picking
-				the right focus keyphrase for your content</Link>
+					the right focus keyphrase for your content</Link>
 			</div>
 			<TextareaField
 				id="writingGuide/about/metaDescription"
