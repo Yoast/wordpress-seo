@@ -8,7 +8,7 @@ import { Button, Modal } from "@yoast/ui-library";
 import classNames from "classnames";
 import { indexOf, includes } from "lodash";
 import About from "./about";
-import Audience from "./audience";
+import Purpose from "./purpose";
 import Finish from "./finish";
 import Layout from "./layout";
 import Schema from "./schema";
@@ -33,11 +33,11 @@ const steps = {
 		description: "What type of post is this?",
 		component: Schema,
 	},
-	audience: {
-		id: "audience",
-		title: "Who is this post for?",
-		description: "Who is this post for?",
-		component: Audience,
+	purpose: {
+		id: "purpose",
+		title: "What’s the purpose of your text?",
+		description: "What’s the purpose of your text?",
+		component: Purpose,
 	},
 	layout: {
 		id: "layout",
@@ -53,7 +53,7 @@ const steps = {
 	},
 };
 
-const stepsOrder = [ "welcome", "about", "schema", "audience", "layout", "finish" ];
+const stepsOrder = [ "welcome", "about", "purpose", "schema", "layout", "finish" ];
 
 const dataReducer = ( state, action ) => {
 	switch ( action.type ) {
@@ -70,7 +70,9 @@ const dataReducer = ( state, action ) => {
 const WritingGuide = () => {
 	const [ data, dispatch ] = useReducer( dataReducer, {
 		focusKeyphrase: "",
+		metaDescription: "",
 		articleType: "",
+		purpose: "",
 	} );
 	const [ isActive, setIsActive ] = useState( true );
 	const [ activeStep, setActiveStep ] = useState( "welcome" );
@@ -186,7 +188,7 @@ const WritingGuide = () => {
 				<div className="yst-flex yst-grow yst-flex-col yst-justify-between yst-pl-4">
 					<ActiveStep data={ data } dispatch={ dispatch } />
 					<footer className="yst-flex yst-justify-between">
-						{ activeStepIndex > 0 ? <Button variant="secondary" onClick={ handlePrev }>Prev</Button> : <div /> }
+						{ activeStepIndex > 0 ? <Button variant="secondary" onClick={ handlePrev }>Previous</Button> : <div /> }
 						{ activeStepIndex < stepsOrder.length - 1 ? (
 							<Button onClick={ handleNext }>Next</Button>
 						) : (
