@@ -11,17 +11,23 @@ This monorepo includes reusable packages:
 - [@yoast/components](components)
   - All-purpose React components.
 - [@yoast/configuration-wizard](configuration-wizard)
-  - A wizard that guides users trough their initial Yoast SEO plugin setup.
+  - A wizard that guides users through their initial Yoast SEO plugin setup.
 - [@yoast/feature-flag](feature-flag)
   - A utility that keeps track of enabled and disabled features.
 - [@yoast/helpers](helpers)
   - A set of helper functions that can be used across multiple projects.
 - [@yoast/replacement-variable-editor](replacement-variable-editor)
   - The replacement variable editor currently used in the Search Metadata previews. In the future, this component will also be used in the Social Metadata previews.
+- [@yoast/replacement-variables](replacement-variables)
+  - A platform-agnostic package providing a simple solution for replacing *variables* with their corresponding *values* in a text based on a set of *replacement variables*.
 - [@yoast/schema-blocks](schema-blocks)
-  - classes and React components used in generating schema blocks from wordpress posts.
+  - Classes and React components used in generating schema blocks from WordPress posts.
 - [@yoast/search-metadata-previews](search-metadata-previews)
   - React components that can be used to generate a preview of what a page will look like in Google's search results.
+- [@yoast/seo-integration](seo-integration)
+  - A platform-agnostic package providing a simple solution for integrating an editor with the Yoast SEO and readability analysis. This package combines the functionality of `@yoast/replacement-variables` and `@yoast/seo-store` into a single interface.
+- [@yoast/seo-store](seo-store)
+  - A platform-agnostic package providing a single Redux store for all Yoast features.
 - [@yoast/social-metadata-forms](social-metadata-forms)
   - React components that can be used to render forms for controlling the social preview settings. This includes the redux store.
 - [@yoast/social-metadata-previews](social-metadata-previews)
@@ -29,7 +35,7 @@ This monorepo includes reusable packages:
 - [@yoast/style-guide](style-guide)
   - A combination of style constants and functions that can be used to conform to the Yoast corporate identity.
 - [eslint-config-yoast](eslint)
-  - ESLint configuration for Yoast projects.
+  - The ESLint configuration for Yoast projects.
 - [yoast-components](yoast-components) *[deprecated. replaced by [@yoast/components](packages/components)]*
   - All-purpose React components.
 - [yoastseo](yoastseo) *[Replaces [YoastSEO.js](https://github.com/yoast//yoastseo.js)]*
