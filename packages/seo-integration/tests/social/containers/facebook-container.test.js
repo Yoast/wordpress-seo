@@ -1,15 +1,13 @@
 import { shallow } from "enzyme";
-
-import { useReplacementVariables } from "../../../src/hooks/useReplacementVariables";
 import { useSelect, useDispatch } from "@wordpress/data";
 
+import { useReplacementVariables } from "../../../src/hooks/useReplacementVariables";
 import Container from "../../../src/social/containers/facebook-container";
 
 jest.mock( "@wordpress/data" );
 jest.mock( "../../../src/hooks/useReplacementVariables" );
 
 const Wrapper = jest.fn();
-
 
 describe( "The FacebookContainer components", () => {
 	it( "creates a new Facebook editor container", () => {

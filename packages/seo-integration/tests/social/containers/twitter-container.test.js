@@ -1,6 +1,7 @@
 import { shallow } from "enzyme";
-import { useReplacementVariables } from "../../../src/hooks/useReplacementVariables";
 import { useSelect, useDispatch } from "@wordpress/data";
+
+import { useReplacementVariables } from "../../../src/hooks/useReplacementVariables";
 import Container from "../../../src/social/containers/twitter-container";
 
 jest.mock( "@wordpress/data" );
@@ -29,8 +30,8 @@ describe( "a test for TwitterEditorContainer component", () => {
 		const updateTwitterDescription = jest.fn();
 
 		useDispatch.mockReturnValue( {
-			updateTwitterTitle: updateTwitterTitle,
-			updateTwitterDescription: updateTwitterDescription,
+			updateTwitterTitle,
+			updateTwitterDescription,
 		} );
 
 		const replacementVariables = jest.fn();
