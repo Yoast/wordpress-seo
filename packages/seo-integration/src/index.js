@@ -33,6 +33,7 @@ export { SEO_STORE_NAME, FOCUS_KEYPHRASE_ID, useAnalyze, MARKER_STATUS } from "@
 export { ReadabilityResultsContainer, SeoResultsContainer } from "./analysis-results/containers";
 export { default as GooglePreviewContainer } from "./google-preview/containers/google-preview-container";
 export { default as FacebookContainer } from "./social/containers/facebook-container";
+export { default as TwitterContainer } from "./social/containers/twitter-container";
 export * as replacementVariableConfigurations from "./replacement-variables/configurations";
 export { useSeoContext } from "./seo-context";
 
