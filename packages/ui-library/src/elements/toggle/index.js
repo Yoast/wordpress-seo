@@ -8,6 +8,7 @@ import { useSvgAria } from "../../hooks";
 /**
  * @param {string|JSX.Element} [as="button"] Base component.
  * @param {boolean} [checked] Default state.
+ * @param {string} srLabel The label for screen readers.
  * @param {Function} onChange Change callback.
  * @param {boolean} [disabled] Disabled flag.
  * @param {string} [className] CSS class.
@@ -16,6 +17,7 @@ import { useSvgAria } from "../../hooks";
 const Toggle = ( {
 	as: Component,
 	checked,
+	srLabel,
 	onChange,
 	disabled,
 	className,
@@ -37,7 +39,7 @@ const Toggle = ( {
 			) }
 			{ ...props }
 		>
-			<span className="yst-sr-only">Toggle</span>
+			<span className="yst-sr-only">{ srLabel }</span>
 			<span className="yst-toggle__handle">
 				<Transition
 					show={ checked }
@@ -72,6 +74,7 @@ const Toggle = ( {
 Toggle.propTypes = {
 	as: PropTypes.elementType,
 	checked: PropTypes.bool,
+	srLabel: PropTypes.string.isRequired,
 	onChange: PropTypes.func.isRequired,
 	disabled: PropTypes.bool,
 	className: PropTypes.string,

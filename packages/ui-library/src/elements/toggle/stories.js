@@ -23,5 +23,6 @@ Factory.parameters = {
 	controls: { disable: false },
 };
 Factory.args = {
+	srLabel: "Toggle",
 	onChange: noop,
 };
