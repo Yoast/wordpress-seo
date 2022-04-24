@@ -2,9 +2,15 @@
 	.yst-link {
 		@apply
 			yst-text-indigo-600
-			yst-underline
 			yst-cursor-pointer
 			
-			hover:yst-text-indigo-500;
+			hover:yst-text-indigo-700;
+	}
+
+	/* Variants */
+	.yst-link--default {}
+
+	.yst-link--primary {
+		@apply yst-text-primary-500 hover:yst-text-primary-700;
 	}
 }
