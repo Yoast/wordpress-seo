@@ -21,24 +21,33 @@ export default {
 };
 
 const Template = ( args ) => {
-	const [ value, setValue ] = useState( args.value || "" );
-	const handleChange = useCallback( setValue, [ setValue ] );
+	const [ status, setStatus ] = useState( args.status || FILE_IMPORT_STATUS.idle );
+	const handleChange = useCallback( async ( event ) => {
+		setStatus( FILE_IMPORT_STATUS.loading );
+		await new Promise( ( resolve ) => setTimeout( resolve, 3000 ) );
+		setStatus( args.endStatus );
+	}, [ setStatus ] );
 
 	return (
-		<FileImport { ...args } value={ value } onChange={ handleChange } />
+		<FileImport { ...args } status={ status } onChange={ handleChange } />
 	);
 };
 
-export const Factory = {
-	component: Template.bind( {} ),
-	controls: { disable: false },
-	args: {
-		children: (
-			<>
-				<FileImport.Success>My success messsage.</FileImport.Success>
-				<FileImport.Error>My error messsage.</FileImport.Error>
-			</>
-		),
-		onChange: noop,
-	},
+export const Factory = Template.bind( {} );
+
+Factory.controls = { disable: false },
+Factory.args = {
+	children: (
+		<>
+			<FileImport.Success>My success messsage.</FileImport.Success>
+			<FileImport.Error>My error messsage.</FileImport.Error>
+		</>
+	),
+	id: "file-import",
+	name: "file-import",
+	selectLabel: "Select a file",
+	dropLabel: "or drag and drop",
+	srLabel: "Import a file",
+	description: "CSV files only, up to 10MB",
+	endStatus: FILE_IMPORT_STATUS.success,
 };

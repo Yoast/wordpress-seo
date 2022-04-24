@@ -25,6 +25,7 @@ module.exports = {
 				message: "Please use @wordpress/element instead.",
 			},
 		],
+		"no-unused-expressions": "always",
 		"max-len": [
 			"error",
 			{

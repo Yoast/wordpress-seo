@@ -1,16 +1,20 @@
-import { useState, useCallback, useContext, useEffect, createContext, useMemo } from "@wordpress/element";
+import { useState, useCallback, useContext, createContext, useMemo } from "@wordpress/element";
 import { noop, values, includes, isEmpty } from "lodash";
+import { DocumentAddIcon } from "@heroicons/react/outline";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 
+import Label from "../../elements/label";
+import Link from "../../elements/link";
+
 export const FILE_IMPORT_STATUS = {
-	IDLE: "idle",
-	LOADING: "loading",
-	SUCCESS: "success",
-	ERROR: "error",
+	idle: "idle",
+	loading: "loading",
+	success: "success",
+	error: "error",
 };
 
-const FileImportContext = createContext( { status: FILE_IMPORT_STATUS.IDLE } );
+const FileImportContext = createContext( { status: FILE_IMPORT_STATUS.idle } );
 
 /**
  * @returns {Object} The current file import context.
@@ -23,7 +27,7 @@ const useFileImportContext = () => useContext( FileImportContext );
  */
 const Success = ( { children } ) => {
 	const { status } = useFileImportContext();
-	return status === FILE_IMPORT_STATUS.SUCCESS ? children : null;
+	return status === FILE_IMPORT_STATUS.success ? children : null;
 };
 
 /**
@@ -34,13 +38,18 @@ const Success = ( { children } ) => {
  */
 const Error = ( { children } ) => {
 	const { status } = useFileImportContext();
-	return status === FILE_IMPORT_STATUS.ERROR ? children : null;
+	return status === FILE_IMPORT_STATUS.error ? children : null;
 };
 
 /**
  * The FileImport component.
  *
  * @param {JSX.node} children The React children.
+ * @param {string} id The inputs id.
+ * @param {string} name The inputs name.
+ * @param {string} selectLabel The label for native select file functionality.
+ * @param {string} dropLabel The label for custom drop file functionality.
+ * @param {JSX.Node} description The description.
  * @param {string} value The value.
  * @param {"idle"|"loading"|"success"|"failure"} status The status the component should be in.
  * @param {Function} onChange The callback for when a file is imported.
@@ -52,6 +61,12 @@ const Error = ( { children } ) => {
  */
 const FileImport = ( {
 	children,
+	id,
+	name,
+	selectLabel,
+	dropLabel,
+	srLabel,
+	description,
 	value,
 	status,
 	onChange,
@@ -64,12 +79,12 @@ const FileImport = ( {
 	const [ file, setFile ] = useState( {} );
 
 	const hasFeedback = useMemo( () => includes(
-		[ FILE_IMPORT_STATUS.LOADING, FILE_IMPORT_STATUS.SUCCESS, FILE_IMPORT_STATUS.ERROR ],
+		[ FILE_IMPORT_STATUS.loading, FILE_IMPORT_STATUS.success, FILE_IMPORT_STATUS.error ],
 		status,
 	), [ status ] );
 
 	const handleChange = useCallback( ( event ) => {
-
+		console.warn( event );
 	}, [ onChange ] );
 
 	const handleAbort = useCallback( () => {
@@ -108,10 +123,26 @@ const FileImport = ( {
 					onDragOver={ handleDragOver }
 					onDrop={ handleDrop }
 					className={ classNames( "yst-file-import__select", {
-						"yst-border-black": isDragOver,
+						"yst-is-drag-over": isDragOver,
 					} ) }
 				>
-					Select file
+					<div className="yst-file-import__select-content">
+						<input
+							type="file"
+							id={ id }
+							name={ name }
+							onChange={ onChange }
+							className="yst-sr-only"
+							aria-labelledby={ srLabel }
+						/>
+						<DocumentAddIcon className="yst-file-import__select-icon" />
+						<Label as="span">
+							<Link as="label" htmlFor={ id }>{ selectLabel }</Link>
+							&nbsp;
+							{ dropLabel }
+						</Label>
+						<span>{ description }</span>
+					</div>
 				</div>
 				{ hasFeedback && (
 					<div className="yst-file-import__feedback">
@@ -128,6 +159,11 @@ const FileImport = ( {
 
 FileImport.propTypes = {
 	children: PropTypes.node,
+	id: PropTypes.string.isRequired,
+	name: PropTypes.string.isRequired,
+	selectLabel: PropTypes.string.isRequired,
+	dropLabel: PropTypes.string.isRequired,
+	srLabel: PropTypes.string.isRequired,
 	value: PropTypes.shape( {
 
 	} ),

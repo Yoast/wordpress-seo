@@ -1,8 +1,62 @@
 @layer components {
-    .yst-file-import {}
+    .yst-file-import {
+        @apply yst-max-w-screen-sm;
+    }
 
     .yst-file-import__select {
-        @apply yst-border yst-border-gray-200;
+        @apply
+            yst-w-full
+            yst-px-6
+            yst-pt-5
+            yst-pb-6
+            yst-border-2
+            yst-border-dashed
+            yst-rounded-md
+            yst-text-center
+            yst-transition-all
+            yst-ease-out
+            yst-duration-300
+            yst-bg-white
+            yst-border-gray-300;
+
+        &.yst-is-drag-over {
+            @apply yst-bg-primary-50 yst-border-primary-300;
+
+            .yst-file-import__select-content {
+                @apply yst-pointer-events-none;
+            }
+
+            .yst-file-import__select-icon {
+                @apply -yst-translate-y-2 yst-text-primary-400;
+            }
+        }
+    }
+
+    .yst-file-import__select-content {
+        @apply
+            yst-max-w-xs
+            yst-inline-flex
+            yst-flex-col
+            yst-space-y-1
+            yst-items-center
+            yst-text-center;
+    }
+
+    .yst-file-import__select-icon {
+        @apply
+            yst-mx-auto
+            yst-h-12
+            yst-w-12
+            yst-text-gray-400
+            yst-stroke-1
+            yst-transition-all
+            yst-ease-out
+            yst-duration-300
+            yst-transform;
+
+        > path {
+            stroke-width: 1;
+        }
     }
 
     .yst-file-import__feedback {}
