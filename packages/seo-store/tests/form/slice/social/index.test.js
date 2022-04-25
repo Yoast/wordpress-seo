@@ -7,7 +7,7 @@ describe( "a test for social slice", () => {
 	const initialState = {
 		facebook: {},
 		twitter: {},
-		template: {},
+		socialTemplate: {},
 	};
 
 	describe( "a test for social reducer", () => {
