@@ -12,29 +12,36 @@ import { useReplacementVariables } from "../../hooks/useReplacementVariables";
  * @returns {JSX.Element} A wrapped Facebook editor component.
  */
 const FacebookEditorContainer = ( { as: Component, ...restProps } ) => {
-	const title = useSelect( select => select( SEO_STORE_NAME ).selectFacebookTitle() );
-	const description = useSelect( select => select( SEO_STORE_NAME ).selectFacebookDescription() );
+	const facebookTitle = useSelect( select => select( SEO_STORE_NAME ).selectFacebookTitle() );
+	const facebookDescription = useSelect( select => select( SEO_STORE_NAME ).selectFacebookDescription() );
 	const imageData = useSelect( select => select( SEO_STORE_NAME ).selectFacebookImage() );
 	const imageUrl = imageData.url;
 	const imageAlt = imageData.alt;
+	const socialDescriptionTemplate = useSelect( select => select( SEO_STORE_NAME ).selectSocialDescTemplate() );
+	// The content description retrieved from the store already has fallback options.
+	const contentDescription = useSelect( select => select( SEO_STORE_NAME ).selectMetaDescription() );
+	const contentExcerpt = useSelect( select => select( SEO_STORE_NAME ).selectExcerpt() );
+	const socialTitleTemplate = useSelect( select => select( SEO_STORE_NAME ).selectSocialTitleTemplate() );
+	// The content description retrieved from the store already has fallback options.
+	const seoTitle = useSelect( select=> select( SEO_STORE_NAME ).selectSeoTitle() );
 	const { updateFacebookTitle, updateFacebookDescription } = useDispatch( SEO_STORE_NAME );
-	const titleInputPlaceholder = "";
-	const descriptionInputPlaceholder = "";
 	const socialMediumName = "Facebook";
 
 	const { replacementVariables, recommendedReplacementVariables } = useReplacementVariables();
 
 	return <Component
-		title={ title }
-		description={ description }
+		title={ facebookTitle }
+		description={ facebookDescription }
 		imageUrl={ imageUrl }
 		alt={ imageAlt }
 		onTitleChange={ updateFacebookTitle }
 		onDescriptionChange={ updateFacebookDescription }
 		replacementVariables={ replacementVariables }
 		recommendedReplacementVariables={ recommendedReplacementVariables }
-		titleInputPlaceholder={ titleInputPlaceholder }
-		descriptionInputPlaceholder={ descriptionInputPlaceholder }
+		titleInputPlaceholder={ "" }
+		descriptionInputPlaceholder={ "" }
+		descriptionPreviewFallback={ socialDescriptionTemplate || contentDescription || contentExcerpt || "" }
+		titlePreviewFallback={ socialTitleTemplate || seoTitle || "" }
 		socialMediumName={ socialMediumName }
 		{ ...restProps }
 	/>;
