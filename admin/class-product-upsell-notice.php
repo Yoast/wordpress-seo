@@ -20,27 +20,6 @@ class WPSEO_Product_Upsell_Notice {
 	const USER_META_DISMISSED = 'wpseo-remove-upsell-notice';
 
 	/**
-	 * Holds the option name.
-	 *
-	 * @var string
-	 */
-	const OPTION_NAME = 'wpseo';
-
-	/**
-	 * Holds the options.
-	 *
-	 * @var array
-	 */
-	protected $options;
-
-	/**
-	 * Sets the options, because they always have to be there on instance.
-	 */
-	public function __construct() {
-		$this->options = $this->get_options();
-	}
-
-	/**
 	 * Checks if the notice should be added or removed.
 	 */
 	public function initialize() {
@@ -80,7 +59,7 @@ class WPSEO_Product_Upsell_Notice {
 	 * @return bool
 	 */
 	protected function should_add_notification() {
-		return ( $this->options['first_activated_on'] < strtotime( '-2weeks' ) );
+		return ( YoastSEO()->helpers->options->get( 'first_activated_on', false ) < strtotime( '-2weeks' ) );
 	}
 
 	/**
@@ -89,16 +68,14 @@ class WPSEO_Product_Upsell_Notice {
 	 * @return bool
 	 */
 	protected function has_first_activated_on() {
-		return $this->options['first_activated_on'] !== false;
+		return YoastSEO()->helpers->options->get( 'first_activated_on', false ) !== false;
 	}
 
 	/**
 	 * Sets the first activated on.
 	 */
 	protected function set_first_activated_on() {
-		$this->options['first_activated_on'] = strtotime( '-2weeks' );
-
-		$this->save_options();
+		YoastSEO()->helpers->options->set( 'first_activated_on', strtotime( '-2weeks' ) );
 	}
 
 	/**
@@ -187,21 +164,5 @@ class WPSEO_Product_Upsell_Notice {
 	 */
 	protected function dismiss_notice() {
 		update_user_meta( get_current_user_id(), self::USER_META_DISMISSED, true );
-	}
-
-	/**
-	 * Returns the set options.
-	 *
-	 * @return mixed
-	 */
-	protected function get_options() {
-		return get_option( self::OPTION_NAME );
-	}
-
-	/**
-	 * Saves the options to the database.
-	 */
-	protected function save_options() {
-		update_option( self::OPTION_NAME, $this->options );
 	}
 }

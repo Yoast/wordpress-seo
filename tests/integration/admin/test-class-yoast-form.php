@@ -19,10 +19,7 @@ class Yoast_Form_Test extends WPSEO_UnitTestCase {
 		$form = new Yoast_Form_Double();
 		$form->set_option( 'wpseo' );
 
-		$option_instance = WPSEO_Options::get_option_instance( 'wpseo' );
-
 		$this->assertSame( 'wpseo', $form->option_name );
-		$this->assertSame( $option_instance, $form->get_option_instance() );
 	}
 
 	/**
@@ -38,7 +35,6 @@ class Yoast_Form_Test extends WPSEO_UnitTestCase {
 		$form->set_option( 'random' );
 
 		$this->assertSame( 'random', $form->option_name );
-		$this->assertNull( $form->get_option_instance() );
 	}
 
 	/**

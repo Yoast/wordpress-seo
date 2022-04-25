@@ -5,7 +5,9 @@
  * @package WPSEO\Admin
  */
 
+use Yoast\WP\SEO\Exceptions\Option\Unknown_Exception;
 use Yoast\WP\SEO\Presenters\Admin\Light_Switch_Presenter;
+use Yoast\WP\SEO\Services\Options\Network_Admin_Options_Service;
 
 /**
  * Admin form class.
@@ -29,14 +31,6 @@ class Yoast_Form {
 	 * @since 2.0
 	 */
 	public $option_name;
-
-	/**
-	 * Option instance.
-	 *
-	 * @since 8.4
-	 * @var WPSEO_Option|null
-	 */
-	protected $option_instance = null;
 
 	/**
 	 * Get the singleton instance of this class.
@@ -115,11 +109,6 @@ class Yoast_Form {
 	 */
 	public function set_option( $option_name ) {
 		$this->option_name = $option_name;
-
-		$this->option_instance = WPSEO_Options::get_option_instance( $option_name );
-		if ( ! $this->option_instance ) {
-			$this->option_instance = null;
-		}
 	}
 
 	/**
@@ -940,16 +929,23 @@ class Yoast_Form {
 	 * @return bool True if control should be disabled, false otherwise.
 	 */
 	protected function is_control_disabled( $variable ) {
-		if ( $this->option_instance === null ) {
-			return false;
-		}
-
 		// Disable the Usage tracking feature for multisite subsites.
 		if ( $this->is_tracking_on_subsite( $variable ) ) {
 			return true;
 		}
 
-		return $this->option_instance->is_disabled( $variable );
+		/**
+		 * Indicates this variable is a Network_Admin_Options_Service.
+		 *
+		 * @var \Yoast\WP\SEO\Services\Options\Network_Admin_Options_Service $network_admin_options_service
+		 */
+		$network_admin_options_service = YoastSEO()->classes->get( Network_Admin_Options_Service::class );
+
+		try {
+			return ! $network_admin_options_service->__get( Network_Admin_Options_Service::ALLOW_PREFIX . $variable );
+		} catch ( Unknown_Exception $e ) {
+			return false;
+		}
 	}
 
 	/**
