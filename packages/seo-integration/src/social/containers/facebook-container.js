@@ -16,11 +16,9 @@ const FacebookEditorContainer = ( { as: Component, ...restProps } ) => {
 	const facebookDescription = useSelect( select => select( SEO_STORE_NAME ).selectFacebookDescription() );
 	const imageData = useSelect( select => select( SEO_STORE_NAME ).selectFacebookImage() );
 	const socialDescriptionTemplate = useSelect( select => select( SEO_STORE_NAME ).selectSocialDescTemplate() );
-	// The content description retrieved from the store already has fallback options.
 	const contentDescription = useSelect( select => select( SEO_STORE_NAME ).selectMetaDescription() );
 	const contentExcerpt = useSelect( select => select( SEO_STORE_NAME ).selectExcerpt() );
 	const socialTitleTemplate = useSelect( select => select( SEO_STORE_NAME ).selectSocialTitleTemplate() );
-	// The content description retrieved from the store already has fallback options.
 	const seoTitle = useSelect( select=> select( SEO_STORE_NAME ).selectSeoTitle() );
 	const { updateFacebookTitle, updateFacebookDescription } = useDispatch( SEO_STORE_NAME );
 	const socialMediumName = "Facebook";
