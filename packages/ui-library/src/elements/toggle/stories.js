@@ -23,6 +23,6 @@ Factory.parameters = {
 	controls: { disable: false },
 };
 Factory.args = {
-	srLabel: "Toggle",
+	screenReaderLabel: "Toggle",
 	onChange: noop,
 };
