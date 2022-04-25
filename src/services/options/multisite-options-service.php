@@ -3,42 +3,34 @@
 namespace Yoast\WP\SEO\Services\Options;
 
 /**
- * The multisite site options service class.
+ * The multisite options service class.
  */
-class Multisite_Options_Service extends Abstract_Options_Service {
+class Multisite_Options_Service extends Site_Options_Service {
 
 	/**
-	 * Holds the name of the options row in the database.
+	 * Retrieves the filtered option values.
 	 *
-	 * @var string
+	 * Override this method to implement a filter.
+	 *
+	 * @param array $values The option values.
+	 *
+	 * @return array The filtered option values.
 	 */
-	public $option_name = 'wpseo_multisite_options';
+	protected function get_filtered_values( array $values ) {
+		/**
+		 * Filter `wpseo_multisite_options_values`. Allows to override the option values.
+		 *
+		 * @api array The option values.
+		 */
+		$filtered_values = \apply_filters( 'wpseo_multisite_options_values', $values );
 
-	/**
-	 * Holds the multisite' network option configurations.
-	 *
-	 * {@inheritDoc}
-	 *
-	 * @var array[string]
-	 */
-	protected $configurations = [
-		'access'       => [
-			'default'    => 'admin',
-			'types'      => [
-				'in_array' => [
-					'allow' => [
-						'admin',
-						'superadmin',
-					],
-				],
-			],
-			'ms_exclude' => false,
-		],
-		'default_blog' => [
-			'default' => '',
-			'types'   => [ 'empty_string' ],
-		],
-	];
+		// Filter safety check.
+		if ( ! \is_array( $filtered_values ) ) {
+			return $values;
+		}
+
+		return $filtered_values;
+	}
 
 	/**
 	 * Retrieves additional configurations.
