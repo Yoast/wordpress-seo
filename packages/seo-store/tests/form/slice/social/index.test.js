@@ -6,6 +6,8 @@ describe( "a test for social slice", () => {
 
 	const initialState = {
 		facebook: {},
+		twitter: {},
+		template: {},
 	};
 
 	describe( "a test for social reducer", () => {
@@ -23,6 +25,8 @@ describe( "a test for social slice", () => {
 				"updateTwitterTitle",
 				"updateTwitterDescription",
 				"updateTwitterImage",
+				"updateSocialDescTemplate",
+				"updateSocialTitleTemplate",
 			].forEach( ( action ) => {
 				expect( socialActions[ action ] ).toBeDefined();
 			} );
@@ -41,6 +45,8 @@ describe( "a test for social slice", () => {
 				"selectTwitterTitle",
 				"selectTwitterDescription",
 				"selectTwitterImage",
+				"selectSocialDescTemplate",
+				"selectSocialTitleTemplate",
 			].forEach( ( selector ) => {
 				expect( socialSelectors[ selector ] ).toBeDefined();
 			} );
