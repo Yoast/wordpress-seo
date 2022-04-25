@@ -66,7 +66,7 @@ class Network_Admin_Options_Initializer implements Initializer_Interface {
 
 		// Check for options that should listen to the `allow_` option.
 		\add_filter(
-			'wpseo_multisite_option_values',
+			'wpseo_multisite_options_values',
 			[ $this, 'verify_options_against_network' ]
 		);
 		// Ensure the next request gets the option overrides.

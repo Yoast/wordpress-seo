@@ -547,12 +547,12 @@ class Site_Options_Service extends Abstract_Options_Service {
 		'enable_link_suggestions'                     => [
 			'default'   => true,
 			'types'     => [ 'boolean' ],
-			'ms_verify' => true,
+			'ms_verify' => false,
 		],
 		'enable_metabox_insights'                     => [
 			'default'   => true,
 			'types'     => [ 'boolean' ],
-			'ms_verify' => true,
+			'ms_verify' => false,
 		],
 		'enable_text_link_counter'                    => [
 			'default'   => true,

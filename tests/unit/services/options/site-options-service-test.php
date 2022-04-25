@@ -458,6 +458,7 @@ class Site_Options_Service_Test extends TestCase {
 		Monkey\Functions\expect( 'update_option' )->andReturn( false );
 
 		$this->expectException( Save_Failed_Exception::class );
+		$this->expectExceptionMessage( Save_Failed_Exception::for_option( 'wpseo_options' )->getMessage() );
 
 		$this->instance->facebook_site = 'https://example.org';
 	}
