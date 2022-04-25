@@ -1,6 +1,7 @@
 import { useState, useCallback, useContext, createContext, useMemo } from "@wordpress/element";
 import { noop, values, includes, isEmpty } from "lodash";
-import { DocumentAddIcon } from "@heroicons/react/outline";
+import { DocumentAddIcon, DocumentTextIcon, XIcon } from "@heroicons/react/outline";
+import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/solid";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 
@@ -49,14 +50,17 @@ const Error = ( { children } ) => {
  * @param {string} name The inputs name.
  * @param {string} selectLabel The label for native select file functionality.
  * @param {string} dropLabel The label for custom drop file functionality.
+ * @param {string} screenReaderLabel The screen reader label for the file select.
+ * @param {string} abortScreenReaderLabel The screen reader label for the abort button.
  * @param {JSX.Node} description The description.
- * @param {string} value The value.
  * @param {"idle"|"loading"|"success"|"failure"} status The status the component should be in.
  * @param {Function} onChange The callback for when a file is imported.
  * @param {Function} onAbort The callback for when an file import is aborted.
+ * @param {string} progressTitle The import progress title.
+ * @param {string} progressDescription The import progress description.
+ * @param {number} progressMin The import progress min value.
+ * @param {number} progressMax The import progress max value.
  * @param {number} progress The import progress.
- * @param {string} accept Which filetype the file import accepts.
- * @param {number} maxFileSize The maximum file size.
  * @returns {JSX.Element} The FileImport component.
  */
 const FileImport = ( {
@@ -65,18 +69,21 @@ const FileImport = ( {
 	name,
 	selectLabel,
 	dropLabel,
-	srLabel,
+	screenReaderLabel,
+	abortScreenReaderLabel,
 	description,
-	value,
+	file,
 	status,
 	onChange,
 	onAbort = noop,
+	progressTitle,
+	progressDescription,
+	progressMin,
+	progressMax,
 	progress = null,
-	accept = null,
-	maxFileSize = Infinity,
+	...props
 } ) => {
 	const [ isDragOver, setIsDragOver ] = useState( false );
-	const [ file, setFile ] = useState( {} );
 
 	const hasFeedback = useMemo( () => includes(
 		[ FILE_IMPORT_STATUS.loading, FILE_IMPORT_STATUS.success, FILE_IMPORT_STATUS.error ],
@@ -84,12 +91,10 @@ const FileImport = ( {
 	), [ status ] );
 
 	const handleChange = useCallback( ( event ) => {
-		console.warn( event );
+		if ( ! isEmpty( event.target.files ) ) {
+			onChange( event.target.files[ 0 ] );
+		}
 	}, [ onChange ] );
-
-	const handleAbort = useCallback( () => {
-
-	}, [ onAbort ] );
 
 	const handleDragEnter = useCallback( ( event ) => {
 		event.preventDefault();
@@ -112,7 +117,7 @@ const FileImport = ( {
 		if ( ! isEmpty( event.dataTransfer.files ) ) {
 			onChange( event.dataTransfer.files[ 0 ] );
 		}
-	}, [ onChange ] );
+	}, [ setIsDragOver, onChange ] );
 
 	return (
 		<FileImportContext.Provider value={ { status } }>
@@ -131,9 +136,10 @@ const FileImport = ( {
 							type="file"
 							id={ id }
 							name={ name }
-							onChange={ onChange }
+							onChange={ handleChange }
 							className="yst-sr-only"
-							aria-labelledby={ srLabel }
+							aria-labelledby={ screenReaderLabel }
+							{ ...props }
 						/>
 						<DocumentAddIcon className="yst-file-import__select-icon" />
 						<Label as="span">
@@ -146,10 +152,27 @@ const FileImport = ( {
 				</div>
 				{ hasFeedback && (
 					<div className="yst-file-import__feedback">
-						<div className="yst-mb-3">
-							Progress bar
+						<div className="yst-file-import__progress">
+							<div className="yst-file-import__progress-figure"><DocumentTextIcon /></div>
+							<div className="yst-flex-1">
+								<span className="yst-file-import__progress-title">{ progressTitle }</span>
+								<p className="yst-file-import__progress-description">{ progressDescription }</p>
+								<div>{ progress }</div>
+							</div>
+							<div>
+								{ status === FILE_IMPORT_STATUS.loading && (
+									<button onClick={ onAbort } className="yst-file-import__abort-button">
+										<span className="yst-sr-only">{ abortScreenReaderLabel }</span>
+										<XIcon />
+									</button>
+								) }
+								{ status === FILE_IMPORT_STATUS.success && <CheckCircleIcon className="yst-file-import__status-icon yst-file-import__status-icon--success" /> }
+								{ status === FILE_IMPORT_STATUS.error && <XCircleIcon className="yst-file-import__status-icon yst-file-import__status-icon--error" /> }
+							</div>
 						</div>
-						{ children }
+						<div className="yst-file-import__message">
+							{ children }
+						</div>
 					</div>
 				) }
 			</div>
@@ -163,16 +186,16 @@ FileImport.propTypes = {
 	name: PropTypes.string.isRequired,
 	selectLabel: PropTypes.string.isRequired,
 	dropLabel: PropTypes.string.isRequired,
-	srLabel: PropTypes.string.isRequired,
-	value: PropTypes.shape( {
-
-	} ),
+	screenReaderLabel: PropTypes.string.isRequired,
+	abortScreenReaderLabel: PropTypes.string.isRequired,
+	progressTitle: PropTypes.string.isRequired,
+	progressDescription: PropTypes.string,
+	progressMin: PropTypes.number,
+	progressMax: PropTypes.number,
+	progress: PropTypes.number,
 	status: PropTypes.oneOf( values( FILE_IMPORT_STATUS ) ),
 	onChange: PropTypes.func.isRequired,
 	onAbort: PropTypes.func,
-	progress: PropTypes.number,
-	accept: PropTypes.string,
-	maxFileSize: PropTypes.number,
 };
 
 FileImport.Success = Success;
