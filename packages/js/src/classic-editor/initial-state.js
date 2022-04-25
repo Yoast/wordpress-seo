@@ -44,6 +44,12 @@ export const getInitialPostState = () => ( {
 				keyphrase: dom.getPostFocusKeyphrase(),
 			},
 		},
+		social: {
+			template: {
+				description: window.wpseoScriptData.metabox.social_description_template,
+				title: window.wpseoScriptData.metabox.social_title_template,
+			},
+		},
 	},
 } );
 
@@ -77,6 +83,12 @@ export const getInitialTermState = () => ( {
 			[ FOCUS_KEYPHRASE_ID ]: {
 				id: FOCUS_KEYPHRASE_ID,
 				keyphrase: dom.getTermFocusKeyphrase(),
+			},
+		},
+		social: {
+			template: {
+				description: window.wpseoScriptData.metabox.social_description_template,
+				title: window.wpseoScriptData.metabox.social_title_template,
 			},
 		},
 	},
