@@ -45,9 +45,7 @@ class Site_Helper_Test extends TestCase {
 			->with( 'name' )
 			->andReturn( 'name' );
 
-		$site_helper = new Site_Helper();
-
-		$this->assertEquals( 'name', $site_helper->get_site_name() );
+		$this->assertEquals( 'name', $this->instance->get_site_name() );
 	}
 
 	/**
@@ -56,6 +54,7 @@ class Site_Helper_Test extends TestCase {
 	 * @covers ::is_multisite_and_switched
 	 */
 	public function test_is_multisite_and_switched() {
+		// Via stubs to override the YoastTestCase stub.
 		Monkey\Functions\stubs(
 			[
 				'is_multisite'   => true,
@@ -63,6 +62,30 @@ class Site_Helper_Test extends TestCase {
 			]
 		);
 
-		self::assertTrue( $this->instance->is_multisite_and_switched() );
+		$this->assertTrue( $this->instance->is_multisite_and_switched() );
+	}
+
+	/**
+	 * Checks the result of is_multisite.
+	 *
+	 * @covers ::is_multisite
+	 */
+	public function test_is_multisite() {
+		// Via stubs to override the YoastTestCase stub.
+		Monkey\Functions\stubs( [ 'is_multisite' => true ] );
+
+		$this->assertTrue( $this->instance->is_multisite() );
+	}
+
+	/**
+	 * Checks the result of is_multisite.
+	 *
+	 * @covers ::is_multisite
+	 */
+	public function test_is_not_multisite() {
+		// Via stubs to override the YoastTestCase stub.
+		Monkey\Functions\stubs( [ 'is_multisite' => false ] );
+
+		$this->assertFalse( $this->instance->is_multisite() );
 	}
 }
