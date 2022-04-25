@@ -87,4 +87,4 @@ There are various ways you can contribute:
 * [Raise an issue](https://github.com/yoast/wordpress-seo/issues) on GitHub.
 * Send us a Pull Request with your bug fixes and/or new features.
 * [Translate Yoast SEO into different languages](http://translate.yoast.com/projects/wordpress-seo/).
-* Provide feedback and [suggestions on enhancements](https://github.com/yoast/wordpress-seo/issues?direction=desc&labels=Enhancement&page=1&sort=created&state=open).
+* Provide feedback and [suggestions on enhancements](https://github.com/yoast/wordpress-seo/issues?direction=desc&labels=Enhancement&page=1&sort=created&state=open)..
