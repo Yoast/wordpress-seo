@@ -8,7 +8,6 @@ export default {
 	component: RadioGroup,
 	argTypes: {
 		children: { control: "text" },
-		label: { control: "text" },
 	},
 	parameters: {
 		docs: {

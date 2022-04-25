@@ -1,10 +1,10 @@
 /* eslint-disable no-undefined */
+import { useCallback } from "@wordpress/element";
 import classNames from "classnames";
 import PropTypes from "prop-types";
-import { useCallback } from "@wordpress/element";
+import Label from "../../elements/label";
 
 import Radio from "../../elements/radio";
-import Label from "../../elements/label";
 
 const classNameMap = {
 	variant: {
@@ -18,7 +18,7 @@ const classNameMap = {
  * @param {string} id Identifier.
  * @param {string} name Name.
  * @param {string} value Value.
- * @param {JSX.node} [label] Label.
+ * @param {string} [label] Label.
  * @param {{ value: string, label: string, srLabel: string }[]} options Options to choose from.
  * @param {Function} onChange Change handler.
  * @param {string} [variant] Variant.
@@ -47,7 +47,7 @@ const RadioGroup = ( {
 				className,
 			) }
 		>
-			{ label && <Label as="legend" className="yst-radio-group__label">{ label }</Label> }
+			{ label && <Label as="legend" className="yst-radio-group__label" label={ label } /> }
 			{ children && <div className="yst-radio-group__description">{ children }</div> }
 			<div className="yst-radio-group__options">
 				{ options.map( ( option, index ) => {
@@ -75,7 +75,7 @@ RadioGroup.propTypes = {
 	id: PropTypes.string.isRequired,
 	name: PropTypes.string.isRequired,
 	value: PropTypes.string.isRequired,
-	label: PropTypes.node.isRequired,
+	label: PropTypes.string.isRequired,
 	options: PropTypes.arrayOf( PropTypes.shape( {
 		value: PropTypes.string.isRequired,
 		label: PropTypes.string.isRequired,

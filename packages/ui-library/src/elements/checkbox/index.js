@@ -8,7 +8,7 @@ import Label from "../label";
  * @param {string} id Identifier.
  * @param {string} name Name.
  * @param {string} value Value.
- * @param {JSX.node} label Label.
+ * @param {string} label Label.
  * @param {string} [className] CSS class.
  * @returns {JSX.Element} Checkbox component.
  */
@@ -34,7 +34,7 @@ const Checkbox = ( {
 			className="yst-checkbox__input"
 			{ ...props }
 		/>
-		{ label && <Label htmlFor={ id } className="yst-checkbox__label">{ label }</Label> }
+		<Label htmlFor={ id } className="yst-checkbox__label" label={ label } />
 	</div>
 );
 
@@ -42,7 +42,7 @@ Checkbox.propTypes = {
 	id: PropTypes.string.isRequired,
 	name: PropTypes.string.isRequired,
 	value: PropTypes.string.isRequired,
-	label: PropTypes.node.isRequired,
+	label: PropTypes.string.isRequired,
 	className: PropTypes.string,
 };
 

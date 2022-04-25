@@ -11,8 +11,8 @@ import { useDescribedBy } from "../../hooks";
  * @param {{ value, label }[]} options Options to choose from.
  * @param {Function} onChange Change callback.
  * @param {JSX.Element} error Error node.
- * @param {string} [className] CSS class.
- * @param {JSX.node} [label] Optional label.
+ * @param {string} [className] Optional CSS class.
+ * @param {string} label Label.
  * @param {JSX.node} [children] Optional description.
  * @param {Object} [props] Any extra props.
  * @returns {JSX.Element} SelectField component.
@@ -32,7 +32,7 @@ const SelectField = ( {
 
 	return (
 		<div className={ classNames( "yst-select-field", className ) }>
-			{ label && <Label className="yst-select-field__label">{ label }</Label> }
+			<Label className="yst-select-field__label" label={ label } />
 			<Select
 				id={ id }
 				value={ value }
@@ -54,7 +54,7 @@ SelectField.propTypes = {
 	id: PropTypes.string.isRequired,
 	name: PropTypes.string.isRequired,
 	value: PropTypes.string,
-	label: PropTypes.node.isRequired,
+	label: PropTypes.string.isRequired,
 	options: PropTypes.arrayOf( PropTypes.shape( {
 		value: PropTypes.string.isRequired,
 		label: PropTypes.string.isRequired,

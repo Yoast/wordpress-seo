@@ -2,27 +2,27 @@ import classNames from "classnames";
 import PropTypes from "prop-types";
 
 /**
- * @param {JSX.node} children Content of the Label.
+ * @param {string} label Content of the Label. Note that this is a string ONLY for a11y reasons.
  * @param {string|function} [as="label"] Base component.
  * @param {string} [className] CSS class.
  * @returns {JSX.Element} Label component.
  */
 const Label = ( {
-	children,
 	as: Component,
 	className,
+	label,
 	...props
 } ) => (
 	<Component
 		className={ classNames( "yst-label", className ) }
 		{ ...props }
 	>
-		{ children }
+		{ label }
 	</Component>
 );
 
 Label.propTypes = {
-	children: PropTypes.node.isRequired,
+	label: PropTypes.string.isRequired,
 	as: PropTypes.elementType,
 	className: PropTypes.string,
 };
