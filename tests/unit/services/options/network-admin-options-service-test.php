@@ -18,6 +18,8 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group options
  *
  * @coversDefaultClass \Yoast\WP\SEO\Services\Options\Network_Admin_Options_Service
+ *
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- Service should not count.
  */
 class Network_Admin_Options_Service_Test extends TestCase {
 
@@ -198,8 +200,9 @@ class Network_Admin_Options_Service_Test extends TestCase {
 		Monkey\Functions\expect( 'update_site_option' )->andReturn( false );
 
 		$this->expectException( Save_Failed_Exception::class );
-		$this->expectExceptionMessage( Save_Failed_Exception::for_option( 'wpseo_network_admin_options' )
-			->getMessage() );
+		$this->expectExceptionMessage(
+			Save_Failed_Exception::for_option( 'wpseo_network_admin_options' )->getMessage()
+		);
 
 		$this->instance->access = 'superadmin';
 	}
@@ -249,8 +252,9 @@ class Network_Admin_Options_Service_Test extends TestCase {
 		Monkey\Functions\expect( 'update_site_option' )->never();
 
 		$this->expectException( Delete_Failed_Exception::class );
-		$this->expectExceptionMessage( Delete_Failed_Exception::for_option( 'wpseo_network_admin_options' )
-			->getMessage() );
+		$this->expectExceptionMessage(
+			Delete_Failed_Exception::for_option( 'wpseo_network_admin_options' )->getMessage()
+		);
 
 		$this->instance->reset_options();
 	}

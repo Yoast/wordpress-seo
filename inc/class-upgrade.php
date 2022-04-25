@@ -79,16 +79,19 @@ class WPSEO_Upgrade {
 			'18.3-RC3'   => 'upgrade_183',
 		];
 
-		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
+		// phpcs:disable -- Reason: Commented out code on purpose.
+		// Disabled until we decide how to handle the old options framework:
+		//		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
 
-		if ( version_compare( $version, '12.5-RC0', '<' ) ) {
-			/*
-			 * We have to run this by hook, because otherwise:
-			 * - the theme support check isn't available.
-			 * - the notification center notifications are not filled yet.
-			 */
-			add_action( 'init', [ $this, 'upgrade_125' ] );
-		}
+		//		if ( version_compare( $version, '12.5-RC0', '<' ) ) {
+		//			/*
+		//			 * We have to run this by hook, because otherwise:
+		//			 * - the theme support check isn't available.
+		//			 * - the notification center notifications are not filled yet.
+		//			 */
+		//			add_action( 'init', [ $this, 'upgrade_125' ] );
+		//		}
+		// phpcs:enable
 
 		// Since 3.7.
 		$upsell_notice = new WPSEO_Product_Upsell_Notice();

@@ -5,6 +5,9 @@
  * @package WPSEO\Internals\Options
  */
 
+use Yoast\WP\SEO\Exceptions\Option\Unknown_Exception;
+use Yoast\WP\SEO\Services\Options\Network_Admin_Options_Service;
+
 /**
  * This abstract class and it's concrete classes implement defaults and value validation for
  * all WPSEO options and subkeys within options.
@@ -144,56 +147,6 @@ abstract class WPSEO_Option {
 	 * Add all the actions and filters for the option.
 	 */
 	protected function __construct() {
-
-		/* Add filters which get applied to the get_options() results. */
-		$this->add_default_filters(); // Return defaults if option not set.
-		$this->add_option_filters(); // Merge with defaults if option *is* set.
-
-
-		if ( $this->multisite_only !== true ) {
-			/**
-			 * The option validation routines remove the default filters to prevent failing
-			 * to insert an option if it's new. Let's add them back afterwards.
-			 */
-			add_action( 'add_option', [ $this, 'add_default_filters_if_same_option' ] ); // Adding back after INSERT.
-
-			add_action( 'update_option', [ $this, 'add_default_filters_if_same_option' ] );
-
-			add_filter( 'pre_update_option', [ $this, 'add_default_filters_if_not_changed' ], PHP_INT_MAX, 3 );
-
-			// Refills the cache when the option has been updated.
-			add_action( 'update_option_' . $this->option_name, [ 'WPSEO_Options', 'clear_cache' ], 10 );
-		}
-		elseif ( is_multisite() ) {
-			/*
-			 * The option validation routines remove the default filters to prevent failing
-			 * to insert an option if it's new. Let's add them back afterwards.
-			 *
-			 * For site_options, this method is not foolproof as these actions are not fired
-			 * on an insert/update failure. Please use the WPSEO_Options::update_site_option() method
-			 * for updating site options to make sure the filters are in place.
-			 */
-			add_action( 'add_site_option_' . $this->option_name, [ $this, 'add_default_filters' ] );
-			add_action( 'update_site_option_' . $this->option_name, [ $this, 'add_default_filters' ] );
-			add_filter( 'pre_update_site_option_' . $this->option_name, [ $this, 'add_default_filters_if_not_changed' ], PHP_INT_MAX, 3 );
-
-			// Refills the cache when the option has been updated.
-			add_action( 'update_site_option_' . $this->option_name, [ 'WPSEO_Options', 'clear_cache' ], 1, 0 );
-		}
-
-
-		/*
-		 * Make sure the option will always get validated, independently of register_setting()
-		 * (only available on back-end).
-		 */
-		add_filter( 'sanitize_option_' . $this->option_name, [ $this, 'validate' ] );
-
-		// Flushes the rewrite rules when option is updated.
-		add_action( 'update_option_' . $this->option_name, [ 'WPSEO_Utils', 'clear_rewrites' ] );
-
-		/* Register our option for the admin pages */
-		add_action( 'admin_init', [ $this, 'register_setting' ] );
-
 
 		/* Set option group name if not given */
 		if ( ! isset( $this->group_name ) || $this->group_name === '' ) {
@@ -422,75 +375,6 @@ abstract class WPSEO_Option {
 	}
 
 	/**
-	 * Validates a Facebook App ID.
-	 *
-	 * @deprecated 15.5
-	 * @codeCoverageIgnore
-	 *
-	 * @param string $key   Key to check, in this case: the Facebook App ID field name.
-	 * @param array  $dirty Dirty data with the new values.
-	 * @param array  $old   Old data.
-	 * @param array  $clean Clean data by reference, normally the default values.
-	 */
-	public function validate_facebook_app_id( $key, $dirty, $old, &$clean ) {
-		_deprecated_function( __METHOD__, 'WPSEO 15.5' );
-
-		if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
-			$url = 'https://graph.facebook.com/' . $dirty[ $key ];
-
-			$response = wp_remote_get( $url );
-
-			/**
-			 * Filter: 'validate_facebook_app_id_api_response_code' - Allows to filter the Faceboook API response code.
-			 *
-			 * @deprecated 15.5
-			 *
-			 * @api int $response_code The Facebook API response header code.
-			 */
-			$response_code = apply_filters_deprecated( 'validate_facebook_app_id_api_response_code', wp_remote_retrieve_response_code( $response ), 'WPSEO 15.5' );
-
-			/**
-			 * Filter: 'validate_facebook_app_id_api_response_body' - Allows to filter the Faceboook API response body.
-			 *
-			 * @deprecated 15.5
-			 *
-			 * @api string $response_body The Facebook API JSON response body.
-			 */
-			$response_body   = apply_filters_deprecated( 'validate_facebook_app_id_api_response_body', wp_remote_retrieve_body( $response ), 'WPSEO 15.5' );
-			$response_object = json_decode( $response_body );
-
-			/*
-			 * When the request is successful the response code will be 200 and
-			 * the response object will contain an `id` property.
-			 */
-			if ( $response_code === 200 && isset( $response_object->id ) ) {
-				$clean[ $key ] = $dirty[ $key ];
-				return;
-			}
-
-			// Restore the previous value, if any.
-			if ( isset( $old[ $key ] ) && $old[ $key ] !== '' ) {
-				$clean[ $key ] = $old[ $key ];
-			}
-
-			if ( function_exists( 'add_settings_error' ) ) {
-				add_settings_error(
-					$this->group_name, // Slug title of the setting.
-					$key, // Suffix-ID for the error message box. WordPress prepends `setting-error-`.
-					sprintf(
-						/* translators: %s expands to an invalid Facebook App ID. */
-						__( '%s does not seem to be a valid Facebook App ID. Please correct.', 'wordpress-seo' ),
-						'<strong>' . esc_html( $dirty[ $key ] ) . '</strong>'
-					), // The error message.
-					'error' // CSS class for the WP notice, either the legacy 'error' / 'updated' or the new `notice-*` ones.
-				);
-			}
-
-			Yoast_Input_Validation::add_dirty_value_to_settings_errors( $key, $dirty[ $key ] );
-		}
-	}
-
-	/**
 	 * Remove the default filters.
 	 * Called from the validate() method to prevent failure to add new options.
 	 *
@@ -630,25 +514,6 @@ abstract class WPSEO_Option {
 		$this->remove_default_filters();
 
 		return $clean;
-	}
-
-	/**
-	 * Checks whether a specific option key is disabled.
-	 *
-	 * This is determined by whether an override option is available with a key that equals the given key prefixed
-	 * with 'allow_'.
-	 *
-	 * @param string $key Option key.
-	 *
-	 * @return bool True if option key is disabled, false otherwise.
-	 */
-	public function is_disabled( $key ) {
-		$override_option = $this->get_override_option();
-		if ( empty( $override_option ) ) {
-			return false;
-		}
-
-		return isset( $override_option[ self::ALLOW_KEY_PREFIX . $key ] ) && ! $override_option[ self::ALLOW_KEY_PREFIX . $key ];
 	}
 
 	/**
@@ -961,5 +826,104 @@ abstract class WPSEO_Option {
 		}
 
 		return $key;
+	}
+
+	/**
+	 * Validates a Facebook App ID.
+	 *
+	 * @deprecated 15.5
+	 * @codeCoverageIgnore
+	 *
+	 * @param string $key   Key to check, in this case: the Facebook App ID field name.
+	 * @param array  $dirty Dirty data with the new values.
+	 * @param array  $old   Old data.
+	 * @param array  $clean Clean data by reference, normally the default values.
+	 */
+	public function validate_facebook_app_id( $key, $dirty, $old, &$clean ) {
+		_deprecated_function( __METHOD__, 'WPSEO 15.5' );
+
+		if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
+			$url = 'https://graph.facebook.com/' . $dirty[ $key ];
+
+			$response = wp_remote_get( $url );
+
+			/**
+			 * Filter: 'validate_facebook_app_id_api_response_code' - Allows to filter the Faceboook API response code.
+			 *
+			 * @deprecated 15.5
+			 *
+			 * @api int $response_code The Facebook API response header code.
+			 */
+			$response_code = apply_filters_deprecated( 'validate_facebook_app_id_api_response_code', wp_remote_retrieve_response_code( $response ), 'WPSEO 15.5' );
+
+			/**
+			 * Filter: 'validate_facebook_app_id_api_response_body' - Allows to filter the Faceboook API response body.
+			 *
+			 * @deprecated 15.5
+			 *
+			 * @api string $response_body The Facebook API JSON response body.
+			 */
+			$response_body   = apply_filters_deprecated( 'validate_facebook_app_id_api_response_body', wp_remote_retrieve_body( $response ), 'WPSEO 15.5' );
+			$response_object = json_decode( $response_body );
+
+			/*
+			 * When the request is successful the response code will be 200 and
+			 * the response object will contain an `id` property.
+			 */
+			if ( $response_code === 200 && isset( $response_object->id ) ) {
+				$clean[ $key ] = $dirty[ $key ];
+				return;
+			}
+
+			// Restore the previous value, if any.
+			if ( isset( $old[ $key ] ) && $old[ $key ] !== '' ) {
+				$clean[ $key ] = $old[ $key ];
+			}
+
+			if ( function_exists( 'add_settings_error' ) ) {
+				add_settings_error(
+					$this->group_name, // Slug title of the setting.
+					$key, // Suffix-ID for the error message box. WordPress prepends `setting-error-`.
+					sprintf(
+					/* translators: %s expands to an invalid Facebook App ID. */
+						__( '%s does not seem to be a valid Facebook App ID. Please correct.', 'wordpress-seo' ),
+						'<strong>' . esc_html( $dirty[ $key ] ) . '</strong>'
+					), // The error message.
+					'error' // CSS class for the WP notice, either the legacy 'error' / 'updated' or the new `notice-*` ones.
+				);
+			}
+
+			Yoast_Input_Validation::add_dirty_value_to_settings_errors( $key, $dirty[ $key ] );
+		}
+	}
+
+	/**
+	 * Checks whether a specific option key is disabled.
+	 *
+	 * This is determined by whether an override option is available with a key that equals the given key prefixed
+	 * with 'allow_'.
+	 *
+	 * @deprecated xx.x
+	 * @codeCoverageIgnore
+	 *
+	 * @param string $key Option key.
+	 *
+	 * @return bool True if option key is disabled, false otherwise.
+	 */
+	public function is_disabled( $key ) {
+		_deprecated_function( __METHOD__, 'WPSEO xx.x', 'YoastSEO()->classes->get( Network_Admin_Options_Service::class )->__get( "allow_$key" )' );
+
+		/**
+		 * Indicates this variable is a Network_Admin_Options_Service.
+		 *
+		 * @var \Yoast\WP\SEO\Services\Options\Network_Admin_Options_Service $network_admin_options_service
+		 */
+		$network_admin_options_service = YoastSEO()->classes->get( Network_Admin_Options_Service::class );
+
+		try {
+			return ! $network_admin_options_service->__get( self::ALLOW_KEY_PREFIX . $key );
+		} catch ( Unknown_Exception $e ) {
+			return false;
+		}
 	}
 }

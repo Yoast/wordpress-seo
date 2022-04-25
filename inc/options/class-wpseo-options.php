@@ -5,6 +5,10 @@
  * @package WPSEO\Internals\Options
  */
 
+use Yoast\WP\SEO\Exceptions\Option\Unknown_Exception;
+use Yoast\WP\SEO\Services\Options\Multisite_Options_Service;
+use Yoast\WP\SEO\Services\Options\Network_Admin_Options_Service;
+
 /**
  * Overall Option Management class.
  *
@@ -228,12 +232,7 @@ class WPSEO_Options {
 	public static function get_option( $option_name ) {
 		if ( is_string( $option_name ) && ! empty( $option_name ) ) {
 			if ( isset( static::$option_instances[ $option_name ] ) ) {
-				if ( static::$option_instances[ $option_name ]->multisite_only !== true ) {
-					return YoastSEO()->helpers->options->get_options( \array_keys( static::$option_instances[ $option_name ]->get_defaults() ) );
-				}
-				else {
-					return get_site_option( $option_name );
-				}
+				return YoastSEO()->helpers->options->get_options( \array_keys( static::$option_instances[ $option_name ]->get_defaults() ) );
 			}
 		}
 
@@ -385,16 +384,29 @@ class WPSEO_Options {
 	 * @return void
 	 */
 	public static function maybe_set_multisite_defaults( $force_init = false ) {
-		$option = get_option( 'wpseo' );
+		if ( ! is_multisite() ) {
+			return;
+		}
 
-		if ( is_multisite() ) {
-			if ( $option['ms_defaults_set'] === false ) {
-				static::reset_ms_blog( get_current_blog_id() );
-				static::initialize();
-			}
-			elseif ( $force_init === true ) {
-				static::initialize();
-			}
+		/**
+		 * Indicates this variable is a Multisite_Options_Service.
+		 *
+		 * @var \Yoast\WP\SEO\Services\Options\Multisite_Options_Service $multisite_options_service
+		 */
+		$multisite_options_service = YoastSEO()->classes->get( Multisite_Options_Service::class );
+
+		try {
+			$is_ms_defaults_set = $multisite_options_service->__get( 'ms_defaults_set' );
+		} catch ( Unknown_Exception $e ) {
+			$is_ms_defaults_set = false;
+		}
+
+		if ( ! $is_ms_defaults_set ) {
+			static::reset_ms_blog( get_current_blog_id() );
+			static::initialize();
+		}
+		elseif ( $force_init === true ) {
+			static::initialize();
 		}
 	}
 
@@ -407,36 +419,45 @@ class WPSEO_Options {
 	 * @return void
 	 */
 	public static function reset_ms_blog( $blog_id ) {
-		if ( is_multisite() ) {
-			$options      = get_site_option( 'wpseo_ms' );
-			$option_names = static::get_option_names();
+		if ( ! self::is_multisite() ) {
+			return;
+		}
 
-			if ( is_array( $option_names ) && $option_names !== [] ) {
-				$base_blog_id = $blog_id;
-				if ( $options['defaultblog'] !== '' && $options['defaultblog'] !== 0 ) {
-					$base_blog_id = $options['defaultblog'];
-				}
+		/**
+		 * Indicates this variable is a Multisite_Options_Service.
+		 *
+		 * @var \Yoast\WP\SEO\Services\Options\Multisite_Options_Service $multisite_options_service
+		 */
+		$multisite_options_service = YoastSEO()->classes->get( Multisite_Options_Service::class );
+		/**
+		 * Indicates this variable is a Network_Admin_Options_Service.
+		 *
+		 * @var \Yoast\WP\SEO\Services\Options\Network_Admin_Options_Service $options_service
+		 */
+		$network_admin_options_service = YoastSEO()->classes->get( Network_Admin_Options_Service::class );
 
-				foreach ( $option_names as $option_name ) {
-					delete_blog_option( $blog_id, $option_name );
+		$base_blog_id = $blog_id;
+		// Override the blog ID to get the new options from when a default blog is set.
+		try {
+			$default_blog = $network_admin_options_service->__get( 'defaultblog' );
+			if ( $default_blog !== '' && $default_blog !== 0 ) {
+				$base_blog_id = $default_blog;
+			}
+		} catch ( Unknown_Exception $exception ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch -- Deliberately left empty.
+		}
 
-					$new_option = get_blog_option( $base_blog_id, $option_name );
+		delete_blog_option( $blog_id, $multisite_options_service->option_name );
 
-					/* Remove sensitive, theme dependent and site dependent info. */
-					if ( isset( static::$option_instances[ $option_name ] ) && static::$option_instances[ $option_name ]->ms_exclude !== [] ) {
-						foreach ( static::$option_instances[ $option_name ]->ms_exclude as $key ) {
-							unset( $new_option[ $key ] );
-						}
-					}
-
-					if ( $option_name === 'wpseo' ) {
-						$new_option['ms_defaults_set'] = true;
-					}
-
-					update_blog_option( $blog_id, $option_name, $new_option );
-				}
+		$new_options                    = get_blog_option( $base_blog_id, $multisite_options_service->option_name );
+		$new_options['ms_defaults_set'] = true;
+		foreach ( $multisite_options_service->get_configurations() as $key => $configuration ) {
+			// Remove sensitive, theme dependent and site dependent info.
+			if ( array_key_exists( 'ms_exclude', $configuration ) && $configuration['ms_exclude'] ) {
+				unset( $new_options[ $key ] );
 			}
 		}
+
+		update_blog_option( $blog_id, $multisite_options_service->option_name, $new_options );
 	}
 
 	/**

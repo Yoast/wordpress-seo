@@ -16,6 +16,8 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group initializers
  *
  * @coversDefaultClass \Yoast\WP\SEO\Initializers\Network_Admin_Options_Initializer
+ *
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- Initializer should not count.
  */
 class Network_Admin_Options_Initializer_Test extends TestCase {
 
@@ -133,8 +135,14 @@ class Network_Admin_Options_Initializer_Test extends TestCase {
 		$this->assertEquals(
 			[
 				'pre-existing' => [],
-				'allow_bar'    => [ 'default' => true, 'types' => [ 'boolean' ] ],
-				'allow_baz'    => [ 'default' => false, 'types' => [ 'boolean' ] ],
+				'allow_bar'    => [
+					'default' => true,
+					'types'   => [ 'boolean' ],
+				],
+				'allow_baz'    => [
+					'default' => false,
+					'types'   => [ 'boolean' ],
+				],
 			],
 			$result
 		);
@@ -183,7 +191,12 @@ class Network_Admin_Options_Initializer_Test extends TestCase {
 		);
 
 		$this->assertEquals(
-			[ 'foo' => true, 'bar' => false, 'baz' => false, 'some_value' => 123 ],
+			[
+				'foo'        => true,
+				'bar'        => false,
+				'baz'        => false,
+				'some_value' => 123,
+			],
 			$this->instance->verify_options_against_network(
 				[
 					'foo'        => true,
