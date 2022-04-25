@@ -6,7 +6,7 @@ import socialTemplateReducer, { socialTemplateActions, socialTemplateSelectors, 
 export const defaultSocialState = {
 	facebook: defaultFacebookState,
 	twitter: defaultTwitterState,
-	socialTemplate: defaultSocialTemplate,
+	template: defaultSocialTemplate,
 };
 
 export const socialSelectors = {
@@ -24,5 +24,5 @@ export const socialActions = {
 export default combineReducers( {
 	facebook: facebookReducer,
 	twitter: twitterReducer,
-	socialTemplate: socialTemplateReducer,
+	template: socialTemplateReducer,
 } );
