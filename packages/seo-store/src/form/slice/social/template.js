@@ -11,10 +11,10 @@ const socialTemplateSlice = createSlice( {
 	initialState: defaultSocialTemplate,
 	reducers: {
 		updateSocialDescTemplate: ( state, action ) => {
-			state.title = action.payload;
+			state.description = action.payload;
 		},
 		updateSocialTitleTemplate: ( state, action ) => {
-			state.description = action.payload;
+			state.title = action.payload;
 		},
 	},
 } );
