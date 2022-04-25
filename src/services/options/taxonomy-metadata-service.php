@@ -255,7 +255,7 @@ class Taxonomy_Metadata_Service extends Abstract_Options_Service {
 		$this->cached_values = $new_values;
 
 		// Save to the database.
-		$this->update_options( $this->cached_values );
+		$this->update_wp_options( $this->cached_values );
 	}
 
 	// phpcs:enable Squiz.Commenting.FunctionCommentThrowTag.WrongNumber
@@ -281,7 +281,7 @@ class Taxonomy_Metadata_Service extends Abstract_Options_Service {
 	 * @return void
 	 */
 	public function reset_options() {
-		$this->delete_options();
+		$this->delete_wp_options();
 	}
 
 	/**
@@ -425,7 +425,7 @@ class Taxonomy_Metadata_Service extends Abstract_Options_Service {
 		$this->cached_values[ $taxonomy ][ $term_id ][ $key ] = $value;
 
 		// Save to the database.
-		$this->update_options( $this->cached_values );
+		$this->update_wp_options( $this->cached_values );
 	}
 
 	/**

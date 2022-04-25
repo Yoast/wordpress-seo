@@ -777,6 +777,31 @@ class Site_Options_Service extends Abstract_Options_Service {
 	];
 
 	/**
+	 * Retrieves the filtered option values.
+	 *
+	 * Override this method to implement a filter.
+	 *
+	 * @param array $values The option values.
+	 *
+	 * @return array The filtered option values.
+	 */
+	protected function get_filtered_values( array $values ) {
+		/**
+		 * Filter `wpseo_options_values`. Allows to override the option values.
+		 *
+		 * @api array The option values.
+		 */
+		$filtered_values = \apply_filters( 'wpseo_options_values', $values );
+
+		// Filter safety check.
+		if ( ! \is_array( $filtered_values ) ) {
+			return $values;
+		}
+
+		return $filtered_values;
+	}
+
+	/**
 	 * Retrieves additional configurations.
 	 *
 	 * @param array $configurations The additional configurations to be validated.

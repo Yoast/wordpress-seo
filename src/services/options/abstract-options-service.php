@@ -192,8 +192,8 @@ abstract class Abstract_Options_Service {
 	 * @return void
 	 */
 	public function ensure_options() {
-		if ( ! \get_option( $this->option_name ) ) {
-			$this->update_options( $this->get_values() );
+		if ( ! $this->get_wp_option() ) {
+			$this->update_wp_options( $this->get_values() );
 		}
 	}
 
@@ -206,8 +206,8 @@ abstract class Abstract_Options_Service {
 	 * @return void
 	 */
 	public function reset_options() {
-		$this->delete_options();
-		$this->update_options( $this->get_defaults() );
+		$this->delete_wp_options();
+		$this->update_wp_options( $this->get_defaults() );
 	}
 
 	/**
@@ -279,7 +279,7 @@ abstract class Abstract_Options_Service {
 	 */
 	protected function get_values() {
 		if ( $this->cached_values === null ) {
-			$this->cached_values = \get_option( $this->option_name );
+			$this->cached_values = $this->get_wp_option();
 			// Database row does not exist. We need an array.
 			if ( ! $this->cached_values ) {
 				$this->cached_values = [];
@@ -292,9 +292,26 @@ abstract class Abstract_Options_Service {
 					$this->cached_values[ $option ] = $default_value;
 				}
 			}
+
+			$this->cached_values = $this->get_filtered_values( $this->cached_values );
 		}
 
 		return $this->cached_values;
+	}
+
+	/**
+	 * Retrieves the filtered option values.
+	 *
+	 * Override this method to implement a filter.
+	 *
+	 * @codeCoverageIgnore Due to expected override.
+	 *
+	 * @param array $values The option values.
+	 *
+	 * @return array The filtered option values.
+	 */
+	protected function get_filtered_values( array $values ) {
+		return $values;
 	}
 
 	/**
@@ -321,7 +338,16 @@ abstract class Abstract_Options_Service {
 		// Update the cache.
 		$this->cached_values[ $key ] = $value;
 		// Save to the database.
-		$this->update_options( $this->cached_values );
+		$this->update_wp_options( $this->cached_values );
+	}
+
+	/**
+	 * Retrieves the options.
+	 *
+	 * @return array|false The options or false.
+	 */
+	protected function get_wp_option() {
+		return \get_option( $this->option_name );
 	}
 
 	/**
@@ -333,7 +359,7 @@ abstract class Abstract_Options_Service {
 	 *
 	 * @return void
 	 */
-	protected function update_options( $values ) {
+	protected function update_wp_options( $values ) {
 		if ( ! \update_option( $this->option_name, $values ) ) {
 			throw Save_Failed_Exception::for_option( $this->option_name );
 		}
@@ -346,7 +372,7 @@ abstract class Abstract_Options_Service {
 	 *
 	 * @return void
 	 */
-	protected function delete_options() {
+	protected function delete_wp_options() {
 		if ( ! \delete_option( $this->option_name ) ) {
 			throw Delete_Failed_Exception::for_option( $this->option_name );
 		}
