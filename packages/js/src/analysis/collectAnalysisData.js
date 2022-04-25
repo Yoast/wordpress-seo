@@ -80,7 +80,7 @@ export default function collectAnalysisData( editorData, store, customAnalysisDa
 		 */
 		description: storeData.analysisData.snippet.description || storeData.snippetEditor.data.description,
 		title: storeData.analysisData.snippet.title || storeData.snippetEditor.data.title,
-		url: storeData.snippetEditor.data.slug,
+		slug: storeData.snippetEditor.data.slug,
 		permalink: storeData.settings.snippetEditor.baseUrl + storeData.snippetEditor.data.slug,
 		wpBlocks: blocks,
 		date: storeData.settings.snippetEditor.date,

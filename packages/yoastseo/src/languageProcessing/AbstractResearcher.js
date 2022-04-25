@@ -25,7 +25,7 @@ import imageCount from "./researches/imageCount.js";
 import keyphraseDistribution from "./researches/keyphraseDistribution";
 import keyphraseLength from "./researches/keyphraseLength";
 import keywordCount from "./researches/keywordCount";
-import keywordCountInUrl from "./researches/keywordCountInUrl";
+import { keywordCountInSlug, keywordCountInUrl } from "./researches/keywordCountInUrl";
 import matchKeywordInSubheadings from "./researches/matchKeywordInSubheadings";
 import metaDescriptionKeyword from "./researches/metaDescriptionKeyword";
 import metaDescriptionLength from "./researches/metaDescriptionLength.js";
@@ -50,6 +50,7 @@ export default class AbstractResearcher {
 	constructor( paper ) {
 		this.paper = paper;
 
+		// We expose the deprecated keywordCountInUrl for backwards compatibility.
 		this.defaultResearches = {
 			altTagCount,
 			countSentencesFromText,
@@ -72,6 +73,7 @@ export default class AbstractResearcher {
 			keyphraseDistribution,
 			keyphraseLength,
 			keywordCount,
+			keywordCountInSlug,
 			keywordCountInUrl,
 			matchKeywordInSubheadings,
 			metaDescriptionKeyword,

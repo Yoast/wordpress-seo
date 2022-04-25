@@ -11,7 +11,7 @@ const paper = new Paper( content, {
 	titleWidth: 450,
 	locale: "de_DE",
 	permalink: "https://de.wikipedia.org/wiki/Flughafen_London_Heathrow",
-	url: "Flughafen_London_Heathrow",
+	slug: "Flughafen_London_Heathrow",
 } );
 
 const expectedResults = {
@@ -77,7 +77,7 @@ const expectedResults = {
 		score: 9,
 		resultText: "<a href='https://yoa.st/34h' target='_blank'>SEO title width</a>: Good job!",
 	},
-	urlKeyword: {
+	slugKeyword: {
 		isApplicable: true,
 		score: 9,
 		resultText: "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: More than half of your keyphrase appears in the slug. That's great!",

@@ -24,7 +24,7 @@ import SubheadingsKeywordAssessment from "./seo/SubHeadingsKeywordAssessment";
 import TextCompetingLinksAssessment from "./seo/TextCompetingLinksAssessment";
 import TextLengthAssessment from "./seo/TextLengthAssessment";
 import TitleKeywordAssessment from "./seo/TitleKeywordAssessment";
-import UrlKeywordAssessment from "./seo/UrlKeywordAssessment";
+import { SlugKeywordAssessment, UrlKeywordAssessment } from "./seo/UrlKeywordAssessment";
 import ImageKeyphraseAssessment from "./seo/KeyphraseInImageTextAssessment";
 import ImageCountAssessment from "./seo/ImageCountAssessment";
 import ImageAltTagsAssessment from "./seo/ImageAltTagsAssessment";
@@ -42,6 +42,7 @@ const readability = {
 	WordComplexityAssessment,
 };
 
+// We expose the deprecated UrlKeywordAssessment for backwards compatibility.
 const seo = {
 	FunctionWordsInKeyphraseAssessment,
 	InternalLinksAssessment,
@@ -58,6 +59,7 @@ const seo = {
 	TextCompetingLinksAssessment,
 	TextLengthAssessment,
 	TitleKeywordAssessment,
+	SlugKeywordAssessment,
 	UrlKeywordAssessment,
 	ImageKeyphraseAssessment,
 	ImageCountAssessment,

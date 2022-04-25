@@ -13,7 +13,7 @@ const paper = new Paper( content, {
 	titleWidth: 450,
 	locale: "en_EN",
 	permalink: "https://en.wikipedia.org/wiki/Science_fiction",
-	url: "https://en.wikipedia.org/wiki/Science_fiction",
+	slug: "https://en.wikipedia.org/wiki/Science_fiction",
 } );
 
 const expectedResults = {
@@ -64,7 +64,7 @@ const expectedResults = {
 		score: 9,
 		resultText: "<a href='https://yoa.st/shopify52' target='_blank'>SEO title width</a>: Good job!",
 	},
-	urlKeyword: {
+	slugKeyword: {
 		isApplicable: true,
 		score: 9,
 		resultText: "<a href='https://yoa.st/shopify26' target='_blank'>Keyphrase in slug</a>: Great work!",
