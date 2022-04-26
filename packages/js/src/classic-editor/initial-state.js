@@ -47,6 +47,22 @@ export const getInitialPostState = () => ( {
 			},
 		},
 		social: {
+			facebook: {
+				title: dom.getPostFBTitle(),
+				description: dom.getPostFBDescription(),
+				image: {
+					id: dom.getPostFBImageID(),
+					url: dom.getPostFBImageURL(),
+				},
+			},
+			twitter: {
+				title: dom.getPostTwitterTitle(),
+				description: dom.getPostTwitterDescription(),
+				image: {
+					id: dom.getPostTwitterImageID(),
+					url: dom.getPostTwitterImageURL(),
+				},
+			},
 			template: {
 				description: window.wpseoScriptData.metabox.social_description_template,
 				title: window.wpseoScriptData.metabox.social_title_template,
@@ -90,6 +106,22 @@ export const getInitialTermState = () => ( {
 			},
 		},
 		social: {
+			facebook: {
+				title: dom.getTermFBTitle(),
+				description: dom.getTermFBDescription(),
+				image: {
+					id: dom.getTermFBImageID(),
+					url: dom.getTermFBImageURL(),
+				},
+			},
+			twitter: {
+				title: dom.getTermTwitterTitle(),
+				description: dom.getTermTwitterDescription(),
+				image: {
+					id: dom.getTermTwitterImageID(),
+					url: dom.getTermTwitterImageURL(),
+				},
+			},
 			template: {
 				description: window.wpseoScriptData.metabox.social_description_template,
 				title: window.wpseoScriptData.metabox.social_title_template,
