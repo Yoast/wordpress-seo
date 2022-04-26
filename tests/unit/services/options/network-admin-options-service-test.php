@@ -104,17 +104,17 @@ class Network_Admin_Options_Service_Test extends TestCase {
 	 */
 	public function test_get() {
 		Monkey\Functions\expect( 'get_site_option' )
-			->with( 'wpseo_network_admin_options' )
 			->once()
+			->with( 'wpseo_network_admin_options' )
 			->andReturn( [ 'foo' => 'bar' ] );
 
 		Monkey\Filters\expectApplied( 'wpseo_network_admin_options_additional_configurations' )
-			->with( [] )
 			->once()
+			->with( [] )
 			->andReturn( [] );
 
-		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
-		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->andReturn( [] );
+		$this->post_type_helper->expects( 'get_public_post_types' )->once()->andReturn( [] );
+		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->once()->andReturn( [] );
 
 		$this->assertEquals( 'bar', $this->instance->foo );
 	}
@@ -128,20 +128,21 @@ class Network_Admin_Options_Service_Test extends TestCase {
 	 */
 	public function test_set() {
 		Monkey\Functions\expect( 'get_site_option' )
-			->with( 'wpseo_network_admin_options' )
 			->once()
+			->with( 'wpseo_network_admin_options' )
 			->andReturn( [ 'access' => 'admin' ] );
 
 		Monkey\Filters\expectApplied( 'wpseo_network_admin_options_additional_configurations' )
-			->with( [] )
 			->once()
+			->with( [] )
 			->andReturn( [] );
 
-		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
-		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->andReturn( [] );
+		$this->post_type_helper->expects( 'get_public_post_types' )->once()->andReturn( [] );
+		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->once()->andReturn( [] );
 
 		$this->validation_helper
 			->expects( 'validate_as' )
+			->once()
 			->with(
 				'superadmin',
 				[
@@ -153,7 +154,6 @@ class Network_Admin_Options_Service_Test extends TestCase {
 					],
 				]
 			)
-			->once()
 			->andReturn( 'superadmin' );
 
 		Monkey\Functions\expect( 'update_site_option' )->andReturn( true );
@@ -169,20 +169,21 @@ class Network_Admin_Options_Service_Test extends TestCase {
 	 */
 	public function test_set_failed() {
 		Monkey\Functions\expect( 'get_site_option' )
-			->with( 'wpseo_network_admin_options' )
 			->once()
+			->with( 'wpseo_network_admin_options' )
 			->andReturn( [ 'access' => 'admin' ] );
 
 		Monkey\Filters\expectApplied( 'wpseo_network_admin_options_additional_configurations' )
-			->with( [] )
 			->once()
+			->with( [] )
 			->andReturn( [] );
 
-		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
-		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->andReturn( [] );
+		$this->post_type_helper->expects( 'get_public_post_types' )->once()->andReturn( [] );
+		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->once()->andReturn( [] );
 
 		$this->validation_helper
 			->expects( 'validate_as' )
+			->once()
 			->with(
 				'superadmin',
 				[
@@ -194,7 +195,6 @@ class Network_Admin_Options_Service_Test extends TestCase {
 					],
 				]
 			)
-			->once()
 			->andReturn( 'superadmin' );
 
 		Monkey\Functions\expect( 'update_site_option' )->andReturn( false );
@@ -216,21 +216,21 @@ class Network_Admin_Options_Service_Test extends TestCase {
 	 */
 	public function test_reset_options() {
 		Monkey\Filters\expectApplied( 'wpseo_network_admin_options_additional_configurations' )
-			->with( [] )
 			->once()
+			->with( [] )
 			->andReturn( [] );
 
-		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
-		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->andReturn( [] );
+		$this->post_type_helper->expects( 'get_public_post_types' )->once()->andReturn( [] );
+		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->once()->andReturn( [] );
 
 		Monkey\Functions\expect( 'delete_site_option' )
-			->with( 'wpseo_network_admin_options' )
 			->once()
+			->with( 'wpseo_network_admin_options' )
 			->andReturn( true );
 
 		Monkey\Functions\expect( 'update_site_option' )
-			->withAnyArgs()
 			->once()
+			->withAnyArgs()
 			->andReturn( true );
 
 		$this->instance->reset_options();
@@ -245,8 +245,8 @@ class Network_Admin_Options_Service_Test extends TestCase {
 	 */
 	public function test_reset_options_delete_failure() {
 		Monkey\Functions\expect( 'delete_site_option' )
-			->with( 'wpseo_network_admin_options' )
 			->once()
+			->with( 'wpseo_network_admin_options' )
 			->andReturn( false );
 
 		Monkey\Functions\expect( 'update_site_option' )->never();
@@ -269,8 +269,8 @@ class Network_Admin_Options_Service_Test extends TestCase {
 	 */
 	public function test_get_configurations_additional() {
 		Monkey\Filters\expectApplied( 'wpseo_network_admin_options_additional_configurations' )
-			->with( [] )
 			->once()
+			->with( [] )
 			->andReturn(
 				[
 					'test' => [
@@ -280,8 +280,8 @@ class Network_Admin_Options_Service_Test extends TestCase {
 				]
 			);
 
-		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
-		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->andReturn( [] );
+		$this->post_type_helper->expects( 'get_public_post_types' )->once()->andReturn( [] );
+		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->once()->andReturn( [] );
 
 		$this->assertArrayHasKey( 'test', $this->instance->get_configurations() );
 	}

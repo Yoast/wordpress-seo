@@ -100,21 +100,21 @@ class Multisite_Options_Service_Test extends TestCase {
 	 */
 	public function test_get_filtered() {
 		Monkey\Functions\expect( 'get_option' )
-			->with( 'wpseo_options' )
 			->once()
+			->with( 'wpseo_options' )
 			->andReturn( [ 'foo' => 'bar' ] );
 
 		Monkey\Filters\expectApplied( 'wpseo_options_additional_configurations' )
-			->with( [] )
 			->once()
+			->with( [] )
 			->andReturn( [] );
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
 		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->andReturn( [] );
 
 		Monkey\Filters\expectApplied( 'wpseo_multisite_options_values' )
-			->withAnyArgs()
 			->once()
+			->withAnyArgs()
 			->andReturn( [ 'foo' => 'baz' ] );
 
 		$this->assertEquals( 'baz', $this->instance->foo );
@@ -130,13 +130,13 @@ class Multisite_Options_Service_Test extends TestCase {
 	 */
 	public function test_get_filtered_safety() {
 		Monkey\Functions\expect( 'get_option' )
-			->with( 'wpseo_options' )
 			->once()
+			->with( 'wpseo_options' )
 			->andReturn( [] );
 
 		Monkey\Filters\expectApplied( 'wpseo_options_additional_configurations' )
-			->with( [] )
 			->once()
+			->with( [] )
 			->andReturn( [] );
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
@@ -144,8 +144,8 @@ class Multisite_Options_Service_Test extends TestCase {
 
 		// Normally, this filter should return an array.
 		Monkey\Filters\expectApplied( 'wpseo_multisite_options_values' )
-			->withAnyArgs()
 			->once()
+			->withAnyArgs()
 			->andReturn( 123 );
 
 		$this->assertEquals( 'company', $this->instance->company_or_person );
@@ -161,8 +161,8 @@ class Multisite_Options_Service_Test extends TestCase {
 	 */
 	public function test_get_configurations_additional() {
 		Monkey\Filters\expectApplied( 'wpseo_multisite_options_additional_configurations' )
-			->with( [] )
 			->once()
+			->with( [] )
 			->andReturn(
 				[
 					'test' => [

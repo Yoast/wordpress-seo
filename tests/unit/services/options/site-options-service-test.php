@@ -101,13 +101,13 @@ class Site_Options_Service_Test extends TestCase {
 	 */
 	public function test_get_options() {
 		Monkey\Functions\expect( 'get_option' )
-			->with( 'wpseo_options' )
 			->once()
+			->with( 'wpseo_options' )
 			->andReturn( [ 'foo' => 'bar' ] );
 
 		Monkey\Filters\expectApplied( 'wpseo_options_additional_configurations' )
-			->with( [] )
 			->once()
+			->with( [] )
 			->andReturn( [] );
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
@@ -124,8 +124,8 @@ class Site_Options_Service_Test extends TestCase {
 	 */
 	public function test_get_options_filtered() {
 		Monkey\Functions\expect( 'get_option' )
-			->with( 'wpseo_options' )
 			->once()
+			->with( 'wpseo_options' )
 			->andReturn(
 				[
 					'foo' => 'bar',
@@ -134,8 +134,8 @@ class Site_Options_Service_Test extends TestCase {
 			);
 
 		Monkey\Filters\expectApplied( 'wpseo_options_additional_configurations' )
-			->with( [] )
 			->once()
+			->with( [] )
 			->andReturn( [] );
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
@@ -154,13 +154,13 @@ class Site_Options_Service_Test extends TestCase {
 	 */
 	public function test_get() {
 		Monkey\Functions\expect( 'get_option' )
-			->with( 'wpseo_options' )
 			->once()
+			->with( 'wpseo_options' )
 			->andReturn( [ 'foo' => 'bar' ] );
 
 		Monkey\Filters\expectApplied( 'wpseo_options_additional_configurations' )
-			->with( [] )
 			->once()
+			->with( [] )
 			->andReturn( [] );
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
@@ -179,21 +179,21 @@ class Site_Options_Service_Test extends TestCase {
 	 */
 	public function test_get_filtered() {
 		Monkey\Functions\expect( 'get_option' )
-			->with( 'wpseo_options' )
 			->once()
+			->with( 'wpseo_options' )
 			->andReturn( [ 'foo' => 'bar' ] );
 
 		Monkey\Filters\expectApplied( 'wpseo_options_additional_configurations' )
-			->with( [] )
 			->once()
+			->with( [] )
 			->andReturn( [] );
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
 		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->andReturn( [] );
 
 		Monkey\Filters\expectApplied( 'wpseo_options_values' )
-			->withAnyArgs()
 			->once()
+			->withAnyArgs()
 			->andReturn( [ 'foo' => 'baz' ] );
 
 		$this->assertEquals( 'baz', $this->instance->foo );
@@ -209,13 +209,13 @@ class Site_Options_Service_Test extends TestCase {
 	 */
 	public function test_get_filtered_safety() {
 		Monkey\Functions\expect( 'get_option' )
-			->with( 'wpseo_options' )
 			->once()
+			->with( 'wpseo_options' )
 			->andReturn( [] );
 
 		Monkey\Filters\expectApplied( 'wpseo_options_additional_configurations' )
-			->with( [] )
 			->once()
+			->with( [] )
 			->andReturn( [] );
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
@@ -223,8 +223,8 @@ class Site_Options_Service_Test extends TestCase {
 
 		// Normally, this filter should return an array.
 		Monkey\Filters\expectApplied( 'wpseo_options_values' )
-			->withAnyArgs()
 			->once()
+			->withAnyArgs()
 			->andReturn( 123 );
 
 		$this->assertEquals( 'company', $this->instance->company_or_person );
@@ -237,13 +237,13 @@ class Site_Options_Service_Test extends TestCase {
 	 */
 	public function test_get_exception() {
 		Monkey\Functions\expect( 'get_option' )
-			->with( 'wpseo_options' )
 			->once()
+			->with( 'wpseo_options' )
 			->andReturn( [] );
 
 		Monkey\Filters\expectApplied( 'wpseo_options_additional_configurations' )
-			->with( [] )
 			->once()
+			->with( [] )
 			->andReturn( [] );
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
@@ -264,13 +264,13 @@ class Site_Options_Service_Test extends TestCase {
 	 */
 	public function test_set() {
 		Monkey\Functions\expect( 'get_option' )
-			->with( 'wpseo_options' )
 			->once()
+			->with( 'wpseo_options' )
 			->andReturn( [ 'facebook_site' => '' ] );
 
 		Monkey\Filters\expectApplied( 'wpseo_options_additional_configurations' )
-			->with( [] )
 			->once()
+			->with( [] )
 			->andReturn( [] );
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
@@ -278,6 +278,7 @@ class Site_Options_Service_Test extends TestCase {
 
 		$this->validation_helper
 			->expects( 'validate_as' )
+			->once()
 			->with( 'https://example.org', [ 'empty_string', 'url' ] )
 			->andReturn( 'https://example.org' );
 
@@ -294,13 +295,13 @@ class Site_Options_Service_Test extends TestCase {
 	 */
 	public function test_set_default() {
 		Monkey\Functions\expect( 'get_option' )
-			->with( 'wpseo_options' )
 			->once()
+			->with( 'wpseo_options' )
 			->andReturn( [ 'facebook_site' => 'https://example.org' ] );
 
 		Monkey\Filters\expectApplied( 'wpseo_options_additional_configurations' )
-			->with( [] )
 			->once()
+			->with( [] )
 			->andReturn( [] );
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
@@ -323,13 +324,13 @@ class Site_Options_Service_Test extends TestCase {
 	 */
 	public function test_set_same() {
 		Monkey\Functions\expect( 'get_option' )
-			->with( 'wpseo_options' )
 			->once()
+			->with( 'wpseo_options' )
 			->andReturn( [ 'facebook_site' => 'https://example.org' ] );
 
 		Monkey\Filters\expectApplied( 'wpseo_options_additional_configurations' )
-			->with( [] )
 			->once()
+			->with( [] )
 			->andReturn( [] );
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
@@ -352,13 +353,13 @@ class Site_Options_Service_Test extends TestCase {
 	 */
 	public function test_set_same_after_sanitize() {
 		Monkey\Functions\expect( 'get_option' )
-			->with( 'wpseo_options' )
 			->once()
+			->with( 'wpseo_options' )
 			->andReturn( [ 'facebook_site' => 'https://example.org' ] );
 
 		Monkey\Filters\expectApplied( 'wpseo_options_additional_configurations' )
-			->with( [] )
 			->once()
+			->with( [] )
 			->andReturn( [] );
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
@@ -366,8 +367,8 @@ class Site_Options_Service_Test extends TestCase {
 
 		$this->validation_helper
 			->expects( 'validate_as' )
-			->with( 'https://example.or!!g', [ 'empty_string', 'url' ] )
 			->once()
+			->with( 'https://example.or!!g', [ 'empty_string', 'url' ] )
 			->andReturn( 'https://example.org' );
 
 		Monkey\Functions\expect( 'update_option' )->never();
@@ -382,8 +383,8 @@ class Site_Options_Service_Test extends TestCase {
 	 */
 	public function test_set_unknown() {
 		Monkey\Filters\expectApplied( 'wpseo_options_additional_configurations' )
-			->with( [] )
 			->once()
+			->with( [] )
 			->andReturn( [] );
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
@@ -404,13 +405,13 @@ class Site_Options_Service_Test extends TestCase {
 	 */
 	public function test_set_invalid() {
 		Monkey\Functions\expect( 'get_option' )
-			->with( 'wpseo_options' )
 			->once()
+			->with( 'wpseo_options' )
 			->andReturn( [ 'facebook_site' => 'https://example.org' ] );
 
 		Monkey\Filters\expectApplied( 'wpseo_options_additional_configurations' )
-			->with( [] )
 			->once()
+			->with( [] )
 			->andReturn( [] );
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
@@ -418,8 +419,8 @@ class Site_Options_Service_Test extends TestCase {
 
 		$this->validation_helper
 			->expects( 'validate_as' )
-			->with( 'bar', [ 'empty_string', 'url' ] )
 			->once()
+			->with( 'bar', [ 'empty_string', 'url' ] )
 			->andThrow( Invalid_Url_Exception::class );
 
 		$this->expectException( Invalid_Url_Exception::class );
@@ -437,13 +438,13 @@ class Site_Options_Service_Test extends TestCase {
 	 */
 	public function test_set_failed() {
 		Monkey\Functions\expect( 'get_option' )
-			->with( 'wpseo_options' )
 			->once()
+			->with( 'wpseo_options' )
 			->andReturn( [ 'facebook_site' => '' ] );
 
 		Monkey\Filters\expectApplied( 'wpseo_options_additional_configurations' )
-			->with( [] )
 			->once()
+			->with( [] )
 			->andReturn( [] );
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
@@ -451,8 +452,8 @@ class Site_Options_Service_Test extends TestCase {
 
 		$this->validation_helper
 			->expects( 'validate_as' )
-			->with( 'https://example.org', [ 'empty_string', 'url' ] )
 			->once()
+			->with( 'https://example.org', [ 'empty_string', 'url' ] )
 			->andReturn( 'https://example.org' );
 
 		Monkey\Functions\expect( 'update_option' )->andReturn( false );
@@ -474,13 +475,13 @@ class Site_Options_Service_Test extends TestCase {
 	public function test_ensure_options() {
 		// This also walks the path in `get_values` where the values get initialized to an empty array.
 		Monkey\Functions\expect( 'get_option' )
-			->with( 'wpseo_options' )
 			->twice()
+			->with( 'wpseo_options' )
 			->andReturn( false );
 
 		Monkey\Filters\expectApplied( 'wpseo_options_additional_configurations' )
-			->with( [] )
 			->once()
+			->with( [] )
 			->andReturn( [] );
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
@@ -498,8 +499,8 @@ class Site_Options_Service_Test extends TestCase {
 	 */
 	public function test_ensure_options_no_update() {
 		Monkey\Functions\expect( 'get_option' )
-			->with( 'wpseo_options' )
 			->once()
+			->with( 'wpseo_options' )
 			->andReturn( true );
 
 		Monkey\Functions\expect( 'update_option' )->never();
@@ -516,21 +517,21 @@ class Site_Options_Service_Test extends TestCase {
 	 */
 	public function test_reset_options() {
 		Monkey\Filters\expectApplied( 'wpseo_options_additional_configurations' )
-			->with( [] )
 			->once()
+			->with( [] )
 			->andReturn( [] );
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
 		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->andReturn( [] );
 
 		Monkey\Functions\expect( 'delete_option' )
-			->with( 'wpseo_options' )
 			->once()
+			->with( 'wpseo_options' )
 			->andReturn( true );
 
 		Monkey\Functions\expect( 'update_option' )
-			->withAnyArgs()
 			->once()
+			->withAnyArgs()
 			->andReturn( true );
 
 		$this->instance->reset_options();
@@ -545,8 +546,8 @@ class Site_Options_Service_Test extends TestCase {
 	 */
 	public function test_reset_options_delete_failure() {
 		Monkey\Functions\expect( 'delete_option' )
-			->with( 'wpseo_options' )
 			->once()
+			->with( 'wpseo_options' )
 			->andReturn( false );
 
 		Monkey\Functions\expect( 'update_option' )->never();
@@ -564,8 +565,8 @@ class Site_Options_Service_Test extends TestCase {
 	 */
 	public function test_get_defaults() {
 		Monkey\Filters\expectApplied( 'wpseo_options_additional_configurations' )
-			->with( [] )
 			->once()
+			->with( [] )
 			->andReturn( [] );
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
@@ -583,8 +584,8 @@ class Site_Options_Service_Test extends TestCase {
 	 */
 	public function test_get_default() {
 		Monkey\Filters\expectApplied( 'wpseo_options_additional_configurations' )
-			->with( [] )
 			->once()
+			->with( [] )
 			->andReturn( [] );
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
@@ -600,8 +601,8 @@ class Site_Options_Service_Test extends TestCase {
 	 */
 	public function test_get_default_unknown() {
 		Monkey\Filters\expectApplied( 'wpseo_options_additional_configurations' )
-			->with( [] )
 			->once()
+			->with( [] )
 			->andReturn( [] );
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
@@ -622,8 +623,8 @@ class Site_Options_Service_Test extends TestCase {
 	 */
 	public function test_get_configurations() {
 		Monkey\Filters\expectApplied( 'wpseo_options_additional_configurations' )
-			->with( [] )
 			->once()
+			->with( [] )
 			->andReturn( [] );
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
@@ -642,8 +643,8 @@ class Site_Options_Service_Test extends TestCase {
 	 */
 	public function test_get_configurations_additional() {
 		Monkey\Filters\expectApplied( 'wpseo_options_additional_configurations' )
-			->with( [] )
 			->once()
+			->with( [] )
 			->andReturn(
 				[
 					'test' => [
@@ -669,8 +670,8 @@ class Site_Options_Service_Test extends TestCase {
 	 */
 	public function test_get_configurations_additional_non_array() {
 		Monkey\Filters\expectApplied( 'wpseo_options_additional_configurations' )
-			->with( [] )
 			->once()
+			->with( [] )
 			->andReturn( 123 );
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
@@ -694,8 +695,8 @@ class Site_Options_Service_Test extends TestCase {
 	 */
 	public function test_get_configurations_additional_is_invalid( $configurations, $missing_key ) {
 		Monkey\Filters\expectApplied( 'wpseo_options_additional_configurations' )
-			->with( [] )
 			->once()
+			->with( [] )
 			->andReturn( $configurations );
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
@@ -765,8 +766,8 @@ class Site_Options_Service_Test extends TestCase {
 	 */
 	public function test_get_configurations_expanded() {
 		Monkey\Filters\expectApplied( 'wpseo_options_additional_configurations' )
-			->with( [] )
 			->once()
+			->with( [] )
 			->andReturn( [] );
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [ 'test_post_type' ] );
@@ -789,13 +790,13 @@ class Site_Options_Service_Test extends TestCase {
 		$this->assertNull( $this->getPropertyValue( $this->instance, 'cached_values' ) );
 
 		Monkey\Functions\expect( 'get_option' )
-			->with( 'wpseo_options' )
 			->once()
+			->with( 'wpseo_options' )
 			->andReturn( [] );
 
 		Monkey\Filters\expectApplied( 'wpseo_options_additional_configurations' )
-			->with( [] )
 			->once()
+			->with( [] )
 			->andReturn( [] );
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
