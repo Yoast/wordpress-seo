@@ -551,6 +551,24 @@ export default function FirstTimeConfigurationSteps() {
 	}, [ stepperFinishedOnce, isStepBeingEdited ] );
 
 	/* eslint-disable max-len */
+	useEffect( () => {
+		/**
+		 * Prevents the submission of the form upon pressing enter.
+		 *
+		 * @param {KeyboardEvent} event The keydown event this function is listening to.
+		 *
+		 * @returns {void}
+		 */
+		function preventEnterSubmit( event ) {
+			if ( event.key === "Enter" ) {
+				event.preventDefault();
+			}
+		}
+
+		addEventListener( "keydown", preventEnterSubmit );
+		return () => removeEventListener( "keydown", preventEnterSubmit );
+	}, [] );
+
 	return (
 		<div id="yoast-configuration-workout" className="yst-card">
 			<h2 id="yoast-configuration-workout-title" className="yst-text-lg yst-text-primary-500 yst-font-medium">{ __( "Tell us about your site, so we can get your site ranked!", "wordpress-seo" ) }</h2>
