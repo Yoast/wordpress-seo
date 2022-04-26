@@ -244,7 +244,7 @@ Enhancements:
 
 * Adds an integration for [CoAuthors Plus](https://wordpress.org/plugins/co-authors-plus/). When enabled, multiple authors will be added to the schema output.
 * Adds a `wpseo_schema_graph` filter to allow filtering the entire Schema graph.
-* Improves the schema by changing the `@id` for images for `Person` and `Organization` including the `logo` attribute for the latter, to have a more proper format..
+* Improves the schema by changing the `@id` for images for `Person` and `Organization` including the `logo` attribute for the latter, to have a more proper format.
 * Removes penalising for H1 that is not at the beginning of the text body.
 
 Bugfixes:
