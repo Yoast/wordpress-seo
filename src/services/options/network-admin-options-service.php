@@ -49,7 +49,7 @@ class Network_Admin_Options_Service extends Abstract_Options_Service {
 		],
 		'defaultblog' => [
 			'default' => '',
-			'types'   => [ 'empty_string' ],
+			'types'   => [ 'empty_string', 'integer' ],
 		],
 	];
 
