@@ -74,14 +74,14 @@ function handleStepEdit( state, stepNumber ) {
 
 /* eslint-disable complexity */
 /**
- * A reducer for the configuration workout's internal state.
+ * A reducer for the configuration's internal state.
  *
  * @param {Object} state  The "current" state.
  * @param {Object} action The action with which to mutate the state.
  *
  * @returns {Object} The state as altered by the action.
  */
-function configurationWorkoutReducer( state, action ) {
+function configurationReducer( state, action ) {
 	let newState = cloneDeep( state );
 	switch ( action.type ) {
 		case "SET_COMPANY_OR_PERSON":
@@ -196,7 +196,7 @@ async function updateSiteRepresentation( state ) {
 		siteRepresentation.description = state.siteTagline;
 	}
 	const response = await apiFetch( {
-		path: "yoast/v1/workouts/site_representation",
+		path: "yoast/v1/configuration/site_representation",
 		method: "POST",
 		data: siteRepresentation,
 	} );
@@ -220,7 +220,7 @@ async function updateSocialProfiles( state ) {
 	};
 
 	const response = await apiFetch( {
-		path: "yoast/v1/workouts/social_profiles",
+		path: "yoast/v1/configuration/social_profiles",
 		method: "POST",
 		data: socialProfiles,
 	} );
@@ -251,7 +251,7 @@ async function updatePersonSocialProfiles( state ) {
 		/* eslint-enable camelcase */
 	};
 	const response = await apiFetch( {
-		path: "yoast/v1/workouts/person_social_profiles",
+		path: "yoast/v1/configuration/person_social_profiles",
 		method: "POST",
 		data: socialProfiles,
 	} );
@@ -275,7 +275,7 @@ async function updateTracking( state ) {
 	};
 
 	const response = await apiFetch( {
-		path: "yoast/v1/workouts/enable_tracking",
+		path: "yoast/v1/configuration/enable_tracking",
 		method: "POST",
 		data: tracking,
 	} );
@@ -333,7 +333,7 @@ function calculateInitialState( windowObject, isStepFinished ) {
 
 /* eslint-disable max-statements */
 /**
- * The configuration workout.
+ * The first time configuration.
  *
  * @returns {WPElement} The FirstTimeConfigurationSteps component.
  */
@@ -352,7 +352,7 @@ export default function FirstTimeConfigurationSteps() {
 		saveFinishedSteps( finishedSteps );
 	}, [ finishedSteps ] );
 
-	const [ state, dispatch ] = useReducer( configurationWorkoutReducer, {
+	const [ state, dispatch ] = useReducer( configurationReducer, {
 		...calculateInitialState( window.wpseoFirstTimeConfigurationData, isStepFinished ),
 	} );
 	const [ indexingState, setIndexingState ] = useState( () => window.yoastIndexingData.amount === "0" ? "already_done" : "idle" );
@@ -361,7 +361,7 @@ export default function FirstTimeConfigurationSteps() {
 
 	const isTrackingOptionSelected = state.tracking === 0 || state.tracking === 1;
 
-	/* Briefly override window variable because indexingstate is reinitialized when navigating back and forth on the workouts page,
+	/* Briefly override window variable because indexingstate is reinitialized when navigating back and forth without triggering a reload,
 	whereas the window variable remains stale. */
 	useEffect( () => {
 		if ( indexingState === "completed" ) {
@@ -569,8 +569,8 @@ export default function FirstTimeConfigurationSteps() {
 	}, [] );
 
 	return (
-		<div id="yoast-configuration-workout" className="yst-card">
-			<h2 id="yoast-configuration-workout-title" className="yst-text-lg yst-text-primary-500 yst-font-medium">{ __( "Tell us about your site, so we can get your site ranked!", "wordpress-seo" ) }</h2>
+		<div id="yoast-configuration" className="yst-card">
+			<h2 id="yoast-configuration-title" className="yst-text-lg yst-text-primary-500 yst-font-medium">{ __( "Tell us about your site, so we can get your site ranked!", "wordpress-seo" ) }</h2>
 			<p className="yst-py-2">
 				{
 					addLinkToString(
@@ -585,14 +585,14 @@ export default function FirstTimeConfigurationSteps() {
 							"</a>"
 						),
 						window.wpseoFirstTimeConfigurationData.shortlinks.workoutGuide,
-						"yoast-configuration-workout-guide-link"
+						"yoast-configuration-guide-link"
 					)
 				}
 			</p>
 			<p className="yst-mb-6">
 				{ __( "The Yoast indexables squad can't wait to get your site in tip-top shape for the search engines. Help us and take these 5 steps in order to put our Yoast indexables to work!", "wordpress-seo" ) }
 			</p>
-			<hr id="configuration-workout-hr-top" />
+			<hr id="configuration-hr-top" />
 			{ /* eslint-disable react/jsx-no-bind */ }
 			<div className="yst-mt-8">
 				<Stepper
