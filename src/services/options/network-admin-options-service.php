@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Services\Options;
 
 use Yoast\WP\SEO\Exceptions\Option\Delete_Failed_Exception;
 use Yoast\WP\SEO\Exceptions\Option\Save_Failed_Exception;
+use Yoast\WP\SEO\Exceptions\Option\Unknown_Exception;
 
 /**
  * The multisite site options service class.
@@ -51,6 +52,99 @@ class Network_Admin_Options_Service extends Abstract_Options_Service {
 			'types'   => [ 'empty_string' ],
 		],
 	];
+
+	/**
+	 * Holds the multisite options service instance.
+	 *
+	 * @var Multisite_Options_Service
+	 */
+	protected $multisite_options_service;
+
+	/**
+	 * Sets the dependencies.
+	 *
+	 * Use this for dependencies that are not included via the Abstract_Options_Service's constructor.
+	 *
+	 * @param Multisite_Options_Service $multisite_options_service The multisite options service.
+	 *
+	 * @required
+	 */
+	public function set_dependencies( Multisite_Options_Service $multisite_options_service ) {
+		$this->multisite_options_service = $multisite_options_service;
+	}
+
+	/**
+	 * Resets all options for the current blog when the `ms_defaults_set` option is false.
+	 *
+	 * @throws Save_Failed_Exception When the save failed.
+	 * @throws Delete_Failed_Exception When the deletion failed.
+	 * @throws Unknown_Exception When the `defaultblog` option is not registered.
+	 *
+	 * @return bool Whether the options were reset.
+	 */
+	public function maybe_reset_current_blog_options() {
+		try {
+			$is_ms_defaults_set = $this->multisite_options_service->__get( 'ms_defaults_set' );
+		} catch ( Unknown_Exception $e ) {
+			$is_ms_defaults_set = false;
+		}
+
+		if ( $is_ms_defaults_set ) {
+			return false;
+		}
+		$this->reset_options_for( \get_current_blog_id() );
+
+		return true;
+	}
+
+	// phpcs:disable Squiz.Commenting.FunctionCommentThrowTag.WrongNumber -- PHPCS doesn't take into account exceptions thrown in called methods.
+
+	/**
+	 * Resets all options for a specific multisite blog.
+	 *
+	 * The new options are retrieved from the specified default blog, if one was chosen on the network page, or the
+	 * plugin defaults if it was not.
+	 *
+	 * @param int $blog_id The blog ID.
+	 *
+	 * @throws Save_Failed_Exception When the save failed.
+	 * @throws Delete_Failed_Exception When the deletion failed.
+	 * @throws Unknown_Exception When the `defaultblog` option is not registered.
+	 *
+	 * @return void
+	 */
+	public function reset_options_for( $blog_id ) {
+		// Determine the blog to get the options from.
+		$base_blog_id = $blog_id;
+		// Use the default blog when that is set.
+		$default_blog = $this->__get( 'defaultblog' );
+		if ( $default_blog !== '' && $default_blog !== 0 ) {
+			$base_blog_id = $default_blog;
+		}
+
+		// Delete the options.
+		if ( ! \delete_blog_option( $blog_id, $this->multisite_options_service->option_name ) ) {
+			throw Delete_Failed_Exception::for_option( $this->multisite_options_service->option_name );
+		}
+
+		// Retrieve the new options.
+		$new_options = \get_blog_option( $base_blog_id, $this->multisite_options_service->option_name );
+		// Using this option to prevent unnecessary resets.
+		$new_options['ms_defaults_set'] = true;
+		foreach ( $this->multisite_options_service->get_configurations() as $key => $configuration ) {
+			// Remove sensitive, theme dependent and site dependent info.
+			if ( \array_key_exists( 'ms_exclude', $configuration ) && $configuration['ms_exclude'] ) {
+				$new_options[ $key ] = $configuration['default'];
+			}
+		}
+
+		// Save the options.
+		if ( ! \update_blog_option( $blog_id, $this->multisite_options_service->option_name, $new_options ) ) {
+			throw Save_Failed_Exception::for_option( $this->multisite_options_service->option_name );
+		}
+	}
+
+	// phpcs:enable Squiz.Commenting.FunctionCommentThrowTag.WrongNumber
 
 	/**
 	 * Retrieves the options.

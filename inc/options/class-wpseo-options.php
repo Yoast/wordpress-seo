@@ -5,8 +5,8 @@
  * @package WPSEO\Internals\Options
  */
 
-use Yoast\WP\SEO\Exceptions\Option\Unknown_Exception;
-use Yoast\WP\SEO\Services\Options\Multisite_Options_Service;
+use Yoast\WP\SEO\Exceptions\Option\Delete_Failed_Exception;
+use Yoast\WP\SEO\Exceptions\Option\Save_Failed_Exception;
 use Yoast\WP\SEO\Services\Options\Network_Admin_Options_Service;
 
 /**
@@ -87,7 +87,7 @@ class WPSEO_Options {
 	public static function register_option( WPSEO_Option $option_instance ) {
 		$option_name = $option_instance->get_option_name();
 
-		if ( $option_instance->multisite_only && ! static::is_multisite() ) {
+		if ( $option_instance->multisite_only && ! is_multisite() ) {
 			unset( static::$options[ $option_name ], static::$option_names[ $option_name ] );
 
 			return;
@@ -370,10 +370,30 @@ class WPSEO_Options {
 		}
 		else {
 			// Reset MS blog based on network default blog setting.
-			static::reset_ms_blog( get_current_blog_id() );
+			YoastSEO()->classes->get( Network_Admin_Options_Service::class )->reset_options_for( get_current_blog_id() );
 		}
 
 		static::initialize();
+	}
+
+	/**
+	 * Adds the multisite options to the option stack if relevant.
+	 *
+	 * @param array $option The currently present options settings.
+	 *
+	 * @return array Options possibly including multisite.
+	 */
+	protected static function add_ms_option( $option ) {
+		if ( ! is_multisite() ) {
+			return $option;
+		}
+
+		$ms_option = static::get_option( 'wpseo_ms' );
+		if ( $ms_option === null ) {
+			return $option;
+		}
+
+		return array_merge( $option, $ms_option );
 	}
 
 	/**
@@ -384,28 +404,27 @@ class WPSEO_Options {
 	 * @return void
 	 */
 	public static function maybe_set_multisite_defaults( $force_init = false ) {
+		_deprecated_function( __METHOD__, 'WPSEO xx.x', 'YoastSEO()->classes->get( Network_Admin_Options_Service::class )->maybe_reset_current_blog_options' );
+
 		if ( ! is_multisite() ) {
 			return;
 		}
 
 		/**
-		 * Indicates this variable is a Multisite_Options_Service.
+		 * Indicates this variable is a Network_Admin_Options_Service.
 		 *
-		 * @var \Yoast\WP\SEO\Services\Options\Multisite_Options_Service $multisite_options_service
+		 * @var \Yoast\WP\SEO\Services\Options\Network_Admin_Options_Service $network_admin_options_service
 		 */
-		$multisite_options_service = YoastSEO()->classes->get( Multisite_Options_Service::class );
-
+		$network_admin_options_service = YoastSEO()->classes->get( Network_Admin_Options_Service::class );
 		try {
-			$is_ms_defaults_set = $multisite_options_service->__get( 'ms_defaults_set' );
-		} catch ( Unknown_Exception $e ) {
-			$is_ms_defaults_set = false;
+			$is_reset = $network_admin_options_service->maybe_reset_current_blog_options();
+		} catch ( Delete_Failed_Exception $exception ) {
+			$is_reset = false;
+		} catch ( Save_Failed_Exception $exception ) {
+			$is_reset = false;
 		}
 
-		if ( ! $is_ms_defaults_set ) {
-			static::reset_ms_blog( get_current_blog_id() );
-			static::initialize();
-		}
-		elseif ( $force_init === true ) {
+		if ( $is_reset || $force_init ) {
 			static::initialize();
 		}
 	}
@@ -414,50 +433,28 @@ class WPSEO_Options {
 	 * Reset all options for a specific multisite blog to their default values based upon a
 	 * specified default blog if one was chosen on the network page or the plugin defaults if it was not.
 	 *
-	 * @param int|string $blog_id Blog id of the blog for which to reset the options.
+	 * @param int $blog_id Blog id of the blog for which to reset the options.
 	 *
 	 * @return void
 	 */
 	public static function reset_ms_blog( $blog_id ) {
-		if ( ! self::is_multisite() ) {
+		_deprecated_function( __METHOD__, 'WPSEO xx.x', 'YoastSEO()->classes->get( Network_Admin_Options_Service::class )->reset_options_for' );
+
+		if ( ! is_multisite() ) {
 			return;
 		}
 
 		/**
-		 * Indicates this variable is a Multisite_Options_Service.
-		 *
-		 * @var \Yoast\WP\SEO\Services\Options\Multisite_Options_Service $multisite_options_service
-		 */
-		$multisite_options_service = YoastSEO()->classes->get( Multisite_Options_Service::class );
-		/**
 		 * Indicates this variable is a Network_Admin_Options_Service.
 		 *
-		 * @var \Yoast\WP\SEO\Services\Options\Network_Admin_Options_Service $options_service
+		 * @var \Yoast\WP\SEO\Services\Options\Network_Admin_Options_Service $network_admin_options_service
 		 */
 		$network_admin_options_service = YoastSEO()->classes->get( Network_Admin_Options_Service::class );
-
-		$base_blog_id = $blog_id;
-		// Override the blog ID to get the new options from when a default blog is set.
 		try {
-			$default_blog = $network_admin_options_service->__get( 'defaultblog' );
-			if ( $default_blog !== '' && $default_blog !== 0 ) {
-				$base_blog_id = $default_blog;
-			}
-		} catch ( Unknown_Exception $exception ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch -- Deliberately left empty.
+			$network_admin_options_service->reset_options_for( $blog_id );
+		} catch ( Delete_Failed_Exception $exception ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch -- Deliberately left empty.
+		} catch ( Save_Failed_Exception $exception ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch -- Deliberately left empty.
 		}
-
-		delete_blog_option( $blog_id, $multisite_options_service->option_name );
-
-		$new_options                    = get_blog_option( $base_blog_id, $multisite_options_service->option_name );
-		$new_options['ms_defaults_set'] = true;
-		foreach ( $multisite_options_service->get_configurations() as $key => $configuration ) {
-			// Remove sensitive, theme dependent and site dependent info.
-			if ( array_key_exists( 'ms_exclude', $configuration ) && $configuration['ms_exclude'] ) {
-				unset( $new_options[ $key ] );
-			}
-		}
-
-		update_blog_option( $blog_id, $multisite_options_service->option_name, $new_options );
 	}
 
 	/**
@@ -492,38 +489,14 @@ class WPSEO_Options {
 	}
 
 	/**
-	 * Adds the multisite options to the option stack if relevant.
-	 *
-	 * @param array $option The currently present options settings.
-	 *
-	 * @return array Options possibly including multisite.
-	 */
-	protected static function add_ms_option( $option ) {
-		if ( ! is_multisite() ) {
-			return $option;
-		}
-
-		$ms_option = static::get_option( 'wpseo_ms' );
-		if ( $ms_option === null ) {
-			return $option;
-		}
-
-		return array_merge( $option, $ms_option );
-	}
-
-	/**
 	 * Checks if installation is multisite.
 	 *
 	 * @return bool True when is multisite.
 	 */
 	protected static function is_multisite() {
-		static $is_multisite;
+		_deprecated_function( __METHOD__, 'WPSEO xx.x', 'YoastSEO()->helpers->site->is_multisite' );
 
-		if ( $is_multisite === null ) {
-			$is_multisite = is_multisite();
-		}
-
-		return $is_multisite;
+		return YoastSEO()->helpers->site->is_multisite();
 	}
 
 	/**

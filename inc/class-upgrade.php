@@ -6,6 +6,7 @@
  */
 
 use Yoast\WP\Lib\Model;
+use Yoast\WP\SEO\Services\Options\Network_Admin_Options_Service;
 
 /**
  * This code handles the option upgrades.
@@ -27,7 +28,9 @@ class WPSEO_Upgrade {
 
 		$version = WPSEO_Options::get( 'version' );
 
-		WPSEO_Options::maybe_set_multisite_defaults( false );
+		if ( YoastSEO()->classes->get( Network_Admin_Options_Service::class )->maybe_reset_current_blog_options() ) {
+			WPSEO_Options::initialize();
+		}
 
 		$routines = [
 			'1.5.0'      => 'upgrade_15',
