@@ -315,33 +315,11 @@ class Network_Admin_Options_Service_Test extends TestCase {
 			->with( 1, 'wpseo_options' )
 			->andReturn( true );
 
-		Monkey\Functions\expect( 'get_blog_option' )
-			->once()
-			->with( 1, 'wpseo_options' )
-			->andReturn( [ 'secret' => 'will be replaced by default value' ] );
-
-		$this->multisite_options_service->expects( 'get_configurations' )
-			->once()
-			->andReturn(
-				[
-					'secret' => [
-						'default'    => '',
-						'types'      => [ 'text_field' ],
-						'ms_exclude' => true,
-					],
-				]
-			);
+		$this->multisite_options_service->expects( 'get_defaults' )->once()->andReturn( [] );
 
 		Monkey\Functions\expect( 'update_blog_option' )
 			->once()
-			->with(
-				1,
-				'wpseo_options',
-				[
-					'secret'          => '',
-					'ms_defaults_set' => true,
-				]
-			)
+			->with( 1, 'wpseo_options', [ 'ms_defaults_set' => true ] )
 			->andReturn( true );
 
 		$this->instance->reset_options_for( 1 );
@@ -373,15 +351,30 @@ class Network_Admin_Options_Service_Test extends TestCase {
 		Monkey\Functions\expect( 'get_blog_option' )
 			->once()
 			->with( $default_blog, 'wpseo_options' )
-			->andReturn( [] );
+			->andReturn( [ 'secret' => 'will be reset to default' ] );
 
 		$this->multisite_options_service->expects( 'get_configurations' )
 			->once()
-			->andReturn( [] );
+			->andReturn(
+				[
+					'secret' => [
+						'default'    => '',
+						'types'      => [ 'text_field' ],
+						'ms_exclude' => true,
+					],
+				]
+			);
 
 		Monkey\Functions\expect( 'update_blog_option' )
 			->once()
-			->with( $blog_id, 'wpseo_options', [ 'ms_defaults_set' => true ] )
+			->with(
+				$blog_id,
+				'wpseo_options',
+				[
+					'secret'          => '',
+					'ms_defaults_set' => true,
+				]
+			)
 			->andReturn( true );
 
 		$this->instance->reset_options_for( $blog_id );
@@ -424,14 +417,7 @@ class Network_Admin_Options_Service_Test extends TestCase {
 			->with( 1, 'wpseo_options' )
 			->andReturn( true );
 
-		Monkey\Functions\expect( 'get_blog_option' )
-			->once()
-			->with( 1, 'wpseo_options' )
-			->andReturn( [] );
-
-		$this->multisite_options_service->expects( 'get_configurations' )
-			->once()
-			->andReturn( [] );
+		$this->multisite_options_service->expects( 'get_defaults' )->once()->andReturn( [] );
 
 		Monkey\Functions\expect( 'update_blog_option' )
 			->once()
@@ -452,9 +438,7 @@ class Network_Admin_Options_Service_Test extends TestCase {
 	public function test_maybe_reset_current_blog_options() {
 		$current_blog_id = 3;
 
-		$this->multisite_options_service->expects( 'get_defaults' )
-			->once()
-			->andReturn( [] );
+		$this->multisite_options_service->expects( 'get_defaults' )->twice()->andReturn( [] );
 
 		Monkey\Functions\expect( 'get_current_blog_id' )->once()->andReturn( $current_blog_id );
 
@@ -465,13 +449,6 @@ class Network_Admin_Options_Service_Test extends TestCase {
 			->once()
 			->with( $current_blog_id, 'wpseo_options' )
 			->andReturn( true );
-
-		Monkey\Functions\expect( 'get_blog_option' )
-			->once()
-			->with( $current_blog_id, 'wpseo_options' )
-			->andReturn( [] );
-
-		$this->multisite_options_service->expects( 'get_configurations' )->once()->andReturn( [] );
 
 		Monkey\Functions\expect( 'update_blog_option' )
 			->once()

@@ -122,23 +122,28 @@ class Network_Admin_Options_Service extends Abstract_Options_Service {
 			$base_blog_id = $default_blog;
 		}
 
-		// Delete the options.
+		// Delete the old options.
 		if ( ! \delete_blog_option( $blog_id, $this->multisite_options_service->option_name ) ) {
 			throw Delete_Failed_Exception::for_option( $this->multisite_options_service->option_name );
 		}
 
 		// Retrieve the new options.
-		$new_options = \get_blog_option( $base_blog_id, $this->multisite_options_service->option_name );
-		// Using this option to prevent unnecessary resets.
-		$new_options['ms_defaults_set'] = true;
-		foreach ( $this->multisite_options_service->get_configurations() as $key => $configuration ) {
-			// Remove sensitive, theme dependent and site dependent info.
-			if ( \array_key_exists( 'ms_exclude', $configuration ) && $configuration['ms_exclude'] ) {
-				$new_options[ $key ] = $configuration['default'];
+		if ( $base_blog_id === $blog_id ) {
+			$new_options = $this->multisite_options_service->get_defaults();
+		}
+		else {
+			$new_options = \get_blog_option( $base_blog_id, $this->multisite_options_service->option_name );
+			foreach ( $this->multisite_options_service->get_configurations() as $key => $configuration ) {
+				// Remove sensitive, theme dependent and site dependent info.
+				if ( \array_key_exists( 'ms_exclude', $configuration ) && $configuration['ms_exclude'] ) {
+					$new_options[ $key ] = $configuration['default'];
+				}
 			}
 		}
+		// Using this option to prevent unnecessary resets.
+		$new_options['ms_defaults_set'] = true;
 
-		// Save the options.
+		// Save the new options.
 		if ( ! \update_blog_option( $blog_id, $this->multisite_options_service->option_name, $new_options ) ) {
 			throw Save_Failed_Exception::for_option( $this->multisite_options_service->option_name );
 		}
