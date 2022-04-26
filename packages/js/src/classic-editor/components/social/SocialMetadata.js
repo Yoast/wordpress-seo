@@ -1,6 +1,6 @@
 import { Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { useDispatch, useSelect } from "@wordpress/data";
+import { dispatch, useDispatch, useSelect } from "@wordpress/data";
 import MetaboxCollapsible from "../../../components/MetaboxCollapsible";
 import { FacebookContainer, TwitterContainer, SEO_STORE_NAME } from "@yoast/seo-integration";
 import FacebookWrapper from "../../../components/social/FacebookWrapper";
@@ -8,6 +8,30 @@ import TwitterWrapper from "../../../components/social/TwitterWrapper";
 import { openMedia, prepareFacebookPreviewImage, prepareTwitterPreviewImage } from "../../../helpers/selectMedia";
 import { getSiteUrl } from "../../../redux/selectors";
 
+
+/**
+ * Lazy function to open the Twitter media instance.
+ *
+ * @returns {void}
+ */
+const selectTwitterMedia = function() {
+	openMedia( ( image ) => dispatch( SEO_STORE_NAME ).updateTwitterImage( prepareTwitterPreviewImage( image ) ) );
+};
+
+/**
+ * Lazy function to open the Facebook media instance.
+ *
+ * @returns {void}
+ */
+const selectFacebookMedia = function() {
+	openMedia( ( image ) => dispatch( SEO_STORE_NAME ).updateFacebookImage( prepareFacebookPreviewImage( image ) ) );
+};
+
+/**
+ * The Social Metadata component.
+ *
+ * @returns {JSX.Element} The Social Metadata component.
+ */
 const SocialMetadata = () => {
 	const displayFacebook = window.wpseoScriptData.metabox.showSocial.facebook;
 	const displayTwitter = window.wpseoScriptData.metabox.showSocial.twitter;
@@ -21,17 +45,7 @@ const SocialMetadata = () => {
 		clearFacebookPreviewImage,
 		updateTwitterData,
 		clearTwitterPreviewImage,
-		updateTwitterImage,
-		updateFacebookImage,
 	} = useDispatch( SEO_STORE_NAME );
-
-	const selectTwitterMedia = () => {
-		openMedia( ( image ) => updateTwitterImage( prepareTwitterPreviewImage( image ) ) );
-	};
-
-	const selectFacebookMedia = () => {
-		openMedia( ( image ) => updateFacebookImage( prepareFacebookPreviewImage( image ) ) );
-	};
 
 	return (
 		<Fragment>
