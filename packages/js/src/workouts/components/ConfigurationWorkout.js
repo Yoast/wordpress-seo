@@ -234,7 +234,7 @@ async function updateSocialProfiles( state ) {
 		method: "POST",
 		data: socialProfiles,
 	} );
-	return await response.json;
+	return await response;
 }
 
 /**
@@ -485,6 +485,14 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 				return true;
 			}
 			return updatePersonSocialProfiles( state )
+				.then( ( response ) => {
+					if ( response.success === false ) {
+						setErrorFields( response.failures );
+						return Promise.reject( "There were errors saving social profiles" );
+					}
+					return response;
+				}
+				)
 				.then( () => setStepIsSaved( 3 ) )
 				.then( () => {
 					setErrorFields( [] );
@@ -499,13 +507,20 @@ export function ConfigurationWorkout( { finishSteps, reviseStep, toggleWorkout, 
 						if ( e.failures ) {
 							setErrorFields( e.failures );
 						}
-						console.error( e );
 						return false;
 					}
 				);
 		}
 
 		return updateSocialProfiles( state )
+			.then( ( response ) => {
+				if ( response.success === false ) {
+					setErrorFields( response.failures );
+					return Promise.reject( "There were errors saving social profiles" );
+				}
+				return response;
+			}
+			)
 			.then( () => setStepIsSaved( 3 ) )
 			.then( () => {
 				setErrorFields( [] );
