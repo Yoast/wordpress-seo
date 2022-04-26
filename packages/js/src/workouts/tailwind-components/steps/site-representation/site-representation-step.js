@@ -58,7 +58,7 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 			value={ state.shouldForceCompany ? "company" : state.companyOrPerson }
 			onChange={ onOrganizationOrPersonChange }
 			choices={ state.companyOrPersonOptions }
-			disabled={ state.shouldForceCompany }
+			disabled={ !! state.shouldForceCompany }
 		/>
 		<ReactAnimateHeight
 			height={ [ "company", "person" ].includes( state.companyOrPerson ) ? "auto" : 0 }
