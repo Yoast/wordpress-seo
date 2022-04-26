@@ -7,7 +7,7 @@ import FacebookWrapper from "../../../components/social/FacebookWrapper";
 import TwitterWrapper from "../../../components/social/TwitterWrapper";
 import { openMedia, prepareFacebookPreviewImage, prepareTwitterPreviewImage } from "../../../helpers/selectMedia";
 import { getSiteUrl } from "../../../redux/selectors";
-
+import withLocation from "../../../helpers/withLocation";
 
 /**
  * Lazy function to open the Twitter media instance.
@@ -26,6 +26,16 @@ const selectTwitterMedia = function() {
 const selectFacebookMedia = function() {
 	openMedia( ( image ) => dispatch( SEO_STORE_NAME ).updateFacebookImage( prepareFacebookPreviewImage( image ) ) );
 };
+
+/**
+ * The Facebook container, wrapped in a higher order container to provide a location context.
+ */
+const Facebook = withLocation()( FacebookContainer );
+
+/**
+ * The Twitter container, wrapped in a higher order container to provide a location context.
+ */
+const Twitter = withLocation()( TwitterContainer );
 
 /**
  * The Social Metadata component.
@@ -55,7 +65,7 @@ const SocialMetadata = () => {
 				title={ sprintf( __( "%s preview", "wordpress-seo" ), "Facebook" ) }
 				initialIsOpen={ true }
 			>
-				<FacebookContainer
+				<Facebook
 					as={ FacebookWrapper }
 					isPremium={ isPremium }
 					imageFallbackUrl={ imageFallbackUrlFB }
@@ -73,7 +83,7 @@ const SocialMetadata = () => {
 				hasSeparator={ displayFacebook }
 				initialIsOpen={ true }
 			>
-				<TwitterContainer
+				<Twitter
 					as={ TwitterWrapper }
 					isPremium={ isPremium }
 					imageFallbackUrl={ imageUrlFB || imageFallbackUrlFB }
