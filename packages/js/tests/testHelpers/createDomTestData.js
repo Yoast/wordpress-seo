@@ -173,6 +173,22 @@ const createNonHierarchicalCTElements = () => {
 };
 
 /**
+ * Creates an element with id and value attributes.
+ *
+ * @param {string} id       The id name of the element.
+ * @param {string} value    The value name of the element.
+ * @param {string} tagName  The tag name of the element.
+ * @returns {HTMLElement}    The created element with id and value attributes.
+ */
+const createElement = ( id, value, tagName ) => {
+	const element = document.createElement( tagName );
+	element.setAttribute( "id", id );
+	element.setAttribute( "value", value );
+
+	return element;
+};
+
+/**
  * Creates the elements for post and term slug.
  *
  * @returns {{fullLengthSlugElement: HTMLSpanElement, postNameElement: HTMLInputElement,
@@ -196,14 +212,10 @@ const createSlugElements = () => {
 	slugEditDiv.appendChild( fullLengthSlugElement );
 	slugEditDiv.appendChild( shortSlugElement );
 
-	const postNameElement = document.createElement( "input" );
-	postNameElement.setAttribute( "id", "post_name" );
-	postNameElement.setAttribute( "value", "cat-toys" );
+	const postNameElement = createElement( "post_name", "cat-toys", "input" );
 
 	// Creates term slug elements.
-	const termSlugElement = document.createElement( "input" );
-	termSlugElement.setAttribute( "id", "slug" );
-	termSlugElement.setAttribute( "value", "cat-adoption" );
+	const termSlugElement = createElement( "slug", "cat-adoption", "input" );
 
 	return {
 		fullLengthSlugElement: fullLengthSlugElement,
@@ -224,4 +236,5 @@ export {
 	createMostUsedCTElements,
 	createNonHierarchicalCTElements,
 	createSlugElements,
+	createElement,
 };
