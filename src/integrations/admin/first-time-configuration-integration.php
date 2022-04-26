@@ -73,11 +73,12 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 	/**
 	 * Configuration_Workout_Integration constructor.
 	 *
-	 * @param WPSEO_Admin_Asset_Manager $admin_asset_manager The admin asset manager.
-	 * @param WPSEO_Addon_Manager       $addon_manager       The addon manager.
-	 * @param WPSEO_Shortlinker         $shortlinker         The shortlinker.
-	 * @param Options_Helper            $options_helper      The options helper.
-	 * @param Product_Helper            $product_helper      The product helper.
+	 * @param WPSEO_Admin_Asset_Manager $admin_asset_manager    The admin asset manager.
+	 * @param WPSEO_Addon_Manager       $addon_manager          The addon manager.
+	 * @param WPSEO_Shortlinker         $shortlinker            The shortlinker.
+	 * @param Options_Helper            $options_helper         The options helper.
+	 * @param Social_Profiles_Helper    $social_profiles_helper The social profile helper.
+	 * @param Product_Helper            $product_helper         The product helper.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $admin_asset_manager,
