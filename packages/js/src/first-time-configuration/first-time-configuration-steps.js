@@ -130,7 +130,7 @@ function configurationWorkoutReducer( state, action ) {
 			return newState;
 		case "SET_CAN_EDIT_USER":
 			newState = handleStepEdit( newState, 2 );
-			newState.canEditUser = ( action.payload.value === true ) ? 1 : 0;
+			newState.canEditUser = ( action.payload === true ) ? 1 : 0;
 			return newState;
 		case "CHANGE_SOCIAL_PROFILE":
 			newState = handleStepEdit( newState, 3 );
