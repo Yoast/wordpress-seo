@@ -73,7 +73,6 @@ const SocialMetadata = () => {
 					onRemoveImageClick={ clearFacebookPreviewImage }
 					onLoad={ updateFacebookData }
 					onSelectImageClick={ selectFacebookMedia }
-					location={ "" }
 				/>
 			</MetaboxCollapsible> }
 			{ displayTwitter && <MetaboxCollapsible
@@ -91,7 +90,6 @@ const SocialMetadata = () => {
 					onRemoveImageClick={ clearTwitterPreviewImage }
 					onLoad={ updateTwitterData }
 					onSelectImageClick={ selectTwitterMedia }
-					location={ "" }
 				/>
 			</MetaboxCollapsible> }
 		</Fragment>
