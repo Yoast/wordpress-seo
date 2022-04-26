@@ -53,8 +53,10 @@ export default function PersonalPreferencesStep( { state, setTracking } ) {
 				__( "Important: We will never sell this data. And of course, as always, we won't collect any personal data about you or your visitors.", "wordpress-seo" )
 			}</i>
 		</p>
-		<br />
-		<NewsletterSignup gdprLink={ window.wpseoWorkoutsData.configuration.shortlinks.gdpr } />
+		{ ( ! state.isPremium ) && <Fragment>
+			<br />
+			<NewsletterSignup gdprLink={ window.wpseoWorkoutsData.configuration.shortlinks.gdpr } />
+		</Fragment> }
 	</Fragment>;
 }
 
