@@ -2,10 +2,10 @@ import { Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { useDispatch, useSelect } from "@wordpress/data";
 import MetaboxCollapsible from "../../../components/MetaboxCollapsible";
-import FacebookContainer, { SEO_STORE_NAME } from "@yoast/seo-integration";
-import TwitterContainer from "@yoast/seo-integration";
+import { FacebookContainer, TwitterContainer, SEO_STORE_NAME } from "@yoast/seo-integration";
 import FacebookWrapper from "../../../components/social/FacebookWrapper";
 import TwitterWrapper from "../../../components/social/TwitterWrapper";
+import { openMedia, prepareFacebookPreviewImage, prepareTwitterPreviewImage } from "../../../helpers/selectMedia";
 import { getSiteUrl } from "../../../redux/selectors";
 
 const SocialMetadata = () => {
@@ -16,6 +16,22 @@ const SocialMetadata = () => {
 	const imageFallbackUrlFB = useSelect( select => select( "yoast-seo/editor" ).getImageFallback() );
 	const imageUrlFB = useSelect( select => select( SEO_STORE_NAME ).selectFacebookImage() ).url;
 	const siteUrl = getSiteUrl();
+
+	const { updateFacebookData,
+		clearFacebookPreviewImage,
+		updateTwitterData,
+		clearTwitterPreviewImage,
+		updateTwitterImage,
+		updateFacebookImage,
+	} = useDispatch( SEO_STORE_NAME );
+
+	const selectTwitterMedia = () => {
+		openMedia( ( image ) => updateTwitterImage( prepareTwitterPreviewImage( image ) ) );
+	};
+
+	const selectFacebookMedia = () => {
+		openMedia( ( image ) => updateFacebookImage( prepareFacebookPreviewImage( image ) ) );
+	};
 
 	return (
 		<Fragment>
@@ -30,8 +46,10 @@ const SocialMetadata = () => {
 					isPremium={ isPremium }
 					imageFallbackUrl={ imageFallbackUrlFB }
 					siteUrl={ siteUrl }
-					onRemoveImageClick={}
-					onLoad={}
+					onRemoveImageClick={ clearFacebookPreviewImage }
+					onLoad={ updateFacebookData }
+					onSelectImageClick={ selectFacebookMedia }
+					location={ "" }
 				/>
 			</MetaboxCollapsible> }
 			{ displayTwitter && <MetaboxCollapsible
@@ -46,13 +64,15 @@ const SocialMetadata = () => {
 					isPremium={ isPremium }
 					imageFallbackUrl={ imageUrlFB || imageFallbackUrlFB }
 					siteUrl={ siteUrl }
-					onRemoveImageClick={}
-					onLoad={}
+					onRemoveImageClick={ clearTwitterPreviewImage }
+					onLoad={ updateTwitterData }
+					onSelectImageClick={ selectTwitterMedia }
+					location={ "" }
 				/>
 			</MetaboxCollapsible> }
 		</Fragment>
 	);
-}
+};
 
 export default SocialMetadata;
 
