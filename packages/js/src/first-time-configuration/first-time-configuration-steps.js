@@ -310,11 +310,12 @@ const FinishStep = () => <Fragment>
  * @returns {Object} The initial state.
  */
 function calculateInitialState( windowObject, isStepFinished ) {
-	// Overrule default state to empty and add empty choice.
 	let { companyOrPerson, companyName,	companyLogo, companyOrPersonOptions, shouldForceCompany } = windowObject; // eslint-disable-line prefer-const
+
 	if ( shouldForceCompany ) {
 		companyOrPerson = "company";
 	} else if ( companyOrPerson === "company" && ( ! companyName && ! companyLogo ) && ! isStepFinished( 2 ) ) {
+		// Set the stage for an empty step 2 in case the customer does seem to have consciously finished step 2 without setting data.
 		companyOrPerson = "emptyChoice";
 	}
 
@@ -322,6 +323,7 @@ function calculateInitialState( windowObject, isStepFinished ) {
 		...windowObject,
 		companyOrPerson,
 		companyOrPersonOptions,
+		personSocialProfiles: {},
 		errorFields: [],
 		editedSteps: [],
 		savedSteps: [],
@@ -485,7 +487,6 @@ export default function FirstTimeConfigurationSteps() {
 		[ dispatch ]
 	);
 
-	// PROBABLY DELETE BETWEEN HERE....
 	const isStepperFinished = [
 		isStep2Finished,
 		isStep3Finished,
@@ -549,7 +550,6 @@ export default function FirstTimeConfigurationSteps() {
 		setShowEditButton( stepperFinishedOnce && ! isStepBeingEdited );
 	}, [ stepperFinishedOnce, isStepBeingEdited ] );
 
-	// AND HERE....
 	/* eslint-disable max-len */
 	return (
 		<div id="yoast-configuration-workout" className="yst-card">

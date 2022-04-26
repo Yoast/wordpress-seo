@@ -159,14 +159,15 @@ function SocialInputPersonSection( { socialProfiles, errorFields, dispatch, canE
 export default SocialInputPersonSection;
 
 SocialInputPersonSection.propTypes = {
-	socialProfiles: PropTypes.object.isRequired,
-	errorFields: PropTypes.array,
 	dispatch: PropTypes.func.isRequired,
 	canEditUser: PropTypes.bool.isRequired,
+	socialProfiles: PropTypes.object,
+	errorFields: PropTypes.array,
 	personId: PropTypes.number,
 };
 
 SocialInputPersonSection.defaultProps = {
+	socialProfiles: {},
 	errorFields: [],
 	personId: 0,
 };
