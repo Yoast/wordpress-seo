@@ -392,6 +392,47 @@ const syncPostToStore = () => {
 };
 
 /**
+ * Syncs a post's Facebook fields from the SEO store to the hidden fields
+ * inside the editor.
+ *
+ * @param {Object} selectors The SEO store selectors.
+ */
+function createPostFacebookSync( selectors ) {
+	createDomSync(
+		selectors.selectFacebookTitle,
+		{
+			domGet: dom.getPostFBTitle,
+			domSet: dom.setPostFBTitle,
+		},
+		"facebookTitle"
+	);
+	createDomSync(
+		selectors.selectFacebookDescription,
+		{
+			domGet: dom.getPostFBDescription,
+			domSet: dom.setPostFBDescription,
+		},
+		"facebookDescription"
+	);
+	createDomSync(
+		selectors.selectFacebookImageURL,
+		{
+			domGet: dom.getPostFBImageURL,
+			domSet: dom.setPostFBImageUrl,
+		},
+		"facebookImageURL"
+	);
+	createDomSync(
+		selectors.selectFacebookImageID,
+		{
+			domGet: dom.getPostFBImageID,
+			domSet: dom.setPostFBImageID,
+		},
+		"facebookImageID"
+	);
+}
+
+/**
  * Watches and syncs store changes to the post DOM.
  *
  * @returns {void}
@@ -422,6 +463,7 @@ const syncStoreToPost = () => {
 		},
 		"readabilityScore"
 	);
+	createPostFacebookSync( selectors );
 };
 
 /**

@@ -34,6 +34,8 @@ export const facebookSelectors = {
 	selectFacebookTitle: ( state ) => get( state, "form.social.facebook.title" ),
 	selectFacebookDescription: ( state ) => get( state, "form.social.facebook.description" ),
 	selectFacebookImage: ( state ) => get( state, "form.social.facebook.image" ),
+	selectFacebookImageURL: ( state ) => get( state, "form.social.facebook.image.url" ),
+	selectFacebookImageID: ( state ) => get( state, "form.social.facebook.image.id" ),
 };
 
 export const facebookActions = facebookSlice.actions;
