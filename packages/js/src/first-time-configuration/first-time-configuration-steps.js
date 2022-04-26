@@ -3,7 +3,6 @@ import apiFetch from "@wordpress/api-fetch";
 import { useCallback, useReducer, useState, useEffect, Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { cloneDeep, uniq } from "lodash";
-import PropTypes from "prop-types";
 
 import UnsavedChangesModal from "./tailwind-components/unsaved-changes-modal";
 import { addLinkToString } from "../helpers/stringHelpers.js";
