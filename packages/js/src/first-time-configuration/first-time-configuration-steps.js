@@ -716,8 +716,9 @@ export default function FirstTimeConfigurationSteps() {
 			/>
 
 		</div>
-		/* eslint-enable max-len */
 	);
 }
+
+/* eslint-enable max-len */
 /* eslint-enable complexity */
 /* eslint-enable max-statements */
