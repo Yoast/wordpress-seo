@@ -110,7 +110,7 @@ class First_Time_Configuration_Action {
 
 		return (object) [
 			'success'  => false,
-			'status'   => 500,
+			'status'   => 200,
 			'error'    => 'Could not save some options in the database',
 			'failures' => $failures,
 		];
@@ -142,7 +142,7 @@ class First_Time_Configuration_Action {
 		}
 		return (object) [
 			'success'  => false,
-			'status'   => 500,
+			'status'   => 200,
 			'error'    => 'Could not save some options in the database',
 			'failures' => $failures,
 		];
