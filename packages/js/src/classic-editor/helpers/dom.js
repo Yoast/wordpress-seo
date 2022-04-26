@@ -47,6 +47,14 @@ export const DOM_YOAST_IDS = {
 	POST_IS_CORNERSTONE: "yoast_wpseo_is_cornerstone",
 	POST_SEO_SCORE: "yoast_wpseo_linkdex",
 	POST_READABILITY_SCORE: "yoast_wpseo_content_score",
+	POST_TWITTER_IMAGE_ID: "yoast_wpseo_twitter-image-id",
+	POST_TWITTER_IMAGE_URL: "yoast_wpseo_twitter-image",
+	POST_TWITTER_TITLE: "yoast_wpseo_twitter-title",
+	POST_TWITTER_DESCRIPTION: "yoast_wpseo_twitter-description",
+	POST_FB_IMAGE_ID: "yoast_wpseo_opengraph-image-id",
+	POST_FB_IMAGE_URL: "yoast_wpseo_opengraph-image",
+	POST_FB_TITLE: "yoast_wpseo_opengraph-title",
+	POST_FB_DESCRIPTION: "yoast_wpseo_opengraph-description",
 	// Term.
 	TERM_SEO_TITLE: "hidden_wpseo_title",
 	TERM_META_DESCRIPTION: "hidden_wpseo_desc",
@@ -54,6 +62,14 @@ export const DOM_YOAST_IDS = {
 	TERM_IS_CORNERSTONE: "hidden_wpseo_is_cornerstone",
 	TERM_SEO_SCORE: "hidden_wpseo_linkdex",
 	TERM_READABILITY_SCORE: "hidden_wpseo_content_score",
+	TERM_TWITTER_IMAGE_ID: "hidden_wpseo_twitter-image-id",
+	TERM_TWITTER_IMAGE_URL: "hidden_wpseo_twitter-image",
+	TERM_TWITTER_TITLE: "hidden_wpseo_twitter-title",
+	TERM_TWITTER_DESCRIPTION: "hidden_wpseo_twitter-description",
+	TERM_FB_IMAGE_ID: "hidden_wpseo_opengraph-image-id",
+	TERM_FB_IMAGE_URL: "hidden_wpseo_opengraph-image",
+	TERM_FB_TITLE: "hidden_wpseo_opengraph-title",
+	TERM_FB_DESCRIPTION: "hidden_wpseo_opengraph-description",
 };
 
 /**
@@ -423,6 +439,70 @@ export const getTermSlug = createGetDomElementProp( DOM_IDS.TERM_SLUG );
  */
 export const setTermSlug = createSetDomElementProp( DOM_IDS.TERM_SLUG );
 
+export const setPostTwitterImageID = createSetDomElementProp( DOM_YOAST_IDS.POST_TWITTER_IMAGE_ID );
+
+export const getPostTwitterImageID = () => get( document.getElementById( DOM_YOAST_IDS.POST_TWITTER_IMAGE_ID ), "value", "" );
+
+export const setPostTwitterImageUrl = createSetDomElementProp( DOM_YOAST_IDS.POST_TWITTER_IMAGE_URL );
+
+export const getPostTwitterImageURL = () => get( document.getElementById( DOM_YOAST_IDS.POST_TWITTER_IMAGE_URL ), "value", "" );
+
+export const setPostTwitterDescription = createSetDomElementProp( DOM_YOAST_IDS.POST_TWITTER_DESCRIPTION );
+
+export const getPostTwitterDescription = () => get( document.getElementById( DOM_YOAST_IDS.POST_TWITTER_DESCRIPTION ), "value", "" );
+
+export const setPostTwitterTitle = createSetDomElementProp( DOM_YOAST_IDS.POST_TWITTER_TITLE );
+
+export const getPostTwitterTitle = () => get( document.getElementById( DOM_YOAST_IDS.POST_TWITTER_TITLE ), "value", "" );
+
+export const setTermTwitterImageID = createSetDomElementProp( DOM_YOAST_IDS.TERM_TWITTER_IMAGE_ID );
+
+export const getTermTwitterImageID = () => get( document.getElementById( DOM_YOAST_IDS.TERM_TWITTER_IMAGE_ID ), "value", "" );
+
+export const setTermTwitterImageUrl = createSetDomElementProp( DOM_YOAST_IDS.TERM_TWITTER_IMAGE_URL );
+
+export const getTermTwitterImageURL = () => get( document.getElementById( DOM_YOAST_IDS.TERM_TWITTER_IMAGE_URL ), "value", "" );
+
+export const setTermTwitterDescription = createSetDomElementProp( DOM_YOAST_IDS.TERM_TWITTER_DESCRIPTION );
+
+export const getTermTwitterDescription = () => get( document.getElementById( DOM_YOAST_IDS.TERM_TWITTER_DESCRIPTION ), "value", "" );
+
+export const setTermTwitterTitle = createSetDomElementProp( DOM_YOAST_IDS.TERM_TWITTER_TITLE );
+
+export const getTermTwitterTitle = () => get( document.getElementById( DOM_YOAST_IDS.TERM_TWITTER_TITLE ), "value", "" );
+
+// FB data.
+export const setPostFBImageID = createSetDomElementProp( DOM_YOAST_IDS.POST_FB_IMAGE_ID );
+
+export const getPostFBImageID = () => get( document.getElementById( DOM_YOAST_IDS.POST_FB_IMAGE_ID ), "value", "" );
+
+export const setPostFBImageUrl = createSetDomElementProp( DOM_YOAST_IDS.POST_FB_IMAGE_URL );
+
+export const getPostFBImageURL = () => get( document.getElementById( DOM_YOAST_IDS.POST_FB_IMAGE_URL ), "value", "" );
+
+export const setPostFBDescription = createSetDomElementProp( DOM_YOAST_IDS.POST_FB_DESCRIPTION );
+
+export const getPostFBDescription = () => get( document.getElementById( DOM_YOAST_IDS.POST_FB_DESCRIPTION ), "value", "" );
+
+export const setPostFBTitle = createSetDomElementProp( DOM_YOAST_IDS.POST_FB_TITLE );
+
+export const getPostFBTitle = () => get( document.getElementById( DOM_YOAST_IDS.POST_FB_TITLE ), "value", "" );
+
+export const setTermFBImageID = createSetDomElementProp( DOM_YOAST_IDS.TERM_FB_IMAGE_ID );
+
+export const getTermFBImageID = () => get( document.getElementById( DOM_YOAST_IDS.TERM_FB_IMAGE_ID ), "value", "" );
+
+export const setTermFBImageUrl = createSetDomElementProp( DOM_YOAST_IDS.TERM_FB_IMAGE_URL );
+
+export const getTermFBImageURL = () => get( document.getElementById( DOM_YOAST_IDS.TERM_FB_IMAGE_URL ), "value", "" );
+
+export const setTermFBDescription = createSetDomElementProp( DOM_YOAST_IDS.TERM_FB_DESCRIPTION );
+
+export const getTermFBDescription = () => get( document.getElementById( DOM_YOAST_IDS.TERM_FB_DESCRIPTION ), "value", "" );
+
+export const setTermFBTitle = createSetDomElementProp( DOM_YOAST_IDS.TERM_FB_TITLE );
+
+export const getTermFBTitle = () => get( document.getElementById( DOM_YOAST_IDS.TERM_FB_TITLE ), "value", "" );
 /**
  * Gets the post permalink from the document.
  *
