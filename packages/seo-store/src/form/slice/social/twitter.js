@@ -25,6 +25,12 @@ const twitterSlice = createSlice( {
 		updateTwitterImage: ( state, action ) => {
 			state.image = action.payload;
 		},
+		updateTwitterData: ( state, action ) => {
+			state = action.payload;
+		},
+		clearTwitterPreviewImage: ( state ) => {
+			state.image = {};
+		},
 	},
 } );
 

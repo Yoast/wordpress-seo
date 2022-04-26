@@ -20,6 +20,12 @@ const facebookSlice = createSlice( {
 		updateFacebookImage: ( state, action ) => {
 			state.image = action.payload;
 		},
+		updateFacebookData: ( state, action ) => {
+			state = action.payload;
+		},
+		clearFacebookPreviewImage: ( state ) => {
+			state.image = {};
+		},
 	},
 } );
 
