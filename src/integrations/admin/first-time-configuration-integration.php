@@ -12,6 +12,7 @@ use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
+use Yoast\WP\SEO\Integrations\Admin\Social_Profiles_Helper;
 use Yoast\WP\SEO\Routes\Indexing_Route;
 
 // phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- First time configuration simply has a lot of words.
@@ -49,6 +50,13 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 	private $options_helper;
 
 	/**
+	 * The social profiles helper.
+	 *
+	 * @var Social_Profiles_Helper
+	 */
+	private $social_profiles_helper;
+
+	/**
 	 * The product helper.
 	 *
 	 * @var Product_Helper
@@ -76,13 +84,15 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 		WPSEO_Addon_Manager $addon_manager,
 		WPSEO_Shortlinker $shortlinker,
 		Options_Helper $options_helper,
+		Social_Profiles_Helper $social_profiles_helper,
 		Product_Helper $product_helper
 	) {
-		$this->admin_asset_manager = $admin_asset_manager;
-		$this->addon_manager       = $addon_manager;
-		$this->shortlinker         = $shortlinker;
-		$this->options_helper      = $options_helper;
-		$this->product_helper      = $product_helper;
+		$this->admin_asset_manager    = $admin_asset_manager;
+		$this->addon_manager          = $addon_manager;
+		$this->shortlinker            = $shortlinker;
+		$this->options_helper         = $options_helper;
+		$this->social_profiles_helper = $social_profiles_helper;
+		$this->product_helper         = $product_helper;
 	}
 
 	/**
@@ -144,6 +154,7 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 
 		$this->admin_asset_manager->localize_script( 'indexation', 'yoastIndexingData', $data );
 
+		$person_id       = $this->get_person_id();
 		$social_profiles = $this->get_social_profiles();
 
 		// This filter is documented in admin/views/tabs/metas/paper-content/general/knowledge-graph.php.
@@ -162,16 +173,20 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 		if ( \is_array( $selected_option ) ) {
 			$selected_option_label = $selected_option['label'];
 		}
+
+		$temp = $this->social_profiles_helper->can_edit_profile( $person_id );
+
 		$this->admin_asset_manager->add_inline_script(
 			'first-time-configuration',
 			\sprintf(
 				'window.wpseoFirstTimeConfigurationData = {
-					"finishedSteps": %s,
+					"canEditUser": %d,
 					"companyOrPerson": "%s",
 					"companyOrPersonLabel": "%s",
 					"companyName": "%s",
 					"companyLogo": "%s",
 					"companyLogoId": %d,
+					"finishedSteps": %s,
 					"personId": %d,
 					"personName": "%s",
 					"personLogo": "%s",
@@ -193,13 +208,14 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 						"gdpr": "%s",
 					},
 				};',
-				WPSEO_Utils::format_json_encode( $finished_steps ),
+				$this->social_profiles_helper->can_edit_profile( $person_id ),
 				$this->is_company_or_person(),
 				$selected_option_label,
 				$this->get_company_name(),
 				$this->get_company_logo(),
 				$this->get_company_logo_id(),
-				$this->get_person_id(),
+				WPSEO_Utils::format_json_encode( $finished_steps ),
+				$person_id,
 				$this->get_person_name(),
 				$this->get_person_logo(),
 				$this->get_person_logo_id(),
