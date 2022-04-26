@@ -439,70 +439,6 @@ export const getTermSlug = createGetDomElementProp( DOM_IDS.TERM_SLUG );
  */
 export const setTermSlug = createSetDomElementProp( DOM_IDS.TERM_SLUG );
 
-export const setPostTwitterImageID = createSetDomElementProp( DOM_YOAST_IDS.POST_TWITTER_IMAGE_ID );
-
-export const getPostTwitterImageID = () => get( document.getElementById( DOM_YOAST_IDS.POST_TWITTER_IMAGE_ID ), "value", "" );
-
-export const setPostTwitterImageUrl = createSetDomElementProp( DOM_YOAST_IDS.POST_TWITTER_IMAGE_URL );
-
-export const getPostTwitterImageURL = () => get( document.getElementById( DOM_YOAST_IDS.POST_TWITTER_IMAGE_URL ), "value", "" );
-
-export const setPostTwitterDescription = createSetDomElementProp( DOM_YOAST_IDS.POST_TWITTER_DESCRIPTION );
-
-export const getPostTwitterDescription = () => get( document.getElementById( DOM_YOAST_IDS.POST_TWITTER_DESCRIPTION ), "value", "" );
-
-export const setPostTwitterTitle = createSetDomElementProp( DOM_YOAST_IDS.POST_TWITTER_TITLE );
-
-export const getPostTwitterTitle = () => get( document.getElementById( DOM_YOAST_IDS.POST_TWITTER_TITLE ), "value", "" );
-
-export const setTermTwitterImageID = createSetDomElementProp( DOM_YOAST_IDS.TERM_TWITTER_IMAGE_ID );
-
-export const getTermTwitterImageID = () => get( document.getElementById( DOM_YOAST_IDS.TERM_TWITTER_IMAGE_ID ), "value", "" );
-
-export const setTermTwitterImageUrl = createSetDomElementProp( DOM_YOAST_IDS.TERM_TWITTER_IMAGE_URL );
-
-export const getTermTwitterImageURL = () => get( document.getElementById( DOM_YOAST_IDS.TERM_TWITTER_IMAGE_URL ), "value", "" );
-
-export const setTermTwitterDescription = createSetDomElementProp( DOM_YOAST_IDS.TERM_TWITTER_DESCRIPTION );
-
-export const getTermTwitterDescription = () => get( document.getElementById( DOM_YOAST_IDS.TERM_TWITTER_DESCRIPTION ), "value", "" );
-
-export const setTermTwitterTitle = createSetDomElementProp( DOM_YOAST_IDS.TERM_TWITTER_TITLE );
-
-export const getTermTwitterTitle = () => get( document.getElementById( DOM_YOAST_IDS.TERM_TWITTER_TITLE ), "value", "" );
-
-// FB data.
-export const setPostFBImageID = createSetDomElementProp( DOM_YOAST_IDS.POST_FB_IMAGE_ID );
-
-export const getPostFBImageID = () => get( document.getElementById( DOM_YOAST_IDS.POST_FB_IMAGE_ID ), "value", "" );
-
-export const setPostFBImageUrl = createSetDomElementProp( DOM_YOAST_IDS.POST_FB_IMAGE_URL );
-
-export const getPostFBImageURL = () => get( document.getElementById( DOM_YOAST_IDS.POST_FB_IMAGE_URL ), "value", "" );
-
-export const setPostFBDescription = createSetDomElementProp( DOM_YOAST_IDS.POST_FB_DESCRIPTION );
-
-export const getPostFBDescription = () => get( document.getElementById( DOM_YOAST_IDS.POST_FB_DESCRIPTION ), "value", "" );
-
-export const setPostFBTitle = createSetDomElementProp( DOM_YOAST_IDS.POST_FB_TITLE );
-
-export const getPostFBTitle = () => get( document.getElementById( DOM_YOAST_IDS.POST_FB_TITLE ), "value", "" );
-
-export const setTermFBImageID = createSetDomElementProp( DOM_YOAST_IDS.TERM_FB_IMAGE_ID );
-
-export const getTermFBImageID = () => get( document.getElementById( DOM_YOAST_IDS.TERM_FB_IMAGE_ID ), "value", "" );
-
-export const setTermFBImageUrl = createSetDomElementProp( DOM_YOAST_IDS.TERM_FB_IMAGE_URL );
-
-export const getTermFBImageURL = () => get( document.getElementById( DOM_YOAST_IDS.TERM_FB_IMAGE_URL ), "value", "" );
-
-export const setTermFBDescription = createSetDomElementProp( DOM_YOAST_IDS.TERM_FB_DESCRIPTION );
-
-export const getTermFBDescription = () => get( document.getElementById( DOM_YOAST_IDS.TERM_FB_DESCRIPTION ), "value", "" );
-
-export const setTermFBTitle = createSetDomElementProp( DOM_YOAST_IDS.TERM_FB_TITLE );
-
-export const getTermFBTitle = () => get( document.getElementById( DOM_YOAST_IDS.TERM_FB_TITLE ), "value", "" );
 /**
  * Gets the post permalink from the document.
  *
@@ -720,3 +656,227 @@ export const setPostReadabilityScore = createSetDomElementProp( DOM_YOAST_IDS.PO
  * @returns {HTMLElement} The DOM element.
  */
 export const setTermReadabilityScore = createSetDomElementProp( DOM_YOAST_IDS.TERM_READABILITY_SCORE );
+
+/**
+ * Sets the post Twitter image id on its DOM element.
+ *
+ * @param {boolean} value The value to set.
+ */
+export const setPostTwitterImageID = createSetDomElementProp( DOM_YOAST_IDS.POST_TWITTER_IMAGE_ID );
+
+/**
+ * Gets the post Twitter image id from the document.
+ *
+ * @returns {string} The post Twitter image id or an empty string.
+ */
+export const getPostTwitterImageID = () => get( document.getElementById( DOM_YOAST_IDS.POST_TWITTER_IMAGE_ID ), "value", "" );
+
+/**
+ * Sets the post Twitter image URL on its DOM element.
+ *
+ * @param {boolean} value The value to set.
+ */
+export const setPostTwitterImageUrl = createSetDomElementProp( DOM_YOAST_IDS.POST_TWITTER_IMAGE_URL );
+
+/**
+ * Gets the post Twitter image URL from the document.
+ *
+ * @returns {string} The post Twitter image URL or an empty string.
+ */
+export const getPostTwitterImageURL = () => get( document.getElementById( DOM_YOAST_IDS.POST_TWITTER_IMAGE_URL ), "value", "" );
+
+/**
+ * Sets the post Twitter description on its DOM element.
+ *
+ * @param {boolean} value The value to set.
+ */
+export const setPostTwitterDescription = createSetDomElementProp( DOM_YOAST_IDS.POST_TWITTER_DESCRIPTION );
+
+/**
+ * Gets the post Twitter description from the document.
+ *
+ * @returns {string} The post Twitter description or an empty string.
+ */
+export const getPostTwitterDescription = () => get( document.getElementById( DOM_YOAST_IDS.POST_TWITTER_DESCRIPTION ), "value", "" );
+
+/**
+ * Sets the post Twitter title on its DOM element.
+ *
+ * @param {boolean} value The value to set.
+ */
+export const setPostTwitterTitle = createSetDomElementProp( DOM_YOAST_IDS.POST_TWITTER_TITLE );
+
+/**
+ * Gets the post Twitter title from the document.
+ *
+ * @returns {string} The post Twitter title or an empty string.
+ */
+export const getPostTwitterTitle = () => get( document.getElementById( DOM_YOAST_IDS.POST_TWITTER_TITLE ), "value", "" );
+
+/**
+ * Sets the term Twitter image id on its DOM element.
+ *
+ * @param {boolean} value The value to set.
+ */
+export const setTermTwitterImageID = createSetDomElementProp( DOM_YOAST_IDS.TERM_TWITTER_IMAGE_ID );
+
+/**
+ * Gets the term Twitter image id from the document.
+ *
+ * @returns {string} The term Twitter image id or an empty string.
+ */
+export const getTermTwitterImageID = () => get( document.getElementById( DOM_YOAST_IDS.TERM_TWITTER_IMAGE_ID ), "value", "" );
+
+/**
+ * Sets the term Twitter image URL on its DOM element.
+ *
+ * @param {boolean} value The value to set.
+ */
+export const setTermTwitterImageUrl = createSetDomElementProp( DOM_YOAST_IDS.TERM_TWITTER_IMAGE_URL );
+
+/**
+ * Gets the term Twitter image URL from the document.
+ *
+ * @returns {string} The term Twitter image URL or an empty string.
+ */
+export const getTermTwitterImageURL = () => get( document.getElementById( DOM_YOAST_IDS.TERM_TWITTER_IMAGE_URL ), "value", "" );
+
+/**
+ * Sets the term Twitter description on its DOM element.
+ *
+ * @param {boolean} value The value to set.
+ */
+export const setTermTwitterDescription = createSetDomElementProp( DOM_YOAST_IDS.TERM_TWITTER_DESCRIPTION );
+
+/**
+ * Gets the term Twitter description from the document.
+ *
+ * @returns {string} The term Twitter description or an empty string.
+ */
+export const getTermTwitterDescription = () => get( document.getElementById( DOM_YOAST_IDS.TERM_TWITTER_DESCRIPTION ), "value", "" );
+
+/**
+ * Sets the term Twitter title on its DOM element.
+ *
+ * @param {boolean} value The value to set.
+ */
+export const setTermTwitterTitle = createSetDomElementProp( DOM_YOAST_IDS.TERM_TWITTER_TITLE );
+
+/**
+ * Gets the term Twitter title from the document.
+ *
+ * @returns {string} The term Twitter title or an empty string.
+ */
+export const getTermTwitterTitle = () => get( document.getElementById( DOM_YOAST_IDS.TERM_TWITTER_TITLE ), "value", "" );
+
+/**
+ * Sets the post Facebook image id on its DOM element.
+ *
+ * @param {boolean} value The value to set.
+ */
+export const setPostFBImageID = createSetDomElementProp( DOM_YOAST_IDS.POST_FB_IMAGE_ID );
+
+/**
+ * Gets the post Facebook image id from the document.
+ *
+ * @returns {string} The post Facebook image id or an empty string.
+ */
+export const getPostFBImageID = () => get( document.getElementById( DOM_YOAST_IDS.POST_FB_IMAGE_ID ), "value", "" );
+
+/**
+ * Sets the post Facebook image URL on its DOM element.
+ *
+ * @param {boolean} value The value to set.
+ */
+export const setPostFBImageUrl = createSetDomElementProp( DOM_YOAST_IDS.POST_FB_IMAGE_URL );
+
+/**
+ * Gets the post Facebook image URL from the document.
+ *
+ * @returns {string} The post Facebook image URL or an empty string.
+ */
+export const getPostFBImageURL = () => get( document.getElementById( DOM_YOAST_IDS.POST_FB_IMAGE_URL ), "value", "" );
+
+/**
+ * Sets the post Facebook description on its DOM element.
+ *
+ * @param {boolean} value The value to set.
+ */
+export const setPostFBDescription = createSetDomElementProp( DOM_YOAST_IDS.POST_FB_DESCRIPTION );
+
+/**
+ * Gets the post Facebook description from the document.
+ *
+ * @returns {string} The post Facebook description or an empty string.
+ */
+export const getPostFBDescription = () => get( document.getElementById( DOM_YOAST_IDS.POST_FB_DESCRIPTION ), "value", "" );
+
+/**
+ * Sets the post Facebook title on its DOM element.
+ *
+ * @param {boolean} value The value to set.
+ */
+export const setPostFBTitle = createSetDomElementProp( DOM_YOAST_IDS.POST_FB_TITLE );
+
+/**
+ * Gets the post Facebook title from the document.
+ *
+ * @returns {string} The post Facebook title or an empty string.
+ */
+export const getPostFBTitle = () => get( document.getElementById( DOM_YOAST_IDS.POST_FB_TITLE ), "value", "" );
+
+/**
+ * Sets the term Facebook image id on its DOM element.
+ *
+ * @param {boolean} value The value to set.
+ */
+export const setTermFBImageID = createSetDomElementProp( DOM_YOAST_IDS.TERM_FB_IMAGE_ID );
+
+/**
+ * Gets the term Facebook image id from the document.
+ *
+ * @returns {string} The term Facebook image id or an empty string.
+ */
+export const getTermFBImageID = () => get( document.getElementById( DOM_YOAST_IDS.TERM_FB_IMAGE_ID ), "value", "" );
+
+/**
+ * Sets the term Facebook image URL on its DOM element.
+ *
+ * @param {boolean} value The value to set.
+ */
+export const setTermFBImageUrl = createSetDomElementProp( DOM_YOAST_IDS.TERM_FB_IMAGE_URL );
+
+/**
+ * Gets the term Facebook image URL from the document.
+ *
+ * @returns {string} The term Facebook image URL or an empty string.
+ */
+export const getTermFBImageURL = () => get( document.getElementById( DOM_YOAST_IDS.TERM_FB_IMAGE_URL ), "value", "" );
+
+/**
+ * Sets the term Facebook description on its DOM element.
+ *
+ * @param {boolean} value The value to set.
+ */
+export const setTermFBDescription = createSetDomElementProp( DOM_YOAST_IDS.TERM_FB_DESCRIPTION );
+
+/**
+ * Gets the term Facebook description from the document.
+ *
+ * @returns {string} The term Facebook description or an empty string.
+ */
+export const getTermFBDescription = () => get( document.getElementById( DOM_YOAST_IDS.TERM_FB_DESCRIPTION ), "value", "" );
+
+/**
+ * Sets the term Facebook title on its DOM element.
+ *
+ * @param {boolean} value The value to set.
+ */
+export const setTermFBTitle = createSetDomElementProp( DOM_YOAST_IDS.TERM_FB_TITLE );
+
+/**
+ * Gets the term Facebook title from the document.
+ *
+ * @returns {string} The term Facebook description or an empty string.
+ */
+export const getTermFBTitle = () => get( document.getElementById( DOM_YOAST_IDS.TERM_FB_TITLE ), "value", "" );

@@ -47,7 +47,7 @@ const SocialMetadata = () => {
 	const displayTwitter = window.wpseoScriptData.metabox.showSocial.twitter;
 	const isPremium = window.wpseoScriptData.metabox.isPremium === "1";
 	// Taking it from the old store, because we still haven't implemented the data for settings > social preview in the new store.
-	const imageFallbackUrlFB = useSelect( select => select( "yoast-seo/editor" ).getImageFallback() );
+	const imageFallbackUrl = useSelect( select => select( "yoast-seo/editor" ).getImageFallback() );
 	const imageUrlFB = useSelect( select => select( SEO_STORE_NAME ).selectFacebookImage() ).url;
 	const siteUrl = getSiteUrl();
 
@@ -68,12 +68,11 @@ const SocialMetadata = () => {
 				<Facebook
 					as={ FacebookWrapper }
 					isPremium={ isPremium }
-					imageFallbackUrl={ imageFallbackUrlFB }
+					imageFallbackUrl={ imageFallbackUrl }
 					siteUrl={ siteUrl }
 					onRemoveImageClick={ clearFacebookPreviewImage }
 					onLoad={ updateFacebookData }
 					onSelectImageClick={ selectFacebookMedia }
-					location={ "" }
 				/>
 			</MetaboxCollapsible> }
 			{ displayTwitter && <MetaboxCollapsible
@@ -86,12 +85,11 @@ const SocialMetadata = () => {
 				<Twitter
 					as={ TwitterWrapper }
 					isPremium={ isPremium }
-					imageFallbackUrl={ imageUrlFB || imageFallbackUrlFB }
+					imageFallbackUrl={ imageUrlFB || imageFallbackUrl }
 					siteUrl={ siteUrl }
 					onRemoveImageClick={ clearTwitterPreviewImage }
 					onLoad={ updateTwitterData }
 					onSelectImageClick={ selectTwitterMedia }
-					location={ "" }
 				/>
 			</MetaboxCollapsible> }
 		</Fragment>
