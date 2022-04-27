@@ -1,5 +1,18 @@
 import classNames from "classnames";
 
+export const socialMedia = [
+	{ name: "Facebook", placeholder: "E.g. https://www.facebook.com/yoast" },
+	{ name: "Instagram", placeholder: "E.g. https://www.instagram.com/yoast" },
+	{ name: "LinkedIn", placeholder: "E.g. https://www.linkedin.com/yoast" },
+	{ name: "MySpace", placeholder: "E.g. https://www.myspace.com/yoast" },
+	{ name: "Pinterest", placeholder: "E.g. https://www.pinterest.com/yoast" },
+	{ name: "SoundCloud", placeholder: "E.g. https://www.soundcloud.com/yoast" },
+	{ name: "Tumblr", placeholder: "E.g. https://www.tumblr.com/yoast" },
+	{ name: "Twitter", placeholder: "E.g. https://www.twitter.com/yoast" },
+	{ name: "YouTube", placeholder: "E.g. https://www.youtube.com/yoast" },
+	{ name: "Wikipedia", placeholder: "E.g. https://www.wikipedia.com/yoast" },
+];
+
 /**
  * Creates the error ID for the error component.
  *
