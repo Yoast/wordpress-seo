@@ -7,7 +7,6 @@ import classNames from "classnames";
 import { addLinkToString } from "../../../../helpers/stringHelpers.js";
 import Alert, { FadeInAlert } from "../../base/alert";
 import SingleSelect from "../../base/single-select";
-import TextInput from "../../base/text-input";
 import { OrganizationSection } from "./organization-section";
 import { PersonSection } from "./person-section";
 
@@ -30,7 +29,7 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 	} );
 
 	return <Fragment>
-		{  window.wpseoWorkoutsData.configuration.knowledgeGraphMessage &&  <Alert type="warning">
+		{  window.wpseoWorkoutsData.configuration.knowledgeGraphMessage &&  <Alert type="info">
 			{  window.wpseoWorkoutsData.configuration.knowledgeGraphMessage }
 		</Alert> }
 		<p className="yst-text-sm yst-whitespace-pre-line yst-mb-6">
@@ -50,26 +49,17 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 				)
 			}
 		</p>
-		{
-			window.wpseoWorkoutsData.configuration.shouldForceCompany === 0 && <SingleSelect
-				id="organization-person-select"
-				htmlFor="organization-person-select"
-				name="organization"
-				label={ __( "Does your site represent an Organization or Person?", "wordpress-seo" ) }
-				value={ state.companyOrPerson }
-				onChange={ onOrganizationOrPersonChange }
-				choices={ state.companyOrPersonOptions }
-			/>
-		}
-		{
-			window.wpseoWorkoutsData.configuration.shouldForceCompany === 1 && <TextInput
-				id="organization-forced-readonly-text"
-				name="organization"
-				label={ __( "Does your site represent an Organization or Person?", "wordpress-seo" ) }
-				value={ state.companyOrPersonLabel }
-				readOnly={ true }
-			/>
-		}
+
+		<SingleSelect
+			id="organization-person-select"
+			htmlFor="organization-person-select"
+			name="organization"
+			label={ __( "Does your site represent an Organization or Person?", "wordpress-seo" ) }
+			value={ state.shouldForceCompany ? "company" : state.companyOrPerson }
+			onChange={ onOrganizationOrPersonChange }
+			choices={ state.companyOrPersonOptions }
+			disabled={ !! state.shouldForceCompany }
+		/>
 		<ReactAnimateHeight
 			height={ [ "company", "person" ].includes( state.companyOrPerson ) ? "auto" : 0 }
 			duration={ 400 }
