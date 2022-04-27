@@ -234,7 +234,7 @@ async function updateSocialProfiles( state ) {
 		method: "POST",
 		data: socialProfiles,
 	} );
-	return await response;
+	return await response.json;
 }
 
 /**
