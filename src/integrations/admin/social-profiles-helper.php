@@ -144,10 +144,6 @@ class Social_Profiles_Helper {
 
 		// All social profiles look good, now let's try to save them.
 		foreach ( \array_keys( $this->organization_social_profile_fields ) as $field_name ) {
-			if ( empty( $social_profiles[ $field_name ] ) ) {
-				continue;
-			}
-
 			// Remove empty strings in Other Social URLs.
 			if ( $field_name === 'other_social_urls' ) {
 				$other_social_urls = \array_filter(
