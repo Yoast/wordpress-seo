@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 import Alert, { FadeInAlert } from "../../base/alert";
 import { addLinkToString } from "../../../../helpers/stringHelpers.js";
-import { ConfigurationIndexation } from "./ConfigurationIndexation";
+import { ConfigurationIndexation } from "./configuration-indexation";
 import { ReactComponent as WorkoutStartImage } from "../../../../../images/motivated_bubble_woman_1_optim.svg";
 
 /* eslint-disable complexity */
