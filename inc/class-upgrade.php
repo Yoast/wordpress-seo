@@ -78,7 +78,7 @@ class WPSEO_Upgrade {
 			'17.9-RC0'   => 'upgrade_179',
 			'18.3-RC3'   => 'upgrade_183',
 			'18.6-RC0'   => 'upgrade_186',
-			'18.3-ftc'   => 'upgrade_first_time_configuration',
+			'18.8-RC0'   => 'upgrade_first_time_configuration',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
