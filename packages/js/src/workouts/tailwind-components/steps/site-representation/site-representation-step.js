@@ -37,8 +37,10 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 				addLinkToString(
 					sprintf(
 						__(
-							"Help us out here! Is your site about an organization or a person? " +
-							"Completing this step will help Google to understand your website, and improve your chance of getting %1$srich results%2$s.",
+							state.shouldForceCompany
+								? "Completing this step will help Google to understand your website, and improve your chance of getting %1$srich results%2$s."
+								: "Help us out here! Is your site about an organization or a person? " +
+								"Completing this step will help Google to understand your website, and improve your chance of getting %1$srich results%2$s.",
 							"wordpress-seo"
 						),
 						"<a>",
