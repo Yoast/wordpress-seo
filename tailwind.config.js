@@ -50,5 +50,6 @@ module.exports = {
 		tailwindcssForms,
 	],
 	important: true,
+	preflight: false,
 	prefix: "yst-",
 };
