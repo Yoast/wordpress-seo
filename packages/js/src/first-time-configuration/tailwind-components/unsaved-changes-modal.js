@@ -2,7 +2,7 @@ import { ExclamationIcon } from "@heroicons/react/outline";
 import { useCallback, useEffect, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
-import TailwindModal from "./TailwindModal";
+import TailwindModal from "./tailwind-modal";
 
 /**
  * Prompt the user to save when changing route.

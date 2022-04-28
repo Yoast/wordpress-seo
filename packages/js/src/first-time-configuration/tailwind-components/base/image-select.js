@@ -70,6 +70,7 @@ export default function ImageSelect( {
 			</button>
 			<div>
 				<button
+					type="button"
 					id={ url ? id + "__replace-image" : id + "__select-image" }
 					className="yst-button yst-button yst-button--secondary yst-mr-2"
 					onClick={ onSelectImageClick }
@@ -78,6 +79,7 @@ export default function ImageSelect( {
 				</button>
 				{ url && (
 					<button
+						type="button"
 						id={ id + "__remove-image" }
 						className="yst-button--remove"
 						onClick={ onRemoveImageClick }
