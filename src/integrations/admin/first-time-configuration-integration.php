@@ -175,8 +175,6 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 			$selected_option_label = $selected_option['label'];
 		}
 
-		$temp = $this->social_profiles_helper->can_edit_profile( $person_id );
-
 		$this->admin_asset_manager->add_inline_script(
 			'first-time-configuration',
 			\sprintf(
