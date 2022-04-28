@@ -60,6 +60,39 @@ describe( "a test for facebook slice", () => {
 				},
 			} );
 		} );
+
+		test( "should update the Facebook data", () => {
+			const { updateFacebookData } = facebookActions;
+
+			const result = facebookReducer( initialState, updateFacebookData( {
+				title: "new title",
+				description: "new title",
+				image: {
+					id: 1,
+					url: "https://sweetcats.com/images/cats.jpeg",
+				},
+			} ) );
+
+			expect( result ).toEqual( {
+				title: "new title",
+				description: "new title",
+				image: {
+					id: 1,
+					url: "https://sweetcats.com/images/cats.jpeg",
+				},
+			} );
+		} );
+
+		test( "should remove image from Facebook data", () => {
+			const { clearFacebookPreviewImage } = facebookActions;
+
+			const result = facebookReducer( initialState, clearFacebookPreviewImage() );
+
+			expect( result ).toEqual( {
+				...initialState,
+				image: {},
+			} );
+		} );
 	} );
 
 	describe( "a test for facebook selectors", () => {

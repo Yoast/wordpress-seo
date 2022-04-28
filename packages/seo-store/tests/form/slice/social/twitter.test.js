@@ -60,6 +60,39 @@ describe( "a test for twitter slice", () => {
 				},
 			} );
 		} );
+
+		test( "should update the Twitter data", () => {
+			const { updateTwitterData } = twitterActions;
+
+			const result = twitterReducer( initialState, updateTwitterData( {
+				title: "new title",
+				description: "new title",
+				image: {
+					id: 1,
+					url: "https://sweetcats.com/images/cats.jpeg",
+				},
+			} ) );
+
+			expect( result ).toEqual( {
+				title: "new title",
+				description: "new title",
+				image: {
+					id: 1,
+					url: "https://sweetcats.com/images/cats.jpeg",
+				},
+			} );
+		} );
+
+		test( "should remove image from Twitter data", () => {
+			const { clearTwitterPreviewImage } = twitterActions;
+
+			const result = twitterReducer( initialState, clearTwitterPreviewImage() );
+
+			expect( result ).toEqual( {
+				...initialState,
+				image: {},
+			} );
+		} );
 	} );
 
 	describe( "a test for twitter selectors", () => {
