@@ -150,12 +150,14 @@ class Social_Profiles_Helper {
 
 			// Remove empty strings in Other Social URLs.
 			if ( $field_name === 'other_social_urls' ) {
-				$social_profiles[ $field_name ] = \array_filter(
+				$other_social_urls = \array_filter(
 					$social_profiles[ $field_name ],
 					static function( $other_social_url ) {
 						return $other_social_url !== '';
 					}
 				);
+
+				$social_profiles[ $field_name ] = \array_values( $other_social_urls );
 			}
 
 			$result = $this->options_helper->set( $field_name, $social_profiles[ $field_name ] );
