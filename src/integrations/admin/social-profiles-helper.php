@@ -148,6 +148,16 @@ class Social_Profiles_Helper {
 				continue;
 			}
 
+			// Remove empty strings in Other Social URLs.
+			if ( $field_name === 'other_social_urls' ) {
+				$social_profiles[ $field_name ] = \array_filter(
+					$social_profiles[ $field_name ],
+					static function( $other_social_url ) {
+						return $other_social_url !== '';
+					}
+				);
+			}
+
 			$result = $this->options_helper->set( $field_name, $social_profiles[ $field_name ] );
 			if ( ! $result ) {
 				/**
@@ -193,7 +203,7 @@ class Social_Profiles_Helper {
 	 * @return array An array with the setting that the non-valid url is about to update.
 	 */
 	protected function get_non_valid_url( $url, $url_setting ) {
-		if ( empty( $url ) || $this->options_helper->validate_social_url( $url ) ) {
+		if ( $this->options_helper->validate_social_url( $url ) ) {
 			return [];
 		}
 
