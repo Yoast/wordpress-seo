@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { getInitialPostState, getInitialTermState } from "../../src/classic-editor/initial-state";
 
 jest.mock( "../../src/classic-editor/helpers/dom", () => ( {
@@ -47,7 +48,33 @@ jest.mock( "../../src/classic-editor/helpers/dom", () => ( {
 			directors: [ "Spike Lee", "Steven Spielberg" ],
 		};
 	} ),
+	getPostFBTitle: jest.fn( () => "An FB title for post" ),
+	getPostFBDescription: jest.fn( () => "An FB meta description for post" ),
+	getPostFBImageID: jest.fn( () => 7 ),
+	getPostFBImageURL: jest.fn( () => "www.sweetcat.com/images/good-cat.jpeg" ),
+	getPostTwitterTitle: jest.fn( () => "A Twitter title for post" ),
+	getPostTwitterDescription: jest.fn( () => "A Twitter meta description for post" ),
+	getPostTwitterImageID: jest.fn( () => 10 ),
+	getPostTwitterImageURL: jest.fn( () => "www.sweetcat.com/images/good-cat-on-twitter.jpeg" ),
+	getTermFBTitle: jest.fn( () => "An FB title for term" ),
+	getTermFBDescription: jest.fn( () => "An FB meta description for term" ),
+	getTermFBImageID: jest.fn( () => 4 ),
+	getTermFBImageURL: jest.fn( () => "www.sweetcat.com/images/best-cat-on-fb.jpeg" ),
+	getTermTwitterTitle: jest.fn( () => "A Twitter title for term" ),
+	getTermTwitterDescription: jest.fn( () => "A Twitter meta description for term" ),
+	getTermTwitterImageID: jest.fn( () => 6 ),
+	getTermTwitterImageURL: jest.fn( () => "www.sweetcat.com/images/best-cat-on-twitter.jpeg" ),
 } ) );
+
+self.wpseoScriptData = {
+	metabox: {
+		title_template_no_fallback: "",
+		title_template: "",
+		metadesc_template: "",
+		social_description_template: "A social template for meta description",
+		social_title_template: "A social template for title",
+	},
+};
 
 describe( "a test for getting the initial state of a post or a term", () => {
 	it( "returns the initial state of a post", () => {
@@ -86,6 +113,16 @@ describe( "a test for getting the initial state of a post or a term", () => {
 			},
 		] );
 		expect( actual.editor.taxonomies.customTaxonomies.directors ).toEqual( [ "Spike Lee", "Steven Spielberg" ] );
+		expect( actual.form.social.facebook.title ).toEqual( "An FB title for post" );
+		expect( actual.form.social.facebook.description ).toEqual( "An FB meta description for post" );
+		expect( actual.form.social.facebook.image.id ).toEqual( 7 );
+		expect( actual.form.social.facebook.image.url ).toEqual( "www.sweetcat.com/images/good-cat.jpeg" );
+		expect( actual.form.social.twitter.title ).toEqual( "A Twitter title for post" );
+		expect( actual.form.social.twitter.description ).toEqual( "A Twitter meta description for post" );
+		expect( actual.form.social.twitter.image.id ).toEqual( 10 );
+		expect( actual.form.social.twitter.image.url ).toEqual( "www.sweetcat.com/images/good-cat-on-twitter.jpeg" );
+		expect( actual.form.social.template.description ).toEqual( "A social template for meta description" );
+		expect( actual.form.social.template.title ).toEqual( "A social template for title" );
 	} );
 
 	it( "returns the initial state of a term", () => {
@@ -99,5 +136,15 @@ describe( "a test for getting the initial state of a post or a term", () => {
 		expect( actual.form.seo.slug ).toEqual( "www.sweetcat.com/categories/cat" );
 		expect( actual.form.seo.isCornerstone ).toEqual( false );
 		expect( actual.form.keyphrases ).toEqual( { focus: { id: "focus", keyphrase: "cat" } } );
+		expect( actual.form.social.facebook.title ).toEqual( "An FB title for term" );
+		expect( actual.form.social.facebook.description ).toEqual( "An FB meta description for term" );
+		expect( actual.form.social.facebook.image.id ).toEqual( 4 );
+		expect( actual.form.social.facebook.image.url ).toEqual( "www.sweetcat.com/images/best-cat-on-fb.jpeg" );
+		expect( actual.form.social.twitter.title ).toEqual( "A Twitter title for term" );
+		expect( actual.form.social.twitter.description ).toEqual( "A Twitter meta description for term" );
+		expect( actual.form.social.twitter.image.id ).toEqual( 6 );
+		expect( actual.form.social.twitter.image.url ).toEqual( "www.sweetcat.com/images/best-cat-on-twitter.jpeg" );
+		expect( actual.form.social.template.description ).toEqual( "A social template for meta description" );
+		expect( actual.form.social.template.title ).toEqual( "A social template for title" );
 	} );
 } );
