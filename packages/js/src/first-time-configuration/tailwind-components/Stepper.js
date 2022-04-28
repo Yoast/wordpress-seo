@@ -3,7 +3,7 @@ import { __ } from "@wordpress/i18n";
 import AnimateHeight from "react-animate-height";
 import PropTypes from "prop-types";
 import { stepperTimings, stepperTimingClasses } from "../stepper-helper";
-import StepHeader from "./StepHeader";
+import StepHeader from "./step-header";
 
 /* eslint-disable complexity */
 const {
