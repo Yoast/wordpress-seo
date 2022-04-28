@@ -559,7 +559,7 @@ export default function FirstTimeConfigurationSteps() {
 		 * @returns {void}
 		 */
 		function preventEnterSubmit( event ) {
-			if ( event.key === "Enter" ) {
+			if ( event.key === "Enter" && event.target.tagName === "INPUT" ) {
 				event.preventDefault();
 			}
 		}
