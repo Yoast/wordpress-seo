@@ -32,7 +32,7 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 		{  window.wpseoWorkoutsData.configuration.knowledgeGraphMessage &&  <Alert type="info">
 			{  window.wpseoWorkoutsData.configuration.knowledgeGraphMessage }
 		</Alert> }
-		<p className="yst-text-sm yst-whitespace-pre-line yst-mb-6">
+		<p className={ classNames( "yst-text-sm yst-whitespace-pre-line yst-mb-6", state.shouldForceCompany ? "yst-mt-2" : "yst-mt-0" ) }>
 			{
 				addLinkToString(
 					sprintf(
