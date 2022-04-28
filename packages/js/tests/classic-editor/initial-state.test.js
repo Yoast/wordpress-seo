@@ -71,8 +71,8 @@ self.wpseoScriptData = {
 		title_template_no_fallback: "",
 		title_template: "",
 		metadesc_template: "",
-		social_description_template: "",
-		social_title_template: "",
+		social_description_template: "A social template for meta description",
+		social_title_template: "A social template for title",
 	},
 };
 
@@ -121,6 +121,8 @@ describe( "a test for getting the initial state of a post or a term", () => {
 		expect( actual.form.social.twitter.description ).toEqual( "A Twitter meta description for post" );
 		expect( actual.form.social.twitter.image.id ).toEqual( 10 );
 		expect( actual.form.social.twitter.image.url ).toEqual( "www.sweetcat.com/images/good-cat-on-twitter.jpeg" );
+		expect( actual.form.social.template.description ).toEqual( "A social template for meta description" );
+		expect( actual.form.social.template.title ).toEqual( "A social template for title" );
 	} );
 
 	it( "returns the initial state of a term", () => {
@@ -142,5 +144,7 @@ describe( "a test for getting the initial state of a post or a term", () => {
 		expect( actual.form.social.twitter.description ).toEqual( "A Twitter meta description for term" );
 		expect( actual.form.social.twitter.image.id ).toEqual( 6 );
 		expect( actual.form.social.twitter.image.url ).toEqual( "www.sweetcat.com/images/best-cat-on-twitter.jpeg" );
+		expect( actual.form.social.template.description ).toEqual( "A social template for meta description" );
+		expect( actual.form.social.template.title ).toEqual( "A social template for title" );
 	} );
 } );
