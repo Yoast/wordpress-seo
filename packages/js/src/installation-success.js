@@ -1,7 +1,9 @@
 import domReady from "@wordpress/dom-ready";
 import { __, sprintf } from "@wordpress/i18n";
+import { createInterpolateElement } from "@wordpress/element";
 import { renderReactRoot } from "./helpers/reactRoot";
 import { ButtonStyledLink } from "@yoast/components";
+import { ActiveCircle, SavedCircle } from "./first-time-configuration/tailwind-components/step-circle";
 
 /**
  * The non-functional, decorative steppers for the installation success page.
@@ -11,20 +13,20 @@ import { ButtonStyledLink } from "@yoast/components";
  */
 export default function Steppers() {
 	return (
-		<ul className="step-list">
-			<li className="step-complete">
-				<div className="step-first-div" aria-hidden="true">
-					<div className="step-second-div" />
-				</div>
-				<span className="step-list-complete-circle">
-					<span className="complete-check-icon" />
+		<ul className="yst-flex-col yst-mx-auto yst-mt-6">
+			<div className="yst-inset-0 yst-mx-auto yst-my-6 yst-flex yst-items-center yst-w-[376px]" aria-hidden="true">
+				<span
+					className={ "yst-relative yst-shrink-0 yst-z-10 yst-w-8 yst-h-8 yst-rounded-full" }
+				>
+					<SavedCircle isVisible={ true } />
 				</span>
-			</li>
-			<li className="step-current">
-				<span className="step-list-current-circle" aria-current="step">
-					<span className="step-list-current-inner-circle" aria-hidden="true" />
+				<div className="yst-h-0.5 yst-w-full yst-bg-primary-500" />
+				<span
+					className={ "yst-relative yst-shrink-0 yst-z-10 yst-w-8 yst-h-8 yst-rounded-full" }
+				>
+					<ActiveCircle isVisible={ true } />
 				</span>
-			</li>
+			</div>
 		</ul>
 	);
 }
@@ -36,17 +38,23 @@ export default function Steppers() {
  */
 function InstallationSuccessPage() {
 	return (
-		<div className="installation-success-page">
-			<h1 className="installation-success-title">
-				{ sprintf(
-					/* translators: %s expands to Yoast SEO. */
-					__( "You've successfully installed %s!", "wordpress-seo" ),
-					// The space between 'Yoast' and 'SEO' is a non-breaking space (Unicode 160).
-					"Yoast SEO" )
+		<div className="yst-root yst-flex yst-flex-col yst-h-full yst-justify-start yst-pt-2">
+			<h1 className="yst-text-4xl yst-text-gray-900 yst-w-[350px] yst-font-extrabold yst-mx-auto yst-my-6 yst-text-center">
+				{
+					createInterpolateElement(
+						sprintf(
+							/* translators: %s expands to Yoast SEO. */
+							__( "You've successfully installed %s!", "wordpress-seo" ),
+							// The space between 'Yoast' and 'SEO' is a non-breaking space (Unicode 160).
+							"<span>Yoast SEO</span>" ),
+						{
+							span: <span className="yst-text-primary-500" />,
+						}
+					)
 				}
 			</h1>
 			<div className="installation-success-content">
-				<div className="installation-success-steps">
+				<div className="yst-block">
 					<Steppers />
 				</div>
 				<div className="installation-success-cards">
