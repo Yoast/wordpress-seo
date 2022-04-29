@@ -239,17 +239,17 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 18.7 =
 Release Date: May 3rd, 2022
 
+Meet Yoast SEO 18.7: a small Yoast SEO update, fixing several bugs and adding enhancements. We improved our Schema structured data implementation in this release and fine-tuned our SEO analyses. Read more about what's new in Yoast SEO 18.7 in [our release post in English](https://yoa.st/release-3-5-22) or [our release post in Spanish](https://yoa.st/release-3-5-22-spanish)!
 
 Enhancements:
 
-* Adds an integration for [CoAuthors Plus](https://wordpress.org/plugins/co-authors-plus/). When enabled, multiple authors will be added to the schema output.
+* Improves the Schema by changing the `@id` for images for `Person` and `Organization` including the `logo` attribute for the latter, to have a more proper format.
 * Adds a `wpseo_schema_graph` filter to allow filtering the entire Schema graph.
-* Improves the schema by changing the `@id` for images for `Person` and `Organization` including the `logo` attribute for the latter, to have a more proper format.
 * Removes penalising for H1 that is not at the beginning of the text body.
 
 Bugfixes:
 
-* Fixes a bug in the schema where the `thumbnailUrl` attribute of the `Article` object would be wrong if the post had an Open Graph or Twitter image.
+* Fixes a bug in the Schema where the `thumbnailUrl` attribute of the `Article` object would be wrong if the post had an Open Graph or Twitter image.
 * Fixes typos of several types in brand names and the word metadata. Props to [NekoJonez](https://github.com/NekoJonez).
 
 = 18.6 =
