@@ -13,6 +13,7 @@ import { getInitialActiveStepIndex } from "./stepper-helper";
 import IndexationStep from "./tailwind-components/steps/indexation/indexation-step";
 import SiteRepresentationStep from "./tailwind-components/steps/site-representation/site-representation-step";
 import PersonalPreferencesStep from "./tailwind-components/steps/personal-preferences/personal-preferences-step";
+import { ReactComponent as ConfigurationFinishImage } from "../../images/indexables_2_left_bubble_optm.svg";
 
 window.wpseoScriptData = window.wpseoScriptData || {};
 window.wpseoScriptData.searchAppearance = {
@@ -296,9 +297,34 @@ async function saveFinishedSteps( finishedSteps ) {
  *
  * @returns {WPElement} Finish step.
  */
-const FinishStep = () => <Fragment>
-	<p className="yst-mb-6">You have finished all the things, yay!</p>
-</Fragment>;
+const FinishStep = () => {
+
+	/**
+	 * Goes to the Dashboard tab.
+	 *
+	 * @param {Event} event The click event.
+	 *
+	 * @returns {void}
+	 */
+	function goToSEODashboard(event) {
+		event.preventDefault();
+		document.getElementById("dashboard-tab").click();
+		window.scrollTo(0,0);
+	}
+
+	return (
+		<div className="yst-flex yst-flex-row yst-justify-between yst-flex-wrap">
+			<div className="yst-w-[463px] yst-mt-4">
+				<p className="yst-text-sm yst-mb-6">{ __( "Our indexables squad has worked hard and solved a lot of technical problems. Let's have a look at the SEO fitness of your site!", "wordpress-seo" ) }</p>
+				<button
+					onClick={ goToSEODashboard }
+					className={ `yst-button yst-button--primary` }
+				>{ __( "Go to your SEO Dashboard", "wordpress-seo" ) }</button>
+			</div>
+			<ConfigurationFinishImage className="yst-h-28" />
+		</div>
+	);
+}
 
 /**
  * Calculates the initial state from the window object.
