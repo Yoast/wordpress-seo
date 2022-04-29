@@ -1,6 +1,6 @@
 /* global wpseoFirstTimeConfigurationData */
 import apiFetch from "@wordpress/api-fetch";
-import { useCallback, useReducer, useState, useEffect, Fragment } from "@wordpress/element";
+import { useCallback, useReducer, useState, useEffect } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { cloneDeep, uniq } from "lodash";
 
@@ -298,7 +298,6 @@ async function saveFinishedSteps( finishedSteps ) {
  * @returns {WPElement} Finish step.
  */
 const FinishStep = () => {
-
 	/**
 	 * Goes to the Dashboard tab.
 	 *
@@ -306,10 +305,10 @@ const FinishStep = () => {
 	 *
 	 * @returns {void}
 	 */
-	function goToSEODashboard(event) {
+	function goToSEODashboard( event ) {
 		event.preventDefault();
-		document.getElementById("dashboard-tab").click();
-		window.scrollTo(0,0);
+		document.getElementById( "dashboard-tab" ).click();
+		window.scrollTo( 0, 0 );
 	}
 
 	return (
@@ -318,13 +317,13 @@ const FinishStep = () => {
 				<p className="yst-text-sm yst-mb-6">{ __( "Our indexables squad has worked hard and solved a lot of technical problems. Let's have a look at the SEO fitness of your site!", "wordpress-seo" ) }</p>
 				<button
 					onClick={ goToSEODashboard }
-					className={ `yst-button yst-button--primary` }
+					className={ "yst-button yst-button--primary" }
 				>{ __( "Go to your SEO dashboard", "wordpress-seo" ) }</button>
 			</div>
 			<ConfigurationFinishImage className="yst-h-28" />
 		</div>
 	);
-}
+};
 
 /**
  * Calculates the initial state from the window object.
