@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 
 import { Alert } from "@yoast/components";
 import { addLinkToString } from "../../../../helpers/stringHelpers.js";
+import { socialMedia } from "../../helpers";
 import SocialInput from "./social-input";
 
 /* eslint-disable max-len */
@@ -21,8 +22,6 @@ import SocialInput from "./social-input";
  * @returns {WPElement} The SocialInputPersonSection component.
  */
 function SocialInputPersonSection( { socialProfiles, errorFields, dispatch, canEditUser, personId } ) {
-	const socialMedia = [ "Facebook", "Instagram", "LinkedIn", "MySpace", "Pinterest", "SoundCloud", "Tumblr", "Twitter", "YouTube", "Wikipedia" ];
-
 	const onChangeHandler = useCallback(
 		( newValue, socialMedium ) => {
 			dispatch( { type: "CHANGE_PERSON_SOCIAL_PROFILE", payload: { socialMedium, value: newValue } } );
@@ -133,18 +132,19 @@ function SocialInputPersonSection( { socialProfiles, errorFields, dispatch, canE
 							<SocialInput
 								key={ index }
 								className="yst-mt-4"
-								label={ social }
-								id={ social.toLowerCase() }
-								value={ socialProfiles[ social.toLowerCase() ] }
-								socialMedium={ social.toLowerCase() }
+								label={ social.name }
+								id={ social.name.toLowerCase() }
+								value={ socialProfiles[ social.name.toLowerCase() ] }
+								socialMedium={ social.name.toLowerCase() }
 								onChange={ onChangeHandler }
 								isDisabled={ ! canEditUser }
+								placeholder={ social.placeholder }
 								feedback={ {
-									message: [ social === "Twitter"
+									message: [ social.name === "Twitter"
 										? __( "Could not save this value. Please check the URL or username.", "wordpress-seo" )
 										: __( "Could not save this value. Please check the URL.", "wordpress-seo" ),
 									],
-									isVisible: errorFields.includes( social.toLowerCase() ),
+									isVisible: errorFields.includes( social.name.toLowerCase() ),
 									type: "error",
 								} }
 							/>
