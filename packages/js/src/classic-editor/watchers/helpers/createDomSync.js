@@ -21,7 +21,7 @@ const createDomSync = ( selector, { domGet, domSet }, storeCacheKey = "" ) => su
 	const cacheValue = get( storeCache, storeCacheKey );
 	const storeValue = selector();
 
-	if ( isEqual( cacheValue, storeValue ) ) {
+	if ( isEqual( cacheValue, storeValue ) && storeCache.hasOwnProperty( storeCacheKey ) ) {
 		// No store change.
 		return false;
 	}
@@ -34,7 +34,7 @@ const createDomSync = ( selector, { domGet, domSet }, storeCacheKey = "" ) => su
 		storeCache = set( storeCache, storeCacheKey, storeValue );
 	}
 	// Update DOM if store value changed.
-	domSet( storeValue );
+	domSet( storeValue || "" );
 }, SYNC_DEBOUNCE_TIME ) );
 
 export default createDomSync;
