@@ -281,7 +281,9 @@ class First_Time_Configuration_Route implements Route_Interface {
 			->first_time_configuration_action
 			->set_social_profiles( $request->get_json_params() );
 
-		return new WP_REST_Response( $data, $data->status );
+		return new WP_REST_Response(
+			[ 'json' => $data ]
+		);
 	}
 
 	/**
@@ -311,7 +313,9 @@ class First_Time_Configuration_Route implements Route_Interface {
 			->first_time_configuration_action
 			->set_person_social_profiles( $request->get_json_params() );
 
-		return new WP_REST_Response( $data, $data->status );
+		return new WP_REST_Response(
+			[ 'json' => $data ]
+		);
 	}
 
 	/**

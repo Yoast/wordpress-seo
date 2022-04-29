@@ -78,7 +78,7 @@ class WPSEO_Upgrade {
 			'17.9-RC0'   => 'upgrade_179',
 			'18.3-RC3'   => 'upgrade_183',
 			'18.6-RC0'   => 'upgrade_186',
-			'18.3-ftc'   => 'upgrade_first_time_configuration',
+			'18.8-RC0'   => 'upgrade_188',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -873,11 +873,18 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Performs the upgrade routine for the first time configuration.
-	 *
-	 * @TODO Set the right version number when the feature branch is merged.
+	 * Performs the 18.6 upgrade routine.
 	 */
-	private function upgrade_first_time_configuration() {
+	private function upgrade_186() {
+		if ( is_multisite() ) {
+			WPSEO_Options::set( 'allow_wincher_integration_active', false );
+		}
+	}
+
+	/**
+	 * Performs the 18.8 upgrade routine.
+	 */
+	private function upgrade_188() {
 		$other   = [];
 		$other[] = WPSEO_Options::get( 'instagram_url' );
 		$other[] = WPSEO_Options::get( 'linkedin_url' );
@@ -886,16 +893,7 @@ class WPSEO_Upgrade {
 		$other[] = WPSEO_Options::get( 'youtube_url' );
 		$other[] = WPSEO_Options::get( 'wikipedia_url' );
 
-		WPSEO_Options::set( 'other_social_urls', array_unique( array_filter( $other ) ) );
-	}
-
-	/**
-	 * Performs the 18.6 upgrade routine.
-	 */
-	private function upgrade_186() {
-		if ( is_multisite() ) {
-			WPSEO_Options::set( 'allow_wincher_integration_active', false );
-		}
+		WPSEO_Options::set( 'other_social_urls', array_values( array_unique( array_filter( $other ) ) ) );
 	}
 
 	/**
