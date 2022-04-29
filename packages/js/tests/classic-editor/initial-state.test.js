@@ -21,7 +21,7 @@ jest.mock( "../../src/classic-editor/helpers/dom", () => ( {
 	getTermMetaDescription: jest.fn( () => "An example of a description for a cat." ),
 	getTermSlug: jest.fn( () => "www.sweetcat.com/categories/cat" ),
 	getTermIsCornerstone: jest.fn( () => false ),
-	getTermFocusKeyphrase: jest.fn( () => "cat" ),
+	getTermFocusKeyphrase: jest.fn( () => "panda" ),
 	getPostCategories: jest.fn( () => [
 		{
 			id: "1",
@@ -146,5 +146,6 @@ describe( "a test for getting the initial state of a post or a term", () => {
 		expect( actual.form.social.twitter.image.url ).toEqual( "www.sweetcat.com/images/best-cat-on-twitter.jpeg" );
 		expect( actual.form.social.template.description ).toEqual( "A social template for meta description" );
 		expect( actual.form.social.template.title ).toEqual( "A social template for title" );
+		expect( actual.form.keyphrases ).toEqual( { focus: { id: "focus", keyphrase: "panda" } } );
 	} );
 } );

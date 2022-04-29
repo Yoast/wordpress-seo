@@ -102,7 +102,7 @@ export const getInitialTermState = () => ( {
 		keyphrases: {
 			[ FOCUS_KEYPHRASE_ID ]: {
 				id: FOCUS_KEYPHRASE_ID,
-				keyphrase: dom.getTermFocusKeyphrase(),
+				keyphrase: dom.getTermFocusKeyphrase() || dom.getTermName(),
 			},
 		},
 		social: {
