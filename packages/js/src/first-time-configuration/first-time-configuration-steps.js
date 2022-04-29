@@ -319,7 +319,7 @@ const FinishStep = () => {
 				<button
 					onClick={ goToSEODashboard }
 					className={ `yst-button yst-button--primary` }
-				>{ __( "Go to your SEO Dashboard", "wordpress-seo" ) }</button>
+				>{ __( "Go to your SEO dashboard", "wordpress-seo" ) }</button>
 			</div>
 			<ConfigurationFinishImage className="yst-h-28" />
 		</div>
