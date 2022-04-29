@@ -48,7 +48,7 @@ export const getAnalysisData = ( state ) => {
 		description,
 		locale: getContentLocale( state ),
 		titleWidth: measureTextWidth( title ),
-		url: slug,
+		slug: slug,
 		permalink: baseUrl + slug,
 		date: getDateFromSettings( state ),
 	};

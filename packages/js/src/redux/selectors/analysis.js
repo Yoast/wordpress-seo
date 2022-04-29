@@ -60,7 +60,7 @@ export const getAnalysisData = ( state ) => {
 		description: getDescription( state ) || getSnippetEditorDescription( state ),
 		locale: getContentLocale( state ),
 		titleWidth: measureTextWidth( title ),
-		url: slug,
+		slug: slug,
 		permalink: getBaseUrlFromSettings( state ) + slug,
 	};
 };

@@ -6,7 +6,6 @@ export default {
 	component: SelectField,
 	argTypes: {
 		children: { control: "text" },
-		label: { control: "text" },
 		error: { control: "text" },
 	},
 	parameters: {

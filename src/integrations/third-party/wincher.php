@@ -93,10 +93,7 @@ class Wincher implements Integration_Interface {
 	public function after_integration_toggle( $integration ) {
 		if ( $integration->setting === 'wincher_integration_active' ) {
 
-			// Check if 'WPSEO_PATH' is defined else the relevant unittest will require the file.
-			if ( defined( 'WPSEO_PATH' ) ) {
-				require \WPSEO_PATH . 'admin/views/tabs/metas/paper-content/integrations/wincher.php';
-			}
+			require \WPSEO_PATH . 'admin/views/tabs/metas/paper-content/integrations/wincher.php';
 
 			if ( \is_multisite() ) {
 				$this->get_disabled_note();

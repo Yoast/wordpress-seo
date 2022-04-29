@@ -10,7 +10,7 @@ import Label from "../../elements/label";
  * @param {string} id Identifier.
  * @param {string} name Name.
  * @param {string[]} values Values.
- * @param {JSX.node} label Label.
+ * @param {string} label Label.
  * @param {{ value: string, label: string }[]} options Options to choose from.
  * @param {Function} onChange Change handler.
  * @param {string} [className] CSS class.
@@ -36,7 +36,7 @@ const CheckboxGroup = ( {
 
 	return (
 		<fieldset className={ classNames( "yst-checkbox-group", className ) }>
-			{ label && <Label as="legend" className="yst-checkbox-group__label">{ label }</Label> }
+			<Label as="legend" className="yst-checkbox-group__label" label={ label } />
 			{ children && <div className="yst-checkbox-group__description">{ children }</div> }
 			<div className="yst-checkbox-group__options">
 				{ options.map( ( option, index ) => {
@@ -62,7 +62,7 @@ CheckboxGroup.propTypes = {
 	id: PropTypes.string.isRequired,
 	name: PropTypes.string.isRequired,
 	values: PropTypes.arrayOf( PropTypes.string ),
-	label: PropTypes.node.isRequired,
+	label: PropTypes.string.isRequired,
 	options: PropTypes.arrayOf( PropTypes.shape( {
 		value: PropTypes.string.isRequired,
 		label: PropTypes.string.isRequired,

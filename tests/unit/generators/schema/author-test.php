@@ -103,7 +103,7 @@ class Author_Test extends TestCase {
 		'name'   => 'Ad Minnie',
 		'image'  => [
 			'@type'   => 'ImageObject',
-			'@id'     => 'http://basic.wordpress.test/#personlogo',
+			'@id'     => 'http://basic.wordpress.test/#schema/person/image/9d85080a5fb7722f56e19d45349a9606',
 			'url'     => 'http://2.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=96&d=mm&r=g',
 			'caption' => 'Ad Minnie',
 		],
@@ -302,7 +302,7 @@ class Author_Test extends TestCase {
 
 		$this->schema_image
 			->expects( 'simple_image_object' )
-			->with( Schema_IDs::PERSON_LOGO_HASH, $this->person_data['image']['url'], $user_data->display_name )
+			->with( Schema_IDs::PERSON_LOGO_HASH, $this->person_data['image']['url'], $user_data->display_name, false )
 			->andReturn( $this->person_data['image'] );
 
 		$this->options->expects( 'get' )
@@ -440,7 +440,8 @@ class Author_Test extends TestCase {
 					'width'  => 100,
 					'url'    => 'http://example.com/image.png',
 				],
-				$user_data->display_name
+				$user_data->display_name,
+				false
 			)
 			->andReturn( 'our_image_schema' );
 	}
