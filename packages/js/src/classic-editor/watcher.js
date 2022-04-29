@@ -1,6 +1,6 @@
-import { dispatch, select} from "@wordpress/data";
+import { dispatch, select } from "@wordpress/data";
 import { SEO_STORE_NAME } from "@yoast/seo-integration";
-import { debounce, forEach, get, isFunction} from "lodash";
+import { debounce, forEach, get, isFunction } from "lodash";
 import getIndicatorForScore from "../analysis/getIndicatorForScore";
 import { addEventHandler as addTinyMceEventListener, getContentTinyMce } from "../lib/tinymce";
 import { update as updateAdminBar } from "../ui/adminBar";

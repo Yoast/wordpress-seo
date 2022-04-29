@@ -8,7 +8,7 @@ describe( "The Twitter watcher", () => {
 	it(
 		"syncs the Twitter fields from the store to hidden input fields.",
 		() => {
-			const selectors ={
+			const selectors = {
 				selectTwitterTitle: jest.fn(),
 				selectTwitterDescription: jest.fn(),
 				selectTwitterImageURL: jest.fn(),
@@ -53,4 +53,4 @@ describe( "The Twitter watcher", () => {
 				"twitterImageID"
 			);
 		} );
-} )
+} );
