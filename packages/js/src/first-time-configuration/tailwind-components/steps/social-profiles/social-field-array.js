@@ -43,6 +43,7 @@ const SocialFieldArray = ( { items, onAddProfile, onRemoveProfile, onChangeProfi
 							} }
 						/>
 						<button
+							type="button"
 							className="yst-mt-[27.5px] yst-ml-2 yst-p-3 yst-text-gray-500 yst-rounded-md hover:yst-text-primary-500 focus:yst-text-primary-500 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-primary-500 yst-no-underline;"
 							id={ `remove-profile-${ index }` }
 							data-index={ index }

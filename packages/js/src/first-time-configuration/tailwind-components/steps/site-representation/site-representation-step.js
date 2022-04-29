@@ -40,8 +40,8 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 	);
 
 	return <Fragment>
-		{  window.wpseoWorkoutsData.configuration.knowledgeGraphMessage &&  <Alert type="info">
-			{  window.wpseoWorkoutsData.configuration.knowledgeGraphMessage }
+		{  window.wpseoFirstTimeConfigurationData.knowledgeGraphMessage &&  <Alert type="info">
+			{  window.wpseoFirstTimeConfigurationData.knowledgeGraphMessage }
 		</Alert> }
 		<p className={ classNames( "yst-text-sm yst-whitespace-pre-line yst-mb-6", state.shouldForceCompany ? "yst-mt-4" : "yst-mt-0" ) }>
 			{
@@ -53,7 +53,6 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 					</Fragment>
 			}
 		</p>
-
 		<SingleSelect
 			id="organization-person-select"
 			htmlFor="organization-person-select"

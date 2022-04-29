@@ -3,7 +3,7 @@ import { __ } from "@wordpress/i18n";
 import AnimateHeight from "react-animate-height";
 import PropTypes from "prop-types";
 import { stepperTimings, stepperTimingClasses } from "../stepper-helper";
-import StepHeader from "./StepHeader";
+import StepHeader from "./step-header";
 
 /* eslint-disable complexity */
 const {
@@ -64,6 +64,7 @@ function GoButton( { beforeGo, children, destination, ...restProps } ) {
 	}, [ goToDestination, beforeGo ] );
 
 	return <button
+		type="button"
 		onClick={ goFunction }
 		{ ...restProps }
 	>
@@ -101,6 +102,7 @@ function EditButton( { children, ...restProps } ) {
 	}, [ setActiveStepIndex, stepIndex ] );
 
 	return <button
+		type="button"
 		onClick={ editFunction }
 		className="yst-button yst-button--secondary yst-button--small"
 		{ ...restProps }
@@ -207,7 +209,7 @@ export default function Stepper( { children, setActiveStepIndex, activeStepIndex
 	return (
 		<ol>
 			{ children.map( ( child, stepIndex ) => {
-				return <li key={ `${ child.props.name }-${ stepIndex }` } className={ ( stepIndex === children.length - 1 ? "" : "yst-pb-8" ) + " yst-mb-0 yst-relative" }>
+				return <li key={ `${ child.props.name }-${ stepIndex }` } className={ ( stepIndex === children.length - 1 ? "" : "yst-pb-8" ) + " yst-mb-0 yst-relative yst-max-w-none" }>
 					<StepperContext.Provider
 						value={ { stepIndex, activeStepIndex, setActiveStepIndex, lastStepIndex: children.length - 1, isStepperFinished } }
 					>

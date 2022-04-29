@@ -226,6 +226,15 @@ class Social_Profiles_Helper_Test extends TestCase {
 			->andReturn( ...$validate_twitter_id_results );
 
 		foreach ( $fields as $field ) {
+			if ( $field === 'other_social_urls' ) {
+				$social_profiles[ $field ] = \array_filter(
+					$social_profiles[ $field ],
+					static function( $other_social_url ) {
+						return $other_social_url !== '';
+					}
+				);
+			}
+
 			$this->options_helper
 				->expects( 'set' )
 				->with( $field, $social_profiles[ $field ] )
@@ -253,6 +262,7 @@ class Social_Profiles_Helper_Test extends TestCase {
 				'twitter_site'           => 'https://twitter.com/janedoe',
 				'other_social_urls'      => [
 					'https://youtube.com/janedoe',
+					'',
 				],
 			],
 			'validate_social_url_results' => [ true ],

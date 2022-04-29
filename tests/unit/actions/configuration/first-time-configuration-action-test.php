@@ -234,7 +234,7 @@ class First_Time_Configuration_Action_Test extends TestCase {
 			'set_profiles_results' => [ 'param1' ],
 			'expected'             => (object) [
 				'success'  => false,
-				'status'   => 500,
+				'status'   => 200,
 				'error'    => 'Could not save some options in the database',
 				'failures' => [ 'param1' ],
 			],
@@ -244,7 +244,7 @@ class First_Time_Configuration_Action_Test extends TestCase {
 			'yoast_options_results' => [ 'param1', 'param2' ],
 			'expected'              => (object) [
 				'success'  => false,
-				'status'   => 500,
+				'status'   => 200,
 				'error'    => 'Could not save some options in the database',
 				'failures' => [ 'param1', 'param2' ],
 			],
