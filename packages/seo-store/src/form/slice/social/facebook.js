@@ -21,7 +21,7 @@ const facebookSlice = createSlice( {
 			state.image = action.payload;
 		},
 		updateFacebookData: ( state, action ) => {
-			state = action.payload;
+			state = Object.assign( state, action.payload );
 		},
 		clearFacebookPreviewImage: ( state ) => {
 			state.image = {};

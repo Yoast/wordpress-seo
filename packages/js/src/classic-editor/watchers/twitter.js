@@ -41,3 +41,44 @@ export const createPostTwitterSync = ( selectors ) => {
 		"twitterImageID"
 	);
 };
+
+/**
+ * Syncs a post's Twitter fields from the SEO store to the hidden fields
+ * inside the editor.
+ *
+ * @param {Object} selectors The SEO store selectors.
+ */
+export const createTermTwitterSync = ( selectors ) => {
+	createDomSync(
+		selectors.selectTwitterTitle,
+		{
+			domGet: dom.getTermTwitterTitle,
+			domSet: dom.setTermTwitterTitle,
+		},
+		"twitterTitle"
+	);
+	createDomSync(
+		selectors.selectTwitterDescription,
+		{
+			domGet: dom.getTermTwitterDescription,
+			domSet: dom.setTermTwitterDescription,
+		},
+		"twitterDescription"
+	);
+	createDomSync(
+		selectors.selectTwitterImageURL,
+		{
+			domGet: dom.getTermTwitterImageURL,
+			domSet: dom.setTermTwitterImageUrl,
+		},
+		"twitterImageURL"
+	);
+	createDomSync(
+		selectors.selectTwitterImageID,
+		{
+			domGet: dom.getTermTwitterImageID,
+			domSet: dom.setTermTwitterImageID,
+		},
+		"twitterImageID"
+	);
+};

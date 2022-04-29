@@ -48,3 +48,51 @@ export const createPostFacebookSync = ( selectors ) => {
 		"facebookImageID"
 	);
 }
+
+/**
+ * Syncs a post's Facebook fields from the SEO store to the hidden fields
+ * inside the editor.
+ *
+ * @param {Object} selectors The SEO store selectors.
+ *
+ * @param {function} selectors.selectFacebookTitle A selector for getting the Facebook title from the store.
+ * @param {function} selectors.selectFacebookDescription A selector for getting the Facebook description from the store.
+ * @param {function} selectors.selectFacebookImageURL A selector for getting the Facebook image URL from the store.
+ * @param {function} selectors.selectFacebookImageID A selector for getting the Facebook image ID from the store.
+ *
+ * @return {void}
+ */
+export const createTermFacebookSync = ( selectors ) => {
+	createDomSync(
+		selectors.selectFacebookTitle,
+		{
+			domGet: dom.getTermFBTitle,
+			domSet: dom.setTermFBTitle,
+		},
+		"facebookTitle"
+	);
+	createDomSync(
+		selectors.selectFacebookDescription,
+		{
+			domGet: dom.getTermFBDescription,
+			domSet: dom.setTermFBDescription,
+		},
+		"facebookDescription"
+	);
+	createDomSync(
+		selectors.selectFacebookImageURL,
+		{
+			domGet: dom.getTermFBImageURL,
+			domSet: dom.setTermFBImageUrl,
+		},
+		"facebookImageURL"
+	);
+	createDomSync(
+		selectors.selectFacebookImageID,
+		{
+			domGet: dom.getTermFBImageID,
+			domSet: dom.setTermFBImageID,
+		},
+		"facebookImageID"
+	);
+}

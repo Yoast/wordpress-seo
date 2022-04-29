@@ -148,5 +148,74 @@ describe( "a test for twitter slice", () => {
 				alt: "A sleeping cat",
 			} );
 		} );
+
+		test( "should select the twitter image URL", () => {
+			const { selectTwitterImageURL } = twitterSelectors;
+
+			const state = {
+				twitter: {
+					image: {
+						id: 1,
+						url: "https://example.com/catfluencer-meowdel",
+						width: 500,
+						height: 600,
+						alt: "A sleeping cat",
+					},
+				},
+			};
+			const result = selectTwitterImageURL( createStoreState( state ) );
+
+			expect( result ).toEqual( "https://example.com/catfluencer-meowdel" );
+		} );
+
+		test( "should select the twitter image ID", () => {
+			const { selectTwitterImageID } = twitterSelectors;
+
+			const state = {
+				twitter: {
+					image: {
+						id: 1,
+						url: "https://example.com/catfluencer-meowdel",
+						width: 500,
+						height: 600,
+						alt: "A sleeping cat",
+					},
+				},
+			};
+			const result = selectTwitterImageID( createStoreState( state ) );
+
+			expect( result ).toEqual( 1 );
+		} );
+
+		test( "should select the twitter data", () => {
+			const { selectTwitter } = twitterSelectors;
+
+			const state = {
+				twitter: {
+					title: "Catfluencer on Twitter",
+					description: "How to be a purr-fect catfluencer on Twitter.",
+					image: {
+						id: 1,
+						url: "https://example.com/catfluencer-meowdel",
+						width: 500,
+						height: 600,
+						alt: "A sleeping cat",
+					},
+				},
+			};
+			const result = selectTwitter( createStoreState( state ) );
+
+			expect( result ).toEqual( {
+				title: "Catfluencer on Twitter",
+				description: "How to be a purr-fect catfluencer on Twitter.",
+				image: {
+					id: 1,
+					url: "https://example.com/catfluencer-meowdel",
+					width: 500,
+					height: 600,
+					alt: "A sleeping cat",
+				},
+			} );
+		} );
 	} );
 } );

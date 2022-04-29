@@ -8,8 +8,8 @@ import * as publishBox from "../ui/publishBox";
 import { update as updateTrafficLight } from "../ui/trafficLight";
 import * as dom from "./helpers/dom";
 import createDomSync from "./watchers/helpers/createDomSync";
-import { createPostFacebookSync } from "./watchers/facebook";
-import { createPostTwitterSync } from "./watchers/twitter";
+import { createPostFacebookSync, createTermFacebookSync } from "./watchers/facebook";
+import { createPostTwitterSync, createTermTwitterSync } from "./watchers/twitter";
 import { SYNC_DEBOUNCE_TIME } from "./watchers/helpers/constants";
 
 const { DOM_IDS, DOM_CLASSES, DOM_QUERIES } = dom;
@@ -451,6 +451,8 @@ const syncStoreToTerm = () => {
 		},
 		"readabilityScore"
 	);
+	createTermFacebookSync( selectors );
+	createTermTwitterSync( selectors );
 };
 
 /**

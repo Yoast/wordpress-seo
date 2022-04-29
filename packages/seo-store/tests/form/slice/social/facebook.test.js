@@ -148,5 +148,74 @@ describe( "a test for facebook slice", () => {
 				alt: "A sleeping cat",
 			} );
 		} );
+
+		test( "should select the facebook image URL", () => {
+			const { selectFacebookImageURL } = facebookSelectors;
+
+			const state = {
+				facebook: {
+					image: {
+						id: 1,
+						url: "https://example.com/catfluencer-meowdel",
+						width: 500,
+						height: 600,
+						alt: "A sleeping cat",
+					},
+				},
+			};
+			const result = selectFacebookImageURL( createStoreState( state ) );
+
+			expect( result ).toEqual( "https://example.com/catfluencer-meowdel" );
+		} );
+
+		test( "should select the facebook image ID", () => {
+			const { selectFacebookImageID } = facebookSelectors;
+
+			const state = {
+				facebook: {
+					image: {
+						id: 1,
+						url: "https://example.com/catfluencer-meowdel",
+						width: 500,
+						height: 600,
+						alt: "A sleeping cat",
+					},
+				},
+			};
+			const result = selectFacebookImageID( createStoreState( state ) );
+
+			expect( result ).toEqual( 1 );
+		} );
+
+		test( "should select the facebook data", () => {
+			const { selectFacebook } = facebookSelectors;
+
+			const state = {
+				facebook: {
+					title: "Catfluencer on Facebook",
+					description: "How to be a purr-fect catfluencer on Facebook.",
+					image: {
+						id: 1,
+						url: "https://example.com/catfluencer-meowdel",
+						width: 500,
+						height: 600,
+						alt: "A sleeping cat",
+					},
+				},
+			};
+			const result = selectFacebook( createStoreState( state ) );
+
+			expect( result ).toEqual( {
+				title: "Catfluencer on Facebook",
+				description: "How to be a purr-fect catfluencer on Facebook.",
+				image: {
+					id: 1,
+					url: "https://example.com/catfluencer-meowdel",
+					width: 500,
+					height: 600,
+					alt: "A sleeping cat",
+				},
+			} );
+		} );
 	} );
 } );
