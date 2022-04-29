@@ -312,7 +312,7 @@ const FinishStep = () => {
 	}
 
 	return (
-		<div className="yst-flex yst-flex-row yst-justify-between yst-flex-wrap yst-items-center">
+		<div className="yst-flex yst-flex-row yst-justify-between yst-flex-wrap yst-items-center yst--mt-4">
 			<div className="yst-w-[463px]">
 				<p className="yst-text-sm yst-mb-6">{ __( "Our indexables squad has worked hard and solved a lot of technical problems. Let's have a look at the SEO fitness of your site!", "wordpress-seo" ) }</p>
 				<button
