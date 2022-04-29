@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 import { Transition } from "@headlessui/react";
 
-import Indexation from "./Indexation";
+import Indexation from "./indexation";
 import Alert from "../../base/alert";
 
 const preIndexingActions = {};

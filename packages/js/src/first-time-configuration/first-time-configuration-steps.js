@@ -7,7 +7,7 @@ import { cloneDeep, uniq } from "lodash";
 import UnsavedChangesModal from "./tailwind-components/unsaved-changes-modal";
 import { addLinkToString } from "../helpers/stringHelpers.js";
 import SocialProfilesStep from "./tailwind-components/steps/social-profiles/social-profiles-step";
-import Stepper, { Step } from "./tailwind-components/Stepper";
+import Stepper, { Step } from "./tailwind-components/stepper";
 import { ContinueButton, EditButton, ConfigurationStepButtons } from "./tailwind-components/configuration-stepper-buttons";
 import { getInitialActiveStepIndex } from "./stepper-helper";
 import IndexationStep from "./tailwind-components/steps/indexation/indexation-step";
