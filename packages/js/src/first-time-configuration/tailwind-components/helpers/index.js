@@ -1,16 +1,18 @@
+import { __ } from "@wordpress/i18n";
+
 import classNames from "classnames";
 
 export const socialMedia = [
-	{ name: "Facebook", placeholder: "E.g. https://www.facebook.com/yoast" },
-	{ name: "Instagram", placeholder: "E.g. https://www.instagram.com/yoast" },
-	{ name: "LinkedIn", placeholder: "E.g. https://www.linkedin.com/yoast" },
-	{ name: "MySpace", placeholder: "E.g. https://www.myspace.com/yoast" },
-	{ name: "Pinterest", placeholder: "E.g. https://www.pinterest.com/yoast" },
-	{ name: "SoundCloud", placeholder: "E.g. https://www.soundcloud.com/yoast" },
-	{ name: "Tumblr", placeholder: "E.g. https://www.tumblr.com/yoast" },
-	{ name: "Twitter", placeholder: "E.g. https://www.twitter.com/yoast" },
-	{ name: "YouTube", placeholder: "E.g. https://www.youtube.com/yoast" },
-	{ name: "Wikipedia", placeholder: "E.g. https://www.wikipedia.com/yoast" },
+	{ name: "Facebook", placeholder: __( "E.g. https://www.facebook.com/yoast", "wordpress-seo" ) },
+	{ name: "Instagram", placeholder: __( "E.g. https://www.instagram.com/yoast", "wordpress-seo" ) },
+	{ name: "LinkedIn", placeholder: __( "E.g. https://www.linkedin.com/yoast", "wordpress-seo" ) },
+	{ name: "MySpace", placeholder: __( "E.g. https://www.myspace.com/yoast", "wordpress-seo" ) },
+	{ name: "Pinterest", placeholder: __( "E.g. https://www.pinterest.com/yoast", "wordpress-seo" ) },
+	{ name: "SoundCloud", placeholder: __( "E.g. https://www.soundcloud.com/yoast", "wordpress-seo" ) },
+	{ name: "Tumblr", placeholder: __( "E.g. https://www.tumblr.com/yoast", "wordpress-seo" ) },
+	{ name: "Twitter", placeholder: __( "E.g. https://www.twitter.com/yoast", "wordpress-seo" ) },
+	{ name: "YouTube", placeholder: __( "E.g. https://www.youtube.com/yoast", "wordpress-seo" ) },
+	{ name: "Wikipedia", placeholder: __( "E.g. https://www.wikipedia.com/yoast", "wordpress-seo" ) },
 ];
 
 /**
