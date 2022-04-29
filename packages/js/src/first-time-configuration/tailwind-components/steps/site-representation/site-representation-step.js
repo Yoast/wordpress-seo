@@ -28,25 +28,29 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 		setSectionOpacity( "yst-opacity-100" );
 	} );
 
+	const richResultsMessage = addLinkToString(
+		sprintf(
+			/* translators: %1$s expands to opening 'a' HTML tag, %2$s expands to closing 'a' HTML tag */
+			__( "Completing this step will help Google to understand your website, and improve your chance of getting %1$srich results%2$s.", "wordpress-seo" ),
+			"<a>",
+			"</a>"
+		),
+		"https://yoa.st/config-workout-rich-results",
+		"yoast-configuration-rich-text-link"
+	);
+
 	return <Fragment>
 		{  window.wpseoFirstTimeConfigurationData.knowledgeGraphMessage &&  <Alert type="info">
 			{  window.wpseoFirstTimeConfigurationData.knowledgeGraphMessage }
 		</Alert> }
-		<p className="yst-text-sm yst-whitespace-pre-line yst-mb-6">
+		<p className={ classNames( "yst-text-sm yst-whitespace-pre-line yst-mb-6", state.shouldForceCompany ? "yst-mt-4" : "yst-mt-0" ) }>
 			{
-				addLinkToString(
-					sprintf(
-						__(
-							"Help us out here! Is your site about an organization or a person? " +
-							"Completing this step will help Google to understand your website, and improve your chance of getting %1$srich results%2$s.",
-							"wordpress-seo"
-						),
-						"<a>",
-						"</a>"
-					),
-					"https://yoa.st/config-workout-rich-results",
-					"yoast-configuration-rich-text-link"
-				)
+				state.shouldForceCompany
+					? richResultsMessage
+					: <Fragment>
+						{ __( "Help us out here! Is your site about an organization or a person? ", "wordpress-seo" ) }
+						{ richResultsMessage }
+					</Fragment>
 			}
 		</p>
 		<SingleSelect
