@@ -19,7 +19,7 @@ import { PropTypes } from "prop-types";
 export default function TailwindModal( { isOpen, handleClose, hasCloseButton, children } ) {
 	return (
 		<Transition.Root show={ isOpen } as={ Fragment }>
-			<Dialog as="div" static={ true } className="yst-fixed yst-z-10 yst-inset-0 yst-overflow-y-auto" open={ isOpen } onClose={ handleClose }>
+			<Dialog as="div" static={ true } className="yst-root yst-fixed yst-z-10 yst-inset-0 yst-overflow-y-auto" open={ isOpen } onClose={ handleClose }>
 				<div
 					className="yst-flex yst-items-end yst-justify-center yst-min-h-screen yst-pt-4 yst-px-4 yst-pb-20 yst-text-center sm:yst-block sm:yst-p-0"
 				>
