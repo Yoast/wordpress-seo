@@ -4,7 +4,9 @@ namespace Yoast\WP\SEO\Integrations\Third_Party;
 
 use Yoast\WP\SEO\Config\Schema_Types;
 use Yoast\WP\SEO\Conditionals\Third_Party\CoAuthors_Plus_Activated_Conditional;
+use Yoast\WP\SEO\Conditionals\Third_Party\CoAuthors_Plus_Flag_Conditional;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
+use Yoast\WP\SEO\Generators\Schema\Abstract_Schema_Piece;
 use Yoast\WP\SEO\Generators\Schema\Third_Party\CoAuthor;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Surfaces\Helpers_Surface;
@@ -37,7 +39,10 @@ class CoAuthors_Plus implements Integration_Interface {
 	 * @return array
 	 */
 	public static function get_conditionals() {
-		return [ CoAuthors_Plus_Activated_Conditional::class ];
+		return [
+			CoAuthors_Plus_Activated_Conditional::class,
+			CoAuthors_Plus_Flag_Conditional::class,
+		];
 	}
 
 	/**
