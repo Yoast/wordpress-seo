@@ -6,7 +6,6 @@ import { FacebookContainer, TwitterContainer, SEO_STORE_NAME } from "@yoast/seo-
 import FacebookWrapper from "../../../components/social/FacebookWrapper";
 import TwitterWrapper from "../../../components/social/TwitterWrapper";
 import { openMedia, prepareFacebookPreviewImage, prepareTwitterPreviewImage } from "../../../helpers/selectMedia";
-import { getSiteUrl } from "../../../redux/selectors";
 import withLocation from "../../../helpers/withLocation";
 
 /**
@@ -48,8 +47,8 @@ const SocialMetadata = () => {
 	const isPremium = window.wpseoScriptData.metabox.isPremium === "1";
 	// Taking it from the old store, because we still haven't implemented the data for settings > social preview in the new store.
 	const imageFallbackUrl = useSelect( select => select( "yoast-seo/editor" ).getImageFallback() );
-	const imageUrlFB = useSelect( select => select( SEO_STORE_NAME ).selectFacebookImage() ).url;
-	const siteUrl = getSiteUrl();
+	const imageUrlFB = useSelect( select => select( SEO_STORE_NAME ).selectFacebookImageURL() );
+	const siteUrl = useSelect( select => select( "yoast-seo/editor" ).getSiteUrl() );
 
 	const { updateFacebookData,
 		clearFacebookPreviewImage,
