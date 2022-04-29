@@ -280,6 +280,7 @@ export class Indexation extends Component {
 	 */
 	renderStartButton() {
 		return <button
+			type="button"
 			className="yst-button yst-button--secondary"
 			onClick={ this.startIndexing }
 		>
@@ -294,6 +295,7 @@ export class Indexation extends Component {
 	 */
 	renderStopButton() {
 		return <button
+			type="button"
 			className="yst-button yst-button--secondary"
 			onClick={ this.stopIndexing }
 		>
@@ -310,6 +312,7 @@ export class Indexation extends Component {
 		return <Fragment>
 			<p>
 				<button
+					type="button"
 					className="yst-button yst-button--secondary"
 					disabled={ true }
 				>

@@ -144,8 +144,16 @@ class Social_Profiles_Helper {
 
 		// All social profiles look good, now let's try to save them.
 		foreach ( \array_keys( $this->organization_social_profile_fields ) as $field_name ) {
-			if ( empty( $social_profiles[ $field_name ] ) ) {
-				continue;
+			// Remove empty strings in Other Social URLs.
+			if ( $field_name === 'other_social_urls' ) {
+				$other_social_urls = \array_filter(
+					$social_profiles[ $field_name ],
+					static function( $other_social_url ) {
+						return $other_social_url !== '';
+					}
+				);
+
+				$social_profiles[ $field_name ] = \array_values( $other_social_urls );
 			}
 
 			$result = $this->options_helper->set( $field_name, $social_profiles[ $field_name ] );
@@ -193,7 +201,7 @@ class Social_Profiles_Helper {
 	 * @return array An array with the setting that the non-valid url is about to update.
 	 */
 	protected function get_non_valid_url( $url, $url_setting ) {
-		if ( empty( $url ) || $this->options_helper->validate_social_url( $url ) ) {
+		if ( $this->options_helper->validate_social_url( $url ) ) {
 			return [];
 		}
 

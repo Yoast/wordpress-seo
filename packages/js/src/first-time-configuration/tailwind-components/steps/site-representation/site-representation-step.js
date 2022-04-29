@@ -29,8 +29,8 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 	} );
 
 	return <Fragment>
-		{  window.wpseoWorkoutsData.configuration.knowledgeGraphMessage &&  <Alert type="info">
-			{  window.wpseoWorkoutsData.configuration.knowledgeGraphMessage }
+		{  window.wpseoFirstTimeConfigurationData.knowledgeGraphMessage &&  <Alert type="info">
+			{  window.wpseoFirstTimeConfigurationData.knowledgeGraphMessage }
 		</Alert> }
 		<p className="yst-text-sm yst-whitespace-pre-line yst-mb-6">
 			{
@@ -49,7 +49,6 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 				)
 			}
 		</p>
-
 		<SingleSelect
 			id="organization-person-select"
 			htmlFor="organization-person-select"

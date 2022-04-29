@@ -12,6 +12,7 @@ use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
+use Yoast\WP\SEO\Integrations\Admin\Social_Profiles_Helper;
 use Yoast\WP\SEO\Routes\Indexing_Route;
 
 // phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- First time configuration simply has a lot of words.
@@ -49,6 +50,13 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 	private $options_helper;
 
 	/**
+	 * The social profiles helper.
+	 *
+	 * @var Social_Profiles_Helper
+	 */
+	private $social_profiles_helper;
+
+	/**
 	 * The product helper.
 	 *
 	 * @var Product_Helper
@@ -65,24 +73,27 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 	/**
 	 * Configuration_Workout_Integration constructor.
 	 *
-	 * @param WPSEO_Admin_Asset_Manager $admin_asset_manager The admin asset manager.
-	 * @param WPSEO_Addon_Manager       $addon_manager       The addon manager.
-	 * @param WPSEO_Shortlinker         $shortlinker         The shortlinker.
-	 * @param Options_Helper            $options_helper      The options helper.
-	 * @param Product_Helper            $product_helper      The product helper.
+	 * @param WPSEO_Admin_Asset_Manager $admin_asset_manager    The admin asset manager.
+	 * @param WPSEO_Addon_Manager       $addon_manager          The addon manager.
+	 * @param WPSEO_Shortlinker         $shortlinker            The shortlinker.
+	 * @param Options_Helper            $options_helper         The options helper.
+	 * @param Social_Profiles_Helper    $social_profiles_helper The social profile helper.
+	 * @param Product_Helper            $product_helper         The product helper.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $admin_asset_manager,
 		WPSEO_Addon_Manager $addon_manager,
 		WPSEO_Shortlinker $shortlinker,
 		Options_Helper $options_helper,
+		Social_Profiles_Helper $social_profiles_helper,
 		Product_Helper $product_helper
 	) {
-		$this->admin_asset_manager = $admin_asset_manager;
-		$this->addon_manager       = $addon_manager;
-		$this->shortlinker         = $shortlinker;
-		$this->options_helper      = $options_helper;
-		$this->product_helper      = $product_helper;
+		$this->admin_asset_manager    = $admin_asset_manager;
+		$this->addon_manager          = $addon_manager;
+		$this->shortlinker            = $shortlinker;
+		$this->options_helper         = $options_helper;
+		$this->social_profiles_helper = $social_profiles_helper;
+		$this->product_helper         = $product_helper;
 	}
 
 	/**
@@ -120,6 +131,7 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 		$this->admin_asset_manager->enqueue_script( 'indexation' );
 		$this->admin_asset_manager->enqueue_script( 'first-time-configuration' );
 		$this->admin_asset_manager->enqueue_style( 'admin-css' );
+		$this->admin_asset_manager->enqueue_style( 'tailwind' );
 		$this->admin_asset_manager->enqueue_style( 'monorepo' );
 
 		$data = [
@@ -143,11 +155,13 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 
 		$this->admin_asset_manager->localize_script( 'indexation', 'yoastIndexingData', $data );
 
+		$person_id       = $this->get_person_id();
 		$social_profiles = $this->get_social_profiles();
 
 		// This filter is documented in admin/views/tabs/metas/paper-content/general/knowledge-graph.php.
 		$knowledge_graph_message = \apply_filters( 'wpseo_knowledge_graph_setting_msg', '' );
 
+		$finished_steps        = $this->get_finished_steps();
 		$options               = $this->get_company_or_person_options();
 		$selected_option_label = '';
 		$filtered_options      = \array_filter(
@@ -160,15 +174,18 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 		if ( \is_array( $selected_option ) ) {
 			$selected_option_label = $selected_option['label'];
 		}
+
 		$this->admin_asset_manager->add_inline_script(
 			'first-time-configuration',
 			\sprintf(
 				'window.wpseoFirstTimeConfigurationData = {
+					"canEditUser": %d,
 					"companyOrPerson": "%s",
 					"companyOrPersonLabel": "%s",
 					"companyName": "%s",
 					"companyLogo": "%s",
 					"companyLogoId": %d,
+					"finishedSteps": %s,
 					"personId": %d,
 					"personName": "%s",
 					"personLogo": "%s",
@@ -190,12 +207,14 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 						"gdpr": "%s",
 					},
 				};',
+				$this->social_profiles_helper->can_edit_profile( $person_id ),
 				$this->is_company_or_person(),
 				$selected_option_label,
 				$this->get_company_name(),
 				$this->get_company_logo(),
 				$this->get_company_logo_id(),
-				$this->get_person_id(),
+				WPSEO_Utils::format_json_encode( $finished_steps ),
+				$person_id,
 				$this->get_person_name(),
 				$this->get_person_logo(),
 				$this->get_person_logo_id(),
@@ -241,6 +260,15 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 	}
 
 	// ** Private functions ** //
+
+	/**
+	 * Returns the finished steps array.
+	 *
+	 * @return array An array with the finished steps.
+	 */
+	private function get_finished_steps() {
+		return $this->options_helper->get( 'configuration_finished_steps', [] );
+	}
 
 	/**
 	 * Returns the entity represented by the site.

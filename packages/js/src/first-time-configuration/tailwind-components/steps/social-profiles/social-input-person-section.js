@@ -82,7 +82,7 @@ function SocialInputPersonSection( { socialProfiles, errorFields, dispatch, canE
 								{
 									b: <b />,
 									// eslint-disable-next-line jsx-a11y/anchor-has-content
-									a: <a id="yoast-configuration-workout-user-page-link-1" href={ window.wpseoWorkoutsData.usersPageUrl } target="_blank" rel="noopener noreferrer" />,
+									a: <a id="yoast-configuration-workout-user-page-link-1" href={ window.wpseoFirstTimeConfigurationData.usersPageUrl } target="_blank" rel="noopener noreferrer" />,
 								}
 							)
 						}
@@ -99,7 +99,7 @@ function SocialInputPersonSection( { socialProfiles, errorFields, dispatch, canE
 									"<a>",
 									"</a>"
 								),
-								window.wpseoWorkoutsData.usersPageUrl,
+								window.wpseoFirstTimeConfigurationData.usersPageUrl,
 								"yoast-configuration-workout-user-page-link-2"
 							)
 						}
@@ -117,7 +117,7 @@ function SocialInputPersonSection( { socialProfiles, errorFields, dispatch, canE
 									"You're not allowed to edit the social profiles of the user %1$s. Please ask this user or an admin to do this.",
 									"wordpress-seo"
 								),
-								window.wpseoWorkoutsData.configuration.personName
+								window.wpseoFirstTimeConfigurationData.personName
 							),
 							{
 								b: <b />,
@@ -159,14 +159,15 @@ function SocialInputPersonSection( { socialProfiles, errorFields, dispatch, canE
 export default SocialInputPersonSection;
 
 SocialInputPersonSection.propTypes = {
-	socialProfiles: PropTypes.object.isRequired,
-	errorFields: PropTypes.array,
 	dispatch: PropTypes.func.isRequired,
 	canEditUser: PropTypes.bool.isRequired,
+	socialProfiles: PropTypes.object,
+	errorFields: PropTypes.array,
 	personId: PropTypes.number,
 };
 
 SocialInputPersonSection.defaultProps = {
+	socialProfiles: {},
 	errorFields: [],
 	personId: 0,
 };

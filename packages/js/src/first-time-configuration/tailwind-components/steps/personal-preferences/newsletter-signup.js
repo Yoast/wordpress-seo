@@ -116,6 +116,7 @@ export function NewsletterSignup( { gdprLink } ) {
 					} }
 				/>
 				<button
+					type="button"
 					id="newsletter-sign-up-button"
 					// Added a custom margin top because of the TextInput label. Aligning to flex-end won't work because of the error feedback.
 					className="yst-button yst-button--primary yst-h-[45px] yst-items-center yst-mt-[27.5px] yst-shrink-0"

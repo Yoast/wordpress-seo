@@ -1,5 +1,5 @@
 import apiFetch from "@wordpress/api-fetch";
-import { useCallback, createInterpolateElement, Fragment } from "@wordpress/element";
+import { useCallback, useMemo, createInterpolateElement, Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 
@@ -36,7 +36,7 @@ export function PersonSection( { dispatch, imageUrl, person, canEditUser } ) {
 			apiFetch( {
 				path: `yoast/v1/workouts/check_capability?user_id=${ selectedPerson.value  }`,
 			} ).then( response => {
-				dispatch( { type: "SET_CAN_EDIT_USER", payload: { value: response.success } } );
+				dispatch( { type: "SET_CAN_EDIT_USER", payload: response.success } );
 			} ).catch(
 				( e ) => {
 					console.error( e.message  );
@@ -46,47 +46,32 @@ export function PersonSection( { dispatch, imageUrl, person, canEditUser } ) {
 		[ dispatch ]
 	);
 
-	const userMessage = canEditUser
-		? createInterpolateElement(
-			sprintf(
-				// translators: %1$s is replaced by the selected user's name, and %2$s and %3$s are opening and closing anchor tags.
-				__(
+	const userMessage = useMemo( () => createInterpolateElement(
+		sprintf(
+			// translators: %1$s is replaced by the selected user's name, and %2$s and %3$s are opening and closing anchor tags.
+			canEditUser
+				? __(
 					"You have selected the user %1$s as the person this site represents. This user profile information will now be used in search results. %2$sUpdate this profile to make sure the information is correct%3$s.",
 					"wordpress-seo"
-				),
-				`<b>${ person.name }</b>`,
-				"<a>",
-				"</a>"
-			),
-			{
-				b: <b />,
-				// eslint-disable-next-line jsx-a11y/anchor-has-content
-				a: <a
-					id="yoast-configuration-workout-user-selector-user-link"
-					href={ window.wpseoScriptData.searchAppearance.userEditUrl.replace( "{user_id}", person.id ) }
-					target="_blank" rel="noopener noreferrer"
-				/>,
-			}
-		)
-		:  createInterpolateElement(
-			sprintf(
-				// translators: %1$s is replaced by the selected user's name, and %2$s and %3$s are opening and closing anchor tags.
-				__(
+				)
+				: __(
 					"You have selected the user %1$s as the person this site represents. This user profile information will now be used in search results. You're not allowed to update this user profile, so please ask this user or an admin to make sure the information is correct.",
 					"wordpress-seo"
 				),
-				`<b>${ person.name }</b>`
-			),
-			{
-				b: <b />,
-				// eslint-disable-next-line jsx-a11y/anchor-has-content
-				a: <a
-					id="yoast-configuration-workout-user-selector-user-link"
-					href={ window.wpseoScriptData.searchAppearance.userEditUrl.replace( "{user_id}", person.id ) }
-					target="_blank" rel="noopener noreferrer"
-				/>,
-			}
-		);
+			`<b>${ person.name }</b>`,
+			"<a>",
+			"</a>"
+		),
+		{
+			b: <b />,
+			// eslint-disable-next-line jsx-a11y/anchor-has-content
+			a: <a
+				id="yoast-configuration-workout-user-selector-user-link"
+				href={ window.wpseoScriptData.userEditUrl.replace( "{user_id}", person.id ) }
+				target="_blank" rel="noopener noreferrer"
+			/>,
+		}
+	), [ person.id, person.name, canEditUser ] );
 
 	return (
 		<Fragment>
