@@ -8,7 +8,7 @@ describe( "The Facebook Post watcher", () => {
 	it(
 		"syncs the Facebook title from the store to a hidden input field.",
 		() => {
-			const selectors ={
+			const selectors = {
 				selectFacebookTitle: jest.fn(),
 				selectFacebookDescription: jest.fn(),
 				selectFacebookImageURL: jest.fn(),
@@ -59,7 +59,7 @@ describe( "The Facebook Term watcher", () => {
 	it(
 		"syncs the Facebook title from the store to a hidden input field.",
 		() => {
-			const selectors ={
+			const selectors = {
 				selectFacebookTitle: jest.fn(),
 				selectFacebookDescription: jest.fn(),
 				selectFacebookImageURL: jest.fn(),
