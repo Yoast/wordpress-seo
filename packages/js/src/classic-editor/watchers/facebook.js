@@ -12,7 +12,7 @@ import createDomSync from "./helpers/createDomSync";
  * @param {function} selectors.selectFacebookImageURL A selector for getting the Facebook image URL from the store.
  * @param {function} selectors.selectFacebookImageID A selector for getting the Facebook image ID from the store.
  *
- * @return {void}
+ * @returns {void}
  */
 export const createPostFacebookSync = ( selectors ) => {
 	createDomSync(
@@ -47,7 +47,7 @@ export const createPostFacebookSync = ( selectors ) => {
 		},
 		"facebookImageID"
 	);
-}
+};
 
 /**
  * Syncs a post's Facebook fields from the SEO store to the hidden fields
@@ -60,7 +60,7 @@ export const createPostFacebookSync = ( selectors ) => {
  * @param {function} selectors.selectFacebookImageURL A selector for getting the Facebook image URL from the store.
  * @param {function} selectors.selectFacebookImageID A selector for getting the Facebook image ID from the store.
  *
- * @return {void}
+ * @returns {void}
  */
 export const createTermFacebookSync = ( selectors ) => {
 	createDomSync(
@@ -95,4 +95,4 @@ export const createTermFacebookSync = ( selectors ) => {
 		},
 		"facebookImageID"
 	);
-}
+};

@@ -6,6 +6,7 @@ import * as dom from "../helpers/dom";
  * inside the editor.
  *
  * @param {Object} selectors The SEO store selectors.
+ * @returns {void}
  */
 export const createPostTwitterSync = ( selectors ) => {
 	createDomSync(
@@ -47,6 +48,7 @@ export const createPostTwitterSync = ( selectors ) => {
  * inside the editor.
  *
  * @param {Object} selectors The SEO store selectors.
+ * @returns {void}
  */
 export const createTermTwitterSync = ( selectors ) => {
 	createDomSync(
