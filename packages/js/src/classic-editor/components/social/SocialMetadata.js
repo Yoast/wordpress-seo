@@ -29,12 +29,12 @@ const selectFacebookMedia = function() {
 /**
  * The Facebook container, wrapped in a higher order container to provide a location context.
  */
-const Facebook = withLocation()( FacebookContainer );
+export const Facebook = withLocation()( FacebookContainer );
 
 /**
  * The Twitter container, wrapped in a higher order container to provide a location context.
  */
-const Twitter = withLocation()( TwitterContainer );
+export const Twitter = withLocation()( TwitterContainer );
 
 /**
  * The Social Metadata component.

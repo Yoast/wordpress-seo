@@ -1,6 +1,6 @@
 import { shallow } from "enzyme";
 import { useSelect, useDispatch, dispatch } from "@wordpress/data";
-import SocialMetadata from "../../../../src/classic-editor/components/social/SocialMetadata";
+import SocialMetadata, { Facebook } from "../../../../src/classic-editor/components/social/SocialMetadata";
 
 jest.mock( "@wordpress/data" );
 jest.mock( "@yoast/seo-integration", () => ( {
@@ -36,6 +36,8 @@ describe( "The SocialMetadata component", () => {
 			getSiteUrl: jest.fn( () => "www.sweetestcat.com" ),
 		} );
 
+		window.wpseoScriptData.metabox.showSocial.facebook = true;
+
 		useSelect.mockImplementation( func => func( select ) );
 
 		const updateFacebookData = jest.fn();
@@ -50,6 +52,7 @@ describe( "The SocialMetadata component", () => {
 			clearTwitterPreviewImage,
 		} );
 		const renderedComponent = shallow( <SocialMetadata /> );
-		expect( renderedComponent.find( "MetaboxCollapsible" ) ).toHaveLength();
+
+		expect( renderedComponent.find( Facebook ).props().siteUrl ).toEqual( "www.sweetestcat.com" );
 	} );
 } );
