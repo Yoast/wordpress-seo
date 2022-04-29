@@ -2,7 +2,7 @@ import { CheckIcon } from "@heroicons/react/solid";
 import { useState, useEffect } from "@wordpress/element";
 import PropTypes from "prop-types";
 import { stepperTimingClasses } from "../stepper-helper";
-import { useStepperContext } from "./Stepper";
+import { useStepperContext } from "./stepper";
 /* eslint-disable complexity */
 
 const { slideDuration, delayUntilStepFaded } = stepperTimingClasses;

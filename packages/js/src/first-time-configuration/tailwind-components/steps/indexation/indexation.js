@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import AnimateHeight from "react-animate-height";
 
 import { addHistoryState, removeSearchParam } from "../../../../helpers/urlHelpers";
-import IndexingError from "./IndexingError";
+import IndexingError from "./indexing-error";
 import Alert from "../../base/alert";
 import RequestError from "../../../../errors/RequestError";
 import ParseError from "../../../../errors/ParseError";

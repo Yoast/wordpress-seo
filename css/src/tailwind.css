@@ -434,7 +434,7 @@
 	
 		.yst-card {
 			@apply
-				yst-w-[715px]
+				yst-max-w-[715px]
 				yst-mt-6
 				yst-p-8
 				yst-rounded-lg

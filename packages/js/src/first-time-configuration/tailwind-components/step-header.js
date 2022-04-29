@@ -2,7 +2,7 @@ import { StepCircle } from "./step-circle";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "@wordpress/element";
 import { stepperTimings } from "../stepper-helper";
-import { useStepperContext } from "./Stepper";
+import { useStepperContext } from "./stepper";
 
 /* eslint-disable complexity */
 

@@ -1,18 +1,19 @@
 /* global wpseoFirstTimeConfigurationData */
 import apiFetch from "@wordpress/api-fetch";
-import { useCallback, useReducer, useState, useEffect, Fragment } from "@wordpress/element";
+import { useCallback, useReducer, useState, useEffect } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { cloneDeep, uniq } from "lodash";
 
 import UnsavedChangesModal from "./tailwind-components/unsaved-changes-modal";
 import { addLinkToString } from "../helpers/stringHelpers.js";
 import SocialProfilesStep from "./tailwind-components/steps/social-profiles/social-profiles-step";
-import Stepper, { Step } from "./tailwind-components/Stepper";
+import Stepper, { Step } from "./tailwind-components/stepper";
 import { ContinueButton, EditButton, ConfigurationStepButtons } from "./tailwind-components/configuration-stepper-buttons";
 import { getInitialActiveStepIndex } from "./stepper-helper";
 import IndexationStep from "./tailwind-components/steps/indexation/indexation-step";
 import SiteRepresentationStep from "./tailwind-components/steps/site-representation/site-representation-step";
 import PersonalPreferencesStep from "./tailwind-components/steps/personal-preferences/personal-preferences-step";
+import FinishStep from "./tailwind-components/steps/finish/finish-step";
 
 window.wpseoScriptData = window.wpseoScriptData || {};
 window.wpseoScriptData.searchAppearance = {
@@ -290,15 +291,6 @@ async function saveFinishedSteps( finishedSteps ) {
 	} );
 	return await response.json;
 }
-
-/**
- * Example Finish step.
- *
- * @returns {WPElement} Finish step.
- */
-const FinishStep = () => <Fragment>
-	<p className="yst-mb-6">You have finished all the things, yay!</p>
-</Fragment>;
 
 /**
  * Calculates the initial state from the window object.
