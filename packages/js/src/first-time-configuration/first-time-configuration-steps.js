@@ -429,6 +429,13 @@ export default function FirstTimeConfigurationSteps() {
 				return true;
 			}
 			return updatePersonSocialProfiles( state )
+				.then( ( response ) => {
+					if ( response.success === false ) {
+						setErrorFields( response.failures );
+						return Promise.reject( "There were errors saving social profiles" );
+					}
+					return response;
+				} )
 				.then( () => setStepIsSaved( 3 ) )
 				.then( () => {
 					setErrorFields( [] );
@@ -442,13 +449,19 @@ export default function FirstTimeConfigurationSteps() {
 						if ( e.failures ) {
 							setErrorFields( e.failures );
 						}
-						console.error( e );
 						return false;
 					}
 				);
 		}
 
 		return updateSocialProfiles( state )
+			.then( ( response ) => {
+				if ( response.success === false ) {
+					setErrorFields( response.failures );
+					return Promise.reject( "There were errors saving social profiles" );
+				}
+				return response;
+			} )
 			.then( () => setStepIsSaved( 3 ) )
 			.then( () => {
 				setErrorFields( [] );
