@@ -38,15 +38,15 @@ const Template = ( { endStatus, ...args } ) => {
 				if ( internalProgress > 100 ) {
 					clearInterval( interval );
 					return resolve();
-				} else {
-					setProgress( internalProgress++ );
 				}
+				setProgress( internalProgress++ );
 			}, 20 );
-		} )
+		} );
 		setStatus( endStatus );
 	}, [ setStatus, setFeedbackTitle, setFeedbackDescription, progress, setProgress ] );
 
 	const handleAbort = useCallback( () => {
+		// eslint-disable-next-line no-alert
 		if ( window.confirm( "Are you sure you want to abort?" ) ) {
 			setStatus( FILE_IMPORT_STATUS.idle );
 			setFeedbackTitle( "" );

@@ -74,7 +74,6 @@ const FileImport = ( {
 	screenReaderLabel,
 	abortScreenReaderLabel,
 	selectDescription,
-	file,
 	status,
 	onChange,
 	onAbort = noop,
@@ -169,7 +168,7 @@ const FileImport = ( {
 							<div className="yst-flex-1">
 								<span className="yst-file-import__feedback-title">{ feedbackTitle }</span>
 								<p className="yst-file-import__feedback-escription">{ feedbackDescription }</p>
-								{ !isNull( progress ) && (
+								{ ! isNull( progress ) && (
 									<ProgressBar min={ progressMin } max={ progressMax } progress={ progress } className="yst-mt-1.5" />
 								) }
 							</div>
@@ -237,6 +236,7 @@ FileImport.propTypes = {
 	dropLabel: PropTypes.string.isRequired,
 	screenReaderLabel: PropTypes.string.isRequired,
 	abortScreenReaderLabel: PropTypes.string.isRequired,
+	selectDescription: PropTypes.string.isRequired,
 	feedbackTitle: PropTypes.string.isRequired,
 	feedbackDescription: PropTypes.string,
 	progressMin: PropTypes.number,
