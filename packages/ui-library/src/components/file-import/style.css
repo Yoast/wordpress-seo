@@ -59,6 +59,18 @@
         }
     }
 
+    .yst-file-import__input {
+        @apply yst-sr-only;
+
+        &:focus + .yst-file-import__select-label {
+            @apply yst-outline-none yst-ring-2 yst-ring-offset-2 yst-ring-primary-500;
+        }
+    }
+
+    .yst-file-import__select-label {
+        @apply yst-rounded-md yst-font-medium;
+    }
+
     .yst-file-import__feedback {
         @apply
             yst-rounded-md
@@ -69,11 +81,11 @@
             yst-p-4;
     }
 
-    .yst-file-import__progress {
+    .yst-file-import__feedback-header {
         @apply yst-flex yst-items-start yst-space-x-4;
     }
 
-    .yst-file-import__progress-figure {
+    .yst-file-import__feedback-figure {
         @apply yst-bg-primary-100 yst-w-8 yst-h-8 yst-rounded-full yst-flex yst-items-center yst-justify-center;
 
         > svg {
@@ -81,11 +93,11 @@
         }
     }
 
-    .yst-file-import__progress-title {
+    .yst-file-import__feedback-title {
         @apply yst-block yst-text-gray-700 yst-font-medium yst-mb-0.5;
     }
 
-    .yst-file-import__progress-description {
+    .yst-file-import__feedback-description {
         @apply yst-block yst-text-xs yst-font-medium;
     }
 
@@ -117,17 +129,9 @@
 
     .yst-file-import__status-icon {
         @apply yst-h-5 yst-w-5;
-
-        &--success {
-            @apply yst-text-green-500;
-        }
-
-        &--error {
-            @apply yst-text-red-500;
-        }
     }
 
-    .yst-file-import__message {
+    .yst-file-import__feedback-content {
         @apply yst-mt-6 yst-space-y-2;
     }
 }

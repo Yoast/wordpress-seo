@@ -26,7 +26,7 @@ const roleMap = {
 
 /**
  * @param {JSX.node} children Content of the Alert.
- * @param {string} role The role of the Alert.
+ * @param {string} [role] The role of the Alert.
  * @param {string|function} [as="span"] Base component.
  * @param {string} [variant="info"] Alert variant. See `classNameMap` for the options.
  * @param {string} [className] CSS class.
@@ -50,7 +50,7 @@ const Alert = ( {
 				classNameMap.variant[ variant ],
 				className,
 			) }
-			role={ roleMap[ role ] }
+			role={ roleMap?.[ role ] }
 			{ ...props }
 		>
 			<Icon className="yst-alert__icon" { ...svgAriaProps } />
@@ -66,14 +66,14 @@ Alert.propTypes = {
 	as: PropTypes.elementType,
 	variant: PropTypes.oneOf( Object.keys( classNameMap.variant ) ),
 	className: PropTypes.string,
-	role: PropTypes.oneOf( Object.keys( roleMap ) ),
+	role: PropTypes.oneOf( [ "", ...Object.keys( roleMap ) ] ),
 };
 
 Alert.defaultProps = {
 	as: "span",
 	variant: "info",
 	className: "",
-	role: "status",
+	role: "",
 };
 
 export default Alert;

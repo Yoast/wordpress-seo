@@ -1,0 +1,15 @@
+.yst-progress-bar {
+    @apply yst-block yst-w-full yst-bg-gray-200 yst-rounded-full yst-overflow-hidden;
+}
+
+.yst-progress-bar__progress {
+    @apply
+        yst-block
+        yst-h-1.5
+        yst-bg-primary-500
+        yst-rounded-full
+        yst-transform
+        yst-transition-all
+        yst-ease-linear
+        yst-duration-300;
+}

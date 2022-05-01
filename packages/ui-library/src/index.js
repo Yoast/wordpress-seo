@@ -11,6 +11,7 @@ export { default as TextInput } from "./elements/text-input";
 export { default as Textarea } from "./elements/textarea";
 export { default as Title } from "./elements/title";
 export { default as Toggle } from "./elements/toggle";
+export { default as ProgressBar } from "./elements/progress-bar";
 
 export { default as CheckboxGroup } from "./components/checkbox-group";
 export { default as Modal } from "./components/modal";

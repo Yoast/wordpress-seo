@@ -1,12 +1,14 @@
 import { useState, useCallback, useContext, createContext, useMemo } from "@wordpress/element";
-import { noop, values, includes, isEmpty } from "lodash";
+import { noop, values, includes, isEmpty, isNull } from "lodash";
 import { DocumentAddIcon, DocumentTextIcon, XIcon } from "@heroicons/react/outline";
 import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/solid";
 import classNames from "classnames";
 import PropTypes from "prop-types";
+import { Transition } from "@headlessui/react";
 
 import Label from "../../elements/label";
 import Link from "../../elements/link";
+import ProgressBar from "../../elements/progress-bar";
 
 export const FILE_IMPORT_STATUS = {
 	idle: "idle",
@@ -52,12 +54,12 @@ const Error = ( { children } ) => {
  * @param {string} dropLabel The label for custom drop file functionality.
  * @param {string} screenReaderLabel The screen reader label for the file select.
  * @param {string} abortScreenReaderLabel The screen reader label for the abort button.
- * @param {JSX.Node} description The description.
+ * @param {JSX.Node} selectDescription The selectDescription.
  * @param {"idle"|"loading"|"success"|"failure"} status The status the component should be in.
  * @param {Function} onChange The callback for when a file is imported.
  * @param {Function} onAbort The callback for when an file import is aborted.
- * @param {string} progressTitle The import progress title.
- * @param {string} progressDescription The import progress description.
+ * @param {string} feedbackTitle The import feedback title.
+ * @param {string} feedbackDescription The import feedback selectDescription.
  * @param {number} progressMin The import progress min value.
  * @param {number} progressMax The import progress max value.
  * @param {number} progress The import progress.
@@ -71,13 +73,13 @@ const FileImport = ( {
 	dropLabel,
 	screenReaderLabel,
 	abortScreenReaderLabel,
-	description,
+	selectDescription,
 	file,
 	status,
 	onChange,
 	onAbort = noop,
-	progressTitle,
-	progressDescription,
+	feedbackTitle,
+	feedbackDescription,
 	progressMin,
 	progressMax,
 	progress = null,
@@ -87,6 +89,11 @@ const FileImport = ( {
 
 	const hasFeedback = useMemo( () => includes(
 		[ FILE_IMPORT_STATUS.loading, FILE_IMPORT_STATUS.success, FILE_IMPORT_STATUS.error ],
+		status,
+	), [ status ] );
+
+	const hasFinished = useMemo( () => includes(
+		[ FILE_IMPORT_STATUS.success, FILE_IMPORT_STATUS.error ],
 		status,
 	), [ status ] );
 
@@ -132,49 +139,91 @@ const FileImport = ( {
 					} ) }
 				>
 					<div className="yst-file-import__select-content">
-						<input
-							type="file"
-							id={ id }
-							name={ name }
-							onChange={ handleChange }
-							className="yst-sr-only"
-							aria-labelledby={ screenReaderLabel }
-							{ ...props }
-						/>
 						<DocumentAddIcon className="yst-file-import__select-icon" />
-						<Label as="span">
-							<Link as="label" htmlFor={ id }>{ selectLabel }</Link>
+						<Label as="span" className="yst-font-normal">
+							<input
+								type="file"
+								id={ id }
+								name={ name }
+								onChange={ handleChange }
+								className="yst-file-import__input"
+								aria-labelledby={ screenReaderLabel }
+								{ ...props }
+							/>
+							<Link as="label" htmlFor={ id } className="yst-file-import__select-label">{ selectLabel }</Link>
 							&nbsp;
 							{ dropLabel }
 						</Label>
-						<span>{ description }</span>
+						<span>{ selectDescription }</span>
 					</div>
 				</div>
-				{ hasFeedback && (
+				<Transition
+					show={ hasFeedback }
+					enter="yst-transition-opacity yst-ease-in-out yst-duration-1000 yst-delay-200"
+					enterFrom="yst-opacity-0"
+					enterTo="yst-opacity-100"
+				>
 					<div className="yst-file-import__feedback">
-						<div className="yst-file-import__progress">
-							<div className="yst-file-import__progress-figure"><DocumentTextIcon /></div>
+						<header className="yst-file-import__feedback-header">
+							<div className="yst-file-import__feedback-figure"><DocumentTextIcon /></div>
 							<div className="yst-flex-1">
-								<span className="yst-file-import__progress-title">{ progressTitle }</span>
-								<p className="yst-file-import__progress-description">{ progressDescription }</p>
-								<div>{ progress }</div>
+								<span className="yst-file-import__feedback-title">{ feedbackTitle }</span>
+								<p className="yst-file-import__feedback-escription">{ feedbackDescription }</p>
+								{ !isNull( progress ) && (
+									<ProgressBar min={ progressMin } max={ progressMax } progress={ progress } className="yst-mt-1.5" />
+								) }
 							</div>
 							<div>
-								{ status === FILE_IMPORT_STATUS.loading && (
+								<Transition
+									show={ status === FILE_IMPORT_STATUS.loading }
+									enter="yst-transition-opacity yst-ease-in-out yst-duration-1000 yst-delay-200"
+									enterFrom="yst-opacity-0"
+									enterTo="yst-opacity-100"
+									leave="yst-transition-opacity yst-ease-in-out yst-duration-200"
+									leaveFrom="yst-opacity-0"
+									leaveTo="yst-opacity-100"
+								>
 									<button onClick={ onAbort } className="yst-file-import__abort-button">
 										<span className="yst-sr-only">{ abortScreenReaderLabel }</span>
 										<XIcon />
 									</button>
-								) }
-								{ status === FILE_IMPORT_STATUS.success && <CheckCircleIcon className="yst-file-import__status-icon yst-file-import__status-icon--success" /> }
-								{ status === FILE_IMPORT_STATUS.error && <XCircleIcon className="yst-file-import__status-icon yst-file-import__status-icon--error" /> }
+								</Transition>
+								<Transition
+									show={ status === FILE_IMPORT_STATUS.success }
+									enter="yst-transition-opacity yst-ease-in-out yst-duration-1000 yst-delay-200"
+									enterFrom="yst-opacity-0"
+									enterTo="yst-opacity-100"
+									leave="yst-transition-opacity yst-ease-in-out yst-duration-200"
+									leaveFrom="yst-opacity-0"
+									leaveTo="yst-opacity-100"
+								>
+									<CheckCircleIcon className="yst-file-import__status-icon yst-text-green-500" />
+								</Transition>
+								<Transition
+									show={ status === FILE_IMPORT_STATUS.error }
+									enter="yst-transition-opacity yst-ease-in-out yst-duration-1000 yst-delay-200"
+									enterFrom="yst-opacity-0"
+									enterTo="yst-opacity-100"
+									leave="yst-transition-opacity yst-ease-in-out yst-duration-200"
+									leaveFrom="yst-opacity-0"
+									leaveTo="yst-opacity-100"
+								>
+									<XCircleIcon className="yst-file-import__status-icon yst-text-red-500" />
+								</Transition>
 							</div>
-						</div>
-						<div className="yst-file-import__message">
-							{ children }
-						</div>
+						</header>
+						<Transition
+							show={ hasFinished }
+							enter="yst-transition-opacity yst-ease-in-out yst-duration-1000 yst-delay-200"
+							enterFrom="yst-opacity-0"
+							enterTo="yst-opacity-100"
+						>
+							<div className="yst-file-import__feedback-content" role="alert">
+								{ children }
+							</div>
+						</Transition>
 					</div>
-				) }
+				</Transition>
 			</div>
 		</FileImportContext.Provider>
 	);
@@ -188,14 +237,23 @@ FileImport.propTypes = {
 	dropLabel: PropTypes.string.isRequired,
 	screenReaderLabel: PropTypes.string.isRequired,
 	abortScreenReaderLabel: PropTypes.string.isRequired,
-	progressTitle: PropTypes.string.isRequired,
-	progressDescription: PropTypes.string,
+	feedbackTitle: PropTypes.string.isRequired,
+	feedbackDescription: PropTypes.string,
 	progressMin: PropTypes.number,
 	progressMax: PropTypes.number,
 	progress: PropTypes.number,
 	status: PropTypes.oneOf( values( FILE_IMPORT_STATUS ) ),
 	onChange: PropTypes.func.isRequired,
-	onAbort: PropTypes.func,
+	onAbort: PropTypes.func.isRequired,
+};
+
+FileImport.defaultProps = {
+	children: "",
+	feedbackDescription: "",
+	progressMin: null,
+	progressMax: null,
+	progress: null,
+	status: FILE_IMPORT_STATUS.idle,
 };
 
 FileImport.Success = Success;

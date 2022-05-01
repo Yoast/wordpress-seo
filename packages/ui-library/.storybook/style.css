@@ -11,6 +11,7 @@
 @import "../src/elements/toggle/style.css";
 @import "../src/elements/select/style.css";
 @import "../src/elements/textarea/style.css";
+@import "../src/elements/progress-bar/style.css";
 
 @import "../src/components/checkbox-group/style.css";
 @import "../src/components/modal/style.css";

@@ -7,10 +7,11 @@
 			hover:yst-text-indigo-700;
 	}
 
-	/* Variants */
+	/*
+	Variants */
 	.yst-link--default {}
 
 	.yst-link--primary {
-		@apply yst-text-primary-500 hover:yst-text-primary-700;
+		@apply yst-text-primary-500 hover:yst-text-primary-600;
 	}
 }
