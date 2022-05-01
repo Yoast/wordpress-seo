@@ -11,17 +11,12 @@ const failureThresholds = {
 	"1-elements-button--states": 0.01,
 };
 
-const beforeScreenshot = async ( page ) => {
-	console.log( "Setting viewport to 1366 x 768px" );
-	return page.setViewport( { width: 1366, height: 768 } );
-};
-
 initStoryshots( {
 	suite: "> Image snapshot tests",
 	test: imageSnapshot( {
 		storybookUrl: `file://${ path.resolve( __dirname, "../storybook-static" ) }`,
+		beforeScreenshot: async ( page ) => page.setViewport( { width: 1366, height: 768 } ),
 		getMatchOptions: ( { context } ) => ( {
-			beforeScreenshot,
 			failureThreshold: failureThresholds[ context.id ] || 0,
 			failureThresholdType: "percent",
 		} ),
