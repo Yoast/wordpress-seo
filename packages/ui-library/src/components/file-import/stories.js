@@ -47,7 +47,7 @@ const Template = ( { endStatus, ...args } ) => {
 	}, [ setStatus, setFeedbackTitle, setFeedbackDescription, progress, setProgress ] );
 
 	const handleAbort = useCallback( () => {
-		if ( window.confirm( "Sure you want to abort?" ) ) {
+		if ( window.confirm( "Are you sure you want to abort?" ) ) {
 			setStatus( FILE_IMPORT_STATUS.idle );
 			setFeedbackTitle( "" );
 			setFeedbackDescription( "" );
@@ -68,7 +68,7 @@ const Template = ( { endStatus, ...args } ) => {
 	);
 };
 
-export const Factory = FileImport.bind( {} );
+export const Factory = ( args ) => <FileImport { ...args } />;
 Factory.controls = { disable: false },
 Factory.args = {
 	children: (
