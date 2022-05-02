@@ -11,7 +11,7 @@ const paper = new Paper( content, {
 	titleWidth: 450,
 	locale: "es_ES",
 	permalink: "https://es.wikipedia.org/wiki/Hey_Jude",
-	url: "Hey-Jude",
+	slug: "Hey-Jude",
 } );
 
 const expectedResults = {
@@ -76,7 +76,7 @@ const expectedResults = {
 		score: 9,
 		resultText: "<a href='https://yoa.st/34h' target='_blank'>SEO title width</a>: Good job!",
 	},
-	urlKeyword: {
+	slugKeyword: {
 		isApplicable: true,
 		score: 9,
 		resultText: "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: Great work!",

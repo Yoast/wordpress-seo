@@ -99,8 +99,8 @@ describe( "TreeAssessor", () => {
 				title: "Lotsa rainbows",
 				description: "Rainbows are awesome, unicorns are too!",
 				titleWidth: 30,
-				url: "https://example.com/rainbows",
-				permalink: "rainbows",
+				slug: "rainbows",
+				permalink: "https://example.com/rainbows",
 			} );
 
 			const node = treeBuilder.build( text );
@@ -145,8 +145,8 @@ describe( "TreeAssessor", () => {
 				title: "Lotsa rainbows",
 				description: "Rainbows are awesome, unicorns are too!",
 				titleWidth: 30,
-				url: "https://example.com/rainbows",
-				permalink: "rainbows",
+				slug: "rainbows",
+				permalink: "https://example.com/rainbows",
 			} );
 
 			const node = treeBuilder.build( text );

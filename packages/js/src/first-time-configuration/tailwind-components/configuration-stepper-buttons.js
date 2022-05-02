@@ -1,7 +1,7 @@
 import { __ } from "@wordpress/i18n";
 import { useCallback } from "@wordpress/element";
 import PropTypes from "prop-types";
-import { Step } from "./Stepper";
+import { Step } from "./stepper";
 import { stepperTimingClasses } from "../stepper-helper";
 import classNames from "classnames";
 

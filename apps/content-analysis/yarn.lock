@@ -1916,13 +1916,6 @@
     "@babel/runtime-corejs2" "7.0.0-beta.56"
     "@wordpress/dom-ready" "^1.2.0"
 
-"@wordpress/autop@^2.0.2":
-  version "2.12.2"
-  resolved "https://registry.yarnpkg.com/@wordpress/autop/-/autop-2.12.2.tgz#c006292f795deeb936b52bb7eeaa9b2258351452"
-  integrity sha512-c3taxJCmf1Bib33GPm7ihrgFvuzKHycdyE+XWnpa9G3JgZUJTpssFSC5rC3VZ3u+QD8agStBtlOBOyxj6pjQSA==
-  dependencies:
-    "@babel/runtime" "^7.13.10"
-
 "@wordpress/dom-ready@^1.2.0":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@wordpress/dom-ready/-/dom-ready-1.2.0.tgz#d95877eb6f929532ec971983b55e731babb78d9c"
@@ -2000,11 +1993,6 @@
     react-select "^3.1.0"
     react-tabs "^2.3.0"
     styled-components "^4.2.0"
-
-"@yoast/feature-flag@^0.5.2":
-  version "0.5.2"
-  resolved "https://registry.yarnpkg.com/@yoast/feature-flag/-/feature-flag-0.5.2.tgz#ef4cd8ddb959c5857c5d68639ab09ab75c381508"
-  integrity sha512-erHel5POEyPpt1B2fToLm8caZPruiOxBRZvn7X9nWqwb0lIbxbOkDp/XQnm168bcvVEL95Dg9JMaPgQwO3rA9w==
 
 "@yoast/helpers@^0.16.0":
   version "0.16.0"
@@ -4100,7 +4088,7 @@ domain-browser@^1.1.1:
   resolved "https://registry.yarnpkg.com/domain-browser/-/domain-browser-1.2.0.tgz#3d31f50191a6749dd1375a7f522e823d42e54eda"
   integrity sha512-jnjyiM6eRyZl2H+W8Q/zLMA481hzi0eszAaBUzIVnmYVDBbnLxVNnfu1HgEBvCbL+71FrxMl3E6lpKH7Ge3OXA==
 
-domelementtype@1, domelementtype@^1.3.1:
+domelementtype@1:
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/domelementtype/-/domelementtype-1.3.1.tgz#d048c44b37b0d10a7f2a3d5fee3f4333d790481f"
   integrity sha512-BSKB+TSpMpFI/HOxCNr1O8aMOTZ8hT3pM3GQ0w/mWRmkhEDSFJkkyzz4XQsBV44BChwGkrDfMyjVD0eA2aFV3w==
@@ -4117,13 +4105,6 @@ domexception@^1.0.1:
   dependencies:
     webidl-conversions "^4.0.2"
 
-domhandler@^2.3.0:
-  version "2.4.2"
-  resolved "https://registry.yarnpkg.com/domhandler/-/domhandler-2.4.2.tgz#8805097e933d65e85546f726d60f5eb88b44f803"
-  integrity sha512-JiK04h0Ht5u/80fdLMCEmV4zkNh2BcoMFBmZ/91WtYZ8qVXSKjiw7fXMgFPnHcSZgOo3XdinHvmnDUeMf5R4wA==
-  dependencies:
-    domelementtype "1"
-
 domhandler@^4.0.0, domhandler@^4.2.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/domhandler/-/domhandler-4.2.0.tgz#f9768a5f034be60a89a27c2e4d0f74eba0d8b059"
@@ -4131,7 +4112,7 @@ domhandler@^4.0.0, domhandler@^4.2.0:
   dependencies:
     domelementtype "^2.2.0"
 
-domutils@^1.5.1, domutils@^1.7.0:
+domutils@^1.7.0:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/domutils/-/domutils-1.7.0.tgz#56ea341e834e06e6748af7a1cb25da67ea9f8c2a"
   integrity sha512-Lgd2XcJ/NjEw+7tFvfKxOzCYKZsdct5lczQ2ZaQY8Djz7pfAD3Gbp8ySJWtreII/vDlMVmxwa6pHmdxIYgttDg==
@@ -4258,11 +4239,6 @@ enhanced-resolve@^4.1.0:
     graceful-fs "^4.1.2"
     memory-fs "^0.5.0"
     tapable "^1.0.0"
-
-entities@^1.1.1:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/entities/-/entities-1.1.2.tgz#bdfa735299664dfafd34529ed4f8522a275fea56"
-  integrity sha512-f2LZMYl1Fzu7YSBKg+RoROelpOaNrcGmE9AZubeDfrCEia483oW4MI4VyFd5VNHIgQ/7qm1I0wUHK1eJnn2y2w==
 
 entities@^2.0.0:
   version "2.2.0"
@@ -5507,18 +5483,6 @@ html-webpack-plugin@4.0.0-alpha.2:
     tapable "^1.0.0"
     util.promisify "1.0.0"
 
-htmlparser2@^3.9.2:
-  version "3.10.1"
-  resolved "https://registry.yarnpkg.com/htmlparser2/-/htmlparser2-3.10.1.tgz#bd679dc3f59897b6a34bb10749c855bb53a9392f"
-  integrity sha512-IgieNijUMbkDovyoKObU1DUhm1iwNYE/fuifEoEHfd1oZKZDaONBSkal7Y01shxsM49R4XaMdGez3WnF9UfiCQ==
-  dependencies:
-    domelementtype "^1.3.1"
-    domhandler "^2.3.0"
-    domutils "^1.5.1"
-    entities "^1.1.1"
-    inherits "^2.0.1"
-    readable-stream "^3.1.1"
-
 htmlparser2@^6.1.0:
   version "6.1.0"
   resolved "https://registry.yarnpkg.com/htmlparser2/-/htmlparser2-6.1.0.tgz#c4d762b6c3371a05dbe65e94ae43a9f845fb8fb7"
@@ -6251,7 +6215,7 @@ istanbul-reports@^2.2.6:
   dependencies:
     html-escaper "^2.0.0"
 
-jed@^1.1.0, jed@^1.1.1:
+jed@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/jed/-/jed-1.1.1.tgz#7a549bbd9ffe1585b0cd0a191e203055bee574b4"
   integrity sha1-elSbvZ/+FYWwzQoZHiAwVb7ldLQ=
@@ -6924,7 +6888,7 @@ locate-path@^5.0.0:
   dependencies:
     p-locate "^4.1.0"
 
-lodash-es@^4.17.10, lodash-es@^4.17.15:
+lodash-es@^4.17.15:
   version "4.17.21"
   resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.21.tgz#43e626c46e6591b7750beb2b50117390c609e3ee"
   integrity sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==
@@ -6994,7 +6958,7 @@ lodash.uniq@^4.5.0:
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
 
-loglevel@^1.6.1, loglevel@^1.6.4:
+loglevel@^1.6.4:
   version "1.7.1"
   resolved "https://registry.yarnpkg.com/loglevel/-/loglevel-1.7.1.tgz#005fde2f5e6e47068f935ff28573e125ef72f197"
   integrity sha512-Hesni4s5UkWkwCGJMQGAh71PaLUmKFM60dHvq0zi/vDhhrzuk+4GgNbTXJ12YYQJn6ZKBDNIjYcuQGKudvqrIw==
@@ -7912,11 +7876,6 @@ parse5@4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/parse5/-/parse5-4.0.0.tgz#6d78656e3da8d78b4ec0b906f7c08ef1dfe3f608"
   integrity sha512-VrZ7eOd3T1Fk4XWNXMgiGBK/z0MG48BWG2uQNU4I72fkQuKUTZpl+u9k+CxEG0twMVzSmXEEz12z5Fnw1jIQFA==
-
-parse5@^5.1.0:
-  version "5.1.1"
-  resolved "https://registry.yarnpkg.com/parse5/-/parse5-5.1.1.tgz#f68e4e5ba1852ac2cadc00f4555fff6c2abb6178"
-  integrity sha512-ugq4DFI0Ptb+WWjAdOK16+u/nHfiIrcE+sh8kZMaM0WllQKLI9rOUq6c2b7cwPkXdzfQESqvoqK6ug7U/Yyzug==
 
 parseurl@~1.3.2, parseurl@~1.3.3:
   version "1.3.3"
@@ -9233,7 +9192,7 @@ read-pkg@^3.0.0:
     string_decoder "~1.1.1"
     util-deprecate "~1.0.1"
 
-readable-stream@^3.0.6, readable-stream@^3.1.1, readable-stream@^3.6.0:
+readable-stream@^3.0.6, readable-stream@^3.6.0:
   version "3.6.0"
   resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-3.6.0.tgz#337bbda3adc0706bd3e024426a286d4b4b2c9198"
   integrity sha512-BViHy7LKeTz4oNnkcLJ+lVSL6vpiFeX6/d3oSH8zCW7UxP2onchk+vTGB143xuFjHS3deTgkKoXXymXqymiIdA==
@@ -9690,11 +9649,6 @@ sass-loader@8.0.0:
     neo-async "^2.6.1"
     schema-utils "^2.1.0"
     semver "^6.3.0"
-
-sassdash@0.9.0:
-  version "0.9.0"
-  resolved "https://registry.yarnpkg.com/sassdash/-/sassdash-0.9.0.tgz#e2114e80af0c01639d1c6b88a3eb350740cb1169"
-  integrity sha512-1SIJltpUOCMY06uTEWrtXDtfGr39P2huhikbiAMU0v9S4PfL5StxGiz5Oo0HqyVpWZK3mAItYEntDikUSUyXeQ==
 
 sax@^1.2.4, sax@~1.2.4:
   version "1.2.4"
@@ -10634,13 +10588,6 @@ toidentifier@1.0.0:
   resolved "https://registry.yarnpkg.com/toidentifier/-/toidentifier-1.0.0.tgz#7e1be3470f1e77948bc43d94a3c8f4d7752ba553"
   integrity sha512-yaOH/Pk/VEhBWWTlhI+qXxDFXlejDGcQipMlyxda9nthulaxLZUNcUqFxokp0vcYnvteJln5FNQDRrxj3YcbVw==
 
-tokenizer2@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/tokenizer2/-/tokenizer2-2.0.1.tgz#c62846214bd05d6b74e4924156d246e6cc070f3e"
-  integrity sha512-WAUyv8sbJuFMq4OgQAcXVYrJj1YALGz2Ah4yMyMxRD5DrMnogbtQV3r2RDZ69/Zxh3yYc/olp8rURZ0t3mLevQ==
-  dependencies:
-    through2 "^2.0.0"
-
 tough-cookie@^2.3.3, tough-cookie@^2.3.4, tough-cookie@~2.5.0:
   version "2.5.0"
   resolved "https://registry.yarnpkg.com/tough-cookie/-/tough-cookie-2.5.0.tgz#cd9fb2a0aa1d5a12b473bd9fb96fa3dcff65ade2"
@@ -11552,18 +11499,3 @@ yargs@^13.3.0:
     which-module "^2.0.0"
     y18n "^4.0.0"
     yargs-parser "^13.1.2"
-
-yoastseo@^1.91.0:
-  version "1.91.0"
-  resolved "https://registry.yarnpkg.com/yoastseo/-/yoastseo-1.91.0.tgz#3bb302b48c273b758fd12a74d919e3a43e61590d"
-  integrity sha512-Jm3laslzyigGFajiEb9jJen0hUKevOSj1l3zx0kOLxfo7wQ6Asxsae+XbCEfABuDmZkqZrtWUQ5w6df+IoIkQA==
-  dependencies:
-    "@wordpress/autop" "^2.0.2"
-    "@yoast/feature-flag" "^0.5.2"
-    htmlparser2 "^3.9.2"
-    jed "^1.1.0"
-    lodash-es "^4.17.10"
-    loglevel "^1.6.1"
-    parse5 "^5.1.0"
-    sassdash "0.9.0"
-    tokenizer2 "^2.0.1"

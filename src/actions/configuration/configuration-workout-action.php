@@ -109,7 +109,7 @@ class Configuration_Workout_Action {
 
 		return (object) [
 			'success'  => false,
-			'status'   => 500,
+			'status'   => 200,
 			'error'    => 'Could not save some options in the database',
 			'failures' => $failures,
 		];
@@ -141,7 +141,7 @@ class Configuration_Workout_Action {
 		}
 		return (object) [
 			'success'  => false,
-			'status'   => 500,
+			'status'   => 200,
 			'error'    => 'Could not save some options in the database',
 			'failures' => $failures,
 		];

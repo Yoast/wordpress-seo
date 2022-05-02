@@ -36,6 +36,7 @@ const SocialFieldArray = ( { items, onAddProfile, onRemoveProfile, onChangeProfi
 							socialMedium="other"
 							index={ index }
 							onChange={ onChangeProfile }
+							placeholder={ __( "E.g. https://social-platform.com/yoast", "wordpress-seo" ) }
 							feedback={ {
 								type: "error",
 								isVisible: errorFields.includes( "other_social_urls-" + index ),

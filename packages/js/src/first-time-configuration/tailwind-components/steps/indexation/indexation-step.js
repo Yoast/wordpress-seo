@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import Alert, { FadeInAlert } from "../../base/alert";
 import { addLinkToString } from "../../../../helpers/stringHelpers.js";
 import { ConfigurationIndexation } from "./configuration-indexation";
-import { ReactComponent as WorkoutStartImage } from "../../../../../images/motivated_bubble_woman_1_optim.svg";
+import { ReactComponent as ConfigurationStartImage } from "../../../../../images/indexables_1_left_bubble_optm.svg";
 
 /* eslint-disable complexity */
 
@@ -37,7 +37,7 @@ export default function IndexationStep( { indexingState, setIndexingState, showR
 				)
 				}
 			</p>
-			<WorkoutStartImage className="yst-h-28 yst-w-24 yst-mr-6" />
+			<ConfigurationStartImage className="yst-h-28 yst-w-24 yst-mr-6" />
 		</div>
 		<div id="yoast-configuration-workout-indexing-container" className="indexation-container">
 			<ConfigurationIndexation

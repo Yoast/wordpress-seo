@@ -11,7 +11,7 @@ const paper = new Paper( content, {
 	titleWidth: 450,
 	locale: "hu_HU",
 	permalink: "https://hu.wikipedia.org/wiki/Vil%C3%A1gegyetem",
-	url: "Világegyetem",
+	slug: "Világegyetem",
 } );
 
 const expectedResults = {
@@ -75,7 +75,7 @@ const expectedResults = {
 		score: 9,
 		resultText: "<a href='https://yoa.st/34h' target='_blank'>SEO title width</a>: Good job!",
 	},
-	urlKeyword: {
+	slugKeyword: {
 		isApplicable: true,
 		score: 9,
 		resultText: "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: Great work!",

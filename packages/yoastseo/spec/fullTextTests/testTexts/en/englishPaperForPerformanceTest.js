@@ -17,7 +17,7 @@ const paper = new Paper( content, {
 	titleWidth: 450,
 	locale: "en_EN",
 	permalink: "https://ru.wikipedia.org/wiki/Зелёная_книга_(путеводитель)",
-	url: "Зелёная_книга_(путеводитель)",
+	slug: "Зелёная_книга_(путеводитель)",
 } );
 
 const expectedResults = {
@@ -81,7 +81,7 @@ const expectedResults = {
 		score: 9,
 		resultText: "<a href='https://yoa.st/34h' target='_blank'>SEO title width</a>: Good job!",
 	},
-	urlKeyword: {
+	slugKeyword: {
 		isApplicable: true,
 		score: 9,
 		resultText: "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: Great work!",

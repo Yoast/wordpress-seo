@@ -6,7 +6,6 @@ export default {
 	title: "2. Components/Text Field",
 	component: InputField,
 	argTypes: {
-		label: { control: "text" },
 		description: { control: "text" },
 		error: { control: "text" },
 	},

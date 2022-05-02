@@ -173,7 +173,7 @@ describe( "A test for getting word forms from the text, based on the stems of a 
 			keyword: "walk",
 			description: "walking",
 			title: "walks",
-			url: "walked",
+			slug: "walked",
 		};
 
 		const testPaper = new Paper( "walk's <img src='http://plaatje' alt='Different types of walkings' />", attributes );
@@ -193,7 +193,7 @@ describe( "A test for getting word forms from the text, based on the stems of a 
 			keyword: "walk's",
 			description: "walking",
 			title: "walks",
-			url: "walked",
+			slug: "walked",
 		};
 
 		const testPaper = new Paper( "walk", attributes );
