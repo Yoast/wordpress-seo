@@ -48,17 +48,13 @@ export default function UnsavedChangesModal( { hasUnsavedChanges, title, descrip
 			// Prevent browser modal popup to show on top of Yoast modal popup
 			window.removeEventListener( "beforeunload", beforeUnloadEventHandler );
 
-			// Prevent popStateEventHandler to be triggered by the history.go call
-			window.removeEventListener( "popstate", popStateEventHandler );
-
 			history.go( 1 );
 			setTargetUrl( "popped" );
 			setModalIsOpen( true );
 
 			window.addEventListener( "beforeunload", beforeUnloadEventHandler );
-			window.addEventListener( "popstate", popStateEventHandler );
 		}
-	}, [ hasUnsavedChanges ] );
+	}, [ hasUnsavedChanges, beforeUnloadEventHandler ] );
 
 	/**
 	 * Closes the modal dialog and stays on current page.
