@@ -1,4 +1,4 @@
-import { dispatch, select, subscribe } from "@wordpress/data";
+import { dispatch, select } from "@wordpress/data";
 import { initPostWatcher } from "../../src/classic-editor/watcher";
 
 jest.mock( "@wordpress/data" );
