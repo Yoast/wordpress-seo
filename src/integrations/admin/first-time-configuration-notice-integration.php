@@ -70,7 +70,7 @@ class First_Time_Configuration_Notice_Integration implements Integration_Interfa
 	}
 
 	/**
-	 * Dismisses the First-time configuration workout notice.
+	 * Dismisses the First-time configuration notice.
 	 *
 	 * @return bool
 	 */
@@ -88,7 +88,7 @@ class First_Time_Configuration_Notice_Integration implements Integration_Interfa
 			return false;
 		}
 
-		if ( ! $this->user_can_do_configuration_workout() ) {
+		if ( ! $this->user_can_do_first_time_configuration() ) {
 			return false;
 		}
 
@@ -96,7 +96,7 @@ class First_Time_Configuration_Notice_Integration implements Integration_Interfa
 			return false;
 		}
 
-		if ( $this->is_configuration_workout_finished() ) {
+		if ( $this->is_first_time_configuration_finished() ) {
 			return false;
 		}
 
@@ -122,7 +122,7 @@ class First_Time_Configuration_Notice_Integration implements Integration_Interfa
 		$notice = new Notice_Presenter(
 			\__( 'First-time SEO configuration', 'wordpress-seo' ),
 			\sprintf(
-			/* translators: 1: Link start tag to the configuration workout, 2: Yoast SEO, 3: Link closing tag. */
+			/* translators: 1: Link start tag to the first-time configuration, 2: Yoast SEO, 3: Link closing tag. */
 				\__( 'Get started quickly with the %1$s%2$s First-time configuration%3$s and configure Yoast SEO with the optimal SEO settings for your site!', 'wordpress-seo' ),
 				'<a href="' . \esc_url( \self_admin_url( 'admin.php?page=wpseo_dashboard#top#first-time-configuration' ) ) . '">',
 				'Yoast SEO',
@@ -158,11 +158,11 @@ class First_Time_Configuration_Notice_Integration implements Integration_Interfa
 	}
 
 	/**
-	 * Whether the user can do the configuration workout.
+	 * Whether the user can do the first-time configuration.
 	 *
-	 * @return bool Whether the current user can do the configuration workout.
+	 * @return bool Whether the current user can do the first-time configuration.
 	 */
-	private function user_can_do_configuration_workout() {
+	private function user_can_do_first_time_configuration() {
 		return \current_user_can( 'wpseo_manage_options' );
 	}
 
@@ -197,14 +197,14 @@ class First_Time_Configuration_Notice_Integration implements Integration_Interfa
 	}
 
 	/**
-	 * Whether all steps of the configuration workout have been finished.
+	 * Whether all steps of the first-time configuration have been finished.
 	 *
-	 * @return bool Whether the configuration workout has been finished.
+	 * @return bool Whether the first-time configuration has been finished.
 	 */
-	private function is_configuration_workout_finished() {
-		$workouts_option = $this->options_helper->get( 'workouts_data', [] );
+	private function is_first_time_configuration_finished() {
+		$configuration_finished_steps = $this->options_helper->get( 'configuration_finished_steps', [] );
 
-		return \count( $workouts_option['configuration']['finishedSteps'] ) === 5;
+		return \count( $configuration_finished_steps ) === 3;
 	}
 
 	/**
