@@ -33,7 +33,7 @@ describe( "The Metabox component", () => {
 		window.wpseoScriptData = {
 			metabox: {
 				isPremium: "0",
-			}
+			},
 		};
 
 		const select = jest.fn();
@@ -45,7 +45,7 @@ describe( "The Metabox component", () => {
 
 		useSelect.mockImplementation( func => func( select ) );
 
-		const metabox = shallow( <Metabox/> );
+		const metabox = shallow( <Metabox /> );
 
 		expect( metabox.find( "SocialMetadata" ) ).toBeDefined();
 		expect( metabox.find( "Portal" ) ).toBeDefined();
