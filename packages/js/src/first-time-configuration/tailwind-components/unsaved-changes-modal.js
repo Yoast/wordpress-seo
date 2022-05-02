@@ -44,7 +44,7 @@ export default function UnsavedChangesModal( { hasUnsavedChanges, title, descrip
 	 * @returns {void}
 	 */
 	const popStateEventHandler = useCallback( () => {
-		if ( hasUnsavedChanges ) {
+		if ( hasUnsavedChanges && location.href.indexOf( "#top" ) === -1 ) {
 			// Prevent browser modal popup to show on top of Yoast modal popup
 			window.removeEventListener( "beforeunload", beforeUnloadEventHandler );
 
@@ -54,6 +54,9 @@ export default function UnsavedChangesModal( { hasUnsavedChanges, title, descrip
 			history.go( 1 );
 			setTargetUrl( "popped" );
 			setModalIsOpen( true );
+
+			window.addEventListener( "beforeunload", beforeUnloadEventHandler );
+			window.addEventListener( "popstate", popStateEventHandler );
 		}
 	}, [ hasUnsavedChanges ] );
 
@@ -72,57 +75,25 @@ export default function UnsavedChangesModal( { hasUnsavedChanges, title, descrip
 	 * @returns {void}
 	 */
 	const continueNavigation = useCallback( () => {
+		window.removeEventListener( "beforeunload", beforeUnloadEventHandler );
+
 		if ( targetUrl === "popped" ) {
-			window.removeEventListener( "popstate", popStateEventHandler );
 			history.go( -2 );
 		}  else {
 			window.location.replace( targetUrl );
+			window.addEventListener( "beforeunload", beforeUnloadEventHandler );
 		}
-	}, [ targetUrl ] );
-
-	/**
-	 * Handles the mouse click event.
-	 *
-	 * @param {Document} event The mouse click event.
-	 *
-	 * @returns {void}
-	 */
-	// eslint-disable-next-line complexity
-	const clickEventHandler = useCallback( ( event ) => {
-		if ( hasUnsavedChanges ) {
-			const adminBarTarget = event.target.closest( ".ab-item" );
-			if ( event.target.tagName === "A" ) {
-				event.preventDefault();
-				window.removeEventListener( "beforeunload", beforeUnloadEventHandler );
-				setTargetUrl( event.target.href );
-				setModalIsOpen( true );
-			} else if ( adminBarTarget ) {
-				if ( adminBarTarget.href && ! adminBarTarget.href.endsWith( "#qm-overview" ) ) {
-					event.preventDefault();
-					window.removeEventListener( "beforeunload", beforeUnloadEventHandler );
-					setTargetUrl( adminBarTarget.href );
-					setModalIsOpen( true );
-				}
-			} else if ( event.target.className === "wp-menu-name" ) {
-				event.preventDefault();
-				window.removeEventListener( "beforeunload", beforeUnloadEventHandler );
-				setTargetUrl( event.target.parentElement.href );
-				setModalIsOpen( true );
-			}
-		}
-	}, [ hasUnsavedChanges ] );
+	}, [ targetUrl, popStateEventHandler ] );
 
 	useEffect( () => {
 		window.addEventListener( "popstate", popStateEventHandler );
 		window.addEventListener( "beforeunload", beforeUnloadEventHandler );
-		window.addEventListener( "click", clickEventHandler );
 
 		return () => {
 			window.removeEventListener( "popstate", popStateEventHandler );
 			window.removeEventListener( "beforeunload", beforeUnloadEventHandler );
-			window.removeEventListener( "click", clickEventHandler );
 		};
-	}, [ beforeUnloadEventHandler, popStateEventHandler, clickEventHandler ] );
+	}, [ beforeUnloadEventHandler, popStateEventHandler ] );
 
 	return (
 		<TailwindModal isOpen={ modalIsOpen } handleClose={ closeModal }>
