@@ -24,25 +24,16 @@
     "prop-types": "^15.6.0",
     "styled-components": "^5.2.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@babel/core": "^7.17.10",
+    "@yoast/jest-preset": "^1.0.0",
+    "@wordpress/jest-preset-default": "^8.0.1",
+    "babel-jest": "^27.5.1",
+    "jest": "^27.5.1"
+  },
   "peerDependencies": {
     "react": "^16.12.0",
     "react-dom": "^16.12.0"
-  },
-  "jest": {
-    "testURL": "http://localhost",
-    "testRegex": ".*Test.js$",
-    "transform": {
-      "^.+\\.jsx?$": "babel-jest"
-    },
-    "transformIgnorePatterns": [
-      "/node_modules/(?!yoastseo|lodash-es).+\\.js$"
-    ],
-    "setupTestFrameworkScriptFile": "<rootDir>/tools/jest/setupTests.js",
-    "moduleNameMapper": {
-      "\\.css$": "<rootDir>/tools/jest/CSSStub.js",
-      "^lodash-es$": "lodash"
-    }
   },
   "publishConfig": {
     "access": "public"
