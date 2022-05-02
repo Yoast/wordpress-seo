@@ -20,10 +20,17 @@
 	width: 1.25rem;
 	height: 1.25rem;
 } */
+/*
+.installation-success-card .card-button-section {
+	display: flex;
+	justify-content: center;
+	margin-top: auto;
+}
+*/
 
 @layer components {
 	.yst-root {
-		
+	/*	
 		.installation-success-page .step-list {
 			display: flex;
 			align-items: center;
@@ -102,7 +109,7 @@
 			justify-content: center;
 			gap: 24px;
 		}
-		
+		*/
 		.installation-success-page .installation-success-title {
 			font-size: 40px;
 			font-weight: 400;
@@ -120,7 +127,7 @@
 			border-radius: 8px;
 			box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 			max-width: 320px;
-			height: 315px;
+			/*height: 315px;*/
 			padding: 24px;
 			display: flex;
 			flex-direction: column;
@@ -136,12 +143,6 @@
 			width: 150px;
 			height: 120px;
 			margin: auto auto 0;
-		}
-		
-		.installation-success-card .card-button-section {
-			display: flex;
-			justify-content: center;
-			margin-top: auto;
 		}
 		
 		.installation-success-card .card-button-section .yoast-button {
@@ -231,3 +232,5 @@
 		}
 	}
 }
+
+
