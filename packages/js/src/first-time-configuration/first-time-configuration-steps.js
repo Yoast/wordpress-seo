@@ -4,7 +4,6 @@ import { useCallback, useReducer, useState, useEffect } from "@wordpress/element
 import { __, sprintf } from "@wordpress/i18n";
 import { cloneDeep, uniq } from "lodash";
 
-import UnsavedChangesModal from "./tailwind-components/unsaved-changes-modal";
 import { addLinkToString } from "../helpers/stringHelpers.js";
 import SocialProfilesStep from "./tailwind-components/steps/social-profiles/social-profiles-step";
 import Stepper, { Step } from "./tailwind-components/stepper";
@@ -573,6 +572,28 @@ export default function FirstTimeConfigurationSteps() {
 		return () => removeEventListener( "keydown", preventEnterSubmit );
 	}, [] );
 
+	/**
+	 * Handles the "before page unloads" event.
+	 *
+	 * @param {Window} event The "before page unloads" event.
+	 *
+	 * @returns {void}
+	 */
+	const beforeUnloadEventHandler = useCallback( ( event ) => {
+		if ( state.editedSteps.includes( activeStepIndex + 1 ) || indexingState === "in_progress"  ) {
+			event.preventDefault();
+			event.returnValue = "";
+		}
+	}, [ state.editedSteps, indexingState ] );
+
+	useEffect( () => {
+		window.addEventListener( "beforeunload", beforeUnloadEventHandler );
+
+		return () => {
+			window.removeEventListener( "beforeunload", beforeUnloadEventHandler );
+		};
+	}, [ beforeUnloadEventHandler ] );
+
 	return (
 		<div id="yoast-configuration" className="yst-card">
 			<h2 id="yoast-configuration-title" className="yst-text-lg yst-text-primary-500 yst-font-medium">{ __( "Tell us about your site, so we can get your site ranked!", "wordpress-seo" ) }</h2>
@@ -703,23 +724,6 @@ export default function FirstTimeConfigurationSteps() {
 					</Step>
 				</Stepper>
 			</div>
-
-			<UnsavedChangesModal
-				hasUnsavedChanges={ state.editedSteps.includes( activeStepIndex + 1 ) }
-				title={ __( "Unsaved changes", "wordpress-seo" ) }
-				description={ __( "There are unsaved changes in this step. Leaving means that those changes will be lost. Are you sure you want to leave this page?", "wordpress-seo" ) }
-				okButtonLabel={ __( "Yes, leave page", "wordpress-seo" ) }
-				cancelButtonLabel={ __( "No, continue editing", "wordpress-seo" ) }
-			/>
-
-			<UnsavedChangesModal
-				hasUnsavedChanges={ indexingState === "in_progress" }
-				title={ __( "SEO data optimization is still running...", "wordpress-seo" ) }
-				description={ __( "The SEO data optimization is still running. Leaving this page means that this processs will be stopped. Are you sure you want to leave this page?", "wordpress-seo" ) }
-				okButtonLabel={ __( "Yes, leave page", "wordpress-seo" ) }
-				cancelButtonLabel={ __( "No, continue SEO data optimization", "wordpress-seo" ) }
-			/>
-
 		</div>
 	);
 }
