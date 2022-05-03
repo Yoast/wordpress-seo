@@ -10,11 +10,11 @@ use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 class Meta_Description_Presenter extends Abstract_Indexable_Tag_Presenter {
 
 	/**
-	 * The tag format including placeholders.
+	 * The tag key name.
 	 *
 	 * @var string
 	 */
-	protected $tag_format = '<meta name="description" content="%s" />';
+	protected $key = 'description';
 
 	/**
 	 * Returns the meta description for a post.
@@ -45,10 +45,11 @@ class Meta_Description_Presenter extends Abstract_Indexable_Tag_Presenter {
 	/**
 	 * Run the meta description content through replace vars, the `wpseo_metadesc` filter and sanitization.
 	 *
-	 * @return string $meta_description The filtered meta description.
+	 * @return string The filtered meta description.
 	 */
 	public function get() {
 		$meta_description = $this->replace_vars( $this->presentation->meta_description );
+
 		/**
 		 * Filter: 'wpseo_metadesc' - Allow changing the Yoast SEO meta description sentence.
 		 *

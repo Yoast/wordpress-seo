@@ -6,7 +6,7 @@ module.exports = {
 				expand: true,
 				cwd: "node_modules/select2/dist/js/",
 				src: [ "select2.full.min.js", "i18n/*", "!i18n/build.txt" ],
-				dest: "js/dist/select2/",
+				dest: "<%= paths.jsDist %>select2/",
 			},
 		],
 	},
@@ -33,71 +33,6 @@ module.exports = {
 			},
 		],
 	},
-	"json-translations": {
-		files: [
-			{
-				expand: true,
-				cwd: "languages/",
-				src: [ "wordpress-seo-*.json" ],
-				dest: "languages/",
-				rename: ( dest, src ) => {
-					return dest + src.replace( "wordpress-seo", "yoast-components" );
-				},
-			},
-			{
-				expand: true,
-				cwd: "languages/",
-				src: [ "wordpress-seo-*.json" ],
-				dest: "languages/",
-				rename: ( dest, src ) => {
-					return dest + src.replace( "wordpress-seo", "wordpress-seojs" );
-				},
-			},
-		],
-	},
-	"makepot-wordpress-seo": {
-		src: "gettext.pot",
-		dest: "<%= files.pot.wordpressSeoJs %>",
-	},
-	"makepot-yoast-js-analysis-report": {
-		src: "gettext.pot",
-		dest: "<%= files.pot.yoastJsAnalysisReport %>",
-	},
-	"makepot-yoast-js-components": {
-		src: "gettext.pot",
-		dest: "<%= files.pot.yoastJsComponents %>",
-	},
-	"makepot-yoast-js-configuration-wizard": {
-		src: "gettext.pot",
-		dest: "<%= files.pot.yoastJsConfigurationWizard %>",
-	},
-	"makepot-yoast-js-helpers": {
-		src: "gettext.pot",
-		dest: "<%= files.pot.yoastJsHelpers %>",
-	},
-	"makepot-yoast-js-search-metadata-previews": {
-		src: "gettext.pot",
-		dest: "<%= files.pot.yoastJsSearchMetadataPreviews %>",
-	},
-	"makepot-yoast-js-schema-blocks": {
-		src: "gettext.pot",
-		dest: "<%= files.pot.yoastSchemaBocks %>",
-	},
-
-	// The default de_CH is formal on WordPress.org, but that one is not translated enough for wordpress-seo.
-	// So we need to copy the `-informal` so we have a good translation.
-	"de_CH-informal": {
-		files: [
-			{
-				src: "<%= paths.languages %>/<%= pkg.plugin.textdomain %>-de_CH-informal.po",
-				dest: "<%= paths.languages %>/<%= pkg.plugin.textdomain %>-de_CH.po",
-			},
-			{
-				src: "<%= paths.languages %>/<%= pkg.plugin.textdomain %>-de_CH-informal.json",
-				dest: "<%= paths.languages %>/<%= pkg.plugin.textdomain %>-de_CH.json",
-			},
-		],
-	},
 	artifact: {
 		files: [
 			{
@@ -105,14 +40,14 @@ module.exports = {
 				cwd: ".",
 				src: [
 					"admin/**",
-					"css/**/*.css",
+					"css/dist/**/*.css",
 					"css/main-sitemap.xsl",
 					"deprecated/**",
 					"frontend/**",
 					"images/**",
+					"packages/js/images/**",
 					"inc/**",
-					"js/vendor/**/*.js",
-					"js/dist/**/*.js",
+					"<%= paths.jsDist %>/**/*.js",
 					"languages/**",
 					"src/**",
 					"lib/**",

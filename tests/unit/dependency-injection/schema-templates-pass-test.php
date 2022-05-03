@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Dependency_Injection;
+namespace Yoast\WP\SEO\Tests\Unit\Dependency_Injection;
 
 use Mockery;
 use Symfony\Component\DependencyInjection\ContainerBuilder;

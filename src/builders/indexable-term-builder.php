@@ -2,10 +2,13 @@
 
 namespace Yoast\WP\SEO\Builders;
 
+use wpdb;
 use Yoast\WP\SEO\Exceptions\Indexable\Invalid_Term_Exception;
 use Yoast\WP\SEO\Exceptions\Indexable\Term_Not_Found_Exception;
+use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Models\Indexable;
+use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 
 /**
  * Term Builder for the indexables.
@@ -13,6 +16,7 @@ use Yoast\WP\SEO\Models\Indexable;
  * Formats the term meta to indexable format.
  */
 class Indexable_Term_Builder {
+
 	use Indexable_Social_Image_Trait;
 
 	/**
@@ -20,17 +24,47 @@ class Indexable_Term_Builder {
 	 *
 	 * @var Taxonomy_Helper
 	 */
-	private $taxonomy;
+	protected $taxonomy_helper;
+
+	/**
+	 * The latest version of the Indexable_Term_Builder.
+	 *
+	 * @var int
+	 */
+	protected $version;
+
+	/**
+	 * Holds the taxonomy helper instance.
+	 *
+	 * @var Post_Helper
+	 */
+	protected $post_helper;
+
+	/**
+	 * The WPDB instance.
+	 *
+	 * @var wpdb
+	 */
+	protected $wpdb;
 
 	/**
 	 * Indexable_Term_Builder constructor.
 	 *
-	 * @param Taxonomy_Helper $taxonomy The taxonomy helper.
+	 * @param Taxonomy_Helper            $taxonomy_helper The taxonomy helper.
+	 * @param Indexable_Builder_Versions $versions        The latest version of each Indexable Builder.
+	 * @param Post_Helper                $post_helper     The post helper.
+	 * @param wpdb                       $wpdb            The WPDB instance.
 	 */
 	public function __construct(
-		Taxonomy_Helper $taxonomy
+		Taxonomy_Helper $taxonomy_helper,
+		Indexable_Builder_Versions $versions,
+		Post_Helper $post_helper,
+		wpdb $wpdb
 	) {
-		$this->taxonomy = $taxonomy;
+		$this->taxonomy_helper = $taxonomy_helper;
+		$this->version         = $versions->get_latest_version_for_type( 'term' );
+		$this->post_helper     = $post_helper;
+		$this->wpdb            = $wpdb;
 	}
 
 	/**
@@ -61,7 +95,7 @@ class Indexable_Term_Builder {
 			throw new Invalid_Term_Exception( $term_link->get_error_message() );
 		}
 
-		$term_meta = $this->taxonomy->get_term_meta( $term );
+		$term_meta = $this->taxonomy_helper->get_term_meta( $term );
 
 		$indexable->object_id       = $term_id;
 		$indexable->object_type     = 'term';
@@ -97,6 +131,12 @@ class Indexable_Term_Builder {
 		$indexable->is_robots_noimageindex = null;
 		$indexable->is_robots_nosnippet    = null;
 
+		$timestamps                      = $this->get_object_timestamps( $term_id, $term->taxonomy );
+		$indexable->object_published_at  = $timestamps->published_at;
+		$indexable->object_last_modified = $timestamps->last_modified;
+
+		$indexable->version = $this->version;
+
 		return $indexable;
 	}
 
@@ -125,7 +165,7 @@ class Indexable_Term_Builder {
 	 * @param string $keyword The focus keyword that is set.
 	 * @param int    $score   The score saved on the meta data.
 	 *
-	 * @return null|int Score to use.
+	 * @return int|null Score to use.
 	 */
 	protected function get_keyword_score( $keyword, $score ) {
 		if ( empty( $keyword ) ) {
@@ -165,7 +205,7 @@ class Indexable_Term_Builder {
 	 * @param string $meta_key  The key to extract.
 	 * @param array  $term_meta The meta data.
 	 *
-	 * @return null|string The meta value.
+	 * @return string|null The meta value.
 	 */
 	protected function get_meta_value( $meta_key, $term_meta ) {
 		if ( ! $term_meta || ! \array_key_exists( $meta_key, $term_meta ) ) {
@@ -197,5 +237,35 @@ class Indexable_Term_Builder {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Returns the timestamps for a given term.
+	 *
+	 * @param int    $term_id  The term ID.
+	 * @param string $taxonomy The taxonomy.
+	 *
+	 * @return object An object with last_modified and published_at timestamps.
+	 */
+	protected function get_object_timestamps( $term_id, $taxonomy ) {
+		$post_statuses = $this->post_helper->get_public_post_statuses();
+
+		$sql = "
+			SELECT MAX(p.post_modified_gmt) AS last_modified, MIN(p.post_date_gmt) AS published_at
+			FROM	{$this->wpdb->posts} AS p
+			INNER JOIN {$this->wpdb->term_relationships} AS term_rel
+				ON		term_rel.object_id = p.ID
+			INNER JOIN {$this->wpdb->term_taxonomy} AS term_tax
+				ON		term_tax.term_taxonomy_id = term_rel.term_taxonomy_id
+				AND		term_tax.taxonomy = %s
+				AND		term_tax.term_id = %d
+			WHERE	p.post_status IN (" . \implode( ', ', \array_fill( 0, \count( $post_statuses ), '%s' ) ) . ")
+				AND		p.post_password = ''
+		";
+
+		$replacements = \array_merge( [ $taxonomy, $term_id ], $post_statuses );
+
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- We are using wpdb prepare.
+		return $this->wpdb->get_row( $this->wpdb->prepare( $sql, $replacements ) );
 	}
 }

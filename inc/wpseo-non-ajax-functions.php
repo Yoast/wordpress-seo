@@ -29,7 +29,7 @@ add_action( 'wp_loaded', 'wpseo_initialize_admin_bar' );
  * @param array $capabilities          Array of capabilities to be checked, unused here.
  * @param array $args                  List of arguments for the specific capabilities to be checked.
  *
- * @return array $required_capabilities Filtered capabilities.
+ * @return array Filtered capabilities.
  */
 function allow_custom_field_edits( $required_capabilities, $capabilities, $args ) {
 	if ( ! in_array( $args[0], [ 'edit_post_meta', 'add_post_meta' ], true ) ) {

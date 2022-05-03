@@ -68,7 +68,15 @@ class Baidu_Presenter_Test extends TestCase {
 			'<meta name="baidu-site-verification" content="baidu" />',
 			$this->instance->present()
 		);
+	}
 
+	/**
+	 * Test an empty presentation.
+	 *
+	 * @covers ::present
+	 * @covers ::get
+	 */
+	public function test_empty_presentation() {
 		$this->options->expects( 'get' )->with( $this->option_name, '' )->andReturn( '' );
 
 		$this->assertSame(
@@ -89,7 +97,14 @@ class Baidu_Presenter_Test extends TestCase {
 			'baidu',
 			$this->instance->get()
 		);
+	}
 
+	/**
+	 * Test getting an empty value.
+	 *
+	 * @covers ::get
+	 */
+	public function test_get_empty() {
 		$this->options->expects( 'get' )->with( $this->option_name, '' )->andReturn( '' );
 
 		$this->assertSame(

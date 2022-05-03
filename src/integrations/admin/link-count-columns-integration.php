@@ -158,7 +158,7 @@ class Link_Count_Columns_Integration implements Integration_Interface {
 	 * @return array
 	 */
 	public function order_by_linked( $pieces, $query ) {
-		if ( 'wpseo-' . self::COLUMN_LINKED !== $query->get( 'orderby' ) ) {
+		if ( $query->get( 'orderby' ) !== 'wpseo-' . self::COLUMN_LINKED ) {
 			return $pieces;
 		}
 
@@ -174,7 +174,7 @@ class Link_Count_Columns_Integration implements Integration_Interface {
 	 * @return array
 	 */
 	public function order_by_links( $pieces, $query ) {
-		if ( 'wpseo-' . self::COLUMN_LINKS !== $query->get( 'orderby' ) ) {
+		if ( $query->get( 'orderby' ) !== 'wpseo-' . self::COLUMN_LINKS ) {
 			return $pieces;
 		}
 

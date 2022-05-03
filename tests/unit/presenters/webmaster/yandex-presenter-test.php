@@ -68,7 +68,15 @@ class Yandex_Presenter_Test extends TestCase {
 			'<meta name="yandex-verification" content="yandex-ver" />',
 			$this->instance->present()
 		);
+	}
 
+	/**
+	 * Tests that Yandex site verification doesn't present anything if no value is present
+	 *
+	 * @covers ::present
+	 * @covers ::get
+	 */
+	public function test_empty_output() {
 		$this->options->expects( 'get' )->with( $this->option_name, '' )->andReturn( '' );
 
 		$this->assertSame(

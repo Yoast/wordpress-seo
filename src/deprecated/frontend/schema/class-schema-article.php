@@ -10,9 +10,8 @@ use Yoast\WP\SEO\Generators\Schema\Article;
 /**
  * Returns schema Article data.
  *
+ * @since      10.2
  * @deprecated 14.0
- *
- * @since 10.2
  */
 class WPSEO_Schema_Article extends WPSEO_Deprecated_Graph_Piece {
 
@@ -26,10 +25,10 @@ class WPSEO_Schema_Article extends WPSEO_Deprecated_Graph_Piece {
 	/**
 	 * WPSEO_Schema_Article constructor.
 	 *
-	 * @param array $context The context. No longer used but present for BC.
-	 *
-	 * @codeCoverageIgnore
 	 * @deprecated 14.0
+	 * @codeCoverageIgnore
+	 *
+	 * @param array|null $context The context. No longer used but present for BC.
 	 */
 	public function __construct( $context = null ) {
 		parent::__construct( Article::class );
@@ -40,10 +39,10 @@ class WPSEO_Schema_Article extends WPSEO_Deprecated_Graph_Piece {
 	/**
 	 * Determines whether a given post type should have Article schema.
 	 *
-	 * @codeCoverageIgnore
 	 * @deprecated 14.0
+	 * @codeCoverageIgnore
 	 *
-	 * @param string $post_type Post type to check.
+	 * @param string|null $post_type Post type to check.
 	 *
 	 * @return bool True if it has article schema, false if not.
 	 */

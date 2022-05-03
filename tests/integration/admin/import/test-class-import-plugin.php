@@ -94,7 +94,7 @@ class WPSEO_Import_Plugin_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Sets up a test post.
 	 *
-	 * @return int $post_id
+	 * @return int
 	 */
 	private function setup_post() {
 		$post_id = $this->factory()->post->create();

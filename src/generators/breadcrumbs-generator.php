@@ -47,14 +47,14 @@ class Breadcrumbs_Generator implements Generator_Interface {
 	/**
 	 * The URL helper.
 	 *
-	 * @var Url_Helper;
+	 * @var Url_Helper
 	 */
 	private $url_helper;
 
 	/**
 	 * The pagination helper.
 	 *
-	 * @var Pagination_Helper;
+	 * @var Pagination_Helper
 	 */
 	private $pagination_helper;
 
@@ -180,7 +180,7 @@ class Breadcrumbs_Generator implements Generator_Interface {
 		 */
 		$crumbs = \apply_filters( 'wpseo_breadcrumb_links', $crumbs );
 
-		$filter_callback = function( $link_info, $index ) use ( $crumbs ) {
+		$filter_callback = static function( $link_info, $index ) use ( $crumbs ) {
 			/**
 			 * Filter: 'wpseo_breadcrumb_single_link_info' - Allow developers to filter the Yoast SEO Breadcrumb link information.
 			 *
@@ -355,7 +355,7 @@ class Breadcrumbs_Generator implements Generator_Interface {
 	 * @param array     $crumbs            The array of breadcrumbs.
 	 * @param Indexable $current_indexable The current indexable.
 	 *
-	 * @returns array The breadcrumbs.
+	 * @return array The breadcrumbs.
 	 */
 	protected function add_paged_crumb( array $crumbs, $current_indexable ) {
 		$is_simple_page = $this->current_page_helper->is_simple_page();

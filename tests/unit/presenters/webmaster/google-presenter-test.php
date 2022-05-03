@@ -68,7 +68,15 @@ class Google_Presenter_Test extends TestCase {
 			'<meta name="google-site-verification" content="google-ver" />',
 			$this->instance->present()
 		);
+	}
 
+	/**
+	 * Tests the presentation for an empty Google site verification string.
+	 *
+	 * @covers ::present
+	 * @covers ::get
+	 */
+	public function test_present_empty() {
 		$this->options->expects( 'get' )->with( $this->option_name, '' )->andReturn( '' );
 
 		$this->assertSame(

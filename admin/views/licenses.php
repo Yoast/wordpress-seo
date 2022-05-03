@@ -12,6 +12,8 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
+do_action( 'wpseo_install_and_activate_addons' );
+
 $premium_extension = [
 	'buyUrl'   => WPSEO_Shortlinker::get( 'https://yoa.st/zz' ),
 	'infoUrl'  => WPSEO_Shortlinker::get( 'https://yoa.st/zy' ),
@@ -230,7 +232,7 @@ $new_tab_message         = sprintf(
 			<?php foreach ( $extensions as $slug => $extension ) : ?>
 				<section class="yoast-promoblock secondary yoast-promo-extension">
 					<h3>
-						<img alt="" width="100" height="100" src="<?php echo esc_attr( $extension['image'] ); ?>"/>
+						<img alt="" width="100" height="100" src="<?php echo esc_url( $extension['image'] ); ?>"/>
 						<?php echo esc_html( $extension['display_title'] ); ?>
 					</h3>
 					<ul class="yoast-list--usp">

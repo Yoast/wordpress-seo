@@ -19,10 +19,10 @@ class Meta_Helper {
 	 *            the results for get_post_meta(), get_post_custom() and the likes. That
 	 *            would have been the preferred solution.}}
 	 *
+	 * @codeCoverageIgnore We have to write test when this method contains own code.
+	 *
 	 * @param string $key    Internal key of the value to get (without prefix).
 	 * @param int    $postid Post ID of the post to get the value for.
-	 *
-	 * @codeCoverageIgnore We have to write test when this method contains own code.
 	 *
 	 * @return string All 'normal' values returned from get_post_meta() are strings.
 	 *                Objects and arrays are possible, but not used by this plugin
@@ -39,10 +39,10 @@ class Meta_Helper {
 	/**
 	 * Retrieve a taxonomy term's meta value(s).
 	 *
-	 * @param mixed  $term     Term to get the meta value for
-	 *                         either (string) term name, (int) term id or (object) term.
-	 * @param string $taxonomy Name of the taxonomy to which the term is attached.
-	 * @param string $meta     Optional. Meta value to get (without prefix).
+	 * @param mixed       $term     Term to get the meta value for
+	 *                              either (string) term name, (int) term id or (object) term.
+	 * @param string      $taxonomy Name of the taxonomy to which the term is attached.
+	 * @param string|null $meta     Optional. Meta value to get (without prefix).
 	 *
 	 * @return mixed|bool Value for the $meta if one is given, might be the default.
 	 *                    If no meta is given, an array of all the meta data for the term.
@@ -63,5 +63,17 @@ class Meta_Helper {
 	 */
 	public function set_value( $key, $meta_value, $post_id ) {
 		return WPSEO_Meta::set_value( $key, $meta_value, $post_id );
+	}
+
+	/**
+	 * Deletes a meta value for a post.
+	 *
+	 * @param string $key     The internal key of the meta value to change (without prefix).
+	 * @param int    $post_id The ID of the post to delete the meta for.
+	 *
+	 * @return bool Whether the delete was successful or not.
+	 */
+	public function delete( $key, $post_id ) {
+		return WPSEO_Meta::delete( $key, $post_id );
 	}
 }

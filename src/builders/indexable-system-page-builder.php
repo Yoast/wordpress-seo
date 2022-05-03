@@ -4,11 +4,14 @@ namespace Yoast\WP\SEO\Builders;
 
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Models\Indexable;
+use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 
 /**
  * System page builder for the indexables.
  *
  * Formats system pages ( search and error ) meta to indexable format.
+ *
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Indexable_System_Page_Builder {
 
@@ -30,15 +33,27 @@ class Indexable_System_Page_Builder {
 	 *
 	 * @var Options_Helper
 	 */
-	private $options;
+	protected $options;
+
+	/**
+	 * The latest version of the Indexable_System_Page_Builder.
+	 *
+	 * @var int
+	 */
+	protected $version;
 
 	/**
 	 * Indexable_System_Page_Builder constructor.
 	 *
-	 * @param Options_Helper $options The options helper.
+	 * @param Options_Helper             $options  The options helper.
+	 * @param Indexable_Builder_Versions $versions The latest version of each Indexable Builder.
 	 */
-	public function __construct( Options_Helper $options ) {
+	public function __construct(
+		Options_Helper $options,
+		Indexable_Builder_Versions $versions
+	) {
 		$this->options = $options;
+		$this->version = $versions->get_latest_version_for_type( 'system-page' );
 	}
 
 	/**
@@ -59,6 +74,8 @@ class Indexable_System_Page_Builder {
 		if ( \array_key_exists( 'breadcrumb_title', static::OPTION_MAPPING[ $object_sub_type ] ) ) {
 			$indexable->breadcrumb_title = $this->options->get( static::OPTION_MAPPING[ $object_sub_type ]['breadcrumb_title'] );
 		}
+
+		$indexable->version = $this->version;
 
 		return $indexable;
 	}

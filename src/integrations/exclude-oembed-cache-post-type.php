@@ -5,18 +5,13 @@ namespace Yoast\WP\SEO\Integrations;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 
 /**
- * Exclude certain Elementor-specific post types from the indexable table.
+ * Excludes certain oEmbed Cache-specific post types from the indexable table.
  *
  * Posts with these post types will not be saved to the indexable table.
+ *
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
-class Exclude_Oembed_Cache_Post_Type implements Integration_Interface {
-
-	/**
-	 * Initializes the integration.
-	 */
-	public function register_hooks() {
-		\add_filter( 'wpseo_indexable_excluded_post_types', [ $this, 'exclude_oembed_cache_post_type' ] );
-	}
+class Exclude_Oembed_Cache_Post_Type extends Abstract_Exclude_Post_Type {
 
 	/**
 	 * This integration is only active when the database migrations have been run.
@@ -28,15 +23,12 @@ class Exclude_Oembed_Cache_Post_Type implements Integration_Interface {
 	}
 
 	/**
-	 * Exclude the oembed_cache post type from the indexable table.
+	 * Returns the names of the post types to be excluded.
+	 * To be used in the wpseo_indexable_excluded_post_types filter.
 	 *
-	 * @param array $excluded_post_types The excluded post types.
-	 *
-	 * @return array The excluded post types, including the oembed_cache post types.
+	 * @return array The names of the post types.
 	 */
-	public function exclude_oembed_cache_post_type( $excluded_post_types ) {
-		$excluded_post_types[] = 'oembed_cache';
-
-		return $excluded_post_types;
+	public function get_post_type() {
+		return [ 'oembed_cache' ];
 	}
 }

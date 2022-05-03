@@ -14,6 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group open-graph
  */
 class Open_Graph_Locale_Test extends TestCase {
+
 	use Presentation_Instance_Builder;
 
 	/**
@@ -47,7 +48,7 @@ class Open_Graph_Locale_Test extends TestCase {
 			->once()
 			->andReturn( 'en_US' );
 
-		Monkey\Functions\expect( 'apply_filters' )
+		Monkey\Filters\expectApplied( 'wpseo_locale' )
 			->once()
 			->andReturn( 'en_GB' );
 

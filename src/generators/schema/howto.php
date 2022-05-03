@@ -19,7 +19,7 @@ class HowTo extends Abstract_Schema_Piece {
 	/**
 	 * Renders a list of questions, referencing them by ID.
 	 *
-	 * @return array $data Our Schema graph.
+	 * @return array Our Schema graph.
 	 */
 	public function generate() {
 		$graph = [];

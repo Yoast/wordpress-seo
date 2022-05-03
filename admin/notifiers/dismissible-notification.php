@@ -77,9 +77,9 @@ abstract class WPSEO_Dismissible_Notification implements WPSEO_Listener, WPSEO_N
 	/**
 	 * Checks whether the notification has been dismissed.
 	 *
-	 * @return bool True when notification is dismissed.
-	 *
 	 * @codeCoverageIgnore
+	 *
+	 * @return bool True when notification is dismissed.
 	 */
 	protected function is_notice_dismissed() {
 		return get_user_meta( get_current_user_id(), 'wpseo-remove-' . $this->notification_identifier, true ) === '1';
@@ -88,9 +88,9 @@ abstract class WPSEO_Dismissible_Notification implements WPSEO_Listener, WPSEO_N
 	/**
 	 * Retrieves the value where listener is listening for.
 	 *
-	 * @return string The listener value.
-	 *
 	 * @codeCoverageIgnore
+	 *
+	 * @return string The listener value.
 	 */
 	protected function get_listener_value() {
 		return filter_input( INPUT_GET, 'yoast_dismiss' );
@@ -99,9 +99,9 @@ abstract class WPSEO_Dismissible_Notification implements WPSEO_Listener, WPSEO_N
 	/**
 	 * Dismisses the notification.
 	 *
-	 * @return void
-	 *
 	 * @codeCoverageIgnore
+	 *
+	 * @return void
 	 */
 	protected function set_dismissal_state() {
 		update_user_meta( get_current_user_id(), 'wpseo-remove-' . $this->notification_identifier, true );
@@ -110,9 +110,9 @@ abstract class WPSEO_Dismissible_Notification implements WPSEO_Listener, WPSEO_N
 	/**
 	 * Redirects the user back to the dashboard.
 	 *
-	 * @return void
-	 *
 	 * @codeCoverageIgnore
+	 *
+	 * @return void
 	 */
 	protected function redirect_to_dashboard() {
 		wp_safe_redirect( admin_url( 'admin.php?page=wpseo_dashboard' ) );

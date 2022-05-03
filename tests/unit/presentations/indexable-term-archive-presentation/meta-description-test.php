@@ -13,6 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group meta-description
  */
 class Meta_Description_Test extends TestCase {
+
 	use Presentation_Instance_Builder;
 
 	/**

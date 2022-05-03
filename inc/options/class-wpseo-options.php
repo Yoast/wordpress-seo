@@ -15,7 +15,7 @@ class WPSEO_Options {
 	/**
 	 * The option values.
 	 *
-	 * @var null
+	 * @var array|null
 	 */
 	protected static $option_values = null;
 
@@ -49,7 +49,7 @@ class WPSEO_Options {
 	/**
 	 * Instance of this class.
 	 *
-	 * @var object
+	 * @var WPSEO_Options
 	 */
 	protected static $instance;
 
@@ -265,12 +265,12 @@ class WPSEO_Options {
 	/**
 	 * Retrieve a single field from any option for the SEO plugin. Keys are always unique.
 	 *
-	 * @param string $key     The key it should return.
-	 * @param mixed  $default The default value that should be returned if the key isn't set.
+	 * @param string $key           The key it should return.
+	 * @param mixed  $default_value The default value that should be returned if the key isn't set.
 	 *
-	 * @return mixed|null Returns value if found, $default if not.
+	 * @return mixed Returns value if found, $default_value if not.
 	 */
-	public static function get( $key, $default = null ) {
+	public static function get( $key, $default_value = null ) {
 		if ( static::$option_values === null ) {
 			static::prime_cache();
 		}
@@ -278,7 +278,7 @@ class WPSEO_Options {
 			return static::$option_values[ $key ];
 		}
 
-		return $default;
+		return $default_value;
 	}
 
 	/**
@@ -324,18 +324,18 @@ class WPSEO_Options {
 	/**
 	 * Get an option only if it's been auto-loaded.
 	 *
-	 * @param string     $option  The option to retrieve.
-	 * @param bool|mixed $default A default value to return.
+	 * @param string $option        The option to retrieve.
+	 * @param mixed  $default_value A default value to return.
 	 *
-	 * @return bool|mixed
+	 * @return mixed
 	 */
-	public static function get_autoloaded_option( $option, $default = false ) {
+	public static function get_autoloaded_option( $option, $default_value = false ) {
 		$value = wp_cache_get( $option, 'options' );
 		if ( $value === false ) {
 			$passed_default = func_num_args() > 1;
 
 			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals -- Using WP native filter.
-			return apply_filters( "default_option_{$option}", $default, $option, $passed_default );
+			return apply_filters( "default_option_{$option}", $default_value, $option, $passed_default );
 		}
 
 		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals -- Using WP native filter.
@@ -345,11 +345,11 @@ class WPSEO_Options {
 	/**
 	 * Run the clean up routine for one or all options.
 	 *
-	 * @param array|string $option_name     Optional. the option you want to clean or an array of
-	 *                                      option names for the options you want to clean.
-	 *                                      If not set, all options will be cleaned.
-	 * @param string       $current_version Optional. Version from which to upgrade, if not set,
-	 *                                      version specific upgrades will be disregarded.
+	 * @param array|string|null $option_name     Optional. the option you want to clean or an array of
+	 *                                           option names for the options you want to clean.
+	 *                                           If not set, all options will be cleaned.
+	 * @param string|null       $current_version Optional. Version from which to upgrade, if not set,
+	 *                                           version specific upgrades will be disregarded.
 	 *
 	 * @return void
 	 */
@@ -494,7 +494,7 @@ class WPSEO_Options {
 	 * @param string $option_name              The name for the option to set.
 	 * @param mixed  $option_value             The value for the option.
 	 *
-	 * @return boolean Returns true if the option is successfully saved in the database.
+	 * @return bool Returns true if the option is successfully saved in the database.
 	 */
 	public static function save_option( $wpseo_options_group_name, $option_name, $option_value ) {
 		$options                 = static::get_option( $wpseo_options_group_name );

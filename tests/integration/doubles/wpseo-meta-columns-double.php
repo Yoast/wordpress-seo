@@ -13,7 +13,7 @@ class WPSEO_Meta_Columns_Double extends WPSEO_Meta_Columns {
 	/**
 	 * The current post type.
 	 *
-	 * @var $current_post_type
+	 * @var string
 	 */
 	private $current_post_type;
 
@@ -92,7 +92,7 @@ class WPSEO_Meta_Columns_Double extends WPSEO_Meta_Columns {
 	/**
 	 * Determines whether the given post ID uses the default indexing settings.
 	 *
-	 * @param integer $post_id The post ID to check.
+	 * @param int $post_id The post ID to check.
 	 *
 	 * @return bool Whether or not the default indexing is being used for the post.
 	 */

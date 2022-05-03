@@ -2,17 +2,14 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Third_Party;
 
-use Yoast\WP\SEO\Conditionals\Third_Party\WPML_Conditional;
-use Yoast\WP\SEO\Helpers\Short_Link_Helper;
-use Yoast\WP\SEO\Tests\Unit\TestCase;
-
 use Brain\Monkey;
 use Mockery;
-
-use Yoast\WP\SEO\Integrations\Third_Party\WPML_WPSEO_Notification;
-
-use Yoast_Notification_Center;
+use Yoast\WP\SEO\Conditionals\Third_Party\WPML_Conditional;
 use Yoast\WP\SEO\Conditionals\Third_Party\WPML_WPSEO_Conditional;
+use Yoast\WP\SEO\Helpers\Short_Link_Helper;
+use Yoast\WP\SEO\Integrations\Third_Party\WPML_WPSEO_Notification;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
+use Yoast_Notification_Center;
 
 /**
  * WPML_WPSEO_Notification test.

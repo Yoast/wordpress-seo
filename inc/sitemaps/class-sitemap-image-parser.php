@@ -327,11 +327,11 @@ class WPSEO_Sitemap_Image_Parser {
 		 * Filter image data to be included in XML sitemap for the post.
 		 *
 		 * @param array  $image {
-		 *                      Array of image data.
+		 *     Array of image data.
 		 *
-		 * @type string  $src   Image URL.
-		 * @type string  $title Image title attribute (optional).
-		 * @type string  $alt   Image alt attribute (optional).
+		 *     @type string  $src   Image URL.
+		 *     @type string  $title Image title attribute (optional).
+		 *     @type string  $alt   Image alt attribute (optional).
 		 * }
 		 *
 		 * @param object $post  Post object.
@@ -458,12 +458,12 @@ class WPSEO_Sitemap_Image_Parser {
 	/**
 	 * Returns an array with attachments for the post IDs that will be included.
 	 *
-	 * @param array $include Array with IDs to include.
+	 * @param array $included_ids Array with IDs to include.
 	 *
 	 * @return array The found attachments.
 	 */
-	protected function get_gallery_attachments_for_included( $include ) {
-		$ids_to_include = wp_parse_id_list( $include );
+	protected function get_gallery_attachments_for_included( $included_ids ) {
+		$ids_to_include = wp_parse_id_list( $included_ids );
 		$attachments    = $this->get_attachments(
 			[
 				'posts_per_page' => count( $ids_to_include ),

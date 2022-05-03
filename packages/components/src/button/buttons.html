@@ -1,0 +1,87 @@
+<!--A button can both be used for a link and a button.
+Use a link when the button should redirect to another page
+use a button when it's used for an action: for example, opening a modal.-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<style>
+		/* Demo styling */
+		body {
+			font-family: var(--yoast-font-family);
+			font-size: var(--yoast-font-size-default);
+			color: var(--yoast-color-font-default);
+			line-height: 1.5;
+		}
+	</style>
+
+	<link rel='stylesheet' href='../base/colors.css' type='text/css' media='all' />
+	<link rel='stylesheet' href='../base/typography.css' type='text/css' media='all' />
+	<link rel='stylesheet' href='../base/borders.css' type='text/css' media='all' />
+	<link rel='stylesheet' href='../base/utility.css' type='text/css' media='all' />
+	<link rel='stylesheet' href='../base/icons.css' type='text/css' media='all' />
+
+	<link rel='stylesheet' href='buttons.css' type='text/css' media='all' />
+
+</head>
+
+<body class="yoast">
+	<p>
+		You can use both a <code>button</code> and a <code><a href=""></a></code> with the buttons.
+		A button is used for an action, an a tag for a link to (external) content.
+	</p>
+
+	<p>Primary, purple button. Use with class <code>yoast-button yoast-button--primary</code></p>
+
+	<button class="yoast-button yoast-button--primary" type="button">Save changes</button>
+
+	<p>Secondary, gray button. Use with class <code>yoast-button yoast-button--secondary</code></p>
+
+	<button class="yoast-button yoast-button--secondary" type="button">Save changes</button>
+
+	<p>Disabled secondary, gray button. Use with class <code>yoast-button yoast-button--secondary</code></p>
+
+	<button disabled class="yoast-button yoast-button--secondary" type="button">Save changes</button>
+
+	<p>Upsell, yellow button. Use with class <code>yoast-button yoast-button--buy</code></p>
+
+	<a href="#" class="yoast-button yoast-button--buy">Buy premium</a>
+
+	<p>Upsell, yellow button with arrow. Use with class <code>yoast-button yoast-button--buy</code> and in the span use
+		<code>yoast-button--buy__caret</code></p>
+
+	<a href="#" class="yoast-button yoast-button--buy">Buy premium<span class="yoast-button--buy__caret"></span></a>
+
+	<p>Small upsell, yellow button with arrow. Use with class
+		<code>yoast-button yoast-button--buy yoast-button--small</code> and in the span use
+		<code>yoast-button--buy__caret</code></p>
+
+	<a href="#" class="yoast-button yoast-button--buy yoast-button--small">Buy premium<span
+			class="yoast-button--buy__caret"></span></a>
+
+	<p>Remove button. Use with class <code>yoast-remove</code></p>
+
+	<input class="yoast-remove" value="Remove button" type="button" />
+
+	<p>Hide button. Use with class <code>yoast-hide</code></p>
+
+	<button class="yoast-hide" type="button">Hide button</button>
+
+	<p>Close button</p>
+
+	<button class="yoast-close" aria-label="Close" type="button">
+		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 352 512" role="img" aria-hidden="true" focusable="false">
+			<path
+				d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z">
+			</path>
+		</svg>
+	</button>
+
+</body>
+
+</html>

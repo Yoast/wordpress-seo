@@ -46,7 +46,7 @@ class Yoast_Input_Validation {
 	 *
 	 * @param string $admin_title The page title, with extra context added.
 	 *
-	 * @return string $admin_title The modified or original admin title.
+	 * @return string The modified or original admin title.
 	 */
 	public static function add_yoast_admin_document_title_errors( $admin_title ) {
 		$errors      = get_settings_errors();
@@ -95,10 +95,10 @@ class Yoast_Input_Validation {
 	/**
 	 * Sets the error descriptions.
 	 *
+	 * @since 12.1
+	 *
 	 * @param array $descriptions An associative array of error descriptions.
 	 *                            For each entry, the key must be the setting variable.
-	 *
-	 * @since 12.1
 	 */
 	public static function set_error_descriptions( $descriptions = [] ) {
 		$defaults = [
@@ -124,7 +124,7 @@ class Yoast_Input_Validation {
 			),
 			'linkedin_url'    => sprintf(
 				/* translators: %s: additional message with the submitted invalid value */
-				esc_html__( 'Please check the format of the Linkedin URL you entered. %s', 'wordpress-seo' ),
+				esc_html__( 'Please check the format of the LinkedIn URL you entered. %s', 'wordpress-seo' ),
 				self::get_dirty_value_message( 'linkedin_url' )
 			),
 			'msverify'        => sprintf(
@@ -164,7 +164,7 @@ class Yoast_Input_Validation {
 			),
 			'youtube_url'     => sprintf(
 				/* translators: %s: additional message with the submitted invalid value */
-				esc_html__( 'Please check the format of the Youtube URL you entered. %s', 'wordpress-seo' ),
+				esc_html__( 'Please check the format of the YouTube URL you entered. %s', 'wordpress-seo' ),
 				self::get_dirty_value_message( 'youtube_url' )
 			),
 		];
@@ -192,7 +192,7 @@ class Yoast_Input_Validation {
 	 *
 	 * @param string $error_code Code of the error set via `add_settings_error()`, normally the variable name.
 	 *
-	 * @return string The error description.
+	 * @return string|null The error description.
 	 */
 	public static function get_error_description( $error_code ) {
 		if ( ! isset( self::$error_descriptions[ $error_code ] ) ) {

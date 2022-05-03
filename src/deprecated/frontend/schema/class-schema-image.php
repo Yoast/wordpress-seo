@@ -79,7 +79,7 @@ class WPSEO_Schema_Image {
 	 * @param string $url     The image URL.
 	 * @param string $caption A caption, if set.
 	 *
-	 * @return array $data Schema ImageObject array.
+	 * @return array Schema ImageObject array.
 	 */
 	public function simple_image_object( $url, $caption = '' ) {
 		_deprecated_function( __METHOD__, 'WPSEO 14.0', 'YoastSEO()->helpers->schema->image->simple_image_object' );

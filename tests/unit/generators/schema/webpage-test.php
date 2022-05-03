@@ -165,7 +165,7 @@ class WebPage_Test extends TestCase {
 		$this->language->expects( 'add_piece_language' )
 			->once()
 			->andReturnUsing(
-				function ( $data ) {
+				static function ( $data ) {
 					$data['inLanguage'] = 'the-language';
 
 					return $data;
@@ -186,11 +186,11 @@ class WebPage_Test extends TestCase {
 	 * @covers ::add_breadcrumbs
 	 * @covers ::add_potential_action
 	 *
-	 * @param array   $values_to_test The values that need to vary in order to test all the paths.
-	 * @param boolean $expected       The expected generated webpage schema.
-	 * @param string  $message        The message to show in case a test fails.
-	 *
 	 * @dataProvider provider_for_generate
+	 *
+	 * @param array  $values_to_test The values that need to vary in order to test all the paths.
+	 * @param bool   $expected       The expected generated webpage schema.
+	 * @param string $message        The message to show in case a test fails.
 	 */
 	public function test_generate_with_provider( $values_to_test, $expected, $message ) {
 		$this->meta_tags_context->has_image = $values_to_test['has_image'];

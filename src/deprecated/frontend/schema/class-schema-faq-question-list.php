@@ -17,8 +17,8 @@ class WPSEO_Schema_FAQ_Question_List {
 	/**
 	 * WPSEO_Schema_FAQ_Question_List constructor.
 	 *
-	 * @codeCoverageIgnore
 	 * @deprecated 14.0
+	 * @codeCoverageIgnore
 	 *
 	 * @param WP_Block_Parser_Block[] $blocks  An array of the FAQ blocks on this page.
 	 * @param WPSEO_Schema_Context    $context A value object with context variables.
@@ -30,8 +30,8 @@ class WPSEO_Schema_FAQ_Question_List {
 	/**
 	 * Find an image based on its URL and generate a Schema object for it.
 	 *
-	 * @codeCoverageIgnore
 	 * @deprecated 14.0
+	 * @codeCoverageIgnore
 	 *
 	 * @return array The Schema with a question list added.
 	 */

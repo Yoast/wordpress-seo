@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DataModel should render with only the required props 1`] = `
+<ul
+  aria-label="Prominent words"
+  className="yoast-data-model"
+>
+  <li
+    style={
+      Object {
+        "--yoast-width": "60%",
+      }
+    }
+  >
+    test
+    <span>
+      60
+    </span>
+    <span
+      className="screen-reader-text"
+    >
+      60 occurrences
+    </span>
+  </li>
+</ul>
+`;

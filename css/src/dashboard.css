@@ -7,7 +7,7 @@
   padding-left: 0;
 }
 
-#yoast-seo-dashboard-widget .wordpress-feed {
+#yoast-seo-dashboard-widget .wordpress-feed, #yoast-seo-dashboard-widget .wincher-seo-performance {
   margin: 16px -12px 0;
   padding: 12px 12px 0;
   border-top: 1px solid #eee;
@@ -61,7 +61,7 @@
   content: "";
   width: 40px;
   height: 40px;
-  background-image: url("../../images/Yoast_SEO_Icon.svg");
+  background-image: url("../../packages/js/images/Yoast_SEO_Icon.svg");
   margin: 25px auto;
   -webkit-animation: rotate 2s infinite linear;
   animation: rotate 2s infinite linear;

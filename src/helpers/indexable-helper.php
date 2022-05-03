@@ -43,6 +43,53 @@ class Indexable_Helper {
 	protected $indexing_helper;
 
 	/**
+	 * Default values of certain columns.
+	 *
+	 * @var array
+	 */
+	protected $default_values = [
+		'title'                  => [
+			'default_value'   => null,
+		],
+		'description'            => [
+			'default_value'   => null,
+		],
+		'open_graph_title'       => [
+			'default_value'   => null,
+		],
+		'open_graph_description' => [
+			'default_value'   => null,
+		],
+		'twitter_title'          => [
+			'default_value'   => null,
+		],
+		'twitter_description'    => [
+			'default_value'   => null,
+		],
+		'canonical'              => [
+			'default_value'   => null,
+		],
+		'primary_focus_keyword'  => [
+			'default_value'   => null,
+		],
+		'is_robots_noindex'      => [
+			'default_value'   => null,
+		],
+		'is_robots_nofollow'     => [
+			'default_value'   => false,
+		],
+		'is_robots_noarchive'    => [
+			'default_value'   => null,
+		],
+		'is_robots_noimageindex' => [
+			'default_value'   => null,
+		],
+		'is_robots_nosnippet'    => [
+			'default_value'   => null,
+		],
+	];
+
+	/**
 	 * Indexable_Helper constructor.
 	 *
 	 * @param Options_Helper     $options_helper     The options helper.
@@ -58,9 +105,9 @@ class Indexable_Helper {
 	/**
 	 * Sets the indexable repository. Done to avoid circular dependencies.
 	 *
-	 * @param Indexable_Repository $repository The indexable repository.
-	 *
 	 * @required
+	 *
+	 * @param Indexable_Repository $repository The indexable repository.
 	 */
 	public function set_indexable_repository( Indexable_Repository $repository ) {
 		$this->repository = $repository;
@@ -111,8 +158,8 @@ class Indexable_Helper {
 	/**
 	 * Resets the permalinks of the indexables.
 	 *
-	 * @param string      $type    The type of the indexable.
-	 * @param null|string $subtype The subtype. Can be null.
+	 * @param string|null $type    The type of the indexable.
+	 * @param string|null $subtype The subtype. Can be null.
 	 * @param string      $reason  The reason that the permalink has been changed.
 	 */
 	public function reset_permalink_indexables( $type = null, $subtype = null, $reason = Indexing_Reasons::REASON_PERMALINK_SETTINGS ) {
@@ -121,20 +168,32 @@ class Indexable_Helper {
 		$this->indexing_helper->set_reason( $reason );
 
 		if ( $result !== false && $result > 0 ) {
-			\delete_transient( Indexable_Post_Indexation_Action::TRANSIENT_CACHE_KEY );
-			\delete_transient( Indexable_Post_Type_Archive_Indexation_Action::TRANSIENT_CACHE_KEY );
-			\delete_transient( Indexable_Term_Indexation_Action::TRANSIENT_CACHE_KEY );
+			\delete_transient( Indexable_Post_Indexation_Action::UNINDEXED_COUNT_TRANSIENT );
+			\delete_transient( Indexable_Post_Type_Archive_Indexation_Action::UNINDEXED_COUNT_TRANSIENT );
+			\delete_transient( Indexable_Term_Indexation_Action::UNINDEXED_COUNT_TRANSIENT );
 		}
 	}
 
 	/**
 	 * Determines whether indexing indexables is appropriate at this time.
 	 *
-	 * @return bool Whether or not the indexables should be indexed.
+	 * @return bool Whether the indexables should be indexed.
 	 */
 	public function should_index_indexables() {
-		// Currently the only reason to index is when we're on a production website.
-		return $this->environment_helper->is_production_mode();
+		// Currently, the only reason to index is when we're on a production website.
+		$should_index = $this->environment_helper->is_production_mode();
+
+		/**
+		 * Filter: 'Yoast\WP\SEO\should_index_indexables' - Allow developers to enable / disable
+		 * creating indexables. Warning: overriding
+		 * the intended action may cause problems when moving from a staging to a
+		 * production environment because indexable permalinks may get set incorrectly.
+		 *
+		 * @since 18.2
+		 *
+		 * @param bool $should_index Whether the site's indexables should be created.
+		 */
+		return (bool) \apply_filters( 'Yoast\WP\SEO\should_index_indexables', $should_index );
 	}
 
 	/**
@@ -158,5 +217,45 @@ class Indexable_Helper {
 	 */
 	public function finish_indexing() {
 		$this->options_helper->set( 'indexables_indexing_completed', true );
+	}
+
+	/**
+	 * Checks whether the indexable has default values in given fields.
+	 *
+	 * @param Indexable $indexable The Yoast indexable that we're checking.
+	 * @param array     $fields    The Yoast indexable fields that we're checking against.
+	 *
+	 * @return bool Whether the indexable has default values.
+	 */
+	public function check_if_default_indexable( $indexable, $fields ) {
+		foreach ( $fields as $field ) {
+			$is_default = $this->check_if_default_field( $indexable, $field );
+			if ( ! $is_default ) {
+				break;
+			}
+		}
+
+		return $is_default;
+	}
+
+	/**
+	 * Checks if an indexable field contains the default value.
+	 *
+	 * @param Indexable $indexable The Yoast indexable that we're checking.
+	 * @param string    $field     The field that we're checking.
+	 *
+	 * @return bool True if default value.
+	 */
+	public function check_if_default_field( $indexable, $field ) {
+		$defaults = $this->default_values;
+		if ( ! isset( $defaults[ $field ] ) ) {
+			return false;
+		}
+
+		if ( $indexable->$field === $defaults[ $field ]['default_value'] ) {
+			return true;
+		}
+
+		return false;
 	}
 }

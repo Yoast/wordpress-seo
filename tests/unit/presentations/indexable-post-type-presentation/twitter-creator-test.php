@@ -15,6 +15,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group twitter-creator
  */
 class Twitter_Creator_Test extends TestCase {
+
 	use Presentation_Instance_Builder;
 
 	/**

@@ -32,7 +32,7 @@ class Admin_Columns_Cache_Integration implements Integration_Interface {
 	 *
 	 * In this case: only when on an admin page.
 	 *
-	 * @returns array The conditionals.
+	 * @return array The conditionals.
 	 */
 	public static function get_conditionals() {
 		return [ Admin_Conditional::class ];
@@ -55,10 +55,6 @@ class Admin_Columns_Cache_Integration implements Integration_Interface {
 	 * page (e.g. keyword score, incoming link count, etc.)
 	 */
 	public function register_hooks() {
-		if ( \wp_doing_ajax() ) {
-			\add_action( 'admin_init', [ $this, 'fill_cache' ] );
-		}
-
 		// Hook into tablenav to calculate links and linked.
 		\add_action( 'manage_posts_extra_tablenav', [ $this, 'maybe_fill_cache' ] );
 	}
@@ -80,7 +76,12 @@ class Admin_Columns_Cache_Integration implements Integration_Interface {
 	public function fill_cache() {
 		global $wp_query;
 
-		$posts    = empty( $wp_query->posts ) ? $wp_query->get_posts() : $wp_query->posts;
+		// No need to continue building a cache if the main query did not return anything to cache.
+		if ( empty( $wp_query->posts ) ) {
+			return;
+		}
+
+		$posts    = $wp_query->posts;
 		$post_ids = [];
 
 		// Post lists return a list of objects.
@@ -117,7 +118,7 @@ class Admin_Columns_Cache_Integration implements Integration_Interface {
 	 *
 	 * @param int $post_id The post ID.
 	 *
-	 * @return Indexable|false. The indexable. False if none could be found.
+	 * @return Indexable|false The indexable. False if none could be found.
 	 */
 	public function get_indexable( $post_id ) {
 		if ( ! \array_key_exists( $post_id, $this->indexable_cache ) ) {
@@ -215,7 +216,7 @@ class Admin_Columns_Cache_Integration implements Integration_Interface {
 	 *
 	 * @param array $children_pages The full map of child pages.
 	 * @param int   $count          The number of pages already processed.
-	 * @param int   $parent         The parent that's currently being processed.
+	 * @param int   $parent_id      The id of the parent that's currently being processed.
 	 * @param int   $start          The number at which the current overview starts.
 	 * @param int   $end            The number at which the current overview ends.
 	 * @param int   $to_display     The page IDs to be shown.
@@ -223,12 +224,12 @@ class Admin_Columns_Cache_Integration implements Integration_Interface {
 	 *
 	 * @return void
 	 */
-	private function get_child_page_ids( &$children_pages, &$count, $parent, $start, $end, &$to_display, &$pages_map ) {
-		if ( ! isset( $children_pages[ $parent ] ) ) {
+	private function get_child_page_ids( &$children_pages, &$count, $parent_id, $start, $end, &$to_display, &$pages_map ) {
+		if ( ! isset( $children_pages[ $parent_id ] ) ) {
 			return;
 		}
 
-		foreach ( $children_pages[ $parent ] as $page ) {
+		foreach ( $children_pages[ $parent_id ] as $page ) {
 			if ( $count >= $end ) {
 				break;
 			}
@@ -265,6 +266,6 @@ class Admin_Columns_Cache_Integration implements Integration_Interface {
 			$this->get_child_page_ids( $children_pages, $count, $page->ID, $start, $end, $to_display, $pages_map );
 		}
 
-		unset( $children_pages[ $parent ] ); // Required in order to keep track of orphans.
+		unset( $children_pages[ $parent_id ] ); // Required in order to keep track of orphans.
 	}
 }

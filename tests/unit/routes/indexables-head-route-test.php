@@ -116,6 +116,10 @@ class Indexables_Head_Route_Test extends TestCase {
 
 		Mockery::mock( 'overload:WP_REST_Response' );
 
+		Monkey\Functions\expect( 'utf8_uri_encode' )
+			->with( 'https://example.org' )
+			->andReturnFirstArg();
+
 		$this->assertInstanceOf( 'WP_REST_Response', $this->instance->get_head( $request ) );
 	}
 
@@ -125,6 +129,10 @@ class Indexables_Head_Route_Test extends TestCase {
 	 * @covers ::is_valid_url
 	 */
 	public function test_is_valid_url_with_invalid_url_given() {
+		Monkey\Functions\expect( 'utf8_uri_encode' )
+			->with( 'foo bar baz' )
+			->andReturnFirstArg();
+
 		$this->assertFalse( $this->instance->is_valid_url( 'foo bar baz' ) );
 	}
 
@@ -134,6 +142,10 @@ class Indexables_Head_Route_Test extends TestCase {
 	 * @covers ::is_valid_url
 	 */
 	public function test_is_valid_url_with_valid_url_given() {
+		Monkey\Functions\expect( 'utf8_uri_encode' )
+			->with( 'https://example.org' )
+			->andReturnFirstArg();
+
 		$this->assertTrue( $this->instance->is_valid_url( 'https://example.org' ) );
 	}
 }

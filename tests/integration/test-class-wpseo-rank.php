@@ -33,11 +33,11 @@ class WPSEO_Rank_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests whether the correct css class is returned.
 	 *
-	 * @param int    $rank     Ranking.
-	 * @param string $expected Expected CSS class.
-	 *
 	 * @dataProvider provider_get_css_class
 	 * @covers       WPSEO_Rank::get_css_class
+	 *
+	 * @param int    $rank     Ranking.
+	 * @param string $expected Expected CSS class.
 	 */
 	public function test_get_css_class( $rank, $expected ) {
 		$rank = new WPSEO_Rank( $rank );
@@ -63,11 +63,11 @@ class WPSEO_Rank_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests whether the correct label is returned.
 	 *
-	 * @param int    $rank     Ranking.
-	 * @param string $expected Expected label.
-	 *
 	 * @dataProvider provider_get_label
 	 * @covers       WPSEO_Rank::get_label
+	 *
+	 * @param int    $rank     Ranking.
+	 * @param string $expected Expected label.
 	 */
 	public function test_get_label( $rank, $expected ) {
 		$rank = new WPSEO_Rank( $rank );
@@ -93,11 +93,11 @@ class WPSEO_Rank_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests whether the correct label for the drop down is returned.
 	 *
-	 * @param int    $rank     Ranking.
-	 * @param string $expected Expected drop-down label.
-	 *
 	 * @dataProvider provider_get_drop_down_label
 	 * @covers       WPSEO_Rank::get_drop_down_label
+	 *
+	 * @param int    $rank     Ranking.
+	 * @param string $expected Expected drop-down label.
 	 */
 	public function test_get_drop_down_label( $rank, $expected ) {
 		$rank = new WPSEO_Rank( $rank );
@@ -123,11 +123,11 @@ class WPSEO_Rank_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests whether the correct starting score is returned for the passed rank.
 	 *
-	 * @param int    $rank     Ranking.
-	 * @param string $expected Expected start score.
-	 *
 	 * @dataProvider provider_get_starting_score
 	 * @covers       WPSEO_Rank::get_starting_score
+	 *
+	 * @param int    $rank     Ranking.
+	 * @param string $expected Expected start score.
 	 */
 	public function test_get_starting_score( $rank, $expected ) {
 		$rank = new WPSEO_Rank( $rank );
@@ -153,11 +153,11 @@ class WPSEO_Rank_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests whether the correct end score is returned for the passed rank.
 	 *
-	 * @param int    $rank     Ranking.
-	 * @param string $expected Expected end score.
-	 *
 	 * @dataProvider provider_get_end_score
 	 * @covers       WPSEO_Rank::get_end_score
+	 *
+	 * @param int    $rank     Ranking.
+	 * @param string $expected Expected end score.
 	 */
 	public function test_get_end_score( $rank, $expected ) {
 		$rank = new WPSEO_Rank( $rank );
@@ -183,11 +183,11 @@ class WPSEO_Rank_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests whether the correct rank is returned for the passed numeric score.
 	 *
-	 * @param int $score    Numeric score.
-	 * @param int $expected Expected ranking.
-	 *
 	 * @dataProvider provider_from_numeric_score
 	 * @covers       WPSEO_Rank::from_numeric_score
+	 *
+	 * @param int $score    Numeric score.
+	 * @param int $expected Expected ranking.
 	 */
 	public function test_from_numeric_score( $score, $expected ) {
 		$rank = WPSEO_Rank::from_numeric_score( $score );

@@ -4,7 +4,6 @@ namespace Yoast\WP\SEO\Generators;
 
 use Error;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
-use Yoast\WP\SEO\Generators\Generator_Interface;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper as Open_Graph_Image_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
@@ -106,9 +105,31 @@ class Open_Graph_Image_Generator implements Generator_Interface {
 			$image_container = $backup_image_container;
 		}
 
+		$this->add_from_templates( $context, $image_container );
 		$this->add_from_default( $image_container );
 
 		return $image_container->get_images();
+	}
+
+	/**
+	 * Retrieves the images for an author archive indexable.
+	 *
+	 * This is a custom method to address the case of Author Archives, since they always have an Open Graph image
+	 * set in the indexable (even if it is an empty default Gravatar).
+	 *
+	 * @param Meta_Tags_Context $context The context.
+	 *
+	 * @return array The images.
+	 */
+	public function generate_for_author_archive( Meta_Tags_Context $context ) {
+		$image_container = $this->get_image_container();
+
+		$this->add_from_templates( $context, $image_container );
+		if ( $image_container->has_images() ) {
+			return $image_container->get_images();
+		}
+
+		return $this->generate( $context );
 	}
 
 	/**
@@ -165,6 +186,27 @@ class Open_Graph_Image_Generator implements Generator_Interface {
 		$default_image_url = $this->options->get( 'og_default_image', '' );
 		if ( $default_image_url ) {
 			$image_container->add_image_by_url( $default_image_url );
+		}
+	}
+
+	/**
+	 * Retrieves the default Open Graph image.
+	 *
+	 * @param Meta_Tags_Context $context         The context.
+	 * @param Images            $image_container The image container.
+	 */
+	protected function add_from_templates( Meta_Tags_Context $context, Images $image_container ) {
+		if ( $image_container->has_images() ) {
+			return;
+		}
+
+		if ( $context->presentation->open_graph_image_id ) {
+			$image_container->add_image_by_id( $context->presentation->open_graph_image_id );
+			return;
+		}
+
+		if ( $context->presentation->open_graph_image ) {
+			$image_container->add_image_by_url( $context->presentation->open_graph_image );
 		}
 	}
 

@@ -10,7 +10,7 @@ class The_Events_Calendar_Conditional implements Conditional {
 	/**
 	 * Returns whether or not this conditional is met.
 	 *
-	 * @return boolean Whether or not the conditional is met.
+	 * @return bool Whether or not the conditional is met.
 	 */
 	public function is_met() {
 		return \defined( 'TRIBE_EVENTS_FILE' );

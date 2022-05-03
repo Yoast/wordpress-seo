@@ -22,6 +22,8 @@ class Indexable_Static_Home_Page_Watcher implements Integration_Interface {
 
 	/**
 	 * Returns the conditionals based on which this loadable should be active.
+	 *
+	 * @return array
 	 */
 	public static function get_conditionals() {
 		return [ Admin_Conditional::class ];
@@ -30,9 +32,9 @@ class Indexable_Static_Home_Page_Watcher implements Integration_Interface {
 	/**
 	 * Indexable_Static_Home_Page_Watcher constructor.
 	 *
-	 * @param Indexable_Repository $repository The repository to use.
-	 *
 	 * @codeCoverageIgnore
+	 *
+	 * @param Indexable_Repository $repository The repository to use.
 	 */
 	public function __construct( Indexable_Repository $repository ) {
 		$this->repository = $repository;

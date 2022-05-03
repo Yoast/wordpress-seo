@@ -2,12 +2,10 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Watchers;
 
-use Yoast\WP\SEO\Conditionals\Admin_Conditional;
-use Yoast\WP\SEO\Tests\Unit\TestCase;
-
 use Brain\Monkey;
-
+use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Integrations\Watchers\Addon_Update_Watcher;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Addon_Update_Watcher_Test.
@@ -43,6 +41,10 @@ class Addon_Update_Watcher_Test extends TestCase {
 	 * @covers ::register_hooks
 	 */
 	public function test_register_hooks() {
+		Monkey\Actions\expectAdded( 'add_site_option_auto_update_plugins' )
+			->with( [ $this->instance, 'call_toggle_auto_updates_with_empty_array' ] )
+			->once();
+
 		Monkey\Actions\expectAdded( 'update_site_option_auto_update_plugins' )
 			->with( [ $this->instance, 'toggle_auto_updates_for_add_ons' ] )
 			->once();
@@ -61,6 +63,30 @@ class Addon_Update_Watcher_Test extends TestCase {
 	 */
 	public function test_get_conditionals() {
 		self::assertEquals( [ Admin_Conditional::class ], Addon_Update_Watcher::get_conditionals() );
+	}
+
+	/**
+	 * Tests that add-on auto-updates are enabled when the `auto_update_plugins` option didn't previously exist.
+	 *
+	 * @covers ::call_toggle_auto_updates_with_empty_array
+	 */
+	public function test_auto_update_plugins_option_did_not_exist() {
+		$plugins = [
+			'wordpress-seo/wp-seo.php',
+			'wordpress-seo-premium/wp-seo-premium.php',
+			'wpseo-video/video-seo.php',
+			'wpseo-local/local-seo.php',
+			'wpseo-woocommerce/wpseo-woocommerce.php',
+			'wpseo-news/wpseo-news.php',
+			'acf-content-analysis-for-yoast-seo/yoast-acf-analysis.php',
+		];
+
+		Monkey\Functions\expect( 'update_site_option' )
+			->once()
+			->with( 'auto_update_plugins', $plugins )
+			->andReturn( true );
+
+		$this->instance->call_toggle_auto_updates_with_empty_array( 'auto_update_plugins', [ 'wordpress-seo/wp-seo.php' ] );
 	}
 
 	/**
@@ -314,9 +340,9 @@ class Addon_Update_Watcher_Test extends TestCase {
 	 *
 	 * @covers ::replace_auto_update_toggles_of_addons
 	 *
-	 * @param string $plugin The plugin string to test.
-	 *
 	 * @dataProvider plugin_provider
+	 *
+	 * @param string $plugin The plugin string to test.
 	 */
 	public function test_replace_auto_update_toggles_from_addons_with_enabled_text( $plugin ) {
 		$old_html = 'old_html';
@@ -341,9 +367,9 @@ class Addon_Update_Watcher_Test extends TestCase {
 	 * @covers ::replace_auto_update_toggles_of_addons
 	 * @covers ::are_auto_updates_enabled
 	 *
-	 * @param string $plugin The plugin string to test.
-	 *
 	 * @dataProvider plugin_provider
+	 *
+	 * @param string $plugin The plugin string to test.
 	 */
 	public function test_replace_auto_update_toggles_from_addons_with_disabled_text( $plugin ) {
 		$old_html = 'old_html';
@@ -368,9 +394,9 @@ class Addon_Update_Watcher_Test extends TestCase {
 	 * @covers ::replace_auto_update_toggles_of_addons
 	 * @covers ::are_auto_updates_enabled
 	 *
-	 * @param string $plugin The plugin string to test.
-	 *
 	 * @dataProvider plugin_provider
+	 *
+	 * @param string $plugin The plugin string to test.
 	 */
 	public function test_replace_auto_update_toggles_from_addons_when_enabled_plugins_false( $plugin ) {
 		$old_html = 'old_html';
@@ -395,9 +421,9 @@ class Addon_Update_Watcher_Test extends TestCase {
 	 * @covers ::replace_auto_update_toggles_of_addons
 	 * @covers ::are_auto_updates_enabled
 	 *
-	 * @param string $plugin The plugin string to test.
-	 *
 	 * @dataProvider plugin_provider
+	 *
+	 * @param string $plugin The plugin string to test.
 	 */
 	public function test_replace_auto_update_toggles_from_addons_when_enabled_plugins_not_an_array( $plugin ) {
 		$old_html = 'old_html';

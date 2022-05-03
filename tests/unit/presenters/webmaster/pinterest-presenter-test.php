@@ -68,7 +68,15 @@ class Pinterest_Presenter_Test extends TestCase {
 			'<meta name="p:domain_verify" content="pinterest-ver" />',
 			$this->instance->present()
 		);
+	}
 
+	/**
+	 * Test an empty presentation.
+	 *
+	 * @covers ::present
+	 * @covers ::get
+	 */
+	public function test_present_empty() {
 		$this->options->expects( 'get' )->with( $this->option_name, '' )->andReturn( '' );
 
 		$this->assertSame(

@@ -21,39 +21,53 @@ class Main_Image extends Abstract_Schema_Piece {
 	/**
 	 * Adds a main image for the current URL to the schema if there is one.
 	 *
-	 * This can be either the featured image, or fall back to the first image in the content of the page.
+	 * This can be either a social image (Open Graph or Twitter), the featured image,
+	 * or fall back to the first image in the content of the page.
 	 *
-	 * @return false|array $data Image Schema.
+	 * @return false|array Image Schema.
 	 */
 	public function generate() {
-		$image_id     = $this->context->canonical . Schema_IDs::PRIMARY_IMAGE_HASH;
-		$image_schema = $this->get_image_from_indexable( $image_id );
+		$image_id = $this->context->canonical . Schema_IDs::PRIMARY_IMAGE_HASH;
 
-		if ( $image_schema === null ) {
-			return false;
+		// The Open Graph image. Try generating from meta first, as it doesn't require any db queries.
+		if ( isset( $this->context->indexable->open_graph_image_meta ) && $this->context->indexable->open_graph_image_source === 'set-by-user' ) {
+			$generated_schema = $this->helpers->schema->image->generate_from_attachment_meta( $image_id, $this->context->indexable->open_graph_image_meta );
+			$this->context->main_image_url = $generated_schema['url'];
+			$this->context->main_image_id  = $this->context->indexable->open_graph_image_id;
+
+			return $generated_schema;
 		}
 
-		$this->context->has_image = true;
+		if ( isset( $this->context->indexable->open_graph_image_id ) && $this->context->indexable->open_graph_image_source === 'set-by-user' ) {
+			$generated_schema              = $this->helpers->schema->image->generate_from_attachment_id( $image_id, $this->context->indexable->open_graph_image_id );
+			$this->context->main_image_url = $generated_schema['url'];
+			$this->context->main_image_id  = $this->context->indexable->open_graph_image_id;
 
-		return $image_schema;
-	}
-
-	/**
-	 * Generates the image schema based on the OpenGraph or Twitter image when it's set by the user.
-	 *
-	 * @param string $image_id The image schema ID.
-	 *
-	 * @return array|null The image schema object or null if there is no image in the content.
-	 */
-	private function get_image_from_indexable( $image_id ) {
-		if ( isset( $this->context->indexable->open_graph_image_meta ) ) {
-			return $this->helpers->schema->image->generate_from_attachment_meta( $image_id, $this->context->indexable->open_graph_image_meta );
+			return $generated_schema;
 		}
 
-		if ( isset( $this->context->indexable->twitter_image_id ) ) {
-			return $this->helpers->schema->image->generate_from_attachment_id( $image_id, $this->context->indexable->twitter_image_id );
+		// The Twitter image.
+		if ( isset( $this->context->indexable->twitter_image_id ) && $this->context->indexable->twitter_image_source === 'set-by-user' ) {
+			$generated_schema              = $this->helpers->schema->image->generate_from_attachment_id( $image_id, $this->context->indexable->twitter_image_id );
+			$this->context->main_image_url = $generated_schema['url'];
+			$this->context->main_image_id  = $this->context->indexable->twitter_image_id;
+
+			return $generated_schema;
 		}
 
-		return null;
+		// The featured image.
+		if ( $this->context->main_image_id ) {
+			$generated_schema              = $this->helpers->schema->image->generate_from_attachment_id( $image_id, $this->context->main_image_id );
+			$this->context->main_image_url = $generated_schema['url'];
+
+			return $generated_schema;
+		}
+
+		// The first image in the content.
+		if ( $this->context->main_image_url ) {
+			return $this->helpers->schema->image->generate_from_url( $image_id, $this->context->main_image_url );
+		}
+
+		return false;
 	}
 }

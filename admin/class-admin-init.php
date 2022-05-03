@@ -35,7 +35,6 @@ class WPSEO_Admin_Init {
 		$this->asset_manager = new WPSEO_Admin_Asset_Manager();
 
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_dismissible' ] );
-		add_action( 'admin_init', [ $this, 'yoast_plugin_suggestions_notification' ], 15 );
 		add_action( 'admin_init', [ $this, 'unsupported_php_notice' ], 15 );
 		add_action( 'admin_init', [ $this->asset_manager, 'register_assets' ] );
 		add_action( 'admin_init', [ $this, 'show_hook_deprecation_warnings' ] );
@@ -49,19 +48,6 @@ class WPSEO_Admin_Init {
 		 * `user_admin_notices` which fires on multisite user admin pagss.
 		 */
 		add_action( 'admin_notices', [ $this, 'search_engines_discouraged_notice' ] );
-
-		$health_checks = [
-			new WPSEO_Health_Check_Page_Comments(),
-			new WPSEO_Health_Check_Ryte(),
-			new WPSEO_Health_Check_Default_Tagline(),
-			new WPSEO_Health_Check_Postname_Permalink(),
-			new WPSEO_Health_Check_Curl_Version(),
-			new WPSEO_Health_Check_Link_Table_Not_Accessible(),
-		];
-
-		foreach ( $health_checks as $health_check ) {
-			$health_check->register_test();
-		}
 
 		$this->load_meta_boxes();
 		$this->load_taxonomy_class();
@@ -79,59 +65,6 @@ class WPSEO_Admin_Init {
 	}
 
 	/**
-	 * Determines whether a suggested plugins notification needs to be displayed.
-	 *
-	 * @return void
-	 */
-	public function yoast_plugin_suggestions_notification() {
-		$checker             = new WPSEO_Plugin_Availability();
-		$notification_center = Yoast_Notification_Center::get();
-
-		// Get all Yoast plugins that have dependencies.
-		$plugins = $checker->get_plugins_with_dependencies();
-
-		foreach ( $plugins as $plugin_name => $plugin ) {
-			$dependency_names = $checker->get_dependency_names( $plugin );
-			$notification     = $this->get_yoast_seo_suggested_plugins_notification( $plugin_name, $plugin, $dependency_names[0] );
-
-			if ( $checker->dependencies_are_satisfied( $plugin ) && ! $checker->is_installed( $plugin ) ) {
-				$notification_center->add_notification( $notification );
-
-				continue;
-			}
-
-			$notification_center->remove_notification( $notification );
-		}
-	}
-
-	/**
-	 * Build Yoast SEO suggested plugins notification.
-	 *
-	 * @param string $name            The plugin name to use for the unique ID.
-	 * @param array  $plugin          The plugin to retrieve the data from.
-	 * @param string $dependency_name The name of the dependency.
-	 *
-	 * @return Yoast_Notification The notification containing the suggested plugin.
-	 */
-	private function get_yoast_seo_suggested_plugins_notification( $name, $plugin, $dependency_name ) {
-		$info_message = sprintf(
-			/* translators: %1$s expands to Yoast SEO, %2$s expands to the plugin version, %3$s expands to the plugin name */
-			__( '%1$s and %2$s can work together a lot better by adding a helper plugin. Please install %3$s to make your life better.', 'wordpress-seo' ),
-			'Yoast SEO',
-			$dependency_name,
-			sprintf( '<a href="%s">%s</a>', $plugin['url'], $plugin['title'] )
-		);
-
-		return new Yoast_Notification(
-			$info_message,
-			[
-				'id'   => 'wpseo-suggested-plugin-' . $name,
-				'type' => Yoast_Notification::WARNING,
-			]
-		);
-	}
-
-	/**
 	 * Creates an unsupported PHP version notification in the notification center.
 	 *
 	 * @return void
@@ -144,7 +77,7 @@ class WPSEO_Admin_Init {
 	/**
 	 * Gets the latest released major WordPress version from the WordPress stable-check api.
 	 *
-	 * @return float The latest released major WordPress version. 0 The stable-check api doesn't respond.
+	 * @return float|int The latest released major WordPress version. 0 when the stable-check API doesn't respond.
 	 */
 	private function get_latest_major_wordpress_version() {
 		$core_updates = get_core_updates( [ 'dismissed' => true ] );
@@ -231,10 +164,13 @@ class WPSEO_Admin_Init {
 			// For backwards compatabilty, this still needs a global, for now...
 			$GLOBALS['wpseo_admin_pages'] = new WPSEO_Admin_Pages();
 
+			$page = filter_input( INPUT_GET, 'page' );
 			// Only register the yoast i18n when the page is a Yoast SEO page.
-			if ( WPSEO_Utils::is_yoast_seo_free_page( filter_input( INPUT_GET, 'page' ) ) ) {
+			if ( WPSEO_Utils::is_yoast_seo_free_page( $page ) ) {
 				$this->register_i18n_promo_class();
-				$this->register_premium_upsell_admin_block();
+				if ( $page !== 'wpseo_titles' ) {
+					$this->register_premium_upsell_admin_block();
+				}
 			}
 		}
 	}

@@ -311,16 +311,16 @@ class Breadcrumbs_Generator_Test extends TestCase {
 	/**
 	 * Tests the generation of the bread crumbs for a date archive.
 	 *
-	 * @param string $scenario     Scenario to test (day, month, year).
-	 * @param bool   $is_paged     Is the page being paged.
-	 * @param int    $current_page The current page number.
-	 * @param array  $expected     The expected output.
-	 *
 	 * @dataProvider date_archive_provider
 	 *
 	 * @covers ::generate
 	 * @covers ::get_date_archive_crumb
 	 * @covers ::add_paged_crumb
+	 *
+	 * @param string $scenario     Scenario to test (day, month, year).
+	 * @param bool   $is_paged     Is the page being paged.
+	 * @param int    $current_page The current page number.
+	 * @param array  $expected     The expected output.
 	 */
 	public function test_with_date_archive( $scenario, $is_paged, $current_page, $expected ) {
 		$this->stubEscapeFunctions();

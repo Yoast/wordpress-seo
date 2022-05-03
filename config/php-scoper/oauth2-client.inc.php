@@ -36,6 +36,25 @@ return array(
 		 * @return string The modified content.
 		 */
 		function( $file_path, $prefix, $content ) {
+			/*
+			 * Restore incorrect PHP 8.0+ attribute use statement prefix.
+			 *
+			 * This implementation is not ideal, php-scoper should be improved to deal with this.
+			 * php-scoper is not yet PHP 8.0 compatible in run-time either, not expecting a fix soon.
+			 *
+			 * This was tested with php-scoper 0.15.0 - but not committed as it seemed out of scope.
+			 *
+			 * This will become relevant when the following PR is merged and the dependency is upgraded
+			 * to the released version.
+			 *
+			 * https://github.com/thephpleague/oauth2-client/pull/919
+			 */
+			$content = str_replace(
+				sprintf( 'use %s\ReturnTypeWillChange;', $prefix ),
+				'use ReturnTypeWillChange;',
+				$content
+			);
+
 			// 26 is the length of the GrantFactory.php file path.
 			if ( substr( $file_path, -26 ) !== 'src/Grant/GrantFactory.php' ) {
 				return $content;

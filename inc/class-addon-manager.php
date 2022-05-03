@@ -82,7 +82,7 @@ class WPSEO_Addon_Manager {
 	/**
 	 * Holds the site information data.
 	 *
-	 * @var object
+	 * @var stdClass
 	 */
 	private $site_information;
 
@@ -97,6 +97,18 @@ class WPSEO_Addon_Manager {
 		add_action( 'admin_init', [ $this, 'validate_addons' ], 15 );
 		add_filter( 'pre_set_site_transient_update_plugins', [ $this, 'check_for_updates' ] );
 		add_filter( 'plugins_api', [ $this, 'get_plugin_information' ], 10, 3 );
+		add_action( 'plugins_loaded', [ $this, 'register_expired_messages' ], 10 );
+	}
+
+	/**
+	 * Registers "expired subscription" warnings to the update messages of our addons.
+	 *
+	 * @return void
+	 */
+	public function register_expired_messages() {
+		foreach ( array_keys( $this->get_installed_addons() ) as $plugin_file ) {
+			add_action( 'in_plugin_update_message-' . $plugin_file, [ $this, 'expired_subscription_warning' ], 10, 2 );
+		}
 	}
 
 	/**
@@ -106,6 +118,40 @@ class WPSEO_Addon_Manager {
 	 */
 	public function get_subscriptions() {
 		return $this->get_site_information()->subscriptions;
+	}
+
+	/**
+	 * Provides a list of addon filenames.
+	 *
+	 * @return string[] List of addon filenames with their slugs.
+	 */
+	public function get_addon_filenames() {
+		return self::$addons;
+	}
+
+	/**
+	 * Finds the plugin file.
+	 *
+	 * @param string $plugin_slug The plugin slug to search.
+	 *
+	 * @return bool|string Plugin file when installed, False when plugin isn't installed.
+	 */
+	public function get_plugin_file( $plugin_slug ) {
+		$plugins            = $this->get_plugins();
+		$plugin_files       = array_keys( $plugins );
+		$target_plugin_file = array_search( $plugin_slug, $this->get_addon_filenames(), true );
+
+		if ( ! $target_plugin_file ) {
+			return false;
+		}
+
+		foreach ( $plugin_files as $plugin_file ) {
+			if ( strpos( $plugin_file, $target_plugin_file ) !== false ) {
+				return $plugin_file;
+			}
+		}
+
+		return false;
 	}
 
 	/**
@@ -174,11 +220,43 @@ class WPSEO_Addon_Manager {
 		}
 
 		$subscription = $this->get_subscription( $args->slug );
-		if ( ! $subscription || $this->has_subscription_expired( $subscription ) ) {
+		if ( ! $subscription ) {
 			return $data;
 		}
 
-		return $this->convert_subscription_to_plugin( $subscription );
+		$data = $this->convert_subscription_to_plugin( $subscription, null, true );
+
+		if ( $this->has_subscription_expired( $subscription ) ) {
+			unset( $data->package, $data->download_link );
+		}
+
+		return $data;
+	}
+
+	/**
+	 * Retrieves information from MyYoast about which addons are connected to the current site.
+	 *
+	 * @return stdClass The list of addons activated for this site.
+	 */
+	public function get_myyoast_site_information() {
+		if ( $this->site_information === null ) {
+			$this->site_information = $this->get_site_information_transient();
+		}
+
+		if ( $this->site_information ) {
+			return $this->site_information;
+		}
+
+		$this->site_information = $this->request_current_sites();
+		if ( $this->site_information ) {
+			$this->site_information = $this->map_site_information( $this->site_information );
+
+			$this->set_site_information_transient( $this->site_information );
+
+			return $this->site_information;
+		}
+
+		return $this->get_site_information_default();
 	}
 
 	/**
@@ -192,7 +270,7 @@ class WPSEO_Addon_Manager {
 		$subscription = $this->get_subscription( $slug );
 
 		// An non-existing subscription is never valid.
-		if ( $subscription === false ) {
+		if ( ! $subscription ) {
 			return false;
 		}
 
@@ -207,28 +285,90 @@ class WPSEO_Addon_Manager {
 	 * @return stdClass Extended data for update_plugins.
 	 */
 	public function check_for_updates( $data ) {
+		global $wp_version;
+
 		if ( empty( $data ) ) {
 			return $data;
 		}
+
+		// We have to figure out if we're safe to upgrade the add-ons, based on what the latest Yoast Free requirements for the WP version is.
+		$yoast_free_data = $this->extract_yoast_data( $data );
 
 		foreach ( $this->get_installed_addons() as $plugin_file => $installed_plugin ) {
 			$subscription_slug = $this->get_slug_by_plugin_file( $plugin_file );
 			$subscription      = $this->get_subscription( $subscription_slug );
 
-			if ( ! $subscription || $this->has_subscription_expired( $subscription ) ) {
+			if ( ! $subscription ) {
 				continue;
 			}
 
-			if ( version_compare( $installed_plugin['Version'], $subscription->product->version, '<' ) ) {
-				$data->response[ $plugin_file ] = $this->convert_subscription_to_plugin( $subscription );
+			$plugin_data = $this->convert_subscription_to_plugin( $subscription, $yoast_free_data, false, $plugin_file );
+
+			// Let's assume for now that it will get added in the 'no_update' key that we'll return to the WP API.
+			$is_no_update = true;
+
+			// If the add-on's version is the latest, we have to do no further checks.
+			if ( version_compare( $installed_plugin['Version'], $plugin_data->new_version, '<' ) ) {
+				// If we haven't retrieved the Yoast Free requirements for the WP version yet, do nothing. The next run will probably get us that information.
+				if ( is_null( $plugin_data->requires ) ) {
+					continue;
+				}
+
+				if ( version_compare( $plugin_data->requires, $wp_version, '<=' ) ) {
+					// The add-on has an available update *and* the Yoast Free requirements for the WP version are also met, so go ahead and show the upgrade info to the user.
+					$is_no_update                   = false;
+					$data->response[ $plugin_file ] = $plugin_data;
+
+					if ( $this->has_subscription_expired( $subscription ) ) {
+						unset( $data->response[ $plugin_file ]->package, $data->response[ $plugin_file ]->download_link );
+					}
+				}
 			}
-			else {
+
+			if ( $is_no_update ) {
 				// Still convert subscription when no updates is available.
-				$data->no_update[ $plugin_file ] = $this->convert_subscription_to_plugin( $subscription );
+				$data->no_update[ $plugin_file ] = $plugin_data;
+
+				if ( $this->has_subscription_expired( $subscription ) ) {
+					unset( $data->no_update[ $plugin_file ]->package, $data->no_update[ $plugin_file ]->download_link );
+				}
 			}
 		}
 
 		return $data;
+	}
+
+	/**
+	 * Extracts Yoast SEO Free's data from the wp.org API response.
+	 *
+	 * @param object $data The wp.org API response.
+	 *
+	 * @return object Yoast Free's data from wp.org.
+	 */
+	protected function extract_yoast_data( $data ) {
+		if ( isset( $data->response[ WPSEO_BASENAME ] ) ) {
+			return $data->response[ WPSEO_BASENAME ];
+		}
+
+		if ( isset( $data->no_update[ WPSEO_BASENAME ] ) ) {
+			return $data->no_update[ WPSEO_BASENAME ];
+		}
+
+		return (object) [];
+	}
+
+	/**
+	 * If the plugin is lacking an active subscription, throw a warning.
+	 *
+	 * @param array $plugin_data The data for the plugin in this row.
+	 */
+	public function expired_subscription_warning( $plugin_data ) {
+		$subscription = $this->get_subscription( $plugin_data['slug'] );
+		if ( $subscription && $this->has_subscription_expired( $subscription ) ) {
+			echo '<br><br>';
+			/* translators: %1$s is the plugin name, %2$s and %3$s are a link. */
+			echo '<strong><span class="wp-ui-text-notification alert dashicons dashicons-warning"></span> ' . sprintf( esc_html__( 'A new version of %1$s is available. %2$sRenew your subscription%3$s if you want to update to the latest version.', 'wordpress-seo' ), esc_html( $plugin_data['name'] ), '<a href="' . esc_attr( WPSEO_Shortlinker::get( 'https://yoa.st/4ey' ) ) . '">', '</a>' ) . '</strong>';
+		}
 	}
 
 	/**
@@ -298,6 +438,18 @@ class WPSEO_Addon_Manager {
 	}
 
 	/**
+	 * Removes the site information transients.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return void
+	 */
+	public function remove_site_information_transients() {
+		delete_transient( self::SITE_INFORMATION_TRANSIENT );
+		delete_transient( self::SITE_INFORMATION_TRANSIENT_QUICK );
+	}
+
+	/**
 	 * Creates an instance of Yoast_Notification.
 	 *
 	 * @param string $product_name The product to create the notification for.
@@ -336,19 +488,29 @@ class WPSEO_Addon_Manager {
 	/**
 	 * Converts a subscription to plugin based format.
 	 *
-	 * @param stdClass $subscription The subscription to convert.
+	 * @param stdClass      $subscription    The subscription to convert.
+	 * @param stdClass|null $yoast_free_data The Yoast Free's data.
+	 * @param bool          $plugin_info     Whether we're in the plugin information modal.
+	 * @param string        $plugin_file     The plugin filename.
 	 *
 	 * @return stdClass The converted subscription.
 	 */
-	protected function convert_subscription_to_plugin( $subscription ) {
+	protected function convert_subscription_to_plugin( $subscription, $yoast_free_data = null, $plugin_info = false, $plugin_file = '' ) {
 		// We need to replace h2's and h3's with h4's because the styling expects that.
 		$changelog = str_replace( '</h2', '</h4', str_replace( '<h2', '<h4', $subscription->product->changelog ) );
 		$changelog = str_replace( '</h3', '</h4', str_replace( '<h3', '<h4', $changelog ) );
+
+		// If we're running this because we want to just show the plugin info in the version details modal, we can fallback to the Yoast Free constants, since that modal will not be accessible anyway in the event that the new Free version increases those constants.
+		$defaults = [
+			// It can be expanded if we have the 'tested' and 'requires_php' data be returned from wp.org in the future.
+			'requires'     => ( $plugin_info ) ? YOAST_SEO_WP_REQUIRED : null,
+		];
 
 		return (object) [
 			'new_version'      => $subscription->product->version,
 			'name'             => $subscription->product->name,
 			'slug'             => $subscription->product->slug,
+			'plugin'           => $plugin_file,
 			'url'              => $subscription->product->store_url,
 			'last_update'      => $subscription->product->last_updated,
 			'homepage'         => $subscription->product->store_url,
@@ -363,8 +525,9 @@ class WPSEO_Addon_Manager {
 			],
 			'update_supported' => true,
 			'banners'          => $this->get_banners( $subscription->product->slug ),
+			// If we have extracted Yoast Free's data before, use that. If not, resort to the defaults.
 			'tested'           => YOAST_SEO_WP_TESTED,
-			'requires'         => YOAST_SEO_WP_REQUIRED,
+			'requires'         => isset( $yoast_free_data->requires ) ? $yoast_free_data->requires : $defaults['requires'],
 			'requires_php'     => YOAST_SEO_PHP_REQUIRED,
 		];
 	}
@@ -596,7 +759,7 @@ class WPSEO_Addon_Manager {
 	 *
 	 * @param object $site_information Site information as received from the API.
 	 *
-	 * @return object Mapped site information.
+	 * @return stdClass Mapped site information.
 	 */
 	protected function map_site_information( $site_information ) {
 		return (object) [
@@ -610,7 +773,7 @@ class WPSEO_Addon_Manager {
 	 *
 	 * @param object $subscription Subscription information as received from the API.
 	 *
-	 * @return object Mapped subscription.
+	 * @return stdClass Mapped subscription.
 	 */
 	protected function map_subscription( $subscription ) {
 		// phpcs:disable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- Not our properties.
@@ -641,24 +804,7 @@ class WPSEO_Addon_Manager {
 			return $this->get_site_information_default();
 		}
 
-		if ( $this->site_information === null ) {
-			$this->site_information = $this->get_site_information_transient();
-		}
-
-		if ( $this->site_information ) {
-			return $this->site_information;
-		}
-
-		$this->site_information = $this->request_current_sites();
-		if ( $this->site_information ) {
-			$this->site_information = $this->map_site_information( $this->site_information );
-
-			$this->set_site_information_transient( $this->site_information );
-
-			return $this->site_information;
-		}
-
-		return $this->get_site_information_default();
+		return $this->get_myyoast_site_information();
 	}
 
 	/**

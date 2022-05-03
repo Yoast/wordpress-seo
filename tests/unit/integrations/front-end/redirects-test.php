@@ -166,7 +166,7 @@ class Redirects_Test extends TestCase {
 			->andReturnTrue();
 
 		$this->redirect
-			->shouldNotReceive( 'do_redirect' );
+			->shouldNotReceive( 'do_safe_redirect' );
 
 		$this->instance->page_redirect();
 	}
@@ -192,7 +192,7 @@ class Redirects_Test extends TestCase {
 			->andReturn( '' );
 
 		$this->redirect
-			->shouldNotReceive( 'do_redirect' );
+			->shouldNotReceive( 'do_safe_redirect' );
 
 		$this->instance->page_redirect();
 	}
@@ -218,7 +218,7 @@ class Redirects_Test extends TestCase {
 			->andReturn( 'https://example.org/redirect' );
 
 		$this->redirect
-			->expects( 'do_redirect' )
+			->expects( 'do_safe_redirect' )
 			->once()
 			->with( 'https://example.org/redirect', 301 );
 
@@ -237,7 +237,7 @@ class Redirects_Test extends TestCase {
 			->andReturnFalse();
 
 		$this->redirect
-			->shouldNotReceive( 'do_redirect' );
+			->shouldNotReceive( 'do_unsafe_redirect' );
 
 		$this->instance->attachment_redirect();
 	}
@@ -260,7 +260,7 @@ class Redirects_Test extends TestCase {
 			->andReturnFalse();
 
 		$this->redirect
-			->shouldNotReceive( 'do_redirect' );
+			->shouldNotReceive( 'do_unsafe_redirect' );
 
 		$this->instance->attachment_redirect();
 	}
@@ -288,7 +288,7 @@ class Redirects_Test extends TestCase {
 			->andReturn( '' );
 
 		$this->redirect
-			->shouldNotReceive( 'do_redirect' );
+			->shouldNotReceive( 'do_unsafe_redirect' );
 
 		$this->instance->attachment_redirect();
 	}
@@ -316,7 +316,7 @@ class Redirects_Test extends TestCase {
 			->andReturn( 'https://example.org/redirect' );
 
 		$this->redirect
-			->expects( 'do_redirect' )
+			->expects( 'do_unsafe_redirect' )
 			->once()
 			->with( 'https://example.org/redirect', 301 );
 

@@ -10,7 +10,7 @@ use Yoast\WPTestUtils\WPIntegration\TestCase;
 /**
  * Tests WPSEO_Admin_Asset_Dev_Server_Location.
  */
-final class Test_Admin_Asset_Dev_Server_Location extends TestCase {
+final class Admin_Asset_Dev_Server_Location_Test extends TestCase {
 
 	/**
 	 * Default arguments to use for creating a new Admin_Asset.
@@ -54,8 +54,6 @@ final class Test_Admin_Asset_Dev_Server_Location extends TestCase {
 
 	/**
 	 * Tests that the dev server falls back to the default asset if it isn't on the dev server.
-	 *
-	 * @integration_test
 	 *
 	 * @covers WPSEO_Admin_Asset_Dev_Server_Location::get_url
 	 * @covers WPSEO_Admin_Asset_SEO_Location::get_url

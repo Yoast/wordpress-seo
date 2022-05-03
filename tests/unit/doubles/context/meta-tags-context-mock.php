@@ -122,6 +122,20 @@ class Meta_Tags_Context_Mock extends Meta_Tags_Context {
 	public $open_graph_enabled = true;
 
 	/**
+	 * Represents the meta image ID.
+	 *
+	 * @var int
+	 */
+	public $main_image_id;
+
+	/**
+	 * Represents the meta image URL.
+	 *
+	 * @var string
+	 */
+	public $main_image_url;
+
+	/**
 	 * Meta_Tags_Context constructor.
 	 */
 	public function __construct() {

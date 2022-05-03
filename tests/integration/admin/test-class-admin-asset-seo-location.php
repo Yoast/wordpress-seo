@@ -10,7 +10,7 @@ use Yoast\WPTestUtils\WPIntegration\TestCase;
 /**
  * Tests WPSEO_Admin_Asset.
  */
-final class Test_WPSEO_Admin_Asset_SEO_Location extends TestCase {
+final class WPSEO_Admin_Asset_SEO_Location_Test extends TestCase {
 
 	/**
 	 * Tests the get_url function.

@@ -30,10 +30,10 @@ class Disable_Core_Sitemaps implements Initializer_Interface {
 	/**
 	 * Sitemaps_Enabled_Conditional constructor.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @param Options_Helper  $options  The options helper.
 	 * @param Redirect_Helper $redirect The redirect helper.
-	 *
-	 * @codeCoverageIgnore
 	 */
 	public function __construct( Options_Helper $options, Redirect_Helper $redirect ) {
 		$this->options  = $options;

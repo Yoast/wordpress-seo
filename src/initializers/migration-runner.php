@@ -66,9 +66,9 @@ class Migration_Runner implements Initializer_Interface {
 	/**
 	 * Runs this initializer.
 	 *
-	 * @throws Exception When a migration errored.
-	 *
 	 * @return void
+	 *
+	 * @throws Exception When a migration errored.
 	 */
 	public function initialize() {
 		$this->run_free_migrations();
@@ -79,9 +79,9 @@ class Migration_Runner implements Initializer_Interface {
 	/**
 	 * Runs the free migrations.
 	 *
-	 * @throws Exception When a migration errored.
-	 *
 	 * @return void
+	 *
+	 * @throws Exception When a migration errored.
 	 */
 	public function run_free_migrations() {
 		$this->run_migrations( 'free' );
@@ -144,20 +144,20 @@ class Migration_Runner implements Initializer_Interface {
 	/**
 	 * Runs a single migration.
 	 *
-	 * @param string $version The version.
-	 * @param string $class   The migration class.
+	 * @param string $version         The version.
+	 * @param string $migration_class The migration class.
 	 *
 	 * @return void
 	 *
 	 * @throws Exception If the migration failed. Caught by the run_migrations function.
 	 */
-	protected function run_migration( $version, $class ) {
+	protected function run_migration( $version, $migration_class ) {
 		/**
 		 * The migration to run.
 		 *
 		 * @var Migration
 		 */
-		$migration = new $class( $this->adapter );
+		$migration = new $migration_class( $this->adapter );
 		try {
 			$this->adapter->start_transaction();
 			$migration->up();
@@ -165,7 +165,7 @@ class Migration_Runner implements Initializer_Interface {
 			$this->adapter->commit_transaction();
 		} catch ( Exception $e ) {
 			$this->adapter->rollback_transaction();
-			throw new Exception( \sprintf( '%s - %s', $class, $e->getMessage() ), 0, $e );
+			throw new Exception( \sprintf( '%s - %s', $migration_class, $e->getMessage() ), 0, $e );
 		}
 	}
 }

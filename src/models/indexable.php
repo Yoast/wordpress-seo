@@ -7,74 +7,79 @@ use Yoast\WP\Lib\Model;
 /**
  * Indexable table definition.
  *
- * @property int     $id
- * @property int     $object_id
- * @property string  $object_type
- * @property string  $object_sub_type
+ * @property int    $id
+ * @property int    $object_id
+ * @property string $object_type
+ * @property string $object_sub_type
  *
- * @property int     $author_id
- * @property int     $post_parent
+ * @property int    $author_id
+ * @property int    $post_parent
  *
- * @property string  $created_at
- * @property string  $updated_at
+ * @property string $created_at
+ * @property string $updated_at
  *
- * @property string  $permalink
- * @property string  $permalink_hash
- * @property string  $canonical
+ * @property string $permalink
+ * @property string $permalink_hash
+ * @property string $canonical
  *
- * @property boolean $is_robots_noindex
- * @property boolean $is_robots_nofollow
- * @property boolean $is_robots_noarchive
- * @property boolean $is_robots_noimageindex
- * @property boolean $is_robots_nosnippet
+ * @property bool   $is_robots_noindex
+ * @property bool   $is_robots_nofollow
+ * @property bool   $is_robots_noarchive
+ * @property bool   $is_robots_noimageindex
+ * @property bool   $is_robots_nosnippet
  *
- * @property string  $title
- * @property string  $description
- * @property string  $breadcrumb_title
+ * @property string $title
+ * @property string $description
+ * @property string $breadcrumb_title
  *
- * @property boolean $is_cornerstone
+ * @property bool   $is_cornerstone
  *
- * @property string  $primary_focus_keyword
- * @property int     $primary_focus_keyword_score
+ * @property string $primary_focus_keyword
+ * @property int    $primary_focus_keyword_score
  *
- * @property int     $readability_score
+ * @property int    $readability_score
  *
- * @property int     $link_count
- * @property int     $incoming_link_count
- * @property int     $number_of_pages
+ * @property int    $link_count
+ * @property int    $incoming_link_count
+ * @property int    $number_of_pages
  *
- * @property string  $open_graph_title
- * @property string  $open_graph_description
- * @property string  $open_graph_image
- * @property string  $open_graph_image_id
- * @property string  $open_graph_image_source
- * @property string  $open_graph_image_meta
+ * @property string $open_graph_title
+ * @property string $open_graph_description
+ * @property string $open_graph_image
+ * @property string $open_graph_image_id
+ * @property string $open_graph_image_source
+ * @property string $open_graph_image_meta
  *
- * @property string  $twitter_title
- * @property string  $twitter_description
- * @property string  $twitter_image
- * @property string  $twitter_image_id
- * @property string  $twitter_image_source
- * @property string  $twitter_card
+ * @property string $twitter_title
+ * @property string $twitter_description
+ * @property string $twitter_image
+ * @property string $twitter_image_id
+ * @property string $twitter_image_source
+ * @property string $twitter_card
  *
- * @property int     $prominent_words_version
+ * @property int    $prominent_words_version
  *
- * @property boolean $is_public
- * @property boolean $is_protected
- * @property string  $post_status
- * @property boolean $has_public_posts
+ * @property bool   $is_public
+ * @property bool   $is_protected
+ * @property string $post_status
+ * @property bool   $has_public_posts
  *
- * @property int     $blog_id
+ * @property int    $blog_id
  *
- * @property string  $language
- * @property string  $region
+ * @property string $language
+ * @property string $region
  *
- * @property string  $schema_page_type
- * @property string  $schema_article_type
+ * @property string $schema_page_type
+ * @property string $schema_article_type
  *
- * @property bool    $has_ancestors
+ * @property bool   $has_ancestors
  *
- * @property int     $estimated_reading_time_minutes
+ * @property int    $estimated_reading_time_minutes
+ *
+ * @property string $object_last_modified
+ * @property string $object_published_at
+ *
+ * @property int    $version
  */
 class Indexable extends Model {
 
@@ -107,6 +112,7 @@ class Indexable extends Model {
 		'is_public',
 		'is_protected',
 		'has_public_posts',
+		'has_ancestors',
 	];
 
 	/**
@@ -127,6 +133,7 @@ class Indexable extends Model {
 		'prominent_words_version',
 		'blog_id',
 		'estimated_reading_time_minutes',
+		'version',
 	];
 
 	/**
@@ -154,15 +161,15 @@ class Indexable extends Model {
 	/**
 	 * Enhances the save method.
 	 *
-	 * @return boolean True on success.
+	 * @return bool True on success.
 	 */
 	public function save() {
 		if ( $this->permalink ) {
 			$this->sanitize_permalink();
 			$this->permalink_hash = \strlen( $this->permalink ) . ':' . \md5( $this->permalink );
 		}
-		if ( \strlen( $this->primary_focus_keyword ) > 191 ) {
-			$this->primary_focus_keyword = \substr( $this->primary_focus_keyword, 0, 191 );
+		if ( \is_string( $this->primary_focus_keyword ) && \mb_strlen( $this->primary_focus_keyword ) > 191 ) {
+			$this->primary_focus_keyword = \mb_substr( $this->primary_focus_keyword, 0, 191, 'UTF-8' );
 		}
 
 		return parent::save();
@@ -174,6 +181,10 @@ class Indexable extends Model {
 	 * @return void
 	 */
 	protected function sanitize_permalink() {
+		if ( $this->permalink === 'unindexed' ) {
+			return;
+		}
+
 		$permalink_structure = \get_option( 'permalink_structure' );
 		$permalink_parts     = \wp_parse_url( $this->permalink );
 

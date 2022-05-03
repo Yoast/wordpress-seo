@@ -1,0 +1,76 @@
+@layer components {
+	.yst-radio {
+		@apply yst-flex yst-items-center;
+	}
+
+	/* Variants */
+	.yst-radio--inline-block {
+		@apply yst-inline-flex;
+
+		/* Elements of the inline-block variant */
+
+		.yst-radio__input {
+			@apply yst-sr-only;
+
+			&:checked + .yst-radio__content {
+				.yst-radio__label {
+					@apply yst-border-transparent yst-ring-2 yst-ring-primary-500;
+				}
+
+				.yst-radio__check {
+					@apply yst-visible;
+				}
+			}
+		}
+
+		.yst-radio__content {
+			@apply yst-relative;
+		}
+
+		.yst-radio__label {
+			@apply
+			yst-flex
+			yst-h-14
+			yst-w-14
+			yst-ml-0
+			yst-justify-center
+			yst-items-center
+			yst-text-base
+			yst-bg-white
+			yst-border
+			yst-rounded-lg
+			yst-shadow-sm
+			yst-cursor-pointer
+			yst-border-gray-300
+
+			hover:yst-border-gray-400
+			focus:yst-outline-none;
+		}
+
+		.yst-radio__check {
+			@apply
+			yst-invisible
+			yst-absolute
+			yst-top-0.5
+			yst-right-0.5
+			yst-h-5
+			yst-w-5
+			yst-text-primary-600;
+		}
+	}
+
+	/* State */
+	.yst-radio__input {
+		@apply
+		yst-h-4
+		yst-w-4
+		yst-text-primary-500
+		yst-border-gray-300
+
+		focus:yst-ring-primary-500;
+	}
+
+	.yst-radio__label {
+		@apply yst-ml-3;
+	}
+}

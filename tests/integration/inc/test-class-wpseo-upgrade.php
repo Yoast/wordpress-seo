@@ -31,7 +31,7 @@ class WPSEO_Upgrade_Test extends WPSEO_UnitTestCase {
 		$content = [
 			'a' => 'b',
 			'c' => true,
-			3   => new StdClass(),
+			3   => new stdClass(),
 		];
 
 		$instance = $this->get_instance();
@@ -51,7 +51,7 @@ class WPSEO_Upgrade_Test extends WPSEO_UnitTestCase {
 		$content = [
 			'a' => 'b',
 			'c' => true,
-			3   => new StdClass(),
+			3   => new stdClass(),
 		];
 
 		$instance = $this->get_instance();

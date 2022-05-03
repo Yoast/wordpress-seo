@@ -27,20 +27,20 @@ class Post_Helper {
 	/**
 	 * Post_Helper constructor.
 	 *
-	 * @param String_Helper $string The string helper.
-	 *
 	 * @codeCoverageIgnore It only sets dependencies.
+	 *
+	 * @param String_Helper $string_helper The string helper.
 	 */
-	public function __construct( String_Helper $string ) {
-		$this->string = $string;
+	public function __construct( String_Helper $string_helper ) {
+		$this->string = $string_helper;
 	}
 
 	/**
 	 * Sets the indexable repository. Done to avoid circular dependencies.
 	 *
-	 * @param Indexable_Repository $repository The indexable repository.
-	 *
 	 * @required
+	 *
+	 * @param Indexable_Repository $repository The indexable repository.
 	 */
 	public function set_indexable_repository( Indexable_Repository $repository ) {
 		$this->repository = $repository;
@@ -49,9 +49,9 @@ class Post_Helper {
 	/**
 	 * Removes all shortcode tags from the given content.
 	 *
-	 * @param string $content Content to remove all the shortcode tags from.
-	 *
 	 * @codeCoverageIgnore It only wraps a WordPress function.
+	 *
+	 * @param string $content Content to remove all the shortcode tags from.
 	 *
 	 * @return string Content without shortcode tags.
 	 */
@@ -62,9 +62,9 @@ class Post_Helper {
 	/**
 	 * Retrieves the post excerpt (without tags).
 	 *
-	 * @param int $post_id Post ID.
-	 *
 	 * @codeCoverageIgnore It only wraps another helper method.
+	 *
+	 * @param int $post_id Post ID.
 	 *
 	 * @return string Post excerpt (without tags).
 	 */
@@ -75,9 +75,9 @@ class Post_Helper {
 	/**
 	 * Retrieves the post type of the current post.
 	 *
-	 * @param WP_Post $post The post.
-	 *
 	 * @codeCoverageIgnore It only wraps a WordPress function.
+	 *
+	 * @param WP_Post|null $post The post.
 	 *
 	 * @return string|false Post type on success, false on failure.
 	 */
@@ -104,9 +104,9 @@ class Post_Helper {
 	/**
 	 * Retrieves post data given a post ID.
 	 *
-	 * @param int $post_id Post ID.
-	 *
 	 * @codeCoverageIgnore It wraps a WordPress function.
+	 *
+	 * @param int $post_id Post ID.
 	 *
 	 * @return WP_Post|null The post.
 	 */
@@ -121,10 +121,10 @@ class Post_Helper {
 	 * - The attachment has a post parent.
 	 * - The attachment inherits the post status.
 	 *
+	 * @codeCoverageIgnore It relies too much on dependencies.
+	 *
 	 * @param int $post_parent      Post ID.
 	 * @param int $has_public_posts Whether the parent is public.
-	 *
-	 * @codeCoverageIgnore It relies too much on dependencies.
 	 *
 	 * @return bool Whether the update was successful.
 	 */
@@ -164,8 +164,8 @@ class Post_Helper {
 	 * @return bool True if the post can be indexed.
 	 */
 	public function is_post_indexable( $post_id ) {
-		// Don't index auto-drafts.
-		if ( \get_post_status( $post_id ) === 'auto-draft' ) {
+		// Don't index excluded post statuses.
+		if ( \in_array( \get_post_status( $post_id ), $this->get_excluded_post_statuses(), true ) ) {
 			return false;
 		}
 
@@ -180,6 +180,15 @@ class Post_Helper {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Retrieves the list of excluded post statuses.
+	 *
+	 * @return array The excluded post statuses.
+	 */
+	public function get_excluded_post_statuses() {
+		return [ 'auto-draft' ];
 	}
 
 	/**

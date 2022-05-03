@@ -40,7 +40,7 @@ class Schema_Blocks implements Integration_Interface {
 	protected $short_link_helper;
 
 	/**
-	 * Returns the conditionals based in which this loadable should be active.
+	 * Returns the conditionals based on which this loadable should be active.
 	 *
 	 * @return array
 	 */
@@ -76,6 +76,7 @@ class Schema_Blocks implements Integration_Interface {
 	 */
 	public function register_hooks() {
 		\add_action( 'enqueue_block_editor_assets', [ $this, 'load' ] );
+		\add_action( 'enqueue_block_editor_assets', [ $this, 'load_translations' ] );
 		\add_action( 'admin_enqueue_scripts', [ $this, 'output' ] );
 	}
 
@@ -136,7 +137,7 @@ class Schema_Blocks implements Integration_Interface {
 		 * @param array $templates The templates to filter.
 		 */
 		$templates = \apply_filters( 'wpseo_load_schema_templates', $templates );
-		if ( ! is_array( $templates ) || empty( $templates ) ) {
+		if ( ! \is_array( $templates ) || empty( $templates ) ) {
 			return;
 		}
 
@@ -144,10 +145,21 @@ class Schema_Blocks implements Integration_Interface {
 			if ( ! \file_exists( $template ) ) {
 				continue;
 			}
-			$type = ( \substr( $template, - 10 ) === '.block.php' ) ? 'block' : 'schema';
+			// `.schema` and other suffixes become Schema (root) templates.
+			$type = ( \substr( $template, -10 ) === '.block.php' ) ? 'block' : 'schema';
 			echo '<script type="text/' . \esc_html( $type ) . '-template">';
 			include $template;
 			echo '</script>';
 		}
+	}
+
+	/**
+	 * Loads the translations and localizes the schema-blocks script file.
+	 *
+	 * @codeCoverageIgnore
+	 * @deprecated 18.0
+	 */
+	public function load_translations() {
+		\_deprecated_function( __FUNCTION__, '18.0' );
 	}
 }

@@ -1,0 +1,286 @@
+<h2 id='wordpress-seo2'>The definitive guide to higher rankings for WordPress sites</h2>
+WordPress is one of the best, if not <em>the</em> best content management systems when it comes to SEO. That being said, spending time on your WordPress SEO might seem like a waste of time, it most definitely is not. Optimizing your site to the best practices outlined in this article will help you improve your rankings, gain more subscribers and have a better website in general.
+
+As we take quite a <a href='https://yoast.com/holistic-seo/'>holistic view</a> on (WordPress) SEO, meaning that we think good SEO should be engrained in all aspects of your online marketing and PR, this guide covers quite a lot of ground and is, therefore, a long read. Check out the <a href='#table-of-contents'>table of contents</a> below for some quick jumping around.
+<h3>Updates to this WordPress SEO article</h3>
+This article has been kept up to date with the best practices for WordPress SEO since early 2008. The goal of this article is to let all the info of all the different articles we wrote about the topic, here and on other sites, fall into one big piece: the ultimate WordPress SEO tutorial.
+
+The first versions of this article were heavily based on using a plugin called HeadSpace and a series of other plugins. We've since released our own <a href='https://yoast.com/wordpress/plugins/seo/' target='_blank' rel='noopener'>Yoast SEO plugin</a> which replaces quite a few of those. That plugin has proven so powerful that is being used on used on millions of sites, even big ones like <a href='http://searchengineland.com/'>SearchEngineLand</a>, and <a href='http://thenextweb.com/'>The Next Web</a>. The Yoast SEO plugin is very stable and has loads of great features. This article now assumes you're using it.
+
+<section class='alignright extra show-off'><p><a class='link--naked link--cta' href='https://yoast.com/academy/course/yoast-seo-wordpress-training/'>Get the most out of Yoast SEO, learn <span>every feature and best practice</span> in our Yoast SEO for WordPress training! »</a></p><a class='hide-on-mobile ' href='https://yoast.com/academy/course/yoast-seo-wordpress-training/'><img src='https://cdn.yoast.com/app/uploads/2016/03/Yoast_SEO_courses_banner.png' alt='Yoast SEO for WordPress training'></img></a><div class='plugin-buy-button'><a href='https://yoast.com/eu/cart/?add-to-cart=43' class='button default' rel='nofollow'><span class='woocommerce-Price-amount amount'><span class='woocommerce-Price-currencySymbol'>€</span>99</span> - Buy now »</a></div><a href='https://yoast.com/academy/course/yoast-seo-wordpress-training/' class='button dimmed flat'><i class='fa fa-info-circle' aria-hidden='true'></i> Info</a></section>
+
+If you're using another SEO plugin, like All in One SEO pack or Ultimate SEO, but would like to switch and make use of our free and extremely powerful SEO plugin, we've written a <a href='https://yoast.com/all-in-one-seo-pack-migration/' target='_blank' rel='noopener'>migration guide</a> for you. It's a really easy process. If you're not using an SEO plugin yet, grab our free <a href='https://yoast.com/wordpress/plugins/seo/'>Yoast SEO plugin</a> and get going.
+
+As search, SEO, and the WordPress platform evolve we will continue to keep this article up to date with best practices. Be sure to subscribe to our <a href='https://yoast.com/wordpress-newsletter/' target='_blank' rel='noopener'>WordPress & SEO newsletter</a> to receive notification when we update this article.
+<h4 id='table-of-contents' class='exclude'>Table of Contents</h4>
+<ul class='toc'>
+</ul>
+<h2 id='basicseo'><span class='num'>1</span> <span class='text'>Basic WordPress SEO</span></h2>
+Out of the box, WordPress is a pretty well optimized system, and does a far better job at allowing every single page to be indexed than every other CMS we have used. But there are a few things you should do to make it a lot easier still to work with.
+<h3 id='permalinks'><span class='num'>1.1</span> <span class='text'>URLs</span></h3>
+<h4 id='permalink-structure'><span class='num'>1.1.1</span> <span class='text'>Permalink structure</span></h4>
+The first thing to change is your permalink structure. You'll find the permalink settings under Settings → Permalinks. The default permalink is , but we prefer to use either  or . For the first option, you change the setting to :
+
+<img class='alignnone wp-image-850869 size-full' src='https://yoast.com/app/uploads/2016/11/Permalink_common_settings.png' alt='permalink common settings yoast seo' width='1518' height='774'></img>
+
+To include the category, you select \"Custom Structure\" and change the value to . If you previously had  as your permalink WordPress will take care of all the redirects for you. This is also true if you change from  to . If you change from any other permalink structure, you might want to consult our article on <a href='https://yoast.com/change-wordpress-permalink-structure/' target='_blank' rel='noopener'>changing your WordPress permalink structure</a> and the tool that you'll find within it.
+<h4 id='www-non-www'><span class='num'>1.1.2</span> <span class='text'>WWW vs non-WWW</span></h4>
+You need to think about what you want your site to show up as, www.example.com or simply example.com. Make sure that in your general settings, under Settings → General, the version you want to show up is properly reflected:
+
+<img class='alignnone wp-image-229406 size-full' title='List your site with or without WWW for WordPress SEO' src='https://yoast.com/app/uploads/2008/04/site-address-wordpress-settings.png' alt='' width='550' height='123'></img>
+
+<section class='alignright extra show-off'><p><a class='link--naked link--cta' href='https://yoast.com/wordpress/plugins/seo/'>Optimize your site for search & social media and <span>keep it optimized</span> with Yoast SEO Premium »</a></p><a class='hide-on-mobile ' href='https://yoast.com/wordpress/plugins/seo/'><img src='https://cdn.yoast.com/app/uploads/2010/10/Yoast_SEO_plugin_Banner.png' alt='Yoast SEO: the #1 WordPress SEO plugin'></img></a><div class='plugin-buy-button'><a href='https://yoast.com/eu/cart/?add-to-cart=25' class='button default' rel='nofollow'><span class='woocommerce-Price-amount amount'><span class='woocommerce-Price-currencySymbol'>€</span>79</span> - Buy now »</a></div><a href='https://yoast.com/wordpress/plugins/seo/' class='button dimmed flat'><i class='fa fa-info-circle' aria-hidden='true'></i> Info</a></section>
+
+You will also want to set this correctly in <a href='https://www.google.com/webmasters/tools/' target='_blank' rel='noopener'>Google Search Console</a>. Make sure to set up your site with Google Search Console and set the preferred domain, you can find this setting under Settings → Preferred domain:
+
+<img class='alignnone size-full wp-image-850910' src='https://yoast.com/app/uploads/2008/04/Search_Console_-_Structured_Data_-_https___yoast_com_.png' alt='search console settings' width='384' height='187'></img>
+
+Where you can set it:
+
+<img class='alignnone wp-image-229416' src='https://yoast.com/app/uploads/2008/04/webmaster-tools-site-settings-2.png' alt='Webmaster Tools - Site Settings 2' width='380' height='99'></img>
+<h4 id='stopwords'><span class='num'>1.1.3</span> <span class='text'>Stop words</span></h4>
+The last thing you'll want to do about your permalinks to increase your WordPress SEO, is remove so called stopwords. Words like \"a\", \"and\", \"the\" etc. As of version 1.1.6, our Yoast SEO plugin will automatically remove stop words from your slugs once you save a post, so you won't get those ugly long URL's when you do a sentence style post title.
+
+This is generally not something you want to change after posts have gone live. If people have already linked to it, try to not change the permalink anymore and if you do, make sure the post is properly redirected. In most cases WordPress should redirect the old URL to the new one but if it doesn't you need to make the redirect manually.
+<h4 id='ssl'>1.1.4 To SSL or not to SSL</h4>
+In 2014, Google announced that they'd give a (admittedly minor) ranking benefit to HTTPS / SSL sites, and because of that, more and more sites have switched over to SSL. It might be a good idea for you too. If you want to move to SSL, we have an article with <a href='https://yoast.com/move-website-https-ssl/'>tips & tricks for moving to HTTPS</a> right here.
+<h3 id='titles'><span class='num'>1.2</span> <span class='text'>Optimize your titles for SEO</span></h3>
+The title, the contents of your page's  tag,  is one of the single most important factors for ranking in the search results. Not only is it the literal title of the tab or browser window, it's also the first line people see in the search results, followed by the URL (or the breadcrumb) and the snippet, usually the meta description combined with a date:
+
+<img class='alignnone wp-image-850158 size-full' src='https://yoast.com/app/uploads/2008/04/snippet-title-seo.png' alt='snippet title seo' width='1178' height='168'></img>
+
+On many blogs, the title for blog posts is still \"Blog title » Blog Archive » Keyword rich post title\" or \"Blog title » Keyword rich post title\". For your WordPress blog to get the traffic it deserves, this should be the other way around, for two reasons:
+<ul>
+	<li>Search engines put more weight on the early words, so if your keywords are near the start of the page title you are more likely to rank well.</li>
+	<li>People scanning result pages see the early words first. If your keywords are at the start of your listing your page is more likely to get clicked on.</li>
+</ul>
+For more info on how to create enticing titles for your posts, read our article on <a href='https://yoast.com/page-titles-seo/'>crafting good titles for SEO</a>.
+<h4 id='wpseo-plugin-titles'><span class='num'>1.2.1</span> <span class='text'>Controlling titles with the Yoast SEO plugin</span></h4>
+You can control your SEO titles with our Yoast SEO plugin. There are two parts of the plugin that control these. First of all, as soon as you install & activate the plugin, you get an SEO section in your admin. Navigate to SEO → Titles & Metas and you'll see a bunch of tabs for different types of pages on your site. For each post type and taxonomy you can set a so called Title Template (as well as meta description templates but we'll get to those later). For posts on our site this looks like this:
+
+<img class='alignnone wp-image-850871 size-full' src='https://yoast.com/app/uploads/2016/11/Post_Type.png' alt='post types in yoast seo' width='1258' height='1084'></img>
+
+There's a bunch of variables you can use in the titles and meta description, they're all listed and explained in the help tab on the top right of the page. Be sure to check whether the template actually works and you're not getting a duplicate site title for instance. If this is the case, you might need to check the \"Force rewrite\" checkbox on the same page or <a href='http://kb.yoast.com/article/76-the-seo-title-output-for-the-plugin-doesnt-work-as-expected'>follow the instructions</a> on that page to modify your template.
+
+For the other pages, we have the following settings:
+<ul>
+	<li>Categories, Tags and other taxonomies: </li>
+	<li>Search pages: </li>
+	<li>404 pages: </li>
+	<li>Author archives: </li>
+</ul>
+There are some other cool features, for instance: you can use  to use a custom field, this can be either a post custom field, sometimes known as post meta value, or a user meta value. In this particular case it's the custom field \"role\" we use to store the role of a user within our company.
+
+The • template code gets replaced by the separator you select on the first tab:
+
+<img class='alignnone size-full wp-image-850877' src='https://yoast.com/app/uploads/2016/11/Title_separator.png' alt='title seperator yoast seo' width='1322' height='306'></img>
+<h4 id='individual-posts'><span class='num'>1.2.2</span> <span class='text'>Optimizing individual posts</span></h4>
+So now that we've set decent templates, we can start to optimize individual posts and pages. For that we use the snippet preview added by the Yoast SEO plugin:
+
+<img class='alignnone wp-image-850130 size-full' src='https://yoast.com/app/uploads/2008/04/Content-analysis-screenshot.png' alt='content analysis in yoast seo' width='1130' height='1228'></img>
+
+This preview will automatically take the values you've already filled in in your blog post and apply them to your template, but you can also override the title completely using the title field just below it:
+
+<img class='alignnone wp-image-850142 size-full' src='https://yoast.com/app/uploads/2008/04/SEO-title-screenshot.png' alt='seo title input ' width='1406' height='182'></img>
+
+The input will show a warning below it if your title is becoming too long. The title length is not a fixed amount of characters but rather limited to the length of the display in the search results.
+
+For titles the following things are important:
+<ul>
+	<li>They should always contain your brand, preferably at the end, so people may recognize you in consecutive searches.</li>
+	<li>They should always contain the keyword you think is most important for the current post or page, which we'll call the focus keyword from now on. The focus keyword should preferably be at the beginning of the title.</li>
+	<li>The rest of the title should entice people to click.</li>
+</ul>
+<h3 id='descriptions'><span class='num'>1.3</span> <span class='text'>Optimize your descriptions</span></h3>
+Now that we've got proper titles, we should start to focus on meta descriptions. The meta description can be used by search engines to show in the snippet, it's the black piece of text shown beneath the URL. The meta description is usually <em>only</em> used when it contains the keyword the searcher was searching for.
+
+Some plugins use so-called \"automated descriptions\". They use the first sentence of a post to fill the meta description by default. That's not very smart. That first sentence might be an introductory sentence which has hardly anything to do with the subject.
+
+Thus, the only well-written description is a hand written one, and if you're thinking of auto-generating the meta description, you might as well not do anything and let the search engine control the snippet... If you don't use the meta description, the search engine will find the keyword searched for in your document, and automatically pick a string around that, which gives you a bolded word or two in the results page.
+
+Auto generating a snippet is a \"shortcut\", and there are no real shortcuts in (WordPress) SEO (none that work anyway).
+
+So, use the meta description field you find in the Yoast SEO plugin to write a meta description. Make sure it entices the reader to click through and make sure that it contains the focus keyword of your post or page at least once.
+
+You'll notice we do not mention meta keywords. We don't use them and neither should you, for an explanation, read this article by Joost: <a href='https://yoast.com/meta-keywords/' target='_blank' rel='noopener'>meta keywords and why I don't use them</a>.
+
+<section class='alignright extra show-off'><p><a class='link--naked link--cta' href='https://yoast.com/academy/course/seo-copywriting-training/'>Learn how to write awesome and SEO friendly articles in our <span>SEO Copywriting training</span> »</a></p><a class='hide-on-mobile ' href='https://yoast.com/academy/course/seo-copywriting-training/'><img src='https://cdn.yoast.com/app/uploads/2016/05/Copywriting_course_banner.png' alt='SEO copywriting training'></img></a><div class='plugin-buy-button'><a href='https://yoast.com/eu/cart/?add-to-cart=37' class='button default' rel='nofollow'><span class='woocommerce-Price-amount amount'><span class='woocommerce-Price-currencySymbol'>€</span>199</span> - Buy now »</a></div><a href='https://yoast.com/academy/course/seo-copywriting-training/' class='button dimmed flat'><i class='fa fa-info-circle' aria-hidden='true'></i> Info</a></section>
+<h3 id='images'><span class='num'>1.4</span> <span class='text'>Image optimization</span></h3>
+An often overlooked part of WordPress SEO is how you handle your images. By doing stuff like writing good alt tags for images and thinking of how you name the files, you can get yourself a bit of extra traffic from the different image search engines. Next to that, you're helping out your lesser able readers who check out your site in a screen reader, to make sense of what's otherwise hidden to them.
+
+Using the proper alt attributes for images is also something that is checked in the <a href='https://yoast.com/content-seo-wordpress-linkdex/' target='_blank' rel='noopener'>Page Analysis</a> functionality of our Yoast SEO plugin. We have a longer article on <a href='https://yoast.com/image-seo/'>Image SEO</a> that will give you more tips to finetune this.
+<h3 id='xmlsitemaps'><span class='num'>1.5</span> <span class='text'>XML sitemaps</span></h3>
+To tell Google and the other search engines that your site has been updated, you can use XML Sitemaps. Our Yoast SEO plugin contains an XML Sitemap module by default that you just have to enable. Go to Settings → XML Sitemaps and enable the XML sitemap (if it isn't already on):
+
+<img class='alignnone size-full wp-image-850881' src='https://yoast.com/app/uploads/2016/11/XML_Sitemaps.png' alt='xml sitemaps in yoast seo' width='1244' height='1130'></img>
+
+As soon as you hit Save, it'll give you some options but in most cases you won't need those. It generates an XML sitemap for all your posts, pages, custom post types and all your taxonomies like categories and tags and (if applicable) other custom taxonomies.
+
+When you publish a new post or page, the XML sitemap is automatically submitted to Google & Bing allowing them to easily (and quickly) find your new content.
+
+Other than most other XML sitemap plugins, this plugin doesn't generate a static file, which is a very intensive process, especially for large sites. This means there is no \"action\" on publish, which slows down the publishing of the post. Instead it generates XML sitemaps as a sort of template using WordPress rewrites, which is much faster while also allowing caching plugins to cache the output.
+
+It's also being smart about splitting those sitemaps up into smaller bits, so Google only has to fetch one new XML \"sub\"-sitemap when a post is published, because the other sitemaps haven't been changed, using the date modified options.
+
+From an SEO perspective, it's better than most others because it also includes the images in each post, which makes your images rank (better) in Google Image Search. It also integrates tightly with the rest of our SEO plugin, meaning that a no indexed post automatically is left out of the XML sitemap, with the option to \"force\" it in.
+
+Lastly, it has a pretty complete API, allowing us and other developers to plugin extra sitemaps, which means we can do things like create our <a href='https://yoast.com/wordpress/plugin/local-seo/'>Local SEO</a>, <a href='https://yoast.com/wordpress/plugins/news-seo/'>News SEO</a> and <a href='https://yoast.com/wordpress/plugins/video-seo/'>Video SEO</a> extension. These extensions respectively generate a news xml sitemap and video xml sitemap.
+<h2 id='template'><span class='num'>2</span> <span class='text'>Template optimization</span></h2>
+<h3 id='bread-crumbs'><span class='num'>2.1</span> <span class='text'>Breadcrumbs</span></h3>
+You'll want to add <a href='https://yoast.com/breadcrumbs-seo/'>breadcrumbs</a> to your single posts and pages. Breadcrumbs are the links, usually above the title post, that look like \"Home > Articles > WordPress SEO\". They are good for two things:
+<ul>
+	<li>They allow your users to easily navigate your site.</li>
+	<li>They allow search engines to determine the structure of your site more easily.</li>
+</ul>
+These breadcrumbs should link back to the homepage, and the category the post is in. If the post is in multiple categories it should pick one. For that to work, adapt  and  in your theme, and use the breadcrumbs from our Yoast SEO plugin. You find the settings for the breadcrumbs in the SEO → Internal Links settings page.
+<h3 id='headings'><span class='num'>2.2</span> <span class='text'>Headings</span></h3>
+Although most themes for WordPress get this right, make sure your post title is an , and nothing else. Your blog's name should only be an  on your front page, and on single, post, and category pages, it should be no more than an . Your sidebar shouldn't be crammed with  and 's either etc.
+
+These are easy to edit in the  and  templates. To learn more about why proper headings are important read this article on <a href='https://yoast.com/site-structure-seo/' target='_blank' rel='noopener'>Semantic HTML and SEO</a> and our article about the <a href='https://yoast.com/blog-headings-structure/' target='_blank' rel='noopener'>Heading Structure for your Blog</a> (from which a lot applies to non-blog WordPress sites too).
+<h3 id='codeclean'><span class='num'>2.3</span> <span class='text'>Clean up your code</span></h3>
+All that javascript and CSS you might have in your template files, move that to external javascripts and css files, and keep your templates clean, as they're not doing your WordPress SEO any good. This makes sure your users can cache those files on first load, and search engines don't have to download them most of the time.
+<h3 id='speed'><span class='num'>2.4</span> <span class='text'>Aim for speed</span></h3>
+A very important factor in how many pages a search engine will spider on your blog each day, is how speedy your blog loads. You can do three things to increase the speed of your WordPress.
+<ol>
+	<li>Optimize the template to do as small an amount of database calls as necessary. We've highlighted how to do this in our post about <a href='https://yoast.com/speed-up-and-clean-up-your-wordpress/' target='_blank' rel='noopener'>speeding up WordPress</a>.</li>
+	<li>Install a caching plugin. We recommend you use W3 Total Cache if you're technically savvy or WP Super Cache if you're not.</li>
+	<li>W3 Total Cache works even more magic when combined with a CDN like MaxCDN. Read more about <a title='CDN for WordPress: using MaxCDN' href='https://yoast.com/articles/cdn-wordpress-maxcdn/'>WordPress CDN</a> stuff here.</li>
+</ol>
+Also, be aware that underpaying for hosting, is not wise. If you actually want to succeed with your link-bait actions, and want your blog to sustain high loads, go for a good hosting package. If you want to know more be sure to read our article about <a href='https://yoast.com/articles/wordpress-hosting/' target='_blank' rel='noopener'>WordPress hosting</a>.
+<h3 id='sidebarthink'><span class='num'>2.5</span> <span class='text'>Rethink that sidebar</span></h3>
+Do you really need to link out to all your buddies in your blogroll site wide? Or is it perhaps wiser to just do that on your front page? Google and other search engines these days heavily discount site wide links, so you're not really doing your friends any more favor by giving them that site wide link, nor are you helping yourself: you're allowing your visitors to get out of your site everywhere, when you actually want them to browse around a bit.
+
+The same goes for the search engines: on single post pages, these links aren't necessarily related to the topic at hand, and thus aren't helping you at all. Thus: get rid of them. There are probably more widgets like these that only make sense on the homepage, and others that you'd only want on sub pages.
+
+Some day you will probably be able to change this from inside WordPress, right now it forces you to either use two sidebars, one on the homepage and one on sub pages, or write specific plugins.
+<h3 id='htmlsitemaps'><span class='num'>2.6</span> <span class='text'>HTML sitemaps</span></h3>
+For some sites an HTML sitemap might be nonsense, especially when your site is really a blog, for more corporate type sites with several levels of pages an HTML Sitemap might actually be very beneficial for both users and search engines. We've written an article on how to create an <a href='https://yoast.com/html-sitemap-wordpress/' target='_blank' rel='noopener'>HTML Sitemap Page Template</a> which would be a good start to get one going for your WordPress site.
+<h2 id='advancedseo'><span class='num'>3</span> <span class='text'>Advanced WordPress SEO and duplicate content</span></h2>
+Once you've done all the basic stuff, you'll find that the rest of the problems amount to one simple thing: duplicate content. Loads of it in fact. Out of the box, WordPress comes with a few different types of taxonomy:
+<ol>
+	<li>date based</li>
+	<li>category based</li>
+	<li>tag based</li>
+</ol>
+Next to that, it seems to think you actually need to be able to click on from page to page starting at the frontpage, way back to the first post you ever did. Last but not least, each author has his own archive too, under , resulting in completely duplicate content on single author blogs.
+
+In essence that means that, worst case scenario, a post is available on 5 pages <em>outside</em> of the single page where it <em>should</em> be available. We're going to get rid of all those duplicate content pools, by still allowing them to be spidered, but not indexed, and fixing the pagination issues that come with these things.
+<h3 id='noindexfollow'><span class='num'>3.1</span> <span class='text'>Noindex, follow archive pages and disable some archives</span></h3>
+Using the Yoast SEO plugin, make sure to prevent indexing (or even existence) of archive pages that do not apply for your site. You do this under SEO → Titles & Metas, where you'll find the following options on the \"Archives\" tab:
+
+<img class='alignnone wp-image-850867 size-full' src='https://yoast.com/app/uploads/2016/11/Archives.png' alt='archives in yoast seo' width='1234' height='1400'></img>
+
+The settings above are the settings for our site. As you can see, we've completely disabled the date based archives, as we don't use those. Any date based link will redirect to our homepage because of this setting. We've left the author archives untouched, but we have set the subpages of those archives to be noindex, follow by default. So you'll never land on page 2 of an archive on our site from the search engines (change this on SEO → Titles & Metas → Other tab):
+
+<img class='alignnone wp-image-850923 size-full' src='https://yoast.com/app/uploads/2008/04/Titles___Metas_-_Yoast_SEO_‹_Local_WordPress_Dev_devv_—_WordPress.png' alt='titles metas other tab in yoast seo' width='595' height='586'></img>
+
+On smaller sites it might make sense to noindex either the category or the tag structure, but in our experience noindexing those on yoast.com does little to no change at all.
+
+There is one type of archive that is noindex,follow by default as well in the Yoast SEO plugin: the search result pages. This is a best practice from Google for which a setting is left out as you should just have that anyway.
+
+A lot has changed in how Google handles paginated archives recently when they introduced their support for  and  links. We've written an article about that: <a title='rel='next' & rel='prev' for paginated archives' href='https://yoast.com/rel-next-prev-paginated-archives/'> and  for paginated archives</a>, which is a bit too technical to fully list here, but suffice to say our Yoast SEO plugin takes care of <em>all</em> the needed changes automatically.
+<h3 id='disablearchives'><span class='num'>3.2</span> <span class='text'>Disable unnecessary archives</span></h3>
+If your blog is a one author blog, or you don't think you need author archives, use WordPress SEO to disable the author archives. Also, if you don't think you need a date based archive: disable it as we have. Even if you're not using these archives in your template, someone might link to them and thus break your WordPress SEO...
+<h3 id='pagination'><span class='num'>3.3</span> <span class='text'>Pagination</span></h3>
+Thirdly, you'll want to make sure that if a bot goes to a category page, it can reach all underlying pages without any trouble. Otherwise, if you have a lot of posts in a category, a bot might have to go back 10 pages before being able to find the link to one of your awesome earlier posts...
+
+There's an easy fix, in fact, there are several plugins that deal with this. Our favorite one by far is <a href='http://wordpress.org/extend/plugins/wp-pagenavi/installation/' target='_blank' rel='noopener'>WP-PageNavi</a>, maintained by Scribu, one of the best WordPress developers around. If you have the <a title='Genesis' href='https://yoast.com/wp-theme/genesis/'>Genesis Theme</a> like we do here on Yoast.com, you can just enable numeric navigation under Theme Settings → Content Archives.
+<h3 id='nofollowmeta'><span class='num'>3.4</span> <span class='text'>Canonical</span></h3>
+In February 2009, the major search engines <a href='https://yoast.com/canonical-url-links/' target='_blank' rel='noopener'>introduced the  element</a>. This is another utility to help fight duplicate content. WordPress has built-in support for canonical link elements on single posts and pages, but it has some slight bugs in that. It doesn't output canonical links on any other page. With our Yoast SEO plugin activated, you automatically get canonical link elements for <em>every</em> page type in WordPress.
+
+<section class='alignright extra show-off'><p><a class='link--naked link--cta' href='https://yoast.com/academy/course/technical-seo-1-training/'>Become a technical SEO expert with our Technical SEO 1 training! »</a></p><a class='hide-on-mobile ' href='https://yoast.com/academy/course/technical-seo-1-training/'><img src='https://cdn.yoast.com/app/uploads/2017/02/Technical_SEO_1_banner.png' alt='Technical SEO 1 training'></img></a><div class='plugin-buy-button'><a href='https://yoast.com/eu/cart/?add-to-cart=24' class='button default' rel='nofollow'><span class='woocommerce-Price-amount amount'><span class='woocommerce-Price-currencySymbol'>€</span>199</span> - Buy now »</a></div><a href='https://yoast.com/academy/course/technical-seo-1-training/' class='button dimmed flat'><i class='fa fa-info-circle' aria-hidden='true'></i> Info</a></section>
+<h2 id='structure'><span class='num'>4</span> <span class='text'>A site structure for high rankings</span></h2>
+Blogs are spidered so easily due to their structure of categories, tags etc.: all articles are well linked, and usually the markup is nice and clean. However, all this comes at a price: your ranking strength is diluted. They're diluted by one simple thing: comments.
+<h3 id='pagesvsposts'><span class='num'>4.1</span> <span class='text'>Pages instead of posts</span></h3>
+You've probably noticed by now, or you're seeing now, that this WordPress SEO post is actually... not a post. It's a page. Why? Well for several reasons. First of all, this article needed to be a \"daughter\"-page of our WordPress page, to be in the correct place on this blog. Secondly, to rank for the term , this article has to have the right keyword density. And that's where things go wrong. Comments destroy your carefully constructed keyword density.
+
+That's why we decided to make our most important articles into pages. That way, you can easily update them and do a new post about what you've changed.
+<h3 id='newwine'><span class='num'>4.2</span> <span class='text'>New wine in an old bottle</span></h3>
+If a post on your blog becomes incredibly popular and starts to rank for a nice keyword, like this one did for WordPress SEO, you could do the following:
+<ul>
+	<li>create a new <strong>page</strong> with updated and improved content</li>
+	<li>change the slug of the old <strong>post</strong> to </li>
+	<li>publish the new page under the old post's URL, or redirect the old post's URL to the new URL</li>
+	<li>send an e-mail to everyone who linked to your old post that you've updated and improved on your old post</li>
+	<li>wait for the links to come in, again;</li>
+	<li>rank even higher for your desired term as you've now got:
+		<ul>
+			<li>more control over the keyword density</li>
+			<li>even more links pointing at the article</li>
+			<li>the ability to keep updating the article as you see fit to improve on it's content and ranking</li>
+		</ul>
+	</li>
+</ul>
+Some among you will say: I could have 301 redirected the old post to the new one with the same effect. True. Except: you'd lose the comments on the old post, which is in our opinion a sign of disrespect to people who took the time to comment, and 301 redirects take quite a bit of time sometimes. Of course you should treat this technique with care, and not abuse it to rank other products, but we think it can be done in everyone's benefit. For instance this article: if you came here through a social media site like Facebook, expecting an article about WordPress SEO, that's exactly what you got!
+<h3 id='relatedposts'><span class='num'>4.3</span> <span class='text'>Linking to related posts</span></h3>
+<a href='https://yoast.com/internal-linking-for-seo-why-and-how/'>Internal linking</a> is incredibly important to help Google understand your <a href='https://yoast.com/site-structure-the-ultimate-guide/'>site structure</a>. You should not only show related posts under your post, but also create links in your text to other <a href='https://yoast.com/related-posts-relevant/'>related posts</a>. The more links a post or page gets, the more important it will be to the search engine. In Yoast SEO we now have a <a href='https://yoast.com/how-to-use-the-text-link-counter/'>text link counter</a>, if you see that one of your essential, or <a href='https://yoast.com/what-is-cornerstone-content/'>cornerstone articles</a>, has very little links, you can start working on that right away.
+
+In Yoast SEO Premium we even offer an <a href='https://yoast.com/wordpress/plugins/seo/internal-linking/'>internal linking tool</a> that helps you find the right posts or pages to link to.
+<h3 id='tag-optimization'><span class='num'>4.4</span> <span class='text'>Go easy on the tags</span></h3>
+One of the most common issues we encounter on sites is the overuse of tags. Note that a tag in and of itself does not improve your SEO. The only way it improves your SEO is by relating one piece of content to another, and more specifically a group of posts to each other.
+
+<section class='alignright extra show-off'><p><a class='link--naked link--cta' href='https://yoast.com/academy/course/basic-seo-training/'>New to SEO? Learn the Basics of SEO in our <span>Basic SEO course</span> »</a></p><a class='hide-on-mobile ' href='https://yoast.com/academy/course/basic-seo-training/'><img src='https://cdn.yoast.com/app/uploads/2015/10/Basic_course_banner.png' alt='Basic SEO training'></img></a><div class='plugin-buy-button'><a href='https://yoast.com/eu/cart/?add-to-cart=40' class='button default' rel='nofollow'><span class='woocommerce-Price-amount amount'><span class='woocommerce-Price-currencySymbol'>€</span>199</span> - Buy now »</a></div><a href='https://yoast.com/academy/course/basic-seo-training/' class='button dimmed flat'><i class='fa fa-info-circle' aria-hidden='true'></i> Info</a></section>
+<h2 id='conversion'><span class='num'>5</span> <span class='text'>Conversion optimization</span></h2>
+<h3>Get those readers to subscribe!</h3>
+A lot of bloggers still think that because their blog <em>is</em> a blog, they don't have to optimize anything. Wrong. To get people to link to you, they have to read your blog. And what do you think is easier: getting someone who is already visiting your blog to visit regularly and <em>then</em> link to your blog, or getting someone who visits your blog for the first time to link to your blog immediately? Right.
+
+One of the things we've found to be very important, and more bloggers seem to have found this, is that an RSS subscribe button is very important, as is offering a way to subscribe by e-mail. We offer a weekly e-mail subscribe options, using <a href='http://mailchimp.com/' target='_blank' rel='noopener'>MailChimp</a>, and have found that people tend to click through on those the most.
+
+Another thing to be very aware of is when people might want to subscribe to your blog. If they've just finished reading an article of yours, and really liked it, that would be the ideal time to reach them, right? That's why more and more people are adding lines like this to the end of their posts: \"Liked this post? Subscribe to our newsletter and get loads more!\"
+
+Another great time to get people to subscribe is when people have just commented on your blog for the first time, for which purpose we use our own <a href='https://yoast.com/wordpress/comment-redirect/' target='_blank' rel='noopener'>comment redirect</a> plugin. Which leads us to the next major aspect of WordPress SEO:
+<h2 id='comment-optimization'><span class='num'>6</span> <span class='text'>Comment optimization</span></h2>
+<h3>Get those readers involved</h3>
+Comments are one of the most important aspects of blogs. As Wikipedia <a href='http://en.wikipedia.org/wiki/Blog' target='_blank' rel='noopener'>states</a>:
+<blockquote>The ability for readers to leave comments in an interactive format is an important part of many blogs.</blockquote>
+Comments are not only nice because people tell you how special you are, or that you made a mistake, or whatever else they have to tell you. Most of all they're nice, because they show engagement. And engagement is one of the most important factors of getting people to link to you: they show you they care, and they open the conversation, now all you have to do is respond, and you're building a relationship!
+<h3 id='ask'><span class='num'>6.1</span> <span class='text'>How you get people to comment</span></h3>
+The easiest way of getting people to do anything is: ask them to do it. Write in an engaging style, and then ask your blog's readers for an opinion, their take on the story etc.
+
+Another important things is your comment links. Is your comment link \"No comments »\"? Or is it \"No Comments yet, your thoughts are welcome »\"? Feel the difference? You can change this by opening your  template, search for  and changing the texts within that function.
+<h3 id='bond'><span class='num'>6.2</span> <span class='text'>Bond with your commenters</span></h3>
+Another thing to do is thank people when they've commented on your weblog. Not every time, because that get's annoying, but doing it the first time is a very good idea.
+
+Justin Shattuck thought the same, and created the Comment Relish plugin which sends an email after someone has made his first comment, unfortunately, this plugin is no longer maintained. Another option, which is maintained and is also a bit less obtrusive / spammy, is to install our <a title='Comment Redirect - Yoast - Tweaking Websites' href='https://yoast.com/wordpress/comment-redirect/'>comment redirect</a> plugin. This plugin allows you to redirect people who have made their first comment to a specific \"thank you\" page.
+<h3 id='commentsubscribe'><span class='num'>6.3</span> <span class='text'>Keeping people in the conversation</span></h3>
+Now that people have joined the conversation on your blog, you should make sure they <em>stay</em> in the conversation. That's why you should install the <a href='http://txfx.net/code/wordpress/subscribe-to-comments/' target='_blank' rel='noopener'>subscribe to comments</a> plugin, that allows people to subscribe to a comment thread just like they would in a forum, and sends them an e-mail on each new comment. This way, you can keep the conversation going, and maybe your readers will be giving you new angles for new posts.
+
+
+<h2 id='offsite'><span class='num'>7</span> <span class='text'>Off site blog SEO</span></h2>
+If you've followed all of the above WordPress SEO advice, you've got a big chance of becoming successful, both as a blogger <em>and</em> in the search engines. Now the last step sounds easy, but isn't. Go out there, and <em>talk</em> to people online.
+<h3 id='followcomment'><span class='num'>7.1</span> <span class='text'>Follow your commenters</span></h3>
+There's been a movement on the web for a while now that's called the \"<a title='I Follow at Randa Clay Design' href='http://randaclay.com/blog/i-follow/'>You comment - I follow</a>\". They want you to remove the nofollow tag off of your comments to \"reward\" your visitors. Now we do agree, but... That get's you a whole lot of spam once your WordPress blog turns into a well ranked blog... What we do advocate though, is that you <em>actually</em> follow your visitors! Go to their websites, and leave a comment on one of their articles, a good, insightful comment, so they respect you even more.
+
+If you think that's a lot of work, do realize that, on average, about 1% of your visitors will actually leave a comment. That's a group of people you <em>have</em> to take care of!
+<h3 id='twitter'><span class='num'>7.2</span> <span class='text'>Use Twitter</span></h3>
+<a href='http://twitter.com/' target='_blank' rel='noopener'>Twitter</a> is a cool form of micro-blogging / chatting / whatever you want to call it. Almost all the \"cool\" people are on there, and they read their tweets more often than they read their e-mail, if you even knew how to reach them through e-mail.
+
+To boot, if you use <a href='http://wordpress.org/plugins/wordtwit/' target='_blank' rel='noopener'>WordTwit</a> or <a href='http://alexking.org/projects/wordpress' target='_blank' rel='noopener'>Twitter Tools</a>, all of your posts can be announced on Twitter, which will usually get you quite a few early readers! People will feel even more happy to comment on Twitter, which might get you into an extra conversation or two.
+<h3 id='relatedblogs'><span class='num'>7.3</span> <span class='text'>Find related blogs, and work them</span></h3>
+If you want to rank for certain keywords, go to Google, and see which blogs rank in the top 10 for those keywords. Read those blogs, start posting insightful comments, follow up on their posts by doing a post on your own blog and link back to them: <em>communicate</em>! The only way to get the links you'll need to rank is to be a part of the community.
+<h2 id='measure'><span class='num'>8</span> <span class='text'>Measuring results</span></h2>
+A good SEO campaign relies on not only implementing changes but also measuring the impact of those changes, seeing what works and doing more of that. Two great Analytics packages to measure results are <a href='http://www.google.com/analytics/'>Google Analytics</a> and <a href='https://yoast.com/out/clicky/'>getClicky</a>. Useful plugins for these analytical packages are <a href='https://yoast.com/wordpress/plugins/google-analytics/'>MonsterInsights</a> and our <a href='https://yoast.com/wordpress/plugins/clicky/'>Clicky plugin</a>.
+
+You can also measure results by tracking rankings, the problem with rank tracking though is that it's hard to determine \"real\" rankings because of personalized and localized search results. Really the best outcome of being great at WordPress SEO is to get more traffic.
+
+Another great source of data is <a href='http://www.google.com/webmasters/tools/'>Google Search Console</a>. One of the relatively simple tricks we always give people is the following:
+<ul>
+	<li>go into Search Console;</li>
+	<li>go to \"Your site on the web\", then \"Search queries\".</li>
+	<li>Click on \"Download this table\".</li>
+	<li>Open the CSV file you get in Excel.</li>
+	<li>Replace all the instances of \"<10\" in the Clicks column with 9.</li>
+	<li>Select the entire first row and click the filter button, usually the icon is a funnel:
+		<img class='alignnone size-full wp-image-45516' title='filter icon' src='https://yoast.com/app/uploads/2008/04/filter-icon.jpg' alt='filter icon' width='41' height='34'></img></li>
+	<li>For the average position column, choose \"greater than 5\", sort Ascending.</li>
+	<li>Then for the \"Clicks\" column, sort Descending.</li>
+</ul>
+You now have the keywords people are finding you for in the results pages where you rank below #6 The fact that they clicked on your result proves that they found your result interesting: see if you can optimize any of those terms so you'll rank higher than a #6 average rank: use the Page Analysis in our SEO plugin to improve the page, improve the copy, ask others to link to you, etc. Be sure to read our article about <a href='https://yoast.com/cornerstone-content-rank/'>cornerstone content</a> as well.
+<h2 id='conclusion'><span class='num'>9</span> <span class='text'>Conclusions on WordPress SEO</span></h2>
+This guide gives you a <em>lot</em> of stuff you can do on your WordPress site. It goes from technical tips, to conversion tips, to content tips, to conversation tips, and a whole lot in between. There's a catch though: if you want to rank for highly competitive terms, you'll have to actually <em>do</em> most of it <em>and</em> create great and compelling content in the process.
+
+If you want to keep updated on the latest news about WordPress, SEO and our plugins, then subscribe to our <a href='https://yoast.com/newsletter/' target='_blank' rel='noopener'>newsletter</a> right now. You'll get a free eBook!
+
+<strong>You might also want to read:</strong>
+
+<a href='https://yoast.com/focus-keyword/'>How to choose the perfect focus keyword »</a><img width='266' height='266' src='https://cdn.yoast.com/app/uploads/2008/04/WordPress_SEO_definitive_guide_FI-300x300.png' class='attachment-266x266 size-266x266' alt='' srcset='https://cdn.yoast.com/app/uploads/2008/04/WordPress_SEO_definitive_guide_FI-300x300.png 300w, https://cdn.yoast.com/app/uploads/2008/04/WordPress_SEO_definitive_guide_FI-180x180.png 180w, https://cdn.yoast.com/app/uploads/2008/04/WordPress_SEO_definitive_guide_FI-600x600.png 600w' sizes='(max-width: 266px) 100vw, 266px'></img>

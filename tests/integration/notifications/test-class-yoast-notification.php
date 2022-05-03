@@ -6,11 +6,11 @@
  */
 
 /**
- * Class Test_Yoast_Notification.
+ * Class Yoast_Notification_Test.
  *
  * @covers Yoast_Notification
  */
-class Test_Yoast_Notification extends WPSEO_UnitTestCase {
+class Yoast_Notification_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Test capability filters get set.

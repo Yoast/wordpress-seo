@@ -27,6 +27,8 @@ class Link_Count_Notification_Integration implements Integration_Interface {
 	 *
 	 * @deprecated 15.1
 	 * @codeCoverageIgnore
+	 *
+	 * @return array
 	 */
 	public static function get_conditionals() {
 		\_deprecated_function( __METHOD__, 'WPSEO 15.1' );

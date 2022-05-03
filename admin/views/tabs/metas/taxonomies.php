@@ -17,6 +17,9 @@ if ( is_array( $wpseo_taxonomies ) && $wpseo_taxonomies !== [] ) {
 	$recommended_replace_vars     = new WPSEO_Admin_Recommended_Replace_Vars();
 	$editor_specific_replace_vars = new WPSEO_Admin_Editor_Specific_Replace_Vars();
 
+	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Is correctly escaped in the generate_opengraph_disabled_alert() method.
+	echo $view_utils->generate_opengraph_disabled_alert( 'taxonomies' );
+
 	// Explicitly hide all the core taxonomies we never want to do stuff for.
 	$wpseo_taxonomies = array_diff_key( $wpseo_taxonomies, array_flip( [ 'link_category', 'nav_menu' ] ) );
 

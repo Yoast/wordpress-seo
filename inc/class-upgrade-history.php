@@ -22,7 +22,7 @@ class WPSEO_Upgrade_History {
 	/**
 	 * WPSEO_Upgrade_History constructor.
 	 *
-	 * @param null|string $option_name Optional. Custom option to use to store/retrieve history from.
+	 * @param string|null $option_name Optional. Custom option to use to store/retrieve history from.
 	 */
 	public function __construct( $option_name = null ) {
 		if ( $option_name !== null ) {

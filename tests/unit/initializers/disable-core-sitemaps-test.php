@@ -97,14 +97,14 @@ class Disable_Core_Sitemaps_Test extends TestCase {
 	/**
 	 * Tests the template_redirect function.
 	 *
-	 * @param string $path     The request path.
-	 * @param string $redirect The expected redirect.
-	 *
 	 * @covers ::__construct
 	 * @covers ::template_redirect
 	 * @covers ::get_redirect_url
 	 *
 	 * @dataProvider template_redirect_data
+	 *
+	 * @param string $path     The request path.
+	 * @param string $redirect The expected redirect.
 	 */
 	public function test_template_redirect( $path, $redirect ) {
 		$_SERVER['REQUEST_URI'] = $path;

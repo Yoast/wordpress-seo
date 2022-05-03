@@ -117,6 +117,11 @@ class Breadcrumb_Test extends TestCase {
 			->with( 'Home' )
 			->once()
 			->andReturnArg( 0 );
+		$this->html
+			->expects( 'smart_strip_tags' )
+			->with( 'Test post' )
+			->once()
+			->andReturnArg( 0 );
 
 		$actual = $this->instance->generate();
 
@@ -127,19 +132,13 @@ class Breadcrumb_Test extends TestCase {
 				[
 					'@type'    => 'ListItem',
 					'position' => 1,
-					'item'     => [
-						'@type' => 'WebPage',
-						'@id'   => 'https://wordpress.example.com/',
-						'url'   => 'https://wordpress.example.com/',
-						'name'  => 'Home',
-					],
+					'name'     => 'Home',
+					'item'     => 'https://wordpress.example.com/',
 				],
 				[
 					'@type'    => 'ListItem',
 					'position' => 2,
-					'item'     => [
-						'@id'   => 'https://wordpress.example.com/canonical#webpage',
-					],
+					'name'     => 'Test post',
 				],
 			],
 		];
@@ -169,6 +168,12 @@ class Breadcrumb_Test extends TestCase {
 		$this->current_page->expects( 'is_paged' )->andReturnFalse();
 		$this->current_page->expects( 'is_home_static_page' )->once()->andReturnTrue();
 
+		$this->html
+			->expects( 'smart_strip_tags' )
+			->with( 'Home' )
+			->once()
+			->andReturnArg( 0 );
+
 		$actual = $this->instance->generate();
 
 		$expected = [
@@ -178,9 +183,7 @@ class Breadcrumb_Test extends TestCase {
 				[
 					'@type'    => 'ListItem',
 					'position' => 1,
-					'item'     => [
-						'@id'   => 'https://wordpress.example.com/canonical#webpage',
-					],
+					'name'     => 'Home',
 				],
 			],
 		];
@@ -215,6 +218,12 @@ class Breadcrumb_Test extends TestCase {
 		$this->current_page->expects( 'is_paged' )->andReturnFalse();
 		$this->current_page->expects( 'is_home_static_page' )->once()->andReturnTrue();
 
+		$this->html
+			->expects( 'smart_strip_tags' )
+			->with( 'Home' )
+			->once()
+			->andReturnArg( 0 );
+
 		$actual = $this->instance->generate();
 
 		$expected = [
@@ -224,9 +233,7 @@ class Breadcrumb_Test extends TestCase {
 				[
 					'@type'    => 'ListItem',
 					'position' => 1,
-					'item'     => [
-						'@id'   => 'https://wordpress.example.com/canonical#webpage',
-					],
+					'name'     => 'Home',
 				],
 			],
 		];
@@ -263,6 +270,12 @@ class Breadcrumb_Test extends TestCase {
 		$this->current_page->expects( 'is_paged' )->andReturnFalse();
 		$this->current_page->expects( 'is_home_static_page' )->once()->andReturnFalse();
 
+		$this->html
+			->expects( 'smart_strip_tags' )
+			->with( 'Home' )
+			->once()
+			->andReturnArg( 0 );
+
 		$actual = $this->instance->generate();
 
 		$expected = [
@@ -272,9 +285,7 @@ class Breadcrumb_Test extends TestCase {
 				[
 					'@type'    => 'ListItem',
 					'position' => 1,
-					'item'     => [
-						'@id'   => 'https://wordpress.example.com/canonical#webpage',
-					],
+					'name'     => 'Home',
 				],
 			],
 		];
@@ -342,6 +353,7 @@ class Breadcrumb_Test extends TestCase {
 		$this->meta_tags_context->title                     = 'Page title';
 
 		$this->current_page->expects( 'is_paged' )->andReturnTrue();
+		$this->current_page->expects( 'is_static_posts_page' )->once()->andReturnFalse();
 		$this->current_page->expects( 'is_home_static_page' )->once()->andReturnFalse();
 
 		$this->html
@@ -349,7 +361,6 @@ class Breadcrumb_Test extends TestCase {
 			->with( 'Home' )
 			->once()
 			->andReturnArg( 0 );
-
 		$this->html
 			->expects( 'smart_strip_tags' )
 			->with( 'Test post' )
@@ -363,29 +374,13 @@ class Breadcrumb_Test extends TestCase {
 				[
 					'@type'    => 'ListItem',
 					'position' => 1,
-					'item'     => [
-						'@type' => 'WebPage',
-						'@id'   => 'https://wordpress.example.com/',
-						'url'   => 'https://wordpress.example.com/',
-						'name'  => 'Home',
-					],
+					'name'     => 'Home',
+					'item'     => 'https://wordpress.example.com/',
 				],
 				[
 					'@type'    => 'ListItem',
 					'position' => 2,
-					'item'     => [
-						'@type' => 'WebPage',
-						'@id'   => 'https://wordpress.example.com/post-title',
-						'url'   => 'https://wordpress.example.com/post-title',
-						'name'  => 'Test post',
-					],
-				],
-				[
-					'@type'    => 'ListItem',
-					'position' => 3,
-					'item'     => [
-						'@id' => 'https://wordpress.example.com/canonical#webpage',
-					],
+					'name'     => 'Test post',
 				],
 			],
 		];
@@ -425,6 +420,7 @@ class Breadcrumb_Test extends TestCase {
 		$this->meta_tags_context->indexable->number_of_pages = 3;
 
 		$this->current_page->expects( 'is_paged' )->andReturnFalse();
+		$this->current_page->expects( 'is_static_posts_page' )->once()->andReturnFalse();
 		$this->current_page->expects( 'is_home_static_page' )->andReturnFalse();
 
 		$this->html
@@ -446,29 +442,13 @@ class Breadcrumb_Test extends TestCase {
 				[
 					'@type'    => 'ListItem',
 					'position' => 1,
-					'item'     => [
-						'@type' => 'WebPage',
-						'@id'   => 'https://wordpress.example.com/',
-						'url'   => 'https://wordpress.example.com/',
-						'name'  => 'Home',
-					],
+					'name'     => 'Home',
+					'item'     => 'https://wordpress.example.com/',
 				],
 				[
 					'@type'    => 'ListItem',
 					'position' => 2,
-					'item'     => [
-						'@type' => 'WebPage',
-						'@id'   => 'https://wordpress.example.com/post-title',
-						'url'   => 'https://wordpress.example.com/post-title',
-						'name'  => 'Test post',
-					],
-				],
-				[
-					'@type'    => 'ListItem',
-					'position' => 3,
-					'item'     => [
-						'@id'   => 'https://wordpress.example.com/canonical#webpage',
-					],
+					'name'     => 'Test post',
 				],
 			],
 		];
@@ -513,6 +493,11 @@ class Breadcrumb_Test extends TestCase {
 			->with( 'Home' )
 			->once()
 			->andReturnArg( 0 );
+		$this->html
+			->expects( 'smart_strip_tags' )
+			->with( 'Test post' )
+			->once()
+			->andReturnArg( 0 );
 
 		$expected = [
 			'@type'           => 'BreadcrumbList',
@@ -521,19 +506,13 @@ class Breadcrumb_Test extends TestCase {
 				[
 					'@type'    => 'ListItem',
 					'position' => 1,
-					'item'     => [
-						'@type' => 'WebPage',
-						'@id'   => 'https://wordpress.example.com/',
-						'url'   => 'https://wordpress.example.com/',
-						'name'  => 'Home',
-					],
+					'name'     => 'Home',
+					'item'     => 'https://wordpress.example.com/',
 				],
 				[
 					'@type'    => 'ListItem',
 					'position' => 2,
-					'item'     => [
-						'@id'   => 'https://wordpress.example.com/canonical#webpage',
-					],
+					'name'     => 'Test post',
 				],
 			],
 		];
@@ -578,6 +557,11 @@ class Breadcrumb_Test extends TestCase {
 			->once()
 			->with( 'Home' )
 			->andReturn( 'Home' );
+		$this->html
+			->expects( 'smart_strip_tags' )
+			->once()
+			->with( '' )
+			->andReturn( '' );
 
 		$expected = [
 			'@type'           => 'BreadcrumbList',
@@ -586,19 +570,13 @@ class Breadcrumb_Test extends TestCase {
 				[
 					'@type'    => 'ListItem',
 					'position' => 1,
-					'item'     => [
-						'@type' => 'WebPage',
-						'@id'   => 'https://wordpress.example.com/',
-						'url'   => 'https://wordpress.example.com/',
-						'name'  => 'Home',
-					],
+					'name'     => 'Home',
+					'item'     => 'https://wordpress.example.com/',
 				],
 				[
 					'@type'    => 'ListItem',
 					'position' => 2,
-					'item'     => [
-						'@id' => 'https://wordpress.example.com/canonical#webpage',
-					],
+					'name'     => '',
 				],
 			],
 		];
@@ -626,5 +604,46 @@ class Breadcrumb_Test extends TestCase {
 	 */
 	public function test_is_needed_default() {
 		$this->assertTrue( $this->instance->is_needed() );
+	}
+
+	/**
+	 * Tests the generate method when the page is paginated (as detected through 'is_paged').
+	 *
+	 * @covers ::generate
+	 * @covers ::not_hidden
+	 * @covers ::is_broken
+	 * @covers ::create_breadcrumb
+	 * @covers ::format_last_breadcrumb
+	 */
+	public function test_generate_when_page_is_paginated_and_static_page() {
+		$breadcrumb_data = [
+			[
+				'url'  => 'https://wordpress.example.com/',
+				'text' => 'Home',
+			],
+			[
+				'url'  => 'https://wordpress.example.com/post-title',
+				'text' => 'Test post',
+				'id'   => '123',
+			],
+			[
+				'text' => 'Page 2',
+			],
+		];
+
+		$this->meta_tags_context->presentation->breadcrumbs = $breadcrumb_data;
+		$this->meta_tags_context->title                     = 'Page title';
+
+		$this->current_page->expects( 'is_paged' )->andReturnTrue();
+		$this->current_page->expects( 'is_static_posts_page' )->once()->andReturnTrue();
+		$this->current_page->expects( 'is_home_static_page' )->never();
+
+		$this->html
+			->expects( 'smart_strip_tags' )
+			->never();
+
+		$actual = $this->instance->generate();
+
+		self::assertEquals( false, $actual );
 	}
 }

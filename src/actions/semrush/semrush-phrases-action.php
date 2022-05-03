@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Actions\SEMrush;
 
+use Exception;
 use Yoast\WP\SEO\Config\SEMrush_Client;
 
 /**
@@ -71,7 +72,7 @@ class SEMrush_Phrases_Action {
 			\set_transient( $transient_key, $results, \DAY_IN_SECONDS );
 
 			return $this->to_result_object( $results );
-		} catch ( \Exception $e ) {
+		} catch ( Exception $e ) {
 			return (object) [
 				'error'  => $e->getMessage(),
 				'status' => $e->getCode(),

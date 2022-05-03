@@ -22,8 +22,8 @@ class WPSEO_Ryte_Option_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Setting up the class instance.
 	 */
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 
 		$this->class_instance = new WPSEO_Ryte_Option();
 	}

@@ -11,9 +11,8 @@ use Yoast\WP\SEO\Generators\Schema\Author;
 /**
  * Returns schema Person data.
  *
+ * @since      10.2
  * @deprecated 14.0
- *
- * @since 10.2
  */
 class WPSEO_Schema_Author extends WPSEO_Deprecated_Graph_Piece {
 
@@ -34,10 +33,10 @@ class WPSEO_Schema_Author extends WPSEO_Deprecated_Graph_Piece {
 	/**
 	 * WPSEO_Schema_Author constructor.
 	 *
-	 * @param null $context The context. No longer used but present for BC.
-	 *
-	 * @codeCoverageIgnore
 	 * @deprecated 14.0
+	 * @codeCoverageIgnore
+	 *
+	 * @param null $context The context. No longer used but present for BC.
 	 */
 	public function __construct( $context = null ) {
 		parent::__construct( Author::class );
@@ -46,8 +45,8 @@ class WPSEO_Schema_Author extends WPSEO_Deprecated_Graph_Piece {
 	/**
 	 * Determine whether we should return Person schema.
 	 *
-	 * @codeCoverageIgnore
 	 * @deprecated 14.0
+	 * @codeCoverageIgnore
 	 *
 	 * @return bool
 	 */
@@ -74,8 +73,8 @@ class WPSEO_Schema_Author extends WPSEO_Deprecated_Graph_Piece {
 	/**
 	 * Gets the Schema type we use for this class.
 	 *
-	 * @codeCoverageIgnore
 	 * @deprecated 14.0
+	 * @codeCoverageIgnore
 	 *
 	 * @return string[] The schema type.
 	 */
@@ -88,8 +87,8 @@ class WPSEO_Schema_Author extends WPSEO_Deprecated_Graph_Piece {
 	/**
 	 * Determine whether the current URL is worthy of Article schema.
 	 *
-	 * @codeCoverageIgnore
 	 * @deprecated 14.0
+	 * @codeCoverageIgnore
 	 *
 	 * @return bool
 	 */
@@ -105,8 +104,8 @@ class WPSEO_Schema_Author extends WPSEO_Deprecated_Graph_Piece {
 	/**
 	 * Determines a User ID for the Person data.
 	 *
-	 * @codeCoverageIgnore
 	 * @deprecated 14.0
+	 * @codeCoverageIgnore
 	 *
 	 * @return bool|int User ID or false upon return.
 	 */

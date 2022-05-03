@@ -1,0 +1,39 @@
+/** On admin pages, the <body> Has the class "yoast", this way we can target only our own pages if something goes wrong. */
+
+:root {
+	--yoast-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+	--yoast-font-size-default: 14px;
+	--yoast-font-weight-default: 400;
+	--yoast-font-weight-bold: 600;
+	--yoast-color-font-default: #404040;
+	--yoast-shadow-default: 0px 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+.yoast-h1, .yoast-h2, .yoast-h3 {
+	font-weight: 400;
+	color: var(--yoast-color-primary);
+	line-height: 1.2;
+	margin: 0;
+}
+
+.yoast-h1 a, .yoast-h2 a, .yoast-h3 a {
+	color: var(--yoast-color-primary);
+	text-decoration: none;
+}
+
+.yoast-h1 {
+	font-size: 24px;
+}
+
+.yoast-h2 {
+	font-size: 20px;
+}
+
+.yoast-h3 {
+	font-size: 16px;
+}
+
+.yoast-paragraph {
+	font-size: var(--yoast-font-size-default);
+	margin-top: 0;
+}

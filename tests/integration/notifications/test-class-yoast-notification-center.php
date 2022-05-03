@@ -32,8 +32,8 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Create user with proper caps.
 	 */
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 
 		$this->user_id = $this->factory->user->create();
 
@@ -46,11 +46,11 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Remove notifications on tearDown.
 	 */
-	public function tearDown() {
-		parent::tearDown();
-
+	public function tear_down() {
 		$notification_center = Yoast_Notification_Center::get();
 		$notification_center->deactivate_hook();
+
+		parent::tear_down();
 	}
 
 	/**
@@ -927,8 +927,8 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Creates a mock WordPress user.
 	 *
-	 * @param int   $user_id   The ID of the user.
-	 * @param array $caps A map, mapping capabilities to `true` (user has capability) or `false` ( user has not).
+	 * @param int   $user_id The ID of the user.
+	 * @param array $caps    A map, mapping capabilities to `true` (user has capability) or `false` ( user has not).
 	 *
 	 * @return PHPUnit_Framework_MockObject_Invocation_Object | WP_User
 	 */
@@ -944,7 +944,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 			->with( $this->isType( 'string' ) )
 			->willReturn(
 				$this->returnCallback(
-					function( $argument ) use ( $caps ) {
+					static function( $argument ) use ( $caps ) {
 						return isset( $caps[ $argument ] ) ? $caps[ $argument ] : false;
 					}
 				)

@@ -7,9 +7,11 @@ use Brain\Monkey\Functions;
 use Mockery;
 use wpdb;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Indexation_Action;
+use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
+use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 
 /**
  * Indexable_Post_Indexation_Action_Test class
@@ -18,6 +20,8 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group indexing
  *
  * @coversDefaultClass \Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Indexation_Action
+ *
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Indexable_Post_Indexation_Action_Test extends TestCase {
 
@@ -27,6 +31,13 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 	 * @var Post_Type_Helper|Mockery\MockInterface
 	 */
 	protected $post_type_helper;
+
+	/**
+	 * The post helper mock.
+	 *
+	 * @var Post_Helper|Mockery\MockInterface
+	 */
+	protected $post_helper;
 
 	/**
 	 * The builder mock.
@@ -41,6 +52,13 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 	 * @var wpdb|Mockery\MockInterface
 	 */
 	protected $wpdb;
+
+	/**
+	 * The version manager.
+	 *
+	 * @var Indexable_Builder_Versions|Mockery\MockInterface
+	 */
+	protected $builder_versions;
 
 	/**
 	 * The instance.
@@ -59,14 +77,23 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 		$wpdb = (object) [ 'prefix' => 'wp_' ];
 
 		$this->post_type_helper = Mockery::mock( Post_Type_Helper::class );
+		$this->post_helper      = Mockery::mock( Post_Helper::class );
 		$this->repository       = Mockery::mock( Indexable_Repository::class );
 		$this->wpdb             = Mockery::mock( 'wpdb' );
 		$this->wpdb->posts      = 'wp_posts';
+		$this->builder_versions = Mockery::mock( Indexable_Builder_Versions::class );
+
+		$this->builder_versions
+			->expects( 'get_latest_version_for_type' )
+			->withArgs( [ 'post' ] )
+			->andReturn( 2 );
 
 		$this->instance = new Indexable_Post_Indexation_Action(
 			$this->post_type_helper,
 			$this->repository,
-			$this->wpdb
+			$this->wpdb,
+			$this->builder_versions,
+			$this->post_helper
 		);
 	}
 
@@ -75,35 +102,76 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::get_total_unindexed
-	 * @covers ::get_query
+	 * @covers ::get_count_query
 	 * @covers ::get_post_types
 	 */
 	public function test_get_total_unindexed() {
-		$limit_placeholder = '';
-		$expected_query    = "
+		$expected_query = "
 			SELECT COUNT(P.ID)
 			FROM wp_posts AS P
-			LEFT JOIN wp_yoast_indexable AS I
-				ON P.ID = I.object_id
-				AND I.object_type = 'post'
-				AND I.permalink_hash IS NOT NULL
-			WHERE I.object_id IS NULL
-				AND P.post_type IN (%s)
-			$limit_placeholder";
+			WHERE P.post_type IN (%s)
+			AND P.post_status NOT IN (%s)
+			AND P.ID not in (
+				SELECT I.object_id from wp_yoast_indexable as I
+				WHERE I.object_type = 'post'
+				AND I.version = %d )";
 
 		Functions\expect( 'get_transient' )->once()->with( 'wpseo_total_unindexed_posts' )->andReturnFalse();
 		Functions\expect( 'set_transient' )->once()->with( 'wpseo_total_unindexed_posts', '10', \DAY_IN_SECONDS )->andReturnTrue();
 
 		$this->wpdb->expects( 'prepare' )
 			->once()
-			->with( $expected_query, [ 'public_post_type' ] )
+			->with( $expected_query, [ 'public_post_type', 'auto-draft', 2 ] )
 			->andReturn( 'query' );
 		$this->wpdb->expects( 'get_var' )->once()->with( 'query' )->andReturn( '10' );
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->once()->andReturn( [ 'public_post_type' ] );
 		$this->post_type_helper->expects( 'get_excluded_post_types_for_indexables' )->once()->andReturn( [] );
+		$this->post_helper->expects( 'get_excluded_post_statuses' )->once()->andReturn( [ 'auto-draft' ] );
 
 		$this->assertEquals( 10, $this->instance->get_total_unindexed() );
+	}
+
+	/**
+	 * Tests the get_limited_unindexed_count method with a limit.
+	 *
+	 * @covers ::__construct
+	 * @covers ::get_post_types
+	 * @covers ::get_select_query
+	 */
+	public function test_get_limited_unindexed_count() {
+		$limit          = 25;
+		$expected_query = "
+			SELECT P.ID
+			FROM wp_posts AS P
+			WHERE P.post_type IN (%s)
+			AND P.post_status NOT IN (%s)
+			AND P.ID not in (
+				SELECT I.object_id from wp_yoast_indexable as I
+				WHERE I.object_type = 'post'
+				AND I.version = %d )
+			LIMIT %d";
+
+		$query_result = [
+			'post_id_1',
+			'post_id_2',
+			'post_id_3',
+		];
+
+		Functions\expect( 'get_transient' )->once()->with( 'wpseo_total_unindexed_posts_limited' )->andReturnFalse();
+		Functions\expect( 'set_transient' )->once()->with( 'wpseo_total_unindexed_posts_limited', \count( $query_result ), ( \MINUTE_IN_SECONDS * 15 ) )->andReturnTrue();
+
+		$this->wpdb->expects( 'prepare' )
+			->once()
+			->with( $expected_query, [ 'public_post_type', 'auto-draft', 2, $limit ] )
+			->andReturn( 'query' );
+		$this->wpdb->expects( 'get_col' )->once()->with( 'query' )->andReturn( $query_result );
+
+		$this->post_type_helper->expects( 'get_public_post_types' )->once()->andReturn( [ 'public_post_type' ] );
+		$this->post_type_helper->expects( 'get_excluded_post_types_for_indexables' )->once()->andReturn( [] );
+		$this->post_helper->expects( 'get_excluded_post_statuses' )->once()->andReturn( [ 'auto-draft' ] );
+
+		$this->assertEquals( \count( $query_result ), $this->instance->get_limited_unindexed_count( $limit ) );
 	}
 
 	/**
@@ -111,7 +179,6 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::get_total_unindexed
-	 * @covers ::get_query
 	 * @covers ::get_post_types
 	 */
 	public function test_get_total_unindexed_cached() {
@@ -128,9 +195,14 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 	 */
 	public function test_get_total_unindexed_failed_query() {
 		Functions\expect( 'get_transient' )->once()->with( 'wpseo_total_unindexed_posts' )->andReturnFalse();
+		Functions\expect( 'set_transient' )
+			->once()
+			->with( 'wpseo_total_unindexed_posts', 0, ( \MINUTE_IN_SECONDS * 15 ) )
+			->andReturnFalse();
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->once()->andReturn( [ 'public_post_type' ] );
 		$this->post_type_helper->expects( 'get_excluded_post_types_for_indexables' )->once()->andReturn( [] );
+		$this->post_helper->expects( 'get_excluded_post_statuses' )->once()->andReturn( [ 'auto-draft' ] );
 
 		$this->wpdb->expects( 'prepare' )->once()->andReturn( 'query' );
 		$this->wpdb->expects( 'get_var' )->once()->with( 'query' )->andReturn( null );
@@ -144,35 +216,33 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::get_total_unindexed
-	 * @covers ::get_query
 	 * @covers ::get_post_types
 	 */
 	public function test_get_total_unindexed_with_excluded_post_types() {
 		$public_post_types   = [ 'public_post_type', 'excluded_post_type' ];
 		$excluded_post_types = [ 'excluded_post_type' ];
-		$queried_post_types  = [ 'public_post_type' ];
+		$query_params        = [ 'public_post_type', 'auto-draft', 2 ];
 
-		$limit_placeholder = '';
-		$expected_query    = "
+		$expected_query = "
 			SELECT COUNT(P.ID)
 			FROM wp_posts AS P
-			LEFT JOIN wp_yoast_indexable AS I
-				ON P.ID = I.object_id
-				AND I.object_type = 'post'
-				AND I.permalink_hash IS NOT NULL
-			WHERE I.object_id IS NULL
-				AND P.post_type IN (%s)
-			$limit_placeholder";
+			WHERE P.post_type IN (%s)
+			AND P.post_status NOT IN (%s)
+			AND P.ID not in (
+				SELECT I.object_id from wp_yoast_indexable as I
+				WHERE I.object_type = 'post'
+				AND I.version = %d )";
 
 		Functions\expect( 'get_transient' )->once()->with( 'wpseo_total_unindexed_posts' )->andReturnFalse();
 		Functions\expect( 'set_transient' )->once()->with( 'wpseo_total_unindexed_posts', '10', \DAY_IN_SECONDS )->andReturnTrue();
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->once()->andReturn( $public_post_types );
 		$this->post_type_helper->expects( 'get_excluded_post_types_for_indexables' )->once()->andReturn( $excluded_post_types );
+		$this->post_helper->expects( 'get_excluded_post_statuses' )->once()->andReturn( [ 'auto-draft' ] );
 
 		$this->wpdb->expects( 'prepare' )
 			->once()
-			->with( $expected_query, $queried_post_types )
+			->with( $expected_query, $query_params )
 			->andReturn( 'query' );
 		$this->wpdb->expects( 'get_var' )->once()->with( 'query' )->andReturn( '10' );
 
@@ -184,7 +254,6 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::index
-	 * @covers ::get_query
 	 * @covers ::get_limit
 	 * @covers ::get_post_types
 	 */
@@ -192,12 +261,12 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 		$expected_query = "
 			SELECT P.ID
 			FROM wp_posts AS P
-			LEFT JOIN wp_yoast_indexable AS I
-				ON P.ID = I.object_id
-				AND I.object_type = 'post'
-				AND I.permalink_hash IS NOT NULL
-			WHERE I.object_id IS NULL
-				AND P.post_type IN (%s)
+			WHERE P.post_type IN (%s)
+			AND P.post_status NOT IN (%s)
+			AND P.ID not in (
+				SELECT I.object_id from wp_yoast_indexable as I
+				WHERE I.object_type = 'post'
+				AND I.version = %d )
 			LIMIT %d";
 
 		Filters\expectApplied( 'wpseo_post_indexation_limit' )->andReturn( 25 );
@@ -210,13 +279,16 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 			->expects( 'get_excluded_post_types_for_indexables' )
 			->once()
 			->andReturn( [] );
+		$this->post_helper->expects( 'get_excluded_post_statuses' )
+			->once()
+			->andReturn( [ 'auto-draft' ] );
 
 		$this->wpdb
 			->expects( 'prepare' )
 			->once()
 			->with(
 				$expected_query,
-				[ 'public_post_type', 25 ]
+				[ 'public_post_type', 'auto-draft', 2, 25 ]
 			)
 			->andReturn( 'query' );
 		$this->wpdb
@@ -230,6 +302,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 8, 'post' );
 
 		Functions\expect( 'delete_transient' )->with( 'wpseo_total_unindexed_posts' );
+		Functions\expect( 'delete_transient' )->with( 'wpseo_total_unindexed_posts_limited' );
 
 		$this->instance->index();
 	}
@@ -245,6 +318,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->once()->andReturn( [ 'public_post_type' ] );
 		$this->post_type_helper->expects( 'get_excluded_post_types_for_indexables' )->once()->andReturn( [] );
+		$this->post_helper->expects( 'get_excluded_post_statuses' )->once()->andReturn( [ 'auto-draft' ] );
 
 		$this->wpdb->expects( 'prepare' )->once()->andReturn( 'query' );
 		$this->wpdb->expects( 'get_col' )->once()->with( 'query' )->andReturn( [ '1', '3', '8' ] );
@@ -254,6 +328,7 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 8, 'post' );
 
 		Functions\expect( 'delete_transient' )->with( 'wpseo_total_unindexed_posts' );
+		Functions\expect( 'delete_transient' )->with( 'wpseo_total_unindexed_posts_limited' );
 
 		$this->instance->index();
 	}
@@ -263,7 +338,6 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 * @covers ::index
-	 * @covers ::get_query
 	 * @covers ::get_limit
 	 * @covers ::get_post_types
 	 */
@@ -274,12 +348,12 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 		$expected_query = "
 			SELECT P.ID
 			FROM wp_posts AS P
-			LEFT JOIN wp_yoast_indexable AS I
-				ON P.ID = I.object_id
-				AND I.object_type = 'post'
-				AND I.permalink_hash IS NOT NULL
-			WHERE I.object_id IS NULL
-				AND P.post_type IN (%s)
+			WHERE P.post_type IN (%s)
+			AND P.post_status NOT IN (%s)
+			AND P.ID not in (
+				SELECT I.object_id from wp_yoast_indexable as I
+				WHERE I.object_type = 'post'
+				AND I.version = %d )
 			LIMIT %d";
 
 		Filters\expectApplied( 'wpseo_post_indexation_limit' )->andReturn( 25 );
@@ -292,12 +366,16 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 			->expects( 'get_excluded_post_types_for_indexables' )
 			->once()
 			->andReturn( $excluded_post_types );
+		$this->post_helper
+			->expects( 'get_excluded_post_statuses' )
+			->once()
+			->andReturn( [ 'auto-draft' ] );
 
 		$this->wpdb->expects( 'prepare' )
 			->once()
 			->with(
 				$expected_query,
-				[ 'public_post_type', 25 ]
+				[ 'public_post_type', 'auto-draft', 2, 25 ]
 			)
 			->andReturn( 'query' );
 		$this->wpdb
@@ -311,6 +389,59 @@ class Indexable_Post_Indexation_Action_Test extends TestCase {
 		$this->repository->expects( 'find_by_id_and_type' )->once()->with( 8, 'post' );
 
 		Functions\expect( 'delete_transient' )->with( 'wpseo_total_unindexed_posts' );
+		Functions\expect( 'delete_transient' )->with( 'wpseo_total_unindexed_posts_limited' );
+
+		$this->instance->index();
+	}
+
+	/**
+	 * Tests that the transients are not deleted when no indexables have been created.
+	 *
+	 * @covers ::__construct
+	 * @covers ::index
+	 * @covers ::get_limit
+	 * @covers ::get_post_types
+	 */
+	public function test_index_no_indexables_created() {
+		$expected_query = "
+			SELECT P.ID
+			FROM wp_posts AS P
+			WHERE P.post_type IN (%s)
+			AND P.post_status NOT IN (%s)
+			AND P.ID not in (
+				SELECT I.object_id from wp_yoast_indexable as I
+				WHERE I.object_type = 'post'
+				AND I.version = %d )
+			LIMIT %d";
+
+		Filters\expectApplied( 'wpseo_post_indexation_limit' )->andReturn( 25 );
+
+		$this->post_type_helper
+			->expects( 'get_public_post_types' )
+			->once()
+			->andReturn( [ 'public_post_type' ] );
+		$this->post_type_helper
+			->expects( 'get_excluded_post_types_for_indexables' )
+			->once()
+			->andReturn( [] );
+		$this->post_helper
+			->expects( 'get_excluded_post_statuses' )
+			->once()
+			->andReturn( [ 'auto-draft' ] );
+
+		$this->wpdb
+			->expects( 'prepare' )
+			->once()
+			->with(
+				$expected_query,
+				[ 'public_post_type', 'auto-draft', 2, 25 ]
+			)
+			->andReturn( 'query' );
+		$this->wpdb
+			->expects( 'get_col' )
+			->once()
+			->with( 'query' )
+			->andReturn( [] );
 
 		$this->instance->index();
 	}

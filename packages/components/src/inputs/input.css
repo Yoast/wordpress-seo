@@ -1,0 +1,74 @@
+:root {
+	--yoast-color-placeholder: #707070;
+}
+
+.yoast .yoast-field-group__textarea,
+.yoast .yoast-field-group__inputfield {
+	width: 100%;
+	font-size: var(--yoast-font-size-default);
+	padding: 8px;
+	background: var(--yoast-color-white);
+	border: var(--yoast-border-default);
+	box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+	box-sizing: border-box;
+	border-radius: 0;
+}
+
+.yoast .yoast-field-group__textarea:focus,
+.yoast .yoast-field-group__inputfield:focus {
+	box-shadow: var(--yoast-color-focus);
+	outline: none;
+}
+
+.yoast-field-group__upload .yoast-field-group__inputfield {
+	margin-bottom: 8px;
+}
+
+.yoast-field-group__inputfield {
+	height: 40px;
+}
+
+.yoast-field-group__textarea {
+	min-height: 200px;
+}
+
+.yoast input + .description,
+.yoast-field-group .description + input,
+.yoast-field-group__inputfield + .description,
+.yoast-field-group .description + .yoast-field-group__inputfield {
+	margin-top: 8px;
+	margin-bottom: 24px;
+}
+
+.yoast .yoast-field-group__inputfield:read-only,
+.yoast .yoast-field-group__inputfield:disabled,
+.yoast .yoast-field-group__inputfield[aria-disabled="true"] {
+	background: var(--yoast-color-inactive-grey-light);
+}
+
+.yoast .duration-inputs__wrapper {
+	display: flex;
+	flex-direction: row;
+}
+
+.yoast .duration-inputs__input-wrapper {
+	display: flex;
+	flex-direction: column;
+}
+
+.yoast .duration-inputs__input {
+	width: 4em;
+	margin: 0 8px 0 0;
+}
+
+/* Edge. */
+::-ms-input-placeholder {
+	color: var(--yoast-color-placeholder);
+}
+
+/* Modern browsers. */
+::placeholder {
+	color: var(--yoast-color-placeholder);
+	/* Specific for Firefox. */
+	opacity: 1;
+}

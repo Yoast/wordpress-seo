@@ -13,6 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group canonical
  */
 class Canonical_Test extends TestCase {
+
 	use Presentation_Instance_Builder;
 
 	/**
@@ -58,7 +59,7 @@ class Canonical_Test extends TestCase {
 			->expects( 'ensure_absolute_url' )
 			->once()
 			->andReturnUsing(
-				function ( $val ) {
+				static function ( $val ) {
 					return $val;
 				}
 			);
@@ -96,7 +97,7 @@ class Canonical_Test extends TestCase {
 			->expects( 'ensure_absolute_url' )
 			->once()
 			->andReturnUsing(
-				function ( $val ) {
+				static function ( $val ) {
 					return $val;
 				}
 			);
@@ -133,7 +134,7 @@ class Canonical_Test extends TestCase {
 			->expects( 'ensure_absolute_url' )
 			->once()
 			->andReturnUsing(
-				function ( $val ) {
+				static function ( $val ) {
 					return $val;
 				}
 			);
@@ -177,7 +178,7 @@ class Canonical_Test extends TestCase {
 			->expects( 'ensure_absolute_url' )
 			->once()
 			->andReturnUsing(
-				function ( $val ) {
+				static function ( $val ) {
 					return $val;
 				}
 			);

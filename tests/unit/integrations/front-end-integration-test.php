@@ -8,9 +8,11 @@ use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Request_Helper;
 use Yoast\WP\SEO\Integrations\Front_End_Integration;
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
+use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
 use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
@@ -46,11 +48,39 @@ class Front_End_Integration_Test extends TestCase {
 	private $options;
 
 	/**
+	 * Represents the request helper.
+	 *
+	 * @var Mockery\MockInterface|Request_Helper
+	 */
+	private $request;
+
+	/**
 	 * Represents the meta tags context memoizer.
 	 *
 	 * @var Mockery\MockInterface|Meta_Tags_Context_Memoizer
 	 */
 	private $context_memoizer;
+
+	/**
+	 * Represents the indexable presentation.
+	 *
+	 * @var Mockery\LegacyMockInterface|Mockery\MockInterface|Indexable_Presentation
+	 */
+	private $presentation;
+
+	/**
+	 * Represents the meta tags context.
+	 *
+	 * @var Mockery\LegacyMockInterface|Mockery\MockInterface|Meta_Tags_Context
+	 */
+	private $context;
+
+	/**
+	 * Represents the options helper.
+	 *
+	 * @var Mockery\LegacyMockInterface|Mockery\MockInterface|Abstract_Indexable_Presenter
+	 */
+	private $presenter;
 
 	/**
 	 * Method that runs before each test case.
@@ -61,6 +91,7 @@ class Front_End_Integration_Test extends TestCase {
 		$this->context_memoizer = Mockery::mock( Meta_Tags_Context_Memoizer::class );
 		$this->container        = Mockery::mock( ContainerInterface::class );
 		$this->options          = Mockery::mock( Options_Helper::class );
+		$this->request          = Mockery::mock( Request_Helper::class );
 
 		$this->instance = Mockery::mock(
 			Front_End_Integration::class,
@@ -68,10 +99,18 @@ class Front_End_Integration_Test extends TestCase {
 				$this->context_memoizer,
 				$this->container,
 				$this->options,
+				$this->request,
 				Mockery::mock( Helpers_Surface::class ),
 				Mockery::mock( WPSEO_Replace_Vars::class ),
 			]
 		)->makePartial();
+
+		// Set up mocks for classes which which are used in multiple tests.
+		$this->context   = Mockery::mock( Meta_Tags_Context::class );
+		$this->presenter = Mockery::mock( Abstract_Indexable_Presenter::class );
+
+		$this->context->page_type    = 'page_type';
+		$this->context->presentation = $this->presentation;
 	}
 
 	/**
@@ -124,25 +163,18 @@ class Front_End_Integration_Test extends TestCase {
 	 * @covers ::present_head
 	 */
 	public function test_present_head() {
-		$presentation = Mockery::mock( Indexable_Presentation::class );
-		$context      = Mockery::mock( Meta_Tags_Context::class );
-		$presenter    = Mockery::mock( Abstract_Indexable_Presenter::class );
-
-		$context->page_type    = 'page_type';
-		$context->presentation = $presentation;
-
 		$this->context_memoizer
 			->expects( 'for_current_page' )
 			->once()
-			->andReturn( $context );
+			->andReturn( $this->context );
 
 		$this->instance
 			->expects( 'get_presenters' )
 			->once()
-			->with( 'page_type' )
-			->andReturn( [ $presenter ] );
+			->with( 'page_type', $this->context )
+			->andReturn( [ $this->presenter ] );
 
-		$presenter
+		$this->presenter
 			->expects( 'present' )
 			->once()
 			->with()
@@ -167,6 +199,16 @@ class Front_End_Integration_Test extends TestCase {
 		$this->options->expects( 'get' )->with( 'opengraph' )->andReturnTrue();
 		$this->options->expects( 'get' )->with( 'twitter' )->andReturnTrue();
 		$this->options->expects( 'get' )->with( 'enable_enhanced_slack_sharing' )->andReturnTrue();
+
+		$this->context_memoizer
+			->expects( 'for_current_page' )
+			->once()
+			->andReturn( $this->context );
+
+		$this->request
+			->expects( 'is_rest_request' )
+			->once()
+			->andReturnFalse();
 
 		$expected = [
 			'Yoast\WP\SEO\Presenters\Debug\Marker_Open_Presenter',
@@ -198,7 +240,7 @@ class Front_End_Integration_Test extends TestCase {
 			'Yoast\WP\SEO\Presenters\Debug\Marker_Close_Presenter',
 		];
 
-		$callback = function ( $presenter ) {
+		$callback = static function( $presenter ) {
 			return \get_class( $presenter );
 		};
 
@@ -224,7 +266,17 @@ class Front_End_Integration_Test extends TestCase {
 			->with( 'opengraph' )
 			->andReturnTrue();
 
-		$callback = function ( $presenter ) {
+		$this->context_memoizer
+			->expects( 'for_current_page' )
+			->once()
+			->andReturn( $this->context );
+
+		$this->request
+			->expects( 'is_rest_request' )
+			->once()
+			->andReturnFalse();
+
+		$callback = static function( $presenter ) {
 			return \get_class( $presenter );
 		};
 		$expected = \array_map( $callback, $this->instance->get_presenters( 'Error_Page' ) );
@@ -271,7 +323,17 @@ class Front_End_Integration_Test extends TestCase {
 			->with( 'enable_enhanced_slack_sharing' )
 			->andReturnTrue();
 
-		$callback = function ( $presenter ) {
+		$this->context_memoizer
+			->expects( 'for_current_page' )
+			->once()
+			->andReturn( $this->context );
+
+		$this->request
+			->expects( 'is_rest_request' )
+			->once()
+			->andReturnFalse();
+
+		$callback = static function( $presenter ) {
 			return \get_class( $presenter );
 		};
 		$expected = \array_map( $callback, \array_values( $this->instance->get_presenters( 'Term_Archive' ) ) );
@@ -326,7 +388,17 @@ class Front_End_Integration_Test extends TestCase {
 			->with( 'opengraph' )
 			->andReturnTrue();
 
-		$callback = function ( $presenter ) {
+		$this->context_memoizer
+			->expects( 'for_current_page' )
+			->once()
+			->andReturn( $this->context );
+
+		$this->request
+			->expects( 'is_rest_request' )
+			->once()
+			->andReturnFalse();
+
+		$callback = static function( $presenter ) {
 			return \get_class( $presenter );
 		};
 		$actual   = \array_map( $callback, \array_values( $this->instance->get_presenters( 'Error_Page' ) ) );
@@ -334,6 +406,52 @@ class Front_End_Integration_Test extends TestCase {
 		$this->assertEquals(
 			[
 				'Yoast\WP\SEO\Presenters\Debug\Marker_Open_Presenter',
+				'Yoast\WP\SEO\Presenters\Meta_Description_Presenter',
+				'Yoast\WP\SEO\Presenters\Robots_Presenter',
+				'Yoast\WP\SEO\Presenters\Open_Graph\Locale_Presenter',
+				'Yoast\WP\SEO\Presenters\Open_Graph\Title_Presenter',
+				'Yoast\WP\SEO\Presenters\Open_Graph\Site_Name_Presenter',
+				'Yoast\WP\SEO\Presenters\Schema_Presenter',
+				'Yoast\WP\SEO\Presenters\Debug\Marker_Close_Presenter',
+			],
+			$actual
+		);
+	}
+
+	/**
+	 * Tests retrieval of the presenters on a REST request.
+	 *
+	 * @covers ::get_presenters
+	 * @covers ::get_needed_presenters
+	 * @covers ::get_presenters_for_page_type
+	 * @covers ::get_all_presenters
+	 */
+	public function test_get_presenters_for_theme_on_rest_request() {
+
+		$this->options
+			->expects( 'get' )
+			->with( 'opengraph' )
+			->andReturnTrue();
+
+		$this->context_memoizer
+			->expects( 'for_current_page' )
+			->once()
+			->andReturn( $this->context );
+
+		$this->request
+			->expects( 'is_rest_request' )
+			->once()
+			->andReturnTrue();
+
+		$callback = static function( $presenter ) {
+			return \get_class( $presenter );
+		};
+		$actual   = \array_map( $callback, \array_values( $this->instance->get_presenters( 'Error_Page' ) ) );
+
+		$this->assertEquals(
+			[
+				'Yoast\WP\SEO\Presenters\Debug\Marker_Open_Presenter',
+				'Yoast\WP\SEO\Presenters\Title_Presenter',
 				'Yoast\WP\SEO\Presenters\Meta_Description_Presenter',
 				'Yoast\WP\SEO\Presenters\Robots_Presenter',
 				'Yoast\WP\SEO\Presenters\Open_Graph\Locale_Presenter',
@@ -368,7 +486,17 @@ class Front_End_Integration_Test extends TestCase {
 			->with( 'opengraph' )
 			->andReturnTrue();
 
-		$callback = function ( $presenter ) {
+		$this->context_memoizer
+			->expects( 'for_current_page' )
+			->once()
+			->andReturn( $this->context );
+
+		$this->request
+			->expects( 'is_rest_request' )
+			->once()
+			->andReturnFalse();
+
+		$callback = static function( $presenter ) {
 			return \get_class( $presenter );
 		};
 		$expected = \array_map( $callback, \array_values( $this->instance->get_presenters( 'Error_Page' ) ) );
@@ -431,6 +559,11 @@ class Front_End_Integration_Test extends TestCase {
 
 		\add_action( 'wp_head', 'wp_robots' );
 
+		$this->request
+			->expects( 'is_rest_request' )
+			->once()
+			->andReturnFalse();
+
 		$presenters = [
 			'Yoast\WP\SEO\Presenters\Title_Presenter',
 			'Yoast\WP\SEO\Presenters\Meta_Description_Presenter',
@@ -441,6 +574,37 @@ class Front_End_Integration_Test extends TestCase {
 			[
 				'Yoast\WP\SEO\Presenters\Title_Presenter',
 				'Yoast\WP\SEO\Presenters\Meta_Description_Presenter',
+			],
+			$this->instance->filter_robots_presenter( $presenters )
+		);
+	}
+
+	/**
+	 * Tests the filter robots presenter with having wp_robots attached to the wp_head action.
+	 *
+	 * @covers ::filter_robots_presenter
+	 */
+	public function test_rest_request_should_output_robots_presenter() {
+		Monkey\Functions\expect( 'wp_robots' )->never();
+
+		\add_action( 'wp_head', 'wp_robots' );
+
+		$this->request
+			->expects( 'is_rest_request' )
+			->once()
+			->andReturnTrue();
+
+		$presenters = [
+			'Yoast\WP\SEO\Presenters\Title_Presenter',
+			'Yoast\WP\SEO\Presenters\Meta_Description_Presenter',
+			'Yoast\WP\SEO\Presenters\Robots_Presenter',
+		];
+
+		static::assertEquals(
+			[
+				'Yoast\WP\SEO\Presenters\Title_Presenter',
+				'Yoast\WP\SEO\Presenters\Meta_Description_Presenter',
+				'Yoast\WP\SEO\Presenters\Robots_Presenter',
 			],
 			$this->instance->filter_robots_presenter( $presenters )
 		);

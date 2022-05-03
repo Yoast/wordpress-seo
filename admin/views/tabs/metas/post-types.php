@@ -25,11 +25,15 @@ echo '<p>';
 esc_html_e( 'The settings on this page allow you to specify what the default search appearance should be for any type of content you have. You can choose which content types appear in search results and what their default description should be.', 'wordpress-seo' );
 echo '</p>';
 
-if ( is_array( $wpseo_post_types ) && $wpseo_post_types !== [] ) {
-	$view_utils                   = new Yoast_View_Utils();
-	$recommended_replace_vars     = new WPSEO_Admin_Recommended_Replace_Vars();
-	$editor_specific_replace_vars = new WPSEO_Admin_Editor_Specific_Replace_Vars();
+$view_utils                   = new Yoast_View_Utils();
+$recommended_replace_vars     = new WPSEO_Admin_Recommended_Replace_Vars();
+$editor_specific_replace_vars = new WPSEO_Admin_Editor_Specific_Replace_Vars();
+$opengraph_disabled_alert     = $view_utils->generate_opengraph_disabled_alert();
 
+// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Is correctly escaped in the generate_opengraph_disabled_alert() method.
+echo $opengraph_disabled_alert;
+
+if ( is_array( $wpseo_post_types ) && $wpseo_post_types !== [] ) {
 	foreach ( array_values( $wpseo_post_types ) as $wpseo_post_type_index => $yoast_seo_post_type ) {
 		$wpseo_post_type_presenter = new WPSEO_Paper_Presenter(
 			$yoast_seo_post_type->labels->name,

@@ -6,6 +6,7 @@ use WP_Block_Parser_Block;
 use WP_Post;
 use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Config\Schema_IDs;
+use Yoast\WP\SEO\Config\Schema_Types;
 use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
@@ -46,6 +47,9 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
  * @property string       $open_graph_publisher
  * @property string       $twitter_card
  * @property string       $page_type
+ * @property bool         $has_image
+ * @property int          $main_image_id
+ * @property string       $main_image_url
  */
 class Meta_Tags_Context extends Abstract_Presentation {
 
@@ -76,13 +80,6 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * @var Indexable_Presentation
 	 */
 	public $presentation;
-
-	/**
-	 * Whether or not the indexable has an image.
-	 *
-	 * @var bool
-	 */
-	public $has_image = false;
 
 	/**
 	 * The options helper.
@@ -498,6 +495,24 @@ class Meta_Tags_Context extends Abstract_Presentation {
 			$additional_type = $this->options->get( 'schema-article-type-' . $this->indexable->object_sub_type );
 		}
 
+		/** This filter is documented in inc/options/class-wpseo-option-titles.php */
+		$allowed_article_types = \apply_filters( 'wpseo_schema_article_types', Schema_Types::ARTICLE_TYPES );
+
+		if ( ! \array_key_exists( $additional_type, $allowed_article_types ) ) {
+			$additional_type = $this->options->get_title_default( 'schema-article-type-' . $this->indexable->object_sub_type );
+		}
+
+		// If the additional type is a subtype of Article, we're fine, and we can bail here.
+		if ( \stripos( $additional_type, 'Article' ) !== false ) {
+			/**
+			 * Filter: 'wpseo_schema_article_type' - Allow changing the Article type.
+			 *
+			 * @param string|string[] $type      The Article type.
+			 * @param Indexable       $indexable The indexable.
+			 */
+			return \apply_filters( 'wpseo_schema_article_type', $additional_type, $this->indexable );
+		}
+
 		$type = 'Article';
 
 		/*
@@ -512,12 +527,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 			$type = [ $type, $additional_type ];
 		}
 
-		/**
-		 * Filter: 'wpseo_schema_article_type' - Allow changing the Article type.
-		 *
-		 * @param string|string[] $type      The Article type.
-		 * @param Indexable       $indexable The indexable.
-		 */
+		// Filter documented on line 499 above.
 		return \apply_filters( 'wpseo_schema_article_type', $type, $this->indexable );
 	}
 
@@ -525,9 +535,51 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * Returns the main schema id.
 	 *
 	 * The main schema id.
+	 *
+	 * @return string
 	 */
 	public function generate_main_schema_id() {
 		return $this->canonical . Schema_IDs::WEBPAGE_HASH;
+	}
+
+	/**
+	 * Retrieves the main image URL. This is the featured image by default.
+	 *
+	 * @return string|null The main image URL.
+	 */
+	public function generate_main_image_url() {
+		if ( $this->main_image_id !== null ) {
+			return $this->image->get_attachment_image_url( $this->main_image_id, 'full' );
+		}
+
+		$url = $this->image->get_post_content_image( $this->id );
+		if ( $url === '' ) {
+			return null;
+		}
+
+		return $url;
+	}
+
+	/**
+	 * Gets the main image ID.
+	 *
+	 * @return int|false|null The main image ID.
+	 */
+	public function generate_main_image_id() {
+		if ( ! \has_post_thumbnail( $this->id ) ) {
+			return null;
+		}
+
+		return \get_post_thumbnail_id( $this->id );
+	}
+
+	/**
+	 * Determines whether the current indexable has an image.
+	 *
+	 * @return bool Whether the current indexable has an image.
+	 */
+	public function generate_has_image() {
+		return $this->main_image_url !== null;
 	}
 
 	/**
@@ -547,14 +599,13 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	/**
 	 * Generates whether or not breadcrumbs are enabled.
 	 *
+	 * @deprecated 15.8
 	 * @codeCoverageIgnore
 	 *
 	 * @return bool Whether or not breadcrumbs are enabled.
-	 *
-	 * @deprecated 15.8
 	 */
 	public function generate_breadcrumbs_enabled() {
-		_deprecated_function( __METHOD__, 'WPSEO 15.8' );
+		\_deprecated_function( __METHOD__, 'WPSEO 15.8' );
 		$breadcrumbs_enabled = \current_theme_supports( 'yoast-seo-breadcrumbs' );
 		if ( ! $breadcrumbs_enabled ) {
 			$breadcrumbs_enabled = $this->options->get( 'breadcrumbs-enable', false );

@@ -1,1 +1,18 @@
 @import '@yoast/schema-blocks/css/schema-blocks.css';
+
+/* General styling for all blocks (including premium) */
+.yoast-schema-flex {
+	display: flex;
+	line-height: 1.25;
+}
+
+.yoast-schema-select select.components-select-control__input {
+	height: 100%;
+	padding: 6px 33px 6px 8px;
+}
+
+.yoast-schema-select div.components-input-control__backdrop,
+.yoast-schema-flex .components-text-control__input {
+	border: #CCCCCC 1px solid;
+	border-radius: 0;
+}

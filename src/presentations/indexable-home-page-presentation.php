@@ -8,6 +8,7 @@ namespace Yoast\WP\SEO\Presentations;
  * Presentation object for indexables.
  */
 class Indexable_Home_Page_Presentation extends Indexable_Presentation {
+
 	use Archive_Adjacent;
 
 	/**

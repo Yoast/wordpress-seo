@@ -26,9 +26,9 @@ class Post_Type_Helper {
 	/**
 	 * Checks if the request post type is public and indexable.
 	 *
-	 * @param string $post_type_name The name of the post type to lookup.
-	 *
 	 * @codeCoverageIgnore We have to write test when this method contains own code.
+	 *
+	 * @param string $post_type_name The name of the post type to lookup.
 	 *
 	 * @return bool True when post type is set to index.
 	 */
@@ -43,9 +43,9 @@ class Post_Type_Helper {
 	/**
 	 * Returns an array with the public post types.
 	 *
-	 * @param string $output The output type to use.
-	 *
 	 * @codeCoverageIgnore It only wraps a WordPress function.
+	 *
+	 * @param string $output The output type to use.
 	 *
 	 * @return array Array with all the public post_types.
 	 */
@@ -100,6 +100,17 @@ class Post_Type_Helper {
 		}
 
 		return $excluded_post_types;
+	}
+
+	/**
+	 * Checks if the post type is excluded.
+	 *
+	 * @param string $post_type The post type to check.
+	 *
+	 * @return bool If the post type is exclude.
+	 */
+	public function is_excluded( $post_type ) {
+		return \in_array( $post_type, $this->get_excluded_post_types_for_indexables(), true );
 	}
 
 	/**

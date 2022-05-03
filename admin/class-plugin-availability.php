@@ -259,7 +259,7 @@ class WPSEO_Plugin_Availability {
 	 * @return bool Whether or not the dependency is available.
 	 */
 	public function is_dependency_available( $dependency ) {
-		return in_array( $dependency['slug'], array_keys( get_plugins() ), true );
+		return isset( get_plugins()[ $dependency['slug'] ] );
 	}
 
 	/**

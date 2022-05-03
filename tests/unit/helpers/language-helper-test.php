@@ -6,7 +6,7 @@ use Yoast\WP\SEO\Helpers\Language_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class Language_Helper_Test
+ * Class Language_Helper_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Language_Helper
  *
@@ -48,7 +48,7 @@ class Language_Helper_Test extends TestCase {
 	 * @return string[][] The dataset.
 	 */
 	public function supported_language_provider() {
-		return [ [ 'de' ], [ 'en' ], [ 'es' ], [ 'fr' ], [ 'it' ], [ 'nl' ], [ 'ru' ], [ 'id' ], [ 'pt' ], [ 'pl' ], [ 'ar' ], [ 'sv' ], [ 'he' ], [ 'hu' ], [ 'nb' ], [ 'tr' ] ];
+		return [ [ 'de' ], [ 'en' ], [ 'es' ], [ 'fr' ], [ 'it' ], [ 'nl' ], [ 'ru' ], [ 'id' ], [ 'pt' ], [ 'pl' ], [ 'ar' ], [ 'sv' ], [ 'he' ], [ 'hu' ], [ 'nb' ], [ 'tr' ], [ 'cs' ], [ 'sk' ], [ 'el' ], [ 'ja' ] ];
 	}
 
 	/**
@@ -87,6 +87,11 @@ class Language_Helper_Test extends TestCase {
 			[ 'hu' ],
 			[ 'nb' ],
 			[ 'tr' ],
+			[ 'cs' ],
+			[ 'sk' ],
+			[ 'fa' ],
+			[ 'el' ],
+			[ 'ja' ],
 		];
 	}
 }

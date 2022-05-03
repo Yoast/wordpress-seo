@@ -29,6 +29,8 @@ class Link_Count_Indexing_List_Item_Presenter extends Abstract_Presenter {
 	 *
 	 * @deprecated 15.1
 	 * @codeCoverageIgnore
+	 *
+	 * @return string
 	 */
 	public function present() {
 		\_deprecated_function( __METHOD__, 'WPSEO 15.1' );

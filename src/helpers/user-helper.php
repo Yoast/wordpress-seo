@@ -46,6 +46,17 @@ class User_Helper {
 	}
 
 	/**
+	 * Retrieves the archive url of the user.
+	 *
+	 * @param int|false $user_id User ID.
+	 *
+	 * @return string The author's archive url.
+	 */
+	public function get_the_author_posts_url( $user_id ) {
+		return \get_author_posts_url( $user_id );
+	}
+
+	/**
 	 * Retrieves the current user ID.
 	 *
 	 * @return int The current user's ID, or 0 if no user is logged in.

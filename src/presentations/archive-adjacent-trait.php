@@ -21,9 +21,9 @@ trait Archive_Adjacent {
 	 *
 	 * @required
 	 *
-	 * @param Pagination_Helper $pagination The pagination helper.
-	 *
 	 * @codeCoverageIgnore
+	 *
+	 * @param Pagination_Helper $pagination The pagination helper.
 	 */
 	public function set_archive_adjacent_helpers( Pagination_Helper $pagination ) {
 		$this->pagination = $pagination;
@@ -31,6 +31,8 @@ trait Archive_Adjacent {
 
 	/**
 	 * Generates the rel prev.
+	 *
+	 * @return string
 	 */
 	public function generate_rel_prev() {
 		if ( $this->pagination->is_rel_adjacent_disabled() ) {
@@ -52,6 +54,8 @@ trait Archive_Adjacent {
 
 	/**
 	 * Generates the rel next.
+	 *
+	 * @return string
 	 */
 	public function generate_rel_next() {
 		if ( $this->pagination->is_rel_adjacent_disabled() ) {

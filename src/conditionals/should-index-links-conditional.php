@@ -28,7 +28,7 @@ class Should_Index_Links_Conditional implements Conditional {
 	/**
 	 * Returns `true` when the links on this website should be indexed.
 	 *
-	 * @returns boolean `true` when the links on this website should be indexed.
+	 * @return bool `true` when the links on this website should be indexed.
 	 */
 	public function is_met() {
 		$should_index_links = $this->options_helper->get( 'enable_text_link_counter' );

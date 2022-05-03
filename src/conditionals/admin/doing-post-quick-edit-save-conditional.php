@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Conditionals\Admin;
 use Yoast\WP\SEO\Conditionals\Conditional;
 
 // phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- Base class can't be written shorter without abbreviating.
+
 /**
  * Checks if the post is saved by inline-save. This is the case when doing quick edit.
  */

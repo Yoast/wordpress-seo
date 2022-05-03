@@ -91,7 +91,7 @@ class Meta_Surface {
 	 * @return Meta|false The meta values. False if none could be found.
 	 */
 	public function for_home_page() {
-		$front_page_id = \get_option( 'page_on_front' );
+		$front_page_id = (int) \get_option( 'page_on_front' );
 		if ( \get_option( 'show_on_front' ) === 'page' && $front_page_id !== 0 ) {
 			$indexable = $this->repository->find_by_id_and_type( $front_page_id, 'post' );
 
@@ -141,7 +141,7 @@ class Meta_Surface {
 	/**
 	 * Returns the meta tags context for a post type archive.
 	 *
-	 * @param string $post_type Optional. The post type to get the archive meta for. Defaults to the current post type.
+	 * @param string|null $post_type Optional. The post type to get the archive meta for. Defaults to the current post type.
 	 *
 	 * @return Meta|false The meta values. False if none could be found.
 	 */
@@ -266,8 +266,8 @@ class Meta_Surface {
 	/**
 	 * Returns the meta for an indexable.
 	 *
-	 * @param Indexable $indexable The indexable.
-	 * @param string    $page_type Optional. The page type if already known.
+	 * @param Indexable   $indexable The indexable.
+	 * @param string|null $page_type Optional. The page type if already known.
 	 *
 	 * @return Meta|false The meta values. False if none could be found.
 	 */
@@ -283,7 +283,7 @@ class Meta_Surface {
 	 * Returns the meta for an indexable.
 	 *
 	 * @param Indexable[] $indexables The indexables.
-	 * @param string      $page_type  Optional. The page type if already known.
+	 * @param string|null $page_type  Optional. The page type if already known.
 	 *
 	 * @return Meta|false The meta values. False if none could be found.
 	 */
@@ -310,6 +310,13 @@ class Meta_Surface {
 	public function for_url( $url ) {
 		$url_parts  = \wp_parse_url( $url );
 		$site_parts = \wp_parse_url( \site_url() );
+
+		if ( ( ! \is_array( $url_parts ) || ! \is_array( $site_parts ) )
+			|| ! isset( $url_parts['host'], $url_parts['path'], $site_parts['host'], $site_parts['scheme'] )
+		) {
+			return false;
+		}
+
 		if ( $url_parts['host'] !== $site_parts['host'] ) {
 			return false;
 		}
@@ -341,12 +348,15 @@ class Meta_Surface {
 	 *
 	 * @param string $url The url.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	protected function is_date_archive_url( $url ) {
 		$path = \wp_parse_url( $url, \PHP_URL_PATH );
-		$path = \ltrim( $path, '/' );
+		if ( $path === null ) {
+			return false;
+		}
 
+		$path         = \ltrim( $path, '/' );
 		$wp_rewrite   = $this->wp_rewrite_wrapper->get();
 		$date_rewrite = $wp_rewrite->generate_rewrite_rules( $wp_rewrite->get_date_permastruct(), \EP_DATE );
 		$date_rewrite = \apply_filters( 'date_rewrite_rules', $date_rewrite );

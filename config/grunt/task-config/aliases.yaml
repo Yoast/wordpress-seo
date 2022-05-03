@@ -1,12 +1,13 @@
 # Grunt aliases
 ---
 'build':
+  - 'build:ts'
   - 'build:js'
   - 'build:css'
   - 'build:images'
-  - 'build:i18n'
 
 'build-watch':
+  - 'clean:vendor-prefixed'
   - 'shell:composer-install'
   - 'build:js'
   - 'build:css'
@@ -14,15 +15,19 @@
 
 # Grunt command to only build CSS and JS
 'build:dev':
+  - 'build:ts'
   - 'build:js'
   - 'build:css'
+
+# Compile the TypeScript in the `schema-blocks` package
+'build:ts':
+  - 'shell:install-schema-blocks'
 
 # Build JavaScript from assets to production
 'build:js':
   - 'clean:build-assets-js'
-  - 'shell:install-schema-blocks'
   - 'copy:js-dependencies'
-  - 'webpack:buildDev'
+  - 'shell:webpack'
 
 # Build CSS for development
 'build:css':
@@ -31,47 +36,6 @@
   - 'copy:css-files'
   - 'postcss:build'
   - 'rtlcss:build'
-
-# Build internationalisation features
-'build:i18n':
-  - 'clean:language-files'
-  - 'build:i18n:potFiles'
-  - 'build:i18n:translations'
-# Create the relevant POT files
-'build:i18n:potFiles':
-  - 'makepot'
-  - 'shell:makepot-yoast-components-configuration-wizard'
-  - 'shell:makepot-wordpress-seo'
-  - 'copy:makepot-wordpress-seo'
-  - 'shell:makepot-yoast-js-analysis-report'
-  - 'copy:makepot-yoast-js-analysis-report'
-  - 'shell:makepot-yoast-js-components'
-  - 'copy:makepot-yoast-js-components'
-  - 'shell:makepot-yoast-js-configuration-wizard'
-  - 'copy:makepot-yoast-js-configuration-wizard'
-  - 'shell:makepot-yoast-js-helpers'
-  - 'copy:makepot-yoast-js-helpers'
-  - 'shell:makepot-yoast-js-search-metadata-previews'
-  - 'copy:makepot-yoast-js-search-metadata-previews'
-  - 'shell:makepot-yoast-js-schema-blocks'
-  - 'copy:makepot-yoast-js-schema-blocks'
-  - 'shell:makepot-yoast-components-remaining'
-  - 'shell:combine-pots-yoast-components'
-  - 'shell:makepot-yoastseojs'
-  - 'convert-pot-to-wp'
-  - 'shell:combine-pot-files'
-# Download and build the latest translations
-'build:i18n:translations':
-  - 'glotpress_download'
-
-  # Custom tasks required because of WordPress.org
-  - 'copy:de_CH-informal'
-  - 'clean:after-po-download'
-
-  - 'copy:json-translations'
-  - 'po2json'
-  - 'i18n-clean-json'
-  - 'clean:po-files'
 
 clean:build-assets:
   - 'clean:build-assets-js'
@@ -83,6 +47,7 @@ clean:build-assets:
   - 'update-version:initializer'
 
 'artifact':
+  - 'clean:vendor-prefixed'
   - 'shell:composer-install'
   - 'shell:compile-dependency-injection-container'
   - 'shell:remove-dependency-injection-meta'
@@ -116,7 +81,6 @@ clean:build-assets:
 
 # Get the project ready for release-candidate
 'create-rc':
-  - 'ensure-monorepo-is-unlinked'
   - 'ensure-clean-branch'
   - 'ensure-pre-release-branch'
   - 'update-readme'
@@ -139,13 +103,14 @@ clean:build-assets:
 release:
   - 'clean:build-assets'
   - 'build:images'
+  - 'release:ts'
   - 'release:js'
   - 'release:css'
-  - 'build:i18n'
-'release:js':
+'release:ts':
   - 'shell:install-schema-blocks'
+'release:js':
   - 'copy:js-dependencies'
-  - 'webpack:buildProd'
+  - 'shell:webpack-prod'
 
 # Build CSS for production
 'release:css':
@@ -164,6 +129,24 @@ release:
   - 'update-version-trunk'
   - 'artifact'
   - 'wp_deploy:trunk'
+
+'update-changelog:file':
+  - 'get-latest-pr-texts'
+  - 'update-changelog-with-latest-pr-texts'
+  - 'extract-extra-pr-texts-from-yoast-cli-md'
+  - 'update-package-changelog'
+'update-changelog:qa':
+  - 'get-latest-pr-texts'
+  - 'download-qa-changelog'
+  - 'build-qa-changelog'
+
+'update-changelog:all':
+  - 'get-latest-pr-texts'
+  - 'update-changelog-with-latest-pr-texts'
+  - 'download-qa-changelog'
+  - 'build-qa-changelog'
+  - 'extract-extra-pr-texts-from-yoast-cli-md'
+  - 'update-package-changelog'
 
 # Default task
 default:

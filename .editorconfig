@@ -18,7 +18,7 @@ trim_trailing_whitespace = true
 [*\.txt]
 trim_trailing_whitespace = false
 
-[*\.{md,json,yml,xml,xml\.dist}]
+[*\.{md,json,yml,yaml,xml,xml\.dist,eslintrc}]
 indent_style = space
 indent_size = 2
 

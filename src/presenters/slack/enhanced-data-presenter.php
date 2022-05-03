@@ -11,6 +11,13 @@ use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
 class Enhanced_Data_Presenter extends Abstract_Indexable_Presenter {
 
 	/**
+	 * The tag key name.
+	 *
+	 * @var string
+	 */
+	protected $key = 'twitter:misc';
+
+	/**
 	 * Presents the enhanced data for Slack
 	 *
 	 * @return string The Twitter tags for Slack.
@@ -20,8 +27,8 @@ class Enhanced_Data_Presenter extends Abstract_Indexable_Presenter {
 		$twitter_tags  = '';
 		$i             = 1;
 		foreach ( $enhanced_data as $label => $value ) {
-			$twitter_tags .= \sprintf( "\t" . '<meta name="twitter:label%1$d" content="%2$s">' . "\n", $i, $label );
-			$twitter_tags .= \sprintf( "\t" . '<meta name="twitter:data%1$d" content="%2$s">' . "\n", $i, $value );
+			$twitter_tags .= \sprintf( "\t" . '<meta name="twitter:label%1$d" content="%2$s" />' . "\n", $i, $label );
+			$twitter_tags .= \sprintf( "\t" . '<meta name="twitter:data%1$d" content="%2$s" />' . "\n", $i, $value );
 			++$i;
 		}
 		return \trim( $twitter_tags );
@@ -37,7 +44,7 @@ class Enhanced_Data_Presenter extends Abstract_Indexable_Presenter {
 		$author_id              = $this->presentation->source->post_author;
 		$estimated_reading_time = $this->presentation->estimated_reading_time_minutes;
 
-		if ( \is_singular( 'post' ) && $author_id ) {
+		if ( $this->presentation->model->object_sub_type === 'post' && $author_id ) {
 			$data[ \__( 'Written by', 'wordpress-seo' ) ] = \get_the_author_meta( 'display_name', $author_id );
 		}
 

@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Watchers;
 
+use Brain\Monkey\Functions;
 use Mockery;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
@@ -19,6 +20,8 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Indexable_Post_Type_Archive_Watcher
  * @covers \Yoast\WP\SEO\Integrations\Watchers\Indexable_Post_Type_Archive_Watcher
+ *
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Indexable_Post_Type_Archive_Watcher_Test extends TestCase {
 
@@ -84,7 +87,13 @@ class Indexable_Post_Type_Archive_Watcher_Test extends TestCase {
 	 * @covers ::check_option
 	 */
 	public function test_check_option_first_time_save() {
-		$indexable_mock = Mockery::mock( Indexable::class );
+		Functions\expect( 'current_time' )->with( 'mysql' )->andReturn( '1234-12-12 12:12:12' );
+
+		$indexable_mock      = Mockery::mock( Indexable::class );
+		$indexable_mock->orm = Mockery::mock( ORM::class );
+		$indexable_mock->orm->expects( 'get' )->with( 'object_last_modified' )->andReturn( '1234-12-12 00:00:00' );
+		$indexable_mock->orm->expects( 'set' )->with( 'object_last_modified', '1234-12-12 12:12:12' );
+		$indexable_mock->expects( 'save' )->once();
 
 		$this->repository
 			->expects( 'find_for_post_type_archive' )
@@ -119,7 +128,13 @@ class Indexable_Post_Type_Archive_Watcher_Test extends TestCase {
 	 * @covers ::build_indexable
 	 */
 	public function test_update_wpseo_titles_value() {
-		$indexable_mock = Mockery::mock( Indexable::class );
+		Functions\expect( 'current_time' )->with( 'mysql' )->andReturn( '1234-12-12 12:12:12' );
+
+		$indexable_mock      = Mockery::mock( Indexable::class );
+		$indexable_mock->orm = Mockery::mock( ORM::class );
+		$indexable_mock->orm->expects( 'get' )->with( 'object_last_modified' )->andReturn( '1234-12-12 00:00:00' );
+		$indexable_mock->orm->expects( 'set' )->with( 'object_last_modified', '1234-12-12 12:12:12' );
+		$indexable_mock->expects( 'save' )->once();
 
 		$this->repository
 			->expects( 'find_for_post_type_archive' )
@@ -144,7 +159,13 @@ class Indexable_Post_Type_Archive_Watcher_Test extends TestCase {
 	 * @covers ::build_indexable
 	 */
 	public function test_update_wpseo_titles_value_new() {
-		$indexable_mock = Mockery::mock( Indexable::class );
+		Functions\expect( 'current_time' )->with( 'mysql' )->andReturn( '1234-12-12 12:12:12' );
+
+		$indexable_mock      = Mockery::mock( Indexable::class );
+		$indexable_mock->orm = Mockery::mock( ORM::class );
+		$indexable_mock->orm->expects( 'get' )->with( 'object_last_modified' )->andReturn( '1234-12-12 00:00:00' );
+		$indexable_mock->orm->expects( 'set' )->with( 'object_last_modified', '1234-12-12 12:12:12' );
+		$indexable_mock->expects( 'save' )->once();
 
 		$this->repository
 			->expects( 'find_for_post_type_archive' )
@@ -169,8 +190,19 @@ class Indexable_Post_Type_Archive_Watcher_Test extends TestCase {
 	 * @covers ::build_indexable
 	 */
 	public function test_update_wpseo_titles_value_switched() {
-		$indexable_mock       = Mockery::mock( Indexable::class );
-		$other_indexable_mock = Mockery::mock( Indexable::class );
+		Functions\expect( 'current_time' )->with( 'mysql' )->andReturn( '1234-12-12 12:12:12' );
+
+		$indexable_mock      = Mockery::mock( Indexable::class );
+		$indexable_mock->orm = Mockery::mock( ORM::class );
+		$indexable_mock->orm->expects( 'get' )->with( 'object_last_modified' )->andReturn( '1234-12-12 00:00:00' );
+		$indexable_mock->orm->expects( 'set' )->with( 'object_last_modified', '1234-12-12 12:12:12' );
+		$indexable_mock->expects( 'save' )->once();
+
+		$other_indexable_mock      = Mockery::mock( Indexable::class );
+		$other_indexable_mock->orm = Mockery::mock( ORM::class );
+		$other_indexable_mock->orm->expects( 'get' )->with( 'object_last_modified' )->andReturn( '1234-12-12 00:00:00' );
+		$other_indexable_mock->orm->expects( 'set' )->with( 'object_last_modified', '1234-12-12 12:12:12' );
+		$other_indexable_mock->expects( 'save' )->once();
 
 		$this->repository
 			->expects( 'find_for_post_type_archive' )
@@ -230,7 +262,13 @@ class Indexable_Post_Type_Archive_Watcher_Test extends TestCase {
 	 * @covers ::build_indexable
 	 */
 	public function test_build_indexable_without_indexable() {
-		$indexable_mock = Mockery::mock( Indexable::class );
+		Functions\expect( 'current_time' )->with( 'mysql' )->andReturn( '1234-12-12 12:12:12' );
+
+		$indexable_mock      = Mockery::mock( Indexable::class );
+		$indexable_mock->orm = Mockery::mock( ORM::class );
+		$indexable_mock->orm->expects( 'get' )->with( 'object_last_modified' )->andReturn( '1234-12-12 00:00:00' );
+		$indexable_mock->orm->expects( 'set' )->with( 'object_last_modified', '1234-12-12 12:12:12' );
+		$indexable_mock->expects( 'save' )->once();
 
 		$this->repository
 			->expects( 'find_for_post_type_archive' )

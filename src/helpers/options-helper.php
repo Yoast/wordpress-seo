@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
+use WPSEO_Option_Social;
 use WPSEO_Option_Titles;
 use WPSEO_Options;
 
@@ -13,15 +14,15 @@ class Options_Helper {
 	/**
 	 * Retrieves a single field from any option for the SEO plugin. Keys are always unique.
 	 *
-	 * @param string $key     The key it should return.
-	 * @param mixed  $default The default value that should be returned if the key isn't set.
-	 *
 	 * @codeCoverageIgnore We have to write test when this method contains own code.
 	 *
-	 * @return mixed|null Returns value if found, $default if not.
+	 * @param string $key           The key it should return.
+	 * @param mixed  $default_value The default value that should be returned if the key isn't set.
+	 *
+	 * @return mixed|null Returns value if found, $default_value if not.
 	 */
-	public function get( $key, $default = null ) {
-		return WPSEO_Options::get( $key, $default );
+	public function get( $key, $default_value = null ) {
+		return WPSEO_Options::get( $key, $default_value );
 	}
 
 	/**
@@ -54,7 +55,7 @@ class Options_Helper {
 	 * @return string The title separator.
 	 */
 	public function get_title_separator() {
-		$replacement = $this->get_default( 'wpseo_titles', 'separator' );
+		$default = $this->get_default( 'wpseo_titles', 'separator' );
 
 		// Get the titles option and the separator options.
 		$separator         = $this->get( 'separator' );
@@ -64,6 +65,12 @@ class Options_Helper {
 		if ( isset( $seperator_options[ $separator ] ) ) {
 			// Set the new replacement.
 			$replacement = $seperator_options[ $separator ];
+		}
+		elseif ( isset( $seperator_options[ $default ] ) ) {
+			$replacement = $seperator_options[ $default ];
+		}
+		else {
+			$replacement = \reset( $seperator_options );
 		}
 
 		/**
@@ -108,5 +115,28 @@ class Options_Helper {
 	 */
 	protected function get_separator_options() {
 		return WPSEO_Option_Titles::get_instance()->get_separator_options();
+	}
+
+	/**
+	 * Validates a social URL.
+	 *
+	 * @param string $url The url to be validated.
+	 *
+	 * @return string|false The validated URL or false if the URL is not valid.
+	 */
+	public function validate_social_url( $url ) {
+		return $url === '' || WPSEO_Option_Social::get_instance()->validate_social_url( $url );
+	}
+
+	/**
+	 * Validates a twitter id.
+	 *
+	 * @param string $twitter_id    The twitter id to be validated.
+	 * @param bool   $strip_at_sign Whether or not to strip the `@` sign.
+	 *
+	 * @return string|false The validated twitter id or false if it is not valid.
+	 */
+	public function validate_twitter_id( $twitter_id, $strip_at_sign = true ) {
+		return WPSEO_Option_Social::get_instance()->validate_twitter_id( $twitter_id, $strip_at_sign );
 	}
 }

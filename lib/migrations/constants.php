@@ -6,6 +6,7 @@ namespace Yoast\WP\Lib\Migrations;
  * Yoast migrations constants class.
  */
 class Constants {
+
 	const MYSQL_MAX_IDENTIFIER_LENGTH = 64;
 	const SQL_UNKNOWN_QUERY_TYPE      = 1;
 	const SQL_SELECT                  = 2;

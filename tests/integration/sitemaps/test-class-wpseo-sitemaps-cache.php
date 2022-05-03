@@ -15,11 +15,10 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Clean up.
 	 */
-	public function tearDown() {
-
-		parent::tearDown();
-
+	public function tear_down() {
 		remove_action( 'update_option', [ 'WPSEO_Sitemaps_Cache', 'clear_on_option_update' ] );
+
+		parent::tear_down();
 	}
 
 	/**
@@ -56,8 +55,19 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 
 		$result = $cache->get_sitemap( $type, $page );
 
-		// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_unserialize -- Reason: There's no security risk, because users don't interact with tests.
-		$this->assertEquals( $test, unserialize( $result ) );
+		/*
+		 * In PHP < 7.4 the "old" serialization mechanism via the Serializable interface is used,
+		 * which combined with the WP logic doesn't automatically unserialize, which is why we need
+		 * to do so ourselves.
+		 * As of PHP 7.4, the new serialization using magic methods is used.
+		 */
+		if ( PHP_VERSION_ID < 70400 ) {
+			// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_unserialize -- Reason: There's no security risk, because users don't interact with tests.
+			$result = unserialize( $result );
+		}
+
+		$this->assertEquals( $test, $result );
+
 		$this->assertEquals( $test, $cache->get_sitemap_data( $type, $page ) );
 	}
 
@@ -83,6 +93,99 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals( $sitemap, get_transient( $transient_key ) );
 		$this->assertNull( $result );
+	}
+
+	/**
+	 * Test that a sitemap cache originally stored when WP was running on PHP < 7.4 can be retrieved and used in all PHP versions.
+	 *
+	 * @covers WPSEO_Sitemaps_Cache::get_sitemap_data
+	 * @covers WPSEO_Sitemap_Cache_Data::__serialize
+	 * @covers WPSEO_Sitemap_Cache_Data::__unserialize
+	 * @covers WPSEO_Sitemap_Cache_Data::serialize
+	 * @covers WPSEO_Sitemap_Cache_Data::unserialize
+	 */
+	public function test_retrieving_transient_stored_in_php_lt_74() {
+
+		$sitemap = 'this is a wpseo_sitemap_cache_data object stored in PHP < 7.4';
+		$type    = 'post';
+		$page    = 1;
+
+		$transient_key = WPSEO_Sitemaps_Cache_Validator::get_storage_key( $type, $page );
+
+		/*
+		 * Using this filter, we effectively mock the get_transient() and
+		 * the get_option() WP functions, including the call to maybe_unserialize() in get_option().
+		 * These functions are used in the get_sitemap[_data]() method to retrieve the transient.
+		 * This filter short-circuits those function calls to return the specific value we need for this test.
+		 */
+		add_filter(
+			"pre_transient_{$transient_key}",
+			static function ( $pre_transient ) {
+				$pre_transient = 'C:24:"WPSEO_Sitemap_Cache_Data":107:{a:2:{s:6:"status";s:2:"ok";s:3:"xml";s:61:"this is a wpseo_sitemap_cache_data object stored in PHP < 7.4";}}';
+				return maybe_unserialize( $pre_transient );
+			}
+		);
+
+		$cache  = new WPSEO_Sitemaps_Cache();
+		$result = $cache->get_sitemap_data( $type, $page );
+
+		$this->assertInstanceOf( 'WPSEO_Sitemap_Cache_Data', $result );
+		$this->assertSame( $sitemap, $result->get_sitemap() );
+		$this->assertSame( 'ok', $result->get_status() );
+	}
+
+	/**
+	 * Test that a sitemap cache originally stored when WP was running on PHP >= 7.4 can be retrieved and used
+	 * without problems on PHP >= 7.4.
+	 *
+	 * This test also documents that when the cache was stored in PHP >= 7.4, but the PHP version on which WP
+	 * is being run was subsequently downgraded to PHP < 7.4, the cache will be disregarded and the sitemap will
+	 * need to be rebuild.
+	 *
+	 * For that particular scenario, this test also safeguards that the code under test doesn't yield any PHP
+	 * errors when the unusable sitemap cache data is encountered.
+	 *
+	 * @covers WPSEO_Sitemaps_Cache::get_sitemap_data
+	 * @covers WPSEO_Sitemap_Cache_Data::__serialize
+	 * @covers WPSEO_Sitemap_Cache_Data::__unserialize
+	 * @covers WPSEO_Sitemap_Cache_Data::serialize
+	 * @covers WPSEO_Sitemap_Cache_Data::unserialize
+	 */
+	public function test_retrieving_transient_stored_in_php_gte_74() {
+
+		$sitemap = 'this is a wpseo_sitemap_cache_data object stored in PHP >= 7.4';
+		$type    = 'post';
+		$page    = 1;
+
+		$transient_key = WPSEO_Sitemaps_Cache_Validator::get_storage_key( $type, $page );
+
+		/*
+		 * Using this filter, we effectively mock the get_transient() and
+		 * the get_option() WP functions, including the call to maybe_unserialize() in get_option().
+		 * These functions are used in the get_sitemap[_data]() method to retrieve the transient.
+		 * This filter short-circuits those function calls to return the specific value we need for this test.
+		 */
+		add_filter(
+			"pre_transient_{$transient_key}",
+			static function ( $pre_transient ) {
+				$pre_transient = 'O:24:"WPSEO_Sitemap_Cache_Data":2:{s:6:"status";s:2:"ok";s:3:"xml";s:62:"this is a wpseo_sitemap_cache_data object stored in PHP >= 7.4";}';
+				return maybe_unserialize( $pre_transient );
+			}
+		);
+
+		$cache  = new WPSEO_Sitemaps_Cache();
+		$result = $cache->get_sitemap_data( $type, $page );
+
+		if ( PHP_VERSION_ID >= 70400 ) {
+			// PHP 7.4+.
+			$this->assertInstanceOf( 'WPSEO_Sitemap_Cache_Data', $result );
+			$this->assertSame( $sitemap, $result->get_sitemap() );
+			$this->assertSame( 'ok', $result->get_status() );
+		}
+		else {
+			// PHP 7.3 and lower.
+			$this->assertNull( $result );
+		}
 	}
 
 	/**

@@ -53,8 +53,6 @@ class Column {
 	 * @param array   $options The column options.
 	 *
 	 * @throws Exception If invalid arguments provided.
-	 *
-	 * @return Column
 	 */
 	public function __construct( $adapter, $name, $type, $options = [] ) {
 		if ( ! $adapter instanceof Adapter ) {

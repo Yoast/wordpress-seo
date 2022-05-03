@@ -22,7 +22,7 @@ abstract class WPSEO_Abstract_Role_Manager implements WPSEO_Role_Manager {
 	 *
 	 * @param string      $role         Role to register.
 	 * @param string      $display_name Display name to use.
-	 * @param null|string $template     Optional. Role to base the new role on.
+	 * @param string|null $template     Optional. Role to base the new role on.
 	 *
 	 * @return void
 	 */

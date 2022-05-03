@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Repositories;
 
 use Yoast\WP\Lib\Model;
 use Yoast\WP\Lib\ORM;
+use Yoast\WP\SEO\Models\SEO_Links;
 
 /**
  * Class SEO_Links_Repository.
@@ -59,6 +60,20 @@ class SEO_Links_Repository {
 	}
 
 	/**
+	 * Clears all SEO Links by post ID where the indexable id is null.
+	 *
+	 * @param int $post_id The post ID.
+	 *
+	 * @return bool Whether or not the delete was succesfull.
+	 */
+	public function delete_all_by_post_id_where_indexable_id_null( $post_id ) {
+		return $this->query()
+			->where( 'post_id', $post_id )
+			->where_null( 'indexable_id' )
+			->delete_many();
+	}
+
+	/**
 	 * Clears all SEO Links by indexable ID.
 	 *
 	 * @param int $indexable_id The indexable ID.
@@ -95,11 +110,59 @@ class SEO_Links_Repository {
 	 * @return array An array of associative arrays, each containing a indexable id and incoming property.
 	 */
 	public function get_incoming_link_counts_for_indexable_ids( $indexable_ids ) {
-		return $this->query()
+		// This query only returns ID's with an incoming count > 0. We need to restore any ID's with 0 incoming links later.
+		$indexable_counts = $this->query()
 			->select_expr( 'COUNT( id )', 'incoming' )
 			->select( 'target_indexable_id' )
 			->where_in( 'target_indexable_id', $indexable_ids )
 			->group_by( 'target_indexable_id' )
 			->find_array();
+
+		// If the above query fails, do not update anything.
+		if ( ! \is_array( $indexable_counts ) ) {
+			return [];
+		}
+
+		// Get all ID's returned from the query and set them as keys for easy access.
+		$returned_ids = \array_flip( \array_column( $indexable_counts, 'target_indexable_id' ) );
+
+		// Loop over the original ID's and search them in the returned ID's. If they don't exist, add them with an incoming count of 0.
+		foreach ( $indexable_ids as $id ) {
+			// Cast the ID to string, as the arrays only contain stringified versions of the ID.
+			$id = \strval( $id );
+			if ( isset( $returned_ids[ $id ] ) === false ) {
+				$indexable_counts[] = [
+					'incoming'            => '0',
+					'target_indexable_id' => $id,
+				];
+			}
+		}
+
+		return $indexable_counts;
+	}
+
+	/**
+	 * Deletes all seo links for the given ids.
+	 *
+	 * @param int[] $ids The seo link ids.
+	 *
+	 * @return bool Whether or not the delete was succesfull.
+	 */
+	public function delete_many_by_id( $ids ) {
+		return $this->query()
+			->where_in( 'id', $ids )
+			->delete_many();
+	}
+
+	/**
+	 * Insert multiple seo links.
+	 *
+	 * @param SEO_Links[] $links The seo links to be inserted.
+	 *
+	 * @return bool Whether or not the insert was succesfull.
+	 */
+	public function insert_many( $links ) {
+		return $this->query()
+			->insert_many( $links );
 	}
 }

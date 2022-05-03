@@ -28,13 +28,13 @@ class WPSEO_OpenGraph_OEmbed implements WPSEO_WordPress_Integration {
 	 * address the concern where some social channels/subscribed use oEmebed data over OpenGraph data
 	 * if both are present.
 	 *
-	 * @codeCoverageIgnore
+	 * @link https://developer.wordpress.org/reference/hooks/oembed_response_data/ for hook info.
+	 *
 	 * @deprecated 14.0
+	 * @codeCoverageIgnore
 	 *
 	 * @param array   $data The oEmbed data.
 	 * @param WP_Post $post The current Post object.
-	 *
-	 * @link https://developer.wordpress.org/reference/hooks/oembed_response_data/ for hook info.
 	 *
 	 * @return array An array of oEmbed data with modified values where appropriate.
 	 */

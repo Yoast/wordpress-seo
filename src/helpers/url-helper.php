@@ -42,6 +42,51 @@ class Url_Helper {
 	}
 
 	/**
+	 * Determines whether the plugin is active for the entire network.
+	 *
+	 * @return bool Whether or not the plugin is network-active.
+	 */
+	public function is_plugin_network_active() {
+		static $network_active = null;
+
+		if ( ! \is_multisite() ) {
+			return false;
+		}
+
+		// If a cached result is available, bail early.
+		if ( $network_active !== null ) {
+			return $network_active;
+		}
+
+		$network_active_plugins = \wp_get_active_network_plugins();
+
+		// Consider MU plugins and network-activated plugins as network-active.
+		$network_active = \strpos( \wp_normalize_path( \WPSEO_FILE ), \wp_normalize_path( \WPMU_PLUGIN_DIR ) ) === 0
+			|| \in_array( \WP_PLUGIN_DIR . '/' . \WPSEO_BASENAME, $network_active_plugins, true );
+
+		return $network_active;
+	}
+
+	/**
+	 * Retrieve network home URL if plugin is network-activated, or home url otherwise.
+	 *
+	 * @return string Home URL with optional path, appropriately slashed if not.
+	 */
+	public function network_safe_home_url() {
+		/**
+		 * Action: 'wpseo_home_url' - Allows overriding of the home URL.
+		 */
+		\do_action( 'wpseo_home_url' );
+
+		// If the plugin is network-activated, use the network home URL.
+		if ( self::is_plugin_network_active() ) {
+			return \network_home_url();
+		}
+
+		return \home_url();
+	}
+
+	/**
 	 * Check whether a url is relative.
 	 *
 	 * @param string $url URL string to check.
@@ -57,11 +102,16 @@ class Url_Helper {
 	 *
 	 * @param string $url The URL to get the path from.
 	 *
-	 * @codeCoverageIgnore It only wraps a WordPress function.
-	 *
 	 * @return string The path of the URL. Returns an empty string if URL parsing fails.
 	 */
 	public function get_url_path( $url ) {
+		if ( \is_string( $url ) === false
+			&& \is_object( $url ) === false
+			|| ( \is_object( $url ) === true && \method_exists( $url, '__toString' ) === false )
+		) {
+			return '';
+		}
+
 		return (string) \wp_parse_url( $url, \PHP_URL_PATH );
 	}
 
@@ -109,7 +159,7 @@ class Url_Helper {
 	/**
 	 * Parse the home URL setting to find the base URL for relative URLs.
 	 *
-	 * @param string $path Optional path string.
+	 * @param string|null $path Optional path string.
 	 *
 	 * @return string
 	 */
@@ -129,9 +179,9 @@ class Url_Helper {
 	/**
 	 * Returns the link type.
 	 *
-	 * @param array $url      The URL, as parsed by wp_parse_url.
-	 * @param array $home_url Optional. The home URL, as parsed by wp_parse_url. Used to avoid reparsing the home_url.
-	 * @param bool  $is_image Whether or not the link is an image.
+	 * @param array      $url      The URL, as parsed by wp_parse_url.
+	 * @param array|null $home_url Optional. The home URL, as parsed by wp_parse_url. Used to avoid reparsing the home_url.
+	 * @param bool       $is_image Whether or not the link is an image.
 	 *
 	 * @return string The link type.
 	 */
@@ -143,7 +193,7 @@ class Url_Helper {
 		}
 
 		// If there is a scheme but it's not http(s) then the link is always external.
-		if ( array_key_exists( 'scheme', $url ) && ! \in_array( $url['scheme'], [ 'http', 'https' ], true ) ) {
+		if ( \array_key_exists( 'scheme', $url ) && ! \in_array( $url['scheme'], [ 'http', 'https' ], true ) ) {
 			return ( $is_image ) ? SEO_Links::TYPE_EXTERNAL_IMAGE : SEO_Links::TYPE_EXTERNAL;
 		}
 

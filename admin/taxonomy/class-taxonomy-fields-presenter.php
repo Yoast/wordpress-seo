@@ -30,6 +30,8 @@ class WPSEO_Taxonomy_Fields_Presenter {
 	 * Displaying the form fields.
 	 *
 	 * @param array $fields Array with the fields that will be displayed.
+	 *
+	 * @return string
 	 */
 	public function html( array $fields ) {
 		$content = '';
@@ -44,6 +46,8 @@ class WPSEO_Taxonomy_Fields_Presenter {
 	 *
 	 * @param string $field_name          Variable the row controls.
 	 * @param array  $field_configuration Array with the field configuration.
+	 *
+	 * @return string
 	 */
 	private function form_row( $field_name, array $field_configuration ) {
 		$esc_field_name = esc_attr( $field_name );

@@ -16,7 +16,7 @@ class WPSEO_Shortlinker {
 	 * @return array The shortlink data.
 	 */
 	protected function collect_additional_shortlink_data() {
-		return [
+		$data = [
 			'php_version'      => $this->get_php_version(),
 			'platform'         => 'wordpress',
 			'platform_version' => $this->get_platform_version(),
@@ -25,6 +25,13 @@ class WPSEO_Shortlinker {
 			'days_active'      => $this->get_days_active(),
 			'user_language'    => $this->get_user_language(),
 		];
+
+		$admin_page = filter_input( INPUT_GET, 'page' );
+		if ( ! empty( $admin_page ) ) {
+			$data['screen'] = $admin_page;
+		}
+
+		return $data;
 	}
 
 	/**
@@ -136,13 +143,14 @@ class WPSEO_Shortlinker {
 			default:
 				$cohort = '365plus';
 		}
+
 		return $cohort;
 	}
 
 	/**
 	 * Gets the user's language.
 	 *
-	 * @return string The user's language.
+	 * @return string|false The user's language or `false` when it couldn't be retrieved.
 	 */
 	private function get_user_language() {
 		if ( function_exists( 'get_user_locale' ) ) {

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<style>
+		/* Demo styling */
+		body {
+			font-family: var(--yoast-font-family);
+			font-size: var(--yoast-font-size-default);
+			color: var(--yoast-color-font-default);
+			line-height: 1.5;
+		}
+	</style>
+
+	<link rel='stylesheet' href='../base/colors.css' type='text/css' media='all'/>
+	<link rel='stylesheet' href='../base/typography.css' type='text/css' media='all'/>
+	<link rel='stylesheet' href='../base/borders.css' type='text/css' media='all'/>
+	<link rel='stylesheet' href='../base/utility.css' type='text/css' media='all'/>
+
+	<link rel='stylesheet' href='../field-group/field-group.css' type='text/css' media='all'/>
+	<link rel='stylesheet' href='../help-icon/help-icon.css' type='text/css' media='all'/>
+	<link rel='stylesheet' href='toggle.css' type='text/css' media='all'/>
+
+</head>
+<body>
+<form>
+
+	<div class="yoast-toggle__item">
+		<div class="yoast-toggle__item-title">
+			<label for="keyword_analysis_active">SEO analysis</label>
+			<a class="yoast-help" target="_blank" href="#">
+				<span class="yoast-help__icon">
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" role="img" aria-hidden="true" focusable="false"><path d="M12 6A6 6 0 110 6a6 6 0 0112 0zM6.2 2C4.8 2 4 2.5 3.3 3.5l.1.4.8.7.4-.1c.5-.5.8-.9 1.4-.9.5 0 1.1.4 1.1.8s-.3.6-.7.9C5.8 5.6 5 6 5 7c0 .2.2.4.3.4h1.4L7 7c0-.8 2-.8 2-2.6C9 3 7.5 2 6.2 2zM6 8a1.1 1.1 0 100 2.2A1.1 1.1 0 006 8z"></path></svg>
+				</span>
+				<span class="screen-reader-text">Learn how the SEO analysis can help you rank.</span>
+			</a>
+		</div>
+		<div class="yoast-toggle">
+			<input type="checkbox" class="yoast-toggle__checkbox" id="keyword_analysis_active" name="wpseo[keyword_analysis_active]" value="on" checked="checked">
+			<span class="yoast-toggle__switch" ></span>
+			<span class="yoast-toggle--inactive" aria-hidden="true">Off</span>
+			<span class="yoast-toggle--active" aria-hidden="true">On</span>
+		</div>
+	</div>
+
+</form>
+</body>
+</html>

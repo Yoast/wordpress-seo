@@ -6,6 +6,8 @@ use Yoast\WP\SEO\Conditionals\XMLRPC_Conditional;
 
 /**
  * Noindexes the xmlrpc.php file and all ways to request it.
+ *
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- Known false positive with acronyms. Fix expected in YoastCS 3.x.
  */
 class XMLRPC implements Integration_Interface {
 

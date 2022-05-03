@@ -21,8 +21,8 @@ class Inject_From_Registry_Pass extends AbstractRecursivePass {
 	/**
 	 * Creates definitions for classes being injected from the container registry.
 	 *
-	 * @param mixed   $value   The value being processed.
-	 * @param boolean $is_root Whether or not the value is the root.
+	 * @param mixed $value   The value being processed.
+	 * @param bool  $is_root Whether or not the value is the root.
 	 *
 	 * @return mixed The processed value.
 	 *
@@ -40,7 +40,7 @@ class Inject_From_Registry_Pass extends AbstractRecursivePass {
 		$constructor  = $this->getConstructor( $value, false );
 
 		if ( $constructor ) {
-			array_unshift( $method_calls, [ $constructor, $value->getArguments() ] );
+			\array_unshift( $method_calls, [ $constructor, $value->getArguments() ] );
 		}
 
 		foreach ( $method_calls as $method_call ) {
@@ -67,9 +67,9 @@ class Inject_From_Registry_Pass extends AbstractRecursivePass {
 	 * @throws RuntimeException If reflection fails.
 	 */
 	private function process_method_call( $method_call, Definition $definition ) {
-		list($method, $arguments) = $method_call;
+		list( $method, $arguments ) = $method_call;
 
-		if ( $method instanceof \ReflectionFunctionAbstract ) {
+		if ( $method instanceof ReflectionFunctionAbstract ) {
 			$reflection_method = $method;
 		}
 		else {
@@ -107,7 +107,7 @@ class Inject_From_Registry_Pass extends AbstractRecursivePass {
 	/**
 	 * Adds a proxied definition to the container.
 	 *
-	 * @param string $type                 The type to add a definition for.
+	 * @param string $type The type to add a definition for.
 	 *
 	 * @return void
 	 */

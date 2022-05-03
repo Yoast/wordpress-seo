@@ -36,16 +36,18 @@ class Addon_Manager_Double extends WPSEO_Addon_Manager {
 	/**
 	 * Converts a subscription to plugin based format.
 	 *
-	 * @param stdClass $subscription The subscription to convert.
+	 * @param stdClass      $subscription    The subscription to convert.
+	 * @param stdClass|null $yoast_free_data The Yoast Free's data.
+	 * @param bool          $plugin_info     Whether we're in the plugin information modal.
 	 *
 	 * @return stdClass The converted subscription.
 	 */
-	public function convert_subscription_to_plugin( $subscription ) {
+	public function convert_subscription_to_plugin( $subscription, $yoast_free_data = null, $plugin_info = false, $plugin_file = '' ) {
 		Monkey\Functions\expect( '_get_plugin_data_markup_translate' )
 			->withAnyArgs()
 			->andReturn( (object) $subscription );
 
-		return parent::convert_subscription_to_plugin( $subscription );
+		return parent::convert_subscription_to_plugin( $subscription, $yoast_free_data, $plugin_info );
 	}
 
 	/**

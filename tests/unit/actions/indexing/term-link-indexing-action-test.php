@@ -97,12 +97,22 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 	}
 
 	/**
-	 * Tests getting the total unindexed.
+	 * Tests getting the unindexed count with a limit.
 	 *
-	 * @covers ::get_query
+	 * @covers ::get_count_query
 	 * @covers \Yoast\WP\SEO\Actions\Indexation\Abstract_Link_Indexing_Action::get_total_unindexed
 	 */
 	public function test_get_total_unindexed() {
+		$expected_query = "
+			SELECT COUNT(T.term_id)
+			FROM wp_term_taxonomy AS T
+			LEFT JOIN wp_yoast_indexable AS I
+				ON T.term_id = I.object_id
+				AND I.object_type = 'term'
+				AND I.link_count IS NOT NULL
+			WHERE I.object_id IS NULL
+				AND T.taxonomy IN (%s, %s)";
+
 		Functions\expect( 'get_transient' )
 			->once()
 			->with( Term_Link_Indexing_Action::UNINDEXED_COUNT_TRANSIENT )
@@ -112,18 +122,6 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 			->expects( 'get_public_taxonomies' )
 			->once()
 			->andReturn( [ 'category', 'tag' ] );
-
-		$empty_string   = '';
-		$expected_query = "SELECT COUNT(T.term_id)
-			FROM wp_term_taxonomy AS T
-			LEFT JOIN wp_yoast_indexable AS I
-				ON T.term_id = I.object_id
-				AND I.object_type = 'term'
-				AND I.link_count IS NOT NULL
-			WHERE I.object_id IS NULL
-				AND T.taxonomy IN (%s, %s)
-			$empty_string
-			";
 
 		$this->wpdb
 			->expects( 'prepare' )
@@ -146,9 +144,56 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 	}
 
 	/**
+	 * Tests get_limited_unindexed_count with a limit.
+	 *
+	 * @covers ::get_count_query
+	 * @covers ::get_total_unindexed
+	 * @covers \Yoast\WP\SEO\Actions\Indexation\Abstract_Link_Indexing_Action::get_limited_unindexed_count
+	 */
+	public function test_get_limited_unindexed_count() {
+		$expected_query = "
+			SELECT COUNT(T.term_id)
+			FROM wp_term_taxonomy AS T
+			LEFT JOIN wp_yoast_indexable AS I
+				ON T.term_id = I.object_id
+				AND I.object_type = 'term'
+				AND I.link_count IS NOT NULL
+			WHERE I.object_id IS NULL
+				AND T.taxonomy IN (%s, %s)";
+
+		Functions\expect( 'get_transient' )
+			->once()
+			->with( Term_Link_Indexing_Action::UNINDEXED_COUNT_TRANSIENT )
+			->andReturn( false );
+
+		$this->taxonomy_helper
+			->expects( 'get_public_taxonomies' )
+			->once()
+			->andReturn( [ 'category', 'tag' ] );
+
+		$this->wpdb
+			->expects( 'prepare' )
+			->once()
+			->with( $expected_query, [ 'category', 'tag' ] )
+			->andReturn( 'query' );
+
+		$this->wpdb
+			->expects( 'get_var' )
+			->once()
+			->with( 'query' )
+			->andReturn( '10' );
+
+		Functions\expect( 'set_transient' )
+			->once()
+			->with( Term_Link_Indexing_Action::UNINDEXED_COUNT_TRANSIENT, '10', \DAY_IN_SECONDS )
+			->andReturn( true );
+
+		$this->assertEquals( 10, $this->instance->get_limited_unindexed_count() );
+	}
+
+	/**
 	 * Tests getting the total unindexed.
 	 *
-	 * @covers ::get_query
 	 * @covers \Yoast\WP\SEO\Actions\Indexation\Abstract_Link_Indexing_Action::get_total_unindexed
 	 */
 	public function test_get_total_unindexed_cached() {
@@ -163,7 +208,6 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 	/**
 	 * Tests getting the total unindexed.
 	 *
-	 * @covers ::get_query
 	 * @covers \Yoast\WP\SEO\Actions\Indexation\Abstract_Link_Indexing_Action::get_total_unindexed
 	 */
 	public function test_get_total_unindexed_failed_query() {
@@ -172,22 +216,25 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 			->with( Term_Link_Indexing_Action::UNINDEXED_COUNT_TRANSIENT )
 			->andReturn( false );
 
+		Functions\expect( 'set_transient' )
+			->once()
+			->with( Term_Link_Indexing_Action::UNINDEXED_COUNT_TRANSIENT, 0, ( \MINUTE_IN_SECONDS * 15 ) )
+			->andReturn( true );
+
 		$this->taxonomy_helper
 			->expects( 'get_public_taxonomies' )
 			->once()
 			->andReturn( [ 'category', 'tag' ] );
 
-		$empty_string   = '';
-		$expected_query = "SELECT COUNT(T.term_id)
+		$expected_query = "
+			SELECT COUNT(T.term_id)
 			FROM wp_term_taxonomy AS T
 			LEFT JOIN wp_yoast_indexable AS I
 				ON T.term_id = I.object_id
 				AND I.object_type = 'term'
 				AND I.link_count IS NOT NULL
 			WHERE I.object_id IS NULL
-				AND T.taxonomy IN (%s, %s)
-			$empty_string
-			";
+				AND T.taxonomy IN (%s, %s)";
 
 		$this->wpdb
 			->expects( 'prepare' )
@@ -208,7 +255,6 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 	 * Tests the index function.
 	 *
 	 * @covers ::get_objects
-	 * @covers ::get_query
 	 * @covers \Yoast\WP\SEO\Actions\Indexation\Abstract_Link_Indexing_Action::index
 	 */
 	public function test_index() {
@@ -234,7 +280,8 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 			->once()
 			->andReturn( [ 'category', 'tag' ] );
 
-		$expected_query = "SELECT T.term_id, T.description
+		$expected_query = "
+			SELECT T.term_id, T.description
 			FROM wp_term_taxonomy AS T
 			LEFT JOIN wp_yoast_indexable AS I
 				ON T.term_id = I.object_id
@@ -242,8 +289,7 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 				AND I.link_count IS NOT NULL
 			WHERE I.object_id IS NULL
 				AND T.taxonomy IN (%s, %s)
-			LIMIT %d
-			";
+			LIMIT %d";
 
 		$this->wpdb
 			->expects( 'prepare' )
@@ -276,7 +322,6 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 	 * Tests the index function.
 	 *
 	 * @covers ::get_objects
-	 * @covers ::get_query
 	 * @covers \Yoast\WP\SEO\Actions\Indexation\Abstract_Link_Indexing_Action::index
 	 */
 	public function test_index_without_link_count() {
@@ -287,7 +332,8 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 			->once()
 			->andReturn( [ 'category', 'tag' ] );
 
-		$expected_query = "SELECT T.term_id, T.description
+		$expected_query = "
+			SELECT T.term_id, T.description
 			FROM wp_term_taxonomy AS T
 			LEFT JOIN wp_yoast_indexable AS I
 				ON T.term_id = I.object_id
@@ -295,8 +341,7 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 				AND I.link_count IS NOT NULL
 			WHERE I.object_id IS NULL
 				AND T.taxonomy IN (%s, %s)
-			LIMIT %d
-			";
+			LIMIT %d";
 
 		$this->wpdb
 			->expects( 'prepare' )
@@ -335,6 +380,45 @@ class Term_Link_Indexing_Action_Test extends TestCase {
 		$this->link_builder->expects( 'build' )->times( 3 )->with( $indexable, 'foo' );
 
 		Functions\expect( 'delete_transient' )->once()->with( Term_Link_Indexing_Action::UNINDEXED_COUNT_TRANSIENT );
+
+		$this->instance->index();
+	}
+
+	/**
+	 * Tests that the transients are not deleted when no indexables have been created.
+	 *
+	 * @covers ::get_objects
+	 */
+	public function test_index_no_indexables_created() {
+		Filters\expectApplied( 'wpseo_link_indexing_limit' );
+
+		$this->taxonomy_helper
+			->expects( 'get_public_taxonomies' )
+			->once()
+			->andReturn( [ 'category', 'tag' ] );
+
+		$expected_query = "
+			SELECT T.term_id, T.description
+			FROM wp_term_taxonomy AS T
+			LEFT JOIN wp_yoast_indexable AS I
+				ON T.term_id = I.object_id
+				AND I.object_type = 'term'
+				AND I.link_count IS NOT NULL
+			WHERE I.object_id IS NULL
+				AND T.taxonomy IN (%s, %s)
+			LIMIT %d";
+
+		$this->wpdb
+			->expects( 'prepare' )
+			->once()
+			->with( $expected_query, [ 'category', 'tag', 5 ] )
+			->andReturn( 'query' );
+
+		$this->wpdb
+			->expects( 'get_results' )
+			->once()
+			->with( 'query' )
+			->andReturn( [] );
 
 		$this->instance->index();
 	}

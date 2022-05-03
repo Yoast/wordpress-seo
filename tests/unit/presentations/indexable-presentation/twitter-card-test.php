@@ -14,6 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group twitter-card
  */
 class Twitter_Card_Test extends TestCase {
+
 	use Presentation_Instance_Builder;
 
 	/**

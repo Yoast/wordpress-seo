@@ -20,8 +20,8 @@ class WPSEO_Import_Smartcrawl_SEO_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Sets up the test class.
 	 */
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 
 		$this->class_instance = new WPSEO_Import_Smartcrawl_SEO();
 	}
@@ -276,12 +276,12 @@ class WPSEO_Import_Smartcrawl_SEO_Test extends WPSEO_UnitTestCase {
 	 * Returns a WPSEO_Import_Status object to check against.
 	 *
 	 * @param string $action The action to return.
-	 * @param bool   $bool   The status.
+	 * @param bool   $status The status.
 	 *
 	 * @return WPSEO_Import_Status Import status object.
 	 */
-	private function status( $action, $bool ) {
-		return new WPSEO_Import_Status( $action, $bool );
+	private function status( $action, $status ) {
+		return new WPSEO_Import_Status( $action, $status );
 	}
 
 	/**
@@ -289,7 +289,7 @@ class WPSEO_Import_Smartcrawl_SEO_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @param bool $pre_existing_yoast_data Whether or not to insert pre-existing Yoast SEO data.
 	 *
-	 * @return int $post_id ID for the post created.
+	 * @return int ID for the post created.
 	 */
 	private function setup_post( $pre_existing_yoast_data = false ) {
 		$post_id = $this->factory()->post->create();

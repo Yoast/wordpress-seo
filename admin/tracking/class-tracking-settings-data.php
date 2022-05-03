@@ -13,7 +13,7 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 	/**
 	 * The options that need to be anonymized before they can be sent elsewhere.
 	 *
-	 * @var array $anonymous_settings All of the option_names which need to be
+	 * @var array All of the option_names which need to be
 	 * anonymized before they can be sent elsewhere.
 	 */
 	private $anonymous_settings = [
@@ -40,6 +40,11 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'og_frontpage_desc',
 		'og_frontpage_image',
 		'og_frontpage_image_id',
+		'open_graph_frontpage_title',
+		'open_graph_frontpage_desc',
+		'open_graph_frontpage_image',
+		'open_graph_frontpage_image_id',
+		'other_social_urls',
 		'pinterest_url',
 		'pinterestverify',
 		'twitter_site',
@@ -47,12 +52,14 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'wikipedia_url',
 		'semrush_tokens',
 		'zapier_api_key',
+		'wincher_tokens',
+		'wincher_website_id',
 	];
 
 	/**
 	 * The options we want to track.
 	 *
-	 * @var array $include_list The option_names for the options we want to track.
+	 * @var array The option_names for the options we want to track.
 	 */
 	private $include_list = [
 		'ms_defaults_set',
@@ -101,7 +108,6 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'disable-date',
 		'disable-post_format',
 		'disable-attachment',
-		'is-media-purge-relevant',
 		'breadcrumbs-404crumb',
 		'breadcrumbs-display-blog-page',
 		'breadcrumbs-boldlast',
@@ -148,6 +154,10 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'og_frontpage_desc',
 		'og_frontpage_image',
 		'og_frontpage_image_id',
+		'open_graph_frontpage_title',
+		'open_graph_frontpage_desc',
+		'open_graph_frontpage_image',
+		'open_graph_frontpage_image_id',
 		'opengraph',
 		'pinterest_url',
 		'pinterestverify',
@@ -165,6 +175,13 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'zapier_api_key',
 		'enable_metabox_insights',
 		'enable_link_suggestions',
+		'workouts',
+		'wincher_integration_active',
+		'wincher_tokens',
+		'wincher_website_id',
+		'wincher_automatically_add_keyphrases',
+		'first_time_install',
+		'other_social_urls',
 	];
 
 	/**

@@ -23,6 +23,7 @@ class WPSEO_OnPage_Option extends WPSEO_Ryte_Option {
 	 * @codeCoverageIgnore
 	 */
 	public function __construct() {
+		// phpcs:ignore WordPress.Security.EscapeOutput -- The WPSEO_Ryte_option::class value does not need to be escaped.
 		_deprecated_function( __METHOD__, 'WPSEO 13.2', WPSEO_Ryte_Option::class );
 	}
 }

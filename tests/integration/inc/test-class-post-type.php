@@ -13,12 +13,12 @@ class WPSEO_Post_Type_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Remove the custom post type after each test.
 	 */
-	public function tearDown() {
-		parent::tearDown();
-
+	public function tear_down() {
 		// Remove possibly set post type.
 		unregister_post_type( 'custom-post-type' );
 		unregister_post_type( 'custom-post-type-api' );
+
+		parent::tear_down();
 	}
 
 	/**

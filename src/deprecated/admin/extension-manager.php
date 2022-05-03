@@ -21,8 +21,8 @@ class WPSEO_Extension_Manager {
 	 * @deprecated 15.4
 	 * @codeCoverageIgnore
 	 *
-	 * @param string          $extension_name The extension name.
-	 * @param WPSEO_Extension $extension      The extension value object.
+	 * @param string               $extension_name The extension name.
+	 * @param WPSEO_Extension|null $extension      The extension value object.
 	 *
 	 * @return void
 	 */
@@ -52,7 +52,7 @@ class WPSEO_Extension_Manager {
 	 *
 	 * @param string $extension_name The name of the extension to get.
 	 *
-	 * @return null|WPSEO_Extension The extension object or null when it doesn't exist.
+	 * @return WPSEO_Extension|null The extension object or null when it doesn't exist.
 	 */
 	public function get( $extension_name ) {
 		_deprecated_function( __METHOD__, '15.4' );

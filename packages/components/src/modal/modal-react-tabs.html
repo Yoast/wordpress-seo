@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<style>
+		/* Demo styling */
+		body {
+			font-family: var(--yoast-font-family);
+			font-size: var(--yoast-font-size-default);
+			color: var(--yoast-color-font-default);
+			line-height: 1.5;
+		}
+
+	</style>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link rel='stylesheet' href='../base/colors.css' type='text/css' media='all'/>
+	<link rel='stylesheet' href='../base/typography.css' type='text/css' media='all'/>
+	<link rel='stylesheet' href='../base/borders.css' type='text/css' media='all'/>
+	<link rel='stylesheet' href='../base/icons.css' type='text/css' media='all'/>
+
+
+	<link rel='stylesheet' href='../field-group/field-group.css' type='text/css' media='all'/>
+	<link rel='stylesheet' href='../checkbox/checkbox.css' type='text/css' media='all'/>
+	<link rel='stylesheet' href='../select/select.css' type='text/css' media='all'/>
+	<link rel='stylesheet' href='../radiobutton/radiobutton.css' type='text/css' media='all'/>
+	<link rel='stylesheet' href='../inputs/input.css' type='text/css' media='all'/>
+	<link rel='stylesheet' href='../data-model/data-model.css' type='text/css' media='all'/>
+	<link rel='stylesheet' href='../button/buttons.css' type='text/css' media='all'/>
+	<link rel='stylesheet' href='../modal/modal.css' type='text/css' media='all'/>
+
+	<link rel='stylesheet' href='../base/utility.css' type='text/css' media='all'/>
+
+</head>
+<body class="yoast">
+
+<div class="yoast-modal__screen-overlay">
+	<div class="yoast-modal yoast-tabs" data-tabs="true" role="dialog"
+		 aria-labelledby="yoast-modal-header-0" tabindex="-1">
+		<div class="yoast-modal__content" tabindex="0">
+			<div class="yoast-modal__heading">
+				<svg class="yoast-modal__heading-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19 20" role="img"
+					 aria-hidden="true"
+					 focusable="false">
+					<defs/>
+					<path fill-rule="evenodd"
+						  d="M3.9 2.4h7.9l-.3.8H3.9a3 3 0 00-3 3v8.7c0 1.5 1 3 3.5 3v.7h-.5A3.8 3.8 0 010 15V6.2C0 4 1.7 2.4 3.9 2.4zM13.6 0h2.8c-6 16-6.2 16.9-7.8 18.6-1 1-2.1 1.4-3.3 1.4v-2.2c2-.3 2.7-2 2.7-3.2 0-.8 0-.5-3.5-9.4h2.6l2.2 6.6L13.6 0zM19 6v12.6h-9l.4-.8h7.8V6c0-1.4-.7-2.2-2-2.7l.2-.7C18.2 3.2 19 4.4 19 6z"/>
+				</svg>
+				<h1 id="yoast-modal-header-0">
+					Modal heading
+				</h1>
+				<button type="button" aria-label="Close dialog" class="yoast-close">
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 352 512" role="img" aria-hidden="true"
+						 focusable="false">
+						<path d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"/>
+					</svg>
+				</button>
+			</div>
+			<div class="yoast-modal__menu">
+				<ul class="yoast-tabs__tab-list" role="tablist">
+					<li class="yoast-tabs__tab yoast-tabs__tab--selected" role="tab" id="yoast-tabs-0"
+						aria-selected="true"
+						aria-disabled="false" aria-controls="yoast-tabs-1" tabindex="0">Option a
+					</li>
+					<li class="yoast-tabs__tab" role="tab" id="yoast-tabs-2" aria-selected="false" aria-disabled="false"
+						aria-controls="yoast-tabs-3">Option b
+					</li>
+					<li class="yoast-tabs__tab" role="tab" id="yoast-tabs-4" aria-selected="false" aria-disabled="false"
+						aria-controls="yoast-tabs-5">Option c
+					</li>
+				</ul>
+			</div>
+			<section class="yoast-modal__section">
+				<div tabindex="0" class="yoast-tabs__tab-panel yoast-tabs__tab-panel--selected yoast-modal__section"
+					 role="tabpanel"
+					 id="yoast-tabs-1" aria-labelledby="yoast-tabs-0">
+					<div class="yoast-modal__section-header">
+						<h2 class="yoast-h2">
+							News SEO
+						</h2>
+						<button class="yoast-modal__section-toggle yoast-hide-on-desktop">
+							<span class="screen-reader-text">Toggle section</span>
+						</button>
+					</div>
+					<div class="yoast-modal__section-content">
+
+						<p>Curabitur blandit tempus porttitor. Cras mattis consectetur purus sit amet fermentum.
+							Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Praesent commodo
+							cursus
+							magna, vel scelerisque nisl consectetur et. Nullam quis risus eget urna mollis ornare
+							vel eu
+							leo. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio
+							sem
+							nec elit.</p>
+
+						<p>Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum
+							massa
+							justo sit amet risus. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Sed
+							posuere consectetur est at lobortis. Etiam porta sem malesuada magna mollis euismod.
+							Fusce
+							dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa
+							justo
+							sit amet risus. Integer posuere erat a ante venenatis dapibus posuere velit aliquet.
+							Vivamus
+							sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
+
+						<p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+							Maecenas faucibus mollis interdum. Fusce dapibus, tellus ac cursus commodo, tortor
+							mauris
+							condimentum nibh, ut fermentum massa justo sit amet risus. Fusce dapibus, tellus ac
+							cursus
+							commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Fusce
+							dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa
+							justo
+							sit amet risus. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non
+							commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.</p>
+
+					</div>
+				</div>
+				<div tabindex="0" class="yoast-tabs__tab-panel" role="tabpanel" id="yoast-tabs-3"
+					 aria-labelledby="yoast-tabs-2"></div>
+				<div tabindex="0" class="yoast-tabs__tab-panel" role="tabpanel" id="yoast-tabs-5"
+					 aria-labelledby="yoast-tabs-4"></div>
+
+			</section>
+			<div class="yoast-modal__footer">
+				<span class="yoast-modal__settings-saved">Settings saved</span>
+				<button type="button" class="yoast-button yoast-button--primary">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+</body>
+</html>

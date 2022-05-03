@@ -1,6 +1,12 @@
 # Yoast SEO
 
-[![Build Status](https://api.travis-ci.com/Yoast/wordpress-seo.svg?branch=master)](https://travis-ci.com/Yoast/wordpress-seo)
+[![CS](https://github.com/Yoast/wordpress-seo/actions/workflows/cs.yml/badge.svg)](https://github.com/Yoast/wordpress-seo/actions/workflows/cs.yml)
+[![Lint](https://github.com/Yoast/wordpress-seo/actions/workflows/lint.yml/badge.svg)](https://github.com/Yoast/wordpress-seo/actions/workflows/lint.yml)
+[![LintJS](https://github.com/Yoast/wordpress-seo/actions/workflows/jslint.yml/badge.svg)](https://github.com/Yoast/wordpress-seo/actions/workflows/jslint.yml)
+[![TestJS](https://github.com/Yoast/wordpress-seo/actions/workflows/jstest.yml/badge.svg)](https://github.com/Yoast/wordpress-seo/actions/workflows/jstest.yml)
+[![Unit Tests](https://github.com/Yoast/wordpress-seo/actions/workflows/unittest.yml/badge.svg)](https://github.com/Yoast/wordpress-seo/actions/workflows/unittest.yml)
+[![Integration Tests](https://github.com/Yoast/wordpress-seo/actions/workflows/integrationtest.yml/badge.svg)](https://github.com/Yoast/wordpress-seo/actions/workflows/integrationtest.yml)
+[![Deployment](https://github.com/Yoast/wordpress-seo/actions/workflows/deploy.yml/badge.svg)](https://github.com/Yoast/wordpress-seo/actions/workflows/deploy.yml)
 [![Stable Version](https://poser.pugx.org/yoast/wordpress-seo/v/stable.svg)](https://packagist.org/packages/yoast/wordpress-seo)
 [![License](https://poser.pugx.org/yoast/wordpress-seo/license.svg)](https://packagist.org/packages/yoast/wordpress-seo)
 
@@ -58,33 +64,6 @@ and you can start it by running `yarn start` in the `wordpress-seo` folder.
 Another JavaScript alternative is `grunt webpack:watch`, this command will keep the JS files up-to-date. You'll have to refresh the page yourself since this does not run a development server.
 
 This repository uses [the Yoast grunt tasks plugin](https://github.com/Yoast/plugin-grunt-tasks).
-
-### Developing JavaScript dependencies
-
-Yoast SEO uses some JavaScript code that is managed outside of this repository. This code is being maintained in a monorepo: [Yoast/javascript](https://github.com/Yoast/javascript). If you need to change anything in one or more of the packages included in the monorepo, you'll need to do the following:
-
-```bash
-git clone https://github.com/Yoast/javascript.git # Only the first time.
-yarn link-monorepo # You will be prompted for the location of your Yoast/javascript clone. This will be "./javascript" if you cloned it inside the wordpress-seo directory. Your preference will be saved in a .yoast file for later use.
-grunt build
-```
-
-This [links](https://yarnpkg.com/lang/en/docs/cli/link/) all [Yoast managed JavaScript packages](https://github.com/yoast/javascript) to your installation of the plugin. Most branches on the wordpress-seo repository also exist on the javascript repository. Please find which branch to use in the table below. If the branch you're looking for does not exist, feel free to default to develop (or create the branch yourself if you're making changes).
-
-| Yoast/wordpress-seo | Yoast/javascript |
-| ------------------- | ---------------- |
-| master              | master           |
-| trunk               | develop          |
-| feature/x           | feature/x        |
-
-You can now modify the code of the linked packages directly from the `node_modules` (as they're now symlinked to your `javascript` clone) or your javascript directory. Please remember to run a `grunt build:js` from the `wordpress-seo` directory after making changes in order to apply those changes to the plugin.
-
- If you don't want to use the latest development version of the Yoast JavaScript packages anymore, you can restore the versions as specified in the [package.json](package.json) by running the following command:
-
-```bash
-yarn unlink-monorepo
-grunt build
-```
 
 ## Support
 

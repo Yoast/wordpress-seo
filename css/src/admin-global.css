@@ -1,5 +1,5 @@
 @import url(../src/icons.css);
-@import "../../node_modules/yoastseo/css/_tooltips.scss";
+@import "../src/tooltips.css";
 
 .wpseo-premium-indicator {
   width: 1px;
@@ -21,6 +21,10 @@
 /* General typography */
 .yoast-measure {
   max-width: 600px;
+}
+
+.yoast-measure.padded {
+	max-width: 632px;
 }
 
 /* Thickbox */
@@ -438,6 +442,10 @@ td.column-wpseo-linked {
   max-width: 600px !important;
 }
 
+.copy-home-meta-description {
+	margin-top: 1em;
+}
+
 .copy-home-meta-description .yoast-help-panel {
   max-width: 400px !important;
 }
@@ -527,30 +535,15 @@ body.folded .wpseo-admin-submit-fixed {
   padding: 16px;
   position: fixed;
   bottom: 0;
-  left: 160px;
-  right: 281px;
   background-color: white;
-  max-width: 800px;
+  width: 600px;
   box-shadow: 0 1px 8px 1px rgba(0, 0, 0, 0.5);
-  margin: 0 16px;
-}
-
-@media screen and (max-width: 1024px) {
-  .wpseo-admin-submit.wpseo-admin-submit-fixed {
-    right: 0;
-  }
-}
-
-@media only screen and (max-width: 960px) {
-  .wpseo-admin-submit.wpseo-admin-submit-fixed {
-    left: 36px;
-  }
 }
 
 @media screen and (max-width: 782px) {
   .wpseo-admin-submit.wpseo-admin-submit-fixed {
     left: 0;
-    margin: 0;
+    width: 782px;
   }
 }
 
@@ -576,5 +569,78 @@ body.folded .wpseo-admin-submit-fixed {
 .yoast-site-health__signature-icon, .yoast-site-health__inline-button.fetch-status {
   margin-right: 8px;
 }
+
+#wpadminbar .yoast-badge, .yoast-badge {
+	display: inline-block;
+	padding: 0 8px;
+	border-radius: 8px;
+	font-weight: 600;
+	line-height: 1.6;
+}
+
+.yoast-badge {
+	min-height: 16px;
+	font-size: 10px;
+}
+
+.yoast-badge--sale {
+	position: absolute;
+	margin-top: -24px;
+	right: 30px;
+	transform: rotate(14deg);
+	background-color: #a4286a;
+	color: white;
+	font-size: 12px !important;
+	border-radius: 999px !important;
+}
+
+@media (max-width: 1024px) {
+	.yoast-badge--sale {
+		display: inline-block;
+		position: unset;
+		vertical-align: top;
+	}
+}
+
+.yoast-badge__is-link:hover,
+.yoast-badge__is-link:focus {
+  background-color: #004973;
+  color: #fff;
+  outline: none;
+  box-shadow: none;
+}
+
+#wpadminbar .yoast-badge, .wp-submenu .yoast-badge {
+	min-height: 14px;
+	font-size: 9px;
+}
+
+.yoast-new-badge {
+	background-color: #cce5ff;
+	color: #004973;
+}
+
+.yoast-premium-badge {
+	background-color: #fff3cd;
+	color: #674e00;
+}
+
+
+.yoast-badge__is-link {
+	text-decoration: none;
+}
+
+.switch-container .yoast-badge {
+	vertical-align: -1em;
+}
+
+.switch-container legend .yoast-badge {
+  vertical-align: 0em;
+}
+
+.yoast_help + .yoast-badge {
+	vertical-align: bottom;
+}
+
 
 /*# sourceMappingURL=admin-global.css.map */

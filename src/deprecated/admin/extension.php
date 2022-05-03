@@ -6,6 +6,7 @@
  */
 
 // phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound -- Reason: The class is deprecated.
+
 /**
  * Represents the values for a single Yoast Premium extension plugin.
  *

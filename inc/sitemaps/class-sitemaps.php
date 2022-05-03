@@ -11,6 +11,7 @@
  * @todo This class could use a general description with some explanation on sitemaps. OR.
  */
 class WPSEO_Sitemaps {
+
 	/**
 	 * Sitemap index identifier.
 	 *
@@ -150,12 +151,12 @@ class WPSEO_Sitemaps {
 	/**
 	 * Register your own sitemap. Call this during 'init'.
 	 *
-	 * @param string   $name     The name of the sitemap.
-	 * @param callback $function Function to build your sitemap.
-	 * @param string   $rewrite  Optional. Regular expression to match your sitemap with.
+	 * @param string   $name              The name of the sitemap.
+	 * @param callback $building_function Function to build your sitemap.
+	 * @param string   $rewrite           Optional. Regular expression to match your sitemap with.
 	 */
-	public function register_sitemap( $name, $function, $rewrite = '' ) {
-		add_action( 'wpseo_do_sitemap_' . $name, $function );
+	public function register_sitemap( $name, $building_function, $rewrite = '' ) {
+		add_action( 'wpseo_do_sitemap_' . $name, $building_function );
 		if ( ! empty( $rewrite ) ) {
 			add_rewrite_rule( $rewrite, 'index.php?sitemap=' . $name, 'top' );
 		}
@@ -166,12 +167,12 @@ class WPSEO_Sitemaps {
 	 *
 	 * @since 1.4.23
 	 *
-	 * @param string   $name     The name of the XSL file.
-	 * @param callback $function Function to build your XSL file.
-	 * @param string   $rewrite  Optional. Regular expression to match your sitemap with.
+	 * @param string   $name              The name of the XSL file.
+	 * @param callback $building_function Function to build your XSL file.
+	 * @param string   $rewrite           Optional. Regular expression to match your sitemap with.
 	 */
-	public function register_xsl( $name, $function, $rewrite = '' ) {
-		add_action( 'wpseo_xsl_' . $name, $function );
+	public function register_xsl( $name, $building_function, $rewrite = '' ) {
+		add_action( 'wpseo_xsl_' . $name, $building_function );
 		if ( ! empty( $rewrite ) ) {
 			add_rewrite_rule( $rewrite, 'index.php?yoast-sitemap-xsl=' . $name, 'top' );
 		}
@@ -181,7 +182,7 @@ class WPSEO_Sitemaps {
 	 * Set the sitemap current page to allow creating partial sitemaps with WP-CLI
 	 * in a one-off process.
 	 *
-	 * @param integer $current_page The part that should be generated.
+	 * @param int $current_page The part that should be generated.
 	 */
 	public function set_n( $current_page ) {
 		if ( is_scalar( $current_page ) && intval( $current_page ) > 0 ) {
@@ -201,10 +202,10 @@ class WPSEO_Sitemaps {
 	/**
 	 * Set as true to make the request 404. Used stop the display of empty sitemaps or invalid requests.
 	 *
-	 * @param bool $bool Is this a bad request. True or false.
+	 * @param bool $is_bad Is this a bad request. True or false.
 	 */
-	public function set_bad_sitemap( $bool ) {
-		$this->bad_sitemap = (bool) $bool;
+	public function set_bad_sitemap( $is_bad ) {
+		$this->bad_sitemap = (bool) $is_bad;
 	}
 
 	/**
@@ -248,6 +249,11 @@ class WPSEO_Sitemaps {
 
 		if ( empty( $type ) ) {
 			return;
+		}
+
+		if ( get_query_var( 'sitemap_n' ) === '1' || get_query_var( 'sitemap_n' ) === '0' ) {
+			wp_safe_redirect( home_url( "/$type-sitemap.xml" ), 301, 'Yoast SEO' );
+			exit;
 		}
 
 		$this->set_n( get_query_var( 'sitemap_n' ) );
@@ -407,9 +413,9 @@ class WPSEO_Sitemaps {
 	/**
 	 * Spits out the XSL for the XML sitemap.
 	 *
-	 * @param string $type Type to output.
-	 *
 	 * @since 1.4.13
+	 *
+	 * @param string $type Type to output.
 	 */
 	public function xsl_output( $type ) {
 
@@ -443,7 +449,8 @@ class WPSEO_Sitemaps {
 	 */
 	public function output() {
 		$this->send_headers();
-		echo $this->renderer->get_output( $this->sitemap, $this->transient );
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaping sitemap as either xml or html results in empty document.
+		echo $this->renderer->get_output( $this->sitemap );
 	}
 
 	/**
@@ -584,9 +591,9 @@ class WPSEO_Sitemaps {
 	/**
 	 * Get post statuses for post_type or the root sitemap.
 	 *
-	 * @param string $type Provide a type for a post_type sitemap, SITEMAP_INDEX_TYPE for the root sitemap.
-	 *
 	 * @since 10.2
+	 *
+	 * @param string $type Provide a type for a post_type sitemap, SITEMAP_INDEX_TYPE for the root sitemap.
 	 *
 	 * @return array List of post statuses.
 	 */

@@ -20,8 +20,8 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Set up the class which will be tested.
 	 */
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 		$this->asset_manager = new WPSEO_Admin_Asset_Manager();
 	}
 
@@ -123,7 +123,7 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 	public function test_register_script() {
 		$asset_args = [
 			'name'      => 'handle',
-			'src'       => 'src',
+			'src'       => 'src.js',
 			'deps'      => [ 'deps' ],
 			'version'   => 'version',
 			'in_footer' => 'in_footer',

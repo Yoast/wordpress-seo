@@ -12,6 +12,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group presentations
  */
 class Meta_Description_Test extends TestCase {
+
 	use Presentation_Instance_Builder;
 
 	/**

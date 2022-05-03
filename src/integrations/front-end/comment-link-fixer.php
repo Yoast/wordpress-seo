@@ -96,7 +96,7 @@ class Comment_Link_Fixer implements Integration_Interface {
 	/**
 	 * Redirects out the ?replytocom variables.
 	 *
-	 * @return boolean True when redirect has been done.
+	 * @return bool True when redirect has been done.
 	 */
 	public function replytocom_redirect() {
 		if ( isset( $_GET['replytocom'] ) && \is_singular() ) {

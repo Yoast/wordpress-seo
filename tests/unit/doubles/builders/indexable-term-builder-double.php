@@ -38,7 +38,7 @@ class Indexable_Term_Builder_Double extends Indexable_Term_Builder {
 	 * @param string $keyword The focus keyword that is set.
 	 * @param int    $score   The score saved on the meta data.
 	 *
-	 * @return null|int Score to use.
+	 * @return int|null Score to use.
 	 */
 	public function get_keyword_score( $keyword, $score ) {
 		return parent::get_keyword_score( $keyword, $score );
@@ -50,7 +50,7 @@ class Indexable_Term_Builder_Double extends Indexable_Term_Builder {
 	 * @param string $meta_key  The key to extract.
 	 * @param array  $term_meta The meta data.
 	 *
-	 * @return null|string The meta value.
+	 * @return string|null The meta value.
 	 */
 	public function get_meta_value( $meta_key, $term_meta ) {
 		return parent::get_meta_value( $meta_key, $term_meta );

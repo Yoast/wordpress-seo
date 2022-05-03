@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Composer;
 
+use ReflectionClass;
 use ReflectionException;
 use RuntimeException;
 
@@ -30,14 +31,14 @@ class Unit_Test_Generator {
 	 *
 	 * @param string $fully_qualified_class_name The fully qualified class name of the class to generate a unit test for.
 	 *
+	 * @return string The path to the generated unit test.
+	 *
 	 * @throws ReflectionException If the class for which to generate a unit test does not exist.
 	 * @throws RuntimeException    If there is already a unit test.
-	 *
-	 * @return string The path to the generated unit test.
 	 */
 	public function generate( $fully_qualified_class_name ) {
 		try {
-			$reflector = new \ReflectionClass( $fully_qualified_class_name );
+			$reflector = new ReflectionClass( $fully_qualified_class_name );
 		} catch ( ReflectionException $exception ) {
 			throw $exception;
 		}
@@ -150,7 +151,7 @@ class Unit_Test_Generator {
 			$groups
 		);
 
-		return \implode( PHP_EOL, $groups );
+		return \implode( \PHP_EOL, $groups );
 	}
 
 	/**
@@ -158,7 +159,7 @@ class Unit_Test_Generator {
 	 *
 	 * @param string $fully_qualified_class_name   The fully qualified class name of the class that is tested.
 	 * @param string $name                         The name of the class that is tested.
-	 * @param string $namespace                    The namespace of the test class.
+	 * @param string $class_namespace              The namespace of the test class.
 	 * @param string $use_statements               The use statements, one for each mocked constructor argument.
 	 * @param string $groups                       The unit test groups.
 	 * @param string $property_statements          The property statements, one for each mocked constructor argument.
@@ -171,7 +172,7 @@ class Unit_Test_Generator {
 	protected function unit_test_template(
 		$fully_qualified_class_name,
 		$name,
-		$namespace,
+		$class_namespace,
 		$use_statements,
 		$groups,
 		$property_statements,
@@ -181,7 +182,7 @@ class Unit_Test_Generator {
 		return <<<TPL
 <?php
 
-namespace Yoast\WP\SEO\Tests\Unit\\{$namespace};
+namespace Yoast\WP\SEO\Tests\Unit\\{$class_namespace};
 
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -246,7 +247,7 @@ TPL;
 			$constructor_arguments
 		);
 
-		return \implode( PHP_EOL, $statements );
+		return \implode( \PHP_EOL, $statements );
 	}
 
 	/**
@@ -258,13 +259,13 @@ TPL;
 	 */
 	protected function generate_property_statements( array $constructor_arguments ) {
 		$statements = \array_map(
-			function( $argument ) {
+			static function( $argument ) {
 				return self::generate_mocked_property_statement( $argument->getClass()->getShortName(), $argument->getName() );
 			},
 			$constructor_arguments
 		);
 
-		return \implode( PHP_EOL . PHP_EOL, $statements );
+		return \implode( \PHP_EOL . \PHP_EOL, $statements );
 	}
 
 	/**
@@ -302,7 +303,7 @@ TPL;
 			$constructor_arguments
 		);
 
-		return \implode( PHP_EOL . "\t\t", $statements );
+		return \implode( \PHP_EOL . "\t\t", $statements );
 	}
 
 	/**
@@ -320,6 +321,6 @@ TPL;
 			$constructor_arguments
 		);
 
-		return \implode( ',' . PHP_EOL . "\t\t\t", $statements );
+		return \implode( ',' . \PHP_EOL . "\t\t\t", $statements );
 	}
 }

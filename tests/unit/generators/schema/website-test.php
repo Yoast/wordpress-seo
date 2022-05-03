@@ -102,7 +102,7 @@ class Website_Test extends TestCase {
 		$this->language->expects( 'add_piece_language' )
 			->once()
 			->andReturnUsing(
-				function( $data ) {
+				static function( $data ) {
 					$data['inLanguage'] = 'language';
 
 					return $data;
@@ -125,7 +125,10 @@ class Website_Test extends TestCase {
 			'potentialAction' => [
 				[
 					'@type'       => 'SearchAction',
-					'target'      => 'https://example.com/?s={search_term_string}',
+					'target'      => [
+						'@type'       => 'EntryPoint',
+						'urlTemplate' => 'https://example.com/?s={search_term_string}',
+					],
 					'query-input' => 'required name=search_term_string',
 				],
 			],
@@ -160,7 +163,7 @@ class Website_Test extends TestCase {
 		$this->language->expects( 'add_piece_language' )
 			->once()
 			->andReturnUsing(
-				function( $data ) {
+				static function( $data ) {
 					$data['inLanguage'] = 'language';
 
 					return $data;

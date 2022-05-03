@@ -1,0 +1,20 @@
+{
+  "name": "@yoast/e2e-tests",
+  "version": "0.0.0",
+  "description": "e2e-tests implementation for Yoast SEO plugin",
+  "main": "index.js",
+  "author": "Team Yoast",
+  "license": "GPL-3.0",
+  "private": false,
+  "scripts": {
+    "test:e2e": "node run-tests.js"
+  },
+  "devDependencies": {
+    "@wordpress/e2e-test-utils": "^5.1.2",
+    "@wordpress/url": "^2.22.2",
+    "babel-jest": "^26.6.3",
+    "jest": "^26.6.3",
+    "jest-puppeteer": "^5.0.3",
+    "puppeteer": "^9.0.0"
+  }
+}

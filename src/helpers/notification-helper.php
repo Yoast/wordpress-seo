@@ -13,9 +13,9 @@ class Notification_Helper {
 	/**
 	 * Restores a notification (wrapper function).
 	 *
-	 * @param Yoast_Notification $notification The notification to restore.
-	 *
 	 * @codeCoverageIgnore
+	 *
+	 * @param Yoast_Notification $notification The notification to restore.
 	 *
 	 * @return bool True if restored, false otherwise.
 	 */
