@@ -236,6 +236,22 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 18.8 =
+Release Date: May 17th, 2022
+
+
+Enhancements:
+
+* Introduces the First-time configuration, replacing and improving the Configuration Workout.
+* Remove XML sitemap image properties `title` and `caption` as Google has deprecated them.
+* Renamed the main admin menu item to \"Yoast SEO\" instead of \"SEO\".
+* Re-styles Yoast SEO installation successful page by using the Tailwind CSS framework and updated graphics
+
+Bugfixes:
+
+* Fixes a bug that would lead to race conditions when using persistent object caching.
+* Fixes a bug where the global var $post is sometimes modified unexpectedly. Props to [grantalltodavid](https://github.com/grantalltodavid).
+
 = 18.7 =
 Release Date: May 3rd, 2022
 
@@ -251,22 +267,6 @@ Bugfixes:
 
 * Fixes a bug in the Schema where the `thumbnailUrl` attribute of the `Article` object would be wrong if the post had an Open Graph or Twitter image.
 * Fixes typos of several types in brand names and the word metadata. Props to [NekoJonez](https://github.com/NekoJonez).
-
-= 18.6 =
-Release Date: April 19th, 2022
-
-Meet Yoast SEO 18.6: a small Yoast SEO update, fixing a number of bugs, including several bugs related to the Wincher integration. With the Wincher integration, you can track the rankings of your articles in the search results. If you haven’t checked that feature out, please do so! Read more about what's new in Yoast SEO 18.6 in [our release post in English](https://yoa.st/release-19-4-22) or [our release post in Spanish](https://yoa.st/release-19-4-22-spanish)!
-
-Bugfixes:
-
-* Fixes a bug where a version mismatch caused broken styling in WooCommerce select fields when linking products.
-* Fixes a bug where keyphrases could show up multiple times in Wincher table.
-* Fixes a bug where the Wincher connection flow would fail on certain installations.
-* Fixes a bug where the Wincher integration could throw a fatal error on PHP 8.0+.
-
-Other:
-
-* Adds a disabled Wincher integration toggle to the Network admin/Multisite `Integrations` tab.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
