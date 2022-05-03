@@ -118,7 +118,6 @@ class Installation_Success_Integration implements Integration_Interface {
 
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 		$asset_manager->enqueue_script( 'installation-success' );
-		$asset_manager->enqueue_style( 'installation-success' );
 		$asset_manager->enqueue_style( 'tailwind' );
 		$asset_manager->enqueue_style( 'monorepo' );
 
