@@ -573,26 +573,18 @@ class Indexable_Post_Builder_Test extends TestCase {
 			->with( 123 )
 			->andReturn( false );
 
-		$image_meta = [
-			'width'  => 640,
-			'height' => 480,
-			'url'    => 'http://basic.wordpress.test/wp-content/uploads/2020/07/WordPress5.jpg',
-			'path'   => '/var/www/html/wp-content/uploads/2020/07/WordPress5.jpg',
-			'size'   => 'full',
-			'id'     => 13,
-			'alt'    => '',
-			'pixels' => 307200,
-			'type'   => 'image/jpeg',
-		];
+		$image_url = 'http://basic.wordpress.test/wp-content/uploads/2020/07/WordPress5.jpg';
 
 		$this->image->allows( 'get_post_content_image' )
 			->with( 123 )
-			->andReturn( $image_meta );
+			->andReturn( $image_url );
+
+		Monkey\Functions\expect( 'wp_get_upload_dir' )->andReturn( [ 'baseurl' => 'example.test' ] );
 
 		$actual = $this->instance->find_alternative_image( $this->indexable );
 
 		$expected = [
-			'image'  => $image_meta,
+			'image'  => $image_url,
 			'source' => 'first-content-image',
 		];
 

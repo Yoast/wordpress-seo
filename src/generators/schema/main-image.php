@@ -31,7 +31,7 @@ class Main_Image extends Abstract_Schema_Piece {
 
 		// The Open Graph image. Try generating from meta first, as it doesn't require any db queries.
 		if ( isset( $this->context->indexable->open_graph_image_meta ) && $this->context->indexable->open_graph_image_source === 'set-by-user' ) {
-			$generated_schema = $this->helpers->schema->image->generate_from_attachment_meta( $image_id, $this->context->indexable->open_graph_image_meta );
+			$generated_schema              = $this->helpers->schema->image->generate_from_attachment_meta( $image_id, $this->context->indexable->open_graph_image_meta );
 			$this->context->main_image_url = $generated_schema['url'];
 			$this->context->main_image_id  = $this->context->indexable->open_graph_image_id;
 
