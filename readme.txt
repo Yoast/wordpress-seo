@@ -239,13 +239,12 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 18.8 =
 Release Date: May 17th, 2022
 
-
 Enhancements:
 
 * Introduces the First-time configuration, replacing and improving the Configuration Workout.
-* Remove XML sitemap image properties `title` and `caption` as Google has deprecated them.
-* Renamed the main admin menu item to \"Yoast SEO\" instead of \"SEO\".
-* Re-styles Yoast SEO installation successful page by using the Tailwind CSS framework and updated graphics
+* Removes XML sitemap image properties `title` and `caption` following deprecation by Google.
+* Renames the main admin menu item to \"Yoast SEO\" instead of \"SEO\".
+* Adds an "installation successful" page to welcome first-time users.
 
 Bugfixes:
 
