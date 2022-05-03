@@ -27,7 +27,7 @@ function getCommonClasses( isVisible ) {
  *
  * @returns {WPElement} The ActiveCircle element.
  */
-function ActiveCircle( { isVisible } ) {
+export function ActiveCircle( { isVisible } ) {
 	return <span
 		className={ `yst-bg-white yst-border-primary-500 ${ getCommonClasses( isVisible ) }` }
 	>
@@ -51,7 +51,7 @@ ActiveCircle.defaultProps = {
  *
  * @returns {WPElement} The SavedCircle element
  */
-function SavedCircle( { isVisible } ) {
+export function SavedCircle( { isVisible } ) {
 	return <span
 		className={ `yst-bg-primary-500 yst-border-primary-500 ${ getCommonClasses( isVisible ) }` }
 	>
@@ -75,7 +75,7 @@ SavedCircle.defaultProps = {
  *
  * @returns {WPElement} The UpcomingCircle element
  */
-function UpcomingCircle( { isVisible } ) {
+export function UpcomingCircle( { isVisible } ) {
 	return <span
 		className={ `yst-bg-white yst-border-gray-300 ${ getCommonClasses( isVisible ) }` }
 	>
