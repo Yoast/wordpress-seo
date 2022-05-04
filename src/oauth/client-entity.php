@@ -44,7 +44,7 @@ class ClientEntity implements ClientEntityInterface {
 	 * @return bool
 	 */
 	public function validate_client_secret( $secret ) {
-		return $secret === $this->secret || is_null( $this->secret );
+		return $secret === $this->secret;
 	}
 
 }

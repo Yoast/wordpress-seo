@@ -16,8 +16,8 @@ class ClientRepository implements ClientRepositoryInterface {
 			"test-client-identifier",
 			"MyYoast",
 			"http://localhost:8000/redirect",
-			true,
-			"test-client-secret"
+			false,
+			null
 		);
 	}
 

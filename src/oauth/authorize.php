@@ -15,11 +15,6 @@ try {
 		$server_request
 	);
 	$auth_request->setUser(new UserEntity( get_current_user_id() ));
-	/*
-	// TODO: Create a page where user can select approve or disapprove.
-	$auth_request->setAuthorizationApproved(true);
-	$response = $oauth_wrapper->server->completeAuthorizationRequest($auth_request, new Response());
-	wp_redirect("https://localhost:8000");*/
 	$nonce = wp_create_nonce( 'wp_rest' );
 	$query_url = add_query_arg(
 		array(
@@ -28,6 +23,8 @@ try {
 			'redirect_uri' => $auth_request->getRedirectUri(),
 			'scope' => implode(',', array_map(function($scope_entity) {return $scope_entity->getIdentifier();}, $auth_request->getScopes())),
 			'state' => $auth_request->getState(),
+			'code_challenge' => $auth_request->getCodeChallenge(),
+			'code_challenge_method' => $auth_request->getCodeChallengeMethod(),
 		),
 		get_rest_url( null, OAuth_Routes::FULL_AUTHORIZE_ROUTE)
 	);
@@ -47,5 +44,11 @@ try {
 	</form>
 	<?php
 } catch ( OAuthServerException $e ) {
-	print_r( $e );
+	?>
+	<h1>OAuth authorization</h1>
+	<p>An error occurred while processing the OAuth request:</p>
+	<p><strong>Error</strong>: <?php echo esc_html( $e->getMessage() ); ?></p>
+	<?php if ( $e->getHint() !== null ): ?>
+		<p><strong>Hint</strong>: <?php echo esc_html( $e->getHint() ); ?></p>
+	<?php endif;
 }
