@@ -7,7 +7,7 @@ use GuzzleHttp\Psr7\ServerRequest;
 use League\OAuth2\Server\AuthorizationServer;
 use League\OAuth2\Server\Exception\OAuthServerException;
 use League\OAuth2\Server\Grant\AuthCodeGrant;
-use League\OAuth2\Server\Middleware\ResourceServerMiddleware;
+use League\OAuth2\Server\Grant\RefreshTokenGrant;
 use League\OAuth2\Server\ResourceServer;
 use WP_REST_Request;
 
@@ -53,14 +53,23 @@ class OAuthWrapper {
 			"encryption-key"
 		);
 
-		$grant = new AuthCodeGrant(
+		$auth_grant = new AuthCodeGrant(
 			$this->auth_code_repository,
 			$this->refresh_token_repository,
 			new DateInterval("PT10M")
 		);
 
 		$this->server->enableGrantType(
-			$grant,
+			$auth_grant,
+			new DateInterval('PT1H')
+		);
+
+		$refresh_grant = new RefreshTokenGrant(
+			$this->refresh_token_repository
+		);
+
+		$this->server->enableGrantType(
+			$refresh_grant,
 			new DateInterval('PT1H')
 		);
 	}

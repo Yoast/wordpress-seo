@@ -13,7 +13,6 @@ class ClientEntity implements ClientEntityInterface {
 	use ClientTrait;
 
 	private $secret;
-	public $grant_type;
 
 	/**
 	 * Construct a ClientEntity.
@@ -21,13 +20,12 @@ class ClientEntity implements ClientEntityInterface {
 	 * @param string $identifier The identifier of the client entity.
 	 * @param string $name The name of the client entity.
 	 * @param string|string[] $redirect_uri The redirect URI('s) this client entity can redirect to.
-	 * @param string $grant_type The grant type.
 	 * @param bool $is_confidential Whether this client entity is confidential.
 	 * @param string|null $secret The client secret.
 	 *
 	 * @throws Exception
 	 */
-	public function __construct( $identifier, $name, $redirect_uri, $grant_type, $is_confidential = false, $secret = null ) {
+	public function __construct( $identifier, $name, $redirect_uri, $is_confidential = false, $secret = null ) {
 		if ( $is_confidential && is_null( $secret ) ) {
 			throw new Exception( "A confidential client must always have a secret" );
 		}
@@ -36,7 +34,6 @@ class ClientEntity implements ClientEntityInterface {
 		$this->redirectUri = $redirect_uri;
 		$this->isConfidential = $is_confidential;
 		$this->secret = $secret;
-		$this->grant_type = $grant_type;
 	}
 
 	/**

@@ -23,7 +23,7 @@ class RefreshTokenRepository implements RefreshTokenRepositoryInterface {
 				[
 					$refreshTokenEntity->getIdentifier(),
 					$refreshTokenEntity->getExpiryDateTime()->format("Y-m-d H:i:s"),
-					$refreshTokenEntity->getAccessToken(),
+					$refreshTokenEntity->getAccessToken()->getIdentifier(),
 				]
 			)
 		);

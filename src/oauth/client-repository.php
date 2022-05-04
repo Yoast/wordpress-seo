@@ -6,6 +6,9 @@ use League\OAuth2\Server\Repositories\ClientRepositoryInterface;
 
 class ClientRepository implements ClientRepositoryInterface {
 
+	/**
+	 * @var ClientEntity[]
+	 */
 	private $clients = array();
 
 	public function __construct() {
@@ -13,7 +16,6 @@ class ClientRepository implements ClientRepositoryInterface {
 			"test-client-identifier",
 			"MyYoast",
 			"http://localhost:8000/redirect",
-			"authorization_code",
 			true,
 			"test-client-secret"
 		);
@@ -30,8 +32,9 @@ class ClientRepository implements ClientRepositoryInterface {
 
 	public function validateClient( $clientIdentifier, $clientSecret, $grantType ) {
 		foreach ($this->clients as $client) {
-			if ( $clientIdentifier === $client->getIdentifier() && $client->validate_client_secret($clientSecret) && $grantType === $client->grant_type ) {
-				return true;
+			if ( $clientIdentifier === $client->getIdentifier() ) {
+				// TODO: Check grant_type here?
+				return ! $client->isConfidential() || $client->validate_client_secret( $clientSecret );
 			}
 		}
 		return false;

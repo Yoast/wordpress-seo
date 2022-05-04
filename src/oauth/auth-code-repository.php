@@ -33,7 +33,6 @@ class AuthCodeRepository implements AuthCodeRepositoryInterface {
 	public function revokeAuthCode( $codeId ) {
 		global $wpdb;
 		$auth_code_table = Model::get_table_name( 'AuthTokens' );
-		/*
 		$wpdb->query(
 			$wpdb->prepare(
 				"DELETE FROM $auth_code_table
@@ -42,7 +41,7 @@ class AuthCodeRepository implements AuthCodeRepositoryInterface {
 					$codeId,
 				]
 			)
-		);*/
+		);
 	}
 
 	public function isAuthCodeRevoked( $codeId ) {

@@ -69,21 +69,20 @@ class OAuth_Routes implements Route_Interface {
 				$auth_request->setAuthorizationApproved( false );
 			}
 			$response = $oauth_wrapper->server->completeAuthorizationRequest( $auth_request, new Response() );
-			$response->getBody()->rewind();
-
-			return rest_ensure_response( new WP_REST_Response(
-				$response->getBody()->getContents(),
-				$response->getStatusCode(),
-				array_map( function ( $header ) {
-					return $header[0];
-				}, $response->getHeaders() )
-			) );
-
 		} catch ( OAuthServerException $e ) {
-			return rest_ensure_response( $e );
+			$response = $e->generateHttpResponse( new Response() );
 		} catch ( Exception $e ) {
 			return rest_ensure_response( $e );
 		}
+		$response->getBody()->rewind();
+
+		return rest_ensure_response( new WP_REST_Response(
+			\json_decode( $response->getBody()->getContents() ),
+			$response->getStatusCode(),
+			array_map( function ( $header ) {
+				return $header[0];
+			}, $response->getHeaders() )
+		) );
 	}
 
 	public function refresh_access_token() {
@@ -93,24 +92,20 @@ class OAuth_Routes implements Route_Interface {
 
 		try {
 			$response = $oauth_wrapper->server->respondToAccessTokenRequest( $server_request, new Response() );
-			$response->getBody()->rewind();
-
-			return rest_ensure_response( new WP_REST_Response(
-				\json_decode( $response->getBody()->getContents() ),
-				$response->getStatusCode(),
-				array_map( function ( $header ) {
-					return $header[0];
-				}, $response->getHeaders() )
-			) );
 		} catch ( OAuthServerException $e ) {
-			print_r( $e );
-
-			return rest_ensure_response( $e );
+			$response = $e->generateHttpResponse( new Response() );
 		} catch ( Exception $e ) {
-			print_r( $e );
-
 			return rest_ensure_response( $e );
 		}
+
+		$response->getBody()->rewind();
+		return rest_ensure_response( new WP_REST_Response(
+			\json_decode( $response->getBody()->getContents() ),
+			$response->getStatusCode(),
+			array_map( function ( $header ) {
+				return $header[0];
+			}, $response->getHeaders() )
+		) );
 	}
 
 	public function can_authorize() {
