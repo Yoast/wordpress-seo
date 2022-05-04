@@ -77,7 +77,7 @@ const SocialMetadata = () => {
 			{ displayTwitter && <MetaboxCollapsible
 				/* Translators: %s expands to Twitter. */
 				title={ sprintf( __( "%s preview", "wordpress-seo" ), "Twitter" ) }
-				// If facebook is NOT enabled, Twitter collapsible should NOT have a separator.
+				// If Facebook is NOT enabled, Twitter collapsible should NOT have a separator.
 				hasSeparator={ displayFacebook }
 				initialIsOpen={ true }
 			>
