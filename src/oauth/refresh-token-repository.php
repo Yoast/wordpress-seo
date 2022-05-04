@@ -10,13 +10,7 @@ use Yoast\WP\Lib\Model;
 class RefreshTokenRepository implements RefreshTokenRepositoryInterface {
 
 	public function getNewRefreshToken() {
-		// TODO: Put refresh token expiration time somewhere
-		$expiry_date = new \DateTimeImmutable( 'now' );
-		$expiry_date = $expiry_date->add( \DateInterval::createFromDateString( '1 day' ) );
-		$refresh_token = new RefreshTokenEntity();
-		$refresh_token->setIdentifier( random_bytes( 255 ) );
-		$refresh_token->setExpiryDateTime( $expiry_date );
-		return $refresh_token;
+		return new RefreshTokenEntity();
 	}
 
 	public function persistNewRefreshToken( RefreshTokenEntityInterface $refreshTokenEntity ) {
@@ -24,11 +18,11 @@ class RefreshTokenRepository implements RefreshTokenRepositoryInterface {
 		$refresh_token_table = Model::get_table_name( 'RefreshTokens' );
 		$wpdb->query(
 			$wpdb->prepare(
-				"INSERT INTO $refresh_token_table
+				"INSERT INTO $refresh_token_table (identifier, expiry_date_time, access_token)
 				VALUES (%s, %s, %s);",
 				[
 					$refreshTokenEntity->getIdentifier(),
-					$refreshTokenEntity->getExpiryDateTime(),
+					$refreshTokenEntity->getExpiryDateTime()->format("Y-m-d H:i:s"),
 					$refreshTokenEntity->getAccessToken(),
 				]
 			)
@@ -60,10 +54,10 @@ class RefreshTokenRepository implements RefreshTokenRepositoryInterface {
 				AND `expiry_date_time` > %s;",
 				[
 					$tokenId,
-					new \DateTimeImmutable( 'now' ),
+					(new \DateTimeImmutable( 'now' ))->format("Y-m-d H:i:s"),
 				]
 			)
 		);
-		return ! empty( $refresh_token );
+		return empty( $refresh_token );
 	}
 }

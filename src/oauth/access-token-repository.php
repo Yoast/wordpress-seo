@@ -15,17 +15,12 @@ class AccessTokenRepository implements AccessTokenRepositoryInterface {
 	 * @throws Exception When random_bytes did not succeed.
 	 */
 	public function getNewToken( ClientEntityInterface $clientEntity, array $scopes, $userIdentifier = null ) {
-		// TODO: Put access token expiration time somewhere
-		$expiry_date  = new \DateTimeImmutable( 'now' );
-		$expiry_date  = $expiry_date->add( \DateInterval::createFromDateString( '1 day' ) );
 		$access_token = new AccessTokenEntity();
-		$access_token->setIdentifier( random_bytes( 255 ) );
-		$access_token->setExpiryDateTime( $expiry_date );
-		$access_token->setIdentifier( $userIdentifier );
-		foreach ( $scopes as $scope ) {
+		$access_token->setClient($clientEntity);
+		foreach ($scopes as $scope) {
 			$access_token->addScope( $scope );
 		}
-		$access_token->setClient( $clientEntity );
+		$access_token->setUserIdentifier($userIdentifier);
 		return $access_token;
 	}
 
@@ -34,14 +29,14 @@ class AccessTokenRepository implements AccessTokenRepositoryInterface {
 		$access_token_table = Model::get_table_name( 'AccessTokens' );
 		$wpdb->query(
 			$wpdb->prepare(
-				"INSERT INTO $access_token_table
+				"INSERT INTO $access_token_table (identifier, expiry_date_time, user_identifier, scopes, client_identifier)
 				VALUES (%s, %s, %s, %s, %s);",
 				[
 					$accessTokenEntity->getIdentifier(),
-					$accessTokenEntity->getExpiryDateTime(),
+					$accessTokenEntity->getExpiryDateTime()->format("Y-m-d H:i:s"),
 					$accessTokenEntity->getUserIdentifier(),
 					implode( ',', $accessTokenEntity->getScopes() ),
-					$accessTokenEntity->getClient()->getIdentifier(),
+					is_null( $accessTokenEntity->getClient() ) ? '' : $accessTokenEntity->getClient()->getIdentifier(),
 				]
 			)
 		);
@@ -72,10 +67,10 @@ class AccessTokenRepository implements AccessTokenRepositoryInterface {
 				AND `expiry_date_time` > %s;",
 				[
 					$tokenId,
-					new \DateTimeImmutable( 'now' ),
+					(new \DateTimeImmutable( 'now' ))->format("Y-m-d H:i:s"),
 				]
 			)
 		);
-		return ! empty( $access_token );
+		return empty( $access_token );
 	}
 }

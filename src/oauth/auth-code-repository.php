@@ -9,24 +9,19 @@ use Yoast\WP\Lib\Model;
 class AuthCodeRepository implements AuthCodeRepositoryInterface {
 
 	public function getNewAuthCode() {
-		$expiry_date  = new \DateTimeImmutable( 'now' );
-		$expiry_date  = $expiry_date->add( \DateInterval::createFromDateString( '1 day' ) );
-		$auth_code = new AuthCodeEntity();
-		$auth_code->setIdentifier( random_bytes( 255 ) );
-		$auth_code->setExpiryDateTime( $expiry_date );
-		return $auth_code;
+		return new AuthCodeEntity();
 	}
 
 	public function persistNewAuthCode( AuthCodeEntityInterface $authCodeEntity ) {
 		global $wpdb;
-		$auth_code_table = Model::get_table_name( 'AuthCodes' );
+		$auth_code_table = Model::get_table_name( 'AuthTokens' );
 		$wpdb->query(
 			$wpdb->prepare(
-				"INSERT INTO $auth_code_table
+				"INSERT INTO $auth_code_table (identifier, expiry_date_time, user_identifier, scopes, client_identifier)
 				VALUES (%s, %s, %s, %s, %s);",
 				[
 					$authCodeEntity->getIdentifier(),
-					$authCodeEntity->getExpiryDateTime(),
+					$authCodeEntity->getExpiryDateTime()->format("Y-m-d H:i:s"),
 					$authCodeEntity->getUserIdentifier(),
 					implode( ',', $authCodeEntity->getScopes() ),
 					$authCodeEntity->getClient()->getIdentifier(),
@@ -37,7 +32,8 @@ class AuthCodeRepository implements AuthCodeRepositoryInterface {
 
 	public function revokeAuthCode( $codeId ) {
 		global $wpdb;
-		$auth_code_table = Model::get_table_name( 'AuthCodes' );
+		$auth_code_table = Model::get_table_name( 'AuthTokens' );
+		/*
 		$wpdb->query(
 			$wpdb->prepare(
 				"DELETE FROM $auth_code_table
@@ -46,12 +42,12 @@ class AuthCodeRepository implements AuthCodeRepositoryInterface {
 					$codeId,
 				]
 			)
-		);
+		);*/
 	}
 
 	public function isAuthCodeRevoked( $codeId ) {
 		global $wpdb;
-		$auth_code_table = Model::get_table_name( 'AuthCodes' );
+		$auth_code_table = Model::get_table_name( 'AuthTokens' );
 		$auth_code       = $wpdb->get_col(
 			$wpdb->prepare(
 				"SELECT `identifier`, `expiry_date_time`, `user_identifier`, `scopes`, `client_identifier`
@@ -60,10 +56,10 @@ class AuthCodeRepository implements AuthCodeRepositoryInterface {
 				AND `expiry_date_time` > %s;",
 				[
 					$codeId,
-					new \DateTimeImmutable( 'now' ),
+					(new \DateTimeImmutable( 'now' ))->format("Y-m-d H:i:s"),
 				]
 			)
 		);
-		return ! empty( $auth_code );
+		return empty( $auth_code );
 	}
 }

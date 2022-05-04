@@ -3,8 +3,13 @@
 namespace Yoast\WP\SEO\OAuth;
 
 use DateInterval;
+use GuzzleHttp\Psr7\ServerRequest;
 use League\OAuth2\Server\AuthorizationServer;
+use League\OAuth2\Server\Exception\OAuthServerException;
 use League\OAuth2\Server\Grant\AuthCodeGrant;
+use League\OAuth2\Server\Middleware\ResourceServerMiddleware;
+use League\OAuth2\Server\ResourceServer;
+use WP_REST_Request;
 
 class OAuthWrapper {
 
@@ -58,5 +63,45 @@ class OAuthWrapper {
 			$grant,
 			new DateInterval('PT1H')
 		);
+	}
+
+	/**
+	 * @param WP_REST_Request $request
+	 *
+	 * @return bool
+	 */
+	public static function validate_access_token( $request ) {
+		$global_request = ServerRequest::fromGlobals();
+		$access_token_repository = new AccessTokenRepository();
+		$resource_server = new ResourceServer(
+			$access_token_repository,
+			dirname( __FILE__ ) . "/public.key"
+		);
+
+		try {
+			$global_request = $resource_server->validateAuthenticatedRequest( $global_request );
+			return self::validate_scopes( $request->get_attributes()['oauth_required_scopes'], $global_request->getAttribute( 'oauth_scopes' ) );
+		} catch (OAuthServerException $e) {
+			return false;
+		}
+	}
+
+	/**
+	 * @param string[] $required_scopes
+	 * @param string[] $owned_scopes
+	 *
+	 * @return bool
+	 */
+	public static function validate_scopes( $required_scopes, $owned_scopes ) {
+		if ( gettype( $required_scopes ) === 'string' ) {
+			$required_scopes = [ $required_scopes ];
+		}
+
+		foreach ( $required_scopes as $required_scope ) {
+			if ( ! in_array( $required_scope, $owned_scopes ) ) {
+				return false;
+			}
+		}
+		return true;
 	}
 }

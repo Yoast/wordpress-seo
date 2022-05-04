@@ -12,7 +12,7 @@ class ClientRepository implements ClientRepositoryInterface {
 		$this->clients[] = new ClientEntity(
 			"test-client-identifier",
 			"MyYoast",
-			"localhost:8000/redirect",
+			"http://localhost:8000/redirect",
 			"authorization_code",
 			true,
 			"test-client-secret"
