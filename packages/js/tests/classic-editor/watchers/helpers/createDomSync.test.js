@@ -29,7 +29,7 @@ describe( "The createDomSync helper function", () => {
 
 		expect( domSet ).toBeCalledTimes( 1 );
 	} );
-	it( "does not syncs the store to the DOM when the value is the same as in the DOM", () => {
+	it( "does not sync the store to the DOM when the value is the same as in the DOM", () => {
 		const selector = jest.fn();
 		const domGet = jest.fn();
 		const domSet = jest.fn();
@@ -70,11 +70,7 @@ describe( "The createDomSync helper function", () => {
 		subscribe.mockImplementation( fn => fn() );
 		selector.mockReturnValue( undefined );
 
-		/*
-		  When called multiple times with the same value and cache key, the cache should kick in and the value
-		  should only be saved to the DOM once.
-		 */
-		createDomSync( selector, { domGet, domSet }, "otherCacheKey" );
+		createDomSync( selector, { domGet, domSet }, "cacheKey" );
 
 		expect( domSet ).toBeCalledWith( "" );
 	} );
