@@ -6,15 +6,15 @@ use Yoast\WP\Lib\Model;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 
 /**
- * Class Front_End_Integration.
+ * Class OAuth_Integration.
  */
 class OAuth_Integration implements Integration_Interface {
 
 	use No_Conditionals;
 
 	public function register_hooks() {
-		add_action( 'admin_menu', [ $this, 'add_admin_menu_page' ] );
-		add_action( 'wpseo_oauth_remove_expired_tokens', [ $this, 'remove_expired_tokens' ] );
+		\add_action( 'admin_menu', [ $this, 'add_admin_menu_page' ] );
+		\add_action( 'wpseo_oauth_remove_expired_tokens', [ $this, 'remove_expired_tokens' ] );
 	}
 
 	public function load_authorize_template() {
@@ -27,8 +27,8 @@ class OAuth_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function add_admin_menu_page() {
-		add_menu_page( 'Yoast SEO OAuth', 'Yoast SEO OAuth', 'edit_plugins', 'wpseo_oauth_authorize', [ $this, 'load_authorize_template' ]);
-		remove_menu_page('wpseo_oauth_authorize');
+		\add_menu_page( 'Yoast SEO OAuth', 'Yoast SEO OAuth', 'edit_plugins', 'wpseo_oauth_authorize', [ $this, 'load_authorize_template' ]);
+		\remove_menu_page('wpseo_oauth_authorize');
 	}
 
 	/**
@@ -79,6 +79,7 @@ class OAuth_Integration implements Integration_Interface {
 	public function remove_expired_tokens() {
 		global $wpdb;
 
+		// TODO: Remove these database queries -> via repository.
 		$auth_code_table = Model::get_table_name( 'AuthTokens' );
 		$wpdb->query(
 			$wpdb->prepare(

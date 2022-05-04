@@ -8,6 +8,6 @@ use League\OAuth2\Server\Repositories\UserRepositoryInterface;
 class UserRepository implements UserRepositoryInterface {
 
 	public function getUserEntityByUserCredentials( $username, $password, $grantType, ClientEntityInterface $clientEntity ) {
-
+		// TODO: Implement or remove this.
 	}
 }
