@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Presenters;
 
 use Brain\Monkey;
 use Mockery;
+use Yoast\WP\SEO\Helpers\Json_Helper;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Presenters\Schema_Presenter;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -59,9 +60,24 @@ class Schema_Presenter_Test extends TestCase {
 		Monkey\Actions\expectDone( 'wpseo_json_ld' )
 			->once();
 
-		$output  = '<script type="application/ld+json" class="yoast-schema-graph">[' . \PHP_EOL;
-		$output .= "\t    \"the_schema\"" . \PHP_EOL;
-		$output .= "\t]</script>";
+		$json_helper = Mockery::mock( Json_Helper::class );
+
+		$json_helper->expects( 'format_encode' )->andReturnUsing(
+			static function ( $value ) {
+				// phpcs:ignore Yoast.Yoast.AlternativeFunctions.json_encode_json_encodeWithAdditionalParams -- Test code, mocking WP.
+				return \json_encode( $value, ( JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) );
+			}
+		);
+
+		Monkey\Functions\expect( 'YoastSEO' )->andReturn(
+			(object) [
+				'helpers' => (object) [
+					'json' => $json_helper,
+				],
+			]
+		);
+
+		$output = '<script type="application/ld+json" class="yoast-schema-graph">["the_schema"]</script>';
 
 		$this->assertEquals( $output, $this->instance->present() );
 	}

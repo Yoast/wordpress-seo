@@ -8,6 +8,7 @@ use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Post_Builder;
 use Yoast\WP\SEO\Exceptions\Indexable\Post_Not_Found_Exception;
 use Yoast\WP\SEO\Helpers\Image_Helper;
+use Yoast\WP\SEO\Helpers\Json_Helper;
 use Yoast\WP\SEO\Helpers\Meta_Helper;
 use Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper as Open_Graph_Image_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
@@ -73,11 +74,18 @@ class Indexable_Post_Builder_Test extends TestCase {
 	protected $post;
 
 	/**
-	 * The post type helper.
+	 * Holds the post type helper instance.
 	 *
 	 * @var Mockery\MockInterface|Post_Type_Helper
 	 */
 	protected $post_type_helper;
+
+	/**
+	 * Holds the JSON helper instance.
+	 *
+	 * @var Mockery\MockInterface|Json_Helper
+	 */
+	protected $json_helper;
 
 	/**
 	 * Holds the Indexable_Post_Builder instance.
@@ -101,6 +109,7 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$this->twitter_image        = Mockery::mock( Twitter_Image_Helper::class );
 		$this->post                 = Mockery::mock( Post_Helper::class );
 		$this->post_type_helper     = Mockery::mock( Post_Type_Helper::class );
+		$this->json_helper          = Mockery::mock( Json_Helper::class );
 
 		$this->instance = new Indexable_Post_Builder_Double(
 			$this->post,
@@ -113,7 +122,8 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$this->instance->set_social_image_helpers(
 			$this->image,
 			$this->open_graph_image,
-			$this->twitter_image
+			$this->twitter_image,
+			$this->json_helper
 		);
 	}
 
@@ -253,23 +263,25 @@ class Indexable_Post_Builder_Test extends TestCase {
 			->with( 1 )
 			->andReturn( true );
 
+		$this->json_helper->expects( 'format_encode' )->once()->andReturnArg( 0 );
+
 		$indexable_expectations = [
-			'object_id'                      => '1',
-			'object_type'                    => 'post',
-			'object_sub_type'                => 'post',
-			'permalink'                      => 'https://permalink',
-			'breadcrumb_title'               => 'breadcrumb_title',
-			'number_of_pages'                => null,
-			'is_public'                      => '0',
-			'post_status'                    => 'publish',
-			'is_protected'                   => '0',
-			'author_id'                      => '1',
-			'post_parent'                    => '0',
-			'has_public_posts'               => null,
-			'blog_id'                        => '1',
-			'version'                        => '2',
-			'object_published_at'            => '1234-12-12 00:00:00',
-			'object_last_modified'           => '1234-12-12 00:00:00',
+			'object_id'            => '1',
+			'object_type'          => 'post',
+			'object_sub_type'      => 'post',
+			'permalink'            => 'https://permalink',
+			'breadcrumb_title'     => 'breadcrumb_title',
+			'number_of_pages'      => null,
+			'is_public'            => '0',
+			'post_status'          => 'publish',
+			'is_protected'         => '0',
+			'author_id'            => '1',
+			'post_parent'          => '0',
+			'has_public_posts'     => null,
+			'blog_id'              => '1',
+			'version'              => '2',
+			'object_published_at'  => '1234-12-12 00:00:00',
+			'object_last_modified' => '1234-12-12 00:00:00',
 		];
 		$indexable_expectations = \array_merge( $indexable_expectations, $expected_result );
 
@@ -312,9 +324,7 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$this->indexable->orm->expects( 'set' )->with( 'open_graph_image_source', 'set-by-user' );
 		$this->indexable->orm->expects( 'set' )
 			->with( 'open_graph_image', 'http://basic.wordpress.test/wp-content/uploads/2020/07/WordPress5.jpg' );
-		$this->indexable->orm->expects( 'set' )
-			// phpcs:ignore Yoast.Yoast.AlternativeFunctions.json_encode_json_encodeWithAdditionalParams -- Test code, mocking WP.
-			->with( 'open_graph_image_meta', \json_encode( $image_meta, ( \JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES ) ) );
+		$this->indexable->orm->expects( 'set' )->with( 'open_graph_image_meta', $image_meta );
 
 		// We expect the twitter image and its source to be set.
 		$this->indexable->orm->expects( 'set' )->with( 'twitter_image_source', 'set-by-user' );
@@ -332,7 +342,9 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$this->indexable->orm->expects( 'offsetExists' )->with( 'breadcrumb_title' )->andReturnFalse();
 
 		Monkey\Functions\expect( 'get_the_title' )->with( 1 )->andReturn( 'breadcrumb_title' );
-		Monkey\Functions\expect( 'wp_strip_all_tags' )->with( 'breadcrumb_title', true )->andReturn( 'breadcrumb_title' );
+		Monkey\Functions\expect( 'wp_strip_all_tags' )
+			->with( 'breadcrumb_title', true )
+			->andReturn( 'breadcrumb_title' );
 
 		// Blog ID.
 		Monkey\Functions\expect( 'get_current_blog_id' )->once()->andReturn( 1 );
@@ -384,34 +396,34 @@ class Indexable_Post_Builder_Test extends TestCase {
 		];
 
 		$extra_postmeta                      = [
-			'_yoast_wpseo_focuskw'                        => [ 'focuskeyword' ],
-			'_yoast_wpseo_meta-robots-noindex'            => [ '1' ],
-			'_yoast_wpseo_meta-robots-adv'                => [ '' ],
-			'_yoast_wpseo_canonical'                      => [ 'https://canonical' ],
-			'_yoast_wpseo_meta-robots-nofollow'           => [ '1' ],
-			'_yoast_wpseo_title'                          => [ 'title' ],
-			'_yoast_wpseo_metadesc'                       => [ 'description' ],
-			'_yoast_wpseo_opengraph-title'                => [ 'open_graph_title' ],
-			'_yoast_wpseo_opengraph-description'          => [ 'open_graph_description' ],
-			'_yoast_wpseo_twitter-title'                  => [ 'twitter_title' ],
-			'_yoast_wpseo_twitter-description'            => [ 'twitter_description' ],
+			'_yoast_wpseo_focuskw'               => [ 'focuskeyword' ],
+			'_yoast_wpseo_meta-robots-noindex'   => [ '1' ],
+			'_yoast_wpseo_meta-robots-adv'       => [ '' ],
+			'_yoast_wpseo_canonical'             => [ 'https://canonical' ],
+			'_yoast_wpseo_meta-robots-nofollow'  => [ '1' ],
+			'_yoast_wpseo_title'                 => [ 'title' ],
+			'_yoast_wpseo_metadesc'              => [ 'description' ],
+			'_yoast_wpseo_opengraph-title'       => [ 'open_graph_title' ],
+			'_yoast_wpseo_opengraph-description' => [ 'open_graph_description' ],
+			'_yoast_wpseo_twitter-title'         => [ 'twitter_title' ],
+			'_yoast_wpseo_twitter-description'   => [ 'twitter_description' ],
 		];
 		$full_postmeta_set                   = \array_merge( $postmeta_set_with_missing_data, $extra_postmeta );
 		$indexable_values_for_extra_postmeta = [
-			'canonical'                      => 'https://canonical',
-			'title'                          => 'title',
-			'description'                    => 'description',
-			'open_graph_title'               => 'open_graph_title',
-			'open_graph_description'         => 'open_graph_description',
-			'twitter_title'                  => 'twitter_title',
-			'twitter_description'            => 'twitter_description',
-			'is_robots_noindex'              => '1',
-			'is_robots_nofollow'             => '1',
-			'is_robots_noarchive'            => null,
-			'is_robots_noimageindex'         => null,
-			'is_robots_nosnippet'            => null,
-			'primary_focus_keyword'          => 'focuskeyword',
-			'primary_focus_keyword_score'    => '100',
+			'canonical'                   => 'https://canonical',
+			'title'                       => 'title',
+			'description'                 => 'description',
+			'open_graph_title'            => 'open_graph_title',
+			'open_graph_description'      => 'open_graph_description',
+			'twitter_title'               => 'twitter_title',
+			'twitter_description'         => 'twitter_description',
+			'is_robots_noindex'           => '1',
+			'is_robots_nofollow'          => '1',
+			'is_robots_noarchive'         => null,
+			'is_robots_noimageindex'      => null,
+			'is_robots_nosnippet'         => null,
+			'primary_focus_keyword'       => 'focuskeyword',
+			'primary_focus_keyword_score' => '100',
 		];
 		$indexable_with_full_postmeta_set    = \array_merge( $indexable_with_default_values_for_missing_postmeta, $indexable_values_for_extra_postmeta );
 

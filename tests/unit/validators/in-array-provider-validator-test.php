@@ -2,10 +2,12 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Validators;
 
+use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Exceptions\Validation\Invalid_Settings_Exception;
 use Yoast\WP\SEO\Exceptions\Validation\Missing_Settings_Key_Exception;
 use Yoast\WP\SEO\Exceptions\Validation\Not_In_Array_Exception;
+use Yoast\WP\SEO\Helpers\Json_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Validators\In_Array_Provider_Validator;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
@@ -18,7 +20,7 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Validators\In_Array_Provider_Validator
  *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- Validator should not count.
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- Validator & Test should not count.
  */
 class In_Array_Provider_Validator_Test extends TestCase {
 
@@ -98,6 +100,7 @@ class In_Array_Provider_Validator_Test extends TestCase {
 	 * @throws \Yoast\WP\SEO\Exceptions\Validation\Abstract_Validation_Exception When detecting an invalid value.
 	 */
 	public function test_invalid() {
+		$this->mock_json_helper();
 		$this->container->expects( 'has' )->andReturn( true );
 		$this->container->expects( 'get' )->andReturn( $this );
 
@@ -122,6 +125,7 @@ class In_Array_Provider_Validator_Test extends TestCase {
 	 * @throws \Yoast\WP\SEO\Exceptions\Validation\Abstract_Validation_Exception When detecting an invalid value.
 	 */
 	public function test_invalid_with_arguments() {
+		$this->mock_json_helper();
 		$this->container->expects( 'has' )->andReturn( true );
 		$this->container->expects( 'get' )->andReturn( $this );
 
@@ -270,5 +274,29 @@ class In_Array_Provider_Validator_Test extends TestCase {
 	 */
 	public function get_test_wrong_return_type() {
 		return 'string';
+	}
+
+	/**
+	 * Mocks the JSON helper via the YoastSEO API.
+	 *
+	 * @return void
+	 */
+	protected function mock_json_helper() {
+		$json_helper = Mockery::mock( Json_Helper::class );
+
+		$json_helper->expects( 'format_encode' )->andReturnUsing(
+			static function ( $value ) {
+				// phpcs:ignore Yoast.Yoast.AlternativeFunctions.json_encode_json_encodeWithAdditionalParams -- Test code, mocking WP.
+				return \json_encode( $value, ( JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) );
+			}
+		);
+
+		Monkey\Functions\expect( 'YoastSEO' )->andReturn(
+			(object) [
+				'helpers' => (object) [
+					'json' => $json_helper,
+				],
+			]
+		);
 	}
 }

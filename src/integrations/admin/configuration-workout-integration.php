@@ -5,8 +5,8 @@ namespace Yoast\WP\SEO\Integrations\Admin;
 use WPSEO_Addon_Manager;
 use WPSEO_Admin_Asset_Manager;
 use WPSEO_Shortlinker;
-use WPSEO_Utils;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Helpers\Json_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -53,6 +53,13 @@ class Configuration_Workout_Integration implements Integration_Interface {
 	private $product_helper;
 
 	/**
+	 * The json helper.
+	 *
+	 * @var Json_Helper
+	 */
+	private $json_helper;
+
+	/**
 	 * {@inheritDoc}
 	 */
 	public static function get_conditionals() {
@@ -67,19 +74,22 @@ class Configuration_Workout_Integration implements Integration_Interface {
 	 * @param WPSEO_Shortlinker         $shortlinker         The shortlinker.
 	 * @param Options_Helper            $options_helper      The options helper.
 	 * @param Product_Helper            $product_helper      The product helper.
+	 * @param Json_Helper               $json_helper         The JSON helper.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $admin_asset_manager,
 		WPSEO_Addon_Manager $addon_manager,
 		WPSEO_Shortlinker $shortlinker,
 		Options_Helper $options_helper,
-		Product_Helper $product_helper
+		Product_Helper $product_helper,
+		Json_Helper $json_helper
 	) {
 		$this->admin_asset_manager = $admin_asset_manager;
 		$this->addon_manager       = $addon_manager;
 		$this->shortlinker         = $shortlinker;
 		$this->options_helper      = $options_helper;
 		$this->product_helper      = $product_helper;
+		$this->json_helper         = $json_helper;
 	}
 
 	/**
@@ -192,7 +202,7 @@ class Configuration_Workout_Integration implements Integration_Interface {
 				$social_profiles['youtube_url'],
 				$social_profiles['wikipedia_url'],
 				$this->has_tracking_enabled(),
-				WPSEO_Utils::format_json_encode( $options ),
+				$this->json_helper->format_encode( $options ),
 				$this->should_force_company(),
 				$knowledge_graph_message,
 				$this->shortlinker->build_shortlink( 'https://yoa.st/config-workout-guide' ),

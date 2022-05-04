@@ -2,8 +2,11 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Validators;
 
+use Brain\Monkey;
+use Mockery;
 use Yoast\WP\SEO\Exceptions\Validation\Missing_Settings_Key_Exception;
 use Yoast\WP\SEO\Exceptions\Validation\Not_In_Array_Exception;
+use Yoast\WP\SEO\Helpers\Json_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Validators\In_Array_Keys_Validator;
 
@@ -53,6 +56,7 @@ class In_Array_Keys_Validator_Test extends TestCase {
 	 */
 	public function test_validate( $value, $settings, $expected, $exception = '' ) {
 		if ( $exception !== '' ) {
+			$this->mock_json_helper( ( $exception === Not_In_Array_Exception::class ) ? 1 : 0 );
 			$this->expectException( $exception );
 			$this->instance->validate( $value, $settings );
 
@@ -114,5 +118,31 @@ class In_Array_Keys_Validator_Test extends TestCase {
 				'exception' => Missing_Settings_Key_Exception::class,
 			],
 		];
+	}
+
+	/**
+	 * Mocks the JSON helper via the YoastSEO API.
+	 *
+	 * @param int $times The amount of times the call is expected.
+	 *
+	 * @return void
+	 */
+	protected function mock_json_helper( $times ) {
+		$json_helper = Mockery::mock( Json_Helper::class );
+
+		$json_helper->expects( 'format_encode' )->times( $times )->andReturnUsing(
+			static function ( $value ) {
+				// phpcs:ignore Yoast.Yoast.AlternativeFunctions.json_encode_json_encodeWithAdditionalParams -- Test code, mocking WP.
+				return \json_encode( $value, ( JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) );
+			}
+		);
+
+		Monkey\Functions\expect( 'YoastSEO' )->times( $times )->andReturn(
+			(object) [
+				'helpers' => (object) [
+					'json' => $json_helper,
+				],
+			]
+		);
 	}
 }

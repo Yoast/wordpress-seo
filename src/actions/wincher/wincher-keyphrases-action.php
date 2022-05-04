@@ -7,6 +7,7 @@ use WP_Post;
 use WPSEO_Meta;
 use WPSEO_Utils;
 use Yoast\WP\SEO\Config\Wincher_Client;
+use Yoast\WP\SEO\Helpers\Json_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
@@ -51,6 +52,13 @@ class Wincher_Keyphrases_Action {
 	protected $options_helper;
 
 	/**
+	 * The Json_Helper instance.
+	 *
+	 * @var Json_Helper
+	 */
+	protected $json_helper;
+
+	/**
 	 * The Indexable_Repository instance.
 	 *
 	 * @var Indexable_Repository
@@ -62,15 +70,18 @@ class Wincher_Keyphrases_Action {
 	 *
 	 * @param Wincher_Client       $client               The API client.
 	 * @param Options_Helper       $options_helper       The options helper.
+	 * @param Json_Helper          $json_helper          The JSON helper.
 	 * @param Indexable_Repository $indexable_repository The indexables repository.
 	 */
 	public function __construct(
 		Wincher_Client $client,
 		Options_Helper $options_helper,
+		Json_Helper $json_helper,
 		Indexable_Repository $indexable_repository
 	) {
 		$this->client               = $client;
 		$this->options_helper       = $options_helper;
+		$this->json_helper          = $json_helper;
 		$this->indexable_repository = $indexable_repository;
 	}
 
@@ -118,7 +129,7 @@ class Wincher_Keyphrases_Action {
 				)
 			);
 
-			$results = $this->client->post( $endpoint, WPSEO_Utils::format_json_encode( $formatted_keyphrases ) );
+			$results = $this->client->post( $endpoint, $this->json_helper->format_encode( $formatted_keyphrases ) );
 
 			if ( ! \array_key_exists( 'data', $results ) ) {
 				return $this->to_result_object( $results );
@@ -126,10 +137,10 @@ class Wincher_Keyphrases_Action {
 
 			// The endpoint returns a lot of stuff that we don't want/need.
 			$results['data'] = \array_map(
-				static function( $keyphrase ) {
+				static function ( $keyphrase ) {
 					return [
-						'id'         => $keyphrase['id'],
-						'keyword'    => $keyphrase['keyword'],
+						'id'      => $keyphrase['id'],
+						'keyword' => $keyphrase['keyword'],
 					];
 				},
 				$results['data']
@@ -210,7 +221,7 @@ class Wincher_Keyphrases_Action {
 
 			$results = $this->client->post(
 				$endpoint,
-				WPSEO_Utils::format_json_encode(
+				$this->json_helper->format_encode(
 					[
 						'keywords' => $used_keyphrases,
 						'url'      => $permalink,
@@ -331,7 +342,7 @@ class Wincher_Keyphrases_Action {
 	protected function filter_results_by_used_keyphrases( $results, $used_keyphrases ) {
 		return \array_filter(
 			$results,
-			static function( $result ) use ( $used_keyphrases ) {
+			static function ( $result ) use ( $used_keyphrases ) {
 				return \in_array( $result['keyword'], \array_map( 'strtolower', $used_keyphrases ), true );
 			}
 		);

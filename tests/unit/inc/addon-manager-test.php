@@ -5,7 +5,6 @@ namespace Yoast\WP\SEO\Tests\Unit\Inc;
 use Brain\Monkey;
 use Mockery;
 use stdClass;
-use WPSEO_Utils;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Inc\Addon_Manager_Double;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -503,7 +502,10 @@ class Addon_Manager_Test extends TestCase {
 			$product_helper_mock = Mockery::mock( Product_Helper::class );
 			$product_helper_mock->shouldReceive( 'is_premium' )->atMost()->times( 2 )->andReturn( false );
 			$helpers_mock = (object) [ 'product' => $product_helper_mock ];
-			Monkey\Functions\expect( 'YoastSEO' )->atMost()->times( 2 )->andReturn( (object) [ 'helpers' => $helpers_mock ] );
+			Monkey\Functions\expect( 'YoastSEO' )
+				->atMost()
+				->times( 2 )
+				->andReturn( (object) [ 'helpers' => $helpers_mock ] );
 		}
 
 		Monkey\Functions\expect( 'get_plugin_updates' )
@@ -896,37 +898,32 @@ class Addon_Manager_Test extends TestCase {
 	 * @return stdClass Subscriptions.
 	 */
 	protected function get_subscriptions() {
-		return \json_decode(
-			WPSEO_Utils::format_json_encode(
-				[
-					'wp-seo-premium.php' => [
-						'expiry_date' => $this->get_future_date(),
-						'product'     => [
-							'version'      => '10.0',
-							'name'         => 'Extension',
-							'slug'         => 'yoast-seo-wordpress-premium',
-							'last_updated' => 'yesterday',
-							'store_url'    => 'https://example.org/store',
-							'download'     => 'https://example.org/extension.zip',
-							'changelog'    => 'changelog',
-						],
-					],
-					'wpseo-news.php'     => [
-						'expiry_date' => $this->get_past_date(),
-						'product'     => [
-							'version'      => '10.0',
-							'name'         => 'Extension',
-							'slug'         => 'yoast-seo-news',
-							'last_updated' => 'yesterday',
-							'store_url'    => 'https://example.org/store',
-							'download'     => 'https://example.org/extension.zip',
-							'changelog'    => 'changelog',
-						],
-					],
-				]
-			),
-			false
-		);
+		return (object) [
+			'wp-seo-premium.php' => (object) [
+				'expiry_date' => $this->get_future_date(),
+				'product'     => (object) [
+					'version'      => '10.0',
+					'name'         => 'Extension',
+					'slug'         => 'yoast-seo-wordpress-premium',
+					'last_updated' => 'yesterday',
+					'store_url'    => 'https://example.org/store',
+					'download'     => 'https://example.org/extension.zip',
+					'changelog'    => 'changelog',
+				],
+			],
+			'wpseo-news.php'     => (object) [
+				'expiry_date' => $this->get_past_date(),
+				'product'     => (object) [
+					'version'      => '10.0',
+					'name'         => 'Extension',
+					'slug'         => 'yoast-seo-news',
+					'last_updated' => 'yesterday',
+					'store_url'    => 'https://example.org/store',
+					'download'     => 'https://example.org/extension.zip',
+					'changelog'    => 'changelog',
+				],
+			],
+		];
 	}
 
 	/**

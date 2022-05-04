@@ -24,4 +24,32 @@ class Environment_Helper {
 	public function get_wp_environment() {
 		return \wp_get_environment_type();
 	}
+
+	/**
+	 * Determines if Yoast SEO is in development mode.
+	 *
+	 * Inspired by JetPack (https://github.com/Automattic/jetpack/blob/master/class.jetpack.php#L1383-L1406).
+	 *
+	 * @return bool Whether Yoast SEO is in development mode.
+	 */
+	public function is_yoast_seo_in_development_mode() {
+		$development_mode = false;
+
+		if ( \defined( 'YOAST_ENVIRONMENT' ) && \YOAST_ENVIRONMENT === 'development' ) {
+			$development_mode = true;
+		}
+		elseif ( \defined( 'WPSEO_DEBUG' ) ) {
+			$development_mode = \WPSEO_DEBUG;
+		}
+		elseif ( \site_url() && \strpos( \site_url(), '.' ) === false ) {
+			$development_mode = true;
+		}
+
+		/**
+		 * Filter: 'yoast_seo_development_mode' - Allows changing the Yoast SEO development mode.
+		 *
+		 * @param bool $development_mode Whether Yoast SEOs development mode is active.
+		 */
+		return \apply_filters( 'yoast_seo_development_mode', $development_mode );
+	}
 }
