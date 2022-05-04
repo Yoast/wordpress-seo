@@ -66,6 +66,7 @@ class WPSEO_Admin_Pages {
 
 		if ( $page === 'wpseo_social' || $page === 'wpseo_licenses' ) {
 			$this->asset_manager->enqueue_style( 'monorepo' );
+			$this->asset_manager->enqueue_style( 'tailwind' );
 		}
 	}
 

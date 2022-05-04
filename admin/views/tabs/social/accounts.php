@@ -64,6 +64,7 @@ if ( $company_or_person === 'company' ) {
 		'</a>'
 	);
 	echo '</p>';
+	echo '<div id="yoast-social-profiles"></div>';
 }
 
 do_action( 'wpseo_admin_other_section' );
