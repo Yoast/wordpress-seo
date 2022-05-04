@@ -342,7 +342,6 @@ export default class Question extends Component {
 					key={ id + "-question" }
 					value={ question }
 					onChange={ this.onChangeQuestion }
-					isSelected={ isSelected && subElement === "question" }
 					unstableOnFocus={ this.onFocusQuestion }
 					placeholder={ __( "Enter a question", "wordpress-seo" ) }
 					formattingControls={ [ "italic", "strikethrough", "link" ] }
@@ -353,7 +352,6 @@ export default class Question extends Component {
 					key={ id + "-answer" }
 					value={ answer }
 					onChange={ this.onChangeAnswer }
-					isSelected={ isSelected && subElement === "answer" }
 					unstableOnFocus={ this.onFocusAnswer }
 					placeholder={ __( "Enter the answer to the question", "wordpress-seo" ) }
 				/>

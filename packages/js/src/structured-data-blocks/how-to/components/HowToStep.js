@@ -331,7 +331,6 @@ export default class HowToStep extends Component {
 					key={ `${ id }-name` }
 					value={ name }
 					onChange={ this.onChangeTitle }
-					isSelected={ isSelected && subElement === "name" }
 					placeholder={ __( "Enter a step title", "wordpress-seo" ) }
 					unstableOnFocus={ this.onFocusTitle }
 					formattingControls={ [ "italic", "strikethrough", "link" ] }
@@ -342,7 +341,6 @@ export default class HowToStep extends Component {
 					key={ `${ id }-text` }
 					value={ text }
 					onChange={ this.onChangeText }
-					isSelected={ isSelected && subElement === "text" }
 					placeholder={ __( "Enter a step description", "wordpress-seo" ) }
 					unstableOnFocus={ this.onFocusText }
 				/>
