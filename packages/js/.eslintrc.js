@@ -42,6 +42,15 @@ module.exports = {
 				complexity: [ 1, 6 ],
 				"brace-style": 1,
 				"max-statements": 1,
+				"max-len": [
+					"error",
+					{
+						code: 150,
+						ignoreStrings: true,
+						ignoreTemplateLiterals: true,
+						ignorePattern: "[\t]*<path [\\w\\W]*/>\n",
+					},
+				],
 				"no-shadow": 1,
 				"require-jsdoc": 1,
 				"react/jsx-no-bind": 1,

@@ -6,6 +6,7 @@ use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Actions\Configuration\Configuration_Workout_Action;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Integrations\Admin\Social_Profiles_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -33,13 +34,22 @@ class Configuration_Workout_Action_Test extends TestCase {
 	protected $options_helper;
 
 	/**
+	 * The social profiles helper.
+	 *
+	 * @var Mockery\MockInterface|Social_Profiles_Helper
+	 */
+	protected $social_profiles_helper;
+
+	/**
 	 * Set up the test fixtures.
 	 */
 	protected function set_up() {
 		parent::set_up();
 
-		$this->options_helper = Mockery::mock( Options_Helper::class );
-		$this->instance       = new Configuration_Workout_Action( $this->options_helper );
+		$this->options_helper         = Mockery::mock( Options_Helper::class );
+		$this->social_profiles_helper = Mockery::mock( Social_Profiles_Helper::class );
+
+		$this->instance = new Configuration_Workout_Action( $this->options_helper, $this->social_profiles_helper );
 	}
 
 	/**
@@ -51,6 +61,10 @@ class Configuration_Workout_Action_Test extends TestCase {
 		$this->assertInstanceOf(
 			Options_Helper::class,
 			$this->getPropertyValue( $this->instance, 'options_helper' )
+		);
+		$this->assertInstanceOf(
+			Social_Profiles_Helper::class,
+			$this->getPropertyValue( $this->instance, 'social_profiles_helper' )
 		);
 	}
 
@@ -180,16 +194,20 @@ class Configuration_Workout_Action_Test extends TestCase {
 	 *
 	 * @dataProvider social_profiles_provider
 	 *
-	 * @param array  $params                The parameters.
-	 * @param int    $times                 The number of times the Options_Helper::set is expected to be called.
-	 * @param bool[] $yoast_options_results The array of expected results.
-	 * @param object $expected              The expected result object.
+	 * @param array  $set_profiles_results The expected results for set_organization_social_profiles().
+	 * @param object $expected             The expected result object.
 	 */
-	public function test_set_social_profiles( $params, $times, $yoast_options_results, $expected ) {
-		$this->options_helper
-			->expects( 'set' )
-			->times( $times )
-			->andReturn( ...$yoast_options_results );
+	public function test_set_social_profiles( $set_profiles_results, $expected ) {
+		$params = [
+			'param1',
+			'param2',
+		];
+
+		$this->social_profiles_helper
+			->expects( 'set_organization_social_profiles' )
+			->with( $params )
+			->once()
+			->andReturn( $set_profiles_results );
 
 		$this->assertEquals(
 			$expected,
@@ -204,145 +222,38 @@ class Configuration_Workout_Action_Test extends TestCase {
 	 */
 	public function social_profiles_provider() {
 		$success_all = [
-			'params'                => [
-				'facebook_site' => 'https://facebook.com/somepage',
-				'twitter_site'  => 'somenick',
-				'instagram_url' => 'https://instagram.com/somepage',
-				'linkedin_url'  => 'https://linked.in/somepage',
-				'myspace_url'   => 'https://myspace.com/somepage',
-				'pinterest_url' => 'https://pinterest.com/somepage',
-				'youtube_url'   => 'https://youtube.com/somepage',
-				'wikipedia_url' => 'https://en.wikipedia.org/somepage',
-			],
-			'times'                 => 8,
-			'yoast_options_results' => [ true ],
-			'expected'              => (object) [
+			'set_profiles_results' => [],
+			'expected'             => (object) [
 				'success' => true,
 				'status'  => 200,
 			],
 		];
 
 		$success_some = [
-			'params'                => [
-				'facebook_site' => 'https://facebook.com/somepage',
-				'twitter_site'  => 'somenick',
-				'myspace_url'   => 'https://myspace.com/somepage',
-				'wikipedia_url' => 'https://en.wikipedia.org/somepage',
-			],
-			'times'                 => 4,
-			'yoast_options_results' => [ true ],
-			'expected'              => (object) [
-				'success' => true,
-				'status'  => 200,
+			'set_profiles_results' => [ 'param1' ],
+			'expected'             => (object) [
+				'success'  => false,
+				'status'   => 200,
+				'error'    => 'Could not save some options in the database',
+				'failures' => [ 'param1' ],
 			],
 		];
 
-		$some_failures = [
-			'params'                => [
-				'facebook_site' => 'https://facebook.com/somepage',
-				'twitter_site'  => 'somenick',
-				'instagram_url' => 'https://instagram.com/somepage',
-				'linkedin_url'  => 'https://linked.in/somepage',
-				'myspace_url'   => 'https://myspace.com/somepage',
-				'pinterest_url' => 'https://pinterest.com/somepage',
-				'youtube_url'   => 'https://youtube.com/somepage',
-				'wikipedia_url' => 'https://en.wikipedia.org/somepage',
-			],
-			'times'                 => 8,
-			'yoast_options_results' => [ true, true, false, false, true, false, true, false ],
+		$success_none = [
+			'yoast_options_results' => [ 'param1', 'param2' ],
 			'expected'              => (object) [
 				'success'  => false,
-				'status'   => 500,
+				'status'   => 200,
 				'error'    => 'Could not save some options in the database',
-				'failures' => [ 'instagram_url', 'linkedin_url', 'pinterest_url', 'wikipedia_url' ],
+				'failures' => [ 'param1', 'param2' ],
 			],
 		];
 
 		return [
-			'Successful call with all params'  => $success_all,
-			'Successful call with some params' => $success_some,
-			'Some failures'                    => $some_failures,
+			'Successful call with all params' => $success_all,
+			'Failed call with some params'    => $success_some,
+			'Failed call with all params'     => $success_none,
 		];
-	}
-
-	/**
-	 * Tests setting the social profiles options in the database when Twitter value is a URL.
-	 *
-	 * @covers ::set_social_profiles
-	 */
-	public function test_set_social_profiles_twitter_url() {
-		$params = [
-			'facebook_site' => 'https://facebook.com/somepage',
-			'twitter_site'  => 'https://twitter.com/somenick',
-			'instagram_url' => 'https://instagram.com/somepage',
-			'linkedin_url'  => 'https://linked.in/somepage',
-			'myspace_url'   => 'https://myspace.com/somepage',
-			'pinterest_url' => 'https://pinterest.com/somepage',
-			'youtube_url'   => 'https://youtube.com/somepage',
-			'wikipedia_url' => 'https://en.wikipedia.org/somepage',
-		];
-
-		$yoast_options_results = [ true, false, false, false, true, false, true, false ];
-
-		$this->options_helper
-			->expects( 'set' )
-			->times( 8 )
-			->andReturn( ...$yoast_options_results );
-
-		$this->options_helper
-			->expects( 'get' )
-			->with( 'twitter_site' )
-			->andReturn( 'somenick' );
-
-		$this->assertEquals(
-			(object) [
-				'success'  => false,
-				'status'   => 500,
-				'error'    => 'Could not save some options in the database',
-				'failures' => [ 'instagram_url', 'linkedin_url', 'pinterest_url', 'wikipedia_url' ],
-			],
-			$this->instance->set_social_profiles( $params )
-		);
-	}
-
-	/**
-	 * Tests setting the social profiles options in the database when Twitter value is a URL and saving fails.
-	 *
-	 * @covers ::set_social_profiles
-	 */
-	public function test_set_social_profiles_twitter_url_failure() {
-		$params = [
-			'facebook_site' => 'https://facebook.com/somepage',
-			'twitter_site'  => 'https://twitter.com/somenick',
-			'instagram_url' => 'https://instagram.com/somepage',
-			'linkedin_url'  => 'https://linked.in/somepage',
-			'myspace_url'   => 'https://myspace.com/somepage',
-			'pinterest_url' => 'https://pinterest.com/somepage',
-			'youtube_url'   => 'https://youtube.com/somepage',
-			'wikipedia_url' => 'https://en.wikipedia.org/somepage',
-		];
-
-		$yoast_options_results = [ true, false, false, false, true, false, true, false ];
-
-		$this->options_helper
-			->expects( 'set' )
-			->times( 8 )
-			->andReturn( ...$yoast_options_results );
-
-		$this->options_helper
-			->expects( 'get' )
-			->with( 'twitter_site' )
-			->andReturn( 'someothernick' );
-
-		$this->assertEquals(
-			(object) [
-				'success'  => false,
-				'status'   => 500,
-				'error'    => 'Could not save some options in the database',
-				'failures' => [ 'twitter_site', 'instagram_url', 'linkedin_url', 'pinterest_url', 'wikipedia_url' ],
-			],
-			$this->instance->set_social_profiles( $params )
-		);
 	}
 
 	/**

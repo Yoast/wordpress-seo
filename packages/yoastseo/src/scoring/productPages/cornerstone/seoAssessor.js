@@ -8,7 +8,7 @@ import KeywordDensityAssessment from "../../assessments/seo/KeywordDensityAssess
 import MetaDescriptionKeywordAssessment from "../../assessments/seo/MetaDescriptionKeywordAssessment";
 import TextCompetingLinksAssessment from "../../assessments/seo/TextCompetingLinksAssessment";
 import TitleKeywordAssessment from "../../assessments/seo/TitleKeywordAssessment";
-import UrlKeywordAssessment from "../../assessments/seo/UrlKeywordAssessment";
+import SlugKeywordAssessment from "../../assessments/seo/UrlKeywordAssessment";
 import Assessor from "../../assessor";
 import SEOAssessor from "../seoAssessor";
 import MetaDescriptionLength from "../../assessments/seo/MetaDescriptionLengthAssessment";
@@ -97,7 +97,7 @@ const ProductCornerstoneSEOAssessor = function( researcher, options ) {
 			urlTitle: createAnchorOpeningTag( options.titleWidthUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.titleWidthCTAUrl ),
 		}, true ),
-		new UrlKeywordAssessment(
+		new SlugKeywordAssessment(
 			{
 				scores: {
 					okay: 3,

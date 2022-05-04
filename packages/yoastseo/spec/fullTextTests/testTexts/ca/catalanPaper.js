@@ -13,7 +13,7 @@ const paper = new Paper( content, {
 	titleWidth: 450,
 	locale: "ca",
 	permalink: "https://ca.wikipedia.org/wiki/Cl%C3%A0ssic",
-	url: "Clàssic",
+	slug: "Clàssic",
 } );
 
 const expectedResults = {
@@ -83,7 +83,7 @@ const expectedResults = {
 		score: 9,
 		resultText: "<a href='https://yoa.st/34h' target='_blank'>SEO title width</a>: Good job!",
 	},
-	urlKeyword: {
+	slugKeyword: {
 		isApplicable: true,
 		score: 9,
 		resultText: "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: Great work!",

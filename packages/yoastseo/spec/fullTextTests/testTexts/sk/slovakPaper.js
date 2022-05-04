@@ -12,7 +12,7 @@ const paper = new Paper( content, {
 	titleWidth: 450,
 	locale: "sk_SK",
 	permalink: "https://sk.wikipedia.org/wiki/Britsk%C3%A1_ma%C4%8Dka",
-	url: "Britsk%C3%A1_ma%C4%8Dka",
+	slug: "Britsk%C3%A1_ma%C4%8Dka",
 } );
 
 const expectedResults = {
@@ -83,7 +83,7 @@ const expectedResults = {
 		score: 9,
 		resultText: "<a href='https://yoa.st/34h' target='_blank'>SEO title width</a>: Good job!",
 	},
-	urlKeyword: {
+	slugKeyword: {
 		isApplicable: true,
 		score: 6,
 		resultText: "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: (Part of) your keyphrase does not appear in the slug. " +

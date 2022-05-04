@@ -4,7 +4,6 @@ namespace Yoast\WP\SEO\Integrations\Admin;
 
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
-use Yoast\WP\SEO\Conditionals\Installation_Success_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -32,7 +31,7 @@ class Installation_Success_Integration implements Integration_Interface {
 	 * {@inheritDoc}
 	 */
 	public static function get_conditionals() {
-		return [ Admin_Conditional::class, Installation_Success_Conditional::class ];
+		return [ Admin_Conditional::class ];
 	}
 
 	/**
@@ -119,7 +118,7 @@ class Installation_Success_Integration implements Integration_Interface {
 
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 		$asset_manager->enqueue_script( 'installation-success' );
-		$asset_manager->enqueue_style( 'installation-success' );
+		$asset_manager->enqueue_style( 'tailwind' );
 		$asset_manager->enqueue_style( 'monorepo' );
 
 		$asset_manager->localize_script(
@@ -127,7 +126,7 @@ class Installation_Success_Integration implements Integration_Interface {
 			'wpseoInstallationSuccess',
 			[
 				'pluginUrl'                 => \esc_url( \plugins_url( '', \WPSEO_FILE ) ),
-				'configurationWorkoutUrl'   => \esc_url( \admin_url( 'admin.php?page=wpseo_workouts#configuration' ) ),
+				'configurationWorkoutUrl'   => \esc_url( \admin_url( 'admin.php?page=wpseo_dashboard#top#first-time-configuration' ) ),
 				'canDoConfigurationWorkout' => \current_user_can( 'wpseo_manage_options' ),
 				'canEditWordPressOptions'   => \current_user_can( 'manage_options' ),
 			]
