@@ -100,7 +100,7 @@ class Json_Text_Fields_Validator extends String_Validator {
 	 * Checks if a key is allowed.
 	 *
 	 * The settings can have an allow-list. If that exists, the key should be present there to be allowed. Otherwise,
-	 * the key is allowed.
+	 * the key is disallowed.
 	 *
 	 * @param mixed      $key      The key to check.
 	 * @param array|null $settings Optional settings.
