@@ -12,7 +12,7 @@ const paper = new Paper( content, {
 	titleWidth: 450,
 	locale: "id_ID",
 	permalink: "https://id.wikipedia.org/wiki/Persekutuan_Franka-Mongol",
-	url: "Persekutuan_Franka-Mongol",
+	slug: "Persekutuan_Franka-Mongol",
 } );
 
 const expectedResults = {
@@ -76,7 +76,7 @@ const expectedResults = {
 		score: 9,
 		resultText: "<a href='https://yoa.st/34h' target='_blank'>SEO title width</a>: Good job!",
 	},
-	urlKeyword: {
+	slugKeyword: {
 		isApplicable: true,
 		score: 9,
 		resultText: "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: Great work!",

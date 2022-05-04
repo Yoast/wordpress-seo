@@ -61,8 +61,6 @@ class WPSEO_Sitemaps_Renderer_Test extends WPSEO_UnitTestCase {
 		$image_a = 'http://example.com/image.jpg';
 		$image_b = 'example.com/my category/my=page*without"enco@ding/';
 		$image_c = '//example.com/my category?s=keyword&p=2';
-		$title   = 'Image title.';
-		$alt     = 'Image alt.';
 		$links   = [
 			[
 				'loc'    => $loc,
@@ -72,18 +70,12 @@ class WPSEO_Sitemaps_Renderer_Test extends WPSEO_UnitTestCase {
 				'images' => [
 					[
 						'src'   => $image_a,
-						'title' => $title . 'A',
-						'alt'   => $alt . 'A',
 					],
 					[
 						'src'   => $image_b,
-						'title' => $title . 'B',
-						'alt'   => $alt . 'B',
 					],
 					[
 						'src'   => $image_c,
-						'title' => $title . 'C',
-						'alt'   => $alt . 'C',
 					],
 				],
 			],
@@ -98,8 +90,6 @@ class WPSEO_Sitemaps_Renderer_Test extends WPSEO_UnitTestCase {
 		$this->assertStringContainsString( "<image:loc>{$image_a}</image:loc>", $index );
 		$this->assertStringContainsString( "<image:loc>{$expected_b}</image:loc>", $index );
 		$this->assertStringContainsString( "<image:loc>{$expected_c}</image:loc>", $index );
-		$this->assertStringContainsString( "<image:title><![CDATA[{$title}A]]></image:title>", $index );
-		$this->assertStringContainsString( "<image:caption><![CDATA[{$alt}C]]></image:caption>", $index );
 	}
 
 	/**

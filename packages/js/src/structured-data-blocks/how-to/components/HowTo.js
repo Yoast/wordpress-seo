@@ -735,7 +735,7 @@ export default class HowTo extends Component {
 					className="schema-how-to-description"
 					value={ attributes.description }
 					isSelected={ this.state.focus === "description" }
-					unstableOnFocus={ this.focusDescription }
+					onFocus={ this.focusDescription }
 					onChange={ this.onChangeDescription }
 					placeholder={ __( "Enter a description", "wordpress-seo" ) }
 				/>

@@ -78,6 +78,7 @@ class WPSEO_Upgrade {
 			'17.9-RC0'   => 'upgrade_179',
 			'18.3-RC3'   => 'upgrade_183',
 			'18.6-RC0'   => 'upgrade_186',
+			'18.8-RC0'   => 'upgrade_188',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -878,6 +879,21 @@ class WPSEO_Upgrade {
 		if ( is_multisite() ) {
 			WPSEO_Options::set( 'allow_wincher_integration_active', false );
 		}
+	}
+
+	/**
+	 * Performs the 18.8 upgrade routine.
+	 */
+	private function upgrade_188() {
+		$other   = [];
+		$other[] = WPSEO_Options::get( 'instagram_url' );
+		$other[] = WPSEO_Options::get( 'linkedin_url' );
+		$other[] = WPSEO_Options::get( 'myspace_url' );
+		$other[] = WPSEO_Options::get( 'pinterest_url' );
+		$other[] = WPSEO_Options::get( 'youtube_url' );
+		$other[] = WPSEO_Options::get( 'wikipedia_url' );
+
+		WPSEO_Options::set( 'other_social_urls', array_values( array_unique( array_filter( $other ) ) ) );
 	}
 
 	/**

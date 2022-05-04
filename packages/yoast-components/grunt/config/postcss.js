@@ -2,7 +2,7 @@ const cssnano = require( "cssnano" );
 const autoprefixer = require( "autoprefixer" );
 const postcssImport = require( "postcss-import" );
 
-// See https://github.com/nDmitry/grunt-postcss
+// See https://github.com/C-Lodder/grunt-postcss
 module.exports = {
 	options: {
 		processors: [

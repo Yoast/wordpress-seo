@@ -395,6 +395,17 @@ export default function initAdmin( jQuery ) {
 			}
 
 			jQuery( window ).trigger( "yoast-seo-tab-change" );
+
+			if ( id === "first-time-configuration" ) {
+				jQuery( "#yoast-first-time-configuration-notice" ).slideUp();
+			} else {
+				jQuery( "#yoast-first-time-configuration-notice" ).slideDown();
+			}
+		} );
+
+		// Handle the link in the first-time notice when in General page.
+		jQuery( "#yoast-first-time-configuration-notice a" ).on( "click", function() {
+			jQuery( "#first-time-configuration-tab" ).click();
 		} );
 
 		// Handle the Company or Person select.

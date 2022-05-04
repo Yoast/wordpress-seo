@@ -84,11 +84,6 @@
 	margin-left:48px;
 }
 
-#yoast-configuration-workout p {
-	line-height: 19px;
-	color: rgb(60, 67, 74)
-}
-
 /* Override premium 17.6 workout styles */
 .workflow li li {
 	counter-increment: none;

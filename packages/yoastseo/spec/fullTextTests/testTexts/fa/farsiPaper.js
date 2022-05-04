@@ -11,7 +11,7 @@ const paper = new Paper( content, {
 	titleWidth: 450,
 	locale: "fa_IR",
 	permalink: "https://fa.wikipedia.org/wiki/%DA%AF%D8%B4%D8%AA%D8%A7_%D9%81%D8%B1%D8%A7%D9%86%DA%A9%D8%A7%D8%B1%D9%88%D9%85",
-	url: "گشتا_فرانکاروم",
+	slug: "گشتا_فرانکاروم",
 } );
 
 const expectedResults = {
@@ -84,7 +84,7 @@ const expectedResults = {
 		score: 9,
 		resultText: "<a href='https://yoa.st/34h' target='_blank'>SEO title width</a>: Good job!",
 	},
-	urlKeyword: {
+	slugKeyword: {
 		isApplicable: true,
 		score: 9,
 		resultText: "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: Great work!",

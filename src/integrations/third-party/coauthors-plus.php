@@ -4,7 +4,9 @@ namespace Yoast\WP\SEO\Integrations\Third_Party;
 
 use Yoast\WP\SEO\Config\Schema_Types;
 use Yoast\WP\SEO\Conditionals\Third_Party\CoAuthors_Plus_Activated_Conditional;
+use Yoast\WP\SEO\Conditionals\Third_Party\CoAuthors_Plus_Flag_Conditional;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
+use Yoast\WP\SEO\Generators\Schema\Abstract_Schema_Piece;
 use Yoast\WP\SEO\Generators\Schema\Third_Party\CoAuthor;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Surfaces\Helpers_Surface;
@@ -37,7 +39,10 @@ class CoAuthors_Plus implements Integration_Interface {
 	 * @return array
 	 */
 	public static function get_conditionals() {
-		return [ CoAuthors_Plus_Activated_Conditional::class ];
+		return [
+			CoAuthors_Plus_Activated_Conditional::class,
+			CoAuthors_Plus_Flag_Conditional::class,
+		];
 	}
 
 	/**
@@ -116,9 +121,6 @@ class CoAuthors_Plus implements Integration_Interface {
 			$author_generator->helpers = $this->helpers;
 			$author_data               = $author_generator->generate_from_user_id( $author->ID );
 			if ( ! empty( $author_data ) ) {
-				if ( $context->site_represents !== 'person' || $author->ID !== $context->site_user_id ) {
-					$data[] = $author_data;
-				}
 				$ids[] = [ '@id' => $author_data['@id'] ];
 			}
 		}
@@ -127,10 +129,20 @@ class CoAuthors_Plus implements Integration_Interface {
 		$article_types = $schema_types->get_article_type_options_values();
 
 		// Change the author reference to reference our multiple authors.
+		$add_to_graph = false;
 		foreach ( $data as $key => $piece ) {
 			if ( \in_array( $piece['@type'], $article_types, true ) ) {
 				$data[ $key ]['author'] = \array_merge( [ $piece['author'] ], $ids );
+				$add_to_graph           = true;
 				break;
+			}
+		}
+
+		if ( $add_to_graph ) {
+			if ( ! empty( $author_data ) ) {
+				if ( $context->site_represents !== 'person' || $author->ID !== $context->site_user_id ) {
+					$data[] = $author_data;
+				}
 			}
 		}
 
