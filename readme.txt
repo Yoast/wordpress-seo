@@ -242,10 +242,10 @@ Release Date: May 17th, 2022
 
 Enhancements:
 
-* Adds an \"installation successful\" page to welcome first-time users.
+* Adds an `installation successful` page to welcome first-time users.
 * Introduces the First-time configuration, replacing and improving the Configuration Workout.
 * Removes XML sitemap image properties `title` and `caption` following deprecation by Google.
-* Renames the main admin menu item to \"Yoast SEO\" instead of \"SEO\".
+* Renames the main admin menu item to `Yoast SEO` instead of `SEO`.
 
 Bugfixes:
 
