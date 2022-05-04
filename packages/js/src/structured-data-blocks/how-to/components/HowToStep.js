@@ -331,9 +331,8 @@ export default class HowToStep extends Component {
 					key={ `${ id }-name` }
 					value={ name }
 					onChange={ this.onChangeTitle }
-					isSelected={ isSelected && subElement === "name" }
 					placeholder={ __( "Enter a step title", "wordpress-seo" ) }
-					onFocus={ this.onFocusTitle }
+					unstableOnFocus={ this.onFocusTitle }
 					formattingControls={ [ "italic", "strikethrough", "link" ] }
 				/>
 				<RichTextWithAppendedSpace
@@ -342,9 +341,8 @@ export default class HowToStep extends Component {
 					key={ `${ id }-text` }
 					value={ text }
 					onChange={ this.onChangeText }
-					isSelected={ isSelected && subElement === "text" }
 					placeholder={ __( "Enter a step description", "wordpress-seo" ) }
-					onFocus={ this.onFocusText }
+					unstableOnFocus={ this.onFocusText }
 				/>
 				{ isSelected &&
 					<div className="schema-how-to-step-controls-container">
