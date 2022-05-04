@@ -333,7 +333,7 @@ export default class HowToStep extends Component {
 					onChange={ this.onChangeTitle }
 					isSelected={ isSelected && subElement === "name" }
 					placeholder={ __( "Enter a step title", "wordpress-seo" ) }
-					onFocus={ this.onFocusTitle }
+					unstableOnFocus={ this.onFocusTitle }
 					formattingControls={ [ "italic", "strikethrough", "link" ] }
 				/>
 				<RichTextWithAppendedSpace
@@ -344,7 +344,7 @@ export default class HowToStep extends Component {
 					onChange={ this.onChangeText }
 					isSelected={ isSelected && subElement === "text" }
 					placeholder={ __( "Enter a step description", "wordpress-seo" ) }
-					onFocus={ this.onFocusText }
+					unstableOnFocus={ this.onFocusText }
 				/>
 				{ isSelected &&
 					<div className="schema-how-to-step-controls-container">
