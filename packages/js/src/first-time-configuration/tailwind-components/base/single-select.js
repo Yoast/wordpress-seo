@@ -1,6 +1,6 @@
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ExclamationCircleIcon, SelectorIcon } from "@heroicons/react/solid";
-import { Fragment, useMemo, useState } from "@wordpress/element";
+import { Fragment, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import classNames from "classnames";
 import { PropTypes } from "prop-types";
@@ -20,16 +20,10 @@ import MultiLineText from "./multi-line-text";
  * @returns {WPElement} The Select element.
  */
 export default function Select( { id, value, choices, label, onChange, error, disabled } ) {
-	const [ valueSelected, setValueSelected ] = useState( false );
-
 	// Find label to display for value of selected choice.
 	const valueLabel = useMemo( () => {
 		const selectedChoice = choices.find( ( choice ) => value === choice.value );
-		if ( ! selectedChoice ) {
-			return  __( "Select an option", "wordpress-seo" );
-		}
-		setValueSelected( true );
-		return selectedChoice.label;
+		return selectedChoice ? selectedChoice.label : __( "Select an option", "wordpress-seo" );
 	}, [ choices, value ] );
 
 	return (
@@ -44,10 +38,9 @@ export default function Select( { id, value, choices, label, onChange, error, di
 									"yst-relative yst-h-[45px] yst-w-full yst-leading-6 yst-py-2 yst-pl-3 yst-pr-10 yst-text-left yst-bg-white yst-border yst-border-gray-300 yst-rounded-md yst-shadow-sm yst-cursor-default focus:yst-outline-none focus:yst-ring-1 focus:yst-ring-primary-500 focus:yst-border-primary-500 sm:yst-text-sm",
 									{
 										"yst-border-red-300": error.isVisible,
-										"yst-text-gray-400": ! valueSelected,
-										"yst-text-gray-700": valueSelected,
 										"yst-opacity-50": disabled,
-									}
+									},
+									value === "emptyChoice" ? "yst-text-gray-400" : "yst-text-gray-700"
 								) }
 								{ ...getErrorAriaProps( id, error ) }
 							>

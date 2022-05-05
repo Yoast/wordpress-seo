@@ -304,7 +304,7 @@ function calculateInitialState( windowObject, isStepFinished ) {
 
 	if ( shouldForceCompany ) {
 		companyOrPerson = "company";
-	} else if ( companyOrPerson === "company" && ( ! companyName && ! companyLogo ) && ! isStepFinished( 2 ) ) {
+	} else if ( companyOrPerson === "company" && ( ! companyName && ! companyLogo ) && ! isStepFinished( STEPS.siteRepresentation ) ) {
 		// Set the stage for an empty step 2 in case the customer does seem to have consciously finished step 2 without setting data.
 		companyOrPerson = "emptyChoice";
 	}
