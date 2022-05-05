@@ -19,7 +19,7 @@ function getNameClassNames( isFinished, isActiveStep, isLastStep ) {
 	if ( isActiveStep && ! isLastStep ) {
 		return "yst-text-primary-500";
 	}
-	return isFinished ? "" : "yst-text-gray-500";
+	return isFinished ? "yst-text-gray-900" : "yst-text-gray-500";
 }
 
 /* eslint-disable complexity */
