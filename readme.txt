@@ -251,7 +251,7 @@ Bugfixes:
 * Fixes a bug where the global var $post is sometimes modified unexpectedly. Props to [grantalltodavid](https://github.com/grantalltodavid).
 
 = 18.8 =
-Release Date: May 17th, 2022
+Release Date: May 6th, 2022
 
 Enhancements:
 
