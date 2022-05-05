@@ -51,6 +51,25 @@ function SocialProfilesWrapper() {
 		setIsSaved( false );
 	}, [ facebookValue, twitterValue, otherSocialUrls ] );
 
+	/* eslint-disable max-len */
+	useEffect( () => {
+		/**
+		 * Prevents the submission of the form upon pressing enter.
+		 *
+		 * @param {KeyboardEvent} event The keydown event this function is listening to.
+		 *
+		 * @returns {void}
+		 */
+		function preventEnterSubmit( event ) {
+			if ( event.key === "Enter" && document.querySelector( ".nav-tab.nav-tab-active" ).id === "accounts-tab" && event.target.tagName === "INPUT" ) {
+				event.preventDefault();
+			}
+		}
+
+		addEventListener( "keydown", preventEnterSubmit );
+		return () => removeEventListener( "keydown", preventEnterSubmit );
+	}, [] );
+
 	const onSaveHandler = useCallback( () => {
 		updateSocialProfiles( facebookValue, twitterValue, otherSocialUrls )
 			.then( ( response ) => {

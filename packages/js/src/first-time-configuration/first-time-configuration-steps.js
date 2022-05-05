@@ -563,7 +563,7 @@ export default function FirstTimeConfigurationSteps() {
 		 * @returns {void}
 		 */
 		function preventEnterSubmit( event ) {
-			if ( event.key === "Enter" && event.target.tagName === "INPUT" ) {
+			if ( event.key === "Enter" && document.querySelector( ".nav-tab.nav-tab-active" ).id === "first-time-configuration-tab" && event.target.tagName === "INPUT" ) {
 				event.preventDefault();
 			}
 		}
