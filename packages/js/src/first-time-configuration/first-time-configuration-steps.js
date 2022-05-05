@@ -282,6 +282,13 @@ async function updateTracking( state ) {
 	return await response.json;
 }
 
+/**
+ * Saves the first time configuration finished steps in the database.
+ *
+ * @param {Array} finishedSteps Array of finished steps.
+ *
+ * @returns {Promise|bool} A promise, or false if the call fails.
+ */
 async function saveFinishedSteps( finishedSteps ) {
 	const response = await apiFetch( {
 		path: "yoast/v1/configuration/save_configuration_state",
