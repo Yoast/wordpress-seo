@@ -93,7 +93,7 @@ export default function YoastComboBox( { value, label, onChange, onQueryChange, 
 							as="div"
 						>
 							<Combobox.Input
-								className="yst-w-full yst-text-gray-700 yst-rounded-md yst-border-0 yst-outline-none yst-bg-white yst-py-2 yst-pl-0 yst-pr-10 yst-shadow-sm sm:yst-text-sm"
+								className="yst-w-full yst-text-gray-700 yst-rounded-md yst-border-0 yst-outline-none yst-bg-white yst-py-2 yst-pl-0 yst-pr-10 yst-shadow-none sm:yst-text-sm"
 								onChange={ handleInputChange }
 								displayValue={ getDisplayValue }
 								placeholder={ placeholder }
