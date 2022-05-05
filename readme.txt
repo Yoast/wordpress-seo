@@ -241,15 +241,7 @@ Release Date: May 17th, 2022
 
 Enhancements:
 
-* Adds an `installation successful` page to welcome first-time users.
-* Introduces the First-time configuration, replacing and improving the Configuration Workout.
-* Removes XML sitemap image properties `title` and `caption` following deprecation by Google.
-* Renames the main admin menu item to `Yoast SEO` instead of `SEO`.
-
-Bugfixes:
-
-* Fixes a bug that would lead to race conditions when using persistent object caching.
-* Fixes a bug where the global var $post is sometimes modified unexpectedly. Props to [grantalltodavid](https://github.com/grantalltodavid).
+* Removes XML sitemap image properties title and caption following deprecation by Google.
 
 = 18.7 =
 Release Date: May 3rd, 2022
