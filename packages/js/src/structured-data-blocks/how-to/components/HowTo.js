@@ -325,7 +325,7 @@ export default class HowTo extends Component {
 			return null;
 		}
 
-		const [ focusIndex, subElement ] = this.state.focus.split( ":" );
+		const [ focusIndex ] = this.state.focus.split( ":" );
 
 		return this.props.attributes.steps.map( ( step, index ) => {
 			return (
@@ -337,7 +337,6 @@ export default class HowTo extends Component {
 					insertStep={ this.insertStep }
 					removeStep={ this.removeStep }
 					onFocus={ this.setFocusToStep }
-					subElement={ subElement }
 					onMoveUp={ this.moveStepUp }
 					onMoveDown={ this.moveStepDown }
 					isFirst={ index === 0 }
