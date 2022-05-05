@@ -151,7 +151,7 @@ function SocialProfilesWrapper() {
 				<Fragment>
 					<h2 className="yst-text-lg yst-text-primary-500 yst-font-medium">{ __( "Personal social profiles", "wordpress-seo" ) }</h2>
 					<p className="yst-mt-4 yst-text-gray-500">{
-						/* translators: 1: a link to the user edit page, containing the name of the user selected as the person this site represents */
+						/* translators: 1: a colon (:) followed by a link to the user edit page, containing the name of the user selected as the person this site represents */
 						addLinkToString(
 							sprintf(
 								__( "Your website is currently configured to represent a Person. If you want to edit the social accounts for your site, please go to the user profile of the selected person%1$s.", "wordpress-seo" ),
