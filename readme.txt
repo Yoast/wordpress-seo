@@ -236,28 +236,28 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 18.9 =
+Release Date: May 17th, 2022
+
+
+Enhancements:
+
+* Adds an `installation successful` page to welcome first-time users.
+* Introduces the First-time configuration, replacing and improving the Configuration Workout.
+* Removes XML sitemap image properties `title` and `caption` following deprecation by Google.
+* Renames the main admin menu item to `Yoast SEO` instead of `SEO`.
+
+Bugfixes:
+
+* Fixes a bug that would lead to race conditions when using persistent object caching.
+* Fixes a bug where the global var $post is sometimes modified unexpectedly. Props to [grantalltodavid](https://github.com/grantalltodavid).
+
 = 18.8 =
 Release Date: May 17th, 2022
 
 Enhancements:
 
 * Removes XML sitemap image properties title and caption following deprecation by Google.
-
-= 18.7 =
-Release Date: May 3rd, 2022
-
-Meet Yoast SEO 18.7: a small Yoast SEO update, fixing several bugs and adding enhancements. We improved our Schema structured data implementation in this release and fine-tuned our SEO analyses. Read more about what's new in Yoast SEO 18.7 in [our release post in English](https://yoa.st/release-3-5-22) or [our release post in Spanish](https://yoa.st/release-3-5-22-spanish)!
-
-Enhancements:
-
-* Improves the Schema by changing the `@id` for images for `Person` and `Organization` including the `logo` attribute for the latter, to have a more proper format.
-* Adds a `wpseo_schema_graph` filter to allow filtering the entire Schema graph.
-* Removes penalising for H1 that is not at the beginning of the text body.
-
-Bugfixes:
-
-* Fixes a bug in the Schema where the `thumbnailUrl` attribute of the `Article` object would be wrong if the post had an Open Graph or Twitter image.
-* Fixes typos of several types in brand names and the word metadata. Props to [NekoJonez](https://github.com/NekoJonez).
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
