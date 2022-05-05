@@ -131,7 +131,13 @@ class WPSEO_Admin_Pages {
 		}
 
 		if ( $page === 'wpseo_social' ) {
-			$script_data['social'] = true;
+			$script_data['social'] = [
+				'facebook_url'      => WPSEO_Options::get( 'facebook_site', '' ),
+				'twitter_username'  => WPSEO_Options::get( 'twitter_site', '' ),
+				'other_social_urls' => WPSEO_Options::get( 'other_social_urls', [] ),
+				'company_or_person' => WPSEO_Options::get( 'company_or_person', '' ),
+			];
+			$script_data['search_appearance_link'] = admin_url( 'admin.php?page=wpseo_titles' );
 		}
 
 		$this->asset_manager->localize_script( 'settings', 'wpseoScriptData', $script_data );

@@ -47,23 +47,6 @@ if ( $company_or_person === 'person' ) {
 
 if ( $company_or_person === 'company' ) {
 	// phpcs:ignore WordPress.Security.EscapeOutput -- string is properly escaped.
-	echo '<h2>' . esc_html__( 'Organization\'s social profiles', 'wordpress-seo' ) . '</h2>';
-	echo '<p>';
-	printf(
-		/* translators: 1: link tag to the first time configuration; 2: link close tag. */
-		esc_html__( 'Your website is currently configured to represent an Organization. If you want to edit the social accounts for your site, please go to the %1$sfirst-time configuration%2$s and navigate to the \'Social profiles\' step.', 'wordpress-seo' ),
-		'<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_dashboard#top#first-time-configuration' ) ) . '">',
-		'</a>'
-	);
-	echo '</p>';
-	echo '<p>';
-	printf(
-		/* translators: 1: link tag to the relevant WPSEO admin page; 2: link close tag. */
-		esc_html__( 'If you want your site to represent a Person, please select \'Person\' in the \'Knowledge Graph & Schema.org\' section of the %1$sSearch Appearance%2$s settings.', 'wordpress-seo' ),
-		'<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_titles' ) ) . '">',
-		'</a>'
-	);
-	echo '</p>';
 	echo '<div id="yoast-social-profiles"></div>';
 }
 
