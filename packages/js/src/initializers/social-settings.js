@@ -39,19 +39,26 @@ function SocialProfilesWrapper() {
 		setOtherSocialUrls( prevState => [ ...prevState, "" ] );
 	}, [ setOtherSocialUrls ] );
 	return (
-		<SocialInputSection
+		<div
 			className="yst-root yst-bg-white yst-rounded-lg yst-p-6 yst-shadow-md yst-max-w-2xl yoast-social-profiles-input-fields"
-			socialProfiles={ {
-				facebookUrl: facebookValue,
-				twitterUsername: twitterValue,
-				otherSocialUrls: otherSocialUrls,
-			} }
-			onChangeHandler={ onChangeHandler }
-			onRemoveProfileHandler={ onRemoveProfileHandler }
-			onChangeOthersHandler={ onChangeOthersHandler }
-			onAddProfileHandler={ onAddProfileHandler }
-			errorFields={ errorFields }
-		/>
+		>
+			<SocialInputSection
+				socialProfiles={ {
+					facebookUrl: facebookValue,
+					twitterUsername: twitterValue,
+					otherSocialUrls: otherSocialUrls,
+				} }
+				onChangeHandler={ onChangeHandler }
+				onRemoveProfileHandler={ onRemoveProfileHandler }
+				onChangeOthersHandler={ onChangeOthersHandler }
+				onAddProfileHandler={ onAddProfileHandler }
+				errorFields={ errorFields }
+			/>
+			<button
+				className="yst-button yst-button--primary yst-mt-8"
+				type="button"
+			>{ __( "Save changes", "wordpress-seo" ) }</button>
+		</div>
 	);
 }
 

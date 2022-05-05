@@ -79,10 +79,9 @@ export function SocialInputSection(	{
 	onAddProfileHandler,
 	onRemoveProfileHandler,
 	errorFields,
-	className,
 } ) {
 	return (
-		<div id="social-input-section" className={ className }>
+		<div id="social-input-section">
 			<SocialInput
 				className="yst-mt-4"
 				label={ __( "Facebook", "wordpress-seo" ) }
@@ -130,9 +129,4 @@ SocialInputSection.propTypes = {
 	onAddProfileHandler: PropTypes.func.isRequired,
 	onRemoveProfileHandler: PropTypes.func.isRequired,
 	errorFields: PropTypes.array.isRequired,
-	className: PropTypes.string,
-};
-
-SocialInputSection.defaultProps = {
-	className: "",
 };
