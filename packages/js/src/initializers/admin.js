@@ -381,20 +381,41 @@ export default function initAdmin( jQuery ) {
 
 		// Handle the settings pages tabs.
 		jQuery( "#wpseo-tabs" ).find( "a" ).on( "click", function() {
-			jQuery( "#wpseo-tabs" ).find( "a" ).removeClass( "nav-tab-active" );
-			jQuery( ".wpseotab" ).removeClass( "active" );
+			// Is the user in the first time configuration tab?
+			var comingFromFTCTab = !! jQuery( "#wpseo-tabs" ).find( "a" ).filter( ".nav-tab-active" ).filter( "#first-time-configuration-tab" ).length;
+			// Does the user wants to switch to the first time configuration tab?
+			var goingToFTCTab = !! jQuery( this ).filter( "#first-time-configuration-tab" ).length;
 
-			var id = jQuery( this ).attr( "id" ).replace( "-tab", "" );
-			var activeTab = jQuery( "#" + id );
-			activeTab.addClass( "active" );
-			jQuery( this ).addClass( "nav-tab-active" );
-			if ( activeTab.hasClass( "nosave" ) ) {
-				jQuery( "#wpseo-submit-container" ).hide();
-			} else {
-				jQuery( "#wpseo-submit-container" ).show();
+			var canChangeTab = true;
+
+			/**
+			 * Show the pop-up iff the user is in the first time configuration tab
+			 * and clicks on a tab which is different from the first time configuration tab
+			*/
+			if ( comingFromFTCTab && ! goingToFTCTab ) {
+				/* eslint-disable no-alert */
+				canChangeTab = confirm( "Are you sure you want to leave the page?" );
 			}
 
-			jQuery( window ).trigger( "yoast-seo-tab-change" );
+			if ( canChangeTab ) {
+				jQuery( "#wpseo-tabs" ).find( "a" ).removeClass( "nav-tab-active" );
+				jQuery( ".wpseotab" ).removeClass( "active" );
+
+				var id = jQuery( this ).attr( "id" ).replace( "-tab", "" );
+				var activeTab = jQuery( "#" + id );
+				activeTab.addClass( "active" );
+				jQuery( this ).addClass( "nav-tab-active" );
+				if ( activeTab.hasClass( "nosave" ) ) {
+					jQuery( "#wpseo-submit-container" ).hide();
+				} else {
+					jQuery( "#wpseo-submit-container" ).show();
+				}
+
+				jQuery( window ).trigger( "yoast-seo-tab-change" );
+			} else {
+				// Re-establish the focus on the first time configuration tab if the user clicks 'Cancel' on the pop-up
+				jQuery( "#first-time-configuration-tab" ).trigger( "focus" );
+			}
 
 			if ( id === "first-time-configuration" ) {
 				jQuery( "#yoast-first-time-configuration-notice" ).slideUp();

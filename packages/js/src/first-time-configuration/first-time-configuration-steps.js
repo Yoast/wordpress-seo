@@ -587,9 +587,16 @@ export default function FirstTimeConfigurationSteps() {
 	 * @returns {void}
 	 */
 	const beforeUnloadEventHandler = useCallback( ( event ) => {
-		if ( state.editedSteps.includes( activeStepIndex + 1 ) || indexingState === "in_progress"  ) {
-			event.preventDefault();
-			event.returnValue = "";
+		/* Show the pop-up modal if the user wants to leave the first time configuration if:
+		 - the current step is being edited but not saved, or
+		 - the indexation process is still in progress
+		 */
+		if ( state.editedSteps.includes( activeStepIndex + 1 ) || indexingState === "in_progress" ) {
+			// Show the pup-up modal only if the user is in the first time configuration tab
+			if ( location.href.indexOf( "page=wpseo_dashboard#top#first-time-configuration" ) !== -1 ) {
+				event.preventDefault();
+				event.returnValue = "";
+			}
 		}
 	}, [ state.editedSteps, indexingState ] );
 
