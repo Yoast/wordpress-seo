@@ -397,6 +397,23 @@ class WPSEO_Admin_Asset_Manager {
 			'version' => $scripts['first-time-configuration']['version'],
 		];
 
+		$scripts['frontend'] = [
+			'name'    => 'frontend',
+			'src'     => 'frontend.js',
+			'deps'    => [
+				'lodash',
+				'wp-api-fetch',
+				'wp-a11y',
+				'wp-components',
+				'wp-compose',
+				'wp-data',
+				'wp-dom-ready',
+				'wp-element',
+				'wp-i18n',
+			],
+			'version' => $scripts['frontend']['version'],
+		];
+
 		// Add the current language to every script that requires the analysis package.
 		foreach ( $scripts as $name => $script ) {
 			if ( substr( $name, -8 ) === 'language' ) {

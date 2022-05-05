@@ -121,6 +121,17 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 
 		$this->asset_manager->register_assets();
 		$this->asset_manager->enqueue_style( 'adminbar' );
+		$this->asset_manager->enqueue_script( 'frontend' );
+		$this->asset_manager->localize_script( 'frontend', 'wpseoScriptData', [
+			'isGoogleSiteKitActive'       => class_exists( "Google\Site_Kit\Plugin" ),
+			'installGoogleSiteKitUrl'     => add_query_arg(
+				array(
+					'tab' => 'plugin-information',
+					'plugin' => 'google-site-kit',
+				),
+				admin_url( 'plugin-install.php' )
+			),
+		] );
 	}
 
 	/**
