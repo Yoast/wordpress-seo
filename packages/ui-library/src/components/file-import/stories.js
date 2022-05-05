@@ -69,7 +69,7 @@ const Template = ( { endStatus, ...args } ) => {
 };
 
 export const Factory = ( args ) => <FileImport { ...args } />;
-Factory.controls = { disable: false },
+Factory.controls = { disable: false };
 Factory.args = {
 	children: (
 		<>
