@@ -8,9 +8,12 @@
     "directory": "packages/analysis-report"
   },
   "scripts": {
+    "build": "yarn clean && yarn build:js",
+    "build:js": "babel src --out-dir build",
+    "clean": "rm -rf build",
     "test": "jest",
     "lint": "eslint . --max-warnings=5",
-    "prepublishOnly": "rm -rf dist && cp -R src dist && cp package.json dist/package.json && json -I -f dist/package.json -e \"this.main='index.js'\" && cp .babelrc dist/.babelrc"
+    "prepublishOnly": "yarn clean && cp -R src build && cp package.json build/package.json && json -I -f build/package.json -e \"this.main='index.js'\" && cp babel.config.js build/babel.config.js"
   },
   "author": "Team Yoast",
   "license": "GPL-3.0",
