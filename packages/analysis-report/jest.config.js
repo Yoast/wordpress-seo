@@ -1,4 +1,7 @@
 module.exports = {
 	preset: "@yoast/jest-preset",
-	setupFiles: [ "<rootDir>/tools/jest/setupTests.js" ],
+	setupFilesAfterEnv: [ "<rootDir>/tools/jest/setupTests.js" ],
+	testMatch: [
+		"**/tests/**/*Test.[jt]s",
+	],
 };
