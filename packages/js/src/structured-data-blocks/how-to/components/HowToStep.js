@@ -311,7 +311,6 @@ export default class HowToStep extends Component {
 			index,
 			step,
 			isSelected,
-			subElement,
 			isUnorderedList,
 		} = this.props;
 
@@ -364,7 +363,6 @@ HowToStep.propTypes = {
 	onFocus: PropTypes.func.isRequired,
 	onMoveUp: PropTypes.func.isRequired,
 	onMoveDown: PropTypes.func.isRequired,
-	subElement: PropTypes.string,
 	isSelected: PropTypes.bool.isRequired,
 	isFirst: PropTypes.bool.isRequired,
 	isLast: PropTypes.bool.isRequired,
@@ -373,5 +371,4 @@ HowToStep.propTypes = {
 
 HowToStep.defaultProps = {
 	isUnorderedList: false,
-	subElement: "",
 };

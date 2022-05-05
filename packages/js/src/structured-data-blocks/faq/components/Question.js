@@ -323,7 +323,6 @@ export default class Question extends Component {
 	 */
 	render() {
 		const {
-			subElement,
 			attributes,
 			isSelected,
 		} = this.props;
@@ -375,12 +374,7 @@ Question.propTypes = {
 	onFocus: PropTypes.func.isRequired,
 	onMoveUp: PropTypes.func.isRequired,
 	onMoveDown: PropTypes.func.isRequired,
-	subElement: PropTypes.string,
 	isSelected: PropTypes.bool.isRequired,
 	isFirst: PropTypes.bool.isRequired,
 	isLast: PropTypes.bool.isRequired,
-};
-
-Question.defaultProps = {
-	subElement: "",
 };
