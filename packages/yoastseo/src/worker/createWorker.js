@@ -36,7 +36,8 @@ function createBlobScript( url ) {
  *
  * @returns {boolean} Whether the URLs have the same origin.
  */
-export function isSameOrigin( urlA, urlB ) {
+function isSameOrigin( urlA, urlB ) {
+	// Rename variables
 	urlA = new URL( urlA, window.location.origin );
 	urlB = new URL( urlB, window.location.origin );
 
@@ -67,6 +68,7 @@ function createBlobURL( url ) {
 		blobBuilder.append( blobScript );
 		blob = blobBuilder.getBlob( "application/javascript" );
 	}
+	// Not only check if the object url is created, but also try to read it.
 	return URL.createObjectURL( blob );
 }
 
@@ -107,4 +109,11 @@ function createWorker( url ) {
 	return worker;
 }
 
-export default createWorker;
+export {
+	createExceptionHandler,
+	createWorker,
+	isSameOrigin,
+	createBlobURL,
+	createBlobScript,
+};
+
