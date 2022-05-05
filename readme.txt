@@ -239,8 +239,6 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 18.8 =
 Release Date: May 17th, 2022
 
-
-
 Enhancements:
 
 * Adds an `installation successful` page to welcome first-time users.
