@@ -41,10 +41,12 @@ function SocialProfilesWrapper() {
 	const [ twitterValue, setTwitterValue ] = useState( "" );
 	const [ otherSocialUrls, setOtherSocialUrls ] = useState( [] );
 	const [ errorFields, setErrorFields ] = useState( [] );
+	const [ isSaved, setIsSaved ] = useState( false );
 
-	// Clear errorFields when values are edited.
+	// Clear errorFields and isSaved when values are edited.
 	useEffect( () => {
 		setErrorFields( [] );
+		setIsSaved( false );
 	}, [ facebookValue, twitterValue, otherSocialUrls ] );
 
 	const onSaveHandler = useCallback( () => {
@@ -56,7 +58,10 @@ function SocialProfilesWrapper() {
 				}
 				return response;
 			} )
-			.then( () => { setErrorFields( [] ) } )
+			.then( () => {
+				setErrorFields( [] );
+				setIsSaved( true );
+			} )
 			.catch(
 				( e ) => {
 					if ( e.failures ) {
@@ -64,8 +69,8 @@ function SocialProfilesWrapper() {
 					}
 					return false;
 				}
-			)
-	}, [ updateSocialProfiles, setErrorFields, facebookValue, twitterValue, otherSocialUrls ] );
+			);
+	}, [ updateSocialProfiles, setErrorFields, setIsSaved, facebookValue, twitterValue, otherSocialUrls ] );
 
 	const onChangeHandler = useCallback( ( value, socialMedium ) => {
 		if ( socialMedium === "facebookUrl" ) {
@@ -106,11 +111,19 @@ function SocialProfilesWrapper() {
 				onAddProfileHandler={ onAddProfileHandler }
 				errorFields={ errorFields }
 			/>
-			<button
-				className="yst-button yst-button--primary yst-mt-8"
-				type="button"
-				onClick={ onSaveHandler }
-			>{ __( "Save changes", "wordpress-seo" ) }</button>
+			<div
+				className="yst-flex yst-items-center yst-pt-8"
+			>
+				<button
+					className="yst-button yst-button--primary"
+					type="button"
+					onClick={ onSaveHandler }
+				>{ __( "Save changes", "wordpress-seo" ) }</button>
+				{ isSaved && <span className="yst-inline-flex yst-items-center yst-text-lime-600 yst-relative yst-ml-6 yst-text-sm">
+					<span className="yst-bg-[image:var(--yoast-svg-icon-check)] yst-w-[18px] yst-h-[13px] yst-bg-contain yst-bg-no-repeat" />
+					{ __( "Saved!", "wordpress-seo" ) }
+				</span> }
+			</div>
 		</div>
 	);
 }
