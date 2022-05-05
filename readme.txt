@@ -255,7 +255,7 @@ Release Date: May 17th, 2022
 
 Enhancements:
 
-* Removes XML sitemap image properties title and caption following deprecation by Google.
+* Removes XML sitemap image properties `title` and `caption` following deprecation by Google.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
