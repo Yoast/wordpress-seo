@@ -10,7 +10,7 @@ const socialTemplateSlice = createSlice( {
 	name: "template",
 	initialState: defaultSocialTemplate,
 	reducers: {
-		updateSocialDescTemplate: ( state, action ) => {
+		updateSocialDescriptionTemplate: ( state, action ) => {
 			state.description = action.payload;
 		},
 		updateSocialTitleTemplate: ( state, action ) => {
@@ -20,7 +20,7 @@ const socialTemplateSlice = createSlice( {
 } );
 
 export const socialTemplateSelectors = {
-	selectSocialDescTemplate: ( state ) => get( state, "form.social.template.description" ),
+	selectSocialDescriptionTemplate: ( state ) => get( state, "form.social.template.description" ),
 	selectSocialTitleTemplate: ( state ) => get( state, "form.social.template.title" ),
 };
 

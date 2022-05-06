@@ -9,21 +9,21 @@ import { openMedia, prepareFacebookPreviewImage, prepareTwitterPreviewImage } fr
 import withLocation from "../../../helpers/withLocation";
 
 /**
- * Lazy function to open the Twitter media instance.
- *
- * @returns {void}
- */
-const selectTwitterMedia = function() {
-	openMedia( ( image ) => dispatch( SEO_STORE_NAME ).updateTwitterImage( prepareTwitterPreviewImage( image ) ) );
-};
-
-/**
  * Lazy function to open the Facebook media instance.
  *
  * @returns {void}
  */
 const selectFacebookMedia = function() {
 	openMedia( ( image ) => dispatch( SEO_STORE_NAME ).updateFacebookImage( prepareFacebookPreviewImage( image ) ) );
+};
+
+/**
+ * Lazy function to open the Twitter media instance.
+ *
+ * @returns {void}
+ */
+const selectTwitterMedia = function() {
+	openMedia( ( image ) => dispatch( SEO_STORE_NAME ).updateTwitterImage( prepareTwitterPreviewImage( image ) ) );
 };
 
 /**
@@ -47,7 +47,7 @@ const SocialMetadata = () => {
 	const isPremium = window.wpseoScriptData.metabox.isPremium === "1";
 	// Taking it from the old store, because we still haven't implemented the data for settings > social preview in the new store.
 	const imageFallbackUrl = useSelect( select => select( "yoast-seo/editor" ).getImageFallback() );
-	const imageUrlFB = useSelect( select => select( SEO_STORE_NAME ).selectFacebookImageURL() );
+	const facebookImageUrl = useSelect( select => select( SEO_STORE_NAME ).selectFacebookImageURL() );
 	const siteUrl = useSelect( select => select( "yoast-seo/editor" ).getSiteUrl() );
 
 	const { updateFacebookData,
@@ -84,7 +84,7 @@ const SocialMetadata = () => {
 				<Twitter
 					as={ TwitterWrapper }
 					isPremium={ isPremium }
-					imageFallbackUrl={ imageUrlFB || imageFallbackUrl }
+					imageFallbackUrl={ facebookImageUrl || imageFallbackUrl }
 					siteUrl={ siteUrl }
 					onRemoveImageClick={ clearTwitterPreviewImage }
 					onLoad={ updateTwitterData }

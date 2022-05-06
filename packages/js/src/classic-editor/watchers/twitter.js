@@ -28,7 +28,7 @@ export const createPostTwitterSync = ( selectors ) => {
 	createDomSync(
 		selectors.selectTwitterImageURL,
 		{
-			domGet: dom.getPostTwitterImageURL,
+			domGet: dom.getPostTwitterImageUrl,
 			domSet: dom.setPostTwitterImageUrl,
 		},
 		"twitterImageURL"
@@ -70,7 +70,7 @@ export const createTermTwitterSync = ( selectors ) => {
 	createDomSync(
 		selectors.selectTwitterImageURL,
 		{
-			domGet: dom.getTermTwitterImageURL,
+			domGet: dom.getTermTwitterImageUrl,
 			domSet: dom.setTermTwitterImageUrl,
 		},
 		"twitterImageURL"

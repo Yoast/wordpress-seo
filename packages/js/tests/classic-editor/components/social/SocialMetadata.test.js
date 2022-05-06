@@ -31,9 +31,9 @@ describe( "The SocialMetadata component", () => {
 	it( "renders with the social metadata component", () => {
 		const select = jest.fn();
 		select.mockReturnValue( {
-			getImageFallback: jest.fn( () => "https://www.sweetestcat.com/images/fluffy-cat.jpg" ),
-			selectFacebookImageURL: jest.fn( () => "https://www.sweetestcat.com/images/fb/fluffy-cat-on-fb.jpg" ),
-			getSiteUrl: jest.fn( () => "www.sweetestcat.com" ),
+			getImageFallback: jest.fn( () => "https://www.example.com/images/fluffy-cat.jpg" ),
+			selectFacebookImageURL: jest.fn( () => "https://www.example.com/images/fb/fluffy-cat-on-fb.jpg" ),
+			getSiteUrl: jest.fn( () => "www.example.com" ),
 		} );
 
 		useSelect.mockImplementation( func => func( select ) );
@@ -54,7 +54,7 @@ describe( "The SocialMetadata component", () => {
 		const facebookComponent = renderedComponent.find( Facebook );
 		const facebookProps = facebookComponent.props();
 
-		expect( facebookProps.siteUrl ).toEqual( "www.sweetestcat.com" );
+		expect( facebookProps.siteUrl ).toEqual( "www.example.com" );
 		expect( facebookProps.isPremium ).toEqual( false );
 		expect( facebookProps.onRemoveImageClick ).toEqual( clearFacebookPreviewImage );
 		expect( facebookProps.onLoad ).toEqual( updateFacebookData );
@@ -63,7 +63,7 @@ describe( "The SocialMetadata component", () => {
 		const twitterComponent = renderedComponent.find( Twitter );
 		const twitterProps = twitterComponent.props();
 
-		expect( twitterProps.siteUrl ).toEqual( "www.sweetestcat.com" );
+		expect( twitterProps.siteUrl ).toEqual( "www.example.com" );
 		expect( twitterProps.isPremium ).toEqual( false );
 		expect( twitterProps.onRemoveImageClick ).toEqual( clearTwitterPreviewImage );
 		expect( twitterProps.onLoad ).toEqual( updateTwitterData );
@@ -72,9 +72,9 @@ describe( "The SocialMetadata component", () => {
 	it( "does not render the Facebook editor when the Facebook editor is disabled", () => {
 		const select = jest.fn();
 		select.mockReturnValue( {
-			getImageFallback: jest.fn( () => "https://www.sweetestcat.com/images/fluffy-cat.jpg" ),
-			selectFacebookImageURL: jest.fn( () => "https://www.sweetestcat.com/images/fb/fluffy-cat-on-fb.jpg" ),
-			getSiteUrl: jest.fn( () => "www.sweetestcat.com" ),
+			getImageFallback: jest.fn( () => "https://www.example.com/images/fluffy-cat.jpg" ),
+			selectFacebookImageURL: jest.fn( () => "https://www.example.com/images/fb/fluffy-cat-on-fb.jpg" ),
+			getSiteUrl: jest.fn( () => "www.example.com" ),
 		} );
 
 		window.wpseoScriptData.metabox.showSocial.facebook = false;
@@ -101,9 +101,9 @@ describe( "The SocialMetadata component", () => {
 	it( "does not render the Twitter editor when the Twitter editor is disabled", () => {
 		const select = jest.fn();
 		select.mockReturnValue( {
-			getImageFallback: jest.fn( () => "https://www.sweetestcat.com/images/fluffy-cat.jpg" ),
-			selectFacebookImageURL: jest.fn( () => "https://www.sweetestcat.com/images/fb/fluffy-cat-on-fb.jpg" ),
-			getSiteUrl: jest.fn( () => "www.sweetestcat.com" ),
+			getImageFallback: jest.fn( () => "https://www.example.com/images/fluffy-cat.jpg" ),
+			selectFacebookImageURL: jest.fn( () => "https://www.example.com/images/fb/fluffy-cat-on-fb.jpg" ),
+			getSiteUrl: jest.fn( () => "www.example.com" ),
 		} );
 
 		window.wpseoScriptData.metabox.showSocial.facebook = true;

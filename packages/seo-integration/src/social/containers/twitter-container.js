@@ -15,10 +15,11 @@ const TwitterEditorContainer = ( { as: Component, ...restProps } ) => {
 	const imageIsLarge = useSelect( select => select( "yoast-seo/editor" ).getTwitterImageType() ) !== "summary";
 	const twitterTitle = useSelect( select => select( SEO_STORE_NAME ).selectTwitterTitle() );
 	const twitterDescription = useSelect( select => select( SEO_STORE_NAME ).selectTwitterDescription() );
-	const imageData = useSelect( select => select( SEO_STORE_NAME ).selectTwitterImage() );
+	const twitterImageUrl = useSelect( select => select( SEO_STORE_NAME ).selectTwitterImageURL() );
+	const twitterImageAlt = useSelect( select => select( SEO_STORE_NAME ).selectTwitterImage() ).alt;
 	const facebookTitle = useSelect( select => select( SEO_STORE_NAME ).selectFacebookTitle() );
 	const facebookDescription = useSelect( select => select( SEO_STORE_NAME ).selectFacebookDescription() );
-	const socialDescriptionTemplate = useSelect( select => select( SEO_STORE_NAME ).selectSocialDescTemplate() );
+	const socialDescriptionTemplate = useSelect( select => select( SEO_STORE_NAME ).selectSocialDescriptionTemplate() );
 	const contentDescription = useSelect( select => select( SEO_STORE_NAME ).selectMetaDescription() );
 	const contentExcerpt = useSelect( select => select( SEO_STORE_NAME ).selectExcerpt() );
 	const socialTitleTemplate = useSelect( select => select( SEO_STORE_NAME ).selectSocialTitleTemplate() );
@@ -31,8 +32,8 @@ const TwitterEditorContainer = ( { as: Component, ...restProps } ) => {
 	return <Component
 		title={ twitterTitle }
 		description={ twitterDescription }
-		imageUrl={ imageData.url }
-		alt={ imageData.alt }
+		imageUrl={ twitterImageUrl }
+		alt={ twitterImageAlt }
 		isLarge={ imageIsLarge }
 		onTitleChange={ updateTwitterTitle }
 		onDescriptionChange={ updateTwitterDescription }

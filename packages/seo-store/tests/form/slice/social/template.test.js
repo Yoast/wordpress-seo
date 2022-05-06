@@ -27,9 +27,9 @@ describe( "a test for social template slice", () => {
 		} );
 
 		test( "should update the social template description", () => {
-			const { updateSocialDescTemplate } = socialTemplateActions;
+			const { updateSocialDescriptionTemplate } = socialTemplateActions;
 
-			const result = socialTemplateReducer( initialState, updateSocialDescTemplate( "A collection of cats content." ) );
+			const result = socialTemplateReducer( initialState, updateSocialDescriptionTemplate( "A collection of cats content." ) );
 
 			expect( result ).toEqual( {
 				...initialState,
@@ -55,14 +55,14 @@ describe( "a test for social template slice", () => {
 		} );
 
 		test( "should select the social template description", () => {
-			const { selectSocialDescTemplate } = socialTemplateSelectors;
+			const { selectSocialDescriptionTemplate } = socialTemplateSelectors;
 
 			const state = {
 				template: {
 					description: "A collection of cats content.",
 				},
 			};
-			const result = selectSocialDescTemplate( createStoreState( state ) );
+			const result = selectSocialDescriptionTemplate( createStoreState( state ) );
 
 			expect( result ).toEqual( "A collection of cats content." );
 		} );

@@ -14,8 +14,9 @@ import { useReplacementVariables } from "../../hooks/useReplacementVariables";
 const FacebookEditorContainer = ( { as: Component, ...restProps } ) => {
 	const facebookTitle = useSelect( select => select( SEO_STORE_NAME ).selectFacebookTitle() );
 	const facebookDescription = useSelect( select => select( SEO_STORE_NAME ).selectFacebookDescription() );
-	const imageData = useSelect( select => select( SEO_STORE_NAME ).selectFacebookImage() );
-	const socialDescriptionTemplate = useSelect( select => select( SEO_STORE_NAME ).selectSocialDescTemplate() );
+	const facebookImageUrl = useSelect( select => select( SEO_STORE_NAME ).selectFacebookImageURL() );
+	const facebookImageAlt = useSelect( select => select( SEO_STORE_NAME ).selectFacebookImage() ).alt;
+	const socialDescriptionTemplate = useSelect( select => select( SEO_STORE_NAME ).selectSocialDescriptionTemplate() );
 	const contentDescription = useSelect( select => select( SEO_STORE_NAME ).selectMetaDescription() );
 	const contentExcerpt = useSelect( select => select( SEO_STORE_NAME ).selectExcerpt() );
 	const socialTitleTemplate = useSelect( select => select( SEO_STORE_NAME ).selectSocialTitleTemplate() );
@@ -28,8 +29,8 @@ const FacebookEditorContainer = ( { as: Component, ...restProps } ) => {
 	return <Component
 		title={ facebookTitle }
 		description={ facebookDescription }
-		imageUrl={ imageData.url }
-		alt={ imageData.alt }
+		imageUrl={ facebookImageUrl }
+		alt={ facebookImageAlt }
 		onTitleChange={ updateFacebookTitle }
 		onDescriptionChange={ updateFacebookDescription }
 		replacementVariables={ replacementVariables }

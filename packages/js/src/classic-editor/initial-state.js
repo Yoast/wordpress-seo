@@ -48,11 +48,11 @@ export const getInitialPostState = () => ( {
 		},
 		social: {
 			facebook: {
-				title: dom.getPostFBTitle(),
-				description: dom.getPostFBDescription(),
+				title: dom.getPostFacebookTitle(),
+				description: dom.getPostFacebookDescription(),
 				image: {
-					id: dom.getPostFBImageID(),
-					url: dom.getPostFBImageURL(),
+					id: dom.getPostFacebookImageID(),
+					url: dom.getPostFacebookImageUrl(),
 				},
 			},
 			twitter: {
@@ -60,7 +60,7 @@ export const getInitialPostState = () => ( {
 				description: dom.getPostTwitterDescription(),
 				image: {
 					id: dom.getPostTwitterImageID(),
-					url: dom.getPostTwitterImageURL(),
+					url: dom.getPostTwitterImageUrl(),
 				},
 			},
 			template: {
@@ -107,11 +107,11 @@ export const getInitialTermState = () => ( {
 		},
 		social: {
 			facebook: {
-				title: dom.getTermFBTitle(),
-				description: dom.getTermFBDescription(),
+				title: dom.getTermFacebookTitle(),
+				description: dom.getTermFacebookDescription(),
 				image: {
-					id: dom.getTermFBImageID(),
-					url: dom.getTermFBImageURL(),
+					id: dom.getTermFacebookImageID(),
+					url: dom.getTermFacebookImageUrl(),
 				},
 			},
 			twitter: {
@@ -119,7 +119,7 @@ export const getInitialTermState = () => ( {
 				description: dom.getTermTwitterDescription(),
 				image: {
 					id: dom.getTermTwitterImageID(),
-					url: dom.getTermTwitterImageURL(),
+					url: dom.getTermTwitterImageUrl(),
 				},
 			},
 			template: {

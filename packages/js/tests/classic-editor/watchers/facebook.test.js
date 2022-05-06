@@ -20,8 +20,8 @@ describe( "The Facebook Post watcher", () => {
 			expect( createDomSync ).toBeCalledWith(
 				selectors.selectFacebookTitle,
 				{
-					domGet: dom.getPostFBTitle,
-					domSet: dom.setPostFBTitle,
+					domGet: dom.getPostFacebookTitle,
+					domSet: dom.setPostFacebookTitle,
 				},
 				"facebookTitle"
 			);
@@ -29,8 +29,8 @@ describe( "The Facebook Post watcher", () => {
 			expect( createDomSync ).toBeCalledWith(
 				selectors.selectFacebookDescription,
 				{
-					domGet: dom.getPostFBDescription,
-					domSet: dom.setPostFBDescription,
+					domGet: dom.getPostFacebookDescription,
+					domSet: dom.setPostFacebookDescription,
 				},
 				"facebookDescription"
 			);
@@ -38,8 +38,8 @@ describe( "The Facebook Post watcher", () => {
 			expect( createDomSync ).toBeCalledWith(
 				selectors.selectFacebookImageURL,
 				{
-					domGet: dom.getPostFBImageURL,
-					domSet: dom.setPostFBImageUrl,
+					domGet: dom.getPostFacebookImageUrl,
+					domSet: dom.setPostFacebookImageUrl,
 				},
 				"facebookImageURL"
 			);
@@ -47,8 +47,8 @@ describe( "The Facebook Post watcher", () => {
 			expect( createDomSync ).toBeCalledWith(
 				selectors.selectFacebookImageID,
 				{
-					domGet: dom.getPostFBImageID,
-					domSet: dom.setPostFBImageID,
+					domGet: dom.getPostFacebookImageID,
+					domSet: dom.setPostFacebookImageID,
 				},
 				"facebookImageID"
 			);
@@ -71,8 +71,8 @@ describe( "The Facebook Term watcher", () => {
 			expect( createDomSync ).toBeCalledWith(
 				selectors.selectFacebookTitle,
 				{
-					domGet: dom.getTermFBTitle,
-					domSet: dom.setTermFBTitle,
+					domGet: dom.getTermFacebookTitle,
+					domSet: dom.setTermFacebookTitle,
 				},
 				"facebookTitle"
 			);
@@ -80,8 +80,8 @@ describe( "The Facebook Term watcher", () => {
 			expect( createDomSync ).toBeCalledWith(
 				selectors.selectFacebookDescription,
 				{
-					domGet: dom.getTermFBDescription,
-					domSet: dom.setTermFBDescription,
+					domGet: dom.getTermFacebookDescription,
+					domSet: dom.setTermFacebookDescription,
 				},
 				"facebookDescription"
 			);
@@ -89,8 +89,8 @@ describe( "The Facebook Term watcher", () => {
 			expect( createDomSync ).toBeCalledWith(
 				selectors.selectFacebookImageURL,
 				{
-					domGet: dom.getTermFBImageURL,
-					domSet: dom.setTermFBImageUrl,
+					domGet: dom.getTermFacebookImageUrl,
+					domSet: dom.setTermFacebookImageUrl,
 				},
 				"facebookImageURL"
 			);
@@ -98,8 +98,8 @@ describe( "The Facebook Term watcher", () => {
 			expect( createDomSync ).toBeCalledWith(
 				selectors.selectFacebookImageID,
 				{
-					domGet: dom.getTermFBImageID,
-					domSet: dom.setTermFBImageID,
+					domGet: dom.getTermFacebookImageID,
+					domSet: dom.setTermFacebookImageID,
 				},
 				"facebookImageID"
 			);

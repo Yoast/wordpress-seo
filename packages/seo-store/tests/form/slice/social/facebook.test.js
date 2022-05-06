@@ -69,7 +69,7 @@ describe( "a test for facebook slice", () => {
 				description: "new title",
 				image: {
 					id: 1,
-					url: "https://sweetcats.com/images/cats.jpeg",
+					url: "https://example.com/images/cats.jpeg",
 				},
 			} ) );
 
@@ -78,7 +78,7 @@ describe( "a test for facebook slice", () => {
 				description: "new title",
 				image: {
 					id: 1,
-					url: "https://sweetcats.com/images/cats.jpeg",
+					url: "https://example.com/images/cats.jpeg",
 				},
 			} );
 		} );

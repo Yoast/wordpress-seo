@@ -38,7 +38,7 @@ describe( "The Twitter watcher", () => {
 			expect( createDomSync ).toBeCalledWith(
 				selectors.selectTwitterImageURL,
 				{
-					domGet: dom.getPostTwitterImageURL,
+					domGet: dom.getPostTwitterImageUrl,
 					domSet: dom.setPostTwitterImageUrl,
 				},
 				"twitterImageURL"

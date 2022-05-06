@@ -234,7 +234,7 @@ describe( "a test for retrieving custom taxonomies from the DOM", () => {
 } );
 
 describe( "a test for setting and retrieving Twitter data to and from the DOM", () => {
-	const postTwitterImageID = createElement( "yoast_wpseo_twitter-image-id", "", "span" );
+	const postTwitterImageID = createElement( "span", { id: "yoast_wpseo_twitter-image-id", value: "" } );
 	document.body.append( postTwitterImageID );
 	it( "should return the correct post Twitter image ID based on the value that is set to the DOM", () => {
 		dom.setPostTwitterImageID( "9" );
@@ -245,7 +245,7 @@ describe( "a test for setting and retrieving Twitter data to and from the DOM", 
 	document.body.append( postTwitterImageUrl );
 	it( "should return the correct post Twitter image URL based on the value that is set to the DOM", () => {
 		dom.setPostTwitterImageUrl( "https://example.com/assets/images/cat.jpeg" );
-		expect( dom.getPostTwitterImageURL() ).toEqual( "https://example.com/assets/images/cat.jpeg" );
+		expect( dom.getPostTwitterImageUrl() ).toEqual( "https://example.com/assets/images/cat.jpeg" );
 	} );
 
 	const postTwitterDescription = createElement( "yoast_wpseo_twitter-description", "", "span" );
@@ -273,7 +273,7 @@ describe( "a test for setting and retrieving Twitter data to and from the DOM", 
 	document.body.append( termTwitterImageUrl );
 	it( "should return the correct term Twitter image URL based on the value that is set to the DOM", () => {
 		dom.setTermTwitterImageUrl( "https://example.com/assets/images/cat.jpeg" );
-		expect( dom.getTermTwitterImageURL() ).toEqual( "https://example.com/assets/images/cat.jpeg" );
+		expect( dom.getTermTwitterImageUrl() ).toEqual( "https://example.com/assets/images/cat.jpeg" );
 	} );
 
 	const termTwitterDescription = createElement( "hidden_wpseo_twitter-description", "", "span" );
@@ -295,56 +295,56 @@ describe( "a test for setting and retrieving Facebook data to and from the DOM",
 	const postFacebookImageID = createElement( "yoast_wpseo_opengraph-image-id", "", "span" );
 	document.body.append( postFacebookImageID );
 	it( "should return the correct post Facebook image ID based on the value that is set to the DOM", () => {
-		dom.setPostFBImageID( "9" );
-		expect( dom.getPostFBImageID() ).toEqual( "9" );
+		dom.setPostFacebookImageID( "9" );
+		expect( dom.getPostFacebookImageID() ).toEqual( "9" );
 	} );
 
 	const postFacebookImageUrl = createElement( "yoast_wpseo_opengraph-image", "", "span" );
 	document.body.append( postFacebookImageUrl );
 	it( "should return the correct post Facebook image URL based on the value that is set to the DOM", () => {
-		dom.setPostFBImageUrl( "https://example.com/assets/images/cat.jpeg" );
-		expect( dom.getPostFBImageURL() ).toEqual( "https://example.com/assets/images/cat.jpeg" );
+		dom.setPostFacebookImageUrl( "https://example.com/assets/images/cat.jpeg" );
+		expect( dom.getPostFacebookImageUrl() ).toEqual( "https://example.com/assets/images/cat.jpeg" );
 	} );
 
 	const postFacebookDescription = createElement( "yoast_wpseo_opengraph-description", "", "span" );
 	document.body.append( postFacebookDescription );
 	it( "should return the correct post Facebook description based on the value that is set to the DOM", () => {
-		dom.setPostFBDescription( "A tortie that wraps the human around her paws: based on the account of Ms. Zornitsa." );
-		expect( dom.getPostFBDescription() ).toEqual( "A tortie that wraps the human around her paws: based on the account of Ms. Zornitsa." );
+		dom.setPostFacebookDescription( "A tortie that wraps the human around her paws: based on the account of Ms. Zornitsa." );
+		expect( dom.getPostFacebookDescription() ).toEqual( "A tortie that wraps the human around her paws: based on the account of Ms. Zornitsa." );
 	} );
 
 	const postFacebookTitle = createElement( "yoast_wpseo_opengraph-title", "", "span" );
 	document.body.append( postFacebookTitle );
 	it( "should return the correct post Facebook title based on the value that is set to the DOM", () => {
-		dom.setPostFBTitle( "Successful cat meow-nager" );
-		expect( dom.getPostFBTitle() ).toEqual( "Successful cat meow-nager" );
+		dom.setPostFacebookTitle( "Successful cat meow-nager" );
+		expect( dom.getPostFacebookTitle() ).toEqual( "Successful cat meow-nager" );
 	} );
 
 	const termFacebookImageID = createElement( "hidden_wpseo_opengraph-image-id", "", "span" );
 	document.body.append( termFacebookImageID );
 	it( "should return the correct term Facebook image ID based on the value that is set to the DOM", () => {
-		dom.setTermFBImageID( "10" );
-		expect( dom.getTermFBImageID() ).toEqual( "10" );
+		dom.setTermFacebookImageID( "10" );
+		expect( dom.getTermFacebookImageID() ).toEqual( "10" );
 	} );
 
 	const termFacebookImageUrl = createElement( "hidden_wpseo_opengraph-image", "", "span" );
 	document.body.append( termFacebookImageUrl );
 	it( "should return the correct term Facebook image URL based on the value that is set to the DOM", () => {
-		dom.setTermFBImageUrl( "https://example.com/assets/images/cat.jpeg" );
-		expect( dom.getTermFBImageURL() ).toEqual( "https://example.com/assets/images/cat.jpeg" );
+		dom.setTermFacebookImageUrl( "https://example.com/assets/images/cat.jpeg" );
+		expect( dom.getTermFacebookImageUrl() ).toEqual( "https://example.com/assets/images/cat.jpeg" );
 	} );
 
 	const termFacebookDescription = createElement( "hidden_wpseo_opengraph-description", "", "span" );
 	document.body.append( termFacebookDescription );
 	it( "should return the correct term Twitter description based on the value that is set to the DOM", () => {
-		dom.setTermFBDescription( "Types of cats based on their origin." );
-		expect( dom.getTermFBDescription() ).toEqual( "Types of cats based on their origin." );
+		dom.setTermFacebookDescription( "Types of cats based on their origin." );
+		expect( dom.getTermFacebookDescription() ).toEqual( "Types of cats based on their origin." );
 	} );
 
 	const termFacebookTitle = createElement( "hidden_wpseo_opengraph-title", "", "span" );
 	document.body.append( termFacebookTitle );
 	it( "should return the correct term Facebook title based on the value that is set to the DOM", () => {
-		dom.setTermFBTitle( "Cat blogs: A story about cats on social Media" );
-		expect( dom.getTermFBTitle() ).toEqual( "Cat blogs: A story about cats on social Media" );
+		dom.setTermFacebookTitle( "Cat blogs: A story about cats on social Media" );
+		expect( dom.getTermFacebookTitle() ).toEqual( "Cat blogs: A story about cats on social Media" );
 	} );
 } );

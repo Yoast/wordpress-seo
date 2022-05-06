@@ -18,32 +18,32 @@ export const createPostFacebookSync = ( selectors ) => {
 	createDomSync(
 		selectors.selectFacebookTitle,
 		{
-			domGet: dom.getPostFBTitle,
-			domSet: dom.setPostFBTitle,
+			domGet: dom.getPostFacebookTitle,
+			domSet: dom.setPostFacebookTitle,
 		},
 		"facebookTitle"
 	);
 	createDomSync(
 		selectors.selectFacebookDescription,
 		{
-			domGet: dom.getPostFBDescription,
-			domSet: dom.setPostFBDescription,
+			domGet: dom.getPostFacebookDescription,
+			domSet: dom.setPostFacebookDescription,
 		},
 		"facebookDescription"
 	);
 	createDomSync(
 		selectors.selectFacebookImageURL,
 		{
-			domGet: dom.getPostFBImageURL,
-			domSet: dom.setPostFBImageUrl,
+			domGet: dom.getPostFacebookImageUrl,
+			domSet: dom.setPostFacebookImageUrl,
 		},
 		"facebookImageURL"
 	);
 	createDomSync(
 		selectors.selectFacebookImageID,
 		{
-			domGet: dom.getPostFBImageID,
-			domSet: dom.setPostFBImageID,
+			domGet: dom.getPostFacebookImageID,
+			domSet: dom.setPostFacebookImageID,
 		},
 		"facebookImageID"
 	);
@@ -66,32 +66,32 @@ export const createTermFacebookSync = ( selectors ) => {
 	createDomSync(
 		selectors.selectFacebookTitle,
 		{
-			domGet: dom.getTermFBTitle,
-			domSet: dom.setTermFBTitle,
+			domGet: dom.getTermFacebookTitle,
+			domSet: dom.setTermFacebookTitle,
 		},
 		"facebookTitle"
 	);
 	createDomSync(
 		selectors.selectFacebookDescription,
 		{
-			domGet: dom.getTermFBDescription,
-			domSet: dom.setTermFBDescription,
+			domGet: dom.getTermFacebookDescription,
+			domSet: dom.setTermFacebookDescription,
 		},
 		"facebookDescription"
 	);
 	createDomSync(
 		selectors.selectFacebookImageURL,
 		{
-			domGet: dom.getTermFBImageURL,
-			domSet: dom.setTermFBImageUrl,
+			domGet: dom.getTermFacebookImageUrl,
+			domSet: dom.setTermFacebookImageUrl,
 		},
 		"facebookImageURL"
 	);
 	createDomSync(
 		selectors.selectFacebookImageID,
 		{
-			domGet: dom.getTermFBImageID,
-			domSet: dom.setTermFBImageID,
+			domGet: dom.getTermFacebookImageID,
+			domSet: dom.setTermFacebookImageID,
 		},
 		"facebookImageID"
 	);
