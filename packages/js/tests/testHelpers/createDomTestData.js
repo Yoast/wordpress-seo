@@ -175,15 +175,17 @@ const createNonHierarchicalCTElements = () => {
 /**
  * Creates an element with id and value attributes.
  *
- * @param {string} id       The id name of the element.
- * @param {string} value    The value name of the element.
- * @param {string} tagName  The tag name of the element.
+ * @param {string} tagName          The tag name of the element.
+ * @param {Object} attributes       The element's attributes.
+ * @param {string} attributes.id    The element's ID.
+ * @param {string} attributes.value The element's value.
+ *
  * @returns {HTMLElement}    The created element with id and value attributes.
  */
-const createElement = ( id, value, tagName ) => {
+const createElement = ( tagName, attributes = { id: "", value: "" } ) => {
 	const element = document.createElement( tagName );
-	element.setAttribute( "id", id );
-	element.setAttribute( "value", value );
+	element.setAttribute( "id", attributes.id );
+	element.setAttribute( "value", attributes.value );
 
 	return element;
 };
