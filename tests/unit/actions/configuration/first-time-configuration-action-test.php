@@ -494,7 +494,7 @@ class First_Time_Configuration_Action_Test extends TestCase {
 
 		$finish_configuration = [
 			'params'                => [
-				'finishedSteps'     => [ 'step1', 'step2', 'step3', 'step4', 'step5' ],
+				'finishedSteps'     => [ 'step1', 'step2', 'step3' ],
 			],
 			'times'                 => 2,
 			'yoast_options_results' => [ true ],
