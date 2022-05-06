@@ -111,6 +111,7 @@ class Social_Profiles_Helper {
 
 		// All social profiles look good, now let's try to save them.
 		foreach ( $this->person_social_profile_fields as $field_name => $validation_method ) {
+			$social_profiles[ $field_name ] = $this->sanitize_social_field( $social_profiles[ $field_name ] );
 			\update_user_meta( $person_id, $field_name, $social_profiles[ $field_name ] );
 		}
 
@@ -133,6 +134,7 @@ class Social_Profiles_Helper {
 				$failures[] = $field_name;
 				continue;
 			}
+			$social_profiles[ $field_name ] = $this->sanitize_social_field( $social_profiles[ $field_name ] );
 
 			$value_to_validate = $social_profiles[ $field_name ];
 			$failures          = \array_merge( $failures, \call_user_func( [ $this, $validation_method ], $value_to_validate, $field_name ) );
@@ -179,6 +181,25 @@ class Social_Profiles_Helper {
 		}
 
 		return [];
+	}
+
+	/**
+	 * Returns a sanitized social field.
+	 *
+	 * @param string|array $social_field The social field to sanitize.
+	 *
+	 * @return string|array The sanitized social field.
+	 */
+	protected function sanitize_social_field( $social_field ) {
+		if ( \is_array( $social_field ) ) {
+			foreach ( $social_field as $key => $value ) {
+				$social_field[ $key ] = \sanitize_text_field( $value );
+			}
+
+			return $social_field;
+		}
+
+		return \sanitize_text_field( $social_field );
 	}
 
 	/**
