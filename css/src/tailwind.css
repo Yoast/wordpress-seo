@@ -429,7 +429,7 @@
 		
 		/* Override aggressive WordPress inputs styling */
 		.yst-input {
-			@apply yst-py-2 yst-px-3 yst-border yst-bg-white yst-rounded-md yst-shadow-sm yst-text-sm yst-placeholder-gray-500 !important;
+			@apply yst-py-2 yst-px-3 yst-border yst-bg-white yst-rounded-md yst-shadow-sm yst-text-sm yst-placeholder-gray-400 !important;
 		}
 	
 		.yst-card {
@@ -478,7 +478,7 @@
 		}
 		
 		.yst-radio__label {
-			@apply yst-ml-3 yst-font-medium !important;
+			@apply yst-ml-3 yst-font-medium yst-text-gray-700 !important;
 		}
 		
 		.yst-radio-group__label {
