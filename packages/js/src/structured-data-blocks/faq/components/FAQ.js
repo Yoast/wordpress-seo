@@ -251,7 +251,7 @@ export default class FAQ extends Component {
 			return null;
 		}
 
-		const [ focusIndex, subElement ] = this.state.focus.split( ":" );
+		const [ focusIndex ] = this.state.focus.split( ":" );
 
 		return (
 			attributes.questions.map(
@@ -266,7 +266,6 @@ export default class FAQ extends Component {
 							onChange={ this.changeQuestion }
 							onFocus={ this.setFocus }
 							isSelected={ focusIndex === `${ index }` }
-							subElement={ subElement }
 							onMoveUp={ this.moveQuestionUp }
 							onMoveDown={ this.moveQuestionDown }
 							isFirst={ index === 0 }
