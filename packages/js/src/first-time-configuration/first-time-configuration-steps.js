@@ -548,6 +548,15 @@ export default function FirstTimeConfigurationSteps() {
 		}
 	}, [ isStepperFinished ] );
 
+	useEffect( () => {
+		if ( isStep2Finished ) {
+			const configurationNotice = document.getElementById( "yoast-first-time-configuration-notice" );
+			if ( configurationNotice ) {
+				document.getElementById( "yoast-first-time-configuration-notice" ).remove();
+			}
+		}
+	}, [ isStep2Finished ] );
+
 	/* In order to refresh data in the php form, once the stepper is done, we need to reload upon haschanges triggered by the tabswitching */
 	const isStepperFinishedAtBeginning = useRef( isStep2Finished && isStep3Finished && isStep4Finished );
 	useEffect( () => {
