@@ -214,10 +214,10 @@ const createSlugElements = () => {
 	slugEditDiv.appendChild( fullLengthSlugElement );
 	slugEditDiv.appendChild( shortSlugElement );
 
-	const postNameElement = createElement( "post_name", "cat-toys", "input" );
+	const postNameElement = createElement( "input", { id: "post_name", value: "cat-toys" } );
 
 	// Creates term slug elements.
-	const termSlugElement = createElement( "slug", "cat-adoption", "input" );
+	const termSlugElement = createElement( "input", { id: "slug", value: "cat-adoption" } );
 
 	return {
 		fullLengthSlugElement: fullLengthSlugElement,

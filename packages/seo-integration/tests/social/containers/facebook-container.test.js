@@ -19,11 +19,11 @@ describe( "The FacebookContainer components", () => {
 			selectFacebookDescription: jest.fn( () => "description" ),
 			selectFacebookImage: jest.fn( () => (
 				{
-					url: "https://example.com/assets/images/image.jpeg",
 					alt: "A dog is sitting on the porch of a log cabin.",
 				}
 			) ),
-			selectSocialDescTemplate: jest.fn( () => "A tortie that wraps the human around her paws: based on the account of Ms. Zornitsa." ),
+			selectFacebookImageURL: jest.fn( () => "https://example.com/assets/images/image.jpeg" ),
+			selectSocialDescriptionTemplate: jest.fn( () => "A tortie that wraps the human around her paws: based on the account of Ms. Zornitsa." ),
 			selectMetaDescription: jest.fn( () => "" ),
 			selectExcerpt: jest.fn( () => "An excerpt about cat story." ),
 			selectSocialTitleTemplate: jest.fn( () => "Cat blogs: A story about cats on social Media" ),

@@ -25,7 +25,7 @@ describe( "a test for social slice", () => {
 				"updateTwitterTitle",
 				"updateTwitterDescription",
 				"updateTwitterImage",
-				"updateSocialDescTemplate",
+				"updateSocialDescriptionTemplate",
 				"updateSocialTitleTemplate",
 			].forEach( ( action ) => {
 				expect( socialActions[ action ] ).toBeDefined();
@@ -45,7 +45,7 @@ describe( "a test for social slice", () => {
 				"selectTwitterTitle",
 				"selectTwitterDescription",
 				"selectTwitterImage",
-				"selectSocialDescTemplate",
+				"selectSocialDescriptionTemplate",
 				"selectSocialTitleTemplate",
 			].forEach( ( selector ) => {
 				expect( socialSelectors[ selector ] ).toBeDefined();

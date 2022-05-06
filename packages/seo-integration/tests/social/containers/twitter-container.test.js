@@ -19,12 +19,12 @@ describe( "a test for TwitterEditorContainer component", () => {
 			selectTwitterDescription: jest.fn( () => "A collection of stories of successful cat meow-nagers in meow-naging their human: less work more treats." ),
 			selectTwitterImage: jest.fn( () => (
 				{
-					url: "https://example.com/assets/images/cat.jpeg",
 					alt: "A cat wearing a robe",
 				}
 			) ),
+			selectTwitterImageURL: jest.fn( () => "https://example.com/assets/images/cat.jpeg" ),
 			getTwitterImageType: jest.fn( () => "summary" ),
-			selectSocialDescTemplate: jest.fn( () => "A tortie that wraps the human around her paws: based on the account of Ms. Zornitsa." ),
+			selectSocialDescriptionTemplate: jest.fn( () => "A tortie that wraps the human around her paws: based on the account of Ms. Zornitsa." ),
 			selectFacebookTitle: jest.fn( () => "Successful catsistants on Facebook" ),
 			selectFacebookDescription: jest.fn( () => "A collection of stories of successful catsistants." ),
 			selectMetaDescription: jest.fn( () => "" ),
@@ -55,9 +55,7 @@ describe( "a test for TwitterEditorContainer component", () => {
 		expect( TwitterContainer.props().socialMediumName ).toEqual( "Twitter" );
 		expect( TwitterContainer.props().title ).toEqual( "Successful cat meow-nager" );
 		expect( TwitterContainer.props().description ).toEqual( "A collection of stories of successful cat meow-nagers in meow-naging their human: less work more treats." );
-		// DescriptionPreviewFallback.
 		expect( TwitterContainer.props().descriptionPreviewFallback ).toEqual( "A tortie that wraps the human around her paws: based on the account of Ms. Zornitsa." );
-		// TitlePreviewFallback.
 		expect( TwitterContainer.props().titlePreviewFallback ).toEqual( "Cat blogs: A story about cats on social Media" );
 		// Image.
 		expect( TwitterContainer.props().imageUrl ).toEqual( "https://example.com/assets/images/cat.jpeg" );
