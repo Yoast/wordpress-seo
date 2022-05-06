@@ -239,6 +239,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 18.8 =
 Release Date: May 6th, 2022
 
+Did you catch the latest update from Google? Today they made some small changes to how they read XML sitemaps. But you don’t have to worry about that - today's Yoast SEO 18.8 update already applies the latest standards. Read more about what's new in Yoast SEO 18.8 in [our release post in English](https://yoa.st/release-6-5-22) or [our release post in Spanish](https://yoa.st/release-6-5-22-spanish)!
+
 Enhancements:
 
 * Removes XML sitemap image properties `title` and `caption` following deprecation by Google.
