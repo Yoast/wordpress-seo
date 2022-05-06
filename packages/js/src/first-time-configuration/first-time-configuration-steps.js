@@ -1,6 +1,6 @@
 /* global wpseoFirstTimeConfigurationData */
 import apiFetch from "@wordpress/api-fetch";
-import { useCallback, useReducer, useState, useEffect } from "@wordpress/element";
+import { useCallback, useReducer, useState, useEffect, useRef } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { cloneDeep, uniq } from "lodash";
 
@@ -547,6 +547,24 @@ export default function FirstTimeConfigurationSteps() {
 			setStepperFinishedOnce( true );
 		}
 	}, [ isStepperFinished ] );
+
+	/* In order to refresh data in the php form, once the stepper is done, we need to reload upon haschanges triggered by the tabswitching */
+	const isStepperFinishedAtBeginning = useRef( isStep2Finished && isStep3Finished && isStep4Finished );
+	useEffect( () => {
+		/**
+		 * Reloads the window.
+		 *
+		 * @returns {void}
+		 */
+		const reloadFunction = () => {
+			window.location.reload( true );
+		};
+
+		if ( isStepperFinished && ! isStepperFinishedAtBeginning.current ) {
+			window.addEventListener( "hashchange", reloadFunction );
+		}
+		return () => window.removeEventListener( "hashchange", reloadFunction );
+	}, [ isStepperFinished, isStepperFinishedAtBeginning ] );
 
 	// If stepperFinishedOnce changes or isStepBeingEdited changes, evaluate edit button state.
 	useEffect( () => {
