@@ -14,9 +14,9 @@ import SocialInput from "./social-input";
  * @param {array}    props.errorFields    The array containing the names of the fields with an invalid value.
  * @param {function} props.dispatch       A dispatch function to communicate with the Stepper store.
  *
- * @returns {WPElement} The SocialInputSection.
+ * @returns {WPElement} The SocialInputSectionContainer.
  */
-export default function SocialInputSection( { socialProfiles, errorFields, dispatch } ) {
+export default function SocialInputSectionContainer( { socialProfiles, errorFields, dispatch } ) {
 	const onChangeHandler = useCallback(
 		( newValue, socialMedium ) => {
 			dispatch( { type: "CHANGE_SOCIAL_PROFILE", payload: { socialMedium, value: newValue } } );
@@ -44,7 +44,44 @@ export default function SocialInputSection( { socialProfiles, errorFields, dispa
 	);
 
 	return (
-		<div id="social-input-section" className="yoast-social-profiles-input-fields">
+		<SocialInputSection
+			socialProfiles={ socialProfiles }
+			onChangeHandler={ onChangeHandler }
+			onChangeOthersHandler={ onChangeOthersHandler }
+			onAddProfileHandler={ onAddProfileHandler }
+			onRemoveProfileHandler={ onRemoveProfileHandler }
+			errorFields={ errorFields }
+		/>
+	);
+}
+/* eslint-enable complexity */
+
+SocialInputSectionContainer.propTypes = {
+	socialProfiles: PropTypes.object.isRequired,
+	dispatch: PropTypes.func.isRequired,
+	errorFields: PropTypes.array,
+};
+
+SocialInputSectionContainer.defaultProps = {
+	errorFields: [],
+};
+
+/**
+ * The social input section.
+ *
+ * @param {Object} props The props.
+ * @returns {WPElement} The Social Input Section.
+ */
+export function SocialInputSection(	{
+	socialProfiles,
+	onChangeHandler,
+	onChangeOthersHandler,
+	onAddProfileHandler,
+	onRemoveProfileHandler,
+	errorFields,
+} ) {
+	return (
+		<div id="social-input-section">
 			<SocialInput
 				className="yst-mt-4"
 				label={ __( "Facebook", "wordpress-seo" ) }
@@ -73,7 +110,6 @@ export default function SocialInputSection( { socialProfiles, errorFields, dispa
 					type: "error",
 				} }
 			/>
-
 			<SocialFieldArray
 				items={ socialProfiles.otherSocialUrls }
 				onAddProfile={ onAddProfileHandler }
@@ -85,14 +121,12 @@ export default function SocialInputSection( { socialProfiles, errorFields, dispa
 		</div>
 	);
 }
-/* eslint-enable complexity */
 
 SocialInputSection.propTypes = {
 	socialProfiles: PropTypes.object.isRequired,
-	dispatch: PropTypes.func.isRequired,
-	errorFields: PropTypes.array,
-};
-
-SocialInputSection.defaultProps = {
-	errorFields: [],
+	onChangeHandler: PropTypes.func.isRequired,
+	onChangeOthersHandler: PropTypes.func.isRequired,
+	onAddProfileHandler: PropTypes.func.isRequired,
+	onRemoveProfileHandler: PropTypes.func.isRequired,
+	errorFields: PropTypes.array.isRequired,
 };

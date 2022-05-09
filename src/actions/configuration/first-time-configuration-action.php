@@ -244,7 +244,7 @@ class First_Time_Configuration_Action {
 		}
 
 		// If all the five steps of the configuration have been completed, set first_time_install option to false.
-		if ( \count( $params['finishedSteps'] ) === 5 ) {
+		if ( \count( $params['finishedSteps'] ) === 3 ) {
 			$this->options_helper->set( 'first_time_install', false );
 		}
 
