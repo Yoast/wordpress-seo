@@ -284,7 +284,7 @@ describe( "Counts images in a text", function() {
 	} );
 } );
 
-describe( "test for alt tag attributes in Japanese", () => {
+/*describe( "test for alt tag attributes in Japanese", () => {
 	it( "returns result when no morphology data is supplied", () => {
 		const paper = new Paper( "<img src=\"http://basic.wordpress.test/wp-content/uploads/2021/10/images.jpeg\" alt=\"会えるトイレ\"> " +
 			"<img src=\"http://basic.wordpress.test/wp-content/uploads/2021/10/images.jpeg\" alt=\"我が家はみんな元気じゃないです\">",
@@ -297,4 +297,4 @@ describe( "test for alt tag attributes in Japanese", () => {
 		expect( stringToCheck.withAltKeyword ).toBe( 1 );
 		expect( stringToCheck.withAltNonKeyword ).toBe( 1 );
 	} );
-} );
+} );*/
