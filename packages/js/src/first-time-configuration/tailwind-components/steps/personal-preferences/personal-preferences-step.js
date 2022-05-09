@@ -13,6 +13,7 @@ const Link = makeOutboundLink();
  *
  * @param {Object}   state                    The state
  * @param {function} setTracking              Callback function to update tracking preference
+ * @param {Boolean}  isTrackingOptionSelected Wether the tracking option is selected
  *
  * @returns {JSX.Element} Example step.
  */
