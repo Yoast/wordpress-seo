@@ -184,7 +184,7 @@ describe( "checks for the content words from a synonym phrase in the first parag
 	} );
 } );
 
-const keyphraseFR = "se promener dans la nature avantages";
+/*const keyphraseFR = "se promener dans la nature avantages";
 const sentenceWithAllKeywordsFR = "J'aime a me promener dans la nature pour toutes les avantages pour mon corps et mon cerveau! ";
 const sentenceWithSomeKeywordsFR = "J'aime a me promener dans la nature. ";
 const sentenceWithTheOtherKeywordsFR = "Il'y a pleusieurs d'avantages pour mon corps et mon cerveau! ";
@@ -249,9 +249,9 @@ describe( "checks for the content words from the keyphrase in the first paragrap
 			keyphraseOrSynonym: "",
 		} );
 	} );
-} );
+} );*/
 
-describe( "checks for the content words from a synonym phrase in the first paragraph (French - no morphology)", function() {
+/*describe( "checks for the content words from a synonym phrase in the first paragraph (French - no morphology)", function() {
 	it( "returns whether all keywords were matched in one sentence", function() {
 		const paper = new Paper(
 			paragraphWithSentenceMatchFR, {
@@ -308,7 +308,7 @@ describe( "checks for the content words from a synonym phrase in the first parag
 			keyphraseOrSynonym: "",
 		} );
 	} );
-} );
+} );*/
 
 describe( "tests for edge cases", function() {
 	it( "returns not found if no keyphrase or synonyms were specified", function() {
@@ -563,7 +563,7 @@ describe( "tests for edge cases", function() {
 		} );
 	} );
 
-	it( "returns correct result for Turkish with dotted I", function() {
+	/*it( "returns correct result for Turkish with dotted I", function() {
 		const paper = new Paper(
 			"<p>Bu yıldız, Vikipedi'deki seçkin içeriği sembolize eder İstanbul.</p>", {
 				keyword: "İstanbul",
@@ -591,9 +591,9 @@ describe( "tests for edge cases", function() {
 			foundInParagraph: true,
 			keyphraseOrSynonym: "keyphrase",
 		} );
-	} );
+	} );*/
 
-	it( "returns correct result for German", function() {
+	/*it( "returns correct result for German", function() {
 		const paper = new Paper(
 			"<p>äbc und Äbc</p>", {
 				keyword: "äbc",
@@ -607,7 +607,7 @@ describe( "tests for edge cases", function() {
 			foundInParagraph: true,
 			keyphraseOrSynonym: "keyphrase",
 		} );
-	} );
+	} );*/
 
 	it( "returns correct result if the text contains image tag", function() {
 		const paper = new Paper(
@@ -627,7 +627,7 @@ describe( "tests for edge cases", function() {
 	} );
 } );
 
-const keyphraseJA = "自然の中を歩く";
+/*const keyphraseJA = "自然の中を歩く";
 const sentenceWithAllKeywordsJA = "人によって心地よく感じるポイントは異なりますが、自然の中で本来あるべき場所に、明るく爽やかな森の中を歩く時間は、それだけで心と体を癒してくれるものです。";
 const sentenceWithSomeKeywordsJA = "自然とは、人為によってではなく、おのずから存在しているもの。";
 const sentenceWithTheOtherKeywordsJA = "歩くさわやかな森の中で時間が速くなります。";
@@ -638,13 +638,13 @@ const paragraphWithParagraphMatchJA = "<p>" + sentenceWithSomeKeywordsJA + sente
 	sentenceWithSomeKeywordsJA + sentenceWithoutKeywordsJA + "/<p>";
 const paragraphWithoutMatchJA = "<p>" + sentenceWithoutKeywordsJA + sentenceWithoutKeywordsJA + sentenceWithoutKeywordsJA + "/<p>";
 
-/**
+/!**
  * Mocks Japanese Researcher.
  * @param {Array} keyphraseForms        The morphological forms of the kyphrase to be added to the researcher.
  * @param {Array} synonymsForms         The morphological forms of the synonyms to be added to the researcher.
  * @param {function} helper1    A helper needed for the assesment.
  * @returns {Researcher} The mock researcher with added morphological forms and custom helper.
- */
+ *!/
 const buildJapaneseMockResearcher = function( keyphraseForms, synonymsForms, helper1 ) {
 	return factory.buildMockResearcher( {
 		morphology: {
@@ -704,9 +704,9 @@ describe( "checks for the content words from the keyphrase in the first paragrap
 			keyphraseOrSynonym: "",
 		} );
 	} );
-} );
+} );*/
 
-describe( "checks for the content words from the keyphrase in the first paragraph (Japanese)", function() {
+/*describe( "checks for the content words from the keyphrase in the first paragraph (Japanese)", function() {
 	it( "returns whether all keywords were matched in one sentence", function() {
 		const paper = new Paper(
 			paragraphWithSentenceMatchJA, {
@@ -766,9 +766,9 @@ describe( "checks for the content words from the keyphrase in the first paragrap
 			keyphraseOrSynonym: "",
 		} );
 	} );
-} );
+} );*/
 
-describe( "checks for the content words from a synonym phrase in the first paragraph (Japanese)", function() {
+/*describe( "checks for the content words from a synonym phrase in the first paragraph (Japanese)", function() {
 	it( "returns whether all keywords were matched in one sentence", function() {
 		const paper = new Paper(
 			paragraphWithSentenceMatchJA, {
@@ -829,7 +829,7 @@ describe( "checks for the content words from a synonym phrase in the first parag
 			keyphraseOrSynonym: "",
 		} );
 	} );
-} );
+} );*/
 
 describe( "a test for the keyphrase in first paragraph research when the exact match is requested", function() {
 	it( "returns a bad result when the first paragraph doesn't contain the exact match of the keyphrase", function() {
@@ -871,7 +871,7 @@ describe( "a test for the keyphrase in first paragraph research when the exact m
 		} );
 	} );
 
-	it( "returns a bad result when the first paragraph doesn't contain the exact match of the keyphrase in Japanese", function() {
+	/*it( "returns a bad result when the first paragraph doesn't contain the exact match of the keyphrase in Japanese", function() {
 		const paper = new Paper( "小さくて可愛い花の刺繍に関する一般一般の記事です。私は美しい猫を飼っています。", { keyword: "『小さい花の刺繍』",
 			synonyms: "野生のハーブの刺繡",
 		} );
@@ -909,5 +909,5 @@ describe( "a test for the keyphrase in first paragraph research when the exact m
 			foundInParagraph: true,
 			keyphraseOrSynonym: "synonym",
 		} );
-	} );
+	} );*/
 } );
