@@ -267,7 +267,7 @@ export class Indexation extends Component {
 	 */
 	renderFirstIndexationNotice() {
 		return (
-			<Alert type={ "info" } className="yst-mb-6">
+			<Alert type={ "info" } className="yst-mt-6">
 				{ __( "This feature includes and replaces the Text Link Counter and Internal Linking Analysis", "wordpress-seo" ) }
 			</Alert>
 		);
@@ -319,7 +319,7 @@ export class Indexation extends Component {
 					{ __( "Start SEO data optimization", "wordpress-seo" ) }
 				</button>
 			</p>
-			<Alert type={ "info" }>
+			<Alert type={ "info" } className="yst-mt-6">
 				{ __( "SEO data optimization is disabled for non-production environments.", "wordpress-seo" ) }
 			</Alert>
 		</Fragment>;
@@ -403,12 +403,12 @@ export class Indexation extends Component {
 				>
 					{ this.renderProgressBar() }
 					{ this.isState( STATE.ERRORED ) && this.renderErrorAlert() }
-					{ this.isState( STATE.IDLE ) && this.state.firstTime && this.renderFirstIndexationNotice() }
 					{ this.isState( STATE.IN_PROGRESS )
 						? this.renderStopButton()
 						: this.renderStartButton()
 					}
 					{ this.renderCaption() }
+					{ this.isState( STATE.IDLE ) && this.state.firstTime && this.renderFirstIndexationNotice() }
 				</Transition>
 			</div>
 		);
