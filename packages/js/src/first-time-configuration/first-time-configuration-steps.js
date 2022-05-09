@@ -579,6 +579,15 @@ export default function FirstTimeConfigurationSteps() {
 		return () => removeEventListener( "keydown", preventEnterSubmit );
 	}, [] );
 
+	// Used by admin.js to decide wether to show the confirmation dialog when user switches tabs in General.
+	useEffect( () => {
+		if ( state.editedSteps.includes( activeStepIndex + 1 ) || indexingState === "in_progress" ) {
+			window.isStepBeingEdited = true;
+		} else {
+			window.isStepBeingEdited = false;
+		}
+	}, [ state.editedSteps, indexingState ] );
+
 	/**
 	 * Handles the "before page unloads" event.
 	 *
