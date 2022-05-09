@@ -697,11 +697,6 @@ class WPSEO_Admin_Asset_Manager {
 					self::PREFIX . 'monorepo',
 				],
 			],
-			[
-				'name' => 'installation-success',
-				'src'  => 'installation-success-' . $flat_version,
-				'deps' => [ self::PREFIX . 'monorepo' ],
-			],
 		];
 	}
 

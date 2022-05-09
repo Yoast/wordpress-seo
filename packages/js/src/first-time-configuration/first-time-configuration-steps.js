@@ -1,6 +1,6 @@
 /* global wpseoFirstTimeConfigurationData */
 import apiFetch from "@wordpress/api-fetch";
-import { useCallback, useReducer, useState, useEffect } from "@wordpress/element";
+import { useCallback, useReducer, useState, useEffect, useRef } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { cloneDeep, uniq } from "lodash";
 
@@ -304,7 +304,7 @@ function calculateInitialState( windowObject, isStepFinished ) {
 
 	if ( shouldForceCompany ) {
 		companyOrPerson = "company";
-	} else if ( companyOrPerson === "company" && ( ! companyName && ! companyLogo ) && ! isStepFinished( 2 ) ) {
+	} else if ( companyOrPerson === "company" && ( ! companyName && ! companyLogo ) && ! isStepFinished( STEPS.siteRepresentation ) ) {
 		// Set the stage for an empty step 2 in case the customer does seem to have consciously finished step 2 without setting data.
 		companyOrPerson = "emptyChoice";
 	}
@@ -478,6 +478,13 @@ export default function FirstTimeConfigurationSteps() {
 	 */
 	function updateOnFinishPersonalPreferences() {
 		return updateTracking( state )
+			.then( () => {
+				if ( isTrackingOptionSelected ) {
+					document.getElementById( "tracking-on" ).checked = true;
+				} else {
+					document.getElementById( "tracking-off" ).checked = true;
+				}
+			} )
 			.then( () => setStepIsSaved( 4 ) )
 			.then( () => finishSteps( STEPS.personalPreferences ) )
 			.then( () => {
@@ -548,6 +555,24 @@ export default function FirstTimeConfigurationSteps() {
 		}
 	}, [ isStepperFinished ] );
 
+	/* In order to refresh data in the php form, once the stepper is done, we need to reload upon haschanges triggered by the tabswitching */
+	const isStepperFinishedAtBeginning = useRef( isStep2Finished && isStep3Finished && isStep4Finished );
+	useEffect( () => {
+		/**
+		 * Reloads the window.
+		 *
+		 * @returns {void}
+		 */
+		const reloadFunction = () => {
+			window.location.reload( true );
+		};
+
+		if ( isStepperFinished && ! isStepperFinishedAtBeginning.current ) {
+			window.addEventListener( "hashchange", reloadFunction );
+		}
+		return () => window.removeEventListener( "hashchange", reloadFunction );
+	}, [ isStepperFinished, isStepperFinishedAtBeginning ] );
+
 	// If stepperFinishedOnce changes or isStepBeingEdited changes, evaluate edit button state.
 	useEffect( () => {
 		setShowEditButton( stepperFinishedOnce && ! isStepBeingEdited );
@@ -563,7 +588,7 @@ export default function FirstTimeConfigurationSteps() {
 		 * @returns {void}
 		 */
 		function preventEnterSubmit( event ) {
-			if ( event.key === "Enter" && event.target.tagName === "INPUT" ) {
+			if ( event.key === "Enter" && document.querySelector( ".nav-tab.nav-tab-active" ).id === "first-time-configuration-tab" && event.target.tagName === "INPUT" ) {
 				event.preventDefault();
 			}
 		}
@@ -595,7 +620,7 @@ export default function FirstTimeConfigurationSteps() {
 	}, [ beforeUnloadEventHandler ] );
 
 	return (
-		<div id="yoast-configuration" className="yst-card">
+		<div id="yoast-configuration" className="yst-card yst-text-gray-500">
 			<h2 id="yoast-configuration-title" className="yst-text-lg yst-text-primary-500 yst-font-medium">{ __( "Tell us about your site, so we can get your site ranked!", "wordpress-seo" ) }</h2>
 			<p className="yst-py-2">
 				{
