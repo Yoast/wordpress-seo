@@ -5,8 +5,10 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations\Third_Party;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Wincher_Helper;
 use Yoast\WP\SEO\Integrations\Third_Party\Wincher;
+use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -137,6 +139,18 @@ class Wincher_Test extends TestCase {
 			'disabled' => false,
 		];
 
+		$options_helper = Mockery::mock( Options_Helper::class );
+		$options_helper->expects( 'get' )
+			->with( 'wincher_website_id', '' )
+			->once()
+			->andReturn( 'some-id' );
+
+		$helper_surface          = Mockery::mock( Helpers_Surface::class );
+		$helper_surface->options = $options_helper;
+
+		Monkey\Functions\expect( 'YoastSEO' )
+			->andReturn( (object) [ 'helpers' => $helper_surface ] );
+
 		$this->instance->expects( 'get_disabled_note' )->never();
 
 		$this->expectOutputContains( 'hidden_wincher_website_id' );
@@ -154,6 +168,18 @@ class Wincher_Test extends TestCase {
 			'setting'  => 'wincher_integration_active',
 			'disabled' => true,
 		];
+
+		$options_helper = Mockery::mock( Options_Helper::class );
+		$options_helper->expects( 'get' )
+			->with( 'wincher_website_id', '' )
+			->once()
+			->andReturn( 'some-id' );
+
+		$helper_surface          = Mockery::mock( Helpers_Surface::class );
+		$helper_surface->options = $options_helper;
+
+		Monkey\Functions\expect( 'YoastSEO' )
+			->andReturn( (object) [ 'helpers' => $helper_surface ] );
 
 		Monkey\Functions\stubs( [ 'is_multisite' => true ] );
 
