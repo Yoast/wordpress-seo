@@ -10,7 +10,7 @@
     "@wordpress/jest-preset-default": "^8.0.1",
     "babel-jest": "^27.5.1"
   },
-  "peerDependencies": {
+  "dependencies": {
     "@babel/core": "^7.17.2",
     "jest": "^27.5.1"
   }
