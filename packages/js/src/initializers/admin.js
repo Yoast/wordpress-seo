@@ -301,6 +301,28 @@ export default function initAdmin( jQuery ) {
 		}
 	}
 
+	/**
+	 * Checks wether or not the confirmation dialog should be displayed upom switching tab.
+	 *
+	 * @param {object} target The clicked tab.
+	 *
+	 * @returns {bool} If the dialog should be displayed.
+	 */
+	function canShowConfirmDialog( target ) {
+		// Is the user in the first time configuration tab?
+		var comingFromFTCTab = !! jQuery( "#wpseo-tabs" ).find( "a" ).filter( ".nav-tab-active" ).filter( "#first-time-configuration-tab" ).length;
+		// Does the user wants to switch to the first time configuration tab?
+		var goingToFTCTab = !! target.filter( "#first-time-configuration-tab" ).length;
+
+
+		/**
+		 * Show the pop-up iff the user is in the first time configuration tab
+		 * and clicks on a tab which is different from the first time configuration tab
+		 * and the current step is being edited (set by first time configuration in React)
+		*/
+		return ( comingFromFTCTab && ( ! goingToFTCTab ) && window.isStepBeingEdited );
+	}
+
 	window.wpseoDetectWrongVariables = wpseoDetectWrongVariables;
 	window.setWPOption = setWPOption;
 	window.wpseoCopyHomeMeta = wpseoCopyHomeMeta;
@@ -381,18 +403,9 @@ export default function initAdmin( jQuery ) {
 
 		// Handle the settings pages tabs.
 		jQuery( "#wpseo-tabs" ).find( "a" ).on( "click", function() {
-			// Is the user in the first time configuration tab?
-			var comingFromFTCTab = !! jQuery( "#wpseo-tabs" ).find( "a" ).filter( ".nav-tab-active" ).filter( "#first-time-configuration-tab" ).length;
-			// Does the user wants to switch to the first time configuration tab?
-			var goingToFTCTab = !! jQuery( this ).filter( "#first-time-configuration-tab" ).length;
-
 			var canChangeTab = true;
 
-			/**
-			 * Show the pop-up iff the user is in the first time configuration tab
-			 * and clicks on a tab which is different from the first time configuration tab
-			*/
-			if ( comingFromFTCTab && ! goingToFTCTab ) {
+			if ( canShowConfirmDialog( jQuery( this ) ) ) {
 				/* eslint-disable no-alert */
 				canChangeTab = confirm( "Are you sure you want to leave the page?" );
 			}
