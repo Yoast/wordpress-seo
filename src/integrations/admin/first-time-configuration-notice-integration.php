@@ -100,10 +100,6 @@ class First_Time_Configuration_Notice_Integration implements Integration_Interfa
 			return false;
 		}
 
-		if ( $this->options_helper->get( 'first_time_install', false ) === false ) {
-			return false;
-		}
-
 		return ! $this->are_site_representation_name_and_logo_set() || $this->indexing_helper->get_unindexed_count() > 0;
 	}
 
@@ -119,11 +115,16 @@ class First_Time_Configuration_Notice_Integration implements Integration_Interfa
 
 		$this->admin_asset_manager->enqueue_style( 'monorepo' );
 
+		$is_first_time_install = $this->options_helper->get( 'first_time_install', false );
+		$notice_title          = ( $is_first_time_install ) ? \__( 'First-time SEO configuration', 'wordpress-seo' ) : \__( 'SEO configuration', 'wordpress-seo' );
+		/* translators: 1: Link start tag to the first-time configuration, 2: Yoast SEO, 3: Link closing tag. */
+		$notice_content = ( $is_first_time_install ) ? \__( 'Get started quickly with the %1$s%2$s First-time configuration%3$s and configure Yoast SEO with the optimal SEO settings for your site!', 'wordpress-seo' ) : \__( 'We noticed that you haven’t fully configured Yoast SEO yet. Optimize your SEO settings even further by using our improved %1$s%2$s first-time configuration%3$s.', 'wordpress-seo' );
+
+
 		$notice = new Notice_Presenter(
-			\__( 'First-time SEO configuration', 'wordpress-seo' ),
+			$notice_title,
 			\sprintf(
-			/* translators: 1: Link start tag to the first-time configuration, 2: Yoast SEO, 3: Link closing tag. */
-				\__( 'Get started quickly with the %1$s%2$s First-time configuration%3$s and configure Yoast SEO with the optimal SEO settings for your site!', 'wordpress-seo' ),
+				$notice_content,
 				'<a href="' . \esc_url( \self_admin_url( 'admin.php?page=wpseo_dashboard#top#first-time-configuration' ) ) . '">',
 				'Yoast SEO',
 				'</a>'
