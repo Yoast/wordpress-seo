@@ -9,6 +9,7 @@ use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Helpers\Json_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
+use Yoast\WP\SEO\Integrations\Admin\Social_Profiles_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Routes\Indexing_Route;
 
@@ -60,6 +61,13 @@ class Configuration_Workout_Integration implements Integration_Interface {
 	private $json_helper;
 
 	/**
+	 * The social profiles helper.
+	 *
+	 * @var Social_Profiles_Helper
+	 */
+	private $social_profiles_helper;
+
+	/**
 	 * {@inheritDoc}
 	 */
 	public static function get_conditionals() {
@@ -69,12 +77,13 @@ class Configuration_Workout_Integration implements Integration_Interface {
 	/**
 	 * Configuration_Workout_Integration constructor.
 	 *
-	 * @param WPSEO_Admin_Asset_Manager $admin_asset_manager The admin asset manager.
-	 * @param WPSEO_Addon_Manager       $addon_manager       The addon manager.
-	 * @param WPSEO_Shortlinker         $shortlinker         The shortlinker.
-	 * @param Options_Helper            $options_helper      The options helper.
-	 * @param Product_Helper            $product_helper      The product helper.
-	 * @param Json_Helper               $json_helper         The JSON helper.
+	 * @param WPSEO_Admin_Asset_Manager $admin_asset_manager    The admin asset manager.
+	 * @param WPSEO_Addon_Manager       $addon_manager          The addon manager.
+	 * @param WPSEO_Shortlinker         $shortlinker            The shortlinker.
+	 * @param Options_Helper            $options_helper         The options helper.
+	 * @param Product_Helper            $product_helper         The product helper.
+	 * @param Json_Helper               $json_helper            The JSON helper.
+	 * @param Social_Profiles_Helper    $social_profiles_helper The social profiles helper.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $admin_asset_manager,
@@ -82,14 +91,16 @@ class Configuration_Workout_Integration implements Integration_Interface {
 		WPSEO_Shortlinker $shortlinker,
 		Options_Helper $options_helper,
 		Product_Helper $product_helper,
-		Json_Helper $json_helper
+		Json_Helper $json_helper,
+		Social_Profiles_Helper $social_profiles_helper
 	) {
-		$this->admin_asset_manager = $admin_asset_manager;
-		$this->addon_manager       = $addon_manager;
-		$this->shortlinker         = $shortlinker;
-		$this->options_helper      = $options_helper;
-		$this->product_helper      = $product_helper;
-		$this->json_helper         = $json_helper;
+		$this->admin_asset_manager    = $admin_asset_manager;
+		$this->addon_manager          = $addon_manager;
+		$this->shortlinker            = $shortlinker;
+		$this->options_helper         = $options_helper;
+		$this->product_helper         = $product_helper;
+		$this->json_helper            = $json_helper;
+		$this->social_profiles_helper = $social_profiles_helper;
 	}
 
 	/**
@@ -133,7 +144,8 @@ class Configuration_Workout_Integration implements Integration_Interface {
 
 		$this->admin_asset_manager->localize_script( 'indexation', 'yoastIndexingData', $data );
 
-		$social_profiles = $this->get_social_profiles();
+		$social_profiles        = $this->get_social_profiles();
+		$person_social_profiles = $this->social_profiles_helper->get_person_social_profiles( $this->get_person_id() );
 
 		// This filter is documented in admin/views/tabs/metas/paper-content/general/knowledge-graph.php.
 		$knowledge_graph_message = \apply_filters( 'wpseo_knowledge_graph_setting_msg', '' );
@@ -148,9 +160,8 @@ class Configuration_Workout_Integration implements Integration_Interface {
 		);
 		$selected_option       = \reset( $filtered_options );
 		if ( \is_array( $selected_option ) ) {
-			$selected_option_label = $selected_option['name'];
+			$selected_option_label = $selected_option['label'];
 		}
-
 		$this->admin_asset_manager->add_inline_script(
 			'workouts',
 			\sprintf(
@@ -161,19 +172,29 @@ class Configuration_Workout_Integration implements Integration_Interface {
 					"companyLogo": "%s",
 					"companyLogoId": %d,
 					"personId": %d,
+					"canEditUser": %d,
+					"personName": "%s",
 					"personLogo": "%s",
 					"personLogoId": %d,
 					"siteTagline": "%s",
 					"socialProfiles": {
 						"facebookUrl": "%s",
 						"twitterUsername": "%s",
-						"instagramUrl": "%s",
-						"linkedinUrl": "%s",
-						"myspaceUrl": "%s",
-						"pinterestUrl": "%s",
-						"youtubeUrl": "%s",
-						"wikipediaUrl": "%s",
+						"otherSocialUrls": %s,
 					},
+					"personSocialProfiles" : {
+						"facebook" : "%s",
+						"instagram" : "%s",
+						"linkedin" : "%s",
+						"myspace" : "%s",
+						"pinterest" : "%s",
+						"soundcloud" : "%s",
+						"tumblr" : "%s",
+						"twitter" : "%s",
+						"youtube" : "%s",
+						"wikipedia" : "%s",
+					},
+					"isPremium": %d,
 					"tracking": %d,
 					"companyOrPersonOptions": %s,
 					"shouldForceCompany": %d,
@@ -190,17 +211,25 @@ class Configuration_Workout_Integration implements Integration_Interface {
 				$this->get_company_logo(),
 				$this->get_company_logo_id(),
 				$this->get_person_id(),
+				$this->get_can_edit_user(),
+				$this->get_person_name(),
 				$this->get_person_logo(),
 				$this->get_person_logo_id(),
 				$this->get_site_tagline(),
 				$social_profiles['facebook_url'],
 				$social_profiles['twitter_username'],
-				$social_profiles['instagram_url'],
-				$social_profiles['linkedin_url'],
-				$social_profiles['myspace_url'],
-				$social_profiles['pinterest_url'],
-				$social_profiles['youtube_url'],
-				$social_profiles['wikipedia_url'],
+				$this->json_helper->format_encode( $social_profiles['other_social_urls'] ),
+				$person_social_profiles['facebook'],
+				$person_social_profiles['instagram'],
+				$person_social_profiles['linkedin'],
+				$person_social_profiles['myspace'],
+				$person_social_profiles['pinterest'],
+				$person_social_profiles['soundcloud'],
+				$person_social_profiles['tumblr'],
+				$person_social_profiles['twitter'],
+				$person_social_profiles['youtube'],
+				$person_social_profiles['wikipedia'],
+				$this->product_helper->is_premium(),
 				$this->has_tracking_enabled(),
 				$this->json_helper->format_encode( $options ),
 				$this->should_force_company(),
@@ -285,6 +314,28 @@ class Configuration_Workout_Integration implements Integration_Interface {
 	}
 
 	/**
+	 * Gets wether or not current user can edit the selected person.
+	 *
+	 * @return bool Wether or not current user can edit the selected person.
+	 */
+	private function get_can_edit_user() {
+		return \current_user_can( 'edit_user', $this->get_person_id() );
+	}
+
+	/**
+	 * Gets the person id from the option in the database.
+	 *
+	 * @return int|null The person id, null if empty.
+	 */
+	private function get_person_name() {
+		$user = \get_userdata( $this->get_person_id() );
+		if ( $user instanceof \WP_User ) {
+			return $user->get( 'display_name' );
+		}
+		return '';
+	}
+
+	/**
 	 * Gets the person avatar from the option in the database.
 	 *
 	 * @return string The person logo.
@@ -318,14 +369,9 @@ class Configuration_Workout_Integration implements Integration_Interface {
 	 */
 	private function get_social_profiles() {
 		return [
-			'facebook_url'     => $this->options_helper->get( 'facebook_site', '' ),
-			'twitter_username' => $this->options_helper->get( 'twitter_site', '' ),
-			'instagram_url'    => $this->options_helper->get( 'instagram_url', '' ),
-			'linkedin_url'     => $this->options_helper->get( 'linkedin_url', '' ),
-			'myspace_url'      => $this->options_helper->get( 'myspace_url', '' ),
-			'pinterest_url'    => $this->options_helper->get( 'pinterest_url', '' ),
-			'youtube_url'      => $this->options_helper->get( 'youtube_url', '' ),
-			'wikipedia_url'    => $this->options_helper->get( 'wikipedia_url', '' ),
+			'facebook_url'      => $this->options_helper->get( 'facebook_site', '' ),
+			'twitter_username'  => $this->options_helper->get( 'twitter_site', '' ),
+			'other_social_urls' => $this->options_helper->get( 'other_social_urls', [] ),
 		];
 	}
 
@@ -353,14 +399,23 @@ class Configuration_Workout_Integration implements Integration_Interface {
 	private function get_company_or_person_options() {
 		$options = [
 			[
-				'name'  => \__( 'Organization', 'wordpress-seo' ),
+				'label' => \__( 'Organization', 'wordpress-seo' ),
 				'value' => 'company',
+				'id'    => 'company',
+			],
+			[
+				'label' => \__( 'Person', 'wordpress-seo' ),
+				'value' => 'person',
+				'id'    => 'person',
 			],
 		];
-		if ( ! $this->should_force_company() ) {
-			$options[] = [
-				'name'  => \__( 'Person', 'wordpress-seo' ),
-				'value' => 'person',
+		if ( $this->should_force_company() ) {
+			$options = [
+				[
+					'label' => \__( 'Organization', 'wordpress-seo' ),
+					'value' => 'company',
+					'id'    => 'company',
+				],
 			];
 		}
 

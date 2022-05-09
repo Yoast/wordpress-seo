@@ -6,7 +6,7 @@
   "author": "Team Yoast <support@yoast.com>",
   "license": "GPL-3.0",
   "private": false,
-  "devDependencies": {
+  "dependencies": {
     "autoprefixer": "^10.4.2",
     "cssnano": "^5.0.17",
     "postcss-import": "^14.0.2",

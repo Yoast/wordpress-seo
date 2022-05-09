@@ -36,7 +36,7 @@ class CoAuthor extends Author {
 			return false;
 		}
 
-		$data = $this->build_person_data( $user_id );
+		$data = $this->build_person_data( $user_id, true );
 
 		$data['@type'] = 'Person';
 		unset( $data['logo'] );

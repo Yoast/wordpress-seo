@@ -29,6 +29,7 @@
     "node": ">=8.0.0"
   },
   "devDependencies": {
+    "@lodder/grunt-postcss": "^3.1.1",
     "@yoast/browserslist-config": "^1.2.2",
     "console.table": "^0.10.0",
     "grunt": "^1.0.1",

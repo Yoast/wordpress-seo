@@ -17,7 +17,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * {@internal Nobody should be able to overrule the real version number as this can cause
  *            serious issues with the options, so no if ( ! defined() ).}}
  */
-define( 'WPSEO_VERSION', '18.5-RC6' );
+define( 'WPSEO_VERSION', '18.9-RC2' );
 
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
@@ -37,7 +37,7 @@ define( 'YOAST_VENDOR_DEFINE_PREFIX', 'YOASTSEO_VENDOR__' );
 define( 'YOAST_VENDOR_PREFIX_DIRECTORY', 'vendor_prefixed' );
 
 define( 'YOAST_SEO_PHP_REQUIRED', '5.6' );
-define( 'YOAST_SEO_WP_TESTED', '5.9.2' );
+define( 'YOAST_SEO_WP_TESTED', '5.9.3' );
 define( 'YOAST_SEO_WP_REQUIRED', '5.6' );
 
 if ( ! defined( 'WPSEO_NAMESPACES' ) ) {
@@ -204,7 +204,7 @@ function _wpseo_activate() {
 	WPSEO_Options::ensure_options_exist();
 
 	if ( is_multisite() && ms_is_switched() ) {
-		delete_option( 'rewrite_rules' );
+		update_option( 'rewrite_rules', '' );
 	}
 	else {
 		if ( WPSEO_Options::get( 'stripcategorybase' ) === true ) {
@@ -251,7 +251,7 @@ function _wpseo_deactivate() {
 	require_once WPSEO_PATH . 'inc/wpseo-functions.php';
 
 	if ( is_multisite() && ms_is_switched() ) {
-		delete_option( 'rewrite_rules' );
+		update_option( 'rewrite_rules', '' );
 	}
 	else {
 		add_action( 'shutdown', 'flush_rewrite_rules' );

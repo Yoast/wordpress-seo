@@ -95,8 +95,8 @@ export function getWincherAllKeyphrasesMissRanking( state ) {
 export function getWincherPermalink( state ) {
 	const analysisData = getAnalysisData( state );
 
-	// Workaround for the fact that analysisData.permalink is initialized before the slug/url is ready.
-	if ( ! analysisData.url ) {
+	// Workaround for the fact that analysisData.permalink is initialized before the slug is ready.
+	if ( ! analysisData.slug ) {
 		return "";
 	}
 

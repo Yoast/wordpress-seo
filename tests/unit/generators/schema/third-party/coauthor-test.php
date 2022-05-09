@@ -79,7 +79,7 @@ class CoAuthor_Test extends TestCase {
 	public function test_generate_from_user_id( $user_id, $person_data, $disable_author, $disable_author_times, $author_posts_url, $author_posts_url_times, $expected_result ) {
 		$this->instance->expects( 'build_person_data' )
 			->times( $disable_author_times )
-			->with( $user_id )
+			->with( $user_id, true )
 			->andReturn( $person_data );
 
 		$this->options->expects( 'get' )

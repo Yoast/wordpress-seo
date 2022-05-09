@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 5.9
-Stable tag: 18.4.1
+Stable tag: 18.8
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -236,57 +236,33 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
-= 18.5 =
-Release Date: April 5th, 2022
+= 18.9 =
+Release Date: May 17th, 2022
+
 
 Enhancements:
 
-* Adds an integration for [CoAuthors Plus](https://wordpress.org/plugins/co-authors-plus/). When enabled, multiple authors will be added to the schema output.
-* Changes the `@id` for images for `Person` and `Organization`, including the `logo` attribute for the latter, to be more specific to the image.
-* Improves the `ImageObject` schema piece to use the URL of the main image in posts having Open Graph or Twitter images.
-* Adds a `wpseo_schema_graph` filter to allow filtering the entire Schema graph.
-* Adds a preliminary import action validating AIOSEO data before going into the actual import.
+* Adds an `installation successful` page to welcome first-time users.
+* Introduces the First-time configuration, replacing and improving the Configuration Workout.
+* Renames the main admin menu item to `Yoast SEO` instead of `SEO`.
 
 Bugfixes:
 
-* Fixes a bug where the url preview inside the snippet editor doesn't reflect the permalink consistently in the Block editor.
-* Fixes an incorrect escaping function in our health checks. Props to [BronsonQuick](https://github.com/BronsonQuick).
-* Fixes a bug where in certain edge cases a database error would show during AIOSEO clean up.
-* Fixes a bug where reusable block content would not be updated in our analysis when changed in the editor.
-* Fixes a bug where the Google preview would display wrong breadcrumbs for child pages.
-* Fixes a potential error related to the `has_ancestors` column of our indexables table. Props to [junaidbhura](https://github.com/junaidbhura).
-* Fixes a fatal error in the search appearance options on WP < 5.8.3 and themes without title-tag support.
-* Fixes an issue where sitemap locations would change once the number of entries exceeded that of the first page.
-* Fixes a bug where Yoast modals would close after opening after editing content in Elementor.
+* Fixes a bug that would lead to race conditions when using persistent object caching.
+* Fixes a bug where the global var $post is sometimes modified unexpectedly. Props to [grantalltodavid](https://github.com/grantalltodavid).
 
 Other:
 
-* Sets the minimum required WordPress version to 5.8.
+* Updates the look of the Accounts tab in the Social menu.
 
-= 18.4.1 =
-Release Date: March 22nd, 2022
+= 18.8 =
+Release Date: May 6th, 2022
 
-Other:
-
-* Reverts the 18.4 release due to errors in the WordProof integration.
-
-= 18.4 =
-Release Date: March 22nd, 2022
-
-In Yoast SEO 18.4, we're launching a new integration with an innovative new service called [WordProof](https://wordproof.com/). WordProof offers a way to add timestamps to your content and add those to the blockchain to prove ownership. Try it out now! Read more about what's new in Yoast SEO 18.4 in [our release post in English](https://yoa.st/release-22-3-22) or [our release post in Spanish](https://yoa.st/release-22-3-22-spanish)!
+Did you catch the latest update from Google? Today they made some small changes to how they read XML sitemaps. But you don’t have to worry about that - today's Yoast SEO 18.8 update already applies the latest standards. Read more about what's new in Yoast SEO 18.8 in [our release post in English](https://yoa.st/release-6-5-22) or [our release post in Spanish](https://yoa.st/release-6-5-22-spanish)!
 
 Enhancements:
 
-* Adds the possibility to timestamp your Privacy Policy page and your WooCommerce Terms and Conditions page by use of a WordProof certificate.
-
-Bugfixes:
-
-* Fixes a bug where the Google preview would display wrong breadcrumbs for child pages.
-* Fixes a potential error related to the `has_ancestors` column of our indexables table. Props to @junaidbhura.
-
-Other:
-
-* Sets the minimum required WordPress version to 5.8.
+* Removes XML sitemap image properties `title` and `caption` following deprecation by Google.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

@@ -3,9 +3,7 @@ import Radio from ".";
 export default {
 	title: "1. Elements/Radio",
 	component: Radio,
-	argTypes: {
-		label: { control: "text" },
-	},
+	argTypes: {},
 	parameters: {
 		docs: {
 			description: {
