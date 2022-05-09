@@ -141,7 +141,7 @@ describe( "a test for the keyphrase in first paragraph assessment when the exact
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33e' target='_blank'>Keyphrase in introduction</a>: Well done!" );
 	} );
 
-	it( "returns a bad result when the first paragraph doesn't contain the exact match of the keyphrase in Japanese", function() {
+	/*it( "returns a bad result when the first paragraph doesn't contain the exact match of the keyphrase in Japanese", function() {
 		const mockPaper = new Paper( "小さくて可愛い花の刺繍に関する一般一般の記事です。私は美しい猫を飼っています。",
 			{
 				keyword: "『小さい花の刺繍』",
@@ -194,5 +194,5 @@ describe( "a test for the keyphrase in first paragraph assessment when the exact
 
 		expect( assessment.getScore() ).toBe( 9 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33e' target='_blank'>Keyphrase in introduction</a>: Well done!" );
-	} );
+	} );*/
 } );
