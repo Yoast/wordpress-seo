@@ -6,11 +6,11 @@
   "author": "Team Yoast <support@yoast.com>",
   "license": "GPL-3.0",
   "private": false,
-  "devDependencies": {
+  "dependencies": {
     "@wordpress/jest-preset-default": "^8.0.1",
     "babel-jest": "^27.5.1"
   },
-  "dependencies": {
+  "peerDependencies": {
     "@babel/core": "^7.17.2",
     "jest": "^27.5.1"
   }
