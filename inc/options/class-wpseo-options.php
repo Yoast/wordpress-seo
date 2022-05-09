@@ -285,6 +285,9 @@ class WPSEO_Options {
 	 * @param string $option        The option to retrieve.
 	 * @param mixed  $default_value A default value to return.
 	 *
+	 * @deprecated xx.x
+	 * @codeCoverageIgnore
+	 *
 	 * @return mixed
 	 */
 	public static function get_autoloaded_option( $option, $default_value = false ) {
@@ -464,6 +467,9 @@ class WPSEO_Options {
 	 * @param string $option_name              The name for the option to set.
 	 * @param mixed  $option_value             The value for the option.
 	 *
+	 * @deprecated xx.x
+	 * @codeCoverageIgnore
+	 *
 	 * @return bool Returns true if the option is successfully saved in the database.
 	 */
 	public static function save_option( $wpseo_options_group_name, $option_name, $option_value ) {
@@ -502,6 +508,9 @@ class WPSEO_Options {
 	/**
 	 * Retrieves a lookup table to find in which option_group a key is stored.
 	 *
+	 * @deprecated xx.x
+	 * @codeCoverageIgnore
+	 *
 	 * @return array The lookup table.
 	 */
 	private static function get_lookup_table() {
@@ -522,6 +531,9 @@ class WPSEO_Options {
 
 	/**
 	 * Retrieves a lookup table to find in which option_group a key is stored.
+	 *
+	 * @deprecated xx.x
+	 * @codeCoverageIgnore
 	 *
 	 * @return array The lookup table.
 	 */
