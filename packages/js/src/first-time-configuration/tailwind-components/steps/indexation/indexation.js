@@ -313,7 +313,7 @@ export class Indexation extends Component {
 			<p>
 				<button
 					type="button"
-					className="yst-button yst-button--secondary"
+					className="yst-button yst-button--secondary yst-button--disabled"
 					disabled={ true }
 				>
 					{ __( "Start SEO data optimization", "wordpress-seo" ) }
