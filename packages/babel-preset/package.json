@@ -11,7 +11,7 @@
   "author": "Team Yoast <support@yoast.com>",
   "license": "GPL-3.0",
   "private": false,
-  "devDependencies": {
+  "dependencies": {
     "@babel/plugin-transform-runtime": "^7.17.0",
     "@wordpress/babel-preset-default": "^6.5.1"
   },
