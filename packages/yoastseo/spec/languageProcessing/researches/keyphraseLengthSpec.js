@@ -31,7 +31,7 @@ describe( "the keyphrase length research", function() {
 } );
 
 /*
-describe( "the keyphrase length research", function() {
+Describe( "the keyphrase length research", function() {
 	it( "should count the words in the input and filters function words", function() {
 		const paper = new Paper( "", { keyword: "mot mot le mot", locale: "fr_FR" } );
 		const researcher = new FrenchResearcher( paper );
