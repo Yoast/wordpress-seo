@@ -21,7 +21,7 @@ if ( isset( $_GET['allow_tracking'] ) && check_admin_referer( 'wpseo_activate_tr
 }
 
 $yform = Yoast_Form::get_instance();
-$yform->admin_header( true, 'wpseo' );
+$yform->admin_header( true );
 
 do_action( 'wpseo_all_admin_notices' );
 

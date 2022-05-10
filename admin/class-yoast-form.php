@@ -52,15 +52,11 @@ class Yoast_Form {
 	 *
 	 * @since 2.0
 	 *
-	 * @param bool   $form             Whether or not the form start tag should be included.
-	 * @param string $option           The short name of the option to use for the current page.
-	 * @param bool   $contains_files   Whether the form should allow for file uploads.
-	 * @param bool   $option_long_name Group name of the option.
+	 * @param bool   $form           Whether the form start tag should be included.
+	 * @param string $option         The short name of the option to use for the current page.
+	 * @param bool   $contains_files Whether the form should allow for file uploads.
 	 */
-	public function admin_header( $form = true, $option = 'wpseo', $contains_files = false, $option_long_name = false ) {
-		if ( ! $option_long_name ) {
-			$option_long_name = WPSEO_Options::get_group_name( $option );
-		}
+	public function admin_header( $form = true, $option = 'wpseo_options', $contains_files = false ) {
 		?>
 		<div class="wrap yoast wpseo-admin-page <?php echo esc_attr( 'page-' . $option ); ?>">
 		<?php
@@ -95,7 +91,7 @@ class Yoast_Form {
 				$enctype . ' accept-charset="' .
 				esc_attr( get_bloginfo( 'charset' ) ) .
 				'" novalidate="novalidate">';
-			call_user_func( $hidden_fields_cb, $option_long_name );
+			call_user_func( $hidden_fields_cb, $option );
 		}
 		$this->set_option( $option );
 	}

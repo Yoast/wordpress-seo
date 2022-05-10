@@ -6,7 +6,7 @@
  */
 
 // Admin header.
-Yoast_Form::get_instance()->admin_header( false, 'wpseo-gsc', false, 'yoast_wpseo_gsc_options' );
+Yoast_Form::get_instance()->admin_header( false );
 
 // GSC Error notification.
 $gsc_url                 = 'https://search.google.com/search-console/index';

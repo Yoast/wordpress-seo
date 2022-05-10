@@ -12,7 +12,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 }
 
 $yform = Yoast_Form::get_instance();
-$yform->admin_header( true, 'wpseo_ms' );
+$yform->admin_header( true, 'wpseo_network_admin_options' );
 
 $network_tabs = new WPSEO_Option_Tabs( 'network' );
 $network_tabs->add_tab( new WPSEO_Option_Tab( 'general', __( 'General', 'wordpress-seo' ) ) );

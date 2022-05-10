@@ -102,14 +102,14 @@ class Yoast_Network_Admin implements WPSEO_WordPress_AJAX_Integration, WPSEO_Wor
 	 * @return void
 	 */
 	public function handle_update_options_request() {
-		$option_group = filter_input( INPUT_POST, 'network_option_group', FILTER_SANITIZE_STRING );
+		$option = filter_input( INPUT_POST, 'network_option', FILTER_SANITIZE_STRING );
 
-		$this->verify_request( "{$option_group}-network-options" );
+		$this->verify_request( "{$option}-network-options" );
 
-		$whitelist_options = Yoast_Network_Settings_API::get()->get_whitelist_options( $option_group );
+		$whitelist_options = Yoast_Network_Settings_API::get()->get_whitelist_options( $option );
 
 		if ( empty( $whitelist_options ) ) {
-			add_settings_error( $option_group, 'settings_updated', __( 'You are not allowed to modify unregistered network settings.', 'wordpress-seo' ), 'error' );
+			add_settings_error( $option, 'settings_updated', __( 'You are not allowed to modify unregistered network settings.', 'wordpress-seo' ), 'error' );
 
 			$this->terminate_request();
 			return;
@@ -129,7 +129,7 @@ class Yoast_Network_Admin implements WPSEO_WordPress_AJAX_Integration, WPSEO_Wor
 
 		$settings_errors = get_settings_errors();
 		if ( empty( $settings_errors ) ) {
-			add_settings_error( $option_group, 'settings_updated', __( 'Settings Updated.', 'wordpress-seo' ), 'updated' );
+			add_settings_error( $option, 'settings_updated', __( 'Settings Updated.', 'wordpress-seo' ), 'updated' );
 		}
 
 		$this->terminate_request();
@@ -143,12 +143,13 @@ class Yoast_Network_Admin implements WPSEO_WordPress_AJAX_Integration, WPSEO_Wor
 	public function handle_restore_site_request() {
 		$this->verify_request( 'wpseo-network-restore', 'restore_site_nonce' );
 
-		$option_group = 'wpseo_ms';
+		// TODO: replace hardcoded string with network_admin_options_service->option_name.
+		$option = 'wpseo_network_admin_options';
 
 		// phpcs:ignore WordPress.Security.NonceVerification -- Nonce verified via `verify_request()` above.
-		$site_id = ! empty( $_POST[ $option_group ]['site_id'] ) ? (int) $_POST[ $option_group ]['site_id'] : 0;
+		$site_id = ! empty( $_POST[ $option ]['site_id'] ) ? (int) $_POST[ $option ]['site_id'] : 0;
 		if ( ! $site_id ) {
-			add_settings_error( $option_group, 'settings_updated', __( 'No site has been selected to restore.', 'wordpress-seo' ), 'error' );
+			add_settings_error( $option, 'settings_updated', __( 'No site has been selected to restore.', 'wordpress-seo' ), 'error' );
 
 			$this->terminate_request();
 			return;
@@ -157,13 +158,13 @@ class Yoast_Network_Admin implements WPSEO_WordPress_AJAX_Integration, WPSEO_Wor
 		$site = get_site( $site_id );
 		if ( ! $site ) {
 			/* translators: %s expands to the ID of a site within a multisite network. */
-			add_settings_error( $option_group, 'settings_updated', sprintf( __( 'Site with ID %d not found.', 'wordpress-seo' ), $site_id ), 'error' );
+			add_settings_error( $option, 'settings_updated', sprintf( __( 'Site with ID %d not found.', 'wordpress-seo' ), $site_id ), 'error' );
 		}
 		else {
 			YoastSEO()->classes->get( Network_Admin_Options_Service::class )->reset_options_for( $site_id );
 
 			/* translators: %s expands to the name of a site within a multisite network. */
-			add_settings_error( $option_group, 'settings_updated', sprintf( __( '%s restored to default SEO settings.', 'wordpress-seo' ), esc_html( $site->blogname ) ), 'updated' );
+			add_settings_error( $option, 'settings_updated', sprintf( __( '%s restored to default SEO settings.', 'wordpress-seo' ), esc_html( $site->blogname ) ), 'updated' );
 		}
 
 		$this->terminate_request();
@@ -172,16 +173,16 @@ class Yoast_Network_Admin implements WPSEO_WordPress_AJAX_Integration, WPSEO_Wor
 	/**
 	 * Outputs nonce, action and option group fields for a network settings page in the plugin.
 	 *
-	 * @param string $option_group Option group name for the current page.
+	 * @param string $option Option group name for the current page.
 	 *
 	 * @return void
 	 */
-	public function settings_fields( $option_group ) {
+	public function settings_fields( $option ) {
 		?>
-		<input type="hidden" name="network_option_group" value="<?php echo esc_attr( $option_group ); ?>" />
+		<input type="hidden" name="network_option" value="<?php echo esc_attr( $option ); ?>" />
 		<input type="hidden" name="action" value="<?php echo esc_attr( self::UPDATE_OPTIONS_ACTION ); ?>" />
 		<?php
-		wp_nonce_field( "$option_group-network-options" );
+		wp_nonce_field( "$option-network-options" );
 	}
 
 	/**

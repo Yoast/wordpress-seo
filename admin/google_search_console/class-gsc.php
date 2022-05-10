@@ -11,13 +11,6 @@
 class WPSEO_GSC {
 
 	/**
-	 * The option where data will be stored.
-	 *
-	 * @var string
-	 */
-	const OPTION_WPSEO_GSC = 'wpseo-gsc';
-
-	/**
 	 * Outputs the HTML for the redirect page.
 	 *
 	 * @return void
