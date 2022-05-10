@@ -125,7 +125,10 @@ const sentencesIT = [
 	"Una parola e ancora un'altra e poi un'altra ancora, che schifo!",
 ];
 
-const topicShortIT = [
+
+// Removing the italian tests also makes topicShortIT and topicLingIT redundant
+
+/*const topicShortIT = [
 	[ "parola" ],
 	[ "chiave" ],
 ];
@@ -135,7 +138,7 @@ const topicLongIT = [
 	[ "chiave" ],
 	[ "straordinaria" ],
 	[ "qualcosa" ],
-];
+];*/
 
 
 describe( "Test for computing the sentence score", function() {
@@ -147,13 +150,13 @@ describe( "Test for computing the sentence score", function() {
 		expect( computeScoresPerSentenceLongTopic( topicLong, sentences, "en_EN" ) ).toEqual( [ 3, 9, 9, 9, 3, 3, 3, 3 ]  );
 	} );
 
-	it( "for a short topic for a language that doesn't support morphology", function() {
+/*	it( "for a short topic for a language that doesn't support morphology", function() {
 		expect( computeScoresPerSentenceShortTopic( topicShortIT, sentencesIT, "it_IT" ) ).toEqual( [ 3, 3, 9, 3, 3, 3, 3, 3 ] );
 	} );
 
 	it( "for a long topic for a language that doesn't support morphology", function() {
 		expect( computeScoresPerSentenceLongTopic( topicLongIT, sentencesIT, "it_IT" ) ).toEqual( [ 3, 9, 9, 9, 3, 3, 3, 3 ] );
-	} );
+	} );*/
 } );
 
 

@@ -121,7 +121,7 @@ describe( "test to check slug for keyword", function() {
 	// 	expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 1, percentWordMatches: 0 } );
 	// } );
 
-	// git a
+	//
 	it( "does not break for English if no morphology is supplied", function() {
 		const paper = new Paper( "", { slug: "a-a-a-keyphrase-a-a-a", keyword: "keyphrase", locale: "en_EN" } );
 		const researcher = new EnglishResearcher( paper );
