@@ -4,5 +4,8 @@ import { renderReactRoot } from "./helpers/reactRoot";
 import FirstTimeConfigurationSteps from "./first-time-configuration/first-time-configuration-steps";
 
 domReady( () => {
-	renderReactRoot( "wpseo-first-time-configuration", <FirstTimeConfigurationSteps /> );
+	const rootId = "wpseo-first-time-configuration";
+	if ( document.getElementById( rootId ) ) {
+		renderReactRoot( rootId, <FirstTimeConfigurationSteps /> );
+	}
 } );

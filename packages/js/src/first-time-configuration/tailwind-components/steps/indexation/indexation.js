@@ -267,7 +267,7 @@ export class Indexation extends Component {
 	 */
 	renderFirstIndexationNotice() {
 		return (
-			<Alert type={ "info" } className="yst-mb-6">
+			<Alert type={ "info" } className="yst-mt-6">
 				{ __( "This feature includes and replaces the Text Link Counter and Internal Linking Analysis", "wordpress-seo" ) }
 			</Alert>
 		);
@@ -313,13 +313,13 @@ export class Indexation extends Component {
 			<p>
 				<button
 					type="button"
-					className="yst-button yst-button--secondary"
+					className="yst-button yst-button--secondary yst-button--disabled"
 					disabled={ true }
 				>
 					{ __( "Start SEO data optimization", "wordpress-seo" ) }
 				</button>
 			</p>
-			<Alert type={ "info" }>
+			<Alert type={ "info" } className="yst-mt-6">
 				{ __( "SEO data optimization is disabled for non-production environments.", "wordpress-seo" ) }
 			</Alert>
 		</Fragment>;
@@ -377,6 +377,7 @@ export class Indexation extends Component {
 		return <IndexingError
 			message={ yoastIndexingData.errorMessage }
 			error={ this.state.error }
+			className={ "yst-mb-4" }
 		/>;
 	}
 
@@ -396,19 +397,21 @@ export class Indexation extends Component {
 				{ this.props.children }
 				<Transition
 					unmount={ false }
-					show={ this.isState( STATE.IN_PROGRESS ) || ( this.isState( STATE.IDLE ) && this.state.amount > 0 ) }
+					show={ this.isState( STATE.ERRORED ) ||
+						this.isState( STATE.IN_PROGRESS ) ||
+						( this.isState( STATE.IDLE ) && this.state.amount > 0 ) }
 					leave="yst-transition-opacity yst-duration-1000"
 					leaveFrom="yst-opacity-100"
 					leaveTo="yst-opacity-0"
 				>
 					{ this.renderProgressBar() }
 					{ this.isState( STATE.ERRORED ) && this.renderErrorAlert() }
-					{ this.isState( STATE.IDLE ) && this.state.firstTime && this.renderFirstIndexationNotice() }
 					{ this.isState( STATE.IN_PROGRESS )
 						? this.renderStopButton()
 						: this.renderStartButton()
 					}
 					{ this.renderCaption() }
+					{ this.isState( STATE.IDLE ) && this.state.firstTime && this.renderFirstIndexationNotice() }
 				</Transition>
 			</div>
 		);

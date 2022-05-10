@@ -149,6 +149,8 @@ class WPSEO_Admin_Pages {
 			];
 
 			$script_data['search_appearance_link'] = admin_url( 'admin.php?page=wpseo_titles' );
+
+			$script_data['force_organization'] = ( defined( 'WPSEO_LOCAL_FILE' ) );
 		}
 
 		$this->asset_manager->localize_script( 'settings', 'wpseoScriptData', $script_data );

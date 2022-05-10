@@ -350,8 +350,6 @@ export default function FirstTimeConfigurationSteps() {
 	const [ siteRepresentationEmpty, setSiteRepresentationEmpty ] = useState( false );
 	const [ showRunIndexationAlert, setShowRunIndexationAlert ] = useState( false );
 
-	const isTrackingOptionSelected = state.tracking === 0 || state.tracking === 1;
-
 	/* Briefly override window variable because indexingstate is reinitialized when navigating back and forth without triggering a reload,
 	whereas the window variable remains stale. */
 	useEffect( () => {
@@ -479,7 +477,7 @@ export default function FirstTimeConfigurationSteps() {
 	function updateOnFinishPersonalPreferences() {
 		return updateTracking( state )
 			.then( () => {
-				if ( isTrackingOptionSelected ) {
+				if ( !! state.tracking === true ) {
 					document.getElementById( "tracking-on" ).checked = true;
 				} else {
 					document.getElementById( "tracking-off" ).checked = true;
@@ -734,7 +732,7 @@ export default function FirstTimeConfigurationSteps() {
 							</EditButton>
 						</Step.Header>
 						<Step.Content>
-							<PersonalPreferencesStep state={ state } setTracking={ setTracking } isTrackingOptionSelected={ isTrackingOptionSelected } />
+							<PersonalPreferencesStep state={ state } setTracking={ setTracking } />
 							<ConfigurationStepButtons stepperFinishedOnce={ stepperFinishedOnce } saveFunction={ updateOnFinishPersonalPreferences } setEditState={ setIsStepBeingEdited } />
 						</Step.Content>
 					</Step>
