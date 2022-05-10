@@ -67,6 +67,7 @@ const buildJapaneseMockResearcher = function( keyphraseForms, synonymsForms, mat
 		matchWordCustomHelper: matchWords,
 	} );
 };
+/*
 
 describe( "Matching keyphrase in subheadings with custom helper to match word in text", () => {
 	// The Japanese researcher has a custom helper to match word in text.
@@ -166,3 +167,4 @@ describe( "Matching keyphrase in subheadings with custom helper to match word in
 		expect( result.percentReflectingTopic ).toBe( 0 );
 	} );
 } );
+*/
