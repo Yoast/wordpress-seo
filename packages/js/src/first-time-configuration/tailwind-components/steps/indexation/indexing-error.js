@@ -71,7 +71,7 @@ ErrorBox.defaultProps = {
  *
  * @returns {JSX.Element} The indexation error component.
  */
-export default function IndexingError( { message, error, className} ) {
+export default function IndexingError( { message, error, className } ) {
 	return <Alert
 		type={ "error" }
 		className={ className }
