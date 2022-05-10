@@ -28,8 +28,10 @@ class WPSEO_Upgrade {
 
 		$version = WPSEO_Options::get( 'version' );
 
-		if ( YoastSEO()->classes->get( Network_Admin_Options_Service::class )->maybe_reset_current_blog_options() ) {
-			WPSEO_Options::initialize();
+		if( YoastSEO()->helpers->site->is_multisite() ) {
+			if ( YoastSEO()->classes->get( Network_Admin_Options_Service::class )->maybe_reset_current_blog_options() ) {
+				WPSEO_Options::initialize();
+			}
 		}
 
 		$routines = [
