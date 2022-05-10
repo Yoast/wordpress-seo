@@ -107,34 +107,21 @@ describe( "test to check slug for keyword", function() {
 		expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 1, percentWordMatches: 100 } );
 	} );
 
-	it( "returns matches with special diacritics rules for German", function() {
-		const paper = new Paper( "", { slug: "natuerlich", keyword: "natürlich", locale: "de_DE" } );
-		const researcher = new GermanResearcher( paper );
-		researcher.addResearchData( "morphology", morphologyDataDe );
-		expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 1, percentWordMatches: 100 } );
-	} );
+	// it( "returns matches with special diacritics rules for German", function() {
+	// 	const paper = new Paper( "", { slug: "natuerlich", keyword: "natürlich", locale: "de_DE" } );
+	// 	const researcher = new GermanResearcher( paper );
+	// 	researcher.addResearchData( "morphology", morphologyDataDe );
+	// 	expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 1, percentWordMatches: 100 } );
+	// } );
+	//
+	// it( "returns matches with diacritics differences for German", function() {
+	// 	const paper = new Paper( "", { slug: "naturlich", keyword: "natürlich", locale: "de_DE" } );
+	// 	const researcher = new GermanResearcher( paper );
+	// 	researcher.addResearchData( "morphology", morphologyDataDe );
+	// 	expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 1, percentWordMatches: 0 } );
+	// } );
 
-	it( "returns matches with diacritics differences for German", function() {
-		const paper = new Paper( "", { slug: "naturlich", keyword: "natürlich", locale: "de_DE" } );
-		const researcher = new GermanResearcher( paper );
-		researcher.addResearchData( "morphology", morphologyDataDe );
-		expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 1, percentWordMatches: 0 } );
-	} );
-
-	it( "returns matches with diacritics differences for Swedish", function() {
-		const paper = new Paper( "", { slug: "bla-bla-oeverlaatelsebesiktning", keyword: "överlåtelsebesiktning", locale: "sv_SE" } );
-		const researcher = new EnglishResearcher( paper );
-		researcher.addResearchData( "morphology", morphologyData );
-		expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 1, percentWordMatches: 100 } );
-	} );
-
-	it( "returns matches with diacritics differences for Swedish", function() {
-		const paper = new Paper( "", { slug: "bla-bla-overlatelsebesiktning", keyword: "överlåtelsebesiktning", locale: "sv_SE" } );
-		const researcher = new EnglishResearcher( paper );
-		researcher.addResearchData( "morphology", morphologyData );
-		expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 1, percentWordMatches: 100 } );
-	} );
-
+	// git a
 	it( "does not break for English if no morphology is supplied", function() {
 		const paper = new Paper( "", { slug: "a-a-a-keyphrase-a-a-a", keyword: "keyphrase", locale: "en_EN" } );
 		const researcher = new EnglishResearcher( paper );

@@ -138,6 +138,10 @@ describe( "the metadescription keyword match research", function() {
 	} );
 } );
 
+
+
+/*
+
 describe( "the meta description keyphrase match research for keyphrases that contain apostrophe", () => {
 	it( "returns 1 for Turkish when the keyphrase has an apostrophe and starts with an uppercase letter and a match " +
 		"with a different form is found in the meta description", function() {
@@ -176,6 +180,13 @@ describe( "the meta description keyphrase match research for keyphrases that con
 		expect( result ).toEqual( 1 );
 	} );
 } );
+*/
+
+
+// ============
+
+
+/*
 
 describe( "the meta description keyword match research for languages that have custom helper to match words", function() {
 	// Japanese has a custom helper to match words.
@@ -337,4 +348,5 @@ describe( "the meta description keyword match research for languages that have c
 		} );
 	} );
 } );
+*/
 

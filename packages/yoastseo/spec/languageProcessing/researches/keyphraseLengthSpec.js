@@ -30,6 +30,7 @@ describe( "the keyphrase length research", function() {
 	} );
 } );
 
+/*
 describe( "the keyphrase length research", function() {
 	it( "should count the words in the input and filters function words", function() {
 		const paper = new Paper( "", { keyword: "mot mot le mot", locale: "fr_FR" } );
@@ -40,6 +41,7 @@ describe( "the keyphrase length research", function() {
 		expect( result.keyphraseLength ).toBe( 3 );
 	} );
 } );
+*/
 
 describe( "the keyphrase length research for empty keyword", function() {
 	it( "should count the words in the input", function() {
