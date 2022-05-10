@@ -1,21 +1,7 @@
 import transitionWordsResearch from "../../../src/languageProcessing/researches/findTransitionWords.js";
 import Paper from "../../../src/values/Paper.js";
 import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";
-import GermanResearcher from "../../../src/languageProcessing/languages/de/Researcher";
 import FrenchResearcher from "../../../src/languageProcessing/languages/fr/Researcher";
-import SpanishResearcher from "../../../src/languageProcessing/languages/es/Researcher";
-import IndonesianResearcher from "../../../src/languageProcessing/languages/id/Researcher";
-import ItalianResearcher from "../../../src/languageProcessing/languages/it/Researcher";
-import CatalanResearcher from "../../../src/languageProcessing/languages/ca/Researcher";
-import ArabicResearcher from "../../../src/languageProcessing/languages/ar/Researcher";
-import RussianResearcher from "../../../src/languageProcessing/languages/ru/Researcher";
-import SwedishResearcher from "../../../src/languageProcessing/languages/sv/Researcher";
-import PortugueseResearcher from "../../../src/languageProcessing/languages/pt/Researcher";
-import DutchResearcher from "../../../src/languageProcessing/languages/nl/Researcher";
-import PolishResearcher from "../../../src/languageProcessing/languages/pl/Researcher";
-import HungarianResearcher from "../../../src/languageProcessing/languages/hu/Researcher";
-import HebrewResearcher from "../../../src/languageProcessing/languages/he/Researcher";
-import TurkishResearcher from "../../../src/languageProcessing/languages/tr/Researcher";
 import JapaneseResearcher from "../../../src/languageProcessing/languages/ja/Researcher";
 
 // eslint-disable-next-line max-statements
@@ -158,7 +144,7 @@ describe( "a test for finding transition words from a string", function() {
 		expect( result.transitionWordSentences ).toBe( 0 );
 	} );
 
-	it( "returns 1 when a transition word is found in a sentence (German)", function() {
+	/*it( "returns 1 when a transition word is found in a sentence (German)", function() {
 		// Transition word: zuerst.
 		mockPaper = new Paper( "Zuerst werde ich versuchen zu verstehen, warum er so denkt.", { locale: "de_DE" } );
 		result = transitionWordsResearch( mockPaper, new GermanResearcher( mockPaper ) );
@@ -189,8 +175,8 @@ describe( "a test for finding transition words from a string", function() {
 		expect( result.totalSentences ).toBe( 1 );
 		expect( result.transitionWordSentences ).toBe( 0 );
 	} );
-
-	it( "returns 1 when a transition word is found in a sentence (French)", function() {
+*/
+/*	it( "returns 1 when a transition word is found in a sentence (French)", function() {
 		// Transition word: deuxièmement.
 		mockPaper = new Paper( "Deuxièmement, il convient de reconnaître la complexité des tâches à entreprendre.", { locale: "fr_FR" } );
 		result = transitionWordsResearch( mockPaper, new FrenchResearcher( mockPaper ) );
@@ -204,7 +190,7 @@ describe( "a test for finding transition words from a string", function() {
 		result = transitionWordsResearch( mockPaper, new FrenchResearcher( mockPaper ) );
 		expect( result.totalSentences ).toBe( 1 );
 		expect( result.transitionWordSentences ).toBe( 1 );
-	} );
+	} );*/
 
 	it( "returns 1 when a transition word with an apostrophe is found in a sentence (French)", function() {
 		// Transition word: quoi qu’il en soit.
@@ -214,7 +200,7 @@ describe( "a test for finding transition words from a string", function() {
 		expect( result.transitionWordSentences ).toBe( 1 );
 	} );
 
-	it( "returns 0 when no transition words are present in a sentence (French)", function() {
+	/*it( "returns 0 when no transition words are present in a sentence (French)", function() {
 		mockPaper = new Paper( "Une, deux, trois.", { locale: "fr_FR" } );
 		result = transitionWordsResearch( mockPaper, new FrenchResearcher( mockPaper ) );
 		expect( result.totalSentences ).toBe( 1 );
@@ -352,8 +338,8 @@ describe( "a test for finding transition words from a string", function() {
 		expect( result.totalSentences ).toBe( 1 );
 		expect( result.transitionWordSentences ).toBe( 1 );
 	} );
-
-	it( "returns 1 when a transition word with a punt volat (·) is found in a sentence (Catalan)", function() {
+*/
+	/*it( "returns 1 when a transition word with a punt volat (·) is found in a sentence (Catalan)", function() {
 		// Transition word: per il·lustrar.
 		mockPaper = new Paper( "Roma proposa un concurs de curtmetratges per il·lustrar com ha de ser la ciutat ideal", { locale: "ca_ES" } );
 		result = transitionWordsResearch( mockPaper, new CatalanResearcher( mockPaper ) );
@@ -441,8 +427,8 @@ describe( "a test for finding transition words from a string", function() {
 		result = transitionWordsResearch( mockPaper, new HungarianResearcher( mockPaper ) );
 		expect( result.totalSentences ).toBe( 1 );
 		expect( result.transitionWordSentences ).toBe( 1 );
-	} );
-	it( "returns 1 when a three-part transition word is found in a sentence (Hungarian)", function() {
+	} );*/
+	/*it( "returns 1 when a three-part transition word is found in a sentence (Hungarian)", function() {
 		// Transition word: nemcsak, hanem, is
 		mockPaper = new Paper( "Nemcsak a csokoládét szeretem, hanem a süteményt is.", { locale: "hu_HU" } );
 		result = transitionWordsResearch( mockPaper, new HungarianResearcher( mockPaper ) );
@@ -570,8 +556,9 @@ describe( "a test for finding transition words from a string", function() {
 		expect( result.totalSentences ).toBe( 1 );
 		expect( result.transitionWordSentences ).toBe( 1 );
 	} );
-
-	it( "returns 1 when a (multiple) transition word is found in a sentence (Japanese)", function() {
+*/
+	it( "returns 1 when a (multiple) transition word is found in a language that uses a custom" +
+		" match transition word helper (Japanese)", function() {
 		// Transition word: ゆえに (tokenized: [ "ゆえ", "に" ])
 		mockPaper = new Paper( "我思う、ゆえに我あり。", { locale: "ja" } );
 		result = transitionWordsResearch( mockPaper, new JapaneseResearcher( mockPaper ) );
@@ -579,7 +566,8 @@ describe( "a test for finding transition words from a string", function() {
 		expect( result.transitionWordSentences ).toBe( 1 );
 	} );
 
-	it( "returns 0 when no transition words are present in a sentence (Japanese)", function() {
+	it( "returns 0 when no transition words are present in a sentence for a language that uses a" +
+		" custom match transition word helper (Japanese)", function() {
 		mockPaper = new Paper( "この例文は、書き方のサンプルなので必要に応じて内容を追加削除をしてからお使いください。", { locale: "ja" } );
 		result = transitionWordsResearch( mockPaper, new JapaneseResearcher( mockPaper ) );
 		expect( result.totalSentences ).toBe( 1 );
