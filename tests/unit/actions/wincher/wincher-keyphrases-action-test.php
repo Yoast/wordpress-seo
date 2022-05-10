@@ -4,9 +4,9 @@ namespace Yoast\WP\SEO\Tests\Unit\Actions\Wincher;
 
 use Brain\Monkey;
 use Mockery;
-use WPSEO_Utils;
 use Yoast\WP\SEO\Actions\Wincher\Wincher_Keyphrases_Action;
 use Yoast\WP\SEO\Config\Wincher_Client;
+use Yoast\WP\SEO\Helpers\Json_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
@@ -43,6 +43,13 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 	protected $options_helper;
 
 	/**
+	 * The Json_Helper instance.
+	 *
+	 * @var Mockery\MockInterface|Json_Helper
+	 */
+	protected $json_helper;
+
+	/**
 	 * The Indexable_Repository instance.
 	 *
 	 * @var Mockery\MockInterface|Indexable_Repository
@@ -57,10 +64,12 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 
 		$this->client_instance      = Mockery::mock( Wincher_Client::class );
 		$this->options_helper       = Mockery::mock( Options_Helper::class );
+		$this->json_helper          = Mockery::mock( Json_Helper::class );
 		$this->indexable_repository = Mockery::mock( Indexable_Repository::class );
 		$this->instance             = new Wincher_Keyphrases_Action(
 			$this->client_instance,
 			$this->options_helper,
+			$this->json_helper,
 			$this->indexable_repository
 		);
 	}
@@ -79,6 +88,11 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 		$this->assertInstanceOf(
 			Options_Helper::class,
 			$this->getPropertyValue( $this->instance, 'options_helper' )
+		);
+
+		$this->assertInstanceOf(
+			Json_Helper::class,
+			$this->getPropertyValue( $this->instance, 'json_helper' )
 		);
 
 		$this->assertInstanceOf(
@@ -106,19 +120,22 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 			->once()
 			->andReturns( '12345' );
 
+		$this->json_helper
+			->expects( 'format_encode' )
+			->once()
+			->andReturnArg( 0 );
+
 		$this->client_instance
 			->expects( 'post' )
 			->once()
 			->with(
 				'https://api.wincher.com/beta/websites/12345/keywords/bulk',
-				WPSEO_Utils::format_json_encode(
+				[
 					[
-						[
-							'keyword' => 'yoast seo',
-							'groups'  => [],
-						],
-					]
-				)
+						'keyword' => 'yoast seo',
+						'groups'  => [],
+					],
+				]
 			)
 			->andReturns(
 				[
@@ -165,9 +182,9 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 
 		$this->assertEquals(
 			(object) [
-				'limit'   => 1000,
-				'error'   => 'Account limit exceeded',
-				'status'  => 400,
+				'limit'  => 1000,
+				'error'  => 'Account limit exceeded',
+				'status' => 400,
 			],
 			$this->instance->track_keyphrases( [ 'yoast seo' ], $limits )
 		);
@@ -194,9 +211,9 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 
 		$this->assertEquals(
 			(object) [
-				'limit'   => 1000,
-				'error'   => 'Account limit exceeded',
-				'status'  => 400,
+				'limit'  => 1000,
+				'error'  => 'Account limit exceeded',
+				'status' => 400,
 			],
 			$this->instance->track_keyphrases( [ 'yoast seo', 'wincher' ], $limits )
 		);
@@ -227,7 +244,7 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 
 		$this->assertEquals(
 			(object) [
-				'status'  => 200,
+				'status' => 200,
 			],
 			$this->instance->untrack_keyphrase( 12345 )
 		);
@@ -244,6 +261,11 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 			->with( 'wincher_website_id' )
 			->once()
 			->andReturns( '12345' );
+
+		$this->json_helper
+			->expects( 'format_encode' )
+			->once()
+			->andReturnArg( 0 );
 
 		$this->indexable_repository
 			->expects( 'query->select->where_not_null->where->where_not_equal->distinct->find_array' )
@@ -269,12 +291,10 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 			->once()
 			->with(
 				'https://api.wincher.com/beta/yoast/12345',
-				WPSEO_Utils::format_json_encode(
-					[
-						'keywords' => [ 'yoast seo', 'wincher' ],
-						'url'      => null,
-					]
-				),
+				[
+					'keywords' => [ 'yoast seo', 'wincher' ],
+					'url'      => null,
+				],
 				[
 					'timeout' => 60,
 				]
@@ -324,17 +344,20 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 			->once()
 			->andReturns( '12345' );
 
+		$this->json_helper
+			->expects( 'format_encode' )
+			->once()
+			->andReturnArg( 0 );
+
 		$this->client_instance
 			->expects( 'post' )
 			->once()
 			->with(
 				'https://api.wincher.com/beta/yoast/12345',
-				WPSEO_Utils::format_json_encode(
-					[
-						'keywords' => [ 'yoast seo' ],
-						'url'      => null,
-					]
-				),
+				[
+					'keywords' => [ 'yoast seo' ],
+					'url'      => null,
+				],
 				[
 					'timeout' => 60,
 				]
@@ -384,17 +407,20 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 			->once()
 			->andReturns( '12345' );
 
+		$this->json_helper
+			->expects( 'format_encode' )
+			->once()
+			->andReturnArg( 0 );
+
 		$this->client_instance
 			->expects( 'post' )
 			->once()
 			->with(
 				'https://api.wincher.com/beta/yoast/12345',
-				WPSEO_Utils::format_json_encode(
-					[
-						'keywords' => [ 'yoast seo' ],
-						'url'      => null,
-					]
-				),
+				[
+					'keywords' => [ 'yoast seo' ],
+					'url'      => null,
+				],
 				[
 					'timeout' => 60,
 				]
@@ -440,17 +466,20 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 			->once()
 			->andReturns( '12345' );
 
+		$this->json_helper
+			->expects( 'format_encode' )
+			->once()
+			->andReturnArg( 0 );
+
 		$this->client_instance
 			->expects( 'post' )
 			->once()
 			->with(
 				'https://api.wincher.com/beta/yoast/12345',
-				WPSEO_Utils::format_json_encode(
-					[
-						'keywords' => [ 'yoast seo', 'blog seo' ],
-						'url'      => 'https://yoast.com/blog/',
-					]
-				),
+				[
+					'keywords' => [ 'yoast seo', 'blog seo' ],
+					'url'      => 'https://yoast.com/blog/',
+				],
 				[
 					'timeout' => 60,
 				]

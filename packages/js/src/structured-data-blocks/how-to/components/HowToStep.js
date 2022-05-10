@@ -311,7 +311,6 @@ export default class HowToStep extends Component {
 			index,
 			step,
 			isSelected,
-			subElement,
 			isUnorderedList,
 		} = this.props;
 
@@ -331,7 +330,6 @@ export default class HowToStep extends Component {
 					key={ `${ id }-name` }
 					value={ name }
 					onChange={ this.onChangeTitle }
-					isSelected={ isSelected && subElement === "name" }
 					placeholder={ __( "Enter a step title", "wordpress-seo" ) }
 					unstableOnFocus={ this.onFocusTitle }
 					formattingControls={ [ "italic", "strikethrough", "link" ] }
@@ -342,7 +340,6 @@ export default class HowToStep extends Component {
 					key={ `${ id }-text` }
 					value={ text }
 					onChange={ this.onChangeText }
-					isSelected={ isSelected && subElement === "text" }
 					placeholder={ __( "Enter a step description", "wordpress-seo" ) }
 					unstableOnFocus={ this.onFocusText }
 				/>
@@ -366,7 +363,6 @@ HowToStep.propTypes = {
 	onFocus: PropTypes.func.isRequired,
 	onMoveUp: PropTypes.func.isRequired,
 	onMoveDown: PropTypes.func.isRequired,
-	subElement: PropTypes.string,
 	isSelected: PropTypes.bool.isRequired,
 	isFirst: PropTypes.bool.isRequired,
 	isLast: PropTypes.bool.isRequired,
@@ -375,5 +371,4 @@ HowToStep.propTypes = {
 
 HowToStep.defaultProps = {
 	isUnorderedList: false,
-	subElement: "",
 };

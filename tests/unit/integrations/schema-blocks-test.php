@@ -6,6 +6,7 @@ use Brain\Monkey;
 use Mockery;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Schema_Blocks_Conditional;
+use Yoast\WP\SEO\Helpers\Json_Helper;
 use Yoast\WP\SEO\Helpers\Schema\ID_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Integrations\Schema_Blocks;
@@ -192,6 +193,7 @@ class Schema_Blocks_Test extends TestCase {
 	public function test_output() {
 		$this->stubEscapeFunctions();
 		$this->stubTranslationFunctions();
+		$this->mock_json_helper( 3 );
 
 		$this->asset_manager
 			->expects( 'is_script_enqueued' )
@@ -218,6 +220,7 @@ class Schema_Blocks_Test extends TestCase {
 	public function test_output_feature_flag_not_enabled() {
 		$this->stubEscapeFunctions();
 		$this->stubTranslationFunctions();
+		$this->mock_json_helper( 3 );
 
 		$this->asset_manager
 			->expects( 'is_script_enqueued' )
@@ -264,6 +267,7 @@ class Schema_Blocks_Test extends TestCase {
 	public function test_load_with_filter() {
 		$this->stubEscapeFunctions();
 		$this->stubTranslationFunctions();
+		$this->mock_json_helper( 3 );
 
 		$this->asset_manager
 			->expects( 'is_script_enqueued' )
@@ -354,5 +358,31 @@ class Schema_Blocks_Test extends TestCase {
 		$this->instance->output();
 
 		$this->expectOutputString( '' );
+	}
+
+	/**
+	 * Mocks the JSON helper via the YoastSEO API.
+	 *
+	 * @param int $times The amount of times the call is expected.
+	 *
+	 * @return void
+	 */
+	protected function mock_json_helper( $times ) {
+		$json_helper = Mockery::mock( Json_Helper::class );
+
+		$json_helper->expects( 'format_encode' )->times( $times )->andReturnUsing(
+			static function ( $value ) {
+				// phpcs:ignore Yoast.Yoast.AlternativeFunctions.json_encode_json_encodeWithAdditionalParams -- Test code, mocking WP.
+				return \json_encode( $value, ( JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) );
+			}
+		);
+
+		Monkey\Functions\expect( 'YoastSEO' )->times( $times )->andReturn(
+			(object) [
+				'helpers' => (object) [
+					'json' => $json_helper,
+				],
+			]
+		);
 	}
 }

@@ -9,6 +9,7 @@ use Yoast\WP\SEO\Builders\Indexable_Term_Builder;
 use Yoast\WP\SEO\Exceptions\Indexable\Invalid_Term_Exception;
 use Yoast\WP\SEO\Exceptions\Indexable\Term_Not_Found_Exception;
 use Yoast\WP\SEO\Helpers\Image_Helper;
+use Yoast\WP\SEO\Helpers\Json_Helper;
 use Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper as OG_Image_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
@@ -72,6 +73,13 @@ class Indexable_Term_Builder_Test extends TestCase {
 	protected $twitter_image;
 
 	/**
+	 * Holds the JSON helper mock.
+	 *
+	 * @var Mockery\MockInterface|Json_Helper
+	 */
+	protected $json_helper;
+
+	/**
 	 * The indexable builder versions
 	 *
 	 * @var Indexable_Builder_Versions|Mockery\MockInterface
@@ -123,12 +131,13 @@ class Indexable_Term_Builder_Test extends TestCase {
 		$this->image            = Mockery::mock( Image_Helper::class );
 		$this->open_graph_image = Mockery::mock( OG_Image_Helper::class );
 		$this->twitter_image    = Mockery::mock( Twitter_Image_Helper::class );
-
+		$this->json_helper      = Mockery::mock( Json_Helper::class );
 
 		$this->instance->set_social_image_helpers(
 			$this->image,
 			$this->open_graph_image,
-			$this->twitter_image
+			$this->twitter_image,
+			$this->json_helper
 		);
 	}
 
@@ -174,6 +183,8 @@ class Indexable_Term_Builder_Test extends TestCase {
 	 * @param array                  $image_meta     The mocked meta data of the image.
 	 */
 	protected function open_graph_image_set_by_user( $indexable_mock, $image_meta ) {
+		$this->json_helper->expects( 'format_encode' )->once()->andReturnArg( 0 );
+
 		$indexable_mock->orm->shouldReceive( 'get' )
 			->with( 'open_graph_image' )
 			->andReturn( 'open-graph-image' );
@@ -338,9 +349,7 @@ class Indexable_Term_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_source', 'set-by-user' );
 		$indexable_mock->orm->expects( 'set' )
 			->with( 'open_graph_image', 'http://basic.wordpress.test/wp-content/uploads/2020/07/WordPress5.jpg' );
-		$indexable_mock->orm->expects( 'set' )
-			// phpcs:ignore Yoast.Yoast.AlternativeFunctions.json_encode_json_encodeWithAdditionalParams -- Test code, mocking WP.
-			->with( 'open_graph_image_meta', \json_encode( $image_meta, ( \JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES ) ) );
+		$indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_meta', $image_meta );
 
 		// We expect the twitter image and its source to be set.
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image_source', 'set-by-user' );

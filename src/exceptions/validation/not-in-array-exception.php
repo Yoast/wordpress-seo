@@ -2,8 +2,6 @@
 
 namespace Yoast\WP\SEO\Exceptions\Validation;
 
-use WPSEO_Utils;
-
 /**
  * Not in array validation exception class.
  *
@@ -21,7 +19,7 @@ class Not_In_Array_Exception extends Abstract_Validation_Exception {
 			\sprintf(
 			/* translators: %s expands to a list of values that are allowed. */
 				\esc_html__( 'Please change the value to be one of: %s.', 'wordpress-seo' ),
-				'<strong>' . \esc_html( WPSEO_Utils::format_json_encode( $allow ) ) . '</strong>'
+				'<strong>' . \esc_html( \YoastSEO()->helpers->json->format_encode( $allow ) ) . '</strong>'
 			)
 		);
 	}

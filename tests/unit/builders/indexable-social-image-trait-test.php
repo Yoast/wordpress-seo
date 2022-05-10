@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Builders;
 use Mockery;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Helpers\Image_Helper;
+use Yoast\WP\SEO\Helpers\Json_Helper;
 use Yoast\WP\SEO\Helpers\Open_Graph;
 use Yoast\WP\SEO\Helpers\Twitter;
 use Yoast\WP\SEO\Models\Indexable;
@@ -51,6 +52,13 @@ class Indexable_Social_Image_Trait_Test extends TestCase {
 	protected $image;
 
 	/**
+	 * Holds the JSON helper mock.
+	 *
+	 * @var Mockery\MockInterface|Json_Helper
+	 */
+	protected $json_helper;
+
+	/**
 	 * The indexable mock.
 	 *
 	 * @var Mockery\MockInterface|Indexable
@@ -68,8 +76,9 @@ class Indexable_Social_Image_Trait_Test extends TestCase {
 		$this->twitter_image    = Mockery::mock( Twitter\Image_Helper::class );
 		$this->open_graph_image = Mockery::mock( Open_Graph\Image_Helper::class );
 		$this->image            = Mockery::mock( Image_Helper::class );
+		$this->json_helper      = Mockery::mock( Json_Helper::class );
 
-		$this->instance->set_social_image_helpers( $this->image, $this->open_graph_image, $this->twitter_image );
+		$this->instance->set_social_image_helpers( $this->image, $this->open_graph_image, $this->twitter_image, $this->json_helper );
 	}
 
 	/**
@@ -78,7 +87,7 @@ class Indexable_Social_Image_Trait_Test extends TestCase {
 	 * @covers ::set_social_image_helpers
 	 */
 	public function test_set_social_image_helpers() {
-		$this->instance->set_social_image_helpers( $this->image, $this->open_graph_image, $this->twitter_image );
+		$this->instance->set_social_image_helpers( $this->image, $this->open_graph_image, $this->twitter_image, $this->json_helper );
 
 		self::assertInstanceOf(
 			Twitter\Image_Helper::class,
@@ -91,6 +100,10 @@ class Indexable_Social_Image_Trait_Test extends TestCase {
 		self::assertInstanceOf(
 			Image_Helper::class,
 			$this->getPropertyValue( $this->instance, 'image' )
+		);
+		self::assertInstanceOf(
+			Json_Helper::class,
+			$this->getPropertyValue( $this->instance, 'json_helper' )
 		);
 	}
 
@@ -151,8 +164,7 @@ class Indexable_Social_Image_Trait_Test extends TestCase {
 		$this->indexable->orm->expects( 'set' )
 			->with( 'open_graph_image', 'http://basic.wordpress.test/wp-content/uploads/2020/07/WordPress5.jpg' );
 		$this->indexable->orm->expects( 'set' )
-			// phpcs:ignore Yoast.Yoast.AlternativeFunctions.json_encode_json_encodeWithAdditionalParams -- Test code, mocking WP.
-			->with( 'open_graph_image_meta', \json_encode( $image_meta, ( \JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES ) ) );
+			->with( 'open_graph_image_meta', $image_meta );
 
 		// We expect twitter image meta to be set.
 		$this->indexable->orm->expects( 'set' )
@@ -204,7 +216,7 @@ class Indexable_Social_Image_Trait_Test extends TestCase {
 			->with( 'open_graph_image', 'http://basic.wordpress.test/wp-content/uploads/2020/07/WordPress5.jpg' );
 		$this->indexable->orm->expects( 'set' )
 			// phpcs:ignore Yoast.Yoast.AlternativeFunctions.json_encode_json_encodeWithAdditionalParams -- Test code, mocking WP.
-			->with( 'open_graph_image_meta', \json_encode( $image_meta, ( \JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES ) ) );
+			->with( 'open_graph_image_meta', $image_meta );
 
 		$alternative_image = [
 			'image_id' => 'featured-image-id',
@@ -319,8 +331,7 @@ class Indexable_Social_Image_Trait_Test extends TestCase {
 		$this->indexable->orm->expects( 'set' )
 			->with( 'open_graph_image', 'http://basic.wordpress.test/wp-content/uploads/2020/07/WordPress5.jpg' );
 		$this->indexable->orm->expects( 'set' )
-			// phpcs:ignore Yoast.Yoast.AlternativeFunctions.json_encode_json_encodeWithAdditionalParams -- Test code, mocking WP.
-			->with( 'open_graph_image_meta', \json_encode( $image_meta, ( \JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES ) ) );
+			->with( 'open_graph_image_meta', $image_meta );
 
 		$alternative_image = [
 			'image'  => 'featured-image.jpeg',
@@ -451,6 +462,8 @@ class Indexable_Social_Image_Trait_Test extends TestCase {
 	 * @param array $image_meta The mocked meta data of the image.
 	 */
 	protected function open_graph_image_set_by_user( $image_meta ) {
+		$this->json_helper->expects( 'format_encode' )->once()->andReturnArg( 0 );
+
 		$this->indexable->orm->shouldReceive( 'get' )
 			->with( 'open_graph_image' )
 			->andReturn( 'open-graph-image' );

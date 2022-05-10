@@ -18,7 +18,7 @@ echo '<h2>' . esc_html__( 'Twitter settings', 'wordpress-seo' ) . '</h2>';
 
 printf(
 	'<p>%s</p>',
-	esc_html__( 'Twitter uses Open Graph metadata just like Facebook, so be sure to keep the "Add Open Graph meta data" setting on the Facebook tab enabled if you want to optimize your site for Twitter.', 'wordpress-seo' )
+	esc_html__( 'Twitter uses Open Graph metadata just like Facebook, so be sure to keep the "Add Open Graph metadata" setting on the Facebook tab enabled if you want to optimize your site for Twitter.', 'wordpress-seo' )
 );
 
 $yform->light_switch( 'twitter', __( 'Add Twitter card meta data', 'wordpress-seo' ) );

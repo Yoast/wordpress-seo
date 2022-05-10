@@ -4,10 +4,10 @@ namespace Yoast\WP\SEO\Tests\Unit\Builders;
 
 use Brain\Monkey;
 use Mockery;
-use WPSEO_Utils;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Home_Page_Builder;
 use Yoast\WP\SEO\Helpers\Image_Helper;
+use Yoast\WP\SEO\Helpers\Json_Helper;
 use Yoast\WP\SEO\Helpers\Open_Graph\Image_Helper as Open_Graph_Image_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Helper;
@@ -20,13 +20,13 @@ use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 /**
  * Class Indexable_Author_Test.
  *
- * @group indexables
- * @group builders
+ * @group  indexables
+ * @group  builders
  *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Author_Builder
  * @covers \Yoast\WP\SEO\Builders\Indexable_Home_Page_Builder
  *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- 5 words is fine.
+ * @phpcs  :disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- 5 words is fine.
  */
 class Indexable_Home_Page_Builder_Test extends TestCase {
 
@@ -95,6 +95,13 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 	 * @var Post_Helper|Mockery\MockInterface
 	 */
 	protected $post_helper;
+
+	/**
+	 * Holds the JSON helper instance.
+	 *
+	 * @var Json_Helper|Mockery\MockInterface
+	 */
+	protected $json_helper;
 
 	/**
 	 * The wpdb instance
@@ -166,6 +173,10 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 		// Mock twitter image helper.
 		$this->twitter_image_mock = Mockery::mock( Twitter_Image_Helper::class );
 
+		// Mock JSON helper.
+		$this->json_helper = Mockery::mock( Json_Helper::class );
+		$this->json_helper->expects( 'format_encode' )->once()->andReturnArg( 0 );
+
 		$this->versions = Mockery::mock( Indexable_Builder_Versions::class );
 		$this->versions
 			->expects( 'get_latest_version_for_type' )
@@ -183,7 +194,7 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 			$this->post_helper,
 			$this->wpdb
 		);
-		$this->instance->set_social_image_helpers( $this->image_mock, $this->open_graph_image_mock, $this->twitter_image_mock );
+		$this->instance->set_social_image_helpers( $this->image_mock, $this->open_graph_image_mock, $this->twitter_image_mock, $this->json_helper );
 	}
 
 	/**
@@ -193,8 +204,7 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 	 */
 	public function test_build() {
 		// Provide stubs.
-		$image_meta_mock_json = WPSEO_Utils::format_json_encode( $this->image_meta_mock );
-		$this->indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_meta', $image_meta_mock_json );
+		$this->indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_meta', $this->image_meta_mock );
 		$this->open_graph_image_mock->allows( 'get_image_by_id' )->with( 1337 )->andReturn( $this->image_meta_mock );
 
 		$this->options_mock->expects( 'get' )->with( 'metadesc-home-wpseo' )->andReturn( 'home_meta_description' );
@@ -236,8 +246,7 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 	 */
 	public function test_build_with_fallback_description() {
 		// Provide stubs.
-		$image_meta_mock_json = WPSEO_Utils::format_json_encode( $this->image_meta_mock );
-		$this->indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_meta', $image_meta_mock_json );
+		$this->indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_meta', $this->image_meta_mock );
 		$this->open_graph_image_mock->allows( 'get_image_by_id' )->with( 1337 )->andReturn( $this->image_meta_mock );
 
 		// When no meta description is stored in the WP_Options...
@@ -281,10 +290,8 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 
 		$this->indexable_mock->orm->expects( 'set' )->with( 'description', 'home_meta_description' );
 
-		// Transform the image meta mock to JSON, since we expect that to be stored in the DB.
-		$image_meta_mock_json = WPSEO_Utils::format_json_encode( $this->image_meta_mock );
 		// We expect open graph image meta data to be set on the Indexable ORM.
-		$this->indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_meta', $image_meta_mock_json );
+		$this->indexable_mock->orm->expects( 'set' )->with( 'open_graph_image_meta', $this->image_meta_mock );
 		// We expect image meta data to be retrieved from the open graph image helper.
 		$this->open_graph_image_mock->expects( 'get_image_by_id' )->with( 1337 )->andReturn( $this->image_meta_mock );
 

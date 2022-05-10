@@ -3,7 +3,7 @@
 namespace Yoast\WP\SEO\Services\Health_Check;
 
 use WPSEO_Ryte_Option;
-use WPSEO_Utils;
+use Yoast\WP\SEO\Helpers\Environment_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Ryte_Integration;
 
 /**
@@ -40,24 +40,26 @@ class Ryte_Runner implements Runner_Interface {
 	private $ryte_option;
 
 	/**
-	 * The WPSEO_Utils class used to determine whether the site is in development mode.
+	 * The environment helper class used to determine whether the site is in development mode.
 	 *
-	 * @var WPSEO_Utils
+	 * @var Environment_Helper
 	 */
-	private $utils;
+	private $environment_helper;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param Ryte_Integration $ryte The Ryte_Integration object that the health check uses to check indexability.
-	 * @param WPSEO_Utils      $utils The WPSEO_Utils object used to determine whether the site is in development mode.
+	 * @param Ryte_Integration   $ryte               The Ryte_Integration object that the health check uses to check
+	 *                                               indexability.
+	 * @param Environment_Helper $environment_helper The Environment_Helper used to determine whether Yoast SEO is in
+	 *                                               development mode.
 	 */
 	public function __construct(
 		Ryte_Integration $ryte,
-		WPSEO_Utils $utils
+		Environment_Helper $environment_helper
 	) {
 		$this->ryte               = $ryte;
-		$this->utils              = $utils;
+		$this->environment_helper = $environment_helper;
 		$this->got_valid_response = false;
 		$this->ryte_option        = $ryte->get_option();
 	}
@@ -93,6 +95,7 @@ class Ryte_Runner implements Runner_Interface {
 		if ( is_array( $response ) && isset( $response['is_error'] ) ) {
 			$this->got_valid_response = false;
 			$this->response_error     = $response;
+
 			return;
 		}
 
@@ -118,7 +121,7 @@ class Ryte_Runner implements Runner_Interface {
 			return false;
 		}
 
-		if ( wp_debug_mode() || $this->utils->is_development_mode() ) {
+		if ( wp_debug_mode() || $this->environment_helper->is_yoast_seo_in_development_mode() ) {
 			return false;
 		}
 
@@ -156,7 +159,8 @@ class Ryte_Runner implements Runner_Interface {
 	/**
 	 * Checks if the site's indexability is unknown.
 	 *
-	 * @return bool Returns true if the site indexability is unknown even though getting a response from Ryte was successful.
+	 * @return bool Returns true if the site indexability is unknown even though getting a response from Ryte was
+	 *              successful.
 	 */
 	public function has_unknown_indexability() {
 		if ( ! $this->could_fetch() ) {

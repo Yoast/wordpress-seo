@@ -8,6 +8,7 @@ use WPSEO_Tracking_Server_Data;
 use WPSEO_Utils;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Config\Migration_Status;
+use Yoast\WP\SEO\Helpers\Json_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
@@ -49,7 +50,14 @@ class HelpScout_Beacon implements Integration_Interface {
 	 *
 	 * @var Options_Helper
 	 */
-	protected $options;
+	protected $options_helper;
+
+	/**
+	 * The JSON helper.
+	 *
+	 * @var Json_Helper
+	 */
+	protected $json_helper;
 
 	/**
 	 * The array of pages we need to show the beacon on with their respective beacon IDs.
@@ -97,14 +105,21 @@ class HelpScout_Beacon implements Integration_Interface {
 	/**
 	 * Headless_Rest_Endpoints_Enabled_Conditional constructor.
 	 *
-	 * @param Options_Helper            $options          The options helper.
+	 * @param Options_Helper            $options_helper   The options helper.
+	 * @param Json_Helper               $json_helper      The JSON helper.
 	 * @param WPSEO_Admin_Asset_Manager $asset_manager    The asset manager.
 	 * @param Migration_Status          $migration_status The migrations status.
 	 */
-	public function __construct( Options_Helper $options, WPSEO_Admin_Asset_Manager $asset_manager, Migration_Status $migration_status ) {
-		$this->options          = $options;
+	public function __construct(
+		Options_Helper $options_helper,
+		Json_Helper $json_helper,
+		WPSEO_Admin_Asset_Manager $asset_manager,
+		Migration_Status $migration_status
+	) {
+		$this->options_helper   = $options_helper;
+		$this->json_helper      = $json_helper;
 		$this->asset_manager    = $asset_manager;
-		$this->ask_consent      = ! $this->options->get( 'tracking' );
+		$this->ask_consent      = ! $this->options_helper->get( 'tracking' );
 		$this->page             = \filter_input( \INPUT_GET, 'page', \FILTER_SANITIZE_STRING );
 		$this->migration_status = $migration_status;
 
@@ -152,8 +167,8 @@ class HelpScout_Beacon implements Integration_Interface {
 			'<script type="text/javascript">window.%1$s(\'%2$s\', %3$s)</script>',
 			( $this->ask_consent ) ? 'wpseoHelpScoutBeaconConsent' : 'wpseoHelpScoutBeacon',
 			\esc_html( $this->pages_ids[ $this->page ] ),
-			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaping done in format_json_encode.
-			WPSEO_Utils::format_json_encode( (array) $this->get_session_data() )
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaping done in format_encode.
+			$this->json_helper->format_encode( (array) $this->get_session_data() )
 		);
 	}
 
@@ -186,7 +201,7 @@ class HelpScout_Beacon implements Integration_Interface {
 		$transient_data = \get_transient( 'yoast_beacon_session_data' );
 
 		if ( \is_array( $transient_data ) ) {
-			return WPSEO_Utils::format_json_encode( $transient_data );
+			return $this->json_helper->format_encode( $transient_data );
 		}
 
 		$current_user = \wp_get_current_user();
@@ -194,9 +209,9 @@ class HelpScout_Beacon implements Integration_Interface {
 		// Do not make these strings translatable! They are for our support agents, the user won't see them!
 		$data = \array_merge(
 			[
-				'name'               => \trim( $current_user->user_firstname . ' ' . $current_user->user_lastname ),
-				'email'              => $current_user->user_email,
-				'Languages'          => $this->get_language_settings(),
+				'name'      => \trim( $current_user->user_firstname . ' ' . $current_user->user_lastname ),
+				'email'     => $current_user->user_email,
+				'Languages' => $this->get_language_settings(),
 			],
 			$this->get_server_info(),
 			[
@@ -224,7 +239,7 @@ class HelpScout_Beacon implements Integration_Interface {
 		// Store the data in a transient for 5 minutes to prevent overhead on every backend pageload.
 		\set_transient( 'yoast_beacon_session_data', $data, ( 5 * \MINUTE_IN_SECONDS ) );
 
-		return WPSEO_Utils::format_json_encode( $data );
+		return $this->json_helper->format_encode( $data );
 	}
 
 	/**
@@ -238,9 +253,9 @@ class HelpScout_Beacon implements Integration_Interface {
 		$server_data          = $server_data['server'];
 
 		$fields_to_use = [
-			'Server IP'        => 'ip',
-			'PHP Version'      => 'PhpVersion',
-			'cURL Version'     => 'CurlVersion',
+			'Server IP'    => 'ip',
+			'PHP Version'  => 'PhpVersion',
+			'cURL Version' => 'CurlVersion',
 		];
 
 		$server_data['CurlVersion'] = $server_data['CurlVersion']['version'] . ' (SSL Support ' . $server_data['CurlVersion']['sslSupport'] . ')';
@@ -386,8 +401,8 @@ class HelpScout_Beacon implements Integration_Interface {
 	 */
 	private function get_indexables_status() {
 		$indexables_status  = 'Indexing completed: ';
-		$indexing_completed = $this->options->get( 'indexables_indexing_completed' );
-		$indexing_reason    = $this->options->get( 'indexing_reason' );
+		$indexing_completed = $this->options_helper->get( 'indexables_indexing_completed' );
+		$indexing_reason    = $this->options_helper->get( 'indexing_reason' );
 
 		$indexables_status .= ( $indexing_completed ) ? 'yes' : 'no';
 		$indexables_status .= ( $indexing_reason ) ? ', latest indexing reason: ' . \esc_html( $indexing_reason ) : '';
@@ -431,7 +446,8 @@ class HelpScout_Beacon implements Integration_Interface {
 	}
 
 	/**
-	 * Allows filtering of the HelpScout settings. Hooked to admin_head to prevent timing issues, not too early, not too late.
+	 * Allows filtering of the HelpScout settings. Hooked to admin_head to prevent timing issues, not too early, not
+	 * too late.
 	 */
 	protected function filter_settings() {
 		/**
