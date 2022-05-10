@@ -163,6 +163,14 @@ export function configurationReducer( state, action ) {
 		case "CHANGE_SOCIAL_PROFILE":
 			newState = handleStepEdit( newState, 3 );
 			newState.socialProfiles[ action.payload.socialMedium ] = action.payload.value;
+			newState.errorFields = newState.errorFields.filter( errorField => {
+				if ( action.payload.socialMedium === "facebookUrl" ) {
+					return errorField !== "facebook_site";
+				} else if ( action.payload.socialMedium === "twitterUsername" ) {
+					return errorField !== "twitter_site";
+				}
+				return true;
+			} );
 			return newState;
 		case "CHANGE_OTHERS_SOCIAL_PROFILE":
 			newState = handleStepEdit( newState, 3 );
