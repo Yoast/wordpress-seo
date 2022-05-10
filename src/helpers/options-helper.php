@@ -4,9 +4,12 @@ namespace Yoast\WP\SEO\Helpers;
 
 use WPSEO_Option_Social;
 use WPSEO_Option_Titles;
+use Yoast\WP\SEO\Exceptions\Option\Delete_Failed_Exception;
 use Yoast\WP\SEO\Exceptions\Option\Save_Failed_Exception;
 use Yoast\WP\SEO\Exceptions\Option\Unknown_Exception;
 use Yoast\WP\SEO\Exceptions\Validation\Abstract_Validation_Exception;
+use Yoast\WP\SEO\Services\Options\Multisite_Options_Service;
+use Yoast\WP\SEO\Services\Options\Network_Admin_Options_Service;
 use Yoast\WP\SEO\Services\Options\Site_Options_Service;
 
 /**
@@ -22,17 +25,49 @@ class Options_Helper {
 	protected $site_options_service;
 
 	/**
+	 * Holds the Multisite_Options_Service instance.
+	 *
+	 * @var Multisite_Options_Service
+	 */
+	protected $multisite_options_service;
+
+	/**
+	 * Holds the Network_Admin_Options_Service instance.
+	 *
+	 * @var Network_Admin_Options_Service
+	 */
+	protected $network_admin_options_service;
+
+	/**
+	 * Holds the Site_Helper instance.
+	 *
+	 * @var Site_Helper
+	 */
+	protected $site_helper;
+
+	/**
 	 * Sets the dependencies.
 	 *
 	 * This method is used instead of the constructor to avoid a circular dependency:
 	 * Site_Options_Service -> Post_Type_Helper -> Options_Helper.
 	 *
-	 * @param Site_Options_Service $site_options_service The site options service.
+	 * @param Site_Options_Service          $site_options_service          The site options service.
+	 * @param Multisite_Options_Service     $multisite_options_service     The multisite options service.
+	 * @param Network_Admin_Options_Service $network_admin_options_service The network admin options service.
+	 * @param Site_Helper                   $site_helper                   The site helper.
 	 *
 	 * @required
 	 */
-	public function set_dependencies( Site_Options_Service $site_options_service ) {
-		$this->site_options_service = $site_options_service;
+	public function set_dependencies(
+		Site_Options_Service $site_options_service,
+		Multisite_Options_Service $multisite_options_service,
+		Network_Admin_Options_Service $network_admin_options_service,
+		Site_Helper $site_helper
+	) {
+		$this->site_options_service          = $site_options_service;
+		$this->multisite_options_service     = $multisite_options_service;
+		$this->network_admin_options_service = $network_admin_options_service;
+		$this->site_helper                   = $site_helper;
 	}
 
 	/**
@@ -45,7 +80,7 @@ class Options_Helper {
 	 */
 	public function get( $key, $fallback = null ) {
 		try {
-			return $this->site_options_service->__get( $key );
+			return $this->get_options_service()->__get( $key );
 		} catch ( Unknown_Exception $exception ) {
 			return $fallback;
 		}
@@ -61,15 +96,16 @@ class Options_Helper {
 	 */
 	public function set( $key, $value ) {
 		try {
-			$this->site_options_service->__set( $key, $value );
+			$this->get_options_service()->__set( $key, $value );
 
 			return true;
-		} catch ( Unknown_Exception $exception ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch -- Deliberately left empty.
-		} catch ( Abstract_Validation_Exception $exception ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch -- Deliberately left empty.
-		} catch ( Save_Failed_Exception $exception ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch -- Deliberately left empty.
+		} catch ( Unknown_Exception $exception ) {
+			return false;
+		} catch ( Abstract_Validation_Exception $exception ) {
+			return false;
+		} catch ( Save_Failed_Exception $exception ) {
+			return false;
 		}
-
-		return false;
 	}
 
 	/**
@@ -81,7 +117,7 @@ class Options_Helper {
 	 */
 	public function get_default( $key ) {
 		try {
-			return $this->site_options_service->get_default( $key );
+			return $this->get_options_service()->get_default( $key );
 		} catch ( Unknown_Exception $exception ) {
 			return null;
 		}
@@ -95,25 +131,39 @@ class Options_Helper {
 	 * @return array The options.
 	 */
 	public function get_options( array $keys = [] ) {
-		return $this->site_options_service->get_options( $keys );
+		return $this->get_options_service()->get_options( $keys );
 	}
 
 	/**
 	 * Saves the options if the database row does not exist.
 	 *
-	 * @return void
+	 * @return bool Whether the ensure succeeded.
 	 */
 	public function ensure_options() {
-		$this->site_options_service->ensure_options();
+		try {
+			$this->get_options_service()->ensure_options();
+
+			return true;
+		} catch ( Save_Failed_Exception $e ) {
+			return false;
+		}
 	}
 
 	/**
 	 * Saves the options with their default values.
 	 *
-	 * @return void
+	 * @return bool Whether the reset succeeded.
 	 */
 	public function reset_options() {
-		$this->site_options_service->reset_options();
+		try {
+			$this->get_options_service()->reset_options();
+
+			return true;
+		} catch ( Delete_Failed_Exception $e ) {
+			return false;
+		} catch ( Save_Failed_Exception $e ) {
+			return false;
+		}
 	}
 
 	/**
@@ -122,6 +172,13 @@ class Options_Helper {
 	 * @return void
 	 */
 	public function clear_cache() {
+		// Ensure the cache of all the used services are cleared.
+		if ( $this->site_helper->is_multisite() ) {
+			$this->network_admin_options_service->clear_cache();
+			$this->multisite_options_service->clear_cache();
+
+			return;
+		}
 		$this->site_options_service->clear_cache();
 	}
 
@@ -174,6 +231,29 @@ class Options_Helper {
 	}
 
 	/**
+	 * Validates a social URL.
+	 *
+	 * @param string $url The url to be validated.
+	 *
+	 * @return string|false The validated URL or false if the URL is not valid.
+	 */
+	public function validate_social_url( $url ) {
+		return $url === '' || WPSEO_Option_Social::get_instance()->validate_social_url( $url );
+	}
+
+	/**
+	 * Validates a twitter id.
+	 *
+	 * @param string $twitter_id    The twitter id to be validated.
+	 * @param bool   $strip_at_sign Whether or not to strip the `@` sign.
+	 *
+	 * @return string|false The validated twitter id or false if it is not valid.
+	 */
+	public function validate_twitter_id( $twitter_id, $strip_at_sign = true ) {
+		return WPSEO_Option_Social::get_instance()->validate_twitter_id( $twitter_id, $strip_at_sign );
+	}
+
+	/**
 	 * Retrieves the default option titles.
 	 *
 	 * @codeCoverageIgnore We have to write test when this method contains own code.
@@ -196,25 +276,15 @@ class Options_Helper {
 	}
 
 	/**
-	 * Validates a social URL.
+	 * Retrieves the appropriate options service for the current location.
 	 *
-	 * @param string $url The url to be validated.
-	 *
-	 * @return string|false The validated URL or false if the URL is not valid.
+	 * @return Site_Options_Service|Multisite_Options_Service The options service.
 	 */
-	public function validate_social_url( $url ) {
-		return $url === '' || WPSEO_Option_Social::get_instance()->validate_social_url( $url );
-	}
+	protected function get_options_service() {
+		if ( $this->site_helper->is_multisite() ) {
+			return $this->multisite_options_service;
+		}
 
-	/**
-	 * Validates a twitter id.
-	 *
-	 * @param string $twitter_id    The twitter id to be validated.
-	 * @param bool   $strip_at_sign Whether or not to strip the `@` sign.
-	 *
-	 * @return string|false The validated twitter id or false if it is not valid.
-	 */
-	public function validate_twitter_id( $twitter_id, $strip_at_sign = true ) {
-		return WPSEO_Option_Social::get_instance()->validate_twitter_id( $twitter_id, $strip_at_sign );
+		return $this->site_options_service;
 	}
 }

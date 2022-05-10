@@ -54,6 +54,7 @@ class Taxonomy_Metadata_Service_Test extends TestCase {
 	 * Sets up the test fixtures.
 	 */
 	protected function set_up() {
+		parent::set_up();
 		$this->stubEscapeFunctions();
 		$this->stubTranslationFunctions();
 
@@ -123,22 +124,24 @@ class Taxonomy_Metadata_Service_Test extends TestCase {
 	 * @covers ::get_values
 	 * @covers ::get_defaults
 	 * @covers ::get_configurations
+	 * @covers ::get_additional_configurations
+	 * @covers \Yoast\WP\SEO\Services\Options\Abstract_Options_Service::get_additional_configurations
 	 * @covers ::expand_configurations
 	 */
 	public function test_get_all() {
 		Monkey\Functions\expect( 'get_term_by' )
-			->with( 'id', 1, 'category' )
 			->once()
+			->with( 'id', 1, 'category' )
 			->andReturn( (object) [ 'term_id' => 1 ] );
 
 		Monkey\Functions\expect( 'get_option' )
-			->with( 'wpseo_taxonomy_metadata' )
 			->once()
+			->with( 'wpseo_taxonomy_metadata' )
 			->andReturn( [] );
 
-		Monkey\Functions\expect( 'apply_filters' )
+		Monkey\Filters\expectApplied( 'wpseo_taxonomy_metadata_additional_configurations' )
 			->once()
-			->with( 'wpseo_additional_option_configurations', [] )
+			->with( [] )
 			->andReturn( [] );
 
 		$this->assertArrayHasKey( 'wpseo_title', $this->instance->get( 1, 'category' ) );
@@ -152,23 +155,25 @@ class Taxonomy_Metadata_Service_Test extends TestCase {
 	 * @covers ::get_term_values
 	 * @covers ::get_defaults
 	 * @covers ::get_configurations
+	 * @covers ::get_additional_configurations
+	 * @covers \Yoast\WP\SEO\Services\Options\Abstract_Options_Service::get_additional_configurations
 	 * @covers ::expand_configurations
 	 * @covers ::get_prefixed_key
 	 */
 	public function test_get() {
 		Monkey\Functions\expect( 'get_term_by' )
-			->with( 'slug', 'slug', 'category' )
 			->once()
+			->with( 'slug', 'slug', 'category' )
 			->andReturn( (object) [ 'term_id' => 1 ] );
 
 		Monkey\Functions\expect( 'get_option' )
-			->with( 'wpseo_taxonomy_metadata' )
 			->once()
+			->with( 'wpseo_taxonomy_metadata' )
 			->andReturn( [ 'category' => [ 1 => [ 'wpseo_foo' => 'bar' ] ] ] );
 
-		Monkey\Functions\expect( 'apply_filters' )
+		Monkey\Filters\expectApplied( 'wpseo_taxonomy_metadata_additional_configurations' )
 			->once()
-			->with( 'wpseo_additional_option_configurations', [] )
+			->with( [] )
 			->andReturn( [] );
 
 		$this->assertEquals( 'bar', $this->instance->get( 'slug', 'category', 'foo' ) );
@@ -182,18 +187,18 @@ class Taxonomy_Metadata_Service_Test extends TestCase {
 	 */
 	public function test_get_prefixed_key() {
 		Monkey\Functions\expect( 'get_term_by' )
-			->with( 'slug', 'slug', 'category' )
 			->once()
+			->with( 'slug', 'slug', 'category' )
 			->andReturn( (object) [ 'term_id' => 1 ] );
 
 		Monkey\Functions\expect( 'get_option' )
-			->with( 'wpseo_taxonomy_metadata' )
 			->once()
+			->with( 'wpseo_taxonomy_metadata' )
 			->andReturn( [ 'category' => [ 1 => [ 'wpseo_foo' => 'bar' ] ] ] );
 
-		Monkey\Functions\expect( 'apply_filters' )
+		Monkey\Filters\expectApplied( 'wpseo_taxonomy_metadata_additional_configurations' )
 			->once()
-			->with( 'wpseo_additional_option_configurations', [] )
+			->with( [] )
 			->andReturn( [] );
 
 		$this->assertEquals( 'bar', $this->instance->get( 'slug', 'category', 'wpseo_foo' ) );
@@ -207,8 +212,8 @@ class Taxonomy_Metadata_Service_Test extends TestCase {
 	 */
 	public function test_get_unknown_term() {
 		Monkey\Functions\expect( 'get_term_by' )
-			->with( 'id', 1, 'category' )
 			->once()
+			->with( 'id', 1, 'category' )
 			->andReturn( false );
 
 		$this->expectException( Term_Not_Found_Exception::class );
@@ -225,23 +230,25 @@ class Taxonomy_Metadata_Service_Test extends TestCase {
 	 * @covers ::get_term_values
 	 * @covers ::get_defaults
 	 * @covers ::get_configurations
+	 * @covers ::get_additional_configurations
+	 * @covers \Yoast\WP\SEO\Services\Options\Abstract_Options_Service::get_additional_configurations
 	 * @covers ::expand_configurations
 	 * @covers ::get_prefixed_key
 	 */
 	public function test_get_unknown_key() {
 		Monkey\Functions\expect( 'get_term_by' )
-			->with( 'slug', 'slug', 'category' )
 			->once()
+			->with( 'slug', 'slug', 'category' )
 			->andReturn( (object) [ 'term_id' => 1 ] );
 
 		Monkey\Functions\expect( 'get_option' )
-			->with( 'wpseo_taxonomy_metadata' )
 			->once()
+			->with( 'wpseo_taxonomy_metadata' )
 			->andReturn( [] );
 
-		Monkey\Functions\expect( 'apply_filters' )
+		Monkey\Filters\expectApplied( 'wpseo_taxonomy_metadata_additional_configurations' )
 			->once()
-			->with( 'wpseo_additional_option_configurations', [] )
+			->with( [] )
 			->andReturn( [] );
 
 		$this->expectException( Unknown_Exception::class );
@@ -258,23 +265,23 @@ class Taxonomy_Metadata_Service_Test extends TestCase {
 	 */
 	public function test_set() {
 		Monkey\Functions\expect( 'get_term_by' )
-			->with( 'id', 1, 'category' )
 			->once()
+			->with( 'id', 1, 'category' )
 			->andReturn( (object) [ 'term_id' => 1 ] );
 
-		Monkey\Functions\expect( 'apply_filters' )
+		Monkey\Filters\expectApplied( 'wpseo_taxonomy_metadata_additional_configurations' )
 			->once()
-			->with( 'wpseo_additional_option_configurations', [] )
+			->with( [] )
 			->andReturn( [] );
 
 		Monkey\Functions\expect( 'get_option' )
-			->with( 'wpseo_taxonomy_metadata' )
 			->once()
+			->with( 'wpseo_taxonomy_metadata' )
 			->andReturn( [] );
 
 		$this->validation_helper->expects( 'validate_as' )
-			->with( 'foo', [ 'text_field' ] )
 			->once()
+			->with( 'foo', [ 'text_field' ] )
 			->andReturn( 'foo' );
 
 		Monkey\Functions\expect( 'update_option' )->once()->andReturn( true );
@@ -290,23 +297,23 @@ class Taxonomy_Metadata_Service_Test extends TestCase {
 	 */
 	public function test_set_taxonomy_already_present() {
 		Monkey\Functions\expect( 'get_term_by' )
-			->with( 'id', 1, 'category' )
 			->once()
+			->with( 'id', 1, 'category' )
 			->andReturn( (object) [ 'term_id' => 1 ] );
 
-		Monkey\Functions\expect( 'apply_filters' )
+		Monkey\Filters\expectApplied( 'wpseo_taxonomy_metadata_additional_configurations' )
 			->once()
-			->with( 'wpseo_additional_option_configurations', [] )
+			->with( [] )
 			->andReturn( [] );
 
 		Monkey\Functions\expect( 'get_option' )
-			->with( 'wpseo_taxonomy_metadata' )
 			->once()
+			->with( 'wpseo_taxonomy_metadata' )
 			->andReturn( [ 'category' => [] ] );
 
 		$this->validation_helper->expects( 'validate_as' )
-			->with( 'foo', [ 'text_field' ] )
 			->once()
+			->with( 'foo', [ 'text_field' ] )
 			->andReturn( 'foo' );
 
 		Monkey\Functions\expect( 'update_option' )->once()->andReturn( true );
@@ -322,23 +329,23 @@ class Taxonomy_Metadata_Service_Test extends TestCase {
 	 */
 	public function test_set_same_value_after_validation() {
 		Monkey\Functions\expect( 'get_term_by' )
-			->with( 'id', 1, 'category' )
 			->once()
+			->with( 'id', 1, 'category' )
 			->andReturn( (object) [ 'term_id' => 1 ] );
 
-		Monkey\Functions\expect( 'apply_filters' )
+		Monkey\Filters\expectApplied( 'wpseo_taxonomy_metadata_additional_configurations' )
 			->once()
-			->with( 'wpseo_additional_option_configurations', [] )
+			->with( [] )
 			->andReturn( [] );
 
 		Monkey\Functions\expect( 'get_option' )
-			->with( 'wpseo_taxonomy_metadata' )
 			->once()
+			->with( 'wpseo_taxonomy_metadata' )
 			->andReturn( [ 'category' => [ 1 => [ 'wpseo_title' => 'foo' ] ] ] );
 
 		$this->validation_helper->expects( 'validate_as' )
-			->with( 'foo_', [ 'text_field' ] )
 			->once()
+			->with( 'foo_', [ 'text_field' ] )
 			->andReturn( 'foo' );
 
 		Monkey\Functions\expect( 'update_option' )->never();
@@ -354,18 +361,18 @@ class Taxonomy_Metadata_Service_Test extends TestCase {
 	 */
 	public function test_set_same_value() {
 		Monkey\Functions\expect( 'get_term_by' )
-			->with( 'id', 1, 'category' )
 			->once()
+			->with( 'id', 1, 'category' )
 			->andReturn( (object) [ 'term_id' => 1 ] );
 
-		Monkey\Functions\expect( 'apply_filters' )
+		Monkey\Filters\expectApplied( 'wpseo_taxonomy_metadata_additional_configurations' )
 			->once()
-			->with( 'wpseo_additional_option_configurations', [] )
+			->with( [] )
 			->andReturn( [] );
 
 		Monkey\Functions\expect( 'get_option' )
-			->with( 'wpseo_taxonomy_metadata' )
 			->once()
+			->with( 'wpseo_taxonomy_metadata' )
 			->andReturn( [ 'category' => [ 1 => [ 'wpseo_title' => 'foo' ] ] ] );
 
 		Monkey\Functions\expect( 'update_option' )->never();
@@ -381,18 +388,18 @@ class Taxonomy_Metadata_Service_Test extends TestCase {
 	 */
 	public function test_set_same_value_as_configuration_default() {
 		Monkey\Functions\expect( 'get_term_by' )
-			->with( 'id', 1, 'category' )
 			->once()
+			->with( 'id', 1, 'category' )
 			->andReturn( (object) [ 'term_id' => 1 ] );
 
-		Monkey\Functions\expect( 'apply_filters' )
+		Monkey\Filters\expectApplied( 'wpseo_taxonomy_metadata_additional_configurations' )
 			->once()
-			->with( 'wpseo_additional_option_configurations', [] )
+			->with( [] )
 			->andReturn( [] );
 
 		Monkey\Functions\expect( 'get_option' )
-			->with( 'wpseo_taxonomy_metadata' )
 			->once()
+			->with( 'wpseo_taxonomy_metadata' )
 			->andReturn( [] );
 
 		Monkey\Functions\expect( 'update_option' )->once()->andReturn( true );
@@ -407,13 +414,13 @@ class Taxonomy_Metadata_Service_Test extends TestCase {
 	 */
 	public function test_set_unknown_key() {
 		Monkey\Functions\expect( 'get_term_by' )
-			->with( 'id', 1, 'category' )
 			->once()
+			->with( 'id', 1, 'category' )
 			->andReturn( (object) [ 'term_id' => 1 ] );
 
-		Monkey\Functions\expect( 'apply_filters' )
+		Monkey\Filters\expectApplied( 'wpseo_taxonomy_metadata_additional_configurations' )
 			->once()
-			->with( 'wpseo_additional_option_configurations', [] )
+			->with( [] )
 			->andReturn( [] );
 
 		$this->expectException( Unknown_Exception::class );
@@ -429,8 +436,8 @@ class Taxonomy_Metadata_Service_Test extends TestCase {
 	 */
 	public function test_set_unknown_term() {
 		Monkey\Functions\expect( 'get_term_by' )
-			->with( 'id', 1, 'category' )
 			->once()
+			->with( 'id', 1, 'category' )
 			->andReturn( false );
 
 		$this->expectException( Term_Not_Found_Exception::class );
@@ -446,30 +453,37 @@ class Taxonomy_Metadata_Service_Test extends TestCase {
 	 */
 	public function test_set_options() {
 		Monkey\Functions\expect( 'get_term_by' )
-			->with( 'id', 1, 'category' )
 			->once()
+			->with( 'id', 1, 'category' )
 			->andReturn( (object) [ 'term_id' => 1 ] );
 
-		Monkey\Functions\expect( 'apply_filters' )
+		Monkey\Filters\expectApplied( 'wpseo_taxonomy_metadata_additional_configurations' )
 			->once()
-			->with( 'wpseo_additional_option_configurations', [] )
+			->with( [] )
 			->andReturn( [] );
 
 		Monkey\Functions\expect( 'get_option' )
-			->with( 'wpseo_taxonomy_metadata' )
 			->once()
+			->with( 'wpseo_taxonomy_metadata' )
 			->andReturn( [] );
 
 		foreach ( [ 'foo', 'bar' ] as $value ) {
 			$this->validation_helper->expects( 'validate_as' )
-				->with( $value, [ 'text_field' ] )
 				->once()
+				->with( $value, [ 'text_field' ] )
 				->andReturn( $value );
 		}
 
 		Monkey\Functions\expect( 'update_option' )->once()->andReturn( true );
 
-		$this->instance->set_options( 1, 'category', [ 'wpseo_title' => 'foo', 'wpseo_desc' => 'bar' ] );
+		$this->instance->set_options(
+			1,
+			'category',
+			[
+				'wpseo_title' => 'foo',
+				'wpseo_desc'  => 'bar',
+			]
+		);
 	}
 
 	/**
@@ -479,26 +493,26 @@ class Taxonomy_Metadata_Service_Test extends TestCase {
 	 */
 	public function test_set_options_same_values() {
 		Monkey\Functions\expect( 'get_term_by' )
-			->with( 'id', 1, 'category' )
 			->once()
+			->with( 'id', 1, 'category' )
 			->andReturn( (object) [ 'term_id' => 1 ] );
 
-		Monkey\Functions\expect( 'apply_filters' )
+		Monkey\Filters\expectApplied( 'wpseo_taxonomy_metadata_additional_configurations' )
 			->once()
-			->with( 'wpseo_additional_option_configurations', [] )
+			->with( [] )
 			->andReturn( [] );
 
 		// We need the defaults to try to set them again.
 		$values = $this->instance->get_defaults();
 
 		Monkey\Functions\expect( 'get_option' )
-			->with( 'wpseo_taxonomy_metadata' )
 			->once()
+			->with( 'wpseo_taxonomy_metadata' )
 			->andReturn( [ 'category' => [ 1 => $values ] ] );
 
 		$this->validation_helper->expects( 'validate_as' )
-			->withAnyArgs()
 			->times( \count( $values ) )
+			->withAnyArgs()
 			->andReturnArg( 0 );
 
 
@@ -514,8 +528,8 @@ class Taxonomy_Metadata_Service_Test extends TestCase {
 	 */
 	public function test_set_options_unknown_term() {
 		Monkey\Functions\expect( 'get_term_by' )
-			->with( 'id', 1, 'category' )
 			->once()
+			->with( 'id', 1, 'category' )
 			->andReturn( false );
 
 		$this->expectException( Term_Not_Found_Exception::class );
@@ -534,8 +548,8 @@ class Taxonomy_Metadata_Service_Test extends TestCase {
 		$values = [ 'category' => [ 1 => [ 'wpseo_title' => 'foo' ] ] ];
 
 		Monkey\Functions\expect( 'get_option' )
-			->with( 'wpseo_taxonomy_metadata' )
 			->once()
+			->with( 'wpseo_taxonomy_metadata' )
 			->andReturn( $values );
 
 		$this->assertSame( $values, $this->instance->get_options() );
@@ -548,8 +562,8 @@ class Taxonomy_Metadata_Service_Test extends TestCase {
 	 */
 	public function test_reset_options() {
 		Monkey\Functions\expect( 'delete_option' )
-			->with( 'wpseo_taxonomy_metadata' )
 			->once()
+			->with( 'wpseo_taxonomy_metadata' )
 			->andReturn( true );
 
 		$this->instance->reset_options();

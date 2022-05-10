@@ -547,12 +547,12 @@ class Site_Options_Service extends Abstract_Options_Service {
 		'enable_link_suggestions'                     => [
 			'default'   => true,
 			'types'     => [ 'boolean' ],
-			'ms_verify' => true,
+			'ms_verify' => false,
 		],
 		'enable_metabox_insights'                     => [
 			'default'   => true,
 			'types'     => [ 'boolean' ],
-			'ms_verify' => true,
+			'ms_verify' => false,
 		],
 		'enable_text_link_counter'                    => [
 			'default'   => true,
@@ -775,4 +775,49 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'types'   => [ 'string' ],
 		],
 	];
+
+	/**
+	 * Retrieves the filtered option values.
+	 *
+	 * Override this method to implement a filter.
+	 *
+	 * @param array $values The option values.
+	 *
+	 * @return array The filtered option values.
+	 */
+	protected function get_filtered_values( array $values ) {
+		/**
+		 * Filter `wpseo_options_values`. Allows to override the option values.
+		 *
+		 * @api array The option values.
+		 */
+		$filtered_values = \apply_filters( 'wpseo_options_values', $values );
+
+		// Filter safety check.
+		if ( ! \is_array( $filtered_values ) ) {
+			return $values;
+		}
+
+		return $filtered_values;
+	}
+
+	/**
+	 * Retrieves additional configurations.
+	 *
+	 * @param array $configurations The additional configurations to be validated.
+	 *
+	 * @return array Additional configurations.
+	 */
+	protected function get_additional_configurations( $configurations = [] ) {
+		/**
+		 * Filter 'wpseo_options_additional_configurations' - Allows developers to add option configurations.
+		 *
+		 * @see Abstract_Options_Service::$configurations
+		 *
+		 * @api array The option configurations.
+		 */
+		$additional_configurations = \apply_filters( 'wpseo_options_additional_configurations', $configurations );
+
+		return parent::get_additional_configurations( $additional_configurations );
+	}
 }

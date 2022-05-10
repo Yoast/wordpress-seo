@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Integrations;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 
 /**
- * Adds hooks for the options (services).
+ * Adds hooks for the options service.
  */
 class Options_Integration implements Integration_Interface {
 

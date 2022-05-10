@@ -12,9 +12,9 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 /**
  * Class Disable_Core_Sitemaps_Test.
  *
- * @coversDefaultClass \Yoast\WP\SEO\Initializers\Disable_Core_Sitemaps
+ * @group initializers
  *
- * @group integrations
+ * @coversDefaultClass \Yoast\WP\SEO\Initializers\Disable_Core_Sitemaps
  */
 class Disable_Core_Sitemaps_Test extends TestCase {
 

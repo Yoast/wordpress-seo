@@ -5,6 +5,8 @@
  * @package WPSEO\Internals
  */
 
+use Yoast\WP\SEO\Services\Options\Network_Admin_Options_Service;
+
 /**
  * Multisite utility class for network admin functionality.
  */
@@ -158,7 +160,7 @@ class Yoast_Network_Admin implements WPSEO_WordPress_AJAX_Integration, WPSEO_Wor
 			add_settings_error( $option_group, 'settings_updated', sprintf( __( 'Site with ID %d not found.', 'wordpress-seo' ), $site_id ), 'error' );
 		}
 		else {
-			WPSEO_Options::reset_ms_blog( $site_id );
+			YoastSEO()->classes->get( Network_Admin_Options_Service::class )->reset_options_for( $site_id );
 
 			/* translators: %s expands to the name of a site within a multisite network. */
 			add_settings_error( $option_group, 'settings_updated', sprintf( __( '%s restored to default SEO settings.', 'wordpress-seo' ), esc_html( $site->blogname ) ), 'updated' );

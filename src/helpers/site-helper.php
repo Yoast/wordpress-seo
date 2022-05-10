@@ -25,4 +25,13 @@ class Site_Helper {
 	public function is_multisite_and_switched() {
 		return \is_multisite() && \ms_is_switched();
 	}
+
+	/**
+	 * Checks if the current installation is a multisite.
+	 *
+	 * @return bool True if Multisite is enabled.
+	 */
+	public function is_multisite() {
+		return \is_multisite();
+	}
 }

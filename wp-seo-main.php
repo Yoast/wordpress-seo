@@ -6,6 +6,7 @@
  */
 
 use Yoast\WP\SEO\Integrations\Admin\Ryte_Integration;
+use Yoast\WP\SEO\Services\Options\Network_Admin_Options_Service;
 
 if ( ! function_exists( 'add_filter' ) ) {
 	header( 'Status: 403 Forbidden' );
@@ -195,12 +196,10 @@ function _wpseo_activate() {
 	new WPSEO_Installation();
 
 	WPSEO_Options::get_instance();
-	if ( ! is_multisite() ) {
-		WPSEO_Options::initialize();
+	if ( is_multisite() ) {
+		YoastSEO()->classes->get( Network_Admin_Options_Service::class )->maybe_reset_current_blog_options();
 	}
-	else {
-		WPSEO_Options::maybe_set_multisite_defaults( true );
-	}
+	WPSEO_Options::initialize();
 	WPSEO_Options::ensure_options_exist();
 
 	if ( is_multisite() && ms_is_switched() ) {

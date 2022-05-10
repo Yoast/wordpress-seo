@@ -6,6 +6,7 @@
  */
 
 use Yoast\WP\SEO\Helpers\Wordpress_Helper;
+use Yoast\WP\SEO\Services\Options\Network_Admin_Options_Service;
 
 /**
  * Class that holds most of the admin functionality for Yoast SEO.
@@ -40,7 +41,9 @@ class WPSEO_Admin {
 		$wpseo_menu->register_hooks();
 
 		if ( is_multisite() ) {
-			WPSEO_Options::maybe_set_multisite_defaults( false );
+			if ( YoastSEO()->classes->get( Network_Admin_Options_Service::class )->maybe_reset_current_blog_options() ) {
+				WPSEO_Options::initialize();
+			}
 		}
 
 		if ( WPSEO_Options::get( 'stripcategorybase' ) === true ) {
