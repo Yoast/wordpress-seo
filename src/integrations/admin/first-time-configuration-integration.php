@@ -124,7 +124,7 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 	 */
 	public function enqueue_assets() {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Date is not processed or saved.
-		if ( ! isset( $_GET['page'] ) || $_GET['page'] !== 'wpseo_dashboard' ) {
+		if ( ! isset( $_GET['page'] ) || $_GET['page'] !== 'wpseo_dashboard' || is_network_admin() ) {
 			return;
 		}
 
