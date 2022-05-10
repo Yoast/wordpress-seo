@@ -73,6 +73,11 @@ function SocialProfilesWrapper() {
 	const [ isSaved, setIsSaved ] = useState( false );
 
 	/* eslint-disable max-len */
+	// Clear isSaved when values are edited.
+	useEffect( () => {
+		setIsSaved( false );
+	}, [ facebookValue, twitterValue, otherSocialUrls ] );
+
 	useEffect( () => {
 		/**
 		 * Prevents the submission of the form upon pressing enter.
@@ -146,11 +151,11 @@ function SocialProfilesWrapper() {
 				return errorField;
 			} ).filter( errorField => errorField !== "remove" );
 		} );
-	}, [ setOtherSocialUrls ] );
+	}, [ setOtherSocialUrls, setErrorFields ] );
 
 	const onAddProfileHandler = useCallback( () => {
 		setOtherSocialUrls( prevState => [ ...prevState, "" ] );
-	}, [ setOtherSocialUrls ] );
+	}, [ setOtherSocialUrls, setErrorFields ] );
 	return (
 		<div
 			className="yst-root yst-bg-white yst-rounded-lg yst-p-6 yst-shadow-md yst-max-w-2xl yst-mt-6"
