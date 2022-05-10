@@ -377,6 +377,7 @@ export class Indexation extends Component {
 		return <IndexingError
 			message={ yoastIndexingData.errorMessage }
 			error={ this.state.error }
+			className={ "yst-mb-4" }
 		/>;
 	}
 
@@ -396,7 +397,9 @@ export class Indexation extends Component {
 				{ this.props.children }
 				<Transition
 					unmount={ false }
-					show={ this.isState( STATE.IN_PROGRESS ) || ( this.isState( STATE.IDLE ) && this.state.amount > 0 ) }
+					show={ this.isState( STATE.ERRORED ) ||
+						this.isState( STATE.IN_PROGRESS ) ||
+						( this.isState( STATE.IDLE ) && this.state.amount > 0 ) }
 					leave="yst-transition-opacity yst-duration-1000"
 					leaveFrom="yst-opacity-100"
 					leaveTo="yst-opacity-0"
