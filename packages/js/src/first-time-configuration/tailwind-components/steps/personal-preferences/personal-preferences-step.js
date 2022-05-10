@@ -25,7 +25,7 @@ export default function PersonalPreferencesStep( { state, setTracking } ) {
 				sprintf( __( "%s usage tracking", "wordpress-seo" ), "Yoast SEO" )
 			}
 		</h4>
-		<p className="yst-text-normal yst-mt-2 yst-mb-4">{ __( "Can we collect anonymous information about your website and how you use it?", "wordpress-seo" ) }</p>
+		<p className="yst-text-normal yst-mt-2 yst-mb-4">{ __( "We need your help to improve Yoast SEO. Can we collect anonymous information about your website and how you use it?", "wordpress-seo" ) }</p>
 		{ <RadioGroup
 			id="yoast-configuration-tracking-radio-button"
 			name="yoast-configuration-tracking"
