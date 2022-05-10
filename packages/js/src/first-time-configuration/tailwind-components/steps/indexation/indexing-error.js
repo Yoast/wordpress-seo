@@ -71,8 +71,11 @@ ErrorBox.defaultProps = {
  *
  * @returns {JSX.Element} The indexation error component.
  */
-export default function IndexingError( { message, error } ) {
-	return <Alert type={ "error" }>
+export default function IndexingError( { message, error, className} ) {
+	return <Alert
+		type={ "error" }
+		className={ className }
+	>
 		<div dangerouslySetInnerHTML={ { __html: message } } />
 		<details>
 			<summary>{ __( "Error details", "wordpress-seo" ) }</summary>
@@ -94,4 +97,9 @@ IndexingError.propTypes = {
 		PropTypes.instanceOf( Error ),
 		PropTypes.instanceOf( RequestError ),
 	] ).isRequired,
+	className: PropTypes.string,
+};
+
+IndexingError.defaultProps = {
+	className: "",
 };
