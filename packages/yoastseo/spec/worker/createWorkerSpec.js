@@ -3,14 +3,13 @@ import { createExceptionHandler, isSameOrigin, createBlobURL } from "../../src/w
 
 describe( "checks createExceptionHandler function", () => {
 	it( "outputs an error message containing the inputted string ", () => {
-		const exceptionMessage = createExceptionHandler( "dogs" );
-		expect( exceptionMessage ).toContain( "dogs" );
+		const exceptionMessage = createExceptionHandler( "poffertjes" );
+		expect( exceptionMessage ).toContain( "poffertjes" );
 	} );
 } );
 
 describe( "checks isSameOrigin function", () => {
-	// Include more tests with different URLs.
-	it( "checks if two different URLS have the same origin (hostname, port, protocol)", () => {
+	it( "checks if two different URLS from different sites have the same origin (hostname, port, protocol)", () => {
 		const sameURL = isSameOrigin( "https://jestjs.io/docs/mock-functions", "https://developer.mozilla.org/en-US/docs/Web/API/Location/origin" );
 		expect( sameURL ).toBeFalsy();
 	} );
@@ -19,6 +18,11 @@ describe( "checks isSameOrigin function", () => {
 		// eslint-disable-next-line max-len
 		const sameURL = isSameOrigin( "https://stackoverflow.com/questions/52968969/jest-url-createobjecturl-is-not-a-function", "https://stackoverflow.com/questions/41885841/how-can-i-mock-the-javascript-window-object-using-jest" );
 		expect( sameURL ).toBeTruthy();
+	} );
+
+	it( "checks if two URLS with different scheme (http vs https) have the same origin (hostname, port, protocol/ scheme)", () => {
+		const sameURL = isSameOrigin( "http://jestjs.io/docs/mock-functions", "https://jestjs.io/docs/mock-functions" );
+		expect( sameURL ).toBeFalsy();
 	} );
 } );
 
@@ -30,7 +34,10 @@ describe( "checks createBlobURL function", () => {
 		const blob = new Blob( [ "test" ] );
 		expect( global.URL.createObjectURL ).toBeCalledWith( blob );
 		expect( blob ).toBeInstanceOf( Blob );
-
+		const blobAsText = blob.text;
+		console.log( blobAsText );
+		const blobType = blob.slice();
+		console.log( blobType );
 		/*
 		Const someTestValue = "DOGS";
 		const blobScript = createExceptionHandler( createBlobScript( someTestValue ) );
@@ -51,4 +58,21 @@ describe( "checks createBlobURL function", () => {
 		expect( blobScript ).toBe( supposedScript );
 		*/
 	} );
+	/*
+	It( "does something else", () => {
+		const doc = new jsPDF();
+		const fileName = "test.pdf";
+		doc.text( "Hello world!" );
+		const blob = new Blob( [ doc.output() ] );
+		download( fileName, blob );
+	} );
+	it( "createExceptionHandler fails with an error", async() => {
+	expect.assertions( 1 );
+	try {
+		await createExceptionHandler();
+	} catch ( error ) {
+		expect( error ).toMatch( "Error occurred during worker initialization:" );
+	}
+} );
+	 */
 } );
