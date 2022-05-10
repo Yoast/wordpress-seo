@@ -205,18 +205,22 @@ function SocialProfilesWrapper() {
 							{ __( "Saved!", "wordpress-seo" ) }
 						</span> }
 					</div>
-					<p className="yst-mt-8 yst-text-gray-500">{
-						addLinkToString(
-							sprintf(
-								/* translators: 1: link tag to the relevant WPSEO admin page; 2: link close tag. */
-								__( "Your website is currently configured to represent an Organization. If you want your site to represent a Person, please select 'Person' in the 'Knowledge Graph & Schema.org' section of the %1$sSearch Appearance%2$s settings.", "wordpress-seo" ),
-								"<a>",
-								"</a>"
-							),
-							window.wpseoScriptData.search_appearance_link,
-							"yoast-search-appearance-link"
-						)
-					}</p>
+					{
+						! window.wpseoScriptData.force_organization && <p className="yst-mt-8 yst-text-gray-500">
+							{
+								addLinkToString(
+									sprintf(
+										/* translators: 1: link tag to the relevant WPSEO admin page; 2: link close tag. */
+										__( "Your website is currently configured to represent an Organization. If you want your site to represent a Person, please select 'Person' in the 'Knowledge Graph & Schema.org' section of the %1$sSearch Appearance%2$s settings.", "wordpress-seo" ),
+										"<a>",
+										"</a>"
+									),
+									window.wpseoScriptData.search_appearance_link,
+									"yoast-search-appearance-link"
+								)
+							}
+						</p>
+					}
 				</Fragment>
 			}
 			<SocialHiddenFields
