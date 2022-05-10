@@ -123,8 +123,10 @@ class Network_Admin_Options_Service extends Abstract_Options_Service {
 		}
 
 		// Delete the old options.
-		if ( ! \delete_blog_option( $blog_id, $this->multisite_options_service->option_name ) ) {
-			throw Delete_Failed_Exception::for_option( $this->multisite_options_service->option_name );
+		if ( \get_blog_option( $blog_id, $this->multisite_options_service->option_name ) ) {
+			if ( ! \delete_blog_option( $blog_id, $this->multisite_options_service->option_name ) ) {
+				throw Delete_Failed_Exception::for_option( $this->multisite_options_service->option_name );
+			}
 		}
 
 		// Retrieve the new options.

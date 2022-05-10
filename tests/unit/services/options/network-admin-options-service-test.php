@@ -310,6 +310,10 @@ class Network_Admin_Options_Service_Test extends TestCase {
 		$this->post_type_helper->expects( 'get_public_post_types' )->once()->andReturn( [] );
 		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->once()->andReturn( [] );
 
+		Monkey\Functions\expect( 'get_blog_option' )
+			->once()
+			->andReturn( 1 );
+
 		Monkey\Functions\expect( 'delete_blog_option' )
 			->once()
 			->with( 1, 'wpseo_options' )
@@ -341,6 +345,10 @@ class Network_Admin_Options_Service_Test extends TestCase {
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->once()->andReturn( [] );
 		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->once()->andReturn( [] );
+
+		Monkey\Functions\expect( 'get_blog_option' )
+			->once()
+			->andReturn( 1 );
 
 		Monkey\Functions\expect( 'delete_blog_option' )
 			->once()
@@ -389,6 +397,10 @@ class Network_Admin_Options_Service_Test extends TestCase {
 		$this->post_type_helper->expects( 'get_public_post_types' )->once()->andReturn( [] );
 		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->once()->andReturn( [] );
 
+		Monkey\Functions\expect( 'get_blog_option' )
+			->once()
+			->andReturn( 1 );
+
 		Monkey\Functions\expect( 'delete_blog_option' )
 			->once()
 			->with( 1, 'wpseo_options' )
@@ -411,6 +423,10 @@ class Network_Admin_Options_Service_Test extends TestCase {
 	public function test_reset_options_for_update_failed() {
 		$this->post_type_helper->expects( 'get_public_post_types' )->once()->andReturn( [] );
 		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->once()->andReturn( [] );
+
+		Monkey\Functions\expect( 'get_blog_option' )
+			->once()
+			->andReturn( 1 );
 
 		Monkey\Functions\expect( 'delete_blog_option' )
 			->once()
@@ -444,6 +460,10 @@ class Network_Admin_Options_Service_Test extends TestCase {
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->once()->andReturn( [] );
 		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->once()->andReturn( [] );
+
+		Monkey\Functions\expect( 'get_blog_option' )
+			->once()
+			->andReturn( 1 );
 
 		Monkey\Functions\expect( 'delete_blog_option' )
 			->once()
