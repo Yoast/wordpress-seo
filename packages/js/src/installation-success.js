@@ -117,13 +117,13 @@ function InstallationSuccessPage() {
 							</a>
 						</div>
 					</div>
+					<a id="installation-success-skip-link" className="yst-bottom-12 yst-right-0 yst-mr-5 yst-self-end yst-text-base md:yst-absolute" href={ "/wp-admin/admin.php?page=wpseo_dashboard" }>
+						{
+							/* translators: %s expands to ' »'. */
+							sprintf( __( "Skip%s", "wordpress-seo" ), " »" )
+						}
+					</a>
 				</div>
-				<a id="installation-success-skip-link" className="yst-self-end yst-text-base yst-bottom-12 yst-right-0 yst-absolute yst-mr-5" href={ "/wp-admin/admin.php?page=wpseo_dashboard" }>
-					{
-						/* translators: %s expands to ' »'. */
-						sprintf( __( "Skip%s", "wordpress-seo" ), " »" )
-					}
-				</a>
 			</div>
 		</div>
 	);
