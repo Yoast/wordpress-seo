@@ -754,6 +754,10 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'default' => [ 'configuration' => [ 'finishedSteps' => [] ] ],
 			'types'   => [ 'string' ],
 		],
+		'configuration_finished_steps'                               => [
+			'default' => [],
+			'types'   => [ 'string' ],
+		],
 		'yandexverify'                                => [
 			'default' => '',
 			'types'   => [
