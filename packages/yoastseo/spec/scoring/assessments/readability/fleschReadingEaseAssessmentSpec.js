@@ -87,7 +87,7 @@ describe( "An assessment for the Flesch reading ease test", function() {
 			" which is considered very easy to read. Good job!" );
 	} );
 
-	it( "returns a 'very easy' score and the associated feedback text for a paper using the Russian config when the score is 100.", function() {
+	/*it( "returns a 'very easy' score and the associated feedback text for a paper using the Russian config when the score is 100.", function() {
 		const paper = new Paper( "This is a very interesting paper" );
 		const result = fleschReadingAssessment.getResult( paper, factory.buildMockResearcher( 100, false, false, russianConfig ) );
 
@@ -124,10 +124,9 @@ describe( "An assessment for the Flesch reading ease test", function() {
 		expect( result.getScore() ).toBe( 9 );
 		expect( result.getText() ).toBe( "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 72.9 in the test," +
 			" which is considered easy to read. Good job!" );
-	} );
+	} );*/
 
-	it( "returns a 'fairly easy' score and the associated feedback text for a paper using the Russian config when the score is" +
-		" between 60 and 70.", function() {
+	it( "returns the correct score and feedback for a language that overrides the default config (Russian)", function() {
 		const paper = new Paper( "This is a very interesting paper" );
 		const result = fleschReadingAssessment.getResult( paper, factory.buildMockResearcher( 66.6, false, false, russianConfig ) );
 
@@ -136,7 +135,7 @@ describe( "An assessment for the Flesch reading ease test", function() {
 			" which is considered fairly easy to read. Good job!" );
 	} );
 
-	it( "returns an 'okay' score and the associated feedback text for a paper using the Russian config when the score is" +
+	/*it( "returns an 'okay' score and the associated feedback text for a paper using the Russian config when the score is" +
 		" between 50 and 60.", function() {
 		const paper = new Paper( "This is a very interesting paper" );
 		const result = fleschReadingAssessment.getResult( paper, factory.buildMockResearcher( 55.5, false, false, russianConfig ) );
@@ -178,7 +177,7 @@ describe( "An assessment for the Flesch reading ease test", function() {
 			" test, which is considered very difficult to read. <a href='https://yoa.st/34s' target='_blank'>Try to make shorter sentences, using " +
 			"less difficult words to improve readability</a>." );
 	} );
-
+*/
 	it( "returns a feedback text containing '100' for a paper with a Flesch score above 100.", function() {
 		const paper = new Paper( "This is a very interesting paper" );
 		const result = fleschReadingAssessment.getResult( paper, factory.buildMockResearcher( 103.0, false, false, russianConfig ) );
