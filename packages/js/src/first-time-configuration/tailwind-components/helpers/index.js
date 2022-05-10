@@ -1,4 +1,5 @@
 import { __ } from "@wordpress/i18n";
+import { cloneDeep } from "lodash";
 
 import classNames from "classnames";
 
@@ -53,3 +54,159 @@ export function getOptionActiveStyles( { active, selected } ) {
 		( ! active && ! selected ) && "yst-text-gray-700"
 	);
 }
+
+
+/**
+ * Adds a step to editedSteps if not there already.
+ *
+ * @param {Array} editedSteps Steps that have been edited.
+ * @param {number} stepNumber  The number of the field that was edited.
+ *
+ * @returns {Array} The new array of editedSteps.
+ */
+function addStepToEditedSteps( editedSteps, stepNumber ) {
+	if ( editedSteps.includes( stepNumber ) ) {
+		return [ ...editedSteps ];
+	}
+	return [ ...editedSteps, stepNumber ];
+}
+
+/**
+ * Removes a step from savedSteps.
+ *
+ * @param {Array} savedSteps Steps that have been saved.
+ * @param {number} stepNumber  The number of the step that was edited.
+ *
+ * @returns {Array} The new array of savedSteps
+ */
+function removeStepFromSavedSteps( savedSteps, stepNumber ) {
+	return savedSteps.filter( step => step !== stepNumber );
+}
+
+/**
+ * Adjusts the editedSteps and savedSteps and returns the full state;
+ *
+ * @param {Object} state      The state.
+ * @param {number} stepNumber The number of the step that was edited.
+ *
+ * @returns {Object} The new state;
+ */
+function handleStepEdit( state, stepNumber ) {
+	const newEditedSteps = addStepToEditedSteps( state.editedSteps, stepNumber );
+	const newSavedSteps = removeStepFromSavedSteps( state.savedSteps, stepNumber );
+	return {
+		...state,
+		editedSteps: newEditedSteps,
+		savedSteps: newSavedSteps,
+	};
+}
+
+/* eslint-disable complexity */
+/**
+ * A reducer for the configuration's internal state.
+ *
+ * @param {Object} state  The "current" state.
+ * @param {Object} action The action with which to mutate the state.
+ *
+ * @returns {Object} The state as altered by the action.
+ */
+export function configurationReducer( state, action ) {
+	let newState = cloneDeep( state );
+	switch ( action.type ) {
+		case "SET_COMPANY_OR_PERSON":
+			newState = handleStepEdit( newState, 2 );
+			newState.companyOrPerson = action.payload;
+			newState.companyOrPersonLabel = newState.companyOrPersonOptions.filter( ( item ) => {
+				return item.value === action.payload;
+			} ).pop().label;
+			return newState;
+		case "CHANGE_COMPANY_NAME":
+			newState = handleStepEdit( newState, 2 );
+			newState.companyName = action.payload;
+			return newState;
+		case "SET_COMPANY_LOGO":
+			newState = handleStepEdit( newState, 2 );
+			newState.companyLogo = action.payload.url;
+			newState.companyLogoId = action.payload.id;
+			return newState;
+		case "REMOVE_COMPANY_LOGO":
+			newState = handleStepEdit( newState, 2 );
+			newState.companyLogo = "";
+			newState.companyLogoId = "";
+			return newState;
+		case "SET_PERSON_LOGO":
+			newState = handleStepEdit( newState, 2 );
+			newState.personLogo = action.payload.url;
+			newState.personLogoId = action.payload.id;
+			return newState;
+		case "REMOVE_PERSON_LOGO":
+			newState = handleStepEdit( newState, 2 );
+			newState.personLogo = "";
+			newState.personLogoId = "";
+			return newState;
+		case "SET_PERSON":
+			newState = handleStepEdit( newState, 2 );
+			newState.personId = action.payload.value;
+			newState.personName = action.payload.label;
+			return newState;
+		case "CHANGE_PERSON_SOCIAL_PROFILE":
+			newState = handleStepEdit( newState, 3 );
+			newState.personSocialProfiles[ action.payload.socialMedium ] = action.payload.value;
+			return newState;
+		case "INIT_PERSON_SOCIAL_PROFILES":
+			newState.personSocialProfiles = action.payload.socialProfiles;
+			return newState;
+		case "SET_CAN_EDIT_USER":
+			newState = handleStepEdit( newState, 2 );
+			newState.canEditUser = ( action.payload === true ) ? 1 : 0;
+			return newState;
+		case "CHANGE_SOCIAL_PROFILE":
+			newState = handleStepEdit( newState, 3 );
+			newState.socialProfiles[ action.payload.socialMedium ] = action.payload.value;
+			return newState;
+		case "CHANGE_OTHERS_SOCIAL_PROFILE":
+			newState = handleStepEdit( newState, 3 );
+			newState.socialProfiles.otherSocialUrls[ action.payload.index ] = action.payload.value;
+			newState.errorFields = newState.errorFields.filter( errorField => errorField !== `other_social_urls-${ action.payload.index }` );
+			return newState;
+		case "ADD_OTHERS_SOCIAL_PROFILE":
+			newState = handleStepEdit( newState, 3 );
+			newState.socialProfiles.otherSocialUrls = [ ...newState.socialProfiles.otherSocialUrls, action.payload.value ];
+			return newState;
+		case "REMOVE_OTHERS_SOCIAL_PROFILE":
+			newState = handleStepEdit( newState, 3 );
+			newState.socialProfiles.otherSocialUrls.splice( action.payload.index, 1 );
+			newState.errorFields = newState.errorFields.map( ( errorField ) => {
+				const errorFieldIndex = parseInt( errorField.replace( "other_social_urls-", "" ), 10 );
+				if ( errorFieldIndex === action.payload.index ) {
+					return "remove";
+				} else if ( errorFieldIndex > action.payload.index ) {
+					return `other_social_urls-${ errorFieldIndex - 1 }`;
+				}
+				return errorField;
+			} ).filter( errorField => errorField !== "remove" );
+			return newState;
+		case "SET_ERROR_FIELDS":
+			newState.errorFields = action.payload;
+			return newState;
+		case "SET_TRACKING":
+			newState = handleStepEdit( newState, 4 );
+			newState.tracking = action.payload;
+			return newState;
+		case "SET_STEP_SAVED":
+			if ( ! newState.savedSteps.includes( action.payload ) ) {
+				newState.savedSteps = [ ...newState.savedSteps, action.payload ];
+			}
+			newState.editedSteps = newState.editedSteps.filter( step => step !== action.payload );
+			return newState;
+		case "SET_STEP_NOT_SAVED":
+			newState.savedSteps = newState.savedSteps.filter( step => step !== action.payload );
+			return newState;
+		case "SET_ALL_STEPS_NOT_SAVED":
+			newState.savedSteps = [];
+			return newState;
+		default:
+			return newState;
+	}
+}
+/* eslint-enable complexity */
