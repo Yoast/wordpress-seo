@@ -72,12 +72,6 @@ function SocialProfilesWrapper() {
 	const [ errorFields, setErrorFields ] = useState( [] );
 	const [ isSaved, setIsSaved ] = useState( false );
 
-	// Clear errorFields and isSaved when values are edited.
-	useEffect( () => {
-		setErrorFields( [] );
-		setIsSaved( false );
-	}, [ facebookValue, twitterValue, otherSocialUrls ] );
-
 	/* eslint-disable max-len */
 	useEffect( () => {
 		/**
@@ -123,8 +117,10 @@ function SocialProfilesWrapper() {
 	const onChangeHandler = useCallback( ( value, socialMedium ) => {
 		if ( socialMedium === "facebookUrl" ) {
 			setFacebookValue( value );
+			setErrorFields( prevState => prevState.filter( errorField => errorField !== "facebook_site" ) );
 		} else if ( socialMedium === "twitterUsername" ) {
 			setTwitterValue( value );
+			setErrorFields( prevState => prevState.filter( errorField => errorField !== "twitter_site" ) );
 		}
 	}, [ setFacebookValue, setTwitterValue ] );
 
@@ -134,10 +130,22 @@ function SocialProfilesWrapper() {
 			nextState[ index ] = value;
 			return nextState;
 		} );
+		setErrorFields( prevState => prevState.filter( errorField => errorField !== `other_social_urls-${ index }` ) );
 	}, [ setOtherSocialUrls ] );
 
 	const onRemoveProfileHandler = useCallback( ( index ) => {
 		setOtherSocialUrls( prevState => prevState.filter( ( _, prevStateIndex ) => prevStateIndex !== index ) );
+		setErrorFields( prevState => {
+			return prevState.map( ( errorField ) => {
+				const errorFieldIndex = parseInt( errorField.replace( "other_social_urls-", "" ), 10 );
+				if ( errorFieldIndex === index ) {
+					return "remove";
+				} else if ( errorFieldIndex > index ) {
+					return `other_social_urls-${ errorFieldIndex - 1 }`;
+				}
+				return errorField;
+			} ).filter( errorField => errorField !== "remove" );
+		} );
 	}, [ setOtherSocialUrls ] );
 
 	const onAddProfileHandler = useCallback( () => {
