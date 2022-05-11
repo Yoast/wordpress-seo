@@ -12,6 +12,9 @@ module.exports = {
 		ecmaVersion: 2020,
 		sourceType: "module",
 	},
+	ignorePatterns: [
+		"/build/",
+	],
 	rules: {
 		"no-prototype-builtins": 0,
 		"comma-dangle": [
