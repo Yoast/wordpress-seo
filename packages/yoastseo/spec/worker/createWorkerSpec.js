@@ -66,6 +66,7 @@ describe( "The createWorker module", () => {
 		} );
 
 		it( "uses the webkitURL as a fallback when URL is not available", async() => {
+			// eslint-disable-next-line no-undefined
 			global.URL = undefined;
 
 			global.webkitURL = jest.fn();
@@ -77,7 +78,9 @@ describe( "The createWorker module", () => {
 		it( "falls back to the BlobBuilder when creating a Blob fails", async() => {
 			const originalBlob = global.Blob;
 			global.Blob = jest.fn();
-			global.Blob.mockImplementation( () => { throw "An error!"; } );
+			global.Blob.mockImplementation( () => {
+				throw "An error!";
+			} );
 
 			const append = jest.fn();
 			const getBlob = jest.fn();
@@ -142,7 +145,9 @@ describe( "The createWorker module", () => {
 			global.Worker.mockImplementation( () => {
 				throw "error!";
 			} );
-			expect( () => { createWorker( "http://localhost/some/code.js" ); } ).toThrowError();
+			expect( () => {
+				createWorker( "http://localhost/some/code.js" );
+			} ).toThrowError();
 		} );
 	} );
 } );
