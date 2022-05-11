@@ -1,27 +1,27 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Unit\Integrations;
+namespace Yoast\WP\SEO\Tests\Unit\Initializers;
 
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Integrations\Options_Integration;
+use Yoast\WP\SEO\Integrations\Options_Initializer;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Options_Integration_Test.
  *
- * @group integrations
+ * @group initializers
  * @group options
  *
- * @coversDefaultClass \Yoast\WP\SEO\Integrations\Options_Integration
+ * @coversDefaultClass \Yoast\WP\SEO\Integrations\Options_Initializer
  */
-class Options_Integration_Test extends TestCase {
+class Options_Initializer_Test extends TestCase {
 
 	/**
 	 * Holds the instance of the class being tested.
 	 *
-	 * @var Options_Integration
+	 * @var Options_Initializer
 	 */
 	protected $instance;
 
@@ -39,7 +39,7 @@ class Options_Integration_Test extends TestCase {
 		parent::set_up();
 
 		$this->options_helper = Mockery::mock( Options_Helper::class );
-		$this->instance       = new Options_Integration( $this->options_helper );
+		$this->instance       = new Options_Initializer( $this->options_helper );
 	}
 
 	/**
@@ -48,7 +48,7 @@ class Options_Integration_Test extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function test_constructor() {
-		$this->assertInstanceOf( Options_Integration::class, $this->instance );
+		$this->assertInstanceOf( Options_Initializer::class, $this->instance );
 		$this->assertInstanceOf(
 			Options_Helper::class,
 			$this->getPropertyValue( $this->instance, 'options_helper' )
@@ -61,15 +61,15 @@ class Options_Integration_Test extends TestCase {
 	 * @covers ::get_conditionals
 	 */
 	public function test_get_conditionals() {
-		$this->assertEquals( [], Options_Integration::get_conditionals() );
+		$this->assertEquals( [], Options_Initializer::get_conditionals() );
 	}
 
 	/**
 	 * Tests that the expected hooks are registered.
 	 *
-	 * @covers ::register_hooks
+	 * @covers ::initialize
 	 */
-	public function test_register_hooks() {
+	public function test_initialize() {
 		Monkey\Actions\expectAdded( 'registered_post_type' )
 			->with( [ $this->options_helper, 'clear_cache' ] )
 			->once();
@@ -83,6 +83,6 @@ class Options_Integration_Test extends TestCase {
 			->with( [ $this->options_helper, 'clear_cache' ] )
 			->once();
 
-		$this->instance->register_hooks();
+		$this->instance->initialize();
 	}
 }

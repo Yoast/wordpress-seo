@@ -3,11 +3,12 @@
 namespace Yoast\WP\SEO\Integrations;
 
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Initializers\Initializer_Interface;
 
 /**
  * Adds hooks for the options service.
  */
-class Options_Integration implements Integration_Interface {
+class Options_Initializer implements Initializer_Interface {
 
 	/**
 	 * Holds the options helper instance.
@@ -39,7 +40,7 @@ class Options_Integration implements Integration_Interface {
 	 *
 	 * @return void
 	 */
-	public function register_hooks() {
+	public function initialize() {
 		/*
 		 * We need to keep track of any change in custom post types and taxonomies to update our option configurations
 		 * that expand to public post types / taxonomies.
