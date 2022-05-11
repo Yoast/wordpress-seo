@@ -101,6 +101,31 @@ function handleStepEdit( state, stepNumber ) {
 	};
 }
 
+/**
+ * Manages updating of the error notices when one (or more) field are removed from the user
+ *
+ * @param {object} prevState An array of fields names with errors
+ * @param {int} index The index of the field to be removed
+ *
+ * @returns {Array} The filtered list of fields with errors
+ */
+export function removeFieldAndUpdateErrors( prevState, index ) {
+	// Map through all the fields with errors
+	return prevState.map( ( errorField ) => {
+		// Find the index of the current error
+		const errorFieldIndex = parseInt( errorField.replace( "other_social_urls-", "" ), 10 );
+		// If the error occurs on the field to be removed, mark it for removal
+		if ( errorFieldIndex === index ) {
+			return "remove";
+		// If the field index is past the field to be removed, decrease it by one since we'll remove the previous field
+		} else if ( errorFieldIndex > index ) {
+			return `other_social_urls-${ errorFieldIndex - 1 }`;
+		}
+		return errorField;
+	// Keep all the errors not marked to be removed
+	} ).filter( errorField => errorField !== "remove" );
+}
+
 /* eslint-disable complexity */
 /**
  * A reducer for the configuration's internal state.
@@ -184,15 +209,7 @@ export function configurationReducer( state, action ) {
 		case "REMOVE_OTHERS_SOCIAL_PROFILE":
 			newState = handleStepEdit( newState, 3 );
 			newState.socialProfiles.otherSocialUrls.splice( action.payload.index, 1 );
-			newState.errorFields = newState.errorFields.map( ( errorField ) => {
-				const errorFieldIndex = parseInt( errorField.replace( "other_social_urls-", "" ), 10 );
-				if ( errorFieldIndex === action.payload.index ) {
-					return "remove";
-				} else if ( errorFieldIndex > action.payload.index ) {
-					return `other_social_urls-${ errorFieldIndex - 1 }`;
-				}
-				return errorField;
-			} ).filter( errorField => errorField !== "remove" );
+			newState.errorFields = removeFieldAndUpdateErrors( newState.errorFields, action.payload.index );
 			return newState;
 		case "SET_ERROR_FIELDS":
 			newState.errorFields = action.payload;

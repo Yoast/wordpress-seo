@@ -6,6 +6,7 @@ import ImageSelectPortal from "../components/portals/ImageSelectPortal";
 import Portal from "../components/portals/Portal";
 import { __, sprintf } from "@wordpress/i18n";
 import { addLinkToString } from "../helpers/stringHelpers.js";
+import { removeFieldAndUpdateErrors } from "../first-time-configuration/tailwind-components/helpers/index.js";
 import { SocialInputSection } from "../first-time-configuration/tailwind-components/steps/social-profiles/social-input-section";
 
 /**
@@ -136,22 +137,14 @@ function SocialProfilesWrapper() {
 			return nextState;
 		} );
 		setErrorFields( prevState => prevState.filter( errorField => errorField !== `other_social_urls-${ index }` ) );
-	}, [ setOtherSocialUrls ] );
+	}, [ setOtherSocialUrls, setErrorFields ] );
 
 	const onRemoveProfileHandler = useCallback( ( index ) => {
 		setOtherSocialUrls( prevState => prevState.filter( ( _, prevStateIndex ) => prevStateIndex !== index ) );
 		setErrorFields( prevState => {
-			return prevState.map( ( errorField ) => {
-				const errorFieldIndex = parseInt( errorField.replace( "other_social_urls-", "" ), 10 );
-				if ( errorFieldIndex === index ) {
-					return "remove";
-				} else if ( errorFieldIndex > index ) {
-					return `other_social_urls-${ errorFieldIndex - 1 }`;
-				}
-				return errorField;
-			} ).filter( errorField => errorField !== "remove" );
+			return removeFieldAndUpdateErrors( prevState, index );
 		} );
-	}, [ setOtherSocialUrls, setErrorFields ] );
+	}, [ setOtherSocialUrls, setErrorFields, removeFieldAndUpdateErrors ] );
 
 	const onAddProfileHandler = useCallback( () => {
 		setOtherSocialUrls( prevState => [ ...prevState, "" ] );
