@@ -1,13 +1,10 @@
 // Lodash imports.
-import { filter } from "lodash-es";
-import { flatMap } from "lodash-es";
-import { isEmpty } from "lodash-es";
-import { negate } from "lodash-es";
-import { memoize } from "lodash-es";
+import { filter, flatMap, isEmpty, negate, memoize } from "lodash-es";
 
 // Internal dependencies.
 import { getBlocks } from "../html/html.js";
-import sanitizeString from "../sanitize/sanitizeString";
+import excludeTableOfContentsTag from "../sanitize/excludeTableOfContentsTag";
+import { unifyNonBreakingSpace } from "../sanitize/unifyWhitespace";
 import SentenceTokenizer from "./SentenceTokenizer";
 
 // Character classes.
@@ -38,8 +35,11 @@ const getSentencesFromBlockCached = memoize( getSentenceTokenizer );
  * @returns {Array} Sentences found in the text.
  */
 export default function( text ) {
-	// Unify whitespaces and non-breaking spaces, remove table of content and strip the tags and multiple spaces.
-	text = sanitizeString( text );
+	// Remove Table of Contents.
+	text = excludeTableOfContentsTag( text );
+	// Unify whitespaces and non-breaking spaces.
+	text = unifyNonBreakingSpace( text );
+
 	let blocks = getBlocks( text );
 
 	// Split each block on newlines.
@@ -47,7 +47,11 @@ export default function( text ) {
 		return block.split( newLineRegex );
 	} );
 
-	const sentences = flatMap( blocks, getSentencesFromBlockCached );
+	let sentences = flatMap( blocks, getSentencesFromBlockCached );
+	const paragraphTagsRegex = new RegExp( "^(<p>|</p>)$" );
+	// Filter sentences that contain only paragraph tags.
+	// This step is necessary since switching between editors might add extra paragraph tags that are not properly sanitized in the previous steps.
+	sentences = filter( sentences, sentence => ! paragraphTagsRegex.test( sentence ) );
 
 	return filter( sentences, negate( isEmpty ) );
 }
