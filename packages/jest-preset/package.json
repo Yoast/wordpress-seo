@@ -1,6 +1,6 @@
 {
   "name": "@yoast/jest-preset",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A Jest preset for Yoast packages.",
   "main": "jest-preset.js",
   "author": "Team Yoast <support@yoast.com>",
