@@ -906,6 +906,7 @@ class WPSEO_Upgrade {
 		$workout_data      = WPSEO_Options::get( 'workouts_data' );
 		$old_conf_progress = isset( $workout_data['configuration']['finishedSteps'] ) ? $workout_data['configuration']['finishedSteps'] : [];
 
+		$configuration_finished_steps = [];
 		if ( in_array( 'optimizeSeoData', $old_conf_progress, true ) && in_array( 'siteRepresentation', $old_conf_progress, true ) ) {
 			// If completed ‘SEO optimization’ and ‘Site representation’ step, we assume the workout was completed.
 			$configuration_finished_steps = [
@@ -913,8 +914,18 @@ class WPSEO_Upgrade {
 				'socialProfiles',
 				'personalPreferences',
 			];
-			WPSEO_Options::set( 'configuration_finished_steps', $configuration_finished_steps );
 		}
+		else {
+			$organization_data_complete = WPSEO_Options::get( 'company_or_person' ) === 'company' && WPSEO_Options::get( 'company_name' ) !== '' && WPSEO_Options::get( 'company_logo_id' ) !== 0;
+			$person_data_complete       = WPSEO_Options::get( 'company_or_person' ) === 'person' && WPSEO_Options::get( 'person_name' ) !== '' && WPSEO_Options::get( 'person_logo_id' ) !== 0;
+
+			if ( $organization_data_complete || $person_data_complete ) {
+				$configuration_finished_steps = [
+					'siteRepresentation',
+				];
+			}
+		}
+		WPSEO_Options::set( 'configuration_finished_steps', $configuration_finished_steps );
 	}
 
 	/**
