@@ -586,7 +586,7 @@ export default function FirstTimeConfigurationSteps() {
 		} else {
 			window.isStepBeingEdited = false;
 		}
-	}, [ state.editedSteps, indexingState ] );
+	}, [ state.editedSteps, indexingState, activeStepIndex ] );
 
 	/**
 	 * Handles the "before page unloads" event.

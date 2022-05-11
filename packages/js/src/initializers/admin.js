@@ -412,6 +412,7 @@ export default function initAdmin( jQuery ) {
 			}
 
 			if ( canChangeTab ) {
+				window.isStepBeingEdited = false;
 				jQuery( "#wpseo-tabs" ).find( "a" ).removeClass( "nav-tab-active" );
 				jQuery( ".wpseotab" ).removeClass( "active" );
 
@@ -426,15 +427,14 @@ export default function initAdmin( jQuery ) {
 				}
 
 				jQuery( window ).trigger( "yoast-seo-tab-change" );
+				if ( id === "first-time-configuration" ) {
+					jQuery( "#yoast-first-time-configuration-notice" ).slideUp();
+				} else {
+					jQuery( "#yoast-first-time-configuration-notice" ).slideDown();
+				}
 			} else {
 				// Re-establish the focus on the first time configuration tab if the user clicks 'Cancel' on the pop-up
 				jQuery( "#first-time-configuration-tab" ).trigger( "focus" );
-			}
-
-			if ( id === "first-time-configuration" ) {
-				jQuery( "#yoast-first-time-configuration-notice" ).slideUp();
-			} else {
-				jQuery( "#yoast-first-time-configuration-notice" ).slideDown();
 			}
 		} );
 
