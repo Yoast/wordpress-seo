@@ -116,3 +116,5 @@ export {
 	createWorkerFallback,
 };
 
+export default createWorker;
+
