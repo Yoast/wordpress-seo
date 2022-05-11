@@ -23,8 +23,13 @@ function getSentenceTokenizer( block ) {
 	const sentenceTokenizer = new SentenceTokenizer();
 	const { tokenizer, tokens } = sentenceTokenizer.createTokenizer();
 	sentenceTokenizer.tokenize( tokenizer, block );
-
-	return tokens.length === 0 ? [] : sentenceTokenizer.getSentencesFromTokens( tokens );
+	const paragraphTagsRegex = new RegExp( "^(<p>|</p>)$" );
+	/*
+	 * Filter block that contain only paragraph tags. This step is necessary
+	 * since switching between editors might add extra paragraph tags with a new line tag in the end
+	 * that are incorrectly converted into separate blocks.
+	 */
+	return ( tokens.length === 0 || paragraphTagsRegex.test( block ) ) ? [] : sentenceTokenizer.getSentencesFromTokens( tokens );
 }
 
 const getSentencesFromBlockCached = memoize( getSentenceTokenizer );
@@ -48,11 +53,7 @@ export default function( text ) {
 		return block.split( newLineRegex );
 	} );
 
-	let sentences = flatMap( blocks, getSentencesFromBlockCached );
-	const paragraphTagsRegex = new RegExp( "^(<p>|</p>)$" );
-	// Filter sentences that contain only paragraph tags.
-	// This step is necessary since switching between editors might add extra paragraph tags that are not properly sanitized in the previous steps.
-	sentences = filter( sentences, sentence => ! paragraphTagsRegex.test( sentence ) );
+	const sentences = flatMap( blocks, getSentencesFromBlockCached );
 
 	return filter( sentences, negate( isEmpty ) );
 }
