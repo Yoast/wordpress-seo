@@ -1,14 +1,14 @@
 import { useState, useCallback, useContext, createContext, useMemo } from "@wordpress/element";
-import { noop, values, includes, isEmpty, isNull } from "lodash";
+import { values, includes, isEmpty, isNull } from "lodash";
 import { DocumentAddIcon, DocumentTextIcon, XIcon } from "@heroicons/react/outline";
 import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/solid";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import { Transition } from "@headlessui/react";
 
-import Label from "../../elements/label";
 import Link from "../../elements/link";
 import ProgressBar from "../../elements/progress-bar";
+import { useRootContext } from "../root";
 
 export const FILE_IMPORT_STATUS = {
 	idle: "idle",
@@ -66,7 +66,7 @@ const Error = ( { children } ) => {
  * @returns {JSX.Element} The FileImport component.
  */
 const FileImport = ( {
-	children,
+	children = "",
 	id,
 	name,
 	selectLabel,
@@ -74,17 +74,18 @@ const FileImport = ( {
 	screenReaderLabel,
 	abortScreenReaderLabel,
 	selectDescription,
-	status,
+	status = FILE_IMPORT_STATUS.idle,
 	onChange,
-	onAbort = noop,
+	onAbort,
 	feedbackTitle,
-	feedbackDescription,
-	progressMin,
-	progressMax,
+	feedbackDescription = "",
+	progressMin = null,
+	progressMax = null,
 	progress = null,
 	...props
 } ) => {
 	const [ isDragOver, setIsDragOver ] = useState( false );
+	const { isRtl } = useRootContext();
 
 	const hasFeedback = useMemo( () => includes(
 		[ FILE_IMPORT_STATUS.loading, FILE_IMPORT_STATUS.success, FILE_IMPORT_STATUS.error ],
@@ -139,7 +140,12 @@ const FileImport = ( {
 				>
 					<div className="yst-file-import__select-content">
 						<DocumentAddIcon className="yst-file-import__select-icon" />
-						<Label as="span" className="yst-font-normal">
+						<div
+							className={ classNames(
+								"yst-flex yst-font-normal yst-text-gray-800", {
+									"yst-flex-row-reverse": isRtl,
+								} ) }
+						>
 							<input
 								type="file"
 								id={ id }
@@ -150,10 +156,10 @@ const FileImport = ( {
 								{ ...props }
 							/>
 							<Link as="label" htmlFor={ id } className="yst-file-import__select-label">{ selectLabel }</Link>
-							&nbsp;
+							<span>&nbsp;</span>
 							{ dropLabel }
-						</Label>
-						<span>{ selectDescription }</span>
+						</div>
+						{ selectDescription && <span>{ selectDescription }</span> }
 					</div>
 				</div>
 				<Transition
@@ -167,7 +173,7 @@ const FileImport = ( {
 							<div className="yst-file-import__feedback-figure"><DocumentTextIcon /></div>
 							<div className="yst-flex-1">
 								<span className="yst-file-import__feedback-title">{ feedbackTitle }</span>
-								<p className="yst-file-import__feedback-escription">{ feedbackDescription }</p>
+								<p className="yst-file-import__feedback-description">{ feedbackDescription }</p>
 								{ ! isNull( progress ) && (
 									<ProgressBar min={ progressMin } max={ progressMax } progress={ progress } className="yst-mt-1.5" />
 								) }
@@ -236,7 +242,7 @@ FileImport.propTypes = {
 	dropLabel: PropTypes.string.isRequired,
 	screenReaderLabel: PropTypes.string.isRequired,
 	abortScreenReaderLabel: PropTypes.string.isRequired,
-	selectDescription: PropTypes.string.isRequired,
+	selectDescription: PropTypes.string,
 	feedbackTitle: PropTypes.string.isRequired,
 	feedbackDescription: PropTypes.string,
 	progressMin: PropTypes.number,
@@ -245,15 +251,6 @@ FileImport.propTypes = {
 	status: PropTypes.oneOf( values( FILE_IMPORT_STATUS ) ),
 	onChange: PropTypes.func.isRequired,
 	onAbort: PropTypes.func.isRequired,
-};
-
-FileImport.defaultProps = {
-	children: "",
-	feedbackDescription: "",
-	progressMin: null,
-	progressMax: null,
-	progress: null,
-	status: FILE_IMPORT_STATUS.idle,
 };
 
 FileImport.Success = Success;
