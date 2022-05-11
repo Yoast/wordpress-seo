@@ -29,8 +29,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.17.10",
-    "@yoast/babel-preset": "^1.0.0",
-    "@yoast/jest-preset": "^1.0.0",
+    "@yoast/babel-preset": "^1.0.1",
+    "@yoast/jest-preset": "^1.0.1",
     "babel-plugin-styled-components": "^2.0.6",
     "eslint": "^7.32.0",
     "eslint-config-yoast": "^5.0.17",
