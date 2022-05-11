@@ -311,7 +311,7 @@ export default function initAdmin( jQuery ) {
 	 */
 	function canShowConfirmDialog( target ) {
 		// Is the user in the first time configuration tab?
-		var comingFromFTCTab = !! jQuery( "#wpseo-tabs" ).find( "a" ).filter( ".nav-tab-active" ).filter( "#first-time-configuration-tab" ).length;
+		var comingFromFTCTab = !! jQuery( "#first-time-configuration-tab" ).filter( ".nav-tab-active" ).length;
 		// Does the user wants to switch to the first time configuration tab?
 		var goingToFTCTab = !! target.filter( "#first-time-configuration-tab" ).length;
 
