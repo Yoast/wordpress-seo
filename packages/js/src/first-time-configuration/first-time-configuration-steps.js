@@ -141,6 +141,13 @@ async function updateTracking( state ) {
 	return await response.json;
 }
 
+/**
+ * Saves the first time configuration finished steps in the database.
+ *
+ * @param {Array} finishedSteps Array of finished steps.
+ *
+ * @returns {Promise|bool} A promise, or false if the call fails.
+ */
 async function saveFinishedSteps( finishedSteps ) {
 	const response = await apiFetch( {
 		path: "yoast/v1/configuration/save_configuration_state",
@@ -454,6 +461,15 @@ export default function FirstTimeConfigurationSteps() {
 		return () => removeEventListener( "keydown", preventEnterSubmit );
 	}, [] );
 
+	// Used by admin.js to decide wether to show the confirmation dialog when user switches tabs in General.
+	useEffect( () => {
+		if ( state.editedSteps.includes( activeStepIndex + 1 ) || indexingState === "in_progress" ) {
+			window.isStepBeingEdited = true;
+		} else {
+			window.isStepBeingEdited = false;
+		}
+	}, [ state.editedSteps, indexingState, activeStepIndex ] );
+
 	/**
 	 * Handles the "before page unloads" event.
 	 *
@@ -462,11 +478,18 @@ export default function FirstTimeConfigurationSteps() {
 	 * @returns {void}
 	 */
 	const beforeUnloadEventHandler = useCallback( ( event ) => {
-		if ( state.editedSteps.includes( activeStepIndex + 1 ) || indexingState === "in_progress"  ) {
-			event.preventDefault();
-			event.returnValue = "";
+		/* Show the pop-up modal if the user wants to leave the first time configuration if:
+		 - the current step is being edited but not saved, or
+		 - the indexation process is still in progress
+		 */
+		if ( state.editedSteps.includes( activeStepIndex + 1 ) || indexingState === "in_progress" ) {
+			// Show the pup-up modal only if the user is in the first time configuration tab
+			if ( location.href.indexOf( "page=wpseo_dashboard#top#first-time-configuration" ) !== -1 ) {
+				event.preventDefault();
+				event.returnValue = "";
+			}
 		}
-	}, [ state.editedSteps, indexingState ] );
+	}, [ state.editedSteps, indexingState, activeStepIndex ] );
 
 	useEffect( () => {
 		window.addEventListener( "beforeunload", beforeUnloadEventHandler );
