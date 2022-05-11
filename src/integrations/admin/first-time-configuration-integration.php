@@ -202,9 +202,9 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 					"shouldForceCompany": %d,
 					"knowledgeGraphMessage": "%s",
 					"shortlinks": {
-						"workoutGuide": "%s",
-						"indexData": "%s",
 						"gdpr": "%s",
+						"configIndexables": "%s",
+						"configIndexablesBenefits": "%s",
 					},
 				};',
 				$this->social_profiles_helper->can_edit_profile( $person_id ),
@@ -227,9 +227,9 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 				WPSEO_Utils::format_json_encode( $options ),
 				$this->should_force_company(),
 				$knowledge_graph_message,
-				$this->shortlinker->build_shortlink( 'https://yoa.st/config-workout-guide' ),
-				$this->shortlinker->build_shortlink( 'https://yoa.st/config-workout-index-data' ),
-				$this->shortlinker->build_shortlink( 'https://yoa.st/gdpr-config-workout' )
+				$this->shortlinker->build_shortlink( 'https://yoa.st/gdpr-config-workout' ),
+				$this->shortlinker->build_shortlink( 'http://yoa.st/config-indexables' ),
+				$this->shortlinker->build_shortlink( 'http://yoa.st/config-indexables-benefits' )
 			),
 			'before'
 		);

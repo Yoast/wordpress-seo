@@ -492,7 +492,7 @@ export default function FirstTimeConfigurationSteps() {
 							"Yoast SEO",
 							"</a>"
 						),
-						window.wpseoFirstTimeConfigurationData.shortlinks.workoutGuide,
+						window.wpseoFirstTimeConfigurationData.shortlinks.configIndexables,
 						"yoast-configuration-guide-link"
 					)
 				}
