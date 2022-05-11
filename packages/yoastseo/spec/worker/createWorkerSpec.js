@@ -8,6 +8,21 @@ import { createExceptionHandler, isSameOrigin, createBlobURL, createWorkerFallba
 import "blob-polyfill";
 
 describe( "The createWorker module", () => {
+	let originalWorker, originalURL;
+
+	beforeEach( () => {
+		originalURL = global.URL;
+		originalWorker = global.Worker;
+
+		global.URL.createObjectURL = jest.fn();
+		global.Worker = jest.fn();
+	} );
+
+	afterEach( () => {
+		global.URL = originalURL;
+		global.Worker = originalWorker;
+	} );
+
 	describe( "checks createExceptionHandler function", () => {
 		it( "outputs an error message containing the inputted string ", () => {
 			const exceptionMessage = createExceptionHandler( "poffertjes" );
@@ -35,7 +50,6 @@ describe( "The createWorker module", () => {
 
 	describe( "checks createBlobURL function", () => {
 		it( "creates a blob", async() => {
-			global.URL.createObjectURL = jest.fn();
 			createBlobURL( "https://example.org/some/code.js" );
 			expect( global.URL.createObjectURL ).toBeCalledTimes( 1 );
 
@@ -52,21 +66,18 @@ describe( "The createWorker module", () => {
 		} );
 
 		it( "uses the webkitURL as a fallback when URL is not available", async() => {
-			const URL = global.URL;
-
 			global.URL = undefined;
 
 			global.webkitURL = jest.fn();
 			global.webkitURL.createObjectURL = jest.fn();
 			createBlobURL( "https://example.org/some/code.js" );
 			expect( global.webkitURL.createObjectURL ).toBeCalledTimes( 1 );
-
-			global.URL = URL;
 		} );
 
 		it( "falls back to the BlobBuilder when creating a Blob fails", async() => {
-			global.URL.createObjectURL = jest.fn();
-			global.Blob = jest.fn( () => { throw "An error!"; } );
+			const originalBlob = global.Blob;
+			global.Blob = jest.fn();
+			global.Blob.mockImplementation( () => { throw "An error!"; } );
 
 			const append = jest.fn();
 			const getBlob = jest.fn();
@@ -89,14 +100,13 @@ describe( "The createWorker module", () => {
 			expect( text ).toContain( "catch" );
 
 			expect( getBlob ).toHaveBeenCalledWith( "application/javascript" );
+
+			global.Blob = originalBlob;
 		} );
 	} );
 
 	describe( "The createWorkerFallback function", () => {
 		it( "creates a worker fallback", () => {
-			global.URL.createObjectURL = jest.fn();
-			global.Worker = jest.fn();
-
 			global.URL.createObjectURL.mockReturnValue( "https://example.org/url/to/a/blob" );
 
 			createWorkerFallback( "https://example.org/some/code.js" );
@@ -107,26 +117,17 @@ describe( "The createWorker module", () => {
 
 	describe( "The createWorker function", () => {
 		it( "creates a worker", () => {
-			global.URL.createObjectURL = jest.fn();
-			global.Worker = jest.fn();
-
 			const worker = createWorker( "http://localhost/some/code.js" );
-
 			expect( worker ).toBeInstanceOf( global.Worker );
 		} );
 
 		it( "creates a worker using the fallback when the worker script does not have the same origin", () => {
-			global.URL.createObjectURL = jest.fn();
-			global.Worker = jest.fn();
-
 			const worker = createWorker( "http://example.org/some/code.js" );
-
 			expect( worker ).toBeInstanceOf( global.Worker );
 		} );
 
 		it( "creates a worker using the fallback when the worker script cannot be created", () => {
-			global.URL.createObjectURL = jest.fn();
-			global.Worker = jest.fn( url => {
+			global.Worker.mockImplementation( url => {
 				if ( url === "http://localhost/some/code.js" ) {
 					throw "error!";
 				}
@@ -138,12 +139,10 @@ describe( "The createWorker module", () => {
 		} );
 
 		it( "throws an error when the worker script cannot be created at all", () => {
-			global.URL.createObjectURL = jest.fn();
-			global.Worker = jest.fn( url => {
+			global.Worker.mockImplementation( () => {
 				throw "error!";
 			} );
-
-			expect( () => { createWorker( "http://localhost/some/code.js" ) } ).toThrowError();
+			expect( () => { createWorker( "http://localhost/some/code.js" ); } ).toThrowError();
 		} );
 	} );
 } );
