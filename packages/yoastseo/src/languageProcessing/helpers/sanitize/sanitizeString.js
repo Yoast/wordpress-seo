@@ -14,7 +14,7 @@ export default function( text ) {
 	text = unifyAllSpaces( text );
 	// Remove Table of Contents.
 	text = excludeTableOfContentsTag( text );
-	// Strips the tags and multiple spaces.
+	// Strip the tags and multiple spaces.
 	text = stripTags( text );
 
 	return text;
