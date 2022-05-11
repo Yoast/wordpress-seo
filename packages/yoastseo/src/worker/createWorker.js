@@ -113,5 +113,6 @@ export {
 	createBlobURL,
 	createWorker,
 	createBlobScript,
+	createWorkerFallback,
 };
 
