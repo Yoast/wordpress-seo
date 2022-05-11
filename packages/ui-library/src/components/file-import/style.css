@@ -94,7 +94,7 @@
     }
 
     .yst-file-import__feedback-title {
-        @apply yst-block yst-text-gray-700 yst-font-medium yst-mb-0.5;
+        @apply yst-block yst-text-gray-700 yst-font-medium yst-mb-0.5 yst-break-words;
     }
 
     .yst-file-import__feedback-description {

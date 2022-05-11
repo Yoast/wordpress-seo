@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import classNames from "classnames";
 
 /**
- *
  * @param {number} min The minimal value.
  * @param {number} max The maximum value.
  * @param {number} progress The current progress value between min and max.

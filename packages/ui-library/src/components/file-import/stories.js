@@ -1,5 +1,5 @@
 import { useState, useCallback } from "@wordpress/element";
-import { values } from "lodash";
+import { noop, values } from "lodash";
 
 import Alert from "../../elements/alert";
 
@@ -26,14 +26,14 @@ const Template = ( { endStatus, ...args } ) => {
 	const [ feedbackTitle, setFeedbackTitle ] = useState( "" );
 	const [ feedbackDescription, setFeedbackDescription ] = useState( "" );
 	const [ progress, setProgress ] = useState( 0 );
-	let abortImport = null;
+	let abort = null;
 
 	const handleChange = useCallback( async file => {
 		setStatus( FILE_IMPORT_STATUS.loading );
 		setFeedbackTitle( file.name );
 		setFeedbackDescription( `${ Math.round( file.size.toString() / 1024 ) }Kb` );
 		await new Promise( ( resolve, reject ) => {
-			abortImport = reject;
+			abort = reject;
 			let internalProgress = 0;
 			// Fake progress in 20 steps (5% per interval)
 			const interval = setInterval( () => {
@@ -51,7 +51,7 @@ const Template = ( { endStatus, ...args } ) => {
 	const handleAbort = useCallback( () => {
 		// eslint-disable-next-line no-alert
 		if ( window.confirm( "Are you sure you want to abort?" ) ) {
-			abortImport ? abortImport() : setStatus( FILE_IMPORT_STATUS.idle );
+			abort ? abort() : setStatus( FILE_IMPORT_STATUS.idle );
 			setFeedbackTitle( "" );
 			setFeedbackDescription( "" );
 			setProgress( 0 );
@@ -95,6 +95,8 @@ Factory.args = {
 	feedbackDescription: "Progress description",
 	progressMin: 0,
 	progressMax: 100,
+	onChange: noop,
+	onAbort: noop,
 };
 
 export const EndingInSuccess = Template.bind( {} );

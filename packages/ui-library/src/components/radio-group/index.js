@@ -18,7 +18,7 @@ const classNameMap = {
  * @param {string} id Identifier.
  * @param {string} name Name.
  * @param {string} value Value.
- * @param {JSX.node} [label] Label.
+ * @param {string} [label] Label.
  * @param {{ value: string, label: string, screenReaderLabel: string }[]} options Options to choose from.
  * @param {Function} onChange Change handler.
  * @param {string} [variant] Variant.
