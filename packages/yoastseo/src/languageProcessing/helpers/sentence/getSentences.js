@@ -7,9 +7,8 @@ import { memoize } from "lodash-es";
 
 // Internal dependencies.
 import { getBlocks } from "../html/html.js";
-import { unifyNonBreakingSpace as unifyWhitespace } from "../sanitize/unifyWhitespace.js";
+import sanitizeString from "../sanitize/sanitizeString";
 import SentenceTokenizer from "./SentenceTokenizer";
-import excludeTableOfContentsTag from "../sanitize/excludeTableOfContentsTag";
 
 // Character classes.
 const newLines = "\n\r|\n|\r";
@@ -39,8 +38,8 @@ const getSentencesFromBlockCached = memoize( getSentenceTokenizer );
  * @returns {Array} Sentences found in the text.
  */
 export default function( text ) {
-	text = excludeTableOfContentsTag( text );
-	text = unifyWhitespace( text );
+	// Unify whitespaces and non-breaking spaces, remove table of content and strip the tags and multiple spaces.
+	text = sanitizeString( text );
 	let blocks = getBlocks( text );
 
 	// Split each block on newlines.
