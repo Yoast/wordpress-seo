@@ -607,7 +607,7 @@ export default function FirstTimeConfigurationSteps() {
 				event.returnValue = "";
 			}
 		}
-	}, [ state.editedSteps, indexingState ] );
+	}, [ state.editedSteps, indexingState, activeStepIndex ] );
 
 	useEffect( () => {
 		window.addEventListener( "beforeunload", beforeUnloadEventHandler );
