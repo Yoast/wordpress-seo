@@ -216,10 +216,29 @@ export default function FirstTimeConfigurationSteps() {
 	const [ siteRepresentationEmpty, setSiteRepresentationEmpty ] = useState( false );
 	const [ showRunIndexationAlert, setShowRunIndexationAlert ] = useState( false );
 
-	/* Briefly override window variable because indexingstate is reinitialized when navigating back and forth without triggering a reload,
-	whereas the window variable remains stale. */
+	/* Briefly override window variable and remove indexing notices, because indexingstate is reinitialized when navigating back and forth
+	without triggering a reload, whereas the window variable remains stale. */
 	useEffect( () => {
 		if ( indexingState === "completed" ) {
+			const indexationNotice = document.getElementById( "wpseo-reindex" );
+			if ( indexationNotice ) {
+				// Update the notification counters
+				const allCounters = document.querySelectorAll( ".yoast-issue-counter" );
+				if ( allCounters ) {
+					allCounters.forEach( ( counterNode => {
+						const oldCount = counterNode.firstChild.textContent;
+						const newCount = ( parseInt( oldCount, 10 ) - 1 ).toString();
+						// If the count reaches zero because of this, remove the red dot alltogether.
+						if ( newCount === "0" ) {
+							counterNode.remove();
+						} else {
+							counterNode.firstChild.textContent = counterNode.firstChild.textContent.replace( oldCount, newCount );
+							counterNode.lastChild.textContent = counterNode.lastChild.textContent.replace( oldCount, newCount );
+						}
+					} ) );
+				}
+				indexationNotice.remove();
+			}
 			window.yoastIndexingData.amount = "0";
 		}
 	}, [ indexingState ] );
@@ -422,19 +441,12 @@ export default function FirstTimeConfigurationSteps() {
 	/* In order to refresh data in the php form, once the stepper is done, we need to reload upon haschanges triggered by the tabswitching */
 	const isStepperFinishedAtBeginning = useRef( isStep2Finished && isStep3Finished && isStep4Finished );
 	useEffect( () => {
-		/**
-		 * Reloads the window.
-		 *
-		 * @returns {void}
-		 */
-		const reloadFunction = () => {
-			window.location.reload( true );
-		};
-
 		if ( isStepperFinished && ! isStepperFinishedAtBeginning.current ) {
-			window.addEventListener( "hashchange", reloadFunction );
+			const firstTimeConfigurationNotice = document.getElementById( "yoast-first-time-configuration-notice" );
+			if ( firstTimeConfigurationNotice ) {
+				firstTimeConfigurationNotice.remove();
+			}
 		}
-		return () => window.removeEventListener( "hashchange", reloadFunction );
 	}, [ isStepperFinished, isStepperFinishedAtBeginning ] );
 
 	// If stepperFinishedOnce changes or isStepBeingEdited changes, evaluate edit button state.
