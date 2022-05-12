@@ -1,3 +1,4 @@
+/* eslint-disable capitalized-comments, spaced-comment */
 import { merge } from "lodash-es";
 
 import KeyphraseLengthAssessment from "../../../../src/scoring/assessments/seo/KeyphraseLengthAssessment";

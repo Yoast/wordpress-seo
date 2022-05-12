@@ -1,3 +1,4 @@
+/* eslint-disable capitalized-comments, spaced-comment */
 import SubheadingDistributionTooLong from "../../../../src/scoring/assessments/readability/SubheadingDistributionTooLongAssessment.js";
 import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../specHelpers/factory.js";
