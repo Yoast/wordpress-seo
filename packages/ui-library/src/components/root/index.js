@@ -1,17 +1,11 @@
 import PropTypes from "prop-types";
-import { createContext, useContext } from "@wordpress/element";
+import { createContext } from "@wordpress/element";
 
 const defaultRootContext = {
 	isRtl: false,
 };
 
 export const RootContext = createContext( defaultRootContext );
-
-/**
- * @returns {{ isRtl: boolean }} The root context.
- */
-export const useRootContext = () => useContext( RootContext );
-
 
 /**
  * @param {JSX.node} children The React children.

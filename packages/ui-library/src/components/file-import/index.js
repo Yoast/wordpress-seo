@@ -8,7 +8,7 @@ import { Transition } from "@headlessui/react";
 
 import Link from "../../elements/link";
 import ProgressBar from "../../elements/progress-bar";
-import { useRootContext } from "../root";
+import { useRootContext } from "../../hooks";
 
 export const FILE_IMPORT_STATUS = {
 	idle: "idle",
