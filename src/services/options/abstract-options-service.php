@@ -479,6 +479,8 @@ abstract class Abstract_Options_Service {
 	/**
 	 * Creates the configuration if it should be expanded with this post type or taxonomy.
 	 *
+	 * phpcs:disable Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed -- Reason: Override this method.
+	 *
 	 * @codeCoverageIgnore Due to expected override.
 	 *
 	 * @param string                     $key           The option key.
@@ -490,4 +492,6 @@ abstract class Abstract_Options_Service {
 	protected function get_configuration_expansion_for( $key, $configuration, $object ) {
 		return null;
 	}
+
+	/* phpcs:enable Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed */
 }
