@@ -148,8 +148,10 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 	} );
 } );
 
+
+// Only keep last two tests to test the this.getLanguageSpecificConfig( researcher ) logic in isApplicable method.
 describe( "An assessment for scoring too long text fragments without a subheading in Japanese.", function() {
-	it( "Scores a short text in Japanese (<600 characters), which does not have subheadings.", function() {
+/*	it( "Scores a short text in Japanese (<600 characters), which does not have subheadings.", function() {
 		const paper = new Paper( shortTextJapanese );
 		const japaneseResearcher = new JapaneseResearcher( paper );
 		const subheadingDistributionTooLongJA = new SubheadingDistributionTooLong();
@@ -245,7 +247,7 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 		expect( results.getText( paper, japaneseResearcher ) ).toBe( "<a href='https://yoa.st/34x' target='_blank'>" +
 			"Subheading distribution</a>: 2 sections of your text are longer than 600 characters and are not separated " +
 			"by any subheadings. <a href='https://yoa.st/34y' target='_blank'>Add subheadings to improve readability</a>." );
-	} );
+	} );*/
 
 	it( "Returns false when the assessment shouldn't appear in short text analysis and the text contains less " +
 		"than 600 characters in Japanese", function() {
@@ -325,8 +327,8 @@ describe( "Language-specific configuration for specific types of content is used
 			expect( assessment._config.slightlyTooMany ).toEqual( japaneseConfig.cornerstoneParameters.slightlyTooMany );
 			expect( assessment._config.farTooMany ).toEqual( japaneseConfig.cornerstoneParameters.farTooMany );
 		} );
-
-		it( "should score short cornerstone content in Japanese (<500 characters), " +
+//Only need one test for japanese to test getLanguageSpecificConfig. The other tests are redundant.
+/*		it( "should score short cornerstone content in Japanese (<500 characters), " +
 		"which does not have subheadings, as OK.", function() {
 			const paper = new Paper( shortCornerstoneTextJapanese );
 			const assessment = assessor.getAssessment( "subheadingsTooLong" );
@@ -345,7 +347,7 @@ describe( "Language-specific configuration for specific types of content is used
 			expect( results.getText() ).toBe( "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: " +
 			"You are not using any subheadings, although your text is rather long. " +
 			"<a href='https://yoa.st/34y' target='_blank'>Try and add some subheadings</a>." );
-		} );
+		} );*/
 	} );
 } );
 
@@ -361,8 +363,8 @@ describe( "A test for scoring too long text fragments without a subheading for l
 			"1 section of your text is longer than 600 characters and is not separated by any subheadings." +
 			" <a href='https://yoa.st/34y' target='_blank'>Add subheadings to improve readability</a>." );
 	} );
-
-	it( "Scores a text where multiple sections are slightly too long.", function() {
+	// you need 1 test to test the getLanguageSpecificConfig in the get result method. The rest of the tests is redundant.
+	/*it( "Scores a text where multiple sections are slightly too long.", function() {
 		const paper = new Paper( shortTextJapanese + subheading + longTextJapanese + subheading + longTextJapanese );
 		const assessment = subheadingDistributionTooLong.getResult( paper, new JapaneseResearcher( paper ) );
 
@@ -390,7 +392,7 @@ describe( "A test for scoring too long text fragments without a subheading for l
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/34x' target='_blank'>Subheading distribution</a>: " +
 			"2 sections of your text are longer than 600 characters and are not separated by any subheadings." +
 			" <a href='https://yoa.st/34y' target='_blank'>Add subheadings to improve readability</a>." );
-	} );
+	} );*/
 } );
 
 describe.skip( "A test for marking too long text segments not separated by a subheading", function() {
