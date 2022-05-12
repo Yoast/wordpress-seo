@@ -223,7 +223,7 @@ const FileImport = ( {
 							enterFrom="yst-opacity-0"
 							enterTo="yst-opacity-100"
 						>
-							<div className="yst-file-import__feedback-content" role="alert">
+							<div className="yst-file-import__feedback-content">
 								{ children }
 							</div>
 						</Transition>
