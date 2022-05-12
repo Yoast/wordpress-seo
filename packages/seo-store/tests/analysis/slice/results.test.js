@@ -152,7 +152,12 @@ describe( "Results slice", () => {
 			const { selectResearchResults } = resultsSelectors;
 
 			const state = {
-				research: { morphology: "test" },
+				research: {
+					morphology: {
+						data: {},
+						result: "test",
+					},
+				},
 			};
 			const result = selectResearchResults( createStoreState( state ), "morphology" );
 
