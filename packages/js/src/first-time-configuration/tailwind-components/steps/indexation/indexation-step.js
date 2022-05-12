@@ -32,7 +32,7 @@ export default function IndexationStep( { indexingState, setIndexingState, showR
 						"<a>",
 						"</a>"
 					),
-					window.wpseoFirstTimeConfigurationData.shortlinks.indexData,
+					window.wpseoFirstTimeConfigurationData.shortlinks.configIndexablesBenefits,
 					"yoast-configuration-workout-index-data-link"
 				)
 				}
