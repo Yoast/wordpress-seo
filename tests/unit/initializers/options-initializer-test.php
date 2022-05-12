@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Initializers;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Integrations\Options_Initializer;
+use Yoast\WP\SEO\Initializers\Options_Initializer;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**

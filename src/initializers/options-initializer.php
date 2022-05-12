@@ -1,10 +1,9 @@
 <?php
 
-namespace Yoast\WP\SEO\Integrations;
+namespace Yoast\WP\SEO\Initializers;
 
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Initializers\Initializer_Interface;
 
 /**
  * Adds hooks for the options service.
