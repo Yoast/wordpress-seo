@@ -31,6 +31,7 @@
   "devDependencies": {
     "@lodder/grunt-postcss": "^3.1.1",
     "@yoast/browserslist-config": "^1.2.2",
+    "blob-polyfill": "^7.0.20220408",
     "console.table": "^0.10.0",
     "grunt": "^1.0.1",
     "grunt-contrib-clean": "^2.0.0",
