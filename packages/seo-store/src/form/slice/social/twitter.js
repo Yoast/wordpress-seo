@@ -25,6 +25,12 @@ const twitterSlice = createSlice( {
 		updateTwitterImage: ( state, action ) => {
 			state.image = action.payload;
 		},
+		updateTwitterData: ( state, action ) => {
+			state = Object.assign( state, action.payload );
+		},
+		clearTwitterPreviewImage: ( state ) => {
+			state.image = {};
+		},
 	},
 } );
 
@@ -33,6 +39,8 @@ export const twitterSelectors = {
 	selectTwitterTitle: ( state ) => get( state, "form.social.twitter.title" ),
 	selectTwitterDescription: ( state ) => get( state, "form.social.twitter.description" ),
 	selectTwitterImage: ( state ) => get( state, "form.social.twitter.image" ),
+	selectTwitterImageURL: ( state ) => get( state, "form.social.twitter.image.url" ),
+	selectTwitterImageID: ( state ) => get( state, "form.social.twitter.image.id" ),
 };
 
 export const twitterActions = twitterSlice.actions;
