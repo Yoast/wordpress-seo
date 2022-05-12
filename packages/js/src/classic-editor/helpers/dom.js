@@ -383,6 +383,7 @@ export const getPostEditSlugFull = () => get( document.getElementById( DOM_IDS.P
 /**
  * Sets the post edit full length slug value prop on its DOM element.
  *
+ * @param {*} value The value to set.
  * @returns {HTMLElement} The DOM element.
  */
 export const setPostSlugFull = createSetDomElementProp( DOM_IDS.POST_SLUG_EDIT, "textContent" );
@@ -398,6 +399,7 @@ export const getPostEditSlug = () => get( document.getElementById( DOM_IDS.POST_
 /**
  * Sets the post edit shortened slug value prop on its DOM element.
  *
+ * @param {*} value The value to set.
  * @returns {HTMLElement} The DOM element.
  */
 export const setPostSlug = createSetDomElementProp( DOM_IDS.POST_SLUG, "textContent" );
@@ -412,6 +414,7 @@ export const getPostName = () => get( document.getElementById( DOM_IDS.POST_NAME
 /**
  * Sets the post name value prop on its DOM element.
  *
+ * @param {*} value The value to set.
  * @returns {HTMLElement} The DOM element.
  */
 export const setPostName = createSetDomElementProp( DOM_IDS.POST_NAME );
@@ -435,6 +438,7 @@ export const getTermSlug = createGetDomElementProp( DOM_IDS.TERM_SLUG );
 /**
  * Sets the term slug value prop on its DOM element.
  *
+ * @param {*} value The value to set.
  * @returns {HTMLElement} The DOM element.
  */
 export const setTermSlug = createSetDomElementProp( DOM_IDS.TERM_SLUG );
@@ -612,7 +616,7 @@ export const setTermIsCornerstone = ( value ) => set( document.getElementById( D
 /**
  * Sets the post focus keyphrase value prop on its DOM element.
  *
- * @param {boolean} value The value to set.
+ * @param {*} value The value to set.
  * @returns {HTMLElement} The DOM element.
  */
 export const setPostFocusKeyphrase = createSetDomElementProp( DOM_YOAST_IDS.POST_FOCUS_KEYPHRASE );
@@ -620,7 +624,7 @@ export const setPostFocusKeyphrase = createSetDomElementProp( DOM_YOAST_IDS.POST
 /**
  * Sets the term focus keyphrase value prop on its DOM element.
  *
- * @param {boolean} value The value to set.
+ * @param {*} value The value to set.
  * @returns {HTMLElement} The DOM element.
  */
 export const setTermFocusKeyphrase = createSetDomElementProp( DOM_YOAST_IDS.TERM_FOCUS_KEYPHRASE );
@@ -628,7 +632,7 @@ export const setTermFocusKeyphrase = createSetDomElementProp( DOM_YOAST_IDS.TERM
 /**
  * Sets the post SEO score value prop on its DOM element.
  *
- * @param {boolean} value The value to set.
+ * @param {*} value The value to set.
  * @returns {HTMLElement} The DOM element.
  */
 export const setPostSeoScore = createSetDomElementProp( DOM_YOAST_IDS.POST_SEO_SCORE );
@@ -636,7 +640,7 @@ export const setPostSeoScore = createSetDomElementProp( DOM_YOAST_IDS.POST_SEO_S
 /**
  * Sets the term SEO score value prop on its DOM element.
  *
- * @param {boolean} value The value to set.
+ * @param {*} value The value to set.
  * @returns {HTMLElement} The DOM element.
  */
 export const setTermSeoScore = createSetDomElementProp( DOM_YOAST_IDS.TERM_SEO_SCORE );
@@ -644,7 +648,7 @@ export const setTermSeoScore = createSetDomElementProp( DOM_YOAST_IDS.TERM_SEO_S
 /**
  * Sets the post readability score value prop on its DOM element.
  *
- * @param {boolean} value The value to set.
+ * @param {*} value The value to set.
  * @returns {HTMLElement} The DOM element.
  */
 export const setPostReadabilityScore = createSetDomElementProp( DOM_YOAST_IDS.POST_READABILITY_SCORE );
@@ -652,7 +656,7 @@ export const setPostReadabilityScore = createSetDomElementProp( DOM_YOAST_IDS.PO
 /**
  * Sets the term readability score value prop on its DOM element.
  *
- * @param {boolean} value The value to set.
+ * @param {*} value The value to set.
  * @returns {HTMLElement} The DOM element.
  */
 export const setTermReadabilityScore = createSetDomElementProp( DOM_YOAST_IDS.TERM_READABILITY_SCORE );
@@ -660,7 +664,8 @@ export const setTermReadabilityScore = createSetDomElementProp( DOM_YOAST_IDS.TE
 /**
  * Sets the post Twitter image id on its DOM element.
  *
- * @param {boolean} value The value to set.
+ * @param {*} value The value to set.
+ * @returns {HTMLElement} The DOM element.
  */
 export const setPostTwitterImageID = createSetDomElementProp( DOM_YOAST_IDS.POST_TWITTER_IMAGE_ID );
 
@@ -674,7 +679,8 @@ export const getPostTwitterImageID = () => get( document.getElementById( DOM_YOA
 /**
  * Sets the post Twitter image URL on its DOM element.
  *
- * @param {boolean} value The value to set.
+ * @param {*} value The value to set.
+ * @returns {HTMLElement} The DOM element.
  */
 export const setPostTwitterImageUrl = createSetDomElementProp( DOM_YOAST_IDS.POST_TWITTER_IMAGE_URL );
 
@@ -688,7 +694,8 @@ export const getPostTwitterImageUrl = () => get( document.getElementById( DOM_YO
 /**
  * Sets the post Twitter description on its DOM element.
  *
- * @param {boolean} value The value to set.
+ * @param {*} value The value to set.
+ * @returns {HTMLElement} The DOM element.
  */
 export const setPostTwitterDescription = createSetDomElementProp( DOM_YOAST_IDS.POST_TWITTER_DESCRIPTION );
 
@@ -702,7 +709,8 @@ export const getPostTwitterDescription = () => get( document.getElementById( DOM
 /**
  * Sets the post Twitter title on its DOM element.
  *
- * @param {boolean} value The value to set.
+ * @param {*} value The value to set.
+ * @returns {HTMLElement} The DOM element.
  */
 export const setPostTwitterTitle = createSetDomElementProp( DOM_YOAST_IDS.POST_TWITTER_TITLE );
 
@@ -716,7 +724,8 @@ export const getPostTwitterTitle = () => get( document.getElementById( DOM_YOAST
 /**
  * Sets the term Twitter image id on its DOM element.
  *
- * @param {boolean} value The value to set.
+ * @param {*} value The value to set.
+ * @returns {HTMLElement} The DOM element.
  */
 export const setTermTwitterImageID = createSetDomElementProp( DOM_YOAST_IDS.TERM_TWITTER_IMAGE_ID );
 
@@ -730,7 +739,8 @@ export const getTermTwitterImageID = () => get( document.getElementById( DOM_YOA
 /**
  * Sets the term Twitter image URL on its DOM element.
  *
- * @param {boolean} value The value to set.
+ * @param {*} value The value to set.
+ * @returns {HTMLElement} The DOM element.
  */
 export const setTermTwitterImageUrl = createSetDomElementProp( DOM_YOAST_IDS.TERM_TWITTER_IMAGE_URL );
 
@@ -744,7 +754,8 @@ export const getTermTwitterImageUrl = () => get( document.getElementById( DOM_YO
 /**
  * Sets the term Twitter description on its DOM element.
  *
- * @param {boolean} value The value to set.
+ * @param {*} value The value to set.
+ * @returns {HTMLElement} The DOM element.
  */
 export const setTermTwitterDescription = createSetDomElementProp( DOM_YOAST_IDS.TERM_TWITTER_DESCRIPTION );
 
@@ -758,7 +769,8 @@ export const getTermTwitterDescription = () => get( document.getElementById( DOM
 /**
  * Sets the term Twitter title on its DOM element.
  *
- * @param {boolean} value The value to set.
+ * @param {*} value The value to set.
+ * @returns {HTMLElement} The DOM element.
  */
 export const setTermTwitterTitle = createSetDomElementProp( DOM_YOAST_IDS.TERM_TWITTER_TITLE );
 
@@ -772,7 +784,8 @@ export const getTermTwitterTitle = () => get( document.getElementById( DOM_YOAST
 /**
  * Sets the post Facebook image id on its DOM element.
  *
- * @param {boolean} value The value to set.
+ * @param {*} value The value to set.
+ * @returns {HTMLElement} The DOM element.
  */
 export const setPostFacebookImageID = createSetDomElementProp( DOM_YOAST_IDS.POST_FACEBOOK_IMAGE_ID );
 
@@ -786,7 +799,8 @@ export const getPostFacebookImageID = () => get( document.getElementById( DOM_YO
 /**
  * Sets the post Facebook image URL on its DOM element.
  *
- * @param {boolean} value The value to set.
+ * @param {*} value The value to set.
+ * @returns {HTMLElement} The DOM element.
  */
 export const setPostFacebookImageUrl = createSetDomElementProp( DOM_YOAST_IDS.POST_FACEBOOK_IMAGE_URL );
 
@@ -800,7 +814,8 @@ export const getPostFacebookImageUrl = () => get( document.getElementById( DOM_Y
 /**
  * Sets the post Facebook description on its DOM element.
  *
- * @param {boolean} value The value to set.
+ * @param {*} value The value to set.
+ * @returns {HTMLElement} The DOM element.
  */
 export const setPostFacebookDescription = createSetDomElementProp( DOM_YOAST_IDS.POST_FACEBOOK_DESCRIPTION );
 
@@ -814,7 +829,8 @@ export const getPostFacebookDescription = () => get( document.getElementById( DO
 /**
  * Sets the post Facebook title on its DOM element.
  *
- * @param {boolean} value The value to set.
+ * @param {*} value The value to set.
+ * @returns {HTMLElement} The DOM element.
  */
 export const setPostFacebookTitle = createSetDomElementProp( DOM_YOAST_IDS.POST_FACEBOOK_TITLE );
 
@@ -828,7 +844,8 @@ export const getPostFacebookTitle = () => get( document.getElementById( DOM_YOAS
 /**
  * Sets the term Facebook image id on its DOM element.
  *
- * @param {boolean} value The value to set.
+ * @param {*} value The value to set.
+ * @returns {HTMLElement} The DOM element.
  */
 export const setTermFacebookImageID = createSetDomElementProp( DOM_YOAST_IDS.TERM_FACEBOOK_IMAGE_ID );
 
@@ -842,7 +859,8 @@ export const getTermFacebookImageID = () => get( document.getElementById( DOM_YO
 /**
  * Sets the term Facebook image URL on its DOM element.
  *
- * @param {boolean} value The value to set.
+ * @param {*} value The value to set.
+ * @returns {HTMLElement} The DOM element.
  */
 export const setTermFacebookImageUrl = createSetDomElementProp( DOM_YOAST_IDS.TERM_FACEBOOK_IMAGE_URL );
 
@@ -856,7 +874,8 @@ export const getTermFacebookImageUrl = () => get( document.getElementById( DOM_Y
 /**
  * Sets the term Facebook description on its DOM element.
  *
- * @param {boolean} value The value to set.
+ * @param {*} value The value to set.
+ * @returns {HTMLElement} The DOM element.
  */
 export const setTermFacebookDescription = createSetDomElementProp( DOM_YOAST_IDS.TERM_FACEBOOK_DESCRIPTION );
 
@@ -870,7 +889,8 @@ export const getTermFacebookDescription = () => get( document.getElementById( DO
 /**
  * Sets the term Facebook title on its DOM element.
  *
- * @param {boolean} value The value to set.
+ * @param {*} value The value to set.
+ * @returns {HTMLElement} The DOM element.
  */
 export const setTermFacebookTitle = createSetDomElementProp( DOM_YOAST_IDS.TERM_FACEBOOK_TITLE );
 
