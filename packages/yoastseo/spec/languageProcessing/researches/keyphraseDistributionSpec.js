@@ -1,4 +1,4 @@
-/* eslint-disable capitalized-comments */
+/* eslint-disable capitalized-comments, spaced-comment */
 import { primeLanguageSpecificData } from "../../../src/languageProcessing/helpers/morphology/buildTopicStems";
 import {
 	computeScoresPerSentenceShortTopic,
@@ -125,8 +125,6 @@ const sentencesIT = [
 	"Ancora niente!",
 	"Una parola e ancora un'altra e poi un'altra ancora, che schifo!",
 ];
-
-
 
 const topicShortIT = [
 	[ "parola" ],

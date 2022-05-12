@@ -1,4 +1,4 @@
-/* eslint-disable capitalized-comments */
+/* eslint-disable capitalized-comments, spaced-comment */
 import MetaDescriptionKeywordAssessment from "../../../../src/scoring/assessments/seo/MetaDescriptionKeywordAssessment";
 import Paper from "../../../../src/values/Paper";
 import Factory from "../../../specHelpers/factory";

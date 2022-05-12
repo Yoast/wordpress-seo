@@ -1,4 +1,4 @@
-/* eslint-disable capitalized-comments */
+/* eslint-disable capitalized-comments, spaced-comment */
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
 import DefaultResearcher from "../../../../src/languageProcessing/languages/_default/Researcher";
 import fleschReadingAssessment from "../../../../src/scoring/assessments/readability/fleschReadingEaseAssessment.js";
