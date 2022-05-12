@@ -406,7 +406,7 @@ export default function initAdmin( jQuery ) {
 		} ).change();
 
 		// Handle the settings pages tabs.
-		jQuery( "#wpseo-tabs" ).find( "a" ).on( "click", function() {
+		jQuery( "#wpseo-tabs" ).find( "a" ).on( "click", function( event ) {
 			var canChangeTab = true;
 
 			if ( canShowConfirmDialog( jQuery( this ) ) ) {
@@ -437,6 +437,7 @@ export default function initAdmin( jQuery ) {
 				}
 			} else {
 				// Re-establish the focus on the first time configuration tab if the user clicks 'Cancel' on the pop-up
+				event.preventDefault();
 				jQuery( "#first-time-configuration-tab" ).trigger( "focus" );
 			}
 		} );
