@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Integrations;
 
+use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Initializers\Initializer_Interface;
 
@@ -9,6 +10,8 @@ use Yoast\WP\SEO\Initializers\Initializer_Interface;
  * Adds hooks for the options service.
  */
 class Options_Initializer implements Initializer_Interface {
+
+	use No_Conditionals;
 
 	/**
 	 * Holds the options helper instance.
@@ -24,15 +27,6 @@ class Options_Initializer implements Initializer_Interface {
 	 */
 	public function __construct( Options_Helper $options_helper ) {
 		$this->options_helper = $options_helper;
-	}
-
-	/**
-	 * Returns the conditionals based in which this loadable should be active.
-	 *
-	 * @return array The array of conditionals.
-	 */
-	public static function get_conditionals() {
-		return [];
 	}
 
 	/**
