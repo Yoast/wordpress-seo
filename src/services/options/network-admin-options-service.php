@@ -209,4 +209,15 @@ class Network_Admin_Options_Service extends Abstract_Options_Service {
 
 		return parent::get_additional_configurations( $additional_configurations );
 	}
+
+	/**
+	 * Expands the post types & taxonomies "wildcards" in the configurations.
+	 *
+	 * @param array $configurations The configurations to expand.
+	 *
+	 * @return array The expanded configurations.
+	 */
+	protected function expand_configurations( array $configurations ) {
+		return $configurations;
+	}
 }
