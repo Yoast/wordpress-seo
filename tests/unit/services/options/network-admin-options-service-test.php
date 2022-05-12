@@ -16,6 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 /**
  * Tests the Network_Admin_Options_Service class.
  *
+ * @group services
  * @group options
  *
  * @coversDefaultClass \Yoast\WP\SEO\Services\Options\Network_Admin_Options_Service

@@ -16,6 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 /**
  * Tests the Taxonomy_Metadata_Service class.
  *
+ * @group services
  * @group options
  *
  * @coversDefaultClass \Yoast\WP\SEO\Services\Options\Taxonomy_Metadata_Service

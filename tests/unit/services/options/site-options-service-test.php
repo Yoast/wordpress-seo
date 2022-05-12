@@ -17,6 +17,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 /**
  * Tests the Site_Options_Service class.
  *
+ * @group services
  * @group options
  *
  * @coversDefaultClass \Yoast\WP\SEO\Services\Options\Site_Options_Service

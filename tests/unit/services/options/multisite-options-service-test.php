@@ -13,6 +13,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 /**
  * Tests the Multisite_Options_Service class.
  *
+ * @group services
  * @group options
  *
  * @coversDefaultClass \Yoast\WP\SEO\Services\Options\Multisite_Options_Service
