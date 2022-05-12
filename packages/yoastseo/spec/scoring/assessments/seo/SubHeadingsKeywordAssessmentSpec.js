@@ -1,7 +1,6 @@
 import SubheadingsKeywordAssessment from "../../../../src/scoring/assessments/seo/SubHeadingsKeywordAssessment";
 import Paper from "../../../../src/values/Paper";
 import Factory from "../../../specHelpers/factory";
-import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher";
 
 const matchKeywordAssessment = new SubheadingsKeywordAssessment();
 

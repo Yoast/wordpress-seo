@@ -2,9 +2,6 @@ import matchKeywordInSubheadings from "../../../src/languageProcessing/researche
 import Paper from "../../../src/values/Paper";
 import Researcher from "../../../src/languageProcessing/languages/en/Researcher";
 import DefaultResearcher from "../../../src/languageProcessing/languages/_default/Researcher";
-import factory from "../../specHelpers/factory";
-import japaneseFunctionWords from "../../../src/languageProcessing/languages/ja/config/functionWords";
-import matchWordsHelper from "../../../src/languageProcessing/languages/ja/helpers/matchTextWithWord";
 
 describe( "Matching keyphrase in subheadings", () => {
 	it( "matches only h2 and h3 subheadings", () => {
@@ -50,7 +47,6 @@ describe( "Matching keyphrase in subheadings", () => {
  * @param {function} matchWords         A helper needed for the assesment.
  * @param {Object} functionWordsConfig  Function words config needed for the assesment.
  * @returns {Researcher} The mock researcher with added morphological forms and custom helper.
- */
 const buildJapaneseMockResearcher = function( keyphraseForms, synonymsForms, matchWords, functionWordsConfig ) {
 	return factory.buildMockResearcher( {
 		morphology: {
@@ -66,7 +62,7 @@ const buildJapaneseMockResearcher = function( keyphraseForms, synonymsForms, mat
 	{
 		matchWordCustomHelper: matchWords,
 	} );
-};
+};*/
 /*
 
 describe( "Matching keyphrase in subheadings with custom helper to match word in text", () => {

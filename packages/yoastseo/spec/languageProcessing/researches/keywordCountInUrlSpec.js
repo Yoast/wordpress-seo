@@ -1,12 +1,10 @@
 import { keywordCountInSlug as slugKeyword, keywordCountInUrl as urlKeyword } from "../../../src/languageProcessing/researches/keywordCountInUrl.js";
 import Paper from "../../../src/values/Paper.js";
 import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";
-import GermanResearcher from "../../../src/languageProcessing/languages/de/Researcher";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 
 
 const morphologyData = getMorphologyData( "en" );
-const morphologyDataDe = getMorphologyData( "de" );
 
 describe( "test to check slug for keyword", function() {
 	it( "returns simple matches", function() {

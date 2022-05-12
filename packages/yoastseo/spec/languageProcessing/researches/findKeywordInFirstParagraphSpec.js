@@ -1,20 +1,9 @@
-import { primeLanguageSpecificData } from "../../../src/languageProcessing/helpers/morphology/buildTopicStems";
 import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";
-import GermanResearcher from "../../../src/languageProcessing/languages/de/Researcher";
-import FrenchResearcher from "../../../src/languageProcessing/languages/fr/Researcher";
-import TurkishResearcher from "../../../src/languageProcessing/languages/tr/Researcher";
-import JapaneseResearcher from "../../../src/languageProcessing/languages/ja/Researcher";
-import factory from "../../../../yoastseo/spec/specHelpers/factory";
-import matchWordsHelper from "../../../src/languageProcessing/languages/ja/helpers/matchTextWithWord";
-
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 import firstParagraph from "../../../src/languageProcessing/researches/findKeywordInFirstParagraph.js";
 import Paper from "../../../src/values/Paper.js";
 
 const morphologyData = getMorphologyData( "en" );
-const morphologyDataDe = getMorphologyData( "de" ).de;
-const morphologyDataFR = getMorphologyData( "fr" ).fr;
-const morphologyDataJA = getMorphologyData( "ja" );
 
 const keyphraseEN = "walking in nature benefits";
 const sentenceWithAllKeywordsEN = "I like to take walks in the nature, because my body and brain benefit from it! ";

@@ -1,5 +1,4 @@
 import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";
-import FrenchResearcher from "../../../src/languageProcessing/languages/fr/Researcher";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 import keyphraseLength from "../../../src/languageProcessing/researches/keyphraseLength.js";
 import Paper from "../../../src/values/Paper.js";

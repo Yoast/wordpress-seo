@@ -1,17 +1,12 @@
 import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";
-import GermanResearcher from "../../../src/languageProcessing/languages/de/Researcher";
 import ItalianResearcher from "../../../src/languageProcessing/languages/it/Researcher";
-import HebrewResearcher from "../../../src/languageProcessing/languages/he/Researcher";
-import ArabicResearcher from "../../../src/languageProcessing/languages/ar/Researcher";
 import SwedishResearcher from "../../../src/languageProcessing/languages/sv/Researcher";
-import FarsiResearcher from "../../../src/languageProcessing/languages/fa/Researcher";
 import DefaultResearcher from "../../../src/languageProcessing/languages/_default/Researcher";
 import getWordForms from "../../../src/languageProcessing/researches/getWordForms";
 import { primeLanguageSpecificData } from "../../../src/languageProcessing/helpers/morphology/buildTopicStems";
 import Paper from "../../../src/values/Paper";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 const morphologyDataEN = getMorphologyData( "en" );
-const morphologyDataDE = getMorphologyData( "de" );
 
 const testText = "I walked my dog. The cat walks along. The canine and the feline were walking.";
 

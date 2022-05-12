@@ -1,5 +1,4 @@
 import Researcher from "../../../src/languageProcessing/languages/en/Researcher";
-import JapaneseResearcher from "../../../src/languageProcessing/languages/ja/Researcher";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 import altTagCountFunction from "../../../src/languageProcessing/researches/altTagCount";
 import Paper from "../../../src/values/Paper";

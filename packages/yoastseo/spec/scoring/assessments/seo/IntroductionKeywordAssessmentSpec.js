@@ -1,12 +1,10 @@
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
-import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher";
 import IntroductionKeywordAssessment from "../../../../src/scoring/assessments/seo/IntroductionKeywordAssessment";
 import Paper from "../../../../src/values/Paper";
 import Factory from "../../../specHelpers/factory";
 import getMorphologyData from "../../../specHelpers/getMorphologyData";
 
 const morphologyData = getMorphologyData( "en" );
-const morphologyDataJA = getMorphologyData( "ja" );
 
 describe( "An assessment for finding the keyword in the first paragraph", function() {
 	it( "returns keyphrase words found in one sentence of the first paragraph", function() {

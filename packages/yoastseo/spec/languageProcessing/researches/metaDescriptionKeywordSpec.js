@@ -1,13 +1,9 @@
 import metaDescriptionKeyword from "../../../src/languageProcessing/researches/metaDescriptionKeyword.js";
 import Paper from "../../../src/values/Paper.js";
 import Researcher from "../../../src/languageProcessing/languages/en/Researcher";
-import JapaneseResearcher from "../../../src/languageProcessing/languages/ja/Researcher";
-import TurkishResearcher from "../../../src/languageProcessing/languages/tr/Researcher";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 
 const morphologyData = getMorphologyData( "en" );
-const morphologyDataJA = getMorphologyData( "ja" );
-const morphologyDataTR = getMorphologyData( "tr" );
 
 describe( "the metadescription keyword match research", function() {
 	it( "returns the number ( 1 ) of keywords found", function() {
