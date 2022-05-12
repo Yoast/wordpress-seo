@@ -885,6 +885,12 @@ class WPSEO_Upgrade {
 	 * Performs the 18.9 upgrade routine.
 	 */
 	private function upgrade_189() {
+		// Make old users not get the Installation Success page after upgrading.
+		WPSEO_Options::set( 'should_redirect_after_install_free', false );
+		// We're adding a hardcoded time here, so that in the future we can be able to identify whether the user did see the Installation Success page or not.
+		// If they did, they wouldn't have this hardcoded value in that option, but rather (roughly) the timestamp of the moment they saw it.
+		WPSEO_Options::set( 'activation_redirect_timestamp_free', 1652258756 );
+
 		// Transfer the Social URLs.
 		$other   = [];
 		$other[] = WPSEO_Options::get( 'instagram_url' );

@@ -6,6 +6,7 @@ import ImageSelectPortal from "../components/portals/ImageSelectPortal";
 import Portal from "../components/portals/Portal";
 import { __, sprintf } from "@wordpress/i18n";
 import { addLinkToString } from "../helpers/stringHelpers.js";
+import { removeFieldAndUpdateErrors } from "../first-time-configuration/tailwind-components/helpers/index.js";
 import { SocialInputSection } from "../first-time-configuration/tailwind-components/steps/social-profiles/social-input-section";
 
 /**
@@ -72,13 +73,12 @@ function SocialProfilesWrapper() {
 	const [ errorFields, setErrorFields ] = useState( [] );
 	const [ isSaved, setIsSaved ] = useState( false );
 
-	// Clear errorFields and isSaved when values are edited.
+	/* eslint-disable max-len */
+	// Clear isSaved when values are edited.
 	useEffect( () => {
-		setErrorFields( [] );
 		setIsSaved( false );
 	}, [ facebookValue, twitterValue, otherSocialUrls ] );
 
-	/* eslint-disable max-len */
 	useEffect( () => {
 		/**
 		 * Prevents the submission of the form upon pressing enter.
@@ -123,8 +123,10 @@ function SocialProfilesWrapper() {
 	const onChangeHandler = useCallback( ( value, socialMedium ) => {
 		if ( socialMedium === "facebookUrl" ) {
 			setFacebookValue( value );
+			setErrorFields( prevState => prevState.filter( errorField => errorField !== "facebook_site" ) );
 		} else if ( socialMedium === "twitterUsername" ) {
 			setTwitterValue( value );
+			setErrorFields( prevState => prevState.filter( errorField => errorField !== "twitter_site" ) );
 		}
 	}, [ setFacebookValue, setTwitterValue ] );
 
@@ -134,15 +136,19 @@ function SocialProfilesWrapper() {
 			nextState[ index ] = value;
 			return nextState;
 		} );
-	}, [ setOtherSocialUrls ] );
+		setErrorFields( prevState => prevState.filter( errorField => errorField !== `other_social_urls-${ index }` ) );
+	}, [ setOtherSocialUrls, setErrorFields ] );
 
 	const onRemoveProfileHandler = useCallback( ( index ) => {
 		setOtherSocialUrls( prevState => prevState.filter( ( _, prevStateIndex ) => prevStateIndex !== index ) );
-	}, [ setOtherSocialUrls ] );
+		setErrorFields( prevState => {
+			return removeFieldAndUpdateErrors( prevState, index );
+		} );
+	}, [ setOtherSocialUrls, setErrorFields, removeFieldAndUpdateErrors ] );
 
 	const onAddProfileHandler = useCallback( () => {
 		setOtherSocialUrls( prevState => [ ...prevState, "" ] );
-	}, [ setOtherSocialUrls ] );
+	}, [ setOtherSocialUrls, setErrorFields ] );
 	return (
 		<div
 			className="yst-root yst-bg-white yst-rounded-lg yst-p-6 yst-shadow-md yst-max-w-2xl yst-mt-6"
