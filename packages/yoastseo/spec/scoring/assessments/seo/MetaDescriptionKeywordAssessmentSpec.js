@@ -2,7 +2,6 @@ import MetaDescriptionKeywordAssessment from "../../../../src/scoring/assessment
 import Paper from "../../../../src/values/Paper";
 import Factory from "../../../specHelpers/factory";
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
-import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher";
 import getMorphologyData from "../../../specHelpers/getMorphologyData";
 
 const mockResearcherNoMatches = Factory.buildMockResearcher( 0 );
@@ -11,7 +10,6 @@ const mockResearcherTwoMatches = Factory.buildMockResearcher( 2 );
 const mockResearcherThreeMatches = Factory.buildMockResearcher( 3 );
 
 const morphologyData = getMorphologyData( "en" );
-const morphologyDataJA = getMorphologyData( "ja" );
 
 describe( "a test for the meta description keyword assessment", function() {
 	it( "returns a bad result when the meta description doesn't contain the keyword", function() {
@@ -121,7 +119,7 @@ describe( "a test for the meta description keyword assessment when the exact mat
 	} );
 
 
-	it( "returns a bad result when the meta description doesn't contain the exact match of the keyphrase in Japanese", function() {
+	/*it( "returns a bad result when the meta description doesn't contain the exact match of the keyphrase in Japanese", function() {
 		const mockPaper = new Paper( "", { keyword: "『小さい花の刺繍』",
 			synonyms: "野生のハーブの刺繡",
 			description: "小さくて可愛い花の刺繍に関する一般一般の記事です。私は美しい猫を飼っています。" }  );
@@ -170,5 +168,5 @@ describe( "a test for the meta description keyword assessment when the exact mat
 		expect( assessment.getScore() ).toBe( 9 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33k' target='_blank'>Keyphrase in meta " +
 			"description</a>: Keyphrase or synonym appear in the meta description. Well done!" );
-	} );
+	} );*/
 } );
