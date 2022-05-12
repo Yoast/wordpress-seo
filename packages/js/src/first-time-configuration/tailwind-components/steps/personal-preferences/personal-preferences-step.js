@@ -1,10 +1,12 @@
 import { Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import PropTypes from "prop-types";
+import classNames from "classnames";
 
+import Alert from "../../base/alert";
 import { makeOutboundLink } from "@yoast/helpers";
-import RadioGroup from "../../base/radio-group";
 import { NewsletterSignup } from "./newsletter-signup";
+import RadioGroup from "../../base/radio-group";
 
 const Link = makeOutboundLink();
 
@@ -24,12 +26,20 @@ export default function PersonalPreferencesStep( { state, setTracking } ) {
 				sprintf( __( "%s usage tracking", "wordpress-seo" ), "Yoast SEO" )
 			}
 		</h4>
-		<p className="yst-text-normal yst-mt-2 yst-mb-4">{ __( "We need your help to improve Yoast SEO. Can we collect anonymous information about your website and how you use it?", "wordpress-seo" ) }</p>
+		{ !! state.isMainSite && ! state.isTrackingAllowedMultisite && <Alert type={ "warning" } className="yst-mt-2">
+			{ __( "This feature has been disabled by the network admin.", "wordpress-seo" ) }
+		</Alert> }
+		{ ! state.isMainSite && <Alert type={ "warning" } className="yst-mt-2">
+			{ __( "This feature has been disabled since subsites never send tracking data.", "wordpress-seo" ) }
+		</Alert> }
+		<p className={ classNames( "yst-text-normal yst-mt-2 yst-mb-4", state.isMainSite && state.isTrackingAllowedMultisite ? "" : "yst-opacity-50" ) }>{ __( "We need your help to improve Yoast SEO. Can we collect anonymous information about your website and how you use it?", "wordpress-seo" ) }</p>
 		{ <RadioGroup
 			id="yoast-configuration-tracking-radio-button"
 			name="yoast-configuration-tracking"
 			value={ state.tracking }
 			onChange={ setTracking }
+			className={ state.isMainSite && state.isTrackingAllowedMultisite ? "" : "yst-opacity-50" }
+			disabled={ ! state.isMainSite || ! state.isTrackingAllowedMultisite }
 			options={ [
 				{
 					value: 0,
@@ -41,17 +51,19 @@ export default function PersonalPreferencesStep( { state, setTracking } ) {
 				},
 			] }
 		/> }
-		<Link
-			className="yst-inline-block yst-mt-4"
-			href={ "https://yoa.st/config-workout-tracking" }
-		>
-			{ __( "What data will be tracked and for what reasons?", "wordpress-seo" ) }
-		</Link>
-		<p className="yst-my-2">
-			<i>{
-				__( "Important: We will never sell this data. And of course, as always, we won't collect any personal data about you or your visitors.", "wordpress-seo" )
-			}</i>
-		</p>
+		{ !! state.isMainSite && !! state.isTrackingAllowedMultisite && <Fragment>
+			<Link
+				className="yst-inline-block yst-mt-4"
+				href={ "https://yoa.st/config-workout-tracking" }
+			>
+				{ __( "What data will be tracked and for what reasons?", "wordpress-seo" ) }
+			</Link>
+			<p className="yst-my-2">
+				<i>{
+					__( "Important: We will never sell this data. And of course, as always, we won't collect any personal data about you or your visitors.", "wordpress-seo" )
+				}</i>
+			</p>
+		</Fragment> }
 		{ ( ! state.isPremium ) && <Fragment>
 			<br />
 			<NewsletterSignup gdprLink={ window.wpseoFirstTimeConfigurationData.shortlinks.gdpr } />
