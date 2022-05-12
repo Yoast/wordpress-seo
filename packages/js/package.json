@@ -37,6 +37,7 @@
     "prop-types": "^15.5.10",
     "react-animate-height": "^2.0.23",
     "react-intl": "^2.4.0",
+    "react-json-view": "^1.21.3",
     "react-redux": "^5.0.6",
     "react-select": "^3.1.0",
     "redux": "^3.7.2",
