@@ -199,6 +199,7 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 					"isPremium": %d,
 					"tracking": %d,
 					"isTrackingAllowedMultisite": %d,
+					"isMainSite": %d,
 					"companyOrPersonOptions": %s,
 					"shouldForceCompany": %d,
 					"knowledgeGraphMessage": "%s",
@@ -226,6 +227,7 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 				$this->product_helper->is_premium(),
 				$this->has_tracking_enabled(),
 				$this->is_tracking_enabled_multisite(),
+				$this->is_main_site(),
 				WPSEO_Utils::format_json_encode( $options ),
 				$this->should_force_company(),
 				$knowledge_graph_message,
@@ -398,6 +400,15 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 		}
 
 		return $this->options_helper->get( 'allow_tracking', $default );
+	}
+
+	/**
+	 * Checks whether we are in a main site.
+	 *
+	 * @return bool True if it's the main site or a single site, false if it's a subsite.
+	 */
+	private function is_main_site() {
+		return \is_main_site();
 	}
 
 	/**

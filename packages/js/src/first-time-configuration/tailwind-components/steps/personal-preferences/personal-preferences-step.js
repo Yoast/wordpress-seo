@@ -26,17 +26,20 @@ export default function PersonalPreferencesStep( { state, setTracking } ) {
 				sprintf( __( "%s usage tracking", "wordpress-seo" ), "Yoast SEO" )
 			}
 		</h4>
-		{ ! state.isTrackingAllowedMultisite && <Alert type={ "warning" } className="yst-mt-2">
+		{ !! state.isMainSite && ! state.isTrackingAllowedMultisite && <Alert type={ "warning" } className="yst-mt-2">
 			{ __( "This feature has been disabled by the network admin.", "wordpress-seo" ) }
 		</Alert> }
-		<p className={ classNames( "yst-text-normal yst-mt-2 yst-mb-4", state.isTrackingAllowedMultisite ? "" : "yst-opacity-50" ) }>{ __( "We need your help to improve Yoast SEO. Can we collect anonymous information about your website and how you use it?", "wordpress-seo" ) }</p>
+		{ ! state.isMainSite && <Alert type={ "warning" } className="yst-mt-2">
+			{ __( "This feature has been disabled since subsites never send tracking data.", "wordpress-seo" ) }
+		</Alert> }
+		<p className={ classNames( "yst-text-normal yst-mt-2 yst-mb-4", state.isMainSite && state.isTrackingAllowedMultisite ? "" : "yst-opacity-50" ) }>{ __( "We need your help to improve Yoast SEO. Can we collect anonymous information about your website and how you use it?", "wordpress-seo" ) }</p>
 		{ <RadioGroup
 			id="yoast-configuration-tracking-radio-button"
 			name="yoast-configuration-tracking"
 			value={ state.tracking }
 			onChange={ setTracking }
-			className={ state.isTrackingAllowedMultisite ? "" : "yst-opacity-50" }
-			disabled={ ! state.isTrackingAllowedMultisite }
+			className={ state.isMainSite && state.isTrackingAllowedMultisite ? "" : "yst-opacity-50" }
+			disabled={ ! state.isMainSite || ! state.isTrackingAllowedMultisite }
 			options={ [
 				{
 					value: 0,
@@ -48,7 +51,7 @@ export default function PersonalPreferencesStep( { state, setTracking } ) {
 				},
 			] }
 		/> }
-		{ !! state.isTrackingAllowedMultisite && <Fragment>
+		{ !! state.isMainSite && !! state.isTrackingAllowedMultisite && <Fragment>
 			<Link
 				className="yst-inline-block yst-mt-4"
 				href={ "https://yoa.st/config-workout-tracking" }
