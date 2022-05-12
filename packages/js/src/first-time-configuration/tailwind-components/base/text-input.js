@@ -61,7 +61,7 @@ export default function TextInput( { className, id, label, description, value, o
 
 	return (
 		<div className={ className }>
-			{ label && <label className="yst-block yst-mb-2 yst-font-medium" htmlFor={ id }>
+			{ label && <label className="yst-block yst-mb-2 yst-font-medium yst-text-gray-700" htmlFor={ id }>
 				{ label }
 			</label> }
 			<div className="yst-relative">

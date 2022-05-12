@@ -139,37 +139,11 @@ export default function initAdmin( jQuery ) {
 	}
 
 	/**
-	 * When the hash changes, get the base url from the action and then add the current hash
-	 */
-	jQuery( window ).on( "hashchange", wpseoSetTabHash );
-
-	/**
-	 * Adds select2 for selected fields.
-	 *
-	 * @returns {void}
-	 */
-	function initSelect2() {
-		var select2Width = "400px";
-
-		// Select2 for Twitter card meta data in Settings
-		jQuery( "#twitter_card_type" ).select2( {
-			width: select2Width,
-			language: wpseoScriptData.userLanguageCode,
-		} );
-
-		// Select2 for taxonomy breadcrumbs in Advanced
-		jQuery( "#breadcrumbs select" ).select2( {
-			width: select2Width,
-			language: wpseoScriptData.userLanguageCode,
-		} );
-	}
-
-	/**
 	 * Set the initial active tab in the settings pages.
 	 *
 	 * @returns {void}
 	 */
-	function setInitialActiveTab() {
+	 function setInitialActiveTab() {
 		var activeTabId = window.location.hash.replace( "#top#", "" );
 		/* In some cases, the second # gets replace by %23, which makes the tab
 		 * switching not work unless we do this. */
@@ -192,6 +166,35 @@ export default function initAdmin( jQuery ) {
 
 		jQuery( "#" + activeTabId ).addClass( "active" );
 		jQuery( "#" + activeTabId + "-tab" ).addClass( "nav-tab-active" ).trigger( "click" );
+	}
+
+	/**
+	 * When the hash changes, get the base url from the action and then add the current hash
+	 */
+	jQuery( window ).on( "hashchange", function() {
+		setInitialActiveTab();
+		wpseoSetTabHash();
+	 } );
+
+	/**
+	 * Adds select2 for selected fields.
+	 *
+	 * @returns {void}
+	 */
+	function initSelect2() {
+		var select2Width = "400px";
+
+		// Select2 for Twitter card meta data in Settings
+		jQuery( "#twitter_card_type" ).select2( {
+			width: select2Width,
+			language: wpseoScriptData.userLanguageCode,
+		} );
+
+		// Select2 for taxonomy breadcrumbs in Advanced
+		jQuery( "#breadcrumbs select" ).select2( {
+			width: select2Width,
+			language: wpseoScriptData.userLanguageCode,
+		} );
 	}
 
 	/**
