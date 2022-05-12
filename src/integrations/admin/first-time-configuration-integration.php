@@ -228,8 +228,8 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 				$this->should_force_company(),
 				$knowledge_graph_message,
 				$this->shortlinker->build_shortlink( 'https://yoa.st/gdpr-config-workout' ),
-				$this->shortlinker->build_shortlink( 'http://yoa.st/config-indexables' ),
-				$this->shortlinker->build_shortlink( 'http://yoa.st/config-indexables-benefits' )
+				$this->shortlinker->build_shortlink( 'https://yoa.st/config-indexables' ),
+				$this->shortlinker->build_shortlink( 'https://yoa.st/config-indexables-benefits' )
 			),
 			'before'
 		);
