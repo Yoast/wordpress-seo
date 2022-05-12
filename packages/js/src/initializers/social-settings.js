@@ -149,7 +149,7 @@ function SocialProfilesWrapper() {
 		>
 			{ window.wpseoScriptData.social.company_or_person === "person" &&
 				<Fragment>
-					<h2 className="yst-text-lg yst-text-primary-500 yst-font-medium">{ __( "Personal social profiles", "wordpress-seo" ) }</h2>
+					<h2 className="yst-text-lg yst-text-gray-900 yst-font-medium">{ __( "Personal social profiles", "wordpress-seo" ) }</h2>
 					<p className="yst-mt-4 yst-text-gray-500">{
 						/* translators: 1: a colon (:) followed by a link to the user edit page, containing the name of the user selected as the person this site represents */
 						addLinkToString(
@@ -178,7 +178,7 @@ function SocialProfilesWrapper() {
 			{
 				window.wpseoScriptData.social.company_or_person === "company" &&
 				<Fragment>
-					<h2 className="yst-text-lg yst-text-primary-500 yst-font-medium">{ __( "Organization's social profiles", "wordpress-seo" ) }</h2>
+					<h2 className="yst-text-lg yst-text-gray-900 yst-font-medium">{ __( "Organization's social profiles", "wordpress-seo" ) }</h2>
 					<p className="yst-my-2 yst-text-gray-500">{ __( "Tell us if you have any other profiles on the web that belong to your organization. You can also add profiles from platforms like Instagram, YouTube, LinkedIn, Pinterest or Wikipedia.", "wordpress-seo" ) }</p>
 					<SocialInputSection
 						socialProfiles={ {
@@ -205,18 +205,22 @@ function SocialProfilesWrapper() {
 							{ __( "Saved!", "wordpress-seo" ) }
 						</span> }
 					</div>
-					<p className="yst-mt-8 yst-text-gray-500">{
-						addLinkToString(
-							sprintf(
-								/* translators: 1: link tag to the relevant WPSEO admin page; 2: link close tag. */
-								__( "Your website is currently configured to represent an Organization. If you want your site to represent a Person, please select 'Person' in the 'Knowledge Graph & Schema.org' section of the %1$sSearch Appearance%2$s settings.", "wordpress-seo" ),
-								"<a>",
-								"</a>"
-							),
-							window.wpseoScriptData.search_appearance_link,
-							"yoast-search-appearance-link"
-						)
-					}</p>
+					{
+						! window.wpseoScriptData.force_organization && <p className="yst-mt-8 yst-text-gray-500">
+							{
+								addLinkToString(
+									sprintf(
+										/* translators: 1: link tag to the relevant WPSEO admin page; 2: link close tag. */
+										__( "Your website is currently configured to represent an Organization. If you want your site to represent a Person, please select 'Person' in the 'Knowledge Graph & Schema.org' section of the %1$sSearch Appearance%2$s settings.", "wordpress-seo" ),
+										"<a>",
+										"</a>"
+									),
+									window.wpseoScriptData.search_appearance_link,
+									"yoast-search-appearance-link"
+								)
+							}
+						</p>
+					}
 				</Fragment>
 			}
 			<SocialHiddenFields
