@@ -486,6 +486,6 @@ abstract class Abstract_Options_Service {
 	 * @return array|null The configuration or null.
 	 */
 	protected function get_configuration_expansion_for( $key, $configuration, $object ) {
-		return $configuration;
+		return null;
 	}
 }
