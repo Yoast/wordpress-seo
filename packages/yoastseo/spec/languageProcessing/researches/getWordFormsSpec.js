@@ -1,4 +1,4 @@
-/* eslint-disable capitalized-comments */
+/* eslint-disable capitalized-comments, spaced-comment */
 import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";
 import ItalianResearcher from "../../../src/languageProcessing/languages/it/Researcher";
 import SwedishResearcher from "../../../src/languageProcessing/languages/sv/Researcher";
@@ -33,7 +33,7 @@ describe( "A test for getting word forms from the text, based on the stems of a 
 		);
 	} );
 
-/*	it( "returns forms found in the text for multiple keyphrases and synonyms with multiple words;" +
+	/*	it( "returns forms found in the text for multiple keyphrases and synonyms with multiple words;" +
 		"German stemmer", () => {
 		const text = "Eine Orange und eine Heidelbeere. Die Apfelsinen sind sauer. Die Blaubeeren sind süß.";
 		const attributes = {

@@ -1,4 +1,4 @@
-/* eslint-disable capitalized-comments */
+/* eslint-disable capitalized-comments, spaced-comment */
 import getSentenceBeginnings from "../../../src/languageProcessing/researches/getSentenceBeginnings";
 
 import Paper from "../../../src/values/Paper.js";
@@ -458,7 +458,7 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 3 );
 	} );*/
 
-/*	it( "returns an object with sentence beginnings and counts for three sentences in Arabic all starting " +
+	/*	it( "returns an object with sentence beginnings and counts for three sentences in Arabic all starting " +
 		"with one of the exception words.", function() {
 		mockPaper = new Paper( "هؤلاء الأولاد غائبون. هؤلاء الأولاد هم طلاب. هؤلاء الأولاد في المنزل.", { locale: "ar_AR" } );
 		researcher = new ArabicResearcher( mockPaper );

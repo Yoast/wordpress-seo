@@ -1,4 +1,4 @@
-/* eslint-disable capitalized-comments */
+/* eslint-disable capitalized-comments, spaced-comment */
 import metaDescriptionKeyword from "../../../src/languageProcessing/researches/metaDescriptionKeyword.js";
 import Paper from "../../../src/values/Paper.js";
 import Researcher from "../../../src/languageProcessing/languages/en/Researcher";
@@ -134,8 +134,6 @@ describe( "the metadescription keyword match research", function() {
 		expect( result ).toEqual( 1 );
 	} );
 } );
-
-
 
 /*
 

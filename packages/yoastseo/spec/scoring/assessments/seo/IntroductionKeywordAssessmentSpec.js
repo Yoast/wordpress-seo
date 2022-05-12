@@ -1,4 +1,4 @@
-/* eslint-disable capitalized-comments */
+/* eslint-disable capitalized-comments, spaced-comment */
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
 import IntroductionKeywordAssessment from "../../../../src/scoring/assessments/seo/IntroductionKeywordAssessment";
 import Paper from "../../../../src/values/Paper";

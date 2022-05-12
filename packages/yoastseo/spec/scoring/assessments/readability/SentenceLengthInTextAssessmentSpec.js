@@ -1,4 +1,4 @@
-/* eslint-disable capitalized-comments */
+/* eslint-disable capitalized-comments, spaced-comment */
 import SentenceLengthInTextAssessment from "../../../../src/scoring/assessments/readability/SentenceLengthInTextAssessment";
 
 import Paper from "../../../../src/values/Paper.js";
@@ -355,8 +355,8 @@ describe( "A test for getting the right scoring config", function() {
 	} );
 } );
 
-describe( "An assessment for sentence length for cornerstone content", function() {/*
-	it( "returns the score for 100% short sentences in a language with custom scoring config for cornerstone", function() {
+describe( "An assessment for sentence length for cornerstone content", function() {
+	/* it( "returns the score for 100% short sentences in a language with custom scoring config for cornerstone", function() {
 		const mockPaper = new Paper( shortSentenceDefault );
 		const assessment = new SentenceLengthInTextAssessment( {
 			slightlyTooMany: 20,

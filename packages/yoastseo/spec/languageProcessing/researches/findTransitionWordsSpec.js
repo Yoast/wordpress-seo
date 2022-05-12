@@ -1,4 +1,4 @@
-/* eslint-disable capitalized-comments */
+/* eslint-disable capitalized-comments, spaced-comment */
 import transitionWordsResearch from "../../../src/languageProcessing/researches/findTransitionWords.js";
 import Paper from "../../../src/values/Paper.js";
 import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";
@@ -177,7 +177,7 @@ describe( "a test for finding transition words from a string", function() {
 		expect( result.transitionWordSentences ).toBe( 0 );
 	} );
 */
-/*	it( "returns 1 when a transition word is found in a sentence (French)", function() {
+	/*	it( "returns 1 when a transition word is found in a sentence (French)", function() {
 		// Transition word: deuxièmement.
 		mockPaper = new Paper( "Deuxièmement, il convient de reconnaître la complexité des tâches à entreprendre.", { locale: "fr_FR" } );
 		result = transitionWordsResearch( mockPaper, new FrenchResearcher( mockPaper ) );

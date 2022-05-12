@@ -1,4 +1,4 @@
-/* eslint-disable capitalized-comments */
+/* eslint-disable capitalized-comments, spaced-comment */
 import SubheadingsKeywordAssessment from "../../../../src/scoring/assessments/seo/SubHeadingsKeywordAssessment";
 import Paper from "../../../../src/values/Paper";
 import Factory from "../../../specHelpers/factory";
@@ -95,7 +95,7 @@ describe( "An assessment for matching keywords in subheadings", () => {
 		);
 	} );
 
-/*	it( "returns a bad score and appropriate feedback when the subheading contains a non-exact match of a Japanese keyphrase when the keyphrase" +
+	/*	it( "returns a bad score and appropriate feedback when the subheading contains a non-exact match of a Japanese keyphrase when the keyphrase" +
 		" is in double quotes.", function() {
 		const mockPaper = new Paper( "<h2>小さくて可愛い花の刺繍に関する一般一般の記事です</h2>私は美しい猫を飼っています。野生のハーブの刺繡。", { keyword: "『小さい花の刺繍』" } );
 		const result = matchKeywordAssessment.getResult( mockPaper, new JapaneseResearcher( mockPaper ) );
