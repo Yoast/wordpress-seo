@@ -10,14 +10,14 @@ import getMorphologyData from "../../../specHelpers/getMorphologyData";
 
 const morphologyData = getMorphologyData( "en" );
 const morphologyDataDe = getMorphologyData( "de" );
-const morphologyDataJA = getMorphologyData( "ja" );
+// const morphologyDataJA = getMorphologyData( "ja" ); // Variable is used in language specific test (and thus removed)
 const nonkeyword = "nonkeyword, ";
 const keyword = "keyword, ";
 const shortTextJapanese = "熱".repeat( 199 );
 const longTextJapanese = "熱".repeat( 200 );
-const japaneseSentence = "私の猫はかわいいです。小さくて可愛い花の刺繍に関する一般一般の記事です。".repeat( 20 );
-const japaneseSentenceWithKeyphrase = "一日一冊の面白い本を買って読んでるのはできるかどうかやってみます。";
-const japaneseSentenceWithKeyphraseExactMatch = "一日一冊の本を読むのはできるかどうかやってみます。";
+// const japaneseSentence = "私の猫はかわいいです。小さくて可愛い花の刺繍に関する一般一般の記事です。".repeat( 20 );   // Variable is used in language specific test (and thus removed)
+// const japaneseSentenceWithKeyphrase = "一日一冊の面白い本を買って読んでるのはできるかどうかやってみます。";   // Variable is used in language specific test (and thus removed)
+// const japaneseSentenceWithKeyphraseExactMatch = "一日一冊の本を読むのはできるかどうかやってみます。";   // Variable is used in language specific test (and thus removed)
 
 describe( "Tests for the keywordDensity assessment for languages without morphology", function() {
 	it( "runs the keywordDensity on the paper without keyword in the text", function() {
