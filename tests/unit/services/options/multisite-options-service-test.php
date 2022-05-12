@@ -106,8 +106,7 @@ class Multisite_Options_Service_Test extends TestCase {
 
 		Monkey\Filters\expectApplied( 'wpseo_options_additional_configurations' )
 			->once()
-			->with( [] )
-			->andReturn( [] );
+			->andReturnFirstArg();
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
 		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->andReturn( [] );
@@ -136,8 +135,7 @@ class Multisite_Options_Service_Test extends TestCase {
 
 		Monkey\Filters\expectApplied( 'wpseo_options_additional_configurations' )
 			->once()
-			->with( [] )
-			->andReturn( [] );
+			->andReturnFirstArg();
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
 		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->andReturn( [] );
@@ -162,7 +160,6 @@ class Multisite_Options_Service_Test extends TestCase {
 	public function test_get_configurations_additional() {
 		Monkey\Filters\expectApplied( 'wpseo_multisite_options_additional_configurations' )
 			->once()
-			->with( [] )
 			->andReturn(
 				[
 					'test' => [

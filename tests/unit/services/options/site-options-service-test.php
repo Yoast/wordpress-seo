@@ -107,8 +107,7 @@ class Site_Options_Service_Test extends TestCase {
 
 		Monkey\Filters\expectApplied( 'wpseo_options_additional_configurations' )
 			->once()
-			->with( [] )
-			->andReturn( [] );
+			->andReturnFirstArg();
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
 		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->andReturn( [] );
@@ -135,8 +134,7 @@ class Site_Options_Service_Test extends TestCase {
 
 		Monkey\Filters\expectApplied( 'wpseo_options_additional_configurations' )
 			->once()
-			->with( [] )
-			->andReturn( [] );
+			->andReturnFirstArg();
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
 		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->andReturn( [] );
@@ -160,8 +158,7 @@ class Site_Options_Service_Test extends TestCase {
 
 		Monkey\Filters\expectApplied( 'wpseo_options_additional_configurations' )
 			->once()
-			->with( [] )
-			->andReturn( [] );
+			->andReturnFirstArg();
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
 		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->andReturn( [] );
@@ -185,8 +182,7 @@ class Site_Options_Service_Test extends TestCase {
 
 		Monkey\Filters\expectApplied( 'wpseo_options_additional_configurations' )
 			->once()
-			->with( [] )
-			->andReturn( [] );
+			->andReturnFirstArg();
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
 		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->andReturn( [] );
@@ -215,8 +211,7 @@ class Site_Options_Service_Test extends TestCase {
 
 		Monkey\Filters\expectApplied( 'wpseo_options_additional_configurations' )
 			->once()
-			->with( [] )
-			->andReturn( [] );
+			->andReturnFirstArg();
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
 		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->andReturn( [] );
@@ -243,8 +238,7 @@ class Site_Options_Service_Test extends TestCase {
 
 		Monkey\Filters\expectApplied( 'wpseo_options_additional_configurations' )
 			->once()
-			->with( [] )
-			->andReturn( [] );
+			->andReturnFirstArg();
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
 		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->andReturn( [] );
@@ -270,8 +264,7 @@ class Site_Options_Service_Test extends TestCase {
 
 		Monkey\Filters\expectApplied( 'wpseo_options_additional_configurations' )
 			->once()
-			->with( [] )
-			->andReturn( [] );
+			->andReturnFirstArg();
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
 		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->andReturn( [] );
@@ -301,8 +294,7 @@ class Site_Options_Service_Test extends TestCase {
 
 		Monkey\Filters\expectApplied( 'wpseo_options_additional_configurations' )
 			->once()
-			->with( [] )
-			->andReturn( [] );
+			->andReturnFirstArg();
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
 		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->andReturn( [] );
@@ -330,8 +322,7 @@ class Site_Options_Service_Test extends TestCase {
 
 		Monkey\Filters\expectApplied( 'wpseo_options_additional_configurations' )
 			->once()
-			->with( [] )
-			->andReturn( [] );
+			->andReturnFirstArg();
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
 		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->andReturn( [] );
@@ -359,8 +350,7 @@ class Site_Options_Service_Test extends TestCase {
 
 		Monkey\Filters\expectApplied( 'wpseo_options_additional_configurations' )
 			->once()
-			->with( [] )
-			->andReturn( [] );
+			->andReturnFirstArg();
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
 		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->andReturn( [] );
@@ -384,8 +374,7 @@ class Site_Options_Service_Test extends TestCase {
 	public function test_set_unknown() {
 		Monkey\Filters\expectApplied( 'wpseo_options_additional_configurations' )
 			->once()
-			->with( [] )
-			->andReturn( [] );
+			->andReturnFirstArg();
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
 		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->andReturn( [] );
@@ -411,8 +400,7 @@ class Site_Options_Service_Test extends TestCase {
 
 		Monkey\Filters\expectApplied( 'wpseo_options_additional_configurations' )
 			->once()
-			->with( [] )
-			->andReturn( [] );
+			->andReturnFirstArg();
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
 		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->andReturn( [] );
@@ -444,8 +432,7 @@ class Site_Options_Service_Test extends TestCase {
 
 		Monkey\Filters\expectApplied( 'wpseo_options_additional_configurations' )
 			->once()
-			->with( [] )
-			->andReturn( [] );
+			->andReturnFirstArg();
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
 		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->andReturn( [] );
@@ -481,8 +468,7 @@ class Site_Options_Service_Test extends TestCase {
 
 		Monkey\Filters\expectApplied( 'wpseo_options_additional_configurations' )
 			->once()
-			->with( [] )
-			->andReturn( [] );
+			->andReturnFirstArg();
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
 		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->andReturn( [] );
@@ -518,8 +504,7 @@ class Site_Options_Service_Test extends TestCase {
 	public function test_reset_options() {
 		Monkey\Filters\expectApplied( 'wpseo_options_additional_configurations' )
 			->once()
-			->with( [] )
-			->andReturn( [] );
+			->andReturnFirstArg();
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
 		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->andReturn( [] );
@@ -566,8 +551,7 @@ class Site_Options_Service_Test extends TestCase {
 	public function test_get_defaults() {
 		Monkey\Filters\expectApplied( 'wpseo_options_additional_configurations' )
 			->once()
-			->with( [] )
-			->andReturn( [] );
+			->andReturnFirstArg();
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
 		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->andReturn( [] );
@@ -585,8 +569,7 @@ class Site_Options_Service_Test extends TestCase {
 	public function test_get_default() {
 		Monkey\Filters\expectApplied( 'wpseo_options_additional_configurations' )
 			->once()
-			->with( [] )
-			->andReturn( [] );
+			->andReturnFirstArg();
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
 		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->andReturn( [] );
@@ -602,8 +585,7 @@ class Site_Options_Service_Test extends TestCase {
 	public function test_get_default_unknown() {
 		Monkey\Filters\expectApplied( 'wpseo_options_additional_configurations' )
 			->once()
-			->with( [] )
-			->andReturn( [] );
+			->andReturnFirstArg();
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
 		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->andReturn( [] );
@@ -624,8 +606,7 @@ class Site_Options_Service_Test extends TestCase {
 	public function test_get_configurations() {
 		Monkey\Filters\expectApplied( 'wpseo_options_additional_configurations' )
 			->once()
-			->with( [] )
-			->andReturn( [] );
+			->andReturnFirstArg();
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
 		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->andReturn( [] );
@@ -644,7 +625,6 @@ class Site_Options_Service_Test extends TestCase {
 	public function test_get_configurations_additional() {
 		Monkey\Filters\expectApplied( 'wpseo_options_additional_configurations' )
 			->once()
-			->with( [] )
 			->andReturn(
 				[
 					'test' => [
@@ -671,7 +651,6 @@ class Site_Options_Service_Test extends TestCase {
 	public function test_get_configurations_additional_non_array() {
 		Monkey\Filters\expectApplied( 'wpseo_options_additional_configurations' )
 			->once()
-			->with( [] )
 			->andReturn( 123 );
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
@@ -696,7 +675,6 @@ class Site_Options_Service_Test extends TestCase {
 	public function test_get_configurations_additional_is_invalid( $configurations, $missing_key ) {
 		Monkey\Filters\expectApplied( 'wpseo_options_additional_configurations' )
 			->once()
-			->with( [] )
 			->andReturn( $configurations );
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
@@ -767,11 +745,10 @@ class Site_Options_Service_Test extends TestCase {
 	public function test_get_configurations_expanded() {
 		Monkey\Filters\expectApplied( 'wpseo_options_additional_configurations' )
 			->once()
-			->with( [] )
-			->andReturn( [] );
+			->andReturnFirstArg();
 
-		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [ 'test_post_type' ] );
-		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->andReturn( [ 'test_taxonomy' ] );
+		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [ (object) [ 'name' => 'test_post_type' ] ] );
+		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->andReturn( [ (object) [ 'name' => 'test_taxonomy' ] ] );
 
 		$configurations = $this->instance->get_configurations();
 
@@ -796,8 +773,7 @@ class Site_Options_Service_Test extends TestCase {
 
 		Monkey\Filters\expectApplied( 'wpseo_options_additional_configurations' )
 			->once()
-			->with( [] )
-			->andReturn( [] );
+			->andReturnFirstArg();
 
 		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [] );
 		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->andReturn( [] );
