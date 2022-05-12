@@ -306,7 +306,7 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'default' => '',
 			'types'   => [ 'text_field' ],
 		],
-		'post_types_<PostTypeName>_maintax'           => [
+		'post_types-<PostTypeName>-maintax'           => [
 			'default' => '',
 			'types'   => [
 				'in_array_provider' => [
@@ -853,7 +853,7 @@ class Site_Options_Service extends Abstract_Options_Service {
 				}
 
 				return $configuration;
-			case 'noindex-tax-<PostTypeName>':
+			case 'noindex-tax-<TaxonomyName>':
 				if ( $object->name === 'post_format' ) {
 					$configuration['default'] = true;
 				}
