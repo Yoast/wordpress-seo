@@ -479,6 +479,8 @@ abstract class Abstract_Options_Service {
 	/**
 	 * Creates the configuration if it should be expanded with this post type or taxonomy.
 	 *
+	 * @codeCoverageIgnore Due to expected override.
+	 *
 	 * @param string                     $key           The option key.
 	 * @param array                      $configuration The configuration.
 	 * @param \WP_Post_Type|\WP_Taxonomy $object        The post type or taxonomy.

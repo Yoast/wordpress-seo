@@ -742,6 +742,7 @@ class Site_Options_Service_Test extends TestCase {
 	 * @covers \Yoast\WP\SEO\Services\Options\Abstract_Options_Service::get_additional_configurations
 	 * @covers ::expand_configurations
 	 * @covers ::expand_configurations_for
+	 * @covers ::get_configuration_expansion_for
 	 */
 	public function test_get_configurations_expanded() {
 		Monkey\Filters\expectApplied( 'wpseo_options_additional_configurations' )
@@ -751,24 +752,103 @@ class Site_Options_Service_Test extends TestCase {
 		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn(
 			[
 				(object) [
-					'name'     => 'test_post_type',
-					'_builtin' => false,
+					'name'     => 'post',
+					'_builtin' => true,
+				],
+				(object) [
+					'name'        => 'test_post_type',
+					'_builtin'    => false,
+					'has_archive' => true,
+				],
+				(object) [
+					'name'     => 'attachment',
+					'_builtin' => true,
 				],
 			]
 		);
 		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->andReturn(
 			[
 				(object) [
+					'name'     => 'category',
+					'_builtin' => true,
+				],
+				(object) [
 					'name'     => 'test_taxonomy',
 					'_builtin' => false,
+				],
+				(object) [
+					'name'     => 'post_format',
+					'_builtin' => true,
 				],
 			]
 		);
 
 		$configurations = $this->instance->get_configurations();
 
-		$this->assertArrayHasKey( 'metadesc-test_post_type', $configurations );
-		$this->assertArrayHasKey( 'metadesc-tax-test_taxonomy', $configurations );
+		$expected_keys = [
+			'title-test_post_type',
+			'metadesc-test_post_type',
+			'noindex-test_post_type',
+			'post_types-test_post_type-maintax',
+			'schema-page-type-test_post_type',
+			'display-metabox-pt-test_post_type',
+			'schema-article-type-test_post_type',
+			'social-title-test_post_type',
+			'social-description-test_post_type',
+			'social-image-url-test_post_type',
+			'social-image-id-test_post_type',
+			'metadesc-ptarchive-test_post_type',
+			'bctitle-ptarchive-test_post_type',
+			'noindex-ptarchive-test_post_type',
+			'social-description-ptarchive-test_post_type',
+			'social-image-url-ptarchive-test_post_type',
+			'social-image-id-ptarchive-test_post_type',
+			'title-ptarchive-test_post_type',
+			'social-title-ptarchive-test_post_type',
+			'noindex-tax-test_taxonomy',
+			'metadesc-tax-test_taxonomy',
+			'social-description-tax-test_taxonomy',
+			'social-image-url-tax-test_taxonomy',
+			'social-image-id-tax-test_taxonomy',
+			'display-metabox-tax-test_taxonomy',
+			'title-tax-test_taxonomy',
+			'social-title-tax-test_taxonomy',
+			'taxonomy-test_taxonomy-ptparent',
+		];
+		foreach ( $expected_keys as $key ) {
+			$this->assertArrayHasKey( $key, $configurations );
+		}
+
+		$unexpected_keys = [
+			'social-title-attachment',
+			'social-description-attachment',
+			'social-image-url-attachment',
+			'social-image-id-attachment',
+			'taxonomy-category-ptparent',
+			'title-ptarchive-post',
+			'metadesc-ptarchive-post',
+			'bctitle-ptarchive-post',
+			'noindex-ptarchive-post',
+			'social-description-ptarchive-post',
+			'social-image-url-ptarchive-post',
+			'social-image-id-ptarchive-post',
+			'social-title-ptarchive-post',
+			'null-null',
+		];
+		foreach ( $unexpected_keys as $key ) {
+			$this->assertArrayNotHasKey( $key, $configurations );
+		}
+
+		$this->assertTrue( $configurations['display-metabox-pt-test_post_type']['default'] );
+		$this->assertTrue( $configurations['display-metabox-tax-test_taxonomy']['default'] );
+		$this->assertSame( 'None', $configurations['schema-article-type-test_post_type']['default'] );
+		$this->assertSame( 'Article', $configurations['schema-article-type-post']['default'] );
+		$this->assertFalse( $configurations['noindex-tax-test_taxonomy']['default'] );
+		$this->assertTrue( $configurations['noindex-tax-post_format']['default'] );
+		$this->assertSame( '%%term_title%% Archives %%page%% %%sep%% %%sitename%%', $configurations['title-tax-test_taxonomy']['default'] );
+		$this->assertSame( '%%term_title%% Archives', $configurations['social-title-tax-test_taxonomy']['default'] );
+		$this->assertSame( '%%pt_plural%% Archive %%page%% %%sep%% %%sitename%%', $configurations['title-ptarchive-test_post_type']['default'] );
+		$this->assertSame( '%%pt_plural%% Archive', $configurations['social-title-ptarchive-test_post_type']['default'] );
 	}
 
 	/**

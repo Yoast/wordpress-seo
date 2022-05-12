@@ -915,6 +915,7 @@ class Site_Options_Service extends Abstract_Options_Service {
 			}
 		}
 
+		// Current configurations do not walk this path. I.e. no code coverage.
 		return null;
 	}
 }
