@@ -6,6 +6,7 @@ import { useStepperContext } from "./stepper";
 /* eslint-disable complexity */
 
 const { slideDuration, delayUntilStepFaded } = stepperTimingClasses;
+// eslint-disable-next-line max-len
 const commonCircleClasses = `yst-transition-opacity ${ slideDuration } yst-absolute yst-inset-0 yst-border-2 yst-flex yst-items-center yst-justify-center yst-rounded-full`;
 
 /**

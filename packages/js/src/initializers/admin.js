@@ -1,5 +1,6 @@
 /* global wpseoAdminGlobalL10n, ajaxurl, wpseoScriptData, ClipboardJS */
 
+import { __ } from "@wordpress/i18n";
 import a11ySpeak from "a11y-speak";
 import { debounce } from "lodash-es";
 
@@ -304,6 +305,28 @@ export default function initAdmin( jQuery ) {
 		}
 	}
 
+	/**
+	 * Checks wether or not the confirmation dialog should be displayed upom switching tab.
+	 *
+	 * @param {object} target The clicked tab.
+	 *
+	 * @returns {bool} If the dialog should be displayed.
+	 */
+	function canShowConfirmDialog( target ) {
+		// Is the user in the first time configuration tab?
+		var comingFromFTCTab = !! jQuery( "#first-time-configuration-tab" ).filter( ".nav-tab-active" ).length;
+		// Does the user wants to switch to the first time configuration tab?
+		var goingToFTCTab = !! target.filter( "#first-time-configuration-tab" ).length;
+
+
+		/**
+		 * Show the pop-up iff the user is in the first time configuration tab
+		 * and clicks on a tab which is different from the first time configuration tab
+		 * and the current step is being edited (set by first time configuration in React)
+		*/
+		return ( comingFromFTCTab && ( ! goingToFTCTab ) && window.isStepBeingEdited );
+	}
+
 	window.wpseoDetectWrongVariables = wpseoDetectWrongVariables;
 	window.setWPOption = setWPOption;
 	window.wpseoCopyHomeMeta = wpseoCopyHomeMeta;
@@ -384,25 +407,37 @@ export default function initAdmin( jQuery ) {
 
 		// Handle the settings pages tabs.
 		jQuery( "#wpseo-tabs" ).find( "a" ).on( "click", function() {
-			jQuery( "#wpseo-tabs" ).find( "a" ).removeClass( "nav-tab-active" );
-			jQuery( ".wpseotab" ).removeClass( "active" );
+			var canChangeTab = true;
 
-			var id = jQuery( this ).attr( "id" ).replace( "-tab", "" );
-			var activeTab = jQuery( "#" + id );
-			activeTab.addClass( "active" );
-			jQuery( this ).addClass( "nav-tab-active" );
-			if ( activeTab.hasClass( "nosave" ) ) {
-				jQuery( "#wpseo-submit-container" ).hide();
-			} else {
-				jQuery( "#wpseo-submit-container" ).show();
+			if ( canShowConfirmDialog( jQuery( this ) ) ) {
+				/* eslint-disable no-alert */
+				canChangeTab = confirm( __( "There are unsaved changes in one or more steps. Leaving means that those changes will be lost. Are you sure you want to leave?", "wordpress-seo" ) );
 			}
 
-			jQuery( window ).trigger( "yoast-seo-tab-change" );
+			if ( canChangeTab ) {
+				window.isStepBeingEdited = false;
+				jQuery( "#wpseo-tabs" ).find( "a" ).removeClass( "nav-tab-active" );
+				jQuery( ".wpseotab" ).removeClass( "active" );
 
-			if ( id === "first-time-configuration" ) {
-				jQuery( "#yoast-first-time-configuration-notice" ).slideUp();
+				var id = jQuery( this ).attr( "id" ).replace( "-tab", "" );
+				var activeTab = jQuery( "#" + id );
+				activeTab.addClass( "active" );
+				jQuery( this ).addClass( "nav-tab-active" );
+				if ( activeTab.hasClass( "nosave" ) ) {
+					jQuery( "#wpseo-submit-container" ).hide();
+				} else {
+					jQuery( "#wpseo-submit-container" ).show();
+				}
+
+				jQuery( window ).trigger( "yoast-seo-tab-change" );
+				if ( id === "first-time-configuration" ) {
+					jQuery( "#yoast-first-time-configuration-notice" ).slideUp();
+				} else {
+					jQuery( "#yoast-first-time-configuration-notice" ).slideDown();
+				}
 			} else {
-				jQuery( "#yoast-first-time-configuration-notice" ).slideDown();
+				// Re-establish the focus on the first time configuration tab if the user clicks 'Cancel' on the pop-up
+				jQuery( "#first-time-configuration-tab" ).trigger( "focus" );
 			}
 		} );
 

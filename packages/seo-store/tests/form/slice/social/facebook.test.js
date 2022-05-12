@@ -60,6 +60,39 @@ describe( "a test for facebook slice", () => {
 				},
 			} );
 		} );
+
+		test( "should update the Facebook data", () => {
+			const { updateFacebookData } = facebookActions;
+
+			const result = facebookReducer( initialState, updateFacebookData( {
+				title: "new title",
+				description: "new title",
+				image: {
+					id: 1,
+					url: "https://example.com/images/cats.jpeg",
+				},
+			} ) );
+
+			expect( result ).toEqual( {
+				title: "new title",
+				description: "new title",
+				image: {
+					id: 1,
+					url: "https://example.com/images/cats.jpeg",
+				},
+			} );
+		} );
+
+		test( "should remove image from Facebook data", () => {
+			const { clearFacebookPreviewImage } = facebookActions;
+
+			const result = facebookReducer( initialState, clearFacebookPreviewImage() );
+
+			expect( result ).toEqual( {
+				...initialState,
+				image: {},
+			} );
+		} );
 	} );
 
 	describe( "a test for facebook selectors", () => {
@@ -113,6 +146,75 @@ describe( "a test for facebook slice", () => {
 				width: 500,
 				height: 600,
 				alt: "A sleeping cat",
+			} );
+		} );
+
+		test( "should select the facebook image URL", () => {
+			const { selectFacebookImageURL } = facebookSelectors;
+
+			const state = {
+				facebook: {
+					image: {
+						id: 1,
+						url: "https://example.com/catfluencer-meowdel",
+						width: 500,
+						height: 600,
+						alt: "A sleeping cat",
+					},
+				},
+			};
+			const result = selectFacebookImageURL( createStoreState( state ) );
+
+			expect( result ).toEqual( "https://example.com/catfluencer-meowdel" );
+		} );
+
+		test( "should select the facebook image ID", () => {
+			const { selectFacebookImageID } = facebookSelectors;
+
+			const state = {
+				facebook: {
+					image: {
+						id: 1,
+						url: "https://example.com/catfluencer-meowdel",
+						width: 500,
+						height: 600,
+						alt: "A sleeping cat",
+					},
+				},
+			};
+			const result = selectFacebookImageID( createStoreState( state ) );
+
+			expect( result ).toEqual( 1 );
+		} );
+
+		test( "should select the facebook data", () => {
+			const { selectFacebook } = facebookSelectors;
+
+			const state = {
+				facebook: {
+					title: "Catfluencer on Facebook",
+					description: "How to be a purr-fect catfluencer on Facebook.",
+					image: {
+						id: 1,
+						url: "https://example.com/catfluencer-meowdel",
+						width: 500,
+						height: 600,
+						alt: "A sleeping cat",
+					},
+				},
+			};
+			const result = selectFacebook( createStoreState( state ) );
+
+			expect( result ).toEqual( {
+				title: "Catfluencer on Facebook",
+				description: "How to be a purr-fect catfluencer on Facebook.",
+				image: {
+					id: 1,
+					url: "https://example.com/catfluencer-meowdel",
+					width: 500,
+					height: 600,
+					alt: "A sleeping cat",
+				},
 			} );
 		} );
 	} );

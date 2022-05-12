@@ -4,7 +4,6 @@ import { useSelect } from "@wordpress/data";
 import { Fragment } from "@wordpress/element";
 import { SEO_STORE_NAME, useAnalyze } from "@yoast/seo-integration";
 import { get } from "lodash";
-import SocialMetadataPortal from "../../../components/portals/SocialMetadataPortal";
 import SidebarItem from "../../../components/SidebarItem";
 import SchemaTabContainer from "../../../containers/SchemaTab";
 import SEMrushRelatedKeyphrases from "../../../containers/SEMrushRelatedKeyphrases";
@@ -17,6 +16,8 @@ import GooglePreview from "../google-preview";
 import ReadabilityAnalysis from "../readability-analysis";
 import SeoAnalysis from "../seo-analysis";
 import FocusKeyphraseInput from "../focus-keyphrase-input";
+import Portal from "../../../components/portals/Portal";
+import SocialMetadata from "../social/SocialMetadata";
 
 /**
  * Creates the Metabox component.
@@ -83,7 +84,9 @@ const Metabox = () => {
 				</SidebarItem>
 			}
 			<SidebarItem key="social" renderPriority={ -1 }>
-				<SocialMetadataPortal target="wpseo-section-social" />
+				<Portal target="wpseo-section-social">
+					<SocialMetadata />
+				</Portal>
 			</SidebarItem>
 		</Fragment>
 	);

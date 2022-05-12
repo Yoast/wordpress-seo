@@ -13,30 +13,36 @@ import { useReplacementVariables } from "../../hooks/useReplacementVariables";
  */
 const TwitterEditorContainer = ( { as: Component, ...restProps } ) => {
 	const imageIsLarge = useSelect( select => select( "yoast-seo/editor" ).getTwitterImageType() ) !== "summary";
-	const title = useSelect( select => select( SEO_STORE_NAME ).selectTwitterTitle() );
-	const description = useSelect( select => select( SEO_STORE_NAME ).selectTwitterDescription() );
-	const imageData = useSelect( select => select( SEO_STORE_NAME ).selectTwitterImage() );
-	const imageUrl = imageData.url;
-	const imageAlt = imageData.alt;
+	const twitterTitle = useSelect( select => select( SEO_STORE_NAME ).selectTwitterTitle() );
+	const twitterDescription = useSelect( select => select( SEO_STORE_NAME ).selectTwitterDescription() );
+	const twitterImageUrl = useSelect( select => select( SEO_STORE_NAME ).selectTwitterImageURL() );
+	const twitterImageAlt = useSelect( select => select( SEO_STORE_NAME ).selectTwitterImage() ).alt;
+	const facebookTitle = useSelect( select => select( SEO_STORE_NAME ).selectFacebookTitle() );
+	const facebookDescription = useSelect( select => select( SEO_STORE_NAME ).selectFacebookDescription() );
+	const socialDescriptionTemplate = useSelect( select => select( SEO_STORE_NAME ).selectSocialDescriptionTemplate() );
+	const contentDescription = useSelect( select => select( SEO_STORE_NAME ).selectMetaDescription() );
+	const contentExcerpt = useSelect( select => select( SEO_STORE_NAME ).selectExcerpt() );
+	const socialTitleTemplate = useSelect( select => select( SEO_STORE_NAME ).selectSocialTitleTemplate() );
+	const seoTitle = useSelect( select=> select( SEO_STORE_NAME ).selectSeoTitle() );
 	const { updateTwitterTitle, updateTwitterDescription } = useDispatch( SEO_STORE_NAME );
-	const titleInputPlaceholder = "";
-	const descriptionInputPlaceholder = "";
 	const socialMediumName = "Twitter";
 
 	const { replacementVariables, recommendedReplacementVariables } = useReplacementVariables();
 
 	return <Component
-		title={ title }
-		description={ description }
-		imageUrl={ imageUrl }
-		alt={ imageAlt }
+		title={ twitterTitle }
+		description={ twitterDescription }
+		imageUrl={ twitterImageUrl }
+		alt={ twitterImageAlt }
 		isLarge={ imageIsLarge }
 		onTitleChange={ updateTwitterTitle }
 		onDescriptionChange={ updateTwitterDescription }
 		replacementVariables={ replacementVariables }
 		recommendedReplacementVariables={ recommendedReplacementVariables }
-		titleInputPlaceholder={ titleInputPlaceholder }
-		descriptionInputPlaceholder={ descriptionInputPlaceholder }
+		titleInputPlaceholder={ "" }
+		descriptionInputPlaceholder={ "" }
+		descriptionPreviewFallback={ socialDescriptionTemplate || facebookDescription || contentDescription || contentExcerpt || "" }
+		titlePreviewFallback={ socialTitleTemplate || facebookTitle || seoTitle || "" }
 		socialMediumName={ socialMediumName }
 		{ ...restProps }
 	/>;

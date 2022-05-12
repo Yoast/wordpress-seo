@@ -33,7 +33,9 @@ export const getInitialPostState = () => ( {
 	},
 	form: {
 		seo: {
-			title: dom.getPostSeoTitle() || window.wpseoScriptData.metabox.title_template,
+			title: dom.getPostSeoTitle() ||
+				window.wpseoScriptData.metabox.title_template_no_fallback ||
+				window.wpseoScriptData.metabox.title_template,
 			description: dom.getPostMetaDescription() || window.wpseoScriptData.metabox.metadesc_template,
 			slug: dom.getPostSlug(),
 			isCornerstone: dom.getPostIsCornerstone(),
@@ -42,6 +44,28 @@ export const getInitialPostState = () => ( {
 			[ FOCUS_KEYPHRASE_ID ]: {
 				id: FOCUS_KEYPHRASE_ID,
 				keyphrase: dom.getPostFocusKeyphrase(),
+			},
+		},
+		social: {
+			facebook: {
+				title: dom.getPostFacebookTitle(),
+				description: dom.getPostFacebookDescription(),
+				image: {
+					id: dom.getPostFacebookImageID(),
+					url: dom.getPostFacebookImageUrl(),
+				},
+			},
+			twitter: {
+				title: dom.getPostTwitterTitle(),
+				description: dom.getPostTwitterDescription(),
+				image: {
+					id: dom.getPostTwitterImageID(),
+					url: dom.getPostTwitterImageUrl(),
+				},
+			},
+			template: {
+				description: window.wpseoScriptData.metabox.social_description_template,
+				title: window.wpseoScriptData.metabox.social_title_template,
 			},
 		},
 	},
@@ -68,7 +92,9 @@ export const getInitialTermState = () => ( {
 	},
 	form: {
 		seo: {
-			title: dom.getTermSeoTitle() || window.wpseoScriptData.metabox.title_template,
+			title: dom.getTermSeoTitle() ||
+				window.wpseoScriptData.metabox.title_template_no_fallback ||
+				window.wpseoScriptData.metabox.title_template,
 			description: dom.getTermMetaDescription() || window.wpseoScriptData.metabox.metadesc_template,
 			slug: dom.getTermSlug(),
 			isCornerstone: dom.getTermIsCornerstone(),
@@ -77,6 +103,28 @@ export const getInitialTermState = () => ( {
 			[ FOCUS_KEYPHRASE_ID ]: {
 				id: FOCUS_KEYPHRASE_ID,
 				keyphrase: dom.getTermFocusKeyphrase() || dom.getTermName(),
+			},
+		},
+		social: {
+			facebook: {
+				title: dom.getTermFacebookTitle(),
+				description: dom.getTermFacebookDescription(),
+				image: {
+					id: dom.getTermFacebookImageID(),
+					url: dom.getTermFacebookImageUrl(),
+				},
+			},
+			twitter: {
+				title: dom.getTermTwitterTitle(),
+				description: dom.getTermTwitterDescription(),
+				image: {
+					id: dom.getTermTwitterImageID(),
+					url: dom.getTermTwitterImageUrl(),
+				},
+			},
+			template: {
+				description: window.wpseoScriptData.metabox.social_description_template,
+				title: window.wpseoScriptData.metabox.social_title_template,
 			},
 		},
 	},

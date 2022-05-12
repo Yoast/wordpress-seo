@@ -19,10 +19,15 @@ describe( "The FacebookContainer components", () => {
 			selectFacebookDescription: jest.fn( () => "description" ),
 			selectFacebookImage: jest.fn( () => (
 				{
-					url: "https://example.com/assets/images/image.jpeg",
 					alt: "A dog is sitting on the porch of a log cabin.",
 				}
 			) ),
+			selectFacebookImageURL: jest.fn( () => "https://example.com/assets/images/image.jpeg" ),
+			selectSocialDescriptionTemplate: jest.fn( () => "A tortie that wraps the human around her paws: based on the account of Ms. Zornitsa." ),
+			selectMetaDescription: jest.fn( () => "" ),
+			selectExcerpt: jest.fn( () => "An excerpt about cat story." ),
+			selectSocialTitleTemplate: jest.fn( () => "Cat blogs: A story about cats on social Media" ),
+			selectSeoTitle: jest.fn( () => "Cat blogs: A story about cats" ),
 		} );
 
 		const updateFacebookTitle = jest.fn();
@@ -47,6 +52,8 @@ describe( "The FacebookContainer components", () => {
 		expect( FacebookContainer.props().socialMediumName ).toEqual( "Facebook" );
 		expect( FacebookContainer.props().title ).toEqual( "title" );
 		expect( FacebookContainer.props().description ).toEqual( "description" );
+		expect( FacebookContainer.props().descriptionPreviewFallback ).toEqual( "A tortie that wraps the human around her paws: based on the account of Ms. Zornitsa." );
+		expect( FacebookContainer.props().titlePreviewFallback ).toEqual( "Cat blogs: A story about cats on social Media" );
 		// Image.
 		expect( FacebookContainer.props().imageUrl ).toEqual( "https://example.com/assets/images/image.jpeg" );
 		expect( FacebookContainer.props().alt ).toEqual( "A dog is sitting on the porch of a log cabin." );

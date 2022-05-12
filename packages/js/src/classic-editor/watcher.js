@@ -1,14 +1,17 @@
-import { dispatch, select, subscribe } from "@wordpress/data";
+import { dispatch, select } from "@wordpress/data";
 import { SEO_STORE_NAME } from "@yoast/seo-integration";
-import { debounce, forEach, get, isEqual, isFunction, set } from "lodash";
+import { debounce, forEach, get, isFunction } from "lodash";
 import getIndicatorForScore from "../analysis/getIndicatorForScore";
 import { addEventHandler as addTinyMceEventListener, getContentTinyMce } from "../lib/tinymce";
 import { update as updateAdminBar } from "../ui/adminBar";
 import * as publishBox from "../ui/publishBox";
 import { update as updateTrafficLight } from "../ui/trafficLight";
 import * as dom from "./helpers/dom";
+import createDomSync from "./watchers/helpers/createDomSync";
+import { createPostFacebookSync, createTermFacebookSync } from "./watchers/facebook";
+import { createPostTwitterSync, createTermTwitterSync } from "./watchers/twitter";
+import { SYNC_DEBOUNCE_TIME } from "./watchers/helpers/constants";
 
-const SYNC_DEBOUNCE_TIME = 500;
 const { DOM_IDS, DOM_CLASSES, DOM_QUERIES } = dom;
 
 /**
@@ -50,37 +53,6 @@ const createTinyMceContentSync = ( domId, action ) => {
 	// Fallback to adding event listeners when editor with id is initialized.
 	addTinyMceEventListener( domId, tinyMceEventNames, handleEvent );
 };
-
-// Store cache for performance.
-let storeCache = {};
-
-/**
- * Creates a debounced DOM sync that subscribes to store changes and maybe updates a DOM element.
- *
- * @param {Function} selector Store selector to listen to.
- * @param {{ domGet: Function, domSet: Function }} domLens Lens for getting and setting DOM element values.
- * @param {string} [storeCacheKey] Optional key to use in the cache.
- * @returns {Function} Unsubscribe from store function.
- */
-const createDomSync = ( selector, { domGet, domSet }, storeCacheKey = "" ) => subscribe( debounce( () => {
-	const cacheValue = get( storeCache, storeCacheKey );
-	const storeValue = selector();
-
-	if ( isEqual( cacheValue, storeValue ) ) {
-		// No store change.
-		return false;
-	}
-	if ( isEqual( domGet(), storeValue ) ) {
-		// Store change is already in DOM.
-		return false;
-	}
-	if ( storeCacheKey ) {
-		// Update cache if cache key exists.
-		storeCache = set( storeCache, storeCacheKey, storeValue );
-	}
-	// Update DOM if store value changed.
-	domSet( storeValue );
-}, SYNC_DEBOUNCE_TIME ) );
 
 /**
  * Create an SEO score updating function for DOM and legacy UI.
@@ -422,6 +394,8 @@ const syncStoreToPost = () => {
 		},
 		"readabilityScore"
 	);
+	createPostFacebookSync( selectors );
+	createPostTwitterSync( selectors );
 };
 
 /**
@@ -477,6 +451,8 @@ const syncStoreToTerm = () => {
 		},
 		"readabilityScore"
 	);
+	createTermFacebookSync( selectors );
+	createTermTwitterSync( selectors );
 };
 
 /**

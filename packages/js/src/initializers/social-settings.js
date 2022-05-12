@@ -6,6 +6,7 @@ import ImageSelectPortal from "../components/portals/ImageSelectPortal";
 import Portal from "../components/portals/Portal";
 import { __, sprintf } from "@wordpress/i18n";
 import { addLinkToString } from "../helpers/stringHelpers.js";
+import { removeFieldAndUpdateErrors } from "../first-time-configuration/tailwind-components/helpers/index.js";
 import { SocialInputSection } from "../first-time-configuration/tailwind-components/steps/social-profiles/social-input-section";
 
 /**
@@ -72,13 +73,12 @@ function SocialProfilesWrapper() {
 	const [ errorFields, setErrorFields ] = useState( [] );
 	const [ isSaved, setIsSaved ] = useState( false );
 
-	// Clear errorFields and isSaved when values are edited.
+	/* eslint-disable max-len */
+	// Clear isSaved when values are edited.
 	useEffect( () => {
-		setErrorFields( [] );
 		setIsSaved( false );
 	}, [ facebookValue, twitterValue, otherSocialUrls ] );
 
-	/* eslint-disable max-len */
 	useEffect( () => {
 		/**
 		 * Prevents the submission of the form upon pressing enter.
@@ -123,8 +123,10 @@ function SocialProfilesWrapper() {
 	const onChangeHandler = useCallback( ( value, socialMedium ) => {
 		if ( socialMedium === "facebookUrl" ) {
 			setFacebookValue( value );
+			setErrorFields( prevState => prevState.filter( errorField => errorField !== "facebook_site" ) );
 		} else if ( socialMedium === "twitterUsername" ) {
 			setTwitterValue( value );
+			setErrorFields( prevState => prevState.filter( errorField => errorField !== "twitter_site" ) );
 		}
 	}, [ setFacebookValue, setTwitterValue ] );
 
@@ -134,22 +136,26 @@ function SocialProfilesWrapper() {
 			nextState[ index ] = value;
 			return nextState;
 		} );
-	}, [ setOtherSocialUrls ] );
+		setErrorFields( prevState => prevState.filter( errorField => errorField !== `other_social_urls-${ index }` ) );
+	}, [ setOtherSocialUrls, setErrorFields ] );
 
 	const onRemoveProfileHandler = useCallback( ( index ) => {
 		setOtherSocialUrls( prevState => prevState.filter( ( _, prevStateIndex ) => prevStateIndex !== index ) );
-	}, [ setOtherSocialUrls ] );
+		setErrorFields( prevState => {
+			return removeFieldAndUpdateErrors( prevState, index );
+		} );
+	}, [ setOtherSocialUrls, setErrorFields, removeFieldAndUpdateErrors ] );
 
 	const onAddProfileHandler = useCallback( () => {
 		setOtherSocialUrls( prevState => [ ...prevState, "" ] );
-	}, [ setOtherSocialUrls ] );
+	}, [ setOtherSocialUrls, setErrorFields ] );
 	return (
 		<div
 			className="yst-root yst-bg-white yst-rounded-lg yst-p-6 yst-shadow-md yst-max-w-2xl yst-mt-6"
 		>
 			{ window.wpseoScriptData.social.company_or_person === "person" &&
 				<Fragment>
-					<h2 className="yst-text-lg yst-text-primary-500 yst-font-medium">{ __( "Personal social profiles", "wordpress-seo" ) }</h2>
+					<h2 className="yst-text-lg yst-text-gray-900 yst-font-medium">{ __( "Personal social profiles", "wordpress-seo" ) }</h2>
 					<p className="yst-mt-4 yst-text-gray-500">{
 						/* translators: 1: a colon (:) followed by a link to the user edit page, containing the name of the user selected as the person this site represents */
 						addLinkToString(
@@ -178,7 +184,7 @@ function SocialProfilesWrapper() {
 			{
 				window.wpseoScriptData.social.company_or_person === "company" &&
 				<Fragment>
-					<h2 className="yst-text-lg yst-text-primary-500 yst-font-medium">{ __( "Organization's social profiles", "wordpress-seo" ) }</h2>
+					<h2 className="yst-text-lg yst-text-gray-900 yst-font-medium">{ __( "Organization's social profiles", "wordpress-seo" ) }</h2>
 					<p className="yst-my-2 yst-text-gray-500">{ __( "Tell us if you have any other profiles on the web that belong to your organization. You can also add profiles from platforms like Instagram, YouTube, LinkedIn, Pinterest or Wikipedia.", "wordpress-seo" ) }</p>
 					<SocialInputSection
 						socialProfiles={ {
@@ -205,18 +211,22 @@ function SocialProfilesWrapper() {
 							{ __( "Saved!", "wordpress-seo" ) }
 						</span> }
 					</div>
-					<p className="yst-mt-8 yst-text-gray-500">{
-						addLinkToString(
-							sprintf(
-								/* translators: 1: link tag to the relevant WPSEO admin page; 2: link close tag. */
-								__( "Your website is currently configured to represent an Organization. If you want your site to represent a Person, please select 'Person' in the 'Knowledge Graph & Schema.org' section of the %1$sSearch Appearance%2$s settings.", "wordpress-seo" ),
-								"<a>",
-								"</a>"
-							),
-							window.wpseoScriptData.search_appearance_link,
-							"yoast-search-appearance-link"
-						)
-					}</p>
+					{
+						! window.wpseoScriptData.force_organization && <p className="yst-mt-8 yst-text-gray-500">
+							{
+								addLinkToString(
+									sprintf(
+										/* translators: 1: link tag to the relevant WPSEO admin page; 2: link close tag. */
+										__( "Your website is currently configured to represent an Organization. If you want your site to represent a Person, please select 'Person' in the 'Knowledge Graph & Schema.org' section of the %1$sSearch Appearance%2$s settings.", "wordpress-seo" ),
+										"<a>",
+										"</a>"
+									),
+									window.wpseoScriptData.search_appearance_link,
+									"yoast-search-appearance-link"
+								)
+							}
+						</p>
+					}
 				</Fragment>
 			}
 			<SocialHiddenFields

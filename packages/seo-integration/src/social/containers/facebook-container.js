@@ -12,29 +12,33 @@ import { useReplacementVariables } from "../../hooks/useReplacementVariables";
  * @returns {JSX.Element} A wrapped Facebook editor component.
  */
 const FacebookEditorContainer = ( { as: Component, ...restProps } ) => {
-	const title = useSelect( select => select( SEO_STORE_NAME ).selectFacebookTitle() );
-	const description = useSelect( select => select( SEO_STORE_NAME ).selectFacebookDescription() );
-	const imageData = useSelect( select => select( SEO_STORE_NAME ).selectFacebookImage() );
-	const imageUrl = imageData.url;
-	const imageAlt = imageData.alt;
+	const facebookTitle = useSelect( select => select( SEO_STORE_NAME ).selectFacebookTitle() );
+	const facebookDescription = useSelect( select => select( SEO_STORE_NAME ).selectFacebookDescription() );
+	const facebookImageUrl = useSelect( select => select( SEO_STORE_NAME ).selectFacebookImageURL() );
+	const facebookImageAlt = useSelect( select => select( SEO_STORE_NAME ).selectFacebookImage() ).alt;
+	const socialDescriptionTemplate = useSelect( select => select( SEO_STORE_NAME ).selectSocialDescriptionTemplate() );
+	const contentDescription = useSelect( select => select( SEO_STORE_NAME ).selectMetaDescription() );
+	const contentExcerpt = useSelect( select => select( SEO_STORE_NAME ).selectExcerpt() );
+	const socialTitleTemplate = useSelect( select => select( SEO_STORE_NAME ).selectSocialTitleTemplate() );
+	const seoTitle = useSelect( select=> select( SEO_STORE_NAME ).selectSeoTitle() );
 	const { updateFacebookTitle, updateFacebookDescription } = useDispatch( SEO_STORE_NAME );
-	const titleInputPlaceholder = "";
-	const descriptionInputPlaceholder = "";
 	const socialMediumName = "Facebook";
 
 	const { replacementVariables, recommendedReplacementVariables } = useReplacementVariables();
 
 	return <Component
-		title={ title }
-		description={ description }
-		imageUrl={ imageUrl }
-		alt={ imageAlt }
+		title={ facebookTitle }
+		description={ facebookDescription }
+		imageUrl={ facebookImageUrl }
+		alt={ facebookImageAlt }
 		onTitleChange={ updateFacebookTitle }
 		onDescriptionChange={ updateFacebookDescription }
 		replacementVariables={ replacementVariables }
 		recommendedReplacementVariables={ recommendedReplacementVariables }
-		titleInputPlaceholder={ titleInputPlaceholder }
-		descriptionInputPlaceholder={ descriptionInputPlaceholder }
+		titleInputPlaceholder={ "" }
+		descriptionInputPlaceholder={ "" }
+		descriptionPreviewFallback={ socialDescriptionTemplate || contentDescription || contentExcerpt || "" }
+		titlePreviewFallback={ socialTitleTemplate || seoTitle || "" }
 		socialMediumName={ socialMediumName }
 		{ ...restProps }
 	/>;

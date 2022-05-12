@@ -249,6 +249,7 @@ Enhancements:
 Bugfixes:
 
 * Fixes a bug that would lead to race conditions when using persistent object caching.
+* Fixes a bug where our How To and FAQ blocks would not handle focus correctly when using WordPress 6.0.
 * Fixes a bug where the global var $post is sometimes modified unexpectedly. Props to [grantalltodavid](https://github.com/grantalltodavid).
 
 Other:
