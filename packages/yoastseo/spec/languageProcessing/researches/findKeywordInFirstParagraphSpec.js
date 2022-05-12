@@ -1,3 +1,4 @@
+/* eslint-disable capitalized-comments */
 import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 import firstParagraph from "../../../src/languageProcessing/researches/findKeywordInFirstParagraph.js";

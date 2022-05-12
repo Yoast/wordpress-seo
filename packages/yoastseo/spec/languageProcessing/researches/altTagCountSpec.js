@@ -1,3 +1,4 @@
+/* eslint-disable capitalized-comments */
 import Researcher from "../../../src/languageProcessing/languages/en/Researcher";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 import altTagCountFunction from "../../../src/languageProcessing/researches/altTagCount";

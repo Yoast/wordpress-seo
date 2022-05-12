@@ -1,3 +1,4 @@
+/* eslint-disable capitalized-comments */
 import { primeLanguageSpecificData } from "../../../src/languageProcessing/helpers/morphology/buildTopicStems";
 import {
 	computeScoresPerSentenceShortTopic,

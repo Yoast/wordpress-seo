@@ -1,3 +1,4 @@
+/* eslint-disable capitalized-comments */
 import SentenceLengthInTextAssessment from "../../../../src/scoring/assessments/readability/SentenceLengthInTextAssessment";
 
 import Paper from "../../../../src/values/Paper.js";

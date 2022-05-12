@@ -1,3 +1,4 @@
+/* eslint-disable capitalized-comments */
 import getSentences from "../../../src/languageProcessing/researches/countSentencesFromText.js";
 import Paper from "../../../src/values/Paper";
 import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";
