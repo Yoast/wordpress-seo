@@ -232,9 +232,11 @@ export default function FirstTimeConfigurationSteps() {
 					// Find and add the sidebar counters
 					allCounters = [ ...allCounters, ...document.querySelectorAll( "#toplevel_page_wpseo_dashboard .update-plugins.count-" + oldCount ) ];
 					allCounters.forEach( ( counterNode => {
+						// The classList replace will return false if the class was not present (and thus an adminbar counter).
+						const isAdminBarCounter = ! counterNode.classList.replace( "count-" + oldCount, "count-" + newCount );
 						// If the count reaches zero because of this, remove the red dot alltogether.
-						if ( newCount === "0" ) {
-							counterNode.remove();
+						if ( isAdminBarCounter  && newCount === "0" ) {
+							counterNode.style.display = "none";
 						} else {
 							counterNode.firstChild.textContent = counterNode.firstChild.textContent.replace( oldCount, newCount );
 							counterNode.lastChild.textContent = counterNode.lastChild.textContent.replace( oldCount, newCount );
