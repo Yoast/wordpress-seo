@@ -747,8 +747,22 @@ class Site_Options_Service_Test extends TestCase {
 			->once()
 			->andReturnFirstArg();
 
-		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn( [ (object) [ 'name' => 'test_post_type' ] ] );
-		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->andReturn( [ (object) [ 'name' => 'test_taxonomy' ] ] );
+		$this->post_type_helper->expects( 'get_public_post_types' )->andReturn(
+			[
+				(object) [
+					'name'     => 'test_post_type',
+					'_builtin' => false,
+				],
+			]
+		);
+		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->andReturn(
+			[
+				(object) [
+					'name'     => 'test_taxonomy',
+					'_builtin' => false,
+				],
+			]
+		);
 
 		$configurations = $this->instance->get_configurations();
 

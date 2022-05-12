@@ -127,9 +127,6 @@ class Network_Admin_Options_Service_Test extends TestCase {
 			->once()
 			->andReturnFirstArg();
 
-		$this->post_type_helper->expects( 'get_public_post_types' )->once()->andReturn( [] );
-		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->once()->andReturn( [] );
-
 		$this->assertEquals( 'bar', $this->instance->foo );
 	}
 
@@ -149,9 +146,6 @@ class Network_Admin_Options_Service_Test extends TestCase {
 		Monkey\Filters\expectApplied( 'wpseo_network_admin_options_additional_configurations' )
 			->once()
 			->andReturnFirstArg();
-
-		$this->post_type_helper->expects( 'get_public_post_types' )->once()->andReturn( [] );
-		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->once()->andReturn( [] );
 
 		$this->validation_helper
 			->expects( 'validate_as' )
@@ -190,9 +184,6 @@ class Network_Admin_Options_Service_Test extends TestCase {
 			->once()
 			->andReturnFirstArg();
 
-		$this->post_type_helper->expects( 'get_public_post_types' )->once()->andReturn( [] );
-		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->once()->andReturn( [] );
-
 		$this->validation_helper
 			->expects( 'validate_as' )
 			->once()
@@ -230,9 +221,6 @@ class Network_Admin_Options_Service_Test extends TestCase {
 		Monkey\Filters\expectApplied( 'wpseo_network_admin_options_additional_configurations' )
 			->once()
 			->andReturnFirstArg();
-
-		$this->post_type_helper->expects( 'get_public_post_types' )->once()->andReturn( [] );
-		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->once()->andReturn( [] );
 
 		Monkey\Functions\expect( 'delete_site_option' )
 			->once()
@@ -290,9 +278,6 @@ class Network_Admin_Options_Service_Test extends TestCase {
 				]
 			);
 
-		$this->post_type_helper->expects( 'get_public_post_types' )->once()->andReturn( [] );
-		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->once()->andReturn( [] );
-
 		$this->assertArrayHasKey( 'test', $this->instance->get_configurations() );
 	}
 
@@ -302,9 +287,6 @@ class Network_Admin_Options_Service_Test extends TestCase {
 	 * @covers ::reset_options_for
 	 */
 	public function test_reset_options_for() {
-		$this->post_type_helper->expects( 'get_public_post_types' )->once()->andReturn( [] );
-		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->once()->andReturn( [] );
-
 		Monkey\Functions\expect( 'get_blog_option' )
 			->once()
 			->andReturn( 1 );
@@ -337,9 +319,6 @@ class Network_Admin_Options_Service_Test extends TestCase {
 			->once()
 			->with( 'wpseo_network_admin_options' )
 			->andReturn( [ 'defaultblog' => $default_blog ] );
-
-		$this->post_type_helper->expects( 'get_public_post_types' )->once()->andReturn( [] );
-		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->once()->andReturn( [] );
 
 		Monkey\Functions\expect( 'get_blog_option' )
 			->once()
@@ -389,9 +368,6 @@ class Network_Admin_Options_Service_Test extends TestCase {
 	 * @covers ::reset_options_for
 	 */
 	public function test_reset_options_for_delete_failed() {
-		$this->post_type_helper->expects( 'get_public_post_types' )->once()->andReturn( [] );
-		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->once()->andReturn( [] );
-
 		Monkey\Functions\expect( 'get_blog_option' )
 			->once()
 			->andReturn( 1 );
@@ -416,9 +392,6 @@ class Network_Admin_Options_Service_Test extends TestCase {
 	 * @covers ::reset_options_for
 	 */
 	public function test_reset_options_for_update_failed() {
-		$this->post_type_helper->expects( 'get_public_post_types' )->once()->andReturn( [] );
-		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->once()->andReturn( [] );
-
 		Monkey\Functions\expect( 'get_blog_option' )
 			->once()
 			->andReturn( 1 );
@@ -452,9 +425,6 @@ class Network_Admin_Options_Service_Test extends TestCase {
 		$this->multisite_options_service->expects( 'get_defaults' )->twice()->andReturn( [] );
 
 		Monkey\Functions\expect( 'get_current_blog_id' )->once()->andReturn( $current_blog_id );
-
-		$this->post_type_helper->expects( 'get_public_post_types' )->once()->andReturn( [] );
-		$this->taxonomy_helper->expects( 'get_public_taxonomies' )->once()->andReturn( [] );
 
 		Monkey\Functions\expect( 'get_blog_option' )
 			->once()
