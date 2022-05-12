@@ -1,9 +1,11 @@
-import { register, dispatch, createReduxStore, registerStore } from "@wordpress/data";
+import { register, createReduxStore, registerStore } from "@wordpress/data";
 import domReady from "@wordpress/dom-ready";
 
 import * as actions from "./frontend/redux/actions";
 import * as selectors from "./frontend/redux/selectors";
 import frontendReducer from "./frontend/redux/reducer";
+import { renderReactRoot } from "./helpers/reactRoot";
+import FrontendModal from "./frontend/redux/container";
 
 domReady( () => {
 	if ( window.wp.data.createReduxStore ) {
@@ -25,4 +27,6 @@ domReady( () => {
 			selectors,
 		} );
 	}
+
+	renderReactRoot( "wpseo-inspect-root", <FrontendModal /> );
 } )

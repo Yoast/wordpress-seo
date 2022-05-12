@@ -19,23 +19,25 @@ const initialState = {
 	metaDescription,
 	canonical,
 	robots,
-	focusKeyphrase: "",
-	seoScore: "",
-	readabilityScore: "",
+	focusKeyphrase: window.wpseoScriptData.indexable.primary_focus_keyword || "",
+	seoScore: window.wpseoScriptData.indexable.primary_focus_keyword_score || "",
+	readabilityScore: window.wpseoScriptData.indexable.readability_score || "",
+	schema: window.wpseoScriptData.head.schema,
+	analysisTools: window.wpseoScriptData.analysisTools,
 	links: {
-		incoming: [],
-		outgoing: [],
+		incoming: window.wpseoScriptData.incomingInternalLinks || [],
+		outgoing: window.wpseoScriptData.outgoingInternalLinks || [],
 	}
 };
 
 /* eslint-disable complexity */
 /**
- * A reducer for the SEO workouts.
+ * A reducer for the frontend inspector.
  *
  * @param {Object} state The current state of the object.
  * @param {Object} action The current action received.
  *
- * @returns {Object} The updated workouts object.
+ * @returns {Object} The updated frontend object.
  */
 const frontendReducer = ( state = initialState, action ) => {
 	const newState = cloneDeep( state );

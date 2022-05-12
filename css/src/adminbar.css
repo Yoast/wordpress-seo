@@ -2,7 +2,56 @@
 .adminbar-seo-score {
   margin: 10px 0 0 4px !important;
 }
+body.wpseoFrontSidebarOpen {
+	padding-right: 400px;
+}
 
+.wpseoFrontSidebar {
+	position: fixed;
+	right: 0px;
+	top: 32px;
+	width: 384px;
+	padding: 8px;
+	bottom: 0;
+	z-index: 99999;
+	overflow: scroll;
+	border-left: 1px solid #cccccc;
+	font-size: 14px;
+	font-family: Helvetica;
+	color: #333333;
+}
+.wpseoFrontSidebar h2 {
+	font-size: 16px;
+	font-weight: 800;
+	color: #000000;
+	font-family: Helvetica;
+}
+
+.wpseoFrontSidebar h3 {
+	font-size: 14px;
+	font-weight: 800;
+	color: #000000;
+	font-family: Helvetica;
+}
+
+.wpseoFrontSidebar .close {
+	position: absolute;
+	top: 20px;
+	right: 16px;
+	cursor: pointer;
+}
+
+.wpseoFrontSidebar .checks > div {
+	line-height: 2;
+}
+
+.wpseoFrontSidebar .checks svg {
+	vertical-align: middle;
+}
+
+.wpseoFrontSidebar ul {
+	padding-left: 16px;
+}
 #wpadminbar .yoast-issue-added,
 #wpadminbar .yoast-issue-added:hover {
   position: absolute;

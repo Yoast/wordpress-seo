@@ -4,12 +4,31 @@ namespace Yoast\WP\SEO\Repositories;
 
 use Yoast\WP\Lib\Model;
 use Yoast\WP\Lib\ORM;
+use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Models\SEO_Links;
 
 /**
  * Class SEO_Links_Repository.
  */
 class SEO_Links_Repository {
+
+	/**
+	 * The Indexable Repository.
+	 *
+	 * @var Indexable_Repository
+	 */
+	private $indexable_repository;
+
+	/**
+	 * Returns the instance of this class constructed through the ORM Wrapper.
+	 *
+	 * @param Indexable_Repository $indexable_repository The indexable repository.
+	 */
+	public function __construct(
+		Indexable_Repository $indexable_repository
+	) {
+		$this->indexable_repository = $indexable_repository;
+	}
 
 	/**
 	 * Starts a query for this repository.
@@ -44,6 +63,52 @@ class SEO_Links_Repository {
 		return $this->query()
 			->where( 'indexable_id', $indexable_id )
 			->find_many();
+	}
+
+	/**
+	 * Returns indexables linking to an indexable.
+	 *
+	 * @param int $indexable_id The indexable ID.
+	 *
+	 * @return Indexable[] An array of indexables.
+	 */
+	public function get_incoming_link_indexables( $indexable_id ) {
+		$links = $this->query()
+			->select( 'indexable_id' )
+			->where( 'target_indexable_id', $indexable_id )
+			->find_array();
+		$indexable_ids = array_map(
+			function( $link ) {
+				return $link['indexable_id'];
+			},
+			$links
+		);
+
+		return $this->indexable_repository->find_by_ids( $indexable_ids );
+	}
+
+	/**
+	 * Returns indexables linked in an indexable.
+	 *
+	 * @param int $indexable_id The indexable ID.
+	 *
+	 * @return Indexable[] An array of indexables.
+	 */
+	public function get_outgoing_link_indexables( $indexable_id ) {
+		$links = $this->query()
+			->select( 'target_indexable_id' )
+			->where( 'indexable_id', $indexable_id )
+			->where_not_null( 'target_indexable_id' )
+			->find_array();
+
+		$indexable_ids = array_map(
+			function( $link ) {
+				return $link['target_indexable_id'];
+			},
+			$links
+		);
+
+		return $this->indexable_repository->find_by_ids( $indexable_ids );
 	}
 
 	/**
