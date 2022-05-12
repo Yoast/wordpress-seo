@@ -410,6 +410,11 @@ class WPSEO_Admin_Asset_Manager {
 				'wp-dom-ready',
 				'wp-element',
 				'wp-i18n',
+				self::PREFIX . 'api-client',
+				self::PREFIX . 'externals-components',
+				self::PREFIX . 'externals-contexts',
+				self::PREFIX . 'externals-redux',
+				self::PREFIX . 'yoast-components',
 			],
 			'version' => $scripts['frontend']['version'],
 		];
@@ -647,6 +652,7 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'adminbar-' . $flat_version,
 				'deps' => [
 					'admin-bar',
+					'wp-components',
 				],
 			],
 			[
