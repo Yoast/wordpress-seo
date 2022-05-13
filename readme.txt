@@ -240,12 +240,10 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 Release Date: May 17th, 2022
 
 
-
 Enhancements:
 
 * Adds an `installation successful` page to welcome first-time users.
 * Introduces the First-time configuration, replacing and improving the Configuration Workout.
-* Removes XML sitemap image properties `title` and `caption` following deprecation by Google.
 * Renames the main admin menu item to `Yoast SEO` instead of `SEO`.
 
 Bugfixes:
@@ -257,7 +255,7 @@ Bugfixes:
 
 Other:
 
-* Adds a `Premium` badge to the Workout menu item.
+* Adds a `Premium` badge to the Workouts menu item.
 * Updates the look of the Accounts tab in the Social menu.
 
 = 18.8 =
