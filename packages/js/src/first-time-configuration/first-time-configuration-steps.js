@@ -524,8 +524,8 @@ export default function FirstTimeConfigurationSteps() {
 				{
 					addLinkToString(
 						sprintf(
+							// translators: %1$s and %3$s are replaced by opening and closing anchor tags. %2$s is replaced by "Yoast SEO"
 							__(
-								// translators: %1$s and %3$s are replaced by opening and closing anchor tags. %2$s is replaced by "Yoast SEO"
 								"Put the %1$s%2$s indexables squad%3$s to work! Make Google understand your site.",
 								"wordpress-seo"
 							),
