@@ -51,7 +51,7 @@ const expectedResults = {
 	textLength: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/shopify58' target='_blank'>Text length</a>: The text contains 167 words. Good job!",
+		resultText: "<a href='https://yoa.st/shopify58' target='_blank'>Text length</a>: The text contains 168 words. Good job!",
 	},
 	titleKeyword: {
 		isApplicable: true,

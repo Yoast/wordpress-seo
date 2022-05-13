@@ -1,5 +1,5 @@
 /* global wpApiSettings */
-import { useState, useCallback } from "@wordpress/element";
+import { useState, useCallback, useRef, useEffect } from "@wordpress/element";
 import PropTypes from "prop-types";
 import { debounce, noop } from "lodash";
 import { __ } from "@wordpress/i18n";
@@ -43,6 +43,14 @@ export default function UserSelector( { initialValue, onChangeCallback, placehol
 		label: initialValue.name,
 	} );
 	const [ isLoading, setIsLoading ] = useState( false );
+	const isMounted = useRef( true );
+
+	// On unmounting, set isMounted to false
+	useEffect( () => {
+		return () => {
+			isMounted.current = false;
+		};
+	}, [] );
 
 	const handleSelectChange = useCallback( ( event ) => {
 		setSelectedPerson( event );
@@ -52,6 +60,10 @@ export default function UserSelector( { initialValue, onChangeCallback, placehol
 	const loadUsers = useCallback( debounce( async( searchQuery ) => {
 		setIsLoading( true );
 		const usersResponse = await fetchUsers( searchQuery );
+		// If the component is being unmounted, stop executing the callback
+		if ( ! isMounted.current ) {
+			return;
+		}
 		setIsLoading( false );
 		setUsers( usersResponse.map( ( user ) => {
 			return {

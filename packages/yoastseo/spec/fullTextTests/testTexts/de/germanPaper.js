@@ -1,7 +1,7 @@
 import Paper from "../../../../src/values/Paper.js";
 import content from "./germanPaper.html";
 
-const name = "germanPaper1";
+const name = "germanPaper";
 
 const paper = new Paper( content, {
 	keyword: "Flughafen London Heathrow",
@@ -98,7 +98,7 @@ const expectedResults = {
 	fleschReadingEase: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 52.4 in the test, which is considered fairly difficult to read. <a href='https://yoa.st/34s' target='_blank'>Try to make shorter sentences to improve readability</a>.",
+		resultText: "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 51.5 in the test, which is considered fairly difficult to read. <a href='https://yoa.st/34s' target='_blank'>Try to make shorter sentences to improve readability</a>.",
 	},
 	subheadingsTooLong: {
 		isApplicable: true,
@@ -117,13 +117,13 @@ const expectedResults = {
 	},
 	textTransitionWords: {
 		isApplicable: true,
-		score: 3,
-		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 19.3% of the sentences contain transition words, which is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more of them</a>.",
+		score: 6,
+		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 21.6% of the sentences contain transition words, which is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more of them</a>.",
 	},
 	passiveVoice: {
 		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: You're using enough active voice. That's great!",
+		score: 6,
+		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: 10.8% of the sentences contain passive voice, which is more than the recommended maximum of 10%. <a href='https://yoa.st/34u' target='_blank'>Try to use their active counterparts</a>.",
 	},
 	textPresence: {
 		isApplicable: true,

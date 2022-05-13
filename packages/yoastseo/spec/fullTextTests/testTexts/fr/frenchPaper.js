@@ -1,7 +1,7 @@
 import Paper from "../../../../src/values/Paper.js";
 import content from "./frenchPaper.html";
 
-const name = "frenchPaper2";
+const name = "frenchPaper";
 
 const paper = new Paper( content, {
 	keyword: "syntaxe (linguistique)",
@@ -54,7 +54,7 @@ const expectedResults = {
 	textLength: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 845 words. Good job!",
+		resultText: "<a href='https://yoa.st/34n' target='_blank'>Text length</a>: The text contains 844 words. Good job!",
 	},
 	externalLinks: {
 		isApplicable: true,
@@ -97,7 +97,7 @@ const expectedResults = {
 	fleschReadingEase: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 72.6 in the test, which is considered fairly easy to read. Good job!",
+		resultText: "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 72.5 in the test, which is considered fairly easy to read. Good job!",
 	},
 	subheadingsTooLong: {
 		isApplicable: true,
