@@ -411,7 +411,7 @@ export default function initAdmin( jQuery ) {
 
 			if ( canShowConfirmDialog( jQuery( this ) ) ) {
 				/* eslint-disable no-alert */
-				canChangeTab = confirm( __( "There are unsaved changes in one or more steps. Leaving means that those changes will be lost. Are you sure you want to leave?", "wordpress-seo" ) );
+				canChangeTab = confirm( __( "There are unsaved changes in one or more steps. Leaving means that those changes may not be saved. Are you sure you want to leave?", "wordpress-seo" ) );
 			}
 
 			if ( canChangeTab ) {
