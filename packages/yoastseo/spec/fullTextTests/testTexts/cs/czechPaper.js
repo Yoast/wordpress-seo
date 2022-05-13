@@ -1,7 +1,7 @@
 import Paper from "../../../../src/values/Paper.js";
 import content from "./czechPaper.html";
 
-const name = "czechPaper1";
+const name = "czechPaper";
 
 const paper = new Paper( content, {
 	keyword: "Nikifor Černigovskij",

@@ -1,15 +1,11 @@
 // Lodash imports.
-import { filter } from "lodash-es";
-import { flatMap } from "lodash-es";
-import { isEmpty } from "lodash-es";
-import { negate } from "lodash-es";
-import { memoize } from "lodash-es";
+import { filter, flatMap, isEmpty, negate, memoize } from "lodash-es";
 
 // Internal dependencies.
 import { getBlocks } from "../html/html.js";
-import { unifyNonBreakingSpace as unifyWhitespace } from "../sanitize/unifyWhitespace.js";
-import SentenceTokenizer from "./SentenceTokenizer";
 import excludeTableOfContentsTag from "../sanitize/excludeTableOfContentsTag";
+import { unifyNonBreakingSpace } from "../sanitize/unifyWhitespace";
+import SentenceTokenizer from "./SentenceTokenizer";
 
 // Character classes.
 const newLines = "\n\r|\n|\r";
@@ -27,8 +23,13 @@ function getSentenceTokenizer( block ) {
 	const sentenceTokenizer = new SentenceTokenizer();
 	const { tokenizer, tokens } = sentenceTokenizer.createTokenizer();
 	sentenceTokenizer.tokenize( tokenizer, block );
-
-	return tokens.length === 0 ? [] : sentenceTokenizer.getSentencesFromTokens( tokens );
+	const paragraphTagsRegex = new RegExp( "^(<p>|</p>)$" );
+	/*
+	 * Filter block that contain only paragraph tags. This step is necessary
+	 * since switching between editors might add extra paragraph tags with a new line tag in the end
+	 * that are incorrectly converted into separate blocks.
+	 */
+	return ( tokens.length === 0 || paragraphTagsRegex.test( block ) ) ? [] : sentenceTokenizer.getSentencesFromTokens( tokens );
 }
 
 const getSentencesFromBlockCached = memoize( getSentenceTokenizer );
@@ -39,8 +40,12 @@ const getSentencesFromBlockCached = memoize( getSentenceTokenizer );
  * @returns {Array} Sentences found in the text.
  */
 export default function( text ) {
+	// We don't remove the other HTML tags here since removing them might lead to incorrect results when running the sentence tokenizer.
+	// Remove Table of Contents.
 	text = excludeTableOfContentsTag( text );
-	text = unifyWhitespace( text );
+	// Unify only non-breaking spaces and not the other whitespaces since a whitespace could signify a sentence break or a new line.
+	text = unifyNonBreakingSpace( text );
+
 	let blocks = getBlocks( text );
 
 	// Split each block on newlines.
