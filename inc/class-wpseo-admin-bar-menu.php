@@ -300,7 +300,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 		$menu_args = [
 			'parent' => self::MENU_IDENTIFIER,
 			'id'     => self::URL_INSPECTION_SUBMENU_IDENTIFIER,
-			'title'  => '<div id="wpseo-inspect-root"></div>',
+			'title'  => '',
 			'meta'   => [
 				'tabindex' => '0'
 			],
