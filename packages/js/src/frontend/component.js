@@ -49,7 +49,6 @@ const FrontendSidebar = ( props ) => {
 			<a
 				href="#wpseoFrontSidebar"
 				onClick={ openSidebar }
-				className={ `${ props.classes.openButton }` }
 			>
 				{ __( "Inspect", "wordpress-seo" ) }
 			</a>
@@ -103,22 +102,7 @@ const FrontendSidebar = ( props ) => {
 };
 
 FrontendSidebar.propTypes = {
-	classes: PropTypes.shape( {
-		openButton: PropTypes.string,
-		closeIconButton: PropTypes.string,
-		closeButton: PropTypes.string,
-	} ),
 	data: PropTypes.object.isRequired,
-	className: PropTypes.string,
-};
-
-FrontendSidebar.defaultProps = {
-	openButtonIcon: "",
-	classes: {
-		openButton: "",
-		closeIconButton: "",
-		closeButton: "",
-	},
 };
 
 export default FrontendSidebar;
