@@ -134,6 +134,10 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 			$this->asset_manager->localize_script( 'frontend', 'wpseoScriptData', [
 				'indexable'               => $indexable,
 				'head'                    => YoastSEO()->meta->for_current_page()->get_head()->json,
+				'isEditable'              => in_array(
+					YoastSEO()->meta->for_current_page()->indexable->object_type,
+					[ 'post', 'term' ]
+				),
 				'isGoogleSiteKitActive'   => class_exists( "Google\Site_Kit\Plugin" ),
 				'installGoogleSiteKitUrl' => add_query_arg(
 					array(

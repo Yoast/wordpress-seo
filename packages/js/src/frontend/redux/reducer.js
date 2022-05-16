@@ -18,6 +18,7 @@ metaTags = [ { key: "title", val: document.title } ].concat( metaTags ).concat( 
  */
 const initialState = {
 	loading: true,
+	isEditable: window.wpseoScriptData.isEditable || false,
 	focusKeyphrase: window.wpseoScriptData.indexable.primary_focus_keyword || "",
 	seoScore: window.wpseoScriptData.indexable.primary_focus_keyword_score || "",
 	readabilityScore: window.wpseoScriptData.indexable.readability_score || "",
