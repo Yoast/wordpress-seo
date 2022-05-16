@@ -28,5 +28,5 @@ domReady( () => {
 		} );
 	}
 
-	renderReactRoot( "wpseo-inspect-root", <FrontendModal /> );
+	renderReactRoot( "wp-admin-bar-wpseo-inspect", <FrontendModal /> );
 } )
