@@ -7,8 +7,8 @@ export default {
 		docs: {
 			description: {
 				component:
-                    "The `Root` component provides your React tree with a `RootContext` which contains general options such as `isRtl` to indicate right to left language direction." +
-                    "It also provides a `.yst-root` CSS class for scoping our CSS in opiniated environments." +
+                    "The `Root` component provides your React tree with a `RootContext` which contains general options such as `isRtl` to indicate right to left language direction. " +
+                    "It also provides a `.yst-root` CSS class for scoping our CSS in opiniated environments. " +
                     "You can use the `RootContext` by using the `useRootContext` hook exported from `@yoast/ui-library/hooks`.",
 			},
 		},
