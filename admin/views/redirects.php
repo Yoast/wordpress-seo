@@ -16,9 +16,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 <div class="wrap yoast wpseo-admin-page page-wpseo_redirects">
 	<h1 id="wpseo-title"><?php echo \esc_html( \get_admin_page_title() ); ?></h1>
 	<div class="wpseo_content_wrapper" style="position: relative;">
-		<div style="position: absolute;border: solid 1px #cccccc;top: 0;bottom: 0;left: 0;right: 0;z-index: 100; display: flex;
-justify-content: center;
-align-items: center;">
+		<div style="position: absolute;top: 0;bottom: 0;left: 0;right: 0;z-index: 100; display: flex;justify-content: center;align-items: center;background: radial-gradient(#ffffffcf 20%, #ffffff00 50%);">
 			<a class="yoast-button-upsell" href="<?php echo \esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/4e0/' ) ); ?>" target="_blank">
 				<?php
 				echo \esc_html__( 'Unlock with Premium', 'wordpress-seo' )
@@ -27,7 +25,7 @@ align-items: center;">
 				?>
 				<span aria-hidden="true" class="yoast-button-upsell__caret"></span></a>
 		</div>
-		<div class="wpseo_content_cell" id="wpseo_content_top" style="filter: blur(3px);opacity: 01;padding: 16px;box-sizing: border-box;">
+		<div class="wpseo_content_cell" id="wpseo_content_top" style="opacity: 0.5;">
 			<h2 class="nav-tab-wrapper" id="wpseo-tabs">
 				<a class="nav-tab nav-tab-active" id="tab-url-tab" href="#" tabindex="-1">Redirects</a>
 				<a class="nav-tab" id="tab-url-tab" href="" tabindex="-1">Regex Redirects</a>
