@@ -1,6 +1,6 @@
 import { compose } from "@wordpress/compose";
 import { withDispatch, withSelect } from "@wordpress/data";
-import FrontendModal from "../component";
+import FrontendSidebar from "../component";
 
 export default compose(
 	[
@@ -21,4 +21,4 @@ export default compose(
 			}
 		),
 	]
-)( FrontendModal );
+)( FrontendSidebar );

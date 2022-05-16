@@ -21,7 +21,7 @@ const SidebarPortal = ( props ) => {
  *
  * @returns {*} The SeoAnalysisModal.
  */
-const FrontendModal = ( props ) => {
+const FrontendSidebar = ( props ) => {
 	const [ isOpen, setIsOpen ] = useState( localStorage.getItem("wpseoFrontSidebarOpen" ) === "open" );
 
 	const toggleSidebar = useEffect(
@@ -109,7 +109,7 @@ const FrontendModal = ( props ) => {
 	);
 };
 
-FrontendModal.propTypes = {
+FrontendSidebar.propTypes = {
 	classes: PropTypes.shape( {
 		openButton: PropTypes.string,
 		closeIconButton: PropTypes.string,
@@ -119,9 +119,9 @@ FrontendModal.propTypes = {
 	className: PropTypes.string,
 };
 
-FrontendModal.defaultProps = {
+FrontendSidebar.defaultProps = {
 	openButtonIcon: "",
 	classes: {},
 };
 
-export default FrontendModal;
+export default FrontendSidebar;
