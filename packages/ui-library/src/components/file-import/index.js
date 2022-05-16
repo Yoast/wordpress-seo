@@ -142,7 +142,7 @@ const FileImport = ( {
 						<DocumentAddIcon className="yst-file-import__select-icon" />
 						<div
 							className={ classNames(
-								"yst-flex yst-font-normal yst-text-gray-800", {
+								"yst-file-import__select-labels", {
 									"yst-flex-row-reverse": isRtl,
 								} ) }
 						>

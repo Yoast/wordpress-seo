@@ -67,6 +67,10 @@
         }
     }
 
+    .yst-file-import__select-labels {
+        @apply yst-flex yst-font-normal yst-text-gray-800;
+    }
+
     .yst-file-import__select-label {
         @apply yst-rounded-md yst-font-medium;
     }
