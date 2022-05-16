@@ -96,8 +96,8 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 		}
 
 		$this->add_root_menu( $wp_admin_bar );
-		$this->add_keyword_research_submenu( $wp_admin_bar );
 		$this->add_url_inspection_submenu( $wp_admin_bar );
+		$this->add_keyword_research_submenu( $wp_admin_bar );
 
 		if ( ! is_admin() ) {
 			$this->add_analysis_submenu( $wp_admin_bar );
@@ -129,40 +129,11 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 		$this->asset_manager->register_assets();
 		$this->asset_manager->enqueue_style( 'adminbar' );
 		if ( ! is_admin() ) {
-			$encoded_url = urlencode( YoastSEO()->meta->for_current_page()->canonical );
 			$indexable = YoastSEO()->meta->for_current_page()->indexable;
-			/** @var \Yoast\WP\SEO\Repositories\SEO_Links_Repository $link_repository */
-			$link_repository = YoastSEO()->classes->get( \Yoast\WP\SEO\Repositories\SEO_Links_Repository::class );
-			$outgoing_linked_indexables = $link_repository->get_outgoing_link_indexables( $indexable->id );
-			$incoming_linked_indexables = $link_repository->get_incoming_link_indexables( $indexable->id );
-			$outgoing_internal_links = array_map(
-				function( $indexable ) {
-					return [
-						'id'    => $indexable->id,
-						'title' => $indexable->breadcrumb_title,
-						'href'  => $indexable->permalink,
-					];
-				},
-				$outgoing_linked_indexables
-			);
-
-			$incoming_internal_links = array_map(
-				function( $indexable ) {
-					return [
-						'id'    => $indexable->id,
-						'title' => $indexable->breadcrumb_title,
-						'href'  => $indexable->permalink,
-					];
-				},
-				$incoming_linked_indexables
-			);
-
 			$this->asset_manager->enqueue_script( 'frontend' );
 			$this->asset_manager->localize_script( 'frontend', 'wpseoScriptData', [
 				'indexable'               => $indexable,
 				'head'                    => YoastSEO()->meta->for_current_page()->get_head()->json,
-				'outgoingInternalLinks'   => $outgoing_internal_links,
-				'incomingInternalLinks'   => $incoming_internal_links,
 				'isGoogleSiteKitActive'   => class_exists( "Google\Site_Kit\Plugin" ),
 				'installGoogleSiteKitUrl' => add_query_arg(
 					array(
@@ -171,59 +142,6 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 					),
 					admin_url( 'plugin-install.php' )
 				),
-				'analysisTools' => [
-					[
-						'id'     => 'wpseo-inlinks',
-						'title'  => __( 'Check links to this URL', 'wordpress-seo' ),
-						'href'   => 'https://search.google.com/search-console/links/drilldown?resource_id=' . urlencode( get_option( 'siteurl' ) ) . '&type=EXTERNAL&target=' . $encoded_url . '&domain=',
-					],
-					[
-						'id'     => 'wpseo-kwdensity',
-						'title'  => __( 'Check Keyphrase Density', 'wordpress-seo' ),
-						// HTTPS not available.
-						'href'   => 'http://www.zippy.co.uk/keyworddensity/index.php?url=' . $encoded_url . '&keyword=' . urlencode( YoastSEO()->meta->for_current_page()->indexable->primary_focus_keyword ),
-					],
-					[
-						'id'     => 'wpseo-cache',
-						'title'  => __( 'Check Google Cache', 'wordpress-seo' ),
-						'href'   => '//webcache.googleusercontent.com/search?strip=1&q=cache:' . $encoded_url,
-					],
-					[
-						'id'     => 'wpseo-structureddata',
-						'title'  => __( 'Google Rich Results Test', 'wordpress-seo' ),
-						'href'   => 'https://search.google.com/test/rich-results?url=' . $encoded_url,
-					],
-					[
-						'id'     => 'wpseo-facebookdebug',
-						'title'  => __( 'Facebook Debugger', 'wordpress-seo' ),
-						'href'   => '//developers.facebook.com/tools/debug/?q=' . $encoded_url,
-					],
-					[
-						'id'     => 'wpseo-pinterestvalidator',
-						'title'  => __( 'Pinterest Rich Pins Validator', 'wordpress-seo' ),
-						'href'   => 'https://developers.pinterest.com/tools/url-debugger/?link=' . $encoded_url,
-					],
-					[
-						'id'     => 'wpseo-htmlvalidation',
-						'title'  => __( 'HTML Validator', 'wordpress-seo' ),
-						'href'   => '//validator.w3.org/check?uri=' . $encoded_url,
-					],
-					[
-						'id'     => 'wpseo-cssvalidation',
-						'title'  => __( 'CSS Validator', 'wordpress-seo' ),
-						'href'   => '//jigsaw.w3.org/css-validator/validator?uri=' . $encoded_url,
-					],
-					[
-						'id'     => 'wpseo-pagespeed',
-						'title'  => __( 'Google Page Speed Test', 'wordpress-seo' ),
-						'href'   => '//developers.google.com/speed/pagespeed/insights/?url=' . $encoded_url,
-					],
-					[
-						'id'     => 'wpseo-google-mobile-friendly',
-						'title'  => __( 'Mobile-Friendly Test', 'wordpress-seo' ),
-						'href'   => 'https://www.google.com/webmasters/tools/mobile-friendly/?url=' . $encoded_url,
-					],
-				]
 			] );
 		}
 	}
