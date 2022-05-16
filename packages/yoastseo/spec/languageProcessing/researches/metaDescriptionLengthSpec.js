@@ -1,3 +1,4 @@
+/* eslint-disable capitalized-comments */
 import metaDescriptionLength from "../../../src/languageProcessing/researches/metaDescriptionLength.js";
 import Paper from "../../../src/values/Paper.js";
 
@@ -20,6 +21,7 @@ describe( "the meta description length research", function() {
 		expect( result ).toBe( 0 );
 	} );
 } );
+/*
 
 describe( "the meta description length research for Japanese", function() {
 	it( "returns the length of the description when the date is empty", function() {
@@ -34,3 +36,4 @@ describe( "the meta description length research for Japanese", function() {
 		expect( result ).toBe( 36 );
 	} );
 } );
+*/
