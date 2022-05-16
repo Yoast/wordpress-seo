@@ -1,5 +1,24 @@
 import "./style.css";
 
+import Root from "../src/components/root";
+
+export const globalTypes = {
+	dir: {
+		key: "dir",
+		name: "Direction",
+		description: "Text direction. Can be either left to right or right to left",
+		defaultValue: "ltr",
+		toolbar: {
+			showName: true,
+			icon: "menu",
+			items: [
+				{ value: "ltr", title: "LTR - Left to Right" },
+				{ value: "rtl", title: "RTL - Right to Left" },
+			],
+		},
+	},
+  };
+
 export const parameters = {
 	viewMode: "docs",
 	options: {
@@ -33,3 +52,11 @@ export const parameters = {
 		},
 	},
 };
+
+export const decorators = [
+	( Story, context ) => (
+		<Root context={ { isRtl: context.globals.dir === "rtl" } }>
+			<Story { ...context } />
+		</Root>
+	),
+];

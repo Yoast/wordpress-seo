@@ -26,7 +26,7 @@ const roleMap = {
 
 /**
  * @param {JSX.node} children Content of the Alert.
- * @param {string} role The role of the Alert.
+ * @param {string} [role] The role of the Alert.
  * @param {string|function} [as="span"] Base component.
  * @param {string} [variant="info"] Alert variant. See `classNameMap` for the options.
  * @param {string} [className] CSS class.
