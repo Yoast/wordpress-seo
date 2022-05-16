@@ -9,6 +9,13 @@ import { ReactComponent as YoastIcon } from "../../images/Yoast_icon_kader.svg";
 import { colors } from "@yoast/style-guide";
 import SvgIcon from "@yoast/components/src/SvgIcon";
 
+/**
+ * Portal which places the sidebar in the body.
+ *
+ * @param props The props.
+ *
+ * @returns { React.ReactPortal } The portal.
+ */
 const SidebarPortal = ( props ) => {
 	return createPortal(
 		props.children,
@@ -26,6 +33,10 @@ const SidebarPortal = ( props ) => {
 const FrontendSidebar = ( props ) => {
 	const [ isOpen, setIsOpen ] = useState( localStorage.getItem("wpseoFrontSidebarOpen" ) === "open" );
 
+	/**
+	 * Toggles a class on the body to make space for the sidebar when it's open.
+	 * Toggles an item on local storage which keeps track if the sidebar is open or not.
+	 */
 	useEffect(
 		() => {
 			const wpseoFrontSidebarOpen = isOpen ? "open" : "closed";
