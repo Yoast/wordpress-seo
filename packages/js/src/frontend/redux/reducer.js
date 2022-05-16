@@ -1,31 +1,28 @@
-
-const metaDescriptionElement = document.querySelector('meta[name="description"]');
-const metaDescription = metaDescriptionElement && metaDescriptionElement.content || "";
-
-const canonicalElement = document.querySelector('link[rel="canonical"]');
-const canonical = canonicalElement && canonicalElement.href || "";
-
 const robotsElement = document.querySelector('meta[name="robots"]');
-const robots = robotsElement && robotsElement.content || "";
+const metaElements = Array.from( document.querySelectorAll(".yoast-seo-meta-tag") );
+
+let metaTags = metaElements.map( function( el ){
+	if ( el.name) {
+		return { key: el.name, val: el.content }
+	} else if (el.getAttribute("property")) {
+		return { key: el.getAttribute( "property" ), val: el.content }
+	} else if ( el.nodeName === "LINK" ) {
+		return { key: el.rel, val: el.href }
+	}
+} );
+
+metaTags = [ { key: "title", val: document.title } ].concat( metaTags ).concat( [ { key: "robots", val: robotsElement.content } ]);
 
 /**
  * Initial state
  */
 const initialState = {
 	loading: true,
-	title: document.title,
-	metaDescription,
-	canonical,
-	robots,
 	focusKeyphrase: window.wpseoScriptData.indexable.primary_focus_keyword || "",
 	seoScore: window.wpseoScriptData.indexable.primary_focus_keyword_score || "",
 	readabilityScore: window.wpseoScriptData.indexable.readability_score || "",
-	schema: window.wpseoScriptData.head.schema,
-	analysisTools: window.wpseoScriptData.analysisTools,
-	links: {
-		incoming: window.wpseoScriptData.incomingInternalLinks || [],
-		outgoing: window.wpseoScriptData.outgoingInternalLinks || [],
-	}
+	metaTags,
+	schema: JSON.parse( document.querySelector( ".yoast-schema-graph" ).text || {} ),
 };
 
 /* eslint-disable complexity */
