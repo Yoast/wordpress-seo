@@ -1,5 +1,5 @@
 import { compose } from "@wordpress/compose";
-import { withDispatch, withSelect } from "@wordpress/data";
+import { withSelect } from "@wordpress/data";
 import FrontendSidebar from "../component";
 
 export default compose(
@@ -9,16 +9,5 @@ export default compose(
 
 			return { data };
 		} ),
-		withDispatch(
-			( dispatch ) => {
-				const {
-					addLinks,
-				} = dispatch( "yoast-seo/frontend" );
-
-				return {
-					addLinks,
-				};
-			}
-		),
 	]
 )( FrontendSidebar );
