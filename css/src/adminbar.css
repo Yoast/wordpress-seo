@@ -3,10 +3,6 @@
   margin: 10px 0 0 4px !important;
 }
 
-body.wpseoFrontSidebarOpen {
-	padding-right: 400px;
-}
-
 #wpadminbar .yoast-issue-added,
 #wpadminbar .yoast-issue-added:hover {
   position: absolute;
@@ -78,6 +74,10 @@ body.wpseoFrontSidebarOpen {
   #wp-admin-bar-wpseo-menu.menupop .ab-sub-wrapper #wp-admin-bar-wpseo-settings {
     display: none;
   }
+}
+
+body.wpseoFrontSidebarOpen {
+	padding-right: 400px;
 }
 
 #wpseoFrontSidebar {
