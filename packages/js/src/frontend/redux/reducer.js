@@ -1,5 +1,3 @@
-import { cloneDeep } from "lodash";
-import { ADD_LINKS } from "./actions";
 
 const metaDescriptionElement = document.querySelector('meta[name="description"]');
 const metaDescription = metaDescriptionElement && metaDescriptionElement.content || "";
@@ -40,11 +38,9 @@ const initialState = {
  * @returns {Object} The updated frontend object.
  */
 const frontendReducer = ( state = initialState, action ) => {
-	const newState = cloneDeep( state );
+	// Some boilerplate. Tip: Look at other reducers when implementing first actions.
+	// const newState = cloneDeep( state );
 	switch ( action.type ) {
-		case ADD_LINKS:
-			newState.links = action.links;
-			return newState;
 		default:
 			return state;
 	}
