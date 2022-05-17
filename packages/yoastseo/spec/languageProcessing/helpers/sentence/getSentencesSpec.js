@@ -176,6 +176,25 @@ describe( "Get sentences from text", function() {
 		expect( actual ).toEqual( expected );
 	} );
 
+	it( "should not split text into sentences if there is no space after sentence delimiter", function() {
+		const texts = [
+			"What is ASP.NET.",
+			// "What is ASP.net.",
+			// "What is asp.NET",
+			// "What is asp.net",
+		];
+		const expected = [
+			"What is ASP.NET.",
+			"What is ASP.net.",
+			"What is asp.NET",
+			"What is asp.net",
+		];
+
+		for ( let i = 0; i < texts.length; i++ ) {
+			expect( getSentences( texts[ i ] ) ).toEqual( [ expected[ i ] ] );
+		}
+	} );
+
 	it( "can deal with a longer text", function() {
 		const text = "<p>As of today, you'll be able to buy our SEO copywriting training! Everyone who wants to learn how to write quality " +
 			"and SEO-friendly content should definitely look into our online training. Through video tutorials, instructional videos " +

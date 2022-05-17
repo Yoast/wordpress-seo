@@ -861,6 +861,46 @@ describe( "a test for the keyphrase in first paragraph research when the exact m
 		} );
 	} );
 
+	it( "returns a good result when the first paragraph contains the exact match of the keyphrase in upper case with a period", function() {
+		let paper = new Paper( "What is ASP.NET", { keyword: "ASP.NET" } );
+		let researcher = new EnglishResearcher( paper );
+
+		expect( firstParagraph( paper, researcher ) ).toEqual(
+			{
+				foundInOneSentence: true,
+				foundInParagraph: true,
+				keyphraseOrSynonym: "keyphrase",
+			}
+		);
+
+		paper = new Paper( "What is ASP.net", { keyword: "\"ASP.NET\"" } );
+		researcher = new EnglishResearcher( paper );
+
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
+			foundInOneSentence: true,
+			foundInParagraph: true,
+			keyphraseOrSynonym: "keyphrase",
+		} );
+
+		paper = new Paper( "What is asp.NET", { keyword: "\"ASP.NET\"" } );
+		researcher = new EnglishResearcher( paper );
+
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
+			foundInOneSentence: true,
+			foundInParagraph: true,
+			keyphraseOrSynonym: "keyphrase",
+		} );
+
+		paper = new Paper( "What is asp.net", { keyword: "\"ASP.NET\"" } );
+		researcher = new EnglishResearcher( paper );
+
+		expect( firstParagraph( paper, researcher ) ).toEqual( {
+			foundInOneSentence: true,
+			foundInParagraph: true,
+			keyphraseOrSynonym: "keyphrase",
+		} );
+	} );
+
 	/*it( "returns a bad result when the first paragraph doesn't contain the exact match of the keyphrase in Japanese", function() {
 		const paper = new Paper( "小さくて可愛い花の刺繍に関する一般一般の記事です。私は美しい猫を飼っています。", { keyword: "『小さい花の刺繍』",
 			synonyms: "野生のハーブの刺繡",
