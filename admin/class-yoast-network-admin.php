@@ -5,6 +5,8 @@
  * @package WPSEO\Internals
  */
 
+use Yoast\WP\SEO\Exceptions\Option\Form_Invalid_Exception;
+use Yoast\WP\SEO\Exceptions\Option\Save_Failed_Exception;
 use Yoast\WP\SEO\Services\Options\Network_Admin_Options_Service;
 
 /**
@@ -123,7 +125,21 @@ class Yoast_Network_Admin implements WPSEO_WordPress_AJAX_Integration, WPSEO_Wor
 				$value = wp_unslash( $_POST[ $option_name ] );
 			}
 
-			WPSEO_Options::update_site_option( $option_name, $value );
+			/**
+			 * Indicates this is a Network_Admin_Options_Service instance.
+			 *
+			 * @var Network_Admin_Options_Service $network_admin_options_service
+			 */
+			$network_admin_options_service = YoastSEO()->classes->get( Network_Admin_Options_Service::class );
+			try {
+				$network_admin_options_service->set_options( $value );
+			} catch ( Save_Failed_Exception $exception ) {
+				add_settings_error( $network_admin_options_service->option_name, 'save_error', $exception->getMessage(), 'error' );
+			} catch ( Form_Invalid_Exception $exception ) {
+				foreach ( $exception->get_field_exceptions() as $option => $field_exception ) {
+					add_settings_error( $network_admin_options_service->option_name, $option, $field_exception->getMessage(), 'error' );
+				}
+			}
 		}
 		// phpcs:enable WordPress.Security.NonceVerification
 
