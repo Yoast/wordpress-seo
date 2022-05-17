@@ -418,7 +418,7 @@ export default function FirstTimeConfigurationSteps() {
 	const [ stepperFinishedOnce, setStepperFinishedOnce ] = useState( isStepperFinished );
 	const [ isStepBeingEdited, setIsStepBeingEdited ] = useState( false );
 	const [ showEditButton, setShowEditButton ] = useState( stepperFinishedOnce && ! isStepBeingEdited && state.editedSteps.length === 0 );
-	
+
 	/**
 	 * Save and continue functionality for the Indexation step.
 	 *
