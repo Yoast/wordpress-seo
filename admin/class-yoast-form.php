@@ -914,6 +914,20 @@ class Yoast_Form {
 			return false;
 		}
 
+		if ( \is_multisite() && \is_network_admin() ) {
+			/**
+			 * Indicates this variable is a Network_Admin_Options_Service.
+			 *
+			 * @var \Yoast\WP\SEO\Services\Options\Network_Admin_Options_Service $network_admin_options_service
+			 */
+			$network_admin_options_service = YoastSEO()->classes->get( Network_Admin_Options_Service::class );
+
+			try {
+				return $network_admin_options_service->__get( $field_name );
+			} catch ( Unknown_Exception $e ) {
+				return $default_value;
+			}
+		}
 		return WPSEO_Options::get( $field_name, $default_value );
 	}
 
