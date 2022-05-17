@@ -10,7 +10,7 @@ use Yoast\WP\SEO\Integrations\Front_End\Robots_Txt;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class WP_Robots_Integration_Test.
+ * Class Robots_Txt_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Front_End\WP_Robots_Integration
  *
@@ -69,10 +69,9 @@ class Robots_Txt_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the add_robots with having the robots input value being a string.
+	 * Tests the robots filter for a public site, with sitemaps.
 	 *
-	 * @covers ::add_robots
-	 * @covers ::get_robots_value
+	 * @covers ::filter_robots
 	 */
 	public function test_public_site_with_sitemaps() {
 		$this->options
@@ -89,10 +88,9 @@ class Robots_Txt_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the add_robots with having the robots input value being a string.
+	 * Tests the robots filter for a public site, without sitemaps.
 	 *
-	 * @covers ::add_robots
-	 * @covers ::get_robots_value
+	 * @covers ::filter_robots
 	 */
 	public function test_public_site_without_sitemaps() {
 		$this->options
@@ -105,10 +103,9 @@ class Robots_Txt_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the add_robots with having the robots input value being a string.
+	 * Tests the robots filter for a non-public site.
 	 *
-	 * @covers ::add_robots
-	 * @covers ::get_robots_value
+	 * @covers ::filter_robots
 	 */
 	public function test_nonpublic_site() {
 		static::assertDoesNotMatchRegularExpression( '/Sitemap:/', $this->instance->filter_robots( 'Input', '0' ) );
