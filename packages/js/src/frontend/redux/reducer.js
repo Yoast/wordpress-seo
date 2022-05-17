@@ -1,17 +1,17 @@
-const robotsElement = document.querySelector('meta[name="robots"]');
-const metaElements = Array.from( document.querySelectorAll(".yoast-seo-meta-tag") );
+const robotsElement = document.querySelector( 'meta[name="robots"]' );
+const metaElements = Array.from( document.querySelectorAll( ".yoast-seo-meta-tag" ) );
 
-let metaTags = metaElements.map( function( el ){
-	if ( el.name) {
-		return { key: el.name, val: el.content }
-	} else if (el.getAttribute("property")) {
-		return { key: el.getAttribute( "property" ), val: el.content }
+let metaTags = metaElements.map( function( el ) {
+	if ( el.name ) {
+		return { key: el.name, val: el.content };
+	} else if ( el.getAttribute( "property" ) ) {
+		return { key: el.getAttribute( "property" ), val: el.content };
 	} else if ( el.nodeName === "LINK" ) {
-		return { key: el.rel, val: el.href }
+		return { key: el.rel, val: el.href };
 	}
 } );
 
-metaTags = [ { key: "title", val: document.title } ].concat( metaTags ).concat( [ { key: "robots", val: robotsElement.content } ]);
+metaTags = [ { key: "title", val: document.title } ].concat( metaTags ).concat( [ { key: "robots", val: robotsElement.content } ] );
 
 /**
  * Initial state
@@ -37,7 +37,6 @@ const initialState = {
  */
 const frontendReducer = ( state = initialState, action ) => {
 	// Some boilerplate. Tip: Look at other reducers when implementing first actions.
-	// const newState = cloneDeep( state );
 	switch ( action.type ) {
 		default:
 			return state;

@@ -1,2 +1,2 @@
-// boilerplate
+// Boilerplate.
 export {};

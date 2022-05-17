@@ -12,7 +12,7 @@ import SvgIcon from "@yoast/components/src/SvgIcon";
 /**
  * Portal which places the sidebar in the body.
  *
- * @param props The props.
+ * @param {object} props The props.
  *
  * @returns { React.ReactPortal } The portal.
  */
@@ -20,8 +20,8 @@ const SidebarPortal = ( props ) => {
 	return createPortal(
 		props.children,
 		document.body
-	)
-}
+	);
+};
 
 /**
  * The Frontend Modal.
@@ -31,7 +31,7 @@ const SidebarPortal = ( props ) => {
  * @returns {*} The SeoAnalysisModal.
  */
 const FrontendSidebar = ( props ) => {
-	const [ isOpen, setIsOpen ] = useState( localStorage.getItem("wpseoFrontSidebarOpen" ) === "open" );
+	const [ isOpen, setIsOpen ] = useState( localStorage.getItem( "wpseoFrontSidebarOpen" ) === "open" );
 
 	/**
 	 * Toggles a class on the body to make space for the sidebar when it's open.
@@ -53,7 +53,15 @@ const FrontendSidebar = ( props ) => {
 	const openSidebar = useCallback( () => setIsOpen( true ), [] );
 	const seoScore = getIndicatorForScore( props.data.seoScore );
 	const readabilityScore = getIndicatorForScore( props.data.readabilityScore );
-	const Empty = () => { return <em>{ __( "<none>", "wordpress-seo" ) }</em>; }
+
+	/**
+	 * Element to render when value is empty.
+	 *
+	 * @returns {wp.Element} The element.
+	 */
+	const Empty = () => {
+		return <em>{ __( "<none>", "wordpress-seo" ) }</em>;
+	};
 
 	return (
 		<Fragment>
@@ -73,30 +81,30 @@ const FrontendSidebar = ( props ) => {
 						</button>
 					</header>
 					{ props.data.isEditable && <section>
-						<h3>{ __("Focus Keyphrase", "wordpress-seo") }</h3>
+						<h3>{ __( "Focus Keyphrase", "wordpress-seo" ) }</h3>
 						{ props.data.focusKeyphrase || <Empty /> }
 						<div className="checks">
-							<h3>{ __("Checks", "wordpress-seo") }</h3>
+							<h3>{ __( "Checks", "wordpress-seo" ) }</h3>
 							<AnalysisCheck
-								label={ __("SEO score", "wordpress-seo") + ":" }
+								label={ __( "SEO score", "wordpress-seo" ) + ":" }
 								score={ seoScore.className || "not-set" }
-								scoreValue={ seoScore.screenReaderReadabilityText || __( "not analyzed", "wordpress-seo" ) }
+								scoreValue={ seoScore.screenReaderReadabilityText || __(  "not analyzed", "wordpress-seo" ) }
 							/>
 							<AnalysisCheck
-								label={ __("Readability score", "wordpress-seo")  + ":" }
+								label={ __( "Readability score", "wordpress-seo" )  + ":" }
 								score={ readabilityScore.className || "not-set" }
 								scoreValue={ readabilityScore.screenReaderReadabilityText || __( "not analyzed", "wordpress-seo" ) }
 							/>
 						</div>
 					</section> }
 					<section>
-						<h3>{ __("Meta tags", "wordpress-seo") }</h3>
+						<h3>{ __( "Meta tags", "wordpress-seo" ) }</h3>
 						<ul>
-							{ props.data.metaTags.map( item => <li><strong>{ item.key }</strong><br/>{ item.val }</li> ) }
+							{ props.data.metaTags.map( item => <li key={ item.key }><strong>{ item.key }</strong><br />{ item.val }</li> ) }
 						</ul>
 					</section>
 					<section>
-						<h3>{ __("Schema", "wordpress-seo") }</h3>
+						<h3>{ __( "Schema", "wordpress-seo" ) }</h3>
 						<ReactJson
 							src={ props.data.schema }
 							collapsed={ 3 }

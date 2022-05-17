@@ -29,4 +29,4 @@ domReady( () => {
 	}
 
 	renderReactRoot( "wp-admin-bar-wpseo-inspect", <FrontendModal /> );
-} )
+} );
