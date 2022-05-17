@@ -19,7 +19,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 		<div style="position: absolute;top: 0;bottom: 0;left: 0;right: 0;z-index: 100; display: flex;justify-content: center;align-items: center;background: radial-gradient(#ffffffcf 20%, #ffffff00 50%);">
 			<a class="yoast-button-upsell" href="<?php echo \esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/4e0/' ) ); ?>" target="_blank">
 				<?php
-				\esc_html_e( 'Unlock with Premium', 'wordpress-seo' )
+				echo \esc_html__( 'Unlock with Premium', 'wordpress-seo' )
 					// phpcs:ignore WordPress.Security.EscapeOutput -- Already escapes correctly.
 					. WPSEO_Admin_Utils::get_new_tab_message();
 				?>
@@ -138,7 +138,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 								?>
 							</option>
 						</select>
-						<input type="submit" name="filter_action" id="post-query-submit" class="button" value="<?php \esc_attr_e( 'Filter', 'wordpress-seo' ); ?>" tabindex="-1">
+						<input type="button" name="filter_action" id="post-query-submit" class="button" value="<?php \esc_attr_e( 'Filter', 'wordpress-seo' ); ?>" tabindex="-1">
 					</div>
 						<br class="clear">
 					</div>
