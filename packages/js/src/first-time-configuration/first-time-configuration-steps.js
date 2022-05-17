@@ -417,8 +417,8 @@ export default function FirstTimeConfigurationSteps() {
 
 	const [ stepperFinishedOnce, setStepperFinishedOnce ] = useState( isStepperFinished );
 	const [ isStepBeingEdited, setIsStepBeingEdited ] = useState( false );
-	const [ showEditButton, setShowEditButton ] = useState( stepperFinishedOnce && ! isStepBeingEdited );
-
+	const [ showEditButton, setShowEditButton ] = useState( stepperFinishedOnce && ! isStepBeingEdited && state.editedSteps.length === 0 );
+	
 	/**
 	 * Save and continue functionality for the Indexation step.
 	 *
@@ -466,8 +466,8 @@ export default function FirstTimeConfigurationSteps() {
 
 	// If stepperFinishedOnce changes or isStepBeingEdited changes, evaluate edit button state.
 	useEffect( () => {
-		setShowEditButton( stepperFinishedOnce && ! isStepBeingEdited );
-	}, [ stepperFinishedOnce, isStepBeingEdited ] );
+		setShowEditButton( stepperFinishedOnce && ! isStepBeingEdited && state.editedSteps.length === 0 );
+	}, [ stepperFinishedOnce, isStepBeingEdited, state.editedSteps ] );
 
 	/* eslint-disable max-len */
 	useEffect( () => {
