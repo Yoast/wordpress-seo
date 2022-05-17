@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Helpers;
 use WPSEO_Option_Social;
 use WPSEO_Option_Titles;
 use Yoast\WP\SEO\Exceptions\Option\Delete_Failed_Exception;
+use Yoast\WP\SEO\Exceptions\Option\Form_Invalid_Exception;
 use Yoast\WP\SEO\Exceptions\Option\Save_Failed_Exception;
 use Yoast\WP\SEO\Exceptions\Option\Unknown_Exception;
 use Yoast\WP\SEO\Exceptions\Validation\Abstract_Validation_Exception;
@@ -152,6 +153,29 @@ class Options_Helper {
 	 */
 	public function get_options( array $keys = [] ) {
 		return $this->get_options_service()->get_options( $keys );
+	}
+
+	/**
+	 * Sets the options.
+	 *
+	 * @param array $options The options.
+	 *
+	 * @return array The result, containing `success` and `error` keys.
+	 */
+	public function set_options( array $options = [] ) {
+		$result          = [ 'success' => false ];
+		$options_service = $this->get_options_service();
+
+		try {
+			$options_service->set_options( $options );
+			$result['success'] = true;
+		} catch ( Save_Failed_Exception $exception ) {
+			$result['error'] = $exception;
+		} catch ( Form_Invalid_Exception $exception ) {
+			$result['error'] = $exception;
+		}
+
+		return $result;
 	}
 
 	/**
