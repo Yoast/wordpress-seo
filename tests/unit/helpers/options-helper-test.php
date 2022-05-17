@@ -310,6 +310,48 @@ class Options_Helper_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the validation of an option: valid.
+	 *
+	 * @covers ::validate
+	 *
+	 * @return void
+	 */
+	public function test_validate() {
+		$this->site_helper->expects( 'is_multisite' )->andReturn( false );
+		$this->site_options_service->expects( 'validate' )->andReturn( 'yoast' );
+
+		$this->assertEquals( 'yoast', $this->instance->validate( 'twitter_site', 'yoast' ) );
+	}
+
+	/**
+	 * Tests the validation of an option: invalid through validation.
+	 *
+	 * @covers ::validate
+	 *
+	 * @return void
+	 */
+	public function test_validate_invalid_through_validation() {
+		$this->site_helper->expects( 'is_multisite' )->andReturn( false );
+		$this->site_options_service->expects( 'validate' )->andThrow( Invalid_Twitter_Username_Exception::class );
+
+		$this->assertEquals( Options_Helper::INVALID_VALUE, $this->instance->validate( 'twitter_site', '#yoast' ) );
+	}
+
+	/**
+	 * Tests the validation of an option: invalid because unknown.
+	 *
+	 * @covers ::validate
+	 *
+	 * @return void
+	 */
+	public function test_validate_invalid_because_unknown() {
+		$this->site_helper->expects( 'is_multisite' )->andReturn( false );
+		$this->site_options_service->expects( 'validate' )->andThrow( Unknown_Exception::class );
+
+		$this->assertEquals( Options_Helper::INVALID_VALUE, $this->instance->validate( 'foo', 'bar' ) );
+	}
+
+	/**
 	 * Tests the retrieval of a couple of options.
 	 *
 	 * @covers ::get_options

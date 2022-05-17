@@ -135,7 +135,7 @@ class Options_Helper {
 	 */
 	public function validate( $key, $value ) {
 		try {
-			return $this->site_options_service->validate( $key, $value );
+			return $this->get_options_service()->validate( $key, $value );
 		} catch ( Unknown_Exception $exception ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch -- Deliberately left empty.
 		} catch ( Abstract_Validation_Exception $exception ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch -- Deliberately left empty.
 		}

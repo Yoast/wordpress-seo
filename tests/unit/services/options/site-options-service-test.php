@@ -254,6 +254,7 @@ class Site_Options_Service_Test extends TestCase {
 	 * Tests the magic set' happy path.
 	 *
 	 * @covers ::__set
+	 * @covers ::validate
 	 * @covers ::update_option
 	 * @covers ::update_wp_options
 	 */
@@ -285,6 +286,7 @@ class Site_Options_Service_Test extends TestCase {
 	 * Tests the magic set' setting the default without validating.
 	 *
 	 * @covers ::__set
+	 * @covers ::validate
 	 * @covers ::update_option
 	 */
 	public function test_set_default() {
@@ -313,6 +315,7 @@ class Site_Options_Service_Test extends TestCase {
 	 * Tests the magic set' not setting again.
 	 *
 	 * @covers ::__set
+	 * @covers ::validate
 	 * @covers ::update_option
 	 */
 	public function test_set_same() {
@@ -341,6 +344,7 @@ class Site_Options_Service_Test extends TestCase {
 	 * Tests the magic set' not setting again.
 	 *
 	 * @covers ::__set
+	 * @covers ::validate
 	 * @covers ::update_option
 	 */
 	public function test_set_same_after_sanitize() {
@@ -371,6 +375,7 @@ class Site_Options_Service_Test extends TestCase {
 	 * Tests the magic set' unknown exception.
 	 *
 	 * @covers ::__set
+	 * @covers ::validate
 	 */
 	public function test_set_unknown() {
 		Monkey\Filters\expectApplied( 'wpseo_options_additional_configurations' )
@@ -392,6 +397,7 @@ class Site_Options_Service_Test extends TestCase {
 	 * Tests the magic set' with invalid value.
 	 *
 	 * @covers ::__set
+	 * @covers ::validate
 	 */
 	public function test_set_invalid() {
 		Monkey\Functions\expect( 'get_option' )
@@ -423,6 +429,7 @@ class Site_Options_Service_Test extends TestCase {
 	 * Tests the magic set' with "database failure".
 	 *
 	 * @covers ::__set
+	 * @covers ::validate
 	 * @covers ::update_wp_options
 	 */
 	public function test_set_failed() {
