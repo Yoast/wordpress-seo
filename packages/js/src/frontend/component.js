@@ -50,8 +50,7 @@ const FrontendSidebar = ( props ) => {
 		},
 		[ isOpen ]
 	);
-	const closeSidebar = useCallback( () => setIsOpen( false ), [] );
-	const openSidebar = useCallback( () => setIsOpen( true ), [] );
+	const toggleSidebar = useCallback( () => setIsOpen( ! isOpen ), [ isOpen ] );
 	const seoScore = getIndicatorForScore( props.data.seoScore );
 	const readabilityScore = getIndicatorForScore( props.data.readabilityScore );
 
@@ -68,7 +67,7 @@ const FrontendSidebar = ( props ) => {
 		<Fragment>
 			<a
 				href="#wpseoFrontSidebar"
-				onClick={ openSidebar }
+				onClick={ toggleSidebar }
 			>
 				{ __( "Inspect", "wordpress-seo" ) }
 				{ " " }
@@ -79,7 +78,7 @@ const FrontendSidebar = ( props ) => {
 				<aside id="wpseoFrontSidebar">
 					<header>
 						<h2><YoastIcon />{ __( "SEO Inspector", "wordpress-seo" ) }</h2>
-						<button className="close" onClick={ closeSidebar }>
+						<button className="close" onClick={ toggleSidebar }>
 							<SvgIcon icon="times" color={ colors.$color_grey_text } />
 						</button>
 					</header>
