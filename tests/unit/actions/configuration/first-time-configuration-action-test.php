@@ -116,8 +116,8 @@ class First_Time_Configuration_Action_Test extends TestCase {
 				'company_logo_id'   => 123,
 				'description'       => 'A nice tagline',
 			],
-			'times'                 => 4,
-			'yoast_options_results' => [ true, true, true, true ],
+			'times'                 => 6,
+			'yoast_options_results' => [ true, true, true, true, true, true ],
 			'wp_option_result'      => true,
 			'expected'              => (object) [
 				'success' => true,
@@ -133,8 +133,8 @@ class First_Time_Configuration_Action_Test extends TestCase {
 				'company_or_person_user_id' => 321,
 				'description'               => 'A nice tagline',
 			],
-			'times'                 => 4,
-			'yoast_options_results' => [ true, true, true, true ],
+			'times'                 => 6,
+			'yoast_options_results' => [ true, true, true, true, true, true ],
 			'wp_option_result'      => true,
 			'expected'              => (object) [
 				'success' => true,
@@ -150,8 +150,8 @@ class First_Time_Configuration_Action_Test extends TestCase {
 				'company_or_person_user_id' => 321,
 				'description'               => 'A tagline that will fail for some reason',
 			],
-			'times'                 => 4,
-			'yoast_options_results' => [ true, true, true, true ],
+			'times'                 => 6,
+			'yoast_options_results' => [ true, true, true, true, true, true ],
 			'wp_option_result'      => false,
 			'expected'              => (object) [
 				'success'  => false,
@@ -169,8 +169,8 @@ class First_Time_Configuration_Action_Test extends TestCase {
 				'company_logo_id'   => 123,
 				'description'       => 'A nice tagline',
 			],
-			'times'                 => 4,
-			'yoast_options_results' => [ true, false, false, true ],
+			'times'                 => 6,
+			'yoast_options_results' => [ true, false, false, true, true, true ],
 			'wp_option_result'      => true,
 			'expected'              => (object) [
 				'success'  => false,

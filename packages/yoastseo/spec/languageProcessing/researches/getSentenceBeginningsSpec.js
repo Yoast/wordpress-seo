@@ -73,11 +73,16 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 3 );
 	} );
 
-	it( "returns an object with English sentence beginnings in lists", function() {
-		mockPaper = new Paper( "<ul><li>item 1</li><li>item 2</li><li>item 3</li><li>item 4</li></ul>" );
+	it( "removes list items", function() {
+		mockPaper = new Paper( "<ul><li>item 1</li><li class='list-item'>item 2</li><li>item 3</li><li>item 4</li></ul>" +
+							   "<p>Hello. Hello. Hello.</p>" );
 		researcher = new EnglishResearcher( mockPaper );
-		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].word ).toBe( "item" );
-		expect( getSentenceBeginnings( mockPaper, researcher )[ 0 ].count ).toBe( 4 );
+
+		const sentenceBeginnings = getSentenceBeginnings( mockPaper, researcher );
+
+		expect( sentenceBeginnings ).toHaveLength( 1 );
+		expect( sentenceBeginnings[ 0 ].count ).toBe( 3 );
+		expect( sentenceBeginnings[ 0 ].word ).toBe( "hello" );
 	} );
 
 	it( "does not count consecutive sentences in tables", function() {

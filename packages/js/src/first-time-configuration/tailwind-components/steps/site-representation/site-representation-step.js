@@ -106,6 +106,23 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 				)
 			}
 		</FadeInAlert>
+		<FadeInAlert
+			id="site-representaton-error-alert"
+			type="error"
+			isVisible={ state.errorFields[ 0 ] === "site_representation" }
+			className="yst-mt-6"
+		>
+			{
+				/* translators: %1$s expands to the error message returned by the server */
+				sprintf(
+					__(
+						"An error has occurred: %1$s",
+						"wordpress-seo"
+					),
+					state.errorFields[ 1 ]
+				)
+			}
+		</FadeInAlert>
 	</Fragment>;
 }
 

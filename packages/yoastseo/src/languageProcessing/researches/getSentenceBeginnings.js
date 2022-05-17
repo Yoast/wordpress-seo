@@ -99,6 +99,9 @@ export default function( paper, researcher ) {
 	// Exclude text inside tables.
 	text = text.replace( /<figure class='wp-block-table'>.*<\/figure>/sg, "" );
 
+	// Exclude text inside list items.
+	text = text.replace( /<li(?:[^>]+)?>(.*?)<\/li>/ig, "" );
+
 	let sentences = getSentences( text, memoizedTokenizer );
 
 	let sentenceBeginnings = sentences.map( function( sentence ) {
