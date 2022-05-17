@@ -26,9 +26,10 @@ class Enhanced_Data_Presenter extends Abstract_Indexable_Presenter {
 		$enhanced_data = $this->get();
 		$twitter_tags  = '';
 		$i             = 1;
+		$admin_bar_class = \is_admin_bar_showing() ? 'class="yoast-seo-meta-tag"' : '';
 		foreach ( $enhanced_data as $label => $value ) {
-			$twitter_tags .= \sprintf( "\t" . '<meta name="twitter:label%1$d" content="%2$s" class="yoast-seo-meta-tag" />' . "\n", $i, $label );
-			$twitter_tags .= \sprintf( "\t" . '<meta name="twitter:data%1$d" content="%2$s" class="yoast-seo-meta-tag" />' . "\n", $i, $value );
+			$twitter_tags .= \sprintf( "\t" . '<meta name="twitter:label%1$d" content="%2$s" ' . $admin_bar_class . ' />' . "\n", $i, $label );
+			$twitter_tags .= \sprintf( "\t" . '<meta name="twitter:data%1$d" content="%2$s" ' . $admin_bar_class . ' />' . "\n", $i, $value );
 			++$i;
 		}
 		return \trim( $twitter_tags );
