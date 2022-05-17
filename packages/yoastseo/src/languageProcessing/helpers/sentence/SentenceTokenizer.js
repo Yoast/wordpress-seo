@@ -8,17 +8,9 @@ import { normalize as normalizeQuotes } from "../sanitize/quotes.js";
 
 // All characters that indicate a sentence delimiter.
 const fullStop = ".";
-/*
- * \u2026 - ellipsis.
- * \u06D4 - Urdu full stop.
- * \u061f - Arabic question mark.
- */
-const sentenceDelimiters = "?!;\u2026\u06d4\u061f" +
-	"";
 
 const fullStopRegex = new RegExp( "^[" + fullStop + "]$" );
-const sentenceDelimiterRegex = new RegExp( "^[" + sentenceDelimiters + "]$" );
-const sentenceRegex = new RegExp( "^[^" + fullStop + sentenceDelimiters + "<\\(\\)\\[\\]]+$" );
+
 const smallerThanContentRegex = /^<[^><]*$/;
 const htmlStartRegex = /^<([^>\s/]+)[^>]*>$/mi;
 const htmlEndRegex = /^<\/([^>\s]+)[^>]*>$/mi;
@@ -26,12 +18,32 @@ const htmlEndRegex = /^<\/([^>\s]+)[^>]*>$/mi;
 const blockStartRegex = /^\s*[[({]\s*$/;
 const blockEndRegex = /^\s*[\])}]\s*$/;
 
-const sentenceEndRegex = new RegExp( "[" + fullStop + sentenceDelimiters + "]$" );
-
 /**
  * Class for tokenizing a (html) text into sentences.
  */
 export default class SentenceTokenizer {
+	/**
+	 * Constructor
+	 * @constructor
+	 */
+	constructor() {
+		/*
+         * \u2026 - ellipsis.
+         * \u06D4 - Urdu full stop.
+         * \u061f - Arabic question mark.
+        */
+		this.sentenceDelimiters = "?!;\u2026\u06d4\u061f";
+	}
+
+	/**
+	 * Gets the sentence delimiters.
+	 *
+	 * @returns {string} The sentence delimiters.
+	 */
+	getSentenceDelimiters() {
+		return this.sentenceDelimiters;
+	}
+
 	/**
 	 * Returns whether or not a certain character is a number.
 	 *
@@ -142,7 +154,7 @@ export default class SentenceTokenizer {
 	 *
 	 * @returns {boolean} Whether the letter is from an LTR language.
 	 */
-	isLetterFromRTLLanguage( letter ) {
+	isLetterFromSpecificLanguage( letter ) {
 		const ltrLetterRanges = [
 			// Hebrew characters.
 			/^[\u0590-\u05fe]+$/i,
@@ -165,7 +177,7 @@ export default class SentenceTokenizer {
 	 */
 	isValidSentenceBeginning( sentenceBeginning ) {
 		return ( this.isCapitalLetter( sentenceBeginning ) ||
-				this.isLetterFromRTLLanguage( sentenceBeginning ) ||
+				this.isLetterFromSpecificLanguage( sentenceBeginning ) ||
 				this.isNumber( sentenceBeginning ) ||
 				this.isQuotation( sentenceBeginning ) ||
 				this.isPunctuation( sentenceBeginning ) ||
@@ -253,6 +265,8 @@ export default class SentenceTokenizer {
 				tokenSentences.push( sentence );
 			} );
 
+			const sentenceEndRegex = new RegExp( "[" + fullStop + this.getSentenceDelimiters() + "]$" );
+
 			// Check if the last sentence has a valid sentence ending.
 			if ( lastSentence.match( sentenceEndRegex ) ) {
 				// If so, add it as a sentence.
@@ -274,6 +288,9 @@ export default class SentenceTokenizer {
 	 * @returns {Object} The tokenizer and the tokens.
 	 */
 	createTokenizer() {
+		const sentenceDelimiterRegex = new RegExp( "^[" + this.getSentenceDelimiters() + "]$" );
+		const sentenceRegex = new RegExp( "^[^" + fullStop + this.getSentenceDelimiters() + "<\\(\\)\\[\\]]+$" );
+
 		const tokens = [];
 		const tokenizer = core( function( token ) {
 			tokens.push( token );
