@@ -13,14 +13,8 @@ import Researcher from "../../../src/languageProcessing/languages/en/Researcher"
 import ItalianResearcher from "../../../src/languageProcessing/languages/it/Researcher";
 import DefaultResearcher from "../../../src/languageProcessing/languages/_default/Researcher";
 import JapaneseResearcher from "../../../src/languageProcessing/languages/ja/Researcher";
-import factory from "../../specHelpers/factory";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 import { realWorldULExample1, realWorldULExample2 } from "../helpers/sanitize/mergeListItemsSpec";
-import matchWordsHelper from "../../../src/languageProcessing/languages/ja/helpers/matchTextWithWord";
-import getContentWordsHelper from "../../../src/languageProcessing/languages/ja/helpers/getContentWords";
-import wordsCharacterCountHelper from "../../../src/languageProcessing/languages/ja/helpers/wordsCharacterCount";
-import japaneseFunctionWords from "../../../src/languageProcessing/languages/ja/config/functionWords";
-import japaneseTopicLength from "../../../src/languageProcessing/languages/ja/config/topicLength";
 
 const morphologyData = getMorphologyData( "en" );
 const morphologyDataJA = getMorphologyData( "ja" );
@@ -307,8 +301,10 @@ describe( "Test for the research", function() {
 		} );
 	} );
 */
-	// I figured that the following italian tests are not language specific as they are an example of languages in general that have no morphology support.
-
+	/*
+	 * The following Italian tests are not language specific as they are an example of languages in general
+	 * that have no morphology support.
+	 */
 	it( "returns the same score when function words are added (for a language without morphological support, but with function words, " +
 		"e.g. Italian in Free)", function() {
 		const paper = new Paper(
@@ -741,44 +737,13 @@ describe( "Test for the research", function() {
 	} );
 } );
 
-//Did not remove Japanese tests below as they test the function with different helpers as well as japaneseTopicLength
+// Did not remove Japanese tests below as they test the function with different helpers as well as japaneseTopicLength
 
 const japaneseSentences = "私はペットとして2匹の猫を飼っています。" +
 	"どちらもとても可愛くて甘い猫で、猫の餌を食べるのが大好きです。" +
 	"彼らが好きなタイプの猫用フードは新鮮なものです。" +
 	"加工が少ない猫用食品の一種。";
 
-/**
- * Mocks Japanese Researcher.
- * @param {Array} keyphraseForms        The morphological forms of the kyphrase to be added to the researcher.
- * @param {Array} synonymsForms         The morphological forms of the synonyms to be added to the researcher.
- * @param {function} getContentWords    A helper needed for the assesment.
- * @param {function} matchWords         A helper needed for the assesment.
- * @param {function} wordsCharacterCount    A helper needed for the assesment.
- * @param {Object} topicLengthConfig    Topic length criteria config needed for the assesment.
- * @param {Object} functionWordsConfig  Function words config needed for the assesment.
- * @returns {Researcher} The mock researcher with added morphological forms and custom helper.
- */
-const buildJapaneseMockResearcher = function( keyphraseForms, synonymsForms, getContentWords, matchWords, wordsCharacterCount,
-	topicLengthConfig, functionWordsConfig ) {
-	return factory.buildMockResearcher( {
-		morphology: {
-			keyphraseForms: keyphraseForms,
-			synonymsForms: synonymsForms,
-		},
-	},
-	true,
-	true,
-	{
-		topicLength: topicLengthConfig,
-		functionWords: functionWordsConfig,
-	},
-	{
-		matchWordCustomHelper: matchWords,
-		getContentWords: getContentWords,
-		wordsCharacterCount: wordsCharacterCount,
-	} );
-};
 
 describe( "Test for the research for Japanese language", function() {
 	it( "returns a score over all sentences and all topic forms (short topic); returns markers for sentences that contain the topic " +
@@ -791,20 +756,12 @@ describe( "Test for the research for Japanese language", function() {
 				synonyms: "猫用フード, 猫用食品",
 			}
 		);
-		const keyphraseForms = [ [ "猫" ], [ "餌" ] ];
-		const synonymsForms = [ [ [ "猫用" ], [ "フード" ] ], [ [ "猫用" ], [ "食品" ] ] ];
 
-		const researcher = buildJapaneseMockResearcher( keyphraseForms, synonymsForms, getContentWordsHelper,
-			matchWordsHelper, wordsCharacterCountHelper, japaneseTopicLength, japaneseFunctionWords );
+		const researcher = new JapaneseResearcher( paper );
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
-			keyphraseDistributionScore: 25,
+			keyphraseDistributionScore: 50,
 			sentencesToHighlight: [
-				new Mark( {
-					marked: "どちらもとても可愛くて甘い<yoastmark class='yoast-text-mark'>猫</yoastmark>で、<yoastmark class='yoast-text-mark'>猫</yoastmark>" +
-						"の<yoastmark class='yoast-text-mark'>餌</yoastmark>を食べるのが大好きです。",
-					original: "どちらもとても可愛くて甘い猫で、猫の餌を食べるのが大好きです。",
-				} ),
 				new Mark( {
 					marked: "彼らが好きなタイプの<yoastmark class='yoast-text-mark'>猫用</yoastmark><yoastmark class='yoast-text-mark'>フード</yoastmark>は新鮮なものです。",
 					original: "彼らが好きなタイプの猫用フードは新鮮なものです。",
@@ -939,11 +896,8 @@ describe( "Test for the research for Japanese language", function() {
 				synonyms: "猫用フード, 猫用食品",
 			}
 		);
-		const keyphraseForms = [ [ "猫" ], [ "餌" ] ];
-		const synonymsForms = [ [ [ "猫用" ], [ "フード" ] ], [ [ "猫用" ], [ "食品" ] ] ];
 
-		const researcher = buildJapaneseMockResearcher( keyphraseForms, synonymsForms, getContentWordsHelper,
-			matchWordsHelper, wordsCharacterCountHelper, japaneseTopicLength, japaneseFunctionWords );
+		const researcher = new JapaneseResearcher( paper );
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
 			keyphraseDistributionScore: 25,
@@ -974,12 +928,8 @@ describe( "Test for the research for Japanese language", function() {
 				synonyms: "香り花",
 			}
 		);
-		const keyphraseForms = [ [ "書く", "書き", "書か", "書け", "書こ", "書い", "書ける", "書かせ", "書かせる", "書かれ", "書かれる", "書こう", "書かっ" ],
-			[ "花" ] ];
-		const synonymsForms = [ [ [ "甘い香る", "甘い香り", "甘い香ら", "甘い香れ", "甘い香ろ", "甘い香っ", "甘い香れる", "甘い香らせ", "甘い香らせる", "甘い香られ", "甘い香られる", "甘い香ろう" ],
-			[ "花" ] ] ];
-		const researcher = buildJapaneseMockResearcher( keyphraseForms, synonymsForms, getContentWordsHelper,
-			matchWordsHelper, wordsCharacterCountHelper, japaneseTopicLength, japaneseFunctionWords );
+
+		const researcher = new JapaneseResearcher( paper );
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
 			keyphraseDistributionScore: 100,
@@ -997,10 +947,7 @@ describe( "Test for the research for Japanese language", function() {
 			}
 		);
 
-		const keyphraseForms = [ [ "黒" ], [ "長袖" ], [ "マキシドレス" ] ];
-		const synonymsForms = [ [ [ "シノニム" ] ] ];
-		const researcher = buildJapaneseMockResearcher( keyphraseForms, synonymsForms, getContentWordsHelper,
-			matchWordsHelper, wordsCharacterCountHelper, japaneseTopicLength, japaneseFunctionWords );
+		const researcher = new JapaneseResearcher( paper );
 
 		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
 			keyphraseDistributionScore: 50,
