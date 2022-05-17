@@ -294,7 +294,11 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * @param WP_Admin_Bar $wp_admin_bar
+	 * Adds the url inspection submenu.
+	 *
+	 * @param WP_Admin_Bar $wp_admin_bar The admin bar.
+	 *
+	 * @return void
 	 */
 	private function add_url_inspection_submenu( WP_Admin_Bar $wp_admin_bar ) {
 		$menu_args = [
@@ -302,7 +306,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 			'id'     => self::URL_INSPECTION_SUBMENU_IDENTIFIER,
 			'title'  => '',
 			'meta'   => [
-				'tabindex' => '0'
+				'tabindex' => '0',
 			],
 		];
 		$wp_admin_bar->add_menu( $menu_args );

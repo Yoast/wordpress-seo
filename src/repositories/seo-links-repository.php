@@ -77,6 +77,7 @@ class SEO_Links_Repository {
 			->select( 'indexable_id' )
 			->where( 'target_indexable_id', $indexable_id )
 			->find_array();
+
 		$indexable_ids = array_map(
 			function( $link ) {
 				return $link['indexable_id'];
