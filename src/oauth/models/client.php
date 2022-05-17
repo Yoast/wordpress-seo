@@ -1,13 +1,13 @@
 <?php
 
-namespace Yoast\WP\SEO\OAuth;
+namespace Yoast\WP\SEO\Models;
 
 use Exception;
-use League\OAuth2\Server\Entities\ClientEntityInterface;
-use League\OAuth2\Server\Entities\Traits\ClientTrait;
-use League\OAuth2\Server\Entities\Traits\EntityTrait;
+use YoastSEO_Vendor\League\OAuth2\Server\Entities\ClientEntityInterface;
+use YoastSEO_Vendor\League\OAuth2\Server\Entities\Traits\ClientTrait;
+use YoastSEO_Vendor\League\OAuth2\Server\Entities\Traits\EntityTrait;
 
-class ClientEntity implements ClientEntityInterface {
+class Client implements ClientEntityInterface {
 
 	use EntityTrait;
 	use ClientTrait;

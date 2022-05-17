@@ -63,6 +63,10 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 			],
 			'access_tokens' => [],
 		],
+		'oauth_server'                             => [
+			'private_key' => "",
+			'public_key'  => "",
+		],
 		'semrush_integration_active'               => true,
 		'semrush_tokens'                           => [],
 		'semrush_country_code'                     => 'us',
@@ -343,7 +347,21 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'tracking':
 					$clean[ $key ] = ( isset( $dirty[ $key ] ) ? WPSEO_Utils::validate_bool( $dirty[ $key ] ) : null );
 					break;
+				case 'oauth_server':
+					$clean[ $key ] = [
+						"private_key" => "",
+						"public_key" => "",
+					];
+					if ( is_array( $dirty[ $key ] ) ) {
+						if ( isset( $dirty[ $key ]["private_key"] ) && is_string( $dirty[ $key ]["private_key"] ) ) {
+							$clean[ $key ]["private_key"] = $dirty[ $key ]["private_key"];
+						}
 
+						if ( isset( $dirty[ $key ]["public_key"] ) && is_string( $dirty[ $key ]["public_key"] ) ) {
+							$clean[ $key ]["public_key"] = $dirty[ $key ]["public_key"];
+						}
+					}
+					break;
 				case 'myyoast_oauth':
 				case 'semrush_tokens':
 				case 'custom_taxonomy_slugs':

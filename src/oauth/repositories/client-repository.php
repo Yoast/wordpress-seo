@@ -1,21 +1,22 @@
 <?php
 
-namespace Yoast\WP\SEO\OAuth;
+namespace Yoast\WP\SEO\OAuth\Repositories;
 
-use League\OAuth2\Server\Repositories\ClientRepositoryInterface;
+use Yoast\WP\SEO\Models\Client;
+use YoastSEO_Vendor\League\OAuth2\Server\Repositories\ClientRepositoryInterface;
 
 class ClientRepository implements ClientRepositoryInterface {
 
 	/**
-	 * @var ClientEntity[]
+	 * @var Client[]
 	 */
 	private $clients = array();
 
 	public function __construct() {
-		$this->clients[] = new ClientEntity(
+		$this->clients[] = new Client(
 			"test-client-identifier",
 			"MyYoast",
-			"http://localhost:8000/redirect",
+			"http://localhost:8080/auth/callback",
 			false,
 			null
 		);

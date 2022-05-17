@@ -2,15 +2,47 @@
 
 namespace Yoast\WP\SEO\Integrations;
 
+use Yoast\WP\SEO\OAuth\Authorize;
+use Yoast\WP\SEO\Helpers\Encryption_Helper;
 use Yoast\WP\Lib\Model;
-use Yoast\WP\SEO\Conditionals\No_Conditionals;
+use Yoast\WP\SEO\Conditionals\OpenSSL_Enabled;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 
 /**
  * Class OAuth_Integration.
  */
 class OAuth_Integration implements Integration_Interface {
 
-	use No_Conditionals;
+	/**
+	 * Holds the Options_Helper instance.
+	 *
+	 * @var Options_Helper
+	 */
+	protected $options_helper;
+
+	/**
+	 * Holds the Encryption_Helper instance.
+	 *
+	 * @var $encryption_helper
+	 */
+	protected $encryption_helper;
+
+	protected $authorize;
+
+	public function __construct( Options_Helper $options_helper, Encryption_Helper $encryption_helper, Authorize $authorize ) {
+		$this->options_helper = $options_helper;
+		$this->encryption_helper = $encryption_helper;
+		$this->authorize = $authorize;
+	}
+
+	/**
+	 * Only activate this integration when the OpenSSL extension is enabled.
+	 *
+	 * @return array The conditionals.
+	 */
+	public static function get_conditionals() {
+		return [ OpenSSL_Enabled::class ];
+	}
 
 	public function register_hooks() {
 		\add_action( 'admin_menu', [ $this, 'add_admin_menu_page' ] );
@@ -18,7 +50,7 @@ class OAuth_Integration implements Integration_Interface {
 	}
 
 	public function load_authorize_template() {
-		include_once WPSEO_PATH . 'src/oauth/authorize.php';
+		$this->authorize->handle_authorization_request();
 	}
 
 	/**
@@ -36,6 +68,7 @@ class OAuth_Integration implements Integration_Interface {
 	 */
 	public function activate_hooks() {
 		$this->schedule_cron();
+		$this->create_oauth_keys();
 	}
 
 	/**
@@ -43,6 +76,35 @@ class OAuth_Integration implements Integration_Interface {
 	 */
 	public function deactivate_hooks() {
 		$this->unschedule_cron();
+		$this->remove_oauth_keys();
+	}
+
+	/**
+	 * Create and store the keys used in the OAuth process.
+	 *
+	 * @return void
+	 */
+	public function create_oauth_keys() {
+		$private_key = "";
+		$private_key_resource = \openssl_pkey_new();
+		\openssl_pkey_export( $private_key_resource, $private_key );
+		$public_key = \openssl_pkey_get_details( $private_key_resource )[ "key" ];
+		$this->options_helper->set("oauth_server", array(
+			"private_key" => $this->encryption_helper->encrypt($private_key),
+			"public_key" => $this->encryption_helper->encrypt($public_key),
+		));
+	}
+
+	/**
+	 * Remove the OAuth keys.
+	 *
+	 * @return void
+	 */
+	public function remove_oauth_keys() {
+		$this->options_helper->set("oauth_server", [
+			"private_key" => "",
+			"public_key" => "",
+		]);
 	}
 
 	/**

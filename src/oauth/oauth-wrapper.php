@@ -3,13 +3,20 @@
 namespace Yoast\WP\SEO\OAuth;
 
 use DateInterval;
-use GuzzleHttp\Psr7\ServerRequest;
-use League\OAuth2\Server\AuthorizationServer;
-use League\OAuth2\Server\Exception\OAuthServerException;
-use League\OAuth2\Server\Grant\AuthCodeGrant;
-use League\OAuth2\Server\Grant\RefreshTokenGrant;
-use League\OAuth2\Server\ResourceServer;
+use Yoast\WP\SEO\Helpers\Encryption_Helper;
+use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\OAuth\Repositories\AccessTokenRepository;
+use Yoast\WP\SEO\OAuth\Repositories\AuthCodeRepository;
+use Yoast\WP\SEO\OAuth\Repositories\ClientRepository;
+use Yoast\WP\SEO\OAuth\Repositories\RefreshTokenRepository;
+use Yoast\WP\SEO\OAuth\Repositories\ScopeRepository;
+use YoastSEO_Vendor\League\OAuth2\Server\AuthorizationServer;
+use YoastSEO_Vendor\League\OAuth2\Server\Exception\OAuthServerException;
+use YoastSEO_Vendor\League\OAuth2\Server\Grant\AuthCodeGrant;
+use YoastSEO_Vendor\League\OAuth2\Server\Grant\RefreshTokenGrant;
+use YoastSEO_Vendor\League\OAuth2\Server\ResourceServer;
 use WP_REST_Request;
+use YoastSEO_Vendor\GuzzleHttp\Psr7\ServerRequest;
 
 class OAuthWrapper {
 
@@ -38,19 +45,27 @@ class OAuthWrapper {
 	 */
 	public $server;
 
-	public function __construct() {
-		$this->client_repository = new ClientRepository();
-		$this->scope_repository = new ScopeRepository();
-		$this->access_token_repository = new AccessTokenRepository();
-		$this->auth_code_repository = new AuthCodeRepository();
-		$this->refresh_token_repository = new RefreshTokenRepository();
+	protected $encryption_helper;
 
-		$this->server = new AuthorizationServer(
+	protected $options_helper;
+
+	public function __construct( ClientRepository $client_repository, ScopeRepository $scope_repository, AccessTokenRepository $access_token_repository, AuthCodeRepository $auth_code_repository, RefreshTokenRepository $refresh_token_repository, Options_Helper $options_helper, Encryption_Helper $encryption_helper) {
+		$this->client_repository = $client_repository;
+		$this->scope_repository = $scope_repository;
+		$this->access_token_repository = $access_token_repository;
+		$this->auth_code_repository = $auth_code_repository;
+		$this->refresh_token_repository = $refresh_token_repository;
+		$this->encryption_helper = $encryption_helper;
+		$this->options_helper = $options_helper;
+	}
+
+	public function get_authorization_server() {
+		$server = new AuthorizationServer(
 			$this->client_repository,
 			$this->access_token_repository,
 			$this->scope_repository,
-			dirname( __FILE__ ) . "/private.key",
-			"encryption-key"
+			$this->encryption_helper->decrypt( $this->options_helper->get('oauth_server')['private_key'] ),
+			$this->encryption_helper->get_default_key()
 		);
 
 		$auth_grant = new AuthCodeGrant(
@@ -59,7 +74,7 @@ class OAuthWrapper {
 			new DateInterval("PT10M")
 		);
 
-		$this->server->enableGrantType(
+		$server->enableGrantType(
 			$auth_grant,
 			new DateInterval('PT1H')
 		);
@@ -68,10 +83,11 @@ class OAuthWrapper {
 			$this->refresh_token_repository
 		);
 
-		$this->server->enableGrantType(
+		$server->enableGrantType(
 			$refresh_grant,
 			new DateInterval('PT1H')
 		);
+		return $server;
 	}
 
 	/**
@@ -79,12 +95,12 @@ class OAuthWrapper {
 	 *
 	 * @return bool
 	 */
-	public static function validate_access_token( $request ) {
+	public function validate_access_token( $request ) {
 		$global_request = ServerRequest::fromGlobals();
 		$access_token_repository = new AccessTokenRepository();
 		$resource_server = new ResourceServer(
 			$access_token_repository,
-			dirname( __FILE__ ) . "/public.key"
+			$this->encryption_helper->decrypt($this->options_helper->get("oauth_server")["public_key"])
 		);
 
 		try {
@@ -93,6 +109,8 @@ class OAuthWrapper {
 		} catch (OAuthServerException $e) {
 			return false;
 		}
+
+		// YoastSEO()->classes->get( OAuthServerException::class );
 	}
 
 	/**

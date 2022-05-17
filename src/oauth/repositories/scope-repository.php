@@ -1,9 +1,10 @@
 <?php
 
-namespace Yoast\WP\SEO\OAuth;
+namespace Yoast\WP\SEO\OAuth\Repositories;
 
-use League\OAuth2\Server\Entities\ClientEntityInterface;
-use League\OAuth2\Server\Repositories\ScopeRepositoryInterface;
+use Yoast\WP\SEO\Models\Scope;
+use YoastSEO_Vendor\League\OAuth2\Server\Entities\ClientEntityInterface;
+use YoastSEO_Vendor\League\OAuth2\Server\Repositories\ScopeRepositoryInterface;
 
 class ScopeRepository implements ScopeRepositoryInterface {
 
@@ -12,7 +13,7 @@ class ScopeRepository implements ScopeRepositoryInterface {
 	public function getScopeEntityByIdentifier( $identifier ) {
 		foreach (ScopeRepository::$scopes as $scope) {
 			if ( $identifier === $scope ) {
-				return new ScopeEntity( $scope );
+				return new Scope( $scope );
 			}
 		}
 		return null;
