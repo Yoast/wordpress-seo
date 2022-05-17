@@ -440,9 +440,9 @@ class Taxonomy_Metadata_Service_Test extends TestCase {
 	/**
 	 * Tests setting all option/metadata values for a term.
 	 *
-	 * @covers ::set_options
+	 * @covers ::set_term_options
 	 */
-	public function test_set_options() {
+	public function test_set_term_options() {
 		Monkey\Functions\expect( 'get_term_by' )
 			->once()
 			->with( 'id', 1, 'category' )
@@ -466,7 +466,7 @@ class Taxonomy_Metadata_Service_Test extends TestCase {
 
 		Monkey\Functions\expect( 'update_option' )->once()->andReturn( true );
 
-		$this->instance->set_options(
+		$this->instance->set_term_options(
 			1,
 			'category',
 			[
@@ -479,9 +479,9 @@ class Taxonomy_Metadata_Service_Test extends TestCase {
 	/**
 	 * Tests setting the same option/metadata values for a term.
 	 *
-	 * @covers ::set_options
+	 * @covers ::set_term_options
 	 */
-	public function test_set_options_same_values() {
+	public function test_set_term_options_same_values() {
 		Monkey\Functions\expect( 'get_term_by' )
 			->once()
 			->with( 'id', 1, 'category' )
@@ -507,15 +507,15 @@ class Taxonomy_Metadata_Service_Test extends TestCase {
 
 		Monkey\Functions\expect( 'update_option' )->never();
 
-		$this->instance->set_options( 1, 'category', $values );
+		$this->instance->set_term_options( 1, 'category', $values );
 	}
 
 	/**
 	 * Tests setting the option/metadata values for an unknown term.
 	 *
-	 * @covers ::set_options
+	 * @covers ::set_term_options
 	 */
-	public function test_set_options_unknown_term() {
+	public function test_set_term_options_unknown_term() {
 		Monkey\Functions\expect( 'get_term_by' )
 			->once()
 			->with( 'id', 1, 'category' )
@@ -524,7 +524,7 @@ class Taxonomy_Metadata_Service_Test extends TestCase {
 		$this->expectException( Term_Not_Found_Exception::class );
 		$this->expectExceptionMessage( Term_Not_Found_Exception::for_term( 1, 'category' )->getMessage() );
 
-		$this->instance->set_options( 1, 'category', [] );
+		$this->instance->set_term_options( 1, 'category', [] );
 	}
 
 	/**

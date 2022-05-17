@@ -220,7 +220,7 @@ class Taxonomy_Metadata_Service extends Abstract_Options_Service {
 	 *
 	 * @return void
 	 */
-	public function set_options( $term, $taxonomy, $values ) {
+	public function set_term_options( $term, $taxonomy, $values ) {
 		$term_id = $this->get_term_id( $term, $taxonomy );
 		if ( $term_id === null ) {
 			throw Term_Not_Found_Exception::for_term( $term, $taxonomy );
