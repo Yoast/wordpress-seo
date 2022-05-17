@@ -108,12 +108,15 @@ body.wpseoFrontSidebarOpen {
 #wpseoFrontSidebar section {
 	padding: 16px 24px;
 	border-bottom: 1px solid #e5e7eb;
+	box-sizing: border-box;
+	word-break: break-word;
 }
 
 #wpseoFrontSidebar h2 > svg {
 	margin: 0 8px -4px 0;
 	width: 18px;
 	fill: #A4286A;
+	display: inline;
 }
 
 #wpseoFrontSidebar h2 {
@@ -159,7 +162,7 @@ body.wpseoFrontSidebarOpen {
 
 #wpseoFrontSidebar .checks svg {
 	vertical-align: middle;
-	margin-right: 4px;
+	display: inline;
 }
 
 #wpseoFrontSidebar .checks svg.yoast-svg-icon-seo-score-none {
@@ -174,6 +177,10 @@ body.wpseoFrontSidebarOpen {
 
 #wpseoFrontSidebar li {
 	padding: 8px 0;
+}
+
+#wpseoFrontSidebar svg {
+	margin-right: 4px;
 }
 
 /*# sourceMappingURL=adminbar.css.map */
