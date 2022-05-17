@@ -218,6 +218,12 @@ class Options_Helper_Test extends TestCase {
 			->with( 'twitter_site', 'yoast' )
 			->andReturn( 'yoast' );
 
+		$this->site_options_service->expects( 'get_defaults' )->andReturn( [ 'twitter_site' => '' ] );
+
+		Monkey\Functions\expect( 'update_option' )
+			->once()
+			->andReturn( true );
+
 		$this->assertTrue( $this->instance->set( 'twitter_site', 'yoast' ) );
 	}
 

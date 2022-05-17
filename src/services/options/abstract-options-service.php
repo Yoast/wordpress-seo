@@ -138,14 +138,7 @@ abstract class Abstract_Options_Service {
 	 * @throws Save_Failed_Exception When the save failed.
 	 */
 	public function __set( $key, $value ) {
-		$valid_value = $this->validate( $key, $value );
-
-		// Only update when changed.
-		if ( $valid_value === $value ) {
-			return;
-		}
-
-		$this->update_option( $key, $valid_value );
+		$this->update_option( $key, $this->validate( $key, $value ) );
 	}
 
 	/**
