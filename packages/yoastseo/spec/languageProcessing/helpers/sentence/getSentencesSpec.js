@@ -2,6 +2,7 @@
  * @jest-environment jsdom
  */
 import getSentences from "../../../../src/languageProcessing/helpers/sentence/getSentences.js";
+import japaneseSentenceTokenizer from "../../../../src/languageProcessing/languages/ja/helpers/memoizedSentenceTokenizer";
 
 import {
 	paragraph1,
@@ -179,9 +180,9 @@ describe( "Get sentences from text", function() {
 	it( "should not split text into sentences if there is no space after sentence delimiter", function() {
 		const texts = [
 			"What is ASP.NET.",
-			// "What is ASP.net.",
-			// "What is asp.NET",
-			// "What is asp.net",
+			"What is ASP.net.",
+			"What is asp.NET",
+			"What is asp.net",
 		];
 		const expected = [
 			"What is ASP.NET.",
@@ -468,7 +469,7 @@ describe( "parses Japanese text", () => {
 			"計画段階では「東海道新線」と呼ばれていたが、開業時には「東海道新幹線」と命名された。",
 		];
 
-		const actual = getSentences( text );
+		const actual = getSentences( text, japaneseSentenceTokenizer );
 
 		expect( actual ).toEqual( expected );
 	} );
@@ -486,7 +487,7 @@ describe( "parses Japanese text", () => {
 			"㊉新丹那トンネル熱海口で起工式を行って着工し、東京オリンピック開会直前の1964年。",
 			"㈠東西の大動脈である東海道本線は高度経済成長下で線路容量が逼迫しており。" ];
 
-		const actual = getSentences( text );
+		const actual = getSentences( text, japaneseSentenceTokenizer );
 
 		expect( actual ).toEqual( expected );
 	} );
@@ -504,7 +505,7 @@ describe( "parses Japanese text", () => {
 			"㊉新丹那トンネル熱海口で起工式を行って着工し、東京オリンピック開会直前の1964年。",
 		];
 
-		const actual = getSentences( text );
+		const actual = getSentences( text, japaneseSentenceTokenizer );
 
 		expect( actual ).toEqual( expected );
 	} );
@@ -516,7 +517,7 @@ describe( "parses Japanese text", () => {
 			"これに対し日本国有鉄道（国鉄）は、十河信二国鉄総裁と技師長の島秀雄の下、高速運転が可能な標準軌新線を建設することを決定。",
 		];
 
-		const actual = getSentences( text );
+		const actual = getSentences( text, japaneseSentenceTokenizer );
 
 		expect( actual ).toEqual( expected );
 	} );
@@ -528,7 +529,7 @@ describe( "parses Japanese text", () => {
 			"これに対し日本国有鉄道（国鉄）は、十河信二国鉄総裁と技師長の島秀雄の下、高速運転が可能な標準軌新線を建設することを決定。",
 		];
 
-		const actual = getSentences( text );
+		const actual = getSentences( text, japaneseSentenceTokenizer );
 
 		expect( actual ).toEqual( expected );
 	} );
@@ -540,7 +541,7 @@ describe( "parses Japanese text", () => {
 			"これに対し日本国有鉄道（国鉄）は、十河信二国鉄総裁と技師長の島秀雄の下、高速運転が可能な標準軌新線を建設することを決定。",
 		];
 
-		const actual = getSentences( text );
+		const actual = getSentences( text, japaneseSentenceTokenizer );
 
 		expect( actual ).toEqual( expected );
 	} );
@@ -553,7 +554,7 @@ describe( "parses Japanese text", () => {
 			"あるお笑い芸人の方が、いまいちブレークできない理由として『人見知り』『お酒が飲めない』『軍団に入らない』の三つを挙げていましたが、まさに私はこれでした」",
 		];
 
-		const actual = getSentences( text );
+		const actual = getSentences( text, japaneseSentenceTokenizer );
 
 		expect( actual ).toEqual( expected );
 	} );
@@ -575,7 +576,7 @@ describe( "parses Japanese text", () => {
 			"ママの声が先生に聞こえそう」と、秋田の独り言が先生に聞こえそうだと注意を受けたのだとか。",
 		];
 
-		const actual = getSentences( text );
+		const actual = getSentences( text, japaneseSentenceTokenizer );
 
 		expect( actual ).toEqual( expected );
 	} );
@@ -586,7 +587,7 @@ describe( "parses Japanese text", () => {
 			"東西の大動脈である東海道本線は高度経済成長下で線路容量が逼迫しており、』抜本的な輸送力増強を迫られていた。",
 		];
 
-		const actual = getSentences( text );
+		const actual = getSentences( text, japaneseSentenceTokenizer );
 
 		expect( actual ).toEqual( expected );
 	} );
@@ -596,7 +597,7 @@ describe( "parses Japanese text", () => {
 			"スカパー! が、50チャンネルの番組に一発で飛ぶことができる 「スカパー オリジナルのテレビリモコン」を抽選で50人にプレゼントするという情報が編集部に寄せられた。",
 		];
 
-		const actual = getSentences( text );
+		const actual = getSentences( text, japaneseSentenceTokenizer );
 
 		expect( actual ).toEqual( expected );
 	} );
@@ -609,7 +610,7 @@ describe( "parses Japanese text", () => {
 			"これに対し日本国有鉄道（国鉄）は、十河信二国鉄総裁と技師長の島秀雄の下、高速運転が可能な標準軌新線を建設することを決定。",
 		];
 
-		const actual = getSentences( text );
+		const actual = getSentences( text, japaneseSentenceTokenizer );
 
 		expect( actual ).toEqual( expected );
 	} );
