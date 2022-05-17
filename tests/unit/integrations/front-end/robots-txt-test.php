@@ -80,9 +80,10 @@ class Robots_Txt_Test extends TestCase {
 			->once()
 			->andReturnTrue();
 
-		Monkey\Functions\expect( 'get_home_url' )
+		Monkey\Functions\expect( 'home_url' )
+			->with( '/sitemap_index.xml' )
 			->once()
-			->andReturn( 'https://example.com' );
+			->andReturn( 'https://example.com/sitemap_index.xml' );
 
 		static::assertContains( 'Sitemap: https://example.com/sitemap_index.xml', $this->instance->filter_robots( 'Input', '1' ) );
 	}

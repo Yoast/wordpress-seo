@@ -65,7 +65,7 @@ class Robots_Txt implements Integration_Interface {
 
 		if ( $this->options->get( 'enable_xml_sitemap', false ) ) {
 			$robots_txt  = trim( $robots_txt );
-			$robots_txt .= "\n\n" . 'Sitemap: ' . trailingslashit( get_home_url() ) . 'sitemap_index.xml' . "\n";
+			$robots_txt .= "\n\n" . 'Sitemap: ' . home_url( '/sitemap_index.xml' ) . "\n";
 		}
 
 		return $robots_txt;
