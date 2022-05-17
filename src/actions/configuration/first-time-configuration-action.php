@@ -77,6 +77,10 @@ class First_Time_Configuration_Action {
 			}
 		}
 
+		// Delete cached logos in the db.
+		$this->options_helper->set( 'company_logo_meta', false );
+		$this->options_helper->set( 'person_logo_meta', false );
+
 		if ( \count( $failures ) === 0 ) {
 			return (object) [
 				'success' => true,

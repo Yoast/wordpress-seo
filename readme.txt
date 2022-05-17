@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 5.9
-Stable tag: 18.8
+Stable tag: 18.9
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -239,6 +239,7 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 18.9 =
 Release Date: May 17th, 2022
 
+Yoast SEO 18.9 is out now! In this release, we have improved the first experience users have with the plugin. The first-time configuration takes users by the hand and guides them in properly setting everything up so that search engines understand their site. Make sure to run that first-time configuration to see if you’ve filled everything in correctly! Read more about what's new in Yoast SEO 18.9 in [our release post in English](https://yoa.st/release-17-5-22) or [our release post in Spanish](https://yoa.st/release-17-5-22-spanish)!
 
 Enhancements:
 
@@ -256,7 +257,7 @@ Bugfixes:
 Other:
 
 * Adds a `Premium` badge to the Workouts menu item.
-* Updates the look of the Accounts tab in the Social menu.
+* Updates the look of the Accounts tab in the Social page.
 
 = 18.8 =
 Release Date: May 6th, 2022
