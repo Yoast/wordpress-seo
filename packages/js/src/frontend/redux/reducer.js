@@ -27,7 +27,7 @@ let initialState = {
 	schema: JSON.parse( document.querySelector( ".yoast-schema-graph" ).text || {} ),
 };
 
-if ( isEditable ) {
+if ( document.getElementById( "wp-admin-bar-edit" ) ) {
 	initialState[ "editButton" ] = {
 		href: document.getElementById( "wp-admin-bar-edit" ).firstChild.href || "",
 		text: document.getElementById( "wp-admin-bar-edit" ).firstChild.text || "",

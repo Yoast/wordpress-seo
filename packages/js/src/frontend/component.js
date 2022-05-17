@@ -99,8 +99,10 @@ const FrontendSidebar = ( props ) => {
 								scoreValue={ readabilityScore.screenReaderReadabilityText || __( "not analyzed", "wordpress-seo" ) }
 							/>
 						</div>
-						<br />
-						<LinkButton href={ props.data.editButton.href } ><SvgIcon icon="edit" color={ colors.$color_grey_text } /> { props.data.editButton.text }</LinkButton>
+						{ props.data.editButton && <Fragment>
+							<br />
+							<LinkButton href={ props.data.editButton.href } ><SvgIcon icon="edit" color={ colors.$color_grey_text } /> { props.data.editButton.text }</LinkButton>
+						</Fragment> }
 					</section> }
 					<section>
 						<h3>{ __( "Meta tags", "wordpress-seo" ) }</h3>
