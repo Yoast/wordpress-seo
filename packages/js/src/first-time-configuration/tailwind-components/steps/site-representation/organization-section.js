@@ -41,7 +41,7 @@ export function OrganizationSection( { dispatch, imageUrl, organizationName, err
 				onChange={ handleChange }
 				feedback={ {
 					isVisible: errorFields.includes( "company_name" ),
-					message: [ __( "We could not save the company name. Please check the value.", "wordpress-seo" ) ],
+					message: [ __( "We could not save the organization name. Please check the value.", "wordpress-seo" ) ],
 					type: "error",
 				} }
 			/>
