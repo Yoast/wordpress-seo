@@ -383,7 +383,7 @@ export default class SentenceTokenizer {
 					if ( ! isUndefined( nextToken ) &&
 						"block-end" !== nextToken.type &&
 						"sentence-delimiter" !== nextToken.type &&
-						/\s/.test( nextToken.src[ 0 ] ) ) {
+						this.isCharacterASpace( nextToken.src[ 0 ] ) ) {
 						tokenSentences.push( currentSentence );
 						currentSentence = "";
 					}
@@ -402,7 +402,7 @@ export default class SentenceTokenizer {
 						break;
 					}
 					// Only split on sentence delimiters when the next sentence looks like the start of a sentence and it's preceded by a whitespace.
-					if ( ( hasNextSentence && this.isValidSentenceBeginning( nextSentenceStart ) && /\s/.test( nextCharacters[ 0 ] ) ) ||
+					if ( ( hasNextSentence && this.isValidSentenceBeginning( nextSentenceStart ) && this.isCharacterASpace( nextCharacters ) ) ||
 						this.isSentenceStart( nextToken ) ) {
 						tokenSentences.push( currentSentence );
 						currentSentence = "";
@@ -460,5 +460,15 @@ export default class SentenceTokenizer {
 		}
 
 		return tokenSentences;
+	}
+
+	/**
+	 * Checks if the character is a whitespace.
+	 *
+	 * @param {string} character    The chracter to check.
+	 * @returns {boolean}   Whether the character is a whitespace.
+	 */
+	isCharacterASpace( character ) {
+		return /\s/.test( character );
 	}
 }
