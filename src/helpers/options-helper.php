@@ -203,6 +203,19 @@ class Options_Helper {
 	}
 
 	/**
+	 * Retrieves the appropriate options service for the current location.
+	 *
+	 * @return Site_Options_Service|Multisite_Options_Service The options service.
+	 */
+	public function get_options_service() {
+		if ( $this->site_helper->is_multisite() ) {
+			return $this->multisite_options_service;
+		}
+
+		return $this->site_options_service;
+	}
+
+	/**
 	 * Retrieves the title separator.
 	 *
 	 * @return string The title separator.
@@ -293,18 +306,5 @@ class Options_Helper {
 	 */
 	protected function get_separator_options() {
 		return WPSEO_Option_Titles::get_instance()->get_separator_options();
-	}
-
-	/**
-	 * Retrieves the appropriate options service for the current location.
-	 *
-	 * @return Site_Options_Service|Multisite_Options_Service The options service.
-	 */
-	protected function get_options_service() {
-		if ( $this->site_helper->is_multisite() ) {
-			return $this->multisite_options_service;
-		}
-
-		return $this->site_options_service;
 	}
 }
