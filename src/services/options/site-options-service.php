@@ -483,8 +483,9 @@ class Site_Options_Service extends Abstract_Options_Service {
 
 		// WPSEO.
 		'algolia_integration_active'                  => [
-			'default' => false,
-			'types'   => [ 'boolean' ],
+			'default'   => false,
+			'types'     => [ 'boolean' ],
+			'ms_verify' => false,
 		],
 		'baiduverify'                                 => [
 			'default' => '',
@@ -754,7 +755,7 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'default' => [ 'configuration' => [ 'finishedSteps' => [] ] ],
 			'types'   => [ 'string' ],
 		],
-		'configuration_finished_steps'                               => [
+		'configuration_finished_steps'                => [
 			'default' => [],
 			'types'   => [ 'string' ],
 		],
