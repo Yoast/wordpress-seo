@@ -292,10 +292,17 @@ export default function FirstTimeConfigurationSteps() {
 			return false;
 		}
 		setSiteRepresentationEmpty( state.companyOrPerson === "emptyChoice" || isCompanyAndEmpty || isPersonAndEmpty );
-		updateSiteRepresentation( state )
+		return updateSiteRepresentation( state )
 			.then( () => setStepIsSaved( 2 ) )
-			.then( () => finishSteps( STEPS.siteRepresentation ) );
-		return true;
+			.then( () => {
+				setErrorFields( [] );
+				finishSteps( STEPS.siteRepresentation );
+				return true;
+			} )
+			.catch( ( e ) => {
+				setErrorFields( [ "site_representation", e.message ] );
+				return false;
+			} );
 	}
 
 	/**
