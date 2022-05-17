@@ -117,6 +117,17 @@ class Taxonomy_Metadata_Service_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that set_options throws an exception.
+	 *
+	 * @covers ::set_options
+	 */
+	public function test_set_options() {
+		$this->expectException( Method_Unimplemented_Exception::class );
+
+		$this->instance->set_options( [] );
+	}
+
+	/**
 	 * Tests getting the option/metadata values for a term.
 	 *
 	 * @covers ::get

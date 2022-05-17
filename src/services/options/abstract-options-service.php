@@ -3,8 +3,10 @@
 namespace Yoast\WP\SEO\Services\Options;
 
 use Yoast\WP\SEO\Exceptions\Option\Delete_Failed_Exception;
+use Yoast\WP\SEO\Exceptions\Option\Form_Invalid_Exception;
 use Yoast\WP\SEO\Exceptions\Option\Save_Failed_Exception;
 use Yoast\WP\SEO\Exceptions\Option\Unknown_Exception;
+use Yoast\WP\SEO\Exceptions\Validation\Abstract_Validation_Exception;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Helpers\Validation_Helper;
@@ -193,6 +195,48 @@ abstract class Abstract_Options_Service {
 			},
 			\ARRAY_FILTER_USE_KEY
 		);
+	}
+
+	/**
+	 * Sets the options.
+	 *
+	 * @param array $values The option values.
+	 *
+	 * @throws Save_Failed_Exception When the save failed.
+	 * @throws Form_Invalid_Exception When the option values cause exceptions.
+	 */
+	public function set_options( array $values ) {
+		$new_values  = $this->cached_values;
+		$exceptions  = [];
+		$has_changes = false;
+
+		foreach ( $values as $key => $value ) {
+			try {
+				$valid_value = $this->validate( $key, $value );
+			} catch ( Unknown_Exception $exception ) {
+				// Ignore the unknown options.
+				continue;
+			} catch ( Abstract_Validation_Exception $exception ) {
+				$exceptions[ $key ] = $exception;
+				continue;
+			}
+
+			// Only update when changed.
+			if ( $valid_value !== $new_values[ $key ] ) {
+				$has_changes        = true;
+				$new_values[ $key ] = $valid_value;
+			}
+		}
+
+		// Save to the database.
+		if ( $has_changes ) {
+			$this->update_wp_options( $new_values );
+		}
+
+		// Throw exception with the collected exceptions.
+		if ( \count( $exceptions ) !== 0 ) {
+			throw new Form_Invalid_Exception( $exceptions );
+		}
 	}
 
 	/**
