@@ -300,7 +300,9 @@ export default function FirstTimeConfigurationSteps() {
 				return true;
 			} )
 			.catch( ( e ) => {
-				setErrorFields( [ "site_representation", e.message ] );
+				if ( e.message ) {
+					setErrorFields( [ "site_representation", e.message ] );
+				}
 				return false;
 			} );
 	}
