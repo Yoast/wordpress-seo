@@ -17,6 +17,7 @@ const isEditable = window.wpseoScriptData.isEditable || false;
 /**
  * Initial state
  */
+// eslint-disable-next-line prefer-const
 let initialState = {
 	loading: true,
 	isEditable,
@@ -28,7 +29,7 @@ let initialState = {
 };
 
 if ( document.getElementById( "wp-admin-bar-edit" ) ) {
-	initialState[ "editButton" ] = {
+	initialState.editButton = {
 		href: document.getElementById( "wp-admin-bar-edit" ).firstChild.href || "",
 		text: document.getElementById( "wp-admin-bar-edit" ).firstChild.text || "",
 	};

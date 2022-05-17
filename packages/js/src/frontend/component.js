@@ -100,7 +100,7 @@ const FrontendSidebar = ( props ) => {
 						</div>
 						{ props.data.editButton && <Fragment>
 							<br />
-							<LinkButton href={ props.data.editButton.href } ><SvgIcon icon="edit" color={ colors.$color_grey_text } /> { props.data.editButton.text }</LinkButton>
+							<LinkButton href={ props.data.editButton.href }><SvgIcon icon="edit" color={ colors.$color_grey_text } /> { props.data.editButton.text }</LinkButton>
 						</Fragment> }
 					</section> }
 					<section>
