@@ -92,13 +92,14 @@ export default function( paper, researcher ) {
 	const firstWordExceptions = researcher.getConfig( "firstWordExceptions" );
 	const secondWordExceptions = researcher.getConfig( "secondWordExceptions" );
 	const getWordsCustomHelper = researcher.getHelper( "getWordsCustomHelper" );
+	const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
 
 	let text = paper.getText();
 
 	// Exclude text inside tables.
 	text = text.replace( /<figure class='wp-block-table'>.*<\/figure>/sg, "" );
 
-	let sentences = getSentences( text );
+	let sentences = getSentences( text, memoizedTokenizer );
 
 	let sentenceBeginnings = sentences.map( function( sentence ) {
 		return getSentenceBeginning( sentence, firstWordExceptions, secondWordExceptions, getWordsCustomHelper );
