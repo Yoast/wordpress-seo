@@ -37,6 +37,7 @@
   "devDependencies": {
     "@lodder/grunt-postcss": "^3.1.1",
     "@slack/webhook": "^5.0.2",
+    "@tailwindcss/forms": "^0.5.0",
     "@typescript-eslint/eslint-plugin": "^4.24.0",
     "@typescript-eslint/parser": "^4.24.0",
     "@wordpress/dependency-extraction-webpack-plugin": "^3.1.0",
@@ -44,6 +45,7 @@
     "@yoast/babel-preset": "^1.0.0",
     "@yoast/browserslist-config": "^1.2.2",
     "@yoast/grunt-plugin-tasks": "^2.3",
+    "autoprefixer": "^10.0.0",
     "babel-plugin-dynamic-import-webpack": "^1.1.0",
     "colors": "1.4.0",
     "core-js": "^2.6.12",
@@ -65,15 +67,18 @@
     "jest-styled-components": "^7.0.3",
     "lerna": "^4.0.0",
     "node-fetch": "^2.6.1",
+    "postcss-import": "^14.0.2",
+    "postcss-loader": "^4.0.0",
     "postcss": "^8.4.12",
     "react-test-renderer": "^16.14.0",
     "readline-sync": "^1.4.9",
     "shusher": "^0.1.1",
+    "tailwindcss": "^3.0.11",
     "tmp": "^0.1.0",
     "typescript": "^4.2.4"
   },
   "yoast": {
-    "pluginVersion": "18.8"
+    "pluginVersion": "18.9"
   },
   "version": "0.0.0"
 }

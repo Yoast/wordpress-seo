@@ -28,6 +28,7 @@ const getEntries = ( sourceDirectory = "./packages/js/src" ) => ( {
 	"externals-contexts": `${ sourceDirectory }/externals/contexts.js`,
 	"externals-redux": `${ sourceDirectory }/externals/redux.js`,
 	"filter-explanation": `${ sourceDirectory }/filter-explanation.js`,
+	"first-time-configuration": `${ sourceDirectory }/first-time-configuration.js`,
 	"help-scout-beacon": `${ sourceDirectory }/help-scout-beacon.js`,
 	"import": `${ sourceDirectory }/import.js`,
 	indexation: `${ sourceDirectory }/indexation.js`,

@@ -5,7 +5,6 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations\Admin;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
-use Yoast\WP\SEO\Conditionals\Installation_Success_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Installation_Success_Integration;
@@ -64,7 +63,6 @@ class Installation_Success_Integration_Test extends TestCase {
 		static::assertEquals(
 			[
 				Admin_Conditional::class,
-				Installation_Success_Conditional::class,
 			],
 			Installation_Success_Integration::get_conditionals()
 		);

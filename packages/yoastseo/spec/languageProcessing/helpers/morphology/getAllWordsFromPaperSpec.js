@@ -14,7 +14,7 @@ const testPaper = new Paper( text, {
 	titleWidth: 450,
 	locale: "en_EN",
 	permalink: "https://www.bbc.com/news/science-environment-55239628",
-	url: "science-environment-55239628",
+	slug: "science-environment-55239628",
 } );
 
 describe( "Test for getting all words found in the text, title, slug and meta description of a given paper", () => {

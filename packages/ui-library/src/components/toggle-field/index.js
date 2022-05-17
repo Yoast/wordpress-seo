@@ -6,7 +6,7 @@ import Toggle from "../../elements/toggle";
 
 /**
  * @param {JSX.node} children Children are rendered below the checkbox group.
- * @param {JSX.node} label Label.
+ * @param {string} label The Label.
  * @param {boolean} [checked] Default state.
  * @param {Function} onChange Change callback.
  * @param {{ value, label }[]} options Options to choose from.
@@ -24,7 +24,7 @@ const ToggleField = ( {
 	<Switch.Group as="div" className={ classNames( "yst-toggle-field", className ) }>
 		{ ( label || children ) && (
 			<div className="yst-toggle-field__text">
-				{ label && <Label as={ Switch.Label } className="yst-toggle-field__label">{ label }</Label> }
+				<Label as={ Switch.Label } className="yst-toggle-field__label" label={ label } />
 				{ children && <Switch.Description className="yst-toggle-field__description">{ children }</Switch.Description> }
 			</div>
 		) }
@@ -38,7 +38,7 @@ const ToggleField = ( {
 
 ToggleField.propTypes = {
 	children: PropTypes.node,
-	label: PropTypes.node.isRequired,
+	label: PropTypes.string.isRequired,
 	checked: PropTypes.bool.isRequired,
 	onChange: PropTypes.func.isRequired,
 	className: PropTypes.string,
