@@ -85,7 +85,7 @@ class Robots_Txt_Test extends TestCase {
 			->once()
 			->andReturn( 'https://example.com/sitemap_index.xml' );
 
-		static::assertContains( 'Sitemap: https://example.com/sitemap_index.xml', $this->instance->filter_robots( 'Input', '1' ) );
+		static::assertEquals( 'Input' . "\n\n" . 'Sitemap: https://example.com/sitemap_index.xml' . "\n", $this->instance->filter_robots( 'Input', '1' ) );
 	}
 
 	/**
@@ -100,7 +100,7 @@ class Robots_Txt_Test extends TestCase {
 			->once()
 			->andReturnFalse();
 
-		static::assertDoesNotMatchRegularExpression( '/Sitemap:/', $this->instance->filter_robots( 'Input', '1' ) );
+		static::assertEquals( 'Input', $this->instance->filter_robots( 'Input', '1' ) );
 	}
 
 	/**
@@ -109,6 +109,6 @@ class Robots_Txt_Test extends TestCase {
 	 * @covers ::filter_robots
 	 */
 	public function test_nonpublic_site() {
-		static::assertDoesNotMatchRegularExpression( '/Sitemap:/', $this->instance->filter_robots( 'Input', '0' ) );
+		static::assertEquals( 'Input', $this->instance->filter_robots( 'Input', '0' ) );
 	}
 }
