@@ -108,6 +108,20 @@ class Options_Helper {
 		}
 	}
 
+	public function set_array( $array ) {
+		$failures = [];
+
+		foreach ( $array as $key => $value ) {
+			try {
+				$this->get_options_service()->__set( $key, $value );
+			} catch ( \Exception $exception ) {
+				$failures[ $key ] = $exception->getMessage();
+			}
+		}
+
+		return $failures;
+	}
+
 	/**
 	 * Retrieves the default value of an option.
 	 *

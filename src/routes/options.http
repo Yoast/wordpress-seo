@@ -1,0 +1,44 @@
+### Get all options
+
+GET http://basic.wordpress.test/wp-json/yoast/v1/options
+Accept: application/json
+
+### Get a single option
+
+GET http://basic.wordpress.test/wp-json/yoast/v1/options?facebook_site
+Accept: application/json
+
+
+### Get multiple options
+
+GET http://basic.wordpress.test/wp-json/yoast/v1/options?facebook_site&twitter_site
+Accept: application/json
+
+### Save single option
+
+POST http://basic.wordpress.test/wp-json/yoast/v1/options
+Content-Type: application/json
+
+{
+	"facebook_site": "https://google.com"
+}
+
+### Save failed single option
+
+POST http://basic.wordpress.test/wp-json/yoast/v1/options
+Content-Type: application/json
+
+{
+	"facebook_site": "httpss://google.com"
+}
+
+### Save multiple options
+
+POST http://basic.wordpress.test/wp-json/yoast/v1/options
+Content-Type: application/json
+
+{
+	"facebook_site": "https://google.com",
+	"twitter_site": "@yoast.com@@!!"
+}
+
