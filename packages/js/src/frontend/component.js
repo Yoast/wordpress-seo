@@ -8,7 +8,7 @@ import AnalysisCheck from "../components/AnalysisCheck";
 import { ReactComponent as YoastIcon } from "../../images/Yoast_icon_kader.svg";
 import { colors } from "@yoast/style-guide";
 import SvgIcon from "@yoast/components/src/SvgIcon";
-import { LinkButton } from "@yoast/components";
+import { LinkButton, NewBadge } from "@yoast/components";
 
 /**
  * Portal which places the sidebar in the body.
@@ -71,6 +71,8 @@ const FrontendSidebar = ( props ) => {
 				onClick={ openSidebar }
 			>
 				{ __( "Inspect", "wordpress-seo" ) }
+				{ " " }
+				<NewBadge />
 			</a>
 			<SidebarPortal>
 				{ isOpen &&
