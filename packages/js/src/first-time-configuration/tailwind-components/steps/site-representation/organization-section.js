@@ -15,7 +15,7 @@ import { openMedia } from "../../../../helpers/selectMedia";
  * @param {bool}     isDisabled       A flag to disable the field.
  * @returns {WPElement} The organization section.
  */
-export function OrganizationSection( { dispatch, imageUrl, organizationName } ) {
+export function OrganizationSection( { dispatch, imageUrl, organizationName, errorFields } ) {
 	const openImageSelect = useCallback( () => {
 		openMedia( ( selectedImage ) => {
 			dispatch( { type: "SET_COMPANY_LOGO", payload: { ...selectedImage } } );
@@ -39,6 +39,11 @@ export function OrganizationSection( { dispatch, imageUrl, organizationName } ) 
 				label={ __( "Organization name", "wordpress-seo" ) }
 				value={ organizationName }
 				onChange={ handleChange }
+				feedback={ {
+					isVisible: errorFields.includes( "company_name" ),
+					message: [ __( "We could not save the company name. Please check the value.", "wordpress-seo" ) ],
+					type: "error",
+				} }
 			/>
 			<ImageSelect
 				className="yst-mt-6"
@@ -58,9 +63,11 @@ OrganizationSection.propTypes = {
 	dispatch: PropTypes.func.isRequired,
 	imageUrl: PropTypes.string,
 	organizationName: PropTypes.string,
+	errorFields: PropTypes.array,
 };
 
 OrganizationSection.defaultProps = {
 	imageUrl: "",
 	organizationName: "",
+	errorFields: [],
 };

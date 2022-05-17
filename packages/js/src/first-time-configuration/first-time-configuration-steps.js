@@ -300,6 +300,10 @@ export default function FirstTimeConfigurationSteps() {
 				return true;
 			} )
 			.catch( ( e ) => {
+				if ( e.failures ) {
+					setErrorFields( e.failures );
+					return false;
+				}
 				if ( e.message ) {
 					setErrorFields( [ "site_representation", e.message ] );
 				}

@@ -74,6 +74,7 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 					dispatch={ dispatch }
 					imageUrl={ state.companyLogo }
 					organizationName={ state.companyName }
+					errorFields={ state.errorFields }
 				/> }
 				{ state.companyOrPerson === "person" && <PersonSection
 					dispatch={ dispatch }
@@ -83,6 +84,7 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 						name: state.personName,
 					} }
 					canEditUser={ !! state.canEditUser }
+					errorFields={ state.errorFields }
 				/> }
 			</div>
 		</ReactAnimateHeight>
