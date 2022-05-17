@@ -5,11 +5,13 @@
 @import "../src/elements/checkbox/style.css";
 @import "../src/elements/text-input/style.css";
 @import "../src/elements/label/style.css";
+@import "../src/elements/link/style.css";
 @import "../src/elements/radio/style.css";
 @import "../src/elements/title/style.css";
 @import "../src/elements/toggle/style.css";
 @import "../src/elements/select/style.css";
 @import "../src/elements/textarea/style.css";
+@import "../src/elements/progress-bar/style.css";
 
 @import "../src/components/checkbox-group/style.css";
 @import "../src/components/modal/style.css";
@@ -18,6 +20,7 @@
 @import "../src/components/toggle-field/style.css";
 @import "../src/components/select-field/style.css";
 @import "../src/components/textarea-field/style.css";
+@import "../src/components/file-import/style.css";
 
 @tailwind base;
 @tailwind components;

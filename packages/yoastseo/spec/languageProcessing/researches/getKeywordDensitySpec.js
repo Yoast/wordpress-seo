@@ -1,3 +1,4 @@
+/* eslint-disable capitalized-comments, spaced-comment */
 import getKeywordDensity from "../../../src/languageProcessing/researches/getKeywordDensity.js";
 import Paper from "../../../src/values/Paper.js";
 import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";
@@ -73,13 +74,13 @@ describe( "test for counting the keyword density in a text in a language that we
 	} );
 } );
 
-describe( "test for counting the keyword density in a text in Japanese", function() {
-	it( "returns keyword density when the keyword is not found in the sentence", function() {
+describe( "test for counting the keyword density in a text in a language that uses a custom getWords helper (Japanese)", function() {
+	/*it( "returns keyword density when the keyword is not found in the sentence", function() {
 		const mockPaper = new Paper( "小さくて可愛い花の刺繍に関する一般一般の記事です。", { keyword: "猫" } );
 		const mockResearcher = new JapaneseResearcher( mockPaper );
 		mockResearcher.addResearchData( "morphology", morphologyDataJA );
 		expect( getKeywordDensity( mockPaper, mockResearcher ) ).toBe( 0 );
-	} );
+	} );*/
 
 	it( "returns the keyword density when the keyword is found once", function() {
 		const mockPaper = new Paper( "私の猫はかわいいです。", { keyword: "猫" } );
@@ -96,7 +97,7 @@ describe( "test for counting the keyword density in a text in Japanese", functio
 		expect( getKeywordDensity( mockPaper, mockResearcher ) ).toBe( 6.666666666666667 );
 	} );
 
-	it( "returns the keyword density when the morphologyData is not available to detect inflected forms", function() {
+	/*it( "returns the keyword density when the morphologyData is not available to detect inflected forms", function() {
 		// 小さく is the inflected form of 小さい.
 		const mockPaper = new Paper( "小さくて可愛い花の刺繍に関する一般一般の記事です。", { keyword: "小さい花の刺繍" } );
 		const mockResearcher = new JapaneseResearcher( mockPaper );
@@ -122,7 +123,7 @@ describe( "test for counting the keyword density in a text in Japanese", functio
 		const mockResearcher = new JapaneseResearcher( mockPaper );
 		mockResearcher.addResearchData( "morphology", morphologyDataJA );
 		expect( getKeywordDensity( mockPaper, mockResearcher ) ).toBe( 0 );
-	} );
+	} );*/
 } );
 
 
