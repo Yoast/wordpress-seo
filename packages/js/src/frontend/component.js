@@ -8,6 +8,7 @@ import AnalysisCheck from "../components/AnalysisCheck";
 import { ReactComponent as YoastIcon } from "../../images/Yoast_icon_kader.svg";
 import { colors } from "@yoast/style-guide";
 import SvgIcon from "@yoast/components/src/SvgIcon";
+import { LinkButton } from "@yoast/components";
 
 /**
  * Portal which places the sidebar in the body.
@@ -96,6 +97,8 @@ const FrontendSidebar = ( props ) => {
 								scoreValue={ readabilityScore.screenReaderReadabilityText || __( "not analyzed", "wordpress-seo" ) }
 							/>
 						</div>
+						<br />
+						<LinkButton href={ props.data.editButton.href } ><SvgIcon icon="edit" color={ colors.$color_grey_text } /> { props.data.editButton.text }</LinkButton>
 					</section> }
 					<section>
 						<h3>{ __( "Meta tags", "wordpress-seo" ) }</h3>

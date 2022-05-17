@@ -12,19 +12,27 @@ let metaTags = metaElements.map( function( el ) {
 } );
 
 metaTags = [ { key: "title", val: document.title } ].concat( metaTags ).concat( [ { key: "robots", val: robotsElement.content } ] );
+const isEditable = window.wpseoScriptData.isEditable || false;
 
 /**
  * Initial state
  */
-const initialState = {
+let initialState = {
 	loading: true,
-	isEditable: window.wpseoScriptData.isEditable || false,
+	isEditable,
 	focusKeyphrase: window.wpseoScriptData.indexable.primary_focus_keyword || "",
 	seoScore: window.wpseoScriptData.indexable.primary_focus_keyword_score || "",
 	readabilityScore: window.wpseoScriptData.indexable.readability_score || "",
 	metaTags,
 	schema: JSON.parse( document.querySelector( ".yoast-schema-graph" ).text || {} ),
 };
+
+if ( isEditable ) {
+	initialState[ "editButton" ] = {
+		href: document.getElementById( "wp-admin-bar-edit" ).firstChild.href || "",
+		text: document.getElementById( "wp-admin-bar-edit" ).firstChild.text || "",
+	};
+}
 
 /* eslint-disable complexity */
 /**
