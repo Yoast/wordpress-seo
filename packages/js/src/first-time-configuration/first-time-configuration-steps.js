@@ -278,7 +278,7 @@ export default function FirstTimeConfigurationSteps() {
 	/**
 	 * Runs checks of finishing the site representation step.
 	 *
-	 * @returns {void}
+	 * @returns {Boolean|Promise} Returns either a Boolean for success/failure or a Promise that will resolve into a Boolean.
 	 */
 	function updateOnFinishSiteRepresentation() {
 		if ( ! siteRepresentationEmpty && isCompanyAndEmpty ) {
