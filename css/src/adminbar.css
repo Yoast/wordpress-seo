@@ -194,6 +194,7 @@ body.wpseoFrontSidebarOpen {
 
 #wpseoFrontSidebar li {
 	padding: 8px 0;
+	margin: 0;
 }
 
 #wpseoFrontSidebar svg {
