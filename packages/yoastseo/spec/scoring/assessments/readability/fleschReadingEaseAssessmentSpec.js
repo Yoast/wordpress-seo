@@ -228,5 +228,4 @@ describe( "An assessment for the Flesch reading ease test", function() {
 		const paper = new Paper( "", { locale: "af_ZA" } );
 		expect( fleschReadingAssessment.isApplicable( paper, new DefaultResearcher( paper ) ) ).toBe( false );
 	} );
-
 } );
