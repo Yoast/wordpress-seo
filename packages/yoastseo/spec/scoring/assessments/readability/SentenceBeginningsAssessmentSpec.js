@@ -4,6 +4,8 @@ import SentenceBeginningsAssessment from "../../../../src/scoring/assessments/re
 import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../specHelpers/factory.js";
 import Mark from "../../../../src/values/Mark.js";
+import fleschReadingAssessment from "../../../../src/scoring/assessments/readability/fleschReadingEaseAssessment";
+import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
 
 let paper = new Paper();
 // eslint-disable-next-line max-statements
@@ -48,6 +50,17 @@ describe( "An assessment for scoring repeated sentence beginnings.", function() 
 		paper = new Paper( "ciao", { locale: "it_IT" } );
 		const assessment = new SentenceBeginningsAssessment().isApplicable( paper, new ItalianResearcher( paper ) );
 		expect( assessment ).toBe( true );
+	} );
+
+	it( "returns false for isApplicable for an English paper with only an image.", function() {
+		// eslint-disable-next-line max-len
+		const paper = new Paper( "<img src=\"https://yoast.com/cdn-cgi/image/width=466%2Cheight=244%2Cfit=crop%2Cf=auto%2Conerror=redirect//app/uploads/2017/12/Focus_keyword_FI.jpg\">", { locale: "en_US" } );
+		expect( fleschReadingAssessment.isApplicable( paper, new EnglishResearcher( paper ) ) ).toBe( false );
+	} );
+
+	it( "returns false for isApplicable for an English paper with only spaces.", function() {
+		const paper = new Paper( "        ", { locale: "en_US" } );
+		expect( fleschReadingAssessment.isApplicable( paper, new EnglishResearcher( paper ) ) ).toBe( false );
 	} );
 
 	it( "is not applicable for a paper with text and a researcher without sentence beginning support.", function() {
