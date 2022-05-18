@@ -292,10 +292,19 @@ export default function FirstTimeConfigurationSteps() {
 			return false;
 		}
 		setSiteRepresentationEmpty( state.companyOrPerson === "emptyChoice" || isCompanyAndEmpty || isPersonAndEmpty );
-		updateSiteRepresentation( state )
+		return updateSiteRepresentation( state )
 			.then( () => setStepIsSaved( 2 ) )
-			.then( () => finishSteps( STEPS.siteRepresentation ) );
-		return true;
+			.then( () => {
+				setErrorFields( [] );
+				finishSteps( STEPS.siteRepresentation );
+				return true;
+			} )
+			.catch( ( e ) => {
+				if ( e.message ) {
+					setErrorFields( [ "site_representation", e.message ] );
+				}
+				return false;
+			} );
 	}
 
 	/**
@@ -551,7 +560,7 @@ export default function FirstTimeConfigurationSteps() {
 				>
 					<Step>
 						<Step.Header
-							name="SEO data optimization"
+							name={ __( "SEO data optimization", "wordpress-seo" ) }
 							isFinished={ isIndexationStepFinished }
 						>
 							<EditButton
@@ -575,7 +584,7 @@ export default function FirstTimeConfigurationSteps() {
 					</Step>
 					<Step>
 						<Step.Header
-							name="Site representation"
+							name={ __( "Site representation", "wordpress-seo" ) }
 							isFinished={ isStep2Finished }
 						>
 							<EditButton
@@ -602,7 +611,7 @@ export default function FirstTimeConfigurationSteps() {
 					</Step>
 					<Step>
 						<Step.Header
-							name="Social profiles"
+							name={ __( "Social profiles", "wordpress-seo" ) }
 							isFinished={ isStep3Finished }
 						>
 							<EditButton
@@ -620,7 +629,7 @@ export default function FirstTimeConfigurationSteps() {
 					</Step>
 					<Step>
 						<Step.Header
-							name="Personal preferences"
+							name={ __( "Personal preferences", "wordpress-seo" ) }
 							isFinished={ isStep4Finished }
 						>
 							<EditButton
@@ -638,7 +647,7 @@ export default function FirstTimeConfigurationSteps() {
 					</Step>
 					<Step>
 						<Step.Header
-							name="Finish configuration"
+							name={ __( "Finish configuration", "wordpress-seo" ) }
 							isFinished={ isStepperFinished }
 						/>
 						<Step.Content>
