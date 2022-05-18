@@ -49,6 +49,9 @@ class Crawl_Cleanup_Rss implements Integration_Interface {
 			remove_action( 'wp_head', 'feed_links_extra', 3 );
 			add_action( 'wp_head', [ $this, 'feed_links_extra_replacement' ], 3 );
 		}
+
+		// Redirect the ones we don't want to exist.
+		add_action( 'wp', [ $this, 'redirect_unwanted_feeds' ], - 10000 );
 	}
 
 	/**
@@ -129,6 +132,24 @@ class Crawl_Cleanup_Rss implements Integration_Interface {
 
 		if ( isset( $title ) && isset( $href ) ) {
 			echo '<link rel="alternate" type="' . esc_attr( \feed_content_type() ) . '" title="' . esc_attr( $title ) . '" href="' . esc_url( $href ) . '" />' . "\n";
+		}
+	}
+
+	/**
+	 * Redirect feeds we don't want away.
+	 */
+	public function redirect_unwanted_feeds() {
+		if ( ! \is_feed() ) {
+			return;
+		}
+
+		$feed = \get_query_var( 'feed' );
+
+		$url = \get_home_url();
+
+		if ( \is_comment_feed() && \is_singular() && $this->options_helper->get( 'remove_feed_post_comments' ) === true ) {
+			$url = \get_permalink( \get_queried_object() );
+			$this->redirect_feed( $url, 'We disable post comment feeds for performance reasons.' );
 		}
 	}
 
