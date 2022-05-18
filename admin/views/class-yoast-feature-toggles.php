@@ -185,9 +185,9 @@ class Yoast_Feature_Toggles {
 				'name'            => __( 'RSS cleanup', 'wordpress-seo' ),
 				'setting'         => 'remove_feed_post_comments',
 				'label'           => __( 'This removes the Post Comment Feed link.', 'wordpress-seo' ),
-				'read_more_label' => __( 'Find out how a rich snippet can improve visibility and click-through-rate.', 'wordpress-seo' ),
+				'read_more_label' => __( 'Find out how removing feeds can improve performance.', 'wordpress-seo' ),
 				'read_more_url'   => '#',
-				'order'           => 105,
+				'order'           => 110,
 			],
 		];
 
