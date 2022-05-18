@@ -191,6 +191,6 @@ export default class TransitionWordsAssessment extends Assessment {
 			this._config.applicableIfTextLongerThan = customApplicabilityConfig;
 		}
 		const textLength = customCountLength ? customCountLength( paper.getText() ) : researcher.getResearch( "wordCountInText" );
-		return paper.hasText() && textLength >= this._config.applicableIfTextLongerThan && researcher.hasResearch( "findTransitionWords" );
+		return paper.hasContent() && textLength >= this._config.applicableIfTextLongerThan && researcher.hasResearch( "findTransitionWords" );
 	}
 }
