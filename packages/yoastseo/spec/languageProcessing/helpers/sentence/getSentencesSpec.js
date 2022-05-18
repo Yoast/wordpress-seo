@@ -3,7 +3,6 @@
  */
 import getSentences from "../../../../src/languageProcessing/helpers/sentence/getSentences.js";
 import japaneseSentenceTokenizer from "../../../../src/languageProcessing/languages/ja/helpers/memoizedSentenceTokenizer";
-import englishText from "../../../scoring/collectionPages/fullTextTests/testTexts/en/englishPaper1.html";
 
 import {
 	paragraph1,
