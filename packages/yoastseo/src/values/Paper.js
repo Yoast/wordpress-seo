@@ -106,7 +106,7 @@ Paper.prototype.hasText = function() {
 
 /**
  * Check whether there is content (i.e. flat text without any html tags.).
- * The decision to use length > 1 was made as a buffer in case sanitizeString returns a single space.
+ * We use length > 1 as a buffer in case sanitizeString returns a single space.
  * @returns {boolean} Returns true if the paper has content containing more than 1 character.
  */
 Paper.prototype.hasContent = function() {
