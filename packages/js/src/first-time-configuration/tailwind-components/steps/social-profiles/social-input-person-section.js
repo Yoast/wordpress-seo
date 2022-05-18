@@ -31,7 +31,7 @@ function SocialInputPersonSection( { socialProfiles, errorFields, dispatch, canE
 
 	useEffect( () => {
 		apiFetch( {
-			path: `yoast/v1/workouts/person_social_profiles?user_id=${ personId }`,
+			path: `yoast/v1/configuration/person_social_profiles?user_id=${ personId }`,
 		} ).then( response => {
 			if ( response.success ) {
 				dispatch( { type: "INIT_PERSON_SOCIAL_PROFILES", payload: { socialProfiles: response.social_profiles } } );

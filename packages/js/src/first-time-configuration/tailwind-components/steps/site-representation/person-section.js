@@ -34,7 +34,7 @@ export function PersonSection( { dispatch, imageUrl, person, canEditUser } ) {
 		( selectedPerson ) => {
 			dispatch( { type: "SET_PERSON", payload: selectedPerson } );
 			apiFetch( {
-				path: `yoast/v1/workouts/check_capability?user_id=${ selectedPerson.value  }`,
+				path: `yoast/v1/configuration/check_capability?user_id=${ selectedPerson.value  }`,
 			} ).then( response => {
 				dispatch( { type: "SET_CAN_EDIT_USER", payload: response.success } );
 			} ).catch(
