@@ -153,6 +153,6 @@ export default class PassiveVoiceAssessment extends Assessment {
 	 * @returns {boolean} Returns true if the language is available and the paper is not empty.
 	 */
 	isApplicable( paper, researcher ) {
-		return paper.hasText() && researcher.hasResearch( "getPassiveVoiceResult" );
+		return paper.hasContent() && researcher.hasResearch( "getPassiveVoiceResult" );
 	}
 }
