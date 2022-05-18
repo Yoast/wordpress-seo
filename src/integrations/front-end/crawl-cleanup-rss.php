@@ -143,10 +143,6 @@ class Crawl_Cleanup_Rss implements Integration_Interface {
 			return;
 		}
 
-		$feed = \get_query_var( 'feed' );
-
-		$url = \get_home_url();
-
 		if ( \is_comment_feed() && \is_singular() && $this->options_helper->get( 'remove_feed_post_comments' ) === true ) {
 			$url = \get_permalink( \get_queried_object() );
 			$this->redirect_feed( $url, 'We disable post comment feeds for performance reasons.' );
@@ -186,7 +182,7 @@ class Crawl_Cleanup_Rss implements Integration_Interface {
 
 		$this->cache_control_header( 7 * DAY_IN_SECONDS );
 
-		\wp_safe_redirect( $url, 301, 'Yoast Crawl Cleanup: ' . $reason );
+		\wp_safe_redirect( $url, 301, 'Yoast SEO: ' . $reason );
 		exit;
 	}
 }
