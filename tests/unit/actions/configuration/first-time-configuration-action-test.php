@@ -6,7 +6,7 @@ use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Actions\Configuration\First_Time_Configuration_Action;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Integrations\Admin\Social_profiles_Helper;
+use Yoast\WP\SEO\Integrations\Admin\Social_Profiles_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 // phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- First time configuration simply has a lot of words.
@@ -37,7 +37,7 @@ class First_Time_Configuration_Action_Test extends TestCase {
 	/**
 	 * The social profiles helper.
 	 *
-	 * @var Mockery\MockInterface|Social_profiles_Helper
+	 * @var Mockery\MockInterface|Social_Profiles_Helper
 	 */
 	protected $social_profiles_helper;
 
@@ -48,7 +48,7 @@ class First_Time_Configuration_Action_Test extends TestCase {
 		parent::set_up();
 
 		$this->options_helper         = Mockery::mock( Options_Helper::class );
-		$this->social_profiles_helper = Mockery::mock( Social_profiles_Helper::class );
+		$this->social_profiles_helper = Mockery::mock( Social_Profiles_Helper::class );
 
 		$this->instance = new First_Time_Configuration_Action( $this->options_helper, $this->social_profiles_helper );
 	}
@@ -64,7 +64,7 @@ class First_Time_Configuration_Action_Test extends TestCase {
 			$this->getPropertyValue( $this->instance, 'options_helper' )
 		);
 		$this->assertInstanceOf(
-			Social_profiles_Helper::class,
+			Social_Profiles_Helper::class,
 			$this->getPropertyValue( $this->instance, 'social_profiles_helper' )
 		);
 	}
@@ -505,10 +505,10 @@ class First_Time_Configuration_Action_Test extends TestCase {
 		];
 
 		return [
-			'Successful saved configuration state'          => $success_save,
+			'Successful saved configuration state' => $success_save,
 			'Failed saved configuration state with parameters not set' => $failed_save_without_params,
 			'Failed saved configuration state option in db' => $failed_save_option,
-			'Checked finished configuration'                => $finish_configuration,
+			'Checked finished configuration'       => $finish_configuration,
 		];
 	}
 

@@ -11,7 +11,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 /**
  * Social_Profiles_Helper_Test
  *
- * @coversDefaultClass Yoast\WP\SEO\Integrations\Admin\Social_Profiles_Helper
+ * @coversDefaultClass \Yoast\WP\SEO\Integrations\Admin\Social_Profiles_Helper
  */
 class Social_Profiles_Helper_Test extends TestCase {
 
@@ -49,9 +49,9 @@ class Social_Profiles_Helper_Test extends TestCase {
 	 * @dataProvider set_person_social_profiles
 	 *
 	 * @param array $social_profiles             The array of the person's social profiles to be set.
-	 * @param int   $validate_social_url_results The results from validating social urls.
+	 * @param array $validate_social_url_results The results from validating social urls.
 	 * @param int   $validate_social_url_times   The times we're gonna validate social urls.
-	 * @param int   $validate_twitter_id_results The results from validating twitter ids.
+	 * @param array $validate_twitter_id_results The results from validating twitter ids.
 	 * @param int   $validate_twitter_id_times   The times we're gonna validate twitter ids.
 	 * @param int   $update_user_meta_times      The times we're gonna set the the social profiles.
 	 * @param array $expected                    The expected field names which failed to be saved in the db.
@@ -200,9 +200,9 @@ class Social_Profiles_Helper_Test extends TestCase {
 	 * @dataProvider set_organization_social_profiles
 	 *
 	 * @param array $social_profiles             The array of the person's social profiles to be set.
-	 * @param int   $validate_social_url_results The results from validating social urls.
+	 * @param array $validate_social_url_results The results from validating social urls.
 	 * @param int   $validate_social_url_times   The times we're gonna validate social urls.
-	 * @param int   $validate_twitter_id_results The results from validating twitter ids.
+	 * @param array $validate_twitter_id_results The results from validating twitter ids.
 	 * @param int   $validate_twitter_id_times   The times we're gonna validate twitter ids.
 	 * @param int   $set_option_times            The times we're gonna set the social profiles.
 	 * @param array $expected                    The expected field names which failed to be saved in the db.
