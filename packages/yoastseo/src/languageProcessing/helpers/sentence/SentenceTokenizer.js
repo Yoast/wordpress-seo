@@ -402,7 +402,7 @@ export default class SentenceTokenizer {
 						break;
 					}
 					// Only split on sentence delimiters when the next sentence looks like the start of a sentence and it's preceded by a whitespace.
-					if ( ( hasNextSentence && this.isValidSentenceBeginning( nextSentenceStart ) && this.isCharacterASpace( nextCharacters ) ) ||
+					if ( ( hasNextSentence && this.isValidSentenceBeginning( nextSentenceStart ) && this.isCharacterASpace( nextCharacters[ 0 ] ) ) ||
 						this.isSentenceStart( nextToken ) ) {
 						tokenSentences.push( currentSentence );
 						currentSentence = "";
