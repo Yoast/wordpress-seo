@@ -79,59 +79,59 @@ class Crawl_Cleanup_Rss implements Integration_Interface {
 			'posttypetitle' => __( '%1$s %2$s %3$s Feed', 'wordpress-seo' ),
 		];
 
-		$args = wp_parse_args( $args, $defaults );
+		$args = \wp_parse_args( $args, $defaults );
 
-		if ( is_singular() ) {
+		if ( \is_singular() ) {
 			return;
 		}
-		elseif ( is_post_type_archive() ) {
+		elseif ( \is_post_type_archive() ) {
 			$post_type = get_query_var( 'post_type' );
-			if ( is_array( $post_type ) ) {
+			if ( \is_array( $post_type ) ) {
 				$post_type = reset( $post_type );
 			}
 
-			$post_type_obj = get_post_type_object( $post_type );
-			$title         = sprintf( $args['posttypetitle'], get_bloginfo( 'name' ), $args['separator'], $post_type_obj->labels->name );
-			$href          = get_post_type_archive_feed_link( $post_type_obj->name );
+			$post_type_obj = \get_post_type_object( $post_type );
+			$title         = \sprintf( $args['posttypetitle'], \get_bloginfo( 'name' ), $args['separator'], $post_type_obj->labels->name );
+			$href          = \get_post_type_archive_feed_link( $post_type_obj->name );
 		}
-		elseif ( is_category() ) {
-			$term = get_queried_object();
+		elseif ( \is_category() ) {
+			$term = \get_queried_object();
 
 			if ( $term ) {
-				$title = sprintf( $args['cattitle'], get_bloginfo( 'name' ), $args['separator'], $term->name );
-				$href  = get_category_feed_link( $term->term_id );
+				$title = \sprintf( $args['cattitle'], \get_bloginfo( 'name' ), $args['separator'], $term->name );
+				$href  = \get_category_feed_link( $term->term_id );
 			}
 		}
-		elseif ( is_tag() ) {
-			$term = get_queried_object();
+		elseif ( \is_tag() ) {
+			$term = \get_queried_object();
 
 			if ( $term ) {
-				$title = sprintf( $args['tagtitle'], get_bloginfo( 'name' ), $args['separator'], $term->name );
-				$href  = get_tag_feed_link( $term->term_id );
+				$title = \sprintf( $args['tagtitle'], \get_bloginfo( 'name' ), $args['separator'], $term->name );
+				$href  = \get_tag_feed_link( $term->term_id );
 			}
 		}
 		elseif ( is_tax() ) {
 			$term = get_queried_object();
 
 			if ( $term ) {
-				$tax   = get_taxonomy( $term->taxonomy );
-				$title = sprintf( $args['taxtitle'], get_bloginfo( 'name' ), $args['separator'], $term->name, $tax->labels->singular_name );
-				$href  = get_term_feed_link( $term->term_id, $term->taxonomy );
+				$tax   = \get_taxonomy( $term->taxonomy );
+				$title = \sprintf( $args['taxtitle'], \get_bloginfo( 'name' ), $args['separator'], $term->name, $tax->labels->singular_name );
+				$href  = \get_term_feed_link( $term->term_id, $term->taxonomy );
 			}
 		}
-		elseif ( is_author() ) {
-			$author_id = (int) get_query_var( 'author' );
+		elseif ( \is_author() ) {
+			$author_id = (int) \get_query_var( 'author' );
 
-			$title = sprintf( $args['authortitle'], get_bloginfo( 'name' ), $args['separator'], get_the_author_meta( 'display_name', $author_id ) );
-			$href  = get_author_feed_link( $author_id );
+			$title = \sprintf( $args['authortitle'], \get_bloginfo( 'name' ), $args['separator'], \get_the_author_meta( 'display_name', $author_id ) );
+			$href  = \get_author_feed_link( $author_id );
 		}
-		elseif ( is_search() ) {
-			$title = sprintf( $args['searchtitle'], get_bloginfo( 'name' ), $args['separator'], get_search_query( false ) );
-			$href  = get_search_feed_link();
+		elseif ( \is_search() ) {
+			$title = \sprintf( $args['searchtitle'], \get_bloginfo( 'name' ), $args['separator'], \get_search_query( false ) );
+			$href  = \get_search_feed_link();
 		}
 
 		if ( isset( $title ) && isset( $href ) ) {
-			echo '<link rel="alternate" type="' . esc_attr( \feed_content_type() ) . '" title="' . esc_attr( $title ) . '" href="' . esc_url( $href ) . '" />' . "\n";
+			echo '<link rel="alternate" type="' . \esc_attr( \feed_content_type() ) . '" title="' . \esc_attr( $title ) . '" href="' . \esc_url( $href ) . '" />' . "\n";
 		}
 	}
 
