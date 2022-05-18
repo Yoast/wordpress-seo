@@ -110,22 +110,6 @@ overrides:
       require-jsdoc: [ 1, { "require": { "MethodDefinition": true, "ClassDeclaration": true, "ArrowFunctionExpression": true, "FunctionExpression": true } } ]
       no-useless-escape: 1
   - files:
-      - "packages/analysis-report/**/*.js"
-    rules:
-      complexity: [ 1, 6 ]
-      // A wrapping label is not necessary when there already is an htmlFor attribute.
-      jsx-a11y/label-has-for: [ "error", { required: "id" } ]
-      require-jsdoc: 1
-      react/button-has-type: 1
-      react/default-props-match-prop-types: 1
-      react/no-unused-prop-types: 1
-      react/no-access-state-in-setstate: 1
-      react/no-unused-state: 1
-      react/jsx-no-bind: 1
-      react/jsx-no-target-blank: 1
-      react/require-default-props: 1
-      react/forbid-foreign-prop-types: 1
-  - files:
       - "packages/yoast-components/**/*.js"
     rules:
       complexity: [ 1, 6 ]
