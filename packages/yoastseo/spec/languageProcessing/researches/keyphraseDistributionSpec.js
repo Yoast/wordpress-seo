@@ -737,7 +737,119 @@ describe( "Test for the research", function() {
 	} );
 } );
 
-// Did not remove Japanese tests below as they test the function with different helpers as well as japaneseTopicLength
+describe( "a test for focus keyphrase in uppercase that contains period", () => {
+	it( "should match keyphrase in upper case with a period in the text", function() {
+		let text = "An example text. What is ASP.NET.";
+		let paper = new Paper( text, { keyword: "ASP.NET" } );
+		let researcher = new Researcher( paper );
+
+		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual(
+			{
+				keyphraseDistributionScore: 50,
+				sentencesToHighlight: [
+					new Mark( {
+						marked: "What is <yoastmark class='yoast-text-mark'>ASP.NET</yoastmark>.",
+						original: "What is ASP.NET.",
+					} ) ],
+			}
+		);
+		text = "An example text. What is ASP.net.";
+		paper = new Paper( text, { keyword: "ASP.NET" } );
+		researcher = new Researcher( paper );
+
+		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
+			keyphraseDistributionScore: 50,
+			sentencesToHighlight: [
+				new Mark( {
+					marked: "What is <yoastmark class='yoast-text-mark'>ASP.net</yoastmark>.",
+					original: "What is ASP.net.",
+				} ) ],
+		} );
+
+		text = "An example text. What is asp.NET?";
+		paper = new Paper( text, { keyword: "ASP.NET" } );
+		researcher = new Researcher( paper );
+
+		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
+			keyphraseDistributionScore: 50,
+			sentencesToHighlight: [
+				new Mark( {
+					marked: "What is <yoastmark class='yoast-text-mark'>asp.NET</yoastmark>?",
+					original: "What is asp.NET?",
+				} ) ],
+		} );
+
+		text = "An example text. What is asp.net.";
+		paper = new Paper( text, { keyword: "ASP.NET" } );
+		researcher = new Researcher( paper );
+
+		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
+			keyphraseDistributionScore: 50,
+			sentencesToHighlight: [
+				new Mark( {
+					marked: "What is <yoastmark class='yoast-text-mark'>asp.net</yoastmark>.",
+					original: "What is asp.net.",
+				} ) ],
+		} );
+	} );
+
+	it( "should still match keyphrase in upper case with a period in the text when the keyphrase is in double quote", function() {
+		let text = "An example text. What is ASP.NET.";
+		let paper = new Paper( text, { keyword: "\"ASP.NET\"" } );
+		let researcher = new Researcher( paper );
+
+		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual(
+			{
+				keyphraseDistributionScore: 50,
+				sentencesToHighlight: [
+					new Mark( {
+						marked: "What is <yoastmark class='yoast-text-mark'>ASP.NET</yoastmark>.",
+						original: "What is ASP.NET.",
+					} ) ],
+			}
+		);
+		text = "An example text. What is ASP.net.";
+		paper = new Paper( text, { keyword: "\"ASP.NET\"" } );
+		researcher = new Researcher( paper );
+
+		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
+			keyphraseDistributionScore: 50,
+			sentencesToHighlight: [
+				new Mark( {
+					marked: "What is <yoastmark class='yoast-text-mark'>ASP.net</yoastmark>.",
+					original: "What is ASP.net.",
+				} ) ],
+		} );
+
+		text = "An example text. What is asp.NET?";
+		paper = new Paper( text, { keyword: "\"ASP.NET\"" } );
+		researcher = new Researcher( paper );
+
+		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
+			keyphraseDistributionScore: 50,
+			sentencesToHighlight: [
+				new Mark( {
+					marked: "What is <yoastmark class='yoast-text-mark'>asp.NET</yoastmark>?",
+					original: "What is asp.NET?",
+				} ) ],
+		} );
+
+		text = "An example text. What is asp.net.";
+		paper = new Paper( text, { keyword: "\"ASP.NET\"" } );
+		researcher = new Researcher( paper );
+
+		expect( keyphraseDistributionResearcher( paper, researcher ) ).toEqual( {
+			keyphraseDistributionScore: 50,
+			sentencesToHighlight: [
+				new Mark( {
+					marked: "What is <yoastmark class='yoast-text-mark'>asp.net</yoastmark>.",
+					original: "What is asp.net.",
+				} ) ],
+		} );
+	} );
+} );
+
+// Did not remove Japanese tests below as they test the function with different helpers as well as japaneseTopicLength.
 
 const japaneseSentences = "私はペットとして2匹の猫を飼っています。" +
 	"どちらもとても可愛くて甘い猫で、猫の餌を食べるのが大好きです。" +

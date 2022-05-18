@@ -3,6 +3,7 @@
  */
 import getSentences from "../../../../src/languageProcessing/helpers/sentence/getSentences.js";
 import japaneseSentenceTokenizer from "../../../../src/languageProcessing/languages/ja/helpers/memoizedSentenceTokenizer";
+import englishText from "../../../scoring/collectionPages/fullTextTests/testTexts/en/englishPaper1.html";
 
 import {
 	paragraph1,
@@ -194,6 +195,21 @@ describe( "Get sentences from text", function() {
 		for ( let i = 0; i < texts.length; i++ ) {
 			expect( getSentences( texts[ i ] ) ).toEqual( [ expected[ i ] ] );
 		}
+	} );
+
+	it( "should not split text into sentences after unicodes, e.g. after apostrophe unicode 'you&#8217;re'", function() {
+		const texts = "<p>The results that voice gives us are always singular. Siri will set a timer, Google Home will play the song.\n" +
+			"    Joost:  &#8216;Voice results only make sense if you&#8217;re looking for a singular result. " +
+			"If you want to know something specific.\n" +
+			"    If you want to end the discussion you&#8217;re having in the car and need to know exactly how many people live in France.</p>";
+
+		expect( getSentences( texts ) ).toEqual( [
+			"<p>The results that voice gives us are always singular.",
+			"Siri will set a timer, Google Home will play the song.",
+			"Joost:  &#8216;Voice results only make sense if you&#8217;re looking for a singular result.",
+			"If you want to know something specific.",
+			"If you want to end the discussion you&#8217;re having in the car and need to know exactly how many people live in France.",
+			"</p>" ] );
 	} );
 
 	it( "can deal with a longer text", function() {
