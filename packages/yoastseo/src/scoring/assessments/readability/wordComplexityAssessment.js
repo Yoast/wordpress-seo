@@ -189,7 +189,7 @@ const wordComplexityAssessment = function( paper, researcher ) {
  * @returns {boolean} True when there is text.
  */
 const isApplicable = function( paper, researcher ) {
-	return paper.hasText() && researcher.hasResearch( "wordComplexity" );
+	return paper.hasContent() && researcher.hasResearch( "wordComplexity" );
 };
 
 export default {
