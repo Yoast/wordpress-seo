@@ -32,7 +32,7 @@ export default class JapaneseSentenceTokenizer extends SentenceTokenizer {
 	}
 
 	/**
-	 * Returns whether or not a certain character is a number.
+	 * Returns whether a certain character is a number.
 	 *
 	 * @param {string} character The character to check.
 	 * @returns {boolean} Whether or not the character is a capital letter.
@@ -53,7 +53,7 @@ export default class JapaneseSentenceTokenizer extends SentenceTokenizer {
 	}
 
 	/**
-	 * Returns whether or not a given character is quotation mark.
+	 * Returns whether a given character is quotation mark.
 	 *
 	 * @param {string} character The character to check.
 	 * @returns {boolean} Whether or not the given character is a quotation mark.
