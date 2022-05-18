@@ -155,7 +155,8 @@ const getFleschReadingResult = function( paper, researcher ) {
  * @returns {boolean} Returns true if the assessment is available and paper not empty.
  */
 const isApplicable = function( paper, researcher ) {
-	return paper.hasText() && researcher.hasResearch( "getFleschReadingScore" );
+	return paper.hasContent() && researcher.hasResearch( "getFleschReadingScore" );
+
 };
 
 export default {
