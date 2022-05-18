@@ -1,5 +1,7 @@
 import { defaults, isEmpty, isEqual } from "lodash-es";
 import { unifyNonBreakingSpace } from "../languageProcessing/helpers/sanitize/unifyWhitespace";
+import { languageProcessing } from "../../index";
+import sanitizeString from "../languageProcessing/helpers/sanitize/sanitizeString";
 
 /**
  * Default attributes to be used by the Paper if they are left undefined.
@@ -100,6 +102,16 @@ Paper.prototype.getSynonyms = function() {
  */
 Paper.prototype.hasText = function() {
 	return this._text !== "";
+};
+
+/**
+ * Check whether there is content (i.e. flat text without any html tags.).
+ * The decision to use length > 1 was made as a buffer in case sanitizeString returns a single space.
+ * @returns {boolean} Returns true if the paper has content containing more than 1 character.
+ */
+Paper.prototype.hasContent = function() {
+	const processedText = sanitizeString( this._text );
+	return processedText.length > 1;
 };
 
 /**
