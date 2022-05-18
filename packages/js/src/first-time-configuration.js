@@ -15,7 +15,7 @@ domReady( () => {
 
 		renderReactRoot( {
 			target: rootId,
-			children: [ <FirstTimeConfigurationSteps/> ],
+			children: [ <FirstTimeConfigurationSteps /> ],
 			theme,
 		} );
 	}
