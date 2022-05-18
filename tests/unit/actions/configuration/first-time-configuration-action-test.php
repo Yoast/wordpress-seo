@@ -505,10 +505,10 @@ class First_Time_Configuration_Action_Test extends TestCase {
 		];
 
 		return [
-			'Successful saved configuration state' => $success_save,
+			'Successful saved configuration state'          => $success_save,
 			'Failed saved configuration state with parameters not set' => $failed_save_without_params,
 			'Failed saved configuration state option in db' => $failed_save_option,
-			'Checked finished configuration'       => $finish_configuration,
+			'Checked finished configuration'                => $finish_configuration,
 		];
 	}
 
