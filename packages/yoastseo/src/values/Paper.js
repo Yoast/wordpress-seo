@@ -1,6 +1,5 @@
 import { defaults, isEmpty, isEqual } from "lodash-es";
 import { unifyNonBreakingSpace } from "../languageProcessing/helpers/sanitize/unifyWhitespace";
-import { languageProcessing } from "../../index";
 import sanitizeString from "../languageProcessing/helpers/sanitize/sanitizeString";
 
 /**

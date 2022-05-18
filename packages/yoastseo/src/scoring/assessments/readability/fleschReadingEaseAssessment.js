@@ -156,7 +156,6 @@ const getFleschReadingResult = function( paper, researcher ) {
  */
 const isApplicable = function( paper, researcher ) {
 	return paper.hasContent() && researcher.hasResearch( "getFleschReadingScore" );
-
 };
 
 export default {
