@@ -39,7 +39,7 @@ class Crawl_Cleanup_Rss implements Integration_Interface {
 	}
 
 	/**
-	 * Registers our RSS related shortcode.
+	 * Register our RSS related hooks.
 	 *
 	 * @codeCoverageIgnore
 	 */
@@ -59,10 +59,10 @@ class Crawl_Cleanup_Rss implements Integration_Interface {
 	 *
 	 * @param array $args Optional arguments.
 	 */
-	public function feed_links_extra_replacement( $args ) {
+	public function feed_links_extra_replacement( $args = array() ) {
 		$defaults = [
 			/* translators: Separator between blog name and feed type in feed links. */
-			'separator'     => _x( '-', 'feed link', 'wordpress-seo' ),
+			'separator'     => _x( '&raquo;', 'feed link', 'wordpress-seo' ),
 			/* translators: 1: Blog name, 2: Separator (raquo), 3: Post title. */
 			'singletitle'   => __( '%1$s %2$s %3$s Comments Feed', 'wordpress-seo' ),
 			/* translators: 1: Blog name, 2: Separator (raquo), 3: Category name. */
@@ -172,19 +172,6 @@ class Crawl_Cleanup_Rss implements Integration_Interface {
 		}
 
 		\header( \sprintf( 'Cache-Control: ' . $format, $cacheability, $expiration ), true );
-	}
-
-	/**
-	 * Retrieves the queried post type.
-	 *
-	 * @return string The queried post type.
-	 */
-	private function get_queried_post_type() {
-		$post_type = \get_query_var( 'post_type' );
-		if ( \is_array( $post_type ) ) {
-			$post_type = \reset( $post_type );
-		}
-		return $post_type;
 	}
 
 	/**
