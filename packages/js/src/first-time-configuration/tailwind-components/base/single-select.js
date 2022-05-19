@@ -35,9 +35,12 @@ export default function Select( { id, value, choices, label, onChange, error, di
 						<div className="yst-relative">
 							<Listbox.Button
 								className={ classNames(
-									"yst-relative yst-h-[45px] yst-w-full yst-leading-6 yst-py-2 yst-pl-3 yst-pr-10 yst-text-left yst-text-gray-700 yst-bg-white yst-border yst-rounded-md yst-shadow-sm yst-cursor-default focus:yst-outline-none focus:yst-ring-1 focus:yst-ring-primary-500 focus:yst-border-primary-500 sm:yst-text-sm",
-									error.isVisible ? "yst-border-red-300" : "yst-border-gray-300",
-									disabled ? "yst-opacity-50" : "yst-opacity-100"
+									"yst-relative yst-h-[45px] yst-w-full yst-leading-6 yst-py-2 yst-pl-3 yst-pr-10 yst-text-left yst-bg-white yst-border yst-border-gray-300 yst-rounded-md yst-shadow-sm yst-cursor-default focus:yst-outline-none focus:yst-ring-1 focus:yst-ring-primary-500 focus:yst-border-primary-500 sm:yst-text-sm",
+									{
+										"yst-border-red-300": error.isVisible,
+										"yst-opacity-50": disabled,
+									},
+									value === "emptyChoice" ? "yst-text-gray-400" : "yst-text-gray-700"
 								) }
 								{ ...getErrorAriaProps( id, error ) }
 							>

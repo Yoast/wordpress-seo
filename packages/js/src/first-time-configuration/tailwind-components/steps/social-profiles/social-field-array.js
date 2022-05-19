@@ -81,7 +81,7 @@ SocialFieldArray.propTypes = {
 
 SocialFieldArray.defaultProps = {
 	errorFields: [],
-	addButtonChildren: __( "Add another URL", "wordpress-seo" ),
+	addButtonChildren: __( "Add another profile", "wordpress-seo" ),
 };
 
 export default SocialFieldArray;
