@@ -140,6 +140,7 @@ class OAuth_Client_Test extends TestCase {
 					'expires'       => 604800,
 					'has_expired'   => true,
 					'created_at'    => $this->time,
+					'error_count'   => 0,
 				]
 			);
 
@@ -213,6 +214,7 @@ class OAuth_Client_Test extends TestCase {
 					'expires'       => 604800,
 					'has_expired'   => true,
 					'created_at'    => $this->time,
+					'error_count'   => 0,
 				]
 			)
 			->andReturns( $this->token );
@@ -250,6 +252,7 @@ class OAuth_Client_Test extends TestCase {
 					'expires'       => 604800,
 					'has_expired'   => true,
 					'created_at'    => $this->time,
+					'error_count'   => 0,
 				]
 			);
 
@@ -292,6 +295,7 @@ class OAuth_Client_Test extends TestCase {
 				'expires'       => 604800,
 				'has_expired'   => true,
 				'created_at'    => $this->time,
+				'error_count'   => 0,
 			]
 		);
 
@@ -305,6 +309,7 @@ class OAuth_Client_Test extends TestCase {
 					'expires'       => 604800,
 					'has_expired'   => true,
 					'created_at'    => $this->time,
+					'error_count'   => 0,
 				]
 			)
 			->once()
@@ -348,6 +353,7 @@ class OAuth_Client_Test extends TestCase {
 				'expires'       => 604800,
 				'has_expired'   => true,
 				'created_at'    => $this->time,
+				'error_count'   => 0,
 			]
 		);
 
@@ -361,6 +367,7 @@ class OAuth_Client_Test extends TestCase {
 					'expires'       => 604800,
 					'has_expired'   => true,
 					'created_at'    => $this->time,
+					'error_count'   => 0,
 				]
 			)
 			->once()
@@ -412,6 +419,7 @@ class OAuth_Client_Test extends TestCase {
 					'expires'       => ( $this->time + 604800 ),
 					'has_expired'   => false,
 					'created_at'    => $this->time,
+					'error_count'   => 0,
 				]
 			);
 
@@ -518,6 +526,7 @@ class OAuth_Client_Test extends TestCase {
 					'expires'       => 604800,
 					'has_expired'   => true,
 					'created_at'    => $this->time,
+					'error_count'   => 0,
 				]
 			);
 
@@ -577,6 +586,7 @@ class OAuth_Client_Test extends TestCase {
 					'expires'       => ( $this->time + 604800 ),
 					'has_expired'   => false,
 					'created_at'    => $this->time,
+					'error_count'   => 0,
 				]
 			);
 
@@ -652,6 +662,7 @@ class OAuth_Client_Test extends TestCase {
 					'expires'       => 604800,
 					'has_expired'   => true,
 					'created_at'    => $this->time,
+					'error_count'   => 0,
 				]
 			);
 
@@ -675,10 +686,10 @@ class OAuth_Client_Test extends TestCase {
 			->with( 'refresh_token', [ 'refresh_token' => '000001' ] )
 			->andReturn( $this->response );
 
-		Functions\expect('get_transient')
+		Functions\expect( 'get_transient' )
 			->once();
 
-		Functions\expect('delete_transient')
+		Functions\expect( 'delete_transient' )
 			->once();
 
 		$this->assertInstanceOf( OAuth_Token::class, $instance->get_tokens() );
@@ -703,6 +714,7 @@ class OAuth_Client_Test extends TestCase {
 					'expires'       => ( $this->time + 604800 ),
 					'has_expired'   => false,
 					'created_at'    => $this->time,
+					'error_count'   => 0,
 				]
 			);
 
@@ -737,6 +749,7 @@ class OAuth_Client_Test extends TestCase {
 					'expires'       => 604800,
 					'has_expired'   => true,
 					'created_at'    => $this->time,
+					'error_count'   => 0,
 				]
 			);
 
@@ -769,10 +782,10 @@ class OAuth_Client_Test extends TestCase {
 			->expects( 'store_token' )
 			->once();
 
-		Functions\expect('get_transient')
+		Functions\expect( 'get_transient' )
 			->once();
 
-		Functions\expect('delete_transient')
+		Functions\expect( 'delete_transient' )
 			->once();
 
 		$instance->refresh_tokens( $this->token );
@@ -804,6 +817,7 @@ class OAuth_Client_Test extends TestCase {
 					'expires'       => 604800,
 					'has_expired'   => true,
 					'created_at'    => $this->time,
+					'error_count'   => 0,
 				]
 			);
 
@@ -832,15 +846,15 @@ class OAuth_Client_Test extends TestCase {
 			->expects( 'clear_token' )
 			->never();
 
-		Functions\expect('get_transient')
+		Functions\expect( 'get_transient' )
 			->once()
-			->andReturn(false);
+			->andReturn( false );
 
-		Functions\expect('set_transient')
+		Functions\expect( 'set_transient' )
 			->once()
-			->andReturn(true);
+			->andReturn( true );
 
-		Functions\expect('delete_transient')
+		Functions\expect( 'delete_transient' )
 			->once();
 
 		$instance->refresh_tokens( $this->token );
@@ -867,6 +881,7 @@ class OAuth_Client_Test extends TestCase {
 					'expires'       => 604800,
 					'has_expired'   => true,
 					'created_at'    => $this->time,
+					'error_count'   => 0,
 				]
 			);
 
@@ -895,17 +910,20 @@ class OAuth_Client_Test extends TestCase {
 			->expects( 'clear_token' )
 			->once();
 
-		Functions\expect('get_transient')
+		Functions\expect( 'get_transient' )
 			->once()
-			->andReturn(false);
+			->andReturn( false );
 
-		Functions\expect('set_transient')
+		Functions\expect( 'set_transient' )
 			->once()
-			->andReturn(true);
+			->andReturn( true );
 
-		Functions\expect('delete_transient')
+		Functions\expect( 'delete_transient' )
 			->once();
 
-		$instance->refresh_tokens( $this->token );
+		$token              = clone $this->token;
+		$token->error_count = 1;
+
+		$instance->refresh_tokens( $token );
 	}
 }

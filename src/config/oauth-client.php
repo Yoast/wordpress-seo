@@ -71,7 +71,8 @@ abstract class OAuth_Client {
 				$tokens['refresh_token'],
 				$tokens['expires'],
 				$tokens['has_expired'],
-				$tokens['created_at']
+				$tokens['created_at'],
+				isset( $tokens['error_count'] ) ? $tokens['error_count'] : 0
 			);
 		}
 	}
@@ -276,16 +277,24 @@ abstract class OAuth_Client {
 				]
 			);
 
-			$token = OAuth_Token::from_response( $new_tokens );
+			$token_obj = OAuth_Token::from_response( $new_tokens );
 
-			return $this->store_token( $token );
+			return $this->store_token( $token_obj );
 		} catch ( Exception $exception ) {
 			// If we tried to refresh but the refresh token is invalid, delete
 			// the tokens so that we don't try again. Only do this if we got the
 			// lock at the beginning of the call.
 			if ( $has_lock && $exception->getMessage() === 'invalid_grant' ) {
 				try {
-					$this->clear_token();
+					// To protect from race conditions, only do this if we've
+					// seen an error before with the same token.
+					if ( $tokens->error_count >= 1 ) {
+						$this->clear_token();
+					}
+					else {
+						$tokens->error_count += 1;
+						$this->store_token( $tokens );
+					}
 				} catch ( Exception $e ) {  // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch
 					// Pass through.
 				}
