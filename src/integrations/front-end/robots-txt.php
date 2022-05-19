@@ -63,17 +63,36 @@ class Robots_Txt implements Integration_Interface {
 			return $robots_txt;
 		}
 
-		// Replace the default WordPress robots.txt output.
-		$robots_txt = trim( str_replace( 'User-agent: *' . "\n" . 'Disallow: /wp-admin/' . "\n" . 'Allow: /wp-admin/admin-ajax.php', 'User-agent: *' . "\n" . 'Disallow:' . "\n", $robots_txt ) );
+		$robots_txt = $this->change_default_robots( $robots_txt );
 
-		if ( $this->options->get( 'enable_xml_sitemap', false ) ) {
-			$robots_txt  = trim( $robots_txt );
-			if ( ! empty( $robots_txt ) ) {
+		return $this->add_xml_sitemap_line( $robots_txt );
+	}
+
+	/**
+	 * Replace the default WordPress robots.txt output.
+	 *
+	 * @param string $robots_txt Input robots.txt.
+	 *
+	 * @return string
+	 */
+	protected function change_default_robots( $robots_txt ) {
+		$robots_txt = trim(str_replace('User-agent: *' . "\n" . 'Disallow: /wp-admin/' . "\n" . 'Allow: /wp-admin/admin-ajax.php', 'User-agent: *' . "\n" . 'Disallow:' . "\n", $robots_txt));
+		return $robots_txt;
+	}
+
+	/**
+	 * @param string $robots_txt
+	 *
+	 * @return string
+	 */
+	protected function add_xml_sitemap_line( $robots_txt ) {
+		if ($this->options->get('enable_xml_sitemap', false)) {
+			$robots_txt = trim($robots_txt);
+			if (!empty($robots_txt)) {
 				$robots_txt .= "\n\n";
 			}
-			$robots_txt .= 'Sitemap: ' . home_url( '/sitemap_index.xml' ) . "\n";
+			$robots_txt .= 'Sitemap: ' . home_url('/sitemap_index.xml') . "\n";
 		}
-
 		return $robots_txt;
 	}
 }

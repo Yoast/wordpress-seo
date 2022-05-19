@@ -69,9 +69,43 @@ class Robots_Txt_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the default robots.txt output being filtered by Yoast.
+	 *
+	 * @covers ::filter_robots
+	 * @covers ::change_default_robots
+	 * @covers ::add_xml_sitemap_line
+	 */
+	public function test_default_robots_filtering() {
+		$input = 'User-agent: *
+Disallow: /wp-admin/
+Allow: /wp-admin/admin-ajax.php';
+
+		$expected = 'User-agent: *
+Disallow:
+
+Sitemap: https://example.com/sitemap_index.xml
+';
+
+		$this->options
+			->expects( 'get' )
+			->with( 'enable_xml_sitemap', false )
+			->once()
+			->andReturnTrue();
+
+		Monkey\Functions\expect( 'home_url' )
+			->with( '/sitemap_index.xml' )
+			->once()
+			->andReturn( 'https://example.com/sitemap_index.xml' );
+
+		static::assertEquals( $expected, $this->instance->filter_robots( $input, '1' ) );
+	}
+
+	/**
 	 * Tests the robots filter for a public site, with sitemaps.
 	 *
 	 * @covers ::filter_robots
+	 * @covers ::change_default_robots
+	 * @covers ::add_xml_sitemap_line
 	 */
 	public function test_public_site_with_sitemaps() {
 		$this->options
@@ -92,6 +126,8 @@ class Robots_Txt_Test extends TestCase {
 	 * Tests the robots filter for a public site, without sitemaps.
 	 *
 	 * @covers ::filter_robots
+	 * @covers ::change_default_robots
+	 * @covers ::add_xml_sitemap_line
 	 */
 	public function test_public_site_without_sitemaps() {
 		$this->options
