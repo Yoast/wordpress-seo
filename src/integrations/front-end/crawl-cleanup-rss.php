@@ -44,12 +44,14 @@ class Crawl_Cleanup_Rss implements Integration_Interface {
 	 * @codeCoverageIgnore
 	 */
 	public function register_hooks() {
-		// Replace core's feed_links_extra with our own which allows us control over which feeds to show.
-		remove_action( 'wp_head', 'feed_links_extra', 3 );
-		add_action( 'wp_head', [ $this, 'feed_links_extra_replacement' ], 3 );
+		if ( $this->options_helper->get( 'remove_feed_post_comments' ) === true ) {
+			// Replace core's feed_links_extra with our own which allows us control over which feeds to show.
+			remove_action( 'wp_head', 'feed_links_extra', 3 );
+			add_action( 'wp_head', [ $this, 'feed_links_extra_replacement' ], 3 );
 
-		// Redirect the ones we don't want to exist.
-		add_action( 'wp', [ $this, 'redirect_unwanted_feeds' ], - 10000 );
+			// Redirect the ones we don't want to exist.
+			add_action( 'wp', [ $this, 'redirect_unwanted_feeds' ], - 10000 );
+		}
 	}
 
 	/**
@@ -58,7 +60,7 @@ class Crawl_Cleanup_Rss implements Integration_Interface {
 	 * @param array $args Optional arguments.
 	 */
 	public function feed_links_extra_replacement( $args = [] ) {
-		if ( \is_singular() && $this->options_helper->get( 'remove_feed_post_comments' ) === true ) {
+		if ( \is_singular() ) {
 			return;
 		}
 
@@ -73,7 +75,7 @@ class Crawl_Cleanup_Rss implements Integration_Interface {
 			return;
 		}
 
-		if ( \is_comment_feed() && \is_singular() && $this->options_helper->get( 'remove_feed_post_comments' ) === true ) {
+		if ( \is_comment_feed() && \is_singular() ) {
 			$url = \get_permalink( \get_queried_object() );
 			$this->redirect_feed( $url, 'We disable post comment feeds for performance reasons.' );
 		}
