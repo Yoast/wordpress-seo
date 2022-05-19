@@ -51,7 +51,7 @@ class Options_Form_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
-		add_action( 'admin_action_' . self::SET_OPTIONS_ACTION, [ $this, 'handle_update_options_request' ] );
+		\add_action( 'admin_action_' . self::SET_OPTIONS_ACTION, [ $this, 'handle_update_options_request' ] );
 	}
 
 	/**
@@ -63,7 +63,7 @@ class Options_Form_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function handle_update_options_request() {
-		$option = filter_input( INPUT_POST, 'option', FILTER_SANITIZE_STRING );
+		$option = \filter_input( INPUT_POST, 'option', FILTER_SANITIZE_STRING );
 
 		$this->verify_request( self::SET_OPTIONS_ACTION . ":$option" );
 
@@ -77,7 +77,7 @@ class Options_Form_Integration implements Integration_Interface {
 		if ( ! $result['success'] ) {
 			\add_settings_error( 'wpseo_options', 'settings_save_error', $result['error'], 'error' );
 			if ( \array_key_exists( 'field_errors', $result ) ) {
-				foreach ( $result['field_errors']->get_field_exceptions() as $option => $field_exception ) {
+				foreach ( $result['field_errors'] as $option => $field_exception ) {
 					\add_settings_error( 'wpseo_options', $option, $field_exception, 'error' );
 				}
 			}
