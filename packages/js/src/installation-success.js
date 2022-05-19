@@ -137,6 +137,7 @@ domReady( () => {
 	renderReactRoot( {
 		target: "wpseo-installation-successful-free",
 		children: <InstallationSuccessPage />,
+		// A location of type "sidebar", "metabox" or "modal" is required, but not used, so this is added to prevent a warning in the console.
 		location: "sidebar",
 		theme,
 	} );
