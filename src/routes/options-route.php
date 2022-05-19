@@ -24,6 +24,13 @@ class Options_Route implements Route_Interface {
 	const ROUTE = 'options';
 
 	/**
+	 * Holds the full options route.
+	 *
+	 * @var string
+	 */
+	const FULL_ROUTE = Main::API_V1_NAMESPACE . '/' . self::ROUTE;
+
+	/**
 	 * Holds the Options_Action instance.
 	 *
 	 * @var Options_Action

@@ -15,11 +15,18 @@ use Yoast\WP\SEO\Main;
 class Network_Admin_Options_Route implements Route_Interface {
 
 	/**
-	 * Holds the options route.
+	 * Holds the network admin options route.
 	 *
 	 * @var string
 	 */
 	const ROUTE = 'network-admin-options';
+
+	/**
+	 * Holds the full network admin options route.
+	 *
+	 * @var string
+	 */
+	const FULL_ROUTE = Main::API_V1_NAMESPACE . '/' . self::ROUTE;
 
 	/**
 	 * Holds the Network_Admin_Options_Action instance.
