@@ -7,26 +7,24 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
- * Class Robots_Txt.
+ * Handles adding the sitemap to the `robots.txt`.
  */
-class Robots_Txt implements Integration_Interface {
+class Robots_Txt_Integration implements Integration_Interface {
 
 	/**
-	 * The options helper.
+	 * Holds the options helper.
 	 *
 	 * @var Options_Helper
 	 */
-	private $options;
+	protected $options_helper;
 
 	/**
 	 * Sets the helpers.
 	 *
-	 * @codeCoverageIgnore It just handles dependencies.
-	 *
-	 * @param Options_Helper $options Options helper.
+	 * @param Options_Helper $options_helper Options helper.
 	 */
-	public function __construct( Options_Helper $options ) {
-		$this->options = $options;
+	public function __construct( Options_Helper $options_helper ) {
+		$this->options_helper = $options_helper;
 	}
 
 	/**
@@ -46,11 +44,11 @@ class Robots_Txt implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
-		add_filter( 'robots_txt', [ $this, 'filter_robots' ], 10, 2 );
+		\add_filter( 'robots_txt', [ $this, 'filter_robots' ], 99999, 2 );
 	}
 
 	/**
-	 * Filter the robots.txt output.
+	 * Filters the robots.txt output.
 	 *
 	 * @param string $robots_txt The robots.txt output from WordPress.
 	 * @param string $public     Option that says whether the site is public or not.
@@ -76,8 +74,13 @@ class Robots_Txt implements Integration_Interface {
 	 * @return string
 	 */
 	protected function change_default_robots( $robots_txt ) {
-		$robots_txt = trim( str_replace( 'User-agent: *' . "\n" . 'Disallow: /wp-admin/' . "\n" . 'Allow: /wp-admin/admin-ajax.php', 'User-agent: *' . "\n" . 'Disallow:' . "\n", $robots_txt ) );
-		return $robots_txt;
+		return \trim(
+			\str_replace(
+				'User-agent: *' . "\n" . 'Disallow: /wp-admin/' . "\n" . 'Allow: /wp-admin/admin-ajax.php',
+				'User-agent: *' . "\n" . 'Disallow:' . "\n",
+				$robots_txt
+			)
+		);
 	}
 
 	/**
@@ -88,13 +91,18 @@ class Robots_Txt implements Integration_Interface {
 	 * @return string
 	 */
 	protected function add_xml_sitemap_line( $robots_txt ) {
-		if ( $this->options->get( 'enable_xml_sitemap', false ) ) {
-			$robots_txt = trim( $robots_txt );
-			if ( ! empty( $robots_txt ) ) {
-				$robots_txt .= "\n\n";
-			}
-			$robots_txt .= 'Sitemap: ' . home_url( '/sitemap_index.xml' ) . "\n";
+		// If the XML sitemap is disabled, bail.
+		if ( ! $this->options_helper->get( 'enable_xml_sitemap', false ) ) {
+			return $robots_txt;
 		}
-		return $robots_txt;
+
+		$sitemap = 'Sitemap: ' . \esc_url( \WPSEO_Sitemaps_Router::get_base_url( 'sitemap_index.xml' ) );
+
+		// If our sitemap is already output, bail.
+		if ( \strpos( $robots_txt, $sitemap ) !== false ) {
+			return $robots_txt;
+		};
+
+		return \trim( $robots_txt ) . "\n\n" . $sitemap . "\n";
 	}
 }
