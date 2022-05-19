@@ -251,7 +251,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 			$focus_keyword = $this->get_post_focus_keyword( $post );
 
 			if ( ! empty( $focus_keyword ) ) {
-				$trends_url .= '#q=' . urlencode( $focus_keyword );
+				$trends_url .= '#q=' . rawurlencode( $focus_keyword );
 			}
 		}
 
@@ -346,18 +346,18 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 		];
 		$wp_admin_bar->add_menu( $menu_args );
 
-		$encoded_url   = urlencode( $url );
+		$encoded_url   = rawurlencode( $url );
 		$submenu_items = [
 			[
 				'id'     => 'wpseo-inlinks',
 				'title'  => __( 'Check links to this URL', 'wordpress-seo' ),
-				'href'   => 'https://search.google.com/search-console/links/drilldown?resource_id=' . urlencode( get_option( 'siteurl' ) ) . '&type=EXTERNAL&target=' . $encoded_url . '&domain=',
+				'href'   => 'https://search.google.com/search-console/links/drilldown?resource_id=' . rawurlencode( get_option( 'siteurl' ) ) . '&type=EXTERNAL&target=' . $encoded_url . '&domain=',
 			],
 			[
 				'id'     => 'wpseo-kwdensity',
 				'title'  => __( 'Check Keyphrase Density', 'wordpress-seo' ),
 				// HTTPS not available.
-				'href'   => 'http://www.zippy.co.uk/keyworddensity/index.php?url=' . $encoded_url . '&keyword=' . urlencode( $focus_keyword ),
+				'href'   => 'http://www.zippy.co.uk/keyworddensity/index.php?url=' . $encoded_url . '&keyword=' . rawurlencode( $focus_keyword ),
 			],
 			[
 				'id'     => 'wpseo-cache',
@@ -455,7 +455,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 				'parent' => self::SETTINGS_SUBMENU_IDENTIFIER,
 				'id'     => $id,
 				'title'  => $submenu_page[2],
-				'href'   => admin_url( 'admin.php?page=' . urlencode( $submenu_page[4] ) ),
+				'href'   => admin_url( 'admin.php?page=' . rawurlencode( $submenu_page[4] ) ),
 			];
 			$wp_admin_bar->add_menu( $menu_args );
 		}
@@ -498,7 +498,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 				'parent' => self::NETWORK_SETTINGS_SUBMENU_IDENTIFIER,
 				'id'     => $id,
 				'title'  => $submenu_page[2],
-				'href'   => network_admin_url( 'admin.php?page=' . urlencode( $submenu_page[4] ) ),
+				'href'   => network_admin_url( 'admin.php?page=' . rawurlencode( $submenu_page[4] ) ),
 			];
 			$wp_admin_bar->add_menu( $menu_args );
 		}
