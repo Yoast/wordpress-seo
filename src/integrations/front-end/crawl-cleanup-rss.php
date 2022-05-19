@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\Integrations\Front_end;
+namespace Yoast\WP\SEO\Integrations\Front_End;
 
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
