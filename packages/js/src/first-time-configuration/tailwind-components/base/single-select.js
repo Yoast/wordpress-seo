@@ -27,7 +27,7 @@ export default function Select( { id, value, choices, label, onChange, error, di
 	}, [ choices, value ] );
 
 	return (
-		<Listbox value={ value } onChange={ onChange } disabled={ disabled }>
+		<Listbox id={ id } as="div" value={ value } onChange={ onChange } disabled={ disabled }>
 			{ ( { open } ) => (
 				<>
 					{ label && <Listbox.Label className="yst-block yst-max-w-sm yst-mb-1 yst-text-sm yst-font-medium yst-text-gray-700">{ label }</Listbox.Label> }
