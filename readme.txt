@@ -236,6 +236,24 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 19.0 =
+Release Date: May 31st, 2022
+
+
+Bugfixes:
+
+* Add localization to the First-time configuration steps' titles
+* Fixes a bug in the First-time Configuration where saving an invalid organization name would fail without feedback.
+* Fixes a bug where an error in saving the Site representation step of the First-time configuration would not block the advancement to the next step.
+* Fixes a bug where editing an existing post created in Block editor in Elementor would result in an analysis result discrepancy.
+* Fixes a bug where items in lists were not excluded for the readability assessment that checks whether consecutive sentences do not begin with the same words.
+* Fixes a bug where the schema would not be updated with the new logo when the user changed it via the First Time Configuration
+* Fixes a bug where users could leave a step containing errors by clicking another step's edit button
+
+Other:
+
+* Adds a Redirects page with an upsell to Premium.
+
 = 18.9 =
 Release Date: May 17th, 2022
 
@@ -258,15 +276,6 @@ Other:
 
 * Adds a `Premium` badge to the Workouts menu item.
 * Updates the look of the Accounts tab in the Social page.
-
-= 18.8 =
-Release Date: May 6th, 2022
-
-Did you catch the latest update from Google? Today they made some small changes to how they read XML sitemaps. But you don’t have to worry about that - today's Yoast SEO 18.8 update already applies the latest standards. Read more about what's new in Yoast SEO 18.8 in [our release post in English](https://yoa.st/release-6-5-22) or [our release post in Spanish](https://yoa.st/release-6-5-22-spanish)!
-
-Enhancements:
-
-* Removes XML sitemap image properties `title` and `caption` following deprecation by Google.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
