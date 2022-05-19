@@ -70,9 +70,9 @@ class Crawl_Cleanup_Rss_Test extends TestCase {
 	/**
 	 * Tests if the expected replacements are performed when a post is displayed and the RSS cleanup is enabled.
 	 *
-	 * @covers ::feed_links_extra_replacement
+	 * @covers ::maybe_disable_feeds
 	 */
-	public function test_feed_links_extra_replacement_when_is_singular_and_feeds_disabled() {
+	public function test_maybe_disable_feeds_when_is_singular_and_feeds_disabled() {
 		Monkey\Functions\expect( 'is_singular' )
 			->once()
 			->andReturn( true );
@@ -92,9 +92,9 @@ class Crawl_Cleanup_Rss_Test extends TestCase {
 	/**
 	 * Tests if the expected replacements are performed when a post is displayed and the RSS cleanup is disabled.
 	 *
-	 * @covers ::feed_links_extra_replacement
+	 * @covers ::maybe_disable_feeds
 	 */
-	public function test_feed_links_extra_replacement_when_is_singular_and_feeds_enabled() {
+	public function test_maybe_disable_feeds_when_is_singular_and_feeds_enabled() {
 		Monkey\Functions\expect( 'is_singular' )
 			->once()
 			->andReturn( true );
@@ -114,9 +114,9 @@ class Crawl_Cleanup_Rss_Test extends TestCase {
 	/**
 	 * Tests if the expected replacements are performed when a post is displayed and the RSS cleanup is disabled.
 	 *
-	 * @covers ::feed_links_extra_replacement
+	 * @covers ::maybe_disable_feeds
 	 */
-	public function test_feed_links_extra_replacement_when_not_singular() {
+	public function test_maybe_disable_feeds_when_not_singular() {
 		Monkey\Functions\expect( 'is_singular' )
 			->once()
 			->andReturn( false );
