@@ -182,7 +182,6 @@ function calculateInitialState( windowObject, isStepFinished ) {
 		personSocialProfiles: {},
 		errorFields: [],
 		editedSteps: [],
-		savedSteps: [],
 	};
 }
 
@@ -249,17 +248,6 @@ export default function FirstTimeConfigurationSteps() {
 		}
 	}, [ indexingState ] );
 
-	/**
-	 * Sets the step to isSaved.
-	 *
-	 * @param {number} stepNumber The number of the step to save.
-	 *
-	 * @returns {void}
-	 */
-	const setStepIsSaved = ( stepNumber ) => {
-		dispatch( { type: "SET_STEP_SAVED", payload: stepNumber } );
-	};
-
 	const isStep2Finished = isStepFinished( STEPS.siteRepresentation );
 	const isStep3Finished = isStepFinished( STEPS.socialProfiles );
 	const isStep4Finished = isStepFinished( STEPS.personalPreferences );
@@ -293,7 +281,6 @@ export default function FirstTimeConfigurationSteps() {
 		}
 		setSiteRepresentationEmpty( state.companyOrPerson === "emptyChoice" || isCompanyAndEmpty || isPersonAndEmpty );
 		return updateSiteRepresentation( state )
-			.then( () => setStepIsSaved( 2 ) )
 			.then( () => {
 				setErrorFields( [] );
 				finishSteps( STEPS.siteRepresentation );
@@ -329,7 +316,6 @@ export default function FirstTimeConfigurationSteps() {
 					}
 					return response;
 				} )
-				.then( () => setStepIsSaved( 3 ) )
 				.then( () => {
 					setErrorFields( [] );
 					finishSteps( STEPS.socialProfiles );
@@ -355,7 +341,6 @@ export default function FirstTimeConfigurationSteps() {
 				}
 				return response;
 			} )
-			.then( () => setStepIsSaved( 3 ) )
 			.then( () => {
 				setErrorFields( [] );
 				finishSteps( STEPS.socialProfiles );
@@ -387,7 +372,6 @@ export default function FirstTimeConfigurationSteps() {
 					document.getElementById( "tracking-off" ).checked = true;
 				}
 			} )
-			.then( () => setStepIsSaved( 4 ) )
 			.then( () => finishSteps( STEPS.personalPreferences ) )
 			.then( () => {
 				return true;
