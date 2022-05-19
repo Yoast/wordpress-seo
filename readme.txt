@@ -240,6 +240,11 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 Release Date: May 31st, 2022
 
 
+
+Enhancements:
+
+* Adds a feature to remove post comment RSS feeds
+
 Bugfixes:
 
 * Add localization to the First-time configuration steps' titles
@@ -253,6 +258,7 @@ Bugfixes:
 Other:
 
 * Adds a Redirects page with an upsell to Premium.
+* Deprecates the configuration workout classes.
 
 = 18.9 =
 Release Date: May 17th, 2022
