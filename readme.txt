@@ -247,8 +247,8 @@ Bugfixes:
 * Fixes a bug where an error in saving the Site representation step of the First-time configuration would not block the advancement to the next step.
 * Fixes a bug where editing an existing post created in Block editor in Elementor would result in an analysis result discrepancy.
 * Fixes a bug where items in lists were not excluded for the readability assessment that checks whether consecutive sentences do not begin with the same words.
-* Fixes a bug where the schema would not be updated with the new logo when the user changed it via the First Time Configuration
-* Fixes a bug where users could leave a step containing errors by clicking another step's edit button
+* Fixes a bug where the schema would not be updated with the new logo when the user changed it via the First Time Configuration.
+* Fixes a bug where users would be able to leave a step containing errors by clicking another step's edit button.
 
 Other:
 
