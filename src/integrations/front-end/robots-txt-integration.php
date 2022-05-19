@@ -63,7 +63,14 @@ class Robots_Txt_Integration implements Integration_Interface {
 
 		$robots_txt = $this->change_default_robots( $robots_txt );
 
-		return $this->add_xml_sitemap( $robots_txt );
+		// If the XML sitemap is disabled, bail.
+		if ( ! $this->options_helper->get( 'enable_xml_sitemap', false ) ) {
+			return $robots_txt;
+		}
+
+		$robots_txt = $this->add_xml_sitemap( $robots_txt );
+
+		return $this->add_subdirectory_multisite_xml_sitemaps( $robots_txt );
 	}
 
 	/**
@@ -89,11 +96,6 @@ class Robots_Txt_Integration implements Integration_Interface {
 	 * @return string
 	 */
 	protected function add_xml_sitemap( $robots_txt ) {
-		// If the XML sitemap is disabled, bail.
-		if ( ! $this->options_helper->get( 'enable_xml_sitemap', false ) ) {
-			return $robots_txt;
-		}
-
 		$sitemap = 'Sitemap: ' . \esc_url( \WPSEO_Sitemaps_Router::get_base_url( 'sitemap_index.xml' ) );
 
 		// If our sitemap is already output, bail.
@@ -102,5 +104,40 @@ class Robots_Txt_Integration implements Integration_Interface {
 		};
 
 		return \trim( $robots_txt ) . "\n\n" . $sitemap . "\n";
+	}
+
+	/**
+	 * Adds subdomain multisite' XML sitemap references to robots.txt.
+	 *
+	 * @param string $robots_txt Robots.txt input.
+	 *
+	 * @return string
+	 */
+	protected function add_subdirectory_multisite_xml_sitemaps( $robots_txt ) {
+		// If not on a multisite subdirectory, bail.
+		if ( ! \is_multisite() || \is_subdomain_install() ) {
+			return $robots_txt;
+		}
+
+		$criteria = [
+			'public'     => 1,
+			'deleted'    => 0,
+			'network_id' => \get_current_network_id(),
+		];
+		$sites    = \get_sites( $criteria );
+
+		$sitemaps = "\n\n";
+		foreach ( $sites as $site ) {
+			$sitemap = 'Sitemap: ' . \esc_url( \get_home_url( $site->blog_id, 'sitemap_index.xml' ) );
+
+			// If our sitemap is already output, bail.
+			if ( \strpos( $robots_txt, $sitemap ) !== false ) {
+				continue;
+			};
+
+			$sitemaps .= $sitemap . "\n";
+		}
+
+		return \trim( $robots_txt ) . $sitemaps;
 	}
 }
