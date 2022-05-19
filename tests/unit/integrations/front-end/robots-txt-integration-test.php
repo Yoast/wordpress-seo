@@ -143,6 +143,10 @@ class Robots_Txt_Integration_Test extends TestCase {
 	 */
 	public function sitemap_provider() {
 		return [
+			'Default output is filtered' => [
+				'sitemap'  => "User-agent: *\nDisallow: /wp-admin/\nAllow: /wp-admin/admin-ajax.php\n",
+				'expected' => "User-agent: *\nDisallow:\n\nSitemap: https://example.com/sitemap_index.xml\n",
+			],
 			'Without any sitemap' => [
 				'sitemap'  => "Input\n",
 				'expected' => "Input\n\nSitemap: https://example.com/sitemap_index.xml\n",

@@ -63,34 +63,32 @@ class Robots_Txt_Integration implements Integration_Interface {
 
 		$robots_txt = $this->change_default_robots( $robots_txt );
 
-		return $this->add_xml_sitemap_line( $robots_txt );
+		return $this->add_xml_sitemap( $robots_txt );
 	}
 
 	/**
-	 * Replace the default WordPress robots.txt output.
+	 * Replaces the default WordPress robots.txt output.
 	 *
 	 * @param string $robots_txt Input robots.txt.
 	 *
 	 * @return string
 	 */
 	protected function change_default_robots( $robots_txt ) {
-		return \trim(
-			\str_replace(
-				'User-agent: *' . "\n" . 'Disallow: /wp-admin/' . "\n" . 'Allow: /wp-admin/admin-ajax.php',
-				'User-agent: *' . "\n" . 'Disallow:' . "\n",
-				$robots_txt
-			)
+		return \str_replace(
+			"User-agent: *\nDisallow: /wp-admin/\nAllow: /wp-admin/admin-ajax.php",
+			"User-agent: *\nDisallow:",
+			$robots_txt
 		);
 	}
 
 	/**
-	 * Add XML sitemap reference to robots.txt.
+	 * Adds XML sitemap reference to robots.txt.
 	 *
 	 * @param string $robots_txt Robots.txt input.
 	 *
 	 * @return string
 	 */
-	protected function add_xml_sitemap_line( $robots_txt ) {
+	protected function add_xml_sitemap( $robots_txt ) {
 		// If the XML sitemap is disabled, bail.
 		if ( ! $this->options_helper->get( 'enable_xml_sitemap', false ) ) {
 			return $robots_txt;
