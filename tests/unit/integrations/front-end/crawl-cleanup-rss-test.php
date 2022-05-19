@@ -56,11 +56,11 @@ class Crawl_Cleanup_Rss_Test extends TestCase {
 	}
 
 	/**
-	 * Tests if the expected hooks are registered when we disable rss feeds.
+	 * Tests if the expected hooks are registered.
 	 *
 	 * @covers ::register_hooks
 	 */
-	public function test_register_hooks_when_remove_feed_post_comments() {
+	public function test_register_hooks() {
 		$this->instance->register_hooks();
 
 		$this->assertNotFalse( Monkey\Actions\has( 'wp', [ $this->instance, 'maybe_disable_feeds' ] ) );

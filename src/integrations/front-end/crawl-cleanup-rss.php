@@ -40,8 +40,6 @@ class Crawl_Cleanup_Rss implements Integration_Interface {
 
 	/**
 	 * Register our RSS related hooks.
-	 *
-	 * @codeCoverageIgnore
 	 */
 	public function register_hooks() {
 		\add_action( 'wp', [ $this, 'maybe_disable_feeds' ] );
