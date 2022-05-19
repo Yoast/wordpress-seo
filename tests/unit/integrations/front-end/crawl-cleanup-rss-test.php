@@ -61,63 +61,73 @@ class Crawl_Cleanup_Rss_Test extends TestCase {
 	 * @covers ::register_hooks
 	 */
 	public function test_register_hooks_when_remove_feed_post_comments() {
-		$this->options_helper
-			->expects( 'get' )
-			->with( 'remove_feed_post_comments' )
-			->andReturn( true );
-
 		$this->instance->register_hooks();
 
-		$this->assertNotFalse( Monkey\Actions\has( 'wp', [ $this->instance, 'redirect_unwanted_feeds' ] ) );
-		$this->assertNotFalse( Monkey\Actions\has( 'wp_head', [ $this->instance, 'feed_links_extra_replacement' ] ) );
+		$this->assertNotFalse( Monkey\Actions\has( 'wp', [ $this->instance, 'maybe_disable_feeds' ] ) );
+		$this->assertNotFalse( Monkey\Actions\has( 'wp', [ $this->instance, 'maybe_redirect_feeds' ] ) );
 	}
 
 	/**
-	 * Tests if the expected hooks are not registered when we don't disable rss feeds.
-	 *
-	 * @covers ::register_hooks
-	 */
-	public function test_register_hooks_when_not_remove_feed_post_comments() {
-		$this->options_helper
-			->expects( 'get' )
-			->with( 'remove_feed_post_comments' )
-			->andReturn( false );
-
-		$this->instance->register_hooks();
-
-		$this->assertFalse( Monkey\Actions\has( 'wp', [ $this->instance, 'redirect_unwanted_feeds' ] ) );
-		$this->assertFalse( Monkey\Actions\has( 'wp_head', [ $this->instance, 'feed_links_extra_replacement' ] ) );
-	}
-
-	/**
-	 * Tests if the expected replacements are performed when a post is displayed.
+	 * Tests if the expected replacements are performed when a post is displayed and the RSS cleanup is enabled.
 	 *
 	 * @covers ::feed_links_extra_replacement
 	 */
-	public function test_feed_links_extra_replacement_when_is_singular_true() {
+	public function test_feed_links_extra_replacement_when_is_singular_and_feeds_disabled() {
 		Monkey\Functions\expect( 'is_singular' )
 			->once()
 			->andReturn( true );
 
-		Monkey\Functions\expect( 'feed_links_extra' )
-			->never();
-
-		$this->instance->feed_links_extra_replacement();
-	}
-
-	/**
-	 * Tests if the standard wp behavior is kept when anything than a post is displayed.
-	 *
-	 * @covers ::feed_links_extra_replacement
-	 */
-	public function test_feed_links_extra_replacement_when_is_singular_false() {
-		Monkey\Functions\expect( 'is_singular' )
+		$this->options_helper
+			->expects( 'get' )
 			->once()
-			->andReturn( false );
+			->with( 'remove_feed_post_comments' )
+			->andReturn( true );
 
-		Monkey\Functions\expect( 'feed_links_extra' )
+		Monkey\Functions\expect( 'remove_action' )
 			->once();
 
-		$this->instance->feed_links_extra_replacement();
+		$this->instance->maybe_disable_feeds();
+	}
+
+	/**
+	 * Tests if the expected replacements are performed when a post is displayed and the RSS cleanup is disabled.
+	 *
+	 * @covers ::feed_links_extra_replacement
+	 */
+	public function test_feed_links_extra_replacement_when_is_singular_and_feeds_enabled() {
+		Monkey\Functions\expect( 'is_singular' )
+			->once()
+			->andReturn( true );
+
+		$this->options_helper
+			->expects( 'get' )
+			->once()
+			->with( 'remove_feed_post_comments' )
+			->andReturn( false );
+
+		Monkey\Functions\expect( 'remove_action' )
+			->never();
+
+		$this->instance->maybe_disable_feeds();
+	}
+
+	/**
+	 * Tests if the expected replacements are performed when a post is displayed and the RSS cleanup is disabled.
+	 *
+	 * @covers ::feed_links_extra_replacement
+	 */
+	public function test_feed_links_extra_replacement_when_not_singular() {
+		Monkey\Functions\expect( 'is_singular' )
+			->once()
+			->andReturn( false );
+
+		$this->options_helper
+			->expects( 'get' )
+			->never();
+
+		Monkey\Functions\expect( 'remove_action' )
+			->never();
+
+		$this->instance->maybe_disable_feeds();
 	}
 }
