@@ -59,7 +59,7 @@ class Crawl_Cleanup_Rss implements Integration_Interface {
 	 *
 	 * @param array $args Optional arguments.
 	 */
-	public function feed_links_extra_replacement( $args = array() ) {
+	public function feed_links_extra_replacement( $args = [] ) {
 		$defaults = [
 			/* translators: Separator between blog name and feed type in feed links. */
 			'separator'     => _x( '&raquo;', 'feed link', 'wordpress-seo' ),
