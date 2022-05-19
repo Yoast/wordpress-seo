@@ -3,7 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Front_End;
 
 use Mockery;
-use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
+use Yoast\WP\SEO\Conditionals\Robots_Txt_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Front_End\Robots_Txt_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -63,7 +63,7 @@ class Robots_Txt_Integration_Test extends TestCase {
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
-			[ Front_End_Conditional::class ],
+			[ Robots_Txt_Conditional::class ],
 			Robots_Txt_Integration::get_conditionals()
 		);
 	}

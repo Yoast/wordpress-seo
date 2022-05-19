@@ -2,7 +2,7 @@
 
 namespace Yoast\WP\SEO\Integrations\Front_End;
 
-use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
+use Yoast\WP\SEO\Conditionals\Robots_Txt_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
@@ -33,7 +33,7 @@ class Robots_Txt_Integration implements Integration_Interface {
 	 * @return array
 	 */
 	public static function get_conditionals() {
-		return [ Front_End_Conditional::class ];
+		return [ Robots_Txt_Conditional::class ];
 	}
 
 	/**
