@@ -3,6 +3,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { createInterpolateElement } from "@wordpress/element";
 import { renderReactRoot } from "./helpers/reactRoot";
 import { ActiveCircle, SavedCircle } from "./first-time-configuration/tailwind-components/step-circle";
+import getL10nObject from "./analysis/getL10nObject";
 
 /**
  * The non-functional, decorative steppers for the installation success page.
@@ -130,5 +131,14 @@ function InstallationSuccessPage() {
 }
 
 domReady( () => {
-	renderReactRoot( "wpseo-installation-successful-free", <InstallationSuccessPage /> );
+	const theme = {
+		isRtl: getL10nObject().isRtl,
+	};
+	renderReactRoot( {
+		target: "wpseo-installation-successful-free",
+		children: <InstallationSuccessPage />,
+		// A location of type "sidebar", "metabox" or "modal" is required, but not used, so this is added to prevent a warning in the console.
+		location: "sidebar",
+		theme,
+	} );
 } );
