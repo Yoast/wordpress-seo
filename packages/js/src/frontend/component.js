@@ -24,6 +24,7 @@ const SidebarPortal = ( props ) => {
 	);
 };
 
+/* eslint-disable complexity */
 /**
  * The Frontend Modal.
  *
