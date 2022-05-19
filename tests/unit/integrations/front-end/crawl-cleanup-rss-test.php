@@ -56,15 +56,11 @@ class Crawl_Cleanup_Rss_Test extends TestCase {
 	}
 
 	/**
-	 * Tests if the expected hooks are registered when the remove_feed_post_comments option is set to true.
+	 * Tests if the expected hooks are registered
 	 *
 	 * @covers ::register_hooks
 	 */
-	public function test_register_hooks_when_remove_feed_post_comments_is_true() {
-		$this->options_helper
-			->expects( 'get' )
-			->with( 'remove_feed_post_comments' )
-			->andReturn( true );
+	public function test_register_hooks_when_remove_feed_post_comments() {
 
 		$this->instance->register_hooks();
 
@@ -73,19 +69,67 @@ class Crawl_Cleanup_Rss_Test extends TestCase {
 	}
 
 	/**
-	 * Tests if the expected hooks are registered when the remove_feed_post_comments option is set to false.
+	 * Tests if the expected replacements are performed when a post is displayed and the toggle is set to true (rss disabled)
 	 *
-	 * @covers ::register_hooks
+	 * @covers ::feed_links_extra_replacement
 	 */
-	public function test_register_hooks_when_remove_feed_post_comments_is_false() {
+	public function test_feed_links_extra_replacement_when_is_singular_true_and_rss_disabled() {
+
+		$this->options_helper
+			->expects( 'get' )
+			->with( 'remove_feed_post_comments' )
+			->andReturn( true );
+
+		Monkey\Functions\expect( 'is_singular' )
+			->once()
+			->andReturn( true );
+
+		Monkey\Functions\expect( 'feed_links_extra' )
+			->never();
+
+		$this->instance->feed_links_extra_replacement();
+	}
+
+	/**
+	 * Tests if the standard wp behavior is kept when a post is displayed and the toggle is set to false (rss enabled)
+	 *
+	 * @covers ::feed_links_extra_replacement
+	 */
+	public function test_feed_links_extra_replacement_when_is_singular_true_and_rss_enabled() {
+
 		$this->options_helper
 			->expects( 'get' )
 			->with( 'remove_feed_post_comments' )
 			->andReturn( false );
 
-		$this->instance->register_hooks();
+		Monkey\Functions\expect( 'is_singular' )
+			->once()
+			->andReturn( true );
 
-		$this->assertNotFalse( Monkey\Actions\has( 'wp', [ $this->instance, 'redirect_unwanted_feeds' ] ) );
-		$this->assertFalse( Monkey\Actions\has( 'wp_head', [ $this->instance, 'feed_links_extra_replacement' ] ) );
+		Monkey\Functions\expect( 'feed_links_extra' )
+			->once();
+
+		$this->instance->feed_links_extra_replacement();
+	}
+
+	/**
+	 * Tests if the standard wp behavior is kept when anything than a post is displayed
+	 *
+	 * @covers ::feed_links_extra_replacement
+	 */
+	public function test_feed_links_extra_replacement_when_is_singular_false() {
+
+		$this->options_helper
+			->expects( 'get' )
+			->never();
+
+		Monkey\Functions\expect( 'is_singular' )
+			->once()
+			->andReturn( false );
+
+		Monkey\Functions\expect( 'feed_links_extra' )
+			->once();
+
+		$this->instance->feed_links_extra_replacement();
 	}
 }
