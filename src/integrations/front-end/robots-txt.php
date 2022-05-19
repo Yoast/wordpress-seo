@@ -63,9 +63,15 @@ class Robots_Txt implements Integration_Interface {
 			return $robots_txt;
 		}
 
+		// Replace the default WordPress robots.txt output.
+		$robots_txt = trim( str_replace( 'User-agent: *' . "\n" . 'Disallow: /wp-admin/' . "\n" . 'Allow: /wp-admin/admin-ajax.php', 'User-agent: *' . "\n" . 'Disallow:' . "\n", $robots_txt ) );
+
 		if ( $this->options->get( 'enable_xml_sitemap', false ) ) {
 			$robots_txt  = trim( $robots_txt );
-			$robots_txt .= "\n\n" . 'Sitemap: ' . home_url( '/sitemap_index.xml' ) . "\n";
+			if ( ! empty( $robots_txt ) ) {
+				$robots_txt .= "\n\n";
+			}
+			$robots_txt .= 'Sitemap: ' . home_url( '/sitemap_index.xml' ) . "\n";
 		}
 
 		return $robots_txt;
