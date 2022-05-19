@@ -6,7 +6,7 @@
  */
 
 use Yoast\WP\SEO\Exceptions\Option\Unknown_Exception;
-use Yoast\WP\SEO\Presenters\Admin\Light_Switch_Presenter;
+use Yoast\WP\SEO\Integrations\Options_Form_Integration;use Yoast\WP\SEO\Presenters\Admin\Light_Switch_Presenter;
 use Yoast\WP\SEO\Services\Options\Network_Admin_Options_Service;
 
 /**
@@ -82,7 +82,7 @@ class Yoast_Form {
 			}
 			else {
 				$action_url       = admin_url( 'options.php' );
-				$hidden_fields_cb = 'settings_fields';
+				$hidden_fields_cb = [ $this, 'form_fields' ];
 			}
 
 			echo '<form action="' .
@@ -94,6 +94,21 @@ class Yoast_Form {
 			call_user_func( $hidden_fields_cb, $option );
 		}
 		$this->set_option( $option );
+	}
+
+	/**
+	 * Outputs nonce, action and option group fields for an options page in the plugin.
+	 *
+	 * @param string $option The option name.
+	 *
+	 * @return void
+	 */
+	public function form_fields( $option ) {
+		?>
+		<input type="hidden" name="option" value="<?php echo esc_attr( $option ); ?>" />
+		<input type="hidden" name="action" value="<?php echo esc_attr( Options_Form_Integration::SET_OPTIONS_ACTION ); ?>" />
+		<?php
+		wp_nonce_field( Options_Form_Integration::SET_OPTIONS_ACTION . ":$option" );
 	}
 
 	/**

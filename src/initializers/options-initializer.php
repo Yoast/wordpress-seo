@@ -94,33 +94,5 @@ class Options_Initializer implements Initializer_Interface {
 				$this->network_admin_options_service->option_name
 			);
 		}
-
-		\register_setting(
-			$this->options_helper->get_options_service()->option_name,
-			$this->options_helper->get_options_service()->option_name,
-			[
-				'type'              => 'array',
-				'sanitize_callback' => [ $this, 'sanitize_options' ],
-			]
-		);
-	}
-
-	/**
-	 * Validates the option values. Invalid or unknown values will be removed.
-	 *
-	 * @param array $values The option values.
-	 *
-	 * @return array Valid values.
-	 */
-	public function sanitize_options( $values ) {
-		$valid_values = [];
-		foreach ( $values as $key => $value ) {
-			$valid_value = $this->options_helper->validate( $key, $value );
-			if ( $valid_value !== Options_Helper::INVALID_VALUE ) {
-				$valid_values[ $key ] = $valid_value;
-			}
-		}
-
-		return $valid_values;
 	}
 }
