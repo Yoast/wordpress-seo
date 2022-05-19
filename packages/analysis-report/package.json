@@ -8,9 +8,12 @@
     "directory": "packages/analysis-report"
   },
   "scripts": {
+    "build": "yarn clean && yarn build:js",
+    "build:js": "babel src --out-dir build",
+    "clean": "rm -rf build",
     "test": "jest",
     "lint": "eslint . --max-warnings=5",
-    "prepublishOnly": "rm -rf dist && cp -R src dist && cp package.json dist/package.json && json -I -f dist/package.json -e \"this.main='index.js'\" && cp .babelrc dist/.babelrc"
+    "prepublishOnly": "yarn clean && cp -R src build && cp package.json build/package.json && json -I -f build/package.json -e \"this.main='index.js'\" && cp babel.config.js build/babel.config.js"
   },
   "author": "Team Yoast",
   "license": "GPL-3.0",
@@ -24,25 +27,22 @@
     "prop-types": "^15.6.0",
     "styled-components": "^5.2.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@babel/core": "^7.17.10",
+    "@yoast/babel-preset": "^1.0.1",
+    "@yoast/jest-preset": "^1.0.1",
+    "babel-plugin-styled-components": "^2.0.6",
+    "eslint": "^7.32.0",
+    "eslint-config-yoast": "^5.0.17",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-react": "^7.29.4",
+    "jest": "^27.5.1",
+    "jest-styled-components": "^7.0.8",
+    "react-test-renderer": "^16.14.0"
+  },
   "peerDependencies": {
     "react": "^16.12.0",
     "react-dom": "^16.12.0"
-  },
-  "jest": {
-    "testURL": "http://localhost",
-    "testRegex": ".*Test.js$",
-    "transform": {
-      "^.+\\.jsx?$": "babel-jest"
-    },
-    "transformIgnorePatterns": [
-      "/node_modules/(?!yoastseo|lodash-es).+\\.js$"
-    ],
-    "setupTestFrameworkScriptFile": "<rootDir>/tools/jest/setupTests.js",
-    "moduleNameMapper": {
-      "\\.css$": "<rootDir>/tools/jest/CSSStub.js",
-      "^lodash-es$": "lodash"
-    }
   },
   "publishConfig": {
     "access": "public"

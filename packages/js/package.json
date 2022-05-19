@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "test": "jest -u",
-    "lint": "eslint src tests --max-warnings=141"
+    "lint": "eslint src tests --max-warnings=122"
   },
   "dependencies": {
     "@draft-js-plugins/mention": "^5.0.0",
