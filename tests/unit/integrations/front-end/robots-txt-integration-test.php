@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Front_End;
 
+use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Conditionals\Robots_Txt_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
@@ -111,6 +112,44 @@ class Robots_Txt_Integration_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the robots filter for multisite installations.
+	 *
+	 * @dataProvider multisite_provider
+	 *
+	 * @covers ::filter_robots
+	 * @covers ::change_default_robots
+	 * @covers ::add_xml_sitemap
+	 * @covers ::add_subdirectory_multisite_xml_sitemaps
+	 *
+	 * @param array  $multisite The multisite data.
+	 * @param string $expected  The expected output/sitemap.
+	 */
+	public function test_multisite_sitemaps( $multisite, $expected ) {
+		$this->options_helper
+			->expects( 'get' )
+			->once()
+			->with( 'enable_xml_sitemap', false )
+			->andReturnTrue();
+
+		Mockery::mock( 'overload:WPSEO_Sitemaps_Router' )
+			->expects( 'get_base_url' )
+			->once()
+			->with( 'sitemap_index.xml' )
+			->andReturn( 'https://example.com/sitemap_index.xml' );
+
+		Monkey\Functions\when( 'is_multisite' )->justReturn( $multisite['is_subdirectory'] );
+		Monkey\Functions\when( 'is_subdomain_install' )->justReturn( false );
+		Monkey\Functions\when( 'get_current_network_id' )->justReturn( 1 );
+		Monkey\Functions\when( 'get_home_url' )->justReturn( $multisite['site'] );
+		Monkey\Functions\expect( 'get_sites' )->andReturn( [ 1 ] );
+
+		$this->assertEquals(
+			$expected,
+			$this->instance->filter_robots( $multisite['sitemap'], '1' )
+		);
+	}
+
+	/**
 	 * Tests the robots filter for a public site, without sitemaps.
 	 *
 	 * @covers ::filter_robots
@@ -162,6 +201,40 @@ class Robots_Txt_Integration_Test extends TestCase {
 			'With another and our sitemap (do not add our sitemap twice)' => [
 				'sitemap'  => "Input\n\nSitemap: https://example.com/sitemap_index.xml\n\n\nSitemap: https://example.com/other_sitemap.xml\n",
 				'expected' => "Input\n\nSitemap: https://example.com/sitemap_index.xml\n\n\nSitemap: https://example.com/other_sitemap.xml\n",
+			],
+		];
+	}
+
+	/**
+	 * Provides the test with multisite data.
+	 *
+	 * @return array The multisite to test.
+	 */
+	public function multisite_provider() {
+		return [
+			'Multisite subdomain' => [
+				'data'     => [
+					'is_subdirectory' => false,
+					'sitemap'         => "Input\n",
+					'site'            => '',
+				],
+				'expected' => "Input\n\nSitemap: https://example.com/sitemap_index.xml\n",
+			],
+			'Multisite subdirectory' => [
+				'data'     => [
+					'is_subdirectory' => true,
+					'sitemap'         => "Input\n",
+					'site'            => 'https://example.com/test/sitemap_index.xml',
+				],
+				'expected' => "Input\n\nSitemap: https://example.com/sitemap_index.xml\n\nSitemap: https://example.com/test/sitemap_index.xml\n",
+			],
+			'Multisite subdirectory exclude duplicates' => [
+				'data'     => [
+					'is_subdirectory' => true,
+					'sitemap'         => "Input\n",
+					'site'            => 'https://example.com/sitemap_index.xml',
+				],
+				'expected' => "Input\n\nSitemap: https://example.com/sitemap_index.xml\n\n",
 			],
 		];
 	}
