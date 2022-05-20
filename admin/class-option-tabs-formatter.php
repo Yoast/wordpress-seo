@@ -5,6 +5,8 @@
  * @package WPSEO\Admin\Options\Tabs
  */
 
+use Yoast\WP\SEO\Presenters\Admin\Beta_Badge_Presenter;
+
 /**
  * Class WPSEO_Option_Tabs_Formatter.
  */
@@ -35,7 +37,8 @@ class WPSEO_Option_Tabs_Formatter {
 				'<a class="nav-tab" id="%1$s" href="%2$s">%3$s</a>',
 				esc_attr( $tab->get_name() . '-tab' ),
 				esc_url( '#top#' . $tab->get_name() ),
-				esc_html( $tab->get_label() )
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: we do this on purpose
+				$tab->is_beta() ? '<span style="margin-right:4px;">' . esc_html( $tab->get_label() ) . '</span>' . new Beta_Badge_Presenter( $tab->get_name() ) : esc_html( $tab->get_label() )
 			);
 		}
 		echo '</h2>';
