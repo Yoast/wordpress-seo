@@ -7,7 +7,7 @@ import SocialInput from "./social-input";
 
 /* eslint-disable complexity */
 /**
- * A wrapper that combines all the SocialInputs. Intended for use in the configuration workout.
+ * A wrapper that combines all the SocialInputs. Intended for use in the first time configuration.
  *
  * @param {Object}   props                The props object.
  * @param {Object}   props.socialProfiles An associative array containing { socialmedium : url } pairs.
