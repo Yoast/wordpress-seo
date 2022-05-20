@@ -25,7 +25,7 @@ export default function( matchString, positiveLookAhead = false, extraWordBounda
          * \u060C - Arabic comma
          * \u061B - Arabic semicolon
          */
-		wordBoundary = "[ \\u00a0\\u06d4\\u061f\\u060C\\u061B \\n\\r\\t\.,\(\)”“〝〞〟‟„\"\+\\-;!¡\?¿:\/»«‹›" + extraWordBoundary + "<>";
+		wordBoundary = "[ \\u2014 \\u00a0\\u06d4\\u061f\\u060C\\u061B \\n\\r\\t\.,\(\)”“〝〞〟‟„\"\+\\-;!¡\?¿:\/»«‹›" + extraWordBoundary + "<>";
 	}
 
 	wordBoundaryStart = "(^|" + wordBoundary + "'‘’‛`])";
