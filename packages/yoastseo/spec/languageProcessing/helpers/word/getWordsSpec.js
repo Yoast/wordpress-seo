@@ -47,6 +47,13 @@ describe( "a test for getting words from a sentence", function() {
 			"words",
 		] );
 	} );
+
+	it( "doesn't return non-breaking space &nbsp; in the result", () => {
+		const text = "<p>Sri Tandjung noted that Javanese had been eating cooked (native black) soybeans since the 12th&nbsp;century.</p>\n";
+
+		expect( getWords( text ) ).toEqual(  [ "Sri", "Tandjung", "noted", "that", "Javanese", "had", "been", "eating", "cooked", "native", "black",
+			"soybeans", "since", "the", "12th", "century" ] );
+	} );
 } );
 
 describe( "language-specific tests for getting words", function() {

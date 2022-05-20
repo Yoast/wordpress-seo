@@ -1,7 +1,7 @@
 import Paper from "../../../../src/values/Paper.js";
 import content from "./polishPaper.html";
 
-const name = "polishPaper1";
+const name = "polishPaper";
 
 const paper = new Paper( content, {
 	keyword: "Google (firma)",
@@ -11,7 +11,7 @@ const paper = new Paper( content, {
 	titleWidth: 450,
 	locale: "pl_PL",
 	permalink: "https://pl.wikipedia.org/wiki/Google",
-	url: "Google",
+	slug: "Google",
 } );
 
 const expectedResults = {
@@ -77,7 +77,7 @@ const expectedResults = {
 		score: 9,
 		resultText: "<a href='https://yoa.st/34h' target='_blank'>SEO title width</a>: Good job!",
 	},
-	urlKeyword: {
+	slugKeyword: {
 		isApplicable: true,
 		score: 6,
 		resultText: "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: (Part of) your keyphrase does not appear in the slug. <a href='https://yoa.st/33p' target='_blank'>Change that</a>!",
@@ -115,13 +115,13 @@ const expectedResults = {
 	},
 	textTransitionWords: {
 		isApplicable: true,
-		score: 6,
-		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 25.9% of the sentences contain transition words, which is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more of them</a>.",
+		score: 9,
+		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Well done!",
 	},
 	passiveVoice: {
 		isApplicable: true,
-		score: 6,
-		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: 13.6% of the sentences contain passive voice, which is more than the recommended maximum of 10%. <a href='https://yoa.st/34u' target='_blank'>Try to use their active counterparts</a>.",
+		score: 3,
+		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: 16.7% of the sentences contain passive voice, which is more than the recommended maximum of 10%. <a href='https://yoa.st/34u' target='_blank'>Try to use their active counterparts</a>.",
 	},
 	textPresence: {
 		isApplicable: true,

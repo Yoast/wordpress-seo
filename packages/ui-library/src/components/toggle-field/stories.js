@@ -8,7 +8,6 @@ export default {
 	component: ToggleField,
 	argTypes: {
 		children: { control: "text" },
-		label: { control: "text" },
 	},
 	parameters: {
 		docs: {
@@ -48,7 +47,7 @@ export const Checked = ( args ) => (
 	<ToggleField
 		name="name-2"
 		checked={ true }
-		label="Toggle field with a label"
+		label="Checked toggle field"
 		onChange={ noop }
 	/>
 );

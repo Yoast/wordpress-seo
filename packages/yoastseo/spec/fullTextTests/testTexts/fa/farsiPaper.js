@@ -1,7 +1,7 @@
 import Paper from "../../../../src/values/Paper.js";
 import content from "./farsiPaper.html";
 
-const name = "farsiPaper1";
+const name = "farsiPaper";
 
 const paper = new Paper( content, {
 	keyword: "فرانکاروم",
@@ -11,7 +11,7 @@ const paper = new Paper( content, {
 	titleWidth: 450,
 	locale: "fa_IR",
 	permalink: "https://fa.wikipedia.org/wiki/%DA%AF%D8%B4%D8%AA%D8%A7_%D9%81%D8%B1%D8%A7%D9%86%DA%A9%D8%A7%D8%B1%D9%88%D9%85",
-	url: "گشتا_فرانکاروم",
+	slug: "گشتا_فرانکاروم",
 } );
 
 const expectedResults = {
@@ -84,7 +84,7 @@ const expectedResults = {
 		score: 9,
 		resultText: "<a href='https://yoa.st/34h' target='_blank'>SEO title width</a>: Good job!",
 	},
-	urlKeyword: {
+	slugKeyword: {
 		isApplicable: true,
 		score: 9,
 		resultText: "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: Great work!",
@@ -127,8 +127,8 @@ const expectedResults = {
 	},
 	textTransitionWords: {
 		isApplicable: true,
-		score: 6,
-		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 28.9% of the sentences contain transition words, which is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more of them</a>.",
+		score: 9,
+		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Well done!",
 	},
 	passiveVoice: {
 		isApplicable: true,

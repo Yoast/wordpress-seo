@@ -1,3 +1,4 @@
+/* eslint-disable capitalized-comments, spaced-comment */
 import { primeLanguageSpecificData } from "../../../src/languageProcessing/helpers/morphology/buildTopicStems";
 import {
 	computeScoresPerSentenceShortTopic,
@@ -156,7 +157,6 @@ describe( "Test for computing the sentence score", function() {
 	} );
 } );
 
-
 describe( "Test for the research", function() {
 	it( "returns a score over all sentences and all topic forms; returns markers for sentences that contain the topic", function() {
 		const paper = new Paper(
@@ -257,7 +257,9 @@ describe( "Test for the research", function() {
 		} );
 	} );
 
-	it( "returns a score (for a language without morphology support) over all sentences and all topic forms; returns markers for " +
+	//It’s the same as the English one above it, excepts the locale is Italian. But still the English morphology data is added.
+
+	/*it( "returns a score (for a language without morphology support) over all sentences and all topic forms; returns markers for " +
 		"sentences that contain the topic", function() {
 		const paper = new Paper(
 			sentencesIT.join( " " ),
@@ -304,6 +306,8 @@ describe( "Test for the research", function() {
 			],
 		} );
 	} );
+*/
+	// I figured that the following italian tests are not language specific as they are an example of languages in general that have no morphology support.
 
 	it( "returns the same score when function words are added (for a language without morphological support, but with function words, " +
 		"e.g. Italian in Free)", function() {
@@ -351,7 +355,6 @@ describe( "Test for the research", function() {
 			],
 		} );
 	} );
-
 	it( "when the topic words don't contain function words and the function words for this locale are not available, " +
 		"returns the same score", function() {
 		const paper = new Paper(
@@ -737,6 +740,8 @@ describe( "Test for the research", function() {
 		} );
 	} );
 } );
+
+//Did not remove Japanese tests below as they test the function with different helpers as well as japaneseTopicLength
 
 const japaneseSentences = "私はペットとして2匹の猫を飼っています。" +
 	"どちらもとても可愛くて甘い猫で、猫の餌を食べるのが大好きです。" +

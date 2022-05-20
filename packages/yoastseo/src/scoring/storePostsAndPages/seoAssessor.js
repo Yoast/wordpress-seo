@@ -8,7 +8,7 @@ import MetaDescriptionKeywordAssessment from "../assessments/seo/MetaDescription
 import TextCompetingLinksAssessment from "../assessments/seo/TextCompetingLinksAssessment";
 import InternalLinksAssessment from "../assessments/seo/InternalLinksAssessment";
 import TitleKeywordAssessment from "../assessments/seo/TitleKeywordAssessment";
-import UrlKeywordAssessment from "../assessments/seo/UrlKeywordAssessment";
+import SlugKeywordAssessment from "../assessments/seo/UrlKeywordAssessment";
 import Assessor from "../assessor";
 import MetaDescriptionLength from "../assessments/seo/MetaDescriptionLengthAssessment";
 import SubheadingsKeyword from "../assessments/seo/SubHeadingsKeywordAssessment";
@@ -93,7 +93,7 @@ const StorePostsAndPagesSEOAssessor = function( researcher,  options ) {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify52" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify53" ),
 		}, true ),
-		new UrlKeywordAssessment( {
+		new SlugKeywordAssessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify26" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify27" ),
 		} ),

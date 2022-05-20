@@ -8,7 +8,6 @@ export default {
 	component: RadioGroup,
 	argTypes: {
 		children: { control: "text" },
-		label: { control: "text" },
 	},
 	parameters: {
 		docs: {
@@ -38,10 +37,10 @@ Factory.args = {
 	name: "name",
 	value: "1",
 	options: [
-		{ value: "1", label: "1", srLabel: "Option #1" },
-		{ value: "2", label: "2", srLabel: "Option #2" },
-		{ value: "3", label: "3", srLabel: "Option #3" },
-		{ value: "4", label: "4", srLabel: "Option #4" },
+		{ value: "1", label: "1", screenReaderLabel: "Option #1" },
+		{ value: "2", label: "2", screenReaderLabel: "Option #2" },
+		{ value: "3", label: "3", screenReaderLabel: "Option #3" },
+		{ value: "4", label: "4", screenReaderLabel: "Option #4" },
 	],
 	label: "A Radio Group",
 };
@@ -53,10 +52,10 @@ export const Variants = ( args ) => (
 			name="name-1"
 			value="2"
 			options={ [
-				{ value: "1", label: "1", srLabel: "Option #1" },
-				{ value: "2", label: "2", srLabel: "Option #2" },
-				{ value: "3", label: "3", srLabel: "Option #3" },
-				{ value: "4", label: "4", srLabel: "Option #4" },
+				{ value: "1", label: "1", screenReaderLabel: "Option #1" },
+				{ value: "2", label: "2", screenReaderLabel: "Option #2" },
+				{ value: "3", label: "3", screenReaderLabel: "Option #3" },
+				{ value: "4", label: "4", screenReaderLabel: "Option #4" },
 			] }
 			label="Default Radio Group"
 			onChange={ noop }
@@ -68,10 +67,10 @@ export const Variants = ( args ) => (
 			value="2"
 			label="Inline-block Radio Group"
 			options={ [
-				{ value: "1", label: "1", srLabel: "Option #1" },
-				{ value: "2", label: "2", srLabel: "Option #2" },
-				{ value: "3", label: "3", srLabel: "Option #3" },
-				{ value: "4", label: "4", srLabel: "Option #4" },
+				{ value: "1", label: "1", screenReaderLabel: "Option #1" },
+				{ value: "2", label: "2", screenReaderLabel: "Option #2" },
+				{ value: "3", label: "3", screenReaderLabel: "Option #3" },
+				{ value: "4", label: "4", screenReaderLabel: "Option #4" },
 			] }
 			onChange={ noop }
 			variant="inline-block"
@@ -81,7 +80,7 @@ export const Variants = ( args ) => (
 	</div>
 );
 Variants.parameters = {
-	docs: { description: { story: "In the `inline-block` variant, the `srLabel` prop is used to provide screen readers with a useful label." } },
+	docs: { description: { story: "In the `inline-block` variant, the `screenReaderLabel` prop is used to provide screen readers with a useful label." } },
 };
 
 export const WithLabelAndDescription = Template.bind();
@@ -90,10 +89,10 @@ WithLabelAndDescription.args = {
 	name: "name-3",
 	label: "Radio group with a label",
 	options: [
-		{ value: "1", label: "1", srLabel: "Option #1" },
-		{ value: "2", label: "2", srLabel: "Option #2" },
-		{ value: "3", label: "3", srLabel: "Option #3" },
-		{ value: "4", label: "4", srLabel: "Option #4" },
+		{ value: "1", label: "1", screenReaderLabel: "Option #1" },
+		{ value: "2", label: "2", screenReaderLabel: "Option #2" },
+		{ value: "3", label: "3", screenReaderLabel: "Option #3" },
+		{ value: "4", label: "4", screenReaderLabel: "Option #4" },
 	],
 	children: "Radio group with a description.",
 };
@@ -105,9 +104,9 @@ WithValue.args = {
 	value: "2",
 	label: "Radio group with a label",
 	options: [
-		{ value: "1", label: "1", srLabel: "Option #1" },
-		{ value: "2", label: "2", srLabel: "Option #2" },
-		{ value: "3", label: "3", srLabel: "Option #3" },
-		{ value: "4", label: "4", srLabel: "Option #4" },
+		{ value: "1", label: "1", screenReaderLabel: "Option #1" },
+		{ value: "2", label: "2", screenReaderLabel: "Option #2" },
+		{ value: "3", label: "3", screenReaderLabel: "Option #3" },
+		{ value: "4", label: "4", screenReaderLabel: "Option #4" },
 	],
 };

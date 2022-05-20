@@ -1,7 +1,7 @@
 import Paper from "../../../../src/values/Paper.js";
 import content from "./dutchPaper.html";
 
-const name = "dutchPaper1";
+const name = "dutchPaper";
 
 const paper = new Paper( content, {
 	keyword: "schaap",
@@ -11,7 +11,7 @@ const paper = new Paper( content, {
 	titleWidth: 450,
 	locale: "nl_NL",
 	permalink: "https://nl.wikipedia.org/wiki/Schaap_(dier)",
-	url: "Schaap_(dier)",
+	slug: "Schaap_(dier)",
 } );
 
 const expectedResults = {
@@ -75,7 +75,7 @@ const expectedResults = {
 		score: 9,
 		resultText: "<a href='https://yoa.st/34h' target='_blank'>SEO title width</a>: Good job!",
 	},
-	urlKeyword: {
+	slugKeyword: {
 		isApplicable: true,
 		score: 9,
 		resultText: "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: Great work!",
@@ -96,7 +96,7 @@ const expectedResults = {
 	fleschReadingEase: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 61.7 in the test, which is considered ok to read. Good job!",
+		resultText: "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 60 in the test, which is considered ok to read. Good job!",
 	},
 	subheadingsTooLong: {
 		isApplicable: true,
@@ -120,8 +120,8 @@ const expectedResults = {
 	},
 	passiveVoice: {
 		isApplicable: true,
-		score: 6,
-		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: 14.6% of the sentences contain passive voice, which is more than the recommended maximum of 10%. <a href='https://yoa.st/34u' target='_blank'>Try to use their active counterparts</a>.",
+		score: 3,
+		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: 17.1% of the sentences contain passive voice, which is more than the recommended maximum of 10%. <a href='https://yoa.st/34u' target='_blank'>Try to use their active counterparts</a>.",
 	},
 	textPresence: {
 		isApplicable: true,

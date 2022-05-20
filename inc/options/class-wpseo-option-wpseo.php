@@ -81,6 +81,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'algolia_integration_active'               => false,
 		'import_cursors'                           => [],
 		'workouts_data'                            => [ 'configuration' => [ 'finishedSteps' => [] ] ],
+		'configuration_finished_steps'             => [],
 		'dismiss_configuration_workout_notice'     => false,
 		'importing_completed'                      => [],
 		'wincher_integration_active'               => true,
@@ -90,6 +91,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'first_time_install'                       => false,
 		'should_redirect_after_install_free'       => false,
 		'activation_redirect_timestamp_free'       => 0,
+		'remove_feed_post_comments'                => false,
 	];
 
 	/**
@@ -350,6 +352,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'zapier_subscription':
 				case 'wincher_tokens':
 				case 'workouts_data':
+				case 'configuration_finished_steps':
 					$clean[ $key ] = $old[ $key ];
 
 					if ( isset( $dirty[ $key ] ) ) {
@@ -392,6 +395,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				 *  'dynamic_permalinks'
 				 *  'indexing_first_time'
 				 *  'first_time_install'
+				 *  'remove_feed_post_comments'
 				 *  'should_redirect_after_install_free'
 				 *  and most of the feature variables.
 				 */
@@ -434,6 +438,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 			'semrush_integration_active'     => false,
 			'zapier_integration_active'      => false,
 			'wincher_integration_active'     => false,
+			'remove_feed_post_comments'      => false,
 		];
 
 		// We can reuse this logic from the base class with the above defaults to parse with the correct feature values.

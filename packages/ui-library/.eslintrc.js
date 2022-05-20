@@ -25,6 +25,13 @@ module.exports = {
 				message: "Please use @wordpress/element instead.",
 			},
 		],
+		"no-unused-expressions": [
+			"error",
+			{
+				"allowShortCircuit": true,
+				"allowTernary": true,
+			},
+		],
 		"max-len": [
 			"error",
 			{

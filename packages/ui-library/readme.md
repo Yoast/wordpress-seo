@@ -42,15 +42,17 @@ To include this packages CSS in your build, import it in your stylesheet **befor
 @tailwind utilities;
 ```
 
-Now that your CSS is setup, you can start using the React components like so:
+Now that your CSS is setup, you can start using the React components. Always start your React tree with the `Root` components, which provides a context for general options and a CSS classname for scoping this libraries CSS. Without it, components in this library will not render properly. Read more about the `Root` component in [the Storybook](https://ui-library.yoast.com/).
 
 ```jsx
-import { Alert } from "@yoast/ui-library";
+import { Root, Alert } from "@yoast/ui-library";
 
 export default () => (
-    <Alert variant="success">
-        Congrats! You've successfully setup the UI library.
-    </Alert>
+    <Root context={ { isRtl: false } }>
+        <Alert variant="success">
+            Congrats! You've successfully setup the UI library.
+        </Alert>
+    </Root>
 );
 ```
 

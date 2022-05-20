@@ -1,6 +1,6 @@
 {
   "name": "@yoast/ui-library",
-  "version": "1.1.0",
+  "version": "1.2.1",
   "description": "Yoast UI library",
   "main": "build/index.js",
   "style": "build/css/style.css",
@@ -20,6 +20,7 @@
     "build:storybook": "build-storybook",
     "publish:storybook": "./scripts/publish-storybook.sh",
     "test:storyshots": "yarn build-storybook --quiet && jest tests/storyshots.js",
+    "test": "yarn test:storyshots",
     "lint": "eslint src --max-warnings=0"
   },
   "devDependencies": {
@@ -58,7 +59,9 @@
     "@heroicons/react": "^1.0.5",
     "classnames": "^2.3.1",
     "lodash": "^4.17.21",
-    "prop-types": "^15.8.1"
+    "prop-types": "^15.8.1",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0"
   },
   "peerDependencies": {
     "@wordpress/element": "^4.1.1"

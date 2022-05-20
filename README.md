@@ -6,6 +6,7 @@
 [![TestJS](https://github.com/Yoast/wordpress-seo/actions/workflows/jstest.yml/badge.svg)](https://github.com/Yoast/wordpress-seo/actions/workflows/jstest.yml)
 [![Unit Tests](https://github.com/Yoast/wordpress-seo/actions/workflows/unittest.yml/badge.svg)](https://github.com/Yoast/wordpress-seo/actions/workflows/unittest.yml)
 [![Integration Tests](https://github.com/Yoast/wordpress-seo/actions/workflows/integrationtest.yml/badge.svg)](https://github.com/Yoast/wordpress-seo/actions/workflows/integrationtest.yml)
+[![Deployment](https://github.com/Yoast/wordpress-seo/actions/workflows/deploy.yml/badge.svg)](https://github.com/Yoast/wordpress-seo/actions/workflows/deploy.yml)
 [![Stable Version](https://poser.pugx.org/yoast/wordpress-seo/v/stable.svg)](https://packagist.org/packages/yoast/wordpress-seo)
 [![License](https://poser.pugx.org/yoast/wordpress-seo/license.svg)](https://packagist.org/packages/yoast/wordpress-seo)
 
