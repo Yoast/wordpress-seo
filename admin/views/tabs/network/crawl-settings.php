@@ -40,7 +40,7 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 	);
 
 	$yform->toggle_switch(
-		WPSEO_Option::ALLOW_KEY_PREFIX .  'remove_feed_post_comments',
+		WPSEO_Option::ALLOW_KEY_PREFIX . 'remove_feed_post_comments',
 		[
 			'on'  => __( 'Allow Control', 'wordpress-seo' ),
 			'off' => __( 'Disable', 'wordpress-seo' ),
