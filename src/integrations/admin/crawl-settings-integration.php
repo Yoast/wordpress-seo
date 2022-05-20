@@ -8,6 +8,7 @@ use WPSEO_Option_Tab;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
+use Yoast\WP\SEO\Presenters\Admin\Beta_Badge_Presenter;
 
 // phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- First time configuration simply has a lot of words.
 /**
@@ -64,11 +65,17 @@ class Crawl_Settings_Integration implements Integration_Interface {
 	 * @param WPSEO_Options_Tabs $dashboard_tabs Object representing the tabs of the General sub-page.
 	 */
 	public function add_crawl_settings_tab( $dashboard_tabs ) {
+		$tab_label = '<span style="margin-right:4px;">'
+		. __( 'Crawl settings', 'wordpress-seo' )
+		. '</span>'
+		. new Beta_Badge_Presenter( 'crawl-settings' );
+
 		$dashboard_tabs->add_tab(
 			new WPSEO_Option_Tab(
 				'crawl-settings',
-				__( 'Crawl settings', 'wordpress-seo' ),
-				[ 'save_button' => true ]
+				$tab_label,
+				[ 'save_button' => true ],
+				true
 			)
 		);
 	}
