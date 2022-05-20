@@ -19,7 +19,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 <?php
 	echo sprintf(
 		/* translators: %1$s expands to Yoast SEO */
-		esc_html__( 'To make the crawling of your site more efficient and environmental friendly, %1$s allows you to remove RSS feed links (added by WordPress) that might not be needed for your site.', 'wordpress-seo' ),
+		esc_html__( 'To make the crawling of your site more efficient and environmental friendly, %1$s allows you to remove RSS feeds (added by WordPress) that might not be needed for your site.', 'wordpress-seo' ),
 		'Yoast SEO'
 	);
 
@@ -43,8 +43,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 			'off' => __( 'Keep', 'wordpress-seo' ),
 			'on'  => __( 'Remove', 'wordpress-seo' ),
 		],
-		__( 'Post comment feeds', 'wordpress-seo' ),
-		$feature_help->get_button_html() . $feature_help->get_panel_html()
+		__( 'Post comment feeds', 'wordpress-seo' )
 	);
 	?>
 </div>
