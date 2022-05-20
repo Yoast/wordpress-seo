@@ -5,6 +5,8 @@
  * @package WPSEO\Admin\Options\Tabs
  */
 
+use Yoast\WP\SEO\Presenters\Admin\Beta_Badge_Presenter;
+
 /**
  * Class WPSEO_Option_Tabs_Formatter.
  */
@@ -31,12 +33,15 @@ class WPSEO_Option_Tabs_Formatter {
 
 		echo '<h2 class="nav-tab-wrapper" id="wpseo-tabs">';
 		foreach ( $option_tabs->get_tabs() as $tab ) {
+			$tab_label = '<span style="margin-right:4px;">'
+			. __( 'Crawl settings', 'wordpress-seo' )
+			. '</span>' . new Beta_Badge_Presenter( 'crawl-settings' );
 			printf(
 				'<a class="nav-tab" id="%1$s" href="%2$s">%3$s</a>',
 				esc_attr( $tab->get_name() . '-tab' ),
 				esc_url( '#top#' . $tab->get_name() ),
 				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: we do this on purpose
-				$tab->is_html_label_allowed() ? $tab->get_label() : esc_html( $tab->get_label() )
+				$tab->is_beta() ? '<span style="margin-right:4px;">' . esc_html( $tab->get_label() ) . '</span>' . new Beta_Badge_Presenter( $tab->get_name() ) : esc_html( $tab->get_label() )
 			);
 		}
 		echo '</h2>';
