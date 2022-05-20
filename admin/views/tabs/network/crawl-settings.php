@@ -16,7 +16,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 
 ?>
-<h2><?php esc_html_e( 'Features', 'wordpress-seo' ); ?></h2>
+<h2><?php esc_html_e( 'Crawl settings', 'wordpress-seo' ); ?></h2>
 <div class="yoast-measure">
 	<?php
 	echo sprintf(
@@ -45,8 +45,7 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 			'on'  => __( 'Allow Control', 'wordpress-seo' ),
 			'off' => __( 'Disable', 'wordpress-seo' ),
 		],
-		__( 'Post comment feeds', 'wordpress-seo' ),
-		$feature_help->get_button_html() . $feature_help->get_panel_html()
+		__( 'Post comment feeds', 'wordpress-seo' )
 	);
 	?>
 </div>
