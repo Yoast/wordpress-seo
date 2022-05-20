@@ -34,9 +34,9 @@ class WPSEO_Option_Tab {
 	/**
 	 * WPSEO_Option_Tab constructor.
 	 *
-	 * @param string $name             Name of the tab.
-	 * @param string $label            Localized label of the tab.
-	 * @param array  $arguments        Optional arguments.
+	 * @param string $name      Name of the tab.
+	 * @param string $label     Localized label of the tab.
+	 * @param array  $arguments Optional arguments.
 	 */
 	public function __construct( $name, $label, array $arguments = [] ) {
 		$this->name      = sanitize_title( $name );
