@@ -65,17 +65,11 @@ class Crawl_Settings_Integration implements Integration_Interface {
 	 * @param WPSEO_Options_Tabs $dashboard_tabs Object representing the tabs of the General sub-page.
 	 */
 	public function add_crawl_settings_tab( $dashboard_tabs ) {
-		$tab_label = '<span style="margin-right:4px;">'
-		. __( 'Crawl settings', 'wordpress-seo' )
-		. '</span>'
-		. new Beta_Badge_Presenter( 'crawl-settings' );
-
 		$dashboard_tabs->add_tab(
 			new WPSEO_Option_Tab(
 				'crawl-settings',
-				$tab_label,
-				[ 'save_button' => true ],
-				true
+				__( 'Crawl settings', 'wordpress-seo' ),
+				[ 'save_button' => true, 'beta' => true ]
 			)
 		);
 	}
