@@ -120,15 +120,18 @@ class Robots_Txt_Integration implements Integration_Interface {
 		}
 
 		$criteria = [
-			'public'     => 1,
+			'archived'   => 0,
 			'deleted'    => 0,
+			'public'     => 1,
+			'spam'       => 0,
+			'fields'     => 'ids',
 			'network_id' => \get_current_network_id(),
 		];
 		$sites    = \get_sites( $criteria );
 
 		$sitemaps = "\n\n";
-		foreach ( $sites as $site ) {
-			$sitemap = 'Sitemap: ' . \esc_url( \get_home_url( $site->blog_id, 'sitemap_index.xml' ) );
+		foreach ( $sites as $blog_id ) {
+			$sitemap = 'Sitemap: ' . \esc_url( \get_home_url( $blog_id, 'sitemap_index.xml' ) );
 
 			// If our sitemap is already output, bail.
 			if ( \strpos( $robots_txt, $sitemap ) !== false ) {
