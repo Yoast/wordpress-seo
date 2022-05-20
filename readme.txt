@@ -241,18 +241,20 @@ Release Date: May 31st, 2022
 
 
 
+
 Enhancements:
 
-* Adds a beta feature to remove comment RSS feed from posts to make crawling by search engines more efficient. 
+* Adds a beta feature to remove comment RSS feed from posts to make crawling by search engines more efficient.
+* Adds a reference to XML sitemaps in `robots.txt` to make them discoverable from Bing following their change of policy.
 
 Bugfixes:
 
-* Fixes a bug where the titles of the steps in the First-time configuration would not be translated.
-* Fixes a bug where saving an invalid organization name in the First-time configuration would fail without feedback.
 * Fixes a bug where an error in saving the Site representation step of the First-time configuration would not block the advancement to the next step.
 * Fixes a bug where editing an existing post created in Block editor in Elementor would result in an analysis result discrepancy.
 * Fixes a bug where items in lists were not excluded for the readability assessment that checks whether consecutive sentences do not begin with the same words.
+* Fixes a bug where saving an invalid organization name in the First-time configuration would fail without feedback.
 * Fixes a bug where the schema would not be updated with the new logo when the user changed it via the First-time Configuration.
+* Fixes a bug where the titles of the steps in the First-time configuration would not be translated.
 * Fixes a bug where users would be able to leave a step containing errors by clicking another step's edit button.
 
 Other:
