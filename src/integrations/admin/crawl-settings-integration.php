@@ -40,8 +40,8 @@ class Crawl_Settings_Integration implements Integration_Interface {
 	/**
 	 * Crawl_Settings_Integration constructor.
 	 *
-	 * @param WPSEO_Admin_Asset_Manager $admin_asset_manager    The admin asset manager.
-	 * @param Options_Helper            $options_helper         The options helper.
+	 * @param WPSEO_Admin_Asset_Manager $admin_asset_manager The admin asset manager.
+	 * @param Options_Helper            $options_helper      The options helper.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $admin_asset_manager,
@@ -55,7 +55,6 @@ class Crawl_Settings_Integration implements Integration_Interface {
 	 * {@inheritDoc}
 	 */
 	public function register_hooks() {
-		\add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 		\add_action( 'wpseo_settings_tabs_dashboard', [ $this, 'add_crawl_settings_tab' ] );
 	}
 
@@ -75,17 +74,5 @@ class Crawl_Settings_Integration implements Integration_Interface {
 				]
 			)
 		);
-	}
-
-	/**
-	 * Adds the needed scripts.
-	 */
-	public function enqueue_assets() {
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Date is not processed or saved.
-		if ( ! isset( $_GET['page'] ) || $_GET['page'] !== 'wpseo_dashboard' || \is_network_admin() ) {
-			return;
-		}
-
-		$this->admin_asset_manager->enqueue_style( 'admin-css' );
 	}
 }
