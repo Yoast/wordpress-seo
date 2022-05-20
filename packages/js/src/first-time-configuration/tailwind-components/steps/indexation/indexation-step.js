@@ -33,13 +33,13 @@ export default function IndexationStep( { indexingState, setIndexingState, showR
 						"</a>"
 					),
 					window.wpseoFirstTimeConfigurationData.shortlinks.configIndexablesBenefits,
-					"yoast-configuration-workout-index-data-link"
+					"yoast-configuration-index-data-link"
 				)
 				}
 			</p>
 			<ConfigurationStartImage className="yst-h-28 yst-w-24 yst-mr-6" />
 		</div>
-		<div id="yoast-configuration-workout-indexing-container" className="indexation-container">
+		<div id="yoast-configuration-indexing-container" className="indexation-container">
 			<ConfigurationIndexation
 				indexingStateCallback={ setIndexingState }
 				isEnabled={ ! window.wpseoFirstTimeConfigurationData.shouldUpdatePremium }
