@@ -20,6 +20,7 @@ export default function( matchString, positiveLookAhead = false, extraWordBounda
 	} else {
 		/*
 		 * \u00a0 - no-break space
+		 * \u2014 - em dash
          * \u06d4 - Urdu full stop
          * \u061f - Arabic question mark
          * \u060C - Arabic comma
