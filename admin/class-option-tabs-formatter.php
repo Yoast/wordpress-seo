@@ -35,7 +35,8 @@ class WPSEO_Option_Tabs_Formatter {
 				'<a class="nav-tab" id="%1$s" href="%2$s">%3$s</a>',
 				esc_attr( $tab->get_name() . '-tab' ),
 				esc_url( '#top#' . $tab->get_name() ),
-				esc_html( $tab->get_label() )
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: we do this on purpose
+				$tab->is_html_label_allowed() ? $tab->get_label() : esc_html( $tab->get_label() )
 			);
 		}
 		echo '</h2>';

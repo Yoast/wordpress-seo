@@ -18,6 +18,13 @@ class WPSEO_Option_Tab {
 	private $name;
 
 	/**
+	 * Wether we allow or not html entities in the tab label.
+	 *
+	 * @var bool
+	 */
+	private $allow_html_label;
+
+	/**
 	 * Label of the tab.
 	 *
 	 * @var string
@@ -34,14 +41,16 @@ class WPSEO_Option_Tab {
 	/**
 	 * WPSEO_Option_Tab constructor.
 	 *
-	 * @param string $name      Name of the tab.
-	 * @param string $label     Localized label of the tab.
-	 * @param array  $arguments Optional arguments.
+	 * @param string $name             Name of the tab.
+	 * @param string $label            Localized label of the tab.
+	 * @param array  $arguments        Optional arguments.
+	 * @param bool   $allow_html_label Wether or not html entities are allowed in the tab label.
 	 */
-	public function __construct( $name, $label, array $arguments = [] ) {
-		$this->name      = sanitize_title( $name );
-		$this->label     = $label;
-		$this->arguments = $arguments;
+	public function __construct( $name, $label, array $arguments = [], $allow_html_label = false ) {
+		$this->name             = sanitize_title( $name );
+		$this->label            = $label;
+		$this->arguments        = $arguments;
+		$this->allow_html_label = $allow_html_label;
 	}
 
 	/**
@@ -90,5 +99,14 @@ class WPSEO_Option_Tab {
 	 */
 	protected function get_argument( $variable, $default_value = '' ) {
 		return array_key_exists( $variable, $this->arguments ) ? $this->arguments[ $variable ] : $default_value;
+	}
+
+	/**
+	 * Retrieves wether or not html entities are allowed in the tab label.
+	 *
+	 * @return bool True when html entities are allowed in the tab label .
+	 */
+	public function is_html_label_allowed() {
+		return $this->allow_html_label;
 	}
 }
