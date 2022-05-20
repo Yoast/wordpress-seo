@@ -33,9 +33,6 @@ class WPSEO_Option_Tabs_Formatter {
 
 		echo '<h2 class="nav-tab-wrapper" id="wpseo-tabs">';
 		foreach ( $option_tabs->get_tabs() as $tab ) {
-			$tab_label = '<span style="margin-right:4px;">'
-			. __( 'Crawl settings', 'wordpress-seo' )
-			. '</span>' . new Beta_Badge_Presenter( 'crawl-settings' );
 			printf(
 				'<a class="nav-tab" id="%1$s" href="%2$s">%3$s</a>',
 				esc_attr( $tab->get_name() . '-tab' ),
