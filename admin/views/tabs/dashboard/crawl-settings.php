@@ -40,8 +40,8 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	$yform->toggle_switch(
 		'remove_feed_post_comments',
 		[
-			'on'  => __( 'Remove', 'wordpress-seo' ),
-			'off' => __( 'Keep', 'wordpress-seo' ),
+			'off'  => __( 'Keep', 'wordpress-seo' ),
+			'on' => __( 'Remove', 'wordpress-seo' ),
 		],
 		__( 'Post comment feeds', 'wordpress-seo' ),
 		$feature_help->get_button_html() . $feature_help->get_panel_html()
