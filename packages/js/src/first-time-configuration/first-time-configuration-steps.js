@@ -51,9 +51,6 @@ async function updateSiteRepresentation( state ) {
 		/* eslint-enable camelcase */
 	};
 
-	if ( window.wpseoFirstTimeConfigurationData.canEditWordPressOptions ) {
-		siteRepresentation.description = state.siteTagline;
-	}
 	const response = await apiFetch( {
 		path: "yoast/v1/configuration/site_representation",
 		method: "POST",
