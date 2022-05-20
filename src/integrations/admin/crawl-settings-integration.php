@@ -69,7 +69,10 @@ class Crawl_Settings_Integration implements Integration_Interface {
 			new WPSEO_Option_Tab(
 				'crawl-settings',
 				__( 'Crawl settings', 'wordpress-seo' ),
-				[ 'save_button' => true, 'beta' => true ]
+				[
+					'save_button' => true,
+					'beta'        => true,
+				]
 			)
 		);
 	}
