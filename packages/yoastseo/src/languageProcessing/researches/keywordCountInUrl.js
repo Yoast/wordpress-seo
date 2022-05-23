@@ -1,6 +1,7 @@
 /** @module researches/keywordCountInSlug */
 import parseSlug from "../helpers/url/parseSlug";
 import { findTopicFormsInString } from "../helpers/match/findKeywordFormsInString.js";
+import { uniq } from "lodash-es";
 
 /**
  * Splits the word form on the hyphen and adds each compound into a separate array inside the array of word forms.
@@ -52,10 +53,13 @@ function dehyphenateWordsWithMultipleForms( wordForms, dehyphenatedForms ) {
 		}
 	} );
 
-	// Remove numbers from the array of word forms.
-	dehyphenatedForms.forEach( function( arrayOfForms ) {
-		arrayOfForms.shift();
-	} );
+	// Remove numbers and duplicates from the array of word forms.
+	for ( let i = 0; i < dehyphenatedForms.length; i++ ) {
+		dehyphenatedForms[ i ] = uniq( dehyphenatedForms[ i ] );
+		// Remove the numbers indicating the compound index.
+		dehyphenatedForms[ i ].shift();
+	}
+
 	return dehyphenatedForms;
 }
 
