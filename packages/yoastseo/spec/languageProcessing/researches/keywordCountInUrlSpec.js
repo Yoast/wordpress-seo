@@ -222,7 +222,7 @@ describe( "test to check slug for keyword", function() {
 	} );
 
 	it( "morphology works for partially hyphenated keyphrases", function() {
-		const paper = new Paper( "", { slug: "modern pop art", keyword: "modern pop-art" } );
+		const paper = new Paper( "", { slug: "modern-pop-art", keyword: "modern pop-art" } );
 		const researcher = new EnglishResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
 		expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 3, percentWordMatches: 100 } );
