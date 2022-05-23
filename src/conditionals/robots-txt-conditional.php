@@ -35,6 +35,10 @@ class Robots_Txt_Conditional implements Conditional {
 	/**
 	 * Returns whether the current page is the file editor page.
 	 *
+	 * This checks for two locations:
+	 * - Multisite network admin file editor page
+	 * - Single site file editor page (under tools)
+	 *
 	 * @return bool
 	 */
 	protected function is_file_editor_page() {
@@ -42,6 +46,11 @@ class Robots_Txt_Conditional implements Conditional {
 
 		if ( $pagenow !== 'admin.php' ) {
 			return false;
+		}
+
+		// phpcs:ignore WordPress.Security.NonceVerification -- This is not a form.
+		if ( isset( $_GET['page'] ) && $_GET['page'] === 'wpseo_files' && \is_multisite() && \is_network_admin() ) {
+			return true;
 		}
 
 		// phpcs:ignore WordPress.Security.NonceVerification -- This is not a form.
