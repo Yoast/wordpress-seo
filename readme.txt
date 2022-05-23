@@ -244,7 +244,6 @@ Enhancements:
 
 * Adds a beta feature to remove comment RSS feed from posts to make crawling by search engines more efficient.
 * Adds a reference to XML sitemaps in `robots.txt` to make them discoverable from Bing following their change of policy.
-* Add the Crawl Settings tab and functionalities to Yoast SEO General section
 
 Bugfixes:
 
