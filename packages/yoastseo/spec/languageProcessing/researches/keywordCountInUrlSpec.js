@@ -221,13 +221,6 @@ describe( "test to check slug for keyword", function() {
 		expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 2, percentWordMatches: 100 } );
 	} );
 
-	it( "morphology works for partially hyphenated keyphrases", function() {
-		const paper = new Paper( "", { slug: "modern-pop-art", keyword: "modern pop-art" } );
-		const researcher = new EnglishResearcher( paper );
-		researcher.addResearchData( "morphology", morphologyData );
-		expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 3, percentWordMatches: 100 } );
-	} );
-
 	it( "morphology works for hyphenated keyphrases with function words", function() {
 		const paper = new Paper( "", { slug: "two-year-old", keyword: "two-year-olds" } );
 		const researcher = new EnglishResearcher( paper );
@@ -236,11 +229,11 @@ describe( "test to check slug for keyword", function() {
 	} );
 
 	// Does not work yet.
-	xit( "morphology works for partially hyphenated keyphrases with function words", function() {
-		const paper = new Paper( "", { slug: "two-years-anniversary", keyword: "two-year anniversary" } );
+	xit( "morphology works for partially hyphenated keyphrases", function() {
+		const paper = new Paper( "", { slug: "how-to-entertain-two-year-old", keyword: "how to entertain two-year-olds" } );
 		const researcher = new EnglishResearcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
-		expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 3, percentWordMatches: 100 } );
+		expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 6, percentWordMatches: 100 } );
 	} );
 } );
 
