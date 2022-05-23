@@ -25,6 +25,15 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 		'Yoast SEO'
 	);
 
+	echo '<p style="margin: 0.5em 0 1em;">';
+	echo sprintf(
+		/* translators: %1$s opens the link to the Yoast.com article about Crawl settings, %2$s closes the link, */
+		esc_html__( '%1$sLearn more about crawl settings and how they could benefit your site.%2$s', 'wordpress-seo' ),
+		'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/crawl-settings' ) ) . '" target="_blank" rel="noopener noreferrer">',
+		'</a>'
+	);
+	echo '</p>';
+
 	$help_text  = esc_html__( 'This removes the Post Comment Feed link.', 'wordpress-seo' );
 	$help_text .= ' ';
 	$help_text .= sprintf(
