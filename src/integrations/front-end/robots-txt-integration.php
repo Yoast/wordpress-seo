@@ -119,18 +119,13 @@ class Robots_Txt_Integration implements Integration_Interface {
 			return $robots_txt;
 		}
 
-		$criteria = [
-			'archived'   => 0,
-			'deleted'    => 0,
-			'public'     => 1,
-			'spam'       => 0,
-			'fields'     => 'ids',
-			'network_id' => \get_current_network_id(),
-		];
-		$sites    = \get_sites( $criteria );
+		$sitemaps_enabled = $this->get_xml_sitemaps_enabled();
+		$sitemaps         = "\n\n";
+		foreach ( $sitemaps_enabled as $blog_id => $is_sitemap_enabled ) {
+			if ( ! $is_sitemap_enabled ) {
+				continue;
+			}
 
-		$sitemaps = "\n\n";
-		foreach ( $sites as $blog_id ) {
 			$sitemap = 'Sitemap: ' . \esc_url( \get_home_url( $blog_id, 'sitemap_index.xml' ) );
 
 			// If our sitemap is already output, bail.
@@ -142,5 +137,71 @@ class Robots_Txt_Integration implements Integration_Interface {
 		}
 
 		return \trim( $robots_txt ) . $sitemaps;
+	}
+
+	/**
+	 * Retrieves whether the XML sitemaps are enabled, keyed by blog ID.
+	 *
+	 * @return array
+	 */
+	protected function get_xml_sitemaps_enabled() {
+		$is_allowed = $this->is_sitemap_allowed();
+		$blog_ids   = $this->get_blog_ids();
+		$is_enabled = [];
+		foreach ( $blog_ids as $blog_id ) {
+			$is_enabled[ $blog_id ] = $is_allowed && $this->is_sitemap_enabled_for( $blog_id );
+		}
+
+		return $is_enabled;
+	}
+
+	/**
+	 * Retrieves whether the sitemap is allowed on a sub site.
+	 *
+	 * @return bool
+	 */
+	protected function is_sitemap_allowed() {
+		$options = \get_site_option( 'wpseo_ms' );
+		if ( ! $options ) {
+			// Default is enabled.
+			return true;
+		}
+
+		return (bool) $options['allow_enable_xml_sitemap'];
+	}
+
+	/**
+	 * Retrieves whether the sitemap is enabled on a site.
+	 *
+	 * @param int $blog_id The blog ID.
+	 *
+	 * @return bool
+	 */
+	protected function is_sitemap_enabled_for( $blog_id ) {
+		$options = \get_blog_option( $blog_id, 'wpseo' );
+		if ( ! $options ) {
+			// Default is enabled.
+			return true;
+		}
+
+		return (bool) $options['enable_xml_sitemap'];
+	}
+
+	/**
+	 * Retrieves the blog IDs of public, "active" sites on the network.
+	 *
+	 * @return array
+	 */
+	protected function get_blog_ids() {
+		$criteria = [
+			'archived'   => 0,
+			'deleted'    => 0,
+			'public'     => 1,
+			'spam'       => 0,
+			'fields'     => 'ids',
+			'network_id' => \get_current_network_id(),
+		];
+
+		return \get_sites( $criteria );
 	}
 }
