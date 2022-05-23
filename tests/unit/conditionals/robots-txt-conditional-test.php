@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Conditionals;
 
+use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Conditionals\Robots_Txt_Conditional;
@@ -72,6 +73,7 @@ class Robots_Txt_Conditional_Test extends TestCase {
 	 * Tests that the conditional is met when not on the file editor page.
 	 *
 	 * @covers ::is_met
+	 * @covers ::is_file_editor_page
 	 */
 	public function test_is_met() {
 		global $pagenow;
@@ -89,9 +91,40 @@ class Robots_Txt_Conditional_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that the conditional is met when on a subdomain multisite network admin page.
+	 *
+	 * @covers ::is_met
+	 * @covers ::is_file_editor_page
+	 */
+	public function test_is_met_subdomain_network_admin() {
+		global $pagenow;
+
+		$this->front_end_conditional
+			->expects( 'is_met' )
+			->once()
+			->andReturnFalse();
+
+		$pagenow      = 'admin.php';
+		$_GET['page'] = 'wpseo_files';
+
+		Monkey\Functions\stubs(
+			[
+				'is_multisite' => true,
+			]
+		);
+
+		Monkey\Functions\expect( 'is_network_admin' )
+			->once()
+			->andReturn( true );
+
+		$this->assertTrue( $this->instance->is_met() );
+	}
+
+	/**
 	 * Tests that the conditional is not met when on another tool page.
 	 *
 	 * @covers ::is_met
+	 * @covers ::is_file_editor_page
 	 */
 	public function test_is_not_met_other_tool_page() {
 		global $pagenow;
@@ -112,6 +145,7 @@ class Robots_Txt_Conditional_Test extends TestCase {
 	 * Tests that the conditional is not met when on another Yoast page.
 	 *
 	 * @covers ::is_met
+	 * @covers ::is_file_editor_page
 	 */
 	public function test_is_not_met_other_yoast_page() {
 		global $pagenow;
@@ -131,6 +165,7 @@ class Robots_Txt_Conditional_Test extends TestCase {
 	 * Tests that the conditional is not met when on another page.
 	 *
 	 * @covers ::is_met
+	 * @covers ::is_file_editor_page
 	 */
 	public function test_is_not_met_other_page() {
 		global $pagenow;
@@ -141,6 +176,36 @@ class Robots_Txt_Conditional_Test extends TestCase {
 			->andReturnFalse();
 
 		$pagenow = 'plugins.php';
+
+		$this->assertFalse( $this->instance->is_met() );
+	}
+
+	/**
+	 * Tests that the conditional is not met when on a subdomain but not on the multisite network admin page.
+	 *
+	 * @covers ::is_met
+	 * @covers ::is_file_editor_page
+	 */
+	public function test_is_not_met_subdomain_non_network_admin() {
+		global $pagenow;
+
+		$this->front_end_conditional
+			->expects( 'is_met' )
+			->once()
+			->andReturnFalse();
+
+		$pagenow      = 'admin.php';
+		$_GET['page'] = 'wpseo_files';
+
+		Monkey\Functions\stubs(
+			[
+				'is_multisite' => true,
+			]
+		);
+
+		Monkey\Functions\expect( 'is_network_admin' )
+			->once()
+			->andReturn( false );
 
 		$this->assertFalse( $this->instance->is_met() );
 	}
