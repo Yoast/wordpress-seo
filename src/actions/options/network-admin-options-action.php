@@ -6,6 +6,11 @@ use Yoast\WP\SEO\Exceptions\Option\Form_Invalid_Exception;
 use Yoast\WP\SEO\Exceptions\Option\Save_Failed_Exception;
 use Yoast\WP\SEO\Services\Options\Network_Admin_Options_Service;
 
+/**
+ * Gets or sets the network admin options.
+ *
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- Action should not count.
+ */
 class Network_Admin_Options_Action {
 
 	/**

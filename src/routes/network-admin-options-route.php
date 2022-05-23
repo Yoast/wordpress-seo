@@ -11,6 +11,8 @@ use Yoast\WP\SEO\Main;
 
 /**
  * Network_Admin_Options_Route class.
+ *
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- Route should not count.
  */
 class Network_Admin_Options_Route implements Route_Interface {
 
@@ -88,6 +90,8 @@ class Network_Admin_Options_Route implements Route_Interface {
 
 	/**
 	 * Retrieves the requested options.
+	 *
+	 * @param WP_REST_Request $request The request.
 	 *
 	 * @return WP_REST_Response The get response.
 	 */

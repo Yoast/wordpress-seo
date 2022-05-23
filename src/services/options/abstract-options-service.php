@@ -197,6 +197,8 @@ abstract class Abstract_Options_Service {
 		);
 	}
 
+	// phpcs:disable Squiz.Commenting.FunctionCommentThrowTag.WrongNumber -- PHPCS doesn't take into account exceptions thrown in called methods.
+
 	/**
 	 * Sets the options.
 	 *
@@ -238,6 +240,8 @@ abstract class Abstract_Options_Service {
 			throw new Form_Invalid_Exception( $exceptions );
 		}
 	}
+
+	// phpcs:enable Squiz.Commenting.FunctionCommentThrowTag.WrongNumber
 
 	/**
 	 * Saves the options if the database row does not exist.

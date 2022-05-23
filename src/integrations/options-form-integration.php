@@ -5,7 +5,6 @@ namespace Yoast\WP\SEO\Integrations;
 use Yoast\WP\SEO\Actions\Options\Options_Action;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
-use Yoast\WP\SEO\Helpers\Options_Helper;
 
 /**
  * Adds hooks for the Yoast Form.
@@ -38,7 +37,8 @@ class Options_Form_Integration implements Integration_Interface {
 	/**
 	 * Constructs the options integration.
 	 *
-	 * @param Options_Helper $options_helper The options helper.
+	 * @param Options_Action    $options_action    The options action.
+	 * @param Capability_Helper $capability_helper The capability helper.
 	 */
 	public function __construct( Options_Action $options_action, Capability_Helper $capability_helper ) {
 		$this->options_action    = $options_action;
@@ -68,10 +68,20 @@ class Options_Form_Integration implements Integration_Interface {
 		$this->verify_request( self::SET_OPTIONS_ACTION . ":$option" );
 
 		$value = null;
+		// phpcs:disable WordPress.Security.NonceVerification -- Nonce verified via `verify_request()` above.
 		if ( isset( $_POST[ $option ] ) ) {
-			// Adding sanitize_text_field around this will break the saving of settings because it expects a string: https://github.com/Yoast/wordpress-seo/issues/12440.
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput -- Reason: Sanitized below.
 			$value = \wp_unslash( $_POST[ $option ] );
+			if ( \is_string( $value ) ) {
+				$value = \sanitize_text_field( $value );
+			}
+			else {
+				foreach ( $value as $key => $val ) {
+					$value[ \sanitize_key( $key ) ] = \sanitize_text_field( $val );
+				}
+			}
 		}
+		// phpcs:enable WordPress.Security.NonceVerification
 
 		$result = $this->options_action->set( $value );
 		if ( ! $result['success'] ) {

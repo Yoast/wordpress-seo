@@ -82,6 +82,8 @@ class Options_Route implements Route_Interface {
 	/**
 	 * Retrieves the requested options.
 	 *
+	 * @param WP_REST_Request $request The request.
+	 *
 	 * @return WP_REST_Response the registered options.
 	 */
 	public function get( WP_REST_Request $request ) {

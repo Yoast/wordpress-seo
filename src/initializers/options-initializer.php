@@ -49,9 +49,17 @@ class Options_Initializer implements Initializer_Interface {
 	/**
 	 * Constructs the options integration.
 	 *
-	 * @param Options_Helper $options_helper The options helper.
+	 * @param Network_Admin_Options_Service $network_admin_options_service The network admin options service.
+	 * @param Options_Helper                $options_helper                The options helper.
+	 * @param Capability_Helper             $capability_helper             The capability helper.
+	 * @param Site_Helper                   $site_helper                   The site helper.
 	 */
-	public function __construct( Network_Admin_Options_Service $network_admin_options_service, Options_Helper $options_helper, Capability_Helper $capability_helper, Site_Helper $site_helper ) {
+	public function __construct(
+		Network_Admin_Options_Service $network_admin_options_service,
+		Options_Helper $options_helper,
+		Capability_Helper $capability_helper,
+		Site_Helper $site_helper
+	) {
 		$this->network_admin_options_service = $network_admin_options_service;
 		$this->options_helper                = $options_helper;
 		$this->capability_helper             = $capability_helper;

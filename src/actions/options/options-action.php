@@ -5,6 +5,9 @@ namespace Yoast\WP\SEO\Actions\Options;
 use Yoast\WP\SEO\Exceptions\Option\Form_Invalid_Exception;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 
+/**
+ * Gets or sets the options.
+ */
 class Options_Action {
 
 	/**
