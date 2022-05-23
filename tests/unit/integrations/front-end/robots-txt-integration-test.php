@@ -124,6 +124,8 @@ class Robots_Txt_Integration_Test extends TestCase {
 	 * @covers ::is_sitemap_allowed
 	 * @covers ::get_blog_ids
 	 * @covers ::is_sitemap_enabled_for
+	 * @covers ::is_yoast_active_on
+	 * @covers ::is_yoast_active_for_network
 	 *
 	 * @param array  $multisite The multisite data.
 	 * @param string $expected  The expected output/sitemap.
@@ -144,7 +146,14 @@ class Robots_Txt_Integration_Test extends TestCase {
 		Monkey\Functions\when( 'is_multisite' )->justReturn( true );
 		Monkey\Functions\when( 'is_subdomain_install' )->justReturn( ! $multisite['is_subdirectory'] );
 		Monkey\Functions\when( 'get_current_network_id' )->justReturn( 1 );
+		Monkey\Functions\when( 'is_plugin_active_for_network' )->justReturn( true );
 		Monkey\Functions\expect( 'get_sites' )->andReturn( \array_keys( $multisite['sites'] ) );
+		Monkey\Functions\when( 'get_network_option' )->justReturn(
+			[
+				'allow_enable_xml_sitemap' => true,
+				'wordpress-seo/wp-seo.php' => true,
+			]
+		);
 
 		foreach ( $multisite['sites'] as $blog_id => $site ) {
 			Monkey\Functions\when( 'get_blog_option' )
@@ -163,6 +172,61 @@ class Robots_Txt_Integration_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the robots filter for multisite installations, other site without Yoast SEO activated.
+	 *
+	 * @covers ::filter_robots
+	 * @covers ::change_default_robots
+	 * @covers ::add_xml_sitemap
+	 * @covers ::add_subdirectory_multisite_xml_sitemaps
+	 * @covers ::get_xml_sitemaps_enabled
+	 * @covers ::is_sitemap_allowed
+	 * @covers ::get_blog_ids
+	 * @covers ::is_sitemap_enabled_for
+	 * @covers ::is_yoast_active_on
+	 * @covers ::is_yoast_active_for_network
+	 */
+	public function test_multisite_sitemaps_without_yoast_seo_active() {
+		$this->options_helper
+			->expects( 'get' )
+			->once()
+			->with( 'enable_xml_sitemap', false )
+			->andReturnTrue();
+
+		Mockery::mock( 'overload:WPSEO_Sitemaps_Router' )
+			->expects( 'get_base_url' )
+			->once()
+			->with( 'sitemap_index.xml' )
+			->andReturn( 'https://example.com/sitemap_index.xml' );
+
+		Monkey\Functions\when( 'is_multisite' )->justReturn( true );
+		Monkey\Functions\when( 'is_subdomain_install' )->justReturn( false );
+		Monkey\Functions\when( 'get_current_network_id' )->justReturn( 1 );
+		Monkey\Functions\when( 'get_network_option' )->justReturn(
+			[
+				'allow_enable_xml_sitemap' => true,
+			]
+		);
+		Monkey\Functions\expect( 'get_sites' )->andReturn( [ 1, 2 ] );
+		Monkey\Functions\expect( 'get_home_url' )
+			->once()
+			->with( 1, 'sitemap_index.xml' )
+			->andReturn( 'https://example.com/sitemap_index.xml' );
+		Monkey\Functions\expect( 'get_blog_option' )
+			->once()
+			->with( 1, 'active_plugins', [] )
+			->andReturn( [ 'wordpress-seo/wp-seo.php' ] );
+		Monkey\Functions\expect( 'get_blog_option' )
+			->once()
+			->with( 2, 'active_plugins', [] )
+			->andReturn( [] );
+
+		$this->assertEquals(
+			"Input\n\nSitemap: https://example.com/sitemap_index.xml\n\n",
+			$this->instance->filter_robots( 'Input', '1' )
+		);
+	}
+
+	/**
 	 * Tests the robots filter for a multisite subdirectory installation without any existing option rows.
 	 *
 	 * @covers ::filter_robots
@@ -173,6 +237,8 @@ class Robots_Txt_Integration_Test extends TestCase {
 	 * @covers ::is_sitemap_allowed
 	 * @covers ::get_blog_ids
 	 * @covers ::is_sitemap_enabled_for
+	 * @covers ::is_yoast_active_on
+	 * @covers ::is_yoast_active_for_network
 	 */
 	public function test_multisite_sitemaps_option_not_found() {
 		$this->options_helper
@@ -191,6 +257,7 @@ class Robots_Txt_Integration_Test extends TestCase {
 		Monkey\Functions\when( 'is_subdomain_install' )->justReturn( false );
 		Monkey\Functions\when( 'get_current_network_id' )->justReturn( 1 );
 		Monkey\Functions\when( 'get_blog_option' )->justReturn( false );
+		Monkey\Functions\when( 'get_network_option' )->justReturn( [ 'wordpress-seo/wp-seo.php' => true ] );
 		Monkey\Functions\expect( 'get_sites' )->andReturn( [ 1, 2 ] );
 		Monkey\Functions\expect( 'get_home_url' )
 			->once()

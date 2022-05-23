@@ -62,12 +62,6 @@ class Robots_Txt_Integration implements Integration_Interface {
 		}
 
 		$robots_txt = $this->change_default_robots( $robots_txt );
-
-		// If the XML sitemap is disabled, bail.
-		if ( ! $this->options_helper->get( 'enable_xml_sitemap', false ) ) {
-			return $robots_txt;
-		}
-
 		$robots_txt = $this->add_xml_sitemap( $robots_txt );
 
 		return $this->add_subdirectory_multisite_xml_sitemaps( $robots_txt );
@@ -96,6 +90,11 @@ class Robots_Txt_Integration implements Integration_Interface {
 	 * @return string
 	 */
 	protected function add_xml_sitemap( $robots_txt ) {
+		// If the XML sitemap is disabled, bail.
+		if ( ! $this->options_helper->get( 'enable_xml_sitemap', false ) ) {
+			return $robots_txt;
+		}
+
 		$sitemap = 'Sitemap: ' . \esc_url( \WPSEO_Sitemaps_Router::get_base_url( 'sitemap_index.xml' ) );
 
 		// If our sitemap is already output, bail.
@@ -161,8 +160,8 @@ class Robots_Txt_Integration implements Integration_Interface {
 	 * @return bool
 	 */
 	protected function is_sitemap_allowed() {
-		$options = \get_site_option( 'wpseo_ms' );
-		if ( ! $options ) {
+		$options = \get_network_option( null, 'wpseo_ms' );
+		if ( ! $options || ! isset( $options['allow_enable_xml_sitemap'] ) ) {
 			// Default is enabled.
 			return true;
 		}
@@ -178,13 +177,42 @@ class Robots_Txt_Integration implements Integration_Interface {
 	 * @return bool
 	 */
 	protected function is_sitemap_enabled_for( $blog_id ) {
+		if ( ! $this->is_yoast_active_on( $blog_id ) ) {
+			return false;
+		}
+
 		$options = \get_blog_option( $blog_id, 'wpseo' );
-		if ( ! $options ) {
+		if ( ! $options || ! isset( $options['enable_xml_sitemap'] ) ) {
 			// Default is enabled.
 			return true;
 		}
 
 		return (bool) $options['enable_xml_sitemap'];
+	}
+
+	/**
+	 * Determines whether Yoast SEO is active.
+	 *
+	 * @param int $blog_id The blog ID.
+	 *
+	 * @return bool
+	 */
+	protected function is_yoast_active_on( $blog_id ) {
+		return \in_array( 'wordpress-seo/wp-seo.php', (array) \get_blog_option( $blog_id, 'active_plugins', [] ), true ) || $this->is_yoast_active_for_network();
+	}
+
+	/**
+	 * Determines whether Yoast SEO is active for the entire network.
+	 *
+	 * @return bool
+	 */
+	protected function is_yoast_active_for_network() {
+		$plugins = \get_network_option( null, 'active_sitewide_plugins' );
+		if ( isset( $plugins['wordpress-seo/wp-seo.php'] ) ) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
