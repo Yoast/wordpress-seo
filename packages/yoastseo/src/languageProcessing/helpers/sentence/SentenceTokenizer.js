@@ -9,8 +9,16 @@ import { normalize as normalizeQuotes } from "../sanitize/quotes.js";
 // All characters that indicate a sentence delimiter.
 const fullStop = ".";
 
-const fullStopRegex = new RegExp( "^[" + fullStop + "]$" );
+// "([a-z\"\'])" +
+// ([a-z\"\'])[.?!;…۔؟。｡！‼？⁇⁉⁈⁉…‥]
+// ([a-z\"\'])[.?!;…۔؟。｡！‼？⁇⁉⁈⁉…‥]
 
+
+const fullStopRegex = new RegExp( "^[" + fullStop + "]$" );
+// Const sentenceDelimiterRegex2 = new RegExp( "^([a-z\"\'])[" + sentenceDelimiters + "]$" );
+// Const sentenceDelimiterRegex2 = new RegExp( "^([a-z\"\'])[.?!;…۔؟。｡！‼？⁇⁉⁈⁉…‥]$" );
+const sentenceDelimiterRegex = new RegExp( "^[" + sentenceDelimiters + "]$" );
+const sentenceRegex = new RegExp( "^[^" + fullStop + sentenceDelimiters + "<\\(\\)\\[\\]]+$" );
 const smallerThanContentRegex = /^<[^><]*$/;
 const htmlStartRegex = /^<([^>\s/]+)[^>]*>$/mi;
 const htmlEndRegex = /^<\/([^>\s]+)[^>]*>$/mi;
@@ -296,6 +304,7 @@ export default class SentenceTokenizer {
 			tokens.push( token );
 		} );
 
+		// Tokenizer.addRule( sentenceDelimiterRegex2, "sentence-delimiter2" );
 		tokenizer.addRule( fullStopRegex, "full-stop" );
 		tokenizer.addRule( smallerThanContentRegex, "smaller-than-sign-content" );
 		tokenizer.addRule( htmlStartRegex, "html-start" );
@@ -320,12 +329,28 @@ export default class SentenceTokenizer {
 	 */
 	tokenize( tokenizer, text ) {
 		tokenizer.onText( text );
-
 		try {
 			tokenizer.end();
 		} catch ( e ) {
 			console.error( "Tokenizer end error:", e, e.tokenizer2 );
 		}
+	}
+
+	/**
+	 * Gets the next sentence from tokenArray after currentLocation.
+	 * @param {object[]} tokenArray The array of tokens that needs to be searched.
+	 * @param {number} currentLocation The current location. After this location needs to be searched.
+	 * @returns {object|undefined} The next sentence. If there is no sentence after currentLocation, returns undefined.
+	 */
+	getNextSentence( tokenArray, currentLocation ) {
+		const nextTokens = tokenArray.slice( currentLocation + 1, tokenArray.length );
+		for ( let i = 0; i < nextTokens.length; i++ ) {
+			const token = tokenArray[ i ];
+			if ( token.type === "sentence" ) {
+				return token;
+			}
+		}
+		return;
 	}
 
 	/**
@@ -353,7 +378,7 @@ export default class SentenceTokenizer {
 		} while ( sliced && tokenArray.length > 1 );
 
 		tokenArray.forEach( ( token, i ) => {
-			let hasNextSentence, nextCharacters, tokenizeResults;
+			let hasNextSentence, nextCharacters, tokenizeResults, nextSentence;
 			const nextToken = tokenArray[ i + 1 ];
 			const previousToken = tokenArray[ i - 1 ];
 			const secondToNextToken = tokenArray[ i + 2 ];
@@ -379,6 +404,11 @@ export default class SentenceTokenizer {
 					break;
 				case "sentence-delimiter":
 					currentSentence += token.src;
+					nextSentence = this.getNextSentence( tokenArray );
+
+					if ( nextSentence && nextSentence.src.trim().split( " " ).length < 2 ) {
+						break;
+					}
 
 					if ( ! isUndefined( nextToken ) &&
 						"block-end" !== nextToken.type &&
@@ -397,10 +427,19 @@ export default class SentenceTokenizer {
 					// For a new sentence we need to check the next two characters.
 					hasNextSentence = nextCharacters.length >= 2;
 					nextSentenceStart = hasNextSentence ? nextCharacters[ 1 ] : "";
+
+					// Retrieve the next sentence tokens. (This step might make the two steps above redundant.)
+					nextSentence = this.getNextSentence( tokenArray.slice( i + 1, tokenArray.length ) );
+
 					// If the next character is a number, never split. For example: IPv4-numbers.
 					if ( hasNextSentence && this.isNumber( nextCharacters[ 0 ] ) ) {
 						break;
 					}
+					// If the next sentence has less than 2 words, it is probably not a sentence.
+					if ( nextSentence && nextSentence.src.trim().split( " " ).length < 2 ) {
+						break;
+					}
+
 					// Only split on sentence delimiters when the next sentence looks like the start of a sentence and it's preceded by a whitespace.
 					if ( ( hasNextSentence && this.isValidSentenceBeginning( nextSentenceStart ) && this.isCharacterASpace( nextCharacters[ 0 ] ) ) ||
 						this.isSentenceStart( nextToken ) ) {

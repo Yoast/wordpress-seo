@@ -18,6 +18,7 @@ $network_tabs = new WPSEO_Option_Tabs( 'network' );
 $network_tabs->add_tab( new WPSEO_Option_Tab( 'general', __( 'General', 'wordpress-seo' ) ) );
 $network_tabs->add_tab( new WPSEO_Option_Tab( 'features', __( 'Features', 'wordpress-seo' ) ) );
 $network_tabs->add_tab( new WPSEO_Option_Tab( 'integrations', __( 'Integrations', 'wordpress-seo' ) ) );
+$network_tabs->add_tab( new WPSEO_Option_Tab( 'crawl-settings', __( 'Crawl settings', 'wordpress-seo' ), [ 'beta' => true ] ) );
 $network_tabs->add_tab( new WPSEO_Option_Tab( 'restore-site', __( 'Restore Site', 'wordpress-seo' ), [ 'save_button' => false ] ) );
 $network_tabs->display( $yform );
 

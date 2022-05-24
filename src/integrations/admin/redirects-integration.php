@@ -48,7 +48,7 @@ class Redirects_Integration implements Integration_Interface {
 			'wpseo_dashboard',
 			'',
 			__( 'Redirects', 'wordpress-seo' ) . ' <span class="yoast-badge yoast-premium-badge"></span>',
-			'wpseo_manage_options',
+			'edit_others_posts',
 			'wpseo_redirects',
 			[ $this, 'display' ],
 		];
