@@ -39,13 +39,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 		esc_html__( 'Find out how removing feeds can improve performance.', 'wordpress-seo' )
 	);
 
-	$feature_help = new WPSEO_Admin_Help_Panel(
-		'remove_feed_post_comments',
-		/* translators: %s expands to a feature's name */
-		esc_html__( 'Help on: Post comment feeds', 'wordpress-seo' ),
-		$help_text
-	);
-
 	$yform->toggle_switch(
 		'remove_feed_post_comments',
 		[
