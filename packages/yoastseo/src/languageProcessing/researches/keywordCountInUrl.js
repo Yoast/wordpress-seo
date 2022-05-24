@@ -24,7 +24,7 @@ function dehyphenateWordsWithOneForm( wordForms, dehyphenatedForms ) {
  * word forms. Splits each word form on the hyphen and puts each compound into its corresponding array (i.e. the first
  * compound into the first array, the second compound into the second array, etc.). The result is that compounds that are
  * forms of the same word are grouped together (e.g. if the hyphenated keyphrase forms are 'ex-husband' and 'ex-husbands',
- * 'husband' and 'husbands' are grouped together as forms of the same word.
+ * 'husband' and 'husbands' are grouped together as forms of the same word).
  *
  * @param {string[]}	wordForms		The array with the word forms.
  * @param {Array[]}		dehyphenatedForms	The array with the dehyphenated word forms.
@@ -37,7 +37,7 @@ function dehyphenateWordsWithMultipleForms( wordForms, dehyphenatedForms ) {
 	 * Create one array per compound in the array of dehyphenated word forms.
 	 * Put a number corresponding to the compound index inside the array so that later we can put the compound in the correct
 	 * array by looking for the array that contains the compound index.
-	* */
+	 */
 	const numberOfCompounds = firstWordFormSplit.length;
 	for ( let i = 0; i < numberOfCompounds; i++ ) {
 		dehyphenatedForms.push( [ i ] );
