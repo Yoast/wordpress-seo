@@ -71,7 +71,7 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Configuration_Workout_Integration constructor.
+	 * First_Time_Configuration_Integration constructor.
 	 *
 	 * @param WPSEO_Admin_Asset_Manager $admin_asset_manager    The admin asset manager.
 	 * @param WPSEO_Addon_Manager       $addon_manager          The addon manager.
@@ -120,7 +120,7 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Adds the data for the configuration workout to the wpseoWorkoutsData object.
+	 * Adds the data for the configuration to the wpseoFirstTimeConfigurationData object.
 	 */
 	public function enqueue_assets() {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Date is not processed or saved.

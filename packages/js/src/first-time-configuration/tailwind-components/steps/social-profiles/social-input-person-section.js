@@ -81,7 +81,7 @@ function SocialInputPersonSection( { socialProfiles, errorFields, dispatch, canE
 								{
 									b: <b />,
 									// eslint-disable-next-line jsx-a11y/anchor-has-content
-									a: <a id="yoast-configuration-workout-user-page-link-1" href={ window.wpseoFirstTimeConfigurationData.usersPageUrl } target="_blank" rel="noopener noreferrer" />,
+									a: <a id="yoast-configuration-user-page-link-1" href={ window.wpseoFirstTimeConfigurationData.usersPageUrl } target="_blank" rel="noopener noreferrer" />,
 								}
 							)
 						}
@@ -99,7 +99,7 @@ function SocialInputPersonSection( { socialProfiles, errorFields, dispatch, canE
 									"</a>"
 								),
 								window.wpseoFirstTimeConfigurationData.usersPageUrl,
-								"yoast-configuration-workout-user-page-link-2"
+								"yoast-configuration-user-page-link-2"
 							)
 						}
 					</p>

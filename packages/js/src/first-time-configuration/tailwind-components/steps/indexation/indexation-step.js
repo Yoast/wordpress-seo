@@ -33,13 +33,13 @@ export default function IndexationStep( { indexingState, setIndexingState, showR
 						"</a>"
 					),
 					window.wpseoFirstTimeConfigurationData.shortlinks.configIndexablesBenefits,
-					"yoast-configuration-workout-index-data-link"
+					"yoast-configuration-index-data-link"
 				)
 				}
 			</p>
 			<ConfigurationStartImage className="yst-h-28 yst-w-24 yst-mr-6" />
 		</div>
-		<div id="yoast-configuration-workout-indexing-container" className="indexation-container">
+		<div id="yoast-configuration-indexing-container" className="indexation-container">
 			<ConfigurationIndexation
 				indexingStateCallback={ setIndexingState }
 				isEnabled={ ! window.wpseoFirstTimeConfigurationData.shouldUpdatePremium }
@@ -50,7 +50,7 @@ export default function IndexationStep( { indexingState, setIndexingState, showR
 		{ ( window.wpseoFirstTimeConfigurationData.shouldUpdatePremium && indexingState !== "completed" ) && <Alert type="warning">
 			<p>{
 				// translators: %1$s is replaced by a version number.
-				sprintf( __( "This workout step is currently disabled, because you're not running the latest version of Yoast SEO Premium. " +
+				sprintf( __( "This configuration step is currently disabled, because you're not running the latest version of Yoast SEO Premium. " +
 				"Please update to the latest version (at least %1$s). ",
 				"wordpress-seo"
 				), "17.7"
@@ -61,7 +61,7 @@ export default function IndexationStep( { indexingState, setIndexingState, showR
 					sprintf(
 						// translators: %1$s and %2$s are replaced by anchor tags to make a link to the tool section.
 						__( "You can still run the SEO data optimization in the %1$sTools section%2$s. " +
-						"Once that is finished, please refresh this workout.", "wordpress-seo" ),
+						"Once that is finished, please refresh this page.", "wordpress-seo" ),
 						"<a>",
 						"</a>"
 					),
