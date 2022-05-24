@@ -25,14 +25,7 @@ const fullStop = ".";
  */
 const sentenceDelimiters = "?!;\u2026\u06d4\u061f\u3002\uFF61\uFF01\u203C\uFF1F\u2047\u2049\u2048\u2049\u2026\u2025";
 
-// "([a-z\"\'])" +
-// ([a-z\"\'])[.?!;…۔؟。｡！‼？⁇⁉⁈⁉…‥]
-// ([a-z\"\'])[.?!;…۔؟。｡！‼？⁇⁉⁈⁉…‥]
-
-
 const fullStopRegex = new RegExp( "^[" + fullStop + "]$" );
-// Const sentenceDelimiterRegex2 = new RegExp( "^([a-z\"\'])[" + sentenceDelimiters + "]$" );
-// Const sentenceDelimiterRegex2 = new RegExp( "^([a-z\"\'])[.?!;…۔؟。｡！‼？⁇⁉⁈⁉…‥]$" );
 const sentenceDelimiterRegex = new RegExp( "^[" + sentenceDelimiters + "]$" );
 const sentenceRegex = new RegExp( "^[^" + fullStop + sentenceDelimiters + "<\\(\\)\\[\\]]+$" );
 const smallerThanContentRegex = /^<[^><]*$/;
@@ -345,7 +338,6 @@ export default class SentenceTokenizer {
 			tokens.push( token );
 		} );
 
-		// Tokenizer.addRule( sentenceDelimiterRegex2, "sentence-delimiter2" );
 		tokenizer.addRule( fullStopRegex, "full-stop" );
 		tokenizer.addRule( smallerThanContentRegex, "smaller-than-sign-content" );
 		tokenizer.addRule( htmlStartRegex, "html-start" );
@@ -370,28 +362,12 @@ export default class SentenceTokenizer {
 	 */
 	tokenize( tokenizer, text ) {
 		tokenizer.onText( text );
+
 		try {
 			tokenizer.end();
 		} catch ( e ) {
 			console.error( "Tokenizer end error:", e, e.tokenizer2 );
 		}
-	}
-
-	/**
-	 * Gets the next sentence from tokenArray after currentLocation.
-	 * @param {object[]} tokenArray The array of tokens that needs to be searched.
-	 * @param {number} currentLocation The current location. After this location needs to be searched.
-	 * @returns {object|undefined} The next sentence. If there is no sentence after currentLocation, returns undefined.
-	 */
-	getNextSentence( tokenArray, currentLocation ) {
-		const nextTokens = tokenArray.slice( currentLocation + 1, tokenArray.length );
-		for ( let i = 0; i < nextTokens.length; i++ ) {
-			const token = tokenArray[ i ];
-			if ( token.type === "sentence" ) {
-				return token;
-			}
-		}
-		return;
 	}
 
 	/**
@@ -419,7 +395,7 @@ export default class SentenceTokenizer {
 		} while ( sliced && tokenArray.length > 1 );
 
 		tokenArray.forEach( ( token, i ) => {
-			let hasNextSentence, nextCharacters, tokenizeResults, nextSentence;
+			let hasNextSentence, nextCharacters, tokenizeResults;
 			const nextToken = tokenArray[ i + 1 ];
 			const previousToken = tokenArray[ i - 1 ];
 			const secondToNextToken = tokenArray[ i + 2 ];
@@ -445,11 +421,6 @@ export default class SentenceTokenizer {
 					break;
 				case "sentence-delimiter":
 					currentSentence += token.src;
-					nextSentence = this.getNextSentence( tokenArray );
-
-					if ( nextSentence && nextSentence.src.trim().split( " " ).length < 2 ) {
-						break;
-					}
 
 					if ( ! isUndefined( nextToken ) && "block-end" !== nextToken.type && "sentence-delimiter" !== nextToken.type ) {
 						tokenSentences.push( currentSentence );
@@ -465,19 +436,10 @@ export default class SentenceTokenizer {
 					// For a new sentence we need to check the next two characters.
 					hasNextSentence = nextCharacters.length >= 2;
 					nextSentenceStart = hasNextSentence ? nextCharacters[ 1 ] : "";
-
-					// Retrieve the next sentence tokens. (This step might make the two steps above redundant.)
-					nextSentence = this.getNextSentence( tokenArray.slice( i + 1, tokenArray.length ) );
-
 					// If the next character is a number, never split. For example: IPv4-numbers.
 					if ( hasNextSentence && this.isNumber( nextCharacters[ 0 ] ) ) {
 						break;
 					}
-					// If the next sentence has less than 2 words, it is probably not a sentence.
-					if ( nextSentence && nextSentence.src.trim().split( " " ).length < 2 ) {
-						break;
-					}
-
 					// Only split on sentence delimiters when the next sentence looks like the start of a sentence.
 					if ( ( hasNextSentence && this.isValidSentenceBeginning( nextSentenceStart ) ) || this.isSentenceStart( nextToken ) ) {
 						tokenSentences.push( currentSentence );
