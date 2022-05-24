@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\OAuth\Models;
+namespace Yoast\WP\SEO\Models;
 
 use Yoast\WP\Lib\Model;
 use YoastSEO_Vendor\League\OAuth2\Server\Entities\AuthCodeEntityInterface;

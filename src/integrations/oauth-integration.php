@@ -2,7 +2,7 @@
 
 namespace Yoast\WP\SEO\Integrations;
 
-use Yoast\WP\SEO\Oauth\Values\User;
+use Yoast\WP\SEO\OAuth\Values\User;
 use Yoast\WP\SEO\Helpers\Encryption_Helper;
 use Yoast\WP\SEO\Conditionals\OpenSSL_Enabled;
 use Yoast\WP\SEO\Helpers\Options_Helper;

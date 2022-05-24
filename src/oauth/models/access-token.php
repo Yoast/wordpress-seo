@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\SEO\OAuth\Models;
+namespace Yoast\WP\SEO\Models;
 
 use YoastSEO_Vendor\League\OAuth2\Server\Entities\AccessTokenEntityInterface;
 use YoastSEO_Vendor\League\OAuth2\Server\Entities\Traits\AccessTokenTrait;

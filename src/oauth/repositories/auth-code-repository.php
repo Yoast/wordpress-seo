@@ -3,7 +3,7 @@
 namespace Yoast\WP\SEO\OAuth\Repositories;
 
 use Yoast\WP\Lib\ORM;
-use Yoast\WP\SEO\OAuth\Models\Auth_Token;
+use Yoast\WP\SEO\Models\Auth_Token;
 use YoastSEO_Vendor\League\OAuth2\Server\Entities\AuthCodeEntityInterface;
 use YoastSEO_Vendor\League\OAuth2\Server\Repositories\AuthCodeRepositoryInterface;
 use Yoast\WP\Lib\Model;
