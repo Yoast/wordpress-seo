@@ -1,5 +1,5 @@
 import apiFetch from "@wordpress/api-fetch";
-import { createInterpolateElement, useCallback, useEffect, Fragment } from "@wordpress/element";
+import { createInterpolateElement, useCallback, useEffect } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 
