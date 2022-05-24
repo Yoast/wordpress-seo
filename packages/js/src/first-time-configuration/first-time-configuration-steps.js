@@ -217,8 +217,12 @@ export default function FirstTimeConfigurationSteps() {
 	const [ siteRepresentationEmpty, setSiteRepresentationEmpty ] = useState( false );
 	const [ showRunIndexationAlert, setShowRunIndexationAlert ] = useState( false );
 
-	const setErrorSteps = useCallback( ( step, message ) => {
+	const setStepError = useCallback( ( step, message ) => {
 		dispatch( { type: "SET_STEP_ERROR", payload: { step, message } } );
+	}, [] );
+
+	const removeStepError = useCallback( ( step ) => {
+		dispatch( { type: "REMOVE_STEP_ERROR", payload: step } );
 	}, [] );
 
 	/* Briefly override window variable and remove indexing notices, because indexingstate is reinitialized when navigating back and forth
@@ -301,6 +305,7 @@ export default function FirstTimeConfigurationSteps() {
 			.then( () => setStepIsSaved( 2 ) )
 			.then( () => {
 				setErrorFields( [] );
+				removeStepError( STEPS.siteRepresentation );
 				finishSteps( STEPS.siteRepresentation );
 				return true;
 			} )
@@ -310,7 +315,7 @@ export default function FirstTimeConfigurationSteps() {
 					return false;
 				}
 				if ( e.message ) {
-					setErrorSteps( STEPS.siteRepresentation, e.message );
+					setStepError( STEPS.siteRepresentation, e.message );
 				}
 				return false;
 			} );
@@ -337,6 +342,7 @@ export default function FirstTimeConfigurationSteps() {
 				.then( () => setStepIsSaved( 3 ) )
 				.then( () => {
 					setErrorFields( [] );
+					removeStepError( STEPS.socialProfiles );
 					finishSteps( STEPS.socialProfiles );
 				} )
 				.then( () => {
@@ -348,7 +354,7 @@ export default function FirstTimeConfigurationSteps() {
 							setErrorFields( e.failures );
 						}
 						if ( e.message ) {
-							setErrorSteps( STEPS.socialProfiles, e.message );
+							setStepError( STEPS.socialProfiles, e.message );
 						}
 						return false;
 					}
@@ -366,6 +372,7 @@ export default function FirstTimeConfigurationSteps() {
 			.then( () => setStepIsSaved( 3 ) )
 			.then( () => {
 				setErrorFields( [] );
+				removeStepError( STEPS.socialProfiles );
 				finishSteps( STEPS.socialProfiles );
 			} )
 			.then( () => {
@@ -377,7 +384,7 @@ export default function FirstTimeConfigurationSteps() {
 						setErrorFields( e.failures );
 					}
 					if ( e.message ) {
-						setErrorSteps( STEPS.socialProfiles, e.message );
+						setStepError( STEPS.socialProfiles, e.message );
 					}
 					return false;
 				}
@@ -401,11 +408,12 @@ export default function FirstTimeConfigurationSteps() {
 			.then( () => setStepIsSaved( 4 ) )
 			.then( () => finishSteps( STEPS.personalPreferences ) )
 			.then( () => {
+				removeStepError( STEPS.personalPreferences );
 				return true;
 			} )
 			.catch( e => {
 				if ( e.message ) {
-					setErrorSteps( STEPS.personalPreferences, e.message );
+					setStepError( STEPS.personalPreferences, e.message );
 				}
 				return false;
 			} );
