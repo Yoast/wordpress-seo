@@ -422,7 +422,6 @@ export default class SentenceTokenizer {
 			const previousToken = tokenArray[ i - 1 ];
 			const secondToNextToken = tokenArray[ i + 2 ];
 
-			console.log( "TOKEN", token )
 
 			switch ( token.type ) {
 				case "html-start":

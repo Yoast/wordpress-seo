@@ -59,7 +59,6 @@ export const getPeriphrasticPassives = function( paper, researcher ) {
 	const passiveSentences = [];
 
 	forEach( sentences, function( sentence ) {
-		console.log( sentence );
 		const strippedSentence = stripHTMLTags( sentence.getSentenceText() ).toLocaleLowerCase();
 
 		// The functionality based on sentencePart objects should be rewritten using array indices of stopwords and auxiliaries.
