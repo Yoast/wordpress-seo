@@ -107,7 +107,7 @@ function keywordCountInSlug( paper, researcher ) {
 	const parsedSlug = parseSlug( paper.getSlug() );
 	const locale = paper.getLocale();
 
-	const keyphraseInSlug = findTopicFormsInString( topicForms, parsedSlug, false, locale );
+	const keyphraseInSlug = findTopicFormsInString( topicForms, parsedSlug, false, locale, false );
 
 	return {
 		keyphraseLength: topicForms.keyphraseForms.length,
