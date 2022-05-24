@@ -24,12 +24,12 @@
 	"require": {
 		"php": "^5.6.20 || ^7.0 || ^8.0",
 		"composer/installers": "^1.12.0",
-		"yoast/i18n-module": "^3.1.1",
-		"league/oauth2-server": "^8.3"
+		"yoast/i18n-module": "^3.1.1"
 	},
 	"require-dev": {
 		"humbug/php-scoper": "^0.13.4",
 		"league/oauth2-client": "2.6.1",
+        "league/oauth2-server": "^8.3",
 		"phpunit/phpunit": "^5.7",
 		"psr/container": "1.0.0",
 		"psr/log": "^1.0",
@@ -120,7 +120,8 @@
           "@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/league/uri --config=config/php-scoper/uri.inc.php --force --quiet",
           "@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/league/uri-interfaces --config=config/php-scoper/uri-interfaces.inc.php --force --quiet",
           "@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/defuse/php-encryption --config=config/php-scoper/php-encryption.inc.php --force --quiet",
-          "@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/lcobucci/jwt --config=config/php-scoper/jwt.inc.php --force --quiet"
+          "@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/lcobucci/jwt --config=config/php-scoper/jwt.inc.php --force --quiet",
+          "@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/lcobucci/clock --config=config/php-scoper/clock.inc.php --force --quiet"
         ],
 		"prefix-symfony": [
 			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/symfony/dependency-injection --config=config/php-scoper/dependency-injection.inc.php --force --quiet"
