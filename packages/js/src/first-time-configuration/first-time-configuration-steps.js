@@ -181,6 +181,7 @@ function calculateInitialState( windowObject, isStepFinished ) {
 		companyOrPersonOptions,
 		personSocialProfiles: {},
 		errorFields: [],
+		errorSteps: [],
 		editedSteps: [],
 		savedSteps: [],
 	};
@@ -215,6 +216,10 @@ export default function FirstTimeConfigurationSteps() {
 	const [ indexingState, setIndexingState ] = useState( () => window.yoastIndexingData.amount === "0" ? "already_done" : "idle" );
 	const [ siteRepresentationEmpty, setSiteRepresentationEmpty ] = useState( false );
 	const [ showRunIndexationAlert, setShowRunIndexationAlert ] = useState( false );
+
+	const setErrorSteps = useCallback( ( step, message ) => {
+		dispatch( { type: "SET_ERROR_STEPS", payload: { step, message } } );
+	}, [] );
 
 	/* Briefly override window variable and remove indexing notices, because indexingstate is reinitialized when navigating back and forth
 	without triggering a reload, whereas the window variable remains stale. */
@@ -576,7 +581,8 @@ export default function FirstTimeConfigurationSteps() {
 							</EditButton>
 						</Step.Header>
 						<Step.Content>
-							<IndexationStep setIndexingState={ setIndexingState } indexingState={ indexingState } showRunIndexationAlert={ showRunIndexationAlert }  isStepperFinished={ isStepperFinished } />
+							<IndexationStep setIndexingState={ setIndexingState } indexingState={ indexingState } showRunIndexationAlert={ showRunIndexationAlert } isStepperFinished={ isStepperFinished } />
+							<Step.Error id="yoast-indexation-step-error" message="test" />
 							<ContinueButton
 								additionalClasses="yst-mt-12"
 								beforeGo={ beforeContinueIndexationStep }
@@ -606,6 +612,7 @@ export default function FirstTimeConfigurationSteps() {
 								state={ state }
 								siteRepresentationEmpty={ siteRepresentationEmpty }
 							/>
+							<Step.Error id="yoast-site-representation-step-error" message="test" />
 							<ConfigurationStepButtons
 								stepperFinishedOnce={ stepperFinishedOnce }
 								saveFunction={ updateOnFinishSiteRepresentation }
@@ -628,6 +635,7 @@ export default function FirstTimeConfigurationSteps() {
 						</Step.Header>
 						<Step.Content>
 							<SocialProfilesStep state={ state } dispatch={ dispatch } setErrorFields={ setErrorFields } />
+							<Step.Error id="yoast-social-profiles-step-error" message="test" />
 							<ConfigurationStepButtons stepperFinishedOnce={ stepperFinishedOnce } saveFunction={ updateOnFinishSocialProfiles } setEditState={ setIsStepBeingEdited } />
 						</Step.Content>
 					</Step>
@@ -646,6 +654,7 @@ export default function FirstTimeConfigurationSteps() {
 						</Step.Header>
 						<Step.Content>
 							<PersonalPreferencesStep state={ state } setTracking={ setTracking } />
+							<Step.Error id="yoast-personal-preferences-step-error" message="test" />
 							<ConfigurationStepButtons stepperFinishedOnce={ stepperFinishedOnce } saveFunction={ updateOnFinishPersonalPreferences } setEditState={ setIsStepBeingEdited } />
 						</Step.Content>
 					</Step>

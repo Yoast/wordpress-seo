@@ -214,6 +214,9 @@ export function configurationReducer( state, action ) {
 		case "SET_ERROR_FIELDS":
 			newState.errorFields = action.payload;
 			return newState;
+		case "SET_ERROR_STEPS":
+			newState.errorSteps = action.payload;
+			return newState;
 		case "SET_TRACKING":
 			newState = handleStepEdit( newState, 4 );
 			newState.tracking = action.payload;
