@@ -376,17 +376,10 @@ export default class SentenceTokenizer {
 			console.error( "Tokenizer end error:", e, e.tokenizer2 );
 		}
 	}
-
-	/**
-	 * Gets the next sentence from tokenArray after currentLocation.
-	 * @param {object[]} tokenArray The array of tokens that needs to be searched.
-	 * @param {number} currentLocation The current location. After this location needs to be searched.
-	 * @returns {object|undefined} The next sentence. If there is no sentence after currentLocation, returns undefined.
-	 */
-	getNextSentence( tokenArray, currentLocation ) {
-		const nextTokens = tokenArray.slice( currentLocation + 1, tokenArray.length );
+	getNextSentence( tokenArray, i ) {
+		const nextTokens = tokenArray.slice( i + 1, tokenArray.length );
 		for ( let i = 0; i < nextTokens.length; i++ ) {
-			const token = tokenArray[ i ];
+			const token = nextTokens[ i ];
 			if ( token.type === "sentence" ) {
 				return token;
 			}
@@ -447,10 +440,6 @@ export default class SentenceTokenizer {
 					currentSentence += token.src;
 					nextSentence = this.getNextSentence( tokenArray );
 
-					if ( nextSentence && nextSentence.src.trim().split( " " ).length < 2 ) {
-						break;
-					}
-
 					if ( ! isUndefined( nextToken ) && "block-end" !== nextToken.type && "sentence-delimiter" !== nextToken.type ) {
 						tokenSentences.push( currentSentence );
 						currentSentence = "";
@@ -466,15 +455,14 @@ export default class SentenceTokenizer {
 					hasNextSentence = nextCharacters.length >= 2;
 					nextSentenceStart = hasNextSentence ? nextCharacters[ 1 ] : "";
 
-					// Retrieve the next sentence tokens. (This step might make the two steps above redundant.)
 					nextSentence = this.getNextSentence( tokenArray.slice( i + 1, tokenArray.length ) );
 
 					// If the next character is a number, never split. For example: IPv4-numbers.
 					if ( hasNextSentence && this.isNumber( nextCharacters[ 0 ] ) ) {
 						break;
 					}
-					// If the next sentence has less than 2 words, it is probably not a sentence.
-					if ( nextSentence && nextSentence.src.trim().split( " " ).length < 2 ) {
+					if ( nextSentence &&
+						nextSentence.src.trim().split( " " ).length < 2 ) {
 						break;
 					}
 
