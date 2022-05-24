@@ -6,7 +6,8 @@
  */
 
 use Yoast\WP\SEO\Exceptions\Option\Unknown_Exception;
-use Yoast\WP\SEO\Integrations\Options_Form_Integration;use Yoast\WP\SEO\Presenters\Admin\Light_Switch_Presenter;
+use Yoast\WP\SEO\Integrations\Options_Form_Integration;
+use Yoast\WP\SEO\Presenters\Admin\Light_Switch_Presenter;
 use Yoast\WP\SEO\Services\Options\Network_Admin_Options_Service;
 
 /**
@@ -929,7 +930,7 @@ class Yoast_Form {
 			return false;
 		}
 
-		if ( \is_multisite() && \is_network_admin() ) {
+		if ( is_multisite() && is_network_admin() ) {
 			/**
 			 * Indicates this variable is a Network_Admin_Options_Service.
 			 *

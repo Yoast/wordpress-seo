@@ -147,22 +147,27 @@ class Options_Initializer_Test extends TestCase {
 
 		$this->site_helper->expects( 'is_multisite' )
 			->once()
+			->andReturn( true );
+
+		$network_settings = Mockery::mock( 'overload:Yoast_Network_Settings_API' );
+		$network_settings->expects( 'register_setting' )->once()->with( 'wpseo_network_admin_options', 'wpseo_network_admin_options' );
+		$network_settings->expects( 'get' )->andReturn( $network_settings );
+
+		$this->instance->register_options();
+	}
+
+	/**
+	 * Tests that the expected options are not registered when not enough capabilities.
+	 *
+	 * @covers ::register_options
+	 */
+	public function test_register_options_unallowed() {
+		$this->capability_helper->expects( 'current_user_can' )
+			->once()
+			->with( 'wpseo_manage_options' )
 			->andReturn( false );
 
-		$this->options_helper->expects( 'get_options_service' )
-			->twice()
-			->andReturn( (object) [ 'option_name' => 'wpseo_options' ] );
-
-		Monkey\Functions\expect( 'register_setting' )
-			->once()
-			->with(
-				'wpseo_options',
-				'wpseo_options',
-				[
-					'type'              => 'array',
-					'sanitize_callback' => [ $this->instance, 'sanitize_options' ],
-				]
-			);
+		$this->site_helper->expects( 'is_multisite' )->never();
 
 		$this->instance->register_options();
 	}

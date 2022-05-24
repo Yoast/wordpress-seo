@@ -23,28 +23,28 @@ class Multisite_Options_Service_Test extends TestCase {
 	/**
 	 * Holds the instance to test.
 	 *
-	 * @var Multisite_Options_Service|Mockery\Mock
+	 * @var Multisite_Options_Service
 	 */
 	protected $instance;
 
 	/**
 	 * Holds the validation helper instance.
 	 *
-	 * @var Validation_Helper|Mockery\Mock
+	 * @var Validation_Helper|Mockery\MockInterface
 	 */
 	protected $validation_helper;
 
 	/**
 	 * Holds the post type helper instance.
 	 *
-	 * @var Post_Type_Helper|Mockery\Mock
+	 * @var Post_Type_Helper|Mockery\MockInterface
 	 */
 	protected $post_type_helper;
 
 	/**
 	 * Holds the taxonomy helper instance.
 	 *
-	 * @var Taxonomy_Helper|Mockery\Mock
+	 * @var Taxonomy_Helper|Mockery\MockInterface
 	 */
 	protected $taxonomy_helper;
 

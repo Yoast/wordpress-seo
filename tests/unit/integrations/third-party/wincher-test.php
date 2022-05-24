@@ -8,6 +8,8 @@ use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Wincher_Helper;
 use Yoast\WP\SEO\Integrations\Third_Party\Wincher;
+use Yoast\WP\SEO\Services\Options\Network_Admin_Options_Service;
+use Yoast\WP\SEO\Surfaces\Classes_Surface;
 use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -169,19 +171,18 @@ class Wincher_Test extends TestCase {
 			'disabled' => true,
 		];
 
-		$options_helper = Mockery::mock( Options_Helper::class );
-		$options_helper->expects( 'get' )
-			->with( 'wincher_website_id', '' )
-			->once()
-			->andReturn( 'some-id' );
+		$network_admin_options_service = Mockery::mock( Network_Admin_Options_Service::class );
+		$network_admin_options_service->expects( 'get_defaults' )->andReturn( [ 'wincher_website_id' => 'some-id' ] );
 
-		$helper_surface          = Mockery::mock( Helpers_Surface::class );
-		$helper_surface->options = $options_helper;
+		$classes_surface = Mockery::mock( Classes_Surface::class );
+		$classes_surface->expects( 'get' )
+			->with( Network_Admin_Options_Service::class )
+			->andReturn( $network_admin_options_service );
 
-		Monkey\Functions\expect( 'YoastSEO' )
-			->andReturn( (object) [ 'helpers' => $helper_surface ] );
+		Monkey\Functions\expect( 'YoastSEO' )->andReturn( (object) [ 'classes' => $classes_surface ] );
 
 		Monkey\Functions\stubs( [ 'is_multisite' => true ] );
+		Monkey\Functions\when( 'is_network_admin' )->justReturn( true );
 
 		$this->expectOutputContains( 'hidden_wincher_website_id' );
 

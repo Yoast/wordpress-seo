@@ -162,7 +162,7 @@ class Options_Helper {
 	 *
 	 * @return array The result, containing `success` and `error` keys.
 	 */
-	public function set_options( array $options = [] ) {
+	public function set_options( array $options ) {
 		$result          = [ 'success' => false ];
 		$options_service = $this->get_options_service();
 

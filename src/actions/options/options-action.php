@@ -33,7 +33,7 @@ class Options_Action {
 	 *
 	 * @return array The options.
 	 */
-	public function get( array $keys ) {
+	public function get( array $keys = [] ) {
 		return $this->options_helper->get_options( $keys );
 	}
 
