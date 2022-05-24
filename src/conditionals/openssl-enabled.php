@@ -3,7 +3,7 @@
 namespace Yoast\WP\SEO\Conditionals;
 
 /**
- * Conditional that is only met when the Open Graph feature is enabled.
+ * Conditional that is only met when OpenSSL is enabled.
  */
 class OpenSSL_Enabled implements Conditional {
 

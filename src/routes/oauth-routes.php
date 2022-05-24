@@ -152,6 +152,7 @@ class OAuth_Routes implements Route_Interface {
 	 * Refresh an Access token.
 	 *
 	 * @return \WP_Error|\WP_HTTP_Response|WP_REST_Response A wp_rest_ensure_response return value.
+	 * @throws Exception When authorization server failed to create.
 	 */
 	public function refresh_access_token() {
 		$server_request = ServerRequest::fromGlobals();
