@@ -18,7 +18,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * {@internal Nobody should be able to overrule the real version number as this can cause
  *            serious issues with the options, so no if ( ! defined() ).}}
  */
-define( 'WPSEO_VERSION', '19.0-RC7' );
+define( 'WPSEO_VERSION', '19.0-RC8' );
 
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
