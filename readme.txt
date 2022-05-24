@@ -239,6 +239,7 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 19.0 =
 Release Date: May 31st, 2022
 
+
 Enhancements:
 
 * Adds a beta feature to remove comment RSS feed from posts to make crawling by search engines more efficient.
@@ -258,6 +259,7 @@ Other:
 
 * Adds a Redirects page with an upsell to Premium.
 * Deprecates the configuration workout classes.
+* Sets the WordPress tested up to version to 6.0.
 
 = 18.9 =
 Release Date: May 17th, 2022
