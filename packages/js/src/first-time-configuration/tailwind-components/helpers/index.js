@@ -1,5 +1,5 @@
 import { __ } from "@wordpress/i18n";
-import { cloneDeep } from "lodash";
+import { cloneDeep, pickBy } from "lodash";
 
 import classNames from "classnames";
 
@@ -214,8 +214,11 @@ export function configurationReducer( state, action ) {
 		case "SET_ERROR_FIELDS":
 			newState.errorFields = action.payload;
 			return newState;
-		case "SET_ERROR_STEPS":
-			newState.errorSteps = action.payload;
+		case "SET_STEP_ERROR":
+			newState.stepErrors[ action.payload.step ] = action.payload.message;
+			return newState;
+		case "REMOVE_STEP_ERROR":
+			newState.stepErrors = pickBy( newState.stepErrors, ( _value, key ) => key !== action.payload );
 			return newState;
 		case "SET_TRACKING":
 			newState = handleStepEdit( newState, 4 );

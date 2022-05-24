@@ -181,7 +181,7 @@ function calculateInitialState( windowObject, isStepFinished ) {
 		companyOrPersonOptions,
 		personSocialProfiles: {},
 		errorFields: [],
-		errorSteps: [],
+		stepErrors: {},
 		editedSteps: [],
 		savedSteps: [],
 	};
