@@ -19,6 +19,7 @@ export default function( paper ) {
 	const paperContent = [
 		paperText,
 		paper.getTitle(),
+		paper.getSlug(),
 		parseSlug( paper.getSlug() ),
 		paper.getDescription(),
 		altTagsInText.join( " " ),
