@@ -60,9 +60,7 @@ export const getPeriphrasticPassives = function( paper, researcher ) {
 	const totalNumberSentences = sentences.length;
 	const passiveSentences = [];
 
-	console.log( sentences );
 	forEach( sentences, function( sentence ) {
-
 		const strippedSentence = stripHTMLTags( sentence.getSentenceText() ).toLocaleLowerCase();
 
 		// The functionality based on sentencePart objects should be rewritten using array indices of stopwords and auxiliaries.
@@ -115,11 +113,9 @@ export default function getPassiveVoice( paper, researcher ) {
 	const passiveType = researcher.getConfig( "passiveConstructionType" );
 
 	if ( passiveType === "periphrastic" ) {
-		console.log( "Periphrastic" );
 		return getPeriphrasticPassives( paper, researcher );
 	}
 	if ( passiveType === "morphological" ) {
-		console.log( "Morphological" );
 		return getMorphologicalPassives( paper, researcher );
 	}
 
