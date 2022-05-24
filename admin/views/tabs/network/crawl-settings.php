@@ -41,13 +41,6 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 		esc_html__( 'Find out how removing feeds can improve performance.', 'wordpress-seo' )
 	);
 
-	$feature_help = new WPSEO_Admin_Help_Panel(
-		'remove_feed_post_comments',
-		/* translators: %s expands to a feature's name */
-		esc_html__( 'Help on: Post comment feeds', 'wordpress-seo' ),
-		$help_text
-	);
-
 	$yform->toggle_switch(
 		WPSEO_Option::ALLOW_KEY_PREFIX . 'remove_feed_post_comments',
 		[
