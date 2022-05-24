@@ -4,7 +4,7 @@ import { findTopicFormsInString } from "../helpers/match/findKeywordFormsInStrin
 import { uniq } from "lodash-es";
 
 /**
- * Splits the word form on the hyphen and adds each compound into a separate array inside the array of word forms.
+ * Splits the word form on the hyphen and adds each part into a separate array inside the array of word forms.
  *
  * @param {string[]}	wordForms			The array with the word form.
  * @param {Array[]}		dehyphenatedForms	The array with the dehyphenated word forms.
@@ -20,9 +20,9 @@ function dehyphenateWordsWithOneForm( wordForms, dehyphenatedForms ) {
 }
 
 /**
- * Checks how many compounds the hyphenated word has. Creates an array for each compound inside the array of dehyphenated
- * word forms. Splits each word form on the hyphen and puts each compound into its corresponding array (i.e. the first
- * compound into the first array, the second compound into the second array, etc.). The result is that compounds that are
+ * Checks how many parts the hyphenated word has. Creates an array for each part inside the array of dehyphenated
+ * word forms. Splits each word form on the hyphen and puts each part into its corresponding array (i.e. the first
+ * part into the first array, the second part into the second array, etc.). The result is that parts that are
  * forms of the same word are grouped together (e.g. if the hyphenated keyphrase forms are 'ex-husband' and 'ex-husbands',
  * 'husband' and 'husbands' are grouped together as forms of the same word).
  *
@@ -32,31 +32,30 @@ function dehyphenateWordsWithOneForm( wordForms, dehyphenatedForms ) {
  * @returns {Array[]}	The array of dehyphenated word forms.
  */
 function dehyphenateWordsWithMultipleForms( wordForms, dehyphenatedForms ) {
-	const firstWordFormSplit = wordForms[ 0 ].split( "-" );
 	/*
-	 * Create one array per compound in the array of dehyphenated word forms.
-	 * Put a number corresponding to the compound index inside the array so that later we can put the compound in the correct
-	 * array by looking for the array that contains the compound index.
+	 * Create one array for each part of the dehyphenated word in the array of dehyphenated word forms.
+	 * Put a number corresponding to the index of the part inside the array so that later we can put the part in the correct
+	 * array by looking for the array that contains the part index.
 	 */
-	const numberOfCompounds = firstWordFormSplit.length;
-	for ( let i = 0; i < numberOfCompounds; i++ ) {
+	const firstWordFormSplit = wordForms[ 0 ].split( "-" );
+	const numberOfParts = firstWordFormSplit.length;
+	for ( let i = 0; i < numberOfParts; i++ ) {
 		dehyphenatedForms.push( [ i ] );
 	}
 
-	// Split each word form on the hyphen and put each compound into the corresponding array based on the index.
+	// Split each word form on the hyphen and put each part into the corresponding array based on the index.
 	wordForms.forEach( function( wordForm ) {
 		const splitWordForm = wordForm.split( "-" );
 
-		for ( let i = 0; i < numberOfCompounds; i++ ) {
-			const indexInArrayOfForms = dehyphenatedForms.findIndex( element => element.includes( i ) );
-			dehyphenatedForms[ indexInArrayOfForms ].push( splitWordForm[ i ] );
+		for ( let i = 0; i < numberOfParts; i++ ) {
+			dehyphenatedForms[ i ].push( splitWordForm[ i ] );
 		}
 	} );
 
 	// Remove numbers and duplicates from the array of word forms.
 	for ( let i = 0; i < dehyphenatedForms.length; i++ ) {
 		dehyphenatedForms[ i ] = uniq( dehyphenatedForms[ i ] );
-		// Remove the numbers indicating the compound index.
+		// Remove the numbers indicating the part index.
 		dehyphenatedForms[ i ].shift();
 	}
 
@@ -64,7 +63,7 @@ function dehyphenateWordsWithMultipleForms( wordForms, dehyphenatedForms ) {
 }
 
 /**
- * Splits hyphenated keyphrases so that each compound is an individual word, e.g. 'pop-art' becomes 'pop' and 'art'.
+ * Splits hyphenated keyphrases so that each part is an individual word, e.g. 'pop-art' becomes 'pop' and 'art'.
  * Splitting the keyphrase forms allows for hyphenated keyphrases to be detected in the slug. The slug is parsed on hyphens, and the words from
  * the keyphrase are compared with the words from the slug to find a match. Without dehyphenating the keyphrase, the word from the keyphrase would be
  * 'pop-art' while the words from the slug would be 'pop' and 'art', and a match would not be detected.
