@@ -241,6 +241,7 @@ Release Date: May 31st, 2022
 
 
 
+
 Enhancements:
 
 * Adds a beta feature to remove comment RSS feed from posts to make crawling by search engines more efficient.
