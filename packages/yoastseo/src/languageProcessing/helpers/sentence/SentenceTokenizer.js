@@ -378,14 +378,12 @@ export default class SentenceTokenizer {
 	}
 
 	/**
-	 * Gets the next sentence from tokenArray after currentLocation.
+	 * Gets the first sentence from an array of tokens..
 	 * @param {object[]} tokenArray The array of tokens that needs to be searched.
-	 * @param {number} currentLocation The current location. After this location needs to be searched.
 	 * @returns {object|undefined} The next sentence. If there is no sentence after currentLocation, returns undefined.
 	 */
-	getNextSentence( tokenArray, currentLocation ) {
-		const nextTokens = tokenArray.slice( currentLocation + 1, tokenArray.length );
-		for ( let i = 0; i < nextTokens.length; i++ ) {
+	getFirstSentence( tokenArray ) {
+		for ( let i = 0; i < tokenArray.length; i++ ) {
 			const token = tokenArray[ i ];
 			if ( token.type === "sentence" ) {
 				return token;
@@ -424,6 +422,8 @@ export default class SentenceTokenizer {
 			const previousToken = tokenArray[ i - 1 ];
 			const secondToNextToken = tokenArray[ i + 2 ];
 
+			console.log( "TOKEN", token )
+
 			switch ( token.type ) {
 				case "html-start":
 				case "html-end":
@@ -445,11 +445,7 @@ export default class SentenceTokenizer {
 					break;
 				case "sentence-delimiter":
 					currentSentence += token.src;
-					nextSentence = this.getNextSentence( tokenArray );
-
-					if ( nextSentence && nextSentence.src.trim().split( " " ).length < 2 ) {
-						break;
-					}
+					nextSentence = this.getFirstSentence( tokenArray.slice( i + 1, tokenArray.length ) );
 
 					if ( ! isUndefined( nextToken ) && "block-end" !== nextToken.type && "sentence-delimiter" !== nextToken.type ) {
 						tokenSentences.push( currentSentence );
@@ -467,7 +463,7 @@ export default class SentenceTokenizer {
 					nextSentenceStart = hasNextSentence ? nextCharacters[ 1 ] : "";
 
 					// Retrieve the next sentence tokens. (This step might make the two steps above redundant.)
-					nextSentence = this.getNextSentence( tokenArray.slice( i + 1, tokenArray.length ) );
+					nextSentence = this.getFirstSentence( tokenArray.slice( i + 1, tokenArray.length ) );
 
 					// If the next character is a number, never split. For example: IPv4-numbers.
 					if ( hasNextSentence && this.isNumber( nextCharacters[ 0 ] ) ) {
