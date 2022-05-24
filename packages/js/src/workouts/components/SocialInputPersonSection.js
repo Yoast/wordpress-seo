@@ -39,7 +39,7 @@ function SocialInputPersonSection( { personId } ) {
 					</Alert>
 					<p>
 						{
-							createInterpolateElement(
+							addLinkToString(
 								sprintf(
 									__(
 										// translators: %1$s and %2$s are replaced by opening and closing anchor tags
@@ -49,11 +49,8 @@ function SocialInputPersonSection( { personId } ) {
 									"<a>",
 									"</a>"
 								),
-								{
-									b: <b />,
-									// eslint-disable-next-line jsx-a11y/anchor-has-content
-									a: <a id="yoast-configuration-workout-user-page-link-1" href={ window.wpseoWorkoutsData.usersPageUrl } target="_blank" rel="noopener noreferrer" />,
-								}
+								window.wpseoFirstTimeConfigurationData.usersPageUrl,
+								"yoast-configuration-workout-user-page-link-1"
 							)
 						}
 					</p>
@@ -69,7 +66,7 @@ function SocialInputPersonSection( { personId } ) {
 									"<a>",
 									"</a>"
 								),
-								window.wpseoWorkoutsData.usersPageUrl,
+								window.wpseoFirstTimeConfigurationData.usersPageUrl,
 								"yoast-configuration-workout-user-page-link-2"
 							)
 						}
