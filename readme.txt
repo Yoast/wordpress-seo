@@ -4,7 +4,7 @@ Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
-Tested up to: 5.9
+Tested up to: 6.0
 Stable tag: 18.9
 Requires PHP: 5.6.20
 
@@ -239,6 +239,7 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 19.0 =
 Release Date: May 31st, 2022
 
+
 Enhancements:
 
 * Adds a beta feature to remove comment RSS feed from posts to make crawling by search engines more efficient.
@@ -258,6 +259,7 @@ Other:
 
 * Adds a Redirects page with an upsell to Premium.
 * Deprecates the configuration workout classes.
+* Sets the WordPress tested up to version to 6.0.
 
 = 18.9 =
 Release Date: May 17th, 2022
