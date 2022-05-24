@@ -256,6 +256,25 @@ describe( "Get sentences from text", function() {
 		expect( actual ).toEqual( expected );
 	} );
 
+	it( "should split a text with excessive paragraph tags correctly into sentences", () => {
+		const text = "<p>\n" +
+			"</p>\n" +
+			"<p>Tempeh or tempe (/ˈtɛmpeɪ/; Javanese: ꦠꦺꦩ꧀ꦥꦺ, romanized: témpé, pronounced [tempe]) is a traditional Indonesian food " +
+			"made from fermented soybeans. " +
+			"It is made by a natural culturing and controlled fermentation process that binds soybeans into a cake form. " +
+			"A fungus, Rhizopus oligosporus or Rhizopus oryzae, is used in the fermentation process and is also known as tempeh starter. </p>\n" +
+			"<p>\n" +
+			"</p>\n";
+
+		expect( getSentences( text ) ).toEqual( [
+			"Tempeh or tempe (/ˈtɛmpeɪ/;",
+			"Javanese: ꦠꦺꦩ꧀ꦥꦺ, romanized: témpé, pronounced [tempe]) is a traditional Indonesian food made from fermented soybeans.",
+			"It is made by a natural culturing and controlled fermentation process that binds soybeans into a cake form.",
+			"A fungus, Rhizopus oligosporus or Rhizopus oryzae, is used in the fermentation process and is also known as tempeh starter.",
+		]
+		);
+	} );
+
 	it( "should match correctly with quotation", function() {
 		const testCases = [
 			{
@@ -376,7 +395,7 @@ describe( "Get sentences from text", function() {
 		testGetSentences( testCases );
 	} );
 
-	it( "Correctly gets sentences with a '<' signs in the middle or at the start.", function() {
+	it( "correctly gets sentences with a '<' signs in the middle or at the start.", function() {
 		const testCases = [
 			{
 				input: "This is a sentence with a < and is still one sentence.",

@@ -1,4 +1,4 @@
-# The overview of the Readability assessments scoring criteria
+# Overview of the Readability assessments scoring criteria
 
 ## 1) Subheading distribution
 **What it does**: Checks whether long texts are divided by subheadings

@@ -1,7 +1,7 @@
 import Paper from "../../../../src/values/Paper.js";
 import content from "./turkishPaper.html";
 
-const name = "turkishPaper1";
+const name = "turkishPaper";
 
 const paper = new Paper( content, {
 	keyword: "Nektar",
@@ -11,7 +11,7 @@ const paper = new Paper( content, {
 	titleWidth: 450,
 	locale: "tr_TR",
 	permalink: "https://tr.wikipedia.org/wiki/Nektar",
-	url: "Nektar",
+	slug: "Nektar",
 } );
 
 const expectedResults = {
@@ -75,7 +75,7 @@ const expectedResults = {
 		score: 9,
 		resultText: "<a href='https://yoa.st/34h' target='_blank'>SEO title width</a>: Good job!",
 	},
-	urlKeyword: {
+	slugKeyword: {
 		isApplicable: true,
 		score: 9,
 		resultText: "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: Great work!",

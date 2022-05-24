@@ -1,7 +1,7 @@
 import Paper from "../../../../src/values/Paper.js";
 import content from "./catalanPaper.html";
 
-const name = "catalanPaper1";
+const name = "catalanPaper";
 
 const paper = new Paper( content, {
 	keyword: "Clàssic",
@@ -13,7 +13,7 @@ const paper = new Paper( content, {
 	titleWidth: 450,
 	locale: "ca",
 	permalink: "https://ca.wikipedia.org/wiki/Cl%C3%A0ssic",
-	url: "Clàssic",
+	slug: "Clàssic",
 } );
 
 const expectedResults = {
@@ -83,7 +83,7 @@ const expectedResults = {
 		score: 9,
 		resultText: "<a href='https://yoa.st/34h' target='_blank'>SEO title width</a>: Good job!",
 	},
-	urlKeyword: {
+	slugKeyword: {
 		isApplicable: true,
 		score: 9,
 		resultText: "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: Great work!",
@@ -126,7 +126,7 @@ const expectedResults = {
 	textTransitionWords: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 12.1% of the sentences contain transition words, " +
+		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 13.8% of the sentences contain transition words, " +
 			"which is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more of them</a>.",
 	},
 	passiveVoice: {

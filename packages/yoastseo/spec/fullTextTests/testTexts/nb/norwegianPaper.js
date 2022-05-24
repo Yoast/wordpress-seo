@@ -1,7 +1,7 @@
 import Paper from "../../../../src/values/Paper.js";
 import content from "./norwegianPaper.html";
 
-const name = "norwegianPaper1";
+const name = "norwegianPaper";
 
 const paper = new Paper( content, {
 	keyword: "Maine coon",
@@ -12,7 +12,7 @@ const paper = new Paper( content, {
 	titleWidth: 450,
 	locale: "nb_NO",
 	permalink: "https://no.wikipedia.org/wiki/Maine_coon",
-	url: "Maine_coon",
+	slug: "Maine_coon",
 } );
 
 const expectedResults = {
@@ -83,7 +83,7 @@ const expectedResults = {
 		score: 9,
 		resultText: "<a href='https://yoa.st/34h' target='_blank'>SEO title width</a>: Good job!",
 	},
-	urlKeyword: {
+	slugKeyword: {
 		isApplicable: true,
 		score: 9,
 		resultText: "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: Great work!",
