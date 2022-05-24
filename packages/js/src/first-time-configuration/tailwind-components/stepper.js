@@ -162,7 +162,7 @@ export function StepError( { id, message, className } ) {
 	return <FadeInAlert
 		id={ id }
 		type="error"
-		isVisible={ message !== "" }
+		isVisible={ !! message }
 		className={ className }
 	>
 		{
