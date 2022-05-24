@@ -63,6 +63,8 @@ $yoast_seo_excluded_directories = [
 	'wordpress',
 	'values/oauth',
 	'oauth/models',
+	'oauth/values',
+	'oauth/presenters',
 ];
 
 $yoast_seo_excluded = \implode( ',', \array_merge( $yoast_seo_excluded_directories, $yoast_seo_excluded_files ) );

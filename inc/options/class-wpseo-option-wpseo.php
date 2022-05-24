@@ -64,8 +64,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 			'access_tokens' => [],
 		],
 		'oauth_server'                             => [
-			'private_key' => "",
-			'public_key'  => "",
+			'private_key' => '',
+			'public_key'  => '',
 		],
 		'semrush_integration_active'               => true,
 		'semrush_tokens'                           => [],
@@ -349,16 +349,16 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 					break;
 				case 'oauth_server':
 					$clean[ $key ] = [
-						"private_key" => "",
-						"public_key" => "",
+						'private_key' => '',
+						'public_key'  => '',
 					];
 					if ( is_array( $dirty[ $key ] ) ) {
-						if ( isset( $dirty[ $key ]["private_key"] ) && is_string( $dirty[ $key ]["private_key"] ) ) {
-							$clean[ $key ]["private_key"] = $dirty[ $key ]["private_key"];
+						if ( isset( $dirty[ $key ]['private_key'] ) && is_string( $dirty[ $key ]['private_key'] ) ) {
+							$clean[ $key ]['private_key'] = $dirty[ $key ]['private_key'];
 						}
 
-						if ( isset( $dirty[ $key ]["public_key"] ) && is_string( $dirty[ $key ]["public_key"] ) ) {
-							$clean[ $key ]["public_key"] = $dirty[ $key ]["public_key"];
+						if ( isset( $dirty[ $key ]['public_key'] ) && is_string( $dirty[ $key ]['public_key'] ) ) {
+							$clean[ $key ]['public_key'] = $dirty[ $key ]['public_key'];
 						}
 					}
 					break;

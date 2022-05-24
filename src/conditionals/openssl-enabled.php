@@ -13,6 +13,6 @@ class OpenSSL_Enabled implements Conditional {
 	 * @return bool `true` when OpenSSL is enabled.
 	 */
 	public function is_met() {
-		return \extension_loaded( "openssl" );
+		return \extension_loaded( 'openssl' );
 	}
 }

@@ -43,17 +43,24 @@ class OAuthServer extends Migration {
 	}
 
 	private function add_table_access_tokens() {
-		$table_name = Model::get_table_name('Access_Token');
+		$table_name         = Model::get_table_name( 'Access_Token' );
 		$access_token_table = $this->create_table( $table_name, [ 'id' => false ] );
 
-		$access_token_table->column( 'identifier', 'string',
+		$access_token_table->column(
+			'identifier',
+			'string',
 			[
 				'primary_key' => true,
-			]);
+			]
+		);
 		$access_token_table->column( 'expiry_date_time', 'datetime' );
-		$access_token_table->column( 'user_identifier', 'string', [
-			'null' => true,
-		]);
+		$access_token_table->column(
+			'user_identifier',
+			'string',
+			[
+				'null' => true,
+			]
+		);
 		$access_token_table->column( 'scopes', 'string' );
 		$access_token_table->column( 'client_identifier', 'string' );
 		$access_token_table->finish();
@@ -61,13 +68,16 @@ class OAuthServer extends Migration {
 	}
 
 	private function add_table_refresh_tokens() {
-		$table_name = Model::get_table_name( 'Refresh_Token' );
+		$table_name          = Model::get_table_name( 'Refresh_Token' );
 		$refresh_token_table = $this->create_table( $table_name, [ 'id' => false ] );
 
-		$refresh_token_table->column( 'identifier', 'string',
-		[
-			'primary_key' => true,
-		]);
+		$refresh_token_table->column(
+			'identifier',
+			'string',
+			[
+				'primary_key' => true,
+			]
+		);
 		$refresh_token_table->column( 'expiry_date_time', 'datetime' );
 		$refresh_token_table->column( 'access_token', 'string' );
 		$refresh_token_table->finish();
@@ -75,17 +85,24 @@ class OAuthServer extends Migration {
 	}
 
 	private function add_table_auth_code() {
-		$table_name = Model::get_table_name( 'Auth_Token' );
+		$table_name       = Model::get_table_name( 'Auth_Token' );
 		$auth_token_table = $this->create_table( $table_name, [ 'id' => false ] );
 
-		$auth_token_table->column( 'identifier', 'string',
-		[
-			'primary_key' => true,
-		]);
+		$auth_token_table->column(
+			'identifier',
+			'string',
+			[
+				'primary_key' => true,
+			]
+		);
 		$auth_token_table->column( 'expiry_date_time', 'datetime' );
-		$auth_token_table->column( 'user_identifier', 'string', [
-			'null' => true,
-		]);
+		$auth_token_table->column(
+			'user_identifier',
+			'string',
+			[
+				'null' => true,
+			]
+		);
 		$auth_token_table->column( 'scopes', 'string' );
 		$auth_token_table->column( 'client_identifier', 'string' );
 		$auth_token_table->finish();
@@ -93,8 +110,8 @@ class OAuthServer extends Migration {
 	}
 
 	private function drop_tables() {
-		$this->drop_table( Model::get_table_name('Access_Token') );
-		$this->drop_table( Model::get_table_name( 'Refresh_Token') );
+		$this->drop_table( Model::get_table_name( 'Access_Token' ) );
+		$this->drop_table( Model::get_table_name( 'Refresh_Token' ) );
 		$this->drop_table( Model::get_table_name( 'Auth_Token' ) );
 	}
 }

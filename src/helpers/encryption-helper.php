@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
-
 /**
  * Class used to encrypt/decrypt strings with the WordPress settings.
  *
@@ -12,11 +11,15 @@ final class Encryption_Helper {
 
 	/**
 	 * Key to use for encryption.
+	 *
+	 * @var string
 	 */
 	private $key;
 
 	/**
 	 * Salt to use for encryption.
+	 *
+	 * @var string
 	 */
 	private $salt;
 
@@ -24,7 +27,7 @@ final class Encryption_Helper {
 	 * Constructor.
 	 */
 	public function __construct() {
-		$this->key = $this->get_default_key();
+		$this->key  = $this->get_default_key();
 		$this->salt = $this->get_default_salt();
 	}
 
@@ -50,13 +53,14 @@ final class Encryption_Helper {
 			return false;
 		}
 
-		return base64_encode( $iv . $raw_value );
+		return \base64_encode( $iv . $raw_value );
 	}
 
 	/**
 	 * Decrypts a value.
 	 *
 	 * If a user-based key is set, that key is used. Otherwise the default key is used.
+	 *
 	 * @param string $raw_value Value to decrypt.
 	 * @return string|bool Decrypted value, or false on failure.
 	 */
@@ -87,11 +91,11 @@ final class Encryption_Helper {
 	 * @return string Default (not user-based) encryption key.
 	 */
 	public function get_default_key() {
-		if ( defined( 'YOASTSEO_ENCRYPTION_KEY' ) && '' !== YOASTSEO_ENCRYPTION_KEY ) {
+		if ( defined( 'YOASTSEO_ENCRYPTION_KEY' ) && YOASTSEO_ENCRYPTION_KEY !== '' ) {
 			return YOASTSEO_ENCRYPTION_KEY;
 		}
 
-		if ( defined( 'LOGGED_IN_KEY' ) && '' !== LOGGED_IN_KEY ) {
+		if ( defined( 'LOGGED_IN_KEY' ) && LOGGED_IN_KEY !== '' ) {
 			return LOGGED_IN_KEY;
 		}
 
@@ -105,11 +109,11 @@ final class Encryption_Helper {
 	 * @return string Encryption salt.
 	 */
 	public function get_default_salt() {
-		if ( defined( 'YOASTSEO_ENCRYPTION_SALT' ) && '' !== YOASTSEO_ENCRYPTION_SALT ) {
+		if ( defined( 'YOASTSEO_ENCRYPTION_SALT' ) && YOASTSEO_ENCRYPTION_SALT !== '' ) {
 			return YOASTSEO_ENCRYPTION_SALT;
 		}
 
-		if ( defined( 'LOGGED_IN_SALT' ) && '' !== LOGGED_IN_SALT ) {
+		if ( defined( 'LOGGED_IN_SALT' ) && LOGGED_IN_SALT !== '' ) {
 			return LOGGED_IN_SALT;
 		}
 
