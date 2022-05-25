@@ -250,11 +250,8 @@ abstract class Abstract_Options_Service {
 	 */
 	public function get_configurations() {
 		if ( $this->cached_configurations === null ) {
-			$this->cached_configurations = $this->expand_configurations(
-				\array_merge(
-					$this->configurations,
-					$this->get_additional_configurations()
-				)
+			$this->cached_configurations = $this->get_additional_configurations(
+				$this->expand_configurations( $this->configurations )
 			);
 		}
 
@@ -441,9 +438,9 @@ abstract class Abstract_Options_Service {
 	 * @return array The expanded configurations.
 	 */
 	protected function expand_configurations( array $configurations ) {
-		$config = $this->expand_configurations_for( $configurations, '<PostTypeName>', $this->post_type_helper->get_public_post_types() );
+		$config = $this->expand_configurations_for( $configurations, '<PostTypeName>', $this->post_type_helper->get_public_post_types( 'objects' ) );
 
-		return $this->expand_configurations_for( $config, '<TaxonomyName>', $this->taxonomy_helper->get_public_taxonomies() );
+		return $this->expand_configurations_for( $config, '<TaxonomyName>', $this->taxonomy_helper->get_public_taxonomies( 'objects' ) );
 	}
 
 	/**
@@ -451,28 +448,50 @@ abstract class Abstract_Options_Service {
 	 *
 	 * This removes the found configuration and replaces it with variants, using the names.
 	 *
-	 * @param array    $configurations The configurations to expand.
-	 * @param string   $search         The text to replace.
-	 * @param string[] $names          The names to use as replacement.
+	 * @param array                        $configurations The configurations to expand.
+	 * @param string                       $search         The text to replace.
+	 * @param \WP_Post_Type|\WP_Taxonomy[] $objects        The post types or taxonomies to use as replacement.
 	 *
 	 * @return array The expanded configurations.
 	 */
-	protected function expand_configurations_for( array $configurations, $search, array $names ) {
+	protected function expand_configurations_for( array $configurations, $search, array $objects ) {
 		$config = [];
 
-		foreach ( $configurations as $option => $configuration ) {
-			$index = \strpos( $option, $search );
+		foreach ( $configurations as $key => $configuration ) {
+			$index = \strpos( $key, $search );
 			// Keep other configurations.
 			if ( $index === false ) {
-				$config[ $option ] = $configuration;
+				$config[ $key ] = $configuration;
 				continue;
 			}
-			// Expand the names as configurations.
-			foreach ( $names as $name ) {
-				$config[ \str_replace( $search, $name, $option ) ] = $configuration;
+			// Expand the objects as configurations.
+			foreach ( $objects as $object ) {
+				$expansion = $this->get_configuration_expansion_for( $key, $configuration, $object );
+				if ( $expansion !== null ) {
+					$config[ \str_replace( $search, $object->name, $key ) ] = $expansion;
+				}
 			}
 		}
 
 		return $config;
 	}
+
+	/**
+	 * Creates the configuration if it should be expanded with this post type or taxonomy.
+	 *
+	 * phpcs:disable Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed -- Reason: Override this method.
+	 *
+	 * @codeCoverageIgnore Due to expected override.
+	 *
+	 * @param string                     $key           The option key.
+	 * @param array                      $configuration The configuration.
+	 * @param \WP_Post_Type|\WP_Taxonomy $object        The post type or taxonomy.
+	 *
+	 * @return array|null The configuration or null.
+	 */
+	protected function get_configuration_expansion_for( $key, $configuration, $object ) {
+		return null;
+	}
+
+	/* phpcs:enable Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed */
 }

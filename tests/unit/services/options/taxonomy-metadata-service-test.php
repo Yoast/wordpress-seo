@@ -16,6 +16,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 /**
  * Tests the Taxonomy_Metadata_Service class.
  *
+ * @group services
  * @group options
  *
  * @coversDefaultClass \Yoast\WP\SEO\Services\Options\Taxonomy_Metadata_Service
@@ -141,8 +142,7 @@ class Taxonomy_Metadata_Service_Test extends TestCase {
 
 		Monkey\Filters\expectApplied( 'wpseo_taxonomy_metadata_additional_configurations' )
 			->once()
-			->with( [] )
-			->andReturn( [] );
+			->andReturnFirstArg();
 
 		$this->assertArrayHasKey( 'wpseo_title', $this->instance->get( 1, 'category' ) );
 	}
@@ -173,8 +173,7 @@ class Taxonomy_Metadata_Service_Test extends TestCase {
 
 		Monkey\Filters\expectApplied( 'wpseo_taxonomy_metadata_additional_configurations' )
 			->once()
-			->with( [] )
-			->andReturn( [] );
+			->andReturnFirstArg();
 
 		$this->assertEquals( 'bar', $this->instance->get( 'slug', 'category', 'foo' ) );
 	}
@@ -198,8 +197,7 @@ class Taxonomy_Metadata_Service_Test extends TestCase {
 
 		Monkey\Filters\expectApplied( 'wpseo_taxonomy_metadata_additional_configurations' )
 			->once()
-			->with( [] )
-			->andReturn( [] );
+			->andReturnFirstArg();
 
 		$this->assertEquals( 'bar', $this->instance->get( 'slug', 'category', 'wpseo_foo' ) );
 	}
@@ -248,8 +246,7 @@ class Taxonomy_Metadata_Service_Test extends TestCase {
 
 		Monkey\Filters\expectApplied( 'wpseo_taxonomy_metadata_additional_configurations' )
 			->once()
-			->with( [] )
-			->andReturn( [] );
+			->andReturnFirstArg();
 
 		$this->expectException( Unknown_Exception::class );
 		$this->expectExceptionMessage( Unknown_Exception::for_option( 'wpseo_foo' )->getMessage() );
@@ -271,8 +268,7 @@ class Taxonomy_Metadata_Service_Test extends TestCase {
 
 		Monkey\Filters\expectApplied( 'wpseo_taxonomy_metadata_additional_configurations' )
 			->once()
-			->with( [] )
-			->andReturn( [] );
+			->andReturnFirstArg();
 
 		Monkey\Functions\expect( 'get_option' )
 			->once()
@@ -303,8 +299,7 @@ class Taxonomy_Metadata_Service_Test extends TestCase {
 
 		Monkey\Filters\expectApplied( 'wpseo_taxonomy_metadata_additional_configurations' )
 			->once()
-			->with( [] )
-			->andReturn( [] );
+			->andReturnFirstArg();
 
 		Monkey\Functions\expect( 'get_option' )
 			->once()
@@ -335,8 +330,7 @@ class Taxonomy_Metadata_Service_Test extends TestCase {
 
 		Monkey\Filters\expectApplied( 'wpseo_taxonomy_metadata_additional_configurations' )
 			->once()
-			->with( [] )
-			->andReturn( [] );
+			->andReturnFirstArg();
 
 		Monkey\Functions\expect( 'get_option' )
 			->once()
@@ -367,8 +361,7 @@ class Taxonomy_Metadata_Service_Test extends TestCase {
 
 		Monkey\Filters\expectApplied( 'wpseo_taxonomy_metadata_additional_configurations' )
 			->once()
-			->with( [] )
-			->andReturn( [] );
+			->andReturnFirstArg();
 
 		Monkey\Functions\expect( 'get_option' )
 			->once()
@@ -394,8 +387,7 @@ class Taxonomy_Metadata_Service_Test extends TestCase {
 
 		Monkey\Filters\expectApplied( 'wpseo_taxonomy_metadata_additional_configurations' )
 			->once()
-			->with( [] )
-			->andReturn( [] );
+			->andReturnFirstArg();
 
 		Monkey\Functions\expect( 'get_option' )
 			->once()
@@ -420,8 +412,7 @@ class Taxonomy_Metadata_Service_Test extends TestCase {
 
 		Monkey\Filters\expectApplied( 'wpseo_taxonomy_metadata_additional_configurations' )
 			->once()
-			->with( [] )
-			->andReturn( [] );
+			->andReturnFirstArg();
 
 		$this->expectException( Unknown_Exception::class );
 		$this->expectExceptionMessage( Unknown_Exception::for_option( 'wpseo_foo' )->getMessage() );
@@ -459,8 +450,7 @@ class Taxonomy_Metadata_Service_Test extends TestCase {
 
 		Monkey\Filters\expectApplied( 'wpseo_taxonomy_metadata_additional_configurations' )
 			->once()
-			->with( [] )
-			->andReturn( [] );
+			->andReturnFirstArg();
 
 		Monkey\Functions\expect( 'get_option' )
 			->once()
@@ -499,8 +489,7 @@ class Taxonomy_Metadata_Service_Test extends TestCase {
 
 		Monkey\Filters\expectApplied( 'wpseo_taxonomy_metadata_additional_configurations' )
 			->once()
-			->with( [] )
-			->andReturn( [] );
+			->andReturnFirstArg();
 
 		// We need the defaults to try to set them again.
 		$values = $this->instance->get_defaults();

@@ -1,13 +1,16 @@
 <?php
 
-namespace Yoast\WP\SEO\Integrations;
+namespace Yoast\WP\SEO\Initializers;
 
+use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 
 /**
  * Adds hooks for the options service.
  */
-class Options_Integration implements Integration_Interface {
+class Options_Initializer implements Initializer_Interface {
+
+	use No_Conditionals;
 
 	/**
 	 * Holds the options helper instance.
@@ -26,20 +29,11 @@ class Options_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Returns the conditionals based in which this loadable should be active.
-	 *
-	 * @return array The array of conditionals.
-	 */
-	public static function get_conditionals() {
-		return [];
-	}
-
-	/**
 	 * Registers the hooks.
 	 *
 	 * @return void
 	 */
-	public function register_hooks() {
+	public function initialize() {
 		/*
 		 * We need to keep track of any change in custom post types and taxonomies to update our option configurations
 		 * that expand to public post types / taxonomies.

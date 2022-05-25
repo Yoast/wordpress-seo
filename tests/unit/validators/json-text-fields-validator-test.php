@@ -115,9 +115,9 @@ class Json_Text_Fields_Validator_Test extends TestCase {
 	 * @covers ::is_key_allowed
 	 */
 	public function test_validate_allow_list() {
-		$json     = '{ "foo": "bar", "baz": "qux" }';
-		$array    = \json_decode( $json, true );
-		$expected_json = '{ "foo": "bar" }';
+		$json           = '{ "foo": "bar", "baz": "qux" }';
+		$array          = \json_decode( $json, true );
+		$expected_json  = '{ "foo": "bar" }';
 		$expected_array = \json_decode( $expected_json, true );
 
 		$this->array_validator->expects( 'validate' )->with( $array )->andReturn( $array );

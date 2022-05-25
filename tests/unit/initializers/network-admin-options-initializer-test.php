@@ -14,6 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * Tests the Network_Admin_Options_Initializer class.
  *
  * @group initializers
+ * @group options
  *
  * @coversDefaultClass \Yoast\WP\SEO\Initializers\Network_Admin_Options_Initializer
  *

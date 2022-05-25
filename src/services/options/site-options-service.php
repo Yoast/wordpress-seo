@@ -306,7 +306,7 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'default' => '',
 			'types'   => [ 'text_field' ],
 		],
-		'post_types_<PostTypeName>_maintax'           => [
+		'post_types-<PostTypeName>-maintax'           => [
 			'default' => '',
 			'types'   => [
 				'in_array_provider' => [
@@ -377,7 +377,7 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'types'   => [ 'text_field' ],
 		],
 		'social-image-id-<PostTypeName>'              => [
-			'default' => '',
+			'default' => 0,
 			'types'   => [ 'integer' ],
 		],
 		'social-image-id-archive-wpseo'               => [
@@ -392,7 +392,7 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'default' => '',
 			'types'   => [ 'integer' ],
 		],
-		'social-image-id-tax-{TaxonomyName}'          => [
+		'social-image-id-tax-<TaxonomyName>'          => [
 			'default' => '',
 			'types'   => [ 'integer' ],
 		],
@@ -412,7 +412,7 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'default' => '',
 			'types'   => [ 'empty_string', 'url' ],
 		],
-		'social-image-url-tax-{TaxonomyName}'         => [
+		'social-image-url-tax-<TaxonomyName>'         => [
 			'default' => '',
 			'types'   => [ 'empty_string', 'url' ],
 		],
@@ -441,7 +441,7 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'types'   => [ 'boolean' ],
 		],
 		'taxonomy-<TaxonomyName>-ptparent'            => [
-			'default' => '',
+			'default' => 0,
 			'types'   => [ 'string' ],
 		],
 		'title-<PostTypeName>'                        => [
@@ -819,5 +819,103 @@ class Site_Options_Service extends Abstract_Options_Service {
 		$additional_configurations = \apply_filters( 'wpseo_options_additional_configurations', $configurations );
 
 		return parent::get_additional_configurations( $additional_configurations );
+	}
+
+	/**
+	 * Creates the configuration if it should be expanded with this post type or taxonomy.
+	 *
+	 * @param string                     $key           The option key.
+	 * @param array                      $configuration The configuration.
+	 * @param \WP_Post_Type|\WP_Taxonomy $object        The post type or taxonomy.
+	 *
+	 * @return array|null The configuration or null.
+	 */
+	protected function get_configuration_expansion_for( $key, $configuration, $object ) {
+		switch ( $key ) {
+			case 'title-<PostTypeName>':
+			case 'metadesc-<PostTypeName>':
+			case 'metadesc-tax-<TaxonomyName>':
+			case 'noindex-<PostTypeName>':
+			case 'post_types-<PostTypeName>-maintax':
+			case 'schema-page-type-<PostTypeName>':
+			case 'social-description-tax-<TaxonomyName>':
+			case 'social-image-url-tax-<TaxonomyName>':
+			case 'social-image-id-tax-<TaxonomyName>':
+				return $configuration;
+			case 'display-metabox-pt-<PostTypeName>':
+			case 'display-metabox-tax-<TaxonomyName>':
+				$configuration['default'] = true;
+
+				return $configuration;
+			case 'schema-article-type-<PostTypeName>':
+				if ( $object->name === 'post' ) {
+					$configuration['default'] = 'Article';
+				}
+
+				return $configuration;
+			case 'noindex-tax-<TaxonomyName>':
+				if ( $object->name === 'post_format' ) {
+					$configuration['default'] = true;
+				}
+
+				return $configuration;
+			case 'title-tax-<TaxonomyName>':
+				/* translators: %s expands to the variable used for term title. */
+				$archives                 = sprintf( __( '%s Archives', 'wordpress-seo' ), '%%term_title%%' );
+				$configuration['default'] = "$archives %%page%% %%sep%% %%sitename%%";
+
+				return $configuration;
+			case 'social-title-tax-<TaxonomyName>':
+				/* translators: %s expands to the variable used for term title. */
+				$archives                 = sprintf( __( '%s Archives', 'wordpress-seo' ), '%%term_title%%' );
+				$configuration['default'] = $archives;
+
+				return $configuration;
+		}
+
+		if ( $object->name !== 'attachment' ) {
+			switch ( $key ) {
+				case 'social-title-<PostTypeName>':
+				case 'social-description-<PostTypeName>':
+				case 'social-image-url-<PostTypeName>':
+				case 'social-image-id-<PostTypeName>':
+					return $configuration;
+			}
+		}
+
+		if ( $object->_builtin ) {
+			return null;
+		}
+
+		if ( $key === 'taxonomy-<TaxonomyName>-ptparent' ) {
+			return $configuration;
+		}
+
+		if ( ! empty( $object->has_archive ) ) {
+			switch ( $key ) {
+				case 'metadesc-ptarchive-<PostTypeName>':
+				case 'bctitle-ptarchive-<PostTypeName>':
+				case 'noindex-ptarchive-<PostTypeName>':
+				case 'social-description-ptarchive-<PostTypeName>':
+				case 'social-image-url-ptarchive-<PostTypeName>':
+				case 'social-image-id-ptarchive-<PostTypeName>':
+					return $configuration;
+				case 'title-ptarchive-<PostTypeName>':
+					/* translators: %s expands to the name of a post type (plural). */
+					$archive                  = sprintf( __( '%s Archive', 'wordpress-seo' ), '%%pt_plural%%' );
+					$configuration['default'] = "$archive %%page%% %%sep%% %%sitename%%";
+
+					return $configuration;
+				case 'social-title-ptarchive-<PostTypeName>':
+					/* translators: %s expands to the name of a post type (plural). */
+					$archive                  = sprintf( __( '%s Archive', 'wordpress-seo' ), '%%pt_plural%%' );
+					$configuration['default'] = $archive;
+
+					return $configuration;
+			}
+		}
+
+		// Current configurations do not walk this path. I.e. no code coverage.
+		return null;
 	}
 }
