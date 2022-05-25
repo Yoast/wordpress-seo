@@ -58,9 +58,15 @@ class Robots_Test extends TestCase {
 		Monkey\Filters\expectApplied( 'wpseo_robots' )
 			->once()
 			->with( 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1', $this->instance )
-			->andReturn( false );
+			->andReturn( 'noindex, nofollow' );
 
-		$this->assertEquals( [], $this->instance->generate_robots() );
+		$this->assertEquals(
+			[
+				'index'  => 'noindex',
+				'follow' => 'nofollow',
+			],
+			$this->instance->generate_robots()
+		);
 	}
 
 	/**
