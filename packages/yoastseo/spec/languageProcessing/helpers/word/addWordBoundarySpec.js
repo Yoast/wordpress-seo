@@ -32,7 +32,7 @@ describe( "a test adding word boundaries to a string", function() {
 		);
 	} );
 	it( "uses a word boundary excluding - when the locale is Indonesian", function() {
-		const idWordBoundary = " \\u00a0\\n\\r\\t\.,\(\)”“〝〞〟‟„\"\+;!¡\?¿:\/»«‹›";
+		const idWordBoundary = " \\u00a0\\n\\r\\t.,()”“〝〞〟‟„\"+;!¡?¿:/»«‹›";
 		expect( addWordBoundary( "keyword", false, "", "id_ID" ) ).toEqual(
 			"(^|[" + idWordBoundary + "<>'‘’‛`])" +
 			"keyword($|([" + idWordBoundary + "<>])|((['‘’‛`])" +
