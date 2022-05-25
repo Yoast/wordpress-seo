@@ -371,9 +371,11 @@ export default class SentenceTokenizer {
 	}
 
 	/**
-	 * Gets the first sentence from an array of tokens..
-	 * @param {object[]} tokenArray The array of tokens that needs to be searched.
-	 * @returns {object|undefined} The next sentence. If there is no sentence after currentLocation, returns undefined.
+	 * Gets the first sentence from an array of tokens.
+	 *
+	 * @param {Object[]} tokenArray The array of tokens that needs to be searched.
+	 *
+	 * @returns {Object|undefined} The next sentence. If there is no sentence after currentLocation, returns undefined.
 	 */
 	getFirstSentence( tokenArray ) {
 		for ( let i = 0; i < tokenArray.length; i++ ) {
