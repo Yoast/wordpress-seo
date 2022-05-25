@@ -382,7 +382,6 @@ export default class SentenceTokenizer {
 				return token;
 			}
 		}
-		return;
 	}
 
 	/**
