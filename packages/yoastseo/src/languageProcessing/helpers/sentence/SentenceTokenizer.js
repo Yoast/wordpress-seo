@@ -6,7 +6,9 @@ import core from "tokenizer2/core";
 
 import { normalize as normalizeQuotes } from "../sanitize/quotes.js";
 
-import  createRegexFromArray  from "../regex/createRegexFromArray.js";
+import abbreviations from "../../languages/en/config/abbreviations";
+
+// Import  createRegexFromArray  from "../regex/createRegexFromArray.js";
 
 // All characters that indicate a sentence delimiter.
 const fullStop = ".";
@@ -39,12 +41,20 @@ const blockEndRegex = /^\s*[\])}]\s*$/;
 
 const sentenceEndRegex = new RegExp( "[" + fullStop + sentenceDelimiters + "]$" );
 
-const abbreviations = [ "No.", "Sr.", "Brig." ];
 console.log( "ABBR", abbreviations );
 // Const abbreviationsRegex = new RegExp( createRegexFromArray( abbreviations ) );
-const abbreviationsRegex = new RegExp( "(" + abbreviations.join( ")|(" ) + ")$" );
+const abbreviations2 = [];
+for ( let i = 0; i < abbreviations.length; i++ ) {
+	const newAbbr =  abbreviations[ i ].replace( ".", "\\." );
+	console.log( abbreviations[ i ], newAbbr );
+	abbreviations2.push( newAbbr );
+	console.log( abbreviations2[ i ] );
+}
+
+console.log( "ABBR", abbreviations2 );
+const abbreviationsRegex = new RegExp( "^(" + abbreviations2.join( ")|(" ) + ")$" );
 // Console.log( "ABBR2", createRegexFromArray );
-console.log( "ABBR", abbreviationsRegex );
+console.log( "ABBR regexp", abbreviationsRegex );
 
 /**
  * Class for tokenizing a (html) text into sentences.
@@ -381,7 +391,7 @@ export default class SentenceTokenizer {
 
 	endsWithAbbreviation( tokenString ) {
 		const mymatch = tokenString.match( abbreviationsRegex );
-
+		console.log( "ABBR", mymatch );
 		if ( ! mymatch ) {
 			return false;
 		}
@@ -391,7 +401,6 @@ export default class SentenceTokenizer {
 			return true;
 		}
 		return false;
-
 	}
 
 	/**
