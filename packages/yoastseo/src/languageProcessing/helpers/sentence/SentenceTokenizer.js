@@ -382,13 +382,12 @@ export default class SentenceTokenizer {
 
 	endsWithAbbreviation( tokenString ) {
 		const mymatch = tokenString.match( abbreviationsRegex );
-		console.log( "ABBR", mymatch );
+
 		if ( ! mymatch ) {
 			return false;
 		}
 
 		if ( tokenString.slice( mymatch.index, tokenString.length ) === mymatch[ 0 ] ) {
-			console.log( "BINGO!!!", tokenString );
 			return true;
 		}
 		return false;
@@ -424,7 +423,6 @@ export default class SentenceTokenizer {
 			const previousToken = tokenArray[ i - 1 ];
 			const secondToNextToken = tokenArray[ i + 2 ];
 
-			console.log( "TOKEN", token );
 
 			switch ( token.type ) {
 				case "html-start":
@@ -466,8 +464,8 @@ export default class SentenceTokenizer {
 					if ( hasNextSentence && this.isNumber( nextCharacters[ 0 ] ) ) {
 						break;
 					}
+					// If the current sentence ends with an abbreviation, the full stop does not split the sentence.
 					if ( this.endsWithAbbreviation( currentSentence ) ) {
-						console.log( "ABBR", "endswithannreviation" );
 						break;
 					}
 
