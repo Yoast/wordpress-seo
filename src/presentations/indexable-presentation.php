@@ -339,7 +339,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 		if ( \is_bool( $robots_filtered ) && ( $robots_filtered === false ) ) {
 			return [
 				'index'  => 'noindex',
-				'follow' => 'nofollow'
+				'follow' => 'nofollow',
 			];
 		}
 
