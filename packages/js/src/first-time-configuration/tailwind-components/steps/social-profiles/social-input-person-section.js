@@ -48,12 +48,11 @@ function SocialInputPersonSection( { socialProfiles, errorFields, dispatch, canE
 				// No person has been selected in step 2
 				personId === 0 && <Alert type="info" className="yst-mt-5">
 					{
-						sprintf(
-							__(
-								// translators: %1$s and %2$s are replaced by opening and closing <b> tags, %3$s and %4$s are replaced by opening and closing anchor tags
-								"Please select a name in step 2 for this step to be effective.",
-								"wordpress-seo"
-							)
+						// translators: please note that "Site representation" here refers to the name of the previous step, so this occurnce needs to be translated accordingly to the previous step header's translation
+						__(
+							"Please select a name in the Site representation step for this step to be effective.",
+							"wordpress-seo"
+
 						)
 					}
 				</Alert>
