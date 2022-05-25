@@ -208,7 +208,6 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 						"configIndexables": "%s",
 						"configIndexablesBenefits": "%s",
 					},
-					"usersPageUrl": "%s",
 				};',
 				$this->social_profiles_helper->can_edit_profile( $person_id ),
 				$this->is_company_or_person(),
@@ -234,8 +233,7 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 				$knowledge_graph_message,
 				$this->shortlinker->build_shortlink( 'https://yoa.st/gdpr-config-workout' ),
 				$this->shortlinker->build_shortlink( 'https://yoa.st/config-indexables' ),
-				$this->shortlinker->build_shortlink( 'https://yoa.st/config-indexables-benefits' ),
-				\esc_url( \admin_url( 'users.php' ) )
+				$this->shortlinker->build_shortlink( 'https://yoa.st/config-indexables-benefits' )
 			),
 			'before'
 		);
