@@ -41,20 +41,11 @@ const blockEndRegex = /^\s*[\])}]\s*$/;
 
 const sentenceEndRegex = new RegExp( "[" + fullStop + sentenceDelimiters + "]$" );
 
-console.log( "ABBR", abbreviations );
-// Const abbreviationsRegex = new RegExp( createRegexFromArray( abbreviations ) );
-const abbreviations2 = [];
+// Build regex to recognize abbreviations
 for ( let i = 0; i < abbreviations.length; i++ ) {
-	const newAbbr =  abbreviations[ i ].replace( ".", "\\." );
-	console.log( abbreviations[ i ], newAbbr );
-	abbreviations2.push( newAbbr );
-	console.log( abbreviations2[ i ] );
+	abbreviations[ i ] = abbreviations[ i ].replace( ".", "\\." );
 }
-
-console.log( "ABBR", abbreviations2 );
-const abbreviationsRegex = new RegExp( "^(" + abbreviations2.join( ")|(" ) + ")$" );
-// Console.log( "ABBR2", createRegexFromArray );
-console.log( "ABBR regexp", abbreviationsRegex );
+const abbreviationsRegex = new RegExp( "^(" + abbreviations.join( ")|(" ) + ")$" );
 
 /**
  * Class for tokenizing a (html) text into sentences.
