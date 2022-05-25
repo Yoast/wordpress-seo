@@ -23,18 +23,20 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 		'Yoast SEO'
 	);
 
+	echo '<p style="margin: 0.5em 0 1em;">';
+	echo sprintf(
+		/* translators: %1$s opens the link to the Yoast.com article about Crawl settings, %2$s closes the link, */
+		esc_html__( '%1$sLearn more about crawl settings and how they could benefit your site.%2$s', 'wordpress-seo' ),
+		'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/crawl-settings' ) ) . '" target="_blank" rel="noopener noreferrer">',
+		'</a>'
+	);
+	echo '</p>';
+
 	$help_text  = esc_html__( 'This removes the Post Comment Feed link.', 'wordpress-seo' );
 	$help_text .= ' ';
 	$help_text .= sprintf(
 		'<a href="#" target="_blank" rel="noopener noreferrer">%1$s</a>',
 		esc_html__( 'Find out how removing feeds can improve performance.', 'wordpress-seo' )
-	);
-
-	$feature_help = new WPSEO_Admin_Help_Panel(
-		'remove_feed_post_comments',
-		/* translators: %s expands to a feature's name */
-		esc_html__( 'Help on: Post comment feeds', 'wordpress-seo' ),
-		$help_text
 	);
 
 	$yform->toggle_switch(

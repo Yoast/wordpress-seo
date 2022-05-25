@@ -25,14 +25,7 @@ const fullStop = ".";
  */
 const sentenceDelimiters = "?!;\u2026\u06d4\u061f\u3002\uFF61\uFF01\u203C\uFF1F\u2047\u2049\u2048\u2049\u2026\u2025";
 
-// "([a-z\"\'])" +
-// ([a-z\"\'])[.?!;…۔؟。｡！‼？⁇⁉⁈⁉…‥]
-// ([a-z\"\'])[.?!;…۔؟。｡！‼？⁇⁉⁈⁉…‥]
-
-
 const fullStopRegex = new RegExp( "^[" + fullStop + "]$" );
-// Const sentenceDelimiterRegex2 = new RegExp( "^([a-z\"\'])[" + sentenceDelimiters + "]$" );
-// Const sentenceDelimiterRegex2 = new RegExp( "^([a-z\"\'])[.?!;…۔؟。｡！‼？⁇⁉⁈⁉…‥]$" );
 const sentenceDelimiterRegex = new RegExp( "^[" + sentenceDelimiters + "]$" );
 const sentenceRegex = new RegExp( "^[^" + fullStop + sentenceDelimiters + "<\\(\\)\\[\\]]+$" );
 const smallerThanContentRegex = /^<[^><]*$/;
@@ -345,7 +338,6 @@ export default class SentenceTokenizer {
 			tokens.push( token );
 		} );
 
-		// Tokenizer.addRule( sentenceDelimiterRegex2, "sentence-delimiter2" );
 		tokenizer.addRule( fullStopRegex, "full-stop" );
 		tokenizer.addRule( smallerThanContentRegex, "smaller-than-sign-content" );
 		tokenizer.addRule( htmlStartRegex, "html-start" );
@@ -370,6 +362,7 @@ export default class SentenceTokenizer {
 	 */
 	tokenize( tokenizer, text ) {
 		tokenizer.onText( text );
+
 		try {
 			tokenizer.end();
 		} catch ( e ) {
@@ -421,7 +414,6 @@ export default class SentenceTokenizer {
 			const nextToken = tokenArray[ i + 1 ];
 			const previousToken = tokenArray[ i - 1 ];
 			const secondToNextToken = tokenArray[ i + 2 ];
-
 
 			switch ( token.type ) {
 				case "html-start":
