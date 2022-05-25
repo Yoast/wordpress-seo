@@ -6,6 +6,8 @@ import core from "tokenizer2/core";
 
 import { normalize as normalizeQuotes } from "../sanitize/quotes.js";
 
+import  createRegexFromArray  from "../regex/createRegexFromArray.js";
+
 // All characters that indicate a sentence delimiter.
 const fullStop = ".";
 /*
@@ -36,6 +38,13 @@ const blockStartRegex = /^\s*[[({]\s*$/;
 const blockEndRegex = /^\s*[\])}]\s*$/;
 
 const sentenceEndRegex = new RegExp( "[" + fullStop + sentenceDelimiters + "]$" );
+
+const abbreviations = [ "No.", "Sr.", "Brig." ];
+console.log( "ABBR", abbreviations );
+// Const abbreviationsRegex = new RegExp( createRegexFromArray( abbreviations ) );
+const abbreviationsRegex = new RegExp( "(" + abbreviations.join( ")|(" ) + ")$" );
+// Console.log( "ABBR2", createRegexFromArray );
+console.log( "ABBR", abbreviationsRegex );
 
 /**
  * Class for tokenizing a (html) text into sentences.
@@ -370,6 +379,21 @@ export default class SentenceTokenizer {
 		}
 	}
 
+	endsWithAbbreviation( tokenString ) {
+		const mymatch = tokenString.match( abbreviationsRegex );
+
+		if ( ! mymatch ) {
+			return false;
+		}
+
+		if ( tokenString.slice( mymatch.index, tokenString.length ) === mymatch[ 0 ] ) {
+			console.log( "BINGO!!!", tokenString );
+			return true;
+		}
+		return false;
+
+	}
+
 	/**
 	 * Returns an array of sentences for a given array of tokens, assumes that the text has already been split into blocks.
 	 *
@@ -399,6 +423,8 @@ export default class SentenceTokenizer {
 			const nextToken = tokenArray[ i + 1 ];
 			const previousToken = tokenArray[ i - 1 ];
 			const secondToNextToken = tokenArray[ i + 2 ];
+
+			console.log( "TOKEN", token );
 
 			switch ( token.type ) {
 				case "html-start":
@@ -440,6 +466,11 @@ export default class SentenceTokenizer {
 					if ( hasNextSentence && this.isNumber( nextCharacters[ 0 ] ) ) {
 						break;
 					}
+					if ( this.endsWithAbbreviation( currentSentence ) ) {
+						console.log( "ABBR", "endswithannreviation" );
+						break;
+					}
+
 					// Only split on sentence delimiters when the next sentence looks like the start of a sentence.
 					if ( ( hasNextSentence && this.isValidSentenceBeginning( nextSentenceStart ) ) || this.isSentenceStart( nextToken ) ) {
 						tokenSentences.push( currentSentence );
