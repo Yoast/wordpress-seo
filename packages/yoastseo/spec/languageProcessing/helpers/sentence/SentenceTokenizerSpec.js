@@ -197,8 +197,8 @@ describe( "A test for tokenizing a (html) text into sentences", function() {
 		expect( mockTokenizer.getSentencesFromTokens( tokens ) ).toEqual(   [ "This is a sentence.", "E.F. is a good writer.",  "G. H. is a very very great personality." ]  );
 	} );
 
-	xit( "recognizes sentence boundary when a sentence ends with initials", function() {
-		// 'This is a sentence. E.F. is a good writer. G. H. is a very very great personality.'
+	it( "recognizes sentence boundary when a sentence ends with initials", function() {
+		// 'A cat is possessed by C. D. This is a sentence.'
 		const tokens = [
 			{ type: "sentence", src: " A cat is possessed by C" },
 			{ type: "full-stop", src: "." },
