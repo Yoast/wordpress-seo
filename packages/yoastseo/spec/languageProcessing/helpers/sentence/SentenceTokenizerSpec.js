@@ -226,8 +226,4 @@ describe( "A test for tokenizing a (html) text into sentences", function() {
 		// eslint-disable-next-line max-len
 		expect( mockTokenizer.getFirstSentence( tokens ) ).toEqual(   { type: "sentence", src: " This is a sentence" } );
 	} );
-
 } );
-
-
-// A cat is possessed by C.D. This is a sentence
