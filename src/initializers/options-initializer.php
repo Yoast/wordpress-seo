@@ -16,8 +16,6 @@ class Options_Initializer implements Initializer_Interface {
 
 	use No_Conditionals;
 
-	use No_Conditionals;
-
 	/**
 	 * Holds the network admin options service instance.
 	 *
