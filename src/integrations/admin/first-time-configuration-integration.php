@@ -120,7 +120,7 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Adds the data for the configuration to the wpseoFirstTimeConfigurationData object.
+	 * Adds the data for the first-time configuration to the wpseoFirstTimeConfigurationData object.
 	 */
 	public function enqueue_assets() {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Date is not processed or saved.
