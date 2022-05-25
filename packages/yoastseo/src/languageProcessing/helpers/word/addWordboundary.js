@@ -13,10 +13,10 @@
  * @returns {string} A regex string that matches the matchString with word boundaries.
  */
 export default function( matchString, positiveLookAhead = false, extraWordBoundary = "", locale = "" ) {
-	var wordBoundary, wordBoundaryStart, wordBoundaryEnd;
+	let wordBoundary, wordBoundaryEnd;
 
 	if ( locale === "id_ID" ) {
-		wordBoundary = "[ \\u00a0 \\n\\r\\t\.,\(\)”“〝〞〟‟„\"\+;!¡\?¿:\/»«‹›" + extraWordBoundary + "<>";
+		wordBoundary = "[ \\u00a0\\n\\r\\t\.,\(\)”“〝〞〟‟„\"\+;!¡\?¿:\/»«‹›" + extraWordBoundary + "<>";
 	} else {
 		/*
 		 * \u00a0 - no-break space
@@ -26,10 +26,10 @@ export default function( matchString, positiveLookAhead = false, extraWordBounda
          * \u060C - Arabic comma
          * \u061B - Arabic semicolon
          */
-		wordBoundary = "[ \\u2014 \\u00a0\\u06d4\\u061f\\u060C\\u061B \\n\\r\\t\.,\(\)”“〝〞〟‟„\"\+\\-;!¡\?¿:\/»«‹›" + extraWordBoundary + "<>";
+		wordBoundary = "[ \\u00a0\\u2014\\u06d4\\u061f\\u060C\\u061B\\n\\r\\t\.,\(\)”“〝〞〟‟„\"\+\\-;!¡\?¿:\/»«‹›" + extraWordBoundary + "<>";
 	}
 
-	wordBoundaryStart = "(^|" + wordBoundary + "'‘’‛`])";
+	const wordBoundaryStart = "(^|" + wordBoundary + "'‘’‛`])";
 	if ( positiveLookAhead ) {
 		wordBoundaryEnd = "($|((?=" + wordBoundary + "]))|((['‘’‛`])(" + wordBoundary + "])))";
 	} else {
