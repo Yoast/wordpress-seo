@@ -48,7 +48,7 @@ function SocialInputPersonSection( { socialProfiles, errorFields, dispatch, canE
 				// No person has been selected in step 2
 				personId === 0 && <Alert type="info" className="yst-mt-5">
 					{
-						// translators: please note that "Site representation" here refers to the name of the previous step, so this occurnce needs to be translated accordingly to the previous step header's translation
+						// translators: please note that "Site representation" here refers to the name of the previous step, so this occurrence needs to be translated accordingly to the previous step header's translation
 						__(
 							"Please select a name in the Site representation step for this step to be effective.",
 							"wordpress-seo"
