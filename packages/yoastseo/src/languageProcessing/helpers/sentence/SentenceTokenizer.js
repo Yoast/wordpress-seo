@@ -10,8 +10,6 @@ import { normalize as normalizeQuotes } from "../sanitize/quotes.js";
 const fullStop = ".";
 
 const fullStopRegex = new RegExp( "^[" + fullStop + "]$" );
-const sentenceDelimiterRegex = new RegExp( "^[" + sentenceDelimiters + "]$" );
-const sentenceRegex = new RegExp( "^[^" + fullStop + sentenceDelimiters + "<\\(\\)\\[\\]]+$" );
 const smallerThanContentRegex = /^<[^><]*$/;
 const htmlStartRegex = /^<([^>\s/]+)[^>]*>$/mi;
 const htmlEndRegex = /^<\/([^>\s]+)[^>]*>$/mi;
