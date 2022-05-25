@@ -63,8 +63,8 @@ function SocialInputPersonSection( { socialProfiles, errorFields, dispatch, canE
 					{
 						createInterpolateElement(
 							sprintf(
+								// translators: %1$s is replaced by the selected person's username
 								__(
-									// translators: %1$s is replaced by the selected person's username
 									"You're not allowed to edit the social profiles of the user %1$s. Please ask this user or an admin to do this.",
 									"wordpress-seo"
 								),
