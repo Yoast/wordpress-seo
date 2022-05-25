@@ -93,6 +93,7 @@ if ( isset( $_POST['submithtaccess'] ) ) {
 
 if ( is_multisite() ) {
 	$action_url = network_admin_url( 'admin.php?page=wpseo_files' );
+	// TODO: replace hardcoded string with network_admin_options_service->option_name.
 	$yform->admin_header( false, 'wpseo_network_admin_options' );
 }
 else {

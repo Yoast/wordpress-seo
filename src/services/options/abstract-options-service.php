@@ -138,25 +138,43 @@ abstract class Abstract_Options_Service {
 	 * @throws Save_Failed_Exception When the save failed.
 	 */
 	public function __set( $key, $value ) {
+		$valid_value = $this->validate( $key, $value );
+
+		// Only update when changed.
+		if ( $valid_value === $value ) {
+			return;
+		}
+
+		$this->update_option( $key, $valid_value );
+	}
+
+	/**
+	 * Validates the option value.
+	 *
+	 * @param string $key   The option key.
+	 * @param mixed  $value The option value.
+	 *
+	 * @throws Unknown_Exception When the option does not exist.
+	 * @throws \Yoast\WP\SEO\Exceptions\Validation\Abstract_Validation_Exception When the value is invalid.
+	 *
+	 * @return mixed The valid option value.
+	 */
+	public function validate( $key, $value ) {
 		if ( ! \array_key_exists( $key, $this->get_configurations() ) ) {
 			throw Unknown_Exception::for_option( $key );
 		}
 
 		// Presuming the default is safe.
 		if ( $value === $this->get_configurations()[ $key ]['default'] ) {
-			$this->update_option( $key, $value );
-
-			return;
+			return $value;
 		}
-		// Only update when changed.
+		// Only validate when changed.
 		if ( $value === $this->get_values()[ $key ] ) {
-			return;
+			return $value;
 		}
 
 		// Validate, this can throw a Validation_Exception.
-		$value = $this->validation_helper->validate_as( $value, $this->get_configurations()[ $key ]['types'] );
-
-		$this->update_option( $key, $value );
+		return $this->validation_helper->validate_as( $value, $this->get_configurations()[ $key ]['types'] );
 	}
 
 	// phpcs:enable Squiz.Commenting.FunctionCommentThrowTag.WrongNumber

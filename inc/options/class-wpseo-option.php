@@ -147,7 +147,6 @@ abstract class WPSEO_Option {
 	 * Add all the actions and filters for the option.
 	 */
 	protected function __construct() {
-
 		/* Set option group name if not given */
 		if ( ! isset( $this->group_name ) || $this->group_name === '' ) {
 			$this->group_name = 'yoast_' . $this->option_name . '_options';

@@ -17,6 +17,8 @@ use Yoast\WP\SEO\Services\Options\Site_Options_Service;
  */
 class Options_Helper {
 
+	const INVALID_VALUE = 'YOAST_INVALID_VALUE';
+
 	/**
 	 * Holds the Site_Options_Service instance.
 	 *
@@ -121,6 +123,24 @@ class Options_Helper {
 		} catch ( Unknown_Exception $exception ) {
 			return null;
 		}
+	}
+
+	/**
+	 * Validates an option value.
+	 *
+	 * @param string $key   The option key.
+	 * @param mixed  $value The option value.
+	 *
+	 * @return mixed The valid value, or self::INVALID_VALUE if unknown or unfixable.
+	 */
+	public function validate( $key, $value ) {
+		try {
+			return $this->site_options_service->validate( $key, $value );
+		} catch ( Unknown_Exception $exception ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch -- Deliberately left empty.
+		} catch ( Abstract_Validation_Exception $exception ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch -- Deliberately left empty.
+		}
+
+		return self::INVALID_VALUE;
 	}
 
 	/**

@@ -12,6 +12,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 }
 
 $yform = Yoast_Form::get_instance();
+// TODO: replace hardcoded string with network_admin_options_service->option_name.
 $yform->admin_header( true, 'wpseo_network_admin_options' );
 
 $network_tabs = new WPSEO_Option_Tabs( 'network' );
