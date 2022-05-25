@@ -31,6 +31,13 @@ class Options_Route implements Route_Interface {
 	const FULL_ROUTE = Main::API_V1_NAMESPACE . '/' . self::ROUTE;
 
 	/**
+	 * Holds the request argument name.
+	 *
+	 * @var string
+	 */
+	const ARGUMENT_NAME = 'options';
+
+	/**
 	 * Holds the Options_Action instance.
 	 *
 	 * @var Options_Action
@@ -69,6 +76,11 @@ class Options_Route implements Route_Interface {
 					'methods'             => 'GET',
 					'callback'            => [ $this, 'get' ],
 					'permission_callback' => [ $this, 'can_get' ],
+					'args'                => [
+						self::ARGUMENT_NAME => [
+							'required' => false,
+						],
+					],
 				],
 				[
 					'methods'             => 'POST',
@@ -87,8 +99,12 @@ class Options_Route implements Route_Interface {
 	 * @return WP_REST_Response the registered options.
 	 */
 	public function get( WP_REST_Request $request ) {
-		$keys   = \array_keys( $request->get_params() );
-		$result = $this->options_action->get( $keys );
+		$options = $request->get_param( self::ARGUMENT_NAME );
+		if ( $options === null ) {
+			// Change to requesting all options if no specific option was requested.
+			$options = [];
+		}
+		$result = $this->options_action->get( $options );
 
 		return new WP_REST_Response( $result, 200 );
 	}
