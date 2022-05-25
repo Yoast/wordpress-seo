@@ -209,11 +209,11 @@ describe( "A test for tokenizing a (html) text into sentences", function() {
 
 		];
 		// eslint-disable-next-line max-len
-		expect( mockTokenizer.getSentencesFromTokens( tokens ) ).toEqual(   [ "A cat is possessed by C.D.", "This is a sentence." ]  );
+		expect( mockTokenizer.getSentencesFromTokens( tokens ) ).toEqual(   [ "A cat is possessed by C. D.", "This is a sentence." ]  );
 	} );
 
-	it( "test get first sentence", function() {
-		// 'This is a sentence. E.F. is a good writer. G. H. is a very very great personality.'
+	it( "gets the first sentence from an array of tokens", function() {
+		// 'A cat is possessed by C. D. This is a sentence.'
 		const tokens = [
 			{ type: "not-a-sentence", src: " A cat is possessed by C" },
 			{ type: "full-stop", src: "." },
