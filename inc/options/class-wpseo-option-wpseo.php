@@ -92,6 +92,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'should_redirect_after_install_free'       => false,
 		'activation_redirect_timestamp_free'       => 0,
 		'remove_feed_post_comments'                => false,
+		'remove_feed_global_comments'              => false,
 	];
 
 	/**
@@ -396,6 +397,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				 *  'indexing_first_time'
 				 *  'first_time_install'
 				 *  'remove_feed_post_comments'
+				 *  'remove_feed_global_comments'
 				 *  'should_redirect_after_install_free'
 				 *  and most of the feature variables.
 				 */

@@ -53,6 +53,10 @@ class Crawl_Cleanup_Rss implements Integration_Interface {
 		if ( \is_singular() && $this->options_helper->get( 'remove_feed_post_comments' ) === true ) {
 			\remove_action( 'wp_head', 'feed_links_extra', 3 );
 		}
+
+		if ( $this->options_helper->get( 'remove_feed_global_comments' ) === true ) {
+			\add_action( 'feed_links_show_comments_feed', '__return_false' );
+		}
 	}
 
 	/**
@@ -63,9 +67,13 @@ class Crawl_Cleanup_Rss implements Integration_Interface {
 			return;
 		}
 
+		$url = \get_permalink( \get_queried_object() );
 		if ( \is_comment_feed() && \is_singular() && $this->options_helper->get( 'remove_feed_post_comments' ) === true ) {
-			$url = \get_permalink( \get_queried_object() );
 			$this->redirect_feed( $url, 'We disable post comment feeds for performance reasons.' );
+		}
+
+		if ( \is_comment_feed() && ! ( \is_singular() || \is_attachment() ) && $this->options_helper->get( 'remove_feed_global_comments' ) === true ) {
+			$this->redirect_feed( $url, 'We disable comment feeds for performance reasons.' );
 		}
 	}
 
