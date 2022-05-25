@@ -243,8 +243,8 @@ Release Date: May 31st, 2022
 
 Enhancements:
 
-* Adds a beta feature to remove comment RSS feed from posts to make crawling by search engines more efficient.
-* Adds a reference to XML sitemaps in `robots.txt` to make them discoverable from Bing following their change of policy.
+* Introducing a new feature set to manage crawling on your site. In Yoast SEO 19.0, we're starting with an initial crawl setting to turn off RSS feeds of post comments. This will be expanded over time.
+* Following a change of policy by Bing, we now reference the XML sitemap in the robots.txt file to make it discoverable for search engines.
 
 Bugfixes:
 
