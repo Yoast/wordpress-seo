@@ -70,9 +70,15 @@ class Crawl_Cleanup_Rss_Test extends TestCase {
 	/**
 	 * Tests if the expected replacements are performed when a post is displayed and the RSS cleanup is enabled.
 	 *
+	 * @param bool $post_comment_removed   Whether post comment feeds are set to be removed.
+	 * @param bool $global_comment_removed Whether global comment feeds are set to be removed.
+	 * @param int  $remove_action_times    The times we're gonna remove the wp_head action.
+	 * @param int  $add_action_times       The times we're gonna add to the feed_links_show_comments_feed action.
+	 *
 	 * @covers ::maybe_disable_feeds
+	 * @dataProvider provide_maybe_disable_feeds
 	 */
-	public function test_maybe_disable_feeds_when_is_singular_and_feeds_disabled() {
+	public function test_maybe_disable_feeds_when_is_singular_and_feeds_disabled( $post_comment_removed, $global_comment_removed, $remove_action_times, $add_action_times ) {
 		Monkey\Functions\expect( 'is_singular' )
 			->once()
 			->andReturn( true );
@@ -81,34 +87,65 @@ class Crawl_Cleanup_Rss_Test extends TestCase {
 			->expects( 'get' )
 			->once()
 			->with( 'remove_feed_post_comments' )
-			->andReturn( true );
+			->andReturn( $post_comment_removed );
+
+		$this->options_helper
+			->expects( 'get' )
+			->once()
+			->with( 'remove_feed_global_comments' )
+			->andReturn( $global_comment_removed );
 
 		Monkey\Functions\expect( 'remove_action' )
-			->once();
+			->with( 'wp_head', 'feed_links_extra', 3 )
+			->times( $remove_action_times );
+
+		Monkey\Functions\expect( 'add_action' )
+			->with( 'feed_links_show_comments_feed', '__return_false' )
+			->times( $add_action_times );
 
 		$this->instance->maybe_disable_feeds();
 	}
 
 	/**
-	 * Tests if the expected replacements are performed when a post is displayed and the RSS cleanup is disabled.
+	 * Dataprovider for maybe_disable_feeds function.
 	 *
-	 * @covers ::maybe_disable_feeds
+	 * @return array Data for maybe_disable_feeds function.
 	 */
-	public function test_maybe_disable_feeds_when_is_singular_and_feeds_enabled() {
-		Monkey\Functions\expect( 'is_singular' )
-			->once()
-			->andReturn( true );
+	public function provide_maybe_disable_feeds() {
+		$post_and_global_removed = [
+			'post_comment_removed'   => true,
+			'global_comment_removed' => true,
+			'remove_action_times   ' => 1,
+			'add_action_times'       => 1,
+		];
 
-		$this->options_helper
-			->expects( 'get' )
-			->once()
-			->with( 'remove_feed_post_comments' )
-			->andReturn( false );
+		$post_removed = [
+			'post_comment_removed'   => true,
+			'global_comment_removed' => false,
+			'remove_action_times   ' => 1,
+			'add_action_times'       => 0,
+		];
 
-		Monkey\Functions\expect( 'remove_action' )
-			->never();
+		$global_removed = [
+			'post_comment_removed'   => false,
+			'global_comment_removed' => true,
+			'remove_action_times   ' => 0,
+			'add_action_times'       => 1,
+		];
 
-		$this->instance->maybe_disable_feeds();
+		$no_feeds_removed = [
+			'post_comment_removed'   => false,
+			'global_comment_removed' => false,
+			'remove_action_times   ' => 0,
+			'add_action_times'       => 0,
+		];
+
+		return [
+			'Both Post and Global commment feeds are removed' => $post_and_global_removed,
+			'Only Post commment feeds are removed'            => $post_removed,
+			'Only Global commment feeds are removed'          => $global_removed,
+			'No commment feeds are removed'                   => $no_feeds_removed,
+		];
 	}
 
 	/**
@@ -123,10 +160,21 @@ class Crawl_Cleanup_Rss_Test extends TestCase {
 
 		$this->options_helper
 			->expects( 'get' )
+			->with( 'remove_feed_post_comments' )
 			->never();
 
 		Monkey\Functions\expect( 'remove_action' )
 			->never();
+
+		$this->options_helper
+			->expects( 'get' )
+			->once()
+			->with( 'remove_feed_global_comments' )
+			->andReturn( true );
+
+		Monkey\Functions\expect( 'add_action' )
+			->with( 'feed_links_show_comments_feed', '__return_false' )
+			->once();
 
 		$this->instance->maybe_disable_feeds();
 	}
