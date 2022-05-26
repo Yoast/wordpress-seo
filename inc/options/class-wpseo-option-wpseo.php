@@ -92,7 +92,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'should_redirect_after_install_free'       => false,
 		'activation_redirect_timestamp_free'       => 0,
 		'remove_feed_post_comments'                => false,
-		'remove_atom_rdf_feeds'                => false,
+		'remove_atom_rdf_feeds'                    => false,
 	];
 
 	/**
