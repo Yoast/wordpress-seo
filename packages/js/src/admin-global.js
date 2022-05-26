@@ -90,6 +90,29 @@ import jQuery from "jquery";
 		jQuery( "#robotsmessage button" ).on( "click", function() {
 			wpseoSetIgnore( "search_engines_discouraged_notice", "robotsmessage", jQuery( this ).data( "nonce" ) );
 		} );
+
+		// Add on/off dependency between Comment Feed toggles.
+		if ( jQuery( "#remove_feed_global_comments" ).length ) {
+			jQuery( "#remove_feed_global_comments input[type='radio']" ).on( "change", function() {
+				if ( jQuery( this ).is( ":checked" ) ) {
+					if ( jQuery( "#remove_feed_global_comments input[type='radio']:checked" ).val() === "on") {
+						// When Global comment feeds are disabled, we have to disable the Post comment feeds too.
+						jQuery( "#remove_feed_post_comments-on" ).prop("checked", true);
+						jQuery( "#remove_feed_post_comments input[type='radio']" ).prop("disabled", true);
+					} else {
+						// When Global comment feeds gets enabled, we have to make the Post comment feeds togglable again.
+						if ( ! jQuery( "#remove_feed_post_comments .disabled-note" ).length ) {
+							// But only if the super admin allows us to do so.
+							jQuery( "#remove_feed_post_comments input[type='radio']" ).prop("disabled", false);
+						} else {
+							// If not, we just have to revert the Post comment feeds to Keep again.
+							jQuery( "#remove_feed_post_comments-off" ).prop("checked", true);
+						}
+					}
+				}
+			} ).trigger( "change" );
+			
+		}
 	} );
 
 	window.wpseoSetIgnore = wpseoSetIgnore;
