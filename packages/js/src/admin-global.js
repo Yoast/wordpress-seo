@@ -95,23 +95,21 @@ import jQuery from "jquery";
 		if ( jQuery( "#remove_feed_global_comments" ).length ) {
 			jQuery( "#remove_feed_global_comments input[type='radio']" ).on( "change", function() {
 				if ( jQuery( this ).is( ":checked" ) ) {
-					if ( jQuery( "#remove_feed_global_comments input[type='radio']:checked" ).val() === "on") {
+					if ( jQuery( "#remove_feed_global_comments input[type='radio']:checked" ).val() === "on" ) {
 						// When Global comment feeds are disabled, we have to disable the Post comment feeds too.
-						jQuery( "#remove_feed_post_comments-on" ).prop("checked", true);
-						jQuery( "#remove_feed_post_comments input[type='radio']" ).prop("disabled", true);
+						jQuery( "#remove_feed_post_comments-on" ).prop( "checked", true );
+						jQuery( "#remove_feed_post_comments input[type='radio']" ).prop( "disabled", true );
 					} else {
 						// When Global comment feeds gets enabled, we have to make the Post comment feeds togglable again.
-						if ( ! jQuery( "#remove_feed_post_comments .disabled-note" ).length ) {
-							// But only if the super admin allows us to do so.
-							jQuery( "#remove_feed_post_comments input[type='radio']" ).prop("disabled", false);
+						if ( jQuery( "#remove_feed_post_comments .disabled-note" ).length ) {
+							// But only if the super admin allows us to do so. If not, we just have to revert the Post comment feeds to Keep again.
+							jQuery( "#remove_feed_post_comments-off" ).prop( "checked", true );
 						} else {
-							// If not, we just have to revert the Post comment feeds to Keep again.
-							jQuery( "#remove_feed_post_comments-off" ).prop("checked", true);
+							jQuery( "#remove_feed_post_comments input[type='radio']" ).prop( "disabled", false );
 						}
 					}
 				}
 			} ).trigger( "change" );
-			
 		}
 	} );
 
