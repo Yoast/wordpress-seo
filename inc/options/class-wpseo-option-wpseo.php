@@ -441,6 +441,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 			'zapier_integration_active'      => false,
 			'wincher_integration_active'     => false,
 			'remove_feed_post_comments'      => false,
+			'remove_feed_global_comments'    => false,
 		];
 
 		// We can reuse this logic from the base class with the above defaults to parse with the correct feature values.
