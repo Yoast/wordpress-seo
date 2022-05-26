@@ -56,6 +56,40 @@ class Crawl_Cleanup_Rss implements Integration_Interface {
 
 		if ( $this->options_helper->get( 'remove_feed_global_comments' ) === true ) {
 			\add_action( 'feed_links_show_comments_feed', '__return_false' );
+
+			if ( \is_singular() ) {
+				add_action( 'wp_head', [ $this, 'feed_links_extra_replacement' ], 3 );
+			}
+		}
+	}
+
+	/**
+	 * Adapted from `feed_links_extra` in WP core, this is a version that allows us to control which feeds to show.
+	 *
+	 * @param array $args Optional arguments.
+	 */
+	public function feed_links_extra_replacement( $args ): void {
+		$defaults = [
+			/* translators: Separator between blog name and feed type in feed links. */
+			'separator'     => _x( '&raquo;', 'feed link', 'wordpress-seo' ),
+			/* translators: 1: Blog name, 2: Separator (raquo), 3: Post title. */
+			'singletitle'   => __( '%1$s %2$s %3$s Comments Feed', 'wordpress-seo' ),
+		];
+
+		$args = \wp_parse_args( $args, $defaults );
+
+		if ( $this->options_helper->get( 'remove_feed_post_comments' ) === false ) {
+			$id   = 0;
+			$post = get_post( $id );
+
+			if ( \comments_open() || \pings_open() || $post->comment_count > 0 ) {
+				$title = \sprintf( $args['singletitle'], \get_bloginfo( 'name' ), $args['separator'], \the_title_attribute( [ 'echo' => false ] ) );
+				$href  = \get_post_comments_feed_link( $post->ID );
+			}
+		}
+
+		if ( isset( $title ) && isset( $href ) ) {
+			echo '<link rel="alternate" type="application/rss+xml" title="' . \esc_attr( $title ) . '" href="' . \esc_url( $href ) . '" />' . "\n";
 		}
 	}
 
