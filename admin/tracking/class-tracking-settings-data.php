@@ -184,6 +184,7 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'other_social_urls',
 		'remove_feed_post_comments',
 		'remove_atom_rdf_feeds',
+		'remove_feed_global',
 	];
 
 	/**
