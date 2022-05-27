@@ -73,7 +73,7 @@ class Crawl_Cleanup_Rss_Test extends TestCase {
 	}
 
 	/**
-	 * Tests if the expected replacements are performed when a post is displayed and the RSS cleanup is enabled.
+	 * Tests if the expected replacements are performed when a post is displayed and the RSS feed is disabled.
 	 *
 	 * @covers ::maybe_disable_feeds
 	 */
@@ -95,14 +95,18 @@ class Crawl_Cleanup_Rss_Test extends TestCase {
 	}
 
 	/**
-	 * Tests if the expected replacements are performed when a post is displayed and the RSS cleanup is disabled.
+	 * Tests if the expected replacements are performed when a post is displayed and the RSS feed is enabled.
 	 *
 	 * @covers ::maybe_disable_feeds
 	 */
 	public function test_maybe_disable_feeds_when_is_singular_and_feeds_enabled() {
 		Monkey\Functions\expect( 'is_singular' )
 			->once()
-			->andReturn( true );
+			->andReturnTrue();
+
+		Monkey\Functions\expect( 'is_author' )
+			->once()
+			->andReturnFalse();
 
 		$this->options_helper
 			->expects( 'get' )
@@ -117,14 +121,70 @@ class Crawl_Cleanup_Rss_Test extends TestCase {
 	}
 
 	/**
-	 * Tests if the expected replacements are performed when a post is displayed and the RSS cleanup is disabled.
+	 * Tests if the expected replacements are performed when an author archive is displayed and the RSS feed is disabled.
 	 *
 	 * @covers ::maybe_disable_feeds
 	 */
-	public function test_maybe_disable_feeds_when_not_singular() {
+	public function test_maybe_disable_feeds_when_is_author_and_feed_disabled() {
+		Monkey\Functions\expect( 'is_singular' )
+			->once()
+			->andReturnFalse();
+
+		Monkey\Functions\expect( 'is_author' )
+			->once()
+			->andReturnTrue();
+
+		$this->options_helper
+			->expects( 'get' )
+			->once()
+			->with( 'remove_feed_authors' )
+			->andReturnTrue();
+
+		Monkey\Functions\expect( 'remove_action' )
+			->once();
+
+		$this->instance->maybe_disable_feeds();
+	}
+
+	/**
+	 * Tests if the expected replacements are performed when an author archive is displayed and the RSS feed is enabled.
+	 *
+	 * @covers ::maybe_disable_feeds
+	 */
+	public function test_maybe_disable_feeds_when_is_author_and_feeds_enabled() {
+		Monkey\Functions\expect( 'is_singular' )
+			->once()
+			->andReturnFalse();
+
+		Monkey\Functions\expect( 'is_author' )
+			->once()
+			->andReturnTrue();
+
+		$this->options_helper
+			->expects( 'get' )
+			->once()
+			->with( 'remove_feed_authors' )
+			->andReturnFalse();
+
+		Monkey\Functions\expect( 'remove_action' )
+			->never();
+
+		$this->instance->maybe_disable_feeds();
+	}
+
+	/**
+	 * Tests no replacements are performed when neither a post nor an author archive is displayed.
+	 *
+	 * @covers ::maybe_disable_feeds
+	 */
+	public function test_maybe_disable_feeds_when_not_matching() {
 		Monkey\Functions\expect( 'is_singular' )
 			->once()
 			->andReturn( false );
+
+		Monkey\Functions\expect( 'is_author' )
+			->once()
+			->andReturnFalse();
 
 		$this->options_helper
 			->expects( 'get' )
