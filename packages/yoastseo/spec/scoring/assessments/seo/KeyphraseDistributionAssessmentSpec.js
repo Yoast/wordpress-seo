@@ -1,11 +1,12 @@
 import KeyphraseDistributionAssessment from "../../../../src/scoring/assessments/seo/KeyphraseDistributionAssessment.js";
+import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
 import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../specHelpers/factory.js";
 import Mark from "../../../../src/values/Mark.js";
 
 const keyphraseDistributionAssessment = new KeyphraseDistributionAssessment();
 
-describe( "An assessment to check your keyphrase distribution", function() {
+describe( "An assessment to check the keyphrase distribution in the text", function() {
 	it( "returns a 'consideration' score when no keyword occurs", function() {
 		const mockPaper = new Paper( "a string", { keyword: "keyword" } );
 		const assessment = keyphraseDistributionAssessment.getResult(
@@ -84,7 +85,7 @@ describe( "Checks if the assessment is applicable", function() {
 			" vis. Vix ei duis dolor, id eum sonet fabulas. Id vix imperdiet efficiantur. Percipit probatus pertinax te" +
 			" sit. Putant intellegebat eu sit. Vix reque tation prompta id, ea quo labore viderer definiebas." +
 			" Oratio vocibus offendit an mei, est esse pericula liberavisse.", { keyword: "keyword" } );
-		const assessment = keyphraseDistributionAssessment.isApplicable( mockPaper );
+		const assessment = keyphraseDistributionAssessment.isApplicable( mockPaper, new EnglishResearcher( mockPaper ) );
 
 		expect( assessment ).toBe( true );
 	} );
@@ -103,7 +104,7 @@ describe( "Checks if the assessment is applicable", function() {
 			" vis. Vix ei duis dolor, id eum sonet fabulas. Id vix imperdiet efficiantur. Percipit probatus pertinax te" +
 			" sit. Putant intellegebat eu sit. Vix reque tation prompta id, ea quo labore viderer definiebas." +
 			" Oratio vocibus offendit an mei, est esse pericula liberavisse." );
-		const assessment = keyphraseDistributionAssessment.isApplicable( mockPaper );
+		const assessment = keyphraseDistributionAssessment.isApplicable( mockPaper, new EnglishResearcher( mockPaper ) );
 
 		expect( assessment ).toBe( false );
 	} );
@@ -111,7 +112,7 @@ describe( "Checks if the assessment is applicable", function() {
 
 	it( "is not applicable to papers with less than 15 sentences", function() {
 		const mockPaper = new Paper( "Lorem ipsum dolor sit amet.", { keyword: "keyword" } );
-		const assessment = keyphraseDistributionAssessment.isApplicable( mockPaper );
+		const assessment = keyphraseDistributionAssessment.isApplicable( mockPaper, new EnglishResearcher( mockPaper ) );
 
 		expect( assessment ).toBe( false );
 	} );

@@ -67,6 +67,10 @@ class Crawl_Cleanup_Rss implements Integration_Interface {
 			return;
 		}
 
+		if ( \in_array( \get_query_var( 'feed' ), [ 'atom', 'rdf' ], true ) && $this->options_helper->get( 'remove_atom_rdf_feeds' ) === true ) {
+			$this->redirect_feed( \home_url(), 'We disable Atom/RDF feeds for performance reasons.' );
+		}
+
 		$url = \get_permalink( \get_queried_object() );
 		if ( \is_comment_feed() && \is_singular() && ( $this->options_helper->get( 'remove_feed_post_comments' ) === true ) || $this->options_helper->get( 'remove_feed_global_comments' ) === true ) {
 			$this->redirect_feed( $url, 'We disable post comment feeds for performance reasons.' );
