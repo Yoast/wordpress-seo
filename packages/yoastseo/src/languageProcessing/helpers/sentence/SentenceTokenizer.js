@@ -466,6 +466,7 @@ export default class SentenceTokenizer {
 					}
 					// If the current sentence ends with an abbreviation, the full stop does not split the sentence.
 					if ( this.endsWithAbbreviation( currentSentence ) ) {
+						currentSentence += " ";
 						break;
 					}
 
