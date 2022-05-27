@@ -44,14 +44,16 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 		foreach ( $images as $image_index => $image_meta ) {
 			$image_url = $image_meta['url'];
 
-			$return .= '<meta property="og:image" content="' . \esc_url( $image_url, null, 'attribute' ) . '" />';
+			$admin_bar_class = \is_admin_bar_showing() ? 'class="yoast-seo-meta-tag"' : '';
+
+			$return .= '<meta property="og:image" content="' . \esc_url( $image_url, null, 'attribute' ) . '" ' . $admin_bar_class . ' />';
 
 			foreach ( static::$image_tags as $key => $value ) {
 				if ( empty( $image_meta[ $key ] ) ) {
 					continue;
 				}
 
-				$return .= \PHP_EOL . "\t" . '<meta property="og:image:' . \esc_attr( $key ) . '" content="' . \esc_attr( $image_meta[ $key ] ) . '" />';
+				$return .= \PHP_EOL . "\t" . '<meta property="og:image:' . \esc_attr( $key ) . '" content="' . \esc_attr( $image_meta[ $key ] ) . '" ' . $admin_bar_class . ' />';
 			}
 		}
 
