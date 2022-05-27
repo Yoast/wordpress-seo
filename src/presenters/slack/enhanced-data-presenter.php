@@ -23,12 +23,13 @@ class Enhanced_Data_Presenter extends Abstract_Indexable_Presenter {
 	 * @return string The Twitter tags for Slack.
 	 */
 	public function present() {
-		$enhanced_data = $this->get();
-		$twitter_tags  = '';
-		$i             = 1;
+		$enhanced_data   = $this->get();
+		$twitter_tags    = '';
+		$i               = 1;
+		$admin_bar_class = \is_admin_bar_showing() ? 'class="yoast-seo-meta-tag"' : '';
 		foreach ( $enhanced_data as $label => $value ) {
-			$twitter_tags .= \sprintf( "\t" . '<meta name="twitter:label%1$d" content="%2$s" />' . "\n", $i, $label );
-			$twitter_tags .= \sprintf( "\t" . '<meta name="twitter:data%1$d" content="%2$s" />' . "\n", $i, $value );
+			$twitter_tags .= \sprintf( "\t" . '<meta name="twitter:label%1$d" content="%2$s" ' . $admin_bar_class . ' />' . "\n", $i, $label );
+			$twitter_tags .= \sprintf( "\t" . '<meta name="twitter:data%1$d" content="%2$s" ' . $admin_bar_class . ' />' . "\n", $i, $value );
 			++$i;
 		}
 		return \trim( $twitter_tags );
