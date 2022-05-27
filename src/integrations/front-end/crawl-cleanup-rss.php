@@ -56,6 +56,13 @@ class Crawl_Cleanup_Rss implements Integration_Interface {
 		if ( \is_singular() && $this->is_true( 'remove_feed_post_comments' ) ) {
 			\remove_action( 'wp_head', 'feed_links_extra', 3 );
 		}
+		elseif (
+			( \is_category() && $this->is_true( 'remove_feed_categories' ) )
+			|| ( \is_tag() && $this->is_true( 'remove_feed_tags' ) )
+			|| ( \is_tax() && $this->is_true( 'remove_feed_custom_taxonomies' ) )
+		) {
+			\remove_action( 'wp_head', 'feed_links_extra', 3 );
+		}
 	}
 
 	/**
@@ -78,6 +85,18 @@ class Crawl_Cleanup_Rss implements Integration_Interface {
 		elseif ( \is_comment_feed() && \is_singular() && $this->is_true( 'remove_feed_post_comments' ) ) {
 			$url = \get_permalink( \get_queried_object() );
 			$this->redirect_feed( $url, 'We disable post comment feeds for performance reasons.' );
+		}
+		elseif (
+			( \is_category() && $this->is_true( 'remove_feed_categories' ) )
+			|| ( \is_tag() && $this->is_true( 'remove_feed_tags' ) )
+			|| ( \is_tax() && $this->is_true( 'remove_feed_custom_taxonomies' ) )
+		) {
+			$term = \get_queried_object();
+			$url  = \get_term_link( $term, $term->taxonomy );
+			if ( \is_wp_error( $url ) ) {
+				$url = \home_url();
+			}
+			$this->redirect_feed( $url, 'We disable taxonomy feeds for performance reasons.' );
 		}
 	}
 
