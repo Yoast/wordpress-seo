@@ -8,3 +8,11 @@ describe( "tests if all abbreviations end with a fullstop", function() {
 		} );
 	} );
 } );
+
+describe( "tests if there are no duplicates in the abbreviations list", function() {
+	englishAbbreviations.forEach( ( abbreviation ) =>{
+		it( abbreviation + "should occur once in the list", function() {
+			expect( englishAbbreviations.filter( x => x === abbreviation ).length ).toBe( 1 );
+		} );
+	} );
+} );
