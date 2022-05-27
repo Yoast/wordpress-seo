@@ -56,6 +56,9 @@ class Crawl_Cleanup_Rss implements Integration_Interface {
 		if ( \is_singular() && $this->options_helper->get( 'remove_feed_post_comments' ) === true ) {
 			\remove_action( 'wp_head', 'feed_links_extra', 3 );
 		}
+		elseif ( \is_author() && $this->options_helper->get( 'remove_feed_authors' ) === true ) {
+			\remove_action( 'wp_head', 'feed_links_extra', 3 );
+		}
 	}
 
 	/**
@@ -78,6 +81,11 @@ class Crawl_Cleanup_Rss implements Integration_Interface {
 		elseif ( \is_comment_feed() && \is_singular() && $this->options_helper->get( 'remove_feed_post_comments' ) === true ) {
 			$url = \get_permalink( \get_queried_object() );
 			$this->redirect_feed( $url, 'We disable post comment feeds for performance reasons.' );
+		}
+		elseif ( \is_author() && $this->options_helper->get( 'remove_feed_authors' ) === true ) {
+			$author_id = (int) \get_query_var( 'author' );
+			$url       = \get_author_posts_url( $author_id );
+			$this->redirect_feed( $url, 'We disable author feeds for performance reasons.' );
 		}
 	}
 
