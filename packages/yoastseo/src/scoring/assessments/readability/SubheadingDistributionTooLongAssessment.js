@@ -131,7 +131,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 			return paper.hasContent() && textLength > this._config.applicableIfTextLongerThan;
 		}
 
-		return paper.hasText();
+		return paper.hasContent();
 	}
 
 	/**

@@ -9,7 +9,6 @@ import DefaultResearcher from "../../../../src/languageProcessing/languages/_def
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
 import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher";
 import japaneseConfig from "../../../../src/languageProcessing/languages/ja/config/subheadingsTooLong.js";
-import fleschReadingAssessment from "../../../../src/scoring/assessments/readability/fleschReadingEaseAssessment";
 
 const subheadingDistributionTooLong = new SubheadingDistributionTooLong();
 
@@ -120,15 +119,14 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 		expect( assessment ).toBe( true );
 	} );
 
-	it( "returns false for isApplicable for an English paper with only an image.", function() {
-		// eslint-disable-next-line max-len
-		const paper = new Paper( "<img src=\"https://yoast.com/cdn-cgi/image/width=466%2Cheight=244%2Cfit=crop%2Cf=auto%2Conerror=redirect//app/uploads/2017/12/Focus_keyword_FI.jpg\">", { locale: "en_US" } );
-		expect( fleschReadingAssessment.isApplicable( paper, new EnglishResearcher( paper ) ) ).toBe( false );
+	it( "should return false for isApplicable for a paper with only an image.", function() {
+		const paper = new Paper( "<img src='https://example.com/image.png' alt='test'>" );
+		expect( new SubheadingDistributionTooLong().isApplicable( paper, new EnglishResearcher( paper ) ) ).toBe( false );
 	} );
 
-	it( "returns false for isApplicable for an English paper with only spaces.", function() {
-		const paper = new Paper( "        ", { locale: "en_US" } );
-		expect( fleschReadingAssessment.isApplicable( paper, new EnglishResearcher( paper ) ) ).toBe( false );
+	it( "should return false for isApplicable for a paper with only spaces.", function() {
+		const paper = new Paper( "        " );
+		expect( new SubheadingDistributionTooLong().isApplicable( paper, new EnglishResearcher( paper ) ) ).toBe( false );
 	} );
 
 	it( "Returns false from hasSubheadings to the paper without text", function() {

@@ -4,7 +4,6 @@ import Factory from "../../../specHelpers/factory.js";
 import Mark from "../../../../src/values/Mark.js";
 import DefaultResearcher from "../../../../src/languageProcessing/languages/_default/Researcher";
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
-import fleschReadingAssessment from "../../../../src/scoring/assessments/readability/fleschReadingEaseAssessment";
 
 describe( "An assessment for scoring passive voice.", function() {
 	const paper = new Paper();
@@ -73,15 +72,14 @@ describe( "A test for checking the applicability", function() {
 		expect( new PassiveVoiceAssessment().isApplicable( paper, new EnglishResearcher( paper ) ) ).toBe( true );
 	} );
 
-	it( "returns false for isApplicable for an English paper with only an image.", function() {
-		// eslint-disable-next-line max-len
-		const paper = new Paper( "<img src=\"https://yoast.com/cdn-cgi/image/width=466%2Cheight=244%2Cfit=crop%2Cf=auto%2Conerror=redirect//app/uploads/2017/12/Focus_keyword_FI.jpg\">", { locale: "en_US" } );
-		expect( fleschReadingAssessment.isApplicable( paper, new EnglishResearcher( paper ) ) ).toBe( false );
+	it( "should return false for isApplicable for a paper with only an image.", function() {
+		const paper = new Paper( "<img src='https://example.com/image.png' alt='test'>" );
+		expect( new PassiveVoiceAssessment().isApplicable( paper, new EnglishResearcher( paper ) ) ).toBe( false );
 	} );
 
-	it( "returns false for isApplicable for an English paper with only spaces.", function() {
-		const paper = new Paper( "        ", { locale: "en_US" } );
-		expect( fleschReadingAssessment.isApplicable( paper, new EnglishResearcher( paper ) ) ).toBe( false );
+	it( "should return false for isApplicable for a paper with only spaces.", function() {
+		const paper = new Paper( "        " );
+		expect( new PassiveVoiceAssessment().isApplicable( paper, new EnglishResearcher( paper ) ) ).toBe( false );
 	} );
 
 	it( "returns false for isApplicable for an Afrikaans paper with text.", function() {
