@@ -103,6 +103,7 @@ class WPSEO_Option_MS extends WPSEO_Option {
 			"{$allow_prefix}wincher_integration_active"     => false,
 			"{$allow_prefix}remove_feed_post_comments"      => true,
 			"{$allow_prefix}remove_atom_rdf_feeds"          => true,
+			"{$allow_prefix}remove_feed_global"             => true,
 		];
 
 		if ( is_multisite() ) {
