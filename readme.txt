@@ -239,7 +239,7 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 19.0 =
 Release Date: May 31st, 2022
 
-
+Say hi to Yoast SEO 19.0! In this release, we're introducing more ways to control crawling on your site. We're starting with a small addition to manage post comment feeds, but we're expanding that in the coming releases. The feature is in beta, so we welcome your feedback! Read more about what's new in Yoast SEO 19.0 in [our release post in English](https://yoa.st/release-31-5-22) or [our release post in Spanish](https://yoa.st/release-31-5-22-spanish)!
 
 Enhancements:
 
