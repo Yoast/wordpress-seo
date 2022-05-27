@@ -41,7 +41,8 @@ const blockEndRegex = /^\s*[\])}]\s*$/;
 
 const sentenceEndRegex = new RegExp( "[" + fullStop + sentenceDelimiters + "]$" );
 
-// Build regex to recognize abbreviations
+// Build regex to recognize abbreviations.
+// CreateRegexFromArray does not work for this application.
 for ( let i = 0; i < abbreviations.length; i++ ) {
 	abbreviations[ i ] = abbreviations[ i ].replace( ".", "\\." );
 }
@@ -381,13 +382,13 @@ export default class SentenceTokenizer {
 	}
 
 	endsWithAbbreviation( tokenString ) {
-		const mymatch = tokenString.match( abbreviationsRegex );
+		const myMatch = tokenString.match( abbreviationsRegex );
 
-		if ( ! mymatch ) {
+		if ( ! myMatch ) {
 			return false;
 		}
-
-		if ( tokenString.slice( mymatch.index, tokenString.length ) === mymatch[ 0 ] ) {
+		// Check to be sure that the sentence ends with the abbreviation.
+		if ( tokenString.slice( myMatch.index, tokenString.length ) === myMatch[ 0 ] ) {
 			return true;
 		}
 		return false;
