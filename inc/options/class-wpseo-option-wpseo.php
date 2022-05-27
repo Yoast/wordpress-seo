@@ -94,6 +94,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'remove_feed_post_comments'                => false,
 		'remove_atom_rdf_feeds'                    => false,
 		'remove_feed_global'                       => false,
+		'remove_feed_authors'                      => false,
 	];
 
 	/**
@@ -400,6 +401,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				 *  'remove_feed_post_comments'
 				 *  'remove_atom_rdf_feeds'
 				 *  'remove_feed_global'
+				 *  'remove_feed_authors'
 				 *  'should_redirect_after_install_free'
 				 *  and most of the feature variables.
 				 */
@@ -445,6 +447,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 			'remove_feed_post_comments'      => false,
 			'remove_atom_rdf_feeds'          => false,
 			'remove_feed_global'             => false,
+			'remove_feed_authors'            => false,
 		];
 
 		// We can reuse this logic from the base class with the above defaults to parse with the correct feature values.
