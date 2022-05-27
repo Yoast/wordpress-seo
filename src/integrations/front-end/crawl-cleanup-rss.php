@@ -76,7 +76,7 @@ class Crawl_Cleanup_Rss implements Integration_Interface {
 		}
 
 		$url = \get_permalink( \get_queried_object() );
-		if ( \is_comment_feed() && \is_singular() && ( $this->options_helper->get( 'remove_feed_post_comments' ) === true ) || $this->options_helper->get( 'remove_feed_global_comments' ) === true ) {
+		if ( \is_comment_feed() && \is_singular() && ( $this->options_helper->get( 'remove_feed_post_comments' ) === true || $this->options_helper->get( 'remove_feed_global_comments' ) === true ) ) {
 			$this->redirect_feed( $url, 'We disable post comment feeds for performance reasons.' );
 		}
 	}
