@@ -51,6 +51,15 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	);
 
 	$yform->toggle_switch(
+		'remove_feed_authors',
+		[
+			'off' => __( 'Keep', 'wordpress-seo' ),
+			'on'  => __( 'Remove', 'wordpress-seo' ),
+		],
+		__( 'Feeds per post author', 'wordpress-seo' )
+	);
+
+	$yform->toggle_switch(
 		'remove_atom_rdf_feeds',
 		[
 			'off' => __( 'Keep', 'wordpress-seo' ),

@@ -53,6 +53,15 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 	);
 
 	$yform->toggle_switch(
+		WPSEO_Option::ALLOW_KEY_PREFIX . 'remove_feed_authors',
+		[
+			'on'  => __( 'Allow Control', 'wordpress-seo' ),
+			'off' => __( 'Disable', 'wordpress-seo' ),
+		],
+		__( 'Feeds per post author', 'wordpress-seo' )
+	);
+
+	$yform->toggle_switch(
 		WPSEO_Option::ALLOW_KEY_PREFIX . 'remove_atom_rdf_feeds',
 		[
 			'on'  => __( 'Allow Control', 'wordpress-seo' ),
