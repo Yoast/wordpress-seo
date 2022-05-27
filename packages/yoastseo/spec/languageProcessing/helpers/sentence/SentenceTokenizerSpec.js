@@ -88,6 +88,16 @@ describe( "A test for tokenizing a (html) text into sentences", function() {
 		expect( mockTokenizer.getSentencesFromTokens( tokens ) ).toEqual(   [ "<form>One cat is special.</form>five is perfect!" ] );
 	} );
 
+	it( "does not split sentences if last word is an abbreviation", function() {
+		const tokens = [
+			{ type: "sentence", src: "Our feline teacher is called Prof" },
+			{ type: "full-stop", src: "." },
+			{ type: "sentence", src: "Felix the cat" },
+			{ type: "full-stop", src: "." },
+		];
+		expect( mockTokenizer.getSentencesFromTokens( tokens ) ).toEqual(   [ "Our feline teacher is called Prof. Felix the cat." ] );
+	} );
+
 	it( "splits sentences if 'block-end' is preceded by a sentence ending and followed by a valid sentence beginning.", function() {
 		let tokens = [
 			{ type: "block-start", src: "<form>" },
