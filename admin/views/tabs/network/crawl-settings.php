@@ -52,6 +52,34 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 		__( 'Post comment feeds', 'wordpress-seo' )
 	);
 
+
+	$yform->toggle_switch(
+		WPSEO_Option::ALLOW_KEY_PREFIX . 'remove_feed_categories',
+		[
+			'on'  => __( 'Allow Control', 'wordpress-seo' ),
+			'off' => __( 'Disable', 'wordpress-seo' ),
+		],
+		__( 'Category feeds', 'wordpress-seo' )
+	);
+
+	$yform->toggle_switch(
+		WPSEO_Option::ALLOW_KEY_PREFIX . 'remove_feed_tags',
+		[
+			'on'  => __( 'Allow Control', 'wordpress-seo' ),
+			'off' => __( 'Disable', 'wordpress-seo' ),
+		],
+		__( 'Tag feeds', 'wordpress-seo' )
+	);
+
+	$yform->toggle_switch(
+		WPSEO_Option::ALLOW_KEY_PREFIX . 'remove_feed_custom_taxonomies',
+		[
+			'on'  => __( 'Allow Control', 'wordpress-seo' ),
+			'off' => __( 'Disable', 'wordpress-seo' ),
+		],
+		__( 'Custom taxonomy feeds', 'wordpress-seo' )
+	);
+
 	$yform->toggle_switch(
 		WPSEO_Option::ALLOW_KEY_PREFIX . 'remove_atom_rdf_feeds',
 		[

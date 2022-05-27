@@ -51,6 +51,33 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	);
 
 	$yform->toggle_switch(
+		'remove_feed_categories',
+		[
+			'off' => __( 'Keep', 'wordpress-seo' ),
+			'on'  => __( 'Remove', 'wordpress-seo' ),
+		],
+		__( 'Category feeds', 'wordpress-seo' )
+	);
+
+	$yform->toggle_switch(
+		'remove_feed_tags',
+		[
+			'off' => __( 'Keep', 'wordpress-seo' ),
+			'on'  => __( 'Remove', 'wordpress-seo' ),
+		],
+		__( 'Tag feeds', 'wordpress-seo' )
+	);
+
+	$yform->toggle_switch(
+		'remove_feed_custom_taxonomies',
+		[
+			'off' => __( 'Keep', 'wordpress-seo' ),
+			'on'  => __( 'Remove', 'wordpress-seo' ),
+		],
+		__( 'Custom taxonomy feeds', 'wordpress-seo' )
+	);
+
+	$yform->toggle_switch(
 		'remove_atom_rdf_feeds',
 		[
 			'off' => __( 'Keep', 'wordpress-seo' ),
