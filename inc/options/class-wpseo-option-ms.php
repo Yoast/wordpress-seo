@@ -104,6 +104,9 @@ class WPSEO_Option_MS extends WPSEO_Option {
 			"{$allow_prefix}remove_feed_post_comments"      => true,
 			"{$allow_prefix}remove_atom_rdf_feeds"          => true,
 			"{$allow_prefix}remove_feed_global"             => true,
+			"{$allow_prefix}remove_feed_categories"         => true,
+			"{$allow_prefix}remove_feed_tags"               => true,
+			"{$allow_prefix}remove_feed_custom_taxonomies"  => true,
 		];
 
 		if ( is_multisite() ) {

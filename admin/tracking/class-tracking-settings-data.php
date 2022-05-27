@@ -185,6 +185,9 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'remove_feed_post_comments',
 		'remove_atom_rdf_feeds',
 		'remove_feed_global',
+		'remove_feed_categories',
+		'remove_feed_tags',
+		'remove_feed_custom_taxonomies',
 	];
 
 	/**
