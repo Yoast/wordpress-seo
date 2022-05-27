@@ -30,7 +30,7 @@ class WPSEO_Shortcode_Filter {
 			wp_die( WPSEO_Utils::format_json_encode( [] ) );
 		}
 
-		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: $shortcodes is getting sanitized later one, before it's used.
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: $shortcodes is getting sanitized later, before it's used.
 		$shortcodes        = wp_unslash( $_POST['data'] );
 		$parsed_shortcodes = [];
 
