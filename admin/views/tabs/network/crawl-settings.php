@@ -34,13 +34,6 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 	);
 	echo '</p>';
 
-	$help_text  = esc_html__( 'This removes the Post Comment Feed link.', 'wordpress-seo' );
-	$help_text .= ' ';
-	$help_text .= sprintf(
-		'<a href="#" target="_blank" rel="noopener noreferrer">%1$s</a>',
-		esc_html__( 'Find out how removing feeds can improve performance.', 'wordpress-seo' )
-	);
-
 	$yform->toggle_switch(
 		WPSEO_Option::ALLOW_KEY_PREFIX . 'remove_feed_post_comments',
 		[
@@ -48,6 +41,15 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 			'off' => __( 'Disable', 'wordpress-seo' ),
 		],
 		__( 'Post comment feeds', 'wordpress-seo' )
+	);
+
+	$yform->toggle_switch(
+		WPSEO_Option::ALLOW_KEY_PREFIX . 'remove_atom_rdf_feeds',
+		[
+			'on'  => __( 'Allow Control', 'wordpress-seo' ),
+			'off' => __( 'Disable', 'wordpress-seo' ),
+		],
+		__( 'All Atom and RDF feeds', 'wordpress-seo' )
 	);
 	?>
 </div>
