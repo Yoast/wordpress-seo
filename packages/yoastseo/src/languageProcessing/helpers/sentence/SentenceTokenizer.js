@@ -381,6 +381,11 @@ export default class SentenceTokenizer {
 		}
 	}
 
+	/**
+	 * Checks if a string ends with an abbreviation.
+	 * @param {string} tokenString A (part of) a sentence.
+	 * @returns {boolean} True if the string ends with an abbreviation that is in abbreviations.js. Otherwise False.
+	 */
 	endsWithAbbreviation( tokenString ) {
 		const myMatch = tokenString.match( abbreviationsRegex );
 
