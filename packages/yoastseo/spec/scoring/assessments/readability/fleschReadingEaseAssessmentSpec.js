@@ -209,8 +209,7 @@ describe( "An assessment for the Flesch reading ease test", function() {
 	} );
 
 	it( "returns false for isApplicable for an English paper with only an image.", function() {
-		// eslint-disable-next-line max-len
-		const paper = new Paper( "<img src=\"https://yoast.com/cdn-cgi/image/width=466%2Cheight=244%2Cfit=crop%2Cf=auto%2Conerror=redirect//app/uploads/2017/12/Focus_keyword_FI.jpg\">", { locale: "en_US" } );
+		const paper = new Paper( "<img src='https://example.com/image.png' alt='test'>" );
 		expect( fleschReadingAssessment.isApplicable( paper, new EnglishResearcher( paper ) ) ).toBe( false );
 	} );
 
