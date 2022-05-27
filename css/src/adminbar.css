@@ -3,6 +3,23 @@
   margin: 10px 0 0 4px !important;
 }
 
+#wpadminbar .yoast-badge {
+	display: inline-block;
+	padding: 0 8px;
+	border-radius: 8px;
+	font-weight: 600;
+	line-height: 1.6;
+}
+
+#wpadminbar .yoast-new-badge {
+	background-color: #cce5ff;
+	color: #004973;
+}
+#wpadminbar .yoast-premium-badge {
+	background-color: #fff3cd;
+	color: #674e00;
+}
+
 #wpadminbar .yoast-issue-added,
 #wpadminbar .yoast-issue-added:hover {
   position: absolute;
@@ -74,6 +91,114 @@
   #wp-admin-bar-wpseo-menu.menupop .ab-sub-wrapper #wp-admin-bar-wpseo-settings {
     display: none;
   }
+}
+
+body.wpseoFrontSidebarOpen {
+	padding-right: 400px;
+}
+
+#wpseoFrontSidebar {
+	position: fixed;
+	right: 0;
+	top: 32px;
+	width: 400px;
+	padding: 0;
+	bottom: 0;
+	background: #ffffff;
+	z-index: 99998;
+	overflow: scroll;
+	font-size: 14px;
+	font-family: Inter var,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+	color: #4b5563;
+	box-shadow: rgb(255, 255, 255) 0 0 0 0, rgba(0, 0, 0, 0.05) 0 0 0 1px, rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+}
+
+#wpseoFrontSidebar header {
+	position: sticky;
+	top: 0;
+	left: 0;
+	padding: 16px 24px;
+	z-index: 99998;
+	background: #f3f4f6;
+}
+
+#wpseoFrontSidebar section {
+	padding: 16px 24px;
+	border-bottom: 1px solid #e5e7eb;
+	box-sizing: border-box;
+	word-break: break-word;
+}
+
+#wpseoFrontSidebar h2 > svg {
+	margin: 0 8px -4px 0;
+	width: 18px;
+	fill: #A4286A;
+	display: inline;
+}
+
+#wpseoFrontSidebar h2 {
+	margin: 8px 0;
+	font-size: 16px;
+	font-weight: 500;
+	color: #111827;
+	font-family: Inter var,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+}
+
+#wpseoFrontSidebar h3 {
+	font-size: 14px;
+	font-weight: 500;
+	font-family: Inter var,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+	color: #111827;
+	margin: 8px 0 4px 0;
+}
+
+#wpseoFrontSidebar strong {
+	font-weight: 500;
+	color: #374151;
+}
+
+#wpseoFrontSidebar button.close {
+	width: 44px;
+	height: 44px;
+	background: transparent;
+	border: 0;
+	padding: 0;
+	position: absolute;
+	top: 12px;
+	right: 0px;
+	cursor: pointer;
+}
+
+#wpseoFrontSidebar .checks {
+	padding-top: 16px;
+}
+
+#wpseoFrontSidebar .checks > div {
+	line-height: 2;
+}
+
+#wpseoFrontSidebar .checks svg {
+	vertical-align: middle;
+	display: inline;
+}
+
+#wpseoFrontSidebar .checks svg.yoast-svg-icon-seo-score-none {
+	fill: #9ca3af;
+}
+
+#wpseoFrontSidebar ul {
+	padding-left: 0;
+	margin: 0;
+	list-style: none;
+}
+
+#wpseoFrontSidebar li {
+	padding: 8px 0;
+	margin: 0;
+}
+
+#wpseoFrontSidebar svg {
+	margin-right: 4px;
 }
 
 /*# sourceMappingURL=adminbar.css.map */
