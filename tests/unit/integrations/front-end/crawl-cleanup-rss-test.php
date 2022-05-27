@@ -104,6 +104,18 @@ class Crawl_Cleanup_Rss_Test extends TestCase {
 			->once()
 			->andReturn( true );
 
+		Monkey\Functions\expect( 'is_category' )
+			->once()
+			->andReturnFalse();
+
+		Monkey\Functions\expect( 'is_tag' )
+			->once()
+			->andReturnFalse();
+
+		Monkey\Functions\expect( 'is_tax' )
+			->once()
+			->andReturnFalse();
+
 		$this->options_helper
 			->expects( 'get' )
 			->once()
@@ -124,7 +136,19 @@ class Crawl_Cleanup_Rss_Test extends TestCase {
 	public function test_maybe_disable_feeds_when_not_singular() {
 		Monkey\Functions\expect( 'is_singular' )
 			->once()
-			->andReturn( false );
+			->andReturnFalse();
+
+		Monkey\Functions\expect( 'is_category' )
+			->once()
+			->andReturnFalse();
+
+		Monkey\Functions\expect( 'is_tag' )
+			->once()
+			->andReturnFalse();
+
+		Monkey\Functions\expect( 'is_tax' )
+			->once()
+			->andReturnFalse();
 
 		$this->options_helper
 			->expects( 'get' )
