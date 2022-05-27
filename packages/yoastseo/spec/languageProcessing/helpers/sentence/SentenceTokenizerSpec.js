@@ -98,6 +98,16 @@ describe( "A test for tokenizing a (html) text into sentences", function() {
 		expect( mockTokenizer.getSentencesFromTokens( tokens ) ).toEqual(   [ "Our feline teacher is called Prof. Felix the cat." ] );
 	} );
 
+	it( "endsWithAbbreviation returns true if a string ends in an abbreviation", function() {
+		const testString = "This string ends with an abbreviation e.g.";
+		expect( mockTokenizer.endsWithAbbreviation( testString ) ).toBeTruthy();
+	} );
+
+	it( "endsWithAbbreviation returns false does not end with an abreviation", function() {
+		const testString = "This string does not end with an abbreviation.";
+		expect( mockTokenizer.endsWithAbbreviation( testString ) ).toBeFalsy();
+	} );
+
 	it( "splits sentences if 'block-end' is preceded by a sentence ending and followed by a valid sentence beginning.", function() {
 		let tokens = [
 			{ type: "block-start", src: "<form>" },
