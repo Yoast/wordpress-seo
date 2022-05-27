@@ -42,7 +42,7 @@ class Crawl_Cleanup_Rss implements Integration_Interface {
 	 * Register our RSS related hooks.
 	 */
 	public function register_hooks() {
-		if ( $this->options_helper->get( 'remove_feed_global' ) === true ) {
+		if ( $this->is_true( 'remove_feed_global' ) ) {
 			\add_action( 'feed_links_show_posts_feed', '__return_false' );
 		}
 		\add_action( 'wp', [ $this, 'maybe_disable_feeds' ] );
@@ -53,10 +53,10 @@ class Crawl_Cleanup_Rss implements Integration_Interface {
 	 * Disable feeds on selected cases.
 	 */
 	public function maybe_disable_feeds() {
-		if ( \is_singular() && $this->options_helper->get( 'remove_feed_post_comments' ) === true ) {
+		if ( \is_singular() && $this->is_true( 'remove_feed_post_comments' ) ) {
 			\remove_action( 'wp_head', 'feed_links_extra', 3 );
 		}
-		elseif ( \is_author() && $this->options_helper->get( 'remove_feed_authors' ) === true ) {
+		elseif ( \is_author() && $this->is_true( 'remove_feed_authors' ) ) {
 			\remove_action( 'wp_head', 'feed_links_extra', 3 );
 		}
 	}
@@ -71,18 +71,18 @@ class Crawl_Cleanup_Rss implements Integration_Interface {
 			return;
 		}
 
-		if ( \in_array( \get_query_var( 'feed' ), [ 'atom', 'rdf' ], true ) && $this->options_helper->get( 'remove_atom_rdf_feeds' ) === true ) {
+		if ( \in_array( \get_query_var( 'feed' ), [ 'atom', 'rdf' ], true ) && $this->is_true( 'remove_atom_rdf_feeds' ) ) {
 			$this->redirect_feed( \home_url(), 'We disable Atom/RDF feeds for performance reasons.' );
 		}
 		// Only if we're on the global feed, the query is _just_ `'feed' => 'feed'`, hence this check.
-		elseif ( $wp_query->query === [ 'feed' => 'feed' ] && $this->options_helper->get( 'remove_feed_global' ) === true ) {
+		elseif ( $wp_query->query === [ 'feed' => 'feed' ] && $this->is_true( 'remove_feed_global' ) ) {
 			$this->redirect_feed( \home_url(), 'We disable the RSS feed for performance reasons.' );
 		}
-		elseif ( \is_comment_feed() && \is_singular() && $this->options_helper->get( 'remove_feed_post_comments' ) === true ) {
+		elseif ( \is_comment_feed() && \is_singular() && $this->is_true( 'remove_feed_post_comments' ) ) {
 			$url = \get_permalink( \get_queried_object() );
 			$this->redirect_feed( $url, 'We disable post comment feeds for performance reasons.' );
 		}
-		elseif ( \is_author() && $this->options_helper->get( 'remove_feed_authors' ) === true ) {
+		elseif ( \is_author() && $this->is_true( 'remove_feed_authors' ) ) {
 			$author_id = (int) \get_query_var( 'author' );
 			$url       = \get_author_posts_url( $author_id );
 			$this->redirect_feed( $url, 'We disable author feeds for performance reasons.' );
@@ -124,5 +124,16 @@ class Crawl_Cleanup_Rss implements Integration_Interface {
 
 		\wp_safe_redirect( $url, 301, 'Yoast SEO: ' . $reason );
 		exit;
+	}
+
+	/**
+	 * Checks if the value of an option is set to true.
+	 *
+	 * @param string $option_name The option name.
+	 *
+	 * @return bool
+	 */
+	private function is_true( $option_name ) {
+		return $this->options_helper->get( $option_name ) === true;
 	}
 }
