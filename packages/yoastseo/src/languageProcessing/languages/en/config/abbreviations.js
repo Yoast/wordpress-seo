@@ -1,7 +1,7 @@
 /**
  * Returns a list with abbreviations. Originally created for use in yoastseo/src/languageProcessing/helpers/sentence/SentenceTokenizer.js
  * originally sourced from: https://github.com/Yoast/YoastSEO.js/issues/698
- * For the use in the SentenceTokenizer it is important that all abbreviations end in a fullstop.
+ * IMPORTANT! For the use in the SentenceTokenizer it is important that all abbreviations end in a fullstop.
  * @type {Array} The list with abbreviations.
  */
 export default [
