@@ -39,7 +39,7 @@ class Crawl_Settings_Integration implements Integration_Interface {
 				'crawl-settings',
 				\__( 'Crawl settings', 'wordpress-seo' ),
 				[
-					'save_button' => true,
+					'save_button' => false,
 					'beta'        => true,
 				]
 			)
