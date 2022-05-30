@@ -34,6 +34,12 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 	);
 	echo '</p>';
 
+	/**
+	 * Fires when displaying the crawl cleanup network tab.
+	 *
+	 * @param Yoast_Form $yform The yoast form object.
+	 */
+	do_action( 'wpseo_settings_tab_crawl_cleanup_network', $yform );
 	?>
 </div>
 <?php

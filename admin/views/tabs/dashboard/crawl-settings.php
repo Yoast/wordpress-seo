@@ -33,12 +33,13 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	echo '</p>';
 
 	/**
- 	* Allows the addition of content to the crawl settings page.
- 	*/
-	do_action( 'wpseo_settings_tabs_crawl' );
+	 * Fires when displaying the crawl cleanup tab.
+	 *
+	 * @param Yoast_Form $yform The yoast form object.
+	 */
+	do_action( 'wpseo_settings_tab_crawl_cleanup', $yform );
 
-
-?>
+	?>
 </div>
 <?php
 /*
