@@ -49,10 +49,20 @@ class Crawl_Settings_Integration implements Integration_Interface {
 	 */
 	public function register_hooks() {
 		\add_action( 'wpseo_settings_tabs_dashboard', [ $this, 'add_crawl_settings_tab' ] );
-		if ( ! $this->product_helper->is_premium() ) {
+		if ( ! $this->product_helper->is_premium() || ! $this->is_premium_upgraded() ) {
 			\add_action( 'wpseo_settings_tab_crawl_cleanup', [ $this, 'add_crawl_settings_tab_content' ] );
 			\add_action( 'wpseo_settings_tab_crawl_cleanup_network', [ $this, 'add_crawl_settings_tab_content_network' ] );
 		}
+	}
+
+	/**
+	 * Checks if Premium is installed and upgraded to the right version.
+	 *
+	 * @return bool Whether Premium is installed and upgraded to the right version.
+	 */
+	public function is_premium_upgraded() {
+		$premium_version = $this->product_helper->get_premium_version();
+		return $premium_version !== null && \version_compare( $premium_version, '18.6-RC1', '>=' );
 	}
 
 	/**
@@ -61,7 +71,7 @@ class Crawl_Settings_Integration implements Integration_Interface {
 	 * @param WPSEO_Option_Tabs $dashboard_tabs Object representing the tabs of the General sub-page.
 	 */
 	public function add_crawl_settings_tab( $dashboard_tabs ) {
-		$premium = $this->product_helper->is_premium();
+		$premium = $this->product_helper->is_premium() && $this->is_premium_upgraded();
 
 		$dashboard_tabs->add_tab(
 			new WPSEO_Option_Tab(
@@ -127,7 +137,10 @@ class Crawl_Settings_Integration implements Integration_Interface {
 		echo '<a class="yoast-button-upsell" href="';
 		echo \esc_url( WPSEO_Shortlinker::get( 'http://yoa.st/crawl-settings-upsell' ) );
 		echo '" target="_blank" style=" margin-top: 16px; margin-bottom: 16px; ">';
-		echo \esc_html__( 'Unlock with Premium', 'wordpress-seo' )
+
+		$button_msg = ( $this->product_helper->is_premium() && ! $this->is_premium_upgraded() ) ? \esc_html__( 'Upgrade Premium', 'wordpress-seo' ) : \esc_html__( 'Unlock with Premium', 'wordpress-seo' );
+		// phpcs:ignore WordPress.Security.EscapeOutput -- Already escaped.
+		echo $button_msg
 					// phpcs:ignore WordPress.Security.EscapeOutput -- Already escapes correctly.
 					. WPSEO_Admin_Utils::get_new_tab_message();
 		echo '<span aria-hidden="true" class="yoast-button-upsell__caret"></span></a>';
