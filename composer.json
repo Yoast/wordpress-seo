@@ -38,7 +38,8 @@
 		"yoast/wp-test-utils": "^1.0.0",
 		"yoast/yoastcs": "^2.2.1",
 		"chillerlan/php-qrcode": "^1.0.9",
-		"guzzlehttp/guzzle": "6.5.6"
+		"guzzlehttp/guzzle": "6.5.6",
+		"symfony/polyfill-intl-idn": "1.19.0"
 	},
 	"minimum-stability": "dev",
 	"prefer-stable": true,
