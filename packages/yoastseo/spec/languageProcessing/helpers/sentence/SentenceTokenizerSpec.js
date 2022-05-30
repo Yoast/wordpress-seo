@@ -88,14 +88,24 @@ describe( "A test for tokenizing a (html) text into sentences", function() {
 		expect( mockTokenizer.getSentencesFromTokens( tokens ) ).toEqual(   [ "<form>One cat is special.</form>five is perfect!" ] );
 	} );
 
-	it( "does not split sentences if last word is an abbreviation", function() {
+	it( "does not split sentences if it contains an abbreviation", function() {
 		const tokens = [
 			{ type: "sentence", src: "Our feline teacher is called Prof" },
 			{ type: "full-stop", src: "." },
-			{ type: "sentence", src: "Felix the cat" },
+			{ type: "sentence", src: " Felix the cat" },
 			{ type: "full-stop", src: "." },
 		];
 		expect( mockTokenizer.getSentencesFromTokens( tokens ) ).toEqual(   [ "Our feline teacher is called Prof. Felix the cat." ] );
+	} );
+
+	it( "does not split sentences if last word is No. and a number. ", function() {
+		const tokens = [
+			{ type: "sentence", src: "My favorite song is Mambo No" },
+			{ type: "full-stop", src: "." },
+			{ type: "sentence", src: " 5" },
+			{ type: "full-stop", src: "." },
+		];
+		expect( mockTokenizer.getSentencesFromTokens( tokens ) ).toEqual(   [ "My favorite song is Mambo No. 5." ] );
 	} );
 
 	it( "endsWithAbbreviation returns true if a string ends in an abbreviation", function() {
@@ -103,8 +113,13 @@ describe( "A test for tokenizing a (html) text into sentences", function() {
 		expect( mockTokenizer.endsWithAbbreviation( testString ) ).toBeTruthy();
 	} );
 
-	it( "endsWithAbbreviation returns false does not end with an abreviation", function() {
+	it( "endsWithAbbreviation returns false if a string does not end with an abreviation,", function() {
 		const testString = "This string does not end with an abbreviation.";
+		expect( mockTokenizer.endsWithAbbreviation( testString ) ).toBeFalsy();
+	} );
+
+	it( "endsWithAbbreviation returns false does not end with an abreviation but has an abbreviation in the middle.", function() {
+		const testString = "This is e.g. a sentence.";
 		expect( mockTokenizer.endsWithAbbreviation( testString ) ).toBeFalsy();
 	} );
 
