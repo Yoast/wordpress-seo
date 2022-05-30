@@ -243,7 +243,6 @@ Say hi to Yoast SEO 19.0! In this release, we're introducing more ways to contro
 
 Enhancements:
 
-* Introducing a new feature set to manage crawling on your site. In Yoast SEO 19.0, we're starting with an initial crawl setting to turn off RSS feeds of post comments. This will be expanded over time.
 * Following a change of policy by Bing, we now reference the XML sitemap in the robots.txt file to make it discoverable for search engines.
 
 Bugfixes:

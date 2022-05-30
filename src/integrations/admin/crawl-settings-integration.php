@@ -34,13 +34,16 @@ class Crawl_Settings_Integration implements Integration_Interface {
 	 * @param WPSEO_Option_Tabs $dashboard_tabs Object representing the tabs of the General sub-page.
 	 */
 	public function add_crawl_settings_tab( $dashboard_tabs ) {
+		$premium = YoastSEO()->helpers->product->is_premium();
+
 		$dashboard_tabs->add_tab(
 			new WPSEO_Option_Tab(
 				'crawl-settings',
 				\__( 'Crawl settings', 'wordpress-seo' ),
 				[
-					'save_button' => false,
-					'beta'        => true,
+					'save_button' => $premium,
+					'beta'        => $premium,
+					'premium'     => ! $premium,
 				]
 			)
 		);

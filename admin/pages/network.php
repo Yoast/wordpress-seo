@@ -18,13 +18,16 @@ $network_tabs = new WPSEO_Option_Tabs( 'network' );
 $network_tabs->add_tab( new WPSEO_Option_Tab( 'general', __( 'General', 'wordpress-seo' ) ) );
 $network_tabs->add_tab( new WPSEO_Option_Tab( 'features', __( 'Features', 'wordpress-seo' ) ) );
 $network_tabs->add_tab( new WPSEO_Option_Tab( 'integrations', __( 'Integrations', 'wordpress-seo' ) ) );
+
+$premium = YoastSEO()->helpers->product->is_premium();
 $network_tabs->add_tab(
 	new WPSEO_Option_Tab(
 		'crawl-settings',
 		__( 'Crawl settings', 'wordpress-seo' ),
 		[
-			'save_button' => false,
-			'beta'        => true,
+			'save_button' => $premium,
+			'beta'        => $premium,
+			'premium'     => ! $premium,
 		]
 	)
 );
