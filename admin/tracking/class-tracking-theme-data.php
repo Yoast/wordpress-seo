@@ -20,14 +20,15 @@ class WPSEO_Tracking_Theme_Data implements WPSEO_Collection {
 
 		return [
 			'theme' => [
-				'name'        => $theme->get( 'Name' ),
-				'url'         => $theme->get( 'ThemeURI' ),
-				'version'     => $theme->get( 'Version' ),
-				'author'      => [
+				'name'                 => $theme->get( 'Name' ),
+				'url'                  => $theme->get( 'ThemeURI' ),
+				'version'              => $theme->get( 'Version' ),
+				'author'               => [
 					'name' => $theme->get( 'Author' ),
 					'url'  => $theme->get( 'AuthorURI' ),
 				],
-				'parentTheme' => $this->get_parent_theme( $theme ),
+				'parentTheme'          => $this->get_parent_theme( $theme ),
+				'blockTemplateSupport' => current_theme_supports( 'block-templates' ),
 			],
 		];
 	}
