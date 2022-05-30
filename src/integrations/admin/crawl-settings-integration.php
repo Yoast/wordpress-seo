@@ -9,6 +9,7 @@ use WPSEO_Option_Tabs;
 use WPSEO_Shortlinker;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
+use Yoast_Form;
 
 /**
  * Crawl_Settings_Integration class
@@ -65,7 +66,7 @@ class Crawl_Settings_Integration implements Integration_Interface {
 		$this->display_premium_upsell_btn();
 
 		$yform->toggle_switch(
-			'remove_feed_post_comments',
+			'remove_feed_post_comments_free',
 			[
 				'off' => __( 'Keep', 'wordpress-seo' ),
 				'on'  => __( 'Remove', 'wordpress-seo' ),
