@@ -22,7 +22,7 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 	echo sprintf(
 		/* translators: %s expands to Yoast SEO */
 		esc_html__( 'This tab allows you to selectively disable %s features for all sites in the network. By default all features are enabled, which allows site admins to choose for themselves if they want to toggle a feature on or off for their site. When you disable a feature here, site admins will not be able to use that feature at all.', 'wordpress-seo' ),
-		'Yoast SEO'
+		'Yoast SEO Premium'
 	);
 
 	echo '<p style="margin: 0.5em 0 1em;">';
@@ -34,21 +34,12 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 	);
 	echo '</p>';
 
-	$help_text  = esc_html__( 'This removes the Post Comment Feed link.', 'wordpress-seo' );
-	$help_text .= ' ';
-	$help_text .= sprintf(
-		'<a href="#" target="_blank" rel="noopener noreferrer">%1$s</a>',
-		esc_html__( 'Find out how removing feeds can improve performance.', 'wordpress-seo' )
-	);
-
-	$yform->toggle_switch(
-		WPSEO_Option::ALLOW_KEY_PREFIX . 'remove_feed_post_comments',
-		[
-			'on'  => __( 'Allow Control', 'wordpress-seo' ),
-			'off' => __( 'Disable', 'wordpress-seo' ),
-		],
-		__( 'Post comment feeds', 'wordpress-seo' )
-	);
+	/**
+	 * Fires when displaying the crawl cleanup network tab.
+	 *
+	 * @param Yoast_Form $yform The yoast form object.
+	 */
+	do_action( 'wpseo_settings_tab_crawl_cleanup_network', $yform );
 	?>
 </div>
 <?php
