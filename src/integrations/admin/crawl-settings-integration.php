@@ -107,7 +107,7 @@ class Crawl_Settings_Integration implements Integration_Interface {
 	public function display_premium_upsell_btn() {
 		echo '<a class="yoast-button-upsell" href="';
 		echo \esc_url( WPSEO_Shortlinker::get( 'http://yoa.st/crawl-settings-upsell' ) );
-		echo 'target="_blank" style=" margin-top: 16px; margin-bottom: 16px; ">';
+		echo '" target="_blank" style=" margin-top: 16px; margin-bottom: 16px; ">';
 		echo \esc_html__( 'Unlock with Premium', 'wordpress-seo' )
 					// phpcs:ignore WordPress.Security.EscapeOutput -- Already escapes correctly.
 					. WPSEO_Admin_Utils::get_new_tab_message();
