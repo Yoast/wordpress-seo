@@ -7742,14 +7742,6 @@
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
 
-"@yoast/babel-preset@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@yoast/babel-preset/-/babel-preset-1.0.1.tgz#8096f8e23735b40079a95a983f4e6cff9660105e"
-  integrity sha512-2uUfeD3li7QH+Mm3ZDOV41O2utJMp5IL2a7hJWn0Xz7+iDb4+Fcf7Fg66CTm6PU9XFUspBPoCk0CRv6qnqB3bg==
-  dependencies:
-    "@babel/plugin-transform-runtime" "^7.17.0"
-    "@wordpress/babel-preset-default" "^6.5.1"
-
 "@yoast/grunt-plugin-tasks@^2.3":
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/@yoast/grunt-plugin-tasks/-/grunt-plugin-tasks-2.3.0.tgz#9dcefbd64fd3a301fbb9ab55307e1b48f232bbd9"

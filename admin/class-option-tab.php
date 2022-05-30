@@ -72,6 +72,15 @@ class WPSEO_Option_Tab {
 	}
 
 	/**
+	 * Retrieves whether the tab hosts beta functionalities.
+	 *
+	 * @return bool True whether the tab hosts beta functionalities.
+	 */
+	public function is_beta() {
+		return (bool) $this->get_argument( 'beta', false );
+	}
+
+	/**
 	 * Gets the option group.
 	 *
 	 * @return string The option group.

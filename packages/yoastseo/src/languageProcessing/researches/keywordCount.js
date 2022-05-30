@@ -16,6 +16,7 @@ import { markWordsInSentences } from "../helpers/word/markWordsInSentences";
  */
 export default function( paper, researcher ) {
 	const topicForms = researcher.getResearch( "morphology" );
+	const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
 
 	// A helper to return all the matches for the keyphrase.
 	const matchWordCustomHelper = researcher.getHelper( "matchWordCustomHelper" );
@@ -23,7 +24,7 @@ export default function( paper, researcher ) {
 	const text = paper.getText();
 	const locale = paper.getLocale();
 
-	const sentences = getSentences( text );
+	const sentences = getSentences( text, memoizedTokenizer );
 
 	const keywordsFound = {
 		count: 0,
