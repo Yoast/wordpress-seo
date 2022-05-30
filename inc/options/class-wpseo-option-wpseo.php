@@ -311,7 +311,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'ms_defaults_set':
 					if ( isset( $dirty[ $key ] ) ) {
 						$clean[ $key ] = WPSEO_Utils::validate_bool( $dirty[ $key ] );
-					} elseif ( isset( $old[ $key ] ) ) {
+					}
+					elseif ( isset( $old[ $key ] ) ) {
 						$clean[ $key ] = WPSEO_Utils::validate_bool( $old[ $key ] );
 					}
 					break;
@@ -508,7 +509,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 
 		foreach ( $value_change as $key ) {
 			if ( isset( $option_value[ $key ] )
-				 && in_array( $option_value[ $key ], $target_values, true )
+				&& in_array( $option_value[ $key ], $target_values, true )
 			) {
 				$option_value[ $key ] = true;
 			}
