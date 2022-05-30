@@ -113,20 +113,21 @@ class SeoTitleKeywordAssessment extends Assessment {
 				return {
 					score: this._config.scores.good,
 					resultText: sprintf(
-						/* Translators: %1$s expands to the title of the "Keyphrase in SEO title" assessment (translated to the current language) and links to an article on yoast.com. */
+						/* Translators: %1$s expands to the title of the "Keyphrase in SEO title" assessment (translated to the current language)
+						 and links to an article on yoast.com. */
 						__(
 							"%1$s: The exact match of the focus keyphrase appears at the beginning of the SEO title. Good job!",
 							"wordpress-seo"
 						),
-						assessmentLink,
+						assessmentLink
 					),
 				};
 			}
 			return {
 				score: this._config.scores.okay,
 				resultText: sprintf(
-					/* Translators: %1$s expands to the title of the "Keyphrase in SEO title" assessment (translated to the current language) and links to an article on yoast.com.
-					%2$s expand to a link on yoast.com, %3$s expands to the anchor end tag. */
+					/* Translators: %1$s expands to the title of the "Keyphrase in SEO title" assessment (translated to the current language)
+					 and links to an article on yoast.com. %2$s expand to a link on yoast.com, %3$s expands to the anchor end tag. */
 					__(
 						// eslint-disable-next-line max-len
 						"%1$s: The exact match of the focus keyphrase appears in the SEO title, but not at the beginning. %2$sMove it to the beginning for the best results%3$s.",
@@ -145,7 +146,8 @@ class SeoTitleKeywordAssessment extends Assessment {
 					return {
 						score: this._config.scores.good,
 						resultText: sprintf(
-							/* Translators: %1$s expands to the title of the "Keyphrase in SEO title" assessment (translated to the current language) and links to an article on yoast.com. */
+							/* Translators: %1$s expands to the title of the "Keyphrase in SEO title" assessment (translated to the current language)
+							 and links to an article on yoast.com. */
 							__(
 								"%1$s: The focus keyphrase appears at the beginning of the SEO title. Good job!",
 								"wordpress-seo"
@@ -158,8 +160,8 @@ class SeoTitleKeywordAssessment extends Assessment {
 				return {
 					score: this._config.scores.okay,
 					resultText: sprintf(
-						/* Translators: %1$s expands to the title of the "Keyphrase in SEO title" assessment (translated to the current language) and links to an article on yoast.com.
-						 %2$s expands to a link on yoast.com, %3$s expands to the anchor end tag. */
+						/* Translators: %1$s expands to the title of the "Keyphrase in SEO title" assessment (translated to the current language)
+						 and links to an article on yoast.com. %2$s expands to a link on yoast.com, %3$s expands to the anchor end tag. */
 						__(
 							// eslint-disable-next-line max-len
 							"%1$s: Title does not begin with the focus keyphrase. %2$sMove your focus keyphrase to the beginning of the title%3$s.",
@@ -174,8 +176,8 @@ class SeoTitleKeywordAssessment extends Assessment {
 			return {
 				score: this._config.scores.okay,
 				resultText: sprintf(
-					/* Translators: %1$s expands to the title of the "Keyphrase in SEO title" assessment (translated to the current language) and links to an article on yoast.com.
-					 %2$s expands to a link on yoast.com, %3$s expands to the anchor end tag. */
+					/* Translators: %1$s expands to the title of the "Keyphrase in SEO title" assessment (translated to the current language)
+					 and links to an article on yoast.com. %2$s expands to a link on yoast.com, %3$s expands to the anchor end tag. */
 					__(
 						// eslint-disable-next-line max-len
 						"%1$s: Does not contain the exact match. %2$sTry to write the exact match of your keyphrase in the SEO title and put it at the beginning of the title%3$s.",
@@ -192,8 +194,8 @@ class SeoTitleKeywordAssessment extends Assessment {
 			return {
 				score: this._config.scores.bad,
 				resultText: sprintf(
-					/* Translators: %1$s expands to the title of the "Keyphrase in SEO title" assessment (translated to the current language) and links to an article on yoast.com.
-					 %2$s expands to a link on yoast.com, %3$s expands to the anchor end tag. */
+					/* Translators: %1$s expands to the title of the "Keyphrase in SEO title" assessment (translated to the current language)
+					 and links to an article on yoast.com. %2$s expands to a link on yoast.com, %3$s expands to the anchor end tag. */
 					__(
 						// eslint-disable-next-line max-len
 						"%1$s: Does not contain the exact match. %2$sTry to write the exact match of your keyphrase in the SEO title and put it at the beginning of the title%3$s.",
@@ -210,8 +212,9 @@ class SeoTitleKeywordAssessment extends Assessment {
 		return {
 			score: this._config.scores.bad,
 			resultText: sprintf(
-				/* Translators: %1$s expands to the title of the "Keyphrase in SEO title" assessment (translated to the current language) and links to an article on yoast.com.
-				 %2$s expands to a link on yoast.com, %3$s expands to the anchor end tag, %4$s expands to the keyword of the article, %5$s expands to the call to action text. */
+				/* Translators: %1$s expands to the title of the "Keyphrase in SEO title" assessment (translated to the current language)
+				 and links to an article on yoast.com. %2$s expands to a link on yoast.com, %3$s expands to the anchor end tag,
+				 %4$s expands to the keyword of the article, %5$s expands to the call to action text. */
 				__(
 					// eslint-disable-next-line max-len
 					"%1$s: Not all the words from your keyphrase \"%4$s\" appear in the SEO title. %2$s%5$s%3$s.",
