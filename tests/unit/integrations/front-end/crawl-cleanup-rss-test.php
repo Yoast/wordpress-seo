@@ -61,13 +61,8 @@ class Crawl_Cleanup_Rss_Test extends TestCase {
 	 * @covers ::register_hooks
 	 */
 	public function test_register_hooks() {
-		$this->options_helper->expects( 'get' )
-			->with( 'remove_feed_global' )
-			->andReturnTrue();
-
 		$this->instance->register_hooks();
 
-		$this->assertNotFalse( Monkey\Actions\has( 'feed_links_show_posts_feed', '__return_false' ) );
 		$this->assertNotFalse( Monkey\Actions\has( 'wp', [ $this->instance, 'maybe_disable_feeds' ] ) );
 		$this->assertNotFalse( Monkey\Actions\has( 'wp', [ $this->instance, 'maybe_redirect_feeds' ] ) );
 	}

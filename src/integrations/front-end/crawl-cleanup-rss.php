@@ -42,9 +42,6 @@ class Crawl_Cleanup_Rss implements Integration_Interface {
 	 * Register our RSS related hooks.
 	 */
 	public function register_hooks() {
-		if ( $this->options_helper->get( 'remove_feed_global' ) === true ) {
-			\add_action( 'feed_links_show_posts_feed', '__return_false' );
-		}
 		\add_action( 'wp', [ $this, 'maybe_disable_feeds' ] );
 		\add_action( 'wp', [ $this, 'maybe_redirect_feeds' ], - 10000 );
 	}
@@ -62,8 +59,6 @@ class Crawl_Cleanup_Rss implements Integration_Interface {
 	 * Redirect feeds we don't want away.
 	 */
 	public function maybe_redirect_feeds() {
-		global $wp_query;
-
 		if ( ! \is_feed() ) {
 			return;
 		}
@@ -71,11 +66,8 @@ class Crawl_Cleanup_Rss implements Integration_Interface {
 		if ( \in_array( \get_query_var( 'feed' ), [ 'atom', 'rdf' ], true ) && $this->options_helper->get( 'remove_atom_rdf_feeds' ) === true ) {
 			$this->redirect_feed( \home_url(), 'We disable Atom/RDF feeds for performance reasons.' );
 		}
-		// Only if we're on the global feed, the query is _just_ `'feed' => 'feed'`, hence this check.
-		elseif ( $wp_query->query === [ 'feed' => 'feed' ] && $this->options_helper->get( 'remove_feed_global' ) === true ) {
-			$this->redirect_feed( \home_url(), 'We disable the RSS feed for performance reasons.' );
-		}
-		elseif ( \is_comment_feed() && \is_singular() && $this->options_helper->get( 'remove_feed_post_comments' ) === true ) {
+
+		if ( \is_comment_feed() && \is_singular() && $this->options_helper->get( 'remove_feed_post_comments' ) === true ) {
 			$url = \get_permalink( \get_queried_object() );
 			$this->redirect_feed( $url, 'We disable post comment feeds for performance reasons.' );
 		}
