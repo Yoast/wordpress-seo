@@ -8,6 +8,7 @@ use WPSEO_Option_Tab;
 use WPSEO_Option_Tabs;
 use WPSEO_Shortlinker;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast_Form;
 
@@ -15,6 +16,24 @@ use Yoast_Form;
  * Crawl_Settings_Integration class
  */
 class Crawl_Settings_Integration implements Integration_Interface {
+
+	/**
+	 * The product helper.
+	 *
+	 * @var Product_Helper
+	 */
+	private $product_helper;
+
+	/**
+	 * Crawl_Settings_Integration constructor.
+	 *
+	 * @param Product_Helper $product_helper The product helper.
+	 */
+	public function __construct(
+		Product_Helper $product_helper
+	) {
+		$this->product_helper = $product_helper;
+	}
 
 	/**
 	 * Returns the conditionals based in which this loadable should be active.
@@ -30,7 +49,7 @@ class Crawl_Settings_Integration implements Integration_Interface {
 	 */
 	public function register_hooks() {
 		\add_action( 'wpseo_settings_tabs_dashboard', [ $this, 'add_crawl_settings_tab' ] );
-		if ( ! YoastSEO()->helpers->product->is_premium() ) {
+		if ( ! $this->product_helper->is_premium() ) {
 			\add_action( 'wpseo_settings_tab_crawl_cleanup', [ $this, 'add_crawl_settings_tab_content' ] );
 			\add_action( 'wpseo_settings_tab_crawl_cleanup_network', [ $this, 'add_crawl_settings_tab_content_network' ] );
 		}
@@ -42,7 +61,7 @@ class Crawl_Settings_Integration implements Integration_Interface {
 	 * @param WPSEO_Option_Tabs $dashboard_tabs Object representing the tabs of the General sub-page.
 	 */
 	public function add_crawl_settings_tab( $dashboard_tabs ) {
-		$premium = YoastSEO()->helpers->product->is_premium();
+		$premium = $this->product_helper->is_premium();
 
 		$dashboard_tabs->add_tab(
 			new WPSEO_Option_Tab(
