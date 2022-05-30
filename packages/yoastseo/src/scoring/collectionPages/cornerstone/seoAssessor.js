@@ -5,7 +5,7 @@ import IntroductionKeywordAssessment from "./../../assessments/seo/IntroductionK
 import KeyphraseLengthAssessment from "./../../assessments/seo/KeyphraseLengthAssessment";
 import KeywordDensityAssessment from "./../../assessments/seo/KeywordDensityAssessment";
 import MetaDescriptionKeywordAssessment from "./../../assessments/seo/MetaDescriptionKeywordAssessment";
-import TitleKeywordAssessment from "./../../assessments/seo/TitleKeywordAssessment";
+import SeoTitleKeywordAssessment from "../../assessments/seo/SeoTitleKeywordAssessment";
 import SlugKeywordAssessment from "../../assessments/seo/UrlKeywordAssessment";
 import Assessor from "./../../assessor";
 import MetaDescriptionLengthAssessment from "./../../assessments/seo/MetaDescriptionLengthAssessment";
@@ -61,7 +61,7 @@ const CollectionCornerstoneSEOAssessor = function( researcher, options ) {
 			cornerstoneContent: true,
 			customContentType: this.type,
 		} ),
-		new TitleKeywordAssessment(
+		new SeoTitleKeywordAssessment(
 			{
 				parameters: {
 					recommendedPosition: 0,

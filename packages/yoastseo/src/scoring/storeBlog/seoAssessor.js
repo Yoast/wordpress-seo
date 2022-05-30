@@ -3,7 +3,7 @@ import { createAnchorOpeningTag } from "../../helpers/shortlinker";
 
 import KeyphraseLengthAssessment from "../assessments/seo/KeyphraseLengthAssessment";
 import MetaDescriptionKeywordAssessment from "../assessments/seo/MetaDescriptionKeywordAssessment";
-import TitleKeywordAssessment from "../assessments/seo/TitleKeywordAssessment";
+import SeoTitleKeywordAssessment from "../assessments/seo/SeoTitleKeywordAssessment";
 import SlugKeywordAssessment from "../assessments/seo/UrlKeywordAssessment";
 import Assessor from "../assessor";
 import MetaDescriptionLength from "../assessments/seo/MetaDescriptionLengthAssessment";
@@ -35,7 +35,7 @@ const StoreBlogSEOAssessor = function( researcher, options ) {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify46" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify47" ),
 		} ),
-		new TitleKeywordAssessment( {
+		new SeoTitleKeywordAssessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify24" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify25" ),
 		} ),

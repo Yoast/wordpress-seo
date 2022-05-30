@@ -9,7 +9,7 @@ import AssessmentResult from "../../../values/AssessmentResult";
 /**
  * Assessment to check whether the keyword is included in (the beginning of) the SEO title.
  */
-class TitleKeywordAssessment extends Assessment {
+class SeoTitleKeywordAssessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
@@ -227,4 +227,4 @@ class TitleKeywordAssessment extends Assessment {
 	}
 }
 
-export default TitleKeywordAssessment;
+export default SeoTitleKeywordAssessment;
