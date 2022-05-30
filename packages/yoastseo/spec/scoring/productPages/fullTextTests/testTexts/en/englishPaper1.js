@@ -62,7 +62,7 @@ const expectedResults = {
 	titleKeyword: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/shopify24' target='_blank'>Keyphrase in title</a>: Does not contain the exact match. " +
+		resultText: "<a href='https://yoa.st/shopify24' target='_blank'>Keyphrase in SEO title</a>: Does not contain the exact match. " +
 			"<a href='https://yoa.st/shopify25' target='_blank'>Try to write the exact match of your keyphrase in the SEO title " +
 			"and put it at the beginning of the title</a>.",
 	},

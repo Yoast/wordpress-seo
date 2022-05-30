@@ -19,7 +19,7 @@ describe( "an assessment to check if the keyword is in the pageTitle", function(
 
 		expect( assessment.getScore() ).toBe( 2 );
 		expect( assessment.getText() ).toBe(
-			"<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: Not all the words from your " +
+			"<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: Not all the words from your " +
 			"keyphrase \"keyword\" appear in the SEO title. <a href='https://yoa.st/33h' target='_blank'>For the best SEO results " +
 			"write the exact match of your keyphrase in the SEO title, and put the keyphrase at the beginning of the title</a>."
 		);
@@ -37,7 +37,7 @@ describe( "an assessment to check if the keyword is in the pageTitle", function(
 
 		expect( assessment.getScore() ).toBe( 9 );
 		expect( assessment.getText() ).toBe(
-			"<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: The exact match of the " +
+			"<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: The exact match of the " +
 			"focus keyphrase appears at the beginning of the SEO title. Good job!"
 		);
 	} );
@@ -54,7 +54,7 @@ describe( "an assessment to check if the keyword is in the pageTitle", function(
 
 		expect( assessment.getScore() ).toBe( 6 );
 		expect( assessment.getText() ).toBe(
-			"<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: The exact match of the focus " +
+			"<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: The exact match of the focus " +
 			"keyphrase appears in the SEO title, but not at the beginning. " +
 			"<a href='https://yoa.st/33h' target='_blank'>Move it to the beginning for the best results</a>."
 		);
@@ -72,7 +72,7 @@ describe( "an assessment to check if the keyword is in the pageTitle", function(
 
 		expect( assessment.getScore() ).toBe( 6 );
 		expect( assessment.getText() ).toBe(
-			"<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: Does not contain the exact match. " +
+			"<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: Does not contain the exact match. " +
 			"<a href='https://yoa.st/33h' target='_blank'>Try to write the exact match of your keyphrase in the SEO title and put " +
 			"it at the beginning of the title</a>."
 		);
@@ -90,7 +90,7 @@ describe( "an assessment to check if the keyword is in the pageTitle", function(
 
 		expect( assessment.getScore() ).toBe( 2 );
 		expect( assessment.getText() ).toBe(
-			"<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: Does not contain the exact match. " +
+			"<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: Does not contain the exact match. " +
 			"<a href='https://yoa.st/33h' target='_blank'>Try to write the exact match of your keyphrase in the SEO title and put " +
 			"it at the beginning of the title</a>."
 		);
@@ -132,7 +132,7 @@ describe( "a test to check if the keyword is in the page title in Japanese", fun
 			const assessment = new TitleKeywordAssessment().getResult( paper, researcher );
 
 			expect( assessment.getScore() ).toBe( 9 );
-			expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: " +
+			expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: " +
 				"The focus keyphrase appears at the beginning of the SEO title. Good job!" );
 		} );
 		it( "returns an assessment result with a keyphrase in Japanese that is enclosed in double quotes " +
@@ -147,7 +147,7 @@ describe( "a test to check if the keyword is in the page title in Japanese", fun
 			const assessment = new TitleKeywordAssessment().getResult( paper, researcher );
 
 			expect( assessment.getScore() ).toBe( 6 );
-			expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: " +
+			expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: " +
 				"Title does not begin with the focus keyphrase. <a href='https://yoa.st/33h' target='_blank'>" +
 				"Move your focus keyphrase to the beginning of the title</a>." );
 		} );
@@ -163,7 +163,7 @@ describe( "a test to check if the keyword is in the page title in Japanese", fun
 			const assessment = new TitleKeywordAssessment().getResult( paper, researcher );
 
 			expect( assessment.getScore() ).toBe( 9 );
-			expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: " +
+			expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: " +
 				"The focus keyphrase appears at the beginning of the SEO title. Good job!" );
 		} );
 		it( "returns an assessment result with a keyphrase in Japanese that is enclosed in double quotes " +
@@ -178,7 +178,7 @@ describe( "a test to check if the keyword is in the page title in Japanese", fun
 			const assessment = new TitleKeywordAssessment().getResult( paper, researcher );
 
 			expect( assessment.getScore() ).toBe( 2 );
-			expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: " +
+			expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: " +
 				"Does not contain the exact match. <a href='https://yoa.st/33h' target='_blank'>Try to write the exact match of " +
 				"your keyphrase in the SEO title and put it at the beginning of the title</a>." );
 		} );
@@ -193,7 +193,7 @@ describe( "a test to check if the keyword is in the page title in Japanese", fun
 			const assessment = new TitleKeywordAssessment().getResult( paper, researcher );
 
 			expect( assessment.getScore() ).toBe( 2 );
-			expect( assessment.getText() ).toBe(  "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: " +
+			expect( assessment.getText() ).toBe(  "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: " +
 				"Not all the words from your keyphrase \"東海道新幹線\" appear in the SEO title. <a href='https://yoa.st/33h' " +
 				"target='_blank'>For the best SEO results include all words of your keyphrase in the SEO title, and put " +
 				"the keyphrase at the beginning of the title</a>." );
@@ -209,7 +209,7 @@ describe( "a test to check if the keyword is in the page title in Japanese", fun
 			const assessment = new TitleKeywordAssessment().getResult( paper, researcher );
 
 			expect( assessment.getScore() ).toBe( 6 );
-			expect( assessment.getText() ).toBe(  "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: " +
+			expect( assessment.getText() ).toBe(  "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: " +
 				"Title does not begin with the focus keyphrase. <a href='https://yoa.st/33h' target='_blank'>" +
 				"Move your focus keyphrase to the beginning of the title</a>." );
 		} );
@@ -224,7 +224,7 @@ describe( "a test to check if the keyword is in the page title in Japanese", fun
 			const assessment = new TitleKeywordAssessment().getResult( paper, researcher );
 
 			expect( assessment.getScore() ).toBe( 2 );
-			expect( assessment.getText() ).toBe(  "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: " +
+			expect( assessment.getText() ).toBe(  "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: " +
 				"Not all the words from your keyphrase \"東海道新幹線\" appear in the SEO title. <a href='https://yoa.st/33h' target='_blank'>" +
 				"For the best SEO results include all words of your keyphrase in the SEO title, and put the keyphrase at " +
 				"the beginning of the title</a>." );
@@ -240,7 +240,7 @@ describe( "a test to check if the keyword is in the page title in Japanese", fun
 			const assessment = new TitleKeywordAssessment().getResult( paper, researcher );
 
 			expect( assessment.getScore() ).toBe( 2 );
-			expect( assessment.getText() ).toBe(  "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: " +
+			expect( assessment.getText() ).toBe(  "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: " +
 				"Not all the words from your keyphrase \"読ん一冊の本\" appear in the SEO title. <a href='https://yoa.st/33h' target='_blank'>" +
 				"For the best SEO results include all words of your keyphrase in the SEO title, and put the keyphrase at " +
 				"the beginning of the title</a>." );
@@ -258,7 +258,7 @@ describe( "a test to check if the keyword is in the page title in Japanese", fun
 			const assessment = new TitleKeywordAssessment().getResult( paper, researcher );
 
 			expect( assessment.getScore() ).toBe( 2 );
-			expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: " +
+			expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: " +
 				"Does not contain the exact match. <a href='https://yoa.st/33h' target='_blank'>Try to write the exact match of your " +
 				"keyphrase in the SEO title and put it at the beginning of the title</a>." );
 		} );
@@ -278,7 +278,7 @@ describe( "a test to check if the keyword is in the page title in Japanese", fun
 			const assessment = new TitleKeywordAssessment().getResult( paper, researcher );
 
 			expect( assessment.getScore() ).toBe( 9 );
-			expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: " +
+			expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: " +
 				"The focus keyphrase appears at the beginning of the SEO title. Good job!" );
 		} );
 		it( "returns an assessment result with a keyphrase in Japanese that is enclosed in double quotes " +
@@ -294,7 +294,7 @@ describe( "a test to check if the keyword is in the page title in Japanese", fun
 			const assessment = new TitleKeywordAssessment().getResult( paper, researcher );
 
 			expect( assessment.getScore() ).toBe( 6 );
-			expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: " +
+			expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: " +
 				"Title does not begin with the focus keyphrase. <a href='https://yoa.st/33h' target='_blank'>" +
 				"Move your focus keyphrase to the beginning of the title</a>." );
 		} );
@@ -311,7 +311,7 @@ describe( "a test to check if the keyword is in the page title in Japanese", fun
 			const assessment = new TitleKeywordAssessment().getResult( paper, researcher );
 
 			expect( assessment.getScore() ).toBe( 9 );
-			expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: " +
+			expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: " +
 				"The focus keyphrase appears at the beginning of the SEO title. Good job!" );
 		} );
 		it( "returns an assessment result with a keyphrase in Japanese that is enclosed in double quotes " +
@@ -327,7 +327,7 @@ describe( "a test to check if the keyword is in the page title in Japanese", fun
 			const assessment = new TitleKeywordAssessment().getResult( paper, researcher );
 
 			expect( assessment.getScore() ).toBe( 2 );
-			expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: " +
+			expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: " +
 				"Does not contain the exact match. <a href='https://yoa.st/33h' target='_blank'>Try to write the exact match of " +
 				"your keyphrase in the SEO title and put it at the beginning of the title</a>." );
 		} );
@@ -343,7 +343,7 @@ describe( "a test to check if the keyword is in the page title in Japanese", fun
 			const assessment = new TitleKeywordAssessment().getResult( paper, researcher );
 
 			expect( assessment.getScore() ).toBe( 2 );
-			expect( assessment.getText() ).toBe(  "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: " +
+			expect( assessment.getText() ).toBe(  "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: " +
 				"Not all the words from your keyphrase \"東海道新幹線\" appear in the SEO title. <a href='https://yoa.st/33h' " +
 				"target='_blank'>For the best SEO results include all words of your keyphrase in the SEO title, and put " +
 				"the keyphrase at the beginning of the title</a>." );
@@ -360,7 +360,7 @@ describe( "a test to check if the keyword is in the page title in Japanese", fun
 			const assessment = new TitleKeywordAssessment().getResult( paper, researcher );
 
 			expect( assessment.getScore() ).toBe( 6 );
-			expect( assessment.getText() ).toBe(  "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: " +
+			expect( assessment.getText() ).toBe(  "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: " +
 				"Title does not begin with the focus keyphrase. <a href='https://yoa.st/33h' target='_blank'>" +
 				"Move your focus keyphrase to the beginning of the title</a>." );
 		} );
@@ -376,7 +376,7 @@ describe( "a test to check if the keyword is in the page title in Japanese", fun
 			const assessment = new TitleKeywordAssessment().getResult( paper, researcher );
 
 			expect( assessment.getScore() ).toBe( 2 );
-			expect( assessment.getText() ).toBe(  "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: " +
+			expect( assessment.getText() ).toBe(  "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: " +
 				"Not all the words from your keyphrase \"読ん一冊の本\" appear in the SEO title. <a href='https://yoa.st/33h' target='_blank'>" +
 				"For the best SEO results include all words of your keyphrase in the SEO title, and put the keyphrase at " +
 				"the beginning of the title</a>." );
@@ -393,7 +393,7 @@ describe( "a test to check if the keyword is in the page title in Japanese", fun
 			const assessment = new TitleKeywordAssessment().getResult( paper, researcher );
 
 			expect( assessment.getScore() ).toBe( 9 );
-			expect( assessment.getText() ).toBe(  "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: " +
+			expect( assessment.getText() ).toBe(  "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: " +
 				"The focus keyphrase appears at the beginning of the SEO title. Good job!" );
 		} );
 		it( "returns an assessment result with a keyphrase in Japanese enclosed in double quotes " +
@@ -409,7 +409,7 @@ describe( "a test to check if the keyword is in the page title in Japanese", fun
 			const assessment = new TitleKeywordAssessment().getResult( paper, researcher );
 
 			expect( assessment.getScore() ).toBe( 2 );
-			expect( assessment.getText() ).toBe(  "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: " +
+			expect( assessment.getText() ).toBe(  "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: " +
 				"Does not contain the exact match. <a href='https://yoa.st/33h' target='_blank'>" +
 				"Try to write the exact match of your keyphrase in the SEO title and put it at the beginning of the title</a>." );
 		} );
@@ -426,7 +426,7 @@ describe( "a test to check if the keyword is in the page title in Japanese", fun
 			const assessment = new TitleKeywordAssessment().getResult( paper, researcher );
 
 			expect( assessment.getScore() ).toBe( 9 );
-			expect( assessment.getText() ).toBe(  "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: " +
+			expect( assessment.getText() ).toBe(  "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: " +
 				"The focus keyphrase appears at the beginning of the SEO title. Good job!" );
 		} );
 	} );
