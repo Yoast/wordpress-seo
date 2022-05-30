@@ -84,13 +84,60 @@ class Crawl_Settings_Integration implements Integration_Interface {
 	public function add_crawl_settings_tab_content( $yform ) {
 		$this->display_premium_upsell_btn();
 
+		echo '<h3 class="yoast-feed-crawl-settings">';
+		echo \esc_html__( 'Feed crawl settings', 'wordpress-seo' );
+		echo '</h3>';
+
+		$yform->toggle_switch(
+			'remove_feed_global_free',
+			[
+				'off' => __( 'Keep', 'wordpress-seo' ),
+				'on'  => __( 'Remove', 'wordpress-seo' ),
+			],
+			__( 'Global feed', 'wordpress-seo' ),
+			'',
+			[
+				'disabled' => true,
+			]
+		);
+
+		$yform->toggle_switch(
+			'remove_feed_global_comments_free',
+			[
+				'off' => __( 'Keep', 'wordpress-seo' ),
+				'on'  => __( 'Remove', 'wordpress-seo' ),
+			],
+			__( 'Global comments feed', 'wordpress-seo' ),
+			'',
+			[
+				'disabled' => true,
+			]
+		);
+
+		echo '<p class="yoast-global-comments-feed-help">';
+		echo \esc_html__( 'By removing Global comments feed, Post comments feeds will be removed too.', 'wordpress-seo' );
+		echo '</p>';
+
 		$yform->toggle_switch(
 			'remove_feed_post_comments_free',
 			[
 				'off' => __( 'Keep', 'wordpress-seo' ),
 				'on'  => __( 'Remove', 'wordpress-seo' ),
 			],
-			__( 'Post comment feeds', 'wordpress-seo' ),
+			__( 'Post comments feeds', 'wordpress-seo' ),
+			'',
+			[
+				'disabled' => true,
+			]
+		);
+
+		$yform->toggle_switch(
+			'remove_atom_rdf_feeds_free',
+			[
+				'off' => __( 'Keep', 'wordpress-seo' ),
+				'on'  => __( 'Remove', 'wordpress-seo' ),
+			],
+			__( 'All Atom and RDF feeds', 'wordpress-seo' ),
 			'',
 			[
 				'disabled' => true,
@@ -106,13 +153,56 @@ class Crawl_Settings_Integration implements Integration_Interface {
 	public function add_crawl_settings_tab_content_network( $yform ) {
 		$this->display_premium_upsell_btn();
 
+		echo '<h3 class="yoast-feed-crawl-settings">';
+		echo \esc_html__( 'Feed crawl settings', 'wordpress-seo' );
+		echo '</h3>';
+
+		$yform->toggle_switch(
+			WPSEO_Option::ALLOW_KEY_PREFIX . 'remove_feed_global_free',
+			[
+				'on'  => __( 'Allow Control', 'wordpress-seo' ),
+				'off' => __( 'Disable', 'wordpress-seo' ),
+			],
+			__( 'Global feed', 'wordpress-seo' ),
+			'',
+			[
+				'disabled' => true,
+			]
+		);
+
+		$yform->toggle_switch(
+			WPSEO_Option::ALLOW_KEY_PREFIX . 'remove_feed_global_comments_free',
+			[
+				'on'  => __( 'Allow Control', 'wordpress-seo' ),
+				'off' => __( 'Disable', 'wordpress-seo' ),
+			],
+			__( 'Global comments feed', 'wordpress-seo' ),
+			'',
+			[
+				'disabled' => true,
+			]
+		);
+
 		$yform->toggle_switch(
 			WPSEO_Option::ALLOW_KEY_PREFIX . 'remove_feed_post_comments_free',
 			[
 				'on'  => __( 'Allow Control', 'wordpress-seo' ),
 				'off' => __( 'Disable', 'wordpress-seo' ),
 			],
-			__( 'Post comment feeds', 'wordpress-seo' ),
+			__( 'Post comments feeds', 'wordpress-seo' ),
+			'',
+			[
+				'disabled' => true,
+			]
+		);
+
+		$yform->toggle_switch(
+			WPSEO_Option::ALLOW_KEY_PREFIX . 'remove_atom_rdf_feeds_free',
+			[
+				'on'  => __( 'Allow Control', 'wordpress-seo' ),
+				'off' => __( 'Disable', 'wordpress-seo' ),
+			],
+			__( 'All Atom and RDF feeds', 'wordpress-seo' ),
 			'',
 			[
 				'disabled' => true,
