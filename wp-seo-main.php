@@ -7,6 +7,7 @@
 
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Ryte_Integration;
+use Yoast\WP\SEO\Integrations\OAuth_Integration;
 
 if ( ! function_exists( 'add_filter' ) ) {
 	header( 'Status: 403 Forbidden' );
@@ -242,6 +243,9 @@ function _wpseo_activate() {
 	$wpseo_ryte = YoastSEO()->classes->get( Ryte_Integration::class );
 	$wpseo_ryte->activate_hooks();
 
+	$wpseo_oauth = YoastSEO()->classes->get( OAuth_Integration::class );
+	$wpseo_oauth->activate_hooks();
+
 	do_action( 'wpseo_activate' );
 }
 
@@ -265,6 +269,9 @@ function _wpseo_deactivate() {
 	// Clean up capabilities.
 	WPSEO_Role_Manager_Factory::get()->remove();
 	WPSEO_Capability_Manager_Factory::get()->remove();
+
+	$wpseo_oauth = YoastSEO()->classes->get( OAuth_Integration::class );
+	$wpseo_oauth->deactivate_hooks();
 
 	// Clear cache so the changes are obvious.
 	WPSEO_Utils::clear_cache();
