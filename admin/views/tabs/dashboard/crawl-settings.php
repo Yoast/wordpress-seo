@@ -32,7 +32,13 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	);
 	echo '</p>';
 
-	?>
+	/**
+ 	* Allows the addition of content to the crawl settings page.
+ 	*/
+	do_action( 'wpseo_settings_tabs_crawl' );
+
+
+?>
 </div>
 <?php
 /*
