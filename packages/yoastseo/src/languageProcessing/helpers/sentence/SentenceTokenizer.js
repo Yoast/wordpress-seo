@@ -8,7 +8,7 @@ import { normalize as normalizeQuotes } from "../sanitize/quotes.js";
 
 import abbreviations from "../../languages/en/config/abbreviations";
 
-// Import  createRegexFromArray  from "../regex/createRegexFromArray.js";
+import addWordBoundary from "../word/addWordboundary";
 
 // All characters that indicate a sentence delimiter.
 const fullStop = ".";
@@ -45,8 +45,12 @@ const sentenceEndRegex = new RegExp( "[" + fullStop + sentenceDelimiters + "]$" 
 // CreateRegexFromArray does not work for this application.
 for ( let i = 0; i < abbreviations.length; i++ ) {
 	abbreviations[ i ] = abbreviations[ i ].replace( ".", "\\." );
+	abbreviations[ i ] = addWordBoundary( abbreviations[ i ] );
 }
+
 const abbreviationsRegex = new RegExp( "^(" + abbreviations.join( ")|(" ) + ")$" );
+
+// Const abbreviationsRegex = creacteRegexFromArray( abbreviations );
 
 /**
  * Class for tokenizing a (html) text into sentences.
@@ -392,8 +396,11 @@ export default class SentenceTokenizer {
 		if ( ! myMatch ) {
 			return false;
 		}
-		// Check to be sure that the sentence ends with the abbreviation.
-		if ( tokenString.slice( myMatch.index, tokenString.length ) === myMatch[ 0 ] ) {
+		const myMatchString = myMatch[ 0 ].trim();
+		const matchLength = myMatchString.length;
+		const tokenStringEnd = tokenString.slice( tokenString.length - matchLength, tokenString.length ).trim();
+
+		if ( myMatchString === tokenStringEnd ) {
 			return true;
 		}
 		return false;
@@ -429,7 +436,6 @@ export default class SentenceTokenizer {
 			const previousToken = tokenArray[ i - 1 ];
 			const secondToNextToken = tokenArray[ i + 2 ];
 
-
 			switch ( token.type ) {
 				case "html-start":
 				case "html-end":
@@ -460,7 +466,6 @@ export default class SentenceTokenizer {
 
 				case "full-stop":
 					currentSentence += token.src;
-
 					nextCharacters = this.getNextTwoCharacters( [ nextToken, secondToNextToken ] );
 
 					// For a new sentence we need to check the next two characters.
@@ -472,7 +477,7 @@ export default class SentenceTokenizer {
 					}
 					// If the current sentence ends with an abbreviation, the full stop does not split the sentence.
 					if ( this.endsWithAbbreviation( currentSentence ) ) {
-						currentSentence += " ";
+						// CurrentSentence += " ";
 						break;
 					}
 
