@@ -35,15 +35,6 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 	echo '</p>';
 
 	$yform->toggle_switch(
-		WPSEO_Option::ALLOW_KEY_PREFIX . 'remove_feed_global',
-		[
-			'on'  => __( 'Allow Control', 'wordpress-seo' ),
-			'off' => __( 'Disable', 'wordpress-seo' ),
-		],
-		__( 'Global feed', 'wordpress-seo' )
-	);
-
-	$yform->toggle_switch(
 		WPSEO_Option::ALLOW_KEY_PREFIX . 'remove_feed_post_comments',
 		[
 			'on'  => __( 'Allow Control', 'wordpress-seo' ),

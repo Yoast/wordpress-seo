@@ -33,15 +33,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	echo '</p>';
 
 	$yform->toggle_switch(
-		'remove_feed_global',
-		[
-			'off' => __( 'Keep', 'wordpress-seo' ),
-			'on'  => __( 'Remove', 'wordpress-seo' ),
-		],
-		__( 'Global feed', 'wordpress-seo' )
-	);
-
-	$yform->toggle_switch(
 		'remove_feed_post_comments',
 		[
 			'off' => __( 'Keep', 'wordpress-seo' ),
