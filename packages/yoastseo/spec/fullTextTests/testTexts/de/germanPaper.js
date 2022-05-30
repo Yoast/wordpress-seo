@@ -70,7 +70,7 @@ const expectedResults = {
 	titleKeyword: {
 		isApplicable: true,
 		score: 2,
-		resultText: "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: Not all the words from your keyphrase \"Flughafen London Heathrow\" appear in the SEO title. <a href='https://yoa.st/33h' target='_blank'>For the best SEO results write the exact match of your keyphrase in the SEO title, and put the keyphrase at the beginning of the title</a>.",
+		resultText: "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: Not all the words from your keyphrase \"Flughafen London Heathrow\" appear in the SEO title. <a href='https://yoa.st/33h' target='_blank'>For the best SEO results write the exact match of your keyphrase in the SEO title, and put the keyphrase at the beginning of the title</a>.",
 	},
 	titleWidth: {
 		isApplicable: true,
