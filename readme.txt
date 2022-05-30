@@ -239,12 +239,11 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 19.0 =
 Release Date: May 31st, 2022
 
-
+Say hi to Yoast SEO 19.0! In this release, we're introducing more ways to control crawling on your site. We're starting with a small addition to manage post comment feeds, but we're expanding that in the coming releases. The feature is in beta, so we welcome your feedback! Read more about what's new in Yoast SEO 19.0 in [our release post in English](https://yoa.st/release-31-5-22) or [our release post in Spanish](https://yoa.st/release-31-5-22-spanish)!
 
 Enhancements:
 
-* Adds a beta feature to remove comment RSS feed from posts to make crawling by search engines more efficient.
-* Adds a reference to XML sitemaps in `robots.txt` to make them discoverable from Bing following their change of policy.
+* Following a change of policy by Bing, we now reference the XML sitemap in the robots.txt file to make it discoverable for search engines.
 
 Bugfixes:
 
@@ -259,6 +258,7 @@ Bugfixes:
 
 Other:
 
+* Adds a Crawl settings tab in the General page with an upsell to Premium.
 * Adds a Redirects page with an upsell to Premium.
 * Deprecates the configuration workout classes.
 * Sets the WordPress tested up to version to 6.0.
