@@ -20,7 +20,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	echo sprintf(
 		/* translators: %1$s expands to Yoast SEO */
 		esc_html__( 'To make the crawling of your site more efficient and environmental friendly, %1$s allows you to remove RSS feeds (added by WordPress) that might not be needed for your site.', 'wordpress-seo' ),
-		'Yoast SEO'
+		'Yoast SEO Premium'
 	);
 
 	echo '<p style="margin: 0.5em 0 1em;">';
