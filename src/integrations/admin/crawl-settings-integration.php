@@ -88,7 +88,7 @@ class Crawl_Settings_Integration implements Integration_Interface {
 		$this->display_premium_upsell_btn();
 
 		$yform->toggle_switch(
-			WPSEO_Option::ALLOW_KEY_PREFIX . 'remove_feed_post_comments',
+			WPSEO_Option::ALLOW_KEY_PREFIX . 'remove_feed_post_comments_free',
 			[
 				'on'  => __( 'Allow Control', 'wordpress-seo' ),
 				'off' => __( 'Disable', 'wordpress-seo' ),

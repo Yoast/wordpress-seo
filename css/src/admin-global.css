@@ -646,5 +646,18 @@ body.folded .wpseo-admin-submit-fixed {
 	vertical-align: bottom;
 }
 
+/* Disabled toggles in the Crawl settings tab */
+
+.yoast #remove_feed_post_comments_free,
+.yoast #allow_remove_feed_post_comments_free {
+	opacity: 0.5;
+}
+
+.yoast #remove_feed_post_comments_free .switch-toggle.switch-yoast-seo input:disabled ~ a,
+.yoast #allow_remove_feed_post_comments_free .switch-toggle.switch-yoast-seo input:disabled ~ a {
+	border: 1px solid #b5b5b5;
+	background: #a4286a;
+}
+
 
 /*# sourceMappingURL=admin-global.css.map */
