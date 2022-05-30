@@ -29,6 +29,7 @@ class WPSEO_Tracking_Theme_Data implements WPSEO_Collection {
 				],
 				'parentTheme'          => $this->get_parent_theme( $theme ),
 				'blockTemplateSupport' => current_theme_supports( 'block-templates' ),
+				'isBlockTheme'         => function_exists( 'wp_is_block_theme' ) && wp_is_block_theme(),
 			],
 		];
 	}
