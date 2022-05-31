@@ -91,7 +91,16 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'first_time_install'                       => false,
 		'should_redirect_after_install_free'       => false,
 		'activation_redirect_timestamp_free'       => 0,
+		'remove_feed_global'                       => false,
+		'remove_feed_global_comments'              => false,
 		'remove_feed_post_comments'                => false,
+		'remove_feed_authors'                      => false,
+		'remove_feed_categories'                   => false,
+		'remove_feed_tags'                         => false,
+		'remove_feed_custom_taxonomies'            => false,
+		'remove_feed_post_types'                   => false,
+		'remove_feed_search'                       => false,
+		'remove_atom_rdf_feeds'                    => false,
 	];
 
 	/**
@@ -395,7 +404,16 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				 *  'dynamic_permalinks'
 				 *  'indexing_first_time'
 				 *  'first_time_install'
+				 *  'remove_feed_global'
+				 *  'remove_feed_global_comments'
 				 *  'remove_feed_post_comments'
+				 *  'remove_feed_authors'
+				 *  'remove_feed_categories'
+				 *  'remove_feed_tags'
+				 *  'remove_feed_custom_taxonomies'
+				 *  'remove_feed_post_types'
+				 *  'remove_feed_search'
+				 *  'remove_atom_rdf_feeds'
 				 *  'should_redirect_after_install_free'
 				 *  and most of the feature variables.
 				 */
@@ -438,7 +456,16 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 			'semrush_integration_active'     => false,
 			'zapier_integration_active'      => false,
 			'wincher_integration_active'     => false,
+			'remove_feed_global'             => false,
+			'remove_feed_global_comments'    => false,
 			'remove_feed_post_comments'      => false,
+			'remove_feed_authors'            => false,
+			'remove_feed_categories'         => false,
+			'remove_feed_tags'               => false,
+			'remove_feed_custom_taxonomies'  => false,
+			'remove_feed_post_types'         => false,
+			'remove_feed_search'             => false,
+			'remove_atom_rdf_feeds'          => false,
 		];
 
 		// We can reuse this logic from the base class with the above defaults to parse with the correct feature values.

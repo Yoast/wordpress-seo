@@ -182,7 +182,16 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'wincher_automatically_add_keyphrases',
 		'first_time_install',
 		'other_social_urls',
+		'remove_feed_global',
+		'remove_feed_global_comments',
 		'remove_feed_post_comments',
+		'remove_feed_authors',
+		'remove_feed_categories',
+		'remove_feed_tags',
+		'remove_feed_custom_taxonomies',
+		'remove_feed_post_types',
+		'remove_feed_search',
+		'remove_atom_rdf_feeds',
 	];
 
 	/**

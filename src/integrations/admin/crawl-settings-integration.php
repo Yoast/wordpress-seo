@@ -18,6 +18,13 @@ use Yoast_Form;
 class Crawl_Settings_Integration implements Integration_Interface {
 
 	/**
+	 * Holds the settings + labels for the feeds clean up.
+	 *
+	 * @var array
+	 */
+	private $feed_settings;
+
+	/**
 	 * The product helper.
 	 *
 	 * @var Product_Helper
@@ -48,6 +55,8 @@ class Crawl_Settings_Integration implements Integration_Interface {
 	 * Registers an action to add a new tab to the General page.
 	 */
 	public function register_hooks() {
+		$this->register_setting_labels();
+
 		\add_action( 'wpseo_settings_tabs_dashboard', [ $this, 'add_crawl_settings_tab' ] );
 		if ( ! $this->product_helper->is_premium() || ! $this->is_premium_upgraded() ) {
 			\add_action( 'wpseo_settings_tab_crawl_cleanup', [ $this, 'add_crawl_settings_tab_content' ] );
@@ -63,6 +72,26 @@ class Crawl_Settings_Integration implements Integration_Interface {
 	public function is_premium_upgraded() {
 		$premium_version = $this->product_helper->get_premium_version();
 		return $premium_version !== null && \version_compare( $premium_version, '18.6-RC1', '>=' );
+	}
+
+	/**
+	 * Connects the settings to their labels.
+	 *
+	 * @return void
+	 */
+	private function register_setting_labels() {
+		$this->feed_settings = [
+			'remove_feed_global_free'            => \__( 'Global feed', 'wordpress-seo' ),
+			'remove_feed_global_comments_free'   => \__( 'Global comment feeds', 'wordpress-seo' ),
+			'remove_feed_post_comments_free'     => \__( 'Post comments feeds', 'wordpress-seo' ),
+			'remove_feed_authors_free'           => \__( 'Post authors feeds', 'wordpress-seo' ),
+			'remove_feed_post_types_free'        => \__( 'Post type feeds', 'wordpress-seo' ),
+			'remove_feed_categories_free'        => \__( 'Category feeds', 'wordpress-seo' ),
+			'remove_feed_tags_free'              => \__( 'Tag feeds', 'wordpress-seo' ),
+			'remove_feed_custom_taxonomies_free' => \__( 'Custom taxonomy feeds', 'wordpress-seo' ),
+			'remove_feed_search_free'            => \__( 'Search results feeds', 'wordpress-seo' ),
+			'remove_atom_rdf_feeds_free'         => \__( 'Atom/RDF feeds', 'wordpress-seo' ),
+		];
 	}
 
 	/**
@@ -92,20 +121,7 @@ class Crawl_Settings_Integration implements Integration_Interface {
 	 * @param Yoast_Form $yform The yoast form object.
 	 */
 	public function add_crawl_settings_tab_content( $yform ) {
-		$this->display_premium_upsell_btn();
-
-		$yform->toggle_switch(
-			'remove_feed_post_comments_free',
-			[
-				'off' => __( 'Keep', 'wordpress-seo' ),
-				'on'  => __( 'Remove', 'wordpress-seo' ),
-			],
-			__( 'Post comment feeds', 'wordpress-seo' ),
-			'',
-			[
-				'disabled' => true,
-			]
-		);
+		$this->add_crawl_settings( $yform, false );
 	}
 
 	/**
@@ -114,20 +130,75 @@ class Crawl_Settings_Integration implements Integration_Interface {
 	 * @param Yoast_Form $yform The yoast form object.
 	 */
 	public function add_crawl_settings_tab_content_network( $yform ) {
+
+		$this->add_crawl_settings( $yform, true );
+	}
+
+	/**
+	 * Print the settings sections.
+	 *
+	 * @param Yoast_Form $yform  The Yoast form class.
+	 * @param boolean    $prefix Whether to prefix options with the allow prefix or not.
+	 *
+	 * @return void
+	 */
+	private function add_crawl_settings( $yform, $prefix ) {
 		$this->display_premium_upsell_btn();
 
-		$yform->toggle_switch(
-			WPSEO_Option::ALLOW_KEY_PREFIX . 'remove_feed_post_comments_free',
-			[
+		echo '<h3 class="yoast-feed-crawl-settings-free">'
+				. \esc_html__( 'Feed crawl settings', 'wordpress-seo' )
+				. '</h3>';
+		if ( ! $prefix ) {
+			echo '<p class="yoast-feed-crawl-settings-explanation-free">'
+					. \esc_html__( "Remove feed links added by WordPress that aren't needed for this site.", 'wordpress-seo' )
+					. '</p>';
+
+		}
+
+		$this->print_toggles( $this->feed_settings, $yform, $prefix );
+	}
+
+	/**
+	 * Prints a list of toggles for an array of settings with labels.
+	 *
+	 * @param array      $settings     The settings being displayed.
+	 * @param Yoast_Form $yform        The Yoast form class.
+	 * @param boolean    $allow_prefix Whether we should prefix with the allow key.
+	 *
+	 * @return void
+	 */
+	private function print_toggles( array $settings, Yoast_Form $yform, $allow_prefix ) {
+		$setting_prefix = '';
+		$toggles        = [
+			'off' => __( 'Keep', 'wordpress-seo' ),
+			'on'  => __( 'Remove', 'wordpress-seo' ),
+		];
+
+		if ( $allow_prefix ) {
+			$setting_prefix = WPSEO_Option::ALLOW_KEY_PREFIX;
+			$toggles        = [
+				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch -- Reason: text is originally from Yoast SEO.
 				'on'  => __( 'Allow Control', 'wordpress-seo' ),
+				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch -- Reason: text is originally from Yoast SEO.
 				'off' => __( 'Disable', 'wordpress-seo' ),
-			],
-			__( 'Post comment feeds', 'wordpress-seo' ),
-			'',
-			[
-				'disabled' => true,
-			]
-		);
+			];
+		}
+		foreach ( $settings as $setting => $label ) {
+			$yform->toggle_switch(
+				$setting_prefix . $setting,
+				$toggles,
+				$label,
+				'',
+				[
+					'disabled' => true,
+				]
+			);
+			if ( $setting === 'remove_feed_global_comments_free' && ! $allow_prefix ) {
+				echo '<p class="yoast-global-comments-feed-help-free">';
+				echo \esc_html__( 'By removing Global comments feed, Post comments feeds will be removed too.', 'wordpress-seo' );
+				echo '</p>';
+			}
+		}
 	}
 
 	/**

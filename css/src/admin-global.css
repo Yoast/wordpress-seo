@@ -648,16 +648,65 @@ body.folded .wpseo-admin-submit-fixed {
 
 /* Disabled toggles in the Crawl settings tab */
 
+.yoast h3.yoast-feed-crawl-settings-free,
+.yoast #remove_feed_global_free,
+.yoast #remove_feed_global_comments_free,
 .yoast #remove_feed_post_comments_free,
-.yoast #allow_remove_feed_post_comments_free {
+.yoast #remove_feed_authors_free,
+.yoast #remove_feed_categories_free,
+.yoast #remove_feed_tags_free,
+.yoast #remove_feed_custom_taxonomies_free,
+.yoast #remove_feed_post_types_free,
+.yoast #remove_feed_search_free,
+.yoast #remove_atom_rdf_feeds_free,
+.yoast #allow_remove_feed_global_free,
+.yoast #allow_remove_feed_global_comments_free,
+.yoast #allow_remove_feed_post_comments_free,
+.yoast #allow_remove_feed_authors_free,
+.yoast #allow_remove_feed_categories_free,
+.yoast #allow_remove_feed_tags_free,
+.yoast #allow_remove_feed_custom_taxonomies_free,
+.yoast #allow_remove_feed_post_types_free,
+.yoast #allow_remove_feed_search_free,
+.yoast #allow_remove_atom_rdf_feeds_free {
 	opacity: 0.5;
 }
 
+.yoast #remove_feed_global_free .switch-toggle.switch-yoast-seo input:disabled ~ a,
+.yoast #remove_feed_global_comments_free .switch-toggle.switch-yoast-seo input:disabled ~ a,
 .yoast #remove_feed_post_comments_free .switch-toggle.switch-yoast-seo input:disabled ~ a,
-.yoast #allow_remove_feed_post_comments_free .switch-toggle.switch-yoast-seo input:disabled ~ a {
+.yoast #remove_feed_authors_free .switch-toggle.switch-yoast-seo input:disabled ~ a,
+.yoast #remove_feed_categories_free .switch-toggle.switch-yoast-seo input:disabled ~ a,
+.yoast #remove_feed_tags_free .switch-toggle.switch-yoast-seo input:disabled ~ a,
+.yoast #remove_feed_custom_taxonomies_free .switch-toggle.switch-yoast-seo input:disabled ~ a,
+.yoast #remove_feed_post_types_free .switch-toggle.switch-yoast-seo input:disabled ~ a,
+.yoast #remove_feed_search_free .switch-toggle.switch-yoast-seo input:disabled ~ a,
+.yoast #remove_atom_rdf_feeds_free .switch-toggle.switch-yoast-seo input:disabled ~ a,
+.yoast #allow_remove_feed_global_free .switch-toggle.switch-yoast-seo input:disabled ~ a,
+.yoast #allow_remove_feed_global_comments_free .switch-toggle.switch-yoast-seo input:disabled ~ a,
+.yoast #allow_remove_feed_post_comments_free .switch-toggle.switch-yoast-seo input:disabled ~ a,
+.yoast #allow_remove_feed_authors_free .switch-toggle.switch-yoast-seo input:disabled ~ a,
+.yoast #allow_remove_feed_categories_free .switch-toggle.switch-yoast-seo input:disabled ~ a,
+.yoast #allow_remove_feed_tags_free .switch-toggle.switch-yoast-seo input:disabled ~ a,
+.yoast #allow_remove_feed_custom_taxonomies_free .switch-toggle.switch-yoast-seo input:disabled ~ a,
+.yoast #allow_remove_feed_post_types_free .switch-toggle.switch-yoast-seo input:disabled ~ a,
+.yoast #allow_remove_feed_search_free .switch-toggle.switch-yoast-seo input:disabled ~ a,
+.yoast #allow_remove_atom_rdf_feeds_free .switch-toggle.switch-yoast-seo input:disabled ~ a {
 	border: 1px solid #b5b5b5;
 	background: #a4286a;
 }
 
+.yoast .yoast-global-comments-feed-help-free {
+  font-style: italic;
+  opacity: 0.5;
+}
+
+.yoast .yoast-global-comments-feed-help {
+  font-style: italic;
+}
+
+.yoast .yoast-feed-crawl-settings-explanation-free {
+  opacity: 0.5;
+}
 
 /*# sourceMappingURL=admin-global.css.map */
