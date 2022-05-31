@@ -192,7 +192,7 @@ class Crawl_Settings_Integration implements Integration_Interface {
 					'disabled' => true,
 				]
 			);
-			if ( $setting === 'remove_feed_global_comments_free' ) {
+			if ( $setting === 'remove_feed_global_comments_free' && ! $allow_prefix ) {
 				echo '<p class="yoast-global-comments-feed-help-free">';
 				echo \esc_html__( 'By removing Global comments feed, Post comments feeds will be removed too.', 'wordpress-seo' );
 				echo '</p>';
