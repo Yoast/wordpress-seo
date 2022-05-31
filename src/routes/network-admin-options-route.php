@@ -31,6 +31,13 @@ class Network_Admin_Options_Route implements Route_Interface {
 	const FULL_ROUTE = Main::API_V1_NAMESPACE . '/' . self::ROUTE;
 
 	/**
+	 * Holds the request argument name.
+	 *
+	 * @var string
+	 */
+	const ARGUMENT_NAME = 'options';
+
+	/**
 	 * Holds the Network_Admin_Options_Action instance.
 	 *
 	 * @var Network_Admin_Options_Action
@@ -78,6 +85,11 @@ class Network_Admin_Options_Route implements Route_Interface {
 					'methods'             => 'GET',
 					'callback'            => [ $this, 'get' ],
 					'permission_callback' => [ $this, 'can_get' ],
+					'args'                => [
+						self::ARGUMENT_NAME => [
+							'required' => false,
+						],
+					],
 				],
 				[
 					'methods'             => 'POST',
@@ -96,8 +108,12 @@ class Network_Admin_Options_Route implements Route_Interface {
 	 * @return WP_REST_Response The get response.
 	 */
 	public function get( WP_REST_Request $request ) {
-		$keys   = \array_keys( $request->get_params() );
-		$result = $this->network_admin_options_action->get( $keys );
+		$options = $request->get_param( self::ARGUMENT_NAME );
+		if ( $options === null ) {
+			// Change to requesting all options if no specific option was requested.
+			$options = [];
+		}
+		$result = $this->network_admin_options_action->get( $options );
 
 		return new WP_REST_Response( $result, 200 );
 	}
@@ -126,7 +142,7 @@ class Network_Admin_Options_Route implements Route_Interface {
 	 * @return bool Whether the current user is allowed to get.
 	 */
 	public function can_get() {
-		return $this->capability_helper->current_user_can( 'read' );
+		return $this->capability_helper->current_user_can( 'wpseo_manage_network_options' );
 	}
 
 	/**
@@ -135,6 +151,6 @@ class Network_Admin_Options_Route implements Route_Interface {
 	 * @return bool Whether the current user is allowed to set.
 	 */
 	public function can_set() {
-		return $this->capability_helper->current_user_can( 'wpseo_manage_options' );
+		return $this->capability_helper->current_user_can( 'wpseo_manage_network_options' );
 	}
 }
