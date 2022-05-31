@@ -124,7 +124,7 @@ class Crawl_Settings_Integration implements Integration_Interface {
 			]
 		);
 
-		echo '<p class="yoast-global-comments-feed-help">';
+		echo '<p class="yoast-global-comments-feed-help-disabled">';
 		echo \esc_html__( 'By removing Global comments feed, Post comments feeds will be removed too.', 'wordpress-seo' );
 		echo '</p>';
 
