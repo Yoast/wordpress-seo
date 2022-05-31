@@ -34,6 +34,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'indexing_started'                         => null,
 		'indexing_reason'                          => '',
 		'indexables_indexing_completed'            => false,
+		'index_now_key'                            => '',
 		// Non-form field, should only be set via validation routine.
 		'version'                                  => '', // Leave default as empty to ensure activation/upgrade works.
 		'previous_version'                         => '',
@@ -54,6 +55,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'enable_cornerstone_content'               => true,
 		'enable_xml_sitemap'                       => true,
 		'enable_text_link_counter'                 => true,
+		'enable_index_now'                         => true,
 		'show_onboarding_notice'                   => false,
 		'first_activated_on'                       => false,
 		'myyoast-oauth'                            => [
@@ -92,7 +94,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'should_redirect_after_install_free'       => false,
 		'activation_redirect_timestamp_free'       => 0,
 		'remove_feed_post_comments'                => false,
-		'index_now_key'                            => '',
 	];
 
 	/**
