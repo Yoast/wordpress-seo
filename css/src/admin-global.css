@@ -727,21 +727,26 @@ body.folded .wpseo-admin-submit-fixed {
 	background: #a4286a;
 }
 
+.yoast .yoast-global-comments-feed-help,
 .yoast .yoast-global-comments-feed-help-free {
-  font-style: italic;
+	font-style: italic;
+}
+
+.yoast .yoast-global-comments-feed-help-free {
   opacity: 0.5;
 }
 
-.yoast .yoast-global-comments-feed-help {
-  font-style: italic;
-}
 
 .yoast .yoast-crawl-settings-explanation-free {
   opacity: 0.5;
 }
 
+.yoast h3.yoast-crawl-settings,
+.yoast h3.yoast-crawl-settings-free {
+  margin: 2em 0 0.5em 0;
+}
+
 .yoast h3.yoast-crawl-settings-free {
   opacity: 0.5;
-  margin: 2em 0 0.5em 0;
 }
 /*# sourceMappingURL=admin-global.css.map */
