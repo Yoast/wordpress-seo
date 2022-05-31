@@ -128,13 +128,13 @@ const expectedResults = {
 	textTransitionWords: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 15.9% of the sentences contain" +
+		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 17.4% of the sentences contain" +
 			" transition words, which is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more of them</a>.",
 	},
 	passiveVoice: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: 20.9% of the sentences contain passive voice," +
+		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: 22.8% of the sentences contain passive voice," +
 			" which is more than the recommended maximum of 10%. <a href='https://yoa.st/34u' target='_blank'>" +
 			"Try to use their active counterparts</a>.",
 	},

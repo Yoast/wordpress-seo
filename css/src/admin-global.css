@@ -625,6 +625,10 @@ body.folded .wpseo-admin-submit-fixed {
 	color: #674e00;
 }
 
+.yoast-beta-badge {
+	background-color: #CCE5FF;
+	color: #004973;
+}
 
 .yoast-badge__is-link {
 	text-decoration: none;
@@ -640,6 +644,19 @@ body.folded .wpseo-admin-submit-fixed {
 
 .yoast_help + .yoast-badge {
 	vertical-align: bottom;
+}
+
+/* Disabled toggles in the Crawl settings tab */
+
+.yoast #remove_feed_post_comments_free,
+.yoast #allow_remove_feed_post_comments_free {
+	opacity: 0.5;
+}
+
+.yoast #remove_feed_post_comments_free .switch-toggle.switch-yoast-seo input:disabled ~ a,
+.yoast #allow_remove_feed_post_comments_free .switch-toggle.switch-yoast-seo input:disabled ~ a {
+	border: 1px solid #b5b5b5;
+	background: #a4286a;
 }
 
 

@@ -95,8 +95,14 @@ export default function( paper, researcher ) {
 
 	let text = paper.getText();
 
+	// Remove any HTML whitespace padding and replace it with a single whitespace.
+	text = text.replace( /[\s\n]+/g, " " );
+
 	// Exclude text inside tables.
 	text = text.replace( /<figure class='wp-block-table'>.*<\/figure>/sg, "" );
+
+	// Exclude text inside list items.
+	text = text.replace( /<li(?:[^>]+)?>(.*?)<\/li>/ig, "" );
 
 	let sentences = getSentences( text );
 

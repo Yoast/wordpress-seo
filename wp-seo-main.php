@@ -18,7 +18,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * {@internal Nobody should be able to overrule the real version number as this can cause
  *            serious issues with the options, so no if ( ! defined() ).}}
  */
-define( 'WPSEO_VERSION', '18.9' );
+define( 'WPSEO_VERSION', '19.0-RC12' );
 
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
@@ -38,8 +38,8 @@ define( 'YOAST_VENDOR_DEFINE_PREFIX', 'YOASTSEO_VENDOR__' );
 define( 'YOAST_VENDOR_PREFIX_DIRECTORY', 'vendor_prefixed' );
 
 define( 'YOAST_SEO_PHP_REQUIRED', '5.6' );
-define( 'YOAST_SEO_WP_TESTED', '5.9.3' );
-define( 'YOAST_SEO_WP_REQUIRED', '5.6' );
+define( 'YOAST_SEO_WP_TESTED', '6.0' );
+define( 'YOAST_SEO_WP_REQUIRED', '5.8' );
 
 if ( ! defined( 'WPSEO_NAMESPACES' ) ) {
 	define( 'WPSEO_NAMESPACES', true );

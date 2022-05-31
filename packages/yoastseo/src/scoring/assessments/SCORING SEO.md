@@ -1,4 +1,4 @@
-# The overview of the SEO assessments scoring criteria
+# Overview of the SEO assessments scoring criteria
 
 ## Keyphrase-based SEO assessments
 ### 1) Keyphrase in introduction

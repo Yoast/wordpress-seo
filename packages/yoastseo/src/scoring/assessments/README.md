@@ -1,4 +1,4 @@
-# The overview of the scoring system of the assessments
+# Overview of the scoring system of the assessments
 ## 1. Scoring SEO analysis
 The SEO analysis is a collection of assessments that check how well a text performs with respect to SEO. Below is a detailed overview of how scores for the SEO assessments are calculated, as well as the feedback that each assessment returns.
 
@@ -62,7 +62,7 @@ Per-word matching, filtering out of function words and morphological forms of ke
 * Overall score = (sum of individual scores)/(number of results *9 ) * 10
 * Round this number.
 
-### The overview of the SEO assessments scoring criteria
+### Overview of the SEO assessments scoring criteria
 Information on the scoring criteria for the available SEO assessments can be found [here](SCORING%20SEO.md).
 
 ## 2. Scoring readability analysis
@@ -86,7 +86,7 @@ Below is a detailed overview of how scores for the readability assessments are c
 | 4 (partial: 2)         |60		            |6	                               |
 | <4 (partial: < 2)	     |90                    |9                                 |
 
-### The overview of the Readability assessments scoring criteria
+### Overview of the Readability assessments scoring criteria
 Information on the scoring criteria for the available Readability assessments can be found [here](SCORING%20READABILITY.md).
 
 ## 3. Scoring taxonomy analysis

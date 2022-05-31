@@ -1,6 +1,13 @@
 import classNames from "classnames";
 import PropTypes from "prop-types";
 
+const classNameMap = {
+	variant: {
+		"default": "yst-link--primary",
+		primary: "yst-link--primary",
+	},
+};
+
 /**
  * @param {JSX.Element} Component The component to render as.
  * @param {string} className The HTML classes.
@@ -10,6 +17,7 @@ import PropTypes from "prop-types";
  */
 const Link = ( {
 	as: Component,
+	variant,
 	className,
 	children,
 	...props
@@ -17,6 +25,7 @@ const Link = ( {
 	<Component
 		className={ classNames(
 			"yst-link",
+			classNameMap.variant[ variant ],
 			className,
 		) }
 		{ ...props }
@@ -24,13 +33,17 @@ const Link = ( {
 		{ children }
 	</Component>
 );
+
 Link.propTypes = {
 	children: PropTypes.node.isRequired,
+	variant: PropTypes.oneOf( Object.keys( classNameMap.variant ) ),
 	as: PropTypes.elementType,
 	className: PropTypes.string,
 };
+
 Link.defaultProps = {
 	as: "a",
+	variant: "default",
 	className: "",
 };
 

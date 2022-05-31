@@ -49,10 +49,10 @@
 - Keyword in metadescription (MetaDescriptionKeywordAssessment)
 - Previously used keywords (previouslyUsedKeywords)
 ## Premium
-- Keyword distribution is added (not on related keywords)
+- Keyword distribution (not of related keywords)
 
 # Content Assessors
-## Standard Content (Readbility) assessor
+## Standard Content (Readability) assessor
 - Subheading distribution (SubheadingDistributionTooLong) -> [Cornerstone scores!](https://github.com/Yoast/wordpress-seo/blob/LINGO-498-move-documentation-from-wiki-to-readme-files-on-repo/packages/yoastseo/src/scoring/assessments/SCORING%20READABILITY.md#1-subheading-distribution)
 - Paragraph length (ParagraphTooLongAssessment)
 - Sentence length (SentenceLengthInTextAssessment) -> [Cornerstone values!](https://github.com/Yoast/wordpress-seo/blob/LINGO-498-move-documentation-from-wiki-to-readme-files-on-repo/packages/yoastseo/src/scoring/assessments/SCORING%20READABILITY.md#3-sentence-length)

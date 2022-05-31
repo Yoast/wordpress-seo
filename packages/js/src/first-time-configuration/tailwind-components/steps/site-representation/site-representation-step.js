@@ -74,6 +74,7 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 					dispatch={ dispatch }
 					imageUrl={ state.companyLogo }
 					organizationName={ state.companyName }
+					errorFields={ state.errorFields }
 				/> }
 				{ state.companyOrPerson === "person" && <PersonSection
 					dispatch={ dispatch }
@@ -83,6 +84,7 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 						name: state.personName,
 					} }
 					canEditUser={ !! state.canEditUser }
+					errorFields={ state.errorFields }
 				/> }
 			</div>
 		</ReactAnimateHeight>
@@ -103,6 +105,23 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 					),
 					"https://yoa.st/config-workout-structured-data",
 					"yoast-configuration-structured-data-link"
+				)
+			}
+		</FadeInAlert>
+		<FadeInAlert
+			id="site-representaton-error-alert"
+			type="error"
+			isVisible={ state.errorFields[ 0 ] === "site_representation" }
+			className="yst-mt-6"
+		>
+			{
+				/* translators: %1$s expands to the error message returned by the server */
+				sprintf(
+					__(
+						"An error has occurred: %1$s",
+						"wordpress-seo"
+					),
+					state.errorFields[ 1 ]
 				)
 			}
 		</FadeInAlert>

@@ -6,7 +6,7 @@ use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Actions\Configuration\First_Time_Configuration_Action;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Integrations\Admin\Social_profiles_Helper;
+use Yoast\WP\SEO\Integrations\Admin\Social_Profiles_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 // phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- First time configuration simply has a lot of words.
@@ -37,7 +37,7 @@ class First_Time_Configuration_Action_Test extends TestCase {
 	/**
 	 * The social profiles helper.
 	 *
-	 * @var Mockery\MockInterface|Social_profiles_Helper
+	 * @var Mockery\MockInterface|Social_Profiles_Helper
 	 */
 	protected $social_profiles_helper;
 
@@ -48,7 +48,7 @@ class First_Time_Configuration_Action_Test extends TestCase {
 		parent::set_up();
 
 		$this->options_helper         = Mockery::mock( Options_Helper::class );
-		$this->social_profiles_helper = Mockery::mock( Social_profiles_Helper::class );
+		$this->social_profiles_helper = Mockery::mock( Social_Profiles_Helper::class );
 
 		$this->instance = new First_Time_Configuration_Action( $this->options_helper, $this->social_profiles_helper );
 	}
@@ -64,7 +64,7 @@ class First_Time_Configuration_Action_Test extends TestCase {
 			$this->getPropertyValue( $this->instance, 'options_helper' )
 		);
 		$this->assertInstanceOf(
-			Social_profiles_Helper::class,
+			Social_Profiles_Helper::class,
 			$this->getPropertyValue( $this->instance, 'social_profiles_helper' )
 		);
 	}
@@ -116,8 +116,8 @@ class First_Time_Configuration_Action_Test extends TestCase {
 				'company_logo_id'   => 123,
 				'description'       => 'A nice tagline',
 			],
-			'times'                 => 4,
-			'yoast_options_results' => [ true, true, true, true ],
+			'times'                 => 6,
+			'yoast_options_results' => [ true, true, true, true, true, true ],
 			'wp_option_result'      => true,
 			'expected'              => (object) [
 				'success' => true,
@@ -133,8 +133,8 @@ class First_Time_Configuration_Action_Test extends TestCase {
 				'company_or_person_user_id' => 321,
 				'description'               => 'A nice tagline',
 			],
-			'times'                 => 4,
-			'yoast_options_results' => [ true, true, true, true ],
+			'times'                 => 6,
+			'yoast_options_results' => [ true, true, true, true, true, true ],
 			'wp_option_result'      => true,
 			'expected'              => (object) [
 				'success' => true,
@@ -150,8 +150,8 @@ class First_Time_Configuration_Action_Test extends TestCase {
 				'company_or_person_user_id' => 321,
 				'description'               => 'A tagline that will fail for some reason',
 			],
-			'times'                 => 4,
-			'yoast_options_results' => [ true, true, true, true ],
+			'times'                 => 6,
+			'yoast_options_results' => [ true, true, true, true, true, true ],
 			'wp_option_result'      => false,
 			'expected'              => (object) [
 				'success'  => false,
@@ -169,8 +169,8 @@ class First_Time_Configuration_Action_Test extends TestCase {
 				'company_logo_id'   => 123,
 				'description'       => 'A nice tagline',
 			],
-			'times'                 => 4,
-			'yoast_options_results' => [ true, false, false, true ],
+			'times'                 => 6,
+			'yoast_options_results' => [ true, false, false, true, true, true ],
 			'wp_option_result'      => true,
 			'expected'              => (object) [
 				'success'  => false,

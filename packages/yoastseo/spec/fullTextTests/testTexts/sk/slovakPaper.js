@@ -1,7 +1,7 @@
 import Paper from "../../../../src/values/Paper.js";
 import content from "./slovakPaper.html";
 
-const name = "slovakPaper1";
+const name = "slovakPaper";
 
 const paper = new Paper( content, {
 	keyword: "Britská mačka",
@@ -138,9 +138,9 @@ const expectedResults = {
 	},
 	sentenceBeginnings: {
 		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: There is enough variety in " +
-			"your sentences. That's great!",
+		score: 3,
+		resultText: "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>: The text contains 3 consecutive sentences " +
+			"starting with the same word. <a href='https://yoa.st/35g' target='_blank'>Try to mix things up</a>!",
 	},
 	imageKeyphrase: {
 		isApplicable: true,
