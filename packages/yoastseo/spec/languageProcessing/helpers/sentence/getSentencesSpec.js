@@ -474,6 +474,36 @@ describe( "Get sentences from text", function() {
 	} );
 } );
 
+describe( "a test for when texts containing sentence delimiter", () => {
+	it( "should break on ;, ? and ! only when it's followed by a valid sentence beginning", function() {
+		let text = "First sentence; second sentence! third sentence? fourth sentence";
+
+		expect( getSentences( text ) ).toEqual( [ "First sentence; second sentence! third sentence? fourth sentence" ] );
+
+		text = "First sentence; second sentence! Third sentence? Fourth sentence";
+		expect( getSentences( text ) ).toEqual( [
+			"First sentence; second sentence!",
+			"Third sentence?",
+			"Fourth sentence" ] );
+	} );
+	it( "should accept the horizontal ellipsis as sentence terminator, when the next character is valid sentence beginning", function() {
+		const text = "This is the first sentence… Followed by a second one.";
+
+		expect( getSentences( text ) ).toEqual( [ "This is the first sentence…", "Followed by a second one." ] );
+	} );
+	it( "should not split text into sentences if the next character after an ellipsis is not a valid sentence beginning", () => {
+		let text = "This house is built in 1990&#x2026; a nice house.";
+		expect( getSentences( text ) ).toEqual( [
+			"This house is built in 1990&#x2026; a nice house.",
+		] );
+
+		text = "This house is built in 1990… a nice house.";
+		expect( getSentences( text ) ).toEqual( [
+			"This house is built in 1990… a nice house.",
+		] );
+	} );
+} );
+
 describe( "parses Japanese text", () => {
 	it( "parses a Japanese text.", function() {
 		const text = "東海道新幹線の開業前、東西の大動脈である東海道本線は高度経済成長下で線路容量が逼迫しており、抜本的な輸送力増強を迫られていた。" +
