@@ -76,11 +76,12 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'types'   => [ 'empty_string', 'url' ],
 		],
 		'pinterestverify'                             => [
-			'default' => '',
-			'types'   => [
+			'default'    => '',
+			'types'      => [
 				'empty_string',
 				'verification' => [ 'pattern' => '`^[A-Fa-f0-9_-]+$`' ],
 			],
+			'ms_exclude' => true,
 		],
 		'twitter'                                     => [
 			'default' => true,
@@ -488,11 +489,12 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'ms_verify' => false,
 		],
 		'baiduverify'                                 => [
-			'default' => '',
-			'types'   => [
+			'default'    => '',
+			'types'      => [
 				'empty_string',
 				'verification' => [ 'pattern' => '`^[A-Za-z0-9_-]+$`' ],
 			],
+			'ms_exclude' => true,
 		],
 		'category_base_url'                           => [
 			'default' => '',
@@ -583,11 +585,12 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'types'   => [ 'boolean' ],
 		],
 		'googleverify'                                => [
-			'default' => '',
-			'types'   => [
+			'default'    => '',
+			'types'      => [
 				'empty_string',
 				'verification' => [ 'pattern' => '`^[A-Za-z0-9_-]+$`' ],
 			],
+			'ms_exclude' => true,
 		],
 		'has_multiple_authors'                        => [
 			'default' => '',
@@ -645,11 +648,12 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'types'   => [ 'boolean' ],
 		],
 		'msverify'                                    => [
-			'default' => '',
-			'types'   => [
+			'default'    => '',
+			'types'      => [
 				'empty_string',
 				'verification' => [ 'pattern' => '`^[A-Fa-f0-9_-]+$`' ],
 			],
+			'ms_exclude' => true,
 		],
 		'myyoast-oauth'                               => [
 			'default' => [
@@ -764,11 +768,12 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'types'   => [ 'json-text-fields' ],
 		],
 		'yandexverify'                                => [
-			'default' => '',
-			'types'   => [
+			'default'    => '',
+			'types'      => [
 				'empty_string',
 				'verification' => [ 'pattern' => '`^[A-Fa-f0-9_-]+$`' ],
 			],
+			'ms_exclude' => true,
 		],
 		'zapier_api_key'                              => [
 			'default' => '',
