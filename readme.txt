@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.0
-Stable tag: 18.9
+Stable tag: 19.0
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -239,7 +239,7 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 19.0 =
 Release Date: May 31st, 2022
 
-Say hi to Yoast SEO 19.0! This release helps make your sitemaps available to Bing, we've updated Yoast SEO to add a link to your XML sitemap to your robots.txt file — if you want. Plus: we've fixed a couple of bugs with Elementor and our readability analyses. Happy updating! Read more about what's new in Yoast SEO 19.0 in [our release post in English](https://yoa.st/release-31-5-22) or [our release post in Spanish](https://yoa.st/release-31-5-22-spanish)!
+Say hi to Yoast SEO 19.0! This release helps make your sitemaps available to Bing, we've updated Yoast SEO to add your XML sitemap link(s) to your robots.txt file — if you want. Plus: we've fixed a couple of bugs with Elementor and our readability analyses. Happy updating! Read more about what's new in Yoast SEO 19.0 in [our release post in English](https://yoa.st/release-31-5-22) or [our release post in Spanish](https://yoa.st/release-31-5-22-spanish)!
 
 Enhancements:
 
@@ -248,7 +248,7 @@ Enhancements:
 Bugfixes:
 
 * Fixes a bug where an error in saving the Site representation step of the First-time configuration would not block the advancement to the next step.
-* Fixes a bug where editing an existing post created in Block editor in Elementor would result in an analysis result discrepancy.
+* Fixes a bug where editing an existing post created in the Block editor in Elementor would result in an analysis result discrepancy.
 * Fixes a bug where items in lists were not excluded for the readability assessment that checks whether consecutive sentences do not begin with the same words.
 * Fixes a bug where outdated information is shown in the First-time configuration Social profiles step
 * Fixes a bug where saving an invalid organization name in the First-time configuration would fail without feedback.
