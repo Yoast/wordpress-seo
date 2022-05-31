@@ -111,6 +111,14 @@ class WPSEO_Option_MS extends WPSEO_Option {
 			"{$allow_prefix}remove_feed_post_types"         => true,
 			"{$allow_prefix}remove_feed_search"             => true,
 			"{$allow_prefix}remove_atom_rdf_feeds"          => true,
+			"{$allow_prefix}remove_shortlinks"              => true,
+			"{$allow_prefix}remove_rest_api_links"          => true,
+			"{$allow_prefix}remove_rsd_wlw_links"           => true,
+			"{$allow_prefix}remove_oembed_links"            => true,
+			"{$allow_prefix}remove_generator"               => true,
+			"{$allow_prefix}remove_emoji_scripts"           => true,
+			"{$allow_prefix}remove_powered_by_header"       => true,
+			"{$allow_prefix}remove_pingback_header"         => true,
 		];
 
 		if ( is_multisite() ) {

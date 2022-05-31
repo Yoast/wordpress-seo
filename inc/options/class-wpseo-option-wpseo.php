@@ -101,6 +101,14 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'remove_feed_post_types'                   => false,
 		'remove_feed_search'                       => false,
 		'remove_atom_rdf_feeds'                    => false,
+		'remove_shortlinks'                        => false,
+		'remove_rest_api_links'                    => false,
+		'remove_rsd_wlw_links'                     => false,
+		'remove_oembed_links'                      => false,
+		'remove_generator'                         => false,
+		'remove_emoji_scripts'                     => false,
+		'remove_powered_by_header'                 => false,
+		'remove_pingback_header'                   => false,
 	];
 
 	/**
@@ -414,6 +422,14 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				 *  'remove_feed_post_types'
 				 *  'remove_feed_search'
 				 *  'remove_atom_rdf_feeds'
+				 *  'remove_shortlinks'
+				 *  'remove_rest_api_links'
+				 *  'remove_rsd_wlw_links'
+				 *  'remove_oembed_links'
+				 *  'remove_generator'
+				 *  'remove_emoji_scripts'
+				 *  'remove_powered_by_header'
+				 *  'remove_pingback_header'
 				 *  'should_redirect_after_install_free'
 				 *  and most of the feature variables.
 				 */
@@ -466,6 +482,14 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 			'remove_feed_post_types'         => false,
 			'remove_feed_search'             => false,
 			'remove_atom_rdf_feeds'          => false,
+			'remove_shortlinks'              => false,
+			'remove_rest_api_links'          => false,
+			'remove_rsd_wlw_links'           => false,
+			'remove_oembed_links'            => false,
+			'remove_generator'               => false,
+			'remove_emoji_scripts'           => false,
+			'remove_powered_by_header'       => false,
+			'remove_pingback_header'         => false,
 		];
 
 		// We can reuse this logic from the base class with the above defaults to parse with the correct feature values.

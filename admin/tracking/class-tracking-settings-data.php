@@ -192,6 +192,14 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'remove_feed_post_types',
 		'remove_feed_search',
 		'remove_atom_rdf_feeds',
+		'remove_shortlinks',
+		'remove_rest_api_links',
+		'remove_rsd_wlw_links',
+		'remove_oembed_links',
+		'remove_generator',
+		'remove_emoji_scripts',
+		'remove_powered_by_header',
+		'remove_pingback_header',
 	];
 
 	/**
