@@ -101,7 +101,16 @@ class WPSEO_Option_MS extends WPSEO_Option {
 			"{$allow_prefix}semrush_integration_active"     => true,
 			"{$allow_prefix}zapier_integration_active"      => true,
 			"{$allow_prefix}wincher_integration_active"     => false,
+			"{$allow_prefix}remove_feed_global"             => true,
+			"{$allow_prefix}remove_feed_global_comments"    => true,
 			"{$allow_prefix}remove_feed_post_comments"      => true,
+			"{$allow_prefix}remove_feed_authors"            => true,
+			"{$allow_prefix}remove_feed_categories"         => true,
+			"{$allow_prefix}remove_feed_tags"               => true,
+			"{$allow_prefix}remove_feed_custom_taxonomies"  => true,
+			"{$allow_prefix}remove_feed_post_types"         => true,
+			"{$allow_prefix}remove_feed_search"             => true,
+			"{$allow_prefix}remove_atom_rdf_feeds"          => true,
 		];
 
 		if ( is_multisite() ) {
