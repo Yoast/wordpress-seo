@@ -69,6 +69,11 @@ class Crawl_Settings_Integration_Test extends TestCase {
 			->once()
 			->andReturn( true );
 
+		$this->product_helper
+			->expects( 'get_premium_version' )
+			->once()
+			->andReturn( '18.6' );
+
 		$this->instance->register_hooks();
 	}
 }
