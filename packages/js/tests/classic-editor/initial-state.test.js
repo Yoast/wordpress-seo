@@ -79,6 +79,7 @@ self.wpseoScriptData = {
 describe( "a test for getting the initial state of a post or a term", () => {
 	it( "returns the initial state of a post", () => {
 		const actual = getInitialPostState();
+		expect( actual.analysis.config.shouldApplyCornerstoneAnalysis ).toEqual( false );
 		expect( actual.editor.title ).toEqual( "Tortoiseshell cat" );
 		expect( actual.editor.date ).toEqual( "18 January 2022 12:17" );
 		expect( actual.editor.permalink ).toEqual( "www.example.com/123" );
@@ -89,7 +90,6 @@ describe( "a test for getting the initial state of a post or a term", () => {
 		expect( actual.form.seo.title ).toEqual( "Tortoiseshell cat - All about cats" );
 		expect( actual.form.seo.description ).toEqual( "Cats with tortoiseshell coloration are believed to bring good luck." );
 		expect( actual.form.seo.slug ).toEqual( "www.example.com/tortoiseshell-cat" );
-		expect( actual.form.seo.isCornerstone ).toEqual( false );
 		expect( actual.form.keyphrases ).toEqual( { focus: { id: "focus", keyphrase: "tortoiseshell cat" } } );
 		expect( actual.editor.taxonomies.categories ).toEqual( [
 			{
@@ -127,6 +127,7 @@ describe( "a test for getting the initial state of a post or a term", () => {
 
 	it( "returns the initial state of a term", () => {
 		const actual = getInitialTermState();
+		expect( actual.analysis.config.shouldApplyCornerstoneAnalysis ).toEqual( false );
 		expect( actual.editor.title ).toEqual( "cat" );
 		expect( actual.editor.permalink ).toEqual( "www.example.com/categories" );
 		expect( actual.editor.content ).toEqual( "This is to describe a cat, that deserves only good attributes to them." );
@@ -134,7 +135,6 @@ describe( "a test for getting the initial state of a post or a term", () => {
 		expect( actual.form.seo.title ).toEqual( "A title befitting a beautiful cat" );
 		expect( actual.form.seo.description ).toEqual( "An example of a description for a cat." );
 		expect( actual.form.seo.slug ).toEqual( "www.example.com/categories/cat" );
-		expect( actual.form.seo.isCornerstone ).toEqual( false );
 		expect( actual.form.social.facebook.title ).toEqual( "An FB title for term" );
 		expect( actual.form.social.facebook.description ).toEqual( "An FB meta description for term" );
 		expect( actual.form.social.facebook.image.id ).toEqual( 4 );

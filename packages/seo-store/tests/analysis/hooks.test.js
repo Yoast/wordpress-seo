@@ -25,6 +25,7 @@ describe( "Hooks", () => {
 			isSeoActive: true,
 			isReadabilityActive: true,
 			researches: [ "morphology" ],
+			shouldApplyCornerstoneAnalysis: false,
 		};
 
 		let analyze;

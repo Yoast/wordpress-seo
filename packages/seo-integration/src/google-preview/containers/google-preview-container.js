@@ -52,7 +52,7 @@ const GooglePreviewContainer = ( { as: Component, ...restProps } ) => {
 	let date = useSelect( select => select( SEO_STORE_NAME ).selectDate() );
 	const focusKeyphrase = useSelect( select => select( SEO_STORE_NAME ).selectKeyphrase() );
 	const morphologyResults = useSelect( select => select( SEO_STORE_NAME ).selectResearchResults( "morphology" ) );
-	const isCornerstone = useSelect( select => select( SEO_STORE_NAME ).selectIsCornerstone() );
+	const isCornerstone = useSelect( select => select( SEO_STORE_NAME ).shouldApplyCornerstoneAnalysis() );
 	const permalink = useSelect( select => select( SEO_STORE_NAME ).selectPermalink() );
 	const [ previewMode, setPreviewMode ] = useState( "mobile" );
 	const { updateSlug, updateSeoTitle, updateMetaDescription } = useDispatch( SEO_STORE_NAME );

@@ -277,6 +277,7 @@ describe( "Results slice", () => {
 				isSeoActive: true,
 				isReadabilityActive: true,
 				researches: [ "morphology" ],
+				shouldApplyCornerstoneAnalysis: false,
 			} );
 
 			// 5. Prepared paper.

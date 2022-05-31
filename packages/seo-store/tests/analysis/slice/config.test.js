@@ -10,6 +10,7 @@ describe( "Config slice", () => {
 		isSeoActive: true,
 		isReadabilityActive: true,
 		researches: [ "morphology" ],
+		shouldApplyCornerstoneAnalysis: false,
 	};
 
 	describe( "Reducer", () => {
