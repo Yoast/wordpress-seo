@@ -92,6 +92,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'should_redirect_after_install_free'       => false,
 		'activation_redirect_timestamp_free'       => 0,
 		'remove_feed_post_comments'                => false,
+		'index_now_key'                            => '',
 	];
 
 	/**
@@ -352,6 +353,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'zapier_subscription':
 				case 'wincher_tokens':
 				case 'workouts_data':
+				case 'index_now_key':
 				case 'configuration_finished_steps':
 					$clean[ $key ] = $old[ $key ];
 
