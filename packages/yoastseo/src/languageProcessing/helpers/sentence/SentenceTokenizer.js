@@ -462,9 +462,32 @@ export default class SentenceTokenizer {
 	}
 
 	/**
+	 * Gets the current sentence when:
+	 * a) There is a next sentence, and the next character is a valid sentence beginning preceded by a white space, OR
+	 * b) The next token is a sentence start
+	 *
+	 * @param {boolean} hasNextSentence     Whether the next characters are more than two.
+	 * @param {string} nextSentenceStart    The second character of the next characters.
+	 * @param {string} nextCharacters       The string values of the next two tokens.
+	 * @param {object} nextToken            The next token object.
+	 * @param {array} tokenSentences        The array of pushed valid sentences.
+	 * @param {string} currentSentence      The current sentence.
+	 *
+	 * @returns {string} The current sentence.
+	 */
+	getValidSentence( hasNextSentence, nextSentenceStart, nextCharacters, nextToken, tokenSentences, currentSentence ) {
+		if ( ( hasNextSentence && this.isValidSentenceBeginning( nextSentenceStart ) && this.isCharacterASpace( nextCharacters[ 0 ] ) ) ||
+			this.isSentenceStart( nextToken ) ) {
+			tokenSentences.push( currentSentence );
+			currentSentence = "";
+		}
+		return currentSentence;
+	}
+
+	/**
 	 * Checks if the character is a whitespace.
 	 *
-	 * @param {string} character    The chracter to check.
+	 * @param {string} character    The character to check.
 	 * @returns {boolean}   Whether the character is a whitespace.
 	 */
 	isCharacterASpace( character ) {
