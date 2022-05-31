@@ -244,6 +244,7 @@ Say hi to Yoast SEO 19.0! This release helps make your sitemaps available to Bin
 Enhancements:
 
 * Following a change of policy by Bing, we now reference the XML sitemap in the robots.txt file to make it discoverable for search engines.
+* Changes `Disallow: /wp-admin/` to `Disallow:` in the default robots.txt file to follow our best-practice guide.
 
 Bugfixes:
 
