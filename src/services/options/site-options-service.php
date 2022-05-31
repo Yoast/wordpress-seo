@@ -753,11 +753,15 @@ class Site_Options_Service extends Abstract_Options_Service {
 		],
 		'workouts_data'                               => [
 			'default' => [ 'configuration' => [ 'finishedSteps' => [] ] ],
-			'types'   => [ 'string' ],
+			'types'   => [ 'array' ],
 		],
 		'configuration_finished_steps'                => [
 			'default' => [],
-			'types'   => [ 'string' ],
+			'types'   => [ 'array' ],
+		],
+		'other_social_urls'                           => [
+			'default' => [],
+			'types'   => [ 'json-text-fields' ],
 		],
 		'yandexverify'                                => [
 			'default' => '',
