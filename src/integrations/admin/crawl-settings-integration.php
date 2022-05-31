@@ -164,38 +164,38 @@ class Crawl_Settings_Integration implements Integration_Interface {
 	/**
 	 * Print the settings sections.
 	 *
-	 * @param Yoast_Form $yform  The Yoast form class.
-	 * @param boolean    $prefix Whether to prefix options with the allow prefix or not.
+	 * @param Yoast_Form $yform        The Yoast form class.
+	 * @param boolean    $allow_prefix Whether to prefix options with the allow prefix or not.
 	 *
 	 * @return void
 	 */
-	private function add_crawl_settings( $yform, $prefix ) {
+	private function add_crawl_settings( $yform, $allow_prefix ) {
 		$this->display_premium_upsell_btn();
 
 		echo '<h3 class="yoast-crawl-settings-free">'
-				. \esc_html__( 'Basic crawl settings', 'wordpress-seo' )
-				. '</h3>';
-		if ( ! $prefix ) {
-			echo '<p class="yoast-crawl-settings-explanation-free">'
-					. \esc_html__( 'Remove links added by WordPress to the header and &lt;head&gt;.', 'wordpress-seo' )
-					. '</p>';
+			. \esc_html__( 'Basic crawl settings', 'wordpress-seo' )
+			. '</h3>';
 
+		if ( ! $allow_prefix ) {
+			echo '<p class="yoast-crawl-settings-explanation-free">'
+				. \esc_html__( 'Remove links added by WordPress to the header and &lt;head&gt;.', 'wordpress-seo' )
+				. '</p>';
 		}
 
-		$this->print_toggles( $this->basic_settings, $yform, $prefix );
-		$this->print_toggles( $this->header_settings, $yform, $prefix );
+		$this->print_toggles( $this->basic_settings, $yform, $allow_prefix );
+		$this->print_toggles( $this->header_settings, $yform, $allow_prefix );
 
 		echo '<h3 class="yoast-crawl-settings-free">'
-				. \esc_html__( 'Feed crawl settings', 'wordpress-seo' )
-				. '</h3>';
-		if ( ! $prefix ) {
-			echo '<p class="yoast-crawl-settings-explanation-free">'
-					. \esc_html__( "Remove feed links added by WordPress that aren't needed for this site.", 'wordpress-seo' )
-					. '</p>';
+			. \esc_html__( 'Feed crawl settings', 'wordpress-seo' )
+			. '</h3>';
 
+		if ( ! $allow_prefix ) {
+			echo '<p class="yoast-crawl-settings-explanation-free">'
+				. \esc_html__( "Remove feed links added by WordPress that aren't needed for this site.", 'wordpress-seo' )
+				. '</p>';
 		}
 
-		$this->print_toggles( $this->feed_settings, $yform, $prefix );
+		$this->print_toggles( $this->feed_settings, $yform, $allow_prefix );
 	}
 
 	/**
