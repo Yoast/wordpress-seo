@@ -260,7 +260,7 @@ export default class SentenceTokenizer {
 	}
 
 	isPersonInnitial( token ){
-		return ( token && token.type === 'sentence' && nextToken.src.trim().length === 1);
+		return ( !isUndefined(token) && token.type === 'sentence' && token.src.trim().length === 1);
 	}
 
 	/**
@@ -463,7 +463,7 @@ export default class SentenceTokenizer {
 						break;
 					}
 
-					if (this.isPersonInnitial(nextToken)){
+					if (!isUndefined(nextToken) && this.isPersonInnitial(nextToken)){
 						console.log( "BINGO!", nextToken );
 						break;
 					}
