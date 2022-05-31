@@ -47,11 +47,6 @@ describe( "Get sentences from text", function() {
 		expect( getSentences( sentence ) ).toEqual( [ "It was a lot.", "Approx. two hundred" ] );
 	} );
 
-	it( "returns sentences with a ! in it (should not be converted to . )", function() {
-		const sentence = "It was a lot. Approx! two hundred";
-		expect( getSentences( sentence ) ).toEqual( [ "It was a lot.", "Approx!", "two hundred" ] );
-	} );
-
 	it( "returns sentences with multiple sentence delimiters at the end", function() {
 		const sentence = "Was it a lot!?!??! Yes, it was!";
 		expect( getSentences( sentence ) ).toEqual( [ "Was it a lot!?!??!", "Yes, it was!" ] );
@@ -273,22 +268,9 @@ describe( "Get sentences from text", function() {
 				input: "This should be: one sentence",
 				expected: [ "This should be: one sentence" ],
 			},
-			{
-				input: "This should be: one sentence",
-				expected: [ "This should be: one sentence" ],
-			},
 		];
 
 		testGetSentences( testCases );
-	} );
-
-	it( "should always break on ;, ? and ! even when there is no capital letter", function() {
-		const text = "First sentence; second sentence! third sentence? fourth sentence";
-		const expected = [ "First sentence;", "second sentence!", "third sentence?", "fourth sentence" ];
-
-		const actual = getSentences( text );
-
-		expect( actual ).toEqual( expected );
 	} );
 
 	it( "should split a text with excessive paragraph tags correctly into sentences", () => {
@@ -337,16 +319,6 @@ describe( "Get sentences from text", function() {
 			{
 				input: "First sentence. Second sentence. &nbsp;",
 				expected: [ "First sentence.", "Second sentence." ],
-			},
-		];
-
-		testGetSentences( testCases );
-	} );
-	it( "should accept the horizontal ellipsis as sentence terminator", function() {
-		const testCases = [
-			{
-				input: "This is the first sentence… Followed by a second one.",
-				expected: [ "This is the first sentence…", "Followed by a second one." ],
 			},
 		];
 
