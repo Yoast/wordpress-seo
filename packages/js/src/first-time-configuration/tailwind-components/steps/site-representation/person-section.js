@@ -66,7 +66,7 @@ export function PersonSection( { dispatch, imageUrl, person, canEditUser } ) {
 			b: <b />,
 			// eslint-disable-next-line jsx-a11y/anchor-has-content
 			a: <a
-				id="yoast-configuration-workout-user-selector-user-link"
+				id="yoast-configuration-user-selector-user-link"
 				href={ window.wpseoScriptData.userEditUrl.replace( "{user_id}", person.id ) }
 				target="_blank" rel="noopener noreferrer"
 			/>,

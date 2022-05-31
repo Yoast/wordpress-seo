@@ -139,7 +139,7 @@ export function NewsletterSignup( { gdprLink } ) {
 							"</a>"
 						),
 						gdprLink,
-						"yoast-configuration-workout-gdpr-link"
+						"yoast-configuration-gdpr-link"
 					)
 				}
 			</p>

@@ -396,7 +396,7 @@ class First_Time_Configuration_Route implements Route_Interface {
 	/**
 	 * Returns the first time configuration state.
 	 *
-	 * @return WP_REST_Response the configuration of the workouts.
+	 * @return WP_REST_Response the state of the configuration.
 	 */
 	public function get_configuration_state() {
 		$data = $this

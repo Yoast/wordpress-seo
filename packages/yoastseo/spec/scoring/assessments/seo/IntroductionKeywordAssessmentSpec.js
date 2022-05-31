@@ -90,6 +90,36 @@ describe( "An assessment for finding the keyword in the first paragraph", functi
 		const isApplicableResult = new IntroductionKeywordAssessment().isApplicable( new Paper( "", { keyword: "some keyword" } ) );
 		expect( isApplicableResult ).toBe( false );
 	} );
+
+	it( "returns a good result when the first paragraph contains the exact match of the keyphrase in upper case with a period", function() {
+		let mockPaper = new Paper( "What is ASP.NET", { keyword: "ASP.NET" } );
+		let researcher = new EnglishResearcher( mockPaper );
+		let assessment = new IntroductionKeywordAssessment().getResult( mockPaper, researcher );
+
+		expect( assessment.getScore() ).toBe( 9 );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33e' target='_blank'>Keyphrase in introduction</a>: Well done!" );
+
+		mockPaper = new Paper( "What is ASP.net", { keyword: "\"ASP.NET\"" } );
+		researcher = new EnglishResearcher( mockPaper );
+		assessment = new IntroductionKeywordAssessment().getResult( mockPaper, researcher );
+
+		expect( assessment.getScore() ).toBe( 9 );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33e' target='_blank'>Keyphrase in introduction</a>: Well done!" );
+
+		mockPaper = new Paper( "What is asp.NET", { keyword: "\"ASP.NET\"" } );
+		researcher = new EnglishResearcher( mockPaper );
+		assessment = new IntroductionKeywordAssessment().getResult( mockPaper, researcher );
+
+		expect( assessment.getScore() ).toBe( 9 );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33e' target='_blank'>Keyphrase in introduction</a>: Well done!" );
+
+		mockPaper = new Paper( "What is asp.net", { keyword: "\"ASP.NET\"" } );
+		researcher = new EnglishResearcher( mockPaper );
+		assessment = new IntroductionKeywordAssessment().getResult( mockPaper, researcher );
+
+		expect( assessment.getScore() ).toBe( 9 );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33e' target='_blank'>Keyphrase in introduction</a>: Well done!" );
+	} );
 } );
 
 describe( "a test for the keyphrase in first paragraph assessment when the exact match is requested", function() {
@@ -109,6 +139,36 @@ describe( "a test for the keyphrase in first paragraph assessment when the exact
 		const mockPaper = new Paper( "A cat is enjoying walking in nature.", { keyword: "\"walking in nature\"" } );
 		const researcher = new EnglishResearcher( mockPaper );
 		const assessment = new IntroductionKeywordAssessment().getResult( mockPaper, researcher );
+
+		expect( assessment.getScore() ).toBe( 9 );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33e' target='_blank'>Keyphrase in introduction</a>: Well done!" );
+	} );
+
+	it( "returns a good result when the first paragraph contains the exact match of the keyphrase in upper case with a period", function() {
+		let mockPaper = new Paper( "What is ASP.NET", { keyword: "\"ASP.NET\"" } );
+		let researcher = new EnglishResearcher( mockPaper );
+		let assessment = new IntroductionKeywordAssessment().getResult( mockPaper, researcher );
+
+		expect( assessment.getScore() ).toBe( 9 );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33e' target='_blank'>Keyphrase in introduction</a>: Well done!" );
+
+		mockPaper = new Paper( "What is ASP.net", { keyword: "\"ASP.NET\"" } );
+		researcher = new EnglishResearcher( mockPaper );
+		assessment = new IntroductionKeywordAssessment().getResult( mockPaper, researcher );
+
+		expect( assessment.getScore() ).toBe( 9 );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33e' target='_blank'>Keyphrase in introduction</a>: Well done!" );
+
+		mockPaper = new Paper( "What is asp.NET", { keyword: "\"ASP.NET\"" } );
+		researcher = new EnglishResearcher( mockPaper );
+		assessment = new IntroductionKeywordAssessment().getResult( mockPaper, researcher );
+
+		expect( assessment.getScore() ).toBe( 9 );
+		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33e' target='_blank'>Keyphrase in introduction</a>: Well done!" );
+
+		mockPaper = new Paper( "What is asp.net", { keyword: "\"ASP.NET\"" } );
+		researcher = new EnglishResearcher( mockPaper );
+		assessment = new IntroductionKeywordAssessment().getResult( mockPaper, researcher );
 
 		expect( assessment.getScore() ).toBe( 9 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33e' target='_blank'>Keyphrase in introduction</a>: Well done!" );
