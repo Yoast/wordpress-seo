@@ -172,7 +172,7 @@ describe( "Get sentences from text", function() {
 		expect( actual ).toEqual( expected );
 	} );
 
-	it( "should not split text into sentences if there is no space after sentence delimiter", function() {
+	it( "should not split text into sentences if there is no space after a full-stop", function() {
 		const texts = [
 			"What is ASP.NET.",
 			"What is ASP.net.",
@@ -343,10 +343,9 @@ describe( "Get sentences from text", function() {
 				input: "This is a sentence (with blockends). this is still one sentence.",
 				expected: [ "This is a sentence (with blockends). this is still one sentence." ],
 			},
-			// Second sentence starts with lower-case letter, but unlike a full stop, a "?" is an unambiguous sentence ending.
 			{
 				input: "This is a sentence (with blockends)? this is still one sentence.",
-				expected: [ "This is a sentence (with blockends)?", "this is still one sentence." ],
+				expected: [ "This is a sentence (with blockends)? this is still one sentence." ],
 			},
 			{
 				input: "This is a sentence (with blockends.). This is a second sentence.",
@@ -388,10 +387,9 @@ describe( "Get sentences from text", function() {
 				input: "This is a sentence (with blockends?). this is still one sentence.",
 				expected: [ "This is a sentence (with blockends?). this is still one sentence." ],
 			},
-			// Second sentence starts with lower-case letter, but unlike a full stop, a ? is an unambiguosu sentence ending
 			{
 				input: "This is a sentence (with blockends.)? this is a new sentence.",
-				expected: [ "This is a sentence (with blockends.)?", "this is a new sentence." ],
+				expected: [ "This is a sentence (with blockends.)? this is a new sentence." ],
 			},
 			{
 				input: "This is a sentence (with blockends.). 1 this is a second sentence.",
@@ -985,8 +983,7 @@ describe( "Get sentences from texts that have been processed for the keyphrase d
 					"Shortcodes, in the classic editor, didn’t have such a discovery method.",
 					"Re-usable blocks allow you to easily create content you can re-use across posts or pages, see this <a href=\"https://" +
 					"www.wpbeginner.com/beginners-guide/how-to-create-a-reusable-block-in-wordpress/\">nice tutorial on WP Beginner</a>.",
-					"There are many more nice features;",
-					"please share yours in the comments!",
+					"There are many more nice features; please share yours in the comments!",
 				],
 			},
 		];
