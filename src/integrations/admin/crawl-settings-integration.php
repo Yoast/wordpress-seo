@@ -121,12 +121,6 @@ class Crawl_Settings_Integration implements Integration_Interface {
 	 * @param Yoast_Form $yform The yoast form object.
 	 */
 	public function add_crawl_settings_tab_content( $yform ) {
-		$this->display_premium_upsell_btn();
-
-		echo '<h3 class="yoast-feed-crawl-settings-free">';
-		echo \esc_html__( 'Feed crawl settings', 'wordpress-seo' );
-		echo '</h3>';
-
 		$this->add_crawl_settings( $yform, false );
 	}
 
@@ -136,11 +130,6 @@ class Crawl_Settings_Integration implements Integration_Interface {
 	 * @param Yoast_Form $yform The yoast form object.
 	 */
 	public function add_crawl_settings_tab_content_network( $yform ) {
-		$this->display_premium_upsell_btn();
-
-		echo '<h3 class="yoast-feed-crawl-settings-free">';
-		echo \esc_html__( 'Feed crawl settings', 'wordpress-seo' );
-		echo '</h3>';
 
 		$this->add_crawl_settings( $yform, true );
 	}
@@ -154,6 +143,18 @@ class Crawl_Settings_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	private function add_crawl_settings( $yform, $prefix ) {
+		$this->display_premium_upsell_btn();
+
+		echo '<h3 class="yoast-feed-crawl-settings-free">'
+				. \esc_html__( 'Feed crawl settings', 'wordpress-seo' )
+				. '</h3>';
+		if ( ! $prefix ) {
+			echo '<p class="yoast-feed-crawl-settings-explanation-free">'
+					. \esc_html__( "Remove feed links added by WordPress that aren't needed for this site.", 'wordpress-seo' )
+					. '</p>';
+
+		}
+
 		$this->print_toggles( $this->feed_settings, $yform, $prefix );
 	}
 

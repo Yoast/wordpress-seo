@@ -705,5 +705,8 @@ body.folded .wpseo-admin-submit-fixed {
   font-style: italic;
 }
 
+.yoast .yoast-feed-crawl-settings-explanation-free {
+  opacity: 0.5;
+}
 
 /*# sourceMappingURL=admin-global.css.map */
