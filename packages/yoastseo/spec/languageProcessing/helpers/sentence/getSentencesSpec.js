@@ -472,6 +472,20 @@ describe( "a test for when texts containing sentence delimiter", () => {
 			"This house is built in 1990… a nice house.",
 		] );
 	} );
+	it( "should accept the horizontal ellipsis as sentence terminator in Japanese", function() {
+		const text = "東海道新幹線の開業前、東西の大動脈である東海道本線は高度経済成長下で線路容量が逼迫しており…抜本的な輸送力増強を迫られていた。";
+
+		expect( getSentences( text, japaneseSentenceTokenizer ) ).toEqual( [
+			"東海道新幹線の開業前、東西の大動脈である東海道本線は高度経済成長下で線路容量が逼迫しており…",
+			"抜本的な輸送力増強を迫られていた。" ] );
+	} );
+	it( "should accept the horizontal ellipsis as sentence terminator in Japanese", function() {
+		const text = "東海道新幹線の開業前、東西の大動脈である東海道本線は高度経済成長下で線路容量が逼迫しており‥抜本的な輸送力増強を迫られていた。";
+
+		expect( getSentences( text, japaneseSentenceTokenizer ) ).toEqual( [
+			"東海道新幹線の開業前、東西の大動脈である東海道本線は高度経済成長下で線路容量が逼迫しており‥",
+			"抜本的な輸送力増強を迫られていた。" ] );
+	} );
 } );
 
 describe( "parses Japanese text", () => {
