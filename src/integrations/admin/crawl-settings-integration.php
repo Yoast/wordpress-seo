@@ -18,6 +18,20 @@ use Yoast_Form;
 class Crawl_Settings_Integration implements Integration_Interface {
 
 	/**
+	 * Holds the settings + labels for the head clean up piece.
+	 *
+	 * @var array
+	 */
+	private $basic_settings;
+
+	/**
+	 * Holds the settings + labels for the HTTP header clean up piece.
+	 *
+	 * @var array
+	 */
+	private $header_settings;
+
+	/**
 	 * Holds the settings + labels for the feeds clean up.
 	 *
 	 * @var array
@@ -92,6 +106,20 @@ class Crawl_Settings_Integration implements Integration_Interface {
 			'remove_feed_search_free'            => \__( 'Search results feeds', 'wordpress-seo' ),
 			'remove_atom_rdf_feeds_free'         => \__( 'Atom/RDF feeds', 'wordpress-seo' ),
 		];
+
+		$this->basic_settings = [
+			'remove_shortlinks_free'     => \__( 'Shortlinks', 'wordpress-seo' ),
+			'remove_rest_api_links_free' => \__( 'REST API links', 'wordpress-seo' ),
+			'remove_rsd_wlw_links_free'  => \__( 'RSD / WLW links', 'wordpress-seo' ),
+			'remove_oembed_links_free'   => \__( 'oEmbed links', 'wordpress-seo' ),
+			'remove_generator_free'      => \__( 'Generator tag', 'wordpress-seo' ),
+			'remove_emoji_scripts_free'  => \__( 'Emoji scripts', 'wordpress-seo' ),
+		];
+
+		$this->header_settings = [
+			'remove_pingback_header_free'   => \__( 'Pingback HTTP header', 'wordpress-seo' ),
+			'remove_powered_by_header_free' => \__( 'Powered by HTTP header', 'wordpress-seo' ),
+		];
 	}
 
 	/**
@@ -130,7 +158,6 @@ class Crawl_Settings_Integration implements Integration_Interface {
 	 * @param Yoast_Form $yform The yoast form object.
 	 */
 	public function add_crawl_settings_tab_content_network( $yform ) {
-
 		$this->add_crawl_settings( $yform, true );
 	}
 
@@ -145,11 +172,24 @@ class Crawl_Settings_Integration implements Integration_Interface {
 	private function add_crawl_settings( $yform, $prefix ) {
 		$this->display_premium_upsell_btn();
 
-		echo '<h3 class="yoast-feed-crawl-settings-free">'
+		echo '<h3 class="yoast-crawl-settings-free">'
+				. \esc_html__( 'Basic crawl settings', 'wordpress-seo' )
+				. '</h3>';
+		if ( ! $prefix ) {
+			echo '<p class="yoast-crawl-settings-explanation-free">'
+					. \esc_html__( 'Remove links added by WordPress to the header and &lt;head&gt;.', 'wordpress-seo' )
+					. '</p>';
+
+		}
+
+		$this->print_toggles( $this->basic_settings, $yform, $prefix );
+		$this->print_toggles( $this->header_settings, $yform, $prefix );
+
+		echo '<h3 class="yoast-crawl-settings-free">'
 				. \esc_html__( 'Feed crawl settings', 'wordpress-seo' )
 				. '</h3>';
 		if ( ! $prefix ) {
-			echo '<p class="yoast-feed-crawl-settings-explanation-free">'
+			echo '<p class="yoast-crawl-settings-explanation-free">'
 					. \esc_html__( "Remove feed links added by WordPress that aren't needed for this site.", 'wordpress-seo' )
 					. '</p>';
 
