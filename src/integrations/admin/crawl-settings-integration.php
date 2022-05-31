@@ -123,7 +123,7 @@ class Crawl_Settings_Integration implements Integration_Interface {
 	public function add_crawl_settings_tab_content( $yform ) {
 		$this->display_premium_upsell_btn();
 
-		echo '<h3 class="yoast-feed-crawl-settings">';
+		echo '<h3 class="yoast-feed-crawl-settings-free">';
 		echo \esc_html__( 'Feed crawl settings', 'wordpress-seo' );
 		echo '</h3>';
 
@@ -138,7 +138,7 @@ class Crawl_Settings_Integration implements Integration_Interface {
 	public function add_crawl_settings_tab_content_network( $yform ) {
 		$this->display_premium_upsell_btn();
 
-		echo '<h3 class="yoast-feed-crawl-settings">';
+		echo '<h3 class="yoast-feed-crawl-settings-free">';
 		echo \esc_html__( 'Feed crawl settings', 'wordpress-seo' );
 		echo '</h3>';
 
@@ -193,7 +193,7 @@ class Crawl_Settings_Integration implements Integration_Interface {
 				]
 			);
 			if ( $setting === 'remove_feed_global_comments_free' ) {
-				echo '<p class="yoast-global-comments-feed-help-disabled">';
+				echo '<p class="yoast-global-comments-feed-help-free">';
 				echo \esc_html__( 'By removing Global comments feed, Post comments feeds will be removed too.', 'wordpress-seo' );
 				echo '</p>';
 			}
