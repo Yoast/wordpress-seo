@@ -259,6 +259,10 @@ export default class SentenceTokenizer {
 		);
 	}
 
+	isPersonInnitial( token ){
+		return ( token && token.type === 'sentence' && nextToken.src.trim().length === 1);
+	}
+
 	/**
 	 * Tokens that represent a '<', followed by content until it enters another '<' or '>'
 	 * gets another pass by the tokenizer.
@@ -369,22 +373,22 @@ export default class SentenceTokenizer {
 			console.error( "Tokenizer end error:", e, e.tokenizer2 );
 		}
 	}
-
-	/**
-	 * Gets the first sentence from an array of tokens.
-	 *
-	 * @param {Object[]} tokenArray The array of tokens that needs to be searched.
-	 *
-	 * @returns {Object|undefined} The next sentence. If there is no sentence after currentLocation, returns undefined.
-	 */
-	getFirstSentence( tokenArray ) {
-		for ( let i = 0; i < tokenArray.length; i++ ) {
-			const token = tokenArray[ i ];
-			if ( token.type === "sentence" ) {
-				return token;
-			}
-		}
-	}
+	//
+	// /**
+	//  * Gets the first sentence from an array of tokens.
+	//  *
+	//  * @param {Object[]} tokenArray The array of tokens that needs to be searched.
+	//  *
+	//  * @returns {Object|undefined} The next sentence. If there is no sentence after currentLocation, returns undefined.
+	//  */
+	// getFirstSentence( tokenArray ) {
+	// 	for ( let i = 0; i < tokenArray.length; i++ ) {
+	// 		const token = tokenArray[ i ];
+	// 		if ( token.type === "sentence" ) {
+	// 			return token;
+	// 		}
+	// 	}
+	// }
 
 	/**
 	 * Returns an array of sentences for a given array of tokens, assumes that the text has already been split into blocks.
@@ -437,7 +441,7 @@ export default class SentenceTokenizer {
 					break;
 				case "sentence-delimiter":
 					currentSentence += token.src;
-					nextSentence = this.getFirstSentence( tokenArray.slice( i + 1, tokenArray.length ) );
+					// nextSentence = this.getFirstSentence( tokenArray.slice( i + 1, tokenArray.length ) );
 
 					if ( ! isUndefined( nextToken ) && "block-end" !== nextToken.type && "sentence-delimiter" !== nextToken.type ) {
 						tokenSentences.push( currentSentence );
@@ -454,17 +458,16 @@ export default class SentenceTokenizer {
 					hasNextSentence = nextCharacters.length >= 2;
 					nextSentenceStart = hasNextSentence ? nextCharacters[ 1 ] : "";
 
-					// Retrieve the next sentence tokens. (This step might make the two steps above redundant.)
-					nextSentence = this.getFirstSentence( tokenArray.slice( i + 1, tokenArray.length ) );
-
 					// If the next character is a number, never split. For example: IPv4-numbers.
 					if ( hasNextSentence && this.isNumber( nextCharacters[ 0 ] ) ) {
 						break;
 					}
-					// If the next sentence has less than 2 words, it is probably not a sentence.
-					if ( nextSentence && nextSentence.src.trim().split( " " ).length < 2 ) {
+
+					if (this.isPersonInnitial(nextToken)){
+						console.log( "BINGO!", nextToken );
 						break;
 					}
+
 
 					// Only split on sentence delimiters when the next sentence looks like the start of a sentence.
 					if ( ( hasNextSentence && this.isValidSentenceBeginning( nextSentenceStart ) ) || this.isSentenceStart( nextToken ) ) {
