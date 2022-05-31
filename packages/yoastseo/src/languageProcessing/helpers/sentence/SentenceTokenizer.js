@@ -357,6 +357,12 @@ export default class SentenceTokenizer {
 			const previousToken = tokenArray[ i - 1 ];
 			const secondToNextToken = tokenArray[ i + 2 ];
 
+			nextCharacters = this.getNextTwoCharacters( [ nextToken, secondToNextToken ] );
+
+			// For a new sentence we need to check the next two characters.
+			hasNextSentence = nextCharacters.length >= 2;
+			nextSentenceStart = hasNextSentence ? nextCharacters[ 1 ] : "";
+
 			switch ( token.type ) {
 				case "html-start":
 				case "html-end":
@@ -378,34 +384,47 @@ export default class SentenceTokenizer {
 					break;
 				case "sentence-delimiter":
 					currentSentence += token.src;
-
-					if ( ! isUndefined( nextToken ) &&
-						"block-end" !== nextToken.type &&
-						"sentence-delimiter" !== nextToken.type &&
-						this.isCharacterASpace( nextToken.src[ 0 ] ) ) {
-						tokenSentences.push( currentSentence );
-						currentSentence = "";
+					/*
+					 * Should not split text into sentences if the next token is undefined
+					 * or the next token type is either "block-end" or "sentence-delimiter"
+					 */
+					if ( isUndefined( nextToken ) ||
+						"block-end" === nextToken.type ||
+						"sentence-delimiter" === nextToken.type ) {
+						break;
 					}
+
+					/*
+					 * Only split on sentence delimiters when:
+					 * a) There is a next sentence, and the next character is a valid sentence beginning preceded by a white space, OR
+					 * b) The next token is a sentence start
+					 */
+					currentSentence = this.getValidSentence( hasNextSentence,
+						nextSentenceStart,
+						nextCharacters,
+						nextToken,
+						tokenSentences,
+						currentSentence );
 					break;
 
 				case "full-stop":
 					currentSentence += token.src;
 
-					nextCharacters = this.getNextTwoCharacters( [ nextToken, secondToNextToken ] );
-
-					// For a new sentence we need to check the next two characters.
-					hasNextSentence = nextCharacters.length >= 2;
-					nextSentenceStart = hasNextSentence ? nextCharacters[ 1 ] : "";
-					// If the next character is a number, never split. For example: IPv4-numbers.
+					// It should not split the text if the first character of the potential next sentence is a number.
 					if ( hasNextSentence && this.isNumber( nextCharacters[ 0 ] ) ) {
 						break;
 					}
-					// Only split on sentence delimiters when the next sentence looks like the start of a sentence and it's preceded by a whitespace.
-					if ( ( hasNextSentence && this.isValidSentenceBeginning( nextSentenceStart ) && this.isCharacterASpace( nextCharacters[ 0 ] ) ) ||
-						this.isSentenceStart( nextToken ) ) {
-						tokenSentences.push( currentSentence );
-						currentSentence = "";
-					}
+					/*
+					 * Only split on full stop when:
+					 * a) There is a next sentence, and the next character is a valid sentence beginning preceded by a white space, OR
+					 * b) The next token is a sentence start
+					 */
+					currentSentence = this.getValidSentence( hasNextSentence,
+						nextSentenceStart,
+						nextCharacters,
+						nextToken,
+						tokenSentences,
+						currentSentence );
 					break;
 
 				case "block-start":
