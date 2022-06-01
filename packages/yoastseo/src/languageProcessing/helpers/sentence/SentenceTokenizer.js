@@ -8,7 +8,11 @@ import { normalize as normalizeQuotes } from "../sanitize/quotes.js";
 
 import abbreviations from "../../languages/en/config/abbreviations";
 
+import createRegexFromArray from "../regex/createRegexFromArray";
+
 import addWordBoundary from "../word/addWordboundary";
+import replaceDiacritics from "../transliterate/replaceDiacritics";
+import sanitizeString from "../sanitize/sanitizeString";
 
 // All characters that indicate a sentence delimiter.
 const fullStop = ".";
@@ -21,14 +25,11 @@ const htmlEndRegex = /^<\/([^>\s]+)[^>]*>$/mi;
 const blockStartRegex = /^\s*[[({]\s*$/;
 const blockEndRegex = /^\s*[\])}]\s*$/;
 
-// Build regex to recognize abbreviations.
-// CreateRegexFromArray does not work for this application.
-for ( let i = 0; i < abbreviations.length; i++ ) {
-	abbreviations[ i ] = abbreviations[ i ].replace( ".", "\\." );
-	abbreviations[ i ] = addWordBoundary( abbreviations[ i ] );
-}
+const abbreviationsForRegex = map( abbreviations, function( string ) {
+	return string.replace( ".", "\\." );
+} );
 
-const abbreviationsRegex = new RegExp( "^(" + abbreviations.join( ")|(" ) + ")$" );
+const abbreviationsRegex = createRegexFromArray( abbreviationsForRegex );
 
 /**
  * Class for tokenizing a (html) text into sentences.
