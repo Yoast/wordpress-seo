@@ -355,10 +355,7 @@ export default class SentenceTokenizer {
 		const matchLength = abbreviationsMatchString.length;
 		const tokenStringEnd = tokenString.slice( tokenString.length - matchLength, tokenString.length ).trim();
 
-		if ( abbreviationsMatchString === tokenStringEnd ) {
-			return true;
-		}
-		return false;
+		return ( abbreviationsMatchString === tokenStringEnd );
 	}
 
 	/**
