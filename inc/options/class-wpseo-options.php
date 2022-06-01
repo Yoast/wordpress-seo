@@ -87,26 +87,28 @@ class WPSEO_Options {
 	public static function register_option( WPSEO_Option $option_instance ) {
 		$option_name = $option_instance->get_option_name();
 
-		if ( $option_instance->multisite_only && ! is_multisite() ) {
-			unset( static::$options[ $option_name ], static::$option_names[ $option_name ] );
+		YoastSEO()->helpers->options->register_option( $option_instance );
 
-			return;
-		}
+		// if ( $option_instance->multisite_only && ! is_multisite() ) {
+		// 	unset( static::$options[ $option_name ], static::$option_names[ $option_name ] );
 
-		$is_already_registered = array_key_exists( $option_name, static::$options );
-		if ( ! $is_already_registered ) {
-			static::$options[ $option_name ] = get_class( $option_instance );
-		}
+		// 	return;
+		// }
 
-		if ( $option_instance->include_in_all === true ) {
-			static::$option_names[ $option_name ] = $option_name;
-		}
+		// $is_already_registered = array_key_exists( $option_name, static::$options );
+		// if ( ! $is_already_registered ) {
+		// 	static::$options[ $option_name ] = get_class( $option_instance );
+		// }
 
-		static::$option_instances[ $option_name ] = $option_instance;
+		// if ( $option_instance->include_in_all === true ) {
+		// 	static::$option_names[ $option_name ] = $option_name;
+		// }
 
-		if ( ! $is_already_registered ) {
-			static::clear_cache();
-		}
+		// static::$option_instances[ $option_name ] = $option_instance;
+
+		// if ( ! $is_already_registered ) {
+		// 	static::clear_cache();
+		// }
 	}
 
 	/**

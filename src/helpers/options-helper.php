@@ -45,6 +45,8 @@ class Options_Helper {
 	 */
 	protected $site_helper;
 
+	protected $addon_option_configurations;
+
 	/**
 	 * Sets the dependencies.
 	 *
@@ -62,12 +64,16 @@ class Options_Helper {
 		Site_Options_Service $site_options_service,
 		Multisite_Options_Service $multisite_options_service,
 		Network_Admin_Options_Service $network_admin_options_service,
-		Site_Helper $site_helper
+		Site_Helper $site_helper,
+		// Dep injection spread
+		Addon_Option_Configurations ...$addon_option_configurations
 	) {
 		$this->site_options_service          = $site_options_service;
 		$this->multisite_options_service     = $multisite_options_service;
 		$this->network_admin_options_service = $network_admin_options_service;
 		$this->site_helper                   = $site_helper;
+
+		$this->addon_option_configurations 	 = $addon_option_configurations;
 	}
 
 	/**
@@ -286,5 +292,101 @@ class Options_Helper {
 		}
 
 		return $this->site_options_service;
+	}
+
+	public function register_option( $option_instance ) {
+		$option_name = $option_instance->get_option_name();
+		$additional_configurations = [];
+
+		foreach ( $this->addon_option_configurations as $addon_option_configuration ) {
+			if ( ! $option_instance->get_option_name() === $addon_option_configuration->get_option_name() ) {
+				continue;
+			}
+
+			add_filter( 'wpseo_options_additional_configurations', function( $configurations ) use ( $addon_option_configuration ) {
+				return array_merge( $configurations, $addon_option_configuration->get_configurations() );
+			}, 10 );
+
+			// use $addon_option_configuration in this callback scope
+			add_filter( 'pre_option_wpseo_video', function() use ( $addon_option_configuration ) {
+				return $this->get_options( $addon_option_configuration->get_keys() );
+			}, 10, 2 );
+
+			add_filter( 'pre_update_option_wpseo_video', function( $values, $old_values ) use ( $addon_option_configuration ) {
+				foreach ( $values as $key => $value ) {
+					// Validation handled here?
+					$success = $this->set( $key, $value );
+
+					if ( ! $success ) {
+						# code...
+					}
+				}
+
+				if ( $result['succcess'] ) {
+					return $this->get_options( [
+						'facebook_site',
+						'instagram_url',
+					] );
+				}
+				
+				return $old_values;
+			}, 10, 2 );
+		}
+		
+
+		// How to ensure options exist?
+
+		if ( $option->option_name === 'wpseo_video' ) {
+			// Okay to include these configs in Free?
+			$additional_configurations = [
+				'video_dbversion'            => 0,
+				// Form fields.
+				'video_cloak_sitemap'        => false,
+				'video_disable_rss'          => false,
+				'video_custom_fields'        => '',
+				'video_facebook_embed'       => true,
+				'video_fitvids'              => false,
+				'video_content_width'        => '',
+				'video_wistia_domain'        => '',
+				'video_embedly_api_key'      => '',
+				// Translate & enrich defaults handled here
+				'videositemap_posttypes'     => get_post_types( [ 'public' => true ] ),
+				'videositemap_taxonomies'    => [],
+				'video_youtube_faster_embed' => false,
+			];
+
+			add_filter( 'wpseo_options_additional_configurations', function( $configurations ) {
+				return array_merge( $configurations, $additional_configurations );
+			}, 10 );
+	
+			add_filter( 'pre_option_wpseo_video', function() {
+				$video_options = $this->get_options( [
+					'facebook_site',
+					'instagram_url',
+				] );
+	
+				return $video_options;
+			}, 10, 2 );
+
+			add_filter( 'pre_update_option_wpseo_video', function( $values, $old_values ) {
+				foreach ( $values as $key => $value ) {
+					// Validation handled here?
+					$success = $this->set( $key, $value );
+
+					if ( ! $success ) {
+						# code...
+					}
+				}
+
+				if ( $result['succcess'] ) {
+					return $this->get_options( [
+						'facebook_site',
+						'instagram_url',
+					] );
+				}
+				
+				return $old_values;
+			}, 10, 2 );
+		}
 	}
 }
