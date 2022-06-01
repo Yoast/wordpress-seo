@@ -30,8 +30,6 @@ for ( let i = 0; i < abbreviations.length; i++ ) {
 
 const abbreviationsRegex = new RegExp( "^(" + abbreviations.join( ")|(" ) + ")$" );
 
-// Const abbreviationsRegex = creacteRegexFromArray( abbreviations );
-
 /**
  * Class for tokenizing a (html) text into sentences.
  */
@@ -438,7 +436,6 @@ export default class SentenceTokenizer {
 
 					// If the current sentence ends with an abbreviation, the full stop does not split the sentence.
 					if ( this.endsWithAbbreviation( currentSentence ) ) {
-						// CurrentSentence += " ";
 						break;
 					}
 
