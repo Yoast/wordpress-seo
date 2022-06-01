@@ -16,11 +16,4 @@ class Webinar_Promo_Alert extends Abstract_Dismissable_Alert {
 	 * @var string
 	 */
 	protected $alert_identifier = "webinar-promo-alert";
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public static function get_conditionals() {
-		return [ Premium_Inactive_Conditional::class ];
-	}
 }

@@ -5,7 +5,6 @@ import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 
 /* Internal dependencies */
-import PersistentDismissableAlert from "../../containers/PersistentDismissableAlert";
 import CollapsibleCornerstone from "../../containers/CollapsibleCornerstone";
 import Warning from "../../containers/Warning";
 import { KeywordInput, ReadabilityAnalysis, SeoAnalysis } from "@yoast/externals/components";
@@ -17,6 +16,7 @@ import SchemaTabContainer from "../../containers/SchemaTab";
 import SidebarCollapsible from "../SidebarCollapsible";
 import AdvancedSettings from "../../containers/AdvancedSettings";
 import WincherSEOPerformanceModal from "../../containers/WincherSEOPerformanceModal";
+import WebinarPromoAlert from "../WebinarPromoAlert";
 
 /* eslint-disable complexity */
 /**
@@ -34,10 +34,7 @@ export default function SidebarFill( { settings } ) {
 	return (
 		<Fragment>
 			<Fill name="YoastSidebar">
-				<PersistentDismissableAlert alertKey="webinar-promo-alert" type="info">
-					This works
-					{ /* <button onClick={ () => console }></button> */ }
-				</PersistentDismissableAlert>
+				<WebinarPromoAlert />
 				<SidebarItem key="warning" renderPriority={ 1 }>
 					<Warning />
 				</SidebarItem>
