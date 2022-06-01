@@ -25,11 +25,8 @@ const htmlEndRegex = /^<\/([^>\s]+)[^>]*>$/mi;
 const blockStartRegex = /^\s*[[({]\s*$/;
 const blockEndRegex = /^\s*[\])}]\s*$/;
 
-const abbreviationsForRegex = map( abbreviations, function( string ) {
-	return string.replace( ".", "\\." );
-} );
-
-const abbreviationsRegex = createRegexFromArray( abbreviationsForRegex );
+const abbreviationsPreparedForRegex = abbreviations.map( ( abbreviation ) => abbreviation.replace( ".", "\\." ) );
+const abbreviationsRegex = createRegexFromArray( abbreviationsPreparedForRegex );
 
 /**
  * Class for tokenizing a (html) text into sentences.
