@@ -284,8 +284,8 @@ describe( "Get sentences from text", function() {
 			"</p>\n";
 
 		expect( getSentences( text ) ).toEqual( [
-			"Tempeh or tempe (/ˈtɛmpeɪ/;",
-			"Javanese: ꦠꦺꦩ꧀ꦥꦺ, romanized: témpé, pronounced [tempe]) is a traditional Indonesian food made from fermented soybeans.",
+			"Tempeh or tempe (/ˈtɛmpeɪ/; Javanese: ꦠꦺꦩ꧀ꦥꦺ, romanized: témpé, pronounced [tempe]) is a " +
+			"traditional Indonesian food made from fermented soybeans.",
 			"It is made by a natural culturing and controlled fermentation process that binds soybeans into a cake form.",
 			"A fungus, Rhizopus oligosporus or Rhizopus oryzae, is used in the fermentation process and is also known as tempeh starter.",
 		]
@@ -345,7 +345,7 @@ describe( "Get sentences from text", function() {
 			},
 			{
 				input: "This is a sentence (with blockends)? this is still one sentence.",
-				expected: [ "This is a sentence (with blockends)? this is still one sentence." ],
+				expected: [ "This is a sentence (with blockends)?", "this is still one sentence." ],
 			},
 			{
 				input: "This is a sentence (with blockends.). This is a second sentence.",
@@ -389,7 +389,7 @@ describe( "Get sentences from text", function() {
 			},
 			{
 				input: "This is a sentence (with blockends.)? this is a new sentence.",
-				expected: [ "This is a sentence (with blockends.)? this is a new sentence." ],
+				expected: [ "This is a sentence (with blockends.)?", "this is a new sentence." ],
 			},
 			{
 				input: "This is a sentence (with blockends.). 1 this is a second sentence.",
@@ -445,31 +445,47 @@ describe( "Get sentences from text", function() {
 } );
 
 describe( "a test for when texts containing sentence delimiter", () => {
-	it( "should break on ;, ? and ! only when it's followed by a valid sentence beginning", function() {
-		let text = "First sentence; second sentence! third sentence? fourth sentence";
+	it( "should always break on ? and ! even when it's not followed by a valid sentence beginning", function() {
+		let text = "First sentence. second sentence! third sentence? fourth sentence";
 
-		expect( getSentences( text ) ).toEqual( [ "First sentence; second sentence! third sentence? fourth sentence" ] );
-
-		text = "First sentence; second sentence! Third sentence? Fourth sentence";
 		expect( getSentences( text ) ).toEqual( [
-			"First sentence; second sentence!",
+			"First sentence. second sentence!",
+			"third sentence?",
+			"fourth sentence" ] );
+
+		text = "First sentence. Second sentence! Third sentence? Fourth sentence";
+		expect( getSentences( text ) ).toEqual( [
+			"First sentence.",
+			"Second sentence!",
 			"Third sentence?",
 			"Fourth sentence" ] );
 	} );
-	it( "should accept the horizontal ellipsis as sentence terminator, when the next character is valid sentence beginning", function() {
-		const text = "This is the first sentence… Followed by a second one.";
+	it( "should accept the horizontal ellipsis or triple dots as sentence terminator, " +
+		"when the next character is valid sentence beginning", function() {
+		let text = "This is the first sentence… Followed by a second one.";
 
 		expect( getSentences( text ) ).toEqual( [ "This is the first sentence…", "Followed by a second one." ] );
+
+		text = "This is the first sentence\u2026 Followed by a second one.";
+		expect( getSentences( text ) ).toEqual( [ "This is the first sentence\u2026", "Followed by a second one." ] );
+
+		text = "This is the first sentence... Followed by a second one.";
+		expect( getSentences( text ) ).toEqual( [ "This is the first sentence...", "Followed by a second one." ] );
 	} );
 	it( "should not split text into sentences if the next character after an ellipsis is not a valid sentence beginning", () => {
-		let text = "This house is built in 1990&#x2026; a nice house.";
+		let text = "This house is built in 1990\u2026 a nice house.";
 		expect( getSentences( text ) ).toEqual( [
-			"This house is built in 1990&#x2026; a nice house.",
+			"This house is built in 1990\u2026 a nice house.",
 		] );
 
 		text = "This house is built in 1990… a nice house.";
 		expect( getSentences( text ) ).toEqual( [
 			"This house is built in 1990… a nice house.",
+		] );
+
+		text = "This house is built in 1990... a nice house.";
+		expect( getSentences( text ) ).toEqual( [
+			"This house is built in 1990... a nice house.",
 		] );
 	} );
 	it( "should accept the horizontal ellipsis as sentence terminator in Japanese", function() {
@@ -479,7 +495,7 @@ describe( "a test for when texts containing sentence delimiter", () => {
 			"東海道新幹線の開業前、東西の大動脈である東海道本線は高度経済成長下で線路容量が逼迫しており…",
 			"抜本的な輸送力増強を迫られていた。" ] );
 	} );
-	it( "should accept the horizontal ellipsis as sentence terminator in Japanese", function() {
+	it( "should accept the two dot leader as sentence terminator in Japanese", function() {
 		const text = "東海道新幹線の開業前、東西の大動脈である東海道本線は高度経済成長下で線路容量が逼迫しており‥抜本的な輸送力増強を迫られていた。";
 
 		expect( getSentences( text, japaneseSentenceTokenizer ) ).toEqual( [
@@ -670,8 +686,8 @@ describe( "Parse languages written right-to-left", function() {
 			"כי התפתחות הציור מקבילה להתפתחותו האינטלקטואלית של הילד, המתבטאת בהתפתחות הראייה " +
 			"ההנדסית והמרחבית (ארגון המרחב, שליטה ובקרה בעיצוב הקו), ובהתאם להתפתחות החשיבה.",
 			"בשנת 1947 תיאר איש החינוך לאמנות ויקטור לוונפלד ((אנ')‏ Viktor Lowenfeld) " +
-			"שישה שלבים עיקריים בהתפתחות הגרפית של ילדים, וזאת על בסיס עבודתו של ברט ובדומה לתאוריית ההתפתחות הקוגניטיבית של פיאז'ה;",
-			"עבודתו זו מהווה עד היום בסיס לבחינת התפתחות ציורי ילדים.",
+			"שישה שלבים עיקריים בהתפתחות הגרפית של ילדים," +
+			" וזאת על בסיס עבודתו של ברט ובדומה לתאוריית ההתפתחות הקוגניטיבית של פיאז'ה; עבודתו זו מהווה עד היום בסיס לבחינת התפתחות ציורי ילדים.",
 		];
 
 		const actual = getSentences( text );
