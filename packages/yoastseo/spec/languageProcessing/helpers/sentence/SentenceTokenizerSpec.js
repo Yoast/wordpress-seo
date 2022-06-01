@@ -21,6 +21,8 @@ describe( "A test for tokenizing a (html) text into sentences", function() {
 			{ type: "sentence", src: " second sentence" },
 			{ type: "full-stop", src: "." },
 			{ type: "sentence", src: "  Third sentence." },
+			{ type: "full-stop", src: "\"" },
+			{ type: "sentence", src: "  Fourth sentence\"" },
 			{ type: "html-end", src: "<br> element.</p>" },
 			{ type: "block-end", src: "</form>" },
 		];
@@ -28,6 +30,7 @@ describe( "A test for tokenizing a (html) text into sentences", function() {
 			"<form><p>First sentence:",
 			"second sentence.",
 			"Third sentence.",
+			"Fourth sentence\"",
 			"</form>",
 		] );
 	} );
@@ -130,7 +133,7 @@ describe( "A test for tokenizing a (html) text into sentences", function() {
 		expect( mockTokenizer.tokenizeSmallerThanContent( token, tokenSentences, currentSentence ) ).toEqual( {
 			currentSentence: "</p>",
 			tokenSentences: [ "First sentence:", "second sentence.", "Third sentence.", "<p>To force", " line breaks",
-				" in a text,", " use the br", " element." ],
+				" in a text,", "", " use the br", " element." ],
 		} );
 
 		token = { type: "smaller-than-sign-content", src: "<p>Use<br> this</p>?" };
