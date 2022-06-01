@@ -208,22 +208,56 @@ describe( "A test for tokenizing a (html) text into sentences", function() {
 			{ type: "full-stop", src: "." },
 
 		];
-		// eslint-disable-next-line max-len
+
 		expect( mockTokenizer.getSentencesFromTokens( tokens ) ).toEqual(   [ "A cat is possessed by C. D.", "This is a sentence." ]  );
 	} );
 
-	it( "gets the first sentence from an array of tokens", function() {
-		// 'A cat is possessed by C. D. This is a sentence.'
+	it( "recognizes when a full stop is part of a person's initials", function() {
 		const tokens = [
-			{ type: "not-a-sentence", src: " A cat is possessed by C" },
+			{ type: "sentence", src: " A cat is possessed by C" },
 			{ type: "full-stop", src: "." },
-			{ type: "just-a-letter", src: " D" },
+			{ type: "sentence", src: " D" },
 			{ type: "full-stop", src: "." },
 			{ type: "sentence", src: " This is a sentence" },
 			{ type: "full-stop", src: "." },
 
 		];
-		// eslint-disable-next-line max-len
-		expect( mockTokenizer.getFirstSentence( tokens ) ).toEqual(   { type: "sentence", src: " This is a sentence" } );
+		const nextToken = tokens[ 2 ];
+		const secondToNextToken = tokens[ 3 ];
+
+		expect( mockTokenizer.isPartOfPersonInitial( nextToken, secondToNextToken ) ).toBeTruthy();
+	} );
+
+	it( "recognizes when a full stop is not part of a person's initials", function() {
+		const tokens = [
+			{ type: "sentence", src: "This is a sentence" },
+			{ type: "full-stop", src: "." },
+			{ type: "sentence", src: " This is a sentence" },
+			{ type: "full-stop", src: "." },
+
+		];
+		const nextToken = tokens[ 2 ];
+		const secondToNextToken = tokens[ 3 ];
+
+		expect( mockTokenizer.isPartOfPersonInitial( nextToken, secondToNextToken ) ).toBeFalsy();
+	} );
+
+	xit( "recognizes when a full stop is part of initials with multiple letters", function() {
+		const tokens = [
+			{ type: "sentence", src: "This is a sentence" },
+			{ type: "full-stop", src: "." },
+			{ type: "sentence", src: " A" },
+			{ type: "full-stop", src: "." },
+			{ type: "sentence", src: " F" },
+			{ type: "full-stop", src: "." },
+			{ type: "sentence", src: " Th" },
+			{ type: "full-stop", src: "." },
+			{ type: "sentence", src: " van der Heijden is a well known Dutch writer." },
+			{ type: "full-stop", src: "." },
+		];
+		const nextToken = tokens[ 6 ];
+		const secondToNextToken = tokens[ 7 ];
+
+		expect( mockTokenizer.isPartOfPersonInitial( nextToken, secondToNextToken ) ).toBeTruthy();
 	} );
 } );
