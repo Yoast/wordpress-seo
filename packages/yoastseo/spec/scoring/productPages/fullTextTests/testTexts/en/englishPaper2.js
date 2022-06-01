@@ -30,10 +30,8 @@ const expectedResults = {
 	},
 	keywordDensity: {
 		isApplicable: true,
-		score: 4,
-		resultText: "<a href='https://yoa.st/shopify12' target='_blank'>Keyphrase density</a>: The focus keyphrase was found 1 time. " +
-			"That's less than the recommended minimum of 2 times for a text of this length. <a href='https://yoa.st/shopify13' " +
-			"target='_blank'>Focus on your keyphrase</a>!",
+		score: 9,
+		resultText: "<a href='https://yoa.st/shopify12' target='_blank'>Keyphrase density</a>: The focus keyphrase was found 2 times. This is great!",
 	},
 	metaDescriptionKeyword: {
 		isApplicable: true,
@@ -128,19 +126,20 @@ const expectedResults = {
 	},
 	textSentenceLength: {
 		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/shopify48' target='_blank'>Sentence length</a>: Great!",
+		score: 3,
+		resultText: "<a href='https://yoa.st/shopify48' target='_blank'>Sentence length</a>: 47.1% of the sentences contain more than 20 words, " +
+			"which is more than the recommended maximum of 20%. <a href='https://yoa.st/shopify49' target='_blank'>" +
+			"Try to shorten the sentences</a>.",
 	},
 	textTransitionWords: {
 		isApplicable: true,
-		score: 3,
-		resultText: "<a href='https://yoa.st/shopify44' target='_blank'>Transition words</a>: Only 15.4% of the sentences contain " +
-			"transition words, which is not enough. <a href='https://yoa.st/shopify45' target='_blank'>Use more of them</a>.",
+		score: 9,
+		resultText: "<a href='https://yoa.st/shopify44' target='_blank'>Transition words</a>: Well done!",
 	},
 	passiveVoice: {
 		isApplicable: true,
-		score: 6,
-		resultText: "<a href='https://yoa.st/shopify42' target='_blank'>Passive voice</a>: 10.3% of the sentences contain passive voice, " +
+		score: 3,
+		resultText: "<a href='https://yoa.st/shopify42' target='_blank'>Passive voice</a>: 20% of the sentences contain passive voice, " +
 			"which is more than the recommended maximum of 10%. <a href='https://yoa.st/shopify43' target='_blank'>" +
 			"Try to use their active counterparts</a>.",
 	},

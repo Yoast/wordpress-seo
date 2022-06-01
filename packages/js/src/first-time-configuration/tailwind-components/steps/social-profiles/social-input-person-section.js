@@ -1,10 +1,9 @@
 import apiFetch from "@wordpress/api-fetch";
-import { createInterpolateElement, useCallback, useEffect, Fragment } from "@wordpress/element";
+import { createInterpolateElement, useCallback, useEffect } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 
-import { Alert } from "@yoast/components";
-import { addLinkToString } from "../../../../helpers/stringHelpers.js";
+import Alert from "../../base/alert";
 import { socialMedia } from "../../helpers";
 import SocialInput from "./social-input";
 
@@ -47,63 +46,16 @@ function SocialInputPersonSection( { socialProfiles, errorFields, dispatch, canE
 		<div>
 			{
 				// No person has been selected in step 2
-				personId === 0 && <Fragment>
-					<Alert type="info">
-						{
-							createInterpolateElement(
-								sprintf(
-									__(
-										// translators: %1$s and %2$s are replaced by opening and closing <b> tags, %3$s and %4$s are replaced by opening and closing anchor tags
-										"%1$sImportant%2$s: Please select a name in step 2 for this step to be effective.",
-										"wordpress-seo"
-									),
-									"<b>",
-									"</b>"
-								),
-								{
-									b: <b />,
-								}
-							)
-						}
-					</Alert>
-					<p>
-						{
-							createInterpolateElement(
-								sprintf(
-									__(
-										// translators: %1$s and %2$s are replaced by opening and closing anchor tags
-										"In this step, you need to add the personal social profiles of the person your site represents. To do that, you should go to the %1$sUsers%2$s > Profile page in a new browser tab. Alternatively, ask the user or an admin to do it if you are not allowed.",
-										"wordpress-seo"
-									),
-									"<a>",
-									"</a>"
-								),
-								{
-									b: <b />,
-									// eslint-disable-next-line jsx-a11y/anchor-has-content
-									a: <a id="yoast-configuration-user-page-link-1" href={ window.wpseoFirstTimeConfigurationData.usersPageUrl } target="_blank" rel="noopener noreferrer" />,
-								}
-							)
-						}
-					</p>
-					<p>
-						{
-							addLinkToString(
-								sprintf(
-									__(
-										// translators: %1$s and %2$s are replaced by opening and closing anchor tags.
-										"On the %1$sUsers%2$s page, hover your mouse over the username you want to edit. Click ‘Edit’ to access the user’s profile. Then, scroll down to the ‘Contact info’ section (see screenshot below) and fill in the URLs of the personal social profiles you want to add.",
-										"wordpress-seo"
-									),
-									"<a>",
-									"</a>"
-								),
-								window.wpseoFirstTimeConfigurationData.usersPageUrl,
-								"yoast-configuration-user-page-link-2"
-							)
-						}
-					</p>
-				</Fragment>
+				personId === 0 && <Alert type="info" className="yst-mt-5">
+					{
+						// translators: please note that "Site representation" here refers to the name of a step in the first-time configuration, so this occurrence needs to be translated in the same manner as that step's heading.
+						__(
+							"Please select a name in the site representation step for this step to be effective.",
+							"wordpress-seo"
+
+						)
+					}
+				</Alert>
 			}
 			{
 				( ( personId !== 0 ) && ( ! canEditUser ) ) &&
@@ -111,8 +63,8 @@ function SocialInputPersonSection( { socialProfiles, errorFields, dispatch, canE
 					{
 						createInterpolateElement(
 							sprintf(
+								// translators: %1$s is replaced by the selected person's username
 								__(
-									// translators: %1$s is replaced by the selected person's username
 									"You're not allowed to edit the social profiles of the user %1$s. Please ask this user or an admin to do this.",
 									"wordpress-seo"
 								),
