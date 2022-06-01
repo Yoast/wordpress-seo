@@ -259,7 +259,12 @@ export default class SentenceTokenizer {
 		);
 	}
 
-
+	/**
+	 * Checks if a full stop is part of a person's initials.
+	 * @param {object} nextToken The token following the full stop.
+	 * @param {object} secondToNextToken The second token after the full stop.
+	 * @returns {boolean} True if a full stop is part of a person's initials, False if the full stop is not part of a person's initials.
+	 */
 	isPersonInitial( nextToken, secondToNextToken ) {
 		return ( ! isUndefined( nextToken ) &&
 			! isUndefined( secondToNextToken ) &&
