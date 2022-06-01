@@ -351,6 +351,8 @@ export default class SentenceTokenizer {
 		if ( ! myMatch ) {
 			return false;
 		}
+
+		// Only return true if it the last word is an abbreviation.
 		const myMatchString = myMatch[ 0 ].trim();
 		const matchLength = myMatchString.length;
 		const tokenStringEnd = tokenString.slice( tokenString.length - matchLength, tokenString.length ).trim();
