@@ -10,10 +10,6 @@ import abbreviations from "../../languages/en/config/abbreviations";
 
 import createRegexFromArray from "../regex/createRegexFromArray";
 
-import addWordBoundary from "../word/addWordboundary";
-import replaceDiacritics from "../transliterate/replaceDiacritics";
-import sanitizeString from "../sanitize/sanitizeString";
-
 // All characters that indicate a sentence delimiter.
 const fullStop = ".";
 
