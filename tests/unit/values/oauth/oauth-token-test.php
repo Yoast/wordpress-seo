@@ -50,10 +50,43 @@ class OAuth_Token_Test extends TestCase {
 	 *
 	 * @covers ::__construct
 	 */
-	public function test_creating_new_instance_empty_property() {
+	public function test_creating_new_instance_empty_access_token() {
 		$this->expectException( Empty_Property_Exception::class );
 
-		$instance = new OAuth_Token( '', '000001', 604800, true, $this->created_at );
+		new OAuth_Token( '', '000001', 604800, true, $this->created_at );
+	}
+
+	/**
+	 * Test creating a new instance with an empty property.
+	 *
+	 * @covers ::__construct
+	 */
+	public function test_creating_new_instance_empty_refresh_token() {
+		$this->expectException( Empty_Property_Exception::class );
+
+		new OAuth_Token( '000001', '', 604800, true, $this->created_at );
+	}
+
+	/**
+	 * Test creating a new instance with an empty property.
+	 *
+	 * @covers ::__construct
+	 */
+	public function test_creating_new_instance_empty_expires() {
+		$this->expectException( Empty_Property_Exception::class );
+
+		new OAuth_Token( '000001', '000001', null, true, $this->created_at );
+	}
+
+	/**
+	 * Test creating a new instance with an empty property.
+	 *
+	 * @covers ::__construct
+	 */
+	public function test_creating_new_instance_empty_has_expired() {
+		$this->expectException( Empty_Property_Exception::class );
+
+		new OAuth_Token( '000001', '000001', 604800, null, $this->created_at );
 	}
 
 	/**
