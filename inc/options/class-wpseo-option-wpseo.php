@@ -55,7 +55,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'enable_cornerstone_content'               => true,
 		'enable_xml_sitemap'                       => true,
 		'enable_text_link_counter'                 => true,
-		'enable_index_now'                         => true,
+		'enable_index_now'                         => false,
 		'show_onboarding_notice'                   => false,
 		'first_activated_on'                       => false,
 		'myyoast-oauth'                            => [
@@ -278,6 +278,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'license_server_version':
 				case 'home_url':
 				case 'zapier_api_key':
+				case 'index_now_key':
 				case 'wincher_website_id':
 					if ( isset( $dirty[ $key ] ) ) {
 						$clean[ $key ] = $dirty[ $key ];
@@ -354,7 +355,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'zapier_subscription':
 				case 'wincher_tokens':
 				case 'workouts_data':
-				case 'index_now_key':
 				case 'configuration_finished_steps':
 					$clean[ $key ] = $old[ $key ];
 
@@ -442,6 +442,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 			'zapier_integration_active'      => false,
 			'wincher_integration_active'     => false,
 			'remove_feed_post_comments'      => false,
+			'enable_index_now'               => false,
 		];
 
 		// We can reuse this logic from the base class with the above defaults to parse with the correct feature values.
