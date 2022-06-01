@@ -435,7 +435,6 @@ export default class SentenceTokenizer {
 					break;
 				case "sentence-delimiter":
 					currentSentence += token.src;
-					// NextSentence = this.getFirstSentence( tokenArray.slice( i + 1, tokenArray.length ) );
 
 					if ( ! isUndefined( nextToken ) && "block-end" !== nextToken.type && "sentence-delimiter" !== nextToken.type ) {
 						tokenSentences.push( currentSentence );
