@@ -7,9 +7,10 @@ import core from "tokenizer2/core";
 import { normalize as normalizeQuotes } from "../sanitize/quotes.js";
 
 // All characters that indicate a sentence delimiter.
-const fullStop = [ ".", "\"" ];
+const fullStop = [ "." ];
+const fullStopQuotation = [ "\"" ];
 
-const fullStopRegex = new RegExp( "^[" + fullStop + "]$" );
+const fullStopRegex = new RegExp( "^[" + fullStop || fullStopQuotation + "]$" );
 const smallerThanContentRegex = /^<[^><]*$/;
 const htmlStartRegex = /^<([^>\s/]+)[^>]*>$/mi;
 const htmlEndRegex = /^<\/([^>\s]+)[^>]*>$/mi;
@@ -264,7 +265,7 @@ export default class SentenceTokenizer {
 				tokenSentences.push( sentence );
 			} );
 
-			const sentenceEndRegex = new RegExp( "[" + fullStop + this.getSentenceDelimiters() + "]$" );
+			const sentenceEndRegex = new RegExp( "[" + fullStop || fullStopQuotation + this.getSentenceDelimiters() + "]$" );
 
 			// Check if the last sentence has a valid sentence ending.
 			if ( lastSentence.match( sentenceEndRegex ) ) {
@@ -288,7 +289,7 @@ export default class SentenceTokenizer {
 	 */
 	createTokenizer() {
 		const sentenceDelimiterRegex = new RegExp( "^[" + this.getSentenceDelimiters() + "]$" );
-		const sentenceRegex = new RegExp( "^[^" + fullStop + this.getSentenceDelimiters() + "<\\(\\)\\[\\]]+$" );
+		const sentenceRegex = new RegExp( "^[^" + fullStop || fullStopQuotation + this.getSentenceDelimiters() + "<\\(\\)\\[\\]]+$" );
 
 		const tokens = [];
 		const tokenizer = core( function( token ) {
@@ -464,7 +465,7 @@ export default class SentenceTokenizer {
 	/**
 	 * Checks if the character is a whitespace.
 	 *
-	 * @param {string} character    The chracter to check.
+	 * @param {string} character    The character to check.
 	 * @returns {boolean}   Whether the character is a whitespace.
 	 */
 	isCharacterASpace( character ) {
