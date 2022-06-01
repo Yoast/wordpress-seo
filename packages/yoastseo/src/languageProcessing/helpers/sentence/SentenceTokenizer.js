@@ -259,8 +259,8 @@ export default class SentenceTokenizer {
 		);
 	}
 
-	isPersonInnitial( token ){
-		return ( !isUndefined(token) && token.type === 'sentence' && token.src.trim().length === 1);
+	isPersonInitial( token ) {
+		return ( ! isUndefined( token ) && token.type === "sentence" && token.src.trim().length === 1 );
 	}
 
 	/**
@@ -381,11 +381,11 @@ export default class SentenceTokenizer {
 	//  *
 	//  * @returns {Object|undefined} The next sentence. If there is no sentence after currentLocation, returns undefined.
 	//  */
-	// getFirstSentence( tokenArray ) {
-	// 	for ( let i = 0; i < tokenArray.length; i++ ) {
-	// 		const token = tokenArray[ i ];
-	// 		if ( token.type === "sentence" ) {
-	// 			return token;
+	// GetFirstSentence( tokenArray ) {
+	// 	For ( let i = 0; i < tokenArray.length; i++ ) {
+	// 		Const token = tokenArray[ i ];
+	// 		If ( token.type === "sentence" ) {
+	// 			Return token;
 	// 		}
 	// 	}
 	// }
@@ -441,7 +441,7 @@ export default class SentenceTokenizer {
 					break;
 				case "sentence-delimiter":
 					currentSentence += token.src;
-					// nextSentence = this.getFirstSentence( tokenArray.slice( i + 1, tokenArray.length ) );
+					// NextSentence = this.getFirstSentence( tokenArray.slice( i + 1, tokenArray.length ) );
 
 					if ( ! isUndefined( nextToken ) && "block-end" !== nextToken.type && "sentence-delimiter" !== nextToken.type ) {
 						tokenSentences.push( currentSentence );
@@ -463,7 +463,7 @@ export default class SentenceTokenizer {
 						break;
 					}
 
-					if (!isUndefined(nextToken) && this.isPersonInnitial(nextToken)){
+					if ( ! isUndefined( nextToken ) && this.isPersonInitial( nextToken ) ) {
 						console.log( "BINGO!", nextToken );
 						break;
 					}
