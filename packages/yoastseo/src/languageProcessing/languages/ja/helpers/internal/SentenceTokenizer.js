@@ -15,7 +15,7 @@ import SentenceTokenizer from "../../../../helpers/sentence/SentenceTokenizer";
  * \u2048 - Japanese question exclamation mark.
  * \u2025 - Japanese two dot leader.
  */
-const sentenceDelimiters = "?!;\u2026\u3002\uFF61\uFF01\u203C\uFF1F\u2047\u2049\u2048\u2049\u2025";
+const sentenceDelimiters = "?!\u2026\u3002\uFF61\uFF01\u203C\uFF1F\u2047\u2049\u2048\u2049\u2025";
 
 /**
  * Class for tokenizing a (html) text into sentences.

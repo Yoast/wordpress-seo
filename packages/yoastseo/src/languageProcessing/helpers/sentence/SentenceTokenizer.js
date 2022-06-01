@@ -31,7 +31,7 @@ export default class SentenceTokenizer {
          * \u06D4 - Urdu full stop.
          * \u061f - Arabic question mark.
         */
-		this.sentenceDelimiters = "?!;\u2026\u06d4\u061f";
+		this.sentenceDelimiters = "?!\u2026\u06d4\u061f";
 	}
 
 	/**
