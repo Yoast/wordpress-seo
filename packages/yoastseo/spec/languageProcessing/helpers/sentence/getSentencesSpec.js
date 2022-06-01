@@ -400,6 +400,13 @@ describe( "Get sentences from text", function() {
 		testGetSentences( testCases );
 	} );
 
+	it( "should not split on semicolons", () => {
+		const text = "This house is built in 1990; a nice house. This house is built in 1990; A nice house.";
+		expect( getSentences( text ) ).toEqual( [
+			"This house is built in 1990; a nice house.",
+			"This house is built in 1990; A nice house." ] );
+	} );
+
 	it( "correctly gets sentences with a '<' signs in the middle or at the start.", function() {
 		const testCases = [
 			{
