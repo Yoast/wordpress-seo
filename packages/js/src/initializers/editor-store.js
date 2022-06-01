@@ -1,4 +1,4 @@
-import { pickBy } from "lodash";
+import { pickBy, get } from "lodash";
 import { combineReducers, registerStore } from "@wordpress/data";
 import { reducers, selectors, actions } from "@yoast/externals/redux";
 import * as controls from "../redux/controls";
@@ -33,6 +33,8 @@ const populateStore = store => {
 	store.dispatch( actions.setWincherLoginStatus( window.wpseoScriptData.metabox.wincherLoginStatus, false ) );
 	store.dispatch( actions.setWincherWebsiteId( window.wpseoScriptData.metabox.wincherWebsiteId ) );
 	store.dispatch( actions.setWincherAutomaticKeyphaseTracking( window.wpseoScriptData.metabox.wincherAutoAddKeyphrases ) );
+
+	store.dispatch( actions.setDismissedAlerts( get( window, "wpseoScriptData.dismissedAlerts", {} ) ) );
 };
 
 /**
