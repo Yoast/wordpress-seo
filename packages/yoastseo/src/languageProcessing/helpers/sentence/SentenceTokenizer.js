@@ -265,7 +265,7 @@ export default class SentenceTokenizer {
 	 * @param {object} secondToNextToken The second token after the full stop.
 	 * @returns {boolean} True if a full stop is part of a person's initials, False if the full stop is not part of a person's initials.
 	 */
-	isPersonInitial( nextToken, secondToNextToken ) {
+	isPartOfPersonInitial( nextToken, secondToNextToken ) {
 		return ( ! isUndefined( nextToken ) &&
 			! isUndefined( secondToNextToken ) &&
 			nextToken.type === "sentence" &&
@@ -458,7 +458,7 @@ export default class SentenceTokenizer {
 					}
 
 					// If the full stop is part of a person's initials, don't split sentence.
-					if ( this.isPersonInitial( nextToken, secondToNextToken ) ) {
+					if ( this.isPartOfPersonInitial( nextToken, secondToNextToken ) ) {
 						break;
 					}
 
