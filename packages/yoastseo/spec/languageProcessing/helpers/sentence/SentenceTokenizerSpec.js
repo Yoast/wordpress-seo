@@ -113,12 +113,12 @@ describe( "A test for tokenizing a (html) text into sentences", function() {
 		expect( mockTokenizer.endsWithAbbreviation( testString ) ).toBeTruthy();
 	} );
 
-	it( "endsWithAbbreviation returns false if a string does not end with an abreviation,", function() {
+	it( "endsWithAbbreviation returns false if a string does not end with an abbreviation,", function() {
 		const testString = "This string does not end with an abbreviation.";
 		expect( mockTokenizer.endsWithAbbreviation( testString ) ).toBeFalsy();
 	} );
 
-	it( "endsWithAbbreviation returns false does not end with an abreviation but has an abbreviation in the middle.", function() {
+	it( "endsWithAbbreviation returns false does not end with an abbreviation but has an abbreviation in the middle.", function() {
 		const testString = "This is e.g. a sentence.";
 		expect( mockTokenizer.endsWithAbbreviation( testString ) ).toBeFalsy();
 	} );
