@@ -384,27 +384,34 @@ export default class SentenceTokenizer {
 					break;
 				case "sentence-delimiter":
 					currentSentence += token.src;
-					/*
-					 * Should not split text into sentences if the next token is undefined
-					 * or the next token type is either "block-end" or "sentence-delimiter"
-					 */
-					if ( isUndefined( nextToken ) ||
-						"block-end" === nextToken.type ||
-						"sentence-delimiter" === nextToken.type ) {
-						break;
-					}
 
 					/*
-					 * Only split on sentence delimiters when:
-					 * a) There is a next sentence, and the next character is a valid sentence beginning preceded by a white space, OR
-					 * b) The next token is a sentence start
-					 */
-					currentSentence = this.getValidSentence( hasNextSentence,
-						nextSentenceStart,
-						nextCharacters,
-						nextToken,
-						tokenSentences,
-						currentSentence );
+				     * Only split text into sentences if:
+				     * the next token is defined, AND
+				     * the next token type is neither "block-end" nor "sentence-delimiter", AND
+				     * the next token first character is a white space
+				    */
+					if ( ! isUndefined( nextToken ) &&
+						"block-end" !== nextToken.type &&
+						"sentence-delimiter" !== nextToken.type &&
+						this.isCharacterASpace( nextToken.src[ 0 ] ) ) {
+						/*
+				         * Only split on ellipsis when:
+					     * a) There is a next sentence, and the next character is a valid sentence beginning preceded by a white space, OR
+					     * b) The next token is a sentence start
+					    */
+						if ( token.src === "…" ) {
+							currentSentence = this.getValidSentence( hasNextSentence,
+								nextSentenceStart,
+								nextCharacters,
+								nextToken,
+								tokenSentences,
+								currentSentence );
+						} else {
+							tokenSentences.push( currentSentence );
+							currentSentence = "";
+						}
+					}
 					break;
 
 				case "full-stop":
