@@ -17,6 +17,7 @@ $new_tab_message      = WPSEO_Admin_Utils::get_new_tab_message();
 			printf( esc_html__( '%1$s recommendations for you', 'wordpress-seo' ), 'Yoast' );
 			?>
 		</div>
+		<div id="yst-settings-sidebar-root"></div>
 		<div class="yoast-sidebar__section">
 			<h2>
 				<?php

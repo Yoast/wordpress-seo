@@ -543,7 +543,7 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 /* Banners sidebar. */
 .yoast-sidebar__title {
   width: 100%;
-  margin: 5px 0;
+  margin: 5px 0 20px;
   padding: 10px 0;
   color: #a4286a;
   text-align: left;
