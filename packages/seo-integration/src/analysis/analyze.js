@@ -1,6 +1,7 @@
 import { mapKeys, mapValues, zipObject } from "lodash";
 import { Paper } from "yoastseo";
 import { FOCUS_KEYPHRASE_ID } from "@yoast/seo-store";
+import formatDate from "../helpers/formatDate";
 
 /**
  * Creates a paper based on the given data, keyphrase and configuration.
@@ -24,7 +25,7 @@ const createPaper = ( data, keyphrase, configuration ) => {
 			titleWidth: data.seoTitleWidth,
 			permalink: data.permalink,
 			slug: data.slug,
-			date: data.date,
+			date: formatDate( data.date ),
 			// Configuration data.
 			locale: configuration.locale,
 		},
