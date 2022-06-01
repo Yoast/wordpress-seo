@@ -259,8 +259,12 @@ export default class SentenceTokenizer {
 		);
 	}
 
-	isPersonInitial( token ) {
-		return ( ! isUndefined( token ) && token.type === "sentence" && token.src.trim().length === 1 );
+	isPersonInitial( firstToken, secondToken ) {
+		return ( ! isUndefined( firstToken ) &&
+			! isUndefined( secondToken ) &&
+			firstToken.type === "sentence" &&
+			firstToken.src.trim().length === 1 &&
+			secondToken.type === "full-stop" );
 	}
 
 	/**
@@ -373,22 +377,6 @@ export default class SentenceTokenizer {
 			console.error( "Tokenizer end error:", e, e.tokenizer2 );
 		}
 	}
-	//
-	// /**
-	//  * Gets the first sentence from an array of tokens.
-	//  *
-	//  * @param {Object[]} tokenArray The array of tokens that needs to be searched.
-	//  *
-	//  * @returns {Object|undefined} The next sentence. If there is no sentence after currentLocation, returns undefined.
-	//  */
-	// GetFirstSentence( tokenArray ) {
-	// 	For ( let i = 0; i < tokenArray.length; i++ ) {
-	// 		Const token = tokenArray[ i ];
-	// 		If ( token.type === "sentence" ) {
-	// 			Return token;
-	// 		}
-	// 	}
-	// }
 
 	/**
 	 * Returns an array of sentences for a given array of tokens, assumes that the text has already been split into blocks.
@@ -463,8 +451,7 @@ export default class SentenceTokenizer {
 						break;
 					}
 
-					if ( ! isUndefined( nextToken ) && this.isPersonInitial( nextToken ) ) {
-						console.log( "BINGO!", nextToken );
+					if ( this.isPersonInitial( nextToken, secondToNextToken ) ) {
 						break;
 					}
 
