@@ -259,12 +259,13 @@ export default class SentenceTokenizer {
 		);
 	}
 
-	isPersonInitial( firstToken, secondToken ) {
-		return ( ! isUndefined( firstToken ) &&
-			! isUndefined( secondToken ) &&
-			firstToken.type === "sentence" &&
-			firstToken.src.trim().length === 1 &&
-			secondToken.type === "full-stop" );
+
+	isPersonInitial( nextToken, secondToNextToken ) {
+		return ( ! isUndefined( nextToken ) &&
+			! isUndefined( secondToNextToken ) &&
+			nextToken.type === "sentence" &&
+			nextToken.src.trim().length === 1 &&
+			secondToNextToken.type === "full-stop" );
 	}
 
 	/**
@@ -451,6 +452,7 @@ export default class SentenceTokenizer {
 						break;
 					}
 
+					// If the full stop is part of a person's initials, don't split sentence.
 					if ( this.isPersonInitial( nextToken, secondToNextToken ) ) {
 						break;
 					}
