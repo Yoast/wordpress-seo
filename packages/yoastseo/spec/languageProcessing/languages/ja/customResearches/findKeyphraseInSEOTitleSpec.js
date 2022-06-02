@@ -1,5 +1,5 @@
 import JapaneseResearcher from "../../../../../src/languageProcessing/languages/ja/Researcher";
-import pageTitleKeywordResearch from "../../../../../src/languageProcessing/languages/ja/customResearches/findKeyphraseInSEOTitle";
+import findKeyphraseInSEOTitle from "../../../../../src/languageProcessing/languages/ja/customResearches/findKeyphraseInSEOTitle";
 import Paper from "../../../../../src/values/Paper";
 import getMorphologyData from "../../../../specHelpers/getMorphologyData";
 
@@ -18,7 +18,7 @@ describe( "a test for matching keyphrase in page title for Japanese", () => {
 			} );
 			const researcher = new JapaneseResearcher( mockPaper );
 
-			result = pageTitleKeywordResearch( mockPaper, researcher );
+			result = findKeyphraseInSEOTitle( mockPaper, researcher );
 			expect( result.allWordsFound ).toBe( true );
 			expect( result.exactMatchKeyphrase ).toBe( true );
 			expect( result.position ).toBe( 0 );
@@ -33,7 +33,7 @@ describe( "a test for matching keyphrase in page title for Japanese", () => {
 			} );
 			const researcher = new JapaneseResearcher( mockPaper );
 
-			result = pageTitleKeywordResearch( mockPaper, researcher );
+			result = findKeyphraseInSEOTitle( mockPaper, researcher );
 			expect( result.allWordsFound ).toBe( true );
 			expect( result.exactMatchKeyphrase ).toBe( true );
 			expect( result.position ).toBe( 0 );
@@ -48,7 +48,7 @@ describe( "a test for matching keyphrase in page title for Japanese", () => {
 			} );
 			const researcher = new JapaneseResearcher( mockPaper );
 
-			result = pageTitleKeywordResearch( mockPaper, researcher );
+			result = findKeyphraseInSEOTitle( mockPaper, researcher );
 			expect( result.allWordsFound ).toBe( false );
 			expect( result.exactMatchKeyphrase ).toBe( true );
 			expect( result.position ).toBe( -1 );
@@ -62,7 +62,7 @@ describe( "a test for matching keyphrase in page title for Japanese", () => {
 			} );
 			const researcher = new JapaneseResearcher( mockPaper );
 
-			result = pageTitleKeywordResearch( mockPaper, researcher );
+			result = findKeyphraseInSEOTitle( mockPaper, researcher );
 			expect( result.allWordsFound ).toBe( true );
 			expect( result.position ).toBe( 0 );
 		} );
@@ -75,7 +75,7 @@ describe( "a test for matching keyphrase in page title for Japanese", () => {
 			} );
 			const researcher = new JapaneseResearcher( mockPaper );
 
-			result = pageTitleKeywordResearch( mockPaper, researcher );
+			result = findKeyphraseInSEOTitle( mockPaper, researcher );
 			expect( result.allWordsFound ).toBe( true );
 			expect( result.position ).toBe( 0 );
 		} );
@@ -89,7 +89,7 @@ describe( "a test for matching keyphrase in page title for Japanese", () => {
 			} );
 			const researcher = new JapaneseResearcher( mockPaper );
 
-			result = pageTitleKeywordResearch( mockPaper, researcher );
+			result = findKeyphraseInSEOTitle( mockPaper, researcher );
 			expect( result.allWordsFound ).toBe( true );
 			expect( result.position ).toBe( 0 );
 		} );
@@ -102,7 +102,7 @@ describe( "a test for matching keyphrase in page title for Japanese", () => {
 			} );
 			const researcher = new JapaneseResearcher( mockPaper );
 
-			result = pageTitleKeywordResearch( mockPaper, researcher );
+			result = findKeyphraseInSEOTitle( mockPaper, researcher );
 			expect( result.allWordsFound ).toBe( false );
 			expect( result.position ).toBe( -1 );
 		} );
@@ -115,7 +115,7 @@ describe( "a test for matching keyphrase in page title for Japanese", () => {
 			} );
 			const researcher = new JapaneseResearcher( mockPaper );
 
-			result = pageTitleKeywordResearch( mockPaper, researcher );
+			result = findKeyphraseInSEOTitle( mockPaper, researcher );
 			expect( result.allWordsFound ).toBe( true );
 			expect( result.position ).toBe( 3 );
 		} );
@@ -128,7 +128,7 @@ describe( "a test for matching keyphrase in page title for Japanese", () => {
 			} );
 			const researcher = new JapaneseResearcher( mockPaper );
 
-			result = pageTitleKeywordResearch( mockPaper, researcher );
+			result = findKeyphraseInSEOTitle( mockPaper, researcher );
 			expect( result.allWordsFound ).toBe( true );
 			expect( result.position ).toBe( 0 );
 		} );
@@ -141,7 +141,7 @@ describe( "a test for matching keyphrase in page title for Japanese", () => {
 			} );
 			const researcher = new JapaneseResearcher( mockPaper );
 
-			result = pageTitleKeywordResearch( mockPaper, researcher );
+			result = findKeyphraseInSEOTitle( mockPaper, researcher );
 			expect( result.allWordsFound ).toBe( true );
 			expect( result.position ).toBe( 0 );
 		} );
@@ -154,7 +154,7 @@ describe( "a test for matching keyphrase in page title for Japanese", () => {
 			} );
 			const researcher = new JapaneseResearcher( mockPaper );
 
-			result = pageTitleKeywordResearch( mockPaper, researcher );
+			result = findKeyphraseInSEOTitle( mockPaper, researcher );
 			expect( result.allWordsFound ).toBe( false );
 			expect( result.position ).toBe( -1 );
 		} );
@@ -168,7 +168,7 @@ describe( "a test for matching keyphrase in page title for Japanese", () => {
 			} );
 			const researcher = new JapaneseResearcher( mockPaper );
 
-			result = pageTitleKeywordResearch( mockPaper, researcher );
+			result = findKeyphraseInSEOTitle( mockPaper, researcher );
 			expect( result.allWordsFound ).toBe( false );
 			expect( result.position ).toBe( -1 );
 		} );
@@ -185,7 +185,7 @@ describe( "a test for matching keyphrase in page title for Japanese", () => {
 			const researcher = new JapaneseResearcher( mockPaper );
 			researcher.addResearchData( "morphology", morphologyDataJA );
 
-			result = pageTitleKeywordResearch( mockPaper, researcher );
+			result = findKeyphraseInSEOTitle( mockPaper, researcher );
 			expect( result.allWordsFound ).toBe( true );
 			expect( result.exactMatchKeyphrase ).toBe( true );
 			expect( result.position ).toBe( 0 );
@@ -201,7 +201,7 @@ describe( "a test for matching keyphrase in page title for Japanese", () => {
 			const researcher = new JapaneseResearcher( mockPaper );
 			researcher.addResearchData( "morphology", morphologyDataJA );
 
-			result = pageTitleKeywordResearch( mockPaper, researcher );
+			result = findKeyphraseInSEOTitle( mockPaper, researcher );
 			expect( result.allWordsFound ).toBe( true );
 			expect( result.exactMatchKeyphrase ).toBe( true );
 			expect( result.position ).toBe( 0 );
@@ -217,7 +217,7 @@ describe( "a test for matching keyphrase in page title for Japanese", () => {
 			const researcher = new JapaneseResearcher( mockPaper );
 			researcher.addResearchData( "morphology", morphologyDataJA );
 
-			result = pageTitleKeywordResearch( mockPaper, researcher );
+			result = findKeyphraseInSEOTitle( mockPaper, researcher );
 			expect( result.allWordsFound ).toBe( false );
 			expect( result.exactMatchKeyphrase ).toBe( true );
 			expect( result.position ).toBe( -1 );
@@ -232,7 +232,7 @@ describe( "a test for matching keyphrase in page title for Japanese", () => {
 			const researcher = new JapaneseResearcher( mockPaper );
 			researcher.addResearchData( "morphology", morphologyDataJA );
 
-			result = pageTitleKeywordResearch( mockPaper, researcher );
+			result = findKeyphraseInSEOTitle( mockPaper, researcher );
 			expect( result.allWordsFound ).toBe( true );
 			expect( result.position ).toBe( 0 );
 		} );
@@ -246,7 +246,7 @@ describe( "a test for matching keyphrase in page title for Japanese", () => {
 			const researcher = new JapaneseResearcher( mockPaper );
 			researcher.addResearchData( "morphology", morphologyDataJA );
 
-			result = pageTitleKeywordResearch( mockPaper, researcher );
+			result = findKeyphraseInSEOTitle( mockPaper, researcher );
 			expect( result.allWordsFound ).toBe( true );
 			expect( result.position ).toBe( 0 );
 		} );
@@ -260,7 +260,7 @@ describe( "a test for matching keyphrase in page title for Japanese", () => {
 			const researcher = new JapaneseResearcher( mockPaper );
 			researcher.addResearchData( "morphology", morphologyDataJA );
 
-			result = pageTitleKeywordResearch( mockPaper, researcher );
+			result = findKeyphraseInSEOTitle( mockPaper, researcher );
 			expect( result.allWordsFound ).toBe( false );
 			expect( result.position ).toBe( -1 );
 		} );
@@ -274,7 +274,7 @@ describe( "a test for matching keyphrase in page title for Japanese", () => {
 			const researcher = new JapaneseResearcher( mockPaper );
 			researcher.addResearchData( "morphology", morphologyDataJA );
 
-			result = pageTitleKeywordResearch( mockPaper, researcher );
+			result = findKeyphraseInSEOTitle( mockPaper, researcher );
 			expect( result.allWordsFound ).toBe( true );
 			expect( result.position ).toBe( 0 );
 		} );
@@ -289,7 +289,7 @@ describe( "a test for matching keyphrase in page title for Japanese", () => {
 			const researcher = new JapaneseResearcher( mockPaper );
 			researcher.addResearchData( "morphology", morphologyDataJA );
 
-			result = pageTitleKeywordResearch( mockPaper, researcher );
+			result = findKeyphraseInSEOTitle( mockPaper, researcher );
 			expect( result.allWordsFound ).toBe( true );
 			expect( result.position ).toBe( 0 );
 		} );
