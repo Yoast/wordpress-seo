@@ -19,7 +19,7 @@ const LearnMoreLink = makeOutboundLink();
  * @returns {JSX.Element} The collapsible cornerstone toggle component.
  */
 const CornerstoneContent = ( { cornerstoneContentInfoLink } ) => {
-	const isCornerstone  = useSelect( select => select( SEO_STORE_NAME ).shouldApplyCornerstoneAnalysis() );
+	const isCornerstone  = useSelect( select => select( SEO_STORE_NAME ).selectShouldApplyCornerstoneAnalysis() );
 	const { updateShouldApplyCornerstoneAnalysis } = useDispatch( SEO_STORE_NAME );
 
 	return (

@@ -39,7 +39,7 @@ export const configSelectors = {
 	selectAnalysisType: state => get( state, "analysis.config.analysisType" ),
 	selectIsSeoAnalysisActive: state => get( state, "analysis.config.isSeoActive" ),
 	selectIsReadabilityAnalysisActive: state => get( state, "analysis.config.isReadabilityActive" ),
-	shouldApplyCornerstoneAnalysis: state => get( state, "analysis.config.shouldApplyCornerstoneAnalysis" ),
+	selectShouldApplyCornerstoneAnalysis: state => get( state, "analysis.config.shouldApplyCornerstoneAnalysis" ),
 	selectResearches: state => get( state, "analysis.config.researches" ),
 };
 
