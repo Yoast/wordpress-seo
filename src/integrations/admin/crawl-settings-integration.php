@@ -216,11 +216,12 @@ class Crawl_Settings_Integration implements Integration_Interface {
 
 		if ( $is_network ) {
 			$setting_prefix = WPSEO_Option::ALLOW_KEY_PREFIX;
-			$toggles        = [
+			// NOTE: the off/on labels here are flipped from their actual would-be values in premium for cosmetic reasons and limitations with disabled toggles.
+			$toggles = [
 				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch -- Reason: text is originally from Yoast SEO.
-				'on'  => __( 'Allow Control', 'wordpress-seo' ),
+				'off' => __( 'Allow Control', 'wordpress-seo' ),
 				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch -- Reason: text is originally from Yoast SEO.
-				'off' => __( 'Disable', 'wordpress-seo' ),
+				'on'  => __( 'Disable', 'wordpress-seo' ),
 			];
 		}
 		foreach ( $settings as $setting => $label ) {
