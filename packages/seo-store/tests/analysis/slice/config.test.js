@@ -72,6 +72,17 @@ describe( "Config slice", () => {
 				researches: [],
 			} );
 		} );
+
+		test( "should update whether the cornerstone analysis is active", () => {
+			const { updateShouldApplyCornerstoneAnalysis } = configActions;
+
+			const result = configReducer( previousState, updateShouldApplyCornerstoneAnalysis( true ) );
+
+			expect( result ).toEqual( {
+				...initialState,
+				shouldApplyCornerstoneAnalysis: true,
+			} );
+		} );
 	} );
 
 	describe( "Selectors", () => {
@@ -119,6 +130,15 @@ describe( "Config slice", () => {
 			const result = selectResearches( createStoreState( state ) );
 
 			expect( result ).toEqual( [ "morphology", "test" ] );
+		} );
+
+		test( "should select whether the cornerstone analysis should be active", () => {
+			const { selectShouldApplyCornerstoneAnalysis } = configSelectors;
+
+			const state = { ...initialState, shouldApplyCornerstoneAnalysis: true };
+			const result = selectShouldApplyCornerstoneAnalysis( createStoreState( state ) );
+
+			expect( result ).toBe( true );
 		} );
 	} );
 } );
