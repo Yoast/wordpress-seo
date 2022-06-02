@@ -15,5 +15,5 @@ class Webinar_Promo_Notification extends Abstract_Dismissable_Alert {
 	 *
 	 * @var string
 	 */
-	protected $alert_identifier = "webinar-promo-notification";
+	protected $alert_identifier = 'webinar-promo-notification';
 }
