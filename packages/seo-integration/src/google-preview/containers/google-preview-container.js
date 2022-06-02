@@ -4,6 +4,7 @@ import { SEO_STORE_NAME } from "@yoast/seo-store";
 import { get } from "lodash";
 import { PropTypes } from "prop-types";
 import { useReplacementVariables } from "../../hooks/useReplacementVariables";
+import formatDate from "../../helpers/formatDate";
 
 /**
  * Retrieves the base URL from the permalink.
@@ -62,11 +63,7 @@ const GooglePreviewContainer = ( { as: Component, ...restProps } ) => {
 
 	if ( date !== "" ) {
 		// eslint-disable-next-line no-undefined
-		date = useMemo( () => new Date( date ).toLocaleDateString( undefined, {
-			day: "numeric",
-			month: "short",
-			year: "numeric",
-		} ), [ date ] );
+		date = useMemo( () => formatDate( date ), [ date ] );
 	}
 
 	const baseUrl = useBaseUrl( permalink, slug );
