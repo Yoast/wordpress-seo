@@ -5,7 +5,7 @@ import initAdmin from "./initializers/admin";
 import initAdminMedia from "./initializers/admin-media";
 import initSearchAppearance from "./initializers/search-appearance";
 import initSettingsStore from "./initializers/settings-store";
-import initSettingsSidebar from "./initializers/settings-sidebar";
+import initSettingsHeader from "./initializers/settings-header";
 import initSocialSettings from "./initializers/social-settings";
 
 initAdmin( jQuery );
@@ -22,7 +22,8 @@ if ( wpseoScriptData ) {
 	}
 
 	domReady( () => {
-		initSettingsSidebar();
+		// Initialize React in settings header.
+		initSettingsHeader();
 
 		if ( isSearchAppearancePage ) {
 			initSearchAppearance();
