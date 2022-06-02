@@ -13,6 +13,7 @@ import { ReactComponent as DefaultImage } from "../../../../images/succes_mariek
 const WebinarPromoNotification = ( {
 	store = "yoast-seo/editor",
 	image: Image = DefaultImage,
+	...props
 } ) => {
 	const isPremium = useSelect( select => select( store ).getIsPremium() );
 
@@ -23,6 +24,7 @@ const WebinarPromoNotification = ( {
 			id="webinar-promo-notification"
 			title={ __( "Get the most out of Yoast SEO", "wordpress-seo" ) }
 			image={ Image }
+			{ ...props }
 		>
 			{ __( "Want to optimize even further with the help of our SEO experts? Sign up for our weekly webinar!", "wordpress-seo" ) }
 			<br />

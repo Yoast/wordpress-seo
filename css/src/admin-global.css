@@ -759,6 +759,7 @@ body.folded .wpseo-admin-submit-fixed {
 
 .notice-yoast__header {
 	padding: 0;
+  margin-bottom: 8px;
 	box-sizing: border-box;
 	display: flex;
 	flex-direction: row;
@@ -769,7 +770,7 @@ body.folded .wpseo-admin-submit-fixed {
 
 .notice-yoast__header .notice-yoast__header-heading {
 	line-height: 1.2;
-	margin: 0 0 8px;
+	margin: 0;
 	padding: 0;
 }
 

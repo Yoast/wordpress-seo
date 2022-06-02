@@ -47,7 +47,7 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 			<Fill name="YoastElementor">
 				<SidebarItem renderPriority={ 1 }>
 					<Alert />
-					<WebinarPromoNotification image={ null } />
+					<WebinarPromoNotification hasIcon={ false } image={ null } />
 				</SidebarItem>
 				{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 8 }>
 					<KeywordInput

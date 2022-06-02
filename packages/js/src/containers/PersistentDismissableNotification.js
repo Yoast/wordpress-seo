@@ -9,6 +9,7 @@ import withPersistentDismiss from "./withPersistentDismiss";
 const PersistentDismissableNotification = ( {
 	children,
 	id,
+	hasIcon = true,
 	title,
 	image: Image = null,
 	isAlertDismissed,
@@ -19,7 +20,7 @@ const PersistentDismissableNotification = ( {
 			<div className="notice-yoast__container">
 				<div>
 					<div className="notice-yoast__header">
-						<span className="yoast-icon" />
+						{ hasIcon && <span className="yoast-icon" /> }
 						<h1 className="notice-yoast__header-heading">{ title }</h1>
 					</div>
 					<p>{ children }</p>
@@ -36,6 +37,7 @@ const PersistentDismissableNotification = ( {
 PersistentDismissableNotification.propTypes = {
 	children: PropTypes.node.isRequired,
 	id: PropTypes.string.isRequired,
+	hasIcon: PropTypes.bool,
 	title: PropTypes.string.isRequired,
 	image: PropTypes.elementType,
 	isAlertDismissed: PropTypes.bool.isRequired,

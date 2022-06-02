@@ -37,7 +37,7 @@ export default function SidebarFill( { settings } ) {
 				<SidebarItem key="warning" renderPriority={ 1 }>
 					<Warning />
 					<div style={ { margin: "0 16px" } }>
-						<WebinarPromoNotification image={ null } />
+						<WebinarPromoNotification hasIcon={ false } image={ null } />
 					</div>
 				</SidebarItem>
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="keyword-input" renderPriority={ 8 }>
