@@ -4,6 +4,8 @@ import { isNaN } from "lodash-es";
 
 import core from "tokenizer2/core";
 
+import wordBoundaries from "../../../config/wordBoundaries";
+
 import { normalize as normalizeQuotes } from "../sanitize/quotes.js";
 
 // All characters that indicate a sentence delimiter.
@@ -36,6 +38,10 @@ const blockStartRegex = /^\s*[[({]\s*$/;
 const blockEndRegex = /^\s*[\])}]\s*$/;
 
 const sentenceEndRegex = new RegExp( "[" + fullStop + sentenceDelimiters + "]$" );
+
+// Build regex for usage in isPartOfPersonInitial()
+const wordBoundariesForRegex = "[" + wordBoundaries().map( ( boundary ) => "\\" + boundary ).join( "" ) + "]";
+const lastCharacterPartOfInitialsRegex = new RegExp( wordBoundariesForRegex + "[A-Za-z]$" );
 
 /**
  * Class for tokenizing a (html) text into sentences.
@@ -261,13 +267,17 @@ export default class SentenceTokenizer {
 
 	/**
 	 * Checks if a full stop is part of a person's initials.
+	 * @param {object} previousToken The token before the full stop.
 	 * @param {object} nextToken The token following the full stop.
 	 * @param {object} secondToNextToken The second token after the full stop.
 	 * @returns {boolean} True if a full stop is part of a person's initials, False if the full stop is not part of a person's initials.
 	 */
-	isPartOfPersonInitial( nextToken, secondToNextToken ) {
+	isPartOfPersonInitial( previousToken, nextToken, secondToNextToken ) {
 		return ( ! isUndefined( nextToken ) &&
 			! isUndefined( secondToNextToken ) &&
+			! isUndefined( previousToken ) &&
+			previousToken.type === "sentence" &&
+			lastCharacterPartOfInitialsRegex.test( previousToken.src ) &&
 			nextToken.type === "sentence" &&
 			nextToken.src.trim().length === 1 &&
 			secondToNextToken.type === "full-stop" );
@@ -457,7 +467,7 @@ export default class SentenceTokenizer {
 					}
 
 					// If the full stop is part of a person's initials, don't split sentence.
-					if ( this.isPartOfPersonInitial( nextToken, secondToNextToken ) ) {
+					if ( this.isPartOfPersonInitial( previousToken, nextToken, secondToNextToken ) ) {
 						break;
 					}
 
