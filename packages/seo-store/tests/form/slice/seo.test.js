@@ -8,7 +8,6 @@ describe( "Seo slice", () => {
 		title: "",
 		description: "",
 		slug: "",
-		isCornerstone: false,
 	};
 
 	describe( "Reducer", () => {
@@ -46,17 +45,6 @@ describe( "Seo slice", () => {
 			expect( result ).toEqual( {
 				...initialState,
 				slug: "test",
-			} );
-		} );
-
-		test( "should update the isCornerstone", () => {
-			const { updateIsCornerstone } = seoActions;
-
-			const result = seoReducer( initialState, updateIsCornerstone( false ) );
-
-			expect( result ).toEqual( {
-				...initialState,
-				isCornerstone: false,
 			} );
 		} );
 	} );

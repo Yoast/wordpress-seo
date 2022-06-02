@@ -38,6 +38,8 @@ class Crawl_Settings_Integration_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
+		$this->stubTranslationFunctions();
+
 		$this->product_helper = Mockery::mock( Product_Helper::class );
 		$this->instance       = new Crawl_Settings_Integration( $this->product_helper );
 	}

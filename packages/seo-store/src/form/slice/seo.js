@@ -5,7 +5,6 @@ export const defaultSeoState = {
 	title: "",
 	description: "",
 	slug: "",
-	isCornerstone: false,
 };
 
 const seoSlice = createSlice( {
@@ -21,9 +20,6 @@ const seoSlice = createSlice( {
 		updateSlug: ( state, action ) => {
 			state.slug = action.payload;
 		},
-		updateIsCornerstone: ( state, action ) => {
-			state.isCornerstone = Boolean( action.payload );
-		},
 	},
 } );
 
@@ -32,7 +28,6 @@ export const seoSelectors = {
 	selectSeoTitle: state => get( state, "form.seo.title" ),
 	selectMetaDescription: state => get( state, "form.seo.description" ),
 	selectSlug: state => get( state, "form.seo.slug" ),
-	selectIsCornerstone: state => get( state, "form.seo.isCornerstone" ),
 };
 
 export const seoActions = seoSlice.actions;

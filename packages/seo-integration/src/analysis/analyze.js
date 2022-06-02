@@ -1,7 +1,8 @@
-import { mapKeys, mapValues, zipObject } from "lodash";
+import { mapKeys, mapValues, zipObject, isEqual } from "lodash";
 import { Paper } from "yoastseo";
 import { FOCUS_KEYPHRASE_ID } from "@yoast/seo-store";
 import formatDate from "../helpers/formatDate";
+import createAnalysisConfiguration from "./createAnalysisConfiguration";
 
 /**
  * Creates a paper based on the given data, keyphrase and configuration.
@@ -143,6 +144,17 @@ const runResearches = async ( researches, worker, paper ) => {
  * @returns {function} The analysis callback function.
  */
 const createAnalyzeFunction = ( worker, configuration ) => {
+	let previousConfig;
+
+	/**
+	 * Checks whether the analysis configuration has changed since the last time the analysis was run.
+	 *
+	 * @param {Object} config The configuration to check.
+	 *
+	 * @returns {boolean} Whether the configuration has changed since the last time the analysis was run.
+	 */
+	const configHasChanged = config => ! isEqual( config, previousConfig );
+
 	/**
 	 * A callback function that analyzes the data from the SEO store.
 	 *
@@ -153,6 +165,11 @@ const createAnalyzeFunction = ( worker, configuration ) => {
 	 * @returns {Object} The results of the analysis.
 	 */
 	return async ( data, keyphrases, config = {} ) => {
+		if ( configHasChanged( config ) ) {
+			previousConfig = config;
+			await worker.initialize( createAnalysisConfiguration( config ) );
+		}
+
 		const { [ FOCUS_KEYPHRASE_ID ]: focusKeyphrase, ...relatedKeyphrases } = keyphrases;
 
 		const paper = createPaper( data, focusKeyphrase, configuration );
