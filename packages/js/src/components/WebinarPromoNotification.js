@@ -7,6 +7,7 @@ import { ReactComponent as DefaultImage } from "../../../../images/succes_mariek
 
 /**
  * @param {string} store The Redux store identifier from which to determine dismissed state.
+ * @param {JSX.Element} image The image or null if no image.
  *
  * @returns {JSX.Element} The WebinarPromoNotification component.
  */

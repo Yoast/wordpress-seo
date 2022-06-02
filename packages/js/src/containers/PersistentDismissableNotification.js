@@ -3,7 +3,13 @@ import PropTypes from "prop-types";
 import withPersistentDismiss from "./withPersistentDismiss";
 
 /**
- * @param {Functino} onDismissed The dismissal prop to be renamed for Notification component.
+ * @param {string} id The id.
+ * @param {boolean} hasIcon Wether or not to show icon before title.
+ * @param {string} title The title.
+ * @param {JSX.Element|null} image The image or null if no image.
+ * @param {isAlertDismissed} boolean Wether or not the notification is dismissed.
+ * @param {Function} onDismissed The dismissal prop to be renamed for Notification component.
+ *
  * @returns {Component} The composed Notification component.
  */
 const PersistentDismissableNotification = ( {
