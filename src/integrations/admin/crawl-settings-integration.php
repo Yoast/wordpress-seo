@@ -95,30 +95,30 @@ class Crawl_Settings_Integration implements Integration_Interface {
 	 */
 	private function register_setting_labels() {
 		$this->feed_settings = [
-			'remove_feed_global_free'            => \__( 'Global feed', 'wordpress-seo' ),
-			'remove_feed_global_comments_free'   => \__( 'Global comment feeds', 'wordpress-seo' ),
-			'remove_feed_post_comments_free'     => \__( 'Post comments feeds', 'wordpress-seo' ),
-			'remove_feed_authors_free'           => \__( 'Post authors feeds', 'wordpress-seo' ),
-			'remove_feed_post_types_free'        => \__( 'Post type feeds', 'wordpress-seo' ),
-			'remove_feed_categories_free'        => \__( 'Category feeds', 'wordpress-seo' ),
-			'remove_feed_tags_free'              => \__( 'Tag feeds', 'wordpress-seo' ),
-			'remove_feed_custom_taxonomies_free' => \__( 'Custom taxonomy feeds', 'wordpress-seo' ),
-			'remove_feed_search_free'            => \__( 'Search results feeds', 'wordpress-seo' ),
-			'remove_atom_rdf_feeds_free'         => \__( 'Atom/RDF feeds', 'wordpress-seo' ),
+			'remove_feed_global'            => \__( 'Global feed', 'wordpress-seo' ),
+			'remove_feed_global_comments'   => \__( 'Global comment feeds', 'wordpress-seo' ),
+			'remove_feed_post_comments'     => \__( 'Post comments feeds', 'wordpress-seo' ),
+			'remove_feed_authors'           => \__( 'Post authors feeds', 'wordpress-seo' ),
+			'remove_feed_post_types'        => \__( 'Post type feeds', 'wordpress-seo' ),
+			'remove_feed_categories'        => \__( 'Category feeds', 'wordpress-seo' ),
+			'remove_feed_tags'              => \__( 'Tag feeds', 'wordpress-seo' ),
+			'remove_feed_custom_taxonomies' => \__( 'Custom taxonomy feeds', 'wordpress-seo' ),
+			'remove_feed_search'            => \__( 'Search results feeds', 'wordpress-seo' ),
+			'remove_atom_rdf_feeds'         => \__( 'Atom/RDF feeds', 'wordpress-seo' ),
 		];
 
 		$this->basic_settings = [
-			'remove_shortlinks_free'     => \__( 'Shortlinks', 'wordpress-seo' ),
-			'remove_rest_api_links_free' => \__( 'REST API links', 'wordpress-seo' ),
-			'remove_rsd_wlw_links_free'  => \__( 'RSD / WLW links', 'wordpress-seo' ),
-			'remove_oembed_links_free'   => \__( 'oEmbed links', 'wordpress-seo' ),
-			'remove_generator_free'      => \__( 'Generator tag', 'wordpress-seo' ),
-			'remove_emoji_scripts_free'  => \__( 'Emoji scripts', 'wordpress-seo' ),
+			'remove_shortlinks'     => \__( 'Shortlinks', 'wordpress-seo' ),
+			'remove_rest_api_links' => \__( 'REST API links', 'wordpress-seo' ),
+			'remove_rsd_wlw_links'  => \__( 'RSD / WLW links', 'wordpress-seo' ),
+			'remove_oembed_links'   => \__( 'oEmbed links', 'wordpress-seo' ),
+			'remove_generator'      => \__( 'Generator tag', 'wordpress-seo' ),
+			'remove_emoji_scripts'  => \__( 'Emoji scripts', 'wordpress-seo' ),
 		];
 
 		$this->header_settings = [
-			'remove_pingback_header_free'   => \__( 'Pingback HTTP header', 'wordpress-seo' ),
-			'remove_powered_by_header_free' => \__( 'Powered by HTTP header', 'wordpress-seo' ),
+			'remove_pingback_header'   => \__( 'Pingback HTTP header', 'wordpress-seo' ),
+			'remove_powered_by_header' => \__( 'Powered by HTTP header', 'wordpress-seo' ),
 		];
 	}
 
@@ -165,37 +165,37 @@ class Crawl_Settings_Integration implements Integration_Interface {
 	 * Print the settings sections.
 	 *
 	 * @param Yoast_Form $yform        The Yoast form class.
-	 * @param boolean    $allow_prefix Whether to prefix options with the allow prefix or not.
+	 * @param boolean    $is_network   Whether we're on the network site.
 	 *
 	 * @return void
 	 */
-	private function add_crawl_settings( $yform, $allow_prefix ) {
+	private function add_crawl_settings( $yform, $is_network ) {
 		$this->display_premium_upsell_btn();
 
 		echo '<h3 class="yoast-crawl-settings-free">'
 			. \esc_html__( 'Basic crawl settings', 'wordpress-seo' )
 			. '</h3>';
 
-		if ( ! $allow_prefix ) {
+		if ( ! $is_network ) {
 			echo '<p class="yoast-crawl-settings-explanation-free">'
 				. \esc_html__( 'Remove links added by WordPress to the header and &lt;head&gt;.', 'wordpress-seo' )
 				. '</p>';
 		}
 
-		$this->print_toggles( $this->basic_settings, $yform, $allow_prefix );
-		$this->print_toggles( $this->header_settings, $yform, $allow_prefix );
+		$this->print_toggles( $this->basic_settings, $yform, $is_network );
+		$this->print_toggles( $this->header_settings, $yform, $is_network );
 
 		echo '<h3 class="yoast-crawl-settings-free">'
 			. \esc_html__( 'Feed crawl settings', 'wordpress-seo' )
 			. '</h3>';
 
-		if ( ! $allow_prefix ) {
+		if ( ! $is_network ) {
 			echo '<p class="yoast-crawl-settings-explanation-free">'
 				. \esc_html__( "Remove feed links added by WordPress that aren't needed for this site.", 'wordpress-seo' )
 				. '</p>';
 		}
 
-		$this->print_toggles( $this->feed_settings, $yform, $allow_prefix );
+		$this->print_toggles( $this->feed_settings, $yform, $is_network );
 	}
 
 	/**
@@ -203,18 +203,18 @@ class Crawl_Settings_Integration implements Integration_Interface {
 	 *
 	 * @param array      $settings     The settings being displayed.
 	 * @param Yoast_Form $yform        The Yoast form class.
-	 * @param boolean    $allow_prefix Whether we should prefix with the allow key.
+	 * @param boolean    $is_network   Whether we're on the network site.
 	 *
 	 * @return void
 	 */
-	private function print_toggles( array $settings, Yoast_Form $yform, $allow_prefix ) {
+	private function print_toggles( array $settings, Yoast_Form $yform, $is_network ) {
 		$setting_prefix = '';
 		$toggles        = [
 			'off' => __( 'Keep', 'wordpress-seo' ),
 			'on'  => __( 'Remove', 'wordpress-seo' ),
 		];
 
-		if ( $allow_prefix ) {
+		if ( $is_network ) {
 			$setting_prefix = WPSEO_Option::ALLOW_KEY_PREFIX;
 			$toggles        = [
 				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch -- Reason: text is originally from Yoast SEO.
@@ -225,7 +225,7 @@ class Crawl_Settings_Integration implements Integration_Interface {
 		}
 		foreach ( $settings as $setting => $label ) {
 			$yform->toggle_switch(
-				$setting_prefix . $setting,
+				$setting_prefix . $setting . '_free',
 				$toggles,
 				$label,
 				'',
@@ -233,11 +233,14 @@ class Crawl_Settings_Integration implements Integration_Interface {
 					'disabled' => true,
 				]
 			);
-			if ( $setting === 'remove_feed_global_comments_free' && ! $allow_prefix ) {
+			if ( $setting === 'remove_feed_global_comments_free' && ! $is_network ) {
 				echo '<p class="yoast-global-comments-feed-help-free">';
 				echo \esc_html__( 'By removing Global comments feed, Post comments feeds will be removed too.', 'wordpress-seo' );
 				echo '</p>';
 			}
+
+			$setting_name = $setting_prefix . $setting;
+			$yform->hidden( $setting_name, $setting_name );
 		}
 	}
 
