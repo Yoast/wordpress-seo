@@ -267,6 +267,10 @@ export default class SentenceTokenizer {
 
 	/**
 	 * Checks if a full stop is part of a person's initials.
+	 * Tests if tokens exist. Then tests if the tokens are of the right type.
+	 * For previous token, it checks if the sentence ends with a single letter.
+	 * For nextToken it checks if it is a single letter.
+	 * Checks if next token is followed by a full stop.
 	 * @param {object} previousToken The token before the full stop.
 	 * @param {object} nextToken The token following the full stop.
 	 * @param {object} secondToNextToken The second token after the full stop.
