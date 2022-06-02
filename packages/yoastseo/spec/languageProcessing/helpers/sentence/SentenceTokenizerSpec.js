@@ -222,10 +222,11 @@ describe( "A test for tokenizing a (html) text into sentences", function() {
 			{ type: "full-stop", src: "." },
 
 		];
+		const previousToken = tokens[ 0 ];
 		const nextToken = tokens[ 2 ];
 		const secondToNextToken = tokens[ 3 ];
 
-		expect( mockTokenizer.isPartOfPersonInitial( nextToken, secondToNextToken ) ).toBeTruthy();
+		expect( mockTokenizer.isPartOfPersonInitial( previousToken, nextToken, secondToNextToken ) ).toBeTruthy();
 	} );
 
 	it( "recognizes when a full stop is not part of a person's initials", function() {
@@ -236,10 +237,11 @@ describe( "A test for tokenizing a (html) text into sentences", function() {
 			{ type: "full-stop", src: "." },
 
 		];
+		const previousToken = tokens[ 0 ];
 		const nextToken = tokens[ 2 ];
 		const secondToNextToken = tokens[ 3 ];
 
-		expect( mockTokenizer.isPartOfPersonInitial( nextToken, secondToNextToken ) ).toBeFalsy();
+		expect( mockTokenizer.isPartOfPersonInitial( previousToken, nextToken, secondToNextToken ) ).toBeFalsy();
 	} );
 
 	xit( "recognizes when a full stop is part of initials with multiple letters", function() {
@@ -253,6 +255,8 @@ describe( "A test for tokenizing a (html) text into sentences", function() {
 			{ type: "sentence", src: " Th" },
 			{ type: "full-stop", src: "." },
 			{ type: "sentence", src: " van der Heijden is a well known Dutch writer." },
+			{ type: "full-stop", src: "." },
+			{ type: "sentence", src: "This is a sentence" },
 			{ type: "full-stop", src: "." },
 		];
 		const nextToken = tokens[ 6 ];
