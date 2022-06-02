@@ -1,5 +1,5 @@
 import JapaneseResearcher from "../../../../../src/languageProcessing/languages/ja/Researcher";
-import pageTitleKeywordResearch from "../../../../../src/languageProcessing/languages/ja/customResearches/findKeywordInPageTitle";
+import pageTitleKeywordResearch from "../../../../../src/languageProcessing/languages/ja/customResearches/findKeyphraseInSEOTitle";
 import Paper from "../../../../../src/values/Paper";
 import getMorphologyData from "../../../../specHelpers/getMorphologyData";
 

@@ -62,7 +62,7 @@ class KeyphraseInSEOTitleAssessment extends Assessment {
 	 */
 	getResult( paper, researcher ) {
 		const language = getLanguage( paper.getLocale() );
-		this._keywordMatches = researcher.getResearch( "findKeywordInPageTitle" );
+		this._keywordMatches = researcher.getResearch( "findKeyphraseInSEOTitle" );
 		this._keyword = escape( paper.getKeyword() );
 
 		const assessmentResult = new AssessmentResult();

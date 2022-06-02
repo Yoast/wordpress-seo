@@ -6,7 +6,7 @@ import SwedishResearcher from "../../../src/languageProcessing/languages/sv/Rese
 import TurkishResearcher from "../../../src/languageProcessing/languages/tr/Researcher";
 import DefaultResearcher from "../../../src/languageProcessing/languages/_default/Researcher";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
-import pageTitleKeyword from "../../../src/languageProcessing/researches/findKeywordInPageTitle.js";
+import pageTitleKeyword from "../../../src/languageProcessing/researches/findKeyphraseInSEOTitle.js";
 import Paper from "../../../src/values/Paper.js";
 
 const morphologyData = getMorphologyData( "en" );

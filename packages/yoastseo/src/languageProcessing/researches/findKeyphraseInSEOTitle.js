@@ -1,4 +1,4 @@
-/** @module analyses/findKeywordInPageTitle */
+/** @module analyses/findKeyphraseInSEOTitle */
 import wordMatch from "../helpers/match/matchTextWithWord.js";
 import { findTopicFormsInString } from "../helpers/match/findKeywordFormsInString.js";
 
@@ -71,7 +71,7 @@ const adjustPosition = function( title, position ) {
  *
  * @returns {Object} result with the information on whether the keyphrase was matched in the title and how.
  */
-const findKeyphraseInPageTitle = function( paper, researcher ) {
+const findKeyphraseInSEOTitle = function( paper, researcher ) {
 	functionWords = researcher.getConfig( "functionWords" );
 
 	let keyword = escapeRegExp( paper.getKeyword() );
@@ -114,4 +114,4 @@ const findKeyphraseInPageTitle = function( paper, researcher ) {
 	return result;
 };
 
-export default findKeyphraseInPageTitle;
+export default findKeyphraseInSEOTitle;
