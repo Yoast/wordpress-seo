@@ -1,4 +1,4 @@
-import SeoTitleKeywordAssessment from "../../../../src/scoring/assessments/seo/SeoTitleKeywordAssessment";
+import KeyphraseInSEOTitleAssessment from "../../../../src/scoring/assessments/seo/KeyphraseInSEOTitleAssessment";
 import Paper from "../../../../src/values/Paper";
 import Factory from "../../../specHelpers/factory";
 import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher";
@@ -6,13 +6,13 @@ import getMorphologyData from "../../../specHelpers/getMorphologyData";
 
 const morphologyDataJA = getMorphologyData( "ja" );
 
-describe( "an assessment to check if the keyword is in the pageTitle", function() {
+describe( "an assessment to check if the keyword is in the SEO title", function() {
 	it( "returns an assessment result with keyword not found", function() {
 		const paper = new Paper( "", {
 			keyword: "keyword",
 			title: "a non-empty title",
 		} );
-		const assessment = new SeoTitleKeywordAssessment().getResult(
+		const assessment = new KeyphraseInSEOTitleAssessment().getResult(
 			paper,
 			Factory.buildMockResearcher( { exactMatchFound: false, allWordsFound: false, position: -1, exactMatchKeyphrase: false } )
 		);
@@ -30,7 +30,7 @@ describe( "an assessment to check if the keyword is in the pageTitle", function(
 			keyword: "keyword",
 			title: "keyword and the rest of this non-empty title",
 		} );
-		const assessment = new SeoTitleKeywordAssessment().getResult(
+		const assessment = new KeyphraseInSEOTitleAssessment().getResult(
 			paper,
 			Factory.buildMockResearcher( { exactMatchFound: true, allWordsFound: true, position: 0, exactMatchKeyphrase: false } )
 		);
@@ -47,7 +47,7 @@ describe( "an assessment to check if the keyword is in the pageTitle", function(
 			keyword: "keyword",
 			title: "the rest of this non-empty title and the keyword",
 		} );
-		const assessment = new SeoTitleKeywordAssessment().getResult(
+		const assessment = new KeyphraseInSEOTitleAssessment().getResult(
 			paper,
 			Factory.buildMockResearcher( { exactMatchFound: true, allWordsFound: true, position: 41, exactMatchKeyphrase: false } )
 		);
@@ -65,7 +65,7 @@ describe( "an assessment to check if the keyword is in the pageTitle", function(
 			keyword: "keyword",
 			title: "a non-empty title",
 		} );
-		const assessment = new SeoTitleKeywordAssessment().getResult(
+		const assessment = new KeyphraseInSEOTitleAssessment().getResult(
 			paper,
 			Factory.buildMockResearcher( { exactMatchFound: false, allWordsFound: true, position: -1, exactMatchKeyphrase: false  } )
 		);
@@ -83,7 +83,7 @@ describe( "an assessment to check if the keyword is in the pageTitle", function(
 			keyword: "\"cats and dogs\"",
 			title: "dogs and cats",
 		} );
-		const assessment = new SeoTitleKeywordAssessment().getResult(
+		const assessment = new KeyphraseInSEOTitleAssessment().getResult(
 			paper,
 			Factory.buildMockResearcher( { exactMatchFound: false, allWordsFound: false, position: 0, exactMatchKeyphrase: true } )
 		);
@@ -100,19 +100,19 @@ describe( "an assessment to check if the keyword is in the pageTitle", function(
 describe( "a test to check for the assessment's applicability", () => {
 	it( "returns false isApplicable for a paper without title", function() {
 		const paper = new Paper( "", { keyword: "some keyword", title: "" } );
-		const isApplicableResult = new SeoTitleKeywordAssessment().isApplicable( paper );
+		const isApplicableResult = new KeyphraseInSEOTitleAssessment().isApplicable( paper );
 		expect( isApplicableResult ).toBe( false );
 	} );
 
 	it( "returns false isApplicable for a paper without keyword", function() {
 		const paper = new Paper( "", { keyword: "", title: "some title" } );
-		const isApplicableResult = new SeoTitleKeywordAssessment().isApplicable( paper );
+		const isApplicableResult = new KeyphraseInSEOTitleAssessment().isApplicable( paper );
 		expect( isApplicableResult ).toBe( false );
 	} );
 
 	it( "returns true isApplicable for a paper with keyword and title", function() {
 		const paper = new Paper( "", { keyword: "keyword", title: "some title" } );
-		const isApplicableResult = new SeoTitleKeywordAssessment().isApplicable( paper );
+		const isApplicableResult = new KeyphraseInSEOTitleAssessment().isApplicable( paper );
 		expect( isApplicableResult ).toBe( true );
 	} );
 } );
@@ -129,7 +129,7 @@ describe( "a test to check if the keyword is in the page title in Japanese", fun
 			} );
 			const researcher = new JapaneseResearcher( paper );
 
-			const assessment = new SeoTitleKeywordAssessment().getResult( paper, researcher );
+			const assessment = new KeyphraseInSEOTitleAssessment().getResult( paper, researcher );
 
 			expect( assessment.getScore() ).toBe( 9 );
 			expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: " +
@@ -144,7 +144,7 @@ describe( "a test to check if the keyword is in the page title in Japanese", fun
 			} );
 			const researcher = new JapaneseResearcher( paper );
 
-			const assessment = new SeoTitleKeywordAssessment().getResult( paper, researcher );
+			const assessment = new KeyphraseInSEOTitleAssessment().getResult( paper, researcher );
 
 			expect( assessment.getScore() ).toBe( 6 );
 			expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: " +
@@ -160,7 +160,7 @@ describe( "a test to check if the keyword is in the page title in Japanese", fun
 			} );
 			const researcher = new JapaneseResearcher( paper );
 
-			const assessment = new SeoTitleKeywordAssessment().getResult( paper, researcher );
+			const assessment = new KeyphraseInSEOTitleAssessment().getResult( paper, researcher );
 
 			expect( assessment.getScore() ).toBe( 9 );
 			expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: " +
@@ -175,7 +175,7 @@ describe( "a test to check if the keyword is in the page title in Japanese", fun
 			} );
 			const researcher = new JapaneseResearcher( paper );
 
-			const assessment = new SeoTitleKeywordAssessment().getResult( paper, researcher );
+			const assessment = new KeyphraseInSEOTitleAssessment().getResult( paper, researcher );
 
 			expect( assessment.getScore() ).toBe( 2 );
 			expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: " +
@@ -190,7 +190,7 @@ describe( "a test to check if the keyword is in the page title in Japanese", fun
 			} );
 			const researcher = new JapaneseResearcher( paper );
 
-			const assessment = new SeoTitleKeywordAssessment().getResult( paper, researcher );
+			const assessment = new KeyphraseInSEOTitleAssessment().getResult( paper, researcher );
 
 			expect( assessment.getScore() ).toBe( 2 );
 			expect( assessment.getText() ).toBe(  "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: " +
@@ -206,7 +206,7 @@ describe( "a test to check if the keyword is in the page title in Japanese", fun
 			} );
 			const researcher = new JapaneseResearcher( paper );
 
-			const assessment = new SeoTitleKeywordAssessment().getResult( paper, researcher );
+			const assessment = new KeyphraseInSEOTitleAssessment().getResult( paper, researcher );
 
 			expect( assessment.getScore() ).toBe( 6 );
 			expect( assessment.getText() ).toBe(  "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: " +
@@ -221,7 +221,7 @@ describe( "a test to check if the keyword is in the page title in Japanese", fun
 			} );
 			const researcher = new JapaneseResearcher( paper );
 
-			const assessment = new SeoTitleKeywordAssessment().getResult( paper, researcher );
+			const assessment = new KeyphraseInSEOTitleAssessment().getResult( paper, researcher );
 
 			expect( assessment.getScore() ).toBe( 2 );
 			expect( assessment.getText() ).toBe(  "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: " +
@@ -237,7 +237,7 @@ describe( "a test to check if the keyword is in the page title in Japanese", fun
 			} );
 			const researcher = new JapaneseResearcher( paper );
 
-			const assessment = new SeoTitleKeywordAssessment().getResult( paper, researcher );
+			const assessment = new KeyphraseInSEOTitleAssessment().getResult( paper, researcher );
 
 			expect( assessment.getScore() ).toBe( 2 );
 			expect( assessment.getText() ).toBe(  "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: " +
@@ -255,7 +255,7 @@ describe( "a test to check if the keyword is in the page title in Japanese", fun
 			} );
 			const researcher = new JapaneseResearcher( paper );
 
-			const assessment = new SeoTitleKeywordAssessment().getResult( paper, researcher );
+			const assessment = new KeyphraseInSEOTitleAssessment().getResult( paper, researcher );
 
 			expect( assessment.getScore() ).toBe( 2 );
 			expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: " +
@@ -275,7 +275,7 @@ describe( "a test to check if the keyword is in the page title in Japanese", fun
 			const researcher = new JapaneseResearcher( paper );
 			researcher.addResearchData( "morphology", morphologyDataJA );
 
-			const assessment = new SeoTitleKeywordAssessment().getResult( paper, researcher );
+			const assessment = new KeyphraseInSEOTitleAssessment().getResult( paper, researcher );
 
 			expect( assessment.getScore() ).toBe( 9 );
 			expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: " +
@@ -291,7 +291,7 @@ describe( "a test to check if the keyword is in the page title in Japanese", fun
 			const researcher = new JapaneseResearcher( paper );
 			researcher.addResearchData( "morphology", morphologyDataJA );
 
-			const assessment = new SeoTitleKeywordAssessment().getResult( paper, researcher );
+			const assessment = new KeyphraseInSEOTitleAssessment().getResult( paper, researcher );
 
 			expect( assessment.getScore() ).toBe( 6 );
 			expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: " +
@@ -308,7 +308,7 @@ describe( "a test to check if the keyword is in the page title in Japanese", fun
 			const researcher = new JapaneseResearcher( paper );
 			researcher.addResearchData( "morphology", morphologyDataJA );
 
-			const assessment = new SeoTitleKeywordAssessment().getResult( paper, researcher );
+			const assessment = new KeyphraseInSEOTitleAssessment().getResult( paper, researcher );
 
 			expect( assessment.getScore() ).toBe( 9 );
 			expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: " +
@@ -324,7 +324,7 @@ describe( "a test to check if the keyword is in the page title in Japanese", fun
 			const researcher = new JapaneseResearcher( paper );
 			researcher.addResearchData( "morphology", morphologyDataJA );
 
-			const assessment = new SeoTitleKeywordAssessment().getResult( paper, researcher );
+			const assessment = new KeyphraseInSEOTitleAssessment().getResult( paper, researcher );
 
 			expect( assessment.getScore() ).toBe( 2 );
 			expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: " +
@@ -340,7 +340,7 @@ describe( "a test to check if the keyword is in the page title in Japanese", fun
 			const researcher = new JapaneseResearcher( paper );
 			researcher.addResearchData( "morphology", morphologyDataJA );
 
-			const assessment = new SeoTitleKeywordAssessment().getResult( paper, researcher );
+			const assessment = new KeyphraseInSEOTitleAssessment().getResult( paper, researcher );
 
 			expect( assessment.getScore() ).toBe( 2 );
 			expect( assessment.getText() ).toBe(  "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: " +
@@ -357,7 +357,7 @@ describe( "a test to check if the keyword is in the page title in Japanese", fun
 			const researcher = new JapaneseResearcher( paper );
 			researcher.addResearchData( "morphology", morphologyDataJA );
 
-			const assessment = new SeoTitleKeywordAssessment().getResult( paper, researcher );
+			const assessment = new KeyphraseInSEOTitleAssessment().getResult( paper, researcher );
 
 			expect( assessment.getScore() ).toBe( 6 );
 			expect( assessment.getText() ).toBe(  "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: " +
@@ -373,7 +373,7 @@ describe( "a test to check if the keyword is in the page title in Japanese", fun
 			const researcher = new JapaneseResearcher( paper );
 			researcher.addResearchData( "morphology", morphologyDataJA );
 
-			const assessment = new SeoTitleKeywordAssessment().getResult( paper, researcher );
+			const assessment = new KeyphraseInSEOTitleAssessment().getResult( paper, researcher );
 
 			expect( assessment.getScore() ).toBe( 2 );
 			expect( assessment.getText() ).toBe(  "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: " +
@@ -390,7 +390,7 @@ describe( "a test to check if the keyword is in the page title in Japanese", fun
 			const researcher = new JapaneseResearcher( paper );
 			researcher.addResearchData( "morphology", morphologyDataJA );
 
-			const assessment = new SeoTitleKeywordAssessment().getResult( paper, researcher );
+			const assessment = new KeyphraseInSEOTitleAssessment().getResult( paper, researcher );
 
 			expect( assessment.getScore() ).toBe( 9 );
 			expect( assessment.getText() ).toBe(  "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: " +
@@ -406,7 +406,7 @@ describe( "a test to check if the keyword is in the page title in Japanese", fun
 			const researcher = new JapaneseResearcher( paper );
 			researcher.addResearchData( "morphology", morphologyDataJA );
 
-			const assessment = new SeoTitleKeywordAssessment().getResult( paper, researcher );
+			const assessment = new KeyphraseInSEOTitleAssessment().getResult( paper, researcher );
 
 			expect( assessment.getScore() ).toBe( 2 );
 			expect( assessment.getText() ).toBe(  "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: " +
@@ -423,7 +423,7 @@ describe( "a test to check if the keyword is in the page title in Japanese", fun
 			const researcher = new JapaneseResearcher( paper );
 			researcher.addResearchData( "morphology", morphologyDataJA );
 
-			const assessment = new SeoTitleKeywordAssessment().getResult( paper, researcher );
+			const assessment = new KeyphraseInSEOTitleAssessment().getResult( paper, researcher );
 
 			expect( assessment.getScore() ).toBe( 9 );
 			expect( assessment.getText() ).toBe(  "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: " +

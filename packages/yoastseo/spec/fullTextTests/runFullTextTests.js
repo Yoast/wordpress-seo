@@ -12,7 +12,7 @@ import TextCompetingLinksAssessment from "../../src/scoring/assessments/seo/Text
 import TextLengthAssessment from "../../src/scoring/assessments/seo/TextLengthAssessment";
 import OutboundLinksAssessment from "../../src/scoring/assessments/seo/OutboundLinksAssessment";
 import InternalLinksAssessment from "../../src/scoring/assessments/seo/InternalLinksAssessment";
-import SeoTitleKeywordAssessment from "../../src/scoring/assessments/seo/SeoTitleKeywordAssessment";
+import KeyphraseInSEOTitleAssessment from "../../src/scoring/assessments/seo/KeyphraseInSEOTitleAssessment";
 import TitleWidthAssessment from "../../src/scoring/assessments/seo/PageTitleWidthAssessment";
 import SlugKeywordAssessment from "../../src/scoring/assessments/seo/UrlKeywordAssessment";
 import KeyphraseDistributionAssessment from "../../src/scoring/assessments/seo/KeyphraseDistributionAssessment";
@@ -103,7 +103,7 @@ testPapers.forEach( function( testPaper ) {
 		} );
 
 		it( "returns a score and the associated feedback text for the titleKeyword assessment", function() {
-			compare( new SeoTitleKeywordAssessment(), expectedResults.titleKeyword );
+			compare( new KeyphraseInSEOTitleAssessment(), expectedResults.titleKeyword );
 		} );
 
 		it( "returns a score and the associated feedback text for the titleWidth assessment", function() {

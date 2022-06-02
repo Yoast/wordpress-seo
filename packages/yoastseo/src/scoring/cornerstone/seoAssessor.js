@@ -6,7 +6,7 @@ import KeywordDensityAssessment from "../assessments/seo/KeywordDensityAssessmen
 import MetaDescriptionKeywordAssessment from "../assessments/seo/MetaDescriptionKeywordAssessment";
 import TextCompetingLinksAssessment from "../assessments/seo/TextCompetingLinksAssessment";
 import InternalLinksAssessment from "../assessments/seo/InternalLinksAssessment";
-import SeoTitleKeywordAssessment from "../assessments/seo/SeoTitleKeywordAssessment";
+import KeyphraseInSEOTitleAssessment from "../assessments/seo/KeyphraseInSEOTitleAssessment";
 import SlugKeywordAssessment from "../assessments/seo/UrlKeywordAssessment";
 import Assessor from "../assessor";
 import SEOAssessor from "../seoAssessor";
@@ -71,7 +71,7 @@ const CornerstoneSEOAssessor = function( researcher, options ) {
 				noLinks: 3,
 			},
 		} ),
-		new SeoTitleKeywordAssessment(),
+		new KeyphraseInSEOTitleAssessment(),
 		new InternalLinksAssessment(),
 		new TitleWidth(
 			{

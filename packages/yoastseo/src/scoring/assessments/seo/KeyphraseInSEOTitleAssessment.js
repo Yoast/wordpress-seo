@@ -7,9 +7,9 @@ import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import AssessmentResult from "../../../values/AssessmentResult";
 
 /**
- * Assessment to check whether the keyword is included in (the beginning of) the SEO title.
+ * Assessment to check whether the keyphrase is included in (the beginning of) the SEO title.
  */
-class SeoTitleKeywordAssessment extends Assessment {
+class KeyphraseInSEOTitleAssessment extends Assessment {
 	/**
 	 * Sets the identifier and the config.
 	 *
@@ -53,7 +53,7 @@ class SeoTitleKeywordAssessment extends Assessment {
 	}
 
 	/**
-	 * Executes the pagetitle keyword assessment and returns an assessment result.
+	 * Executes the SEO title keyphrase assessment and returns an assessment result.
 	 *
 	 * @param {Paper}       paper       The Paper object to assess.
 	 * @param {Researcher}  researcher  The Researcher object containing all available researches.
@@ -230,4 +230,4 @@ class SeoTitleKeywordAssessment extends Assessment {
 	}
 }
 
-export default SeoTitleKeywordAssessment;
+export default KeyphraseInSEOTitleAssessment;
