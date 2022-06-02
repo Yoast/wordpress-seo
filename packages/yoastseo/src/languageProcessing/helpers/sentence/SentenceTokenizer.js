@@ -7,8 +7,8 @@ import core from "tokenizer2/core";
 import { normalize as normalizeQuotes } from "../sanitize/quotes.js";
 
 // All characters that indicate a sentence delimiter.
-const fullStop = [ "." ];
-const fullStopQuotation = [ "\"" ];
+const fullStop = ".";
+const fullStopQuotation = "\"";
 
 const fullStopRegex = new RegExp( "^[" + fullStop || fullStopQuotation + "]$" );
 const smallerThanContentRegex = /^<[^><]*$/;
