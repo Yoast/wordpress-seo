@@ -19,8 +19,8 @@ const LearnMoreLink = makeOutboundLink();
  * @returns {JSX.Element} The collapsible cornerstone toggle component.
  */
 const CornerstoneContent = ( { cornerstoneContentInfoLink } ) => {
-	const isCornerstone  = useSelect( select => select( SEO_STORE_NAME ).selectIsCornerstone() );
-	const { updateIsCornerstone } = useDispatch( SEO_STORE_NAME );
+	const isCornerstone  = useSelect( select => select( SEO_STORE_NAME ).selectShouldApplyCornerstoneAnalysis() );
+	const { updateShouldApplyCornerstoneAnalysis } = useDispatch( SEO_STORE_NAME );
 
 	return (
 		<MetaboxCollapsible
@@ -36,7 +36,7 @@ const CornerstoneContent = ( { cornerstoneContentInfoLink } ) => {
 			<CornerstoneToggle
 				id="yoast-cornerstone-metabox"
 				isEnabled={ isCornerstone }
-				onToggle={ updateIsCornerstone }
+				onToggle={ updateShouldApplyCornerstoneAnalysis }
 			/>
 			<Slot name="YoastAfterCornerstoneToggle" />
 		</MetaboxCollapsible>

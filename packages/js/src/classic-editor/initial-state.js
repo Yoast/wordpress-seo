@@ -15,6 +15,7 @@ export const getInitialPostState = () => ( {
 			analysisType: "post",
 			isSeoActive: isSeoAnalysisActive(),
 			isReadabilityActive: isReadabilityAnalysisActive(),
+			shouldApplyCornerstoneAnalysis: dom.getPostIsCornerstone(),
 		},
 	},
 	editor: {
@@ -38,7 +39,6 @@ export const getInitialPostState = () => ( {
 				window.wpseoScriptData.metabox.title_template,
 			description: dom.getPostMetaDescription() || window.wpseoScriptData.metabox.metadesc_template,
 			slug: dom.getPostSlug(),
-			isCornerstone: dom.getPostIsCornerstone(),
 		},
 		keyphrases: {
 			[ FOCUS_KEYPHRASE_ID ]: {
@@ -82,6 +82,7 @@ export const getInitialTermState = () => ( {
 			analysisType: "term",
 			isSeoActive: isSeoAnalysisActive(),
 			isReadabilityActive: isReadabilityAnalysisActive(),
+			shouldApplyCornerstoneAnalysis: dom.getTermIsCornerstone(),
 		},
 	},
 	editor: {
@@ -97,7 +98,6 @@ export const getInitialTermState = () => ( {
 				window.wpseoScriptData.metabox.title_template,
 			description: dom.getTermMetaDescription() || window.wpseoScriptData.metabox.metadesc_template,
 			slug: dom.getTermSlug(),
-			isCornerstone: dom.getTermIsCornerstone(),
 		},
 		keyphrases: {
 			[ FOCUS_KEYPHRASE_ID ]: {
