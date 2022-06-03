@@ -38,6 +38,8 @@ class Crawl_Settings_Integration_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
+		$this->stubTranslationFunctions();
+
 		$this->product_helper = Mockery::mock( Product_Helper::class );
 		$this->instance       = new Crawl_Settings_Integration( $this->product_helper );
 	}
@@ -68,6 +70,11 @@ class Crawl_Settings_Integration_Test extends TestCase {
 			->expects( 'is_premium' )
 			->once()
 			->andReturn( true );
+
+		$this->product_helper
+			->expects( 'get_premium_version' )
+			->once()
+			->andReturn( '18.6' );
 
 		$this->instance->register_hooks();
 	}

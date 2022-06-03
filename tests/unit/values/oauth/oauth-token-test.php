@@ -69,6 +69,7 @@ class OAuth_Token_Test extends TestCase {
 		$this->assertEquals( ( $this->created_at + 604800 ), $instance->expires );
 		$this->assertFalse( $instance->has_expired() );
 		$this->assertEquals( $this->created_at, $instance->created_at );
+		$this->assertEquals( 0, $instance->error_count );
 	}
 
 	/**
@@ -92,6 +93,7 @@ class OAuth_Token_Test extends TestCase {
 				'expires'       => ( $this->created_at + 604800 ),
 				'has_expired'   => false,
 				'created_at'    => $this->created_at,
+				'error_count'   => 0,
 			],
 			$instance->to_array()
 		);

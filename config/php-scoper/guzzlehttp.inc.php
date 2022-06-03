@@ -4,7 +4,7 @@ declare( strict_types=1 );
 
 use Isolated\Symfony\Component\Finder\Finder;
 
-return array(
+return [
 
 	/*
 	 * By default when running php-scoper add-prefix, it will prefix all relevant code found in the current working
@@ -13,7 +13,7 @@ return array(
 	 *
 	 * For more see: https://github.com/humbug/php-scoper#finders-and-paths
 	 */
-	'finders'                    => [
+	'finders' => [
 		Finder::create()->files()->in( 'vendor/guzzlehttp/guzzle' )->name( [ '*.php', 'LICENSE', 'composer.json' ] ),
 		Finder::create()->files()->in( 'vendor/guzzlehttp/promises' )->name( [ '*.php', 'LICENSE', 'composer.json' ] ),
 		Finder::create()->files()->in( 'vendor/guzzlehttp/psr7' )->name( [ '*.php', 'LICENSE', 'composer.json' ] ),
@@ -27,7 +27,7 @@ return array(
 	 *
 	 * For more see: https://github.com/humbug/php-scoper#patchers
 	 */
-	'patchers'                   => [
+	'patchers' => [
 		/**
 		 * Replaces the Adapter string references with the prefixed versions.
 		 *
@@ -38,19 +38,26 @@ return array(
 		 * @return string The modified content.
 		 */
 		function( $file_path, $prefix, $content ) {
-			// 18 is the length of the GrantFactory.php file path.
-			if ( substr( $file_path, -18 ) !== 'src/Middleware.php' ) {
-				return $content;
+			// 18 is the length of the Middleware.php file path.
+			if ( substr( $file_path, -18 ) === 'src/Middleware.php' ) {
+				return str_replace(
+					sprintf( '%s\\\\cookies must be an instance of GuzzleHttp\\\\Cookie\\\\CookieJarInterface', $prefix ),
+					sprintf( 'cookies must be an instance of %s\\\\GuzzleHttp\\\\Cookie\\\\CookieJarInterface', $prefix ),
+					$content
+				);
 			}
 
-			$replaced = str_replace(
-				sprintf( '%s\\\\cookies must be an instance of GuzzleHttp\\\\Cookie\\\\CookieJarInterface', $prefix ),
-				sprintf( 'cookies must be an instance of %s\\\\GuzzleHttp\\\\Cookie\\\\CookieJarInterface', $prefix ),
-				$content
-			);
+			if ( substr( $file_path, -14 ) === 'src/Client.php' ) {
+				// A WordPress environment doesn't support idn_conversion so we disable it.
+				return str_replace(
+					"'idn_conversion' => \\true",
+					"'idn_conversion' => \\false",
+					$content
+				);
+			}
 
-			return $replaced;
+			return $content;
 		},
 	],
 
-);
+];
