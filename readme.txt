@@ -243,6 +243,7 @@ Release Date: June 14th, 2022
 
 
 
+
 Enhancements:
 
 * Prompts users to set up their site in order to take advantage of all SEO features.
