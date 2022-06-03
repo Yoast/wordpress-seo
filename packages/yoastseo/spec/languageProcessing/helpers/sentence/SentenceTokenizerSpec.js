@@ -29,7 +29,7 @@ describe( "A test for tokenizing a (html) text into sentences", function() {
 		expect( mockTokenizer.getSentencesFromTokens( tokens ) ).toEqual(   [
 			"<form><p>First sentence:",
 			"second sentence.",
-			"Third sentence.",
+			"Third sentence.\"",
 			"Fourth sentence\"",
 			"</form>",
 		] );
