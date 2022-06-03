@@ -232,7 +232,6 @@ export default class SentenceTokenizer {
 	 * @returns {boolean} True if a full stop is part of a person's initials, False if the full stop is not part of a person's initials.
 	 */
 	isPartOfPersonInitial( token, previousToken, nextToken, secondToNextToken ) {
-		console.log( token );
 		return ( ! isUndefined( token ) &&
 			! isUndefined( nextToken ) &&
 			! isUndefined( secondToNextToken ) &&
