@@ -8,9 +8,8 @@ import { normalize as normalizeQuotes } from "../sanitize/quotes.js";
 
 // All characters that indicate a sentence delimiter.
 const fullStop = ".";
-const fullStopQuotation = "\"";
 
-const fullStopRegex = new RegExp( "^[" + fullStop + fullStopQuotation + "]$" );
+const fullStopRegex = new RegExp( "^[" + fullStop + "]$" );
 const smallerThanContentRegex = /^<[^><]*$/;
 const htmlStartRegex = /^<([^>\s/]+)[^>]*>$/mi;
 const htmlEndRegex = /^<\/([^>\s]+)[^>]*>$/mi;
@@ -32,7 +31,7 @@ export default class SentenceTokenizer {
          * \u06D4 - Urdu full stop.
          * \u061f - Arabic question mark.
         */
-		this.sentenceDelimiters = "?!\u2026\u06d4\u061f";
+		this.sentenceDelimiters = "\"?!\u2026\u06d4\u061f";
 	}
 
 	/**
@@ -265,7 +264,7 @@ export default class SentenceTokenizer {
 				tokenSentences.push( sentence );
 			} );
 
-			const sentenceEndRegex = new RegExp( "[" + fullStop + fullStopQuotation + this.getSentenceDelimiters() + "]$" );
+			const sentenceEndRegex = new RegExp( "[" + fullStop + this.getSentenceDelimiters() + "]$" );
 
 			// Check if the last sentence has a valid sentence ending.
 			if ( lastSentence.match( sentenceEndRegex ) ) {
@@ -289,7 +288,7 @@ export default class SentenceTokenizer {
 	 */
 	createTokenizer() {
 		const sentenceDelimiterRegex = new RegExp( "^[" + this.getSentenceDelimiters() + "]$" );
-		const sentenceRegex = new RegExp( "^[^" + fullStop + fullStopQuotation + this.getSentenceDelimiters() + "<\\(\\)\\[\\]]+$" );
+		const sentenceRegex = new RegExp( "^[^" + fullStop + this.getSentenceDelimiters() + "<\\(\\)\\[\\]]+$" );
 
 		const tokens = [];
 		const tokenizer = core( function( token ) {
@@ -338,6 +337,7 @@ export default class SentenceTokenizer {
 	 */
 	getSentencesFromTokens( tokenArray, trimSentences = true ) {
 		let tokenSentences = [], currentSentence = "", nextSentenceStart, sliced;
+		console.log( tokenArray );
 
 		// Drop the first and last HTML tag if both are present.
 		do {
@@ -401,7 +401,11 @@ export default class SentenceTokenizer {
 					     * a) There is a next sentence, and the next character is a valid sentence beginning preceded by a white space, OR
 					     * b) The next token is a sentence start
 					    */
-						if ( token.src === "…" ) {
+						if ( ( token.src === "\"" && previousToken.src !== "." ) ) {
+							break;
+						}
+						console.log( previousToken.src, token.src );
+						if ( token.src === "…" || token.src === "\"" ) {
 							currentSentence = this.getValidSentence( hasNextSentence,
 								nextSentenceStart,
 								nextCharacters,

@@ -35,6 +35,24 @@ describe( "A test for tokenizing a (html) text into sentences", function() {
 		] );
 	} );
 
+	it( "returns an array of sentences for a given array of tokens when quotation mark and period are sentence" +
+		"delimeters", function() {
+		const tokens = [
+			{ type: "sentence", src: "Hello", line: 1, col: 1 },
+			{ type: "full-stop", src: ".", line: 1, col: 6 },
+			{ type: "sentence", src: " ", line: 1, col: 7 },
+			{ type: "sentence-delimiter", src: "\"", line: 1, col: 8 },
+			{ type: "sentence", src: "How are you", line: 1, col: 9 },
+			{ type: "sentence-delimiter", src: "\"", line: 1, col: 20 },
+			{ type: "sentence", src: " Bye", line: 1, col: 21 },
+		];
+		expect( mockTokenizer.getSentencesFromTokens( tokens ) ).toEqual(   [
+			"Hello.",
+			"\"How are you\"",
+			"Bye",
+		] );
+	} );
+
 	it( "returns an array of sentences for a given array of tokens started and ended with html tags.", function() {
 		const tokens = [
 			{ type: "html-start", src: "<p>" },
