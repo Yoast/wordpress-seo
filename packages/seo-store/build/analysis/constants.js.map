@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../src/analysis/constants.js"],"names":["ANALYZE_DEBOUNCE_TIME_IN_MS","ANALYZE_ACTION_NAME"],"mappings":"AAAA,OAAO,MAAMA,2BAA2B,GAAG,GAApC;AAEP,OAAO,MAAMC,mBAAmB,GAAG,SAA5B","sourcesContent":["export const ANALYZE_DEBOUNCE_TIME_IN_MS = 500;\n\nexport const ANALYZE_ACTION_NAME = \"analyze\";\n"],"file":"constants.js"}
