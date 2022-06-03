@@ -51,9 +51,6 @@ async function updateSiteRepresentation( state ) {
 		/* eslint-enable camelcase */
 	};
 
-	if ( window.wpseoFirstTimeConfigurationData.canEditWordPressOptions ) {
-		siteRepresentation.description = state.siteTagline;
-	}
 	const response = await apiFetch( {
 		path: "yoast/v1/configuration/site_representation",
 		method: "POST",
@@ -181,8 +178,8 @@ function calculateInitialState( windowObject, isStepFinished ) {
 		companyOrPersonOptions,
 		personSocialProfiles: {},
 		errorFields: [],
+		stepErrors: {},
 		editedSteps: [],
-		savedSteps: [],
 	};
 }
 
@@ -215,6 +212,14 @@ export default function FirstTimeConfigurationSteps() {
 	const [ indexingState, setIndexingState ] = useState( () => window.yoastIndexingData.amount === "0" ? "already_done" : "idle" );
 	const [ siteRepresentationEmpty, setSiteRepresentationEmpty ] = useState( false );
 	const [ showRunIndexationAlert, setShowRunIndexationAlert ] = useState( false );
+
+	const setStepError = useCallback( ( step, message ) => {
+		dispatch( { type: "SET_STEP_ERROR", payload: { step, message } } );
+	}, [] );
+
+	const removeStepError = useCallback( ( step ) => {
+		dispatch( { type: "REMOVE_STEP_ERROR", payload: step } );
+	}, [] );
 
 	/* Briefly override window variable and remove indexing notices, because indexingstate is reinitialized when navigating back and forth
 	without triggering a reload, whereas the window variable remains stale. */
@@ -249,17 +254,6 @@ export default function FirstTimeConfigurationSteps() {
 		}
 	}, [ indexingState ] );
 
-	/**
-	 * Sets the step to isSaved.
-	 *
-	 * @param {number} stepNumber The number of the step to save.
-	 *
-	 * @returns {void}
-	 */
-	const setStepIsSaved = ( stepNumber ) => {
-		dispatch( { type: "SET_STEP_SAVED", payload: stepNumber } );
-	};
-
 	const isStep2Finished = isStepFinished( STEPS.siteRepresentation );
 	const isStep3Finished = isStepFinished( STEPS.socialProfiles );
 	const isStep4Finished = isStepFinished( STEPS.personalPreferences );
@@ -293,9 +287,9 @@ export default function FirstTimeConfigurationSteps() {
 		}
 		setSiteRepresentationEmpty( state.companyOrPerson === "emptyChoice" || isCompanyAndEmpty || isPersonAndEmpty );
 		return updateSiteRepresentation( state )
-			.then( () => setStepIsSaved( 2 ) )
 			.then( () => {
 				setErrorFields( [] );
+				removeStepError( STEPS.siteRepresentation );
 				finishSteps( STEPS.siteRepresentation );
 				return true;
 			} )
@@ -305,7 +299,7 @@ export default function FirstTimeConfigurationSteps() {
 					return false;
 				}
 				if ( e.message ) {
-					setErrorFields( [ "site_representation", e.message ] );
+					setStepError( STEPS.siteRepresentation, e.message );
 				}
 				return false;
 			} );
@@ -329,9 +323,9 @@ export default function FirstTimeConfigurationSteps() {
 					}
 					return response;
 				} )
-				.then( () => setStepIsSaved( 3 ) )
 				.then( () => {
 					setErrorFields( [] );
+					removeStepError( STEPS.socialProfiles );
 					finishSteps( STEPS.socialProfiles );
 				} )
 				.then( () => {
@@ -341,6 +335,9 @@ export default function FirstTimeConfigurationSteps() {
 					( e ) => {
 						if ( e.failures ) {
 							setErrorFields( e.failures );
+						}
+						if ( e.message ) {
+							setStepError( STEPS.socialProfiles, e.message );
 						}
 						return false;
 					}
@@ -355,9 +352,9 @@ export default function FirstTimeConfigurationSteps() {
 				}
 				return response;
 			} )
-			.then( () => setStepIsSaved( 3 ) )
 			.then( () => {
 				setErrorFields( [] );
+				removeStepError( STEPS.socialProfiles );
 				finishSteps( STEPS.socialProfiles );
 			} )
 			.then( () => {
@@ -367,6 +364,9 @@ export default function FirstTimeConfigurationSteps() {
 				( e ) => {
 					if ( e.failures ) {
 						setErrorFields( e.failures );
+					}
+					if ( e.message ) {
+						setStepError( STEPS.socialProfiles, e.message );
 					}
 					return false;
 				}
@@ -387,10 +387,16 @@ export default function FirstTimeConfigurationSteps() {
 					document.getElementById( "tracking-off" ).checked = true;
 				}
 			} )
-			.then( () => setStepIsSaved( 4 ) )
 			.then( () => finishSteps( STEPS.personalPreferences ) )
 			.then( () => {
+				removeStepError( STEPS.personalPreferences );
 				return true;
+			} )
+			.catch( e => {
+				if ( e.message ) {
+					setStepError( STEPS.personalPreferences, e.message );
+				}
+				return false;
 			} );
 	}
 
@@ -576,7 +582,7 @@ export default function FirstTimeConfigurationSteps() {
 							</EditButton>
 						</Step.Header>
 						<Step.Content>
-							<IndexationStep setIndexingState={ setIndexingState } indexingState={ indexingState } showRunIndexationAlert={ showRunIndexationAlert }  isStepperFinished={ isStepperFinished } />
+							<IndexationStep setIndexingState={ setIndexingState } indexingState={ indexingState } showRunIndexationAlert={ showRunIndexationAlert } isStepperFinished={ isStepperFinished } />
 							<ContinueButton
 								additionalClasses="yst-mt-12"
 								beforeGo={ beforeContinueIndexationStep }
@@ -606,6 +612,7 @@ export default function FirstTimeConfigurationSteps() {
 								state={ state }
 								siteRepresentationEmpty={ siteRepresentationEmpty }
 							/>
+							<Step.Error id="yoast-site-representation-step-error" message={ state.stepErrors[ STEPS.siteRepresentation ] || "" } />
 							<ConfigurationStepButtons
 								stepperFinishedOnce={ stepperFinishedOnce }
 								saveFunction={ updateOnFinishSiteRepresentation }
@@ -628,6 +635,7 @@ export default function FirstTimeConfigurationSteps() {
 						</Step.Header>
 						<Step.Content>
 							<SocialProfilesStep state={ state } dispatch={ dispatch } setErrorFields={ setErrorFields } />
+							<Step.Error id="yoast-social-profiles-step-error" message={ state.stepErrors[ STEPS.socialProfiles ] || "" } />
 							<ConfigurationStepButtons stepperFinishedOnce={ stepperFinishedOnce } saveFunction={ updateOnFinishSocialProfiles } setEditState={ setIsStepBeingEdited } />
 						</Step.Content>
 					</Step>
@@ -646,6 +654,7 @@ export default function FirstTimeConfigurationSteps() {
 						</Step.Header>
 						<Step.Content>
 							<PersonalPreferencesStep state={ state } setTracking={ setTracking } />
+							<Step.Error id="yoast-personal-preferences-step-error" message={ state.stepErrors[ STEPS.personalPreferences ] || "" } />
 							<ConfigurationStepButtons stepperFinishedOnce={ stepperFinishedOnce } saveFunction={ updateOnFinishPersonalPreferences } setEditState={ setIsStepBeingEdited } />
 						</Step.Content>
 					</Step>

@@ -11,7 +11,7 @@ const paper = new Paper( content, {
 		"canting, or by printing the resist with a copper stamp called a cap. ",
 	title: "Koleksi Batik",
 	titleWidth: 450,
-	locale: "en_EN",
+	locale: "en_US",
 	permalink: "https://en.wikipedia.org/wiki/Batik",
 	slug: "Batik",
 } );
@@ -94,20 +94,20 @@ const expectedResults = {
 	textSentenceLength: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/shopify48' target='_blank'>Sentence length</a>: 31.3% of the sentences contain more " +
+		resultText: "<a href='https://yoa.st/shopify48' target='_blank'>Sentence length</a>: 50% of the sentences contain more " +
 			"than 20 words, which is more than the recommended maximum of 25%. <a href='https://yoa.st/shopify49' target='_blank'>" +
 			"Try to shorten the sentences</a>.",
 	},
 	textTransitionWords: {
 		isApplicable: true,
-		score: 3,
-		resultText: "<a href='https://yoa.st/shopify44' target='_blank'>Transition words</a>: Only 15.8% of the sentences contain " +
+		score: 6,
+		resultText: "<a href='https://yoa.st/shopify44' target='_blank'>Transition words</a>: Only 20% of the sentences contain " +
 			"transition words, which is not enough. <a href='https://yoa.st/shopify45' target='_blank'>Use more of them</a>.",
 	},
 	passiveVoice: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/shopify42' target='_blank'>Passive voice</a>: 21.1% of the sentences contain passive voice, " +
+		resultText: "<a href='https://yoa.st/shopify42' target='_blank'>Passive voice</a>: 26.7% of the sentences contain passive voice, " +
 			"which is more than the recommended maximum of 10%. <a href='https://yoa.st/shopify43' target='_blank'>" +
 			"Try to use their active counterparts</a>.",
 	},

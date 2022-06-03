@@ -18,7 +18,7 @@ describe( "A test for tokenizing a (html) text into sentences", function() {
 			{ type: "html-start", src: "<p>" },
 			{ type: "sentence", src: "First sentence" },
 			{ type: "sentence-delimiter", src: ":" },
-			{ type: "sentence", src: "second sentence" },
+			{ type: "sentence", src: " second sentence" },
 			{ type: "full-stop", src: "." },
 			{ type: "sentence", src: "  Third sentence." },
 			{ type: "html-end", src: "<br> element.</p>" },
@@ -37,17 +37,16 @@ describe( "A test for tokenizing a (html) text into sentences", function() {
 			{ type: "html-start", src: "<p>" },
 			{ type: "sentence", src: "First sentence" },
 			{ type: "sentence-delimiter", src: ":" },
-			{ type: "sentence", src: "second sentence" },
+			{ type: "sentence", src: " second sentence" },
 			{ type: "full-stop", src: "." },
-			{ type: "sentence", src: "5 is " },
-			{ type: "smaller-than-sign-content", src: "<" },
-			{ type: "sentence", src: " than 7." },
+			{ type: "sentence", src: " 5 is " },
+			{ type: "smaller-than-sign-content", src: "< than 7." },
 			{ type: "html-end", src: "</p>" },
 		];
 		expect( mockTokenizer.getSentencesFromTokens( tokens ) ).toEqual(   [
 			"First sentence:",
-			"second sentence.5 is",
-			"< than 7.",
+			"second sentence.",
+			"5 is < than 7.",
 		] );
 	} );
 

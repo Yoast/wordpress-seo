@@ -95,19 +95,20 @@ const expectedResults = {
 	},
 	textSentenceLength: {
 		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/shopify48' target='_blank'>Sentence length</a>: Great!",
+		score: 3,
+		resultText: "<a href='https://yoa.st/shopify48' target='_blank'>Sentence length</a>: 30.8% of the sentences contain more than 20 words, " +
+			"which is more than the recommended maximum of 25%. <a href='https://yoa.st/shopify49' target='_blank'>Try to shorten the sentences</a>.",
 	},
 	textTransitionWords: {
 		isApplicable: true,
-		score: 3,
-		resultText: "<a href='https://yoa.st/shopify44' target='_blank'>Transition words</a>: Only 14.5% of the sentences " +
+		score: 6,
+		resultText: "<a href='https://yoa.st/shopify44' target='_blank'>Transition words</a>: Only 25.8% of the sentences " +
 			"contain transition words, which is not enough. <a href='https://yoa.st/shopify45' target='_blank'>Use more of them</a>.",
 	},
 	passiveVoice: {
 		isApplicable: true,
-		score: 6,
-		resultText: "<a href='https://yoa.st/shopify42' target='_blank'>Passive voice</a>: 10.9% of the sentences contain passive voice, " +
+		score: 3,
+		resultText: "<a href='https://yoa.st/shopify42' target='_blank'>Passive voice</a>: 22.6% of the sentences contain passive voice, " +
 			"which is more than the recommended maximum of 10%. <a href='https://yoa.st/shopify43' target='_blank'>" +
 			"Try to use their active counterparts</a>.",
 	},
@@ -118,9 +119,9 @@ const expectedResults = {
 	},
 	sentenceBeginnings: {
 		isApplicable: true,
-		score: 3,
-		resultText: "<a href='https://yoa.st/shopify5' target='_blank'>Consecutive sentences</a>: The text contains 4 consecutive " +
-			"sentences starting with the same word. <a href='https://yoa.st/shopify65' target='_blank'>Try to mix things up</a>!",
+		score: 9,
+		resultText: "<a href='https://yoa.st/shopify5' target='_blank'>Consecutive sentences</a>: There is enough variety in your sentences. " +
+			"That's great!",
 	},
 };
 
