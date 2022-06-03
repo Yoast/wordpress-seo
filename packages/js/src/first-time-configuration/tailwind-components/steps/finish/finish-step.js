@@ -18,7 +18,7 @@ function goToSEODashboard() {
 function regularContent() {
 	return (
 		<>
-			<p className="yst-text-sm yst-mb-6">{ __( "Our indexables squad has worked hard and solved a lot of technical problems. Let's have a look at the SEO fitness of your site!", "wordpress-seo" ) }</p>
+			<p className="yst-text-sm yst-mb-6">{ __( "That’s it! By providing this information our indexables squad has been able to do a lot of optimization for your site already. Now, let's have a look at the SEO fitness of your site!", "wordpress-seo" ) }</p>
 			<button
 				type="button"
 				onClick={ goToSEODashboard }
