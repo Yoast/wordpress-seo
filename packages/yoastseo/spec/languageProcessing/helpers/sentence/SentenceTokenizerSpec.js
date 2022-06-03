@@ -159,6 +159,7 @@ describe( "A test for tokenizing a (html) text into sentences", function() {
 
 		console.error.mockRestore();
 	} );
+
 	it( "does not break a sentence in two if there are initials within.", function() {
 		// The reprint was favourably reviewed by "A. B." in The Musical Times in 1935, who commented "Praise is due to Mr Mercer.
 		const tokens = [
