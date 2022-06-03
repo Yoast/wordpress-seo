@@ -11,15 +11,17 @@ let textArray;
 let inScriptBlock = false;
 
 // The blocks we filter out of the text that needs to be parsed.
-const inlineTags = [ "script", "style", "code", "pre" ];
+const inlineTags = [ "script", "style", "code", "pre", "blockquote" ];
 
 /**
  * Parses the text.
  */
 const parser = new htmlparser.Parser( {
 	/**
-	 * Handles the opening tag. If the opening tag is included in the inlineTags array, set inScriptBlock to true.
-	 * If the opening tag is not included in the inlineTags array, push the tag to the textArray.
+	 * Handles the opening tag.
+	 * If we are in a script block, disregard the tag.
+	 * If the opening tag is included in the inlineTags array, set inScriptBlock to true.
+	 * Otherwise, push the tag to the textArray.
 	 *
 	 * @param {string} tagName The tag name.
 	 * @param {object} nodeValue The attribute with the keys and values of the tag.
@@ -27,6 +29,10 @@ const parser = new htmlparser.Parser( {
 	 * @returns {void}
 	 */
 	onopentag: function( tagName, nodeValue ) {
+		if ( inScriptBlock ) {
+			return;
+		}
+
 		if ( includes( inlineTags, tagName ) ) {
 			inScriptBlock = true;
 			return;
@@ -55,8 +61,9 @@ const parser = new htmlparser.Parser( {
 		}
 	},
 	/**
-	 * Handles the closing tag. If the closing tag is included in the inlineTags array, set inScriptBlock to false.
-	 * If the closing tag is not included in the inlineTags array, push the tag to the textArray.
+	 * Handles the closing tag.
+	 * If the closing tag is included in the inlineTags array, set inScriptBlock to false.
+	 * Otherwise, if we are not currently in a script block, push the tag to the textArray.
 	 *
 	 * @param {string} tagName The tag name.
 	 *
@@ -65,6 +72,10 @@ const parser = new htmlparser.Parser( {
 	onclosetag: function( tagName ) {
 		if ( includes( inlineTags, tagName ) ) {
 			inScriptBlock = false;
+			return;
+		}
+
+		if ( inScriptBlock ) {
 			return;
 		}
 
