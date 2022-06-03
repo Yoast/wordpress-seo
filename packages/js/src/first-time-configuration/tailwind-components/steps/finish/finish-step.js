@@ -59,12 +59,11 @@ function webinarPromoContent() {
  */
 export default function FinishStep() {
 	const isPremium = useSelect( select => select( "yoast-seo/settings" ).getIsPremium() );
-	const isAlertDismissed = useSelect( select => select( "yoast-seo/settings" ).isAlertDismissed( "webinar-promo-notification" ) );
 
 	return (
 		<div className="yst-flex yst-flex-row yst-justify-between yst-items-center yst--mt-4">
 			<div className="yst-mr-6">
-				{ isPremium || isAlertDismissed ? regularContent() : webinarPromoContent() }
+				{ isPremium ? regularContent() : webinarPromoContent() }
 			</div>
 			<ConfigurationFinishImage className="yst-shrink-0 yst-h-28" />
 		</div>
