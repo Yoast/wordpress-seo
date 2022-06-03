@@ -109,7 +109,6 @@ function paragraphHasNoText( text ) {
 export default function( paper, researcher ) {
 	const topicForms = researcher.getResearch( "morphology" );
 	const matchWordCustomHelper = researcher.getHelper( "matchWordCustomHelper" );
-	const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
 	const locale = paper.getLocale();
 
 	let paragraphs = matchParagraphs( paper.getText() );
@@ -122,7 +121,7 @@ export default function( paper, researcher ) {
 		keyphraseOrSynonym: "",
 	};
 
-	const sentences = getSentences( paragraphs, memoizedTokenizer );
+	const sentences = getSentences( paragraphs );
 	// Use both keyphrase and synonyms to match topic words in the first paragraph.
 	const useSynonyms = true;
 

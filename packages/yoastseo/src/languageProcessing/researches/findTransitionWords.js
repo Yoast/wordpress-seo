@@ -105,9 +105,8 @@ export default function( paper, researcher ) {
 	const matchTransitionWordsHelper = researcher.getHelper( "matchTransitionWordsHelper" );
 	const transitionWords = researcher.getConfig( "transitionWords" );
 	const twoPartTransitionWords = researcher.getConfig( "twoPartTransitionWords" );
-	const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
 
-	const sentences = getSentences( paper.getText(), memoizedTokenizer );
+	const sentences = getSentences( paper.getText() );
 	const sentenceResults = checkSentencesForTransitionWords( sentences, transitionWords, twoPartTransitionWords, matchTransitionWordsHelper );
 
 	return {

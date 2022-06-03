@@ -150,7 +150,7 @@ const GetUserMessage = ( props ) => {
 		return <NotConnectedMessage { ...props } />;
 	}
 
-	if ( data && [ 401, 403, 404 ].includes( data.status ) ) {
+	if ( ! isEmpty( data ) && data.status === 404 ) {
 		return <WincherReconnectAlert
 			onReconnect={ onConnectAction }
 		/>;

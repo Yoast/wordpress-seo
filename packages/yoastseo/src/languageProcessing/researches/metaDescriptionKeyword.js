@@ -72,9 +72,8 @@ export default function( paper, researcher ) {
 
 	const topicForms = researcher.getResearch( "morphology" );
 	const matchWordCustomHelper = researcher.getHelper( "matchWordCustomHelper" );
-	const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
 
-	const sentences = getSentences( description, memoizedTokenizer );
+	const sentences = getSentences( description );
 
 	const sentenceMatches = sentences.map(
 		sentence => matchPerSentence( sentence, topicForms, locale, matchWordCustomHelper )

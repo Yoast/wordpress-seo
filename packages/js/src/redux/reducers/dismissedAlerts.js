@@ -1,4 +1,7 @@
-import { DISMISS_ALERT_SUCCESS, SET_DISMISSED_ALERTS } from "../actions/dismissedAlerts";
+import { get } from "lodash";
+import { DISMISS_ALERT_SUCCESS } from "../actions/dismissedAlerts";
+
+const INITIAL_STATE = get( window, "wpseoScriptData.dismissedAlerts", {} );
 
 /**
  * A reducer for the dismissedAlerts.
@@ -8,7 +11,7 @@ import { DISMISS_ALERT_SUCCESS, SET_DISMISSED_ALERTS } from "../actions/dismisse
  *
  * @returns {Object} The state.
  */
-function dismissedAlertsReducer( state = {}, action ) {
+function dismissedAlertsReducer( state = INITIAL_STATE, action ) {
 	if ( action.type === DISMISS_ALERT_SUCCESS && action.alertKey ) {
 		// Update the store after the Control has POSTed a dismissal to the database through the REST API.
 		return {
@@ -16,11 +19,6 @@ function dismissedAlertsReducer( state = {}, action ) {
 			[ action.alertKey ]: true,
 		};
 	}
-
-	if ( action.type === SET_DISMISSED_ALERTS ) {
-		return { ...action.payload };
-	}
-
 	return state;
 }
 

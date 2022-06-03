@@ -16,7 +16,6 @@ import SchemaTabContainer from "../../containers/SchemaTab";
 import SidebarCollapsible from "../SidebarCollapsible";
 import AdvancedSettings from "../../containers/AdvancedSettings";
 import WincherSEOPerformanceModal from "../../containers/WincherSEOPerformanceModal";
-import WebinarPromoNotification from "../WebinarPromoNotification";
 
 /* eslint-disable complexity */
 /**
@@ -36,9 +35,6 @@ export default function SidebarFill( { settings } ) {
 			<Fill name="YoastSidebar">
 				<SidebarItem key="warning" renderPriority={ 1 }>
 					<Warning />
-					<div style={ { margin: "0 16px" } }>
-						<WebinarPromoNotification hasIcon={ false } image={ null } />
-					</div>
 				</SidebarItem>
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="keyword-input" renderPriority={ 8 }>
 					<KeywordInput

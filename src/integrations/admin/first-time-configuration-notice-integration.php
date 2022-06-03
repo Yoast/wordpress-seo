@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Integrations\Admin;
 
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Helpers\Indexing_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -37,13 +38,6 @@ class First_Time_Configuration_Notice_Integration implements Integration_Interfa
 	private $admin_asset_manager;
 
 	/**
-	 * Whether we show the alternate mesage.
-	 *
-	 * @var bool
-	 */
-	private $show_alternate_message;
-
-	/**
 	 * {@inheritDoc}
 	 */
 	public static function get_conditionals() {
@@ -62,10 +56,9 @@ class First_Time_Configuration_Notice_Integration implements Integration_Interfa
 		Indexing_Helper $indexing_helper,
 		WPSEO_Admin_Asset_Manager $admin_asset_manager
 	) {
-		$this->options_helper         = $options_helper;
-		$this->indexing_helper        = $indexing_helper;
-		$this->admin_asset_manager    = $admin_asset_manager;
-		$this->show_alternate_message = false;
+		$this->options_helper      = $options_helper;
+		$this->indexing_helper     = $indexing_helper;
+		$this->admin_asset_manager = $admin_asset_manager;
 	}
 
 	/**
@@ -107,21 +100,11 @@ class First_Time_Configuration_Notice_Integration implements Integration_Interfa
 			return false;
 		}
 
-		if ( $this->options_helper->get( 'first_time_install', false ) !== false ) {
-			return ! $this->are_site_representation_name_and_logo_set() || $this->indexing_helper->get_unindexed_count() > 0;
-		}
-
-		if ( $this->indexing_helper->is_initial_indexing() === false ) {
+		if ( $this->options_helper->get( 'first_time_install', false ) === false ) {
 			return false;
 		}
 
-		if ( $this->indexing_helper->is_finished_indexables_indexing() === true ) {
-			return false;
-		}
-
-		$this->show_alternate_message = true;
-
-		return ! $this->are_site_representation_name_and_logo_set();
+		return ! $this->are_site_representation_name_and_logo_set() || $this->indexing_helper->get_unindexed_count() > 0;
 	}
 
 	/**
@@ -136,28 +119,15 @@ class First_Time_Configuration_Notice_Integration implements Integration_Interfa
 
 		$this->admin_asset_manager->enqueue_style( 'monorepo' );
 
-		$title = ( ! $this->show_alternate_message ) ? \__( 'First-time SEO configuration', 'wordpress-seo' ) : \__( 'SEO configuration', 'wordpress-seo' );
-		if ( ! $this->show_alternate_message ) {
-			$content = \sprintf(
-				/* translators: 1: Link start tag to the first-time configuration, 2: Yoast SEO, 3: Link closing tag. */
+		$notice = new Notice_Presenter(
+			\__( 'First-time SEO configuration', 'wordpress-seo' ),
+			\sprintf(
+			/* translators: 1: Link start tag to the first-time configuration, 2: Yoast SEO, 3: Link closing tag. */
 				\__( 'Get started quickly with the %1$s%2$s First-time configuration%3$s and configure Yoast SEO with the optimal SEO settings for your site!', 'wordpress-seo' ),
 				'<a href="' . \esc_url( \self_admin_url( 'admin.php?page=wpseo_dashboard#top#first-time-configuration' ) ) . '">',
 				'Yoast SEO',
 				'</a>'
-			);
-		}
-		else {
-			$content = \sprintf(
-				/* translators: 1: Link start tag to the first-time configuration, 2: Link closing tag. */
-				\__( 'We noticed that you haven\'t fully configured Yoast SEO yet. Optimize your SEO settings even further by using our improved %1$s First-time configuration%2$s.', 'wordpress-seo' ),
-				'<a href="' . \esc_url( \self_admin_url( 'admin.php?page=wpseo_dashboard#top#first-time-configuration' ) ) . '">',
-				'</a>'
-			);
-		}
-
-		$notice = new Notice_Presenter(
-			$title,
-			$content,
+			),
 			'mirrored_fit_bubble_woman_1_optim.svg',
 			null,
 			true,

@@ -24,4 +24,3 @@ export * from "./warning";
 export * from "./WincherModal";
 export * from "./WincherRequest";
 export * from "./WincherSEOPerformance";
-export * from "./isPremium";

@@ -1,10 +1,9 @@
 import { Fragment, useCallback, useState, useEffect, useContext, createContext } from "@wordpress/element";
-import { __, sprintf } from "@wordpress/i18n";
+import { __ } from "@wordpress/i18n";
 import AnimateHeight from "react-animate-height";
 import PropTypes from "prop-types";
 import { stepperTimings, stepperTimingClasses } from "../stepper-helper";
 import StepHeader from "./step-header";
-import { FadeInAlert } from "../tailwind-components/base/alert";
 
 /* eslint-disable complexity */
 const {
@@ -153,42 +152,6 @@ Step.propTypes = {
 };
 
 /**
- * Provides a way to provide error messages at the Step level.
- * @param {Object} props The props.
- *
- * @returns {WPElement} The StepError component.
- */
-export function StepError( { id, message, className } ) {
-	return <FadeInAlert
-		id={ id }
-		type="error"
-		isVisible={ !! message }
-		className={ className }
-	>
-		{
-			/* translators: %1$s expands to the error message returned by the server */
-			sprintf(
-				__(
-					"An error has occurred: %1$s",
-					"wordpress-seo"
-				),
-				message
-			)
-		}
-	</FadeInAlert>;
-}
-
-StepError.propTypes = {
-	id: PropTypes.string.isRequired,
-	message: PropTypes.string.isRequired,
-	className: PropTypes.string,
-};
-
-StepError.defaultProps = {
-	className: "",
-};
-
-/**
  * The (Tailwind) Step component
  *
  * @param {Object} props The props.
@@ -270,7 +233,6 @@ Stepper.defaultProps = {
 };
 
 Step.Content = Content;
-Step.Error = StepError;
 Step.Header = StepHeader;
 Step.GoButton = GoButton;
 Step.EditButton = EditButton;

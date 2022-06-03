@@ -37,9 +37,7 @@ const getWordComplexityForSentence = function( sentence, syllables ) {
  * @returns {Object} The words found in the text with the number of syllables.
  */
 export default function wordComplexity( paper, researcher ) {
-	const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
-
-	const sentences = getSentences( paper.getText(), memoizedTokenizer );
+	const sentences = getSentences( paper.getText() );
 	const syllables = researcher.getConfig( "syllables" );
 
 	return map( sentences, function( sentence ) {

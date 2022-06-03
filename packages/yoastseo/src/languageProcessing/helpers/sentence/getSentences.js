@@ -36,15 +36,10 @@ const getSentencesFromBlockCached = memoize( getSentenceTokenizer );
 /**
  * Returns sentences in a string.
  *
- * @param {String}      text                The string to count sentences in.
- * @param {function}    memoizedTokenizer   The memoized sentence tokenizer.
- *
+ * @param {String} text The string to count sentences in.
  * @returns {Array} Sentences found in the text.
  */
-export default function( text, memoizedTokenizer ) {
-	if ( ! memoizedTokenizer ) {
-		memoizedTokenizer = getSentencesFromBlockCached;
-	}
+export default function( text ) {
 	// We don't remove the other HTML tags here since removing them might lead to incorrect results when running the sentence tokenizer.
 	// Remove Table of Contents.
 	text = excludeTableOfContentsTag( text );
@@ -58,7 +53,7 @@ export default function( text, memoizedTokenizer ) {
 		return block.split( newLineRegex );
 	} );
 
-	const sentences = flatMap( blocks, memoizedTokenizer );
+	const sentences = flatMap( blocks, getSentencesFromBlockCached );
 
 	return filter( sentences, negate( isEmpty ) );
 }
