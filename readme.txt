@@ -239,11 +239,6 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 19.1 =
 Release Date: June 14th, 2022
 
-
-
-
-
-
 Enhancements:
 
 * Prompts users to set up their site in order to take advantage of all SEO features.
