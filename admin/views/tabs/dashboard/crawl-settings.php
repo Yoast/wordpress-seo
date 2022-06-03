@@ -19,8 +19,8 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 <?php
 	echo sprintf(
 		/* translators: %1$s expands to Yoast SEO */
-		esc_html__( 'To make the crawling of your site more efficient and environmental friendly, %1$s allows you to remove RSS feeds (added by WordPress) that might not be needed for your site.', 'wordpress-seo' ),
-		'Yoast SEO'
+		esc_html__( 'To make the crawling of your site more efficient and environmental friendly, %1$s allows you to remove URLs (added by WordPress) that might not be needed for your site.', 'wordpress-seo' ),
+		'Yoast SEO Premium'
 	);
 
 	echo '<p style="margin: 0.5em 0 1em;">';
@@ -32,21 +32,13 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	);
 	echo '</p>';
 
-	$help_text  = esc_html__( 'This removes the Post Comment Feed link.', 'wordpress-seo' );
-	$help_text .= ' ';
-	$help_text .= sprintf(
-		'<a href="#" target="_blank" rel="noopener noreferrer">%1$s</a>',
-		esc_html__( 'Find out how removing feeds can improve performance.', 'wordpress-seo' )
-	);
+	/**
+	 * Fires when displaying the crawl cleanup tab.
+	 *
+	 * @param Yoast_Form $yform The yoast form object.
+	 */
+	do_action( 'wpseo_settings_tab_crawl_cleanup', $yform );
 
-	$yform->toggle_switch(
-		'remove_feed_post_comments',
-		[
-			'off' => __( 'Keep', 'wordpress-seo' ),
-			'on'  => __( 'Remove', 'wordpress-seo' ),
-		],
-		__( 'Post comment feeds', 'wordpress-seo' )
-	);
 	?>
 </div>
 <?php

@@ -20,8 +20,8 @@ describe( "a test for getting words from a sentence", function() {
 		expect( words[ 1 ] ).toBe( "emphasized" );
 	} );
 
-	it( "returns the correct array of words from a text containing a lot of punctuations", function() {
-		const words = getWords( "A sentence with words. And some; punctuation." );
+	it( "returns the correct array of words from a text containing a lot of punctuation", function() {
+		const words = getWords( "A sentence—with words. And some; punctuation." );
 
 		expect( words ).toEqual( [
 			"A",

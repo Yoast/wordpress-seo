@@ -34,7 +34,7 @@ import WincherNoPermalinkAlert from "./modals/WincherNoPermalinkAlert";
  * @returns {wp.Element} The error message component.
  */
 const GetErrorMessage = ( { response, onLogin } ) => {
-	if ( response.status === 403 || response.status === 404 ) {
+	if ( [ 401, 403, 404 ].includes( response.status ) ) {
 		return <WincherReconnectAlert onReconnect={ onLogin } />;
 	}
 
