@@ -42,7 +42,7 @@
 		"symfony/polyfill-intl-idn": "1.19.0",
 		"symfony/polyfill-intl-normalizer": "1.19.0",
 		"symfony/polyfill-php70": "1.19.0",
-		"symfony/polyfill-php72": "1.19.0"
+		"symfony/polyfill-php72": "1.19.0",
 		"wordproof/wordpress-sdk": "^1.2"
 	},
 	"minimum-stability": "dev",
