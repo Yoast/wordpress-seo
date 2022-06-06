@@ -5,6 +5,9 @@
  * @package WPSEO\Admin\Options\Tabs
  */
 
+use Yoast\WP\SEO\Presenters\Admin\Beta_Badge_Presenter;
+use Yoast\WP\SEO\Presenters\Admin\Premium_Badge_Presenter;
+
 /**
  * Class WPSEO_Option_Tabs_Formatter.
  */
@@ -31,11 +34,21 @@ class WPSEO_Option_Tabs_Formatter {
 
 		echo '<h2 class="nav-tab-wrapper" id="wpseo-tabs">';
 		foreach ( $option_tabs->get_tabs() as $tab ) {
+			$label = esc_html( $tab->get_label() );
+
+			if ( $tab->is_beta() ) {
+				$label = '<span style="margin-right:4px;">' . $label . '</span>' . new Beta_Badge_Presenter( $tab->get_name() );
+			}
+			elseif ( $tab->is_premium() ) {
+				$label = '<span style="margin-right:4px;">' . $label . '</span>' . new Premium_Badge_Presenter( $tab->get_name() );
+			}
+
 			printf(
 				'<a class="nav-tab" id="%1$s" href="%2$s">%3$s</a>',
 				esc_attr( $tab->get_name() . '-tab' ),
 				esc_url( '#top#' . $tab->get_name() ),
-				esc_html( $tab->get_label() )
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: we do this on purpose
+				$label
 			);
 		}
 		echo '</h2>';

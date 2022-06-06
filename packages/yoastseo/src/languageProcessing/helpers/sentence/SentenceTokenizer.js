@@ -8,26 +8,8 @@ import { normalize as normalizeQuotes } from "../sanitize/quotes.js";
 
 // All characters that indicate a sentence delimiter.
 const fullStop = ".";
-/*
- * \u2026 - ellipsis.
- * \u06D4 - Urdu full stop.
- * \u061f - Arabic question mark.
- * \u3002 - Japanese ideographic full stop.
- * \uFF61 - Japanese half-width ideographic full stop.
- * \uFF01 - Japanese full-width exclamation mark.
- * \u203C - Japanese double exclamation mark.
- * \uFF1F - Japanese fullwidth question mark.
- * \u2047 - Japanese double question mark.
- * \u2049 - Japanese exclamation question mark.
- * \u2048 - Japanese question exclamation mark.
- * \u2026 - Japanese horizontal ellipsis.
- * \u2025 - Japanese two dot leader.
- */
-const sentenceDelimiters = "?!;\u2026\u06d4\u061f\u3002\uFF61\uFF01\u203C\uFF1F\u2047\u2049\u2048\u2049\u2026\u2025";
 
 const fullStopRegex = new RegExp( "^[" + fullStop + "]$" );
-const sentenceDelimiterRegex = new RegExp( "^[" + sentenceDelimiters + "]$" );
-const sentenceRegex = new RegExp( "^[^" + fullStop + sentenceDelimiters + "<\\(\\)\\[\\]]+$" );
 const smallerThanContentRegex = /^<[^><]*$/;
 const htmlStartRegex = /^<([^>\s/]+)[^>]*>$/mi;
 const htmlEndRegex = /^<\/([^>\s]+)[^>]*>$/mi;
@@ -35,12 +17,32 @@ const htmlEndRegex = /^<\/([^>\s]+)[^>]*>$/mi;
 const blockStartRegex = /^\s*[[({]\s*$/;
 const blockEndRegex = /^\s*[\])}]\s*$/;
 
-const sentenceEndRegex = new RegExp( "[" + fullStop + sentenceDelimiters + "]$" );
-
 /**
  * Class for tokenizing a (html) text into sentences.
  */
 export default class SentenceTokenizer {
+	/**
+	 * Constructor
+	 * @constructor
+	 */
+	constructor() {
+		/*
+         * \u2026 - ellipsis.
+         * \u06D4 - Urdu full stop.
+         * \u061f - Arabic question mark.
+        */
+		this.sentenceDelimiters = "?!\u2026\u06d4\u061f";
+	}
+
+	/**
+	 * Gets the sentence delimiters.
+	 *
+	 * @returns {string} The sentence delimiters.
+	 */
+	getSentenceDelimiters() {
+		return this.sentenceDelimiters;
+	}
+
 	/**
 	 * Returns whether or not a certain character is a number.
 	 *
@@ -48,18 +50,7 @@ export default class SentenceTokenizer {
 	 * @returns {boolean} Whether or not the character is a capital letter.
 	 */
 	isNumber( character ) {
-		const japaneseNumbers = [
-			// Full-width.
-			/^[\uFF10-\uFF19]+$/i,
-			// Circled digit, parenthesized digit, and digit with full stop.
-			/^[\u2460-\u249B]+$/i,
-			// Parenthesized ideograph.
-			/^[\u3220-\u3229]+$/i,
-			// Circled ideograph.
-			/^[\u3280-\u3289]+$/i,
-		];
-
-		return ( ! isNaN( parseInt( character, 10 ) ) || japaneseNumbers.some( numberRange => numberRange.test( character ) ) );
+		return ! isNaN( parseInt( character, 10 ) );
 	}
 
 	/**
@@ -83,18 +74,6 @@ export default class SentenceTokenizer {
 
 		return "'" === character ||
 			"\"" === character;
-	}
-
-	/**
-	 * Returns whether or not a given character is a Japanese quotation mark.
-	 *
-	 * @param {string} character The character to check.
-	 * @returns {boolean} Whether or not the given character is a Japanese quotation mark.
-	 */
-	isJapaneseQuotation( character ) {
-		const openingQuotationMark = /^[\u300C\u300E\u3008\u3014\u3010\uFF5B\uFF3B]+$/i;
-
-		return openingQuotationMark.test( character );
 	}
 
 	/**
@@ -174,7 +153,7 @@ export default class SentenceTokenizer {
 	 *
 	 * @returns {boolean} Whether the letter is from an LTR language.
 	 */
-	isLetterFromRTLLanguage( letter ) {
+	isLetterFromSpecificLanguage( letter ) {
 		const ltrLetterRanges = [
 			// Hebrew characters.
 			/^[\u0590-\u05fe]+$/i,
@@ -190,31 +169,6 @@ export default class SentenceTokenizer {
 	}
 
 	/**
-	 * Checks whether a character is from Japanese language that could be sentence beginning.
-	 *
-	 * @param {string} letter The letter to check.
-	 *
-	 * @returns {boolean} Whether the letter is from Japanese language that could be sentence beginning.
-	 */
-	isJapaneseSentenceBeginning( letter ) {
-		const japaneseLetterRanges = [
-			// Hiragana.
-			/^[\u3040-\u3096]+$/i,
-			// Katakana full-width.
-			/^[\u30A1-\u30FA]+$/i,
-			/^[\u31F0-\u31FF]+$/i,
-			// Katakana half-width.
-			/^[\uFF66-\uFF9D]+$/i,
-			// Kanji.
-			/^[\u4E00-\u9FFC]+$/i,
-		];
-
-		return (
-			japaneseLetterRanges.some( letterRange => letterRange.test( letter ) )
-		);
-	}
-
-	/**
 	 * Checks if the sentenceBeginning beginning is a valid beginning.
 	 *
 	 * @param {string} sentenceBeginning The beginning of the sentence to validate.
@@ -222,13 +176,11 @@ export default class SentenceTokenizer {
 	 */
 	isValidSentenceBeginning( sentenceBeginning ) {
 		return ( this.isCapitalLetter( sentenceBeginning ) ||
-				this.isLetterFromRTLLanguage( sentenceBeginning ) ||
+				this.isLetterFromSpecificLanguage( sentenceBeginning ) ||
 				this.isNumber( sentenceBeginning ) ||
 				this.isQuotation( sentenceBeginning ) ||
 				this.isPunctuation( sentenceBeginning ) ||
-				this.isSmallerThanSign( sentenceBeginning ) ||
-				this.isJapaneseSentenceBeginning( sentenceBeginning ) ||
-				this.isJapaneseQuotation( sentenceBeginning ) );
+				this.isSmallerThanSign( sentenceBeginning ) );
 	}
 
 	/**
@@ -312,6 +264,8 @@ export default class SentenceTokenizer {
 				tokenSentences.push( sentence );
 			} );
 
+			const sentenceEndRegex = new RegExp( "[" + fullStop + this.getSentenceDelimiters() + "]$" );
+
 			// Check if the last sentence has a valid sentence ending.
 			if ( lastSentence.match( sentenceEndRegex ) ) {
 				// If so, add it as a sentence.
@@ -333,6 +287,9 @@ export default class SentenceTokenizer {
 	 * @returns {Object} The tokenizer and the tokens.
 	 */
 	createTokenizer() {
+		const sentenceDelimiterRegex = new RegExp( "^[" + this.getSentenceDelimiters() + "]$" );
+		const sentenceRegex = new RegExp( "^[^" + fullStop + this.getSentenceDelimiters() + "<\\(\\)\\[\\]]+$" );
+
 		const tokens = [];
 		const tokenizer = core( function( token ) {
 			tokens.push( token );
@@ -400,6 +357,12 @@ export default class SentenceTokenizer {
 			const previousToken = tokenArray[ i - 1 ];
 			const secondToNextToken = tokenArray[ i + 2 ];
 
+			nextCharacters = this.getNextTwoCharacters( [ nextToken, secondToNextToken ] );
+
+			// For a new sentence we need to check the next two characters.
+			hasNextSentence = nextCharacters.length >= 2;
+			nextSentenceStart = hasNextSentence ? nextCharacters[ 1 ] : "";
+
 			switch ( token.type ) {
 				case "html-start":
 				case "html-end":
@@ -422,29 +385,53 @@ export default class SentenceTokenizer {
 				case "sentence-delimiter":
 					currentSentence += token.src;
 
-					if ( ! isUndefined( nextToken ) && "block-end" !== nextToken.type && "sentence-delimiter" !== nextToken.type ) {
-						tokenSentences.push( currentSentence );
-						currentSentence = "";
+					/*
+				     * Only split text into sentences if:
+				     * the next token is defined, AND
+				     * the next token type is neither "block-end" nor "sentence-delimiter", AND
+				     * the next token first character is a white space
+				    */
+					if ( ! isUndefined( nextToken ) &&
+						"block-end" !== nextToken.type &&
+						"sentence-delimiter" !== nextToken.type &&
+						this.isCharacterASpace( nextToken.src[ 0 ] ) ) {
+						/*
+				         * Only split on ellipsis when:
+					     * a) There is a next sentence, and the next character is a valid sentence beginning preceded by a white space, OR
+					     * b) The next token is a sentence start
+					    */
+						if ( token.src === "…" ) {
+							currentSentence = this.getValidSentence( hasNextSentence,
+								nextSentenceStart,
+								nextCharacters,
+								nextToken,
+								tokenSentences,
+								currentSentence );
+						} else {
+							tokenSentences.push( currentSentence );
+							currentSentence = "";
+						}
 					}
 					break;
 
 				case "full-stop":
 					currentSentence += token.src;
 
-					nextCharacters = this.getNextTwoCharacters( [ nextToken, secondToNextToken ] );
-
-					// For a new sentence we need to check the next two characters.
-					hasNextSentence = nextCharacters.length >= 2;
-					nextSentenceStart = hasNextSentence ? nextCharacters[ 1 ] : "";
-					// If the next character is a number, never split. For example: IPv4-numbers.
+					// It should not split the text if the first character of the potential next sentence is a number.
 					if ( hasNextSentence && this.isNumber( nextCharacters[ 0 ] ) ) {
 						break;
 					}
-					// Only split on sentence delimiters when the next sentence looks like the start of a sentence.
-					if ( ( hasNextSentence && this.isValidSentenceBeginning( nextSentenceStart ) ) || this.isSentenceStart( nextToken ) ) {
-						tokenSentences.push( currentSentence );
-						currentSentence = "";
-					}
+					/*
+					 * Only split on full stop when:
+					 * a) There is a next sentence, and the next character is a valid sentence beginning preceded by a white space, OR
+					 * b) The next token is a sentence start
+					 */
+					currentSentence = this.getValidSentence( hasNextSentence,
+						nextSentenceStart,
+						nextCharacters,
+						nextToken,
+						tokenSentences,
+						currentSentence );
 					break;
 
 				case "block-start":
@@ -498,5 +485,38 @@ export default class SentenceTokenizer {
 		}
 
 		return tokenSentences;
+	}
+
+	/**
+	 * Gets the current sentence when:
+	 * a) There is a next sentence, and the next character is a valid sentence beginning preceded by a white space, OR
+	 * b) The next token is a sentence start
+	 *
+	 * @param {boolean} hasNextSentence     Whether the next characters are more than two.
+	 * @param {string} nextSentenceStart    The second character of the next characters.
+	 * @param {string} nextCharacters       The string values of the next two tokens.
+	 * @param {object} nextToken            The next token object.
+	 * @param {array} tokenSentences        The array of pushed valid sentences.
+	 * @param {string} currentSentence      The current sentence.
+	 *
+	 * @returns {string} The current sentence.
+	 */
+	getValidSentence( hasNextSentence, nextSentenceStart, nextCharacters, nextToken, tokenSentences, currentSentence ) {
+		if ( ( hasNextSentence && this.isValidSentenceBeginning( nextSentenceStart ) && this.isCharacterASpace( nextCharacters[ 0 ] ) ) ||
+			this.isSentenceStart( nextToken ) ) {
+			tokenSentences.push( currentSentence );
+			currentSentence = "";
+		}
+		return currentSentence;
+	}
+
+	/**
+	 * Checks if the character is a whitespace.
+	 *
+	 * @param {string} character    The character to check.
+	 * @returns {boolean}   Whether the character is a whitespace.
+	 */
+	isCharacterASpace( character ) {
+		return /\s/.test( character );
 	}
 }

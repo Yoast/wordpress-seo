@@ -52,16 +52,17 @@ class Image_Helper {
 	 * @param string $schema_id The `@id` to use for the returned image.
 	 * @param string $url       The image URL to base our object on.
 	 * @param string $caption   An optional caption.
+	 * @param bool   $add_hash  Whether a hash will be added as a suffix in the @id.
 	 *
 	 * @return array Schema ImageObject array.
 	 */
-	public function generate_from_url( $schema_id, $url, $caption = '' ) {
+	public function generate_from_url( $schema_id, $url, $caption = '', $add_hash = false ) {
 		$attachment_id = $this->image->get_attachment_by_url( $url );
 		if ( $attachment_id > 0 ) {
-			return $this->generate_from_attachment_id( $schema_id, $attachment_id, $caption );
+			return $this->generate_from_attachment_id( $schema_id, $attachment_id, $caption, $add_hash );
 		}
 
-		return $this->simple_image_object( $schema_id, $url, $caption );
+		return $this->simple_image_object( $schema_id, $url, $caption, $add_hash );
 	}
 
 	/**
@@ -70,14 +71,17 @@ class Image_Helper {
 	 * @param string $schema_id     The `@id` to use for the returned image.
 	 * @param int    $attachment_id The attachment to retrieve data from.
 	 * @param string $caption       The caption string, if there is one.
+	 * @param bool   $add_hash      Whether a hash will be added as a suffix in the @id.
 	 *
 	 * @return array Schema ImageObject array.
 	 */
-	public function generate_from_attachment_id( $schema_id, $attachment_id, $caption = '' ) {
+	public function generate_from_attachment_id( $schema_id, $attachment_id, $caption = '', $add_hash = false ) {
 		$data = $this->generate_object();
 		$url  = $this->image->get_attachment_image_url( $attachment_id, 'full' );
 
-		$data['@id']        = $schema_id . md5( $url );
+		$id_suffix = ( $add_hash ) ? \md5( $url ) : '';
+
+		$data['@id']        = $schema_id . $id_suffix;
 		$data['url']        = $url;
 		$data['contentUrl'] = $url;
 		$data               = $this->add_image_size( $data, $attachment_id );
@@ -92,13 +96,16 @@ class Image_Helper {
 	 * @param string $schema_id       The `@id` to use for the returned image.
 	 * @param array  $attachment_meta The attachment metadata.
 	 * @param string $caption         The caption string, if there is one.
+	 * @param bool   $add_hash        Whether a hash will be added as a suffix in the @id.
 	 *
 	 * @return array Schema ImageObject array.
 	 */
-	public function generate_from_attachment_meta( $schema_id, $attachment_meta, $caption = '' ) {
+	public function generate_from_attachment_meta( $schema_id, $attachment_meta, $caption = '', $add_hash = false ) {
 		$data = $this->generate_object();
 
-		$data['@id']        = $schema_id . md5( $attachment_meta['url'] );
+		$id_suffix = ( $add_hash ) ? \md5( $attachment_meta['url'] ) : '';
+
+		$data['@id']        = $schema_id . $id_suffix;
 		$data['url']        = $attachment_meta['url'];
 		$data['contentUrl'] = $data['url'];
 		$data['width']      = $attachment_meta['width'];
@@ -116,13 +123,16 @@ class Image_Helper {
 	 * @param string $schema_id The `@id` to use for the returned image.
 	 * @param string $url       The image URL.
 	 * @param string $caption   A caption, if set.
+	 * @param bool   $add_hash  Whether a hash will be added as a suffix in the @id.
 	 *
 	 * @return array Schema ImageObject array.
 	 */
-	public function simple_image_object( $schema_id, $url, $caption = '' ) {
+	public function simple_image_object( $schema_id, $url, $caption = '', $add_hash = false ) {
 		$data = $this->generate_object();
 
-		$data['@id']        = $schema_id . md5( $url );
+		$id_suffix = ( $add_hash ) ? \md5( $url ) : '';
+
+		$data['@id']        = $schema_id . $id_suffix;
 		$data['url']        = $url;
 		$data['contentUrl'] = $url;
 

@@ -17,7 +17,7 @@ const paper = new Paper( content, {
 	titleWidth: 450,
 	locale: "es_ES",
 	permalink: "https://ru.wikipedia.org/wiki/Зелёная_книга_(путеводитель)",
-	url: "Зелёная_книга_(путеводитель)",
+	slug: "Зелёная_книга_(путеводитель)",
 } );
 
 const expectedResults = {
@@ -82,7 +82,7 @@ const expectedResults = {
 		score: 9,
 		resultText: "<a href='https://yoa.st/34h' target='_blank'>SEO title width</a>: Good job!",
 	},
-	urlKeyword: {
+	slugKeyword: {
 		isApplicable: true,
 		score: 9,
 		resultText: "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: Great work!",
@@ -117,8 +117,8 @@ const expectedResults = {
 	},
 	textSentenceLength: {
 		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: Great!",
+		score: 6,
+		resultText: "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: 25.4% of the sentences contain more than 25 words, which is more than the recommended maximum of 25%. <a href='https://yoa.st/34w' target='_blank'>Try to shorten the sentences</a>.",
 	},
 	textTransitionWords: {
 		isApplicable: true,

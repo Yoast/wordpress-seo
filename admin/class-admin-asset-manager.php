@@ -267,6 +267,9 @@ class WPSEO_Admin_Asset_Manager {
 				'jquery-ui-core',
 				'jquery-ui-progressbar',
 				self::PREFIX . 'api-client',
+				self::PREFIX . 'externals-components',
+				self::PREFIX . 'externals-contexts',
+				self::PREFIX . 'externals-redux',
 				self::PREFIX . 'select2',
 			],
 			'term-edit'          => [
@@ -371,6 +374,30 @@ class WPSEO_Admin_Asset_Manager {
 				self::PREFIX . 'yoast-components',
 			],
 			'version' => $scripts['workouts']['version'],
+		];
+
+		$scripts['first-time-configuration'] = [
+			'name'    => 'first-time-configuration',
+			'src'     => 'first-time-configuration.js',
+			'deps'    => [
+				'lodash',
+				'wp-api-fetch',
+				'wp-a11y',
+				'wp-components',
+				'wp-compose',
+				'wp-data',
+				'wp-dom-ready',
+				'wp-element',
+				'wp-i18n',
+				self::PREFIX . 'api-client',
+				self::PREFIX . 'externals-components',
+				self::PREFIX . 'externals-contexts',
+				self::PREFIX . 'externals-redux',
+				self::PREFIX . 'analysis',
+				self::PREFIX . 'react-select',
+				self::PREFIX . 'yoast-components',
+			],
+			'version' => $scripts['first-time-configuration']['version'],
 		];
 
 		// Add the current language to every script that requires the analysis package.
@@ -663,14 +690,15 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'elementor-' . $flat_version,
 			],
 			[
-				'name' => 'workouts',
-				'src'  => 'workouts-' . $flat_version,
-				'deps' => [ self::PREFIX . 'monorepo' ],
+				'name' => 'tailwind',
+				'src'  => 'tailwind-' . $flat_version,
 			],
 			[
-				'name' => 'installation-success',
-				'src'  => 'installation-success-' . $flat_version,
-				'deps' => [ self::PREFIX . 'monorepo' ],
+				'name' => 'workouts',
+				'src'  => 'workouts-' . $flat_version,
+				'deps' => [
+					self::PREFIX . 'monorepo',
+				],
 			],
 		];
 	}

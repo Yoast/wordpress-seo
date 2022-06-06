@@ -201,6 +201,8 @@ const buildJapaneseMockResearcher = function( keyphraseForms, helper1, helper2 )
 	} );
 };
 
+
+// Decided not to remove test below as it tests the added logic of the Japanese helpers.
 describe( "Test for counting the keyword in a text for Japanese", () => {
 	it( "counts/marks a string of text with a keyword in it.", function() {
 		const mockPaper = new Paper( "私の猫はかわいいです。", { locale: "ja", keyphrase: "猫" } );

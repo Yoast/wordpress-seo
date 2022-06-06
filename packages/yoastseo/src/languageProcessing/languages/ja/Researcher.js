@@ -9,6 +9,7 @@ import wordsCharacterCount from "./helpers/wordsCharacterCount";
 import customCountLength from "./helpers/countCharacters";
 import matchTransitionWordsHelper from "./helpers/matchTransitionWords";
 import getContentWords from "./helpers/getContentWords";
+import memoizedTokenizer from "./helpers/memoizedSentenceTokenizer";
 
 // All config
 import firstWordExceptions from "./config/firstWordExceptions";
@@ -44,7 +45,7 @@ export default class Researcher extends AbstractResearcher {
 		// Deletes researches that are not available for languages that we haven't supported yet.
 		delete this.defaultResearches.getFleschReadingScore;
 		delete this.defaultResearches.getPassiveVoiceResult;
-		delete this.defaultResearches.keywordCountInUrl;
+		delete this.defaultResearches.keywordCountInSlug;
 
 		Object.assign( this.config, {
 			language: "ja",
@@ -70,6 +71,7 @@ export default class Researcher extends AbstractResearcher {
 			wordsCharacterCount,
 			customCountLength,
 			matchTransitionWordsHelper,
+			memoizedTokenizer,
 		} );
 
 		Object.assign( this.defaultResearches, {

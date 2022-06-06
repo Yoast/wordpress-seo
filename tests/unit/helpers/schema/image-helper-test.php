@@ -76,7 +76,7 @@ class Image_Helper_Test extends TestCase {
 		$this->instance
 			->expects( 'generate_from_attachment_id' )
 			->once()
-			->with( '#schema-image-ABC', 1337, 'caption' )
+			->with( '#schema-image-ABC', 1337, 'caption', false )
 			->andReturn( [] );
 
 		$this->assertEquals(
@@ -100,7 +100,7 @@ class Image_Helper_Test extends TestCase {
 		$this->instance
 			->expects( 'simple_image_object' )
 			->once()
-			->with( '#schema-image-ABC', 'https://example.org/image.jpg', 'caption' )
+			->with( '#schema-image-ABC', 'https://example.org/image.jpg', 'caption', false )
 			->andReturn( [] );
 
 		$this->assertEquals(
@@ -142,7 +142,7 @@ class Image_Helper_Test extends TestCase {
 
 		$expected = [
 			'@type'      => 'ImageObject',
-			'@id'        => 'https://example.com/#/schema/logo/image/' . md5( 'https://example.com/logo.jpg' ),
+			'@id'        => 'https://example.com/#/schema/logo/image/',
 			'url'        => 'https://example.com/logo.jpg',
 			'contentUrl' => 'https://example.com/logo.jpg',
 			'width'      => 256,
@@ -188,7 +188,7 @@ class Image_Helper_Test extends TestCase {
 
 		$expected = [
 			'@type'      => 'ImageObject',
-			'@id'        => 'https://example.com/#/schema/logo/image/' . md5( 'https://example.com/logo.jpg' ),
+			'@id'        => 'https://example.com/#/schema/logo/image/',
 			'url'        => 'https://example.com/logo.jpg',
 			'contentUrl' => 'https://example.com/logo.jpg',
 			'caption'    => 'Company name',
@@ -246,7 +246,7 @@ class Image_Helper_Test extends TestCase {
 
 		$expected = [
 			'@type'      => 'ImageObject',
-			'@id'        => 'https://example.com/#/schema/logo/image/' . md5( 'https://example.com/logo.jpg' ),
+			'@id'        => 'https://example.com/#/schema/logo/image/',
 			'url'        => 'https://example.com/logo.jpg',
 			'contentUrl' => 'https://example.com/logo.jpg',
 			'caption'    => 'Image caption',
@@ -297,7 +297,7 @@ class Image_Helper_Test extends TestCase {
 
 		$expected = [
 			'@type'      => 'ImageObject',
-			'@id'        => 'https://example.com/#/schema/logo/image/' . md5( 'https://example.com/logo.jpg' ),
+			'@id'        => 'https://example.com/#/schema/logo/image/',
 			'url'        => 'https://example.com/logo.jpg',
 			'contentUrl' => 'https://example.com/logo.jpg',
 			'inLanguage' => 'language',
@@ -329,7 +329,7 @@ class Image_Helper_Test extends TestCase {
 
 		$expected = [
 			'@type'      => 'ImageObject',
-			'@id'        => 'https://example.com/#/schema/logo/image/' . md5( 'https://example.com/logo.jpg' ),
+			'@id'        => 'https://example.com/#/schema/logo/image/',
 			'url'        => 'https://example.com/logo.jpg',
 			'contentUrl' => 'https://example.com/logo.jpg',
 			'inLanguage' => 'language',

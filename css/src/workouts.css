@@ -18,10 +18,6 @@
 	text-transform: uppercase;
 }
 
-#wpseo-workouts-container-free #workout-card-blocked-description {
-	margin: 0.5em 0 0.5em 0;
-}
-
 #wpseo-workouts-container-free #workouts-page-description {
 	max-width: 600px;
 	font-size: 16px;
@@ -84,11 +80,6 @@
 	margin-left:48px;
 }
 
-#yoast-configuration-workout p {
-	line-height: 19px;
-	color: rgb(60, 67, 74)
-}
-
 /* Override premium 17.6 workout styles */
 .workflow li li {
 	counter-increment: none;
@@ -100,25 +91,6 @@
 	position: relative;
 	counter-increment: line-number;
 	padding-bottom: 16px;
-}
-
-.workflow .finish-button-section {
-	display: inline-grid;
-	grid-template-columns: 1fr 1fr 1fr;
-	width: 100%;
-	align-items: center;
-}
-
-.workflow .finish-button-section .yoast-button {
-	width: fit-content;
-	justify-self: center;
-	grid-column-start: 2;
-	grid-column-end: 2;
-}
-
-.workflow .finish-workout-button-section .yoast-button {
-	width: fit-content;
-	margin: 0 auto;
 }
 
 .workflow .yoast-button.yoast-button--finished {
@@ -172,25 +144,6 @@
 	position: relative;
 }
 
-.workflow .indexation-container {
-	padding: 8px 0;
-	margin-bottom: 8px;
-}
-
-.workflow .indexation-container > .yoast-button {
-	align-self: flex-start;
-}
-
-.workflow .extra-list-content::before {
-	content: "";
-	position: absolute;
-	width: 2px;
-	background: #a4286a;
-	left: -33px;
-	top: 0;
-	bottom: -20px;
-}
-
 .workflow > li.step:last-of-type::before {
 	display: none;
 }
@@ -239,16 +192,6 @@
 
 .workflow li.step #react-select-2-input {
 	box-shadow: none !important;
-}
-
-.workflow .yoast-field-group {
-	font-size: 13px;
-	color: rgb(60, 67, 74);
-}
-
-.workflow .yoast-field-group__title {
-	font-size: 13px;
-	color: rgb(60, 67, 74);
 }
 
 .workflows__index {
@@ -458,19 +401,6 @@ table.yoast_help th.divider {
 	margin: 24px 0 0 0;
 }
 
-#wpseo-workouts-container-free #configuration-workout-hr-top {
-	margin-bottom: 16px;
-}
-
-#wpseo-workouts-container-free #configuration-workout-important-message {
-	margin: 0;
-}
-
-.workflow .yoast-field-group {
-	font-size: 13px;
-	color: rgb(60, 67, 74);
-}
-
 .workflow .yoast-social-profiles-input-fields {
 	margin: 10px 0 20px 0;
 }
@@ -484,16 +414,6 @@ table.yoast_help th.divider {
 	list-style-type: disc;
 	list-style-position: inside;
 	padding: inherit;
-}
-
-.workflow .yoast-field-group b {
-	font-size: 13px;
-	color: rgb(60, 67, 74);
-}
-
-.workflow .yoast-field-group label {
-	font-size: 13px;
-	color: rgb(60, 67, 74);
 }
 
 .yoast-list--usp {
@@ -515,64 +435,6 @@ table.yoast_help th.divider {
 	height: 13px;
 	left: -24px;
 	top: 3px;
-}
-
-.workflow .yoast-validated-text-input {
-	flex-grow: 1;
-}
-
-.yoast-validated-text-input--explanation {
-	font-size: 10px;
-}
-
-.yoast-validated-text-input--feedback::before {
-	display: inline-block;
-	content: "";
-	width: 18px;
-	height: 13px;
-}
-
-.yoast-validated-text-input--feedback.success::before {
-	background: var(--yoast-svg-icon-check);
-	background-size: 18px 13px;
-}
-
-.yoast-validated-text-input--feedback.success {
-	position: relative;
-	color: rgb(110, 160, 41);
-}
-
-.yoast-validated-text-input--feedback.error::before {
-	background: url( "../../images/error-icon.svg" );
-	background-size: 18px 16px;
-}
-
-.yoast-validated-text-input--feedback.error {
-	position: relative;
-	color: rgb(204, 0, 0);
-}
-
-.workflow .yoast-newsletter-signup {
-	display: flex;
-	justify-content: space-between;
-	gap: 10px;
-	margin-bottom: 10px;
-}
-
-.workflow .yoast-newsletter-signup .yoast-field-group {
-	flex-grow: 0;
-	margin: 0;
-}
-
-.workflow .yoast-newsletter-signup button {
-	margin-top: 1.8rem;
-	align-self: flex-start;
-	flex-grow: 0;
-	flex-shrink: 0;
-}
-
-.workflow .yoast-privacy-policy {
-	font-size: 10px;
 }
 
 .workout-card-content-flex {
@@ -626,38 +488,6 @@ table.yoast_help th.divider {
 
 #wpseo-workouts-container-free div.card.card-small.card-disabled .workout-card-progress {
 	opacity: 0.5;
-}
-
-.workout-card-blocked {
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	height: 122px;
-	box-sizing: border-box;
-	border-top: solid 1px rgb(197, 197, 197);
-	padding: 10px 24px 24px;
-	background-color: #ffffff;
-	border-radius: 0 0 8px 8px;
-}
-
-.workout-card-blocked-title {
-	margin-bottom: 0;
-	position: relative;
-	padding-left: 20px;
-	font-size: 14px;
-	font-weight: 600;
-}
-
-.workout-card-blocked-title::before {
-	position: absolute;
-	content: "";
-	background: var(--yoast-svg-icon-lock);
-	background-size: 16px 17px;
-	width: 16px;
-	height: 16px;
-	left: 0;
-	top: 1px;
 }
 
 .workflow__grid {

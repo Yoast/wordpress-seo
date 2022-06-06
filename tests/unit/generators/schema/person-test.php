@@ -134,7 +134,7 @@ class Person_Test extends TestCase {
 
 		$this->instance->helpers->schema->image->expects( 'generate_from_attachment_meta' )
 			->once()
-			->with( $person_schema_logo_id, $this->instance->context->person_logo_meta, $user_data->display_name )
+			->with( $person_schema_logo_id, $this->instance->context->person_logo_meta, $user_data->display_name, false )
 			->andReturn( $image_schema );
 
 		$this->expects_for_social_profiles( $this->social_profiles );
@@ -517,7 +517,7 @@ class Person_Test extends TestCase {
 
 		$this->instance->helpers->schema->image->expects( 'generate_from_attachment_meta' )
 			->once()
-			->with( $person_schema_logo_id, $this->instance->context->person_logo_meta, $user_data->display_name )
+			->with( $person_schema_logo_id, $this->instance->context->person_logo_meta, $user_data->display_name, false )
 			->andReturn( $image_schema );
 
 		$this->expects_for_social_profiles( $duplicated_social_profiles );
@@ -666,7 +666,7 @@ class Person_Test extends TestCase {
 
 		$this->instance->helpers->schema->image->expects( 'simple_image_object' )
 			->once()
-			->with( $image_schema['@id'], $avatar_url, $user_data->display_name )
+			->with( $image_schema['@id'], $avatar_url, $user_data->display_name, false )
 			->andReturn( $image_schema );
 
 		return $image_schema;

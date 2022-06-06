@@ -19,6 +19,7 @@ import SEMrushRelatedKeyphrases from "../../../containers/SEMrushRelatedKeyphras
 import WincherSEOPerformanceModal from "../../../containers/WincherSEOPerformanceModal";
 import { isWordProofIntegrationActive } from "../../../helpers/wordproof";
 import WordProofAuthenticationModals from "../../../components/modals/WordProofAuthenticationModals";
+import WebinarPromoNotification from "../../../components/WebinarPromoNotification";
 
 /* eslint-disable complexity */
 /**
@@ -49,6 +50,7 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 			<Fill name="YoastElementor">
 				<SidebarItem renderPriority={ 1 }>
 					<Alert />
+					<WebinarPromoNotification hasIcon={ false } image={ null } />
 				</SidebarItem>
 				{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 8 }>
 					<KeywordInput

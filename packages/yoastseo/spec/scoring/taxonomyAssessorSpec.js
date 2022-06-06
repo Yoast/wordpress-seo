@@ -93,7 +93,8 @@ describe( "running assessments in the assessor", function() {
 	} );
 
 	it( "additionally runs assessments that require a text and a long url with a stop word", function() {
-		assessor.assess( new Paper( "text", { url: "www.website.com/a-test-a-test-a-test-a-test-a-test-a-test-a-test-a-test-a-test-a-test-a-test-a-test-a-test-a-test" } ) );
+		assessor.assess( new Paper( "text",
+			{ slug: "a-test-a-test-a-test-a-test-a-test-a-test-a-test-a-test-a-test-a-test-a-test-a-test-a-test-a-test" } ) );
 		const AssessmentResults = assessor.getValidResults();
 		const assessments = getResults( AssessmentResults );
 
@@ -106,7 +107,7 @@ describe( "running assessments in the assessor", function() {
 	} );
 
 	it( "additionally runs assessments that require a text, a url and a keyword", function() {
-		assessor.assess( new Paper( "text", { url: "sample url", keyword: "keyword" } ) );
+		assessor.assess( new Paper( "text", { slug: "sample-slug", keyword: "keyword" } ) );
 		const AssessmentResults = assessor.getValidResults();
 		const assessments = getResults( AssessmentResults );
 
@@ -116,7 +117,7 @@ describe( "running assessments in the assessor", function() {
 			"metaDescriptionLength",
 			"textLength",
 			"titleWidth",
-			"urlKeyword",
+			"slugKeyword",
 		] );
 	} );
 

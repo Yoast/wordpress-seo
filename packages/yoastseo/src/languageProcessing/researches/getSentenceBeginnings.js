@@ -92,13 +92,20 @@ export default function( paper, researcher ) {
 	const firstWordExceptions = researcher.getConfig( "firstWordExceptions" );
 	const secondWordExceptions = researcher.getConfig( "secondWordExceptions" );
 	const getWordsCustomHelper = researcher.getHelper( "getWordsCustomHelper" );
+	const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
 
 	let text = paper.getText();
+
+	// Remove any HTML whitespace padding and replace it with a single whitespace.
+	text = text.replace( /[\s\n]+/g, " " );
 
 	// Exclude text inside tables.
 	text = text.replace( /<figure class='wp-block-table'>.*<\/figure>/sg, "" );
 
-	let sentences = getSentences( text );
+	// Exclude text inside list items.
+	text = text.replace( /<li(?:[^>]+)?>(.*?)<\/li>/ig, "" );
+
+	let sentences = getSentences( text, memoizedTokenizer );
 
 	let sentenceBeginnings = sentences.map( function( sentence ) {
 		return getSentenceBeginning( sentence, firstWordExceptions, secondWordExceptions, getWordsCustomHelper );

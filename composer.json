@@ -38,6 +38,11 @@
 		"yoast/wp-test-utils": "^1.0.0",
 		"yoast/yoastcs": "^2.2.1",
 		"chillerlan/php-qrcode": "^1.0.9",
+		"guzzlehttp/guzzle": "6.5.6",
+		"symfony/polyfill-intl-idn": "1.19.0",
+		"symfony/polyfill-intl-normalizer": "1.19.0",
+		"symfony/polyfill-php70": "1.19.0",
+		"symfony/polyfill-php72": "1.19.0"
 		"wordproof/wordpress-sdk": "^1.2"
 	},
 	"minimum-stability": "dev",
@@ -80,7 +85,7 @@
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_coding_standards"
 		],
 		"check-cs-thresholds": [
-			"@putenv YOASTCS_THRESHOLD_ERRORS=248",
+			"@putenv YOASTCS_THRESHOLD_ERRORS=243",
 			"@putenv YOASTCS_THRESHOLD_WARNINGS=219",
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_cs_thresholds"
 		],

@@ -7,7 +7,7 @@ use Mockery;
 use WPSEO_Addon_Manager;
 use WPSEO_MyYoast_Api_Request;
 use Yoast\WP\SEO\Helpers\Curl_Helper;
-use Yoast\WP\SEO\Services\Health_Check\MyYoast_API_Request_Factory;
+use Yoast\WP\SEO\Services\Health_Check\MyYoast_Api_Request_Factory;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Services\Health_Check\Curl_Runner;
 
@@ -49,7 +49,7 @@ class Curl_Runner_Test extends TestCase {
 	/**
 	 * A mocked MyYoast API request factory that returns a mocked MyYoast API request.
 	 *
-	 * @var MyYoast_API_Request_Factory
+	 * @var MyYoast_Api_Request_Factory
 	 */
 	private $my_yoast_api_request_factory_mock;
 
@@ -62,7 +62,7 @@ class Curl_Runner_Test extends TestCase {
 		$this->my_yoast_api_mock                 = Mockery::mock( WPSEO_MyYoast_Api_Request::class );
 		$this->addon_manager_mock                = Mockery::mock( WPSEO_Addon_Manager::class );
 		$this->curl_helper_mock                  = Mockery::mock( Curl_Helper::class );
-		$this->my_yoast_api_request_factory_mock = Mockery::mock( MyYoast_API_Request_Factory::class );
+		$this->my_yoast_api_request_factory_mock = Mockery::mock( MyYoast_Api_Request_Factory::class );
 
 		// Incorrectly detects direct calls to cURL.
 		// phpcs:ignore WordPress.WP.AlternativeFunctions -- Reason: Incorrectly detects direct calls to cURL.

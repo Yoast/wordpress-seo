@@ -1,3 +1,5 @@
+// Paper not included in index.js, but kept for a future check of a passive voice detection issue connected to node versions.
+
 import Paper from "../../../../src/values/Paper.js";
 import content from "./portuguesePaper3.html";
 
@@ -11,7 +13,7 @@ const paper = new Paper( content, {
 	titleWidth: 450,
 	locale: "pt_PT",
 	permalink: "https://pt.wikipedia.org/wiki/M%C3%BAsica",
-	url: "Música",
+	slug: "Música",
 } );
 
 const expectedResults = {
@@ -84,7 +86,7 @@ const expectedResults = {
 		score: 9,
 		resultText: "<a href='https://yoa.st/34h' target='_blank'>SEO title width</a>: Good job!",
 	},
-	urlKeyword: {
+	slugKeyword: {
 		isApplicable: true,
 		score: 6,
 		resultText: "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: (Part of) your keyphrase does not appear in the slug." +
@@ -176,4 +178,3 @@ export default {
 	paper: paper,
 	expectedResults: expectedResults,
 };
-

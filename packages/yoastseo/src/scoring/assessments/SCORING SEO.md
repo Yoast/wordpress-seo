@@ -1,4 +1,4 @@
-# The overview of the SEO assessments scoring criteria
+# Overview of the SEO assessments scoring criteria
 
 ## Keyphrase-based SEO assessments
 ### 1) Keyphrase in introduction
@@ -175,13 +175,13 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 | Green	| 9	| SEO title contains the exact match of the focus keyphrase at beginning		| **Keyphrase in title**: The exact match of the focus keyphrase appears at the beginning of the SEO title. Good job! |
 
 ### 9) Keyphrase in slug
-**What it does**: Checks if the keyphrase is used in the URL.
+**What it does**: Checks if the keyphrase is used in the slug.
 
 **Uses synonyms**: no
 
-**When applies**: If there is a URL and a keyword.
+**When applies**: If there is a slug and a keyword.
 
-**Name in code**: UrlKeywordAssessment
+**Name in code**: SlugKeywordAssessment
 
 **Title URL**: [https://yoa.st/33o](https://yoast.com/slug/#utm_source=yoast-seo&utm_medium=software&utm_term=urlkeyword-name&utm_content=content-analysis) (link placement is in bold in the feedback strings)
 
@@ -189,9 +189,9 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 
 | Bullet   	      | Score	     | Criterion | Feedback |
 |------------	|------------------	|---------------------	|---------------	|
-| Orange (in cornerstone: Red)		| 6 (in cornerstone: 3)		| Not all content words are in URL		| **Keyphrase in slug**: (Part of) your keyphrase does not appear in the slug. **Change that!** |
-| Green	| 9	| For short keyphrases (1-2 content words): All content words are in URL			| **Keyphrase in slug**: Great work! |
-| Green	| 9	| For longer keyphrases (>2 content words): More than half content words are in URL		| **Keyphrase in slug**: More than half of your keyphrase appears in the slug. That's great! |
+| Orange (in cornerstone: Red)		| 6 (in cornerstone: 3)		| Not all content words are in the slug		| **Keyphrase in slug**: (Part of) your keyphrase does not appear in the slug. **Change that!** |
+| Green	| 9	| For short keyphrases (1-2 content words): All content words are in the slug			| **Keyphrase in slug**: Great work! |
+| Green	| 9	| For longer keyphrases (>2 content words): More than half content words are in the slug		| **Keyphrase in slug**: More than half of your keyphrase appears in the slug. That's great! |
 
 ### 10) Previously used keywords
 **What it does**: Checks if the words from the keyphrase were previously used in a keyphrase for a different post.
