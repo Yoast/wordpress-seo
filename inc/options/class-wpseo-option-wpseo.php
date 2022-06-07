@@ -109,6 +109,9 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'remove_emoji_scripts'                     => false,
 		'remove_powered_by_header'                 => false,
 		'remove_pingback_header'                   => false,
+		'clean_campaign_tracking_urls'             => false,
+		'clean_permalinks'                         => false,
+		'clean_permalinks_extra_variables'         => '',
 	];
 
 	/**
@@ -294,6 +297,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'home_url':
 				case 'zapier_api_key':
 				case 'wincher_website_id':
+				case 'clean_permalinks_extra_variables':
 					if ( isset( $dirty[ $key ] ) ) {
 						$clean[ $key ] = $dirty[ $key ];
 					}
@@ -490,6 +494,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 			'remove_emoji_scripts'           => false,
 			'remove_powered_by_header'       => false,
 			'remove_pingback_header'         => false,
+			'clean_campaign_tracking_urls'   => false,
+			'clean_permalinks'               => false,
 		];
 
 		// We can reuse this logic from the base class with the above defaults to parse with the correct feature values.

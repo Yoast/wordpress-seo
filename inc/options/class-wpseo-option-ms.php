@@ -119,6 +119,8 @@ class WPSEO_Option_MS extends WPSEO_Option {
 			"{$allow_prefix}remove_emoji_scripts"           => true,
 			"{$allow_prefix}remove_powered_by_header"       => true,
 			"{$allow_prefix}remove_pingback_header"         => true,
+			"{$allow_prefix}clean_campaign_tracking_urls"   => true,
+			"{$allow_prefix}clean_permalinks"               => true,
 		];
 
 		if ( is_multisite() ) {
