@@ -239,7 +239,6 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 19.1 =
 Release Date: June 14th, 2022
 
-
 Enhancements:
 
 * Prompts users to set up their site in order to take advantage of all SEO features.
@@ -248,11 +247,13 @@ Bugfixes:
 
 * Fixes a bug where focus keyphrase in uppercase that contains a period wouldn't get recognized in the text, e.g. \"ASP.NET\".
 * Fixes a bug where the \"Check links to this URL\" option on admin bar menu would lead to an error page on setups with home URL different from the site URL. Props to @suascat.
+* Fixes a bug where the network setting would default to `Disable` when the super admin saved settings before upgrading/installing Premium
 * Fixes a bug which caused the Spanish transition word `para ilustrar` to not be recognized by the transition words assessment.
 
 Other:
 
 * Adds an informative error message to the steps of the First-time configuration should an error occur.
+* Adds dismissable weekly webinar promo banners to Yoast settings pages & block/Elementor editor sidebars.
 * Enhances the Crawl settings tab in the General page with basic cleanup settings
 * Enhances the Crawl settings tab in the General page with more feed cleanup settings
 * Improves handling of OAuth errors in the Wincher integration and clears refresh tokens that seem to be invalid.

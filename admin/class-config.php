@@ -84,6 +84,8 @@ class WPSEO_Admin_Pages {
 		$script_data = [
 			'userLanguageCode' => WPSEO_Language_Utils::get_language( \get_user_locale() ),
 			'dismissedAlerts'  => $dismissed_alerts,
+			'isRtl'            => is_rtl(),
+			'isPremium'        => YoastSEO()->helpers->product->is_premium(),
 		];
 
 		$page = filter_input( INPUT_GET, 'page' );
