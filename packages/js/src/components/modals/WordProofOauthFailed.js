@@ -1,5 +1,6 @@
 /* External dependencies */
 import { __, sprintf } from "@wordpress/i18n";
+import { addLinkToString } from "../../helpers/stringHelpers";
 
 /**
  * Creates the content for the WordProof oauth failed modal.
@@ -9,12 +10,24 @@ import { __, sprintf } from "@wordpress/i18n";
 const WordProofOauthFailed = () => {
 	return (
 		<>
-			{ sprintf(
-				/* Translators: %1$s expands to WordProof. %2$s expands to WordPress" */
-				__( "Something went wrong authenticating your %1$s account with the %2$s site. Please try again or contact %1$s support.",
-					"wordpress-seo" ),
-				"WordProof", "WordPress"
-			) }
+			<p>
+				{
+					addLinkToString(
+						sprintf(
+							/* translators: 1: Opening a html tag, 2: Closing a html tag. 3: WordProof. 4. WordPress */
+							__(
+								"Something went wrong authenticating your %3$s account with the %4$s site. Please try again or contact %1$s%3$s support%2$s.",
+								"wordpress-seo"
+							),
+							"<a>",
+							"</a>",
+							"WordProof",
+							"WordPress"
+						),
+						"https://help.wordproof.com/"
+					)
+				}
+			</p>
 		</>
 	);
 };
