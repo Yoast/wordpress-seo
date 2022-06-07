@@ -61,7 +61,7 @@ describe( "A test for tokenizing a (html) text into sentences", function() {
 			{ type: "sentence", src: "How are you", line: 1, col: 9 },
 			{ type: "full-stop", src: ".", line: 1, col: 20 },
 			{ type: "sentence-delimiter", src: "\"", line: 1, col: 21 },
-			{ type: "sentence", src: " Bye", line: 1, col: 22 }
+			{ type: "sentence", src: " Bye", line: 1, col: 22 },
 		];
 		expect( mockTokenizer.getSentencesFromTokens( tokens ) ).toEqual(   [
 			"Hello.",
