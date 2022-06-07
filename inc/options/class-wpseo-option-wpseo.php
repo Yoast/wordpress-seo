@@ -34,6 +34,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'indexing_started'                         => null,
 		'indexing_reason'                          => '',
 		'indexables_indexing_completed'            => false,
+		'index_now_key'                            => '',
 		// Non-form field, should only be set via validation routine.
 		'version'                                  => '', // Leave default as empty to ensure activation/upgrade works.
 		'previous_version'                         => '',
@@ -54,6 +55,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'enable_cornerstone_content'               => true,
 		'enable_xml_sitemap'                       => true,
 		'enable_text_link_counter'                 => true,
+		'enable_index_now'                         => false,
 		'show_onboarding_notice'                   => false,
 		'first_activated_on'                       => false,
 		'myyoast-oauth'                            => [
@@ -293,6 +295,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'license_server_version':
 				case 'home_url':
 				case 'zapier_api_key':
+				case 'index_now_key':
 				case 'wincher_website_id':
 					if ( isset( $dirty[ $key ] ) ) {
 						$clean[ $key ] = $dirty[ $key ];
@@ -475,6 +478,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 			'remove_feed_global'             => false,
 			'remove_feed_global_comments'    => false,
 			'remove_feed_post_comments'      => false,
+			'enable_index_now'               => false,
 			'remove_feed_authors'            => false,
 			'remove_feed_categories'         => false,
 			'remove_feed_tags'               => false,
