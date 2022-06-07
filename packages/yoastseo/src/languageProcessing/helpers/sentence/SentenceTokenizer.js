@@ -31,7 +31,7 @@ export default class SentenceTokenizer {
          * \u06D4 - Urdu full stop.
          * \u061f - Arabic question mark.
         */
-		this.sentenceDelimiters = "?!;\u2026\u06d4\u061f";
+		this.sentenceDelimiters = "?!\u2026\u06d4\u061f";
 	}
 
 	/**
@@ -357,6 +357,12 @@ export default class SentenceTokenizer {
 			const previousToken = tokenArray[ i - 1 ];
 			const secondToNextToken = tokenArray[ i + 2 ];
 
+			nextCharacters = this.getNextTwoCharacters( [ nextToken, secondToNextToken ] );
+
+			// For a new sentence we need to check the next two characters.
+			hasNextSentence = nextCharacters.length >= 2;
+			nextSentenceStart = hasNextSentence ? nextCharacters[ 1 ] : "";
+
 			switch ( token.type ) {
 				case "html-start":
 				case "html-end":
@@ -379,33 +385,53 @@ export default class SentenceTokenizer {
 				case "sentence-delimiter":
 					currentSentence += token.src;
 
+					/*
+				     * Only split text into sentences if:
+				     * the next token is defined, AND
+				     * the next token type is neither "block-end" nor "sentence-delimiter", AND
+				     * the next token first character is a white space
+				    */
 					if ( ! isUndefined( nextToken ) &&
 						"block-end" !== nextToken.type &&
 						"sentence-delimiter" !== nextToken.type &&
 						this.isCharacterASpace( nextToken.src[ 0 ] ) ) {
-						tokenSentences.push( currentSentence );
-						currentSentence = "";
+						/*
+				         * Only split on ellipsis when:
+					     * a) There is a next sentence, and the next character is a valid sentence beginning preceded by a white space, OR
+					     * b) The next token is a sentence start
+					    */
+						if ( token.src === "…" ) {
+							currentSentence = this.getValidSentence( hasNextSentence,
+								nextSentenceStart,
+								nextCharacters,
+								nextToken,
+								tokenSentences,
+								currentSentence );
+						} else {
+							tokenSentences.push( currentSentence );
+							currentSentence = "";
+						}
 					}
 					break;
 
 				case "full-stop":
 					currentSentence += token.src;
 
-					nextCharacters = this.getNextTwoCharacters( [ nextToken, secondToNextToken ] );
-
-					// For a new sentence we need to check the next two characters.
-					hasNextSentence = nextCharacters.length >= 2;
-					nextSentenceStart = hasNextSentence ? nextCharacters[ 1 ] : "";
-					// If the next character is a number, never split. For example: IPv4-numbers.
+					// It should not split the text if the first character of the potential next sentence is a number.
 					if ( hasNextSentence && this.isNumber( nextCharacters[ 0 ] ) ) {
 						break;
 					}
-					// Only split on sentence delimiters when the next sentence looks like the start of a sentence and it's preceded by a whitespace.
-					if ( ( hasNextSentence && this.isValidSentenceBeginning( nextSentenceStart ) && this.isCharacterASpace( nextCharacters[ 0 ] ) ) ||
-						this.isSentenceStart( nextToken ) ) {
-						tokenSentences.push( currentSentence );
-						currentSentence = "";
-					}
+					/*
+					 * Only split on full stop when:
+					 * a) There is a next sentence, and the next character is a valid sentence beginning preceded by a white space, OR
+					 * b) The next token is a sentence start
+					 */
+					currentSentence = this.getValidSentence( hasNextSentence,
+						nextSentenceStart,
+						nextCharacters,
+						nextToken,
+						tokenSentences,
+						currentSentence );
 					break;
 
 				case "block-start":
@@ -462,9 +488,32 @@ export default class SentenceTokenizer {
 	}
 
 	/**
+	 * Gets the current sentence when:
+	 * a) There is a next sentence, and the next character is a valid sentence beginning preceded by a white space, OR
+	 * b) The next token is a sentence start
+	 *
+	 * @param {boolean} hasNextSentence     Whether the next characters are more than two.
+	 * @param {string} nextSentenceStart    The second character of the next characters.
+	 * @param {string} nextCharacters       The string values of the next two tokens.
+	 * @param {object} nextToken            The next token object.
+	 * @param {array} tokenSentences        The array of pushed valid sentences.
+	 * @param {string} currentSentence      The current sentence.
+	 *
+	 * @returns {string} The current sentence.
+	 */
+	getValidSentence( hasNextSentence, nextSentenceStart, nextCharacters, nextToken, tokenSentences, currentSentence ) {
+		if ( ( hasNextSentence && this.isValidSentenceBeginning( nextSentenceStart ) && this.isCharacterASpace( nextCharacters[ 0 ] ) ) ||
+			this.isSentenceStart( nextToken ) ) {
+			tokenSentences.push( currentSentence );
+			currentSentence = "";
+		}
+		return currentSentence;
+	}
+
+	/**
 	 * Checks if the character is a whitespace.
 	 *
-	 * @param {string} character    The chracter to check.
+	 * @param {string} character    The character to check.
 	 * @returns {boolean}   Whether the character is a whitespace.
 	 */
 	isCharacterASpace( character ) {

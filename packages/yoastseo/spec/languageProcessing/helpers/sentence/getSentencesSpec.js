@@ -47,11 +47,6 @@ describe( "Get sentences from text", function() {
 		expect( getSentences( sentence ) ).toEqual( [ "It was a lot.", "Approx. two hundred" ] );
 	} );
 
-	it( "returns sentences with a ! in it (should not be converted to . )", function() {
-		const sentence = "It was a lot. Approx! two hundred";
-		expect( getSentences( sentence ) ).toEqual( [ "It was a lot.", "Approx!", "two hundred" ] );
-	} );
-
 	it( "returns sentences with multiple sentence delimiters at the end", function() {
 		const sentence = "Was it a lot!?!??! Yes, it was!";
 		expect( getSentences( sentence ) ).toEqual( [ "Was it a lot!?!??!", "Yes, it was!" ] );
@@ -177,7 +172,7 @@ describe( "Get sentences from text", function() {
 		expect( actual ).toEqual( expected );
 	} );
 
-	it( "should not split text into sentences if there is no space after sentence delimiter", function() {
+	it( "should not split text into sentences if there is no space after a full-stop", function() {
 		const texts = [
 			"What is ASP.NET.",
 			"What is ASP.net.",
@@ -273,22 +268,9 @@ describe( "Get sentences from text", function() {
 				input: "This should be: one sentence",
 				expected: [ "This should be: one sentence" ],
 			},
-			{
-				input: "This should be: one sentence",
-				expected: [ "This should be: one sentence" ],
-			},
 		];
 
 		testGetSentences( testCases );
-	} );
-
-	it( "should always break on ;, ? and ! even when there is no capital letter", function() {
-		const text = "First sentence; second sentence! third sentence? fourth sentence";
-		const expected = [ "First sentence;", "second sentence!", "third sentence?", "fourth sentence" ];
-
-		const actual = getSentences( text );
-
-		expect( actual ).toEqual( expected );
 	} );
 
 	it( "should split a text with excessive paragraph tags correctly into sentences", () => {
@@ -302,8 +284,8 @@ describe( "Get sentences from text", function() {
 			"</p>\n";
 
 		expect( getSentences( text ) ).toEqual( [
-			"Tempeh or tempe (/ˈtɛmpeɪ/;",
-			"Javanese: ꦠꦺꦩ꧀ꦥꦺ, romanized: témpé, pronounced [tempe]) is a traditional Indonesian food made from fermented soybeans.",
+			"Tempeh or tempe (/ˈtɛmpeɪ/; Javanese: ꦠꦺꦩ꧀ꦥꦺ, romanized: témpé, pronounced [tempe]) is a " +
+			"traditional Indonesian food made from fermented soybeans.",
 			"It is made by a natural culturing and controlled fermentation process that binds soybeans into a cake form.",
 			"A fungus, Rhizopus oligosporus or Rhizopus oryzae, is used in the fermentation process and is also known as tempeh starter.",
 		]
@@ -342,16 +324,6 @@ describe( "Get sentences from text", function() {
 
 		testGetSentences( testCases );
 	} );
-	it( "should accept the horizontal ellipsis as sentence terminator", function() {
-		const testCases = [
-			{
-				input: "This is the first sentence… Followed by a second one.",
-				expected: [ "This is the first sentence…", "Followed by a second one." ],
-			},
-		];
-
-		testGetSentences( testCases );
-	} );
 
 	it( "can deal with brackets", function() {
 		const testCases = [
@@ -371,7 +343,6 @@ describe( "Get sentences from text", function() {
 				input: "This is a sentence (with blockends). this is still one sentence.",
 				expected: [ "This is a sentence (with blockends). this is still one sentence." ],
 			},
-			// Second sentence starts with lower-case letter, but unlike a full stop, a "?" is an unambiguous sentence ending.
 			{
 				input: "This is a sentence (with blockends)? this is still one sentence.",
 				expected: [ "This is a sentence (with blockends)?", "this is still one sentence." ],
@@ -416,7 +387,6 @@ describe( "Get sentences from text", function() {
 				input: "This is a sentence (with blockends?). this is still one sentence.",
 				expected: [ "This is a sentence (with blockends?). this is still one sentence." ],
 			},
-			// Second sentence starts with lower-case letter, but unlike a full stop, a ? is an unambiguosu sentence ending
 			{
 				input: "This is a sentence (with blockends.)? this is a new sentence.",
 				expected: [ "This is a sentence (with blockends.)?", "this is a new sentence." ],
@@ -428,6 +398,13 @@ describe( "Get sentences from text", function() {
 		];
 
 		testGetSentences( testCases );
+	} );
+
+	it( "should not split on semicolons", () => {
+		const text = "This house is built in 1990; a nice house. This house is built in 1990; A nice house.";
+		expect( getSentences( text ) ).toEqual( [
+			"This house is built in 1990; a nice house.",
+			"This house is built in 1990; A nice house." ] );
 	} );
 
 	it( "correctly gets sentences with a '<' signs in the middle or at the start.", function() {
@@ -471,6 +448,66 @@ describe( "Get sentences from text", function() {
 		];
 
 		testGetSentences( testCases );
+	} );
+} );
+
+describe( "a test for when texts containing sentence delimiter", () => {
+	it( "should always break on ? and ! even when it's not followed by a valid sentence beginning", function() {
+		let text = "First sentence. second sentence! third sentence? fourth sentence";
+
+		expect( getSentences( text ) ).toEqual( [
+			"First sentence. second sentence!",
+			"third sentence?",
+			"fourth sentence" ] );
+
+		text = "First sentence. Second sentence! Third sentence? Fourth sentence";
+		expect( getSentences( text ) ).toEqual( [
+			"First sentence.",
+			"Second sentence!",
+			"Third sentence?",
+			"Fourth sentence" ] );
+	} );
+	it( "should accept the horizontal ellipsis or triple dots as sentence terminator, " +
+		"when the next character is valid sentence beginning", function() {
+		let text = "This is the first sentence… Followed by a second one.";
+
+		expect( getSentences( text ) ).toEqual( [ "This is the first sentence…", "Followed by a second one." ] );
+
+		text = "This is the first sentence\u2026 Followed by a second one.";
+		expect( getSentences( text ) ).toEqual( [ "This is the first sentence\u2026", "Followed by a second one." ] );
+
+		text = "This is the first sentence... Followed by a second one.";
+		expect( getSentences( text ) ).toEqual( [ "This is the first sentence...", "Followed by a second one." ] );
+	} );
+	it( "should not split text into sentences if the next character after an ellipsis is not a valid sentence beginning", () => {
+		let text = "This house is built in 1990\u2026 a nice house.";
+		expect( getSentences( text ) ).toEqual( [
+			"This house is built in 1990\u2026 a nice house.",
+		] );
+
+		text = "This house is built in 1990… a nice house.";
+		expect( getSentences( text ) ).toEqual( [
+			"This house is built in 1990… a nice house.",
+		] );
+
+		text = "This house is built in 1990... a nice house.";
+		expect( getSentences( text ) ).toEqual( [
+			"This house is built in 1990... a nice house.",
+		] );
+	} );
+	it( "should accept the horizontal ellipsis as sentence terminator in Japanese", function() {
+		const text = "東海道新幹線の開業前、東西の大動脈である東海道本線は高度経済成長下で線路容量が逼迫しており…抜本的な輸送力増強を迫られていた。";
+
+		expect( getSentences( text, japaneseSentenceTokenizer ) ).toEqual( [
+			"東海道新幹線の開業前、東西の大動脈である東海道本線は高度経済成長下で線路容量が逼迫しており…",
+			"抜本的な輸送力増強を迫られていた。" ] );
+	} );
+	it( "should accept the two dot leader as sentence terminator in Japanese", function() {
+		const text = "東海道新幹線の開業前、東西の大動脈である東海道本線は高度経済成長下で線路容量が逼迫しており‥抜本的な輸送力増強を迫られていた。";
+
+		expect( getSentences( text, japaneseSentenceTokenizer ) ).toEqual( [
+			"東海道新幹線の開業前、東西の大動脈である東海道本線は高度経済成長下で線路容量が逼迫しており‥",
+			"抜本的な輸送力増強を迫られていた。" ] );
 	} );
 } );
 
@@ -656,8 +693,8 @@ describe( "Parse languages written right-to-left", function() {
 			"כי התפתחות הציור מקבילה להתפתחותו האינטלקטואלית של הילד, המתבטאת בהתפתחות הראייה " +
 			"ההנדסית והמרחבית (ארגון המרחב, שליטה ובקרה בעיצוב הקו), ובהתאם להתפתחות החשיבה.",
 			"בשנת 1947 תיאר איש החינוך לאמנות ויקטור לוונפלד ((אנ')‏ Viktor Lowenfeld) " +
-			"שישה שלבים עיקריים בהתפתחות הגרפית של ילדים, וזאת על בסיס עבודתו של ברט ובדומה לתאוריית ההתפתחות הקוגניטיבית של פיאז'ה;",
-			"עבודתו זו מהווה עד היום בסיס לבחינת התפתחות ציורי ילדים.",
+			"שישה שלבים עיקריים בהתפתחות הגרפית של ילדים," +
+			" וזאת על בסיס עבודתו של ברט ובדומה לתאוריית ההתפתחות הקוגניטיבית של פיאז'ה; עבודתו זו מהווה עד היום בסיס לבחינת התפתחות ציורי ילדים.",
 		];
 
 		const actual = getSentences( text );
@@ -983,8 +1020,7 @@ describe( "Get sentences from texts that have been processed for the keyphrase d
 					"Shortcodes, in the classic editor, didn’t have such a discovery method.",
 					"Re-usable blocks allow you to easily create content you can re-use across posts or pages, see this <a href=\"https://" +
 					"www.wpbeginner.com/beginners-guide/how-to-create-a-reusable-block-in-wordpress/\">nice tutorial on WP Beginner</a>.",
-					"There are many more nice features;",
-					"please share yours in the comments!",
+					"There are many more nice features; please share yours in the comments!",
 				],
 			},
 		];
