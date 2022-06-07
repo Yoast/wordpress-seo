@@ -88,11 +88,11 @@ class WPSEO_Meta_Columns {
 		$added_columns = [];
 
 		if ( $this->analysis_seo->is_enabled() ) {
-			$added_columns['wpseo-score'] = '<span class="yoast-tooltip yoast-tooltip-n yoast-tooltip-alt" data-label="' . esc_attr__( 'SEO score', 'wordpress-seo' ) . '"><span class="yoast-column-seo-score yoast-column-header-has-tooltip"><span class="screen-reader-text">' . __( 'SEO score', 'wordpress-seo' ) . '</span></span></span>';
+			$added_columns['wpseo-score'] = '<span class="yoast-column-seo-score yoast-column-header-has-tooltip" data-tooltip-text="' . esc_attr__( 'SEO score', 'wordpress-seo' ) . '"><span class="screen-reader-text">' . __( 'SEO score', 'wordpress-seo' ) . '</span></span></span>';
 		}
 
 		if ( $this->analysis_readability->is_enabled() ) {
-			$added_columns['wpseo-score-readability'] = '<span class="yoast-tooltip yoast-tooltip-n yoast-tooltip-alt" data-label="' . esc_attr__( 'Readability score', 'wordpress-seo' ) . '"><span class="yoast-column-readability yoast-column-header-has-tooltip"><span class="screen-reader-text">' . __( 'Readability score', 'wordpress-seo' ) . '</span></span></span>';
+			$added_columns['wpseo-score-readability'] = '<span class="yoast-column-readability yoast-column-header-has-tooltip" data-tooltip-text="' . esc_attr__( 'Readability score', 'wordpress-seo' ) . '"><span class="screen-reader-text">' . __( 'Readability score', 'wordpress-seo' ) . '</span></span></span>';
 		}
 
 		$added_columns['wpseo-title']    = __( 'SEO Title', 'wordpress-seo' );
@@ -175,6 +175,11 @@ class WPSEO_Meta_Columns {
 
 		if ( $this->analysis_seo->is_enabled() ) {
 			$columns['wpseo-focuskw'] = 'wpseo-focuskw';
+			$columns['wpseo-score']   = [ 'wpseo-score', 'desc' ];
+		}
+
+		if ( $this->analysis_readability->is_enabled() ) {
+			$columns['wpseo-score-readability'] = [ 'wpseo-score-readability', 'desc' ];
 		}
 
 		return $columns;
@@ -617,6 +622,18 @@ class WPSEO_Meta_Columns {
 				return [
 					'meta_key' => WPSEO_Meta::$meta_prefix . 'focuskw',
 					'orderby'  => 'meta_value',
+				];
+
+			case 'wpseo-score':
+				return [
+					'meta_key' => WPSEO_Meta::$meta_prefix . 'linkdex',
+					'orderby'  => 'meta_value_num',
+				];
+
+			case 'wpseo-score-readability':
+				return [
+					'meta_key' => WPSEO_Meta::$meta_prefix . 'content_score',
+					'orderby'  => 'meta_value_num',
 				];
 		}
 
