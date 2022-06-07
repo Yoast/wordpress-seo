@@ -112,8 +112,9 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'clean_campaign_tracking_urls'             => false,
 		'clean_permalinks'                         => false,
 		'clean_permalinks_extra_variables'         => '',
-		'search_cleanup_emoji'                     => true,
-		'search_cleanup_patterns'                  => true,
+		'search_cleanup'                           => false,
+		'search_cleanup_emoji'                     => false,
+		'search_cleanup_patterns'                  => false,
 		'search_word_limit'                        => 8,
 		'search_character_limit'                   => 50,
 	];
@@ -507,6 +508,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 			'remove_pingback_header'         => false,
 			'clean_campaign_tracking_urls'   => false,
 			'clean_permalinks'               => false,
+			'search_cleanup'                 => false,
 			'search_cleanup_emoji'           => false,
 			'search_cleanup_patterns'        => false,
 		];
