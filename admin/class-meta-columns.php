@@ -614,24 +614,28 @@ class WPSEO_Meta_Columns {
 		switch ( $order_by ) {
 			case 'wpseo-metadesc':
 				return [
+					// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- Reason: Only used when user requests sorting.
 					'meta_key' => WPSEO_Meta::$meta_prefix . 'metadesc',
 					'orderby'  => 'meta_value',
 				];
 
 			case 'wpseo-focuskw':
 				return [
+					// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- Reason: Only used when user requests sorting.
 					'meta_key' => WPSEO_Meta::$meta_prefix . 'focuskw',
 					'orderby'  => 'meta_value',
 				];
 
 			case 'wpseo-score':
 				return [
+					// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- Reason: Only used when user requests sorting.
 					'meta_key' => WPSEO_Meta::$meta_prefix . 'linkdex',
 					'orderby'  => 'meta_value_num',
 				];
 
 			case 'wpseo-score-readability':
 				return [
+					// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- Reason: Only used when user requests sorting.
 					'meta_key' => WPSEO_Meta::$meta_prefix . 'content_score',
 					'orderby'  => 'meta_value_num',
 				];
