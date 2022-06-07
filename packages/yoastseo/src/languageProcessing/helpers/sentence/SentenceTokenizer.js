@@ -337,7 +337,6 @@ export default class SentenceTokenizer {
 	 */
 	getSentencesFromTokens( tokenArray, trimSentences = true ) {
 		let tokenSentences = [], currentSentence = "", nextSentenceStart, sliced;
-		console.log( tokenArray );
 
 		// Drop the first and last HTML tag if both are present.
 		do {
@@ -404,7 +403,6 @@ export default class SentenceTokenizer {
 						if ( ( token.src === "\"" && previousToken.src !== "." ) ) {
 							break;
 						}
-						console.log( previousToken.src, token.src );
 						if ( token.src === "…" || token.src === "\"" ) {
 							currentSentence = this.getValidSentence( hasNextSentence,
 								nextSentenceStart,

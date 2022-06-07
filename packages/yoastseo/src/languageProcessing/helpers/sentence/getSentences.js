@@ -29,7 +29,6 @@ function getSentenceTokenizer( block ) {
 	 * since switching between editors might add extra paragraph tags with a new line tag in the end
 	 * that are incorrectly converted into separate blocks.
 	 */
-	console.log( tokens );
 	return ( tokens.length === 0 || paragraphTagsRegex.test( block ) ) ? [] : sentenceTokenizer.getSentencesFromTokens( tokens );
 }
 
