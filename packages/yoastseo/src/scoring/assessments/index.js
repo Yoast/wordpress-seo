@@ -58,7 +58,7 @@ const seo = {
 	SubheadingsKeywordAssessment,
 	TextCompetingLinksAssessment,
 	TextLengthAssessment,
-	TitleKeywordAssessment: KeyphraseInSEOTitleAssessment,
+	KeyphraseInSEOTitleAssessment,
 	SlugKeywordAssessment,
 	UrlKeywordAssessment,
 	ImageKeyphraseAssessment,
