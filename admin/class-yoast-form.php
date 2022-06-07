@@ -99,7 +99,7 @@ class Yoast_Form {
 			echo '<form action="' .
 				esc_url( $action_url ) .
 				'" method="post" id="wpseo-conf"' .
-				$enctype . ' accept-charset="' .
+				$enctype . ' accept-charset="' . // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- nothing to escape.
 				esc_attr( get_bloginfo( 'charset' ) ) .
 				'" novalidate="novalidate">';
 			call_user_func( $hidden_fields_cb, $option_long_name );
@@ -214,6 +214,7 @@ class Yoast_Form {
 			$aria_label = ' aria-label="' . esc_attr( $attr['aria_label'] ) . '"';
 		}
 
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- output escaped before.
 		echo "<label class='" . esc_attr( $attr['class'] ) . "' for='" . esc_attr( $attr['for'] ) . "'$aria_label>$text";
 		if ( $attr['close'] ) {
 			echo '</label>';
@@ -236,6 +237,7 @@ class Yoast_Form {
 		$attr     = wp_parse_args( $attr, $defaults );
 
 		$id = ( $attr['id'] === '' ) ? '' : ' id="' . esc_attr( $attr['id'] ) . '"';
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- output escaped before.
 		echo '<legend class="yoast-form-legend ' . esc_attr( $attr['class'] ) . '"' . $id . '>' . $text . '</legend>';
 	}
 
@@ -302,6 +304,7 @@ class Yoast_Form {
 			printf(
 				'<input class="checkbox double" id="%1$s" type="checkbox" name="%2$s" %3$s %5$s value="%4$s"/>',
 				esc_attr( $variable . '-' . $name ),
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- output escaped before.
 				esc_attr( $this->option_name ) . '[' . esc_attr( $variable ) . '][' . $name . ']',
 				checked( ! empty( $values[ $name ] ), true, false ),
 				esc_attr( $name ),
@@ -400,7 +403,6 @@ class Yoast_Form {
 			]
 		);
 
-		$has_input_error = Yoast_Input_Validation::yoast_form_control_has_error( $variable );
 		$aria_attributes = Yoast_Input_Validation::get_the_aria_invalid_attribute( $variable );
 
 		Yoast_Input_Validation::set_error_descriptions();
@@ -410,6 +412,47 @@ class Yoast_Form {
 
 		// phpcs:ignore WordPress.Security.EscapeOutput -- Reason: $disabled_attribute output is hardcoded and all other output is properly escaped.
 		echo '<input' . $attributes . $aria_attributes . ' class="textinput ' . esc_attr( $attr['class'] ) . '" placeholder="' . esc_attr( $attr['placeholder'] ) . '" type="' . $type . '" id="', esc_attr( $variable ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $variable ), ']" value="', esc_attr( $val ), '"', $disabled_attribute, '/>', '<br class="clear" />';
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped in getter.
+		echo Yoast_Input_Validation::get_the_error_description( $variable );
+	}
+
+	/**
+	 * Create a Number input field.
+	 *
+	 * @param string       $variable The variable within the option to create the text input field for.
+	 * @param string       $label    The label to show for the variable.
+	 * @param array|string $attr     Extra attributes to add to the input field. Can be class, disabled, autocomplete.
+	 */
+	public function number( $variable, $label, $attr = [] ) {
+		$type     = 'number';
+		$defaults = [
+			'placeholder' => '',
+			'class'       => 'number',
+			'disabled'    => false,
+			'min'         => 0,
+			'max'         => 100,
+		];
+		$attr     = wp_parse_args( $attr, $defaults );
+		$val      = $this->get_field_value( $variable, 0 );
+
+		$this->label(
+			$label,
+			[
+				'for'   => $variable,
+				'class' => 'textinput ' . $attr['class'],
+			]
+		);
+
+		$aria_attributes = Yoast_Input_Validation::get_the_aria_invalid_attribute( $variable );
+
+		Yoast_Input_Validation::set_error_descriptions();
+		$aria_attributes .= Yoast_Input_Validation::get_the_aria_describedby_attribute( $variable );
+
+		$disabled_attribute = $this->get_disabled_attribute( $variable, $attr );
+
+		// phpcs:ignore WordPress.Security.EscapeOutput -- Reason: $disabled_attribute output is hardcoded and all other output is properly escaped.
+		echo '<input' . $aria_attributes . ' class="' . esc_attr( $attr['class'] ) . '" type="' . $type . '" id="', esc_attr( $variable ), '" min="',esc_attr( $attr['min'] ),'" max="',esc_attr( $attr['max'] ),'" name="', esc_attr( $this->option_name ), '[', esc_attr( $variable ), ']" value="', esc_attr( $val ), '"', $disabled_attribute, '/>', '<br class="clear" />';
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped in getter.
 		echo Yoast_Input_Validation::get_the_error_description( $variable );
 	}
 
@@ -597,8 +640,10 @@ class Yoast_Form {
 			$wrapper_end_tag   = '</span>';
 		}
 
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- output escaped before.
 		echo $wrapper_start_tag;
 		$select->output_html();
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- output escaped before.
 		echo $wrapper_end_tag;
 		echo '<br class="clear"/>';
 	}
@@ -681,14 +726,14 @@ class Yoast_Form {
 		echo '<span>';
 			echo '<input',
 				' class="textinput"',
-				' id="wpseo_', $var_esc, '"',
+				' id="wpseo_', $var_esc, '"', // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- output escaped before.
 				' type="text" size="36"',
-				' name="', esc_attr( $this->option_name ), '[', $var_esc, ']"',
+				' name="', esc_attr( $this->option_name ), '[', $var_esc, ']"', // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- output escaped before.
 				' value="', esc_attr( $val ), '"',
 				' readonly="readonly"',
 				' /> ';
 			echo '<input',
-				' id="wpseo_', $var_esc, '_button"',
+				' id="wpseo_', $var_esc, '_button"', // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- output escaped before.
 				' class="wpseo_image_upload_button button"',
 				' type="button"',
 				' value="', esc_attr__( 'Upload Image', 'wordpress-seo' ), '"',
@@ -706,6 +751,7 @@ class Yoast_Form {
 			echo '<input',
 				' type="hidden"',
 				' id="', esc_attr( $id_field_id ), '"',
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- output escaped before.
 				' name="', esc_attr( $this->option_name ), '[', $var_esc, '_id]"',
 				' value="', esc_attr( $id_value ), '"',
 				' />';
@@ -737,6 +783,7 @@ class Yoast_Form {
 		];
 		$attr     = wp_parse_args( $attr, $defaults );
 
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- output escaped before.
 		echo '<fieldset class="yoast-form-fieldset wpseo_radio_block" id="' . $var_esc . '">';
 
 		if ( is_string( $legend ) && $legend !== '' ) {
@@ -814,10 +861,12 @@ class Yoast_Form {
 		$var_esc = esc_attr( $variable );
 
 		printf( '<div class="%s">', esc_attr( 'switch-container' . $help_class ) );
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- output escaped before.
 		echo '<fieldset id="', $var_esc, '" class="fieldset-switch-toggle"><legend>', $label, '</legend>', $help;
 
 		// Show disabled note if attribute does not exists or does exist and is set to true.
 		if ( ! isset( $attr['show_disabled_note'] ) || ( $attr['show_disabled_note'] === true ) ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- output escaped before.
 			echo $this->get_disabled_note( $variable );
 		}
 
@@ -838,6 +887,7 @@ class Yoast_Form {
 
 			// phpcs:ignore WordPress.Security.EscapeOutput -- Reason: $disabled_attribute output is hardcoded and all other output is properly escaped.
 			echo '<input type="radio" id="' . $for . '" name="' . esc_attr( $this->option_name ) . '[' . $var_esc . ']" value="' . $key_esc . '" ' . checked( $val, $key_esc, false ) . $disabled_attribute . ' />',
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- output escaped before.
 			'<label for="', $for, '">', esc_html( $value ), $screen_reader_text_html, '</label>';
 		}
 

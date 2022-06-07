@@ -112,6 +112,10 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'clean_campaign_tracking_urls'             => false,
 		'clean_permalinks'                         => false,
 		'clean_permalinks_extra_variables'         => '',
+		'search_cleanup_emoji'                     => true,
+		'search_cleanup_patterns'                  => true,
+		'search_word_limit'                        => 8,
+		'search_character_limit'                   => 50,
 	];
 
 	/**
@@ -397,6 +401,13 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 					}
 					break;
 
+				case 'search_word_limit':
+				case 'search_character_limit':
+					if ( isset( $dirty[ $key ] ) ) {
+						$clean[ $key ] = (int) $dirty[ $key ];
+					}
+					break;
+
 				case 'import_cursors':
 				case 'importing_completed':
 					if ( isset( $dirty[ $key ] ) && is_array( $dirty[ $key ] ) ) {
@@ -496,6 +507,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 			'remove_pingback_header'         => false,
 			'clean_campaign_tracking_urls'   => false,
 			'clean_permalinks'               => false,
+			'search_cleanup_emoji'           => false,
+			'search_cleanup_patterns'        => false,
 		];
 
 		// We can reuse this logic from the base class with the above defaults to parse with the correct feature values.

@@ -85,6 +85,10 @@ tr.yst_row.even {
   width: 400px;
 }
 
+.wpseo_content_wrapper input.number {
+  width: 100px;
+}
+
 .wpseo_content_wrapper input.large-text,
 .wpseo_content_wrapper textarea.large-text {
   width: 99%;
