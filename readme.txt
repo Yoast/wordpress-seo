@@ -287,4 +287,4 @@ Other:
 * Sets the WordPress tested up to version to 6.0.
 
 = Earlier versions =
-For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
+For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog). 
