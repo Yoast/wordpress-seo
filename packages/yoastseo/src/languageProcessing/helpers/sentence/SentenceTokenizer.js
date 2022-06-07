@@ -336,20 +336,20 @@ export default class SentenceTokenizer {
 
 	/**
 	 * Checks if a string ends with an abbreviation.
-	 * @param {string} tokenString A (part of) a sentence.
+	 * @param {string} currentSentence A (part of) a sentence.
 	 * @returns {boolean} True if the string ends with an abbreviation that is in abbreviations.js. Otherwise False.
 	 */
-	endsWithAbbreviation( tokenString ) {
-		const abbreviationsMatch = tokenString.match( abbreviationsRegex );
+	endsWithAbbreviation( currentSentence ) {
+		const abbreviationsMatch = currentSentence.match( abbreviationsRegex );
 
 		if ( ! abbreviationsMatch ) {
 			return false;
 		}
 
 		// Only return true if it the last word is an abbreviation.
-		const abbreviationsMatchString = abbreviationsMatch[ 0 ].trim();
+		const abbreviationsMatchString = abbreviationsMatch.slice( -1 )[ 0 ].trim();
 		const matchLength = abbreviationsMatchString.length;
-		const tokenStringEnd = tokenString.slice( tokenString.length - matchLength, tokenString.length ).trim();
+		const tokenStringEnd = currentSentence.slice( currentSentence.length - matchLength, currentSentence.length ).trim();
 
 		return ( abbreviationsMatchString === tokenStringEnd );
 	}
@@ -443,16 +443,11 @@ export default class SentenceTokenizer {
 
 				case "full-stop":
 					currentSentence += token.src;
-					// <<<<<<< HEAD
 					nextCharacters = this.getNextTwoCharacters( [ nextToken, secondToNextToken ] );
 
 					// For a new sentence we need to check the next two characters.
 					hasNextSentence = nextCharacters.length >= 2;
 					nextSentenceStart = hasNextSentence ? nextCharacters[ 1 ] : "";
-					// If the next character is a number, never split. For example: IPv4-numbers.
-					// If ( hasNextSentence && this.isNumber( nextCharacters[ 0 ] ) ) {
-					// 	Break;
-					// }
 
 					// If the current sentence ends with an abbreviation, the full stop does not split the sentence.
 					if ( this.endsWithAbbreviation( currentSentence ) ) {
