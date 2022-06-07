@@ -117,8 +117,18 @@ describe( "A test for tokenizing a (html) text into sentences", function() {
 		expect( mockTokenizer.endsWithAbbreviation( testString ) ).toBeFalsy();
 	} );
 
-	it( "endsWithAbbreviation returns false does not end with an abbreviation but has an abbreviation in the middle.", function() {
+	it( "endsWithAbbreviation returns false if string does not end with an abbreviation but has an abbreviation in the middle.", function() {
 		const testString = "This is e.g. a sentence.";
+		expect( mockTokenizer.endsWithAbbreviation( testString ) ).toBeFalsy();
+	} );
+
+	it( "endsWithAbbreviation returns true if string contains multiple abbreviations and ends with one.", function() {
+		const testString = "Prof. Barabas was helped by Dr.";
+		expect( mockTokenizer.endsWithAbbreviation( testString ) ).toBeTruthy();
+	} );
+
+	it( "endsWithAbbreviation returns false if string contains multiple abbreviations and does not end with one.", function() {
+		const testString = "Prof. Barabas was helped by Dr. Wargaren.";
 		expect( mockTokenizer.endsWithAbbreviation( testString ) ).toBeFalsy();
 	} );
 
