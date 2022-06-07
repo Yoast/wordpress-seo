@@ -189,7 +189,7 @@ class Ryte_Integration implements Integration_Interface {
 		 *
 		 * @api string $site_url The home URL that is used by our integrations, eg. the Ryte integration for indexability.
 		 */
-		$site_url = apply_filters( 'wpseo_change_home_url', get_option( 'home' ) );
+		$site_url = \apply_filters( 'wpseo_change_home_url', get_option( 'home' ) );
 		$response = $request->do_request( $site_url, $parameters );
 
 		// Populate the ryte_response property.
