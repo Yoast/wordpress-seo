@@ -78,4 +78,13 @@ class Wordproof_Translations implements TranslationsInterface {
 	public function getOpenSettingsButtonText() {
 		return \__( 'Open settings', 'wordpress-seo' );
 	}
+
+	/**
+	 * Returns get contact WordProof Support button translation.
+	 *
+	 * @return string The translation.
+	 */
+	public function getContactWordProofSupportButtonText() {
+		return \__( 'Contact WordProof support', 'wordpress-seo' );
+	}
 }
