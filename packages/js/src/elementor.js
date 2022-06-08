@@ -11,7 +11,7 @@ import initHighlightFocusKeyphraseForms from "./elementor/initializers/highlight
 import initReplaceVarPlugin, { addReplacement, ReplaceVar } from "./elementor/replaceVars/elementor-replacevar-plugin";
 import initializeIntroduction from "./elementor/initializers/introduction";
 import { isWordProofIntegrationActive } from "./helpers/wordproof";
-import initializeWordProofForElementorEditor from "../../../vendor/wordproof/wordpress-sdk/resources/js/initializers/elementorEditor";
+import initializeWordProofForElementorEditor from "../../../vendor_prefixed/wordproof/wordpress-sdk/resources/js/initializers/elementorEditor";
 
 /**
  * Initializes Yoast SEO for Elementor.

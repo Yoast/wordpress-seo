@@ -15,7 +15,7 @@ import { registerFormatType } from "@wordpress/rich-text";
 import { get } from "lodash-es";
 import { Slot } from "@wordpress/components";
 import { actions } from "@yoast/externals/redux";
-import initializeWordProofForBlockEditor from "../../../../vendor/wordproof/wordpress-sdk/resources/js/initializers/blockEditor";
+import initializeWordProofForBlockEditor from "../../../../vendor_prefixed/wordproof/wordpress-sdk/resources/js/initializers/blockEditor";
 
 /* Internal dependencies */
 import PluginIcon from "../containers/PluginIcon";

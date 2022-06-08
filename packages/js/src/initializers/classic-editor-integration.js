@@ -3,7 +3,7 @@ import { registerReactComponent, renderClassicEditorMetabox } from "../helpers/c
 import { isWordProofIntegrationActive } from "../helpers/wordproof";
 
 /* External dependencies */
-import initializeWordProofForClassicEditor from "../../../../vendor/wordproof/wordpress-sdk/resources/js/initializers/classicEditor";
+import initializeWordProofForClassicEditor from "../../../../vendor_prefixed/wordproof/wordpress-sdk/resources/js/initializers/classicEditor";
 
 /**
  * Initializes the Yoast Classic editor integration.
