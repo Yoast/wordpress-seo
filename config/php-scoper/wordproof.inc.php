@@ -25,6 +25,22 @@ return [
 	 *
 	 * For more see: https://github.com/humbug/php-scoper#patchers
 	 */
-	'patchers'                   => [],
-
+	'patchers' => [
+		/**
+		 * Removes vendor prefixing from WP hook functions.
+		 *
+		 * @param string $filePath The path of the current file.
+		 * @param string $prefix   The prefix to be used.
+		 * @param string $content  The content of the specific file.
+		 *
+		 * @return string The modified content.
+		 */
+		function( $file_path, $prefix, $content ) {
+			return \preg_replace(
+				'/YoastSEO_Vendor\\\(?!WordProof)([\w_]+)/',
+				'$1',
+				$content
+			);
+		},
+	],
 ];
