@@ -135,7 +135,7 @@ class WPSEO_Admin_Pages {
 
 		if ( $page === 'wpseo_social' ) {
 			$user_id = WPSEO_Options::get( 'company_or_person_user_id', '' );
-			$user = \get_userdata( $user_id );
+			$user    = \get_userdata( $user_id );
 
 			$user_name = '';
 			if ( $user instanceof \WP_User ) {
@@ -148,7 +148,7 @@ class WPSEO_Admin_Pages {
 				'other_social_urls' => WPSEO_Options::get( 'other_social_urls', [] ),
 				'company_or_person' => WPSEO_Options::get( 'company_or_person', '' ),
 				'user_id'           => $user_id,
-				'user_name'         => $user_name
+				'user_name'         => $user_name,
 			];
 
 			$script_data['search_appearance_link'] = admin_url( 'admin.php?page=wpseo_titles' );
