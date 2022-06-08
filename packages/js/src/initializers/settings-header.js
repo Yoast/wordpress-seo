@@ -11,11 +11,12 @@ import WebinarPromoNotification from "../components/WebinarPromoNotification";
 const initSettingsHeader = () => {
 	const reactRoot = document.getElementById( "yst-settings-header-root" );
 	const isRtl = Boolean( get( window, "wpseoScriptData.isRtl", false ) );
+	const webinarIntroSettingsUrl = get( window, "wpseoScriptData.webinarIntroSettingsUrl", "https://yoa.st/webinar-intro-settings" );
 
 	if ( reactRoot ) {
 		render(
 			<ThemeProvider theme={ { isRtl } }>
-				<WebinarPromoNotification store="yoast-seo/settings" />
+				<WebinarPromoNotification store="yoast-seo/settings" url={ webinarIntroSettingsUrl } />
 			</ThemeProvider>,
 			reactRoot
 		);
