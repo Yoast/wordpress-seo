@@ -6,6 +6,8 @@ import core from "tokenizer2/core";
 
 import { normalize as normalizeQuotes } from "../sanitize/quotes.js";
 
+import wordBoundaries from "../../../config/wordBoundaries";
+
 // All characters that indicate a sentence delimiter.
 const fullStop = ".";
 
@@ -16,6 +18,10 @@ const htmlEndRegex = /^<\/([^>\s]+)[^>]*>$/mi;
 
 const blockStartRegex = /^\s*[[({]\s*$/;
 const blockEndRegex = /^\s*[\])}]\s*$/;
+
+const wordBoundariesForRegex = "[" + wordBoundaries().map( ( boundary ) => "\\" + boundary ).join( "" ) + "]";
+const lastCharacterPartOfInitialsRegex = new RegExp( wordBoundariesForRegex + "[A-Za-z]$" );
+
 
 /**
  * Class for tokenizing a (html) text into sentences.
@@ -208,6 +214,34 @@ export default class SentenceTokenizer {
 		return (
 			! isUndefined( token ) &&
 			( token.type === "full-stop" || token.type === "sentence-delimiter" )
+		);
+	}
+
+	/**
+	 * Checks if a full stop is part of a person's initials.
+	 *
+	 * Tests if tokens exist. Then tests if the tokens are of the right type.
+	 * For previous token, it checks if the sentence ends with a single letter.
+	 * For nextToken it checks if it is a single letter.
+	 * Checks if next token is followed by a full stop.
+	 *
+	 * @param {object} token The current token (must be a full stop).
+	 * @param {object} previousToken The token before the full stop.
+	 * @param {object} nextToken The token following the full stop.
+	 * @param {object} secondToNextToken The second token after the full stop.
+	 * @returns {boolean} True if a full stop is part of a person's initials, False if the full stop is not part of a person's initials.
+	 */
+	isPartOfPersonInitial( token, previousToken, nextToken, secondToNextToken ) {
+		return ( ! isUndefined( token ) &&
+			! isUndefined( nextToken ) &&
+			! isUndefined( secondToNextToken ) &&
+			! isUndefined( previousToken ) &&
+			token.type === "full-stop" &&
+			previousToken.type === "sentence" &&
+			lastCharacterPartOfInitialsRegex.test( previousToken.src ) &&
+			nextToken.type === "sentence" &&
+			nextToken.src.trim().length === 1 &&
+			secondToNextToken.type === "full-stop"
 		);
 	}
 
@@ -419,6 +453,11 @@ export default class SentenceTokenizer {
 
 					// It should not split the text if the first character of the potential next sentence is a number.
 					if ( hasNextSentence && this.isNumber( nextCharacters[ 0 ] ) ) {
+						break;
+					}
+
+					// If the full stop is part of a person's initials, don't split sentence.
+					if ( this.isPartOfPersonInitial( token, previousToken, nextToken, secondToNextToken ) ) {
 						break;
 					}
 					/*
