@@ -3,6 +3,7 @@ import { inRange } from "lodash-es";
 
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import AssessmentResult from "../../../values/AssessmentResult";
+import hasEnoughContent from "../../helpers/assessments/hasEnoughContent";
 
 /**
  * Calculates the assessment result based on the score.
@@ -155,7 +156,7 @@ const getFleschReadingResult = function( paper, researcher ) {
  * @returns {boolean} Returns true if the assessment is available and paper not empty.
  */
 const isApplicable = function( paper, researcher ) {
-	return paper.hasContent() && researcher.hasResearch( "getFleschReadingScore" );
+	return hasEnoughContent( paper ) && researcher.hasResearch( "getFleschReadingScore" );
 };
 
 export default {

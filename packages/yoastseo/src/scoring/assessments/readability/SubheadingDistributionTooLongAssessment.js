@@ -7,6 +7,7 @@ import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import { getSubheadings } from "../../../languageProcessing/helpers/html/getSubheadings";
 import getWords from "../../../languageProcessing/helpers/word/getWords";
 import AssessmentResult from "../../../values/AssessmentResult";
+import hasEnoughContent from "../../helpers/assessments/hasEnoughContent";
 
 /**
  * Represents the assessment for calculating the text after each subheading.
@@ -128,7 +129,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 			const customCountLength = researcher.getHelper( "customCountLength" );
 			const textLength = customCountLength ? customCountLength( paper.getText() ) : researcher.getResearch( "wordCountInText" );
 
-			return paper.hasContent() && textLength > this._config.applicableIfTextLongerThan;
+			return hasEnoughContent( paper ) && textLength > this._config.applicableIfTextLongerThan;
 		}
 
 		return paper.hasContent();

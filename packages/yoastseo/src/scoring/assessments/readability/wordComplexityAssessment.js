@@ -7,6 +7,7 @@ import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import removeSentenceTerminators from "../../../languageProcessing/helpers/sanitize/removeSentenceTerminators";
 import AssessmentResult from "../../../values/AssessmentResult";
 import Mark from "../../../values/Mark";
+import hasEnoughContent from "../../helpers/assessments/hasEnoughContent";
 
 // The maximum recommended value is 3 syllables. With more than 3 syllables a word is considered complex.
 const recommendedValue = 3;
@@ -189,7 +190,7 @@ const wordComplexityAssessment = function( paper, researcher ) {
  * @returns {boolean} True when there is text.
  */
 const isApplicable = function( paper, researcher ) {
-	return paper.hasContent() && researcher.hasResearch( "wordComplexity" );
+	return hasEnoughContent( paper ) && researcher.hasResearch( "wordComplexity" );
 };
 
 export default {

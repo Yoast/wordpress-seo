@@ -9,6 +9,7 @@ import AssessmentResult from "../../../values/AssessmentResult";
 import Mark from "../../../values/Mark.js";
 import marker from "../../../markers/addMark.js";
 import Assessment from "../assessment";
+import hasEnoughContent from "../../helpers/assessments/hasEnoughContent";
 
 /**
  * Represents the assessment that checks whether there are enough transition words in the text.
@@ -191,6 +192,6 @@ export default class TransitionWordsAssessment extends Assessment {
 			this._config.applicableIfTextLongerThan = customApplicabilityConfig;
 		}
 		const textLength = customCountLength ? customCountLength( paper.getText() ) : researcher.getResearch( "wordCountInText" );
-		return paper.hasContent() && textLength >= this._config.applicableIfTextLongerThan && researcher.hasResearch( "findTransitionWords" );
+		return hasEnoughContent( paper ) && textLength >= this._config.applicableIfTextLongerThan && researcher.hasResearch( "findTransitionWords" );
 	}
 }

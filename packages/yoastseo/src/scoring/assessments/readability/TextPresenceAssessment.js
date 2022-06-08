@@ -1,10 +1,9 @@
 import { __, sprintf } from "@wordpress/i18n";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
-import excludeTableOfContentsTag from "../../../languageProcessing/helpers/sanitize/excludeTableOfContentsTag";
-import { stripFullTags as stripHTMLTags } from "../../../languageProcessing/helpers/sanitize/stripHTMLTags";
 import AssessmentResult from "../../../values/AssessmentResult";
 import Assessment from "../assessment";
 import { merge } from "lodash-es";
+import hasEnoughContent from "../../helpers/assessments/hasEnoughContent";
 
 /**
  * Represents the assessment that checks whether there is enough text in the paper.
@@ -39,9 +38,7 @@ export default class TextPresenceAssessment extends Assessment {
 	 */
 	// eslint-disable-next-line no-unused-vars
 	getResult( paper, researcher ) {
-		const text = stripHTMLTags( excludeTableOfContentsTag( paper.getText() ) );
-
-		if ( text.length < 50 ) {
+		if ( ! hasEnoughContent( paper ) ) {
 			const result = new AssessmentResult();
 
 			result.setText( sprintf(
