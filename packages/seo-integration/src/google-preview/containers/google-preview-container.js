@@ -4,7 +4,6 @@ import { SEO_STORE_NAME } from "@yoast/seo-store";
 import { get } from "lodash";
 import { PropTypes } from "prop-types";
 import { useReplacementVariables } from "../../hooks/useReplacementVariables";
-import formatDate from "../../helpers/formatDate";
 
 /**
  * Retrieves the base URL from the permalink.
@@ -50,7 +49,7 @@ const GooglePreviewContainer = ( { as: Component, ...restProps } ) => {
 	const title = useSelect( select => select( SEO_STORE_NAME ).selectSeoTitle() );
 	const description = useSelect( select => select( SEO_STORE_NAME ).selectMetaDescription() );
 	const slug = useSelect( select => select( SEO_STORE_NAME ).selectSlug() );
-	let date = useSelect( select => select( SEO_STORE_NAME ).selectDate() );
+	const date = useSelect( select => select( SEO_STORE_NAME ).selectFormattedDate() );
 	const focusKeyphrase = useSelect( select => select( SEO_STORE_NAME ).selectKeyphrase() );
 	const morphologyResults = useSelect( select => select( SEO_STORE_NAME ).selectResearchResults( "morphology" ) );
 	const isCornerstone = useSelect( select => select( SEO_STORE_NAME ).selectShouldApplyCornerstoneAnalysis() );
@@ -60,11 +59,6 @@ const GooglePreviewContainer = ( { as: Component, ...restProps } ) => {
 
 	const data = useMemo( () => ( { title, description, slug } ), [ title, description, slug ] );
 	const focusKeyphraseWordForms = useMemo( () => get( morphologyResults, "keyphraseForms", [] ).flat(), [ morphologyResults ] );
-
-	if ( date !== "" ) {
-		// eslint-disable-next-line no-undefined
-		date = useMemo( () => formatDate( date ), [ date ] );
-	}
 
 	const baseUrl = useBaseUrl( permalink, slug );
 

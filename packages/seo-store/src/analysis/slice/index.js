@@ -19,7 +19,7 @@ export const analysisSelectors = {
 		formSelectors.selectSlug,
 		editorSelectors.selectContent,
 		editorSelectors.selectPermalink,
-		editorSelectors.selectDate,
+		editorSelectors.selectFormattedDate,
 		( seoTitle, metaDescription, slug, content, permalink, date ) => ( { seoTitle, metaDescription, slug, content, permalink, date } ),
 	),
 };

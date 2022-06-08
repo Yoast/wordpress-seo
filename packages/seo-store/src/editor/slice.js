@@ -1,5 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { get, set } from "lodash";
+// Custom selectors.
+import selectFormattedDate from "./selectors/selectFormattedDate";
 
 export const defaultEditorState = {
 	content: "",
@@ -56,6 +58,7 @@ export const editorSelectors = {
 	selectFeaturedImage: ( state ) => get( state, "editor.featuredImage" ),
 	selectTerms: ( state, taxonomyType ) =>  get( state, "editor.taxonomies." + taxonomyType, [] ),
 	selectLocale: ( state ) => get( state, "editor.locale" ),
+	selectFormattedDate,
 };
 
 export const editorActions = editorSlice.actions;
