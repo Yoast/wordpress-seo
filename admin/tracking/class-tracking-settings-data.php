@@ -201,6 +201,14 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'remove_emoji_scripts',
 		'remove_powered_by_header',
 		'remove_pingback_header',
+		'clean_campaign_tracking_urls',
+		'clean_permalinks',
+		'clean_permalinks_extra_variables',
+		'search_cleanup',
+		'search_cleanup_emoji',
+		'search_cleanup_patterns',
+		'search_word_limit',
+		'search_character_limit',
 	];
 
 	/**
