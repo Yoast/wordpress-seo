@@ -14,6 +14,7 @@ import { ReactComponent as DefaultImage } from "../../../../images/succes_mariek
 const WebinarPromoNotification = ( {
 	store = "yoast-seo/editor",
 	image: Image = DefaultImage,
+	url: url,
 	...props
 } ) => {
 	const isPremium = useSelect( select => select( store ).getIsPremium() );
@@ -25,11 +26,12 @@ const WebinarPromoNotification = ( {
 			id="webinar-promo-notification"
 			title={ __( "Get the most out of Yoast SEO", "wordpress-seo" ) }
 			image={ Image }
+			url={ url }
 			{ ...props }
 		>
 			{ __( "Want to optimize even further with the help of our SEO experts? Sign up for our weekly webinar!", "wordpress-seo" ) }
 			<br />
-			<a href="https://yoast.com/" target="_blank" rel="noreferrer">
+			<a href={ url } target="_blank" rel="noreferrer">
 				{ __( "Register now!", "wordpress-seo" ) }
 			</a>
 		</PersistentDismissableNotification>
@@ -39,6 +41,7 @@ const WebinarPromoNotification = ( {
 WebinarPromoNotification.propTypes = {
 	store: PropTypes.string,
 	image: PropTypes.elementType,
+	url: PropTypes.string.isRequired,
 };
 
 export default WebinarPromoNotification;
