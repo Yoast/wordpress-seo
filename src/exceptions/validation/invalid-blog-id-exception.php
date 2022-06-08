@@ -18,7 +18,7 @@ class Invalid_Blog_ID_Exception extends Abstract_Validation_Exception {
 		parent::__construct(
 			\sprintf(
 			/* translators: %s expands to a not existing blog id. */
-				esc_html__( 'This must be an existing blog. Blog %s does not exist or has been marked as deleted.', 'wordpress-seo' ),
+				\esc_html__( 'This must be an existing blog. Blog %s does not exist or has been marked as deleted.', 'wordpress-seo' ),
 				'<strong>' . \esc_html( $value ) . '</strong>'
 			)
 		);

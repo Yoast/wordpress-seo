@@ -38,4 +38,6 @@ class Blog_ID_Validator extends Integer_Validator {
 
 		return $blog_id;
 	}
+
+	// phpcs:enable Squiz.Commenting.FunctionCommentThrowTag.WrongNumber
 }
