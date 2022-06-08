@@ -1,7 +1,9 @@
 /**
  * Returns a list with abbreviations. Originally created for use in yoastseo/src/languageProcessing/helpers/sentence/SentenceTokenizer.js
  * Abbreviations were originally sourced from: https://github.com/Yoast/YoastSEO.js/issues/698
- * IMPORTANT! For the use in the SentenceTokenizer it is important that all abbreviations end in a fullstop.
+ * IMPORTANT! For the use in the SentenceTokenizer it is important that:
+ * - all abbreviations end in a full stop.
+ * - all abbreviations should contain more than one letter to prevent clashes with the check for initials.
  * @type {Array} The list with abbreviations.
  */
 export default [
@@ -15,7 +17,6 @@ export default [
 	"Col.",
 	"Cpl.",
 	"Cpt.",
-	"D.",
 	"Dr.",
 	"Esq.",
 	"Fr.",
