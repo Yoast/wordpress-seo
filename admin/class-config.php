@@ -58,6 +58,7 @@ class WPSEO_Admin_Pages {
 		wp_enqueue_style( 'wp-admin' );
 		$this->asset_manager->enqueue_style( 'select2' );
 		$this->asset_manager->enqueue_style( 'admin-css' );
+		$this->asset_manager->enqueue_style( 'monorepo' );
 
 		$page = filter_input( INPUT_GET, 'page' );
 		if ( $page === 'wpseo_titles' ) {
@@ -65,7 +66,6 @@ class WPSEO_Admin_Pages {
 		}
 
 		if ( $page === 'wpseo_social' || $page === 'wpseo_licenses' ) {
-			$this->asset_manager->enqueue_style( 'monorepo' );
 			$this->asset_manager->enqueue_style( 'tailwind' );
 		}
 	}
