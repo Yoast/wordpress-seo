@@ -218,8 +218,10 @@ td .wpseo-score-icon {
   padding: 0;
 }
 
-.fixed th.column-wpseo-score,
-.fixed th.column-wpseo-score-readability {
+.fixed th.column-wpseo-score.sortable,
+.fixed th.column-wpseo-score-readability.sortable,
+.fixed th.column-wpseo-score.sorted,
+.fixed th.column-wpseo-score-readability.sorted {
   width: 3.5em;
 }
 
