@@ -455,8 +455,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				 *  'search_cleanup'
 				 *  'search_cleanup_emoji'
 				 *  'search_cleanup_patterns'
-				 *  'search_word_limit'
-				 *  'search_character_limit'
 				 *  'should_redirect_after_install_free'
 				 *  and most of the feature variables.
 				 */
