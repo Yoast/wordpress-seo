@@ -5,15 +5,16 @@ import { get } from "lodash";
  * in the Google Preview, SEO analysis and the date replacement variable.
  *
  * @param {string} dateString The date in ISO 8601 format.
+ * @param {string} language The language in which to format the date.
  *
  * @return {string} The formatted date.
  */
-function formatDate( dateString ) {
+function formatDate( dateString, language ) {
 	const date = new Date( dateString );
 
-	const month = new Intl.DateTimeFormat( "en", { month: "short" } ).format( date );
-	const day = new Intl.DateTimeFormat( "en", { day: "numeric" } ).format( date );
-	const year = new Intl.DateTimeFormat( "en", { year: "numeric" } ).format( date );
+	const month = new Intl.DateTimeFormat( language, { month: "short" } ).format( date );
+	const day = new Intl.DateTimeFormat( language, { day: "numeric" } ).format( date );
+	const year = new Intl.DateTimeFormat( language, { year: "numeric" } ).format( date );
 
 	return `${ month } ${ day }, ${ year }`;
 }
@@ -30,11 +31,13 @@ function formatDate( dateString ) {
  * @return {string} The formatted date, or an empty string if no date is available.
  */
 export default function selectFormattedDate( state ) {
-	const dateString = get( state, "editor.date" );
+	const locale = get( state, "editor.locale", "" );
+	const dateString = get( state, "editor.date", "" );
+	const language = locale.split( "_" )[ 0 ] || "en";
 
 	if ( ! dateString ) {
 		return "";
 	}
 
-	return formatDate( dateString );
+	return formatDate( dateString, language );
 }

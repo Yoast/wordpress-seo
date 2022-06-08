@@ -42,4 +42,40 @@ describe( "The selectFormattedDate selector", () => {
 		}
 		expect( selectFormattedDate( state ) ).toEqual( "" );
 	} );
+
+	it( "formats dates correctly for a different locale.", () => {
+		const testData = [
+			{
+				state: {
+					editor: {
+						date: "2022-05-28T11:55:56.000Z",
+						locale: "de",
+					},
+				},
+				expected: "Mai 28, 2022",
+			},
+			{
+				state: {
+					editor: {
+						date: "2024-12-13T11:55:56.000Z",
+						locale: "de",
+					},
+				},
+				expected: "Dez 13, 2024",
+			},
+			{
+				state: {
+					editor: {
+						date: "1999-01-13T11:55:56.000Z",
+						locale: "de",
+					},
+				},
+				expected: "Jan 13, 1999",
+			},
+		];
+
+		testData.forEach( test => {
+			expect( selectFormattedDate( test.state ) ).toEqual( test.expected );
+		} );
+	} );
 } );
