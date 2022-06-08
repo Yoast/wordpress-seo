@@ -1,6 +1,6 @@
 import { useSelect } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
-import get from "lodash/get";
+import { get } from "lodash";
 import { ReactComponent as ConfigurationFinishImage } from "../../../../../images/indexables_2_left_bubble_optm.svg";
 
 /**
