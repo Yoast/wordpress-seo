@@ -184,7 +184,7 @@ describe( "Matches keywords in string", function() {
 		expect( result.position ).toBe( 0 );
 	} );
 
-	it( "returns all-words-found match if keyphrase words were shuffled in the title", function() {
+	it( "returns all-words-found match if keyphrase words were shuffled in the SEO title", function() {
 		const mockPaper = new Paper( "", {
 			keyword: "interesting books about computer science",
 			title: "interesting science books on my computer",
@@ -198,7 +198,7 @@ describe( "Matches keywords in string", function() {
 		expect( result.allWordsFound ).toBe( true );
 	} );
 
-	it( "returns all-words-found match if keyphrase words were shuffled in the title and used in different forms", function() {
+	it( "returns all-words-found match if keyphrase words were shuffled in the SEO title and used in different forms", function() {
 		const mockPaper = new Paper( "", {
 			keyword: "interesting books about computer science",
 			title: "They showed interest in the computer science book",
@@ -212,7 +212,7 @@ describe( "Matches keywords in string", function() {
 		expect( result.allWordsFound ).toBe( true );
 	} );
 
-	it( "returns all-words-found match if keyphrase words were shuffled in the title for French", function() {
+	it( "returns all-words-found match if keyphrase words were shuffled in the SEO title for French", function() {
 		const mockPaper = new Paper( "", {
 			keyword: "chez Paul",
 			title: "Je m'appele Paul",
@@ -226,7 +226,7 @@ describe( "Matches keywords in string", function() {
 		expect( result.allWordsFound ).toBe( true );
 	} );
 
-	it( "returns all-words-found match if keyphrase words were shuffled in the title for Swedish", function() {
+	it( "returns all-words-found match if keyphrase words were shuffled in the SEO title for Swedish", function() {
 		const mockPaper = new Paper( "", {
 			keyword: "promenader i naturen",
 			title: "Jag gillar att ta promenader i naturen.",
@@ -317,7 +317,7 @@ describe( "Matches keywords in string", function() {
 		expect( result.allWordsFound ).toBe( false );
 	} );
 
-	it( "returns an exact match at place 0, even if the title starts with a function word.", function() {
+	it( "returns an exact match at place 0, even if the SEO title starts with a function word.", function() {
 		const mockPaper = new Paper( "", {
 			keyword: "\"walking in nature\"",
 			title: "The walking in nature",
@@ -332,7 +332,7 @@ describe( "Matches keywords in string", function() {
 		expect( result.position ).toBe( 0 );
 	} );
 
-	it( "returns an exact match at place 0, even if the title starts with multiple function words.", function() {
+	it( "returns an exact match at place 0, even if the SEO title starts with multiple function words.", function() {
 		const mockPaper = new Paper( "", {
 			keyword: "\"walking in nature\"",
 			title: "The first walking in nature",
@@ -347,7 +347,7 @@ describe( "Matches keywords in string", function() {
 		expect( result.position ).toBe( 0 );
 	} );
 
-	it( "returns an exact match at place 0, even if the title and the keyphrase start with (multiple) function words.", function() {
+	it( "returns an exact match at place 0, even if the SEO title and the keyphrase start with (multiple) function words.", function() {
 		const mockPaper = new Paper( "", {
 			keyword: "the very walking in nature",
 			title: "First thing, the very walking in nature",

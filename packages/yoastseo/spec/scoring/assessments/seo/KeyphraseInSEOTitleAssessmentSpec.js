@@ -78,7 +78,7 @@ describe( "an assessment to check if the keyword is in the SEO title", function(
 		);
 	} );
 
-	it( "returns a bad result for an exact match keyphrase when the word order of the keyphrase is different in the title", function() {
+	it( "returns a bad result for an exact match keyphrase when the word order of the keyphrase is different in the SEO title", function() {
 		const paper = new Paper( "", {
 			keyword: "\"cats and dogs\"",
 			title: "dogs and cats",
@@ -98,7 +98,7 @@ describe( "an assessment to check if the keyword is in the SEO title", function(
 } );
 
 describe( "a test to check for the assessment's applicability", () => {
-	it( "returns false isApplicable for a paper without title", function() {
+	it( "returns false isApplicable for a paper without SEO title", function() {
 		const paper = new Paper( "", { keyword: "some keyword", title: "" } );
 		const isApplicableResult = new KeyphraseInSEOTitleAssessment().isApplicable( paper );
 		expect( isApplicableResult ).toBe( false );
@@ -110,18 +110,18 @@ describe( "a test to check for the assessment's applicability", () => {
 		expect( isApplicableResult ).toBe( false );
 	} );
 
-	it( "returns true isApplicable for a paper with keyword and title", function() {
+	it( "returns true isApplicable for a paper with keyword and SEO title", function() {
 		const paper = new Paper( "", { keyword: "keyword", title: "some title" } );
 		const isApplicableResult = new KeyphraseInSEOTitleAssessment().isApplicable( paper );
 		expect( isApplicableResult ).toBe( true );
 	} );
 } );
 
-describe( "a test to check if the keyword is in the page title in Japanese", function() {
+describe( "a test to check if the keyword is in the SEO title in Japanese", function() {
 	// Japanese has a custom research and feedback strings for this assessment.
 	describe( "a test with morphology data not available", () => {
 		it( "returns an assessment result with a keyphrase in Japanese that is enclosed in double quotes " +
-			"and it is in the beginning of the title", function() {
+			"and it is in the beginning of the SEO title", function() {
 			const paper = new Paper( "", {
 				keyword: "『東海道』",
 				title: "東海道新幹線の駅構内および列車内に広告を掲出することを",
@@ -136,7 +136,7 @@ describe( "a test to check if the keyword is in the page title in Japanese", fun
 				"The focus keyphrase appears at the beginning of the SEO title. Good job!" );
 		} );
 		it( "returns an assessment result with a keyphrase in Japanese that is enclosed in double quotes " +
-			"and it is not in the beginning of the title", function() {
+			"and it is not in the beginning of the SEO title", function() {
 			const paper = new Paper( "", {
 				keyword: "『東海道』",
 				title: "新幹線の駅構内および列車内に広告を掲出することを東海道",
@@ -152,7 +152,7 @@ describe( "a test to check if the keyword is in the page title in Japanese", fun
 				"Move your focus keyphrase to the beginning of the title</a>." );
 		} );
 		it( "returns an assessment result with a keyphrase in Japanese that is enclosed in double quotes " +
-			"and it is preceded by a function word in the beginning of the title", function() {
+			"and it is preceded by a function word in the beginning of the SEO title", function() {
 			const paper = new Paper( "", {
 				keyword: "『東海道』",
 				title: "さらに東海道新幹線の駅構内および列車内に広告を掲出することを",
@@ -167,7 +167,7 @@ describe( "a test to check if the keyword is in the page title in Japanese", fun
 				"The focus keyphrase appears at the beginning of the SEO title. Good job!" );
 		} );
 		it( "returns an assessment result with a keyphrase in Japanese that is enclosed in double quotes " +
-			"but no match is found in the title", function() {
+			"but no match is found in the SEO title", function() {
 			const paper = new Paper( "", {
 				keyword: "『東海道』",
 				title: "私の猫はとても狡猾です",
@@ -182,7 +182,7 @@ describe( "a test to check if the keyword is in the page title in Japanese", fun
 				"Does not contain the exact match. <a href='https://yoa.st/33h' target='_blank'>Try to write the exact match of " +
 				"your keyphrase in the SEO title and put it at the beginning of the title</a>." );
 		} );
-		it( "returns an assessment result with a multi-word keyphrase in Japanese where only one of the words is found in the title", function() {
+		it( "returns an assessment result with a multi-word keyphrase in Japanese where only one of the words is found in the SEO title", function() {
 			const paper = new Paper( "", {
 				keyword: "東海道新幹線",
 				title: "東海道の駅構内および列車内に広告を掲出することを",
@@ -213,7 +213,7 @@ describe( "a test to check if the keyword is in the page title in Japanese", fun
 				"Title does not begin with the focus keyphrase. <a href='https://yoa.st/33h' target='_blank'>" +
 				"Move your focus keyphrase to the beginning of the title</a>." );
 		} );
-		it( "returns an assessment result with a multi-word keyphrase in Japanese but no match in the title", function() {
+		it( "returns an assessment result with a multi-word keyphrase in Japanese but no match in the SEO title", function() {
 			const paper = new Paper( "", {
 				keyword: "東海道新幹線",
 				title: "私の猫はとても狡猾です",
@@ -229,7 +229,7 @@ describe( "a test to check if the keyword is in the page title in Japanese", fun
 				"For the best SEO results include all words of your keyphrase in the SEO title, and put the keyphrase at " +
 				"the beginning of the title</a>." );
 		} );
-		it( "returns an assessment result with a keyphrase in Japanese where a different form of the keyphrase is used in the title", function() {
+		it( "returns an assessment result with a keyphrase in Japanese where a different form of the keyphrase is used in the SEO title", function() {
 			const paper = new Paper( "", {
 				keyword: "読ん一冊の本",
 				title: "読まれ一冊の本なにか",
@@ -247,7 +247,7 @@ describe( "a test to check if the keyword is in the page title in Japanese", fun
 		} );
 
 		it( "returns an assessment result with a keyphrase in Japanese enclosed in double quotes: " +
-			"the same forms of the keyphrase are used in the title but they don't occur exactly in the same order as the keyphrase", function() {
+			"the same forms of the keyphrase are used in the SEO title but they don't occur exactly in the same order as the keyphrase", function() {
 			const paper = new Paper( "", {
 				keyword: "「小さく花の刺繍」",
 				title: "小さくて可愛い花の刺繍に関する一般一般の記事です",
@@ -266,7 +266,7 @@ describe( "a test to check if the keyword is in the page title in Japanese", fun
 
 	describe( "a test with morphology data available", () => {
 		it( "returns an assessment result with a keyphrase in Japanese that is enclosed in double quotes " +
-			"and it is in the beginning of the title", function() {
+			"and it is in the beginning of the SEO title", function() {
 			const paper = new Paper( "", {
 				keyword: "『東海道』",
 				title: "東海道新幹線の駅構内および列車内に広告を掲出することを",
@@ -282,7 +282,7 @@ describe( "a test to check if the keyword is in the page title in Japanese", fun
 				"The focus keyphrase appears at the beginning of the SEO title. Good job!" );
 		} );
 		it( "returns an assessment result with a keyphrase in Japanese that is enclosed in double quotes " +
-			"and it is not in the beginning of the title", function() {
+			"and it is not in the beginning of the SEO title", function() {
 			const paper = new Paper( "", {
 				keyword: "『東海道』",
 				title: "新幹線の駅構内および列車内に広告を掲出することを東海道",
@@ -299,7 +299,7 @@ describe( "a test to check if the keyword is in the page title in Japanese", fun
 				"Move your focus keyphrase to the beginning of the title</a>." );
 		} );
 		it( "returns an assessment result with a keyphrase in Japanese that is enclosed in double quotes " +
-			"and it is preceded by a function word in the beginning of the title", function() {
+			"and it is preceded by a function word in the beginning of the SEO title", function() {
 			const paper = new Paper( "", {
 				keyword: "『東海道』",
 				title: "さらに東海道新幹線の駅構内および列車内に広告を掲出することを",
@@ -315,7 +315,7 @@ describe( "a test to check if the keyword is in the page title in Japanese", fun
 				"The focus keyphrase appears at the beginning of the SEO title. Good job!" );
 		} );
 		it( "returns an assessment result with a keyphrase in Japanese that is enclosed in double quotes " +
-			"but no match is found in the title", function() {
+			"but no match is found in the SEO title", function() {
 			const paper = new Paper( "", {
 				keyword: "『東海道』",
 				title: "私の猫はとても狡猾です",
@@ -331,7 +331,7 @@ describe( "a test to check if the keyword is in the page title in Japanese", fun
 				"Does not contain the exact match. <a href='https://yoa.st/33h' target='_blank'>Try to write the exact match of " +
 				"your keyphrase in the SEO title and put it at the beginning of the title</a>." );
 		} );
-		it( "returns an assessment result with a multi-word keyphrase in Japanese where only one of the words is found in the title", function() {
+		it( "returns an assessment result with a multi-word keyphrase in Japanese where only one of the words is found in the SEO title", function() {
 			const paper = new Paper( "", {
 				keyword: "東海道新幹線",
 				title: "東海道の駅構内および列車内に広告を掲出することを",
@@ -364,7 +364,7 @@ describe( "a test to check if the keyword is in the page title in Japanese", fun
 				"Title does not begin with the focus keyphrase. <a href='https://yoa.st/33h' target='_blank'>" +
 				"Move your focus keyphrase to the beginning of the title</a>." );
 		} );
-		it( "returns an assessment result with a multi-word keyphrase in Japanese but no match in the title", function() {
+		it( "returns an assessment result with a multi-word keyphrase in Japanese but no match in the SEO title", function() {
 			const paper = new Paper( "", {
 				keyword: "読ん一冊の本",
 				title: "読まれ私の猫はとても狡猾です",
@@ -381,7 +381,7 @@ describe( "a test to check if the keyword is in the page title in Japanese", fun
 				"For the best SEO results include all words of your keyphrase in the SEO title, and put the keyphrase at " +
 				"the beginning of the title</a>." );
 		} );
-		it( "returns an assessment result with a keyphrase in Japanese where a different form of the keyphrase is used in the title", function() {
+		it( "returns an assessment result with a keyphrase in Japanese where a different form of the keyphrase is used in the SEO title", function() {
 			const paper = new Paper( "", {
 				keyword: "読ん一冊の本",
 				title: "読まれ一冊の本なにか",
@@ -397,7 +397,7 @@ describe( "a test to check if the keyword is in the page title in Japanese", fun
 				"The focus keyphrase appears at the beginning of the SEO title. Good job!" );
 		} );
 		it( "returns an assessment result with a keyphrase in Japanese enclosed in double quotes " +
-			"and a different form of the keyphrase is used in the title", function() {
+			"and a different form of the keyphrase is used in the SEO title", function() {
 			const paper = new Paper( "", {
 				keyword: "「読ん一冊の本」",
 				title: "読まれ一冊の本なにか",
@@ -414,7 +414,7 @@ describe( "a test to check if the keyword is in the page title in Japanese", fun
 				"Try to write the exact match of your keyphrase in the SEO title and put it at the beginning of the title</a>." );
 		} );
 		it( "returns an assessment result with a keyphrase in Japanese enclosed in double quotes " +
-			"and the same forms of the keyphrase are used in the title", function() {
+			"and the same forms of the keyphrase are used in the SEO title", function() {
 			const paper = new Paper( "", {
 				keyword: "「読ん一冊の本」",
 				title: "読ん一冊の本なにか",

@@ -14,7 +14,7 @@ class KeyphraseInSEOTitleAssessment extends Assessment {
 	 * Sets the identifier and the config.
 	 *
 	 * @param {Object} [config] The configuration to use.
-	 * @param {number} [config.parameters.recommendedPosition] The recommended position of the keyword within the title.
+	 * @param {number} [config.parameters.recommendedPosition] The recommended position of the keyword within the SEO title.
 	 * @param {number} [config.scores.good] The score to return if the keyword is found at the recommended position.
 	 * @param {number} [config.scores.okay] The score to return if the keyword is found, but not at the recommended position.
 	 * @param {number} [config.scores.bad] The score to return if there are fewer keyword occurrences than the recommended minimum.
@@ -79,16 +79,16 @@ class KeyphraseInSEOTitleAssessment extends Assessment {
 	 *
 	 * @param {Paper}       paper       The Paper object to assess.
 	 *
-	 * @returns {boolean} Whether the paper has a keyword and a title.
+	 * @returns {boolean} Whether the paper has a keyword and an SEO title.
 	 */
 	isApplicable( paper ) {
 		return paper.hasKeyword() && paper.hasTitle();
 	}
 
 	/**
-	 * Calculates the result based on whether and how the keyphrase was matched in the title. Returns GOOD result if
-	 * an exact match of the keyword is found in the beginning of the title. Returns OK results if all content words
-	 * from the keyphrase are in the title (in any form). Returns BAD otherwise.
+	 * Calculates the result based on whether and how the keyphrase was matched in the SEO title. Returns GOOD result if
+	 * an exact match of the keyword is found in the beginning of the SEO title. Returns OK results if all content words
+	 * from the keyphrase are in the SEO title (in any form). Returns BAD otherwise.
 	 *
 	 * @param {string}  keyword     The keyword of the paper (to be returned in the feedback strings).
 	 * @param {string}  language    The language to check.
