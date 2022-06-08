@@ -159,5 +159,115 @@ describe( "A test for tokenizing a (html) text into sentences", function() {
 
 		console.error.mockRestore();
 	} );
+
+	it( "does not break a sentence in two if there are initials within.", function() {
+		// The reprint was favourably reviewed by "A. B." in The Musical Times in 1935, who commented "Praise is due to Mr Mercer.
+		const tokens = [
+			{ type: "sentence", src: 'The reprint was favourably reviewed by "A' },
+			{ type: "full-stop", src: "." },
+			{ type: "sentence", src: " B" },
+			{ type: "full-stop", src: "." },
+			{ type: "sentence", src: '" in The Musical Times in , who commented "Praise is due to Mr Mercer' },
+			{ type: "full-stop", src: "." },
+		];
+		// eslint-disable-next-line max-len
+		expect( mockTokenizer.getSentencesFromTokens( tokens ) ).toEqual(   [ "The reprint was favourably reviewed by \"A. B.\" in The Musical Times in , who commented \"Praise is due to Mr Mercer." ]  );
+	} );
+
+	it( "recognizes sentence boundary when a sentence starts with initials", function() {
+		// 'This is a sentence. E.F. is a good writer. G. H. is a very very great personality.'
+		const tokens = [
+			{ type: "sentence", src: " This is a sentence" },
+			{ type: "full-stop", src: "." },
+			{ type: "sentence", src: " E" },
+			{ type: "full-stop", src: "." },
+			{ type: "sentence", src: "F" },
+			{ type: "full-stop", src: "." },
+			{ type: "sentence", src: " is a good writer" },
+			{ type: "full-stop", src: "." },
+			{ type: "sentence", src: " G" },
+			{ type: "full-stop", src: "." },
+			{ type: "sentence", src: " H" },
+			{ type: "full-stop", src: "." },
+			{ type: "sentence", src: " is a very very great personality" },
+			{ type: "full-stop", src: "." },
+
+		];
+		// eslint-disable-next-line max-len
+		expect( mockTokenizer.getSentencesFromTokens( tokens ) ).toEqual(   [ "This is a sentence.", "E.F. is a good writer.",  "G. H. is a very very great personality." ]  );
+	} );
+
+	it( "recognizes sentence boundary when a sentence ends with initials", function() {
+		// 'A cat is possessed by C. D. This is a sentence.'
+		const tokens = [
+			{ type: "sentence", src: " A cat is possessed by C" },
+			{ type: "full-stop", src: "." },
+			{ type: "sentence", src: " D" },
+			{ type: "full-stop", src: "." },
+			{ type: "sentence", src: " This is a sentence" },
+			{ type: "full-stop", src: "." },
+
+		];
+
+		expect( mockTokenizer.getSentencesFromTokens( tokens ) ).toEqual(   [ "A cat is possessed by C. D.", "This is a sentence." ]  );
+	} );
+
+	it( "recognizes when a full stop is part of a person's initials", function() {
+		const tokens = [
+			{ type: "sentence", src: " A cat is possessed by C" },
+			{ type: "full-stop", src: "." },
+			{ type: "sentence", src: " D" },
+			{ type: "full-stop", src: "." },
+			{ type: "sentence", src: " This is a sentence" },
+			{ type: "full-stop", src: "." },
+
+		];
+		const token = tokens[ 1 ];
+		const previousToken = tokens[ 0 ];
+		const nextToken = tokens[ 2 ];
+		const secondToNextToken = tokens[ 3 ];
+
+		expect( mockTokenizer.isPartOfPersonInitial( token, previousToken, nextToken, secondToNextToken ) ).toBeTruthy();
+	} );
+
+	it( "recognizes when a full stop is not part of a person's initials", function() {
+		const tokens = [
+			{ type: "sentence", src: "This is a sentence" },
+			{ type: "full-stop", src: "." },
+			{ type: "sentence", src: " This is a sentence" },
+			{ type: "full-stop", src: "." },
+
+		];
+		const token = tokens[ 1 ];
+		const previousToken = tokens[ 0 ];
+		const nextToken = tokens[ 2 ];
+		const secondToNextToken = tokens[ 3 ];
+
+		expect( mockTokenizer.isPartOfPersonInitial( token, previousToken, nextToken, secondToNextToken ) ).toBeFalsy();
+	} );
+
+	xit( "recognizes when a full stop is part of initials with multiple letters", function() {
+		const tokens = [
+			{ type: "sentence", src: "This is a sentence" },
+			{ type: "full-stop", src: "." },
+			{ type: "sentence", src: " A" },
+			{ type: "full-stop", src: "." },
+			{ type: "sentence", src: " F" },
+			{ type: "full-stop", src: "." },
+			{ type: "sentence", src: " Th" },
+			{ type: "full-stop", src: "." },
+			{ type: "sentence", src: " van der Heijden is a well known Dutch writer." },
+			{ type: "full-stop", src: "." },
+			{ type: "sentence", src: "This is a sentence" },
+			{ type: "full-stop", src: "." },
+		];
+
+		const token = tokens[ 5 ];
+		const previousToken = tokens[ 4 ];
+		const nextToken = tokens[ 6 ];
+		const secondToNextToken = tokens[ 7 ];
+
+		expect( mockTokenizer.isPartOfPersonInitial( token, previousToken, nextToken, secondToNextToken ) ).toBeTruthy();
+	} );
 } );
 
