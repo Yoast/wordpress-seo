@@ -252,10 +252,10 @@ class Crawl_Settings_Integration implements Integration_Interface {
 	 */
 	private function print_toggles( array $settings, Yoast_Form $yform, $is_network, $title = '', $description = '', $toggles = [] ) {
 		if ( ! empty( $title ) ) {
-			echo '<h3 class="yoast-crawl-settings-free">', esc_html( $title ), '</h3>';
+			echo '<h3 class="yoast-crawl-settings-free">', \esc_html( $title ), '</h3>';
 		}
 		if ( ! $is_network && ! empty( $description ) ) {
-			echo '<p class="yoast-crawl-settings-explanation-free">', esc_html( $description ), '</p>';
+			echo '<p class="yoast-crawl-settings-explanation-free">', \esc_html( $description ), '</p>';
 		}
 
 		if ( empty( $toggles ) ) {
