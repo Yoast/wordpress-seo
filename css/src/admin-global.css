@@ -218,6 +218,11 @@ td .wpseo-score-icon {
   padding: 0;
 }
 
+.fixed th.column-wpseo-score,
+.fixed th.column-wpseo-score-readability {
+  width: 3.5em;
+}
+
 /* Don't use selectors related to classes added with JavaScript to avoid flickering. */
 th.column-wpseo-links a,
 th.column-wpseo-linked a,
@@ -235,6 +240,14 @@ th.column-wpseo-score .yoast-tooltip,
 th.column-wpseo-score-readability .yoast-tooltip {
   /* 11+20+11=42px */
   padding: 8px 11px;
+}
+
+th.column-wpseo-score.sortable .yoast-tooltip,
+th.column-wpseo-score-readability.sortable .yoast-tooltip,
+th.column-wpseo-score.sorted .yoast-tooltip,
+th.column-wpseo-score-readability.sorted .yoast-tooltip {
+  /* Remove padding-right so that sorting arrow aligns to right and not bottom */
+  padding-right: 0px;
 }
 
 .column-wpseo-links .yoast-tooltip-multiline::after {
