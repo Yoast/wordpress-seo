@@ -6,7 +6,7 @@ import SwedishResearcher from "../../../src/languageProcessing/languages/sv/Rese
 import TurkishResearcher from "../../../src/languageProcessing/languages/tr/Researcher";
 import DefaultResearcher from "../../../src/languageProcessing/languages/_default/Researcher";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
-import pageTitleKeyword from "../../../src/languageProcessing/researches/findKeywordInPageTitle.js";
+import findKeyphraseInSEOTitle from "../../../src/languageProcessing/researches/findKeyphraseInSEOTitle.js";
 import Paper from "../../../src/values/Paper.js";
 
 const morphologyData = getMorphologyData( "en" );
@@ -28,7 +28,7 @@ describe( "Matches keywords in string", function() {
 		const researcher = new Researcher( mockPaper );
 		researcher.addResearchData( "morphology", morphologyData );
 
-		result = pageTitleKeyword( mockPaper, researcher );
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
 		expect( result.exactMatchFound ).toBe( true );
 		expect( result.position ).toBe( 0 );
 	} );
@@ -42,7 +42,7 @@ describe( "Matches keywords in string", function() {
 		const researcher = new Researcher( mockPaper );
 		researcher.addResearchData( "morphology", morphologyData );
 
-		result = pageTitleKeyword( mockPaper, researcher );
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
 		expect( result.exactMatchFound ).toBe( true );
 		expect( result.position ).toBe( 16 );
 	} );
@@ -56,7 +56,7 @@ describe( "Matches keywords in string", function() {
 		const researcher = new Researcher( mockPaper );
 		researcher.addResearchData( "morphology", morphologyData );
 
-		result = pageTitleKeyword( mockPaper, researcher );
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
 		expect( result.exactMatchFound ).toBe( true );
 		expect( result.position ).toBe( 17 );
 	} );
@@ -70,7 +70,7 @@ describe( "Matches keywords in string", function() {
 		const researcher = new Researcher( mockPaper );
 		researcher.addResearchData( "morphology", morphologyData );
 
-		result = pageTitleKeyword( mockPaper, researcher );
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
 		expect( result.exactMatchFound ).toBe( false );
 		expect( result.allWordsFound ).toBe( false );
 	} );
@@ -84,7 +84,7 @@ describe( "Matches keywords in string", function() {
 		const researcher = new RussianResearcher( mockPaper );
 		researcher.addResearchData( "morphology", morphologyDataRU );
 
-		result = pageTitleKeyword( mockPaper, researcher );
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
 		expect( result.exactMatchFound ).toBe( true );
 		expect( result.position ).toBe( 20 );
 	} );
@@ -98,7 +98,7 @@ describe( "Matches keywords in string", function() {
 		const researcher = new GermanResearcher( mockPaper );
 		researcher.addResearchData( "morphology", morphologyDataDE );
 
-		result = pageTitleKeyword( mockPaper, researcher );
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
 		expect( result.exactMatchFound ).toBe( true );
 		expect( result.position ).toBe( 0 );
 	} );
@@ -112,7 +112,7 @@ describe( "Matches keywords in string", function() {
 		const researcher = new Researcher( mockPaper );
 		researcher.addResearchData( "morphology", morphologyData );
 
-		result = pageTitleKeyword( mockPaper, researcher );
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
 		expect( result.exactMatchFound ).toBe( false );
 		expect( result.position ).toBe( -1 );
 	} );
@@ -125,7 +125,7 @@ describe( "Matches keywords in string", function() {
 		const researcher = new Researcher( mockPaper );
 		researcher.addResearchData( "morphology", morphologyData );
 
-		result = pageTitleKeyword( mockPaper, researcher );
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
 		expect( result.exactMatchFound ).toBe( true );
 		expect( result.position ).toBe( 0 );
 	} );
@@ -138,7 +138,7 @@ describe( "Matches keywords in string", function() {
 		const researcher = new Researcher( mockPaper );
 		researcher.addResearchData( "morphology", morphologyData );
 
-		result = pageTitleKeyword( mockPaper, researcher );
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
 		expect( result.exactMatchFound ).toBe( true );
 		expect( result.position ).toBe( 15 );
 	} );
@@ -151,7 +151,7 @@ describe( "Matches keywords in string", function() {
 		const researcher = new GermanResearcher( mockPaper );
 		researcher.addResearchData( "morphology", morphologyDataDE );
 
-		result = pageTitleKeyword( mockPaper, researcher );
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
 		expect( result.exactMatchFound ).toBe( true );
 		expect( result.position ).toBe( 0 );
 	} );
@@ -165,7 +165,7 @@ describe( "Matches keywords in string", function() {
 		const researcher = new GermanResearcher( mockPaper );
 		researcher.addResearchData( "morphology", morphologyDataDE );
 
-		result = pageTitleKeyword( mockPaper, researcher );
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
 		expect( result.exactMatchFound ).toBe( true );
 		expect( result.position ).toBe( 0 );
 	} );
@@ -179,12 +179,12 @@ describe( "Matches keywords in string", function() {
 		const researcher = new GermanResearcher( mockPaper );
 		researcher.addResearchData( "morphology", morphologyDataDE );
 
-		result = pageTitleKeyword( mockPaper, researcher );
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
 		expect( result.exactMatchFound ).toBe( true );
 		expect( result.position ).toBe( 0 );
 	} );
 
-	it( "returns all-words-found match if keyphrase words were shuffled in the title", function() {
+	it( "returns all-words-found match if keyphrase words were shuffled in the SEO title", function() {
 		const mockPaper = new Paper( "", {
 			keyword: "interesting books about computer science",
 			title: "interesting science books on my computer",
@@ -193,12 +193,12 @@ describe( "Matches keywords in string", function() {
 		const researcher = new Researcher( mockPaper );
 		researcher.addResearchData( "morphology", morphologyData );
 
-		result = pageTitleKeyword( mockPaper, researcher );
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
 		expect( result.exactMatchFound ).toBe( false );
 		expect( result.allWordsFound ).toBe( true );
 	} );
 
-	it( "returns all-words-found match if keyphrase words were shuffled in the title and used in different forms", function() {
+	it( "returns all-words-found match if keyphrase words were shuffled in the SEO title and used in different forms", function() {
 		const mockPaper = new Paper( "", {
 			keyword: "interesting books about computer science",
 			title: "They showed interest in the computer science book",
@@ -207,12 +207,12 @@ describe( "Matches keywords in string", function() {
 		const researcher = new Researcher( mockPaper );
 		researcher.addResearchData( "morphology", morphologyData );
 
-		result = pageTitleKeyword( mockPaper, researcher );
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
 		expect( result.exactMatchFound ).toBe( false );
 		expect( result.allWordsFound ).toBe( true );
 	} );
 
-	it( "returns all-words-found match if keyphrase words were shuffled in the title for French", function() {
+	it( "returns all-words-found match if keyphrase words were shuffled in the SEO title for French", function() {
 		const mockPaper = new Paper( "", {
 			keyword: "chez Paul",
 			title: "Je m'appele Paul",
@@ -221,12 +221,12 @@ describe( "Matches keywords in string", function() {
 		const researcher = new FrenchResearcher( mockPaper );
 		researcher.addResearchData( "morphology", morphologyDataFR );
 
-		result = pageTitleKeyword( mockPaper, researcher );
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
 		expect( result.exactMatchFound ).toBe( false );
 		expect( result.allWordsFound ).toBe( true );
 	} );
 
-	it( "returns all-words-found match if keyphrase words were shuffled in the title for Swedish", function() {
+	it( "returns all-words-found match if keyphrase words were shuffled in the SEO title for Swedish", function() {
 		const mockPaper = new Paper( "", {
 			keyword: "promenader i naturen",
 			title: "Jag gillar att ta promenader i naturen.",
@@ -234,7 +234,7 @@ describe( "Matches keywords in string", function() {
 		} );
 		const researcher = new SwedishResearcher( mockPaper );
 
-		result = pageTitleKeyword( mockPaper, researcher );
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
 		expect( result.exactMatchFound ).toBe( true );
 		expect( result.position ).toBe( 18 );
 	} );
@@ -246,7 +246,7 @@ describe( "Matches keywords in string", function() {
 		} );
 		let researcher = new TurkishResearcher( mockPaper );
 		researcher.addResearchData( "morphology", morphologyDataTR );
-		result = pageTitleKeyword( mockPaper, researcher );
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
 		expect( result.exactMatchFound ).toBe( false );
 		expect( result.position ).toBe( -1 );
 
@@ -257,7 +257,7 @@ describe( "Matches keywords in string", function() {
 		} );
 		researcher = new TurkishResearcher( mockPaper );
 		researcher.addResearchData( "morphology", morphologyDataTR );
-		result = pageTitleKeyword( mockPaper, researcher );
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
 		expect( result.exactMatchFound ).toBe( false );
 		expect( result.position ).toBe( -1 );
 	} );
@@ -270,7 +270,7 @@ describe( "Matches keywords in string", function() {
 		} );
 		const researcher = new TurkishResearcher( mockPaper );
 		researcher.addResearchData( "morphology", morphologyDataTR );
-		result = pageTitleKeyword( mockPaper, researcher );
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
 		expect( result.exactMatchFound ).toBe( true );
 		expect( result.position ).toBe( 0 );
 	} );
@@ -283,7 +283,7 @@ describe( "Matches keywords in string", function() {
 		const researcher = new Researcher( mockPaper );
 		researcher.addResearchData( "morphology", morphologyData );
 
-		result = pageTitleKeyword( mockPaper, researcher );
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
 		expect( result.exactMatchFound ).toBe( true );
 		expect( result.exactMatchKeyphrase ).toBe( true );
 		expect( result.position ).toBe( 0 );
@@ -297,7 +297,7 @@ describe( "Matches keywords in string", function() {
 		const researcher = new Researcher( mockPaper );
 		researcher.addResearchData( "morphology", morphologyData );
 
-		result = pageTitleKeyword( mockPaper, researcher );
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
 		expect( result.exactMatchFound ).toBe( true );
 		expect( result.exactMatchKeyphrase ).toBe( true );
 		expect( result.position ).toBe( 12 );
@@ -311,13 +311,13 @@ describe( "Matches keywords in string", function() {
 		const researcher = new Researcher( mockPaper );
 		researcher.addResearchData( "morphology", morphologyData );
 
-		result = pageTitleKeyword( mockPaper, researcher );
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
 		expect( result.exactMatchFound ).toBe( false );
 		expect( result.exactMatchKeyphrase ).toBe( true );
 		expect( result.allWordsFound ).toBe( false );
 	} );
 
-	it( "returns an exact match at place 0, even if the title starts with a function word.", function() {
+	it( "returns an exact match at place 0, even if the SEO title starts with a function word.", function() {
 		const mockPaper = new Paper( "", {
 			keyword: "\"walking in nature\"",
 			title: "The walking in nature",
@@ -325,14 +325,14 @@ describe( "Matches keywords in string", function() {
 		const researcher = new Researcher( mockPaper );
 		researcher.addResearchData( "morphology", morphologyData );
 
-		result = pageTitleKeyword( mockPaper, researcher );
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
 		expect( result.exactMatchFound ).toBe( true );
 		expect( result.exactMatchKeyphrase ).toBe( true );
 		expect( result.allWordsFound ).toBe( true );
 		expect( result.position ).toBe( 0 );
 	} );
 
-	it( "returns an exact match at place 0, even if the title starts with multiple function words.", function() {
+	it( "returns an exact match at place 0, even if the SEO title starts with multiple function words.", function() {
 		const mockPaper = new Paper( "", {
 			keyword: "\"walking in nature\"",
 			title: "The first walking in nature",
@@ -340,14 +340,14 @@ describe( "Matches keywords in string", function() {
 		const researcher = new Researcher( mockPaper );
 		researcher.addResearchData( "morphology", morphologyData );
 
-		result = pageTitleKeyword( mockPaper, researcher );
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
 		expect( result.exactMatchFound ).toBe( true );
 		expect( result.exactMatchKeyphrase ).toBe( true );
 		expect( result.allWordsFound ).toBe( true );
 		expect( result.position ).toBe( 0 );
 	} );
 
-	it( "returns an exact match at place 0, even if the title and the keyphrase start with (multiple) function words.", function() {
+	it( "returns an exact match at place 0, even if the SEO title and the keyphrase start with (multiple) function words.", function() {
 		const mockPaper = new Paper( "", {
 			keyword: "the very walking in nature",
 			title: "First thing, the very walking in nature",
@@ -355,7 +355,7 @@ describe( "Matches keywords in string", function() {
 		const researcher = new Researcher( mockPaper );
 		researcher.addResearchData( "morphology", morphologyData );
 
-		result = pageTitleKeyword( mockPaper, researcher );
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
 		expect( result.exactMatchFound ).toBe( true );
 		expect( result.exactMatchKeyphrase ).toBe( false );
 		expect( result.allWordsFound ).toBe( true );
@@ -369,7 +369,7 @@ describe( "Matches keywords in string", function() {
 		} );
 		const researcher = new DefaultResearcher( mockPaper );
 
-		result = pageTitleKeyword( mockPaper, researcher );
+		result = findKeyphraseInSEOTitle( mockPaper, researcher );
 		expect( result.exactMatchFound ).toBe( true );
 		expect( result.exactMatchKeyphrase ).toBe( false );
 		expect( result.allWordsFound ).toBe( true );

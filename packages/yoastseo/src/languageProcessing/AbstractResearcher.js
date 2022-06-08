@@ -7,7 +7,7 @@ import MissingArgument from "../errors/missingArgument";
 import altTagCount from "./researches/altTagCount.js";
 import countSentencesFromText from "./researches/countSentencesFromText.js";
 import findKeywordInFirstParagraph from "./researches/findKeywordInFirstParagraph.js";
-import findKeywordInPageTitle from "./researches/findKeywordInPageTitle";
+import findKeyphraseInSEOTitle from "./researches/findKeyphraseInSEOTitle";
 import findList from "./researches/findList";
 import findTransitionWords from "./researches/findTransitionWords";
 import functionWordsInKeyphrase from "./researches/functionWordsInKeyphrase";
@@ -55,7 +55,7 @@ export default class AbstractResearcher {
 			altTagCount,
 			countSentencesFromText,
 			findKeywordInFirstParagraph,
-			findKeywordInPageTitle,
+			findKeyphraseInSEOTitle,
 			findList,
 			findTransitionWords,
 			functionWordsInKeyphrase,
