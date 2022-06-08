@@ -102,8 +102,8 @@ testPapers.forEach( function( testPaper ) {
 			compare( new InternalLinksAssessment(), expectedResults.internalLinks );
 		} );
 
-		it( "returns a score and the associated feedback text for the titleKeyword assessment", function() {
-			compare( new KeyphraseInSEOTitleAssessment(), expectedResults.titleKeyword );
+		it( "returns a score and the associated feedback text for the keyphraseInSEOTitle assessment", function() {
+			compare( new KeyphraseInSEOTitleAssessment(), expectedResults.keyphraseInSEOTitle );
 		} );
 
 		it( "returns a score and the associated feedback text for the titleWidth assessment", function() {

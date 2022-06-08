@@ -14,10 +14,10 @@ class KeyphraseInSEOTitleAssessment extends Assessment {
 	 * Sets the identifier and the config.
 	 *
 	 * @param {Object} [config] The configuration to use.
-	 * @param {number} [config.parameters.recommendedPosition] The recommended position of the keyword within the SEO title.
-	 * @param {number} [config.scores.good] The score to return if the keyword is found at the recommended position.
-	 * @param {number} [config.scores.okay] The score to return if the keyword is found, but not at the recommended position.
-	 * @param {number} [config.scores.bad] The score to return if there are fewer keyword occurrences than the recommended minimum.
+	 * @param {number} [config.parameters.recommendedPosition] The recommended position of the keyphrase within the SEO title.
+	 * @param {number} [config.scores.good] The score to return if the keyphrase is found at the recommended position.
+	 * @param {number} [config.scores.okay] The score to return if the keyphrase is found, but not at the recommended position.
+	 * @param {number} [config.scores.bad] The score to return if there are fewer keyphrase occurrences than the recommended minimum.
 	 * @param {string} [config.url] The URL to the relevant article on Yoast.com.
 	 *
 	 * @returns {void}
@@ -42,7 +42,7 @@ class KeyphraseInSEOTitleAssessment extends Assessment {
 			},
 		};
 
-		this.identifier = "titleKeyword";
+		this.identifier = "keyphraseInSEOTitle";
 
 		/* Translators: This is the name of the 'Keyphrase in SEO title' SEO assessment.
 		 It appears before the feedback in the analysis, for example in the feedback string:
@@ -62,12 +62,12 @@ class KeyphraseInSEOTitleAssessment extends Assessment {
 	 */
 	getResult( paper, researcher ) {
 		const language = getLanguage( paper.getLocale() );
-		this._keywordMatches = researcher.getResearch( "findKeyphraseInSEOTitle" );
-		this._keyword = escape( paper.getKeyword() );
+		this._keyphraseMatches = researcher.getResearch( "findKeyphraseInSEOTitle" );
+		this._keyphrase = escape( paper.getKeyword() );
 
 		const assessmentResult = new AssessmentResult();
 
-		const calculatedResult = this.calculateResult( this._keyword, language );
+		const calculatedResult = this.calculateResult( this._keyphrase, language );
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
 
@@ -77,9 +77,9 @@ class KeyphraseInSEOTitleAssessment extends Assessment {
 	/**
 	 * Checks whether the assessment is applicable to the paper
 	 *
-	 * @param {Paper}       paper       The Paper object to assess.
+	 * @param {Paper} paper The Paper object to assess.
 	 *
-	 * @returns {boolean} Whether the paper has a keyword and an SEO title.
+	 * @returns {boolean} Whether the paper has a keyphrase and an SEO title.
 	 */
 	isApplicable( paper ) {
 		return paper.hasKeyword() && paper.hasTitle();
@@ -87,24 +87,24 @@ class KeyphraseInSEOTitleAssessment extends Assessment {
 
 	/**
 	 * Calculates the result based on whether and how the keyphrase was matched in the SEO title. Returns GOOD result if
-	 * an exact match of the keyword is found in the beginning of the SEO title. Returns OK results if all content words
+	 * an exact match of the keyphrase is found in the beginning of the SEO title. Returns OK results if all content words
 	 * from the keyphrase are in the SEO title (in any form). Returns BAD otherwise.
 	 *
-	 * @param {string}  keyword     The keyword of the paper (to be returned in the feedback strings).
+	 * @param {string}  keyphrase   The keyphrase of the paper (to be returned in the feedback strings).
 	 * @param {string}  language    The language to check.
 	 *
 	 * @returns {Object} Object with score and text.
 	 */
-	calculateResult( keyword, language ) {
+	calculateResult( keyphrase, language ) {
 		const feedbackStrings = this._config.feedbackStrings;
 		if ( language === "ja" ) {
 			feedbackStrings.bad = __( "For the best SEO results include all words of your keyphrase in the SEO title, " +
 					"and put the keyphrase at the beginning of the title", "wordpress-seo" );
 		}
-		const exactMatchFound = this._keywordMatches.exactMatchFound;
-		const position = this._keywordMatches.position;
-		const allWordsFound = this._keywordMatches.allWordsFound;
-		const exactMatchKeyphrase = this._keywordMatches.exactMatchKeyphrase;
+		const exactMatchFound = this._keyphraseMatches.exactMatchFound;
+		const position = this._keyphraseMatches.position;
+		const allWordsFound = this._keyphraseMatches.allWordsFound;
+		const exactMatchKeyphrase = this._keyphraseMatches.exactMatchKeyphrase;
 
 		const assessmentLink = this._config.urlTitle + this.name + "</a>";
 
@@ -204,7 +204,7 @@ class KeyphraseInSEOTitleAssessment extends Assessment {
 					assessmentLink,
 					this._config.urlCallToAction,
 					"</a>",
-					keyword
+					keyphrase
 				),
 			};
 		}
@@ -214,7 +214,7 @@ class KeyphraseInSEOTitleAssessment extends Assessment {
 			resultText: sprintf(
 				/* Translators: %1$s expands to the title of the "Keyphrase in SEO title" assessment (translated to the current language)
 				 and links to an article on yoast.com. %2$s expands to a link on yoast.com, %3$s expands to the anchor end tag,
-				 %4$s expands to the keyword of the article, %5$s expands to the call to action text. */
+				 %4$s expands to the keyphrase of the article, %5$s expands to the call to action text. */
 				__(
 					// eslint-disable-next-line max-len
 					"%1$s: Not all the words from your keyphrase \"%4$s\" appear in the SEO title. %2$s%5$s%3$s.",
@@ -223,7 +223,7 @@ class KeyphraseInSEOTitleAssessment extends Assessment {
 				assessmentLink,
 				this._config.urlCallToAction,
 				"</a>",
-				keyword,
+				keyphrase,
 				feedbackStrings.bad
 			),
 		};
