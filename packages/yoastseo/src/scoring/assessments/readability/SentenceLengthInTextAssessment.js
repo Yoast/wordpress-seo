@@ -10,6 +10,7 @@ import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import { stripIncompleteTags as stripTags } from "../../../languageProcessing/helpers/sanitize/stripHTMLTags";
 import AssessmentResult from "../../../values/AssessmentResult";
 import Mark from "../../../values/Mark";
+import hasEnoughContent from "../../helpers/assessments/hasEnoughContent";
 
 /**
  * Represents the assessment that will calculate the length of sentences in the text.
@@ -83,7 +84,7 @@ class SentenceLengthInTextAssessment extends Assessment {
 	 * @returns {boolean} True when there is text.
 	 */
 	isApplicable( paper ) {
-		return paper.hasContent();
+		return hasEnoughContent( paper );
 	}
 
 	/**
