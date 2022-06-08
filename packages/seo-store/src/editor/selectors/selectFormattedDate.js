@@ -2,12 +2,12 @@ import { get } from "lodash";
 
 /**
  * Formats the date in a way that is expected
- * in the Google Preview, SEO analysis and the date replacement variable.
+ * in the Google Preview and SEO analysis.
  *
  * @param {string} dateString The date in ISO 8601 format.
  * @param {string} language The language in which to format the date.
  *
- * @return {string} The formatted date.
+ * @returns {string} The formatted date.
  */
 function formatDate( dateString, language ) {
 	const date = new Date( dateString );
@@ -21,14 +21,14 @@ function formatDate( dateString, language ) {
 
 /**
  * Returns the date, formatted in a way that is expected
- * in the Google Preview, SEO analysis and the date replacement variable.
+ * in the Google Preview and SEO analysis.
  *
  * @example
  * "May 28, 2022"
  *
  * @param {Object} state The current state of the SEO store.
  *
- * @return {string} The formatted date, or an empty string if no date is available.
+ * @returns {string} The formatted date, or an empty string if no date is available.
  */
 export default function selectFormattedDate( state ) {
 	const locale = get( state, "editor.locale", "" );
