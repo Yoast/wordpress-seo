@@ -68,10 +68,10 @@ export default function SidebarFill( { settings } ) {
 						<AdvancedSettings />
 					</SidebarCollapsible>
 				</SidebarItem> }
-				{ settings.isContentAnalysisActive && <SidebarItem key="readability" renderPriority={ 10 }>
+				{ settings.isContentAnalysisActive && <SidebarItem key="readability" renderPriority={ 20 }>
 					<ReadabilityAnalysis />
 				</SidebarItem> }
-				{ settings.isKeywordAnalysisActive && <SidebarItem key="seo" renderPriority={ 20 }>
+				{ settings.isKeywordAnalysisActive && <SidebarItem key="seo" renderPriority={ 10 }>
 					<SeoAnalysis
 						shouldUpsell={ settings.shouldUpsell }
 						shouldUpsellWordFormRecognition={ settings.isWordFormRecognitionActive }
