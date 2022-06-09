@@ -3,7 +3,6 @@ import Assessment from "../assessment";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import AssessmentResult from "../../../values/AssessmentResult";
 import { merge } from "lodash-es";
-import hasEnoughContent from "../../helpers/assessments/hasEnoughContent";
 
 /**
  * Represents the assessment that will look if the text has a list (only applicable for product pages).
@@ -61,7 +60,7 @@ export default class ListAssessment extends Assessment {
 	 * @returns {boolean} True when there is text.
 	 */
 	isApplicable( paper ) {
-		return hasEnoughContent( paper );
+		return this.hasEnoughContentForAssessment( paper );
 	}
 
 	/**
