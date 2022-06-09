@@ -46,7 +46,7 @@ describe( "An assessment for scoring repeated sentence beginnings.", function() 
 	} );
 
 	it( "is applicable for an paper with text and a researcher that has the getSentenceBeginnings research.", function() {
-		paper = new Paper( "ciao", { locale: "it_IT" } );
+		paper = new Paper( "Era una gatta, assai trita, e non era d’alcuno, e, vecchia, aveva un suo gattino.", { locale: "it_IT" } );
 		const assessment = new SentenceBeginningsAssessment().isApplicable( paper, new ItalianResearcher( paper ) );
 		expect( assessment ).toBe( true );
 	} );
