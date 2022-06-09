@@ -22,7 +22,7 @@ describe( "The initializeUsedKeyphrasesAssessment function", () => {
 
 		initializeUsedKeyphrasesAssessment(
 			"get_focus_keyword_usage",
-			refreshAnalysis,
+			refreshAnalysis
 		);
 
 		expect( UsedKeywords.prototype.init ).toBeCalledTimes( 1 );
@@ -44,7 +44,7 @@ describe( "The initializeUsedKeyphrasesAssessment function", () => {
 
 		initializeUsedKeyphrasesAssessment(
 			"get_focus_keyword_usage",
-			refreshAnalysis,
+			refreshAnalysis
 		);
 
 		expect( UsedKeywords.prototype.init ).not.toBeCalledTimes( 1 );
