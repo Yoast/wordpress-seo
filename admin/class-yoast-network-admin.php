@@ -29,6 +29,17 @@ class Yoast_Network_Admin implements WPSEO_WordPress_AJAX_Integration, WPSEO_Wor
 	const RESTORE_SITE_ACTION = 'yoast_restore_site';
 
 	/**
+	 * Holds the Network_Admin_Options_Service instance.
+	 *
+	 * @var Network_Admin_Options_Service
+	 */
+	protected $network_admin_options_service;
+
+	function __construct(){
+		$this->network_admin_options_service  = YoastSEO()->classes->get( Network_Admin_Options_Service::class );
+	}
+
+	/**
 	 * Gets the available sites as choices, e.g. for a dropdown.
 	 *
 	 * @param bool $include_empty Optional. Whether to include an initial placeholder choice.
@@ -125,19 +136,13 @@ class Yoast_Network_Admin implements WPSEO_WordPress_AJAX_Integration, WPSEO_Wor
 				$value = wp_unslash( $_POST[ $option_name ] );
 			}
 
-			/**
-			 * Indicates this is a Network_Admin_Options_Service instance.
-			 *
-			 * @var Network_Admin_Options_Service $network_admin_options_service
-			 */
-			$network_admin_options_service = YoastSEO()->classes->get( Network_Admin_Options_Service::class );
 			try {
-				$network_admin_options_service->set_options( $value );
+				$this->network_admin_options_service->set_options( $value );
 			} catch ( Save_Failed_Exception $exception ) {
-				add_settings_error( $network_admin_options_service->option_name, 'save_error', $exception->getMessage(), 'error' );
+				add_settings_error( $this->network_admin_options_service->option_name, 'save_error', $exception->getMessage(), 'error' );
 			} catch ( Form_Invalid_Exception $exception ) {
 				foreach ( $exception->get_field_exceptions() as $option => $field_exception ) {
-					add_settings_error( $network_admin_options_service->option_name, $option, $field_exception->getMessage(), 'error' );
+					add_settings_error( $this->network_admin_options_service->option_name, $option, $field_exception->getMessage(), 'error' );
 				}
 			}
 		}
@@ -159,8 +164,7 @@ class Yoast_Network_Admin implements WPSEO_WordPress_AJAX_Integration, WPSEO_Wor
 	public function handle_restore_site_request() {
 		$this->verify_request( 'wpseo-network-restore', 'restore_site_nonce' );
 
-		// TODO: replace hardcoded string with network_admin_options_service->option_name.
-		$option = 'wpseo_network_admin_options';
+		$option = $this->network_admin_options_service->option_name;
 
 		// phpcs:ignore WordPress.Security.NonceVerification -- Nonce verified via `verify_request()` above.
 		$site_id = ! empty( $_POST[ $option ]['site_id'] ) ? (int) $_POST[ $option ]['site_id'] : 0;
@@ -177,7 +181,7 @@ class Yoast_Network_Admin implements WPSEO_WordPress_AJAX_Integration, WPSEO_Wor
 			add_settings_error( $option, 'settings_updated', sprintf( __( 'Site with ID %d not found.', 'wordpress-seo' ), $site_id ), 'error' );
 		}
 		else {
-			YoastSEO()->classes->get( Network_Admin_Options_Service::class )->reset_options_for( $site_id );
+			$this->network_admin_options_service->reset_options_for( $site_id );
 
 			/* translators: %s expands to the name of a site within a multisite network. */
 			add_settings_error( $option, 'settings_updated', sprintf( __( '%s restored to default SEO settings.', 'wordpress-seo' ), esc_html( $site->blogname ) ), 'updated' );
