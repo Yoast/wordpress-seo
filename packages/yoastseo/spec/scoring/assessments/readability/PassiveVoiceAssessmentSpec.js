@@ -68,7 +68,7 @@ describe( "An assessment for scoring passive voice.", function() {
 
 describe( "A test for checking the applicability", function() {
 	it( "returns true for isApplicable for an English paper with text.", function() {
-		const paper = new Paper( "This is a very interesting paper.", { locale: "en_US" } );
+		const paper = new Paper( "This is a very interesting paper. With at least 50 characters.", { locale: "en_US" } );
 		expect( new PassiveVoiceAssessment().isApplicable( paper, new EnglishResearcher( paper ) ) ).toBe( true );
 	} );
 
