@@ -18,6 +18,13 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 	protected $key = 'og:image';
 
 	/**
+	 * The method of escaping to use.
+	 *
+	 * @var string
+	 */
+	protected $escaping = 'url';
+
+	/**
 	 * Image tags that we output for each image.
 	 *
 	 * @var array
@@ -44,7 +51,7 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 		foreach ( $images as $image_index => $image_meta ) {
 			$image_url = $image_meta['url'];
 
-			$return .= '<meta property="og:image" content="' . \esc_url( $image_url ) . '" />';
+			$return .= '<meta property="og:image" content="' . \esc_url( $image_url, null, 'attribute' ) . '" />';
 
 			foreach ( static::$image_tags as $key => $value ) {
 				if ( empty( $image_meta[ $key ] ) ) {
