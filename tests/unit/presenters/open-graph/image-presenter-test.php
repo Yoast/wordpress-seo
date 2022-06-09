@@ -4,8 +4,10 @@ namespace Yoast\WP\SEO\Tests\Unit\Presenters\Open_Graph;
 
 use Brain\Monkey;
 use Mockery;
+use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Presenters\Open_Graph\Image_Presenter;
+use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -43,6 +45,8 @@ class Image_Presenter_Test extends TestCase {
 		$this->presentation = new Indexable_Presentation();
 
 		$this->instance->presentation = $this->presentation;
+		$this->instance->helpers      = Mockery::mock( Helpers_Surface::class );
+		$this->instance->helpers->url = Mockery::mock( Url_Helper::class );
 	}
 
 	/**
@@ -71,6 +75,8 @@ class Image_Presenter_Test extends TestCase {
 		];
 
 		$this->presentation->open_graph_images = [ $image ];
+
+		$this->instance->helpers->url->expects( 'escape_for_sitemap' )->andReturnArg( 0 );
 
 		$this->assertEquals(
 			'<meta property="og:image" content="https://example.com/image.jpg" />' . \PHP_EOL . "\t" . '<meta property="og:image:width" content="100" />' . \PHP_EOL . "\t" . '<meta property="og:image:height" content="100" />',
