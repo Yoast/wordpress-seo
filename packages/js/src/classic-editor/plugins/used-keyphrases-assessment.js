@@ -49,5 +49,5 @@ export default function initializeUsedKeyphrasesAssessment( usedKeyphrasesEndpoi
 
 			return results;
 		}
-	)
+	);
 }

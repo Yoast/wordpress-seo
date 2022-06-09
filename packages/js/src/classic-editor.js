@@ -91,7 +91,7 @@ const initPost = async() => {
 	registerYoastApis( { analysisWorker } );
 	initializeUsedKeyphrasesAssessment(
 		"get_focus_keyword_usage",
-		window.YoastSEO.app.refresh,
+		window.YoastSEO.app.refresh
 	);
 	// Start watching for DOM/store changes.
 	initPostWatcher();
