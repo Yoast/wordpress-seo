@@ -218,4 +218,20 @@ class Url_Helper {
 
 		return ( $is_image ) ? SEO_Links::TYPE_EXTERNAL_IMAGE : SEO_Links::TYPE_EXTERNAL;
 	}
+
+	/**
+	 * Escapes the URL for use in an XML sitemap.
+	 *
+	 * @see WPSEO_Sitemaps_Renderer::encode_and_escape
+	 *
+	 * @param string $url The URL to escape.
+	 *
+	 * @return string The escaped URL.
+	 */
+	public function escape_for_sitemap( $url ) {
+		$output = \esc_url( $url );
+		$output = \str_replace( '&#038;', '&amp;', $output );
+
+		return \str_replace( '&#039;', '&apos;', $output );
+	}
 }

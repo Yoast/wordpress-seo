@@ -31,6 +31,7 @@ class Url_Helper_Test extends TestCase {
 	 */
 	protected function set_up() {
 		parent::set_up();
+		$this->stubEscapeFunctions();
 
 		$this->instance = Mockery::mock( Url_Helper::class )->makePartial();
 	}
@@ -106,7 +107,7 @@ class Url_Helper_Test extends TestCase {
 	public function test_get_url_path( $url_input, $expected ) {
 		Monkey\Functions\stubs(
 			[
-				'wp_parse_url' => static function( $url, $component ) {
+				'wp_parse_url' => static function ( $url, $component ) {
 					// phpcs:ignore WordPress.WP.AlternativeFunctions.parse_url_parse_url -- Mocking wp_parse_url(), this is fine.
 					return \parse_url( $url, $component );
 				},
@@ -123,27 +124,27 @@ class Url_Helper_Test extends TestCase {
 	 */
 	public function data_get_url_path() {
 		return [
-			'URL is an empty string' => [
+			'URL is an empty string'                                => [
 				'url_input' => '',
 				'expected'  => '',
 			],
-			'URL with domain, no path' => [
+			'URL with domain, no path'                              => [
 				'url_input' => 'https://example.com',
 				'expected'  => '',
 			],
-			'URL with domain, path is only slash' => [
+			'URL with domain, path is only slash'                   => [
 				'url_input' => 'https://example.com/',
 				'expected'  => '/',
 			],
-			'URL with domain and full path' => [
+			'URL with domain and full path'                         => [
 				'url_input' => 'https://example.com/this/is/the/path',
 				'expected'  => '/this/is/the/path',
 			],
-			'URL with domain and full path and trailing slash' => [
+			'URL with domain and full path and trailing slash'      => [
 				'url_input' => 'https://example.com/this/is/the/path/',
 				'expected'  => '/this/is/the/path/',
 			],
-			'URL with domain, no path via a stringable object' => [
+			'URL with domain, no path via a stringable object'      => [
 				'url_input' => new Stringable_Object_Mock( 'https://example.com' ),
 				'expected'  => '',
 			],
@@ -151,19 +152,19 @@ class Url_Helper_Test extends TestCase {
 				'url_input' => new Stringable_Object_Mock( 'https://example.com/this/is/the/path' ),
 				'expected'  => '/this/is/the/path',
 			],
-			'URL is not a string: null' => [
+			'URL is not a string: null'                             => [
 				'url_input' => null,
 				'expected'  => '',
 			],
-			'URL is not a string: boolean true' => [
+			'URL is not a string: boolean true'                     => [
 				'url_input' => true,
 				'expected'  => '',
 			],
-			'URL is not a string: array' => [
+			'URL is not a string: array'                            => [
 				'url_input' => [],
 				'expected'  => '',
 			],
-			'URL is not a string: object, but not stringable' => [
+			'URL is not a string: object, but not stringable'       => [
 				'url_input' => new stdClass(),
 				'expected'  => '',
 			],
@@ -505,6 +506,42 @@ class Url_Helper_Test extends TestCase {
 				false,
 				SEO_Links::TYPE_INTERNAL,
 				'When home_url has a path URLs that do start with it should be internal',
+			],
+		];
+	}
+
+	/**
+	 * Tests escape for sitemap.
+	 *
+	 * @dataProvider provide_urls_for_sitemap
+	 *
+	 * @covers ::escape_for_sitemap
+	 *
+	 * @param string $url      The input URL.
+	 * @param string $expected The expected output URL.
+	 */
+	public function test_escape_for_sitemap( $url, $expected ) {
+		$this->assertSame( $expected, $this->instance->escape_for_sitemap( $url ) );
+	}
+
+	/**
+	 * Provides the test data for the escape_for_sitemap test.
+	 *
+	 * @return array The test data.
+	 */
+	public function provide_urls_for_sitemap() {
+		return [
+			'Default' => [
+				'url'      => 'http://example.com/?foo=true&bar=true',
+				'expected' => 'http://example.com/?foo=true&bar=true',
+			],
+			'With &#038;' => [
+				'url'      => 'http://example.com/?foo=true&#038;bar=true',
+				'expected' => 'http://example.com/?foo=true&amp;bar=true',
+			],
+			'With &#039;' => [
+				'url'      => 'http://example.com/?foo=true&bar=&#039;true&#039;',
+				'expected' => 'http://example.com/?foo=true&bar=&apos;true&apos;',
 			],
 		];
 	}
