@@ -56,7 +56,7 @@ describe( "Analysis slice", () => {
 				metaDescription: "Meta description",
 				slug: "test",
 				permalink: "https://example.com",
-				date: "2021-12-17T12:00:00.000Z",
+				date: "Dec 17, 2021",
 			} );
 		} );
 

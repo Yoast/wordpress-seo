@@ -19,15 +19,7 @@ export const content = {
 export const date = {
 	name: "date",
 	getLabel: () => __( "Date", "wordpress-seo" ),
-	getReplacement: () => new Date( select( SEO_STORE_NAME ).selectDate() ).toLocaleDateString(
-		// eslint-disable-next-line no-undefined
-		undefined,
-		{
-			day: "numeric",
-			month: "long",
-			year: "numeric",
-		},
-	),
+	getReplacement: () => select( SEO_STORE_NAME ).selectFormattedDate(),
 };
 
 /**

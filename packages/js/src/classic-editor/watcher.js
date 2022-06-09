@@ -377,7 +377,7 @@ const syncStoreToPost = () => {
 	createDomSync( selectors.selectSeoTitle, { domGet: dom.getPostSeoTitle, domSet: dom.setPostSeoTitle }, "seoTitle" );
 	createDomSync( selectors.selectMetaDescription, { domGet: dom.getPostMetaDescription, domSet: dom.setPostMetaDescription }, "metaDescription" );
 	createDomSync( selectors.selectKeyphrase, { domGet: dom.getPostFocusKeyphrase, domSet: dom.setPostFocusKeyphrase }, "focusKeyphrase" );
-	createDomSync( selectors.shouldApplyCornerstoneAnalysis, { domGet: dom.getPostIsCornerstone, domSet: dom.setPostIsCornerstone }, "isCornerstone" );
+	createDomSync( selectors.selectShouldApplyCornerstoneAnalysis, { domGet: dom.getPostIsCornerstone, domSet: dom.setPostIsCornerstone }, "isCornerstone" );
 	createDomSync(
 		selectors.selectSeoScore,
 		{
@@ -434,7 +434,7 @@ const syncStoreToTerm = () => {
 	createDomSync( selectors.selectSeoTitle, { domGet: dom.getTermSeoTitle, domSet: dom.setTermSeoTitle }, "seoTitle" );
 	createDomSync( selectors.selectMetaDescription, { domGet: dom.getTermMetaDescription, domSet: dom.setTermMetaDescription }, "metaDescription" );
 	createDomSync( selectors.selectKeyphrase, { domGet: dom.getTermFocusKeyphrase, domSet: dom.setTermFocusKeyphrase }, "focusKeyphrase" );
-	createDomSync( selectors.shouldApplyCornerstoneAnalysis, { domGet: dom.getTermIsCornerstone, domSet: dom.setTermIsCornerstone }, "isCornerstone" );
+	createDomSync( selectors.selectShouldApplyCornerstoneAnalysis, { domGet: dom.getTermIsCornerstone, domSet: dom.setTermIsCornerstone }, "isCornerstone" );
 	createDomSync(
 		selectors.selectSeoScore,
 		{
