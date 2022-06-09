@@ -117,7 +117,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'search_cleanup'                           => false,
 		'search_cleanup_emoji'                     => false,
 		'search_cleanup_patterns'                  => false,
-		'search_word_limit'                        => 8,
 		'search_character_limit'                   => 50,
 	];
 
@@ -405,7 +404,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 					}
 					break;
 
-				case 'search_word_limit':
 				case 'search_character_limit':
 					if ( isset( $dirty[ $key ] ) ) {
 						$clean[ $key ] = (int) $dirty[ $key ];

@@ -664,7 +664,6 @@ body.folded .wpseo-admin-submit-fixed {
 /* Disabled toggles in the Crawl settings tab */
 
 .yoast #crawl-settings fieldset[id$="_free"] ,
-.yoast label[for="search_word_limit_free"],
 .yoast label[for="search_character_limit_free"],
 .yoast label[for="clean_permalinks_extra_variables_free"] {
 	opacity: 0.5;
@@ -675,7 +674,6 @@ body.folded .wpseo-admin-submit-fixed {
 	background: #a4286a;
 }
 
-.yoast label[for^="search_word_limit"],
 .yoast label[for^="search_character_limit"] {
   width: 280px!important;
   margin-bottom: 10px!important;
@@ -685,7 +683,6 @@ body.folded .wpseo-admin-submit-fixed {
   width: 220px!important;
 }
 
-.yoast input[id^="search_word_limit"],
 .yoast input[id^="search_character_limit"] {
   width: 70px!important;
 }

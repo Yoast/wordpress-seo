@@ -201,16 +201,6 @@ class Crawl_Settings_Integration implements Integration_Interface {
 
 		if ( ! $is_network ) {
 			$yform->number(
-				'search_word_limit_free',
-				\__( 'Max number of words to allow in searches', 'wordpress-seo' ),
-				[
-					'min'      => 1,
-					'max'      => 100,
-					'disabled' => true,
-				]
-			);
-			$yform->hidden( 'search_word_limit', 'search_word_limit' );
-			$yform->number(
 				'search_character_limit_free',
 				\__( 'Max number of characters to allow in searches', 'wordpress-seo' ),
 				[
