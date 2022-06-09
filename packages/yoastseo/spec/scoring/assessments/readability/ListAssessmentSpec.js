@@ -36,7 +36,7 @@ describe( "tests for the assessment applicability.", function() {
 	} );
 
 	it( "returns true when the paper is not empty.", function() {
-		const paper = new Paper( "sample keyword", {
+		const paper = new Paper( "sample keyword containing a minimum of fifty characters.", {
 			slug: "sample-with-keyword",
 			keyword: "kéyword",
 		} );
