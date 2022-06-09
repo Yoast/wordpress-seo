@@ -132,7 +132,7 @@ class Wordproof_Integration_Toggle implements Integration_Interface {
 					) . '</p>';
 				}
 
-				if ( $conditional === 'WordProof_Plugin_Inactive_Conditional' ) {
+				if ( $conditional === 'Wordproof_Plugin_Inactive_Conditional' ) {
 					echo '<p>' . \esc_html__( 'The WordProof Timestamp plugin needs to be disabled before you can activate this integration.', 'wordpress-seo' ) . '</p>';
 				}
 			}
