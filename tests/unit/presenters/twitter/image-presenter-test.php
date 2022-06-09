@@ -3,8 +3,11 @@
 namespace Yoast\WP\SEO\Tests\Unit\Presenters\Twitter;
 
 use Brain\Monkey;
+use Mockery;
+use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Presenters\Twitter\Image_Presenter;
+use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -43,6 +46,8 @@ class Image_Presenter_Test extends TestCase {
 		$this->instance               = new Image_Presenter();
 		$this->instance->presentation = new Indexable_Presentation();
 		$this->presentation           = $this->instance->presentation;
+		$this->instance->helpers      = Mockery::mock( Helpers_Surface::class );
+		$this->instance->helpers->url = Mockery::mock( Url_Helper::class );
 
 		Monkey\Functions\expect( 'post_password_required' )->andReturn( false );
 	}
@@ -51,9 +56,12 @@ class Image_Presenter_Test extends TestCase {
 	 * Tests whether the presenter returns the correct image.
 	 *
 	 * @covers ::present
+	 * @covers ::escape_value
 	 */
 	public function test_present() {
 		$this->presentation->twitter_image = 'relative_image.jpg';
+
+		$this->instance->helpers->url->expects( 'escape_for_sitemap' )->andReturnArg( 0 );
 
 		$expected = '<meta name="twitter:image" content="relative_image.jpg" />';
 		$actual   = $this->instance->present();
@@ -81,6 +89,8 @@ class Image_Presenter_Test extends TestCase {
 	 */
 	public function test_present_filter() {
 		$this->presentation->twitter_image = 'relative_image.jpg';
+
+		$this->instance->helpers->url->expects( 'escape_for_sitemap' )->andReturnArg( 0 );
 
 		Monkey\Filters\expectApplied( 'wpseo_twitter_image' )
 			->once()
