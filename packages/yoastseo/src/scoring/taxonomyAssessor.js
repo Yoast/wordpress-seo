@@ -4,7 +4,7 @@ import IntroductionKeywordAssessment from "./assessments/seo/IntroductionKeyword
 import KeyphraseLengthAssessment from "./assessments/seo/KeyphraseLengthAssessment";
 import KeywordDensityAssessment from "./assessments/seo/KeywordDensityAssessment";
 import MetaDescriptionKeywordAssessment from "./assessments/seo/MetaDescriptionKeywordAssessment";
-import TitleKeywordAssessment from "./assessments/seo/TitleKeywordAssessment";
+import KeyphraseInSEOTitleAssessment from "./assessments/seo/KeyphraseInSEOTitleAssessment";
 import SlugKeywordAssessment from "./assessments/seo/UrlKeywordAssessment";
 import Assessor from "./assessor";
 import MetaDescriptionLengthAssessment from "./assessments/seo/MetaDescriptionLengthAssessment";
@@ -50,7 +50,7 @@ const TaxonomyAssessor = function( researcher, options ) {
 		new MetaDescriptionKeywordAssessment(),
 		new MetaDescriptionLengthAssessment(),
 		getTextLengthAssessment(),
-		new TitleKeywordAssessment(),
+		new KeyphraseInSEOTitleAssessment(),
 		new PageTitleWidthAssessment(
 			{
 				scores: {
