@@ -87,6 +87,51 @@ describe( "A test for tokenizing a (html) text into sentences", function() {
 		expect( mockTokenizer.getSentencesFromTokens( tokens ) ).toEqual(   [ "<form>One cat is special.</form>five is perfect!" ] );
 	} );
 
+	it( "does not split sentences if it contains an abbreviation", function() {
+		const tokens = [
+			{ type: "sentence", src: "Our feline teacher is called Prof" },
+			{ type: "full-stop", src: "." },
+			{ type: "sentence", src: " Felix the cat" },
+			{ type: "full-stop", src: "." },
+		];
+		expect( mockTokenizer.getSentencesFromTokens( tokens ) ).toEqual(   [ "Our feline teacher is called Prof. Felix the cat." ] );
+	} );
+
+	it( "does not split sentences if last word is No. and a number. ", function() {
+		const tokens = [
+			{ type: "sentence", src: "My favorite song is Mambo No" },
+			{ type: "full-stop", src: "." },
+			{ type: "sentence", src: " 5" },
+			{ type: "full-stop", src: "." },
+		];
+		expect( mockTokenizer.getSentencesFromTokens( tokens ) ).toEqual(   [ "My favorite song is Mambo No. 5." ] );
+	} );
+
+	it( "endsWithAbbreviation returns true if a string ends in an abbreviation", function() {
+		const testString = "This string ends with an abbreviation e.g.";
+		expect( mockTokenizer.endsWithAbbreviation( testString ) ).toBeTruthy();
+	} );
+
+	it( "endsWithAbbreviation returns false if a string does not end with an abbreviation,", function() {
+		const testString = "This string does not end with an abbreviation.";
+		expect( mockTokenizer.endsWithAbbreviation( testString ) ).toBeFalsy();
+	} );
+
+	it( "endsWithAbbreviation returns false if string does not end with an abbreviation but has an abbreviation in the middle.", function() {
+		const testString = "This is e.g. a sentence.";
+		expect( mockTokenizer.endsWithAbbreviation( testString ) ).toBeFalsy();
+	} );
+
+	it( "endsWithAbbreviation returns true if string contains multiple abbreviations and ends with one.", function() {
+		const testString = "Prof. Barabas was helped by Dr.";
+		expect( mockTokenizer.endsWithAbbreviation( testString ) ).toBeTruthy();
+	} );
+
+	it( "endsWithAbbreviation returns false if string contains multiple abbreviations and does not end with one.", function() {
+		const testString = "Prof. Barabas was helped by Dr. Wargaren.";
+		expect( mockTokenizer.endsWithAbbreviation( testString ) ).toBeFalsy();
+	} );
+
 	it( "splits sentences if 'block-end' is preceded by a sentence ending and followed by a valid sentence beginning.", function() {
 		let tokens = [
 			{ type: "block-start", src: "<form>" },
