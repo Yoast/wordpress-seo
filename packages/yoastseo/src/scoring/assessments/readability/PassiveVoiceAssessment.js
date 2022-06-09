@@ -9,7 +9,6 @@ import { stripIncompleteTags as stripTags } from "../../../languageProcessing/he
 import AssessmentResult from "../../../values/AssessmentResult";
 import Mark from "../../../values/Mark";
 import Assessment from "../assessment";
-import hasEnoughContent from "../../helpers/assessments/hasEnoughContent";
 
 /**
  * Represents the assessment that checks whether there are passive sentences in the text.
@@ -154,6 +153,6 @@ export default class PassiveVoiceAssessment extends Assessment {
 	 * @returns {boolean} Returns true if the language is available and the paper is not empty.
 	 */
 	isApplicable( paper, researcher ) {
-		return hasEnoughContent( paper ) && researcher.hasResearch( "getPassiveVoiceResult" );
+		return this.hasEnoughContentForAssessment( paper ) && researcher.hasResearch( "getPassiveVoiceResult" );
 	}
 }
