@@ -22,7 +22,7 @@ class Image_Presenter extends Abstract_Indexable_Tag_Presenter {
 	 *
 	 * @var string
 	 */
-	protected $escaping = 'attribute';
+	protected $escaping = 'url';
 
 	/**
 	 * Run the Twitter image value through the `wpseo_twitter_image` filter.

@@ -81,6 +81,15 @@ class WPSEO_Option_Tab {
 	}
 
 	/**
+	 * Retrieves whether the tab hosts premium functionalities.
+	 *
+	 * @return bool True whether the tab hosts premium functionalities.
+	 */
+	public function is_premium() {
+		return (bool) $this->get_argument( 'premium', false );
+	}
+
+	/**
 	 * Gets the option group.
 	 *
 	 * @return string The option group.

@@ -34,6 +34,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'indexing_started'                         => null,
 		'indexing_reason'                          => '',
 		'indexables_indexing_completed'            => false,
+		'index_now_key'                            => '',
 		// Non-form field, should only be set via validation routine.
 		'version'                                  => '', // Leave default as empty to ensure activation/upgrade works.
 		'previous_version'                         => '',
@@ -54,6 +55,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'enable_cornerstone_content'               => true,
 		'enable_xml_sitemap'                       => true,
 		'enable_text_link_counter'                 => true,
+		'enable_index_now'                         => false,
 		'show_onboarding_notice'                   => false,
 		'first_activated_on'                       => false,
 		'myyoast-oauth'                            => [
@@ -91,8 +93,24 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'first_time_install'                       => false,
 		'should_redirect_after_install_free'       => false,
 		'activation_redirect_timestamp_free'       => 0,
+		'remove_feed_global'                       => false,
+		'remove_feed_global_comments'              => false,
 		'remove_feed_post_comments'                => false,
+		'remove_feed_authors'                      => false,
+		'remove_feed_categories'                   => false,
+		'remove_feed_tags'                         => false,
+		'remove_feed_custom_taxonomies'            => false,
+		'remove_feed_post_types'                   => false,
+		'remove_feed_search'                       => false,
 		'remove_atom_rdf_feeds'                    => false,
+		'remove_shortlinks'                        => false,
+		'remove_rest_api_links'                    => false,
+		'remove_rsd_wlw_links'                     => false,
+		'remove_oembed_links'                      => false,
+		'remove_generator'                         => false,
+		'remove_emoji_scripts'                     => false,
+		'remove_powered_by_header'                 => false,
+		'remove_pingback_header'                   => false,
 	];
 
 	/**
@@ -277,6 +295,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'license_server_version':
 				case 'home_url':
 				case 'zapier_api_key':
+				case 'index_now_key':
 				case 'wincher_website_id':
 					if ( isset( $dirty[ $key ] ) ) {
 						$clean[ $key ] = $dirty[ $key ];
@@ -396,8 +415,24 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				 *  'dynamic_permalinks'
 				 *  'indexing_first_time'
 				 *  'first_time_install'
+				 *  'remove_feed_global'
+				 *  'remove_feed_global_comments'
 				 *  'remove_feed_post_comments'
+				 *  'remove_feed_authors'
+				 *  'remove_feed_categories'
+				 *  'remove_feed_tags'
+				 *  'remove_feed_custom_taxonomies'
+				 *  'remove_feed_post_types'
+				 *  'remove_feed_search'
 				 *  'remove_atom_rdf_feeds'
+				 *  'remove_shortlinks'
+				 *  'remove_rest_api_links'
+				 *  'remove_rsd_wlw_links'
+				 *  'remove_oembed_links'
+				 *  'remove_generator'
+				 *  'remove_emoji_scripts'
+				 *  'remove_powered_by_header'
+				 *  'remove_pingback_header'
 				 *  'should_redirect_after_install_free'
 				 *  and most of the feature variables.
 				 */
@@ -440,8 +475,25 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 			'semrush_integration_active'     => false,
 			'zapier_integration_active'      => false,
 			'wincher_integration_active'     => false,
+			'remove_feed_global'             => false,
+			'remove_feed_global_comments'    => false,
 			'remove_feed_post_comments'      => false,
+			'enable_index_now'               => false,
+			'remove_feed_authors'            => false,
+			'remove_feed_categories'         => false,
+			'remove_feed_tags'               => false,
+			'remove_feed_custom_taxonomies'  => false,
+			'remove_feed_post_types'         => false,
+			'remove_feed_search'             => false,
 			'remove_atom_rdf_feeds'          => false,
+			'remove_shortlinks'              => false,
+			'remove_rest_api_links'          => false,
+			'remove_rsd_wlw_links'           => false,
+			'remove_oembed_links'            => false,
+			'remove_generator'               => false,
+			'remove_emoji_scripts'           => false,
+			'remove_powered_by_header'       => false,
+			'remove_pingback_header'         => false,
 		];
 
 		// We can reuse this logic from the base class with the above defaults to parse with the correct feature values.

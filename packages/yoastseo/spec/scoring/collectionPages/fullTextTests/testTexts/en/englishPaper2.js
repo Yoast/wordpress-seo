@@ -53,10 +53,10 @@ const expectedResults = {
 		score: 9,
 		resultText: "<a href='https://yoa.st/shopify58' target='_blank'>Text length</a>: The text contains 168 words. Good job!",
 	},
-	titleKeyword: {
+	keyphraseInSEOTitle: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/shopify24' target='_blank'>Keyphrase in title</a>: The exact match of the focus keyphrase " +
+		resultText: "<a href='https://yoa.st/shopify24' target='_blank'>Keyphrase in SEO title</a>: The exact match of the focus keyphrase " +
 			"appears at the beginning of the SEO title. Good job!",
 	},
 	titleWidth: {
@@ -101,8 +101,8 @@ const expectedResults = {
 	},
 	passiveVoice: {
 		isApplicable: true,
-		score: 6,
-		resultText: "<a href='https://yoa.st/shopify42' target='_blank'>Passive voice</a>: 14.3% of the sentences contain passive voice, " +
+		score: 3,
+		resultText: "<a href='https://yoa.st/shopify42' target='_blank'>Passive voice</a>: 15.4% of the sentences contain passive voice, " +
 			"which is more than the recommended maximum of 10%. <a href='https://yoa.st/shopify43' target='_blank'>" +
 			"Try to use their active counterparts</a>.",
 	},

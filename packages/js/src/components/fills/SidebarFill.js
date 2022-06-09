@@ -3,6 +3,7 @@ import { Fill } from "@wordpress/components";
 import { Fragment } from "@wordpress/element";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
+import { get } from "lodash";
 
 /* Internal dependencies */
 import CollapsibleCornerstone from "../../containers/CollapsibleCornerstone";
@@ -16,6 +17,7 @@ import SchemaTabContainer from "../../containers/SchemaTab";
 import SidebarCollapsible from "../SidebarCollapsible";
 import AdvancedSettings from "../../containers/AdvancedSettings";
 import WincherSEOPerformanceModal from "../../containers/WincherSEOPerformanceModal";
+import WebinarPromoNotification from "../WebinarPromoNotification";
 
 /* eslint-disable complexity */
 /**
@@ -30,11 +32,16 @@ import WincherSEOPerformanceModal from "../../containers/WincherSEOPerformanceMo
  * @constructor
  */
 export default function SidebarFill( { settings } ) {
+	const webinarIntroBlockEditorUrl = get( window, "wpseoScriptData.webinarIntroBlockEditorUrl", "https://yoa.st/webinar-intro-block-editor" );
+
 	return (
 		<Fragment>
 			<Fill name="YoastSidebar">
 				<SidebarItem key="warning" renderPriority={ 1 }>
 					<Warning />
+					<div style={ { margin: "0 16px" } }>
+						<WebinarPromoNotification hasIcon={ false } image={ null } url={ webinarIntroBlockEditorUrl } />
+					</div>
 				</SidebarItem>
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="keyword-input" renderPriority={ 8 }>
 					<KeywordInput
