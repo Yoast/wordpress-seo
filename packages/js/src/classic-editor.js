@@ -19,6 +19,7 @@ import { initTermDescriptionTinyMce } from "./initializers/tiny-mce";
 import { initialize as initPublishBox } from "./ui/publishBox";
 import { registerFeaturedImagePlugin, registerMarkdownPlugin, registerSeoTitleWidthPlugin, registerShortcodePlugin } from "./classic-editor/plugins";
 import { getContentTypeReplacements } from "./classic-editor/content-types";
+import initializeUsedKeyphrasesAssessment from "./classic-editor/plugins/used-keyphrases-assessment";
 
 // These are either "1" or undefined.
 const isPost = Boolean( get( window, "wpseoScriptData.isPost" ) );
@@ -88,6 +89,10 @@ const initPost = async() => {
 	} );
 	// Register global Yoast APIs.
 	registerYoastApis( { analysisWorker } );
+	initializeUsedKeyphrasesAssessment(
+		"get_focus_keyword_usage",
+		window.YoastSEO.app.refresh
+	);
 	// Start watching for DOM/store changes.
 	initPostWatcher();
 	// Render metabox with provider.
@@ -110,6 +115,10 @@ const initTerm = async() => {
 	} );
 	// Register global Yoast APIs.
 	registerYoastApis( { analysisWorker } );
+	initializeUsedKeyphrasesAssessment(
+		"get_term_keyword_usage",
+		window.YoastSEO.app.refresh
+	);
 	// Start watching for DOM/store changes.
 	initTermWatcher();
 	// Render metabox with provider.
