@@ -4385,12 +4385,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/wordproof/wordpress-sdk.git",
-                "reference": "8cf580dfb66eaa32c15e2a7a480d5fd356dcc09e"
+                "reference": "d0637594424e4b35fb865ab92856572f7bd7bcdc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wordproof/wordpress-sdk/zipball/8cf580dfb66eaa32c15e2a7a480d5fd356dcc09e",
-                "reference": "8cf580dfb66eaa32c15e2a7a480d5fd356dcc09e",
+                "url": "https://api.github.com/repos/wordproof/wordpress-sdk/zipball/d0637594424e4b35fb865ab92856572f7bd7bcdc",
+                "reference": "d0637594424e4b35fb865ab92856572f7bd7bcdc",
                 "shasum": ""
             },
             "require": {
@@ -4429,7 +4429,7 @@
                 "issues": "https://github.com/wordproof/wordpress-sdk/issues",
                 "source": "https://github.com/wordproof/wordpress-sdk/tree/1.2.21"
             },
-            "time": "2022-06-08T13:02:07+00:00"
+            "time": "2022-06-09T13:04:30+00:00"
         },
         {
             "name": "wp-coding-standards/wpcs",
