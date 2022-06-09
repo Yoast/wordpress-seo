@@ -18,13 +18,6 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 	protected $key = 'og:image';
 
 	/**
-	 * The method of escaping to use.
-	 *
-	 * @var string
-	 */
-	protected $escaping = 'url';
-
-	/**
 	 * Image tags that we output for each image.
 	 *
 	 * @var array
