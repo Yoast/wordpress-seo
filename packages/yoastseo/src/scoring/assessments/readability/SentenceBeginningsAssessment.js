@@ -7,7 +7,6 @@ import { stripIncompleteTags as stripTags } from "../../../languageProcessing/he
 import AssessmentResult from "../../../values/AssessmentResult";
 import Mark from "../../../values/Mark";
 import Assessment from "../assessment";
-import hasEnoughContent from "../../helpers/assessments/hasEnoughContent";
 
 const maximumConsecutiveDuplicates = 2;
 
@@ -161,6 +160,6 @@ export default class SentenceBeginningsAssessment extends Assessment {
 	 * @returns {boolean} Returns true if the language is available and the paper is not empty.
 	 */
 	isApplicable( paper, researcher ) {
-		return hasEnoughContent( paper ) && researcher.hasResearch( "getSentenceBeginnings" );
+		return this.hasEnoughContentForAssessment( paper ) && researcher.hasResearch( "getSentenceBeginnings" );
 	}
 }
