@@ -104,7 +104,7 @@ describe( "An assessment for scoring too long paragraphs in Japanese in which ch
 
 describe( "Applicability of the assessment.", function() {
 	it( "should return true for isApplicable on a paper with text.", function() {
-		const paper = new Paper( "This is a very interesting paper." );
+		const paper = new Paper( "This is a very interesting paper. With at least fifty characters." );
 		expect( paragraphTooLongAssessment.isApplicable( paper ) ).toBe( true );
 	} );
 	it( "should return false for isApplicable on a paper without text.", function() {
