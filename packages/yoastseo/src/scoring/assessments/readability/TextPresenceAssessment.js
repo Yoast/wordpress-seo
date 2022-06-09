@@ -3,7 +3,7 @@ import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import AssessmentResult from "../../../values/AssessmentResult";
 import Assessment from "../assessment";
 import { merge } from "lodash-es";
-import hasEnoughContent from "../../helpers/assessments/hasEnoughContent";
+
 
 /**
  * Represents the assessment that checks whether there is enough text in the paper.
@@ -38,7 +38,7 @@ export default class TextPresenceAssessment extends Assessment {
 	 */
 	// eslint-disable-next-line no-unused-vars
 	getResult( paper, researcher ) {
-		if ( ! hasEnoughContent( paper ) ) {
+		if ( ! this.hasEnoughContentForAssessment( paper ) ) {
 			const result = new AssessmentResult();
 
 			result.setText( sprintf(
