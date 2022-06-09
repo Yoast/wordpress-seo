@@ -1,9 +1,9 @@
 import { __, sprintf } from "@wordpress/i18n";
-import { inRange } from "lodash-es";
+import { inRange, isUndefined } from "lodash-es";
 
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import AssessmentResult from "../../../values/AssessmentResult";
-import hasEnoughContent from "../../helpers/assessments/hasEnoughContent";
+import { sanitizeString } from "../../../languageProcessing";
 
 /**
  * Calculates the assessment result based on the score.
@@ -152,11 +152,20 @@ const getFleschReadingResult = function( paper, researcher ) {
  *
  * @param {Paper}       paper       The paper to check.
  * @param {Researcher}  researcher  The researcher object.
+ * @param {number}		contentNeededForAssessment the minimum amount of characters that is required for this research to be applicable.
  *
  * @returns {boolean} Returns true if the assessment is available and paper not empty.
  */
-const isApplicable = function( paper, researcher ) {
-	return hasEnoughContent( paper ) && researcher.hasResearch( "getFleschReadingScore" );
+const isApplicable = function( paper, researcher, contentNeededForAssessment = 50 ) {
+	/*
+	 Note: this code contains repetition from yoastseo/src/scoring/assessments/assessment.js.
+	 If FleshReadingEase is refactored to a class that extends Assessment,
+	 use this.hasEnoughContentForAssessment( paper ) instead of ext.length >= contentNeededForAssessment
+	*/
+	const text = sanitizeString( paper.getText() );
+
+	return  ! isUndefined( paper ) && text.length >= contentNeededForAssessment &&
+		researcher.hasResearch( "getFleschReadingScore" );
 };
 
 export default {
