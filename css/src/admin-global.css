@@ -675,6 +675,25 @@ body.folded .wpseo-admin-submit-fixed {
 	background: #a4286a;
 }
 
+.yoast label[for^="search_word_limit"],
+.yoast label[for^="search_character_limit"] {
+  width: 280px!important;
+  margin-bottom: 10px!important;
+}
+
+.yoast label[for^="clean_permalinks_extra_variables"] {
+  width: 220px!important;
+}
+
+.yoast input[id^="search_word_limit"],
+.yoast input[id^="search_character_limit"] {
+  width: 70px!important;
+}
+
+.yoast input[id^="clean_permalinks_extra_variables"] {
+  width: 380px!important;
+}
+
 .yoast .yoast-global-comments-feed-help,
 .yoast .yoast-global-comments-feed-help-free {
 	font-style: italic;

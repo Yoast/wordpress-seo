@@ -131,9 +131,9 @@ class Crawl_Settings_Integration implements Integration_Interface {
 		];
 
 		$this->search_cleanup_settings = [
-			'search_cleanup'          => \__( 'Search term filtering', 'wordpress-seo' ),
-			'search_cleanup_emoji'    => \__( 'Searches with emoji', 'wordpress-seo' ),
-			'search_cleanup_patterns' => \__( 'Searches with common spam patterns', 'wordpress-seo' ),
+			'search_cleanup'          => \__( 'Filter search terms', 'wordpress-seo' ),
+			'search_cleanup_emoji'    => \__( 'Filter searches with emoji', 'wordpress-seo' ),
+			'search_cleanup_patterns' => \__( 'Filter searches with common spam patterns', 'wordpress-seo' ),
 		];
 	}
 
@@ -193,11 +193,11 @@ class Crawl_Settings_Integration implements Integration_Interface {
 		$first_search_setting    = \array_slice( $this->search_cleanup_settings, 0, 1 );
 		$rest_search_settings    = \array_slice( $this->search_cleanup_settings, 1 );
 		$search_settings_toggles = [
-			'off' => \__( 'Disable', 'wordpress-seo' ),
-			'on'  => \__( 'Enable', 'wordpress-seo' ),
+			'off' => \__( 'Disabled', 'wordpress-seo' ),
+			'on'  => \__( 'Enabled', 'wordpress-seo' ),
 		];
 
-		$this->print_toggles( $first_search_setting, $yform, $is_network, \__( 'Search cleanup settings', 'wordpress-seo' ), \__( 'Clean up and restrict searches to prevent search spam.', 'wordpress-seo' ), $search_settings_toggles );
+		$this->print_toggles( $first_search_setting, $yform, $is_network, \__( 'Search cleanup settings', 'wordpress-seo' ), \__( 'Clean up and filter searches to prevent search spam.', 'wordpress-seo' ), $search_settings_toggles );
 
 		if ( ! $is_network ) {
 			$yform->number(
