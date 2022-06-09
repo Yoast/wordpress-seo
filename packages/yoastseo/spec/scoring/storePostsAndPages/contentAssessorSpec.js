@@ -267,7 +267,9 @@ describe( "A content assessor", function() {
 		} );
 
 		it( "Should have 4 available assessments for a basic supported language", function() {
-			const paper = new Paper( "test", { locale: "xx_XX" } );
+			// A text of at least 50 characters.
+			const longEnoughText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sagittis. There is more";
+			const paper = new Paper( longEnoughText, { locale: "xx_XX" } );
 			const contentAssessor = new ContentAssessor( new DefaultResearcher( paper ) );
 
 			contentAssessor.getPaper = function() {
