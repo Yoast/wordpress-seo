@@ -87,5 +87,4 @@ class Meta_Author_Presenter_Test extends TestCase {
 
 		$this->assertEquals( $output, $this->instance->present() );
 	}
-
 }
