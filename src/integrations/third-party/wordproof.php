@@ -82,6 +82,11 @@ class Wordproof implements Integration_Interface {
 		 */
 		\add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_assets' ], 10, 0 );
 
+        /**
+         * Add async to the wordproof scripts.
+         */
+        \add_filter( 'script_loader_tag', [ $this, 'add_async_to_script' ], 10, 3);
+
 		/**
 		 * Removes the post meta timestamp key for the old privacy page.
 		 */
@@ -192,4 +197,22 @@ class Wordproof implements Integration_Interface {
 			$this->asset_manager->enqueue_script( 'wordproof-uikit' );
 		}
 	}
+
+
+    /**
+     * Adds async to the wordproof-uikit script.
+     *
+     * @param string $tag The script tag for the enqueued script.
+     * @param string $handle The script's registered handle.
+     * @param string $src The script's source URL.
+     *
+     * @return string The script's tag.
+     */
+    public function add_async_to_script($tag, $handle, $src) {
+        if ($handle !== WPSEO_Admin_Asset_Manager::PREFIX . 'wordproof-uikit') {
+            return $tag;
+        }
+
+        return "<script src={$src} async></script>";
+    }
 }
