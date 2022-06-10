@@ -19,4 +19,13 @@ class Wordproof_App_Config extends DefaultAppConfig {
 	public function getPartner() {
 		return 'yoast';
 	}
+
+	/**
+	 * Returns if the WordProof Uikit should be loaded from a cdn.
+	 *
+	 * @return boolean True or false.
+	 */
+	public function getLoadUikitFromCdn() {
+		return false;
+	}
 }
