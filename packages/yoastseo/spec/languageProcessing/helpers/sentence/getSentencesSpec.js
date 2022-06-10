@@ -41,9 +41,9 @@ describe( "Get sentences from text", function() {
 		const sentence = "Hello. \"How are you.\" Bye";
 		expect( getSentences( sentence ) ).toEqual( [ "Hello.", "\"How are you.\"", "Bye" ] );
 	} );
-	it( "returns sentences", function() {
-		const sentence = "Hello. \"How are you\" bye";
-		expect( getSentences( sentence ) ).toEqual( [ "Hello.", "\"How are you\" bye" ] );
+	it( "splits sentences ending on a quotation mark followed by a period", function() {
+		const sentence = "Hello. \"How are you\". Bye";
+		expect( getSentences( sentence ) ).toEqual( [ "Hello.", "\"How are you\".", "Bye" ] );
 	} );
 	it( "returns sentences", function() {
 		const sentence = "Hello. How are you? Bye";
