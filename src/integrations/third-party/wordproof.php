@@ -85,7 +85,7 @@ class Wordproof implements Integration_Interface {
         /**
          * Add async to the wordproof scripts.
          */
-        \add_filter( 'script_loader_tag', [ $this, 'add_async_to_script' ], 10, 3);
+        \add_filter( 'script_loader_tag', [ $this, 'add_async_to_script' ], 10, 3 );
 
 		/**
 		 * Removes the post meta timestamp key for the old privacy page.
