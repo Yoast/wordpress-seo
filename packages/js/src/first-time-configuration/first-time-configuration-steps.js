@@ -227,15 +227,13 @@ export default function FirstTimeConfigurationSteps() {
 		if ( indexingState === "completed" ) {
 			const indexationNotice = document.getElementById( "wpseo-reindex" );
 			if ( indexationNotice ) {
-				let allCounters = document.querySelectorAll( ".yoast-issue-counter" );
+				const allCounters = document.querySelectorAll( ".yoast-issue-counter, #toplevel_page_wpseo_dashboard .update-plugins" );
 
-				// Update the notification counters
-				if ( allCounters ) {
+				// Update the notification counters if there are any (non-zero ones).
+				if ( allCounters.length > 0 && allCounters[ 0 ].firstChild.textContent !== "0" ) {
 					// Get the oldCount for easier targeting.
 					const oldCount = allCounters[ 0 ].firstChild.textContent;
 					const newCount = ( parseInt( oldCount, 10 ) - 1 ).toString();
-					// Find and add the sidebar counters
-					allCounters = [ ...allCounters, ...document.querySelectorAll( "#toplevel_page_wpseo_dashboard .update-plugins.count-" + oldCount ) ];
 					allCounters.forEach( ( counterNode => {
 						// The classList replace will return false if the class was not present (and thus an adminbar counter).
 						const isAdminBarCounter = ! counterNode.classList.replace( "count-" + oldCount, "count-" + newCount );
