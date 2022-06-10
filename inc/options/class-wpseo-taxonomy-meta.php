@@ -424,7 +424,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	 */
 	public static function set_values( $term_id, $taxonomy, array $meta_values ) {
 		try {
-			self::get_taxonomy_metadata_service()->set_options( $term_id, $taxonomy, $meta_values );
+			self::get_taxonomy_metadata_service()->set_term_options( $term_id, $taxonomy, $meta_values );
 		} catch ( Abstract_Option_Exception $exception ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch -- Deliberately left empty.
 		} catch ( Abstract_Validation_Exception $exception ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch -- Deliberately left empty.
 		}

@@ -1379,6 +1379,9 @@ SVG;
 	 *
 	 * @since 3.0.0
 	 *
+	 * @deprecated xx.x
+	 * @codeCoverageIgnore
+	 *
 	 * @return bool
 	 */
 	public static function is_development_mode() {

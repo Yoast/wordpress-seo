@@ -5,6 +5,8 @@
  * @package WPSEO\Admin
  */
 
+use Yoast\WP\SEO\Services\Options\Network_Admin_Options_Service;
+
 if ( ! defined( 'WPSEO_VERSION' ) ) {
 	header( 'Status: 403 Forbidden' );
 	header( 'HTTP/1.1 403 Forbidden' );
@@ -93,7 +95,16 @@ if ( isset( $_POST['submithtaccess'] ) ) {
 
 if ( is_multisite() ) {
 	$action_url = network_admin_url( 'admin.php?page=wpseo_files' );
-	$yform->admin_header( false, 'wpseo_ms' );
+
+	/**
+	 * Indicates this variable is a Network_Admin_Options_Service.
+	 *
+	 * @var \Yoast\WP\SEO\Services\Options\Network_Admin_Options_Service $network_admin_options_service
+	 */
+	$network_admin_options_service = YoastSEO()->classes->get( Network_Admin_Options_Service::class );
+
+	$yform = Yoast_Form::get_instance();
+	$yform->admin_header( false, $network_admin_options_service->option_name );
 }
 else {
 	$action_url = admin_url( 'admin.php?page=wpseo_tools&tool=file-editor' );

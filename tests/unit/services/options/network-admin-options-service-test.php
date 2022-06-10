@@ -28,35 +28,35 @@ class Network_Admin_Options_Service_Test extends TestCase {
 	/**
 	 * Holds the instance to test.
 	 *
-	 * @var Network_Admin_Options_Service|Mockery\Mock
+	 * @var Network_Admin_Options_Service
 	 */
 	protected $instance;
 
 	/**
 	 * Holds the multisite options service instance.
 	 *
-	 * @var Multisite_Options_Service|Mockery\Mock
+	 * @var Multisite_Options_Service|Mockery\MockInterface
 	 */
 	protected $multisite_options_service;
 
 	/**
 	 * Holds the validation helper instance.
 	 *
-	 * @var Validation_Helper|Mockery\Mock
+	 * @var Validation_Helper|Mockery\MockInterface
 	 */
 	protected $validation_helper;
 
 	/**
 	 * Holds the post type helper instance.
 	 *
-	 * @var Post_Type_Helper|Mockery\Mock
+	 * @var Post_Type_Helper|Mockery\MockInterface
 	 */
 	protected $post_type_helper;
 
 	/**
 	 * Holds the taxonomy helper instance.
 	 *
-	 * @var Taxonomy_Helper|Mockery\Mock
+	 * @var Taxonomy_Helper|Mockery\MockInterface
 	 */
 	protected $taxonomy_helper;
 

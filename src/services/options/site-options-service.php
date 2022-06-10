@@ -76,11 +76,12 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'types'   => [ 'empty_string', 'url' ],
 		],
 		'pinterestverify'                             => [
-			'default' => '',
-			'types'   => [
+			'default'    => '',
+			'types'      => [
 				'empty_string',
 				'verification' => [ 'pattern' => '`^[A-Fa-f0-9_-]+$`' ],
 			],
+			'ms_exclude' => true,
 		],
 		'twitter'                                     => [
 			'default' => true,
@@ -483,15 +484,17 @@ class Site_Options_Service extends Abstract_Options_Service {
 
 		// WPSEO.
 		'algolia_integration_active'                  => [
-			'default' => false,
-			'types'   => [ 'boolean' ],
+			'default'   => false,
+			'types'     => [ 'boolean' ],
+			'ms_verify' => false,
 		],
 		'baiduverify'                                 => [
-			'default' => '',
-			'types'   => [
+			'default'    => '',
+			'types'      => [
 				'empty_string',
 				'verification' => [ 'pattern' => '`^[A-Za-z0-9_-]+$`' ],
 			],
+			'ms_exclude' => true,
 		],
 		'category_base_url'                           => [
 			'default' => '',
@@ -582,11 +585,12 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'types'   => [ 'boolean' ],
 		],
 		'googleverify'                                => [
-			'default' => '',
-			'types'   => [
+			'default'    => '',
+			'types'      => [
 				'empty_string',
 				'verification' => [ 'pattern' => '`^[A-Za-z0-9_-]+$`' ],
 			],
+			'ms_exclude' => true,
 		],
 		'has_multiple_authors'                        => [
 			'default' => '',
@@ -644,11 +648,12 @@ class Site_Options_Service extends Abstract_Options_Service {
 			'types'   => [ 'boolean' ],
 		],
 		'msverify'                                    => [
-			'default' => '',
-			'types'   => [
+			'default'    => '',
+			'types'      => [
 				'empty_string',
 				'verification' => [ 'pattern' => '`^[A-Fa-f0-9_-]+$`' ],
 			],
+			'ms_exclude' => true,
 		],
 		'myyoast-oauth'                               => [
 			'default' => [
@@ -752,14 +757,23 @@ class Site_Options_Service extends Abstract_Options_Service {
 		],
 		'workouts_data'                               => [
 			'default' => [ 'configuration' => [ 'finishedSteps' => [] ] ],
-			'types'   => [ 'string' ],
+			'types'   => [ 'array' ],
+		],
+		'configuration_finished_steps'                => [
+			'default' => [],
+			'types'   => [ 'array' ],
+		],
+		'other_social_urls'                           => [
+			'default' => [],
+			'types'   => [ 'json-text-fields' ],
 		],
 		'yandexverify'                                => [
-			'default' => '',
-			'types'   => [
+			'default'    => '',
+			'types'      => [
 				'empty_string',
 				'verification' => [ 'pattern' => '`^[A-Fa-f0-9_-]+$`' ],
 			],
+			'ms_exclude' => true,
 		],
 		'zapier_api_key'                              => [
 			'default' => '',

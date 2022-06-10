@@ -134,6 +134,17 @@ class Taxonomy_Metadata_Service extends Abstract_Options_Service {
 	}
 
 	/**
+	 * Sets the options.
+	 *
+	 * @param array $values The option values.
+	 *
+	 * @throws Method_Unimplemented_Exception Always, use set_term_options instead.
+	 */
+	public function set_options( array $values ) {
+		throw Method_Unimplemented_Exception::for_method( __METHOD__, __CLASS__ );
+	}
+
+	/**
 	 * Retrieves the option/metadata value for a term.
 	 *
 	 * @param mixed       $term     The term name, (int) term id or (object) term.
@@ -220,7 +231,7 @@ class Taxonomy_Metadata_Service extends Abstract_Options_Service {
 	 *
 	 * @return void
 	 */
-	public function set_options( $term, $taxonomy, $values ) {
+	public function set_term_options( $term, $taxonomy, $values ) {
 		$term_id = $this->get_term_id( $term, $taxonomy );
 		if ( $term_id === null ) {
 			throw Term_Not_Found_Exception::for_term( $term, $taxonomy );

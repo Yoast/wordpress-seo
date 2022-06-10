@@ -3,8 +3,10 @@
 namespace Yoast\WP\SEO\Services\Options;
 
 use Yoast\WP\SEO\Exceptions\Option\Delete_Failed_Exception;
+use Yoast\WP\SEO\Exceptions\Option\Form_Invalid_Exception;
 use Yoast\WP\SEO\Exceptions\Option\Save_Failed_Exception;
 use Yoast\WP\SEO\Exceptions\Option\Unknown_Exception;
+use Yoast\WP\SEO\Exceptions\Validation\Abstract_Validation_Exception;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Helpers\Validation_Helper;
@@ -138,25 +140,36 @@ abstract class Abstract_Options_Service {
 	 * @throws Save_Failed_Exception When the save failed.
 	 */
 	public function __set( $key, $value ) {
+		$this->update_option( $key, $this->validate( $key, $value ) );
+	}
+
+	/**
+	 * Validates the option value.
+	 *
+	 * @param string $key   The option key.
+	 * @param mixed  $value The option value.
+	 *
+	 * @throws Unknown_Exception When the option does not exist.
+	 * @throws \Yoast\WP\SEO\Exceptions\Validation\Abstract_Validation_Exception When the value is invalid.
+	 *
+	 * @return mixed The valid option value.
+	 */
+	public function validate( $key, $value ) {
 		if ( ! \array_key_exists( $key, $this->get_configurations() ) ) {
 			throw Unknown_Exception::for_option( $key );
 		}
 
 		// Presuming the default is safe.
 		if ( $value === $this->get_configurations()[ $key ]['default'] ) {
-			$this->update_option( $key, $value );
-
-			return;
+			return $value;
 		}
-		// Only update when changed.
+		// Only validate when changed.
 		if ( $value === $this->get_values()[ $key ] ) {
-			return;
+			return $value;
 		}
 
 		// Validate, this can throw a Validation_Exception.
-		$value = $this->validation_helper->validate_as( $value, $this->get_configurations()[ $key ]['types'] );
-
-		$this->update_option( $key, $value );
+		return $this->validation_helper->validate_as( $value, $this->get_configurations()[ $key ]['types'] );
 	}
 
 	// phpcs:enable Squiz.Commenting.FunctionCommentThrowTag.WrongNumber
@@ -183,6 +196,52 @@ abstract class Abstract_Options_Service {
 			\ARRAY_FILTER_USE_KEY
 		);
 	}
+
+	// phpcs:disable Squiz.Commenting.FunctionCommentThrowTag.WrongNumber -- PHPCS doesn't take into account exceptions thrown in called methods.
+
+	/**
+	 * Sets the options.
+	 *
+	 * @param array $values The option values.
+	 *
+	 * @throws Save_Failed_Exception When the save failed.
+	 * @throws Form_Invalid_Exception When the option values cause exceptions.
+	 */
+	public function set_options( array $values ) {
+		$new_values  = $this->cached_values;
+		$exceptions  = [];
+		$has_changes = false;
+
+		foreach ( $values as $key => $value ) {
+			try {
+				$valid_value = $this->validate( $key, $value );
+			} catch ( Unknown_Exception $exception ) {
+				// Ignore the unknown options.
+				continue;
+			} catch ( Abstract_Validation_Exception $exception ) {
+				$exceptions[ $key ] = $exception;
+				continue;
+			}
+
+			// Only update when changed.
+			if ( $valid_value !== $new_values[ $key ] ) {
+				$has_changes        = true;
+				$new_values[ $key ] = $valid_value;
+			}
+		}
+
+		// Save to the database.
+		if ( $has_changes ) {
+			$this->update_wp_options( $new_values );
+		}
+
+		// Throw exception with the collected exceptions.
+		if ( \count( $exceptions ) !== 0 ) {
+			throw new Form_Invalid_Exception( $exceptions );
+		}
+	}
+
+	// phpcs:enable Squiz.Commenting.FunctionCommentThrowTag.WrongNumber
 
 	/**
 	 * Saves the options if the database row does not exist.

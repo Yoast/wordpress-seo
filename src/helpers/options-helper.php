@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Helpers;
 use WPSEO_Option_Social;
 use WPSEO_Option_Titles;
 use Yoast\WP\SEO\Exceptions\Option\Delete_Failed_Exception;
+use Yoast\WP\SEO\Exceptions\Option\Form_Invalid_Exception;
 use Yoast\WP\SEO\Exceptions\Option\Save_Failed_Exception;
 use Yoast\WP\SEO\Exceptions\Option\Unknown_Exception;
 use Yoast\WP\SEO\Exceptions\Validation\Abstract_Validation_Exception;
@@ -16,6 +17,8 @@ use Yoast\WP\SEO\Services\Options\Site_Options_Service;
  * A helper object for options.
  */
 class Options_Helper {
+
+	const INVALID_VALUE = 'YOAST_INVALID_VALUE';
 
 	/**
 	 * Holds the Site_Options_Service instance.
@@ -124,6 +127,24 @@ class Options_Helper {
 	}
 
 	/**
+	 * Validates an option value.
+	 *
+	 * @param string $key   The option key.
+	 * @param mixed  $value The option value.
+	 *
+	 * @return mixed The valid value, or self::INVALID_VALUE if unknown or unfixable.
+	 */
+	public function validate( $key, $value ) {
+		try {
+			return $this->get_options_service()->validate( $key, $value );
+		} catch ( Unknown_Exception $exception ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch -- Deliberately left empty.
+		} catch ( Abstract_Validation_Exception $exception ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch -- Deliberately left empty.
+		}
+
+		return self::INVALID_VALUE;
+	}
+
+	/**
 	 * Retrieves the options.
 	 *
 	 * @param string[] $keys Optionally request only these options.
@@ -132,6 +153,29 @@ class Options_Helper {
 	 */
 	public function get_options( array $keys = [] ) {
 		return $this->get_options_service()->get_options( $keys );
+	}
+
+	/**
+	 * Sets the options.
+	 *
+	 * @param array $options The options.
+	 *
+	 * @return array The result, containing `success` and `error` keys.
+	 */
+	public function set_options( array $options ) {
+		$result          = [ 'success' => false ];
+		$options_service = $this->get_options_service();
+
+		try {
+			$options_service->set_options( $options );
+			$result['success'] = true;
+		} catch ( Save_Failed_Exception $exception ) {
+			$result['error'] = $exception;
+		} catch ( Form_Invalid_Exception $exception ) {
+			$result['error'] = $exception;
+		}
+
+		return $result;
 	}
 
 	/**
@@ -180,6 +224,19 @@ class Options_Helper {
 			return;
 		}
 		$this->site_options_service->clear_cache();
+	}
+
+	/**
+	 * Retrieves the appropriate options service for the current location.
+	 *
+	 * @return Site_Options_Service|Multisite_Options_Service The options service.
+	 */
+	public function get_options_service() {
+		if ( $this->site_helper->is_multisite() ) {
+			return $this->multisite_options_service;
+		}
+
+		return $this->site_options_service;
 	}
 
 	/**
@@ -273,18 +330,5 @@ class Options_Helper {
 	 */
 	protected function get_separator_options() {
 		return WPSEO_Option_Titles::get_instance()->get_separator_options();
-	}
-
-	/**
-	 * Retrieves the appropriate options service for the current location.
-	 *
-	 * @return Site_Options_Service|Multisite_Options_Service The options service.
-	 */
-	protected function get_options_service() {
-		if ( $this->site_helper->is_multisite() ) {
-			return $this->multisite_options_service;
-		}
-
-		return $this->site_options_service;
 	}
 }

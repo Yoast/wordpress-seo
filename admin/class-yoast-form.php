@@ -6,6 +6,7 @@
  */
 
 use Yoast\WP\SEO\Exceptions\Option\Unknown_Exception;
+use Yoast\WP\SEO\Integrations\Options_Form_Integration;
 use Yoast\WP\SEO\Presenters\Admin\Light_Switch_Presenter;
 use Yoast\WP\SEO\Services\Options\Network_Admin_Options_Service;
 
@@ -52,15 +53,11 @@ class Yoast_Form {
 	 *
 	 * @since 2.0
 	 *
-	 * @param bool   $form             Whether or not the form start tag should be included.
-	 * @param string $option           The short name of the option to use for the current page.
-	 * @param bool   $contains_files   Whether the form should allow for file uploads.
-	 * @param bool   $option_long_name Group name of the option.
+	 * @param bool   $form           Whether the form start tag should be included.
+	 * @param string $option         The short name of the option to use for the current page.
+	 * @param bool   $contains_files Whether the form should allow for file uploads.
 	 */
-	public function admin_header( $form = true, $option = 'wpseo', $contains_files = false, $option_long_name = false ) {
-		if ( ! $option_long_name ) {
-			$option_long_name = WPSEO_Options::get_group_name( $option );
-		}
+	public function admin_header( $form = true, $option = 'wpseo_options', $contains_files = false ) {
 		?>
 		<div class="wrap yoast wpseo-admin-page <?php echo esc_attr( 'page-' . $option ); ?>">
 		<?php
@@ -86,7 +83,7 @@ class Yoast_Form {
 			}
 			else {
 				$action_url       = admin_url( 'options.php' );
-				$hidden_fields_cb = 'settings_fields';
+				$hidden_fields_cb = [ $this, 'form_fields' ];
 			}
 
 			echo '<form action="' .
@@ -95,9 +92,24 @@ class Yoast_Form {
 				$enctype . ' accept-charset="' .
 				esc_attr( get_bloginfo( 'charset' ) ) .
 				'" novalidate="novalidate">';
-			call_user_func( $hidden_fields_cb, $option_long_name );
+			call_user_func( $hidden_fields_cb, $option );
 		}
 		$this->set_option( $option );
+	}
+
+	/**
+	 * Outputs nonce, action and option group fields for an options page in the plugin.
+	 *
+	 * @param string $option The option name.
+	 *
+	 * @return void
+	 */
+	public function form_fields( $option ) {
+		?>
+		<input type="hidden" name="option" value="<?php echo esc_attr( $option ); ?>" />
+		<input type="hidden" name="action" value="<?php echo esc_attr( Options_Form_Integration::SET_OPTIONS_ACTION ); ?>" />
+		<?php
+		wp_nonce_field( Options_Form_Integration::SET_OPTIONS_ACTION . ":$option" );
 	}
 
 	/**
@@ -918,6 +930,20 @@ class Yoast_Form {
 			return false;
 		}
 
+		if ( is_multisite() && is_network_admin() ) {
+			/**
+			 * Indicates this variable is a Network_Admin_Options_Service.
+			 *
+			 * @var \Yoast\WP\SEO\Services\Options\Network_Admin_Options_Service $network_admin_options_service
+			 */
+			$network_admin_options_service = YoastSEO()->classes->get( Network_Admin_Options_Service::class );
+
+			try {
+				return $network_admin_options_service->__get( $field_name );
+			} catch ( Unknown_Exception $e ) {
+				return $default_value;
+			}
+		}
 		return WPSEO_Options::get( $field_name, $default_value );
 	}
 

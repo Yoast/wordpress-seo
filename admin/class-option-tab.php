@@ -74,9 +74,14 @@ class WPSEO_Option_Tab {
 	/**
 	 * Gets the option group.
 	 *
+	 * @deprecated xx.x
+	 * @codeCoverageIgnore
+	 *
 	 * @return string The option group.
 	 */
 	public function get_opt_group() {
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+
 		return $this->get_argument( 'opt_group' );
 	}
 
