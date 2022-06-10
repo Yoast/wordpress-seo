@@ -35,8 +35,11 @@ class Yoast_Network_Admin implements WPSEO_WordPress_AJAX_Integration, WPSEO_Wor
 	 */
 	protected $network_admin_options_service;
 
-	function __construct(){
-		$this->network_admin_options_service  = YoastSEO()->classes->get( Network_Admin_Options_Service::class );
+	/**
+	 * Class constructor.
+	 */
+	public function __construct() {
+		$this->network_admin_options_service = YoastSEO()->classes->get( Network_Admin_Options_Service::class );
 	}
 
 	/**
@@ -133,6 +136,7 @@ class Yoast_Network_Admin implements WPSEO_WordPress_AJAX_Integration, WPSEO_Wor
 			$value = null;
 			if ( isset( $_POST[ $option_name ] ) ) {
 				// Adding sanitize_text_field around this will break the saving of settings because it expects a string: https://github.com/Yoast/wordpress-seo/issues/12440.
+				// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 				$value = wp_unslash( $_POST[ $option_name ] );
 			}
 
