@@ -182,8 +182,15 @@ class Ryte_Integration implements Integration_Interface {
 			$parameters['wf_strict'] = 1;
 		}
 
-		$request  = new WPSEO_Ryte_Request();
-		$response = $request->do_request( get_option( 'home' ), $parameters );
+		$request = new WPSEO_Ryte_Request();
+
+		/**
+		 * Filter: 'wpseo_change_home_url' - Allow filtering the home URL that is used by our integrations, eg. the Ryte integration for indexability.
+		 *
+		 * @param string $site_url The home URL that is used by our integrations, eg. the Ryte integration for indexability.
+		 */
+		$site_url = \apply_filters( 'wpseo_change_home_url', get_option( 'home' ) );
+		$response = $request->do_request( $site_url, $parameters );
 
 		// Populate the ryte_response property.
 		$this->ryte_response = $response;

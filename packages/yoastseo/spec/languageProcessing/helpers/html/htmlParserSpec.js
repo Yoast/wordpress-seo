@@ -35,4 +35,14 @@ describe( "A function to remove the entire HTML style/script tag block.", functi
 	it( "filters out all pre blocks", function() {
 		expect( htmlParser( "Hi, this is a <pre>Test</pre>test." ) ).toEqual( "Hi, this is a test." );
 	} );
+	it( "filters an entire blockquote", function() {
+		expect( htmlParser( "<blockquote>Test</blockquote>" ) ).toEqual( "" );
+	} );
+	it( "filters out all blockquotes", function() {
+		expect( htmlParser( "Hi, this is a <blockquote>Test</blockquote>test." ) ).toEqual( "Hi, this is a test." );
+	} );
+	it( "filters out all blockquotes, including elements in it", function() {
+		expect( htmlParser( "This quote:<blockquote>Time spent with <strong>cats</strong> is never wasted." +
+			"<cite>Sigmund Freud</cite></blockquote> is great." ) ).toEqual( "This quote: is great." );
+	} );
 } );

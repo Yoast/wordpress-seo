@@ -28,7 +28,7 @@ import metaDescriptionLength from "./config/metaDescriptionLength";
 import morphology from "./customResearches/getWordForms";
 import getKeyphraseLength from "./customResearches/getKeyphraseLength";
 import textLengthResearch from "./customResearches/textLength";
-import findKeywordInPageTitle from "./customResearches/findKeywordInPageTitle";
+import findKeyphraseInSEOTitle from "./customResearches/findKeyphraseInSEOTitle";
 
 /**
  * The researches contains all the researches
@@ -78,7 +78,7 @@ export default class Researcher extends AbstractResearcher {
 			morphology,
 			keyphraseLength: getKeyphraseLength,
 			wordCountInText: textLengthResearch,
-			findKeywordInPageTitle,
+			findKeyphraseInSEOTitle,
 		} );
 	}
 }

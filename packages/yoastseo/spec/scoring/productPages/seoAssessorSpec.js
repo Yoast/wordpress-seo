@@ -318,8 +318,8 @@ describe( "running assessments in the product page SEO assessor", function() {
 			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/16' target='_blank'>" );
 		} );
 
-		test( "TitleKeywordAssessment", () => {
-			const assessment = assessor.getAssessment( "titleKeyword" );
+		test( "KeyphraseInSEOTitleAssessment", () => {
+			const assessment = assessor.getAssessment( "keyphraseInSEOTitle" );
 
 			expect( assessment ).toBeDefined();
 			expect( assessment._config ).toBeDefined();
