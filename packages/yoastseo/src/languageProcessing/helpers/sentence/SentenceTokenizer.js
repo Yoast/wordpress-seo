@@ -450,14 +450,15 @@ export default class SentenceTokenizer {
 						"block-end" !== nextToken.type &&
 						"sentence-delimiter" !== nextToken.type &&
 						this.isCharacterASpace( nextToken.src[ 0 ] ) ) {
+						// Don't split on quotation marks unless they're preceded by a full stop.
+						if ( token.src === "\"" && previousToken.src !== "." ) {
+							break;
+						}
 						/*
-				         * Only split on ellipsis when:
+				         * Only split on ellipsis or quotation marks when:
 					     * a) There is a next sentence, and the next character is a valid sentence beginning preceded by a white space, OR
 					     * b) The next token is a sentence start
 					    */
-						if ( ( token.src === "\"" && previousToken.src !== "." ) ) {
-							break;
-						}
 						if ( token.src === "…" || token.src === "\"" ) {
 							currentSentence = this.getValidSentence( hasNextSentence,
 								nextSentenceStart,
