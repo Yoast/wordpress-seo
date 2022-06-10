@@ -44,7 +44,7 @@ const getEntries = ( sourceDirectory = "./packages/js/src" ) => ( {
 	"react-select": `${ sourceDirectory }/externals/react-select.js`,
 	workouts: `${ sourceDirectory }/workouts.js`,
 	"wordproof-data": "./vendor_prefixed/wordproof/wordpress-sdk/resources/js/data.js",
-	"wordproof-uikit": "./node_modules/@wordproof/uikit",
+	"wordproof-uikit": `${ sourceDirectory }/wordproof-uikit.js`,
 	"wordproof-block-editor": "./vendor_prefixed/wordproof/wordpress-sdk/resources/js/wordproof-block-editor.js",
 	"wordproof-classic-editor": "./vendor_prefixed/wordproof/wordpress-sdk/resources/js/wordproof-classic-editor.js",
 	"wordproof-elementor-editor": "./vendor_prefixed/wordproof/wordpress-sdk/resources/js/wordproof-elementor-editor.js",

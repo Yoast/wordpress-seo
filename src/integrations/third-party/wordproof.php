@@ -2,6 +2,8 @@
 
 namespace Yoast\WP\SEO\Integrations\Third_Party;
 
+use WPSEO_Admin_Asset_Manager;
+use YoastSEO_Vendor\WordProof\SDK\Helpers\CertificateHelper;
 use YoastSEO_Vendor\WordProof\SDK\Helpers\PostMetaHelper;
 use YoastSEO_Vendor\WordProof\SDK\WordPressSDK;
 use Yoast\WP\SEO\Conditionals\Non_Multisite_Conditional;
@@ -33,12 +35,24 @@ class Wordproof implements Integration_Interface {
 	protected $wordproof;
 
 	/**
+	 * Asset manager instance.
+	 *
+	 * @var WPSEO_Admin_Asset_Manager
+	 */
+	protected $asset_manager;
+
+	/**
 	 * The WordProof integration constructor.
 	 *
 	 * @param Wordproof_Helper $wordproof The WordProof helper instance.
 	 */
-	public function __construct( Wordproof_Helper $wordproof ) {
-		$this->wordproof = $wordproof;
+	public function __construct( Wordproof_Helper $wordproof, \WPSEO_Admin_Asset_Manager $asset_manager = null ) {
+		if ( ! $asset_manager ) {
+			$asset_manager = new WPSEO_Admin_Asset_Manager();
+		}
+
+		$this->asset_manager = $asset_manager;
+		$this->wordproof     = $wordproof;
 	}
 
 	/**
@@ -62,6 +76,11 @@ class Wordproof implements Integration_Interface {
 		 * Used to initialize the WordProof WordPress SDK.
 		 */
 		\add_action( 'init', [ $this, 'sdk_setup' ], 11 );
+
+		/**
+		 * Enqueue the wordproof assets.
+		 */
+		\add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_assets' ], 10, 0 );
 
 		/**
 		 * Removes the post meta timestamp key for the old privacy page.
@@ -161,5 +180,16 @@ class Wordproof implements Integration_Interface {
 		];
 
 		return $fields;
+	}
+
+	/**
+	 * Enqueue the uikit script.
+	 *
+	 * @return void
+	 */
+	public function enqueue_assets() {
+		if ( CertificateHelper::show() ) {
+			$this->asset_manager->enqueue_script( 'wordproof-uikit' );
+		}
 	}
 }
