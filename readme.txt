@@ -239,13 +239,14 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 19.1 =
 Release Date: June 14th, 2022
 
+
 Enhancements:
 
+* Improves text analysis by splitting text on full-stop only when the next sentence is preceded by a whitespace.
 * Prompts users to set up their site in order to take advantage of all SEO features.
 
 Bugfixes:
 
-* Fixes a bug where focus keyphrase in uppercase that contains a period wouldn't get recognized in the text, e.g. \"ASP.NET\".
 * Fixes a bug where the \"Check links to this URL\" option on admin bar menu would lead to an error page on setups with home URL different from the site URL. Props to @suascat.
 * Fixes a bug where the network setting for the crawl cleanup feature would default to `Disable` when the super admin saved settings before upgrading/installing Premium.
 * Fixes a bug which caused the Spanish transition word `para ilustrar` to not be recognized by the transition words assessment.
