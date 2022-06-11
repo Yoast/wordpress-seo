@@ -111,7 +111,7 @@ function wpseo_save_what( $what ) {
  * @param string $meta_key        Meta key string.
  * @param string $return_key      Return key string to use in results.
  *
- * @return string
+ * @return array
  */
 function wpseo_upsert_meta( $post_id, $new_meta_value, $orig_meta_value, $meta_key, $return_key ) {
 
