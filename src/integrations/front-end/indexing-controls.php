@@ -2,7 +2,9 @@
 
 namespace Yoast\WP\SEO\Integrations\Front_End;
 
+use WP_Query;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Robots_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
@@ -19,6 +21,13 @@ class Indexing_Controls implements Integration_Interface {
 	protected $robots;
 
 	/**
+	 * The options helper.
+	 *
+	 * @var Options_Helper
+	 */
+	private $options;
+
+	/**
 	 * Returns the conditionals based in which this loadable should be active.
 	 *
 	 * @return array
@@ -32,10 +41,12 @@ class Indexing_Controls implements Integration_Interface {
 	 *
 	 * @codeCoverageIgnore Sets the dependencies.
 	 *
-	 * @param Robots_Helper $robots The robots helper.
+	 * @param Robots_Helper  $robots  The robots helper.
+	 * @param Options_Helper $options The options helper.
 	 */
-	public function __construct( Robots_Helper $robots ) {
-		$this->robots = $robots;
+	public function __construct( Robots_Helper $robots, Options_Helper $options ) {
+		$this->robots  = $robots;
+		$this->options = $options;
 	}
 
 	/**
@@ -63,6 +74,29 @@ class Indexing_Controls implements Integration_Interface {
 		\remove_action( 'wp_head', 'start_post_rel_link' );
 		\remove_action( 'wp_head', 'adjacent_posts_rel_link_wp_head' );
 		\remove_action( 'wp_head', 'noindex', 1 );
+
+		\add_action( 'pre_get_posts', 'disable_date_queries' );
+	}
+
+	/**
+	 * Disable date queries, if they're disabled in Yoast SEO settings, to prevent indexing the wrong things.
+	 *
+	 * @param WP_Query $query The query object.
+	 *
+	 * @return void
+	 */
+	public function disable_date_queries( $query ) {
+		if ( ! $this->options->get( 'disable-date', false ) ) {
+			return;
+		}
+
+		// If Yoast SEO 'disable date archives' is set to YES.
+		if ( ! is_admin() && $query->is_main_query() ) {
+			$query->set( 'year', '' );
+			$query->set( 'm', '' );
+			$query->set( 'monthnum', '' );
+			$query->set( 'day', '' );
+		}
 	}
 
 	/**
