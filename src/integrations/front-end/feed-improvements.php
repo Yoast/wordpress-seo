@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\YoastCom\Core\WordPress\Integration\YoastSEO;
+namespace Yoast\WP\SEO\Integrations\Front_End;
 
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
@@ -57,11 +57,11 @@ class Feed_Improvements implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
-		add_filter( 'get_bloginfo_rss', [ $this, 'filter_bloginfo_rss' ], 10, 2 );
-		add_filter( 'document_title_separator', [ $this, 'filter_document_title_separator' ] );
+		\add_filter( 'get_bloginfo_rss', [ $this, 'filter_bloginfo_rss' ], 10, 2 );
+		\add_filter( 'document_title_separator', [ $this, 'filter_document_title_separator' ] );
 
-		add_action( 'do_feed_rss', [ $this, 'send_canonical_header' ], 9 );
-		add_action( 'do_feed_rss2', [ $this, 'send_canonical_header' ], 9 );
+		\add_action( 'do_feed_rss', [ $this, 'send_canonical_header' ], 9 );
+		\add_action( 'do_feed_rss2', [ $this, 'send_canonical_header' ], 9 );
 	}
 
 	/**
@@ -84,13 +84,13 @@ class Feed_Improvements implements Integration_Interface {
 	 * Adds a canonical link header to the main canonical URL for the requested feed object.
 	 */
 	public function send_canonical_header() {
-		if ( headers_sent() ) {
+		if ( \headers_sent() ) {
 			return;
 		}
 
 		$url = $this->get_url_for_queried_object( $this->meta->for_home_page()->canonical );
 		if ( ! empty( $url ) ) {
-			header( sprintf( 'Link: <%s>; rel="canonical"', $url ), false );
+			\header( \sprintf( 'Link: <%s>; rel="canonical"', $url ), false );
 		}
 	}
 
@@ -102,7 +102,7 @@ class Feed_Improvements implements Integration_Interface {
 	 * @return string The separator from Yoast SEO's settings.
 	 */
 	public function filter_document_title_separator( $separator ) {
-		return html_entity_decode( $this->options->get_title_separator() );
+		return \html_entity_decode( $this->options->get_title_separator() );
 	}
 
 	/**
@@ -113,9 +113,9 @@ class Feed_Improvements implements Integration_Interface {
 	 * @return string The canonical URL for the queried object.
 	 */
 	protected function get_url_for_queried_object( $url = '' ) {
-		$queried_object = get_queried_object();
+		$queried_object = \get_queried_object();
 		// Don't call get_class with null. This gives a warning.
-		$class = ( $queried_object !== null ) ? get_class( $queried_object ) : null;
+		$class = ( $queried_object !== null ) ? \get_class( $queried_object ) : null;
 
 		switch ( $class ) {
 			// Post type archive feeds.
