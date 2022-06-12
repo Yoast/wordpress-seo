@@ -75,7 +75,9 @@ class Indexing_Controls implements Integration_Interface {
 		\remove_action( 'wp_head', 'adjacent_posts_rel_link_wp_head' );
 		\remove_action( 'wp_head', 'noindex', 1 );
 
-		\add_action( 'pre_get_posts', 'disable_date_queries' );
+		if ( $this->options->get( 'disable-date', false ) ) {
+			\add_action( 'pre_get_posts', [ $this, 'disable_date_queries' ] );
+		}
 	}
 
 	/**
@@ -86,11 +88,6 @@ class Indexing_Controls implements Integration_Interface {
 	 * @return void
 	 */
 	public function disable_date_queries( $query ) {
-		if ( ! $this->options->get( 'disable-date', false ) ) {
-			return;
-		}
-
-		// If Yoast SEO 'disable date archives' is set to YES.
 		if ( ! is_admin() && $query->is_main_query() ) {
 			$query->set( 'year', '' );
 			$query->set( 'm', '' );
