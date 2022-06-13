@@ -239,6 +239,7 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 19.1 =
 Release Date: June 14th, 2022
 
+
 Enhancements:
 
 * Improves text analysis by splitting text on full-stop only when the next sentence is preceded by a whitespace.
