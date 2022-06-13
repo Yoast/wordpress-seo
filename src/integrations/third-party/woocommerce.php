@@ -317,7 +317,7 @@ class WooCommerce implements Integration_Interface {
 	protected function get_shop_paginated_link( $rel, $presentation = null ) {
 		$presentation = $this->ensure_presentation( $presentation );
 
-		$permalink = $presentation->get_permalink();
+		$permalink = $presentation->permalink;
 		if ( ! $permalink ) {
 			return null;
 		}

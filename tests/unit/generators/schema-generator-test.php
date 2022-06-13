@@ -235,6 +235,11 @@ class Schema_Generator_Test extends TestCase {
 			->expects( 'register_replace_vars' )
 			->once();
 
+		$this->context
+			->expects( 'generate_main_schema_id' )
+			->once()
+			->andReturn( 'https://example.com/' );
+
 		$this->context->blocks = [];
 
 		$this->assertEquals(
@@ -261,7 +266,7 @@ class Schema_Generator_Test extends TestCase {
 					],
 					[
 						'@type'           => null,
-						'@id'             => '#webpage',
+						'@id'             => 'https://example.com/',
 						'url'             => null,
 						'name'            => '',
 						'isPartOf'        => [
@@ -335,6 +340,11 @@ class Schema_Generator_Test extends TestCase {
 		$this->replace_vars_helper
 			->expects( 'register_replace_vars' )
 			->once();
+
+		$this->context
+			->expects( 'generate_main_schema_id' )
+			->once()
+			->andReturn( 'https://example.com/example-post/' );
 
 		Monkey\Actions\expectDone( 'wpseo_pre_schema_block_type_yoast/faq-block' )
 			->with( $this->context->blocks['yoast/faq-block'], $this->context );
@@ -519,6 +529,11 @@ class Schema_Generator_Test extends TestCase {
 			->expects( 'register_replace_vars' )
 			->once();
 
+		$this->context
+			->expects( 'generate_main_schema_id' )
+			->once()
+			->andReturn( 'https://example.com/example-post/' );
+
 		$this->assertEquals(
 			$this->get_expected_schema(),
 			$this->instance->generate( $this->context )
@@ -596,6 +611,11 @@ class Schema_Generator_Test extends TestCase {
 				]
 			);
 
+		$this->context
+			->expects( 'generate_main_schema_id' )
+			->once()
+			->andReturn( 'https://example.com/' );
+
 		$this->assertEquals(
 			[
 				'@type'           => 'WebSite',
@@ -666,6 +686,11 @@ class Schema_Generator_Test extends TestCase {
 		$this->replace_vars_helper
 			->expects( 'register_replace_vars' )
 			->once();
+
+		$this->context
+			->expects( 'generate_main_schema_id' )
+			->once()
+			->andReturn( 'https://example.com/' );
 
 		Monkey\Filters\expectApplied( 'wpseo_schema_website' )
 			->once()
@@ -750,9 +775,14 @@ class Schema_Generator_Test extends TestCase {
 			->expects( 'register_replace_vars' )
 			->once();
 
+		$this->context
+			->expects( 'generate_main_schema_id' )
+			->once()
+			->andReturn( 'https://example.com/example-post/' );
+
 		$filtered_webpage_schema = [
 			'@type'      => 'WebPage',
-			'@id'        => '#webpage',
+			'@id'        => 'https://example.com/example-post/',
 			'url'        => null,
 			'name'       => '',
 			'isPartOf'   => [
@@ -854,6 +884,11 @@ class Schema_Generator_Test extends TestCase {
 			->expects( 'register_replace_vars' )
 			->once();
 
+		$this->context
+			->expects( 'generate_main_schema_id' )
+			->once()
+			->andReturn( 'https://fake.url/?s=searchterm' );
+
 		$this->context->blocks = [];
 
 		$this->assertEquals(
@@ -883,7 +918,7 @@ class Schema_Generator_Test extends TestCase {
 							'CollectionPage',
 							'SearchResultsPage',
 						],
-						'@id'             => '#webpage',
+						'@id'             => 'https://fake.url/?s=searchterm',
 						'url'             => 'https://fake.url/?s=searchterm',
 						'name'            => '',
 						'isPartOf'        => [
@@ -935,7 +970,7 @@ class Schema_Generator_Test extends TestCase {
 				],
 				[
 					'@type'           => [ null, 'FAQPage' ],
-					'@id'             => '#webpage',
+					'@id'             => 'https://example.com/example-post/',
 					'url'             => null,
 					'name'            => null,
 					'isPartOf'        => [

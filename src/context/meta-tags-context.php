@@ -26,6 +26,7 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
  * Class that contains all relevant data for rendering the meta tags.
  *
  * @property string       $canonical
+ * @property string       $permalink
  * @property string       $title
  * @property string       $description
  * @property string       $id
@@ -214,6 +215,25 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 */
 	public function generate_canonical() {
 		return $this->presentation->canonical;
+	}
+
+	/**
+	 * Generates the permalink.
+	 *
+	 * @return string
+	 */
+	public function generate_permalink() {
+		if ( ! \is_search() ) {
+			return $this->presentation->permalink;
+		}
+
+		$home_page_indexable = $this->indexable_repository->find_for_home_page();
+
+		if ( $this->indexable_helper->dynamic_permalinks_enabled() ) {
+			return \add_query_arg( 's', \get_search_query(), \trailingslashit( $this->permalink_helper->get_permalink_for_indexable( $home_page_indexable ) ) );
+		}
+
+		return \add_query_arg( 's', \get_search_query(), \trailingslashit( $home_page_indexable->permalink ) );
 	}
 
 	/**
@@ -539,7 +559,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * @return string
 	 */
 	public function generate_main_schema_id() {
-		return $this->canonical . Schema_IDs::WEBPAGE_HASH;
+		return $this->generate_permalink();
 	}
 
 	/**

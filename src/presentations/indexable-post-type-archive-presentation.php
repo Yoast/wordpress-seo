@@ -17,7 +17,7 @@ class Indexable_Post_Type_Archive_Presentation extends Indexable_Presentation {
 	 * @return string The canonical.
 	 */
 	public function generate_canonical() {
-		$permalink = $this->get_permalink();
+		$permalink = $this->permalink;
 		if ( ! $permalink ) {
 			return '';
 		}
