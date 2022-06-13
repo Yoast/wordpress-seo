@@ -12,8 +12,6 @@ use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
  * Post type archive builder for the indexables.
  *
  * Formats the post type archive meta to indexable format.
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Indexable_Post_Type_Archive_Builder {
 

@@ -38,7 +38,7 @@
 		"yoast/wp-test-utils": "^1.0.0",
 		"yoast/yoastcs": "^2.2.1",
 		"chillerlan/php-qrcode": "^1.0.9",
-		"guzzlehttp/guzzle": "6.5.6",
+		"guzzlehttp/guzzle": "6.5.7",
 		"symfony/polyfill-intl-idn": "1.19.0",
 		"symfony/polyfill-intl-normalizer": "1.19.0",
 		"symfony/polyfill-php70": "1.19.0",
@@ -84,7 +84,7 @@
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_coding_standards"
 		],
 		"check-cs-thresholds": [
-			"@putenv YOASTCS_THRESHOLD_ERRORS=241",
+			"@putenv YOASTCS_THRESHOLD_ERRORS=173",
 			"@putenv YOASTCS_THRESHOLD_WARNINGS=217",
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_cs_thresholds"
 		],

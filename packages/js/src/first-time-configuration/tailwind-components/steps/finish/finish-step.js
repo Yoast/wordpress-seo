@@ -41,7 +41,7 @@ function webinarPromoContent() {
 				{ __( "That's it! By providing this information our Indexables squad has been able to do a lot of optimization for your site already.", "wordpress-seo" ) }
 			</p>
 			<p className="yst-text-sm yst-mb-6">
-				{ __( "Want to optimize even further and get the most out of Yoast SEO? Make sure you don't miss our weekly webinar!", "wordpress-seo" ) }
+				{ __( "Want to optimize even further and get the most out of Yoast SEO? Make sure you don't miss our free weekly webinar!", "wordpress-seo" ) }
 			</p>
 			<a href={ webinarIntroSettingsUrl } target="_blank" rel="noreferrer" className="yst-button yst-button--primary yst-text-white">
 				{ __( "Register now!", "wordpress-seo" ) }

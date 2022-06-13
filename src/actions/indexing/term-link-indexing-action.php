@@ -7,8 +7,6 @@ use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 
 /**
  * Reindexing action for term link indexables.
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Term_Link_Indexing_Action extends Abstract_Link_Indexing_Action {
 
