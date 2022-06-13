@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Actions\Wincher;
 
 use Brain\Monkey;
 use Mockery;
+use WPSEO_Utils;
 use Yoast\WP\SEO\Actions\Wincher\Wincher_Keyphrases_Action;
 use Yoast\WP\SEO\Config\Wincher_Client;
 use Yoast\WP\SEO\Helpers\Options_Helper;
@@ -110,7 +111,7 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 			->once()
 			->with(
 				'https://api.wincher.com/beta/websites/12345/keywords/bulk',
-				\WPSEO_Utils::format_json_encode(
+				WPSEO_Utils::format_json_encode(
 					[
 						[
 							'keyword' => 'yoast seo',
@@ -268,7 +269,7 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 			->once()
 			->with(
 				'https://api.wincher.com/beta/yoast/12345',
-				\WPSEO_Utils::format_json_encode(
+				WPSEO_Utils::format_json_encode(
 					[
 						'keywords' => [ 'yoast seo', 'wincher' ],
 						'url'      => null,
@@ -328,7 +329,7 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 			->once()
 			->with(
 				'https://api.wincher.com/beta/yoast/12345',
-				\WPSEO_Utils::format_json_encode(
+				WPSEO_Utils::format_json_encode(
 					[
 						'keywords' => [ 'yoast seo' ],
 						'url'      => null,
@@ -388,7 +389,7 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 			->once()
 			->with(
 				'https://api.wincher.com/beta/yoast/12345',
-				\WPSEO_Utils::format_json_encode(
+				WPSEO_Utils::format_json_encode(
 					[
 						'keywords' => [ 'yoast seo' ],
 						'url'      => null,
@@ -444,7 +445,7 @@ class Wincher_Keyphrases_Action_Test extends TestCase {
 			->once()
 			->with(
 				'https://api.wincher.com/beta/yoast/12345',
-				\WPSEO_Utils::format_json_encode(
+				WPSEO_Utils::format_json_encode(
 					[
 						'keywords' => [ 'yoast seo', 'blog seo' ],
 						'url'      => 'https://yoast.com/blog/',

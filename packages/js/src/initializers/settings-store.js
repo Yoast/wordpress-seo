@@ -3,9 +3,9 @@ import { reducers, selectors, actions } from "@yoast/externals/redux";
 import { get } from "lodash";
 import * as controls from "../redux/controls/dismissedAlerts";
 
-const { dismissedAlerts, settings, snippetEditor } = reducers;
-const { getRecommendedReplaceVars, getReplaceVars, isAlertDismissed } = selectors;
-const { dismissAlert, setSettings, updateReplacementVariable } = actions;
+const { dismissedAlerts, settings, snippetEditor, isPremium } = reducers;
+const { getRecommendedReplaceVars, getReplaceVars, isAlertDismissed, getIsPremium } = selectors;
+const { dismissAlert, setDismissedAlerts, setSettings, updateReplacementVariable, setIsPremium } = actions;
 
 /**
  * Populates the store.
@@ -35,6 +35,9 @@ function populateStore( store ) {
 			replacementVariable.label
 		) );
 	} );
+
+	store.dispatch( setDismissedAlerts( get( window, "wpseoScriptData.dismissedAlerts", {} ) ) );
+	store.dispatch( setIsPremium( Boolean( get( window, "wpseoScriptData.isPremium", false ) ) ) );
 }
 
 /**
@@ -48,14 +51,18 @@ export default function initSettingsStore() {
 			dismissedAlerts,
 			settings,
 			snippetEditor,
+			isPremium,
 		} ),
 		selectors: {
 			isAlertDismissed,
 			getReplaceVars,
 			getRecommendedReplaceVars,
+			getIsPremium,
 		},
 		actions: {
 			dismissAlert,
+			setDismissedAlerts,
+			setIsPremium,
 		},
 		controls,
 	} );

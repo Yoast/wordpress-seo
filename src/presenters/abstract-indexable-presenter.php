@@ -70,11 +70,11 @@ abstract class Abstract_Indexable_Presenter extends Abstract_Presenter {
 	/**
 	 * Replace replacement variables in a string.
 	 *
-	 * @param string $string The string.
+	 * @param string $replacevar_string The string with replacement variables.
 	 *
 	 * @return string The string with replacement variables replaced.
 	 */
-	protected function replace_vars( $string ) {
-		return $this->replace_vars->replace( $string, $this->presentation->source );
+	protected function replace_vars( $replacevar_string ) {
+		return $this->replace_vars->replace( $replacevar_string, $this->presentation->source );
 	}
 }

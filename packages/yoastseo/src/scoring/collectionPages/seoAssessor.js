@@ -5,8 +5,8 @@ import IntroductionKeywordAssessment from "./../assessments/seo/IntroductionKeyw
 import KeyphraseLengthAssessment from "./../assessments/seo/KeyphraseLengthAssessment";
 import KeywordDensityAssessment from "./../assessments/seo/KeywordDensityAssessment";
 import MetaDescriptionKeywordAssessment from "./../assessments/seo/MetaDescriptionKeywordAssessment";
-import TitleKeywordAssessment from "./../assessments/seo/TitleKeywordAssessment";
-import UrlKeywordAssessment from "./../assessments/seo/UrlKeywordAssessment";
+import KeyphraseInSEOTitleAssessment from "../assessments/seo/KeyphraseInSEOTitleAssessment";
+import SlugKeywordAssessment from "../assessments/seo/UrlKeywordAssessment";
 import Assessor from "./../assessor";
 import MetaDescriptionLengthAssessment from "./../assessments/seo/MetaDescriptionLengthAssessment";
 import TextLengthAssessment from "./../assessments/seo/TextLengthAssessment";
@@ -56,7 +56,7 @@ const CollectionSEOAssessor = function( researcher, options ) {
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify59" ),
 			customContentType: this.type,
 		} ),
-		new TitleKeywordAssessment( {
+		new KeyphraseInSEOTitleAssessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify24" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify25" ),
 		} ),
@@ -67,7 +67,7 @@ const CollectionSEOAssessor = function( researcher, options ) {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify52" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify53" ),
 		}, true ),
-		new UrlKeywordAssessment( {
+		new SlugKeywordAssessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify26" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify27" ),
 		} ),

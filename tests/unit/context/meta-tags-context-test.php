@@ -326,7 +326,7 @@ class Meta_Tags_Context_Test extends TestCase {
 			->andReturn( $options['setting-for-post-type'] );
 
 		if ( ! empty( $custom_article_types ) ) {
-			Filters\expectApplied( 'wpseo_schema_article_types' )->andReturn( array_merge( Schema_Types::ARTICLE_TYPES, $custom_article_types ) );
+			Filters\expectApplied( 'wpseo_schema_article_types' )->andReturn( \array_merge( Schema_Types::ARTICLE_TYPES, $custom_article_types ) );
 		}
 
 		$this->options

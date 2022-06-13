@@ -1,4 +1,5 @@
 <?php
+
 namespace Yoast\WP\SEO\Tests\Unit\Presenters\Admin;
 
 use Brain\Monkey;

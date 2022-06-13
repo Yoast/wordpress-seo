@@ -30,6 +30,7 @@ import WincherPostPublish from "../containers/WincherPostPublish";
 import getL10nObject from "../analysis/getL10nObject";
 import YoastIcon from "../components/PluginIcon";
 
+
 /**
  * Registers the Yoast inline link format.
  *

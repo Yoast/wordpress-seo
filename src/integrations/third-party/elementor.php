@@ -15,6 +15,7 @@ use WPSEO_Metabox_Analysis_SEO;
 use WPSEO_Metabox_Formatter;
 use WPSEO_Post_Metabox_Formatter;
 use WPSEO_Replace_Vars;
+use WPSEO_Shortlinker;
 use WPSEO_Utils;
 use Yoast\WP\SEO\Actions\Alert_Dismissal_Action;
 use Yoast\WP\SEO\Conditionals\Admin\Estimated_Reading_Time_Conditional;
@@ -181,7 +182,7 @@ class Elementor implements Integration_Interface {
 	 * Register a panel tab slug, in order to allow adding controls to this tab.
 	 */
 	public function add_yoast_panel_tab() {
-		Controls_Manager::add_tab( $this::YOAST_TAB, \__( 'Yoast SEO', 'wordpress-seo' ) );
+		Controls_Manager::add_tab( $this::YOAST_TAB, 'Yoast SEO' );
 	}
 
 	/**
@@ -199,7 +200,7 @@ class Elementor implements Integration_Interface {
 		$document->start_controls_section(
 			'yoast_temporary_section',
 			[
-				'label' => \__( 'Yoast SEO', 'wordpress-seo' ),
+				'label' => 'Yoast SEO',
 				'tab'   => self::YOAST_TAB,
 			]
 		);
@@ -420,19 +421,20 @@ class Elementor implements Integration_Interface {
 		$dismissed_alerts       = $alert_dismissal_action->all_dismissed();
 
 		$script_data = [
-			'media'             => [ 'choose_image' => \__( 'Use Image', 'wordpress-seo' ) ],
-			'metabox'           => $this->get_metabox_script_data(),
-			'userLanguageCode'  => WPSEO_Language_Utils::get_language( \get_user_locale() ),
-			'isPost'            => true,
-			'isBlockEditor'     => WP_Screen::get()->is_block_editor(),
-			'isElementorEditor' => true,
-			'postStatus'        => get_post_status( $post_id ),
-			'analysis'          => [
+			'media'                    => [ 'choose_image' => \__( 'Use Image', 'wordpress-seo' ) ],
+			'metabox'                  => $this->get_metabox_script_data(),
+			'userLanguageCode'         => WPSEO_Language_Utils::get_language( \get_user_locale() ),
+			'isPost'                   => true,
+			'isBlockEditor'            => WP_Screen::get()->is_block_editor(),
+			'isElementorEditor'        => true,
+			'postStatus'               => \get_post_status( $post_id ),
+			'analysis'                 => [
 				'plugins'                     => $plugins_script_data,
 				'worker'                      => $worker_script_data,
 				'estimatedReadingTimeEnabled' => $this->estimated_reading_time_conditional->is_met(),
 			],
-			'dismissedAlerts'   => $dismissed_alerts,
+			'dismissedAlerts'          => $dismissed_alerts,
+			'webinarIntroElementorUrl' => WPSEO_Shortlinker::get( 'https://yoa.st/webinar-intro-elementor' ),
 		];
 
 		if ( \post_type_supports( $this->get_metabox_post()->post_type, 'thumbnail' ) ) {
@@ -508,7 +510,7 @@ class Elementor implements Integration_Interface {
 			$sample = \get_sample_permalink( $post );
 
 			// Since get_sample_permalink runs through filters, ensure that it has the expected return value.
-			if ( is_array( $sample ) && count( $sample ) === 2 && is_string( $sample[1] ) ) {
+			if ( \is_array( $sample ) && \count( $sample ) === 2 && \is_string( $sample[1] ) ) {
 				return $sample[1];
 			}
 		}

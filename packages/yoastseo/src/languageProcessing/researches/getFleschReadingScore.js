@@ -26,6 +26,8 @@ const getAverage = function( total, amount ) {
  */
 export default function( paper, researcher ) {
 	const syllables = researcher.getConfig( "syllables" );
+	const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
+
 	let text = paper.getText();
 	if ( text === "" ) {
 		return 0;
@@ -33,7 +35,7 @@ export default function( paper, researcher ) {
 
 	text = stripNumbers( text );
 
-	const numberOfSentences = countSentences( text );
+	const numberOfSentences = countSentences( text, memoizedTokenizer );
 
 	const numberOfWords = countWords( text );
 

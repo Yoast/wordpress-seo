@@ -287,14 +287,14 @@ class Replace_Vars_Helper_Test extends TestCase {
 	/**
 	 * Returns all the values of the given nested array as one flat array.
 	 *
-	 * @param array $array A nested array of key-value pairs.
+	 * @param array $nested_array A nested array of key-value pairs.
 	 *
 	 * @return array All of the values in the nested array.
 	 */
-	protected function array_values_recursively( $array ) {
+	protected function array_values_recursively( $nested_array ) {
 		$merged = [];
 
-		foreach ( $array as $value ) {
+		foreach ( $nested_array as $value ) {
 			if ( \is_array( $value ) ) {
 				$merged[] = $this->array_values_recursively( $value );
 			}

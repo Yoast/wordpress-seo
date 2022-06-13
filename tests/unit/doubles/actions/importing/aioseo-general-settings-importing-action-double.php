@@ -23,7 +23,7 @@ abstract class Aioseo_General_Settings_Importing_Action_Double extends Aioseo_Ge
 	/**
 	 * Queries the database and retrieves unimported AiOSEO settings (in chunks if a limit is applied).
 	 *
-	 * @param int $limit The maximum number of unimported objects to be returned.
+	 * @param int|null $limit The maximum number of unimported objects to be returned.
 	 *
 	 * @return array The (maybe chunked) unimported AiOSEO settings to import.
 	 */
@@ -32,24 +32,12 @@ abstract class Aioseo_General_Settings_Importing_Action_Double extends Aioseo_Ge
 	}
 
 	/**
-	 * Flattens the multidimensional array of AIOSEO settings. Recursive.
-	 *
-	 * @param array  $array    The array to be flattened.
-	 * @param string $main_key The key to be used as a base.
-	 *
-	 * @return array The flattened array.
-	 */
-	public function flatten_settings( $array, $main_key = '' ) {
-		return parent::flatten_settings( $array, $main_key );
-	}
-
-	/**
 	 * Maps/imports AIOSEO settings into the respective Yoast settings.
 	 *
 	 * @param string|array $setting_value The value of the AIOSEO setting at hand.
 	 * @param string       $setting       The setting at hand, eg. post or movie-category, separator etc.
 	 *
-	 * @return void.
+	 * @return void
 	 */
 	public function map( $setting_value, $setting ) {
 		parent::map( $setting_value, $setting );
@@ -62,7 +50,7 @@ abstract class Aioseo_General_Settings_Importing_Action_Double extends Aioseo_Ge
 	 * @param string $setting_value   The values of the setting.
 	 * @param array  $setting_mapping The mapping of the setting to Yoast formats.
 	 *
-	 * @return void.
+	 * @return void
 	 */
 	public function import_single_setting( $setting, $setting_value, $setting_mapping ) {
 		parent::import_single_setting( $setting, $setting_value, $setting_mapping );

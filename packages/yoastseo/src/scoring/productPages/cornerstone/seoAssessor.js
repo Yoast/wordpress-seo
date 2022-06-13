@@ -7,8 +7,8 @@ import KeyphraseLengthAssessment from "../../assessments/seo/KeyphraseLengthAsse
 import KeywordDensityAssessment from "../../assessments/seo/KeywordDensityAssessment";
 import MetaDescriptionKeywordAssessment from "../../assessments/seo/MetaDescriptionKeywordAssessment";
 import TextCompetingLinksAssessment from "../../assessments/seo/TextCompetingLinksAssessment";
-import TitleKeywordAssessment from "../../assessments/seo/TitleKeywordAssessment";
-import UrlKeywordAssessment from "../../assessments/seo/UrlKeywordAssessment";
+import KeyphraseInSEOTitleAssessment from "../../assessments/seo/KeyphraseInSEOTitleAssessment";
+import SlugKeywordAssessment from "../../assessments/seo/UrlKeywordAssessment";
 import Assessor from "../../assessor";
 import SEOAssessor from "../seoAssessor";
 import MetaDescriptionLength from "../../assessments/seo/MetaDescriptionLengthAssessment";
@@ -86,7 +86,7 @@ const ProductCornerstoneSEOAssessor = function( researcher, options ) {
 			cornerstoneContent: true,
 			customContentType: this.type,
 		} ),
-		new TitleKeywordAssessment( {
+		new KeyphraseInSEOTitleAssessment( {
 			urlTitle: createAnchorOpeningTag( options.titleKeyphraseUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.titleKeyphraseCTAUrl ),
 		} ),
@@ -97,7 +97,7 @@ const ProductCornerstoneSEOAssessor = function( researcher, options ) {
 			urlTitle: createAnchorOpeningTag( options.titleWidthUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.titleWidthCTAUrl ),
 		}, true ),
-		new UrlKeywordAssessment(
+		new SlugKeywordAssessment(
 			{
 				scores: {
 					okay: 3,

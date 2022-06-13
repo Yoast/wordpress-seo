@@ -160,6 +160,6 @@ class Schema_Blocks implements Integration_Interface {
 	 * @deprecated 18.0
 	 */
 	public function load_translations() {
-		_deprecated_function( __FUNCTION__, '18.0' );
+		\_deprecated_function( __FUNCTION__, '18.0' );
 	}
 }

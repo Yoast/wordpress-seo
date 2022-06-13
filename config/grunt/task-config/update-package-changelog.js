@@ -18,7 +18,6 @@ module.exports = {
 				[ "packages/eslint/CHANGELOG.md", ".tmp/pg-eslint.md" ],
 				[ "packages/yoast-components/CHANGELOG.MD", ".tmp/pg-yoast-components.md" ],
 				[ "packages/feature-flag/CHANGELOG.md", ".tmp/pg-feature-flag.md" ],
-				[ "packages/yoast-social-previews/CHANGELOG.md", ".tmp/pg-yoast-social-previews.md" ],
 				[ "packages/helpers/CHANGELOG.md", ".tmp/pg-helpers.md" ],
 				[ "packages/yoastseo/CHANGELOG.md", ".tmp/pg-yoastseo.md" ],
 			],

@@ -2,17 +2,19 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Actions\Importing;
 
-use Mockery;
 use Brain\Monkey;
+use Mockery;
 use Yoast\WP\SEO\Actions\Importing\Aioseo\Aioseo_General_Settings_Importing_Action;
+use Yoast\WP\SEO\Helpers\Image_Helper;
 use Yoast\WP\SEO\Helpers\Import_Cursor_Helper;
+use Yoast\WP\SEO\Helpers\Import_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Sanitization_Helper;
 use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Replacevar_Service;
 use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Provider_Service;
 use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Transformer_Service;
-use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Actions\Importing\Aioseo_General_Settings_Importing_Action_Double;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Aioseo_General_Settings_Importing_Action_Test class
@@ -59,6 +61,20 @@ class Aioseo_General_Settings_Importing_Action_Test extends TestCase {
 	 * @var Mockery\MockInterface|Sanitization_Helper
 	 */
 	protected $sanitization;
+
+	/**
+	 * The import helper.
+	 *
+	 * @var Mockery\MockInterface|Import_Helper
+	 */
+	protected $import_helper;
+
+	/**
+	 * The image helper.
+	 *
+	 * @var Mockery\MockInterface|Image_Helper
+	 */
+	protected $image;
 
 	/**
 	 * The replacevar handler.
@@ -125,11 +141,16 @@ class Aioseo_General_Settings_Importing_Action_Test extends TestCase {
 		$this->replacevar_handler = Mockery::mock( Aioseo_Replacevar_Service::class );
 		$this->robots_provider    = Mockery::mock( Aioseo_Robots_Provider_Service::class );
 		$this->robots_transformer = Mockery::mock( Aioseo_Robots_Transformer_Service::class );
-		$this->instance           = new Aioseo_General_Settings_Importing_Action( $this->import_cursor, $this->options, $this->sanitization, $this->replacevar_handler, $this->robots_provider, $this->robots_transformer );
-		$this->mock_instance      = Mockery::mock(
+		$this->import_helper      = Mockery::mock( Import_Helper::class );
+		$this->image              = Mockery::mock( Image_Helper::class );
+		$this->instance           = new Aioseo_General_Settings_Importing_Action( $this->import_cursor, $this->options, $this->sanitization, $this->image, $this->replacevar_handler, $this->robots_provider, $this->robots_transformer );
+		$this->instance->set_import_helper( $this->import_helper );
+
+		$this->mock_instance = Mockery::mock(
 			Aioseo_General_Settings_Importing_Action_Double::class,
-			[ $this->import_cursor, $this->options, $this->sanitization, $this->replacevar_handler, $this->robots_provider, $this->robots_transformer ]
+			[ $this->import_cursor, $this->options, $this->sanitization, $this->image, $this->replacevar_handler, $this->robots_provider, $this->robots_transformer ]
 		)->makePartial()->shouldAllowMockingProtectedMethods();
+		$this->mock_instance->set_import_helper( $this->import_helper );
 	}
 
 	/**
@@ -145,21 +166,28 @@ class Aioseo_General_Settings_Importing_Action_Test extends TestCase {
 	/**
 	 * Tests retrieving unimported AiOSEO settings.
 	 *
-	 * @param array $query_results The results from the query.
-	 * @param bool  $expected      The expected retrieved data.
-	 *
 	 * @dataProvider provider_query
 	 * @covers ::query
+	 *
+	 * @param array $query_results        The results from the query.
+	 * @param bool  $expected_unflattened The expected unflattened retrieved data.
+	 * @param bool  $expected             The expected retrieved data.
+	 * @param int   $times                The expected times we will look for the chunked unimported settings.
 	 */
-	public function test_query( $query_results, $expected ) {
+	public function test_query( $query_results, $expected_unflattened, $expected, $times ) {
 		Monkey\Functions\expect( 'get_option' )
 			->once()
 			->with( 'aioseo_options', '' )
 			->andReturn( $query_results );
 
+		$this->import_helper->shouldReceive( 'flatten_settings' )
+			->with( $expected_unflattened )
+			->times( $times )
+			->andReturn( $expected );
+
 		$this->mock_instance->shouldReceive( 'get_unimported_chunk' )
 			->with( $expected, null )
-			->zeroOrMoreTimes()
+			->times( $times )
 			->andReturn( $expected );
 
 		$settings_to_import = $this->mock_instance->query();
@@ -167,29 +195,19 @@ class Aioseo_General_Settings_Importing_Action_Test extends TestCase {
 	}
 
 	/**
-	 * Tests flattening AIOSEO general settings.
-	 *
-	 * @covers ::flatten_settings
-	 */
-	public function test_flatten_settings() {
-		$flattened_sesttings = $this->mock_instance->flatten_settings( $this->full_settings_to_import );
-		$expected_result     = $this->flattened_settings_to_import;
-
-		$this->assertSame( $expected_result, $flattened_sesttings );
-	}
-
-	/**
 	 * Tests mapping AIOSEO general settings.
+	 *
+	 * @dataProvider provider_map
+	 * @covers ::map
 	 *
 	 * @param string $setting         The setting at hand, eg. post or movie-category, separator etc.
 	 * @param string $setting_value   The value of the AIOSEO setting at hand.
 	 * @param int    $times           The times that we will import each setting, if any.
 	 * @param int    $transform_times The times that we will transform each setting, if any.
-	 *
-	 * @dataProvider provider_map
-	 * @covers ::map
+	 * @param int    $image_times     The times that we will use the image helper.
+	 * @param int    $set_image_times The times that we will set image data.
 	 */
-	public function test_map( $setting, $setting_value, $times, $transform_times ) {
+	public function test_map( $setting, $setting_value, $times, $transform_times, $image_times, $set_image_times ) {
 		$this->mock_instance->build_mapping();
 		$aioseo_options_to_yoast_map = $this->mock_instance->get_aioseo_options_to_yoast_map();
 
@@ -202,9 +220,27 @@ class Aioseo_General_Settings_Importing_Action_Test extends TestCase {
 			->with( $setting_value )
 			->andReturn( $setting_value );
 
+		$this->image->shouldReceive( 'get_attachment_by_url' )
+			->times( $image_times )
+			->with( $setting_value )
+			->andReturn( 123 );
+
+		$this->options->shouldReceive( 'set' )
+			->times( $set_image_times );
+
+		$this->image->shouldReceive( 'get_attachment_meta_from_settings' )
+			->times( $image_times )
+			->with( 'company_logo' )
+			->andReturn( [ 'meta' ] );
+
 		$this->sanitization->shouldReceive( 'sanitize_text_field' )
 			->times( $transform_times )
 			->with( $setting_value )
+			->andReturn( $setting_value );
+
+		$this->sanitization->shouldReceive( 'sanitize_url' )
+			->times( $image_times )
+			->with( $setting_value, null )
 			->andReturn( $setting_value );
 
 		$this->options->shouldReceive( 'set' )
@@ -216,11 +252,11 @@ class Aioseo_General_Settings_Importing_Action_Test extends TestCase {
 	/**
 	 * Tests transforming the separator settings.
 	 *
-	 * @param string $separator               The separator.
-	 * @param string $expected_transformation The expected transformed separator.
-	 *
 	 * @dataProvider provider_transform_separator
 	 * @covers ::transform_separator
+	 *
+	 * @param string $separator               The separator.
+	 * @param string $expected_transformation The expected transformed separator.
 	 */
 	public function test_transform_separator( $separator, $expected_transformation ) {
 		$transformed_separator = $this->mock_instance->transform_separator( $separator );
@@ -231,16 +267,63 @@ class Aioseo_General_Settings_Importing_Action_Test extends TestCase {
 	/**
 	 * Tests transforming the site represents setting.
 	 *
-	 * @param string $site_represents         The site represents setting.
-	 * @param string $expected_transformation The expected transformed separator.
-	 *
 	 * @dataProvider provider_transform_site_represents
 	 * @covers ::transform_site_represents
+	 *
+	 * @param string $site_represents         The site represents setting.
+	 * @param string $expected_transformation The expected transformed separator.
 	 */
 	public function test_transform_site_represents( $site_represents, $expected_transformation ) {
 		$transformed_site_represents = $this->mock_instance->transform_site_represents( $site_represents );
 
 		$this->assertSame( $expected_transformation, $transformed_site_represents );
+	}
+
+	/**
+	 * Tests returning a setting map of the robot setting for one subset of general settings.
+	 *
+	 * @covers ::pluck_robot_setting_from_mapping
+	 */
+	public function test_pluck_robot_setting_from_mapping() {
+		$robot_setting_from_mapping = $this->instance->pluck_robot_setting_from_mapping();
+		$this->assertSame( [], $robot_setting_from_mapping );
+	}
+
+	/**
+	 * Tests checking if the settings tab subsetting is set in the AIOSEO option.
+	 *
+	 * @param array $aioseo_settings The AIOSEO settings.
+	 * @param bool  $expected_result The expected result.
+	 *
+	 * @dataProvider provider_isset_settings_tab
+	 * @covers ::isset_settings_tab
+	 */
+	public function test_isset_settings_tab( $aioseo_settings, $expected_result ) {
+		$isset_settings_tab = $this->instance->isset_settings_tab( $aioseo_settings );
+		$this->assertSame( $expected_result, $isset_settings_tab );
+	}
+
+	/**
+	 * Data provider for test_isset_settings_tab().
+	 *
+	 * @return array
+	 */
+	public function provider_isset_settings_tab() {
+		$aioseo_settings_with_subsetting_set = [
+			'searchAppearance' => [
+				'global' => 'settings',
+			],
+		];
+
+		$aioseo_settings_with_subsetting_not_set = [
+			'searchAppearance' => [
+				'not_global' => 'settings',
+			],
+		];
+		return [
+			[ $aioseo_settings_with_subsetting_set, true ],
+			[ $aioseo_settings_with_subsetting_not_set, false ],
+		];
 	}
 
 	/**
@@ -282,21 +365,21 @@ class Aioseo_General_Settings_Importing_Action_Test extends TestCase {
 	 */
 	public function provider_map() {
 		return [
-			[ '/separator', '&larr;', 1, 0 ],
-			[ '/siteTitle', 'Site Title', 1, 1 ],
-			[ '/metaDescription', 'Site Desc', 1, 1 ],
-			[ '/schema/siteRepresents', 'person', 1, 0 ],
-			[ '/schema/person', 60, 1, 1 ],
-			[ '/schema/organizationName', 'Org Name', 1, 1 ],
-			[ '/schema/organizationLogo', 'http://basic.wordpress.test/wp-content/uploads/2021/11/WordPress8-20.jpg', 1, 1 ],
-			[ '/randomSetting', 'randomeValue', 0, 0 ],
+			[ '/separator', '&larr;', 1, 0, 0, 0 ],
+			[ '/siteTitle', 'Site Title', 1, 1, 0, 0 ],
+			[ '/metaDescription', 'Site Desc', 1, 1, 0, 0 ],
+			[ '/schema/siteRepresents', 'person', 1, 0, 0, 0 ],
+			[ '/schema/person', 60, 1, 1, 0, 0 ],
+			[ '/schema/organizationName', 'Org Name', 1, 1, 0, 0 ],
+			[ '/schema/organizationLogo', 'http://basic.wordpress.test/wp-content/uploads/2021/11/WordPress8-20.jpg', 1, 0, 1, 3 ],
+			[ '/randomSetting', 'randomeValue', 0, 0, 0, 0 ],
 		];
 	}
 
 	/**
 	 * Data provider for test_query().
 	 *
-	 * @return string
+	 * @return array
 	 */
 	public function provider_query() {
 		$full_settings = [
@@ -319,49 +402,8 @@ class Aioseo_General_Settings_Importing_Action_Test extends TestCase {
 
 		$full_settings_expected = $this->flattened_settings_to_import;
 
-		$missing_settings = [
-			'searchAppearance' => [
-				'postypes'   => [
-					'post' => [
-						'title'           => 'title1',
-						'metaDescription' => 'desc1',
-					],
-				],
-				'taxonomies' => [
-					'category' => [
-						'title'           => 'title1',
-						'metaDescription' => 'desc1',
-					],
-				],
-			],
-		];
-
-		$missing_settings_expected = [];
-
-		$malformed_settings = [
-			'searchAppearance' => [
-				'global'     => 'not_array',
-				'postypes'   => [
-					'post' => [
-						'title'           => 'title1',
-						'metaDescription' => 'desc1',
-					],
-				],
-				'taxonomies' => [
-					'category' => [
-						'title'           => 'title1',
-						'metaDescription' => 'desc1',
-					],
-				],
-			],
-		];
-
-		$malformed_settings_expected = [];
-
 		return [
-			[ \json_encode( $full_settings ), $full_settings_expected ],
-			[ \json_encode( $missing_settings ), $missing_settings_expected ],
-			[ \json_encode( $missing_settings ), $missing_settings_expected ],
+			[ \json_encode( $full_settings ), $this->full_settings_to_import, $full_settings_expected, 1 ],
 		];
 	}
 }

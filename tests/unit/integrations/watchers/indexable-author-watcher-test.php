@@ -4,7 +4,6 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations\Watchers;
 
 use Brain\Monkey\Functions;
 use Mockery;
-use Mockery\Mock;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Builders\Indexable_Builder;
 use Yoast\WP\SEO\Conditionals\Migrations_Conditional;

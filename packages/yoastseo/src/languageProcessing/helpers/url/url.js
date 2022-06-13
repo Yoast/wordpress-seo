@@ -94,40 +94,41 @@ function getProtocol( url ) {
 }
 
 /**
- * Determine whether a URL is internal.
+ * Determine whether an anchor URL is internal.
  *
- * @param {string} url 		The URL to test.
- * @param {string} host 	The current host.
- * @param {string} siteUrl  The current site's url (can also be only the domain part).
+ * @param {string} anchorUrl 		The anchor URL to test.
+ * @param {string} siteUrlOrDomain  The current site's URL or domain.
  *
- * @returns {boolean} Whether or not the URL is internal.
+ * @returns {boolean} Whether or not the anchor URL is internal.
  */
-function isInternalLink( url, host, siteUrl ) {
-	const parsedUrl = urlMethods.parse( url, false, true );
-	// Check if the URL starts with a single slash.
-	if ( url.indexOf( "//" ) === -1 && url.indexOf( "/" ) === 0 ) {
+function isInternalLink( anchorUrl, siteUrlOrDomain ) {
+	const parsedAnchorUrl = urlMethods.parse( anchorUrl, false, true );
+	const anchorUrlHostName = parsedAnchorUrl.hostname;
+
+	// Check if the anchor URL starts with a single slash.
+	if ( anchorUrl.indexOf( "//" ) === -1 && anchorUrl.indexOf( "/" ) === 0 ) {
 		return true;
 	}
 
-	// Check if the URL starts with a # indicating a fragment.
-	if ( url.indexOf( "#" ) === 0 ) {
+	// Check if the anchor URL starts with a # indicating a fragment.
+	if ( anchorUrl.indexOf( "#" ) === 0 ) {
 		return false;
 	}
 
-	// No host indicates an internal link.
-	if ( ! parsedUrl.host ) {
+	// No host of the anchor URL indicates an internal link.
+	if ( ! anchorUrlHostName ) {
 		return true;
 	}
 
-	/*
-     * It could be that the host is null if we only have access to the site's domain, not full url (this is the case with Shopify).
-     * In that case, a domain identical to the parsedUrl's host would also indicate an internal link.
-     */
-	if ( parsedUrl.host === siteUrl ) {
+	// If the siteUrlOrDomain variable is a domain, it would be idential to the anchor URL's hostname in case of an internal link.
+	if ( anchorUrlHostName === siteUrlOrDomain ) {
 		return true;
 	}
 
-	return parsedUrl.host === host;
+	// If the siteUrlOrDomain variable is a URL and it shares the hostname with the anchor URL, it's an internal link.
+	const parsedSiteUrlOrDomain = urlMethods.parse( siteUrlOrDomain );
+	const siteUrlOrDomainHostName = parsedSiteUrlOrDomain.hostname;
+	return anchorUrlHostName === siteUrlOrDomainHostName;
 }
 
 /**

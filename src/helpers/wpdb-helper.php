@@ -19,7 +19,7 @@ class Wpdb_Helper {
 	/**
 	 * Constructs a Wpdb_Helper instance.
 	 *
-	 * @param param wpdb $wpdb The WordPress database instance.
+	 * @param wpdb $wpdb The WordPress database instance.
 	 */
 	public function __construct( wpdb $wpdb ) {
 		$this->wpdb = $wpdb;
@@ -35,7 +35,7 @@ class Wpdb_Helper {
 	public function table_exists( $table ) {
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Reason: There is no unescaped user input.
 		$table_exists = $this->wpdb->get_var( "SHOW TABLES LIKE '{$table}'" );
-		if ( is_wp_error( $table_exists ) || is_null( $table_exists ) ) {
+		if ( \is_wp_error( $table_exists ) || \is_null( $table_exists ) ) {
 			return false;
 		}
 

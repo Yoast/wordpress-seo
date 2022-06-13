@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Helpers;
 
-use Mockery;
 use Yoast\WP\SEO\Helpers\Language_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 

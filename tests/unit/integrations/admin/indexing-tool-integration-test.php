@@ -14,8 +14,8 @@ use Yoast\WP\SEO\Helpers\Indexing_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Indexing_Tool_Integration;
-use Yoast\WP\SEO\Services\Importing\Importable_Detector_Service;
 use Yoast\WP\SEO\Routes\Importing_Route;
+use Yoast\WP\SEO\Services\Importing\Importable_Detector_Service;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**

@@ -1,11 +1,9 @@
 name: "CodeQL"
 
 on:
-  # push:
-  #  branches: [develop]
-  #pull_request:
-    # The branches below must be a subset of the branches above
-  #  branches: [develop]
+  pull_request:
+    paths:
+      - '.github/workflows/codeql-analysis.yml'
   schedule:
     - cron: '0 20 * * 2'
 
@@ -25,16 +23,7 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
-      with:
-        # We must fetch at least the immediate parents so that if this is
-        # a pull request then we can checkout the head.
-        fetch-depth: 2
-
-    # If this run was triggered by a pull request event, then checkout
-    # the head of the pull request instead of the merge commit.
-    - run: git checkout HEAD^2
-      if: ${{ github.event_name == 'pull_request' }}
+      uses: actions/checkout@v3
 
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL

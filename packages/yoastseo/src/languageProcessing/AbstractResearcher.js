@@ -7,7 +7,7 @@ import MissingArgument from "../errors/missingArgument";
 import altTagCount from "./researches/altTagCount.js";
 import countSentencesFromText from "./researches/countSentencesFromText.js";
 import findKeywordInFirstParagraph from "./researches/findKeywordInFirstParagraph.js";
-import findKeywordInPageTitle from "./researches/findKeywordInPageTitle";
+import findKeyphraseInSEOTitle from "./researches/findKeyphraseInSEOTitle";
 import findList from "./researches/findList";
 import findTransitionWords from "./researches/findTransitionWords";
 import functionWordsInKeyphrase from "./researches/functionWordsInKeyphrase";
@@ -25,7 +25,7 @@ import imageCount from "./researches/imageCount.js";
 import keyphraseDistribution from "./researches/keyphraseDistribution";
 import keyphraseLength from "./researches/keyphraseLength";
 import keywordCount from "./researches/keywordCount";
-import keywordCountInUrl from "./researches/keywordCountInUrl";
+import { keywordCountInSlug, keywordCountInUrl } from "./researches/keywordCountInUrl";
 import matchKeywordInSubheadings from "./researches/matchKeywordInSubheadings";
 import metaDescriptionKeyword from "./researches/metaDescriptionKeyword";
 import metaDescriptionLength from "./researches/metaDescriptionLength.js";
@@ -50,11 +50,12 @@ export default class AbstractResearcher {
 	constructor( paper ) {
 		this.paper = paper;
 
+		// We expose the deprecated keywordCountInUrl for backwards compatibility.
 		this.defaultResearches = {
 			altTagCount,
 			countSentencesFromText,
 			findKeywordInFirstParagraph,
-			findKeywordInPageTitle,
+			findKeyphraseInSEOTitle,
 			findList,
 			findTransitionWords,
 			functionWordsInKeyphrase,
@@ -72,6 +73,7 @@ export default class AbstractResearcher {
 			keyphraseDistribution,
 			keyphraseLength,
 			keywordCount,
+			keywordCountInSlug,
 			keywordCountInUrl,
 			matchKeywordInSubheadings,
 			metaDescriptionKeyword,

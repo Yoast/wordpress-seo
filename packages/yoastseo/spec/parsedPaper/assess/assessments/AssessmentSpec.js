@@ -8,7 +8,7 @@ describe( "Assessment", () => {
 	const paper = new Paper( "Potatoes and tomatoes", {
 		title: "Potatoes and tomatoes",
 		description: "Potatoes are tomatoes, do not let anyone tell you otherwise.",
-		url: "http://example.com/potatoes-and-tomatoes",
+		slug: "potatoes-and-tomatoes",
 	} );
 	const treeBuilder = new TreeBuilder();
 	const paperParser = new PaperParser( treeBuilder.build );

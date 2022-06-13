@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Config;
 
+use WPSEO_Utils;
 use Yoast\WP\SEO\Exceptions\OAuth\Authentication_Failed_Exception;
 use Yoast\WP\SEO\Exceptions\OAuth\Tokens\Empty_Property_Exception;
 use Yoast\WP\SEO\Exceptions\OAuth\Tokens\Empty_Token_Exception;
@@ -24,7 +25,7 @@ class Wincher_Client extends OAuth_Client {
 	/**
 	 * Name of the temporary PKCE cookie.
 	 */
-	const PKCE_COOKIE_NAME = 'yoast_wincher_pkce';
+	const PKCE_TRANSIENT_NAME = 'yoast_wincher_pkce';
 
 	/**
 	 * The WP_Remote_Handler instance.
@@ -79,16 +80,15 @@ class Wincher_Client extends OAuth_Client {
 
 		$url = $this->provider->getAuthorizationUrl(
 			[
-				'state' => \WPSEO_Utils::format_json_encode( [ 'domain' => $parsed_site_url['host'] ] ),
+				'state' => WPSEO_Utils::format_json_encode( [ 'domain' => $parsed_site_url['host'] ] ),
 			]
 		);
 
 		$pkce_code = $this->provider->getPkceCode();
 
-		// Store a session cookie with the PKCE code that we need in order to
+		// Store a transient value with the PKCE code that we need in order to
 		// exchange the returned code for a token after authorization.
-		$secure = ! empty( $_SERVER['HTTPS'] );
-		setcookie( self::PKCE_COOKIE_NAME, $pkce_code, 0, '/', '', $secure, true );
+		\set_transient( self::PKCE_TRANSIENT_NAME, $pkce_code, \DAY_IN_SECONDS );
 
 		return $url;
 	}
@@ -103,7 +103,7 @@ class Wincher_Client extends OAuth_Client {
 	 * @throws Authentication_Failed_Exception Exception thrown if authentication has failed.
 	 */
 	public function request_tokens( $code ) {
-		$pkce_code = ! empty( $_COOKIE[ self::PKCE_COOKIE_NAME ] ) ? \sanitize_text_field( \wp_unslash( $_COOKIE[ self::PKCE_COOKIE_NAME ] ) ) : null;
+		$pkce_code = \get_transient( self::PKCE_TRANSIENT_NAME );
 		if ( $pkce_code ) {
 			$this->provider->setPkceCode( $pkce_code );
 		}
@@ -112,6 +112,8 @@ class Wincher_Client extends OAuth_Client {
 
 	/**
 	 * Performs the specified request.
+	 *
+	 * @codeCoverageIgnore
 	 *
 	 * @param string $method  The HTTP method to use.
 	 * @param string $url     The URL to send the request to.
@@ -122,8 +124,6 @@ class Wincher_Client extends OAuth_Client {
 	 * @throws IdentityProviderException Exception thrown if there's something wrong with the identifying data.
 	 * @throws Authentication_Failed_Exception Exception thrown if authentication has failed.
 	 * @throws Empty_Token_Exception Exception thrown if the token is empty.
-	 *
-	 * @codeCoverageIgnore
 	 */
 	protected function do_request( $method, $url, array $options ) {
 		$options['headers'] = [ 'Content-Type' => 'application/json' ];

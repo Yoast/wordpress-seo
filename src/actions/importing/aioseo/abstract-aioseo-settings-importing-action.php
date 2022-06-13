@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Actions\Importing\Aioseo;
 
 use Exception;
 use Yoast\WP\SEO\Actions\Importing\Abstract_Aioseo_Importing_Action;
-use Yoast\WP\SEO\Conditionals\AIOSEO_V4_Importer_Conditional;
+use Yoast\WP\SEO\Helpers\Import_Helper;
 
 /**
  * Abstract class for importing AIOSEO settings.
@@ -57,11 +57,29 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Aioseo
 	protected $replace_vars_edited_map = [];
 
 	/**
+	 * The import helper.
+	 *
+	 * @var Import_Helper
+	 */
+	protected $import_helper;
+
+	/**
 	 * Builds the mapping that ties AOISEO option keys with Yoast ones and their data transformation method.
 	 *
 	 * @return void
 	 */
 	abstract protected function build_mapping();
+
+	/**
+	 * Sets the import helper.
+	 *
+	 * @required
+	 *
+	 * @param Import_Helper $import_helper The import helper.
+	 */
+	public function set_import_helper( Import_Helper $import_helper ) {
+		$this->import_helper = $import_helper;
+	}
 
 	/**
 	 * Retrieves the source option_name.
@@ -78,17 +96,6 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Aioseo
 		}
 
 		return $source_option_name;
-	}
-
-	/**
-	 * Returns whether the AISOEO settings importing action is enabled.
-	 *
-	 * @return bool True if the AISOEO settings importing action is enabled.
-	 */
-	public function is_enabled() {
-		$aioseo_importer_conditional = \YoastSEO()->classes->get( AIOSEO_V4_Importer_Conditional::class );
-
-		return $aioseo_importer_conditional->is_met();
 	}
 
 	/**
@@ -114,7 +121,7 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Aioseo
 	/**
 	 * Returns the number of unimported objects (limited if limit is applied).
 	 *
-	 * @param int $limit The maximum number of unimported objects to be returned.
+	 * @param int|null $limit The maximum number of unimported objects to be returned.
 	 *
 	 * @return int The number of unindexed posts.
 	 */
@@ -174,50 +181,39 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Aioseo
 	}
 
 	/**
+	 * Checks if the settings tab subsetting is set in the AIOSEO option.
+	 *
+	 * @param string $aioseo_settings The AIOSEO option.
+	 *
+	 * @return bool Whether the settings are set.
+	 */
+	public function isset_settings_tab( $aioseo_settings ) {
+		return isset( $aioseo_settings['searchAppearance'][ $this->settings_tab ] );
+	}
+
+	/**
 	 * Queries the database and retrieves unimported AiOSEO settings (in chunks if a limit is applied).
 	 *
-	 * @param int $limit The maximum number of unimported objects to be returned.
+	 * @param int|null $limit The maximum number of unimported objects to be returned.
 	 *
 	 * @return array The (maybe chunked) unimported AiOSEO settings to import.
 	 */
 	protected function query( $limit = null ) {
 		$aioseo_settings = \json_decode( \get_option( $this->get_source_option_name(), '' ), true );
 
-		if ( empty( $aioseo_settings ) || ! isset( $aioseo_settings['searchAppearance'][ $this->settings_tab ] ) ) {
+		if ( empty( $aioseo_settings ) ) {
 			return [];
 		}
 
 		// We specifically want the setttings of the tab we're working with, eg. postTypes, taxonomies, etc.
 		$settings_values = $aioseo_settings['searchAppearance'][ $this->settings_tab ];
-		if ( ! is_array( $settings_values ) ) {
+		if ( ! \is_array( $settings_values ) ) {
 			return [];
 		}
 
-		$flattened_settings = $this->flatten_settings( $settings_values );
+		$flattened_settings = $this->import_helper->flatten_settings( $settings_values );
 
 		return $this->get_unimported_chunk( $flattened_settings, $limit );
-	}
-
-	/**
-	 * Flattens the multidimensional array of AIOSEO settings. Recursive.
-	 *
-	 * @param array  $array      The array to be flattened.
-	 * @param string $key_prefix The key to be used as a base.
-	 *
-	 * @return array The flattened array.
-	 */
-	protected function flatten_settings( $array, $key_prefix = '' ) {
-		$result = [];
-		foreach ( $array as $key => $value ) {
-			if ( is_array( $value ) ) {
-				$result = array_merge( $result, $this->flatten_settings( $value, $key_prefix . '/' . $key ) );
-			}
-			else {
-				$result[ $key_prefix . '/' . $key ] = $value;
-			}
-		}
-
-		return $result;
 	}
 
 	/**
@@ -332,5 +328,15 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Aioseo
 	 */
 	public function import_noindex( $noindex, $mapping ) {
 		return $this->robots_transformer->transform_robot_setting( 'noindex', $noindex, $mapping );
+	}
+
+	/**
+	 * Returns a setting map of the robot setting for one subset of post types/taxonomies/archives.
+	 * For custom archives, it returns an empty array because AIOSEO excludes some custom archives from this option structure, eg. WooCommerce's products and we don't want to raise a false alarm.
+	 *
+	 * @return array The setting map of the robot setting for one subset of post types/taxonomies/archives or an empty array.
+	 */
+	public function pluck_robot_setting_from_mapping() {
+		return [];
 	}
 }

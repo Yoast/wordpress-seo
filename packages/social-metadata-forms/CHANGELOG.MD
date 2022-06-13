@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file. Releases wi
 
 We follow [Semantic Versioning](http://semver.org/).
 
+## Future Release
+### Non user facing
+* Adds an `imageAltText` prop to the `SocialMetadataPreviewForm` component.
+
+
 ## 1.12.0 February 8th, 2021
 ### Enhancements
 * Changes the ImageSelect to use the `@yoast/components` version.

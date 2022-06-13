@@ -5,10 +5,12 @@
  * @package WPSEO\Tests\Doubles
  */
 
+use Yoast\WP\SEO\Integrations\Admin\Ryte_Integration;
+
 /**
  * Test Helper Class.
  */
-class WPSEO_Ryte_Double extends WPSEO_Ryte {
+class WPSEO_Ryte_Double extends Ryte_Integration {
 
 	/**
 	 * Overwrite the request_indexibility method, because it uses a dependency.

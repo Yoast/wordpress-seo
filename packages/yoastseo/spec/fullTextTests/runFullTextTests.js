@@ -12,9 +12,9 @@ import TextCompetingLinksAssessment from "../../src/scoring/assessments/seo/Text
 import TextLengthAssessment from "../../src/scoring/assessments/seo/TextLengthAssessment";
 import OutboundLinksAssessment from "../../src/scoring/assessments/seo/OutboundLinksAssessment";
 import InternalLinksAssessment from "../../src/scoring/assessments/seo/InternalLinksAssessment";
-import TitleKeywordAssessment from "../../src/scoring/assessments/seo/TitleKeywordAssessment";
+import KeyphraseInSEOTitleAssessment from "../../src/scoring/assessments/seo/KeyphraseInSEOTitleAssessment";
 import TitleWidthAssessment from "../../src/scoring/assessments/seo/PageTitleWidthAssessment";
-import UrlKeywordAssessment from "../../src/scoring/assessments/seo/UrlKeywordAssessment";
+import SlugKeywordAssessment from "../../src/scoring/assessments/seo/UrlKeywordAssessment";
 import KeyphraseDistributionAssessment from "../../src/scoring/assessments/seo/KeyphraseDistributionAssessment";
 import ImageKeyphraseAssessment from "../../src/scoring/assessments/seo/KeyphraseInImageTextAssessment";
 import ImageCountAssessment from "../../src/scoring/assessments/seo/ImageCountAssessment";
@@ -102,16 +102,16 @@ testPapers.forEach( function( testPaper ) {
 			compare( new InternalLinksAssessment(), expectedResults.internalLinks );
 		} );
 
-		it( "returns a score and the associated feedback text for the titleKeyword assessment", function() {
-			compare( new TitleKeywordAssessment(), expectedResults.titleKeyword );
+		it( "returns a score and the associated feedback text for the keyphraseInSEOTitle assessment", function() {
+			compare( new KeyphraseInSEOTitleAssessment(), expectedResults.keyphraseInSEOTitle );
 		} );
 
 		it( "returns a score and the associated feedback text for the titleWidth assessment", function() {
 			compare( new TitleWidthAssessment(), expectedResults.titleWidth );
 		} );
 
-		it( "returns a score and the associated feedback text for the urlKeyword assessment", function() {
-			compare( new UrlKeywordAssessment(), expectedResults.urlKeyword );
+		it( "returns a score and the associated feedback text for the slugKeyword assessment", function() {
+			compare( new SlugKeywordAssessment(), expectedResults.slugKeyword );
 		} );
 
 		it( "returns a score and the associated feedback text for the keyphraseDistribution assessment", function() {

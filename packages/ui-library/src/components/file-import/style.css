@@ -1,0 +1,141 @@
+@layer components {
+    .yst-file-import {
+        @apply yst-max-w-screen-sm yst-space-y-8;
+    }
+
+    .yst-file-import__select {
+        @apply
+            yst-w-full
+            yst-px-6
+            yst-pt-5
+            yst-pb-6
+            yst-border-2
+            yst-border-dashed
+            yst-rounded-md
+            yst-text-center
+            yst-transition-all
+            yst-ease-out
+            yst-duration-300
+            yst-bg-white
+            yst-border-gray-300;
+
+        &.yst-is-drag-over {
+            @apply yst-bg-primary-50 yst-border-primary-300;
+
+            .yst-file-import__select-content {
+                @apply yst-pointer-events-none;
+            }
+
+            .yst-file-import__select-icon {
+                @apply -yst-translate-y-2 yst-text-primary-400;
+            }
+        }
+    }
+
+    .yst-file-import__select-content {
+        @apply
+            yst-max-w-xs
+            yst-inline-flex
+            yst-flex-col
+            yst-space-y-1
+            yst-items-center
+            yst-text-center;
+    }
+
+    .yst-file-import__select-icon {
+        @apply
+            yst-mx-auto
+            yst-h-12
+            yst-w-12
+            yst-text-gray-400
+            yst-stroke-1
+            yst-transition-all
+            yst-ease-out
+            yst-duration-300
+            yst-transform;
+
+        > path {
+            stroke-width: 1;
+        }
+    }
+
+    .yst-file-import__input {
+        @apply yst-sr-only;
+
+        &:focus + .yst-file-import__select-label {
+            @apply yst-outline-none yst-ring-2 yst-ring-offset-2 yst-ring-primary-500;
+        }
+    }
+
+    .yst-file-import__select-labels {
+        @apply yst-flex yst-font-normal yst-text-gray-800;
+    }
+
+    .yst-file-import__select-label {
+        @apply yst-rounded-md yst-font-medium;
+    }
+
+    .yst-file-import__feedback {
+        @apply
+            yst-rounded-md
+            yst-shadow-md
+            yst-border
+            yst-border-gray-300
+            yst-bg-white
+            yst-p-4;
+    }
+
+    .yst-file-import__feedback-header {
+        @apply yst-flex yst-items-start yst-space-x-4;
+    }
+
+    .yst-file-import__feedback-figure {
+        @apply yst-bg-primary-100 yst-w-8 yst-h-8 yst-rounded-full yst-flex yst-items-center yst-justify-center;
+
+        > svg {
+            @apply yst-h-5 yst-w-5 yst-text-primary-500;
+        }
+    }
+
+    .yst-file-import__feedback-title {
+        @apply yst-block yst-text-gray-700 yst-font-medium yst-mb-0.5 yst-break-words;
+    }
+
+    .yst-file-import__feedback-description {
+        @apply yst-block yst-text-xs yst-font-medium;
+    }
+
+    .yst-file-import__abort-button {
+        @apply
+            yst-flex-shrink-0
+            yst-h-5
+            yst-w-5
+            yst-rounded-full
+            yst-inline-flex
+            yst-items-center
+            yst-justify-center
+            yst-text-gray-500
+            yst-bg-gray-100
+            hover:yst-bg-gray-200
+            hover:yst-text-gray-600
+            focus:yst-outline-none
+            focus:yst-bg-primary-500
+            focus:yst-text-white;
+        
+        > svg {
+            @apply yst-h-3 yst-w-3;
+
+            > path {
+                stroke-width: 3;
+            }
+        }
+    }
+
+    .yst-file-import__status-icon {
+        @apply yst-h-5 yst-w-5;
+    }
+
+    .yst-file-import__feedback-content {
+        @apply yst-mt-6 yst-space-y-2;
+    }
+}

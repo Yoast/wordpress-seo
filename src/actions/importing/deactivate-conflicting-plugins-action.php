@@ -2,8 +2,7 @@
 
 namespace Yoast\WP\SEO\Actions\Importing;
 
-use wpdb;
-use Yoast\WP\SEO\Conditionals\AIOSEO_V4_Importer_Conditional;
+use Yoast\WP\SEO\Conditionals\Updated_Importer_Framework_Conditional;
 use Yoast\WP\SEO\Config\Conflicting_Plugins;
 use Yoast\WP\SEO\Helpers\Import_Cursor_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
@@ -89,14 +88,14 @@ class Deactivate_Conflicting_Plugins_Action extends Abstract_Aioseo_Importing_Ac
 	}
 
 	/**
-	 * Returns whether the AISOEO post importing action is enabled.
+	 * Returns whether the updated importer framework is enabled.
 	 *
-	 * @return bool True if the AISOEO post importing action is enabled.
+	 * @return bool True if the updated importer framework is enabled.
 	 */
 	public function is_enabled() {
-		$aioseo_importer_conditional = \YoastSEO()->classes->get( AIOSEO_V4_Importer_Conditional::class );
+		$updated_importer_framework_conditional = \YoastSEO()->classes->get( Updated_Importer_Framework_Conditional::class );
 
-		return $aioseo_importer_conditional->is_met();
+		return $updated_importer_framework_conditional->is_met();
 	}
 
 	/**

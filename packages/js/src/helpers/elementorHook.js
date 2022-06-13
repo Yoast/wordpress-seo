@@ -1,4 +1,5 @@
 /* global $e */
+
 /**
  * A class that conforms to the Elementor hooks format,
  * so that we can register its instance as a callback.

@@ -7,11 +7,12 @@ use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
-// phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
 /**
  * Post type archive watcher to save the meta data to an Indexable.
  *
  * Watches the home page options to save the meta information when updated.
+ *
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Indexable_Post_Type_Archive_Watcher implements Integration_Interface {
 

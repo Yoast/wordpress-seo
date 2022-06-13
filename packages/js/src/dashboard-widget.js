@@ -165,6 +165,13 @@ class DashboardWidget extends Component {
 					status: keyphraseChartData.status,
 				},
 			} );
+		} else {
+			this.setState( {
+				wincherData: {
+					results: [],
+					status: keyphraseChartData.status,
+				},
+			} );
 		}
 	}
 

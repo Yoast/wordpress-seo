@@ -90,7 +90,7 @@ describe( "serialize", () => {
 			title: "A text about a keyword.",
 			synonyms: "",
 			titleWidth: 0,
-			url: "",
+			slug: "",
 			date: "8 September 2021",
 		} );
 	} );

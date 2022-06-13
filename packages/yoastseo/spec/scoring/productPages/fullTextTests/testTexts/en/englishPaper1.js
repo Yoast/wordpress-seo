@@ -12,7 +12,7 @@ const paper = new Paper( content, {
 	titleWidth: 450,
 	locale: "en_EN",
 	permalink: "https://en.wikipedia.org/wiki/Cat_play_and_toys",
-	url: "Cat_play_and_toys",
+	slug: "Cat_play_and_toys",
 } );
 
 const expectedResults = {
@@ -57,12 +57,12 @@ const expectedResults = {
 	textLength: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/shopify58' target='_blank'>Text length</a>: The text contains 218 words. Good job!",
+		resultText: "<a href='https://yoa.st/shopify58' target='_blank'>Text length</a>: The text contains 217 words. Good job!",
 	},
-	titleKeyword: {
+	keyphraseInSEOTitle: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/shopify24' target='_blank'>Keyphrase in title</a>: Does not contain the exact match. " +
+		resultText: "<a href='https://yoa.st/shopify24' target='_blank'>Keyphrase in SEO title</a>: Does not contain the exact match. " +
 			"<a href='https://yoa.st/shopify25' target='_blank'>Try to write the exact match of your keyphrase in the SEO title " +
 			"and put it at the beginning of the title</a>.",
 	},
@@ -71,7 +71,7 @@ const expectedResults = {
 		score: 9,
 		resultText: "<a href='https://yoa.st/shopify52' target='_blank'>SEO title width</a>: Good job!",
 	},
-	urlKeyword: {
+	slugKeyword: {
 		isApplicable: true,
 		score: 9,
 		resultText: "<a href='https://yoa.st/shopify26' target='_blank'>Keyphrase in slug</a>: Great work!",

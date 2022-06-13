@@ -16,6 +16,8 @@ import { forEach } from "lodash-es";
 export const getMorphologicalPassives = function( paper, researcher ) {
 	const isPassiveSentence = researcher.getHelper( "isPassiveSentence" );
 	const text = paper.getText();
+	// It's not necessary to pass the memoized tokenizer from the researcher here, since only Japanese has the language specific tokenizer.
+	// Passive voice analysis is not supported in Japanese.
 	const sentences = getSentences( text )
 		.map( function( sentence ) {
 			return new Sentence( sentence );

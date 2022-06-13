@@ -129,7 +129,7 @@ class Organization_Test extends TestCase {
 		foreach ( $profiles_input as $profile_type => $profile_value ) {
 			$this->options->expects( 'get' )
 				->once()
-				->with( $profile_type, '' )
+				->withSomeOfArgs( $profile_type )
 				->andReturn( $profile_value );
 		}
 		Filters\expectApplied( 'wpseo_schema_organization_social_profiles' )
@@ -189,7 +189,7 @@ class Organization_Test extends TestCase {
 		foreach ( $profiles_input as $profile_type => $profile_value ) {
 			$this->options->expects( 'get' )
 				->once()
-				->with( $profile_type, '' )
+				->withSomeOfArgs( $profile_type )
 				->andReturn( $profile_value );
 		}
 		Filters\expectApplied( 'wpseo_schema_organization_social_profiles' )
@@ -250,72 +250,98 @@ class Organization_Test extends TestCase {
 		return [
 			'Every possible social profile filled' => [
 				'profiles_input'    => [
-					'facebook_site' => 'https://www.facebook.com/yoast/',
-					'instagram_url' => 'https://www.instagram.com/yoast/',
-					'linkedin_url'  => 'https://www.linkedin.com/company/yoast-com',
-					'myspace_url'   => 'https://myspace.com/yoast/',
-					'youtube_url'   => 'https://www.youtube.com/yoast',
-					'pinterest_url' => 'https://www.pinterest.com/yoast/',
-					'wikipedia_url' => 'https://en.wikipedia.org/wiki/Yoast_SEO',
-					'twitter_site'  => 'yoast',
+					'facebook_site'     => 'https://www.facebook.com/yoast/',
+					'twitter_site'      => 'yoast',
+					'other_social_urls' => [
+						'https://www.instagram.com/yoast/',
+						'https://www.linkedin.com/company/yoast-com',
+						'https://myspace.com/yoast/',
+						'https://www.youtube.com/yoast',
+						'https://www.pinterest.com/yoast/',
+						'https://en.wikipedia.org/wiki/Yoast_SEO',
+					],
 				],
 				'profiles_expected' => [
-					'https://www.facebook.com/yoast/',
 					'https://www.instagram.com/yoast/',
 					'https://www.linkedin.com/company/yoast-com',
 					'https://myspace.com/yoast/',
 					'https://www.youtube.com/yoast',
 					'https://www.pinterest.com/yoast/',
 					'https://en.wikipedia.org/wiki/Yoast_SEO',
+					'https://www.facebook.com/yoast/',
 					'https://twitter.com/yoast',
 				],
 			],
 			'Without Twitter' => [
 				'profiles_input'    => [
-					'facebook_site' => 'https://www.facebook.com/yoast/',
-					'instagram_url' => 'https://www.instagram.com/yoast/',
-					'linkedin_url'  => 'https://www.linkedin.com/company/yoast-com',
-					'myspace_url'   => 'https://myspace.com/yoast/',
-					'youtube_url'   => 'https://www.youtube.com/yoast',
-					'pinterest_url' => 'https://www.pinterest.com/yoast/',
-					'wikipedia_url' => 'https://en.wikipedia.org/wiki/Yoast_SEO',
-					'twitter_site'  => '',
+					'facebook_site'     => 'https://www.facebook.com/yoast/',
+					'twitter_site'      => '',
+					'other_social_urls' => [
+						'https://www.instagram.com/yoast/',
+						'https://www.linkedin.com/company/yoast-com',
+						'https://myspace.com/yoast/',
+						'https://www.youtube.com/yoast',
+						'https://www.pinterest.com/yoast/',
+						'https://en.wikipedia.org/wiki/Yoast_SEO',
+					],
 				],
 				'profiles_expected' => [
-					'https://www.facebook.com/yoast/',
 					'https://www.instagram.com/yoast/',
 					'https://www.linkedin.com/company/yoast-com',
 					'https://myspace.com/yoast/',
 					'https://www.youtube.com/yoast',
 					'https://www.pinterest.com/yoast/',
 					'https://en.wikipedia.org/wiki/Yoast_SEO',
+					'https://www.facebook.com/yoast/',
 				],
 			],
 			'Only Twitter' => [
 				'profiles_input'    => [
-					'facebook_site' => '',
-					'instagram_url' => '',
-					'linkedin_url'  => '',
-					'myspace_url'   => '',
-					'youtube_url'   => '',
-					'pinterest_url' => '',
-					'wikipedia_url' => '',
-					'twitter_site'  => 'yoast',
+					'facebook_site'     => '',
+					'twitter_site'      => 'yoast',
+					'other_social_urls' => [],
 				],
 				'profiles_expected' => [
 					'https://twitter.com/yoast',
 				],
 			],
+			'Some empty options' => [
+				'profiles_input'    => [
+					'facebook_site'     => 'https://www.facebook.com/yoast/',
+					'twitter_site'      => 'yoast',
+					'other_social_urls' => [
+						'',
+						'https://www.linkedin.com/company/yoast-com',
+						'https://myspace.com/yoast/',
+						'https://www.youtube.com/yoast',
+						'https://www.pinterest.com/yoast/',
+						'',
+						'https://en.wikipedia.org/wiki/Yoast_SEO',
+					],
+				],
+				'profiles_expected' => [
+					'https://www.linkedin.com/company/yoast-com',
+					'https://myspace.com/yoast/',
+					'https://www.youtube.com/yoast',
+					'https://www.pinterest.com/yoast/',
+					'https://en.wikipedia.org/wiki/Yoast_SEO',
+					'https://www.facebook.com/yoast/',
+					'https://twitter.com/yoast',
+				],
+			],
 			'Duplicated URLs' => [
 				'profiles_input'    => [
-					'facebook_site' => 'https://www.facebook.com/yoast/',
-					'instagram_url' => 'https://www.facebook.com/yoast/',
-					'linkedin_url'  => 'https://www.linkedin.com/company/yoast-com',
-					'myspace_url'   => 'https://myspace.com/yoast/',
-					'youtube_url'   => 'https://www.youtube.com/yoast',
-					'pinterest_url' => 'https://www.pinterest.com/yoast/',
-					'wikipedia_url' => 'https://en.wikipedia.org/wiki/Yoast_SEO',
-					'twitter_site'  => 'yoast',
+					'facebook_site'     => 'https://www.facebook.com/yoast/',
+					'twitter_site'      => 'yoast',
+					'other_social_urls' => [
+						'https://www.facebook.com/yoast/',
+						'https://www.linkedin.com/company/yoast-com',
+						'https://myspace.com/yoast/',
+						'https://www.youtube.com/yoast',
+						'https://www.pinterest.com/yoast/',
+						'https://en.wikipedia.org/wiki/Yoast_SEO',
+						'https://myspace.com/yoast/',
+					],
 				],
 				'profiles_expected' => [
 					'https://www.facebook.com/yoast/',

@@ -448,7 +448,7 @@ class WPSEO_Utils {
 	 * @since 1.8.0
 	 */
 	public static function clear_rewrites() {
-		delete_option( 'rewrite_rules' );
+		update_option( 'rewrite_rules', '' );
 	}
 
 	/**
@@ -947,7 +947,7 @@ class WPSEO_Utils {
 	 * @return false|string The prepared JSON string.
 	 */
 	public static function format_json_encode( $data ) {
-		$flags = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE;
+		$flags = ( JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE );
 
 		if ( self::is_development_mode() ) {
 			$flags = ( $flags | JSON_PRETTY_PRINT );
@@ -1270,7 +1270,7 @@ class WPSEO_Utils {
 	 * @deprecated 15.5
 	 * @codeCoverageIgnore
 	 *
-	 * @param array  $graph The Schema graph array to output.
+	 * @param array  $graph        The Schema graph array to output.
 	 * @param string $class_to_add The (optional) class to add to the script tag.
 	 *
 	 * @return false|string A schema blob with script tags.

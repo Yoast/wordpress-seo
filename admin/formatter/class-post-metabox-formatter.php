@@ -137,6 +137,11 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 			$base_url = preg_replace( '#%postname%/?$#', '', $this->permalink );
 		}
 
+		// If %pagename% is the last tag, just strip it and use that as a base.
+		if ( preg_match( '#%pagename%/?$#', $this->permalink ) === 1 ) {
+			$base_url = preg_replace( '#%pagename%/?$#', '', $this->permalink );
+		}
+
 		return $base_url;
 	}
 

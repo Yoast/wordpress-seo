@@ -126,11 +126,12 @@ class Person extends Abstract_Schema_Piece {
 	/**
 	 * Builds our array of Schema Person data for a given user ID.
 	 *
-	 * @param int $user_id The user ID to use.
+	 * @param int  $user_id  The user ID to use.
+	 * @param bool $add_hash Wether or not the person's image url hash should be added to the image id.
 	 *
 	 * @return array An array of Schema Person data.
 	 */
-	protected function build_person_data( $user_id ) {
+	protected function build_person_data( $user_id, $add_hash = false ) {
 		$user_data = \get_userdata( $user_id );
 		$data      = [
 			'@type' => $this->type,
@@ -143,7 +144,7 @@ class Person extends Abstract_Schema_Piece {
 		}
 
 		$data['name'] = $this->helpers->schema->html->smart_strip_tags( $user_data->display_name );
-		$data         = $this->add_image( $data, $user_data );
+		$data         = $this->add_image( $data, $user_data, $add_hash );
 
 		if ( ! empty( $user_data->description ) ) {
 			$data['description'] = $this->helpers->schema->html->smart_strip_tags( $user_data->description );
@@ -167,19 +168,21 @@ class Person extends Abstract_Schema_Piece {
 	 *
 	 * @param array   $data      The Person schema.
 	 * @param WP_User $user_data User data.
+	 * @param bool    $add_hash  Wether or not the person's image url hash should be added to the image id.
 	 *
 	 * @return array The Person schema.
 	 */
-	protected function add_image( $data, $user_data ) {
+	protected function add_image( $data, $user_data, $add_hash = false ) {
 		$schema_id = $this->context->site_url . Schema_IDs::PERSON_LOGO_HASH;
 
-		$data = $this->set_image_from_options( $data, $schema_id );
+		$data = $this->set_image_from_options( $data, $schema_id, $add_hash, $user_data );
 		if ( ! isset( $data['image'] ) ) {
-			$data = $this->set_image_from_avatar( $data, $user_data, $schema_id );
+			$data = $this->set_image_from_avatar( $data, $user_data, $schema_id, $add_hash );
 		}
 
 		if ( \is_array( $this->type ) && \in_array( 'Organization', $this->type, true ) ) {
-			$data['logo'] = [ '@id' => $schema_id ];
+			$data_logo    = isset( $data['image']['@id'] ) ? $data['image']['@id'] : $schema_id;
+			$data['logo'] = [ '@id' => $data_logo ];
 		}
 
 		return $data;
@@ -188,17 +191,19 @@ class Person extends Abstract_Schema_Piece {
 	/**
 	 * Generate the person image from our settings.
 	 *
-	 * @param array  $data      The Person schema.
-	 * @param string $schema_id The string used in the `@id` for the schema.
+	 * @param array   $data      The Person schema.
+	 * @param string  $schema_id The string used in the `@id` for the schema.
+	 * @param bool    $add_hash  Whether or not the person's image url hash should be added to the image id.
+	 * @param WP_User $user_data User data.
 	 *
 	 * @return array The Person schema.
 	 */
-	protected function set_image_from_options( $data, $schema_id ) {
+	protected function set_image_from_options( $data, $schema_id, $add_hash = false, $user_data = null ) {
 		if ( $this->context->site_represents !== 'person' ) {
 			return $data;
 		}
 		if ( \is_array( $this->context->person_logo_meta ) ) {
-			$data['image'] = $this->helpers->schema->image->generate_from_attachment_meta( $schema_id, $this->context->person_logo_meta, $data['name'] );
+			$data['image'] = $this->helpers->schema->image->generate_from_attachment_meta( $schema_id, $this->context->person_logo_meta, $data['name'], $add_hash );
 		}
 
 		return $data;
@@ -210,10 +215,11 @@ class Person extends Abstract_Schema_Piece {
 	 * @param array   $data      The Person schema.
 	 * @param WP_User $user_data User data.
 	 * @param string  $schema_id The string used in the `@id` for the schema.
+	 * @param bool    $add_hash  Wether or not the person's image url hash should be added to the image id.
 	 *
 	 * @return array The Person schema.
 	 */
-	protected function set_image_from_avatar( $data, $user_data, $schema_id ) {
+	protected function set_image_from_avatar( $data, $user_data, $schema_id, $add_hash = false ) {
 		// If we don't have an image in our settings, fall back to an avatar, if we're allowed to.
 		$show_avatars = \get_option( 'show_avatars' );
 		if ( ! $show_avatars ) {
@@ -225,7 +231,7 @@ class Person extends Abstract_Schema_Piece {
 			return $data;
 		}
 
-		$data['image'] = $this->helpers->schema->image->simple_image_object( $schema_id, $url, $user_data->display_name );
+		$data['image'] = $this->helpers->schema->image->simple_image_object( $schema_id, $url, $user_data->display_name, $add_hash );
 
 		return $data;
 	}
@@ -251,9 +257,11 @@ class Person extends Abstract_Schema_Piece {
 	/**
 	 * Checks the site is represented by the same person as this indexable.
 	 *
+	 * @param WP_User $user_data User data.
+	 *
 	 * @return bool True when the site is represented by the same person as this indexable.
 	 */
-	protected function site_represents_current_author() {
+	protected function site_represents_current_author( $user_data = null ) {
 		// Can only be the case when the site represents a user.
 		if ( $this->context->site_represents !== 'person' ) {
 			return false;
@@ -265,7 +273,9 @@ class Person extends Abstract_Schema_Piece {
 			&& $this->helpers->schema->article->is_author_supported( $this->context->indexable->object_sub_type )
 			&& $this->context->schema_article_type !== 'None'
 		) {
-			return $this->context->site_user_id === $this->context->indexable->author_id;
+			$user_id = ( ( ! \is_null( $user_data ) ) && ( isset( $user_data->ID ) ) ) ? $user_data->ID : $this->context->indexable->author_id;
+
+			return $this->context->site_user_id === $user_id;
 		}
 
 		// Author archive from the same user as the site represents.

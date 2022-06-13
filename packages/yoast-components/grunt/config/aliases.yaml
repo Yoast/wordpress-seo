@@ -2,11 +2,12 @@
 ---
 # Build everything
 build:
-  - 'build:css'
+    - 'build:css'
 # Build CSS
 'build:css':
-  - 'sass:build'
-  - 'postcss:build'
+    - 'postcss:build'
+    - 'copy:css'
+    - 'clean:css'
 
 publish:
-  - 'copy:publish'
+    - 'copy:publish'

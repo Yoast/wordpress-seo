@@ -309,7 +309,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 			[
 				'id'     => 'wpseo-inlinks',
 				'title'  => __( 'Check links to this URL', 'wordpress-seo' ),
-				'href'   => 'https://search.google.com/search-console/links/drilldown?resource_id=' . urlencode( get_option( 'siteurl' ) ) . '&type=EXTERNAL&target=' . $encoded_url . '&domain=',
+				'href'   => 'https://search.google.com/search-console/links/drilldown?resource_id=' . urlencode( get_option( 'home' ) ) . '&type=EXTERNAL&target=' . $encoded_url . '&domain=',
 			],
 			[
 				'id'     => 'wpseo-kwdensity',

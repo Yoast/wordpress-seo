@@ -100,13 +100,18 @@ class Url_Helper {
 	/**
 	 * Gets the path from the passed URL.
 	 *
-	 * @codeCoverageIgnore It only wraps a WordPress function.
-	 *
 	 * @param string $url The URL to get the path from.
 	 *
 	 * @return string The path of the URL. Returns an empty string if URL parsing fails.
 	 */
 	public function get_url_path( $url ) {
+		if ( \is_string( $url ) === false
+			&& \is_object( $url ) === false
+			|| ( \is_object( $url ) === true && \method_exists( $url, '__toString' ) === false )
+		) {
+			return '';
+		}
+
 		return (string) \wp_parse_url( $url, \PHP_URL_PATH );
 	}
 

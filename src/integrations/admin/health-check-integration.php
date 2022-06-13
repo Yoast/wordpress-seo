@@ -2,9 +2,9 @@
 
 namespace Yoast\WP\SEO\Integrations\Admin;
 
+use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Services\Health_Check\Health_Check;
-use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 
 /**
  * Integrates health checks with WordPress' Site Health.
@@ -34,7 +34,7 @@ class Health_Check_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
-		add_filter( 'site_status_tests', [ $this, 'add_health_checks' ] );
+		\add_filter( 'site_status_tests', [ $this, 'add_health_checks' ] );
 	}
 
 	/**
@@ -69,15 +69,15 @@ class Health_Check_Integration implements Integration_Interface {
 	 * @return bool Returns true if the input array is a WordPress site status tests array.
 	 */
 	private function is_valid_site_status_tests_array( $tests ) {
-		if ( ! is_array( $tests ) ) {
+		if ( ! \is_array( $tests ) ) {
 			return false;
 		}
 
-		if ( ! array_key_exists( 'direct', $tests ) ) {
+		if ( ! \array_key_exists( 'direct', $tests ) ) {
 			return false;
 		}
 
-		if ( ! is_array( $tests['direct'] ) ) {
+		if ( ! \is_array( $tests['direct'] ) ) {
 			return false;
 		}
 

@@ -37,7 +37,7 @@ const preloadedState = {
 		keyword: "",
 		synonyms: "",
 		locale: "",
-		url: "",
+		slug: "",
 		permalink: "https://example.org/",
 	},
 };

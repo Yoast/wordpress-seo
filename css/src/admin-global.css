@@ -1,5 +1,5 @@
 @import url(../src/icons.css);
-@import "../../node_modules/yoastseo/css/_tooltips.scss";
+@import "../src/tooltips.css";
 
 .wpseo-premium-indicator {
   width: 1px;
@@ -218,6 +218,13 @@ td .wpseo-score-icon {
   padding: 0;
 }
 
+.fixed th.column-wpseo-score.sortable,
+.fixed th.column-wpseo-score-readability.sortable,
+.fixed th.column-wpseo-score.sorted,
+.fixed th.column-wpseo-score-readability.sorted {
+  width: 3.5em;
+}
+
 /* Don't use selectors related to classes added with JavaScript to avoid flickering. */
 th.column-wpseo-links a,
 th.column-wpseo-linked a,
@@ -235,6 +242,14 @@ th.column-wpseo-score .yoast-tooltip,
 th.column-wpseo-score-readability .yoast-tooltip {
   /* 11+20+11=42px */
   padding: 8px 11px;
+}
+
+th.column-wpseo-score.sortable .yoast-tooltip,
+th.column-wpseo-score-readability.sortable .yoast-tooltip,
+th.column-wpseo-score.sorted .yoast-tooltip,
+th.column-wpseo-score-readability.sorted .yoast-tooltip {
+  /* Remove padding-right so that sorting arrow aligns to right and not bottom */
+  padding-right: 0px;
 }
 
 .column-wpseo-links .yoast-tooltip-multiline::after {
@@ -625,6 +640,10 @@ body.folded .wpseo-admin-submit-fixed {
 	color: #674e00;
 }
 
+.yoast-beta-badge {
+	background-color: #CCE5FF;
+	color: #004973;
+}
 
 .yoast-badge__is-link {
 	text-decoration: none;
@@ -642,5 +661,225 @@ body.folded .wpseo-admin-submit-fixed {
 	vertical-align: bottom;
 }
 
+/* Disabled toggles in the Crawl settings tab */
 
+.yoast #remove_feed_global_free,
+.yoast #remove_feed_global_comments_free,
+.yoast #remove_feed_post_comments_free,
+.yoast #remove_feed_authors_free,
+.yoast #remove_feed_categories_free,
+.yoast #remove_feed_tags_free,
+.yoast #remove_feed_custom_taxonomies_free,
+.yoast #remove_feed_post_types_free,
+.yoast #remove_feed_search_free,
+.yoast #remove_atom_rdf_feeds_free,
+.yoast #remove_shortlinks_free,
+.yoast #remove_rest_api_links_free,
+.yoast #remove_rsd_wlw_links_free,
+.yoast #remove_oembed_links_free,
+.yoast #remove_generator_free,
+.yoast #remove_emoji_scripts_free,
+.yoast #remove_powered_by_header_free,
+.yoast #remove_pingback_header_free,
+.yoast #allow_remove_shortlinks_free,
+.yoast #allow_remove_rest_api_links_free,
+.yoast #allow_remove_rsd_wlw_links_free,
+.yoast #allow_remove_oembed_links_free,
+.yoast #allow_remove_generator_free,
+.yoast #allow_remove_emoji_scripts_free,
+.yoast #allow_remove_powered_by_header_free,
+.yoast #allow_remove_pingback_header_free,
+.yoast #allow_remove_feed_global_free,
+.yoast #allow_remove_feed_global_comments_free,
+.yoast #allow_remove_feed_post_comments_free,
+.yoast #allow_remove_feed_authors_free,
+.yoast #allow_remove_feed_categories_free,
+.yoast #allow_remove_feed_tags_free,
+.yoast #allow_remove_feed_custom_taxonomies_free,
+.yoast #allow_remove_feed_post_types_free,
+.yoast #allow_remove_feed_search_free,
+.yoast #allow_remove_atom_rdf_feeds_free {
+	opacity: 0.5;
+}
+
+.yoast #remove_feed_global_free .switch-toggle.switch-yoast-seo input:disabled ~ a,
+.yoast #remove_feed_global_comments_free .switch-toggle.switch-yoast-seo input:disabled ~ a,
+.yoast #remove_feed_post_comments_free .switch-toggle.switch-yoast-seo input:disabled ~ a,
+.yoast #remove_feed_authors_free .switch-toggle.switch-yoast-seo input:disabled ~ a,
+.yoast #remove_feed_categories_free .switch-toggle.switch-yoast-seo input:disabled ~ a,
+.yoast #remove_feed_tags_free .switch-toggle.switch-yoast-seo input:disabled ~ a,
+.yoast #remove_feed_custom_taxonomies_free .switch-toggle.switch-yoast-seo input:disabled ~ a,
+.yoast #remove_feed_post_types_free .switch-toggle.switch-yoast-seo input:disabled ~ a,
+.yoast #remove_feed_search_free .switch-toggle.switch-yoast-seo input:disabled ~ a,
+.yoast #remove_atom_rdf_feeds_free .switch-toggle.switch-yoast-seo input:disabled ~ a,
+.yoast #remove_shortlinks_free .switch-toggle.switch-yoast-seo input:disabled ~ a,
+.yoast #remove_rest_api_links_free .switch-toggle.switch-yoast-seo input:disabled ~ a,
+.yoast #remove_rsd_wlw_links_free .switch-toggle.switch-yoast-seo input:disabled ~ a,
+.yoast #remove_oembed_links_free .switch-toggle.switch-yoast-seo input:disabled ~ a,
+.yoast #remove_generator_free .switch-toggle.switch-yoast-seo input:disabled ~ a,
+.yoast #remove_emoji_scripts_free .switch-toggle.switch-yoast-seo input:disabled ~ a,
+.yoast #remove_pingback_header_free .switch-toggle.switch-yoast-seo input:disabled ~ a,
+.yoast #remove_powered_by_header_free .switch-toggle.switch-yoast-seo input:disabled ~ a,
+.yoast #allow_remove_shortlinks_free .switch-toggle.switch-yoast-seo input:disabled ~ a,
+.yoast #allow_remove_rest_api_links_free .switch-toggle.switch-yoast-seo input:disabled ~ a,
+.yoast #allow_remove_rsd_wlw_links_free .switch-toggle.switch-yoast-seo input:disabled ~ a,
+.yoast #allow_remove_oembed_links_free .switch-toggle.switch-yoast-seo input:disabled ~ a,
+.yoast #allow_remove_generator_free .switch-toggle.switch-yoast-seo input:disabled ~ a,
+.yoast #allow_remove_emoji_scripts_free .switch-toggle.switch-yoast-seo input:disabled ~ a,
+.yoast #allow_remove_pingback_header_free .switch-toggle.switch-yoast-seo input:disabled ~ a,
+.yoast #allow_remove_powered_by_header_free .switch-toggle.switch-yoast-seo input:disabled ~ a,
+.yoast #allow_remove_feed_global_free .switch-toggle.switch-yoast-seo input:disabled ~ a,
+.yoast #allow_remove_feed_global_comments_free .switch-toggle.switch-yoast-seo input:disabled ~ a,
+.yoast #allow_remove_feed_post_comments_free .switch-toggle.switch-yoast-seo input:disabled ~ a,
+.yoast #allow_remove_feed_authors_free .switch-toggle.switch-yoast-seo input:disabled ~ a,
+.yoast #allow_remove_feed_categories_free .switch-toggle.switch-yoast-seo input:disabled ~ a,
+.yoast #allow_remove_feed_tags_free .switch-toggle.switch-yoast-seo input:disabled ~ a,
+.yoast #allow_remove_feed_custom_taxonomies_free .switch-toggle.switch-yoast-seo input:disabled ~ a,
+.yoast #allow_remove_feed_post_types_free .switch-toggle.switch-yoast-seo input:disabled ~ a,
+.yoast #allow_remove_feed_search_free .switch-toggle.switch-yoast-seo input:disabled ~ a,
+.yoast #allow_remove_atom_rdf_feeds_free .switch-toggle.switch-yoast-seo input:disabled ~ a {
+	border: 1px solid #b5b5b5;
+	background: #a4286a;
+}
+
+.yoast .yoast-global-comments-feed-help,
+.yoast .yoast-global-comments-feed-help-free {
+	font-style: italic;
+}
+/* Global notifications */
+.notice-yoast {
+	background: #fff;
+  border: 1px solid #c3c4c7;
+  border-left-width: 4px;
+  box-shadow: 0 1px 1px rgb(0 0 0 / 4%);
+  margin: 5px 0 15px;
+  padding: 1px 12px;
+
+	border-left-color: var(--yoast-color-primary);
+	margin-left: 0;
+	margin-top: 20px;
+}
+
+.notice-yoast.is-dismissible {
+	padding-right: 38px;
+    position: relative;
+}
+
+.notice-yoast__container {
+	padding: 10px 0 5px 0;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.notice-yoast__header {
+	padding: 0;
+  margin-bottom: 8px;
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: row;
+	justify-content: left;
+	align-items: center;
+	width: 100%;
+}
+
+.notice-yoast__header .notice-yoast__header-heading {
+	line-height: 1.2;
+	margin: 0;
+	padding: 0;
+}
+
+.notice-yoast__header h1 {
+	font-size: 14px;
+	font-weight: 600;
+	color: var(--yoast-color-primary);
+	line-height: 1;
+	margin: 0;
+}
+
+.notice-yoast__header .yoast-icon {
+	background-color: var(--yoast-color-primary);
+	mask-image: var(--yoast-svg-icon-yoast);
+	-webkit-mask-image: var(--yoast-svg-icon-yoast);
+	mask-size: 100% 100%;
+	-webkit-mask-size: 100% 100%;
+	display: inline-block;
+	width: 14px;
+	height: 14px;
+	margin-right: 8px;
+}
+
+.notice-yoast__content {
+	padding: 0;
+	display: flex;
+}
+
+.notice-yoast img,
+.notice-yoast .notice-yoast__container > svg {
+	line-height: 1;
+	margin-left: 10px;
+	height: 60px;
+	width: auto;
+}
+
+.notice-yoast p {
+	font-size: 13px;
+	font-weight: 400;
+	max-width: 600px;
+	line-height: 19px;
+}
+
+.notice-yoast .yoast-button--small {
+	min-height: unset;
+}
+
+.notice-yoast .notice-dismiss {
+  position: absolute;
+  top: 0;
+  right: 1px;
+  border: none;
+  margin: 0;
+  padding: 9px;
+  background: none;
+  color: #787c82;
+  cursor: pointer;
+}
+
+.notice-yoast .notice-dismiss::before {
+  background: none;
+  color: #787c82;
+  content: "\f153";
+  display: block;
+  font: normal 16px/20px dashicons;
+  speak: never;
+  height: 20px;
+  text-align: center;
+  width: 20px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.notice-yoast .notice-dismiss:hover::before {
+  color: #d63638;
+}
+
+
+
+.yoast .yoast-global-comments-feed-help-free {
+  opacity: 0.5;
+}
+
+
+.yoast .yoast-crawl-settings-explanation-free {
+  opacity: 0.5;
+}
+
+.yoast h3.yoast-crawl-settings,
+.yoast h3.yoast-crawl-settings-free {
+  margin: 2em 0 0.5em 0;
+}
+
+.yoast h3.yoast-crawl-settings-free {
+  opacity: 0.5;
+}
 /*# sourceMappingURL=admin-global.css.map */

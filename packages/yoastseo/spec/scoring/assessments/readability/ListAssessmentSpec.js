@@ -37,7 +37,7 @@ describe( "tests for the assessment applicability.", function() {
 
 	it( "returns true when the paper is not empty.", function() {
 		const paper = new Paper( "sample keyword", {
-			url: "sample-with-keyword",
+			slug: "sample-with-keyword",
 			keyword: "kéyword",
 		} );
 		expect( listAssessment.isApplicable( paper ) ).toBe( true );

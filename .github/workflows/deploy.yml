@@ -1,0 +1,260 @@
+name: Deploy
+
+##############################################################################
+# WARNING!
+# The deploy workflow (re-)uses information retrieved from the original
+# commit which triggered the workflow, such as the branch name, the committer,
+# and the commit message.
+#
+# This type of data should always be regarded as **untrusted** input and when
+# these `github....` variables are used directly within the `run` context,
+# they can lead to script injection and unintended execution of commands.
+#
+# To mitigate the risk of these type of script injection attacks, untrusted
+# data is first set as a step-specific interim environment variable and only
+# after that the environment variable (not the github variables directly)
+# is used in the `run` context.
+#
+# This complies with the current best practices regarding defending against
+# these type of attacks as per January 2022.
+# For more information, see:
+# https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions
+##############################################################################
+
+on:
+  # Trigger the workflow whenever a new tag is created.
+  push:
+    # Trigger the workflow on select branches.
+    branches:
+      - trunk
+      - 'release/**'
+      - 'hotfix/[0-9]+.[0-9]+*'
+      - 'feature/**'
+    # Trigger the workflow whenever a new tag is created.
+    tags:
+      - '**'
+  # Allow manually triggering the workflow.
+  workflow_dispatch:
+
+# Cancels all previous workflow runs for the same branch that have not yet completed.
+concurrency:
+  # The concurrency group contains the workflow name and the branch name.
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  DIST_ORG: 'Yoast-dist'
+  DIST_DEFAULT_BRANCH: 'master'
+
+jobs:
+  prepare:
+    name: "Prepare the artifact"
+    # Don't run on forks.
+    if: github.repository_owner == 'Yoast'
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 7.2
+          coverage: none
+
+      # This action also handles the caching of the Yarn dependencies.
+      # https://github.com/actions/setup-node
+      - name: Set up node and enable caching of dependencies
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+          cache: 'yarn'
+
+      - name: "Debug info: show tooling versions"
+        run: |
+          php -v
+          node --version
+          npm --version
+          yarn --version
+          grunt --version
+          git --version
+
+      # Install dependencies and handle caching in one go.
+      # The Grunt artifact creation will run `composer install` multiple times (both no-dev as well as dev),
+      # however, Composer packages downloaded are not cached via Grunt.
+      # Running `composer install` ahead of time will ensure that the cache is warmed up
+      # and available across runs of the same workflow.
+      # @link https://github.com/marketplace/actions/install-composer-dependencies
+      - name: Install Composer dependencies and run the prefixing script
+        uses: ramsey/composer-install@v2
+
+      - name: "Debug info: show directory layout"
+        run: tree -dC .
+
+      - name: Yarn install
+        run: yarn install
+
+      - name: "Grunt: set package version (tags only)"
+        if: ${{ github.event_name == 'push' && github.ref_type == 'tag' }}
+        env:
+          REF_NAME: ${{ github.ref_name }}
+        run: grunt set-version -new-version="$REF_NAME"
+
+      - name: "Grunt: update package version (tags only)"
+        if: ${{ github.event_name == 'push' && github.ref_type == 'tag' }}
+        run: grunt update-version
+
+      - name: "Grunt: create artifact"
+        run: grunt artifact
+
+      - name: "Copy composer.json"
+        run: cp composer.json ./artifact
+
+      - name: "Debug info: show contents of artifacts directory"
+        run: tree -aC ./artifact
+
+      - name: "Debug info: check git status"
+        run: git status -b -v -u
+
+      # Retention is normally 90 days, but this artifact is only for review
+      # and use in the next step, so no need to keep it for more than a day.
+      - name: Upload the artifact folder
+        uses: actions/upload-artifact@v3
+        if: ${{ success() }}
+        with:
+          name: deploy-artifact
+          path: ./artifact
+          if-no-files-found: error
+          retention-days: 1
+
+  deploy:
+    name: "Deploy to dist"
+    # Don't run on forks.
+    if: github.repository_owner == 'Yoast'
+
+    needs: prepare
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Set variable: short sha"
+        id: set_sha
+        env:
+          SHA: ${{ github.sha }}
+        run: |
+          shortsha=$(echo "$SHA" | cut -b 1-6)
+          echo "::set-output name=SHORTSHA::$shortsha"
+
+      - name: "Set variables: target branch, commit title"
+        id: set_vars
+        env:
+          REF_NAME: ${{ github.ref_name }}
+        run: |
+          if [[ "${{ github.event_name }}" == 'push' && "${{ github.ref_type }}" == 'branch' && "$REF_NAME" != "${{ env.DIST_DEFAULT_BRANCH }}" ]]; then
+            echo "::set-output name=BRANCH::$REF_NAME"
+            echo "::set-output name=TITLE::Syncing branch $REF_NAME (sha: ${{ steps.set_sha.outputs.SHORTSHA }})"
+          elif [[ "${{ github.event_name }}" == 'workflow_dispatch' && "$REF_NAME" != "${{ env.DIST_DEFAULT_BRANCH }}" ]]; then
+            echo "::set-output name=BRANCH::$REF_NAME"
+            echo "::set-output name=TITLE::Manual deploy for $REF_NAME (sha: ${{ steps.set_sha.outputs.SHORTSHA }})"
+          else # = Pushed tag.
+            echo "::set-output name=BRANCH::${{ env.DIST_DEFAULT_BRANCH }}"
+            echo "::set-output name=TITLE::Release $REF_NAME"
+          fi
+
+      - name: Checkout Yoast Dist repo
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ env.DIST_ORG }}/${{ github.event.repository.name }}
+          ref: ${{ env.DIST_DEFAULT_BRANCH }}
+          # Personal Access Token for (push) access to the dist version of the repo.
+          token: ${{ secrets.YOASTBOT_CI_PAT_DIST }}
+          fetch-depth: 0
+
+      - name: "Create branch/Switch to branch"
+        if: ${{ steps.set_vars.outputs.BRANCH != env.DIST_DEFAULT_BRANCH }}
+        run: git checkout ${{ steps.set_vars.outputs.BRANCH }} 2>/dev/null || git checkout -b ${{ steps.set_vars.outputs.BRANCH }}
+
+      # Clean out all files to make sure that deleted files will actually
+      # be deleted when the artifact gets put in place.
+      - name: Remove all files
+        run: |
+          # Enable extended pattern matching.
+          shopt -s extglob
+          # Remove everything, except the ".git" directory.
+          rm -vrf !(.git/*)
+          # Disable extended pattern matching.
+          shopt -u extglob
+
+      # After the previous step, only the `.git` directory and its contents should remain.
+      - name: "Debug info: show contents of root directory after cleaning"
+        run: tree -aC .
+
+      # The artifact will be unpacked into the root directory of the repository.
+      - name: Download and unpack the prepared artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: deploy-artifact
+
+      - name: "Debug info: show contents of root directory after artifact insertion"
+        run: tree -aC .
+
+      - name: Remove the vendor directory
+        run: rm -rf ./vendor
+
+      - name: "Debug info: check git status"
+        run: git status -b -v -u
+
+      - name: Set Git config
+        env:
+          ACTOR: ${{ github.actor }}
+        run: |
+          git config user.name 'GitHub Action'
+          git config user.email "$ACTOR@users.noreply.github.com"
+
+      - name: Stage files
+        run: git add -A
+
+      - name: "Commit the files (branch)"
+        if: ${{ github.event_name != 'push' || github.ref_type != 'tag' }}
+        env:
+          COMMITTER: ${{ github.event.head_commit.committer.username }}
+          COMMIT_MSG: ${{ github.event.head_commit.message }}
+          COMMIT_URL: ${{ github.event.head_commit.url }}
+          COMMIT_TIME: ${{ github.event.head_commit.timestamp }}
+        run: |
+          git commit --allow-empty -m "${{ steps.set_vars.outputs.TITLE }}" \
+            -m "Synced up to commit hash: $COMMIT_URL" \
+            -m "Timestamp last commit: $COMMIT_TIME" \
+            -m "Committer last commit: @$COMMITTER" \
+            -m "" \
+            -m "Commit message last commit:" \
+            -m "---------------------------" \
+            -m "$COMMIT_MSG"
+
+      - name: "Commit the files (release)"
+        if: ${{ github.event_name == 'push' && github.ref_type == 'tag' }}
+        env:
+          COMMITTER: ${{ github.event.head_commit.committer.username }}
+          COMMIT_MSG: ${{ github.event.head_commit.message }}
+          COMMIT_URL: ${{ github.event.head_commit.url }}
+          COMMIT_TIME: ${{ github.event.head_commit.timestamp }}
+        run: |
+          git commit -m "${{ steps.set_vars.outputs.TITLE }}" \
+            -m "Commit hash for tag: $COMMIT_URL" \
+            -m "Timestamp for tag: $COMMIT_TIME" \
+            -m "Committer for tag: @$COMMITTER" \
+            -m "" \
+            -m "Commit message last commit:" \
+            -m "---------------------------" \
+            -m "$COMMIT_MSG"
+
+      - name: "Tag the commit (releases only)"
+        if: ${{ github.event_name == 'push' && github.ref_type == 'tag' }}
+        env:
+          REF_NAME: ${{ github.ref_name }}
+        run: git tag "$REF_NAME" $(git rev-parse HEAD)
+
+      - name: Push to target branch
+        run: git push -u origin ${{ steps.set_vars.outputs.BRANCH }} --tags -v

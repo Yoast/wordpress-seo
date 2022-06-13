@@ -72,6 +72,24 @@ class WPSEO_Option_Tab {
 	}
 
 	/**
+	 * Retrieves whether the tab hosts beta functionalities.
+	 *
+	 * @return bool True whether the tab hosts beta functionalities.
+	 */
+	public function is_beta() {
+		return (bool) $this->get_argument( 'beta', false );
+	}
+
+	/**
+	 * Retrieves whether the tab hosts premium functionalities.
+	 *
+	 * @return bool True whether the tab hosts premium functionalities.
+	 */
+	public function is_premium() {
+		return (bool) $this->get_argument( 'premium', false );
+	}
+
+	/**
 	 * Gets the option group.
 	 *
 	 * @return string The option group.
@@ -83,8 +101,8 @@ class WPSEO_Option_Tab {
 	/**
 	 * Retrieves the variable from the supplied arguments.
 	 *
-	 * @param string       $variable       Variable to retrieve.
-	 * @param string|mixed $default_value  Default to use when variable not found.
+	 * @param string       $variable      Variable to retrieve.
+	 * @param string|mixed $default_value Default to use when variable not found.
 	 *
 	 * @return mixed|string The retrieved variable.
 	 */

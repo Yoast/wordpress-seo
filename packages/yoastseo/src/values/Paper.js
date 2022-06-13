@@ -1,18 +1,18 @@
-import { defaults } from "lodash-es";
-import { isEmpty } from "lodash-es";
-import { isEqual } from "lodash-es";
+import { defaults, isEmpty, isEqual } from "lodash-es";
+import { unifyNonBreakingSpace } from "../languageProcessing/helpers/sanitize/unifyWhitespace";
 
 /**
  * Default attributes to be used by the Paper if they are left undefined.
- * @type {{keyword: string, synonyms: string, description: string, title: string, url: string}}
+ * @type {{keyword: string, synonyms: string, description: string, title: string, titleWidth: number,
+ * 		   slug: string, locale: string, permalink: string, date: string}}
  */
-var defaultAttributes = {
+const defaultAttributes = {
 	keyword: "",
 	synonyms: "",
 	description: "",
 	title: "",
 	titleWidth: 0,
-	url: "",
+	slug: "",
 	locale: "en_US",
 	permalink: "",
 	date: "",
@@ -25,24 +25,32 @@ var defaultAttributes = {
  * @param {object} [attributes]             The object containing all attributes.
  * @param {string} [attributes.keyword]     The main keyword.
  * @param {string} [attributes.synonyms]    The main keyword's synonyms.
- * @param {string} [attributes.title]       The SEO title.
  * @param {string} [attributes.description] The SEO description.
+ * @param {string} [attributes.title]       The SEO title.
  * @param {number} [attributes.titleWidth]  The width of the title in pixels.
- * @param {string} [attributes.url]         The slug.
- * @param {string} [attributes.permalink]   The base url + slug.
+ * @param {string} [attributes.slug]        The slug.
  * @param {string} [attributes.locale]      The locale.
- * @param {Object} [attributes.wpBlocks]    The text, encoded in WordPress block editor blocks.
+ * @param {string} [attributes.permalink]   The base url + slug.
  * @param {string} [attributes.date]        The date.
+ * @param {Object} [attributes.wpBlocks]    The text, encoded in WordPress block editor blocks.
  * @constructor
  */
-var Paper = function( text, attributes ) {
+function Paper( text, attributes ) {
 	this._text = text || "";
+	// Unify whitespaces and non-breaking spaces.
+	this._text = unifyNonBreakingSpace( this._text );
 
 	attributes = attributes || {};
 	defaults( attributes, defaultAttributes );
 
 	if ( attributes.locale === "" ) {
 		attributes.locale = defaultAttributes.locale;
+	}
+
+	if ( attributes.hasOwnProperty( "url" ) ) {
+		// The 'url' attribute has been deprecated since version 18.8, refer to hasUrl and getUrl below.
+		console.warn( "The 'url' attribute is deprecated, use 'slug' instead." );
+		attributes.slug = attributes.url || attributes.slug;
 	}
 
 	const onlyLetters = attributes.keyword.replace( /[‘’“”"'.?!:;,¿¡«»&*@#±^%|~`[\](){}⟨⟩<>/\\–\-\u2014\u00d7\u002b\u0026\s]/g, "" );
@@ -52,7 +60,7 @@ var Paper = function( text, attributes ) {
 	}
 
 	this._attributes = attributes;
-};
+}
 
 /**
  * Check whether a keyword is available.
@@ -71,7 +79,7 @@ Paper.prototype.getKeyword = function() {
 };
 
 /**
- * Check whether synonyms is available.
+ * Check whether synonyms are available.
  * @returns {boolean} Returns true if the Paper has synonyms.
  */
 Paper.prototype.hasSynonyms = function() {
@@ -119,7 +127,7 @@ Paper.prototype.getDescription = function() {
 };
 
 /**
- * Check whether an title is available
+ * Check whether a title is available
  * @returns {boolean} Returns true if the Paper has a title.
  */
 Paper.prototype.hasTitle = function() {
@@ -135,7 +143,7 @@ Paper.prototype.getTitle = function() {
 };
 
 /**
- * Check whether an title width in pixels is available
+ * Check whether a title width in pixels is available
  * @returns {boolean} Returns true if the Paper has a title.
  */
 Paper.prototype.hasTitleWidth = function() {
@@ -151,19 +159,39 @@ Paper.prototype.getTitleWidth = function() {
 };
 
 /**
- * Check whether an url is available
- * @returns {boolean} Returns true if the Paper has an Url.
+ * Check whether a slug is available
+ * @returns {boolean} Returns true if the Paper has a slug.
  */
-Paper.prototype.hasUrl = function() {
-	return this._attributes.url !== "";
+Paper.prototype.hasSlug = function() {
+	return this._attributes.slug !== "";
 };
 
 /**
- * Return the url, or an empty string of no url is available.
+ * Return the slug, or an empty string of no slug is available.
+ * @returns {string} Returns the url
+ */
+Paper.prototype.getSlug = function() {
+	return this._attributes.slug;
+};
+
+/**
+ * Check whether an url is available
+ * @deprecated Since version 18.7. Use hasSlug instead.
+ * @returns {boolean} Returns true if the Paper has a slug.
+ */
+Paper.prototype.hasUrl = function() {
+	console.warn( "This function is deprecated, use hasSlug instead" );
+	return this.hasSlug();
+};
+
+/**
+ * Return the url, or an empty string if no url is available.
+ * @deprecated Since version 18.8. Use getSlug instead.
  * @returns {string} Returns the url
  */
 Paper.prototype.getUrl = function() {
-	return this._attributes.url;
+	console.warn( "This function is deprecated, use getSlug instead" );
+	return this.getSlug();
 };
 
 /**
@@ -246,7 +274,7 @@ Paper.prototype.equals = function( paper ) {
  * @returns {Paper} The parsed Paper.
  */
 Paper.parse = function( serialized ) {
-	// _parseClass is taken here so it doesn't end up in the attributes.
+	// _parseClass is taken here, so it doesn't end up in the attributes.
 	// eslint-disable-next-line no-unused-vars
 	const { text, _parseClass, ...attributes } = serialized;
 

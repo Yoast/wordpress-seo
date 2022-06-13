@@ -56,12 +56,12 @@ class WPSEO_Sitemaps_Renderer_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_get_sitemap() {
 
-		$loc   = 'http://example.com/';
-		$mod   = date( 'c' );
-		$src   = 'http://example.com/image.jpg';
-		$title = 'Image title.';
-		$alt   = 'Image alt.';
-		$links = [
+		$loc     = 'http://example.com/?s=keyword&p=2';
+		$mod     = date( 'c' );
+		$image_a = 'http://example.com/image.jpg';
+		$image_b = 'example.com/my category/my=page*without"enco@ding/';
+		$image_c = '//example.com/my category?s=keyword&p=2';
+		$links   = [
 			[
 				'loc'    => $loc,
 				'mod'    => $mod,
@@ -69,20 +69,106 @@ class WPSEO_Sitemaps_Renderer_Test extends WPSEO_UnitTestCase {
 				'pri'    => 1,
 				'images' => [
 					[
-						'src'   => $src,
-						'title' => $title,
-						'alt'   => $alt,
+						'src'   => $image_a,
+					],
+					[
+						'src'   => $image_b,
+					],
+					[
+						'src'   => $image_c,
 					],
 				],
 			],
 		];
 
+		$expected_b = 'http://example.com/my%20category/my%3Dpage%2Awithout%22enco%40ding/';
+		$expected_c = 'http://example.com/my%20category?s=keyword&amp;p=2';
+
 		$index = self::$class_instance->get_sitemap( $links, 'post', 0 );
-		$this->assertStringContainsString( "<loc>{$loc}</loc>", $index );
+		$this->assertStringContainsString( '<loc>' . str_replace( '&', '&amp;', $loc ) . '</loc>', $index );
 		$this->assertStringContainsString( "<lastmod>{$mod}</lastmod>", $index );
-		$this->assertStringContainsString( "<image:loc>{$src}</image:loc>", $index );
-		$this->assertStringContainsString( "<image:title><![CDATA[{$title}]]></image:title>", $index );
-		$this->assertStringContainsString( "<image:caption><![CDATA[{$alt}]]></image:caption>", $index );
+		$this->assertStringContainsString( "<image:loc>{$image_a}</image:loc>", $index );
+		$this->assertStringContainsString( "<image:loc>{$expected_b}</image:loc>", $index );
+		$this->assertStringContainsString( "<image:loc>{$expected_c}</image:loc>", $index );
+	}
+
+	/**
+	 * Tests correctly encoding and escaping URLs.
+	 *
+	 * @covers WPSEO_Sitemaps_Renderer::encode_and_escape
+	 * @covers WPSEO_Sitemaps_Renderer::encode_url_rfc3986
+	 *
+	 * @dataProvider data_encode_and_escape
+	 *
+	 * @param string $loc      Page URL.
+	 * @param string $expected Expected URL as used in the XML sitemap output.
+	 */
+	public function test_encode_and_escape( $loc, $expected ) {
+		$links = [ [ 'loc' => $loc ] ];
+		$index = self::$class_instance->get_sitemap( $links, 'post', 0 );
+
+		$this->assertStringContainsString( '<loc>' . $expected . '</loc>', $index );
+	}
+
+	/**
+	 * Data provider.
+	 *
+	 * Note: the "expected" values should include any potential output escaping as per the `encode_and_escape()` method.
+	 *
+	 * @return array
+	 */
+	public function data_encode_and_escape() {
+		return [
+			'Full URL which will validate with the filter - contains plain &' => [
+				'loc'      => 'http://example.com/page-name?s=keyword&p=2#anchor',
+				'expected' => 'http://example.com/page-name?s=keyword&amp;p=2#anchor',
+			],
+			'Full URL which will validate with the filter - contains &amp;' => [
+				'loc'      => 'http://example.com/page-name?s=keyword&amp;p=2#anchor',
+				'expected' => 'http://example.com/page-name?s=keyword&amp;p=2#anchor',
+			],
+			'Full URL which will validate with the filter - contains &#038;' => [
+				'loc'      => 'http://example.com/page-name?s=keyword&#038;p=2#anchor',
+				'expected' => 'http://example.com/page-name?s=keyword&amp;p=2#anchor',
+			],
+
+			/*
+			 * All the below URLs will not validate with `FILTER_VALIDATE_URL` and will therefore
+			 * fall through to the real logic in the function.
+			 */
+			'URL: no scheme, no path, no trailing slash either' => [
+				'loc'      => 'example.com',
+				'expected' => 'http://example.com',
+			],
+			'URL: no scheme, no path, with trailing slash' => [
+				'loc'      => '//example.com/',
+				'expected' => 'http://example.com/',
+			],
+			'URL: no scheme, has path, no encoding needed' => [
+				'loc'      => '//example.com/my-category/my-page/',
+				'expected' => 'http://example.com/my-category/my-page/',
+			],
+			'URL: no scheme, has path, encoding needed, not pre-encoded' => [
+				'loc'      => '//example.com/my category/my=page*without"enco@ding/',
+				'expected' => 'http://example.com/my%20category/my%3Dpage%2Awithout%22enco%40ding/',
+			],
+			'URL: no scheme, has path, encoding needed, pre-encoded' => [
+				'loc'      => '//example.com/my%20category/my%3Dpage%2Awithout%22enco%40ding/',
+				'expected' => 'http://example.com/my%20category/my%3Dpage%2Awithout%22enco%40ding/',
+			],
+			'URL: no scheme, no path, has query' => [
+				'loc'      => '//example.com/?s=keyword&p=2',
+				'expected' => 'http://example.com/?s=keyword&amp;p=2',
+			],
+			'URL: no scheme, has path, has query' => [
+				'loc'      => '//example.com/page-name?s=keyword&p=2',
+				'expected' => 'http://example.com/page-name?s=keyword&amp;p=2',
+			],
+			'URL: no scheme, has path, has query, path needs encoding' => [
+				'loc'      => '//example.com/my category?s=keyword&p=2',
+				'expected' => 'http://example.com/my%20category?s=keyword&amp;p=2',
+			],
+		];
 	}
 
 	/**

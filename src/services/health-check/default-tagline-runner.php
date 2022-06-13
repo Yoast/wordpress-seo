@@ -25,12 +25,12 @@ class Default_Tagline_Runner implements Runner_Interface {
 	 * @return void
 	 */
 	public function run() {
-		$blog_description = get_option( 'blogdescription' );
+		$blog_description = \get_option( 'blogdescription' );
 
 		// We are using the WordPress internal translation.
-		$translated_blog_description = __( 'Just another WordPress site', 'default' );
+		$translated_blog_description = \__( 'Just another WordPress site', 'default' );
 
-		$this->has_default_tagline = $translated_blog_description === $blog_description || self::DEFAULT_BLOG_DESCRIPTION === $blog_description;
+		$this->has_default_tagline = $translated_blog_description === $blog_description || $blog_description === self::DEFAULT_BLOG_DESCRIPTION;
 	}
 
 	/**
