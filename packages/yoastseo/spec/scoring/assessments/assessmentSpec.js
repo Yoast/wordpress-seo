@@ -33,7 +33,7 @@ describe( "test hasEnoughContentForAssessment", () => {
 		expect( mockAssessment.hasEnoughContentForAssessment( mockPaper, 20 ) ).toBe( true );
 	} );
 
-	it( "should return true if text is less than the specified number of characters", () => {
+	it( "should return false if text is less than the specified number of characters", () => {
 		const mockPaper = new Paper( "This is a short test." );
 		const mockAssessment = new Assessment();
 

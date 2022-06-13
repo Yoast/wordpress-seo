@@ -184,16 +184,17 @@ const wordComplexityAssessment = function( paper, researcher ) {
 /**
  * Checks whether the paper has text.
  *
- * @param {Paper}       paper       The paper to use for the assessment.
- * @param {Researcher}  researcher  The researcher object.
- * @param {number}		contentNeededForAssessment the minimum amount of characters that is required for this research to be applicable.
+ * @param {Paper}       paper       				The paper to use for the assessment.
+ * @param {Researcher}  researcher  				The researcher object.
+ * @param {number}		contentNeededForAssessment	The minimum amount of characters that is required for this research to be applicable.
+ *
  * @returns {boolean} True when there is text.
  */
 const isApplicable = function( paper, researcher, contentNeededForAssessment = 50 ) {
 	/*
 	 Note: this code contains repetition from yoastseo/src/scoring/assessments/assessment.js.
 	 If FleshReadingEase is refactored to a class that extends Assessment,
-	 use this.hasEnoughContentForAssessment( paper ) instead of ext.length >= contentNeededForAssessment
+	 use this.hasEnoughContentForAssessment( paper ) instead of text.length >= contentNeededForAssessment
 	*/
 	const text = sanitizeString( paper.getText() );
 	return text.length >= contentNeededForAssessment && researcher.hasResearch( "wordComplexity" );
