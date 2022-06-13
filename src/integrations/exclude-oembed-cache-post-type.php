@@ -8,8 +8,6 @@ use Yoast\WP\SEO\Conditionals\Migrations_Conditional;
  * Excludes certain oEmbed Cache-specific post types from the indexable table.
  *
  * Posts with these post types will not be saved to the indexable table.
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Exclude_Oembed_Cache_Post_Type extends Abstract_Exclude_Post_Type {
 

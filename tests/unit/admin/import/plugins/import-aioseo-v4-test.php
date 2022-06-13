@@ -12,8 +12,6 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * Tests for the All-in-One SEO V4 import feature.
  *
  * @coversDefaultClass WPSEO_Import_AIOSEO_V4
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class WPSEO_Import_AIOSEO_V4_Test extends TestCase {
 

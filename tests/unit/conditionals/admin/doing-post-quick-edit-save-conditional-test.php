@@ -6,14 +6,14 @@ use Brain\Monkey;
 use Yoast\WP\SEO\Conditionals\Admin\Doing_Post_Quick_Edit_Save_Conditional;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
-// phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- Base class can't be written shorter without abbreviating.
-
 /**
  * Class Doing_Post_Quick_Edit_Save_Conditional
  *
  * @group conditionals
  *
  * @coversDefaultClass \Yoast\WP\SEO\Conditionals\Admin\Doing_Post_Quick_Edit_Save_Conditional
+ *
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- Base class can't be written shorter without abbreviating.
  */
 class Doing_Post_Quick_Edit_Save_Conditional_Test extends TestCase {
 
@@ -95,4 +95,3 @@ class Doing_Post_Quick_Edit_Save_Conditional_Test extends TestCase {
 		self::assertTrue( $this->instance->is_met() );
 	}
 }
-// phpcs:enable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- Base class can't be written shorter without abbreviating.

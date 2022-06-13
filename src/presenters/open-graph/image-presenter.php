@@ -51,7 +51,7 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 					continue;
 				}
 
-				$return .= \PHP_EOL . "\t" . '<meta property="og:image:' . \esc_attr( $key ) . '" content="' . $image_meta[ $key ] . '" />';
+				$return .= \PHP_EOL . "\t" . '<meta property="og:image:' . \esc_attr( $key ) . '" content="' . \esc_attr( $image_meta[ $key ] ) . '" />';
 			}
 		}
 
