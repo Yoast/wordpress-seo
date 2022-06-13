@@ -206,6 +206,8 @@ class Wordproof implements Integration_Interface {
 	 * @param string $src The script's source URL.
 	 *
 	 * @return string The script's tag.
+	 *
+	 * @phpcs:disable WordPress.WP.EnqueuedResources.NonEnqueuedScript
 	 */
 	public function add_async_to_script( $tag, $handle, $src ) {
 		if ( $handle !== WPSEO_Admin_Asset_Manager::PREFIX . 'wordproof-uikit' ) {

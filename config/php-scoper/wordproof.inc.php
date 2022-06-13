@@ -13,7 +13,7 @@ return [
 	 *
 	 * For more see: https://github.com/humbug/php-scoper#finders-and-paths
 	 */
-	'finders'                    => [
+	'finders' => [
 		Finder::create()->files()->in( 'vendor/wordproof/wordpress-sdk' )->exclude( '.php-cs-fixer.dist.php' )->name( [ '*' ] ),
 	],
 
