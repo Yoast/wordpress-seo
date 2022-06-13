@@ -64,62 +64,62 @@ class Loader {
 	/**
 	 * Registers an integration.
 	 *
-	 * @param string $class The class name of the integration to be loaded.
+	 * @param string $integration_class The class name of the integration to be loaded.
 	 *
 	 * @return void
 	 */
-	public function register_integration( $class ) {
-		$this->integrations[] = $class;
+	public function register_integration( $integration_class ) {
+		$this->integrations[] = $integration_class;
 	}
 
 	/**
 	 * Registers an initializer.
 	 *
-	 * @param string $class The class name of the initializer to be loaded.
+	 * @param string $initializer_class The class name of the initializer to be loaded.
 	 *
 	 * @return void
 	 */
-	public function register_initializer( $class ) {
-		$this->initializers[] = $class;
+	public function register_initializer( $initializer_class ) {
+		$this->initializers[] = $initializer_class;
 	}
 
 	/**
 	 * Registers a route.
 	 *
-	 * @param string $class The class name of the route to be loaded.
+	 * @param string $route_class The class name of the route to be loaded.
 	 *
 	 * @return void
 	 */
-	public function register_route( $class ) {
-		$this->routes[] = $class;
+	public function register_route( $route_class ) {
+		$this->routes[] = $route_class;
 	}
 
 	/**
 	 * Registers a command.
 	 *
-	 * @param string $class The class name of the command to be loaded.
+	 * @param string $command_class The class name of the command to be loaded.
 	 *
 	 * @return void
 	 */
-	public function register_command( $class ) {
-		$this->commands[] = $class;
+	public function register_command( $command_class ) {
+		$this->commands[] = $command_class;
 	}
 
 	/**
 	 * Registers a migration.
 	 *
-	 * @param string $plugin  The plugin the migration belongs to.
-	 * @param string $version The version of the migration.
-	 * @param string $class   The class name of the migration to be loaded.
+	 * @param string $plugin          The plugin the migration belongs to.
+	 * @param string $version         The version of the migration.
+	 * @param string $migration_class The class name of the migration to be loaded.
 	 *
 	 * @return void
 	 */
-	public function register_migration( $plugin, $version, $class ) {
+	public function register_migration( $plugin, $version, $migration_class ) {
 		if ( ! \array_key_exists( $plugin, $this->migrations ) ) {
 			$this->migrations[ $plugin ] = [];
 		}
 
-		$this->migrations[ $plugin ][ $version ] = $class;
+		$this->migrations[ $plugin ][ $version ] = $migration_class;
 	}
 
 	/**
@@ -220,12 +220,12 @@ class Loader {
 	/**
 	 * Checks if all conditionals of a given integration are met.
 	 *
-	 * @param Loadable_Interface $class The class name of the integration.
+	 * @param Loadable_Interface $integration_class The class name of the integration.
 	 *
 	 * @return bool Whether or not all conditionals of the integration are met.
 	 */
-	protected function conditionals_are_met( $class ) {
-		$conditionals = $class::get_conditionals();
+	protected function conditionals_are_met( $integration_class ) {
+		$conditionals = $integration_class::get_conditionals();
 		foreach ( $conditionals as $conditional ) {
 			if ( ! $this->container->get( $conditional )->is_met() ) {
 				return false;

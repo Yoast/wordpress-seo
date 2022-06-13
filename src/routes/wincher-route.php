@@ -236,7 +236,7 @@ class Wincher_Route implements Route_Interface {
 	 *
 	 * @param WP_REST_Request $request The request. This request should have a code param set.
 	 *
-	 * @return object The response.
+	 * @return WP_REST_Response The response.
 	 */
 	public function untrack_keyphrase( WP_REST_Request $request ) {
 		$data = $this->keyphrases_action->untrack_keyphrase( $request['keyphraseID'] );
@@ -263,7 +263,7 @@ class Wincher_Route implements Route_Interface {
 	 * @return bool Whether the website_id is valid.
 	 */
 	public function has_valid_website_id( $website_id ) {
-		return ! empty( $website_id ) && is_int( $website_id );
+		return ! empty( $website_id ) && \is_int( $website_id );
 	}
 
 	/**

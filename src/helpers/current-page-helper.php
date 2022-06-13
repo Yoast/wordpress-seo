@@ -416,7 +416,7 @@ class Current_Page_Helper {
 
 		if ( $is_yoast_seo === null ) {
 			$current_page = \filter_input( \INPUT_GET, 'page' );
-			$is_yoast_seo = ( is_string( $current_page ) && \strpos( $current_page, 'wpseo_' ) === 0 );
+			$is_yoast_seo = ( \is_string( $current_page ) && \strpos( $current_page, 'wpseo_' ) === 0 );
 		}
 
 		return $is_yoast_seo;
@@ -436,6 +436,21 @@ class Current_Page_Helper {
 		}
 
 		return $current_yoast_seo_page;
+	}
+
+	/**
+	 * Checks if the current global post is the privacy policy page.
+	 *
+	 * @return bool current global post is set as privacy page
+	 */
+	public function current_post_is_privacy_policy() {
+		global $post;
+
+		if ( ! isset( $post->ID ) ) {
+			return false;
+		}
+
+		return \intval( $post->ID ) === \intval( \get_option( 'wp_page_for_privacy_policy', false ) );
 	}
 
 	/**

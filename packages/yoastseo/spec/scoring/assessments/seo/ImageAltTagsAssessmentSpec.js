@@ -79,7 +79,7 @@ describe( "tests for the assessment applicability.", function() {
 
 	it( "returns false when the paper is not empty but there is no image present.", function() {
 		const paper = new Paper( "sample keyword", {
-			url: "sample-with-keyword",
+			slug: "sample-with-keyword",
 			keyword: "kéyword",
 		} );
 		expect( imageAltTagsAssessment.isApplicable( paper, Factory.buildMockResearcher( {

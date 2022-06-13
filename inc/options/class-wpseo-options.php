@@ -15,7 +15,7 @@ class WPSEO_Options {
 	/**
 	 * The option values.
 	 *
-	 * @var null
+	 * @var array|null
 	 */
 	protected static $option_values = null;
 

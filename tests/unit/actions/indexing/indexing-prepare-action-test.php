@@ -5,9 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Actions\Indexing;
 use Mockery;
 use Yoast\WP\SEO\Actions\Indexing\Indexing_Prepare_Action;
 use Yoast\WP\SEO\Helpers\Indexing_Helper;
-use Yoast\WP\SEO\Integrations\Admin\Indexing_Notification_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Yoast_Notification_Center;
 
 /**
  * Class Indexing_Prepare_Action.

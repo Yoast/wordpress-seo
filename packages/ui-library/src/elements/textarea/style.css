@@ -1,0 +1,26 @@
+@layer components {
+	.yst-textarea {
+		@apply
+			yst-w-full
+			yst-py-2
+			yst-px-3
+			yst-border
+			yst-border-gray-300
+			yst-rounded-md
+			yst-shadow-sm
+			yst-bg-white
+			yst-text-sm
+			yst-text-gray-700
+			yst-placeholder-gray-500
+			focus:yst-outline-none
+			focus:yst-ring-primary-500
+			focus:yst-border-primary-500;
+	}
+
+	.yst-textarea--disabled {
+		@apply
+			yst-opacity-50
+			yst-cursor-not-allowed
+			focus:yst-ring-0;
+	}
+}

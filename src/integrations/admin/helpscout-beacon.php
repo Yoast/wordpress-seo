@@ -7,6 +7,7 @@ use WPSEO_Admin_Asset_Manager;
 use WPSEO_Tracking_Server_Data;
 use WPSEO_Utils;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Config\Migration_Status;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
@@ -87,16 +88,25 @@ class HelpScout_Beacon implements Integration_Interface {
 	protected $asset_manager;
 
 	/**
+	 * The migration status object.
+	 *
+	 * @var Migration_Status
+	 */
+	protected $migration_status;
+
+	/**
 	 * Headless_Rest_Endpoints_Enabled_Conditional constructor.
 	 *
-	 * @param Options_Helper            $options       The options helper.
-	 * @param WPSEO_Admin_Asset_Manager $asset_manager The asset manager.
+	 * @param Options_Helper            $options          The options helper.
+	 * @param WPSEO_Admin_Asset_Manager $asset_manager    The asset manager.
+	 * @param Migration_Status          $migration_status The migrations status.
 	 */
-	public function __construct( Options_Helper $options, WPSEO_Admin_Asset_Manager $asset_manager ) {
-		$this->options       = $options;
-		$this->asset_manager = $asset_manager;
-		$this->ask_consent   = ! $this->options->get( 'tracking' );
-		$this->page          = \filter_input( \INPUT_GET, 'page', \FILTER_SANITIZE_STRING );
+	public function __construct( Options_Helper $options, WPSEO_Admin_Asset_Manager $asset_manager, Migration_Status $migration_status ) {
+		$this->options          = $options;
+		$this->asset_manager    = $asset_manager;
+		$this->ask_consent      = ! $this->options->get( 'tracking' );
+		$this->page             = \filter_input( \INPUT_GET, 'page', \FILTER_SANITIZE_STRING );
+		$this->migration_status = $migration_status;
 
 		foreach ( $this->base_pages as $page ) {
 			if ( $this->ask_consent ) {
@@ -172,17 +182,31 @@ class HelpScout_Beacon implements Integration_Interface {
 	 * @return string The data to pass as identifying data.
 	 */
 	protected function get_session_data() {
+		// Short-circuit if we can get the needed data from a transient.
+		$transient_data = \get_transient( 'yoast_beacon_session_data' );
+
+		if ( \is_array( $transient_data ) ) {
+			return WPSEO_Utils::format_json_encode( $transient_data );
+		}
+
 		$current_user = \wp_get_current_user();
 
 		// Do not make these strings translatable! They are for our support agents, the user won't see them!
-		$data = [
-			'name'                                                   => \trim( $current_user->user_firstname . ' ' . $current_user->user_lastname ),
-			'email'                                                  => $current_user->user_email,
-			'WordPress Version'                                      => $this->get_wordpress_version(),
-			'Server'                                                 => $this->get_server_info(),
-			'<a href="' . \admin_url( 'themes.php' ) . '">Theme</a>' => $this->get_theme_info(),
-			'<a href="' . \admin_url( 'plugins.php' ) . '">Plugins</a>' => $this->get_active_plugins(),
-		];
+		$data = \array_merge(
+			[
+				'name'               => \trim( $current_user->user_firstname . ' ' . $current_user->user_lastname ),
+				'email'              => $current_user->user_email,
+				'Languages'          => $this->get_language_settings(),
+			],
+			$this->get_server_info(),
+			[
+				'WordPress Version'    => $this->get_wordpress_version(),
+				'Active theme'         => $this->get_theme_info(),
+				'Active plugins'       => $this->get_active_plugins(),
+				'Must-use and dropins' => $this->get_mustuse_and_dropins(),
+				'Indexables status'    => $this->get_indexables_status(),
+			]
+		);
 
 		if ( ! empty( $this->products ) ) {
 			$addon_manager = new WPSEO_Addon_Manager();
@@ -197,13 +221,16 @@ class HelpScout_Beacon implements Integration_Interface {
 			}
 		}
 
+		// Store the data in a transient for 5 minutes to prevent overhead on every backend pageload.
+		\set_transient( 'yoast_beacon_session_data', $data, ( 5 * \MINUTE_IN_SECONDS ) );
+
 		return WPSEO_Utils::format_json_encode( $data );
 	}
 
 	/**
 	 * Returns basic info about the server software.
 	 *
-	 * @return string
+	 * @return array
 	 */
 	private function get_server_info() {
 		$server_tracking_data = new WPSEO_Tracking_Server_Data();
@@ -211,24 +238,32 @@ class HelpScout_Beacon implements Integration_Interface {
 		$server_data          = $server_data['server'];
 
 		$fields_to_use = [
-			'IP'       => 'ip',
-			'Hostname' => 'Hostname',
-			'OS'       => 'os',
-			'PHP'      => 'PhpVersion',
-			'CURL'     => 'CurlVersion',
+			'Server IP'        => 'ip',
+			'PHP Version'      => 'PhpVersion',
+			'cURL Version'     => 'CurlVersion',
 		];
 
-		$server_data['CurlVersion'] = $server_data['CurlVersion']['version'] . '(SSL Support' . $server_data['CurlVersion']['sslSupport'] . ')';
+		$server_data['CurlVersion'] = $server_data['CurlVersion']['version'] . ' (SSL Support ' . $server_data['CurlVersion']['sslSupport'] . ')';
 
-		$server_info = '<table>';
+		$server_info = [];
 
 		foreach ( $fields_to_use as $label => $field_to_use ) {
 			if ( isset( $server_data[ $field_to_use ] ) ) {
-				$server_info .= \sprintf( '<tr><td>%1$s</td><td>%2$s</td></tr>', \esc_html( $label ), \esc_html( $server_data[ $field_to_use ] ) );
+				$server_info[ $label ] = \esc_html( $server_data[ $field_to_use ] );
 			}
 		}
 
-		$server_info .= '</table>';
+		// Get the memory limits for the server and, if different, from WordPress as well.
+		$memory_limit                 = \ini_get( 'memory_limit' );
+		$server_info['Memory limits'] = 'Server memory limit: ' . $memory_limit;
+
+		if ( $memory_limit !== \WP_MEMORY_LIMIT ) {
+			$server_info['Memory limits'] .= ', WP_MEMORY_LIMIT: ' . \WP_MEMORY_LIMIT;
+		}
+
+		if ( $memory_limit !== \WP_MAX_MEMORY_LIMIT ) {
+			$server_info['Memory limits'] .= ', WP_MAX_MEMORY_LIMIT: ' . \WP_MAX_MEMORY_LIMIT;
+		}
 
 		return $server_info;
 	}
@@ -245,16 +280,16 @@ class HelpScout_Beacon implements Integration_Interface {
 			return '';
 		}
 
-		$product_info  = '<table>';
-		$product_info .= '<tr><td>Version</td><td>' . $plugin->product->version . '</td></tr>';
-		$product_info .= '<tr><td>Expiration date</td><td>' . $plugin->expiry_date . '</td></tr>';
-		$product_info .= '</table>';
+		$product_info = \sprintf(
+			'Expiration date %1$s',
+			$plugin->expiry_date
+		);
 
 		return $product_info;
 	}
 
 	/**
-	 * Returns the WordPress version + a suffix if current WP is multi site.
+	 * Returns the WordPress version + a suffix about the multisite status.
 	 *
 	 * @return string The WordPress version string.
 	 */
@@ -263,14 +298,17 @@ class HelpScout_Beacon implements Integration_Interface {
 
 		$wordpress_version = $wp_version;
 		if ( \is_multisite() ) {
-			$wordpress_version .= ' MULTI-SITE';
+			$wordpress_version .= ' (multisite: yes)';
+		}
+		else {
+			$wordpress_version .= ' (multisite: no)';
 		}
 
 		return $wordpress_version;
 	}
 
 	/**
-	 * Returns a formatted HTML string for the current theme.
+	 * Returns information about the current theme.
 	 *
 	 * @return string The theme info as string.
 	 */
@@ -278,22 +316,21 @@ class HelpScout_Beacon implements Integration_Interface {
 		$theme = \wp_get_theme();
 
 		$theme_info = \sprintf(
-			'<a href="%1$s">%2$s</a> v%3$s by %4$s',
-			\esc_attr( $theme->display( 'ThemeURI' ) ),
+			'%1$s (Version %2$s, %3$s)',
 			\esc_html( $theme->display( 'Name' ) ),
 			\esc_html( $theme->display( 'Version' ) ),
-			\esc_html( $theme->display( 'Author' ) )
+			\esc_attr( $theme->display( 'ThemeURI' ) )
 		);
 
 		if ( \is_child_theme() ) {
-			$theme_info .= \sprintf( '<br />Child theme of: %1$s', \esc_html( $theme->display( 'Template' ) ) );
+			$theme_info .= \sprintf( ', this is a child theme of: %1$s', \esc_html( $theme->display( 'Template' ) ) );
 		}
 
 		return $theme_info;
 	}
 
 	/**
-	 * Returns a formatted HTML list of all active plugins.
+	 * Returns a stringified list of all active plugins, separated by a pipe.
 	 *
 	 * @return string The active plugins.
 	 */
@@ -302,22 +339,86 @@ class HelpScout_Beacon implements Integration_Interface {
 
 		$active_plugins = '';
 		foreach ( \wp_get_active_and_valid_plugins() as $plugin ) {
-			$plugin_data = \get_plugin_data( $plugin );
-			$plugin_file = \str_replace( \trailingslashit( \WP_PLUGIN_DIR ), '', $plugin );
+			$plugin_data             = \get_plugin_data( $plugin );
+			$plugin_file             = \str_replace( \trailingslashit( \WP_PLUGIN_DIR ), '', $plugin );
+			$plugin_update_available = '';
 
 			if ( isset( $updates_available->response[ $plugin_file ] ) ) {
-				$active_plugins .= '<i class="icon-close1"></i> ';
+				$plugin_update_available = ' [update available]';
 			}
 
 			$active_plugins .= \sprintf(
-				'<a href="%1$s">%2$s</a> v%3$s',
-				\esc_attr( $plugin_data['PluginURI'] ),
+				'%1$s (Version %2$s%3$s, %4$s) | ',
 				\esc_html( $plugin_data['Name'] ),
-				\esc_html( $plugin_data['Version'] )
+				\esc_html( $plugin_data['Version'] ),
+				$plugin_update_available,
+				\esc_attr( $plugin_data['PluginURI'] )
 			);
 		}
 
 		return $active_plugins;
+	}
+
+	/**
+	 * Returns a CSV list of all must-use and drop-in plugins.
+	 *
+	 * @return string The active plugins.
+	 */
+	private function get_mustuse_and_dropins() {
+		$dropins         = \get_dropins();
+		$mustuse_plugins = \get_mu_plugins();
+
+		if ( ! \is_array( $dropins ) ) {
+			$dropins = [];
+		}
+
+		if ( ! \is_array( $mustuse_plugins ) ) {
+			$mustuse_plugins = [];
+		}
+
+		return \sprintf( 'Must-Use plugins: %1$d, Drop-ins: %2$d', \count( $mustuse_plugins ), \count( $dropins ) );
+	}
+
+	/**
+	 * Return the indexables status details.
+	 *
+	 * @return string The indexables status in a string.
+	 */
+	private function get_indexables_status() {
+		$indexables_status  = 'Indexing completed: ';
+		$indexing_completed = $this->options->get( 'indexables_indexing_completed' );
+		$indexing_reason    = $this->options->get( 'indexing_reason' );
+
+		$indexables_status .= ( $indexing_completed ) ? 'yes' : 'no';
+		$indexables_status .= ( $indexing_reason ) ? ', latest indexing reason: ' . \esc_html( $indexing_reason ) : '';
+
+		foreach ( [ 'free', 'premium' ] as $migration_name ) {
+			$current_status = $this->migration_status->get_error( $migration_name );
+
+			if ( \is_array( $current_status ) && isset( $current_status['message'] ) ) {
+				$indexables_status .= ', migration error: ' . \esc_html( $current_status['message'] );
+			}
+		}
+
+		return $indexables_status;
+	}
+
+	/**
+	 * Returns language settings for the website and the current user.
+	 *
+	 * @return string The locale settings of the site and user.
+	 */
+	private function get_language_settings() {
+		$site_locale = \get_locale();
+		$user_locale = \get_user_locale();
+
+		$language_settings = \sprintf(
+			'Site locale: %1$s, user locale: %2$s',
+			( \is_string( $site_locale ) ) ? \esc_html( $site_locale ) : 'unknown',
+			( \is_string( $user_locale ) ) ? \esc_html( $user_locale ) : 'unknown'
+		);
+
+		return $language_settings;
 	}
 
 	/**

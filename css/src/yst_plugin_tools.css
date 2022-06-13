@@ -935,4 +935,17 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
   align-items: center;
 }
 
+@-moz-keyframes yoast-spin {
+	from { -moz-transform: rotate(0deg); }
+	to { -moz-transform: rotate(360deg); }
+}
+@-webkit-keyframes yoast-spin {
+	from { -webkit-transform: rotate(0deg); }
+	to { -webkit-transform: rotate(360deg); }
+}
+@keyframes yoast-spin {
+	from {transform:rotate(0deg);}
+	to {transform:rotate(360deg);}
+}
+
 /*# sourceMappingURL=yst_plugin_tools.css.map */

@@ -20,7 +20,8 @@ import WincherExplanation from "./modals/WincherExplanation";
 import WincherNoKeyphraseSet from "./modals/WincherNoKeyphraseSet";
 import WincherAutoTrackingEnabledAlert from "./modals/WincherAutoTrackingEnabledAlert";
 import LoginPopup from "../helpers/loginPopup";
-import { authenticate, getAuthorizationUrl, handleAPIResponse } from "../helpers/wincherEndpoints";
+import { authenticate, getAuthorizationUrl } from "../helpers/wincherEndpoints";
+import { handleAPIResponse } from "../helpers/api";
 import WincherReconnectAlert from "./modals/WincherReconnectAlert";
 import WincherNoPermalinkAlert from "./modals/WincherNoPermalinkAlert";
 
@@ -33,7 +34,7 @@ import WincherNoPermalinkAlert from "./modals/WincherNoPermalinkAlert";
  * @returns {wp.Element} The error message component.
  */
 const GetErrorMessage = ( { response, onLogin } ) => {
-	if ( response.status === 403 || response.status === 404 ) {
+	if ( [ 401, 403, 404 ].includes( response.status ) ) {
 		return <WincherReconnectAlert onReconnect={ onLogin } />;
 	}
 

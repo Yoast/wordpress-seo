@@ -8,6 +8,7 @@ import sentencesLength from "../helpers/sentence/sentencesLength.js";
  * @returns {Array} The sentences from the text.
  */
 export default function( paper, researcher ) {
-	const sentences = getSentences( paper.getText() );
+	const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
+	const sentences = getSentences( paper.getText(), memoizedTokenizer );
 	return sentencesLength( sentences, researcher );
 }

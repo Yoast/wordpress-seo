@@ -36,7 +36,13 @@
 		"symfony/dependency-injection": "^3.4",
 		"yoast/php-development-environment": "^1.0",
 		"yoast/wp-test-utils": "^1.0.0",
-		"yoast/yoastcs": "^2.2.0"
+		"yoast/yoastcs": "^2.2.1",
+		"chillerlan/php-qrcode": "^1.0.9",
+		"guzzlehttp/guzzle": "6.5.6",
+		"symfony/polyfill-intl-idn": "1.19.0",
+		"symfony/polyfill-intl-normalizer": "1.19.0",
+		"symfony/polyfill-php70": "1.19.0",
+		"symfony/polyfill-php72": "1.19.0"
 	},
 	"minimum-stability": "dev",
 	"prefer-stable": true,
@@ -63,10 +69,10 @@
 			"@php ./vendor/phpunit/phpunit/phpunit -c phpunit-integration.xml.dist"
 		],
 		"lint": [
-			"@php ./vendor/php-parallel-lint/php-parallel-lint/parallel-lint . -e php --exclude vendor --exclude vendor_prefixed --exclude node_modules --exclude .git"
+			"@php ./vendor/php-parallel-lint/php-parallel-lint/parallel-lint . -e php --show-deprecated --exclude vendor --exclude node_modules --exclude .git"
 		],
 		"lint-files": [
-			"@php ./vendor/php-parallel-lint/php-parallel-lint/parallel-lint"
+			"@php ./vendor/php-parallel-lint/php-parallel-lint/parallel-lint -e php --show-deprecated"
 		],
 		"lint-branch": [
 			"Yoast\\WP\\SEO\\Composer\\Actions::lint_branch"
@@ -78,8 +84,8 @@
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_coding_standards"
 		],
 		"check-cs-thresholds": [
-			"@putenv YOASTCS_THRESHOLD_ERRORS=252",
-			"@putenv YOASTCS_THRESHOLD_WARNINGS=219",
+			"@putenv YOASTCS_THRESHOLD_ERRORS=241",
+			"@putenv YOASTCS_THRESHOLD_WARNINGS=217",
 			"Yoast\\WP\\SEO\\Composer\\Actions::check_cs_thresholds"
 		],
 		"check-cs": [
@@ -103,7 +109,8 @@
 		],
 		"prefix-dependencies": [
 			"composer prefix-oauth2-client",
-			"composer prefix-symfony"
+			"composer prefix-symfony",
+			"composer prefix-php-qrcode"
 		],
 		"prefix-oauth2-client": [
 			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/league/oauth2-client --config=config/php-scoper/oauth2-client.inc.php --force --quiet",
@@ -112,6 +119,9 @@
 		],
 		"prefix-symfony": [
 			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/symfony/dependency-injection --config=config/php-scoper/dependency-injection.inc.php --force --quiet"
+		],
+		"prefix-php-qrcode": [
+			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/chillerlan/php-qrcode --config=config/php-scoper/php-qrcode.inc.php --force --quiet"
 		],
 		"compile-di": [
 			"rm -f ./src/generated/container.php",

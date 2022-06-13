@@ -216,7 +216,6 @@ class Indexable_Helper_Test extends TestCase {
 			$field_name = $field['field_name'];
 
 			$indexable->$field_name = $field['field_value'];
-
 		}
 
 		$fields_to_check = [

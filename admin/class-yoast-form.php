@@ -79,6 +79,7 @@ class Yoast_Form {
 		require_once ABSPATH . 'wp-admin/options-head.php';
 		?>
 		<h1 id="wpseo-title"><?php echo esc_html( get_admin_page_title() ); ?></h1>
+		<div id="yst-settings-header-root"></div>
 		<div class="wpseo_content_wrapper">
 		<div class="wpseo_content_cell" id="wpseo_content_top">
 		<?php
@@ -366,9 +367,9 @@ class Yoast_Form {
 	 * @since 2.0
 	 * @since 2.1 Introduced the `$attr` parameter.
 	 *
-	 * @param string       $variable   The variable within the option to create the text input field for.
-	 * @param string       $label The label to show for the variable.
-	 * @param array|string $attr  Extra attributes to add to the input field. Can be class, disabled, autocomplete.
+	 * @param string       $variable The variable within the option to create the text input field for.
+	 * @param string       $label    The label to show for the variable.
+	 * @param array|string $attr     Extra attributes to add to the input field. Can be class, disabled, autocomplete.
 	 */
 	public function textinput( $variable, $label, $attr = [] ) {
 		$type = 'text';
@@ -481,9 +482,9 @@ class Yoast_Form {
 	 *
 	 * @since 2.0
 	 *
-	 * @param string       $variable   The variable within the option to create the textarea for.
-	 * @param string       $label The label to show for the variable.
-	 * @param string|array $attr  The CSS class or an array of attributes to assign to the textarea.
+	 * @param string       $variable The variable within the option to create the textarea for.
+	 * @param string       $label    The label to show for the variable.
+	 * @param string|array $attr     The CSS class or an array of attributes to assign to the textarea.
 	 */
 	public function textarea( $variable, $label, $attr = [] ) {
 		if ( ! is_array( $attr ) ) {
@@ -815,7 +816,11 @@ class Yoast_Form {
 		printf( '<div class="%s">', esc_attr( 'switch-container' . $help_class ) );
 		echo '<fieldset id="', $var_esc, '" class="fieldset-switch-toggle"><legend>', $label, '</legend>', $help;
 
-		echo $this->get_disabled_note( $variable );
+		// Show disabled note if attribute does not exists or does exist and is set to true.
+		if ( ! isset( $attr['show_disabled_note'] ) || ( $attr['show_disabled_note'] === true ) ) {
+			echo $this->get_disabled_note( $variable );
+		}
+
 		echo '<div class="switch-toggle switch-candy switch-yoast-seo">';
 
 		foreach ( $values as $key => $value ) {

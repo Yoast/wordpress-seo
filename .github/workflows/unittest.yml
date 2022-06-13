@@ -1,0 +1,78 @@
+name: Unit Test
+
+on:
+  # Run on pushes to select branches and on all pull requests.
+  push:
+    branches:
+      - master
+      - trunk
+      - 'release/**'
+      - 'hotfix/[0-9]+.[0-9]+*'
+      - 'feature/**'
+  pull_request:
+  # Allow manually triggering the workflow.
+  workflow_dispatch:
+
+# Cancels all previous workflow runs for the same branch that have not yet completed.
+concurrency:
+  # The concurrency group contains the workflow name and the branch name.
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  unit-test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php_version: ['5.6', '7.0', '7.2', '7.4', '8.0', '8.1']
+
+    name: "Unit Test: PHP ${{ matrix.php_version }}"
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # The prefix-dependencies task makes use of reflection-based PHP code that only works on PHP > 7.2.
+      - name: Install PHP 7.x for generating the vendor_prefixed directory and dependency injection
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 7.2
+          coverage: none
+
+      - name: Install Composer dependencies, generate vendor_prefixed directory and run dependency injection
+        uses: ramsey/composer-install@v2
+
+      # Remove packages which are not PHP cross-version compatible and only used for the prefixing.
+      # - humbug/php-scoper is only needed to actually do the prefixing, so won't be shipped anyway.
+      # - league/oauth2-client and its dependencies *are* the packages being prefixed.
+      - name: Delete dependencies which are not cross-version compatible
+        run: composer remove --dev --no-scripts humbug/php-scoper league/oauth2-client
+
+      - name: Remove vendor directory
+        run: rm -rf vendor/*
+
+      - name: Install PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php_version }}
+          ini-values: zend.assertions=1, error_reporting=-1, display_errors=On
+          coverage: none
+
+      - name: "Composer: remove PHPUnit root requirement"
+        run: composer remove --dev phpunit/phpunit --no-update --no-scripts
+
+      # Install dependencies and handle caching in one go.
+      # - Updates the test utilities (and only those!) to the most appropriate version
+      #   for the PHP version on which the tests will be run.
+      # @link https://github.com/marketplace/actions/install-composer-dependencies
+      - name: Install Composer dependencies
+        uses: ramsey/composer-install@v2
+        with:
+          # Force a `composer update` run.
+          dependency-versions: "highest"
+          # But make it selective.
+          composer-options: "yoast/wp-test-utils --with-dependencies --no-scripts"
+
+      - name: Run unit tests
+        run: composer test

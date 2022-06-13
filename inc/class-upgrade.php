@@ -76,6 +76,10 @@ class WPSEO_Upgrade {
 			'17.2-RC0'   => 'upgrade_172',
 			'17.7.1-RC0' => 'upgrade_1771',
 			'17.9-RC0'   => 'upgrade_179',
+			'18.3-RC3'   => 'upgrade_183',
+			'18.6-RC0'   => 'upgrade_186',
+			'18.9-RC0'   => 'upgrade_189',
+			'19.1-RC0'   => 'upgrade_191',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -860,6 +864,67 @@ class WPSEO_Upgrade {
 	 */
 	private function upgrade_179() {
 		WPSEO_Options::set( 'wincher_integration_active', true );
+	}
+
+	/**
+	 * Performs the 18.3 upgrade routine.
+	 */
+	private function upgrade_183() {
+		$this->delete_post_meta( 'yoast-structured-data-blocks-images-cache' );
+	}
+
+	/**
+	 * Performs the 18.6 upgrade routine.
+	 */
+	private function upgrade_186() {
+		if ( is_multisite() ) {
+			WPSEO_Options::set( 'allow_wincher_integration_active', false );
+		}
+	}
+
+	/**
+	 * Performs the 18.9 upgrade routine.
+	 */
+	private function upgrade_189() {
+		// Make old users not get the Installation Success page after upgrading.
+		WPSEO_Options::set( 'should_redirect_after_install_free', false );
+		// We're adding a hardcoded time here, so that in the future we can be able to identify whether the user did see the Installation Success page or not.
+		// If they did, they wouldn't have this hardcoded value in that option, but rather (roughly) the timestamp of the moment they saw it.
+		WPSEO_Options::set( 'activation_redirect_timestamp_free', 1652258756 );
+
+		// Transfer the Social URLs.
+		$other   = [];
+		$other[] = WPSEO_Options::get( 'instagram_url' );
+		$other[] = WPSEO_Options::get( 'linkedin_url' );
+		$other[] = WPSEO_Options::get( 'myspace_url' );
+		$other[] = WPSEO_Options::get( 'pinterest_url' );
+		$other[] = WPSEO_Options::get( 'youtube_url' );
+		$other[] = WPSEO_Options::get( 'wikipedia_url' );
+
+		WPSEO_Options::set( 'other_social_urls', array_values( array_unique( array_filter( $other ) ) ) );
+
+		// Transfer the progress of the old Configuration Workout.
+		$workout_data      = WPSEO_Options::get( 'workouts_data' );
+		$old_conf_progress = isset( $workout_data['configuration']['finishedSteps'] ) ? $workout_data['configuration']['finishedSteps'] : [];
+
+		if ( in_array( 'optimizeSeoData', $old_conf_progress, true ) && in_array( 'siteRepresentation', $old_conf_progress, true ) ) {
+			// If completed ‘SEO optimization’ and ‘Site representation’ step, we assume the workout was completed.
+			$configuration_finished_steps = [
+				'siteRepresentation',
+				'socialProfiles',
+				'personalPreferences',
+			];
+			WPSEO_Options::set( 'configuration_finished_steps', $configuration_finished_steps );
+		}
+	}
+
+	/**
+	 * Performs the 19.1 upgrade routine.
+	 */
+	private function upgrade_191() {
+		if ( is_multisite() ) {
+			WPSEO_Options::set( 'allow_remove_feed_post_comments', true );
+		}
 	}
 
 	/**

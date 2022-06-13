@@ -82,6 +82,11 @@ class Yoast_Feature_Toggles_Test extends TestCase {
 			'has_read_more' => true,
 			'has_after'     => false,
 		],
+		12 => [
+			'name'          => 'IndexNow',
+			'has_read_more' => true,
+			'has_after'     => false,
+		],
 	];
 
 	/**
@@ -150,6 +155,7 @@ class Yoast_Feature_Toggles_Test extends TestCase {
 			9  => 'Usage tracking',
 			10 => 'REST API: Head endpoint',
 			11 => 'Enhanced Slack sharing',
+			12 => 'IndexNow',
 		];
 
 		$this->stubEscapeFunctions();

@@ -59,7 +59,7 @@ abstract class Abstract_Indexable_Tag_Presenter extends Abstract_Indexable_Prese
 			case 'html':
 				return \esc_html( $value );
 			case 'url':
-				return \esc_url( $value );
+				return \esc_url( $value, null, 'attribute' );
 			case 'attribute':
 			default:
 				return \esc_attr( $value );

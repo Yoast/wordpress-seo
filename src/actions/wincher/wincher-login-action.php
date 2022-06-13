@@ -28,7 +28,7 @@ class Wincher_Login_Action {
 	/**
 	 * Wincher_Login_Action constructor.
 	 *
-	 * @param Wincher_Client $client The API client.
+	 * @param Wincher_Client $client         The API client.
 	 * @param Options_Helper $options_helper The options helper.
 	 */
 	public function __construct( Wincher_Client $client, Options_Helper $options_helper ) {
@@ -51,7 +51,7 @@ class Wincher_Login_Action {
 	/**
 	 * Authenticates with Wincher to request the necessary tokens.
 	 *
-	 * @param string $code The authentication code to use to request a token with.
+	 * @param string $code       The authentication code to use to request a token with.
 	 * @param string $website_id The website id associated with the code.
 	 *
 	 * @return object The response object.

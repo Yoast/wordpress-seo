@@ -45,7 +45,7 @@ class Structured_Data_Blocks implements Integration_Interface {
 	/**
 	 * Whether or not we've registered our shutdown function.
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $registered_shutdown_function = false;
 
@@ -218,7 +218,8 @@ class Structured_Data_Blocks implements Integration_Interface {
 				if ( $attachment_id === 0 ) {
 					return $matches[0];
 				}
-				$image_size = 'full';
+				$image_size  = 'full';
+				$image_style = [ 'style' => 'max-width: 100%; height: auto;' ];
 				\preg_match( '/style="[^"]*width:\s*(\d+)px[^"]*"/', $matches[0], $style_matches );
 				if ( $style_matches && isset( $style_matches[1] ) ) {
 					$width     = (int) $style_matches[1];
@@ -228,6 +229,7 @@ class Structured_Data_Blocks implements Integration_Interface {
 						$height       = ( $width * $aspect_ratio );
 						$image_size   = [ $width, $height ];
 					}
+					$image_style = '';
 				}
 
 				/**
@@ -249,7 +251,7 @@ class Structured_Data_Blocks implements Integration_Interface {
 					$attachment_id,
 					$image_size,
 					false,
-					[ 'style' => 'max-width: 100%; height: auto;' ]
+					$image_style
 				);
 
 				if ( empty( $image_html ) ) {

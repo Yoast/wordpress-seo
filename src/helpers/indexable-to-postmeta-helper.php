@@ -99,7 +99,7 @@ class Indexable_To_Postmeta_Helper {
 	 *
 	 * @param Indexable $indexable The Yoast indexable.
 	 *
-	 * @return void.
+	 * @return void
 	 */
 	public function map_to_postmeta( $indexable ) {
 		foreach ( $this->yoast_to_postmeta as $indexable_column => $map_info ) {
@@ -114,7 +114,7 @@ class Indexable_To_Postmeta_Helper {
 	 * @param string    $post_meta_key    The post_meta key that will be populated.
 	 * @param string    $indexable_column The indexable data that will be mapped to post_meta.
 	 *
-	 * @return void.
+	 * @return void
 	 */
 	public function simple_map( $indexable, $post_meta_key, $indexable_column ) {
 		if ( empty( $indexable->{$indexable_column} ) ) {
@@ -131,7 +131,7 @@ class Indexable_To_Postmeta_Helper {
 	 * @param string    $post_meta_key    The post_meta key that will be populated.
 	 * @param string    $indexable_column The indexable data that will be mapped to post_meta.
 	 *
-	 * @return void.
+	 * @return void
 	 */
 	public function social_image_map( $indexable, $post_meta_key, $indexable_column ) {
 		if ( empty( $indexable->{$indexable_column} ) ) {
@@ -160,10 +160,10 @@ class Indexable_To_Postmeta_Helper {
 	/**
 	 * Deletes the noindex post_meta key if no noindex in the indexable. Populates the post_meta key appropriately if there is noindex in the indexable.
 	 *
-	 * @param Indexable $indexable        The Yoast indexable.
-	 * @param string    $post_meta_key    The post_meta key that will be populated.
+	 * @param Indexable $indexable     The Yoast indexable.
+	 * @param string    $post_meta_key The post_meta key that will be populated.
 	 *
-	 * @return void.
+	 * @return void
 	 */
 	public function noindex_map( $indexable, $post_meta_key ) {
 		if ( \is_null( $indexable->is_robots_noindex ) ) {
@@ -183,10 +183,10 @@ class Indexable_To_Postmeta_Helper {
 	/**
 	 * Deletes the nofollow post_meta key if no nofollow in the indexable or if nofollow is false. Populates the post_meta key appropriately if there is a true nofollow in the indexable.
 	 *
-	 * @param Indexable $indexable        The Yoast indexable.
-	 * @param string    $post_meta_key    The post_meta key that will be populated.
+	 * @param Indexable $indexable     The Yoast indexable.
+	 * @param string    $post_meta_key The post_meta key that will be populated.
 	 *
-	 * @return void.
+	 * @return void
 	 */
 	public function nofollow_map( $indexable, $post_meta_key ) {
 		if ( \is_null( $indexable->is_robots_nofollow ) || $indexable->is_robots_nofollow === false ) {
@@ -201,10 +201,10 @@ class Indexable_To_Postmeta_Helper {
 	/**
 	 * Deletes the nofollow post_meta key if no nofollow in the indexable or if nofollow is false. Populates the post_meta key appropriately if there is a true nofollow in the indexable.
 	 *
-	 * @param Indexable $indexable        The Yoast indexable.
-	 * @param string    $post_meta_key    The post_meta key that will be populated.
+	 * @param Indexable $indexable     The Yoast indexable.
+	 * @param string    $post_meta_key The post_meta key that will be populated.
 	 *
-	 * @return void.
+	 * @return void
 	 */
 	public function robots_adv_map( $indexable, $post_meta_key ) {
 		$adv_settings_to_be_imported = [];

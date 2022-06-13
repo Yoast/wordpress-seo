@@ -164,9 +164,6 @@ class WPSEO_Author_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 		// Fetches the global sitemap.
 		set_query_var( 'sitemap', 'author' );
 
-		// Sets the page to the second one, which should not contain an entry, and should not exist.
-		set_query_var( 'sitemap_n', '1' );
-
 		// Loads the sitemap.
 		$sitemaps = new WPSEO_Sitemaps_Double();
 		$sitemaps->redirect( $GLOBALS['wp_the_query'] );

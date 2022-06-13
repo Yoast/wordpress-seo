@@ -117,10 +117,10 @@ class Yoast_Plugin_Conflict {
 	 * This method will loop through all conflicting plugins to get the details of each plugin. The plugin name
 	 * will be taken from the details to parse a comma separated string, which can be use for by example a notice
 	 *
-	 * @param string $plugin_section Plugin conflict type (such as Open Graph or sitemap).
-	 *
 	 * @deprecated 17.7 This method is unused and will be removed in the future
 	 * @codeCoverageIgnore
+	 *
+	 * @param string $plugin_section Plugin conflict type (such as Open Graph or sitemap).
 	 *
 	 * @return string
 	 */

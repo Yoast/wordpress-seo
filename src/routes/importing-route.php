@@ -5,7 +5,8 @@ namespace Yoast\WP\SEO\Routes;
 use WP_Error;
 use WP_REST_Response;
 use Yoast\WP\SEO\Actions\Importing\Importing_Action_Interface;
-use Yoast\WP\SEO\Conditionals\AIOSEO_V4_Importer_Conditional;
+use Yoast\WP\SEO\Conditionals\No_Conditionals;
+use Yoast\WP\SEO\Exceptions\Importing\Aioseo_Validation_Exception;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\Services\Importing\Importable_Detector_Service;
 
@@ -15,6 +16,8 @@ use Yoast\WP\SEO\Services\Importing\Importable_Detector_Service;
  * Importing route for importing from other SEO plugins.
  */
 class Importing_Route extends Abstract_Action_Route {
+
+	use No_Conditionals;
 
 	/**
 	 * The import route constant.
@@ -52,21 +55,12 @@ class Importing_Route extends Abstract_Action_Route {
 	}
 
 	/**
-	 * Returns the conditionals based in which this loadable should be active.
-	 *
-	 * @return array
-	 */
-	public static function get_conditionals() {
-		return [ AIOSEO_V4_Importer_Conditional::class ];
-	}
-
-	/**
 	 * Registers routes with WordPress.
 	 *
 	 * @return void
 	 */
 	public function register_routes() {
-		register_rest_route(
+		\register_rest_route(
 			Main::API_V1_NAMESPACE,
 			self::ROUTE,
 			[
@@ -78,7 +72,7 @@ class Importing_Route extends Abstract_Action_Route {
 	}
 
 	/**
-	 * Executes the rest request.
+	 * Executes the rest request, but only if the respective action is enabled.
 	 *
 	 * @param mixed $data The request parameters.
 	 *
@@ -93,7 +87,7 @@ class Importing_Route extends Abstract_Action_Route {
 		try {
 			$importer = $this->get_importer( $plugin, $type );
 
-			if ( $importer === false ) {
+			if ( $importer === false || ! $importer->is_enabled() ) {
 				return new WP_Error(
 					'rest_no_route',
 					'Requested importer not found',
@@ -105,7 +99,7 @@ class Importing_Route extends Abstract_Action_Route {
 
 			$result = $importer->index();
 
-			if ( $result === false || count( $result ) === 0 ) {
+			if ( $result === false || \count( $result ) === 0 ) {
 				$next_url = false;
 			}
 
@@ -114,6 +108,14 @@ class Importing_Route extends Abstract_Action_Route {
 				$next_url
 			);
 		} catch ( \Exception $exception ) {
+			if ( $exception instanceof Aioseo_Validation_Exception ) {
+				return new WP_Error(
+					'wpseo_error_validation',
+					$exception->getMessage(),
+					[ 'stackTrace' => $exception->getTraceAsString() ]
+				);
+			}
+
 			return new WP_Error(
 				'wpseo_error_indexing',
 				$exception->getMessage(),
@@ -133,7 +135,7 @@ class Importing_Route extends Abstract_Action_Route {
 	protected function get_importer( $plugin, $type ) {
 		$importers = $this->importable_detector->filter_actions( $this->importers, $plugin, $type );
 
-		if ( count( $importers ) !== 1 ) {
+		if ( \count( $importers ) !== 1 ) {
 			return false;
 		}
 

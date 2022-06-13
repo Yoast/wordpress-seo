@@ -1,0 +1,17 @@
+{
+  "name": "@yoast/jest-preset",
+  "version": "1.0.1",
+  "description": "A Jest preset for Yoast packages.",
+  "main": "jest-preset.js",
+  "author": "Team Yoast <support@yoast.com>",
+  "license": "GPL-3.0",
+  "private": false,
+  "dependencies": {
+    "@wordpress/jest-preset-default": "^8.0.1",
+    "babel-jest": "^27.5.1"
+  },
+  "peerDependencies": {
+    "@babel/core": "^7.17.2",
+    "jest": "^27.5.1"
+  }
+}

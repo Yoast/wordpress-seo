@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Actions\Wincher;
 use Exception;
 use WP_Post;
 use WPSEO_Meta;
+use WPSEO_Utils;
 use Yoast\WP\SEO\Config\Wincher_Client;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
@@ -59,8 +60,8 @@ class Wincher_Keyphrases_Action {
 	/**
 	 * Wincher_Keyphrases_Action constructor.
 	 *
-	 * @param Wincher_Client       $client         The API client.
-	 * @param Options_Helper       $options_helper The options helper.
+	 * @param Wincher_Client       $client               The API client.
+	 * @param Options_Helper       $options_helper       The options helper.
 	 * @param Indexable_Repository $indexable_repository The indexables repository.
 	 */
 	public function __construct(
@@ -89,7 +90,7 @@ class Wincher_Keyphrases_Action {
 			);
 
 			// Enforce arrrays to ensure a consistent way of preparing the request.
-			if ( ! is_array( $keyphrases ) ) {
+			if ( ! \is_array( $keyphrases ) ) {
 				$keyphrases = [ $keyphrases ];
 			}
 
@@ -107,7 +108,7 @@ class Wincher_Keyphrases_Action {
 
 			$formatted_keyphrases = \array_values(
 				\array_map(
-					function ( $keyphrase ) {
+					static function ( $keyphrase ) {
 						return [
 							'keyword' => $keyphrase,
 							'groups'  => [],
@@ -117,15 +118,15 @@ class Wincher_Keyphrases_Action {
 				)
 			);
 
-			$results = $this->client->post( $endpoint, \WPSEO_Utils::format_json_encode( $formatted_keyphrases ) );
+			$results = $this->client->post( $endpoint, WPSEO_Utils::format_json_encode( $formatted_keyphrases ) );
 
 			if ( ! \array_key_exists( 'data', $results ) ) {
 				return $this->to_result_object( $results );
 			}
 
 			// The endpoint returns a lot of stuff that we don't want/need.
-			$results['data'] = array_map(
-				function( $keyphrase ) {
+			$results['data'] = \array_map(
+				static function( $keyphrase ) {
 					return [
 						'id'         => $keyphrase['id'],
 						'keyword'    => $keyphrase['keyword'],
@@ -180,8 +181,8 @@ class Wincher_Keyphrases_Action {
 	 * Gets the keyphrase data for the passed keyphrases.
 	 * Retrieves all available data if no keyphrases are provided.
 	 *
-	 * @param array  $used_keyphrases The currently used keyphrases. Optional.
-	 * @param string $permalink       The current permalink. Optional.
+	 * @param array|null  $used_keyphrases The currently used keyphrases. Optional.
+	 * @param string|null $permalink       The current permalink. Optional.
 	 *
 	 * @return object The keyphrase chart data.
 	 */
@@ -209,7 +210,7 @@ class Wincher_Keyphrases_Action {
 
 			$results = $this->client->post(
 				$endpoint,
-				\WPSEO_Utils::format_json_encode(
+				WPSEO_Utils::format_json_encode(
 					[
 						'keywords' => $used_keyphrases,
 						'url'      => $permalink,
@@ -260,7 +261,7 @@ class Wincher_Keyphrases_Action {
 			$keyphrases[] = $primary_keyphrase->primary_focus_keyword;
 		}
 
-		if ( YoastSEO()->helpers->product->is_premium() ) {
+		if ( \YoastSEO()->helpers->product->is_premium() ) {
 			$additional_keywords = \json_decode( WPSEO_Meta::get_value( 'focuskeywords', $post->ID ), true );
 
 			$keyphrases = \array_merge( $keyphrases, $additional_keywords );
@@ -290,7 +291,7 @@ class Wincher_Keyphrases_Action {
 			'primary_focus_keyword'
 		);
 
-		if ( YoastSEO()->helpers->product->is_premium() ) {
+		if ( \YoastSEO()->helpers->product->is_premium() ) {
 			// Collect all related keyphrases.
 			$meta_key = WPSEO_Meta::$meta_prefix . 'focuskeywords';
 
@@ -330,7 +331,7 @@ class Wincher_Keyphrases_Action {
 	protected function filter_results_by_used_keyphrases( $results, $used_keyphrases ) {
 		return \array_filter(
 			$results,
-			function( $result ) use ( $used_keyphrases ) {
+			static function( $result ) use ( $used_keyphrases ) {
 				return \in_array( $result['keyword'], \array_map( 'strtolower', $used_keyphrases ), true );
 			}
 		);
@@ -345,7 +346,7 @@ class Wincher_Keyphrases_Action {
 	 * @return bool Whether the limit is exceeded.
 	 */
 	protected function would_exceed_limits( $keyphrases, $limits ) {
-		if ( ! is_array( $keyphrases ) ) {
+		if ( ! \is_array( $keyphrases ) ) {
 			$keyphrases = [ $keyphrases ];
 		}
 
@@ -353,7 +354,7 @@ class Wincher_Keyphrases_Action {
 			return false;
 		}
 
-		return ( count( $keyphrases ) + $limits->usage ) > $limits->limit;
+		return ( \count( $keyphrases ) + $limits->usage ) > $limits->limit;
 	}
 
 	/**

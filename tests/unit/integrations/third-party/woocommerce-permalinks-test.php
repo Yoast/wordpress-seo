@@ -113,14 +113,14 @@ class WooCommerce_Permalinks_Test extends TestCase {
 			->once()
 			->with( 'post', 'product' );
 
-		$old = [
+		$old_value = [
 			'product_base' => 'bar',
 		];
-		$new = [
+		$new_value = [
 			'product_base' => 'foo',
 		];
 
-		$this->instance->reset_woocommerce_permalinks( $old, $new );
+		$this->instance->reset_woocommerce_permalinks( $old_value, $new_value );
 	}
 
 	/**
@@ -147,14 +147,14 @@ class WooCommerce_Permalinks_Test extends TestCase {
 			->with( 'my_attribute' )
 			->andReturn( 'my_attribute' );
 
-		$old = [
+		$old_value = [
 			'attribute_base' => 'bar',
 		];
-		$new = [
+		$new_value = [
 			'attribute_base' => 'foo',
 		];
 
-		$this->instance->reset_woocommerce_permalinks( $old, $new );
+		$this->instance->reset_woocommerce_permalinks( $old_value, $new_value );
 	}
 
 	/**
@@ -173,17 +173,17 @@ class WooCommerce_Permalinks_Test extends TestCase {
 			->once()
 			->with( 'term', 'product_tag' );
 
-		$old = [
+		$old_value = [
 			'category_base' => 'bar',
 			'tag_base'      => 'bar',
 			'no_base'       => 'bar',
 		];
-		$new = [
+		$new_value = [
 			'category_base' => 'foo',
 			'tag_base'      => 'foo',
 			'no_base'       => 'foo',
 		];
 
-		$this->instance->reset_woocommerce_permalinks( $old, $new );
+		$this->instance->reset_woocommerce_permalinks( $old_value, $new_value );
 	}
 }

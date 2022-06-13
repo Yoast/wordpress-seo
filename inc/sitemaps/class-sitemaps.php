@@ -251,6 +251,11 @@ class WPSEO_Sitemaps {
 			return;
 		}
 
+		if ( get_query_var( 'sitemap_n' ) === '1' || get_query_var( 'sitemap_n' ) === '0' ) {
+			wp_safe_redirect( home_url( "/$type-sitemap.xml" ), 301, 'Yoast SEO' );
+			exit;
+		}
+
 		$this->set_n( get_query_var( 'sitemap_n' ) );
 
 		if ( ! $this->get_sitemap_from_cache( $type, $this->current_page ) ) {

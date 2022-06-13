@@ -11,7 +11,6 @@ use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
-// phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
 /**
  * Class Indexable_Post_Type_Archive_Watcher_Test.
  *
@@ -21,6 +20,8 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Watchers\Indexable_Post_Type_Archive_Watcher
  * @covers \Yoast\WP\SEO\Integrations\Watchers\Indexable_Post_Type_Archive_Watcher
+ *
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Indexable_Post_Type_Archive_Watcher_Test extends TestCase {
 

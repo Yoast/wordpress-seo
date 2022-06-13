@@ -12,9 +12,9 @@ import MetaDescriptionLengthAssessment from "../../../../src/scoring/assessments
 import SubHeadingsKeywordAssessment from "../../../../src/scoring/assessments/seo/SubHeadingsKeywordAssessment";
 import TextCompetingLinksAssessment from "../../../../src/scoring/assessments/seo/TextCompetingLinksAssessment";
 import TextLengthAssessment from "../../../../src/scoring/assessments/seo/TextLengthAssessment";
-import TitleKeywordAssessment from "../../../../src/scoring/assessments/seo/TitleKeywordAssessment";
+import KeyphraseInSEOTitleAssessment from "../../../../src/scoring/assessments/seo/KeyphraseInSEOTitleAssessment";
 import TitleWidthAssessment from "../../../../src/scoring/assessments/seo/PageTitleWidthAssessment";
-import UrlKeywordAssessment from "../../../../src/scoring/assessments/seo/UrlKeywordAssessment";
+import SlugKeywordAssessment from "../../../../src/scoring/assessments/seo/UrlKeywordAssessment";
 import FunctionWordsInKeyphrase from "../../../../src/scoring/assessments/seo/FunctionWordsInKeyphraseAssessment";
 import SingleH1Assessment from "../../../../src/scoring/assessments/seo/SingleH1Assessment";
 import ImageKeyphraseAssessment from "../../../../src/scoring/assessments/seo/KeyphraseInImageTextAssessment";
@@ -91,7 +91,7 @@ testPapers.forEach( function( testPaper ) {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify58" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify59" ),
 		} );
-		const titleKeywordAssessment = new TitleKeywordAssessment( {
+		const keyphraseInSEOTitleAssessment = new KeyphraseInSEOTitleAssessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify24" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify25" ),
 		} );
@@ -102,7 +102,7 @@ testPapers.forEach( function( testPaper ) {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify52" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify53" ),
 		}, true );
-		const urlKeywordAssessment = new UrlKeywordAssessment( {
+		const slugKeywordAssessment = new SlugKeywordAssessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify26" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify27" ),
 		} );
@@ -262,14 +262,14 @@ testPapers.forEach( function( testPaper ) {
 			}
 		} );
 
-		it( "returns a score and the associated feedback text for the titleKeyword assessment", function() {
-			const isApplicable = titleKeywordAssessment.isApplicable( paper );
-			expect( isApplicable ).toBe( expectedResults.titleKeyword.isApplicable );
+		it( "returns a score and the associated feedback text for the keyphraseInSEOTitle assessment", function() {
+			const isApplicable = keyphraseInSEOTitleAssessment.isApplicable( paper );
+			expect( isApplicable ).toBe( expectedResults.keyphraseInSEOTitle.isApplicable );
 
 			if ( isApplicable ) {
-				result.titleKeyword = titleKeywordAssessment.getResult( paper, researcher );
-				expect( result.titleKeyword.getScore() ).toBe( expectedResults.titleKeyword.score );
-				expect( result.titleKeyword.getText() ).toBe( expectedResults.titleKeyword.resultText );
+				result.keyphraseInSEOTitle = keyphraseInSEOTitleAssessment.getResult( paper, researcher );
+				expect( result.keyphraseInSEOTitle.getScore() ).toBe( expectedResults.keyphraseInSEOTitle.score );
+				expect( result.keyphraseInSEOTitle.getText() ).toBe( expectedResults.keyphraseInSEOTitle.resultText );
 			}
 		} );
 
@@ -284,18 +284,18 @@ testPapers.forEach( function( testPaper ) {
 			}
 		} );
 
-		it( "returns a score and the associated feedback text for the urlKeyword assessment", function() {
-			const isApplicable = urlKeywordAssessment.isApplicable( paper, researcher );
-			expect( isApplicable ).toBe( expectedResults.urlKeyword.isApplicable );
+		it( "returns a score and the associated feedback text for the slugKeyword assessment", function() {
+			const isApplicable = slugKeywordAssessment.isApplicable( paper, researcher );
+			expect( isApplicable ).toBe( expectedResults.slugKeyword.isApplicable );
 
 			if ( isApplicable ) {
-				result.urlKeyword = urlKeywordAssessment.getResult( paper, researcher );
-				expect( result.urlKeyword.getScore() ).toBe( expectedResults.urlKeyword.score );
-				expect( result.urlKeyword.getText() ).toBe( expectedResults.urlKeyword.resultText );
+				result.slugKeyword = slugKeywordAssessment.getResult( paper, researcher );
+				expect( result.slugKeyword.getScore() ).toBe( expectedResults.slugKeyword.score );
+				expect( result.slugKeyword.getText() ).toBe( expectedResults.slugKeyword.resultText );
 			}
 		} );
 
-		it( "returns a score and the associated feedback text for the keyphraseDistribution assessment", function() {
+		it( "returns a score and the associated feedback text for the functionWordsInKeyphrase assessment", function() {
 			const isApplicable = functionWordsInKeyphrase.isApplicable( paper, researcher );
 			expect( isApplicable ).toBe( expectedResults.functionWordsInKeyphrase.isApplicable );
 
@@ -352,7 +352,7 @@ testPapers.forEach( function( testPaper ) {
 		} );
 
 		it( "returns a score and the associated feedback text for the keyphraseDistribution assessment", function() {
-			const isApplicable = keyphraseDistributionAssessment.isApplicable( paper );
+			const isApplicable = keyphraseDistributionAssessment.isApplicable( paper, researcher );
 			expect( isApplicable ).toBe( expectedResults.keyphraseDistribution.isApplicable );
 
 			if ( isApplicable ) {

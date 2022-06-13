@@ -3,8 +3,8 @@
 namespace Yoast\WP\SEO\Tests\Unit\Services\Health_Check;
 
 use Brain\Monkey;
-use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Services\Health_Check\Default_Tagline_Runner;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Default_Tagline_Runner_Test

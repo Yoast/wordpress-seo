@@ -69,7 +69,7 @@ class Option_Wpseo_Watcher implements Integration_Interface {
 	 *
 	 * @param string $integration_option The intergration option name.
 	 * @param string $target_option      The target option to remove the tokens from.
-	 * @param array  $new_value           The new value of the option.
+	 * @param array  $new_value          The new value of the option.
 	 *
 	 * @return bool Whether the tokens have been deleted or not.
 	 */

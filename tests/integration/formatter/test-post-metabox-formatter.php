@@ -114,6 +114,19 @@ class WPSEO_Post_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Testing when the permalink structure contains '%pagename%/'. This should be stripped.
+	 *
+	 * @covers WPSEO_Post_Metabox_Formatter::get_values
+	 * @covers WPSEO_Post_Metabox_Formatter::base_url_for_js
+	 */
+	public function test_with_page_permalink_structure() {
+		$instance = new WPSEO_Post_Metabox_Formatter( $this->post, [], 'http://example.org/test/%pagename%/' );
+		$result   = $instance->get_values();
+
+		$this->assertEquals( $result['base_url'], 'http://example.org/test/' );
+	}
+
+	/**
 	 * Testing when the permalink structure contains '%postname%/'. This should be stripped.
 	 *
 	 * @covers WPSEO_Post_Metabox_Formatter::get_values

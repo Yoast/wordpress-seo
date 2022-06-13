@@ -135,6 +135,7 @@ describe( "Calculates the reading time for the paper (rounded up to the next hig
 	} );
 } );
 
+
 describe( "Calculates the reading time for the paper (rounded up to the next highest full minute), using characters per minute formula", function() {
 	it( "calculates the reading time for a Japanese paper with a short text", function() {
 		const mockPaper = new Paper( "これは短いテキストです。", { locale: "ja" } );
@@ -242,3 +243,4 @@ describe( "Calculates the reading time for the paper (rounded up to the next hig
 		expect( readingTime( mockPaper, researcher ) ).toEqual( 3 );
 	} );
 } );
+

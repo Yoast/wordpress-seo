@@ -158,6 +158,23 @@ function sendFormData( form ) {
 }
 
 /**
+ * Renders the Yoast tab React content.
+ * @returns {void}
+ */
+function renderYoastTabReactContent() {
+	setTimeout( () => {
+		renderReactRoot( "elementor-panel-page-settings-controls", (
+			<StyleSheetManager target={ document.getElementById( "elementor-panel-inner" ) }>
+				<div className="yoast yoast-elementor-panel__fills">
+					<ElementorSlot />
+					<ElementorFill />
+				</div>
+			</StyleSheetManager>
+		) );
+	}, 200 );
+}
+
+/**
  * Initializes the Yoast elementor editor integration.
  *
  * @returns {void}
@@ -166,20 +183,6 @@ export default function initElementEditorIntegration() {
 	// Expose registerReactComponent as an alternative to registerPlugin.
 	window.YoastSEO = window.YoastSEO || {};
 	window.YoastSEO._registerReactComponent = registerReactComponent;
-
-	// Check whether the route to our tab is active. If so, render our React root.
-	window.$e.routes.on( "run:after", function( component, route ) {
-		if ( route === "panel/page-settings/yoast-tab" ) {
-			renderReactRoot( "elementor-panel-page-settings-controls", (
-				<StyleSheetManager target={ document.getElementById( "elementor-panel-inner" ) }>
-					<div className="yoast yoast-elementor-panel__fills">
-						<ElementorSlot />
-						<ElementorFill />
-					</div>
-				</StyleSheetManager>
-			) );
-		}
-	} );
 
 	initializePostStatusListener();
 
@@ -208,17 +211,26 @@ export default function initElementEditorIntegration() {
 		type: "page",
 		callback: () => {
 			try {
-				window.$e.routes.run( "panel/page-settings/yoast-tab" );
+				window.$e.route( "panel/page-settings/yoast-tab" );
 			} catch ( error ) {
-				// The yoast tab is only available if the page settings have been visited.
-				window.$e.routes.run( "panel/page-settings/settings" );
-				window.$e.routes.run( "panel/page-settings/yoast-tab" );
+				// The yoast tab is only available if the page settings has been visited.
+				window.$e.route( "panel/page-settings/settings" );
+				window.$e.route( "panel/page-settings/yoast-tab" );
 			}
+			// Start rendering the Yoast tab React content.
+			renderYoastTabReactContent();
 		},
 	}, "more" );
+
+	/*
+	 * Listen for Yoast tab activation from within settings panel to start rendering the Yoast tab React content.
+	 * Note the `.not` in the selector, this is to prevent rendering the React content multiple times.
+	 */
+	jQuery( document ).on( "click", "[data-tab=\"yoast-tab\"]:not(.elementor-active) > a", renderYoastTabReactContent );
 
 	yoastInputs = document.querySelectorAll( "input[name^='yoast']" );
 	storeAllValuesAsOldValues();
 
 	setInterval( () => yoastInputs.forEach( detectChange ), 500 );
 }
+
