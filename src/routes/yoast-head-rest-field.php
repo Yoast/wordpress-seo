@@ -1,4 +1,4 @@
-<?php // @phpcs:ignore Yoast.Files.FileName.InvalidClassFileName -- reason: this explicitly concerns the Yoast head fields.
+<?php // phpcs:ignore Yoast.Files.FileName.InvalidClassFileName -- Reason: this explicitly concerns the Yoast head fields.
 
 namespace Yoast\WP\SEO\Routes;
 

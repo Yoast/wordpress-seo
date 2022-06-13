@@ -1,6 +1,5 @@
-<?php
+<?php // phpcs:ignore Yoast.Files.FileName.InvalidClassFileName -- Reason: this explicitly concerns the Yoast head fields.
 
-// phpcs:disable Yoast.Files.FileName.InvalidClassFileName
 namespace Yoast\WP\SEO\Tests\Unit\Routes;
 
 use Brain\Monkey;
