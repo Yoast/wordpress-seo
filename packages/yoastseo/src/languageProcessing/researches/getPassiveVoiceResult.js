@@ -16,6 +16,7 @@ import { forEach } from "lodash-es";
 export const getMorphologicalPassives = function( paper, researcher ) {
 	const isPassiveSentence = researcher.getHelper( "isPassiveSentence" );
 	const text = paper.getText();
+	// eslint-disable-next-line max-len
 	// It's not necessary to pass the memoized tokenizer from the researcher here, since only Japanese and German have the language specific tokenizer.
 	// Passive voice analysis is not supported in Japanese. In German, passive voice is periphrastic.
 	const sentences = getSentences( text )
