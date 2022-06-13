@@ -4,7 +4,7 @@ import wordBoundaries from "../../../../../config/wordBoundaries";
 
 // The beginning of a string (^) or one of the wordboundaries from the wordBoundaries helper.
 const wordBoundariesForRegex = "(^|[" + wordBoundaries().map( ( boundary ) => "\\" + boundary ).join( "" ) + "])";
-const ordinalDotRegex = new RegExp( wordBoundariesForRegex + "\\d{1,3}\.$" );
+const ordinalDotRegex = new RegExp( wordBoundariesForRegex + "\\d{1,3}\\.$" );
 
 /**
  * Class for tokenizing a (html) text into sentences.
