@@ -72,7 +72,7 @@ class OAuth_Token {
 
 		$this->access_token = $access_token;
 
-		if ( empty( $access_token ) ) {
+		if ( empty( $refresh_token ) ) {
 			throw new Empty_Property_Exception( 'refresh_token' );
 		}
 
