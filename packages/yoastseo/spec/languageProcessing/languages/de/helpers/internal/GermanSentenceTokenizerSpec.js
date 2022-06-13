@@ -24,5 +24,4 @@ describe( "Test German extension to sentence tokenizer", () =>{
 		const currentSentence = "In den 66. Club der Stadt wird nachts getanzt.";
 		expect( sentenceTokenizer.endsWithOrdinalDot( currentSentence ) ).toBe( false );
 	} );
-
 } );
