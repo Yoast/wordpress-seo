@@ -6,6 +6,8 @@ namespace Yoast\WP\SEO\Presentations;
  * Class Indexable_Post_Type_Archive_Presentation.
  *
  * Presentation object for indexables.
+ *
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Indexable_Post_Type_Archive_Presentation extends Indexable_Presentation {
 

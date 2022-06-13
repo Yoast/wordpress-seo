@@ -6,6 +6,8 @@ namespace Yoast\WP\SEO\Presentations;
  * Class Indexable_Home_Page_Presentation.
  *
  * Presentation object for indexables.
+ *
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Indexable_Home_Page_Presentation extends Indexable_Presentation {
 

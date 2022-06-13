@@ -12,6 +12,8 @@ use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
  * Presentation object for indexables.
  *
  * @property WP_Term $source
+ *
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 

@@ -8,6 +8,8 @@ use Yoast\WP\SEO\Helpers\Pagination_Helper;
  * Class Indexable_Static_Posts_Page_Presentation.
  *
  * Presentation object for indexables.
+ *
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Indexable_Static_Posts_Page_Presentation extends Indexable_Post_Type_Presentation {
 
