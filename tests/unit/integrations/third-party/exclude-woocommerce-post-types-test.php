@@ -13,7 +13,6 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group third-party
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Third_Party\Exclude_WooCommerce_Post_Types
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Exclude_WooCommerce_Post_Types_Test extends TestCase {
 

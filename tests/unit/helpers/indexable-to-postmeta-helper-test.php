@@ -13,7 +13,6 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group helpers
  *
  * @coversDefaultClass \Yoast\WP\SEO\Helpers\Indexable_To_Postmeta_Helper
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Indexable_To_Postmeta_Helper_Test extends TestCase {
 

@@ -5,8 +5,6 @@ namespace Yoast\WP\SEO\Actions\Importing\Aioseo;
 
 /**
  * Importing action for AIOSEO taxonomies settings data.
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Aioseo_Taxonomy_Settings_Importing_Action extends Abstract_Aioseo_Settings_Importing_Action {
 

@@ -10,8 +10,6 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * MyYoast_Api_Request_Factory_Test
  *
  * @coversDefaultClass \Yoast\WP\SEO\Services\Health_Check\MyYoast_Api_Request_Factory
- *
- * phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class MyYoast_Api_Request_Factory_Test extends TestCase {
 

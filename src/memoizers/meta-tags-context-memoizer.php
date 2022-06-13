@@ -10,8 +10,6 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
  * The meta tags context memoizer.
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- 4 words is fine.
  */
 class Meta_Tags_Context_Memoizer {
 

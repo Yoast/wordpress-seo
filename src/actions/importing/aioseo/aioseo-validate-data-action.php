@@ -10,8 +10,6 @@ use Yoast\WP\SEO\Actions\Importing\Abstract_Aioseo_Importing_Action;
 
 /**
  * Importing action for validating AIOSEO data before the import occurs.
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Aioseo_Validate_Data_Action extends Abstract_Aioseo_Importing_Action {
 

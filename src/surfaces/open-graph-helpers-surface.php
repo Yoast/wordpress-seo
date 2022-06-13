@@ -10,8 +10,6 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * Surface for the indexables.
  *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- 4 words is fine.
- *
  * @property Open_Graph\Image_Helper $image
  */
 class Open_Graph_Helpers_Surface {
