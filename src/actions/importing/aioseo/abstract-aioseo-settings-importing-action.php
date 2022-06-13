@@ -9,8 +9,6 @@ use Yoast\WP\SEO\Helpers\Import_Helper;
 
 /**
  * Abstract class for importing AIOSEO settings.
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Aioseo_Importing_Action {
 

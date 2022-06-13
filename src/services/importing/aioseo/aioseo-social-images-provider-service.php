@@ -8,8 +8,6 @@ use Yoast\WP\SEO\Helpers\Image_Helper;
 
 /**
  * Provides AISOEO social images urls.
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Aioseo_Social_Images_Provider_Service {
 

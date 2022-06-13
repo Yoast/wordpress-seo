@@ -4,8 +4,6 @@ namespace Yoast\WP\SEO\Tests\Unit\Doubles\Memoizers;
 
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 
-// phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- 'Double' suffix to communicates that it is a double to be used in tests.
-
 /**
  * Class Meta_Tags_Context_Memoizer_Double.
  */

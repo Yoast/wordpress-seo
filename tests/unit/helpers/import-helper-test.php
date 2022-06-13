@@ -14,7 +14,6 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @package Yoast\WP\SEO\Tests\Unit\Actions\Importing
  *
  * @coversDefaultClass Yoast\WP\SEO\Helpers\Import_Helper
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Import_Helper_Test extends TestCase {
 

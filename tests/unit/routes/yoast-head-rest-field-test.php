@@ -1,5 +1,6 @@
 <?php
 
+// phpcs:disable Yoast.Files.FileName.InvalidClassFileName
 namespace Yoast\WP\SEO\Tests\Unit\Routes;
 
 use Brain\Monkey;
@@ -19,9 +20,6 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  *
  * @group routes
  * @group indexables
- *
- * @phpcs:disable Yoast.Files.FileName.InvalidClassFileName
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Yoast_Head_REST_Field_Test extends TestCase {
 

@@ -9,8 +9,6 @@ use Yoast\WP\SEO\Integrations\Abstract_Exclude_Post_Type;
  * Excludes certain WooCommerce-specific post types from the indexable table.
  *
  * Posts with these post types will not be saved to the indexable table.
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Exclude_WooCommerce_Post_Types extends Abstract_Exclude_Post_Type {
 
