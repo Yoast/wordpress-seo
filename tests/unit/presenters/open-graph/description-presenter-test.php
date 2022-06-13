@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Presenters\Open_Graph;
 use Brain\Monkey;
 use Mockery;
 use WPSEO_Replace_Vars;
+use Yoast\WP\SEO\Helpers\String_Helper;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Presenters\Open_Graph\Description_Presenter;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -51,9 +52,23 @@ class Description_Presenter_Test extends TestCase {
 		$this->instance     = new Description_Presenter();
 		$this->presentation = new Indexable_Presentation();
 		$this->replace_vars = Mockery::mock( WPSEO_Replace_Vars::class );
+		$this->string       = Mockery::mock( String_Helper::class );
 
 		$this->instance->presentation = $this->presentation;
 		$this->instance->replace_vars = $this->replace_vars;
+		$this->instance->helpers      = (object) [
+			'string' => $this->string,
+		];
+
+		$this->string
+			->expects( 'strip_all_tags' )
+			->withAnyArgs()
+			->once()
+			->andReturnUsing(
+				static function ( $str ) {
+					return $str;
+				}
+			);
 
 		$this->presentation->source = [];
 
