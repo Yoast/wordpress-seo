@@ -505,6 +505,8 @@ export default class SentenceTokenizer {
 					}
 
 					// If the full stop is an ordinal dot (in German), then don't break the sentence.
+					// This check should be done after  hasNextSentence && this.isNumber( nextCharacters[ 0 ] ) (above).
+					// Because otherwise it could break before that test.
 					if ( this.endsWithOrdinalDot( currentSentence ) ) {
 						break;
 					}
