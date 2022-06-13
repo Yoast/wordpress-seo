@@ -79,6 +79,7 @@ class ContentAnalysis extends React.Component {
 			goodResults,
 			considerationsResults,
 			errorsResults,
+			upsellResults,
 			headingLevel,
 		} = this.props;
 		const errorsFound = errorsResults.length;
@@ -94,7 +95,7 @@ class ContentAnalysis extends React.Component {
 					this.renderCollapsible( __( "Errors", "wordpress-seo" ), headingLevel, errorsResults )
 				}
 				{ problemsFound > 0 &&
-					this.renderCollapsible( __( "Problems", "wordpress-seo" ), headingLevel, problemsResults )
+					this.renderCollapsible( __( "Problems", "wordpress-seo" ), headingLevel, [ ...upsellResults, ...problemsResults ] )
 				}
 				{ improvementsFound > 0 &&
 					this.renderCollapsible( __( "Improvements", "wordpress-seo" ), headingLevel, improvementsResults )
@@ -117,6 +118,7 @@ ContentAnalysis.propTypes = {
 	goodResults: PropTypes.array,
 	considerationsResults: PropTypes.array,
 	errorsResults: PropTypes.array,
+	upsellResults: PropTypes.array,
 	headingLevel: PropTypes.number,
 	marksButtonStatus: PropTypes.string,
 	marksButtonClassName: PropTypes.string,
@@ -130,6 +132,7 @@ ContentAnalysis.defaultProps = {
 	goodResults: [],
 	considerationsResults: [],
 	errorsResults: [],
+	upsellResults: [],
 	headingLevel: 4,
 	marksButtonStatus: "enabled",
 	marksButtonClassName: "",
