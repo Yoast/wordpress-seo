@@ -9,9 +9,9 @@ yarn add @yoast/ui-library @wordpress/element
 ```
 
 ## Setup
-This package assumes the use of [`tailwindcss`](https://tailwindcss.com/) for building CSS and therefore ships with Tailwind layered CSS. You can easily setup Tailwind using the [`@yoast/tailwindcss-preset`](https://github.com/Yoast/wordpress-seo/tree/trunk/packages/tailwindcss-preset) package.
+This package assumes the use of [`tailwindcss`](https://tailwindcss.com/) for building CSS and therefore ships with Tailwind layered CSS. You can easily set up Tailwind using the [`@yoast/tailwindcss-preset`](https://github.com/Yoast/wordpress-seo/tree/trunk/packages/tailwindcss-preset) package.
 
-In your `tailwind.config.js`, make sure to include this package in your `content` configuration to prevent Tailwind from purging its styles like so: 
+In your `tailwind.config.js`, make sure to include this package in your `content` configuration to prevent Tailwind from purging its styles like so:
 
 ```js
 module.exports = {
@@ -36,7 +36,7 @@ To include this packages CSS in your build, import it in your stylesheet **befor
 @tailwind utilities;
 ```
 
-Now that your CSS is setup, you can start using the React components. Always start your React tree with the `Root` components, which provides a context for general options and a CSS classname for scoping this libraries CSS. Without it, components in this library will not render properly. Read more about the `Root` component in [the Storybook](https://ui-library.yoast.com/).
+Now that your CSS is set up, you can start using the React components. Always start your React tree with the `Root` component, which provides a context for general options and a CSS classname for scoping this libraries CSS. Without it, components in this library will not render properly. Check out the `Root` component in [the Storybook](https://ui-library.yoast.com/?path=/docs/2-components-root--factory).
 
 ```jsx
 import { Root, Alert } from "@yoast/ui-library";
@@ -50,20 +50,24 @@ export default () => (
 );
 ```
 
+Please note that the CSS scoping adds one level of CSS specificity. Therefore `@yoast/tailwindcss-preset` does the following:
+1. Enables the `important` rule for all utilities.
+2. Disables the Tailwind `preflight` styles (as they are included in the `Root` component's CSS).
+
 ## Elements, components & patterns
-To improve the flexibilty and reusability of this library its split into three layers: elements, components & patterns. Each layer adds upon the preceding layer in terms of complexity and specificity. The goal of this split is to provide the most useful interfaces for regular use cases, but to remain flexibile enough to handle edge case implementations that require a different structure. If, for instance, a component or pattern turns out to be too opiniated, you can always fallback to building with elements only without having to reinvent the wheel entirely.
+To improve the flexibility and re-usability of this library its split into three layers: elements, components & patterns. Each layer adds upon the preceding layer in terms of complexity and specificity. The goal of this split is to provide the most useful interfaces for regular use cases, but to remain flexibile enough to handle edge case implementations that require a different structure. If, for instance, a component or pattern turns out to be too opinionated, you can always fall back to building with elements only without having to reinvent the wheel entirely.
 
 ### Elements
-The elements layer contains the simplest and stupidest components. They are the smallest building blocks. They are unopinionated, will hardly ever contain internal state and basically represent regular HTML elements with some added branding. Examples of elements are the `Button`, `Input` and `Title` components.
+The elements layer contains the simplest and stupidest components. They are the smallest building blocks. They are opinionated, will hardly ever contain internal state and basically represent regular HTML elements with some added branding. Examples of elements are the `Button`, `Input` and `Title` components.
 
 ### Components
-The components layer contains more complex and smarter components. They are probably the most used building blocks. They are a little opiniated, will sometimes contain internal state and represent regular use case components that group multiple elements together into a friendly interface. Examples of components are the `InputField` and other form field components, that provide an interface for adding labelling and error messaging to an input element.
+The components layer contains more complex and smarter components. They are probably the most used building blocks. They are a little opinionated, will sometimes contain internal state and represent regular use case components that group multiple elements together into a friendly interface. Examples of components are the `InputField` and other form field components, that provide an interface for adding labelling and error messaging to an input element.
 
 ### Patterns
-The patterns layer contains the most complex and smart components. They are the largest and often structural building blocks. They are highly opiniated, will probably contain internal state and represent structures that group multiple elements and components together into a friendly interface. Examples of patterns are `PageLayout` and `Navigation` components (both undeveloped yet), that provide an interface for structuring entire pages or responsive navigation.
+The patterns layer contains the most complex and smart components. They are the largest and often structural building blocks. They are highly opinionated, will probably contain internal state and represent structures that group multiple elements and components together into a friendly interface. Examples of patterns are `PageLayout` and `Navigation` components (both undeveloped yet), that provide an interface for structuring entire pages or responsive navigation.
 
 ## The `as` property
-To make components in this library as flexible as possible, most of them implement the `as` propterty pattern. The idea is simple: it allows you to render a component as every valid JSX element, so HTML elements or custom React components. It can be read in a sentence like this: "Render `ComponentA` **as** `ComponentB`". Popular examples are rendering an anchor that looks like a button, or a label that looks like a title:
+To make components in this library as flexible as possible, most of them implement the `as` property pattern. The idea is simple: it allows you to render a component as every valid JSX element, so HTML elements or custom React components. It can be read in a sentence like this: "Render `ComponentA` **as** `ComponentB`". Popular examples are rendering an anchor that looks like a button, or a label that looks like a title:
 
 ```jsx
 import { Button, Title } from "@yoast/ui-library";
@@ -77,7 +81,7 @@ export default () => (
 ```
 
 ## Local development
-The components in this library are developed in isolation inside a [Storybook](https://storybook.js.org/), a visual tool for building component libraries. Developing components in isolation helps keep the interfaces flexibile while ignoring implementation details.
+The components in this library are developed in isolation inside a [Storybook](https://storybook.js.org/), a visual tool for building component libraries. Developing components in isolation helps keep the interfaces flexible while ignoring implementation details.
 
 ```sh
 # Install dependencies
