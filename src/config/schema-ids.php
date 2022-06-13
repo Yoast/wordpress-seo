@@ -54,8 +54,10 @@ class Schema_IDs {
 
 	/**
 	 * Hash used for the WebPage's `@id`.
+	 *
+	 * @deprecated
 	 */
-	const WEBPAGE_HASH = '#webpage';
+	const WEBPAGE_HASH = '';
 
 	/**
 	 * Hash used for the Website's `@id`.

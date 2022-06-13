@@ -300,6 +300,9 @@ class Article_Test extends TestCase {
 			->with( 'Uncategorized', 'default' )
 			->andReturn( 'Uncategorized' );
 
+		Monkey\Functions\expect( 'is_search' )
+			->andReturn( false );
+
 		$this->assertEquals( $expected_value, $this->instance->generate(), $message );
 	}
 

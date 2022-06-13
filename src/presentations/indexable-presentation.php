@@ -41,6 +41,7 @@ use Yoast\WP\SEO\Models\Indexable;
  * @property string $open_graph_article_modified_time
  * @property string $open_graph_locale
  * @property string $open_graph_fb_app_id
+ * @property string $permalink
  * @property array  $schema
  * @property string $twitter_card
  * @property string $twitter_title
@@ -223,12 +224,21 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 *
 	 * @return string The permalink.
 	 */
-	public function get_permalink() {
+	public function generate_permalink() {
 		if ( $this->indexable_helper->dynamic_permalinks_enabled() ) {
 			return $this->permalink_helper->get_permalink_for_indexable( $this->model );
 		}
 
 		return $this->model->permalink;
+	}
+
+	/**
+	 * Helper function to retrieve the permalink.
+	 *
+	 * @return string
+	 */
+	public function get_permalink() {
+		return $this->permalink;
 	}
 
 	/**
@@ -388,9 +398,8 @@ class Indexable_Presentation extends Abstract_Presentation {
 			return $this->model->canonical;
 		}
 
-		$permalink = $this->get_permalink();
-		if ( $permalink ) {
-			return $permalink;
+		if ( $this->permalink ) {
+			return $this->permalink;
 		}
 
 		return '';
@@ -516,7 +525,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 			return $this->model->canonical;
 		}
 
-		return $this->get_permalink();
+		return $this->permalink;
 	}
 
 	/**

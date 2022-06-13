@@ -27,7 +27,7 @@ class WebPage extends Abstract_Schema_Piece {
 	public function generate() {
 		$data = [
 			'@type'      => $this->context->schema_page_type,
-			'@id'        => $this->context->canonical . Schema_IDs::WEBPAGE_HASH,
+			'@id'        => $this->context->generate_main_schema_id(),
 			'url'        => $this->context->canonical,
 			'name'       => $this->helpers->schema->html->smart_strip_tags( $this->context->title ),
 			'isPartOf'   => [

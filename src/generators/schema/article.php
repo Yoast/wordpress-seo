@@ -48,7 +48,7 @@ class Article extends Abstract_Schema_Piece {
 		$data   = [
 			'@type'            => $this->context->schema_article_type,
 			'@id'              => $this->context->canonical . Schema_IDs::ARTICLE_HASH,
-			'isPartOf'         => [ '@id' => $this->context->canonical . Schema_IDs::WEBPAGE_HASH ],
+			'isPartOf'         => [ '@id' => $this->context->generate_main_schema_id() ],
 			'author'           => [
 				'name' => $this->helpers->schema->html->smart_strip_tags( $author->display_name ),
 				'@id'  => $this->helpers->schema->id->get_user_schema_id( $this->context->post->post_author, $this->context ),
@@ -56,7 +56,7 @@ class Article extends Abstract_Schema_Piece {
 			'headline'         => $this->helpers->schema->html->smart_strip_tags( $this->helpers->post->get_post_title_with_fallback( $this->context->id ) ),
 			'datePublished'    => $this->helpers->date->format( $this->context->post->post_date_gmt ),
 			'dateModified'     => $this->helpers->date->format( $this->context->post->post_modified_gmt ),
-			'mainEntityOfPage' => [ '@id' => $this->context->canonical . Schema_IDs::WEBPAGE_HASH ],
+			'mainEntityOfPage' => [ '@id' => $this->context->generate_main_schema_id() ],
 			'wordCount'        => $this->word_count( $this->context->post->post_content, $this->context->post->post_title ),
 		];
 
