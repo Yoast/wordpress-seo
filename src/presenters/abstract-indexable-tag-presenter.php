@@ -4,7 +4,7 @@ namespace Yoast\WP\SEO\Presenters;
 
 /**
  * Abstract presenter class for indexable tag presentations.
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
+ *
  * @phpcs:disable Yoast.Files.FileName.InvalidClassFileName
  */
 abstract class Abstract_Indexable_Tag_Presenter extends Abstract_Indexable_Presenter {
@@ -59,7 +59,7 @@ abstract class Abstract_Indexable_Tag_Presenter extends Abstract_Indexable_Prese
 			case 'html':
 				return \esc_html( $value );
 			case 'url':
-				return \esc_url( $value );
+				return \esc_url( $value, null, 'attribute' );
 			case 'attribute':
 			default:
 				return \esc_attr( $value );

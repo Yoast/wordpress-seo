@@ -87,7 +87,7 @@ describe( "running assessments in the assessor", function() {
 			"keyphraseLength",
 			"metaDescriptionLength",
 			"textLength",
-			"titleKeyword",
+			"keyphraseInSEOTitle",
 			"titleWidth",
 		] );
 	} );

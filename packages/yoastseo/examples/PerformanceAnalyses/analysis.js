@@ -1,5 +1,5 @@
 const Paper = require( "../../src/values/Paper" );
-const researches = [ "altTagCount", "countSentencesFromText", "findKeywordInFirstParagraph", "findKeywordInPageTitle",
+const researches = [ "altTagCount", "countSentencesFromText", "findKeywordInFirstParagraph", "findKeyphraseInSEOTitle",
 	"findTransitionWords", "functionWordsInKeyphrase", "getFleschReadingScore", "getKeywordDensity", "getLinks",
 	"getLinkStatistics", "getParagraphLength", "getPassiveVoice", "getProminentWordsForInsights", "getProminentWordsForInternalLinking",
 	"getSentenceBeginnings", "getSubheadingTextLengths", "h1s", "imageCount", "keyphraseDistribution", "keyphraseLength",

@@ -240,14 +240,16 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 19.1 =
 Release Date: June 14th, 2022
 
+Meet Yoast SEO 19.1! This release comes with several fixes and enhancements. For example, our content analyses improved, with support for em dashes as punctuation marks in the focus keyphrase field and correctly detecting caps in focus keyphrases with a period. Happy updating! Read more about what's new in Yoast SEO 19.1 in [our release post in English](https://yoa.st/release-14-6-22) or [our release post in Spanish](https://yoa.st/release-14-6-22-spanish)!
+
 Enhancements:
 
+* Improves text analysis by splitting text on full-stop only when the next sentence is preceded by a whitespace.
 * Prompts users to set up their site in order to take advantage of all SEO features.
 
 Bugfixes:
 
-* Fixes a bug where focus keyphrase in uppercase that contains a period wouldn't get recognized in the text, e.g. \"ASP.NET\".
-* Fixes a bug where the \"Check links to this URL\" option on admin bar menu would lead to an error page on setups with home URL different from the site URL. Props to @suascat.
+* Fixes a bug where the "Check links to this URL" option on admin bar menu would lead to an error page on setups with home URL different from the site URL. Props to @suascat.
 * Fixes a bug where the network setting for the crawl cleanup feature would default to `Disable` when the super admin saved settings before upgrading/installing Premium.
 * Fixes a bug which caused the Spanish transition word `para ilustrar` to not be recognized by the transition words assessment.
 
@@ -255,8 +257,7 @@ Other:
 
 * Adds an informative error message to the steps of the First-time configuration should an error occur.
 * Adds dismissable weekly webinar promo banners to Yoast settings pages & block/Elementor editor sidebars.
-* Enhances the Crawl settings tab in the General page with basic cleanup settings
-* Enhances the Crawl settings tab in the General page with more feed cleanup settings
+* Adds new disabled toggles to the Crawl settings tab in the General page.
 * Improves handling of OAuth errors in the Wincher integration and clears refresh tokens that seem to be invalid.
 
 = 19.0 =

@@ -19,8 +19,6 @@ use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_System_Page_Builder
  * @covers \Yoast\WP\SEO\Builders\Indexable_System_Page_Builder
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Indexable_System_Page_Builder_Test extends TestCase {
 

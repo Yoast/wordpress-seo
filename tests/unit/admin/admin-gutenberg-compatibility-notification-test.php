@@ -1,11 +1,4 @@
 <?php
-// phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- WPSEO_Admin_Gutenberg_Compatibility_Notification_Test.
-
-/**
- * WPSEO plugin test file.
- *
- * @package WPSEO\Tests\Admin
- */
 
 namespace Yoast\WP\SEO\Tests\Unit\Admin;
 
@@ -20,6 +13,8 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group MyYoast
  *
  * @coversDefaultClass WPSEO_Admin_Gutenberg_Compatibility_Notification
+ *
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class WPSEO_Admin_Gutenberg_Compatibility_Notification_Test extends TestCase {
 

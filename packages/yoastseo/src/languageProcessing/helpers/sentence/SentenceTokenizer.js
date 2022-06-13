@@ -6,6 +6,9 @@ import core from "tokenizer2/core";
 
 import { normalize as normalizeQuotes } from "../sanitize/quotes.js";
 
+import abbreviations from "../../languages/en/config/abbreviations";
+
+import createRegexFromArray from "../regex/createRegexFromArray";
 import wordBoundaries from "../../../config/wordBoundaries";
 
 // All characters that indicate a sentence delimiter.
@@ -19,9 +22,11 @@ const htmlEndRegex = /^<\/([^>\s]+)[^>]*>$/mi;
 const blockStartRegex = /^\s*[[({]\s*$/;
 const blockEndRegex = /^\s*[\])}]\s*$/;
 
+const abbreviationsPreparedForRegex = abbreviations.map( ( abbreviation ) => abbreviation.replace( ".", "\\." ) );
+const abbreviationsRegex = createRegexFromArray( abbreviationsPreparedForRegex );
+
 const wordBoundariesForRegex = "[" + wordBoundaries().map( ( boundary ) => "\\" + boundary ).join( "" ) + "]";
 const lastCharacterPartOfInitialsRegex = new RegExp( wordBoundariesForRegex + "[A-Za-z]$" );
-
 
 /**
  * Class for tokenizing a (html) text into sentences.
@@ -362,6 +367,22 @@ export default class SentenceTokenizer {
 	}
 
 	/**
+	 * Checks if a string ends with an abbreviation.
+	 * @param {string} currentSentence A (part of) a sentence.
+	 * @returns {boolean} True if the string ends with an abbreviation that is in abbreviations.js. Otherwise, False.
+	 */
+	endsWithAbbreviation( currentSentence ) {
+		const matchedAbbreviations = currentSentence.match( abbreviationsRegex );
+
+		if ( ! matchedAbbreviations ) {
+			return false;
+		}
+
+		const lastAbbreviation = matchedAbbreviations.pop();
+		return currentSentence.endsWith( lastAbbreviation );
+	}
+
+	/**
 	 * Returns an array of sentences for a given array of tokens, assumes that the text has already been split into blocks.
 	 *
 	 * @param {Object[]} tokenArray The tokens from the sentence tokenizer.
@@ -450,6 +471,16 @@ export default class SentenceTokenizer {
 
 				case "full-stop":
 					currentSentence += token.src;
+					nextCharacters = this.getNextTwoCharacters( [ nextToken, secondToNextToken ] );
+
+					// For a new sentence we need to check the next two characters.
+					hasNextSentence = nextCharacters.length >= 2;
+					nextSentenceStart = hasNextSentence ? nextCharacters[ 1 ] : "";
+
+					// If the current sentence ends with an abbreviation, the full stop does not split the sentence.
+					if ( this.endsWithAbbreviation( currentSentence ) ) {
+						break;
+					}
 
 					// It should not split the text if the first character of the potential next sentence is a number.
 					if ( hasNextSentence && this.isNumber( nextCharacters[ 0 ] ) ) {
@@ -471,6 +502,7 @@ export default class SentenceTokenizer {
 						nextToken,
 						tokenSentences,
 						currentSentence );
+
 					break;
 
 				case "block-start":

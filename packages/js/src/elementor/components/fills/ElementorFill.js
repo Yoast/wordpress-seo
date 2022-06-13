@@ -2,6 +2,7 @@
 import { Fill } from "@wordpress/components";
 import { useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
+import { get } from "lodash";
 import PropTypes from "prop-types";
 
 // Internal dependencies.
@@ -44,13 +45,15 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 		return null;
 	}
 
+	const webinarIntroElementorUrl = get( window, "wpseoScriptData.webinarIntroElementorUrl", "https://yoa.st/webinar-intro-elementor" );
+
 	return (
 		<>
 			{ isWordProofIntegrationActive() && <WordProofAuthenticationModals /> }
 			<Fill name="YoastElementor">
 				<SidebarItem renderPriority={ 1 }>
 					<Alert />
-					<WebinarPromoNotification hasIcon={ false } image={ null } />
+					<WebinarPromoNotification hasIcon={ false } image={ null } url={ webinarIntroElementorUrl } />
 				</SidebarItem>
 				{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 8 }>
 					<KeywordInput

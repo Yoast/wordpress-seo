@@ -1,5 +1,6 @@
 import { useSelect } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
+import { get } from "lodash";
 import { ReactComponent as ConfigurationFinishImage } from "../../../../../images/indexables_2_left_bubble_optm.svg";
 
 /**
@@ -32,15 +33,17 @@ function regularContent() {
  * @returns {WPElement} The webinar promo content.
  */
 function webinarPromoContent() {
+	const webinarIntroSettingsUrl = get( window, "wpseoScriptData.webinarIntroSettingsUrl", "https://yoa.st/webinar-intro-settings" );
+
 	return (
 		<>
 			<p className="yst-text-sm yst-mb-4">
 				{ __( "That's it! By providing this information our Indexables squad has been able to do a lot of optimization for your site already.", "wordpress-seo" ) }
 			</p>
 			<p className="yst-text-sm yst-mb-6">
-				{ __( "Want to optimize even further and get the most out of Yoast SEO? Make sure you don't miss our weekly webinar!", "wordpress-seo" ) }
+				{ __( "Want to optimize even further and get the most out of Yoast SEO? Make sure you don't miss our free weekly webinar!", "wordpress-seo" ) }
 			</p>
-			<a href="https://yoast.com/" target="_blank" rel="noreferrer" className="yst-button yst-button--primary yst-text-white">
+			<a href={ webinarIntroSettingsUrl } target="_blank" rel="noreferrer" className="yst-button yst-button--primary yst-text-white">
 				{ __( "Register now!", "wordpress-seo" ) }
 			</a>
 			<button

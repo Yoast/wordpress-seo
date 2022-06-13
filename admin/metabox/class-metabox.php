@@ -903,18 +903,19 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		$script_data = [
 			// @todo replace this translation with JavaScript translations.
-			'media'            => [ 'choose_image' => __( 'Use Image', 'wordpress-seo' ) ],
-			'metabox'          => $this->get_metabox_script_data(),
-			'userLanguageCode' => WPSEO_Language_Utils::get_language( \get_user_locale() ),
-			'isPost'           => true,
-			'isBlockEditor'    => $is_block_editor,
-			'postStatus'       => get_post_status( $post_id ),
-			'analysis'         => [
+			'media'                      => [ 'choose_image' => __( 'Use Image', 'wordpress-seo' ) ],
+			'metabox'                    => $this->get_metabox_script_data(),
+			'userLanguageCode'           => WPSEO_Language_Utils::get_language( \get_user_locale() ),
+			'isPost'                     => true,
+			'isBlockEditor'              => $is_block_editor,
+			'postStatus'                 => get_post_status( $post_id ),
+			'analysis'                   => [
 				'plugins'                     => $plugins_script_data,
 				'worker'                      => $worker_script_data,
 				'estimatedReadingTimeEnabled' => $this->estimated_reading_time_conditional->is_met(),
 			],
-			'dismissedAlerts'  => $dismissed_alerts,
+			'dismissedAlerts'            => $dismissed_alerts,
+			'webinarIntroBlockEditorUrl' => WPSEO_Shortlinker::get( 'https://yoa.st/webinar-intro-block-editor' ),
 		];
 
 		if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {

@@ -10,7 +10,7 @@ import KeywordDensityAssessment from "../../../../src/scoring/assessments/seo/Ke
 import MetaDescriptionKeywordAssessment from "../../../../src/scoring/assessments/seo/MetaDescriptionKeywordAssessment";
 import MetaDescriptionLengthAssessment from "../../../../src/scoring/assessments/seo/MetaDescriptionLengthAssessment";
 import TextLengthAssessment from "../../../../src/scoring/assessments/seo/TextLengthAssessment";
-import TitleKeywordAssessment from "../../../../src/scoring/assessments/seo/TitleKeywordAssessment";
+import KeyphraseInSEOTitleAssessment from "../../../../src/scoring/assessments/seo/KeyphraseInSEOTitleAssessment";
 import TitleWidthAssessment from "../../../../src/scoring/assessments/seo/PageTitleWidthAssessment";
 import SlugKeywordAssessment from "../../../../src/scoring/assessments/seo/UrlKeywordAssessment";
 import FunctionWordsInKeyphrase from "../../../../src/scoring/assessments/seo/FunctionWordsInKeyphraseAssessment";
@@ -71,7 +71,7 @@ testPapers.forEach( function( testPaper ) {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify58" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify59" ),
 		} );
-		const titleKeywordAssessment = new TitleKeywordAssessment( {
+		const keyphraseInSEOTitleAssessment = new KeyphraseInSEOTitleAssessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify24" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify25" ),
 		} );
@@ -195,14 +195,14 @@ testPapers.forEach( function( testPaper ) {
 			}
 		} );
 
-		it( "returns a score and the associated feedback text for the titleKeyword assessment", function() {
-			const isApplicable = titleKeywordAssessment.isApplicable( paper );
-			expect( isApplicable ).toBe( expectedResults.titleKeyword.isApplicable );
+		it( "returns a score and the associated feedback text for the keyphraseInSEOTitle assessment", function() {
+			const isApplicable = keyphraseInSEOTitleAssessment.isApplicable( paper );
+			expect( isApplicable ).toBe( expectedResults.keyphraseInSEOTitle.isApplicable );
 
 			if ( isApplicable ) {
-				result.titleKeyword = titleKeywordAssessment.getResult( paper, researcher );
-				expect( result.titleKeyword.getScore() ).toBe( expectedResults.titleKeyword.score );
-				expect( result.titleKeyword.getText() ).toBe( expectedResults.titleKeyword.resultText );
+				result.keyphraseInSEOTitle = keyphraseInSEOTitleAssessment.getResult( paper, researcher );
+				expect( result.keyphraseInSEOTitle.getScore() ).toBe( expectedResults.keyphraseInSEOTitle.score );
+				expect( result.keyphraseInSEOTitle.getText() ).toBe( expectedResults.keyphraseInSEOTitle.resultText );
 			}
 		} );
 

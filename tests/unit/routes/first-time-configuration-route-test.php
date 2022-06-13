@@ -8,7 +8,6 @@ use Yoast\WP\SEO\Actions\Configuration\First_Time_Configuration_Action;
 use Yoast\WP\SEO\Routes\First_Time_Configuration_Route;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
-// phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- First time configuration simply has a lot of words.
 /**
  * Class First_Time_Configuration_Route_Test.
  *

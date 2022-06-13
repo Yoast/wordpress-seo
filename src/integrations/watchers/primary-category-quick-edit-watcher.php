@@ -14,8 +14,6 @@ use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Repositories\Primary_Term_Repository;
 
-// phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- Base class can't be written shorter without abbreviating.
-
 /**
  * Class Primary_Category_Quick_Edit_Watcher
  */
@@ -189,4 +187,3 @@ class Primary_Category_Quick_Edit_Watcher implements Integration_Interface {
 		}
 	}
 }
-// phpcs:enable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded

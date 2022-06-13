@@ -4,8 +4,6 @@ namespace Yoast\WP\SEO\Actions\Indexing;
 
 /**
  * Interface definition of a reindexing action for indexables that have a limited unindexed count.
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 interface Limited_Indexing_Action_Interface {
 
