@@ -76,6 +76,7 @@ export default function AnalysisList( { results, marksButtonActivatedResult, mar
 				hasMarksButton={ result.hasMarks }
 				ariaLabel={ ariaLabel }
 				pressed={ isMarkButtonPressed }
+				suppressedText={ result.rating === "upsell" }
 				buttonId={ result.id }
 				onButtonClick={ () => onMarksButtonClick( result.id, result.marker ) }
 				marksButtonClassName={ marksButtonClassName }
