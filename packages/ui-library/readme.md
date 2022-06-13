@@ -29,12 +29,6 @@ To include this packages CSS in your build, import it in your stylesheet **befor
 ```css
 /* Import main CSS including all components. */
 @import "@yoast/ui-library";
-/**
- * Optionally import the custom base layer styles.
- * Don't use this in an environment that includes its own base layer,
- * ie. WordPress admin.
- */
-@import "@yoast/ui-library/css/base.css";
 
 /* Tailwind layers */
 @tailwind base;
