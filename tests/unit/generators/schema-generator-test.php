@@ -176,6 +176,7 @@ class Schema_Generator_Test extends TestCase {
 		$this->context->shouldReceive( 'is_prototype' )->andReturnFalse();
 		$this->context->shouldReceive( 'generate_schema_page_type' )->andReturn( 'WebPage' );
 
+		$this->context->main_schema_id            = 'https://example.com/the-post/';
 		$this->context->indexable                 = Mockery::mock( Indexable_Mock::class );
 		$this->context->presentation              = Mockery::mock( Indexable_Presentation::class );
 		$this->context->presentation->source      = Mockery::mock();
@@ -261,7 +262,7 @@ class Schema_Generator_Test extends TestCase {
 					],
 					[
 						'@type'           => null,
-						'@id'             => 'https://example.com/',
+						'@id'             => 'https://example.com/the-post/',
 						'url'             => null,
 						'name'            => '',
 						'isPartOf'        => [
@@ -335,11 +336,6 @@ class Schema_Generator_Test extends TestCase {
 		$this->replace_vars_helper
 			->expects( 'register_replace_vars' )
 			->once();
-
-		$this->context
-			->expects( 'generate_main_schema_id' )
-			->once()
-			->andReturn( 'https://example.com/example-post/' );
 
 		Monkey\Actions\expectDone( 'wpseo_pre_schema_block_type_yoast/faq-block' )
 			->with( $this->context->blocks['yoast/faq-block'], $this->context );
@@ -524,11 +520,6 @@ class Schema_Generator_Test extends TestCase {
 			->expects( 'register_replace_vars' )
 			->once();
 
-		$this->context
-			->expects( 'generate_main_schema_id' )
-			->once()
-			->andReturn( 'https://example.com/example-post/' );
-
 		$this->assertEquals(
 			$this->get_expected_schema(),
 			$this->instance->generate( $this->context )
@@ -606,11 +597,6 @@ class Schema_Generator_Test extends TestCase {
 				]
 			);
 
-		$this->context
-			->expects( 'generate_main_schema_id' )
-			->once()
-			->andReturn( 'https://example.com/' );
-
 		$this->assertEquals(
 			[
 				'@type'           => 'WebSite',
@@ -681,11 +667,6 @@ class Schema_Generator_Test extends TestCase {
 		$this->replace_vars_helper
 			->expects( 'register_replace_vars' )
 			->once();
-
-		$this->context
-			->expects( 'generate_main_schema_id' )
-			->once()
-			->andReturn( 'https://example.com/' );
 
 		Monkey\Filters\expectApplied( 'wpseo_schema_website' )
 			->once()
@@ -770,14 +751,9 @@ class Schema_Generator_Test extends TestCase {
 			->expects( 'register_replace_vars' )
 			->once();
 
-		$this->context
-			->expects( 'generate_main_schema_id' )
-			->once()
-			->andReturn( 'https://example.com/example-post/' );
-
 		$filtered_webpage_schema = [
 			'@type'      => 'WebPage',
-			'@id'        => 'https://example.com/example-post/',
+			'@id'        => 'https://example.com/the-post/',
 			'url'        => null,
 			'name'       => '',
 			'isPartOf'   => [
@@ -827,7 +803,7 @@ class Schema_Generator_Test extends TestCase {
 	public function test_filtering_the_webpage_schema() {
 		$graph_piece = [
 			'@type'      => 'NULL',
-			'@id'        => 'http://basic.wordpress.test/faq-howto/#webpage',
+			'@id'        => 'http://basic.wordpress.test/faq-howto/',
 			'url'        => 'http://basic.wordpress.test/faq-howto/',
 			'name'       => 'FAQ + HowTo - Basic',
 			'author'     => [
@@ -838,7 +814,7 @@ class Schema_Generator_Test extends TestCase {
 
 		$expected = [
 			'@type'      => 'WebPage',
-			'@id'        => 'http://basic.wordpress.test/faq-howto/#webpage',
+			'@id'        => 'http://basic.wordpress.test/faq-howto/',
 			'url'        => 'http://basic.wordpress.test/faq-howto/',
 			'name'       => 'FAQ + HowTo - Basic',
 			'inLanguage' => 'en-US',
@@ -857,6 +833,7 @@ class Schema_Generator_Test extends TestCase {
 	public function test_generate_with_search_page() {
 		$this->context->indexable->object_sub_type = 'super-custom-post-type';
 		$this->context->site_url                   = 'https://fake.url/';
+		$this->context->main_schema_id             = 'https://fake.url/?s=searchterm';
 
 		$this->context->schema_page_type = [
 			'CollectionPage',
@@ -878,11 +855,6 @@ class Schema_Generator_Test extends TestCase {
 		$this->replace_vars_helper
 			->expects( 'register_replace_vars' )
 			->once();
-
-		$this->context
-			->expects( 'generate_main_schema_id' )
-			->once()
-			->andReturn( 'https://fake.url/?s=searchterm' );
 
 		$this->context->blocks = [];
 
@@ -965,7 +937,7 @@ class Schema_Generator_Test extends TestCase {
 				],
 				[
 					'@type'           => [ null, 'FAQPage' ],
-					'@id'             => 'https://example.com/example-post/',
+					'@id'             => 'https://example.com/the-post/',
 					'url'             => null,
 					'name'            => null,
 					'isPartOf'        => [
