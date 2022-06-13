@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Routes;
 use WP_REST_Request;
 use WP_REST_Response;
 use Yoast\WP\SEO\Actions\Indexables\Indexable_Head_Action;
-use Yoast\WP\SEO\Conditionals\Headless_Rest_Endpoints_Enabled_Conditional;
+use Yoast\WP\SEO\Conditionals\Options_Conditional;
 use Yoast\WP\SEO\Main;
 
 /**
@@ -49,7 +49,7 @@ class Indexables_Head_Route implements Route_Interface {
 	 * @return array
 	 */
 	public static function get_conditionals() {
-		return [ Headless_Rest_Endpoints_Enabled_Conditional::class ];
+		return [ [ Options_Conditional::class => 'enable_headless_rest_endpoints' ] ];
 	}
 
 	/**
