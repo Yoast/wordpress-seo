@@ -51,7 +51,7 @@ class Author extends Person {
 		// If this is an author page, the Person object is the main object, so we set it as such here.
 		if ( $this->context->indexable->object_type === 'user' ) {
 			$data['mainEntityOfPage'] = [
-				'@id' => $this->context->generate_main_schema_id(),
+				'@id' => $this->context->main_schema_id,
 			];
 		}
 

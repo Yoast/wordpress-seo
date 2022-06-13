@@ -208,6 +208,7 @@ class Article_Test extends TestCase {
 		$this->context_mock->post->comment_status      = $values_to_test['post_comment_status'];
 		$this->context_mock->site_represents_reference = $values_to_test['site_represents_reference'];
 		$this->context_mock->post->comment_count       = $values_to_test['approved_comments'];
+		$this->context_mock->main_schema_id            = 'https://permalink';
 
 		$this->id->expects( 'get_user_schema_id' )
 			->once()
@@ -328,7 +329,7 @@ class Article_Test extends TestCase {
 				'expected_value' => [
 					'@type'            => 'Article',
 					'@id'              => 'https://permalink#article',
-					'isPartOf'         => [ '@id' => 'https://permalink#webpage' ],
+					'isPartOf'         => [ '@id' => 'https://permalink' ],
 					'author'           => [
 						'name' => 'John Doe',
 						'@id'  => 'https://permalink#author-id-hash',
@@ -338,7 +339,7 @@ class Article_Test extends TestCase {
 					'datePublished'    => '2345-12-12 12:12:12',
 					'dateModified'     => '2345-12-12 23:23:23',
 					'commentCount'     => 7,
-					'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage' ],
+					'mainEntityOfPage' => [ '@id' => 'https://permalink' ],
 					'keywords'         => [ 'Tag1', 'Tag2' ],
 					'articleSection'   => [ 'Category1' ],
 					'inLanguage'       => 'language',
@@ -371,7 +372,7 @@ class Article_Test extends TestCase {
 				'expected_value' => [
 					'@type'            => 'Article',
 					'@id'              => 'https://permalink#article',
-					'isPartOf'         => [ '@id' => 'https://permalink#webpage' ],
+					'isPartOf'         => [ '@id' => 'https://permalink' ],
 					'author'           => [
 						'name' => 'John Doe',
 						'@id'  => 'https://permalink#author-id-hash',
@@ -381,7 +382,7 @@ class Article_Test extends TestCase {
 					'datePublished'    => '2345-12-12 12:12:12',
 					'dateModified'     => '2345-12-12 23:23:23',
 					'commentCount'     => 7,
-					'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage' ],
+					'mainEntityOfPage' => [ '@id' => 'https://permalink' ],
 					'keywords'         => [ 'Tag1', 'Tag2' ],
 					'articleSection'   => [ 'Category1' ],
 					'inLanguage'       => 'language',
@@ -415,7 +416,7 @@ class Article_Test extends TestCase {
 				'expected_value' => [
 					'@type'            => 'Article',
 					'@id'              => 'https://permalink#article',
-					'isPartOf'         => [ '@id' => 'https://permalink#webpage' ],
+					'isPartOf'         => [ '@id' => 'https://permalink' ],
 					'author'           => [
 						'name' => 'John Doe',
 						'@id'  => 'https://permalink#author-id-hash',
@@ -425,7 +426,7 @@ class Article_Test extends TestCase {
 					'datePublished'    => '2345-12-12 12:12:12',
 					'dateModified'     => '2345-12-12 23:23:23',
 					'commentCount'     => 7,
-					'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage' ],
+					'mainEntityOfPage' => [ '@id' => 'https://permalink' ],
 					'keywords'         => [ 'Tag1', 'Tag2' ],
 					'articleSection'   => [ 'Category1' ],
 					'inLanguage'       => 'language',
@@ -449,7 +450,7 @@ class Article_Test extends TestCase {
 				'expected_value' => [
 					'@type'            => 'Article',
 					'@id'              => 'https://permalink#article',
-					'isPartOf'         => [ '@id' => 'https://permalink#webpage' ],
+					'isPartOf'         => [ '@id' => 'https://permalink' ],
 					'author'           => [
 						'name' => 'John Doe',
 						'@id'  => 'https://permalink#author-id-hash',
@@ -458,7 +459,7 @@ class Article_Test extends TestCase {
 					'headline'         => 'the-title',
 					'datePublished'    => '2345-12-12 12:12:12',
 					'dateModified'     => '2345-12-12 23:23:23',
-					'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage' ],
+					'mainEntityOfPage' => [ '@id' => 'https://permalink' ],
 					'keywords'         => [ 'Tag1', 'Tag2' ],
 					'articleSection'   => [ 'Category1' ],
 					'inLanguage'       => 'language',
@@ -482,7 +483,7 @@ class Article_Test extends TestCase {
 				'expected_value' => [
 					'@type'            => 'Article',
 					'@id'              => 'https://permalink#article',
-					'isPartOf'         => [ '@id' => 'https://permalink#webpage' ],
+					'isPartOf'         => [ '@id' => 'https://permalink' ],
 					'author'           => [
 						'name' => 'John Doe',
 						'@id'  => 'https://permalink#author-id-hash',
@@ -491,7 +492,7 @@ class Article_Test extends TestCase {
 					'headline'         => 'the-title',
 					'datePublished'    => '2345-12-12 12:12:12',
 					'dateModified'     => '2345-12-12 23:23:23',
-					'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage' ],
+					'mainEntityOfPage' => [ '@id' => 'https://permalink' ],
 					'keywords'         => [ 'Tag1', 'Tag2' ],
 					'articleSection'   => [ 'Category1' ],
 					'inLanguage'       => 'language',
@@ -514,7 +515,7 @@ class Article_Test extends TestCase {
 				'expected_value' => [
 					'@type'            => 'Article',
 					'@id'              => 'https://permalink#article',
-					'isPartOf'         => [ '@id' => 'https://permalink#webpage' ],
+					'isPartOf'         => [ '@id' => 'https://permalink' ],
 					'author'           => [
 						'name' => 'John Doe',
 						'@id'  => 'https://permalink#author-id-hash',
@@ -524,7 +525,7 @@ class Article_Test extends TestCase {
 					'datePublished'    => '2345-12-12 12:12:12',
 					'dateModified'     => '2345-12-12 23:23:23',
 					'commentCount'     => 7,
-					'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage' ],
+					'mainEntityOfPage' => [ '@id' => 'https://permalink' ],
 					'inLanguage'       => 'language',
 					'potentialAction'  => [
 						[
@@ -554,7 +555,7 @@ class Article_Test extends TestCase {
 				'expected_value' => [
 					'@type'            => 'Article',
 					'@id'              => 'https://permalink#article',
-					'isPartOf'         => [ '@id' => 'https://permalink#webpage' ],
+					'isPartOf'         => [ '@id' => 'https://permalink' ],
 					'author'           => [
 						'name' => 'John Doe',
 						'@id'  => 'https://permalink#author-id-hash',
@@ -564,7 +565,7 @@ class Article_Test extends TestCase {
 					'datePublished'    => '2345-12-12 12:12:12',
 					'dateModified'     => '2345-12-12 23:23:23',
 					'commentCount'     => 7,
-					'mainEntityOfPage' => [ '@id' => 'https://permalink#webpage' ],
+					'mainEntityOfPage' => [ '@id' => 'https://permalink' ],
 					'inLanguage'       => 'language',
 					'potentialAction'  => [
 						[

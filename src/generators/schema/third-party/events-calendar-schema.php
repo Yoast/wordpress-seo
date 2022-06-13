@@ -77,7 +77,7 @@ class Events_Calendar_Schema extends Abstract_Schema_Piece {
 		// If the resulting array only has one entry, print it directly.
 		if ( \count( $data ) === 1 ) {
 			$data                     = $data[0];
-			$data['mainEntityOfPage'] = [ '@id' => $this->context->generate_main_schema_id() ];
+			$data['mainEntityOfPage'] = [ '@id' => $this->context->main_schema_id ];
 		}
 		elseif ( \count( $data ) === 0 ) {
 			$data = false;

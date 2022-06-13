@@ -227,13 +227,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 			return $this->presentation->permalink;
 		}
 
-		$home_page_indexable = $this->indexable_repository->find_for_home_page();
-
-		if ( $this->indexable_helper->dynamic_permalinks_enabled() ) {
-			return \add_query_arg( 's', \get_search_query(), \trailingslashit( $this->permalink_helper->get_permalink_for_indexable( $home_page_indexable ) ) );
-		}
-
-		return \add_query_arg( 's', \get_search_query(), \trailingslashit( $home_page_indexable->permalink ) );
+		return \add_query_arg( 's', \get_search_query(), \trailingslashit( $this->site_url ) );
 	}
 
 	/**
@@ -573,7 +567,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * @return string
 	 */
 	public function generate_main_schema_id() {
-		return $this->generate_permalink();
+		return $this->permalink;
 	}
 
 	/**
