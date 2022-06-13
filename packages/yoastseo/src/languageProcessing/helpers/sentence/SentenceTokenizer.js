@@ -483,7 +483,7 @@ export default class SentenceTokenizer {
 
 				case "full-stop":
 					currentSentence += token.src;
-					nextCharacters = this.getNextTwoCharacters( [ nextToken, secondToNextToken ] )
+					nextCharacters = this.getNextTwoCharacters( [ nextToken, secondToNextToken ] );
 
 					// For a new sentence we need to check the next two characters.
 					hasNextSentence = nextCharacters.length >= 2;
@@ -504,6 +504,7 @@ export default class SentenceTokenizer {
 						break;
 					}
 
+					// If the full stop is an ordinal dot (in German), then don't break the sentence.
 					if ( this.endsWithOrdinalDot( currentSentence ) ) {
 						break;
 					}
