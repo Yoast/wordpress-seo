@@ -11,6 +11,8 @@ use Yoast\WP\SEO\Helpers\Post_Type_Helper;
  * Class Indexable_Post_Type_Presentation.
  *
  * Presentation object for indexables.
+ *
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 
