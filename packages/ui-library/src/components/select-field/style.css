@@ -1,24 +1,22 @@
 @layer components {
-    .yst-select-field {
+	.yst-root {
+		.yst-select-field__label {
+			@apply yst-mb-2;
+		}
 
-    }
+		.yst-select-field__options {
+			@apply
+			yst-flex
+			yst-flex-col
+			yst-gap-3;
+		}
 
-    .yst-select-field__label {
-        @apply yst-mb-2;
-    }
+		.yst-select-field__description {
+			@apply yst-mt-2;
+		}
 
-    .yst-select-field__options {
-        @apply
-            yst-flex
-            yst-flex-col
-            yst-gap-3;
-    }
-
-    .yst-select-field__description {
-        @apply yst-mt-2;
-    }
-
-    .yst-select-field__error {
-        @apply yst-mt-2 yst-text-red-600;
-    }
+		.yst-select-field__error {
+			@apply yst-mt-2 yst-text-red-600;
+		}
+	}
 }
