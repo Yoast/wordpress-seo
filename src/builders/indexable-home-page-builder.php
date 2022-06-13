@@ -13,8 +13,6 @@ use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
  * Homepage Builder for the indexables.
  *
  * Formats the homepage meta to indexable format.
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Indexable_Home_Page_Builder {
 

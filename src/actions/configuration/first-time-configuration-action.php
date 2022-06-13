@@ -5,7 +5,6 @@ namespace Yoast\WP\SEO\Actions\Configuration;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Social_Profiles_Helper;
 
-// phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- First time configuration simply has a lot of words.
 /**
  * Class First_Time_Configuration_Action.
  */

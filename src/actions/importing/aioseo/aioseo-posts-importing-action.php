@@ -20,8 +20,6 @@ use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Social_Images_Provider_Service
 
 /**
  * Importing action for AIOSEO post data.
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Aioseo_Posts_Importing_Action extends Abstract_Aioseo_Importing_Action {
 

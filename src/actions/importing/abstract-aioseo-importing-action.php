@@ -13,8 +13,6 @@ use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Transformer_Service;
 
 /**
  * Importing action interface.
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 abstract class Abstract_Aioseo_Importing_Action implements Importing_Action_Interface {
 
