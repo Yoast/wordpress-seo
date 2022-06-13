@@ -454,7 +454,7 @@ class WooCommerce_Test extends TestCase {
 		$presentation
 			->expects( 'get_permalink' )
 			->once()
-			->andReturn( 'https://example.com/permalinkg/' );
+			->andReturn( 'https://example.com/permalink/' );
 
 		$this->pagination_helper
 			->expects( 'get_current_archive_page_number' )

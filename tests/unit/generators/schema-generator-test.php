@@ -235,11 +235,6 @@ class Schema_Generator_Test extends TestCase {
 			->expects( 'register_replace_vars' )
 			->once();
 
-		$this->context
-			->expects( 'generate_main_schema_id' )
-			->once()
-			->andReturn( 'https://example.com/' );
-
 		$this->context->blocks = [];
 
 		$this->assertEquals(
