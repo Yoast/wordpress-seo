@@ -318,7 +318,6 @@ class WooCommerce implements Integration_Interface {
 		$presentation = $this->ensure_presentation( $presentation );
 
 		$permalink = $presentation->get_permalink();
-
 		if ( ! $permalink ) {
 			return null;
 		}
