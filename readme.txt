@@ -36,6 +36,7 @@ Yoast SEO is packed full of features, designed to help visitors and search engin
 * **Faster loading times** for your whole website, due to an innovative way of managing data in WordPress.
 * **[Premium]** E-mail support for our [Yoast SEO Premium](https://yoa.st/1v8) users.
 * **[Premium]** The possibility to expand Yoast SEO with the [News SEO](https://yoa.st/1uv), [Video SEO](https://yoa.st/1uw), [Local SEO](https://yoa.st/1uu) and [WooCommerce SEO](https://yoa.st/3rh) extensions.
+* **[Premium]** **New!** Yoast SEO Premium comes with wide-ranging crawl settings that help you improve how search engines crawl your site.
 
 #### WRITE KILLER CONTENT WITH YOAST SEO
 We know content is king, that's why Yoast SEO is famous for its **state-of-the-art content and SEO analysis**. Yoast SEO gives you:
@@ -239,7 +240,7 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 19.1 =
 Release Date: June 14th, 2022
 
-Meet Yoast SEO 19.1! This release comes with several fixes and enhancements. For example, our content analyses improved, with support for em dashes as punctuation marks in the focus keyphrase field and correctly detecting caps in focus keyphrases with a period. Happy updating! Read more about what's new in Yoast SEO 19.1 in [our release post in English](https://yoa.st/release-14-6-22) or [our release post in Spanish](https://yoa.st/release-14-6-22-spanish)!
+Yoast SEO 19.1 is out today! In this release, we've rolled out some improvements that make the content and SEO analyses more flexible. We've also expanded our range of crawl settings in Premium. Read more about what's new in Yoast SEO 19.1 in [our release post in English](https://yoa.st/release-14-6-22) or [our release post in Spanish](https://yoa.st/release-14-6-22-spanish)!
 
 Enhancements:
 
