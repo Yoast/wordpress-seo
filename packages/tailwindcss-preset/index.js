@@ -40,8 +40,12 @@ module.exports = {
 			textColor: [ "active", "group-focus", "disabled" ],
 		},
 	},
+	important: true,
 	plugins: [
 		require( "@tailwindcss/forms" ),
 	],
+	corePlugins: {
+		preflight: false,
+	},
 	content: [ "./node_modules/@yoast/ui-library/**/*.js" ],
 };
