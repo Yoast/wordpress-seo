@@ -94,7 +94,7 @@ class Replace_Vars_Helper_Test extends TestCase {
 		$meta_tags_context                 = Mockery::mock( Meta_Tags_Context_Mock::class );
 		$meta_tags_context->indexable      = $indexable;
 		$meta_tags_context->post           = $post;
-		$meta_tags_context->main_schema_id = 'https://basic.wordpress.test/schema-templates/#webpage';
+		$meta_tags_context->main_schema_id = 'https://basic.wordpress.test/schema-templates/';
 		$meta_tags_context->site_url       = 'https://basic.wordpress.test';
 		$meta_tags_context->canonical      = 'https://basic.wordpress.test/schema-templates';
 
