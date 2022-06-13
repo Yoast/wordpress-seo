@@ -112,6 +112,13 @@
 		</properties>
 	</rule>
 
+	<rule ref="Yoast.NamingConventions.ObjectNameDepth">
+		<properties>
+			<property name="max_words" value="5" />
+			<property name="recommended_max_words" value="5" />
+		</properties>
+	</rule>
+
 	<rule ref="Yoast.NamingConventions.NamespaceName">
 		<properties>
 			<!-- Indicate which directories should be treated as project root directories for
@@ -174,10 +181,7 @@
 
 	<!-- Exclude select directories from the object depth naming convention check. -->
 	<rule ref="Yoast.NamingConventions.ObjectNameDepth.MaxExceeded">
-		<exclude-pattern>/config/php-codeshift/*</exclude-pattern>
-		<exclude-pattern>/src/conditionals/*</exclude-pattern>
 		<exclude-pattern>/src/config/migrations/*</exclude-pattern>
-		<exclude-pattern>/src/generators/schema/third-party/*</exclude-pattern>
 	</rule>
 
 	<!-- Exclude third-party from being checked too roughly. -->
