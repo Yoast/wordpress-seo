@@ -42,7 +42,7 @@ export default class SentenceTokenizer {
          * \u06D4 - Urdu full stop.
          * \u061f - Arabic question mark.
         */
-		this.sentenceDelimiters = "\"?!\u2026\u06d4\u061f";
+		this.sentenceDelimiters = "”〞〟„』\"?!\u2026\u06d4\u061f";
 	}
 
 	/**
@@ -451,7 +451,7 @@ export default class SentenceTokenizer {
 						"sentence-delimiter" !== nextToken.type &&
 						this.isCharacterASpace( nextToken.src[ 0 ] ) ) {
 						// Don't split on quotation marks unless they're preceded by a full stop.
-						if ( token.src === "\"" && previousToken.src !== "." ) {
+						if ( this.isQuotation( token.src ) && previousToken.src !== "." ) {
 							break;
 						}
 						/*
