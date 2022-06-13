@@ -204,6 +204,40 @@ class SeoAnalysis extends Component {
 	}
 
 	/**
+	 * Returns the list of results used to upsell the user to Premium.
+	 *
+	 * @return {Array} The upsell results.
+	 */
+	getUpsellResults( location ) {
+		// TODO: Get shortlinks for this upsell.
+		let link = wpseoAdminL10n[ "shortlinks.upsell.metabox.additional_link" ];
+		if ( location === "sidebar" ) {
+			link = wpseoAdminL10n[ "shortlinks.upsell.sidebar.additional_link" ];
+		}
+
+		const keyphraseDistributionUpsellText = sprintf(
+			/* Translators: %1$s is an anchor tag with a link to yoast.com, %1$2s is a closing anchor tag.*/
+			__(
+				"Keyphrase distribution: Have you evenly distributed your focus keyphrase throughout the whole text? " +
+				"%1$sYoast SEO Premium will tell you!%2$s",
+			),
+			`<a href="${ link }">`,
+			"</a>"
+		);
+
+		return [
+			{
+				score: 0,
+				rating: "upsell",
+				hasMarks: false,
+				id: "keyphraseDistribution",
+				text: keyphraseDistributionUpsellText,
+				markerId: "keyphraseDistribution",
+			},
+		];
+	}
+
+	/**
 	 * Renders the SEO Analysis component.
 	 *
 	 * @returns {wp.Element} The SEO Analysis component.
@@ -220,6 +254,11 @@ class SeoAnalysis extends Component {
 			<LocationConsumer>
 				{ location => {
 					const Collapsible = location === "metabox" ? MetaboxCollapsible : SidebarCollapsible;
+
+					let upsellResults = [];
+					if ( this.props.shouldUpsell ) {
+						upsellResults = this.getUpsellResults( location );
+					}
 
 					return (
 						<Fragment>
@@ -242,6 +281,7 @@ class SeoAnalysis extends Component {
 								</AnalysisHeader>
 								<Results
 									results={ this.props.results }
+									upsellResults={ upsellResults }
 									marksButtonClassName="yoast-tooltip yoast-tooltip-w"
 									marksButtonStatus={ this.props.marksButtonStatus }
 								/>
