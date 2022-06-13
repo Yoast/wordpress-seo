@@ -317,30 +317,32 @@ class WooCommerce implements Integration_Interface {
 	protected function get_shop_paginated_link( $rel, $presentation = null ) {
 		$presentation = $this->ensure_presentation( $presentation );
 
-		if ( ! $presentation->permalink ) {
+		$permalink = $presentation->get_permalink();
+
+		if ( ! $permalink ) {
 			return null;
 		}
 
 		$current_page = \max( 1, $this->pagination_helper->get_current_archive_page_number() );
 
 		if ( $rel === 'curr' && $current_page === 1 ) {
-			return $presentation->permalink;
+			return $permalink;
 		}
 
 		if ( $rel === 'curr' && $current_page > 1 ) {
-			return $this->pagination_helper->get_paginated_url( $presentation->permalink, $current_page );
+			return $this->pagination_helper->get_paginated_url( $permalink, $current_page );
 		}
 
 		if ( $rel === 'prev' && $current_page === 2 ) {
-			return $presentation->permalink;
+			return $permalink;
 		}
 
 		if ( $rel === 'prev' && $current_page > 2 ) {
-			return $this->pagination_helper->get_paginated_url( $presentation->permalink, ( $current_page - 1 ) );
+			return $this->pagination_helper->get_paginated_url( $permalink, ( $current_page - 1 ) );
 		}
 
 		if ( $rel === 'next' && $current_page < $this->pagination_helper->get_number_of_archive_pages() ) {
-			return $this->pagination_helper->get_paginated_url( $presentation->permalink, ( $current_page + 1 ) );
+			return $this->pagination_helper->get_paginated_url( $permalink, ( $current_page + 1 ) );
 		}
 
 		return null;
