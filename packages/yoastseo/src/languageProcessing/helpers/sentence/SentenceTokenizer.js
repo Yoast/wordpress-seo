@@ -88,6 +88,15 @@ export default class SentenceTokenizer {
 	}
 
 	/**
+	 * A mock definition of this function. This function is only used in extensions for languages that use an ordinal dot.
+	 *
+	 * @returns {boolean} always returns false as it is a language specific implementation if a language as an ordinal Dot.
+	 */
+	endsWithOrdinalDot() {
+		return false;
+	}
+
+	/**
 	 * Returns whether or not a given character is a punctuation mark that can be at the beginning
 	 * of a sentence, like ¿ and ¡ used in Spanish.
 	 *
@@ -474,7 +483,7 @@ export default class SentenceTokenizer {
 
 				case "full-stop":
 					currentSentence += token.src;
-					nextCharacters = this.getNextTwoCharacters( [ nextToken, secondToNextToken ] );
+					nextCharacters = this.getNextTwoCharacters( [ nextToken, secondToNextToken ] )
 
 					// For a new sentence we need to check the next two characters.
 					hasNextSentence = nextCharacters.length >= 2;
@@ -494,6 +503,11 @@ export default class SentenceTokenizer {
 					if ( this.isPartOfPersonInitial( token, previousToken, nextToken, secondToNextToken ) ) {
 						break;
 					}
+
+					if ( this.endsWithOrdinalDot( currentSentence ) ) {
+						break;
+					}
+
 					/*
 					 * Only split on full stop when:
 					 * a) There is a next sentence, and the next character is a valid sentence beginning preceded by a white space, OR
