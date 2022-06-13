@@ -314,5 +314,9 @@ describe( "A test for tokenizing a (html) text into sentences", function() {
 
 		expect( mockTokenizer.isPartOfPersonInitial( token, previousToken, nextToken, secondToNextToken ) ).toBeTruthy();
 	} );
+
+	it( "endsWithOrdinalDot should return false when the German tokenizer is not used", () => {
+		expect( mockTokenizer.endsWithOrdinalDot( "Anything you want to put here, it shouldn't matter." ) ).toBe( false );
+	} );
 } );
 
