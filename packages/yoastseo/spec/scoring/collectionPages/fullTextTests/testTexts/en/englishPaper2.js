@@ -80,11 +80,8 @@ const expectedResults = {
 		resultText: "",
 	},
 	keyphraseDistribution: {
-		isApplicable: true,
-		score: 1,
-		resultText: "<a href='https://yoa.st/shopify30' target='_blank'>Keyphrase distribution</a>: Very uneven. Large parts of " +
-			"your text do not contain the keyphrase or its synonyms. <a href='https://yoa.st/shopify31' target='_blank'>" +
-			"Distribute them more evenly</a>.",
+		// The text doesn't contain more than 15 sentences.
+		isApplicable: false,
 	},
 	subheadingsTooLong: {
 		isApplicable: false,
@@ -105,7 +102,7 @@ const expectedResults = {
 	passiveVoice: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/shopify42' target='_blank'>Passive voice</a>: 10.5% of the sentences contain passive voice, " +
+		resultText: "<a href='https://yoa.st/shopify42' target='_blank'>Passive voice</a>: 14.3% of the sentences contain passive voice, " +
 			"which is more than the recommended maximum of 10%. <a href='https://yoa.st/shopify43' target='_blank'>" +
 			"Try to use their active counterparts</a>.",
 	},

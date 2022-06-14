@@ -95,8 +95,8 @@ const expectedResults = {
 	},
 	fleschReadingEase: {
 		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 60 in the test, which is considered ok to read. Good job!",
+		score: 6,
+		resultText: "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 59.4 in the test, which is considered fairly difficult to read. <a href='https://yoa.st/34s' target='_blank'>Try to make shorter sentences to improve readability</a>.",
 	},
 	subheadingsTooLong: {
 		isApplicable: true,
@@ -121,7 +121,7 @@ const expectedResults = {
 	passiveVoice: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: 17.1% of the sentences contain passive voice, which is more than the recommended maximum of 10%. <a href='https://yoa.st/34u' target='_blank'>Try to use their active counterparts</a>.",
+		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: 17.9% of the sentences contain passive voice, which is more than the recommended maximum of 10%. <a href='https://yoa.st/34u' target='_blank'>Try to use their active counterparts</a>.",
 	},
 	textPresence: {
 		isApplicable: true,

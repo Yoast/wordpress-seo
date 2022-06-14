@@ -135,6 +135,60 @@ describe( "the metadescription keyword match research", function() {
 	} );
 } );
 
+describe( "a test for matching focus keyphrase in uppercase that contains period", () => {
+	it( "should match keyphrase in upper case with a period in the text", function() {
+		let text = "An example text. What is ASP.NET.";
+		let paper = new Paper( "", { keyword: "ASP.NET", description: text } );
+		let researcher = new Researcher( paper );
+
+		expect( metaDescriptionKeyword( paper, researcher ) ).toEqual( 1 );
+
+		text = "An example text. What is ASP.net.";
+		paper = new Paper( "", { keyword: "ASP.NET", description: text } );
+		researcher = new Researcher( paper );
+
+		expect( metaDescriptionKeyword( paper, researcher ) ).toEqual( 1 );
+
+		text = "An example text. What is asp.NET?";
+		paper = new Paper( "", { keyword: "ASP.NET", description: text } );
+		researcher = new Researcher( paper );
+
+		expect( metaDescriptionKeyword( paper, researcher ) ).toEqual( 1 );
+
+		text = "An example text. What is asp.net.";
+		paper = new Paper( "", { keyword: "ASP.NET", description: text } );
+		researcher = new Researcher( paper );
+
+		expect( metaDescriptionKeyword( paper, researcher ) ).toEqual( 1 );
+	} );
+
+	it( "should still match keyphrase in upper case with a period in the text when the keyphrase is in double quote", function() {
+		let text = "An example text. What is ASP.NET.";
+		let paper = new Paper( "", { keyword: "\"ASP.NET\"", description: text } );
+		let researcher = new Researcher( paper );
+
+		expect( metaDescriptionKeyword( paper, researcher ) ).toEqual( 1 );
+
+		text = "An example text. What is ASP.net.";
+		paper = new Paper( "", { keyword: "\"ASP.NET\"", description: text } );
+		researcher = new Researcher( paper );
+
+		expect( metaDescriptionKeyword( paper, researcher ) ).toEqual( 1 );
+
+		text = "An example text. What is asp.NET?";
+		paper = new Paper( "", { keyword: "\"ASP.NET\"", description: text } );
+		researcher = new Researcher( paper );
+
+		expect( metaDescriptionKeyword( paper, researcher ) ).toEqual( 1 );
+
+		text = "An example text. What is asp.net.";
+		paper = new Paper( "", { keyword: "\"ASP.NET\"", description: text } );
+		researcher = new Researcher( paper );
+
+		expect( metaDescriptionKeyword( paper, researcher ) ).toEqual( 1 );
+	} );
+} );
+
 /*
 
 describe( "the meta description keyphrase match research for keyphrases that contain apostrophe", () => {

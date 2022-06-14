@@ -73,7 +73,7 @@ function InstallationSuccessPage() {
 							/>
 						</div>
 					</div>
-					<div id="installation-success-card-configuration-workout" className="yst-shrink-0 yst-shadow-xl yst-bg-primary-500 yst-rounded-lg yst-p-6 yst-flex yst-flex-col yst-max-w-sm yst-h-4/5 yst-leading-6">
+					<div id="installation-success-card-configuration" className="yst-shrink-0 yst-shadow-xl yst-bg-primary-500 yst-rounded-lg yst-p-6 yst-flex yst-flex-col yst-max-w-sm yst-h-4/5 yst-leading-6">
 						<h2 className=" yst-text-white yst-text-2xl yst-leading-8 yst-font-extrabold">
 							{ sprintf(
 								/* translators: %s expands to Yoast SEO. */
@@ -95,8 +95,8 @@ function InstallationSuccessPage() {
 						/>
 						<div className="yst-flex yst-grow-1 yst-mt-auto">
 							<a
-								id="installation-successful-configuration-workout-link"
-								href={ window.wpseoInstallationSuccess.configurationWorkoutUrl }
+								id="installation-successful-configuration-link"
+								href={ window.wpseoInstallationSuccess.firstTimeConfigurationUrl }
 								className="yst-inline-flex yst-items-center yst-w-full yst-justify-center yst-no-underline yst-px-6 yst-py-3 yst-border yst-border-transparent yst-text-base yst-font-medium yst-rounded-md yst-shadow-none yst-text-primary-500 yst-bg-white hover:yst-bg-gray-50 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-white yst-ring-offset-2 yst-ring-offset-primary-500"
 							>
 								{ __( "Start first-time configuration!", "wordpress-seo" ) }

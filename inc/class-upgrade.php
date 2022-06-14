@@ -79,6 +79,7 @@ class WPSEO_Upgrade {
 			'18.3-RC3'   => 'upgrade_183',
 			'18.6-RC0'   => 'upgrade_186',
 			'18.9-RC0'   => 'upgrade_189',
+			'19.1-RC0'   => 'upgrade_191',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -914,6 +915,15 @@ class WPSEO_Upgrade {
 				'personalPreferences',
 			];
 			WPSEO_Options::set( 'configuration_finished_steps', $configuration_finished_steps );
+		}
+	}
+
+	/**
+	 * Performs the 19.1 upgrade routine.
+	 */
+	private function upgrade_191() {
+		if ( is_multisite() ) {
+			WPSEO_Options::set( 'allow_remove_feed_post_comments', true );
 		}
 	}
 

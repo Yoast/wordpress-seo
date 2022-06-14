@@ -25,6 +25,7 @@ import warning from "./warning";
 import WincherModal from "./WincherModal";
 import WincherRequest from "./WincherRequest";
 import WincherSEOPerformance from "./WincherSEOPerformance";
+import isPremium from "./isPremium";
 
 export default {
 	activeMarker,
@@ -40,6 +41,7 @@ export default {
 	focusKeyword,
 	isCornerstone,
 	isMarkerPaused,
+	isPremium,
 	marksButtonStatus,
 	preferences,
 	primaryTaxonomies,

@@ -109,7 +109,7 @@ const expectedResults = {
 	fleschReadingEase: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 41.9 in the test, which is considered" +
+		resultText: "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 39.7 in the test, which is considered" +
 			" difficult to read. <a href='https://yoa.st/34s' target='_blank'>Try to make shorter sentences, using less difficult words to improve" +
 			" readability</a>.",
 	},
@@ -133,13 +133,15 @@ const expectedResults = {
 	textTransitionWords: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 7.1% of the sentences contain transition words," +
+		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 8.5% of the sentences contain transition words," +
 			" which is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more of them</a>.",
 	},
 	passiveVoice: {
 		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: You're using enough active voice. That's great!",
+		score: 6,
+		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: 10.6% of the sentences contain passive voice, " +
+			"which is more than the recommended maximum of 10%. <a href='https://yoa.st/34u' target='_blank'>" +
+			"Try to use their active counterparts</a>.",
 	},
 	textPresence: {
 		isApplicable: true,

@@ -97,7 +97,7 @@ const expectedResults = {
 	fleschReadingEase: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 31.9 in the test, which is considered difficult to read. <a href='https://yoa.st/34s' target='_blank'>Try to make shorter sentences, using less difficult words to improve readability</a>.",
+		resultText: "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 18.5 in the test, which is considered very difficult to read. <a href='https://yoa.st/34s' target='_blank'>Try to make shorter sentences, using less difficult words to improve readability</a>.",
 	},
 	subheadingsTooLong: {
 		isApplicable: true,
@@ -112,17 +112,19 @@ const expectedResults = {
 	textSentenceLength: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: 39.1% of the sentences contain more than 15 words, which is more than the recommended maximum of 25%. <a href='https://yoa.st/34w' target='_blank'>Try to shorten the sentences</a>.",
+		resultText: "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: 73.7% of the sentences contain more than 15 words, which is more than the recommended maximum of 25%. <a href='https://yoa.st/34w' target='_blank'>Try to shorten the sentences</a>.",
 	},
 	textTransitionWords: {
 		isApplicable: true,
-		score: 3,
-		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 17.5% of the sentences contain transition words, which is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more of them</a>.",
+		score: 9,
+		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Well done!",
 	},
 	passiveVoice: {
 		isApplicable: true,
-		score: 9,
-		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: You're using enough active voice. That's great!",
+		score: 6,
+		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: 10.5% of the sentences contain passive voice, " +
+			"which is more than the recommended maximum of 10%. <a href='https://yoa.st/34u' target='_blank'>" +
+			"Try to use their active counterparts</a>.",
 	},
 	textPresence: {
 		isApplicable: true,

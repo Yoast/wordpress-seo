@@ -92,6 +92,7 @@ export default function( paper, researcher ) {
 	const firstWordExceptions = researcher.getConfig( "firstWordExceptions" );
 	const secondWordExceptions = researcher.getConfig( "secondWordExceptions" );
 	const getWordsCustomHelper = researcher.getHelper( "getWordsCustomHelper" );
+	const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
 
 	let text = paper.getText();
 
@@ -104,7 +105,7 @@ export default function( paper, researcher ) {
 	// Exclude text inside list items.
 	text = text.replace( /<li(?:[^>]+)?>(.*?)<\/li>/ig, "" );
 
-	let sentences = getSentences( text );
+	let sentences = getSentences( text, memoizedTokenizer );
 
 	let sentenceBeginnings = sentences.map( function( sentence ) {
 		return getSentenceBeginning( sentence, firstWordExceptions, secondWordExceptions, getWordsCustomHelper );

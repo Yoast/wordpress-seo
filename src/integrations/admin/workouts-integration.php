@@ -154,13 +154,11 @@ class Workouts_Integration implements Integration_Interface {
 				'pluginUrl'                 => \esc_url( \plugins_url( '', \WPSEO_FILE ) ),
 				'toolsPageUrl'              => \esc_url( \admin_url( 'admin.php?page=wpseo_tools' ) ),
 				'usersPageUrl'              => \esc_url( \admin_url( 'users.php' ) ),
-				'firsttimeConfigurationUrl' => \esc_url( \admin_url( 'admin.php?page=wpseo_dashboard#top#first-time-configuration' ) ),
+				'firstTimeConfigurationUrl' => \esc_url( \admin_url( 'admin.php?page=wpseo_dashboard#top#first-time-configuration' ) ),
 				'isPremium'                 => $this->product_helper->is_premium(),
 				'shouldUpdatePremium'       => $this->should_update_premium(),
 				'upsellText'                => $this->get_upsell_text(),
 				'upsellLink'                => $this->get_upsell_link(),
-				'canDoConfigurationWorkout' => $this->user_can_do_configuration_workout(),
-				'canEditWordPressOptions'   => $this->user_can_edit_wordpress_options(),
 			]
 		);
 	}
@@ -331,23 +329,5 @@ class Workouts_Integration implements Integration_Interface {
 			return \wp_nonce_url( \self_admin_url( 'update.php?action=upgrade-plugin&plugin=wordpress-seo-premium/wp-seo-premium.php' ), 'upgrade-plugin_wordpress-seo-premium/wp-seo-premium.php' );
 		}
 		return 'https://yoa.st/workouts-activate-notice-myyoast';
-	}
-
-	/**
-	 * Whether the user can do the configuration workout.
-	 *
-	 * @return bool Whether the current user can do the configuration workout.
-	 */
-	private function user_can_do_configuration_workout() {
-		return \current_user_can( 'wpseo_manage_options' );
-	}
-
-	/**
-	 * Whether the user can edit WordPress options.
-	 *
-	 * @return bool Whether the current user can edit WordPress options.
-	 */
-	private function user_can_edit_wordpress_options() {
-		return \current_user_can( 'manage_options' );
 	}
 }

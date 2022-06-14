@@ -71,7 +71,7 @@ export default function WorkoutsPage( props ) {
 			initWorkouts( workoutsSetting );
 			if ( window.location.hash && window.location.hash.length > 1 ) {
 				if ( window.location.hash.substr( 1 ) === "configuration" ) {
-					window.location.href = window.wpseoWorkoutsData.firsttimeConfigurationUrl;
+					window.location.href = window.wpseoWorkoutsData.firstTimeConfigurationUrl;
 				} else {
 					openWorkout( window.location.hash.substr( 1 ) );
 				}

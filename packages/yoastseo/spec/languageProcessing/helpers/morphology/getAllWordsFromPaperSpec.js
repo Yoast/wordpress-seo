@@ -30,7 +30,8 @@ describe( "Test for getting all words found in the text, title, slug and meta de
 			"envisages", "the", "vehicle", "travelling", "to", "the", "Moon", "and", "Mars", "The", "SpaceX", "CEO", "praised",
 			"his", "team", "adding", "that", "the", "demonstration", "had", "acquired", "all", "the", "data", "we", "needed",
 			"Mars", "here", "we", "come", "he", "tweeted", "Elon", "Musk's", "Starship", "prototype", "makes", "a",
-			"big", "impact", "science", "environment", "55239628", "US", "entrepreneur", "Elon", "Musk", "has", "launched",
-			"the", "latest", "prototype", "of", "his", "Starship", "vehicle", "from", "Texas", "a", "test" ] );
+			"big", "impact", "science-environment-55239628", "science", "environment", "55239628", "US", "entrepreneur",
+			"Elon", "Musk", "has", "launched", "the", "latest", "prototype", "of", "his", "Starship", "vehicle", "from",
+			"Texas", "a", "test" ] );
 	} );
 } );

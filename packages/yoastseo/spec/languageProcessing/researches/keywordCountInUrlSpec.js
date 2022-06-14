@@ -213,6 +213,28 @@ describe( "test to check slug for keyword", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 		expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 3, percentWordMatches: 100 } );
 	} );
+
+	it( "morphology works for hyphenated keyphrases", function() {
+		const paper = new Paper( "", { slug: "ex-husband", keyword: "ex-husbands" } );
+		const researcher = new EnglishResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 2, percentWordMatches: 100 } );
+	} );
+
+	it( "morphology works for hyphenated keyphrases with function words", function() {
+		const paper = new Paper( "", { slug: "two-year-old", keyword: "two-year-olds" } );
+		const researcher = new EnglishResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 3, percentWordMatches: 100 } );
+	} );
+
+	// Does not work yet.
+	xit( "morphology works for partially hyphenated keyphrases", function() {
+		const paper = new Paper( "", { slug: "how-to-entertain-two-year-old", keyword: "how to entertain two-year-olds" } );
+		const researcher = new EnglishResearcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		expect( slugKeyword( paper, researcher ) ).toEqual( { keyphraseLength: 6, percentWordMatches: 100 } );
+	} );
 } );
 
 describe( "tests proper deprecation", function() {

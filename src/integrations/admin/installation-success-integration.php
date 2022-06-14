@@ -126,9 +126,7 @@ class Installation_Success_Integration implements Integration_Interface {
 			'wpseoInstallationSuccess',
 			[
 				'pluginUrl'                 => \esc_url( \plugins_url( '', \WPSEO_FILE ) ),
-				'configurationWorkoutUrl'   => \esc_url( \admin_url( 'admin.php?page=wpseo_dashboard#top#first-time-configuration' ) ),
-				'canDoConfigurationWorkout' => \current_user_can( 'wpseo_manage_options' ),
-				'canEditWordPressOptions'   => \current_user_can( 'manage_options' ),
+				'firstTimeConfigurationUrl' => \esc_url( \admin_url( 'admin.php?page=wpseo_dashboard#top#first-time-configuration' ) ),
 			]
 		);
 	}

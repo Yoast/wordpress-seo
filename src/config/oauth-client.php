@@ -71,7 +71,8 @@ abstract class OAuth_Client {
 				$tokens['refresh_token'],
 				$tokens['expires'],
 				$tokens['has_expired'],
-				$tokens['created_at']
+				$tokens['created_at'],
+				isset( $tokens['error_count'] ) ? $tokens['error_count'] : 0
 			);
 		}
 	}
@@ -202,6 +203,23 @@ abstract class OAuth_Client {
 	}
 
 	/**
+	 * Clears the stored token from storage.
+	 *
+	 * @return boolean The stored token.
+	 *
+	 * @throws Failed_Storage_Exception Exception thrown if clearing of the token fails.
+	 */
+	public function clear_token() {
+		$saved = $this->options_helper->set( $this->token_option, [] );
+
+		if ( $saved === false ) {
+			throw new Failed_Storage_Exception();
+		}
+
+		return true;
+	}
+
+	/**
 	 * Performs the specified request.
 	 *
 	 * @param string $method  The HTTP method to use.
@@ -242,6 +260,15 @@ abstract class OAuth_Client {
 	 * @throws Authentication_Failed_Exception Exception thrown if authentication has failed.
 	 */
 	protected function refresh_tokens( OAuth_Token $tokens ) {
+		// We do this dance with transients since we need to make sure we don't
+		// delete valid tokens because of a race condition when two calls are
+		// made simultaneously to this function and refresh token rotation is
+		// turned on in the OAuth server. This is not 100% safe, but should at
+		// least be much better than not having any lock at all.
+		$lock_name = \sprintf( 'lock:%s', $this->token_option );
+		$can_lock  = \get_transient( $lock_name ) === false;
+		$has_lock  = $can_lock && \set_transient( $lock_name, true, 30 );
+
 		try {
 			$new_tokens = $this->provider->getAccessToken(
 				'refresh_token',
@@ -250,11 +277,32 @@ abstract class OAuth_Client {
 				]
 			);
 
-			$token = OAuth_Token::from_response( $new_tokens );
+			$token_obj = OAuth_Token::from_response( $new_tokens );
 
-			return $this->store_token( $token );
+			return $this->store_token( $token_obj );
 		} catch ( Exception $exception ) {
+			// If we tried to refresh but the refresh token is invalid, delete
+			// the tokens so that we don't try again. Only do this if we got the
+			// lock at the beginning of the call.
+			if ( $has_lock && $exception->getMessage() === 'invalid_grant' ) {
+				try {
+					// To protect from race conditions, only do this if we've
+					// seen an error before with the same token.
+					if ( $tokens->error_count >= 1 ) {
+						$this->clear_token();
+					}
+					else {
+						$tokens->error_count += 1;
+						$this->store_token( $tokens );
+					}
+				} catch ( Exception $e ) {  // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch
+					// Pass through.
+				}
+			}
+
 			throw new Authentication_Failed_Exception( $exception );
+		} finally {
+			delete_transient( $lock_name );
 		}
 	}
 }

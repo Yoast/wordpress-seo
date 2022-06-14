@@ -36,6 +36,7 @@ Yoast SEO is packed full of features, designed to help visitors and search engin
 * **Faster loading times** for your whole website, due to an innovative way of managing data in WordPress.
 * **[Premium]** E-mail support for our [Yoast SEO Premium](https://yoa.st/1v8) users.
 * **[Premium]** The possibility to expand Yoast SEO with the [News SEO](https://yoa.st/1uv), [Video SEO](https://yoa.st/1uw), [Local SEO](https://yoa.st/1uu) and [WooCommerce SEO](https://yoa.st/3rh) extensions.
+* **[Premium]** **New!** Yoast SEO Premium comes with wide-ranging crawl settings that help you improve how search engines crawl your site.
 
 #### WRITE KILLER CONTENT WITH YOAST SEO
 We know content is king, that's why Yoast SEO is famous for its **state-of-the-art content and SEO analysis**. Yoast SEO gives you:
@@ -236,6 +237,29 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 19.1 =
+Release Date: June 14th, 2022
+
+Yoast SEO 19.1 is out today! In this release, we've rolled out some improvements that make the content and SEO analyses more flexible. We've also expanded our range of crawl settings in Premium. Read more about what's new in Yoast SEO 19.1 in [our release post in English](https://yoa.st/release-14-6-22) or [our release post in Spanish](https://yoa.st/release-14-6-22-spanish)!
+
+Enhancements:
+
+* Improves text analysis by splitting text on full-stop only when the next sentence is preceded by a whitespace.
+* Prompts users to set up their site in order to take advantage of all SEO features.
+
+Bugfixes:
+
+* Fixes a bug where the "Check links to this URL" option on admin bar menu would lead to an error page on setups with home URL different from the site URL. Props to @suascat.
+* Fixes a bug where the network setting for the crawl cleanup feature would default to `Disable` when the super admin saved settings before upgrading/installing Premium.
+* Fixes a bug which caused the Spanish transition word `para ilustrar` to not be recognized by the transition words assessment.
+
+Other:
+
+* Adds an informative error message to the steps of the First-time configuration should an error occur.
+* Adds dismissable weekly webinar promo banners to Yoast settings pages & block/Elementor editor sidebars.
+* Adds new disabled toggles to the Crawl settings tab in the General page.
+* Improves handling of OAuth errors in the Wincher integration and clears refresh tokens that seem to be invalid.
+
 = 19.0 =
 Release Date: May 31st, 2022
 
@@ -244,6 +268,7 @@ Say hi to Yoast SEO 19.0! This release helps make your sitemaps available to Bin
 Enhancements:
 
 * Following a change of policy by Bing, we now reference the XML sitemap in the robots.txt file to make it discoverable for search engines.
+* Changes `Disallow: /wp-admin/` to `Disallow:` in the default robots.txt file to follow our best-practice guide.
 
 Bugfixes:
 
@@ -262,29 +287,6 @@ Other:
 * Adds a Redirects page with an upsell to Premium.
 * Deprecates the configuration workout classes.
 * Sets the WordPress tested up to version to 6.0.
-
-= 18.9 =
-Release Date: May 17th, 2022
-
-Yoast SEO 18.9 is out now! In this release, we have improved the first experience users have with the plugin. The first-time configuration takes users by the hand and guides them in properly setting everything up so that search engines understand their site. Make sure to run that first-time configuration to see if you’ve filled everything in correctly! Read more about what's new in Yoast SEO 18.9 in [our release post in English](https://yoa.st/release-17-5-22) or [our release post in Spanish](https://yoa.st/release-17-5-22-spanish)!
-
-Enhancements:
-
-* Adds an `installation successful` page to welcome first-time users.
-* Introduces the First-time configuration, replacing and improving the Configuration Workout.
-* Renames the main admin menu item to `Yoast SEO` instead of `SEO`.
-
-Bugfixes:
-
-* Fixes a bug that would lead to race conditions when using persistent object caching.
-* Fixes a bug where a 403 error page would be thrown when a user tried to access the old configuration wizard.
-* Fixes a bug where our How To and FAQ blocks would not handle focus correctly when using WordPress 6.0.
-* Fixes a bug where the global var $post is sometimes modified unexpectedly. Props to [grantalltodavid](https://github.com/grantalltodavid).
-
-Other:
-
-* Adds a `Premium` badge to the Workouts menu item.
-* Updates the look of the Accounts tab in the Social page.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

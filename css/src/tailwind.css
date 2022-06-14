@@ -433,10 +433,6 @@
 				yst-shadow;
 		}
 		
-		#yoast-configuration-workout p {
-			@apply yst-leading-normal yst-text-gray-500;
-		}
-		
 		.yst-radio {
 			@apply
 				yst-flex
