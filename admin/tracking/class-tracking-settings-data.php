@@ -201,6 +201,7 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'remove_emoji_scripts',
 		'remove_powered_by_header',
 		'remove_pingback_header',
+		'wordproof_integration_active',
 	];
 
 	/**
