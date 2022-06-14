@@ -90,6 +90,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'wincher_tokens'                           => [],
 		'wincher_automatically_add_keyphrases'     => false,
 		'wincher_website_id'                       => '',
+		'wordproof_integration_active'             => false,
+		'wordproof_integration_changed'            => false,
 		'first_time_install'                       => false,
 		'should_redirect_after_install_free'       => false,
 		'activation_redirect_timestamp_free'       => 0,
@@ -417,9 +419,18 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 					}
 					break;
 
+				case 'wordproof_integration_active':
+					$clean[ $key ] = ( isset( $dirty[ $key ] ) ? WPSEO_Utils::validate_bool( $dirty[ $key ] ) : false );
+					// If the setting has changed, record it.
+					if ( $old[ $key ] !== $clean[ $key ] ) {
+						$clean['wordproof_integration_changed'] = true;
+					}
+					break;
+
+
 				/*
-				 * Boolean (checkbox) fields.
-				 */
+				* Boolean (checkbox) fields.
+				*/
 
 				/*
 				 * Covers:

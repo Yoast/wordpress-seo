@@ -131,6 +131,10 @@ class WPSEO_Sitemaps_Renderer_Test extends WPSEO_UnitTestCase {
 				'loc'      => 'http://example.com/page-name?s=keyword&#038;p=2#anchor',
 				'expected' => 'http://example.com/page-name?s=keyword&amp;p=2#anchor',
 			],
+			'Full URL which will validate with the filter - contains &#039;' => [
+				'loc'      => 'http://example.com/page-name?s=keyword&p=\'2&#039;#anchor',
+				'expected' => 'http://example.com/page-name?s=keyword&amp;p=&apos;2&apos;#anchor',
+			],
 
 			/*
 			 * All the below URLs will not validate with `FILTER_VALIDATE_URL` and will therefore

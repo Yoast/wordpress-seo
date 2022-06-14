@@ -48,6 +48,15 @@ export default class AdvancedFields {
 	}
 
 	/**
+	 * Getter for the wordproofTimestampElement.
+	 *
+	 * @returns {HTMLElement} The wordproofTimestampElement.
+	 */
+	static get wordproofTimestampElement() {
+		return document.getElementById( window.wpseoScriptData.isPost ? "yoast_wpseo_wordproof_timestamp" : "hidden_wpseo_wordproof_timestamp" );
+	}
+
+	/**
 	 * Getter for the No Index setting.
 	 *
 	 * @returns {string} The No Index setting.
@@ -145,5 +154,25 @@ export default class AdvancedFields {
 	 */
 	static set canonical( value ) {
 		AdvancedFields.canonicalElement.value = value;
+	}
+
+	/**
+	 * Getter for the Timestamp setting.
+	 *
+	 * @returns {boolean} The Timestamp setting.
+	 */
+	static get wordproofTimestamp() {
+		return AdvancedFields.wordproofTimestampElement && AdvancedFields.wordproofTimestampElement.value === "1" || false;
+	}
+
+	/**
+	 * Setter for the Timestamp setting.
+	 *
+	 * @param {boolean} value The value to set.
+	 *
+	 * @returns {void}
+	 */
+	static set wordproofTimestamp( value ) {
+		AdvancedFields.wordproofTimestampElement.value = value ? "1" : "0";
 	}
 }

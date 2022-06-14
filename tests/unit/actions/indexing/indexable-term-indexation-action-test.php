@@ -19,8 +19,6 @@ use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
  * @group indexing
  *
  * @coversDefaultClass \Yoast\WP\SEO\Actions\Indexing\Indexable_Term_Indexation_Action
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Indexable_Term_Indexation_Action_Test extends TestCase {
 

@@ -263,6 +263,17 @@ class Article_Test extends TestCase {
 			->once()
 			->andReturn( $values_to_test['categories'] );
 
+		Monkey\Functions\expect( 'get_userdata' )
+			->with( 3 )
+			->once()
+			->andReturn( (object) [ 'display_name' => 'John Doe' ] );
+
+		$this->html
+			->expects( 'smart_strip_tags' )
+			->with( 'John Doe' )
+			->once()
+			->andReturnArg( 0 );
+
 		if ( $values_to_test['categories'] !== false && ! empty( $values_to_test['categories'] ) ) {
 			Monkey\Functions\expect( 'wp_list_pluck' )
 				->with( $values_to_test['categories'], 'name' )
@@ -315,7 +326,10 @@ class Article_Test extends TestCase {
 					'@type'            => 'Article',
 					'@id'              => 'https://permalink#article',
 					'isPartOf'         => [ '@id' => 'https://permalink#webpage' ],
-					'author'           => [ '@id' => 'https://permalink#author-id-hash' ],
+					'author'           => [
+						'name' => 'John Doe',
+						'@id'  => 'https://permalink#author-id-hash',
+					],
 					'image'            => [ '@id' => 'https://permalink#primaryimage' ],
 					'headline'         => 'the-title',
 					'datePublished'    => '2345-12-12 12:12:12',
@@ -355,7 +369,10 @@ class Article_Test extends TestCase {
 					'@type'            => 'Article',
 					'@id'              => 'https://permalink#article',
 					'isPartOf'         => [ '@id' => 'https://permalink#webpage' ],
-					'author'           => [ '@id' => 'https://permalink#author-id-hash' ],
+					'author'           => [
+						'name' => 'John Doe',
+						'@id'  => 'https://permalink#author-id-hash',
+					],
 					'image'            => [ '@id' => 'https://permalink#primaryimage' ],
 					'headline'         => 'the-title',
 					'datePublished'    => '2345-12-12 12:12:12',
@@ -396,7 +413,10 @@ class Article_Test extends TestCase {
 					'@type'            => 'Article',
 					'@id'              => 'https://permalink#article',
 					'isPartOf'         => [ '@id' => 'https://permalink#webpage' ],
-					'author'           => [ '@id' => 'https://permalink#author-id-hash' ],
+					'author'           => [
+						'name' => 'John Doe',
+						'@id'  => 'https://permalink#author-id-hash',
+					],
 					'image'            => [ '@id' => 'https://permalink#primaryimage' ],
 					'headline'         => 'the-title',
 					'datePublished'    => '2345-12-12 12:12:12',
@@ -427,7 +447,10 @@ class Article_Test extends TestCase {
 					'@type'            => 'Article',
 					'@id'              => 'https://permalink#article',
 					'isPartOf'         => [ '@id' => 'https://permalink#webpage' ],
-					'author'           => [ '@id' => 'https://permalink#author-id-hash' ],
+					'author'           => [
+						'name' => 'John Doe',
+						'@id'  => 'https://permalink#author-id-hash',
+					],
 					'image'            => [ '@id' => 'https://permalink#primaryimage' ],
 					'headline'         => 'the-title',
 					'datePublished'    => '2345-12-12 12:12:12',
@@ -457,7 +480,10 @@ class Article_Test extends TestCase {
 					'@type'            => 'Article',
 					'@id'              => 'https://permalink#article',
 					'isPartOf'         => [ '@id' => 'https://permalink#webpage' ],
-					'author'           => [ '@id' => 'https://permalink#author-id-hash' ],
+					'author'           => [
+						'name' => 'John Doe',
+						'@id'  => 'https://permalink#author-id-hash',
+					],
 					'image'            => [ '@id' => 'https://permalink#primaryimage' ],
 					'headline'         => 'the-title',
 					'datePublished'    => '2345-12-12 12:12:12',
@@ -486,7 +512,10 @@ class Article_Test extends TestCase {
 					'@type'            => 'Article',
 					'@id'              => 'https://permalink#article',
 					'isPartOf'         => [ '@id' => 'https://permalink#webpage' ],
-					'author'           => [ '@id' => 'https://permalink#author-id-hash' ],
+					'author'           => [
+						'name' => 'John Doe',
+						'@id'  => 'https://permalink#author-id-hash',
+					],
 					'image'            => [ '@id' => 'https://permalink#primaryimage' ],
 					'headline'         => 'the-title',
 					'datePublished'    => '2345-12-12 12:12:12',
@@ -523,7 +552,10 @@ class Article_Test extends TestCase {
 					'@type'            => 'Article',
 					'@id'              => 'https://permalink#article',
 					'isPartOf'         => [ '@id' => 'https://permalink#webpage' ],
-					'author'           => [ '@id' => 'https://permalink#author-id-hash' ],
+					'author'           => [
+						'name' => 'John Doe',
+						'@id'  => 'https://permalink#author-id-hash',
+					],
 					'image'            => [ '@id' => 'https://permalink#primaryimage' ],
 					'headline'         => 'the-title',
 					'datePublished'    => '2345-12-12 12:12:12',

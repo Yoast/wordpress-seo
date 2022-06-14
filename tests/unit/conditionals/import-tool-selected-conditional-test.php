@@ -12,7 +12,6 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group conditionals
  *
  * @coversDefaultClass \Yoast\WP\SEO\Conditionals\Import_Tool_Selected_Conditional
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Import_Tool_Selected_Conditional_Test extends TestCase {
 

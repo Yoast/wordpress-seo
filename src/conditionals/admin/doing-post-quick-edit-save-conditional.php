@@ -4,10 +4,10 @@ namespace Yoast\WP\SEO\Conditionals\Admin;
 
 use Yoast\WP\SEO\Conditionals\Conditional;
 
-// phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- Base class can't be written shorter without abbreviating.
-
 /**
  * Checks if the post is saved by inline-save. This is the case when doing quick edit.
+ *
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- Base class can't be written shorter without abbreviating.
  */
 class Doing_Post_Quick_Edit_Save_Conditional implements Conditional {
 
@@ -35,4 +35,3 @@ class Doing_Post_Quick_Edit_Save_Conditional implements Conditional {
 		return ( $sanitized_action === 'inline-save' );
 	}
 }
-// phpcs:enable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- Base class can't be written shorter without abbreviating.

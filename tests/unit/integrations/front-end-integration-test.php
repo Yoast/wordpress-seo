@@ -229,6 +229,7 @@ class Front_End_Integration_Test extends TestCase {
 			'Yoast\WP\SEO\Presenters\Open_Graph\Article_Published_Time_Presenter',
 			'Yoast\WP\SEO\Presenters\Open_Graph\Article_Modified_Time_Presenter',
 			'Yoast\WP\SEO\Presenters\Open_Graph\Image_Presenter',
+			'Yoast\WP\SEO\Presenters\Meta_Author_Presenter',
 			'Yoast\WP\SEO\Presenters\Twitter\Card_Presenter',
 			'Yoast\WP\SEO\Presenters\Twitter\Title_Presenter',
 			'Yoast\WP\SEO\Presenters\Twitter\Description_Presenter',

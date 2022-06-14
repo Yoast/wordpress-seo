@@ -30,9 +30,8 @@ const WebinarPromoNotification = ( {
 			url={ url }
 			{ ...props }
 		>
-			{ __( "Want to optimize even further with the help of our SEO experts? Sign up for our weekly webinar!", "wordpress-seo" ) }
-			<br />
-			<a href={ url } target="_blank" rel="noreferrer">
+			{ __( "Want to optimize even further with the help of our SEO experts? Sign up for our free weekly webinar!", "wordpress-seo" ) }
+			&nbsp;<a href={ url } target="_blank" rel="noreferrer">
 				{ __( "Register now!", "wordpress-seo" ) }
 			</a>
 		</PersistentDismissableNotification>
