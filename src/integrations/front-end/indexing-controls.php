@@ -32,10 +32,10 @@ class Indexing_Controls implements Integration_Interface {
 	 *
 	 * @codeCoverageIgnore Sets the dependencies.
 	 *
-	 * @param Robots_Helper  $robots  The robots helper.
+	 * @param Robots_Helper $robots The robots helper.
 	 */
 	public function __construct( Robots_Helper $robots ) {
-		$this->robots  = $robots;
+		$this->robots = $robots;
 	}
 
 	/**
