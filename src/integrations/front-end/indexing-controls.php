@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Integrations\Front_End;
 
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
-use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Robots_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
@@ -34,11 +33,9 @@ class Indexing_Controls implements Integration_Interface {
 	 * @codeCoverageIgnore Sets the dependencies.
 	 *
 	 * @param Robots_Helper  $robots  The robots helper.
-	 * @param Options_Helper $options The options helper.
 	 */
-	public function __construct( Robots_Helper $robots, Options_Helper $options ) {
+	public function __construct( Robots_Helper $robots ) {
 		$this->robots  = $robots;
-		$this->options = $options;
 	}
 
 	/**
