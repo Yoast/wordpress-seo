@@ -175,11 +175,11 @@ class WPSEO_Meta_Columns {
 
 		if ( $this->analysis_seo->is_enabled() ) {
 			$columns['wpseo-focuskw'] = 'wpseo-focuskw';
-			$columns['wpseo-score']   = [ 'wpseo-score', 'desc' ];
+			$columns['wpseo-score']   = 'wpseo-score';
 		}
 
 		if ( $this->analysis_readability->is_enabled() ) {
-			$columns['wpseo-score-readability'] = [ 'wpseo-score-readability', 'desc' ];
+			$columns['wpseo-score-readability'] = 'wpseo-score-readability';
 		}
 
 		return $columns;
