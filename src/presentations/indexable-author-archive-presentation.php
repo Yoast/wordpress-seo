@@ -9,8 +9,6 @@ use Yoast\WP\SEO\Helpers\Post_Type_Helper;
  * Class Indexable_Author_Archive_Presentation.
  *
  * Presentation object for indexables.
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Indexable_Author_Archive_Presentation extends Indexable_Presentation {
 
