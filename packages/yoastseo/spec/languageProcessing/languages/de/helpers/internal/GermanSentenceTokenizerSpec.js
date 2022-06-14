@@ -4,7 +4,7 @@ import GermanSentenceTokenizer from "../../../../../../src/languageProcessing/la
 const sentenceTokenizer = new GermanSentenceTokenizer();
 
 describe( "Test German extension to sentence tokenizer", () =>{
-	it( "Correctly tokenizes a sentence with a german ordinal.", () =>{
+	it( "Correctly tokenizes a sentence with a German ordinal.", () =>{
 		const tokens = [
 			{ type: "sentence", src: "In den 66" },
 			{ type: "full-stop", src: "." },
@@ -35,7 +35,7 @@ describe( "Test German extension to sentence tokenizer", () =>{
 		expect( sentenceTokenizer.endsWithOrdinalDot( currentSentence ) ).toBe( true );
 	} );
 
-	it( "Recognizes when a full-stop is NOT part of a german ordinal.", () =>{
+	it( "Recognizes when a full-stop is NOT part of a German ordinal.", () =>{
 		const currentSentence = "In den 12. Club der Stadt wird nachts getanzt.";
 		expect( sentenceTokenizer.endsWithOrdinalDot( currentSentence ) ).toBe( false );
 	} );

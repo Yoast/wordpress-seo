@@ -1,8 +1,7 @@
-// Import { normalize as normalizeQuotes } from "../../../../helpers/sanitize/quotes.js";
 import SentenceTokenizer from "../../../../helpers/sentence/SentenceTokenizer";
 import wordBoundaries from "../../../../../config/wordBoundaries";
 
-// The beginning of a string (^) or one of the wordboundaries from the wordBoundaries helper.
+// The beginning of a string (^) or one of the word boundaries from the wordBoundaries helper.
 const wordBoundariesForRegex = "(^|[" + wordBoundaries().map( ( boundary ) => "\\" + boundary ).join( "" ) + "])";
 const ordinalDotRegex = new RegExp( wordBoundariesForRegex + "\\d{1,3}\\.$" );
 

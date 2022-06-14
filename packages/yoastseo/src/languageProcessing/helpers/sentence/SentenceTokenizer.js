@@ -90,7 +90,7 @@ export default class SentenceTokenizer {
 	/**
 	 * A mock definition of this function. This function is only used in extensions for languages that use an ordinal dot.
 	 *
-	 * @returns {boolean} always returns false as it is a language specific implementation if a language as an ordinal Dot.
+	 * @returns {boolean} Always returns false as it is a language specific implementation if a language has an ordinal dot.
 	 */
 	endsWithOrdinalDot() {
 		return false;
