@@ -365,6 +365,50 @@
 }
 
 /**
+ * Styles from Tailwind CSS forms, but scoped to the Yoast root class.
+ *
+ * See: https://github.com/tailwindlabs/tailwindcss-forms#using-classes-to-style
+ */
+@layer base {
+	.yst-root {
+		[type='text'],
+		[type='email'],
+		[type='url'],
+		[type='password'],
+		[type='number'],
+		[type='date'],
+		[type='datetime-local'],
+		[type='month'],
+		[type='search'],
+		[type='tel'],
+		[type='time'],
+		[type='week'] {
+			@apply yst-form-input;
+		}
+
+		textarea {
+			@apply yst-form-textarea;
+		}
+
+		select {
+			@apply yst-form-select;
+		}
+
+		select[multiple] {
+			@apply yst-form-multiselect;
+		}
+
+		[type='checkbox'] {
+			@apply yst-form-checkbox;
+		}
+
+		[type='radio'] {
+			@apply yst-form-radio;
+		}
+	}
+}
+
+/**
  * Custom base styles, separate from TailwindCSS.
  */
 @layer base {
