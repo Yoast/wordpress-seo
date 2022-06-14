@@ -199,7 +199,7 @@ const TableWrapper = styled.div`
 	${ props => props.isDisabled && `
 		opacity: .5;
 		pointer-events: none;
-	`};
+	` };
 `;
 
 const Title = styled.div`

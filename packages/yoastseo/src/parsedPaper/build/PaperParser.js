@@ -94,7 +94,7 @@ class PaperParser {
 				const previousMetaData = Object.assign( {}, modifiedMetaData );
 				modifiedMetaData = modifierFunction( previousMetaData, paper );
 			} catch ( modifierError ) {
-				console.warn( `An error with message "${ modifierError.message}" occurred in metaData modifier ` +
+				console.warn( `An error with message "${ modifierError.message }" occurred in metaData modifier ` +
 				`function called ${ modifierName }. Skipping that function...` );
 			}
 		} );

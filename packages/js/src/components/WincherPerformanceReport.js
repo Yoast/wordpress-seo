@@ -256,7 +256,7 @@ const WincherPerformanceReport = ( props ) => {
 							{
 								map( data.results, ( entry, index ) => {
 									return <Row
-										key={ `keyphrase-${index}` }
+										key={ `keyphrase-${ index }` }
 										keyphrase={ entry }
 										websiteId={ websiteId }
 									/>;

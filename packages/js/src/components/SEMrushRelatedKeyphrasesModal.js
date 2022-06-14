@@ -178,7 +178,7 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 				{ isLoggedIn && <div className={ "yoast" }>
 					<NewButton
 						variant={ "secondary" }
-						id={ `yoast-get-related-keyphrases-${location}` }
+						id={ `yoast-get-related-keyphrases-${ location }` }
 						onClick={ this.onModalOpen }
 					>
 						{ __( "Get related keyphrases", "wordpress-seo" ) }
@@ -202,7 +202,7 @@ class SEMrushRelatedKeyphrasesModal extends Component {
 				{ ! isLoggedIn && <div className={ "yoast" }>
 					<ButtonStyledLink
 						variant={ "secondary" }
-						id={ `yoast-get-related-keyphrases-${location}` }
+						id={ `yoast-get-related-keyphrases-${ location }` }
 						href={ "https://oauth.semrush.com/oauth2/authorize?" +
 							"ref=1513012826&client_id=yoast&redirect_uri=https%3A%2F%2Foauth.semrush.com%2Foauth2%2Fyoast%2Fsuccess&" +
 							"response_type=code&scope=user.id" }

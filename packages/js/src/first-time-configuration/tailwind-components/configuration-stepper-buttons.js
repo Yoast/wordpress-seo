@@ -45,9 +45,9 @@ ContinueButton.defaultProps = {
  * @returns {WPElement} The EditButton, that always goes to the step it is placed in.
  */
 export function EditButton( { beforeGo, isVisible, children, additionalClasses, ...restProps } ) {
-	const transitionClasses = `yst-transition-opacity ${stepperTimingClasses.slideDuration} yst-ease-out ${ isVisible
+	const transitionClasses = `yst-transition-opacity ${ stepperTimingClasses.slideDuration } yst-ease-out ${ isVisible
 		? "yst-opacity-100"
-		: `${stepperTimingClasses.delayBeforeOpening} yst-opacity-0 yst-pointer-events-none yst-hidden` }`;
+		: `${ stepperTimingClasses.delayBeforeOpening } yst-opacity-0 yst-pointer-events-none yst-hidden` }`;
 
 
 	return ( <Step.GoButton

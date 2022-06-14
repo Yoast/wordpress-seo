@@ -50,7 +50,7 @@ describe( "StyledSection", () => {
 	} );
 
 	forEach( icons, function( icon ) {
-		test( `can change the icon to ${icon}`, () => {
+		test( `can change the icon to ${ icon }`, () => {
 			const component = renderer.create(
 				<StyledSection
 					headingText="Insights. Hello, this is a Styled Section heading."
@@ -79,7 +79,7 @@ describe( "StyledSection", () => {
 			expect( child ).toBeDefined();
 			expect( child.type ).toBe( "svg" );
 			expect( child.children ).toBeDefined();
-			expect( child.props.className ).toContain( `yoast-svg-icon-${icon}` );
+			expect( child.props.className ).toContain( `yoast-svg-icon-${ icon }` );
 		} );
 	} );
 

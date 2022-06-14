@@ -27,9 +27,9 @@ export default function popupWindow(
 		menubar=no,
 		resizable=no,
 		copyhistory=no,
-		width=${width},
-		height=${height},
-		top=${y},
-		left=${x}`
+		width=${ width },
+		height=${ height },
+		top=${ y },
+		left=${ x }`
 	);
 }

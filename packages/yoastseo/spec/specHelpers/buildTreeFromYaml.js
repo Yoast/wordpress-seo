@@ -131,7 +131,7 @@ class TreeFromYaml {
 			case "List":       element = this.parseList( parameters[ type ] );       break;
 			case "ListItem":   element = this.parseListItem( parameters[ type ] );   break;
 			case "Structured": element = this.parseStructured( parameters[ type ] ); break;
-			default: throw new Error( `Node of type '${type}' is not known.` );
+			default: throw new Error( `Node of type '${ type }' is not known.` );
 		}
 		return element;
 	}

@@ -14,7 +14,7 @@ import { escapeRegExp } from "lodash-es";
  */
 export default function( string, formatMap, delimiter = "%%" ) {
 	delimiter = escapeRegExp( delimiter );
-	const parameterRegex = new RegExp( `${delimiter}(.+?)${delimiter}`, "g" );
+	const parameterRegex = new RegExp( `${ delimiter }(.+?)${ delimiter }`, "g" );
 	let match;
 	let formattedString = string;
 
@@ -22,7 +22,7 @@ export default function( string, formatMap, delimiter = "%%" ) {
 	while ( ( match = parameterRegex.exec( string ) ) !== null ) {
 		const key = match[ 1 ];
 		// Create regex from parameter (e.g. "%%key%%")
-		const replaceRegex = new RegExp( `${delimiter}${ escapeRegExp( key ) }${delimiter}`, "g" );
+		const replaceRegex = new RegExp( `${ delimiter }${ escapeRegExp( key ) }${ delimiter }`, "g" );
 		// Replace occurrence (if parameter exists in the format map).
 		if ( key in formatMap ) {
 			formattedString = formattedString.replace( replaceRegex, formatMap[ key ] );

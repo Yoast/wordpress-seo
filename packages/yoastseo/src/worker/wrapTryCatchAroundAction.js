@@ -24,7 +24,7 @@ const handleError = function( logger, error, payload, errorMessagePrefix = "" ) 
 			logger.debug( error.stack );
 		}
 		// Standard JavaScript error (e.g. when calling `throw new Error( message )`).
-		errorMessage.push( `${error.name}: ${error.message}` );
+		errorMessage.push( `${ error.name }: ${ error.message }` );
 	}
 
 	errorMessage = errorMessage.join( "\n\t" );

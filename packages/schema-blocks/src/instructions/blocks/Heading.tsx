@@ -41,7 +41,7 @@ export class Heading extends RichTextBase {
 					type: "string",
 					source: "html",
 					"default": this.options.default,
-					selector: `[data-id=${this.options.name}]`,
+					selector: `[data-id=${ this.options.name }]`,
 					required: this.options.required === true,
 				},
 				[ this.options.name + "_level" ]: {

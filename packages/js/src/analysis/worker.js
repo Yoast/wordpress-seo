@@ -42,7 +42,7 @@ export function createAnalysisWorker() {
 		 * 	} )( "wordpress-seo", { "locale_data": { "messages": { "": {} } } } );
 		 * </script>
 		 */
-		const translationElement = window.document.getElementById( `${dependency}-js-translations` );
+		const translationElement = window.document.getElementById( `${ dependency }-js-translations` );
 		if ( ! translationElement ) {
 			continue;
 		}
@@ -53,7 +53,7 @@ export function createAnalysisWorker() {
 			const translationData = JSON.parse( text.slice( split + 1, -4 ) );
 			translations.push( [ domain, translationData ] );
 		} catch ( e ) {
-			console.warn( `Failed to parse translation data for ${dependency} to send to the Yoast SEO worker` );
+			console.warn( `Failed to parse translation data for ${ dependency } to send to the Yoast SEO worker` );
 			continue;
 		}
 	}

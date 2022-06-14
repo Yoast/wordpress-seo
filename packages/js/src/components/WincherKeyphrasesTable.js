@@ -335,7 +335,7 @@ const WincherKeyphrasesTable = ( props ) => {
 						{
 							keyphrases.map( ( keyphrase, index ) => {
 								return ( <WincherTableRow
-									key={ `trackable-keyphrase-${index}` }
+									key={ `trackable-keyphrase-${ index }` }
 									keyphrase={ keyphrase }
 									onTrackKeyphrase={ onTrackKeyphrase }
 									onUntrackKeyphrase={ onUntrackKeyphrase }

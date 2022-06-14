@@ -217,7 +217,7 @@ function Content( { children } ) {
 		<Fragment>
 			{ /* Child component and buttons. */ }
 			<AnimateHeight
-				id={ `content-${stepIndex}` }
+				id={ `content-${ stepIndex }` }
 				delay={ contentHeight === 0 ? delayBeforeClosing : delayBeforeOpening }
 				height={ contentHeight }
 				easing="ease-in-out"

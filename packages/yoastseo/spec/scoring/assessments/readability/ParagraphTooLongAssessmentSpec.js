@@ -92,7 +92,7 @@ describe( "An assessment for scoring too long paragraphs in Japanese in which ch
 		expect( assessment.hasMarks() ).toBe( true );
 	} );
 	it( "should score 2 slightly too long paragraphs", function() {
-		const paper = new Paper( `${shortTextJapanese}<p>${longTextJapanese}</p><p>${longTextJapanese}</p>`  );
+		const paper = new Paper( `${ shortTextJapanese }<p>${ longTextJapanese }</p><p>${ longTextJapanese }</p>`  );
 		const assessment = paragraphTooLongAssessment.getResult( paper, new JapaneseResearcher( paper ) );
 		expect( assessment.getScore() ).toBe( 6 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: 2 of the paragraphs" +
