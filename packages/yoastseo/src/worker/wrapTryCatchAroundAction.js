@@ -42,7 +42,7 @@ const handleError = function( logger, error, payload, errorMessagePrefix = "" ) 
  * @returns {Function} The wrapped action.
  */
 export default function wrapTryCatchAroundAction( logger, action, errorMessagePrefix = "" ) {
-	return async( ...args ) => {
+	return async ( ...args ) => {
 		try {
 			return await action( ...args );
 		} catch ( error ) {

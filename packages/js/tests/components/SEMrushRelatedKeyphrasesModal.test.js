@@ -134,7 +134,7 @@ describe( "SEMrushRelatedKeyphrasesModal", () => {
 
 	describe( "listenToMessages",  () => {
 		it( "successfully performs authentication and opens the modal when the user " +
-			"has approved the authorization", async() => {
+			"has approved the authorization", async () => {
 			props = {
 				...props,
 				keyphrase: "yoast seo",
@@ -158,7 +158,7 @@ describe( "SEMrushRelatedKeyphrasesModal", () => {
 			expect( props.onOpen ).toHaveBeenCalled();
 		} );
 
-		it( "doesn't perform authentication nor opens the modal when there have been problems with getting the tokens", async() => {
+		it( "doesn't perform authentication nor opens the modal when there have been problems with getting the tokens", async () => {
 			props = {
 				...props,
 				keyphrase: "yoast seo",
@@ -189,7 +189,7 @@ describe( "SEMrushRelatedKeyphrasesModal", () => {
 			expect( props.onOpen ).not.toHaveBeenCalled();
 		} );
 
-		it( "doesn't perform authentication nor opens the modal when the message has a malformed URL", async() => {
+		it( "doesn't perform authentication nor opens the modal when the message has a malformed URL", async () => {
 			props = {
 				...props,
 				keyphrase: "yoast seo",

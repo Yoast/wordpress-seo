@@ -153,7 +153,7 @@ StepButtons.defaultProps = {
  * @returns {WPElement} The most common stepper buttons: continue and back.
  */
 export function ConfigurationStepButtons( { stepperFinishedOnce, saveFunction, setEditState } ) {
-	const onSaveClick = useCallback( async() => {
+	const onSaveClick = useCallback( async () => {
 		const saveSuccesful = await saveFunction();
 
 		// If save is not succesful: we are still editing

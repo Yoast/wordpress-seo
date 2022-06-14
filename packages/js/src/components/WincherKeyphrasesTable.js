@@ -116,7 +116,7 @@ const WincherKeyphrasesTable = ( props ) => {
 	 *
 	 * @returns {void}
 	 */
-	const getTrackedKeyphrases = useMemo( () => async() => {
+	const getTrackedKeyphrases = useMemo( () => async () => {
 		await handleAPIResponse(
 			() => {
 				// Ensure that we're not waiting for multiple of these requests at once.
@@ -149,7 +149,7 @@ const WincherKeyphrasesTable = ( props ) => {
 	 *
 	 * @returns {void}
 	 */
-	const performTrackingRequest = useCallback( async( keyphrasesToTrack ) => {
+	const performTrackingRequest = useCallback( async ( keyphrasesToTrack ) => {
 		const keyphrasesArray = ( Array.isArray( keyphrasesToTrack ) ? keyphrasesToTrack : [ keyphrasesToTrack ] )
 			.map( k => k.toLowerCase() );
 
@@ -188,7 +188,7 @@ const WincherKeyphrasesTable = ( props ) => {
 	 *
 	 * @returns {void}
 	 */
-	const onUntrackKeyphrase = useCallback( async( keyphrase, keyphraseID ) => {
+	const onUntrackKeyphrase = useCallback( async ( keyphrase, keyphraseID ) => {
 		keyphrase = keyphrase.toLowerCase();
 
 		setLoadingKeyphrases( curr => [ ...curr, keyphrase ] );
@@ -218,7 +218,7 @@ const WincherKeyphrasesTable = ( props ) => {
 	 *
 	 * @returns {void}
 	 */
-	const onTrackKeyphrase = useCallback( async( keyphrase ) => {
+	const onTrackKeyphrase = useCallback( async ( keyphrase ) => {
 		// Prepare a new request.
 		newRequest();
 		await performTrackingRequest( keyphrase );

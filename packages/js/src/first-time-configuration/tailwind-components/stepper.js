@@ -53,7 +53,7 @@ function GoButton( { beforeGo, children, destination, ...restProps } ) {
 		}
 	}, [ stepIndex, lastStepIndex, setActiveStepIndex, destination ] );
 
-	const goFunction = useCallback( async() => {
+	const goFunction = useCallback( async () => {
 		let canGo = true;
 		if ( beforeGo ) {
 			canGo = false;

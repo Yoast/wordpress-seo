@@ -99,7 +99,7 @@ let currentPopup = null;
  *
  * @returns {void}
  */
-const performAuthenticationRequest = async( props, data ) => {
+const performAuthenticationRequest = async ( props, data ) => {
 	const {
 		onAuthentication,
 		setRequestSucceeded,
@@ -108,7 +108,7 @@ const performAuthenticationRequest = async( props, data ) => {
 
 	await handleAPIResponse(
 		() => authenticate( data ),
-		async( response ) => {
+		async ( response ) => {
 			onAuthentication( true, true, data.websiteId.toString() );
 			setRequestSucceeded( response );
 
@@ -119,7 +119,7 @@ const performAuthenticationRequest = async( props, data ) => {
 				popup.close();
 			}
 		},
-		async( response ) => setRequestFailed( response )
+		async ( response ) => setRequestFailed( response )
 	);
 };
 
@@ -130,7 +130,7 @@ const performAuthenticationRequest = async( props, data ) => {
  *
  * @returns {void}
  */
-const onLoginOpen = async( props ) => {
+const onLoginOpen = async ( props ) => {
 	if ( currentPopup && ! currentPopup.isClosed() ) {
 		currentPopup.focus();
 		return;
