@@ -292,7 +292,6 @@ describe( "An assessment for sentence length", function() {
 		const paper = new Paper( "hallo".repeat( 100 ) );
 		expect( wordComplexityAssessment.isApplicable( paper, new DefaultResearcher( paper ) ) ).toBe( false );
 	} );
-
 } );
 
 describe( "A test for getting the right scoring config", function() {
