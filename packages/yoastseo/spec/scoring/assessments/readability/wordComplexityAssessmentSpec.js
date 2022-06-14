@@ -176,7 +176,7 @@ describe( "tests for the assessment applicability", function() {
 		expect( wordComplexityAssessment.isApplicable( paper, new EnglishResearcher( paper ) ) ).toBe( false );
 	} );
 
-	it( "returns false by default because the word complexity assessment is currently disabled", function() {
+	it( "returns false if the text is too short", function() {
 		const paper = new Paper( "hallo" );
 		expect( wordComplexityAssessment.isApplicable( paper, new DefaultResearcher( paper ) ) ).toBe( false );
 	} );

@@ -5,6 +5,7 @@ import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../specHelpers/factory.js";
 import Mark from "../../../../src/values/Mark.js";
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
+import wordComplexityAssessment from "../../../../src/scoring/assessments/readability/wordComplexityAssessment";
 
 let paper = new Paper();
 // eslint-disable-next-line max-statements
@@ -49,6 +50,11 @@ describe( "An assessment for scoring repeated sentence beginnings.", function() 
 		paper = new Paper( "Era una gatta, assai trita, e non era d’alcuno, e, vecchia, aveva un suo gattino.", { locale: "it_IT" } );
 		const assessment = new SentenceBeginningsAssessment().isApplicable( paper, new ItalianResearcher( paper ) );
 		expect( assessment ).toBe( true );
+	} );
+
+	it( "returns false if the text is too short", function() {
+		const paper = new Paper( "hallo" );
+		expect( wordComplexityAssessment.isApplicable( paper, new DefaultResearcher( paper ) ) ).toBe( false );
 	} );
 
 	it( "should return false for isApplicable for a paper with only an image.", function() {
