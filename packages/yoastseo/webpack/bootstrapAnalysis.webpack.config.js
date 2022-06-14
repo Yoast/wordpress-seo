@@ -10,7 +10,7 @@ module.exports = {
 	devtool: false,
 	output: {
 		path: path.resolve( "dist", "build" ),
-		filename: "bootstrap-analysis.js",
+		filename: "bootstrap-getAnalysisConfiguration.js",
 	},
 	module: {
 		rules: [

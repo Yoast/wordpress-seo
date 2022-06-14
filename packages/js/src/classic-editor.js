@@ -3,7 +3,7 @@ import domReady from "@wordpress/dom-ready";
 import createSeoIntegration, { SEO_STORE_NAME } from "@yoast/seo-integration";
 import { debounce, get } from "lodash";
 import { refreshDelay } from "./analysis/constants";
-import { getAnalysisConfiguration } from "./classic-editor/analysis";
+import { getAnalysisConfiguration } from "./classic-editor/getAnalysisConfiguration";
 import Metabox from "./classic-editor/components/metabox";
 import { MetaboxFill, MetaboxSlot } from "./classic-editor/components/metabox/slot-fill";
 import initEditorStore from "./classic-editor/editor-store";
