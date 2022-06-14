@@ -128,7 +128,7 @@ class SubheadingsDistributionTooLong extends Assessment {
 			const customCountLength = researcher.getHelper( "customCountLength" );
 			const textLength = customCountLength ? customCountLength( paper.getText() ) : researcher.getResearch( "wordCountInText" );
 			// Do not use hasEnoughContentForAssessment as it is redundant with textLength > this._config.applicableIfTextLongerThan.
-			return this.hasEnoughContentForAssessment( paper ) && textLength > this._config.applicableIfTextLongerThan;
+			return  textLength > this._config.applicableIfTextLongerThan;
 		}
 
 		return this.hasEnoughContentForAssessment( paper );
