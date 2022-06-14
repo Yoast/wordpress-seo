@@ -103,15 +103,15 @@ Paper.prototype.hasText = function() {
 	return this._text !== "";
 };
 
-/**
- * Check whether there is content (i.e. flat text without any html tags.).
- * We use length > 1 as a buffer in case sanitizeString returns a single space.
- * @returns {boolean} Returns true if the paper has content containing more than 1 character.
- */
-Paper.prototype.hasContent = function() {
-	const processedText = sanitizeString( this._text );
-	return processedText.length > 1;
-};
+// /**
+//  * Check whether there is content (i.e. flat text without any html tags.).
+//  * We use length > 1 as a buffer in case sanitizeString returns a single space.
+//  * @returns {boolean} Returns true if the paper has content containing more than 1 character.
+//  */
+// Paper.prototype.hasContent = function() {
+// 	const processedText = sanitizeString( this._text );
+// 	return processedText.length > 1;
+// };
 
 /**
  * Return the associated text or am empty string if no text is available.

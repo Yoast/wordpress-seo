@@ -3,8 +3,6 @@
 ## 1) Subheading distribution
 **What it does**: Checks whether long texts are divided by subheadings
 
-**When applies**: When there is at least 300 words.
-
 **Name in code**: SubheadingsDistributionTooLong
 
 **Title URL**: [https://yoa.st/34x](https://yoast.com/how-to-use-headings-on-your-site/#utm_source=yoast-seo&utm_medium=software&utm_term=subheading-distributrion-name&utm_content=content-analysis) (link placement is in bold in the feedback strings)
@@ -72,7 +70,7 @@
 ## 5) Passive voice
 **What it does**: Checks whether the number of sentences containing passive voice exceeds the recommended maximum amount
 
-**When applies**: When the text (cleaned with sanitizeText) has more than 50 characters (this is tied to the TextPresenceAssessment), and the research has a result.
+**When applies**: When the text (cleaned with sanitizeText) has more than 50 characters (this is tied to the TextPresenceAssessment), and the assessment is supported in the specific language (the researcher has a research).
 
 **Name in code**: PassiveVoiceAssessment
 
@@ -106,7 +104,7 @@
 ## 7) Flesch Reading Ease
 **What it does**: Checks how easy to read the text is according to the Flesch Reading Ease test
 
-**When applies**: When the text (cleaned with sanitizeText) has more than 50 characters, this is tied to the TextPresenceAssessment.
+**When applies**: When the text (cleaned with sanitizeText) has more than 50 characters (this is tied to the TextPresenceAssessment), , and the assessment is supported in the specific language (the researcher has a research).
 
 **Name in code**: FleschReadingEaseAssessment
 
