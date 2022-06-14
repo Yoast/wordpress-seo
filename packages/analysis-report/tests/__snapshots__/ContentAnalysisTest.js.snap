@@ -192,6 +192,7 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
+  color: inherit;
 }
 
 .c14 {
@@ -825,6 +826,7 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
+  color: inherit;
 }
 
 .c14 {
@@ -1434,6 +1436,7 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
+  color: inherit;
 }
 
 .c14 {
@@ -2091,6 +2094,7 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
+  color: inherit;
 }
 
 .c14 {
@@ -2748,6 +2752,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
+  color: inherit;
 }
 
 .c14 {
@@ -3241,6 +3246,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
+  color: inherit;
 }
 
 .c14 {
@@ -3734,6 +3740,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
+  color: inherit;
 }
 
 .c14 {
@@ -4297,6 +4304,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
+  color: inherit;
 }
 
 .c14 {
