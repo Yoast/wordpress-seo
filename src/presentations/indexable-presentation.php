@@ -233,15 +233,6 @@ class Indexable_Presentation extends Abstract_Presentation {
 	}
 
 	/**
-	 * Helper function to retrieve the permalink.
-	 *
-	 * @return string
-	 */
-	public function get_permalink() {
-		return $this->permalink;
-	}
-
-	/**
 	 * Generates the title.
 	 *
 	 * @return string The title.
