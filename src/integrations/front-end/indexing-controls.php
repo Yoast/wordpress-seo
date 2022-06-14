@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Integrations\Front_End;
 
-use WP_Query;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Robots_Helper;
@@ -19,13 +18,6 @@ class Indexing_Controls implements Integration_Interface {
 	 * @var Robots_Helper
 	 */
 	protected $robots;
-
-	/**
-	 * The options helper.
-	 *
-	 * @var Options_Helper
-	 */
-	private $options;
 
 	/**
 	 * Returns the conditionals based in which this loadable should be active.
@@ -74,26 +66,6 @@ class Indexing_Controls implements Integration_Interface {
 		\remove_action( 'wp_head', 'start_post_rel_link' );
 		\remove_action( 'wp_head', 'adjacent_posts_rel_link_wp_head' );
 		\remove_action( 'wp_head', 'noindex', 1 );
-
-		if ( $this->options->get( 'disable-date', false ) ) {
-			\add_action( 'pre_get_posts', [ $this, 'disable_date_queries' ] );
-		}
-	}
-
-	/**
-	 * Disable date queries, if they're disabled in Yoast SEO settings, to prevent indexing the wrong things.
-	 *
-	 * @param WP_Query $query The query object.
-	 *
-	 * @return void
-	 */
-	public function disable_date_queries( $query ) {
-		if ( ! is_admin() && $query->is_main_query() ) {
-			$query->set( 'year', '' );
-			$query->set( 'm', '' );
-			$query->set( 'monthnum', '' );
-			$query->set( 'day', '' );
-		}
 	}
 
 	/**
