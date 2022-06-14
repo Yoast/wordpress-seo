@@ -63,6 +63,7 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
+  color: inherit;
 }
 
 <li
@@ -180,6 +181,7 @@ exports[`the AnalysisResult component with disabled buttons matches the snapshot
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
+  color: inherit;
 }
 
 <li
@@ -265,6 +267,7 @@ exports[`the AnalysisResult component with hidden buttons matches the snapshot 1
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
+  color: inherit;
 }
 
 <li
@@ -358,6 +361,7 @@ exports[`the AnalysisResult component with html in the text matches the snapshot
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
+  color: inherit;
 }
 
 <li
