@@ -19,7 +19,7 @@ const ScoreIcon = styled( SvgIcon )`
 const AnalysisResultText = styled.p`
 	margin: 0 16px 0 0;
 	flex: 1 1 auto;
-	color: ${ props => props.suppressedText ? "rgba(30,30,30,0.5)" : "black" }
+	color: ${ props => props.suppressedText ? "rgba(30,30,30,0.5)" : "inherit" };
 `;
 
 /**
