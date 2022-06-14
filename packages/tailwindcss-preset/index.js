@@ -42,7 +42,9 @@ module.exports = {
 	},
 	important: true,
 	plugins: [
-		require( "@tailwindcss/forms" ),
+		require( "@tailwindcss/forms" )( {
+			strategy: "class",
+		} ),
 	],
 	corePlugins: {
 		preflight: false,
