@@ -60,6 +60,6 @@ class Permalink_Test extends TestCase {
 			->once()
 			->andReturn( 'https://example.com/dynamic-permalink/' );
 
-		$this->assertEquals( 'https://example.com/dynamic-permalink/', $this->instance->get_permalink() );
+		$this->assertEquals( 'https://example.com/dynamic-permalink/', $this->instance->permalink );
 	}
 }
