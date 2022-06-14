@@ -5,6 +5,7 @@ import fleschReadingAssessment from "../../../../src/scoring/assessments/readabi
 import Paper from "../../../../src/values/Paper.js";
 import factory from "../../../specHelpers/factory.js";
 import russianConfig from "../../../../src/languageProcessing/languages/ru/config/fleschReadingEaseScores";
+import wordComplexityAssessment from "../../../../src/scoring/assessments/readability/wordComplexityAssessment";
 
 describe( "An assessment for the Flesch reading ease test", function() {
 	it( "returns an 'easy' score and the associated feedback text for a paper using the default config when the score is" +
@@ -211,6 +212,11 @@ describe( "An assessment for the Flesch reading ease test", function() {
 	it( "returns false for isApplicable for an English paper with only an image.", function() {
 		const paper = new Paper( "<img src='https://example.com/image.png' alt='test'>" );
 		expect( fleschReadingAssessment.isApplicable( paper, new EnglishResearcher( paper ) ) ).toBe( false );
+	} );
+
+	it( "returns false if the text is too short", function() {
+		const paper = new Paper( "hallo" );
+		expect( wordComplexityAssessment.isApplicable( paper, new DefaultResearcher( paper ) ) ).toBe( false );
 	} );
 
 	it( "returns false for isApplicable for an English paper with only spaces.", function() {

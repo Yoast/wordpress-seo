@@ -1,6 +1,8 @@
 import ListAssessment from "../../../../src/scoring/assessments/readability/ListAssessment";
 import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../specHelpers/factory.js";
+import wordComplexityAssessment from "../../../../src/scoring/assessments/readability/wordComplexityAssessment";
+import DefaultResearcher from "../../../../src/languageProcessing/languages/_default/Researcher";
 
 const listAssessment = new ListAssessment();
 
@@ -41,5 +43,10 @@ describe( "tests for the assessment applicability.", function() {
 			keyword: "kéyword",
 		} );
 		expect( listAssessment.isApplicable( paper ) ).toBe( true );
+	} );
+
+	it( "returns false if the text is too short", function() {
+		const paper = new Paper( "hallo" );
+		expect( wordComplexityAssessment.isApplicable( paper, new DefaultResearcher( paper ) ) ).toBe( false );
 	} );
 } );

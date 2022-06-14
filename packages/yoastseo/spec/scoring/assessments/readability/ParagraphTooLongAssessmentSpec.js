@@ -5,6 +5,8 @@ import Factory from "../../../specHelpers/factory.js";
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
 import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher";
 import paragraphLengthJapanese from "../../../../src/languageProcessing/languages/ja/config/paragraphLength";
+import wordComplexityAssessment from "../../../../src/scoring/assessments/readability/wordComplexityAssessment";
+import DefaultResearcher from "../../../../src/languageProcessing/languages/_default/Researcher";
 
 const paragraphTooLongAssessment = new ParagraphTooLongAssessment();
 const shortTextJapanese = "は".repeat( 300 );
@@ -118,6 +120,10 @@ describe( "Applicability of the assessment.", function() {
 	it( "should return false for isApplicable for a paper with only spaces.", function() {
 		const paper = new Paper( "        " );
 		expect( paragraphTooLongAssessment.isApplicable( paper ) ).toBe( false );
+	} );
+	it( "returns false if the text is too short", function() {
+		const paper = new Paper( "hallo" );
+		expect( wordComplexityAssessment.isApplicable( paper, new DefaultResearcher( paper ) ) ).toBe( false );
 	} );
 } );
 
