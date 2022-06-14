@@ -206,21 +206,26 @@ class SeoAnalysis extends Component {
 	/**
 	 * Returns the list of results used to upsell the user to Premium.
 	 *
-	 * @return {Array} The upsell results.
+	 * @param {string} location Where this component is rendered (metabox or sidebar).
+	 *
+	 * @returns {Array} The upsell results.
 	 */
 	getUpsellResults( location ) {
-		// TODO: Get shortlinks for this upsell.
-		let link = wpseoAdminL10n[ "shortlinks.upsell.metabox.additional_link" ];
+		let link = wpseoAdminL10n[ "shortlinks.upsell.metabox.keyphrase_distribution" ];
 		if ( location === "sidebar" ) {
-			link = wpseoAdminL10n[ "shortlinks.upsell.sidebar.additional_link" ];
+			link = wpseoAdminL10n[ "shortlinks.upsell.sidebar.keyphrase_distribution" ];
 		}
 
 		const keyphraseDistributionUpsellText = sprintf(
-			/* Translators: %1$s is an anchor tag with a link to yoast.com, %1$2s is a closing anchor tag.*/
+			/* Translators: %1$s is a span tag that adds styling to 'Keyphrase distribution', %2$s is a closing span tag.
+			   %3%s is an anchor tag with a link to yoast.com, %4$s is a closing anchor tag.*/
 			__(
-				"Keyphrase distribution: Have you evenly distributed your focus keyphrase throughout the whole text? " +
-				"%1$sYoast SEO Premium will tell you!%2$s",
+				"%1$sKeyphrase distribution%2$s: Have you evenly distributed your focus keyphrase throughout the whole text? " +
+				"%3$sYoast SEO Premium will tell you!%4$s",
+				"wordpress-seo"
 			),
+			"<span style='text-decoration: underline'>",
+			"</span>",
 			`<a href="${ link }">`,
 			"</a>"
 		);
