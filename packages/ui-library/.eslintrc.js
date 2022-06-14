@@ -59,10 +59,6 @@ module.exports = {
 				asyncArrow: "always",
 			},
 		],
-		"template-curly-spacing": [
-			"error",
-			"always",
-		],
 	},
 	overrides: [
 		{
