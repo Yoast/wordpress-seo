@@ -7,8 +7,6 @@ use Yoast\WP\SEO\Helpers\Aioseo_Helper;
 
 /**
  * Provides AISOEO search appearance robot settings.
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Aioseo_Robots_Provider_Service {
 

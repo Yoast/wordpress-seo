@@ -101,6 +101,7 @@ class Front_End_Integration implements Integration_Interface {
 		'Open_Graph\Article_Published_Time',
 		'Open_Graph\Article_Modified_Time',
 		'Open_Graph\Image',
+		'Meta_Author',
 	];
 
 	/**
@@ -156,6 +157,7 @@ class Front_End_Integration implements Integration_Interface {
 	 * @var string[]
 	 */
 	protected $singular_presenters = [
+		'Meta_Author',
 		'Open_Graph\Article_Author',
 		'Open_Graph\Article_Publisher',
 		'Open_Graph\Article_Published_Time',

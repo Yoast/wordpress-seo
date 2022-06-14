@@ -11,8 +11,6 @@ use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
 
 /**
  * Reindexing action for term indexables.
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Indexable_Term_Indexation_Action extends Abstract_Indexing_Action {
 

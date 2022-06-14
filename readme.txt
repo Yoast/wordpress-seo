@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.0
-Stable tag: 19.0
+Stable tag: 19.1
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -36,6 +36,7 @@ Yoast SEO is packed full of features, designed to help visitors and search engin
 * **Faster loading times** for your whole website, due to an innovative way of managing data in WordPress.
 * **[Premium]** E-mail support for our [Yoast SEO Premium](https://yoa.st/1v8) users.
 * **[Premium]** The possibility to expand Yoast SEO with the [News SEO](https://yoa.st/1uv), [Video SEO](https://yoa.st/1uw), [Local SEO](https://yoa.st/1uu) and [WooCommerce SEO](https://yoa.st/3rh) extensions.
+* **[Premium]** **New!** Yoast SEO Premium comes with wide-ranging crawl settings that help you improve how search engines crawl your site.
 
 #### WRITE KILLER CONTENT WITH YOAST SEO
 We know content is king, that's why Yoast SEO is famous for its **state-of-the-art content and SEO analysis**. Yoast SEO gives you:
@@ -110,6 +111,7 @@ Yoast SEO integrates seamlessly into a range of themes and plugins. We work part
 * The [Elementor](https://wordpress.org/plugins/elementor/) website builder.
 * [Zapier](https://zapier.com/apps/yoast-seo/integrations), which helps you automate your publishing flow.
 * [Algolia](https://wordpress.org/plugins/wp-search-with-algolia/) integration to improve the quality of your site search.
+* [WordProof](https://wordproof.com/), which helps you prove ownership by adding timestamps.
 
 ### BUG REPORTS
 
@@ -236,17 +238,48 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
-= 19.1 =
-Release Date: June 14th, 2022
+= 19.2 =
+Release Date: June 28th, 2022
+
 
 Enhancements:
 
+* Added support for `webp` images for OpenGraph output.
+* Adds a new filter `wpseo_change_home_url` that allows changing the URL the Ryte integration checks, to allow for more versatile hosting setups.
+* Adds WordProof to timestamp the privacy policy and terms and conditions pages.
+* By adding a `meta author` tag we're making sure LinkedIn picks up the name of a post author properly.
+* By adding the name of the article author to the `author` section of the `Article` schema piece, we make Pinterest detect as it doesn't traverse the graph properly.
+* Enables sorting on the SEO and readability score columns on the post overview page.
+* Improves the content analysis by excluding blockquote HTML elements.
+* Improves the sentence recognition by disregarding abbreviations as potential sentence boundaries.
+* Improves the sentence recognition by disregarding initials as potential sentence boundaries.
+* Improves the text analysis by not always splitting on ellipsis &#8230; regardless of whether the next sentence has a valid beginning or not. This previously could also result in score discrepancies when switching to Elementor.
+* Improves the text analysis by not splitting sentences on semicolon ;.
+
+Bugfixes:
+
+* Fixes a bug that would cause the First-time configuration to crash when completing indexation with the Yoast admin bar menu hidden.
+* Fixes a bug where filtering the OpenGraph and Twitter image to a URL containing ampersands would lead to encoding issues.
+* Fixes a bug where HTML tags in the `og:description` meta tag would be displayed encoded instead of being removed completely.
+* Fixes a bug where the sitemap `image:loc` URLs containing ampersands would lead to encoding issues.
+
+Other:
+
+* Renames the 'Keyphrase in title' SEO assessment to 'Keyphrase in SEO title'.
+
+= 19.1 =
+Release Date: June 14th, 2022
+
+Yoast SEO 19.1 is out today! In this release, we've rolled out some improvements that make the content and SEO analyses more flexible. We've also expanded our range of crawl settings in Premium. Read more about what's new in Yoast SEO 19.1 in [our release post in English](https://yoa.st/release-14-6-22) or [our release post in Spanish](https://yoa.st/release-14-6-22-spanish)!
+
+Enhancements:
+
+* Improves text analysis by splitting text on full-stop only when the next sentence is preceded by a whitespace.
 * Prompts users to set up their site in order to take advantage of all SEO features.
 
 Bugfixes:
 
-* Fixes a bug where focus keyphrase in uppercase that contains a period wouldn't get recognized in the text, e.g. \"ASP.NET\".
-* Fixes a bug where the \"Check links to this URL\" option on admin bar menu would lead to an error page on setups with home URL different from the site URL. Props to @suascat.
+* Fixes a bug where the "Check links to this URL" option on admin bar menu would lead to an error page on setups with home URL different from the site URL. Props to @suascat.
 * Fixes a bug where the network setting for the crawl cleanup feature would default to `Disable` when the super admin saved settings before upgrading/installing Premium.
 * Fixes a bug which caused the Spanish transition word `para ilustrar` to not be recognized by the transition words assessment.
 
@@ -254,37 +287,8 @@ Other:
 
 * Adds an informative error message to the steps of the First-time configuration should an error occur.
 * Adds dismissable weekly webinar promo banners to Yoast settings pages & block/Elementor editor sidebars.
-* Enhances the Crawl settings tab in the General page with basic cleanup settings
-* Enhances the Crawl settings tab in the General page with more feed cleanup settings
+* Adds new disabled toggles to the Crawl settings tab in the General page.
 * Improves handling of OAuth errors in the Wincher integration and clears refresh tokens that seem to be invalid.
-
-= 19.0 =
-Release Date: May 31st, 2022
-
-Say hi to Yoast SEO 19.0! This release helps make your sitemaps available to Bing, we've updated Yoast SEO to add your XML sitemap link(s) to your robots.txt file — if you want. Plus: we've fixed a couple of bugs with Elementor and our readability analyses. Happy updating! Read more about what's new in Yoast SEO 19.0 in [our release post in English](https://yoa.st/release-31-5-22) or [our release post in Spanish](https://yoa.st/release-31-5-22-spanish)!
-
-Enhancements:
-
-* Following a change of policy by Bing, we now reference the XML sitemap in the robots.txt file to make it discoverable for search engines.
-* Changes `Disallow: /wp-admin/` to `Disallow:` in the default robots.txt file to follow our best-practice guide.
-
-Bugfixes:
-
-* Fixes a bug where an error in saving the Site representation step of the First-time configuration would not block the advancement to the next step.
-* Fixes a bug where editing an existing post created in the Block editor in Elementor would result in an analysis result discrepancy.
-* Fixes a bug where items in lists were not excluded for the readability assessment that checks whether consecutive sentences do not begin with the same words.
-* Fixes a bug where outdated information is shown in the First-time configuration Social profiles step
-* Fixes a bug where saving an invalid organization name in the First-time configuration would fail without feedback.
-* Fixes a bug where the schema would not be updated with the new logo when the user changed it via the First-time Configuration.
-* Fixes a bug where the titles of the steps in the First-time configuration would not be translated.
-* Fixes a bug where users would be able to leave a step containing errors by clicking another step's edit button.
-
-Other:
-
-* Adds a Crawl settings tab in the General page with an upsell to Premium.
-* Adds a Redirects page with an upsell to Premium.
-* Deprecates the configuration workout classes.
-* Sets the WordPress tested up to version to 6.0.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

@@ -14,8 +14,6 @@ use Yoast\WP\SEO\Services\Importing\Conflicting_Plugins_Service;
 
 /**
  * Deactivates plug-ins that cause conflicts with Yoast SEO.
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Deactivate_Conflicting_Plugins_Action extends Abstract_Aioseo_Importing_Action {
 
