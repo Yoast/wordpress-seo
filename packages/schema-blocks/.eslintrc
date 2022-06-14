@@ -61,15 +61,6 @@
                 "SwitchCase": 1
             }
         ],
-        // Allow space before async arrow function
-        "space-before-function-paren": [
-            "error",
-            {
-                "anonymous": "never",
-                "named": "never",
-                "asyncArrow": "always"
-            }
-        ],
         // Types are already defined by TypeScript, no need in JSDoc.
         "valid-jsdoc": [
             "error",
