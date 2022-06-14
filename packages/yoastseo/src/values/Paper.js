@@ -1,6 +1,5 @@
 import { defaults, isEmpty, isEqual } from "lodash-es";
 import { unifyNonBreakingSpace } from "../languageProcessing/helpers/sanitize/unifyWhitespace";
-import sanitizeString from "../languageProcessing/helpers/sanitize/sanitizeString";
 
 /**
  * Default attributes to be used by the Paper if they are left undefined.
