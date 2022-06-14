@@ -20,15 +20,55 @@ describe( "A test for tokenizing a (html) text into sentences", function() {
 			{ type: "sentence-delimiter", src: ":" },
 			{ type: "sentence", src: " second sentence" },
 			{ type: "full-stop", src: "." },
-			{ type: "sentence", src: "  Third sentence." },
+			{ type: "sentence", src: "  Third sentence" },
+			{ type: "full-stop", src: "." },
+			{ type: "sentence-delimiter", src: "\"" },
+			{ type: "sentence", src: "  Fourth sentence" },
+			{ type: "sentence-delimiter", src: "\"" },
 			{ type: "html-end", src: "<br> element.</p>" },
 			{ type: "block-end", src: "</form>" },
 		];
 		expect( mockTokenizer.getSentencesFromTokens( tokens ) ).toEqual(   [
 			"<form><p>First sentence:",
 			"second sentence.",
-			"Third sentence.",
+			"Third sentence.\"",
+			"Fourth sentence\"",
 			"</form>",
+		] );
+	} );
+
+	it( "returns an array of sentences for a given array of tokens that include quotation marks", function() {
+		const tokens = [
+			{ type: "sentence", src: "Hello", line: 1, col: 1 },
+			{ type: "full-stop", src: ".", line: 1, col: 6 },
+			{ type: "sentence", src: " ", line: 1, col: 7 },
+			{ type: "sentence-delimiter", src: "\"", line: 1, col: 8 },
+			{ type: "sentence", src: "How are you", line: 1, col: 9 },
+			{ type: "sentence-delimiter", src: "\"", line: 1, col: 20 },
+			{ type: "sentence", src: " Bye", line: 1, col: 21 },
+		];
+		expect( mockTokenizer.getSentencesFromTokens( tokens ) ).toEqual(   [
+			"Hello.",
+			"\"How are you\" Bye",
+		] );
+	} );
+
+	it( "returns an array of sentences for a given array of tokens that include quotation marks preceded by" +
+		"period", function() {
+		const tokens = [
+			{ type: "sentence", src: "Hello", line: 1, col: 1 },
+			{ type: "full-stop", src: ".", line: 1, col: 6 },
+			{ type: "sentence", src: " ", line: 1, col: 7 },
+			{ type: "sentence-delimiter", src: "\"", line: 1, col: 8 },
+			{ type: "sentence", src: "How are you", line: 1, col: 9 },
+			{ type: "full-stop", src: ".", line: 1, col: 20 },
+			{ type: "sentence-delimiter", src: "\"", line: 1, col: 21 },
+			{ type: "sentence", src: " Bye", line: 1, col: 22 },
+		];
+		expect( mockTokenizer.getSentencesFromTokens( tokens ) ).toEqual(   [
+			"Hello.",
+			"\"How are you.\"",
+			"Bye",
 		] );
 	} );
 

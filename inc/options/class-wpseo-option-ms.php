@@ -120,6 +120,7 @@ class WPSEO_Option_MS extends WPSEO_Option {
 			"{$allow_prefix}remove_emoji_scripts"           => true,
 			"{$allow_prefix}remove_powered_by_header"       => true,
 			"{$allow_prefix}remove_pingback_header"         => true,
+			"{$allow_prefix}wordproof_integration_active"   => false,
 		];
 
 		if ( is_multisite() ) {
