@@ -20,8 +20,8 @@ const createPaper = ( data, keyphrase, configuration ) => {
 			keyword: keyphrase.keyphrase,
 			synonyms: keyphrase.synonyms,
 			// General data and metadata.
-			description: data.metaDescription,
-			title: data.seoTitle,
+			description: data.metaDescription || data.descriptionTemplate,
+			title: data.seoTitle || data.titleTemplate,
 			titleWidth: data.seoTitleWidth,
 			permalink: data.permalink,
 			slug: data.slug,
