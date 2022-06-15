@@ -64,7 +64,7 @@ class Wordproof_Helper {
 	 * @return bool|string Returns if the integration should be disabled.
 	 */
 	public function integration_is_disabled( $return_conditional = false ) {
-		$conditionals = [ new Non_Multisite_Conditional(), new Wordproof_Plugin_Inactive_Conditional(), new User_Can_Publish_Posts_And_Pages_Conditional() ];
+		$conditionals = [ new Non_Multisite_Conditional(), new Wordproof_Plugin_Inactive_Conditional() ];
 
 		foreach ( $conditionals as $conditional ) {
 			if ( ! $conditional->is_met() ) {
@@ -102,6 +102,12 @@ class Wordproof_Helper {
 		$is_wordproof_active = $this->integration_is_active();
 
 		if ( ! $is_wordproof_active ) {
+			return false;
+		}
+
+		$user_can_publish = ( new User_Can_Publish_Posts_And_Pages_Conditional() )->is_met();
+
+		if ( ! $user_can_publish ) {
 			return false;
 		}
 
