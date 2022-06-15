@@ -17,7 +17,7 @@ const registerSeoTitleWidth = () => {
 		namespace,
 		paper => ( {
 			...paper,
-			seoTitleWidth: helpers.measureTextWidth( paper.seoTitle ),
+			seoTitleWidth: helpers.measureTextWidth( paper.seoTitle || paper.titleTemplate ),
 		} ),
 		// Priority of 11, because no replacevars are used in the SEO title width.
 		11
