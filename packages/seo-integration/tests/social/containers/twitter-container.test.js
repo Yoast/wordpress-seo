@@ -31,6 +31,11 @@ describe( "a test for TwitterEditorContainer component", () => {
 			selectExcerpt: jest.fn( () => "An excerpt about cat story." ),
 			selectSocialTitleTemplate: jest.fn( () => "Cat blogs: A story about cats on social Media" ),
 			selectSeoTitle: jest.fn( () => "Cat blogs: A story about cats" ),
+			selectSeoTemplates: jest.fn( () => ( {
+				title: "A title templates for all beautiful things that are cats",
+				titleNoFallback: "Just a title template",
+				description: "A description template",
+			} ) ),
 		} );
 
 		const updateTwitterTitle = jest.fn();
