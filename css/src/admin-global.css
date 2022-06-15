@@ -711,8 +711,7 @@ body.folded .wpseo-admin-submit-fixed {
   }
 }
 
-.yoast .yoast-global-comments-feed-help,
-.yoast .yoast-global-comments-feed-help-free {
+.yoast .yoast-crawl-settings-help {
 	font-style: italic;
 }
 /* Global notifications */
@@ -833,11 +832,9 @@ body.folded .wpseo-admin-submit-fixed {
 }
 
 
-
-.yoast .yoast-global-comments-feed-help-free {
+.yoast .yoast-crawl-settings-help-free {
   opacity: 0.5;
 }
-
 
 .yoast .yoast-crawl-settings-explanation-free {
   opacity: 0.5;
