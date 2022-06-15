@@ -61,7 +61,7 @@ class WPSEO_Schema_IDs {
 	/**
 	 * Hash used for the WebPage's `@id`.
 	 *
-	 * @deprecated 18.8
+	 * @deprecated 19.3
 	 */
 	const WEBPAGE_HASH = '';
 
