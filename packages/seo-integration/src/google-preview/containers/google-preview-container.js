@@ -78,9 +78,19 @@ const GooglePreviewContainer = ( { as: Component, ...restProps } ) => {
 				updateSlug( value );
 				break;
 			case "title":
+				// Trim spaces from the beginning and end of the data to make a fair comparison with the template.
+				// This additional check is done so that we don't save templates as SEO title in the store.
+				if ( value.trim() === titleTemplate ) {
+					value = "";
+				}
 				updateSeoTitle( value );
 				break;
 			case "description":
+				// Trim spaces from the beginning and end of the data to make a fair comparison with the template.
+				// This additional check is done so that we don't save templates as the meta description in the store.
+				if ( value.trim() === descriptionTemplate ) {
+					value = "";
+				}
 				updateMetaDescription( value );
 				break;
 			default:
