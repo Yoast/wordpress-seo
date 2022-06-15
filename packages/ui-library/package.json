@@ -2,11 +2,15 @@
   "name": "@yoast/ui-library",
   "version": "1.2.1",
   "description": "Yoast UI library",
-  "main": "build/index.js",
-  "style": "build/css/style.css",
+  "main": "./build/index.js",
+  "style": "./build/css/style.css",
   "files": [
-    "build/**/*"
+    "./build/**/*"
   ],
+  "exports": {
+    ".": "./build/index.js",
+    "./hooks": "./build/hooks/index.js"
+  },
   "author": "Team Yoast <support@yoast.com>",
   "license": "GPL-3.0",
   "private": false,
