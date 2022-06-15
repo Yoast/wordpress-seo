@@ -30,6 +30,10 @@ jest.mock( "../../src/analysis/isContentAnalysisActive", () => {
 	return jest.fn( () => false );
 } );
 
+jest.mock( "../../src/analysis/isTaxonomyAnalysisActive", () => {
+	return jest.fn( () => true );
+} );
+
 describe( "The getAnalysisConfiguration function", () => {
 	const translations = {
 		domain: "js-text-analysis",
@@ -53,6 +57,7 @@ describe( "The getAnalysisConfiguration function", () => {
 			translations,
 			isReadabilityActive: false,
 			isSeoActive: true,
+			useTaxonomy: true,
 		} );
 	} );
 
@@ -109,6 +114,7 @@ describe( "The getAnalysisConfiguration function", () => {
 			translations,
 			isReadabilityActive: false,
 			isSeoActive: true,
+			useTaxonomy: true,
 		} );
 	} );
 } );
