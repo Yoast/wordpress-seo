@@ -75,3 +75,23 @@ test( "the AnalysisResult component with hidden buttons matches the snapshot", (
 	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );
+
+test( "the AnalysisResult component with suppressed text matches the snapshot", () => {
+	const component = renderer.create(
+		<AnalysisResult
+			ariaLabel="SEOResult"
+			bulletColor="blue"
+			suppressedText={ true }
+			buttonId="Result button"
+			pressed={ true }
+			hasMarksButton={ true }
+			onButtonClick={ () => {} }
+			text={ "You're doing great!" }
+			score="good"
+			marksButtonStatus={ "hidden" }
+		/>
+	);
+
+	const tree = component.toJSON();
+	expect( tree ).toMatchSnapshot();
+} );
