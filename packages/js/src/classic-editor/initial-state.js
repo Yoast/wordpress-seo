@@ -3,7 +3,6 @@ import { FOCUS_KEYPHRASE_ID } from "@yoast/seo-integration";
 import isSeoAnalysisActive from "../analysis/isKeywordAnalysisActive";
 import isReadabilityAnalysisActive from "../analysis/isContentAnalysisActive";
 import getContentLocale from "../analysis/getContentLocale";
-import isTaxonomyAnalysisActive from "../analysis/isTaxonomyAnalysisActive";
 
 /**
  * Gets the initial state for SEO store from post DOM.
