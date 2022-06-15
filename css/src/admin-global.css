@@ -691,8 +691,7 @@ body.folded .wpseo-admin-submit-fixed {
   width: 380px!important;
 }
 
-.yoast .yoast-global-comments-feed-help,
-.yoast .yoast-global-comments-feed-help-free {
+.yoast .yoast-crawl-settings-help {
 	font-style: italic;
 }
 /* Global notifications */
