@@ -277,8 +277,8 @@ class Crawl_Settings_Integration implements Integration_Interface {
 					'disabled' => true,
 				]
 			);
-			if ( $setting === 'remove_feed_global_comments_free' && ! $is_network ) {
-				echo '<p class="yoast-crawl-settings-help">';
+			if ( $setting === 'remove_feed_global_comments' && ! $is_network ) {
+				echo '<p class="yoast-crawl-settings-help yoast-crawl-settings-help-free ">';
 				echo \esc_html__( 'By removing Global comments feed, Post comments feeds will be removed too.', 'wordpress-seo' );
 				echo '</p>';
 			}
