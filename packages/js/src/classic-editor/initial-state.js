@@ -68,6 +68,7 @@ export const getInitialPostState = () => ( {
 		},
 		template: {
 			title: window.wpseoScriptData.metabox.title_template,
+			titleNoFallback: window.wpseoScriptData.metabox.title_template_no_fallback,
 			description: window.wpseoScriptData.metabox.metadesc_template,
 		},
 	},
@@ -129,6 +130,7 @@ export const getInitialTermState = () => ( {
 		},
 		template: {
 			title: window.wpseoScriptData.metabox.title_template,
+			titleNoFallback: window.wpseoScriptData.metabox.title_template_no_fallback,
 			description: window.wpseoScriptData.metabox.metadesc_template,
 		},
 	},
