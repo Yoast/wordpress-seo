@@ -16,7 +16,7 @@ const load = async () => {
 				"vendor/lodash.js",
 				"yoast/jed.js",
 				"yoast/featureFlag.js",
-				"analysis/getAnalysisConfiguration.js",
+				"analysis/analysis.js",
 				"analysis/languages/default.js",
 			],
 		},
