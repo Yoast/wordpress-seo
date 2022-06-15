@@ -68,6 +68,10 @@ export const getInitialPostState = () => ( {
 				title: window.wpseoScriptData.metabox.social_title_template,
 			},
 		},
+		template: {
+			title: window.wpseoScriptData.metabox.title_template,
+			description: window.wpseoScriptData.metabox.metadesc_template,
+		},
 	},
 } );
 
@@ -126,6 +130,10 @@ export const getInitialTermState = () => ( {
 				description: window.wpseoScriptData.metabox.social_description_template,
 				title: window.wpseoScriptData.metabox.social_title_template,
 			},
+		},
+		template: {
+			title: window.wpseoScriptData.metabox.title_template,
+			description: window.wpseoScriptData.metabox.metadesc_template,
 		},
 	},
 } );
