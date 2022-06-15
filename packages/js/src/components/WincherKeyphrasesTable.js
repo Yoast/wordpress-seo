@@ -340,7 +340,7 @@ const WincherKeyphrasesTable = ( props ) => {
 									onTrackKeyphrase={ onTrackKeyphrase }
 									onUntrackKeyphrase={ onUntrackKeyphrase }
 									rowData={ getKeyphraseData( keyphrase ) }
-									isFocusKeyphrase={ keyphrase === focusKeyphrase.trim() }
+									isFocusKeyphrase={ keyphrase === focusKeyphrase.trim().toLowerCase() }
 									websiteId={ websiteId }
 									isDisabled={ ! isLoggedIn }
 									isLoading={ isDataLoading || loadingKeyphrases.indexOf( keyphrase.toLowerCase() ) >= 0 }
