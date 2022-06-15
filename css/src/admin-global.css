@@ -665,7 +665,8 @@ body.folded .wpseo-admin-submit-fixed {
 
 .yoast #crawl-settings fieldset[id$="_free"] ,
 .yoast label[for="search_character_limit_free"],
-.yoast label[for="clean_permalinks_extra_variables_free"] {
+.yoast label[for="clean_permalinks_extra_variables_free"],
+.yoast p.yoast-extra-variables-label-free {
 	opacity: 0.5;
 }
 
@@ -675,24 +676,42 @@ body.folded .wpseo-admin-submit-fixed {
 }
 
 .yoast label[for^="search_character_limit"] {
-  width: 280px!important;
+  width: 320px!important;
   margin-bottom: 10px!important;
-}
-
-.yoast label[for^="clean_permalinks_extra_variables"] {
-  width: 220px!important;
+  font-weight: 600;
+  padding-left: 2px;
 }
 
 .yoast input[id^="search_character_limit"] {
   width: 70px!important;
 }
 
-.yoast input[id^="clean_permalinks_extra_variables"] {
-  width: 380px!important;
+.yoast label[for^="clean_permalinks_extra_variables"] {
+  width: 240px!important;
+  font-weight: 600;
+  padding-left: 2px;
 }
 
-.yoast .yoast-global-comments-feed-help,
-.yoast .yoast-global-comments-feed-help-free {
+.yoast input[id^="clean_permalinks_extra_variables"] {
+  width: 358px!important;
+}
+
+.yoast .yoast-crawl-single-setting {
+  margin-top: 18px;
+}
+
+.yoast p[class*="yoast-extra-variables-label"] {
+  padding-left: 243px!important;
+}
+
+@media screen and (max-width: 782px) {
+  .yoast p[class*="yoast-extra-variables-label"] {
+    padding-left: 0px!important;
+    margin-top: -20px!important;
+  }
+}
+
+.yoast .yoast-crawl-settings-help {
 	font-style: italic;
 }
 /* Global notifications */
@@ -813,11 +832,9 @@ body.folded .wpseo-admin-submit-fixed {
 }
 
 
-
-.yoast .yoast-global-comments-feed-help-free {
+.yoast .yoast-crawl-settings-help-free {
   opacity: 0.5;
 }
-
 
 .yoast .yoast-crawl-settings-explanation-free {
   opacity: 0.5;
