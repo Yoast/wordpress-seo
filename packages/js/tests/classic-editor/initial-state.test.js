@@ -68,9 +68,9 @@ jest.mock( "../../src/classic-editor/helpers/dom", () => ( {
 
 self.wpseoScriptData = {
 	metabox: {
-		title_template_no_fallback: "",
-		title_template: "",
-		metadesc_template: "",
+		title_template_no_fallback: "The only appropriate title for cat contents",
+		title_template: "A title template for everything about cats",
+		metadesc_template: "A meta description template for everything about cats",
 		social_description_template: "A social template for meta description",
 		social_title_template: "A social template for title",
 	},
@@ -123,6 +123,11 @@ describe( "a test for getting the initial state of a post or a term", () => {
 		expect( actual.form.social.twitter.image.url ).toEqual( "www.example.com/images/good-cat-on-twitter.jpeg" );
 		expect( actual.form.social.template.description ).toEqual( "A social template for meta description" );
 		expect( actual.form.social.template.title ).toEqual( "A social template for title" );
+		expect( actual.form.template ).toEqual( {
+			title: "A title template for everything about cats",
+			titleNoFallback: "The only appropriate title for cat contents",
+			description: "A meta description template for everything about cats",
+		} );
 	} );
 
 	it( "returns the initial state of a term", () => {
@@ -146,5 +151,10 @@ describe( "a test for getting the initial state of a post or a term", () => {
 		expect( actual.form.social.template.description ).toEqual( "A social template for meta description" );
 		expect( actual.form.social.template.title ).toEqual( "A social template for title" );
 		expect( actual.form.keyphrases ).toEqual( { focus: { id: "focus", keyphrase: "panda" } } );
+		expect( actual.form.template ).toEqual( {
+			title: "A title template for everything about cats",
+			titleNoFallback: "The only appropriate title for cat contents",
+			description: "A meta description template for everything about cats",
+		} );
 	} );
 } );
