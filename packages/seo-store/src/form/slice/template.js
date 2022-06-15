@@ -1,5 +1,5 @@
 const { createSlice } = require( "@reduxjs/toolkit" );
-import { get } from "lodash";
+import { get } from "lodash-es";
 
 export const defaultTemplateState = {
 	description: "",
