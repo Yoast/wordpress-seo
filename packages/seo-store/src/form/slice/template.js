@@ -24,6 +24,7 @@ const templateSlice = createSlice( {
 } );
 
 export const templateSelectors = {
+	selectSeoTemplates: ( state ) => get( state, "form.template" ),
 	selectDescriptionTemplate: ( state ) => get( state, "form.template.description" ),
 	selectTitleTemplate: ( state ) => get( state, "form.template.title" ),
 	selectTitleTemplateNoFallback: ( state ) => get( state, "form.template.titleNoFallback" ),
