@@ -1,17 +1,20 @@
 @layer components {
-	.yst-link {
-		@apply
+	.yst-root {
+		.yst-link {
+			@apply
 			yst-text-indigo-600
 			yst-cursor-pointer
-			
+
 			hover:yst-text-indigo-700;
-	}
+		}
 
-	/*
-	Variants */
-	.yst-link--default {}
+		/* Variants */
 
-	.yst-link--primary {
-		@apply yst-text-primary-500 hover:yst-text-primary-600;
+		.yst-link--default {
+		}
+
+		.yst-link--primary {
+			@apply yst-text-primary-500 hover:yst-text-primary-600;
+		}
 	}
 }

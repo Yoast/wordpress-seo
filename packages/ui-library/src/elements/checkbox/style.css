@@ -1,22 +1,24 @@
 @layer components {
-    .yst-checkbox {
-        @apply
-            yst-flex
-            yst-items-center;
-    }
+	.yst-root {
+		.yst-checkbox {
+			@apply
+			yst-flex
+			yst-items-center;
+		}
 
-    .yst-checkbox__input {
-        @apply
-            yst-h-4
-            yst-w-4
-            yst-text-primary-500
-            yst-border-gray-300
-            yst-rounded
-            
-            focus:yst-ring-primary-500;
-    }
+		.yst-checkbox__input {
+			@apply
+			yst-h-4
+			yst-w-4
+			yst-text-primary-500
+			yst-border-gray-300
+			yst-rounded
 
-    .yst-checkbox__label {
-        @apply yst-ml-3;
-    }
+			focus:yst-ring-primary-500;
+		}
+
+		.yst-checkbox__label {
+			@apply yst-ml-3;
+		}
+	}
 }

@@ -1,116 +1,116 @@
 @layer components {
-    .yst-select {
-        @apply yst-max-w-sm yst-relative;
-    }
+	.yst-root {
+		.yst-select {
+			@apply yst-max-w-sm yst-relative;
+		}
 
-    .yst-select--error {
+		.yst-select--error {
+			.yst-select__button {
+				@apply
+				yst-border-red-300
+				yst-text-red-900
+				yst-placeholder-red-300
 
-        .yst-select__button {
-            @apply
-                yst-border-red-300
-                yst-text-red-900
-                yst-placeholder-red-300
 
-                
-                focus:yst-outline-none
-                focus:yst-ring-red-500
-                focus:yst-border-red-500;
-        }
-    }
+				focus:yst-outline-none
+				focus:yst-ring-red-500
+				focus:yst-border-red-500;
+			}
+		}
 
-    .yst-select__button {
-        @apply
-            yst-relative
-            yst-w-full
-            yst-leading-6
-            yst-py-2
-            yst-px-3
-            yst-text-left
-            yst-text-gray-700
-            yst-bg-white
-            yst-border
-            yst-border-gray-300
-            yst-rounded-md
-            yst-shadow-sm
-            yst-cursor-default
-            yst-flex
-            yst-items-center
-            yst-justify-between
+		.yst-select__button {
+			@apply
+			yst-relative
+			yst-w-full
+			yst-leading-6
+			yst-py-2
+			yst-px-3
+			yst-text-left
+			yst-text-gray-700
+			yst-bg-white
+			yst-border
+			yst-border-gray-300
+			yst-rounded-md
+			yst-shadow-sm
+			yst-cursor-default
+			yst-flex
+			yst-items-center
+			yst-justify-between
 
-            focus:yst-outline-none
-            focus:yst-ring-1
-            focus:yst-ring-primary-500
-            focus:yst-border-primary-500;
-    }
+			focus:yst-outline-none
+			focus:yst-ring-1
+			focus:yst-ring-primary-500
+			focus:yst-border-primary-500;
+		}
 
-    .yst-select__button-icon {
-        @apply
-            yst-w-5
-            yst-h-5
-            yst-shrink-0
-            yst-grow-0
-            yst-text-gray-400
-            yst-pointer-events-none;
-    }
+		.yst-select__button-icon {
+			@apply
+			yst-w-5
+			yst-h-5
+			yst-shrink-0
+			yst-grow-0
+			yst-text-gray-400
+			yst-pointer-events-none;
+		}
 
-    .yst-select__button-icon--error {
-        @apply yst-text-red-500;
-    }
+		.yst-select__button-icon--error {
+			@apply yst-text-red-500;
+		}
 
-    .yst-select__options {
-        @apply
-            yst-absolute
-            yst-z-10
-            yst-w-full
-            yst-py-1
-            yst-mt-1
-            yst-overflow-auto
-            yst-bg-white
-            yst-rounded-md
-            yst-shadow-lg
-            yst-max-h-60
-            yst-ring-1
-            yst-ring-black
-            yst-ring-opacity-5
-            focus:yst-outline-none sm:yst-text-sm;
-    }
+		.yst-select__options {
+			@apply
+			yst-absolute
+			yst-z-10
+			yst-w-full
+			yst-py-1
+			yst-mt-1
+			yst-overflow-auto
+			yst-bg-white
+			yst-rounded-md
+			yst-shadow-lg
+			yst-max-h-60
+			yst-ring-1
+			yst-ring-black
+			yst-ring-opacity-5
+			focus:yst-outline-none sm:yst-text-sm;
+		}
 
-    .yst-select__option {
-        @apply
-            yst-cursor-default
-            yst-select-none
-            yst-relative
-            yst-flex
-            yst-items-center
-            yst-justify-between
-            yst-py-2
-            yst-px-3
-            yst-text-gray-900;
-    }
-    
-    .yst-select__option--active {
-        @apply yst-text-white yst-bg-primary-600;
-    }
+		.yst-select__option {
+			@apply
+			yst-cursor-default
+			yst-select-none
+			yst-relative
+			yst-flex
+			yst-items-center
+			yst-justify-between
+			yst-py-2
+			yst-px-3
+			yst-text-gray-900;
+		}
 
-    .yst-select__option-label,
-    .yst-select__button-label {
-        @apply yst-block yst-truncate;
-    }
+		.yst-select__option--active {
+			@apply yst-text-white yst-bg-primary-600;
+		}
 
-    .yst-select__option-label--selected {
-        @apply yst-font-semibold;
-    }
+		.yst-select__option-label,
+		.yst-select__button-label {
+			@apply yst-block yst-truncate;
+		}
 
-    .yst-select__option-icon {
-        @apply
-        yst-w-5
-        yst-h-5
-        yst-text-primary-600
-        yst-shrink-0;
-    }
+		.yst-select__option-label--selected {
+			@apply yst-font-semibold;
+		}
 
-    .yst-select__option-icon--active {
-        @apply yst-text-white;
-    }
+		.yst-select__option-icon {
+			@apply
+			yst-w-5
+			yst-h-5
+			yst-text-primary-600
+			yst-shrink-0;
+		}
+
+		.yst-select__option-icon--active {
+			@apply yst-text-white;
+		}
+	}
 }
-

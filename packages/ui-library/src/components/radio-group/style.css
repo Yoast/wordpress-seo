@@ -1,31 +1,29 @@
 @layer components {
-    .yst-radio-group {
+	.yst-root {
+		.yst-radio-group--inline-block {
 
-    }
+			.yst-radio-group__options {
+				@apply
+				yst-flex
+				yst-flex-wrap
+				yst-flex-row
+				yst-gap-2;
+			}
+		}
 
-    .yst-radio-group--inline-block {
+		.yst-radio-group__label {
+			@apply yst-mb-1;
+		}
 
-        .yst-radio-group__options {
-            @apply
-                yst-flex
-                yst-flex-wrap
-                yst-flex-row
-                yst-gap-2;
-        }
-    }
+		.yst-radio-group__options {
+			@apply
+			yst-flex
+			yst-flex-col
+			yst-gap-2;
+		}
 
-    .yst-radio-group__label {
-        @apply yst-mb-1;
-    }
-
-    .yst-radio-group__options {
-        @apply
-            yst-flex
-            yst-flex-col
-            yst-gap-2;
-    }
-
-    .yst-radio-group__description {
-        @apply yst-mb-4;
-    }
+		.yst-radio-group__description {
+			@apply yst-mb-4;
+		}
+	}
 }
