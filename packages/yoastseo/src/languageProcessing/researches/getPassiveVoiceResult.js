@@ -54,7 +54,8 @@ export const getMorphologicalPassives = function( paper, researcher ) {
 export const getPeriphrasticPassives = function( paper, researcher ) {
 	const getClauses = researcher.getHelper( "getClauses" );
 	const text = paper.getText();
-	const sentences = getSentences( text, researcher.helpers.memoizedTokenizer )
+	const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
+	const sentences = getSentences( text, memoizedTokenizer )
 		.map( function( sentence ) {
 			return new Sentence( sentence );
 		} );
