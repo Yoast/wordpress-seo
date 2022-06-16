@@ -1,4 +1,4 @@
-import { getAnalysisConfiguration } from "../../src/classic-editor/analysis";
+import { getAnalysisConfiguration } from "../../src/classic-editor/getAnalysisConfiguration";
 
 /* eslint-disable camelcase */
 jest.mock( "../../src/analysis/getTranslations", () => {
@@ -30,6 +30,10 @@ jest.mock( "../../src/analysis/isContentAnalysisActive", () => {
 	return jest.fn( () => false );
 } );
 
+jest.mock( "../../src/analysis/isTaxonomyAnalysisActive", () => {
+	return jest.fn( () => true );
+} );
+
 describe( "The getAnalysisConfiguration function", () => {
 	const translations = {
 		domain: "js-text-analysis",
@@ -53,6 +57,7 @@ describe( "The getAnalysisConfiguration function", () => {
 			translations,
 			isReadabilityActive: false,
 			isSeoActive: true,
+			useTaxonomy: true,
 		} );
 	} );
 
@@ -109,6 +114,7 @@ describe( "The getAnalysisConfiguration function", () => {
 			translations,
 			isReadabilityActive: false,
 			isSeoActive: true,
+			useTaxonomy: true,
 		} );
 	} );
 } );

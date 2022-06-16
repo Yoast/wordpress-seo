@@ -3,6 +3,7 @@ import { get } from "lodash";
 import getTranslations from "../analysis/getTranslations";
 import isContentAnalysisActive from "../analysis/isContentAnalysisActive";
 import isKeywordAnalysisActive from "../analysis/isKeywordAnalysisActive";
+import isTaxonomyAnalysisActive from "../analysis/isTaxonomyAnalysisActive";
 
 /**
  * Creates the analysis-related configuration needed for booting up the SEO integration.
@@ -21,6 +22,7 @@ export function getAnalysisConfiguration() {
 			translations: getTranslations(),
 			isSeoActive: isKeywordAnalysisActive(),
 			isReadabilityActive: isContentAnalysisActive(),
+			useTaxonomy: isTaxonomyAnalysisActive(),
 		},
 	};
 }
