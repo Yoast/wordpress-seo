@@ -185,9 +185,10 @@ class Yoast_Feature_Toggles {
 				'name'            => __( 'IndexNow', 'wordpress-seo' ),
 				'premium'         => true,
 				'setting'         => 'enable_index_now',
-				'label'           => __( 'This adds an IndexNow integration which will ping search engines like Bing and Yandex on site updates.', 'wordpress-seo' ),
+				'label'           => __( 'Automatically ping search engines like Bing and Yandex whenever you publish, update or delete a post.', 'wordpress-seo' ),
 				'read_more_label' => __( 'Find out how IndexNow can help your site.', 'wordpress-seo' ),
-				'read_more_url'   => 'https://yoa.st/index-now-feature',
+				'read_more_url'   => 'https://yoa.st/index-now-read-more',
+				'premium_url'     => 'https://yoa.st/index-now-feature',
 				'order'           => 110,
 			],
 		];
