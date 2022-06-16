@@ -90,6 +90,8 @@ describe( "a test for getting the initial state of a post or a term", () => {
 		expect( actual.form.seo.title ).toEqual( "Tortoiseshell cat - All about cats" );
 		expect( actual.form.seo.description ).toEqual( "Cats with tortoiseshell coloration are believed to bring good luck." );
 		expect( actual.form.seo.slug ).toEqual( "www.example.com/tortoiseshell-cat" );
+		expect( actual.form.seo.titleTemplate ).toEqual( "A title template for everything about cats" );
+		expect( actual.form.seo.descriptionTemplate ).toEqual( "A meta description template for everything about cats" );
 		expect( actual.form.keyphrases ).toEqual( { focus: { id: "focus", keyphrase: "tortoiseshell cat" } } );
 		expect( actual.editor.taxonomies.categories ).toEqual( [
 			{
@@ -123,11 +125,6 @@ describe( "a test for getting the initial state of a post or a term", () => {
 		expect( actual.form.social.twitter.image.url ).toEqual( "www.example.com/images/good-cat-on-twitter.jpeg" );
 		expect( actual.form.social.template.description ).toEqual( "A social template for meta description" );
 		expect( actual.form.social.template.title ).toEqual( "A social template for title" );
-		expect( actual.form.template ).toEqual( {
-			title: "A title template for everything about cats",
-			titleNoFallback: "The only appropriate title for cat contents",
-			description: "A meta description template for everything about cats",
-		} );
 	} );
 
 	it( "returns the initial state of a term", () => {
@@ -141,6 +138,8 @@ describe( "a test for getting the initial state of a post or a term", () => {
 		expect( actual.form.seo.title ).toEqual( "A title befitting a beautiful cat" );
 		expect( actual.form.seo.description ).toEqual( "An example of a description for a cat." );
 		expect( actual.form.seo.slug ).toEqual( "www.example.com/categories/cat" );
+		expect( actual.form.seo.titleTemplate ).toEqual( "A title template for everything about cats" );
+		expect( actual.form.seo.descriptionTemplate ).toEqual( "A meta description template for everything about cats" );
 		expect( actual.form.social.facebook.title ).toEqual( "An FB title for term" );
 		expect( actual.form.social.facebook.description ).toEqual( "An FB meta description for term" );
 		expect( actual.form.social.facebook.image.id ).toEqual( 4 );
@@ -152,10 +151,5 @@ describe( "a test for getting the initial state of a post or a term", () => {
 		expect( actual.form.social.template.description ).toEqual( "A social template for meta description" );
 		expect( actual.form.social.template.title ).toEqual( "A social template for title" );
 		expect( actual.form.keyphrases ).toEqual( { focus: { id: "focus", keyphrase: "panda" } } );
-		expect( actual.form.template ).toEqual( {
-			title: "A title template for everything about cats",
-			titleNoFallback: "The only appropriate title for cat contents",
-			description: "A meta description template for everything about cats",
-		} );
 	} );
 } );
