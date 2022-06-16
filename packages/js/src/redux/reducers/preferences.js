@@ -1,4 +1,4 @@
-import { isUndefined } from "lodash-es";
+import { isUndefined, get } from "lodash";
 import isContentAnalysisActive from "../../analysis/isContentAnalysisActive";
 import isKeywordAnalysisActive from "../../analysis/isKeywordAnalysisActive";
 import isCornerstoneActive from "../../analysis/isCornerstoneContentActive";
@@ -35,6 +35,7 @@ function getDefaultState() {
 		isZapierConnected: isZapierConnected(),
 		isWincherIntegrationActive: isWincherIntegrationActive(),
 		isWordProofIntegrationActive: isWordProofIntegrationActive(),
+		isInsightsEnabled: get( window, "wpseoScriptData.metabox.isInsightsEnabled", false ),
 	};
 }
 

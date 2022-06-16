@@ -88,6 +88,7 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 				'social_description_template' => $this->get_social_description_template(),
 				'social_image_template'       => $this->get_social_image_template(),
 				'wincherIntegrationActive'    => 0,
+				'isInsightsEnabled'           => $this->is_insights_enabled(),
 			];
 		}
 
@@ -226,5 +227,14 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	private function get_template( $template_option_name ) {
 		$needed_option = $template_option_name . '-tax-' . $this->term->taxonomy;
 		return WPSEO_Options::get( $needed_option, '' );
+	}
+
+	/**
+	 * Determines whether the insights feature is enabled for this taxonomy.
+	 *
+	 * @return bool
+	 */
+	protected function is_insights_enabled() {
+		return WPSEO_Options::get( 'enable_metabox_insights', false );
 	}
 }
