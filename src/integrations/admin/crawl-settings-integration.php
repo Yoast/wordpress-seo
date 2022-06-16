@@ -200,6 +200,7 @@ class Crawl_Settings_Integration implements Integration_Interface {
 		$this->print_toggles( $first_search_setting, $yform, $is_network, \__( 'Search cleanup settings', 'wordpress-seo' ), \__( 'Clean up and filter searches to prevent search spam.', 'wordpress-seo' ), $search_settings_toggles );
 
 		if ( ! $is_network ) {
+			echo '<div class="yoast-crawl-single-setting">';
 			$yform->number(
 				'search_character_limit_free',
 				\__( 'Max number of characters to allow in searches', 'wordpress-seo' ),
@@ -210,6 +211,7 @@ class Crawl_Settings_Integration implements Integration_Interface {
 				]
 			);
 			$yform->hidden( 'search_character_limit', 'search_character_limit' );
+			echo '</div>';
 		}
 
 		$this->print_toggles( $rest_search_settings, $yform, $is_network, '', '', $search_settings_toggles );
@@ -217,6 +219,7 @@ class Crawl_Settings_Integration implements Integration_Interface {
 		$this->print_toggles( $this->permalink_cleanup_settings, $yform, $is_network, \__( 'Permalink cleanup settings', 'wordpress-seo' ), \__( 'Remove unwanted URL parameters from your URLs.', 'wordpress-seo' ) );
 
 		if ( ! $is_network ) {
+			echo '<div class="yoast-crawl-single-setting">';
 			$yform->textinput(
 				'clean_permalinks_extra_variables_free',
 				\__( 'Additional URL parameters to allow', 'wordpress-seo' ),
@@ -225,6 +228,10 @@ class Crawl_Settings_Integration implements Integration_Interface {
 				]
 			);
 			$yform->hidden( 'clean_permalinks_extra_variables', 'clean_permalinks_extra_variables' );
+			echo '<p class="desc label yoast-extra-variables-label-free">';
+			esc_html_e( 'Please use a comma to separate multiple URL parameters.', 'wordpress-seo' );
+			echo '</p>';
+			echo '</div>';
 		}
 	}
 
@@ -277,8 +284,8 @@ class Crawl_Settings_Integration implements Integration_Interface {
 					'disabled' => true,
 				]
 			);
-			if ( $setting === 'remove_feed_global_comments_free' && ! $is_network ) {
-				echo '<p class="yoast-global-comments-feed-help-free">';
+			if ( $setting === 'remove_feed_global_comments' && ! $is_network ) {
+				echo '<p class="yoast-crawl-settings-help yoast-crawl-settings-help-free ">';
 				echo \esc_html__( 'By removing Global comments feed, Post comments feeds will be removed too.', 'wordpress-seo' );
 				echo '</p>';
 			}
