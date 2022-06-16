@@ -75,12 +75,31 @@ class WPSEO_Sitemaps_Admin {
 			return;
 		}
 
-		if ( defined( 'YOAST_SEO_PING_IMMEDIATELY' ) && YOAST_SEO_PING_IMMEDIATELY ) {
-			WPSEO_Sitemaps::ping_search_engines();
+		$this->ping_search_engines();
+	}
+
+	/**
+	 * Notify Google of the updated sitemap.
+	 */
+	public function ping_search_engines() {
+
+		if ( get_option( 'blog_public' ) === '0' ) { // Don't ping if blog is not public.
+			return;
 		}
-		elseif ( ! wp_next_scheduled( 'wpseo_ping_search_engines' ) ) {
-			wp_schedule_single_event( ( time() + 300 ), 'wpseo_ping_search_engines' );
+
+		/**
+		 * Filter: 'wpseo_allow_xml_sitemap_ping' - Check if pinging is not allowed (allowed by default)
+		 *
+		 * @api boolean $allow_ping The boolean that is set to true by default.
+		 */
+		if ( apply_filters( 'wpseo_allow_xml_sitemap_ping', true ) === false ) {
+			return;
 		}
+
+		$url = rawurlencode( WPSEO_Sitemaps_Router::get_base_url( 'sitemap_index.xml' ) );
+
+		// Ping Google about our sitemap change.
+		wp_remote_get( 'https://www.google.com/ping?sitemap=' . $url, [ 'blocking' => false ] );
 	}
 
 	/**
@@ -134,6 +153,6 @@ class WPSEO_Sitemaps_Admin {
 			do_action( 'wpseo_hit_sitemap_index' );
 		}
 
-		WPSEO_Sitemaps::ping_search_engines();
+		$this->ping_search_engines();
 	}
 }

@@ -101,7 +101,6 @@ class WPSEO_Sitemaps {
 		add_action( 'after_setup_theme', [ $this, 'reduce_query_load' ], 99 );
 		add_action( 'pre_get_posts', [ $this, 'redirect' ], 1 );
 		add_action( 'wpseo_hit_sitemap_index', [ $this, 'hit_sitemap_index' ] );
-		add_action( 'wpseo_ping_search_engines', [ __CLASS__, 'ping_search_engines' ] );
 
 		$this->router   = new WPSEO_Sitemaps_Router();
 		$this->renderer = new WPSEO_Sitemaps_Renderer();
@@ -543,30 +542,15 @@ class WPSEO_Sitemaps {
 	/**
 	 * Notify search engines of the updated sitemap.
 	 *
+	 * @deprecated 19.2
+	 *
 	 * @param string|null $url Optional URL to make the ping for.
 	 */
 	public static function ping_search_engines( $url = null ) {
+		_deprecated_function( __METHOD__, 'WPSEO 19.2', 'WPSEO_Sitemaps_Admin::ping_search_engines' );
 
-		/**
-		 * Filter: 'wpseo_allow_xml_sitemap_ping' - Check if pinging is not allowed (allowed by default)
-		 *
-		 * @api boolean $allow_ping The boolean that is set to true by default.
-		 */
-		if ( apply_filters( 'wpseo_allow_xml_sitemap_ping', true ) === false ) {
-			return;
-		}
-
-		if ( get_option( 'blog_public' ) === '0' ) { // Don't ping if blog is not public.
-			return;
-		}
-
-		if ( empty( $url ) ) {
-			$url = rawurlencode( WPSEO_Sitemaps_Router::get_base_url( 'sitemap_index.xml' ) );
-		}
-
-		// Ping Google and Bing.
-		wp_remote_get( 'https://www.google.com/ping?sitemap=' . $url, [ 'blocking' => false ] );
-		wp_remote_get( 'https://www.bing.com/ping?sitemap=' . $url, [ 'blocking' => false ] );
+		$admin = new WPSEO_Sitemaps_Admin();
+		$admin->ping_search_engines();
 	}
 
 	/**
