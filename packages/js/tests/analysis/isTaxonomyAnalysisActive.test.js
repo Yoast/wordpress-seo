@@ -2,18 +2,24 @@ import isTaxonomyAnalysisActive from "../../src/analysis/isTaxonomyAnalysisActiv
 
 describe( "A test to check whether the taxonomy assesseor is used for taxonomy terms", () => {
 	it( "is not used if the content type is not a taxonomy term", () => {
-		const isTerm = false;
-		const contentType = isTaxonomyAnalysisActive( isTerm );
+		// Set the right data on the (mocked) window object.
+		window.wpseoScriptData = {
+			metabox: {
+				isTerm: 0,
+			},
+		};
 
-
-		expect( contentType ).toEqual( isTerm );
+		expect( isTaxonomyAnalysisActive() ).toEqual( false );
 	} );
 
 	it( "is used if the content type is a taxonomy term", () => {
-		const isTerm = true;
-		const contentType = isTaxonomyAnalysisActive( isTerm );
+		// Set the right data on the (mocked) window object.
+		window.wpseoScriptData = {
+			metabox: {
+				isTerm: 1,
+			},
+		};
 
-
-		expect( contentType ).toEqual( ! isTerm );
+		expect( isTaxonomyAnalysisActive() ).toEqual( true );
 	} );
 } );
