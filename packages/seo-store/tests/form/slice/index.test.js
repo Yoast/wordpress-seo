@@ -8,7 +8,6 @@ describe( "a test for form slice", () => {
 		seo: {},
 		keyphrases: {},
 		social: {},
-		template: {},
 	};
 
 	describe( "a test for form reducer", () => {
@@ -36,7 +35,6 @@ describe( "a test for form slice", () => {
 				"updateSocialTitleTemplate",
 				"updateDescriptionTemplate",
 				"updateTitleTemplate",
-				"updateTitleTemplateNoFallback",
 			].forEach( ( action ) => {
 				expect( formActions[ action ] ).toBeDefined();
 			} );
@@ -63,10 +61,8 @@ describe( "a test for form slice", () => {
 				"selectTwitterImage",
 				"selectSocialDescriptionTemplate",
 				"selectSocialTitleTemplate",
-				"selectSeoTemplates",
 				"selectDescriptionTemplate",
 				"selectTitleTemplate",
-				"selectTitleTemplateNoFallback",
 			].forEach( ( selector ) => {
 				expect( formSelectors[ selector ] ).toBeDefined();
 			} );
