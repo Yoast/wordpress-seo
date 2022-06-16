@@ -241,6 +241,9 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 19.2 =
 Release Date: June 28th, 2022
 
+
+
+
 Enhancements:
 
 * Added support for `webp` images for OpenGraph output.

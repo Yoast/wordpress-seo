@@ -1,32 +1,35 @@
 @layer components {
-    .yst-badge {
-        @apply
-            yst-inline-flex
-            yst-items-center
-            yst-px-2
-            yst-rounded-full
-            yst-text-xs
-            yst-font-medium
-            yst-bg-blue-100
-            yst-text-blue-800;
-    }
+	.yst-root {
+		.yst-badge {
+			@apply
+			yst-inline-flex
+			yst-items-center
+			yst-px-2
+			yst-rounded-full
+			yst-text-xs
+			yst-font-medium
+			yst-bg-blue-100
+			yst-text-blue-800;
+		}
 
-    /* Variants */
-    .yst-badge--info {
-        @apply
-            yst-bg-blue-100
-            yst-text-blue-800;
-    }
+		/* Variants */
 
-    .yst-badge--upsell {
-        @apply
-            yst-bg-yellow-100
-            yst-text-yellow-800;
-    }
-    
-    .yst-badge--plain {
-        @apply
-            yst-bg-gray-100
-            yst-text-gray-800;
-    }
+		.yst-badge--info {
+			@apply
+			yst-bg-blue-100
+			yst-text-blue-800;
+		}
+
+		.yst-badge--upsell {
+			@apply
+			yst-bg-yellow-100
+			yst-text-yellow-800;
+		}
+
+		.yst-badge--plain {
+			@apply
+			yst-bg-gray-100
+			yst-text-gray-800;
+		}
+	}
 }
