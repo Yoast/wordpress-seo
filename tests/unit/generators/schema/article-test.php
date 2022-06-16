@@ -141,7 +141,6 @@ class Article_Test extends TestCase {
 		$this->article->expects( 'is_author_supported' )->with( 'article' )->andReturn( true );
 
 		$this->assertTrue( $this->instance->is_needed() );
-		$this->assertSame( $this->context_mock->main_schema_id, 'https://permalink#article' );
 	}
 
 	/**
@@ -151,10 +150,8 @@ class Article_Test extends TestCase {
 	 */
 	public function test_is_needed_no_post() {
 		$this->context_mock->indexable->object_type = 'home-page';
-		$this->context_mock->main_schema_id         = 'https://permalink#should-not-change';
 
 		$this->assertFalse( $this->instance->is_needed() );
-		$this->assertSame( $this->context_mock->main_schema_id, 'https://permalink#should-not-change' );
 	}
 
 	/**
@@ -166,12 +163,10 @@ class Article_Test extends TestCase {
 		$this->context_mock->indexable->object_type     = 'post';
 		$this->context_mock->indexable->object_sub_type = 'not-article';
 		$this->context_mock->site_represents            = 'person';
-		$this->context_mock->main_schema_id             = 'https://permalink#should-not-change';
 
 		$this->article->expects( 'is_author_supported' )->with( 'not-article' )->andReturn( false );
 
 		$this->assertFalse( $this->instance->is_needed() );
-		$this->assertSame( $this->context_mock->main_schema_id, 'https://permalink#should-not-change' );
 	}
 
 	/**
@@ -182,10 +177,8 @@ class Article_Test extends TestCase {
 	public function test_is_needed_no_site_represents() {
 		$this->context_mock->indexable->object_type = 'post';
 		$this->context_mock->site_represents        = false;
-		$this->context_mock->main_schema_id         = 'https://permalink#should-not-change';
 
 		$this->assertFalse( $this->instance->is_needed() );
-		$this->assertSame( $this->context_mock->main_schema_id, 'https://permalink#should-not-change' );
 	}
 
 	/**

@@ -30,8 +30,6 @@ class Article extends Abstract_Schema_Piece {
 		}
 
 		if ( $this->context->schema_article_type !== 'None' ) {
-			$this->context->main_schema_id = $this->context->canonical . Schema_IDs::ARTICLE_HASH;
-
 			return true;
 		}
 
