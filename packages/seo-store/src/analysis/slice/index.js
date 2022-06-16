@@ -23,7 +23,7 @@ export const analysisSelectors = {
 		editorSelectors.selectPermalink,
 		editorSelectors.selectFormattedDate,
 		( titleTemplate, descriptionTemplate, seoTitle, metaDescription, slug, content, permalink, date ) =>
-			( { titleTemplate, descriptionTemplate, seoTitle, metaDescription, slug, content, permalink, date } ),
+			( { seoTitle: seoTitle || titleTemplate, metaDescription: metaDescription || descriptionTemplate, slug, content, permalink, date } ),
 	),
 };
 
