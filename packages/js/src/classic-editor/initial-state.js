@@ -37,6 +37,8 @@ export const getInitialPostState = () => ( {
 			title: dom.getPostSeoTitle(),
 			description: dom.getPostMetaDescription(),
 			slug: dom.getPostSlug(),
+			titleTemplate: window.wpseoScriptData.metabox.title_template,
+			descriptionTemplate: window.wpseoScriptData.metabox.metadesc_template,
 		},
 		keyphrases: {
 			[ FOCUS_KEYPHRASE_ID ]: {
@@ -66,11 +68,6 @@ export const getInitialPostState = () => ( {
 				title: window.wpseoScriptData.metabox.social_title_template,
 			},
 		},
-		template: {
-			title: window.wpseoScriptData.metabox.title_template,
-			titleNoFallback: window.wpseoScriptData.metabox.title_template_no_fallback,
-			description: window.wpseoScriptData.metabox.metadesc_template,
-		},
 	},
 } );
 
@@ -99,6 +96,8 @@ export const getInitialTermState = () => ( {
 			title: dom.getTermSeoTitle(),
 			description: dom.getTermMetaDescription(),
 			slug: dom.getTermSlug(),
+			titleTemplate: window.wpseoScriptData.metabox.title_template,
+			descriptionTemplate: window.wpseoScriptData.metabox.metadesc_template,
 		},
 		keyphrases: {
 			[ FOCUS_KEYPHRASE_ID ]: {
@@ -127,11 +126,6 @@ export const getInitialTermState = () => ( {
 				description: window.wpseoScriptData.metabox.social_description_template,
 				title: window.wpseoScriptData.metabox.social_title_template,
 			},
-		},
-		template: {
-			title: window.wpseoScriptData.metabox.title_template,
-			titleNoFallback: window.wpseoScriptData.metabox.title_template_no_fallback,
-			description: window.wpseoScriptData.metabox.metadesc_template,
 		},
 	},
 } );
