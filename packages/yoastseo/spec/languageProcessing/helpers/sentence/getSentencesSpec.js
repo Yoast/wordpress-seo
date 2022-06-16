@@ -521,6 +521,11 @@ describe( "a test for when texts containing sentence delimiter", () => {
 			"東海道新幹線の開業前、東西の大動脈である東海道本線は高度経済成長下で線路容量が逼迫しており‥",
 			"抜本的な輸送力増強を迫られていた。" ] );
 	} );
+
+	it( "can deal with the edge case of quotes around initials.", ()=>{
+		expect( getSentences( "The reprint was favourably reviewed by \"A. B.\" in The Musical Times in 1935, who commented \"Praise is due to Mr Mercer." ) ).toEqual(
+			[ "The reprint was favourably reviewed by \"A. B.\" in The Musical Times in 1935, who commented \"Praise is due to Mr Mercer." ] );
+	} );
 } );
 
 describe( "parses Japanese text", () => {

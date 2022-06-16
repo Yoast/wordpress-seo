@@ -25,7 +25,7 @@ const blockEndRegex = /^\s*[\])}]\s*$/;
 const abbreviationsPreparedForRegex = abbreviations.map( ( abbreviation ) => abbreviation.replace( ".", "\\." ) );
 const abbreviationsRegex = createRegexFromArray( abbreviationsPreparedForRegex );
 
-const wordBoundariesForRegex = "[" + wordBoundaries().map( ( boundary ) => "\\" + boundary ).join( "" ) + "]";
+const wordBoundariesForRegex = "(^|$|[" + wordBoundaries().map( ( boundary ) => "\\" + boundary ).join( "" ) + "])";
 const lastCharacterPartOfInitialsRegex = new RegExp( wordBoundariesForRegex + "[A-Za-z]$" );
 
 /**
@@ -411,7 +411,6 @@ export default class SentenceTokenizer {
 			const nextToken = tokenArray[ i + 1 ];
 			const previousToken = tokenArray[ i - 1 ];
 			const secondToNextToken = tokenArray[ i + 2 ];
-
 			nextCharacters = this.getNextTwoCharacters( [ nextToken, secondToNextToken ] );
 
 			// For a new sentence we need to check the next two characters.
