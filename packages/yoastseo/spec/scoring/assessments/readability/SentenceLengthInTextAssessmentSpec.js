@@ -19,7 +19,6 @@ const shortSentence15WordsLimit = "Word ".repeat( 13 ) + "word. ";
 const longSentence15WordsLimit = "Word ".repeat( 15 ) + "word. ";
 
 import japaneseConfig from "../../../../src/languageProcessing/languages/ja/config/sentenceLength";
-import wordComplexityAssessment from "../../../../src/scoring/assessments/readability/wordComplexityAssessment";
 
 // eslint-disable-next-line max-statements
 describe( "An assessment for sentence length", function() {
@@ -285,12 +284,14 @@ describe( "An assessment for sentence length", function() {
 
 	it( "returns false if the text is too short", function() {
 		const paper = new Paper( "hallo" );
-		expect( wordComplexityAssessment.isApplicable( paper, new DefaultResearcher( paper ) ) ).toBe( false );
+		const assessment = new SentenceLengthInTextAssessment().isApplicable( paper );
+		expect( assessment ).toBe( false );
 	} );
 
 	it( "returns true if the text is long enough", function() {
 		const paper = new Paper( "hallo".repeat( 100 ) );
-		expect( wordComplexityAssessment.isApplicable( paper, new DefaultResearcher( paper ) ) ).toBe( false );
+		const assessment = new SentenceLengthInTextAssessment().isApplicable( paper );
+		expect( assessment ).toBe( true );
 	} );
 } );
 

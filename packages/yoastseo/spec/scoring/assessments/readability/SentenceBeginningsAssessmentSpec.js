@@ -5,7 +5,6 @@ import Paper from "../../../../src/values/Paper.js";
 import Factory from "../../../specHelpers/factory.js";
 import Mark from "../../../../src/values/Mark.js";
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
-import wordComplexityAssessment from "../../../../src/scoring/assessments/readability/wordComplexityAssessment";
 
 let paper = new Paper();
 // eslint-disable-next-line max-statements
@@ -53,8 +52,8 @@ describe( "An assessment for scoring repeated sentence beginnings.", function() 
 	} );
 
 	it( "returns false if the text is too short", function() {
-		const paper = new Paper( "hallo" );
-		expect( wordComplexityAssessment.isApplicable( paper, new DefaultResearcher( paper ) ) ).toBe( false );
+		paper = new Paper( "hallo" );
+		expect( new SentenceBeginningsAssessment().isApplicable( paper, new EnglishResearcher( paper ) ) ).toBe( false );
 	} );
 
 	it( "should return false for isApplicable for a paper with only an image.", function() {

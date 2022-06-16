@@ -9,7 +9,6 @@ import DefaultResearcher from "../../../../src/languageProcessing/languages/_def
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
 import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher";
 import japaneseConfig from "../../../../src/languageProcessing/languages/ja/config/subheadingsTooLong.js";
-import wordComplexityAssessment from "../../../../src/scoring/assessments/readability/wordComplexityAssessment";
 
 const subheadingDistributionTooLong = new SubheadingDistributionTooLong();
 
@@ -122,7 +121,7 @@ describe( "An assessment for scoring too long text fragments without a subheadin
 
 	it( "returns false if the text is too short", function() {
 		const paper = new Paper( "hallo" );
-		expect( wordComplexityAssessment.isApplicable( paper, new DefaultResearcher( paper ) ) ).toBe( false );
+		expect( new SubheadingDistributionTooLong().isApplicable( paper, new DefaultResearcher( paper ) ) ).toBe( false );
 	} );
 
 	it( "should return false for isApplicable for a paper with only an image.", function() {
