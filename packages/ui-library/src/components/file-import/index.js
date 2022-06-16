@@ -1,14 +1,12 @@
-import { useState, useCallback, useContext, createContext, useMemo } from "@wordpress/element";
+import { useCallback, useContext, createContext, useMemo } from "@wordpress/element";
 import { values, includes, isEmpty, isNull, capitalize } from "lodash";
-import { DocumentAddIcon, DocumentTextIcon, XIcon } from "@heroicons/react/outline";
+import { DocumentTextIcon, XIcon } from "@heroicons/react/outline";
 import { CheckCircleIcon, ExclamationCircleIcon, StopIcon, InformationCircleIcon } from "@heroicons/react/solid";
-import classNames from "classnames";
 import PropTypes from "prop-types";
 import { Transition } from "@headlessui/react";
 
-import Link from "../../elements/link";
+import FileInput from "../../elements/file-input";
 import ProgressBar from "../../elements/progress-bar";
-import { useRootContext } from "../../hooks";
 
 export const FILE_IMPORT_STATUS = {
 	idle: "idle",
@@ -104,11 +102,7 @@ const FileImport = ( {
 	progressMin = null,
 	progressMax = null,
 	progress = null,
-	...props
 } ) => {
-	const [ isDragOver, setIsDragOver ] = useState( false );
-	const { isRtl } = useRootContext();
-
 	const isSelected = useMemo( () => status === FILE_IMPORT_STATUS.selected, [ status ] );
 	const isLoading = useMemo( () => status === FILE_IMPORT_STATUS.loading, [ status ] );
 	const isSuccess = useMemo( () => status === FILE_IMPORT_STATUS.success, [ status ] );
@@ -126,70 +120,23 @@ const FileImport = ( {
 		}
 	}, [ onChange ] );
 
-	const handleDragEnter = useCallback( ( event ) => {
-		event.preventDefault();
-		if ( ! isEmpty( event.dataTransfer.items ) ) {
-			setIsDragOver( true );
-		}
-	}, [] );
-
-	const handleDragLeave = useCallback( ( event ) => {
-		event.preventDefault();
-		setIsDragOver( false );
-	}, [] );
-
-	const handleDragOver = useCallback( ( event ) => {
-		event.preventDefault();
-	}, [] );
-
-	const handleDrop = useCallback( ( event ) => {
-		event.preventDefault();
-		setIsDragOver( false );
-		if ( ! isEmpty( event.dataTransfer.files ) ) {
-			onChange( event.dataTransfer.files[ 0 ] );
-		}
-	}, [ setIsDragOver, onChange ] );
-
 	return (
 		<FileImportContext.Provider value={ { status } }>
 			<div className="yst-file-import">
-				<div
-					onDragEnter={ handleDragEnter }
-					onDragLeave={ handleDragLeave }
-					onDragOver={ handleDragOver }
-					onDrop={ handleDrop }
-					className={ classNames( "yst-file-import__select", {
-						"yst-is-drag-over": isDragOver,
-						"yst-is-disabled": isLoading,
-					} ) }
-				>
-					<div className="yst-file-import__select-content">
-						<DocumentAddIcon className="yst-file-import__select-icon" />
-						<div
-							className={ classNames(
-								"yst-file-import__select-labels", {
-									"yst-flex-row-reverse": isRtl,
-								} ) }
-						>
-							<input
-								type="file"
-								id={ id }
-								name={ name }
-								onChange={ handleChange }
-								className="yst-file-import__input"
-								aria-labelledby={ screenReaderLabel }
-								disabled={ isLoading }
-								// Don't control value here to allow consecutive imports of the same file.
-								value=""
-								{ ...props }
-							/>
-							<Link as="label" htmlFor={ id } className="yst-file-import__select-label">{ selectLabel }</Link>
-							<span>&nbsp;</span>
-							{ dropLabel }
-						</div>
-						{ selectDescription && <span>{ selectDescription }</span> }
-					</div>
-				</div>
+				<FileInput
+					id={ id }
+					name={ name }
+					// Don't control value here to allow consecutive imports of the same file.
+					value=""
+					onChange={ handleChange }
+					className="yst-file-import__input"
+					aria-labelledby={ screenReaderLabel }
+					disabled={ isLoading }
+					selectLabel={ selectLabel }
+					dropLabel={ dropLabel }
+					screenReaderLabel={ screenReaderLabel }
+					selectDescription={ selectDescription }
+				/>
 				<Transition
 					show={ hasFeedback }
 					enter="yst-transition-opacity yst-ease-in-out yst-duration-1000 yst-delay-200"
