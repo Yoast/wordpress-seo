@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Integrations\Third_Party;
 
 use WPSEO_Admin_Asset_Manager;
+use Yoast\WP\SEO\Conditionals\Third_Party\Wordproof_Integration_Active_Conditional;
 use YoastSEO_Vendor\WordProof\SDK\Helpers\CertificateHelper;
 use YoastSEO_Vendor\WordProof\SDK\Helpers\PostMetaHelper;
 use YoastSEO_Vendor\WordProof\SDK\WordPressSDK;
@@ -62,7 +63,11 @@ class Wordproof implements Integration_Interface {
 	 * @return array
 	 */
 	public static function get_conditionals() {
-		return [ Wordproof_Plugin_Inactive_Conditional::class, Non_Multisite_Conditional::class ];
+		return [
+			Wordproof_Plugin_Inactive_Conditional::class,
+			Non_Multisite_Conditional::class,
+			Wordproof_Integration_Active_Conditional::class,
+		];
 	}
 
 	/**
@@ -104,7 +109,7 @@ class Wordproof implements Integration_Interface {
 		\add_filter( 'wordproof_timestamp_post_meta_key_overrides', [ $this, 'add_post_meta_key' ] );
 
 		/**
-		 * Called by the WordProof WordPress SDK to determine if the certficate should be shown.
+		 * Called by the WordProof WordPress SDK to determine if the certificate should be shown.
 		 */
 		\add_filter( 'wordproof_timestamp_show_certificate', [ $this, 'show_certificate' ], 10, 2 );
 
