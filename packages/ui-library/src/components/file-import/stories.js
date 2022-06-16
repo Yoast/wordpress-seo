@@ -104,7 +104,7 @@ EndingInSuccess.args = {
 	children: (
 		<>
 			<FileImport.Success>
-				<Alert variant="success" role="alert">SEO data successfully imported!</Alert>
+				<Alert variant="success" role="alert" className="yst-mb-2">SEO data successfully imported!</Alert>
 				<Alert variant="warning" role="alert">
 					However, there were some slight problems with the following data:
 					<ul className="yst-list-disc yst-ml-4 yst-mt-4 yst-space-y-2">
@@ -135,7 +135,7 @@ EndingInError.args = {
 	children: (
 		<>
 			<FileImport.Success>
-				<Alert variant="success" role="alert">SEO data successfully imported!</Alert>
+				<Alert variant="success" role="alert" className="yst-mb-2">SEO data successfully imported!</Alert>
 				<Alert variant="warning" role="alert">
 					However, there were some slight problems with the following data:
 					<ul className="yst-list-disc yst-ml-4 yst-mt-4 yst-space-y-2">
