@@ -114,10 +114,10 @@ class Redirects implements Integration_Interface {
 	 */
 	public function disable_date_queries() {
 		if ( $this->options->get( 'disable-date', false ) ) {
-			list( $base_url, $query_string ) = \array_pad( \explode( '?', $this->url->recreate_current_url() ), 2, '' );
+			list( $base_url, $query_string ) = \array_pad( \explode( '?', $this->url->recreate_current_url(), 2 ), 2, '' );
 			\parse_str( $query_string, $query_vars );
 			foreach ( $this->date_query_variables as $variable ) {
-				if ( in_array( $variable, array_keys( $query_vars ), true ) ) {
+				if ( \in_array( $variable, \array_keys( $query_vars ), true ) ) {
 					$this->do_date_redirect( $query_vars, $base_url );
 				}
 			}
