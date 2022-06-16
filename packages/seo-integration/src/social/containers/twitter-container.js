@@ -25,7 +25,8 @@ const TwitterEditorContainer = ( { as: Component, ...restProps } ) => {
 	const contentExcerpt = useSelect( select => select( SEO_STORE_NAME ).selectExcerpt() );
 	const socialTitleTemplate = useSelect( select => select( SEO_STORE_NAME ).selectSocialTitleTemplate() );
 	const seoTitle = useSelect( select=> select( SEO_STORE_NAME ).selectSeoTitle() );
-	const { title, titleNoFallback, description } = useSelect( select => select( SEO_STORE_NAME ).selectSeoTemplates() );
+	const seoTitleTemplate = useSelect( select => select( SEO_STORE_NAME ).selectTitleTemplate() );
+	const seoDescriptionTemplate = useSelect( select => select( SEO_STORE_NAME ).selectDescriptionTemplate() );
 
 	const { updateTwitterTitle, updateTwitterDescription } = useDispatch( SEO_STORE_NAME );
 	const socialMediumName = "Twitter";
@@ -44,8 +45,8 @@ const TwitterEditorContainer = ( { as: Component, ...restProps } ) => {
 		recommendedReplacementVariables={ recommendedReplacementVariables }
 		titleInputPlaceholder={ "" }
 		descriptionInputPlaceholder={ "" }
-		descriptionPreviewFallback={ socialDescriptionTemplate || facebookDescription || contentDescription || description || contentExcerpt || "" }
-		titlePreviewFallback={ socialTitleTemplate || facebookTitle || seoTitle || titleNoFallback || title || "" }
+		descriptionPreviewFallback={ socialDescriptionTemplate || facebookDescription || contentDescription || seoTitleTemplate || contentExcerpt || "" }
+		titlePreviewFallback={ socialTitleTemplate || facebookTitle || seoTitle || seoDescriptionTemplate || "" }
 		socialMediumName={ socialMediumName }
 		{ ...restProps }
 	/>;

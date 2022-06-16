@@ -21,7 +21,9 @@ const FacebookEditorContainer = ( { as: Component, ...restProps } ) => {
 	const contentExcerpt = useSelect( select => select( SEO_STORE_NAME ).selectExcerpt() );
 	const socialTitleTemplate = useSelect( select => select( SEO_STORE_NAME ).selectSocialTitleTemplate() );
 	const seoTitle = useSelect( select=> select( SEO_STORE_NAME ).selectSeoTitle() );
-	const { title, titleNoFallback, description } = useSelect( select => select( SEO_STORE_NAME ).selectSeoTemplates() );
+	const seoTitleTemplate = useSelect( select => select( SEO_STORE_NAME ).selectTitleTemplate() );
+	const seoDescriptionTemplate = useSelect( select => select( SEO_STORE_NAME ).selectDescriptionTemplate() );
+
 	const { updateFacebookTitle, updateFacebookDescription } = useDispatch( SEO_STORE_NAME );
 	const socialMediumName = "Facebook";
 
@@ -38,8 +40,8 @@ const FacebookEditorContainer = ( { as: Component, ...restProps } ) => {
 		recommendedReplacementVariables={ recommendedReplacementVariables }
 		titleInputPlaceholder={ "" }
 		descriptionInputPlaceholder={ "" }
-		descriptionPreviewFallback={ socialDescriptionTemplate || contentDescription || description || contentExcerpt || "" }
-		titlePreviewFallback={ socialTitleTemplate || seoTitle || titleNoFallback || title || "" }
+		descriptionPreviewFallback={ socialDescriptionTemplate || contentDescription || seoDescriptionTemplate || contentExcerpt || "" }
+		titlePreviewFallback={ socialTitleTemplate || seoTitle || seoTitleTemplate || "" }
 		socialMediumName={ socialMediumName }
 		{ ...restProps }
 	/>;
