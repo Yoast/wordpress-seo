@@ -1066,4 +1066,9 @@ describe( "Get sentences from texts that have been processed for the keyphrase d
 
 		testGetSentences( testCases );
 	} );
+
+	it("message", ()=>{
+		// const mockpaper = Paper("The reprint was favourably reviewed by \"A. B.\" in The Musical Times in 1935, who commented \"Praise is due to Mr Mercer.");
+		expect( getSentences("The reprint was favourably reviewed by \"A. B.\" in The Musical Times in 1935, who commented \"Praise is due to Mr Mercer.")).toEqual(["The reprint was favourably reviewed by \"A. B.\" in The Musical Times in 1935, who commented \"Praise is due to Mr Mercer."])
+	})
 } );
