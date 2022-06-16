@@ -14,7 +14,7 @@ module.exports = {
 	externals: [ externals, wordPressExternals ],
 	output: {
 		path: path.resolve( "dist", "build" ),
-		filename: "getAnalysisConfiguration.js",
+		filename: "analysis.js",
 		library: [ "yoast", "analysis" ],
 		libraryTarget: "self",
 	},
