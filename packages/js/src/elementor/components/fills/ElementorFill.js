@@ -8,6 +8,7 @@ import PropTypes from "prop-types";
 
 // Internal dependencies.
 import CollapsibleCornerstone from "../../../containers/CollapsibleCornerstone";
+import InsightsModal from "../../../insights/components/insights-modal";
 import Alert from "../../containers/Alert";
 import { KeywordInput, ReadabilityAnalysis, SeoAnalysis } from "@yoast/externals/components";
 import SidebarItem from "../../../components/SidebarItem";
@@ -110,6 +111,9 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 					</SidebarItem> }
 				{ settings.isCornerstoneActive && <SidebarItem renderPriority={ 30 }>
 					<CollapsibleCornerstone />
+				</SidebarItem> }
+				{ settings.isInsightsEnabled && <SidebarItem renderPriority={ 32 }>
+					<InsightsModal location="elementor" />
 				</SidebarItem> }
 			</Fill>
 		</>

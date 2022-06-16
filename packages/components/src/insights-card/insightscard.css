@@ -1,13 +1,20 @@
 /* Cards in Insights panel/modal */
-.yoast-insights-card {
+.yoast-insights-row {
 	margin-top: 24px;
 	border-top: 1px solid rgba(0, 0, 0, 0.1);
 	padding-top: 24px;
 }
 
+.yoast-insights-row--columns {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-gap: 24px;
+
+}
+
 /* Only when Insights is opened in a modal */
 @media(min-width: 782px) {
-	.yoast-modal-content .yoast-insights-card {
+	.yoast-modal-content .yoast-insights-row {
 		margin-top: inherit;
 		border-top: none;
 		padding-top: inherit;
