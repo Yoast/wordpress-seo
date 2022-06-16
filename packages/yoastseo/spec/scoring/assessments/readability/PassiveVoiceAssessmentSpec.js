@@ -4,7 +4,6 @@ import Factory from "../../../specHelpers/factory.js";
 import Mark from "../../../../src/values/Mark.js";
 import DefaultResearcher from "../../../../src/languageProcessing/languages/_default/Researcher";
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
-import wordComplexityAssessment from "../../../../src/scoring/assessments/readability/wordComplexityAssessment";
 
 describe( "An assessment for scoring passive voice.", function() {
 	const paper = new Paper();
@@ -85,7 +84,7 @@ describe( "A test for checking the applicability", function() {
 
 	it( "returns false if the text is too short", function() {
 		const paper = new Paper( "hallo" );
-		expect( wordComplexityAssessment.isApplicable( paper, new DefaultResearcher( paper ) ) ).toBe( false );
+		expect( new PassiveVoiceAssessment().isApplicable( paper, new EnglishResearcher( paper ) ) ).toBe( false );
 	} );
 
 	it( "returns false for isApplicable for an Afrikaans paper with text.", function() {

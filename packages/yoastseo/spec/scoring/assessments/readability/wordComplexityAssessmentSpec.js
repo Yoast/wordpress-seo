@@ -171,6 +171,7 @@ describe( "an assessment returning complex words", function() {
 } );
 
 describe( "tests for the assessment applicability", function() {
+	// Currently always returns false because the assessment is disabled.
 	it( "returns false if there is no text available.", function() {
 		const paper = new Paper( "" );
 		expect( wordComplexityAssessment.isApplicable( paper, new EnglishResearcher( paper ) ) ).toBe( false );
