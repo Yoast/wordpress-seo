@@ -26,6 +26,7 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
  * Class that contains all relevant data for rendering the meta tags.
  *
  * @property string       $canonical
+ * @property string       $permalink
  * @property string       $title
  * @property string       $description
  * @property string       $id
@@ -47,6 +48,7 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
  * @property string       $open_graph_publisher
  * @property string       $twitter_card
  * @property string       $page_type
+ * @property bool         $has_article
  * @property bool         $has_image
  * @property int          $main_image_id
  * @property string       $main_image_url
@@ -80,6 +82,13 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * @var Indexable_Presentation
 	 */
 	public $presentation;
+
+	/**
+	 * Determines whether we have an Article piece. Set to true by the Article piece itself.
+	 *
+	 * @var bool
+	 */
+	public $has_article = false;
 
 	/**
 	 * The options helper.
@@ -214,6 +223,19 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 */
 	public function generate_canonical() {
 		return $this->presentation->canonical;
+	}
+
+	/**
+	 * Generates the permalink.
+	 *
+	 * @return string
+	 */
+	public function generate_permalink() {
+		if ( ! \is_search() ) {
+			return $this->presentation->permalink;
+		}
+
+		return \add_query_arg( 's', \get_search_query(), \trailingslashit( $this->site_url ) );
 	}
 
 	/**
@@ -539,7 +561,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * @return string
 	 */
 	public function generate_main_schema_id() {
-		return $this->canonical . Schema_IDs::WEBPAGE_HASH;
+		return $this->permalink;
 	}
 
 	/**

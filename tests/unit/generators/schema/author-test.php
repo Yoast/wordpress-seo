@@ -175,14 +175,15 @@ class Author_Test extends TestCase {
 			'object_id'   => $user_id,
 		];
 
-		$this->meta_tags_context->canonical = 'http://basic.wordpress.test/author/admin/';
+		$this->meta_tags_context->canonical      = 'http://basic.wordpress.test/author/admin/';
+		$this->meta_tags_context->main_schema_id = 'http://basic.wordpress.test/author/admin/';
 
 		Filters\expectApplied( 'wpseo_schema_person_user_id' );
 
 		$actual = $this->instance->generate();
 
 		$this->assertArrayHasKey( 'mainEntityOfPage', $actual );
-		$this->assertEquals( [ '@id' => 'http://basic.wordpress.test/author/admin/#webpage' ], $actual['mainEntityOfPage'] );
+		$this->assertEquals( [ '@id' => 'http://basic.wordpress.test/author/admin/' ], $actual['mainEntityOfPage'] );
 	}
 
 	/**
