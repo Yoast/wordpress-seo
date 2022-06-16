@@ -31,6 +31,14 @@
 					@apply -yst-translate-y-2 yst-text-primary-400;
 				}
 			}
+
+			&.yst-is-disabled {
+				@apply yst-opacity-50 yst-cursor-not-allowed;
+
+				.yst-file-import__select-label {
+					@apply yst-cursor-not-allowed;
+				}
+			}
 		}
 
 		.yst-file-import__select-content {
@@ -134,10 +142,6 @@
 
 		.yst-file-import__status-icon {
 			@apply yst-h-5 yst-w-5;
-		}
-
-		.yst-file-import__feedback-content {
-			@apply yst-mt-6 yst-space-y-2;
 		}
 	}
 }
