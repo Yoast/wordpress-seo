@@ -30,6 +30,7 @@ class Article extends Abstract_Schema_Piece {
 		}
 
 		if ( $this->context->schema_article_type !== 'None' ) {
+			$this->context->has_article = true;
 			return true;
 		}
 

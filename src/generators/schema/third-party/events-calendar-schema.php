@@ -78,6 +78,9 @@ class Events_Calendar_Schema extends Abstract_Schema_Piece {
 		if ( \count( $data ) === 1 ) {
 			$data                     = $data[0];
 			$data['mainEntityOfPage'] = [ '@id' => $this->context->main_schema_id ];
+			if ( $this->context->has_article ) {
+				$data['mainEntityOfPage'] = [ '@id' => $this->context->main_schema_id . Schema_IDs::ARTICLE_HASH ];
+			}
 		}
 		elseif ( \count( $data ) === 0 ) {
 			$data = false;

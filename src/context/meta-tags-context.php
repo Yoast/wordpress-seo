@@ -48,6 +48,7 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
  * @property string       $open_graph_publisher
  * @property string       $twitter_card
  * @property string       $page_type
+ * @property bool         $has_article
  * @property bool         $has_image
  * @property int          $main_image_id
  * @property string       $main_image_url
@@ -81,6 +82,13 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * @var Indexable_Presentation
 	 */
 	public $presentation;
+
+	/**
+	 * Determines whether we have an Article piece. Set to true by the Article piece itself.
+	 *
+	 * @var bool
+	 */
+	public $has_article = false;
 
 	/**
 	 * The options helper.

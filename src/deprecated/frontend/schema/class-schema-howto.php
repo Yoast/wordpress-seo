@@ -5,6 +5,7 @@
  * @package WPSEO\Frontend\Schema
  */
 
+use Yoast\WP\SEO\Config\Schema_IDs;
 use Yoast\WP\SEO\Generators\Schema\HowTo;
 
 /**
@@ -69,6 +70,10 @@ class WPSEO_Schema_HowTo extends WPSEO_Deprecated_Graph_Piece {
 			'mainEntityOfPage' => [ '@id' => $this->stable->context->main_schema_id ],
 			'description'      => '',
 		];
+
+		if ( $this->stable->context->has_article ) {
+			$data['mainEntityOfPage'] = [ '@id' => $this->stable->context->main_schema_id . Schema_IDs::ARTICLE_HASH ];
+		}
 
 		if ( isset( $block['attrs']['jsonDescription'] ) ) {
 			$data['description'] = $this->helpers->schema->html->sanitize( $block['attrs']['jsonDescription'] );
