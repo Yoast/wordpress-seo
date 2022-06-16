@@ -133,6 +133,7 @@ describe( "a test for getting the initial state of a post or a term", () => {
 	it( "returns the initial state of a term", () => {
 		const actual = getInitialTermState();
 		expect( actual.analysis.config.shouldApplyCornerstoneAnalysis ).toEqual( false );
+		expect( actual.analysis.config.useTaxonomy ).toEqual( true );
 		expect( actual.editor.title ).toEqual( "cat" );
 		expect( actual.editor.permalink ).toEqual( "www.example.com/categories" );
 		expect( actual.editor.content ).toEqual( "This is to describe a cat, that deserves only good attributes to them." );

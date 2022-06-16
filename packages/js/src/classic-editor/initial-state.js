@@ -80,6 +80,7 @@ export const getInitialTermState = () => ( {
 	analysis: {
 		config: {
 			analysisType: "term",
+			useTaxonomy: true,
 			isSeoActive: isSeoAnalysisActive(),
 			isReadabilityActive: isReadabilityAnalysisActive(),
 			shouldApplyCornerstoneAnalysis: dom.getTermIsCornerstone(),

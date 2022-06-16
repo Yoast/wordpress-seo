@@ -1,22 +1,23 @@
 @layer components {
-	.yst-title {
-		@apply yst-text-gray-900 yst-font-medium;
-	}
+	.yst-root {
+		.yst-title {
+			@apply yst-text-gray-900 yst-font-medium;
+		}
 
-	.yst-title--1 {
-		@apply yst-text-2xl;
-	}
+		.yst-title--1 {
+			@apply yst-text-2xl;
+		}
 
-	.yst-title--2 {
-		@apply yst-text-lg;
-	}
+		.yst-title--2 {
+			@apply yst-text-lg;
+		}
 
-	.yst-title--3 {
-		@apply yst-text-sm;
-	}
+		.yst-title--3 {
+			@apply yst-text-sm;
+		}
 
-	.yst-title--4 {
-		@apply yst-text-base;
+		.yst-title--4 {
+			@apply yst-text-base;
+		}
 	}
 }
-
