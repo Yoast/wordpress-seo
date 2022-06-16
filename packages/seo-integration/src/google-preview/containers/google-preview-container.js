@@ -46,11 +46,11 @@ const useBaseUrl = ( permalink, slug ) => {
  * @returns {JSX.Element} A wrapped Google preview component.
  */
 const GooglePreviewContainer = ( { as: Component, ...restProps } ) => {
-	const titleTemplate = useSelect( select => select( SEO_STORE_NAME ).selectTitleTemplate() );
-	const descriptionTemplate = useSelect( select => select( SEO_STORE_NAME ).selectDescriptionTemplate() );
-	// Assign the templates as the fallback for SEO title and description inside snippet editor if the data from the store is empty.
-	const title = useSelect( select => select( SEO_STORE_NAME ).selectSeoTitle() ) || titleTemplate;
-	const description = useSelect( select => select( SEO_STORE_NAME ).selectMetaDescription() ) || descriptionTemplate;
+	/*
+	 * The seoTitle and metaDescription retrieved from `selectPaper()` also returns the fallback from the template
+	 * if the SEO title or meta description is empty.
+	 */
+	const { seoTitle: title, metaDescription: description } = useSelect( select => select( SEO_STORE_NAME ).selectPaper() );
 	const slug = useSelect( select => select( SEO_STORE_NAME ).selectSlug() );
 	const date = useSelect( select => select( SEO_STORE_NAME ).selectFormattedDate() );
 	const focusKeyphrase = useSelect( select => select( SEO_STORE_NAME ).selectKeyphrase() );
