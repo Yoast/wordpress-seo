@@ -223,6 +223,6 @@ export default class ParagraphTooLongAssessment extends Assessment {
 	 * @returns {boolean} Returns true if the assessment is applicable to the paper.
 	 */
 	isApplicable( paper ) {
-		return paper.hasText();
+		return this.hasEnoughContentForAssessment( paper );
 	}
 }

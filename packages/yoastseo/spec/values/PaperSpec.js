@@ -164,4 +164,28 @@ describe( "Paper", function() {
 			expect( paper1.equals( paper2 ) ).toBe( false );
 		} );
 	} );
+
+	describe( "hasText", function() {
+		it( "should return true if contains raw text", function() {
+			const paper = new Paper( "This is a test" );
+			expect( paper.hasText() ).toBeTruthy();
+		} );
+		it( "should return true if contains text with html tags", function() {
+			const paper = new Paper( "<h1>This is a title</h1><p>This is a paragraph</p>" );
+			expect( paper.hasText() ).toBeTruthy();
+		} );
+		it( "should return true if contains only html tag", function() {
+			// eslint-disable-next-line max-len
+			const paper = new Paper( "<img src=\"https://yoast.com/cdn-cgi/image/width=466%2Cheight=244%2Cfit=crop%2Cf=auto%2Conerror=redirect//app/uploads/2017/12/Focus_keyword_FI.jpg\">" );
+			expect( paper.hasText() ).toBeTruthy();
+		} );
+		it( "should return true if contains a string of spaces", function() {
+			const paper = new Paper( "        " );
+			expect( paper.hasText() ).toBeTruthy();
+		} );
+		it( "should return false paper is empty string", function() {
+			const paper = new Paper( "" );
+			expect( paper.hasText() ).toBeFalsy();
+		} );
+	} );
 } );

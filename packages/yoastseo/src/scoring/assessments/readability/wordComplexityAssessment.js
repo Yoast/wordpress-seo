@@ -7,6 +7,7 @@ import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import removeSentenceTerminators from "../../../languageProcessing/helpers/sanitize/removeSentenceTerminators";
 import AssessmentResult from "../../../values/AssessmentResult";
 import Mark from "../../../values/Mark";
+import { sanitizeString } from "../../../languageProcessing";
 
 // The maximum recommended value is 3 syllables. With more than 3 syllables a word is considered complex.
 const recommendedValue = 3;
@@ -183,13 +184,20 @@ const wordComplexityAssessment = function( paper, researcher ) {
 /**
  * Checks whether the paper has text.
  *
- * @param {Paper}       paper       The paper to use for the assessment.
- * @param {Researcher}  researcher  The researcher object.
+ * @param {Paper}       paper       				The paper to use for the assessment.
+ * @param {Researcher}  researcher  				The researcher object.
+ * @param {number}		contentNeededForAssessment	The minimum amount of characters that is required for this research to be applicable.
  *
  * @returns {boolean} True when there is text.
  */
-const isApplicable = function( paper, researcher ) {
-	return paper.hasText() && researcher.hasResearch( "wordComplexity" );
+const isApplicable = function( paper, researcher, contentNeededForAssessment = 50 ) {
+	/*
+	 Note: this code contains repetition from yoastseo/src/scoring/assessments/assessment.js.
+	 If FleshReadingEase is refactored to a class that extends Assessment,
+	 use this.hasEnoughContentForAssessment( paper ) instead of text.length >= contentNeededForAssessment
+	*/
+	const text = sanitizeString( paper.getText() );
+	return text.length >= contentNeededForAssessment && researcher.hasResearch( "wordComplexity" );
 };
 
 export default {
