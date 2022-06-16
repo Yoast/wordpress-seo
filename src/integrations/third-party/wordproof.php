@@ -195,7 +195,16 @@ class Wordproof implements Integration_Interface {
 	 */
 	public function enqueue_assets() {
 		if ( CertificateHelper::show() ) {
-			$this->asset_manager->enqueue_script( 'wordproof-uikit' );
+			$flat_version = $this->asset_manager->flatten_version( WPSEO_VERSION );
+			
+			$script = new \WPSEO_Admin_Asset( [
+				'name' => 'wordproof-uikit',
+				'src' => 'wordproof-uikit.js',
+				'version' => $flat_version]
+			);
+
+			$this->asset_manager->register_script( $script );
+			$this->asset_manager->enqueue_script('wordproof-uikit');
 		}
 	}
 
