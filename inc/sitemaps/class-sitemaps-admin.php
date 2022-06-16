@@ -100,6 +100,10 @@ class WPSEO_Sitemaps_Admin {
 
 		// Ping Google about our sitemap change.
 		wp_remote_get( 'https://www.google.com/ping?sitemap=' . $url, [ 'blocking' => false ] );
+
+		if ( ! defined( 'WPSEO_PREMIUM_FILE' ) || WPSEO_Options::get( 'enable_index_now' ) === false ) {
+			wp_remote_get( 'https://www.bing.com/ping?sitemap=' . $url, [ 'blocking' => false ] );
+		}
 	}
 
 	/**
