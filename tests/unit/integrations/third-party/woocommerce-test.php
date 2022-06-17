@@ -451,10 +451,7 @@ class WooCommerce_Test extends TestCase {
 	public function test_canonical_on_paginated_shop_page() {
 		$presentation = Mockery::mock( Indexable_Presentation::class );
 
-		$presentation
-			->expects( 'get_permalink' )
-			->once()
-			->andReturn( 'https://example.com/permalinkg/' );
+		$presentation->permalink = 'https://example.com/permalink/';
 
 		$this->pagination_helper
 			->expects( 'get_current_archive_page_number' )
@@ -482,10 +479,7 @@ class WooCommerce_Test extends TestCase {
 	public function test_canonical_on_non_paginated_shop_page() {
 		$presentation = Mockery::mock( Indexable_Presentation::class );
 
-		$presentation
-			->expects( 'get_permalink' )
-			->once()
-			->andReturn( 'https://example.com/permalink/' );
+		$presentation->permalink = 'https://example.com/permalink/';
 
 		$this->pagination_helper
 			->expects( 'get_current_archive_page_number' )
@@ -532,10 +526,7 @@ class WooCommerce_Test extends TestCase {
 			->once()
 			->andReturnTrue();
 
-		$presentation
-			->expects( 'get_permalink' )
-			->once()
-			->andReturn( null );
+		$presentation->permalink = null;
 
 		$actual = $this->instance->canonical( 'https://example.com/permalink/', $presentation );
 

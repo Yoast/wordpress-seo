@@ -33,6 +33,18 @@ function testGetSentences( testCases ) {
 }
 
 describe( "Get sentences from text", function() {
+	it( "does not split sentences ending on a quotation mark without a preceding period", function() {
+		const sentence = "Hello. \"How are you\" Bye";
+		expect( getSentences( sentence ) ).toEqual( [ "Hello.", "\"How are you\" Bye" ] );
+	} );
+	it( "splits sentences ending on a quotation mark preceded by a period", function() {
+		const sentence = "Hello. \"How are you.\" Bye";
+		expect( getSentences( sentence ) ).toEqual( [ "Hello.", "\"How are you.\"", "Bye" ] );
+	} );
+	it( "splits sentences ending on a quotation mark followed by a period", function() {
+		const sentence = "Hello. \"How are you\". Bye";
+		expect( getSentences( sentence ) ).toEqual( [ "Hello.", "\"How are you\".", "Bye" ] );
+	} );
 	it( "returns sentences", function() {
 		const sentence = "Hello. How are you? Bye";
 		expect( getSentences( sentence ) ).toEqual( [ "Hello.", "How are you?", "Bye" ] );

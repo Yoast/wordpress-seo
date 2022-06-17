@@ -25,7 +25,7 @@ const blockEndRegex = /^\s*[\])}]\s*$/;
 const abbreviationsPreparedForRegex = abbreviations.map( ( abbreviation ) => abbreviation.replace( ".", "\\." ) );
 const abbreviationsRegex = createRegexFromArray( abbreviationsPreparedForRegex );
 
-const wordBoundariesForRegex = "[" + wordBoundaries().map( ( boundary ) => "\\" + boundary ).join( "" ) + "]";
+const wordBoundariesForRegex = "(^|[" + wordBoundaries().map( ( boundary ) => "\\" + boundary ).join( "" ) + "])";
 const lastCharacterPartOfInitialsRegex = new RegExp( wordBoundariesForRegex + "[A-Za-z]$" );
 
 /**
@@ -42,7 +42,7 @@ export default class SentenceTokenizer {
          * \u06D4 - Urdu full stop.
          * \u061f - Arabic question mark.
         */
-		this.sentenceDelimiters = "?!\u2026\u06d4\u061f";
+		this.sentenceDelimiters = "”〞〟„』\"?!\u2026\u06d4\u061f";
 	}
 
 	/**
@@ -85,6 +85,15 @@ export default class SentenceTokenizer {
 
 		return "'" === character ||
 			"\"" === character;
+	}
+
+	/**
+	 * A mock definition of this function. This function is only used in extensions for languages that use an ordinal dot.
+	 *
+	 * @returns {boolean} Always returns false as it is a language specific implementation if a language has an ordinal dot.
+	 */
+	endsWithOrdinalDot() {
+		return false;
 	}
 
 	/**
@@ -450,12 +459,16 @@ export default class SentenceTokenizer {
 						"block-end" !== nextToken.type &&
 						"sentence-delimiter" !== nextToken.type &&
 						this.isCharacterASpace( nextToken.src[ 0 ] ) ) {
+						// Don't split on quotation marks unless they're preceded by a full stop.
+						if ( this.isQuotation( token.src ) && previousToken.src !== "." ) {
+							break;
+						}
 						/*
-				         * Only split on ellipsis when:
+				         * Only split on ellipsis or quotation marks when:
 					     * a) There is a next sentence, and the next character is a valid sentence beginning preceded by a white space, OR
 					     * b) The next token is a sentence start
 					    */
-						if ( token.src === "…" ) {
+						if ( token.src === "…" || token.src === "\"" ) {
 							currentSentence = this.getValidSentence( hasNextSentence,
 								nextSentenceStart,
 								nextCharacters,
@@ -491,6 +504,14 @@ export default class SentenceTokenizer {
 					if ( this.isPartOfPersonInitial( token, previousToken, nextToken, secondToNextToken ) ) {
 						break;
 					}
+
+					// If the full stop is an ordinal dot (in German), then don't break the sentence.
+					// This check should be done after  hasNextSentence && this.isNumber( nextCharacters[ 0 ] ) (above).
+					// Because otherwise it could break before that test.
+					if ( this.endsWithOrdinalDot( currentSentence ) ) {
+						break;
+					}
+
 					/*
 					 * Only split on full stop when:
 					 * a) There is a next sentence, and the next character is a valid sentence beginning preceded by a white space, OR

@@ -46,10 +46,10 @@ trait Archive_Adjacent {
 		}
 		// Check if the previous page is the first page.
 		if ( $current_page === 2 ) {
-			return $this->get_permalink();
+			return $this->permalink;
 		}
 
-		return $this->pagination->get_paginated_url( $this->get_permalink(), ( $current_page - 1 ) );
+		return $this->pagination->get_paginated_url( $this->permalink, ( $current_page - 1 ) );
 	}
 
 	/**
@@ -67,6 +67,6 @@ trait Archive_Adjacent {
 			return '';
 		}
 
-		return $this->pagination->get_paginated_url( $this->get_permalink(), ( $current_page + 1 ) );
+		return $this->pagination->get_paginated_url( $this->permalink, ( $current_page + 1 ) );
 	}
 }

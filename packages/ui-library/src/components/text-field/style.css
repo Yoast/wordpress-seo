@@ -1,29 +1,27 @@
 @layer components {
-	.yst-text-field {
+	.yst-root {
+		.yst-text-field__input--error {
+			@apply yst-pr-9 yst-border-red-300 yst-text-red-900 focus:yst-ring-red-500 focus:yst-border-red-500;
+		}
 
-	}
+		.yst-text-field__label {
+			@apply yst-flex yst-items-center yst-mb-2;
+		}
 
-	.yst-text-field__input--error {
-		@apply yst-pr-9 yst-border-red-300 yst-text-red-900 focus:yst-ring-red-500 focus:yst-border-red-500;
-	}
+		.yst-text-field__description {
+			@apply yst-mt-2;
+		}
 
-	.yst-text-field__label {
-		@apply yst-flex yst-items-center yst-mb-2;
-	}
+		.yst-text-field__error-icon {
+			@apply yst-flex yst-shrink-0 yst-grow-0 yst-items-center yst-absolute yst-inset-y-0 yst-right-0 yst-mr-3;
+		}
 
-	.yst-text-field__description {
-		@apply yst-mt-2;
-	}
+		.yst-text-field__error-icon > svg {
+			@apply yst-pointer-events-none yst-h-5 yst-w-5 yst-text-red-500;
+		}
 
-	.yst-text-field__error-icon {
-		@apply yst-flex yst-shrink-0 yst-grow-0 yst-items-center yst-absolute yst-inset-y-0 yst-right-0 yst-mr-3;
-	}
-
-	.yst-text-field__error-icon > svg {
-		@apply yst-pointer-events-none yst-h-5 yst-w-5 yst-text-red-500;
-	}
-
-	.yst-text-field__error {
-		@apply yst-mt-2 yst-text-sm yst-text-red-600;
+		.yst-text-field__error {
+			@apply yst-mt-2 yst-text-sm yst-text-red-600;
+		}
 	}
 }

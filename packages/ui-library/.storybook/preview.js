@@ -1,6 +1,5 @@
-import "./style.css";
-
 import Root from "../src/components/root";
+import "./style.css";
 
 export const globalTypes = {
 	dir: {
@@ -17,7 +16,7 @@ export const globalTypes = {
 			],
 		},
 	},
-  };
+};
 
 export const parameters = {
 	viewMode: "docs",

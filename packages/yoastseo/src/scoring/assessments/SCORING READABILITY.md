@@ -20,6 +20,8 @@
 ## 2) Paragraph length
 **What it does**: Checks whether the paragraphs exceed the recommended maximum length
 
+**When applies**: When the text (cleaned with sanitizeText) has more than 50 characters. This is tied to the TextPresenceAssessment.
+
 **Name in code**: ParagraphTooLongAssessment
 
 **Title URL**: [https://yoa.st/35d](https://yoast.com/paragraph-length-check/#utm_source=yoast-seo&utm_medium=software&utm_term=paragraph-length-name&utm_content=content-analysis) (link placement is in bold in the feedback strings)
@@ -34,6 +36,8 @@
 
 ## 3) Sentence length
 **What it does**: Checks whether the sentences exceed the recommended maximum length (default: 20 words, IT: 25 words, RU: 15 words, HE: 15 words, TR: 15 words)
+
+**When applies**: When the text (cleaned with sanitizeText) has more than 50 characters. This is tied to the TextPresenceAssessment.
 
 **Name in code**: SentenceLengthInTextAssessment
 
@@ -50,6 +54,8 @@
 ## 4) Consecutive sentences
 **What it does**: Checks whether there are more than 3 sentences in a row that start with the same word
 
+**When applies**: When the text (cleaned with sanitizeText) has more than 50 characters (this is tied to the TextPresenceAssessment), and the research has a result.
+
 **Name in code**: SentenceBeginningsAssessment
 
 **Title URL**: [https://yoa.st/35f](https://yoast.com/consecutive-sentences-check-yoast-seo/#utm_source=yoast-seo&utm_medium=software&utm_term=sentence-beginnings-name&utm_content=content-analysis) (link placement is in bold in the feedback strings)
@@ -63,6 +69,8 @@
 
 ## 5) Passive voice
 **What it does**: Checks whether the number of sentences containing passive voice exceeds the recommended maximum amount
+
+**When applies**: When the text (cleaned with sanitizeText) has more than 50 characters (this is tied to the TextPresenceAssessment), and the assessment is supported in the specific language (the researcher has a research).
 
 **Name in code**: PassiveVoiceAssessment
 
@@ -95,6 +103,8 @@
 
 ## 7) Flesch Reading Ease
 **What it does**: Checks how easy to read the text is according to the Flesch Reading Ease test
+
+**When applies**: When the text (cleaned with sanitizeText) has more than 50 characters (this is tied to the TextPresenceAssessment), , and the assessment is supported in the specific language (the researcher has a research).
 
 **Name in code**: FleschReadingEaseAssessment
 

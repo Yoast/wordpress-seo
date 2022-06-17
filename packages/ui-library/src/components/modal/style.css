@@ -1,22 +1,23 @@
 @layer components {
-	.yst-modal {
-		@apply yst-fixed yst-inset-0 yst-z-10 yst-overflow-y-auto;
-	}
+	.yst-root {
+		.yst-modal {
+			@apply yst-fixed yst-inset-0 yst-z-10 yst-overflow-y-auto;
+		}
 
-	.yst-modal__body {
-		@apply yst-min-h-screen yst-px-4 yst-text-center;
-	}
+		.yst-modal__body {
+			@apply yst-min-h-screen yst-px-4 yst-text-center;
+		}
 
-	.yst-modal__overlay {
-		@apply yst-fixed yst-inset-0 yst-bg-gray-500 yst-bg-opacity-75 yst-transition-opacity;
-	}
+		.yst-modal__overlay {
+			@apply yst-fixed yst-inset-0 yst-bg-gray-500 yst-bg-opacity-75 yst-transition-opacity;
+		}
 
-	.yst-modal__center {
-		@apply yst-inline-block yst-h-screen yst-align-middle;
-	}
+		.yst-modal__center {
+			@apply yst-inline-block yst-h-screen yst-align-middle;
+		}
 
-	.yst-modal__content {
-		@apply
+		.yst-modal__content {
+			@apply
 			yst-inline-block
 			yst-w-full
 			yst-max-w-lg
@@ -31,14 +32,14 @@
 			yst-shadow-xl
 			yst-transform
 			yst-transition-all;
-	}
+		}
 
-	.yst-modal__close {
-		@apply yst-block yst-absolute yst-top-4 yst-right-4;
-	}
+		.yst-modal__close {
+			@apply yst-block yst-absolute yst-top-4 yst-right-4;
+		}
 
-	.yst-modal__close-button {
-		@apply
+		.yst-modal__close-button {
+			@apply
 			yst-bg-white
 			yst-text-gray-400
 			yst-rounded-md
@@ -47,5 +48,6 @@
 			focus:yst-ring-2
 			focus:yst-ring-offset-2
 			focus:yst-ring-indigo-500;
+		}
 	}
 }

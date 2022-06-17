@@ -9,6 +9,8 @@ import transitionWords from "./config/transitionWords";
 import twoPartTransitionWords from "./config/twoPartTransitionWords";
 import syllables from "./config/syllables.json";
 import keyphraseLength from "./config/keyphraseLength";
+import memoizedTokenizer from "./helpers/memoizedSentenceTokenizer";
+
 
 // All helpers
 import getClauses from "./helpers/getClauses";
@@ -43,6 +45,7 @@ export default class Researcher extends AbstractResearcher {
 			getClauses,
 			getStemmer,
 			fleschReadingScore,
+			memoizedTokenizer,
 		} );
 	}
 }

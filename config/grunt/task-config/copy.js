@@ -53,6 +53,7 @@ module.exports = {
 					"lib/**",
 					"vendor/**",
 					"vendor_prefixed/**/*.php",
+					"vendor_prefixed/wordproof/wordpress-sdk/build/**/*.js",
 					"index.php",
 					"license.txt",
 					"readme.txt",
