@@ -101,6 +101,7 @@ class WebPage_Test extends TestCase {
 		// Set some values that are used in multiple tests.
 		$this->meta_tags_context->schema_page_type = [ 'WebPage' ];
 		$this->meta_tags_context->canonical        = 'https://example.com/the-post/';
+		$this->meta_tags_context->main_schema_id   = 'https://example.com/the-post/';
 		$this->meta_tags_context->title            = 'the-title';
 		$this->meta_tags_context->description      = '';
 		$this->meta_tags_context->site_url         = 'https://example.com/';
@@ -115,7 +116,6 @@ class WebPage_Test extends TestCase {
 			'object_sub_type' => 'page',
 		];
 
-		$this->id->webpage_hash = '#webpage';
 		$this->id->website_hash = '#website';
 	}
 
@@ -227,7 +227,7 @@ class WebPage_Test extends TestCase {
 
 		$expected = [
 			'@type'           => [ 'WebPage' ],
-			'@id'             => 'https://example.com/the-post/#webpage',
+			'@id'             => 'https://example.com/the-post/',
 			'url'             => 'https://example.com/the-post/',
 			'name'            => 'the-title',
 			'isPartOf'        => [
@@ -268,7 +268,7 @@ class WebPage_Test extends TestCase {
 
 		$expected = [
 			'@type'           => [ 'WebPage' ],
-			'@id'             => 'https://example.com/the-post/#webpage',
+			'@id'             => 'https://example.com/the-post/',
 			'url'             => 'https://example.com/the-post/',
 			'name'            => 'the-title',
 			'isPartOf'        => [
@@ -316,7 +316,7 @@ class WebPage_Test extends TestCase {
 
 		$expected = [
 			'@type'           => [ 'WebPage' ],
-			'@id'             => 'https://example.com/the-post/#webpage',
+			'@id'             => 'https://example.com/the-post/',
 			'url'             => 'https://example.com/the-post/',
 			'name'            => 'the-title',
 			'isPartOf'        => [
@@ -369,7 +369,7 @@ class WebPage_Test extends TestCase {
 
 		$expected = [
 			'@type'           => [ 'WebPage' ],
-			'@id'             => 'https://example.com/the-post/#webpage',
+			'@id'             => 'https://example.com/the-post/',
 			'url'             => 'https://example.com/the-post/',
 			'name'            => 'the-title',
 			'isPartOf'        => [
@@ -417,7 +417,7 @@ class WebPage_Test extends TestCase {
 
 		$expected = [
 			'@type'           => [ 'WebPage' ],
-			'@id'             => 'https://example.com/the-post/#webpage',
+			'@id'             => 'https://example.com/the-post/',
 			'url'             => 'https://example.com/the-post/',
 			'name'            => 'the-title',
 			'isPartOf'        => [
@@ -462,7 +462,7 @@ class WebPage_Test extends TestCase {
 
 		$expected = [
 			'@type'           => 'CollectionPage',
-			'@id'             => 'https://example.com/the-post/#webpage',
+			'@id'             => 'https://example.com/the-post/',
 			'url'             => 'https://example.com/the-post/',
 			'name'            => 'the-title',
 			'isPartOf'        => [
@@ -503,7 +503,7 @@ class WebPage_Test extends TestCase {
 
 		$expected = [
 			'@type'           => 'CollectionPage',
-			'@id'             => 'https://example.com/the-post/#webpage',
+			'@id'             => 'https://example.com/the-post/',
 			'url'             => 'https://example.com/the-post/',
 			'name'            => 'the-title',
 			'datePublished'   => '2345-12-12 12:12:12',
@@ -559,7 +559,7 @@ class WebPage_Test extends TestCase {
 				],
 				'expected'       => [
 					'@type'           => [ 'WebPage' ],
-					'@id'             => 'https://example.com/the-post/#webpage',
+					'@id'             => 'https://example.com/the-post/',
 					'url'             => 'https://example.com/the-post/',
 					'name'            => 'the-title',
 					'isPartOf'        => [
@@ -584,7 +584,7 @@ class WebPage_Test extends TestCase {
 				],
 				'expected'       => [
 					'@type'              => [ 'WebPage' ],
-					'@id'                => 'https://example.com/the-post/#webpage',
+					'@id'                => 'https://example.com/the-post/',
 					'url'                => 'https://example.com/the-post/',
 					'name'               => 'the-title',
 					'isPartOf'           => [
@@ -610,7 +610,7 @@ class WebPage_Test extends TestCase {
 				],
 				'expected'       => [
 					'@type'           => [ 'WebPage' ],
-					'@id'             => 'https://example.com/the-post/#webpage',
+					'@id'             => 'https://example.com/the-post/',
 					'url'             => 'https://example.com/the-post/',
 					'name'            => 'the-title',
 					'isPartOf'        => [

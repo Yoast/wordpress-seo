@@ -281,6 +281,18 @@ describe( "An assessment for sentence length", function() {
 		const assessment = new SentenceLengthInTextAssessment().isApplicable( mockPaper );
 		expect( assessment ).toBe( false );
 	} );
+
+	it( "returns false if the text is too short", function() {
+		const paper = new Paper( "hallo" );
+		const assessment = new SentenceLengthInTextAssessment().isApplicable( paper );
+		expect( assessment ).toBe( false );
+	} );
+
+	it( "returns true if the text is long enough", function() {
+		const paper = new Paper( "hallo".repeat( 100 ) );
+		const assessment = new SentenceLengthInTextAssessment().isApplicable( paper );
+		expect( assessment ).toBe( true );
+	} );
 } );
 
 describe( "A test for getting the right scoring config", function() {

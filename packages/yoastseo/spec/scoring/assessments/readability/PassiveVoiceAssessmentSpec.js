@@ -68,8 +68,23 @@ describe( "An assessment for scoring passive voice.", function() {
 
 describe( "A test for checking the applicability", function() {
 	it( "returns true for isApplicable for an English paper with text.", function() {
-		const paper = new Paper( "This is a very interesting paper.", { locale: "en_US" } );
+		const paper = new Paper( "This is a very interesting paper. With at least 50 characters.", { locale: "en_US" } );
 		expect( new PassiveVoiceAssessment().isApplicable( paper, new EnglishResearcher( paper ) ) ).toBe( true );
+	} );
+
+	it( "should return false for isApplicable for a paper with only an image.", function() {
+		const paper = new Paper( "<img src='https://example.com/image.png' alt='test'>" );
+		expect( new PassiveVoiceAssessment().isApplicable( paper, new EnglishResearcher( paper ) ) ).toBe( false );
+	} );
+
+	it( "should return false for isApplicable for a paper with only spaces.", function() {
+		const paper = new Paper( "        " );
+		expect( new PassiveVoiceAssessment().isApplicable( paper, new EnglishResearcher( paper ) ) ).toBe( false );
+	} );
+
+	it( "returns false if the text is too short", function() {
+		const paper = new Paper( "hallo" );
+		expect( new PassiveVoiceAssessment().isApplicable( paper, new EnglishResearcher( paper ) ) ).toBe( false );
 	} );
 
 	it( "returns false for isApplicable for an Afrikaans paper with text.", function() {

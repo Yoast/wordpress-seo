@@ -171,13 +171,24 @@ describe( "an assessment returning complex words", function() {
 } );
 
 describe( "tests for the assessment applicability", function() {
+	// Currently always returns false because the assessment is disabled.
 	it( "returns false if there is no text available.", function() {
 		const paper = new Paper( "" );
 		expect( wordComplexityAssessment.isApplicable( paper, new EnglishResearcher( paper ) ) ).toBe( false );
 	} );
 
-	it( "returns false by default because the word complexity assessment is currently disabled", function() {
+	it( "returns false if the text is too short", function() {
 		const paper = new Paper( "hallo" );
+		expect( wordComplexityAssessment.isApplicable( paper, new DefaultResearcher( paper ) ) ).toBe( false );
+	} );
+
+	it( "should return false for isApplicable for a paper with only an image.", function() {
+		const paper = new Paper( "<img src='https://example.com/image.png' alt='test'>" );
+		expect( wordComplexityAssessment.isApplicable( paper, new DefaultResearcher( paper ) ) ).toBe( false );
+	} );
+
+	it( "should return false for isApplicable for a paper with only spaces.", function() {
+		const paper = new Paper( "        " );
 		expect( wordComplexityAssessment.isApplicable( paper, new DefaultResearcher( paper ) ) ).toBe( false );
 	} );
 } );

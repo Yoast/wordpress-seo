@@ -83,7 +83,7 @@ class SentenceLengthInTextAssessment extends Assessment {
 	 * @returns {boolean} True when there is text.
 	 */
 	isApplicable( paper ) {
-		return paper.hasText();
+		return this.hasEnoughContentForAssessment( paper );
 	}
 
 	/**
