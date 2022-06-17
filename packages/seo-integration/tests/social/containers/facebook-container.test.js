@@ -28,6 +28,8 @@ describe( "The FacebookContainer components", () => {
 			selectExcerpt: jest.fn( () => "An excerpt about cat story." ),
 			selectSocialTitleTemplate: jest.fn( () => "Cat blogs: A story about cats on social Media" ),
 			selectSeoTitle: jest.fn( () => "Cat blogs: A story about cats" ),
+			selectTitleTemplate: jest.fn( () => "A title templates for all beautiful things that are cats" ),
+			selectDescriptionTemplate: jest.fn( () => "A description template" ),
 		} );
 
 		const updateFacebookTitle = jest.fn();

@@ -34,11 +34,11 @@ export const getInitialPostState = () => ( {
 	},
 	form: {
 		seo: {
-			title: dom.getPostSeoTitle() ||
-				window.wpseoScriptData.metabox.title_template_no_fallback ||
-				window.wpseoScriptData.metabox.title_template,
-			description: dom.getPostMetaDescription() || window.wpseoScriptData.metabox.metadesc_template,
+			title: dom.getPostSeoTitle(),
+			description: dom.getPostMetaDescription(),
 			slug: dom.getPostSlug(),
+			titleTemplate: window.wpseoScriptData.metabox.title_template,
+			descriptionTemplate: window.wpseoScriptData.metabox.metadesc_template,
 		},
 		keyphrases: {
 			[ FOCUS_KEYPHRASE_ID ]: {
@@ -94,11 +94,11 @@ export const getInitialTermState = () => ( {
 	},
 	form: {
 		seo: {
-			title: dom.getTermSeoTitle() ||
-				window.wpseoScriptData.metabox.title_template_no_fallback ||
-				window.wpseoScriptData.metabox.title_template,
-			description: dom.getTermMetaDescription() || window.wpseoScriptData.metabox.metadesc_template,
+			title: dom.getTermSeoTitle(),
+			description: dom.getTermMetaDescription(),
 			slug: dom.getTermSlug(),
+			titleTemplate: window.wpseoScriptData.metabox.title_template,
+			descriptionTemplate: window.wpseoScriptData.metabox.metadesc_template,
 		},
 		keyphrases: {
 			[ FOCUS_KEYPHRASE_ID ]: {

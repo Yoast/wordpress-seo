@@ -12,7 +12,7 @@ import { useReplacementVariables } from "../../hooks/useReplacementVariables";
  * @param {string} permalink    The permalink.
  * @param {string} slug         The slug.
  *
- * @returns {string} The base URL.
+ * @returns {string} The base URL: the url part without the slug.
  */
 const useBaseUrl = ( permalink, slug ) => {
 	return useMemo( () => {
@@ -22,7 +22,7 @@ const useBaseUrl = ( permalink, slug ) => {
 			url = new URL( permalink );
 			baseUrl = url.href;
 		} catch ( e ) {
-			// Fallback on current href
+			// Fallback on current href.
 			baseUrl = window.location.href;
 		}
 
@@ -40,14 +40,17 @@ const useBaseUrl = ( permalink, slug ) => {
 /**
  * Handles known data for a Google preview component.
  *
- * @param {JSX.Element} as A Google preview component.
- * @param {Object} restProps Props to pass to the Google preview component, that are unhandled by this container.
+ * @param {JSX.Element} as      A Google preview component.
+ * @param {Object} restProps    Props to pass to the Google preview component, that are unhandled by this container.
  *
  * @returns {JSX.Element} A wrapped Google preview component.
  */
 const GooglePreviewContainer = ( { as: Component, ...restProps } ) => {
-	const title = useSelect( select => select( SEO_STORE_NAME ).selectSeoTitle() );
-	const description = useSelect( select => select( SEO_STORE_NAME ).selectMetaDescription() );
+	/*
+	 * The seoTitle and metaDescription retrieved from `selectPaper()` also returns the fallback from the template
+	 * if the SEO title or meta description is empty.
+	 */
+	const { seoTitle: title, metaDescription: description } = useSelect( select => select( SEO_STORE_NAME ).selectPaper() );
 	const slug = useSelect( select => select( SEO_STORE_NAME ).selectSlug() );
 	const date = useSelect( select => select( SEO_STORE_NAME ).selectFormattedDate() );
 	const focusKeyphrase = useSelect( select => select( SEO_STORE_NAME ).selectKeyphrase() );

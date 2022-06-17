@@ -8,6 +8,8 @@ describe( "Seo slice", () => {
 		title: "",
 		description: "",
 		slug: "",
+		titleTemplate: "",
+		descriptionTemplate: "",
 	};
 
 	describe( "Reducer", () => {
@@ -45,6 +47,27 @@ describe( "Seo slice", () => {
 			expect( result ).toEqual( {
 				...initialState,
 				slug: "test",
+			} );
+		} );
+		test( "should update the title template", () => {
+			const { updateTitleTemplate } = seoActions;
+
+			const result = seoReducer( initialState, updateTitleTemplate( "Catfluencer on the internet" ) );
+
+			expect( result ).toEqual( {
+				...initialState,
+				titleTemplate: "Catfluencer on the internet",
+			} );
+		} );
+
+		test( "should update the description", () => {
+			const { updateDescriptionTemplate } = seoActions;
+
+			const result = seoReducer( initialState, updateDescriptionTemplate( "How to be a purr-fect catfluencer on the internet." ) );
+
+			expect( result ).toEqual( {
+				...initialState,
+				descriptionTemplate: "How to be a purr-fect catfluencer on the internet.",
 			} );
 		} );
 	} );

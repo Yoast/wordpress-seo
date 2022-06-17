@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import { useDispatch, useSelect } from "@wordpress/data";
 import { SEO_STORE_NAME } from "@yoast/seo-store";
 import { PropTypes } from "prop-types";
@@ -24,6 +25,9 @@ const TwitterEditorContainer = ( { as: Component, ...restProps } ) => {
 	const contentExcerpt = useSelect( select => select( SEO_STORE_NAME ).selectExcerpt() );
 	const socialTitleTemplate = useSelect( select => select( SEO_STORE_NAME ).selectSocialTitleTemplate() );
 	const seoTitle = useSelect( select=> select( SEO_STORE_NAME ).selectSeoTitle() );
+	const seoTitleTemplate = useSelect( select => select( SEO_STORE_NAME ).selectTitleTemplate() );
+	const seoDescriptionTemplate = useSelect( select => select( SEO_STORE_NAME ).selectDescriptionTemplate() );
+
 	const { updateTwitterTitle, updateTwitterDescription } = useDispatch( SEO_STORE_NAME );
 	const socialMediumName = "Twitter";
 
@@ -41,8 +45,8 @@ const TwitterEditorContainer = ( { as: Component, ...restProps } ) => {
 		recommendedReplacementVariables={ recommendedReplacementVariables }
 		titleInputPlaceholder={ "" }
 		descriptionInputPlaceholder={ "" }
-		descriptionPreviewFallback={ socialDescriptionTemplate || facebookDescription || contentDescription || contentExcerpt || "" }
-		titlePreviewFallback={ socialTitleTemplate || facebookTitle || seoTitle || "" }
+		descriptionPreviewFallback={ socialDescriptionTemplate || facebookDescription || contentDescription || seoTitleTemplate || contentExcerpt || "" }
+		titlePreviewFallback={ socialTitleTemplate || facebookTitle || seoTitle || seoDescriptionTemplate || "" }
 		socialMediumName={ socialMediumName }
 		{ ...restProps }
 	/>;

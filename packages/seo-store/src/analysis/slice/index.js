@@ -14,13 +14,16 @@ export const analysisSelectors = {
 	...resultsSelectors,
 	...configSelectors,
 	selectPaper: createSelector(
+		formSelectors.selectTitleTemplate,
+		formSelectors.selectDescriptionTemplate,
 		formSelectors.selectSeoTitle,
 		formSelectors.selectMetaDescription,
 		formSelectors.selectSlug,
 		editorSelectors.selectContent,
 		editorSelectors.selectPermalink,
 		editorSelectors.selectFormattedDate,
-		( seoTitle, metaDescription, slug, content, permalink, date ) => ( { seoTitle, metaDescription, slug, content, permalink, date } ),
+		( titleTemplate, descriptionTemplate, seoTitle, metaDescription, slug, content, permalink, date ) =>
+			( { seoTitle: seoTitle || titleTemplate, metaDescription: metaDescription || descriptionTemplate, slug, content, permalink, date } ),
 	),
 };
 

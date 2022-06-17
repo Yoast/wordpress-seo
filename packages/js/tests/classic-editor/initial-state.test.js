@@ -68,9 +68,9 @@ jest.mock( "../../src/classic-editor/helpers/dom", () => ( {
 
 self.wpseoScriptData = {
 	metabox: {
-		title_template_no_fallback: "",
-		title_template: "",
-		metadesc_template: "",
+		title_template_no_fallback: "The only appropriate title for cat contents",
+		title_template: "A title template for everything about cats",
+		metadesc_template: "A meta description template for everything about cats",
 		social_description_template: "A social template for meta description",
 		social_title_template: "A social template for title",
 	},
@@ -90,6 +90,8 @@ describe( "a test for getting the initial state of a post or a term", () => {
 		expect( actual.form.seo.title ).toEqual( "Tortoiseshell cat - All about cats" );
 		expect( actual.form.seo.description ).toEqual( "Cats with tortoiseshell coloration are believed to bring good luck." );
 		expect( actual.form.seo.slug ).toEqual( "www.example.com/tortoiseshell-cat" );
+		expect( actual.form.seo.titleTemplate ).toEqual( "A title template for everything about cats" );
+		expect( actual.form.seo.descriptionTemplate ).toEqual( "A meta description template for everything about cats" );
 		expect( actual.form.keyphrases ).toEqual( { focus: { id: "focus", keyphrase: "tortoiseshell cat" } } );
 		expect( actual.editor.taxonomies.categories ).toEqual( [
 			{
@@ -136,6 +138,8 @@ describe( "a test for getting the initial state of a post or a term", () => {
 		expect( actual.form.seo.title ).toEqual( "A title befitting a beautiful cat" );
 		expect( actual.form.seo.description ).toEqual( "An example of a description for a cat." );
 		expect( actual.form.seo.slug ).toEqual( "www.example.com/categories/cat" );
+		expect( actual.form.seo.titleTemplate ).toEqual( "A title template for everything about cats" );
+		expect( actual.form.seo.descriptionTemplate ).toEqual( "A meta description template for everything about cats" );
 		expect( actual.form.social.facebook.title ).toEqual( "An FB title for term" );
 		expect( actual.form.social.facebook.description ).toEqual( "An FB meta description for term" );
 		expect( actual.form.social.facebook.image.id ).toEqual( 4 );
