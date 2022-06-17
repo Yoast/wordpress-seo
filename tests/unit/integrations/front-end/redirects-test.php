@@ -16,7 +16,6 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * Class Redirects_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Front_End\Redirects
- * @covers ::<!public>
  *
  * @group integrations
  * @group front-end

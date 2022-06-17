@@ -509,6 +509,7 @@ class WPSEO_Sitemaps {
 					ORDER BY date DESC
 				";
 
+				// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- They are prepared on the lines above.
 				foreach ( $wpdb->get_results( $sql ) as $obj ) {
 					$post_type_dates[ $obj->post_type ] = $obj->date;
 				}
@@ -543,6 +544,8 @@ class WPSEO_Sitemaps {
 	 * Notify search engines of the updated sitemap.
 	 *
 	 * @deprecated 19.2
+	 *
+	 * @codeCoverageIgnore
 	 *
 	 * @param string|null $url Optional URL to make the ping for.
 	 */
