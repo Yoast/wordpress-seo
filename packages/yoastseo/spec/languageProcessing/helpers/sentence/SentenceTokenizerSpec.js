@@ -358,5 +358,41 @@ describe( "A test for tokenizing a (html) text into sentences", function() {
 	it( "endsWithOrdinalDot should return false when the German tokenizer is not used", () => {
 		expect( mockTokenizer.endsWithOrdinalDot( "Anything you want to put here, it shouldn't matter." ) ).toBe( false );
 	} );
+
+	it( "recognizes initials in the edge case where there are quotes around the initials", function() {
+		const tokens = [
+			{ type: "sentence", src: "The reprint was favourably reviewed by" },
+			{ type: "sentence-delimiter", src: "\"" },
+			{ type: "sentence", src: "A" },
+			{ type: "full-stop", src: "." },
+			{ type: "sentence", src: " B" },
+			{ type: "full-stop", src: "." },
+			{ type: "sentence-delimiter", src: "\"" },
+			{ type: "full-stop", src: " in The Musical Times in 1935, who commented \"Praise is due to Mr Mercer." },
+		];
+
+		const token = tokens[ 3 ];
+		const previousToken = tokens[ 2 ];
+		const nextToken = tokens[ 4 ];
+		const secondToNextToken = tokens[ 5 ];
+
+		expect( mockTokenizer.isPartOfPersonInitial( token, previousToken, nextToken, secondToNextToken ) ).toBe( true );
+	} );
+
+	it( "correctly constructs the sentence in the edge case where there are quotes around the initials", function() {
+		const tokens = [
+			{ type: "sentence", src: "The reprint was favourably reviewed by" },
+			{ type: "sentence-delimiter", src: " \"" },
+			{ type: "sentence", src: "A" },
+			{ type: "full-stop", src: "." },
+			{ type: "sentence", src: " B" },
+			{ type: "full-stop", src: "." },
+			{ type: "sentence-delimiter", src: "\"" },
+			{ type: "full-stop", src: " in The Musical Times in 1935, who commented \"Praise is due to Mr Mercer." },
+		];
+
+		expect( mockTokenizer.getSentencesFromTokens( tokens ) ).toEqual( [
+			"The reprint was favourably reviewed by \"A. B.\" in The Musical Times in 1935, who commented \"Praise is due to Mr Mercer." ] );
+	} );
 } );
 
