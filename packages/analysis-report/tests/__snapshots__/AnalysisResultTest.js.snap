@@ -63,6 +63,7 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
+  color: inherit;
 }
 
 <li
@@ -180,6 +181,7 @@ exports[`the AnalysisResult component with disabled buttons matches the snapshot
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
+  color: inherit;
 }
 
 <li
@@ -265,6 +267,7 @@ exports[`the AnalysisResult component with hidden buttons matches the snapshot 1
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
+  color: inherit;
 }
 
 <li
@@ -358,6 +361,7 @@ exports[`the AnalysisResult component with html in the text matches the snapshot
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
+  color: inherit;
 }
 
 <li
@@ -409,5 +413,67 @@ exports[`the AnalysisResult component with html in the text matches the snapshot
       />
     </svg>
   </button>
+</li>
+`;
+
+exports[`the AnalysisResult component with suppressed text matches the snapshot 1`] = `
+.c1 {
+  width: 13px;
+  height: 13px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+.c0 {
+  min-height: 24px;
+  padding: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+}
+
+.c2 {
+  margin: 3px 11px 0 0;
+}
+
+.c3 {
+  margin: 0 16px 0 0;
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  color: rgba(30,30,30,0.5);
+}
+
+<li
+  className="c0"
+>
+  <svg
+    aria-hidden={true}
+    className="c1 yoast-svg-icon yoast-svg-icon-circle c2"
+    fill="blue"
+    focusable="false"
+    role="img"
+    size="13px"
+    viewBox="0 0 1792 1792"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M1664 896q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"
+    />
+  </svg>
+  <p
+    className="c3"
+    dangerouslySetInnerHTML={
+      Object {
+        "__html": "You're doing great!",
+      }
+    }
+  />
 </li>
 `;

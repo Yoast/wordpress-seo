@@ -19,6 +19,7 @@ const ScoreIcon = styled( SvgIcon )`
 const AnalysisResultText = styled.p`
 	margin: 0 16px 0 0;
 	flex: 1 1 auto;
+	color: ${ props => props.suppressedText ? "rgba(30,30,30,0.5)" : "inherit" };
 `;
 
 /**
@@ -46,7 +47,10 @@ export const AnalysisResult = ( props ) => {
 				color={ props.bulletColor }
 				size="13px"
 			/>
-			<AnalysisResultText dangerouslySetInnerHTML={ { __html: props.text } } />
+			<AnalysisResultText
+				dangerouslySetInnerHTML={ { __html: props.text } }
+				suppressedText={ props.suppressedText }
+			/>
 			{
 				props.hasMarksButton && ! areButtonsHidden( props ) &&
 					<IconButtonToggle
@@ -65,6 +69,7 @@ export const AnalysisResult = ( props ) => {
 
 AnalysisResult.propTypes = {
 	text: PropTypes.string.isRequired,
+	suppressedText: PropTypes.bool,
 	bulletColor: PropTypes.string.isRequired,
 	hasMarksButton: PropTypes.bool.isRequired,
 	buttonId: PropTypes.string.isRequired,
@@ -76,6 +81,7 @@ AnalysisResult.propTypes = {
 };
 
 AnalysisResult.defaultProps = {
+	suppressedText: false,
 	marksButtonStatus: "enabled",
 	marksButtonClassName: "",
 };

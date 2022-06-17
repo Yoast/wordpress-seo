@@ -1,5 +1,6 @@
 import React from "react";
 import renderer from "react-test-renderer";
+import { noop } from "lodash";
 import AnalysisResult from "../src/AnalysisResult.js";
 
 test( "the AnalysisResult component matches the snapshot", () => {
@@ -10,7 +11,7 @@ test( "the AnalysisResult component matches the snapshot", () => {
 			buttonId="Result button"
 			pressed={ true }
 			hasMarksButton={ true }
-			onButtonClick={ () => {} }
+			onButtonClick={ noop }
 			text={ "You're doing great!" }
 			score="good"
 		/>
@@ -28,7 +29,7 @@ test( "the AnalysisResult component with html in the text matches the snapshot",
 			buttonId="Result button"
 			pressed={ true }
 			hasMarksButton={ true }
-			onButtonClick={ () => {} }
+			onButtonClick={ noop }
 			text={ "You're doing <b>great!</b>" }
 			score="good"
 		/>
@@ -46,7 +47,7 @@ test( "the AnalysisResult component with disabled buttons matches the snapshot",
 			buttonId="Result button"
 			pressed={ true }
 			hasMarksButton={ true }
-			onButtonClick={ () => {} }
+			onButtonClick={ noop }
 			text={ "You're doing great!" }
 			score="good"
 			marksButtonStatus={ "disabled" }
@@ -65,7 +66,27 @@ test( "the AnalysisResult component with hidden buttons matches the snapshot", (
 			buttonId="Result button"
 			pressed={ true }
 			hasMarksButton={ true }
-			onButtonClick={ () => {} }
+			onButtonClick={ noop }
+			text={ "You're doing great!" }
+			score="good"
+			marksButtonStatus={ "hidden" }
+		/>
+	);
+
+	const tree = component.toJSON();
+	expect( tree ).toMatchSnapshot();
+} );
+
+test( "the AnalysisResult component with suppressed text matches the snapshot", () => {
+	const component = renderer.create(
+		<AnalysisResult
+			ariaLabel="SEOResult"
+			bulletColor="blue"
+			suppressedText={ true }
+			buttonId="Result button"
+			pressed={ true }
+			hasMarksButton={ true }
+			onButtonClick={ noop }
 			text={ "You're doing great!" }
 			score="good"
 			marksButtonStatus={ "hidden" }
