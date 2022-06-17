@@ -509,7 +509,7 @@ class WPSEO_Sitemaps {
 					ORDER BY date DESC
 				";
 
-				// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- They are prepared on the lines above.
+				// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery -- They are prepared on the lines above and a direct query is required.
 				foreach ( $wpdb->get_results( $sql ) as $obj ) {
 					$post_type_dates[ $obj->post_type ] = $obj->date;
 				}
@@ -540,6 +540,8 @@ class WPSEO_Sitemaps {
 		return YoastSEO()->helpers->date->format( self::get_last_modified_gmt( $post_types ) );
 	}
 
+	// phpcs:disable Generic.CodeAnalysis.UnusedFunctionParameter.Found -- Argument is kept for documentation purposes.
+
 	/**
 	 * Notify search engines of the updated sitemap.
 	 *
@@ -555,6 +557,8 @@ class WPSEO_Sitemaps {
 		$admin = new WPSEO_Sitemaps_Admin();
 		$admin->ping_search_engines();
 	}
+
+	// phpcs:enable
 
 	/**
 	 * Get the maximum number of entries per XML sitemap.
