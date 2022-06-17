@@ -2,7 +2,7 @@ import { useSelect } from "@wordpress/data";
 import { useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { makeOutboundLink } from "@yoast/helpers";
-import { get, reduce } from "lodash";
+import { get } from "lodash";
 import PropTypes from "prop-types";
 import createInterpolateElement from "../../helpers/createInterpolateElement";
 import DataModel from "./data-model";
@@ -15,6 +15,8 @@ const OutboundLink = makeOutboundLink();
  * @returns {JSX.Element} The element.
  */
 const ProminentWords = ( { location } ) => { // eslint-disable-line complexity
+	// Note the fallback of when there is no `yoast-seo-premium/editor` store is true. This is to show the upsell.
+	const isProminentWordsAvailable = useSelect( select => select( "yoast-seo-premium/editor" )?.getPreference( "isProminentWordsAvailable", false ) ?? true, [] );
 	const shouldUpsell = useSelect( select => select( "yoast-seo/editor" ).getPreference( "shouldUpsell", false ), [] );
 	const upsellLink = useMemo( () => get( window, `wpseoAdminL10n.shortlinks-insights-upsell-${ location }-prominent_words`, "" ), [ location ] );
 	const keywordsResearchInfo = useMemo( () => {
@@ -51,16 +53,16 @@ const ProminentWords = ( { location } ) => { // eslint-disable-line complexity
 			__( "Get %s to enjoy the benefits of prominent words", "wordpress-seo" ),
 			"Yoast SEO Premium"
 		).split( /\s+/ );
-		return reduce(
-			words,
-			( result, name, key ) => [ ...result, { name, number: words.length - key } ],
-			[]
-		);
+		return words.map( ( word, index ) => ( { name: word, number: words.length - index } ) );
 	}, [] );
 	const data = useMemo(
 		() => shouldUpsell ? prominentWordsUpsell : prominentWords.map( ( { word, occurrence } ) => ( { name: word, number: occurrence } ) ),
 		[ prominentWords, prominentWordsUpsell ]
 	);
+
+	if ( ! isProminentWordsAvailable ) {
+		return null;
+	}
 
 	return (
 		<div className="yoast-prominent-words">
@@ -82,7 +84,7 @@ const ProminentWords = ( { location } ) => { // eslint-disable-line complexity
 				) }
 				<span aria-hidden="true" className="yoast-button-upsell__caret" />
 			</OutboundLink> }
-			{ ! shouldUpsell && <p>{ keywordsResearchInfo }</p> }
+			 <p>{ keywordsResearchInfo }</p>
 			<DataModel
 				data={ data }
 				itemScreenReaderText={
@@ -92,7 +94,6 @@ const ProminentWords = ( { location } ) => { // eslint-disable-line complexity
 				aria-label={ __( "Prominent words", "wordpress-seo" ) }
 				className={ shouldUpsell ? "yoast-data-model__upsell" : null }
 			/>
-			{ shouldUpsell && <p>{ keywordsResearchInfo }</p> }
 		</div>
 	);
 };
