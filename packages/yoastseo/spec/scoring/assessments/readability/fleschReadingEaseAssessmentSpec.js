@@ -199,12 +199,27 @@ describe( "An assessment for the Flesch reading ease test", function() {
 	} );
 
 	it( "returns true for isApplicable for an English paper with text.", function() {
-		const paper = new Paper( "This is a very interesting paper.", { locale: "en_US" } );
+		const paper = new Paper( "This is a very interesting paper. With at least 50 characters.", { locale: "en_US" } );
 		expect( fleschReadingAssessment.isApplicable( paper, new EnglishResearcher( paper ) ) ).toBe( true );
 	} );
 
 	it( "returns false for isApplicable for an English paper without text.", function() {
 		const paper = new Paper( "", { locale: "en_US" } );
+		expect( fleschReadingAssessment.isApplicable( paper, new EnglishResearcher( paper ) ) ).toBe( false );
+	} );
+
+	it( "returns false for isApplicable for an English paper with only an image.", function() {
+		const paper = new Paper( "<img src='https://example.com/image.png' alt='test'>" );
+		expect( fleschReadingAssessment.isApplicable( paper, new EnglishResearcher( paper ) ) ).toBe( false );
+	} );
+
+	it( "returns false if the text is too short", function() {
+		const paper = new Paper( "hallo" );
+		expect( fleschReadingAssessment.isApplicable( paper, new EnglishResearcher( paper ) ) ).toBe( false );
+	} );
+
+	it( "returns false for isApplicable for an English paper with only spaces.", function() {
+		const paper = new Paper( "        ", { locale: "en_US" } );
 		expect( fleschReadingAssessment.isApplicable( paper, new EnglishResearcher( paper ) ) ).toBe( false );
 	} );
 

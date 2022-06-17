@@ -27,7 +27,7 @@ class Permalink_Test extends TestCase {
 	/**
 	 * Tests the permalink getter method.
 	 *
-	 * @covers ::get_permalink
+	 * @covers ::generate_permalink
 	 */
 	public function test_get_permalink() {
 		$this->indexable->permalink = 'https://example.com/permalink/';
@@ -37,12 +37,13 @@ class Permalink_Test extends TestCase {
 			->once()
 			->andReturn( false );
 
-		$this->assertEquals( 'https://example.com/permalink/', $this->instance->get_permalink() );
+		$this->assertEquals( 'https://example.com/permalink/', $this->instance->permalink );
 	}
 
 	/**
 	 * Tests the permalink getter method with dynamic permalinks enabled.
 	 *
+	 * @covers ::generate_permalink
 	 * @covers ::get_permalink
 	 */
 	public function test_get_permalink_with_dynamic_permalinks() {
@@ -59,6 +60,6 @@ class Permalink_Test extends TestCase {
 			->once()
 			->andReturn( 'https://example.com/dynamic-permalink/' );
 
-		$this->assertEquals( 'https://example.com/dynamic-permalink/', $this->instance->get_permalink() );
+		$this->assertEquals( 'https://example.com/dynamic-permalink/', $this->instance->permalink );
 	}
 }
