@@ -824,6 +824,11 @@ div.interface-pinned-items button.components-button.is-pressed[aria-label="Yoast
 .yoast .yoast-prominent-words p, .yoast .yoast-prominent-words ul {
 	margin-block: 1.2em;
 }
+.yoast #wpseo-metabox-root .yoast-prominent-words {
+	margin-bottom: 24px;
+	padding-bottom: 24px;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
 .yoast .yoast-insights .yoast-data-model__upsell li {
 	color: #bbb;
 }
