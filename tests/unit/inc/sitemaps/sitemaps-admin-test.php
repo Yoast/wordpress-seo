@@ -120,8 +120,7 @@ class WPSEO_Sitemaps_Admin_Test extends TestCase {
 			->once()
 			->andReturn( 'https' );
 
-		Monkey\Functions\expect( 'wp_remote_get' )
-			->twice();
+		Monkey\Functions\expect( 'wp_remote_get' );
 
 		$this->instance->status_transition( 'publish', 'draft', $this->mock_post );
 	}
