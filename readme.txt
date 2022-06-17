@@ -244,6 +244,7 @@ Release Date: June 28th, 2022
 
 
 
+
 Enhancements:
 
 * Added support for `webp` images for OpenGraph output.
