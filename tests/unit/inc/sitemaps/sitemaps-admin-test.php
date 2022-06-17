@@ -86,6 +86,11 @@ class WPSEO_Sitemaps_Admin_Test extends TestCase {
 	 * @covers WPSEO_Sitemaps_Admin::status_transition
 	 */
 	public function test_status_transition_on_production() {
+		global $wp_rewrite;
+
+		$wp_rewrite = Mockery::mock();
+		$wp_rewrite->expects( 'using_index_permalinks' )->andReturnFalse();
+
 		Monkey\Functions\stubs(
 			[
 				'wp_get_environment_type' => 'production',
@@ -107,22 +112,15 @@ class WPSEO_Sitemaps_Admin_Test extends TestCase {
 			->once()
 			->andReturn( true );
 
-		Monkey\Functions\expect( 'wp_next_scheduled' )
+		Monkey\Functions\expect( 'home_url' )
 			->once()
-			->andReturn( false );
+			->andReturn( 'https://example.com' );
 
-		$start = \time();
-
-		Monkey\Functions\expect( 'wp_schedule_single_event' )
+		Monkey\Functions\expect( 'wp_parse_url' )
 			->once()
-			->withArgs(
-				static function( $timestamp, $function_name ) use ( $start ) {
-					if ( $function_name === 'wpseo_ping_search_engines' ) {
-						return ( $timestamp < $start + 600 );
-					}
-					return false;
-				}
-			);
+			->andReturn( 'https' );
+
+		Monkey\Functions\expect( 'wp_remote_get' );
 
 		$this->instance->status_transition( 'publish', 'draft', $this->mock_post );
 	}

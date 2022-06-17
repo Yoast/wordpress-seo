@@ -93,17 +93,24 @@ class Robots_Txt_Integration_Test extends TestCase {
 	 * @param string $expected The expected output/sitemap.
 	 */
 	public function test_public_site_with_sitemaps( $sitemap, $expected ) {
+		global $wp_rewrite;
+
+		$wp_rewrite = Mockery::mock();
+		$wp_rewrite->expects( 'using_index_permalinks' )->andReturnFalse();
+
+		Monkey\Functions\expect( 'home_url' )
+			->once()
+			->andReturn( 'https://example.com/sitemap_index.xml' );
+
+		Monkey\Functions\expect( 'wp_parse_url' )
+			->once()
+			->andReturn( 'https' );
+
 		$this->options_helper
 			->expects( 'get' )
 			->once()
 			->with( 'enable_xml_sitemap', false )
 			->andReturnTrue();
-
-		Mockery::mock( 'overload:WPSEO_Sitemaps_Router' )
-			->expects( 'get_base_url' )
-			->once()
-			->with( 'sitemap_index.xml' )
-			->andReturn( 'https://example.com/sitemap_index.xml' );
 
 		$this->assertEquals(
 			$expected,
@@ -137,11 +144,18 @@ class Robots_Txt_Integration_Test extends TestCase {
 			->with( 'enable_xml_sitemap', false )
 			->andReturnTrue();
 
-		Mockery::mock( 'overload:WPSEO_Sitemaps_Router' )
-			->expects( 'get_base_url' )
+		global $wp_rewrite;
+
+		$wp_rewrite = Mockery::mock();
+		$wp_rewrite->expects( 'using_index_permalinks' )->andReturnFalse();
+
+		Monkey\Functions\expect( 'home_url' )
 			->once()
-			->with( 'sitemap_index.xml' )
 			->andReturn( 'https://example.com/sitemap_index.xml' );
+
+		Monkey\Functions\expect( 'wp_parse_url' )
+			->once()
+			->andReturn( 'https' );
 
 		Monkey\Functions\when( 'is_multisite' )->justReturn( true );
 		Monkey\Functions\when( 'is_subdomain_install' )->justReturn( ! $multisite['is_subdirectory'] );
@@ -186,17 +200,24 @@ class Robots_Txt_Integration_Test extends TestCase {
 	 * @covers ::is_yoast_active_for_network
 	 */
 	public function test_multisite_sitemaps_without_yoast_seo_active() {
+		global $wp_rewrite;
+
+		$wp_rewrite = Mockery::mock();
+		$wp_rewrite->expects( 'using_index_permalinks' )->andReturnFalse();
+
+		Monkey\Functions\expect( 'home_url' )
+			->once()
+			->andReturn( 'https://example.com/sitemap_index.xml' );
+
+		Monkey\Functions\expect( 'wp_parse_url' )
+			->once()
+			->andReturn( 'https' );
+
 		$this->options_helper
 			->expects( 'get' )
 			->once()
 			->with( 'enable_xml_sitemap', false )
 			->andReturnTrue();
-
-		Mockery::mock( 'overload:WPSEO_Sitemaps_Router' )
-			->expects( 'get_base_url' )
-			->once()
-			->with( 'sitemap_index.xml' )
-			->andReturn( 'https://example.com/sitemap_index.xml' );
 
 		Monkey\Functions\when( 'is_multisite' )->justReturn( true );
 		Monkey\Functions\when( 'is_subdomain_install' )->justReturn( false );
@@ -241,17 +262,24 @@ class Robots_Txt_Integration_Test extends TestCase {
 	 * @covers ::is_yoast_active_for_network
 	 */
 	public function test_multisite_sitemaps_option_not_found() {
+		global $wp_rewrite;
+
+		$wp_rewrite = Mockery::mock();
+		$wp_rewrite->expects( 'using_index_permalinks' )->andReturnFalse();
+
+		Monkey\Functions\expect( 'home_url' )
+			->once()
+			->andReturn( 'https://example.com/sitemap_index.xml' );
+
+		Monkey\Functions\expect( 'wp_parse_url' )
+			->once()
+			->andReturn( 'https' );
+
 		$this->options_helper
 			->expects( 'get' )
 			->once()
 			->with( 'enable_xml_sitemap', false )
 			->andReturnTrue();
-
-		Mockery::mock( 'overload:WPSEO_Sitemaps_Router' )
-			->expects( 'get_base_url' )
-			->once()
-			->with( 'sitemap_index.xml' )
-			->andReturn( 'https://example.com/sitemap_index.xml' );
 
 		Monkey\Functions\when( 'is_multisite' )->justReturn( true );
 		Monkey\Functions\when( 'is_subdomain_install' )->justReturn( false );

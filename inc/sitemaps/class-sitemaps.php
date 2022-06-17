@@ -101,7 +101,6 @@ class WPSEO_Sitemaps {
 		add_action( 'after_setup_theme', [ $this, 'reduce_query_load' ], 99 );
 		add_action( 'pre_get_posts', [ $this, 'redirect' ], 1 );
 		add_action( 'wpseo_hit_sitemap_index', [ $this, 'hit_sitemap_index' ] );
-		add_action( 'wpseo_ping_search_engines', [ __CLASS__, 'ping_search_engines' ] );
 
 		$this->router   = new WPSEO_Sitemaps_Router();
 		$this->renderer = new WPSEO_Sitemaps_Renderer();
@@ -510,6 +509,7 @@ class WPSEO_Sitemaps {
 					ORDER BY date DESC
 				";
 
+				// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery -- They are prepared on the lines above and a direct query is required.
 				foreach ( $wpdb->get_results( $sql ) as $obj ) {
 					$post_type_dates[ $obj->post_type ] = $obj->date;
 				}
@@ -540,34 +540,25 @@ class WPSEO_Sitemaps {
 		return YoastSEO()->helpers->date->format( self::get_last_modified_gmt( $post_types ) );
 	}
 
+	// phpcs:disable Generic.CodeAnalysis.UnusedFunctionParameter.Found -- Argument is kept for documentation purposes.
+
 	/**
 	 * Notify search engines of the updated sitemap.
+	 *
+	 * @deprecated 19.2
+	 *
+	 * @codeCoverageIgnore
 	 *
 	 * @param string|null $url Optional URL to make the ping for.
 	 */
 	public static function ping_search_engines( $url = null ) {
+		_deprecated_function( __METHOD__, 'WPSEO 19.2', 'WPSEO_Sitemaps_Admin::ping_search_engines' );
 
-		/**
-		 * Filter: 'wpseo_allow_xml_sitemap_ping' - Check if pinging is not allowed (allowed by default)
-		 *
-		 * @api boolean $allow_ping The boolean that is set to true by default.
-		 */
-		if ( apply_filters( 'wpseo_allow_xml_sitemap_ping', true ) === false ) {
-			return;
-		}
-
-		if ( get_option( 'blog_public' ) === '0' ) { // Don't ping if blog is not public.
-			return;
-		}
-
-		if ( empty( $url ) ) {
-			$url = rawurlencode( WPSEO_Sitemaps_Router::get_base_url( 'sitemap_index.xml' ) );
-		}
-
-		// Ping Google and Bing.
-		wp_remote_get( 'https://www.google.com/ping?sitemap=' . $url, [ 'blocking' => false ] );
-		wp_remote_get( 'https://www.bing.com/ping?sitemap=' . $url, [ 'blocking' => false ] );
+		$admin = new WPSEO_Sitemaps_Admin();
+		$admin->ping_search_engines();
 	}
+
+	// phpcs:enable
 
 	/**
 	 * Get the maximum number of entries per XML sitemap.
