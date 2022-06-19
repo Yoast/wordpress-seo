@@ -1,7 +1,7 @@
 /* global wp */
 import { actions } from "@yoast/externals/redux";
 import jQuery from "jquery";
-import { debounce, isUndefined } from "lodash-es";
+import { debounce, isUndefined } from "lodash";
 import analysis from "yoastseo";
 import { excerptFromContent, fillReplacementVariables, mapCustomFields, mapCustomTaxonomies } from "../helpers/replacementVariableHelpers";
 import * as tmceHelper from "../lib/tinymce";
@@ -36,9 +36,10 @@ export default class ClassicEditorData {
 	constructor( refresh, store, tinyMceId = "content" ) {
 		this._refresh = refresh;
 		this._store = store;
+		this._tinyMceId = tinyMceId;
 		// This will be used for the comparison whether the data is dirty.
 		this._previousData = {};
-		this._tinyMceId = tinyMceId;
+		this._previousEditorData = {};
 		this.updateReplacementData = this.updateReplacementData.bind( this );
 		this.refreshYoastSEO = this.refreshYoastSEO.bind( this );
 	}
@@ -57,12 +58,12 @@ export default class ClassicEditorData {
 		this._store.dispatch( hideReplacementVariables( hiddenReplaceVars ) );
 
 		// Propagate initial data.
-		this._previousData.content = initialData.content;
+		this._previousEditorData.content = initialData.content;
 		this._store.dispatch( setEditorDataContent( initialData.content ) );
-		this._previousData.contentImage = initialData.contentImage;
+		this._previousEditorData.contentImage = initialData.contentImage;
 		this._store.dispatch( setContentImage( initialData.contentImage ) );
 		this.setImageInSnippetPreview( initialData.snippetPreviewImageURL || initialData.contentImage );
-		this._previousData.slug = initialData.slug;
+		this._previousEditorData.slug = initialData.slug;
 		this._store.dispatch( setEditorDataSlug( initialData.slug ) );
 		this.updateReplacementData( { target: { value: initialData.title } }, "title" );
 		this.updateReplacementData( { target: { value: initialData.excerpt } }, "excerpt" );
@@ -73,7 +74,7 @@ export default class ClassicEditorData {
 		this.subscribeToStore();
 		this.subscribeToSnippetPreviewImage();
 		this.subscribeToTinyMceEditor();
-		this.subscribeToSetSlugValue();
+		this.subscribeToSlug();
 	}
 
 	/**
@@ -87,20 +88,20 @@ export default class ClassicEditorData {
 		 */
 		const handleChange = () => {
 			const content = this.getContent();
-			if ( this._previousData.content === content ) {
+			if ( this._previousEditorData.content === content ) {
 				return;
 			}
-			this._previousData.content = content;
+			this._previousEditorData.content = content;
 			this._store.dispatch( setEditorDataContent( content ) );
 
 			if ( this.featuredImageIsSet ) {
 				return;
 			}
 			const contentImage = this.getContentImage( content );
-			if ( this._previousData.contentImage === contentImage ) {
+			if ( this._previousEditorData.contentImage === contentImage ) {
 				return;
 			}
-			this._previousData.contentImage = contentImage;
+			this._previousEditorData.contentImage = contentImage;
 			this._store.dispatch( setContentImage( contentImage ) );
 			this.setImageInSnippetPreview( contentImage );
 		};
@@ -110,36 +111,63 @@ export default class ClassicEditorData {
 			if ( editor.id !== this._tinyMceId ) {
 				return;
 			}
+
+			// Update on init: on terms the initial content is empty.
+			handleChange();
+
 			[ "input", "change", "cut", "paste" ].forEach( eventName => editor.on( eventName, debounce( handleChange, 1000 ) ) );
 		} );
 	}
 
 	/**
-	 * Initializes slug event listener.
+	 * Initializes slug event listeners.
 	 * @returns {void}
 	 */
-	subscribeToSetSlugValue() {
-		const slugButtons = document.getElementById( "edit-slug-buttons" );
-		if ( ! slugButtons ) {
-			return;
-		}
-		const observer = new MutationObserver( ( mutationList, currentObserver ) => mutationList.forEach( mutation => {
-			mutation.addedNodes.forEach( node => {
-				if ( ! node?.classList?.contains( "edit-slug" ) ) {
-					return;
-				}
-				const slug = document.getElementById( "editable-post-name-full" )?.innerText;
-				if ( slug && this._previousData.slug !== slug ) {
-					this._previousData.slug = slug;
-					this._store.dispatch( setEditorDataSlug( slug ) );
+	subscribeToSlug() {
+		/**
+		 * Updates the slug if changed.
+		 * @param {string} slug The slug.
+		 * @returns {void}
+		 */
+		const updateSlug = slug => {
+			if ( this._previousEditorData.slug !== slug ) {
+				this._previousEditorData.slug = slug;
+				this._store.dispatch( setEditorDataSlug( slug ) );
+			}
+		};
 
-					// Need to re-subscribe for some reason.
-					currentObserver.disconnect();
-					this.subscribeToSetSlugValue();
-				}
-			} );
-		} ) );
-		observer.observe( slugButtons, { childList: true } );
+		// Term slug field.
+		const slugField = document.getElementById( "slug" );
+		if ( slugField ) {
+			jQuery( slugField ).on( "input", event => updateSlug( event.target.value ) );
+		}
+
+		// Posts' slug screen option field.
+		const postNameField = document.getElementById( "post_name" );
+		if ( postNameField ) {
+			postNameField.addEventListener( "input", event => updateSlug( event.target.value ) );
+		}
+
+		// Edit slug via permalink buttons.
+		const slugButtons = document.getElementById( "edit-slug-buttons" );
+		if ( slugButtons ) {
+			const observer = new MutationObserver( ( mutationList, currentObserver ) => mutationList.forEach( mutation => {
+				mutation.addedNodes.forEach( node => {
+					if ( ! node?.classList?.contains( "edit-slug" ) ) {
+						return;
+					}
+					const slug = document.getElementById( "editable-post-name-full" )?.innerText;
+					if ( slug ) {
+						updateSlug( slug );
+
+						// Need to re-subscribe for some reason.
+						currentObserver.disconnect();
+						this.subscribeToSlug();
+					}
+				} );
+			} ) );
+			observer.observe( slugButtons, { childList: true } );
+		}
 	}
 
 	/**
@@ -173,7 +201,7 @@ export default class ClassicEditorData {
 
 		tmceHelper.addEventHandler( this._tinyMceId, [ "init" ], () => {
 			const contentImage = this.getContentImage( this.getContent() );
-			const url = this.getFeaturedImage() || contentImage || null;
+			const url = this.getFeaturedImage() || contentImage || "";
 
 			// Set contentImage in settings.socialPreviews.
 			this._store.dispatch( setContentImage( contentImage ) );
@@ -249,7 +277,7 @@ export default class ClassicEditorData {
 	 * @returns {string} The title or an empty string.
 	 */
 	getTitle() {
-		const titleElement = document.getElementById( "title" );
+		const titleElement = document.getElementById( "title" ) || document.getElementById( "name" );
 		return titleElement && titleElement.value || "";
 	}
 
@@ -280,7 +308,7 @@ export default class ClassicEditorData {
 	getSlug() {
 		let slug = "";
 
-		const newPostSlug = document.getElementById( "new-post-slug" );
+		const newPostSlug = document.getElementById( "new-post-slug" ) || document.getElementById( "slug" );
 
 		if ( newPostSlug ) {
 			slug = newPostSlug.value;
@@ -297,9 +325,7 @@ export default class ClassicEditorData {
 	 * @returns {string} The content of the document.
 	 */
 	getContent() {
-		const tinyMceId = this._tinyMceId;
-
-		return removeMarks( tmceHelper.getContentTinyMce( tinyMceId ) );
+		return removeMarks( tmceHelper.getContentTinyMce( this._tinyMceId ) );
 	}
 
 	/**
@@ -352,10 +378,10 @@ export default class ClassicEditorData {
 			replaceValue = this.getExcerpt();
 		}
 
-		if ( this._previousData[ targetReplaceVar ] === replaceValue ) {
+		if ( this._previousEditorData[ targetReplaceVar ] === replaceValue ) {
 			return;
 		}
-		this._previousData[ targetReplaceVar ] = replaceValue;
+		this._previousEditorData[ targetReplaceVar ] = replaceValue;
 		switch ( targetReplaceVar ) {
 			case "title":
 				this._store.dispatch( setEditorDataTitle( replaceValue ) );
@@ -425,6 +451,10 @@ export default class ClassicEditorData {
 		// Handle image change.
 		if ( this._previousData.snippetPreviewImageURL !== newData.snippetPreviewImageURL ) {
 			this.setImageInSnippetPreview( newData.snippetPreviewImageURL );
+		}
+		// Handle slug change.
+		if ( this._previousData.slug !== newData.slug ) {
+			this._store.dispatch( setEditorDataSlug( newData.slug ) );
 		}
 	}
 
