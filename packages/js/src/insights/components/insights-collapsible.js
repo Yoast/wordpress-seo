@@ -1,6 +1,4 @@
-import { useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { get } from "lodash";
 import PropTypes from "prop-types";
 import MetaboxCollapsible from "../../components/MetaboxCollapsible";
 import EstimatedReadingTime from "./estimated-reading-time";
@@ -14,8 +12,6 @@ import WordCount from "./word-count";
  * @returns {JSX.Element} The element.
  */
 const InsightsCollapsible = ( { location } ) => {
-	const isPost = useMemo( () => get( window, "wpseoScriptData.isPost", false ), [] );
-
 	return (
 		<MetaboxCollapsible
 			title={ __( "Insights", "wordpress-seo" ) }
@@ -23,7 +19,7 @@ const InsightsCollapsible = ( { location } ) => {
 			className="yoast-insights"
 		>
 			<ProminentWords location={ location } />
-			{ isPost && <div>
+			<div>
 				<div className="yoast-insights-row">
 					<FleschReadingEase />
 				</div>
@@ -31,7 +27,7 @@ const InsightsCollapsible = ( { location } ) => {
 					<EstimatedReadingTime />
 					<WordCount />
 				</div>
-			</div> }
+			</div>
 		</MetaboxCollapsible>
 	);
 };
