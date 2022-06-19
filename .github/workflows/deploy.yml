@@ -46,6 +46,9 @@ env:
   DIST_ORG: 'Yoast-dist'
   DIST_DEFAULT_BRANCH: 'master'
 
+permissions:
+  contents: read
+
 jobs:
   prepare:
     name: "Prepare the artifact"
@@ -130,6 +133,8 @@ jobs:
           retention-days: 1
 
   deploy:
+    permissions:
+      contents: write  # for Git to git push
     name: "Deploy to dist"
     # Don't run on forks.
     if: github.repository_owner == 'Yoast'
