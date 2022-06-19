@@ -1,28 +1,29 @@
-import getL10nObject from "./analysis/getL10nObject";
+import { LocationConsumer, LocationContext, LocationProvider } from "@yoast/externals/contexts";
+import * as constants from "./analysis/constants";
 import getContentLocale from "./analysis/getContentLocale";
 import getIndicatorForScore from "./analysis/getIndicatorForScore";
-import * as constants from "./analysis/constants";
+import getL10nObject from "./analysis/getL10nObject";
 import * as refreshAnalysis from "./analysis/refreshAnalysis";
-import HelpLink from "./components/HelpLink";
-import TopLevelProviders from "./components/TopLevelProviders";
-import * as i18n from "./helpers/i18n";
-import withYoastSidebarPriority from "./components/higherorder/withYoastSidebarPriority";
 import * as mapResults from "./components/contentAnalysis/mapResults";
+import HelpLink from "./components/HelpLink";
+import withYoastSidebarPriority from "./components/higherorder/withYoastSidebarPriority";
 import MetaboxCollapsible from "./components/MetaboxCollapsible";
-import SEMrushRelatedKeyphrases from "./containers/SEMrushRelatedKeyphrases";
+import Modal from "./components/modals/Modal";
+import ImageSelectPortal from "./components/portals/ImageSelectPortal";
 import SidebarCollapsible from "./components/SidebarCollapsible";
+import SidebarItem from "./components/SidebarItem";
+import TopLevelProviders from "./components/TopLevelProviders";
+import EditorModal from "./containers/EditorModal";
+import PersistentDismissableAlert from "./containers/PersistentDismissableAlert";
 import Results from "./containers/Results";
+import SEMrushRelatedKeyphrases from "./containers/SEMrushRelatedKeyphrases";
+import WincherSEOPerformance from "./containers/WincherSEOPerformance";
+import * as ajaxHelper from "./helpers/ajaxHelper";
+import createWatcher from "./helpers/create-watcher";
 import createInterpolateElement from "./helpers/createInterpolateElement";
+import * as i18n from "./helpers/i18n";
 import isBlockEditor from "./helpers/isBlockEditor";
 import * as replacementVariableHelpers from "./helpers/replacementVariableHelpers";
-import { LocationContext, LocationProvider, LocationConsumer } from "@yoast/externals/contexts";
-import Modal from "./components/modals/Modal";
-import SidebarItem from "./components/SidebarItem";
-import * as ajaxHelper from "./helpers/ajaxHelper";
-import EditorModal from "./containers/EditorModal";
-import ImageSelectPortal from "./components/portals/ImageSelectPortal";
-import PersistentDismissableAlert from "./containers/PersistentDismissableAlert";
-import WincherSEOPerformance from "./containers/WincherSEOPerformance";
 
 window.yoast = window.yoast || {};
 window.yoast.editorModules = {
@@ -67,6 +68,7 @@ window.yoast.editorModules = {
 	helpers: {
 		ajaxHelper,
 		createInterpolateElement,
+		createWatcher,
 		isBlockEditor,
 		i18n,
 		replacementVariableHelpers,
