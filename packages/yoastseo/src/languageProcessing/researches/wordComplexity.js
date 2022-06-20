@@ -64,17 +64,24 @@ const getComplexWords = function( sentence, config ) {
 /**
  * Calculates the percentage of the complex words compared to the total words in the text.
  *
- * @param complexWordsResults
- * @param totalWords
- * @returns {number}
+ * @param {Array} complexWordsResults The array of complex words object. The structure of the data is:
+ * [
+ *  { complexWords: [
+ *      { word: "word", wordIndex: "", complexity: true/false }
+ *    ],
+ *    sentence: "the sentence"
+ *  }
+ * ]
+ * @param {Array} words    The array of words retrieved from the text.
+ * @returns {number}    The percentage of the complex words compared to the total words in the text.
  */
-const calculateComplexWordsPercentage = function( complexWordsResults, totalWords ) {
+const calculateComplexWordsPercentage = function( complexWordsResults, words ) {
 	const totalComplexWords = [];
 	complexWordsResults.forEach( result => {
-		return result.words.forEach( word => totalComplexWords.push( word.word ) );
+		return result.complexWords.forEach( complexWord => totalComplexWords.push( complexWord.word ) );
 	} );
 
-	return ( totalComplexWords.length / totalWords.length ) * 100;
+	return ( totalComplexWords.length / words.length ) * 100;
 };
 
 /**
@@ -95,7 +102,7 @@ export default function wordComplexity( paper, researcher ) {
 	// Only returns the complex words of the sentence.
 	const results = sentences.map( sentence => {
 		return {
-			words: getComplexWords( sentence, wordComplexityConfig ),
+			complexWords: getComplexWords( sentence, wordComplexityConfig ),
 			sentence: sentence,
 		};
 	} );
