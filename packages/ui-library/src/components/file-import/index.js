@@ -155,7 +155,7 @@ const FileImport = ( {
 							</div>
 							<div className="yst-relative yst-h-5 yst-w-5">
 								<Transition show={ isSelected } { ...statusIconTransitionProps }>
-									<InformationCircleIcon className="yst-file-import__status-icon yst-text-blue-500" />
+									<InformationCircleIcon className="yst-h-5 yst-w-5 yst-text-blue-500" />
 								</Transition>
 								<Transition show={ isLoading } { ...statusIconTransitionProps }>
 									<button onClick={ onAbort } className="yst-file-import__abort-button">
@@ -164,13 +164,13 @@ const FileImport = ( {
 									</button>
 								</Transition>
 								<Transition show={ isSuccess } { ...statusIconTransitionProps }>
-									<CheckCircleIcon className="yst-file-import__status-icon yst-text-green-500" />
+									<CheckCircleIcon className="yst-h-5 yst-w-5 yst-text-green-500" />
 								</Transition>
 								<Transition show={ isAborted } { ...statusIconTransitionProps }>
-									<StopIcon className="yst-file-import__status-icon yst-text-gray-500" />
+									<StopIcon className="yst-h-5 yst-w-5 yst-text-gray-500" />
 								</Transition>
 								<Transition show={ isError } { ...statusIconTransitionProps }>
-									<ExclamationCircleIcon className="yst-file-import__status-icon yst-text-red-500" />
+									<ExclamationCircleIcon className="yst-h-5 yst-w-5 yst-text-red-500" />
 								</Transition>
 							</div>
 						</header>
