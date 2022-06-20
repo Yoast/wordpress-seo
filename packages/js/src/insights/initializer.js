@@ -2,6 +2,7 @@ import { dispatch, select, subscribe } from "@wordpress/data";
 import { debounce, get, noop } from "lodash";
 import { Paper } from "yoastseo";
 import createWatcher, { createCollector } from "../helpers/create-watcher";
+import { collectData } from "../initializers/analysis";
 
 /**
  * Retrieves whether the Insights are enabled.
@@ -21,8 +22,8 @@ const createUpdater = () => {
 	 * Runs the researches and updates the results in the store.
 	 * @returns {void}
 	 */
-	return ( [ content, locale ] ) => {
-		const paper = new Paper( content, { locale: locale } );
+	return () => {
+		const paper = Paper.parse( collectData() );
 
 		runResearch( "readingTime", paper ).then( response => setEstimatedReadingTime( response.result ) );
 		runResearch( "getFleschReadingScore", paper ).then( response => setFleschReadingEase( response.result ) );
@@ -41,7 +42,7 @@ const createSubscriber = () => {
 	const updater = createUpdater();
 
 	// Force an initial update after 1.5 seconds.
-	setTimeout( () => updater( collector() ), 1500 );
+	setTimeout( updater, 1500 );
 
 	return createWatcher( collector, updater );
 };
