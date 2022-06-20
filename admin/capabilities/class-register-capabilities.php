@@ -21,6 +21,8 @@ class WPSEO_Register_Capabilities implements WPSEO_WordPress_Integration {
 		if ( is_multisite() ) {
 			add_action( 'user_has_cap', [ $this, 'filter_user_has_wpseo_manage_options_cap' ], 10, 4 );
 		}
+
+		add_action( 'admin_init', [ $this, 'extend_wpseo_manager_capabilities' ], 10 );
 	}
 
 	/**
@@ -73,5 +75,32 @@ class WPSEO_Register_Capabilities implements WPSEO_WordPress_Integration {
 		}
 
 		return $allcaps;
+	}
+
+	/**
+	 * Action on admin_init that checks if the current user should have added capabilities to.
+	 *
+	 * @return void
+	 */
+	public function extend_wpseo_manager_capabilities() {
+		$user = wp_get_current_user();
+
+		if ( in_array( 'wpseo_manager', $user->roles, true ) ) {
+			add_action( 'map_meta_cap', [ $this, 'add_manage_privacy_options_capability' ], 1, 2 );
+		}
+	}
+
+	/**
+	 * Action on map_meta_cap that allows SEO Managers to edit the privacy page.
+	 *
+	 * @param array  $caps The capabilities for the current user.
+	 * @param string $cap The required capability.
+	 * @return array|mixed
+	 */
+	public function add_manage_privacy_options_capability( $caps, $cap ) {
+		if ( $cap === 'manage_privacy_options' ) {
+			$caps = array_diff( $caps, [ 'manage_options' ] );
+		}
+		return $caps;
 	}
 }
