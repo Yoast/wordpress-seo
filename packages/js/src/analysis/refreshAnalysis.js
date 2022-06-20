@@ -1,4 +1,5 @@
 import { actions } from "@yoast/externals/redux";
+import { Paper } from "yoastseo";
 import handleWorkerError from "./handleWorkerError";
 
 /**
@@ -36,11 +37,11 @@ export function sortResultsByIdentifier( results ) {
  * @returns {void}
  */
 export default function refreshAnalysis( worker, collectData, applyMarks, store, dataCollector ) {
-	const paper = collectData();
-
 	if ( ! isInitialized ) {
 		return;
 	}
+
+	const paper = Paper.parse( collectData() );
 
 	worker.analyze( paper )
 		.then( ( { result: { seo, readability } } ) => {
