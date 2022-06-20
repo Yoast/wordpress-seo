@@ -39,7 +39,7 @@ export default class Researcher extends AbstractResearcher {
 			wordComplexity: {
 				frequencyList: frequencyList.list,
 				wordLength: 5,
-				canStartWithUpperCase: false,
+				doesUpperCaseDecreasesComplexity: true,
 			},
 		} );
 
