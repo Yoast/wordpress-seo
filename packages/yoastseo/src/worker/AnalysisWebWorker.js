@@ -388,10 +388,13 @@ export default class AnalysisWebWorker {
 	 * @returns {null|Assessor} The chosen content assessor.
 	 */
 	createContentAssessor() {
+		let wordComplexity = new assessments.readability.WordComplexityAssessment();
+
 		const {
 			contentAnalysisActive,
 			useCornerstone,
 			customAnalysisType,
+			useWordComplexity,
 		} = this._configuration;
 
 		if ( contentAnalysisActive === false ) {
@@ -421,6 +424,25 @@ export default class AnalysisWebWorker {
 					this._CustomContentAssessorOptions[ customAnalysisType ] )
 				: new ContentAssessor( this._researcher );
 		}
+		console.log( "useWordComplexity", useWordComplexity );
+		if ( useWordComplexity && isUndefined( assessor.getAssessment( "wordComplexity" ) ) ) {
+			if ( useCornerstone === true ) {
+				wordComplexity = new assessments.readability.WordComplexityAssessment( {
+					scores: {
+						acceptableAmount: 3,
+					},
+				} );
+				assessor.addAssessment( "wordComplexity", wordComplexity );
+			} else {
+				assessor.addAssessment( "wordComplexity", wordComplexity );
+			}
+		}
+
+		this._registeredAssessments.forEach( ( { name, assessment } ) => {
+			if ( isUndefined( assessor.getAssessment( name ) ) ) {
+				assessor.addAssessment( name, assessment );
+			}
+		} );
 
 		return assessor;
 	}
@@ -432,14 +454,12 @@ export default class AnalysisWebWorker {
 	 */
 	createSEOAssessor() {
 		const keyphraseDistribution = new assessments.seo.KeyphraseDistributionAssessment();
-		let wordComplexity = new assessments.seo.WordComplexityAssessment();
 		const {
 			keywordAnalysisActive,
 			useCornerstone,
 			useKeywordDistribution,
 			useTaxonomy,
 			customAnalysisType,
-			useWordComplexity,
 		} = this._configuration;
 
 		if ( keywordAnalysisActive === false ) {
@@ -474,19 +494,6 @@ export default class AnalysisWebWorker {
 
 		if ( useKeywordDistribution && isUndefined( assessor.getAssessment( "keyphraseDistribution" ) ) ) {
 			assessor.addAssessment( "keyphraseDistribution", keyphraseDistribution );
-		}
-
-		if ( useWordComplexity && isUndefined( assessor.getAssessment( "wordComplexity" ) ) ) {
-			if ( useCornerstone === true ) {
-				wordComplexity = new assessments.seo.WordComplexityAssessment( {
-					scores: {
-						acceptableAmount: 3,
-					},
-				} );
-				assessor.addAssessment( "wordComplexity", wordComplexity );
-			} else {
-				assessor.addAssessment( "wordComplexity", wordComplexity );
-			}
 		}
 
 		this._registeredAssessments.forEach( ( { name, assessment } ) => {

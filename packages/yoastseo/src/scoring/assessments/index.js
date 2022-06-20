@@ -64,7 +64,6 @@ const seo = {
 	ImageKeyphraseAssessment,
 	ImageCountAssessment,
 	ImageAltTagsAssessment,
-	WordComplexityAssessment,
 };
 
 export {
