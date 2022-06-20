@@ -13,7 +13,7 @@ const checkIfWordIsComplex = function( word, config ) {
 	const lengthLimit = config.wordLength;
 	const frequencyList = config.frequencyList;
 	// Whether uppercased beginning of a word decreases its complexity.
-	const doesUpperCaseDecreasesComplexity = config.doesUpperCaseDecreasesComplexity;
+	const doesUpperCaseDecreaseComplexity = config.doesUpperCaseDecreasesComplexity;
 
 	let isWordComplex = false;
 	if ( frequencyList.length === 0 ) {
@@ -29,7 +29,7 @@ const checkIfWordIsComplex = function( word, config ) {
 	 */
 	if ( word.length > lengthLimit ) {
 		if ( ! frequencyList.contains( word ) ) {
-			if ( doesUpperCaseDecreasesComplexity === true && word[ 0 ].toLowerCase() === word[ 0 ] ) {
+			if ( doesUpperCaseDecreaseComplexity === true && word[ 0 ].toLowerCase() === word[ 0 ] ) {
 				isWordComplex = true;
 			}
 		}
