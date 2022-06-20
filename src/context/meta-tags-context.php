@@ -292,7 +292,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 		$person_logo_id = $this->image->get_attachment_id_from_settings( 'person_logo' );
 
 		if ( empty( $person_logo_id ) ) {
-			$person_logo_id = get_option( 'site_logo' );
+			$person_logo_id = $this->fallback_to_site_logo();
 		}
 
 		/**
@@ -328,7 +328,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 		$company_logo_id = $this->image->get_attachment_id_from_settings( 'company_logo' );
 
 		if ( empty( $company_logo_id ) ) {
-			$company_logo_id = get_option( 'site_logo' );
+			$company_logo_id = $this->fallback_to_site_logo();
 		}
 
 		/**
@@ -630,6 +630,20 @@ class Meta_Tags_Context extends Abstract_Presentation {
 		}
 
 		return $breadcrumbs_enabled;
+	}
+
+	/**
+	 * Retrieve the site logo ID from WordPress settings.
+	 *
+	 * @return false|int
+	 */
+	private function fallback_to_site_logo() {
+		$logo_id = get_option( 'site_logo' );
+		if ( ! $logo_id ) {
+			$logo_id = get_theme_mod( 'custom_logo', false );
+		}
+
+		return $logo_id;
 	}
 }
 
