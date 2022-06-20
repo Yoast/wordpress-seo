@@ -1,31 +1,55 @@
 import getWords from "../helpers/word/getWords.js";
-import countSyllables from "../helpers/syllables/countSyllables.js";
 import getSentences from "../helpers/sentence/getSentences.js";
 
-import { map } from "lodash-es";
-import { forEach } from "lodash-es";
+const checkIfWordIsComplex = function( word, config ) {
+	const lengthLimit = config.wordLength;
+	const frequencyList = config.frequencyList;
+	const canStartWithUpperCase = config.canStartWithUpperCase;
+	let isWordComplex = false;
+	// Check for each word whether it is a complex word or not.
+	// A word is complex if its length is longer than the limit, AND the word is not in the frequency list, AND
+	// If word does NOT start with a capital letter.
+	if ( word.length > lengthLimit && ! frequencyList.contains( word ) ) {
+		if ( canStartWithUpperCase === false && word[ 0 ].toLowerCase() === word[ 0 ] ) {
+			isWordComplex = true;
+		}
+	}
+	return isWordComplex;
+};
+
 
 /**
  * Gets the complexity per word, along with the index for the sentence.
  *
  * @param {string} sentence     The sentence to get wordComplexity from.
- * @param {Object} syllables    The syllables data.
+ * @param {Object} config    The config to pass
  *
  * @returns {Array} A list with words, the index and the complexity per word.
  */
-const getWordComplexityForSentence = function( sentence, syllables ) {
+const getComplexWords = function( sentence, config ) {
 	const words = getWords( sentence );
 	const results = [];
 
-	forEach( words, function( word, i ) {
+	words.forEach( ( word, i ) => {
 		results.push( {
 			word: word,
 			wordIndex: i,
-			complexity: countSyllables( word, syllables ),
+			complexity: checkIfWordIsComplex( word, config ),
 		} );
 	} );
 
 	return results;
+};
+
+const calculateComplexWordsPercentage = function( complexWordsResults, totalWords ) {
+	const totalComplexWords = [];
+	// [ {words: [{word:,}]}
+	complexWordsResults.forEach( result => {
+		const complexWords = result.words.filter( word => word.complexity === true );
+		return complexWords.forEach( word => totalComplexWords.push( word.word ) );
+	} );
+
+	return ( totalComplexWords / totalWords ) * 100;
 };
 
 /**
@@ -38,14 +62,26 @@ const getWordComplexityForSentence = function( sentence, syllables ) {
  */
 export default function wordComplexity( paper, researcher ) {
 	const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
+	const wordComplexityConfig = researcher.getConfig( "wordComplexity" );
 
-	const sentences = getSentences( paper.getText(), memoizedTokenizer );
-	const syllables = researcher.getConfig( "syllables" );
+	const text = paper.getText();
+	const sentences = getSentences( text, memoizedTokenizer );
+	const totalWords = getWords( text );
+	// Calculate the total complex word.
 
-	return map( sentences, function( sentence ) {
+	const results = sentences.map( sentence => {
 		return {
+			words: getComplexWords( sentence, wordComplexityConfig ),
 			sentence: sentence,
-			words: getWordComplexityForSentence( sentence, syllables ),
 		};
 	} );
+
+	// Calculate the percentage of the complex word.
+	const percentage = calculateComplexWordsPercentage( results, totalWords );
+
+	return {
+		complexWords: results,
+		percentage: percentage,
+	};
 }
+
