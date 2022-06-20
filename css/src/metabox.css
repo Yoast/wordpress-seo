@@ -829,10 +829,10 @@ div.interface-pinned-items button.components-button.is-pressed[aria-label="Yoast
 	padding-bottom: 24px;
 	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
-.yoast .yoast-insights .yoast-data-model__upsell li {
+.yoast .yoast-insights .yoast-data-model--upsell li {
 	color: #bbb;
 }
-.yoast .yoast-insights .yoast-data-model__upsell li:after {
+.yoast .yoast-insights .yoast-data-model--upsell li:after {
 	background: #fdf4f8;
 }
 
