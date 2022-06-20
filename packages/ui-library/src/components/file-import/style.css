@@ -59,9 +59,5 @@
 				}
 			}
 		}
-
-		.yst-file-import__status-icon {
-			@apply yst-h-5 yst-w-5;
-		}
 	}
 }
