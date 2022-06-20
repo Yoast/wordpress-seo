@@ -61,7 +61,7 @@ const initialize = () => {
 	dispatch( "yoast-seo/editor" ).loadEstimatedReadingTime();
 
 	// Delays execution by 1.5 seconds for any change, forces execution after 3 seconds.
-	return subscribe( debounce( createSubscriber() ), 1500, { maxWait: 3000 } );
+	return subscribe( debounce( createSubscriber(), 1500, { maxWait: 3000 } ) );
 };
 
 export default initialize;

@@ -92,7 +92,7 @@ const ProminentWords = ( { location } ) => { // eslint-disable-line complexity
 					__( "%d occurrences", "wordpress-seo" )
 				}
 				aria-label={ __( "Prominent words", "wordpress-seo" ) }
-				className={ shouldUpsell ? "yoast-data-model__upsell" : null }
+				className={ shouldUpsell ? "yoast-data-model--upsell" : null }
 			/>
 		</div>
 	);
