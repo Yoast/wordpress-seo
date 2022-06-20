@@ -1,17 +1,37 @@
 import getWords from "../helpers/word/getWords.js";
 import getSentences from "../helpers/sentence/getSentences.js";
 
+/**
+ * Checks if a word is complex.
+ *
+ * @param {string} word     The word to check.
+ * @param {object} config   The config to use.
+ *
+ * @returns {boolean}    Whether or not a word is complex.
+ */
 const checkIfWordIsComplex = function( word, config ) {
 	const lengthLimit = config.wordLength;
 	const frequencyList = config.frequencyList;
-	const canStartWithUpperCase = config.canStartWithUpperCase;
+	// Whether uppercased beginning of a word decreases its complexity.
+	const doesUpperCaseDecreasesComplexity = config.doesUpperCaseDecreasesComplexity;
+
 	let isWordComplex = false;
-	// Check for each word whether it is a complex word or not.
-	// A word is complex if its length is longer than the limit, AND the word is not in the frequency list, AND
-	// If word does NOT start with a capital letter.
-	if ( word.length > lengthLimit && ! frequencyList.contains( word ) ) {
-		if ( canStartWithUpperCase === false && word[ 0 ].toLowerCase() === word[ 0 ] ) {
-			isWordComplex = true;
+	if ( frequencyList.length === 0 ) {
+		return;
+	}
+	/*
+	 * Check for each word whether it is a complex word or not.
+	 * A word is complex if:
+	 * its length is longer than the limit, AND
+	 * the word is not in the frequency list, AND
+	 * if the word does NOT start with a capital letter
+	 * (for languages that see long words to be less complex if they start with a capital letter)
+	 */
+	if ( word.length > lengthLimit ) {
+		if ( ! frequencyList.contains( word ) ) {
+			if ( doesUpperCaseDecreasesComplexity === true && word[ 0 ].toLowerCase() === word[ 0 ] ) {
+				isWordComplex = true;
+			}
 		}
 	}
 	return isWordComplex;
@@ -19,12 +39,12 @@ const checkIfWordIsComplex = function( word, config ) {
 
 
 /**
- * Gets the complexity per word, along with the index for the sentence.
+ * Gets the complex word, along with the index for the sentence.
  *
- * @param {string} sentence     The sentence to get wordComplexity from.
+ * @param {string} sentence  The sentence to get wordComplexity from.
  * @param {Object} config    The config to pass
  *
- * @returns {Array} A list with words, the index and the complexity per word.
+ * @returns {Array} An array of complex word objects containing the  word, the index and the complexity of the word.
  */
 const getComplexWords = function( sentence, config ) {
 	const words = getWords( sentence );
@@ -38,18 +58,23 @@ const getComplexWords = function( sentence, config ) {
 		} );
 	} );
 
-	return results;
+	return results.length > 0 ? results.filter( result => result.complexity === true ) : [];
 };
 
+/**
+ * Calculates the percentage of the complex words compared to the total words in the text.
+ *
+ * @param complexWordsResults
+ * @param totalWords
+ * @returns {number}
+ */
 const calculateComplexWordsPercentage = function( complexWordsResults, totalWords ) {
 	const totalComplexWords = [];
-	// [ {words: [{word:,}]}
 	complexWordsResults.forEach( result => {
-		const complexWords = result.words.filter( word => word.complexity === true );
-		return complexWords.forEach( word => totalComplexWords.push( word.word ) );
+		return result.words.forEach( word => totalComplexWords.push( word.word ) );
 	} );
 
-	return ( totalComplexWords / totalWords ) * 100;
+	return ( totalComplexWords.length / totalWords.length ) * 100;
 };
 
 /**
@@ -66,9 +91,8 @@ export default function wordComplexity( paper, researcher ) {
 
 	const text = paper.getText();
 	const sentences = getSentences( text, memoizedTokenizer );
-	const totalWords = getWords( text );
-	// Calculate the total complex word.
-
+	const words = getWords( text );
+	// Only returns the complex words of the sentence.
 	const results = sentences.map( sentence => {
 		return {
 			words: getComplexWords( sentence, wordComplexityConfig ),
@@ -76,8 +100,8 @@ export default function wordComplexity( paper, researcher ) {
 		};
 	} );
 
-	// Calculate the percentage of the complex word.
-	const percentage = calculateComplexWordsPercentage( results, totalWords );
+	// Calculate the percentage of the complex words.
+	const percentage = calculateComplexWordsPercentage( results, words );
 
 	return {
 		complexWords: results,
