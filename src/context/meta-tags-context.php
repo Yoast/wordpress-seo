@@ -274,7 +274,13 @@ class Meta_Tags_Context extends Abstract_Presentation {
 		 *
 		 * @api string $company_name.
 		 */
-		return \apply_filters( 'wpseo_schema_company_name', $this->options->get( 'company_name' ) );
+		$company_name = \apply_filters( 'wpseo_schema_company_name', $this->options->get( 'company_name' ) );
+
+		if ( empty( $company_name ) ) {
+			$company_name = $this->site_name;
+		}
+
+		return $company_name;
 	}
 
 	/**
@@ -284,6 +290,10 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 */
 	public function generate_person_logo_id() {
 		$person_logo_id = $this->image->get_attachment_id_from_settings( 'person_logo' );
+
+		if ( empty( $person_logo_id ) ) {
+			$person_logo_id = get_option( 'site_logo' );
+		}
 
 		/**
 		 * Filter: 'wpseo_schema_person_logo_id' - Allows filtering person logo id.
@@ -316,6 +326,10 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 */
 	public function generate_company_logo_id() {
 		$company_logo_id = $this->image->get_attachment_id_from_settings( 'company_logo' );
+
+		if ( empty( $company_logo_id ) ) {
+			$company_logo_id = get_option( 'site_logo' );
+		}
 
 		/**
 		 * Filter: 'wpseo_schema_company_logo_id' - Allows filtering company logo id.
