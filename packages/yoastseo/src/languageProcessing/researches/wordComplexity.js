@@ -85,12 +85,12 @@ const calculateComplexWordsPercentage = function( complexWordsResults, words ) {
 };
 
 /**
- * Calculates the complexity of words in a text, returns each words with their complexity.
+ * Gets the complex words from the sentences and calculates the percentage of complex words compared to the total words in the text.
  *
  * @param {Paper}       paper       The Paper object to get the text from.
  * @param {Researcher}  researcher  The researcher object.
  *
- * @returns {Object} The words found in the text with the number of syllables.
+ * @returns {Object} The complex words found in the text and their percentage compared to the total words in the text.
  */
 export default function wordComplexity( paper, researcher ) {
 	const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
