@@ -20,6 +20,7 @@ const InsightsModal = ( { location } ) => {
 			title={ __( "Insights", "wordpress-seo" ) }
 			id={ `yoast-insights-modal-${ location }` }
 			shouldCloseOnClickOutside={ ! isElementorEditor }
+			showChangesWarning={ false }
 		>
 			<div className="yoast-insights yoast-modal-content--columns">
 				<ProminentWords location={ location } />
