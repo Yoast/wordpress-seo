@@ -25,11 +25,6 @@ export default class Researcher extends AbstractResearcher {
 
 		Object.assign( this.config, {
 			functionWords: [],
-			wordComplexity: {
-				frequencyList: [],
-				wordLength: 10,
-				canStartWithUpperCase: false,
-			},
 		} );
 
 		Object.assign( this.helpers, {
