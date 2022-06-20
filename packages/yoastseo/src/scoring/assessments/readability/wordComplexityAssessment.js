@@ -1,208 +1,109 @@
 import { __, sprintf } from "@wordpress/i18n";
-import { filter, flatMap, flatten, forEach, zip } from "lodash-es";
+import { merge } from "lodash-es";
 
-import formatNumber from "../../../helpers/formatNumber";
-import addMark from "../../../markers/addMark";
+import { collectMarkingsInSentence } from "../../../languageProcessing/helpers/word/markWordsInSentences";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
-import removeSentenceTerminators from "../../../languageProcessing/helpers/sanitize/removeSentenceTerminators";
 import AssessmentResult from "../../../values/AssessmentResult";
 import Mark from "../../../values/Mark";
-import { sanitizeString } from "../../../languageProcessing";
+import Assessment from "../assessment";
 
-// The maximum recommended value is 3 syllables. With more than 3 syllables a word is considered complex.
-const recommendedValue = 3;
+export default class WordComplexityAssessment extends Assessment {
+	constructor( config = {} ) {
+		super();
 
-/**
- * Filters the words that aren't too long.
- *
- * @param {Array} words The array with words to filter on complexity.
- *
- * @returns {Array} The filtered list with complex words.
- */
-const filterComplexity = function( words ) {
-	return filter( words, function( word ) {
-		return ( word.complexity > recommendedValue );
-	} );
-};
+		const defaultConfig = {
+			scores: {
+				acceptableAmount: 6,
+				goodAmount: 9,
+			},
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/difficult-words" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/difficult-words" ),
+		};
 
-/**
- * Calculates the complexity of the text based on the syllables in words.
- *
- * @param {number}  wordCount       The number of words used.
- * @param {Array}   wordComplexity  The list of words with their syllable count.
- *
- * @returns {{score: number, text}} resultobject with score and text.
- */
-const calculateComplexity = function( wordCount, wordComplexity ) {
-	let percentage = 0;
-	const tooComplexWords = filterComplexity( wordComplexity ).length;
-
-	// Prevent division by zero errors.
-	if ( wordCount !== 0 ) {
-		percentage = ( tooComplexWords / wordCount ) * 100;
+		/* Translators: This is the name of the 'Word complexity' SEO assessment.
+         * It appears before the feedback in the analysis, for example in the feedback string:
+         * "Word complexity: You are not using too many complex words, which makes your text easy to read. Good job!"
+         */
+		this.name = __( "Word complexity", "wordpress-seo" );
+		this.identifier = "wordComplexity";
+		this._config = merge( defaultConfig, config );
 	}
 
-	percentage = formatNumber( percentage );
-	const hasMarks = ( percentage > 0 );
-	const recommendedMaximum = 5;
-	const wordComplexityURL = createAnchorOpeningTag( "https://yoa.st/difficult-words" );
-	// 6 is the number of scorepoints between 3, minscore and 9, maxscore. For scoring we use 10 steps. each step is 0.6
-	// Up to 1.7 percent is for scoring a 9, higher percentages give lower scores.
-	let score = 9 - Math.max( Math.min( ( 0.6 ) * ( percentage - 1.7 ), 6 ), 0 );
-	score = formatNumber( score );
+	getResult( paper, researcher ) {
+		this._wordComplexity = researcher.getResearch( "wordComplexity" );
 
-	if ( score >= 7 ) {
+
+		const calculatedScore = this.calculateResult();
+		const assessmentResult = new AssessmentResult();
+		assessmentResult.setScore( calculatedScore.score );
+		assessmentResult.setText( calculatedScore.text );
+		assessmentResult.setHasMarks( calculatedScore.hasMarks );
+		return assessmentResult;
+	}
+
+	calculateResult() {
+		const complexWordsPercentage = this._wordComplexity.percentage;
+		const hasMarks = complexWordsPercentage > 0;
+		const assessmentLink = this._config.urlTitle + this.name + "</a>";
+
+		if ( complexWordsPercentage < 5 ) {
+			return {
+				score: this._config.scores.goodAmount,
+				hasMarks: hasMarks,
+				resultText: sprintf(
+					/* Translators: %1$s and %2$s expand to links to Yoast.com articles,
+					%3$s expands to the anchor end tag */
+					__(
+						// eslint-disable-next-line max-len
+						"%1$s: You are not using too many complex words, which makes your text easy to read. Good job!",
+						"wordpress-seo"
+					),
+					assessmentLink
+				),
+			};
+		}
 		return {
-			score: score,
+			score: this._config.scores.acceptableAmount,
 			hasMarks: hasMarks,
-			text: sprintf(
-				// Translators: %1$s expands to the percentage of complex words, %2$s expands to a link on yoast.com,
-				// %3$d expands to the recommended maximum number of syllables,
-				// %4$s expands to the anchor end tag, %5$s expands to the recommended maximum number of syllables.
+			resultText: sprintf(
+				/* Translators: %1$s and %2$s expand to links to Yoast.com articles,
+				%3$s expands to the anchor end tag */
 				__(
-					"%1$s of the words contain %2$sover %3$s syllables%4$s, which is less than or equal to the recommended maximum of %5$s.",
+					// eslint-disable-next-line max-len
+					"%1$s: %2$s of the words in your text is considered complex. %3$sTry to use shorter and more familiar words to improve readability%4$s.",
 					"wordpress-seo"
 				),
-				percentage + "%", wordComplexityURL, recommendedValue, "</a>", recommendedMaximum + "%"  ),
+				assessmentLink,
+				complexWordsPercentage,
+				this._config.urlCallToAction,
+				"</a>"
+			),
 		};
 	}
 
-	return {
-		score: score,
-		hasMarks: hasMarks,
-		text: sprintf(
-			// Translators: %1$s expands to the percentage of complex words, %2$s expands to a link on yoast.com,
-			// %3$d expands to the recommended maximum number of syllables,
-			// %4$s expands to the anchor end tag, %5$s expands to the recommended maximum number of syllables.
-			__(
-				"%1$s of the words contain %2$sover %3$s syllables%4$s, which is more than the recommended maximum of %5$s.",
-				"wordpress-seo"
-			),
-			percentage + "%", wordComplexityURL, recommendedValue, "</a>", recommendedMaximum + "%"  ),
-	};
-};
+	getMarks( paper, researcher ) {
+		const wordComplexityResults = researcher.getResearch( "wordComplexity" ).complexWords;
+		const matchWordCustomHelper = researcher.getResearch( "matchWordCustomHelper" );
+		let markings = [];
 
-/**
- * Marks complex words in a sentence.
- *
- * @param {string} sentence     The sentence to mark complex words in.
- * @param {Array} complexWords  The array with complex words.
- *
- * @returns {Array} All marked complex words.
- */
-const markComplexWordsInSentence = function( sentence, complexWords ) {
-	const splitWords = sentence.split( /\s+/ );
+		wordComplexityResults.forEach( ( result ) => {
+			const complexWords = result.complexWords;
+			const sentence = result.sentence;
 
-	forEach( complexWords, function( complexWord ) {
-		const wordIndex = complexWord.wordIndex;
-
-		if ( complexWord.word === splitWords[ wordIndex ] ||
-			complexWord.word === removeSentenceTerminators( splitWords[ wordIndex ] ) ) {
-			splitWords[ wordIndex ] = splitWords[ wordIndex ].replace( complexWord.word, addMark( complexWord.word ) );
-		}
-	} );
-	return splitWords;
-};
-
-/**
- * Splits sentence on whitespace.
- *
- * @param {string} sentence The sentence to split.
- *
- * @returns {Array} All words from sentence. .
- */
-const splitSentenceOnWhitespace = function( sentence ) {
-	const whitespace = sentence.split( /\S+/ );
-
-	// Drop first and last elements.
-	whitespace.pop();
-	whitespace.shift();
-
-	return whitespace;
-};
-
-/**
- * Creates markers of words that are complex.
- *
- * @param {Paper}       paper       The Paper object to assess.
- * @param {Researcher}  researcher  The Researcher object containing all available researches.
- *
- * @returns {Array} A list with markers
- */
-const wordComplexityMarker = function( paper, researcher ) {
-	const wordComplexityResults = researcher.getResearch( "wordComplexity" );
-
-	return flatMap( wordComplexityResults, function( result ) {
-		const words = result.words;
-		const sentence = result.sentence;
-
-		const complexWords = filterComplexity( words );
-
-		if ( complexWords.length === 0 ) {
-			return [];
-		}
-
-		const splitWords = markComplexWordsInSentence( sentence, complexWords );
-
-		const whitespace = splitSentenceOnWhitespace( sentence );
-
-		// Rebuild the sentence with the marked words.
-		let markedSentence = zip( splitWords, whitespace );
-		markedSentence = flatten( markedSentence );
-		markedSentence = markedSentence.join( "" );
-
-		return new Mark( {
-			original: sentence,
-			marked: markedSentence,
+			if ( complexWords.length > 0 ) {
+				markings = markings.concat(
+					new Mark( {
+						original: sentence,
+						marked: collectMarkingsInSentence( sentence, complexWords, matchWordCustomHelper ),
+					} )
+				);
+			}
 		} );
-	} );
-};
 
-/**
- * Execute the word complexity assessment and return a result based on the syllables in words.
- *
- * @param {Paper}       paper       The Paper object to assess.
- * @param {Researcher}  researcher  The Researcher object containing all available researches.
- *
- * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
- */
-const wordComplexityAssessment = function( paper, researcher ) {
-	let wordComplexity = researcher.getResearch( "wordComplexity" );
-	wordComplexity = flatMap( wordComplexity, function( sentence ) {
-		return sentence.words;
-	} );
-	const wordCount = wordComplexity.length;
+		return markings;
+	}
 
-	const complexityResult = calculateComplexity( wordCount, wordComplexity );
-	const assessmentResult = new AssessmentResult();
-	assessmentResult.setScore( complexityResult.score );
-	assessmentResult.setText( complexityResult.text );
-	assessmentResult.setHasMarks( complexityResult.hasMarks );
-	return assessmentResult;
-};
-
-/**
- * Checks whether the paper has text.
- *
- * @param {Paper}       paper       				The paper to use for the assessment.
- * @param {Researcher}  researcher  				The researcher object.
- * @param {number}		contentNeededForAssessment	The minimum amount of characters that is required for this research to be applicable.
- *
- * @returns {boolean} True when there is text.
- */
-const isApplicable = function( paper, researcher, contentNeededForAssessment = 50 ) {
-	/*
-	 Note: this code contains repetition from yoastseo/src/scoring/assessments/assessment.js.
-	 If FleshReadingEase is refactored to a class that extends Assessment,
-	 use this.hasEnoughContentForAssessment( paper ) instead of text.length >= contentNeededForAssessment
-	*/
-	const text = sanitizeString( paper.getText() );
-	return text.length >= contentNeededForAssessment && researcher.hasResearch( "wordComplexity" );
-};
-
-export default {
-	identifier: "wordComplexity",
-	getResult: wordComplexityAssessment,
-	isApplicable: isApplicable,
-	getMarks: wordComplexityMarker,
-};
+	isApplicable( paper, researcher ) {
+		return paper.hasText() && researcher.hasResearch( "wordComplexity" );
+	}
+}
