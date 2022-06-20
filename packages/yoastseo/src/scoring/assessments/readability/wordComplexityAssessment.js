@@ -36,7 +36,7 @@ export default class WordComplexityAssessment extends Assessment {
 		const calculatedScore = this.calculateResult();
 		const assessmentResult = new AssessmentResult();
 		assessmentResult.setScore( calculatedScore.score );
-		assessmentResult.setText( calculatedScore.text );
+		assessmentResult.setText( calculatedScore.resultText );
 		assessmentResult.setHasMarks( calculatedScore.hasMarks );
 		return assessmentResult;
 	}
