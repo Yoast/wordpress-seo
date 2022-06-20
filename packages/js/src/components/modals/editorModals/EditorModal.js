@@ -38,7 +38,7 @@ export const isCloseEvent = ( event ) => {
  *
  * @returns {*} A button wrapped in a div.
  */
-const EditorModal = ( { id, postTypeName, children, title, isOpen, close, open, shouldCloseOnClickOutside } ) => {
+const EditorModal = ( { id, postTypeName, children, title, isOpen, close, open, shouldCloseOnClickOutside, showChangesWarning } ) => {
 	const requestClose = useCallback( ( event ) => {
 		// Prevent the modal from closing when the event is a false positive.
 		if ( ! isCloseEvent( event ) ) {
@@ -67,12 +67,12 @@ const EditorModal = ( { id, postTypeName, children, title, isOpen, close, open, 
 						<div className="yoast-notice-container">
 							<hr />
 							<div className="yoast-button-container">
-								<p>
+								{ showChangesWarning && <p>
 									{
 										/* Translators: %s translates to the Post Label in singular form */
 										sprintf( __( "Make sure to save your %s for changes to take effect", "wordpress-seo" ), postTypeName )
 									}
-								</p>
+								</p> }
 								<button
 									className="yoast-button yoast-button--primary yoast-button--post-settings-modal"
 									type="button"
@@ -107,10 +107,12 @@ EditorModal.propTypes = {
 	open: PropTypes.func.isRequired,
 	close: PropTypes.func.isRequired,
 	shouldCloseOnClickOutside: PropTypes.bool,
+	showChangesWarning: PropTypes.bool,
 };
 
 EditorModal.defaultProps = {
 	shouldCloseOnClickOutside: true,
+	showChangesWarning: true,
 };
 
 export default EditorModal;
