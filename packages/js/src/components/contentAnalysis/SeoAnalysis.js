@@ -130,40 +130,6 @@ class SeoAnalysis extends Component {
 	}
 
 	/**
-	 * Renders the UpsellBox component.
-	 *
-	 * @param {string} location The location of the upsell component. Used to determine the shortlinks in the component.
-	 *
-	 * @returns {wp.Element} The UpsellBox component.
-	 */
-	renderKeywordUpsell( location ) {
-		// Default to metabox.
-		let link    = wpseoAdminL10n[ "shortlinks.upsell.metabox.additional_link" ];
-		let buyLink = wpseoAdminL10n[ "shortlinks.upsell.metabox.additional_button" ];
-		let Collapsible = MetaboxCollapsible;
-
-		if ( location.toLowerCase() === "sidebar" ) {
-			link    = wpseoAdminL10n[ "shortlinks.upsell.sidebar.additional_link" ];
-			buyLink = wpseoAdminL10n[ "shortlinks.upsell.sidebar.additional_button" ];
-			Collapsible = SidebarCollapsible;
-		}
-
-		return (
-			<Collapsible
-				prefixIcon={ { icon: "plus", color: colors.$color_grey_medium_dark } }
-				prefixIconCollapsed={ { icon: "plus", color: colors.$color_grey_medium_dark } }
-				title={ __( "Add related keyphrase", "wordpress-seo" ) }
-				id={ `yoast-additional-keyphrase-collapsible-${ location }` }
-			>
-				<MultipleKeywords
-					link={ link }
-					buyLink={ buyLink }
-				/>
-			</Collapsible>
-		);
-	}
-
-	/**
 	 * Renders the AnalysisUpsell component.
 	 *
 	 * @param {string} location The location of the upsell component. Used to determine the shortlink in the component.
@@ -291,7 +257,6 @@ class SeoAnalysis extends Component {
 									marksButtonStatus={ this.props.marksButtonStatus }
 								/>
 							</Collapsible>
-							{ this.props.shouldUpsell && this.renderKeywordUpsell( location ) }
 							{ this.renderTabIcon( location, score.className ) }
 						</Fragment>
 					);
