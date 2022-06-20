@@ -14,7 +14,7 @@ import Mark from "../../../values/Mark";
  *
  * @returns {string} The sentence with marks.
  */
-const collectMarkingsInSentence = function( sentence, topicFoundInSentence, matchWordCustomHelper ) {
+export const collectMarkingsInSentence = function( sentence, topicFoundInSentence, matchWordCustomHelper ) {
 	// If a language has a custom helper to match words, we disable the word boundary when creating the regex.
 	const topicRegex = matchWordCustomHelper ? arrayToRegex( topicFoundInSentence, true ) : arrayToRegex( topicFoundInSentence );
 	const markup = sentence.replace( topicRegex, function( x ) {
