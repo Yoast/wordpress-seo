@@ -1,7 +1,7 @@
 /* global wp */
 import { actions } from "@yoast/externals/redux";
 import jQuery from "jquery";
-import { debounce, isUndefined } from "lodash";
+import { debounce, isUndefined, isString } from "lodash";
 import analysis from "yoastseo";
 import { excerptFromContent, fillReplacementVariables, mapCustomFields, mapCustomTaxonomies } from "../helpers/replacementVariableHelpers";
 import * as tmceHelper from "../lib/tinymce";
@@ -84,10 +84,15 @@ export default class ClassicEditorData {
 	subscribeToTinyMceEditor() {
 		/**
 		 * Handles changes.
+		 * @param {string|Object} content The content or the event.
 		 * @returns {void}
 		 */
-		const handleChange = () => {
-			const content = this.getContent();
+		const handleChange = ( content ) => {
+			// Use the passed content if possible. Otherwise, get the content from tiny MCE.
+			if ( ! isString( content ) ) {
+				content = this.getContent();
+			}
+
 			if ( this._previousEditorData.content === content ) {
 				return;
 			}
@@ -113,10 +118,18 @@ export default class ClassicEditorData {
 			}
 
 			// Update on init: on terms the initial content is empty.
-			handleChange();
+			handleChange( this.getContent() );
 
 			[ "input", "change", "cut", "paste" ].forEach( eventName => editor.on( eventName, debounce( handleChange, 1000 ) ) );
 		} );
+
+		// Attachment description field.
+		const attachmentDescription = document.getElementById( "attachment_content" );
+		if ( attachmentDescription ) {
+			// Update on init: on attachments the initial content is empty.
+			handleChange( attachmentDescription.value );
+			attachmentDescription.addEventListener( "input", event => handleChange( event.target.value ) );
+		}
 	}
 
 	/**
@@ -133,13 +146,14 @@ export default class ClassicEditorData {
 			if ( this._previousEditorData.slug !== slug ) {
 				this._previousEditorData.slug = slug;
 				this._store.dispatch( setEditorDataSlug( slug ) );
+				this._store.dispatch( updateData( { slug } ) );
 			}
 		};
 
 		// Term slug field.
 		const slugField = document.getElementById( "slug" );
 		if ( slugField ) {
-			jQuery( slugField ).on( "input", event => updateSlug( event.target.value ) );
+			slugField.addEventListener( "input", event => updateSlug( event.target.value ) );
 		}
 
 		// Posts' slug screen option field.
