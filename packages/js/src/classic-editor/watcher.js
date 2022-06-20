@@ -6,6 +6,7 @@ import { addEventHandler as addTinyMceEventListener, getContentTinyMce } from ".
 import { update as updateAdminBar } from "../ui/adminBar";
 import * as publishBox from "../ui/publishBox";
 import { update as updateTrafficLight } from "../ui/trafficLight";
+import { getPostEditSlugFull } from "./helpers/dom";
 import * as dom from "./helpers/dom";
 import createDomSync from "./watchers/helpers/createDomSync";
 import { createPostFacebookSync, createTermFacebookSync } from "./watchers/facebook";
@@ -271,6 +272,12 @@ const syncPostToStore = () => {
 	// Sync simple editor changes to the store.
 	createStoreSync( DOM_IDS.POST_TITLE, actions.updateTitle, "input" );
 	createStoreSync( DOM_IDS.POST_EXCERPT, actions.updateExcerpt, "input" );
+	const updateSlug = ( slug ) => {
+		if ( slug ) {
+			actions.updateSlug( slug );
+			actions.updatePermalink( get( window, "wpseoScriptData.metabox.base_url", "" ) + slug );
+		}
+	};
 
 	/**
 	 * Handles attaching listeners to post slug editing.
@@ -284,13 +291,13 @@ const syncPostToStore = () => {
 		 */
 		// eslint-disable-next-line no-unused-expressions
 		document.getElementById( DOM_IDS.POST_SLUG_EDIT_PARENT )?.addEventListener( "click", ( event ) => {
+			let slug;
 			if ( event.target.classList.contains( DOM_CLASSES.POST_SLUG_SAVE_BUTTON ) ) {
-				const slug = dom.getPostNewSlug();
-				if ( slug ) {
-					actions.updateSlug( slug );
-					actions.updatePermalink( get( window, "wpseoScriptData.metabox.base_url", "" ) + slug );
-				}
+				slug = dom.getPostNewSlug();
+				updateSlug( slug );
 			}
+			slug = dom.getPostEditSlugFull();
+			updateSlug( slug );
 		} );
 	};
 	// Sync post slug changes to the store.
