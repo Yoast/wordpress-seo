@@ -7,7 +7,17 @@ import AssessmentResult from "../../../values/AssessmentResult";
 import Mark from "../../../values/Mark";
 import Assessment from "../assessment";
 
+/**
+ * Represents the assessment that checks whether there are too many complex words in the text.
+ */
 export default class WordComplexityAssessment extends Assessment {
+	/**
+	 * Sets the identifier and the config.
+	 *
+	 * @param {object} config The configuration to use.
+	 *
+	 * @returns {void}
+	 */
 	constructor( config = {} ) {
 		super();
 
@@ -20,7 +30,8 @@ export default class WordComplexityAssessment extends Assessment {
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/difficult-words" ),
 		};
 
-		/* Translators: This is the name of the 'Word complexity' SEO assessment.
+		/*
+		 * Translators: This is the name of the 'Word complexity' SEO assessment.
          * It appears before the feedback in the analysis, for example in the feedback string:
          * "Word complexity: You are not using too many complex words, which makes your text easy to read. Good job!"
          */
@@ -29,6 +40,14 @@ export default class WordComplexityAssessment extends Assessment {
 		this._config = merge( defaultConfig, config );
 	}
 
+	/**
+	 * Scores the percentage of sentences including one or more transition words.
+	 *
+	 * @param {object} paper        The paper to use for the assessment.
+	 * @param {object} researcher   The researcher used for calling research.
+	 *
+	 * @returns {object} The Assessment result.
+	 */
 	getResult( paper, researcher ) {
 		this._wordComplexity = researcher.getResearch( "wordComplexity" );
 
@@ -40,6 +59,11 @@ export default class WordComplexityAssessment extends Assessment {
 		return assessmentResult;
 	}
 
+	/**
+	 * Calculates word complexity word result.
+	 *
+	 * @returns {object} Object containing the score, the result text and the information whether there is a mark..
+	 */
 	calculateResult() {
 		const complexWordsPercentage = this._wordComplexity.percentage;
 		const hasMarks = complexWordsPercentage > 0;
@@ -80,15 +104,22 @@ export default class WordComplexityAssessment extends Assessment {
 		};
 	}
 
+	/**
+	 * Marks text for the word complexity assessment.
+	 *
+	 * @param {Paper}       paper       The paper to use for the marking.
+	 * @param {Researcher}  researcher  The researcher containing the necessary research.
+	 *
+	 * @returns {Array<Mark>} A list of marks that should be applied.
+	 */
 	getMarks( paper, researcher ) {
 		const wordComplexityResults = researcher.getResearch( "wordComplexity" ).complexWords;
 		const matchWordCustomHelper = researcher.getResearch( "matchWordCustomHelper" );
 		let markings = [];
 
 		wordComplexityResults.forEach( ( result ) => {
-			let complexWords = result.complexWords;
+			const complexWords = result.complexWords;
 			const sentence = result.sentence;
-			complexWords = complexWords.map( complexWord => complexWord.word );
 
 			if ( complexWords.length > 0 ) {
 				markings = markings.concat(
@@ -103,6 +134,14 @@ export default class WordComplexityAssessment extends Assessment {
 		return markings;
 	}
 
+	/**
+	 * Checks if the word complexity assessment is applicable to the paper.
+	 *
+	 * @param {Paper}       paper       The paper to check.
+	 * @param {Researcher}  researcher  The researcher object.
+	 *
+	 * @returns {boolean} Returns true if the paper has text and the researcher has word complexity research.
+	 */
 	isApplicable( paper, researcher ) {
 		return paper.hasText() && researcher.hasResearch( "wordComplexity" );
 	}
