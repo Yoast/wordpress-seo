@@ -9,6 +9,7 @@ import { get } from "lodash";
 import CollapsibleCornerstone from "../../containers/CollapsibleCornerstone";
 import Warning from "../../containers/Warning";
 import { KeywordInput, ReadabilityAnalysis, SeoAnalysis } from "@yoast/externals/components";
+import InsightsModal from "../../insights/components/insights-modal";
 import SidebarItem from "../SidebarItem";
 import GooglePreviewModal from "../modals/editorModals/GooglePreviewModal";
 import PremiumSEOAnalysisModal from "../modals/PremiumSEOAnalysisModal";
@@ -95,6 +96,9 @@ export default function SidebarFill( { settings } ) {
 					<WincherSEOPerformanceModal
 						location="sidebar"
 					/>
+				</SidebarItem> }
+				{ settings.isInsightsEnabled && <SidebarItem renderPriority={ 32 }>
+					<InsightsModal location="sidebar" />
 				</SidebarItem> }
 			</Fill>
 		</Fragment>

@@ -11,6 +11,7 @@ import CollapsibleCornerstone from "../../containers/CollapsibleCornerstone";
 import SnippetEditor from "../../containers/SnippetEditor";
 import Warning from "../../containers/Warning";
 import { KeywordInput, ReadabilityAnalysis, SeoAnalysis } from "@yoast/externals/components";
+import InsightsCollapsible from "../../insights/components/insights-collapsible";
 import MetaboxCollapsible from "../MetaboxCollapsible";
 import SidebarItem from "../SidebarItem";
 import AdvancedSettings from "../../containers/AdvancedSettings";
@@ -124,6 +125,9 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 				>
 					<SocialMetadataPortal target="wpseo-section-social" />
 				</SidebarItem>
+				{ settings.isInsightsEnabled && <SidebarItem key="insights" renderPriority={ 52 }>
+					<InsightsCollapsible location="metabox" />
+				</SidebarItem> }
 			</Fill>
 		</>
 	);
