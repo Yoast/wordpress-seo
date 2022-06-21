@@ -67,6 +67,11 @@ class Deactivated_Premium_Integration implements Integration_Interface {
 		}
 
 		$premium_file = 'wordpress-seo-premium/wp-seo-premium.php';
+
+		if ( ! current_user_can( 'activate_plugin', $premium_file ) ) {
+			return;
+		}
+
 		if (
 			! defined( 'WPSEO_PREMIUM_FILE' )
 			&& \file_exists( \WP_PLUGIN_DIR . '/' . $premium_file )
