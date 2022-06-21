@@ -910,9 +910,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'isBlockEditor'              => $is_block_editor,
 			'postStatus'                 => get_post_status( $post_id ),
 			'analysis'                   => [
-				'plugins'                     => $plugins_script_data,
-				'worker'                      => $worker_script_data,
-				'estimatedReadingTimeEnabled' => $this->estimated_reading_time_conditional->is_met(),
+				'plugins' => $plugins_script_data,
+				'worker'  => $worker_script_data,
 			],
 			'dismissedAlerts'            => $dismissed_alerts,
 			'webinarIntroBlockEditorUrl' => WPSEO_Shortlinker::get( 'https://yoa.st/webinar-intro-block-editor' ),

@@ -160,9 +160,7 @@ export default compose( [
 						break;
 				}
 			},
-			onChangeAnalysisData: analysisData => {
-				updateAnalysisData( analysisData );
-			},
+			onChangeAnalysisData: updateAnalysisData,
 			onLoad: loadSnippetEditorData,
 		};
 	} ),

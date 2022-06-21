@@ -242,7 +242,7 @@ Paper.prototype.getDate = function() {
 	return this._attributes.date;
 };
 
-/*
+/**
  * Serializes the Paper instance to an object.
  *
  * @returns {Object} The serialized Paper.
@@ -269,11 +269,16 @@ Paper.prototype.equals = function( paper ) {
 /**
  * Parses the object to a Paper.
  *
- * @param {Object} serialized The serialized object.
+ * @param {Object|Paper} serialized The serialized object or Paper instance.
  *
  * @returns {Paper} The parsed Paper.
  */
 Paper.parse = function( serialized ) {
+	// For ease of use, check if it is not already a Paper instance.
+	if ( serialized instanceof Paper ) {
+		return serialized;
+	}
+
 	// _parseClass is taken here, so it doesn't end up in the attributes.
 	// eslint-disable-next-line no-unused-vars
 	const { text, _parseClass, ...attributes } = serialized;
