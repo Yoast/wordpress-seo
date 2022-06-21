@@ -28,7 +28,7 @@ const checkIfWordIsComplex = function( word, config ) {
 	 * (for languages that see long words to be less complex if they start with a capital letter)
 	 */
 	if ( word.length > lengthLimit ) {
-		if ( ! frequencyList.contains( word ) ) {
+		if ( ! frequencyList.includes( word ) ) {
 			if ( doesUpperCaseDecreaseComplexity === true && word[ 0 ].toLowerCase() === word[ 0 ] ) {
 				isWordComplex = true;
 			}
