@@ -604,8 +604,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	public function generate_main_image_id() {
 		switch ( true ) {
 			case is_singular():
-				$this->get_singular_post_image( $this->id );
-				break;
+				return $this->get_singular_post_image( $this->id );
 			case is_author():
 			case is_tax():
 			case is_tag():
@@ -691,6 +690,10 @@ class Meta_Tags_Context extends Abstract_Presentation {
 			if ( \is_int( $thumbnail_id ) && $thumbnail_id > 0 ) {
 				return $thumbnail_id;
 			}
+		}
+
+		if ( \is_singular( 'attachment' ) ) {
+			return \get_query_var( 'attachment_id' );
 		}
 
 		return null;
