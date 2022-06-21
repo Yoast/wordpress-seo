@@ -169,11 +169,11 @@ class Main_Image_Test extends TestCase {
 	}
 
 	/**
-	 * Tests is not needed.
+	 * Tests to see output is not needed on a user page.
 	 *
 	 * @covers ::is_needed
 	 */
-	public function test_is_not_needed() {
+	public function test_is_needed_object_type_user() {
 		$this->meta_tags_context->indexable->object_type = 'user';
 
 		self::assertFalse( $this->instance->is_needed() );
