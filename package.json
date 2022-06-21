@@ -42,7 +42,7 @@
     "@typescript-eslint/parser": "^4.24.0",
     "@wordpress/dependency-extraction-webpack-plugin": "^3.1.0",
     "@wordpress/scripts": "^14.1.1",
-    "@wordproof/uikit": "^1.0.40",
+    "@wordproof/uikit": "1.0.41",
     "@yoast/babel-preset": "^1.0.0",
     "@yoast/browserslist-config": "^1.2.2",
     "@yoast/grunt-plugin-tasks": "^2.3",

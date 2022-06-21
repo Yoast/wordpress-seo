@@ -6957,10 +6957,10 @@
     "@babel/runtime" "^7.13.10"
     lodash "^4.17.19"
 
-"@wordproof/uikit@^1.0.40":
-  version "1.0.40"
-  resolved "https://registry.yarnpkg.com/@wordproof/uikit/-/uikit-1.0.40.tgz#34fba00181a5b37cb912204e74a635b6802401ef"
-  integrity sha512-FyS8DiKKWZUiAer2eGquzYwmwbUPrOOYLqxS4U0v9cHvEHB7K/R6JQPqvcGQmZhR0Za3r5mei6P6BmbgSsRx7g==
+"@wordproof/uikit@1.0.41":
+  version "1.0.41"
+  resolved "https://registry.yarnpkg.com/@wordproof/uikit/-/uikit-1.0.41.tgz#0aefba14bec5abe494c388b6c4f6936711c6a58a"
+  integrity sha512-AjavDDgZOSvrXVObRTHdVV82gQvGO9ceDDUaAOPRufFZjBwJatdWYQ9AMCXhd07uabNHnVZXeRijsAB80vPIZA==
   dependencies:
     "@stencil/core" "2.9.0"
     autoprefixer "^10.2.3"
