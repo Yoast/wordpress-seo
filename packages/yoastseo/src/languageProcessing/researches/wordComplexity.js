@@ -1,5 +1,6 @@
 import getWords from "../helpers/word/getWords.js";
 import getSentences from "../helpers/sentence/getSentences.js";
+import { flatMap } from "lodash-es";
 
 /**
  * Checks if a word is complex.
@@ -50,15 +51,13 @@ const getComplexWords = function( sentence, config ) {
 	const words = getWords( sentence );
 	const results = [];
 
-	words.forEach( ( word, i ) => {
-		results.push( {
-			word: word,
-			wordIndex: i,
-			complexity: checkIfWordIsComplex( word, config ),
-		} );
+	words.forEach( word => {
+		if ( checkIfWordIsComplex( word, config ) ) {
+			results.push( word );
+		}
 	} );
 
-	return results.length > 0 ? results.filter( result => result.complexity === true ) : [];
+	return results;
 };
 
 /**
@@ -66,9 +65,10 @@ const getComplexWords = function( sentence, config ) {
  *
  * @param {Array} complexWordsResults The array of complex words object. The structure of the data is:
  * [
- *  { complexWords: [
- *      { word: "word", wordIndex: "", complexity: true/false }
- *    ],
+ *  { complexWords: ["word1", "word2", "word3" ],
+ *    sentence: "the sentence"
+ *  },
+ *  { complexWords: ["word1", "word2", "word3" ],
  *    sentence: "the sentence"
  *  }
  * ]
@@ -76,9 +76,11 @@ const getComplexWords = function( sentence, config ) {
  * @returns {number}    The percentage of the complex words compared to the total words in the text.
  */
 const calculateComplexWordsPercentage = function( complexWordsResults, words ) {
-	const totalComplexWords = [];
-	complexWordsResults.forEach( result => {
-		return result.complexWords.forEach( complexWord => totalComplexWords.push( complexWord.word ) );
+	const totalComplexWords = flatMap( complexWordsResults, result => {
+		if ( result ) {
+			return result.complexWords;
+		}
+		return "";
 	} );
 	const percentage = ( totalComplexWords.length / words.length ) * 100;
 
@@ -101,12 +103,14 @@ export default function wordComplexity( paper, researcher ) {
 	const sentences = getSentences( text, memoizedTokenizer );
 	const words = getWords( text );
 	// Only returns the complex words of the sentence.
-	const results = sentences.map( sentence => {
+	let results = sentences.map( sentence => {
 		return {
 			complexWords: getComplexWords( sentence, wordComplexityConfig ),
 			sentence: sentence,
 		};
 	} );
+
+	results = results.filter( result => result.complexWords.length !== 0 );
 
 	// Calculate the percentage of the complex words.
 	const percentage = calculateComplexWordsPercentage( results, words );
