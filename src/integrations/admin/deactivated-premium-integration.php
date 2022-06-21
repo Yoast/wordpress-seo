@@ -62,7 +62,7 @@ class Deactivated_Premium_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function premium_deactivated_notice() {
-		if ( ! $this->options_helper->get( 'dismiss_premium_deactivated_notice', false ) === false ) {
+		if ( ! $this->options_helper->get( 'dismiss_premium_deactivated_notice', false ) === true ) {
 			return;
 		}
 
