@@ -3,17 +3,15 @@ import { __ } from "@wordpress/i18n";
 import { Fragment } from "@wordpress/element";
 import { useState, useCallback } from "@wordpress/element";
 import PropTypes from "prop-types";
+import styled from "styled-components";
 
 /* Internal dependencies */
-import { YoastSeoIcon } from "@yoast/components";
+import { YoastSeoIcon, CollapsibleStateless } from "@yoast/components";
 import { colors } from "@yoast/style-guide";
 import { ModalContainer, ModalIcon } from "./Container";
 import Modal, { defaultModalClassName } from "./Modal";
 import SidebarButton from "../SidebarButton";
 import PremiumSEOAnalysisUpsell from "./PremiumSEOAnalysisUpsell";
-
-import { CollapsibleStateless } from "@yoast/components";
-import styled from "styled-components";
 
 const FakeMetaboxCollapsible = styled( CollapsibleStateless )`
 	h2 > button {
