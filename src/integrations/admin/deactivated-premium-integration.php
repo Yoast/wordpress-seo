@@ -113,7 +113,7 @@ class Deactivated_Premium_Integration implements Integration_Interface {
                         dismiss_premium_deactivated_notice();
                     } );
                 } );
-                </script>";
+            </script>";
 		}
 	}
 
