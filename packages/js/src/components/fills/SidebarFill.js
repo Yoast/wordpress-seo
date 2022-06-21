@@ -80,7 +80,7 @@ export default function SidebarFill( { settings } ) {
 							shouldUpsell={ settings.shouldUpsell }
 							shouldUpsellWordFormRecognition={ settings.isWordFormRecognitionActive }
 						/>
-						{ settings.shouldUpsell && <PremiumSEOAnalysisModal /> }
+						{ settings.shouldUpsell && <PremiumSEOAnalysisModal location="sidebar" /> }
 					</Fragment>
 				</SidebarItem> }
 				{ settings.isContentAnalysisActive && <SidebarItem key="readability" renderPriority={ 20 }>
