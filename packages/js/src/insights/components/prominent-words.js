@@ -70,10 +70,16 @@ const ProminentWords = ( { location } ) => { // eslint-disable-line complexity
 				<b>{ __( "Prominent words", "wordpress-seo" ) }</b>
 			</div>
 			{ ! shouldUpsell && <p>
-				{ __(
-					"The following words occur the most in the content. These give an indication of what your content focuses on. If the words differ a lot from your topic, you might want to rewrite your content accordingly.",
-					"wordpress-seo"
-				) }
+				{ data.length === 0
+					? __(
+						"Once you add a bit more copy, we'll give you a list of words that occur the most in the content. These give an indication of what your content focuses on.",
+						"wordpress-seo"
+					)
+					: __(
+						"The following words occur the most in the content. These give an indication of what your content focuses on. If the words differ a lot from your topic, you might want to rewrite your content accordingly.",
+						"wordpress-seo"
+					)
+				}
 			</p> }
 			{ shouldUpsell && <p>{ upsellDescription }</p> }
 			{ shouldUpsell && <OutboundLink href={ upsellLink } className="yoast-button yoast-button-upsell">
