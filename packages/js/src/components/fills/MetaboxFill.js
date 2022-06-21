@@ -22,7 +22,6 @@ import { isWordProofIntegrationActive } from "../../helpers/wordproof";
 import WordProofAuthenticationModals from "../../components/modals/WordProofAuthenticationModals";
 import PremiumSEOAnalysisModal from "../modals/PremiumSEOAnalysisModal";
 import KeywordUpsell from "../KeywordUpsell";
-import PremiumSEOAnalysisUpsell from "../modals/PremiumSEOAnalysisUpsell";
 
 /* eslint-disable complexity */
 /**
@@ -83,12 +82,7 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 						/>
 					</SidebarItem>
 					{ settings.shouldUpsell && <SidebarItem key="premium-seo-analysis-upsell" renderPriority={ 20 }>
-						<MetaboxCollapsible
-							id={ "yoast-premium-seo-analysis-metabox" }
-							title={ __( "Premium SEO Analysis", "wordpress-seo" ) } initialIsOpen={ true }
-						>
-							<PremiumSEOAnalysisUpsell buyLink="shortlinks.upsell.metabox.premium_seo_analysis_button" />
-						</MetaboxCollapsible>
+						<PremiumSEOAnalysisModal location="metabox" />
 					</SidebarItem> }
 				</Fragment> }
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="additional-keywords-upsell" renderPriority={ 22 }>
