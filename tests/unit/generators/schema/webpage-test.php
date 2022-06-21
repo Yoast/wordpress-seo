@@ -195,6 +195,10 @@ class WebPage_Test extends TestCase {
 	public function test_generate_with_provider( $values_to_test, $expected, $message ) {
 		$this->meta_tags_context->has_image = $values_to_test['has_image'];
 
+		if ( $this->meta_tags_context->has_image ) {
+			$this->meta_tags_context->main_image_url = $values_to_test['image_url'];
+		}
+
 		$this->id->primary_image_hash = '#primaryimage';
 		$this->id->breadcrumb_hash    = '#breadcrumb';
 
@@ -457,7 +461,7 @@ class WebPage_Test extends TestCase {
 			'CollectionPage',
 			0,
 			0,
-			1
+			0
 		);
 
 		$expected = [
@@ -469,14 +473,6 @@ class WebPage_Test extends TestCase {
 				'@id' => 'https://example.com/#website',
 			],
 			'inLanguage'      => 'the-language',
-			'potentialAction' => [
-				[
-					'@type'  => 'ReadAction',
-					'target' => [
-						'https://example.com/the-post/',
-					],
-				],
-			],
 			'breadcrumb'      => [ '@id' => 'https://example.com/the-post/#breadcrumb' ],
 		];
 
@@ -498,7 +494,7 @@ class WebPage_Test extends TestCase {
 			'CollectionPage',
 			1,
 			1,
-			1
+			0
 		);
 
 		$expected = [
@@ -513,14 +509,6 @@ class WebPage_Test extends TestCase {
 				'@id' => 'https://example.com/#website',
 			],
 			'inLanguage'      => 'the-language',
-			'potentialAction' => [
-				[
-					'@type'  => 'ReadAction',
-					'target' => [
-						'https://example.com/the-post/',
-					],
-				],
-			],
 		];
 
 		$this->assertEquals( $expected, $this->instance->generate() );
@@ -581,6 +569,7 @@ class WebPage_Test extends TestCase {
 			[
 				'values_to_test' => [
 					'has_image'           => true,
+					'image_url'           => 'https://example.com/image.jpg',
 				],
 				'expected'       => [
 					'@type'              => [ 'WebPage' ],
@@ -594,6 +583,8 @@ class WebPage_Test extends TestCase {
 					'dateModified'       => '2345-12-12 23:23:23',
 					'breadcrumb'         => [ '@id' => 'https://example.com/the-post/#breadcrumb' ],
 					'primaryImageOfPage' => [ '@id' => 'https://example.com/the-post/#primaryimage' ],
+					'image'              => [ '@id' => 'https://example.com/the-post/#primaryimage' ],
+					'thumbnailUrl'       => 'https://example.com/image.jpg',
 					'inLanguage'         => 'the-language',
 					'potentialAction'    => [
 						[

@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Context;
 
 use WP_Block_Parser_Block;
 use WP_Post;
+use WPSEO_Image_Utils;
 use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Config\Schema_IDs;
 use Yoast\WP\SEO\Config\Schema_Types;
@@ -599,14 +600,25 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	/**
 	 * Gets the main image ID.
 	 *
-	 * @return int|false|null The main image ID.
+	 * @return int|null The main image ID.
 	 */
 	public function generate_main_image_id() {
-		if ( ! \has_post_thumbnail( $this->id ) ) {
-			return null;
+		switch ( true ) {
+			case is_singular():
+				$this->get_singular_post_image( $this->id );
+				break;
+			case is_author():
+			case is_tax():
+			case is_tag():
+			case is_category():
+			case is_search():
+			case is_date():
+				return $this->get_singular_post_image( $GLOBALS['wp_query']->posts[0]->ID );
+			case is_404():
+				return $this->options->get( 'og_default_image_id', null );
+			default:
+				return null;
 		}
-
-		return \get_post_thumbnail_id( $this->id );
 	}
 
 	/**
@@ -666,6 +678,25 @@ class Meta_Tags_Context extends Abstract_Presentation {
 		}
 
 		return $logo_id;
+	}
+
+	/**
+	 * Get the ID for a post's featured image.
+	 *
+	 * @param int $id Post ID.
+	 *
+	 * @return int|null
+	 */
+	private function get_singular_post_image( $id ) {
+		if ( \has_post_thumbnail( $id ) ) {
+			$thumbnail_id = \get_post_thumbnail_id( $id );
+			// Prevent returning something else than an int or null.
+			if ( \is_int( $thumbnail_id ) && $thumbnail_id > 0 ) {
+				return $thumbnail_id;
+			}
+		}
+
+		return null;
 	}
 }
 
