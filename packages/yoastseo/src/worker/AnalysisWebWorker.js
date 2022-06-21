@@ -424,7 +424,7 @@ export default class AnalysisWebWorker {
 					this._CustomContentAssessorOptions[ customAnalysisType ] )
 				: new ContentAssessor( this._researcher );
 		}
-		console.log( "useWordComplexity", useWordComplexity );
+
 		if ( useWordComplexity && isUndefined( assessor.getAssessment( "wordComplexity" ) ) ) {
 			if ( useCornerstone === true ) {
 				wordComplexity = new assessments.readability.WordComplexityAssessment( {
@@ -611,6 +611,7 @@ export default class AnalysisWebWorker {
 			"locale",
 			"translations",
 			"customAnalysisType",
+			"useWordComplexity",
 		];
 		const seo = [
 			"keywordAnalysisActive",
