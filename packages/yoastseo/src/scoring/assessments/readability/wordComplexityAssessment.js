@@ -86,8 +86,9 @@ export default class WordComplexityAssessment extends Assessment {
 		let markings = [];
 
 		wordComplexityResults.forEach( ( result ) => {
-			const complexWords = result.complexWords;
+			let complexWords = result.complexWords;
 			const sentence = result.sentence;
+			complexWords = complexWords.map( complexWord => complexWord.word );
 
 			if ( complexWords.length > 0 ) {
 				markings = markings.concat(
