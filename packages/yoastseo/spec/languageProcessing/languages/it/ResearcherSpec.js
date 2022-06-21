@@ -21,6 +21,10 @@ describe( "a test for the Italian Researcher", function() {
 		expect( researcher.hasResearch( "getPassiveVoiceResult" ) ).toBe( true );
 	} );
 
+	it( "returns false if the default research is deleted in the Italian Researcher", function() {
+		expect( researcher.getResearch( "wordComplexity" ) ).toBe( false );
+	} );
+
 	it( "returns the Italian function words filtered at the beginning", function() {
 		expect( researcher.getConfig( "functionWords" ) ).toEqual( functionWords.all );
 	} );
