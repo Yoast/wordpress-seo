@@ -7,7 +7,7 @@ import { makeOutboundLink } from "@yoast/helpers";
 
 const StyledList = styled.ul`
 	list-style: none;
-	margin: 0 0 16px;
+	margin: 0 0 24px;
 	padding: 0;
 
 	li {
@@ -28,6 +28,7 @@ const StyledList = styled.ul`
 
 const ButtonLabel = styled.small`
 	display: block;
+	margin-top: 4px;
 `;
 
 const UpsellButton = makeOutboundLink();
