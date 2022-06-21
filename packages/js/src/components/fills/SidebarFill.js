@@ -86,9 +86,7 @@ export default function SidebarFill( { settings } ) {
 					<ReadabilityAnalysis />
 				</SidebarItem> }
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="additional-keywords-upsell" renderPriority={ 21 }>
-					<Fragment>
-						{ settings.shouldUpsell && <KeywordUpsell /> }
-					</Fragment>
+					{ settings.shouldUpsell && <KeywordUpsell /> }
 				</SidebarItem> }
 				{ settings.isCornerstoneActive && <SidebarItem key="cornerstone" renderPriority={ 30 }>
 					<CollapsibleCornerstone />

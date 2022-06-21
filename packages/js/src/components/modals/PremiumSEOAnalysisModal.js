@@ -1,7 +1,4 @@
-/* global wpseoAdminL10n */
-
 /* External dependencies */
-import interpolateComponents from "interpolate-components";
 import { __, sprintf } from "@wordpress/i18n";
 import { Fragment } from "@wordpress/element";
 import { useState, useCallback } from "@wordpress/element";
@@ -13,6 +10,7 @@ import { ModalContainer, ModalIcon } from "./Container";
 import Modal, { defaultModalClassName } from "./Modal";
 import SidebarButton from "../SidebarButton";
 import UpsellBox from "../UpsellBox";
+import PremiumSEOAnalysisUpsell from "./PremiumSEOAnalysisUpsell";
 
 /**
  * The Premium SEO Analysis Modal.
@@ -24,26 +22,6 @@ const PremiumSEOAnalysisModal = () => {
 
 	const closeModal = useCallback( () => setIsOpen( false ), [] );
 	const openModal = useCallback( () => setIsOpen( true ), [] );
-
-	const intro =  __( "Write content that is more human, easier to read and engaging!", "wordpress-seo" );
-
-	const interpolated = interpolateComponents( {
-		mixedString: intro,
-	} );
-
-	const benefits = [
-		__( "Allows you to use keyphrase synonyms", "wordpress-seo" ),
-		__( "Offers perfect keyphrase distribution", "wordpress-seo" ),
-		__( "Enables you to use different word forms", "wordpress-seo" ),
-	];
-
-	const otherBenefits = sprintf(
-		/* translators: %s expands to 'Yoast SEO Premium'. */
-		__( "The %s analysis:", "wordpress-seo" ),
-		"Yoast SEO Premium"
-	);
-
-	let buyLink = wpseoAdminL10n[ "shortlinks.upsell.sidebar.premium_seo_analysis_button" ];
 
 	return (
 		<Fragment>
@@ -62,23 +40,7 @@ const PremiumSEOAnalysisModal = () => {
 							<h2>{ __( "Create better content with our Premium SEO analysis", "wordpress-seo" ) }</h2>
 						}
 
-						<UpsellBox
-							infoParagraphs={ [ interpolated, otherBenefits ] }
-							benefits={ benefits }
-							upsellButtonText={
-								sprintf(
-									/* translators: %s expands to 'Premium'. */
-									__( "Unlock with %s", "wordpress-seo" ),
-									"Premium"
-								)
-							}
-							upsellButton={ {
-								href: buyLink,
-								className: "yoast-button-upsell",
-								rel: null,
-							} }
-							upsellButtonLabel={ __( "1 year premium support and updates included!", "wordpress-seo" ) }
-						/>
+						<PremiumSEOAnalysisUpsell buyLink="shortlinks.upsell.sidebar.premium_seo_analysis_button" />
 					</ModalContainer>
 				</Modal>
 			}
