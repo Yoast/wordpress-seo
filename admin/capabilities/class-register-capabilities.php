@@ -22,7 +22,13 @@ class WPSEO_Register_Capabilities implements WPSEO_WordPress_Integration {
 			add_action( 'user_has_cap', [ $this, 'filter_user_has_wpseo_manage_options_cap' ], 10, 4 );
 		}
 
-		add_action( 'admin_init', [ $this, 'extend_wpseo_manager_capabilities' ], 10 );
+		/**
+		 * The wpseo_manager role is only extended on single site environments to prevent
+		 * a potential privacy leak.
+		 */
+		if ( ! is_multisite() ) {
+			add_action( 'admin_init', [ $this, 'extend_wpseo_manager_capabilities' ], 10 );
+		}
 	}
 
 	/**
