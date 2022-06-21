@@ -1,6 +1,8 @@
+/* global wpseoAdminL10n */
+
 /* External dependencies */
 import interpolateComponents from "interpolate-components";
-import { __ } from "@wordpress/i18n";
+import { __, sprintf } from "@wordpress/i18n";
 import { Fragment } from "@wordpress/element";
 import { useState, useCallback } from "@wordpress/element";
 
@@ -37,7 +39,7 @@ const PremiumSEOAnalysisModal = () => {
 
 	const otherBenefits = sprintf(
 		/* translators: %s expands to 'Yoast SEO Premium'. */
-		__( "The Yoast SEO Premium analysis:", "wordpress-seo" ),
+		__( "The %s analysis:", "wordpress-seo" ),
 		"Yoast SEO Premium"
 	);
 
@@ -45,49 +47,49 @@ const PremiumSEOAnalysisModal = () => {
 
 	return (
 		<Fragment>
-        { isOpen &&
-                <Modal
-                    title={ __( "Get Yoast SEO Premium", "wordpress-seo" ) }
-                    onRequestClose={ closeModal }
-                    additionalClassName=""
-                    className={ defaultModalClassName }
-                    id="yoast-premium-seo-analysis-modal"
-                    shouldCloseOnClickOutside={ true }
-                >
-                    <ModalContainer>
-                        <ModalIcon icon={ YoastSeoIcon } />
-							{ 
-                                <h2>{ __( "Create better content with our Premium SEO analysis", "wordpress-seo" ) }</h2>
-                        	}
+			{ isOpen &&
+				<Modal
+					title={ __( "Get Yoast SEO Premium", "wordpress-seo" ) }
+					onRequestClose={ closeModal }
+					additionalClassName=""
+					className={ defaultModalClassName }
+					id="yoast-premium-seo-analysis-modal"
+					shouldCloseOnClickOutside={ true }
+				>
+					<ModalContainer>
+						<ModalIcon icon={ YoastSeoIcon } />
+						{
+							<h2>{ __( "Create better content with our Premium SEO analysis", "wordpress-seo" ) }</h2>
+						}
 
-							<UpsellBox
-								infoParagraphs={ [ interpolated, otherBenefits ] }
-								benefits={ benefits }
-								upsellButtonText={
-									sprintf(
-										/* translators: %s expands to 'Premium'. */
-										__( "Unlock with %s", "wordpress-seo" ),
-										"Premium"
-									)
-								}
-								upsellButton={ {
-									href: buyLink,
-									className: "yoast-button-upsell",
-									rel: null,
-								} }
-								upsellButtonLabel={ __( "1 year free support and updates included!", "wordpress-seo" ) }
-							/>
-                    </ModalContainer>
-                </Modal>
-        }
-        <SidebarButton
-            id={  "yoast-premium-seo-analysis-modal-open-button" }
-            title={ __( "Premium SEO Analysis", "wordpress-seo" ) }
-            prefixIcon={ { icon: "seo-score-none", color: colors.$color_grey } }
-            suffixIcon={ { size: "24px", icon: "chevron-down" } }
-            onClick={ openModal }
-        />
-    </Fragment>
+						<UpsellBox
+							infoParagraphs={ [ interpolated, otherBenefits ] }
+							benefits={ benefits }
+							upsellButtonText={
+								sprintf(
+									/* translators: %s expands to 'Premium'. */
+									__( "Unlock with %s", "wordpress-seo" ),
+									"Premium"
+								)
+							}
+							upsellButton={ {
+								href: buyLink,
+								className: "yoast-button-upsell",
+								rel: null,
+							} }
+							upsellButtonLabel={ __( "1 year free support and updates included!", "wordpress-seo" ) }
+						/>
+					</ModalContainer>
+				</Modal>
+			}
+			<SidebarButton
+				id={  "yoast-premium-seo-analysis-modal-open-button" }
+				title={ __( "Premium SEO Analysis", "wordpress-seo" ) }
+				prefixIcon={ { icon: "seo-score-none", color: colors.$color_grey } }
+				suffixIcon={ { size: "24px", icon: "chevron-down" } }
+				onClick={ openModal }
+			/>
+		</Fragment>
 	);
 };
 
