@@ -86,9 +86,10 @@ const PremiumSEOAnalysisModal = () => {
 				id={  "yoast-premium-seo-analysis-modal-open-button" }
 				title={ __( "Premium SEO Analysis", "wordpress-seo" ) }
 				prefixIcon={ { icon: "seo-score-none", color: colors.$color_grey } }
-				suffixIcon={ { size: "24px", icon: "chevron-down" } }
 				onClick={ openModal }
-			/>
+			>
+				<span className="yoast-chevron" aria-hidden="true" />
+			</SidebarButton>
 		</Fragment>
 	);
 };
