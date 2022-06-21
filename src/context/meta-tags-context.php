@@ -4,7 +4,6 @@ namespace Yoast\WP\SEO\Context;
 
 use WP_Block_Parser_Block;
 use WP_Post;
-use WPSEO_Image_Utils;
 use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Config\Schema_IDs;
 use Yoast\WP\SEO\Config\Schema_Types;
@@ -614,8 +613,6 @@ class Meta_Tags_Context extends Abstract_Presentation {
 			case is_search():
 			case is_date():
 				return $this->get_singular_post_image( $GLOBALS['wp_query']->posts[0]->ID );
-			case is_404():
-				return $this->options->get( 'og_default_image_id', null );
 			default:
 				return null;
 		}
