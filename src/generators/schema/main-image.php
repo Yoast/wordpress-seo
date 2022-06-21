@@ -21,8 +21,7 @@ class Main_Image extends Abstract_Schema_Piece {
 	/**
 	 * Adds a main image for the current URL to the schema if there is one.
 	 *
-	 * This can be either a social image (Open Graph or Twitter), the featured image,
-	 * or fall back to the first image in the content of the page.
+	 * This can be either the featured image or the first image in the content of the page.
 	 *
 	 * @return false|array Image Schema.
 	 */
