@@ -848,4 +848,8 @@ body.folded .wpseo-admin-submit-fixed {
 .yoast h3.yoast-crawl-settings-free {
   opacity: 0.5;
 }
+
+.yoast .yoast-crawl-single-setting.yoast-crawl-single-setting-disabled {
+  opacity: 0.5;
+}
 /*# sourceMappingURL=admin-global.css.map */
