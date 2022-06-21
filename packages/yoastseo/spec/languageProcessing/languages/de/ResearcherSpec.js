@@ -20,6 +20,10 @@ describe( "a test for the German Researcher", function() {
 		expect( researcher.hasResearch( "getPassiveVoiceResult" ) ).toBe( true );
 	} );
 
+	it( "returns false if the default research is deleted in the German Researcher", function() {
+		expect( researcher.getResearch( "wordComplexity" ) ).toBe( false );
+	} );
+
 	it( "returns the German function words ", function() {
 		expect( researcher.getConfig( "functionWords" ) ).toEqual( functionWords.all );
 	} );
