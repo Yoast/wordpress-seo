@@ -32,7 +32,6 @@ export default class WordComplexityAssessment extends Assessment {
 	getResult( paper, researcher ) {
 		this._wordComplexity = researcher.getResearch( "wordComplexity" );
 
-
 		const calculatedScore = this.calculateResult();
 		const assessmentResult = new AssessmentResult();
 		assessmentResult.setScore( calculatedScore.score );
