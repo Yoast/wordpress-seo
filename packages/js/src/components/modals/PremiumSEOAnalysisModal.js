@@ -56,7 +56,7 @@ const PremiumSEOAnalysisModal = ( { location } ) => {
 			</Modal> }
 			{ location === "sidebar" && <SidebarButton
 				id={  "yoast-premium-seo-analysis-modal-open-button" }
-				title={ __( "Premium SEO Analysis", "wordpress-seo" ) }
+				title={ __( "Premium SEO analysis", "wordpress-seo" ) }
 				prefixIcon={ { icon: "seo-score-none", color: colors.$color_grey } }
 				onClick={ openModal }
 			>
