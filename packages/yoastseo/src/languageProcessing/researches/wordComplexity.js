@@ -80,8 +80,9 @@ const calculateComplexWordsPercentage = function( complexWordsResults, words ) {
 	complexWordsResults.forEach( result => {
 		return result.complexWords.forEach( complexWord => totalComplexWords.push( complexWord.word ) );
 	} );
+	const percentage = ( totalComplexWords.length / words.length ) * 100;
 
-	return ( totalComplexWords.length / words.length ) * 100;
+	return +percentage.toFixed( 2 );
 };
 
 /**
