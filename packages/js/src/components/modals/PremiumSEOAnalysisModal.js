@@ -67,7 +67,7 @@ const PremiumSEOAnalysisModal = ( { location } ) => {
 				hasSeparator={ true }
 				isOpen={ false }
 				id={  "yoast-premium-seo-analysis-metabox-modal-open-button" }
-				title={ __( "Premium SEO Analysis", "wordpress-seo" ) }
+				title={ __( "Premium SEO analysis", "wordpress-seo" ) }
 				prefixIconCollapsed={ { icon: "seo-score-none", color: colors.$color_grey, size: "16px" } }
 				suffixIconCollapsed={ {
 					icon: "chevron-down",
