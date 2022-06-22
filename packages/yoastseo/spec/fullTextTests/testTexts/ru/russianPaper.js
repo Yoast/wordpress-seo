@@ -146,6 +146,9 @@ const expectedResults = {
 		resultText: "<a href='https://yoa.st/4f4' target='_blank'>Images</a>: No images appear on this page. <a href='https://yoa.st/4f5'" +
 			" target='_blank'>Add some</a>!",
 	},
+	wordComplexity: {
+		isApplicable: false,
+	},
 };
 
 export {

@@ -25,6 +25,7 @@ import TransitionWordsAssessment from "../../../../src/scoring/assessments/reada
 import PassiveVoiceAssessment from "../../../../src/scoring/assessments/readability/PassiveVoiceAssessment";
 import TextPresenceAssessment from "../../../../src/scoring/assessments/readability/TextPresenceAssessment";
 import SentenceBeginningsAssessment from "../../../../src/scoring/assessments/readability/SentenceBeginningsAssessment";
+import WordComplexityAssessment from "../../../../src/scoring/assessments/readability/WordComplexityAssessment";
 
 // Import test papers
 import testPapers from "./testTexts";
@@ -123,6 +124,10 @@ testPapers.forEach( function( testPaper ) {
 		const sentenceBeginningAssessment = new SentenceBeginningsAssessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify5" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify65" ),
+		} );
+		const wordComplexityAssessment = new WordComplexityAssessment( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify77" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify78" ),
 		} );
 
 		// SEO assessments.
@@ -331,6 +336,17 @@ testPapers.forEach( function( testPaper ) {
 				result.sentenceBeginnings = sentenceBeginningAssessment.getResult( paper, researcher );
 				expect( result.sentenceBeginnings.getScore() ).toBe( expectedResults.sentenceBeginnings.score );
 				expect( result.sentenceBeginnings.getText() ).toBe( expectedResults.sentenceBeginnings.resultText );
+			}
+		} );
+
+		it( "returns a score and the associated feedback text for the wordComplexity assessment", function() {
+			const isApplicable = wordComplexityAssessment.isApplicable( paper, researcher );
+			expect( isApplicable ).toBe( expectedResults.wordComplexity.isApplicable );
+
+			if ( isApplicable ) {
+				result.wordComplexity = wordComplexityAssessment.getResult( paper, researcher );
+				expect( result.wordComplexity.getScore() ).toBe( expectedResults.wordComplexity.score );
+				expect( result.wordComplexity.getText() ).toBe( expectedResults.wordComplexity.resultText );
 			}
 		} );
 	} );
