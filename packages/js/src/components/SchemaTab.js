@@ -145,6 +145,7 @@ const Content = ( props ) => {
 				onChange={ props.schemaArticleTypeChange }
 				selected={ props.schemaArticleTypeSelected }
 			/> }
+			{ <p>upsell goes here</p> }
 			{ props.displayFooter && <p>{ footerWithLink( props.postTypeName ) }</p> }
 		</Fragment>
 	);
