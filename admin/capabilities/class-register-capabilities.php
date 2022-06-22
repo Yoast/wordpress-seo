@@ -92,7 +92,7 @@ class WPSEO_Register_Capabilities implements WPSEO_WordPress_Integration {
 		$user = wp_get_current_user();
 
 		if ( in_array( 'wpseo_manager', $user->roles, true ) ) {
-			add_action( 'map_meta_cap', [ $this, 'add_manage_privacy_options_capability' ], 1, 2 );
+			add_filter( 'map_meta_cap', [ $this, 'add_manage_privacy_options_capability' ], 1, 2 );
 		}
 	}
 
