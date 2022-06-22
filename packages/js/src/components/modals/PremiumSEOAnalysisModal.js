@@ -48,7 +48,7 @@ const PremiumSEOAnalysisModal = ( { location } ) => {
 				<ModalContainer>
 					<ModalIcon icon={ YoastSeoIcon } />
 					{
-						<h2>{ __( "Create better content with our Premium SEO analysis", "wordpress-seo" ) }</h2>
+						<h2>{ __( "Optimize even further with our premium SEO analysis", "wordpress-seo" ) }</h2>
 					}
 
 					<PremiumSEOAnalysisUpsell buyLink={ `shortlinks.upsell.${ location }.premium_seo_analysis_button` } />
