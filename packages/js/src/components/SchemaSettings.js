@@ -120,6 +120,7 @@ class SchemaSettings extends Component {
 					onOptionFocus={ this.handleOptionFocus }
 					selected={ this.props.articleType.value }
 				/> }
+				Upsell may go here.
 			</Fragment>
 		);
 	}
