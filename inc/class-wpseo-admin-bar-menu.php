@@ -25,11 +25,11 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	const KEYWORD_RESEARCH_SUBMENU_IDENTIFIER = 'wpseo-kwresearch';
 
 	/**
-	 * The identifier used for the URL Inspection submenu.
+	 * The identifier used for the frontend inspector submenu.
 	 *
 	 * @var string
 	 */
-	const URL_INSPECTION_SUBMENU_IDENTIFIER = 'wpseo-inspect';
+	const FRONTEND_INSPECTOR_SUBMENU_IDENTIFIER = 'wpseo-frontend-inspector';
 
 	/**
 	 * The identifier used for the Analysis submenu.
@@ -97,7 +97,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 
 		$this->add_root_menu( $wp_admin_bar );
 		if ( ! is_admin() && YoastSEO()->helpers->product->is_premium() ) {
-			$this->add_url_inspection_submenu( $wp_admin_bar );
+			$this->add_frontend_inspector_submenu( $wp_admin_bar );
 		}
 		$this->add_keyword_research_submenu( $wp_admin_bar );
 
@@ -283,17 +283,16 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Adds the url inspection submenu.
+	 * Adds the frontend inspector submenu.
 	 *
 	 * @param WP_Admin_Bar $wp_admin_bar The admin bar.
 	 *
 	 * @return void
 	 */
-	private function add_url_inspection_submenu( WP_Admin_Bar $wp_admin_bar ) {
+	protected function add_frontend_inspector_submenu( WP_Admin_Bar $wp_admin_bar ) {
 		$menu_args = [
 			'parent' => self::MENU_IDENTIFIER,
-			'id'     => self::URL_INSPECTION_SUBMENU_IDENTIFIER,
-			'title'  => '',
+			'id'     => self::FRONTEND_INSPECTOR_SUBMENU_IDENTIFIER,
 			'meta'   => [
 				'tabindex' => '0',
 			],
