@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Integrations\Admin;
 
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Conditionals\Non_Multisite_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Presenters\Admin\Notice_Presenter;
@@ -31,7 +32,7 @@ class Deactivated_Premium_Integration implements Integration_Interface {
 	 * {@inheritDoc}
 	 */
 	public static function get_conditionals() {
-		return [ Admin_Conditional::class ];
+		return [ Admin_Conditional::class, Non_Multisite_Conditional::class ];
 	}
 
 	/**
@@ -84,7 +85,8 @@ class Deactivated_Premium_Integration implements Integration_Interface {
 			);
             // phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped above.
 			echo new Notice_Presenter(
-				\__( 'Yoast SEO Premium is installed but not activated!', 'wordpress-seo' ),
+				/* translators: 1: Yoast SEO Premium */
+				\sprintf( \__( '%1$s is installed but not activated!', 'wordpress-seo' ), 'Yoast SEO Premium' ),
 				$content,
 				'support-team.svg',
 				null,
@@ -115,11 +117,11 @@ class Deactivated_Premium_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Dismisses the First-time configuration notice.
+	 * Dismisses the premium deactivated notice.
 	 *
 	 * @return bool
 	 */
-	public function dismiss_first_time_configuration_notice() {
+	public function dismiss_premium_deactivated_notice() {
 		return $this->options_helper->set( 'dismiss_premium_deactivated_notice', true );
 	}
 

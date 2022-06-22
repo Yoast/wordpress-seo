@@ -6,6 +6,7 @@ use Brain\Monkey;
 use Mockery;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Conditionals\Non_Multisite_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Admin\Deactivated_Premium_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -62,7 +63,7 @@ class Deactivated_Premium_Integration_Test extends TestCase {
 	 * @covers ::get_conditionals
 	 */
 	public function test_get_conditionals() {
-		$this->assertEquals( [ Admin_Conditional::class ], Deactivated_Premium_Integration::get_conditionals() );
+		$this->assertEquals( [ Admin_Conditional::class, Non_Multisite_Conditional::class ], Deactivated_Premium_Integration::get_conditionals() );
 	}
 
 	/**
@@ -168,5 +169,15 @@ class Deactivated_Premium_Integration_Test extends TestCase {
 		// Nothing should be output.
 		$this->expectOutputString( '' );
 		$this->instance->premium_deactivated_notice();
+	}
+
+	/**
+	 * Tests dimsissing the notice.
+	 *
+	 * @covers ::dismiss_premium_deactivated_notice
+	 */
+	public function test_dismiss_premium_deactivated_notice() {
+		$this->options_helper->expects( 'set' )->with( 'dismiss_premium_deactivated_notice', true );
+		$this->instance->dismiss_premium_deactivated_notice();
 	}
 }
