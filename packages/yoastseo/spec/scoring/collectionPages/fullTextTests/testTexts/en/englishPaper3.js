@@ -126,6 +126,12 @@ const expectedResults = {
 		resultText: "<a href='https://yoa.st/shopify5' target='_blank'>Consecutive sentences</a>: There is enough variety in your sentences. " +
 			"That's great!",
 	},
+	wordComplexity: {
+		isApplicable: true,
+		score: 6,
+		resultText: "<a href='https://yoa.st/shopify77' target='_blank'>Word complexity</a>: 26.77% of the words in your text is considered complex. " +
+			"<a href='https://yoa.st/shopify78' target='_blank'>Try to use shorter and more familiar words to improve readability</a>.",
+	},
 };
 
 export {
