@@ -7,6 +7,7 @@ import firstWordExceptions from "../../../../src/languageProcessing/languages/en
 import twoPartTransitionWords from "../../../../src/languageProcessing/languages/en/config/twoPartTransitionWords";
 import stopWords from "../../../../src/languageProcessing/languages/en/config/stopWords";
 import syllables from "../../../../src/languageProcessing/languages/en/config/syllables.json";
+import frequencyList from "../../../../src/languageProcessing/languages/en/config/frequencyList.json";
 const morphologyDataEN = getMorphologyData( "en" );
 
 describe( "a test for the English Researcher", function() {
@@ -50,6 +51,12 @@ describe( "a test for the English Researcher", function() {
 
 	it( "returns the English passive construction type", function() {
 		expect( researcher.getConfig( "passiveConstructionType" ) ).toEqual( "periphrastic" );
+	} );
+
+	it( "returns the English word complexity configs", function() {
+		expect( researcher.getConfig( "wordComplexity" ).frequencyList ).toEqual( frequencyList.list );
+		expect( researcher.getConfig( "wordComplexity" ).wordLength ).toEqual( 5 );
+		expect( researcher.getConfig( "wordComplexity" ).doesUpperCaseDecreasesComplexity ).toEqual( true );
 	} );
 
 	it( "stems a word using the English stemmer", function() {
