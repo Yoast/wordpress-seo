@@ -222,7 +222,11 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * @return string the canonical
 	 */
 	public function generate_canonical() {
-		return $this->presentation->canonical;
+		if ( ! empty( $this->presentation->canonical ) ) {
+			return $this->presentation->canonical;
+		}
+
+		return $this->url->recreate_current_url();
 	}
 
 	/**
