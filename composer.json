@@ -38,7 +38,7 @@
 		"yoast/wp-test-utils": "^1.0.0",
 		"yoast/yoastcs": "^2.2.1",
 		"chillerlan/php-qrcode": "^1.0.9",
-		"guzzlehttp/guzzle": "6.5.7",
+		"guzzlehttp/guzzle": "6.5.8",
 		"symfony/polyfill-intl-idn": "1.19.0",
 		"symfony/polyfill-intl-normalizer": "1.19.0",
 		"symfony/polyfill-php70": "1.19.0",
