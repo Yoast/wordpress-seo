@@ -293,6 +293,12 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 		$menu_args = [
 			'parent' => self::MENU_IDENTIFIER,
 			'id'     => self::FRONTEND_INSPECTOR_SUBMENU_IDENTIFIER,
+			'title'  => sprintf(
+				'%1$s <span class="yoast-badge yoast-new-badge">%2$s</span>',
+				__( 'Inspect', 'wordpress-seo' ),
+				__( 'New', 'wordpress-seo' )
+			),
+			'href'   => '#wpseoFrontSidebar',
 			'meta'   => [
 				'tabindex' => '0',
 			],
