@@ -57,25 +57,22 @@ class Deactivated_Premium_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Undocumented function
+	 * Shows a notice if premium is installed but not activated.
 	 *
 	 * @return void
 	 */
 	public function premium_deactivated_notice() {
-		if ( ! $this->options_helper->get( 'dismiss_premium_deactivated_notice', false ) === true ) {
+		if ( $this->options_helper->get( 'dismiss_premium_deactivated_notice', false ) === true ) {
 			return;
 		}
 
 		$premium_file = 'wordpress-seo-premium/wp-seo-premium.php';
 
-		if ( ! current_user_can( 'activate_plugin', $premium_file ) ) {
+		if ( ! \current_user_can( 'activate_plugin', $premium_file ) ) {
 			return;
 		}
 
-		if (
-			! defined( 'WPSEO_PREMIUM_FILE' )
-			&& \file_exists( \WP_PLUGIN_DIR . '/' . $premium_file )
-		) {
+		if ( $this->premium_is_installed_not_activated( $premium_file ) ) {
 			$this->admin_asset_manager->enqueue_style( 'monorepo' );
 
 			$content = \sprintf(
@@ -124,5 +121,19 @@ class Deactivated_Premium_Integration implements Integration_Interface {
 	 */
 	public function dismiss_first_time_configuration_notice() {
 		return $this->options_helper->set( 'dismiss_premium_deactivated_notice', true );
+	}
+
+	/**
+	 * Returns whether or not premium is installed and not activated.
+	 *
+	 * @param string $premium_file The premium file.
+	 *
+	 * @return boolean Whether or not premium is installed and not activated.
+	 */
+	protected function premium_is_installed_not_activated( $premium_file ) {
+		return (
+			! \defined( 'WPSEO_PREMIUM_FILE' )
+			&& \file_exists( \WP_PLUGIN_DIR . '/' . $premium_file )
+		);
 	}
 }
