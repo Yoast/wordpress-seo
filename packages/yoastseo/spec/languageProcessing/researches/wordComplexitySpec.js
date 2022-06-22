@@ -62,7 +62,7 @@ describe( "a test for getting the complex words in the sentence and calculating 
 		expect( wordComplexity( paper, researcher ).percentage ).toEqual( 18.67 );
 	} );
 	it( "should return an empty array and 0% if there is no complex word found in the text", () => {
-		const paper = new Paper( "This is short text. This is another short text." );
+		const paper = new Paper( "This is short text. This is another short text. A text about Calico." );
 		const researcher = new Researcher( paper );
 
 		expect( wordComplexity( paper, researcher ).complexWords ).toEqual( [] );
