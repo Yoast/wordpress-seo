@@ -23,7 +23,7 @@ const SchemaContainer = styled.div`
  *
  * @returns {WPElement|Null} The NewsAlert component.
  */
-function NewsAlert( { show } ) {
+function NewsAlert( { location, show } ) {
 	if ( ! show ) {
 		return null;
 	}
@@ -39,7 +39,7 @@ function NewsAlert( { show } ) {
 			) + " "
 		}
 		<NewsLandingPageLink
-			href={ window.wpseoAdminL10n[ "shortlinks.upsell.editor.news" ] }
+			href={ window.wpseoAdminL10n[ `shortlinks.upsell.${ location }.news` ] }
 		>
 			{
 				sprintf(
@@ -54,6 +54,7 @@ function NewsAlert( { show } ) {
 
 NewsAlert.propTypes = {
 	show: PropTypes.bool.isRequired,
+	location: PropTypes.string.isRequired,
 };
 
 /**
@@ -219,7 +220,7 @@ const Content = ( props ) => {
 				selected={ props.schemaArticleTypeSelected }
 				onOptionFocus={ handleOptionChange }
 			/> }
-			<NewsAlert show={ ! props.isNewsEnabled && isNewsArticleType( focusedArticleType, props.defaultArticleType ) } />
+			<NewsAlert location={ props.location } show={ ! props.isNewsEnabled && isNewsArticleType( focusedArticleType, props.defaultArticleType ) } />
 			{ props.displayFooter && <p>{ footerWithLink( props.postTypeName ) }</p> }
 		</Fragment>
 	);
