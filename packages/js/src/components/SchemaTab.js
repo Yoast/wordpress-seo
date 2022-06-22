@@ -1,13 +1,15 @@
-import { createPortal, Fragment } from "@wordpress/element";
+import { createPortal, Fragment, useCallback, useEffect, useState } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { FieldGroup, Select } from "@yoast/components";
+import { Alert, FieldGroup, Select } from "@yoast/components";
 import { Slot } from "@wordpress/components";
-import { join } from "@yoast/helpers";
+import { makeOutboundLink, join } from "@yoast/helpers";
 import interpolateComponents from "interpolate-components";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { schemaTypeOptionsPropType } from "./SchemaSettings";
 import { isFeatureEnabled } from "@yoast/feature-flag";
+
+const NewsLandingPageLink = makeOutboundLink();
 
 const SchemaContainer = styled.div`
 	padding: 16px;
@@ -121,6 +123,18 @@ const Content = ( props ) => {
 	const schemaArticleTypeOptions = getSchemaTypeOptions( props.articleTypeOptions, props.defaultArticleType, props.postTypeName );
 
 	const schemaBlocksEnabled = isFeatureEnabled( "SCHEMA_BLOCKS" );
+	const [ focusedArticleType, setFocusedArticleType ] = useState( props.schemaArticleTypeSelected );
+	const handleOptionChange = useCallback(
+		( _, value ) => {
+		setFocusedArticleType( value );
+	}, [ focusedArticleType ] );
+
+	useEffect(
+		() => {
+			handleOptionChange( null, props.schemaArticleTypeSelected );
+		},
+		[ props.schemaArticleTypeSelected ]
+	);
 
 	return (
 		<Fragment>
@@ -144,8 +158,31 @@ const Content = ( props ) => {
 				label={ __( "Article type", "wordpress-seo" ) }
 				onChange={ props.schemaArticleTypeChange }
 				selected={ props.schemaArticleTypeSelected }
+				onOptionFocus={ handleOptionChange }
 			/> }
-			{ <p>upsell goes here</p> }
+			{ ( focusedArticleType === "NewsArticle" ) && <Alert type="info">
+				{
+					sprintf(
+						/* translators: %s Expands to "News SEO" */
+						__(
+							"Do you have news articles on your site? Our %s plugin helps you to optimize your site for Google News and the likes!",
+							"wordpress-seo"
+						),
+						"News SEO"
+					) + " "
+				}
+				<NewsLandingPageLink
+					href={ window.wpseoAdminL10n[ "shortlinks.upsell.editor.news" ] }
+				>
+					{
+						sprintf(
+							/* translators: %s: Expands to "Yoast News SEO". */
+							__( "Get the %s plugin!", "wordpress-seo" ),
+							"Yoast News SEO"
+						)
+					}
+				</NewsLandingPageLink>
+			</Alert> }
 			{ props.displayFooter && <p>{ footerWithLink( props.postTypeName ) }</p> }
 		</Fragment>
 	);
