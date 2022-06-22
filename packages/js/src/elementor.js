@@ -1,17 +1,17 @@
 import { dispatch } from "@wordpress/data";
 import { doAction } from "@wordpress/hooks";
-import { applyModifications, pluginReady, pluginReloaded, registerPlugin, registerModification } from "./elementor/initializers/pluggable";
+import initializeWordProofForElementorEditor from "../../../vendor_prefixed/wordproof/wordpress-sdk/resources/js/initializers/elementorEditor";
+import initEditorStore from "./elementor/initializers/editor-store";
+import initHighlightFocusKeyphraseForms from "./elementor/initializers/highlightFocusKeyphraseForms";
+import initializeIntroduction from "./elementor/initializers/introduction";
+import { applyModifications, pluginReady, pluginReloaded, registerModification, registerPlugin } from "./elementor/initializers/pluggable";
+import initializeUsedKeywords from "./elementor/initializers/used-keywords-assessment";
+import initReplaceVarPlugin, { addReplacement, ReplaceVar } from "./elementor/replaceVars/elementor-replacevar-plugin";
+import { isWordProofIntegrationActive } from "./helpers/wordproof";
 import initAnalysis, { collectData } from "./initializers/analysis";
 import initElementorEditorIntegration from "./initializers/elementor-editor-integration";
-import initializeEstimatedReadingTime from "./initializers/estimated-reading-time";
-import initEditorStore from "./elementor/initializers/editor-store";
-import initializeUsedKeywords from "./elementor/initializers/used-keywords-assessment";
+import initializeInsights from "./insights/initializer";
 import initElementorWatcher from "./watchers/elementorWatcher";
-import initHighlightFocusKeyphraseForms from "./elementor/initializers/highlightFocusKeyphraseForms";
-import initReplaceVarPlugin, { addReplacement, ReplaceVar } from "./elementor/replaceVars/elementor-replacevar-plugin";
-import initializeIntroduction from "./elementor/initializers/introduction";
-import { isWordProofIntegrationActive } from "./helpers/wordproof";
-import initializeWordProofForElementorEditor from "../../../vendor_prefixed/wordproof/wordpress-sdk/resources/js/initializers/elementorEditor";
 
 /**
  * Initializes Yoast SEO for Elementor.
@@ -55,8 +55,8 @@ function initialize() {
 	// Initialize the Used Keywords Assessment.
 	initializeUsedKeywords();
 
-	// Initialize Estimated Reading Time.
-	initializeEstimatedReadingTime();
+	// Initialize insights.
+	initializeInsights();
 
 	// Initialize focus keyphrase forms highlighting.
 	initHighlightFocusKeyphraseForms( window.YoastSEO.analysis.worker.runResearch );
