@@ -12,8 +12,6 @@ import WordComplexityAssessment from "../../assessments/readability/WordComplexi
 
 /*
  Temporarily disabled:
-
- var wordComplexity = require( "./assessments/readability/wordComplexityAssessment.js" );
  var sentenceLengthInDescription = require( "./assessments/readability/sentenceLengthInDescriptionAssessment.js" );
  */
 
