@@ -76,12 +76,7 @@ const getComplexWords = function( sentence, config ) {
  * @returns {number}    The percentage of the complex words compared to the total words in the text.
  */
 const calculateComplexWordsPercentage = function( complexWordsResults, words ) {
-	const totalComplexWords = flatMap( complexWordsResults, result => {
-		if ( result ) {
-			return result.complexWords;
-		}
-		return "";
-	} );
+	const totalComplexWords = flatMap( complexWordsResults, result =>  result.complexWords );
 	const percentage = ( totalComplexWords.length / words.length ) * 100;
 
 	return +percentage.toFixed( 2 );
