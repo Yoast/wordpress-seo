@@ -26,8 +26,8 @@ export default class WordComplexityAssessment extends Assessment {
 				acceptableAmount: 6,
 				goodAmount: 9,
 			},
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/difficult-words" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/difficult-words" ),
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/4ls" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/4lt" ),
 		};
 
 		/*
@@ -97,7 +97,7 @@ export default class WordComplexityAssessment extends Assessment {
 					"wordpress-seo"
 				),
 				assessmentLink,
-				complexWordsPercentage,
+				complexWordsPercentage + "%",
 				this._config.urlCallToAction,
 				"</a>"
 			),
