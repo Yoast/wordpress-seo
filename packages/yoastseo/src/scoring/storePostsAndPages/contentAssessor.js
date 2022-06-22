@@ -1,4 +1,5 @@
 import { createAnchorOpeningTag } from "../../helpers/shortlinker";
+import WordComplexityAssessment from "../assessments/readability/WordComplexityAssessment";
 import Assessor from "../assessor.js";
 import ParagraphTooLong from "../assessments/readability/ParagraphTooLongAssessment.js";
 import SentenceLengthInText from "../assessments/readability/SentenceLengthInTextAssessment.js";
@@ -62,7 +63,10 @@ const StorePostsAndPagesContentAssessor = function( researcher, options = {} ) {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify5" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify65" ),
 		} ),
-		// Temporarily disabled: wordComplexity,
+		new WordComplexityAssessment( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify77" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify78" ),
+		} ),
 	];
 };
 
