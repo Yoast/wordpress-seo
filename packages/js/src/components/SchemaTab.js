@@ -16,6 +16,47 @@ const SchemaContainer = styled.div`
 `;
 
 /**
+ * The NewsAlert upsell.
+ *
+ * @param {Object} props      The props Object.
+ * @param {Object} props.show Whether or not to show the NewsAlert
+ *
+ * @returns {WPElement|Null} The NewsAlert component.
+ */
+function NewsAlert( { show } ) {
+	if ( ! show ) {
+		return null;
+	}
+	return <Alert type="info">
+		{
+			sprintf(
+				/* translators: %s Expands to "News SEO" */
+				__(
+					"Do you have news articles on your site? Our %s plugin helps you to optimize your site for Google News and the likes!",
+					"wordpress-seo"
+				),
+				"News SEO"
+			) + " "
+		}
+		<NewsLandingPageLink
+			href={ window.wpseoAdminL10n[ "shortlinks.upsell.editor.news" ] }
+		>
+			{
+				sprintf(
+					/* translators: %s: Expands to "Yoast News SEO". */
+					__( "Get the %s plugin!", "wordpress-seo" ),
+					"Yoast News SEO"
+				)
+			}
+		</NewsLandingPageLink>
+	</Alert>;
+}
+
+NewsAlert.propTypes = {
+	show: PropTypes.bool.isRequired,
+};
+
+/**
  * Returns the schema type options with a default.
  *
  * @param {Object[]} schemaTypeOptions The schema type options.
@@ -112,6 +153,21 @@ SchemaBlocksHeader.propTypes = {
 };
 
 /**
+ * Whether or not NewsArticle is the Article Type.
+ * @param {string} selectedValue The value that is selected.
+ * @param {string} defaultValue  The default value for this post type.
+ * @returns {Boolean} Whether or not NewsArticle is the Article Type.
+ */
+function isNewsArticleType( selectedValue, defaultValue ) {
+	if ( selectedValue === "NewsArticle" ) {
+		return true;
+	} else if ( selectedValue === "" && defaultValue === "NewsArticle" ) {
+		return true;
+	}
+	return false;
+}
+
+/**
  * Returns the content of the schema tab.
  *
  * @param {object} props Component props.
@@ -123,11 +179,14 @@ const Content = ( props ) => {
 	const schemaArticleTypeOptions = getSchemaTypeOptions( props.articleTypeOptions, props.defaultArticleType, props.postTypeName );
 
 	const schemaBlocksEnabled = isFeatureEnabled( "SCHEMA_BLOCKS" );
+
 	const [ focusedArticleType, setFocusedArticleType ] = useState( props.schemaArticleTypeSelected );
+
 	const handleOptionChange = useCallback(
 		( _, value ) => {
-		setFocusedArticleType( value );
-	}, [ focusedArticleType ] );
+			setFocusedArticleType( value );
+		},
+		[ focusedArticleType ] );
 
 	useEffect(
 		() => {
@@ -160,29 +219,7 @@ const Content = ( props ) => {
 				selected={ props.schemaArticleTypeSelected }
 				onOptionFocus={ handleOptionChange }
 			/> }
-			{ ( focusedArticleType === "NewsArticle" ) && <Alert type="info">
-				{
-					sprintf(
-						/* translators: %s Expands to "News SEO" */
-						__(
-							"Do you have news articles on your site? Our %s plugin helps you to optimize your site for Google News and the likes!",
-							"wordpress-seo"
-						),
-						"News SEO"
-					) + " "
-				}
-				<NewsLandingPageLink
-					href={ window.wpseoAdminL10n[ "shortlinks.upsell.editor.news" ] }
-				>
-					{
-						sprintf(
-							/* translators: %s: Expands to "Yoast News SEO". */
-							__( "Get the %s plugin!", "wordpress-seo" ),
-							"Yoast News SEO"
-						)
-					}
-				</NewsLandingPageLink>
-			</Alert> }
+			<NewsAlert show={ ! props.isNewsEnabled && isNewsArticleType( focusedArticleType, props.defaultArticleType ) } />
 			{ props.displayFooter && <p>{ footerWithLink( props.postTypeName ) }</p> }
 		</Fragment>
 	);
@@ -205,6 +242,7 @@ Content.propTypes = {
 	defaultPageType: PropTypes.string.isRequired,
 	defaultArticleType: PropTypes.string.isRequired,
 	location: PropTypes.string.isRequired,
+	isNewsEnabled: PropTypes.bool,
 };
 
 Content.defaultProps = {
@@ -213,6 +251,7 @@ Content.defaultProps = {
 	schemaArticleTypeChange: () => {},
 	schemaArticleTypeSelected: null,
 	displayFooter: false,
+	isNewsEnabled: false,
 };
 
 /**
