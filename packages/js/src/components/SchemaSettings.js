@@ -1,8 +1,17 @@
+/* global wpseoScriptData */
 import { Component, Fragment } from "@wordpress/element";
 import { __, _n, sprintf } from "@wordpress/i18n";
+import { makeOutboundLink } from "@yoast/helpers";
 import { Alert, Select, FieldGroup } from "@yoast/components";
 import PropTypes from "prop-types";
 import linkHiddenFields, { linkFieldsShape } from "./higherorder/linkHiddenField";
+
+const NewsLandingPageLink = makeOutboundLink();
+
+const {
+	showNewsSEOUpsell,
+	newsSEOUpsellURL,
+} = wpseoScriptData.searchAppearance;
 
 /**
  * Returns the content of the schema settings.
@@ -120,7 +129,29 @@ class SchemaSettings extends Component {
 					onOptionFocus={ this.handleOptionFocus }
 					selected={ this.props.articleType.value }
 				/> }
-				Upsell may go here.
+				{ showNewsSEOUpsell && <Alert type="info">
+					{
+						sprintf(
+							/* translators: %s Expands to "News SEO" */
+							__(
+								"Do you have news articles on your site? Our %s plugin helps you to optimize your site for Google News and the likes!",
+								"wordpress-seo"
+							),
+							"News SEO"
+						) + " "
+					}
+					<NewsLandingPageLink
+						href={ newsSEOUpsellURL }
+					>
+						{
+							sprintf(
+								/* translators: %s: Expands to "Yoast News SEO". */
+								__( "Get the %s plugin!", "wordpress-seo" ),
+								"Yoast News SEO"
+							)
+						}
+					</NewsLandingPageLink>
+				</Alert> }
 			</Fragment>
 		);
 	}
