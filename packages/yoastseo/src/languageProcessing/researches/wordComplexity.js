@@ -28,11 +28,9 @@ const checkIfWordIsComplex = function( word, config ) {
 	 * if the word does NOT start with a capital letter
 	 * (for languages that see long words to be less complex if they start with a capital letter)
 	 */
-	if ( word.length > lengthLimit ) {
-		if ( ! frequencyList.includes( word ) ) {
-			if ( doesUpperCaseDecreaseComplexity === true && word[ 0 ].toLowerCase() === word[ 0 ] ) {
-				isWordComplex = true;
-			}
+	if ( word.length > lengthLimit && ! frequencyList.includes( word ) ) {
+		if ( doesUpperCaseDecreaseComplexity === true && word[ 0 ].toLowerCase() === word[ 0 ] ) {
+			isWordComplex = true;
 		}
 	}
 	return isWordComplex;
@@ -79,6 +77,9 @@ const calculateComplexWordsPercentage = function( complexWordsResults, words ) {
 	const totalComplexWords = flatMap( complexWordsResults, result =>  result.complexWords );
 	const percentage = ( totalComplexWords.length / words.length ) * 100;
 
+	/* If the number is a decimal, round it to two numbers after the period, e.g. 5.12345 -> 5.12.
+	This approach is inspired from this thread: https://stackoverflow.com/questions/11832914/how-to-round-to-at-most-2-decimal-places-if-necessary.
+	*/
 	return +percentage.toFixed( 2 );
 };
 
