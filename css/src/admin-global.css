@@ -782,12 +782,19 @@ body.folded .wpseo-admin-submit-fixed {
 	display: flex;
 }
 
-.notice-yoast img,
 .notice-yoast .notice-yoast__container > svg {
 	line-height: 1;
 	margin-left: 10px;
 	height: 60px;
 	width: auto;
+}
+
+.notice-yoast img {
+	line-height: 1;
+	margin-left: 16px;
+	height: 60px;
+	width: auto;
+	margin-bottom: 5px;
 }
 
 .notice-yoast p {

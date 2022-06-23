@@ -78,7 +78,7 @@ class Deactivated_Premium_Integration implements Integration_Interface {
 
 			$content = \sprintf(
 				/* translators: 1: Yoast SEO Premium 2: Link start tag to activate premium, 3: Link closing tag. */
-				\__( 'You have %1$s installed but not activated. %2$sActivate %1$s now!%3$s', 'wordpress-seo' ),
+				\__( 'You\'ve installed %1$s but it\'s not activated yet. %2$sActivate %1$s now!%3$s', 'wordpress-seo' ),
 				'Yoast SEO Premium',
 				'<a href="' . \esc_url( \wp_nonce_url( 'plugins.php?action=activate&plugin=' . $premium_file, 'activate-plugin_' . $premium_file ) ) . '">',
 				'</a>'
@@ -86,7 +86,7 @@ class Deactivated_Premium_Integration implements Integration_Interface {
             // phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped above.
 			echo new Notice_Presenter(
 				/* translators: 1: Yoast SEO Premium */
-				\sprintf( \__( '%1$s is installed but not activated!', 'wordpress-seo' ), 'Yoast SEO Premium' ),
+				\sprintf( \__( 'Activate %1$s!', 'wordpress-seo' ), 'Yoast SEO Premium' ),
 				$content,
 				'support-team.svg',
 				null,
