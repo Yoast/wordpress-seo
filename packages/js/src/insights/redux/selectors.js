@@ -1,7 +1,5 @@
 import { get } from "lodash";
-
-// Empty in const so that no change will be detected.
-const emptyObject = {};
+import { DIFFICULTY } from "yoastseo";
 
 /**
  * Gets the Estimated Reading Time from the store.
@@ -13,6 +11,8 @@ const emptyObject = {};
 export const getEstimatedReadingTime = state => get( state, "insights.estimatedReadingTime", 0 );
 
 /**
+ * Gets the flesch reading ease score from the store.
+ *
  * @param {Object} state The state.
  *
  * @returns {number} The flesch reading ease score.
@@ -20,22 +20,19 @@ export const getEstimatedReadingTime = state => get( state, "insights.estimatedR
 export const getFleschReadingEaseScore = state => get( state, "insights.fleschReadingEaseScore", 0 );
 
 /**
+ * Gets the flesch reading ease difficulty from the store.
+ *
  * @param {Object} state The state.
  *
- * @returns {string} The flesch reading ease text.
+ * @returns {DIFFICULTY} The flesch reading ease difficulty.
  */
-export const getFleschReadingEaseText = state => {
-	const result = get( state, "analysis.readability.results.0", emptyObject );
-	if ( result?._identifier !== "fleschReadingEase" ) {
-		// Replace the rest of the code with the line below when the assessment is moved out of the analysis worker.
-		return get( state, "insights.fleschReadingEaseText", "" );
-	}
-	return result.text.replace( /^<a href='https:\/\/yoa.st\/34r[^>]*>Flesch Reading Ease<\/a>: /i, "" ).replace( /<a[^>]+>/gi, "<a>" );
-};
+export const getFleschReadingEaseDifficulty = state => get( state, "insights.fleschReadingEaseDifficulty", DIFFICULTY.VERY_DIFFICULT );
 
 /**
+ * Gets the word count from the store.
+ *
  * @param {Object} state The state.
  *
- * @returns {string} The word count.
+ * @returns {number} The word count.
  */
-export const getWordCount = state => get( state, "insights.wordCount", "" );
+export const getWordCount = state => get( state, "insights.wordCount", 0 );

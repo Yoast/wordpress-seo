@@ -15,7 +15,17 @@ describe( "a test to calculate the fleschReading score", function() {
 		expect( fleschFunction( mockPaper, researcher ) ).toEqual( { score: 63.9, difficulty: DIFFICULTY.OKAY } );
 
 		mockPaper = new Paper( "" );
-		expect( fleschFunction( mockPaper, researcher ) ).toEqual( { score: 0, difficulty: DIFFICULTY.VERY_EASY } );
+		expect( fleschFunction( mockPaper, researcher ) ).toEqual( { score: 100, difficulty: DIFFICULTY.VERY_EASY } );
+	} );
+	it( "Clamps the score between 0 and 100.", () => {
+		let mockPaper = new Paper( "You can go auditorily impaired by heedfully aurally perceiving extravagantly loud music. " +
+									 "You can go auditorily impaired by heedfully aurally perceiving extravagantly loud music. " +
+									 "You can go auditorily impaired by heedfully aurally perceiving extravagantly loud music." );
+		const researcher = new EnglishResearcher( mockPaper );
+		expect( fleschFunction( mockPaper, researcher ) ).toEqual( { score: 0, difficulty: DIFFICULTY.VERY_DIFFICULT } );
+
+		mockPaper = new Paper( "Hi world. Hi world. Hi world. Hi world. Hi world. Hi world. Hi world. Hi world. Hi world." );
+		expect( fleschFunction( mockPaper, researcher ) ).toEqual( { score: 100, difficulty: DIFFICULTY.VERY_EASY } );
 	} );
 } );
 
@@ -28,10 +38,10 @@ describe( "A test to check the filter of digits", function() {
 	} );
 } );
 
-describe( "A test that returns 0 after sentence formatting", function() {
-	it( "returns a score of 0", function() {
+describe( "A test that returns 100 after sentence formatting", function() {
+	it( "returns a score of 100", function() {
 		const mockPaper = new Paper( "()" );
-		expect( fleschFunction( mockPaper, new EnglishResearcher( mockPaper ) ) ).toEqual( { score: 0, difficulty: DIFFICULTY.VERY_EASY } );
+		expect( fleschFunction( mockPaper, new EnglishResearcher( mockPaper ) ) ).toEqual( { score: 100, difficulty: DIFFICULTY.VERY_EASY } );
 	} );
 } );
 
