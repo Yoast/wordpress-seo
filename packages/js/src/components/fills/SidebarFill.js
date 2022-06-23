@@ -12,6 +12,7 @@ import { KeywordInput, ReadabilityAnalysis, SeoAnalysis } from "@yoast/externals
 import InsightsModal from "../../insights/components/insights-modal";
 import SidebarItem from "../SidebarItem";
 import GooglePreviewModal from "../modals/editorModals/GooglePreviewModal";
+import PremiumSEOAnalysisModal from "../modals/PremiumSEOAnalysisModal";
 import TwitterPreviewModal from "../modals/editorModals/TwitterPreviewModal";
 import FacebookPreviewModal from "../modals/editorModals/FacebookPreviewModal";
 import SchemaTabContainer from "../../containers/SchemaTab";
@@ -19,6 +20,7 @@ import SidebarCollapsible from "../SidebarCollapsible";
 import AdvancedSettings from "../../containers/AdvancedSettings";
 import WincherSEOPerformanceModal from "../../containers/WincherSEOPerformanceModal";
 import WebinarPromoNotification from "../WebinarPromoNotification";
+import KeywordUpsell from "../KeywordUpsell";
 
 /* eslint-disable complexity */
 /**
@@ -72,14 +74,20 @@ export default function SidebarFill( { settings } ) {
 						<AdvancedSettings />
 					</SidebarCollapsible>
 				</SidebarItem> }
-				{ settings.isContentAnalysisActive && <SidebarItem key="readability" renderPriority={ 10 }>
+				{ settings.isKeywordAnalysisActive && <SidebarItem key="seo" renderPriority={ 10 }>
+					<Fragment>
+						<SeoAnalysis
+							shouldUpsell={ settings.shouldUpsell }
+							shouldUpsellWordFormRecognition={ settings.isWordFormRecognitionActive }
+						/>
+						{ settings.shouldUpsell && <PremiumSEOAnalysisModal location="sidebar" /> }
+					</Fragment>
+				</SidebarItem> }
+				{ settings.isContentAnalysisActive && <SidebarItem key="readability" renderPriority={ 20 }>
 					<ReadabilityAnalysis />
 				</SidebarItem> }
-				{ settings.isKeywordAnalysisActive && <SidebarItem key="seo" renderPriority={ 20 }>
-					<SeoAnalysis
-						shouldUpsell={ settings.shouldUpsell }
-						shouldUpsellWordFormRecognition={ settings.isWordFormRecognitionActive }
-					/>
+				{ settings.isKeywordAnalysisActive && <SidebarItem key="additional-keywords-upsell" renderPriority={ 21 }>
+					{ settings.shouldUpsell && <KeywordUpsell /> }
 				</SidebarItem> }
 				{ settings.isCornerstoneActive && <SidebarItem key="cornerstone" renderPriority={ 30 }>
 					<CollapsibleCornerstone />

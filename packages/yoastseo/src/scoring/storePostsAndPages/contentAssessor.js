@@ -113,7 +113,7 @@ StorePostsAndPagesContentAssessor.prototype.calculatePenaltyPointsPartialSupport
  * @returns {boolean} True if fully supported.
  */
 StorePostsAndPagesContentAssessor.prototype._allAssessmentsSupported = function() {
-	const numberOfAssessments = 8;
+	const numberOfAssessments = this._assessments.length;
 	const applicableAssessments = this.getApplicableAssessments();
 	return applicableAssessments.length === numberOfAssessments;
 };

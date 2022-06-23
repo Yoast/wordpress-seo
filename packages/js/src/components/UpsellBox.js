@@ -5,26 +5,30 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { makeOutboundLink } from "@yoast/helpers";
 
-
 const StyledList = styled.ul`
 	list-style: none;
-	margin: 0 0 16px;
+	margin: 0 0 24px;
 	padding: 0;
 
 	li {
-		margin: 5px 0 0 0;
-		padding-left: 16px;
+		margin: 10px 0 0 0;
 	}
 
 	span[aria-hidden="true"]:before {
-		margin: 0 8px 0 -16px;
-		font-weight: bold;
-		content: "+";
+		content: "";
+		display: inline-block;
+		height: 13px;
+		width: 13px;
+		background-size: 13px 13px;
+		background-image: var( --yoast-svg-icon-check );
+		background-repeat: no-repeat;
+		margin-right: 10px;
 	}
 `;
 
 const ButtonLabel = styled.small`
 	display: block;
+	margin-top: 4px;
 `;
 
 const UpsellButton = makeOutboundLink();

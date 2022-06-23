@@ -1,4 +1,5 @@
 /* External dependencies */
+import { Fragment } from "@wordpress/element";
 import { Fill } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
@@ -20,7 +21,8 @@ import SEMrushRelatedKeyphrases from "../../containers/SEMrushRelatedKeyphrases"
 import WincherSEOPerformance from "../../containers/WincherSEOPerformance";
 import { isWordProofIntegrationActive } from "../../helpers/wordproof";
 import WordProofAuthenticationModals from "../../components/modals/WordProofAuthenticationModals";
-
+import PremiumSEOAnalysisModal from "../modals/PremiumSEOAnalysisModal";
+import KeywordUpsell from "../KeywordUpsell";
 
 /* eslint-disable complexity */
 /**
@@ -73,11 +75,19 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 				{ settings.isContentAnalysisActive && <SidebarItem key="readability-analysis" renderPriority={ 10 }>
 					<ReadabilityAnalysis />
 				</SidebarItem> }
-				{ settings.isKeywordAnalysisActive && <SidebarItem key="seo-analysis" renderPriority={ 20 }>
-					<SeoAnalysis
-						shouldUpsell={ settings.shouldUpsell }
-						shouldUpsellWordFormRecognition={ settings.isWordFormRecognitionActive }
-					/>
+				{ settings.isKeywordAnalysisActive && <Fragment>
+					<SidebarItem key="seo-analysis" renderPriority={ 20 }>
+						<SeoAnalysis
+							shouldUpsell={ settings.shouldUpsell }
+							shouldUpsellWordFormRecognition={ settings.isWordFormRecognitionActive }
+						/>
+					</SidebarItem>
+					{ settings.shouldUpsell && <SidebarItem key="premium-seo-analysis-upsell" renderPriority={ 20 }>
+						<PremiumSEOAnalysisModal location="metabox" />
+					</SidebarItem> }
+				</Fragment> }
+				{ settings.isKeywordAnalysisActive && <SidebarItem key="additional-keywords-upsell" renderPriority={ 22 }>
+					{ settings.shouldUpsell && <KeywordUpsell /> }
 				</SidebarItem> }
 				{ settings.isKeywordAnalysisActive && settings.isWincherIntegrationActive &&
 				<SidebarItem key="wincher-seo-performance" renderPriority={ 25 }>

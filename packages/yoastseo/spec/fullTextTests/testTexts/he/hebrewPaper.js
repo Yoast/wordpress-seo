@@ -98,9 +98,7 @@ const expectedResults = {
 			"Uneven. Some parts of your text do not contain the keyphrase or its synonyms." +
 			" <a href='https://yoa.st/33u' target='_blank'>Distribute them more evenly</a>.",
 	},
-	fleschReadingEase: {
-		isApplicable: false,
-	},
+
 	subheadingsTooLong: {
 		isApplicable: true,
 		score: 2,
