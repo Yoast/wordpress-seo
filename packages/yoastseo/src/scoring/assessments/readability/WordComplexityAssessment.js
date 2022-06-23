@@ -31,7 +31,7 @@ export default class WordComplexityAssessment extends Assessment {
 		};
 
 		/*
-		 * Translators: This is the name of the 'Word complexity' SEO assessment.
+		 * Translators: This is the name of the 'Word complexity' readability assessment.
          * It appears before the feedback in the analysis, for example in the feedback string:
          * "Word complexity: You are not using too many complex words, which makes your text easy to read. Good job!"
          */
