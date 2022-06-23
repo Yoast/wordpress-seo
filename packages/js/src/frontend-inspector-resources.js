@@ -4,7 +4,7 @@ import AnalysisCheck from "./components/AnalysisCheck";
 
 window.yoast = window.yoast || {};
 
-window.yoast.frontend = {
+window.yoast.frontendInspector = {
 	getIndicatorForScore,
 	AnalysisCheck,
 	YoastIcon,
