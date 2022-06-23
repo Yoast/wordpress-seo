@@ -109,6 +109,11 @@ class Wordproof implements Integration_Interface {
 		\add_filter( 'wordproof_timestamp_post_meta_key_overrides', [ $this, 'add_post_meta_key' ] );
 
 		/**
+		 * Called by the WordProof WordPress SDK to determine if the post should be automatically timestamped.
+		 */
+		\add_filter( 'wordproof_timestamp_post_types', [ $this, 'remove_post_type_timestamping' ] );
+
+		/**
 		 * Called by the WordProof WordPress SDK to determine if the certificate should be shown.
 		 */
 		\add_filter( 'wordproof_timestamp_show_certificate', [ $this, 'show_certificate' ], 10, 2 );
@@ -146,14 +151,23 @@ class Wordproof implements Integration_Interface {
 	}
 
 	/**
-	 * Add the Yoast post meta key for the included WordProof SDK to determine if the post should be timestamped.
+	 * Return the Yoast post meta key for the SDK to determine if the post should be timestamped.
 	 *
 	 * @param array $array The array containing meta keys that should be used.
 	 * @return array
 	 */
 	public function add_post_meta_key( $array ) {
-		$array[] = $this->post_meta_key;
-		return $array;
+		return [ $this->post_meta_key ];
+	}
+
+	/**
+	 * Return an empty array to disable automatically timestamping selected post types.
+	 *
+	 * @param array $array The array containing post types that should be automatically timestamped.
+	 * @return array
+	 */
+	public function wordproof_timestamp_post_types( $array ) {
+		return [];
 	}
 
 	/**
