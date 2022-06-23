@@ -80,7 +80,12 @@ class Deactivated_Premium_Integration implements Integration_Interface {
 				/* translators: 1: Yoast SEO Premium 2: Link start tag to activate premium, 3: Link closing tag. */
 				\__( 'You\'ve installed %1$s but it\'s not activated yet. %2$sActivate %1$s now!%3$s', 'wordpress-seo' ),
 				'Yoast SEO Premium',
-				'<a href="' . \esc_url( \wp_nonce_url( 'plugins.php?action=activate&plugin=' . $premium_file, 'activate-plugin_' . $premium_file ) ) . '">',
+				'<a href="' . \esc_url(
+					\wp_nonce_url(
+						\self_admin_url( 'plugins.php?action=activate&plugin=' . $premium_file ),
+						'activate-plugin_' . $premium_file
+					)
+				) . '">',
 				'</a>'
 			);
             // phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped above.

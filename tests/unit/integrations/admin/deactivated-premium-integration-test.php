@@ -94,7 +94,8 @@ class Deactivated_Premium_Integration_Test extends TestCase {
 
 		$this->asset_manager->expects( 'enqueue_style' )->with( 'monorepo' );
 
-		Monkey\Functions\expect( 'wp_nonce_url' )->with( 'plugins.php?action=activate&plugin=' . $premium_file, 'activate-plugin_' . $premium_file )->andReturnFirstArg();
+		Monkey\Functions\expect( 'self_admin_url' )->with( 'plugins.php?action=activate&plugin=' . $premium_file, 'activate-plugin_' . $premium_file )->andReturn( 'https://example.org/wp-admin/plugins.php?action=activate&plugin=' . $premium_file );
+		Monkey\Functions\expect( 'wp_nonce_url' )->with( 'https://example.org/wp-admin/plugins.php?action=activate&plugin=' . $premium_file, 'activate-plugin_' . $premium_file )->andReturnFirstArg();
 		Monkey\Functions\expect( 'wp_enqueue_style' )->with( 'yoast-seo-notifications' );
 		Monkey\Functions\expect( 'plugin_dir_url' )->andReturn( 'https://example.org/wp-content/plugins/' );
 
