@@ -20,6 +20,16 @@ describe( "a test for an assessment that checks complex words in a text", functi
 		expect( result.getText() ).toBe( "<a href='https://yoa.st/4ls' target='_blank'>Word complexity</a>: " +
 			"You are not using too many complex words, which makes your text easy to read. Good job!" );
 		expect( result.hasMarks() ).toBe( true );
+		expect( assessment.getMarks( paper, researcher ) ).toEqual( [
+			{ _properties:
+					{ marked: "Torbie cats with a <yoastmark class='yoast-text-mark'>predominantly</yoastmark> white " +
+							"<yoastmark class='yoast-text-mark'>undercoat</yoastmark> are often referred to as " +
+							"\"<yoastmark class='yoast-text-mark'>" +
+							"caliby</yoastmark>\", an <yoastmark class='yoast-text-mark'>amalgamation</yoastmark> of Calico and Tabby.",
+					original: "Torbie cats with a predominantly white undercoat are often referred to as \"caliby\", " +
+							"an amalgamation of Calico and Tabby." },
+			} ]
+		);
 	} );
 
 	it( "should returns with score 6 if the complex words are more than 5% in the text", function() {
