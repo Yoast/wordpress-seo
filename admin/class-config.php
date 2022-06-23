@@ -105,6 +105,8 @@ class WPSEO_Admin_Pages {
 				'brushstrokeBackgroundURL'         => plugins_url( 'images/brushstroke_background.svg', WPSEO_FILE ),
 				'showLocalSEOUpsell'               => $this->should_show_local_seo_upsell(),
 				'localSEOUpsellURL'                => WPSEO_Shortlinker::get( 'https://yoa.st/3mp' ),
+				'showNewsSEOUpsell'                => $this->should_show_news_seo_upsell(),
+				'newsSEOUpsellURL'                 => WPSEO_Shortlinker::get( 'https://yoa.set/get-news-settings' ),
 				'knowledgeGraphCompanyInfoMissing' => WPSEO_Language_Utils::get_knowledge_graph_company_info_missing_l10n(),
 				'schema'                           => [
 					'pageTypeOptions'    => $schema_types->get_page_type_options(),
@@ -192,6 +194,18 @@ class WPSEO_Admin_Pages {
 	private function should_show_local_seo_upsell() {
 		return ! YoastSEO()->helpers->product->is_premium()
 			&& ! ( defined( 'WPSEO_LOCAL_FILE' ) );
+	}
+
+	/**
+	 * Determines whether the News SEO upsell should be shown.
+	 *
+	 * The News SEO upsell should:
+	 * - Not be shown when Local SEO is active.
+	 *
+	 * @return bool Whether the News SEO upsell should be shown.
+	 */
+	private function should_show_news_seo_upsell() {
+		return ! ( defined( 'WPSEO_NEWS_FILE' ) );
 	}
 
 	/**
