@@ -17,9 +17,7 @@ const checkIfWordIsComplex = function( word, config ) {
 	const doesUpperCaseDecreaseComplexity = config.doesUpperCaseDecreasesComplexity;
 
 	let isWordComplex = false;
-	if ( frequencyList.length === 0 ) {
-		return;
-	}
+
 	/*
 	 * Check for each word whether it is a complex word or not.
 	 * A word is complex if:
