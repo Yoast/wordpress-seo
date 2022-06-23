@@ -103,8 +103,7 @@ class WPSEO_Register_Capabilities implements WPSEO_WordPress_Integration {
 
 		// Remove manage_options cap requirement if requested cap is manage_privacy_options.
 		if ( $cap === 'manage_privacy_options' ) {
-			$caps = array_diff( $caps, [ 'manage_options' ] );
-			return $caps;
+			return array_diff( $caps, [ 'manage_options' ] );
 		}
 
 		return $caps;
