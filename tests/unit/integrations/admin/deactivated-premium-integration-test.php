@@ -67,7 +67,7 @@ class Deactivated_Premium_Integration_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the registratation of the hooks.
+	 * Tests the registration of the hooks.
 	 *
 	 * @covers ::register_hooks
 	 */

@@ -77,7 +77,7 @@ class Deactivated_Premium_Integration implements Integration_Interface {
 			$this->admin_asset_manager->enqueue_style( 'monorepo' );
 
 			$content = \sprintf(
-				/* translators: 1: Yoast SEO Premium 2: Link start tag to tactivate premium, 3: Link closing tag. */
+				/* translators: 1: Yoast SEO Premium 2: Link start tag to activate premium, 3: Link closing tag. */
 				\__( 'You have %1$s installed but not activated. %2$sActivate %1$s now!%3$s', 'wordpress-seo' ),
 				'Yoast SEO Premium',
 				'<a href="' . \esc_url( \wp_nonce_url( 'plugins.php?action=activate&plugin=' . $premium_file, 'activate-plugin_' . $premium_file ) ) . '">',
