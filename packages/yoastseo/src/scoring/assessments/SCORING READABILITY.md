@@ -135,6 +135,8 @@
 ## 8) Word complexity
 **What it does**: Checks whether the text contains complex words
 
+**When applies**: When there is at least 50 characters in the text
+
 **Name in code**: WordComplexityAssessment
 
 **Title URL**: https://yoa.st/4ls (link placement is in bold in the feedback strings)
