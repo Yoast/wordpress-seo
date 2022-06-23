@@ -6,7 +6,7 @@ import MissingArgument from "./errors/missingArgument";
 
 import SEOAssessor from "./scoring/seoAssessor.js";
 import KeyphraseDistributionAssessment from "./scoring/assessments/seo/KeyphraseDistributionAssessment.js";
-import WordComplexityAssessment from "./scoring/assessments/readability/wordComplexityAssessment";
+import WordComplexityAssessment from "./scoring/assessments/readability/WordComplexityAssessment";
 import ContentAssessor from "./scoring/contentAssessor.js";
 import CornerstoneSEOAssessor from "./scoring/cornerstone/seoAssessor.js";
 import CornerstoneContentAssessor from "./scoring/cornerstone/contentAssessor.js";
