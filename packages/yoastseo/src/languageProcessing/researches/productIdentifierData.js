@@ -9,7 +9,7 @@
 /**
  * Checks whether the identifiers field for a product are filled in.
  */
-export default function isIdentifierFilledIn( elementID ) {
+export function isIdentifierFilledIn( elementID ) {
 	// If product has a global identifier it returns its value.
 	return document.getElementById( elementID ).value !== undefined && document.getElementById( elementID ).value !== "";
 }
@@ -32,15 +32,16 @@ export default function isIdentifierFilledIn( elementID ) {
 // 	return identifierValues.includes( true );
 // }
 
-// /**
-//  * Checks whether there are variants for a product.
-//  */
-// const hasVariants = function() {
-// 	if (product has variants) {
-// 		return true;
-// 	}
-// };
-// // 	return document.getElementsByID( elementID ).value !== undefined && document.getElementById( elementID ).value !== "";
+/**
+ * Checks whether there are variants for a product.
+ */
+export function hasVariants() {
+	const numberOfVariants = document.getElementsByClassName( "woocommerce_variations wc-metaboxes ui-sortable" ).namedItem( "data-total" );
+	if ( numberOfVariants !== "" ) {
+		return true;
+	} return false;
+}
+// && numberOfVariants !== "" && numberOfVariants !== "0"
 //
 // /**
 //  * Checks whether all variants for a product have an identifier.
