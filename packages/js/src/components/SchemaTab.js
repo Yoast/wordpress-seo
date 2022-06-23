@@ -30,12 +30,12 @@ function NewsAlert( { location, show } ) {
 	return <Alert type="info">
 		{
 			sprintf(
-				/* translators: %s Expands to "News SEO" */
+				/* translators: %s Expands to "Yoast News SEO" */
 				__(
-					"Do you have news articles on your site? Our %s plugin helps you to optimize your site for Google News and the likes!",
+					"Are you working on a news article? %s helps you optimize your site for Google News.",
 					"wordpress-seo"
 				),
-				"News SEO"
+				"Yoast News SEO"
 			) + " "
 		}
 		<NewsLandingPageLink
@@ -44,7 +44,7 @@ function NewsAlert( { location, show } ) {
 			{
 				sprintf(
 					/* translators: %s: Expands to "Yoast News SEO". */
-					__( "Get the %s plugin!", "wordpress-seo" ),
+					__( "Buy %s now!", "wordpress-seo" ),
 					"Yoast News SEO"
 				)
 			}
