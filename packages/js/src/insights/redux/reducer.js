@@ -3,8 +3,7 @@ import { LOAD_ESTIMATED_READING_TIME, SET_ESTIMATED_READING_TIME, SET_FLESCH_REA
 const INITIAL_STATE = {
 	estimatedReadingTime: 0,
 	fleschReadingEaseScore: 0,
-	// Including `<a>` and `</a>`, so we can interpolate.
-	fleschReadingEaseText: "",
+	fleschReadingEaseDifficulty: 0,
 	wordCount: 0,
 };
 
@@ -34,7 +33,7 @@ const reducer = ( state = INITIAL_STATE, { type, payload } ) => {
 			return {
 				...state,
 				fleschReadingEaseScore: payload.score,
-				fleschReadingEaseText: payload.text,
+				fleschReadingEaseDifficulty: payload.difficulty,
 			};
 		case SET_WORD_COUNT:
 			return {

@@ -33,20 +33,23 @@ export const loadEstimatedReadingTime = () => ( {
 } );
 
 /**
- * @param {number} score The score.
- * @param {string} [text] The explanation text.
+ * Set the Flesch reading ease score and difficulty on the store.
+ *
+ * @param {{ score: number, difficulty: DIFFICULTY }} fleschReadingEaseScoring The score and difficulty.
  *
  * @returns {Object} The action.
  */
-export const setFleschReadingEase = ( score, text = "" ) => ( {
+export const setFleschReadingEase = ( { score, difficulty } ) => ( {
 	type: SET_FLESCH_READING_EASE,
 	payload: {
 		score,
-		text,
+		difficulty,
 	},
 } );
 
 /**
+ * Sets the prominent words on the store.
+ *
  * @param {Object[]} prominentWords The prominent words.
  *
  * @returns {Object} The action.
@@ -57,6 +60,8 @@ export const setProminentWords = prominentWords => ( {
 } );
 
 /**
+ * Sets the word count on the store.
+ *
  * @param {number} wordCount The word count.
  *
  * @returns {Object} The action.
