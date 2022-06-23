@@ -12,7 +12,6 @@ import TextPresence from "../assessments/readability/TextPresenceAssessment.js";
 /*
  Temporarily disabled:
 
- var wordComplexity = require( "./assessments/readability/wordComplexityAssessment.js" );
  var sentenceLengthInDescription = require( "./assessments/readability/sentenceLengthInDescriptionAssessment.js" );
  */
 
