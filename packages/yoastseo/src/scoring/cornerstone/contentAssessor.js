@@ -1,6 +1,5 @@
 import Assessor from "../assessor.js";
 import ContentAssessor from "../contentAssessor";
-import fleschReadingEase from "../assessments/readability/fleschReadingEaseAssessment.js";
 import ParagraphTooLong from "../assessments/readability/ParagraphTooLongAssessment.js";
 import SentenceLengthInText from "../assessments/readability/SentenceLengthInTextAssessment.js";
 import SubheadingDistributionTooLong from "../assessments/readability/SubheadingDistributionTooLongAssessment.js";
@@ -30,8 +29,6 @@ const CornerStoneContentAssessor = function( researcher, options = {} ) {
 	this.type = "cornerstoneContentAssessor";
 
 	this._assessments = [
-
-		fleschReadingEase,
 		new SubheadingDistributionTooLong( {
 			parameters:	{
 				slightlyTooMany: 250,
