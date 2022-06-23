@@ -88,7 +88,7 @@ ContentAssessor.prototype.calculatePenaltyPointsPartialSupport = function( ratin
  * @returns {boolean} True if fully supported.
  */
 ContentAssessor.prototype._allAssessmentsSupported = function() {
-	const numberOfAssessments = 7;
+	const numberOfAssessments = this._assessments.length;
 	const applicableAssessments = this.getApplicableAssessments();
 	return applicableAssessments.length === numberOfAssessments;
 };
