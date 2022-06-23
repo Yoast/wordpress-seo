@@ -27,7 +27,7 @@ class WPSEO_Register_Capabilities implements WPSEO_WordPress_Integration {
 		 * a potential privacy leak.
 		 */
 		if ( ! is_multisite() ) {
-			add_filter( 'map_meta_cap', [ $this, 'add_manage_privacy_options_capability' ], 1, 4 );
+			add_filter( 'map_meta_cap', [ $this, 'add_manage_privacy_options_capability' ], 1, 2 );
 		}
 	}
 
@@ -100,7 +100,7 @@ class WPSEO_Register_Capabilities implements WPSEO_WordPress_Integration {
 		if ( $cap === 'manage_privacy_options' ) {
 			$caps = array_diff( $caps, [ 'manage_options' ] );
 		}
-		
+
 		return $caps;
 	}
 }
