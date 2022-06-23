@@ -298,7 +298,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 				__( 'Inspect', 'wordpress-seo' ),
 				__( 'New', 'wordpress-seo' )
 			),
-			'href'   => '#wpseoFrontSidebar',
+			'href'   => '#wpseo-frontend-inspector',
 			'meta'   => [
 				'tabindex' => '0',
 			],
