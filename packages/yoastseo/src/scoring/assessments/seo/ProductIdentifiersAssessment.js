@@ -3,11 +3,11 @@ import { merge } from "lodash-es";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 
 /**
- * Represents the assessment for the product description.
+ * Represents the assessment for the product identifiers.
  */
 export default class ProductIdentifierAssessment extends Assessment {
 	/**
-	 * Constructs a product description assessment.
+	 * Constructs a product identifier assessment.
 	 *
 	 *
 	 * @returns {void}
