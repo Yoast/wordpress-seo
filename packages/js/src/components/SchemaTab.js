@@ -220,7 +220,10 @@ const Content = ( props ) => {
 				selected={ props.schemaArticleTypeSelected }
 				onOptionFocus={ handleOptionChange }
 			/> }
-			<NewsAlert location={ props.location } show={ ! props.isNewsEnabled && isNewsArticleType( focusedArticleType, props.defaultArticleType ) } />
+			<NewsAlert
+				location={ props.location }
+				show={ ! props.isNewsEnabled && isNewsArticleType( focusedArticleType, props.defaultArticleType ) }
+			/>
 			{ props.displayFooter && <p>{ footerWithLink( props.postTypeName ) }</p> }
 		</Fragment>
 	);
