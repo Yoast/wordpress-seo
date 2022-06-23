@@ -23,12 +23,9 @@ class WPSEO_Register_Capabilities implements WPSEO_WordPress_Integration {
 		}
 
 		/**
-		 * The wpseo_manager role is only extended on single site environments to prevent
-		 * a potential privacy leak.
+		 * Maybe add manage_privacy_options capability for wpseo_manager user role.
 		 */
-		if ( ! is_multisite() ) {
-			add_action( 'admin_init', [ $this, 'extend_wpseo_manager_capabilities' ], 10 );
-		}
+		add_filter( 'map_meta_cap', [ $this, 'map_meta_cap_for_seo_manager' ], 10, 2 );
 	}
 
 	/**
@@ -84,29 +81,32 @@ class WPSEO_Register_Capabilities implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Action on admin_init that checks if the current user should have added capabilities to.
+	 * Maybe add manage_privacy_options capability for wpseo_manager user role.
 	 *
-	 * @return void
+	 * @param string[] $caps Primitive capabilities required of the user.
+	 * @param string[] $cap  Capability being checked.
+	 *
+	 * @return string[] Filtered primitive capabilities required of the user.
 	 */
-	public function extend_wpseo_manager_capabilities() {
+	public function map_meta_cap_for_seo_manager( $caps, $cap ) {
 		$user = wp_get_current_user();
 
-		if ( in_array( 'wpseo_manager', $user->roles, true ) ) {
-			add_filter( 'map_meta_cap', [ $this, 'add_manage_privacy_options_capability' ], 1, 2 );
+		// No multisite support.
+		if ( is_multisite() ) {
+			return $caps;
 		}
-	}
 
-	/**
-	 * Action on map_meta_cap that allows SEO Managers to edit the privacy page.
-	 *
-	 * @param array  $caps The capabilities for the current user.
-	 * @param string $cap The required capability.
-	 * @return array|mixed
-	 */
-	public function add_manage_privacy_options_capability( $caps, $cap ) {
+		// User must be of role wpseo_manager.
+		if ( ! in_array( 'wpseo_manager', $user->roles, true ) ) {
+			return $caps;
+		}
+
+		// Remove manage_options cap requirement if requested cap is manage_privacy_options.
 		if ( $cap === 'manage_privacy_options' ) {
 			$caps = array_diff( $caps, [ 'manage_options' ] );
+			return $caps;
 		}
+
 		return $caps;
 	}
 }
