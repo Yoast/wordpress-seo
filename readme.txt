@@ -242,22 +242,23 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 Release Date: June 28th, 2022
 
 
+
+
 Enhancements:
 
-* Added support for `webp` images for OpenGraph output.
-* Adds a new filter `wpseo_change_home_url` that allows changing the URL the Ryte integration checks, to allow for more versatile hosting setups.
-* Adds WordProof to timestamp the privacy policy and terms and conditions pages.
-* By adding a `meta author` tag we're making sure LinkedIn picks up the name of a post author properly.
-* By adding the name of the article author to the `author` section of the `Article` schema piece, we make Pinterest detect as it doesn't traverse the graph properly.
+* Adds support for `webp` images for OpenGraph output.
+* Adds a new filter `wpseo_change_home_url` that allows changing the URL checked by the Ryte integration, to support more versatile hosting setups.
+* Adds an integration with WordProof, which allows adding a timestamp to the privacy policy and terms and conditions pages.
+* Adds a `meta author` tag to ensure that LinkedIn picks up the name of a post author properly.
+* Adds the name of the article author to the `author` section of the `Article` schema piece, to ensure that Pinterest picks up the name of a post author properly.
 * Enables sorting on the SEO and readability score columns on the post overview page.
-* Ensures the Bing XML sitemap ping is only made if IndexNow is disabled.
+* Ensures the Bing XML sitemap ping is only sent if IndexNow is disabled.
+* Prevents XML sitemap pings for blogs that aren't public.
 * Improves the content analysis by excluding blockquote HTML elements.
-* Improves the sentence recognition by disregarding abbreviations as potential sentence boundaries.
-* Improves the sentence recognition by disregarding initials as potential sentence boundaries.
-* Improves the text analysis by not always splitting on ellipsis &#8230; regardless of whether the next sentence has a valid beginning or not. This previously could also result in score discrepancies when switching to Elementor.
+* Improves the sentence recognition by disregarding abbreviations and initials as potential sentence boundaries.
+* Improves the text analysis in Elementor by not always splitting on ellipsis &#8230; regardless of whether the next sentence has a valid beginning or not.
 * Improves the text analysis by not splitting sentences on semicolon ;.
 * Improves the text analysis by supporting sentence detection for declarative sentences in quotation marks.
-* Prevents XML sitemap pings for blogs that aren't public.
 
 Bugfixes:
 
