@@ -116,14 +116,14 @@ export default class WordComplexityAssessment extends Assessment {
 	getMarks( paper, researcher ) {
 		const wordComplexityResults = researcher.getResearch( "wordComplexity" ).complexWords;
 		const matchWordCustomHelper = researcher.getResearch( "matchWordCustomHelper" );
-		let markings = [];
+		const markings = [];
 
 		wordComplexityResults.forEach( ( result ) => {
 			const complexWords = result.complexWords;
 			const sentence = result.sentence;
 
 			if ( complexWords.length > 0 ) {
-				markings = markings.concat(
+				markings.push(
 					new Mark( {
 						original: sentence,
 						marked: collectMarkingsInSentence( sentence, complexWords, matchWordCustomHelper ),
