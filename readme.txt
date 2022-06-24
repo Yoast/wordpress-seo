@@ -242,6 +242,7 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 Release Date: June 28th, 2022
 
 
+
 Enhancements:
 
 * Adds a `meta author` tag to ensure that LinkedIn picks up the name of a post author properly.
