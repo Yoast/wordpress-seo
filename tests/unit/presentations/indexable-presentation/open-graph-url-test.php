@@ -2,6 +2,8 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Presentations\Indexable_Presentation;
 
+use Brain\Monkey;
+
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -47,6 +49,10 @@ class Open_Graph_URL_Test extends TestCase {
 
 		$this->indexable_helper
 			->expects( 'dynamic_permalinks_enabled' )
+			->once()
+			->andReturn( false );
+
+		Monkey\Functions\expect( 'is_date' )
 			->once()
 			->andReturn( false );
 

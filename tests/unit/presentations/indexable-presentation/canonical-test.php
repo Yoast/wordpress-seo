@@ -2,6 +2,8 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Presentations\Indexable_Presentation;
 
+use Brain\Monkey;
+
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -49,6 +51,10 @@ class Canonical_Test extends TestCase {
 			->once()
 			->andReturn( false );
 
+		Monkey\Functions\expect( 'is_date' )
+			->once()
+			->andReturn( false );
+
 		$this->assertEquals( 'https://example.com/permalink/', $this->instance->generate_canonical() );
 	}
 
@@ -60,6 +66,10 @@ class Canonical_Test extends TestCase {
 	public function test_without_canonical_or_permalink() {
 		$this->indexable_helper
 			->expects( 'dynamic_permalinks_enabled' )
+			->once()
+			->andReturn( false );
+
+		Monkey\Functions\expect( 'is_date' )
 			->once()
 			->andReturn( false );
 
