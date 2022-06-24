@@ -111,7 +111,7 @@ class Wordproof implements Integration_Interface {
 		/**
 		 * Called by the WordProof WordPress SDK to determine if the post should be automatically timestamped.
 		 */
-		\add_filter( 'wordproof_timestamp_post_types', [ $this, 'remove_post_type_timestamping' ] );
+		\add_filter( 'wordproof_timestamp_post_types', [ $this, 'wordproof_timestamp_post_types' ] );
 
 		/**
 		 * Called by the WordProof WordPress SDK to determine if the certificate should be shown.
