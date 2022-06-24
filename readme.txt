@@ -242,6 +242,7 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 Release Date: June 28th, 2022
 
 
+
 Enhancements:
 
 * Adds a `meta author` tag to ensure that LinkedIn picks up the name of a post author properly.
@@ -262,6 +263,7 @@ Enhancements:
 
 Bugfixes:
 
+* Fixes a bug where notices would show an abnormally large heading in Yoast SEO premium page.
 * Fixes a bug that would cause the First-time configuration to crash when completing indexation with the Yoast admin bar menu hidden.
 * Fixes a bug where filtering the OpenGraph and Twitter image to a URL containing ampersands would lead to encoding issues.
 * Fixes a bug where HTML tags in the `og:description` meta tag would be displayed encoded instead of being removed completely.
