@@ -838,6 +838,9 @@ body.folded .wpseo-admin-submit-fixed {
   color: #d63638;
 }
 
+.privacy-settings .notice-yoast {
+  margin: 0 20px;
+}
 
 .yoast .yoast-crawl-settings-help-free {
   opacity: 0.5;
