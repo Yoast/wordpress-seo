@@ -1,4 +1,5 @@
 import { __ } from "@wordpress/i18n";
+import { useSelect } from "@wordpress/data";
 import PropTypes from "prop-types";
 import MetaboxCollapsible from "../../components/MetaboxCollapsible";
 import EstimatedReadingTime from "./estimated-reading-time";
@@ -12,6 +13,8 @@ import WordCount from "./word-count";
  * @returns {JSX.Element} The element.
  */
 const InsightsCollapsible = ( { location } ) => {
+	const isFleschReadingEaseAvailable = useSelect( select => select( "yoast-seo/editor" ).isFleschReadingEaseAvailable(), [] );
+
 	return (
 		<MetaboxCollapsible
 			title={ __( "Insights", "wordpress-seo" ) }
@@ -20,9 +23,9 @@ const InsightsCollapsible = ( { location } ) => {
 		>
 			<ProminentWords location={ location } />
 			<div>
-				<div className="yoast-insights-row">
+				{ isFleschReadingEaseAvailable && <div className="yoast-insights-row">
 					<FleschReadingEase />
-				</div>
+				</div> }
 				<div className="yoast-insights-row yoast-insights-row--columns">
 					<EstimatedReadingTime />
 					<WordCount />

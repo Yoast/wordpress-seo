@@ -14,6 +14,7 @@ import WordCount from "./word-count";
  */
 const InsightsModal = ( { location } ) => {
 	const isElementorEditor = useSelect( select => select( "yoast-seo/editor" ).getIsElementorEditor(), [] );
+	const isFleschReadingEaseAvailable = useSelect( select => select( "yoast-seo/editor" ).isFleschReadingEaseAvailable(), [] );
 
 	return (
 		<EditorModal
@@ -25,9 +26,9 @@ const InsightsModal = ( { location } ) => {
 			<div className="yoast-insights yoast-modal-content--columns">
 				<ProminentWords location={ location } />
 				<div>
-					<div className="yoast-insights-row">
+					{ isFleschReadingEaseAvailable && <div className="yoast-insights-row">
 						<FleschReadingEase />
-					</div>
+					</div> }
 					<div className="yoast-insights-row yoast-insights-row--columns">
 						<EstimatedReadingTime />
 						<WordCount />
