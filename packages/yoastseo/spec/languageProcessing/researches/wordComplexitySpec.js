@@ -68,4 +68,31 @@ describe( "a test for getting the complex words in the sentence and calculating 
 		expect( wordComplexity( paper, researcher ).complexWords ).toEqual( [] );
 		expect( wordComplexity( paper, researcher ).percentage ).toEqual( 0 );
 	} );
+
+	it( "should return an empty array and 0% if there is no complex word found in the text: " +
+		"Also test with a word starting with capital letter enclosed in different types of quotation mark.", () => {
+		let paper = new Paper( "This is short text. This is another short text. A text about \"Calico\"." );
+		let researcher = new Researcher( paper );
+
+		expect( wordComplexity( paper, researcher ).complexWords ).toEqual( [] );
+		expect( wordComplexity( paper, researcher ).percentage ).toEqual( 0 );
+
+		paper = new Paper( "This is short text. This is another short text. A text about 'Calico'." );
+		researcher = new Researcher( paper );
+
+		expect( wordComplexity( paper, researcher ).complexWords ).toEqual( [] );
+		expect( wordComplexity( paper, researcher ).percentage ).toEqual( 0 );
+
+		paper = new Paper( "This is short text. This is another short text. A text about ’Calico’." );
+		researcher = new Researcher( paper );
+
+		expect( wordComplexity( paper, researcher ).complexWords ).toEqual( [] );
+		expect( wordComplexity( paper, researcher ).percentage ).toEqual( 0 );
+
+		paper = new Paper( "This is short text. This is another short text. A text about ‘Calico‘." );
+		researcher = new Researcher( paper );
+
+		expect( wordComplexity( paper, researcher ).complexWords ).toEqual( [] );
+		expect( wordComplexity( paper, researcher ).percentage ).toEqual( 0 );
+	} );
 } );
