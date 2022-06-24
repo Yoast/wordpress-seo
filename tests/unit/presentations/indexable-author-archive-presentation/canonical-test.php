@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Tests\Unit\Presentations\Indexable_Author_Archive_Presentation;
 
 use Brain\Monkey;
-
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
