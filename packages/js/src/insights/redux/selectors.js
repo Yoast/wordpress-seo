@@ -1,5 +1,4 @@
 import { get } from "lodash";
-import { DIFFICULTY } from "yoastseo";
 
 /**
  * Gets the Estimated Reading Time from the store.
@@ -15,18 +14,29 @@ export const getEstimatedReadingTime = state => get( state, "insights.estimatedR
  *
  * @param {Object} state The state.
  *
- * @returns {number} The flesch reading ease score.
+ * @returns {number|null} The flesch reading ease score.
  */
-export const getFleschReadingEaseScore = state => get( state, "insights.fleschReadingEaseScore", 0 );
+export const getFleschReadingEaseScore = state => get( state, "insights.fleschReadingEaseScore", null );
 
 /**
  * Gets the flesch reading ease difficulty from the store.
  *
  * @param {Object} state The state.
  *
- * @returns {DIFFICULTY} The flesch reading ease difficulty.
+ * @returns {DIFFICULTY|null} The flesch reading ease difficulty.
  */
-export const getFleschReadingEaseDifficulty = state => get( state, "insights.fleschReadingEaseDifficulty", DIFFICULTY.VERY_DIFFICULT );
+export const getFleschReadingEaseDifficulty = state => get( state, "insights.fleschReadingEaseDifficulty", null );
+
+/**
+ * Checks if the flesch reading ease score and difficulty are available.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {boolean} Whether the flesch reading ease score and difficulty are available.
+ */
+export const isFleschReadingEaseAvailable = state => {
+	return getFleschReadingEaseScore( state ) !== null && getFleschReadingEaseDifficulty( state ) !== null;
+};
 
 /**
  * Gets the word count from the store.
