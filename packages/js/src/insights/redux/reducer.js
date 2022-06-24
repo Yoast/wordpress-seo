@@ -2,8 +2,6 @@ import { LOAD_ESTIMATED_READING_TIME, SET_ESTIMATED_READING_TIME, SET_FLESCH_REA
 
 const INITIAL_STATE = {
 	estimatedReadingTime: 0,
-	fleschReadingEaseScore: 0,
-	fleschReadingEaseDifficulty: 0,
 	wordCount: 0,
 };
 

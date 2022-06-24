@@ -26,7 +26,14 @@ const createUpdater = () => {
 		const paper = Paper.parse( collectData() );
 
 		runResearch( "readingTime", paper ).then( response => setEstimatedReadingTime( response.result ) );
-		runResearch( "getFleschReadingScore", paper ).then( response => setFleschReadingEase( response.result ) );
+		runResearch( "getFleschReadingScore", paper ).then( response => {
+			/*
+			 * For languages that do not have Flesch reading ease support, `false` is returned.
+			 */
+			if ( response.result ) {
+				setFleschReadingEase( response.result );
+			}
+		} );
 		runResearch( "wordCountInText", paper ).then( response => setWordCount( response.result ) );
 	};
 };
