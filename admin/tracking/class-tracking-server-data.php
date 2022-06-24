@@ -36,7 +36,10 @@ class WPSEO_Tracking_Server_Data implements WPSEO_Collection {
 			$server_data['Hostname'] = gethostbyaddr( $ipaddress );
 		}
 
-		$server_data['os']            = php_uname();
+		if ( function_exists( 'php_uname' ) ) {
+			$server_data['os'] = php_uname();
+		}
+
 		$server_data['PhpVersion']    = PHP_VERSION;
 		$server_data['CurlVersion']   = $this->get_curl_info();
 		$server_data['PhpExtensions'] = $this->get_php_extensions();
