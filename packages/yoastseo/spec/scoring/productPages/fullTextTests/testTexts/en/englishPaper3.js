@@ -153,7 +153,7 @@ const expectedResults = {
 	wordComplexity: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/shopify77' target='_blank'>Word complexity</a>: 19.13% of the words in your text is considered complex. " +
+		resultText: "<a href='https://yoa.st/shopify77' target='_blank'>Word complexity</a>: 13.04% of the words in your text is considered complex. " +
 			"<a href='https://yoa.st/shopify78' target='_blank'>Try to use shorter and more familiar words to improve readability</a>.",
 	},
 };

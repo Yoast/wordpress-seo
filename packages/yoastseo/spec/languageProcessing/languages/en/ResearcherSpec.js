@@ -55,7 +55,7 @@ describe( "a test for the English Researcher", function() {
 
 	it( "returns the English word complexity configs", function() {
 		expect( researcher.getConfig( "wordComplexity" ).frequencyList ).toEqual( frequencyList.list );
-		expect( researcher.getConfig( "wordComplexity" ).wordLength ).toEqual( 5 );
+		expect( researcher.getConfig( "wordComplexity" ).wordLength ).toEqual( 7 );
 		expect( researcher.getConfig( "wordComplexity" ).doesUpperCaseDecreasesComplexity ).toEqual( true );
 	} );
 

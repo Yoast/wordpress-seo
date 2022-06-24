@@ -38,7 +38,7 @@ export default class Researcher extends AbstractResearcher {
 			syllables,
 			wordComplexity: {
 				frequencyList: frequencyList.list,
-				wordLength: 5,
+				wordLength: 7,
 				doesUpperCaseDecreasesComplexity: true,
 			},
 		} );
