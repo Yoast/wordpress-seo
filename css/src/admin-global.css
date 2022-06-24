@@ -757,7 +757,7 @@ body.folded .wpseo-admin-submit-fixed {
 	padding: 0;
 }
 
-.notice-yoast__header h1 {
+.notice-yoast__header h2.notice-yoast__header-heading {
 	font-size: 14px;
 	font-weight: 600;
 	color: var(--yoast-color-primary);
