@@ -158,6 +158,9 @@ const expectedResults = {
 		score: 9,
 		resultText: "<a href='https://yoa.st/33c' target='_blank'>Images</a>: Good job!",
 	},
+	wordComplexity: {
+		isApplicable: false,
+	},
 };
 
 export {

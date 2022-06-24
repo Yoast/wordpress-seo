@@ -1,4 +1,5 @@
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
+import WordComplexityAssessment from "../../assessments/readability/WordComplexityAssessment";
 import Assessor from "../../assessor.js";
 import ContentAssessor from "../../contentAssessor";
 import ParagraphTooLong from "../../assessments/readability/ParagraphTooLongAssessment.js";
@@ -63,6 +64,13 @@ const ProductCornerstoneContentAssessor = function( researcher, options ) {
 		new ListsPresence( {
 			urlTitle: createAnchorOpeningTag( options.listsUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.listsCTAUrl ),
+		} ),
+		new WordComplexityAssessment( {
+			scores: {
+				acceptableAmount: 3,
+			},
+			urlTitle: createAnchorOpeningTag( options.wordComplexityTitleUrl ),
+			urlCallToAction: createAnchorOpeningTag( options.wordComplexityCTAUrl ),
 		} ),
 	];
 };

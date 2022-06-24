@@ -9,8 +9,6 @@ import TextPresence from "./assessments/readability/TextPresenceAssessment.js";
 
 /*
 	Temporarily disabled:
-
-	var wordComplexity = require( "./assessments/wordComplexityAssessment.js" );
 	var sentenceLengthInDescription = require( "./assessments/sentenceLengthInDescriptionAssessment.js" );
  */
 

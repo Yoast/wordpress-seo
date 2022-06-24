@@ -22,6 +22,7 @@ describe( "a test for the Czech Researcher", function() {
 
 	it( "returns false if the default research is deleted in the Czech Researcher", function() {
 		expect( researcher.getResearch( "getFleschReadingScore" ) ).toBe( false );
+		expect( researcher.getResearch( "wordComplexity" ) ).toBe( false );
 	} );
 
 	it( "returns Czech function words", function() {
