@@ -21,45 +21,32 @@ describe( "a test for getting the complex words in the sentence and calculating 
 
 		expect( wordComplexity( paper, researcher ).complexWords ).toEqual( [
 			{
-				complexWords: [ "torties", "tortoiseshell", "combine", "patches" ],
+				complexWords: [ "tortoiseshell" ],
 				sentence: "Also called torties for short, tortoiseshell cats combine two colors other than white, " +
 					"either closely mixed or in larger patches.",
-			},
-			{
-				complexWords: [ "patches" ],
-				sentence: "The colors are often described as red and black, but the \"red\" patches can instead be orange, yellow, " +
-					"or cream, and the \"black\" can instead be chocolate, gray, tabby, or blue.",
-			},
-			{
-				complexWords: [ "torbie" ],
-				sentence: "Tortoiseshell cats with the tabby pattern as one of their colors are sometimes referred to as a torbie.",
-			},
-			{
-				complexWords: [ "torbie", "torbie" ],
-				sentence: "Cats having torbie coats are sometimes referred to as torbie cats.",
 			},
 			{
 				complexWords: [ "typically", "reserved", "particolored", "markings" ],
 				sentence: "\"Tortoiseshell\" is typically reserved for particolored cats with relatively small or no white markings.",
 			},
 			{
-				complexWords: [ "predominantly", "tortoiseshell", "patches", "tricolor", "tortoiseshell-and-white", "calico" ],
+				complexWords: [ "predominantly", "tortoiseshell", "tricolor", "tortoiseshell-and-white" ],
 				sentence: "Those that are predominantly white with tortoiseshell patches are described as tricolor, " +
 					"tortoiseshell-and-white (in the United Kingdom), or calico (in Canada and the United States).",
 			},
 			{
-				complexWords: [ "tortoiseshell", "blotches", "tortico", "owners", "portmanteau", "tortie", "calico" ],
+				complexWords: [ "tortoiseshell", "blotches", "portmanteau" ],
 				sentence: "Cats with tortoiseshell pattern and small blotches of white are sometimes referred to as \"tortico\" " +
 					"by their owners, a portmanteau of \"tortie\" and \"calico\"",
 			},
 			{
-				complexWords: [ "predominantly", "undercoat", "caliby", "respective", "owners", "amalgamation" ],
+				complexWords: [ "predominantly", "undercoat", "respective", "amalgamation" ],
 				sentence: "Torbie cats with a predominantly white undercoat are often referred to as \"caliby\" by their respective owners," +
 					" an amalgamation of Calico and Tabby.",
 			},
 		]
 		);
-		expect( wordComplexity( paper, researcher ).percentage ).toEqual( 18.67 );
+		expect( wordComplexity( paper, researcher ).percentage ).toEqual( 9.64 );
 	} );
 	it( "should return an empty array and 0% if there is no complex word found in the text", () => {
 		const paper = new Paper( "This is short text. This is another short text. A text about Calico." );
