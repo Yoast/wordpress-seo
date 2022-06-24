@@ -241,22 +241,24 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 19.2 =
 Release Date: June 28th, 2022
 
+
 Enhancements:
 
-* NEW: Adds an integration with WordProof, which allows for improving the trustworthiness of the privacy policy and terms and conditions pages by adding a timestamp.
-* Adds support for `webp` images for OpenGraph output.
-* Adds a notice that displays when Yoast SEO Premium is installed but not activated prompting the user to activate it.
-* Adds a new filter `wpseo_change_home_url` that allows changing the URL checked by the Ryte integration, to support more versatile hosting setups.
 * Adds a `meta author` tag to ensure that LinkedIn picks up the name of a post author properly.
+* Adds a new filter `wpseo_change_home_url` that allows changing the URL checked by the Ryte integration, to support more versatile hosting setups.
+* Adds an integration with WordProof, which allows adding a timestamp to the privacy policy and terms and conditions pages.
+* Adds a notice that displays when Yoast SEO Premium is installed but not activated prompting the user to activate it.
+* Adds support for `webp` images for OpenGraph output.
 * Adds the name of the article author to the `author` section of the `Article` schema piece, to ensure that Pinterest picks up the name of a post author properly.
 * Enables sorting on the SEO and readability score columns on the post overview page.
 * Ensures the Bing XML sitemap ping is only sent if IndexNow is disabled.
-* Prevents XML sitemap pings for blogs that aren't public.
 * Improves the content analysis by excluding blockquote HTML elements.
-* Improves the sentence recognition by disregarding abbreviations and initials as potential sentence boundaries.
+* Improves the sentence recognition by disregarding abbreviations as potential sentence boundaries.
+* Improves the sentence recognition by disregarding initials as potential sentence boundaries.
 * Improves the text analysis by not splitting sentences on semicolon ;.
 * Improves the text analysis by supporting sentence detection for declarative sentences in quotation marks.
 * Improves the text analysis in Elementor by not always splitting on ellipsis &#8230; regardless of whether the next sentence has a valid beginning or not.
+* Prevents XML sitemap pings for blogs that aren't public.
 
 Bugfixes:
 

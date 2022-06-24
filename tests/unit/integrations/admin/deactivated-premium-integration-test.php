@@ -131,7 +131,24 @@ class Deactivated_Premium_Integration_Test extends TestCase {
 	 *
 	 * @covers ::premium_deactivated_notice
 	 */
+	public function test_premium_deactivated_notice_if_on_update_page() {
+		global $pagenow;
+		$pagenow = 'update.php';
+
+		// Nothing should be output.
+		$this->expectOutputString( '' );
+		$this->instance->premium_deactivated_notice();
+	}
+
+	/**
+	 * Tests showing the notice.
+	 *
+	 * @covers ::premium_deactivated_notice
+	 */
 	public function test_premium_deactivated_notice_if_dismissed() {
+		global $pagenow;
+		$pagenow = 'admin.php';
+
 		$this->options_helper->expects( 'get' )->with( 'dismiss_premium_deactivated_notice', false )->andReturnTrue();
 
 		// Nothing should be output.
@@ -145,6 +162,9 @@ class Deactivated_Premium_Integration_Test extends TestCase {
 	 * @covers ::premium_deactivated_notice
 	 */
 	public function test_premium_deactivated_notice_if_no_capabilities() {
+		global $pagenow;
+		$pagenow = 'admin.php';
+
 		$premium_file = 'wordpress-seo-premium/wp-seo-premium.php';
 
 		$this->options_helper->expects( 'get' )->with( 'dismiss_premium_deactivated_notice', false )->andReturnFalse();
@@ -161,6 +181,9 @@ class Deactivated_Premium_Integration_Test extends TestCase {
 	 * @covers ::premium_deactivated_notice
 	 */
 	public function test_premium_deactivated_notice_if_no_premium_installed() {
+		global $pagenow;
+		$pagenow = 'admin.php';
+
 		$premium_file = 'wordpress-seo-premium/wp-seo-premium.php';
 
 		$this->options_helper->expects( 'get' )->with( 'dismiss_premium_deactivated_notice', false )->andReturnFalse();
