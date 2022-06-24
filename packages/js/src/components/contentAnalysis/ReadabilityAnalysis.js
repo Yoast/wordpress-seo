@@ -4,7 +4,7 @@ import { Component, Fragment } from "@wordpress/element";
 import { withSelect } from "@wordpress/data";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { __ } from "@wordpress/i18n";
+import { __, sprintf } from "@wordpress/i18n";
 import { isNil } from "lodash-es";
 
 /* Internal components */
@@ -41,7 +41,7 @@ class ReadabilityAnalysis extends Component {
 	 *
 	 * @returns {wp.Element} The Readability Analysis results.
 	 */
-	renderResults() {
+	renderResults( upsellResults ) {
 		return (
 			<Fragment>
 				<AnalysisHeader>
@@ -57,11 +57,50 @@ class ReadabilityAnalysis extends Component {
 				</AnalysisHeader>
 				<Results
 					results={ this.props.results }
+					upsellResults={ upsellResults }
 					marksButtonClassName="yoast-tooltip yoast-tooltip-w"
 					marksButtonStatus={ this.props.marksButtonStatus }
 				/>
 			</Fragment>
 		);
+	}
+
+	/**
+	 * Returns the list of results used to upsell the user to Premium.
+	 *
+	 * @param {string} location Where this component is rendered (metabox or sidebar).
+	 *
+	 * @returns {Array} The upsell results.
+	 */
+	getUpsellResults( location ) {
+		let link = wpseoAdminL10n[ "shortlinks.upsell.metabox.word_complexity" ];
+		if ( location === "sidebar" ) {
+			link = wpseoAdminL10n[ "shortlinks.upsell.sidebar.word_complexity" ];
+		}
+
+		const wordComplexityUpsellText = sprintf(
+			/* Translators: %1$s is a span tag that adds styling to 'Word complexity', %2$s is a closing span tag.
+			   %3%s is an anchor tag with a link to yoast.com, %4$s is a closing anchor tag.*/
+			__(
+				"%1$sWord complexity%2$s: Is your vocabulary suited for a larger audience? %3%sYoast SEO Premium will tell you!%4$s",
+				"wordpress-seo"
+			),
+			"<span style='text-decoration: underline'>",
+			"</span>",
+			`<a href="${ link }">`,
+			"</a>"
+		);
+
+		return [
+			{
+				score: 0,
+				rating: "upsell",
+				hasMarks: false,
+				id: "wordComplexity",
+				text: wordComplexityUpsellText,
+				markerId: "wordComplexity",
+			},
+		];
 	}
 
 	/**
@@ -79,6 +118,10 @@ class ReadabilityAnalysis extends Component {
 		return (
 			<LocationConsumer>
 				{ location => {
+					let upsellResults = [];
+					if ( this.props.shouldUpsell ) {
+						upsellResults = this.getUpsellResults( location );
+					}
 					if ( location === "sidebar" ) {
 						return (
 							<Collapsible
@@ -88,7 +131,7 @@ class ReadabilityAnalysis extends Component {
 								prefixIconCollapsed={ getIconForScore( score.className ) }
 								id={ `yoast-readability-analysis-collapsible-${ location }` }
 							>
-								{ this.renderResults() }
+								{ this.renderResults( upsellResults ) }
 							</Collapsible>
 						);
 					}
@@ -101,7 +144,7 @@ class ReadabilityAnalysis extends Component {
 										target="wpseo-readability-score-icon"
 										scoreIndicator={ score.className }
 									/>
-									{ this.renderResults() }
+									{ this.renderResults( upsellResults ) }
 								</ReadabilityResultsTabContainer>
 							</ReadabilityResultsPortal>
 						);
