@@ -86,6 +86,13 @@ module.exports = function( grunt ) {
 				failOnError: false,
 			},
 		},
+
+		"postcss-dev": {
+			command: "yarn build:css:dev",
+		},
+		"postcss-release": {
+			command: "yarn build:css",
+		},
 	};
 	/* eslint-enable require-jsdoc */
 };
