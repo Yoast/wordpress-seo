@@ -71,6 +71,9 @@ module.exports = function( grunt ) {
 		"install-schema-blocks": {
 			command: "cd packages/schema-blocks && yarn install && yarn build && cd ../..",
 		},
+		"build-ui-library": {
+			command: "cd packages/ui-library && yarn build && cd ../..",
+		},
 
 		"check-for-uncommitted-changes": {
 			// --porcelain gives the output in an easy-to-parse format for scripts.

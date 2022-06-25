@@ -1,9 +1,7 @@
 # Grunt aliases
 ---
 'build':
-  - 'build:ts'
-  - 'build:js'
-  - 'build:css'
+  - 'build:dev'
   - 'build:images'
 
 'build-watch':
@@ -16,6 +14,7 @@
 # Grunt command to only build CSS and JS
 'build:dev':
   - 'build:ts'
+  - 'build:packages'
   - 'build:js'
   - 'build:css'
 
@@ -23,7 +22,11 @@
 'build:ts':
   - 'shell:install-schema-blocks'
 
-# Build JavaScript from assets to production
+# Compile the JavaScript packages that need it.
+'build:packages':
+  - 'shell:build-ui-library'
+
+# Build JavaScript from assets to development
 'build:js':
   - 'clean:build-assets-js'
   - 'copy:js-dependencies'
@@ -104,10 +107,14 @@ release:
   - 'clean:build-assets'
   - 'build:images'
   - 'release:ts'
+  - 'release:packages'
   - 'release:js'
   - 'release:css'
 'release:ts':
   - 'shell:install-schema-blocks'
+# Compile the JavaScript packages that need it.
+'release:packages':
+  - 'shell:build-ui-library'
 'release:js':
   - 'copy:js-dependencies'
   - 'shell:webpack-prod'
