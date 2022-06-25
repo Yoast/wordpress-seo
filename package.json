@@ -29,13 +29,14 @@
     "test": "lerna run test --stream --",
     "build": "wp-scripts build --config config/webpack/webpack.config.js",
     "build:dev": "cross-env NODE_ENV=development wp-scripts build --config config/webpack/webpack.config.js",
+    "build:css": "cross-env NODE_ENV=production postcss css/dist/*.css --verbose --replace",
+    "build:css:dev": "cross-env NODE_ENV=development postcss css/dist/*.css --verbose --replace",
     "webpack-analyze-bundle": "wp-scripts build --config config/webpack/webpack.config.js --webpack-bundle-analyzer",
     "prestart": "grunt build:css && grunt copy:js-dependencies",
     "start": "wp-scripts start --config config/webpack/webpack.config.js"
   },
   "dependencies": {},
   "devDependencies": {
-    "@lodder/grunt-postcss": "^3.1.1",
     "@babel/core": "^7.18.5",
     "@slack/webhook": "^5.0.2",
     "@tailwindcss/forms": "^0.5.2",
@@ -71,7 +72,6 @@
     "jest-styled-components": "^7.0.3",
     "lerna": "^4.0.0",
     "node-fetch": "^2.6.1",
-    "postcss-loader": "^4.0.0",
     "postcss": "^8.4.14",
     "postcss-cli": "^9.1.0",
     "react-test-renderer": "^16.14.0",

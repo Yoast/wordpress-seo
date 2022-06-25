@@ -34,7 +34,7 @@
   - 'clean:build-assets-css'
   - 'copy:css-dependencies'
   - 'copy:css-files'
-  - 'postcss:build'
+  - 'shell:postcss-dev'
   - 'rtlcss:build'
 
 clean:build-assets:
@@ -117,7 +117,7 @@ release:
   - 'clean:build-assets-css'
   - 'copy:css-dependencies'
   - 'copy:css-files'
-  - 'postcss:release'
+  - 'shell:postcss-release'
   - 'rtlcss:build'
 
 'deploy:master':
