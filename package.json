@@ -50,6 +50,7 @@
     "@yoast/postcss-preset": "^1.0.1",
     "@yoast/grunt-plugin-tasks": "^2.3",
     "@yoast/tailwindcss-preset": "^2.0.0",
+    "@yoast/ui-library": "^2.0.0",
     "autoprefixer": "^10.4.7",
     "babel-plugin-dynamic-import-webpack": "^1.1.0",
     "colors": "1.4.0",
