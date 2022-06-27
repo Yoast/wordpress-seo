@@ -37,6 +37,7 @@ Yoast SEO is packed full of features, designed to help visitors and search engin
 * **[Premium]** E-mail support for our [Yoast SEO Premium](https://yoa.st/1v8) users.
 * **[Premium]** The possibility to expand Yoast SEO with the [News SEO](https://yoa.st/1uv), [Video SEO](https://yoa.st/1uw), [Local SEO](https://yoa.st/1uu) and [WooCommerce SEO](https://yoa.st/3rh) extensions.
 * **[Premium]** **New!** Yoast SEO Premium comes with wide-ranging crawl settings that help you improve how search engines crawl your site.
+* **[Premium]** **New!** Yoast SEO Premium comes with an IndexNow integration to ping search engines like Microsoft Bing whenever you publish or update content.
 
 #### WRITE KILLER CONTENT WITH YOAST SEO
 We know content is king, that's why Yoast SEO is famous for its **state-of-the-art content and SEO analysis**. Yoast SEO gives you:
@@ -241,6 +242,8 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 19.2 =
 Release Date: June 28th, 2022
 
+Yoast SEO 19.2 is out today! In this release, we've rolled out some improvements to the content and SEO analyses and we've added an integration with WordProof to timestamp privacy pages on the blockchain. Read more about what's new in Yoast SEO 19.2 in [our release post in English](https://yoa.st/release-28-6-22) or [our release post in Spanish](https://yoa.st/release-28-6-22-spanish)!
+
 Enhancements:
 
 * NEW: Adds an integration with WordProof, which allows for improving the trustworthiness of the privacy policy and terms and conditions pages by adding a timestamp.
@@ -264,6 +267,7 @@ Bugfixes:
 * Fixes a bug where filtering the OpenGraph and Twitter image to a URL containing ampersands would lead to encoding issues.
 * Fixes a bug where HTML tags in the `og:description` meta tag would be displayed encoded instead of being removed completely.
 * Fixes a bug where the sitemap `image:loc` URLs containing ampersands would lead to encoding issues.
+* Fixes a bug where notices would show an abnormally large heading in Yoast SEO Premium page.
 
 Other:
 

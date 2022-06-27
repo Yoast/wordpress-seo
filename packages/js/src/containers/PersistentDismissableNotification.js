@@ -27,7 +27,7 @@ const PersistentDismissableNotification = ( {
 				<div>
 					<div className="notice-yoast__header">
 						{ hasIcon && <span className="yoast-icon" /> }
-						<h1 className="notice-yoast__header-heading">{ title }</h1>
+						<h2 className="notice-yoast__header-heading">{ title }</h2>
 					</div>
 					<p>{ children }</p>
 				</div>
