@@ -355,6 +355,10 @@ describe( "A test for tokenizing a (html) text into sentences", function() {
 		expect( mockTokenizer.isPartOfPersonInitial( token, previousToken, nextToken, secondToNextToken ) ).toBeTruthy();
 	} );
 
+	it( "endsWithOrdinalDot should return false when the German tokenizer is not used", () => {
+		expect( mockTokenizer.endsWithOrdinalDot( "Anything you want to put here, it shouldn't matter." ) ).toBe( false );
+	} );
+
 	it( "recognizes initials in the edge case where there are quotes arouond the initials", function() {
 		const tokens = [
 			{ type: "sentence", src: "The reprint was favourably reviewed by" },
@@ -389,10 +393,6 @@ describe( "A test for tokenizing a (html) text into sentences", function() {
 
 		expect( mockTokenizer.getSentencesFromTokens( tokens ) ).toEqual( [
 			"The reprint was favourably reviewed by \"A. B.\" in The Musical Times in 1935, who commented \"Praise is due to Mr Mercer." ] );
-	} );
-
-	it( "endsWithOrdinalDot should return false when the German tokenizer is not used", () => {
-		expect( mockTokenizer.endsWithOrdinalDot( "Anything you want to put here, it shouldn't matter." ) ).toBe( false );
 	} );
 } );
 
