@@ -375,7 +375,7 @@ describe( "A test for tokenizing a (html) text into sentences", function() {
 		expect( mockTokenizer.isPartOfPersonInitial( token, previousToken, nextToken, secondToNextToken ) ).toBe( true );
 	} );
 
-	it( "correctly constructs the sentence in the edge case where there are quotes arouond the initials", function() {
+	it( "correctly constructs the sentence in the edge case where there are quotes around the initials", function() {
 		const tokens = [
 			{ type: "sentence", src: "The reprint was favourably reviewed by" },
 			{ type: "sentence-delimiter", src: " \"" },
