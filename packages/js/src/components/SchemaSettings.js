@@ -145,12 +145,12 @@ class SchemaSettings extends Component {
 				{ showNewsSEOUpsell && this.isNewsArticleSelected() && <Alert type="info">
 					{
 						sprintf(
-							/* translators: %s Expands to "News SEO" */
+							/* translators: %s Expands to "Yoast SEO News" */
 							__(
-								"Do you have news articles on your site? Our %s plugin helps you to optimize your site for Google News and the likes!",
+								"Are you publishing news articles? %s helps you optimize your site for Google News. Get %s now!",
 								"wordpress-seo"
 							),
-							"News SEO"
+							"Yoast SEO News", "Yoast SEO News"
 						) + " "
 					}
 					<NewsLandingPageLink
