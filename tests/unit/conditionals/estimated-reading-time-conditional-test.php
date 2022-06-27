@@ -57,7 +57,7 @@ class Estimated_Reading_Time_Conditional_Test extends TestCase {
 		// We are saving in Elementor with Ajax.
 		$this->input_helper
 			->expects( 'filter' )
-			->with( \INPUT_POST, 'action', \FILTER_SANITIZE_STRING )
+			->with( \INPUT_POST, 'action', \FILTER_SANITIZE_FULL_SPECIAL_CHARS )
 			->andReturn( 'wpseo_elementor_save' );
 
 		$this->assertEquals( true, $this->instance->is_met() );
@@ -77,7 +77,7 @@ class Estimated_Reading_Time_Conditional_Test extends TestCase {
 		// The Ajax action is not for saving Elementor.
 		$this->input_helper
 			->expects( 'filter' )
-			->with( \INPUT_POST, 'action', \FILTER_SANITIZE_STRING )
+			->with( \INPUT_POST, 'action', \FILTER_SANITIZE_FULL_SPECIAL_CHARS )
 			->andReturn( 'some_other_value' );
 
 		// We are not on a post according to the post conditional.
