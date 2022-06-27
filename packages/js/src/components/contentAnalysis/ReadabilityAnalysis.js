@@ -39,6 +39,8 @@ class ReadabilityAnalysis extends Component {
 	/**
 	 * Renders the Readability Analysis results.
 	 *
+	 * @param {Array} upsellResults The array of upsell results.
+	 *
 	 * @returns {wp.Element} The Readability Analysis results.
 	 */
 	renderResults( upsellResults ) {
