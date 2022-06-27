@@ -74,7 +74,7 @@ class Meta_Description_Presenter_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the presenter of the meta description.
+	 * Tests the presenter of the meta description when the admin bar is showing a class is added.
 	 *
 	 * @covers ::present
 	 * @covers ::get
@@ -95,6 +95,7 @@ class Meta_Description_Presenter_Test extends TestCase {
 			->once()
 			->with( 'the_meta_description', $this->indexable_presentation )
 			->andReturn( 'the_meta_description' );
+		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
 
 		$this->string
 			->expects( 'strip_all_tags' )
@@ -170,5 +171,40 @@ class Meta_Description_Presenter_Test extends TestCase {
 		$notice = '<!-- Admin only notice: this page does not show a meta description because it does not have one, either write it for this page specifically or go into the [SEO - Search Appearance] menu and set up a template. -->';
 
 		$this->assertEquals( $notice, $this->instance->present() );
+	}
+
+	/**
+	 * Tests the presenter of the meta description when admin bar is showing a clas.
+	 *
+	 * @covers ::present
+	 * @covers ::get
+	 */
+	public function test_present_and_filter_with_class() {
+		$this->indexable_presentation->meta_description = 'the_meta_description';
+
+		$this->replace_vars
+			->expects( 'replace' )
+			->once()
+			->andReturnUsing(
+				static function( $replace_string ) {
+					return $replace_string;
+				}
+			);
+
+		Monkey\Filters\expectApplied( 'wpseo_metadesc' )
+			->once()
+			->with( 'the_meta_description', $this->indexable_presentation )
+			->andReturn( 'the_meta_description' );
+		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( true );
+
+		$this->string
+			->expects( 'strip_all_tags' )
+			->once()
+			->with( 'the_meta_description' )
+			->andReturn( 'the_meta_description' );
+
+		$output = '<meta name="description" content="the_meta_description" class="yoast-seo-meta-tag" />';
+
+		$this->assertEquals( $output, $this->instance->present() );
 	}
 }

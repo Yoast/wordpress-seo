@@ -82,8 +82,35 @@ class Meta_Author_Presenter_Test extends TestCase {
 			->once()
 			->with( 123 )
 			->andReturn( (object) [ 'display_name' => 'John Doe' ] );
+		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
 
 		$output = '<meta name="author" content="John Doe" />';
+
+		$this->assertEquals( $output, $this->instance->present() );
+	}
+
+	/**
+	 * Tests the presenter of the meta description when the admin bar is showing a class is added.
+	 *
+	 * @covers ::present
+	 * @covers ::get
+	 */
+	public function test_present_and_filter_with_class() {
+		$this->indexable_presentation->meta_description = 'the_meta_description';
+
+		$this->html
+			->expects( 'smart_strip_tags' )
+			->once()
+			->with( 'John Doe' )
+			->andReturn( 'John Doe' );
+
+		Monkey\Functions\expect( 'get_userdata' )
+			->once()
+			->with( 123 )
+			->andReturn( (object) [ 'display_name' => 'John Doe' ] );
+		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( true );
+
+		$output = '<meta name="author" content="John Doe" class="yoast-seo-meta-tag" />';
 
 		$this->assertEquals( $output, $this->instance->present() );
 	}
