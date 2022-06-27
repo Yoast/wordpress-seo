@@ -3,7 +3,7 @@ import {
 	getEstimatedReadingTime,
 	getFleschReadingEaseDifficulty,
 	getFleschReadingEaseScore,
-	getWordCount,
+	getTextLength,
 	isFleschReadingEaseAvailable,
 } from "../../../src/insights/redux/selectors";
 import { DIFFICULTY } from "yoastseo";
@@ -52,6 +52,6 @@ describe( "The insights selectors", () => {
 	} );
 	it( "gets the word count from the store", () => {
 		const state = set( {}, "insights.wordCount", 420 );
-		expect( getWordCount( state ) ).toEqual( 420 );
+		expect( getTextLength( state ) ).toEqual( 420 );
 	} );
 } );
