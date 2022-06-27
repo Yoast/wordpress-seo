@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Presentations;
 
+use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Helpers\Pagination_Helper;
 use Yoast\WP\SEO\Tests\Unit\Presentations\Indexable_Post_Type_Archive_Presentation\Presentation_Instance_Builder;
@@ -94,6 +95,10 @@ class Archive_Adjacent_Test extends TestCase {
 			->once()
 			->andReturn( 2 );
 
+		Monkey\Functions\expect( 'is_date' )
+			->once()
+			->andReturn( false );
+
 		$this->assertEquals( 'https://example.com/permalink/', $this->instance->generate_rel_prev() );
 	}
 
@@ -125,6 +130,10 @@ class Archive_Adjacent_Test extends TestCase {
 			->with( 'https://example.com/permalink/', 2 )
 			->once()
 			->andReturn( 'https://example.com/permalink/page/2/' );
+
+		Monkey\Functions\expect( 'is_date' )
+			->once()
+			->andReturn( false );
 
 		$this->assertEquals( 'https://example.com/permalink/page/2/', $this->instance->generate_rel_prev() );
 	}
@@ -200,6 +209,10 @@ class Archive_Adjacent_Test extends TestCase {
 			->with( 'https://example.com/permalink/', 6 )
 			->once()
 			->andReturn( 'https://example.com/permalink/page/6/' );
+
+		Monkey\Functions\expect( 'is_date' )
+			->once()
+			->andReturn( false );
 
 		$this->assertEquals( 'https://example.com/permalink/page/6/', $this->instance->generate_rel_next() );
 	}

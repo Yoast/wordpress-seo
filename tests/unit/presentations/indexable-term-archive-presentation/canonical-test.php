@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Presentations\Indexable_Term_Archive_Presentation;
 
+use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -66,6 +67,10 @@ class Canonical_Test extends TestCase {
 			->once()
 			->andReturn( false );
 
+		Monkey\Functions\expect( 'is_date' )
+			->once()
+			->andReturn( false );
+
 		$this->assertEmpty( $this->instance->generate_canonical() );
 	}
 
@@ -89,6 +94,10 @@ class Canonical_Test extends TestCase {
 			->expects( 'get_current_archive_page_number' )
 			->once()
 			->andReturn( 0 );
+
+		Monkey\Functions\expect( 'is_date' )
+			->once()
+			->andReturn( false );
 
 		$this->assertEquals( 'https://example.com/term-archive/', $this->instance->generate_canonical() );
 	}
@@ -119,6 +128,10 @@ class Canonical_Test extends TestCase {
 			->with( $this->indexable->permalink, 2 )
 			->once()
 			->andReturn( 'https://example.com/term-archive/page/2/' );
+
+		Monkey\Functions\expect( 'is_date' )
+			->once()
+			->andReturn( false );
 
 		$this->assertEquals( 'https://example.com/term-archive/page/2/', $this->instance->generate_canonical() );
 	}
