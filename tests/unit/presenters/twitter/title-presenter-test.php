@@ -72,6 +72,7 @@ class Title_Presenter_Test extends TestCase {
 					return $str;
 				}
 			);
+		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
 
 		$expected = '<meta name="twitter:title" content="twitter_example_title" />';
 		$actual   = $this->instance->present();
@@ -119,10 +120,33 @@ class Title_Presenter_Test extends TestCase {
 			->once()
 			->with( 'twitter_example_title', $this->indexable_presentation )
 			->andReturn( 'twitterexampletitle' );
+		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
 
 		$expected = '<meta name="twitter:title" content="twitterexampletitle" />';
 		$actual   = $this->instance->present();
 
+		$this->assertEquals( $expected, $actual );
+	}
+
+	/**
+	 * Tests whether the presenter returns the correct Twitter title when the admin bar is showing a class is added.
+	 *
+	 * @covers ::present
+	 */
+	public function test_present_with_class() {
+		$this->indexable_presentation->twitter_title = 'twitter_example_title';
+
+		$this->replace_vars
+			->expects( 'replace' )
+			->andReturnUsing(
+				static function( $str ) {
+					return $str;
+				}
+			);
+		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( true );
+
+		$expected = '<meta name="twitter:title" content="twitter_example_title" class="yoast-seo-meta-tag" />';
+		$actual   = $this->instance->present();
 		$this->assertEquals( $expected, $actual );
 	}
 }

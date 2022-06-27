@@ -72,6 +72,7 @@ class Enhanced_Data_Presenter_Test extends TestCase {
 				'is_singular'         => true,
 			]
 		);
+		Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
 
 		$this->assertEquals(
 			"<meta name=\"twitter:label1\" content=\"Written by\" />\n"
@@ -105,10 +106,45 @@ class Enhanced_Data_Presenter_Test extends TestCase {
 				'is_singular'         => true,
 			]
 		);
+		Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
 
 		$this->assertEquals(
 			"<meta name=\"twitter:label1\" content=\"Est. reading time\" />\n"
 			. "\t<meta name=\"twitter:data1\" content=\"40 minutes\" />",
+			$this->instance->present()
+		);
+	}
+
+	/**
+	 * Tests the presentation for a set of enhanced data when the admin bar is showing a class is added.
+	 *
+	 * @covers ::present
+	 * @covers ::get
+	 */
+	public function test_present_with_class() {
+		$post_content = '';
+		for ( $i = 0; $i < 10; $i++ ) {
+			$post_content .= 'yoast ';
+		}
+
+		$this->presentation->source->post_content           = $post_content;
+		$this->presentation->source->post_author            = '123';
+		$this->presentation->estimated_reading_time_minutes = 40;
+		$this->presentation->model->object_sub_type         = 'post';
+
+		Functions\stubs(
+			[
+				'get_the_author_meta' => 'Agatha Christie',
+				'is_singular'         => true,
+			]
+		);
+		Functions\expect( 'is_admin_bar_showing' )->andReturn( true );
+
+		$this->assertEquals(
+			"<meta name=\"twitter:label1\" content=\"Written by\" class=\"yoast-seo-meta-tag\" />\n"
+			. "\t<meta name=\"twitter:data1\" content=\"Agatha Christie\" class=\"yoast-seo-meta-tag\" />\n"
+			. "\t<meta name=\"twitter:label2\" content=\"Est. reading time\" class=\"yoast-seo-meta-tag\" />\n"
+			. "\t<meta name=\"twitter:data2\" content=\"40 minutes\" class=\"yoast-seo-meta-tag\" />",
 			$this->instance->present()
 		);
 	}
