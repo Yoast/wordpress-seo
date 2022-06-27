@@ -105,7 +105,7 @@ class HelpScout_Beacon implements Integration_Interface {
 		$this->options          = $options;
 		$this->asset_manager    = $asset_manager;
 		$this->ask_consent      = ! $this->options->get( 'tracking' );
-		$this->page             = \filter_input( \INPUT_GET, 'page', \FILTER_SANITIZE_STRING );
+		$this->page             = \filter_input( \INPUT_GET, 'page', \FILTER_SANITIZE_FULL_SPECIAL_CHARS );
 		$this->migration_status = $migration_status;
 
 		foreach ( $this->base_pages as $page ) {
