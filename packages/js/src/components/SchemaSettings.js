@@ -63,6 +63,19 @@ class SchemaSettings extends Component {
 	}
 
 	/**
+	 * Determines whether News Article is selected for the Default Article Type.
+	 *
+	 * @returns {boolean} True if News Article is selected for the Default Article Type.
+	 */
+	 isNewsArticleSelected() {
+		if ( this.state.schema_article_type === "NewsArticle" ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
 	 * Changes the state appropriately whenever an option is highlighted in a specific field.
 	 * This is needed because we need to show an alert when the select is "dirty", which is before the onBlur event sometimes.
 	 *
@@ -129,7 +142,7 @@ class SchemaSettings extends Component {
 					onOptionFocus={ this.handleOptionFocus }
 					selected={ this.props.articleType.value }
 				/> }
-				{ showNewsSEOUpsell && <Alert type="info">
+				{ showNewsSEOUpsell && this.isNewsArticleSelected() && <Alert type="info">
 					{
 						sprintf(
 							/* translators: %s Expands to "News SEO" */
