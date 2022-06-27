@@ -56,7 +56,7 @@ export default class TextLengthAssessment extends Assessment {
 	 * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
 	 */
 	getResult( paper, researcher ) {
-		const wordCount = researcher.getResearch( "wordCountInText" ).count;
+		const wordCount = researcher.getResearch( "wordCountInText" );
 
 		if	( researcher.getConfig( "textLength" ) ) {
 			this._config = this.getLanguageSpecificConfig( researcher );
@@ -68,7 +68,7 @@ export default class TextLengthAssessment extends Assessment {
 			this._config.countTextIn.plural = __( "characters", "wordpress-seo" );
 		}
 
-		const calculatedResult = this.calculateResult( wordCount );
+		const calculatedResult = this.calculateResult( wordCount.count );
 
 		const assessmentResult = new AssessmentResult();
 		assessmentResult.setScore( calculatedResult.score );

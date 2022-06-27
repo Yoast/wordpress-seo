@@ -5,7 +5,7 @@ export const SET_ESTIMATED_READING_TIME = "SET_ESTIMATED_READING_TIME";
 export const LOAD_ESTIMATED_READING_TIME = "LOAD_ESTIMATED_READING_TIME";
 export const SET_FLESCH_READING_EASE = "SET_FLESCH_READING_EASE";
 export const SET_PROMINENT_WORDS = "SET_PROMINENT_WORDS";
-export const SET_WORD_COUNT = "SET_WORD_COUNT";
+export const SET_TEXT_LENGTH = "SET_TEXT_LENGTH";
 
 /**
  * Sets the estimated reading time to the store.
@@ -60,13 +60,15 @@ export const setProminentWords = prominentWords => ( {
 } );
 
 /**
- * Sets the word count on the store.
+ * Sets the text length on the store.
  *
- * @param {number} wordCount The word count.
+ * @param {object} textLength The text length.
+ * @param {number} textLength.count The character or word count.
+ * @param {"character"|"word"} textLength.unit The unit in which the text length is measured.
  *
  * @returns {Object} The action.
  */
-export const setWordCount = wordCount => ( {
-	type: SET_WORD_COUNT,
-	payload: wordCount,
+export const setTextLength = textLength => ( {
+	type: SET_TEXT_LENGTH,
+	payload: textLength,
 } );

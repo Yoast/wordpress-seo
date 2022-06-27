@@ -67,13 +67,16 @@ describe( "Adding to a Researcher", function() {
 	} );
 
 	it( "overloads a research in the default researches object with a custom one with the same name", function() {
-		var currentDefaultsLength = Object.keys( researcher.defaultResearches ).length;
-		var currentCustomLength = Object.keys( researcher.customResearches ).length;
-		var totalLength = currentDefaultsLength + currentCustomLength;
+		const currentDefaultsLength = Object.keys( researcher.defaultResearches ).length;
+		const currentCustomLength = Object.keys( researcher.customResearches ).length;
+		const totalLength = currentDefaultsLength + currentCustomLength;
 
 		expect( Object.keys( researcher.getAvailableResearches() ).length ).toEqual( totalLength );
 		researcher.addResearch( "wordCountInText", function() {
-			return 9000;
+			return {
+				count: 9000,
+				unit: "character",
+			};
 		} );
 		expect( Object.keys( researcher.getAvailableResearches() ).length ).toEqual( totalLength );
 		expect( researcher.getResearch( "wordCountInText" ).count ).toEqual( 9000 );

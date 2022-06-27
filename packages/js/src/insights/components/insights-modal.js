@@ -5,7 +5,7 @@ import EditorModal from "../../containers/EditorModal";
 import EstimatedReadingTime from "./estimated-reading-time";
 import FleschReadingEase from "./flesch-reading-ease";
 import ProminentWords from "./prominent-words";
-import WordCount from "./word-count";
+import TextLength from "./text-length";
 
 /**
  * Insights modal component.
@@ -31,7 +31,7 @@ const InsightsModal = ( { location } ) => {
 					</div> }
 					<div className="yoast-insights-row yoast-insights-row--columns">
 						<EstimatedReadingTime />
-						<WordCount />
+						<TextLength />
 					</div>
 				</div>
 			</div>
