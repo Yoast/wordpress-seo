@@ -48,7 +48,7 @@ class Estimated_Reading_Time_Conditional_Test extends TestCase {
 	 *
 	 * @covers ::is_met
 	 *
-	 * @requires PHP < 8.1
+	 * @requires PHP <= 8.1
 	 */
 	public function test_ajax_elementor_save() {
 		// We are in an Ajax request.
@@ -68,7 +68,7 @@ class Estimated_Reading_Time_Conditional_Test extends TestCase {
 	 *
 	 * @covers ::is_met
 	 *
-	 * @requires PHP < 8.1
+	 * @requires PHP <= 8.1
 	 */
 	public function test_not_post_not_elementor_save() {
 		// We are in an Ajax request.
