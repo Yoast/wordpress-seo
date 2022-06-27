@@ -839,6 +839,7 @@ class Yoast_Form {
 	 * @param array  $attr     Extra attributes to add to the toggle switch.
 	 */
 	public function toggle_switch( $variable, $values, $label, $help = '', $attr = [] ) {
+		// Possibly enhancing this function to add the Get Premium buttons.
 		if ( ! is_array( $values ) || $values === [] ) {
 			return;
 		}
