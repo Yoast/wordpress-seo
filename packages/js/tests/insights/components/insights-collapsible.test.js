@@ -3,6 +3,7 @@ import { useSelect } from "@wordpress/data";
 import InsightsCollapsible from "../../../src/insights/components/insights-collapsible";
 import { shallow } from "enzyme";
 import FleschReadingEase from "../../../src/insights/components/flesch-reading-ease";
+import TextLength from "../../../src/insights/components/text-length";
 
 jest.mock( "@wordpress/data", () => (
 	{
@@ -43,5 +44,10 @@ describe( "The insights collapsible component", () => {
 		const render = shallow( <InsightsCollapsible location={ "sidebar" } /> );
 
 		expect( render.find( FleschReadingEase ) ).toHaveLength( 0 );
+	} );
+	it( "renders the TextLength component", () => {
+		const render = shallow( <InsightsCollapsible location={ "sidebar" } /> );
+
+		expect( render.find( TextLength ) ).toHaveLength( 1 );
 	} );
 } );
