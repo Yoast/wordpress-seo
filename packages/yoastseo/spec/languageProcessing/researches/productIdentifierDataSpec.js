@@ -18,10 +18,22 @@ document.body.innerHTML =
 	'			</h3>' +
 	'			<div>' +
 	'				<p>' +
-	'					<input type="text" id="yoast_variation_identifier[12][gtin8]" value="777">' +
+	'					<input type="text" id="yoast_variation_identifier[12][gtin8]" value>' +
 	'				</p>' +
 	'				<p>' +
-	'					<input type="text" id="yoast_variation_identifier[12][gtin12]" value>' +
+	'					<input type="text" id="yoast_variation_identifier[12][gtin12]" value="34">' +
+	'				</p>' +
+	'				<p>' +
+	'					<input type="text" id="yoast_variation_identifier[12][gtin13]" value>' +
+	'				</p>' +
+	'				<p>' +
+	'					<input type="text" id="yoast_variation_identifier[12][gtin14]" value>' +
+	'				</p>' +
+	'				<p>' +
+	'					<input type="text" id="yoast_variation_identifier[12][isbn]" value>' +
+	'				</p>' +
+	'				<p>' +
+	'					<input type="text" id="yoast_variation_identifier[12][mpn]" value>' +
 	'				</p>' +
 	'			</div>' +
 	'		<div class="woocommerce_variation">' +
@@ -33,7 +45,19 @@ document.body.innerHTML =
 	'					<input type="text" id="yoast_variation_identifier[13][gtin8]" value>' +
 	'				</p>' +
 	'				<p>' +
-	'					<input type="text" id="yoast_variation_identifier[13][gtin12]" value="23">' +
+	'					<input type="text" id="yoast_variation_identifier[13][gtin12]" value>' +
+	'				</p>' +
+	'				<p>' +
+	'					<input type="text" id="yoast_variation_identifier[13][gtin13]" value>' +
+	'				</p>' +
+	'				<p>' +
+	'					<input type="text" id="yoast_variation_identifier[13][gtin14]" value>' +
+	'				</p>' +
+	'				<p>' +
+	'					<input type="text" id="yoast_variation_identifier[13][isbn]" value>' +
+	'				</p>' +
+	'				<p>' +
+	'					<input type="text" id="yoast_variation_identifier[13][mpn]" value>' +
 	'				</p>' +
 	'			</div>' +
 	'		</div>' +
@@ -67,15 +91,14 @@ describe( "A test to check if the product has variants", () => {
 } );
 
 describe( "A test to check if all variants of a product have an identifier", () => {
-	it( "returns true if all variants have at least one identifier", function() {
-		console.log( document.querySelector('#yoast_variation_identifier\\[12\\]\\[gtin8\\]').value, "value" );
-		expect( allVariantsHaveIdentifier() ).toEqual( true );
+	it( "returns false if one or more of the variants doesn't have an identifier", function() {
+		expect( allVariantsHaveIdentifier() ).toEqual( false );
 	} );
 
-	it( "returns false one or more of the variants don't have an identifier", function() {
+	it( "returns true if all variants have an identifier", function() {
 		// Change one of the identifiers to an empty string.
-		document.querySelector("#yoast_variation_identifier\\[13\\]\\[gtin12\\]").setAttribute( 'value', '')
+		document.querySelector("#yoast_variation_identifier\\[13\\]\\[gtin12\\]").setAttribute( 'value', '98')
 
-		expect( allVariantsHaveIdentifier() ).toEqual( false );
+		expect( allVariantsHaveIdentifier() ).toEqual( true );
 	} );
 } );
