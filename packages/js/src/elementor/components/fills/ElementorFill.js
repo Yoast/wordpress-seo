@@ -100,7 +100,9 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 					</Fragment>
 				</SidebarItem> }
 				{ settings.isContentAnalysisActive && <SidebarItem renderPriority={ 20 }>
-					<ReadabilityAnalysis />
+					<ReadabilityAnalysis
+						shouldUpsell={ settings.shouldUpsell }
+					/>
 				</SidebarItem> }
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="additional-keywords-upsell" renderPriority={ 21 }>
 					{ settings.shouldUpsell && <KeywordUpsell /> }

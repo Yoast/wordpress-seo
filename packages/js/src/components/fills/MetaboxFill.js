@@ -73,7 +73,9 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 					</MetaboxCollapsible>
 				</SidebarItem>
 				{ settings.isContentAnalysisActive && <SidebarItem key="readability-analysis" renderPriority={ 10 }>
-					<ReadabilityAnalysis />
+					<ReadabilityAnalysis
+						shouldUpsell={ settings.shouldUpsell }
+					/>
 				</SidebarItem> }
 				{ settings.isKeywordAnalysisActive && <Fragment>
 					<SidebarItem key="seo-analysis" renderPriority={ 20 }>
