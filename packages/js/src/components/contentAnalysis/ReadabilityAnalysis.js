@@ -159,10 +159,12 @@ ReadabilityAnalysis.propTypes = {
 	results: PropTypes.array.isRequired,
 	marksButtonStatus: PropTypes.string.isRequired,
 	overallScore: PropTypes.number,
+	shouldUpsell: PropTypes.bool,
 };
 
 ReadabilityAnalysis.defaultProps = {
 	overallScore: null,
+	shouldUpsell: false,
 };
 
 export default withSelect( select => {
