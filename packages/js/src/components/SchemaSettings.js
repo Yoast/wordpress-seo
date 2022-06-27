@@ -68,11 +68,7 @@ class SchemaSettings extends Component {
 	 * @returns {boolean} True if News Article is selected for the Default Article Type.
 	 */
 	 isNewsArticleSelected() {
-		if ( this.state.schema_article_type === "NewsArticle" ) {
-			return true;
-		}
-
-		return false;
+		return this.state.schema_article_type === "NewsArticle";
 	}
 
 	/**
