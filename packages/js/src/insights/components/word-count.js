@@ -5,20 +5,29 @@ import { InsightsCard } from "@yoast/components";
 import { get } from "lodash";
 
 /**
- * Word count component.
+ * Text length component.
  * @returns {JSX.Element} The element.
  */
 const WordCount = () => {
-	const wordCount = useSelect( select => select( "yoast-seo/editor" ).getWordCount(), [] );
-	const wordCountLink = useMemo( () => get( window, "wpseoAdminL10n.shortlinks-insights-word_count", "" ), [] );
+	const textLength = useSelect( select => select( "yoast-seo/editor" ).getTextLength(), [] );
+	const textLengthLink = useMemo( () => get( window, "wpseoAdminL10n.shortlinks-insights-word_count", "" ), [] );
+
+	let unitString = _n( "word", "words", textLength.count, "wordpress-seo" );
+	let titleString = __( "Word count", "wordpress-seo" );
+	let linkText =  __( "Learn more about word count", "wordpress-seo" );
+	if ( textLength.wordOrCharacter === "character" ) {
+		unitString = _n( "character", "characters", textLength.count, "wordpress-seo" );
+		titleString = __( "Character count", "wordpress-seo" );
+		linkText =  __( "Learn more about character count", "wordpress-seo" );
+	}
 
 	return (
 		<InsightsCard
-			amount={ wordCount }
-			unit={ _n( "word", "words", wordCount, "wordpress-seo" ) }
-			title={ __( "Word count", "wordpress-seo" ) }
-			linkTo={ wordCountLink }
-			linkText={ __( "Learn more about word count", "wordpress-seo" ) }
+			amount={ textLength.count }
+			unit={ unitString }
+			title={ titleString }
+			linkTo={ textLengthLink }
+			linkText={ linkText }
 		/>
 	);
 };
