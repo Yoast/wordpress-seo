@@ -104,7 +104,6 @@ class Yoast_Feature_Toggles {
 			],
 			(object) [
 				'name'               => __( 'Insights', 'wordpress-seo' ),
-				'premium'            => true,
 				'setting'            => 'enable_metabox_insights',
 				'label'              => __( 'Find relevant data about your content right in the Insights section in the Yoast SEO metabox. You’ll see what words you use most often and if they’re a match with your keywords! ', 'wordpress-seo' ),
 				'read_more_label'    => __( 'Find out how Insights can help you improve your content.', 'wordpress-seo' ),

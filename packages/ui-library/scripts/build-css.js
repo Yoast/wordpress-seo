@@ -17,6 +17,3 @@ fs.mkdirSync( BUILD_DIR, { recursive: true } );
 [ "elements", "components" ].forEach( scope => {
 	fs.appendFileSync( `${ BUILD_DIR }/style.css`, execSync( `cat src/${ scope }/**/*.css` ) );
 } );
-
-// Copy the base CSS file.
-fs.copyFileSync( "src/base.css", `${ BUILD_DIR }/base.css` );

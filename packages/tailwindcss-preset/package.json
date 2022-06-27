@@ -1,6 +1,6 @@
 {
   "name": "@yoast/tailwindcss-preset",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "A Tailwind CSS preset for Yoast packages.",
   "main": "index.js",
   "author": "Team Yoast <support@yoast.com>",

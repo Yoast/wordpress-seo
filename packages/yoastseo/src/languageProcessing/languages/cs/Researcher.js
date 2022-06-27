@@ -25,6 +25,7 @@ export default class Researcher extends AbstractResearcher {
 		super( paper );
 
 		delete this.defaultResearches.getFleschReadingScore;
+		delete this.defaultResearches.wordComplexity;
 
 		Object.assign( this.config, {
 			language: "cs",

@@ -20,6 +20,8 @@
 ## 2) Paragraph length
 **What it does**: Checks whether the paragraphs exceed the recommended maximum length
 
+**When applies**: When the text (cleaned with sanitizeText) has more than 50 characters. This is tied to the TextPresenceAssessment.
+
 **Name in code**: ParagraphTooLongAssessment
 
 **Title URL**: [https://yoa.st/35d](https://yoast.com/paragraph-length-check/#utm_source=yoast-seo&utm_medium=software&utm_term=paragraph-length-name&utm_content=content-analysis) (link placement is in bold in the feedback strings)
@@ -34,6 +36,8 @@
 
 ## 3) Sentence length
 **What it does**: Checks whether the sentences exceed the recommended maximum length (default: 20 words, IT: 25 words, RU: 15 words, HE: 15 words, TR: 15 words)
+
+**When applies**: When the text (cleaned with sanitizeText) has more than 50 characters. This is tied to the TextPresenceAssessment.
 
 **Name in code**: SentenceLengthInTextAssessment
 
@@ -50,6 +54,8 @@
 ## 4) Consecutive sentences
 **What it does**: Checks whether there are more than 3 sentences in a row that start with the same word
 
+**When applies**: When the text (cleaned with sanitizeText) has more than 50 characters (this is tied to the TextPresenceAssessment), and the research has a result.
+
 **Name in code**: SentenceBeginningsAssessment
 
 **Title URL**: [https://yoa.st/35f](https://yoast.com/consecutive-sentences-check-yoast-seo/#utm_source=yoast-seo&utm_medium=software&utm_term=sentence-beginnings-name&utm_content=content-analysis) (link placement is in bold in the feedback strings)
@@ -63,6 +69,8 @@
 
 ## 5) Passive voice
 **What it does**: Checks whether the number of sentences containing passive voice exceeds the recommended maximum amount
+
+**When applies**: When the text (cleaned with sanitizeText) has more than 50 characters (this is tied to the TextPresenceAssessment), and the assessment is supported in the specific language (the researcher has a research).
 
 **Name in code**: PassiveVoiceAssessment
 
@@ -96,6 +104,8 @@
 ## 7) Flesch Reading Ease
 **What it does**: Checks how easy to read the text is according to the Flesch Reading Ease test
 
+**When applies**: When the text (cleaned with sanitizeText) has more than 50 characters (this is tied to the TextPresenceAssessment), , and the assessment is supported in the specific language (the researcher has a research).
+
 **Name in code**: FleschReadingEaseAssessment
 
 **Title URL**: [https://yoa.st/34r](https://yoast.com/flesch-reading-ease-score/#utm_source=yoast-seo&utm_medium=software&utm_term=flesch-name&utm_content=content-analysis) (link placement is in bold in the feedback strings)
@@ -121,3 +131,19 @@
 |Bullet	|Score|	Criterion|	Feedback|
 |-------|------	|----- |------- |
 |Red	|3	|< 50 characters	|**Not enough content**: **please add some content to enable a good analysis**.|
+
+## 8) Word complexity
+**What it does**: Checks whether the text contains complex words
+
+**When applies**: When there is at least 50 characters in the text
+
+**Name in code**: WordComplexityAssessment
+
+**Title URL**: https://yoa.st/4ls (link placement is in bold in the feedback strings)
+
+**Call to action URL**: https://yoa.st/4lt (link placement is in bold in the feedback strings)
+
+|Bullet	|Score|	Criterion|	Feedback|
+|-------|------	|----- |------- |
+|Orange	(cornerstone: red) |6 (cornerstone: 3) |	If the complex words are more than X% in the text (English: 5%) |**Word complexity**: X% of the words in your text is considered complex. **Try to use shorter and more familiar words to improve readability**.|
+|Green	|9 |	If the complex words are less than X% in the text (English: 5%)              |**Word complexity**: You are not using too many complex words, which makes your text easy to read. Good job! |

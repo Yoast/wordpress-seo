@@ -9,6 +9,8 @@ import transitionWords from "./config/transitionWords";
 import twoPartTransitionWords from "./config/twoPartTransitionWords";
 import syllables from "./config/syllables.json";
 import keyphraseLength from "./config/keyphraseLength";
+import memoizedTokenizer from "./helpers/memoizedSentenceTokenizer";
+
 
 // All helpers
 import getClauses from "./helpers/getClauses";
@@ -27,6 +29,8 @@ export default class Researcher extends AbstractResearcher {
 	constructor( paper ) {
 		super( paper );
 
+		delete this.defaultResearches.wordComplexity;
+
 		Object.assign( this.config, {
 			language: "de",
 			passiveConstructionType: "periphrastic",
@@ -43,6 +47,7 @@ export default class Researcher extends AbstractResearcher {
 			getClauses,
 			getStemmer,
 			fleschReadingScore,
+			memoizedTokenizer,
 		} );
 	}
 }

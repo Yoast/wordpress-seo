@@ -29,6 +29,7 @@ class WPSEO_Expose_Shortlinks implements WPSEO_WordPress_Integration {
 		'shortlinks.snippet_preview_info'                           => 'https://yoa.st/snippet-preview',
 		'shortlinks.cornerstone_content_info'                       => 'https://yoa.st/1i9',
 		'shortlinks.upsell.social_previews'                         => 'https://yoa.st/social-preview-cta',
+		'shortlinks.upsell.sidebar.news'                            => 'https://yoa.st/get-news-sidebar',
 		'shortlinks.upsell.sidebar.focus_keyword_synonyms_link'     => 'https://yoa.st/textlink-synonyms-popup-sidebar',
 		'shortlinks.upsell.sidebar.focus_keyword_synonyms_button'   => 'https://yoa.st/keyword-synonyms-popup-sidebar',
 		'shortlinks.upsell.sidebar.premium_seo_analysis_button'     => 'https://yoa.st/premium-seo-analysis-sidebar',
@@ -38,6 +39,7 @@ class WPSEO_Expose_Shortlinks implements WPSEO_WordPress_Integration {
 		'shortlinks.upsell.sidebar.additional_button'               => 'https://yoa.st/add-keywords-sidebar',
 		'shortlinks.upsell.sidebar.keyphrase_distribution'          => 'https://yoa.st/keyphrase-distribution-sidebar',
 		'shortlinks.upsell.sidebar.word_complexity'                 => 'https://yoa.st/word-complexity-sidebar',
+		'shortlinks.upsell.metabox.news'                            => 'https://yoa.st/get-news-metabox',
 		'shortlinks.upsell.metabox.go_premium'                      => 'https://yoa.st/pe-premium-page',
 		'shortlinks.upsell.metabox.focus_keyword_synonyms_link'     => 'https://yoa.st/textlink-synonyms-popup-metabox',
 		'shortlinks.upsell.metabox.focus_keyword_synonyms_button'   => 'https://yoa.st/keyword-synonyms-popup',
@@ -58,6 +60,14 @@ class WPSEO_Expose_Shortlinks implements WPSEO_WordPress_Integration {
 		'shortlinks.semrush.prices'                                 => 'https://yoa.st/semrush-prices',
 		'shortlinks.semrush.premium_landing_page'                   => 'https://yoa.st/413',
 		'shortlinks.wincher.seo_performance'                        => 'https://yoa.st/wincher-integration',
+		'shortlinks-insights-estimated_reading_time'                => 'https://yoa.st/4fd',
+		'shortlinks-insights-flesch_reading_ease'                   => 'https://yoa.st/34r',
+		'shortlinks-insights-flesch_reading_ease_article'           => 'https://yoa.st/34s',
+		'shortlinks-insights-keyword_research_link'                 => 'https://yoa.st/keyword-research-metabox',
+		'shortlinks-insights-upsell-sidebar-prominent_words'        => 'https://yoa.st/prominent-words-upsell-sidebar',
+		'shortlinks-insights-upsell-metabox-prominent_words'        => 'https://yoa.st/prominent-words-upsell-metabox',
+		'shortlinks-insights-upsell-elementor-prominent_words'      => 'https://yoa.st/prominent-words-upsell-elementor',
+		'shortlinks-insights-word_count'                            => 'https://yoa.st/word-count',
 	];
 
 	/**

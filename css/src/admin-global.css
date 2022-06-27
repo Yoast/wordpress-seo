@@ -757,7 +757,7 @@ body.folded .wpseo-admin-submit-fixed {
 	padding: 0;
 }
 
-.notice-yoast__header h1 {
+.notice-yoast__header h2.notice-yoast__header-heading {
 	font-size: 14px;
 	font-weight: 600;
 	color: var(--yoast-color-primary);
@@ -838,6 +838,9 @@ body.folded .wpseo-admin-submit-fixed {
   color: #d63638;
 }
 
+.privacy-settings .notice-yoast {
+  margin: 0 20px;
+}
 
 .yoast .yoast-crawl-settings-help-free {
   opacity: 0.5;

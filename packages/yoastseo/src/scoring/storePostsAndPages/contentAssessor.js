@@ -1,4 +1,5 @@
 import { createAnchorOpeningTag } from "../../helpers/shortlinker";
+import WordComplexityAssessment from "../assessments/readability/WordComplexityAssessment";
 import Assessor from "../assessor.js";
 import ParagraphTooLong from "../assessments/readability/ParagraphTooLongAssessment.js";
 import SentenceLengthInText from "../assessments/readability/SentenceLengthInTextAssessment.js";
@@ -10,8 +11,6 @@ import TextPresence from "../assessments/readability/TextPresenceAssessment.js";
 
 /*
 	Temporarily disabled:
-
-	var wordComplexity = require( "./assessments/wordComplexityAssessment.js" );
 	var sentenceLengthInDescription = require( "./assessments/sentenceLengthInDescriptionAssessment.js" );
  */
 
@@ -62,7 +61,10 @@ const StorePostsAndPagesContentAssessor = function( researcher, options = {} ) {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify5" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify65" ),
 		} ),
-		// Temporarily disabled: wordComplexity,
+		new WordComplexityAssessment( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify77" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify78" ),
+		} ),
 	];
 };
 
@@ -111,7 +113,7 @@ StorePostsAndPagesContentAssessor.prototype.calculatePenaltyPointsPartialSupport
  * @returns {boolean} True if fully supported.
  */
 StorePostsAndPagesContentAssessor.prototype._allAssessmentsSupported = function() {
-	const numberOfAssessments = 8;
+	const numberOfAssessments = this._assessments.length;
 	const applicableAssessments = this.getApplicableAssessments();
 	return applicableAssessments.length === numberOfAssessments;
 };

@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Presentations\Indexable_Presentation;
 
+use Brain\Monkey;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -49,6 +50,10 @@ class Canonical_Test extends TestCase {
 			->once()
 			->andReturn( false );
 
+		Monkey\Functions\expect( 'is_date' )
+			->once()
+			->andReturn( false );
+
 		$this->assertEquals( 'https://example.com/permalink/', $this->instance->generate_canonical() );
 	}
 
@@ -60,6 +65,10 @@ class Canonical_Test extends TestCase {
 	public function test_without_canonical_or_permalink() {
 		$this->indexable_helper
 			->expects( 'dynamic_permalinks_enabled' )
+			->once()
+			->andReturn( false );
+
+		Monkey\Functions\expect( 'is_date' )
 			->once()
 			->andReturn( false );
 
@@ -86,5 +95,29 @@ class Canonical_Test extends TestCase {
 			->andReturn( 'https://example.com/dynamic-permalink/' );
 
 		$this->assertEquals( 'https://example.com/dynamic-permalink/', $this->instance->generate_canonical() );
+	}
+
+	/**
+	 * Tests the situation where the permalink is given and we are in a date archive.
+	 *
+	 * @covers ::generate_canonical
+	 */
+	public function test_with_permalink_on_date_archive() {
+		$this->indexable->permalink = '';
+
+		$this->indexable_helper
+			->expects( 'dynamic_permalinks_enabled' )
+			->once()
+			->andReturn( false );
+
+		Monkey\Functions\expect( 'is_date' )
+			->once()
+			->andReturnTrue();
+
+		$this->current_page
+			->expects( 'get_date_archive_permalink' )
+			->andReturn( 'https://example.com/2022/06' );
+
+		$this->assertEquals( 'https://example.com/2022/06', $this->instance->generate_canonical() );
 	}
 }

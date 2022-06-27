@@ -7,6 +7,7 @@ use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Meta_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Redirect_Helper;
+use Yoast\WP\SEO\Helpers\Url_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
@@ -43,6 +44,28 @@ class Redirects implements Integration_Interface {
 	private $redirect;
 
 	/**
+	 * The URL helper.
+	 *
+	 * @var Url_Helper
+	 */
+	private $url;
+
+	/**
+	 * Holds the WP_Query variables we should get rid of.
+	 *
+	 * @var string[]
+	 */
+	private $date_query_variables = [
+		'year',
+		'm',
+		'monthnum',
+		'day',
+		'hour',
+		'minute',
+		'second',
+	];
+
+	/**
 	 * Sets the helpers.
 	 *
 	 * @codeCoverageIgnore
@@ -51,12 +74,14 @@ class Redirects implements Integration_Interface {
 	 * @param Meta_Helper         $meta         Meta helper.
 	 * @param Current_Page_Helper $current_page The current page helper.
 	 * @param Redirect_Helper     $redirect     The redirect helper.
+	 * @param Url_Helper          $url          The URL helper.
 	 */
-	public function __construct( Options_Helper $options, Meta_Helper $meta, Current_Page_Helper $current_page, Redirect_Helper $redirect ) {
+	public function __construct( Options_Helper $options, Meta_Helper $meta, Current_Page_Helper $current_page, Redirect_Helper $redirect, Url_Helper $url ) {
 		$this->options      = $options;
 		$this->meta         = $meta;
 		$this->current_page = $current_page;
 		$this->redirect     = $redirect;
+		$this->url          = $url;
 	}
 
 	/**
@@ -79,6 +104,25 @@ class Redirects implements Integration_Interface {
 		\add_action( 'wp', [ $this, 'archive_redirect' ] );
 		\add_action( 'wp', [ $this, 'page_redirect' ], 99 );
 		\add_action( 'template_redirect', [ $this, 'attachment_redirect' ], 1 );
+		\add_action( 'pre_get_posts', [ $this, 'disable_date_queries' ] );
+	}
+
+	/**
+	 * Disable date queries, if they're disabled in Yoast SEO settings, to prevent indexing the wrong things.
+	 *
+	 * @return void
+	 */
+	public function disable_date_queries() {
+		if ( $this->options->get( 'disable-date', false ) ) {
+			$exploded_url                    = \explode( '?', $this->url->recreate_current_url(), 2 );
+			list( $base_url, $query_string ) = \array_pad( $exploded_url, 2, '' );
+			\parse_str( $query_string, $query_vars );
+			foreach ( $this->date_query_variables as $variable ) {
+				if ( \in_array( $variable, \array_keys( $query_vars ), true ) ) {
+					$this->do_date_redirect( $query_vars, $base_url );
+				}
+			}
+		}
 	}
 
 	/**
@@ -175,5 +219,25 @@ class Redirects implements Integration_Interface {
 			\wp_get_attachment_url( \get_queried_object_id() ),
 			\get_queried_object()
 		);
+	}
+
+	/**
+	 * Redirects away query variables that shouldn't work.
+	 *
+	 * @param array  $query_vars   The query variables in the current URL.
+	 * @param string $base_url     The base URL without query string.
+	 *
+	 * @return void
+	 */
+	private function do_date_redirect( $query_vars, $base_url ) {
+		foreach ( $this->date_query_variables as $variable ) {
+			unset( $query_vars[ $variable ] );
+		}
+		$url = $base_url;
+		if ( count( $query_vars ) > 0 ) {
+			$url .= '?' . \http_build_query( $query_vars );
+		}
+
+		$this->redirect->do_safe_redirect( $url, 301 );
 	}
 }
