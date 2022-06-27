@@ -106,7 +106,7 @@ class WPSEO_Admin_Pages {
 				'showLocalSEOUpsell'               => $this->should_show_local_seo_upsell(),
 				'localSEOUpsellURL'                => WPSEO_Shortlinker::get( 'https://yoa.st/3mp' ),
 				'showNewsSEOUpsell'                => $this->should_show_news_seo_upsell(),
-				'newsSEOUpsellURL'                 => WPSEO_Shortlinker::get( 'https://yoa.set/get-news-settings' ),
+				'newsSEOUpsellURL'                 => WPSEO_Shortlinker::get( 'https://yoa.st/get-news-settings' ),
 				'knowledgeGraphCompanyInfoMissing' => WPSEO_Language_Utils::get_knowledge_graph_company_info_missing_l10n(),
 				'schema'                           => [
 					'pageTypeOptions'    => $schema_types->get_page_type_options(),
