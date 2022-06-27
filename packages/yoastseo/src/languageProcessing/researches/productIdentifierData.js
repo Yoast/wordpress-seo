@@ -53,10 +53,10 @@ export function allVariantsHaveIdentifier() {
 		let variant = allVariants[ i ];
 		let variantID = variant.querySelector( ".variable_post_id" ).value
 
-		let identifierNames = [ `yoast_variation_identfier[${variantID}][gtin8]`,
-			`yoast_variation_identfier[${variantID}][gtin12]`, `yoast_variation_identfier[${variantID}][gtin13]`,
-			`yoast_variation_identfier[${variantID}][gtin14]`, `yoast_variation_identfier[${variantID}][isbn]`,
-			`yoast_variation_identfier[${variantID}][mpn]`,]
+		let identifierNames = [ `yoast_variation_identifier\\[${variantID}\\]\\[gtin8\\]`,
+			`yoast_variation_identifier\\[${variantID}\\]\\[gtin12\\]`, `yoast_variation_identifier\\[${variantID}\\]\\[gtin13\\]`,
+			`yoast_variation_identifier\\[${variantID}\\]\\[gtin14\\]`, `yoast_variation_identifier\\[${variantID}\\]\\[isbn\\]`,
+			`yoast_variation_identifier\\[${variantID}\\]\\[mpn\\]` ];
 
 		if ( ! hasAtLeastOneIdentifier( identifierNames ) ) {
 			return false;
