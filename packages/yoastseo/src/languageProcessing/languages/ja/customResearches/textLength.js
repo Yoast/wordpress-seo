@@ -1,7 +1,7 @@
 import countCharacters from "../helpers/countCharacters";
 
 /**
- * A result of the text length calculation.
+ * A result of the character count calculation.
  *
  * @typedef CharacterCountResult
  * @param {number} count The number of characters found in the text.
