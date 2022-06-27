@@ -82,7 +82,7 @@ class ReadabilityAnalysis extends Component {
 
 		const wordComplexityUpsellText = sprintf(
 			/* Translators: %1$s is a span tag that adds styling to 'Word complexity', %2$s is a closing span tag.
-			   %3%s is an anchor tag with a link to yoast.com, %4$s is a closing anchor tag.*/
+			   %3$s is an anchor tag with a link to yoast.com, %4$s is a closing anchor tag.*/
 			__(
 				"%1$sWord complexity%2$s: Is your vocabulary suited for a larger audience? %3$sYoast SEO Premium will tell you!%4$s",
 				"wordpress-seo"
