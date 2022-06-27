@@ -50,7 +50,7 @@ describe( "The insights selectors", () => {
 		const state = set( {}, "insights.estimatedReadingTime", 31 );
 		expect( getEstimatedReadingTime( state ) ).toEqual( 31 );
 	} );
-	it( "gets the word count from the store", () => {
+	it( "gets the text length from the store", () => {
 		const state = set( {}, "insights.textLength", { count: 420, unit: "word" } );
 		expect( getTextLength( state ).count ).toEqual( 420 );
 		expect( getTextLength( state ).unit ).toEqual( "word" );
