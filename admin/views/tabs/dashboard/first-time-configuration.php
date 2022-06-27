@@ -11,4 +11,4 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-echo '<div id="wpseo-first-time-configuration" />';
+echo '<div id="wpseo-first-time-configuration"></div>';
