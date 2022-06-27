@@ -8,5 +8,8 @@ import countCharacters from "../helpers/countCharacters";
  * @returns {number} The length of the text in characters.
  */
 export default function( paper ) {
-	return countCharacters( paper.getText() );
+	return {
+		count: countCharacters( paper.getText() ),
+		wordOrCharacter: "character",
+	};
 }

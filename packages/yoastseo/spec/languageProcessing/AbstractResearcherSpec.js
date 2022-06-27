@@ -27,7 +27,7 @@ describe( "Calling a Researcher", function() {
 	} );
 
 	it( "returns a word count result when calling the wordCountInText researcher", function() {
-		expect( researcher.getResearch( "wordCountInText" ) ).toEqual( 4 );
+		expect( researcher.getResearch( "wordCountInText" ).count ).toEqual( 4 );
 	} );
 } );
 
@@ -76,7 +76,7 @@ describe( "Adding to a Researcher", function() {
 			return 9000;
 		} );
 		expect( Object.keys( researcher.getAvailableResearches() ).length ).toEqual( totalLength );
-		expect( researcher.getResearch( "wordCountInText" ) ).toEqual( 9000 );
+		expect( researcher.getResearch( "wordCountInText" ).count ).toEqual( 9000 );
 	} );
 } );
 

@@ -56,7 +56,7 @@ export default class TextLengthAssessment extends Assessment {
 	 * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
 	 */
 	getResult( paper, researcher ) {
-		const wordCount = researcher.getResearch( "wordCountInText" );
+		const wordCount = researcher.getResearch( "wordCountInText" ).count;
 
 		if	( researcher.getConfig( "textLength" ) ) {
 			this._config = this.getLanguageSpecificConfig( researcher );

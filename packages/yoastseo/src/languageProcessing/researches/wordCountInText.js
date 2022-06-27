@@ -8,5 +8,8 @@ import wordCount from "../helpers/word/countWords.js";
  * @returns {number} The amount of words found in the text.
  */
 export default function( paper ) {
-	return wordCount( paper.getText() );
+	return {
+		count: wordCount( paper.getText() ),
+		wordOrCharacter: "word",
+	};
 }

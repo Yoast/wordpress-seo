@@ -328,7 +328,7 @@ class KeywordDensityAssessment extends Assessment {
 		if ( customApplicabilityConfig ) {
 			this._config.applicableIfTextLongerThan = customApplicabilityConfig;
 		}
-		const textLength = customCountLength ? customCountLength( paper.getText() ) : researcher.getResearch( "wordCountInText" );
+		const textLength = customCountLength ? customCountLength( paper.getText() ) : researcher.getResearch( "wordCountInText" ).count;
 
 		return paper.hasText() && paper.hasKeyword() && textLength >= this._config.applicableIfTextLongerThan;
 	}
