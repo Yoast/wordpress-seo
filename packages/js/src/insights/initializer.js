@@ -15,7 +15,7 @@ const isInsightsEnabled = () => select( "yoast-seo/editor" ).getPreference( "isI
  * @returns {function} The updater.
  */
 const createUpdater = () => {
-	const { setEstimatedReadingTime, setFleschReadingEase, setWordCount } = dispatch( "yoast-seo/editor" );
+	const { setEstimatedReadingTime, setFleschReadingEase, setTextLength } = dispatch( "yoast-seo/editor" );
 	const runResearch = get( window, "YoastSEO.analysis.worker.runResearch", noop );
 
 	/**
@@ -34,7 +34,7 @@ const createUpdater = () => {
 				setFleschReadingEase( response.result );
 			}
 		} );
-		runResearch( "wordCountInText", paper ).then( response => setWordCount( response.result ) );
+		runResearch( "wordCountInText", paper ).then( response => setTextLength( response.result ) );
 	};
 };
 

@@ -39,10 +39,10 @@ export const isFleschReadingEaseAvailable = state => {
 };
 
 /**
- * Gets the word count from the store.
+ * Gets the length of the text, either based on the number of words or the number of characters in the text.
  *
  * @param {Object} state The state.
  *
- * @returns {number} The word count.
+ * @returns {{ count: number, unit: ("character"|"word") }} The text length.
  */
-export const getWordCount = state => get( state, "insights.wordCount", 0 );
+export const getTextLength = state => get( state, "insights.textLength", {} );
