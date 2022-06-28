@@ -16,6 +16,7 @@ const defaultAttributes = {
 	locale: "en_US",
 	permalink: "",
 	date: "",
+	customData: {},
 };
 
 /**
@@ -33,6 +34,8 @@ const defaultAttributes = {
  * @param {string} [attributes.permalink]   The base url + slug.
  * @param {string} [attributes.date]        The date.
  * @param {Object} [attributes.wpBlocks]    The text, encoded in WordPress block editor blocks.
+ * @param {Object} [attributes.customData]  Custom data.
+ *
  * @constructor
  */
 function Paper( text, attributes ) {
@@ -240,6 +243,22 @@ Paper.prototype.hasDate = function() {
  */
 Paper.prototype.getDate = function() {
 	return this._attributes.date;
+};
+
+/**
+ * Check whether custom data is available.
+ * @returns {boolean} Returns true if the Paper has custom data.
+ */
+Paper.prototype.hasCustomData = function() {
+	return this._attributes.customData !== {};
+};
+
+/**
+ * Returns the custom data, or an empty object if no data is available.
+ * @returns {Object} Returns the custom data.
+ */
+Paper.prototype.getCustomData = function() {
+	return this._attributes.customData;
 };
 
 /**
