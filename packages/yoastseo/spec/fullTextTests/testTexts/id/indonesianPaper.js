@@ -66,10 +66,10 @@ const expectedResults = {
 		score: 9,
 		resultText: "<a href='https://yoa.st/33z' target='_blank'>Internal links</a>: You have enough internal links. Good job!",
 	},
-	titleKeyword: {
+	keyphraseInSEOTitle: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: The exact match of the focus keyphrase appears in the SEO title, but not at the beginning. <a href='https://yoa.st/33h' target='_blank'>Move it to the beginning for the best results</a>.",
+		resultText: "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: The exact match of the focus keyphrase appears in the SEO title, but not at the beginning. <a href='https://yoa.st/33h' target='_blank'>Move it to the beginning for the best results</a>.",
 	},
 	titleWidth: {
 		isApplicable: true,
@@ -110,7 +110,7 @@ const expectedResults = {
 	textSentenceLength: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: 43.7% of the sentences contain more than 20 words, " +
+		resultText: "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: 43.1% of the sentences contain more than 20 words, " +
 			"which is more than the recommended maximum of 25%. <a href='https://yoa.st/34w' target='_blank'>Try to shorten the sentences</a>.",
 	},
 	textTransitionWords: {

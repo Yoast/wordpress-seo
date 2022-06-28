@@ -74,10 +74,10 @@ const expectedResults = {
 		score: 9,
 		resultText: "<a href='https://yoa.st/33z' target='_blank'>Internal links</a>: You have enough internal links. Good job!",
 	},
-	titleKeyword: {
+	keyphraseInSEOTitle: {
 		isApplicable: true,
 		score: 2,
-		resultText: "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: Not all the words from your keyphrase" +
+		resultText: "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: Not all the words from your keyphrase" +
 			" \"História de Portugal\" appear in the SEO title. <a href='https://yoa.st/33h' target='_blank'>For the best SEO results write" +
 			" the exact match of your keyphrase in the SEO title, and put the keyphrase at the beginning of the title</a>.",
 	},
@@ -109,7 +109,7 @@ const expectedResults = {
 	fleschReadingEase: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 39.7 in the test, which is considered" +
+		resultText: "<a href='https://yoa.st/34r' target='_blank'>Flesch Reading Ease</a>: The copy scores 39.5 in the test, which is considered" +
 			" difficult to read. <a href='https://yoa.st/34s' target='_blank'>Try to make shorter sentences, using less difficult words to improve" +
 			" readability</a>.",
 	},
@@ -133,7 +133,7 @@ const expectedResults = {
 	textTransitionWords: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 8.5% of the sentences contain transition words," +
+		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 7.8% of the sentences contain transition words," +
 			" which is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more of them</a>.",
 	},
 	passiveVoice: {
@@ -158,7 +158,8 @@ const expectedResults = {
 		isApplicable: true,
 		score: 6,
 		resultText: "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: Images on this page do not have alt attributes that reflect" +
-			" the topic of your text. <a href='https://yoa.st/4f6' target='_blank'>Add your keyphrase or synonyms to the alt tags of relevant images</a>!",
+			" the topic of your text. <a href='https://yoa.st/4f6' target='_blank'>" +
+			"Add your keyphrase or synonyms to the alt tags of relevant images</a>!",
 	},
 	imageCount: {
 		isApplicable: true,

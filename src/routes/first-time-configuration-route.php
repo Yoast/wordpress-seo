@@ -8,7 +8,6 @@ use Yoast\WP\SEO\Actions\Configuration\First_Time_Configuration_Action;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Main;
 
-// phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- First time configuration simply has a lot of words.
 /**
  * First_Time_Configuration_Route class.
  */

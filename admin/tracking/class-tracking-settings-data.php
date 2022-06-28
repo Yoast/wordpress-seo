@@ -175,6 +175,7 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'zapier_api_key',
 		'enable_metabox_insights',
 		'enable_link_suggestions',
+		'enable_index_now',
 		'workouts',
 		'wincher_integration_active',
 		'wincher_tokens',
@@ -200,6 +201,14 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'remove_emoji_scripts',
 		'remove_powered_by_header',
 		'remove_pingback_header',
+		'clean_campaign_tracking_urls',
+		'clean_permalinks',
+		'clean_permalinks_extra_variables',
+		'search_cleanup',
+		'search_cleanup_emoji',
+		'search_cleanup_patterns',
+		'search_character_limit',
+		'wordproof_integration_active',
 	];
 
 	/**

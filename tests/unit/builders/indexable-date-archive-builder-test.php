@@ -19,8 +19,6 @@ use Yoast\WP\SEO\Values\Indexables\Indexable_Builder_Versions;
  *
  * @coversDefaultClass \Yoast\WP\SEO\Builders\Indexable_Date_Archive_Builder
  * @covers \Yoast\WP\SEO\Builders\Indexable_Date_Archive_Builder
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Indexable_Date_Archive_Builder_Test extends TestCase {
 

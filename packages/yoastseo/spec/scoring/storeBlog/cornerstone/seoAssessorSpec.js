@@ -189,8 +189,8 @@ describe( "running assessments in the store blog SEO assessor", function() {
 			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify47' target='_blank'>" );
 		} );
 
-		test( "TitleKeywordAssessment", () => {
-			const assessment = assessor.getAssessment( "titleKeyword" );
+		test( "KeyphraseInSEOTitleAssessment", () => {
+			const assessment = assessor.getAssessment( "keyphraseInSEOTitle" );
 
 			expect( assessment ).toBeDefined();
 			expect( assessment._config ).toBeDefined();

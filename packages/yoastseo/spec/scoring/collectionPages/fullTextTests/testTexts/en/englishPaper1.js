@@ -51,10 +51,10 @@ const expectedResults = {
 		score: 9,
 		resultText: "<a href='https://yoa.st/shopify58' target='_blank'>Text length</a>: The text contains 260 words. Good job!",
 	},
-	titleKeyword: {
+	keyphraseInSEOTitle: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/shopify24' target='_blank'>Keyphrase in title</a>: The exact match of the focus " +
+		resultText: "<a href='https://yoa.st/shopify24' target='_blank'>Keyphrase in SEO title</a>: The exact match of the focus " +
 			"keyphrase appears at the beginning of the SEO title. Good job!",
 	},
 	titleWidth: {
@@ -94,20 +94,20 @@ const expectedResults = {
 	textSentenceLength: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/shopify48' target='_blank'>Sentence length</a>: 35.7% of the sentences contain more " +
+		resultText: "<a href='https://yoa.st/shopify48' target='_blank'>Sentence length</a>: 50% of the sentences contain more " +
 			"than 20 words, which is more than the recommended maximum of 25%. <a href='https://yoa.st/shopify49' target='_blank'>" +
 			"Try to shorten the sentences</a>.",
 	},
 	textTransitionWords: {
 		isApplicable: true,
-		score: 3,
-		resultText: "<a href='https://yoa.st/shopify44' target='_blank'>Transition words</a>: Only 17.6% of the sentences contain " +
+		score: 6,
+		resultText: "<a href='https://yoa.st/shopify44' target='_blank'>Transition words</a>: Only 20% of the sentences contain " +
 			"transition words, which is not enough. <a href='https://yoa.st/shopify45' target='_blank'>Use more of them</a>.",
 	},
 	passiveVoice: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/shopify42' target='_blank'>Passive voice</a>: 23.5% of the sentences contain passive voice, " +
+		resultText: "<a href='https://yoa.st/shopify42' target='_blank'>Passive voice</a>: 26.7% of the sentences contain passive voice, " +
 			"which is more than the recommended maximum of 10%. <a href='https://yoa.st/shopify43' target='_blank'>" +
 			"Try to use their active counterparts</a>.",
 	},

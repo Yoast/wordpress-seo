@@ -6,8 +6,6 @@ use WPSEO_Import_AIOSEO_V4;
 
 /**
  * Double for the WPSEO_Import_AIOSEO_V4 class, to be able to test its protected methods.
- *
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded -- the 'Double' suffix is there to communicate that this is a double, and not the real deal.
  */
 class WPSEO_Import_AIOSEO_V4_Double extends WPSEO_Import_AIOSEO_V4 {
 

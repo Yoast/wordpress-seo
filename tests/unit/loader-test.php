@@ -16,7 +16,6 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
  * @group loader
  *
  * @coversDefaultClass \Yoast\WP\SEO\Loader
- * @covers ::<!public>
  */
 class Loader_Test extends TestCase {
 

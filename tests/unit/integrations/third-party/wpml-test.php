@@ -10,7 +10,6 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * Class WPML_Test.
  *
  * @coversDefaultClass \Yoast\WP\SEO\Integrations\Third_Party\WPML
- * @covers ::<!public>
  *
  * @group integrations
  * @group third-party

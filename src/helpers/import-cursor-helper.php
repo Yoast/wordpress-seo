@@ -4,7 +4,6 @@ namespace Yoast\WP\SEO\Helpers;
 
 /**
  * The Import Cursor Helper.
- * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Import_Cursor_Helper {
 

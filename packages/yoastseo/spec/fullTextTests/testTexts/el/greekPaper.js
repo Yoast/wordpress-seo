@@ -75,10 +75,10 @@ const expectedResults = {
 		score: 9,
 		resultText: "<a href='https://yoa.st/33z' target='_blank'>Internal links</a>: You have enough internal links. Good job!",
 	},
-	titleKeyword: {
+	keyphraseInSEOTitle: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in title</a>: The exact match of the focus keyphrase" +
+		resultText: "<a href='https://yoa.st/33g' target='_blank'>Keyphrase in SEO title</a>: The exact match of the focus keyphrase" +
 			" appears at the beginning of the SEO title. Good job!",
 	},
 	titleWidth: {
@@ -123,19 +123,19 @@ const expectedResults = {
 	textSentenceLength: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: 27% of the sentences contain more than 20 words, " +
+		resultText: "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: 27.8% of the sentences contain more than 20 words, " +
 			"which is more than the recommended maximum of 25%. <a href='https://yoa.st/34w' target='_blank'>Try to shorten the sentences</a>.",
 	},
 	textTransitionWords: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 19.3% of the sentences contain" +
+		resultText: "<a href='https://yoa.st/34z' target='_blank'>Transition words</a>: Only 19.7% of the sentences contain" +
 			" transition words, which is not enough. <a href='https://yoa.st/35a' target='_blank'>Use more of them</a>.",
 	},
 	passiveVoice: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: 25.4% of the sentences contain passive voice, " +
+		resultText: "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: 25.9% of the sentences contain passive voice, " +
 			"which is more than the recommended maximum of 10%. <a href='https://yoa.st/34u' target='_blank'>" +
 			"Try to use their active counterparts</a>.",
 	},

@@ -104,6 +104,7 @@ class WPSEO_Option_MS extends WPSEO_Option {
 			"{$allow_prefix}remove_feed_global"             => true,
 			"{$allow_prefix}remove_feed_global_comments"    => true,
 			"{$allow_prefix}remove_feed_post_comments"      => true,
+			"{$allow_prefix}enable_index_now"               => true,
 			"{$allow_prefix}remove_feed_authors"            => true,
 			"{$allow_prefix}remove_feed_categories"         => true,
 			"{$allow_prefix}remove_feed_tags"               => true,
@@ -119,6 +120,12 @@ class WPSEO_Option_MS extends WPSEO_Option {
 			"{$allow_prefix}remove_emoji_scripts"           => true,
 			"{$allow_prefix}remove_powered_by_header"       => true,
 			"{$allow_prefix}remove_pingback_header"         => true,
+			"{$allow_prefix}clean_campaign_tracking_urls"   => true,
+			"{$allow_prefix}clean_permalinks"               => true,
+			"{$allow_prefix}search_cleanup"                 => true,
+			"{$allow_prefix}search_cleanup_emoji"           => true,
+			"{$allow_prefix}search_cleanup_patterns"        => true,
+			"{$allow_prefix}wordproof_integration_active"   => false,
 		];
 
 		if ( is_multisite() ) {
