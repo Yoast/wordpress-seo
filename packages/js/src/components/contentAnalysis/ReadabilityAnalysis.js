@@ -80,6 +80,12 @@ class ReadabilityAnalysis extends Component {
 			link = wpseoAdminL10n[ "shortlinks.upsell.sidebar.word_complexity" ];
 		}
 
+		// We don't show the upsell in WooCommerce product pages.
+		const contentType = wpseoAdminL10n.postType;
+		if ( contentType === "product" ) {
+			return [];
+		}
+
 		const wordComplexityUpsellText = sprintf(
 			/* Translators: %1$s is a span tag that adds styling to 'Word complexity', %2$s is a closing span tag.
 			   %3$s is an anchor tag with a link to yoast.com, %4$s is a closing anchor tag.*/
