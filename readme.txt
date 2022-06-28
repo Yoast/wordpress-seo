@@ -246,14 +246,14 @@ Release Date: July 12th, 2022
 Enhancements:
 
 * Adds canonical HTTP headers from RSS feeds to their parent URLs (for instance your homepage, or specific categories or tags), so the feeds themselves don't show up in search results.
-* Adds insights to the editors, it contains Flesch reading ease, (estimated) reading time and word count.
+* Adds an Insights tab to the editors which contains Flesch reading ease score and feedback, (estimated) reading time, and word count.
+* Changes the `@id` of the main schema `WebPage` node to be just the permalink for the current page, for interoperability with other plugins.
 * Improves sentence recognition for German by disregarding ordinal numbers as potential sentence boundaries.
 * Makes sure the `link` tag in the RSS feeds' `channel` section links to the most specific URL possible (for instance the category or tag the RSS feed is for) instead of the homepage.
 * Makes sure the title separator chosen in Yoast SEO is used for RSS feed titles too.
 * Prefer featured image and in-content images instead of OpenGraph and Twitter images for Schema output.
 * Removes the Flesch reading ease assessment from the readability analysis, since it is now available in the Insights tab.
-* We've changed the `@id` of the main schema `WebPage` node to be just the permalink for the current page, for interoperability with other plugins.
-* When a site has not set a logo in the Yoast SEO settings, but has set a site logo in the customizer, we will now use that logo in our Schema `Organization` output.
+* Uses the site logo set in the customizer as the logo in our Schema `Organization` output when a site has not set a logo in the Yoast SEO settings.
 
 Bugfixes:
 
