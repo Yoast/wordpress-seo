@@ -239,6 +239,27 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 19.3 =
+Release Date: July 12th, 2022
+
+
+Enhancements:
+
+* Adds canonical HTTP headers from RSS feeds to their parent URLs (for instance your homepage, or specific categories or tags), so the feeds themselves don't show up in search results.
+* Adds insights to the editors, it contains Flesch reading ease, (estimated) reading time and word count.
+* Improves sentence recognition for German by disregarding ordinal numbers as potential sentence boundaries.
+* Makes sure the `link` tag in the RSS feeds' `channel` section links to the most specific URL possible (for instance the category or tag the RSS feed is for) instead of the homepage.
+* Makes sure the title separator chosen in Yoast SEO is used for RSS feed titles too.
+* Prefer featured image and in-content images instead of OpenGraph and Twitter images for Schema output.
+* Removes the Flesch reading ease assessment from the readability analysis, since it is now available in the Insights tab.
+* We've changed the `@id` of the main schema `WebPage` node to be just the permalink for the current page, for interoperability with other plugins.
+* When a site has not set a logo in the Yoast SEO settings, but has set a site logo in the customizer, we will now use that logo in our Schema `Organization` output.
+
+Bugfixes:
+
+* Fixes a bug in the Wincher integration table on posts and terms where the focus keyphrase was not marked with an asterisk.
+* Fixes a bug where the desktop preview would show a truncated title, while the title length progress bar and title width assessment would indicate that the title length was still within the limits.
+
 = 19.2 =
 Release Date: June 28th, 2022
 
@@ -272,29 +293,6 @@ Bugfixes:
 Other:
 
 * Renames the 'Keyphrase in title' SEO assessment to 'Keyphrase in SEO title'.
-
-= 19.1 =
-Release Date: June 14th, 2022
-
-Yoast SEO 19.1 is out today! In this release, we've rolled out some improvements that make the content and SEO analyses more flexible. We've also expanded our range of crawl settings in Premium. Read more about what's new in Yoast SEO 19.1 in [our release post in English](https://yoa.st/release-14-6-22) or [our release post in Spanish](https://yoa.st/release-14-6-22-spanish)!
-
-Enhancements:
-
-* Improves text analysis by splitting text on full-stop only when the next sentence is preceded by a whitespace.
-* Prompts users to set up their site in order to take advantage of all SEO features.
-
-Bugfixes:
-
-* Fixes a bug where the "Check links to this URL" option on admin bar menu would lead to an error page on setups with home URL different from the site URL. Props to @suascat.
-* Fixes a bug where the network setting for the crawl cleanup feature would default to `Disable` when the super admin saved settings before upgrading/installing Premium.
-* Fixes a bug which caused the Spanish transition word `para ilustrar` to not be recognized by the transition words assessment.
-
-Other:
-
-* Adds an informative error message to the steps of the First-time configuration should an error occur.
-* Adds dismissable weekly webinar promo banners to Yoast settings pages & block/Elementor editor sidebars.
-* Adds new disabled toggles to the Crawl settings tab in the General page.
-* Improves handling of OAuth errors in the Wincher integration and clears refresh tokens that seem to be invalid.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
