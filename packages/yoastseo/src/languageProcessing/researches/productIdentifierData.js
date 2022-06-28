@@ -6,15 +6,16 @@
  * @returns {boolean} Whether the product/variant has at least one identifier.
  */
 const hasAtLeastOneIdentifier = function( identifierIDs ) {
-	for (let i = 0; i < identifierIDs.length; i++) {
-		let identifierID = identifierIDs[i];
-		let identifierValue = document.querySelector('#' + identifierID).value;
+	for ( let i = 0; i < identifierIDs.length; i++ ) {
+		const identifierID = identifierIDs[ i ];
+		const identifierValue = document.querySelector( "#" + identifierID ).value;
+		// eslint-disable-next-line no-undefined
 		if ( identifierValue !== undefined && identifierValue !== "" ) {
 			return true;
 		}
 	}
 	return false;
-}
+};
 
 /**
  * Checks whether the product has a global identifier
@@ -35,9 +36,10 @@ export function hasGlobalIdentifier() {
  */
 export function hasVariants() {
 	const variantsMetabox = document.querySelector( "#variable_product_options_inner" );
-	const variants = variantsMetabox.querySelector(".woocommerce_variations" );
-	const numberOfVariants = variants.getAttribute("data-total");
+	const variants = variantsMetabox.querySelector( ".woocommerce_variations" );
+	const numberOfVariants = variants.getAttribute( "data-total" );
 
+	// eslint-disable-next-line no-undefined
 	return numberOfVariants !== undefined && numberOfVariants !== "0";
 }
 
@@ -50,12 +52,12 @@ export function allVariantsHaveIdentifier() {
 	const allVariants = document.querySelectorAll( ".woocommerce_variation" );
 
 	for ( let i = 0; i < allVariants.length; i++ ) {
-		let variant = allVariants[ i ];
-		let variantID = variant.querySelector( ".variable_post_id" ).value
+		const variant = allVariants[ i ];
+		const variantID = variant.querySelector( ".variable_post_id" ).value;
 
-		let identifiers = [ "\\[gtin8\\]", "\\[gtin12\\]", "\\[gtin13\\]", "\\[gtin14\\]", "\\[isbn\\]", "\\[mpn\\]" ];
+		const identifiers = [ "\\[gtin8\\]", "\\[gtin12\\]", "\\[gtin13\\]", "\\[gtin14\\]", "\\[isbn\\]", "\\[mpn\\]" ];
 
-		let identifierIDs = identifiers.map( identifier => `yoast_variation_identifier\\[${variantID}\\]`.concat( identifier) );
+		const identifierIDs = identifiers.map( identifier => `yoast_variation_identifier\\[${variantID}\\]`.concat( identifier ) );
 
 		if ( ! hasAtLeastOneIdentifier( identifierIDs ) ) {
 			return false;
