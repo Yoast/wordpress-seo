@@ -3,7 +3,7 @@ module.exports = {
 	prefix: "yst-",
 	theme: {
 		fontSize: {
-			xxs: "0.6rem",
+			xxs: "0.675rem",
 			xs: ".75rem",
 			sm: ".8125rem",
 			tiny: ".875rem",
