@@ -84,7 +84,9 @@ export default function SidebarFill( { settings } ) {
 					</Fragment>
 				</SidebarItem> }
 				{ settings.isContentAnalysisActive && <SidebarItem key="readability" renderPriority={ 20 }>
-					<ReadabilityAnalysis />
+					<ReadabilityAnalysis
+						shouldUpsell={ settings.shouldUpsell }
+					/>
 				</SidebarItem> }
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="additional-keywords-upsell" renderPriority={ 21 }>
 					{ settings.shouldUpsell && <KeywordUpsell /> }

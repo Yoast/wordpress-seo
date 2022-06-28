@@ -119,6 +119,7 @@ testPapers.forEach( function( testPaper ) {
 		} );
 
 		// Readability assessments.
+
 		it( "returns a score and the associated feedback text for the wordComplexity assessment", function() {
 			compare( new WordComplexityAssessment(), expectedResults.wordComplexity );
 		} );

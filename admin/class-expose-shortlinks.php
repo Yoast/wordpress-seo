@@ -38,6 +38,7 @@ class WPSEO_Expose_Shortlinks implements WPSEO_WordPress_Integration {
 		'shortlinks.upsell.sidebar.additional_link'                 => 'https://yoa.st/textlink-keywords-sidebar',
 		'shortlinks.upsell.sidebar.additional_button'               => 'https://yoa.st/add-keywords-sidebar',
 		'shortlinks.upsell.sidebar.keyphrase_distribution'          => 'https://yoa.st/keyphrase-distribution-sidebar',
+		'shortlinks.upsell.sidebar.word_complexity'                 => 'https://yoa.st/word-complexity-sidebar',
 		'shortlinks.upsell.metabox.news'                            => 'https://yoa.st/get-news-metabox',
 		'shortlinks.upsell.metabox.go_premium'                      => 'https://yoa.st/pe-premium-page',
 		'shortlinks.upsell.metabox.focus_keyword_synonyms_link'     => 'https://yoa.st/textlink-synonyms-popup-metabox',
@@ -48,6 +49,7 @@ class WPSEO_Expose_Shortlinks implements WPSEO_WordPress_Integration {
 		'shortlinks.upsell.metabox.additional_link'                 => 'https://yoa.st/textlink-keywords-metabox',
 		'shortlinks.upsell.metabox.additional_button'               => 'https://yoa.st/add-keywords-metabox',
 		'shortlinks.upsell.metabox.keyphrase_distribution'          => 'https://yoa.st/keyphrase-distribution-metabox',
+		'shortlinks.upsell.metabox.word_complexity'                 => 'https://yoa.st/word-complexity-metabox',
 		'shortlinks.upsell.gsc.create_redirect_button'              => 'https://yoa.st/redirects',
 		'shortlinks.readability_analysis_info'                      => 'https://yoa.st/readability-analysis',
 		'shortlinks.activate_premium_info'                          => 'https://yoa.st/activate-subscription',
@@ -114,6 +116,7 @@ class WPSEO_Expose_Shortlinks implements WPSEO_WordPress_Integration {
 		$shortlinks['shortlinks.upsell.metabox.additional_button']               = 'https://yoa.st/add-keywords-metabox-term';
 		$shortlinks['shortlinks.upsell.sidebar.morphology_upsell_metabox']       = 'https://yoa.st/morphology-upsell-metabox-term';
 		$shortlinks['shortlinks.upsell.metabox.keyphrase_distribution']          = 'https://yoa.st/keyphrase-distribution-metabox-term';
+		$shortlinks['shortlinks.upsell.metabox.word_complexity']                 = 'https://yoa.st/word-complexity-metabox-term';
 
 		return $shortlinks;
 	}
