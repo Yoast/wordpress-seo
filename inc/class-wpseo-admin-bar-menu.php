@@ -121,6 +121,9 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 
 		$this->asset_manager->register_assets();
 		$this->asset_manager->enqueue_style( 'adminbar' );
+		if ( ! is_admin() && YoastSEO()->helpers->product->is_premium() ) {
+			$this->asset_manager->enqueue_script( 'frontend-inspector-resources' );
+		}
 	}
 
 	/**

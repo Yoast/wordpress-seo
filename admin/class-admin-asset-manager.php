@@ -382,6 +382,24 @@ class WPSEO_Admin_Asset_Manager {
 			'version' => $scripts['workouts']['version'],
 		];
 
+		$scripts['frontend-inspector-resources'] = [
+			'name'    => 'frontend-inspector-resources',
+			'src'     => 'frontend-inspector-resources.js',
+			'deps'    => [
+				'lodash',
+				'wp-a11y',
+				'wp-components',
+				'wp-element',
+				'wp-i18n',
+				self::PREFIX . 'api-client',
+				self::PREFIX . 'externals-components',
+				self::PREFIX . 'externals-contexts',
+				self::PREFIX . 'externals-redux',
+				self::PREFIX . 'yoast-components',
+			],
+			'version' => $scripts['frontend-inspector-resources']['version'],
+		];
+
 		// Add the current language to every script that requires the analysis package.
 		foreach ( $scripts as $name => $script ) {
 			if ( substr( $name, -8 ) === 'language' ) {

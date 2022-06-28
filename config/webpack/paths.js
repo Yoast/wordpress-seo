@@ -44,6 +44,7 @@ const getEntries = ( sourceDirectory = "./packages/js/src" ) => ( {
 	"react-select": `${ sourceDirectory }/externals/react-select.js`,
 	workouts: `${ sourceDirectory }/workouts.js`,
 	"wordproof-uikit": `${ sourceDirectory }/wordproof-uikit.js`,
+	"frontend-inspector-resources": `${ sourceDirectory }/frontend-inspector-resources.js`,
 } );
 
 /**
