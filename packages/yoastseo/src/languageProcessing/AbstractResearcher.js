@@ -37,6 +37,8 @@ import videoCount from "./researches/videoCount";
 import wordCountInText from "./researches/wordCountInText.js";
 import getPassiveVoiceResult from "./researches/getPassiveVoiceResult";
 import wordComplexity from "./researches/wordComplexity";
+import getProductIdentifierDataWooCommerce from "./researches/getProductIdentifierDataWooCommerce";
+import getProductIdentifierDataShopify from "./researches/getProductIdentifierDataShopify";
 
 /**
  * The researches contains all the researches
@@ -86,6 +88,8 @@ export default class AbstractResearcher {
 			wordCountInText,
 			videoCount,
 			getPassiveVoiceResult,
+			getProductIdentifierDataWooCommerce,
+			getProductIdentifierDataShopify,
 			wordComplexity,
 		};
 

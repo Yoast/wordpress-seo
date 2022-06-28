@@ -1,4 +1,4 @@
-import { hasVariants, hasGlobalIdentifier, allVariantsHaveIdentifier } from "../../../src/languageProcessing/researches/productIdentifierData.js";
+import productIdentifierData from "../../../src/languageProcessing/researches/getProductIdentifierDataWooCommerce.js";
 
 // Set up mock DOM data.
 document.body.innerHTML =
@@ -66,39 +66,39 @@ document.body.innerHTML =
 
 describe( "A test to check if at least one global product identifier is filled in", () => {
 	it( "returns true if at least one identifier is filled in", function() {
-		expect( hasGlobalIdentifier() ).toEqual( true );
+		expect( productIdentifierData().hasGlobalIdentifier ).toEqual( true );
 	} );
 
 	it( "returns false if no identifiers are filled in", function() {
 		// Change value of the filled in attribute to empty string.
 		document.querySelector('#yoast_identifier_gtin14').setAttribute( 'value', '')
 
-		expect( hasGlobalIdentifier( ) ).toEqual( false );
+		expect( productIdentifierData().hasGlobalIdentifier ).toEqual( false );
 	} );
 } );
 
 describe( "A test to check if the product has variants", () => {
 	it( "returns true if the data-total attribute of the woocommerce_variations class is not 0 or undefined", function() {
-		expect( hasVariants() ).toEqual( true );
+		expect( productIdentifierData().hasVariants ).toEqual( true );
 	} );
 
 	it( "returns false if the data-total attribute of the woocommerce_variations class is 0", function() {
 		// Change value of data-total to 0.
 		document.querySelector('.woocommerce_variations').setAttribute( 'data-total', '0')
 
-		expect( hasVariants() ).toEqual( false );
+		expect( productIdentifierData().hasVariants ).toEqual( false );
 	} );
 } );
 
 describe( "A test to check if all variants of a product have an identifier", () => {
 	it( "returns false if one or more of the variants doesn't have an identifier", function() {
-		expect( allVariantsHaveIdentifier() ).toEqual( false );
+		expect( productIdentifierData().allVariantsHaveIdentifier ).toEqual( false );
 	} );
 
 	it( "returns true if all variants have an identifier", function() {
 		// Change one of the identifiers to an empty string.
 		document.querySelector("#yoast_variation_identifier\\[13\\]\\[gtin12\\]").setAttribute( 'value', '98')
 
-		expect( allVariantsHaveIdentifier() ).toEqual( true );
+		expect( productIdentifierData().allVariantsHaveIdentifier ).toEqual( true );
 	} );
 } );

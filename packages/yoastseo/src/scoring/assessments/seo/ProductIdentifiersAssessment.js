@@ -1,11 +1,12 @@
-import { Assessment, AssessmentResult } from "yoastseo";
+import Assessment from "../assessment";
+import AssessmentResult from "../../../values/AssessmentResult";
 import { merge } from "lodash-es";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 
 /**
  * Represents the assessment for the product identifiers.
  */
-export default class ProductIdentifierAssessment extends Assessment {
+export default class ProductIdentifiersAssessment extends Assessment {
 	/**
 	 * Constructs a product identifier assessment.
 	 *
@@ -22,10 +23,15 @@ export default class ProductIdentifierAssessment extends Assessment {
 			},
 			urlTitle: createAnchorOpeningTag( "https://yoast.com"),
 			urlCallToAction: createAnchorOpeningTag( "https://yoast.com" ),
+			isWoo: false,
 		};
 
 		this.identifier = "productIdentifier";
 		this._config = merge( defaultConfig, config );
+	}
+
+	isApplicable() {
+		return true;
 	}
 
 	/**
@@ -37,7 +43,12 @@ export default class ProductIdentifierAssessment extends Assessment {
 	 * @returns {AssessmentResult} An assessment result with the score and formatted text.
 	 */
 	getResult( paper, researcher ) {
-		const productIdentifierData = researcher.getResearch( "productIdentifierData" );
+		let productIdentifierData = researcher.getResearch( "getProductIdentifierDataShopify" );
+		console.log( this._config.isWoo, "is woo before if statement" );
+		if ( this._config.isWoo ) {
+			console.log( "is woo" );
+			productIdentifierData = researcher.getResearch( "getProductIdentifierDataWooCommerce" );
+		}
 
 		const result = this.scoreProductIdentifier( productIdentifierData, this._config );
 
@@ -51,7 +62,7 @@ export default class ProductIdentifierAssessment extends Assessment {
 	/**
 	 * Returns the score based on the length of the product description.
 	 *
-	 * @param {number} hasProductIdentifier   Whether the product has at least one product identifier filled in.
+	 * @param {Object} productIdentifierData   Whether the product has at least one product identifier filled in.
 	 * @param {Object} config                 The configuration to use.
 	 *
 	 * @returns {{score: number, text: *}} The result object with score and text.
