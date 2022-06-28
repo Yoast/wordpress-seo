@@ -1,4 +1,3 @@
-/* global wpseoScriptData */
 import { Component, Fragment } from "@wordpress/element";
 import { __, _n, sprintf } from "@wordpress/i18n";
 import { makeOutboundLink } from "@yoast/helpers";
@@ -7,11 +6,6 @@ import PropTypes from "prop-types";
 import linkHiddenFields, { linkFieldsShape } from "./higherorder/linkHiddenField";
 
 const NewsLandingPageLink = makeOutboundLink();
-
-const {
-	showNewsSEOUpsell,
-	newsSEOUpsellURL,
-} = wpseoScriptData.searchAppearance;
 
 /**
  * Returns the content of the schema settings.
@@ -43,6 +37,15 @@ class SchemaSettings extends Component {
 		/* eslint-enable camelcase */
 
 		this.handleOptionFocus = this.handleOptionFocus.bind( this );
+
+		this.showNewsSEOUpsell = window.wpseoScriptData?.searchAppearance?.showNewsSEOUpsell;
+		this.newsSEOUpsellURL = window.wpseoScriptData?.searchAppearance?.newsSEOUpsellURL;
+		if ( typeof this.showNewsSEOUpsell === "undefined" ) {
+			this.showNewsSEOUpsell = false;
+		}
+		if ( typeof this.newsSEOUpsellURL === "undefined" ) {
+			this.newsSEOUpsellURL = "";
+		}
 	}
 
 	/**
@@ -138,7 +141,7 @@ class SchemaSettings extends Component {
 					onOptionFocus={ this.handleOptionFocus }
 					selected={ this.props.articleType.value }
 				/> }
-				{ showNewsSEOUpsell && this.isNewsArticleSelected() && <Alert type="info">
+				{ this.showNewsSEOUpsell && this.isNewsArticleSelected() && <Alert type="info">
 					{
 						sprintf(
 							/* translators: %s Expands to "Yoast SEO News" */
@@ -150,7 +153,7 @@ class SchemaSettings extends Component {
 						) + " "
 					}
 					<NewsLandingPageLink
-						href={ newsSEOUpsellURL }
+						href={ this.newsSEOUpsellURL }
 					>
 						{
 							sprintf(
