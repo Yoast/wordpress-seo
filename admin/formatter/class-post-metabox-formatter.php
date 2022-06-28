@@ -84,6 +84,13 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 				'isInsightsEnabled'           => $this->is_insights_enabled(),
 			];
 
+			/*
+			 * We don't show the date in the Google preview for WooCommerce products.
+			 */
+			if ( $this->post->post_type === 'product' ) {
+				$values_to_set['metaDescriptionDate'] = '';
+			}
+
 			$values = ( $values_to_set + $values );
 		}
 
