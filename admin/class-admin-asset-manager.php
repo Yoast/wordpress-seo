@@ -251,6 +251,12 @@ class WPSEO_Admin_Asset_Manager {
 				'jquery-ui-core',
 				'jquery-ui-progressbar',
 			],
+			'first-time-configuration' => [
+				self::PREFIX . 'api-client',
+				self::PREFIX . 'externals-components',
+				self::PREFIX . 'externals-contexts',
+				self::PREFIX . 'externals-redux',
+			],
 			'post-edit'          => [
 				self::PREFIX . 'api-client',
 				self::PREFIX . 'block-editor',
