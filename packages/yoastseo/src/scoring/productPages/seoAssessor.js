@@ -18,6 +18,7 @@ import TitleWidth from "../assessments/seo/PageTitleWidthAssessment";
 import SingleH1Assessment from "../assessments/seo/SingleH1Assessment";
 import KeyphraseDistribution from "../assessments/seo/KeyphraseDistributionAssessment";
 import FunctionWordsInKeyphrase from "../assessments/seo/FunctionWordsInKeyphraseAssessment";
+import ProductIdentifiersAssessment from "../assessments/seo/ProductIdentifiersAssessment";
 
 /**
  * Creates the Assessor
@@ -118,6 +119,11 @@ const ProductSEOAssessor = function( researcher, options ) {
 		new KeyphraseDistribution( {
 			urlTitle: createAnchorOpeningTag( options.keyphraseDistributionUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.keyphraseDistributionCTAUrl ),
+		} ),
+		new ProductIdentifiersAssessment( {
+			urlTitle: createAnchorOpeningTag( options.productIdentifierUrlTitle ),
+			urlCallToAction: createAnchorOpeningTag( options.productIdentifierCTAUrl ),
+			isWoo: options.isWoo,
 		} ),
 	];
 };

@@ -28,6 +28,8 @@ import { SlugKeywordAssessment, UrlKeywordAssessment } from "./seo/UrlKeywordAss
 import ImageKeyphraseAssessment from "./seo/KeyphraseInImageTextAssessment";
 import ImageCountAssessment from "./seo/ImageCountAssessment";
 import ImageAltTagsAssessment from "./seo/ImageAltTagsAssessment";
+import ProductIdentifiersAssessment from "./seo/ProductIdentifiersAssessment";
+
 
 const readability = {
 	FleschReadingEaseAssessment,
@@ -64,6 +66,7 @@ const seo = {
 	ImageKeyphraseAssessment,
 	ImageCountAssessment,
 	ImageAltTagsAssessment,
+	ProductIdentifiersAssessment,
 };
 
 export {

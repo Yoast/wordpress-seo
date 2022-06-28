@@ -7,8 +7,8 @@
  */
 const hasAtLeastOneIdentifier = function( identifierIDs ) {
 	for (let i = 0; i < identifierIDs.length; i++) {
-		let identifierID = identifierIDs[i];
-		let identifierValue = document.querySelector('#' + identifierID).value;
+		const identifierID = identifierIDs[ i ];
+		const identifierValue = document.querySelector('#' + identifierID).value;
 		if ( identifierValue !== undefined && identifierValue !== "" ) {
 			return true;
 		}
@@ -21,7 +21,7 @@ const hasAtLeastOneIdentifier = function( identifierIDs ) {
  *
  * @returns {boolean} Whether the product has a global identifier.
  */
-export function hasGlobalIdentifier() {
+function hasGlobalIdentifier( ) {
 	const identifierNames = [ "yoast_identifier_gtin8", "yoast_identifier_gtin12", "yoast_identifier_gtin13",
 		"yoast_identifier_gtin14", "yoast_identifier_isbn", "yoast_identifier_mpn" ];
 
@@ -33,7 +33,7 @@ export function hasGlobalIdentifier() {
  *
  * @returns {boolean} Whether the product has variants.
  */
-export function hasVariants() {
+function hasVariants() {
 	const variantsMetabox = document.querySelector( "#variable_product_options_inner" );
 	const variants = variantsMetabox.querySelector(".woocommerce_variations" );
 	const numberOfVariants = variants.getAttribute("data-total");
@@ -46,7 +46,7 @@ export function hasVariants() {
  *
  * @returns {boolean} Whether all variants of a product have an identifier.
  */
-export function allVariantsHaveIdentifier() {
+function doAllVariantsHaveIdentifier() {
 	const allVariants = document.querySelectorAll( ".woocommerce_variation" );
 
 	for ( let i = 0; i < allVariants.length; i++ ) {
@@ -62,4 +62,12 @@ export function allVariantsHaveIdentifier() {
 		}
 	}
 	return true;
+}
+
+export default function( ) {
+	return {
+		hasGlobalIdentifier: hasGlobalIdentifier( ),
+		hasVariants: hasVariants(),
+		doAllVariantsHaveIdentifier: doAllVariantsHaveIdentifier(),
+	}
 }
