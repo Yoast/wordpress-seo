@@ -18,6 +18,8 @@ const OutboundLink = makeOutboundLink();
  */
 function getDifficultyFeedback( difficulty ) {
 	switch ( difficulty ) {
+		case DIFFICULTY.NO_DATA:
+			return __( "no data", "wordpress-seo" );
 		case DIFFICULTY.VERY_EASY:
 			return __( "very easy", "wordpress-seo" );
 		case DIFFICULTY.EASY:
@@ -50,6 +52,8 @@ function getCallToAction( difficulty ) {
 		case DIFFICULTY.DIFFICULT:
 		case DIFFICULTY.VERY_DIFFICULT:
 			return __( "Try to make shorter sentences, using less difficult words to improve readability", "wordpress-seo" );
+		case DIFFICULTY.NO_DATA:
+			return __( "Continue writing to get insight into the readability of your text!", "wordpress-seo" ); // TODO: suitable text
 		default:
 			return __( "Good job!", "wordpress-seo" );
 	}
@@ -64,10 +68,21 @@ function getCallToAction( difficulty ) {
  * @returns {string} The description.
  */
 function getDescription( score, difficulty ) {
+	if ( score === "?" ) {
+		return sprintf(
+			/* Translators: %1$s expands to the numeric Flesch reading ease score,
+				%2$s expands to the easiness of reading (e.g. 'easy' or 'very difficult').
+			 */
+			__(
+				"Your text should be slightly longer to calculate your Flesch reading ease score.", // TODO: good text in here
+				"wordpress-seo"
+			)
+		);
+	}
 	return sprintf(
 		/* Translators: %1$s expands to the numeric Flesch reading ease score,
-			%2$s expands to the easiness of reading (e.g. 'easy' or 'very difficult').
-		 */
+				%2$s expands to the easiness of reading (e.g. 'easy' or 'very difficult').
+			 */
 		__(
 			"The copy scores %1$s in the test, which is considered %2$s to read.",
 			"wordpress-seo"

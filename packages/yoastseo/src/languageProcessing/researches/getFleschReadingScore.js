@@ -23,6 +23,7 @@ const getAverage = function( total, amount ) {
  * @enum {number}
  */
 export const DIFFICULTY = {
+	NO_DATA: -1,
 	VERY_EASY: 0,
 	EASY: 1,
 	FAIRLY_EASY: 2,
@@ -108,8 +109,8 @@ export default function( paper, researcher ) {
 	let text = paper.getText();
 	if ( text === "" ) {
 		return {
-			score: 100,
-			difficulty: DIFFICULTY.VERY_EASY,
+			score: "?", // TODO: sensible score value. hugo: I propose X.X or sth
+			difficulty: DIFFICULTY.NO_DATA,
 		};
 	}
 
