@@ -3,8 +3,8 @@
  *
  * @returns {boolean} Whether the product has a global identifier.
  */
-export function hasGlobalIdentifier( paper ) {
-	const customData = paper.getCustomData;
+function hasGlobalIdentifier( paper ) {
+	const customData = paper.getCustomData();
 	return customData.barcode !== "";
 }
 
@@ -13,7 +13,7 @@ export function hasGlobalIdentifier( paper ) {
  *
  * @returns {boolean} Whether the product has a global identifier.
  */
-export function hasVariants( paper ) {
+function hasVariants( paper ) {
 	//const customData = paper.getCustomData;
 	return false;
 }
@@ -23,15 +23,15 @@ export function hasVariants( paper ) {
  *
  * @returns {boolean} Whether the product has a global identifier.
  */
-export function doAllVariantsHaveIdentifier( paper ) {
+function doAllVariantsHaveIdentifier( paper ) {
 	//const customData = paper.getCustomData;
 	return false;
 }
 
-export default function( ) {
+export default function( paper ) {
 	return {
 		hasGlobalIdentifier: hasGlobalIdentifier( paper ),
-		hasVariants: hasVariants(),
-		doAllVariantsHaveIdentifier: doAllVariantsHaveIdentifier(),
+		hasVariants: hasVariants( paper ),
+		doAllVariantsHaveIdentifier: doAllVariantsHaveIdentifier( paper ),
 	}
 }
