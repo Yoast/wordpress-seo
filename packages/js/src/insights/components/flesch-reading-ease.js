@@ -4,7 +4,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { InsightsCard } from "@yoast/components";
 import { makeOutboundLink } from "@yoast/helpers";
 import { DIFFICULTY } from "yoastseo";
-import { get } from "lodash";
+import { get, isNil } from "lodash";
 
 const OutboundLink = makeOutboundLink();
 
@@ -68,11 +68,8 @@ function getCallToAction( difficulty ) {
  * @returns {string} The description.
  */
 function getDescription( score, difficulty ) {
-	if ( score === "?" ) {
+	if ( score === -1 ) {
 		return sprintf(
-			/* Translators: %1$s expands to the numeric Flesch reading ease score,
-				%2$s expands to the easiness of reading (e.g. 'easy' or 'very difficult').
-			 */
 			__(
 				"Your text should be slightly longer to calculate your Flesch reading ease score.",
 				"wordpress-seo"
@@ -118,13 +115,17 @@ function getDescriptionElement( score, difficulty, link ) {
  * @returns {JSX.Element} The element.
  */
 const FleschReadingEase = () => {
-	const score = useSelect( select => select( "yoast-seo/editor" ).getFleschReadingEaseScore(), [] );
+	let score = useSelect( select => select( "yoast-seo/editor" ).getFleschReadingEaseScore(), [] );
 	const link = useMemo( () => get( window, "wpseoAdminL10n.shortlinks-insights-flesch_reading_ease", "" ), [] );
 	const difficulty = useSelect( select => select( "yoast-seo/editor" ).getFleschReadingEaseDifficulty(), [ score ] );
 	const description = useMemo( () => {
 		const articleLink = get( window, "wpseoAdminL10n.shortlinks-insights-flesch_reading_ease_article", "" );
 		return getDescriptionElement( score, difficulty, articleLink );
 	}, [ score, difficulty ] );
+
+	if ( score === -1 ) {
+		score = "?";
+	}
 
 	return (
 		<InsightsCard
