@@ -21,7 +21,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 				good: 9,
 				ok: 6,
 			},
-			urlTitle: createAnchorOpeningTag( "https://yoast.com"),
+			urlTitle: createAnchorOpeningTag( "https://yoast.com" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoast.com" ),
 			isWoo: false,
 		};
@@ -43,11 +43,13 @@ export default class ProductIdentifiersAssessment extends Assessment {
 	 * @returns {AssessmentResult} An assessment result with the score and formatted text.
 	 */
 	getResult( paper, researcher ) {
-		let productIdentifierData = researcher.getResearch( "getProductIdentifierDataShopify" );
+		let productIdentifierData;
 		console.log( this._config.isWoo, "is woo before if statement" );
 		if ( this._config.isWoo ) {
 			console.log( "is woo" );
 			productIdentifierData = researcher.getResearch( "getProductIdentifierDataWooCommerce" );
+		} else {
+			productIdentifierData = researcher.getResearch( "getProductIdentifierDataShopify" );
 		}
 
 		const result = this.scoreProductIdentifier( productIdentifierData, this._config );
@@ -69,7 +71,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 	 */
 	scoreProductIdentifier( productIdentifierData, config ) {
 		if ( productIdentifierData.hasVariants ) {
-			if ( ! productIdentifierData.allVariantsHaveIdentifier ) {
+			if ( ! productIdentifierData.doAllVariantsHaveIdentifier ) {
 				return {
 					score: config.scores.ok,
 					text: "Feedback for orange",

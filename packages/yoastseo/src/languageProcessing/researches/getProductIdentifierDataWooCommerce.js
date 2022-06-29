@@ -22,7 +22,7 @@ const hasAtLeastOneIdentifier = function( identifierIDs ) {
  *
  * @returns {boolean} Whether the product has a global identifier.
  */
-function hasGlobalIdentifier( ) {
+function hasGlobalIdentifier() {
 	const identifierNames = [ "yoast_identifier_gtin8", "yoast_identifier_gtin12", "yoast_identifier_gtin13",
 		"yoast_identifier_gtin14", "yoast_identifier_isbn", "yoast_identifier_mpn" ];
 
@@ -66,10 +66,11 @@ function doAllVariantsHaveIdentifier() {
 	return true;
 }
 
-export default function( ) {
+export default function( paper ) {
+	const productIdentifierData = paper.getCustomData();
 	return {
-		hasGlobalIdentifier: hasGlobalIdentifier( ),
-		hasVariants: hasVariants(),
-		doAllVariantsHaveIdentifier: doAllVariantsHaveIdentifier(),
-	}
+		hasGlobalIdentifier: productIdentifierData.hasGlobalIdentifier,
+		hasVariants: productIdentifierData.hasVariants,
+		doAllVariantsHaveIdentifier: productIdentifierData.doAllVariantsHaveIdentifier,
+	};
 }
