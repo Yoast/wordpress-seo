@@ -588,6 +588,10 @@ class Meta_Tags_Context extends Abstract_Presentation {
 			return $this->image->get_attachment_image_url( $this->main_image_id, 'full' );
 		}
 
+		if ( ! \is_singular() ) {
+			return null;
+		}
+
 		$url = $this->image->get_post_content_image( $this->id );
 		if ( $url === '' ) {
 			return null;
