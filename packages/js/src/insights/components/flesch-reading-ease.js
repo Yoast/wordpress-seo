@@ -4,7 +4,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { InsightsCard } from "@yoast/components";
 import { makeOutboundLink } from "@yoast/helpers";
 import { DIFFICULTY } from "yoastseo";
-import { get, isNil } from "lodash";
+import { get } from "lodash";
 
 const OutboundLink = makeOutboundLink();
 
