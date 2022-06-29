@@ -615,6 +615,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 			case is_category():
 			case is_search():
 			case is_date():
+			case is_post_type_archive():
 				return $this->get_singular_post_image( $GLOBALS['wp_query']->posts[0]->ID );
 			default:
 				return null;
