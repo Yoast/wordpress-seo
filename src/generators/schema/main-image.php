@@ -15,7 +15,7 @@ class Main_Image extends Abstract_Schema_Piece {
 	 * @return bool
 	 */
 	public function is_needed() {
-		return $this->context->indexable->object_type !== 'user';
+		return true;
 	}
 
 	/**
