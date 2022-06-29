@@ -22,8 +22,15 @@ export default function( text ) {
 		"\uff5d\uff5c\uff5e\uff5f\uff60\uff62\uff63\uff64\uff3b\uff3d\uff65\uffe5\uff04\uff05\uff20\uff06\uff07\uff08\uff09\uff0a\uff0f\uff1a" +
 		"\uff1b\uff1c\uff1e\uff3c\\<>";
 
+
 	const punctuationRegexStart = new RegExp( "^[" + punctuationRegexString + "]+" );
 	const punctuationRegexEnd = new RegExp( "[" + punctuationRegexString +  "]+$" );
+	// Remove backslash from the beginning of a word/text.
+	const backslashRegexStart = new RegExp( "^(\\\\{1,3})" );
+	const backslashRegexEnd = new RegExp( "(\\\\){1,3}$" );
+
+	text = text.replace( backslashRegexStart, "" );
+	text = text.replace( backslashRegexEnd, "" );
 
 	text = text.replace( punctuationRegexStart, "" );
 	text = text.replace( punctuationRegexEnd, "" );
