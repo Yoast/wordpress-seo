@@ -104,7 +104,7 @@ export default function WorkoutsPage( props ) {
 	}, [ workouts ] );
 
 	return (
-		<div>
+		<div className={"wrap"}>
 			<h1 id="workouts-page-title">
 				{ __( "SEO workouts", "wordpress-seo" ) }
 			</h1>
