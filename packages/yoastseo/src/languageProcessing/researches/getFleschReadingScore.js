@@ -109,7 +109,7 @@ export default function( paper, researcher ) {
 	let text = paper.getText();
 	if ( text === "" ) {
 		return {
-			score: "?", // TODO: sensible score value. hugo: I propose X.X or sth
+			score: "?",
 			difficulty: DIFFICULTY.NO_DATA,
 		};
 	}
@@ -117,14 +117,13 @@ export default function( paper, researcher ) {
 	text = stripNumbers( text );
 
 	const numberOfSentences = countSentences( text, memoizedTokenizer );
-
 	const numberOfWords = countWords( text );
 
-	// Prevent division by zero errors.
-	if ( numberOfSentences === 0 || numberOfWords === 0 ) {
+	// Do not show the Flesch reading ease when it does not make sense. Also used to prevent division by zero errors.
+	if ( numberOfSentences < 1 || numberOfWords <= 10 ) {
 		return {
-			score: 100,
-			difficulty: DIFFICULTY.VERY_EASY,
+			score: "?",
+			difficulty: DIFFICULTY.NO_DATA,
 		};
 	}
 
