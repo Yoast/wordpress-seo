@@ -119,7 +119,7 @@ export default function( paper, researcher ) {
 	const numberOfSentences = countSentences( text, memoizedTokenizer );
 	const numberOfWords = countWords( text );
 
-	// Do not show the Flesch reading ease when it does not make sense. Also used to prevent division by zero errors.
+	// Do not show the Flesch reading ease when there is not enough data for the FRE to make sense. Also used to prevent division by zero errors.
 	if ( numberOfSentences < 1 || numberOfWords <= 10 ) {
 		return {
 			score: "?",
