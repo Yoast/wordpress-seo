@@ -168,7 +168,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 
 | Bullet   	      | Score	     | Criterion | Feedback |
 |------------	|------------------	|---------------------	|---------------	|
-| Red	| 2	| You haven’t used your exact keyphrase, and, your keyphrase isn’t at the beginning		| **Keyphrase in SEO title**: Not all the words from your keyphrase 'your_keyphrase_here' appear in the SEO title. **For the best SEO results write the exact match of your keyphrase in the SEO title, and put the keyphrase at the beginning of the title.** |
+| Red	| 2	| You haven't used all the content words from your keyphrase and your keyphrase isn’t at the beginning		| **Keyphrase in SEO title**: Not all the words from your keyphrase 'your_keyphrase_here' appear in the SEO title. **For the best SEO results write the exact match of your keyphrase in the SEO title, and put the keyphrase at the beginning of the title.** |
 | Red	| 2	| You haven’t used your exact keyphrase, when the keyphrase is enclosed in quotation marks		| **Keyphrase in SEO title**: Does not contain the exact match. **Try to write the exact match of your keyphrase in the SEO title and put it at the beginning of the title.** |
 | Orange	| 6	| The exact match of the keyphrase doesn’t appear at the beginning of the SEO title		| **Keyphrase in SEO title**: The exact match of the focus keyphrase appears in the SEO title, but not at the beginning. **Move it to the beginning for the best results.** |
 | Orange	| 6	| SEO title does not contain an exact match of your keyphrase		| **Keyphrase in SEO title**: Does not contain the exact match. **Try to write the exact match of your keyphrase in the SEO title and put it at the beginning of the title.** |
