@@ -53,7 +53,7 @@ function getCallToAction( difficulty ) {
 		case DIFFICULTY.VERY_DIFFICULT:
 			return __( "Try to make shorter sentences, using less difficult words to improve readability", "wordpress-seo" );
 		case DIFFICULTY.NO_DATA:
-			return __( "Continue writing to get insight into the readability of your text!", "wordpress-seo" ); // TODO: suitable text
+			return __( "Continue writing to get insight into the readability of your text!", "wordpress-seo" );
 		default:
 			return __( "Good job!", "wordpress-seo" );
 	}
@@ -74,7 +74,7 @@ function getDescription( score, difficulty ) {
 				%2$s expands to the easiness of reading (e.g. 'easy' or 'very difficult').
 			 */
 			__(
-				"Your text should be slightly longer to calculate your Flesch reading ease score.", // TODO: good text in here
+				"Your text should be slightly longer to calculate your Flesch reading ease score.",
 				"wordpress-seo"
 			)
 		);
