@@ -244,6 +244,7 @@ Release Date: July 12th, 2022
 
 
 
+
 Enhancements:
 
 * Adds an Insights tab to the editors which contains Flesch reading ease score and feedback, (estimated) reading time, and word count.
