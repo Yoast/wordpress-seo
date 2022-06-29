@@ -146,6 +146,11 @@
 		height: 100%;
 	}
 
+	.switch-toggle .yoast-button-upsell {
+		position: relative;
+		left: 20px;
+	}
+
 	.switch-toggle label:nth-child(2):nth-last-child(4),
 	.switch-toggle label:nth-child(2):nth-last-child(4) ~ label,
 	.switch-toggle label:nth-child(2):nth-last-child(4) ~ a {
@@ -266,6 +271,13 @@
  */
 .fieldset-switch-toggle label {
 	float: none;
+}
+
+.fieldset-switch-toggle .yoast-button-upsell {
+	height: 16px;
+	background-color: green;
+	width: 20px;
+	overflow: hidden;
 }
 
 @media only screen {
