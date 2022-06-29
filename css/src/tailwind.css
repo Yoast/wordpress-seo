@@ -1,3 +1,6 @@
+/* Import main CSS including all components. */
+@import "@yoast/ui-library";
+
 @tailwind base;
 
 /* the base layer, with html and body assigned to  "* {}" */
@@ -33,7 +36,7 @@
 		-moz-tab-size: 4; /* 3 */
 		tab-size: 4; /* 3 */
 		font-family: theme('fontFamily.sans', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"); /* 4 */
-			
+
 		/*
 		1. Remove the margin in all browsers.
 		2. Inherit line-height from `html` so users can set them as a class directly on the `html` element.
@@ -374,7 +377,7 @@
 			text-decoration: underline;
 			color: #1D4ED8;
 		}
-			
+
 		a:visited {
 			color: #a4286a;
 		}
@@ -392,27 +395,27 @@
 			@apply
 				yst-inline-flex yst-justify-center yst-py-2 yst-px-3 yst-border yst-shadow-sm yst-rounded-md yst-text-sm yst-font-medium yst-leading-4 yst-no-underline focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-primary-500;
 		}
-		
+
 		.yst-button--primary {
 			@apply yst-text-white yst-bg-primary-500 yst-border-transparent hover:yst-bg-primary-700 disabled:yst-bg-primary-700
 		}
-		
+
 		.yst-button--secondary {
 			@apply yst-text-gray-700 yst-bg-white yst-border-gray-300 hover:yst-bg-gray-50;
 		}
-		
+
 		.yst-button--danger {
 			@apply yst-text-white yst-bg-red-600 yst-border-transparent hover:yst-bg-red-700;
 		}
-		
+
 		.yst-button--remove {
 			@apply yst-text-red-600 yst-underline yst-rounded-md yst-px-1.5 yst-py-1 focus:yst-outline-none;
 		}
-		
+
 		.yst-button--small {
 			@apply yst-text-[12px] yst-px-2.5 yst-py-1.5;
 		}
-		
+
 		.yst-button--disabled {
 			@apply
 				yst-opacity-50 yst-cursor-not-allowed yst-pointer-events-none focus:yst-ring-0;
@@ -422,7 +425,7 @@
 		.yst-input {
 			@apply yst-py-2 yst-px-3 yst-border yst-bg-white yst-rounded-md yst-shadow-sm yst-text-sm yst-placeholder-gray-400 !important;
 		}
-	
+
 		.yst-card {
 			@apply
 				yst-max-w-[715px]
@@ -432,14 +435,14 @@
 				yst-bg-white
 				yst-shadow;
 		}
-		
+
 		.yst-radio {
 			@apply
 				yst-flex
 				yst-items-center
 				!important;
 		}
-		
+
 		.yst-radio__input {
 			@apply
 				yst-w-4
@@ -452,7 +455,7 @@
 				yst-shadow-none
 				yst-text-primary-500
 				yst-border-gray-300
-		
+
 				focus:yst-outline-none
 				focus:yst-ring-2
 				focus:yst-ring-offset-2
@@ -463,15 +466,15 @@
 				before:yst-hidden
 				!important;
 		}
-		
+
 		.yst-radio__label {
 			@apply yst-ml-3 yst-font-medium yst-text-gray-700 !important;
 		}
-		
+
 		.yst-radio-group__label {
 			@apply yst-mb-1 !important;
 		}
-		
+
 		.yst-radio-group__options {
 			@apply
 				yst-flex
@@ -479,7 +482,7 @@
 				yst-gap-2
 				!important;
 		}
-		
+
 		.yst-radio-group__description {
 			@apply yst-mb-4 !important;
 		}
