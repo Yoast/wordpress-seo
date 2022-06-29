@@ -848,7 +848,7 @@ class Yoast_Form {
 		];
 		$attr     = wp_parse_args( $attr, $defaults );
 
-		if ( isset( $attr['disabled'] ) && $attr['disabled'] ) {
+		if ( isset( $attr['preserve_disabled_value'] ) && $attr['preserve_disabled_value'] ) {
 			$this->hidden( $variable );
 			$variable .= '_disabled';
 		}

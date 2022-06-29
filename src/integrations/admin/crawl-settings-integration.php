@@ -281,7 +281,8 @@ class Crawl_Settings_Integration implements Integration_Interface {
 				$label,
 				'',
 				[
-					'disabled' => true,
+					'disabled'                => true,
+					'preserve_disabled_value' => true,
 				]
 			);
 			if ( $setting === 'remove_feed_global_comments' && ! $is_network ) {
