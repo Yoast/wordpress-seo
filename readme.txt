@@ -243,10 +243,11 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 Release Date: July 12th, 2022
 
 
+
 Enhancements:
 
-* Adds canonical HTTP headers from RSS feeds to their parent URLs (for instance your homepage, or specific categories or tags), so the feeds themselves don't show up in search results.
 * Adds an Insights tab to the editors which contains Flesch reading ease score and feedback, (estimated) reading time, and word count.
+* Adds canonical HTTP headers from RSS feeds to their parent URLs (for instance your homepage, or specific categories or tags), so the feeds themselves don't show up in search results.
 * Changes the `@id` of the main schema `WebPage` node to be just the permalink for the current page, for interoperability with other plugins.
 * Improves sentence recognition for German by disregarding ordinal numbers as potential sentence boundaries.
 * Makes sure the `link` tag in the RSS feeds' `channel` section links to the most specific URL possible (for instance the category or tag the RSS feed is for) instead of the homepage.
