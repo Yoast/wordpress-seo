@@ -848,6 +848,11 @@ class Yoast_Form {
 		];
 		$attr     = wp_parse_args( $attr, $defaults );
 
+		if ( isset( $attr['disabled'] ) && $attr['disabled'] ) {
+			// $this->handle_disabled_settings( $variable ); This is what we probably have to do, to create a hidden field.
+			// And also edit the variable name (maybe appending a _disabled suffix in its name, so that its value doesnt become false in the db after saving)
+		}
+
 		$val = $this->get_field_value( $variable, false );
 		if ( $val === true ) {
 			$val = 'on';
