@@ -15,7 +15,7 @@ describe( "a test to calculate the fleschReading score", function() {
 		expect( fleschFunction( mockPaper, researcher ) ).toEqual( { score: 63.9, difficulty: DIFFICULTY.OKAY } );
 
 		mockPaper = new Paper( "" );
-		expect( fleschFunction( mockPaper, researcher ) ).toEqual( { score: "?", difficulty: DIFFICULTY.NO_DATA } );
+		expect( fleschFunction( mockPaper, researcher ) ).toEqual( { score: -1, difficulty: DIFFICULTY.NO_DATA } );
 	} );
 	it( "Clamps the score between 0 and 100.", () => {
 		let mockPaper = new Paper( "You can go auditorily impaired by heedfully aurally perceiving extravagantly loud music. " +
@@ -41,11 +41,11 @@ describe( "A test to check the filter of digits", function() {
 describe( "A test that returns a question mark if there is not enough textual data.", function() {
 	it( "returns a question mark when there is no textual data", function() {
 		const mockPaper = new Paper( "()" );
-		expect( fleschFunction( mockPaper, new EnglishResearcher( mockPaper ) ) ).toEqual( { score: "?", difficulty: DIFFICULTY.NO_DATA } );
+		expect( fleschFunction( mockPaper, new EnglishResearcher( mockPaper ) ) ).toEqual( { score: -1, difficulty: DIFFICULTY.NO_DATA } );
 	} );
 	it( "returns a question mark when there is less than 11 words.", function() {
 		const mockPaper = new Paper( "There are not enough words in this sentence now." );
-		expect( fleschFunction( mockPaper, new EnglishResearcher( mockPaper ) ) ).toEqual( { score: "?", difficulty: DIFFICULTY.NO_DATA } );
+		expect( fleschFunction( mockPaper, new EnglishResearcher( mockPaper ) ) ).toEqual( { score: -1, difficulty: DIFFICULTY.NO_DATA } );
 	} );
 } );
 
