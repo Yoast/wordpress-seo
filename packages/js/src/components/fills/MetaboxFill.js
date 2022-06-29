@@ -77,17 +77,15 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 						shouldUpsell={ settings.shouldUpsell }
 					/>
 				</SidebarItem> }
-				{ settings.isKeywordAnalysisActive && <Fragment>
-					<SidebarItem key="seo-analysis" renderPriority={ 20 }>
+				{ settings.isKeywordAnalysisActive && <SidebarItem key="seo-analysis" renderPriority={ 20 }>
+					<Fragment>
 						<SeoAnalysis
 							shouldUpsell={ settings.shouldUpsell }
 							shouldUpsellWordFormRecognition={ settings.isWordFormRecognitionActive }
 						/>
-					</SidebarItem>
-					{ settings.shouldUpsell && <SidebarItem key="premium-seo-analysis-upsell" renderPriority={ 20 }>
-						<PremiumSEOAnalysisModal location="metabox" />
-					</SidebarItem> }
-				</Fragment> }
+						{ settings.shouldUpsell && <PremiumSEOAnalysisModal location="metabox" /> }
+					</Fragment>
+				</SidebarItem> }
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="additional-keywords-upsell" renderPriority={ 22 }>
 					{ settings.shouldUpsell && <KeywordUpsell /> }
 				</SidebarItem> }
