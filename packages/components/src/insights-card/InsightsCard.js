@@ -47,7 +47,7 @@ export default InsightsCard;
 
 InsightsCard.propTypes = {
 	title: PropTypes.string,
-	amount: PropTypes.number.isRequired,
+	amount: PropTypes.oneOfType( [ PropTypes.number, PropTypes.oneOf( [ "?" ] ) ] ).isRequired,
 	description: PropTypes.element,
 	unit: PropTypes.string,
 	linkTo: PropTypes.string,
