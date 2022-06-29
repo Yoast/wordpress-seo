@@ -68,6 +68,8 @@ function getCallToAction( difficulty ) {
  * @returns {string} The description.
  */
 function getDescription( score, difficulty ) {
+	// A score of -1 signals that no valid FRE was calculated.
+
 	if ( score === -1 ) {
 		return sprintf(
 			__(
@@ -123,6 +125,7 @@ const FleschReadingEase = () => {
 		return getDescriptionElement( score, difficulty, articleLink );
 	}, [ score, difficulty ] );
 
+	// A score of -1 signals that no valid FRE was calculated.
 	if ( score === -1 ) {
 		score = "?";
 	}

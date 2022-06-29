@@ -108,7 +108,7 @@ export default function( paper, researcher ) {
 
 	let text = paper.getText();
 	if ( text === "" ) {
-		// A score of -1 signals to the code down the line that no valid FRE was caculated.
+		// A score of -1 signals to the code down the line that no valid FRE was calculated.
 		return {
 			score: -1,
 			difficulty: DIFFICULTY.NO_DATA,
@@ -121,7 +121,7 @@ export default function( paper, researcher ) {
 	const numberOfWords = countWords( text );
 
 	// Do not show the Flesch reading ease when there is not enough data for the FRE to make sense. Also used to prevent division by zero errors.
-	// A score of -1 signals to the code down the line that no valid FRE was caculated.
+	// A score of -1 signals to the code down the line that no valid FRE was calculated.
 	if ( numberOfSentences < 1 || numberOfWords <= 10 ) {
 		return {
 			score: -1,
