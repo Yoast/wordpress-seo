@@ -333,6 +333,11 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	public function generate_person_logo_meta() {
 		$person_logo_meta = $this->image->get_attachment_meta_from_settings( 'person_logo' );
 
+		if ( empty( $person_logo_meta ) ) {
+			$person_logo_id   = $this->fallback_to_site_logo();
+			$person_logo_meta = $this->image->get_best_attachment_variation( $person_logo_id );
+		}
+
 		/**
 		 * Filter: 'wpseo_schema_person_logo_meta' - Allows filtering person logo meta.
 		 *
