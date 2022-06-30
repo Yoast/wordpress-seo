@@ -31,7 +31,7 @@ describe( "a test for an assessment that checks complex words in a text", functi
 		);
 	} );
 
-	const runningPaper = new Paper( "Also called torties for short, tortoiseshell cats combine two colors other than white, " +
+	let runningPaper = new Paper( "Also called torties for short, tortoiseshell cats combine two colors other than white, " +
 		"either closely mixed or in larger patches." +
 		" The colors are often described as red and black, but the \"red\" patches can instead be orange, yellow, or cream," +
 		" and the \"black\" can instead be chocolate, gray, tabby, or blue. Tortoiseshell cats with the tabby pattern as one of their colors " +
@@ -67,6 +67,24 @@ describe( "a test for an assessment that checks complex words in a text", functi
 
 		expect( result.getScore() ).toBe( 3 );
 		expect( result.getText() ).toBe( "<a href='https://yoa.st/4ls' target='_blank'>Word complexity</a>: 9.64% of the words in " +
+			"your text is considered complex. <a href='https://yoa.st/4lt' target='_blank'>Try to use shorter and more familiar words " +
+			"to improve readability</a>." );
+		expect( result.hasMarks() ).toBe( true );
+	} );
+
+	it( "should not break the assessment when the text contains backslashes ", function() {
+		runningPaper = new Paper( "It is a \\\"tortoiseshell\\\" cat. It is lovely and lovable." );
+		const researcher = new EnglishResearcher( runningPaper );
+
+		assessment = new WordComplexityAssessment( {
+			scores: {
+				acceptableAmount: 3,
+			},
+		} );
+		const result = assessment.getResult( runningPaper, researcher );
+
+		expect( result.getScore() ).toBe( 3 );
+		expect( result.getText() ).toBe( "<a href='https://yoa.st/4ls' target='_blank'>Word complexity</a>: 10% of the words in " +
 			"your text is considered complex. <a href='https://yoa.st/4lt' target='_blank'>Try to use shorter and more familiar words " +
 			"to improve readability</a>." );
 		expect( result.hasMarks() ).toBe( true );
