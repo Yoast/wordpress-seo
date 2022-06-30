@@ -454,8 +454,20 @@
 	}
 
 	.switch-container {
+		display: flex;
 		clear: both;
 		margin: 0 0 0.8em 0;
+		justify-content: space-between;
+		align-items: flex-end;
+		flex-wrap: wrap;
+		gap: 8px;
+	}
+
+	.switch-container .yoast-button-upsell {
+		clear: both;
+		margin-top: 8px;
+		min-height: 26px;
+		height: 26px;
 	}
 
 	.switch-container + .switch-container {
