@@ -25,7 +25,13 @@ export default function( text ) {
 
 	const punctuationRegexStart = new RegExp( "^[" + punctuationRegexString + "]+" );
 	const punctuationRegexEnd = new RegExp( "[" + punctuationRegexString +  "]+$" );
-	// Remove backslash from the beginning of a word/text.
+	/*
+	 * Remove backslash from the beginning and end of a word/text.
+	 * When a string such as `This is a \"calico\" cat` enters the Paper,
+	 * the Paper adds two extra backslash in front of the original backslash.
+	 * After the text is split into words, we also need to remove those backslashes from the word.
+	 * Otherwise, it will be problematic when word boundary regex is added to the word.
+	 */
 	const backslashRegexStart = new RegExp( "^(\\\\{1,3})" );
 	const backslashRegexEnd = new RegExp( "(\\\\){1,3}$" );
 
