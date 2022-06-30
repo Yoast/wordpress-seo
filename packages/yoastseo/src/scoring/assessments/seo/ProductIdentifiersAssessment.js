@@ -10,6 +10,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 	/**
 	 * Constructs a product identifier assessment.
 	 *
+	 * @param {Object} config   Potential additional config for the assessment.
 	 *
 	 * @returns {void}
 	 */
@@ -30,10 +31,6 @@ export default class ProductIdentifiersAssessment extends Assessment {
 		this._config = merge( defaultConfig, config );
 	}
 
-	isApplicable() {
-		return true;
-	}
-
 	/**
 	 * Tests whether a product has product identifiers and returns an assessment result based on the research.
 	 *
@@ -44,20 +41,20 @@ export default class ProductIdentifiersAssessment extends Assessment {
 	 */
 	getResult( paper, researcher ) {
 		let productIdentifierData;
-		console.log( this._config.isWoo, "is woo before if statement" );
 		if ( this._config.isWoo ) {
-			console.log( "is woo" );
 			productIdentifierData = researcher.getResearch( "getProductIdentifierDataWooCommerce" );
 		} else {
 			productIdentifierData = researcher.getResearch( "getProductIdentifierDataShopify" );
 		}
-		console.log( productIdentifierData, "productIdentifierData before scoring" );
 
 		const result = this.scoreProductIdentifier( productIdentifierData, this._config );
 
 		const assessmentResult = new AssessmentResult();
-		assessmentResult.setScore( result.score );
-		assessmentResult.setText( result.text );
+
+		if ( result ) {
+			assessmentResult.setScore( result.score );
+			assessmentResult.setText( result.text );
+		}
 
 		return assessmentResult;
 	}
@@ -71,15 +68,14 @@ export default class ProductIdentifiersAssessment extends Assessment {
 	 * @returns {{score: number, text: *}} The result object with score and text.
 	 */
 	scoreProductIdentifier( productIdentifierData, config ) {
-		console.log( productIdentifierData, "productIdentifierData" );
-
 		if ( productIdentifierData.hasVariants ) {
-			if ( ! productIdentifierData.doAllVariantsHaveIdentifier ) {
+			if ( config.isWoo && ! productIdentifierData.doAllVariantsHaveIdentifier ) {
 				return {
 					score: config.scores.ok,
 					text: "Not all variants have an identifier",
 				};
 			}
+			return;
 		}
 		if ( ! productIdentifierData.hasGlobalIdentifier ) {
 			return {
