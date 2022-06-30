@@ -333,6 +333,11 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	public function generate_person_logo_meta() {
 		$person_logo_meta = $this->image->get_attachment_meta_from_settings( 'person_logo' );
 
+		if ( empty( $person_logo_meta ) ) {
+			$person_logo_id   = $this->fallback_to_site_logo();
+			$person_logo_meta = $this->image->get_best_attachment_variation( $person_logo_id );
+		}
+
 		/**
 		 * Filter: 'wpseo_schema_person_logo_meta' - Allows filtering person logo meta.
 		 *
@@ -643,30 +648,6 @@ class Meta_Tags_Context extends Abstract_Presentation {
 		];
 	}
 
-	/* ********************* DEPRECATED METHODS ********************* */
-
-	/**
-	 * Generates whether or not breadcrumbs are enabled.
-	 *
-	 * @deprecated 15.8
-	 * @codeCoverageIgnore
-	 *
-	 * @return bool Whether or not breadcrumbs are enabled.
-	 */
-	public function generate_breadcrumbs_enabled() {
-		\_deprecated_function( __METHOD__, 'WPSEO 15.8' );
-		$breadcrumbs_enabled = \current_theme_supports( 'yoast-seo-breadcrumbs' );
-		if ( ! $breadcrumbs_enabled ) {
-			$breadcrumbs_enabled = $this->options->get( 'breadcrumbs-enable', false );
-		}
-
-		if ( ! empty( $this->blocks['yoast-seo/breadcrumbs'] ) ) {
-			$breadcrumbs_enabled = true;
-		}
-
-		return $breadcrumbs_enabled;
-	}
-
 	/**
 	 * Retrieve the site logo ID from WordPress settings.
 	 *
@@ -703,7 +684,30 @@ class Meta_Tags_Context extends Abstract_Presentation {
 
 		return null;
 	}
+
+	/* ********************* DEPRECATED METHODS ********************* */
+
+	/**
+	 * Generates whether or not breadcrumbs are enabled.
+	 *
+	 * @deprecated 15.8
+	 * @codeCoverageIgnore
+	 *
+	 * @return bool Whether or not breadcrumbs are enabled.
+	 */
+	public function generate_breadcrumbs_enabled() {
+		\_deprecated_function( __METHOD__, 'WPSEO 15.8' );
+		$breadcrumbs_enabled = \current_theme_supports( 'yoast-seo-breadcrumbs' );
+		if ( ! $breadcrumbs_enabled ) {
+			$breadcrumbs_enabled = $this->options->get( 'breadcrumbs-enable', false );
+		}
+
+		if ( ! empty( $this->blocks['yoast-seo/breadcrumbs'] ) ) {
+			$breadcrumbs_enabled = true;
+		}
+
+		return $breadcrumbs_enabled;
+	}
 }
 
 \class_alias( Meta_Tags_Context::class, 'WPSEO_Schema_Context' );
-
