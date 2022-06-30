@@ -897,12 +897,14 @@ class Yoast_Form {
 			'<label for="', $for, '">', esc_html( $value ), $screen_reader_text_html, '</label>';
 		}
 
+		$upsell_button = "";
 		if ( isset( $attr[ 'show_premium_upsell' ] ) && $attr[ 'show_premium_upsell'] ) {
-			// echo '<a>Buy Premium now!</a>';
+			$upsell_button = '<a class="yoast-button-upsell">' . esc_html__( 'Unlock with Premium!', 'wordpress-seo' ) . '<span class="screen-reader-text">' . esc_html__( '(Opens in a new browser tab)', 'wordpress-seo' ) . '</span>' .
+			'<span aria-hidden="true" class="yoast-button-upsell__caret"></span></a>';
 		}
 
-		echo '<a></a></div><a class="yoast-button-upsell">' . esc_html__( 'Unlock with Premium!', 'wordpress-seo' ) . '<span class="screen-reader-text">' . esc_html__( '(Opens in a new browser tab)', 'wordpress-seo' ) . '</span>' .
-		'<span aria-hidden="true" class="yoast-button-upsell__caret"></span></a></fieldset><div class="clear"></div></div>' . PHP_EOL . PHP_EOL;
+
+		echo '<a></a></div></fieldset><div class="clear"></div>' . $upsell_button . '</div>' . PHP_EOL . PHP_EOL;
 	}
 
 	/**
