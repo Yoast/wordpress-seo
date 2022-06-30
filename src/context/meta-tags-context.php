@@ -635,6 +635,20 @@ class Meta_Tags_Context extends Abstract_Presentation {
 		];
 	}
 
+	/**
+	 * Retrieve the site logo ID from WordPress settings.
+	 *
+	 * @return false|int
+	 */
+	private function fallback_to_site_logo() {
+		$logo_id = \get_option( 'site_logo' );
+		if ( ! $logo_id ) {
+			$logo_id = \get_theme_mod( 'custom_logo', false );
+		}
+
+		return $logo_id;
+	}
+
 	/* ********************* DEPRECATED METHODS ********************* */
 
 	/**
@@ -658,21 +672,6 @@ class Meta_Tags_Context extends Abstract_Presentation {
 
 		return $breadcrumbs_enabled;
 	}
-
-	/**
-	 * Retrieve the site logo ID from WordPress settings.
-	 *
-	 * @return false|int
-	 */
-	private function fallback_to_site_logo() {
-		$logo_id = \get_option( 'site_logo' );
-		if ( ! $logo_id ) {
-			$logo_id = \get_theme_mod( 'custom_logo', false );
-		}
-
-		return $logo_id;
-	}
 }
 
 \class_alias( Meta_Tags_Context::class, 'WPSEO_Schema_Context' );
-
