@@ -94,7 +94,7 @@ export default class WordComplexityAssessment extends Assessment {
 					 %3$s expand to a link on yoast.com, %4$s expands to the anchor end tag. */
 				__(
 					// eslint-disable-next-line max-len
-					"%1$s: %2$s of the words in your text is considered complex. %3$sTry to use shorter and more familiar words to improve readability%4$s.",
+					"%1$s: %2$s of the words in your text are considered complex. %3$sTry to use shorter and more familiar words to improve readability%4$s.",
 					"wordpress-seo"
 				),
 				assessmentLink,
