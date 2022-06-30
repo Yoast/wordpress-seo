@@ -51,6 +51,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 		} else {
 			productIdentifierData = researcher.getResearch( "getProductIdentifierDataShopify" );
 		}
+		console.log( productIdentifierData, "productIdentifierData before scoring" );
 
 		const result = this.scoreProductIdentifier( productIdentifierData, this._config );
 
@@ -70,18 +71,20 @@ export default class ProductIdentifiersAssessment extends Assessment {
 	 * @returns {{score: number, text: *}} The result object with score and text.
 	 */
 	scoreProductIdentifier( productIdentifierData, config ) {
+		console.log( productIdentifierData, "productIdentifierData" );
+
 		if ( productIdentifierData.hasVariants ) {
 			if ( ! productIdentifierData.doAllVariantsHaveIdentifier ) {
 				return {
 					score: config.scores.ok,
-					text: "Feedback for orange",
+					text: "Not all variants have an identifier",
 				};
 			}
 		}
 		if ( ! productIdentifierData.hasGlobalIdentifier ) {
 			return {
 				score: config.scores.ok,
-				text: "A different feedback for orange",
+				text: "The product has an identifier",
 			};
 		}
 		return {
