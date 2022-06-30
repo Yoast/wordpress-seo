@@ -32,12 +32,9 @@ export default function( text ) {
 	 * After the text is split into words, we also need to remove those backslashes from the word.
 	 * Otherwise, it will be problematic when word boundary regex is added to the word.
 	 */
-	const backslashRegexStart = new RegExp( "^(\\\\{1,3})" );
-	const backslashRegexEnd = new RegExp( "(\\\\){1,3}$" );
+	const backslashRegex = new RegExp( "(\\\\)", "g" );
 
-	text = text.replace( backslashRegexStart, "" );
-	text = text.replace( backslashRegexEnd, "" );
-
+	text = text.replace( backslashRegex, "" );
 	text = text.replace( punctuationRegexStart, "" );
 	text = text.replace( punctuationRegexEnd, "" );
 
