@@ -333,6 +333,11 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	public function generate_person_logo_meta() {
 		$person_logo_meta = $this->image->get_attachment_meta_from_settings( 'person_logo' );
 
+		if ( empty( $person_logo_meta ) ) {
+			$person_logo_id   = $this->fallback_to_site_logo();
+			$person_logo_meta = $this->image->get_best_attachment_variation( $person_logo_id );
+		}
+
 		/**
 		 * Filter: 'wpseo_schema_person_logo_meta' - Allows filtering person logo meta.
 		 *
@@ -630,6 +635,20 @@ class Meta_Tags_Context extends Abstract_Presentation {
 		];
 	}
 
+	/**
+	 * Retrieve the site logo ID from WordPress settings.
+	 *
+	 * @return false|int
+	 */
+	private function fallback_to_site_logo() {
+		$logo_id = \get_option( 'site_logo' );
+		if ( ! $logo_id ) {
+			$logo_id = \get_theme_mod( 'custom_logo', false );
+		}
+
+		return $logo_id;
+	}
+
 	/* ********************* DEPRECATED METHODS ********************* */
 
 	/**
@@ -653,21 +672,6 @@ class Meta_Tags_Context extends Abstract_Presentation {
 
 		return $breadcrumbs_enabled;
 	}
-
-	/**
-	 * Retrieve the site logo ID from WordPress settings.
-	 *
-	 * @return false|int
-	 */
-	private function fallback_to_site_logo() {
-		$logo_id = \get_option( 'site_logo' );
-		if ( ! $logo_id ) {
-			$logo_id = \get_theme_mod( 'custom_logo', false );
-		}
-
-		return $logo_id;
-	}
 }
 
 \class_alias( Meta_Tags_Context::class, 'WPSEO_Schema_Context' );
-
