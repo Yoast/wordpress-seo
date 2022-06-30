@@ -85,6 +85,7 @@ class Meta_Author_Presenter_Test extends TestCase {
 			->once()
 			->with( 'John Doe' )
 			->andReturn( 'John Doe' );
+		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
 
 		$output = '<meta name="author" content="John Doe" />';
 
@@ -124,20 +125,23 @@ class Meta_Author_Presenter_Test extends TestCase {
 	public function test_present_and_filter_with_class() {
 		$this->indexable_presentation->meta_description = 'the_meta_description';
 
+		$user_mock               = Mockery::mock( \WP_User::class );
+		$user_mock->display_name = 'John Doe';
+
+		Monkey\Functions\expect( 'get_userdata' )
+			->once()
+			->with( 123 )
+			->andReturn( $user_mock );
+
 		$this->html
 			->expects( 'smart_strip_tags' )
 			->once()
 			->with( 'John Doe' )
 			->andReturn( 'John Doe' );
-
-		Monkey\Functions\expect( 'get_userdata' )
-			->once()
-			->with( 123 )
-			->andReturn( (object) [ 'display_name' => 'John Doe' ] );
 		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( true );
 
 		$output = '<meta name="author" content="John Doe" class="yoast-seo-meta-tag" />';
 
-		$this->assertEquals( $output, $this->instance->present() );
+		$this->assertSame( $output, $this->instance->present() );
 	}
 }
