@@ -72,21 +72,47 @@ class Meta_Author_Presenter_Test extends TestCase {
 	public function test_present_and_filter_happy_path() {
 		$this->indexable_presentation->meta_description = 'the_meta_description';
 
+		$user_mock               = Mockery::mock( \WP_User::class );
+		$user_mock->display_name = 'John Doe';
+
+		Monkey\Functions\expect( 'get_userdata' )
+			->once()
+			->with( 123 )
+			->andReturn( $user_mock );
+
 		$this->html
 			->expects( 'smart_strip_tags' )
 			->once()
 			->with( 'John Doe' )
 			->andReturn( 'John Doe' );
 
+		$output = '<meta name="author" content="John Doe" />';
+
+		$this->assertSame( $output, $this->instance->present() );
+	}
+
+	/**
+	 * Tests the presenter of the meta description when there's a failure.
+	 *
+	 * @covers ::present
+	 * @covers ::get
+	 */
+	public function test_present_and_filter_unhappy_path() {
+		$this->indexable_presentation->meta_description = 'the_meta_description';
+
 		Monkey\Functions\expect( 'get_userdata' )
 			->once()
 			->with( 123 )
-			->andReturn( (object) [ 'display_name' => 'John Doe' ] );
+			->andReturnFalse();
 		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
 
-		$output = '<meta name="author" content="John Doe" />';
+		$this->html
+			->expects( 'smart_strip_tags' )
+			->never();
 
-		$this->assertEquals( $output, $this->instance->present() );
+		$output = '';
+
+		$this->assertSame( $output, $this->instance->present() );
 	}
 
 	/**
