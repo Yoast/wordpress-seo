@@ -8,7 +8,7 @@ import React from "react";
  * @returns {ReactElement} The svg icon.
  */
 const YoastSeoIcon = ( props ) => (
-	<svg { ...props } xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
+	<svg { ...props } xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 488.22">
 		<path d="M80,0H420a80,80,0,0,1,80,80V500a0,0,0,0,1,0,0H80A80,80,0,0,1,0,420V80A80,80,0,0,1,80,0Z" fill="#a4286a" />
 		<path d="M437.61,2,155.89,500H500V80A80,80,0,0,0,437.61,2Z" fill="#6c2548" />
 		<path
