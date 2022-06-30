@@ -36,7 +36,7 @@ function getDefaultState() {
 		isWincherIntegrationActive: isWincherIntegrationActive(),
 		isWordProofIntegrationActive: isWordProofIntegrationActive(),
 		isInsightsEnabled: get( window, "wpseoScriptData.metabox.isInsightsEnabled", false ),
-		isNewsEnabled: ! isUndefined( window.wpseoNewsScriptData ),
+		isNewsEnabled: ! ! window.wpseoAdminL10n.news_seo_is_active,
 	};
 }
 
