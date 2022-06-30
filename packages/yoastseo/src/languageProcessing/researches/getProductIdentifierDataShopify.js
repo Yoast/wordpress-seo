@@ -1,37 +1,14 @@
 /**
- * Checks whether the product has a global identifier
+ * Gets the product data from Shopify.
+ * @param {Paper} paper The paper that contains the data.
  *
- * @returns {boolean} Whether the product has a global identifier.
+ * @returns {{hasVariants: (boolean|*), hasGlobalIdentifier: (boolean|*)}}  The object that contains information whether
+ * the product has global identifier or variants.
  */
-function hasGlobalIdentifier( paper ) {
-	const customData = paper.getCustomData();
-	return customData.barcode !== "";
-}
-
-/**
- * Checks whether the product has a global identifier
- *
- * @returns {boolean} Whether the product has a global identifier.
- */
-function hasVariants( paper ) {
-	// Const customData = paper.getCustomData;
-	return false;
-}
-
-/**
- * Checks whether the product has a global identifier
- *
- * @returns {boolean} Whether the product has a global identifier.
- */
-function doAllVariantsHaveIdentifier( paper ) {
-	// Const customData = paper.getCustomData;
-	return false;
-}
-
 export default function( paper ) {
+	const productData = paper.getCustomData();
 	return {
-		hasGlobalIdentifier: false,
-		hasVariants: false,
-		doAllVariantsHaveIdentifier: false,
+		hasGlobalIdentifier: productData.hasGlobalIdentifier,
+		hasVariants: productData.hasVariants,
 	};
 }
