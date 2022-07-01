@@ -1,7 +1,7 @@
 import apiFetch from "@wordpress/api-fetch";
 import { useState, useCallback } from "@wordpress/element";
 import { PropTypes } from "prop-types";
-import { ToggleField } from "@yoast/ui-library";
+import { ToggleField, Badge } from "@yoast/ui-library";
 
 /**
  * Modal component.
@@ -59,7 +59,12 @@ export default function Card( { integration, children } ) {
 			</div>
 			<div className="yst-flex-1 yst-bg-white yst-p-6 yst-flex yst-flex-col yst-justify-between">
 				<div className="yst-flex-1 yst-pb-6">
-					<p className="yst-text-base yst-font-semibold yst-text-gray-900">{ integration.name }</p>
+					<p className="yst-text-base yst-font-semibold yst-text-gray-900">
+						{integration.name}
+						<Badge variant="upsell">
+							Premium
+						</Badge>
+					</p>
 					<p className="yst-mt-3 yst-text-base yst-text-gray-500">{ integration.description }</p>
 				</div>
 				<div className="yst-flex-1 yst-border-t-2 yst-pt-6">
