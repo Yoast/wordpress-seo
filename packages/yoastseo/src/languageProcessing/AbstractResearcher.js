@@ -39,6 +39,7 @@ import getPassiveVoiceResult from "./researches/getPassiveVoiceResult";
 import wordComplexity from "./researches/wordComplexity";
 import getProductIdentifierDataWooCommerce from "./researches/getProductIdentifierDataWooCommerce";
 import getProductIdentifierDataShopify from "./researches/getProductIdentifierDataShopify";
+import getProductIdentifierData from "./researches/getProductIdentifierData";
 
 /**
  * The researches contains all the researches
@@ -91,6 +92,7 @@ export default class AbstractResearcher {
 			getProductIdentifierDataWooCommerce,
 			getProductIdentifierDataShopify,
 			wordComplexity,
+			getProductIdentifierData,
 		};
 
 		this._data = {};
