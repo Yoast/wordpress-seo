@@ -60,14 +60,19 @@ export default class ProductIdentifiersAssessment extends Assessment {
 	}
 
 	/**
-	 * Returns the score based on the length of the product description.
+	 * Returns a score based on whether the product (variants) have an identifier.
 	 *
-	 * @param {Object} productIdentifierData   Whether the product has at least one product identifier filled in.
+	 * @param {Object} productIdentifierData  Whether product has variants, global identifier, and variant identifiers.
 	 * @param {Object} config                 The configuration to use.
 	 *
 	 * @returns {{score: number, text: *}} The result object with score and text.
 	 */
 	scoreProductIdentifier( productIdentifierData, config ) {
+		/*
+		 * Return an ok score for WooCommerce products if the product has variants and not all variants have an identifier.
+		 * For Shopify products, do not return a score if a product has variants because we cannot currently access
+		 * data about product variant identifiers in Shopify.
+		* */
 		if ( productIdentifierData.hasVariants ) {
 			if ( config.isWoo && ! productIdentifierData.doAllVariantsHaveIdentifier ) {
 				return {
@@ -77,6 +82,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 			}
 			return;
 		}
+		// The scoring conditions for products without variants are the same for WooCommerce and Shopify.
 		if ( ! productIdentifierData.hasGlobalIdentifier ) {
 			return {
 				score: config.scores.ok,
