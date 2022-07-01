@@ -68,7 +68,8 @@ export default class ProductIdentifiersAssessment extends Assessment {
 	 * @param {Object} productIdentifierData  Whether product has variants, global identifier, and variant identifiers.
 	 * @param {Object} config                 The configuration to use.
 	 *
-	 * @returns {{score: number, text: *}} The result object with score and text.
+	 * @returns {{score: number, text: *} || {} }	The result object with score and text or empty object
+	 * 												if no score should be returned.
 	 */
 	scoreProductIdentifier( productIdentifierData, config ) {
 		// If a product has no variants, return orange bullet if it has no global identifier, and green bullet if it has one.
@@ -112,7 +113,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 		// Don't return a score if the product has variants but we don't want to assess variants for this product.
 		// This is currently the case for Shopify products because we don't have access data about product variant identifiers in Shopify.
 		if ( ! config.assessVariants ) {
-			return;
+			return {};
 		}
 
 		// If WooCommerce product has variants and not all variants have an identifier, return orange bullet.
