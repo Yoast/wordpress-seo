@@ -1,8 +1,8 @@
-
 import apiFetch from "@wordpress/api-fetch";
 import { useState, useCallback } from "@wordpress/element";
 import { PropTypes } from "prop-types";
 import { ToggleField } from "@yoast/ui-library";
+import { ReactComponent as SemrushLogo } from "../../../images/semrush-logo.svg";
 
 /**
  * Modal component.
@@ -52,14 +52,16 @@ export default function Card( { integration, children } ) {
 	);
 
 	return (
-		<div key={ integration.title } className="yst-flex yst-flex-col yst-rounded-lg yst-shadow-lg yst-overflow-hidden yst-mr-3 yst-mb-4">
-
-			<div className={`yst-flex-1 yst-bg-white yst-p-6 yst-flex yst-flex-col yst-justify-between ${ isActive ? "yst-opacity-100" : "yst-opacity-50" }` }>
-				<div className="yst-flex-1">
-					<p className="yst-text-xl yst-font-semibold yst-text-gray-900">{ integration.title }</p>
+		<div key={integration.title} className="yst-flex yst-flex-col yst-border-2 yst-border-gray-200 yst-w-[350px] yst-rounded-lg yst-shadow-lg yst-overflow-hidden yst-mr-3 yst-mb-4">
+			<div className="yst-flex-1 yst-bg-gray-100 yst-p-6 yst-flex yst-justify-center yst-content-center">
+				<SemrushLogo/>
+			</div>
+			<div className="yst-flex-1 yst-bg-white yst-p-6 yst-flex yst-flex-col yst-justify-between">
+				<div className="yst-flex-1 yst-pb-6">
+					<p className="yst-text-base yst-font-semibold yst-text-gray-900">{ integration.name }</p>
 					<p className="yst-mt-3 yst-text-base yst-text-gray-500">{ integration.description }</p>
 				</div>
-				<div className="yst-flex-1">
+				<div className="yst-flex-1 yst-border-t-2 yst-pt-6">
 					<ToggleField
 						checked={ isActive }
 						label={ `Enable ${ integration.name }` }
