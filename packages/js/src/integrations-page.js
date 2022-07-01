@@ -3,6 +3,7 @@ import { render } from "@wordpress/element";
 import { Root } from "@yoast/ui-library";
 import { get } from "lodash";
 import Card from "./integrations-page/tailwind-components/card";
+import { ReactComponent as SemrushLogo } from "../images/semrush-logo.svg";
 
 domReady( () => {
 	const context = {
@@ -18,31 +19,42 @@ domReady( () => {
 			name: "Semrush",
 			description: "Semrush Description",
 			isPremium: false,
+			logo: <SemrushLogo />,
 		},
 		{
 			name: "Wincher",
 			description: "Wincher Description",
 			isPremium: false,
+			logo: <SemrushLogo />,
+
 		},
 		{
 			name: "Zapier",
 			description: "Zapier Description",
 			isPremium: true,
+			logo: <SemrushLogo />,
+
 		},
 		{
 			name: "WordProof",
 			description: "WordProof Description",
 			isPremium: false,
+			logo: <SemrushLogo />,
+
 		},
 		{
 			name: "Ryte",
 			description: "Ryte Description",
 			isPremium: false,
+			logo: <SemrushLogo />,
+
 		},
 		{
 			name: "Algolia",
 			description: "Algolia Description",
 			isPremium: true,
+			logo: <SemrushLogo />,
+
 		},
 	];
 
@@ -64,7 +76,7 @@ domReady( () => {
 					return (
 						<Card
 							key={ index }
-							integration={ { name: integration.name, description: `${integration.description} description`, isActive: getInitialState( integration.name ), isPremium: integration.isPremium } }
+							integration={ { name: integration.name, description: `${integration.description} description`, isActive: getInitialState( integration.name ), isPremium: integration.isPremium, logo: integration.logo } }
 						/>
 					);
 				} ) }
