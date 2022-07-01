@@ -10,6 +10,7 @@ import includes from "lodash/includes";
 import get from "lodash/get";
 import PropTypes from "prop-types";
 import { speak as a11ySpeak } from "@wordpress/a11y";
+import { applyFilters } from "@wordpress/hooks";
 import { __, _n, sprintf } from "@wordpress/i18n";
 import styled from "styled-components";
 import { withTheme } from "styled-components";
@@ -141,15 +142,21 @@ class ReplacementVariableEditorStandalone extends React.Component {
 		 * The mentions plugin is used to autocomplete the replacement variable
 		 * names.
 		 */
-		this.mentionsPlugin = createMentionPlugin( {
-			mentionTrigger: "%",
-			entityMutability: "IMMUTABLE",
-			mentionComponent: Mention,
-		} );
+		this.pluginList = {
+			mentionsPlugin: createMentionPlugin( {
+				mentionTrigger: "%",
+				entityMutability: "IMMUTABLE",
+				mentionComponent: Mention,
+			} ),
+			singleLinePlugin: createSingleLinePlugin( {
+				stripEntities: false,
+			} ),
+		};
 
-		this.singleLinePlugin = createSingleLinePlugin( {
-			stripEntities: false,
-		} );
+		this.pluginList = applyFilters(
+			"yoast.replacementVariableEditor.pluginList",
+			this.pluginList
+		);
 	}
 
 	/**
@@ -498,8 +505,8 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	 * @returns {ReactElement} The rendered element.
 	 */
 	render() {
-		const { MentionSuggestions } = this.mentionsPlugin;
-		const { onFocus, onBlur, ariaLabelledBy, placeholder, theme, isDisabled } = this.props;
+		const { MentionSuggestions } = this.pluginList.mentionsPlugin;
+		const { onFocus, onBlur, ariaLabelledBy, placeholder, theme, isDisabled, fieldId } = this.props;
 		const { editorState, suggestions, isSuggestionsOpen } = this.state;
 
 		return (
@@ -510,7 +517,7 @@ class ReplacementVariableEditorStandalone extends React.Component {
 					onChange={ this.onChange }
 					onFocus={ onFocus }
 					onBlur={ onBlur }
-					plugins={ [ this.mentionsPlugin, this.singleLinePlugin ] }
+					plugins={ Object.values( this.pluginList ) }
 					ref={ this.setEditorRef }
 					stripPastedStyles={ true }
 					ariaLabelledBy={ ariaLabelledBy }
@@ -518,6 +525,14 @@ class ReplacementVariableEditorStandalone extends React.Component {
 					spellCheck={ true }
 					readOnly={ isDisabled }
 				/>
+
+				{ applyFilters(
+					"yoast.replacementVariableEditor.additionalPlugins",
+					<React.Fragment />,
+					this.pluginList,
+					fieldId
+				) }
+
 				<ZIndexOverride>
 					<MentionSuggestions
 						onSearchChange={ this.onSearchChange }
