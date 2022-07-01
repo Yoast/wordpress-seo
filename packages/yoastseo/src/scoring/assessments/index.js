@@ -28,6 +28,8 @@ import ImageKeyphraseAssessment from "./seo/KeyphraseInImageTextAssessment";
 import ImageCountAssessment from "./seo/ImageCountAssessment";
 import ImageAltTagsAssessment from "./seo/ImageAltTagsAssessment";
 
+import InclusiveLanguageAssessment from "./inclusive_language/InclusiveLanguageAssessment"
+
 const readability = {
 	ListAssessment,
 	ParagraphTooLongAssessment,
@@ -64,7 +66,12 @@ const seo = {
 	ImageAltTagsAssessment,
 };
 
+const inclusiveLanguage = {
+	InclusiveLanguageAssessment,
+}
+
 export {
 	readability,
 	seo,
+	inclusiveLanguage,
 };

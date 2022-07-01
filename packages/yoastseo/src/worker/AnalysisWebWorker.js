@@ -54,6 +54,7 @@ export default class AnalysisWebWorker {
 		this._configuration = {
 			contentAnalysisActive: true,
 			keywordAnalysisActive: true,
+			inclusiveLanguageAnalysisActive: true,
 			useCornerstone: false,
 			useTaxonomy: false,
 			useKeywordDistribution: false,
@@ -86,6 +87,7 @@ export default class AnalysisWebWorker {
 		 * {Object} 				seo         		SEO assessor results, per keyword identifier or empty string for the main.
 		 * {Object} 				seo[ "" ]  			The result of the paper analysis for the main keyword.
 		 * {Object} 				seo[ key ]  		Same as above, but instead for a related keyword.
+		 * {Object} 				inclusive_language 	Inclusive language assessor results.
 		 */
 		this._results = {
 			readability: {
@@ -97,6 +99,10 @@ export default class AnalysisWebWorker {
 					results: [],
 					score: 0,
 				},
+			},
+			inclusiveLanguage: {
+				results: [],
+				score: 0,
 			},
 		};
 		this._registeredAssessments = [];
@@ -506,6 +512,55 @@ export default class AnalysisWebWorker {
 	}
 
 	/**
+	 * Initializes the appropriate inclusive language assessor.
+	 *
+	 * @returns {null|Assessor} The chosen inclusive language assessor.
+	 */
+	createInclusiveLanguageAssessor() {
+		const {
+			inclusiveLanguageActive,
+			useCornerstone,
+			customAnalysisType,
+		} = this._configuration;
+
+		if ( inclusiveLanguageActive === false ) {
+			return null;
+		}
+
+		let assessor;
+
+		if ( useCornerstone === true ) {
+			/*
+			 * Use a custom cornerstone content assessor if available,
+			 * otherwise set the default cornerstone content assessor.
+			 */
+			assessor = this._CustomCornerstoneContentAssessorClasses[ customAnalysisType ]
+				? new this._CustomCornerstoneContentAssessorClasses[ customAnalysisType ](
+					this._researcher,
+					this._CustomCornerstoneContentAssessorOptions[ customAnalysisType ] )
+				: new CornerstoneContentAssessor( this._researcher );
+		} else {
+			/*
+			 * For non-cornerstone content, use a custom SEO assessor if available,
+	         * otherwise use the default SEO assessor.
+			 */
+			assessor = this._CustomContentAssessorClasses[ customAnalysisType ]
+				? new this._CustomContentAssessorClasses[ customAnalysisType ](
+					this._researcher,
+					this._CustomContentAssessorOptions[ customAnalysisType ] )
+				: new ContentAssessor( this._researcher );
+		}
+
+		this._registeredAssessments.forEach( ( { name, assessment } ) => {
+			if ( isUndefined( assessor.getAssessment( name ) ) ) {
+				assessor.addAssessment( name, assessment );
+			}
+		} );
+
+		return assessor;
+	}
+
+	/**
 	 * Initializes the appropriate SEO assessor for related keywords.
 	 *
 	 * @returns {null|Assessor} The chosen related keywords assessor.
@@ -601,10 +656,14 @@ export default class AnalysisWebWorker {
 	 * @param {Object}   configuration          The configuration to check.
 	 * @param {Assessor} [contentAssessor=null] The content assessor.
 	 * @param {Assessor} [seoAssessor=null]     The SEO assessor.
+	 * @param {Assessor} [inclusiveLanguageAssessor=null] The inclusive language assessor.
 	 *
-	 * @returns {Object} Containing seo and readability with true or false.
+	 * @returns {Object} Containing seo, readability, and inclusive_language with true or false.
 	 */
-	static shouldAssessorsUpdate( configuration, contentAssessor = null, seoAssessor = null ) {
+	static shouldAssessorsUpdate( configuration,
+		contentAssessor = null,
+		seoAssessor = null,
+		inclusiveLanguageAssessor = null ) {
 		const readability = [
 			"contentAnalysisActive",
 			"useCornerstone",
@@ -623,11 +682,15 @@ export default class AnalysisWebWorker {
 			"researchData",
 			"customAnalysisType",
 		];
+		const inclusiveLanguage = [
+			"inclusiveLanguageAnalysisActive"
+		];
 		const configurationKeys = Object.keys( configuration );
 
 		return {
 			readability: isNull( contentAssessor ) || includesAny( configurationKeys, readability ),
 			seo: isNull( seoAssessor ) || includesAny( configurationKeys, seo ),
+			inclusiveLanguage: isNull( inclusiveLanguageAssessor) || includesAny( configurationKeys, inclusiveLanguage ),
 		};
 	}
 
@@ -651,7 +714,7 @@ export default class AnalysisWebWorker {
 	 * @returns {void}
 	 */
 	initialize( id, configuration ) {
-		const update = AnalysisWebWorker.shouldAssessorsUpdate( configuration, this._contentAssessor, this._seoAssessor );
+		const update = AnalysisWebWorker.shouldAssessorsUpdate( configuration, this._contentAssessor, this._seoAssessor, this._inclusiveLanguageAssessor );
 
 		if ( has( configuration, "translations.locale_data.wordpress-seo" ) ) {
 			setLocaleData( configuration.translations.locale_data[ "wordpress-seo" ], "wordpress-seo" );
@@ -704,6 +767,9 @@ export default class AnalysisWebWorker {
 			 * 	cornerstone: useCornerstone, relatedKeyphrase: true,
 			 * } );
 			 */
+		}
+		if ( update.inclusiveLanguage ) {
+			this._inclusiveLanguageAssessor = this.createInclusiveLanguageAssessor();
 		}
 
 		// Reset the paper in order to not use the cached results on analyze.
@@ -979,6 +1045,15 @@ export default class AnalysisWebWorker {
 			// Set the locale (we are more lenient for languages that have full analysis support).
 			analysisCombination.scoreAggregator.setLocale( this._configuration.locale );
 			this._results.readability = await this.assess( this._paper, this._tree, analysisCombination );
+		}
+
+		if ( this._configuration.inclusiveLanguageAnalysisActive && this._contentAssessor && shouldReadabilityUpdate ) {
+			const analysisCombination = {
+				oldAssessor: this._inclusiveLanguageAssessor,
+				treeAssessor: this._contentTreeAssessor,
+				scoreAggregator: this._contentScoreAggregator,
+			};
+			this._results.inclusiveLanguage = await this.assess( this._paper, this._tree, analysisCombination );
 		}
 
 		return this._results;
