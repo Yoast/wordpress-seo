@@ -19,8 +19,6 @@ import OutboundLinks from "../assessments/seo/OutboundLinksAssessment";
 import TitleWidth from "../assessments/seo/PageTitleWidthAssessment";
 import FunctionWordsInKeyphrase from "../assessments/seo/FunctionWordsInKeyphraseAssessment";
 import SingleH1Assessment from "../assessments/seo/SingleH1Assessment";
-import ProductIdentifiersAssessment from "../assessments/seo/ProductIdentifiersAssessment";
-import { createAnchorOpeningTag } from "../../helpers/shortlinker";
 
 /**
  * Creates the Assessor
@@ -92,12 +90,6 @@ const CornerstoneSEOAssessor = function( researcher, options ) {
 		),
 		new FunctionWordsInKeyphrase(),
 		new SingleH1Assessment(),
-		new ProductIdentifiersAssessment( {
-			urlTitle: createAnchorOpeningTag( options.productIdentifierUrlTitle ),
-			urlCallToAction: createAnchorOpeningTag( options.productIdentifierCTAUrl ),
-			assessVariants: options.assessVariants,
-			productIdentifierOrBarcode: options.productIdentifierOrBarcode,
-		} ),
 	];
 };
 
