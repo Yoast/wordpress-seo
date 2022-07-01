@@ -99,7 +99,7 @@ describe( "mapResults", () => {
 		expect( result.marker() ).toEqual( [] );
 		expect( result.id ).toBe( expectedResult._identifier );
 		expect( result.text ).toBe( expectedResult.text );
-		expect( result.markerId ).toBe( `something:${expectedResult._identifier}` );
+		expect( result.markerId ).toBe( `something:${ expectedResult._identifier }` );
 	} );
 } );
 

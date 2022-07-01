@@ -18,8 +18,8 @@ import {
 const FacebookImageContainer = styled.div`
 	position: relative;
 	${ props => props.mode === "landscape"
-		? `max-width: ${props.dimensions.width}`
-		: `min-width: ${props.dimensions.width}; height: ${props.dimensions.height}` };
+		? `max-width: ${ props.dimensions.width }`
+		: `min-width: ${ props.dimensions.width }; height: ${ props.dimensions.height }` };
 	overflow: hidden;
 	background-color: ${ colors.$color_white };
 `;

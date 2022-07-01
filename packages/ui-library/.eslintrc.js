@@ -51,18 +51,6 @@ module.exports = {
 				},
 			},
 		],
-		"space-before-function-paren": [
-			"error",
-			{
-				anonymous: "never",
-				named: "never",
-				asyncArrow: "always",
-			},
-		],
-		"template-curly-spacing": [
-			"error",
-			"always",
-		],
 	},
 	overrides: [
 		{

@@ -91,7 +91,7 @@ export default function WincherSEOPerformanceModal( props ) {
 
 			{ location === "sidebar" &&
 			<SidebarButton
-				id={ `wincher-open-button-${location}` }
+				id={ `wincher-open-button-${ location }` }
 				title={ title }
 				suffixIcon={ { size: "20px", icon: "pencil-square" } }
 				prefixIcon={ { icon: "chart-square-bar", color: colors.$color_grey_medium_dark } }

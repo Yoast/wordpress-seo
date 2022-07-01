@@ -11,12 +11,12 @@ export const TitleInputContainer = styled( VariableEditorInputContainer )`
 	}
 
 	.public-DraftEditorPlaceholder-root {
-		color: ${greyPlaceholderColor};
+		color: ${ greyPlaceholderColor };
 		line-height: 1.85714285; // 26px based on 14px font-size
 	}
 
 	.public-DraftEditorPlaceholder-hasFocus {
-		color: ${greyPlaceholderColor};
+		color: ${ greyPlaceholderColor };
 	}
 `;
 
@@ -26,13 +26,13 @@ export const DescriptionInputContainer = styled( VariableEditorInputContainer )`
 	line-height: 1.85714285; // 26px based on 14px font-size
 
 	.public-DraftEditorPlaceholder-root {
-		color: ${greyPlaceholderColor};
+		color: ${ greyPlaceholderColor };
 		position: absolute;
 		line-height: 1.85714285; // 26px based on 14px font-size
 	}
 
 	.public-DraftEditorPlaceholder-hasFocus {
-		color: ${greyPlaceholderColor};
+		color: ${ greyPlaceholderColor };
 		position: absolute;
 	}
 `;

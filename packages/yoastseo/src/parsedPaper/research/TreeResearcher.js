@@ -65,7 +65,7 @@ class TreeResearcher {
 		if ( this.hasResearch( name ) ) {
 			return this._researches[ name ];
 		}
-		throw new Error( `'${name}' research does not exist.` );
+		throw new Error( `'${ name }' research does not exist.` );
 	}
 
 	/**

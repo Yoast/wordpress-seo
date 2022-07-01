@@ -88,7 +88,7 @@ const heartbeat = keyframes`
 `;
 
 export default styled( Loader )`
-	animation: ${heartbeat} 1.15s infinite;
+	animation: ${ heartbeat } 1.15s infinite;
 	animation-direction: alternate;
 	animation-timing-function: cubic-bezier(0.96, 0.02, 0.63, 0.86);
 `;

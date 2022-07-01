@@ -108,7 +108,7 @@ export function renderToggleState( { keyphrase, isEnabled, toggleAction, isLoadi
 
 	return (
 		<Toggle
-			id={ `toggle-keyphrase-tracking-${keyphrase}` }
+			id={ `toggle-keyphrase-tracking-${ keyphrase }` }
 			className="wincher-toggle"
 			isEnabled={ isEnabled }
 			onSetToggleState={ toggleAction }

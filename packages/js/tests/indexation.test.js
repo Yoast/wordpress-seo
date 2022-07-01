@@ -31,7 +31,7 @@ describe( "Indexation", () => {
 		expect( alert.text() ).toEqual( "SEO data optimization is disabled for non-production environments." );
 	} );
 
-	it( "will show you when the indexation is complete", async() => {
+	it( "will show you when the indexation is complete", async () => {
 		global.yoastIndexingData = {
 			amount: 5,
 			restApi: {
@@ -66,7 +66,7 @@ describe( "Indexation", () => {
 		expect( progressBar.prop( "value" ) ).toEqual( 0 );
 		expect( progressBar.prop( "max" ) ).toEqual( 5 );
 
-		await act( async() => {
+		await act( async () => {
 			component.update();
 		} );
 
@@ -84,7 +84,7 @@ describe( "Indexation", () => {
 		expect( alert.prop( "type" ) ).toEqual( "success" );
 	} );
 
-	it( "shows an error when something goes wrong", async() => {
+	it( "shows an error when something goes wrong", async () => {
 		global.yoastIndexingData = {
 			amount: 5,
 			restApi: {
@@ -105,7 +105,7 @@ describe( "Indexation", () => {
 
 		const component = mount( <Indexation /> );
 
-		await act( async() => {
+		await act( async () => {
 			component.find( "button" ).simulate( "click" );
 		} );
 
@@ -116,7 +116,7 @@ describe( "Indexation", () => {
 		expect( alert.prop( "type" ) ).toEqual( "error" );
 	} );
 
-	it( "executes registered pre- and postindexing actions", async() => {
+	it( "executes registered pre- and postindexing actions", async () => {
 		global.yoastIndexingData = {
 			amount: 5,
 			restApi: {

@@ -70,7 +70,7 @@ export default abstract class RichTextBase extends BlockInstruction {
 				[ this.options.name ]: {
 					type: "string",
 					source: "html",
-					selector: `[data-id=${this.options.name}]`,
+					selector: `[data-id=${ this.options.name }]`,
 					"default": this.options.default,
 					required: this.options.required === true,
 				},

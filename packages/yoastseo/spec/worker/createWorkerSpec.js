@@ -49,7 +49,7 @@ describe( "The createWorker module", () => {
 	} );
 
 	describe( "checks createBlobURL function", () => {
-		it( "creates a blob", async() => {
+		it( "creates a blob", async () => {
 			createBlobURL( "https://example.org/some/code.js" );
 			expect( global.URL.createObjectURL ).toBeCalledTimes( 1 );
 
@@ -65,7 +65,7 @@ describe( "The createWorker module", () => {
 			expect( text ).toContain( "catch" );
 		} );
 
-		it( "uses the webkitURL as a fallback when URL is not available", async() => {
+		it( "uses the webkitURL as a fallback when URL is not available", async () => {
 			// eslint-disable-next-line no-undefined
 			global.URL = undefined;
 
@@ -75,7 +75,7 @@ describe( "The createWorker module", () => {
 			expect( global.webkitURL.createObjectURL ).toBeCalledTimes( 1 );
 		} );
 
-		it( "falls back to the BlobBuilder when creating a Blob fails", async() => {
+		it( "falls back to the BlobBuilder when creating a Blob fails", async () => {
 			const originalBlob = global.Blob;
 			global.Blob = jest.fn();
 			global.Blob.mockImplementation( () => {

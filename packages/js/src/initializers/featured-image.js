@@ -201,7 +201,7 @@ export default function initFeaturedImageIntegration( $ ) {
 
 		if ( imageData !== previousImageData ) {
 			previousImageData = imageData;
-			const featuredImageHTML = `<img src="${imageData.source_url}" alt="${imageData.alt_text}" >`;
+			const featuredImageHTML = `<img src="${ imageData.source_url }" alt="${ imageData.alt_text }" >`;
 			featuredImagePlugin.setFeaturedImage( featuredImageHTML );
 		}
 	} );

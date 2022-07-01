@@ -53,7 +53,7 @@ function GoButton( { beforeGo, children, destination, ...restProps } ) {
 		}
 	}, [ stepIndex, lastStepIndex, setActiveStepIndex, destination ] );
 
-	const goFunction = useCallback( async() => {
+	const goFunction = useCallback( async () => {
 		let canGo = true;
 		if ( beforeGo ) {
 			canGo = false;
@@ -217,7 +217,7 @@ function Content( { children } ) {
 		<Fragment>
 			{ /* Child component and buttons. */ }
 			<AnimateHeight
-				id={ `content-${stepIndex}` }
+				id={ `content-${ stepIndex }` }
 				delay={ contentHeight === 0 ? delayBeforeClosing : delayBeforeOpening }
 				height={ contentHeight }
 				easing="ease-in-out"

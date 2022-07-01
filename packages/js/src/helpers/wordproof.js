@@ -8,7 +8,7 @@ import getL10nObject from "../analysis/getL10nObject";
  * @param {string} prop Prop to get from WordProof SDK data.
  * @returns {Object|*} All WordProof SDK data or a single prop from that data.
  */
-export const getWordProofSdkData = ( prop ) => get( window, `wordproofSdk.data${ prop ? `.${prop}` : "" }`, {} );
+export const getWordProofSdkData = ( prop ) => get( window, `wordproofSdk.data${ prop ? `.${ prop }` : "" }`, {} );
 
 /**
  * Returns whether or not the WordProof integration is active.

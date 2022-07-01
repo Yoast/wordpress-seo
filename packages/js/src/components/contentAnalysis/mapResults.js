@@ -40,7 +40,7 @@ function mapResult( result, key = "" ) {
 		marker: result.getMarker(),
 		id,
 		text: result.text,
-		markerId: key.length > 0 ? `${key}:${id}` : id,
+		markerId: key.length > 0 ? `${ key }:${ id }` : id,
 	};
 
 	// Because of inconsistency between YoastSEO and yoast-components.

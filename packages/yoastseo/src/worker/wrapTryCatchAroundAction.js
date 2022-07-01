@@ -24,7 +24,7 @@ const handleError = function( logger, error, payload, errorMessagePrefix = "" ) 
 			logger.debug( error.stack );
 		}
 		// Standard JavaScript error (e.g. when calling `throw new Error( message )`).
-		errorMessage.push( `${error.name}: ${error.message}` );
+		errorMessage.push( `${ error.name }: ${ error.message }` );
 	}
 
 	errorMessage = errorMessage.join( "\n\t" );
@@ -42,7 +42,7 @@ const handleError = function( logger, error, payload, errorMessagePrefix = "" ) 
  * @returns {Function} The wrapped action.
  */
 export default function wrapTryCatchAroundAction( logger, action, errorMessagePrefix = "" ) {
-	return async( ...args ) => {
+	return async ( ...args ) => {
 		try {
 			return await action( ...args );
 		} catch ( error ) {

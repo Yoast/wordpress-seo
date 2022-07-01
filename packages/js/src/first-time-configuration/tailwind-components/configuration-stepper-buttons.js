@@ -45,9 +45,9 @@ ContinueButton.defaultProps = {
  * @returns {WPElement} The EditButton, that always goes to the step it is placed in.
  */
 export function EditButton( { beforeGo, isVisible, children, additionalClasses, ...restProps } ) {
-	const transitionClasses = `yst-transition-opacity ${stepperTimingClasses.slideDuration} yst-ease-out ${ isVisible
+	const transitionClasses = `yst-transition-opacity ${ stepperTimingClasses.slideDuration } yst-ease-out ${ isVisible
 		? "yst-opacity-100"
-		: `${stepperTimingClasses.delayBeforeOpening} yst-opacity-0 yst-pointer-events-none yst-hidden` }`;
+		: `${ stepperTimingClasses.delayBeforeOpening } yst-opacity-0 yst-pointer-events-none yst-hidden` }`;
 
 
 	return ( <Step.GoButton
@@ -153,7 +153,7 @@ StepButtons.defaultProps = {
  * @returns {WPElement} The most common stepper buttons: continue and back.
  */
 export function ConfigurationStepButtons( { stepperFinishedOnce, saveFunction, setEditState } ) {
-	const onSaveClick = useCallback( async() => {
+	const onSaveClick = useCallback( async () => {
 		const saveSuccesful = await saveFunction();
 
 		// If save is not succesful: we are still editing

@@ -31,7 +31,7 @@ const SocialFieldArray = ( { items, onAddProfile, onRemoveProfile, onChangeProfi
 						<Component
 							className="yst-w-full"
 							label={ __( "Other social profile", "wordpress-seo" ) }
-							id={ `social-input-other-url-${index}` }
+							id={ `social-input-other-url-${ index }` }
 							value={ item }
 							socialMedium="other"
 							index={ index }

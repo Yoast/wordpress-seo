@@ -33,12 +33,12 @@ const SnippetEditorButton = styled( Button )`
 `;
 
 const EditSnippetButton = styled( SnippetEditorButton )`
-	margin: ${getDirectionalStyle( "10px 0 0 4px", "10px 4px 0 0" )};
-	fill: ${colors.$color_grey_dark};
+	margin: ${ getDirectionalStyle( "10px 0 0 4px", "10px 4px 0 0" ) };
+	fill: ${ colors.$color_grey_dark };
 	padding-left: 8px;
 
 	& svg {
-		${getDirectionalStyle( "margin-right", "margin-left" )}: 7px;
+		${ getDirectionalStyle( "margin-right", "margin-left" ) }: 7px;
 	}
 `;
 

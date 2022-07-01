@@ -62,7 +62,7 @@ class Results extends Component {
 	 */
 	handleMarkButtonClick( id, marker ) {
 		// To see a difference between keyphrases: Prepend the keyword key when applicable.
-		const markerId = this.props.keywordKey.length > 0 ? `${this.props.keywordKey}:${id}` : id;
+		const markerId = this.props.keywordKey.length > 0 ? `${ this.props.keywordKey }:${ id }` : id;
 
 		// If marker button is clicked while active, disable markers.
 		if ( markerId === this.props.activeMarker ) {

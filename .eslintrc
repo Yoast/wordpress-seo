@@ -62,11 +62,6 @@ overrides:
         - 2
         - tab
         - SwitchCase: 1
-      space-before-function-paren:
-        - error
-        - anonymous: never
-          named: never
-          asyncArrow: always
       valid-jsdoc:
         - error
         - requireReturn: false

@@ -1,7 +1,7 @@
 import { DISMISS_ALERT } from "../../../src/redux/controls/dismissedAlerts";
 
 describe( "dismissedAlerts controls", () => {
-	it( "returns a new promise", async() => {
+	it( "returns a new promise", async () => {
 		const postRequest = jest.fn( ( action, payload, callback ) => callback() );
 
 		global.wpseoApi = {

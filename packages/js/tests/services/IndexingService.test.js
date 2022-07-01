@@ -33,7 +33,7 @@ describe( "IndexingService", () => {
 		expect( instance.postIndexingActions.func ).toEqual( func );
 	} );
 
-	it( "Does nothing when no endpoints are provided", async() => {
+	it( "Does nothing when no endpoints are provided", async () => {
 		const instance = new IndexingService( {} );
 
 		global.fetch = jest.fn();
@@ -45,7 +45,7 @@ describe( "IndexingService", () => {
 		expect( count ).toEqual( 0 );
 	} );
 
-	it( "Calls endpoints until they have no next URL", async() => {
+	it( "Calls endpoints until they have no next URL", async () => {
 		const instance = new IndexingService( { restApi: { root: "root", nonce: "nonce" } } );
 
 		global.fetch = jest.fn();

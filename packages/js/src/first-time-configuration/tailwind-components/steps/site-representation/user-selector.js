@@ -57,7 +57,7 @@ export default function UserSelector( { initialValue, onChangeCallback, placehol
 		onChangeCallback( event );
 	} );
 
-	const loadUsers = useCallback( debounce( async( searchQuery ) => {
+	const loadUsers = useCallback( debounce( async ( searchQuery ) => {
 		setIsLoading( true );
 		const usersResponse = await fetchUsers( searchQuery );
 		// If the component is being unmounted, stop executing the callback

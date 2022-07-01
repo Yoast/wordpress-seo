@@ -186,7 +186,7 @@ describe( "determineImageProperties", () => {
 		global.Image = OriginalImage;
 	} );
 
-	it( "returns the image properties for a large landscape image in Twitter", async() => {
+	it( "returns the image properties for a large landscape image in Twitter", async () => {
 		global.Image = createSuccessfulImage( 1200, 628 );
 
 		/*
@@ -204,7 +204,7 @@ describe( "determineImageProperties", () => {
 		expect( imageProperties ).toEqual( expected );
 	} );
 
-	it( "returns the image properties for a small landscape image in Twitter", async() => {
+	it( "returns the image properties for a small landscape image in Twitter", async () => {
 		global.Image = createSuccessfulImage( 250, 131 );
 
 		const imageProperties = await determineImageProperties.determineImageProperties(
@@ -217,7 +217,7 @@ describe( "determineImageProperties", () => {
 		expect( imageProperties ).toEqual( expected );
 	} );
 
-	it( "returns the image properties for a large portrait image in Twitter", async() => {
+	it( "returns the image properties for a large portrait image in Twitter", async () => {
 		global.Image = createSuccessfulImage( 403, 605 );
 
 		const imageProperties = await determineImageProperties.determineImageProperties(
@@ -230,7 +230,7 @@ describe( "determineImageProperties", () => {
 		expect( imageProperties ).toEqual( expected );
 	} );
 
-	it( "returns the image properties for a small portrait image in Twitter", async() => {
+	it( "returns the image properties for a small portrait image in Twitter", async () => {
 		global.Image = createSuccessfulImage( 240, 268 );
 
 		const imageProperties = await determineImageProperties.determineImageProperties(
@@ -243,7 +243,7 @@ describe( "determineImageProperties", () => {
 		expect( imageProperties ).toEqual( expected );
 	} );
 
-	it( "returns the image properties for a large square image in Twitter", async() => {
+	it( "returns the image properties for a large square image in Twitter", async () => {
 		global.Image = createSuccessfulImage( 512, 512 );
 
 		const imageProperties = await determineImageProperties.determineImageProperties(
@@ -256,7 +256,7 @@ describe( "determineImageProperties", () => {
 		expect( imageProperties ).toEqual( expected );
 	} );
 
-	it( "returns the image properties for a small square image in Twitter", async() => {
+	it( "returns the image properties for a small square image in Twitter", async () => {
 		global.Image = createSuccessfulImage( 250, 250 );
 
 		const imageProperties = await determineImageProperties.determineImageProperties(
@@ -269,7 +269,7 @@ describe( "determineImageProperties", () => {
 		expect( imageProperties ).toEqual( expected );
 	} );
 
-	it( "returns the image properties for a too small image in Twitter", async() => {
+	it( "returns the image properties for a too small image in Twitter", async () => {
 		global.Image = createSuccessfulImage( 205, 105 );
 
 		const imageProperties = await determineImageProperties.determineImageProperties(
@@ -282,7 +282,7 @@ describe( "determineImageProperties", () => {
 		expect( imageProperties ).toEqual( expected );
 	} );
 
-	it( "returns the image properties for a landscape image in Facebook", async() => {
+	it( "returns the image properties for a landscape image in Facebook", async () => {
 		global.Image = createSuccessfulImage( 1200, 628 );
 
 		const imageProperties = await determineImageProperties.determineImageProperties(
@@ -294,7 +294,7 @@ describe( "determineImageProperties", () => {
 		expect( imageProperties ).toEqual( expected );
 	} );
 
-	it( "returns the image properties for a portrait image in Facebook", async() => {
+	it( "returns the image properties for a portrait image in Facebook", async () => {
 		global.Image = createSuccessfulImage( 240, 268 );
 
 		const imageProperties = await determineImageProperties.determineImageProperties(
@@ -306,7 +306,7 @@ describe( "determineImageProperties", () => {
 		expect( imageProperties ).toEqual( expected );
 	} );
 
-	it( "returns the image properties for a square image in Facebook", async() => {
+	it( "returns the image properties for a square image in Facebook", async () => {
 		global.Image = createSuccessfulImage( 500, 500 );
 
 		const imageProperties = await determineImageProperties.determineImageProperties(

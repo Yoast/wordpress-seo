@@ -144,11 +144,11 @@ class Step extends React.Component {
 
 			if ( typeof this.components[ currentField.componentName ] === "undefined" ||
 				! this.components[ currentField.componentName ] ) {
-				console.error( `Trying to load non-existing component: ${currentField.componentName}` );
+				console.error( `Trying to load non-existing component: ${ currentField.componentName }` );
 				return null;
 			}
 
-			const fieldKey = `${this.state.currentStep}-${name}`;
+			const fieldKey = `${ this.state.currentStep }-${ name }`;
 			const fieldProps = this.getFieldProps( currentField.componentName, fieldKey, name, currentField );
 
 			return React.createElement( this.components[ currentField.componentName ], fieldProps );
@@ -238,11 +238,11 @@ class Step extends React.Component {
 		if ( componentType === "Input" ) {
 			const inputFieldProperties = {
 				label: currentField.properties.label,
-				"label-className": `${this.props.classPrefix}-text-input-label`,
-				"field-className": `${this.props.classPrefix}-text-input-field`,
+				"label-className": `${ this.props.classPrefix }-text-input-label`,
+				"field-className": `${ this.props.classPrefix }-text-input-field`,
 				autoComplete: currentField.properties.autoComplete,
 				optionalAttributes: {
-					"class": `${this.props.classPrefix}-text-input`,
+					"class": `${ this.props.classPrefix }-text-input`,
 				},
 			};
 
@@ -251,8 +251,8 @@ class Step extends React.Component {
 
 		if ( componentType === "Choice" ) {
 			const choiceFieldProperties = {
-				className: `${this.props.classPrefix}-input-radio`,
-				optionClassName: `${this.props.classPrefix}-input-radio-option`,
+				className: `${ this.props.classPrefix }-input-radio`,
+				optionClassName: `${ this.props.classPrefix }-input-radio-option`,
 			};
 
 			Object.assign( props, choiceFieldProperties );

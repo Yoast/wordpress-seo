@@ -31,7 +31,7 @@ const ToggleBar = styled.div`
 	margin: 0;
 	outline: 0;
 	&:focus > span {
-		box-shadow: inset 0 0 0 1px ${colors.$color_white}, 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, .8);
+		box-shadow: inset 0 0 0 1px ${ colors.$color_white }, 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, .8);
 	}
 `;
 
