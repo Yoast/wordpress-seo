@@ -301,6 +301,25 @@ TermDataCollector.prototype.saveContentScore = function( score ) {
 	$( "#hidden_wpseo_content_score" ).val( score );
 };
 
+
+/**
+ * Saves the inclusive language score to a hidden field.
+ *
+ * @param {number} score The score calculated by the inclusive language assessor.
+ *
+ * @returns {void}
+ */
+TermDataCollector.prototype.saveInclusiveLanguageScore = function( score ) {
+	var indicator = getIndicatorForScore( score );
+
+	if ( ! isKeywordAnalysisActive() ) {
+		updateTrafficLight( indicator );
+		updateAdminBar( indicator );
+	}
+
+	$( "#hidden_wpseo_inclusive_language_score" ).val( score );
+};
+
 /**
  * Initializes keyword tab with the correct template.
  *
