@@ -21,32 +21,32 @@ domReady( () => {
 	const integrations = [
 		{
 			name: "Semrush",
-			description: "Semrush Description",
+			description: "The Semrush integration offers suggestions and insights for keywords related to the entered focus keyphrase.",
 			isPremium: false,
 			logo: <SemrushLogo />,
 		},
 		{
 			name: "Wincher",
-			description: "Wincher Description",
+			description: "The Wincher integration offers the option to track specific keyphrases and gain insights in their positions.",
 			isPremium: false,
 			logo: <WincherLogo />,
 		},
 		{
 			name: "Ryte",
-			description: "Ryte Description",
+			description: "Ryte will check weekly if your site is still indexable by search engines and Yoast SEO will notify you when this is not the case. Read more about how Ryte works.",
 			isPremium: false,
 			logo: <RyteLogo />,
 		},
 		{
 			name: "WordProof",
-			description: "WordProof Description",
+			description: "WordProof can be used to timestamp your privacy page. Read more about how WordProof works.",
 			isPremium: false,
 			logo: <SemrushLogo />,
 
 		},
 		{
 			name: "Zapier",
-			description: "Zapier Description",
+			description: "Set up automated actions when you publish or update your content. By connecting Yoast SEO with Zapier, you can easily send out your published posts to any of its 2000+ destinations, such as Twitter, Facebook and more. Find out more about our Zapier integration.",
 			isPremium: true,
 			logo: <ZapierLogo />,
 		},
