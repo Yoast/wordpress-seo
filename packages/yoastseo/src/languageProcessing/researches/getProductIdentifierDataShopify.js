@@ -1,5 +1,6 @@
 /**
  * Gets the product data from Shopify.
+ *
  * @param {Paper} paper The paper that contains the data.
  *
  * @returns {{hasVariants: (boolean|*), hasGlobalIdentifier: (boolean|*)}}  The object that contains information whether
