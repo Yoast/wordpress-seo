@@ -57,14 +57,14 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 			$name .= ' ' . new Premium_Badge_Presenter( $feature->name );
 		}
 
-		$disabled = false;
+		$disabled            = false;
 		$show_premium_upsell = false;
-		$premium_upsell_url = '';
+		$premium_upsell_url  = '';
 
 		if ( $feature->premium === true && YoastSEO()->helpers->product->is_premium() === false ) {
-			$disabled = true;
+			$disabled            = true;
 			$show_premium_upsell = true;
-			$premium_upsell_url  = $feature->premium_upsell_url;
+			$premium_upsell_url  = WPSEO_Shortlinker::get( $feature->premium_upsell_url );
 		}
 
 		$preserve_disabled_value = false;

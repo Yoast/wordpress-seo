@@ -62,9 +62,12 @@ $integration_toggles = Yoast_Integration_Toggles::instance()->get_all();
 
 			$disabled            = $integration->disabled;
 			$show_premium_upsell = false;
+			$premium_upsell_url  = '';
+
 			if ( $integration->premium === true && YoastSEO()->helpers->product->is_premium() === false ) {
 				$disabled            = true;
 				$show_premium_upsell = true;
+				$premium_upsell_url  = WPSEO_Shortlinker::get( $integration->premium_upsell_url );
 			}
 
 			$preserve_disabled_value = false;
@@ -84,6 +87,7 @@ $integration_toggles = Yoast_Integration_Toggles::instance()->get_all();
 					'disabled'                => $disabled,
 					'preserve_disabled_value' => $preserve_disabled_value,
 					'show_premium_upsell'     => $show_premium_upsell,
+					'premium_upsell_url'      => $premium_upsell_url,
 				]
 			);
 
