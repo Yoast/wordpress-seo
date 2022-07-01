@@ -50,7 +50,7 @@ describe( "a test for an assessment that checks complex words in a text", functi
 
 		expect( result.getScore() ).toBe( 6 );
 		expect( result.getText() ).toBe( "<a href='https://yoa.st/4ls' target='_blank'>Word complexity</a>: 9.64% of the words in " +
-			"your text is considered complex. <a href='https://yoa.st/4lt' target='_blank'>Try to use shorter and more familiar words " +
+			"your text are considered complex. <a href='https://yoa.st/4lt' target='_blank'>Try to use shorter and more familiar words " +
 			"to improve readability</a>." );
 		expect( result.hasMarks() ).toBe( true );
 	} );
@@ -67,7 +67,7 @@ describe( "a test for an assessment that checks complex words in a text", functi
 
 		expect( result.getScore() ).toBe( 3 );
 		expect( result.getText() ).toBe( "<a href='https://yoa.st/4ls' target='_blank'>Word complexity</a>: 9.64% of the words in " +
-			"your text is considered complex. <a href='https://yoa.st/4lt' target='_blank'>Try to use shorter and more familiar words " +
+			"your text are considered complex. <a href='https://yoa.st/4lt' target='_blank'>Try to use shorter and more familiar words " +
 			"to improve readability</a>." );
 		expect( result.hasMarks() ).toBe( true );
 	} );
@@ -85,7 +85,7 @@ describe( "a test for an assessment that checks complex words in a text", functi
 
 		expect( result.getScore() ).toBe( 3 );
 		expect( result.getText() ).toBe( "<a href='https://yoa.st/4ls' target='_blank'>Word complexity</a>: 10% of the words in " +
-			"your text is considered complex. <a href='https://yoa.st/4lt' target='_blank'>Try to use shorter and more familiar words " +
+			"your text are considered complex. <a href='https://yoa.st/4lt' target='_blank'>Try to use shorter and more familiar words " +
 			"to improve readability</a>." );
 		expect( result.hasMarks() ).toBe( true );
 	} );
