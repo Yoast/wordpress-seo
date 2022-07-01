@@ -487,23 +487,10 @@
 		}
 	}
 
-	.switch-container .yoast-button-upsell {
+	.switch-container.premium-upsell .yoast-button {
 		clear: both;
 		margin-top: 8px;
-		min-height: 26px;
-		height: 26px;
 		width: fit-content;
-		font-size: 13px;
-		padding: 5px 8px 8px;
-	}
-
-	.switch-container .yoast-button-upsell.yoast-button-upsell--small {
-		font-size: 13px;
-		padding: 5px 8px 8px;
-	}
-
-	.switch-container .yoast-button-upsell.yoast-button-upsell--small .yoast-button-upsell__caret {
-		width: 4px;
 	}
 
 	.switch-container + .switch-container {
