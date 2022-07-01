@@ -61,9 +61,9 @@ export default function Card( { integration, children } ) {
 				<div className="yst-flex-1 yst-pb-6">
 					<p className="yst-text-base yst-font-semibold yst-text-gray-900">
 						{integration.name}
-						<Badge variant="upsell">
+						{ integration.isPremium && <Badge variant="upsell">
 							Premium
-						</Badge>
+						</Badge> }
 					</p>
 					<p className="yst-mt-3 yst-text-base yst-text-gray-500">{ integration.description }</p>
 				</div>
