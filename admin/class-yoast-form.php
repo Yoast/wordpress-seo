@@ -839,7 +839,6 @@ class Yoast_Form {
 	 * @param array  $attr     Extra attributes to add to the toggle switch.
 	 */
 	public function toggle_switch( $variable, $values, $label, $help = '', $attr = [] ) {
-		// Possibly enhancing this function to add the Get Premium buttons.
 		if ( ! is_array( $values ) || $values === [] ) {
 			return;
 		}
@@ -864,9 +863,12 @@ class Yoast_Form {
 
 		$help_class = ! empty( $help ) ? ' switch-container__has-help' : '';
 
+		$has_premium_upsell = ( isset( $attr[ 'show_premium_upsell' ] ) && $attr[ 'show_premium_upsell'] );
+		$upsell_class = $has_premium_upsell ? ' premium-upsell' : '';
+
 		$var_esc = esc_attr( $variable );
 
-		printf( '<div class="%s">', esc_attr( 'switch-container' . $help_class ) );
+		printf( '<div class="%s">', esc_attr( 'switch-container' . $help_class . $upsell_class ) );
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- output escaped before.
 		echo '<fieldset id="', $var_esc, '" class="fieldset-switch-toggle"><legend>', $label, '</legend>', $help;
 
@@ -898,8 +900,8 @@ class Yoast_Form {
 		}
 
 		$upsell_button = "";
-		if ( isset( $attr[ 'show_premium_upsell' ] ) && $attr[ 'show_premium_upsell'] ) {
-			$upsell_button = '<a class="yoast-button-upsell">' . esc_html__( 'Unlock with Premium!', 'wordpress-seo' ) . '<span class="screen-reader-text">' . esc_html__( '(Opens in a new browser tab)', 'wordpress-seo' ) . '</span>' .
+		if ( $has_premium_upsell ) {
+			$upsell_button = '<a class="yoast-button-upsell yoast-button-upsell--small">' . esc_html__( 'Unlock with Premium!', 'wordpress-seo' ) . '<span class="screen-reader-text">' . esc_html__( '(Opens in a new browser tab)', 'wordpress-seo' ) . '</span>' .
 			'<span aria-hidden="true" class="yoast-button-upsell__caret"></span></a>';
 		}
 

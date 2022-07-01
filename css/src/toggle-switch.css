@@ -454,13 +454,37 @@
 	}
 
 	.switch-container {
-		display: flex;
 		clear: both;
 		margin: 0 0 0.8em 0;
-		justify-content: space-between;
-		align-items: flex-end;
-		flex-wrap: wrap;
-		gap: 8px;
+	}
+
+	.switch-container .clear {
+		clear: both;
+		display: none;
+	}
+
+	.switch-container.premium-upsell {
+		clear: both;
+		margin: 0 0 0.8em 0;
+		display: grid;
+		grid-template-columns: 280px 1fr;
+		align-items: end;
+	}
+
+	.switch-container.premium-upsell .yoast-help-panel {
+		width: 600px;
+	}
+
+	@media screen and (max-width: 600px ) {
+		.switch-container.premium-upsell {
+			clear: both;
+			margin: 0 0 0.8em 0;
+			display: grid;
+			grid-template-columns: 1fr;
+		}
+		.switch-container.premium-upsell .yoast-help-panel {
+			width: unset;
+		}
 	}
 
 	.switch-container .yoast-button-upsell {
@@ -468,6 +492,18 @@
 		margin-top: 8px;
 		min-height: 26px;
 		height: 26px;
+		width: fit-content;
+		font-size: 13px;
+		padding: 5px 8px 8px;
+	}
+
+	.switch-container .yoast-button-upsell.yoast-button-upsell--small {
+		font-size: 13px;
+		padding: 5px 8px 8px;
+	}
+
+	.switch-container .yoast-button-upsell.yoast-button-upsell--small .yoast-button-upsell__caret {
+		width: 4px;
 	}
 
 	.switch-container + .switch-container {
