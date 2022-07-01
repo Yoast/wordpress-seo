@@ -31,7 +31,7 @@ export function getResultsForKeyword( state, keyword ) {
 }
 
 /**
- * Gets the readability results for the focus keyword.
+ * Gets the readability results.
  *
  * @param {object} state The state.
  *
@@ -39,6 +39,19 @@ export function getResultsForKeyword( state, keyword ) {
  */
 export function getReadabilityResults( state ) {
 	const results = get( state, "analysis.readability", {} );
+
+	return isEmpty( results ) ? { results: emptyArray, overallScore: null } : results;
+}
+
+/**
+ * Gets the inclusive language results.
+ *
+ * @param {object} state The state.
+ *
+ * @returns {object} The results and overall score for the inclusive language analysis.
+ */
+export function getInclusiveLanguageResults( state ) {
+	const results = get( state, "analysis.inclusive_language", {} );
 
 	return isEmpty( results ) ? { results: emptyArray, overallScore: null } : results;
 }
@@ -65,10 +78,12 @@ export function getResultsForFocusKeyword( state ) {
 export function getResultById( state, id ) {
 	const focusKeywordResults = getResultsForFocusKeyword( state ).results || emptyArray;
 	const readabilityResults = getReadabilityResults( state ).results || emptyArray;
+	const inclusiveLanguageResults = getInclusiveLanguageResults( state ).results || emptyArray;
 
 	const allResults = [
 		...focusKeywordResults,
 		...readabilityResults,
+		...inclusiveLanguageResults,
 	];
 
 	return allResults.find( result => result._identifier === id );
