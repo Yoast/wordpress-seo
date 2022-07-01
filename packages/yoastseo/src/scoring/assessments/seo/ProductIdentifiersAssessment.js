@@ -28,14 +28,15 @@ export default class ProductIdentifiersAssessment extends Assessment {
 			assessVariants: true,
 			productIdentifierOrBarcode: {
 				lowercase: "product identifier",
-				uppercase: ""
+				uppercase: "",
 			},
 		};
 
 		this.identifier = "productIdentifier";
 		this._config = merge( defaultConfig, config );
 		this._config.productIdentifierOrBarcode.lowercase = __( this._config.productIdentifierOrBarcode.lowercase, "wordpress-seo" );
-		this._config.productIdentifierOrBarcode.uppercase = this._config.productIdentifierOrBarcode.lowercase[ 0 ].toUpperCase() + this._config.productIdentifierOrBarcode.lowercase.slice( 1 );
+		this._config.productIdentifierOrBarcode.uppercase =
+			this._config.productIdentifierOrBarcode.lowercase[ 0 ].toUpperCase() + this._config.productIdentifierOrBarcode.lowercase.slice( 1 );
 	}
 
 	/**
@@ -88,7 +89,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 						this._config.productIdentifierOrBarcode.uppercase,
 						this._config.productIdentifierOrBarcode.lowercase,
 						this._config.urlCallToAction,
-						"</a>",
+						"</a>"
 					),
 				};
 			}
@@ -103,7 +104,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 					),
 					this._config.urlTitle,
 					this._config.productIdentifierOrBarcode.uppercase,
-					"</a>",
+					"</a>"
 				),
 			};
 		}
@@ -132,7 +133,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 					this._config.productIdentifierOrBarcode.uppercase,
 					this._config.productIdentifierOrBarcode.lowercase,
 					this._config.urlCallToAction,
-					"</a>",
+					"</a>"
 				),
 			};
 		}
@@ -148,7 +149,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 				),
 				this._config.urlTitle,
 				this._config.productIdentifierOrBarcode.uppercase,
-				"</a>",
+				"</a>"
 			),
 		};
 	}

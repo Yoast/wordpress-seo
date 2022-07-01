@@ -74,7 +74,7 @@ describe( "a test for Product identifiers assessment for Shopify", () => {
 	const assessment = new ProductIdentifiersAssessment( { productIdentifierUrlTitle: "https://yoa.st/shopify81",
 		productIdentifierCTAUrl: "https://yoa.st/shopify82",
 		assessVariants: false,
-		productIdentifierOrBarcode: { lowercase: "barcode", } } );
+		productIdentifierOrBarcode: { lowercase: "barcode" } } );
 
 	it( "returns with score 9 when the product has global identifier and no variants", () => {
 		const assessmentResult = assessment.getResult( paper, Factory.buildMockResearcher( {
@@ -84,7 +84,6 @@ describe( "a test for Product identifiers assessment for Shopify", () => {
 
 		expect( assessmentResult.getScore() ).toEqual( 9 );
 		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4ly' target='_blank'>Barcode</a>: Good job!" );
-
 	} );
 
 	it( "returns with score 6 when the product doesn't have a global identifier nor variants", () => {
