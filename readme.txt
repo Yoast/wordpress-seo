@@ -259,14 +259,14 @@ Enhancements:
 * Makes sure the title separator chosen in Yoast SEO is used for RSS feed titles too.
 * Prefer featured image and in-content images instead of OpenGraph and Twitter images for Schema output.
 * Removes the Flesch reading ease assessment from the readability analysis, since it is now available in the Insights tab.
-* Updates the Yoast SEO logo
+* Updates the Yoast SEO logo.
 * Uses the site logo set in the customizer as the logo in our Schema `Organization` output when a site has not set a logo in the Yoast SEO settings.
 
 Bugfixes:
 
 * Fixes a bug in the Wincher integration table on posts and terms where the focus keyphrase was not marked with an asterisk.
 * Fixes a bug where a warning would be triggered when author data wasn't available for a post.
-* Fixes a bug where disabled settings in the General page would be set to `Off` upon saving the settings form
+* Fixes a bug where disabled settings in the General page would be set to `Off` upon saving the settings form.
 * Fixes a bug where the desktop preview would show a truncated title, while the title length progress bar and title width assessment would indicate that the title length was still within the limits.
 
 = 19.2 =
