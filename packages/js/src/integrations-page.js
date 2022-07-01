@@ -13,7 +13,38 @@ domReady( () => {
 		return;
 	}
 
-	const integrations = [ "semrush", "wincher", "zapier", "wordproof", "ryte", "algolia" ];
+	const integrations = [
+		{
+			name: "Semrush",
+			description: "Semrush Description",
+			isPremium: false,
+		},
+		{
+			name: "Wincher",
+			description: "Wincher Description",
+			isPremium: false,
+		},
+		{
+			name: "Zapier",
+			description: "Zapier Description",
+			isPremium: true,
+		},
+		{
+			name: "WordProof",
+			description: "WordProof Description",
+			isPremium: false,
+		},
+		{
+			name: "Ryte",
+			description: "Ryte Description",
+			isPremium: false,
+		},
+		{
+			name: "Algolia",
+			description: "Algolia Description",
+			isPremium: true,
+		},
+	];
 
 	/**
 	 * Collects an integration initial state from the window object.
@@ -23,20 +54,20 @@ domReady( () => {
 	 * @returns {bool} True if the integration is active, false otherwise.
 	 */
 	const getInitialState = ( integrationName ) => {
-		const integration = integrationName === "ryte" ? "ryte_indexability" : `${ integrationName}_integration_active`;
+		const integration = integrationName === "Ryte" ? "ryte_indexability" : `${ integrationName.toLowerCase() }_integration_active`;
 		return Boolean( window.wpseoIntegrationsData[ integration ] );
 	};
 	render(
 		<Root context={ context }>
 			<div className="yst-flex yst-flex-wrap yst-justify-items-start yst-py-6">
-				{ integrations.map( ( integrationName, index ) => {
+				{ integrations.map( ( integration, index ) => {
 					return (
 						<Card
 							key={ index }
-							integration={ { name: integrationName, description: `${integrationName} description`, isActive: getInitialState( integrationName ) } }
+							integration={ { name: integration.name, description: `${integration.description} description`, isActive: getInitialState( integration.name ), isPremium: integration.isPremium } }
 						/>
 					);
-				} ) };
+				} ) }
 			</div>
 		</Root>,
 		root
