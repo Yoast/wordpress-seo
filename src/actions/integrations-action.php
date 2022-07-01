@@ -84,6 +84,6 @@ class Integrations_Action {
 	 * @return string The option name.
 	 */
 	private function get_integration_option_name( $integration_name ) {
-		return ( $integration_name === 'ryte' ) ? 'ryte_indexability' : $integration_name . '_active';
+		return ( $integration_name === 'ryte' ) ? 'ryte_indexability' : $integration_name . '_integration_active';
 	}
 }
