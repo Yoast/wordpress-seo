@@ -49,7 +49,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 	 */
 	getResult( paper, researcher ) {
 		const productIdentifierData = researcher.getResearch( "getProductIdentifierData" );
-
+		console.log( "Hello" );
 		const result = this.scoreProductIdentifier( productIdentifierData, this._config );
 
 		const assessmentResult = new AssessmentResult();
