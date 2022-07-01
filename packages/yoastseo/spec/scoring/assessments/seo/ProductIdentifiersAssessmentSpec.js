@@ -76,7 +76,7 @@ describe( "a test for Product identifiers assessment for Shopify", () => {
 		assessVariants: false,
 		productIdentifierOrBarcode: { lowercase: "barcode", } } );
 
-	it( "returns with score 9 when the product has global identifier", () => {
+	it( "returns with score 9 when the product has global identifier and no variants", () => {
 		const assessmentResult = assessment.getResult( paper, Factory.buildMockResearcher( {
 			hasGlobalIdentifier: true,
 			hasVariants: false,
@@ -87,7 +87,7 @@ describe( "a test for Product identifiers assessment for Shopify", () => {
 
 	} );
 
-	it( "returns with score 6 when the product doesn't have global identifier and variants", () => {
+	it( "returns with score 6 when the product doesn't have a global identifier nor variants", () => {
 		const assessmentResult = assessment.getResult( paper, Factory.buildMockResearcher( {
 			hasGlobalIdentifier: false,
 			hasVariants: false,
