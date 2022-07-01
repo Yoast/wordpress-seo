@@ -53,8 +53,8 @@ export default function Card( { integration, children } ) {
 	);
 
 	return (
-		<div key={ integration.title } className={ `yst-flex yst-flex-col yst-border-2 yst-border-gray-200 yst-w-[350px] yst-rounded-lg yst-shadow-lg yst-overflow-hidden yst-mr-3 yst-mb-4 ${ isIntegrationAvailable ? "yst-opacity-100" : "yst-opacity-50" }` }>
-			<div className="yst-flex-1 yst-bg-gray-100 yst-p-6 yst-flex yst-justify-center yst-content-center">
+		<div key={ integration.title } className={ `yst-flex yst-flex-col yst-border-2 yst-border-gray-200 yst-w-[350px] yst-h-[450px] yst-rounded-lg yst-shadow-lg yst-overflow-hidden yst-mr-3 yst-mb-4 ${ isIntegrationAvailable ? "yst-opacity-100" : "yst-opacity-50" }` }>
+			<div className="yst-flex-initial yst-bg-gray-100 yst-p-6 yst-flex yst-justify-center yst-content-center">
 				{ integration.logo }
 			</div>
 			<div className="yst-flex-1 yst-bg-white yst-p-6 yst-flex yst-flex-col yst-justify-between">
@@ -67,7 +67,7 @@ export default function Card( { integration, children } ) {
 					</p>
 					<p className="yst-mt-3 yst-text-base yst-text-gray-500">{ integration.description }</p>
 				</div>
-				<div className="yst-flex-1 yst-border-t-2 yst-pt-6">
+				<div className="yst-flex-initial yst-border-t-2 yst-pt-6">
 					<ToggleField
 						checked={ isActive }
 						label={ `Enable ${ integration.name }` }
