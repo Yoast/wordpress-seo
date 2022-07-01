@@ -53,6 +53,13 @@ class Yoast_Feature_Toggle {
 	protected $premium_url = '';
 
 	/**
+	 * URL to buy premium.
+	 *
+	 * @var string
+	 */
+	protected $premium_upsell_url = '';
+
+	/**
 	 * Label for the learn more link.
 	 *
 	 * @var string
@@ -102,17 +109,18 @@ class Yoast_Feature_Toggle {
 	 * @param array $args {
 	 *     Feature toggle arguments.
 	 *
-	 *     @type string $name            Required. Feature toggle identifier.
-	 *     @type string $setting         Required. Name of the setting the feature toggle is associated with.
-	 *     @type string $disabled        Whether the feature is premium or not.
-	 *     @type string $label           Feature toggle label.
-	 *     @type string $read_more_url   URL to learn more about the feature. Default empty string.
-	 *     @type string $read_more_label Label for the learn more link. Default empty string.
-	 *     @type string $extra           Additional help content for the feature. Default empty string.
-	 *     @type int    $order           Value to specify the feature toggle order. A lower value indicates
-	 *                                   a higher priority. Default 100.
-	 *     @type bool   $disabled        Disable the integration toggle. Default false.
-	 *     @type string $new             Whether the feature is new or not.
+	 *     @type string $name               Required. Feature toggle identifier.
+	 *     @type string $setting            Required. Name of the setting the feature toggle is associated with.
+	 *     @type string $disabled           Whether the feature is premium or not.
+	 *     @type string $label              Feature toggle label.
+	 *     @type string $read_more_url      URL to learn more about the feature. Default empty string.
+	 *     @type string $premium_upsell_url URL to buy premium. Default empty string.
+	 *     @type string $read_more_label    Label for the learn more link. Default empty string.
+	 *     @type string $extra              Additional help content for the feature. Default empty string.
+	 *     @type int    $order              Value to specify the feature toggle order. A lower value indicates
+	 *                                      a higher priority. Default 100.
+	 *     @type bool   $disabled           Disable the integration toggle. Default false.
+	 *     @type string $new                Whether the feature is new or not.
 	 * }
 	 *
 	 * @throws InvalidArgumentException Thrown when a required argument is missing.
