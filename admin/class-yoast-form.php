@@ -901,8 +901,8 @@ class Yoast_Form {
 
 		$upsell_button = "";
 		if ( $has_premium_upsell ) {
-			$upsell_button = '<a class="yoast-button-upsell yoast-button-upsell--small" href=' . esc_url( $attr[ 'premium_upsell_url' ] ) . ' target="_blank">' . esc_html__( 'Unlock with Premium!', 'wordpress-seo' ) . '<span class="screen-reader-text">' . esc_html__( '(Opens in a new browser tab)', 'wordpress-seo' ) . '</span>' .
-			'<span aria-hidden="true" class="yoast-button-upsell__caret"></span></a>';
+			$upsell_button = '<a class="yoast-button yoast-button--buy yoast-button--small" href=' . esc_url( $attr[ 'premium_upsell_url' ] ) . ' target="_blank">' . esc_html__( 'Unlock with Premium!', 'wordpress-seo' ) . '<span class="screen-reader-text">' . esc_html__( '(Opens in a new browser tab)', 'wordpress-seo' ) . '</span>' .
+			'<span aria-hidden="true" class="yoast-button--buy__caret"></span></a>';
 		}
 
 
