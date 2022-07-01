@@ -55,6 +55,7 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"metaDescriptionLength",
 			"textLength",
 			"titleWidth",
+			"productIdentifier",
 		] );
 	} );
 
@@ -69,6 +70,7 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"textLength",
 			"titleWidth",
 			"images",
+			"productIdentifier",
 		] );
 	} );
 
@@ -84,6 +86,7 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"titleWidth",
 			"singleH1",
 			"images",
+			"productIdentifier",
 		] );
 	} );
 
@@ -99,6 +102,7 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"textLength",
 			"titleWidth",
 			"images",
+			"productIdentifier",
 		] );
 	} );
 
@@ -112,6 +116,7 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"metaDescriptionLength",
 			"textLength",
 			"titleWidth",
+			"productIdentifier",
 		] );
 	} );
 
@@ -127,6 +132,7 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"textLength",
 			"titleWidth",
 			"images",
+			"productIdentifier",
 		] );
 	} );
 
@@ -144,6 +150,7 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"textLength",
 			"titleWidth",
 			"images",
+			"productIdentifier",
 		] );
 	} );
 
@@ -159,6 +166,7 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"textLength",
 			"titleWidth",
 			"images",
+			"productIdentifier",
 		] );
 	} );
 
@@ -175,6 +183,7 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"titleWidth",
 			"slugKeyword",
 			"images",
+			"productIdentifier",
 		] );
 	} );
 
@@ -205,6 +214,7 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"titleWidth",
 			"images",
 			"keyphraseDistribution",
+			"productIdentifier",
 		] );
 	} );
 
@@ -234,6 +244,7 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"titleWidth",
 			"images",
 			"keyphraseDistribution",
+			"productIdentifier",
 		] );
 	} );
 
