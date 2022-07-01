@@ -26,14 +26,12 @@ domReady( () => {
 			description: "Wincher Description",
 			isPremium: false,
 			logo: <SemrushLogo />,
-
 		},
 		{
-			name: "Zapier",
-			description: "Zapier Description",
-			isPremium: true,
+			name: "Ryte",
+			description: "Ryte Description",
+			isPremium: false,
 			logo: <SemrushLogo />,
-
 		},
 		{
 			name: "WordProof",
@@ -43,18 +41,16 @@ domReady( () => {
 
 		},
 		{
-			name: "Ryte",
-			description: "Ryte Description",
-			isPremium: false,
+			name: "Zapier",
+			description: "Zapier Description",
+			isPremium: true,
 			logo: <SemrushLogo />,
-
 		},
 		{
 			name: "Algolia",
 			description: "Algolia Description",
 			isPremium: true,
 			logo: <SemrushLogo />,
-
 		},
 	];
 
@@ -71,7 +67,7 @@ domReady( () => {
 	};
 	render(
 		<Root context={ context }>
-			<div className="yst-flex yst-flex-wrap yst-justify-items-start yst-py-6">
+			<div className="yst-flex yst-flex-wrap yst-justify-items-start yst-max-w-[1200px] yst-py-6">
 				{ integrations.map( ( integration, index ) => {
 					return (
 						<Card
