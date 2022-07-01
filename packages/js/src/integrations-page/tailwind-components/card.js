@@ -1,7 +1,7 @@
 import apiFetch from "@wordpress/api-fetch";
 import { useState, useCallback } from "@wordpress/element";
 import { PropTypes } from "prop-types";
-import { ToggleField, Badge } from "@yoast/ui-library";
+import { ToggleField, Badge, Alert } from "@yoast/ui-library";
 
 /**
  * Modal component.
@@ -17,6 +17,7 @@ export default function Card( { integration, children } ) {
 	const isPremiumInstalled = Boolean( window.wpseoScriptData.isPremium );
 	const isIntegrationAvailable = ( integration.isPremium && isPremiumInstalled ) || ! integration.isPremium;
 	const [ isActive, setIsActive ] = useState( integration.isActive );
+	const [ errorMessage, setErrorMessage ] = useState( "" );
 
 	/**
 	 * Updates an integration state.
@@ -39,12 +40,12 @@ export default function Card( { integration, children } ) {
 		() => {
 			setIsActive( ! isActive );
 			updateIntegrationState( integration.name, ! isActive ).then( () => {
-				console.log( "OK!" );
+				setErrorMessage( "" );
 				return true;
 			} )
 				.catch( ( e ) => {
 					if ( e.message ) {
-						Error.log( e.message );
+						setErrorMessage( e.message );
 					}
 					return false;
 				} );
@@ -74,6 +75,7 @@ export default function Card( { integration, children } ) {
 						onChange={ toggleActive }
 						disabled={ ! isIntegrationAvailable }
 					/>
+					{ errorMessage && <Alert variant="error" className="yst-mt-2">{ errorMessage }</Alert> }
 				</div>
 			</div>
 		</div>
