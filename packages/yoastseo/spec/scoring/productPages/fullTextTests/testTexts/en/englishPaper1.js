@@ -13,6 +13,10 @@ const paper = new Paper( content, {
 	locale: "en_EN",
 	permalink: "https://en.wikipedia.org/wiki/Cat_play_and_toys",
 	slug: "Cat_play_and_toys",
+	customData: {
+		hasGlobalIdentifier: true,
+		hasVariants: false,
+	},
 } );
 
 const expectedResults = {
@@ -85,6 +89,11 @@ const expectedResults = {
 		isApplicable: true,
 		score: 0,
 		resultText: "",
+	},
+	productIdentifiers: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/shopify81' target='_blank'>Barcode</a>: Good job!",
 	},
 	imageKeyphrase: {
 		isApplicable: true,
