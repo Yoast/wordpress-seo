@@ -299,6 +299,7 @@ class WPSEO_Upgrade {
 
 		$this->save_option_setting( $wpseo_titles, 'content-analysis-active', 'content_analysis_active' );
 		$this->save_option_setting( $wpseo_titles, 'keyword-analysis-active', 'keyword_analysis_active' );
+		$this->save_option_setting( $wpseo_titles, 'inclusive-language-analysis-active', 'inclusive_language_analysis_active' );
 
 		// Remove irrelevant content from the option.
 		$this->cleanup_option_data( 'wpseo_titles' );

@@ -566,8 +566,9 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 			return '';
 		}
 
-		$analysis_seo         = new WPSEO_Metabox_Analysis_SEO();
-		$analysis_readability = new WPSEO_Metabox_Analysis_Readability();
+		$analysis_seo                = new WPSEO_Metabox_Analysis_SEO();
+		$analysis_readability        = new WPSEO_Metabox_Analysis_Readability();
+		$analysis_inclusive_language = new WPSEO_Metabox_Analysis_Inclusive_Language();
 
 		if ( $analysis_seo->is_enabled() ) {
 			return $this->get_score( WPSEO_Meta::get_value( 'linkdex', $post->ID ) );
@@ -575,6 +576,10 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 
 		if ( $analysis_readability->is_enabled() ) {
 			return $this->get_score( WPSEO_Meta::get_value( 'content_score', $post->ID ) );
+		}
+
+		if ( $analysis_inclusive_language->is_enabled() ) {
+			return $this->get_score( WPSEO_Meta::get_value( 'inclusive_language_score', $post->ID ) );
 		}
 
 		return '';
@@ -615,8 +620,9 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 			return '';
 		}
 
-		$analysis_seo         = new WPSEO_Metabox_Analysis_SEO();
-		$analysis_readability = new WPSEO_Metabox_Analysis_Readability();
+		$analysis_seo                = new WPSEO_Metabox_Analysis_SEO();
+		$analysis_readability        = new WPSEO_Metabox_Analysis_Readability();
+		$analysis_inclusive_language = new WPSEO_Metabox_Analysis_Inclusive_Language();
 
 		if ( $analysis_seo->is_enabled() ) {
 			return $this->get_score( WPSEO_Taxonomy_Meta::get_term_meta( $term->term_id, $term->taxonomy, 'linkdex' ) );
@@ -624,6 +630,10 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 
 		if ( $analysis_readability->is_enabled() ) {
 			return $this->get_score( WPSEO_Taxonomy_Meta::get_term_meta( $term->term_id, $term->taxonomy, 'content_score' ) );
+		}
+
+		if ( $analysis_inclusive_language->is_enabled() ) {
+			return $this->get_score( WPSEO_Taxonomy_Meta::get_term_meta( $term->term_id, $term->taxonomy, 'inclusive_language_score' ) );
 		}
 
 		return '';
