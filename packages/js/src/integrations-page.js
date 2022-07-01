@@ -4,6 +4,7 @@ import { Root } from "@yoast/ui-library";
 import { get } from "lodash";
 import Card from "./integrations-page/tailwind-components/card";
 import { ReactComponent as SemrushLogo } from "../images/semrush-logo.svg";
+import { ReactComponent as AlgoliaLogo } from "../images/algolia-logo.svg";
 
 domReady( () => {
 	const context = {
@@ -50,7 +51,7 @@ domReady( () => {
 			name: "Algolia",
 			description: "Improve the quality of your site search! Automatically helps your users find your cornerstone and most important content in your internal search results. It also removes noindexed posts & pages from your site’s search results. Find out more about our Algolia integration.",
 			isPremium: true,
-			logo: <SemrushLogo />,
+			logo: <AlgoliaLogo />,
 		},
 	];
 
