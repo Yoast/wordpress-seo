@@ -14,7 +14,7 @@ import { ToggleField, Badge } from "@yoast/ui-library";
  */
 export default function Card( { integration, children } ) {
 	const basePath = "yoast/v1/integrations";
-	const isPremiumInstalled = Boolean( "window.wpseoScriptData.isPremium" );
+	const isPremiumInstalled = Boolean( window.wpseoScriptData.isPremium );
 	const isIntegrationAvailabe = ( integration.isPremium && isPremiumInstalled ) || ! integration.isPremium;
 	const [ isActive, setIsActive ] = useState( integration.isActive );
 
@@ -53,14 +53,14 @@ export default function Card( { integration, children } ) {
 	);
 
 	return (
-		<div key={ integration.title } className="yst-flex yst-flex-col yst-border-2 yst-border-gray-200 yst-w-[350px] yst-rounded-lg yst-shadow-lg yst-overflow-hidden yst-mr-3 yst-mb-4">
+		<div key={ integration.title } className={ `yst-flex yst-flex-col yst-border-2 yst-border-gray-200 yst-w-[350px] yst-rounded-lg yst-shadow-lg yst-overflow-hidden yst-mr-3 yst-mb-4 ${ isIntegrationAvailabe ? "yst-opacity-100" : "yst-opacity-50" }` }>
 			<div className="yst-flex-1 yst-bg-gray-100 yst-p-6 yst-flex yst-justify-center yst-content-center">
 				{ integration.logo }
 			</div>
 			<div className="yst-flex-1 yst-bg-white yst-p-6 yst-flex yst-flex-col yst-justify-between">
 				<div className="yst-flex-1 yst-pb-6">
 					<p className="yst-text-base yst-font-semibold yst-text-gray-900">
-						{integration.name}
+						{ integration.name }
 						{ integration.isPremium && <Badge variant="upsell">
 							Premium
 						</Badge> }
