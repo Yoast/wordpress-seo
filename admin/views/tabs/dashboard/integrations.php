@@ -69,9 +69,12 @@ $integration_toggles = Yoast_Integration_Toggles::instance()->get_all();
 
 			$disabled = false;
 			$show_premium_upsell = false;
+			$premium_upsell_url = '';
+
 			if ( $integration->premium === true && YoastSEO()->helpers->product->is_premium() === false ) {
 				$disabled = true;
 				$show_premium_upsell = true;
+				$premium_upsell_url = $integration->premium_upsell_url;
 			}
 
 			// If the integration is disabled, do not show note showing
@@ -82,7 +85,8 @@ $integration_toggles = Yoast_Integration_Toggles::instance()->get_all();
 			}
 
 			$attributes[ 'show_premium_upsell' ] = $show_premium_upsell;
-			$attributes[ 'disabled' ] = $disabled;
+			$attributes[ 'disabled' ]            = $disabled;
+			$attributes[ 'premium_upsell_url' ]  = $premium_upsell_url;
 
 			$preserve_disabled_value = false;
 			if ( isset( $attributes['disabled'] ) && $attributes['disabled'] ) {
