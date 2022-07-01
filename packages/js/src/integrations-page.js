@@ -3,8 +3,11 @@ import { render } from "@wordpress/element";
 import { Root } from "@yoast/ui-library";
 import { get } from "lodash";
 import Card from "./integrations-page/tailwind-components/card";
-import { ReactComponent as SemrushLogo } from "../images/semrush-logo.svg";
 import { ReactComponent as AlgoliaLogo } from "../images/algolia-logo.svg";
+import { ReactComponent as RyteLogo } from "../images/ryte-logo.svg";
+import { ReactComponent as SemrushLogo } from "../images/semrush-logo.svg";
+import { ReactComponent as WincherLogo } from "../images/wincher-logo.svg";
+import { ReactComponent as ZapierLogo } from "../images/zapier-logo.svg";
 
 domReady( () => {
 	const context = {
@@ -26,13 +29,13 @@ domReady( () => {
 			name: "Wincher",
 			description: "Wincher Description",
 			isPremium: false,
-			logo: <SemrushLogo />,
+			logo: <WincherLogo />,
 		},
 		{
 			name: "Ryte",
 			description: "Ryte Description",
 			isPremium: false,
-			logo: <SemrushLogo />,
+			logo: <RyteLogo />,
 		},
 		{
 			name: "WordProof",
@@ -45,7 +48,7 @@ domReady( () => {
 			name: "Zapier",
 			description: "Zapier Description",
 			isPremium: true,
-			logo: <SemrushLogo />,
+			logo: <ZapierLogo />,
 		},
 		{
 			name: "Algolia",
