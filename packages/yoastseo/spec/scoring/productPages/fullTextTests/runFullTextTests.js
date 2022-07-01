@@ -22,6 +22,7 @@ import ImageKeyphraseAssessment from "../../../../src/scoring/assessments/seo/Ke
 import ImageCountAssessment from "../../../../src/scoring/assessments/seo/ImageCountAssessment";
 import ImageAltTags from "../../../../src/scoring/assessments/seo/ImageAltTagsAssessment";
 import KeyphraseDistribution from "../../../../src/scoring/assessments/seo/KeyphraseDistributionAssessment";
+import ProductIdentifiersAssessment from "../../../../src/scoring/assessments/seo/ProductIdentifiersAssessment";
 
 // Import Readability assessments.
 import SubheadingDistributionTooLongAssessment
@@ -114,6 +115,12 @@ testPapers.forEach( function( testPaper ) {
 		const singleH1Assessment = new SingleH1Assessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify54" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify55" ),
+		} );
+		const productIdentifiersAssessment = new ProductIdentifiersAssessment( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify81" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify82" ),
+			assessVariants: false,
+			productIdentifierOrBarcode: { lowercase: "barcode" },
 		} );
 		const imageKeyphraseAssessment = new ImageKeyphraseAssessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify22" ),
@@ -319,6 +326,17 @@ testPapers.forEach( function( testPaper ) {
 				result.singleH1 = singleH1Assessment.getResult( paper, researcher );
 				expect( result.singleH1.getScore() ).toBe( expectedResults.singleH1.score );
 				expect( result.singleH1.getText() ).toBe( expectedResults.singleH1.resultText );
+			}
+		} );
+
+		it( "returns a score and the associated feedback text for the product identifiers assessment", function() {
+			const isApplicable = productIdentifiersAssessment.isApplicable( paper );
+			expect( isApplicable ).toBe( expectedResults.productIdentifiers.isApplicable );
+
+			if ( isApplicable ) {
+				result.productIdentifiers = productIdentifiersAssessment.getResult( paper, researcher );
+				expect( result.productIdentifiers.getScore() ).toBe( expectedResults.productIdentifiers.score );
+				expect( result.productIdentifiers.getText() ).toBe( expectedResults.productIdentifiers.resultText );
 			}
 		} );
 
