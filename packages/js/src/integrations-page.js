@@ -1,7 +1,8 @@
 import domReady from "@wordpress/dom-ready";
 import { render } from "@wordpress/element";
-import { Alert, Root } from "@yoast/ui-library";
+import { Root } from "@yoast/ui-library";
 import { get } from "lodash";
+import Card from "./integrations-page/tailwind-components/card";
 
 domReady( () => {
 	const context = {
@@ -14,9 +15,12 @@ domReady( () => {
 
 	render(
 		<Root context={ context }>
-			<Alert>
-				Integrations placeholder
-			</Alert>
+			<div className="yst-flex yst-flex-wrap yst-justify-items-start yst-py-6">
+				<Card/>
+				<Card/>
+				<Card/>
+				<Card/>
+			</div>
 		</Root>,
 		root
 	);
