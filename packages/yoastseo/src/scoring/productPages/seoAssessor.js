@@ -121,10 +121,10 @@ const ProductSEOAssessor = function( researcher, options ) {
 			urlCallToAction: createAnchorOpeningTag( options.keyphraseDistributionCTAUrl ),
 		} ),
 		new ProductIdentifiersAssessment( {
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/4ly" ),
+			urlTitle: createAnchorOpeningTag( options.productIdentifierUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.productIdentifierCTAUrl ),
-			assessVariants: false,
-			productIdentifierOrBarcode: { lowercase: "barcode" },
+			assessVariants: options.assessVariants,
+			productIdentifierOrBarcode: options.productIdentifierOrBarcode,
 		} ),
 	];
 };
