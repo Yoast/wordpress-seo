@@ -61,3 +61,5 @@
 - Passive voice (PassiveVoiceAssessment)
 - Text presence (TextPresenceAssessment)
 - Flesch Reading Ease (FleschReadingEaseAssessment)
+## Premium
+- Word complexity (WordComplexityAssessment) [Cornerstone values!](SCORING%20READABILITY.md#8-word-complexity)

@@ -229,6 +229,10 @@ class Indexable_Presentation extends Abstract_Presentation {
 			return $this->permalink_helper->get_permalink_for_indexable( $this->model );
 		}
 
+		if ( \is_date() ) {
+			return $this->current_page->get_date_archive_permalink();
+		}
+
 		return $this->model->permalink;
 	}
 

@@ -90,6 +90,8 @@ class Description_Presenter_Test extends TestCase {
 	public function test_present() {
 		$this->presentation->open_graph_description = 'My description';
 
+		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
+
 		$expected = '<meta property="og:description" content="My description" />';
 		$actual   = $this->instance->present();
 
@@ -123,10 +125,28 @@ class Description_Presenter_Test extends TestCase {
 			->once()
 			->with( 'My description', $this->presentation )
 			->andReturn( 'My filtered description' );
+		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
 
 		$expected = '<meta property="og:description" content="My filtered description" />';
 		$actual   = $this->instance->present();
 
 		$this->assertEquals( $expected, $actual );
 	}
+
+	/**
+	 * Tests whether the presenter returns the correct description when the admin bar is showing a class is added.
+	 *
+	 * @covers ::present
+	 */
+	public function test_present_with_class() {
+		$this->presentation->open_graph_description = 'My description';
+
+		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( true );
+
+		$expected = '<meta property="og:description" content="My description" class="yoast-seo-meta-tag" />';
+		$actual   = $this->instance->present();
+
+		$this->assertEquals( $expected, $actual );
+	}
+
 }

@@ -25,6 +25,13 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	const KEYWORD_RESEARCH_SUBMENU_IDENTIFIER = 'wpseo-kwresearch';
 
 	/**
+	 * The identifier used for the frontend inspector submenu.
+	 *
+	 * @var string
+	 */
+	const FRONTEND_INSPECTOR_SUBMENU_IDENTIFIER = 'wpseo-frontend-inspector';
+
+	/**
 	 * The identifier used for the Analysis submenu.
 	 *
 	 * @var string
@@ -75,7 +82,6 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	public function add_menu( WP_Admin_Bar $wp_admin_bar ) {
-
 		// On block editor pages, the admin bar only shows on mobile, where having this menu icon is not very helpful.
 		if ( is_admin() ) {
 			$screen = get_current_screen();
@@ -90,6 +96,9 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 		}
 
 		$this->add_root_menu( $wp_admin_bar );
+		if ( ! is_admin() && YoastSEO()->helpers->product->is_premium() ) {
+			$this->add_frontend_inspector_submenu( $wp_admin_bar );
+		}
 		$this->add_keyword_research_submenu( $wp_admin_bar );
 
 		if ( ! is_admin() ) {
@@ -228,7 +237,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 			$focus_keyword = $this->get_post_focus_keyword( $post );
 
 			if ( ! empty( $focus_keyword ) ) {
-				$trends_url .= '#q=' . urlencode( $focus_keyword );
+				$trends_url .= '#q=' . rawurlencode( $focus_keyword );
 			}
 		}
 
@@ -271,6 +280,30 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	}
 
 	/**
+	 * Adds the frontend inspector submenu.
+	 *
+	 * @param WP_Admin_Bar $wp_admin_bar The admin bar.
+	 *
+	 * @return void
+	 */
+	protected function add_frontend_inspector_submenu( WP_Admin_Bar $wp_admin_bar ) {
+		$menu_args = [
+			'parent' => self::MENU_IDENTIFIER,
+			'id'     => self::FRONTEND_INSPECTOR_SUBMENU_IDENTIFIER,
+			'title'  => sprintf(
+				'%1$s <span class="yoast-badge yoast-new-badge">%2$s</span>',
+				__( 'Inspect', 'wordpress-seo' ),
+				__( 'New', 'wordpress-seo' )
+			),
+			'href'   => '#wpseo-frontend-inspector',
+			'meta'   => [
+				'tabindex' => '0',
+			],
+		];
+		$wp_admin_bar->add_menu( $menu_args );
+	}
+
+	/**
 	 * Adds the admin bar analysis submenu.
 	 *
 	 * @param WP_Admin_Bar $wp_admin_bar Admin bar instance to add the menu to.
@@ -304,18 +337,18 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 		];
 		$wp_admin_bar->add_menu( $menu_args );
 
-		$encoded_url   = urlencode( $url );
+		$encoded_url   = rawurlencode( $url );
 		$submenu_items = [
 			[
 				'id'     => 'wpseo-inlinks',
 				'title'  => __( 'Check links to this URL', 'wordpress-seo' ),
-				'href'   => 'https://search.google.com/search-console/links/drilldown?resource_id=' . urlencode( get_option( 'home' ) ) . '&type=EXTERNAL&target=' . $encoded_url . '&domain=',
+				'href'   => 'https://search.google.com/search-console/links/drilldown?resource_id=' . rawurlencode( get_option( 'siteurl' ) ) . '&type=EXTERNAL&target=' . $encoded_url . '&domain=',
 			],
 			[
 				'id'     => 'wpseo-kwdensity',
 				'title'  => __( 'Check Keyphrase Density', 'wordpress-seo' ),
 				// HTTPS not available.
-				'href'   => 'http://www.zippy.co.uk/keyworddensity/index.php?url=' . $encoded_url . '&keyword=' . urlencode( $focus_keyword ),
+				'href'   => 'http://www.zippy.co.uk/keyworddensity/index.php?url=' . $encoded_url . '&keyword=' . rawurlencode( $focus_keyword ),
 			],
 			[
 				'id'     => 'wpseo-cache',
@@ -413,7 +446,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 				'parent' => self::SETTINGS_SUBMENU_IDENTIFIER,
 				'id'     => $id,
 				'title'  => $submenu_page[2],
-				'href'   => admin_url( 'admin.php?page=' . urlencode( $submenu_page[4] ) ),
+				'href'   => admin_url( 'admin.php?page=' . rawurlencode( $submenu_page[4] ) ),
 			];
 			$wp_admin_bar->add_menu( $menu_args );
 		}
@@ -456,7 +489,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 				'parent' => self::NETWORK_SETTINGS_SUBMENU_IDENTIFIER,
 				'id'     => $id,
 				'title'  => $submenu_page[2],
-				'href'   => network_admin_url( 'admin.php?page=' . urlencode( $submenu_page[4] ) ),
+				'href'   => network_admin_url( 'admin.php?page=' . rawurlencode( $submenu_page[4] ) ),
 			];
 			$wp_admin_bar->add_menu( $menu_args );
 		}

@@ -1,11 +1,8 @@
-import { LOAD_ESTIMATED_READING_TIME, SET_ESTIMATED_READING_TIME, SET_FLESCH_READING_EASE, SET_WORD_COUNT } from "./actions";
+import { LOAD_ESTIMATED_READING_TIME, SET_ESTIMATED_READING_TIME, SET_FLESCH_READING_EASE, SET_TEXT_LENGTH } from "./actions";
 
 const INITIAL_STATE = {
 	estimatedReadingTime: 0,
-	fleschReadingEaseScore: 0,
-	// Including `<a>` and `</a>`, so we can interpolate.
-	fleschReadingEaseText: "",
-	wordCount: 0,
+	textLength: {},
 };
 
 /**
@@ -34,12 +31,12 @@ const reducer = ( state = INITIAL_STATE, { type, payload } ) => {
 			return {
 				...state,
 				fleschReadingEaseScore: payload.score,
-				fleschReadingEaseText: payload.text,
+				fleschReadingEaseDifficulty: payload.difficulty,
 			};
-		case SET_WORD_COUNT:
+		case SET_TEXT_LENGTH:
 			return {
 				...state,
-				wordCount: payload,
+				textLength: payload,
 			};
 		default:
 			return state;

@@ -19,7 +19,6 @@ import KeyphraseDistributionAssessment from "../../src/scoring/assessments/seo/K
 import ImageKeyphraseAssessment from "../../src/scoring/assessments/seo/KeyphraseInImageTextAssessment";
 import ImageCountAssessment from "../../src/scoring/assessments/seo/ImageCountAssessment";
 // Import content assessments
-import fleschReadingAssessment from "../../src/scoring/assessments/readability/fleschReadingEaseAssessment";
 import SubheadingDistributionTooLongAssessment from "../../src/scoring/assessments/readability/SubheadingDistributionTooLongAssessment";
 import ParagraphTooLongAssessment from "../../src/scoring/assessments/readability/ParagraphTooLongAssessment";
 import SentenceLengthInTextAssessment from "../../src/scoring/assessments/readability/SentenceLengthInTextAssessment";
@@ -27,6 +26,7 @@ import TransitionWordsAssessment from "../../src/scoring/assessments/readability
 import PassiveVoiceAssessment from "../../src/scoring/assessments/readability/PassiveVoiceAssessment";
 import TextPresenceAssessment from "../../src/scoring/assessments/readability/TextPresenceAssessment";
 import SentenceBeginningsAssessment from "../../src/scoring/assessments/readability/SentenceBeginningsAssessment";
+import WordComplexityAssessment from "../../src/scoring/assessments/readability/WordComplexityAssessment";
 // Import test papers
 import testPapers from "./testTexts";
 
@@ -119,16 +119,9 @@ testPapers.forEach( function( testPaper ) {
 		} );
 
 		// Readability assessments.
-		it( "returns a score and the associated feedback text for the fleschReadingEase assessment", function() {
-			// The class fleschReadingEaseAssessment does not inherit from Assessment (!), so we can not use the compare() function here.
-			const isApplicable = fleschReadingAssessment.isApplicable( paper, researcher );
-			expect( isApplicable ).toBe( expectedResults.fleschReadingEase.isApplicable );
 
-			if ( isApplicable ) {
-				const result = fleschReadingAssessment.getResult( paper, researcher );
-				expect( result.getScore() ).toBe( expectedResults.fleschReadingEase.score );
-				expect( result.getText() ).toBe( expectedResults.fleschReadingEase.resultText );
-			}
+		it( "returns a score and the associated feedback text for the wordComplexity assessment", function() {
+			compare( new WordComplexityAssessment(), expectedResults.wordComplexity );
 		} );
 
 		it( "returns a score and the associated feedback text for the subheadingsTooLong assessment", function() {

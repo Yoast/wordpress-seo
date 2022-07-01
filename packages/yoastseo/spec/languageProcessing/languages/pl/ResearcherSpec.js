@@ -23,6 +23,7 @@ describe( "a test for the Polish Researcher", function() {
 
 	it( "returns false if the default research is deleted in Polish Researcher", function() {
 		expect( researcher.getResearch( "getFleschReadingScore" ) ).toBe( false );
+		expect( researcher.getResearch( "wordComplexity" ) ).toBe( false );
 	} );
 
 	it( "returns false if the Polish Researcher doesn't have a certain config", function() {

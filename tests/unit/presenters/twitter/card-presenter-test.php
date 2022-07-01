@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Presenters\Twitter;
 
+use Brain\Monkey;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Presenters\Twitter\Card_Presenter;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -46,6 +47,8 @@ class Card_Presenter_Test extends TestCase {
 		$presentation                 = $this->instance->presentation;
 		$presentation->twitter_card   = 'summary';
 
+		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
+
 		$this->assertEquals(
 			'<meta name="twitter:card" content="summary" />',
 			$this->instance->present()
@@ -64,5 +67,24 @@ class Card_Presenter_Test extends TestCase {
 		$presentation->twitter_card   = '';
 
 		$this->assertEmpty( $this->instance->present() );
+	}
+
+	/**
+	 * Tests the presentation for a set twitter creator when the admin bar is showing a class is added.
+	 *
+	 * @covers ::present
+	 * @covers ::get
+	 */
+	public function test_present_with_class() {
+		$this->instance->presentation = new Indexable_Presentation();
+		$presentation                 = $this->instance->presentation;
+		$presentation->twitter_card   = 'summary';
+
+		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( true );
+
+		$this->assertEquals(
+			'<meta name="twitter:card" content="summary" class="yoast-seo-meta-tag" />',
+			$this->instance->present()
+		);
 	}
 }

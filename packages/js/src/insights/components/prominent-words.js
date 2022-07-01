@@ -36,7 +36,7 @@ const ProminentWords = ( { location } ) => { // eslint-disable-line complexity
 		return createInterpolateElement(
 			sprintf(
 				// translators: %1$s expands to a starting `b` tag, %1$s expands to a closing `b` tag and %3$s expands to `Yoast SEO Premium`.
-				__( "With %1$s%3$s%2$s, this section will show you which words occur most often in your text. By checking these prominent words against your intended keyword(s), you'll know how to edit your text to be more focused", "wordpress-seo" ),
+				__( "With %1$s%3$s%2$s, this section will show you which words occur most often in your text. By checking these prominent words against your intended keyword(s), you'll know how to edit your text to be more focused.", "wordpress-seo" ),
 				"<b>",
 				"</b>",
 				"Yoast SEO Premium"
