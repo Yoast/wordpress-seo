@@ -36,8 +36,7 @@ import sentences from "./researches/sentences";
 import videoCount from "./researches/videoCount";
 import wordCountInText from "./researches/wordCountInText.js";
 import getPassiveVoiceResult from "./researches/getPassiveVoiceResult";
-import getProductIdentifierDataWooCommerce from "./researches/getProductIdentifierDataWooCommerce";
-import getProductIdentifierDataShopify from "./researches/getProductIdentifierDataShopify";
+import getProductIdentifierData from "./researches/getProductIdentifierData";
 
 /**
  * The researches contains all the researches
@@ -87,8 +86,7 @@ export default class AbstractResearcher {
 			wordCountInText,
 			videoCount,
 			getPassiveVoiceResult,
-			getProductIdentifierDataWooCommerce,
-			getProductIdentifierDataShopify,
+			getProductIdentifierData,
 		};
 
 		this._data = {};

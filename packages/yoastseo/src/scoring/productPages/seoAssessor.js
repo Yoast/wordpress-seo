@@ -123,7 +123,8 @@ const ProductSEOAssessor = function( researcher, options ) {
 		new ProductIdentifiersAssessment( {
 			urlTitle: createAnchorOpeningTag( options.productIdentifierUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.productIdentifierCTAUrl ),
-			isWoo: options.isWoo,
+			assessVariants: options.assessVariants,
+			productIdentifierOrBarcode: options.productIdentifierOrBarcode,
 		} ),
 	];
 };
