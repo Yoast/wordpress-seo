@@ -48,7 +48,7 @@ domReady( () => {
 		},
 		{
 			name: "Algolia",
-			description: "Algolia Description",
+			description: "Improve the quality of your site search! Automatically helps your users find your cornerstone and most important content in your internal search results. It also removes noindexed posts & pages from your site’s search results. Find out more about our Algolia integration.",
 			isPremium: true,
 			logo: <SemrushLogo />,
 		},
