@@ -20,7 +20,7 @@ import TitleWidth from "../assessments/seo/PageTitleWidthAssessment";
 import FunctionWordsInKeyphrase from "../assessments/seo/FunctionWordsInKeyphraseAssessment";
 import SingleH1Assessment from "../assessments/seo/SingleH1Assessment";
 import ProductIdentifiersAssessment from "../assessments/seo/ProductIdentifiersAssessment";
-import {createAnchorOpeningTag} from "../../helpers/shortlinker";
+import { createAnchorOpeningTag } from "../../helpers/shortlinker";
 
 /**
  * Creates the Assessor
