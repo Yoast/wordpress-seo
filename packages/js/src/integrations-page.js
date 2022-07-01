@@ -72,7 +72,7 @@ domReady( () => {
 					return (
 						<Card
 							key={ index }
-							integration={ { name: integration.name, description: `${integration.description} description`, isActive: getInitialState( integration.name ), isPremium: integration.isPremium, logo: integration.logo } }
+							integration={ { name: integration.name, description: integration.description, isActive: getInitialState( integration.name ), isPremium: integration.isPremium, logo: integration.logo } }
 						/>
 					);
 				} ) }
