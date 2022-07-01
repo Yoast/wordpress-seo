@@ -94,6 +94,9 @@ export function getIconForScore( score ) {
 		case "loading":
 			icon = { icon: "loading-spinner", color: colors.$color_green_medium_light };
 			break;
+		case "not-set":
+			icon = { icon: "seo-score-none", color: colors.$color_grey };
+			break;
 		case "good":
 			icon = { icon: "seo-score-good", color: colors.$color_green_medium };
 			break;

@@ -42,6 +42,8 @@ class Canonical_Presenter_Test extends TestCase {
 		$presentation->canonical = 'https://permalink';
 		$presentation->robots    = [];
 
+		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
+
 		$presented_canonical = $instance->present();
 
 		$this->assertEquals(
@@ -85,6 +87,7 @@ class Canonical_Presenter_Test extends TestCase {
 			->once()
 			->with( 'https://permalink', $presentation )
 			->andReturn( 'https://filtered' );
+		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
 
 		$this->assertEquals(
 			'<link rel="canonical" href="https://filtered" />',
@@ -107,5 +110,29 @@ class Canonical_Presenter_Test extends TestCase {
 		$presentation->robots    = [ 'noindex' ];
 
 		$this->assertEmpty( $instance->present() );
+	}
+
+	/**
+	 * Tests the presenter of the canonical when the admin bar is showing a class is added.
+	 *
+	 * @covers ::present
+	 * @covers ::get
+	 */
+	public function test_present_with_class() {
+		$instance               = new Canonical_Presenter();
+		$instance->presentation = new Indexable_Presentation();
+		$presentation           = $instance->presentation;
+
+		$presentation->canonical = 'https://permalink';
+		$presentation->robots    = [];
+
+		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( true );
+
+		$presented_canonical = $instance->present();
+
+		$this->assertEquals(
+			'<link rel="canonical" href="https://permalink" class="yoast-seo-meta-tag" />',
+			$presented_canonical
+		);
 	}
 }

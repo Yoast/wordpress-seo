@@ -99,11 +99,6 @@ const expectedResults = {
 		score: 9,
 		resultText: "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Good job!",
 	},
-	fleschReadingEase: {
-		isApplicable: false,
-		score: 9,
-		resultText: "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: 30.3% of the sentences contain more than 20 words, which is more than the recommended maximum of 15%. <a href='https://yoa.st/34w' target='_blank'>Try to shorten the sentences</a>.",
-	},
 	subheadingsTooLong: {
 		isApplicable: true,
 		score: 3,
@@ -149,6 +144,9 @@ const expectedResults = {
 		isApplicable: true,
 		score: 9,
 		resultText: "<a href='https://yoa.st/4f4' target='_blank'>Images</a>: Good job!",
+	},
+	wordComplexity: {
+		isApplicable: false,
 	},
 };
 

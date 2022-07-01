@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Presenters\Twitter;
 
+use Brain\Monkey;
 use Mockery;
 use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
@@ -62,6 +63,7 @@ class Description_Presenter_Test extends TestCase {
 		$this->replace_vars
 			->expects( 'replace' )
 			->andReturn( 'This is the twitter description' );
+		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
 
 		$this->assertEquals(
 			'<meta name="twitter:description" content="This is the twitter description" />',
@@ -86,5 +88,28 @@ class Description_Presenter_Test extends TestCase {
 			->andReturn( '' );
 
 		$this->assertEmpty( $this->instance->present() );
+	}
+
+	/**
+	 * Tests the presenter for a set twitter description when the admin bar is showing a class is added.
+	 *
+	 * @covers ::present
+	 * @covers ::get
+	 */
+	public function test_present_with_class() {
+		$this->instance->presentation      = new Indexable_Presentation();
+		$presentation                      = $this->instance->presentation;
+		$presentation->source              = [];
+		$presentation->twitter_description = 'This is the twitter description';
+
+		$this->replace_vars
+			->expects( 'replace' )
+			->andReturn( 'This is the twitter description' );
+		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( true );
+
+		$this->assertEquals(
+			'<meta name="twitter:description" content="This is the twitter description" class="yoast-seo-meta-tag" />',
+			$this->instance->present()
+		);
 	}
 }

@@ -37,6 +37,10 @@ class Meta_Author_Presenter extends Abstract_Indexable_Tag_Presenter {
 	public function get() {
 		$user_data = \get_userdata( $this->presentation->context->post->post_author );
 
+		if ( ! $user_data instanceof \WP_User ) {
+			return '';
+		}
+
 		return \trim( $this->helpers->schema->html->smart_strip_tags( $user_data->display_name ) );
 	}
 }

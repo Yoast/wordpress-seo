@@ -5,7 +5,7 @@ import EditorModal from "../../containers/EditorModal";
 import EstimatedReadingTime from "./estimated-reading-time";
 import FleschReadingEase from "./flesch-reading-ease";
 import ProminentWords from "./prominent-words";
-import WordCount from "./word-count";
+import TextLength from "./text-length";
 
 /**
  * Insights modal component.
@@ -14,6 +14,7 @@ import WordCount from "./word-count";
  */
 const InsightsModal = ( { location } ) => {
 	const isElementorEditor = useSelect( select => select( "yoast-seo/editor" ).getIsElementorEditor(), [] );
+	const isFleschReadingEaseAvailable = useSelect( select => select( "yoast-seo/editor" ).isFleschReadingEaseAvailable(), [] );
 
 	return (
 		<EditorModal
@@ -25,12 +26,12 @@ const InsightsModal = ( { location } ) => {
 			<div className="yoast-insights yoast-modal-content--columns">
 				<ProminentWords location={ location } />
 				<div>
-					<div className="yoast-insights-row">
+					{ isFleschReadingEaseAvailable && <div className="yoast-insights-row">
 						<FleschReadingEase />
-					</div>
+					</div> }
 					<div className="yoast-insights-row yoast-insights-row--columns">
 						<EstimatedReadingTime />
-						<WordCount />
+						<TextLength />
 					</div>
 				</div>
 			</div>

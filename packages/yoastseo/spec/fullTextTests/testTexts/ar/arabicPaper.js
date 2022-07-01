@@ -91,9 +91,6 @@ const expectedResults = {
 		score: 6,
 		resultText: "<a href='https://yoa.st/33q' target='_blank'>Keyphrase distribution</a>: Uneven. Some parts of your text do not contain the keyphrase or its synonyms. <a href='https://yoa.st/33u' target='_blank'>Distribute them more evenly</a>.",
 	},
-	fleschReadingEase: {
-		isApplicable: false,
-	},
 	subheadingsTooLong: {
 		isApplicable: true,
 		score: 2,
@@ -138,6 +135,9 @@ const expectedResults = {
 		score: 3,
 		resultText: "<a href='https://yoa.st/4f4' target='_blank'>Images</a>: No images appear on this page." +
 			" <a href='https://yoa.st/4f5' target='_blank'>Add some</a>!",
+	},
+	wordComplexity: {
+		isApplicable: false,
 	},
 };
 
