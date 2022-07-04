@@ -2,43 +2,44 @@
 import domReady from "@wordpress/dom-ready";
 import { render } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { forEach, isObject, get } from "lodash";
-import { Formik, Form, Field } from "formik";
-import { Badge, Root, Title, Button } from "@yoast/ui-library";
+import { Badge, Button, Root, Title } from "@yoast/ui-library";
+import { Field, Form, Formik } from "formik";
+import { forEach, get, map, keys } from "lodash";
 import FormikToggleField from "./components/formik-toggle-field";
 
-const initialValues = {
-	wpseo: {
-		keyword_analysis_active: true,
-	},
-};
+const getInitialValues = () => get( window, "wpseoScriptData.options", {} );
 
-const handleSubmit = async( values ) => {
-	try {
-		const { nonce } = get( window, "wpseoScriptData", {} );
-		const endpoint = "http://basic.wordpress.test/wp-admin/options.php";
+const handleSubmit = async ( values ) => {
+	const nonces = get( window, "wpseoScriptData.nonces", {} );
+	const endpoint = "http://basic.wordpress.test/wp-admin/options.php";
+
+	const createRequestBody = groupName => {
 		const formData = new FormData();
 
-		formData.set( "option_page", "yoast_wpseo_options" );
+		formData.set( "option_page", `yoast_${ groupName }_options` );
 		formData.set( "action", "update" );
-		formData.set( "_wpnonce", nonce );
+		formData.set( "_wpnonce", nonces[ groupName ] );
 
-		formData.set( "wpseo[keyword_analysis_active]", "off" );
-		formData.set( "wpseo[content_analysis_active]", "on" );
+		forEach( values[ groupName ], ( value, name ) => formData.set( `${ groupName }[${ name }]`, value ) );
 
-		forEach( values, ( value, name ) => {
-			if ( isObject( value ) ) {
-				return forEach( value, ( v, n ) => formData.set( `${name}[${n}]`, v ) );
-			}
-			FormData.set( name, value );
-		} );
+		// The endpoint expects content type `application/x-www-form-urlencoded`. URLSearchParams does this for us.
+		return new URLSearchParams( formData );
+	};
 
-		fetch( endpoint, {
+	const createRequest = groupName => {
+		console.log(groupName);
+		return fetch( endpoint, {
 			method: "POST",
-			body: new URLSearchParams( formData ),
+			body: createRequestBody( groupName ),
 		} );
+	};
+
+	try {
+		await Promise.all( map( keys( nonces ), createRequest ) );
+		return true;
 	} catch ( error ) {
 		console.error( error.message );
+		return false;
 	}
 };
 
@@ -58,7 +59,7 @@ domReady( () => {
 				<Badge>{ __( "Beta", "wordpress-seo" ) }</Badge>
 			</Title>
 			<Formik
-				initialValues={ initialValues }
+				initialValues={ getInitialValues() }
 				onSubmit={ handleSubmit }
 			>
 				{ ( { isSubmitting } ) => (
@@ -72,13 +73,13 @@ domReady( () => {
 						>
 							{ __( "The SEO analysis offers suggestions to improve the SEO of your text.", "wordpress-seo" ) }
 						</Field>
-						<Button type="submit" isLoading={ isSubmitting }>
+						<Button type="submit" isLoading={ isSubmitting } disabled={ isSubmitting }>
 							{ __( "Save changes", "wordpress-seo" ) }
 						</Button>
 					</Form>
 				) }
 			</Formik>
 		</Root>,
-		root
+		root,
 	);
 } );

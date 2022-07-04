@@ -12,7 +12,6 @@ const FormikToggleField = ( props ) => {
 	const [ field, , helpers ] = useField( props );
 
 	const handleChange = useCallback( ( value ) => {
-		console.warn( "works", helpers );
 		helpers.setTouched( true, false );
 		helpers.setValue( value );
 	}, [ field.checked, props.name ] );
