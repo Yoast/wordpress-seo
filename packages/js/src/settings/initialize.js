@@ -1,11 +1,11 @@
 /* eslint-disable require-jsdoc */
 import domReady from "@wordpress/dom-ready";
 import { render } from "@wordpress/element";
-import { __ } from "@wordpress/i18n";
-import { Badge, Button, Root, Title, ToggleField } from "@yoast/ui-library";
-import { Form, Formik } from "formik";
+import { Root } from "@yoast/ui-library";
+import { Formik } from "formik";
+import { HashRouter } from "react-router-dom";
 import { forEach, get, isObject } from "lodash";
-import FormikValueChangeField from "./components/formik-value-change-field";
+import { SitePreferences } from "./routes";
 
 const getInitialValues = () => get( window, "wpseoScriptData.settings", {} );
 
@@ -49,30 +49,12 @@ domReady( () => {
 
 	render(
 		<Root>
-			<Title className="yst-mb-8">
-				{ __( "Settings", "wordpress-seo" ) }
-				<Badge>{ __( "Beta", "wordpress-seo" ) }</Badge>
-			</Title>
+			<HashRouter />
 			<Formik
 				initialValues={ getInitialValues() }
 				onSubmit={ handleSubmit }
 			>
-				{ ( { isSubmitting } ) => (
-					<Form>
-						<FormikValueChangeField
-							as={ ToggleField }
-							type="checkbox"
-							name="wpseo.keyword_analysis_active"
-							label={ __( "SEO analysis", "wordpress-seo" ) }
-							className="yst-mb-8"
-						>
-							{ __( "The SEO analysis offers suggestions to improve the SEO of your text.", "wordpress-seo" ) }
-						</FormikValueChangeField>
-						<Button type="submit" isLoading={ isSubmitting } disabled={ isSubmitting }>
-							{ __( "Save changes", "wordpress-seo" ) }
-						</Button>
-					</Form>
-				) }
+				<SitePreferences />
 			</Formik>
 		</Root>,
 		root
