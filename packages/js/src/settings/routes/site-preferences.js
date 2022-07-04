@@ -32,6 +32,16 @@ const SitePreferences = () => {
 						>
 							{ __( "The SEO analysis offers suggestions to improve the SEO of your text.", "wordpress-seo" ) }
 						</FormikValueChangeField>
+						<FormikValueChangeField
+							as={ ToggleField }
+							type="checkbox"
+							name="wpseo.content_analysis_active"
+							data-id="input:wpseo.content_analysis_active" // <-- add input: convention in UI library?
+							label={ __( "Readability analysis", "wordpress-seo" ) }
+							className="yst-mb-8"
+						>
+							{ __( "The readability analysis offers suggestions to improve the structure and style of your text.", "wordpress-seo" ) }
+						</FormikValueChangeField>
 					</fieldset>
 				</div>
 
