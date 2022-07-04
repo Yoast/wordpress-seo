@@ -2,40 +2,34 @@
 import domReady from "@wordpress/dom-ready";
 import { render } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { Badge, Button, Root, Title } from "@yoast/ui-library";
-import { Field, Form, Formik } from "formik";
-import { forEach, get, map, keys } from "lodash";
-import FormikToggleField from "./components/formik-toggle-field";
+import { Badge, Button, Root, Title, ToggleField } from "@yoast/ui-library";
+import { Form, Formik } from "formik";
+import { forEach, get, isObject } from "lodash";
+import FormikValueChangeField from "./components/formik-value-change-field";
 
-const getInitialValues = () => get( window, "wpseoScriptData.options", {} );
+const getInitialValues = () => get( window, "wpseoScriptData.settings", {} );
 
-const handleSubmit = async ( values ) => {
-	const nonces = get( window, "wpseoScriptData.nonces", {} );
-	const endpoint = "http://basic.wordpress.test/wp-admin/options.php";
+const handleSubmit = async( values ) => {
+	const { endpoint, nonce } = get( window, "wpseoScriptData", {} );
+	const formData = new FormData();
 
-	const createRequestBody = groupName => {
-		const formData = new FormData();
+	formData.set( "option_page", "wpseo_settings" );
+	formData.set( "action", "update" );
+	formData.set( "_wpnonce", nonce );
 
-		formData.set( "option_page", `yoast_${ groupName }_options` );
-		formData.set( "action", "update" );
-		formData.set( "_wpnonce", nonces[ groupName ] );
-
-		forEach( values[ groupName ], ( value, name ) => formData.set( `${ groupName }[${ name }]`, value ) );
-
-		// The endpoint expects content type `application/x-www-form-urlencoded`. URLSearchParams does this for us.
-		return new URLSearchParams( formData );
-	};
-
-	const createRequest = groupName => {
-		console.log(groupName);
-		return fetch( endpoint, {
-			method: "POST",
-			body: createRequestBody( groupName ),
-		} );
-	};
+	forEach( values, ( value, name ) => {
+		if ( isObject( value ) ) {
+			forEach( value, ( nestedValue, nestedName ) => formData.set( `${ name }[${ nestedName }]`, nestedValue ) );
+		}
+		formData.set( name, value );
+	} );
 
 	try {
-		await Promise.all( map( keys( nonces ), createRequest ) );
+		await fetch( endpoint, {
+			method: "POST",
+			body: new URLSearchParams( formData ),
+		} );
+
 		return true;
 	} catch ( error ) {
 		console.error( error.message );
@@ -64,15 +58,15 @@ domReady( () => {
 			>
 				{ ( { isSubmitting } ) => (
 					<Form>
-						<Field
-							as={ FormikToggleField }
+						<FormikValueChangeField
+							as={ ToggleField }
 							type="checkbox"
 							name="wpseo.keyword_analysis_active"
 							label={ __( "SEO analysis", "wordpress-seo" ) }
 							className="yst-mb-8"
 						>
 							{ __( "The SEO analysis offers suggestions to improve the SEO of your text.", "wordpress-seo" ) }
-						</Field>
+						</FormikValueChangeField>
 						<Button type="submit" isLoading={ isSubmitting } disabled={ isSubmitting }>
 							{ __( "Save changes", "wordpress-seo" ) }
 						</Button>
@@ -80,6 +74,6 @@ domReady( () => {
 				) }
 			</Formik>
 		</Root>,
-		root,
+		root
 	);
 } );

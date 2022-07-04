@@ -1,14 +1,16 @@
 import { useCallback } from "@wordpress/element";
 import PropTypes from "prop-types";
-import {  useField } from "formik";
-import { ToggleField } from "@yoast/ui-library";
+import { useField } from "formik";
 
 /**
  * @param {Object} props The props object to pass down to ToggleField component.
  * @param {string} props.name The field name.
  * @returns {JSX.Element} The Formik compatible ToggleField component.
  */
-const FormikToggleField = ( props ) => {
+const FormikValueChangeField = ( {
+	as: Component,
+	...props
+} ) => {
 	const [ field, , helpers ] = useField( props );
 
 	const handleChange = useCallback( ( value ) => {
@@ -17,7 +19,7 @@ const FormikToggleField = ( props ) => {
 	}, [ field.checked, props.name ] );
 
 	return (
-		<ToggleField
+		<Component
 			{ ...field }
 			{ ...props }
 			onChange={ handleChange }
@@ -25,8 +27,9 @@ const FormikToggleField = ( props ) => {
 	);
 };
 
-FormikToggleField.propTypes = {
+FormikValueChangeField.propTypes = {
+	as: PropTypes.elementType.isRequired,
 	name: PropTypes.string.isRequired,
 };
 
-export default FormikToggleField;
+export default FormikValueChangeField;
