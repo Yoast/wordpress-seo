@@ -2,7 +2,7 @@ import React from "react";
 import { __ } from "@wordpress/i18n";
 
 /**
- * Function for the BetaBadge component.
+ * A component for adding a badge to a beta feature.
  *
  * @returns {React.Component} The BetaBadge.
  */
