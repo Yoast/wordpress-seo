@@ -22,9 +22,19 @@ export default function( text ) {
 		"\uff5d\uff5c\uff5e\uff5f\uff60\uff62\uff63\uff64\uff3b\uff3d\uff65\uffe5\uff04\uff05\uff20\uff06\uff07\uff08\uff09\uff0a\uff0f\uff1a" +
 		"\uff1b\uff1c\uff1e\uff3c\\<>";
 
+
 	const punctuationRegexStart = new RegExp( "^[" + punctuationRegexString + "]+" );
 	const punctuationRegexEnd = new RegExp( "[" + punctuationRegexString +  "]+$" );
+	/*
+	 * Remove backslash from the beginning and end of a word/text.
+	 * When a string such as `This is a \"calico\" cat` enters the Paper,
+	 * the Paper adds two extra backslash in front of the original backslash.
+	 * After the text is split into words, we also need to remove those backslashes from the word.
+	 * Otherwise, it will be problematic when word boundary regex is added to the word.
+	 */
+	const backslashRegex = new RegExp( "(\\\\)", "g" );
 
+	text = text.replace( backslashRegex, "" );
 	text = text.replace( punctuationRegexStart, "" );
 	text = text.replace( punctuationRegexEnd, "" );
 

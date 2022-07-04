@@ -81,6 +81,13 @@ $integration_toggles = Yoast_Integration_Toggles::instance()->get_all();
 				];
 			}
 
+			$preserve_disabled_value = false;
+			if ( isset( $attributes['disabled'] ) && $attributes['disabled'] ) {
+				$preserve_disabled_value = true;
+			}
+
+			$attributes['preserve_disabled_value'] = $preserve_disabled_value;
+
 			$yform->toggle_switch(
 				$integration->setting,
 				[
