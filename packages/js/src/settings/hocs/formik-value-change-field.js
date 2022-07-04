@@ -1,5 +1,6 @@
 import { useCallback } from "@wordpress/element";
 import PropTypes from "prop-types";
+import { identity } from "lodash";
 import { useField } from "formik";
 
 /**
@@ -9,14 +10,15 @@ import { useField } from "formik";
  */
 const FormikValueChangeField = ( {
 	as: Component,
+	transformValue = identity,
 	...props
 } ) => {
 	const [ field, , helpers ] = useField( props );
 
 	const handleChange = useCallback( ( value ) => {
 		helpers.setTouched( true, false );
-		helpers.setValue( value );
-	}, [ field.checked, props.name ] );
+		helpers.setValue( transformValue( value ) );
+	}, [ props.name ] );
 
 	return (
 		<Component
@@ -30,6 +32,7 @@ const FormikValueChangeField = ( {
 FormikValueChangeField.propTypes = {
 	as: PropTypes.elementType.isRequired,
 	name: PropTypes.string.isRequired,
+	transformValue: PropTypes.func,
 };
 
 export default FormikValueChangeField;
