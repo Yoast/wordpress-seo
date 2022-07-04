@@ -56,6 +56,7 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"textLength",
 			"titleWidth",
 			"productIdentifier",
+			"productSKU",
 		] );
 	} );
 
@@ -71,6 +72,7 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"titleWidth",
 			"images",
 			"productIdentifier",
+			"productSKU",
 		] );
 	} );
 
@@ -87,6 +89,7 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"singleH1",
 			"images",
 			"productIdentifier",
+			"productSKU",
 		] );
 	} );
 
@@ -103,6 +106,7 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"titleWidth",
 			"images",
 			"productIdentifier",
+			"productSKU",
 		] );
 	} );
 
@@ -117,6 +121,7 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"textLength",
 			"titleWidth",
 			"productIdentifier",
+			"productSKU",
 		] );
 	} );
 
@@ -133,6 +138,7 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"titleWidth",
 			"images",
 			"productIdentifier",
+			"productSKU",
 		] );
 	} );
 
@@ -151,6 +157,7 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"titleWidth",
 			"images",
 			"productIdentifier",
+			"productSKU",
 		] );
 	} );
 
@@ -167,6 +174,7 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"titleWidth",
 			"images",
 			"productIdentifier",
+			"productSKU",
 		] );
 	} );
 
@@ -184,6 +192,7 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"slugKeyword",
 			"images",
 			"productIdentifier",
+			"productSKU",
 		] );
 	} );
 
@@ -215,6 +224,7 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"images",
 			"keyphraseDistribution",
 			"productIdentifier",
+			"productSKU",
 		] );
 	} );
 
@@ -245,6 +255,7 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"images",
 			"keyphraseDistribution",
 			"productIdentifier",
+			"productSKU",
 		] );
 	} );
 
