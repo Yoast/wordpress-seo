@@ -26,6 +26,7 @@ export default function PrePublish( {
 	return <Fragment>
 		<p>{ intro }</p>
 		<AnalysisChecklist checklist={ checklist } onClick={ onClick } />
+		Something here probably.
 	</Fragment>;
 }
 
