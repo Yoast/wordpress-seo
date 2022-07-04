@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-import { SvgIcon, IconButtonToggle } from "@yoast/components";
+import { SvgIcon, IconButtonToggle, BetaBadge } from "@yoast/components";
 
 const AnalysisResultBase = styled.li`
 	// This is the height of the IconButtonToggle.
@@ -47,10 +47,10 @@ export const AnalysisResult = ( props ) => {
 				color={ props.bulletColor }
 				size="13px"
 			/>
-			<AnalysisResultText
-				dangerouslySetInnerHTML={ { __html: props.text } }
-				suppressedText={ props.suppressedText }
-			/>
+			<AnalysisResultText suppressedText={ props.suppressedText }>
+				{ props.hasBetaBadgeLabel && <BetaBadge /> }
+				<span dangerouslySetInnerHTML={ { __html: props.text } } />
+			</AnalysisResultText>
 			{
 				props.hasMarksButton && ! areButtonsHidden( props ) &&
 					<IconButtonToggle
@@ -78,12 +78,14 @@ AnalysisResult.propTypes = {
 	onButtonClick: PropTypes.func.isRequired,
 	marksButtonStatus: PropTypes.string,
 	marksButtonClassName: PropTypes.string,
+	hasBetaBadgeLabel: PropTypes.bool,
 };
 
 AnalysisResult.defaultProps = {
 	suppressedText: false,
 	marksButtonStatus: "enabled",
 	marksButtonClassName: "",
+	hasBetaBadgeLabel: false,
 };
 
 export default AnalysisResult;

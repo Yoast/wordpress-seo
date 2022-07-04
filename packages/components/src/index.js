@@ -18,6 +18,7 @@ export * from "./help-icon";
 export * from "./tables";
 export * from "./new-badge";
 export * from "./premium-badge";
+export * from "./beta-badge";
 
 // Referenced index.js explicitly due to case-sensitive path conflicts.
 export * from "./toggle/index.js";

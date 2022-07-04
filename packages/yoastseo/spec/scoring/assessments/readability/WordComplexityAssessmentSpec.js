@@ -29,6 +29,7 @@ describe( "a test for an assessment that checks complex words in a text", functi
 							"an amalgamation of Calico and Tabby." },
 			} ]
 		);
+		expect( result.hasBetaBadge() ).toBe( true );
 	} );
 
 	let runningPaper = new Paper( "Also called torties for short, tortoiseshell cats combine two colors other than white, " +

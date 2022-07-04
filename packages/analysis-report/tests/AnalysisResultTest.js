@@ -96,3 +96,23 @@ test( "the AnalysisResult component with suppressed text matches the snapshot", 
 	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );
+
+test( "the AnalysisResult component with a beta badge label matches the snapshot", () => {
+	const component = renderer.create(
+		<AnalysisResult
+			ariaLabel="SEOResult"
+			bulletColor="blue"
+			buttonId="Result button"
+			pressed={ true }
+			hasMarksButton={ true }
+			onButtonClick={ noop }
+			text={ "This is beta!" }
+			score="good"
+			marksButtonStatus={ "hidden" }
+			hasBetaBadgeLabel={ true }
+		/>
+	);
+
+	const tree = component.toJSON();
+	expect( tree ).toMatchSnapshot();
+} );
