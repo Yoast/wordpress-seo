@@ -63,9 +63,6 @@ describe( "A test to check if at least one global product identifier is filled i
 			},
 		} );
 
-		// Change value of the filled in attribute to empty string.
-		// Document.querySelector('#yoast_identifier_gtin14').setAttribute( 'value', '')
-
 		expect( productIdentifierData( paper ).hasGlobalIdentifier ).toEqual( false );
 	} );
 } );
@@ -87,9 +84,6 @@ describe( "A test to check if the product has variants", () => {
 				hasVariants: false,
 			},
 		} );
-
-		// Change value of data-total to 0.
-		// Document.querySelector( ".woocommerce_variations" ).setAttribute( "data-total", "0" );
 
 		expect( productIdentifierData( paper ).hasVariants ).toEqual( false );
 	} );
