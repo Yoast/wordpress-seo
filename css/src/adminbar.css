@@ -9,10 +9,11 @@
 	border-radius: 8px;
 	font-weight: 600;
 	line-height: 1.6;
+	margin-left: 4px;
 }
 
-#wpadminbar .yoast-new-badge {
-	background-color: #cce5ff;
+#wpadminbar .yoast-beta-badge {
+	background-color: #CCE5FF;
 	color: #004973;
 }
 
