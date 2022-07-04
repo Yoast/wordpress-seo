@@ -68,7 +68,7 @@ describe( "A test to check if at least one global product identifier is filled i
 } );
 
 describe( "A test to check if the product has variants", () => {
-	it( "returns true if the data-total attribute of the woocommerce_variations class is not 0 or undefined", function() {
+	it( "returns false if the product has no variants", function() {
 		const paper = new Paper( "Text.", {
 			customData: {
 				hasVariants: true,

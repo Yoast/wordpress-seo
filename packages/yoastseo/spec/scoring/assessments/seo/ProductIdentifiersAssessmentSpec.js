@@ -1,3 +1,4 @@
+import { createAnchorOpeningTag } from "../../../../src/helpers/shortlinker";
 import ProductIdentifiersAssessment from "../../../../src/scoring/assessments/seo/ProductIdentifiersAssessment";
 import Paper from "../../../../src/values/Paper";
 import Factory from "../../../specHelpers/factory";
@@ -85,8 +86,8 @@ describe( "a test for Product identifiers assessment for WooCommerce", function(
 } );
 
 describe( "a test for Product identifiers assessment for Shopify", () => {
-	const assessment = new ProductIdentifiersAssessment( { productIdentifierUrlTitle: "https://yoa.st/shopify81",
-		productIdentifierCTAUrl: "https://yoa.st/shopify82",
+	const assessment = new ProductIdentifiersAssessment( { urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify81" ),
+		urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify82" ),
 		assessVariants: false,
 		productIdentifierOrBarcode: { lowercase: "barcode" } } );
 
@@ -97,7 +98,7 @@ describe( "a test for Product identifiers assessment for Shopify", () => {
 		} ) );
 
 		expect( assessmentResult.getScore() ).toEqual( 9 );
-		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4ly' target='_blank'>Barcode</a>: Good job!" );
+		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/shopify81' target='_blank'>Barcode</a>: Good job!" );
 	} );
 
 	it( "returns with score 6 when the product doesn't have a global identifier nor variants", () => {
@@ -107,8 +108,8 @@ describe( "a test for Product identifiers assessment for Shopify", () => {
 		} ) );
 
 		expect( assessmentResult.getScore() ).toEqual( 6 );
-		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4ly' target='_blank'>Barcode</a>:" +
-			" Your product is missing a barcode (like a GTIN code). <a href='https://yoa.st/4lz' target='_blank'>Include" +
+		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/shopify81' target='_blank'>Barcode</a>:" +
+			" Your product is missing a barcode (like a GTIN code). <a href='https://yoa.st/shopify82' target='_blank'>Include" +
 			" this if you can, as it will help search engines to better understand your content.</a>" );
 	} );
 
