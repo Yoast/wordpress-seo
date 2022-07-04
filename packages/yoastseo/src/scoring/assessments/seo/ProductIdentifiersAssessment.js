@@ -68,8 +68,8 @@ export default class ProductIdentifiersAssessment extends Assessment {
 	 * @param {Object} productIdentifierData  Whether product has variants, global identifier, and variant identifiers.
 	 * @param {Object} config                 The configuration to use.
 	 *
-	 * @returns {{score: number, text: *} || {} }	The result object with score and text or empty object
-	 * 												if no score should be returned.
+	 * @returns {{score: number, text: string} | {}}	The result object with score and text
+	 * 													or empty object if no score should be returned.
 	 */
 	scoreProductIdentifier( productIdentifierData, config ) {
 		// If a product has no variants, return orange bullet if it has no global identifier, and green bullet if it has one.
