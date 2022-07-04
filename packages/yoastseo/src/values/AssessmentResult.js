@@ -25,6 +25,7 @@ var AssessmentResult = function( values ) {
 	this._identifier = "";
 	this._hasMarks = false;
 	this._marker = emptyMarker;
+	this._hasBetaBadge = false;
 	this.score = 0;
 	this.text = "";
 	this.marks = [];
@@ -43,6 +44,10 @@ var AssessmentResult = function( values ) {
 
 	if ( ! isUndefined( values.marks ) ) {
 		this.setMarks( values.marks );
+	}
+
+	if ( ! isUndefined( values._hasBetaBadge ) ) {
+		this.setHasBetaBadge( values._hasBetaBadge );
 	}
 };
 
@@ -193,6 +198,25 @@ AssessmentResult.prototype.hasMarks = function() {
 };
 
 /**
+ * Sets the value of _hasBetaBadge to determine if the result has a beta badge.
+ *
+ * @param {boolean} hasBetaBadge Whether this result has a beta badge.
+ * @returns {void}
+ */
+AssessmentResult.prototype.setHasBetaBadge = function( hasBetaBadge ) {
+	this._hasBetaBadge = hasBetaBadge;
+};
+
+/**
+ * Returns the value of _hasBetaBadge to determine if the result has a beta badge.
+ *
+ * @returns {bool} Whether this result has a beta badge.
+ */
+AssessmentResult.prototype.hasBetaBadge = function() {
+	return this._hasBetaBadge;
+};
+
+/**
  * Serializes the AssessmentResult instance to an object.
  *
  * @returns {Object} The serialized AssessmentResult.
@@ -204,6 +228,7 @@ AssessmentResult.prototype.serialize = function() {
 		score: this.score,
 		text: this.text,
 		marks: this.marks.map( mark => mark.serialize() ),
+		_hasBetaBadge: this._hasBetaBadge,
 	};
 };
 
@@ -219,6 +244,7 @@ AssessmentResult.parse = function( serialized ) {
 		text: serialized.text,
 		score: serialized.score,
 		marks: serialized.marks.map( mark => Mark.parse( mark ) ),
+		_hasBetaBadge: serialized._hasBetaBadge,
 	} );
 	result.setIdentifier( serialized.identifier );
 

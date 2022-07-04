@@ -9,31 +9,37 @@ const analysisResults = [
 		_identifier: "error",
 		score: -1,
 		text: "feedback string",
+		_hasBetaBadge: false,
 	} ),
 	new AssessmentResult( {
 		_identifier: "problem",
 		score: 0,
 		text: "feedback string",
+		_hasBetaBadge: false,
 	} ),
 	new AssessmentResult( {
 		_identifier: "improvement",
 		score: 3,
 		text: "feedback string",
+		_hasBetaBadge: false,
 	} ),
 	new AssessmentResult( {
 		_identifier: "consideration",
 		score: 6,
 		text: "feedback string",
+		_hasBetaBadge: true,
 	} ),
 	new AssessmentResult( {
 		_identifier: "good",
 		score: 9,
 		text: "feedback string",
+		_hasBetaBadge: false,
 	} ),
 	new AssessmentResult( {
 		_identifier: "empty text",
 		score: 0,
 		text: "",
+		_hasBetaBadge: false,
 	} ),
 ];
 
@@ -85,6 +91,7 @@ describe( "mapResults", () => {
 		expect( result.id ).toBe( expectedResult._identifier );
 		expect( result.text ).toBe( expectedResult.text );
 		expect( result.markerId ).toBe( expectedResult._identifier );
+		expect( result.hasBetaBadge ).toBe( expectedResult._hasBetaBadge );
 	} );
 
 	it( "maps a result, using a keywordKey", () => {
@@ -100,6 +107,7 @@ describe( "mapResults", () => {
 		expect( result.id ).toBe( expectedResult._identifier );
 		expect( result.text ).toBe( expectedResult.text );
 		expect( result.markerId ).toBe( `something:${expectedResult._identifier}` );
+		expect( result.hasBetaBadge ).toBe( expectedResult._hasBetaBadge );
 	} );
 } );
 

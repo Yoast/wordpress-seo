@@ -56,6 +56,7 @@ export default class WordComplexityAssessment extends Assessment {
 		assessmentResult.setScore( calculatedScore.score );
 		assessmentResult.setText( calculatedScore.resultText );
 		assessmentResult.setHasMarks( calculatedScore.hasMarks );
+		assessmentResult.setHasBetaBadge( true );
 		return assessmentResult;
 	}
 
