@@ -63,6 +63,15 @@ export default class ProductIdentifiersAssessment extends Assessment {
 	}
 
 	/**
+	 * Makes the assessment temporarily not applicable, until we have access to the needed data from WooCommerce and Shopify.
+	 *
+	 * @returns {Boolean} Always returns false.
+	 */
+	isApplicable() {
+		return false;
+	}
+
+	/**
 	 * Returns a score based on whether the product (variants) have an identifier.
 	 *
 	 * @param {Object} productIdentifierData  Whether product has variants, global identifier, and variant identifiers.
