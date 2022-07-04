@@ -45,7 +45,7 @@ export function renderRatingToColor( rating ) {
 /**
  * Renders a list of results based on the array of results.
  *
- * @param {AssessmentResult[]} results                    The results from YoastSEO.js
+ * @param {MappedResult[]}     results                    The results from YoastSEO.js
  * @param {string}             marksButtonActivatedResult The currently activated result.
  * @param {string}             marksButtonStatus          The overall status of the mark buttons.
  * @param {string}             marksButtonClassName       A class name to set on the mark buttons.
@@ -81,6 +81,7 @@ export default function AnalysisList( { results, marksButtonActivatedResult, mar
 				onButtonClick={ () => onMarksButtonClick( result.id, result.marker ) }
 				marksButtonClassName={ marksButtonClassName }
 				marksButtonStatus={ marksButtonStatus }
+				hasBetaBadgeLabel={ result.hasBetaBadge }
 			/>;
 		} ) }
 	</AnalysisListBase>;
