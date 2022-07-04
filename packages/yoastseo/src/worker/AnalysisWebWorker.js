@@ -30,6 +30,7 @@ import wrapTryCatchAroundAction from "./wrapTryCatchAroundAction";
 
 // Tree assessor functionality.
 import { ReadabilityScoreAggregator, SEOScoreAggregator } from "../parsedPaper/assess/scoreAggregators";
+import InclusiveLanguageAssessor from "../scoring/inclusiveLanguageAssessor";
 
 const logger = getLogger( "yoast-analysis-worker" );
 logger.setDefaultLevel( "error" );
@@ -246,7 +247,7 @@ export default class AnalysisWebWorker {
 	 *
 	 * @returns {void}
 	 */
-	setCustomCornerstoneRelatedKeywordAssessorClass( CornerstoneRelatedKeywordAssessorClass, customAnalysisType, customAssessorOptions  ) {
+	setCustomCornerstoneRelatedKeywordAssessorClass( CornerstoneRelatedKeywordAssessorClass, customAnalysisType, customAssessorOptions ) {
 		this._CustomCornerstoneRelatedKeywordAssessorClasses[ customAnalysisType ] = CornerstoneRelatedKeywordAssessorClass;
 		this._CustomCornerstoneRelatedKeywordAssessorOptions[ customAnalysisType ] = customAssessorOptions;
 		this._relatedKeywordAssessor = this.createRelatedKeywordsAssessor();
@@ -486,10 +487,10 @@ export default class AnalysisWebWorker {
 						this._CustomCornerstoneSEOAssessorOptions[ customAnalysisType ] )
 					: new CornerstoneSEOAssessor( this._researcher );
 			} else {
-			/*
-			 * For non-cornerstone content, use a custom SEO assessor if available,
-			 * otherwise use the default SEO assessor.
-			 */
+				/*
+				 * For non-cornerstone content, use a custom SEO assessor if available,
+				 * otherwise use the default SEO assessor.
+				 */
 				assessor = this._CustomSEOAssessorClasses[ customAnalysisType ]
 					? new this._CustomSEOAssessorClasses[ customAnalysisType ](
 						this._researcher,
@@ -517,47 +518,13 @@ export default class AnalysisWebWorker {
 	 * @returns {null|Assessor} The chosen inclusive language assessor.
 	 */
 	createInclusiveLanguageAssessor() {
-		const {
-			inclusiveLanguageActive,
-			useCornerstone,
-			customAnalysisType,
-		} = this._configuration;
+		const { inclusiveLanguageActive } = this._configuration;
 
 		if ( inclusiveLanguageActive === false ) {
 			return null;
 		}
 
-		let assessor;
-
-		if ( useCornerstone === true ) {
-			/*
-			 * Use a custom cornerstone content assessor if available,
-			 * otherwise set the default cornerstone content assessor.
-			 */
-			assessor = this._CustomCornerstoneContentAssessorClasses[ customAnalysisType ]
-				? new this._CustomCornerstoneContentAssessorClasses[ customAnalysisType ](
-					this._researcher,
-					this._CustomCornerstoneContentAssessorOptions[ customAnalysisType ] )
-				: new CornerstoneContentAssessor( this._researcher );
-		} else {
-			/*
-			 * For non-cornerstone content, use a custom SEO assessor if available,
-	         * otherwise use the default SEO assessor.
-			 */
-			assessor = this._CustomContentAssessorClasses[ customAnalysisType ]
-				? new this._CustomContentAssessorClasses[ customAnalysisType ](
-					this._researcher,
-					this._CustomContentAssessorOptions[ customAnalysisType ] )
-				: new ContentAssessor( this._researcher );
-		}
-
-		this._registeredAssessments.forEach( ( { name, assessment } ) => {
-			if ( isUndefined( assessor.getAssessment( name ) ) ) {
-				assessor.addAssessment( name, assessment );
-			}
-		} );
-
-		return assessor;
+		return new InclusiveLanguageAssessor( this._researcher );
 	}
 
 	/**
@@ -591,10 +558,10 @@ export default class AnalysisWebWorker {
 						this._CustomCornerstoneRelatedKeywordAssessorOptions[ customAnalysisType ] )
 					: new CornerstoneRelatedKeywordAssessor( this._researcher );
 			} else {
-			/*
-			 * For non-cornerstone content, use a custom related keyword assessor if available,
-			 * otherwise use the default related keyword assessor.
-			 */
+				/*
+				 * For non-cornerstone content, use a custom related keyword assessor if available,
+				 * otherwise use the default related keyword assessor.
+				 */
 				assessor = this._CustomRelatedKeywordAssessorClasses[ customAnalysisType ]
 					? new this._CustomRelatedKeywordAssessorClasses[ customAnalysisType ](
 						this._researcher,
@@ -622,6 +589,7 @@ export default class AnalysisWebWorker {
 	 *
 	 * @returns {module:parsedPaper/assess.TreeAssessor} The created tree assessor.
 	 */
+
 	/*
 	 * Disabled code:
 	 * createSEOTreeAssessor( assessorConfig ) {
@@ -660,10 +628,12 @@ export default class AnalysisWebWorker {
 	 *
 	 * @returns {Object} Containing seo, readability, and inclusive_language with true or false.
 	 */
-	static shouldAssessorsUpdate( configuration,
+	static shouldAssessorsUpdate(
+		configuration,
 		contentAssessor = null,
 		seoAssessor = null,
-		inclusiveLanguageAssessor = null ) {
+		inclusiveLanguageAssessor = null
+	) {
 		const readability = [
 			"contentAnalysisActive",
 			"useCornerstone",
@@ -683,14 +653,14 @@ export default class AnalysisWebWorker {
 			"customAnalysisType",
 		];
 		const inclusiveLanguage = [
-			"inclusiveLanguageAnalysisActive"
+			"inclusiveLanguageAnalysisActive",
 		];
 		const configurationKeys = Object.keys( configuration );
 
 		return {
 			readability: isNull( contentAssessor ) || includesAny( configurationKeys, readability ),
 			seo: isNull( seoAssessor ) || includesAny( configurationKeys, seo ),
-			inclusiveLanguage: isNull( inclusiveLanguageAssessor) || includesAny( configurationKeys, inclusiveLanguage ),
+			inclusiveLanguage: isNull( inclusiveLanguageAssessor ) || includesAny( configurationKeys, inclusiveLanguage ),
 		};
 	}
 
@@ -740,7 +710,7 @@ export default class AnalysisWebWorker {
 		if ( has( configuration, "enabledFeatures" ) ) {
 			// Make feature flags available inside of the web worker.
 			enableFeatures( configuration.enabledFeatures );
-			delete  configuration.enabledFeatures;
+			delete configuration.enabledFeatures;
 		}
 
 		this._configuration = merge( this._configuration, configuration );
@@ -794,12 +764,12 @@ export default class AnalysisWebWorker {
 
 		if ( ! isObject( assessment ) ) {
 			throw new InvalidTypeError( "Failed to register assessment for plugin " + pluginName +
-				". Expected parameter `assessment` to be a function." );
+										". Expected parameter `assessment` to be a function." );
 		}
 
 		if ( ! isString( pluginName ) ) {
 			throw new InvalidTypeError( "Failed to register assessment for plugin " + pluginName +
-				". Expected parameter `pluginName` to be a string." );
+										". Expected parameter `pluginName` to be a string." );
 		}
 
 		// Prefix the name with the pluginName so the test name is always unique.
@@ -831,12 +801,12 @@ export default class AnalysisWebWorker {
 
 		if ( ! isObject( handler ) ) {
 			throw new InvalidTypeError( "Failed to register handler for plugin " + pluginName +
-				". Expected parameter `handler` to be a function." );
+										". Expected parameter `handler` to be a function." );
 		}
 
 		if ( ! isString( pluginName ) ) {
 			throw new InvalidTypeError( "Failed to register handler for plugin " + pluginName +
-				". Expected parameter `pluginName` to be a string." );
+										". Expected parameter `pluginName` to be a string." );
 		}
 
 		// Prefix the name with the pluginName so the test name is always unique.
@@ -863,7 +833,7 @@ export default class AnalysisWebWorker {
 
 		if ( ! isString( pluginName ) ) {
 			throw new InvalidTypeError( "Failed to refresh assessment for plugin " + pluginName +
-				". Expected parameter `pluginName` to be a string." );
+										". Expected parameter `pluginName` to be a string." );
 		}
 
 		this.clearCache();
@@ -995,7 +965,7 @@ export default class AnalysisWebWorker {
 				 */
 			} catch ( exception ) {
 				logger.debug( "Yoast SEO and readability analysis: " +
-					"An error occurred during the building of the tree structure used for some assessments.\n\n", exception );
+							  "An error occurred during the building of the tree structure used for some assessments.\n\n", exception );
 				this._tree = null;
 			}
 
@@ -1102,7 +1072,7 @@ export default class AnalysisWebWorker {
 		 */
 
 		// Combine the results of the tree assessor and old assessor.
-		const results = [ ...treeAssessmentResults, ... oldAssessmentResults ];
+		const results = [ ...treeAssessmentResults, ...oldAssessmentResults ];
 
 		// Aggregate the results.
 		const score = scoreAggregator.aggregate( results );
@@ -1164,7 +1134,9 @@ export default class AnalysisWebWorker {
 
 			// We need to remember the key, since the SEO results are stored in an object, not an array.
 			return this.assess( relatedPaper, tree, analysisCombination ).then(
-				results => ( { key: key, results: results } )
+				results => (
+					{ key: key, results: results }
+				)
 			);
 		} ) );
 	}
