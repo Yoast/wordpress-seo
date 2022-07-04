@@ -8,6 +8,7 @@ import { ReactComponent as RyteLogo } from "../images/ryte-logo.svg";
 import { ReactComponent as SemrushLogo } from "../images/semrush-logo.svg";
 import { ReactComponent as WincherLogo } from "../images/wincher-logo.svg";
 import { ReactComponent as ZapierLogo } from "../images/zapier-logo.svg";
+import { ReactComponent as WordProofLogo } from "../images/wordproof-logo.svg";
 
 domReady( () => {
 	const context = {
@@ -30,6 +31,7 @@ domReady( () => {
 			description: "The Wincher integration offers the option to track specific keyphrases and gain insights in their positions.",
 			isPremium: false,
 			logo: <WincherLogo />,
+			usps: [ "this", "is", "an", "example" ],
 		},
 		{
 			name: "Ryte",
@@ -41,7 +43,7 @@ domReady( () => {
 			name: "WordProof",
 			description: "WordProof can be used to timestamp your privacy page. Read more about how WordProof works.",
 			isPremium: false,
-			logo: <SemrushLogo />,
+			logo: <WordProofLogo />,
 
 		},
 		{
@@ -71,15 +73,20 @@ domReady( () => {
 	};
 	render(
 		<Root context={ context }>
-			<div className="yst-flex yst-flex-wrap yst-justify-items-start yst-max-w-[1200px] yst-py-6">
-				{ integrations.map( ( integration, index ) => {
-					return (
-						<Card
-							key={ index }
-							integration={ { name: integration.name, description: integration.description, isActive: getInitialState( integration.name ), isPremium: integration.isPremium, logo: integration.logo } }
-						/>
-					);
-				} ) }
+			<div className="yst-h-full yst-flex yst-flex-col yst-bg-white">
+				<div className="yst-flex-grow yst-max-w-6xl yst-p-8">
+					<div className="yst-grid yst-grid-cols-1 yst-gap-6 sm:yst-grid-cols-2 md:yst-grid-cols-3 lg:yst-grid-cols-4">
+						{ integrations.map( ( integration, index ) => {
+							return (
+								<Card
+									key={ index }
+									/* eslint-disable max-len */
+									integration={ { name: integration.name, description: integration.description, isActive: getInitialState( integration.name ), isPremium: integration.isPremium, logo: integration.logo, usps: integration.usps } }
+								/>
+							);
+						} ) }
+					</div>
+				</div>
 			</div>
 		</Root>,
 		root
