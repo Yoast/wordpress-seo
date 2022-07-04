@@ -51,9 +51,7 @@ export function getReadabilityResults( state ) {
  * @returns {object} The results and overall score for the inclusive language analysis.
  */
 export function getInclusiveLanguageResults( state ) {
-	const results = get( state, "analysis.inclusiveLanguage", {} );
-
-	return isEmpty( results ) ? { results: emptyArray, overallScore: null } : results;
+	return get( state, "analysis.inclusiveLanguage", { results: emptyArray, overallScore: null } );
 }
 
 /**
