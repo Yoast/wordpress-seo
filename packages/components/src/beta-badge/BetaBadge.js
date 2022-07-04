@@ -10,7 +10,7 @@ import { __ } from "@wordpress/i18n";
  * @returns {React.Component} The BetaBadge.
  */
 const BetaBadge = ( { inLabel } ) => (
-	<span className={ inLabel ? "yoast-badge yoast-badge__in-label yoast-beta-badge" : "yoast-badge yoast-beta-badge" }>
+	<span className={ inLabel ? "yoast-badge yoast-badge--in-label yoast-beta-badge" : "yoast-badge yoast-beta-badge" }>
 		{ __( "Beta", "wordpress-seo" ) }
 	</span>
 );
