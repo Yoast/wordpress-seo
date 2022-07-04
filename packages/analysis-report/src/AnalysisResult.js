@@ -1,5 +1,4 @@
 import React from "react";
-import { renderToString } from "react-dom/server";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
@@ -41,10 +40,6 @@ const areButtonsHidden = function( props ) {
  * @returns {ReactElement} The rendered AnalysisResult component.
  */
 export const AnalysisResult = ( props ) => {
-	let text = props.text;
-	if ( props.hasBetaBadgeLabel ) {
-		text = renderToString( <BetaBadge inLabel={ true } /> ) + text;
-	}
 	return (
 		<AnalysisResultBase>
 			<ScoreIcon
@@ -52,10 +47,10 @@ export const AnalysisResult = ( props ) => {
 				color={ props.bulletColor }
 				size="13px"
 			/>
-			<AnalysisResultText
-				dangerouslySetInnerHTML={ { __html: text } }
-				suppressedText={ props.suppressedText }
-			/>
+			<AnalysisResultText suppressedText={ props.suppressedText }>
+				{ props.hasBetaBadgeLabel && <BetaBadge inLabel={ true } /> }
+				<span dangerouslySetInnerHTML={ { __html: props.text } } />
+			</AnalysisResultText>
 			{
 				props.hasMarksButton && ! areButtonsHidden( props ) &&
 					<IconButtonToggle
