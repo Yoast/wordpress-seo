@@ -1,8 +1,7 @@
 import apiFetch from "@wordpress/api-fetch";
 import { useState, useCallback } from "@wordpress/element";
 import { PropTypes } from "prop-types";
-import { ToggleField, Badge, Alert } from "@yoast/ui-library";
-import { makeOutboundLink } from "@yoast/helpers";
+import { ToggleField, Button, Alert } from "@yoast/ui-library";
 
 /* eslint-disable complexity */
 /**
@@ -20,8 +19,7 @@ export default function Card( { integration, children } ) {
 	const isIntegrationAvailable = ( integration.isPremium && isPremiumInstalled ) || ! integration.isPremium;
 	const [ isActive, setIsActive ] = useState( integration.isActive );
 	const [ errorMessage, setErrorMessage ] = useState( "" );
-	const UpsellButton = makeOutboundLink();
-	const upsellLink = "https://yoa.st/workout-orphaned-content-upsell";
+
 
 	/**
 	 * Updates an integration state.
@@ -86,13 +84,12 @@ export default function Card( { integration, children } ) {
 			<div className="yst-border-t yst-border-gray-200 yst-pt-6">
 				{ isIntegrationAvailable
 					? <ToggleField checked={ isActive } label={ `Enable ${ integration.name }` } onChange={ toggleActive } />
-					: <UpsellButton id={`${integration.name}-upsell-button` } href={ upsellLink } className="yoast-button yoast-button-upsell yst-max-h-1">
+					: <Button id={ `${integration.name}-upsell-button` } as="a" variant="upsell" className="yst-w-full">
 						<svg xmlns="http://www.w3.org/2000/svg" className="yst--ml-1 yst-mr-2 yst-h-5 yst-w-5 yst-text-yellow-900" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
 							<path strokeLinecap="round" strokeLinejoin="round" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z" />
 						</svg>
 						Unlock with Premium
-						<span aria-hidden="true" className="yoast-button-upsell__caret" />
-					</UpsellButton>
+					</Button>
 				}
 				{ errorMessage && <Alert variant="error" className="yst-mt-2">{ errorMessage }</Alert> }
 			</div>
