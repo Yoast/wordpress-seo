@@ -48,6 +48,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 	 * @returns {AssessmentResult} An assessment result with the score and formatted text.
 	 */
 	getResult( paper, researcher ) {
+		console.log( "hello" );
 		const productIdentifierData = researcher.getResearch( "getProductIdentifierData" );
 
 		const result = this.scoreProductIdentifier( productIdentifierData, this._config );
