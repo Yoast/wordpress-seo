@@ -4,8 +4,7 @@ namespace Yoast\WP\SEO\Integrations;
 
 use WPSEO_Admin_Asset_Manager;
 use WPSEO_Options;
-use Yoast\WP\SEO\Conditionals\New_Settings_Ui_Conditional;
-use Yoast\WP\SEO\Conditionals\Premium_Active_Conditional;
+use Yoast\WP\SEO\Conditionals\Settings_Conditional;
 
 /**
  * Class Settings_Integration.
@@ -29,7 +28,7 @@ class Settings_Integration implements Integration_Interface {
 	 * @return array
 	 */
 	public static function get_conditionals() {
-		return [ New_Settings_Ui_Conditional::class, Premium_Active_Conditional::class ];
+		return [ Settings_Conditional::class ];
 	}
 
 	/**
@@ -42,6 +41,13 @@ class Settings_Integration implements Integration_Interface {
 	public function register_hooks() {
 		\add_filter( 'wpseo_submenu_pages', [ $this, 'add_page' ] );
 		\add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
+		\add_action( 'admin_init', [ $this, 'register_setting' ] );
+	}
+
+	public function register_setting() {
+		foreach ( WPSEO_Options::$options as $name => $instance ) {
+			\register_setting( 'wpseo_settings', $name );
+		}
 	}
 
 	/**
@@ -97,13 +103,13 @@ class Settings_Integration implements Integration_Interface {
 	 */
 	protected function get_script_data() {
 		$data = [
-			'options' => [],
-			'nonces'  => [],
+			'settings' => [],
+			'endpoint' => \admin_url('options.php'),
+			'nonce'    => \wp_create_nonce( 'wpseo_settings-options' ),
 		];
 
 		foreach ( WPSEO_Options::$options as $name => $instance ) {
-			$data['options'][ $name ] = WPSEO_Options::get_option( $name );
-			$data['nonces'][ $name ]  = \wp_create_nonce( "yoast_${name}_options-options" );
+			$data['settings'][ $name ] = WPSEO_Options::get_option( $name );
 		}
 
 		return $data;
