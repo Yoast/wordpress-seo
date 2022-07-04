@@ -20,6 +20,7 @@ const handleSubmit = async( values ) => {
 	forEach( values, ( value, name ) => {
 		if ( isObject( value ) ) {
 			forEach( value, ( nestedValue, nestedName ) => formData.set( `${ name }[${ nestedName }]`, nestedValue ) );
+			return;
 		}
 		formData.set( name, value );
 	} );
