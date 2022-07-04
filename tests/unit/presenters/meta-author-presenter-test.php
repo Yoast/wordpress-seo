@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 /**
  * Class Meta_Description_Presenter_Test
  *
- * @coversDefaultClass \Yoast\WP\SEO\Presenters\Meta_Description_Presenter
+ * @coversDefaultClass \Yoast\WP\SEO\Presenters\Meta_Author_Presenter
  *
  * @group presenters
  * @group opengraph
@@ -149,7 +149,8 @@ class Meta_Author_Presenter_Test extends TestCase {
 	 * @covers ::get
 	 */
 	public function test_present_and_filter_with_class() {
-		$this->indexable_presentation->meta_description = 'the_meta_description';
+		$this->indexable_presentation->model                  = new Indexable_Mock();
+		$this->indexable_presentation->model->object_sub_type = 'post';
 
 		$user_mock               = Mockery::mock( \WP_User::class );
 		$user_mock->display_name = 'John Doe';
