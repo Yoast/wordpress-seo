@@ -267,7 +267,7 @@ Bugfixes:
 
 * Fixes a bug in the Wincher integration table on posts and terms where the focus keyphrase was not marked with an asterisk.
 * Fixes a bug where a warning would be triggered when author data wasn't available for a post.
-* Fixes a bug where disabled settings in the General page would be set to `Off` upon saving the settings form
+* Fixes a bug where disabled settings in the General page would be set to `Off` upon saving the settings form.
 * Fixes a bug where the desktop preview would show a truncated title, while the title length progress bar and title width assessment would indicate that the title length was still within the limits.
 
 = 19.2 =
