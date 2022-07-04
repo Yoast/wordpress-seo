@@ -48,7 +48,7 @@ export const AnalysisResult = ( props ) => {
 				size="13px"
 			/>
 			<AnalysisResultText suppressedText={ props.suppressedText }>
-				{ props.hasBetaBadgeLabel && <BetaBadge inLabel={ true } /> }
+				{ props.hasBetaBadgeLabel && <BetaBadge /> }
 				<span dangerouslySetInnerHTML={ { __html: props.text } } />
 			</AnalysisResultText>
 			{
