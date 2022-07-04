@@ -85,12 +85,15 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
   </svg>
   <p
     className="c3"
-    dangerouslySetInnerHTML={
-      Object {
-        "__html": "You're doing great!",
+  >
+    <span
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "You're doing great!",
+        }
       }
-    }
-  />
+    />
+  </p>
   <button
     aria-label="SEOResult"
     aria-pressed={true}
@@ -171,12 +174,20 @@ exports[`the AnalysisResult component with a beta badge label matches the snapsh
   </svg>
   <p
     className="c3"
-    dangerouslySetInnerHTML={
-      Object {
-        "__html": "<span class=\\"yoast-badge yoast-badge__in-label yoast-beta-badge\\" data-reactroot=\\"\\">Beta</span>This is beta!",
+  >
+    <span
+      className="yoast-badge yoast-badge--in-label yoast-beta-badge"
+    >
+      Beta
+    </span>
+    <span
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "This is beta!",
+        }
       }
-    }
-  />
+    />
+  </p>
 </li>
 `;
 
@@ -265,12 +276,15 @@ exports[`the AnalysisResult component with disabled buttons matches the snapshot
   </svg>
   <p
     className="c3"
-    dangerouslySetInnerHTML={
-      Object {
-        "__html": "You're doing great!",
+  >
+    <span
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "You're doing great!",
+        }
       }
-    }
-  />
+    />
+  </p>
   <button
     aria-label="SEOResult"
     aria-pressed={true}
@@ -351,12 +365,15 @@ exports[`the AnalysisResult component with hidden buttons matches the snapshot 1
   </svg>
   <p
     className="c3"
-    dangerouslySetInnerHTML={
-      Object {
-        "__html": "You're doing great!",
+  >
+    <span
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "You're doing great!",
+        }
       }
-    }
-  />
+    />
+  </p>
 </li>
 `;
 
@@ -445,12 +462,15 @@ exports[`the AnalysisResult component with html in the text matches the snapshot
   </svg>
   <p
     className="c3"
-    dangerouslySetInnerHTML={
-      Object {
-        "__html": "You're doing <b>great!</b>",
+  >
+    <span
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "You're doing <b>great!</b>",
+        }
       }
-    }
-  />
+    />
+  </p>
   <button
     aria-label="SEOResult"
     aria-pressed={true}
@@ -531,11 +551,14 @@ exports[`the AnalysisResult component with suppressed text matches the snapshot 
   </svg>
   <p
     className="c3"
-    dangerouslySetInnerHTML={
-      Object {
-        "__html": "You're doing great!",
+  >
+    <span
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "You're doing great!",
+        }
       }
-    }
-  />
+    />
+  </p>
 </li>
 `;
