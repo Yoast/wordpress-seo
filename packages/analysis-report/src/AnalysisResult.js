@@ -78,13 +78,14 @@ AnalysisResult.propTypes = {
 	onButtonClick: PropTypes.func.isRequired,
 	marksButtonStatus: PropTypes.string,
 	marksButtonClassName: PropTypes.string,
-	hasBetaBadgeLabel: PropTypes.bool.isRequired,
+	hasBetaBadgeLabel: PropTypes.bool,
 };
 
 AnalysisResult.defaultProps = {
 	suppressedText: false,
 	marksButtonStatus: "enabled",
 	marksButtonClassName: "",
+	hasBetaBadgeLabel: false,
 };
 
 export default AnalysisResult;
