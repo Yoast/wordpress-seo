@@ -125,7 +125,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 			return {};
 		}
 
-		// If WooCommerce product has variants and not all variants have an identifier, return orange bullet.
+		// If we want to assess variants, if product has variants and not all variants have an identifier, return orange bullet.
 		// If all variants have an identifier, return green bullet.
 		if ( ! productIdentifierData.doAllVariantsHaveIdentifier ) {
 			return {
