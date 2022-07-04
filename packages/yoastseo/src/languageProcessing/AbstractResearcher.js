@@ -37,6 +37,7 @@ import videoCount from "./researches/videoCount";
 import wordCountInText from "./researches/wordCountInText.js";
 import getPassiveVoiceResult from "./researches/getPassiveVoiceResult";
 import wordComplexity from "./researches/wordComplexity";
+import getProductIdentifierData from "./researches/getProductIdentifierData";
 
 /**
  * The researches contains all the researches
@@ -87,6 +88,7 @@ export default class AbstractResearcher {
 			videoCount,
 			getPassiveVoiceResult,
 			wordComplexity,
+			getProductIdentifierData,
 		};
 
 		this._data = {};

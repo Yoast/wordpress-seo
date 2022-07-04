@@ -1,3 +1,4 @@
+import { applyFilters } from "@wordpress/hooks";
 import {
 	cloneDeep,
 	merge,
@@ -98,5 +99,5 @@ export default function collectAnalysisData( editorData, store, customAnalysisDa
 	data.titleWidth = measureTextWidth( data.title );
 	data.locale = getContentLocale();
 
-	return Paper.parse( data );
+	return Paper.parse( applyFilters( "yoast.analysis.data", data ) );
 }
