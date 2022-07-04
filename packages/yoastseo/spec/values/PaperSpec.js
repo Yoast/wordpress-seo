@@ -94,6 +94,7 @@ describe( "Paper", function() {
 			expect( paper.hasSlug() ).toBe( false );
 			expect( paper.hasKeyword() ).toBe( false );
 			expect( paper.hasTitleWidth() ).toBe( false );
+			expect( paper.hasCustomData() ).toBe( false );
 		} );
 
 		it( "returns locale", function() {
@@ -104,6 +105,15 @@ describe( "Paper", function() {
 			paper = new Paper( "", { locale: "" } );
 			expect( paper.getLocale() ).toBe( "en_US" );
 			expect( paper.hasLocale() ).toBe( true );
+		} );
+
+		it( "returns custom data", function() {
+			const attributes = {
+				customData: { hasGlobalIdentifier: false, hasVariants: true, doAllVariantsHaveIdentifier: true },
+			};
+			const paper = new Paper( "", attributes );
+			expect( paper.hasCustomData() ).toBe( true );
+			expect( paper.getCustomData() ).toEqual( { hasGlobalIdentifier: false, hasVariants: true, doAllVariantsHaveIdentifier: true } );
 		} );
 	} );
 
@@ -189,7 +199,7 @@ describe( "Paper", function() {
 
 	describe( "Parsing a Paper", () => {
 		const serialized = { text: "text", _parseClass: "Paper", titleWidth: 123 };
-		const attributes = [ "keyword", "synonyms", "description", "title", "slug", "locale", "permalink", "date" ];
+		const attributes = [ "keyword", "synonyms", "description", "title", "slug", "locale", "permalink", "date", "customData" ];
 		// Append the attributes to `serialized`.
 		attributes.forEach( attribute => {
 			serialized[ attribute ] = attribute;

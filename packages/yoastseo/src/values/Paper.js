@@ -250,7 +250,7 @@ Paper.prototype.getDate = function() {
  * @returns {boolean} Returns true if the Paper has custom data.
  */
 Paper.prototype.hasCustomData = function() {
-	return this._attributes.customData !== {};
+	return ! isEmpty( this._attributes.customData );
 };
 
 /**
