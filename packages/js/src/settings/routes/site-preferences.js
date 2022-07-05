@@ -89,7 +89,7 @@ const SitePreferences = () => {
 					</Title>
 				</div>
 				<div className="yst-mt-8 lg:yst-mt-0 lg:yst-col-span-2 yst-space-y-8">
-					<Alert>
+					<Alert id="alert:social-sharing-info">
 						{ __( "Facebook, Twitter and Pinterest all use Facebook's Open Graph data, so be sure to keep the 'Open Graph data' setting below enabled if you want to optimize your site for these social platforms.", "wordpress-seo" ) }
 					</Alert>
 					<FormikValueChangeField
