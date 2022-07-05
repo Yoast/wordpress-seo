@@ -8,6 +8,7 @@ import Toggle from "../../elements/toggle";
  * @param {JSX.node} children Children are rendered below the checkbox group.
  * @param {string} label The Label.
  * @param {JSX.node} [labelSuffix] Optional label suffix.
+ * @param {JSX.node} [description] Optional description to use over children prop.
  * @param {boolean} [checked] Default state.
  * @param {Function} onChange Change callback.
  * @param {string} [className] CSS class.
@@ -18,6 +19,7 @@ const ToggleField = ( {
 	children,
 	label,
 	labelSuffix,
+	description,
 	checked,
 	onChange,
 	className,
@@ -30,7 +32,9 @@ const ToggleField = ( {
 					<Label as={ Switch.Label } className="yst-toggle-field__label" label={ label } />
 					{ labelSuffix }
 				</div>
-				{ children && <Switch.Description className="yst-toggle-field__description">{ children }</Switch.Description> }
+				{ description || children && (
+					<Switch.Description className="yst-toggle-field__description">{ description || children }</Switch.Description>
+				) }
 			</div>
 		) }
 		<Toggle
@@ -46,6 +50,7 @@ ToggleField.propTypes = {
 	children: PropTypes.node,
 	label: PropTypes.string.isRequired,
 	labelSuffix: PropTypes.node,
+	description: PropTypes.node,
 	checked: PropTypes.bool.isRequired,
 	onChange: PropTypes.func.isRequired,
 	className: PropTypes.string,
@@ -55,6 +60,7 @@ ToggleField.defaultProps = {
 	children: null,
 	className: "",
 	labelSuffix: null,
+	description: null,
 };
 
 export default ToggleField;
