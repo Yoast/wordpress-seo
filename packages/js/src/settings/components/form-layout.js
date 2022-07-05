@@ -14,7 +14,7 @@ const FormLayout = ( {
 } ) => {
 	const { isSubmitting } = useFormikContext();
 	return (
-		<div className="yst-rounded-lg yst-overflow-hidden yst-bg-white yst-shadow">
+		<div className="yst-rounded-lg yst-overflow-hidden yst-bg-white yst-shadow yst-h-full">
 			<header className="yst-border-b yst-border-gray-200">
 				<div className="yst-max-w-screen-sm yst-p-8">
 					<Title>{ title }</Title>
