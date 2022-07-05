@@ -20,6 +20,7 @@
     "build": "yarn clean:build && yarn build:js && yarn build:css",
     "build:js": "babel src --out-dir build --ignore \"src/**/*.stories.js\",\"src/**/stories.js\"",
     "build:css": "node ./scripts/build-css.js",
+    "watch:js": "yarn build:js --watch",
     "storybook": "start-storybook -p 6006",
     "build:storybook": "build-storybook",
     "publish:storybook": "./scripts/publish-storybook.sh",
