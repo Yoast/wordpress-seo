@@ -4,7 +4,6 @@ import { __ } from "@wordpress/i18n";
 import { Title, Button } from "@yoast/ui-library";
 
 /**
- *
  * @returns {JSX.Element} The form layout component.
  */
 const FormLayout = ( {
