@@ -22,7 +22,7 @@ const CrawlSettings = () => {
 			description={ addLinkToString(
 				sprintf(
 					// translators: %1$s and %2$s are replaced by opening and closing <a> tags. %3$s expands to WordProof.
-					__( "To make the crawling of your site more efficient and environmental friendly, Yoast SEO Premium allows you to remove URLs (added by WordPress) that might not be needed for your site. %1$sLearn more about crawl settings and how they could benefit your site.%2$s", "wordpress-seo" ),
+					__( "To make the crawling of your site more efficient and environmental friendly, Yoast SEO Premium allows you to remove URLs (added by WordPress) that might not be needed for your site. %1$sLearn more about crawl settings and how they could benefit your site%2$s.", "wordpress-seo" ),
 					"<a>",
 					"</a>"
 				),
@@ -246,7 +246,7 @@ const CrawlSettings = () => {
 						{ addLinkToString(
 							sprintf(
 								// translators: %1$s and %2$s are replaced by opening and closing <a> tags. %3$s expands to WordProof.
-								__( "These are expert features, so make sure you know what you're doing before removing the parameters. %1$sRead more about how your site can be affected.%2$s", "wordpress-seo" ),
+								__( "These are expert features, so make sure you know what you're doing before removing the parameters. %1$sRead more about how your site can be affected%2$s.", "wordpress-seo" ),
 								"<a>",
 								"</a>"
 							),
@@ -269,6 +269,7 @@ const CrawlSettings = () => {
 					/>
 					<Field
 						as={ TextField }
+						type="text"
 						name="wpseo.clean_permalinks_extra_variables"
 						id="input:wpseo.clean_permalinks_extra_variables"
 						label={ __( "Additional URL parameters to allow", "wordpress-seo" ) }
