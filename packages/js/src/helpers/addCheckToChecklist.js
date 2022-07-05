@@ -68,6 +68,28 @@ export function maybeAddSEOCheck( checklist, store ) {
 }
 
 /**
+ * Adds the inclusive language check if it is active.
+ *
+ * @param {Object[]} checklist The checklist on which to add the inclusive language score.
+ * @param {Object}   store     The Yoast SEO store.
+ *
+ * @returns {void}
+ */
+export function maybeAddInclusiveLanguageCheck( checklist, store ) {
+	const { isContentAnalysisActive } = store.getPreferences();
+
+	if ( isContentAnalysisActive ) {
+		const scoreIndicator = getIndicatorForScore( store.getInclusiveLanguageResults().overallScore );
+
+		checklist.push( {
+			label: __( "Inclusive language:", "wordpress-seo" ),
+			score: scoreIndicator.className,
+			scoreValue: scoreIndicator.screenReaderReadabilityText,
+		} );
+	}
+}
+
+/**
  * Checks if the array of blocks includes schema blocks.
  *
  * @param {object[]} blocks The array of blocks.
