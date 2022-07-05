@@ -8,6 +8,10 @@
 			yst-max-w-sm;
 		}
 
+		.yst-toggle-field--disabled .yst-toggle-field__text {
+			@apply yst-opacity-50 yst-cursor-not-allowed;
+		}
+
 		.yst-toggle-field__text {
 			@apply yst-mr-6;
 		}

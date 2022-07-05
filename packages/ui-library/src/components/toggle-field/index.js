@@ -10,6 +10,7 @@ import Toggle from "../../elements/toggle";
  * @param {JSX.node} [labelSuffix] Optional label suffix.
  * @param {JSX.node} [description] Optional description to use over children prop.
  * @param {boolean} [checked] Default state.
+ * @param {boolean} [disabled] Disabled state.
  * @param {Function} onChange Change callback.
  * @param {string} [className] CSS class.
  * @param {Object} props Other Toggle props.
@@ -21,11 +22,12 @@ const ToggleField = ( {
 	labelSuffix,
 	description,
 	checked,
+	disabled,
 	onChange,
 	className,
 	...props
 } ) => (
-	<Switch.Group as="div" className={ classNames( "yst-toggle-field", className ) }>
+	<Switch.Group as="div" className={ classNames( "yst-toggle-field", disabled && "yst-toggle-field--disabled", className ) }>
 		{ ( label || children ) && (
 			<div className="yst-toggle-field__text">
 				<div className="yst-flex yst-items-center">
@@ -41,6 +43,7 @@ const ToggleField = ( {
 			checked={ checked }
 			onChange={ onChange }
 			screenReaderLabel={ label }
+			disabled={ disabled }
 			{ ...props }
 		/>
 	</Switch.Group>
@@ -52,6 +55,7 @@ ToggleField.propTypes = {
 	labelSuffix: PropTypes.node,
 	description: PropTypes.node,
 	checked: PropTypes.bool.isRequired,
+	disabled: PropTypes.bool,
 	onChange: PropTypes.func.isRequired,
 	className: PropTypes.string,
 };
@@ -61,6 +65,7 @@ ToggleField.defaultProps = {
 	className: "",
 	labelSuffix: null,
 	description: null,
+	disabled: false,
 };
 
 export default ToggleField;
