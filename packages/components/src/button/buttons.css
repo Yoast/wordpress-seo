@@ -104,6 +104,8 @@
 	background-color: currentColor;
 	-webkit-mask-image: var(--yoast-svg-icon-caret-right);
 	mask-image: var(--yoast-svg-icon-caret-right);
+	-webkit-mask-repeat: no-repeat;
+	mask-repeat: no-repeat;
 }
 
 .yoast .yoast-button--edit {
