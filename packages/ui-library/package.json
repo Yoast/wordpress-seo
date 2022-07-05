@@ -7,10 +7,6 @@
   "files": [
     "./build/**/*"
   ],
-  "exports": {
-    ".": "./build/index.js",
-    "./hooks": "./build/hooks/index.js"
-  },
   "author": "Team Yoast <support@yoast.com>",
   "license": "GPL-3.0",
   "private": false,

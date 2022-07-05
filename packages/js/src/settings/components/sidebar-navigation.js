@@ -1,8 +1,7 @@
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/outline";
 import { Link } from "@yoast/ui-library";
 import PropTypes from "prop-types";
-// FIXME the hooks import should be: import { useToggleState } from "@yoast/ui-library/hooks";
-import { useToggleState } from "../../../../ui-library/build/hooks";
+import { useToggleState } from "@yoast/ui-library";
 import { ReactComponent as Logo } from "./yoast-logo.svg";
 
 const MenuItem = ( { label, icon: Icon = null, subItems = [], defaultOpen = true } ) => {
