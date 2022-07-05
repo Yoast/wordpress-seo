@@ -95,6 +95,7 @@ class WPSEO_Admin_Menu extends WPSEO_Base_Menu {
 			),
 			$this->get_submenu_page( __( 'Social', 'wordpress-seo' ), 'wpseo_social' ),
 			$this->get_submenu_page( __( 'Tools', 'wordpress-seo' ), 'wpseo_tools' ),
+			$this->get_submenu_page( __( 'Indexables', 'wordpress-seo' ), 'wpseo_indexables' ),
 			$this->get_submenu_page( $this->get_license_page_title(), 'wpseo_licenses' ),
 		];
 
