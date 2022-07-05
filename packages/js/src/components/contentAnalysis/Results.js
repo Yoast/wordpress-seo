@@ -1,3 +1,4 @@
+import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 import { ContentAnalysis } from "@yoast/analysis-report";
 import { Component, Fragment } from "@wordpress/element";
@@ -99,7 +100,17 @@ class Results extends Component {
 			problemsResults,
 		} = mappedResults;
 
-		const { upsellResults } = this.props;
+		const { upsellResults, resultCategoryLabels } = this.props;
+
+		const defaultLabels = {
+			errors: __( "Errors", "wordpress-seo" ),
+			problems: __( "Problems", "wordpress-seo" ),
+			improvements: __( "Improvements", "wordpress-seo" ),
+			considerations: __( "Considerations", "wordpress-seo" ),
+			goodResults: __( "Good results", "wordpress-seo" ),
+		};
+
+		const labels = Object.assign( defaultLabels, resultCategoryLabels );
 
 		return (
 			<Fragment>
@@ -116,6 +127,7 @@ class Results extends Component {
 					marksButtonStatus={ this.props.marksButtonStatus }
 					headingLevel={ 3 }
 					keywordKey={ this.props.keywordKey }
+					resultCategoryLabels={ labels }
 				/>
 			</Fragment>
 		);
@@ -131,6 +143,13 @@ Results.propTypes = {
 	setMarkerPauseStatus: PropTypes.func.isRequired,
 	activeMarker: PropTypes.string,
 	keywordKey: PropTypes.string,
+	resultCategoryLabels: PropTypes.shape( {
+		errors: PropTypes.string,
+		problems: PropTypes.string,
+		improvements: PropTypes.string,
+		considerations: PropTypes.string,
+		goodResults: PropTypes.string,
+	} ),
 };
 
 Results.defaultProps = {
@@ -140,6 +159,7 @@ Results.defaultProps = {
 	marksButtonClassName: "",
 	activeMarker: null,
 	keywordKey: "",
+	resultCategoryLabels: {},
 };
 
 export default Results;

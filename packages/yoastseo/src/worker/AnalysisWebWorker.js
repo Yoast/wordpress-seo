@@ -1023,12 +1023,11 @@ export default class AnalysisWebWorker {
 		}
 
 		if ( this._configuration.inclusiveLanguageAnalysisActive && this._contentAssessor && shouldReadabilityUpdate ) {
-			const analysisCombination = {
-				oldAssessor: this._inclusiveLanguageAssessor,
-				treeAssessor: this._contentTreeAssessor,
-				scoreAggregator: this._contentScoreAggregator,
+			this._inclusiveLanguageAssessor.assess( this._paper );
+			this._results.inclusiveLanguage = {
+				results: this._inclusiveLanguageAssessor.results,
+				score: this._inclusiveLanguageAssessor.calculateOverallScore(),
 			};
-			this._results.inclusiveLanguage = await this.assess( this._paper, this._tree, analysisCombination );
 		}
 
 		return this._results;
