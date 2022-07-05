@@ -28,7 +28,7 @@ import ImageKeyphraseAssessment from "./seo/KeyphraseInImageTextAssessment";
 import ImageCountAssessment from "./seo/ImageCountAssessment";
 import ImageAltTagsAssessment from "./seo/ImageAltTagsAssessment";
 
-import InclusiveLanguageAssessment from "./inclusive_language/InclusiveLanguageAssessment"
+import InclusiveLanguageAssessment from "./inclusiveLanguage/InclusiveLanguageAssessment";
 
 const readability = {
 	ListAssessment,
@@ -68,7 +68,7 @@ const seo = {
 
 const inclusiveLanguage = {
 	InclusiveLanguageAssessment,
-}
+};
 
 export {
 	readability,
