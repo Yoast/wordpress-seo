@@ -23,8 +23,8 @@
 
 		.yst-badge--upsell {
 			@apply
-			yst-bg-yellow-100
-			yst-text-yellow-800;
+			yst-bg-yellow-200
+			yst-text-yellow-900;
 		}
 
 		.yst-badge--plain {
