@@ -15,6 +15,7 @@ const paper = new Paper( content, {
 	permalink: "https://en.wikipedia.org/wiki/Monstera_deliciosa",
 	slug: "Monstera_deliciosa",
 	customData: {
+		hasGlobalSKU: false,
 		hasGlobalIdentifier: false,
 		hasVariants: false,
 	},
@@ -98,6 +99,13 @@ const expectedResults = {
 		score: 6,
 		resultText: "<a href='https://yoa.st/shopify81' target='_blank'>Barcode</a>: Your product is missing a barcode " +
 			"(like a GTIN code). <a href='https://yoa.st/shopify82' target='_blank'>Include this if you can, as it will " +
+			"help search engines to better understand your content.</a>",
+	},
+	productSKU: {
+		isApplicable: true,
+		score: 6,
+		resultText: "<a href='https://yoa.st/shopify79' target='_blank'>SKU</a>: Your product is missing a SKU." +
+			" <a href='https://yoa.st/shopify80' target='_blank'>Include this if you can, as it will " +
 			"help search engines to better understand your content.</a>",
 	},
 	imageKeyphrase: {
