@@ -181,9 +181,12 @@ class SeoAnalysis extends Component {
 			link = wpseoAdminL10n[ "shortlinks.upsell.sidebar.keyphrase_distribution" ];
 		}
 
-		// We don't show the upsell in WooCommerce product pages.
+		/*
+		 * We don't show the upsell in WooCommerce product pages when Yoast SEO WooCommerce plugin is activated.
+		 * This is because the premium assessments of the upsell are already loaded even when the Premium plugin is not activated.
+		 */
 		const contentType = wpseoAdminL10n.postType;
-		if ( contentType === "product" ) {
+		if ( this.props.isYoastSEOWooActive && contentType === "product" ) {
 			return [];
 		}
 
@@ -278,6 +281,7 @@ SeoAnalysis.propTypes = {
 	shouldUpsell: PropTypes.bool,
 	shouldUpsellWordFormRecognition: PropTypes.bool,
 	overallScore: PropTypes.number,
+	isYoastSEOWooActive: PropTypes.bool,
 };
 
 SeoAnalysis.defaultProps = {
@@ -287,6 +291,7 @@ SeoAnalysis.defaultProps = {
 	shouldUpsell: false,
 	shouldUpsellWordFormRecognition: false,
 	overallScore: null,
+	isYoastSEOWooActive: false,
 };
 
 export default withSelect( ( select, ownProps ) => {

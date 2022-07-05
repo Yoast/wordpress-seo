@@ -80,9 +80,12 @@ class ReadabilityAnalysis extends Component {
 			link = wpseoAdminL10n[ "shortlinks.upsell.sidebar.word_complexity" ];
 		}
 
-		// We don't show the upsell in WooCommerce product pages.
+		/*
+		 * We don't show the upsell in WooCommerce product pages when Yoast SEO WooCommerce plugin is activated.
+		 * This is because the premium assessments of the upsell are already loaded even when the Premium plugin is not activated.
+		*/
 		const contentType = wpseoAdminL10n.postType;
-		if ( contentType === "product" ) {
+		if ( this.props.isYoastSEOWooActive && contentType === "product" ) {
 			return [];
 		}
 
@@ -168,11 +171,13 @@ ReadabilityAnalysis.propTypes = {
 	marksButtonStatus: PropTypes.string.isRequired,
 	overallScore: PropTypes.number,
 	shouldUpsell: PropTypes.bool,
+	isYoastSEOWooActive: PropTypes.bool,
 };
 
 ReadabilityAnalysis.defaultProps = {
 	overallScore: null,
 	shouldUpsell: false,
+	isYoastSEOWooActive: false,
 };
 
 export default withSelect( select => {
