@@ -43,6 +43,8 @@ describe( "running assessments in the product page SEO assessor", function() {
 			keyphraseDistributionCTAUrl: "https://yoast.com/34",
 			productIdentifierUrlTitle: "https://yoa.st/4ly",
 			productIdentifierCTAUrl: "https://yoa.st/4lz",
+			productSKUUrlTitle: "https://yoa.st/4lw",
+			productSKUCTAUrl: "https://yoa.st/4lx",
 		} );
 	} );
 
@@ -57,6 +59,7 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"textLength",
 			"titleWidth",
 			// Add after assessment becomes enabled: "productIdentifier",
+			// Add after assessment becomes enabled: "productSKU",
 		] );
 	} );
 
@@ -72,6 +75,7 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"titleWidth",
 			"images",
 			// Add after assessment becomes enabled: "productIdentifier",
+			// Add after assessment becomes enabled: "productSKU",
 		] );
 	} );
 
@@ -88,6 +92,7 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"singleH1",
 			"images",
 			// Add after assessment becomes enabled: "productIdentifier",
+			// Add after assessment becomes enabled: "productSKU",
 		] );
 	} );
 
@@ -104,6 +109,7 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"titleWidth",
 			"images",
 			// Add after assessment becomes enabled: "productIdentifier",
+			// Add after assessment becomes enabled: "productSKU",
 		] );
 	} );
 
@@ -118,6 +124,7 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"titleWidth",
 			"functionWordsInKeyphrase",
 			// Add after assessment becomes enabled: "productIdentifier",
+			// Add after assessment becomes enabled: "productSKU",
 		] );
 	} );
 
@@ -136,6 +143,7 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"titleWidth",
 			"images",
 			// Add after assessment becomes enabled: "productIdentifier",
+			// Add after assessment becomes enabled: "productSKU",
 		] );
 	} );
 
@@ -152,6 +160,7 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"titleWidth",
 			"images",
 			// Add after assessment becomes enabled: "productIdentifier",
+			// Add after assessment becomes enabled: "productSKU",
 		] );
 	} );
 
@@ -169,6 +178,7 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"slugKeyword",
 			"images",
 			// Add after assessment becomes enabled: "productIdentifier",
+			// Add after assessment becomes enabled: "productSKU",
 		] );
 	} );
 
@@ -200,6 +210,7 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"images",
 			"keyphraseDistribution",
 			// Add after assessment becomes enabled: "productIdentifier",
+			// Add after assessment becomes enabled: "productSKU",
 		] );
 	} );
 
@@ -230,6 +241,7 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"images",
 			"keyphraseDistribution",
 			// Add after assessment becomes enabled: "productIdentifier",
+			// Add after assessment becomes enabled: "productSKU",
 		] );
 	} );
 
