@@ -22,8 +22,9 @@ import ImageKeyphraseAssessment from "../../../../src/scoring/assessments/seo/Ke
 import ImageCountAssessment from "../../../../src/scoring/assessments/seo/ImageCountAssessment";
 import ImageAltTags from "../../../../src/scoring/assessments/seo/ImageAltTagsAssessment";
 import KeyphraseDistribution from "../../../../src/scoring/assessments/seo/KeyphraseDistributionAssessment";
+// eslint-disable-next-line max-len
 // 	Add back once the assessment is enabled: import ProductIdentifiersAssessment from "../../../../src/scoring/assessments/seo/ProductIdentifiersAssessment";
-import ProductSKUAssessment from "../../../../src/scoring/assessments/seo/ProductSKUAssessment";
+// 	Add back once the assessment is enabled: import ProductSKUAssessment from "../../../../src/scoring/assessments/seo/ProductSKUAssessment";
 
 // Import Readability assessments.
 import SubheadingDistributionTooLongAssessment
