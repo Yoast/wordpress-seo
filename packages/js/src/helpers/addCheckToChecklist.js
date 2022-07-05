@@ -76,9 +76,9 @@ export function maybeAddSEOCheck( checklist, store ) {
  * @returns {void}
  */
 export function maybeAddInclusiveLanguageCheck( checklist, store ) {
-	const { isContentAnalysisActive } = store.getPreferences();
+	const { isInclusiveLanguageAnalysisActive } = store.getPreferences();
 
-	if ( isContentAnalysisActive ) {
+	if ( isInclusiveLanguageAnalysisActive ) {
 		const scoreIndicator = getIndicatorForScore( store.getInclusiveLanguageResults().overallScore );
 
 		checklist.push( {
