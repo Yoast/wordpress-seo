@@ -136,6 +136,8 @@ html[dir=rtl] .yoast .yoast-button--buy {
 .yoast .yoast-button--small .yoast-button--buy__caret {
 	width: 4px;
 	height: 10px;
+	-webkit-mask-size: 4px 10px;
+	mask-size: 4px 10px;
 }
 
 .yoast-remove, .yoast-hide {
