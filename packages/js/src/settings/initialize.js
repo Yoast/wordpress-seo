@@ -7,6 +7,7 @@ import { Formik } from "formik";
 import { forEach, get, isObject } from "lodash";
 import { HashRouter, Link, Route, Routes } from "react-router-dom";
 import SidebarNavigation from "./components/sidebar-navigation";
+import { ReactComponent as Logo } from "./components/yoast-logo.svg";
 import {
 	AuthorArchives,
 	Breadcrumbs,
@@ -77,76 +78,29 @@ domReady( () => {
 				>
 					<div className="yst-flex md:yst-gap-4 yst-mt-16 md:yst-mt-0 yst-p-4 md:yst-p-8">
 						<aside className="yst-hidden md:yst-block yst-flex-shrink-0 yst-w-56 lg:yst-w-64">
-							<SidebarNavigation
-								items={ [
-									{
-										icon: DesktopComputerIcon,
-										label: __( "Site settings", "wordpress-seo" ),
-										subItems: [
-											{
-												label: __( "Site representation", "wordpress-seo" ),
-												linkProps: { as: Link, to: "site-representation" },
-											},
-											{
-												label: __( "Site defaults", "wordpress-seo" ),
-												linkProps: { as: Link, to: "site-defaults" },
-											},
-											{
-												label: __( "Site preferences", "wordpress-seo" ),
-												linkProps: { as: Link, to: "site-preferences" },
-											},
-											{
-												label: __( "Webmaster tools", "wordpress-seo" ),
-												linkProps: { as: Link, to: "webmaster-tools" },
-											},
-											{
-												label: __( "Breadcrumbs", "wordpress-seo" ),
-												linkProps: { as: Link, to: "breadcrumbs" },
-											},
-										],
-									},
-									{
-										icon: NewspaperIcon,
-										label: __( "Content settings", "wordpress-seo" ),
-										subItems: [],
-									},
-									{
-										icon: AdjustmentsIcon,
-										label: __( "Advanced settings", "wordpress-seo" ),
-										subItems: [
-											{
-												label: __( "Author archives", "wordpress-seo" ),
-												linkProps: { as: Link, to: "author-archives" },
-											},
-											{
-												label: __( "Date archives", "wordpress-seo" ),
-												linkProps: { as: Link, to: "date-archives" },
-											},
-											{
-												label: __( "Search pages", "wordpress-seo" ),
-												linkProps: { as: Link, to: "search-pages" },
-											},
-											{
-												label: __( "404 pages", "wordpress-seo" ),
-												linkProps: { as: Link, to: "not-found-pages" },
-											},
-											{
-												label: __( "Media", "wordpress-seo" ),
-												linkProps: { as: Link, to: "media" },
-											},
-											{
-												label: __( "Formats", "wordpress-seo" ),
-												linkProps: { as: Link, to: "formats" },
-											},
-											{
-												label: __( "RSS", "wordpress-seo" ),
-												linkProps: { as: Link, to: "rss" },
-											},
-										],
-										defaultOpen: false,
-									},
-								] }
-							/>
+							<figure className="yst-w-44 yst-px-3 yst-mb-12">
+								<Logo />
+							</figure>
+							<SidebarNavigation activePath="site-preferences">
+								<SidebarNavigation.MenuItem icon={ DesktopComputerIcon } label={ __( "Site settings", "wordpress-seo" ) }>
+									<SidebarNavigation.SubmenuItem as={ Link } to="site-representation" label={ __( "Site representation", "wordpress-seo" ) } />
+									<SidebarNavigation.SubmenuItem as={ Link } to="site-defaults" label={ __( "Site defaults", "wordpress-seo" ) } />
+									<SidebarNavigation.SubmenuItem as={ Link } to="site-preferences" label={ __( "Site preferences", "wordpress-seo" ) } />
+									<SidebarNavigation.SubmenuItem as={ Link } to="webmaster-tools" label={ __( "Webmaster tools", "wordpress-seo" ) } />
+									<SidebarNavigation.SubmenuItem as={ Link } to="breadcrumbs" label={ __( "Breadcrumbs", "wordpress-seo" ) } />
+								</SidebarNavigation.MenuItem>
+								<SidebarNavigation.MenuItem icon={ NewspaperIcon } label={ __( "Content settings", "wordpress-seo" ) }>
+								</SidebarNavigation.MenuItem>
+								<SidebarNavigation.MenuItem icon={ AdjustmentsIcon } label={ __( "Advanced settings", "wordpress-seo" ) }>
+									<SidebarNavigation.SubmenuItem as={ Link } to="author-archives" label={ __( "Author archives", "wordpress-seo" ) } />
+									<SidebarNavigation.SubmenuItem as={ Link } to="date-archives" label={ __( "Date archives", "wordpress-seo" ) } />
+									<SidebarNavigation.SubmenuItem as={ Link } to="search-pages" label={ __( "Search pages", "wordpress-seo" ) } />
+									<SidebarNavigation.SubmenuItem as={ Link } to="not-found-pages" label={ __( "404 pages", "wordpress-seo" ) } />
+									<SidebarNavigation.SubmenuItem as={ Link } to="media" label={ __( "Media", "wordpress-seo" ) } />
+									<SidebarNavigation.SubmenuItem as={ Link } to="formats" label={ __( "Formats", "wordpress-seo" ) } />
+									<SidebarNavigation.SubmenuItem as={ Link } to="rss" label={ __( "RSS", "wordpress-seo" ) } />
+								</SidebarNavigation.MenuItem>
+							</SidebarNavigation>
 						</aside>
 						<main className="yst-flex-grow">
 							<Routes>

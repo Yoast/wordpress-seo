@@ -1,7 +1,6 @@
 import { __ } from "@wordpress/i18n";
-import { Badge, Title, ToggleField, Alert } from "@yoast/ui-library";
-import { FormLayout } from "../components";
-import { FormikValueChangeField } from "../hocs";
+import { Alert, Badge, Title, ToggleField } from "@yoast/ui-library";
+import { FormikValueChangeField, FormLayout } from "../components";
 
 /**
  * @returns {JSX.Element} The site preferences route.
