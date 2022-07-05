@@ -1,5 +1,6 @@
 import apiFetch from "@wordpress/api-fetch";
 import { useState, useCallback } from "@wordpress/element";
+import { __ } from "@wordpress/i18n";
 import { PropTypes } from "prop-types";
 import { ToggleField, Button, Alert } from "@yoast/ui-library";
 
@@ -19,7 +20,7 @@ export default function Card( { integration, children } ) {
 	const isIntegrationAvailable = ( integration.isPremium && isPremiumInstalled ) || ! integration.isPremium;
 	const [ isActive, setIsActive ] = useState( integration.isActive );
 	const [ errorMessage, setErrorMessage ] = useState( "" );
-
+	const upsellLink = "https://yoa.st/workout-orphaned-content-upsell";
 
 	/**
 	 * Updates an integration state.
@@ -56,11 +57,9 @@ export default function Card( { integration, children } ) {
 	);
 	return (
 		<div className={ `yst-relative yst-flex yst-flex-col yst-bg-white yst-rounded-lg yst-border yst-p-6 yst-space-y-6 yst-overflow-hidden yst-transition-transform yst-ease-in-out yst-duration-200 ${ isIntegrationAvailable ? "yst-border-gray-200 yst-shadow-sm" : "yst-border-gray-200 yst-shadow-sm" }` }>
-			{ /* Header */ }
-			<div className={ `yst-relative yst-flex yst-items-center yst-justify-center yst-h-24 yst-bg-gray-100 yst--mx-6 yst--mt-6 yst-py-6 ${ isActive ? "" : "yst-opacity-50 yst-filter yst-grayscale" }` }>
+			<header className={ `yst-relative yst-flex yst-items-center yst-justify-center yst-h-24 yst-bg-gray-100 yst--mx-6 yst--mt-6 yst-py-6 ${ isActive ? "" : "yst-opacity-50 yst-filter yst-grayscale" }` }>
 				{ integration.logo }
-			</div>
-			{ /* Body */ }
+			</header>
 			<div className={ `yst-flex-grow ${ isActive ? "" : "yst-opacity-50  yst-filter yst-grayscale" } ` }>
 				<h4 className="yst-flex yst-items-center yst-text-base yst-mb-3">
 					<span>{ integration.name }</span>
@@ -79,21 +78,18 @@ export default function Card( { integration, children } ) {
 					} ) }
 				</ul> }
 			</div>
-
-			{ /* Footer */ }
-			<div className="yst-border-t yst-border-gray-200 yst-pt-6">
+			<footer className="yst-border-t yst-border-gray-200 yst-pt-6">
 				{ isIntegrationAvailable
 					? <ToggleField checked={ isActive } label={ `Enable ${ integration.name }` } onChange={ toggleActive } />
-					: <Button id={ `${integration.name}-upsell-button` } as="a" variant="upsell" className="yst-w-full">
+					: <Button id={ `${integration.name}-upsell-button` } as="a" href={ upsellLink } variant="upsell" className="yst-w-full yst-text-gray-800">
 						<svg xmlns="http://www.w3.org/2000/svg" className="yst--ml-1 yst-mr-2 yst-h-5 yst-w-5 yst-text-yellow-900" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
 							<path strokeLinecap="round" strokeLinejoin="round" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z" />
 						</svg>
-						Unlock with Premium
+						{ __( "Unlock with Premium", "wordpress-seo") }
 					</Button>
 				}
 				{ errorMessage && <Alert variant="error" className="yst-mt-2">{ errorMessage }</Alert> }
-			</div>
-
+			</footer>
 		</div>
 	);
 }
