@@ -92,7 +92,7 @@ class Settings_Integration implements Integration_Interface {
 	 */
 	public function enqueue_assets() {
 		$this->asset_manager->enqueue_script( 'new-settings' );
-		$this->asset_manager->enqueue_style( 'tailwind' );
+		$this->asset_manager->enqueue_style( 'new-settings' );
 		$this->asset_manager->localize_script( 'new-settings', 'wpseoScriptData', $this->get_script_data() );
 	}
 

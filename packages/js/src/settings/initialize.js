@@ -77,74 +77,76 @@ domReady( () => {
 				>
 					<div className="yst-flex md:yst-gap-4 yst-mt-16 md:yst-mt-0 yst-p-4 md:yst-p-8">
 						<aside className="yst-hidden md:yst-block yst-flex-shrink-0 yst-w-56 lg:yst-w-64">
-							<SidebarNavigation items={ [
-								{
-									icon: DesktopComputerIcon,
-									label: __( "Site settings", "wordpress-seo" ),
-									subItems: [
-										{
-											label: __( "Site representation", "wordpress-seo" ),
-											linkProps: { as: Link, to: "site-representation" },
-										},
-										{
-											label: __( "Site defaults", "wordpress-seo" ),
-											linkProps: { as: Link, to: "site-defaults" },
-										},
-										{
-											label: __( "Site preferences", "wordpress-seo" ),
-											linkProps: { as: Link, to: "site-preferences" },
-										},
-										{
-											label: __( "Webmaster tools", "wordpress-seo" ),
-											linkProps: { as: Link, to: "webmaster-tools" },
-										},
-										{
-											label: __( "Breadcrumbs", "wordpress-seo" ),
-											linkProps: { as: Link, to: "breadcrumbs" },
-										},
-									],
-								},
-								{
-									icon: NewspaperIcon,
-									label: __( "Content settings", "wordpress-seo" ),
-									subItems: [],
-								},
-								{
-									icon: AdjustmentsIcon,
-									label: __( "Advanced settings", "wordpress-seo" ),
-									subItems: [
-										{
-											label: __( "Author archives", "wordpress-seo" ),
-											linkProps: { as: Link, to: "author-archives" },
-										},
-										{
-											label: __( "Date archives", "wordpress-seo" ),
-											linkProps: { as: Link, to: "date-archives" },
-										},
-										{
-											label: __( "Search pages", "wordpress-seo" ),
-											linkProps: { as: Link, to: "search-pages" },
-										},
-										{
-											label: __( "404 pages", "wordpress-seo" ),
-											linkProps: { as: Link, to: "not-found-pages" },
-										},
-										{
-											label: __( "Media", "wordpress-seo" ),
-											linkProps: { as: Link, to: "media" },
-										},
-										{
-											label: __( "Formats", "wordpress-seo" ),
-											linkProps: { as: Link, to: "formats" },
-										},
-										{
-											label: __( "RSS", "wordpress-seo" ),
-											linkProps: { as: Link, to: "rss" },
-										},
-									],
-									defaultOpen: false,
-								},
-							] } />
+							<SidebarNavigation
+								items={ [
+									{
+										icon: DesktopComputerIcon,
+										label: __( "Site settings", "wordpress-seo" ),
+										subItems: [
+											{
+												label: __( "Site representation", "wordpress-seo" ),
+												linkProps: { as: Link, to: "site-representation" },
+											},
+											{
+												label: __( "Site defaults", "wordpress-seo" ),
+												linkProps: { as: Link, to: "site-defaults" },
+											},
+											{
+												label: __( "Site preferences", "wordpress-seo" ),
+												linkProps: { as: Link, to: "site-preferences" },
+											},
+											{
+												label: __( "Webmaster tools", "wordpress-seo" ),
+												linkProps: { as: Link, to: "webmaster-tools" },
+											},
+											{
+												label: __( "Breadcrumbs", "wordpress-seo" ),
+												linkProps: { as: Link, to: "breadcrumbs" },
+											},
+										],
+									},
+									{
+										icon: NewspaperIcon,
+										label: __( "Content settings", "wordpress-seo" ),
+										subItems: [],
+									},
+									{
+										icon: AdjustmentsIcon,
+										label: __( "Advanced settings", "wordpress-seo" ),
+										subItems: [
+											{
+												label: __( "Author archives", "wordpress-seo" ),
+												linkProps: { as: Link, to: "author-archives" },
+											},
+											{
+												label: __( "Date archives", "wordpress-seo" ),
+												linkProps: { as: Link, to: "date-archives" },
+											},
+											{
+												label: __( "Search pages", "wordpress-seo" ),
+												linkProps: { as: Link, to: "search-pages" },
+											},
+											{
+												label: __( "404 pages", "wordpress-seo" ),
+												linkProps: { as: Link, to: "not-found-pages" },
+											},
+											{
+												label: __( "Media", "wordpress-seo" ),
+												linkProps: { as: Link, to: "media" },
+											},
+											{
+												label: __( "Formats", "wordpress-seo" ),
+												linkProps: { as: Link, to: "formats" },
+											},
+											{
+												label: __( "RSS", "wordpress-seo" ),
+												linkProps: { as: Link, to: "rss" },
+											},
+										],
+										defaultOpen: false,
+									},
+								] }
+							/>
 						</aside>
 						<main className="yst-flex-grow">
 							<Routes>
