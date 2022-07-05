@@ -684,7 +684,12 @@ export default class AnalysisWebWorker {
 	 * @returns {void}
 	 */
 	initialize( id, configuration ) {
-		const update = AnalysisWebWorker.shouldAssessorsUpdate( configuration, this._contentAssessor, this._seoAssessor, this._inclusiveLanguageAssessor );
+		const update = AnalysisWebWorker.shouldAssessorsUpdate(
+			configuration,
+			this._contentAssessor,
+			this._seoAssessor,
+			this._inclusiveLanguageAssessor
+		);
 
 		if ( has( configuration, "translations.locale_data.wordpress-seo" ) ) {
 			setLocaleData( configuration.translations.locale_data[ "wordpress-seo" ], "wordpress-seo" );
