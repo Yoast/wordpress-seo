@@ -61,7 +61,6 @@ export const getPeriphrasticPassives = function( paper, researcher ) {
 		} );
 	const totalNumberSentences = sentences.length;
 	const passiveSentences = [];
-	console.log("TEST", sentences)
 	forEach( sentences, function( sentence ) {
 		const strippedSentence = stripHTMLTags( sentence.getSentenceText() ).toLocaleLowerCase();
 

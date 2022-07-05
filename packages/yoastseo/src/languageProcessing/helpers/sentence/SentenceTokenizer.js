@@ -460,15 +460,16 @@ export default class SentenceTokenizer {
 						this.isCharacterASpace( nextToken.src[ 0 ] ) ) {
 						// Don't split on quotation marks unless they're preceded by a full stop.
 						if ( this.isQuotation( token.src ) && previousToken.src !== "." ) {
-							break; // TODO: add our quotation to isquotation
+							break;
 						}
 						/*
 				         * Only split on ellipsis or quotation marks when:
 					     * a) There is a next sentence, and the next character is a valid sentence beginning preceded by a white space, OR
 					     * b) The next token is a sentence start
 					    */
-						// TODO: also add curly quotation
-						if ( token.src === "…" || token.src === "\"" || token.src === "“" || token.src === "”" ) {
+						const listQuotationMarks = [ "…", "‘", "’", "‛", "`", "‹", "›", "“",
+							"”", "〝", "〞", "〟", "‟", "„", "『", "』", "«", "»", "\"" ];
+						if ( listQuotationMarks.some( ( element ) => element === token.src ) ) {
 							currentSentence = this.getValidSentence( hasNextSentence,
 								nextSentenceStart,
 								nextCharacters,
