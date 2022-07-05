@@ -12,8 +12,8 @@
 			@apply yst-mr-6;
 		}
 
-		.yst-toggle-field__label {
-			@apply yst-mb-1;
+		.yst-toggle-field__description {
+			@apply yst-mt-1;
 		}
 
 		.yst-toggle-field__options {
