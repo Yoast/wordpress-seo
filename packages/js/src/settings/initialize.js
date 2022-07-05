@@ -1,15 +1,23 @@
-/* eslint-disable require-jsdoc */
 import domReady from "@wordpress/dom-ready";
 import { render } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Root, Title } from "@yoast/ui-library";
 import { Formik } from "formik";
-import { HashRouter, Routes, Route, Link } from "react-router-dom";
 import { forEach, get, isObject } from "lodash";
+import { HashRouter, Link, Route, Routes } from "react-router-dom";
 import { SitePreferences } from "./routes";
 
+/**
+ * Retrieves the initial settings.
+ * @returns {Object} The settings.
+ */
 const getInitialValues = () => get( window, "wpseoScriptData.settings", {} );
 
+/**
+ * Handles the form submit.
+ * @param {Object} values The values.
+ * @returns {Promise<boolean>} Promise of save result.
+ */
 const handleSubmit = async( values ) => {
 	const { endpoint, nonce } = get( window, "wpseoScriptData", {} );
 	const formData = new FormData();

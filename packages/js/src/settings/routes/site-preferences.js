@@ -1,5 +1,5 @@
 import { __ } from "@wordpress/i18n";
-import { Button, ToggleField, Title } from "@yoast/ui-library";
+import { Button, Title, ToggleField } from "@yoast/ui-library";
 import { Form, useFormikContext } from "formik";
 import { FormikValueChangeField } from "../hocs";
 
@@ -26,7 +26,7 @@ const SitePreferences = () => {
 							as={ ToggleField }
 							type="checkbox"
 							name="wpseo.keyword_analysis_active"
-							data-id="input:wpseo.keyword_analysis_active" // <-- add input: convention in UI library?
+							data-id="input:wpseo.keyword_analysis_active"
 							label={ __( "SEO analysis", "wordpress-seo" ) }
 							className="yst-mb-8"
 						>
@@ -36,7 +36,7 @@ const SitePreferences = () => {
 							as={ ToggleField }
 							type="checkbox"
 							name="wpseo.content_analysis_active"
-							data-id="input:wpseo.content_analysis_active" // <-- add input: convention in UI library?
+							data-id="input:wpseo.content_analysis_active"
 							label={ __( "Readability analysis", "wordpress-seo" ) }
 							className="yst-mb-8"
 						>
