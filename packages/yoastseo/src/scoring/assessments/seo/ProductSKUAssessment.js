@@ -28,7 +28,7 @@ export default class ProductSKUAssessment extends Assessment {
 			assessVariants: true,
 		};
 
-		this.identifier = "productSku";
+		this.identifier = "productSKU";
 		this._config = merge( defaultConfig, config );
 	}
 
