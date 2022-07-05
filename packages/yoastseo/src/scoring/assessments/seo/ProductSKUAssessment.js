@@ -61,7 +61,7 @@ export default class ProductSKUAssessment extends Assessment {
 	 * @returns {Boolean} Always returns false.
 	 */
 	isApplicable() {
-		return false;
+		return true;
 	}
 
 	/**
