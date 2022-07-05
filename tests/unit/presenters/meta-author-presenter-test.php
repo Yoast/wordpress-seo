@@ -8,12 +8,13 @@ use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Presenters\Meta_Author_Presenter;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Context\Meta_Tags_Context_Mock;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
  * Class Meta_Description_Presenter_Test
  *
- * @coversDefaultClass \Yoast\WP\SEO\Presenters\Meta_Description_Presenter
+ * @coversDefaultClass \Yoast\WP\SEO\Presenters\Meta_Author_Presenter
  *
  * @group presenters
  * @group opengraph
@@ -70,7 +71,8 @@ class Meta_Author_Presenter_Test extends TestCase {
 	 * @covers ::get
 	 */
 	public function test_present_and_filter_happy_path() {
-		$this->indexable_presentation->meta_description = 'the_meta_description';
+		$this->indexable_presentation->model                  = new Indexable_Mock();
+		$this->indexable_presentation->model->object_sub_type = 'post';
 
 		$user_mock               = Mockery::mock( \WP_User::class );
 		$user_mock->display_name = 'John Doe';
@@ -89,6 +91,7 @@ class Meta_Author_Presenter_Test extends TestCase {
 
 		$output = '<meta name="author" content="John Doe" />';
 
+		Monkey\Filters\expectApplied( 'wpseo_meta_author' );
 		$this->assertSame( $output, $this->instance->present() );
 	}
 
@@ -99,7 +102,8 @@ class Meta_Author_Presenter_Test extends TestCase {
 	 * @covers ::get
 	 */
 	public function test_present_and_filter_unhappy_path() {
-		$this->indexable_presentation->meta_description = 'the_meta_description';
+		$this->indexable_presentation->model                  = new Indexable_Mock();
+		$this->indexable_presentation->model->object_sub_type = 'post';
 
 		Monkey\Functions\expect( 'get_userdata' )
 			->once()
@@ -117,13 +121,36 @@ class Meta_Author_Presenter_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the presenter of the meta description when we are not on a post.
+	 *
+	 * @covers ::present
+	 * @covers ::get
+	 */
+	public function test_present_and_filter_not_a_post() {
+		$this->indexable_presentation->model                  = new Indexable_Mock();
+		$this->indexable_presentation->model->object_sub_type = 'page';
+
+		Monkey\Functions\expect( 'get_userdata' )
+			->never();
+
+		$this->html
+			->expects( 'smart_strip_tags' )
+			->never();
+
+		$output = '';
+
+		$this->assertSame( $output, $this->instance->present() );
+	}
+
+	/**
 	 * Tests the presenter of the meta description when the admin bar is showing a class is added.
 	 *
 	 * @covers ::present
 	 * @covers ::get
 	 */
 	public function test_present_and_filter_with_class() {
-		$this->indexable_presentation->meta_description = 'the_meta_description';
+		$this->indexable_presentation->model                  = new Indexable_Mock();
+		$this->indexable_presentation->model->object_sub_type = 'post';
 
 		$user_mock               = Mockery::mock( \WP_User::class );
 		$user_mock->display_name = 'John Doe';

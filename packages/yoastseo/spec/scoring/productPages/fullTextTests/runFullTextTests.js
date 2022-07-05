@@ -22,7 +22,7 @@ import ImageKeyphraseAssessment from "../../../../src/scoring/assessments/seo/Ke
 import ImageCountAssessment from "../../../../src/scoring/assessments/seo/ImageCountAssessment";
 import ImageAltTags from "../../../../src/scoring/assessments/seo/ImageAltTagsAssessment";
 import KeyphraseDistribution from "../../../../src/scoring/assessments/seo/KeyphraseDistributionAssessment";
-import ProductIdentifiersAssessment from "../../../../src/scoring/assessments/seo/ProductIdentifiersAssessment";
+// 	Add back once the assessment is enabled: import ProductIdentifiersAssessment from "../../../../src/scoring/assessments/seo/ProductIdentifiersAssessment";
 
 // Import Readability assessments.
 import SubheadingDistributionTooLongAssessment
@@ -116,12 +116,13 @@ testPapers.forEach( function( testPaper ) {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify54" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify55" ),
 		} );
+		/*	Add back once the assessment is enabled:
 		const productIdentifiersAssessment = new ProductIdentifiersAssessment( {
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify81" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify82" ),
-			assessVariants: false,
-			productIdentifierOrBarcode: { lowercase: "barcode" },
-		} );
+		urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify81" ),
+		urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify82" ),
+		assessVariants: false,
+		productIdentifierOrBarcode: { lowercase: "barcode" },
+		} );*/
 		const imageKeyphraseAssessment = new ImageKeyphraseAssessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify22" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify23" ),
@@ -329,6 +330,7 @@ testPapers.forEach( function( testPaper ) {
 			}
 		} );
 
+		/* Add back once the assessment is enabled:
 		it( "returns a score and the associated feedback text for the product identifiers assessment", function() {
 			const isApplicable = productIdentifiersAssessment.isApplicable( paper );
 			expect( isApplicable ).toBe( expectedResults.productIdentifiers.isApplicable );
@@ -338,7 +340,7 @@ testPapers.forEach( function( testPaper ) {
 				expect( result.productIdentifiers.getScore() ).toBe( expectedResults.productIdentifiers.score );
 				expect( result.productIdentifiers.getText() ).toBe( expectedResults.productIdentifiers.resultText );
 			}
-		} );
+		} );*/
 
 		// Images-related assessments
 		it( "returns a score and the associated feedback text for the imageKeyphrase assessment", function() {
