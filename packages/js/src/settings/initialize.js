@@ -1,11 +1,23 @@
 import domReady from "@wordpress/dom-ready";
 import { render } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { Root, Title } from "@yoast/ui-library";
+import { Root } from "@yoast/ui-library";
 import { Formik } from "formik";
 import { forEach, get, isObject } from "lodash";
 import { HashRouter, Link, Route, Routes } from "react-router-dom";
-import { SitePreferences } from "./routes";
+import {
+	AuthorArchives,
+	Breadcrumbs,
+	DateArchives,
+	Formats,
+	Media,
+	NotFoundPages,
+	Rss,
+	SearchPages,
+	SiteDefaults,
+	SitePreferences,
+	SiteRepresentation,
+} from "./routes";
 
 /**
  * Retrieves the initial settings.
@@ -74,10 +86,17 @@ domReady( () => {
 						</aside>
 						<main className="yst-flex-grow">
 							<Routes>
+								<Route path="author-archives" element={ <AuthorArchives /> } />
+								<Route path="breadcrumbs" element={ <Breadcrumbs /> } />
+								<Route path="date-archives" element={ <DateArchives /> } />
+								<Route path="formats" element={ <Formats /> } />
+								<Route path="media" element={ <Media /> } />
+								<Route path="not-found-pages" element={ <NotFoundPages /> } />
+								<Route path="rss" element={ <Rss /> } />
+								<Route path="search-pages" element={ <SearchPages /> } />
+								<Route path="site-defaults" element={ <SiteDefaults /> } />
+								<Route path="site-representation" element={ <SiteRepresentation /> } />
 								<Route path="site-preferences" element={ <SitePreferences /> } />
-								<Route path="other" element={ <Title>Other</Title> }>
-									Another page
-								</Route>
 								<Route path="/" element={ <SitePreferences /> } />
 							</Routes>
 						</main>
