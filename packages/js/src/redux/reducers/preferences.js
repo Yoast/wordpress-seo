@@ -37,7 +37,7 @@ function getDefaultState() {
 		isWordProofIntegrationActive: isWordProofIntegrationActive(),
 		isInsightsEnabled: get( window, "wpseoScriptData.metabox.isInsightsEnabled", false ),
 		isNewsEnabled: ! ! window.wpseoAdminL10n.news_seo_is_active,
-		isYoastSEOWooEnabled: window.wpseoWooL10n,
+		isYoastSEOWooEnabled: ! isUndefined( window.wpseoWooL10n ),
 	};
 }
 
