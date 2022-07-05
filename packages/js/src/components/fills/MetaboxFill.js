@@ -75,6 +75,7 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 				{ settings.isContentAnalysisActive && <SidebarItem key="readability-analysis" renderPriority={ 10 }>
 					<ReadabilityAnalysis
 						shouldUpsell={ settings.shouldUpsell }
+						isYoastSEOWooActive={ settings.isYoastSEOWooEnabled }
 					/>
 				</SidebarItem> }
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="seo-analysis" renderPriority={ 20 }>
@@ -82,6 +83,7 @@ export default function MetaboxFill( { settings, wincherKeyphrases, setWincherNo
 						<SeoAnalysis
 							shouldUpsell={ settings.shouldUpsell }
 							shouldUpsellWordFormRecognition={ settings.isWordFormRecognitionActive }
+							isYoastSEOWooActive={ settings.isYoastSEOWooEnabled }
 						/>
 						{ settings.shouldUpsell && <PremiumSEOAnalysisModal location="metabox" /> }
 					</Fragment>
