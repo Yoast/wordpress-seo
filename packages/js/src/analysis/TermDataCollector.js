@@ -11,6 +11,7 @@ import getIndicatorForScore from "../analysis/getIndicatorForScore";
 import { update as updateTrafficLight } from "../ui/trafficLight";
 import { update as updateAdminBar } from "../ui/adminBar";
 import measureTextWidth from "../helpers/measureTextWidth";
+import isContentAnalysisActive from "./isContentAnalysisActive";
 
 const $ = jQuery;
 
@@ -310,9 +311,9 @@ TermDataCollector.prototype.saveContentScore = function( score ) {
  * @returns {void}
  */
 TermDataCollector.prototype.saveInclusiveLanguageScore = function( score ) {
-	var indicator = getIndicatorForScore( score );
+	const indicator = getIndicatorForScore( score );
 
-	if ( ! isKeywordAnalysisActive() ) {
+	if ( ! isKeywordAnalysisActive() && ! isContentAnalysisActive() ) {
 		updateTrafficLight( indicator );
 		updateAdminBar( indicator );
 	}
