@@ -82,7 +82,7 @@ class Settings_Integration implements Integration_Interface {
 	 * Displays the page.
 	 */
 	public function display_page() {
-		echo '<div id="yoast-seo-settings"></div>';
+		echo '<div id="yoast-seo-settings" style="margin-left: -20px;"></div>';
 	}
 
 	/**
