@@ -34,6 +34,6 @@ class WPSEO_Metabox_Analysis_Inclusive_Language implements WPSEO_Metabox_Analysi
 	 * @return bool Whether or not this analysis is enabled globally.
 	 */
 	public function is_globally_enabled() {
-		return WPSEO_Options::get( 'inclusive_language_analysis_active', true );
+		return WPSEO_Options::get( 'inclusive_language_analysis_active', false );
 	}
 }
