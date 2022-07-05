@@ -2,11 +2,12 @@
 import interpolateComponents from "interpolate-components";
 import { __, sprintf } from "@wordpress/i18n";
 import { ButtonStyledLink } from "@yoast/components";
+import { get } from "lodash";
 
 /* Yoast dependencies */
 import { makeOutboundLink } from "@yoast/helpers";
 
-const ZapierHelpLink = makeOutboundLink();
+const OutboundLink = makeOutboundLink();
 
 
 /**
@@ -17,6 +18,9 @@ const ZapierHelpLink = makeOutboundLink();
  * @returns {wp.Element} The Zapier pre-publish panel content component.
  */
 const PrePublishZapierUpsell = () => {
+	const premiumBuyLink = get( window, "wpseoAdminL10n.shortlinks-upsell-prepublish-zapier_upsell_buy_link", "https://yoa.st/get-zapier-prepublish" );
+	const zapierHelpLink = get( window, "wpseoAdminL10n.shortlinks-upsell-prepublish-zapier_upsell_help_link", "https://yoa.st/help-zapier-prepublish" );
+
 	const text = sprintf(
 		/* translators: 1: Link start tag, 2: Yoast SEO, 3: Zapier, 4: Link closing tag. */
 		__(
@@ -31,13 +35,13 @@ const PrePublishZapierUpsell = () => {
 
 	const interpolatedText = interpolateComponents( {
 		mixedString: text,
-		components: { link: <ZapierHelpLink href={ "https://yoa.st/somelink" } /> },
+		components: { link: <OutboundLink href={ zapierHelpLink } /> },
 	} );
 
 	return (
 		<div className="yoast">
-			<p style={ { opacity: 1, marginTop: 0 } }>{ interpolatedText }</p>
-			<ButtonStyledLink variant="buy" small={ true } href="">
+			<p style={ { marginTop: 0 } }>{ interpolatedText }</p>
+			<ButtonStyledLink variant="buy" small={ true } href={ premiumBuyLink } target="_blank">
 				{ __( "Unlock with Premium!", "wordpress-seo" ) }
 			</ButtonStyledLink>
 		</div>
