@@ -1,12 +1,11 @@
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/outline";
-import { Link } from "@yoast/ui-library";
+import { Link, useToggleState } from "@yoast/ui-library";
+import classNames from "classnames";
 import PropTypes from "prop-types";
-import { useToggleState } from "@yoast/ui-library";
-import { ReactComponent as Logo } from "./yoast-logo.svg";
 
-const MenuItem = ( { label, icon: Icon = null, subItems = [], defaultOpen = true } ) => {
+const MenuItem = ( { label, icon: Icon = null, children = null, defaultOpen = true } ) => {
 	const [ isOpen, toggleOpen ] = useToggleState( defaultOpen );
-	const MenuIcon = isOpen ? ChevronUpIcon : ChevronDownIcon;
+	const ChevronIcon = isOpen ? ChevronUpIcon : ChevronDownIcon;
 
 	return (
 		<div>
@@ -18,19 +17,10 @@ const MenuItem = ( { label, icon: Icon = null, subItems = [], defaultOpen = true
 				{ Icon && <Icon className="yst-flex-shrink-0 yst--ml-1 yst-mr-3 yst-h-6 yst-w-6 yst-text-gray-400 group-hover:yst-text-gray-500" /> }
 				{ label }
 			</span>
-				<MenuIcon className="yst-h-5 yst-w-5 yst-text-gray-400 group-hover:yst-text-gray-500" />
+				<ChevronIcon className="yst-h-5 yst-w-5 yst-text-gray-400 group-hover:yst-text-gray-500" />
 			</button>
-			{ isOpen && <ul className="yst-ml-8 yst-space-y-1">
-				{ subItems.map( ( { linkProps, label }, index ) => (
-					<li key={ `sub-menu-item-${ index }` }>
-						<Link
-							className="yst-group yst-flex yst-items-center yst-px-3 yst-py-2 yst-text-sm yst-font-medium yst-text-gray-600 yst-rounded-md hover:yst-text-gray-900 hover:yst-bg-gray-50 yst-no-underline"
-							{ ...linkProps }
-						>
-							{ label }
-						</Link>
-					</li>
-				) ) }
+			{ isOpen && children && <ul className="yst-ml-8 yst-space-y-1">
+				{ children }
 			</ul> }
 		</div>
 	);
@@ -41,19 +31,37 @@ MenuItem.propTypes = {
 	icon: PropTypes.elementType,
 	subItems: PropTypes.array,
 	defaultOpen: PropTypes.bool,
+	children: PropTypes.node,
 };
 
-const SidebarNavigation = ( { items = [] } ) => (
-	<nav>
-		<figure className="yst-w-44 yst-px-3 yst-mb-12">
-			<Logo />
-		</figure>
-		{ items.map( ( props, index ) => <MenuItem key={ `menu-item-${ index }` } { ...props } /> ) }
-	</nav>
+const SubmenuItem = ( { children, label, isActive = false, ...props } ) => (
+	<li>
+		<Link
+			className={ classNames(
+				"yst-group yst-flex yst-items-center yst-px-3 yst-py-2 yst-text-sm yst-font-medium yst-rounded-md hover:yst-text-gray-900 hover:yst-bg-gray-50 yst-no-underline",
+				isActive ? "yst-bg-gray-200 yst-text-gray-900" : "yst-text-gray-600",
+			) }
+			{ ...props }
+		>
+			{ label || children }
+		</Link>
+	</li>
 );
 
-SidebarNavigation.propTypes = {
-	items: PropTypes.array,
+SubmenuItem.propTypes = {
+	children: PropTypes.node,
+	label: PropTypes.node,
+	isActive: PropTypes.bool,
 };
+
+const SidebarNavigation = ( { activePath = "", children } ) => <nav>{ children }</nav>;
+
+SidebarNavigation.propTypes = {
+	activePath: PropTypes.string,
+	children: PropTypes.node.isRequired,
+};
+
+SidebarNavigation.MenuItem = MenuItem;
+SidebarNavigation.SubmenuItem = SubmenuItem;
 
 export default SidebarNavigation;
