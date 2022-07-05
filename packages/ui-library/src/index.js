@@ -19,6 +19,7 @@ export { default as Modal } from "./components/modal";
 export { default as RadioGroup } from "./components/radio-group";
 export { default as Root } from "./components/root";
 export { default as SelectField } from "./components/select-field";
+export { default as SidebarNavigation } from "./components/sidebar-navigation";
 export { default as TextField } from "./components/text-field";
 export { default as TextareaField } from "./components/textarea-field";
 export { default as ToggleField } from "./components/toggle-field";
