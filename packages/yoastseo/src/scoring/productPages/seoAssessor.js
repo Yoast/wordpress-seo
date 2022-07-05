@@ -128,9 +128,9 @@ const ProductSEOAssessor = function( researcher, options ) {
 			productIdentifierOrBarcode: options.productIdentifierOrBarcode,
 		} ),
 		new ProductSKUAssessment( {
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify79" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify80" ),
-			assessVariants: false,
+			urlTitle: createAnchorOpeningTag( options.productSKUUrlTitle ),
+			urlCallToAction: createAnchorOpeningTag( options.productSKUCTAUrl ),
+			assessVariants: options.assessVariants,
 		} ),
 	];
 };
