@@ -19,6 +19,26 @@ class InclusiveLanguageAssessor extends Assessor {
 			config => new InclusiveLanguageAssessment( config )
 		);
 	}
+
+	/**
+	 * Calculates the overall score.
+	 *
+	 * @returns {number} The overall score.
+	 */
+	calculateOverallScore() {
+		const results = this.getValidResults();
+
+		const improvementResults = results.filter( result => result.getScore() === 6 );
+		const problemResults = results.filter( result => result.getScore() === 3 );
+
+		if ( problemResults.length >= 1 ) {
+			return 30;
+		} else if ( improvementResults.length >= 1 ) {
+			return 60;
+		}
+
+		return 90;
+	}
 }
 
 export default InclusiveLanguageAssessor;

@@ -32,7 +32,7 @@ const StyledHelpLink = styled( HelpLink )`
 	margin: -8px 0 -4px 4px;
 `;
 
-const InclusiveLanguageAnalysis = (props) => {
+const InclusiveLanguageAnalysis = ( props ) => {
 	function renderResults() {
 		return (
 			<Fragment>
@@ -51,6 +51,10 @@ const InclusiveLanguageAnalysis = (props) => {
 					results={ props.results }
 					marksButtonClassName="yoast-tooltip yoast-tooltip-w"
 					marksButtonStatus={ props.marksButtonStatus }
+					resultCategoryLabels={ {
+						problems: __( "Non-inclusive phrases", "wordpress-seo" ),
+						improvements: __( "Potentially non-inclusive phrases", "wordpress-seo" ),
+					} }
 				/>
 			</Fragment>
 		);
@@ -60,6 +64,10 @@ const InclusiveLanguageAnalysis = (props) => {
 
 	if ( isNil( props.overallScore ) ) {
 		score.className = "loading";
+	}
+
+	function renderGoodJob() {
+		return <p>{ __( "We did not detect any non-inclusive phrases.", "wordpress-seo" ) }</p>;
 	}
 
 	return (
@@ -74,7 +82,7 @@ const InclusiveLanguageAnalysis = (props) => {
 							prefixIconCollapsed={ getIconForScore( score.className ) }
 							id={ `yoast-inclusive-language-analysis-collapsible-${ location }` }
 						>
-							{ renderResults() }
+							{ props.results.length >= 1 ? renderResults() : renderGoodJob() }
 						</Collapsible>
 					);
 				}
@@ -87,7 +95,7 @@ const InclusiveLanguageAnalysis = (props) => {
 									target="wpseo-inclusive-language-score-icon"
 									scoreIndicator={ score.className }
 								/>
-								{ renderResults() }
+								{ props.results.length >= 1 ? renderResults() : renderGoodJob() }
 							</InclusiveLanguageResultsTabContainer>
 						</ReadabilityResultsPortal>
 					);
@@ -95,7 +103,7 @@ const InclusiveLanguageAnalysis = (props) => {
 			} }
 		</LocationConsumer>
 	);
-}
+};
 
 InclusiveLanguageAnalysis.propTypes = {
 	results: PropTypes.array,

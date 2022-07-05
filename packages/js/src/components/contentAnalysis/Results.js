@@ -1,3 +1,4 @@
+import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 import { ContentAnalysis } from "@yoast/analysis-report";
 import { Component, Fragment } from "@wordpress/element";
@@ -191,7 +192,17 @@ class Results extends Component {
 			problemsResults,
 		} = mappedResults;
 
-		const { upsellResults } = this.props;
+		const { upsellResults, resultCategoryLabels } = this.props;
+
+		const defaultLabels = {
+			errors: __( "Errors", "wordpress-seo" ),
+			problems: __( "Problems", "wordpress-seo" ),
+			improvements: __( "Improvements", "wordpress-seo" ),
+			considerations: __( "Considerations", "wordpress-seo" ),
+			goodResults: __( "Good results", "wordpress-seo" ),
+		};
+
+		const labels = Object.assign( defaultLabels, resultCategoryLabels );
 
 		return (
 			<Fragment>
@@ -211,6 +222,7 @@ class Results extends Component {
 					headingLevel={ 3 }
 					keywordKey={ this.props.keywordKey }
 					isPremium={ this.props.isPremium }
+					resultCategoryLabels={ labels }
 				/>
 			</Fragment>
 		);
@@ -229,6 +241,13 @@ Results.propTypes = {
 	keywordKey: PropTypes.string,
 	location: PropTypes.string,
 	isPremium: PropTypes.bool,
+	resultCategoryLabels: PropTypes.shape( {
+		errors: PropTypes.string,
+		problems: PropTypes.string,
+		improvements: PropTypes.string,
+		considerations: PropTypes.string,
+		goodResults: PropTypes.string,
+	} ),
 };
 
 Results.defaultProps = {
@@ -241,6 +260,7 @@ Results.defaultProps = {
 	keywordKey: "",
 	location: "",
 	isPremium: false,
+	resultCategoryLabels: {},
 };
 
 export default Results;
