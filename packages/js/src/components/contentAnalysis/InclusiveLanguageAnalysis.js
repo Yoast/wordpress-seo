@@ -32,7 +32,23 @@ const StyledHelpLink = styled( HelpLink )`
 	margin: -8px 0 -4px 4px;
 `;
 
+/**
+ * The inclusive language analysis component.
+ *
+ * @param {Object} props The properties.
+ *
+ * @param {MappedResult[]} props.results The assessment results.
+ * @param {number} props.overallScore The overall analysis score.
+ * @param {"enabled"|"disabled"} props.markedButtonStatus The status of the mark buttons.
+ *
+ * @returns {JSX.Element} The inclusive language analysis component.
+ */
 const InclusiveLanguageAnalysis = ( props ) => {
+	/**
+	 * Renders the results of the analysis.
+	 *
+	 * @returns {JSX.Element} The results of the analysis.
+	 */
 	function renderResults() {
 		return (
 			<Fragment>
@@ -60,14 +76,19 @@ const InclusiveLanguageAnalysis = ( props ) => {
 		);
 	}
 
+	/**
+	 * Renders a feedback string for when no non-inclusive phrases are detected.
+	 *
+	 * @returns {JSX.Element} The feedback string.
+	 */
+	function renderGoodJob() {
+		return <p>{ __( "We did not detect any non-inclusive phrases.", "wordpress-seo" ) }</p>;
+	}
+
 	const score = getIndicatorForScore( props.overallScore );
 
 	if ( isNil( props.overallScore ) ) {
 		score.className = "loading";
-	}
-
-	function renderGoodJob() {
-		return <p>{ __( "We did not detect any non-inclusive phrases.", "wordpress-seo" ) }</p>;
 	}
 
 	return (
@@ -107,7 +128,7 @@ const InclusiveLanguageAnalysis = ( props ) => {
 
 InclusiveLanguageAnalysis.propTypes = {
 	results: PropTypes.array,
-	marksButtonStatus: PropTypes.string.isRequired,
+	marksButtonStatus: PropTypes.oneOf( [ "enabled", "disabled" ] ).isRequired,
 	overallScore: PropTypes.number,
 };
 

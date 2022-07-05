@@ -14,6 +14,7 @@ import { update as updateTrafficLight } from "../ui/trafficLight";
 import * as tmceHelper from "../lib/tinymce";
 import getIndicatorForScore from "./getIndicatorForScore";
 import isKeywordAnalysisActive from "./isKeywordAnalysisActive";
+import isContentAnalysisActive from "./isContentAnalysisActive";
 
 const { tmceId } = tmceHelper;
 const $ = jQuery;
@@ -424,10 +425,10 @@ PostDataCollector.prototype.saveContentScore = function( score ) {
  * @returns {void}
  */
 PostDataCollector.prototype.saveInclusiveLanguageScore = function( score ) {
-	var indicator = getIndicatorForScore( score );
+	const indicator = getIndicatorForScore( score );
 	publishBox.updateScore( "inclusive_language", indicator.className );
 
-	if ( ! isKeywordAnalysisActive() && !isRead ) {
+	if ( ! isKeywordAnalysisActive() && ! isContentAnalysisActive() ) {
 		updateTrafficLight( indicator );
 		updateAdminBar( indicator );
 	}

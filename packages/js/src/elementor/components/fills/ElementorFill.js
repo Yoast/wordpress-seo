@@ -107,8 +107,7 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 					/>
 				</SidebarItem> }
 				{ settings.isInclusiveLanguageAnalysisActive && <SidebarItem renderPriority={ 21 }>
-					<InclusiveLanguageAnalysis
-					/>
+					<InclusiveLanguageAnalysis />
 				</SidebarItem> }
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="additional-keywords-upsell" renderPriority={ 22 }>
 					{ settings.shouldUpsell && <KeywordUpsell /> }
