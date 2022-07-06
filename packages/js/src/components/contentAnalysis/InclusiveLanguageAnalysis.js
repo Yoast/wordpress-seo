@@ -128,7 +128,7 @@ const InclusiveLanguageAnalysis = ( props ) => {
 
 InclusiveLanguageAnalysis.propTypes = {
 	results: PropTypes.array,
-	marksButtonStatus: PropTypes.oneOf( [ "enabled", "disabled" ] ).isRequired,
+	marksButtonStatus: PropTypes.oneOf( [ "enabled", "disabled", "hidden" ] ).isRequired,
 	overallScore: PropTypes.number,
 };
 
