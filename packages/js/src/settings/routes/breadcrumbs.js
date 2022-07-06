@@ -169,7 +169,7 @@ const Breadcrumbs = () => {
 					<p>
 						{ addLinkToString(
 							sprintf(
-								// translators: %1$s and %2$s are replaced by opening and closing <a> tags. %3$s expands to WordProof.
+								// translators: %1$s and %2$s are replaced by opening and closing <a> tags.
 								__( "Usage of this breadcrumbs feature is explained in %1$sour knowledge-base article on breadcrumbs implementation%2$s.", "wordpress-seo" ),
 								"<a>",
 								"</a>"

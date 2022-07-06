@@ -50,9 +50,11 @@ const SitePreferences = () => {
 			<hr className="yst-my-8" />
 			<fieldset className="lg:yst-grid lg:yst-grid-cols-3 lg:yst-gap-12">
 				<div className="lg:yst-col-span-1">
-					<Title as="legend" size="4" className="yst-max-w-screen-sm">
-						{ __( "Site structure", "wordpress-seo" ) }
-					</Title>
+					<div className="max-w-screen-sm">
+						<Title as="legend" size="4">
+							{ __( "Site structure", "wordpress-seo" ) }
+						</Title>
+					</div>
 				</div>
 				<div className="yst-mt-8 lg:yst-mt-0 lg:yst-col-span-2 yst-space-y-8">
 					<FormikValueChangeField
@@ -85,9 +87,11 @@ const SitePreferences = () => {
 			<hr className="yst-my-8" />
 			<fieldset className="lg:yst-grid lg:yst-grid-cols-3 lg:yst-gap-12">
 				<div className="lg:yst-col-span-1">
-					<Title as="legend" size="4" className="yst-max-w-screen-sm">
-						{ __( "Social sharing", "wordpress-seo" ) }
-					</Title>
+					<div className="max-w-screen-sm">
+						<Title as="legend" size="4">
+							{ __( "Social sharing", "wordpress-seo" ) }
+						</Title>
+					</div>
 				</div>
 				<div className="yst-mt-8 lg:yst-mt-0 lg:yst-col-span-2 yst-space-y-8">
 					<Alert id="alert:social-sharing">
@@ -122,9 +126,11 @@ const SitePreferences = () => {
 			<hr className="yst-my-8" />
 			<fieldset className="lg:yst-grid lg:yst-grid-cols-3 lg:yst-gap-12">
 				<div className="lg:yst-col-span-1">
-					<Title as="legend" size="4" className="yst-max-w-screen-sm">
-						{ __( "Tools", "wordpress-seo" ) }
-					</Title>
+					<div className="max-w-screen-sm">
+						<Title as="legend" size="4">
+							{ __( "Tools", "wordpress-seo" ) }
+						</Title>
+					</div>
 				</div>
 				<div className="yst-mt-8 lg:yst-mt-0 lg:yst-col-span-2 yst-space-y-8">
 					<FormikValueChangeField
@@ -140,9 +146,11 @@ const SitePreferences = () => {
 			<hr className="yst-my-8" />
 			<fieldset className="lg:yst-grid lg:yst-grid-cols-3 lg:yst-gap-12">
 				<div className="lg:yst-col-span-1">
-					<Title as="legend" size="4" className="yst-max-w-screen-sm">
-						{ __( "APIs", "wordpress-seo" ) }
-					</Title>
+					<div className="max-w-screen-sm">
+						<Title as="legend" size="4">
+							{ __( "APIs", "wordpress-seo" ) }
+						</Title>
+					</div>
 				</div>
 				<div className="yst-mt-8 lg:yst-mt-0 lg:yst-col-span-2 yst-space-y-8">
 					<FormikValueChangeField
@@ -166,9 +174,11 @@ const SitePreferences = () => {
 			<hr className="yst-my-8" />
 			<fieldset className="lg:yst-grid lg:yst-grid-cols-3 lg:yst-gap-12">
 				<div className="lg:yst-col-span-1">
-					<Title as="legend" size="4" className="yst-max-w-screen-sm">
-						{ __( "Security & privacy", "wordpress-seo" ) }
-					</Title>
+					<div className="max-w-screen-sm">
+						<Title as="legend" size="4">
+							{ __( "Security & privacy", "wordpress-seo" ) }
+						</Title>
+					</div>
 				</div>
 				<div className="yst-mt-8 lg:yst-mt-0 lg:yst-col-span-2 yst-space-y-8">
 					<FormikValueChangeField

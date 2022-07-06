@@ -1,1 +1,24 @@
-@import url(../src/tailwind.css);
+@import "@yoast/ui-library";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    .yst-root {
+        a {
+            @apply focus:yst-shadow-none;
+        }
+
+        svg path {
+            stroke-width: inherit;
+        }
+
+        .yst-radio__input {
+            @apply
+                yst-transition-none
+                yst-shadow-none
+                checked:before:yst-hidden;
+        }
+    }   
+}

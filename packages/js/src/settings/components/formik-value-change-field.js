@@ -12,11 +12,11 @@ import { useField } from "formik";
  * @returns {JSX.Element} The Formik compatible ToggleField component.
  */
 const FormikValueChangeField = ( { as: Component, transformValue, ...props } ) => {
-	const [ field, , helpers ] = useField( props );
+	const [ field, , { setTouched, setValue } ] = useField( props );
 
 	const handleChange = useCallback( ( value ) => {
-		helpers.setTouched( true, false );
-		helpers.setValue( transformValue( value ) );
+		setTouched( true, false );
+		setValue( transformValue( value ) );
 	}, [ props.name ] );
 
 	return (

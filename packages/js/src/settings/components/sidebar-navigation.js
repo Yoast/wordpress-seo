@@ -9,7 +9,7 @@ const PureSubmenuItem = SidebarNavigation.SubmenuItem;
  * @param {string} to The path to link to.
  * @returns {JSX.Element} The submenu item element.
  */
-const SubmenuItem = ( { to, ...props } ) => <PureSubmenuItem as={ Link } pathProp="to" id={ `link:${ to }` } to={ to } { ...props } />;
+const SubmenuItem = ( { to, ...props } ) => <PureSubmenuItem as={ Link } pathProp="to" id={ `route:${ to }` } to={ to } { ...props } />;
 
 SubmenuItem.propTypes = {
 	to: PropTypes.string.isRequired,
