@@ -25,7 +25,7 @@ const FormLayout = ( {
 					{ children }
 				</div>
 				<footer className="yst-p-8 yst-bg-gray-50">
-					<Button id="submit:wpseo_settings" type="submit" isLoading={ isSubmitting } disabled={ isSubmitting }>
+					<Button id="button:submit-settings" type="submit" isLoading={ isSubmitting } disabled={ isSubmitting }>
 						{ __( "Save changes", "wordpress-seo" ) }
 					</Button>
 				</footer>

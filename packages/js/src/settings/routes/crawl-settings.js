@@ -21,7 +21,7 @@ const CrawlSettings = () => {
 			title={ __( "Crawl settings", "wordpress-seo" ) }
 			description={ addLinkToString(
 				sprintf(
-					// translators: %1$s and %2$s are replaced by opening and closing <a> tags. %3$s expands to WordProof.
+					// translators: %1$s and %2$s are replaced by opening and closing <a> tags.
 					__( "To make the crawling of your site more efficient and environmental friendly, Yoast SEO Premium allows you to remove URLs (added by WordPress) that might not be needed for your site. %1$sLearn more about crawl settings and how they could benefit your site%2$s.", "wordpress-seo" ),
 					"<a>",
 					"</a>"
@@ -241,7 +241,7 @@ const CrawlSettings = () => {
 					<Alert id="id:permalink-cleanup-settings" variant="warning">
 						{ addLinkToString(
 							sprintf(
-								// translators: %1$s and %2$s are replaced by opening and closing <a> tags. %3$s expands to WordProof.
+								// translators: %1$s and %2$s are replaced by opening and closing <a> tags.
 								__( "These are expert features, so make sure you know what you're doing before removing the parameters. %1$sRead more about how your site can be affected%2$s.", "wordpress-seo" ),
 								"<a>",
 								"</a>"

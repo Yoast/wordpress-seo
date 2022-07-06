@@ -11,24 +11,28 @@ const Label = ( {
 	as: Component,
 	className,
 	label,
+	children,
 	...props
 } ) => (
 	<Component
 		className={ classNames( "yst-label", className ) }
 		{ ...props }
 	>
-		{ label }
+		{ label || children }
 	</Component>
 );
 
 Label.propTypes = {
-	label: PropTypes.string.isRequired,
+	label: PropTypes.string,
+	children: PropTypes.string,
 	as: PropTypes.elementType,
 	className: PropTypes.string,
 };
 
 Label.defaultProps = {
 	as: "label",
+	label: "",
+	children: "",
 	className: "",
 };
 
