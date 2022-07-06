@@ -151,6 +151,6 @@ export function initialize() {
 		// Pretend to click on the inclusive language tab to make it focused.
 		document.querySelector( "#wpseo-meta-tab-inclusive-language" ).click();
 
-		scrollToCollapsible( "#wpseo-meta-section-inclusive-language" );
+		scrollToCollapsible( "#yoast-meta-section-inclusive-language" );
 	} );
 }
