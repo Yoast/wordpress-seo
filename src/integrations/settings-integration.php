@@ -3,14 +3,28 @@
 namespace Yoast\WP\SEO\Integrations;
 
 use WPSEO_Admin_Asset_Manager;
+use WPSEO_Option_Titles;
 use WPSEO_Options;
 use Yoast\WP\SEO\Conditionals\Settings_Conditional;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 
 /**
  * Class Settings_Integration.
  */
 class Settings_Integration implements Integration_Interface {
 
+	/**
+	 * Holds the included WordPress options.
+	 *
+	 * @var string[]
+	 */
+	const WP_OPTIONS = [ 'blogname', 'blogdescription' ];
+
+	/**
+	 * Holds the WPSEO_Admin_Asset_Manager.
+	 *
+	 * @var WPSEO_Admin_Asset_Manager
+	 */
 	protected $asset_manager;
 
 	/**
@@ -18,7 +32,7 @@ class Settings_Integration implements Integration_Interface {
 	 *
 	 * @param WPSEO_Admin_Asset_Manager $asset_manager The WPSEO_Admin_Asset_Manager.
 	 */
-	public function __construct( WPSEO_Admin_Asset_Manager $asset_manager ) {
+	public function __construct( WPSEO_Admin_Asset_Manager $asset_manager, Options_Helper $options_helper ) {
 		$this->asset_manager = $asset_manager;
 	}
 
@@ -44,8 +58,16 @@ class Settings_Integration implements Integration_Interface {
 		\add_action( 'admin_init', [ $this, 'register_setting' ] );
 	}
 
+	/**
+	 * Registers the different options under the setting.
+	 *
+	 * @return void
+	 */
 	public function register_setting() {
 		foreach ( WPSEO_Options::$options as $name => $instance ) {
+			\register_setting( 'wpseo_settings', $name );
+		}
+		foreach ( self::WP_OPTIONS as $name ) {
 			\register_setting( 'wpseo_settings', $name );
 		}
 	}
@@ -104,13 +126,17 @@ class Settings_Integration implements Integration_Interface {
 	 */
 	protected function get_script_data() {
 		$data = [
-			'settings' => [],
-			'endpoint' => \admin_url('options.php'),
-			'nonce'    => \wp_create_nonce( 'wpseo_settings-options' ),
+			'settings'   => [],
+			'endpoint'   => \admin_url( 'options.php' ),
+			'nonce'      => \wp_create_nonce( 'wpseo_settings-options' ),
+			'separators' => WPSEO_Option_Titles::get_instance()->get_separator_options_for_display(),
 		];
 
 		foreach ( WPSEO_Options::$options as $name => $instance ) {
 			$data['settings'][ $name ] = WPSEO_Options::get_option( $name );
+		}
+		foreach ( self::WP_OPTIONS as $name ) {
+			$data['settings'][ $name ] = \get_option( $name );
 		}
 
 		return $data;
