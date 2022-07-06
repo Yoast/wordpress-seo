@@ -2,7 +2,7 @@ import SentenceTokenizer from "../../../../src/languageProcessing/helpers/senten
 
 const mockTokenizer = new SentenceTokenizer();
 
-const doubleQuoteTypes = [ { start: "\"", end: "\"" },
+const doubleQuotePairs = [ { start: "\"", end: "\"" },
 	{ start: "〝", end: "〞" },
 	{ start: "“", end: "”" },
 	{ start: "‟", end: "„" },
@@ -21,7 +21,7 @@ describe( "A test for tokenizing a (html) text into sentences", function() {
 
 	it( "returns an array of sentences for a given array of tokens started and ended with block with the " +
 		" start and end of the quote pair", function() {
-		doubleQuoteTypes.forEach( ( quotePair ) => {
+		doubleQuotePairs.forEach( ( quotePair ) => {
 			const tokens = [
 				{ type: "block-start", src: "<form>" },
 				{ type: "html-start", src: "<p>" },
@@ -370,7 +370,7 @@ describe( "A test for tokenizing a (html) text into sentences", function() {
 	} );
 
 	it( "recognizes initials in the edge case where there are quotes around the initials", function() {
-		doubleQuoteTypes.forEach( ( quotePair ) => {
+		doubleQuotePairs.forEach( ( quotePair ) => {
 			const tokens = [
 				{ type: "sentence", src: "The reprint was favourably reviewed by" },
 				{ type: "sentence-delimiter", src: quotePair.start },
@@ -395,7 +395,7 @@ describe( "A test for tokenizing a (html) text into sentences", function() {
 	} );
 
 	it( "correctly constructs the sentence in the edge case where there are quotes around the initials", function() {
-		doubleQuoteTypes.forEach( ( quotePair ) => {
+		doubleQuotePairs.forEach( ( quotePair ) => {
 			const tokens = [
 				{ type: "sentence", src: "The reprint was favourably reviewed by" },
 				{ type: "sentence-delimiter", src: " " + quotePair.start },
