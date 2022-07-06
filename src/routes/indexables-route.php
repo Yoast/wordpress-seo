@@ -24,6 +24,13 @@ class Indexables_Route implements Route_Interface {
 	const LEAST_READABILITY_ROUTE = '/least_readability';
 
 	/**
+	 * Represents the least SEO score route.
+	 *
+	 * @var string
+	 */
+	const LEAST_SEO_SCORE_ROUTE = '/least_seo_score';
+
+	/**
 	 * The indexable repository.
 	 *
 	 * @var Indexable_Repository
@@ -70,6 +77,16 @@ class Indexables_Route implements Route_Interface {
 		];
 
 		\register_rest_route( Main::API_V1_NAMESPACE, self::LEAST_READABILITY_ROUTE, $least_readability_route );
+
+		$least_seo_score_route = [
+			[
+				'methods'             => 'GET',
+				'callback'            => [ $this, 'get_least_seo_score' ],
+				'permission_callback' => $edit_others_posts,
+			],
+		];
+
+		\register_rest_route( Main::API_V1_NAMESPACE, self::LEAST_SEO_SCORE_ROUTE, $least_seo_score_route );
 	}
 
 	/**
@@ -95,6 +112,34 @@ class Indexables_Route implements Route_Interface {
 			[
 				'json' => [
 					'least_readable' => $least_readable,
+				],
+			]
+		);
+	}
+
+	/**
+	 * Gets the posts with the smallest readability scores.
+	 *
+	 * @return WP_REST_Response The posts with the smallest readability scores.
+	 */
+	public function get_least_seo_score() {
+        // @TODO: Improve query.
+		$least_seo_score = $this->indexable_repository->query()
+			->where_raw( '( post_status= \'publish\' OR post_status IS NULL )' )
+			->where_in( 'object_type', [ 'post' ] )
+			->where_in( 'object_sub_type', $this->get_public_sub_types() )
+            ->where_not_equal( 'primary_focus_keyword', 0 )
+			->order_by_asc( 'primary_focus_keyword_score' )
+			->limit( 5 )
+			->find_many();
+
+		$least_seo_score = \array_map( [ $this->indexable_repository, 'ensure_permalink' ], $least_seo_score );
+		// $least_seo_score = \array_map( [ $this, 'map_subtypes_to_singular_name' ], $least_seo_score );
+
+		return new WP_REST_Response(
+			[
+				'json' => [
+					'least_seo_score' => $least_seo_score,
 				],
 			]
 		);
