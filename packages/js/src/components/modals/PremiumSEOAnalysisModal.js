@@ -60,8 +60,7 @@ const PremiumSEOAnalysisModal = ( { location } ) => {
 				prefixIcon={ { icon: "seo-score-none", color: colors.$color_grey } }
 				suffixIcon={ { icon: "pencil-square", size: "20px" } }
 				onClick={ openModal }
-			>
-			</SidebarButton> }
+			/> }
 			{ location === "metabox" && <FakeMetaboxCollapsible
 				hasPadding={ false }
 				hasSeparator={ true }
