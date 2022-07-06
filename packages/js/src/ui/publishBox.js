@@ -120,6 +120,10 @@ export function initialize() {
 		createScoresInPublishBox( "content", notAvailableStatus );
 	}
 
+	if ( wpseoScriptData.metabox.inclusiveLanguageAnalysisActive ) {
+		createScoresInPublishBox( "inclusive-language", notAvailableStatus );
+	}
+
 	// Target only the link and use event delegation, as this link doesn't exist on dom ready yet.
 	$( "#content-score" ).on( "click", "[href='#yoast-readability-analysis-collapsible-metabox']", function( event ) {
 		event.preventDefault();
@@ -138,5 +142,15 @@ export function initialize() {
 		document.querySelector( "#wpseo-meta-tab-content" ).click();
 
 		scrollToCollapsible( "#yoast-seo-analysis-collapsible-metabox" );
+	} );
+
+	// Target only the link and use event delegation, as this link doesn't exist on dom ready yet.
+	$( "#inclusive-language-score" ).on( "click", "[href='#yoast-inclusive-language-analysis-collapsible-metabox']", function( event ) {
+		event.preventDefault();
+
+		// Pretend to click on the inclusive language tab to make it focused.
+		document.querySelector( "#wpseo-meta-tab-inclusive-language" ).click();
+
+		scrollToCollapsible( "#yoast-meta-section-inclusive-language" );
 	} );
 }
