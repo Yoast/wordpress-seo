@@ -29,7 +29,7 @@ const appearanceAssessments = [
 	},
 	{
 		identifier: "obesity",
-		nonInclusivePhrases: [ "person/people with obesity" ],
+		nonInclusivePhrases: [ "person with obesity", "people with obesity" ],
 		inclusiveAlternative: "person/people who has/have a higher weight; " +
 			"higher-weight person/people; person/people in higher weight body/bodies; heavier person/people",
 		score: 6,
