@@ -207,14 +207,14 @@ const disabilityAssessments =  [
 	{
 		identifier: "addict",
 		nonInclusivePhrases: [ "addict" ],
-		inclusiveAlternative: "person with a (drug, alcohol,...) addiction/ person with substance abuse disorder",
+		inclusiveAlternative: "person with a (drug, alcohol, ...) addiction / person with substance abuse disorder",
 		score: 6,
 		feedbackFormat: potentiallyHarmfulUnless,
 	},
 	{
 		identifier: "addicts",
 		nonInclusivePhrases: [ "addicts" ],
-		inclusiveAlternative: "people with a (drug, alcohol,...) addiction/ people with substance abuse disorder",
+		inclusiveAlternative: "people with a (drug, alcohol, ...) addiction / people with substance abuse disorder",
 		score: 6,
 		feedbackFormat: potentiallyHarmfulUnless,
 	},
@@ -242,14 +242,14 @@ const disabilityAssessments =  [
 	{
 		identifier: "sanityCheck",
 		nonInclusivePhrases: [ "sanity check" ],
-		inclusiveAlternative: "final check; confidence check; rationality check; soundness check; OR be specific about what you're checknig",
+		inclusiveAlternative: "final check; confidence check; rationality check; soundness check; OR be specific about what you're checking",
 		score: 3,
 		feedbackFormat: potentiallyHarmful,
 	},
 	{
 		identifier: "crazy",
 		nonInclusivePhrases: [ "crazy" ],
-		inclusiveAlternative: "baffling, startling, suprising, shocking, wild, confusing, unpredictable",
+		inclusiveAlternative: "baffling, startling, surprising, shocking, wild, confusing, unpredictable",
 		score: 3,
 		feedbackFormat: potentiallyHarmful,
 	},
@@ -319,7 +319,7 @@ const disabilityAssessments =  [
 	{
 		// Special string! y1 and y2
 		identifier: "sociopath",
-		nonInclusivePhrases: "sociopath",
+		nonInclusivePhrases: [ "sociopath" ],
 		inclusiveAlternative: "1. Person with antisocial personality disorder, " +
 			"2. selfish, toxic, manipulative, wild, confusing, unpredictable, impulsive, reckless, out of control",
 		score: 6,
@@ -329,7 +329,7 @@ const disabilityAssessments =  [
 	{
 		// Special string! y1 and y2
 		identifier: "narcissistic",
-		nonInclusivePhrases: "narcissistic",
+		nonInclusivePhrases: [ "narcissistic" ],
 		inclusiveAlternative: "1. Person with narcissistic personality disorder, " +
 			"2. selfish, egotistical, self-centered, self-absorbed, vain, toxic, manipulative",
 		score: 6,
