@@ -404,12 +404,15 @@ describe( "A test for tokenizing a (html) text into sentences", function() {
 				{ type: "sentence", src: " B" },
 				{ type: "full-stop", src: "." },
 				{ type: "sentence-delimiter", src: quotePair.end },
-				{ type: "full-stop", src: " in The Musical Times in 1935, who commented" + quotePair.start + "Praise is due to Mr Mercer." },
+				{ type: "sentence", src: " in The Musical Times in 1935, who commented" },
+				{ type: "sentence-delimiter", src: quotePair.start },
+				{ type: "sentence", src: "Praise is due to Mr Mercer." },
+				{ type: "sentence-delimiter", src: quotePair.end },
 			];
 
 			expect( mockTokenizer.getSentencesFromTokens( tokens ) ).toEqual( [
 				"The reprint was favourably reviewed by " + quotePair.start + "A. B." + quotePair.end +
-				" in The Musical Times in 1935, who commented" + quotePair.start +  "Praise is due to Mr Mercer." ] );
+				" in The Musical Times in 1935, who commented" + quotePair.start +  "Praise is due to Mr Mercer." + quotePair.end ] );
 		} );
 	} );
 } );
