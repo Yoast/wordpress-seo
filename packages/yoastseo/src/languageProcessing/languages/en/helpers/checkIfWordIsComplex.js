@@ -25,7 +25,14 @@ export default function checkIfWordIsComplex( word ) {
 	 */
 	if ( word.length > lengthLimit && ! frequencyList.includes( word ) ) {
 		if ( doesUpperCaseDecreaseComplexity === true && word[ 0 ].toLowerCase() === word[ 0 ] ) {
+			console.log( word );
 			isWordComplex = true;
+		}
+		// Check if the word ends on -s (possible plural noun), if it ends on -s remove -s and check for the word in the list
+		if ( word.endsWith( "s" ) ) {
+			word = word.substring( 0, word.length - 1 );
+			console.log( word );
+			isWordComplex = ! frequencyList.includes( word );
 		}
 	}
 	return isWordComplex;
