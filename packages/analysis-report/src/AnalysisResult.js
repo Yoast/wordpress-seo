@@ -53,6 +53,7 @@ export const AnalysisResult = ( props ) => {
 			</AnalysisResultText>
 			{
 				<>
+					props.hasMarksButton && ! areButtonsHidden( props ) &&
 					<IconButtonToggle
 						marksButtonStatus={ props.marksButtonStatus }
 						className={ props.marksButtonClassName }
