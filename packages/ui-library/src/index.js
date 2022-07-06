@@ -8,6 +8,7 @@ export { default as ProgressBar } from "./elements/progress-bar";
 export { default as Radio } from "./elements/radio";
 export { default as Select } from "./elements/select";
 export { default as Spinner } from "./elements/spinner";
+export { default as Table } from "./elements/table";
 export { default as TextInput } from "./elements/text-input";
 export { default as Textarea } from "./elements/textarea";
 export { default as Title } from "./elements/title";
