@@ -15,7 +15,7 @@ class WPSEO_Metabox_Section_Inclusive_Language implements WPSEO_Metabox_Section 
 	 *
 	 * @var string
 	 */
-	public $name = 'inclusive_language';
+	public $name = 'inclusive-language';
 
 	/**
 	 * Outputs the section link.
