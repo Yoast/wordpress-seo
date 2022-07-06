@@ -7,7 +7,6 @@ import firstWordExceptions from "../../../../src/languageProcessing/languages/en
 import twoPartTransitionWords from "../../../../src/languageProcessing/languages/en/config/twoPartTransitionWords";
 import stopWords from "../../../../src/languageProcessing/languages/en/config/stopWords";
 import syllables from "../../../../src/languageProcessing/languages/en/config/syllables.json";
-import frequencyList from "../../../../src/languageProcessing/languages/en/config/frequencyList.json";
 const morphologyDataEN = getMorphologyData( "en" );
 
 describe( "a test for the English Researcher", function() {
@@ -53,12 +52,6 @@ describe( "a test for the English Researcher", function() {
 		expect( researcher.getConfig( "passiveConstructionType" ) ).toEqual( "periphrastic" );
 	} );
 
-	it( "returns the English word complexity configs", function() {
-		expect( researcher.getConfig( "wordComplexity" ).frequencyList ).toEqual( frequencyList.list );
-		expect( researcher.getConfig( "wordComplexity" ).wordLength ).toEqual( 7 );
-		expect( researcher.getConfig( "wordComplexity" ).doesUpperCaseDecreasesComplexity ).toEqual( true );
-	} );
-
 	it( "stems a word using the English stemmer", function() {
 		researcher.addResearchData( "morphology", morphologyDataEN );
 		expect( researcher.getHelper( "getStemmer" )( researcher )( "cats" ) ).toEqual( "cat" );
@@ -82,5 +75,10 @@ describe( "a test for the English Researcher", function() {
 			averageWordsPerSentence: 20,
 		};
 		expect( researcher.getHelper( "fleschReadingScore" )( statistics ) ).toBe( 17.3 );
+	} );
+
+	it( "checks is a word is complex in English", function() {
+		expect( researcher.getHelper( "checkIfWordIsComplex" )( "polygonal" ) ).toEqual( true );
+		expect( researcher.getHelper( "checkIfWordIsComplex" )( "investigations" ) ).toEqual( false );
 	} );
 } );
