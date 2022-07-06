@@ -13,7 +13,7 @@ import Modal, { defaultModalClassName } from "./Modal";
 import SidebarButton from "../SidebarButton";
 import PremiumSEOAnalysisUpsell from "./PremiumSEOAnalysisUpsell";
 
-const FakeMetaboxCollapsible = styled( CollapsibleStateless )`
+const MetaboxModalButton = styled( CollapsibleStateless )`
 	h2 > button {
 		padding-left: 24px;
 		padding-top: 16px;
@@ -61,7 +61,7 @@ const PremiumSEOAnalysisModal = ( { location } ) => {
 				suffixIcon={ { icon: "pencil-square", size: "20px" } }
 				onClick={ openModal }
 			/> }
-			{ location === "metabox" && <FakeMetaboxCollapsible
+			{ location === "metabox" && <MetaboxModalButton
 				hasPadding={ false }
 				hasSeparator={ true }
 				isOpen={ false }
