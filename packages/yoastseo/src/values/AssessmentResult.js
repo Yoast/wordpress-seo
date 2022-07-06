@@ -24,6 +24,7 @@ var AssessmentResult = function( values ) {
 	this._hasScore = false;
 	this._identifier = "";
 	this._hasMarks = false;
+	this._hasJumps = false;
 	this._marker = emptyMarker;
 	this._hasBetaBadge = false;
 	this.score = 0;
@@ -48,6 +49,10 @@ var AssessmentResult = function( values ) {
 
 	if ( ! isUndefined( values._hasBetaBadge ) ) {
 		this.setHasBetaBadge( values._hasBetaBadge );
+	}
+
+	if ( ! isUndefined( values._hasJumps ) ) {
+		this.setHasJumps( values._hasJumps );
 	}
 };
 
@@ -217,6 +222,25 @@ AssessmentResult.prototype.hasBetaBadge = function() {
 };
 
 /**
+ * Sets the value of _hasJumps to determine whether it's needed to jump to a different field.
+ *
+ * @param {boolean} hasJumps Whether this result causes a jump to a different field.
+ * @returns {void}
+ */
+AssessmentResult.prototype.setHasJumps = function( hasJumps ) {
+	this._hasJumps = hasJumps;
+};
+
+/**
+ * Returns the value of _hasJumps to determine whether it's needed to jump to a different field.
+ *
+ * @returns {bool} Whether this result causes a jump to a different field.
+ */
+AssessmentResult.prototype.hasJumps = function() {
+	return this._hasJumps;
+};
+
+/**
  * Serializes the AssessmentResult instance to an object.
  *
  * @returns {Object} The serialized AssessmentResult.
@@ -229,6 +253,7 @@ AssessmentResult.prototype.serialize = function() {
 		text: this.text,
 		marks: this.marks.map( mark => mark.serialize() ),
 		_hasBetaBadge: this._hasBetaBadge,
+		_hasJumps: this._hasJumps,
 	};
 };
 
@@ -245,6 +270,7 @@ AssessmentResult.parse = function( serialized ) {
 		score: serialized.score,
 		marks: serialized.marks.map( mark => Mark.parse( mark ) ),
 		_hasBetaBadge: serialized._hasBetaBadge,
+		_hasJumps: serialized._hasJumps,
 	} );
 	result.setIdentifier( serialized.identifier );
 
