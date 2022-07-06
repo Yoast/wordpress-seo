@@ -1,4 +1,5 @@
 import wordComplexity from "../config/internal/wordComplexity";
+
 /**
  * Checks if a word is complex.
  *
@@ -13,8 +14,6 @@ export default function checkIfWordIsComplex( word ) {
 	// Whether uppercased beginning of a word decreases its complexity.
 	const doesUpperCaseDecreaseComplexity = wordComplexityConfig.doesUpperCaseDecreasesComplexity;
 
-	let isWordComplex = false;
-
 	/*
 	 * Check for each word whether it is a complex word or not.
 	 * A word is complex if:
@@ -23,15 +22,21 @@ export default function checkIfWordIsComplex( word ) {
 	 * if the word does NOT start with a capital letter
 	 * (for languages that see long words to be less complex if they start with a capital letter)
 	 */
-	if ( word.length > lengthLimit && ! frequencyList.includes( word ) ) {
-		if ( doesUpperCaseDecreaseComplexity === true && word[ 0 ].toLowerCase() === word[ 0 ] ) {
-			isWordComplex = true;
-		}
+	if ( word.length <= lengthLimit ) {
+		return false;
+	}
+	if ( frequencyList.includes( word ) ) {
+		return false;
+	}
+
+	if ( doesUpperCaseDecreaseComplexity === true && word[ 0 ].toLowerCase() === word[ 0 ] ) {
 		// Check if the word ends on -s (possible plural noun), if it ends on -s remove -s and check for the word is in the list.
 		if ( word.endsWith( "s" ) ) {
 			word = word.substring( 0, word.length - 1 );
-			isWordComplex = ! frequencyList.includes( word );
+			return ! frequencyList.includes( word );
 		}
+		return true;
 	}
-	return isWordComplex;
+
+	return false;
 }
