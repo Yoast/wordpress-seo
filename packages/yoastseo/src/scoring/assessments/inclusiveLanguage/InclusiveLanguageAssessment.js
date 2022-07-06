@@ -3,6 +3,9 @@ import Assessment from "../assessment";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import AssessmentResult from "../../../values/AssessmentResult";
 import { getWords } from "../../../languageProcessing";
+import Mark from "../../../values/Mark";
+import addMark from "../../../markers/addMark";
+import getSentences from "../../../languageProcessing/helpers/sentence/getSentences";
 
 /**
  * Checks whether the given list of words contains another list of words in the given order.
@@ -57,15 +60,30 @@ export default class InclusiveLanguageAssessment extends Assessment {
 	 * Checks whether the assessment is applicable for the given paper.
 	 *
 	 * @param {Paper} paper The paper to check.
+	 * @param {Researcher} researcher The researcher.
 	 *
 	 * @returns {boolean} Whether the assessment is applicable for the given paper.
 	 */
-	isApplicable( paper ) {
-		let words = getWords( paper.getText() );
-		words = words.map( word => word.toLocaleLowerCase() );
+	isApplicable( paper, researcher ) {
+		const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
+		const sentences = getSentences( paper.getText(), memoizedTokenizer );
 
-		this.foundPhrase = this.nonInclusivePhrases.find( phrase => includesConsecutiveWords( words, phrase.split( " " ) ) );
-		return Boolean( this.foundPhrase );
+		this.foundPhrases = [];
+
+		sentences.forEach( sentence => {
+			let words = getWords( sentence );
+			words = words.map( word => word.toLocaleLowerCase() );
+			const foundPhrase = this.nonInclusivePhrases.find( phrase => includesConsecutiveWords( words, phrase.split( " " ) ) );
+
+			if ( foundPhrase ) {
+				this.foundPhrases.push( {
+					sentence: sentence,
+					phrase: foundPhrase,
+				} );
+			}
+		} );
+
+		return this.foundPhrases.length >= 1;
 	}
 
 	/**
@@ -82,7 +100,7 @@ export default class InclusiveLanguageAssessment extends Assessment {
 
 		const text = sprintf(
 			this.feedbackFormat,
-			this.foundPhrase,
+			this.foundPhrases[ 0 ].phrase,
 			this.inclusiveAlternative
 		);
 
@@ -92,7 +110,20 @@ export default class InclusiveLanguageAssessment extends Assessment {
 		} );
 
 		result.setIdentifier( this.identifier );
+		result.setHasMarks( true );
 
 		return result;
+	}
+	/**
+	 * Marks text for the inclusive language assessment.
+	 *
+	 * @returns {Array<Mark>} A list of marks that should be applied.
+	 */
+	getMarks() {
+		return this.foundPhrases.map( foundPhrase =>
+			new Mark( {
+				original: foundPhrase.sentence,
+				marked: addMark( foundPhrase.sentence ),
+			} ) );
 	}
 }
