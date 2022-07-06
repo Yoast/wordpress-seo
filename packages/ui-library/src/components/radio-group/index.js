@@ -25,6 +25,7 @@ const classNameMap = {
  * @param {Function} [onChange] Change handler.
  * @param {string} [variant] Variant.
  * @param {string} [className] CSS class.
+ * @param {Object} [props] Extra Radio props.
  * @returns {JSX.Element} RadioGroup component.
  */
 const RadioGroup = ( {
