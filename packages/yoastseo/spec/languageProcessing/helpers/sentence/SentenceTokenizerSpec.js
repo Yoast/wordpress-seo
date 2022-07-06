@@ -381,7 +381,8 @@ describe( "A test for tokenizing a (html) text into sentences", function() {
 				{ type: "sentence-delimiter", src: quotePair.end },
 				{ type: "sentence", src: " in The Musical Times in 1935, who commented" },
 				{ type: "sentence-delimiter", src: quotePair.start },
-				{ type: "sentence", src: "Praise is due to Mr Mercer." },
+				{ type: "sentence", src: "Praise is due to Mr Mercer" },
+				{ type: "full-stop", src: "." },
 				{ type: "sentence-delimiter", src: quotePair.end },
 			];
 
@@ -406,7 +407,8 @@ describe( "A test for tokenizing a (html) text into sentences", function() {
 				{ type: "sentence-delimiter", src: quotePair.end },
 				{ type: "sentence", src: " in The Musical Times in 1935, who commented" },
 				{ type: "sentence-delimiter", src: quotePair.start },
-				{ type: "sentence", src: "Praise is due to Mr Mercer." },
+				{ type: "sentence", src: "Praise is due to Mr Mercer" },
+				{ type: "full-stop", src: "." },
 				{ type: "sentence-delimiter", src: quotePair.end },
 			];
 
