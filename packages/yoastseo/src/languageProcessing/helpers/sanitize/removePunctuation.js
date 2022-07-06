@@ -26,8 +26,8 @@ export default function( text ) {
 	// If it would not be removed it is returned as amp and counted as a word in assessments downstream.
 	text = text.replace( "\u0026amp", "" );
 
-	const punctuationRegexStart = new RegExp( "^(\u0026amp$|[" + punctuationRegexString + "])+" );
-	const punctuationRegexEnd = new RegExp( "(^\u0026amp|[" + punctuationRegexString +  "])+$" );
+	const punctuationRegexStart = new RegExp( "^[" + punctuationRegexString + "]+" );
+	const punctuationRegexEnd = new RegExp( "[" + punctuationRegexString +  "]+$" );
 
 	/*
 	 * Remove backslash from the beginning and end of a word/text.
