@@ -39,7 +39,6 @@ const CrawlSettings = () => {
 							{ __( "Remove links added by WordPress to the header and <head>.", "wordpress-seo" ) }
 						</p>
 					</div>
-
 				</div>
 				<div className="yst-mt-8 lg:yst-mt-0 lg:yst-col-span-2 yst-space-y-8">
 					<FormikValueChangeField
@@ -111,7 +110,6 @@ const CrawlSettings = () => {
 							{ __( "Remove feed links added by WordPress that aren't needed for this site.", "wordpress-seo" ) }
 						</p>
 					</div>
-
 				</div>
 				<div className="yst-mt-8 lg:yst-mt-0 lg:yst-col-span-2 yst-space-y-8">
 					<FormikValueChangeField
@@ -200,7 +198,6 @@ const CrawlSettings = () => {
 							{ __( "Clean up and filter searches to prevent search spam.", "wordpress-seo" ) }
 						</p>
 					</div>
-
 				</div>
 				<div className="yst-mt-8 lg:yst-mt-0 lg:yst-col-span-2 yst-space-y-8">
 					<FormikValueChangeField
@@ -239,7 +236,6 @@ const CrawlSettings = () => {
 							{ __( "Remove unwanted URL parameters from your URLs.", "wordpress-seo" ) }
 						</p>
 					</div>
-
 				</div>
 				<div className="yst-mt-8 lg:yst-mt-0 lg:yst-col-span-2 yst-space-y-8">
 					<Alert id="id:permalink-cleanup-settings" variant="warning">

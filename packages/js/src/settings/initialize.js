@@ -21,6 +21,8 @@ const handleSubmit = async( values ) => {
 	const { endpoint, nonce } = get( window, "wpseoScriptData", {} );
 	const formData = new FormData();
 
+	console.warn( "values", values );
+
 	formData.set( "option_page", "wpseo_settings" );
 	formData.set( "action", "update" );
 	formData.set( "_wpnonce", nonce );

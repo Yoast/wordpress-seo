@@ -1,4 +1,3 @@
-
 import { AdjustmentsIcon, DesktopComputerIcon, NewspaperIcon } from "@heroicons/react/outline";
 import { __ } from "@wordpress/i18n";
 import { Route, Routes, useLocation } from "react-router-dom";

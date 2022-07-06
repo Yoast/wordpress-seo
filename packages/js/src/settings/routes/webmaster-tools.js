@@ -26,7 +26,8 @@ const WebmasterTools = () => {
 							"<a>",
 							"</a>"
 						),
-						"https://yoa.st/"
+						"https://yoa.st/",
+						"link:baidu-webmaster-tools"
 					) }
 					placeholder={ __( "Add verification code", "wordpress-seo" ) }
 				/>
@@ -42,7 +43,8 @@ const WebmasterTools = () => {
 							"<a>",
 							"</a>"
 						),
-						"https://yoa.st/"
+						"https://yoa.st/",
+						"link:bing-webmaster-tools"
 					) }
 					placeholder={ __( "Add verification code", "wordpress-seo" ) }
 				/>
@@ -58,7 +60,8 @@ const WebmasterTools = () => {
 							"<a>",
 							"</a>"
 						),
-						"https://yoa.st/"
+						"https://yoa.st/",
+						"link:google-search-console"
 					) }
 					placeholder={ __( "Add verification code", "wordpress-seo" ) }
 				/>
@@ -74,7 +77,8 @@ const WebmasterTools = () => {
 							"<a>",
 							"</a>"
 						),
-						"https://yoa.st/"
+						"https://yoa.st/",
+						"link:pinterest"
 					) }
 					placeholder={ __( "Add verification code", "wordpress-seo" ) }
 				/>
@@ -90,7 +94,8 @@ const WebmasterTools = () => {
 							"<a>",
 							"</a>"
 						),
-						"https://yoa.st/"
+						"https://yoa.st/",
+						"link:yandex-webmaster-tools"
 					) }
 					placeholder={ __( "Add verification code", "wordpress-seo" ) }
 				/>
