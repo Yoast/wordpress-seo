@@ -9,7 +9,11 @@
 		}
 
 		.yst-toggle-field--disabled .yst-toggle-field__text {
-			@apply yst-opacity-50 yst-cursor-not-allowed;
+			@apply yst-opacity-50;
+		}
+
+		.yst-toggle-field--disabled .yst-toggle-field__text {
+			@apply yst-cursor-not-allowed;
 		}
 
 		.yst-toggle-field__text {

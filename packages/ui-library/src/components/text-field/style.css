@@ -9,7 +9,7 @@
 		}
 
 		.yst-text-field__label {
-			@apply yst-flex yst-items-center yst-mb-2;
+			@apply yst-items-center yst-mb-2;
 		}
 
 		.yst-text-field__description {

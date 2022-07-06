@@ -53,7 +53,7 @@ SelectField.propTypes = {
 	children: PropTypes.node,
 	id: PropTypes.string.isRequired,
 	name: PropTypes.string.isRequired,
-	value: PropTypes.string,
+	value: PropTypes.oneOfType( [ PropTypes.string, PropTypes.number, PropTypes.bool ] ),
 	label: PropTypes.string.isRequired,
 	options: PropTypes.arrayOf( PropTypes.shape( {
 		value: PropTypes.string.isRequired,

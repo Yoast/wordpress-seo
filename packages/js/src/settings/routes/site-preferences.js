@@ -13,9 +13,11 @@ const SitePreferences = () => {
 		>
 			<fieldset className="lg:yst-grid lg:yst-grid-cols-3 lg:yst-gap-12">
 				<div className="lg:yst-col-span-1">
-					<Title as="legend" size="4" className="yst-max-w-screen-sm">
-						{ __( "Copywriting", "wordpress-seo" ) }
-					</Title>
+					<div className="max-w-screen-sm">
+						<Title as="legend" size="4">
+							{ __( "Copywriting", "wordpress-seo" ) }
+						</Title>
+					</div>
 				</div>
 				<div className="yst-mt-8 lg:yst-mt-0 lg:yst-col-span-2 yst-space-y-8">
 					<FormikValueChangeField
