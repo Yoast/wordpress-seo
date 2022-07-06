@@ -52,27 +52,27 @@ export const AnalysisResult = ( props ) => {
 				<span dangerouslySetInnerHTML={ { __html: props.text } } />
 			</AnalysisResultText>
 			{
-				<>
-					props.hasMarksButton && ! areButtonsHidden( props ) &&
-					<IconButtonToggle
-						marksButtonStatus={ props.marksButtonStatus }
-						className={ props.marksButtonClassName }
-						onClick={ props.onButtonClick }
-						id={ props.buttonId }
-						icon="edit"
-						pressed={ props.pressed }
-						ariaLabel={ props.ariaLabel }
-					/>
-					<IconButtonToggle
-						marksButtonStatus={ props.marksButtonStatus }
-						className={ props.marksButtonClassName }
-						onClick={ props.onButtonClick }
-						id={ props.buttonId }
-						icon="edit"
-						pressed={ props.pressed }
-						ariaLabel={ props.ariaLabel }
-					/>
-				</>
+				props.hasMarksButton && ! areButtonsHidden( props ) &&
+					<>
+						<IconButtonToggle
+							marksButtonStatus={ props.marksButtonStatus }
+							className={ props.marksButtonClassName }
+							onClick={ props.onButtonClick }
+							id={ props.buttonId }
+							icon="eye"
+							pressed={ props.pressed }
+							ariaLabel={ props.ariaLabel }
+						/>
+						<IconButtonToggle
+							marksButtonStatus={ props.marksButtonStatus }
+							className={ props.marksButtonClassName }
+							onClick={ props.onButtonClick }
+							id={ props.buttonId }
+							icon="edit"
+							pressed={ props.pressed }
+							ariaLabel={ props.ariaLabel }
+						/>
+					</>
 			}
 		</AnalysisResultBase>
 	);
