@@ -58,9 +58,9 @@ const PremiumSEOAnalysisModal = ( { location } ) => {
 				id={  "yoast-premium-seo-analysis-modal-open-button" }
 				title={ __( "Premium SEO analysis", "wordpress-seo" ) }
 				prefixIcon={ { icon: "seo-score-none", color: colors.$color_grey } }
+				suffixIcon={ { icon: "pencil-square", size: "20px" } }
 				onClick={ openModal }
 			>
-				<span className="yoast-chevron" aria-hidden="true" />
 			</SidebarButton> }
 			{ location === "metabox" && <FakeMetaboxCollapsible
 				hasPadding={ false }
@@ -70,9 +70,9 @@ const PremiumSEOAnalysisModal = ( { location } ) => {
 				title={ __( "Premium SEO analysis", "wordpress-seo" ) }
 				prefixIconCollapsed={ { icon: "seo-score-none", color: colors.$color_grey, size: "16px" } }
 				suffixIconCollapsed={ {
-					icon: "chevron-down",
+					icon: "pencil-square",
 					color: colors.$black,
-					size: "24px",
+					size: "20px",
 				} }
 				onToggle={ openModal }
 			/> }
