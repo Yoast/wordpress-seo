@@ -74,6 +74,7 @@ export default function AnalysisList( { results, marksButtonActivatedResult, mar
 				text={ result.text }
 				bulletColor={ color }
 				hasMarksButton={ result.hasMarks }
+				hasEditButton={ result.hasJumps }
 				ariaLabel={ ariaLabel }
 				pressed={ isMarkButtonPressed }
 				suppressedText={ result.rating === "upsell" }
@@ -82,7 +83,6 @@ export default function AnalysisList( { results, marksButtonActivatedResult, mar
 				marksButtonClassName={ marksButtonClassName }
 				marksButtonStatus={ marksButtonStatus }
 				hasBetaBadgeLabel={ result.hasBetaBadge }
-				icon={ "edit" }
 			/>;
 		} ) }
 	</AnalysisListBase>;

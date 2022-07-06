@@ -47,6 +47,7 @@ class SlugKeywordAssessment extends Assessment {
 		const calculatedResult = this.calculateResult();
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
+		assessmentResult.setHasJumps( true );
 
 		return assessmentResult;
 	}

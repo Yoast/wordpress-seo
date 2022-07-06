@@ -53,26 +53,27 @@ export const AnalysisResult = ( props ) => {
 			</AnalysisResultText>
 			{
 				props.hasMarksButton && ! areButtonsHidden( props ) &&
-					<>
-						<IconButtonToggle
-							marksButtonStatus={ props.marksButtonStatus }
-							className={ props.marksButtonClassName }
-							onClick={ props.onButtonClick }
-							id={ props.buttonId }
-							icon="eye"
-							pressed={ props.pressed }
-							ariaLabel={ props.ariaLabel }
-						/>
-						<IconButtonToggle
-							marksButtonStatus={ props.marksButtonStatus }
-							className={ props.marksButtonClassName }
-							onClick={ props.onButtonClick }
-							id={ props.buttonId }
-							icon="edit"
-							pressed={ props.pressed }
-							ariaLabel={ props.ariaLabel }
-						/>
-					</>
+				<IconButtonToggle
+					marksButtonStatus={ props.marksButtonStatus }
+					className={ props.marksButtonClassName }
+					onClick={ props.onButtonClick }
+					id={ props.buttonId }
+					icon="eye"
+					pressed={ props.pressed }
+					ariaLabel={ props.ariaLabel }
+				/>
+			}
+			{
+				props.hasEditButton &&
+				<IconButtonToggle
+					marksButtonStatus={ props.marksButtonStatus }
+					className={ props.marksButtonClassName }
+					onClick={ props.onButtonClick }
+					id={ props.buttonId }
+					icon="edit"
+					pressed={ props.pressed }
+					ariaLabel={ props.ariaLabel }
+				/>
 			}
 		</AnalysisResultBase>
 	);
@@ -84,6 +85,7 @@ AnalysisResult.propTypes = {
 	suppressedText: PropTypes.bool,
 	bulletColor: PropTypes.string.isRequired,
 	hasMarksButton: PropTypes.bool.isRequired,
+	hasEditButton: PropTypes.bool.isRequired,
 	buttonId: PropTypes.string.isRequired,
 	pressed: PropTypes.bool.isRequired,
 	ariaLabel: PropTypes.string.isRequired,
