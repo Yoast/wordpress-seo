@@ -82,6 +82,7 @@ export default function AnalysisList( { results, marksButtonActivatedResult, mar
 				marksButtonClassName={ marksButtonClassName }
 				marksButtonStatus={ marksButtonStatus }
 				hasBetaBadgeLabel={ result.hasBetaBadge }
+				icon={ "edit" }
 			/>;
 		} ) }
 	</AnalysisListBase>;
