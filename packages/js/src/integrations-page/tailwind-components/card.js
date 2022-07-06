@@ -58,7 +58,7 @@ export default function Card( { integration, children } ) {
 	return (
 		<div className={ `yst-relative yst-flex yst-flex-col yst-bg-white yst-rounded-lg yst-border yst-p-6 yst-space-y-6 yst-overflow-hidden yst-transition-transform yst-ease-in-out yst-duration-200 ${ isIntegrationAvailable ? "yst-border-gray-200 yst-shadow-sm" : "yst-border-gray-200 yst-shadow-sm" }` }>
 			<header className={ `yst-relative yst-flex yst-items-center yst-justify-center yst-h-24 yst-bg-gray-100 yst--mx-6 yst--mt-6 yst-py-6 ${ isActive ? "" : "yst-opacity-50 yst-filter yst-grayscale" }` }>
-				{ integration.logo }
+				{ integration.logo && integration.logo }
 			</header>
 			<div className={ `yst-flex-grow ${ isActive ? "" : "yst-opacity-50  yst-filter yst-grayscale" } ` }>
 				<h4 className="yst-flex yst-items-center yst-text-base yst-mb-3">
