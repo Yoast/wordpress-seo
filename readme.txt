@@ -244,7 +244,7 @@ Release Date: July 12th, 2022
 
 Enhancements:
 
-* Adds an Insights tab to the editors which contains Flesch reading ease score and feedback, (estimated) reading time, and word count.
+* Adds an Insights tab to the editors which contains the Flesch reading ease score and feedback, (estimated) reading time, and word count. Since the Flesch reading ease score has been moved to the insights tab, it is removed from the readability analysis.
 * Adds a `wpseo_meta_author` hook to filter the content of the author meta tag.
 * Adds canonical HTTP headers from RSS feeds to their parent URLs (for instance your homepage, or specific categories or tags), so the feeds themselves don't show up in search results.
 * Changes the `@id` of the main schema `WebPage` node to be just the permalink for the current page, for interoperability with other plugins.
@@ -253,7 +253,6 @@ Enhancements:
 * Makes sure the `link` tag in the RSS feeds' `channel` section links to the most specific URL possible (for instance the category or tag the RSS feed is for) instead of the homepage.
 * Makes sure the title separator chosen in Yoast SEO is used for RSS feed titles too.
 * Prefer featured image and in-content images instead of OpenGraph and Twitter images for Schema output.
-* Removes the Flesch reading ease assessment from the readability analysis, since it is now available in the Insights tab.
 * Updates the Yoast SEO logo.
 * Uses the site logo set in the customizer as the logo in our Schema `Organization` output when a site has not set a logo in the Yoast SEO settings.
 
