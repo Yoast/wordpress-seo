@@ -2,9 +2,10 @@ import SentenceTokenizer from "../../../../src/languageProcessing/helpers/senten
 
 const mockTokenizer = new SentenceTokenizer();
 
-const doubleQuoteTypes = [ { start: "〝", end: "\"" },
-	{ start: "\"", end: "〞" },
-	{ start: "〟", end: "‟" },
+const doubleQuoteTypes = [ { start: "\"", end: "\"" },
+	{ start: "〝", end: "〞" },
+	{ start: "“", end: "”" },
+	{ start: "‟", end: "„" },
 	{ start: "『", end: "』" },
 	{ start: "«", end: "»" } ];
 
@@ -18,9 +19,9 @@ describe( "A test for tokenizing a (html) text into sentences", function() {
 		expect( mockTokenizer.isValidSentenceBeginning( "أ" ) ).toBe( true );
 	} );
 
-	doubleQuoteTypes.forEach( ( quotePair ) =>{
-		it( "returns an array of sentences for a given array of tokens started and ended with block with the " +
-			quotePair.start + quotePair.end + "quote pair", function() {
+	it( "returns an array of sentences for a given array of tokens started and ended with block with the " +
+		" start and end of the quote pair", function() {
+		doubleQuoteTypes.forEach( ( quotePair ) => {
 			const tokens = [
 				{ type: "block-start", src: "<form>" },
 				{ type: "html-start", src: "<p>" },
