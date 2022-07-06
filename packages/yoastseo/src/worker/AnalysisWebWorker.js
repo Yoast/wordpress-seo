@@ -518,9 +518,9 @@ export default class AnalysisWebWorker {
 	 * @returns {null|Assessor} The chosen inclusive language assessor.
 	 */
 	createInclusiveLanguageAssessor() {
-		const { inclusiveLanguageActive } = this._configuration;
+		const { inclusiveLanguageAnalysisActive } = this._configuration;
 
-		if ( inclusiveLanguageActive === false ) {
+		if ( inclusiveLanguageAnalysisActive === false ) {
 			return null;
 		}
 
@@ -1022,7 +1022,7 @@ export default class AnalysisWebWorker {
 			this._results.readability = await this.assess( this._paper, this._tree, analysisCombination );
 		}
 
-		if ( this._configuration.inclusiveLanguageAnalysisActive && this._contentAssessor && shouldReadabilityUpdate ) {
+		if ( this._configuration.inclusiveLanguageAnalysisActive && this._inclusiveLanguageAssessor && shouldReadabilityUpdate ) {
 			this._inclusiveLanguageAssessor.assess( this._paper );
 			this._results.inclusiveLanguage = {
 				results: this._inclusiveLanguageAssessor.results,
