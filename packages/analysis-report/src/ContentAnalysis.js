@@ -62,6 +62,7 @@ class ContentAnalysis extends React.Component {
 					marksButtonStatus={ this.props.marksButtonStatus }
 					marksButtonClassName={ this.props.marksButtonClassName }
 					onMarksButtonClick={ this.props.onMarkButtonClick }
+					onEditButtonClick={ this.props.onEditButtonClick }
 				/>
 			</StyledCollapsible>
 		);

@@ -12,6 +12,8 @@ import { colors } from "@yoast/style-guide";
  * @property {number} score
  * @property {string} markerId
  * @property {bool} hasBetaBadge
+ * @property {bool} hasJumps
+
  */
 
 /**
@@ -43,6 +45,7 @@ function mapResult( result, key = "" ) {
 		text: result.text,
 		markerId: key.length > 0 ? `${key}:${id}` : id,
 		hasBetaBadge: result.hasBetaBadge(),
+		hasJumps: result.hasJumps(),
 	};
 
 	// Because of inconsistency between YoastSEO and yoast-components.
