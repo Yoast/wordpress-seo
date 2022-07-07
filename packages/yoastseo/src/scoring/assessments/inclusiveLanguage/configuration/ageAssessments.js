@@ -7,7 +7,7 @@ const assessments = [
 	{
 		identifier: "seniorCitizens",
 		nonInclusivePhrases: [ "senior citizen", "senior citizens" ],
-		inclusiveAlternative: "older persons/older people, older citizen(s)",
+		inclusiveAlternatives: "older persons/older people, older citizen(s)",
 		score: 6,
 		feedbackFormat: [ potentiallyHarmfulUnless, specificAgeGroup ].join( " " ),
 		learnMoreUrl: "https://yoa.st/",
@@ -15,7 +15,7 @@ const assessments = [
 	{
 		identifier: "agingDependants",
 		nonInclusivePhrases: [ "aging dependants" ],
-		inclusiveAlternative: "older persons/older people",
+		inclusiveAlternatives: "older persons/older people",
 		score: 3,
 		feedbackFormat: [ potentiallyHarmfulUnless, specificAgeGroup ].join( " " ),
 		learnMoreUrl: "https://yoa.st/",
@@ -23,7 +23,7 @@ const assessments = [
 	{
 		identifier: "elderly",
 		nonInclusivePhrases: [ "elderly" ],
-		inclusiveAlternative: "part of the older population; older persons/older people",
+		inclusiveAlternatives: "part of the older population; older persons/older people",
 		score: 6,
 		feedbackFormat: [ potentiallyHarmfulUnless, specificAgeGroup ].join( " " ),
 		learnMoreUrl: "https://yoa.st/",
@@ -31,7 +31,7 @@ const assessments = [
 	{
 		identifier: "senile",
 		nonInclusivePhrases: [ "senile" ],
-		inclusiveAlternative: "specify the mental disorder (e.g. has Alzheimer's)",
+		inclusiveAlternatives: "specify the mental disorder (e.g. has Alzheimer's)",
 		score: 3,
 		feedbackFormat: [ potentiallyHarmful, characteristicIfKnown ].join( " " ),
 		learnMoreUrl: "https://yoa.st/",
@@ -39,7 +39,7 @@ const assessments = [
 	{
 		identifier: "senility",
 		nonInclusivePhrases: [ "senility" ],
-		inclusiveAlternative: "dementia",
+		inclusiveAlternatives: "dementia",
 		score: 3,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
