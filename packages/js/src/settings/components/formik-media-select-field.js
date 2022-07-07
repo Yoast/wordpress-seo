@@ -120,7 +120,7 @@ const FormikMediaSelectField = ( {
 				) : (
 					<div className="yst-w-48">
 						<span className="yst-sr-only">{ selectLabel }</span>
-						<Icon className="yst-mx-auto yst-h-12 yst-w-12 yst-text-gray-400 yst-stroke-1 yst-group-hover:-yst-translate-y-2 yst-transition-all yst-ease-out yst-duration-300 yst-transform yst-group-hover:yst-text-primary-400" />
+						<Icon className="yst-mx-auto yst-h-12 yst-w-12 yst-text-gray-400 yst-stroke-1 yst-transition-all yst-ease-out yst-duration-300 yst-transform group-hover:yst-text-primary-400 group-hover:-yst-translate-y-2" />
 						{ previewLabel && (
 							<p className="yst-text-xs yst-text-gray-500 yst-text-center yst-mt-1 yst-px-8">
 								{ previewLabel }
