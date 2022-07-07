@@ -6,7 +6,7 @@ import classNames from "classnames";
 import { Field } from "formik";
 import { get, map } from "lodash";
 import PropTypes from "prop-types";
-import { FormLayout } from "../components";
+import { FormikMediaSelectField, FormLayout } from "../components";
 
 /**
  * UI library's inline-block variant Radio, but with a dangerously set inner HTML label.
@@ -100,6 +100,23 @@ const SiteDefaults = () => {
 						/>
 					) ) }
 				</RadioGroup>
+				<hr className="yst-my-8" />
+				<FormikMediaSelectField
+					id="wpseo_social.og_default_image"
+					label={ __( "Site image", "wordpress-seo" ) }
+					previewLabel={ createInterpolateElement(
+						sprintf(
+							/* translators: %1$s expands to an opening strong tag. %2$s expands to a closing strong tag. %3$s expands to the recommended image size. */
+							__( "Recommended size for this image is %1$s%3$s%2$s", "wordpress-seo" ),
+							"<strong>",
+							"</strong>",
+							"1200x675"
+						), {
+							strong: <strong className="yst-font-semibold" />,
+						} ) }
+					mediaUrlName="wpseo_social.og_default_image"
+					mediaIdName="wpseo_social.og_default_image_id"
+				/>
 			</div>
 		</FormLayout>
 	);
