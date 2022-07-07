@@ -75,6 +75,7 @@ class ReplacementVariableEditor extends React.Component {
 			onBlur,
 			isActive,
 			isHovered,
+			onSearchChange,
 			replacementVariables,
 			recommendedReplacementVariables,
 			editorRef,
@@ -126,6 +127,7 @@ class ReplacementVariableEditor extends React.Component {
 						onChange={ onChange }
 						onFocus={ onFocus }
 						onBlur={ onBlur }
+						onSearchChange={ onSearchChange }
 						replacementVariables={ replacementVariables }
 						recommendedReplacementVariables={ recommendedReplacementVariables }
 						ref={ ref => {
@@ -146,6 +148,7 @@ ReplacementVariableEditor.propTypes = {
 	content: PropTypes.string.isRequired,
 	onChange: PropTypes.func.isRequired,
 	onBlur: PropTypes.func,
+	onSearchChange: PropTypes.func,
 	replacementVariables: replacementVariablesShape,
 	recommendedReplacementVariables: recommendedReplacementVariablesShape,
 	isActive: PropTypes.bool,
@@ -166,6 +169,7 @@ ReplacementVariableEditor.propTypes = {
 ReplacementVariableEditor.defaultProps = {
 	onFocus: () => {},
 	onBlur: () => {},
+	onSearchChange: null,
 	replacementVariables: [],
 	recommendedReplacementVariables: [],
 	fieldId: "",

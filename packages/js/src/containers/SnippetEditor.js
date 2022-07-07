@@ -121,14 +121,17 @@ export function mapSelectToProps( select ) {
  * Maps the dispatch function to props.
  *
  * @param {function} dispatch The dispatch function.
+ * @param {Object}   ownProps The component's own props.
+ * @param {function} select   The select function.
  *
  * @returns {Object} The props.
  */
-export function mapDispatchToProps( dispatch ) {
+export function mapDispatchToProps( dispatch, ownProps, { select } ) {
 	const {
 		updateData,
 		switchMode,
 		updateAnalysisData,
+		findCustomFields,
 	} = dispatch( "yoast-seo/editor" );
 	const coreEditorDispatch = dispatch( "core/editor" );
 
@@ -157,6 +160,9 @@ export function mapDispatchToProps( dispatch ) {
 			}
 		},
 		onChangeAnalysisData: updateAnalysisData,
+		onReplacementVariableSearchChange: ( value ) => {
+			findCustomFields( value, select( "core/editor" ).getCurrentPostId() );
+		},
 	};
 }
 
