@@ -132,7 +132,7 @@
 |-------|------	|----- |------- |
 |Red	|3	|< 50 characters	|**Not enough content**: **please add some content to enable a good analysis**.|
 
-## 8) Word complexity
+## 8) Word complexity (only in Premium)
 **What it does**: Checks whether the text contains complex words
 
 **When applies**: When there is at least 50 characters in the text
