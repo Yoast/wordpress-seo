@@ -37,13 +37,6 @@ module.exports = {
 			},
 		},
 	},
-	variants: {
-		extend: {
-			backgroundColor: [ "active", "group-focus", "disabled" ],
-			textColor: [ "active", "group-focus", "group-hover", "disabled" ],
-			transform: [ "group-hover" ],
-		},
-	},
 	important: true,
 	plugins: [
 		require( "@tailwindcss/forms" )( {
