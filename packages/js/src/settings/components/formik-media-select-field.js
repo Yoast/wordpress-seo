@@ -23,8 +23,8 @@ const classNameMap = {
  * @param {string} id Id.
  * @param {string[]} [libraryType] Media types that should show in WP library, ie. [ "image", "video" ].
  * @param {string} [variant] Variant.
- * @param {string} imageUrlName Name for the hidden image url field.
- * @param {string} imageIdName Name for the hidden image id field.
+ * @param {string} mediaUrlName Name for the hidden image url field.
+ * @param {string} mediaIdName Name for the hidden image id field.
  * @param {string} previewLabel Label for the preview button.
  * @param {string} [selectLabel] Label for the select button.
  * @param {string} [replaceLabel] Label for the replace button.
@@ -38,9 +38,9 @@ const FormikMediaSelectField = ( {
 	icon: Icon = PhotographIcon,
 	id,
 	libraryType = [ "image" ],
-	variant = "square",
-	imageUrlName,
-	imageIdName,
+	variant = "landscape",
+	mediaUrlName,
+	mediaIdName,
 	previewLabel = "",
 	selectLabel = __( "Select image", "wordpress-seo" ),
 	replaceLabel = __( "Replace image", "wordpress-seo" ),
@@ -51,7 +51,7 @@ const FormikMediaSelectField = ( {
 	const [ wpMediaLibrary, setWpMediaLibrary ] = useState( null );
 	const [ imageMeta, setImageMeta ] = useState( {} );
 
-	const imageUrl = get( values, imageUrlName, "" );
+	const imageUrl = get( values, mediaUrlName, "" );
 
 	const handleSelectMediaClick = useCallback( () => wpMediaLibrary?.open(), [ wpMediaLibrary ] );
 	const handleRemoveMediaClick = useCallback( () => {
@@ -59,12 +59,12 @@ const FormikMediaSelectField = ( {
 		setImageMeta( {} );
 
 		// Update Formik state.
-		setFieldTouched( imageUrlName, true, false );
-		setFieldValue( imageUrlName, "" );
+		setFieldTouched( mediaUrlName, true, false );
+		setFieldValue( mediaUrlName, "" );
 
-		setFieldTouched( imageIdName, true, false );
-		setFieldValue( imageIdName, "" );
-	}, [ setFieldTouched, setFieldValue, setImageMeta, imageUrlName, imageIdName ] );
+		setFieldTouched( mediaIdName, true, false );
+		setFieldValue( mediaIdName, "" );
+	}, [ setFieldTouched, setFieldValue, setImageMeta, mediaUrlName, mediaIdName ] );
 
 	useEffect( () => {
 		const wpMedia = get( window, "wp.media", null );
@@ -85,29 +85,29 @@ const FormikMediaSelectField = ( {
 				setImageMeta( { alt: media.alt } );
 
 				// Update Formik state.
-				setFieldTouched( imageUrlName, true, false );
-				setFieldValue( imageUrlName, media.url );
+				setFieldTouched( mediaUrlName, true, false );
+				setFieldValue( mediaUrlName, media.url );
 
-				setFieldTouched( imageIdName, true, false );
-				setFieldValue( imageIdName, media.id );
+				setFieldTouched( mediaIdName, true, false );
+				setFieldValue( mediaIdName, media.id );
 			} );
 
 			setWpMediaLibrary( mediaLibrary );
 		}
-	}, [ setFieldTouched, setFieldValue, setImageMeta, imageUrlName, imageIdName, libraryType, label ] );
+	}, [ setFieldTouched, setFieldValue, setImageMeta, mediaUrlName, mediaIdName, libraryType, label ] );
 
 	return (
 		<fieldset>
-			<Field type="hidden" name={ imageUrlName } id={ `input:${ imageUrlName }` } />
-			<Field type="hidden" name={ imageIdName } id={ `input:${ imageIdName }` } />
+			<Field type="hidden" name={ mediaUrlName } id={ `input:${ mediaUrlName }` } />
+			<Field type="hidden" name={ mediaIdName } id={ `input:${ mediaIdName }` } />
 			{ label && <Label as="legend" className="yst-mb-2">{ label }</Label> }
 			<button
 				type="button"
 				id={ `button:${ id }-preview` }
 				onClick={ handleSelectMediaClick }
 				className={ classNames(
-					"yst-overflow-hidden yst-flex yst-justify-center yst-items-center yst-rounded-md yst-mb-4",
-					imageUrl ? "yst-bg-gray-50" : "yst-border-2 yst-border-gray-300 yst-border-dashed",
+					"yst-group yst-overflow-hidden yst-flex yst-justify-center yst-items-center yst-rounded-md yst-mb-4 yst-transition-all yst-ease-out yst-duration-300",
+					imageUrl ? "yst-bg-gray-50" : "yst-border-2 yst-border-gray-300 yst-border-dashed hover:yst-bg-primary-50 hover:yst-border-primary-300",
 					classNameMap.variant[ variant ],
 					className
 				) }
@@ -120,7 +120,7 @@ const FormikMediaSelectField = ( {
 				) : (
 					<div className="yst-w-48">
 						<span className="yst-sr-only">{ selectLabel }</span>
-						<Icon className="yst-mx-auto yst-h-12 yst-w-12 yst-text-gray-400 yst-stroke-1" />
+						<Icon className="yst-mx-auto yst-h-12 yst-w-12 yst-text-gray-400 yst-stroke-1 yst-group-hover:-yst-translate-y-2 yst-transition-all yst-ease-out yst-duration-300 yst-transform yst-group-hover:yst-text-primary-400" />
 						{ previewLabel && (
 							<p className="yst-text-xs yst-text-gray-500 yst-text-center yst-mt-1 yst-px-8">
 								{ previewLabel }
@@ -157,8 +157,8 @@ FormikMediaSelectField.propTypes = {
 	id: PropTypes.string.isRequired,
 	libraryType: PropTypes.arrayOf( PropTypes.string ),
 	variant: PropTypes.oneOf( keys( classNameMap.variant ) ),
-	imageUrlName: PropTypes.string.isRequired,
-	imageIdName: PropTypes.string.isRequired,
+	mediaUrlName: PropTypes.string.isRequired,
+	mediaIdName: PropTypes.string.isRequired,
 	previewLabel: PropTypes.node,
 	selectLabel: PropTypes.string,
 	replaceLabel: PropTypes.string,
