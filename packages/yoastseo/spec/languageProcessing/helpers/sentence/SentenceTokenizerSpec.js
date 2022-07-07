@@ -2,6 +2,13 @@ import SentenceTokenizer from "../../../../src/languageProcessing/helpers/senten
 
 const mockTokenizer = new SentenceTokenizer();
 
+const doubleQuotePairs = [ { start: "\"", end: "\"" },
+	{ start: "〝", end: "〞" },
+	{ start: "“", end: "”" },
+	{ start: "‟", end: "„" },
+	{ start: "『", end: "』" },
+	{ start: "«", end: "»" } ];
+
 describe( "A test for tokenizing a (html) text into sentences", function() {
 	it( "returns whether the sentenceBeginning beginning is a valid beginning.", function() {
 		expect( mockTokenizer.isValidSentenceBeginning( "Text with duplicate spaces." ) ).toBe( true );
@@ -12,29 +19,32 @@ describe( "A test for tokenizing a (html) text into sentences", function() {
 		expect( mockTokenizer.isValidSentenceBeginning( "أ" ) ).toBe( true );
 	} );
 
-	it( "returns an array of sentences for a given array of tokens started and ended with block.", function() {
-		const tokens = [
-			{ type: "block-start", src: "<form>" },
-			{ type: "html-start", src: "<p>" },
-			{ type: "sentence", src: "First sentence" },
-			{ type: "sentence-delimiter", src: ":" },
-			{ type: "sentence", src: " second sentence" },
-			{ type: "full-stop", src: "." },
-			{ type: "sentence", src: "  Third sentence" },
-			{ type: "full-stop", src: "." },
-			{ type: "sentence-delimiter", src: "\"" },
-			{ type: "sentence", src: "  Fourth sentence" },
-			{ type: "sentence-delimiter", src: "\"" },
-			{ type: "html-end", src: "<br> element.</p>" },
-			{ type: "block-end", src: "</form>" },
-		];
-		expect( mockTokenizer.getSentencesFromTokens( tokens ) ).toEqual(   [
-			"<form><p>First sentence:",
-			"second sentence.",
-			"Third sentence.\"",
-			"Fourth sentence\"",
-			"</form>",
-		] );
+	it( "returns an array of sentences for a given array of tokens started and ended with block with the " +
+		" start and end of the quote pair", function() {
+		doubleQuotePairs.forEach( ( quotePair ) => {
+			const tokens = [
+				{ type: "block-start", src: "<form>" },
+				{ type: "html-start", src: "<p>" },
+				{ type: "sentence", src: "First sentence" },
+				{ type: "sentence-delimiter", src: ":" },
+				{ type: "sentence", src: " second sentence" },
+				{ type: "full-stop", src: "." },
+				{ type: "sentence", src: "  Third sentence" },
+				{ type: "full-stop", src: "." },
+				{ type: "sentence-delimiter", src: quotePair.start },
+				{ type: "sentence", src: "  Fourth sentence" },
+				{ type: "sentence-delimiter", src: quotePair.end },
+				{ type: "html-end", src: "<br> element.</p>" },
+				{ type: "block-end", src: "</form>" },
+			];
+			expect( mockTokenizer.getSentencesFromTokens( tokens ) ).toEqual(   [
+				"<form><p>First sentence:",
+				"second sentence.",
+				"Third sentence." + quotePair.start,
+				"Fourth sentence" + quotePair.end,
+				"</form>",
+			] );
+		}  );
 	} );
 
 	it( "returns an array of sentences for a given array of tokens that include quotation marks", function() {
@@ -360,39 +370,52 @@ describe( "A test for tokenizing a (html) text into sentences", function() {
 	} );
 
 	it( "recognizes initials in the edge case where there are quotes around the initials", function() {
-		const tokens = [
-			{ type: "sentence", src: "The reprint was favourably reviewed by" },
-			{ type: "sentence-delimiter", src: "\"" },
-			{ type: "sentence", src: "A" },
-			{ type: "full-stop", src: "." },
-			{ type: "sentence", src: " B" },
-			{ type: "full-stop", src: "." },
-			{ type: "sentence-delimiter", src: "\"" },
-			{ type: "full-stop", src: " in The Musical Times in 1935, who commented \"Praise is due to Mr Mercer." },
-		];
+		doubleQuotePairs.forEach( ( quotePair ) => {
+			const tokens = [
+				{ type: "sentence", src: "The reprint was favourably reviewed by" },
+				{ type: "sentence-delimiter", src: quotePair.start },
+				{ type: "sentence", src: "A" },
+				{ type: "full-stop", src: "." },
+				{ type: "sentence", src: " B" },
+				{ type: "full-stop", src: "." },
+				{ type: "sentence-delimiter", src: quotePair.end },
+				{ type: "sentence", src: " in The Musical Times in 1935, who commented" },
+				{ type: "sentence-delimiter", src: quotePair.start },
+				{ type: "sentence", src: "Praise is due to Mr Mercer" },
+				{ type: "full-stop", src: "." },
+				{ type: "sentence-delimiter", src: quotePair.end },
+			];
 
-		const token = tokens[ 3 ];
-		const previousToken = tokens[ 2 ];
-		const nextToken = tokens[ 4 ];
-		const secondToNextToken = tokens[ 5 ];
+			const token = tokens[ 3 ];
+			const previousToken = tokens[ 2 ];
+			const nextToken = tokens[ 4 ];
+			const secondToNextToken = tokens[ 5 ];
 
-		expect( mockTokenizer.isPartOfPersonInitial( token, previousToken, nextToken, secondToNextToken ) ).toBe( true );
+			expect( mockTokenizer.isPartOfPersonInitial( token, previousToken, nextToken, secondToNextToken ) ).toBe( true );
+		} );
 	} );
 
 	it( "correctly constructs the sentence in the edge case where there are quotes around the initials", function() {
-		const tokens = [
-			{ type: "sentence", src: "The reprint was favourably reviewed by" },
-			{ type: "sentence-delimiter", src: " \"" },
-			{ type: "sentence", src: "A" },
-			{ type: "full-stop", src: "." },
-			{ type: "sentence", src: " B" },
-			{ type: "full-stop", src: "." },
-			{ type: "sentence-delimiter", src: "\"" },
-			{ type: "full-stop", src: " in The Musical Times in 1935, who commented \"Praise is due to Mr Mercer." },
-		];
+		doubleQuotePairs.forEach( ( quotePair ) => {
+			const tokens = [
+				{ type: "sentence", src: "The reprint was favourably reviewed by" },
+				{ type: "sentence-delimiter", src: " " + quotePair.start },
+				{ type: "sentence", src: "A" },
+				{ type: "full-stop", src: "." },
+				{ type: "sentence", src: " B" },
+				{ type: "full-stop", src: "." },
+				{ type: "sentence-delimiter", src: quotePair.end },
+				{ type: "sentence", src: " in The Musical Times in 1935, who commented" },
+				{ type: "sentence-delimiter", src: quotePair.start },
+				{ type: "sentence", src: "Praise is due to Mr Mercer" },
+				{ type: "full-stop", src: "." },
+				{ type: "sentence-delimiter", src: quotePair.end },
+			];
 
-		expect( mockTokenizer.getSentencesFromTokens( tokens ) ).toEqual( [
-			"The reprint was favourably reviewed by \"A. B.\" in The Musical Times in 1935, who commented \"Praise is due to Mr Mercer." ] );
+			expect( mockTokenizer.getSentencesFromTokens( tokens ) ).toEqual( [
+				"The reprint was favourably reviewed by " + quotePair.start + "A. B." + quotePair.end +
+				" in The Musical Times in 1935, who commented" + quotePair.start +  "Praise is due to Mr Mercer." + quotePair.end ] );
+		} );
 	} );
 } );
 
