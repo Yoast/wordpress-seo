@@ -6,6 +6,7 @@ import { getWords } from "../../../languageProcessing";
 import Mark from "../../../values/Mark";
 import addMark from "../../../markers/addMark";
 import getSentences from "../../../languageProcessing/helpers/sentence/getSentences";
+import { isString } from "lodash-es";
 
 /**
  * Checks whether the given list of words contains another list of words in the given order.
@@ -36,7 +37,7 @@ export default class InclusiveLanguageAssessment extends Assessment {
 	 *
 	 * @param {string} config.identifier The identifier of this assessment.
 	 * @param {string[]} config.nonInclusivePhrases The non-inclusive phrase.
-	 * @param {string} config.inclusiveAlternative The suggested alternative, more inclusive, phrase.
+	 * @param {string|array} config.inclusiveAlternatives The suggested alternative, more inclusive, phrase(s).
 	 * @param {number} config.score The score to give if the non-inclusive phrase is recognized in the text.
 	 * @param {string} config.feedbackFormat The feedback format string,
 	 * 									should include a `%1$s` placeholder for the non-inclusive phrase
@@ -45,12 +46,15 @@ export default class InclusiveLanguageAssessment extends Assessment {
 	 *
 	 * @returns {void}
 	 */
-	constructor( { identifier, nonInclusivePhrases, inclusiveAlternative, score, feedbackFormat, learnMoreUrl } ) {
+	constructor( { identifier, nonInclusivePhrases, inclusiveAlternatives, score, feedbackFormat, learnMoreUrl } ) {
 		super();
 
 		this.identifier = identifier;
 		this.nonInclusivePhrases = nonInclusivePhrases;
-		this.inclusiveAlternative = inclusiveAlternative;
+		this.inclusiveAlternatives = inclusiveAlternatives;
+		if ( isString( this.inclusiveAlternatives ) ) {
+			this.inclusiveAlternatives = [ this.inclusiveAlternatives ];
+		}
 		this.score = score;
 		this.feedbackFormat = feedbackFormat;
 		this.learnMoreUrl = learnMoreUrl;
@@ -101,7 +105,7 @@ export default class InclusiveLanguageAssessment extends Assessment {
 		const text = sprintf(
 			this.feedbackFormat,
 			this.foundPhrases[ 0 ].phrase,
-			this.inclusiveAlternative
+			...this.inclusiveAlternatives
 		);
 
 		const result = new AssessmentResult( {

@@ -10,7 +10,7 @@ const genderAssessments = [
 	{
 		identifier: "firemen",
 		nonInclusivePhrases: [ "firemen" ],
-		inclusiveAlternative: "firefighters",
+		inclusiveAlternatives: "firefighters",
 		score: 6,
 		feedbackFormat: exclusionaryUnless,
 		learnMoreUrl: "https://yoa.st/",
@@ -18,7 +18,7 @@ const genderAssessments = [
 	{
 		identifier: "policemen",
 		nonInclusivePhrases: [ "policemen" ],
-		inclusiveAlternative: "police officers",
+		inclusiveAlternatives: "police officers",
 		score: 6,
 		feedbackFormat: exclusionaryUnless,
 		learnMoreUrl: "https://yoa.st/",
@@ -26,7 +26,7 @@ const genderAssessments = [
 	{
 		identifier: "menAndWomen",
 		nonInclusivePhrases: [ "men and women", "women and men" ],
-		inclusiveAlternative: "people, people of all genders, individuals, folks, human beings",
+		inclusiveAlternatives: "people, people of all genders, individuals, folks, human beings",
 		score: 6,
 		feedbackFormat: exclusionaryUnless,
 		learnMoreUrl: "https://yoa.st/",
@@ -34,7 +34,7 @@ const genderAssessments = [
 	{
 		identifier: "boysAndGirls",
 		nonInclusivePhrases: [ "boys and girls", "girls and boys" ],
-		inclusiveAlternative: "kids, children",
+		inclusiveAlternatives: "kids, children",
 		score: 6,
 		feedbackFormat: exclusionaryUnless,
 		learnMoreUrl: "https://yoa.st/",
@@ -42,7 +42,7 @@ const genderAssessments = [
 	{
 		identifier: "heOrShe",
 		nonInclusivePhrases: [ "he/she", "he or she", "she or he", "(s)he" ],
-		inclusiveAlternative: "singular \"they\"",
+		inclusiveAlternatives: "singular \"they\"",
 		score: 6,
 		feedbackFormat: exclusionary,
 		learnMoreUrl: "https://yoa.st/",
@@ -50,7 +50,7 @@ const genderAssessments = [
 	{
 		identifier: "birthSex",
 		nonInclusivePhrases: [ "birth sex", "natal sex" ],
-		inclusiveAlternative: "assigned sex/assigned sex at birth",
+		inclusiveAlternatives: "assigned sex/assigned sex at birth",
 		score: 3,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
@@ -58,7 +58,7 @@ const genderAssessments = [
 	{
 		identifier: "mankind",
 		nonInclusivePhrases: [ "mankind" ],
-		inclusiveAlternative: "individuals, people, persons, human beings, humanity",
+		inclusiveAlternatives: "individuals, people, persons, human beings, humanity",
 		score: 3,
 		feedbackFormat: exclusionary,
 		learnMoreUrl: "https://yoa.st/",
@@ -66,7 +66,7 @@ const genderAssessments = [
 	{
 		identifier: "preferredPronouns",
 		nonInclusivePhrases: [ "preferred pronouns" ],
-		inclusiveAlternative: "pronouns",
+		inclusiveAlternatives: "pronouns",
 		score: 6,
 		feedbackFormat: potentiallyHarmfulUnless,
 		learnMoreUrl: "https://yoa.st/",
@@ -74,7 +74,7 @@ const genderAssessments = [
 	{
 		identifier: "oppositeGender",
 		nonInclusivePhrases: [ "opposite gender" ],
-		inclusiveAlternative: "another gender",
+		inclusiveAlternatives: "another gender",
 		score: 3,
 		feedbackFormat: exclusionary,
 		learnMoreUrl: "https://yoa.st/",
@@ -82,7 +82,7 @@ const genderAssessments = [
 	{
 		identifier: "oppositeSex",
 		nonInclusivePhrases: [ "opposite sex" ],
-		inclusiveAlternative: "another sex",
+		inclusiveAlternatives: "another sex",
 		score: 3,
 		feedbackFormat: exclusionary,
 		learnMoreUrl: "https://yoa.st/",
@@ -90,7 +90,7 @@ const genderAssessments = [
 	{
 		identifier: "femaleBodied",
 		nonInclusivePhrases: [ "female-bodied", "male-bodied" ],
-		inclusiveAlternative: "assigned female/male at birth",
+		inclusiveAlternatives: "assigned female/male at birth",
 		score: 3,
 		feedbackFormat: [ potentiallyExclusionary,
 			"Consider using \"%2$s\" if you are discussing a person based on their sex or assigned gender at birth. " +
@@ -100,7 +100,7 @@ const genderAssessments = [
 	{
 		identifier: "hermaphrodite",
 		nonInclusivePhrases: [ "hermaphrodite" ],
-		inclusiveAlternative: "intersex",
+		inclusiveAlternatives: "intersex",
 		score: 3,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
@@ -109,7 +109,7 @@ const genderAssessments = [
 		// Long alternative!
 		identifier: "bothGenders",
 		nonInclusivePhrases: [ "both genders" ],
-		inclusiveAlternative: "people, folks, human beings, all genders, both men and women " +
+		inclusiveAlternatives: "people, folks, human beings, all genders, both men and women " +
 			"(if talking specifically about just those who are men and women and not a substitute for people in general)",
 		score: 6,
 		feedbackFormat: exclusionaryUnless,
@@ -118,7 +118,7 @@ const genderAssessments = [
 	{
 		identifier: "ladiesAndGentleman",
 		nonInclusivePhrases: [ "ladies and gentlemen" ],
-		inclusiveAlternative: "everyone, folks, honored guests",
+		inclusiveAlternatives: "everyone, folks, honored guests",
 		score: 3,
 		feedbackFormat: exclusionaryUnless,
 		learnMoreUrl: "https://yoa.st/",
@@ -126,7 +126,7 @@ const genderAssessments = [
 	{
 		identifier: "husbandAndWife",
 		nonInclusivePhrases: [ "husband and wife" ],
-		inclusiveAlternative: "spouses, partners; married",
+		inclusiveAlternatives: "spouses, partners; married",
 		score: 6,
 		feedbackFormat: [ potentiallyExclusionary,
 			"Consider using \"%2$s\" instead unless referring to yourself or " +
@@ -136,7 +136,7 @@ const genderAssessments = [
 	{
 		identifier: "mothersAndFathers",
 		nonInclusivePhrases: [ "mothers and fathers", "fathers and mothers" ],
-		inclusiveAlternative: "parents",
+		inclusiveAlternatives: "parents",
 		score: 6,
 		feedbackFormat: "Avoid using \"%1$s\" as it is exclusionary unless you are sure the group only consists of people who use that term. " +
 			"If not, use \"%2$s\" instead.",
@@ -145,7 +145,7 @@ const genderAssessments = [
 	{
 		identifier: "manHours",
 		nonInclusivePhrases: [ "man-hours" ],
-		inclusiveAlternative: "person-hours",
+		inclusiveAlternatives: "person-hours",
 		score: 3,
 		feedbackFormat: exclusionary,
 		learnMoreUrl: "https://yoa.st/",
@@ -153,7 +153,7 @@ const genderAssessments = [
 	{
 		identifier: "preferredName",
 		nonInclusivePhrases: [ "preferred name" ],
-		inclusiveAlternative: "name or affirming name",
+		inclusiveAlternatives: "name or affirming name",
 		score: 6,
 		feedbackFormat: potentiallyHarmfulUnless,
 		learnMoreUrl: "https://yoa.st/",
@@ -162,7 +162,7 @@ const genderAssessments = [
 		// Feedback missing!
 		identifier: "transgenders",
 		nonInclusivePhrases: [ "transgenders" ],
-		inclusiveAlternative: "transgender people",
+		inclusiveAlternatives: "transgender people",
 		score: 3,
 		feedbackFormat: "",
 		learnMoreUrl: "https://yoa.st/",
@@ -170,7 +170,7 @@ const genderAssessments = [
 	{
 		identifier: "transsexual",
 		nonInclusivePhrases: [ "transsexual" ],
-		inclusiveAlternative: "transgender",
+		inclusiveAlternatives: "transgender",
 		score: 6,
 		feedbackFormat: potentiallyHarmfulUnless,
 		learnMoreUrl: "https://yoa.st/",
@@ -178,7 +178,7 @@ const genderAssessments = [
 	{
 		identifier: "trans",
 		nonInclusivePhrases: [ "transman", "transwoman" ],
-		inclusiveAlternative: "trans(gender) man/woman",
+		inclusiveAlternatives: "trans(gender) man/woman",
 		score: 6,
 		feedbackFormat: potentiallyHarmfulUnless,
 		learnMoreUrl: "https://yoa.st/",
@@ -186,7 +186,7 @@ const genderAssessments = [
 	{
 		identifier: "transgendered",
 		nonInclusivePhrases: [ "transgendered" ],
-		inclusiveAlternative: "transgender, trans",
+		inclusiveAlternatives: "transgender, trans",
 		score: 3,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
@@ -194,7 +194,7 @@ const genderAssessments = [
 	{
 		identifier: "maleToFemale",
 		nonInclusivePhrases: [ "male-to-female", "MTF" ],
-		inclusiveAlternative: "trans woman, transgender woman",
+		inclusiveAlternatives: "trans woman, transgender woman",
 		score: 6,
 		feedbackFormat: potentiallyHarmfulUnless,
 		learnMoreUrl: "https://yoa.st/",
@@ -202,7 +202,7 @@ const genderAssessments = [
 	{
 		identifier: "femaleToMale",
 		nonInclusivePhrases: [ "female-to-male", "FTM" ],
-		inclusiveAlternative: "trans man, transgender man",
+		inclusiveAlternatives: "trans man, transgender man",
 		score: 6,
 		feedbackFormat: potentiallyHarmfulUnless,
 		learnMoreUrl: "https://yoa.st/",
@@ -210,7 +210,7 @@ const genderAssessments = [
 	{
 		identifier: "heShe",
 		nonInclusivePhrases: [ "he-she" ],
-		inclusiveAlternative: "",
+		inclusiveAlternatives: "",
 		score: 3,
 		feedbackFormat: derogatory,
 		learnMoreUrl: "https://yoa.st/",
@@ -218,7 +218,7 @@ const genderAssessments = [
 	{
 		identifier: "shemale",
 		nonInclusivePhrases: [ "shemale", "she-male" ],
-		inclusiveAlternative: "",
+		inclusiveAlternatives: "",
 		score: 3,
 		feedbackFormat: derogatory,
 		learnMoreUrl: "https://yoa.st/",
@@ -226,7 +226,7 @@ const genderAssessments = [
 	{
 		identifier: "manMade",
 		nonInclusivePhrases: [ "man-made", "manmade" ],
-		inclusiveAlternative: "artificial, synthetic, machine-made",
+		inclusiveAlternatives: "artificial, synthetic, machine-made",
 		score: 3,
 		feedbackFormat: exclusionary,
 		learnMoreUrl: "https://yoa.st/",
@@ -234,7 +234,7 @@ const genderAssessments = [
 	{
 		identifier: "toEachTheirOwn",
 		nonInclusivePhrases: [ "to each his own" ],
-		inclusiveAlternative: "to each their own",
+		inclusiveAlternatives: "to each their own",
 		score: 3,
 		feedbackFormat: exclusionary,
 		learnMoreUrl: "https://yoa.st/",
@@ -242,7 +242,7 @@ const genderAssessments = [
 	{
 		identifier: "manned",
 		nonInclusivePhrases: [ "manned" ],
-		inclusiveAlternative: "crewed",
+		inclusiveAlternatives: "crewed",
 		score: 3,
 		feedbackFormat: exclusionary,
 		learnMoreUrl: "https://yoa.st/",
