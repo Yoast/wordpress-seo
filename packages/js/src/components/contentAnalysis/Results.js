@@ -32,6 +32,7 @@ class Results extends Component {
 		}
 
 		this.handleMarkButtonClick = this.handleMarkButtonClick.bind( this );
+		this.handleEditButtonClick = this.handleEditButtonClick.bind( this );
 	}
 
 	/**
@@ -76,6 +77,16 @@ class Results extends Component {
 	}
 
 	/**
+	 * Handles a click on an edit button, to mark the text in the editor.
+	 *
+	 *
+	 * @returns {void}
+	 */
+	handleEditButtonClick() {
+		console.log( "Hi" );
+	}
+
+	/**
 	 * Removes all markers.
 	 *
 	 * @returns {void}
@@ -112,6 +123,7 @@ class Results extends Component {
 					goodResults={ goodResults }
 					activeMarker={ this.props.activeMarker }
 					onMarkButtonClick={ this.handleMarkButtonClick }
+					onEditButtonClick={ this.handleEditButtonClick }
 					marksButtonClassName={ this.props.marksButtonClassName }
 					marksButtonStatus={ this.props.marksButtonStatus }
 					headingLevel={ 3 }

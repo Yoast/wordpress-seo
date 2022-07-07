@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-import { SvgIcon, IconButtonToggle, BetaBadge } from "@yoast/components";
+import { SvgIcon, IconButtonToggle, IconCTAEditButton, BetaBadge } from "@yoast/components";
 
 const AnalysisResultBase = styled.li`
 	// This is the height of the IconButtonToggle.
@@ -40,6 +40,7 @@ const areButtonsHidden = function( props ) {
  * @returns {ReactElement} The rendered AnalysisResult component.
  */
 export const AnalysisResult = ( props ) => {
+	console.log( props, "props" );
 	return (
 		<AnalysisResultBase>
 			<ScoreIcon
@@ -56,23 +57,20 @@ export const AnalysisResult = ( props ) => {
 				<IconButtonToggle
 					marksButtonStatus={ props.marksButtonStatus }
 					className={ props.marksButtonClassName }
-					onClick={ props.onButtonClick }
-					id={ props.buttonId }
+					onClick={ props.onButtonClickMarks }
+					id={ props.buttonIdMarks }
 					icon="eye"
 					pressed={ props.pressed }
-					ariaLabel={ props.ariaLabel }
+					ariaLabel={ props.ariaLabelMarks }
 				/>
 			}
 			{
 				props.hasEditButton &&
-				<IconButtonToggle
-					marksButtonStatus={ props.marksButtonStatus }
-					className={ props.marksButtonClassName }
-					onClick={ props.onButtonClick }
-					id={ props.buttonId }
+				<IconCTAEditButton
+					onClick={ props.onButtonClickEdit }
+					id={ props.buttonIdEdit }
 					icon="edit"
-					pressed={ props.pressed }
-					ariaLabel={ props.ariaLabel }
+					ariaLabel={ props.ariaLabelEdit }
 				/>
 			}
 		</AnalysisResultBase>
@@ -86,10 +84,13 @@ AnalysisResult.propTypes = {
 	bulletColor: PropTypes.string.isRequired,
 	hasMarksButton: PropTypes.bool.isRequired,
 	hasEditButton: PropTypes.bool.isRequired,
-	buttonId: PropTypes.string.isRequired,
+	buttonIdMarks: PropTypes.string.isRequired,
+	buttonIdEdit: PropTypes.string.isRequired,
 	pressed: PropTypes.bool.isRequired,
-	ariaLabel: PropTypes.string.isRequired,
-	onButtonClick: PropTypes.func.isRequired,
+	ariaLabelMarks: PropTypes.string.isRequired,
+	ariaLabelEdit: PropTypes.string.isRequired,
+	onButtonClickMarks: PropTypes.func.isRequired,
+	onButtonClickEdit: PropTypes.func.isRequired,
 	marksButtonStatus: PropTypes.string,
 	marksButtonClassName: PropTypes.string,
 	hasBetaBadgeLabel: PropTypes.bool,
@@ -101,6 +102,7 @@ AnalysisResult.defaultProps = {
 	marksButtonStatus: "enabled",
 	marksButtonClassName: "",
 	hasBetaBadgeLabel: false,
+	hasEditButton: false,
 };
 
 export default AnalysisResult;

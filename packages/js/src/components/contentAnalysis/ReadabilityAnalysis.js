@@ -111,6 +111,7 @@ class ReadabilityAnalysis extends Component {
 				score: 0,
 				rating: "upsell",
 				hasMarks: false,
+				hasJumps: false,
 				id: "wordComplexity",
 				text: wordComplexityUpsellText,
 				markerId: "wordComplexity",

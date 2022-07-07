@@ -51,23 +51,30 @@ export function renderRatingToColor( rating ) {
  * @param {string}             marksButtonClassName       A class name to set on the mark buttons.
  * @param {Function}           onMarksButtonClick         Function that is called when the user
  *                                                        clicks one of the mark buttons.
+ * @param {Function}           onEditButtonClick          Function that is called when the user
+ *                                                        clicks one of the edit buttons.
  *
  * @returns {React.Element} The rendered list.
  */
-export default function AnalysisList( { results, marksButtonActivatedResult, marksButtonStatus, marksButtonClassName, onMarksButtonClick } ) {
+export default function AnalysisList( { results, marksButtonActivatedResult, marksButtonStatus, marksButtonClassName, onMarksButtonClick, onEditButtonClick } ) {
 	return <AnalysisListBase role="list">
 		{ results.map( ( result ) => {
 			const color = renderRatingToColor( result.rating );
 			const isMarkButtonPressed = result.markerId === marksButtonActivatedResult;
 
-			let ariaLabel = "";
+			const markButtonId = result.id + "Mark";
+			const editButtonId = result.id + "Edit";
+
+			let ariaLabelMarks = "";
 			if ( marksButtonStatus === "disabled" ) {
-				ariaLabel = __( "Marks are disabled in current view", "wordpress-seo" );
+				ariaLabelMarks = __( "Marks are disabled in current view", "wordpress-seo" );
 			} else if ( isMarkButtonPressed ) {
-				ariaLabel = __( "Remove highlight from the text", "wordpress-seo" );
+				ariaLabelMarks = __( "Remove highlight from the text", "wordpress-seo" );
 			} else {
-				ariaLabel = __( "Highlight this result in the text", "wordpress-seo" );
+				ariaLabelMarks = __( "Highlight this result in the text", "wordpress-seo" );
 			}
+
+			const ariaLabelEdit = __( "Jump to an edit field to make the suggested change", "wordpress-seo" );
 
 			return <AnalysisResult
 				key={ result.id }
@@ -75,11 +82,14 @@ export default function AnalysisList( { results, marksButtonActivatedResult, mar
 				bulletColor={ color }
 				hasMarksButton={ result.hasMarks }
 				hasEditButton={ result.hasJumps }
-				ariaLabel={ ariaLabel }
+				ariaLabelMarks={ ariaLabelMarks }
+				ariaLabelEdit={ ariaLabelEdit }
 				pressed={ isMarkButtonPressed }
 				suppressedText={ result.rating === "upsell" }
-				buttonId={ result.id }
-				onButtonClick={ () => onMarksButtonClick( result.id, result.marker ) }
+				buttonIdMarks={ markButtonId }
+				buttonIdEdit={ editButtonId }
+				onButtonClickMarks={ () => onMarksButtonClick( result.id, result.marker ) }
+				onButtonClickEdit={ () => onEditButtonClick() }
 				marksButtonClassName={ marksButtonClassName }
 				marksButtonStatus={ marksButtonStatus }
 				hasBetaBadgeLabel={ result.hasBetaBadge }
@@ -94,6 +104,7 @@ AnalysisList.propTypes = {
 	marksButtonStatus: PropTypes.string,
 	marksButtonClassName: PropTypes.string,
 	onMarksButtonClick: PropTypes.func,
+	onEditButtonClick: PropTypes.func,
 };
 
 AnalysisList.defaultProps = {
@@ -101,4 +112,5 @@ AnalysisList.defaultProps = {
 	marksButtonStatus: "enabled",
 	marksButtonClassName: "",
 	onMarksButtonClick: noop,
+	onEditButtonClick: noop,
 };

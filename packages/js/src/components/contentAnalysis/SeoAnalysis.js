@@ -210,6 +210,7 @@ class SeoAnalysis extends Component {
 				score: 0,
 				rating: "upsell",
 				hasMarks: false,
+				hasJumps: false,
 				id: "keyphraseDistribution",
 				text: keyphraseDistributionUpsellText,
 				markerId: "keyphraseDistribution",

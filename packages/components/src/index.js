@@ -62,6 +62,7 @@ export { default as Heading } from "./Heading";
 export { default as HelpText } from "./HelpText";
 export { default as Icon } from "./Icon";
 export { default as IconButtonToggle } from "./IconButtonToggle.js";
+export { default as IconCTAEditButton } from "./IconCTAEditButton.js";
 export { default as IFrame } from "./IFrame";
 export { default as Input } from "./input/Input";
 export { default as WordOccurrenceInsights } from "./WordOccurrenceInsights";
