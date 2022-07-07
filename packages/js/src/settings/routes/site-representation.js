@@ -86,7 +86,6 @@ const SiteRepresentation = () => {
 							<FormikMediaSelectField
 								id="wpseo_titles.company_logo"
 								label={ __( "Organization logo", "wordpress-seo" ) }
-								variant="landscape"
 								previewLabel={ createInterpolateElement(
 									sprintf(
 										__( "Recommended size for this image is %1$s%3$s%2$s", "wordpress-seo" ),
@@ -96,8 +95,8 @@ const SiteRepresentation = () => {
 									), {
 										span: <span className="yst-font-semibold" />,
 									} ) }
-								imageUrlName="wpseo_titles.company_logo"
-								imageIdName="wpseo_titles.company_logo_id"
+								mediaUrlName="wpseo_titles.company_logo"
+								mediaIdName="wpseo_titles.company_logo_id"
 							/>
 						</div>
 					</fieldset>
@@ -149,6 +148,7 @@ const SiteRepresentation = () => {
 							<FormikMediaSelectField
 								id="wpseo_titles.person_logo"
 								label={ __( "Personal logo or avatar", "wordpress-seo" ) }
+								variant="square"
 								previewLabel={ createInterpolateElement(
 									sprintf(
 										__( "Recommended size for this image is %1$s%3$s%2$s", "wordpress-seo" ),
@@ -158,8 +158,8 @@ const SiteRepresentation = () => {
 									), {
 										span: <span className="yst-font-semibold" />,
 									} ) }
-								imageUrlName="wpseo_titles.person_logo"
-								imageIdName="wpseo_titles.person_logo_id"
+								mediaUrlName="wpseo_titles.person_logo"
+								mediaIdName="wpseo_titles.person_logo_id"
 							/>
 						</div>
 					</fieldset>
