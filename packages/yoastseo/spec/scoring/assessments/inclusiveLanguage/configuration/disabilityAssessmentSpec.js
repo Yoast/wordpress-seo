@@ -28,4 +28,37 @@ describe( "Disability assessments", function() {
 			marked: "<yoastmark class='yoast-text-mark'>Look at that sociopath.</yoastmark>",
 		} ) ] );
 	} );
+
+	it( "should target potentially non-inclusive phrases", function() {
+		const mockPaper = new Paper( "An alcoholic should just drink less." );
+		const mockResearcher = new EnglishResearcher( mockPaper );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "alcoholic" )  );
+
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+		const assessmentResult = assessor.getResult();
+
+		expect( isApplicable ).toBeTruthy();
+		expect( assessmentResult.getScore() ).toEqual( 6 );
+		expect( assessmentResult.getText() ).toEqual(
+			"Avoid using \"an alcoholic\" as it is potentially harmful. " +
+			"Consider using \"person with alcohol use disorder\" instead unless referring to yourself or to " +
+			"someone who explicitly wants to be referred to with this term. " +
+			"<a href='https://yoa.st/' target='_blank'>Learn more.</a>" );
+		expect( assessmentResult.hasMarks() ).toBeTruthy();
+		expect( assessor.getMarks() ).toEqual( [ new Mark( {
+			original: "An alcoholic should just drink less.",
+			marked: "<yoastmark class='yoast-text-mark'>An alcoholic should just drink less.</yoastmark>",
+		} ) ] );
+	} );
+
+	it( "should not target phrases followed by by certain words", function() {
+		const mockPaper = new Paper( "An alcoholic drink a day keeps the doctor away." );
+		const mockResearcher = new EnglishResearcher( mockPaper );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "alcoholic" )  );
+
+		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
+
+		expect( isApplicable ).toBeFalsy();
+		expect( assessor.getMarks() ).toEqual( [] );
+	} );
 } );
