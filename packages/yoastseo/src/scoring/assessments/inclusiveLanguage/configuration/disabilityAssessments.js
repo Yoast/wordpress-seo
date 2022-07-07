@@ -1,5 +1,6 @@
 import { potentiallyHarmful, potentiallyHarmfulUnless } from "./feedbackStrings";
-import { followedByExcept } from "../helpers/followedByExcept";
+import { isFollowedByException } from "../helpers/isFollowedByException";
+import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
 
 const derogatory = "Avoid using \"%1$s\" as it is derogatory. Consider using \"%2$s\" instead.";
 
@@ -52,7 +53,8 @@ const disabilityAssessments =  [
 		score: 6,
 		feedbackFormat: potentiallyHarmfulUnless,
 		learnMoreUrl: "https://yoa.st/",
-		rule: ( words, inclusivePhrase ) => followedByExcept( words, inclusivePhrase, [ "drink", "beverage" ] ),
+		rule: ( words, inclusivePhrase ) => includesConsecutiveWords( words, inclusivePhrase )
+			.filter( isFollowedByException( words, inclusivePhrase, [ "drink", "beverage" ] ) ),
 	},
 	{
 		identifier: "alcoholics",
@@ -61,7 +63,8 @@ const disabilityAssessments =  [
 		score: 6,
 		feedbackFormat: potentiallyHarmfulUnless,
 		learnMoreUrl: "https://yoa.st/",
-		rule: ( words, inclusivePhrase ) => followedByExcept( words, inclusivePhrase, [ "anonymous" ] ),
+		rule: ( words, inclusivePhrase ) => includesConsecutiveWords( words, inclusivePhrase )
+			.filter( isFollowedByException( words, inclusivePhrase, [ "anonymous" ] ) ),
 	},
 	{
 		identifier: "cripple",

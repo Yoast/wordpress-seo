@@ -1,8 +1,7 @@
-import { intersection } from "lodash-es";
-
 import { potentiallyHarmful, potentiallyHarmfulUnless } from "./feedbackStrings";
-import { precededByExcept } from "../helpers/precededByExcept";
-import { followedByExcept } from "../helpers/followedByExcept";
+import { isPrecededByException } from "../helpers/isPrecededByException";
+import { isFollowedByException } from "../helpers/isFollowedByException";
+import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
 
 const specificAgeGroup = "Or, if possible, be specific about the group you are referring to (e.g. \"people older than 70\").";
 const characteristicIfKnown = "Consider using a specific characteristic or experience if it is known.";
@@ -55,10 +54,11 @@ const assessments = [
 		score: 6,
 		feedbackFormat: [ potentiallyHarmfulUnless, specificAgeGroup ].join( " " ),
 		learnMoreUrl: "https://yoa.st/",
-		rule: ( words, inclusivePhrase ) => intersection(
-			precededByExcept( words, inclusivePhrase, [ "high school", "college", "graduating", "juniors and" ] ),
-			followedByExcept( words, inclusivePhrase, [ "in high school", "in college", "who are graduating" ] )
-		),
+		rule: ( words, inclusivePhrases ) => {
+			return includesConsecutiveWords( words, inclusivePhrases )
+				.filter( isPrecededByException( words, [ "high school", "college", "graduating", "juniors and" ] ) )
+				.filter( isFollowedByException( words, inclusivePhrases, [ "in high school", "in college", "who are graduating" ] ) );
+		},
 	},
 ];
 
