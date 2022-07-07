@@ -6,7 +6,7 @@ import Paper from "../../../../src/values/Paper.js";
 let assessment = new WordComplexityAssessment();
 
 describe( "a test for an assessment that checks complex words in a text", function() {
-	it( "should returns with score 9 if the complex words are less than 5% in the text", function() {
+	it( "should returns with score 9 if the complex words are less than 10% in the text", function() {
 		const paper = new Paper( "This is short text. This is another short text. This is another short text. " +
 			"This is another short text. This is another short text. This is another short text. This is another short text. " +
 			"This is another short text. This is another short text. This is another short text. This is another short text. " +
@@ -43,20 +43,22 @@ describe( "a test for an assessment that checks complex words in a text", functi
 		"Cats with tortoiseshell pattern and small blotches of white are sometimes referred to as \"tortico\" by their owners, " +
 		"a portmanteau of \"tortie\" and \"calico\"\n" +
 		"Torbie cats with a predominantly white undercoat are often referred to as \"caliby\" by their respective owners, " +
+		"an amalgamation of Calico and Tabby." +
+		"Torbie cats with a predominantly white undercoat are often referred to as \"caliby\" by their respective owners, " +
 		"an amalgamation of Calico and Tabby." );
 
-	it( "should returns with score 6 if the complex words are more than 5% in the text", function() {
+	it( "should returns with score 6 if the complex words are more than 10% in the text", function() {
 		const researcher = new EnglishResearcher( runningPaper );
 		const result = assessment.getResult( runningPaper, researcher );
 
 		expect( result.getScore() ).toBe( 6 );
-		expect( result.getText() ).toBe( "<a href='https://yoa.st/4ls' target='_blank'>Word complexity</a>: 9.64% of the words in " +
+		expect( result.getText() ).toBe( "<a href='https://yoa.st/4ls' target='_blank'>Word complexity</a>: 10.64% of the words in " +
 			"your text are considered complex. <a href='https://yoa.st/4lt' target='_blank'>Try to use shorter and more familiar words " +
 			"to improve readability</a>." );
 		expect( result.hasMarks() ).toBe( true );
 	} );
 
-	it( "should returns with score 6 if the complex words are more than 5% in the text and the cornerstone toggle is on", function() {
+	it( "should returns with score 3 if the complex words are more than 10% in the text and the cornerstone toggle is on", function() {
 		const researcher = new EnglishResearcher( runningPaper );
 
 		assessment = new WordComplexityAssessment( {
@@ -67,7 +69,7 @@ describe( "a test for an assessment that checks complex words in a text", functi
 		const result = assessment.getResult( runningPaper, researcher );
 
 		expect( result.getScore() ).toBe( 3 );
-		expect( result.getText() ).toBe( "<a href='https://yoa.st/4ls' target='_blank'>Word complexity</a>: 9.64% of the words in " +
+		expect( result.getText() ).toBe( "<a href='https://yoa.st/4ls' target='_blank'>Word complexity</a>: 10.64% of the words in " +
 			"your text are considered complex. <a href='https://yoa.st/4lt' target='_blank'>Try to use shorter and more familiar words " +
 			"to improve readability</a>." );
 		expect( result.hasMarks() ).toBe( true );
