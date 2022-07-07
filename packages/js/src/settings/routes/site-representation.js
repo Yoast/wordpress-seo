@@ -68,9 +68,11 @@ const SiteRepresentation = () => {
 				>
 					<fieldset className="lg:yst-grid lg:yst-grid-cols-3 lg:yst-gap-12">
 						<div className="lg:yst-col-span-1">
-							<Title as="legend" size="4" className="yst-max-w-screen-sm">
-								{ __( "Organization", "wordpress-seo" ) }
-							</Title>
+							<div className="max-w-screen-sm">
+								<Title as="legend" size="4">
+									{ __( "Organization", "wordpress-seo" ) }
+								</Title>
+							</div>
 						</div>
 						<div className="yst-mt-8 lg:yst-mt-0 lg:yst-col-span-2 yst-space-y-8">
 							<Alert id="alert:organization-name-logo" variant="warning">
@@ -123,9 +125,11 @@ const SiteRepresentation = () => {
 				>
 					<fieldset className="lg:yst-grid lg:yst-grid-cols-3 lg:yst-gap-12">
 						<div className="lg:yst-col-span-1">
-							<Title as="legend" size="4" className="yst-max-w-screen-sm">
-								{ __( "Personal info", "wordpress-seo" ) }
-							</Title>
+							<div className="max-w-screen-sm">
+								<Title as="legend" size="4">
+									{ __( "Personal info", "wordpress-seo" ) }
+								</Title>
+							</div>
 						</div>
 						<div className="yst-mt-8 lg:yst-mt-0 lg:yst-col-span-2 yst-space-y-8">
 							<FormikValueChangeField
@@ -177,6 +181,7 @@ const SiteRepresentation = () => {
 				</Transition>
 			</div>
 			<hr className="yst-my-8" />
+
 		</FormLayout>
 	);
 };
