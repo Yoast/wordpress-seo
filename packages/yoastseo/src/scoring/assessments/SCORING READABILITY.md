@@ -145,5 +145,5 @@
 
 |Bullet	|Score|	Criterion| 	Feedback                                                                                                                                        |
 |-------|------	|----- |--------------------------------------------------------------------------------------------------------------------------------------------------|
-|Orange	(cornerstone: red) |6 (cornerstone: 3) |	If the complex words are more than X% in the text (English: 5%) | **Word complexity**: X% of the words in your text are considered complex. **Try to use shorter and more familiar words to improve readability**. |
-|Green	|9 |	If the complex words are less than X% in the text (English: 5%)              | **Word complexity**: You are not using too many complex words, which makes your text easy to read. Good job!                                     |
+|Orange	(cornerstone: red) |6 (cornerstone: 3) |	If the complex words are more than X% in the text (English: 10%) | **Word complexity**: X% of the words in your text are considered complex. **Try to use shorter and more familiar words to improve readability**. |
+|Green	|9 |	If the complex words are less than X% in the text (English: 10%)              | **Word complexity**: You are not using too many complex words, which makes your text easy to read. Good job!                                     |
