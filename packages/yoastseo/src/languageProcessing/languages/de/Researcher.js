@@ -29,8 +29,6 @@ export default class Researcher extends AbstractResearcher {
 	constructor( paper ) {
 		super( paper );
 
-		delete this.defaultResearches.wordComplexity;
-
 		Object.assign( this.config, {
 			language: "de",
 			passiveConstructionType: "periphrastic",
