@@ -12,6 +12,7 @@ export default function checkIfWordIsComplex( word ) {
 	const wordComplexityConfig = wordComplexity;
 	const lengthLimit = wordComplexityConfig.wordLength;
 	const frequencyList = wordComplexityConfig.frequencyList;
+	// All words are converted to lower case before processing to avoid excluding complex words that start with a capital letter.
 	word = word.toLowerCase();
 
 	// The German word is not complex if its length is 10 characters or less.
