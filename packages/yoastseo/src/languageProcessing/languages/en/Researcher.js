@@ -8,12 +8,12 @@ import stopWords from "./config/stopWords";
 import transitionWords from "./config/transitionWords";
 import twoPartTransitionWords from "./config/twoPartTransitionWords";
 import syllables from "./config/syllables.json";
-import frequencyList from "./config/frequencyList.json";
 
 // All helpers
 import getClauses from "./helpers/getClauses";
 import getStemmer from "./helpers/getStemmer";
 import fleschReadingScore from "./helpers/calculateFleschReadingScore";
+import checkIfWordIsComplex from "./helpers/checkIfWordIsComplex";
 
 /**
  * The researches contains all the researches
@@ -36,17 +36,13 @@ export default class Researcher extends AbstractResearcher {
 			transitionWords,
 			twoPartTransitionWords,
 			syllables,
-			wordComplexity: {
-				frequencyList: frequencyList.list,
-				wordLength: 7,
-				doesUpperCaseDecreasesComplexity: true,
-			},
 		} );
 
 		Object.assign( this.helpers, {
 			getClauses,
 			getStemmer,
 			fleschReadingScore,
+			checkIfWordIsComplex,
 		} );
 	}
 }
