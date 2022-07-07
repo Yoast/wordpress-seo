@@ -9,7 +9,7 @@ import { Title, Button } from "@yoast/ui-library";
 const FormLayout = ( {
 	children,
 	title,
-	description = "",
+	description = null,
 } ) => {
 	const { isSubmitting } = useFormikContext();
 	return (
