@@ -32,7 +32,7 @@ const MenuItem = ( { label, icon: Icon = null, children = null, defaultOpen = tr
 					{ Icon && <Icon className="yst-flex-shrink-0 yst--ml-1 yst-mr-3 yst-h-6 yst-w-6 yst-text-gray-400 group-hover:yst-text-gray-500" /> }
 					{ label }
 				</span>
-				<ChevronIcon className="yst-h-4 yst-w-4 yst-text-gray-400 group-hover:yst-text-gray-500" />
+				<ChevronIcon className="yst-h-4 yst-w-4 yst-text-gray-400 group-hover:yst-text-gray-500 yst-stroke-3" />
 			</button>
 			{ isOpen && children && <ul className="yst-ml-8 yst-space-y-1">
 				{ children }

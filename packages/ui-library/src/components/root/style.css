@@ -424,5 +424,9 @@
 		a {
 			@apply yst-text-indigo-600 hover:yst-text-indigo-500 yst-underline;
 		}
+
+		svg path {
+            stroke-width: inherit;
+        }
 	}
 }
