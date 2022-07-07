@@ -32,7 +32,6 @@ export default function checkIfWordIsComplex( word ) {
 
 	if ( suffixesRegex.test( word ) ) {
 		word = word.replace( suffixesRegex, "" );
-		console.log( word );
 		return ! frequencyList.includes( word );
 	}
 	return true;
