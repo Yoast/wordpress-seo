@@ -1,4 +1,5 @@
 import { potentiallyHarmful, potentiallyHarmfulUnless } from "./feedbackStrings";
+import { followedByExcept } from "../helpers/followedByExcept";
 
 const derogatory = "Avoid using \"%1$s\" as it is derogatory. Consider using \"%2$s\" instead.";
 
@@ -43,6 +44,24 @@ const disabilityAssessments =  [
 		score: 3,
 		feedbackFormat: derogatory,
 		learnMoreUrl: "https://yoa.st/",
+	},
+	{
+		identifier: "alcoholic",
+		nonInclusivePhrases: [ "an alcoholic" ],
+		inclusiveAlternatives: "person with alcohol use disorder",
+		score: 6,
+		feedbackFormat: potentiallyHarmfulUnless,
+		learnMoreUrl: "https://yoa.st/",
+		rule: ( words, inclusivePhrase ) => followedByExcept( words, inclusivePhrase, [ "drink", "beverage" ] ),
+	},
+	{
+		identifier: "alcoholics",
+		nonInclusivePhrases: [ "alcoholics" ],
+		inclusiveAlternatives: "person with alcohol use disorder",
+		score: 6,
+		feedbackFormat: potentiallyHarmfulUnless,
+		learnMoreUrl: "https://yoa.st/",
+		rule: ( words, inclusivePhrase ) => followedByExcept( words, inclusivePhrase, [ "anonymous" ] ),
 	},
 	{
 		identifier: "cripple",

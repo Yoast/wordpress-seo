@@ -1,26 +1,14 @@
 import { sprintf } from "@wordpress/i18n";
-import Assessment from "../assessment";
-import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
-import AssessmentResult from "../../../values/AssessmentResult";
-import { getWords } from "../../../languageProcessing";
-import Mark from "../../../values/Mark";
-import addMark from "../../../markers/addMark";
-import getSentences from "../../../languageProcessing/helpers/sentence/getSentences";
 import { isString } from "lodash-es";
 
-/**
- * Checks whether the given list of words contains another list of words in the given order.
- *
- * @param {string[]} words The list of words.
- * @param {string[]} consecutiveWords The list of words to find.
- *
- * @returns {boolean} Whether the given list of words contains another list of words in the given order.
- */
-function includesConsecutiveWords( words, consecutiveWords ) {
-	return words.some( ( _, i, allWords ) => {
-		return consecutiveWords.every( ( word, j ) => allWords[ i + j ] === word );
-	} );
-}
+import Assessment from "../assessment";
+import AssessmentResult from "../../../values/AssessmentResult";
+import Mark from "../../../values/Mark";
+import addMark from "../../../markers/addMark";
+import { getWords } from "../../../languageProcessing";
+import getSentences from "../../../languageProcessing/helpers/sentence/getSentences";
+import { includesConsecutiveWords } from "./helpers/includesConsecutiveWords";
+import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 
 /**
  * An inclusive language assessment.
@@ -36,17 +24,19 @@ export default class InclusiveLanguageAssessment extends Assessment {
 	 * @param {object} config The assessment configuration.
 	 *
 	 * @param {string} config.identifier The identifier of this assessment.
-	 * @param {string[]} config.nonInclusivePhrases The non-inclusive phrase.
+	 * @param {string[]} config.nonInclusivePhrases The non-inclusive phrases.
 	 * @param {string|array} config.inclusiveAlternatives The suggested alternative, more inclusive, phrase(s).
 	 * @param {number} config.score The score to give if the non-inclusive phrase is recognized in the text.
 	 * @param {string} config.feedbackFormat The feedback format string,
 	 * 									should include a `%1$s` placeholder for the non-inclusive phrase
-	 * 									and `%2$s` for the suggested alternative.
+	 * 									and `%2$s` (and potentially further replacements) for the suggested alternative(s).
 	 * @param {string} config.learnMoreUrl The URL to an article explaining more about this specific assessment.
+	 * @param {function} config.rule A potential additional rule for targeting the non-inclusive phrases.
 	 *
 	 * @returns {void}
 	 */
-	constructor( { identifier, nonInclusivePhrases, inclusiveAlternatives, score, feedbackFormat, learnMoreUrl } ) {
+	constructor( { identifier, nonInclusivePhrases, inclusiveAlternatives,
+		score, feedbackFormat, learnMoreUrl, rule } ) {
 		super();
 
 		this.identifier = identifier;
@@ -58,6 +48,7 @@ export default class InclusiveLanguageAssessment extends Assessment {
 		this.score = score;
 		this.feedbackFormat = feedbackFormat;
 		this.learnMoreUrl = learnMoreUrl;
+		this.rule = rule || includesConsecutiveWords;
 	}
 
 	/**
@@ -77,7 +68,7 @@ export default class InclusiveLanguageAssessment extends Assessment {
 		sentences.forEach( sentence => {
 			let words = getWords( sentence );
 			words = words.map( word => word.toLocaleLowerCase() );
-			const foundPhrase = this.nonInclusivePhrases.find( phrase => includesConsecutiveWords( words, phrase.split( " " ) ) );
+			const foundPhrase = this.nonInclusivePhrases.find( phrase => this.rule( words, phrase.split( " " ) ).length >= 1 );
 
 			if ( foundPhrase ) {
 				this.foundPhrases.push( {
