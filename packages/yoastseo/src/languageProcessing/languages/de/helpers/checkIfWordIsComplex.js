@@ -14,7 +14,7 @@ export default function checkIfWordIsComplex( word ) {
 	const frequencyList = wordComplexityConfig.frequencyList;
 	word = word.toLowerCase();
 
-	// The word is not complex if it's less than the length limit, i.e. 10 characters for German.
+	// The German word is not complex if its length is 10 characters or less.
 	if ( word.length <= lengthLimit ) {
 		return false;
 	}
