@@ -6,6 +6,7 @@ import { YoastSeoIcon } from "@yoast/components";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import getIndicatorForScore from "../../analysis/getIndicatorForScore";
+import getL10nObject from "../../analysis/getL10nObject";
 import Results from "../../containers/Results";
 import AnalysisUpsell from "../AnalysisUpsell";
 import { LocationConsumer } from "@yoast/externals/contexts";
@@ -223,6 +224,7 @@ class SeoAnalysis extends Component {
 	 */
 	render() {
 		const score = getIndicatorForScore( this.props.overallScore );
+		const isPremium = getL10nObject().isPremium;
 
 		if ( score.className !== "loading" && this.props.keyword === "" ) {
 			score.className = "na";
@@ -242,7 +244,7 @@ class SeoAnalysis extends Component {
 					return (
 						<Fragment>
 							<Collapsible
-								title={ __( "SEO analysis", "wordpress-seo" ) }
+								title={ isPremium ? __( "Premium SEO analysis", "wordpress-seo" ) : __( "SEO analysis", "wordpress-seo" ) }
 								titleScreenReaderText={ score.screenReaderReadabilityText }
 								prefixIcon={ getIconForScore( score.className ) }
 								prefixIconCollapsed={ getIconForScore( score.className ) }
