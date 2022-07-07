@@ -66,6 +66,7 @@ class FunctionWordsInKeyphraseAssessment extends Assessment {
 				"</a>",
 				this._keyword
 			) );
+			assessmentResult.setHasJumps( true );
 		}
 
 		return assessmentResult;

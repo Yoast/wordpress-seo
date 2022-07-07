@@ -11,6 +11,7 @@ describe( "the SEO title length assessment", function() {
 		expect( result.getScore() ).toEqual( 1 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/34h' target='_blank'>SEO title width</a>: " +
 			"<a href='https://yoa.st/34i' target='_blank'>Please create an SEO title</a>." );
+		expect( result.hasJumps() ).toBeTruthy();
 	} );
 
 	it( "should assess a paper with an SEO title that's under the recommended value", function() {
@@ -20,6 +21,7 @@ describe( "the SEO title length assessment", function() {
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/34h' target='_blank'>SEO title width</a>: " +
 			"The SEO title is too short. <a href='https://yoa.st/34i' target='_blank'>Use the space to add keyphrase variations " +
 			"or create compelling call-to-action copy</a>." );
+		expect( result.hasJumps() ).toBeTruthy();
 	} );
 
 	it( "should assess a paper with an SEO title that's in range of the recommended value", function() {
@@ -27,6 +29,7 @@ describe( "the SEO title length assessment", function() {
 		const result = pageTitleLengthAssessment.getResult( paper, factory.buildMockResearcher( 450 ) );
 		expect( result.getScore() ).toEqual( 9 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/34h' target='_blank'>SEO title width</a>: Good job!" );
+		expect( result.hasJumps() ).toBeFalsy();
 	} );
 
 	it( "should assess a paper with an SEO title that's in range of the recommended value", function() {
@@ -34,6 +37,7 @@ describe( "the SEO title length assessment", function() {
 		const result = pageTitleLengthAssessment.getResult( paper, factory.buildMockResearcher( 600 ) );
 		expect( result.getScore() ).toEqual( 9 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/34h' target='_blank'>SEO title width</a>: Good job!" );
+		expect( result.hasJumps() ).toBeFalsy();
 	} );
 
 	it( "should assess a paper with an SEO title that's longer than the recommended value", function() {
@@ -43,6 +47,7 @@ describe( "the SEO title length assessment", function() {
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/34h' target='_blank'>SEO title width</a>: " +
 			"The SEO title is wider than the viewable limit. <a href='https://yoa.st/34i' target='_blank'>Try to make it shorter</a>." );
 		expect( pageTitleLengthAssessment.getMaximumLength() ).toBe( 600 );
+		expect( result.hasJumps() ).toBeTruthy();
 	} );
 } );
 
