@@ -19,7 +19,7 @@ describe( "a test for the German Researcher", function() {
 	it( "returns true if the German Researcher has a specific research", function() {
 		expect( researcher.hasResearch( "getPassiveVoiceResult" ) ).toBe( true );
 	} );
-	
+
 	it( "returns the German function words ", function() {
 		expect( researcher.getConfig( "functionWords" ) ).toEqual( functionWords.all );
 	} );
