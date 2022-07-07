@@ -242,6 +242,7 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 19.3 =
 Release Date: July 12th, 2022
 
+
 Enhancements:
 
 * Adds an Insights tab to the editors which contains the Flesch reading ease score and feedback, (estimated) reading time, and word count. Since the Flesch reading ease score has been moved to the insights tab, it is removed from the readability analysis.
