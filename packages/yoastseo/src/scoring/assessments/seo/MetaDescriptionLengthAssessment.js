@@ -81,7 +81,7 @@ export default class MetaDescriptionLengthAssessment extends Assessment {
 
 		assessmentResult.setScore( this.calculateScore( descriptionLength, locale ) );
 		assessmentResult.setText( this.translateScore( descriptionLength, config ) );
-		assessmentResult.setHasJumps( true );
+		assessmentResult.setHasJumps( assessmentResult.getScore() < 9 );
 
 		// Max and actual are used in the snippet editor progress bar.
 		assessmentResult.max = config.maximumLength;

@@ -102,7 +102,7 @@ class KeyphraseLengthAssessment extends Assessment {
 
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
-		assessmentResult.setHasJumps( true );
+		assessmentResult.setHasJumps( assessmentResult.getScore() < 9 );
 
 		return assessmentResult;
 	}

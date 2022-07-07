@@ -14,6 +14,7 @@ describe( "a test for assessing the meta description length", function() {
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34d' target='_blank'>Meta description length" +
 			"</a>:  No meta description has been specified. Search engines will display copy from the page instead. " +
 			"<a href='https://yoa.st/34e' target='_blank'>Make sure to write one</a>!" );
+		expect( assessment.hasJumps() ).toBeTruthy();
 	} );
 
 	it( "assesses a short description", function() {
@@ -24,6 +25,7 @@ describe( "a test for assessing the meta description length", function() {
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34d' target='_blank'>Meta description length</a>: " +
 			"The meta description is too short (under 120 characters). Up to 156 characters are available. " +
 			"<a href='https://yoa.st/34e' target='_blank'>Use the space</a>!" );
+		expect( assessment.hasJumps() ).toBeTruthy();
 	} );
 
 	it( "assesses a too long description", function() {
@@ -35,6 +37,7 @@ describe( "a test for assessing the meta description length", function() {
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34d' target='_blank'>Meta description length</a>: " +
 			"The meta description is over 156 characters. To ensure the entire description will be visible, " +
 			"<a href='https://yoa.st/34e' target='_blank'>you should reduce the length</a>!" );
+		expect( assessment.hasJumps() ).toBeTruthy();
 	} );
 
 	it( "assesses a good description", function() {
@@ -43,6 +46,7 @@ describe( "a test for assessing the meta description length", function() {
 
 		expect( assessment.getScore() ).toEqual( 9 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34d' target='_blank'>Meta description length</a>: Well done!" );
+		expect( assessment.hasJumps() ).toBeFalsy();
 	} );
 } );
 

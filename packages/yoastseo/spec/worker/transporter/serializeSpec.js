@@ -62,6 +62,8 @@ describe( "serialize", () => {
 		thing.setText( "Good job!" );
 
 		expect( serialize( thing ) ).toEqual( {
+			_hasBetaBadge: false,
+			_hasJumps: false,
 			_parseClass: "AssessmentResult",
 			identifier: "",
 			marks: [],
