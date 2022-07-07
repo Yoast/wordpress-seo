@@ -1,6 +1,6 @@
 import { CheckCircleIcon } from "@heroicons/react/solid";
 import { createInterpolateElement, useMemo } from "@wordpress/element";
-import { __ } from "@wordpress/i18n";
+import { __, sprintf } from "@wordpress/i18n";
 import { Alert, RadioGroup, TextField, useSvgAria } from "@yoast/ui-library";
 import classNames from "classnames";
 import { Field } from "formik";
@@ -57,8 +57,13 @@ Radio.propTypes = {
  */
 const SiteDefaults = () => {
 	const alertText = useMemo( () => createInterpolateElement(
-		__( "You can use <em>Site title</em>, <em>Tagline</em> and <em>Separator</em> as variables when configuring the search appearance of your content.", "wordpress-seo" ),
-		{ em: <em /> },
+		sprintf(
+			// translators: %1$s expands to an opening emphasis tag. %2$s expands to a closing emphasis tag.
+			__( "You can use %1$sSite title%2$s, %1$sTagline%2$s and %1$sSeparator%2$s as variables when configuring the search appearance of your content.", "wordpress-seo" ),
+			"<em>",
+			"</em>"
+		),
+		{ em: <em /> }
 	), [] );
 	const separators = useMemo( () => get( window, "wpseoScriptData.separators", {} ), [] );
 
