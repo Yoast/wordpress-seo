@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { AdjustmentsIcon, DesktopComputerIcon, NewspaperIcon } from "@heroicons/react/outline";
 import { __ } from "@wordpress/i18n";
 import { Route, Routes, useLocation } from "react-router-dom";
@@ -33,40 +34,40 @@ const App = () => {
 				</figure>
 				<SidebarNavigation activePath={ pathname }>
 					<SidebarNavigation.MenuItem id="menu:site-settings" icon={ DesktopComputerIcon } label={ __( "Site settings", "wordpress-seo" ) }>
-						<SidebarNavigation.SubmenuItem to="/site-representation" label={ __( "Site representation", "wordpress-seo" ) } />
+						{ /* <SidebarNavigation.SubmenuItem to="/site-representation" label={ __( "Site representation", "wordpress-seo" ) } /> */ }
 						<SidebarNavigation.SubmenuItem to="/site-defaults" label={ __( "Site defaults", "wordpress-seo" ) } />
 						<SidebarNavigation.SubmenuItem to="/site-preferences" label={ __( "Site preferences", "wordpress-seo" ) } />
 						<SidebarNavigation.SubmenuItem to="/webmaster-tools" label={ __( "Webmaster tools", "wordpress-seo" ) } />
-						<SidebarNavigation.SubmenuItem to="/breadcrumbs" label={ __( "Breadcrumbs", "wordpress-seo" ) } />
+						{ /* <SidebarNavigation.SubmenuItem to="/breadcrumbs" label={ __( "Breadcrumbs", "wordpress-seo" ) } /> */ }
 					</SidebarNavigation.MenuItem>
-					<SidebarNavigation.MenuItem id="menu:content-settings" icon={ NewspaperIcon } label={ __( "Content settings", "wordpress-seo" ) }>
+					{ /* <SidebarNavigation.MenuItem id="menu:content-settings" icon={ NewspaperIcon } label={ __( "Content settings", "wordpress-seo" ) }>
 						Content settings
-					</SidebarNavigation.MenuItem>
+					</SidebarNavigation.MenuItem> */ }
 					<SidebarNavigation.MenuItem id="menu:advanced-settings" icon={ AdjustmentsIcon } label={ __( "Advanced settings", "wordpress-seo" ) }>
 						<SidebarNavigation.SubmenuItem to="/crawl-settings" label={ __( "Crawl settings", "wordpress-seo" ) } />
-						<SidebarNavigation.SubmenuItem to="/author-archives" label={ __( "Author archives", "wordpress-seo" ) } />
-						<SidebarNavigation.SubmenuItem to="/date-archives" label={ __( "Date archives", "wordpress-seo" ) } />
-						<SidebarNavigation.SubmenuItem to="/search-pages" label={ __( "Search pages", "wordpress-seo" ) } />
-						<SidebarNavigation.SubmenuItem to="/not-found-pages" label={ __( "404 pages", "wordpress-seo" ) } />
-						<SidebarNavigation.SubmenuItem to="/media" label={ __( "Media", "wordpress-seo" ) } />
-						<SidebarNavigation.SubmenuItem to="/formats" label={ __( "Formats", "wordpress-seo" ) } />
+						{ /* <SidebarNavigation.SubmenuItem to="/author-archives" label={ __( "Author archives", "wordpress-seo" ) } /> */ }
+						{ /* <SidebarNavigation.SubmenuItem to="/date-archives" label={ __( "Date archives", "wordpress-seo" ) } /> */ }
+						{ /* <SidebarNavigation.SubmenuItem to="/search-pages" label={ __( "Search pages", "wordpress-seo" ) } /> */ }
+						{ /* <SidebarNavigation.SubmenuItem to="/not-found-pages" label={ __( "404 pages", "wordpress-seo" ) } /> */ }
+						{ /* <SidebarNavigation.SubmenuItem to="/media" label={ __( "Media", "wordpress-seo" ) } /> */ }
+						{ /* <SidebarNavigation.SubmenuItem to="/formats" label={ __( "Formats", "wordpress-seo" ) } /> */ }
 						<SidebarNavigation.SubmenuItem to="/rss" label={ __( "RSS", "wordpress-seo" ) } />
 					</SidebarNavigation.MenuItem>
 				</SidebarNavigation>
 			</aside>
 			<main className="yst-flex-grow">
 				<Routes>
-					<Route path="author-archives" element={ <AuthorArchives /> } />
-					<Route path="breadcrumbs" element={ <Breadcrumbs /> } />
+					{ /* <Route path="author-archives" element={ <AuthorArchives /> } /> */ }
+					{ /* <Route path="breadcrumbs" element={ <Breadcrumbs /> } /> */ }
 					<Route path="crawl-settings" element={ <CrawlSettings /> } />
-					<Route path="date-archives" element={ <DateArchives /> } />
-					<Route path="formats" element={ <Formats /> } />
-					<Route path="media" element={ <Media /> } />
-					<Route path="not-found-pages" element={ <NotFoundPages /> } />
+					{ /* <Route path="date-archives" element={ <DateArchives /> } /> */ }
+					{ /* <Route path="formats" element={ <Formats /> } /> */ }
+					{ /* <Route path="media" element={ <Media /> } /> */ }
+					{ /* <Route path="not-found-pages" element={ <NotFoundPages /> } /> */ }
 					<Route path="rss" element={ <Rss /> } />
-					<Route path="search-pages" element={ <SearchPages /> } />
+					{ /* <Route path="search-pages" element={ <SearchPages /> } /> */ }
 					<Route path="site-defaults" element={ <SiteDefaults /> } />
-					<Route path="site-representation" element={ <SiteRepresentation /> } />
+					{ /* <Route path="site-representation" element={ <SiteRepresentation /> } /> */ }
 					<Route path="site-preferences" element={ <SitePreferences /> } />
 					<Route path="webmaster-tools" element={ <WebmasterTools /> } />
 					<Route path="/" element={ <SitePreferences /> } />
@@ -77,3 +78,5 @@ const App = () => {
 };
 
 export default App;
+
+/* eslint-enable */
