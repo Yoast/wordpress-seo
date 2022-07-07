@@ -11,6 +11,7 @@ const disabilityAssessments =  [
 		inclusiveAlternative: "indulging, satuating, wallowing",
 		score: 6,
 		feedbackFormat: medicalCondition,
+		learnMoreUrl: "https://yoa.st/",
 	},
 	{
 		identifier: "wheelchairBound",
@@ -18,6 +19,7 @@ const disabilityAssessments =  [
 		inclusiveAlternative: "uses a wheelchair/wheelchair user",
 		score: 3,
 		feedbackFormat: potentiallyHarmful,
+		learnMoreUrl: "https://yoa.st/",
 	},
 	{
 		identifier: "mentallyRetarded",
@@ -25,6 +27,7 @@ const disabilityAssessments =  [
 		inclusiveAlternative: "person with an intellectual disability",
 		score: 3,
 		feedbackFormat: potentiallyHarmful,
+		learnMoreUrl: "https://yoa.st/",
 	},
 	{
 		// Problematic, as it will also target the above phrase
@@ -33,6 +36,7 @@ const disabilityAssessments =  [
 		inclusiveAlternative: "uninformed, ignorant, foolish, irrational, insensible",
 		score: 3,
 		feedbackFormat: derogatory,
+		learnMoreUrl: "https://yoa.st/",
 	},
 	{
 		identifier: "cripple",
@@ -40,6 +44,7 @@ const disabilityAssessments =  [
 		inclusiveAlternative: "person with a physical disability",
 		score: 3,
 		feedbackFormat: derogatory,
+		learnMoreUrl: "https://yoa.st/",
 	},
 	{
 		identifier: "crippled",
@@ -47,6 +52,7 @@ const disabilityAssessments =  [
 		inclusiveAlternative: "has a physical disability",
 		score: 3,
 		feedbackFormat: potentiallyHarmful,
+		learnMoreUrl: "https://yoa.st/",
 	},
 	{
 		identifier: "daft",
@@ -54,6 +60,7 @@ const disabilityAssessments =  [
 		inclusiveAlternative: "dense, ignorant, foolish",
 		score: 6,
 		feedbackFormat: potentiallyHarmful,
+		learnMoreUrl: "https://yoa.st/",
 	},
 	{
 		identifier: "handicapped",
@@ -61,6 +68,7 @@ const disabilityAssessments =  [
 		inclusiveAlternative: "disabled, disabled person, person with a disability",
 		score: 3,
 		feedbackFormat: potentiallyHarmful,
+		learnMoreUrl: "https://yoa.st/",
 	},
 	{
 		identifier: "handicap",
@@ -68,6 +76,7 @@ const disabilityAssessments =  [
 		inclusiveAlternative: "disability",
 		score: 3,
 		feedbackFormat: potentiallyHarmful,
+		learnMoreUrl: "https://yoa.st/",
 	},
 	{
 		identifier: "insane",
@@ -76,6 +85,7 @@ const disabilityAssessments =  [
 			"unbelievable, incomprehensible, irrational, nonsensical, outrageous, ridiculous",
 		score: 3,
 		feedbackFormat: potentiallyHarmful,
+		learnMoreUrl: "https://yoa.st/",
 	},
 	{
 		identifier: "imbecile",
@@ -83,6 +93,7 @@ const disabilityAssessments =  [
 		inclusiveAlternative: "uninformed, ignorant, foolish",
 		score: 3,
 		feedbackFormat: derogatory,
+		learnMoreUrl: "https://yoa.st/",
 	},
 	{
 		// Special string! y1 and y2
@@ -92,6 +103,7 @@ const disabilityAssessments =  [
 		score: 3,
 		feedbackFormat: "Avoid using \"%1$s\" as it is potentially harmful. " +
 			"Consider using \"y1\" instead, or \"y2\" when using it to describe someone in terms of their disability.",
+		learnMoreUrl: "https://yoa.st/",
 	},
 	{
 		identifier: "hardOfHearing",
@@ -99,6 +111,7 @@ const disabilityAssessments =  [
 		inclusiveAlternative: "hard of hearing, partially deaf, has partial hearing loss",
 		score: 3,
 		feedbackFormat: potentiallyHarmful,
+		learnMoreUrl: "https://yoa.st/",
 	},
 	{
 		identifier: "hearingImpaired",
@@ -106,15 +119,16 @@ const disabilityAssessments =  [
 		inclusiveAlternative: "deaf or hard of hearing, partially deaf, has partial hearing loss",
 		score: 3,
 		feedbackFormat: potentiallyHarmful,
+		learnMoreUrl: "https://yoa.st/",
 	},
 	{
-		// No alternative?
 		identifier: "functioning",
 		nonInclusivePhrases: [ "high functioning", "low functioning" ],
 		inclusiveAlternative: "",
 		score: 6,
 		feedbackFormat: "Avoid using \"%1$s\" as it is potentially harmful unless to refer to yourself or how you characterize your condition." +
 			"Consider using a specific characteristic or experience if it is known.",
+		learnMoreUrl: "https://yoa.st/",
 	},
 	{
 		identifier: "autismHigh",
@@ -122,6 +136,7 @@ const disabilityAssessments =  [
 		inclusiveAlternative: "autism with low support needs",
 		score: 3,
 		feedbackFormat: potentiallyHarmfulUnless,
+		learnMoreUrl: "https://yoa.st/",
 	},
 	{
 		identifier: "autismLow",
@@ -129,6 +144,7 @@ const disabilityAssessments =  [
 		inclusiveAlternative: "autism with high support needs",
 		score: 3,
 		feedbackFormat: potentiallyHarmfulUnless,
+		learnMoreUrl: "https://yoa.st/",
 	},
 	{
 		identifier: "lame",
@@ -136,6 +152,7 @@ const disabilityAssessments =  [
 		inclusiveAlternative: "boring, uninteresting, uncool",
 		score: 3,
 		feedbackFormat: potentiallyHarmful,
+		learnMoreUrl: "https://yoa.st/",
 	},
 	{
 		identifier: "suicide",
@@ -143,6 +160,7 @@ const disabilityAssessments =  [
 		inclusiveAlternative: "took their life, died by suicide, killed themself",
 		score: 3,
 		feedbackFormat: potentiallyHarmful,
+		learnMoreUrl: "https://yoa.st/",
 	},
 	{
 		identifier: "handicapParking",
@@ -150,6 +168,7 @@ const disabilityAssessments =  [
 		inclusiveAlternative: "accessible parking",
 		score: 3,
 		feedbackFormat: potentiallyHarmful,
+		learnMoreUrl: "https://yoa.st/",
 	},
 	{
 		identifier: "fellOnDeafEars",
@@ -157,6 +176,7 @@ const disabilityAssessments =  [
 		inclusiveAlternative: "was not addressed",
 		score: 3,
 		feedbackFormat: potentiallyHarmful,
+		learnMoreUrl: "https://yoa.st/",
 	},
 	{
 		identifier: "turnOnBlindEye",
@@ -164,6 +184,7 @@ const disabilityAssessments =  [
 		inclusiveAlternative: "ignore",
 		score: 3,
 		feedbackFormat: potentiallyHarmful,
+		learnMoreUrl: "https://yoa.st/",
 	},
 	{
 		identifier: "blindLeadingBlind",
@@ -171,6 +192,7 @@ const disabilityAssessments =  [
 		inclusiveAlternative: "ignorant, insensitive, misguided",
 		score: 3,
 		feedbackFormat: potentiallyHarmful,
+		learnMoreUrl: "https://yoa.st/",
 	},
 	{
 		identifier: "disabledBathroom",
@@ -178,6 +200,7 @@ const disabilityAssessments =  [
 		inclusiveAlternative: "accessible bathroom(s)",
 		score: 3,
 		feedbackFormat: potentiallyHarmful,
+		learnMoreUrl: "https://yoa.st/",
 	},
 	{
 		identifier: "disabledToilet",
@@ -185,6 +208,15 @@ const disabilityAssessments =  [
 		inclusiveAlternative: "accessible toilet(s)",
 		score: 3,
 		feedbackFormat: potentiallyHarmful,
+		learnMoreUrl: "https://yoa.st/",
+	},
+	{
+		identifier: "disabledStall",
+		nonInclusivePhrases: [ "disabled stall", "disabled stalls", "handicap stall", "handicap stalls" ],
+		inclusiveAlternative: "accessible stall(s)",
+		score: 3,
+		feedbackFormat: potentiallyHarmful,
+		learnMoreUrl: "https://yoa.st/",
 	},
 	{
 		// Special string! y1 and y2
@@ -196,6 +228,7 @@ const disabilityAssessments =  [
 		score: 3,
 		feedbackFormat: "Avoid using \"%1$s\" as it is potentially harmful. " +
 			"Consider using \"y1\" instead, or \"y2\" when using it to describe someone in terms of their disability.",
+		learnMoreUrl: "https://yoa.st/",
 	},
 	{
 		identifier: "deaf",
@@ -203,6 +236,7 @@ const disabilityAssessments =  [
 		inclusiveAlternative: "deaf",
 		score: 3,
 		feedbackFormat: potentiallyHarmful,
+		learnMoreUrl: "https://yoa.st/",
 	},
 	{
 		identifier: "addict",
@@ -210,6 +244,7 @@ const disabilityAssessments =  [
 		inclusiveAlternative: "person with a (drug, alcohol, ...) addiction / person with substance abuse disorder",
 		score: 6,
 		feedbackFormat: potentiallyHarmfulUnless,
+		learnMoreUrl: "https://yoa.st/",
 	},
 	{
 		identifier: "addicts",
@@ -217,6 +252,7 @@ const disabilityAssessments =  [
 		inclusiveAlternative: "people with a (drug, alcohol, ...) addiction / people with substance abuse disorder",
 		score: 6,
 		feedbackFormat: potentiallyHarmfulUnless,
+		learnMoreUrl: "https://yoa.st/",
 	},
 	{
 		identifier: "brainDamaged",
@@ -224,6 +260,7 @@ const disabilityAssessments =  [
 		inclusiveAlternative: "person with a (traumatic) brain injury",
 		score: 6,
 		feedbackFormat: potentiallyHarmfulUnless,
+		learnMoreUrl: "https://yoa.st/",
 	},
 	{
 		identifier: "differentlyAbled",
@@ -231,6 +268,7 @@ const disabilityAssessments =  [
 		inclusiveAlternative: "disabled, disabled person, person with a disability",
 		score: 6,
 		feedbackFormat: potentiallyHarmfulUnless,
+		learnMoreUrl: "https://yoa.st/",
 	},
 	{
 		identifier: "epilepticFit",
@@ -238,6 +276,7 @@ const disabilityAssessments =  [
 		inclusiveAlternative: "seizure",
 		score: 3,
 		feedbackFormat: potentiallyHarmful,
+		learnMoreUrl: "https://yoa.st/",
 	},
 	{
 		identifier: "sanityCheck",
@@ -245,6 +284,7 @@ const disabilityAssessments =  [
 		inclusiveAlternative: "final check; confidence check; rationality check; soundness check; OR be specific about what you're checking",
 		score: 3,
 		feedbackFormat: potentiallyHarmful,
+		learnMoreUrl: "https://yoa.st/",
 	},
 	{
 		identifier: "crazy",
@@ -252,6 +292,7 @@ const disabilityAssessments =  [
 		inclusiveAlternative: "baffling, startling, surprising, shocking, wild, confusing, unpredictable",
 		score: 3,
 		feedbackFormat: potentiallyHarmful,
+		learnMoreUrl: "https://yoa.st/",
 	},
 	{
 		identifier: "psychopathic",
@@ -259,6 +300,7 @@ const disabilityAssessments =  [
 		inclusiveAlternative: "selfish, toxic, manipulative, wild, confusing, unpredictable, impulsive, reckless, out of control",
 		score: 3,
 		feedbackFormat: potentiallyHarmful,
+		learnMoreUrl: "https://yoa.st/",
 	},
 	{
 		identifier: "schizophrenic",
@@ -266,6 +308,7 @@ const disabilityAssessments =  [
 		inclusiveAlternative: "of two minds, chaotic, confusing",
 		score: 6,
 		feedbackFormat: medicalCondition,
+		learnMoreUrl: "https://yoa.st/",
 	},
 	{
 		identifier: "bipolar",
@@ -273,13 +316,7 @@ const disabilityAssessments =  [
 		inclusiveAlternative: "of two minds, chaotic, confusing",
 		score: 6,
 		feedbackFormat: medicalCondition,
-	},
-	{
-		identifier: "handicapStall",
-		nonInclusivePhrases: [ "handicap stall" ],
-		inclusiveAlternative: "accessible stall",
-		score: 3,
-		feedbackFormat: potentiallyHarmful,
+		learnMoreUrl: "https://yoa.st/",
 	},
 	{
 		identifier: "paranoid",
@@ -287,6 +324,7 @@ const disabilityAssessments =  [
 		inclusiveAlternative: "overly suspicious, unreasonable, defensive",
 		score: 6,
 		feedbackFormat: medicalCondition,
+		learnMoreUrl: "https://yoa.st/",
 	},
 	{
 		identifier: "manic",
@@ -294,6 +332,7 @@ const disabilityAssessments =  [
 		inclusiveAlternative: "excited, raving, unbalanced, wild",
 		score: 6,
 		feedbackFormat: medicalCondition,
+		learnMoreUrl: "https://yoa.st/",
 	},
 	{
 		identifier: "hysterical",
@@ -301,6 +340,7 @@ const disabilityAssessments =  [
 		inclusiveAlternative: "intense, vehement, piercing, chaotic",
 		score: 3,
 		feedbackFormat: potentiallyHarmful,
+		learnMoreUrl: "https://yoa.st/",
 	},
 	{
 		identifier: "psycho",
@@ -308,6 +348,7 @@ const disabilityAssessments =  [
 		inclusiveAlternative: "selfish, toxic, manipulative, wild, confusing, unpredictable, impulsive, reckless, out of control",
 		score: 3,
 		feedbackFormat: potentiallyHarmful,
+		learnMoreUrl: "https://yoa.st/",
 	},
 	{
 		identifier: "neurotic",
@@ -315,6 +356,7 @@ const disabilityAssessments =  [
 		inclusiveAlternative: "baffling, startling, surprising, shocking, wild, confusing, unpredictable",
 		score: 3,
 		feedbackFormat: potentiallyHarmful,
+		learnMoreUrl: "https://yoa.st/",
 	},
 	{
 		// Special string! y1 and y2
@@ -325,6 +367,7 @@ const disabilityAssessments =  [
 		score: 6,
 		feedbackFormat: "Avoid using \"%1$s\" unless talking about the specific medical condition (in which case, use \"y1\"). " +
 			"If you are not referencing the medical condition, consider other alternatives to describe the trait or behavior such as \"y2\".",
+		learnMoreUrl: "https://yoa.st/",
 	},
 	{
 		// Special string! y1 and y2
@@ -335,6 +378,7 @@ const disabilityAssessments =  [
 		score: 6,
 		feedbackFormat: "Avoid using \"%1$s\" unless talking about the specific medical condition (in which case, use \"y1\"). " +
 			"If you are not referencing the medical condition, consider other alternatives to describe the trait or behavior such as \"y2\".",
+		learnMoreUrl: "https://yoa.st/",
 	},
 ];
 

@@ -8,7 +8,7 @@ describe( "Age assessments", function() {
 	it( "should target non-inclusive phrases", function() {
 		const mockPaper = new Paper( "This ad is aimed at aging dependants" );
 		const mockResearcher = new EnglishResearcher( mockPaper );
-		const assessor = new InclusiveLanguageAssessment( assessments[ 1 ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "agingDependants" )  );
 
 		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
 		const assessmentResult = assessor.getResult();
@@ -31,7 +31,7 @@ describe( "Age assessments", function() {
 	it( "should target potentially non-inclusive phrases", function() {
 		const mockPaper = new Paper( "This ad is aimed at senior citizens. But this ad is aimed at the youth." );
 		const mockResearcher = new EnglishResearcher( mockPaper );
-		const assessor = new InclusiveLanguageAssessment( assessments[ 0 ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "seniorCitizens" )  );
 
 		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
 		const assessmentResult = assessor.getResult();
@@ -54,7 +54,7 @@ describe( "Age assessments", function() {
 	it( "should not target other phrases", function() {
 		const mockPaper = new Paper( "This ad is aimed at the youth" );
 		const mockResearcher = new EnglishResearcher( mockPaper );
-		const assessor = new InclusiveLanguageAssessment( assessments[ 0 ] );
+		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "seniorCitizens" )  );
 
 		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
 
