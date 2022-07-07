@@ -10,10 +10,6 @@
             @apply focus:yst-shadow-none;
         }
 
-        svg path {
-            stroke-width: inherit;
-        }
-
         .yst-radio__input {
             @apply
                 yst-transition-none
