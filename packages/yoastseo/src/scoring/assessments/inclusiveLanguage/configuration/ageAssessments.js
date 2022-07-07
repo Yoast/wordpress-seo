@@ -5,7 +5,7 @@ const characteristicIfKnown = "Consider using a specific characteristic or exper
 
 const assessments = [
 	{
-		identifier: "seniorsCitizens",
+		identifier: "seniorCitizens",
 		nonInclusivePhrases: [ "senior citizen", "senior citizens" ],
 		inclusiveAlternative: "older persons/older people, older citizen(s)",
 		score: 6,
