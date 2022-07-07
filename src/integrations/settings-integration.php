@@ -126,10 +126,14 @@ class Settings_Integration implements Integration_Interface {
 	 */
 	protected function get_script_data() {
 		$data = [
-			'settings'   => [],
-			'endpoint'   => \admin_url( 'options.php' ),
-			'nonce'      => \wp_create_nonce( 'wpseo_settings-options' ),
-			'separators' => WPSEO_Option_Titles::get_instance()->get_separator_options_for_display(),
+			'settings'    => [],
+			'endpoint'    => \admin_url( 'options.php' ),
+			'nonce'       => \wp_create_nonce( 'wpseo_settings-options' ),
+			'users'		  => \get_users( [
+				'fields'  => [ 'ID', 'display_name' ]
+			] ),
+			'userEditUrl' => admin_url( 'user-edit.php' ),
+			'separators'  => WPSEO_Option_Titles::get_instance()->get_separator_options_for_display(),
 		];
 
 		foreach ( WPSEO_Options::$options as $name => $instance ) {
