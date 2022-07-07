@@ -10,7 +10,7 @@ import includes from "lodash/includes";
 import get from "lodash/get";
 import PropTypes from "prop-types";
 import { speak as a11ySpeak } from "@wordpress/a11y";
-import { applyFilters } from "@wordpress/hooks";
+import { applyFilters, addAction } from "@wordpress/hooks";
 import { __, _n, sprintf } from "@wordpress/i18n";
 import styled from "styled-components";
 import { withTheme } from "styled-components";
@@ -103,6 +103,7 @@ class ReplacementVariableEditorStandalone extends React.Component {
 			editorState,
 			searchValue: "",
 			isSuggestionsOpen: false,
+			editorKey: this.props.fieldId,
 			suggestions: this.mapReplacementVariablesToSuggestions( currentReplacementVariables ),
 		};
 
@@ -153,10 +154,11 @@ class ReplacementVariableEditorStandalone extends React.Component {
 			} ),
 		};
 
-		this.pluginList = applyFilters(
-			"yoast.replacementVariableEditor.pluginList",
-			this.pluginList
-		);
+		addAction( "yoast.draftjs.additionalPluginLoaded", "yoast/yoast-seo/initializeDraftJsPlugins", ( fieldId ) => {
+			if ( fieldId === this.props.fieldId ) {
+				this.setState( { editorKey: this.props.fieldId + "-loaded"  } );
+			}
+		} );
 	}
 
 	/**
@@ -512,6 +514,7 @@ class ReplacementVariableEditorStandalone extends React.Component {
 		return (
 			<React.Fragment>
 				<Editor
+					key={ this.state.editorKey }
 					textDirectionality={ theme.isRtl ? "RTL" : "LTR" }
 					editorState={ editorState }
 					onChange={ this.onChange }
@@ -530,7 +533,8 @@ class ReplacementVariableEditorStandalone extends React.Component {
 					"yoast.replacementVariableEditor.additionalPlugins",
 					<React.Fragment />,
 					this.pluginList,
-					fieldId
+					fieldId,
+					this.editor
 				) }
 
 				<ZIndexOverride>
