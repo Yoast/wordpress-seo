@@ -33,6 +33,7 @@ const Radio = ( { id, name, value, label, screenReaderLabel = "", className = ""
 			{ ...props }
 		/>
 		<span className="yst-radio__content">
+			{ /* eslint-disable-next-line jsx-a11y/label-has-associated-control -- incompatible with dangerouslySetInnerHTML */ }
 			<label
 				htmlFor={ id }
 				className="yst-label yst-radio__label"
@@ -56,6 +57,7 @@ Radio.propTypes = {
  * @returns {JSX.Element} The site defaults route.
  */
 const SiteDefaults = () => {
+	const separators = useMemo( () => get( window, "wpseoScriptData.separators", {} ), [] );
 	const alertText = useMemo( () => createInterpolateElement(
 		sprintf(
 			// translators: %1$s expands to an opening emphasis tag. %2$s expands to a closing emphasis tag.
@@ -65,7 +67,22 @@ const SiteDefaults = () => {
 		),
 		{ em: <em /> }
 	), [] );
-	const separators = useMemo( () => get( window, "wpseoScriptData.separators", {} ), [] );
+	const recommendedSize = useMemo( () => createInterpolateElement(
+		sprintf(
+			/**
+			 * translators: %1$s expands to an opening strong tag.
+			 * %2$s expands to a closing strong tag.
+			 * %3$s expands to the recommended image size.
+			 */
+			__( "Recommended size for this image is %1$s%3$s%2$s", "wordpress-seo" ),
+			"<strong>",
+			"</strong>",
+			"1200x675"
+		),
+		{
+			strong: <strong className="yst-font-semibold" />,
+		}
+	) );
 
 	return (
 		<FormLayout
@@ -92,7 +109,7 @@ const SiteDefaults = () => {
 				</fieldset>
 				<hr className="yst-my-8" />
 				<RadioGroup label={ __( "Title separator", "wordpress-seo" ) } variant="inline-block">
-					{ map( separators, ( { label, aria_label }, value ) => (
+					{ map( separators, ( { label, aria_label: ariaLabel }, value ) => (
 						<Field
 							key={ value }
 							as={ Radio }
@@ -100,7 +117,7 @@ const SiteDefaults = () => {
 							name="wpseo_titles.separator"
 							id={ `input:wpseo_titles.separator.${ value }` }
 							label={ label }
-							aria-label={ aria_label }
+							aria-label={ ariaLabel }
 							value={ value }
 						/>
 					) ) }
@@ -110,16 +127,7 @@ const SiteDefaults = () => {
 					id="wpseo_social.og_default_image"
 					label={ __( "Site image", "wordpress-seo" ) }
 					description={ __( "This image is used as a fallback for posts/pages that don't have any images set.", "wordpress-seo" ) }
-					previewLabel={ createInterpolateElement(
-						sprintf(
-							/* translators: %1$s expands to an opening strong tag. %2$s expands to a closing strong tag. %3$s expands to the recommended image size. */
-							__( "Recommended size for this image is %1$s%3$s%2$s", "wordpress-seo" ),
-							"<strong>",
-							"</strong>",
-							"1200x675"
-						), {
-							strong: <strong className="yst-font-semibold" />,
-						} ) }
+					previewLabel={ recommendedSize }
 					mediaUrlName="wpseo_social.og_default_image"
 					mediaIdName="wpseo_social.og_default_image_id"
 				/>
