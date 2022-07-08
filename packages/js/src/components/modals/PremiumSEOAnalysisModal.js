@@ -13,7 +13,7 @@ import Modal, { defaultModalClassName } from "./Modal";
 import SidebarButton from "../SidebarButton";
 import PremiumSEOAnalysisUpsell from "./PremiumSEOAnalysisUpsell";
 
-const FakeMetaboxCollapsible = styled( CollapsibleStateless )`
+const MetaboxModalButton = styled( CollapsibleStateless )`
 	h2 > button {
 		padding-left: 24px;
 		padding-top: 16px;
@@ -58,11 +58,10 @@ const PremiumSEOAnalysisModal = ( { location } ) => {
 				id={  "yoast-premium-seo-analysis-modal-open-button" }
 				title={ __( "Premium SEO analysis", "wordpress-seo" ) }
 				prefixIcon={ { icon: "seo-score-none", color: colors.$color_grey } }
+				suffixIcon={ { icon: "pencil-square", size: "20px" } }
 				onClick={ openModal }
-			>
-				<span className="yoast-chevron" aria-hidden="true" />
-			</SidebarButton> }
-			{ location === "metabox" && <FakeMetaboxCollapsible
+			/> }
+			{ location === "metabox" && <MetaboxModalButton
 				hasPadding={ false }
 				hasSeparator={ true }
 				isOpen={ false }
@@ -70,9 +69,9 @@ const PremiumSEOAnalysisModal = ( { location } ) => {
 				title={ __( "Premium SEO analysis", "wordpress-seo" ) }
 				prefixIconCollapsed={ { icon: "seo-score-none", color: colors.$color_grey, size: "16px" } }
 				suffixIconCollapsed={ {
-					icon: "chevron-down",
+					icon: "pencil-square",
 					color: colors.$black,
-					size: "24px",
+					size: "20px",
 				} }
 				onToggle={ openModal }
 			/> }
