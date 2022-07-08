@@ -19,7 +19,7 @@ export default function checkIfWordIsComplex( word ) {
 	}
 
 	// The word is not complex if it's in the frequency list.
-	if ( frequencyList.includes( word ) || functionWords.includes( word ) ) {
+	if ( frequencyList.includes( word ) || functionWords.all.includes( word ) ) {
 		return false;
 	}
 
