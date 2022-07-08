@@ -12,9 +12,11 @@ const SidebarNavigationContext = createContext( { activePath: "" } );
 const useSidebarNavigationContext = () => useContext( SidebarNavigationContext );
 
 /**
- * @param {string} label The label prop.
- * @param {JSX.Element} icon The icon prop.
- * @param {JSX.node} children The children prop.
+ * @param {string} label The label.
+ * @param {JSX.Element} [icon] Optional icon to put before the label.
+ * @param {JSX.node} [children] Optional sub menu.
+ * @param {boolean} [defaultOpen] Whether the sub menu starts opened.
+ * @param {Object} [props] Extra props.
  * @returns {JSX.Element} The menu item element.
  */
 const MenuItem = ( { label, icon: Icon = null, children = null, defaultOpen = true, ...props } ) => {
@@ -49,6 +51,10 @@ MenuItem.propTypes = {
 };
 
 /**
+ * @param {string} label The label.
+ * @param {JSX.ElementClass} [as] The field component.
+ * @param {string} [pathProp] The key of the path in the props. Defaults to `href`.
+ * @param {Object} [props] Extra props.
  * @returns {JSX.Element} The submenu item element.
  */
 const SubmenuItem = ( { as: Component = "a", pathProp = "href", label, ...props } ) => {
@@ -77,6 +83,8 @@ SubmenuItem.propTypes = {
 };
 
 /**
+ * @param {string} activePath The path of the active menu item.
+ * @param {JSX.node} children The menu items.
  * @returns {JSX.Element} The sidebar navigation element.
  */
 const SidebarNavigation = ( { activePath = "", children } ) => (
