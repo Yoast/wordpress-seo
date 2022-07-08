@@ -85,7 +85,7 @@ class Results extends Component {
 	 */
 	handleEditButtonClick( id ) {
 		// This variable is used to create the element id strings which are different for the sidebar and the metabox elements.
-		let sidebarOrMetabox = "sidebar";
+		let analysisLocation = "sidebar";
 
 		/*
 		 * Check whether the editor has a Yoast metabox SEO tab.
@@ -95,21 +95,35 @@ class Results extends Component {
 		const SEOAnalysisMetaboxTab = document.getElementById( "wpseo-meta-tab-content" );
 		if ( SEOAnalysisMetaboxTab ) {
 			SEOAnalysisMetaboxTab.click();
-			sidebarOrMetabox = "metabox";
+			analysisLocation = "metabox";
 		}
 
 		if( id === "functionWordsInKeyphrase" || id === "keyphraseLength" ) {
-			document.getElementById( "focus-keyword-input-" + sidebarOrMetabox ).focus();
+			document.getElementById( "focus-keyword-input-" + analysisLocation ).focus();
+		}
+		if ( analysisLocation === "sidebar" ) {
+			analysisLocation = "modal"
+		}
+		if ( analysisLocation === "modal" ) {
+			document.getElementById( "yoast-google-preview-modal-open-button" ).click();
+			document.getElementById( "yoast-snippet-preview-container" ).click();
+			if ( id === "slugKeyword" ) {
+				document.getElementById( "yoast-google-preview-slug-" + analysisLocation ).focus();
+				// In Elementor the slug field is called "yoast-google-preview-slug-modal"
+			}
 		}
 		if ( id === "metaDescriptionKeyword" || id === "metaDescriptionLength" ) {
-			console.log( "should jump to metadescription input field" );
+			document.getElementById( "yoast-google-preview-description-" + analysisLocation ).focus();
+			// In Elementor this field is called "yoast-google-preview-description-modal"
 		}
 		if ( id === "titleWidth" ) {
-			console.log( "should jump to title input field" );
+			document.getElementById( "yoast-google-preview-title-" + analysisLocation ).focus();
+			// In Elementor this field is called "yoast-google-preview-title-modal"
 		}
-		if ( id === "slugKeyword" ) {
-			console.log( "should jump to slug input field" );
-		}
+		// if ( id === "slugKeyword" ) {
+		// 	document.getElementById( "yoast-google-preview-slug-" + analysisLocation ).focus();
+		// 	// In Elementor the slug field is called "yoast-google-preview-slug-modal"
+		// }
 	}
 
 	/**
