@@ -6,11 +6,11 @@ describe( "a test checking if the word is complex in German",  function() {
 	} );
 
 	it( "returns plural word form as non-complex if its singular form is found in the list", function() {
-		expect( checkIfWordIsComplex( "Präsidenten" ) ).toEqual( false );
+		expect( checkIfWordIsComplex( "Verstärkungen" ) ).toEqual( false );
 	} );
 
 	it( "returns plural word form as non-complex if its singular form is found in the list", function() {
-		expect( checkIfWordIsComplex( "präsidenten" ) ).toEqual( false );
+		expect( checkIfWordIsComplex( "Gouverneure" ) ).toEqual( false );
 	} );
 	it( "returns word as non-complex if it is found in the function words list", function() {
 		expect( checkIfWordIsComplex( "verschiedenes" ) ).toEqual( false );
