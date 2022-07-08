@@ -9,7 +9,7 @@ use WPSEO_Option_Titles;
 use WPSEO_Options;
 use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Conditionals\Settings_Conditional;
-use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 
 /**
  * Class Settings_Integration.
@@ -31,12 +31,21 @@ class Settings_Integration implements Integration_Interface {
 	protected $asset_manager;
 
 	/**
+	 * Holds the Current_Page_Helper.
+	 *
+	 * @var Current_Page_Helper
+	 */
+	protected $current_page_helper;
+
+	/**
 	 * Constructs Settings_Integration.
 	 *
-	 * @param WPSEO_Admin_Asset_Manager $asset_manager The WPSEO_Admin_Asset_Manager.
+	 * @param WPSEO_Admin_Asset_Manager $asset_manager       The WPSEO_Admin_Asset_Manager.
+	 * @param Current_Page_Helper       $current_page_helper The Current_Page_Helper.
 	 */
-	public function __construct( WPSEO_Admin_Asset_Manager $asset_manager, Options_Helper $options_helper ) {
-		$this->asset_manager = $asset_manager;
+	public function __construct( WPSEO_Admin_Asset_Manager $asset_manager, Current_Page_Helper $current_page_helper ) {
+		$this->asset_manager       = $asset_manager;
+		$this->current_page_helper = $current_page_helper;
 	}
 
 	/**
@@ -57,8 +66,19 @@ class Settings_Integration implements Integration_Interface {
 	 */
 	public function register_hooks() {
 		\add_filter( 'wpseo_submenu_pages', [ $this, 'add_page' ] );
-		\add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
-		\add_action( 'admin_init', [ $this, 'register_setting' ] );
+
+		// Check we are either saving the settings or on the settings page before registering.
+		$is_saving_settings = false;
+		if ( $this->current_page_helper->get_current_admin_page() === 'options.php' ) {
+			$post_action = \filter_input( \INPUT_POST, 'action', \FILTER_SANITIZE_STRING );
+			$option_page = \filter_input( \INPUT_POST, 'option_page', \FILTER_SANITIZE_STRING );
+
+			$is_saving_settings = $post_action === 'update' && $option_page === 'wpseo_settings';
+		}
+		if ( $is_saving_settings || $this->current_page_helper->get_current_yoast_seo_page() === 'wpseo_settings' ) {
+			\add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
+			\add_action( 'admin_init', [ $this, 'register_setting' ] );
+		}
 	}
 
 	/**
