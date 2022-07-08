@@ -3,8 +3,11 @@
 namespace Yoast\WP\SEO\Integrations;
 
 use WPSEO_Admin_Asset_Manager;
+use WPSEO_Admin_Editor_Specific_Replace_Vars;
+use WPSEO_Admin_Recommended_Replace_Vars;
 use WPSEO_Option_Titles;
 use WPSEO_Options;
+use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Conditionals\Settings_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 
@@ -125,15 +128,25 @@ class Settings_Integration implements Integration_Interface {
 	 * @return array The script data.
 	 */
 	protected function get_script_data() {
-		$data = [
-			'settings'    => [],
-			'endpoint'    => \admin_url( 'options.php' ),
-			'nonce'       => \wp_create_nonce( 'wpseo_settings-options' ),
-			'users'		  => \get_users( [
-				'fields'  => [ 'ID', 'display_name' ]
-			] ),
-			'userEditUrl' => admin_url( 'user-edit.php' ),
-			'separators'  => WPSEO_Option_Titles::get_instance()->get_separator_options_for_display(),
+		$replace_vars             = new WPSEO_Replace_Vars();
+		$recommended_replace_vars = new WPSEO_Admin_Recommended_Replace_Vars();
+		$specific_replace_vars    = new WPSEO_Admin_Editor_Specific_Replace_Vars();
+
+		$replacement_variables = $replace_vars->get_replacement_variables_with_labels();
+		$data                  = [
+			'settings'             => [],
+			'endpoint'             => \admin_url( 'options.php' ),
+			'nonce'                => \wp_create_nonce( 'wpseo_settings-options' ),
+			'users'                => \get_users( [ 'fields' => [ 'ID', 'display_name' ] ] ),
+			'userEditUrl'          => admin_url( 'user-edit.php' ),
+			'separators'           => WPSEO_Option_Titles::get_instance()->get_separator_options_for_display(),
+			'replacementVariables' => [
+				'variables'   => $replacement_variables,
+				'recommended' => $recommended_replace_vars->get_recommended_replacevars(),
+				'specific'    => $specific_replace_vars->get(),
+				'shared'      => $specific_replace_vars->get_generic( $replacement_variables ),
+				'hidden'      => $replace_vars->get_hidden_replace_vars(),
+			],
 		];
 
 		foreach ( WPSEO_Options::$options as $name => $instance ) {

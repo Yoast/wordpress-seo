@@ -4,6 +4,7 @@ import { Root } from "@yoast/ui-library";
 import { Formik } from "formik";
 import { forEach, get, isObject } from "lodash";
 import { HashRouter } from "react-router-dom";
+import { StyleSheetManager } from "styled-components";
 import App from "./app";
 
 /**
@@ -54,13 +55,18 @@ domReady( () => {
 		return;
 	}
 
+	// Prevent Styled Components' styles by adding the stylesheet to a div that is not on the page.
+	const styleDummy = document.createElement( "div" );
+
 	render(
 		<Root>
-			<HashRouter>
-				<Formik initialValues={ getInitialValues() } onSubmit={ handleSubmit }>
-					<App />
-				</Formik>
-			</HashRouter>
+			<StyleSheetManager target={ styleDummy }>
+				<HashRouter>
+					<Formik initialValues={ getInitialValues() } onSubmit={ handleSubmit }>
+						<App />
+					</Formik>
+				</HashRouter>
+			</StyleSheetManager>
 		</Root>,
 		root
 	);
