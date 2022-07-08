@@ -49,6 +49,7 @@ export function renderRatingToColor( rating ) {
  * @param {string}             marksButtonActivatedResult The currently activated result.
  * @param {string}             marksButtonStatus          The overall status of the mark buttons.
  * @param {string}             marksButtonClassName       A class name to set on the mark buttons.
+ * @param {string}             editButtonClassName        A class name to set on the edit buttons.
  * @param {Function}           onMarksButtonClick         Function that is called when the user
  *                                                        clicks one of the mark buttons.
  * @param {Function}           onEditButtonClick          Function that is called when the user
@@ -104,6 +105,7 @@ AnalysisList.propTypes = {
 	marksButtonActivatedResult: PropTypes.string,
 	marksButtonStatus: PropTypes.string,
 	marksButtonClassName: PropTypes.string,
+	editButtonClassName: PropTypes.string,
 	onMarksButtonClick: PropTypes.func,
 	onEditButtonClick: PropTypes.func,
 };
@@ -112,6 +114,7 @@ AnalysisList.defaultProps = {
 	marksButtonActivatedResult: "",
 	marksButtonStatus: "enabled",
 	marksButtonClassName: "",
+	editButtonClassName: "",
 	onMarksButtonClick: noop,
 	onEditButtonClick: noop,
 };
