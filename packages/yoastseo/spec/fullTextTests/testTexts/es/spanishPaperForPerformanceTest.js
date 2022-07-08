@@ -147,7 +147,9 @@ const expectedResults = {
 		resultText: "<a href='https://yoa.st/4f4' target='_blank'>Images</a>: Good job!",
 	},
 	wordComplexity: {
-		isApplicable: false,
+		isApplicable: true,
+		score: 6,
+		resultText: "<a href='https://yoa.st/4ls' target='_blank'>Word complexity</a>: 28.06% of the words in your text are considered complex. <a href='https://yoa.st/4lt' target='_blank'>Try to use shorter and more familiar words to improve readability</a>.",
 	},
 };
 
