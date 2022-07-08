@@ -56,7 +56,7 @@ export function renderRatingToColor( rating ) {
  *
  * @returns {React.Element} The rendered list.
  */
-export default function AnalysisList( { results, marksButtonActivatedResult, marksButtonStatus, marksButtonClassName, onMarksButtonClick, onEditButtonClick } ) {
+export default function AnalysisList( { results, marksButtonActivatedResult, marksButtonStatus, marksButtonClassName, editButtonClassName, onMarksButtonClick, onEditButtonClick } ) {
 	return <AnalysisListBase role="list">
 		{ results.map( ( result ) => {
 			const color = renderRatingToColor( result.rating );
@@ -89,8 +89,9 @@ export default function AnalysisList( { results, marksButtonActivatedResult, mar
 				buttonIdMarks={ markButtonId }
 				buttonIdEdit={ editButtonId }
 				onButtonClickMarks={ () => onMarksButtonClick( result.id, result.marker ) }
-				onButtonClickEdit={ () => onEditButtonClick() }
+				onButtonClickEdit={ () => onEditButtonClick( result.id ) }
 				marksButtonClassName={ marksButtonClassName }
+				editButtonClassName={ editButtonClassName }
 				marksButtonStatus={ marksButtonStatus }
 				hasBetaBadgeLabel={ result.hasBetaBadge }
 			/>;

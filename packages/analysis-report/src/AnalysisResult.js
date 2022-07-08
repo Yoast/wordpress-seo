@@ -67,6 +67,7 @@ export const AnalysisResult = ( props ) => {
 			{
 				props.hasEditButton &&
 				<IconCTAEditButton
+					className={ props.editButtonClassName }
 					onClick={ props.onButtonClickEdit }
 					id={ props.buttonIdEdit }
 					icon="edit"
@@ -93,6 +94,7 @@ AnalysisResult.propTypes = {
 	onButtonClickEdit: PropTypes.func.isRequired,
 	marksButtonStatus: PropTypes.string,
 	marksButtonClassName: PropTypes.string,
+	editButtonClassName: PropTypes.string,
 	hasBetaBadgeLabel: PropTypes.bool,
 };
 
@@ -101,6 +103,7 @@ AnalysisResult.defaultProps = {
 	suppressedText: false,
 	marksButtonStatus: "enabled",
 	marksButtonClassName: "",
+	editButtonClassName: "",
 	hasBetaBadgeLabel: false,
 	hasEditButton: false,
 };
