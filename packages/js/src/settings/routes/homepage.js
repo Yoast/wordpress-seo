@@ -2,11 +2,9 @@ import { useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { filter, get, includes, map } from "lodash";
 import { createLabelFromName } from "../../helpers/replacementVariableHelpers";
-import getDefaultReplacementVariables from "../../values/defaultReplaceVariables";
 import { FieldsetLayout, FormikReplacementVariableEditorField, FormLayout } from "../components";
 
 const useReplacementVariables = ( postType, context ) => {
-	const defaults = getDefaultReplacementVariables();
 	const all = useMemo( () => map(
 		get( window, "wpseoScriptData.replacementVariables.variables", [] ),
 		( { name: pureName, value, label } ) => {
@@ -16,7 +14,7 @@ const useReplacementVariables = ( postType, context ) => {
 				value,
 				label: label || createLabelFromName( name ),
 			};
-		},
+		}
 	), [] );
 	const specific = useMemo( () => [
 		...get( window, "wpseoScriptData.replacementVariables.shared", [] ),
@@ -57,6 +55,15 @@ const Homepage = () => {
 					label={ __( "SEO title", "wordpress-seo" ) }
 					replacementVariables={ replacementVariables }
 					recommendedReplacementVariables={ recommendedReplacementVariables }
+				/>
+				<FormikReplacementVariableEditorField
+					type="description"
+					name="wpseo_titles.metadesc-home-wpseo"
+					fieldId="input:wpseo_titles.metadesc-home-wpseo"
+					label={ __( "Meta description", "wordpress-seo" ) }
+					replacementVariables={ replacementVariables }
+					recommendedReplacementVariables={ recommendedReplacementVariables }
+					className="yst-replacevar--description"
 				/>
 			</FieldsetLayout>
 		</FormLayout>

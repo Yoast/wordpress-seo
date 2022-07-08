@@ -4,11 +4,12 @@ import { useField } from "formik";
 import PropTypes from "prop-types";
 
 /**
- * @param {Object} props The props to pass down to ToggleField component.
+ * @param {string} className The wrapper class.
+ * @param {Object} props The props to pass down to the component.
  * @param {string} props.name The field name.
  * @returns {JSX.Element} The Formik compatible element.
  */
-const FormikReplacementVariableEditorField = ( { ...props } ) => {
+const FormikReplacementVariableEditorField = ( { className = "", ...props } ) => {
 	const [ editorRef, setEditorRef ] = useState( null );
 	const [ field, , { setTouched, setValue } ] = useField( props );
 
@@ -17,19 +18,25 @@ const FormikReplacementVariableEditorField = ( { ...props } ) => {
 		setValue( value );
 	}, [ props.name ] );
 
+	const handleFocus = useCallback( () => editorRef?.focus(), [ editorRef ] );
+
 	return (
-		<ReplacementVariableEditor
-			{ ...field }
-			{ ...props }
-			content={ field.value }
-			onChange={ handleChange }
-			editorRef={ setEditorRef }
-		/>
+		<div className={ className }>
+			<ReplacementVariableEditor
+				{ ...field }
+				{ ...props }
+				content={ field.value }
+				onChange={ handleChange }
+				editorRef={ setEditorRef }
+				onFocus={ handleFocus }
+			/>
+		</div>
 	);
 };
 
 FormikReplacementVariableEditorField.propTypes = {
 	name: PropTypes.string.isRequired,
+	className: PropTypes.string,
 };
 
 export default FormikReplacementVariableEditorField;
