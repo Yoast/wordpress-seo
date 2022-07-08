@@ -1,4 +1,5 @@
 import wordComplexity from "../config/internal/wordComplexity";
+import functionWords from "../config/functionWords";
 
 /**
  * Checks if a word is complex.
@@ -18,7 +19,7 @@ export default function checkIfWordIsComplex( word ) {
 	}
 
 	// The word is not complex if it's in the frequency list.
-	if ( frequencyList.includes( word ) ) {
+	if ( frequencyList.includes( word ) || functionWords.includes( word ) ) {
 		return false;
 	}
 
@@ -26,5 +27,18 @@ export default function checkIfWordIsComplex( word ) {
 	 * In French where capital letter beginning decreases the complexity of a word,
 	 * word longer than 9 characters is not complex if it starts with capital letter.
 	 */
-	return word[ 0 ].toLowerCase() === word[ 0 ];
+	if ( word[ 0 ].toLowerCase() === word[ 0 ] ) {
+		/*
+		 * If a word is longer than 9 characters and doesn't start with capital letter,
+		 * we check further whether it is a plural ending in -s. If it is, we remove the -s suffix
+		 * and check if the singular word can be found in the frequency list.
+		 * The word is not complex if the singular form is in the list.
+		 */
+		if ( word.endsWith( "s" ) ) {
+			word = word.substring( 0, word.length - 1 );
+			return ! frequencyList.includes( word );
+		}
+	}
+
+	return false;
 }
