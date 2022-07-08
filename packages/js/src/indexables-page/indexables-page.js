@@ -1,18 +1,35 @@
 import apiFetch from "@wordpress/api-fetch";
 import { __ } from "@wordpress/i18n";
 import { useEffect, useState } from "@wordpress/element";
-import { Button } from "@yoast/ui-library";
-
-import Table from "./components/list-table";
+import { Button, Table } from "@yoast/ui-library";
+import IndexablesTable from "./components/indexables-table";
 
 /**
- * A table with the least readable posts.
+ * A table.
  *
- * @returns {WPElement} A table with the least readable posts.
+ * @returns {WPElement} A table.
  */
-function LeastReadabilityTable() {
-	const [ indexables, setIndexables ] = useState( [] );
-	const [ isLoading, setIsLoading ] = useState( true );
+function IndexablesPage() {
+	const [ worstReadabilityIndexables, setWorstReadabilityIndexables ] = useState( [] );
+	const [ worstSEOIndexables, setWorstSEOIndexables ] = useState( [] );
+	const [ leastLinkedIndexables, setLeastLinkedIndexables ] = useState( [] );
+	const [ mostLinkedIndexables, setMostLinkedIndexables ] = useState( [] );
+
+	useEffect( async() => {
+		try {
+			const response = await apiFetch( {
+				path: "yoast/v1/least_readability",
+				method: "GET",
+			} );
+
+			const parsedResponse = await response.json;
+			setWorstReadabilityIndexables( parsedResponse.least_readable );
+		} catch ( e ) {
+			// URL() constructor throws a TypeError exception if url is malformed.
+			console.error( e.message );
+			return false;
+		}
+	}, [] );
 
 	useEffect( async() => {
 		try {
@@ -22,8 +39,7 @@ function LeastReadabilityTable() {
 			} );
 
 			const parsedResponse = await response.json;
-			setIndexables( parsedResponse.least_seo_score );
-			setIsLoading( false );
+			setWorstSEOIndexables( parsedResponse.least_seo_score );
 		} catch ( e ) {
 			// URL() constructor throws a TypeError exception if url is malformed.
 			console.error( e.message );
@@ -31,80 +47,44 @@ function LeastReadabilityTable() {
 		}
 	}, [] );
 
-	return (
-		<>
-			<h3 className="yst-my-4 yst-text-xl">Least Readability Score</h3>
-			<Table>
-				<Table.Header>
-					<Table.HeaderCell>{ __( "Title", "wordpress-seo" ) }</Table.HeaderCell>
-					<Table.HeaderCell>{ __( "Readability Score", "wordpress-seo" ) }</Table.HeaderCell>
-					<Table.HeaderCell>{ __( "Edit", "wordpress-seo" ) }</Table.HeaderCell>
-					<Table.HeaderCell>{ __( "Ignore", "wordpress-seo" ) }</Table.HeaderCell>
-				</Table.Header>
-				<Table.Body>
-					{
-						indexables.map( ( indexable, index ) => {
-							return <Table.Row
-								key={ `indexable-row-${ index }` }
-							>
-								<Table.Cell>{ indexable.breadcrumb_title }</Table.Cell>
-								<Table.Cell>{ indexable.readability_score }</Table.Cell>
-								<Table.Cell><Button variant="secondary">Edit</Button></Table.Cell>
-								<Table.Cell><Button variant="error">Ignore</Button></Table.Cell>
-							</Table.Row>;
-						} )
-					}
-				</Table.Body>
-			</Table>
-		</>
-	);
-}
-
-/**
- * A table.
- *
- * @returns {WPElement} A table.
- */
-function IndexablesPage() {
 	return <div
 		className="yst-bg-white yst-rounded-lg yst-p-6 yst-shadow-md yst-max-w-full yst-mt-6"
 	>
 		<header className="yst-border-b yst-border-gray-200"><div className="yst-max-w-screen-sm yst-p-8"><h2 className="yst-text-2xl yst-font-bold">{ __( "Indexables page", "wordpress-seo" ) }</h2></div></header>
-		<LeastReadabilityTable />
+		<h3 className="yst-my-4 yst-text-xl">Least Readability Score</h3>
+		<IndexablesTable
+			indexables={ worstReadabilityIndexables }
+			keyHeaderMap={
+				{
+					breadcrumb_title: __( "Title", "wordpress-seo" ),
+					readability_score: __( "Readability Score", "wordpress-seo" ),
+					edit: __( "Edit", "wordpress-seo" ),
+					ignore: __( "Ignore", "wordpress-seo" ),
+				}
+			}
+		/>
 		<h3 className="yst-my-4 yst-text-xl">Least SEO Score</h3>
+		<IndexablesTable
+			indexables={ worstSEOIndexables }
+			keyHeaderMap={
+				{
+					breadcrumb_title: __( "Title", "wordpress-seo" ),
+					primary_focus_keyword_score: __( "SEO Score", "wordpress-seo" ),
+					edit: __( "Edit", "wordpress-seo" ),
+					ignore: __( "Ignore", "wordpress-seo" ),
+				}
+			}
+		/>
+		{/* <h3 className="yst-my-4 yst-text-xl">Least Linked To</h3>
 		<Table>
-			<Table.Header>
-				<Table.HeaderCell>{ __( "Title", "wordpress-seo" ) }</Table.HeaderCell>
-				<Table.HeaderCell>{ __( "SEO Score", "wordpress-seo" ) }</Table.HeaderCell>
-				<Table.HeaderCell>{ __( "Edit", "wordpress-seo" ) }</Table.HeaderCell>
-				<Table.HeaderCell>{ __( "Ignore", "wordpress-seo" ) }</Table.HeaderCell>
-			</Table.Header>
-			<Table.Body>
+			<Table.Head>
 				<Table.Row>
-					<Table.Cell>test1</Table.Cell>
-					<Table.Cell>test1</Table.Cell>
-					<Table.Cell>test1</Table.Cell>
+					<Table.Header>{ __( "Title", "wordpress-seo" ) }</Table.Header>
+					<Table.Header>{ __( "Incoming links", "wordpress-seo" ) }</Table.Header>
+					<Table.Header>{ __( "Find posts to link from", "wordpress-seo" ) }</Table.Header>
+					<Table.Header>{ __( "Ignore", "wordpress-seo" ) }</Table.Header>
 				</Table.Row>
-				<Table.Row>
-					<Table.Cell>test1</Table.Cell>
-					<Table.Cell>test1</Table.Cell>
-					<Table.Cell>test1</Table.Cell>
-				</Table.Row>
-				<Table.Row>
-					<Table.Cell>test1</Table.Cell>
-					<Table.Cell>test1</Table.Cell>
-					<Table.Cell>test1</Table.Cell>
-				</Table.Row>
-			</Table.Body>
-		</Table>
-		<h3 className="yst-my-4 yst-text-xl">Least Linked To</h3>
-		<Table>
-			<Table.Header>
-				<Table.HeaderCell>{ __( "Title", "wordpress-seo" ) }</Table.HeaderCell>
-				<Table.HeaderCell>{ __( "Incoming links", "wordpress-seo" ) }</Table.HeaderCell>
-				<Table.HeaderCell>{ __( "Find posts to link from", "wordpress-seo" ) }</Table.HeaderCell>
-				<Table.HeaderCell>{ __( "Ignore", "wordpress-seo" ) }</Table.HeaderCell>
-			</Table.Header>
+			</Table.Head>
 			<Table.Body>
 				<Table.Row>
 					<Table.Cell>test1</Table.Cell>
@@ -125,12 +105,12 @@ function IndexablesPage() {
 		</Table>
 		<h3 className="yst-my-4 yst-text-xl">Most Linked To</h3>
 		<Table>
-			<Table.Header>
-				<Table.HeaderCell>{ __( "Title", "wordpress-seo" ) }</Table.HeaderCell>
-				<Table.HeaderCell>{ __( "Incoming links", "wordpress-seo" ) }</Table.HeaderCell>
-				<Table.HeaderCell>{ __( "Find posts to link to", "wordpress-seo" ) }</Table.HeaderCell>
-				<Table.HeaderCell>{ __( "Ignore", "wordpress-seo" ) }</Table.HeaderCell>
-			</Table.Header>
+			<Table.Head>
+				<Table.Header>{ __( "Title", "wordpress-seo" ) }</Table.Header>
+				<Table.Header>{ __( "Incoming links", "wordpress-seo" ) }</Table.Header>
+				<Table.Header>{ __( "Find posts to link to", "wordpress-seo" ) }</Table.Header>
+				<Table.Header>{ __( "Ignore", "wordpress-seo" ) }</Table.Header>
+			</Table.Head>
 			<Table.Body>
 				<Table.Row>
 					<Table.Cell>test1</Table.Cell>
@@ -148,7 +128,7 @@ function IndexablesPage() {
 					<Table.Cell>test1</Table.Cell>
 				</Table.Row>
 			</Table.Body>
-		</Table>
+		</Table> */}
 	</div>;
 }
 
