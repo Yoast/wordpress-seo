@@ -10,6 +10,7 @@ import {
 	CrawlSettings,
 	DateArchives,
 	Formats,
+	Homepage,
 	Media,
 	NotFoundPages,
 	Rss,
@@ -40,9 +41,9 @@ const App = () => {
 						<SidebarNavigation.SubmenuItem to="/webmaster-tools" label={ __( "Webmaster tools", "wordpress-seo" ) } />
 						{ /* <SidebarNavigation.SubmenuItem to="/breadcrumbs" label={ __( "Breadcrumbs", "wordpress-seo" ) } /> */ }
 					</SidebarNavigation.MenuItem>
-					{ /* <SidebarNavigation.MenuItem id="menu:content-settings" icon={ NewspaperIcon } label={ __( "Content settings", "wordpress-seo" ) }>
-						Content settings
-					</SidebarNavigation.MenuItem> */ }
+					{/*{ <SidebarNavigation.MenuItem id="menu:content-settings" icon={ NewspaperIcon } label={ __( "Content settings", "wordpress-seo" ) }>*/}
+					{/*	<SidebarNavigation.SubmenuItem to="/homepage" label={ __( "Homepage", "wordpress-seo" ) } />*/}
+					{/*</SidebarNavigation.MenuItem> }*/}
 					<SidebarNavigation.MenuItem id="menu:advanced-settings" icon={ AdjustmentsIcon } label={ __( "Advanced settings", "wordpress-seo" ) }>
 						<SidebarNavigation.SubmenuItem to="/crawl-settings" label={ __( "Crawl settings", "wordpress-seo" ) } />
 						{ /* <SidebarNavigation.SubmenuItem to="/author-archives" label={ __( "Author archives", "wordpress-seo" ) } /> */ }
@@ -61,6 +62,7 @@ const App = () => {
 					{ /* <Route path="breadcrumbs" element={ <Breadcrumbs /> } /> */ }
 					<Route path="crawl-settings" element={ <CrawlSettings /> } />
 					{ /* <Route path="date-archives" element={ <DateArchives /> } /> */ }
+					{/*{ <Route path="homepage" element={ <Homepage /> } /> }*/}
 					{ /* <Route path="formats" element={ <Formats /> } /> */ }
 					{ /* <Route path="media" element={ <Media /> } /> */ }
 					{ /* <Route path="not-found-pages" element={ <NotFoundPages /> } /> */ }

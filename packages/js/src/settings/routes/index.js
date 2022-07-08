@@ -3,6 +3,7 @@ export { default as Breadcrumbs } from "./breadcrumbs";
 export { default as CrawlSettings } from "./crawl-settings";
 export { default as DateArchives } from "./date-archives";
 export { default as Formats } from "./formats";
+export { default as Homepage } from "./homepage";
 export { default as Media } from "./media";
 export { default as NotFoundPages } from "./not-found-pages";
 export { default as Rss } from "./rss";
