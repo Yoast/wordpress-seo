@@ -42,6 +42,7 @@ const IconCTAEditButton = function( props ) {
 			aria-label={ props.ariaLabel }
 			iconColor={ props.iconColor }
 			hoverBorderColor={ props.hoverBorderColor }
+			className={ props.className }
 		>
 			<SvgIcon
 				icon={ props.icon }
@@ -61,6 +62,7 @@ IconCTAEditButton.propTypes = {
 	iconColor: PropTypes.string,
 	icon: PropTypes.string.isRequired,
 	hoverBorderColor: PropTypes.string,
+	className: PropTypes.string,
 };
 
 IconCTAEditButton.defaultProps = {

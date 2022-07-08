@@ -141,6 +141,7 @@ class Results extends Component {
 					onMarkButtonClick={ this.handleMarkButtonClick }
 					onEditButtonClick={ this.handleEditButtonClick }
 					marksButtonClassName={ this.props.marksButtonClassName }
+					editButtonClassName={ this.props.editButtonClassName }
 					marksButtonStatus={ this.props.marksButtonStatus }
 					headingLevel={ 3 }
 					keywordKey={ this.props.keywordKey }
@@ -154,6 +155,7 @@ Results.propTypes = {
 	results: PropTypes.array,
 	upsellResults: PropTypes.array,
 	marksButtonClassName: PropTypes.string,
+	editButtonClassName: PropTypes.string,
 	marksButtonStatus: PropTypes.string,
 	setActiveMarker: PropTypes.func.isRequired,
 	setMarkerPauseStatus: PropTypes.func.isRequired,
@@ -166,6 +168,7 @@ Results.defaultProps = {
 	upsellResults: [],
 	marksButtonStatus: "enabled",
 	marksButtonClassName: "",
+	editButtonClassName: "",
 	activeMarker: null,
 	keywordKey: "",
 };
