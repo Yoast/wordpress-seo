@@ -64,6 +64,7 @@ describe( "serialize", () => {
 		expect( serialize( thing ) ).toEqual( {
 			_hasBetaBadge: false,
 			_parseClass: "AssessmentResult",
+			_hasBetaBadge: false,
 			identifier: "",
 			marks: [],
 			score: 666,
