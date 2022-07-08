@@ -21,8 +21,9 @@ describe( "a test for the Spanish Researcher", function() {
 		expect( researcher.hasResearch( "getPassiveVoiceResult" ) ).toBe( true );
 	} );
 
-	it( "returns false if the default research is deleted in the Spanish Researcher", function() {
-		expect( researcher.getResearch( "wordComplexity" ) ).toBe( false );
+	it( "checks if a word is complex in Spanish", function() {
+		expect( researcher.getHelper( "checkIfWordIsComplex" )( "situados" ) ).toEqual( true );
+		expect( researcher.getHelper( "checkIfWordIsComplex" )( "sobre" ) ).toEqual( false );
 	} );
 
 	it( "returns the Spanish function words", function() {
