@@ -247,17 +247,16 @@ Yoast SEO 19.3 is out today! In this release, we’ve rolled out some improvemen
 
 Enhancements:
 
+* Adds an Insights tab to the editors which contains the Flesch reading ease score and feedback, (estimated) reading time, and word count. Since the Flesch reading ease score has been moved to the insights tab, it is removed from the readability analysis.
 * Changes the `@id` of the main Schema `WebPage` node to be just the permalink for the current page, for interoperability with other plugins.
 * Changes the logic of the Schema generation to prefer featured image and in-content images instead of OpenGraph and Twitter images.
 * Uses the site logo set in the customizer as the logo in our Schema `Organization` output when a site has not set a logo in the Yoast SEO settings.
-* Adds an Insights tab to the editors which contains the Flesch reading ease score and feedback, (estimated) reading time, and word count. Since the Flesch reading ease score has been moved to the insights tab, it is removed from the readability analysis.
 * Improves the author meta tag to be displayed only on posts.
 * Adds a `wpseo_meta_author` hook to filter the content of the author meta tag.
 * Improves sentence recognition for German by disregarding ordinal numbers as potential sentence boundaries.
 * Adds canonical HTTP headers from RSS feeds to their parent URLs (for instance your homepage, or specific categories or tags), so the feeds themselves don't show up in search results.
 * Makes sure the `link` tag in the RSS feeds' `channel` section links to the most specific URL possible (for instance the category or tag the RSS feed is for) instead of the homepage.
 * Makes sure the title separator chosen in Yoast SEO is used for RSS feed titles too.
-* Updates the Yoast SEO logo.
 
 Bugfixes:
 
