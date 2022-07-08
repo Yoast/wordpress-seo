@@ -13,8 +13,11 @@ export default function checkIfWordIsComplex( word ) {
 	const lengthLimit = wordComplexityConfig.wordLength;
 	const frequencyList = wordComplexityConfig.frequencyList;
 
-	// We want to remove the definite article l' from a word, since an article doesn't add any complexity to the word.
-	if ( word.startsWith( "l'" ) ) {
+	/*
+	 * We want to remove the definite article l' and preposition d' from a word,
+	 * since an article or preposition doesn't add any complexity to the word.
+	 */
+	if ( word.startsWith( "l'" ) || word.startsWith( "d'" ) ) {
 		word = word.substring( 2, word.length );
 	}
 
