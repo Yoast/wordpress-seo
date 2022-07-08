@@ -51,8 +51,6 @@ class Settings_Conditional implements Conditional {
 	 * @return bool Whether or not the conditional is met.
 	 */
 	public function is_met() {
-		global $pagenow;
-
 		if ( ! $this->new_settings_ui_conditional->is_met() ) {
 			return false;
 		}
@@ -61,13 +59,6 @@ class Settings_Conditional implements Conditional {
 		}
 		if ( ! $this->user_can_manage_wpseo_options_conditional->is_met() ) {
 			return false;
-		}
-
-		if ( $pagenow === 'options.php' ) {
-			$post_action = \filter_input( \INPUT_POST, 'action', \FILTER_SANITIZE_STRING );
-			$option_page = \filter_input( \INPUT_POST, 'option_page', \FILTER_SANITIZE_STRING );
-
-			return $post_action === 'update' && $option_page === 'wpseo_settings';
 		}
 
 		return true;
