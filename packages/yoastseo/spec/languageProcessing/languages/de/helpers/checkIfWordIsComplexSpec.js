@@ -20,6 +20,10 @@ describe( "a test checking if the word is complex in German",  function() {
 		expect( checkIfWordIsComplex( "optimierungen" ) ).toEqual( true );
 	} );
 
+	it( "returns word longer than 10 characters as complex if it's not in the list", function() {
+		expect( checkIfWordIsComplex( "architektonisch" ) ).toEqual( true );
+	} );
+
 	it( "returns plural word as non complex if the word is less than 10 characters", function() {
 		expect( checkIfWordIsComplex( "boxen" ) ).toEqual( false );
 	} );

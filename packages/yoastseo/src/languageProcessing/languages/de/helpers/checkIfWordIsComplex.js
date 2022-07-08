@@ -1,6 +1,9 @@
 import wordComplexity from "../config/internal/wordComplexity";
 import functionWords from "../config/functionWords";
 
+const suffixes = "(en|e|s)$";
+const suffixesRegex = new RegExp( suffixes );
+
 /**
  * Checks if a word is complex.
  *
@@ -28,9 +31,6 @@ export default function checkIfWordIsComplex( word ) {
 	* and check if the singular form can be found in the frequency list.
 	* The word is not complex if the singular form is in the list.
 	*/
-	const suffixes = "(en|e|s)$";
-	const suffixesRegex = new RegExp( suffixes );
-
 	if ( suffixesRegex.test( word ) ) {
 		word = word.replace( suffixesRegex, "" );
 		return ! frequencyList.includes( word );
