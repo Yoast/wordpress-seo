@@ -38,6 +38,7 @@ export default function checkIfWordIsComplex( word ) {
 			word = word.substring( 0, word.length - 1 );
 			return ! frequencyList.includes( word );
 		}
+		return true;
 	}
 
 	return false;
