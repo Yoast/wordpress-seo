@@ -1,3 +1,4 @@
+// Readbility assessments.
 import ListAssessment from "./readability/ListAssessment";
 import ParagraphTooLongAssessment from "./readability/ParagraphTooLongAssessment";
 import PassiveVoiceAssessment from "./readability/PassiveVoiceAssessment";
@@ -8,6 +9,7 @@ import TextPresenceAssessment from "./readability/TextPresenceAssessment";
 import TransitionWordsAssessment from "./readability/TransitionWordsAssessment";
 import WordComplexityAssessment from "./readability/WordComplexityAssessment";
 
+// SEO assessments.
 import FunctionWordsInKeyphraseAssessment from "./seo/FunctionWordsInKeyphraseAssessment";
 import InternalLinksAssessment from "./seo/InternalLinksAssessment";
 import IntroductionKeywordAssessment from "./seo/IntroductionKeywordAssessment";
@@ -27,6 +29,9 @@ import { SlugKeywordAssessment, UrlKeywordAssessment } from "./seo/UrlKeywordAss
 import ImageKeyphraseAssessment from "./seo/KeyphraseInImageTextAssessment";
 import ImageCountAssessment from "./seo/ImageCountAssessment";
 import ImageAltTagsAssessment from "./seo/ImageAltTagsAssessment";
+import ProductIdentifiersAssessment from "./seo/ProductIdentifiersAssessment";
+import ProductSKUAssessment from "./seo/ProductSKUAssessment";
+
 
 const readability = {
 	ListAssessment,
@@ -62,6 +67,8 @@ const seo = {
 	ImageKeyphraseAssessment,
 	ImageCountAssessment,
 	ImageAltTagsAssessment,
+	ProductIdentifiersAssessment,
+	ProductSKUAssessment,
 };
 
 export {
