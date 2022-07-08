@@ -61,6 +61,7 @@ class ContentAnalysis extends React.Component {
 					marksButtonActivatedResult={ this.props.activeMarker }
 					marksButtonStatus={ this.props.marksButtonStatus }
 					marksButtonClassName={ this.props.marksButtonClassName }
+					editButtonClassName={ this.props.editButtonClassName }
 					onMarksButtonClick={ this.props.onMarkButtonClick }
 					onEditButtonClick={ this.props.onEditButtonClick }
 				/>
@@ -124,6 +125,7 @@ ContentAnalysis.propTypes = {
 	headingLevel: PropTypes.number,
 	marksButtonStatus: PropTypes.string,
 	marksButtonClassName: PropTypes.string,
+	editButtonClassName: PropTypes.string,
 	activeMarker: PropTypes.string,
 };
 
@@ -138,6 +140,7 @@ ContentAnalysis.defaultProps = {
 	headingLevel: 4,
 	marksButtonStatus: "enabled",
 	marksButtonClassName: "",
+	editButtonClassName: "",
 	activeMarker: "",
 };
 

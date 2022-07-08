@@ -260,6 +260,7 @@ class SeoAnalysis extends Component {
 									results={ this.props.results }
 									upsellResults={ upsellResults }
 									marksButtonClassName="yoast-tooltip yoast-tooltip-w"
+									editButtonClassName="yoast-tooltip yoast-tooltip-w"
 									marksButtonStatus={ this.props.marksButtonStatus }
 								/>
 							</Collapsible>
