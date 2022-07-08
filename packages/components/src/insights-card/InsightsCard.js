@@ -13,7 +13,7 @@ class InsightsCard extends React.Component {
 	 */
 	getInsightsCardContent() {
 		return (
-			<div className="yoast-insights-card__content">
+			<div className="yoast-insights-card__content" id={ this.props.id }>
 				<p className="yoast-insights-card__score">
 					<span className="yoast-insights-card__amount">{ this.props.amount }</span>
 					{ this.props.unit }
@@ -46,6 +46,7 @@ class InsightsCard extends React.Component {
 export default InsightsCard;
 
 InsightsCard.propTypes = {
+	id: PropTypes.string.isRequired,
 	title: PropTypes.string,
 	amount: PropTypes.oneOfType( [ PropTypes.number, PropTypes.oneOf( [ "?" ] ) ] ).isRequired,
 	description: PropTypes.element,
