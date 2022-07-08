@@ -84,19 +84,22 @@ class Results extends Component {
 	 * @returns {void}
 	 */
 	handleEditButtonClick( id ) {
-		// If the editor has a Yoast SEO metabox and the SEO tab is not open, click to open it.
-		// This can be the case when the user is checking the analysis result from the sidebar.
+		// This variable is used to create the element id strings which are different for the sidebar and the metabox elements.
+		let sidebarOrMetabox = "sidebar";
+
+		/*
+		 * Check whether the editor has a Yoast metabox SEO tab.
+		 * If it does, click on it in case the user does not have it open (this can be the case if they are looking at the
+		 * analysis result in the side bar). Also change the sidebarOrMetabox string to 'metabox'.
+		 */
 		const SEOAnalysisMetaboxTab = document.getElementById( "wpseo-meta-tab-content" );
 		if ( SEOAnalysisMetaboxTab ) {
 			SEOAnalysisMetaboxTab.click();
+			sidebarOrMetabox = "metabox";
 		}
 
 		if( id === "functionWordsInKeyphrase" || id === "keyphraseLength" ) {
-			// If the editor has a metabox, we should jump to the field in the metabox.
-			// If the editor only has a sidebar, we jump to the field in the sidebar.
-			SEOAnalysisMetaboxTab ?
-				document.getElementById( "focus-keyword-input-metabox" ).focus() :
-				document.getElementById( "focus-keyword-input-sidebar" ).focus();
+			document.getElementById( "focus-keyword-input-" + sidebarOrMetabox ).focus();
 		}
 		if ( id === "metaDescriptionKeyword" || id === "metaDescriptionLength" ) {
 			console.log( "should jump to metadescription input field" );
