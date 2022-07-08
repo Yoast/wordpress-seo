@@ -77,13 +77,29 @@ class Results extends Component {
 	}
 
 	/**
-	 * Handles a click on an edit button, to mark the text in the editor.
+	 * Handles a click on an edit button to jump to a relevant edit field.
 	 *
+	 * @param {string}   id     Result id.
 	 *
 	 * @returns {void}
 	 */
-	handleEditButtonClick() {
-		console.log( "Hi" );
+	handleEditButtonClick( id ) {
+		if( id === "functionWordsInKeyphrase" || id === "keyphraseLength" ) {
+			if ( document.getElementById( "wpseo-meta-tab-content" ) ) {
+				document.getElementById( "wpseo-meta-tab-content" ).click();
+			}
+
+			document.getElementById( "focus-keyword-input-metabox" ) ? document.getElementById( "focus-keyword-input-metabox" ).focus() : document.getElementById( "focus-keyword-input-sidebar" ).focus();
+		}
+		if ( id === "metaDescriptionKeyword" || id === "metaDescriptionLength" ) {
+			console.log( "should jump to metadescription input field" );
+		}
+		if ( id === "titleWidth" ) {
+			console.log( "should jump to title input field" );
+		}
+		if ( id === "slugKeyword" ) {
+			console.log( "should jump to slug input field" );
+		}
 	}
 
 	/**
