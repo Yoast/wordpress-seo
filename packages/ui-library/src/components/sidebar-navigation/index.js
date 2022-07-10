@@ -58,13 +58,13 @@ const MenuItem = ( { label, icon: Icon = null, children = null, defaultOpen = tr
 	return (
 		<div>
 			<button
-				className="yst-group yst-flex yst-w-full yst-items-center yst-justify-between yst-text-sm yst-font-medium yst-text-gray-800 yst-rounded-md yst-no-underline yst-px-3 yst-py-2 yst-mb-1 hover:yst-text-gray-900 hover:yst-bg-gray-50 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-primary-500"
+				className="yst-group yst-flex yst-w-full yst-items-center yst-justify-between yst-gap-3 yst-px-3 yst-py-2 yst-mb-1 yst-text-sm yst-font-medium yst-text-gray-800 yst-rounded-md yst-no-underline hover:yst-text-gray-900 hover:yst-bg-gray-50 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-primary-500"
 				onClick={ toggleOpen }
 				{ ...props }
 			>
-				<span className="yst-flex yst-items-center">
+				<span className="yst-flex yst-items-center yst-gap-3">
 					{ Icon &&
-						<Icon className="yst-flex-shrink-0 yst--ml-1 yst-mr-3 yst-h-6 yst-w-6 yst-text-gray-400 group-hover:yst-text-gray-500" />
+						<Icon className="yst-flex-shrink-0 yst--ml-1 yst-h-6 yst-w-6 yst-text-gray-400 group-hover:yst-text-gray-500" />
 					}
 					{ label }
 				</span>
@@ -95,8 +95,8 @@ const Mobile = ( { children, openButtonScreenReaderText = "Open", closeButtonScr
 
 	return <>
 		{ isOpen && <>
-			<div role="dialog" aria-modal="true" className="yst-fixed yst-inset-0 yst-flex yst-z-40">
-				<div className="yst-relative yst-max-w-xs yst-w-full yst-bg-white yst-p-4 yst-flex-1 yst-flex yst-flex-col">
+			<div role="dialog" aria-modal="true" className="yst-mobile-navigation__dialog">
+				<div className="yst-relative yst-flex yst-flex-1 yst-flex-col yst-max-w-xs yst-w-full yst-z-40 yst-bg-white">
 					<div className="yst-absolute yst-top-0 yst-right-0 yst--mr-14 yst-p-1">
 						<button
 							className="yst-flex yst-h-12 yst-w-12 yst-items-center yst-justify-center yst-rounded-full focus:yst-outline-none focus:yst-bg-gray-600"
@@ -106,17 +106,17 @@ const Mobile = ( { children, openButtonScreenReaderText = "Open", closeButtonScr
 							<XIcon className="yst-h-6 yst-w-6 yst-text-white" />
 						</button>
 					</div>
-					<div className="yst-flex-1 yst-h-0 yst-overflow-y-auto">
+					<div className="yst-flex-1 yst-h-0 yst-overflow-y-auto yst-p-4">
 						<div className="yst-h-full yst-flex yst-flex-col">
 							{ children }
 						</div>
 					</div>
 				</div>
 				<div className="flex-shrink-0 w-14"></div>
+				<div className="yst-fixed yst-inset-0 yst-bg-gray-600 yst-bg-opacity-75 yst-z-30"></div>
 			</div>
-			<div className="yst-fixed yst-inset-0 yst-bg-gray-600 yst-bg-opacity-75 yst-z-30"></div>
 		</> }
-		<div className="yst-fixed yst-top-0 yst-w-full md:yst-hidden yst-z-10">
+		<div className="yst-mobile-navigation__top">
 			<div className="yst-flex yst-relative yst-flex-shrink-0 yst-h-16 yst-z-10 yst-bg-white yst-border-b yst-border-gray-200">
 				<button
 					className="yst-px-4 yst-border-r yst-border-gray-200 yst-text-gray-500 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-inset focus:yst-ring-primary-500"
