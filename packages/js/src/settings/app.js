@@ -2,8 +2,7 @@
 import { AdjustmentsIcon, DesktopComputerIcon, NewspaperIcon } from "@heroicons/react/outline";
 import { __ } from "@wordpress/i18n";
 import { Route, Routes, useLocation } from "react-router-dom";
-import Navigation from "./components/sidebar-navigation";
-import { ReactComponent as Logo } from "./components/yoast-logo.svg";
+import { SidebarNavigation, YoastLogo } from "./components";
 import {
 	AuthorArchives,
 	Breadcrumbs,
@@ -27,28 +26,28 @@ import {
 const Menu = () => {
 	return <>
 		<figure className="yst-w-44 yst-px-3 yst-mb-12">
-			<Logo />
+			<YoastLogo />
 		</figure>
-		<Navigation.MenuItem id="menu:site-settings" icon={ DesktopComputerIcon } label={ __( "Site settings", "wordpress-seo" ) }>
+		<SidebarNavigation.MenuItem id="menu:site-settings" icon={ DesktopComputerIcon } label={ __( "Site settings", "wordpress-seo" ) }>
 			{/*<Navigation.SubmenuItem to="/site-representation" label={ __( "Site representation", "wordpress-seo" ) } />*/}
-			<Navigation.SubmenuItem to="/site-defaults" label={ __( "Site defaults", "wordpress-seo" ) } />
-			<Navigation.SubmenuItem to="/site-preferences" label={ __( "Site preferences", "wordpress-seo" ) } />
-			<Navigation.SubmenuItem to="/webmaster-tools" label={ __( "Webmaster tools", "wordpress-seo" ) } />
+			<SidebarNavigation.SubmenuItem to="/site-defaults" label={ __( "Site defaults", "wordpress-seo" ) } />
+			<SidebarNavigation.SubmenuItem to="/site-preferences" label={ __( "Site preferences", "wordpress-seo" ) } />
+			<SidebarNavigation.SubmenuItem to="/webmaster-tools" label={ __( "Webmaster tools", "wordpress-seo" ) } />
 			{/*<Navigation.SubmenuItem to="/breadcrumbs" label={ __( "Breadcrumbs", "wordpress-seo" ) } />*/ }
-		</Navigation.MenuItem>
+		</SidebarNavigation.MenuItem>
 		{/*{ <Navigation.MenuItem id="menu:content-settings" icon={ NewspaperIcon } label={ __( "Content settings", "wordpress-seo" ) }>*/}
 		{/*	<Navigation.SubmenuItem to="/homepage" label={ __( "Homepage", "wordpress-seo" ) } />*/}
 		{/*</Navigation.MenuItem> }*/}
-		<Navigation.MenuItem id="menu:advanced-settings" icon={ AdjustmentsIcon } label={ __( "Advanced settings", "wordpress-seo" ) }>
-			<Navigation.SubmenuItem to="/crawl-settings" label={ __( "Crawl settings", "wordpress-seo" ) } />
+		<SidebarNavigation.MenuItem id="menu:advanced-settings" icon={ AdjustmentsIcon } label={ __( "Advanced settings", "wordpress-seo" ) }>
+			<SidebarNavigation.SubmenuItem to="/crawl-settings" label={ __( "Crawl settings", "wordpress-seo" ) } />
 			{/*<Navigation.SubmenuItem to="/author-archives" label={ __( "Author archives", "wordpress-seo" ) } />*/ }
 			{/*<Navigation.SubmenuItem to="/date-archives" label={ __( "Date archives", "wordpress-seo" ) } />*/ }
 			{/*<Navigation.SubmenuItem to="/search-pages" label={ __( "Search pages", "wordpress-seo" ) } />*/ }
 			{/*<Navigation.SubmenuItem to="/not-found-pages" label={ __( "404 pages", "wordpress-seo" ) } />*/ }
 			{/*<Navigation.SubmenuItem to="/media" label={ __( "Media", "wordpress-seo" ) } />*/ }
 			{/*<Navigation.SubmenuItem to="/formats" label={ __( "Formats", "wordpress-seo" ) } />*/ }
-			<Navigation.SubmenuItem to="/rss" label={ __( "RSS", "wordpress-seo" ) } />
-		</Navigation.MenuItem>
+			<SidebarNavigation.SubmenuItem to="/rss" label={ __( "RSS", "wordpress-seo" ) } />
+		</SidebarNavigation.MenuItem>
 	</>;
 };
 
@@ -58,18 +57,18 @@ const Menu = () => {
 const App = () => {
 	const { pathname } = useLocation();
 
-	return <Navigation activePath={ pathname }>
-		<Navigation.Mobile
+	return <SidebarNavigation activePath={ pathname }>
+		<SidebarNavigation.Mobile
 			openButtonScreenReaderText={ __( "Open sidebar", "wordpress-seo" ) }
 			closeButtonScreenReaderText={ __( "Close sidebar", "wordpress-seo" ) }
 		>
 			<Menu />
-		</Navigation.Mobile>
-		<div className="yst-flex md:yst-gap-4 yst-mt-16 md:yst-mt-0 yst-p-4 md:yst-p-8">
+		</SidebarNavigation.Mobile>
+		<div className="yst-flex md:yst-gap-4 yst-p-4 md:yst-p-8">
 			<aside className="yst-hidden md:yst-block yst-flex-shrink-0 yst-w-56 lg:yst-w-64">
-				<Navigation.Sidebar>
+				<SidebarNavigation.Sidebar>
 					<Menu />
-				</Navigation.Sidebar>
+				</SidebarNavigation.Sidebar>
 			</aside>
 			<main className="yst-flex-grow">
 				<Routes>
@@ -91,7 +90,7 @@ const App = () => {
 				</Routes>
 			</main>
 		</div>
-	</Navigation>;
+	</SidebarNavigation>;
 };
 
 export default App;
