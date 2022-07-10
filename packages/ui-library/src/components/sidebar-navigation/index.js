@@ -1,8 +1,8 @@
 import { ChevronDownIcon, ChevronUpIcon, MenuAlt2Icon, XIcon } from "@heroicons/react/outline";
-import { createContext, useContext } from "@wordpress/element";
+import { createContext, useContext, useEffect } from "@wordpress/element";
 import classNames from "classnames";
 import PropTypes from "prop-types";
-import { useToggleState } from "../../hooks";
+import { usePrevious, useToggleState } from "../../hooks";
 
 const NavigationContext = createContext( { activePath: "" } );
 
@@ -88,10 +88,19 @@ MenuItem.propTypes = {
  * @param {JSX.node} children The menu items.
  * @param {string} [openButtonScreenReaderText] The open button screen reader text.
  * @param {string} [closeButtonScreenReaderText] The close button screen reader text.
+ * @param {boolean} [closeOnNavigate] Whether to close the mobile navigation when the active path changed.
  * @returns {JSX.Element} The mobile element.
  */
-const Mobile = ( { children, openButtonScreenReaderText = "Open", closeButtonScreenReaderText = "Close" } ) => {
-	const [ isOpen, toggleOpen ] = useToggleState( false );
+const Mobile = ( { children, openButtonScreenReaderText = "Open", closeButtonScreenReaderText = "Close", closeOnNavigate = true } ) => {
+	const { activePath } = useNavigationContext();
+	const previousPath = usePrevious( activePath );
+	const [ isOpen, toggleOpen, setOpen ] = useToggleState( false );
+
+	useEffect( () => {
+		if ( closeOnNavigate && isOpen && activePath !== previousPath ) {
+			setOpen( false );
+		}
+	}, [ closeOnNavigate, activePath, previousPath, isOpen, setOpen ] );
 
 	return <>
 		{ isOpen && <>
@@ -113,7 +122,7 @@ const Mobile = ( { children, openButtonScreenReaderText = "Open", closeButtonScr
 					</div>
 				</div>
 				<div className="flex-shrink-0 w-14"></div>
-				<div className="yst-fixed yst-inset-0 yst-bg-gray-600 yst-bg-opacity-75 yst-z-30"></div>
+				<div className="yst-fixed yst-inset-0 yst-bg-gray-600 yst-bg-opacity-75 yst-z-30" onClick={ toggleOpen }></div>
 			</div>
 		</> }
 		<div className="yst-mobile-navigation__top">
@@ -134,6 +143,7 @@ Mobile.propTypes = {
 	children: PropTypes.node.isRequired,
 	openButtonScreenReaderText: PropTypes.string,
 	closeButtonScreenReaderText: PropTypes.string,
+	closeOnNavigate: PropTypes.bool,
 };
 
 /**
