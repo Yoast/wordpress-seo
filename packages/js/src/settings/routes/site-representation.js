@@ -1,25 +1,24 @@
-import { __, sprintf } from "@wordpress/i18n";
-import { Field, useFormikContext } from "formik";
-import { createInterpolateElement, useMemo } from "@wordpress/element";
-import { map, get, find } from "lodash";
-import { addLinkToString } from "../../helpers/stringHelpers";
-import { RadioGroup, Radio, Alert, TextField, SelectField } from "@yoast/ui-library";
 import { Transition } from "@headlessui/react";
-import { FormLayout, FieldsetLayout, FormikValueChangeField, FormikMediaSelectField } from "../components";
+import { createInterpolateElement, useMemo } from "@wordpress/element";
+import { __, sprintf } from "@wordpress/i18n";
+import { Alert, Radio, RadioGroup, SelectField, TextField } from "@yoast/ui-library";
+import { Field, useFormikContext } from "formik";
+import { find, get, map } from "lodash";
+import { addLinkToString } from "../../helpers/stringHelpers";
+import { FieldsetLayout, FormikMediaSelectField, FormikValueChangeField, FormLayout } from "../components";
 
 /**
  * @returns {JSX.Element} The site representation route.
  */
 const SiteRepresentation = () => {
 	const { values } = useFormikContext();
-	const { company_or_person, company_or_person_user_id } = values.wpseo_titles;
+	// eslint-disable-next-line camelcase
+	const { company_or_person: companyOrPerson, company_or_person_user_id: companyOrPersonId } = values.wpseo_titles;
 
 	const userEditUrl = useMemo( () => get( window, "wpseoScriptData.userEditUrl", [] ), [] );
 	const users = useMemo( () => get( window, "wpseoScriptData.users", [] ), [] );
 	const userOptions = useMemo( () => map( users, user => ( { value: parseInt( user.id, 10 ), label: user.display_name } ) ), [ users ] );
-	const selectedUser = useMemo( () => find( users, user => (
-		company_or_person_user_id === parseInt( user.id, 10 )
-	) ), [ users, company_or_person_user_id ] );
+	const selectedUser = useMemo( () => find( users, user => companyOrPersonId === parseInt( user.id, 10 ) ), [ users, companyOrPersonId ] );
 
 	return (
 		<FormLayout
@@ -58,7 +57,7 @@ const SiteRepresentation = () => {
 			<hr className="yst-my-8" />
 			<div className="yst-relative">
 				<Transition
-					show={ company_or_person === "company" }
+					show={ companyOrPerson === "company" }
 					enter="yst-transition yst-ease-out yst-duration-300 yst-delay-300"
 					enterFrom="yst-transform yst-opacity-0 yst-translate-y-4 sm:yst-translate-y-0 sm:yst-scale-90"
 					enterTo="yst-transform yst-opacity-100 yst-translate-y-0 sm:yst-scale-100"
@@ -106,7 +105,7 @@ const SiteRepresentation = () => {
 					</FieldsetLayout>
 				</Transition>
 				<Transition
-					show={ company_or_person === "person" }
+					show={ companyOrPerson === "person" }
 					enter="yst-transition yst-ease-out yst-duration-300 yst-delay-300"
 					enterFrom="yst-transform yst-opacity-0 yst-translate-y-4 sm:yst-translate-y-0 sm:yst-scale-90"
 					enterTo="yst-transform yst-opacity-100 yst-translate-y-0 sm:yst-scale-100"

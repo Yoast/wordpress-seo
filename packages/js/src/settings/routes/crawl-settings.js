@@ -10,10 +10,10 @@ import { FormikValueChangeField, FieldsetLayout, FormLayout } from "../component
 const CrawlSettings = () => {
 	const { values } = useFormikContext();
 	const {
-		remove_feed_global_comments,
-		remove_feed_post_comments,
-		search_cleanup,
-		clean_permalinks,
+		remove_feed_global_comments: removeFeedGlobalComments,
+		remove_feed_post_comments: removeFeedPostComments,
+		search_cleanup: searchCleanup,
+		clean_permalinks: cleanPermalinks,
 	} = values.wpseo;
 
 	return (
@@ -116,8 +116,8 @@ const CrawlSettings = () => {
 					name="wpseo.remove_feed_post_comments"
 					data-id="input:wpseo.remove_feed_post_comments"
 					label={ __( "Post comments feeds", "wordpress-seo" ) }
-					disabled={ remove_feed_global_comments }
-					checked={ remove_feed_global_comments || remove_feed_post_comments }
+					disabled={ removeFeedGlobalComments }
+					checked={ removeFeedGlobalComments || removeFeedPostComments }
 				/>
 				<FormikValueChangeField
 					as={ ToggleField }
@@ -187,7 +187,7 @@ const CrawlSettings = () => {
 					name="wpseo.search_cleanup_emoji"
 					data-id="input:wpseo.search_cleanup_emoji"
 					label={ __( "Filter searches with emojis and other special characters", "wordpress-seo" ) }
-					disabled={ ! search_cleanup }
+					disabled={ ! searchCleanup }
 				/>
 				<FormikValueChangeField
 					as={ ToggleField }
@@ -195,7 +195,7 @@ const CrawlSettings = () => {
 					name="wpseo.search_cleanup_patterns"
 					data-id="input:wpseo.search_cleanup_patterns"
 					label={ __( "Filters searches with common spam patterns", "wordpress-seo" ) }
-					disabled={ ! search_cleanup }
+					disabled={ ! searchCleanup }
 				/>
 			</FieldsetLayout>
 			<hr className="yst-my-8" />
@@ -234,7 +234,7 @@ const CrawlSettings = () => {
 					name="wpseo.clean_permalinks_extra_variables"
 					id="input:wpseo.clean_permalinks_extra_variables"
 					label={ __( "Additional URL parameters to allow", "wordpress-seo" ) }
-					disabled={ ! clean_permalinks }
+					disabled={ ! cleanPermalinks }
 				/>
 			</FieldsetLayout>
 		</FormLayout>

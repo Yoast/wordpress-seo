@@ -4,6 +4,11 @@ import { filter, get, includes, map } from "lodash";
 import { createLabelFromName } from "../../helpers/replacementVariableHelpers";
 import { FieldsetLayout, FormikReplacementVariableEditorField, FormLayout } from "../components";
 
+/**
+ * @param {string} postType The post type, e.g. post, page, search, etc.
+ * @param {string} context The context, extra context on top of post type, e.g. homepage, 404 etc.
+ * @returns {[{name: *, label, value: *}[],[]]} Replacement variables and recommended replacement variables.
+ */
 const useReplacementVariables = ( postType, context ) => {
 	const all = useMemo( () => map(
 		get( window, "wpseoScriptData.replacementVariables.variables", [] ),
