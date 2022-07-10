@@ -1,3 +1,4 @@
+import { Dialog } from "@headlessui/react";
 import { ChevronDownIcon, ChevronUpIcon, MenuAlt2Icon, XIcon } from "@heroicons/react/outline";
 import { createContext, useContext, useEffect } from "@wordpress/element";
 import classNames from "classnames";
@@ -25,7 +26,7 @@ const SubmenuItem = ( { as: Component = "a", pathProp = "href", label, ...props 
 		<li>
 			<Component
 				className={ classNames(
-					"yst-group yst-flex yst-items-center yst-px-3 yst-py-2 yst-text-sm yst-font-medium yst-rounded-md hover:yst-text-gray-900 hover:yst-bg-gray-50 yst-no-underline focus:yst-outline-none",
+					"yst-group yst-flex yst-items-center yst-px-3 yst-py-2 yst-text-sm yst-font-medium yst-rounded-md hover:yst-text-gray-900 hover:yst-bg-gray-50 yst-no-underline focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-primary-500",
 					activePath === props[ pathProp ] ? "yst-bg-gray-200 yst-text-gray-900" : "yst-text-gray-600",
 				) }
 				{ ...props }
@@ -103,26 +104,27 @@ const Mobile = ( { children, openButtonScreenReaderText = "Open", closeButtonScr
 	}, [ closeOnNavigate, activePath, previousPath, isOpen, setOpen ] );
 
 	return <>
-		{ isOpen && <div role="dialog" aria-modal="true" className="yst-mobile-navigation__dialog">
-			<div className="yst-relative yst-flex yst-flex-1 yst-flex-col yst-max-w-xs yst-w-full yst-z-40 yst-bg-white">
-				<div className="yst-absolute yst-top-0 yst-right-0 yst--mr-14 yst-p-1">
-					<button
-						className="yst-flex yst-h-12 yst-w-12 yst-items-center yst-justify-center yst-rounded-full focus:yst-outline-none focus:yst-bg-gray-600"
-						onClick={ toggleOpen }
-					>
-						<span className="yst-sr-only">{ closeButtonScreenReaderText }</span>
-						<XIcon className="yst-h-6 yst-w-6 yst-text-white" />
-					</button>
-				</div>
-				<div className="yst-flex-1 yst-h-0 yst-overflow-y-auto yst-p-4">
-					<div className="yst-h-full yst-flex yst-flex-col">
-						{ children }
+		<Dialog className="yst-root" open={ isOpen } onClose={ toggleOpen }>
+			<div className="yst-mobile-navigation__dialog">
+				<div className="yst-fixed yst-inset-0 yst-bg-gray-600 yst-bg-opacity-75 yst-z-30" aria-hidden="true" />
+				<Dialog.Panel className="yst-relative yst-flex yst-flex-1 yst-flex-col yst-max-w-xs yst-w-full yst-z-40 yst-bg-white">
+					<div className="yst-absolute yst-top-0 yst-right-0 yst--mr-14 yst-p-1">
+						<button
+							className="yst-flex yst-h-12 yst-w-12 yst-items-center yst-justify-center yst-rounded-full focus:yst-outline-none focus:yst-bg-gray-600"
+							onClick={ toggleOpen }
+						>
+							<span className="yst-sr-only">{ closeButtonScreenReaderText }</span>
+							<XIcon className="yst-h-6 yst-w-6 yst-text-white" />
+						</button>
 					</div>
-				</div>
+					<div className="yst-flex-1 yst-h-0 yst-overflow-y-auto yst-p-4">
+						<div className="yst-h-full yst-flex yst-flex-col">
+							{ children }
+						</div>
+					</div>
+				</Dialog.Panel>
 			</div>
-			<div className="flex-shrink-0 w-14"></div>
-			<div className="yst-fixed yst-inset-0 yst-bg-gray-600 yst-bg-opacity-75 yst-z-30" onClick={ toggleOpen }></div>
-		</div> }
+		</Dialog>
 		<div className="yst-mobile-navigation__top">
 			<div className="yst-flex yst-relative yst-flex-shrink-0 yst-h-16 yst-z-10 yst-bg-white yst-border-b yst-border-gray-200">
 				<button
