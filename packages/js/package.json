@@ -9,8 +9,8 @@
   },
   "dependencies": {
     "@draft-js-plugins/mention": "^5.0.0",
-    "@headlessui/react": "^1.5",
-    "@heroicons/react": "^1.0.5",
+    "@headlessui/react": "^1.6.6",
+    "@heroicons/react": "^1.0.6",
     "@wordpress/blocks": "^11.1.2",
     "@wordpress/data": "^4.10.0",
     "@wordpress/dom-ready": "^2.10.0",
