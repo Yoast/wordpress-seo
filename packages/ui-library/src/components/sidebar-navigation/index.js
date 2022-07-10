@@ -103,28 +103,26 @@ const Mobile = ( { children, openButtonScreenReaderText = "Open", closeButtonScr
 	}, [ closeOnNavigate, activePath, previousPath, isOpen, setOpen ] );
 
 	return <>
-		{ isOpen && <>
-			<div role="dialog" aria-modal="true" className="yst-mobile-navigation__dialog">
-				<div className="yst-relative yst-flex yst-flex-1 yst-flex-col yst-max-w-xs yst-w-full yst-z-40 yst-bg-white">
-					<div className="yst-absolute yst-top-0 yst-right-0 yst--mr-14 yst-p-1">
-						<button
-							className="yst-flex yst-h-12 yst-w-12 yst-items-center yst-justify-center yst-rounded-full focus:yst-outline-none focus:yst-bg-gray-600"
-							onClick={ toggleOpen }
-						>
-							<span className="yst-sr-only">{ closeButtonScreenReaderText }</span>
-							<XIcon className="yst-h-6 yst-w-6 yst-text-white" />
-						</button>
-					</div>
-					<div className="yst-flex-1 yst-h-0 yst-overflow-y-auto yst-p-4">
-						<div className="yst-h-full yst-flex yst-flex-col">
-							{ children }
-						</div>
+		{ isOpen && <div role="dialog" aria-modal="true" className="yst-mobile-navigation__dialog">
+			<div className="yst-relative yst-flex yst-flex-1 yst-flex-col yst-max-w-xs yst-w-full yst-z-40 yst-bg-white">
+				<div className="yst-absolute yst-top-0 yst-right-0 yst--mr-14 yst-p-1">
+					<button
+						className="yst-flex yst-h-12 yst-w-12 yst-items-center yst-justify-center yst-rounded-full focus:yst-outline-none focus:yst-bg-gray-600"
+						onClick={ toggleOpen }
+					>
+						<span className="yst-sr-only">{ closeButtonScreenReaderText }</span>
+						<XIcon className="yst-h-6 yst-w-6 yst-text-white" />
+					</button>
+				</div>
+				<div className="yst-flex-1 yst-h-0 yst-overflow-y-auto yst-p-4">
+					<div className="yst-h-full yst-flex yst-flex-col">
+						{ children }
 					</div>
 				</div>
-				<div className="flex-shrink-0 w-14"></div>
-				<div className="yst-fixed yst-inset-0 yst-bg-gray-600 yst-bg-opacity-75 yst-z-30" onClick={ toggleOpen }></div>
 			</div>
-		</> }
+			<div className="flex-shrink-0 w-14"></div>
+			<div className="yst-fixed yst-inset-0 yst-bg-gray-600 yst-bg-opacity-75 yst-z-30" onClick={ toggleOpen }></div>
+		</div> }
 		<div className="yst-mobile-navigation__top">
 			<div className="yst-flex yst-relative yst-flex-shrink-0 yst-h-16 yst-z-10 yst-bg-white yst-border-b yst-border-gray-200">
 				<button
