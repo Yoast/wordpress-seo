@@ -114,7 +114,8 @@
 				yst-ring-1
 				yst-ring-black
 				yst-ring-opacity-5
-				focus:yst-outline-none;
+				focus:yst-outline-none
+				yst-z-10;
 
 				div > div {
 					@apply
