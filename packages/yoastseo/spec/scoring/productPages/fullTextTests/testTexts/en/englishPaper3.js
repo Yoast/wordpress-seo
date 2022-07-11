@@ -14,6 +14,11 @@ const paper = new Paper( content, {
 	locale: "en_EN",
 	permalink: "https://en.wikipedia.org/wiki/Cat_tree",
 	slug: "Cat_tree",
+	customData: {
+		hasGlobalSKU: true,
+		hasGlobalIdentifier: true,
+		hasVariants: true,
+	},
 } );
 
 const expectedResults = {
@@ -83,6 +88,16 @@ const expectedResults = {
 		resultText: "",
 	},
 	singleH1: {
+		isApplicable: true,
+		score: 0,
+		resultText: "",
+	},
+	productIdentifiers: {
+		isApplicable: true,
+		score: 0,
+		resultText: "",
+	},
+	productSKU: {
 		isApplicable: true,
 		score: 0,
 		resultText: "",
