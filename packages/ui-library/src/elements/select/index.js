@@ -35,7 +35,7 @@ const Option = ( { value, label } ) => {
 };
 
 Option.propTypes = {
-	value: PropTypes.string.isRequired,
+	value: PropTypes.oneOfType( [ PropTypes.string, PropTypes.number, PropTypes.bool ] ).isRequired,
 	label: PropTypes.string.isRequired,
 };
 
