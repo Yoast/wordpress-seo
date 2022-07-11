@@ -146,6 +146,12 @@ class ReadabilityAnalysis extends Component {
 		if ( this.props.isInsightsEnabled ) {
 			const onClick = `
 			const location = "${ location }";
+			const isElementor = ${ this.props.isElementorEditor };
+			
+			if ( isElementor ) {
+				document.getElementById( "yoast-insights-modal-elementor-open-button" ).click();
+			}
+			
 			const metaTab = document.getElementById( "wpseo-meta-tab-content" );
 			if ( metaTab && location === "metabox" ) {
 				metaTab.click();
@@ -158,8 +164,6 @@ class ReadabilityAnalysis extends Component {
 				}, 300 );
 			} else if ( location === "sidebar" ) {
 				document.getElementById( "yoast-insights-modal-sidebar-open-button" ).click();
-			} else {
-				document.getElementById( "yoast-insights-modal-elementor-open-button" ).click();
 			}
 			`.replaceAll( /(\n|\s)+/g, " " );
 
@@ -263,6 +267,7 @@ ReadabilityAnalysis.propTypes = {
 	shouldUpsell: PropTypes.bool,
 	isYoastSEOWooActive: PropTypes.bool,
 	isInsightsEnabled: PropTypes.bool,
+	isElementorEditor: PropTypes.bool,
 };
 
 ReadabilityAnalysis.defaultProps = {
@@ -270,6 +275,7 @@ ReadabilityAnalysis.defaultProps = {
 	shouldUpsell: false,
 	isYoastSEOWooActive: false,
 	isInsightsEnabled: false,
+	isElementorEditor: false,
 };
 
 export default withSelect( select => {
@@ -277,6 +283,7 @@ export default withSelect( select => {
 		getReadabilityResults,
 		getMarkButtonStatus,
 		getPreference,
+		getIsElementorEditor,
 	} = select( "yoast-seo/editor" );
 
 	const isInsightsEnabled = getPreference( "isInsightsEnabled", false );
@@ -285,5 +292,6 @@ export default withSelect( select => {
 		...getReadabilityResults(),
 		marksButtonStatus: getMarkButtonStatus(),
 		isInsightsEnabled,
+		isElementorEditor: getIsElementorEditor(),
 	};
 } )( ReadabilityAnalysis );
