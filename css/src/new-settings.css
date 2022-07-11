@@ -104,7 +104,7 @@
 			focus-within:yst-ring-2
 			focus-within:yst-border-opacity-0;
 
-			[data-popper-reference-hidden="false"] {
+			[data-popper-reference-hidden] {
 				@apply
 				yst-w-56
 				yst-py-1
