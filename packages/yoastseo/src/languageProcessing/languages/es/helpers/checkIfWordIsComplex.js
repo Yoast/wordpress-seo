@@ -6,10 +6,10 @@ const vowels = "aeiuoyáéíóúñ";
 const consonants = "bcdfghjklmnpqrstvwxzñ";
 
 const vowelsSuffix = "[" + vowels + "](s)$";
-const vowelsSuffixRegex = RegExp( vowelsSuffix );
+const vowelsSuffixRegex = new RegExp( vowelsSuffix );
 
 const consonantSuffix = "[" + consonants + "](es)$";
-const consonantSuffixRegex = RegExp( consonantSuffix );
+const consonantSuffixRegex = new RegExp( consonantSuffix );
 
 const suffixes = "(s|es)$";
 const suffixesRegex = new RegExp( suffixes );
@@ -45,7 +45,7 @@ export default function checkIfWordIsComplex( word ) {
 	* and check if the singular form can be found in the frequency list.
 	* The word is not complex if the singular form is in the list.
 	*/
-
+	// It's important to check consonant suffixes before vowel suffixes so order should not be altered.
 	if ( consonantSuffixRegex.test( word ) ) {
 		word = word.replace( suffixesRegex, "" );
 		return ! frequencyList.includes( word );
