@@ -182,7 +182,7 @@ class ReadabilityAnalysis extends Component {
 					%2$s is an anchor closing tag; */
 				__( "Curious to see the %1$sFlesch reading ease%2$s score of your text? " +
 					"We've moved the score to our Insights section. " +
-					"Enable the Insights feature in General > Settings, or ask your admin to enable it for you.", "wordpress-seo" ),
+					"Enable the Insights feature in General > Features, or ask your admin to enable it for you.", "wordpress-seo" ),
 				`<a href='${ linkToYoastCom }' target='_blank'>`,
 				"</a>"
 			);
