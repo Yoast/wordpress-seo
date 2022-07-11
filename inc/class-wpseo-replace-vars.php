@@ -1308,13 +1308,18 @@ class WPSEO_Replace_Vars {
 			ARRAY_FILTER_USE_KEY
 		);
 
+		$hidden = $this->get_hidden_replace_vars();
+
 		return array_values(
 			array_map(
-				static function ( WPSEO_Replacement_Variable $replacement_variable ) {
+				static function ( WPSEO_Replacement_Variable $replacement_variable ) use ( $hidden ) {
+					$name = $replacement_variable->get_variable();
+
 					return [
-						'name'  => $replacement_variable->get_variable(),
-						'value' => '',
-						'label' => $replacement_variable->get_label(),
+						'name'   => $name,
+						'value'  => '',
+						'label'  => $replacement_variable->get_label(),
+						'hidden' => in_array( $name, $hidden ),
 					];
 				},
 				array_merge( $replacement_variables, $custom_variables )
