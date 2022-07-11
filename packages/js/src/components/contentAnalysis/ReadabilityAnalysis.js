@@ -120,12 +120,15 @@ class ReadabilityAnalysis extends Component {
 	 * Returns a note letting the user know that the Flesch reading ease score has moved to
 	 * the insights section.
 	 *
+	 * @param {string} location The location of the readability analysis (e.g. "metabox" or "sidebar" ).
+	 *
 	 * @returns {JSX.Element} The Flesch reading ease note.
 	 */
-	renderFleschReadingEaseNote() {
+	renderFleschReadingEaseNote( location ) {
 		const onClick = `
+			const location = "${ location }";
 			const metaTab = document.getElementById( "wpseo-meta-tab-content" );
-			if ( metaTab ) {
+			if ( metaTab && location === "metabox" ) {
 				metaTab.click();
 				setTimeout( () => {
 					const collapsible = document.getElementById( "yoast-insights-collapsible-metabox" );
@@ -134,6 +137,8 @@ class ReadabilityAnalysis extends Component {
 					}
 					document.getElementById( "yoastseo-flesch-reading-ease-insights" ).scrollIntoView();
 				}, 300 );
+			} else if ( location === "sidebar" ) {
+				document.getElementById( "yoast-insights-modal-sidebar-open-button" ).click();
 			} else {
 				document.getElementById( "yoast-insights-modal-elementor-open-button" ).click();
 			}
@@ -208,7 +213,7 @@ class ReadabilityAnalysis extends Component {
 								id={ `yoast-readability-analysis-collapsible-${ location }` }
 							>
 								{ this.renderResults( upsellResults ) }
-								{ this.renderFleschReadingEaseNote() }
+								{ this.renderFleschReadingEaseNote( location ) }
 							</Collapsible>
 						);
 					}
@@ -222,7 +227,7 @@ class ReadabilityAnalysis extends Component {
 										scoreIndicator={ score.className }
 									/>
 									{ this.renderResults( upsellResults ) }
-									{ this.renderFleschReadingEaseNote() }
+									{ this.renderFleschReadingEaseNote( location ) }
 								</ReadabilityResultsTabContainer>
 							</ReadabilityResultsPortal>
 						);
