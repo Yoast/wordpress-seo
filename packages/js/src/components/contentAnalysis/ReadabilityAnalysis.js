@@ -5,7 +5,7 @@ import { withSelect } from "@wordpress/data";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { __, sprintf } from "@wordpress/i18n";
-import { isNil } from "lodash-es";
+import { isNil, noop } from "lodash-es";
 
 /* Internal components */
 import ScoreIconPortal from "../portals/ScoreIconPortal";
@@ -16,6 +16,8 @@ import { getIconForScore } from "./mapResults";
 import { LocationConsumer } from "@yoast/externals/contexts";
 import HelpLink from "../HelpLink";
 import ReadabilityResultsPortal from "../portals/ReadabilityResultsPortal";
+import { AnalysisResult } from "@yoast/analysis-report";
+import { icons } from "@yoast/components";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
@@ -115,6 +117,69 @@ class ReadabilityAnalysis extends Component {
 	}
 
 	/**
+	 * Returns a note letting the user know that the Flesch reading ease score has moved to
+	 * the insights section.
+	 *
+	 * @returns {JSX.Element} The Flesch reading ease note.
+	 */
+	renderFleschReadingEaseNote() {
+		const onClick = `
+			const metaTab = document.getElementById( "wpseo-meta-tab-content" );
+			if ( metaTab ) {
+				metaTab.click();
+				setTimeout( () => {
+					const collapsible = document.getElementById( "yoast-insights-collapsible-metabox" );
+					if( collapsible.getAttribute( "aria-expanded" ) === "false" ) {
+						collapsible.click();
+					}
+					document.getElementById( "yoastseo-flesch-reading-ease-insights" ).scrollIntoView();
+				}, 300 );
+			} else {
+				document.getElementById( "yoast-insights-modal-elementor-open-button" ).click();
+			}
+		`.replaceAll( /(\n|\s)+/g, " " );
+
+		const icon = `<svg
+			style="vertical-align: middle; margin-left: 2px"
+			width="14px"
+			height="14px"
+			aria-hidden="true"
+			role="img"
+			focusable="false"
+			class="yoast-svg-icon yoast-svg-icon-pencil-square"
+			viewBox="0 0 1792 1792"
+			fill="currentColor">
+				<path d="${ icons[ "pencil-square" ].path }"></path>
+		</svg>`;
+
+		const text = sprintf(
+			/* Translators:
+				%1$s is an anchor opening tag with a link leading to an article on yoast.com;
+				%2$s is an anchor closing tag;
+				%3$s is an anchor opening tag with a link to our insights section;
+				%4$s is an icon. */
+			__( "Curious to see the %1$sFlesch reading ease%2$s score of your text? We've moved the score to our %3$sInsights%4$s%2$s section.", "wordpress-seo" ),
+			`<a href='${ wpseoAdminL10n[ "shortlinks-insights-flesch_reading_ease" ] }' target='_blank'>`,
+			"</a>",
+			`<a href='#' onclick='${ onClick }'>`,
+			icon
+		);
+
+		return <ul>
+			<AnalysisResult
+				icon="alert-info"
+				pressed={ false }
+				onButtonClick={ noop }
+				bulletColor="gray"
+				buttonId={ "" }
+				text={ text }
+				hasMarksButton={ false }
+				ariaLabel={ "" }
+			/>
+		</ul>;
+	}
+
+	/**
 	 * Renders the Readability Analysis component.
 	 *
 	 * @returns {wp.Element} The Readability Analysis component.
@@ -143,6 +208,7 @@ class ReadabilityAnalysis extends Component {
 								id={ `yoast-readability-analysis-collapsible-${ location }` }
 							>
 								{ this.renderResults( upsellResults ) }
+								{ this.renderFleschReadingEaseNote() }
 							</Collapsible>
 						);
 					}
@@ -156,6 +222,7 @@ class ReadabilityAnalysis extends Component {
 										scoreIndicator={ score.className }
 									/>
 									{ this.renderResults( upsellResults ) }
+									{ this.renderFleschReadingEaseNote() }
 								</ReadabilityResultsTabContainer>
 							</ReadabilityResultsPortal>
 						);
