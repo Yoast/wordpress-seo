@@ -125,25 +125,6 @@ class ReadabilityAnalysis extends Component {
 	 * @returns {JSX.Element} The Flesch reading ease note.
 	 */
 	renderFleschReadingEaseNote( location ) {
-		const onClick = `
-			const location = "${ location }";
-			const metaTab = document.getElementById( "wpseo-meta-tab-content" );
-			if ( metaTab && location === "metabox" ) {
-				metaTab.click();
-				setTimeout( () => {
-					const collapsible = document.getElementById( "yoast-insights-collapsible-metabox" );
-					if( collapsible.getAttribute( "aria-expanded" ) === "false" ) {
-						collapsible.click();
-					}
-					document.getElementById( "yoastseo-flesch-reading-ease-insights" ).scrollIntoView();
-				}, 300 );
-			} else if ( location === "sidebar" ) {
-				document.getElementById( "yoast-insights-modal-sidebar-open-button" ).click();
-			} else {
-				document.getElementById( "yoast-insights-modal-elementor-open-button" ).click();
-			}
-		`.replaceAll( /(\n|\s)+/g, " " );
-
 		const icon = `<svg
 			style="vertical-align: middle; margin-left: 2px"
 			width="14px"
@@ -161,18 +142,51 @@ class ReadabilityAnalysis extends Component {
 			? wpseoAdminL10n[ "shortlinks-insights-flesch_reading_ease_sidebar" ]
 			: wpseoAdminL10n[ "shortlinks-insights-flesch_reading_ease_metabox" ];
 
-		const text = sprintf(
-			/* Translators:
-				%1$s is an anchor opening tag with a link leading to an article on yoast.com;
-				%2$s is an anchor closing tag;
-				%3$s is an anchor opening tag with a link to our insights section;
-				%4$s is an icon. */
-			__( "Curious to see the %1$sFlesch reading ease%2$s score of your text? We've moved the score to our %3$sInsights%4$s%2$s section.", "wordpress-seo" ),
-			`<a href='${ linkToYoastCom }' target='_blank'>`,
-			"</a>",
-			`<a href='#' onclick='${ onClick }'>`,
-			icon
-		);
+		let text = "";
+		if ( this.props.isInsightsEnabled ) {
+			const onClick = `
+			const location = "${ location }";
+			const metaTab = document.getElementById( "wpseo-meta-tab-content" );
+			if ( metaTab && location === "metabox" ) {
+				metaTab.click();
+				setTimeout( () => {
+					const collapsible = document.getElementById( "yoast-insights-collapsible-metabox" );
+					if( collapsible.getAttribute( "aria-expanded" ) === "false" ) {
+						collapsible.click();
+					}
+					document.getElementById( "yoastseo-flesch-reading-ease-insights" ).scrollIntoView();
+				}, 300 );
+			} else if ( location === "sidebar" ) {
+				document.getElementById( "yoast-insights-modal-sidebar-open-button" ).click();
+			} else {
+				document.getElementById( "yoast-insights-modal-elementor-open-button" ).click();
+			}
+			`.replaceAll( /(\n|\s)+/g, " " );
+
+			text = sprintf(
+				/* Translators:
+					%1$s is an anchor opening tag with a link leading to an article on yoast.com;
+					%2$s is an anchor closing tag;
+					%3$s is an anchor opening tag with a link to our insights section;
+					%4$s is an icon. */
+				__( "Curious to see the %1$sFlesch reading ease%2$s score of your text? We've moved the score to our %3$sInsights%4$s%2$s section.", "wordpress-seo" ),
+				`<a href='${ linkToYoastCom }' target='_blank'>`,
+				"</a>",
+				`<a href='#' onclick='${ onClick }'>`,
+				icon
+			);
+		} else {
+			text = sprintf(
+				/* Translators:
+					%1$s is an anchor opening tag with a link leading to an article on yoast.com;
+					%2$s is an anchor closing tag; */
+				__( "Curious to see the %1$sFlesch reading ease%2$s score of your text? " +
+					"We've moved the score to our Insights section. " +
+					"Enable the Insights feature in General > Settings, or ask your admin to enable it for you.", "wordpress-seo" ),
+				`<a href='${ linkToYoastCom }' target='_blank'>`,
+				"</a>"
+			);
+		}
 
 		return <ul>
 			<AnalysisResult
@@ -248,22 +262,28 @@ ReadabilityAnalysis.propTypes = {
 	overallScore: PropTypes.number,
 	shouldUpsell: PropTypes.bool,
 	isYoastSEOWooActive: PropTypes.bool,
+	isInsightsEnabled: PropTypes.bool,
 };
 
 ReadabilityAnalysis.defaultProps = {
 	overallScore: null,
 	shouldUpsell: false,
 	isYoastSEOWooActive: false,
+	isInsightsEnabled: false,
 };
 
 export default withSelect( select => {
 	const {
 		getReadabilityResults,
 		getMarkButtonStatus,
+		getPreference,
 	} = select( "yoast-seo/editor" );
+
+	const isInsightsEnabled = getPreference( "isInsightsEnabled", false );
 
 	return {
 		...getReadabilityResults(),
 		marksButtonStatus: getMarkButtonStatus(),
+		isInsightsEnabled,
 	};
 } )( ReadabilityAnalysis );
