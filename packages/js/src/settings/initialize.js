@@ -6,6 +6,7 @@ import { forEach, get, isObject } from "lodash";
 import { HashRouter } from "react-router-dom";
 import { StyleSheetManager } from "styled-components";
 import App from "./app";
+import { validationSchema } from "./helpers/validation";
 import registerStore from "./store";
 
 /**
@@ -65,7 +66,11 @@ domReady( () => {
 		<Root>
 			<StyleSheetManager target={ styleDummy }>
 				<HashRouter>
-					<Formik initialValues={ getInitialValues() } onSubmit={ handleSubmit }>
+					<Formik
+						initialValues={ getInitialValues() }
+						validationSchema={ validationSchema }
+						onSubmit={ handleSubmit }
+					>
 						<App />
 					</Formik>
 				</HashRouter>

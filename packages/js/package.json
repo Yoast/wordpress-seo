@@ -48,7 +48,8 @@
     "yoastseo": "^1.91.0",
     "formik": "^2.2.9",
     "@reduxjs/toolkit": "^1.8.3",
-    "react-router-dom": "^6.3.0"
+    "react-router-dom": "^6.3.0",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@babel/core": "^7.17.9",
