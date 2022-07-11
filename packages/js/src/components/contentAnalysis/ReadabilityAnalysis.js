@@ -18,6 +18,7 @@ import HelpLink from "../HelpLink";
 import ReadabilityResultsPortal from "../portals/ReadabilityResultsPortal";
 import { AnalysisResult } from "@yoast/analysis-report";
 import { icons } from "@yoast/components";
+import { isWordComplexitySupported } from "../../helpers/assessmentUpsellHelpers";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
@@ -85,9 +86,10 @@ class ReadabilityAnalysis extends Component {
 		/*
 		 * We don't show the upsell in WooCommerce product pages when Yoast SEO WooCommerce plugin is activated.
 		 * This is because the premium assessments of the upsell are already loaded even when the Premium plugin is not activated.
+		 * Additionally, we also don't show the upsell for Word complexity assessment if it's not supported for the current locale.
 		*/
 		const contentType = wpseoAdminL10n.postType;
-		if ( this.props.isYoastSEOWooActive && contentType === "product" ) {
+		if ( ( this.props.isYoastSEOWooActive && contentType === "product" ) || ! isWordComplexitySupported() ) {
 			return [];
 		}
 
