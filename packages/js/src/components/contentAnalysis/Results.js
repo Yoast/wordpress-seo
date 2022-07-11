@@ -76,6 +76,22 @@ class Results extends Component {
 		}
 	}
 
+	focusOnGooglePreviewField( id, inputFieldLocation ) {
+		let elementIdFirstPart = "yoast-google-preview-"
+
+		if ( id === "metaDescriptionKeyword" || id === "metaDescriptionLength" ) {
+			elementIdFirstPart += "description-"
+		}
+		else if ( id === "titleWidth" ) {
+			elementIdFirstPart += "title-"
+		}
+		else if ( id === "slugKeyword" ) {
+			elementIdFirstPart += "slug-"
+		}
+
+		document.getElementById( elementIdFirstPart + inputFieldLocation ).focus();
+	}
+
 	/**
 	 * Handles a click on an edit button to jump to a relevant edit field.
 	 *
@@ -84,46 +100,30 @@ class Results extends Component {
 	 * @returns {void}
 	 */
 	handleEditButtonClick( id ) {
-		// This variable is used to create the element id strings which are different for the sidebar and the metabox elements.
-		let analysisLocation = "sidebar";
+		// Whether the user is in the metabox or sidebar.
+		let inputFieldLocation = this.props.location;
+
+		// The button next to the Function words in keyphrase and Keyphase length assessments should jump to the keyphrase input field.
+		if( id === "functionWordsInKeyphrase" || id === "keyphraseLength" ) {
+			document.getElementById( "focus-keyword-input-" + inputFieldLocation ).focus();
+			return;
+		}
 
 		/*
-		 * Check whether the editor has a Yoast metabox SEO tab.
-		 * If it does, click on it in case the user does not have it open (this can be the case if they are looking at the
-		 * analysis result in the side bar). Also change the sidebarOrMetabox string to 'metabox'.
-		 */
-		const SEOAnalysisMetaboxTab = document.getElementById( "wpseo-meta-tab-content" );
-		if ( SEOAnalysisMetaboxTab ) {
-			SEOAnalysisMetaboxTab.click();
-			analysisLocation = "metabox";
-		}
-
-		if( id === "functionWordsInKeyphrase" || id === "keyphraseLength" ) {
-			document.getElementById( "focus-keyword-input-" + analysisLocation ).focus();
-		}
-		if ( analysisLocation === "sidebar" ) {
-			analysisLocation = "modal"
-		}
-		if ( analysisLocation === "modal" ) {
+		 * For all the other assessments, we need to jump to the relevant Google preview input field (metadescription,
+		 * slug, or title). If the user is in the sidebar, these fields are accessed through a modal. So if the
+		 * inputFieldLocation string is 'sidebar' it should now be changed to 'modal'.
+	     */
+		if ( inputFieldLocation === "sidebar" ) {
+			inputFieldLocation = "modal"
+			// Open the modal.
 			document.getElementById( "yoast-google-preview-modal-open-button" ).click();
-			document.getElementById( "yoast-snippet-preview-container" ).click();
-			if ( id === "slugKeyword" ) {
-				document.getElementById( "yoast-google-preview-slug-" + analysisLocation ).focus();
-				// In Elementor the slug field is called "yoast-google-preview-slug-modal"
-			}
+			// Wait for the input field elements to become available, then focus on the relevant field.
+			setTimeout( () => this.focusOnGooglePreviewField( id, inputFieldLocation ), 250 );
 		}
-		if ( id === "metaDescriptionKeyword" || id === "metaDescriptionLength" ) {
-			document.getElementById( "yoast-google-preview-description-" + analysisLocation ).focus();
-			// In Elementor this field is called "yoast-google-preview-description-modal"
+		else {
+			this.focusOnGooglePreviewField( id, inputFieldLocation );
 		}
-		if ( id === "titleWidth" ) {
-			document.getElementById( "yoast-google-preview-title-" + analysisLocation ).focus();
-			// In Elementor this field is called "yoast-google-preview-title-modal"
-		}
-		// if ( id === "slugKeyword" ) {
-		// 	document.getElementById( "yoast-google-preview-slug-" + analysisLocation ).focus();
-		// 	// In Elementor the slug field is called "yoast-google-preview-slug-modal"
-		// }
 	}
 
 	/**
@@ -185,6 +185,7 @@ Results.propTypes = {
 	setMarkerPauseStatus: PropTypes.func.isRequired,
 	activeMarker: PropTypes.string,
 	keywordKey: PropTypes.string,
+	location: PropTypes.string,
 };
 
 Results.defaultProps = {

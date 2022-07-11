@@ -40,7 +40,6 @@ const areButtonsHidden = function( props ) {
  * @returns {ReactElement} The rendered AnalysisResult component.
  */
 export const AnalysisResult = ( props ) => {
-	console.log( props, "props" );
 	return (
 		<AnalysisResultBase>
 			<ScoreIcon
