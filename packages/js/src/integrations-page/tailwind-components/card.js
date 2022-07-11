@@ -3,9 +3,9 @@ import { PropTypes } from "prop-types";
 /**
  * The header.
  *
- * @param {JSX.node} children The children.
+ * @param {Object} children The children.
  *
- * @returns {JSX.Element} The header.
+ * @returns {WPElement} The header.
  */
 const Header = ( { children } ) => {
 	return (
@@ -22,9 +22,9 @@ Header.propTypes = {
 /**
  * The content.
  *
- * @param {JSX.node} children The children.
+ * @param {Object} children The children.
  *
- * @returns {JSX.Element} The content.
+ * @returns {WPElement} The content.
  */
 const Content = ( { children } ) => {
 	return (
@@ -42,9 +42,9 @@ Content.propTypes = {
 /**
  * The footer.
  *
- * @param {JSX.node} children The children.
+ * @param {Object} children The children.
  *
- * @returns  {JSX.Element} The footer.
+ * @returns  {WPElement} The footer.
  */
 const Footer = ( { children } ) => {
 	return (
@@ -61,9 +61,9 @@ Footer.propTypes = {
 /**
  * The card.
  *
- * @param {JSX.node} children The children.
+ * @param {Object} children The children.
  *
- * @returns  {JSX.Element} The footer.
+ * @returns  {WPElement} The footer.
  */
 export function Card( { children } ) {
 	return (
@@ -74,7 +74,6 @@ export function Card( { children } ) {
 }
 
 Card.propTypes = {
-
 	children: PropTypes.node,
 };
 
