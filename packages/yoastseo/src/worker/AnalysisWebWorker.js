@@ -1208,10 +1208,11 @@ export default class AnalysisWebWorker {
 	 * @param {string} name   The name of the research to run.
 	 * @param {Paper} [paper] The paper to run the research on if it shouldn't
 	 *                        be run on the latest paper.
+	 * @param {Object} [researchData] Optional research data to use when doing the research.
 	 *
 	 * @returns {Object} The result of the research.
 	 */
-	runResearch( id, { name, paper = null } ) {
+	runResearch( id, { name, paper = null, researchData = null } ) {
 		// Save morphology data if it is available in the current researcher.
 		const morphologyData = this._researcher.getData( "morphology" );
 
@@ -1220,6 +1221,10 @@ export default class AnalysisWebWorker {
 		if ( paper !== null ) {
 			researcher.setPaper( paper );
 			researcher.addResearchData( "morphology", morphologyData );
+		}
+
+		if ( researchData !== null ) {
+			researcher.addResearchData( name, researchData );
 		}
 
 		return researcher.getResearch( name );

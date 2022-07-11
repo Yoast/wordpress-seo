@@ -249,14 +249,15 @@ class AnalysisWorkerWrapper {
 	/**
 	 * Runs the specified research in the worker. Optionally pass a paper.
 	 *
-	 * @param {string} name    The name of the research to run.
-	 * @param {Paper} [paper] The paper to run the research on if it shouldn't
-	 *                         be run on the latest paper.
+	 * @param {string} name           The name of the research to run.
+	 * @param {Paper} [paper]         The paper to run the research on if it shouldn't
+	 *                                be run on the latest paper.
+	 * @param {Object} [researchData] Extra data to use when executing the research.
 	 *
 	 * @returns {Promise} The promise of the research.
 	 */
-	runResearch( name, paper = null ) {
-		return this.sendRequest( "runResearch", { name, paper } );
+	runResearch( name, paper = null, researchData = null ) {
+		return this.sendRequest( "runResearch", { name, paper, researchData } );
 	}
 }
 

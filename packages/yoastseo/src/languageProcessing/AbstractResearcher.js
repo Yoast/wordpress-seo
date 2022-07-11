@@ -37,6 +37,7 @@ import videoCount from "./researches/videoCount";
 import wordCountInText from "./researches/wordCountInText.js";
 import getPassiveVoiceResult from "./researches/getPassiveVoiceResult";
 import wordComplexity from "./researches/wordComplexity";
+import getSuggestedPlacesToAddLinks from "./researches/getSuggestedPlacesToAddLinks";
 
 /**
  * The researches contains all the researches
@@ -69,6 +70,7 @@ export default class AbstractResearcher {
 			getProminentWordsForInternalLinking,
 			getSentenceBeginnings,
 			getSubheadingTextLengths,
+			getSuggestedPlacesToAddLinks,
 			h1s,
 			imageCount,
 			keyphraseDistribution,
