@@ -13,7 +13,7 @@ class InsightsCard extends React.Component {
 	 */
 	getInsightsCardContent() {
 		return (
-			<div className="yoast-insights-card__content" id={ this.props.id }>
+			<div className="yoast-insights-card__content">
 				<p className="yoast-insights-card__score">
 					<span className="yoast-insights-card__amount">{ this.props.amount }</span>
 					{ this.props.unit }
@@ -31,14 +31,16 @@ class InsightsCard extends React.Component {
 	 */
 	render() {
 		return (
-			<FieldGroup
-				label={ this.props.title }
-				linkTo={ this.props.linkTo }
-				linkText={ this.props.linkText }
-				wrapperClassName={ "yoast-insights-card" }
-			>
-				{ this.getInsightsCardContent() }
-			</FieldGroup>
+			<div id={ this.props.id }>
+				<FieldGroup
+					label={ this.props.title }
+					linkTo={ this.props.linkTo }
+					linkText={ this.props.linkText }
+					wrapperClassName={ "yoast-insights-card" }
+				>
+					{ this.getInsightsCardContent() }
+				</FieldGroup>
+			</div>
 		);
 	}
 }
