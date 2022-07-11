@@ -12,6 +12,7 @@ import {
 	Homepage,
 	Media,
 	NotFoundPages,
+	Posts,
 	Rss,
 	SearchPages,
 	SiteDefaults,
@@ -29,23 +30,24 @@ const Menu = () => {
 			<YoastLogo />
 		</figure>
 		<SidebarNavigation.MenuItem id="menu:site-settings" icon={ DesktopComputerIcon } label={ __( "Site settings", "wordpress-seo" ) }>
-			{/*<Navigation.SubmenuItem to="/site-representation" label={ __( "Site representation", "wordpress-seo" ) } />*/}
+			{/*<SidebarNavigation.SubmenuItem to="/site-representation" label={ __( "Site representation", "wordpress-seo" ) } />*/}
 			<SidebarNavigation.SubmenuItem to="/site-defaults" label={ __( "Site defaults", "wordpress-seo" ) } />
 			<SidebarNavigation.SubmenuItem to="/site-preferences" label={ __( "Site preferences", "wordpress-seo" ) } />
 			<SidebarNavigation.SubmenuItem to="/webmaster-tools" label={ __( "Webmaster tools", "wordpress-seo" ) } />
-			{/*<Navigation.SubmenuItem to="/breadcrumbs" label={ __( "Breadcrumbs", "wordpress-seo" ) } />*/ }
+			{/*<SidebarNavigation.SubmenuItem to="/breadcrumbs" label={ __( "Breadcrumbs", "wordpress-seo" ) } />*/ }
 		</SidebarNavigation.MenuItem>
-		{/*{ <Navigation.MenuItem id="menu:content-settings" icon={ NewspaperIcon } label={ __( "Content settings", "wordpress-seo" ) }>*/}
-		{/*	<Navigation.SubmenuItem to="/homepage" label={ __( "Homepage", "wordpress-seo" ) } />*/}
-		{/*</Navigation.MenuItem> }*/}
+		{/*{ <SidebarNavigation.MenuItem id="menu:content-settings" icon={ NewspaperIcon } label={ __( "Content settings", "wordpress-seo" ) }>*/}
+		{/*	<SidebarNavigation.SubmenuItem to="/homepage" label={ __( "Homepage", "wordpress-seo" ) } />*/}
+		{/*	<SidebarNavigation.SubmenuItem to="/posts" label={ __( "Posts", "wordpress-seo" ) } />*/}
+		{/*</SidebarNavigation.MenuItem> }*/}
 		<SidebarNavigation.MenuItem id="menu:advanced-settings" icon={ AdjustmentsIcon } label={ __( "Advanced settings", "wordpress-seo" ) }>
 			<SidebarNavigation.SubmenuItem to="/crawl-settings" label={ __( "Crawl settings", "wordpress-seo" ) } />
-			{/*<Navigation.SubmenuItem to="/author-archives" label={ __( "Author archives", "wordpress-seo" ) } />*/ }
-			{/*<Navigation.SubmenuItem to="/date-archives" label={ __( "Date archives", "wordpress-seo" ) } />*/ }
-			{/*<Navigation.SubmenuItem to="/search-pages" label={ __( "Search pages", "wordpress-seo" ) } />*/ }
-			{/*<Navigation.SubmenuItem to="/not-found-pages" label={ __( "404 pages", "wordpress-seo" ) } />*/ }
-			{/*<Navigation.SubmenuItem to="/media" label={ __( "Media", "wordpress-seo" ) } />*/ }
-			{/*<Navigation.SubmenuItem to="/formats" label={ __( "Formats", "wordpress-seo" ) } />*/ }
+			{/*<SidebarNavigation.SubmenuItem to="/author-archives" label={ __( "Author archives", "wordpress-seo" ) } />*/ }
+			{/*<SidebarNavigation.SubmenuItem to="/date-archives" label={ __( "Date archives", "wordpress-seo" ) } />*/ }
+			{/*<SidebarNavigation.SubmenuItem to="/search-pages" label={ __( "Search pages", "wordpress-seo" ) } />*/ }
+			{/*<SidebarNavigation.SubmenuItem to="/not-found-pages" label={ __( "404 pages", "wordpress-seo" ) } />*/ }
+			{/*<SidebarNavigation.SubmenuItem to="/media" label={ __( "Media", "wordpress-seo" ) } />*/ }
+			{/*<SidebarNavigation.SubmenuItem to="/formats" label={ __( "Formats", "wordpress-seo" ) } />*/ }
 			<SidebarNavigation.SubmenuItem to="/rss" label={ __( "RSS", "wordpress-seo" ) } />
 		</SidebarNavigation.MenuItem>
 	</>;
@@ -80,6 +82,7 @@ const App = () => {
 					{/*<Route path="formats" element={ <Formats /> } />*/}
 					{/*<Route path="media" element={ <Media /> } />*/}
 					{/*<Route path="not-found-pages" element={ <NotFoundPages /> } />*/}
+					{/*{ <Route path="posts" element={ <Posts /> } /> }*/}
 					<Route path="rss" element={ <Rss /> } />
 					{/*<Route path="search-pages" element={ <SearchPages /> } />*/}
 					<Route path="site-defaults" element={ <SiteDefaults /> } />

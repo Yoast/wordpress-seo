@@ -9,6 +9,7 @@ use WPSEO_Option_Titles;
 use WPSEO_Options;
 use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Conditionals\Settings_Conditional;
+use Yoast\WP\SEO\Config\Schema_Types;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 
 /**
@@ -151,6 +152,7 @@ class Settings_Integration implements Integration_Interface {
 		$replace_vars             = new WPSEO_Replace_Vars();
 		$recommended_replace_vars = new WPSEO_Admin_Recommended_Replace_Vars();
 		$specific_replace_vars    = new WPSEO_Admin_Editor_Specific_Replace_Vars();
+		$schema_types             = new Schema_Types();
 
 		$replacement_variables = $replace_vars->get_replacement_variables_with_labels();
 		$data                  = [
@@ -166,6 +168,10 @@ class Settings_Integration implements Integration_Interface {
 				'specific'    => $specific_replace_vars->get(),
 				'shared'      => $specific_replace_vars->get_generic( $replacement_variables ),
 				'hidden'      => $replace_vars->get_hidden_replace_vars(),
+			],
+			'schema'               => [
+				'pageTypeOptions'    => $schema_types->get_page_type_options(),
+				'articleTypeOptions' => $schema_types->get_article_type_options(),
 			],
 		];
 
