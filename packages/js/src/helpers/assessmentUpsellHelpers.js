@@ -10,7 +10,5 @@ export function isWordComplexitySupported() {
 	const locale = window.wpseoScriptData.metabox.contentLocale;
 	const language = languageProcessing.getLanguage( locale );
 
-	console.log(  languagesWithSupport.includes( language ), "word complexity" );
-
 	return languagesWithSupport.includes( language );
 }
