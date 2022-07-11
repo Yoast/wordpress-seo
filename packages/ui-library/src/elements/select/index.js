@@ -5,8 +5,13 @@ import classNames from "classnames";
 import PropTypes from "prop-types";
 import { useSvgAria } from "../../hooks";
 
+const optionPropType = {
+	value: PropTypes.oneOfType( [ PropTypes.string, PropTypes.number, PropTypes.bool ] ).isRequired,
+	label: PropTypes.string.isRequired,
+};
+
 /**
- * @param {string} value Value.
+ * @param {string|number|boolean} value Value.
  * @param {string} label Label.
  * @returns {JSX.Element} The option.
  */
@@ -34,10 +39,7 @@ const Option = ( { value, label } ) => {
 	);
 };
 
-Option.propTypes = {
-	value: PropTypes.oneOfType( [ PropTypes.string, PropTypes.number, PropTypes.bool ] ).isRequired,
-	label: PropTypes.string.isRequired,
-};
+Option.propTypes = optionPropType;
 
 /**
  * @param {string} id Identifier.
@@ -113,10 +115,7 @@ const Select = ( {
 Select.propTypes = {
 	id: PropTypes.string.isRequired,
 	value: PropTypes.oneOfType( [ PropTypes.string, PropTypes.number, PropTypes.bool ] ).isRequired,
-	options: PropTypes.arrayOf( PropTypes.shape( {
-		value: PropTypes.oneOfType( [ PropTypes.string, PropTypes.number, PropTypes.bool ] ).isRequired,
-		label: PropTypes.string.isRequired,
-	} ) ),
+	options: PropTypes.arrayOf( PropTypes.shape( optionPropType ) ),
 	children: PropTypes.node,
 	selectedLabel: PropTypes.string,
 	label: PropTypes.string,
