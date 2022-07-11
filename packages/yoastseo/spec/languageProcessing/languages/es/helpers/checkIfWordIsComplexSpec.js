@@ -6,12 +6,12 @@ describe( "a test checking if the word is complex in Spanish",  function() {
 	} );
 
 	// eslint-disable-next-line max-len
-	it( "returns plural word form as non-complex if its singular form is found in the list of the singular word form ends with a consonant", function() {
+	it( "returns plural word form as non-complex if its singular form is found in the list when the singular word form ends with a consonant", function() {
 		expect( checkIfWordIsComplex( "originales" ) ).toEqual( false );
 	} );
 
 	// eslint-disable-next-line max-len
-	it( "returns plural word form as non-complex if its singular form is found in the list of the singular word form ends with a vowel", function() {
+	it( "returns plural word form as non-complex if its singular form is found in the list when the singular word form ends with a vowel", function() {
 		expect( checkIfWordIsComplex( "parecidos" ) ).toEqual( false );
 	} );
 
@@ -33,7 +33,7 @@ describe( "a test checking if the word is complex in Spanish",  function() {
 		expect( checkIfWordIsComplex( "contemplada" ) ).toEqual( true );
 	} );
 
-	it( "returns plural word as non complex if the word is less than 10 characters", function() {
+	it( "returns plural word as non complex if the word is less than 7 characters", function() {
 		expect( checkIfWordIsComplex( "cosas" ) ).toEqual( false );
 	} );
 } );
