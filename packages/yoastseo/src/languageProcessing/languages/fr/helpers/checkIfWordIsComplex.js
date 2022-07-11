@@ -1,6 +1,9 @@
 import wordComplexity from "../config/internal/wordComplexity";
 import functionWords from "../config/functionWords";
 
+const contractionPrefixes = "^(c'|d'|l'|s')";
+const contractionRegex = new RegExp( contractionPrefixes );
+
 /**
  * Checks if a word is complex.
  *
@@ -14,11 +17,11 @@ export default function checkIfWordIsComplex( word ) {
 	const frequencyList = wordComplexityConfig.frequencyList;
 
 	/*
-	 * We want to remove the definite article l' and preposition d' from a word,
+	 * We want to remove the definite article l', preposition d' from a word,
 	 * since an article or preposition doesn't add any complexity to the word.
 	 */
-	if ( word.startsWith( "l'" ) || word.startsWith( "d'" ) ) {
-		word = word.substring( 2, word.length );
+	if ( contractionRegex.test( word ) ) {
+		word = word.replace( contractionRegex, "" );
 	}
 
 	// The word is not complex if it's less than the length limit, i.e. 9 characters for French.
