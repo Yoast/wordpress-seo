@@ -1,24 +1,22 @@
+import { get } from "lodash";
 import domReady from "@wordpress/dom-ready";
 
-import { render } from "@wordpress/element";
 import { Root } from "@yoast/ui-library";
-import { get } from "lodash";
 import IntegrationsGrid from "./integrations-page/tailwind-components/integrations-grid";
+import { registerReactComponent, renderReactRoot } from "./helpers/reactRoot";
 
+window.YoastSEO = window.YoastSEO || {};
+window.YoastSEO._registerReactComponent = registerReactComponent;
 
 domReady( () => {
 	const context = {
 		isRtl: Boolean( get( window, "wpseoScriptData.metabox.isRtl", false ) ),
 	};
-	const root = document.getElementById( "wpseo-integrations" );
-	if ( ! root ) {
-		return;
-	}
 
-	render(
+	renderReactRoot(
+		"wpseo-integrations",
 		<Root context={ context }>
 			<IntegrationsGrid />
-		</Root>,
-		root
+		</Root>
 	);
 } );

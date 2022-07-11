@@ -1,19 +1,21 @@
 import apiFetch from "@wordpress/api-fetch";
+import { Slot } from "@wordpress/components";
 import { useState, useCallback } from "@wordpress/element";
-import { Button, Badge, ToggleField } from "@yoast/ui-library";
 import { __, sprintf } from "@wordpress/i18n";
-import { Card } from "./card";
-import algoliaLogo from "../../../images/algolia-logo.svg";
-import ryteLogo from "../../../images/ryte-logo.svg";
-import semrushLogo from "../../../images/semrush-logo.svg";
-import wincherLogo from "../../../images/wincher-logo.svg";
-import zapierLogo from "../../../images/zapier-logo.svg";
-import wordproofLogo from "../../../images/wordproof-logo.svg";
-import woocommerceLogo from "../../../images/woocommerce-logo.svg";
 import { PropTypes } from "prop-types";
 
+import { Button, Badge, ToggleField } from "@yoast/ui-library";
+import { Card } from "./card";
+import AlgoliaLogo from "../../../images/algolia-logo.svg";
+import RyteLogo from "../../../images/ryte-logo.svg";
+import SemrushLogo from "../../../images/semrush-logo.svg";
+import wincherLogo from "../../../images/wincher-logo.svg";
+import ZapierLogo from "../../../images/zapier-logo.svg";
+import WordproofLogo from "../../../images/wordproof-logo.svg";
+import WoocommerceLogo from "../../../images/woocommerce-logo.svg";
+
 const isPremiumInstalled = Boolean( window.wpseoScriptData.isPremium );
-const upsellLink = "https://yoa.st/workout-orphaned-content-upsell";
+const upsellLink         = "https://yoa.st/workout-orphaned-content-upsell";
 
 const SEOTools = [
 	{
@@ -24,7 +26,7 @@ const SEOTools = [
 		isPremium: false,
 		isNew: false,
 		isNetworkAvailable: true,
-		logo: semrushLogo,
+		logo: SemrushLogo,
 	},
 	{
 		name: "Wincher",
@@ -44,7 +46,7 @@ const SEOTools = [
 		isPremium: false,
 		isNew: false,
 		isNetworkAvailable: true,
-		logo: ryteLogo,
+		logo: RyteLogo,
 	},
 	{
 		name: "WordProof",
@@ -54,7 +56,7 @@ const SEOTools = [
 		isPremium: false,
 		isNew: false,
 		isNetworkAvailable: false,
-		logo: wordproofLogo,
+		logo: WordproofLogo,
 
 	},
 	{
@@ -65,7 +67,7 @@ const SEOTools = [
 		isPremium: true,
 		isNew: false,
 		isNetworkAvailable: true,
-		logo: zapierLogo,
+		logo: ZapierLogo,
 	},
 ];
 
@@ -96,7 +98,7 @@ const pluginIntegrations = [
 		isPremium: true,
 		isNew: false,
 		isNetworkAvailable: true,
-		logo: algoliaLogo,
+		logo: AlgoliaLogo,
 	},
 	{
 		name: "WooCommerce",
@@ -105,7 +107,7 @@ const pluginIntegrations = [
 		isPremium: false,
 		isNew: false,
 		isNetworkAvailable: true,
-		logo: woocommerceLogo,
+		logo: WoocommerceLogo,
 	},
 	{
 		name: "ACF",
@@ -177,15 +179,16 @@ const updateIntegrationState = async( integrationSlug, setActive ) => {
 /**
  * An integration which can be toggled on and off.
  *
- * @param {string} name                 The integration name.
- * @param {array}  usps                 The array of upselling points.
- * @param {string} description          The integration description.
- * @param {string} logo                 The integration logo.
- * @param {string} toggleLabel          The toggle label.
- * @param {bool}   isIntegrationActive  True if the integration has been activated by the user.
- * @param {bool}   isIntegrationEnabled True if the integration is network-enabled.
- * @param {bool}   isPremium            True if the integration is in Yoast SEO Premium.
- * @param {funct}  beforeToggle         Check function to call before toggling the integration.
+ * @param {string}    name                 The integration name.
+ * @param {array}     usps                 The array of upselling points.
+ * @param {string}    slug                 The integration slug.
+ * @param {string}    description          The integration description.
+ * @param {WPElement} logo                 The integration logo.
+ * @param {string}    toggleLabel          The toggle label.
+ * @param {bool}      isIntegrationActive  True if the integration has been activated by the user.
+ * @param {bool}      isIntegrationEnabled True if the integration is network-enabled.
+ * @param {bool}      isPremium            True if the integration is in Yoast SEO Premium.
+ * @param {function}  beforeToggle         Check function to call before toggling the integration.
  *
  * @returns {WPElement} A card representing an integration which can be toggled active by the user.
  */
@@ -231,7 +234,7 @@ const ToggleableIntegration = ( {
 				{ ( ! isIntegrationEnabled ) && <Badge className="yst-absolute yst-top-2 yst-right-2">{ __( "Network Disabled", "wordpress-seo" ) }</Badge> }
 			</Card.Header>
 			<Card.Content>
-				<span className={ `${ isActive ? "" : "yst-opacity-50  yst-filter yst-grayscale" } ` }>
+				<div className={ `${ isActive ? "" : "yst-opacity-50  yst-filter yst-grayscale" } ` }>
 					<h4 className="yst-flex yst-items-center yst-text-base yst-mb-3 yst-font-medium yst-text-[#111827]">
 						<span>{ name }</span>
 					</h4>
@@ -248,7 +251,11 @@ const ToggleableIntegration = ( {
 							);
 						} ) }
 					</ul> }
-				</span>
+				</div>
+				{ isActive &&
+					<Slot
+						name={`${name}Slot`}
+					/> }
 			</Card.Content>
 			<Card.Footer>
 				{ ( ( isPremium && isPremiumInstalled ) || ! isPremium )
