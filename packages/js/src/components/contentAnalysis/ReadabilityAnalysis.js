@@ -5,7 +5,7 @@ import { withSelect } from "@wordpress/data";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { __, sprintf } from "@wordpress/i18n";
-import { isNil } from "lodash-es";
+import { isNil, noop } from "lodash-es";
 
 /* Internal components */
 import ScoreIconPortal from "../portals/ScoreIconPortal";
@@ -16,6 +16,9 @@ import { getIconForScore } from "./mapResults";
 import { LocationConsumer } from "@yoast/externals/contexts";
 import HelpLink from "../HelpLink";
 import ReadabilityResultsPortal from "../portals/ReadabilityResultsPortal";
+import { AnalysisResult } from "@yoast/analysis-report";
+import { icons } from "@yoast/components";
+import { isWordComplexitySupported } from "../../helpers/assessmentUpsellHelpers";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
@@ -83,9 +86,10 @@ class ReadabilityAnalysis extends Component {
 		/*
 		 * We don't show the upsell in WooCommerce product pages when Yoast SEO WooCommerce plugin is activated.
 		 * This is because the premium assessments of the upsell are already loaded even when the Premium plugin is not activated.
+		 * Additionally, we also don't show the upsell for Word complexity assessment if it's not supported for the current locale.
 		*/
 		const contentType = wpseoAdminL10n.postType;
-		if ( this.props.isYoastSEOWooActive && contentType === "product" ) {
+		if ( ( this.props.isYoastSEOWooActive && contentType === "product" ) || ! isWordComplexitySupported() ) {
 			return [];
 		}
 
@@ -112,6 +116,92 @@ class ReadabilityAnalysis extends Component {
 				markerId: "wordComplexity",
 			},
 		];
+	}
+
+	/**
+	 * Returns a note letting the user know that the Flesch reading ease score has moved to
+	 * the insights section.
+	 *
+	 * @param {string} location The location of the readability analysis (e.g. "metabox" or "sidebar" ).
+	 *
+	 * @returns {JSX.Element} The Flesch reading ease note.
+	 */
+	renderFleschReadingEaseNote( location ) {
+		const icon = `<svg
+			style="vertical-align: middle; margin-left: 2px"
+			width="14px"
+			height="14px"
+			aria-hidden="true"
+			role="img"
+			focusable="false"
+			class="yoast-svg-icon yoast-svg-icon-pencil-square"
+			viewBox="0 0 1792 1792"
+			fill="currentColor">
+				<path d="${ icons[ "pencil-square" ].path }"></path>
+		</svg>`;
+
+		const linkToYoastCom = location === "sidebar"
+			? wpseoAdminL10n[ "shortlinks-insights-flesch_reading_ease_sidebar" ]
+			: wpseoAdminL10n[ "shortlinks-insights-flesch_reading_ease_metabox" ];
+
+		let text = "";
+		if ( this.props.isInsightsEnabled ) {
+			const onClick = `
+			const location = "${ location }";
+			const metaTab = document.getElementById( "wpseo-meta-tab-content" );
+			if ( metaTab && location === "metabox" ) {
+				metaTab.click();
+				setTimeout( () => {
+					const collapsible = document.getElementById( "yoast-insights-collapsible-metabox" );
+					if( collapsible.getAttribute( "aria-expanded" ) === "false" ) {
+						collapsible.click();
+					}
+					document.getElementById( "yoastseo-flesch-reading-ease-insights" ).scrollIntoView();
+				}, 300 );
+			} else if ( location === "sidebar" ) {
+				document.getElementById( "yoast-insights-modal-sidebar-open-button" ).click();
+			} else {
+				document.getElementById( "yoast-insights-modal-elementor-open-button" ).click();
+			}
+			`.replaceAll( /(\n|\s)+/g, " " );
+
+			text = sprintf(
+				/* Translators:
+					%1$s is an anchor opening tag with a link leading to an article on yoast.com;
+					%2$s is an anchor closing tag;
+					%3$s is an anchor opening tag with a link to our insights section;
+					%4$s is an icon. */
+				__( "Curious to see the %1$sFlesch reading ease%2$s score of your text? We've moved the score to our %3$sInsights%4$s%2$s section.", "wordpress-seo" ),
+				`<a href='${ linkToYoastCom }' target='_blank'>`,
+				"</a>",
+				`<a href='#' onclick='${ onClick }'>`,
+				icon
+			);
+		} else {
+			text = sprintf(
+				/* Translators:
+					%1$s is an anchor opening tag with a link leading to an article on yoast.com;
+					%2$s is an anchor closing tag; */
+				__( "Curious to see the %1$sFlesch reading ease%2$s score of your text? " +
+					"We've moved the score to our Insights section. " +
+					"Enable the Insights feature in General > Features, or ask your admin to enable it for you.", "wordpress-seo" ),
+				`<a href='${ linkToYoastCom }' target='_blank'>`,
+				"</a>"
+			);
+		}
+
+		return <ul>
+			<AnalysisResult
+				icon="alert-info"
+				pressed={ false }
+				onButtonClick={ noop }
+				bulletColor="gray"
+				buttonId={ "" }
+				text={ text }
+				hasMarksButton={ false }
+				ariaLabel={ "" }
+			/>
+		</ul>;
 	}
 
 	/**
@@ -143,6 +233,7 @@ class ReadabilityAnalysis extends Component {
 								id={ `yoast-readability-analysis-collapsible-${ location }` }
 							>
 								{ this.renderResults( upsellResults ) }
+								{ this.renderFleschReadingEaseNote( location ) }
 							</Collapsible>
 						);
 					}
@@ -156,6 +247,7 @@ class ReadabilityAnalysis extends Component {
 										scoreIndicator={ score.className }
 									/>
 									{ this.renderResults( upsellResults ) }
+									{ this.renderFleschReadingEaseNote( location ) }
 								</ReadabilityResultsTabContainer>
 							</ReadabilityResultsPortal>
 						);
@@ -172,22 +264,28 @@ ReadabilityAnalysis.propTypes = {
 	overallScore: PropTypes.number,
 	shouldUpsell: PropTypes.bool,
 	isYoastSEOWooActive: PropTypes.bool,
+	isInsightsEnabled: PropTypes.bool,
 };
 
 ReadabilityAnalysis.defaultProps = {
 	overallScore: null,
 	shouldUpsell: false,
 	isYoastSEOWooActive: false,
+	isInsightsEnabled: false,
 };
 
 export default withSelect( select => {
 	const {
 		getReadabilityResults,
 		getMarkButtonStatus,
+		getPreference,
 	} = select( "yoast-seo/editor" );
+
+	const isInsightsEnabled = getPreference( "isInsightsEnabled", false );
 
 	return {
 		...getReadabilityResults(),
 		marksButtonStatus: getMarkButtonStatus(),
+		isInsightsEnabled,
 	};
 } )( ReadabilityAnalysis );

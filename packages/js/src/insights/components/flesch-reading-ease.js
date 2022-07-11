@@ -132,6 +132,7 @@ const FleschReadingEase = () => {
 
 	return (
 		<InsightsCard
+			id={ "yoastseo-flesch-reading-ease-insights" }
 			amount={ score }
 			unit={ __( "out of 100", "wordpress-seo" ) }
 			title={ __( "Flesch reading ease", "wordpress-seo" ) }

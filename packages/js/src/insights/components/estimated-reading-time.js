@@ -14,6 +14,7 @@ const EstimatedReadingTime = () => {
 
 	return (
 		<InsightsCard
+			id={ "yoastseo-estimated-reading-time-insights" }
 			amount={ estimatedReadingTime }
 			unit={ _n( "minute", "minutes", estimatedReadingTime, "wordpress-seo" ) }
 			title={ __( "Reading time", "wordpress-seo" ) }
