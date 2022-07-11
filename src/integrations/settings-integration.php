@@ -167,7 +167,6 @@ class Settings_Integration implements Integration_Interface {
 				'recommended' => $recommended_replace_vars->get_recommended_replacevars(),
 				'specific'    => $specific_replace_vars->get(),
 				'shared'      => $specific_replace_vars->get_generic( $replacement_variables ),
-				'hidden'      => $replace_vars->get_hidden_replace_vars(),
 			],
 			'schema'               => [
 				'pageTypeOptions'    => $schema_types->get_page_type_options(),
