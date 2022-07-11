@@ -89,7 +89,7 @@ class ReadabilityAnalysis extends Component {
 		 * Additionally, we also don't show the upsell for Word complexity assessment if it's not supported for the current locale.
 		*/
 		const contentType = wpseoAdminL10n.postType;
-		if ( this.props.isYoastSEOWooActive && contentType === "product" && ! isWordComplexitySupported() ) {
+		if ( ( this.props.isYoastSEOWooActive && contentType === "product" ) || ! isWordComplexitySupported() ) {
 			return [];
 		}
 
