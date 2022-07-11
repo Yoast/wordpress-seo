@@ -34,7 +34,6 @@ const SitePreferences = () => {
 					name="wpseo.enable_metabox_insights"
 					data-id="input:wpseo.enable_metabox_insights"
 					label={ __( "Insights", "wordpress-seo" ) }
-					labelSuffix={ <Badge className="yst-ml-1.5" variant="upsell">Premium</Badge> }
 					description={ __( "The Insights section in our metabox shows you useful data about your content, like what words you use most often.", "wordpress-seo" ) }
 				/>
 			</FieldsetLayout>
