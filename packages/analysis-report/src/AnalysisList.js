@@ -1,5 +1,5 @@
 /* External dependencies */
-import { __ } from "@wordpress/i18n";
+import { __, sprintf } from "@wordpress/i18n";
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
@@ -42,6 +42,29 @@ export function renderRatingToColor( rating ) {
 	}
 }
 
+const createLabelForEditButton = function( id ) {
+	let editFieldName;
+
+	if( id === "functionWordsInKeyphrase" || id === "keyphraseLength" ) {
+		editFieldName = __( "keyphrase", "wordpress-seo" );
+	}
+	else if ( id === "metaDescriptionKeyword" || id === "metaDescriptionLength" ) {
+		editFieldName = __( "meta description", "wordpress-seo" );
+	}
+	else if ( id === "titleWidth" ) {
+		editFieldName = __( "SEO title", "wordpress-seo" );
+	}
+	else if ( id === "slugKeyword" ) {
+		editFieldName = __( "slug", "wordpress-seo" );
+	}
+	else return "";
+
+	return sprintf(
+		__( "Edit your %1$s", "wordpress-seo" ),
+		editFieldName
+	)
+}
+
 /**
  * Renders a list of results based on the array of results.
  *
@@ -75,7 +98,7 @@ export default function AnalysisList( { results, marksButtonActivatedResult, mar
 				ariaLabelMarks = __( "Highlight this result in the text", "wordpress-seo" );
 			}
 
-			const ariaLabelEdit = __( "Jump to an edit field to make the suggested change", "wordpress-seo" );
+			const ariaLabelEdit = createLabelForEditButton( result.id );
 
 			return <AnalysisResult
 				key={ result.id }
