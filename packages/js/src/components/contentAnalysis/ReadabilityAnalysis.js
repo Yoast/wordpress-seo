@@ -157,6 +157,10 @@ class ReadabilityAnalysis extends Component {
 				<path d="${ icons[ "pencil-square" ].path }"></path>
 		</svg>`;
 
+		const linkToYoastCom = location === "sidebar"
+			? wpseoAdminL10n[ "shortlinks-insights-flesch_reading_ease_sidebar" ]
+			: wpseoAdminL10n[ "shortlinks-insights-flesch_reading_ease_metabox" ];
+
 		const text = sprintf(
 			/* Translators:
 				%1$s is an anchor opening tag with a link leading to an article on yoast.com;
@@ -164,7 +168,7 @@ class ReadabilityAnalysis extends Component {
 				%3$s is an anchor opening tag with a link to our insights section;
 				%4$s is an icon. */
 			__( "Curious to see the %1$sFlesch reading ease%2$s score of your text? We've moved the score to our %3$sInsights%4$s%2$s section.", "wordpress-seo" ),
-			`<a href='${ wpseoAdminL10n[ "shortlinks-insights-flesch_reading_ease" ] }' target='_blank'>`,
+			`<a href='${ linkToYoastCom }' target='_blank'>`,
 			"</a>",
 			`<a href='#' onclick='${ onClick }'>`,
 			icon
