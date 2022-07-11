@@ -148,20 +148,24 @@ class ReadabilityAnalysis extends Component {
 		if ( this.props.isInsightsEnabled ) {
 			const onClick = `
 			const location = "${ location }";
-			const metaTab = document.getElementById( "wpseo-meta-tab-content" );
-			if ( metaTab && location === "metabox" ) {
-				metaTab.click();
-				setTimeout( () => {
-					const collapsible = document.getElementById( "yoast-insights-collapsible-metabox" );
-					if( collapsible.getAttribute( "aria-expanded" ) === "false" ) {
-						collapsible.click();
-					}
-					document.getElementById( "yoastseo-flesch-reading-ease-insights" ).scrollIntoView();
-				}, 300 );
-			} else if ( location === "sidebar" ) {
-				document.getElementById( "yoast-insights-modal-sidebar-open-button" ).click();
-			} else {
+			const isElementor = ${ this.props.isElementorEditor };
+			
+			if ( isElementor ) {
 				document.getElementById( "yoast-insights-modal-elementor-open-button" ).click();
+			} else {
+				const metaTab = document.getElementById( "wpseo-meta-tab-content" );
+				if ( metaTab && location === "metabox" ) {
+					metaTab.click();
+					setTimeout( () => {
+						const collapsible = document.getElementById( "yoast-insights-collapsible-metabox" );
+						if( collapsible.getAttribute( "aria-expanded" ) === "false" ) {
+							collapsible.click();
+						}
+						document.getElementById( "yoastseo-flesch-reading-ease-insights" ).scrollIntoView();
+					}, 300 );
+				} else if ( location === "sidebar" ) {
+					document.getElementById( "yoast-insights-modal-sidebar-open-button" ).click();
+				}
 			}
 			`.replaceAll( /(\n|\s)+/g, " " );
 
@@ -265,6 +269,7 @@ ReadabilityAnalysis.propTypes = {
 	shouldUpsell: PropTypes.bool,
 	isYoastSEOWooActive: PropTypes.bool,
 	isInsightsEnabled: PropTypes.bool,
+	isElementorEditor: PropTypes.bool,
 };
 
 ReadabilityAnalysis.defaultProps = {
@@ -272,6 +277,7 @@ ReadabilityAnalysis.defaultProps = {
 	shouldUpsell: false,
 	isYoastSEOWooActive: false,
 	isInsightsEnabled: false,
+	isElementorEditor: false,
 };
 
 export default withSelect( select => {
@@ -279,6 +285,7 @@ export default withSelect( select => {
 		getReadabilityResults,
 		getMarkButtonStatus,
 		getPreference,
+		getIsElementorEditor,
 	} = select( "yoast-seo/editor" );
 
 	const isInsightsEnabled = getPreference( "isInsightsEnabled", false );
@@ -287,5 +294,6 @@ export default withSelect( select => {
 		...getReadabilityResults(),
 		marksButtonStatus: getMarkButtonStatus(),
 		isInsightsEnabled,
+		isElementorEditor: getIsElementorEditor(),
 	};
 } )( ReadabilityAnalysis );
