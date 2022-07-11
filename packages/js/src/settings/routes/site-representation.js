@@ -1,11 +1,13 @@
 import { Transition } from "@headlessui/react";
 import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Alert, Radio, RadioGroup, SelectField, TextField } from "@yoast/ui-library";
-import { Field, useFormikContext } from "formik";
+import { TrashIcon } from "@heroicons/react/outline";
+import { PlusIcon } from "@heroicons/react/solid";
+import { Alert, Radio, RadioGroup, SelectField, TextField, Button } from "@yoast/ui-library";
+import { Field, FieldArray, useFormikContext } from "formik";
 import { find, get, map } from "lodash";
 import { addLinkToString } from "../../helpers/stringHelpers";
-import { FieldsetLayout, FormikMediaSelectField, FormikValueChangeField, FormLayout } from "../components";
+import { FieldsetLayout, FormikMediaSelectField, FormikValueChangeField, FormikWithErrorField, FormLayout } from "../components";
 
 /**
  * @returns {JSX.Element} The site representation route.
@@ -14,6 +16,7 @@ const SiteRepresentation = () => {
 	const { values } = useFormikContext();
 	// eslint-disable-next-line camelcase
 	const { company_or_person: companyOrPerson, company_or_person_user_id: companyOrPersonId } = values.wpseo_titles;
+	const { other_social_urls: otherSocialUrls } = values.wpseo_social;
 
 	const userEditUrl = useMemo( () => get( window, "wpseoScriptData.userEditUrl", [] ), [] );
 	const users = useMemo( () => get( window, "wpseoScriptData.users", [] ), [] );
@@ -162,6 +165,62 @@ const SiteRepresentation = () => {
 				</Transition>
 			</div>
 			<hr className="yst-my-8" />
+			<FieldsetLayout
+				title={ __( "Other profiles", "wordpress-seo" ) }
+				description={ __( "Tell us if you have any other profiles on the web that belong to your organization. This can be any number of profiles, like YouTube, LinkedIn, Pinterest, or even Wikipedia.", "wordpress-seo" ) }
+			>
+				<FormikWithErrorField
+					as={ TextField }
+					name="wpseo_social.facebook_site"
+					id="input:wpseo_social.facebook_site"
+					label={ __( "Facebook", "wordpress-seo" ) }
+					placeholder={ __( "E.g. https://facebook.com/yoast", "wordpress-seo" ) }
+				/>
+				<FormikWithErrorField
+					as={ TextField }
+					name="wpseo_social.instagram_site"
+					id="input:wpseo_social.instagram_site"
+					label={ __( "Instagram", "wordpress-seo" ) }
+					placeholder={ __( "E.g. https://instagram.com/yoast", "wordpress-seo" ) }
+				/>
+				<FormikWithErrorField
+					as={ TextField }
+					name="wpseo_social.twitter_site"
+					id="input:wpseo_social.twitter_site"
+					label={ __( "Twitter", "wordpress-seo" ) }
+					placeholder={ __( "E.g. https://twitter.com/yoast", "wordpress-seo" ) }
+				/>
+				<FieldArray name="wpseo_social.other_social_urls">
+					{ arrayHelpers => (
+						<>
+							{ otherSocialUrls.map( ( _, index ) => (
+								<div key={ `wpseo_social.other_social_urls.${ index }` } className="yst-w-full yst-flex yst-items-start yst-gap-2">
+									<FormikWithErrorField
+										as={ TextField }
+										name={ `wpseo_social.other_social_urls.${ index }` }
+										id={ `input:wpseo_social.other_social_urls.${ index }` }
+										label={ __( "Add another profile", "wordpress-seo" ) }
+										placeholder={ __( "E.g. https://example.com/yoast", "wordpress-seo" ) }
+										className="yst-grow"
+									/>
+									<button
+										// eslint-disable-next-line react/jsx-no-bind
+										onClick={ arrayHelpers.remove.bind( null, index ) }
+										className="yst-mt-7 yst-p-2.5 yst-rounded-md focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-primary-500"
+									>
+										<TrashIcon className="yst-h-5 yst-w-5" />
+									</button>
+								</div>
+							) )	}
+							{ /* eslint-disable-next-line react/jsx-no-bind */ }
+							<Button variant="secondary" onClick={ arrayHelpers.push.bind( null, "" ) }>
+								<PlusIcon className="yst--ml-1 yst-mr-1 yst-h-5 yst-w-5 yst-text-gray-400" />
+								{ __( "Add another profile", "wordpress-seo" ) }
+							</Button>
+						</>
+					) }
+				</FieldArray>
+			</FieldsetLayout>
 		</FormLayout>
 	);
 };

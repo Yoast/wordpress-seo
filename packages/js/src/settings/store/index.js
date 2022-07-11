@@ -35,7 +35,7 @@ const createStore = ( { initialState } ) => {
 			{
 				replacementVariables: createInitialReplacementVariablesState(),
 			},
-			initialState,
+			initialState
 		),
 		reducer: combineReducers( {
 			replacementVariables,
