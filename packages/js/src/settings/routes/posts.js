@@ -1,8 +1,7 @@
 import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { SelectField } from "@yoast/ui-library";
-import { filter, get, includes, map } from "lodash";
-import { createLabelFromName } from "../../helpers/replacementVariableHelpers";
+import { get, map } from "lodash";
 import {
 	FieldsetLayout,
 	FormikFlippedToggleField,
@@ -11,40 +10,7 @@ import {
 	FormikValueChangeField,
 	FormLayout,
 } from "../components";
-
-/**
- * @param {string} postType The post type, e.g. post, page, search, etc.
- * @param {string} context The context, extra context on top of post type, e.g. homepage, 404 etc.
- * @returns {[{name: *, label, value: *}[],[]]} Replacement variables and recommended replacement variables.
- */
-const useReplacementVariables = ( postType, context ) => {
-	const all = useMemo( () => map(
-		get( window, "wpseoScriptData.replacementVariables.variables", [] ),
-		( { name: pureName, value, label } ) => {
-			const name = pureName.replace( / /g, "_" );
-			return {
-				name,
-				value,
-				label: label || createLabelFromName( name ),
-			};
-		},
-	), [] );
-	const specific = useMemo( () => [
-		...get( window, "wpseoScriptData.replacementVariables.shared", [] ),
-		...get( window, `wpseoScriptData.replacementVariables.specific.${ postType }`, [] ),
-	], [ postType ] );
-
-	const replacementVariables = useMemo(
-		() => filter( all, ( { name } ) => includes( specific, name ) ),
-		[ all, specific ]
-	);
-	const recommendedReplacementVariables = useMemo(
-		() => get( window, `wpseoScriptData.replacementVariables.recommended.${ context }`, [] ),
-		[ context ]
-	);
-
-	return [ replacementVariables, recommendedReplacementVariables ];
-};
+import { useSelectSettings } from "../store";
 
 /**
  * @param {{name: string, value: string|number|bool}[]} types Schema types.
@@ -59,7 +25,8 @@ const Posts = () => {
 	const postType = "post";
 	const postTypePlural = "Posts";
 	const postTypeSingular = "Post";
-	const [ replacementVariables, recommendedReplacementVariables ] = useReplacementVariables( postType, postType );
+	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [], postType );
+	const recommendedReplacementVariables = useSelectSettings( "selectRecommendedReplacementVariablesFor", [], postType );
 	const recommendedSize = useMemo( () => createInterpolateElement(
 		sprintf(
 			/**
