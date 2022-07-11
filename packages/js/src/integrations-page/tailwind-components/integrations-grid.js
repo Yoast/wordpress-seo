@@ -22,40 +22,40 @@ const SEOTools = [
 		name: "Semrush",
 		type: "toggleable",
 		slug: "semrush",
-		description: "The Semrush integration offers suggestions and insights for keywords related to the entered focus keyphrase.",
+		description: __( "The Semrush integration offers suggestions and insights for keywords related to the entered focus keyphrase.", "wordpress-seo" ),
 		isPremium: false,
 		isNew: false,
-		isNetworkAvailable: true,
+		isMultisiteAvailable: true,
 		logo: SemrushLogo,
 	},
 	{
 		name: "Wincher",
 		type: "toggleable",
 		slug: "wincher",
-		description: "The Wincher integration offers the option to track specific keyphrases and gain insights in their positions.",
+		description: __( "The Wincher integration offers the option to track specific keyphrases and gain insights in their positions.", "wordpress-seo" ),
 		isPremium: false,
 		isNew: false,
-		isNetworkAvailable: false,
+		isMultisiteAvailable: false,
 		logo: wincherLogo,
 	},
 	{
 		name: "Ryte",
 		type: "toggleable",
 		slug: "ryte",
-		description: "Ryte will check weekly if your site is still indexable by search engines and Yoast SEO will notify you when this is not the case. Read more about how Ryte works.",
+		description: __( "Ryte will check weekly if your site is still indexable by search engines and Yoast SEO will notify you when this is not the case. Read more about how Ryte works.", "wordpress-seo" ),
 		isPremium: false,
 		isNew: false,
-		isNetworkAvailable: true,
+		isMultisiteAvailable: true,
 		logo: RyteLogo,
 	},
 	{
 		name: "WordProof",
 		type: "toggleable",
 		slug: "wordproof",
-		description: "Together with WordProof, we've built an integration that will allow you to timestamp your privacy page. Using the blockchain, you can protect your content and help the web become more trustworthy. For yourself, as well as for SEO, since trust is a big factor for search engines as well.",
+		description: __( "Together with WordProof, we've built an integration that will allow you to timestamp your privacy page. Using the blockchain, you can protect your content and help the web become more trustworthy. For yourself, as well as for SEO, since trust is a big factor for search engines as well.", "wordpress-seo" ),
 		isPremium: false,
 		isNew: false,
-		isNetworkAvailable: false,
+		isMultisiteAvailable: false,
 		logo: WordproofLogo,
 
 	},
@@ -63,10 +63,11 @@ const SEOTools = [
 		name: "Zapier",
 		type: "toggleable",
 		slug: "zapier",
-		usps: [ "Automatically share your content on the platforms of your choice", "Stay in control of how your content is being shared", "Save time and focus on the tasks that need your attention" ],
+		description: __( "Seed up your workflow with automated actions when you publish or update your content.", "wordpress-seo" ),
+		usps: [ __( "Automatically share your content on the platforms of your choice", "wordpress-seo" ), __( "Stay in control of how your content is being shared", "wordpress-seo" ), __( "Save time and focus on the tasks that need your attention", "wordpress-seo" ) ],
 		isPremium: true,
 		isNew: false,
-		isNetworkAvailable: true,
+		isMultisiteAvailable: true,
 		logo: ZapierLogo,
 	},
 ];
@@ -75,47 +76,48 @@ const pluginIntegrations = [
 	{
 		name: "Elementor",
 		type: "builtin",
-		description: "Optimize your content right inside the Elementor site builder.",
+		description: __( "Optimize your content right inside the Elementor site builder.", "wordpress-seo" ),
 		isPremium: false,
 		isNew: false,
-		isNetworkAvailable: true,
+		isMultisiteAvailable: true,
 		logo: null,
 	},
 	{
 		name: "Jetpack",
 		type: "builtin",
-		description: "Short descriptive copy that tells about the integrations and its value.",
+		description: __( "Short descriptive copy that tells about the integrations and its value.", "wordpress-seo" ),
 		isPremium: false,
 		isNew: false,
-		isNetworkAvailable: true,
+		isMultisiteAvailable: true,
 		logo: null,
 	},
 	{
 		name: "Algolia",
 		type: "toggleable",
 		slug: "algolia",
-		description: "Improve the quality of your site search! Automatically helps your users find your cornerstone and most important content in your internal search results. It also removes noindexed posts & pages from your site’s search results. Find out more about our Algolia integration.",
+		description: __( "Improve the quality of your site search! Automatically helps your users find your cornerstone and most important content in your internal search results. It also removes noindexed posts & pages from your site’s search results. Find out more about our Algolia integration.", "wordpress-seo" ),
+		usps: [ __( "Search results based on internal link count", "wordpress-seo" ), __( "Have your most important content show up first", "wordpress-seo" ), __( "Removes redundant articles like noindexed post and pages", "wordpress-seo" ) ],
 		isPremium: true,
 		isNew: false,
-		isNetworkAvailable: true,
+		isMultisiteAvailable: true,
 		logo: AlgoliaLogo,
 	},
 	{
 		name: "WooCommerce",
 		type: "simple",
-		description: "Short descriptive copy that tells about the integrations and its value.",
+		description: __( "Short descriptive copy that tells about the integrations and its value.", "wordpress-seo" ),
 		isPremium: false,
 		isNew: false,
-		isNetworkAvailable: true,
+		isMultisiteAvailable: true,
 		logo: WoocommerceLogo,
 	},
 	{
 		name: "ACF",
 		type: "simple",
-		description: "Short descriptive copy that tells about the integrations and its value.",
+		description: __( "Short descriptive copy that tells about the integrations and its value.", "wordpress-seo" ),
 		isPremium: false,
 		isNew: false,
-		isNetworkAvailable: true,
+		isMultisiteAvailable: true,
 		logo: null,
 	},
 ];
@@ -124,10 +126,10 @@ const partnerships = [
 	{
 		name: "Bertha",
 		type: "simple",
-		description: "Optimize your content right inside the Elementor site builder.",
+		description: __( "Optimize your content right inside the Elementor site builder.", "wordpress-seo" ),
 		isPremium: false,
 		isNew: false,
-		isNetworkAvailable: true,
+		isMultisiteAvailable: true,
 		logo: null,
 	},
 ];
@@ -139,7 +141,7 @@ const partnerships = [
  *
  * @returns {bool} True if the integration is active, false otherwise.
  */
-const getIsCardActive = ( integrationSlug ) => {
+const getInitialState = ( integrationSlug ) => {
 	const integrationOption = `${ integrationSlug }_integration_active`;
 	return Boolean( window.wpseoIntegrationsData[ integrationOption ] );
 };
@@ -148,13 +150,57 @@ const getIsCardActive = ( integrationSlug ) => {
  * Checks if an integration is network-enabled.
  *
  * @param {string} integrationSlug The integration slug.
+ * @param {bool}   isMultisiteAvailable    True if the integration can be used in WP multisite installations.
  *
  * @returns {bool} True if the integration is active, false otherwise.
  */
-const getIsCardEnabled = ( integrationSlug ) => {
+const getIsNetworkControlEnabled = ( integrationSlug ) => {
+	if ( ! window.wpseoIntegrationsData.is_multisite ) {
+		return true;
+	}
+
 	const integrationOption = `allow_${ integrationSlug }_integration`;
+
 	return Boolean( window.wpseoIntegrationsData[ integrationOption ] );
 };
+
+/**
+ * Checks if an integration is network-enabled.
+ *
+ * @param {bool} isMultisiteAvailable True if the integration can be used in WP multisite installations.
+ *
+ * @returns {bool} True if the integration is active, false otherwise.
+ */
+const getIsMultisiteAvailable = ( isMultisiteAvailable ) => {
+	if ( ! window.wpseoIntegrationsData.is_multisite ) {
+		return true;
+	}
+
+	return isMultisiteAvailable;
+};
+
+/* eslint-disable complexity */
+/**
+ * Checks the conditions for which a card is active
+ *
+ * @param {object} integration The integration
+ * @param {bool}   activeState True if the integration is active.
+ *
+ * @returns {bool} True if the integration is active, false otherwise.
+ */
+const getIsCardActive = ( integration, activeState ) => {
+	const cardActive =  activeState;
+	const networkControlEnabled = getIsNetworkControlEnabled( integration.slug);
+	const multisiteAvailable = getIsMultisiteAvailable( integration.isMultisiteAvailable );
+	const premium = ( integration.isPremium && isPremiumInstalled ) || ! integration.isPremium;
+
+	if ( premium ) {
+		return cardActive && networkControlEnabled && multisiteAvailable;
+	}
+
+	return networkControlEnabled && multisiteAvailable;
+};
+/* eslint-enable complexity */
 
 /**
  * Updates an integration state.
@@ -179,31 +225,24 @@ const updateIntegrationState = async( integrationSlug, setActive ) => {
 /**
  * An integration which can be toggled on and off.
  *
- * @param {string}    name                 The integration name.
- * @param {array}     usps                 The array of upselling points.
- * @param {string}    slug                 The integration slug.
- * @param {string}    description          The integration description.
- * @param {WPElement} logo                 The integration logo.
- * @param {string}    toggleLabel          The toggle label.
- * @param {bool}      isIntegrationActive  True if the integration has been activated by the user.
- * @param {bool}      isIntegrationEnabled True if the integration is network-enabled.
- * @param {bool}      isPremium            True if the integration is in Yoast SEO Premium.
- * @param {function}  beforeToggle         Check function to call before toggling the integration.
+ * @param {object}    integration             The integration.
+ * @param {string}    toggleLabel             The toggle label.
+ * @param {bool}      InitialActivationState  True if the integration has been activated by the user.
+ * @param {bool}      isNetworkControlEnabled True if the integration is network-enabled.
+ * @param {bool}      isMultisiteAvailable    True if the integration can be used in WP multisite installations.
+ * @param {bool}      isNew                   True if the integration must display the 'new' badge.
+ * @param {bool}      isPremium               True if the integration is in Yoast SEO Premium.
+ * @param {function}  beforeToggle            Check function to call before toggling the integration.
  *
  * @returns {WPElement} A card representing an integration which can be toggled active by the user.
  */
 const ToggleableIntegration = ( {
-	name,
-	usps,
-	slug,
-	description,
-	logo,
+	integration,
 	toggleLabel,
-	isIntegrationActive,
-	isIntegrationEnabled,
-	isPremium,
+	InitialActivationState,
+	isNetworkControlEnabled,
 	beforeToggle } ) => {
-	const [ isActive, setIsActive ] = useState( isIntegrationActive );
+	const [ isActive, setIsActive ] = useState( InitialActivationState );
 
 	/**
 	 * The toggle management.
@@ -219,7 +258,7 @@ const ToggleableIntegration = ( {
 
 		 if ( beforeToggle ) {
 			 canToggle = false;
-			 canToggle = await beforeToggle( slug, newState );
+			 canToggle = await beforeToggle( integration.slug, newState );
 		 }
 		 if ( ! canToggle ) {
 			 // If something went wrong, switch the toggle back
@@ -230,36 +269,39 @@ const ToggleableIntegration = ( {
 	 return (
 		<Card>
 			<Card.Header>
-				{ logo && <img src={ logo } alt={ `${name} logo` } className={ `${ ( isActive && isIntegrationEnabled ) ? "" : "yst-opacity-50 yst-filter yst-grayscale" }` } /> }
-				{ ( ! isIntegrationEnabled ) && <Badge className="yst-absolute yst-top-2 yst-right-2">{ __( "Network Disabled", "wordpress-seo" ) }</Badge> }
+				{ integration.logo && <img src={ integration.logo } alt={ `${integration.name} logo` }  className={ `${ getIsCardActive( integration, isActive ) ? "" : "yst-opacity-50 yst-filter yst-grayscale" }` } /> }
+				{ ( ! isNetworkControlEnabled && integration.isMultisiteAvailable ) && <Badge className="yst-absolute yst-top-2 yst-right-2">{ __( "Network Disabled", "wordpress-seo" ) }</Badge> }
+				{ ( isNetworkControlEnabled && integration.isNew ) && <Badge className="yst-absolute yst-top-2 yst-right-2">{ __( "New", "wordpress-seo" ) }</Badge> }
 			</Card.Header>
 			<Card.Content>
-				<div className={ `${ isActive ? "" : "yst-opacity-50  yst-filter yst-grayscale" } ` }>
+				<div className={ `${ ( getIsCardActive( integration, isActive ) ) ? "" : "yst-opacity-50  yst-filter yst-grayscale" }` }>
 					<h4 className="yst-flex yst-items-center yst-text-base yst-mb-3 yst-font-medium yst-text-[#111827]">
-						<span>{ name }</span>
+						<span>{ integration.name }</span>
 					</h4>
-					{ description && <p> { description } </p> }
-					{ usps && <ul className="yst-space-y-3">
-						{ usps.map( ( usp, idx ) => {
-							return (
-								<li key={ idx } className="yst-flex yst-items-start">
-									<svg xmlns="http://www.w3.org/2000/svg" className="yst-h-5 yst-w-5 yst-mr-2 yst-text-green-400 yst-flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
-										<path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-									</svg>
-									<span> { usp } </span>
-								</li>
-							);
-						} ) }
-					</ul> }
+					{ ( ( integration.isPremium && isPremiumInstalled ) || ! integration.isPremium )
+						? <p> { integration.description } </p>
+						: <ul className="yst-space-y-3">
+							{ integration.usps.map( ( usp, idx ) => {
+								return (
+									<li key={ idx } className="yst-flex yst-items-start">
+										<svg xmlns="http://www.w3.org/2000/svg" className="yst-h-5 yst-w-5 yst-mr-2 yst-text-green-400 yst-flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
+											<path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+										</svg>
+										<span> { usp } </span>
+									</li>
+								);
+							} ) }
+						</ul>
+					}
 				</div>
 				{ isActive &&
 					<Slot
-						name={`${name}Slot`}
+						name={ `${integration.name}Slot` }
 					/> }
 			</Card.Content>
 			<Card.Footer>
-				{ ( ( isPremium && isPremiumInstalled ) || ! isPremium )
-					? <ToggleField checked={ isActive } label={ toggleLabel } onChange={ toggleActive } disabled={ ! isIntegrationEnabled }  className={ `${ isIntegrationEnabled ? "" : "yst-opacity-50 yst-filter yst-grayscale" }` } />
+				{ ( ( integration.isPremium && isPremiumInstalled ) || ! integration.isPremium )
+					? <ToggleField checked={ isActive } label={ toggleLabel } onChange={ toggleActive } disabled={ ! getIsNetworkControlEnabled( integration.slug) || ! getIsMultisiteAvailable( integration.isMultisiteAvailable )  }  className={ `${ getIsCardActive( integration, isActive ) ? "" : "yst-opacity-50 yst-filter yst-grayscale" }` } />
 					:	<Button id={ `${name}-upsell-button` } type="button" as="a" href={ upsellLink } variant="upsell" className="yst-w-full yst-text-gray-800">
 						<svg xmlns="http://www.w3.org/2000/svg" className="yst--ml-1 yst-mr-2 yst-h-5 yst-w-5 yst-text-yellow-900" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
 							<path strokeLinecap="round" strokeLinejoin="round" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z" />
@@ -273,27 +315,34 @@ const ToggleableIntegration = ( {
 };
 
 ToggleableIntegration.propTypes = {
-	name: PropTypes.string,
-	usps: PropTypes.array,
-	slug: PropTypes.string,
-	description: PropTypes.string,
-	logo: PropTypes.string,
+	integration: PropTypes.shape( {
+		name: PropTypes.string,
+		type: PropTypes.string,
+		slug: PropTypes.string,
+		description: __( PropTypes.string, "wordpress-seo" ),
+		usps: PropTypes.array,
+		logo: PropTypes.string,
+		isPremium: PropTypes.bool,
+		isNew: PropTypes.bool,
+		isMultisiteAvailable: PropTypes.bool,
+	} ),
 	toggleLabel: PropTypes.string,
-	isIntegrationActive: PropTypes.bool,
-	isIntegrationEnabled: PropTypes.bool,
-	isPremium: PropTypes.bool,
+	InitialActivationState: PropTypes.bool,
 	beforeToggle: PropTypes.func,
+	isNetworkControlEnabled: PropTypes.bool,
 };
 
 /* eslint-disable complexity */
 /**
  * Represents an integration.
  *
- * @param {string} name        The integration name.
- * @param {array}  usps        The array of upselling points.
- * @param {string} description The integration description.
- * @param {bool}   isBuiltin   True if the integration is builtin in the plugin
- * @param {string} logo        The integration logo
+ * @param {string} name                    The integration name.
+ * @param {array}  usps                    The array of upselling points.
+ * @param {string} description             The integration description.
+ * @param {bool}   isBuiltin               True if the integration is builtin in the plugin
+ * @param {bool}   isNew                   True if the integration must display the 'new' badge.
+ * @param {bool}   isMultisiteAvailable    True if the integration can be used in WP multisite installations.
+ * @param {string} logo                    The integration logo
  *
  * @returns {WPElement} A card representing an integration.
 */
@@ -302,11 +351,14 @@ const SimpleIntegration = ( {
 	usps,
 	description,
 	isBuiltin,
+	isNew,
+	isMultisiteAvailable,
 	logo } ) => {
 	return (
 		<Card>
 			<Card.Header>
 				{ logo && <img src={ logo } alt={ `${name} logo` } /> }
+				{ ( isNew ) && <Badge className="yst-absolute yst-top-2 yst-right-2">{ __( "New", "wordpress-seo" ) }</Badge> }
 			</Card.Header>
 			<Card.Content>
 				<h4 className="yst-flex yst-items-center yst-text-base yst-mb-3 yst-font-medium yst-text-[#111827]">
@@ -342,7 +394,9 @@ SimpleIntegration.propTypes = {
 	name: PropTypes.string,
 	usps: PropTypes.array,
 	isBuiltin: PropTypes.bool,
-	description: PropTypes.string,
+	isNew: PropTypes.bool,
+	isMultisiteAvailable: PropTypes.bool,
+	description: __( PropTypes.string, "wordpress-seo" ),
 	logo: PropTypes.string,
 };
 
@@ -364,11 +418,19 @@ const Section = ( { title, description, elements } ) => {
 			</div>
 			<div className="yst-grid yst-grid-cols-1 yst-gap-6 sm:yst-grid-cols-2 md:yst-grid-cols-3 lg:yst-grid-cols-4">
 				{ elements.map( ( integration, index ) => {
-					const label =
-						sprintf(
-							// translators: %1$s expands to the name of the extension
+					const label = getIsMultisiteAvailable( integration.isMultisiteAvailable )
+						? sprintf(
+							// translators: %1$s expands to the name of the integration
 							__(
 								"Enable %1$s",
+								"wordpress-seo"
+							),
+							integration.name
+						)
+						: sprintf(
+							// translators: %1$s expands to the name of the integration
+							__(
+								"Currently, the %1$s integration is not available for multisites.",
 								"wordpress-seo"
 							),
 							integration.name
@@ -378,15 +440,11 @@ const Section = ( { title, description, elements } ) => {
 							return (
 								<ToggleableIntegration
 									key={ index }
-									slug={ integration.slug }
-									name={ integration.name }
-									description={ integration.description }
-									logo={ integration.logo }
+									integration={ integration }
 									toggleLabel={ label }
-									isIntegrationActive={ getIsCardActive( integration.slug ) }
-									isIntegrationEnabled={ getIsCardEnabled( integration.slug ) }
+									InitialActivationState={ getInitialState( integration.slug ) }
+									isNetworkControlEnabled={ getIsNetworkControlEnabled( integration.slug ) }
 									beforeToggle={ updateIntegrationState }
-									isPremium={ integration.isPremium }
 								/>
 							);
 						case "simple":
@@ -396,6 +454,8 @@ const Section = ( { title, description, elements } ) => {
 									key={ index }
 									name={ integration.name }
 									isBuiltin={ integration.type === "builtin" }
+									isNew={ integration.isNew }
+									isMultisiteAvailable={ getIsMultisiteAvailable( integration.isMultisiteAvailable ) }
 									usps={ integration.usps }
 									description={ integration.description }
 									logo={ integration.logo }
@@ -412,7 +472,7 @@ const Section = ( { title, description, elements } ) => {
 
 Section.propTypes = {
 	title: PropTypes.string,
-	description: PropTypes.string,
+	description: __( PropTypes.string, "wordpress-seo" ),
 	elements: PropTypes.array,
 };
 
