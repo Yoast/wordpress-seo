@@ -6,6 +6,7 @@ import { forEach, get, isObject } from "lodash";
 import { HashRouter } from "react-router-dom";
 import { StyleSheetManager } from "styled-components";
 import App from "./app";
+import registerStore from "./store";
 
 /**
  * Retrieves the initial settings.
@@ -54,6 +55,8 @@ domReady( () => {
 	if ( ! root ) {
 		return;
 	}
+
+	registerStore();
 
 	// Prevent Styled Components' styles by adding the stylesheet to a div that is not on the page.
 	const styleDummy = document.createElement( "div" );
