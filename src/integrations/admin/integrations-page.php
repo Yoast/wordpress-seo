@@ -106,9 +106,10 @@ class Integrations_Page implements Integration_Interface {
 				'algolia_integration_active'   => $this->options_helper->get( 'algolia_integration_active', false ),
 				'allow_algolia_integration'    => $this->options_helper->get( 'allow_algolia_integration_active', true ),
 				'wincher_integration_active'   => $this->options_helper->get( 'wincher_integration_active', true ),
-				'allow_wincher_integration'    => false,
+				'allow_wincher_integration'    => null,
 				'wordproof_integration_active' => $this->options_helper->get( 'wordproof_integration_active', true ),
-				'allow_wordproof_integration'  => false,
+				'allow_wordproof_integration'  => null,
+				'is_multisite'                 => \is_multisite(),
 			]
 		);
 	}
