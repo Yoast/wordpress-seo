@@ -18,7 +18,7 @@ const WebmasterTools = () => {
 					as={ TextField }
 					type="text"
 					name="wpseo.baiduverify"
-					id="input:wpseo.baiduverify"
+					id="input-wpseo-baiduverify"
 					label={ __( "Baidu", "wordpress-seo" ) }
 					description={ addLinkToString(
 						sprintf(
@@ -27,7 +27,7 @@ const WebmasterTools = () => {
 							"</a>"
 						),
 						"https://yoa.st/",
-						"link:baidu-webmaster-tools"
+						"link-baidu-webmaster-tools"
 					) }
 					placeholder={ __( "Add verification code", "wordpress-seo" ) }
 				/>
@@ -35,7 +35,7 @@ const WebmasterTools = () => {
 					as={ TextField }
 					type="text"
 					name="wpseo.msverify"
-					id="input:wpseo.msverify"
+					id="input-wpseo-msverify"
 					label={ __( "Bing", "wordpress-seo" ) }
 					description={ addLinkToString(
 						sprintf(
@@ -44,7 +44,7 @@ const WebmasterTools = () => {
 							"</a>"
 						),
 						"https://yoa.st/",
-						"link:bing-webmaster-tools"
+						"link-bing-webmaster-tools"
 					) }
 					placeholder={ __( "Add verification code", "wordpress-seo" ) }
 				/>
@@ -52,7 +52,7 @@ const WebmasterTools = () => {
 					as={ TextField }
 					type="text"
 					name="wpseo.googleverify"
-					id="input:wpseo.googleverify"
+					id="input-wpseo-googleverify"
 					label={ __( "Google", "wordpress-seo" ) }
 					description={ addLinkToString(
 						sprintf(
@@ -61,7 +61,7 @@ const WebmasterTools = () => {
 							"</a>"
 						),
 						"https://yoa.st/",
-						"link:google-search-console"
+						"link-google-search-console"
 					) }
 					placeholder={ __( "Add verification code", "wordpress-seo" ) }
 				/>
@@ -69,7 +69,7 @@ const WebmasterTools = () => {
 					as={ TextField }
 					type="text"
 					name="wpseo_social.pinterestverify"
-					id="input:wpseo_social.pinterestverify"
+					id="input-wpseo_social-pinterestverify"
 					label={ __( "Pinterest", "wordpress-seo" ) }
 					description={ addLinkToString(
 						sprintf(
@@ -78,7 +78,7 @@ const WebmasterTools = () => {
 							"</a>"
 						),
 						"https://yoa.st/",
-						"link:pinterest"
+						"link-pinterest"
 					) }
 					placeholder={ __( "Add verification code", "wordpress-seo" ) }
 				/>
@@ -86,7 +86,7 @@ const WebmasterTools = () => {
 					as={ TextField }
 					type="text"
 					name="wpseo.yandexverify"
-					id="input:wpseo.yandexverify"
+					id="input-wpseo-yandexverify"
 					label={ __( "Yandex", "wordpress-seo" ) }
 					description={ addLinkToString(
 						sprintf(
@@ -95,7 +95,7 @@ const WebmasterTools = () => {
 							"</a>"
 						),
 						"https://yoa.st/",
-						"link:yandex-webmaster-tools"
+						"link-yandex-webmaster-tools"
 					) }
 					placeholder={ __( "Add verification code", "wordpress-seo" ) }
 				/>

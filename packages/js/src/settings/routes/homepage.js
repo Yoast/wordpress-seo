@@ -38,7 +38,7 @@ const Homepage = () => {
 				<FormikReplacementVariableEditorField
 					type="title"
 					name="wpseo_titles.title-home-wpseo"
-					fieldId="input:wpseo_titles.title-home-wpseo"
+					fieldId="input-wpseo_titles-title-home-wpseo"
 					label={ __( "SEO title", "wordpress-seo" ) }
 					replacementVariables={ replacementVariables }
 					recommendedReplacementVariables={ recommendedReplacementVariables }
@@ -46,7 +46,7 @@ const Homepage = () => {
 				<FormikReplacementVariableEditorField
 					type="description"
 					name="wpseo_titles.metadesc-home-wpseo"
-					fieldId="input:wpseo_titles.metadesc-home-wpseo"
+					fieldId="input-wpseo_titles-metadesc-home-wpseo"
 					label={ __( "Meta description", "wordpress-seo" ) }
 					replacementVariables={ replacementVariables }
 					recommendedReplacementVariables={ recommendedReplacementVariables }
@@ -59,7 +59,7 @@ const Homepage = () => {
 				description={ __( "Choose how your Homepage should look on social media.", "wordpress-seo" ) }
 			>
 				<FormikMediaSelectField
-					id="wpseo_titles.open_graph_frontpage_image"
+					id="wpseo_titles-open_graph_frontpage_image"
 					label={ __( "Site image", "wordpress-seo" ) }
 					previewLabel={ recommendedSize }
 					mediaUrlName="wpseo_titles.open_graph_frontpage_image"
@@ -68,7 +68,7 @@ const Homepage = () => {
 				<FormikReplacementVariableEditorField
 					type="title"
 					name="wpseo_titles.open_graph_frontpage_title"
-					fieldId="input:wpseo_titles.open_graph_frontpage_title"
+					fieldId="input-wpseo_titles-open_graph_frontpage_title"
 					label={ __( "Social title", "wordpress-seo" ) }
 					replacementVariables={ replacementVariables }
 					recommendedReplacementVariables={ recommendedReplacementVariables }
@@ -76,7 +76,7 @@ const Homepage = () => {
 				<FormikReplacementVariableEditorField
 					type="description"
 					name="wpseo_titles.open_graph_frontpage_desc"
-					fieldId="input:wpseo_titles.open_graph_frontpage_desc"
+					fieldId="input-wpseo_titles-open_graph_frontpage_desc"
 					label={ __( "Social description", "wordpress-seo" ) }
 					replacementVariables={ replacementVariables }
 					recommendedReplacementVariables={ recommendedReplacementVariables }

@@ -29,7 +29,7 @@ const Rss = () => {
 					type="textarea"
 					rows={ 4 }
 					name="wpseo_titles.rssbefore"
-					id="input:wpseo_titles.rssbefore"
+					id="input-wpseo_titles-rssbefore"
 					label={ __( "Content to put before each post in the feed", "wordpress-seo" ) }
 				/>
 				<Field
@@ -37,7 +37,7 @@ const Rss = () => {
 					type="textarea"
 					rows={ 4 }
 					name="wpseo_titles.rssafter"
-					id="input:wpseo_titles.rssafter"
+					id="input-wpseo_titles-rssafter"
 					label={ __( "Content to put after each post in the feed", "wordpress-seo" ) }
 				/>
 			</FieldsetLayout>

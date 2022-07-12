@@ -98,12 +98,12 @@ const FormikMediaSelectField = ( {
 
 	return (
 		<fieldset className="yst-w-96">
-			<Field type="hidden" name={ mediaUrlName } id={ `input:${ mediaUrlName }` } />
-			<Field type="hidden" name={ mediaIdName } id={ `input:${ mediaIdName }` } />
+			<Field type="hidden" name={ mediaUrlName } id={ `input-${ mediaUrlName }` } />
+			<Field type="hidden" name={ mediaIdName } id={ `input-${ mediaIdName }` } />
 			{ label && <Label as="legend" className="yst-mb-2">{ label }</Label> }
 			<button
 				type="button"
-				id={ `button:${ id }-preview` }
+				id={ `button-${ id }-preview` }
 				onClick={ handleSelectMediaClick }
 				className={ classNames(
 					"yst-group yst-overflow-hidden yst-flex yst-justify-center yst-items-center yst-rounded-md yst-mb-4 yst-transition-all yst-ease-out yst-duration-300",
@@ -131,16 +131,16 @@ const FormikMediaSelectField = ( {
 			</button>
 			<div className="yst-flex yst-gap-4">
 				{ mediaUrl ? (
-					<Button id={ `button:${ id }-replace` } variant="secondary" onClick={ handleSelectMediaClick }>
+					<Button id={ `button-${ id }-replace` } variant="secondary" onClick={ handleSelectMediaClick }>
 						{ replaceLabel }
 					</Button>
 				) : (
-					<Button id={ `button:${ id }-select` } variant="secondary" onClick={ handleSelectMediaClick }>
+					<Button id={ `button-${ id }-select` } variant="secondary" onClick={ handleSelectMediaClick }>
 						{ selectLabel }
 					</Button>
 				) }
 				{ mediaUrl && (
-					<Link id={ `button:${ id }-remove` } as="button" variant="error" onClick={ handleRemoveMediaClick }>
+					<Link id={ `button-${ id }-remove` } as="button" variant="error" onClick={ handleRemoveMediaClick }>
 						{ removeLabel }
 					</Link>
 				) }

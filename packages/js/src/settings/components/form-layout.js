@@ -26,7 +26,7 @@ const FormLayout = ( {
 				</div>
 				<footer className="yst-p-8 yst-bg-gray-50">
 					<Button
-						id="button:submit-settings"
+						id="button-submit-settings"
 						type="submit"
 						isLoading={ isSubmitting }
 						disabled={ ! isValid || isSubmitting }
