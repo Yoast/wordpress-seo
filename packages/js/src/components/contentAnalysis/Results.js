@@ -76,6 +76,18 @@ class Results extends Component {
 		}
 	}
 
+	focusonKeyphraseField( id, inputFieldLocation ) {
+		// The keyword key is used for labelling the related keyphrase(s).
+		const keywordKey = this.props.keywordKey;
+
+		if( keywordKey === "" ) {
+			document.getElementById( "focus-keyword-input-" + inputFieldLocation ).focus();
+		}
+		else {
+			document.getElementById( "yoast-keyword-input-" + keywordKey + "-" +  inputFieldLocation ).focus();
+		}
+	}
+
 	focusOnGooglePreviewField( id, inputFieldLocation ) {
 		let elementIdFirstPart = "yoast-google-preview-"
 
@@ -103,15 +115,13 @@ class Results extends Component {
 		// Whether the user is in the metabox or sidebar.
 		let inputFieldLocation = this.props.location;
 
-		// The button next to the Function words in keyphrase and Keyphase length assessments should jump to the keyphrase input field.
 		if( id === "functionWordsInKeyphrase" || id === "keyphraseLength" ) {
-			document.getElementById( "focus-keyword-input-" + inputFieldLocation ).focus();
+			this.focusonKeyphraseField( id, inputFieldLocation );
 			return;
 		}
-
 		/*
-		 * For all the other assessments, we need to jump to the relevant Google preview input field (metadescription,
-		 * slug, or title). If the user is in the sidebar, these fields are accessed through a modal. So if the
+		 * For all the other assessments that have an edit button, we need to jump to the relevant Google preview fields.
+		 * (metadescription, slug, or title). If the user is in the sidebar, these are accessed through a modal. So if the
 		 * inputFieldLocation string is 'sidebar' it should now be changed to 'modal'.
 	     */
 		if ( inputFieldLocation === "sidebar" ) {
