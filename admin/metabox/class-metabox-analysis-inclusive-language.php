@@ -16,7 +16,7 @@ class WPSEO_Metabox_Analysis_Inclusive_Language implements WPSEO_Metabox_Analysi
 	 * @return bool Whether or not this analysis is enabled.
 	 */
 	public function is_enabled() {
-		return $this->is_globally_enabled() && $this->is_user_enabled();
+		return $this->is_globally_enabled() && $this->is_user_enabled() && YoastSEO()->helpers->product->is_premium();
 	}
 
 	/**
