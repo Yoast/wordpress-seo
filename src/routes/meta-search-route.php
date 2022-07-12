@@ -90,10 +90,6 @@ class Meta_Search_Route implements Route_Interface {
 			}
 		}
 
-		return \rest_ensure_response(
-			[
-				'meta' => $matches,
-			]
-		);
+		return \rest_ensure_response( [ 'meta' => $matches ] );
 	}
 }
