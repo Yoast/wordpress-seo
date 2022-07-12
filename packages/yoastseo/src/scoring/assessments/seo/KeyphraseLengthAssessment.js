@@ -102,7 +102,7 @@ class KeyphraseLengthAssessment extends Assessment {
 
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
-		if( assessmentResult.getScore() < 9  ) {
+		if ( assessmentResult.getScore() < 9  ) {
 			assessmentResult.setHasJumps( true );
 			assessmentResult.setEditFieldName( __( "keyphrase", "wordpress-seo" ) );
 		}
