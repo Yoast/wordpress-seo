@@ -9,6 +9,7 @@ import { useDescribedBy, useSvgAria } from "../../hooks";
  * @param {string} id The ID of the input.
  * @param {function} onChange The input change handler.
  * @param {string} label The label.
+ * @param {JSX.node} [labelSuffix] Extra elements after the label.
  * @param {string} [className] The HTML class.
  * @param {JSX.node} [description] A description.
  * @param {boolean} [disabled] The disabled state.
@@ -20,10 +21,11 @@ const TextField = ( {
 	id,
 	onChange,
 	label,
-	disabled,
-	className,
-	description,
-	error,
+	labelSuffix = null,
+	disabled = false,
+	className = "",
+	description = null,
+	error = null,
 	...props
 } ) => {
 	const { ids, describedBy } = useDescribedBy( id, { error, description } );
@@ -31,7 +33,10 @@ const TextField = ( {
 
 	return (
 		<div className={ classNames( "yst-text-field", disabled && "yst-text-field--disabled", className ) }>
-			<Label className="yst-text-field__label" htmlFor={ id } label={ label } />
+			<div className="yst-flex yst-items-center yst-mb-2">
+				<Label className="yst-text-field__label" htmlFor={ id } label={ label } />
+				{ labelSuffix }
+			</div>
 			<div className="yst-relative">
 				<TextInput
 					id={ id }
@@ -58,17 +63,11 @@ TextField.propTypes = {
 	id: PropTypes.string.isRequired,
 	onChange: PropTypes.func.isRequired,
 	label: PropTypes.string.isRequired,
+	labelSuffix: PropTypes.node,
 	disabled: PropTypes.bool,
 	className: PropTypes.string,
 	description: PropTypes.node,
 	error: PropTypes.node,
-};
-
-TextField.defaultProps = {
-	className: "",
-	description: null,
-	error: null,
-	disabled: false,
 };
 
 export default TextField;
