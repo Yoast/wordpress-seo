@@ -15,8 +15,8 @@ import {
 import { useSelectSettings } from "../store";
 
 /**
- * @param {{name: string, value: string|number|bool}[]} types Schema types.
- * @returns {{label: string, value: string|number|bool}[]} Options.
+ * @param {{name: string, value: (string|number|bool)}[]} types Schema types.
+ * @returns {{label: string, value: (string|number|bool)}[]} Options.
  */
 const transformSchemaTypesToOptions = types => map( types, ( { name, value } ) => ( { label: name, value } ) );
 
@@ -42,11 +42,11 @@ const Posts = () => {
 			__( "Recommended size for this image is %1$s%3$s%2$s", "wordpress-seo" ),
 			"<strong>",
 			"</strong>",
-			"1200x675",
+			"1200x675"
 		),
 		{
 			strong: <strong className="yst-font-semibold" />,
-		},
+		}
 	) );
 	const pageTypes = useMemo( () => transformSchemaTypesToOptions( get( window, "wpseoScriptData.schema.pageTypeOptions", [] ) ), [] );
 	const articleTypes = useMemo( () => transformSchemaTypesToOptions( get( window, "wpseoScriptData.schema.articleTypeOptions", [] ) ), [] );
@@ -58,7 +58,7 @@ const Posts = () => {
 				description={ sprintf(
 					// translators: %1$s expands to the post type plural, e.g. Posts.
 					__( "Choose how your %1$s should look in search engines.", "wordpress-seo" ),
-					postTypePlural,
+					postTypePlural
 				) }
 			>
 				<FormikFlippedToggleField
@@ -67,12 +67,12 @@ const Posts = () => {
 					label={ sprintf(
 						// translators: %1$s expands to the post type plural, e.g. Posts.
 						__( "Show %1$s in search results", "wordpress-seo" ),
-						postTypePlural,
+						postTypePlural
 					) }
 					description={ sprintf(
 						// translators: %1$s expands to the post type plural, e.g. Posts.
 						__( "Disabling this means that %1$s will not be indexed by search engines and will be excluded from XML sitemaps.", "wordpress-seo" ),
-						postTypePlural,
+						postTypePlural
 					) }
 				/>
 				<FormikReplacementVariableEditorField
@@ -100,7 +100,7 @@ const Posts = () => {
 					// translators: %1$s expands to the post type plural, e.g. Posts. %2$s expands to the post type singular, e.g. Post.
 					__( "Choose how your %1$s should look on social media by default. You can always customize this per individual %2$s.", "wordpress-seo" ),
 					postTypePlural,
-					postTypeSingular,
+					postTypeSingular
 				) }
 			>
 				<FormikMediaSelectField
@@ -135,7 +135,7 @@ const Posts = () => {
 					// translators: %1$s expands to the post type plural, e.g. Posts. %2$s expands to the post type singular, e.g. Post.
 					__( "Choose how your %1$s should be described by default in your site's Schema.org markup. You can change these setting per individual %2$s.", "wordpress-seo" ),
 					postTypePlural,
-					postTypeSingular,
+					postTypeSingular
 				) }
 			>
 				<FormikValueChangeField
@@ -173,7 +173,7 @@ const Posts = () => {
 					description={ sprintf(
 						/* translators: %1$s expands to the post type plural, e.g. Posts. */
 						__( "This enables SEO metadata editing and our SEO - and Readability analysis for individual %1$s", "wordpress-seo" ),
-						postTypePlural,
+						postTypePlural
 					) }
 				/>
 				{ isPremium && <Field

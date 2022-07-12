@@ -1,5 +1,5 @@
 import { createInterpolateElement, useMemo } from "@wordpress/element";
-import { __ } from "@wordpress/i18n";
+import { __, sprintf } from "@wordpress/i18n";
 import { FieldsetLayout, FormikMediaSelectField, FormikReplacementVariableEditorField, FormLayout } from "../components";
 import { useSelectSettings } from "../store";
 
@@ -19,11 +19,11 @@ const Homepage = () => {
 			__( "Recommended size for this image is %1$s%3$s%2$s", "wordpress-seo" ),
 			"<strong>",
 			"</strong>",
-			"1200x675",
+			"1200x675"
 		),
 		{
 			strong: <strong className="yst-font-semibold" />,
-		},
+		}
 	) );
 
 	return (

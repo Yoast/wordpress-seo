@@ -29,21 +29,21 @@ replacementVariablesSelectors.selectSpecificReplacementVariablesFor = createSele
 		replacementVariablesSelectors.selectSpecificReplacementVariables,
 		( state, postType ) => postType,
 	],
-	( shared, specific, postType ) => [ ...shared, ...get( specific, postType, [] ) ],
+	( shared, specific, postType ) => [ ...shared, ...get( specific, postType, [] ) ]
 );
 replacementVariablesSelectors.selectReplacementVariablesFor = createSelector(
 	[
 		replacementVariablesSelectors.selectReplacementVariables,
 		replacementVariablesSelectors.selectSpecificReplacementVariablesFor,
 	],
-	( variables, specific ) => filter( variables, ( { name } ) => includes( specific, name ) ),
+	( variables, specific ) => filter( variables, ( { name } ) => includes( specific, name ) )
 );
 replacementVariablesSelectors.selectRecommendedReplacementVariablesFor = createSelector(
 	[
 		replacementVariablesSelectors.selectRecommendedReplacementVariables,
 		( state, context ) => context,
 	],
-	( recommended, context ) => get( recommended, context, [] ),
+	( recommended, context ) => get( recommended, context, [] )
 );
 
 export { replacementVariablesSelectors };
