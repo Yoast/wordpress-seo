@@ -1,10 +1,11 @@
-import PropTypes from "prop-types";
 import { Title } from "@yoast/ui-library";
+import PropTypes from "prop-types";
 
 /**
- * @param {JSX.Element} children The children nodes.
- * @param {JSX.Element} title The title.
- * @param {JSX.Element} description The description.
+ * @param {JSX.ElementClass} [as] the field component.
+ * @param {JSX.node} children The children nodes.
+ * @param {JSX.node} title The title.
+ * @param {JSX.node} [description] The description.
  * @returns {JSX.Element} The form layout component.
  */
 const FieldsetLayout = ( {
