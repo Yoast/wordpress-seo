@@ -2,7 +2,7 @@ import domReady from "@wordpress/dom-ready";
 import { render } from "@wordpress/element";
 import { Root } from "@yoast/ui-library";
 import { Formik } from "formik";
-import { forEach, get, isObject } from "lodash";
+import { forEach, get, isObject, isArray } from "lodash";
 import { HashRouter } from "react-router-dom";
 import { StyleSheetManager } from "styled-components";
 import App from "./app";
@@ -24,15 +24,19 @@ const handleSubmit = async( values ) => {
 	const { endpoint, nonce } = get( window, "wpseoScriptData", {} );
 	const formData = new FormData();
 
-	console.warn( "values", values );
-
 	formData.set( "option_page", "wpseo_settings" );
 	formData.set( "action", "update" );
 	formData.set( "_wpnonce", nonce );
 
 	forEach( values, ( value, name ) => {
 		if ( isObject( value ) ) {
-			forEach( value, ( nestedValue, nestedName ) => formData.set( `${ name }[${ nestedName }]`, nestedValue ) );
+			forEach( value, ( nestedValue, nestedName ) => {
+				if ( isArray( nestedValue ) ) {
+					forEach( nestedValue, ( item, index ) => formData.set( `${ name }[${ nestedName }][${ index }]`, item ) );
+					return;
+				}
+				formData.set( `${ name }[${ nestedName }]`, nestedValue );
+			} );
 			return;
 		}
 		formData.set( name, value );
