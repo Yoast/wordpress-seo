@@ -321,7 +321,7 @@ const ToggleableIntegration = ( {
 				}
 				{ getIsFreeIntegrationOrPremiumAvailable( integration ) && ! getIsMultisiteAvailable( integration ) && <p className="yst-flex yst-items-start yst-justify-between">
 					<span className="yst-text-gray-700 yst-font-medium">{ __( "Integration unavailable for multisites", "wordpress-seo" ) }</span>
-					<svg xmlns="http://www.w3.org/2000/svg" className="yst-h-5 yst-w-5 yst-text-green-500 yst-flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
+					<svg xmlns="http://www.w3.org/2000/svg" className="yst-h-5 yst-w-5 yst-text-red-500 yst-flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
 						<path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
 					</svg>
 				</p>  }
