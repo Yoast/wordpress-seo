@@ -21,7 +21,9 @@ const SiteRepresentation = () => {
 	const userEditUrl = useMemo( () => get( window, "wpseoScriptData.userEditUrl", [] ), [] );
 	const users = useMemo( () => get( window, "wpseoScriptData.users", [] ), [] );
 	const userOptions = useMemo( () => map( users, user => ( { value: parseInt( user.id, 10 ), label: user.display_name } ) ), [ users ] );
-	const selectedUser = useMemo( () => find( users, user => companyOrPersonId === parseInt( user.id, 10 ) ) || users[ 0 ], [ users, companyOrPersonId ] );
+	const selectedUser = useMemo( () => (
+		find( users, user => companyOrPersonId === parseInt( user.id, 10 ) ) || users[ 0 ]
+	), [ users, companyOrPersonId ] );
 
 	return (
 		<FormLayout
