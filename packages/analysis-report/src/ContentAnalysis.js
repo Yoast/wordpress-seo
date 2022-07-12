@@ -116,6 +116,7 @@ class ContentAnalysis extends React.Component {
 
 ContentAnalysis.propTypes = {
 	onMarkButtonClick: PropTypes.func,
+	onEditButtonClick: PropTypes.func,
 	problemsResults: PropTypes.array,
 	improvementsResults: PropTypes.array,
 	goodResults: PropTypes.array,
@@ -131,6 +132,7 @@ ContentAnalysis.propTypes = {
 
 ContentAnalysis.defaultProps = {
 	onMarkButtonClick: () => {},
+	onEditButtonClick: () => {},
 	problemsResults: [],
 	improvementsResults: [],
 	goodResults: [],

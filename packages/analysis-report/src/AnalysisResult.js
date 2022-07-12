@@ -102,7 +102,6 @@ AnalysisResult.defaultProps = {
 	marksButtonClassName: "",
 	editButtonClassName: "",
 	hasBetaBadgeLabel: false,
-	hasEditButton: false,
 };
 
 export default AnalysisResult;
