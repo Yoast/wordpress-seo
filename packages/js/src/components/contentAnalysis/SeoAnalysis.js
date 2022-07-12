@@ -267,7 +267,7 @@ class SeoAnalysis extends Component {
 									marksButtonClassName="yoast-tooltip yoast-tooltip-w"
 									editButtonClassName="yoast-tooltip yoast-tooltip-w"
 									marksButtonStatus={ this.props.marksButtonStatus }
-									location={location}
+									location={ location }
 								/>
 							</Collapsible>
 							{ this.renderTabIcon( location, score.className ) }

@@ -76,18 +76,40 @@ class Results extends Component {
 		}
 	}
 
-	focusonKeyphraseField( id, inputFieldLocation ) {
+	/**
+	 * Focuses on a focus or related keyphrase input field.
+	 *
+	 * @param {string} inputFieldLocation The location of the input field that should be focused on (metabox or sidebar).
+	 *
+	 * @returns {void}
+	 */
+	focusOnKeyphraseField( inputFieldLocation ) {
 		// The keyword key is used for labelling the related keyphrase(s).
 		const keywordKey = this.props.keywordKey;
+		const elementID = keywordKey === "" ? "focus-keyword-input-" + inputFieldLocation
+			: "yoast-keyword-input-" + keywordKey + "-" +  inputFieldLocation;
 
-		keywordKey === "" ? document.getElementById( "focus-keyword-input-" + inputFieldLocation ).focus()
-			: document.getElementById( "yoast-keyword-input-" + keywordKey + "-" +  inputFieldLocation ).focus();
+		document.getElementById( elementID ).focus();
 	}
 
+	/**
+     * Focuses on a Google preview input field (meta description, title or slug).
+	 *
+	 * @param {string}	id     				Result id which determines which input field should be focused on.
+	 * @param {string}	inputFieldLocation	The location of the input field that should be focused on (metabox or modal).
+	 *
+	 * @returns {void}
+	 */
 	focusOnGooglePreviewField( id, inputFieldLocation ) {
-		const inputField = id === "metaDescriptionKeyword" || id === "metaDescriptionLength" ? "description"
-			:  id === "titleWidth" ? "title"
-				: "slug"
+		let inputField;
+
+		if ( id === "metaDescriptionKeyword" || id === "metaDescriptionLength" ) {
+			inputField = "description";
+		} else if ( id === "titleWidth" ) {
+			inputField = "title";
+		} else {
+			inputField = "slug";
+		}
 
 		document.getElementById( "yoast-google-preview-" + inputField + "-" + inputFieldLocation ).focus();
 	}
@@ -95,7 +117,7 @@ class Results extends Component {
 	/**
 	 * Handles a click on an edit button to jump to a relevant edit field.
 	 *
-	 * @param {string}   id     Result id.
+	 * @param {string}   id     Result id which determines which edit field should be focused on.
 	 *
 	 * @returns {void}
 	 */
@@ -103,8 +125,8 @@ class Results extends Component {
 		// Whether the user is in the metabox or sidebar.
 		let inputFieldLocation = this.props.location;
 
-		if( id === "functionWordsInKeyphrase" || id === "keyphraseLength" ) {
-			this.focusonKeyphraseField( id, inputFieldLocation );
+		if ( id === "functionWordsInKeyphrase" || id === "keyphraseLength" ) {
+			this.focusOnKeyphraseField( id, inputFieldLocation );
 			return;
 		}
 		/*
@@ -113,13 +135,12 @@ class Results extends Component {
 		 * inputFieldLocation string is 'sidebar' it should now be changed to 'modal'.
 	     */
 		if ( inputFieldLocation === "sidebar" ) {
-			inputFieldLocation = "modal"
+			inputFieldLocation = "modal";
 			// Open the modal.
 			document.getElementById( "yoast-google-preview-modal-open-button" ).click();
 			// Wait for the input field elements to become available, then focus on the relevant field.
 			setTimeout( () => this.focusOnGooglePreviewField( id, inputFieldLocation ), 250 );
-		}
-		else {
+		} else {
 			this.focusOnGooglePreviewField( id, inputFieldLocation );
 		}
 	}
@@ -183,7 +204,7 @@ Results.propTypes = {
 	setMarkerPauseStatus: PropTypes.func.isRequired,
 	activeMarker: PropTypes.string,
 	keywordKey: PropTypes.string,
-	location: PropTypes.string,
+	location: PropTypes.string.isRequired,
 };
 
 Results.defaultProps = {
