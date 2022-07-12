@@ -22,9 +22,11 @@ const upsellLink         = "https://yoa.st/workout-orphaned-content-upsell";
 const SEOTools = [
 	{
 		name: "Semrush",
+		claim: __( "Rank for the words your audience uses", "wordpress-seo" ),
+		learnMoreLink: "#",
 		type: "toggleable",
 		slug: "semrush",
-		description: __( "The Semrush integration offers suggestions and insights for keywords related to the entered focus keyphrase.", "wordpress-seo" ),
+		description: __( "Semrush in Yoast SEO makes keyword research easy. Click a button, and get relevant keyphrases to make your content easy to find!", "wordpress-seo" ),
 		isPremium: false,
 		isNew: false,
 		isMultisiteAvailable: true,
@@ -32,9 +34,11 @@ const SEOTools = [
 	},
 	{
 		name: "Wincher",
+		claim: __( "Use data to improve your rankings", "wordpress-seo" ),
+		learnMoreLink: "#",
 		type: "toggleable",
 		slug: "wincher",
-		description: __( "The Wincher integration offers the option to track specific keyphrases and gain insights in their positions.", "wordpress-seo" ),
+		description: __( "Track how your content ranks and compare it against your competitors. The data will allow you to make informed improvements to your site and help increase its rankings!", "wordpress-seo" ),
 		isPremium: false,
 		isNew: false,
 		isMultisiteAvailable: false,
@@ -42,9 +46,11 @@ const SEOTools = [
 	},
 	{
 		name: "Ryte",
+		claim: __( "Ensure your site is findable", "wordpress-seo" ),
+		learnMoreLink: "#",
 		type: "toggleable",
 		slug: "ryte",
-		description: __( "Ryte will check weekly if your site is still indexable by search engines and Yoast SEO will notify you when this is not the case. Read more about how Ryte works.", "wordpress-seo" ),
+		description: __( "Ryte in Yoast SEO monitors your site’s findability and lets you know if your site is hidden from search engines.", "wordpress-seo" ),
 		isPremium: false,
 		isNew: false,
 		isMultisiteAvailable: true,
@@ -52,9 +58,11 @@ const SEOTools = [
 	},
 	{
 		name: "WordProof",
+		claim: __( "Put a stamp of trust on your content", "wordpress-seo" ),
+		learnMoreLink: "#",
 		type: "toggleable",
 		slug: "wordproof",
-		description: __( "Together with WordProof, we've built an integration that will allow you to timestamp your privacy page. Using the blockchain, you can protect your content and help the web become more trustworthy. For yourself, as well as for SEO, since trust is a big factor for search engines as well.", "wordpress-seo" ),
+		description: __( "Prove that you got nothing to hide! Put the WordProof stamp of trustworthiness to your privacy policy and the terms and conditions pages!", "wordpress-seo" ),
 		isPremium: false,
 		isNew: false,
 		isMultisiteAvailable: false,
@@ -63,10 +71,11 @@ const SEOTools = [
 	},
 	{
 		name: "Zapier",
+		claim: __( "Automate repetitive tasks and save time", "wordpress-seo" ),
+		learnMoreLink: "#",
 		type: "toggleable",
 		slug: "zapier",
 		description: __( "Seed up your workflow with automated actions when you publish or update your content.", "wordpress-seo" ),
-		usps: [ __( "Automatically share your content on the platforms of your choice", "wordpress-seo" ), __( "Stay in control of how your content is being shared", "wordpress-seo" ), __( "Save time and focus on the tasks that need your attention", "wordpress-seo" ) ],
 		isPremium: true,
 		isNew: false,
 		isMultisiteAvailable: true,
@@ -77,8 +86,9 @@ const SEOTools = [
 const pluginIntegrations = [
 	{
 		name: "Elementor",
+		claim: __( "Build SEO-proof pages in Elementor", "wordpress-seo" ),
 		type: "builtin",
-		description: __( "Optimize your content right inside the Elementor site builder.", "wordpress-seo" ),
+		description: __( "The seamless integration ensures you get the best SEO feedback right in the Elementor builder!", "wordpress-seo" ),
 		isPremium: false,
 		isNew: false,
 		isMultisiteAvailable: true,
@@ -86,6 +96,7 @@ const pluginIntegrations = [
 	},
 	{
 		name: "Jetpack",
+		claim: null,
 		type: "builtin",
 		description: __( "Short descriptive copy that tells about the integrations and its value.", "wordpress-seo" ),
 		isPremium: false,
@@ -95,10 +106,10 @@ const pluginIntegrations = [
 	},
 	{
 		name: "Algolia",
+		claim: __( "Improve internal search for better UX", "wordpress-seo" ),
 		type: "toggleable",
 		slug: "algolia",
-		description: __( "Improve the quality of your site search! Automatically helps your users find your cornerstone and most important content in your internal search results. It also removes noindexed posts & pages from your site’s search results. Find out more about our Algolia integration.", "wordpress-seo" ),
-		usps: [ __( "Search results based on internal link count", "wordpress-seo" ), __( "Have your most important content show up first", "wordpress-seo" ), __( "Removes redundant articles like noindexed post and pages", "wordpress-seo" ) ],
+		description: __( "Good internal search results lead to happy visitors, which reflects on rankings! Do it easily with Algolia in Yoast SEO Premium!", "wordpress-seo" ),
 		isPremium: true,
 		isNew: false,
 		isMultisiteAvailable: true,
@@ -106,6 +117,7 @@ const pluginIntegrations = [
 	},
 	{
 		name: "WooCommerce",
+		claim: null,
 		type: "simple",
 		description: __( "Short descriptive copy that tells about the integrations and its value.", "wordpress-seo" ),
 		isPremium: false,
@@ -115,6 +127,7 @@ const pluginIntegrations = [
 	},
 	{
 		name: "ACF",
+		claim: null,
 		type: "simple",
 		description: __( "Short descriptive copy that tells about the integrations and its value.", "wordpress-seo" ),
 		isPremium: false,
@@ -127,6 +140,7 @@ const pluginIntegrations = [
 const partnerships = [
 	{
 		name: "Bertha",
+		claim: __( "", "wordpress-seo" ),
 		type: "simple",
 		description: __( "Optimize your content right inside the Elementor site builder.", "wordpress-seo" ),
 		isPremium: false,
@@ -288,23 +302,16 @@ const ToggleableIntegration = ( {
 			<Card.Content>
 				<div className={ `${ ( getIsCardActive( integration, isActive ) ) ? "" : "yst-opacity-50  yst-filter yst-grayscale" }` }>
 					<h4 className="yst-flex yst-items-center yst-text-base yst-mb-3 yst-font-medium yst-text-[#111827]">
-						<span>{ integration.name }</span>
+						<span>{ integration.claim && integration.claim }</span>
 					</h4>
-					{ getIsFreeIntegrationOrPremiumAvailable( integration )
-						? <p> { integration.description } </p>
-						: <ul className="yst-space-y-3">
-							{ integration.usps.map( ( usp, idx ) => {
-								return (
-									<li key={ idx } className="yst-flex yst-items-start">
-										<svg xmlns="http://www.w3.org/2000/svg" className="yst-h-5 yst-w-5 yst-mr-2 yst-text-green-400 yst-flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
-											<path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-										</svg>
-										<span> { usp } </span>
-									</li>
-								);
-							} ) }
-						</ul>
-					}
+					<p> { integration.description }
+						{ integration.learnMoreLink && <a href={ integration.learnMoreLink } className={ `yst-flex yst-items-center yst-mt-3 yst-no-underline yst-font-medium ${ ( getIsCardActive( integration, isActive ) ) ? "" : "yst-pointer-events-none" }` }>
+							Learn more
+							<svg xmlns="http://www.w3.org/2000/svg" className="yst-h-4 yst-w-4 yst-ml-1" viewBox="0 0 20 20" fill="currentColor">
+								<path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
+							</svg>
+						</a> }
+					</p>
 				</div>
 				{ isActive &&
 					<Slot
@@ -334,6 +341,8 @@ const ToggleableIntegration = ( {
 ToggleableIntegration.propTypes = {
 	integration: PropTypes.shape( {
 		name: PropTypes.string,
+		claim: PropTypes.string,
+		learnMoreLink: PropTypes.string,
 		type: PropTypes.string,
 		slug: PropTypes.string,
 		description: __( PropTypes.string, "wordpress-seo" ),
@@ -354,37 +363,25 @@ ToggleableIntegration.propTypes = {
 /**
  * Represents an integration.
  *
- * @param {string} name                    The integration name.
- * @param {array}  usps                    The array of upselling points.
- * @param {string} description             The integration description.
- * @param {bool}   isBuiltin               True if the integration is builtin in the plugin
- * @param {bool}   isNew                   True if the integration must display the 'new' badge.
- * @param {bool}   isMultisiteAvailable    True if the integration can be used in WP multisite installations.
- * @param {string} logo                    The integration logo
+ * @param {object} integration The integration.
  *
  * @returns {WPElement} A card representing an integration.
 */
 const SimpleIntegration = ( {
-	name,
-	usps,
-	description,
-	isBuiltin,
-	isNew,
-	isMultisiteAvailable,
-	logo } ) => {
+	integration } ) => {
 	return (
 		<Card>
 			<Card.Header>
-				{ logo && <img src={ logo } alt={ `${name} logo` } /> }
-				{ ( isNew ) && <Badge className="yst-absolute yst-top-2 yst-right-2">{ __( "New", "wordpress-seo" ) }</Badge> }
+				{ integration.logo && <img src={ integration.logo } alt={ `${integration.name} logo` } /> }
+				{ ( integration.isNew ) && <Badge className="yst-absolute yst-top-2 yst-right-2">{ __( "New", "wordpress-seo" ) }</Badge> }
 			</Card.Header>
 			<Card.Content>
 				<h4 className="yst-flex yst-items-center yst-text-base yst-mb-3 yst-font-medium yst-text-[#111827]">
-					<span>{ name }</span>
+					<span>{ integration.claim }</span>
 				</h4>
-				{ description && <p> { description } </p> }
-				{ usps && <ul className="yst-space-y-3">
-					{ usps.map( ( usp, idx ) => {
+				{ integration.description && <p> { integration.description } </p> }
+				{ integration.usps && <ul className="yst-space-y-3">
+					{ integration.usps.map( ( usp, idx ) => {
 						return (
 							<li key={ idx } className="yst-flex yst-items-start">
 								<svg xmlns="http://www.w3.org/2000/svg" className="yst-h-5 yst-w-5 yst-mr-2 yst-text-green-400 yst-flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
@@ -400,15 +397,19 @@ const SimpleIntegration = ( {
 		</Card>
 	);
 };
+/* eslint-enable complexity */
 
 SimpleIntegration.propTypes = {
-	name: PropTypes.string,
-	usps: PropTypes.array,
-	isBuiltin: PropTypes.bool,
-	isNew: PropTypes.bool,
-	isMultisiteAvailable: PropTypes.bool,
-	description: __( PropTypes.string, "wordpress-seo" ),
-	logo: PropTypes.string,
+	integration: PropTypes.shape( {
+		name: PropTypes.string,
+		claim: PropTypes.string,
+		type: PropTypes.string,
+		slug: PropTypes.string,
+		description: __( PropTypes.string, "wordpress-seo" ),
+		usps: PropTypes.array,
+		logo: PropTypes.string,
+		isNew: PropTypes.bool,
+	} ),
 };
 
 /**
@@ -455,13 +456,7 @@ const Section = ( { title, description, elements } ) => {
 							return (
 								<SimpleIntegration
 									key={ index }
-									name={ integration.name }
-									isBuiltin={ integration.type === "builtin" }
-									isNew={ integration.isNew }
-									isMultisiteAvailable={ getIsMultisiteAvailable( integration ) }
-									usps={ integration.usps }
-									description={ integration.description }
-									logo={ integration.logo }
+									integration={ integration }
 								/>
 							);
 						default:
