@@ -1,7 +1,9 @@
 import { createInterpolateElement, useMemo } from "@wordpress/element";
-import { __ } from "@wordpress/i18n";
-import { SelectField } from "@yoast/ui-library";
+import { __, sprintf } from "@wordpress/i18n";
+import { Badge, SelectField, TextField, ToggleField } from "@yoast/ui-library";
+import { Field } from "formik";
 import { get, map } from "lodash";
+import { addLinkToString } from "../../helpers/stringHelpers";
 import {
 	FieldsetLayout,
 	FormikFlippedToggleField,
@@ -25,8 +27,11 @@ const Posts = () => {
 	const postType = "post";
 	const postTypePlural = "Posts";
 	const postTypeSingular = "Post";
+
 	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [], postType );
 	const recommendedReplacementVariables = useSelectSettings( "selectRecommendedReplacementVariablesFor", [], postType );
+	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
+
 	const recommendedSize = useMemo( () => createInterpolateElement(
 		sprintf(
 			/**
@@ -149,6 +154,45 @@ const Posts = () => {
 					label={ __( "Article type", "wordpress-seo" ) }
 					options={ articleTypes }
 				/>
+			</FieldsetLayout>
+			<hr className="yst-my-8" />
+			<FieldsetLayout
+				title={ __( "Additional settings", "wordpress-seo" ) }
+			>
+				<FormikValueChangeField
+					as={ ToggleField }
+					type="checkbox"
+					name={ `wpseo_titles.display-metabox-pt-${ postType }` }
+					data-id={ `input:wpseo_titles.display-metabox-pt-${ postType }` }
+					label={ sprintf(
+						/* translators: %1$s expands to Yoast SEO. %2$s expands to the post type plural, e.g. Posts. */
+						__( "Enable %1$s for %2$s", "wordpress-seo" ),
+						"Yoast SEO",
+						postTypePlural
+					) }
+					description={ sprintf(
+						/* translators: %1$s expands to the post type plural, e.g. Posts. */
+						__( "This enables SEO metadata editing and our SEO - and Readability analysis for individual %1$s", "wordpress-seo" ),
+						postTypePlural,
+					) }
+				/>
+				{ isPremium && <Field
+					as={ TextField }
+					type="text"
+					name={ `wpseo_titles.page-analyse-extra-${ postType }` }
+					id={ `input:wpseo_titles.page-analyse-extra-${ postType }` }
+					label={ __( "Add custom fields to page analysis", "wordpress-seo" ) }
+					labelSuffix={ <Badge className="yst-ml-1.5" variant="upsell">Premium</Badge> }
+					description={ addLinkToString(
+						sprintf(
+							__( "You can add multiple custom fields in a comma-separated list. %1$sRead more about our custom field analysis%2$s.", "wordpress-seo" ),
+							"<a>",
+							"</a>"
+						),
+						"https://yoa.st/4cr",
+						`link:custom-fields-page-analysis-${ postType }`
+					) }
+				/> }
 			</FieldsetLayout>
 		</FormLayout>
 	);
