@@ -7,9 +7,11 @@ import { PropTypes } from "prop-types";
 import { Button, Badge, ToggleField } from "@yoast/ui-library";
 import { Card } from "./card";
 import AlgoliaLogo from "../../../images/algolia-logo.svg";
+import ElementorLogo from "../../../images/elementor-logo.svg";
+import JetpackLogo from "../../../images/jetpack-logo.svg";
 import RyteLogo from "../../../images/ryte-logo.svg";
 import SemrushLogo from "../../../images/semrush-logo.svg";
-import wincherLogo from "../../../images/wincher-logo.svg";
+import WincherLogo from "../../../images/wincher-logo.svg";
 import ZapierLogo from "../../../images/zapier-logo.svg";
 import WordproofLogo from "../../../images/wordproof-logo.svg";
 import WoocommerceLogo from "../../../images/woocommerce-logo.svg";
@@ -36,7 +38,7 @@ const SEOTools = [
 		isPremium: false,
 		isNew: false,
 		isMultisiteAvailable: false,
-		logo: wincherLogo,
+		logo: WincherLogo,
 	},
 	{
 		name: "Ryte",
@@ -80,7 +82,7 @@ const pluginIntegrations = [
 		isPremium: false,
 		isNew: false,
 		isMultisiteAvailable: true,
-		logo: null,
+		logo: ElementorLogo,
 	},
 	{
 		name: "Jetpack",
@@ -89,7 +91,7 @@ const pluginIntegrations = [
 		isPremium: false,
 		isNew: false,
 		isMultisiteAvailable: true,
-		logo: null,
+		logo: JetpackLogo,
 	},
 	{
 		name: "Algolia",
@@ -178,6 +180,19 @@ const getIsMultisiteAvailable = ( integration ) => {
 	return integration.isMultisiteAvailable;
 };
 
+/**
+ * Checks if an integration available under those two circumstances:
+ * 1) is a free integration;
+ * 2) is premium and premium is active.
+ *
+ * @param {object} integration The integration.
+ *
+ * @returns {bool} True if the integration is available to the user.
+ */
+const getIsFreeIntegrationOrPremiumAvailable = ( integration ) => {
+	return ( integration.isPremium && isPremiumInstalled ) || ! integration.isPremium;
+};
+
 /* eslint-disable complexity */
 /**
  * Checks the conditions for which a card is active
@@ -189,9 +204,9 @@ const getIsMultisiteAvailable = ( integration ) => {
  */
 const getIsCardActive = ( integration, activeState ) => {
 	const cardActive =  activeState;
-	const networkControlEnabled = getIsNetworkControlEnabled( integration.slug );
-	const multisiteAvailable = getIsMultisiteAvailable( integration.isMultisiteAvailable );
-	const premium = ( integration.isPremium && isPremiumInstalled ) || ! integration.isPremium;
+	const networkControlEnabled = getIsNetworkControlEnabled( integration );
+	const multisiteAvailable = getIsMultisiteAvailable( integration );
+	const premium = getIsFreeIntegrationOrPremiumAvailable( integration );
 
 	if ( premium ) {
 		return cardActive && networkControlEnabled && multisiteAvailable;
@@ -236,6 +251,7 @@ const ToggleableIntegration = ( {
 	integration,
 	InitialActivationState,
 	isNetworkControlEnabled,
+	isMultisiteAvailable,
 	toggleLabel,
 	beforeToggle } ) => {
 	const [ isActive, setIsActive ] = useState( InitialActivationState );
@@ -265,8 +281,8 @@ const ToggleableIntegration = ( {
 	 return (
 		<Card>
 			<Card.Header>
-				{ integration.logo && <img src={ integration.logo } alt={ `${integration.name} logo` }  className={ `${ getIsCardActive( integration, isActive ) ? "" : "yst-opacity-50 yst-filter yst-grayscale" }` } /> }
-				{ ( ! isNetworkControlEnabled && integration.isMultisiteAvailable ) && <Badge className="yst-absolute yst-top-2 yst-right-2">{ __( "Network Disabled", "wordpress-seo" ) }</Badge> }
+				{ integration.logo && <img src={ integration.logo } alt={ `${ integration.name } logo` } className={ `${ getIsCardActive( integration, isActive ) ? "" : "yst-opacity-50 yst-filter yst-grayscale" }` } /> }
+				{ ( ! isNetworkControlEnabled && isMultisiteAvailable ) && <Badge className="yst-absolute yst-top-2 yst-right-2">{ __( "Network Disabled", "wordpress-seo" ) }</Badge> }
 				{ ( isNetworkControlEnabled && integration.isNew ) && <Badge className="yst-absolute yst-top-2 yst-right-2">{ __( "New", "wordpress-seo" ) }</Badge> }
 			</Card.Header>
 			<Card.Content>
@@ -274,7 +290,7 @@ const ToggleableIntegration = ( {
 					<h4 className="yst-flex yst-items-center yst-text-base yst-mb-3 yst-font-medium yst-text-[#111827]">
 						<span>{ integration.name }</span>
 					</h4>
-					{ ( ( integration.isPremium && isPremiumInstalled ) || ! integration.isPremium )
+					{ getIsFreeIntegrationOrPremiumAvailable( integration )
 						? <p> { integration.description } </p>
 						: <ul className="yst-space-y-3">
 							{ integration.usps.map( ( usp, idx ) => {
@@ -296,15 +312,20 @@ const ToggleableIntegration = ( {
 					/> }
 			</Card.Content>
 			<Card.Footer>
-				{ ( ( integration.isPremium && isPremiumInstalled ) || ! integration.isPremium )
-					? <ToggleField checked={ isActive } label={ toggleLabel } onChange={ toggleActive } disabled={ ! getIsNetworkControlEnabled( integration ) || ! getIsMultisiteAvailable( integration )  }  className={ `${ getIsCardActive( integration, isActive ) ? "" : "yst-opacity-50 yst-filter yst-grayscale" }` } />
-					:	<Button id={ `${name}-upsell-button` } type="button" as="a" href={ upsellLink } variant="upsell" className="yst-w-full yst-text-gray-800">
-						<svg xmlns="http://www.w3.org/2000/svg" className="yst--ml-1 yst-mr-2 yst-h-5 yst-w-5 yst-text-yellow-900" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-							<path strokeLinecap="round" strokeLinejoin="round" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z" />
-						</svg>
-						{ __( "Unlock with Premium", "wordpress-seo" ) }
-					</Button>
+				{ ! getIsFreeIntegrationOrPremiumAvailable( integration ) && <Button id={ `${ integration.name }-upsell-button` } type="button" as="a" href={ upsellLink } variant="upsell" className="yst-w-full yst-text-gray-800">
+					<svg xmlns="http://www.w3.org/2000/svg" className="yst--ml-1 yst-mr-2 yst-h-5 yst-w-5 yst-text-yellow-900" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+						<path strokeLinecap="round" strokeLinejoin="round" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z" />
+					</svg>
+					{ __( "Unlock with Premium", "wordpress-seo" ) }
+				</Button>
 				}
+				{ getIsFreeIntegrationOrPremiumAvailable( integration ) && ! getIsMultisiteAvailable( integration ) && <p className="yst-flex yst-items-start yst-justify-between">
+					<span className="yst-text-gray-700 yst-font-medium">{ __( "Integration unavailable for multisites", "wordpress-seo" ) }</span>
+					<svg xmlns="http://www.w3.org/2000/svg" className="yst-h-5 yst-w-5 yst-text-green-500 yst-flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
+						<path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+					</svg>
+				</p>  }
+				{ getIsFreeIntegrationOrPremiumAvailable( integration ) && getIsMultisiteAvailable( integration ) && <ToggleField checked={ isActive } label={ toggleLabel } onChange={ toggleActive } disabled={ ! isNetworkControlEnabled || ! isMultisiteAvailable }  className={ `${ getIsCardActive( integration, isActive ) ? "" : "yst-opacity-50 yst-filter yst-grayscale" }` } /> }
 			</Card.Footer>
 		</Card>
 	 );
@@ -324,6 +345,7 @@ ToggleableIntegration.propTypes = {
 	} ),
 	InitialActivationState: PropTypes.bool,
 	isNetworkControlEnabled: PropTypes.bool,
+	isMultisiteAvailable: PropTypes.bool,
 	toggleLabel: PropTypes.string,
 	beforeToggle: PropTypes.func,
 };
@@ -374,14 +396,7 @@ const SimpleIntegration = ( {
 					} ) }
 				</ul> }
 			</Card.Content>
-			<Card.Footer>
-				{ isBuiltin && <p className="yst-flex yst-items-start yst-justify-between">
-					<span className="yst-text-gray-700 yst-font-medium">{ __( "Integration active", "wordpress-seo" ) }</span>
-					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="yst-h-5 yst-w-5 yst-text-green-400 yst-flex-shrink-0">
-						<path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-					</svg>
-				</p> }
-			</Card.Footer>
+			<Card.Footer />
 		</Card>
 	);
 };
@@ -414,23 +429,14 @@ const Section = ( { title, description, elements } ) => {
 			</div>
 			<div className="yst-grid yst-grid-cols-1 yst-gap-6 sm:yst-grid-cols-2 md:yst-grid-cols-3 lg:yst-grid-cols-4">
 				{ elements.map( ( integration, index ) => {
-					const label = getIsMultisiteAvailable( integration.isMultisiteAvailable )
-						? sprintf(
-							// translators: %1$s expands to the name of the integration
-							__(
-								"Enable %1$s",
-								"wordpress-seo"
-							),
-							integration.name
-						)
-						: sprintf(
-							// translators: %1$s expands to the name of the integration
-							__(
-								"Currently, the %1$s integration is not available for multisites.",
-								"wordpress-seo"
-							),
-							integration.name
-						);
+					const label = sprintf(
+						// translators: %1$s expands to the name of the integration
+						__(
+							"Enable %1$s",
+							"wordpress-seo"
+						),
+						integration.name
+					);
 					switch ( integration.type ) {
 						case "toggleable":
 							return (
@@ -438,8 +444,9 @@ const Section = ( { title, description, elements } ) => {
 									key={ index }
 									integration={ integration }
 									toggleLabel={ label }
-									InitialActivationState={ getInitialState( integration.slug ) }
-									isNetworkControlEnabled={ getIsNetworkControlEnabled( integration.slug ) }
+									InitialActivationState={ getInitialState( integration ) }
+									isNetworkControlEnabled={ getIsNetworkControlEnabled( integration ) }
+									isMultisiteAvailable={ getIsMultisiteAvailable( integration ) }
 									beforeToggle={ updateIntegrationState }
 								/>
 							);
@@ -451,7 +458,7 @@ const Section = ( { title, description, elements } ) => {
 									name={ integration.name }
 									isBuiltin={ integration.type === "builtin" }
 									isNew={ integration.isNew }
-									isMultisiteAvailable={ getIsMultisiteAvailable( integration.isMultisiteAvailable ) }
+									isMultisiteAvailable={ getIsMultisiteAvailable( integration ) }
 									usps={ integration.usps }
 									description={ integration.description }
 									logo={ integration.logo }
@@ -499,7 +506,7 @@ export default function IntegrationsGrid() {
 				<hr className="yst-my-12" />
 
 				<Section
-					title={ __( "Plugin Integrations", "wordpress-seo" ) }
+					title={ __( "Partnerships", "wordpress-seo" ) }
 					description="description"
 					elements={ partnerships }
 				/>
