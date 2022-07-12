@@ -31,6 +31,7 @@ const ToggleField = ( {
 		<Toggle
 			checked={ checked }
 			onChange={ onChange }
+			screenReaderLabel={ label }
 			{ ...props }
 		/>
 	</Switch.Group>

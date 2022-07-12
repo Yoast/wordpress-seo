@@ -3,7 +3,7 @@ import styled from "styled-components";
 import React from "react";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
-import noop from "lodash/noop";
+import { noop } from "lodash";
 
 /* Yoast dependencies */
 import { assessments, languageProcessing, helpers } from "yoastseo";
@@ -218,20 +218,6 @@ class SnippetEditor extends React.Component {
 				}
 			);
 		}
-	}
-
-	/**
-	 * Calls the onChangeAnalysisData function with the current analysis
-	 * data when the component did update.
-	 *
-	 *  @returns {void}
-	 */
-	componentDidUpdate() {
-		const analysisData = this.mapDataToMeasurements( {
-			...this.props.data,
-		} );
-
-		this.props.onChangeAnalysisData( analysisData );
 	}
 
 	/**

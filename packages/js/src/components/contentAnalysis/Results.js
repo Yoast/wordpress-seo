@@ -98,11 +98,15 @@ class Results extends Component {
 			considerationsResults,
 			problemsResults,
 		} = mappedResults;
+
+		const { upsellResults } = this.props;
+
 		return (
 			<Fragment>
 				<ContentAnalysis
 					errorsResults={ errorsResults }
 					problemsResults={ problemsResults }
+					upsellResults={ upsellResults }
 					improvementsResults={ improvementsResults }
 					considerationsResults={ considerationsResults }
 					goodResults={ goodResults }
@@ -120,6 +124,7 @@ class Results extends Component {
 
 Results.propTypes = {
 	results: PropTypes.array,
+	upsellResults: PropTypes.array,
 	marksButtonClassName: PropTypes.string,
 	marksButtonStatus: PropTypes.string,
 	setActiveMarker: PropTypes.func.isRequired,
@@ -130,6 +135,7 @@ Results.propTypes = {
 
 Results.defaultProps = {
 	results: null,
+	upsellResults: [],
 	marksButtonStatus: "enabled",
 	marksButtonClassName: "",
 	activeMarker: null,

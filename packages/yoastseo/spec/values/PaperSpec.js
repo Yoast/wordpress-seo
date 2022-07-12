@@ -1,7 +1,7 @@
 import Paper from "../../src/values/Paper.js";
 
 describe( "Paper", function() {
-	describe( "Creating an Paper", function() {
+	describe( "Creating a Paper", function() {
 		it( "returns and empty keyword and text when no args are given", function() {
 			const mockPaper = new Paper( "" );
 
@@ -15,9 +15,7 @@ describe( "Paper", function() {
 			expect( mockPaper.getKeyword() ).toBe( "keyword" );
 			expect( mockPaper.getText() ).toBe( "text with keyword" );
 		} );
-	} );
 
-	describe( "Creating a Paper", function() {
 		it( "returns description", function() {
 			let paper = new Paper( "text, metaValues" );
 			expect( paper.hasDescription() ).toBe( false );
@@ -162,6 +160,80 @@ describe( "Paper", function() {
 			const paper1 = new Paper( "This is a test", attributes1 );
 			const paper2 = new Paper( "This is a test", attributes2 );
 			expect( paper1.equals( paper2 ) ).toBe( false );
+		} );
+	} );
+
+	describe( "hasText", function() {
+		it( "should return true if contains raw text", function() {
+			const paper = new Paper( "This is a test" );
+			expect( paper.hasText() ).toBeTruthy();
+		} );
+		it( "should return true if contains text with html tags", function() {
+			const paper = new Paper( "<h1>This is a title</h1><p>This is a paragraph</p>" );
+			expect( paper.hasText() ).toBeTruthy();
+		} );
+		it( "should return true if contains only html tag", function() {
+			// eslint-disable-next-line max-len
+			const paper = new Paper( "<img src=\"https://yoast.com/cdn-cgi/image/width=466%2Cheight=244%2Cfit=crop%2Cf=auto%2Conerror=redirect//app/uploads/2017/12/Focus_keyword_FI.jpg\">" );
+			expect( paper.hasText() ).toBeTruthy();
+		} );
+		it( "should return true if contains a string of spaces", function() {
+			const paper = new Paper( "        " );
+			expect( paper.hasText() ).toBeTruthy();
+		} );
+		it( "should return false paper is empty string", function() {
+			const paper = new Paper( "" );
+			expect( paper.hasText() ).toBeFalsy();
+		} );
+	} );
+
+	describe( "Parsing a Paper", () => {
+		const serialized = { text: "text", _parseClass: "Paper", titleWidth: 123 };
+		const attributes = [ "keyword", "synonyms", "description", "title", "slug", "locale", "permalink", "date" ];
+		// Append the attributes to `serialized`.
+		attributes.forEach( attribute => {
+			serialized[ attribute ] = attribute;
+		} );
+
+		it( "creates a Paper instance from an Object", () => {
+			const paper = Paper.parse( serialized );
+			expect( paper instanceof Paper ).toBe( true );
+		} );
+
+		it( "detects a Paper instance and prevents a new instance", () => {
+			const paper = new Paper( "text", {} );
+			// Checks if the memory address is the same, which would fail if a new instance was made.
+			expect( Paper.parse( paper ) ).toBe( paper );
+		} );
+
+		describe( "contains the data", () => {
+			const paper = Paper.parse( serialized );
+
+			it( "contains the text", () => {
+				expect( paper._text ).toBe( "text" );
+				expect( paper.hasText() ).toBe( true );
+				expect( paper.getText() ).toBe( "text" );
+			} );
+
+			attributes.forEach( attribute => {
+				const capitalized = attribute.charAt( 0 ).toUpperCase() + attribute.slice( 1 );
+
+				it( `contains the ${ attribute }`, () => {
+					expect( paper._attributes[ attribute ] ).toBe( attribute );
+					expect( paper[ `has${ capitalized }` ]() ).toBe( true );
+					expect( paper[ `get${ capitalized }` ]() ).toBe( attribute );
+				} );
+			} );
+
+			it( "contains the titleWidth", () => {
+				expect( paper._attributes.titleWidth ).toBe( 123 );
+				expect( paper.hasTitleWidth() ).toBe( true );
+				expect( paper.getTitleWidth() ).toBe( 123 );
+			} );
+
+			it( "does not contain the _parseClass", () => {
+				expect( paper._attributes._parseClass ).not.toBeDefined();
+			} );
 		} );
 	} );
 } );

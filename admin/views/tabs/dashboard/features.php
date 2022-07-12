@@ -62,6 +62,11 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 			$disabled = true;
 		}
 
+		$preserve_disabled_value = false;
+		if ( $disabled ) {
+			$preserve_disabled_value = true;
+		}
+
 		$yform->toggle_switch(
 			$feature->setting,
 			[
@@ -70,7 +75,10 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 			],
 			$name,
 			$feature_help->get_button_html() . $feature_help->get_panel_html(),
-			[ 'disabled' => $disabled ]
+			[
+				'disabled'                => $disabled,
+				'preserve_disabled_value' => $preserve_disabled_value,
+			]
 		);
 
 		if ( ! empty( $feature->after ) ) {

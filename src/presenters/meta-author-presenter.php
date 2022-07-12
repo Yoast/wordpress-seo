@@ -2,6 +2,8 @@
 
 namespace Yoast\WP\SEO\Presenters;
 
+use Yoast\WP\SEO\Presentations\Indexable_Presentation;
+
 /**
  * Presenter class for the meta author tag.
  */
@@ -35,8 +37,22 @@ class Meta_Author_Presenter extends Abstract_Indexable_Tag_Presenter {
 	 * @return string The author's display name.
 	 */
 	public function get() {
+		if ( $this->presentation->model->object_sub_type !== 'post' ) {
+			return '';
+		}
+
 		$user_data = \get_userdata( $this->presentation->context->post->post_author );
 
-		return \trim( $this->helpers->schema->html->smart_strip_tags( $user_data->display_name ) );
+		if ( ! $user_data instanceof \WP_User ) {
+			return '';
+		}
+
+		/**
+		 * Filter: 'wpseo_meta_author' - Allow developers to filter the article's author meta tag.
+		 *
+		 * @param string                 $author_name  The article author's display name. Return empty to disable the tag.
+		 * @param Indexable_Presentation $presentation The presentation of an indexable.
+		 */
+		return \trim( $this->helpers->schema->html->smart_strip_tags( \apply_filters( 'wpseo_meta_author', $user_data->display_name, $this->presentation ) ) );
 	}
 }

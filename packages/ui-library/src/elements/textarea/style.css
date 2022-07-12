@@ -1,6 +1,7 @@
 @layer components {
-	.yst-textarea {
-		@apply
+	.yst-root {
+		.yst-textarea {
+			@apply
 			yst-w-full
 			yst-py-2
 			yst-px-3
@@ -15,12 +16,13 @@
 			focus:yst-outline-none
 			focus:yst-ring-primary-500
 			focus:yst-border-primary-500;
-	}
+		}
 
-	.yst-textarea--disabled {
-		@apply
+		.yst-textarea--disabled {
+			@apply
 			yst-opacity-50
 			yst-cursor-not-allowed
 			focus:yst-ring-0;
+		}
 	}
 }

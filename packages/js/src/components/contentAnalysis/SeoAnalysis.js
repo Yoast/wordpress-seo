@@ -3,10 +3,10 @@ import { withSelect } from "@wordpress/data";
 import { Component, Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { YoastSeoIcon } from "@yoast/components";
-import { colors } from "@yoast/style-guide";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import getIndicatorForScore from "../../analysis/getIndicatorForScore";
+import getL10nObject from "../../analysis/getL10nObject";
 import Results from "../../containers/Results";
 import AnalysisUpsell from "../AnalysisUpsell";
 import { LocationConsumer } from "@yoast/externals/contexts";
@@ -130,40 +130,6 @@ class SeoAnalysis extends Component {
 	}
 
 	/**
-	 * Renders the UpsellBox component.
-	 *
-	 * @param {string} location The location of the upsell component. Used to determine the shortlinks in the component.
-	 *
-	 * @returns {wp.Element} The UpsellBox component.
-	 */
-	renderKeywordUpsell( location ) {
-		// Default to metabox.
-		let link    = wpseoAdminL10n[ "shortlinks.upsell.metabox.additional_link" ];
-		let buyLink = wpseoAdminL10n[ "shortlinks.upsell.metabox.additional_button" ];
-		let Collapsible = MetaboxCollapsible;
-
-		if ( location.toLowerCase() === "sidebar" ) {
-			link    = wpseoAdminL10n[ "shortlinks.upsell.sidebar.additional_link" ];
-			buyLink = wpseoAdminL10n[ "shortlinks.upsell.sidebar.additional_button" ];
-			Collapsible = SidebarCollapsible;
-		}
-
-		return (
-			<Collapsible
-				prefixIcon={ { icon: "plus", color: colors.$color_grey_medium_dark } }
-				prefixIconCollapsed={ { icon: "plus", color: colors.$color_grey_medium_dark } }
-				title={ __( "Add related keyphrase", "wordpress-seo" ) }
-				id={ `yoast-additional-keyphrase-collapsible-${ location }` }
-			>
-				<MultipleKeywords
-					link={ link }
-					buyLink={ buyLink }
-				/>
-			</Collapsible>
-		);
-	}
-
-	/**
 	 * Renders the AnalysisUpsell component.
 	 *
 	 * @param {string} location The location of the upsell component. Used to determine the shortlink in the component.
@@ -204,12 +170,61 @@ class SeoAnalysis extends Component {
 	}
 
 	/**
+	 * Returns the list of results used to upsell the user to Premium.
+	 *
+	 * @param {string} location Where this component is rendered (metabox or sidebar).
+	 *
+	 * @returns {Array} The upsell results.
+	 */
+	getUpsellResults( location ) {
+		let link = wpseoAdminL10n[ "shortlinks.upsell.metabox.keyphrase_distribution" ];
+		if ( location === "sidebar" ) {
+			link = wpseoAdminL10n[ "shortlinks.upsell.sidebar.keyphrase_distribution" ];
+		}
+
+		/*
+		 * We don't show the upsell in WooCommerce product pages when Yoast SEO WooCommerce plugin is activated.
+		 * This is because the premium assessments of the upsell are already loaded even when the Premium plugin is not activated.
+		 */
+		const contentType = wpseoAdminL10n.postType;
+		if ( this.props.isYoastSEOWooActive && contentType === "product" ) {
+			return [];
+		}
+
+		const keyphraseDistributionUpsellText = sprintf(
+			/* Translators: %1$s is a span tag that adds styling to 'Keyphrase distribution', %2$s is a closing span tag.
+			   %3%s is an anchor tag with a link to yoast.com, %4$s is a closing anchor tag.*/
+			__(
+				"%1$sKeyphrase distribution%2$s: Have you evenly distributed your focus keyphrase throughout the whole text? " +
+				"%3$sYoast SEO Premium will tell you!%4$s",
+				"wordpress-seo"
+			),
+			"<span style='text-decoration: underline'>",
+			"</span>",
+			`<a href="${ link }">`,
+			"</a>"
+		);
+
+		return [
+			{
+				score: 0,
+				rating: "upsell",
+				hasMarks: false,
+				id: "keyphraseDistribution",
+				text: keyphraseDistributionUpsellText,
+				markerId: "keyphraseDistribution",
+			},
+		];
+	}
+
+	/**
 	 * Renders the SEO Analysis component.
 	 *
 	 * @returns {wp.Element} The SEO Analysis component.
 	 */
 	render() {
 		const score = getIndicatorForScore( this.props.overallScore );
+		const isPremium = getL10nObject().isPremium;
 
 		if ( score.className !== "loading" && this.props.keyword === "" ) {
 			score.className = "na";
@@ -221,10 +236,15 @@ class SeoAnalysis extends Component {
 				{ location => {
 					const Collapsible = location === "metabox" ? MetaboxCollapsible : SidebarCollapsible;
 
+					let upsellResults = [];
+					if ( this.props.shouldUpsell ) {
+						upsellResults = this.getUpsellResults( location );
+					}
+
 					return (
 						<Fragment>
 							<Collapsible
-								title={ __( "SEO analysis", "wordpress-seo" ) }
+								title={ isPremium ? __( "Premium SEO analysis", "wordpress-seo" ) : __( "SEO analysis", "wordpress-seo" ) }
 								titleScreenReaderText={ score.screenReaderReadabilityText }
 								prefixIcon={ getIconForScore( score.className ) }
 								prefixIconCollapsed={ getIconForScore( score.className ) }
@@ -242,11 +262,11 @@ class SeoAnalysis extends Component {
 								</AnalysisHeader>
 								<Results
 									results={ this.props.results }
+									upsellResults={ upsellResults }
 									marksButtonClassName="yoast-tooltip yoast-tooltip-w"
 									marksButtonStatus={ this.props.marksButtonStatus }
 								/>
 							</Collapsible>
-							{ this.props.shouldUpsell && this.renderKeywordUpsell( location ) }
 							{ this.renderTabIcon( location, score.className ) }
 						</Fragment>
 					);
@@ -263,6 +283,7 @@ SeoAnalysis.propTypes = {
 	shouldUpsell: PropTypes.bool,
 	shouldUpsellWordFormRecognition: PropTypes.bool,
 	overallScore: PropTypes.number,
+	isYoastSEOWooActive: PropTypes.bool,
 };
 
 SeoAnalysis.defaultProps = {
@@ -272,6 +293,7 @@ SeoAnalysis.defaultProps = {
 	shouldUpsell: false,
 	shouldUpsellWordFormRecognition: false,
 	overallScore: null,
+	isYoastSEOWooActive: false,
 };
 
 export default withSelect( ( select, ownProps ) => {

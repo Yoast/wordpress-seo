@@ -2,6 +2,7 @@ import { createAnchorOpeningTag } from "../../../../src/helpers/shortlinker";
 import getLanguage from "../../../../src/languageProcessing/helpers/language/getLanguage";
 import getResearcher from "../../../../../yoastseo/spec/specHelpers/getResearcher";
 import getMorphologyData from "../../../../../yoastseo/spec/specHelpers/getMorphologyData";
+import WordComplexityAssessment from "../../../../src/scoring/assessments/readability/WordComplexityAssessment";
 
 // Import SEO assessments
 import IntroductionKeywordAssessment from "../../../../src/scoring/assessments/seo/IntroductionKeywordAssessment";
@@ -168,6 +169,10 @@ testPapers.forEach( function( testPaper ) {
 		const listPresenceAssessment = new ListAssessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify38" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify39" ),
+		} );
+		const wordComplexityAssessment = new WordComplexityAssessment( {
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify77" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify78" ),
 		} );
 
 		// SEO assessments.
@@ -432,6 +437,16 @@ testPapers.forEach( function( testPaper ) {
 				result.listPresence = listPresenceAssessment.getResult( paper, researcher );
 				expect( result.listPresence.getScore() ).toBe( expectedResults.listPresence.score );
 				expect( result.listPresence.getText() ).toBe( expectedResults.listPresence.resultText );
+			}
+		} );
+		it( "returns a score and the associated feedback text for the wordComplexity assessment", function() {
+			const isApplicable = wordComplexityAssessment.isApplicable( paper, researcher );
+			expect( isApplicable ).toBe( expectedResults.wordComplexity.isApplicable );
+
+			if ( isApplicable ) {
+				result.wordComplexity = wordComplexityAssessment.getResult( paper, researcher );
+				expect( result.wordComplexity.getScore() ).toBe( expectedResults.wordComplexity.score );
+				expect( result.wordComplexity.getText() ).toBe( expectedResults.wordComplexity.resultText );
 			}
 		} );
 	} );

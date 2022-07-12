@@ -53,6 +53,15 @@ const considerationsResults = [
 	},
 ];
 
+const upsellResults = [
+	{
+		text: "Improve your analysis!",
+		id: "7",
+		rating: "upsell",
+		hasMarks: false,
+	},
+];
+
 describe( "ContentAnalysis", () => {
 	it( "the ContentAnalysis component without language notice matches the snapshot", () => {
 		const component = renderer.create(
@@ -170,6 +179,22 @@ describe( "ContentAnalysis", () => {
 				considerationsResults={ considerationsResults }
 				errorsResults={ errorsResults }
 				marksButtonStatus={ "hidden" }
+			/>
+		);
+
+		const tree = component.toJSON();
+		expect( tree ).toMatchSnapshot();
+	} );
+
+	it( "the ContentAnalysis component with upsell results matches the snapshot", () => {
+		const component = renderer.create(
+			<ContentAnalysis
+				problemsResults={ problemsResults }
+				improvementsResults={ improvementsResults }
+				upsellResults={ upsellResults }
+				goodResults={ goodResults }
+				considerationsResults={ considerationsResults }
+				errorsResults={ errorsResults }
 			/>
 		);
 

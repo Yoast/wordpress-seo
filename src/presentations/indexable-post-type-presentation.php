@@ -74,7 +74,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 			return $this->model->canonical;
 		}
 
-		$permalink = $this->get_permalink();
+		$permalink = $this->permalink;
 
 		// Fix paginated pages canonical, but only if the page is truly paginated.
 		$current_page = $this->pagination->get_current_post_page_number();

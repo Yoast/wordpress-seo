@@ -90,7 +90,7 @@ class Replace_Vars_Helper {
 			'author_id'        => $this->id_helper->get_user_schema_id( $context->indexable->author_id, $context ),
 			'person_id'        => $context->site_url . Schema_IDs::PERSON_HASH,
 			'primary_image_id' => $context->canonical . Schema_IDs::PRIMARY_IMAGE_HASH,
-			'webpage_id'       => $context->canonical . Schema_IDs::WEBPAGE_HASH,
+			'webpage_id'       => $context->main_schema_id,
 			'website_id'       => $context->site_url . Schema_IDs::WEBSITE_HASH,
 			'organization_id'  => $context->site_url . Schema_IDs::ORGANIZATION_HASH,
 		];

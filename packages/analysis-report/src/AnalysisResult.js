@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-import { SvgIcon, IconButtonToggle } from "@yoast/components";
+import { SvgIcon, IconButtonToggle, BetaBadge } from "@yoast/components";
 
 const AnalysisResultBase = styled.li`
 	// This is the height of the IconButtonToggle.
@@ -19,6 +19,7 @@ const ScoreIcon = styled( SvgIcon )`
 const AnalysisResultText = styled.p`
 	margin: 0 16px 0 0;
 	flex: 1 1 auto;
+	color: ${ props => props.suppressedText ? "rgba(30,30,30,0.5)" : "inherit" };
 `;
 
 /**
@@ -42,11 +43,14 @@ export const AnalysisResult = ( props ) => {
 	return (
 		<AnalysisResultBase>
 			<ScoreIcon
-				icon="circle"
+				icon={ props.icon }
 				color={ props.bulletColor }
 				size="13px"
 			/>
-			<AnalysisResultText dangerouslySetInnerHTML={ { __html: props.text } } />
+			<AnalysisResultText suppressedText={ props.suppressedText }>
+				{ props.hasBetaBadgeLabel && <BetaBadge /> }
+				<span dangerouslySetInnerHTML={ { __html: props.text } } />
+			</AnalysisResultText>
 			{
 				props.hasMarksButton && ! areButtonsHidden( props ) &&
 					<IconButtonToggle
@@ -64,7 +68,9 @@ export const AnalysisResult = ( props ) => {
 };
 
 AnalysisResult.propTypes = {
+	icon: PropTypes.string,
 	text: PropTypes.string.isRequired,
+	suppressedText: PropTypes.bool,
 	bulletColor: PropTypes.string.isRequired,
 	hasMarksButton: PropTypes.bool.isRequired,
 	buttonId: PropTypes.string.isRequired,
@@ -73,11 +79,15 @@ AnalysisResult.propTypes = {
 	onButtonClick: PropTypes.func.isRequired,
 	marksButtonStatus: PropTypes.string,
 	marksButtonClassName: PropTypes.string,
+	hasBetaBadgeLabel: PropTypes.bool,
 };
 
 AnalysisResult.defaultProps = {
+	icon: "circle",
+	suppressedText: false,
 	marksButtonStatus: "enabled",
 	marksButtonClassName: "",
+	hasBetaBadgeLabel: false,
 };
 
 export default AnalysisResult;

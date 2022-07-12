@@ -1,5 +1,6 @@
 // External dependencies.
 import { Fill } from "@wordpress/components";
+import { Fragment } from "@wordpress/element";
 import { useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { get } from "lodash";
@@ -7,12 +8,14 @@ import PropTypes from "prop-types";
 
 // Internal dependencies.
 import CollapsibleCornerstone from "../../../containers/CollapsibleCornerstone";
+import InsightsModal from "../../../insights/components/insights-modal";
 import Alert from "../../containers/Alert";
 import { KeywordInput, ReadabilityAnalysis, SeoAnalysis } from "@yoast/externals/components";
 import SidebarItem from "../../../components/SidebarItem";
 import GooglePreviewModal from "../modals/editorModals/GooglePreviewModal";
 import TwitterPreviewModal from "../modals/editorModals/TwitterPreviewModal";
 import FacebookPreviewModal from "../modals/editorModals/FacebookPreviewModal";
+import PremiumSEOAnalysisModal from "../../../components/modals/PremiumSEOAnalysisModal";
 import SidebarCollapsible from "../../../components/SidebarCollapsible";
 import SchemaTabContainer from "../../../containers/SchemaTab";
 import AdvancedSettings from "../../../containers/AdvancedSettings";
@@ -21,6 +24,7 @@ import WincherSEOPerformanceModal from "../../../containers/WincherSEOPerformanc
 import { isWordProofIntegrationActive } from "../../../helpers/wordproof";
 import WordProofAuthenticationModals from "../../../components/modals/WordProofAuthenticationModals";
 import WebinarPromoNotification from "../../../components/WebinarPromoNotification";
+import KeywordUpsell from "../../../components/KeywordUpsell";
 
 /* eslint-disable complexity */
 /**
@@ -86,14 +90,24 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 						<AdvancedSettings location="sidebar" />
 					</SidebarCollapsible>
 				</SidebarItem> }
-				{ settings.isContentAnalysisActive && <SidebarItem renderPriority={ 10 }>
-					<ReadabilityAnalysis />
+				{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 10 }>
+					<Fragment>
+						<SeoAnalysis
+							shouldUpsell={ settings.shouldUpsell }
+							shouldUpsellWordFormRecognition={ settings.isWordFormRecognitionActive }
+							isYoastSEOWooActive={ settings.isYoastSEOWooEnabled }
+						/>
+						{ settings.shouldUpsell && <PremiumSEOAnalysisModal /> }
+					</Fragment>
 				</SidebarItem> }
-				{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 20 }>
-					<SeoAnalysis
+				{ settings.isContentAnalysisActive && <SidebarItem renderPriority={ 20 }>
+					<ReadabilityAnalysis
 						shouldUpsell={ settings.shouldUpsell }
-						shouldUpsellWordFormRecognition={ settings.isWordFormRecognitionActive }
+						isYoastSEOWooActive={ settings.isYoastSEOWooEnabled }
 					/>
+				</SidebarItem> }
+				{ settings.isKeywordAnalysisActive && <SidebarItem key="additional-keywords-upsell" renderPriority={ 21 }>
+					{ settings.shouldUpsell && <KeywordUpsell /> }
 				</SidebarItem> }
 				{ settings.isKeywordAnalysisActive && settings.isWincherIntegrationActive &&
 					<SidebarItem key="wincher-seo-performance" renderPriority={ 21 }>
@@ -101,6 +115,9 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 					</SidebarItem> }
 				{ settings.isCornerstoneActive && <SidebarItem renderPriority={ 30 }>
 					<CollapsibleCornerstone />
+				</SidebarItem> }
+				{ settings.isInsightsEnabled && <SidebarItem renderPriority={ 32 }>
+					<InsightsModal location="elementor" />
 				</SidebarItem> }
 			</Fill>
 		</>

@@ -1,5 +1,4 @@
 import Assessor from "./assessor.js";
-import fleschReadingEase from "./assessments/readability/fleschReadingEaseAssessment.js";
 import ParagraphTooLong from "./assessments/readability/ParagraphTooLongAssessment.js";
 import SentenceLengthInText from "./assessments/readability/SentenceLengthInTextAssessment.js";
 import SubheadingDistributionTooLong from "./assessments/readability/SubheadingDistributionTooLongAssessment.js";
@@ -10,8 +9,6 @@ import TextPresence from "./assessments/readability/TextPresenceAssessment.js";
 
 /*
 	Temporarily disabled:
-
-	var wordComplexity = require( "./assessments/wordComplexityAssessment.js" );
 	var sentenceLengthInDescription = require( "./assessments/sentenceLengthInDescriptionAssessment.js" );
  */
 
@@ -33,8 +30,6 @@ const ContentAssessor = function( researcher, options = {} ) {
 	Assessor.call( this, researcher, options );
 	this.type = "contentAssessor";
 	this._assessments = [
-
-		fleschReadingEase,
 		new SubheadingDistributionTooLong(),
 		new ParagraphTooLong(),
 		new SentenceLengthInText(),
@@ -91,7 +86,7 @@ ContentAssessor.prototype.calculatePenaltyPointsPartialSupport = function( ratin
  * @returns {boolean} True if fully supported.
  */
 ContentAssessor.prototype._allAssessmentsSupported = function() {
-	const numberOfAssessments = 8;
+	const numberOfAssessments = this._assessments.length;
 	const applicableAssessments = this.getApplicableAssessments();
 	return applicableAssessments.length === numberOfAssessments;
 };
