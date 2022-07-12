@@ -1,5 +1,6 @@
 import { __ } from "@wordpress/i18n";
 import getIndicatorForScore from "../analysis/getIndicatorForScore";
+import getL10nObject from "../analysis/getL10nObject";
 
 /**
  * Adds a "No focus keyword was entered" result when no focus keyphrase
@@ -56,9 +57,10 @@ export function maybeAddSEOCheck( checklist, store ) {
 
 	if ( isContentAnalysisActive ) {
 		const seoScoreIndicator = getIndicatorForScore( store.getResultsForFocusKeyword().overallScore );
+		const isPremium = getL10nObject().isPremium;
 
 		checklist.push( {
-			label: __( "SEO analysis:", "wordpress-seo" ),
+			label: isPremium ? __( "Premium SEO analysis:", "wordpress-seo" ) : __( "SEO analysis:", "wordpress-seo" ),
 			score: seoScoreIndicator.className,
 			scoreValue: seoScoreIndicator.screenReaderReadabilityText,
 		} );

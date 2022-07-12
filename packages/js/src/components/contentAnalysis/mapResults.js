@@ -11,6 +11,7 @@ import { colors } from "@yoast/style-guide";
  * @property {func} marker
  * @property {number} score
  * @property {string} markerId
+ * @property {bool} hasBetaBadge
  */
 
 /**
@@ -41,6 +42,7 @@ function mapResult( result, key = "" ) {
 		id,
 		text: result.text,
 		markerId: key.length > 0 ? `${key}:${id}` : id,
+		hasBetaBadge: result.hasBetaBadge(),
 	};
 
 	// Because of inconsistency between YoastSEO and yoast-components.
@@ -93,6 +95,9 @@ export function getIconForScore( score ) {
 	switch ( score ) {
 		case "loading":
 			icon = { icon: "loading-spinner", color: colors.$color_green_medium_light };
+			break;
+		case "not-set":
+			icon = { icon: "seo-score-none", color: colors.$color_grey };
 			break;
 		case "good":
 			icon = { icon: "seo-score-good", color: colors.$color_green_medium };

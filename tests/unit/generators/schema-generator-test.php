@@ -223,6 +223,7 @@ class Schema_Generator_Test extends TestCase {
 	 */
 	public function test_generate_with_no_blocks() {
 		$this->context->indexable->object_sub_type = 'super-custom-post-type';
+		$this->context->has_image                  = false;
 		$this->current_page->expects( 'is_paged' )->andReturns( false );
 
 		Monkey\Functions\expect( 'is_search' )
@@ -832,6 +833,7 @@ class Schema_Generator_Test extends TestCase {
 	 */
 	public function test_generate_with_search_page() {
 		$this->context->indexable->object_sub_type = 'super-custom-post-type';
+		$this->context->has_image                  = false;
 		$this->context->site_url                   = 'https://fake.url/';
 		$this->context->main_schema_id             = 'https://fake.url/?s=searchterm';
 
@@ -893,14 +895,6 @@ class Schema_Generator_Test extends TestCase {
 						],
 						'inLanguage'      => 'English',
 						'breadcrumb'      => [ '@id' => '#breadcrumb' ],
-						'potentialAction' => [
-							[
-								'@type'  => 'ReadAction',
-								'target' => [
-									0 => 'https://fake.url/?s=searchterm',
-								],
-							],
-						],
 					],
 				],
 			],

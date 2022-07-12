@@ -306,7 +306,7 @@ With the example keyphrase `cat and dog` the following criteria would apply to c
 | Green	| 9	| Title width between 1 px and 600 px		| **SEO title width**: Good job! |
 
 ### 5) Meta description length
-**What it does**: Checks if the metadescription has a good length. The date (and the separator ' - ') length are also included in the calculation.
+**What it does**: Checks if the meta description has a good length. The date (and the separator ' - ') length are also included in the calculation, if the date is shown in the Google preview.
 
 **When applies**: Always.
 

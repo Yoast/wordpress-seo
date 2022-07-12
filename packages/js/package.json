@@ -24,6 +24,7 @@
     "@yoast/search-metadata-previews": "^2.24.0",
     "@yoast/social-metadata-forms": "^1.16.0",
     "@yoast/style-guide": "^0.13.0",
+    "@yoast/ui-library": "^2.0.0",
     "a11y-speak": "git+https://github.com/Yoast/a11y-speak.git#master",
     "babel-polyfill": "^6.26.0",
     "classnames": "^2.2.5",

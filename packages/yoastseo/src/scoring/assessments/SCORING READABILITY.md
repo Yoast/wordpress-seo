@@ -132,7 +132,7 @@
 |-------|------	|----- |------- |
 |Red	|3	|< 50 characters	|**Not enough content**: **please add some content to enable a good analysis**.|
 
-## 8) Word complexity
+## 8) Word complexity (only in Premium)
 **What it does**: Checks whether the text contains complex words
 
 **When applies**: When there is at least 50 characters in the text
@@ -143,7 +143,7 @@
 
 **Call to action URL**: https://yoa.st/4lt (link placement is in bold in the feedback strings)
 
-|Bullet	|Score|	Criterion|	Feedback|
-|-------|------	|----- |------- |
-|Orange	(cornerstone: red) |6 (cornerstone: 3) |	If the complex words are more than X% in the text (English: 5%) |**Word complexity**: X% of the words in your text is considered complex. **Try to use shorter and more familiar words to improve readability**.|
-|Green	|9 |	If the complex words are less than X% in the text (English: 5%)              |**Word complexity**: You are not using too many complex words, which makes your text easy to read. Good job! |
+|Bullet	|Score|	Criterion| 	Feedback                                                                                                                                        |
+|-------|------	|----- |--------------------------------------------------------------------------------------------------------------------------------------------------|
+|Orange	(cornerstone: red) |6 (cornerstone: 3) |	If the complex words are more than 10% in the text | **Word complexity**: X% of the words in your text are considered complex. **Try to use shorter and more familiar words to improve readability**. |
+|Green	|9 |	If the complex words are less than 10% in the text              | **Word complexity**: You are not using too many complex words, which makes your text easy to read. Good job!                                     |

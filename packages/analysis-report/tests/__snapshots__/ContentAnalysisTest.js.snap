@@ -292,12 +292,15 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
         </svg>
         <p
           className="c18"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "Error: Analysis not loaded",
+        >
+          <span
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "Error: Analysis not loaded",
+              }
             }
-          }
-        />
+          />
+        </p>
       </li>
     </ul>
   </div>
@@ -362,12 +365,15 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
         </svg>
         <p
           className="c18"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "Your text is bad, and you should feel bad.",
+        >
+          <span
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "Your text is bad, and you should feel bad.",
+              }
             }
-          }
-        />
+          />
+        </p>
         <button
           aria-label="Marks are disabled in current view"
           aria-pressed={false}
@@ -456,12 +462,15 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
         </svg>
         <p
           className="c18"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "I know you can do better! You can do it!",
+        >
+          <span
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "I know you can do better! You can do it!",
+              }
             }
-          }
-        />
+          />
+        </p>
       </li>
     </ul>
   </div>
@@ -526,12 +535,15 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
         </svg>
         <p
           className="c18"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "Maybe you should change this...",
+        >
+          <span
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "Maybe you should change this...",
+              }
             }
-          }
-        />
+          />
+        </p>
       </li>
     </ul>
   </div>
@@ -596,12 +608,15 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
         </svg>
         <p
           className="c18"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "You're doing great!",
+        >
+          <span
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "You're doing great!",
+              }
             }
-          }
-        />
+          />
+        </p>
       </li>
       <li
         className="c15"
@@ -622,12 +637,15 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
         </svg>
         <p
           className="c18"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "Woohoo!",
+        >
+          <span
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "Woohoo!",
+              }
             }
-          }
-        />
+          />
+        </p>
         <button
           aria-label="Marks are disabled in current view"
           aria-pressed={false}
@@ -926,12 +944,15 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
         </svg>
         <p
           className="c18"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "Error: Analysis not loaded",
+        >
+          <span
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "Error: Analysis not loaded",
+              }
             }
-          }
-        />
+          />
+        </p>
       </li>
     </ul>
   </div>
@@ -996,12 +1017,15 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
         </svg>
         <p
           className="c18"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "Your text is bad, and you should feel bad.",
+        >
+          <span
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "Your text is bad, and you should feel bad.",
+              }
             }
-          }
-        />
+          />
+        </p>
       </li>
     </ul>
   </div>
@@ -1066,12 +1090,15 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
         </svg>
         <p
           className="c18"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "I know you can do better! You can do it!",
+        >
+          <span
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "I know you can do better! You can do it!",
+              }
             }
-          }
-        />
+          />
+        </p>
       </li>
     </ul>
   </div>
@@ -1136,12 +1163,15 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
         </svg>
         <p
           className="c18"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "Maybe you should change this...",
+        >
+          <span
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "Maybe you should change this...",
+              }
             }
-          }
-        />
+          />
+        </p>
       </li>
     </ul>
   </div>
@@ -1206,12 +1236,15 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
         </svg>
         <p
           className="c18"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "You're doing great!",
+        >
+          <span
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "You're doing great!",
+              }
             }
-          }
-        />
+          />
+        </p>
       </li>
       <li
         className="c15"
@@ -1232,12 +1265,15 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
         </svg>
         <p
           className="c18"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "Woohoo!",
+        >
+          <span
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "Woohoo!",
+              }
             }
-          }
-        />
+          />
+        </p>
       </li>
     </ul>
   </div>
@@ -1536,12 +1572,15 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
         </svg>
         <p
           className="c18"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "Error: Analysis not loaded",
+        >
+          <span
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "Error: Analysis not loaded",
+              }
             }
-          }
-        />
+          />
+        </p>
       </li>
     </ul>
   </div>
@@ -1606,12 +1645,15 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
         </svg>
         <p
           className="c18"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "Your text is bad, and you should feel bad.",
+        >
+          <span
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "Your text is bad, and you should feel bad.",
+              }
             }
-          }
-        />
+          />
+        </p>
         <button
           aria-label="Highlight this result in the text"
           aria-pressed={false}
@@ -1700,12 +1742,15 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
         </svg>
         <p
           className="c18"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "I know you can do better! You can do it!",
+        >
+          <span
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "I know you can do better! You can do it!",
+              }
             }
-          }
-        />
+          />
+        </p>
       </li>
     </ul>
   </div>
@@ -1770,12 +1815,15 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
         </svg>
         <p
           className="c18"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "Maybe you should change this...",
+        >
+          <span
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "Maybe you should change this...",
+              }
             }
-          }
-        />
+          />
+        </p>
       </li>
     </ul>
   </div>
@@ -1840,12 +1888,15 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
         </svg>
         <p
           className="c18"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "You're doing great!",
+        >
+          <span
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "You're doing great!",
+              }
             }
-          }
-        />
+          />
+        </p>
       </li>
       <li
         className="c15"
@@ -1866,12 +1917,15 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
         </svg>
         <p
           className="c18"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "Woohoo!",
+        >
+          <span
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "Woohoo!",
+              }
             }
-          }
-        />
+          />
+        </p>
         <button
           aria-label="Highlight this result in the text"
           aria-pressed={false}
@@ -2202,12 +2256,15 @@ exports[`ContentAnalysis the ContentAnalysis component with upsell results match
         </svg>
         <p
           className="c18"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "Error: Analysis not loaded",
+        >
+          <span
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "Error: Analysis not loaded",
+              }
             }
-          }
-        />
+          />
+        </p>
       </li>
     </ul>
   </div>
@@ -2272,12 +2329,15 @@ exports[`ContentAnalysis the ContentAnalysis component with upsell results match
         </svg>
         <p
           className="c19"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "Improve your analysis!",
+        >
+          <span
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "Improve your analysis!",
+              }
             }
-          }
-        />
+          />
+        </p>
       </li>
       <li
         className="c15"
@@ -2298,12 +2358,15 @@ exports[`ContentAnalysis the ContentAnalysis component with upsell results match
         </svg>
         <p
           className="c18"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "Your text is bad, and you should feel bad.",
+        >
+          <span
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "Your text is bad, and you should feel bad.",
+              }
             }
-          }
-        />
+          />
+        </p>
         <button
           aria-label="Highlight this result in the text"
           aria-pressed={false}
@@ -2392,12 +2455,15 @@ exports[`ContentAnalysis the ContentAnalysis component with upsell results match
         </svg>
         <p
           className="c18"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "I know you can do better! You can do it!",
+        >
+          <span
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "I know you can do better! You can do it!",
+              }
             }
-          }
-        />
+          />
+        </p>
       </li>
     </ul>
   </div>
@@ -2462,12 +2528,15 @@ exports[`ContentAnalysis the ContentAnalysis component with upsell results match
         </svg>
         <p
           className="c18"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "Maybe you should change this...",
+        >
+          <span
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "Maybe you should change this...",
+              }
             }
-          }
-        />
+          />
+        </p>
       </li>
     </ul>
   </div>
@@ -2532,12 +2601,15 @@ exports[`ContentAnalysis the ContentAnalysis component with upsell results match
         </svg>
         <p
           className="c18"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "You're doing great!",
+        >
+          <span
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "You're doing great!",
+              }
             }
-          }
-        />
+          />
+        </p>
       </li>
       <li
         className="c15"
@@ -2558,12 +2630,15 @@ exports[`ContentAnalysis the ContentAnalysis component with upsell results match
         </svg>
         <p
           className="c18"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "Woohoo!",
+        >
+          <span
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "Woohoo!",
+              }
             }
-          }
-        />
+          />
+        </p>
         <button
           aria-label="Highlight this result in the text"
           aria-pressed={false}
@@ -2886,12 +2961,15 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
         </svg>
         <p
           className="c18"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "Error: Analysis not loaded",
+        >
+          <span
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "Error: Analysis not loaded",
+              }
             }
-          }
-        />
+          />
+        </p>
       </li>
     </ul>
   </div>
@@ -2956,12 +3034,15 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
         </svg>
         <p
           className="c18"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "Your text is bad, and you should feel bad.",
+        >
+          <span
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "Your text is bad, and you should feel bad.",
+              }
             }
-          }
-        />
+          />
+        </p>
         <button
           aria-label="Highlight this result in the text"
           aria-pressed={false}
@@ -3050,12 +3131,15 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
         </svg>
         <p
           className="c18"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "I know you can do better! You can do it!",
+        >
+          <span
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "I know you can do better! You can do it!",
+              }
             }
-          }
-        />
+          />
+        </p>
       </li>
     </ul>
   </div>
@@ -3120,12 +3204,15 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
         </svg>
         <p
           className="c18"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "Maybe you should change this...",
+        >
+          <span
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "Maybe you should change this...",
+              }
             }
-          }
-        />
+          />
+        </p>
       </li>
     </ul>
   </div>
@@ -3190,12 +3277,15 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
         </svg>
         <p
           className="c18"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "You're doing great!",
+        >
+          <span
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "You're doing great!",
+              }
             }
-          }
-        />
+          />
+        </p>
       </li>
       <li
         className="c15"
@@ -3216,12 +3306,15 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
         </svg>
         <p
           className="c18"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "Woohoo!",
+        >
+          <span
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "Woohoo!",
+              }
             }
-          }
-        />
+          />
+        </p>
         <button
           aria-label="Highlight this result in the text"
           aria-pressed={false}
@@ -3544,12 +3637,15 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
         </svg>
         <p
           className="c18"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "Error: Analysis not loaded",
+        >
+          <span
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "Error: Analysis not loaded",
+              }
             }
-          }
-        />
+          />
+        </p>
       </li>
     </ul>
   </div>
@@ -3614,12 +3710,15 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
         </svg>
         <p
           className="c18"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "I know you can do better! You can do it!",
+        >
+          <span
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "I know you can do better! You can do it!",
+              }
             }
-          }
-        />
+          />
+        </p>
       </li>
     </ul>
   </div>
@@ -3684,12 +3783,15 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
         </svg>
         <p
           className="c18"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "You're doing great!",
+        >
+          <span
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "You're doing great!",
+              }
             }
-          }
-        />
+          />
+        </p>
       </li>
       <li
         className="c15"
@@ -3710,12 +3812,15 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
         </svg>
         <p
           className="c18"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "Woohoo!",
+        >
+          <span
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "Woohoo!",
+              }
             }
-          }
-        />
+          />
+        </p>
         <button
           aria-label="Highlight this result in the text"
           aria-pressed={false}
@@ -4038,12 +4143,15 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
         </svg>
         <p
           className="c18"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "Error: Analysis not loaded",
+        >
+          <span
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "Error: Analysis not loaded",
+              }
             }
-          }
-        />
+          />
+        </p>
       </li>
     </ul>
   </div>
@@ -4108,12 +4216,15 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
         </svg>
         <p
           className="c18"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "Maybe you should change this...",
+        >
+          <span
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "Maybe you should change this...",
+              }
             }
-          }
-        />
+          />
+        </p>
       </li>
     </ul>
   </div>
@@ -4178,12 +4289,15 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
         </svg>
         <p
           className="c18"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "You're doing great!",
+        >
+          <span
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "You're doing great!",
+              }
             }
-          }
-        />
+          />
+        </p>
       </li>
       <li
         className="c15"
@@ -4204,12 +4318,15 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
         </svg>
         <p
           className="c18"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "Woohoo!",
+        >
+          <span
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "Woohoo!",
+              }
             }
-          }
-        />
+          />
+        </p>
         <button
           aria-label="Highlight this result in the text"
           aria-pressed={false}
@@ -4532,12 +4649,15 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
         </svg>
         <p
           className="c18"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "Error: Analysis not loaded",
+        >
+          <span
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "Error: Analysis not loaded",
+              }
             }
-          }
-        />
+          />
+        </p>
       </li>
     </ul>
   </div>
@@ -4602,12 +4722,15 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
         </svg>
         <p
           className="c18"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "I know you can do better! You can do it!",
+        >
+          <span
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "I know you can do better! You can do it!",
+              }
             }
-          }
-        />
+          />
+        </p>
       </li>
     </ul>
   </div>
@@ -4672,12 +4795,15 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
         </svg>
         <p
           className="c18"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "Maybe you should change this...",
+        >
+          <span
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "Maybe you should change this...",
+              }
             }
-          }
-        />
+          />
+        </p>
       </li>
     </ul>
   </div>
@@ -4742,12 +4868,15 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
         </svg>
         <p
           className="c18"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "You're doing great!",
+        >
+          <span
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "You're doing great!",
+              }
             }
-          }
-        />
+          />
+        </p>
       </li>
       <li
         className="c15"
@@ -4768,12 +4897,15 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
         </svg>
         <p
           className="c18"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "Woohoo!",
+        >
+          <span
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "Woohoo!",
+              }
             }
-          }
-        />
+          />
+        </p>
         <button
           aria-label="Highlight this result in the text"
           aria-pressed={false}
@@ -5096,12 +5228,15 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
         </svg>
         <p
           className="c18"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "Error: Analysis not loaded",
+        >
+          <span
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "Error: Analysis not loaded",
+              }
             }
-          }
-        />
+          />
+        </p>
       </li>
     </ul>
   </div>
@@ -5166,12 +5301,15 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
         </svg>
         <p
           className="c18"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "You're doing great!",
+        >
+          <span
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "You're doing great!",
+              }
             }
-          }
-        />
+          />
+        </p>
       </li>
       <li
         className="c15"
@@ -5192,12 +5330,15 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
         </svg>
         <p
           className="c18"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "Woohoo!",
+        >
+          <span
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "Woohoo!",
+              }
             }
-          }
-        />
+          />
+        </p>
         <button
           aria-label="Highlight this result in the text"
           aria-pressed={false}

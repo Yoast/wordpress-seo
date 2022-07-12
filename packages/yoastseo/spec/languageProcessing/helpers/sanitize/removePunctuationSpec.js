@@ -20,6 +20,10 @@ describe( "a test for removing punctuation from a string", function() {
 	it( "returns string without () around the word", function() {
 		expect( removePunctuation( "test)" ) ).toBe( "test" );
 	} );
+
+	it( "returns an empty string if &amp is encountered", function() {
+		expect( removePunctuation( "&amp" ) ).toBe( "" );
+	} );
 } );
 
 describe( "Removing punctuation at the begin and end of a word", function() {
@@ -38,6 +42,9 @@ describe( "Removing punctuation at the begin and end of a word", function() {
 		expect( removePunctuation( "'word&" ) ).toBe( "word" );
 		expect( removePunctuation( "“word”" ) ).toBe( "word" );
 		expect( removePunctuation( "„word‟" ) ).toBe( "word" );
+		expect( removePunctuation( "\\\\word\\" ) ).toBe( "word" );
+		expect( removePunctuation( "\\\\word\\\\" ) ).toBe( "word" );
+		expect( removePunctuation( "\\\\\"word\\" ) ).toBe( "word" );
 	} );
 } );
 
