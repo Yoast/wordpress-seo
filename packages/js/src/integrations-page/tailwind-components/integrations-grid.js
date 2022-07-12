@@ -137,29 +137,28 @@ const partnerships = [
 /**
  * Checks if an integration is active.
  *
- * @param {string} integrationSlug The integration slug.
+ * @param {object} integration The integration.
  *
  * @returns {bool} True if the integration is active, false otherwise.
  */
-const getInitialState = ( integrationSlug ) => {
-	const integrationOption = `${ integrationSlug }_integration_active`;
+const getInitialState = ( integration ) => {
+	const integrationOption = `${ integration.slug }_integration_active`;
 	return Boolean( window.wpseoIntegrationsData[ integrationOption ] );
 };
 
 /**
  * Checks if an integration is network-enabled.
  *
- * @param {string} integrationSlug The integration slug.
- * @param {bool}   isMultisiteAvailable    True if the integration can be used in WP multisite installations.
+ * @param {object} integration The integration.
  *
  * @returns {bool} True if the integration is active, false otherwise.
  */
-const getIsNetworkControlEnabled = ( integrationSlug ) => {
+const getIsNetworkControlEnabled = ( integration ) => {
 	if ( ! window.wpseoIntegrationsData.is_multisite ) {
 		return true;
 	}
 
-	const integrationOption = `allow_${ integrationSlug }_integration`;
+	const integrationOption = `allow_${ integration.slug }_integration`;
 
 	return Boolean( window.wpseoIntegrationsData[ integrationOption ] );
 };
@@ -167,16 +166,16 @@ const getIsNetworkControlEnabled = ( integrationSlug ) => {
 /**
  * Checks if an integration is network-enabled.
  *
- * @param {bool} isMultisiteAvailable True if the integration can be used in WP multisite installations.
+ * @param {object} integration The integration.
  *
  * @returns {bool} True if the integration is active, false otherwise.
  */
-const getIsMultisiteAvailable = ( isMultisiteAvailable ) => {
+const getIsMultisiteAvailable = ( integration ) => {
 	if ( ! window.wpseoIntegrationsData.is_multisite ) {
 		return true;
 	}
 
-	return isMultisiteAvailable;
+	return integration.isMultisiteAvailable;
 };
 
 /* eslint-disable complexity */
@@ -190,7 +189,7 @@ const getIsMultisiteAvailable = ( isMultisiteAvailable ) => {
  */
 const getIsCardActive = ( integration, activeState ) => {
 	const cardActive =  activeState;
-	const networkControlEnabled = getIsNetworkControlEnabled( integration.slug);
+	const networkControlEnabled = getIsNetworkControlEnabled( integration.slug );
 	const multisiteAvailable = getIsMultisiteAvailable( integration.isMultisiteAvailable );
 	const premium = ( integration.isPremium && isPremiumInstalled ) || ! integration.isPremium;
 
@@ -205,16 +204,16 @@ const getIsCardActive = ( integration, activeState ) => {
 /**
  * Updates an integration state.
  *
- * @param {string} integrationSlug The integration slug.
+ * @param {string} integration The integration.
  * @param {bool} setActive If the integration must be activated.
  *
  * @returns {Promise|bool} A promise, or false if the call fails.
 */
-const updateIntegrationState = async( integrationSlug, setActive ) => {
+const updateIntegrationState = async( integration, setActive ) => {
 	const basePath = "yoast/v1/integrations";
 
 	const response = await apiFetch( {
-		path: `${basePath}/set_${integrationSlug}_active`,
+		path: `${basePath}/set_${integration.slug}_active`,
 		method: "POST",
 		data: { active: setActive },
 	} );
@@ -226,21 +225,18 @@ const updateIntegrationState = async( integrationSlug, setActive ) => {
  * An integration which can be toggled on and off.
  *
  * @param {object}    integration             The integration.
- * @param {string}    toggleLabel             The toggle label.
  * @param {bool}      InitialActivationState  True if the integration has been activated by the user.
  * @param {bool}      isNetworkControlEnabled True if the integration is network-enabled.
- * @param {bool}      isMultisiteAvailable    True if the integration can be used in WP multisite installations.
- * @param {bool}      isNew                   True if the integration must display the 'new' badge.
- * @param {bool}      isPremium               True if the integration is in Yoast SEO Premium.
+ * @param {string}    toggleLabel             The toggle label.
  * @param {function}  beforeToggle            Check function to call before toggling the integration.
  *
  * @returns {WPElement} A card representing an integration which can be toggled active by the user.
  */
 const ToggleableIntegration = ( {
 	integration,
-	toggleLabel,
 	InitialActivationState,
 	isNetworkControlEnabled,
+	toggleLabel,
 	beforeToggle } ) => {
 	const [ isActive, setIsActive ] = useState( InitialActivationState );
 
@@ -258,7 +254,7 @@ const ToggleableIntegration = ( {
 
 		 if ( beforeToggle ) {
 			 canToggle = false;
-			 canToggle = await beforeToggle( integration.slug, newState );
+			 canToggle = await beforeToggle( integration, newState );
 		 }
 		 if ( ! canToggle ) {
 			 // If something went wrong, switch the toggle back
@@ -301,7 +297,7 @@ const ToggleableIntegration = ( {
 			</Card.Content>
 			<Card.Footer>
 				{ ( ( integration.isPremium && isPremiumInstalled ) || ! integration.isPremium )
-					? <ToggleField checked={ isActive } label={ toggleLabel } onChange={ toggleActive } disabled={ ! getIsNetworkControlEnabled( integration.slug) || ! getIsMultisiteAvailable( integration.isMultisiteAvailable )  }  className={ `${ getIsCardActive( integration, isActive ) ? "" : "yst-opacity-50 yst-filter yst-grayscale" }` } />
+					? <ToggleField checked={ isActive } label={ toggleLabel } onChange={ toggleActive } disabled={ ! getIsNetworkControlEnabled( integration ) || ! getIsMultisiteAvailable( integration )  }  className={ `${ getIsCardActive( integration, isActive ) ? "" : "yst-opacity-50 yst-filter yst-grayscale" }` } />
 					:	<Button id={ `${name}-upsell-button` } type="button" as="a" href={ upsellLink } variant="upsell" className="yst-w-full yst-text-gray-800">
 						<svg xmlns="http://www.w3.org/2000/svg" className="yst--ml-1 yst-mr-2 yst-h-5 yst-w-5 yst-text-yellow-900" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
 							<path strokeLinecap="round" strokeLinejoin="round" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z" />
@@ -326,10 +322,10 @@ ToggleableIntegration.propTypes = {
 		isNew: PropTypes.bool,
 		isMultisiteAvailable: PropTypes.bool,
 	} ),
-	toggleLabel: PropTypes.string,
 	InitialActivationState: PropTypes.bool,
-	beforeToggle: PropTypes.func,
 	isNetworkControlEnabled: PropTypes.bool,
+	toggleLabel: PropTypes.string,
+	beforeToggle: PropTypes.func,
 };
 
 /* eslint-disable complexity */
