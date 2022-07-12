@@ -80,28 +80,16 @@ class Results extends Component {
 		// The keyword key is used for labelling the related keyphrase(s).
 		const keywordKey = this.props.keywordKey;
 
-		if( keywordKey === "" ) {
-			document.getElementById( "focus-keyword-input-" + inputFieldLocation ).focus();
-		}
-		else {
-			document.getElementById( "yoast-keyword-input-" + keywordKey + "-" +  inputFieldLocation ).focus();
-		}
+		keywordKey === "" ? document.getElementById( "focus-keyword-input-" + inputFieldLocation ).focus()
+			: document.getElementById( "yoast-keyword-input-" + keywordKey + "-" +  inputFieldLocation ).focus();
 	}
 
 	focusOnGooglePreviewField( id, inputFieldLocation ) {
-		let elementIdFirstPart = "yoast-google-preview-"
+		const inputField = id === "metaDescriptionKeyword" || id === "metaDescriptionLength" ? "description"
+			:  id === "titleWidth" ? "title"
+				: "slug"
 
-		if ( id === "metaDescriptionKeyword" || id === "metaDescriptionLength" ) {
-			elementIdFirstPart += "description-"
-		}
-		else if ( id === "titleWidth" ) {
-			elementIdFirstPart += "title-"
-		}
-		else if ( id === "slugKeyword" ) {
-			elementIdFirstPart += "slug-"
-		}
-
-		document.getElementById( elementIdFirstPart + inputFieldLocation ).focus();
+		document.getElementById( "yoast-google-preview-" + inputField + "-" + inputFieldLocation ).focus();
 	}
 
 	/**
