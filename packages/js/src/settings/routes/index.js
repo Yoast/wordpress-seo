@@ -1,3 +1,4 @@
+export { default as PostType } from "./templates/post-type";
 export { default as AuthorArchives } from "./author-archives";
 export { default as Breadcrumbs } from "./breadcrumbs";
 export { default as CrawlSettings } from "./crawl-settings";
@@ -6,7 +7,6 @@ export { default as Formats } from "./formats";
 export { default as Homepage } from "./homepage";
 export { default as Media } from "./media";
 export { default as NotFoundPages } from "./not-found-pages";
-export { default as Posts } from "./posts";
 export { default as Rss } from "./rss";
 export { default as SearchPages } from "./search-pages";
 export { default as SiteDefaults } from "./site-defaults";

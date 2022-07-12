@@ -2,15 +2,18 @@
 
 namespace Yoast\WP\SEO\Integrations;
 
+use WP_Post_Type;
 use WPSEO_Admin_Asset_Manager;
 use WPSEO_Admin_Editor_Specific_Replace_Vars;
 use WPSEO_Admin_Recommended_Replace_Vars;
 use WPSEO_Option_Titles;
 use WPSEO_Options;
+use WPSEO_Post_Type;
 use WPSEO_Replace_Vars;
 use Yoast\WP\SEO\Conditionals\Settings_Conditional;
 use Yoast\WP\SEO\Config\Schema_Types;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
+use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 
 /**
@@ -54,6 +57,13 @@ class Settings_Integration implements Integration_Interface {
 	protected $current_page_helper;
 
 	/**
+	 * Holds the Post_Type_Helper.
+	 *
+	 * @var Post_Type_Helper
+	 */
+	protected $post_type_helper;
+
+	/**
 	 * Holds the Product_Helper.
 	 *
 	 * @var Product_Helper
@@ -71,12 +81,14 @@ class Settings_Integration implements Integration_Interface {
 		WPSEO_Replace_Vars $replace_vars,
 		Schema_Types $schema_types,
 		Current_Page_Helper $current_page_helper,
+		Post_Type_Helper $post_type_helper,
 		Product_Helper $product_helper
 	) {
 		$this->asset_manager       = $asset_manager;
 		$this->replace_vars        = $replace_vars;
 		$this->schema_types        = $schema_types;
 		$this->current_page_helper = $current_page_helper;
+		$this->post_type_helper    = $post_type_helper;
 		$this->product_helper      = $product_helper;
 	}
 
@@ -204,6 +216,7 @@ class Settings_Integration implements Integration_Interface {
 			'preferences'          => [
 				'isPremium' => $this->product_helper->is_premium(),
 			],
+			'postTypes'            => $this->get_post_types(),
 		];
 
 		foreach ( WPSEO_Options::$options as $name => $instance ) {
@@ -214,5 +227,30 @@ class Settings_Integration implements Integration_Interface {
 		}
 
 		return $data;
+	}
+
+	protected function get_post_types() {
+		$post_types = $this->post_type_helper->get_public_post_types( 'objects' );
+		$post_types = WPSEO_Post_Type::filter_attachment_post_type( $post_types );
+
+		return \array_map(
+			static function ( WP_Post_Type $post_type ) {
+				$route = $post_type->name;
+				if ( $post_type->rewrite ) {
+					$route = $post_type->rewrite['slug'];
+				}
+				if ( $post_type->rest_base ) {
+					$route = $post_type->rest_base;
+				}
+
+				return [
+					'name'          => $post_type->name,
+					'route'         => $route,
+					'label'         => $post_type->label,
+					'singularLabel' => $post_type->labels->singular_name,
+				];
+			},
+			$post_types
+		);
 	}
 }

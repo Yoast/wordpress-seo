@@ -1,5 +1,6 @@
 import { combineReducers, createReduxStore, register, useSelect } from "@wordpress/data";
 import { merge } from "lodash";
+import postTypes, { createInitialPostTypesState, postTypesActions, postTypesSelectors } from "./post-types";
 import preferences, { createInitialPreferencesState, preferencesActions, preferencesSelectors } from "./preferences";
 import replacementVariables, {
 	createInitialReplacementVariablesState,
@@ -26,22 +27,26 @@ export const useSelectSettings = ( selector, deps = [], ...args ) => useSelect( 
 const createStore = ( { initialState } ) => {
 	return createReduxStore( STORE_NAME, {
 		actions: {
+			...postTypesActions,
 			...preferencesActions,
 			...replacementVariablesActions,
 		},
 		selectors: {
+			...postTypesSelectors,
 			...preferencesSelectors,
 			...replacementVariablesSelectors,
 		},
 		initialState: merge(
 			{},
 			{
+				postTypes: createInitialPostTypesState(),
 				preferences: createInitialPreferencesState(),
 				replacementVariables: createInitialReplacementVariablesState(),
 			},
 			initialState
 		),
 		reducer: combineReducers( {
+			postTypes,
 			preferences,
 			replacementVariables,
 		} ),
