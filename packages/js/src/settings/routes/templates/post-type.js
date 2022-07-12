@@ -3,7 +3,8 @@ import { __, sprintf } from "@wordpress/i18n";
 import { Badge, SelectField, TextField, ToggleField } from "@yoast/ui-library";
 import { Field } from "formik";
 import { get, map } from "lodash";
-import { addLinkToString } from "../../helpers/stringHelpers";
+import PropTypes from "prop-types";
+import { addLinkToString } from "../../../helpers/stringHelpers";
 import {
 	FieldsetLayout,
 	FormikFlippedToggleField,
@@ -11,8 +12,8 @@ import {
 	FormikReplacementVariableEditorField,
 	FormikValueChangeField,
 	FormLayout,
-} from "../components";
-import { useSelectSettings } from "../store";
+} from "../../components";
+import { useSelectSettings } from "../../store";
 
 /**
  * @param {{name: string, value: (string|number|bool)}[]} types Schema types.
@@ -21,15 +22,14 @@ import { useSelectSettings } from "../store";
 const transformSchemaTypesToOptions = types => map( types, ( { name, value } ) => ( { label: name, value } ) );
 
 /**
- * @returns {JSX.Element} The homepage route.
+ * @param {string} name The post type name.
+ * @param {string} label The post type label (plural).
+ * @param {string} singularLabel The post type label (singular).
+ * @returns {JSX.Element} The post type element.
  */
-const Posts = () => {
-	const postType = "post";
-	const postTypePlural = "Posts";
-	const postTypeSingular = "Post";
-
-	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [], postType );
-	const recommendedReplacementVariables = useSelectSettings( "selectRecommendedReplacementVariablesFor", [], postType );
+const PostType = ( { name, label, singularLabel } ) => {
+	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [], name );
+	const recommendedReplacementVariables = useSelectSettings( "selectRecommendedReplacementVariablesFor", [], name );
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
 
 	const recommendedSize = useMemo( () => createInterpolateElement(
@@ -52,41 +52,41 @@ const Posts = () => {
 	const articleTypes = useMemo( () => transformSchemaTypesToOptions( get( window, "wpseoScriptData.schema.articleTypeOptions", [] ) ), [] );
 
 	return (
-		<FormLayout title={ postTypePlural }>
+		<FormLayout title={ label }>
 			<FieldsetLayout
 				title={ __( "Search appearance", "wordpress-seo" ) }
 				description={ sprintf(
 					// translators: %1$s expands to the post type plural, e.g. Posts.
 					__( "Choose how your %1$s should look in search engines.", "wordpress-seo" ),
-					postTypePlural
+					label
 				) }
 			>
 				<FormikFlippedToggleField
-					name={ `wpseo_titles.noindex-${ postType }` }
-					data-id={ `input:wpseo_titles.noindex-${ postType }` }
+					name={ `wpseo_titles.noindex-${ name }` }
+					data-id={ `input:wpseo_titles.noindex-${ name }` }
 					label={ sprintf(
 						// translators: %1$s expands to the post type plural, e.g. Posts.
 						__( "Show %1$s in search results", "wordpress-seo" ),
-						postTypePlural
+						label
 					) }
 					description={ sprintf(
 						// translators: %1$s expands to the post type plural, e.g. Posts.
 						__( "Disabling this means that %1$s will not be indexed by search engines and will be excluded from XML sitemaps.", "wordpress-seo" ),
-						postTypePlural
+						label
 					) }
 				/>
 				<FormikReplacementVariableEditorField
 					type="title"
-					name={ `wpseo_titles.title-${ postType }` }
-					fieldId={ `input:wpseo_titles.title-${ postType }` }
+					name={ `wpseo_titles.title-${ name }` }
+					fieldId={ `input:wpseo_titles.title-${ name }` }
 					label={ __( "SEO title", "wordpress-seo" ) }
 					replacementVariables={ replacementVariables }
 					recommendedReplacementVariables={ recommendedReplacementVariables }
 				/>
 				<FormikReplacementVariableEditorField
 					type="description"
-					name={ `wpseo_titles.metadesc-${ postType }` }
-					fieldId={ `input:wpseo_titles.metadesc-${ postType }` }
+					name={ `wpseo_titles.metadesc-${ name }` }
+					fieldId={ `input:wpseo_titles.metadesc-${ name }` }
 					label={ __( "Meta description", "wordpress-seo" ) }
 					replacementVariables={ replacementVariables }
 					recommendedReplacementVariables={ recommendedReplacementVariables }
@@ -99,29 +99,29 @@ const Posts = () => {
 				description={ sprintf(
 					// translators: %1$s expands to the post type plural, e.g. Posts. %2$s expands to the post type singular, e.g. Post.
 					__( "Choose how your %1$s should look on social media by default. You can always customize this per individual %2$s.", "wordpress-seo" ),
-					postTypePlural,
-					postTypeSingular
+					label,
+					singularLabel
 				) }
 			>
 				<FormikMediaSelectField
-					id={ `wpseo_titles.social-image-url-${ postType }` }
+					id={ `wpseo_titles.social-image-url-${ name }` }
 					label={ __( "Social image", "wordpress-seo" ) }
 					previewLabel={ recommendedSize }
-					mediaUrlName={ `wpseo_titles.social-image-url-${ postType }` }
-					mediaIdName={ `wpseo_titles.social-image-id-${ postType }` }
+					mediaUrlName={ `wpseo_titles.social-image-url-${ name }` }
+					mediaIdName={ `wpseo_titles.social-image-id-${ name }` }
 				/>
 				<FormikReplacementVariableEditorField
 					type="title"
-					name={ `wpseo_titles.social-title-${ postType }` }
-					fieldId={ `input:wpseo_titles.social-title-${ postType }` }
+					name={ `wpseo_titles.social-title-${ name }` }
+					fieldId={ `input:wpseo_titles.social-title-${ name }` }
 					label={ __( "Social title", "wordpress-seo" ) }
 					replacementVariables={ replacementVariables }
 					recommendedReplacementVariables={ recommendedReplacementVariables }
 				/>
 				<FormikReplacementVariableEditorField
 					type="description"
-					name={ `wpseo_titles.social-description-${ postType }` }
-					fieldId={ `input:wpseo_titles.social-description-${ postType }` }
+					name={ `wpseo_titles.social-description-${ name }` }
+					fieldId={ `input:wpseo_titles.social-description-${ name }` }
 					label={ __( "Social description", "wordpress-seo" ) }
 					replacementVariables={ replacementVariables }
 					recommendedReplacementVariables={ recommendedReplacementVariables }
@@ -134,23 +134,23 @@ const Posts = () => {
 				description={ sprintf(
 					// translators: %1$s expands to the post type plural, e.g. Posts. %2$s expands to the post type singular, e.g. Post.
 					__( "Choose how your %1$s should be described by default in your site's Schema.org markup. You can change these setting per individual %2$s.", "wordpress-seo" ),
-					postTypePlural,
-					postTypeSingular
+					label,
+					singularLabel
 				) }
 			>
 				<FormikValueChangeField
 					as={ SelectField }
 					type="select"
-					name={ `wpseo_titles.schema-page-type-${ postType }` }
-					id={ `input:wpseo_titles.schema-page-type-${ postType }` }
+					name={ `wpseo_titles.schema-page-type-${ name }` }
+					id={ `input:wpseo_titles.schema-page-type-${ name }` }
 					label={ __( "Page type", "wordpress-seo" ) }
 					options={ pageTypes }
 				/>
 				<FormikValueChangeField
 					as={ SelectField }
 					type="select"
-					name={ `wpseo_titles.schema-article-type-${ postType }` }
-					id={ `input:wpseo_titles.schema-article-type-${ postType }` }
+					name={ `wpseo_titles.schema-article-type-${ name }` }
+					id={ `input:wpseo_titles.schema-article-type-${ name }` }
 					label={ __( "Article type", "wordpress-seo" ) }
 					options={ articleTypes }
 				/>
@@ -162,25 +162,25 @@ const Posts = () => {
 				<FormikValueChangeField
 					as={ ToggleField }
 					type="checkbox"
-					name={ `wpseo_titles.display-metabox-pt-${ postType }` }
-					data-id={ `input:wpseo_titles.display-metabox-pt-${ postType }` }
+					name={ `wpseo_titles.display-metabox-pt-${ name }` }
+					data-id={ `input:wpseo_titles.display-metabox-pt-${ name }` }
 					label={ sprintf(
 						/* translators: %1$s expands to Yoast SEO. %2$s expands to the post type plural, e.g. Posts. */
 						__( "Enable %1$s for %2$s", "wordpress-seo" ),
 						"Yoast SEO",
-						postTypePlural
+						label
 					) }
 					description={ sprintf(
 						/* translators: %1$s expands to the post type plural, e.g. Posts. */
 						__( "This enables SEO metadata editing and our SEO - and Readability analysis for individual %1$s", "wordpress-seo" ),
-						postTypePlural
+						label
 					) }
 				/>
 				{ isPremium && <Field
 					as={ TextField }
 					type="text"
-					name={ `wpseo_titles.page-analyse-extra-${ postType }` }
-					id={ `input:wpseo_titles.page-analyse-extra-${ postType }` }
+					name={ `wpseo_titles.page-analyse-extra-${ name }` }
+					id={ `input:wpseo_titles.page-analyse-extra-${ name }` }
 					label={ __( "Add custom fields to page analysis", "wordpress-seo" ) }
 					labelSuffix={ <Badge className="yst-ml-1.5" variant="upsell">Premium</Badge> }
 					description={ addLinkToString(
@@ -190,7 +190,7 @@ const Posts = () => {
 							"</a>"
 						),
 						"https://yoa.st/4cr",
-						`link:custom-fields-page-analysis-${ postType }`
+						`link:custom-fields-page-analysis-${ name }`
 					) }
 				/> }
 			</FieldsetLayout>
@@ -198,4 +198,10 @@ const Posts = () => {
 	);
 };
 
-export default Posts;
+PostType.propTypes = {
+	name: PropTypes.string.isRequired,
+	label: PropTypes.string.isRequired,
+	singularLabel: PropTypes.string.isRequired,
+};
+
+export default PostType;
