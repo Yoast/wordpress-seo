@@ -24,37 +24,38 @@ import {
 import { useSelectSettings } from "./store";
 
 /**
+ * @param {string} [idSuffix] Extra id suffix. Can prevent double IDs on the page.
  * @returns {JSX.Element} The menu element.
  */
-const Menu = () => {
+const Menu = ( { idSuffix = "" } ) => {
 	const postTypes = useSelectSettings( "selectPostTypes" );
 
 	return <>
 		<figure className="yst-w-44 yst-px-3 yst-mb-12">
 			<YoastLogo />
 		</figure>
-		<SidebarNavigation.MenuItem id="menu:site-settings" icon={ DesktopComputerIcon } label={ __( "Site settings", "wordpress-seo" ) }>
-			{/*<SidebarNavigation.SubmenuItem to="/site-representation" label={ __( "Site representation", "wordpress-seo" ) } />*/}
-			<SidebarNavigation.SubmenuItem to="/site-defaults" label={ __( "Site defaults", "wordpress-seo" ) } />
-			<SidebarNavigation.SubmenuItem to="/site-preferences" label={ __( "Site preferences", "wordpress-seo" ) } />
-			<SidebarNavigation.SubmenuItem to="/webmaster-tools" label={ __( "Webmaster tools", "wordpress-seo" ) } />
-			{/*<SidebarNavigation.SubmenuItem to="/breadcrumbs" label={ __( "Breadcrumbs", "wordpress-seo" ) } />*/}
+		<SidebarNavigation.MenuItem id={ `menu:site-settings${ idSuffix }` } icon={ DesktopComputerIcon } label={ __( "Site settings", "wordpress-seo" ) }>
+			{/*<SidebarNavigation.SubmenuItem to="/site-representation" label={ __( "Site representation", "wordpress-seo" ) } idSuffix={ idSuffix } />*/}
+			<SidebarNavigation.SubmenuItem to="/site-defaults" label={ __( "Site defaults", "wordpress-seo" ) } idSuffix={ idSuffix } />
+			<SidebarNavigation.SubmenuItem to="/site-preferences" label={ __( "Site preferences", "wordpress-seo" ) } idSuffix={ idSuffix } />
+			{/*<SidebarNavigation.SubmenuItem to="/webmaster-tools" label={ __( "Webmaster tools", "wordpress-seo" ) } idSuffix={ idSuffix } />*/}
+			{/*<SidebarNavigation.SubmenuItem to="/breadcrumbs" label={ __( "Breadcrumbs", "wordpress-seo" ) } idSuffix={ idSuffix } />*/}
 		</SidebarNavigation.MenuItem>
-		{/*<SidebarNavigation.MenuItem id="menu:content-settings" icon={ NewspaperIcon } label={ __( "Content settings", "wordpress-seo" ) }>*/}
-		{/*	<SidebarNavigation.SubmenuItem to="/homepage" label={ __( "Homepage", "wordpress-seo" ) } />*/}
+		{/*<SidebarNavigation.MenuItem id={ `menu:content-settings${ idSuffix }` } icon={ NewspaperIcon } label={ __( "Content settings", "wordpress-seo" ) }>*/}
+		{/*	<SidebarNavigation.SubmenuItem to="/homepage" label={ __( "Homepage", "wordpress-seo" ) } idSuffix={ idSuffix } />*/}
 		{/*	{ map( postTypes, ( { route, label } ) => (*/}
-		{/*		<SidebarNavigation.SubmenuItem key={ route } to={ `/${ route }` } label={ label } />*/}
+		{/*		<SidebarNavigation.SubmenuItem key={ route } to={ `/${ route }` } label={ label } idSuffix={ idSuffix } />*/}
 		{/*	) ) }*/}
 		{/*</SidebarNavigation.MenuItem>*/}
-		<SidebarNavigation.MenuItem id="menu:advanced-settings" icon={ AdjustmentsIcon } label={ __( "Advanced settings", "wordpress-seo" ) }>
-			<SidebarNavigation.SubmenuItem to="/crawl-settings" label={ __( "Crawl settings", "wordpress-seo" ) } />
-			{/*<SidebarNavigation.SubmenuItem to="/author-archives" label={ __( "Author archives", "wordpress-seo" ) } />*/}
-			{/*<SidebarNavigation.SubmenuItem to="/date-archives" label={ __( "Date archives", "wordpress-seo" ) } />*/}
-			{/*<SidebarNavigation.SubmenuItem to="/search-pages" label={ __( "Search pages", "wordpress-seo" ) } />*/}
-			{/*<SidebarNavigation.SubmenuItem to="/not-found-pages" label={ __( "404 pages", "wordpress-seo" ) } />*/}
-			{/*<SidebarNavigation.SubmenuItem to="/media" label={ __( "Media", "wordpress-seo" ) } />*/}
-			{/*<SidebarNavigation.SubmenuItem to="/formats" label={ __( "Formats", "wordpress-seo" ) } />*/}
-			<SidebarNavigation.SubmenuItem to="/rss" label={ __( "RSS", "wordpress-seo" ) } />
+		<SidebarNavigation.MenuItem id={ `menu:advanced-settings${ idSuffix }` } icon={ AdjustmentsIcon } label={ __( "Advanced settings", "wordpress-seo" ) }>
+			<SidebarNavigation.SubmenuItem to="/crawl-settings" label={ __( "Crawl settings", "wordpress-seo" ) } idSuffix={ idSuffix } />
+			{/*<SidebarNavigation.SubmenuItem to="/author-archives" label={ __( "Author archives", "wordpress-seo" ) } idSuffix={ idSuffix } />*/}
+			{/*<SidebarNavigation.SubmenuItem to="/date-archives" label={ __( "Date archives", "wordpress-seo" ) } idSuffix={ idSuffix } />*/}
+			{/*<SidebarNavigation.SubmenuItem to="/search-pages" label={ __( "Search pages", "wordpress-seo" ) } idSuffix={ idSuffix } />*/}
+			{/*<SidebarNavigation.SubmenuItem to="/not-found-pages" label={ __( "404 pages", "wordpress-seo" ) } idSuffix={ idSuffix } />*/}
+			{/*<SidebarNavigation.SubmenuItem to="/media" label={ __( "Media", "wordpress-seo" ) } idSuffix={ idSuffix } />*/}
+			{/*<SidebarNavigation.SubmenuItem to="/formats" label={ __( "Formats", "wordpress-seo" ) } idSuffix={ idSuffix } />*/}
+			<SidebarNavigation.SubmenuItem to="/rss" label={ __( "RSS", "wordpress-seo" ) } idSuffix={ idSuffix } />
 		</SidebarNavigation.MenuItem>
 	</>;
 };
@@ -71,7 +72,7 @@ const App = () => {
 			openButtonScreenReaderText={ __( "Open sidebar", "wordpress-seo" ) }
 			closeButtonScreenReaderText={ __( "Close sidebar", "wordpress-seo" ) }
 		>
-			<Menu />
+			<Menu idSuffix="-mobile" />
 		</SidebarNavigation.Mobile>
 		<div className="yst-flex md:yst-gap-4 yst-p-4 md:yst-p-8">
 			<aside className="yst-hidden md:yst-block yst-flex-shrink-0 yst-w-56 lg:yst-w-64">
