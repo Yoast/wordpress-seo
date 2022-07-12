@@ -42,29 +42,6 @@ export function renderRatingToColor( rating ) {
 	}
 }
 
-const createLabelForEditButton = function( id ) {
-	let editFieldName;
-
-	if( id === "functionWordsInKeyphrase" || id === "keyphraseLength" ) {
-		editFieldName = __( "keyphrase", "wordpress-seo" );
-	}
-	else if ( id === "metaDescriptionKeyword" || id === "metaDescriptionLength" ) {
-		editFieldName = __( "meta description", "wordpress-seo" );
-	}
-	else if ( id === "titleWidth" ) {
-		editFieldName = __( "SEO title", "wordpress-seo" );
-	}
-	else if ( id === "slugKeyword" ) {
-		editFieldName = __( "slug", "wordpress-seo" );
-	}
-	else return "";
-
-	return sprintf(
-		__( "Edit your %1$s", "wordpress-seo" ),
-		editFieldName
-	)
-}
-
 /**
  * Renders a list of results based on the array of results.
  *
@@ -98,7 +75,16 @@ export default function AnalysisList( { results, marksButtonActivatedResult, mar
 				ariaLabelMarks = __( "Highlight this result in the text", "wordpress-seo" );
 			}
 
-			const ariaLabelEdit = createLabelForEditButton( result.id );
+			let ariaLabelEdit = "";
+			let editFieldName = "";
+			if(  result.editFieldName !== "" ) {
+				editFieldName = result.editFieldName;
+			}
+
+			ariaLabelEdit = sprintf(
+				__( "Edit your %1$s", "wordpress-seo" ),
+				editFieldName
+			)
 
 			return <AnalysisResult
 				key={ result.id }
