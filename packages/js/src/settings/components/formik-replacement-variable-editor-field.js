@@ -25,7 +25,7 @@ const FormikReplacementVariableEditorField = ( { className = "", ...props } ) =>
 			<ReplacementVariableEditor
 				{ ...field }
 				{ ...props }
-				content={ field.value }
+				content={ field?.value ?? "" }
 				onChange={ handleChange }
 				editorRef={ setEditorRef }
 				onFocus={ handleFocus }
