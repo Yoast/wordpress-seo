@@ -57,7 +57,8 @@ export function renderRatingToColor( rating ) {
  *
  * @returns {React.Element} The rendered list.
  */
-export default function AnalysisList( { results, marksButtonActivatedResult, marksButtonStatus, marksButtonClassName, editButtonClassName, onMarksButtonClick, onEditButtonClick } ) {
+export default function AnalysisList( { results, marksButtonActivatedResult, marksButtonStatus,
+										  marksButtonClassName, editButtonClassName, onMarksButtonClick, onEditButtonClick } ) {
 	return <AnalysisListBase role="list">
 		{ results.map( ( result ) => {
 			const color = renderRatingToColor( result.rating );
@@ -75,16 +76,9 @@ export default function AnalysisList( { results, marksButtonActivatedResult, mar
 				ariaLabelMarks = __( "Highlight this result in the text", "wordpress-seo" );
 			}
 
-			let ariaLabelEdit = "";
-			let editFieldName = "";
-			if(  result.editFieldName !== "" ) {
-				editFieldName = result.editFieldName;
-			}
-
-			ariaLabelEdit = sprintf(
-				__( "Edit your %1$s", "wordpress-seo" ),
-				editFieldName
-			)
+			const editFieldName = result.editFieldName;
+			const ariaLabelEdit = editFieldName === "" ? ""
+				: sprintf( __( "Edit your %1$s", "wordpress-seo" ), editFieldName );
 
 			return <AnalysisResult
 				key={ result.id }
