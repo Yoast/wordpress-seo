@@ -1,5 +1,6 @@
 import { languageProcessing } from "yoastseo";
 const { AbstractResearcher } = languageProcessing;
+import checkIfWordIsComplex from "./helpers/checkIfWordIsComplex";
 
 // All config
 import firstWordExceptions from "./config/firstWordExceptions";
@@ -27,8 +28,6 @@ export default class Researcher extends AbstractResearcher {
 	constructor( paper ) {
 		super( paper );
 
-		delete this.defaultResearches.wordComplexity;
-
 		Object.assign( this.config, {
 			language: "es",
 			passiveConstructionType: "periphrastic",
@@ -45,6 +44,7 @@ export default class Researcher extends AbstractResearcher {
 			getClauses,
 			getStemmer,
 			fleschReadingScore,
+			checkIfWordIsComplex,
 		} );
 	}
 }

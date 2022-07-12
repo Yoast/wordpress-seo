@@ -4,6 +4,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import uniqueId from "lodash/uniqueId";
 import { __ } from "@wordpress/i18n";
+import { Slot } from "@wordpress/components";
 
 // Yoast dependencies.
 import ReplacementVariableEditorStandalone from "./ReplacementVariableEditorStandalone";
@@ -111,6 +112,7 @@ class ReplacementVariableEditor extends React.Component {
 					{ label }
 				</SimulatedLabel>
 				{ hasPremiumBadge && <PremiumBadge inLabel={ true } /> }
+				<Slot key={ `PluginComponent-${ fieldId }` } name={ `PluginComponent-${ fieldId }` } />
 				{ hasNewBadge && <NewBadge inLabel={ true } /> }
 				{ addVariableButton }
 				<InputContainer
