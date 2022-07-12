@@ -36,7 +36,7 @@ const SiteRepresentation = () => {
 					"</a>"
 				),
 				"https://yoa.st/1-p",
-				"link:google-knowledge-graph"
+				"link-google-knowledge-graph"
 			) }
 		>
 			<section>
@@ -45,7 +45,7 @@ const SiteRepresentation = () => {
 						as={ Radio }
 						type="radio"
 						name="wpseo_titles.company_or_person"
-						id="input:wpseo_titles.company_or_person.company"
+						id="input-wpseo_titles-company_or_person-company"
 						label={ __( "Organization", "wordpress-seo" ) }
 						value="company"
 					/>
@@ -53,7 +53,7 @@ const SiteRepresentation = () => {
 						as={ Radio }
 						type="radio"
 						name="wpseo_titles.company_or_person"
-						id="input:wpseo_titles.company_or_person.person"
+						id="input-wpseo_titles-company_or_person-person"
 						label={ __( "Person", "wordpress-seo" ) }
 						value="person"
 					/>
@@ -71,7 +71,7 @@ const SiteRepresentation = () => {
 					leaveTo="yst-transform yst-opacity-0 yst-translate-y-4 sm:yst-translate-y-0 sm:yst-scale-90"
 				>
 					<FieldsetLayout title={ __( "Organization", "wordpress-seo" ) }>
-						<Alert id="alert:organization-name-logo" variant="warning">
+						<Alert id="alert-organization-name-logo" variant="warning">
 							{ addLinkToString(
 								sprintf(
 									// translators: %1$s and %2$s are replaced by opening and closing <a> tags.
@@ -80,17 +80,17 @@ const SiteRepresentation = () => {
 									"</a>"
 								),
 								"https://yoa.st/3r3",
-								"link:structured-data"
+								"link-structured-data"
 							) }
 						</Alert>
 						<Field
 							as={ TextField }
 							name="wpseo_titles.company_name"
-							id="input:wpseo_titles.company_name"
+							id="input-wpseo_titles-company_name"
 							label={ __( "Organization name", "wordpress-seo" ) }
 						/>
 						<FormikMediaSelectField
-							id="wpseo_titles.company_logo"
+							id="wpseo_titles-company_logo"
 							label={ __( "Organization logo", "wordpress-seo" ) }
 							previewLabel={ createInterpolateElement(
 								// translators: %1$s expands to an opening strong tag.
@@ -122,11 +122,11 @@ const SiteRepresentation = () => {
 						<FormikValueChangeField
 							as={ SelectField }
 							name="wpseo_titles.company_or_person_user_id"
-							id="input:wpseo_titles.company_or_person_user_id"
+							id="input-wpseo_titles-company_or_person_user_id"
 							label={ __( "Select a user", "wordpress-seo" ) }
 							options={ userOptions }
 						/>
-						<Alert id="alert:person-user-profile">
+						<Alert id="alert-person-user-profile">
 							{ createInterpolateElement(
 								sprintf(
 									// translators: %1$s and %2$s are replaced by opening and closing <span> tags.
@@ -141,11 +141,11 @@ const SiteRepresentation = () => {
 								), {
 									strong: <strong className="yst-font-medium" />,
 									// eslint-disable-next-line jsx-a11y/anchor-has-content
-									a: <a id="link:person-user-profile" href={ `${ userEditUrl }?user_id=${ selectedUser.id }` } target="_blank" rel="noopener noreferrer" />,
+									a: <a id="link-person-user-profile" href={ `${ userEditUrl }?user_id=${ selectedUser.id }` } target="_blank" rel="noopener noreferrer" />,
 								} ) }
 						</Alert>
 						<FormikMediaSelectField
-							id="wpseo_titles.person_logo"
+							id="wpseo_titles-person_logo"
 							label={ __( "Personal logo or avatar", "wordpress-seo" ) }
 							variant="square"
 							previewLabel={ createInterpolateElement(
@@ -174,21 +174,21 @@ const SiteRepresentation = () => {
 				<FormikWithErrorField
 					as={ TextField }
 					name="wpseo_social.facebook_site"
-					id="input:wpseo_social.facebook_site"
+					id="input-wpseo_social-facebook_site"
 					label={ __( "Facebook", "wordpress-seo" ) }
 					placeholder={ __( "E.g. https://facebook.com/yoast", "wordpress-seo" ) }
 				/>
 				<FormikWithErrorField
 					as={ TextField }
 					name="wpseo_social.instagram_site"
-					id="input:wpseo_social.instagram_site"
+					id="input-wpseo_social-instagram_site"
 					label={ __( "Instagram", "wordpress-seo" ) }
 					placeholder={ __( "E.g. https://instagram.com/yoast", "wordpress-seo" ) }
 				/>
 				<FormikWithErrorField
 					as={ TextField }
 					name="wpseo_social.twitter_site"
-					id="input:wpseo_social.twitter_site"
+					id="input-wpseo_social-twitter_site"
 					label={ __( "Twitter", "wordpress-seo" ) }
 					placeholder={ __( "E.g. https://twitter.com/yoast", "wordpress-seo" ) }
 				/>
@@ -200,7 +200,7 @@ const SiteRepresentation = () => {
 									<FormikWithErrorField
 										as={ TextField }
 										name={ `wpseo_social.other_social_urls.${ index }` }
-										id={ `input:wpseo_social.other_social_urls.${ index }` }
+										id={ `input-wpseo_social-other_social_urls-${ index }` }
 										label={ __( "Add another profile", "wordpress-seo" ) }
 										placeholder={ __( "E.g. https://example.com/yoast", "wordpress-seo" ) }
 										className="yst-grow"
@@ -215,7 +215,7 @@ const SiteRepresentation = () => {
 								</div>
 							) )	}
 							{ /* eslint-disable-next-line react/jsx-no-bind */ }
-							<Button variant="secondary" onClick={ arrayHelpers.push.bind( null, "" ) }>
+							<Button id="button-add-social-profile" variant="secondary" onClick={ arrayHelpers.push.bind( null, "" ) }>
 								<PlusIcon className="yst--ml-1 yst-mr-1 yst-h-5 yst-w-5 yst-text-gray-400" />
 								{ __( "Add another profile", "wordpress-seo" ) }
 							</Button>

@@ -11,7 +11,7 @@ const PureSubmenuItem = SidebarNavigation.SubmenuItem;
  * @returns {JSX.Element} The submenu item element.
  */
 const SubmenuItem = ( { to, idSuffix = "", ...props } ) => (
-	<PureSubmenuItem as={ Link } pathProp="to" id={ `link:${ to }${ idSuffix }` } to={ to } { ...props } />
+	<PureSubmenuItem as={ Link } pathProp="to" id={ `link-${ to }${ idSuffix }` } to={ to } { ...props } />
 );
 
 SubmenuItem.propTypes = {

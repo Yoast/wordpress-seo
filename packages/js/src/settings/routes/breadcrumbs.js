@@ -18,7 +18,7 @@ const Breadcrumbs = () => {
 					as={ TextField }
 					type="text"
 					name="wpseo_titles.breadcrumbs-sep"
-					id="input:wpseo_titles.breadcrumbs-sep"
+					id="input-wpseo_titles-breadcrumbs-sep"
 					label={ __( "Separator between breadcrumbs", "wordpress-seo" ) }
 					placeholder={ __( "Add separator", "wordpress-seo" ) }
 				/>
@@ -26,7 +26,7 @@ const Breadcrumbs = () => {
 					as={ TextField }
 					type="text"
 					name="wpseo_titles.breadcrumbs-home"
-					id="input:wpseo_titles.breadcrumbs-home"
+					id="input-wpseo_titles-breadcrumbs-home"
 					label={ __( "Anchor text for the Homepage", "wordpress-seo" ) }
 					placeholder={ __( "Add anchor text", "wordpress-seo" ) }
 				/>
@@ -34,7 +34,7 @@ const Breadcrumbs = () => {
 					as={ TextField }
 					type="text"
 					name="wpseo_titles.breadcrumbs-prefix"
-					id="input:wpseo_titles.breadcrumbs-prefix"
+					id="input-wpseo_titles-breadcrumbs-prefix"
 					label={ __( "Prefix for the breadcrumb path", "wordpress-seo" ) }
 					placeholder={ __( "Add prefix", "wordpress-seo" ) }
 				/>
@@ -42,7 +42,7 @@ const Breadcrumbs = () => {
 					as={ TextField }
 					type="text"
 					name="wpseo_titles.breadcrumbs-archiveprefix"
-					id="input:wpseo_titles.breadcrumbs-archiveprefix"
+					id="input-wpseo_titles-breadcrumbs-archiveprefix"
 					label={ __( "Prefix for Archive breadcrumbs", "wordpress-seo" ) }
 					placeholder={ __( "Add prefix", "wordpress-seo" ) }
 				/>
@@ -50,7 +50,7 @@ const Breadcrumbs = () => {
 					as={ TextField }
 					type="text"
 					name="wpseo_titles.breadcrumbs-searchprefix"
-					id="input:wpseo_titles.breadcrumbs-searchprefix"
+					id="input-wpseo_titles-breadcrumbs-searchprefix"
 					label={ __( "Prefix for Search page breadcrumbs", "wordpress-seo" ) }
 					placeholder={ __( "Add prefix", "wordpress-seo" ) }
 				/>
@@ -58,7 +58,7 @@ const Breadcrumbs = () => {
 					as={ TextField }
 					type="text"
 					name="wpseo_titles.breadcrumbs-404crumb"
-					id="input:wpseo_titles.breadcrumbs-404crumb"
+					id="input-wpseo_titles-breadcrumbs-404crumb"
 					label={ __( "Breadcrumb for 404 page", "wordpress-seo" ) }
 					placeholder={ __( "Add separator", "wordpress-seo" ) }
 				/>
@@ -66,7 +66,7 @@ const Breadcrumbs = () => {
 					as={ ToggleField }
 					type="checkbox"
 					name="wpseo_titles.breadcrumbs-boldlast"
-					data-id="input:wpseo_titles.breadcrumbs-boldlast"
+					data-id="input-wpseo_titles-breadcrumbs-boldlast"
 					label={ __( "Bold the last page", "wordpress-seo" ) }
 				/>
 			</FieldsetLayout>
@@ -78,7 +78,7 @@ const Breadcrumbs = () => {
 				<FormikValueChangeField
 					as={ SelectField }
 					name="wpseo_titles.post_types-post-maintax"
-					id="input:wpseo_titles.post_types-post-maintax"
+					id="input-wpseo_titles-post_types-post-maintax"
 					label={ __( "Posts", "wordpress-seo" ) }
 					options={ [ {
 						value: "None",
@@ -104,7 +104,7 @@ const Breadcrumbs = () => {
 				<FormikValueChangeField
 					as={ SelectField }
 					name="wpseo_titles.taxonomy-category-ptparent"
-					id="input:wpseo_titles.taxonomy-category-ptparent"
+					id="input-wpseo_titles-taxonomy-category-ptparent"
 					label={ __( "Category", "wordpress-seo" ) }
 					options={ [ {
 						value: "None",
@@ -117,7 +117,7 @@ const Breadcrumbs = () => {
 				<FormikValueChangeField
 					as={ SelectField }
 					name="wpseo_titles.taxonomy-post_tag-ptparent"
-					id="input:wpseo_titles.taxonomy-post_tag-ptparent"
+					id="input-wpseo_titles-taxonomy-post_tag-ptparent"
 					label={ __( "Tag", "wordpress-seo" ) }
 					options={ [ {
 						value: "None",
@@ -140,7 +140,7 @@ const Breadcrumbs = () => {
 							"</a>"
 						),
 						"https://yoa.st/",
-						"link:breadcrumbs-knowledge-base-article"
+						"link-breadcrumbs-knowledge-base-article"
 					) }
 				</p>
 				<p>
@@ -150,7 +150,7 @@ const Breadcrumbs = () => {
 					as={ ToggleField }
 					type="checkbox"
 					name="wpseo_titles.breadcrumbs-enable"
-					id="input:wpseo_titles.breadcrumbs-enable"
+					id="input-wpseo_titles-breadcrumbs-enable"
 					label={ __( "Enable breadcrumbs for your theme", "wordpress-seo" ) }
 				/>
 			</FieldsetLayout>

@@ -34,7 +34,7 @@ const Menu = ( { idSuffix = "" } ) => {
 		<figure className="yst-w-44 yst-px-3 yst-mb-12">
 			<YoastLogo />
 		</figure>
-		<SidebarNavigation.MenuItem id={ `menu:site-settings${ idSuffix }` } icon={ DesktopComputerIcon } label={ __( "Site settings", "wordpress-seo" ) }>
+		<SidebarNavigation.MenuItem id={ `menu-site-settings${ idSuffix }` } icon={ DesktopComputerIcon } label={ __( "Site settings", "wordpress-seo" ) }>
 			{ /* <SidebarNavigation.SubmenuItem to="/site-representation" label={ __( "Site representation", "wordpress-seo" ) } idSuffix={ idSuffix } />*/ }
 			<SidebarNavigation.SubmenuItem to="/site-defaults" label={ __( "Site defaults", "wordpress-seo" ) } idSuffix={ idSuffix } />
 			<SidebarNavigation.SubmenuItem to="/site-preferences" label={ __( "Site preferences", "wordpress-seo" ) } idSuffix={ idSuffix } />
@@ -47,7 +47,7 @@ const Menu = ( { idSuffix = "" } ) => {
 		{ /*		<SidebarNavigation.SubmenuItem key={ route } to={ `/${ route }` } label={ label } idSuffix={ idSuffix } />*/ }
 		{ /*	) ) }*/ }
 		{ /* </SidebarNavigation.MenuItem>*/ }
-		<SidebarNavigation.MenuItem id={ `menu:advanced-settings${ idSuffix }` } icon={ AdjustmentsIcon } label={ __( "Advanced settings", "wordpress-seo" ) }>
+		<SidebarNavigation.MenuItem id={ `menu-advanced-settings${ idSuffix }` } icon={ AdjustmentsIcon } label={ __( "Advanced settings", "wordpress-seo" ) }>
 			<SidebarNavigation.SubmenuItem to="/crawl-settings" label={ __( "Crawl settings", "wordpress-seo" ) } idSuffix={ idSuffix } />
 			{ /* <SidebarNavigation.SubmenuItem to="/author-archives" label={ __( "Author archives", "wordpress-seo" ) } idSuffix={ idSuffix } />*/ }
 			{ /* <SidebarNavigation.SubmenuItem to="/date-archives" label={ __( "Date archives", "wordpress-seo" ) } idSuffix={ idSuffix } />*/ }

@@ -89,21 +89,21 @@ const SiteDefaults = () => {
 			title={ __( "Site defaults", "wordpress-seo" ) }
 		>
 			<div className="yst-max-w-screen-sm">
-				<Alert variant="info">{ alertText }</Alert>
+				<Alert variant="info" id="alert-site-defaults-variables">{ alertText }</Alert>
 				<hr className="yst-my-8" />
 				<fieldset className="yst-mt-8 lg:yst-mt-0 lg:yst-col-span-2 yst-space-y-8">
 					<Field
 						as={ TextField }
 						type="text"
 						name="blogname"
-						id="input:blogname"
+						id="input-blogname"
 						label={ __( "Site title", "wordpress-seo" ) }
 					/>
 					<Field
 						as={ TextField }
 						type="text"
 						name="blogdescription"
-						id="input:blogdescription"
+						id="input-blogdescription"
 						label={ __( "Tagline", "wordpress-seo" ) }
 					/>
 				</fieldset>
@@ -115,7 +115,7 @@ const SiteDefaults = () => {
 							as={ Radio }
 							type="radio"
 							name="wpseo_titles.separator"
-							id={ `input:wpseo_titles.separator.${ value }` }
+							id={ `input-wpseo_titles-separator.${ value }` }
 							label={ label }
 							aria-label={ ariaLabel }
 							value={ value }
@@ -124,7 +124,7 @@ const SiteDefaults = () => {
 				</RadioGroup>
 				<hr className="yst-my-8" />
 				<FormikMediaSelectField
-					id="wpseo_social.og_default_image"
+					id="wpseo_social-og_default_image"
 					label={ __( "Site image", "wordpress-seo" ) }
 					description={ __( "This image is used as a fallback for posts/pages that don't have any images set.", "wordpress-seo" ) }
 					previewLabel={ recommendedSize }

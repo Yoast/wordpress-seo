@@ -63,7 +63,7 @@ const PostType = ( { name, label, singularLabel } ) => {
 			>
 				<FormikFlippedToggleField
 					name={ `wpseo_titles.noindex-${ name }` }
-					data-id={ `input:wpseo_titles.noindex-${ name }` }
+					data-id={ `input-wpseo_titles-noindex-${ name }` }
 					label={ sprintf(
 						// translators: %1$s expands to the post type plural, e.g. Posts.
 						__( "Show %1$s in search results", "wordpress-seo" ),
@@ -78,7 +78,7 @@ const PostType = ( { name, label, singularLabel } ) => {
 				<FormikReplacementVariableEditorField
 					type="title"
 					name={ `wpseo_titles.title-${ name }` }
-					fieldId={ `input:wpseo_titles.title-${ name }` }
+					fieldId={ `input-wpseo_titles-title-${ name }` }
 					label={ __( "SEO title", "wordpress-seo" ) }
 					replacementVariables={ replacementVariables }
 					recommendedReplacementVariables={ recommendedReplacementVariables }
@@ -86,7 +86,7 @@ const PostType = ( { name, label, singularLabel } ) => {
 				<FormikReplacementVariableEditorField
 					type="description"
 					name={ `wpseo_titles.metadesc-${ name }` }
-					fieldId={ `input:wpseo_titles.metadesc-${ name }` }
+					fieldId={ `input-wpseo_titles-metadesc-${ name }` }
 					label={ __( "Meta description", "wordpress-seo" ) }
 					replacementVariables={ replacementVariables }
 					recommendedReplacementVariables={ recommendedReplacementVariables }
@@ -104,7 +104,7 @@ const PostType = ( { name, label, singularLabel } ) => {
 				) }
 			>
 				<FormikMediaSelectField
-					id={ `wpseo_titles.social-image-url-${ name }` }
+					id={ `wpseo_titles-social-image-url-${ name }` }
 					label={ __( "Social image", "wordpress-seo" ) }
 					previewLabel={ recommendedSize }
 					mediaUrlName={ `wpseo_titles.social-image-url-${ name }` }
@@ -113,7 +113,7 @@ const PostType = ( { name, label, singularLabel } ) => {
 				<FormikReplacementVariableEditorField
 					type="title"
 					name={ `wpseo_titles.social-title-${ name }` }
-					fieldId={ `input:wpseo_titles.social-title-${ name }` }
+					fieldId={ `input-wpseo_titles-social-title-${ name }` }
 					label={ __( "Social title", "wordpress-seo" ) }
 					replacementVariables={ replacementVariables }
 					recommendedReplacementVariables={ recommendedReplacementVariables }
@@ -121,7 +121,7 @@ const PostType = ( { name, label, singularLabel } ) => {
 				<FormikReplacementVariableEditorField
 					type="description"
 					name={ `wpseo_titles.social-description-${ name }` }
-					fieldId={ `input:wpseo_titles.social-description-${ name }` }
+					fieldId={ `input-wpseo_titles-social-description-${ name }` }
 					label={ __( "Social description", "wordpress-seo" ) }
 					replacementVariables={ replacementVariables }
 					recommendedReplacementVariables={ recommendedReplacementVariables }
@@ -142,7 +142,7 @@ const PostType = ( { name, label, singularLabel } ) => {
 					as={ SelectField }
 					type="select"
 					name={ `wpseo_titles.schema-page-type-${ name }` }
-					id={ `input:wpseo_titles.schema-page-type-${ name }` }
+					id={ `input-wpseo_titles-schema-page-type-${ name }` }
 					label={ __( "Page type", "wordpress-seo" ) }
 					options={ pageTypes }
 				/>
@@ -150,7 +150,7 @@ const PostType = ( { name, label, singularLabel } ) => {
 					as={ SelectField }
 					type="select"
 					name={ `wpseo_titles.schema-article-type-${ name }` }
-					id={ `input:wpseo_titles.schema-article-type-${ name }` }
+					id={ `input-wpseo_titles-schema-article-type-${ name }` }
 					label={ __( "Article type", "wordpress-seo" ) }
 					options={ articleTypes }
 				/>
@@ -163,7 +163,7 @@ const PostType = ( { name, label, singularLabel } ) => {
 					as={ ToggleField }
 					type="checkbox"
 					name={ `wpseo_titles.display-metabox-pt-${ name }` }
-					data-id={ `input:wpseo_titles.display-metabox-pt-${ name }` }
+					data-id={ `input-wpseo_titles-display-metabox-pt-${ name }` }
 					label={ sprintf(
 						/* translators: %1$s expands to Yoast SEO. %2$s expands to the post type plural, e.g. Posts. */
 						__( "Enable %1$s for %2$s", "wordpress-seo" ),
@@ -180,7 +180,7 @@ const PostType = ( { name, label, singularLabel } ) => {
 					as={ TextField }
 					type="text"
 					name={ `wpseo_titles.page-analyse-extra-${ name }` }
-					id={ `input:wpseo_titles.page-analyse-extra-${ name }` }
+					id={ `input-wpseo_titles-page-analyse-extra-${ name }` }
 					label={ __( "Add custom fields to page analysis", "wordpress-seo" ) }
 					labelSuffix={ <Badge className="yst-ml-1.5" variant="upsell">Premium</Badge> }
 					description={ addLinkToString(
@@ -190,7 +190,7 @@ const PostType = ( { name, label, singularLabel } ) => {
 							"</a>"
 						),
 						"https://yoa.st/4cr",
-						`link:custom-fields-page-analysis-${ name }`
+						`link-custom-fields-page-analysis-${ name }`
 					) }
 				/> }
 			</FieldsetLayout>
