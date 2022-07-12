@@ -1,5 +1,7 @@
 import domReady from "@wordpress/dom-ready";
 import { render } from "@wordpress/element";
+import { dispatch } from "@wordpress/data";
+import { __ } from "@wordpress/i18n";
 import { Root } from "@yoast/ui-library";
 import { Formik } from "formik";
 import { forEach, get, isObject, isArray } from "lodash";
@@ -7,7 +9,7 @@ import { HashRouter } from "react-router-dom";
 import { StyleSheetManager } from "styled-components";
 import App from "./app";
 import { validationSchema } from "./helpers/validation";
-import registerStore from "./store";
+import registerStore, { STORE_NAME } from "./store";
 
 /**
  * Retrieves the initial settings.
@@ -22,6 +24,8 @@ const getInitialValues = () => get( window, "wpseoScriptData.settings", {} );
  */
 const handleSubmit = async( values ) => {
 	const { endpoint, nonce } = get( window, "wpseoScriptData", {} );
+	const { addNotification } = dispatch( STORE_NAME );
+
 	const formData = new FormData();
 
 	formData.set( "option_page", "wpseo_settings" );
@@ -48,8 +52,18 @@ const handleSubmit = async( values ) => {
 			body: new URLSearchParams( formData ),
 		} );
 
+		addNotification( {
+			variant: "success",
+			title: __( "Great! Your settings were saved successfully.", "wordpress-seo" ),
+		} );
+
 		return true;
 	} catch ( error ) {
+		addNotification( {
+			variant: "error",
+			title: __( "Oops! Something went wrong while saving.", "wordpress-seo" ),
+		} );
+
 		console.error( error.message );
 		return false;
 	}

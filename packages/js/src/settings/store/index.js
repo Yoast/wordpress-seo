@@ -7,10 +7,11 @@ import replacementVariables, {
 	replacementVariablesActions,
 	replacementVariablesSelectors,
 } from "./replacement-variables";
+import  notifications, { notificationsActions, notificationsSelectors } from "./notifications";
 
 /** @typedef {import("@wordpress/data/src/types").WPDataStore} WPDataStore */
 
-const STORE_NAME = "@yoast/settings";
+export const STORE_NAME = "@yoast/settings";
 
 /**
  * @param {string} selector The name of the selector.
@@ -27,11 +28,13 @@ export const useSelectSettings = ( selector, deps = [], ...args ) => useSelect( 
 const createStore = ( { initialState } ) => {
 	return createReduxStore( STORE_NAME, {
 		actions: {
+			...notificationsActions,
 			...postTypesActions,
 			...preferencesActions,
 			...replacementVariablesActions,
 		},
 		selectors: {
+			...notificationsSelectors,
 			...postTypesSelectors,
 			...preferencesSelectors,
 			...replacementVariablesSelectors,
@@ -46,6 +49,7 @@ const createStore = ( { initialState } ) => {
 			initialState
 		),
 		reducer: combineReducers( {
+			notifications,
 			postTypes,
 			preferences,
 			replacementVariables,

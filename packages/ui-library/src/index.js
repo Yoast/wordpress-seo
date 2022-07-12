@@ -17,6 +17,7 @@ export { default as Toggle } from "./elements/toggle";
 export { default as CheckboxGroup } from "./components/checkbox-group";
 export { default as FileImport } from "./components/file-import";
 export { default as Modal } from "./components/modal";
+export { default as Notifications } from "./components/notifications";
 export { default as RadioGroup } from "./components/radio-group";
 export { default as Root } from "./components/root";
 export { default as SelectField } from "./components/select-field";
