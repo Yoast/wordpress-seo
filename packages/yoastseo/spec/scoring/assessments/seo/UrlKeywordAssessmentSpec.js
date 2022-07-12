@@ -22,6 +22,7 @@ describe( "A keyword in slug count assessment", function() {
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: " +
 			"(Part of) your keyphrase does not appear in the slug. <a href='https://yoa.st/33p' target='_blank'>Change that</a>!" );
 		expect( assessment.hasJumps() ).toBeTruthy();
+		expect( assessment.getEditFieldName() ).toBe( "slug" );
 	} );
 
 	it( "assesses a keyword was found in the slug: short keyphrase", function() {
@@ -33,6 +34,7 @@ describe( "A keyword in slug count assessment", function() {
 		expect( assessment.getScore() ).toEqual( 9 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/33o' target='_blank'>Keyphrase in slug</a>: Great work!" );
 		expect( assessment.hasJumps() ).toBeFalsy();
+		expect( assessment.hasEditFieldName() ).toBeFalsy();
 	} );
 
 	it( "assesses no keyword was found in the slug: long keyphrase", function() {
