@@ -6,7 +6,7 @@ module.exports = {
 		"./packages/ui-library/src/**/!(stories).js",
 		"./packages/js/src/**/*.js",
 	],
-	safelist: process.env.NODE_ENV === "development" ? [ { pattern: /.*/ } ] : [
+	safelist: process.env.NODE_ENV === "development" ? [ { pattern: /.*/, variants: [ 'sm', 'md', 'lg', 'xl', '2xl' ] } ] : [
 		"yst-border-l",
 		"yst-space-x-8",
 		"yst-pb-10",
@@ -17,5 +17,7 @@ module.exports = {
 		"sm:yst-w-auto",
 		"sm:yst-mb-0",
 		"sm:yst-ml-3",
+		"sm:yst-flex",
+		"sm:yst-flex-row-reverse",
 	],
 };
