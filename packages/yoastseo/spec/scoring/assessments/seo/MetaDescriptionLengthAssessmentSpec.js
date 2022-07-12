@@ -15,6 +15,7 @@ describe( "a test for assessing the meta description length", function() {
 			"</a>:  No meta description has been specified. Search engines will display copy from the page instead. " +
 			"<a href='https://yoa.st/34e' target='_blank'>Make sure to write one</a>!" );
 		expect( assessment.hasJumps() ).toBeTruthy();
+		expect( assessment.getEditFieldName() ).toBe( "meta description" );
 	} );
 
 	it( "assesses a short description", function() {
@@ -47,6 +48,7 @@ describe( "a test for assessing the meta description length", function() {
 		expect( assessment.getScore() ).toEqual( 9 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34d' target='_blank'>Meta description length</a>: Well done!" );
 		expect( assessment.hasJumps() ).toBeFalsy();
+		expect( assessment.hasEditFieldName() ).toBeFalsy();
 	} );
 } );
 

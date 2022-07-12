@@ -22,6 +22,7 @@ describe( "a test for the meta description keyword assessment", function() {
 			"The meta description has been specified, but it does not contain the keyphrase. " +
 			"<a href='https://yoa.st/33l' target='_blank'>Fix that</a>!" );
 		expect( assessment.hasJumps() ).toBeTruthy();
+		expect( assessment.getEditFieldName() ).toBe( "meta description" );
 	} );
 
 	it( "returns a good result and an appropriate feedback message when at least one sentence contains every keyword term " +
@@ -43,6 +44,7 @@ describe( "a test for the meta description keyword assessment", function() {
 		expect( assessment.getScore() ).toBe( 9 );
 		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/33k' target='_blank'>Keyphrase in meta " +
 			"description</a>: Keyphrase or synonym appear in the meta description. Well done!" );
+		expect( assessment.hasEditFieldName() ).toBeFalsy();
 	} );
 
 	it( "returns a bad result when the meta description contains the keyword three times in the same sentence", function() {

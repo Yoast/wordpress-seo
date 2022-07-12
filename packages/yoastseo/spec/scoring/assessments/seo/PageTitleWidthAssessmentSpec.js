@@ -12,6 +12,7 @@ describe( "the SEO title length assessment", function() {
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/34h' target='_blank'>SEO title width</a>: " +
 			"<a href='https://yoa.st/34i' target='_blank'>Please create an SEO title</a>." );
 		expect( result.hasJumps() ).toBeTruthy();
+		expect( result.getEditFieldName() ).toBe( "SEO title" );
 	} );
 
 	it( "should assess a paper with an SEO title that's under the recommended value", function() {
@@ -30,6 +31,7 @@ describe( "the SEO title length assessment", function() {
 		expect( result.getScore() ).toEqual( 9 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/34h' target='_blank'>SEO title width</a>: Good job!" );
 		expect( result.hasJumps() ).toBeFalsy();
+		expect( result.hasEditFieldName() ).toBeFalsy();
 	} );
 
 	it( "should assess a paper with an SEO title that's in range of the recommended value", function() {

@@ -31,6 +31,7 @@ describe( "the keyphrase length assessment for product pages", function() {
 			"No focus keyphrase was set for this page. " +
 			"<a href='https://yoa.st/33j' target='_blank'>Set a keyphrase in order to calculate your SEO score</a>." );
 		expect( result.hasJumps() ).toBeTruthy();
+		expect( result.getEditFieldName() ).toBe( "keyphrase" );
 	} );
 
 	it( "should show a different feedback text for product pages when no keyphrase is set for a related keyphrase", function() {
@@ -73,6 +74,7 @@ describe( "the keyphrase length assessment for product pages", function() {
 		expect( result.getScore() ).toEqual( 9 );
 		expect( result.getText() ).toEqual( "<a href='https://yoa.st/33i' target='_blank'>Keyphrase length</a>: Good job!" );
 		expect( result.hasJumps() ).toBeFalsy();
+		expect( result.hasEditFieldName() ).toBeFalsy();
 	} );
 
 	it( "should assess a product page with a keyphrase that's slightly too long as okay", function() {

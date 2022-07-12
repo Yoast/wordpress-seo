@@ -17,6 +17,7 @@ describe( "An assessment for checking if the keyphrase contains function words o
 			"<a href='https://yoa.st/functionwordskeyphrase-2' target='_blank'>Learn more about what makes a good keyphrase.</a>"
 		);
 		expect( assessment.hasJumps() ).toBeTruthy();
+		expect( assessment.getEditFieldName() ).toBe( "keyphrase" );
 	} );
 
 	it( "returns nothing if there are also content words in the keyphrase", function() {
