@@ -1,11 +1,14 @@
 import { __ } from "@wordpress/i18n";
 import { Alert, Badge, ToggleField } from "@yoast/ui-library";
-import { FormikValueChangeField, FormLayout, FieldsetLayout } from "../components";
+import { FieldsetLayout, FormikValueChangeField, FormLayout } from "../components";
+import { useSelectSettings } from "../store";
 
 /**
  * @returns {JSX.Element} The site preferences route.
  */
 const SitePreferences = () => {
+	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
+
 	return (
 		<FormLayout
 			title={ __( "Site preferences", "wordpress-seo" ) }
@@ -55,7 +58,7 @@ const SitePreferences = () => {
 					label={ __( "Text link counter", "wordpress-seo" ) }
 					description={ __( "The text link counter helps you improve your site structure.", "wordpress-seo" ) }
 				/>
-				<FormikValueChangeField
+				{ isPremium && <FormikValueChangeField
 					as={ ToggleField }
 					type="checkbox"
 					name="wpseo.enable_link_suggestions"
@@ -63,7 +66,7 @@ const SitePreferences = () => {
 					label={ __( "Link suggestions", "wordpress-seo" ) }
 					labelSuffix={ <Badge className="yst-ml-1.5" variant="upsell">Premium</Badge> }
 					description={ __( "The link suggestions metabox contains a list of posts on your blog with similar content that might be interesting to link to.", "wordpress-seo" ) }
-				/>
+				/> }
 			</FieldsetLayout>
 			<hr className="yst-my-8" />
 			<FieldsetLayout title={ __( "Social sharing", "wordpress-seo" ) }>
