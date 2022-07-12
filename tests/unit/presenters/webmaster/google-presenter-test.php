@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Presenters\Webmaster;
 
+use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Presenters\Webmaster\Google_Presenter;
@@ -64,6 +65,8 @@ class Google_Presenter_Test extends TestCase {
 	public function test_present() {
 		$this->options->expects( 'get' )->with( $this->option_name, '' )->andReturn( 'google-ver' );
 
+		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
+
 		$this->assertSame(
 			'<meta name="google-site-verification" content="google-ver" />',
 			$this->instance->present()
@@ -96,6 +99,23 @@ class Google_Presenter_Test extends TestCase {
 		$this->assertSame(
 			'google-ver',
 			$this->instance->get()
+		);
+	}
+
+	/**
+	 * Tests the presentation for a Google site verification string when the admin bar is showing a class is added.
+	 *
+	 * @covers ::present
+	 * @covers ::get
+	 */
+	public function test_present_with_class() {
+		$this->options->expects( 'get' )->with( $this->option_name, '' )->andReturn( 'google-ver' );
+
+		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( true );
+
+		$this->assertSame(
+			'<meta name="google-site-verification" content="google-ver" class="yoast-seo-meta-tag" />',
+			$this->instance->present()
 		);
 	}
 }

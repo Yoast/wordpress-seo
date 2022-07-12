@@ -1,5 +1,6 @@
 /* global wpseoScriptData */
 import { Fragment, render } from "@wordpress/element";
+import { SlotFillProvider } from "@wordpress/components";
 import { ThemeProvider } from "styled-components";
 import CompanyInfoMissingPortal from "../components/portals/CompanyInfoMissingPortal";
 import ImageSelectPortal from "../components/portals/ImageSelectPortal";
@@ -36,65 +37,67 @@ export default function initSearchAppearance() {
 
 	render(
 		<ThemeProvider theme={ theme }>
-			<Fragment>
-				<SettingsReplacementVariableEditors
-					singleFieldElements={ singleFieldElements }
-					editorElements={ editorElements }
-				/>
-				<UserSelectPortal target="wpseo-person-selector" />
-				<CompanyInfoMissingPortal
-					target="knowledge-graph-company-warning"
-					message={ knowledgeGraphCompanyInfoMissing.message }
-					link={ knowledgeGraphCompanyInfoMissing.URL }
-				/>
-				<ImageSelectPortal
-					label={ __( "Organization logo", "wordpress-seo" ) }
-					hasPreview={ true }
-					target="yoast-organization-image-select"
-					hiddenField="company_logo"
-					hiddenFieldImageId="company_logo_id"
-					selectImageButtonId="yoast-organization-image-select-button"
-					replaceImageButtonId="yoast-organization-image-replace-button"
-					removeImageButtonId="yoast-organization-image-remove-button"
-				/>
-				<ImageSelectPortal
-					label={ __( "Person logo / avatar", "wordpress-seo" ) }
-					hasPreview={ true }
-					target="yoast-person-image-select"
-					hiddenField="person_logo"
-					hiddenFieldImageId="person_logo_id"
-					selectImageButtonId="yoast-person-image-select-button"
-					replaceImageButtonId="yoast-person-image-replace-button"
-					removeImageButtonId="yoast-person-image-remove-button"
-				/>
-
-				{ imagePortals.map( ( portal ) => {
-					return ( <ImageSelectPortal
-						key={ portal.id }
-						label={ portal.dataset.reactImagePortalLabel || __( "Social image", "wordpress-seo" ) }
-						hasPreview={ true }
-						target={ portal.id }
-						hiddenField={ portal.dataset.reactImagePortalTargetImage }
-						hiddenFieldImageId={ portal.dataset.reactImagePortalTargetImageId }
-						selectImageButtonId={ portal.id + "-select-button" }
-						replaceImageButtonId={ portal.id + "-replace-button" }
-						removeImageButtonId={ portal.id + "-remove-button" }
-						hasNewBadge={ portal.dataset.reactImagePortalHasNewBadge === "1" }
-						isDisabled={ portal.dataset.reactImagePortalIsDisabled === "1" }
-						hasPremiumBadge={ portal.dataset.reactImagePortalHasPremiumBadge === "1" }
-						hasImageValidation={ portal.dataset.reactImagePortalHasImageValidation === "1" }
-					/> );
-				} ) }
-
-				{ showLocalSEOUpsell && (
-					<LocalSEOUpsellPortal
-						target="wpseo-local-seo-upsell"
-						url={ localSEOUpsellURL }
-						backgroundUrl={ brushstrokeBackgroundURL }
+			<SlotFillProvider>
+				<Fragment>
+					<SettingsReplacementVariableEditors
+						singleFieldElements={ singleFieldElements }
+						editorElements={ editorElements }
 					/>
-				) }
-				<SchemaSettings targets={ schemaSettingsElements } />
-			</Fragment>
+					<UserSelectPortal target="wpseo-person-selector" />
+					<CompanyInfoMissingPortal
+						target="knowledge-graph-company-warning"
+						message={ knowledgeGraphCompanyInfoMissing.message }
+						link={ knowledgeGraphCompanyInfoMissing.URL }
+					/>
+					<ImageSelectPortal
+						label={ __( "Organization logo", "wordpress-seo" ) }
+						hasPreview={ true }
+						target="yoast-organization-image-select"
+						hiddenField="company_logo"
+						hiddenFieldImageId="company_logo_id"
+						selectImageButtonId="yoast-organization-image-select-button"
+						replaceImageButtonId="yoast-organization-image-replace-button"
+						removeImageButtonId="yoast-organization-image-remove-button"
+					/>
+					<ImageSelectPortal
+						label={ __( "Person logo / avatar", "wordpress-seo" ) }
+						hasPreview={ true }
+						target="yoast-person-image-select"
+						hiddenField="person_logo"
+						hiddenFieldImageId="person_logo_id"
+						selectImageButtonId="yoast-person-image-select-button"
+						replaceImageButtonId="yoast-person-image-replace-button"
+						removeImageButtonId="yoast-person-image-remove-button"
+					/>
+
+					{ imagePortals.map( ( portal ) => {
+						return ( <ImageSelectPortal
+							key={ portal.id }
+							label={ portal.dataset.reactImagePortalLabel || __( "Social image", "wordpress-seo" ) }
+							hasPreview={ true }
+							target={ portal.id }
+							hiddenField={ portal.dataset.reactImagePortalTargetImage }
+							hiddenFieldImageId={ portal.dataset.reactImagePortalTargetImageId }
+							selectImageButtonId={ portal.id + "-select-button" }
+							replaceImageButtonId={ portal.id + "-replace-button" }
+							removeImageButtonId={ portal.id + "-remove-button" }
+							hasNewBadge={ portal.dataset.reactImagePortalHasNewBadge === "1" }
+							isDisabled={ portal.dataset.reactImagePortalIsDisabled === "1" }
+							hasPremiumBadge={ portal.dataset.reactImagePortalHasPremiumBadge === "1" }
+							hasImageValidation={ portal.dataset.reactImagePortalHasImageValidation === "1" }
+						/> );
+					} ) }
+
+					{ showLocalSEOUpsell && (
+						<LocalSEOUpsellPortal
+							target="wpseo-local-seo-upsell"
+							url={ localSEOUpsellURL }
+							backgroundUrl={ brushstrokeBackgroundURL }
+						/>
+					) }
+					<SchemaSettings targets={ schemaSettingsElements } />
+				</Fragment>
+			</SlotFillProvider>
 		</ThemeProvider>,
 		element
 	);

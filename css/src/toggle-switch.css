@@ -146,6 +146,11 @@
 		height: 100%;
 	}
 
+	.switch-toggle .yoast-button-upsell {
+		position: relative;
+		left: 20px;
+	}
+
 	.switch-toggle label:nth-child(2):nth-last-child(4),
 	.switch-toggle label:nth-child(2):nth-last-child(4) ~ label,
 	.switch-toggle label:nth-child(2):nth-last-child(4) ~ a {
@@ -266,6 +271,13 @@
  */
 .fieldset-switch-toggle label {
 	float: none;
+}
+
+.fieldset-switch-toggle .yoast-button-upsell {
+	height: 16px;
+	background-color: green;
+	width: 20px;
+	overflow: hidden;
 }
 
 @media only screen {
@@ -444,6 +456,41 @@
 	.switch-container {
 		clear: both;
 		margin: 0 0 0.8em 0;
+	}
+
+	.switch-container .clear {
+		clear: both;
+		display: none;
+	}
+
+	.switch-container.premium-upsell {
+		clear: both;
+		margin: 0 0 0.8em 0;
+		display: grid;
+		grid-template-columns: 280px 1fr;
+		align-items: end;
+	}
+
+	.switch-container.premium-upsell .yoast-help-panel {
+		width: 520px;
+	}
+
+	@media screen and (max-width: 600px ) {
+		.switch-container.premium-upsell {
+			clear: both;
+			margin: 0 0 0.8em 0;
+			display: grid;
+			grid-template-columns: 1fr;
+		}
+		.switch-container.premium-upsell .yoast-help-panel {
+			width: unset;
+		}
+	}
+
+	.switch-container.premium-upsell .yoast-button {
+		clear: both;
+		margin-top: 8px;
+		width: fit-content;
 	}
 
 	.switch-container + .switch-container {

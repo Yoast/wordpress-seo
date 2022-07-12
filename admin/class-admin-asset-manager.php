@@ -388,30 +388,6 @@ class WPSEO_Admin_Asset_Manager {
 			'version' => $scripts['workouts']['version'],
 		];
 
-		$scripts['first-time-configuration'] = [
-			'name'    => 'first-time-configuration',
-			'src'     => 'first-time-configuration.js',
-			'deps'    => [
-				'lodash',
-				'wp-api-fetch',
-				'wp-a11y',
-				'wp-components',
-				'wp-compose',
-				'wp-data',
-				'wp-dom-ready',
-				'wp-element',
-				'wp-i18n',
-				self::PREFIX . 'api-client',
-				self::PREFIX . 'externals-components',
-				self::PREFIX . 'externals-contexts',
-				self::PREFIX . 'externals-redux',
-				self::PREFIX . 'analysis',
-				self::PREFIX . 'react-select',
-				self::PREFIX . 'yoast-components',
-			],
-			'version' => $scripts['first-time-configuration']['version'],
-		];
-
 		// Add the current language to every script that requires the analysis package.
 		foreach ( $scripts as $name => $script ) {
 			if ( substr( $name, -8 ) === 'language' ) {
@@ -711,6 +687,10 @@ class WPSEO_Admin_Asset_Manager {
 				'deps' => [
 					self::PREFIX . 'monorepo',
 				],
+			],
+			[
+				'name' => 'inside-editor',
+				'src'  => 'inside-editor-' . $flat_version,
 			],
 		];
 	}

@@ -57,9 +57,19 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 			$name .= ' ' . new Premium_Badge_Presenter( $feature->name );
 		}
 
-		$disabled = false;
+		$disabled            = false;
+		$show_premium_upsell = false;
+		$premium_upsell_url  = '';
+
 		if ( $feature->premium === true && YoastSEO()->helpers->product->is_premium() === false ) {
-			$disabled = true;
+			$disabled            = true;
+			$show_premium_upsell = true;
+			$premium_upsell_url  = WPSEO_Shortlinker::get( $feature->premium_upsell_url );
+		}
+
+		$preserve_disabled_value = false;
+		if ( $disabled ) {
+			$preserve_disabled_value = true;
 		}
 
 		$yform->toggle_switch(
@@ -70,7 +80,12 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 			],
 			$name,
 			$feature_help->get_button_html() . $feature_help->get_panel_html(),
-			[ 'disabled' => $disabled ]
+			[
+				'disabled'                => $disabled,
+				'preserve_disabled_value' => $preserve_disabled_value,
+				'show_premium_upsell'     => $show_premium_upsell,
+				'premium_upsell_url'      => $premium_upsell_url,
+			]
 		);
 
 		if ( ! empty( $feature->after ) ) {

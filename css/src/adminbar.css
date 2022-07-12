@@ -3,6 +3,20 @@
   margin: 10px 0 0 4px !important;
 }
 
+#wpadminbar .yoast-badge {
+	display: inline-block;
+	padding: 0 8px;
+	border-radius: 8px;
+	font-weight: 600;
+	line-height: 1.6;
+	margin-left: 4px;
+}
+
+#wpadminbar .yoast-beta-badge {
+	background-color: #CCE5FF;
+	color: #004973;
+}
+
 #wpadminbar .yoast-issue-added,
 #wpadminbar .yoast-issue-added:hover {
   position: absolute;

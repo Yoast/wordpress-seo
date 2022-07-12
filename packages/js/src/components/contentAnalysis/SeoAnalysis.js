@@ -6,6 +6,7 @@ import { YoastSeoIcon } from "@yoast/components";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import getIndicatorForScore from "../../analysis/getIndicatorForScore";
+import getL10nObject from "../../analysis/getL10nObject";
 import Results from "../../containers/Results";
 import AnalysisUpsell from "../AnalysisUpsell";
 import { LocationConsumer } from "@yoast/externals/contexts";
@@ -181,9 +182,12 @@ class SeoAnalysis extends Component {
 			link = wpseoAdminL10n[ "shortlinks.upsell.sidebar.keyphrase_distribution" ];
 		}
 
-		// We don't show the upsell in WooCommerce product pages.
+		/*
+		 * We don't show the upsell in WooCommerce product pages when Yoast SEO WooCommerce plugin is activated.
+		 * This is because the premium assessments of the upsell are already loaded even when the Premium plugin is not activated.
+		 */
 		const contentType = wpseoAdminL10n.postType;
-		if ( contentType === "product" ) {
+		if ( this.props.isYoastSEOWooActive && contentType === "product" ) {
 			return [];
 		}
 
@@ -220,6 +224,7 @@ class SeoAnalysis extends Component {
 	 */
 	render() {
 		const score = getIndicatorForScore( this.props.overallScore );
+		const isPremium = getL10nObject().isPremium;
 
 		if ( score.className !== "loading" && this.props.keyword === "" ) {
 			score.className = "na";
@@ -239,7 +244,7 @@ class SeoAnalysis extends Component {
 					return (
 						<Fragment>
 							<Collapsible
-								title={ __( "SEO analysis", "wordpress-seo" ) }
+								title={ isPremium ? __( "Premium SEO analysis", "wordpress-seo" ) : __( "SEO analysis", "wordpress-seo" ) }
 								titleScreenReaderText={ score.screenReaderReadabilityText }
 								prefixIcon={ getIconForScore( score.className ) }
 								prefixIconCollapsed={ getIconForScore( score.className ) }
@@ -278,6 +283,7 @@ SeoAnalysis.propTypes = {
 	shouldUpsell: PropTypes.bool,
 	shouldUpsellWordFormRecognition: PropTypes.bool,
 	overallScore: PropTypes.number,
+	isYoastSEOWooActive: PropTypes.bool,
 };
 
 SeoAnalysis.defaultProps = {
@@ -287,6 +293,7 @@ SeoAnalysis.defaultProps = {
 	shouldUpsell: false,
 	shouldUpsellWordFormRecognition: false,
 	overallScore: null,
+	isYoastSEOWooActive: false,
 };
 
 export default withSelect( ( select, ownProps ) => {
