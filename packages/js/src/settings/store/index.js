@@ -1,5 +1,6 @@
 import { combineReducers, createReduxStore, register, useSelect } from "@wordpress/data";
 import { merge } from "lodash";
+import preferences, { createInitialPreferencesState, preferencesActions, preferencesSelectors } from "./preferences";
 import replacementVariables, {
 	createInitialReplacementVariablesState,
 	replacementVariablesActions,
@@ -25,19 +26,23 @@ export const useSelectSettings = ( selector, deps = [], ...args ) => useSelect( 
 const createStore = ( { initialState } ) => {
 	return createReduxStore( STORE_NAME, {
 		actions: {
+			...preferencesActions,
 			...replacementVariablesActions,
 		},
 		selectors: {
+			...preferencesSelectors,
 			...replacementVariablesSelectors,
 		},
 		initialState: merge(
 			{},
 			{
+				preferences: createInitialPreferencesState(),
 				replacementVariables: createInitialReplacementVariablesState(),
 			},
 			initialState
 		),
 		reducer: combineReducers( {
+			preferences,
 			replacementVariables,
 		} ),
 		controls: {},
