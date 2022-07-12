@@ -47,8 +47,10 @@ class SlugKeywordAssessment extends Assessment {
 		const calculatedResult = this.calculateResult();
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
-		assessmentResult.setHasJumps( assessmentResult.getScore() < 9 );
-
+		if( assessmentResult.getScore() < 9  ) {
+			assessmentResult.setHasJumps( true );
+			assessmentResult.setEditFieldName( __( "slug", "wordpress-seo" ) );
+		}
 		return assessmentResult;
 	}
 

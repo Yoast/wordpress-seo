@@ -67,6 +67,7 @@ class FunctionWordsInKeyphraseAssessment extends Assessment {
 				this._keyword
 			) );
 			assessmentResult.setHasJumps( true );
+			assessmentResult.setEditFieldName( __( "keyphrase", "wordpress-seo" ) );
 		}
 
 		return assessmentResult;
