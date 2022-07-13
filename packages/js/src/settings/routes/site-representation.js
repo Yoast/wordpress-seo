@@ -1,13 +1,14 @@
 import { Transition } from "@headlessui/react";
-import { createInterpolateElement, useMemo } from "@wordpress/element";
-import { __, sprintf } from "@wordpress/i18n";
 import { TrashIcon } from "@heroicons/react/outline";
 import { PlusIcon } from "@heroicons/react/solid";
-import { Alert, Radio, RadioGroup, SelectField, TextField, Button } from "@yoast/ui-library";
+import { createInterpolateElement, useMemo } from "@wordpress/element";
+import { __, sprintf } from "@wordpress/i18n";
+import { Alert, Button, Radio, RadioGroup, SelectField, TextField } from "@yoast/ui-library";
 import { Field, FieldArray, useFormikContext } from "formik";
 import { find, get, map } from "lodash";
 import { addLinkToString } from "../../helpers/stringHelpers";
 import { FieldsetLayout, FormikMediaSelectField, FormikValueChangeField, FormikWithErrorField, FormLayout } from "../components";
+import { useSelectSettings } from "../store";
 
 /**
  * @returns {JSX.Element} The site representation route.
@@ -24,6 +25,8 @@ const SiteRepresentation = () => {
 	const selectedUser = useMemo( () => (
 		find( users, user => companyOrPersonId === parseInt( user.id, 10 ) ) || users[ 0 ]
 	), [ users, companyOrPersonId ] );
+	const googleKnowledgeGraphLink = useSelectSettings( "selectLink", [], "https://yoa.st/1-p" );
+	const structuredDataLink = useSelectSettings( "selectLink", [], "https://yoa.st/3r3" );
 
 	return (
 		<FormLayout
@@ -35,7 +38,7 @@ const SiteRepresentation = () => {
 					"<a>",
 					"</a>"
 				),
-				"https://yoa.st/1-p",
+				googleKnowledgeGraphLink,
 				"link-google-knowledge-graph"
 			) }
 		>
@@ -79,7 +82,7 @@ const SiteRepresentation = () => {
 									"<a>",
 									"</a>"
 								),
-								"https://yoa.st/3r3",
+								structuredDataLink,
 								"link-structured-data"
 							) }
 						</Alert>
@@ -141,7 +144,10 @@ const SiteRepresentation = () => {
 								), {
 									strong: <strong className="yst-font-medium" />,
 									// eslint-disable-next-line jsx-a11y/anchor-has-content
-									a: <a id="link-person-user-profile" href={ `${ userEditUrl }?user_id=${ selectedUser.id }` } target="_blank" rel="noopener noreferrer" />,
+									a: <a
+										id="link-person-user-profile" href={ `${ userEditUrl }?user_id=${ selectedUser.id }` } target="_blank"
+										rel="noopener noreferrer"
+									/>,
 								} ) }
 						</Alert>
 						<FormikMediaSelectField
@@ -213,7 +219,7 @@ const SiteRepresentation = () => {
 										<TrashIcon className="yst-h-5 yst-w-5" />
 									</button>
 								</div>
-							) )	}
+							) ) }
 							{ /* eslint-disable-next-line react/jsx-no-bind */ }
 							<Button id="button-add-social-profile" variant="secondary" onClick={ arrayHelpers.push.bind( null, "" ) }>
 								<PlusIcon className="yst--ml-1 yst-mr-1 yst-h-5 yst-w-5 yst-text-gray-400" />

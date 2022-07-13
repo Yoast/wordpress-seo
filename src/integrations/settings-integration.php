@@ -219,6 +219,7 @@ class Settings_Integration implements Integration_Interface {
 				'isPremium'      => $this->product_helper->is_premium(),
 				'isNetworkAdmin' => \is_network_admin(),
 				'isMainSite'     => \is_main_site(),
+				'siteUrl'        => \get_bloginfo( 'url' ),
 			],
 			'linkParams'           => WPSEO_Shortlinker::get_query_params(),
 			'postTypes'            => $this->get_post_types(),

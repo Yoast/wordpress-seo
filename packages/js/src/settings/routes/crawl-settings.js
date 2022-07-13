@@ -1,8 +1,9 @@
 import { __, sprintf } from "@wordpress/i18n";
-import { Alert, ToggleField, TextField } from "@yoast/ui-library";
+import { Alert, TextField, ToggleField } from "@yoast/ui-library";
 import { Field, useFormikContext } from "formik";
 import { addLinkToString } from "../../helpers/stringHelpers";
-import { FormikValueChangeField, FieldsetLayout, FormLayout } from "../components";
+import { FieldsetLayout, FormikValueChangeField, FormLayout } from "../components";
+import { useSelectSettings } from "../store";
 
 /**
  * @returns {JSX.Element} The site preferences route.
@@ -15,6 +16,8 @@ const CrawlSettings = () => {
 		search_cleanup: searchCleanup,
 		clean_permalinks: cleanPermalinks,
 	} = values.wpseo;
+	const crawlSettingsLink = useSelectSettings( "selectLink", [], "https://yoa.st/crawl-settings" );
+	const permalinkCleanupLink = useSelectSettings( "selectLink", [], "https://yoa.st/permalink-cleanup" );
 
 	return (
 		<FormLayout
@@ -26,7 +29,7 @@ const CrawlSettings = () => {
 					"<a>",
 					"</a>"
 				),
-				"https://yoa.st/crawl-settings"
+				crawlSettingsLink
 			) }
 		>
 			<FieldsetLayout
@@ -211,7 +214,7 @@ const CrawlSettings = () => {
 							"<a>",
 							"</a>"
 						),
-						"https://yoa.st/permalink-cleanup"
+						permalinkCleanupLink
 					) }
 				</Alert>
 				<FormikValueChangeField

@@ -31,6 +31,7 @@ const PostType = ( { name, label, singularLabel } ) => {
 	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [], name );
 	const recommendedReplacementVariables = useSelectSettings( "selectRecommendedReplacementVariablesFor", [], name );
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
+	const customFieldAnalysisLink = useSelectSettings( "selectLink", [], "https://yoa.st/4cr" );
 
 	const recommendedSize = useMemo( () => createInterpolateElement(
 		sprintf(
@@ -189,7 +190,7 @@ const PostType = ( { name, label, singularLabel } ) => {
 							"<a>",
 							"</a>"
 						),
-						"https://yoa.st/4cr",
+						customFieldAnalysisLink,
 						`link-custom-fields-page-analysis-${ name }`
 					) }
 				/> }
