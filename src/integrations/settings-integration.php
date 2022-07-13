@@ -192,43 +192,97 @@ class Settings_Integration implements Integration_Interface {
 	 * @return array The script data.
 	 */
 	protected function get_script_data() {
-		$recommended_replace_vars = new WPSEO_Admin_Recommended_Replace_Vars();
-		$specific_replace_vars    = new WPSEO_Admin_Editor_Specific_Replace_Vars();
-		$replacement_variables    = $this->replace_vars->get_replacement_variables_with_labels();
+		$settings = $this->get_settings();
 
-		$data = [
-			'settings'             => [],
+		return [
+			'settings'             => $settings,
+			'disabledSettings'     => $this->get_disabled_settings( $settings ),
 			'endpoint'             => \admin_url( 'options.php' ),
 			'nonce'                => \wp_create_nonce( 'wpseo_settings-options' ),
 			'users'                => \get_users( [ 'fields' => [ 'ID', 'display_name' ] ] ),
 			'userEditUrl'          => \admin_url( 'user-edit.php' ),
 			'separators'           => WPSEO_Option_Titles::get_instance()->get_separator_options_for_display(),
-			'replacementVariables' => [
-				'variables'   => $replacement_variables,
-				'recommended' => $recommended_replace_vars->get_recommended_replacevars(),
-				'specific'    => $specific_replace_vars->get(),
-				'shared'      => $specific_replace_vars->get_generic( $replacement_variables ),
-			],
+			'replacementVariables' => $this->get_replacement_variables(),
 			'schema'               => [
 				'pageTypeOptions'    => $this->schema_types->get_page_type_options(),
 				'articleTypeOptions' => $this->schema_types->get_article_type_options(),
 			],
 			'preferences'          => [
-				'isPremium' => $this->product_helper->is_premium(),
+				'isPremium'      => $this->product_helper->is_premium(),
+				'isNetworkAdmin' => \is_network_admin(),
+				'isMainSite'     => \is_main_site(),
 			],
 			'postTypes'            => $this->get_post_types(),
 		];
-
-		foreach ( WPSEO_Options::$options as $name => $instance ) {
-			$data['settings'][ $name ] = WPSEO_Options::get_option( $name );
-		}
-		foreach ( self::WP_OPTIONS as $name ) {
-			$data['settings'][ $name ] = \get_option( $name );
-		}
-
-		return $data;
 	}
 
+	/**
+	 * Retrieves the settings and their values.
+	 *
+	 * @return array The settings.
+	 */
+	protected function get_settings() {
+		$settings = [];
+
+		// Add Yoast settings.
+		foreach ( WPSEO_Options::$options as $option_name => $instance ) {
+			$settings[ $option_name ] = WPSEO_Options::get_option( $option_name );
+		}
+		// Add WP settings.
+		foreach ( self::WP_OPTIONS as $option_name ) {
+			$settings[ $option_name ] = \get_option( $option_name );
+		}
+
+		return $settings;
+	}
+
+	/**
+	 * Retrieves the settings and their values.
+	 *
+	 * @return array The settings.
+	 */
+	protected function get_disabled_settings( $settings ) {
+		$disabled_settings = [];
+
+		foreach ( WPSEO_Options::$options as $option_name => $instance ) {
+			$disabled_settings[ $option_name ] = [];
+			$option_instance                   = WPSEO_Options::get_option_instance( $option_name );
+			if ( $option_instance === false ) {
+				continue;
+			}
+			foreach ( $settings[ $option_name ] as $setting_name => $setting_value ) {
+				if ( $option_instance->is_disabled( $setting_name ) ) {
+					$disabled_settings[ $option_name ][ $setting_name ] = true;
+				}
+			}
+		}
+
+		return $disabled_settings;
+	}
+
+	/**
+	 * Retrieves the replacement variables.
+	 *
+	 * @return array The replacement variables.
+	 */
+	protected function get_replacement_variables() {
+		$recommended_replace_vars = new WPSEO_Admin_Recommended_Replace_Vars();
+		$specific_replace_vars    = new WPSEO_Admin_Editor_Specific_Replace_Vars();
+		$replacement_variables    = $this->replace_vars->get_replacement_variables_with_labels();
+
+		return [
+			'variables'   => $replacement_variables,
+			'recommended' => $recommended_replace_vars->get_recommended_replacevars(),
+			'specific'    => $specific_replace_vars->get(),
+			'shared'      => $specific_replace_vars->get_generic( $replacement_variables ),
+		];
+	}
+
+	/**
+	 * Creates the post types to represent.
+	 *
+	 * @return array The post types.
+	 */
 	protected function get_post_types() {
 		$post_types = $this->post_type_helper->get_public_post_types( 'objects' );
 		$post_types = WPSEO_Post_Type::filter_attachment_post_type( $post_types );

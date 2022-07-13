@@ -8,12 +8,15 @@
 			yst-max-w-sm;
 		}
 
-		.yst-toggle-field--disabled .yst-toggle-field__text {
-			@apply yst-opacity-50;
-		}
+		.yst-toggle-field--disabled {
+			.yst-toggle-field__text {
+				@apply yst-opacity-50;
+				@apply yst-cursor-not-allowed;
+			}
 
-		.yst-toggle-field--disabled .yst-toggle-field__text {
-			@apply yst-cursor-not-allowed;
+			.yst-toggle-field__label {
+				@apply yst-cursor-not-allowed;
+			}
 		}
 
 		.yst-toggle-field__text {

@@ -4,9 +4,7 @@ import { get } from "lodash";
 /**
  * @returns {Object} The initial state.
  */
-export const createInitialPreferencesState = () => ( {
-	isPremium: get( window, "wpseoScriptData.preferences.isPremium", false ),
-} );
+export const createInitialPreferencesState = () => get( window, "wpseoScriptData.preferences", {} );
 
 const slice = createSlice( {
 	name: "preferences",
