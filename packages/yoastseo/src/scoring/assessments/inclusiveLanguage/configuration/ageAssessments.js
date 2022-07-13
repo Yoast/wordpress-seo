@@ -4,7 +4,7 @@ import { isFollowedByException } from "../helpers/isFollowedByException";
 import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
 
 const specificAgeGroup = "Or, if possible, be specific about the group you are referring to (e.g. \"people older than 70\").";
-const characteristicIfKnown = "Consider using a specific characteristic or experience if it is known.";
+const characteristicIfKnown = "Consider using an alternative, such as a specific characteristic or experience if it is known.";
 
 const assessments = [
 	{
@@ -26,7 +26,7 @@ const assessments = [
 	{
 		identifier: "elderly",
 		nonInclusivePhrases: [ "elderly" ],
-		inclusiveAlternatives: "part of the older population; older persons/older people",
+		inclusiveAlternatives: "part of the older population, older persons/older people",
 		score: 6,
 		feedbackFormat: [ potentiallyHarmfulUnless, specificAgeGroup ].join( " " ),
 		learnMoreUrl: "https://yoa.st/",

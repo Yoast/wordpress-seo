@@ -126,6 +126,7 @@ const genderAssessments = [
 	{
 		identifier: "husbandAndWife",
 		nonInclusivePhrases: [ "husband and wife" ],
+		// "Married" is not a drop-in replacement. Consider removing it, or replacing it?
 		inclusiveAlternatives: "spouses, partners; married",
 		score: 6,
 		feedbackFormat: [ potentiallyExclusionary,
