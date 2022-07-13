@@ -4,7 +4,7 @@ const appearanceAssessments = [
 	{
 		identifier: "albinos",
 		nonInclusivePhrases: [ "albinos" ],
-		inclusiveAlternatives: "a person with albinism; an albino person",
+		inclusiveAlternatives: "a person with albinism, an albino person",
 		score: 6,
 		feedbackFormat: potentiallyHarmfulUnless,
 		learnMoreUrl: "https://yoa.st/",
@@ -12,8 +12,8 @@ const appearanceAssessments = [
 	{
 		identifier: "fatPerson",
 		nonInclusivePhrases: [ "fat person", "fat people" ],
-		inclusiveAlternatives: "person/people who has/have a higher weight; " +
-			"higher-weight person/people; person/people in higher weight body/bodies; heavier person/people",
+		inclusiveAlternatives: "person/people who has/have a higher weight, " +
+			"higher-weight person/people, person/people in higher weight body/bodies, heavier person/people",
 		score: 6,
 		feedbackFormat: [ potentiallyHarmfulUnless, preferredDescriptorIfKnown ].join( " " ),
 		learnMoreUrl: "https://yoa.st/",
@@ -21,8 +21,8 @@ const appearanceAssessments = [
 	{
 		identifier: "obese",
 		nonInclusivePhrases: [ "obese" ],
-		inclusiveAlternatives: "has/have a higher weight; " +
-			"higher-weight person/people; person/people in higher weight body/bodies; heavier person/people",
+		inclusiveAlternatives: "has/have a higher weight, " +
+			"higher-weight person/people, person/people in higher weight body/bodies, heavier person/people",
 		score: 6,
 		feedbackFormat: [ potentiallyHarmfulUnless, preferredDescriptorIfKnown ].join( " " ),
 		learnMoreUrl: "https://yoa.st/",
@@ -30,8 +30,8 @@ const appearanceAssessments = [
 	{
 		identifier: "obesity",
 		nonInclusivePhrases: [ "person with obesity", "people with obesity" ],
-		inclusiveAlternatives: "person/people who has/have a higher weight; " +
-			"higher-weight person/people; person/people in higher weight body/bodies; heavier person/people",
+		inclusiveAlternatives: "person/people who has/have a higher weight, " +
+			"higher-weight person/people, person/people in higher weight body/bodies, heavier person/people",
 		score: 6,
 		feedbackFormat: [ potentiallyHarmfulUnless, preferredDescriptorIfKnown ].join( " " ),
 		learnMoreUrl: "https://yoa.st/",
