@@ -140,7 +140,9 @@ const expectedResults = {
 			"<a href='https://yoa.st/4f5' target='_blank'>Add some</a>!",
 	},
 	wordComplexity: {
-		isApplicable: false,
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/4ls' target='_blank'>Word complexity</a>: You are not using too many complex words, which makes your text easy to read. Good job!",
 	},
 };
 

@@ -26,7 +26,7 @@ describe( "a test checking if the word is complex in English",  function() {
 		expect( checkIfWordIsComplex( "Outsiders" ) ).toEqual( false );
 	} );
 
-	it( "returns plural word as non complex if the word is less than 7 characters", function() {
+	it( "returns words as non complex if the word is less than 7 characters", function() {
 		expect( checkIfWordIsComplex( "cat" ) ).toEqual( false );
 		expect( checkIfWordIsComplex( "rabbit" ) ).toEqual( false );
 	} );
