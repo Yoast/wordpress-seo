@@ -1,8 +1,8 @@
-import { potentiallyHarmful, potentiallyHarmfullOrBeSpecific, potentiallyHarmfulUnless } from "./feedbackStrings";
+import { potentiallyHarmful, potentiallyHarmfulOrBeSpecific, potentiallyHarmfulUnless } from "./feedbackStrings";
 import { isFollowedByException } from "../helpers/isFollowedByException";
 import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
 
-const derogatory = "Avoid using \"%1$s\" as it is derogatory. Consider using \"%2$s\" instead.";
+const derogatory = "Avoid using \"%1$s\" as it is derogatory. Consider using an alternative, such as \"%2$s\" instead.";
 
 const medicalCondition = "Avoid using \"%1$s\" unless talking about the specific medical condition. " +
 	"If you are not referencing the medical condition, consider other alternatives to describe the trait or behavior such as \"%2$s\".";
@@ -10,7 +10,7 @@ const medicalConditionTwoAlternatives = "Avoid using \"%1$s\" unless talking abo
 	"If you are not referencing the medical condition, consider other alternatives to describe the trait or behavior such as \"%3$s\".";
 
 const potentiallyHarmfulTwoAlternatives = "Avoid using \"%1$s\" as it is potentially harmful. " +
-	"Consider using \"%2$s\" instead, or \"%3$s\" when using it to describe someone in terms of their disability.";
+	"Consider using an alternative, such as \"%2$s\" instead, or \"%3$s\" when using it to describe someone in terms of their disability.";
 
 const disabilityAssessments =  [
 	{
@@ -306,7 +306,7 @@ const disabilityAssessments =  [
 		nonInclusivePhrases: [ "sanity check" ],
 		inclusiveAlternatives: "final check, confidence check, rationality check, soundness check",
 		score: 3,
-		feedbackFormat: potentiallyHarmfullOrBeSpecific,
+		feedbackFormat: potentiallyHarmfulOrBeSpecific,
 		learnMoreUrl: "https://yoa.st/",
 	},
 	{
