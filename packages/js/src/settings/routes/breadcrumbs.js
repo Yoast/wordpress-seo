@@ -1,13 +1,16 @@
 import { __, sprintf } from "@wordpress/i18n";
+import { SelectField, TextField, ToggleField } from "@yoast/ui-library";
 import { Field } from "formik";
-import { ToggleField, TextField, SelectField } from "@yoast/ui-library";
-import { FormikValueChangeField, FormLayout, FieldsetLayout } from "../components";
 import { addLinkToString } from "../../helpers/stringHelpers";
+import { FieldsetLayout, FormikValueChangeField, FormLayout } from "../components";
+import { useSelectSettings } from "../store";
 
 /**
  * @returns {JSX.Element} The breadcrumbs route.
  */
 const Breadcrumbs = () => {
+	const breadcrumbsLink = useSelectSettings( "selectLink", [], "https://yoa.st/breadcrumbs" );
+
 	return (
 		<FormLayout title={ __( "Breadcrumbs", "wordpress-seo" ) }>
 			<FieldsetLayout
@@ -80,19 +83,21 @@ const Breadcrumbs = () => {
 					name="wpseo_titles.post_types-post-maintax"
 					id="input-wpseo_titles-post_types-post-maintax"
 					label={ __( "Posts", "wordpress-seo" ) }
-					options={ [ {
-						value: "None",
-						label: "None",
-					}, {
-						value: "Category",
-						label: "Category",
-					}, {
-						value: "Tag",
-						label: "Tag",
-					}, {
-						value: "Format",
-						label: "Format",
-					} ] }
+					options={ [
+						{
+							value: "None",
+							label: "None",
+						}, {
+							value: "Category",
+							label: "Category",
+						}, {
+							value: "Tag",
+							label: "Tag",
+						}, {
+							value: "Format",
+							label: "Format",
+						},
+					] }
 				/>
 				<p>Extra fields generated based on content types here?</p>
 			</FieldsetLayout>
@@ -106,26 +111,30 @@ const Breadcrumbs = () => {
 					name="wpseo_titles.taxonomy-category-ptparent"
 					id="input-wpseo_titles-taxonomy-category-ptparent"
 					label={ __( "Category", "wordpress-seo" ) }
-					options={ [ {
-						value: "None",
-						label: "None",
-					}, {
-						value: "Posts",
-						label: "Posts",
-					} ] }
+					options={ [
+						{
+							value: "None",
+							label: "None",
+						}, {
+							value: "Posts",
+							label: "Posts",
+						},
+					] }
 				/>
 				<FormikValueChangeField
 					as={ SelectField }
 					name="wpseo_titles.taxonomy-post_tag-ptparent"
 					id="input-wpseo_titles-taxonomy-post_tag-ptparent"
 					label={ __( "Tag", "wordpress-seo" ) }
-					options={ [ {
-						value: "None",
-						label: "None",
-					}, {
-						value: "Posts",
-						label: "Posts",
-					} ] }
+					options={ [
+						{
+							value: "None",
+							label: "None",
+						}, {
+							value: "Posts",
+							label: "Posts",
+						},
+					] }
 				/>
 				<p>Extra fields generated based on content types here?</p>
 			</FieldsetLayout>
@@ -139,7 +148,7 @@ const Breadcrumbs = () => {
 							"<a>",
 							"</a>"
 						),
-						"https://yoa.st/",
+						breadcrumbsLink,
 						"link-breadcrumbs-knowledge-base-article"
 					) }
 				</p>

@@ -3,11 +3,15 @@ import { TextField } from "@yoast/ui-library";
 import { Field } from "formik";
 import { addLinkToString } from "../../helpers/stringHelpers";
 import { FormLayout } from "../components";
+import { createLink } from "../helpers/url";
+import { useSelectSettings } from "../store";
 
 /**
  * @returns {JSX.Element} The webmaster tools route.
  */
 const WebmasterTools = () => {
+	const siteUrl = useSelectSettings( "selectPreference", [], "siteUrl" );
+
 	return (
 		<FormLayout
 			title={ __( "Webmaster tools", "wordpress-seo" ) }
@@ -26,7 +30,7 @@ const WebmasterTools = () => {
 							"<a>",
 							"</a>"
 						),
-						"https://yoa.st/",
+						"https://ziyuan.baidu.com/site/siteadd",
 						"link-baidu-webmaster-tools"
 					) }
 					placeholder={ __( "Add verification code", "wordpress-seo" ) }
@@ -43,7 +47,7 @@ const WebmasterTools = () => {
 							"<a>",
 							"</a>"
 						),
-						"https://yoa.st/",
+						`https://www.bing.com/toolbox/webmaster/#/Dashboard/?url=${ siteUrl }`,
 						"link-bing-webmaster-tools"
 					) }
 					placeholder={ __( "Add verification code", "wordpress-seo" ) }
@@ -60,7 +64,7 @@ const WebmasterTools = () => {
 							"<a>",
 							"</a>"
 						),
-						"https://yoa.st/",
+						createLink( "https://www.google.com/webmasters/verification/verification", { hl: "en", tid: "alternate", siteUrl } ),
 						"link-google-search-console"
 					) }
 					placeholder={ __( "Add verification code", "wordpress-seo" ) }
@@ -77,7 +81,7 @@ const WebmasterTools = () => {
 							"<a>",
 							"</a>"
 						),
-						"https://yoa.st/",
+						"https://www.pinterest.com/settings/claim",
 						"link-pinterest"
 					) }
 					placeholder={ __( "Add verification code", "wordpress-seo" ) }
@@ -94,7 +98,7 @@ const WebmasterTools = () => {
 							"<a>",
 							"</a>"
 						),
-						"https://yoa.st/",
+						"https://webmaster.yandex.com/sites/add/",
 						"link-yandex-webmaster-tools"
 					) }
 					placeholder={ __( "Add verification code", "wordpress-seo" ) }
