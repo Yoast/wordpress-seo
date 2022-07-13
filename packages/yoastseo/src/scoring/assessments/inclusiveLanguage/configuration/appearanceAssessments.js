@@ -1,11 +1,12 @@
 import { potentiallyHarmful, potentiallyHarmfulUnless, preferredDescriptorIfKnown } from "./feedbackStrings";
+import { SCORES } from "./scores";
 
 const appearanceAssessments = [
 	{
 		identifier: "albinos",
 		nonInclusivePhrases: [ "albinos" ],
 		inclusiveAlternatives: "a person with albinism, an albino person",
-		score: 6,
+		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulUnless,
 		learnMoreUrl: "https://yoa.st/",
 	},
@@ -14,7 +15,7 @@ const appearanceAssessments = [
 		nonInclusivePhrases: [ "fat person", "fat people" ],
 		inclusiveAlternatives: "person/people who has/have a higher weight, " +
 			"higher-weight person/people, person/people in higher weight body/bodies, heavier person/people",
-		score: 6,
+		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: [ potentiallyHarmfulUnless, preferredDescriptorIfKnown ].join( " " ),
 		learnMoreUrl: "https://yoa.st/",
 	},
@@ -23,7 +24,7 @@ const appearanceAssessments = [
 		nonInclusivePhrases: [ "obese" ],
 		inclusiveAlternatives: "has/have a higher weight, " +
 			"higher-weight person/people, person/people in higher weight body/bodies, heavier person/people",
-		score: 6,
+		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: [ potentiallyHarmfulUnless, preferredDescriptorIfKnown ].join( " " ),
 		learnMoreUrl: "https://yoa.st/",
 	},
@@ -32,7 +33,7 @@ const appearanceAssessments = [
 		nonInclusivePhrases: [ "person with obesity", "people with obesity" ],
 		inclusiveAlternatives: "person/people who has/have a higher weight, " +
 			"higher-weight person/people, person/people in higher weight body/bodies, heavier person/people",
-		score: 6,
+		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: [ potentiallyHarmfulUnless, preferredDescriptorIfKnown ].join( " " ),
 		learnMoreUrl: "https://yoa.st/",
 	},
@@ -41,7 +42,7 @@ const appearanceAssessments = [
 		nonInclusivePhrases: [ "overweight" ],
 		inclusiveAlternatives: "has/have a higher weight; " +
 			"higher-weight person/people; person/people in higher weight body/bodies; heavier person/people",
-		score: 6,
+		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: [ potentiallyHarmfulUnless, preferredDescriptorIfKnown ].join( " " ),
 		learnMoreUrl: "https://yoa.st/",
 	},
@@ -49,7 +50,7 @@ const appearanceAssessments = [
 		identifier: "verticallyChallenged",
 		nonInclusivePhrases: [ "vertically challenged" ],
 		inclusiveAlternatives: "little person, has short stature, someone with dwarfism",
-		score: 3,
+		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
 	},
@@ -57,7 +58,7 @@ const appearanceAssessments = [
 		identifier: "midget",
 		nonInclusivePhrases: [ "midget" ],
 		inclusiveAlternatives: "little person, has short stature, someone with dwarfism",
-		score: 3,
+		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
 	},
@@ -65,7 +66,7 @@ const appearanceAssessments = [
 		identifier: "harelip",
 		nonInclusivePhrases: [ "harelip" ],
 		inclusiveAlternatives: "cleft lip, cleft palate",
-		score: 3,
+		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
 	},
