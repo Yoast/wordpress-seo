@@ -1,7 +1,10 @@
 import { __ } from "@wordpress/i18n";
-import { Alert, Badge, ToggleField } from "@yoast/ui-library";
+import { Alert, Badge, ToggleField as PureToggleField } from "@yoast/ui-library";
 import { FieldsetLayout, FormikValueChangeField, FormLayout } from "../components";
+import { withDisabledMessageSupport } from "../hoc";
 import { useSelectSettings } from "../store";
+
+const ToggleField = withDisabledMessageSupport( PureToggleField );
 
 /**
  * @returns {JSX.Element} The site preferences route.
