@@ -654,6 +654,8 @@ export default class AnalysisWebWorker {
 		];
 		const inclusiveLanguage = [
 			"inclusiveLanguageAnalysisActive",
+			"locale",
+			"translations",
 		];
 		const configurationKeys = Object.keys( configuration );
 
