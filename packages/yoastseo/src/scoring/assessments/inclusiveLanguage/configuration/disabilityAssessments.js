@@ -1,4 +1,4 @@
-import { potentiallyHarmful, potentiallyHarmfulUnless } from "./feedbackStrings";
+import { potentiallyHarmful, potentiallyHarmfullOrBeSpecific, potentiallyHarmfulUnless } from "./feedbackStrings";
 import { isFollowedByException } from "../helpers/isFollowedByException";
 import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
 
@@ -304,9 +304,9 @@ const disabilityAssessments =  [
 	{
 		identifier: "sanityCheck",
 		nonInclusivePhrases: [ "sanity check" ],
-		inclusiveAlternatives: "final check; confidence check; rationality check; soundness check; OR be specific about what you're checking",
+		inclusiveAlternatives: "final check, confidence check, rationality check, soundness check",
 		score: 3,
-		feedbackFormat: potentiallyHarmful,
+		feedbackFormat: potentiallyHarmfullOrBeSpecific,
 		learnMoreUrl: "https://yoa.st/",
 	},
 	{
