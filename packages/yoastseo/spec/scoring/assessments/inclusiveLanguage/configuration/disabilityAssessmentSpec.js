@@ -41,7 +41,7 @@ describe( "Disability assessments", function() {
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual(
 			"Avoid using \"an alcoholic\" as it is potentially harmful. " +
-			"Consider using \"person with alcohol use disorder\" instead unless referring to yourself or to " +
+			"Consider using an alternative, such as \"person with alcohol use disorder\" instead unless referring to yourself or to " +
 			"someone who explicitly wants to be referred to with this term. " +
 			"<a href='https://yoa.st/' target='_blank'>Learn more.</a>" );
 		expect( assessmentResult.hasMarks() ).toBeTruthy();

@@ -17,7 +17,7 @@ describe( "Gender assessments", function() {
 		expect( assessmentResult.getScore() ).toEqual( 3 );
 		expect( assessmentResult.getText() ).toEqual(
 			"Avoid using \"mankind\" as it is exclusionary. " +
-			"Consider using \"individuals, people, persons, human beings, humanity\" instead. " +
+			"Consider using an alternative, such as \"individuals, people, persons, human beings, humanity\" instead. " +
 			"<a href='https://yoa.st/' target='_blank'>Learn more.</a>" );
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
 		expect( assessor.getMarks() ).toEqual( [ new Mark( {

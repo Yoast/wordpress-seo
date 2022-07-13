@@ -1,7 +1,7 @@
 import { potentiallyHarmful, potentiallyHarmfulUnless } from "./feedbackStrings";
 import { SCORES } from "./scores";
 
-const exclusionary = "Avoid using \"%1$s\" as it is exclusionary. Consider using \"%2$s\" instead.";
+const exclusionary = "Avoid using \"%1$s\" as it is exclusionary. Consider using an alternative, such as \"%2$s\" instead.";
 const potentiallyExclusionary = "Avoid using \"%1$s\" as it is potentially exclusionary.";
 const exclusionaryUnless = "Avoid using \"%1$s\" as it is exclusionary unless you are sure the group you refer to only consists of \"%1$s\". " +
 	"If not, use \"%2$s\" instead.";
@@ -94,7 +94,7 @@ const genderAssessments = [
 		inclusiveAlternatives: "assigned female/male at birth",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: [ potentiallyExclusionary,
-			"Consider using \"%2$s\" if you are discussing a person based on their sex or assigned gender at birth. " +
+			"Consider using an alternative, such as \"%2$s\" if you are discussing a person based on their sex or assigned gender at birth. " +
 			"If talking about human anatomy, use the specific anatomical phrase as opposed to \"%1$s\"." ].join( " " ),
 		learnMoreUrl: "https://yoa.st/",
 	},
@@ -131,7 +131,7 @@ const genderAssessments = [
 		inclusiveAlternatives: "spouses, partners; married",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: [ potentiallyExclusionary,
-			"Consider using \"%2$s\" instead unless referring to yourself or " +
+			"Consider using an alternative, such as \"%2$s\" instead unless referring to yourself or " +
 			"to someone who explicitly wants to be referred to with this term." ].join( " " ),
 		learnMoreUrl: "https://yoa.st/",
 	},

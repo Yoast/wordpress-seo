@@ -17,7 +17,7 @@ describe( "Age assessments", function() {
 		expect( assessmentResult.getScore() ).toEqual( 3 );
 		expect( assessmentResult.getText() ).toEqual(
 			"Avoid using \"aging dependants\" as it is potentially harmful. " +
-			"Consider using \"older persons/older people\" instead unless referring to yourself or to " +
+			"Consider using an alternative, such as \"older persons/older people\" instead unless referring to yourself or to " +
 			"someone who explicitly wants to be referred to with this term. " +
 			"Or, if possible, be specific about the group you are referring to (e.g. \"people older than 70\"). " +
 			"<a href='https://yoa.st/' target='_blank'>Learn more.</a>" );
@@ -40,7 +40,7 @@ describe( "Age assessments", function() {
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual(
 			"Avoid using \"senior citizens\" as it is potentially harmful. " +
-			"Consider using \"older persons/older people, older citizen(s)\" instead unless referring to yourself or to " +
+			"Consider using an alternative, such as \"older persons/older people, older citizen(s)\" instead unless referring to yourself or to " +
 			"someone who explicitly wants to be referred to with this term. " +
 			"Or, if possible, be specific about the group you are referring to (e.g. \"people older than 70\"). " +
 			"<a href='https://yoa.st/' target='_blank'>Learn more.</a>" );
