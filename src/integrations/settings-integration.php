@@ -29,6 +29,13 @@ class Settings_Integration implements Integration_Interface {
 	const WP_OPTIONS = [ 'blogname', 'blogdescription' ];
 
 	/**
+	 * Holds the allowed option groups.
+	 *
+	 * @var array
+	 */
+	const ALLOWED_OPTION_GROUPS = [ 'wpseo', 'wpseo_titles', 'wpseo_social' ];
+
+	/**
 	 * Holds the WPSEO_Admin_Asset_Manager.
 	 *
 	 * @var WPSEO_Admin_Asset_Manager
@@ -226,7 +233,9 @@ class Settings_Integration implements Integration_Interface {
 
 		// Add Yoast settings.
 		foreach ( WPSEO_Options::$options as $option_name => $instance ) {
-			$settings[ $option_name ] = WPSEO_Options::get_option( $option_name );
+			if ( \in_array( $option_name, self::ALLOWED_OPTION_GROUPS ) ) {
+				$settings[ $option_name ] = WPSEO_Options::get_option( $option_name );
+			}
 		}
 		// Add WP settings.
 		foreach ( self::WP_OPTIONS as $option_name ) {
@@ -245,6 +254,10 @@ class Settings_Integration implements Integration_Interface {
 		$disabled_settings = [];
 
 		foreach ( WPSEO_Options::$options as $option_name => $instance ) {
+			if ( ! \in_array( $option_name, self::ALLOWED_OPTION_GROUPS ) ) {
+				continue;
+			}
+
 			$disabled_settings[ $option_name ] = [];
 			$option_instance                   = WPSEO_Options::get_option_instance( $option_name );
 			if ( $option_instance === false ) {
