@@ -201,4 +201,25 @@ describe( "ContentAnalysis", () => {
 		const tree = component.toJSON();
 		expect( tree ).toMatchSnapshot();
 	} );
+
+	it( "the ContentAnalysis component with custom result category labels matches the snapshot", () => {
+		const resultCategoryLabels = {
+			considerations: "Some considerations",
+			goodResults: "Well done!",
+		};
+
+		const component = renderer.create(
+			<ContentAnalysis
+				problemsResults={ problemsResults }
+				improvementsResults={ improvementsResults }
+				goodResults={ goodResults }
+				considerationsResults={ considerationsResults }
+				errorsResults={ errorsResults }
+				resultCategoryLabels={ resultCategoryLabels }
+			/>
+		);
+
+		const tree = component.toJSON();
+		expect( tree ).toMatchSnapshot();
+	} );
 } );
