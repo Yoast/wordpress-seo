@@ -1,5 +1,7 @@
 import { combineReducers, createReduxStore, register, useSelect } from "@wordpress/data";
 import { merge } from "lodash";
+import { createInitialLinkParamsState, linkParamsActions, linkParamsSelectors } from "./link-params";
+import notifications, { createInitialNotificationsState, notificationsActions, notificationsSelectors } from "./notifications";
 import postTypes, { createInitialPostTypesState, postTypesActions, postTypesSelectors } from "./post-types";
 import preferences, { createInitialPreferencesState, preferencesActions, preferencesSelectors } from "./preferences";
 import replacementVariables, {
@@ -7,7 +9,6 @@ import replacementVariables, {
 	replacementVariablesActions,
 	replacementVariablesSelectors,
 } from "./replacement-variables";
-import  notifications, { notificationsActions, notificationsSelectors } from "./notifications";
 
 /** @typedef {import("@wordpress/data/src/types").WPDataStore} WPDataStore */
 
@@ -28,12 +29,14 @@ export const useSelectSettings = ( selector, deps = [], ...args ) => useSelect( 
 const createStore = ( { initialState } ) => {
 	return createReduxStore( STORE_NAME, {
 		actions: {
+			...linkParamsActions,
 			...notificationsActions,
 			...postTypesActions,
 			...preferencesActions,
 			...replacementVariablesActions,
 		},
 		selectors: {
+			...linkParamsSelectors,
 			...notificationsSelectors,
 			...postTypesSelectors,
 			...preferencesSelectors,
@@ -42,6 +45,8 @@ const createStore = ( { initialState } ) => {
 		initialState: merge(
 			{},
 			{
+				linkParams: createInitialLinkParamsState(),
+				notifications: createInitialNotificationsState(),
 				postTypes: createInitialPostTypesState(),
 				preferences: createInitialPreferencesState(),
 				replacementVariables: createInitialReplacementVariablesState(),
