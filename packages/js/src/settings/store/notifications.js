@@ -4,11 +4,11 @@ import { get, omit } from "lodash";
 /**
  * @returns {Object} The initial state.
  */
-const createInitialState = () => ( {} );
+export const createInitialNotificationsState = () => ( {} );
 
 const slice = createSlice( {
 	name: "notifications",
-	initialState: createInitialState(),
+	initialState: createInitialNotificationsState(),
 	reducers: {
 		addNotification: {
 			reducer: ( state, { payload } ) => {
