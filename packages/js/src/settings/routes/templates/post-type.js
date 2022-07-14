@@ -1,6 +1,6 @@
 import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Badge, SelectField, TextField, ToggleField } from "@yoast/ui-library";
+import { Badge, SelectField, TextField, Title, ToggleField } from "@yoast/ui-library";
 import { Field } from "formik";
 import PropTypes from "prop-types";
 import { addLinkToString } from "../../../helpers/stringHelpers";
@@ -18,9 +18,10 @@ import { useSelectSettings } from "../../store";
  * @param {string} name The post type name.
  * @param {string} label The post type label (plural).
  * @param {string} singularLabel The post type label (singular).
+ * @param {boolean} hasArchive Whether the post type has archive support.
  * @returns {JSX.Element} The post type element.
  */
-const PostType = ( { name, label, singularLabel } ) => {
+const PostType = ( { name, label, singularLabel, hasArchive } ) => {
 	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [ name ], name );
 	const recommendedReplacementVariables = useSelectSettings( "selectRecommendedReplacementVariablesFor", [ name ], name );
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
@@ -191,6 +192,117 @@ const PostType = ( { name, label, singularLabel } ) => {
 					) }
 				/> }
 			</FieldsetLayout>
+
+			{ hasArchive && <>
+				<hr className="yst-my-16" />
+				<div className="yst-mb-8">
+					<Title as="h2" className="yst-mb-2">
+						{ sprintf(
+							/* translators: %1$s expands to the post type plural, e.g. Posts. */
+							__( "%1$s archive", "wordpress-seo" ),
+							label
+						) }
+					</Title>
+					<p className="yst-text-tiny">
+						{ sprintf(
+							/* translators: %1$s expands to the post type plural, e.g. Posts. */
+							__( "These settings are specifically for optimizing your %1$s archive.", "wordpress-seo" ),
+							label
+						) }
+					</p>
+				</div>
+				<hr className="yst-my-8" />
+				<FieldsetLayout
+					title={ __( "Search appearance", "wordpress-seo" ) }
+					description={ sprintf(
+						// translators: %1$s expands to the post type plural, e.g. Posts.
+						__( "Choose how your %1$s archive should look in search engines.", "wordpress-seo" ),
+						label
+					) }
+				>
+					<FormikFlippedToggleField
+						name={ `wpseo_titles.noindex-ptarchive-${ name }` }
+						data-id={ `input-wpseo_titles-noindex-ptarchive-${ name }` }
+						label={ sprintf(
+							// translators: %1$s expands to the post type plural, e.g. Posts.
+							__( "Show the archive for %1$s in search results", "wordpress-seo" ),
+							label
+						) }
+						description={ sprintf(
+							// translators: %1$s expands to the post type plural, e.g. Posts.
+							__( "Disabling this means that the archive for %1$s will not be indexed by search engines and will be excluded from XML sitemaps.", "wordpress-seo" ),
+							label
+						) }
+					/>
+					<FormikReplacementVariableEditorField
+						type="title"
+						name={ `wpseo_titles.title-ptarchive-${ name }` }
+						fieldId={ `input-wpseo_titles-title-ptarchive-${ name }` }
+						label={ __( "SEO title", "wordpress-seo" ) }
+						replacementVariables={ replacementVariables }
+						recommendedReplacementVariables={ recommendedReplacementVariables }
+					/>
+					<FormikReplacementVariableEditorField
+						type="description"
+						name={ `wpseo_titles.metadesc-ptarchive-${ name }` }
+						fieldId={ `input-wpseo_titles-metadesc-ptarchive-${ name }` }
+						label={ __( "Meta description", "wordpress-seo" ) }
+						replacementVariables={ replacementVariables }
+						recommendedReplacementVariables={ recommendedReplacementVariables }
+						className="yst-replacevar--description"
+					/>
+				</FieldsetLayout>
+				<hr className="yst-my-8" />
+				<FieldsetLayout
+					title={ <div className="yst-flex yst-items-center">
+						<span>{ __( "Social appearance", "wordpress-seo" ) }</span>
+						<Badge className="yst-ml-1.5" variant="upsell">Premium</Badge>
+					</div> }
+					description={ sprintf(
+						// translators: %1$s expands to the post type plural, e.g. Posts.
+						__( "Choose how your %1$s archive should look on social media.", "wordpress-seo" ),
+						label,
+						singularLabel
+					) }
+				>
+					<FormikMediaSelectField
+						id={ `wpseo_titles-social-image-url-ptarchive-${ name }` }
+						label={ __( "Social image", "wordpress-seo" ) }
+						previewLabel={ recommendedSize }
+						mediaUrlName={ `wpseo_titles.social-image-url-ptarchive-${ name }` }
+						mediaIdName={ `wpseo_titles.social-image-id-ptarchive-${ name }` }
+					/>
+					<FormikReplacementVariableEditorField
+						type="title"
+						name={ `wpseo_titles.social-title-ptarchive-${ name }` }
+						fieldId={ `input-wpseo_titles-social-title-ptarchive-${ name }` }
+						label={ __( "Social title", "wordpress-seo" ) }
+						replacementVariables={ replacementVariables }
+						recommendedReplacementVariables={ recommendedReplacementVariables }
+					/>
+					<FormikReplacementVariableEditorField
+						type="description"
+						name={ `wpseo_titles.social-description-ptarchive-${ name }` }
+						fieldId={ `input-wpseo_titles-social-description-ptarchive-${ name }` }
+						label={ __( "Social description", "wordpress-seo" ) }
+						replacementVariables={ replacementVariables }
+						recommendedReplacementVariables={ recommendedReplacementVariables }
+						className="yst-replacevar--description"
+					/>
+				</FieldsetLayout>
+				<hr className="yst-my-8" />
+				<FieldsetLayout
+					title={ __( "Additional settings", "wordpress-seo" ) }
+				>
+					<Field
+						as={ TextField }
+						type="text"
+						name={ `wpseo_titles.bctitle-ptarchive-${ name }` }
+						id={ `input-wpseo_titles-bctitle-ptarchive-${ name }` }
+						label={ __( "Breadcrumbs title", "wordpress-seo" ) }
+					/>
+				</FieldsetLayout>
+			</> }
 		</FormLayout>
 	);
 };

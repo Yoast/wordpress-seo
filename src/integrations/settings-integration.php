@@ -336,24 +336,31 @@ class Settings_Integration implements Integration_Interface {
 		$post_types = $this->post_type_helper->get_public_post_types( 'objects' );
 		$post_types = WPSEO_Post_Type::filter_attachment_post_type( $post_types );
 
-		return \array_map(
-			static function ( WP_Post_Type $post_type ) {
-				$route = $post_type->name;
-				if ( $post_type->rewrite ) {
-					$route = $post_type->rewrite['slug'];
-				}
-				if ( $post_type->rest_base ) {
-					$route = $post_type->rest_base;
-				}
+		return \array_map( [ $this, 'transform_post_type' ], $post_types );
+	}
 
-				return [
-					'name'          => $post_type->name,
-					'route'         => $route,
-					'label'         => $post_type->label,
-					'singularLabel' => $post_type->labels->singular_name,
-				];
-			},
-			$post_types
-		);
+	/**
+	 * Transforms a WP_Post_Type to an array with the needed info.
+	 *
+	 * @param WP_Post_Type $post_type The post type.
+	 *
+	 * @return array The transformed post type.
+	 */
+	protected function transform_post_type( WP_Post_Type $post_type ) {
+		$route = $post_type->name;
+		if ( $post_type->rewrite ) {
+			$route = $post_type->rewrite['slug'];
+		}
+		if ( $post_type->rest_base ) {
+			$route = $post_type->rest_base;
+		}
+
+		return [
+			'name'          => $post_type->name,
+			'route'         => $route,
+			'label'         => $post_type->label,
+			'singularLabel' => $post_type->labels->singular_name,
+			'hasArchive'    => $this->post_type_helper->has_archive( $post_type ),
+		];
 	}
 }
