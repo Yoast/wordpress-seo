@@ -88,7 +88,6 @@ class Results extends Component {
 		const keywordKey = this.props.keywordKey;
 		const elementID = keywordKey === "" ? "focus-keyword-input-" + inputFieldLocation
 			: "yoast-keyword-input-" + keywordKey + "-" +  inputFieldLocation;
-		console.log( elementID, "elementID" );
 
 		document.getElementById( elementID ).focus();
 	}
@@ -205,7 +204,7 @@ Results.propTypes = {
 	setMarkerPauseStatus: PropTypes.func.isRequired,
 	activeMarker: PropTypes.string,
 	keywordKey: PropTypes.string,
-	location: PropTypes.string.isRequired,
+	location: PropTypes.string,
 };
 
 Results.defaultProps = {
@@ -216,6 +215,7 @@ Results.defaultProps = {
 	editButtonClassName: "",
 	activeMarker: null,
 	keywordKey: "",
+	location: "",
 };
 
 export default Results;
