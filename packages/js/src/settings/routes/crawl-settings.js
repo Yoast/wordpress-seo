@@ -4,6 +4,7 @@ import { Field, useFormikContext } from "formik";
 import { addLinkToString } from "../../helpers/stringHelpers";
 import { FieldsetLayout, FormikValueChangeField, FormLayout } from "../components";
 import { useSelectSettings } from "../store";
+import { FormikFlippedToggleField } from "../components";
 
 /**
  * @returns {JSX.Element} The site preferences route.
@@ -37,56 +38,56 @@ const CrawlSettings = () => {
 				description={ __( "Remove links added by WordPress to the header and <head>.", "wordpress-seo" ) }
 			>
 				<FormikValueChangeField
-					as={ ToggleField }
+					as={ FormikFlippedToggleField }
 					type="checkbox"
 					name="wpseo.remove_shortlinks"
 					data-id="input-wpseo-remove_shortlinks"
 					label={ __( "Shortlinks", "wordpress-seo" ) }
 				/>
 				<FormikValueChangeField
-					as={ ToggleField }
+					as={ FormikFlippedToggleField }
 					type="checkbox"
 					name="wpseo.remove_rest_api_links"
 					data-id="input-wpseo-remove_rest_api_links"
 					label={ __( "Rest API links", "wordpress-seo" ) }
 				/>
 				<FormikValueChangeField
-					as={ ToggleField }
+					as={ FormikFlippedToggleField }
 					type="checkbox"
 					name="wpseo.remove_rsd_wlw_links"
 					data-id="input-wpseo-remove_rsd_wlw_links"
 					label={ __( "RSD / WLW links", "wordpress-seo" ) }
 				/>
 				<FormikValueChangeField
-					as={ ToggleField }
+					as={ FormikFlippedToggleField }
 					type="checkbox"
 					name="wpseo.remove_oembed_links"
 					data-id="input-wpseo-remove_oembed_links"
 					label={ __( "oEmbed links", "wordpress-seo" ) }
 				/>
 				<FormikValueChangeField
-					as={ ToggleField }
+					as={ FormikFlippedToggleField }
 					type="checkbox"
 					name="wpseo.remove_generator"
 					data-id="input-wpseo-remove_generator"
 					label={ __( "Generator tag", "wordpress-seo" ) }
 				/>
 				<FormikValueChangeField
-					as={ ToggleField }
+					as={ FormikFlippedToggleField }
 					type="checkbox"
 					name="wpseo.remove_emoji_scripts"
 					data-id="input-wpseo-remove_emoji_scripts"
 					label={ __( "Emoji scripts", "wordpress-seo" ) }
 				/>
 				<FormikValueChangeField
-					as={ ToggleField }
+					as={ FormikFlippedToggleField }
 					type="checkbox"
 					name="wpseo.remove_pingback_header"
 					data-id="input-wpseo-remove_pingback_header"
 					label={ __( "Pingback HTTP header", "wordpress-seo" ) }
 				/>
 				<FormikValueChangeField
-					as={ ToggleField }
+					as={ FormikFlippedToggleField }
 					type="checkbox"
 					name="wpseo.remove_powered_by_header"
 					data-id="input-wpseo-remove_powered_by_header"
@@ -99,14 +100,14 @@ const CrawlSettings = () => {
 				description={ __( "Remove feed links added by WordPress that aren't needed for this site.", "wordpress-seo" ) }
 			>
 				<FormikValueChangeField
-					as={ ToggleField }
+					as={ FormikFlippedToggleField }
 					type="checkbox"
 					name="wpseo.remove_feed_global"
 					data-id="input-wpseo-remove_feed_global"
 					label={ __( "Global feed", "wordpress-seo" ) }
 				/>
 				<FormikValueChangeField
-					as={ ToggleField }
+					as={ FormikFlippedToggleField }
 					type="checkbox"
 					name="wpseo.remove_feed_global_comments"
 					data-id="input-wpseo-remove_feed_global_comments"
@@ -114,7 +115,7 @@ const CrawlSettings = () => {
 					description={ __( "By removing Global comments feed, Post comments feeds will be removed too.", "wordpress-seo" ) }
 				/>
 				<FormikValueChangeField
-					as={ ToggleField }
+					as={ FormikFlippedToggleField }
 					type="checkbox"
 					name="wpseo.remove_feed_post_comments"
 					data-id="input-wpseo-remove_feed_post_comments"
@@ -123,49 +124,49 @@ const CrawlSettings = () => {
 					checked={ removeFeedGlobalComments || removeFeedPostComments }
 				/>
 				<FormikValueChangeField
-					as={ ToggleField }
+					as={ FormikFlippedToggleField }
 					type="checkbox"
 					name="wpseo.remove_feed_authors"
 					data-id="input-wpseo-remove_feed_authors"
 					label={ __( "Post authors feeds", "wordpress-seo" ) }
 				/>
 				<FormikValueChangeField
-					as={ ToggleField }
+					as={ FormikFlippedToggleField }
 					type="checkbox"
 					name="wpseo.remove_feed_post_types"
 					data-id="input-wpseo-remove_feed_post_types"
 					label={ __( "Post type feeds", "wordpress-seo" ) }
 				/>
 				<FormikValueChangeField
-					as={ ToggleField }
+					as={ FormikFlippedToggleField }
 					type="checkbox"
 					name="wpseo.remove_feed_categories"
 					data-id="input-wpseo-remove_feed_categories"
 					label={ __( "Category feeds", "wordpress-seo" ) }
 				/>
 				<FormikValueChangeField
-					as={ ToggleField }
+					as={ FormikFlippedToggleField }
 					type="checkbox"
 					name="wpseo.remove_feed_tags"
 					data-id="input-wpseo-remove_feed_tags"
 					label={ __( "Tag feeds", "wordpress-seo" ) }
 				/>
 				<FormikValueChangeField
-					as={ ToggleField }
+					as={ FormikFlippedToggleField }
 					type="checkbox"
 					name="wpseo.remove_feed_custom_taxonomies"
 					data-id="input-wpseo-remove_feed_custom_taxonomies"
 					label={ __( "Custom taxonomy feeds", "wordpress-seo" ) }
 				/>
 				<FormikValueChangeField
-					as={ ToggleField }
+					as={ FormikFlippedToggleField }
 					type="checkbox"
 					name="wpseo.remove_feed_search"
 					data-id="input-wpseo-remove_feed_search"
 					label={ __( "Search results feeds", "wordpress-seo" ) }
 				/>
 				<FormikValueChangeField
-					as={ ToggleField }
+					as={ FormikFlippedToggleField }
 					type="checkbox"
 					name="wpseo.remove_atom_rdf_feeds"
 					data-id="input-wpseo-remove_atom_rdf_feeds"
@@ -218,14 +219,14 @@ const CrawlSettings = () => {
 					) }
 				</Alert>
 				<FormikValueChangeField
-					as={ ToggleField }
+					as={ FormikFlippedToggleField }
 					type="checkbox"
 					name="wpseo.clean_campaign_tracking_urls"
 					data-id="input-wpseo-clean_campaign_tracking_urls"
 					label={ __( "Campaign tracking URL parameters", "wordpress-seo" ) }
 				/>
 				<FormikValueChangeField
-					as={ ToggleField }
+					as={ FormikFlippedToggleField }
 					type="checkbox"
 					name="wpseo.clean_permalinks"
 					data-id="input-wpseo-clean_permalinks"
