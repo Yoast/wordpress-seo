@@ -41,6 +41,23 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
   cursor: default;
 }
 
+.c6 {
+  box-sizing: border-box;
+  min-width: 32px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  background-color: #f7f7f7;
+  box-shadow: #ccc;
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 0;
+  height: "24px";
+}
+
+.c6:hover {
+  border-color: #fff;
+}
+
 .c0 {
   min-height: 24px;
   padding: 0;
@@ -118,6 +135,28 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
       />
     </svg>
   </button>
+  <button
+    aria-label="SEOResultEdit"
+    className="c6"
+    id="Result button edit"
+    onClick={[Function]}
+    type="button"
+  >
+    <svg
+      aria-hidden={true}
+      className="c5 yoast-svg-icon yoast-svg-icon-edit"
+      fill="#555"
+      focusable="false"
+      role="img"
+      size="18px"
+      viewBox="0 0 1792 1792"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M491 1536l91-91-235-235-91 91v107h128v128h107zm523-928q0-22-22-22-10 0-17 7l-542 542q-7 7-7 17 0 22 22 22 10 0 17-7l542-542q7-7 7-17zm-54-192l416 416-832 832h-416v-416zm683 96q0 53-37 90l-166 166-416-416 166-165q36-38 90-38 53 0 91 38l235 234q37 39 37 91z"
+      />
+    </svg>
+  </button>
 </li>
 `;
 
@@ -128,6 +167,31 @@ exports[`the AnalysisResult component with a beta badge label matches the snapsh
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
+}
+
+.c5 {
+  width: 18px;
+  height: 18px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+.c4 {
+  box-sizing: border-box;
+  min-width: 32px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  background-color: #f7f7f7;
+  box-shadow: #ccc;
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 0;
+  height: "24px";
+}
+
+.c4:hover {
+  border-color: #fff;
 }
 
 .c0 {
@@ -188,6 +252,28 @@ exports[`the AnalysisResult component with a beta badge label matches the snapsh
       }
     />
   </p>
+  <button
+    aria-label="SEOResultEdit"
+    className="c4"
+    id="Result button edit"
+    onClick={[Function]}
+    type="button"
+  >
+    <svg
+      aria-hidden={true}
+      className="c5 yoast-svg-icon yoast-svg-icon-edit"
+      fill="#555"
+      focusable="false"
+      role="img"
+      size="18px"
+      viewBox="0 0 1792 1792"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M491 1536l91-91-235-235-91 91v107h128v128h107zm523-928q0-22-22-22-10 0-17 7l-542 542q-7 7-7 17 0 22 22 22 10 0 17-7l542-542q7-7 7-17zm-54-192l416 416-832 832h-416v-416zm683 96q0 53-37 90l-166 166-416-416 166-165q36-38 90-38 53 0 91 38l235 234q37 39 37 91z"
+      />
+    </svg>
+  </button>
 </li>
 `;
 
@@ -230,6 +316,23 @@ exports[`the AnalysisResult component with disabled buttons matches the snapshot
   box-shadow: none;
   border: none;
   cursor: default;
+}
+
+.c6 {
+  box-sizing: border-box;
+  min-width: 32px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  background-color: #f7f7f7;
+  box-shadow: #ccc;
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 0;
+  height: "24px";
+}
+
+.c6:hover {
+  border-color: #fff;
 }
 
 .c0 {
@@ -309,6 +412,28 @@ exports[`the AnalysisResult component with disabled buttons matches the snapshot
       />
     </svg>
   </button>
+  <button
+    aria-label="SEOResultEdit"
+    className="c6"
+    id="Result button edit"
+    onClick={[Function]}
+    type="button"
+  >
+    <svg
+      aria-hidden={true}
+      className="c5 yoast-svg-icon yoast-svg-icon-edit"
+      fill="#555"
+      focusable="false"
+      role="img"
+      size="18px"
+      viewBox="0 0 1792 1792"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M491 1536l91-91-235-235-91 91v107h128v128h107zm523-928q0-22-22-22-10 0-17 7l-542 542q-7 7-7 17 0 22 22 22 10 0 17-7l542-542q7-7 7-17zm-54-192l416 416-832 832h-416v-416zm683 96q0 53-37 90l-166 166-416-416 166-165q36-38 90-38 53 0 91 38l235 234q37 39 37 91z"
+      />
+    </svg>
+  </button>
 </li>
 `;
 
@@ -319,6 +444,31 @@ exports[`the AnalysisResult component with hidden buttons matches the snapshot 1
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
+}
+
+.c5 {
+  width: 18px;
+  height: 18px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+.c4 {
+  box-sizing: border-box;
+  min-width: 32px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  background-color: #f7f7f7;
+  box-shadow: #ccc;
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 0;
+  height: "24px";
+}
+
+.c4:hover {
+  border-color: #fff;
 }
 
 .c0 {
@@ -374,6 +524,28 @@ exports[`the AnalysisResult component with hidden buttons matches the snapshot 1
       }
     />
   </p>
+  <button
+    aria-label="SEOResultEdit"
+    className="c4"
+    id="Result button edit"
+    onClick={[Function]}
+    type="button"
+  >
+    <svg
+      aria-hidden={true}
+      className="c5 yoast-svg-icon yoast-svg-icon-edit"
+      fill="#555"
+      focusable="false"
+      role="img"
+      size="18px"
+      viewBox="0 0 1792 1792"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M491 1536l91-91-235-235-91 91v107h128v128h107zm523-928q0-22-22-22-10 0-17 7l-542 542q-7 7-7 17 0 22 22 22 10 0 17-7l542-542q7-7 7-17zm-54-192l416 416-832 832h-416v-416zm683 96q0 53-37 90l-166 166-416-416 166-165q36-38 90-38 53 0 91 38l235 234q37 39 37 91z"
+      />
+    </svg>
+  </button>
 </li>
 `;
 
@@ -416,6 +588,23 @@ exports[`the AnalysisResult component with html in the text matches the snapshot
   box-shadow: none;
   border: none;
   cursor: default;
+}
+
+.c6 {
+  box-sizing: border-box;
+  min-width: 32px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  background-color: #f7f7f7;
+  box-shadow: #ccc;
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 0;
+  height: "24px";
+}
+
+.c6:hover {
+  border-color: #fff;
 }
 
 .c0 {
@@ -495,6 +684,28 @@ exports[`the AnalysisResult component with html in the text matches the snapshot
       />
     </svg>
   </button>
+  <button
+    aria-label="SEOResultEdit"
+    className="c6"
+    id="Result button edit"
+    onClick={[Function]}
+    type="button"
+  >
+    <svg
+      aria-hidden={true}
+      className="c5 yoast-svg-icon yoast-svg-icon-edit"
+      fill="#555"
+      focusable="false"
+      role="img"
+      size="18px"
+      viewBox="0 0 1792 1792"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M491 1536l91-91-235-235-91 91v107h128v128h107zm523-928q0-22-22-22-10 0-17 7l-542 542q-7 7-7 17 0 22 22 22 10 0 17-7l542-542q7-7 7-17zm-54-192l416 416-832 832h-416v-416zm683 96q0 53-37 90l-166 166-416-416 166-165q36-38 90-38 53 0 91 38l235 234q37 39 37 91z"
+      />
+    </svg>
+  </button>
 </li>
 `;
 
@@ -505,6 +716,31 @@ exports[`the AnalysisResult component with suppressed text matches the snapshot 
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
+}
+
+.c5 {
+  width: 18px;
+  height: 18px;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+}
+
+.c4 {
+  box-sizing: border-box;
+  min-width: 32px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  background-color: #f7f7f7;
+  box-shadow: #ccc;
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 0;
+  height: "24px";
+}
+
+.c4:hover {
+  border-color: #fff;
 }
 
 .c0 {
@@ -560,5 +796,27 @@ exports[`the AnalysisResult component with suppressed text matches the snapshot 
       }
     />
   </p>
+  <button
+    aria-label="SEOResultEdit"
+    className="c4"
+    id="Result button edit"
+    onClick={[Function]}
+    type="button"
+  >
+    <svg
+      aria-hidden={true}
+      className="c5 yoast-svg-icon yoast-svg-icon-edit"
+      fill="#555"
+      focusable="false"
+      role="img"
+      size="18px"
+      viewBox="0 0 1792 1792"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M491 1536l91-91-235-235-91 91v107h128v128h107zm523-928q0-22-22-22-10 0-17 7l-542 542q-7 7-7 17 0 22 22 22 10 0 17-7l542-542q7-7 7-17zm-54-192l416 416-832 832h-416v-416zm683 96q0 53-37 90l-166 166-416-416 166-165q36-38 90-38 53 0 91 38l235 234q37 39 37 91z"
+      />
+    </svg>
+  </button>
 </li>
 `;

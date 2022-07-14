@@ -13,6 +13,7 @@ test( "the AnalysisResult component matches the snapshot", () => {
 			buttonIdEdit="Result button edit"
 			pressed={ true }
 			hasMarksButton={ true }
+			hasEditButton={ true }
 			onButtonClickMarks={ noop }
 			onButtonClickEdit={ noop }
 			text={ "You're doing great!" }
@@ -34,6 +35,7 @@ test( "the AnalysisResult component with html in the text matches the snapshot",
 			buttonIdEdit="Result button edit"
 			pressed={ true }
 			hasMarksButton={ true }
+			hasEditButton={ true }
 			onButtonClickMarks={ noop }
 			onButtonClickEdit={ noop }
 			text={ "You're doing <b>great!</b>" }
@@ -55,6 +57,7 @@ test( "the AnalysisResult component with disabled buttons matches the snapshot",
 			buttonIdEdit="Result button edit"
 			pressed={ true }
 			hasMarksButton={ true }
+			hasEditButton={ true }
 			onButtonClickMarks={ noop }
 			onButtonClickEdit={ noop }
 			text={ "You're doing great!" }
@@ -77,6 +80,7 @@ test( "the AnalysisResult component with hidden buttons matches the snapshot", (
 			buttonIdEdit="Result button edit"
 			pressed={ true }
 			hasMarksButton={ true }
+			hasEditButton={ true }
 			onButtonClickMarks={ noop }
 			onButtonClickEdit={ noop }
 			text={ "You're doing great!" }
@@ -100,6 +104,7 @@ test( "the AnalysisResult component with suppressed text matches the snapshot", 
 			buttonIdEdit="Result button edit"
 			pressed={ true }
 			hasMarksButton={ true }
+			hasEditButton={ true }
 			onButtonClickMarks={ noop }
 			onButtonClickEdit={ noop }
 			text={ "You're doing great!" }
@@ -122,6 +127,7 @@ test( "the AnalysisResult component with a beta badge label matches the snapshot
 			buttonIdEdit="Result button edit"
 			pressed={ true }
 			hasMarksButton={ true }
+			hasEditButton={ true }
 			onButtonClickMarks={ noop }
 			onButtonClickEdit={ noop }
 			text={ "This is beta!" }
