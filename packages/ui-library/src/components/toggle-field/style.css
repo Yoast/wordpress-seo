@@ -10,12 +10,17 @@
 
 		.yst-toggle-field--disabled {
 			.yst-toggle-field__text {
-				@apply yst-opacity-50;
 				@apply yst-cursor-not-allowed;
 			}
 
 			.yst-toggle-field__label {
+				@apply yst-opacity-50;
 				@apply yst-cursor-not-allowed;
+			}
+
+			.yst-toggle-field__description {
+				@apply yst-opacity-50;
+
 			}
 		}
 
