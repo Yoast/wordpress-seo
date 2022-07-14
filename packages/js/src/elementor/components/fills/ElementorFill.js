@@ -100,13 +100,13 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 						{ settings.shouldUpsell && <PremiumSEOAnalysisModal /> }
 					</Fragment>
 				</SidebarItem> }
-				{ settings.isContentAnalysisActive && <SidebarItem renderPriority={ 20 }>
+				{ settings.isContentAnalysisActive && <SidebarItem renderPriority={ 15 }>
 					<ReadabilityAnalysis
 						shouldUpsell={ settings.shouldUpsell }
 						isYoastSEOWooActive={ settings.isYoastSEOWooEnabled }
 					/>
 				</SidebarItem> }
-				{ settings.isInclusiveLanguageAnalysisActive && <SidebarItem renderPriority={ 21 }>
+				{ settings.isInclusiveLanguageAnalysisActive && <SidebarItem renderPriority={ 19 }>
 					<InclusiveLanguageAnalysis />
 				</SidebarItem> }
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="additional-keywords-upsell" renderPriority={ 22 }>
