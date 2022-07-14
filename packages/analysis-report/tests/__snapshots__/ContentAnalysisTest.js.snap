@@ -170,6 +170,23 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
   cursor: default;
 }
 
+.c20 {
+  box-sizing: border-box;
+  min-width: 32px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  background-color: #f7f7f7;
+  box-shadow: #ccc;
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 0;
+  height: "24px";
+}
+
+.c20:hover {
+  border-color: #fff;
+}
+
 .c15 {
   min-height: 24px;
   padding: 0;
@@ -379,7 +396,7 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
           aria-pressed={false}
           className="c19"
           disabled={true}
-          id="1"
+          id="1Mark"
           onClick={[Function]}
           type="button"
         >
@@ -395,6 +412,28 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
           >
             <path
               d="M1664 960q-152-236-381-353 61 104 61 225 0 185-131.5 316.5t-316.5 131.5-316.5-131.5-131.5-316.5q0-121 61-225-229 117-381 353 133 205 333.5 326.5t434.5 121.5 434.5-121.5 333.5-326.5zm-720-384q0-20-14-34t-34-14q-125 0-214.5 89.5t-89.5 214.5q0 20 14 34t34 14 34-14 14-34q0-86 61-147t147-61q20 0 34-14t14-34zm848 384q0 34-20 69-140 230-376.5 368.5t-499.5 138.5-499.5-139-376.5-368q-20-35-20-69t20-69q140-229 376.5-368t499.5-139 499.5 139 376.5 368q20 35 20 69z"
+            />
+          </svg>
+        </button>
+        <button
+          aria-label="Edit your some field"
+          className="c20"
+          id="1Edit"
+          onClick={[Function]}
+          type="button"
+        >
+          <svg
+            aria-hidden={true}
+            className="c11 yoast-svg-icon yoast-svg-icon-edit"
+            fill="#555"
+            focusable="false"
+            role="img"
+            size="18px"
+            viewBox="0 0 1792 1792"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M491 1536l91-91-235-235-91 91v107h128v128h107zm523-928q0-22-22-22-10 0-17 7l-542 542q-7 7-7 17 0 22 22 22 10 0 17-7l542-542q7-7 7-17zm-54-192l416 416-832 832h-416v-416zm683 96q0 53-37 90l-166 166-416-416 166-165q36-38 90-38 53 0 91 38l235 234q37 39 37 91z"
             />
           </svg>
         </button>
@@ -651,7 +690,7 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
           aria-pressed={false}
           className="c19"
           disabled={true}
-          id="3"
+          id="3Mark"
           onClick={[Function]}
           type="button"
         >
@@ -820,6 +859,23 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
   padding: 0 !important;
   font-size: 13px !important;
   font-weight: bold !important;
+}
+
+.c19 {
+  box-sizing: border-box;
+  min-width: 32px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  background-color: #f7f7f7;
+  box-shadow: #ccc;
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 0;
+  height: "24px";
+}
+
+.c19:hover {
+  border-color: #fff;
 }
 
 .c15 {
@@ -1026,6 +1082,28 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
             }
           />
         </p>
+        <button
+          aria-label="Edit your some field"
+          className="c19"
+          id="1Edit"
+          onClick={[Function]}
+          type="button"
+        >
+          <svg
+            aria-hidden={true}
+            className="c11 yoast-svg-icon yoast-svg-icon-edit"
+            fill="#555"
+            focusable="false"
+            role="img"
+            size="18px"
+            viewBox="0 0 1792 1792"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M491 1536l91-91-235-235-91 91v107h128v128h107zm523-928q0-22-22-22-10 0-17 7l-542 542q-7 7-7 17 0 22 22 22 10 0 17-7l542-542q7-7 7-17zm-54-192l416 416-832 832h-416v-416zm683 96q0 53-37 90l-166 166-416-416 166-165q36-38 90-38 53 0 91 38l235 234q37 39 37 91z"
+            />
+          </svg>
+        </button>
       </li>
     </ul>
   </div>
@@ -1450,6 +1528,23 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
   cursor: default;
 }
 
+.c20 {
+  box-sizing: border-box;
+  min-width: 32px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  background-color: #f7f7f7;
+  box-shadow: #ccc;
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 0;
+  height: "24px";
+}
+
+.c20:hover {
+  border-color: #fff;
+}
+
 .c15 {
   min-height: 24px;
   padding: 0;
@@ -1659,7 +1754,7 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
           aria-pressed={false}
           className="c19"
           disabled={false}
-          id="1"
+          id="1Mark"
           onClick={[Function]}
           type="button"
         >
@@ -1675,6 +1770,28 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
           >
             <path
               d="M1664 960q-152-236-381-353 61 104 61 225 0 185-131.5 316.5t-316.5 131.5-316.5-131.5-131.5-316.5q0-121 61-225-229 117-381 353 133 205 333.5 326.5t434.5 121.5 434.5-121.5 333.5-326.5zm-720-384q0-20-14-34t-34-14q-125 0-214.5 89.5t-89.5 214.5q0 20 14 34t34 14 34-14 14-34q0-86 61-147t147-61q20 0 34-14t14-34zm848 384q0 34-20 69-140 230-376.5 368.5t-499.5 138.5-499.5-139-376.5-368q-20-35-20-69t20-69q140-229 376.5-368t499.5-139 499.5 139 376.5 368q20 35 20 69z"
+            />
+          </svg>
+        </button>
+        <button
+          aria-label="Edit your some field"
+          className="c20"
+          id="1Edit"
+          onClick={[Function]}
+          type="button"
+        >
+          <svg
+            aria-hidden={true}
+            className="c11 yoast-svg-icon yoast-svg-icon-edit"
+            fill="#555"
+            focusable="false"
+            role="img"
+            size="18px"
+            viewBox="0 0 1792 1792"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M491 1536l91-91-235-235-91 91v107h128v128h107zm523-928q0-22-22-22-10 0-17 7l-542 542q-7 7-7 17 0 22 22 22 10 0 17-7l542-542q7-7 7-17zm-54-192l416 416-832 832h-416v-416zm683 96q0 53-37 90l-166 166-416-416 166-165q36-38 90-38 53 0 91 38l235 234q37 39 37 91z"
             />
           </svg>
         </button>
@@ -1931,7 +2048,7 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
           aria-pressed={false}
           className="c19"
           disabled={false}
-          id="3"
+          id="3Mark"
           onClick={[Function]}
           type="button"
         >
@@ -2124,6 +2241,23 @@ exports[`ContentAnalysis the ContentAnalysis component with upsell results match
   box-shadow: none;
   border: none;
   cursor: default;
+}
+
+.c21 {
+  box-sizing: border-box;
+  min-width: 32px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  background-color: #f7f7f7;
+  box-shadow: #ccc;
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 0;
+  height: "24px";
+}
+
+.c21:hover {
+  border-color: #fff;
 }
 
 .c15 {
@@ -2372,7 +2506,7 @@ exports[`ContentAnalysis the ContentAnalysis component with upsell results match
           aria-pressed={false}
           className="c20"
           disabled={false}
-          id="1"
+          id="1Mark"
           onClick={[Function]}
           type="button"
         >
@@ -2388,6 +2522,28 @@ exports[`ContentAnalysis the ContentAnalysis component with upsell results match
           >
             <path
               d="M1664 960q-152-236-381-353 61 104 61 225 0 185-131.5 316.5t-316.5 131.5-316.5-131.5-131.5-316.5q0-121 61-225-229 117-381 353 133 205 333.5 326.5t434.5 121.5 434.5-121.5 333.5-326.5zm-720-384q0-20-14-34t-34-14q-125 0-214.5 89.5t-89.5 214.5q0 20 14 34t34 14 34-14 14-34q0-86 61-147t147-61q20 0 34-14t14-34zm848 384q0 34-20 69-140 230-376.5 368.5t-499.5 138.5-499.5-139-376.5-368q-20-35-20-69t20-69q140-229 376.5-368t499.5-139 499.5 139 376.5 368q20 35 20 69z"
+            />
+          </svg>
+        </button>
+        <button
+          aria-label="Edit your some field"
+          className="c21"
+          id="1Edit"
+          onClick={[Function]}
+          type="button"
+        >
+          <svg
+            aria-hidden={true}
+            className="c11 yoast-svg-icon yoast-svg-icon-edit"
+            fill="#555"
+            focusable="false"
+            role="img"
+            size="18px"
+            viewBox="0 0 1792 1792"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M491 1536l91-91-235-235-91 91v107h128v128h107zm523-928q0-22-22-22-10 0-17 7l-542 542q-7 7-7 17 0 22 22 22 10 0 17-7l542-542q7-7 7-17zm-54-192l416 416-832 832h-416v-416zm683 96q0 53-37 90l-166 166-416-416 166-165q36-38 90-38 53 0 91 38l235 234q37 39 37 91z"
             />
           </svg>
         </button>
@@ -2644,7 +2800,7 @@ exports[`ContentAnalysis the ContentAnalysis component with upsell results match
           aria-pressed={false}
           className="c20"
           disabled={false}
-          id="3"
+          id="3Mark"
           onClick={[Function]}
           type="button"
         >
@@ -2837,6 +2993,23 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
   box-shadow: none;
   border: none;
   cursor: default;
+}
+
+.c20 {
+  box-sizing: border-box;
+  min-width: 32px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  background-color: #f7f7f7;
+  box-shadow: #ccc;
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 0;
+  height: "24px";
+}
+
+.c20:hover {
+  border-color: #fff;
 }
 
 .c15 {
@@ -3048,7 +3221,7 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
           aria-pressed={false}
           className="c19"
           disabled={false}
-          id="1"
+          id="1Mark"
           onClick={[Function]}
           type="button"
         >
@@ -3064,6 +3237,28 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
           >
             <path
               d="M1664 960q-152-236-381-353 61 104 61 225 0 185-131.5 316.5t-316.5 131.5-316.5-131.5-131.5-316.5q0-121 61-225-229 117-381 353 133 205 333.5 326.5t434.5 121.5 434.5-121.5 333.5-326.5zm-720-384q0-20-14-34t-34-14q-125 0-214.5 89.5t-89.5 214.5q0 20 14 34t34 14 34-14 14-34q0-86 61-147t147-61q20 0 34-14t14-34zm848 384q0 34-20 69-140 230-376.5 368.5t-499.5 138.5-499.5-139-376.5-368q-20-35-20-69t20-69q140-229 376.5-368t499.5-139 499.5 139 376.5 368q20 35 20 69z"
+            />
+          </svg>
+        </button>
+        <button
+          aria-label="Edit your some field"
+          className="c20"
+          id="1Edit"
+          onClick={[Function]}
+          type="button"
+        >
+          <svg
+            aria-hidden={true}
+            className="c11 yoast-svg-icon yoast-svg-icon-edit"
+            fill="#555"
+            focusable="false"
+            role="img"
+            size="18px"
+            viewBox="0 0 1792 1792"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M491 1536l91-91-235-235-91 91v107h128v128h107zm523-928q0-22-22-22-10 0-17 7l-542 542q-7 7-7 17 0 22 22 22 10 0 17-7l542-542q7-7 7-17zm-54-192l416 416-832 832h-416v-416zm683 96q0 53-37 90l-166 166-416-416 166-165q36-38 90-38 53 0 91 38l235 234q37 39 37 91z"
             />
           </svg>
         </button>
@@ -3320,7 +3515,7 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
           aria-pressed={false}
           className="c19"
           disabled={false}
-          id="3"
+          id="3Mark"
           onClick={[Function]}
           type="button"
         >
@@ -3826,7 +4021,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
           aria-pressed={false}
           className="c19"
           disabled={false}
-          id="3"
+          id="3Mark"
           onClick={[Function]}
           type="button"
         >
@@ -4332,7 +4527,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
           aria-pressed={false}
           className="c19"
           disabled={false}
-          id="3"
+          id="3Mark"
           onClick={[Function]}
           type="button"
         >
@@ -4911,7 +5106,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
           aria-pressed={false}
           className="c19"
           disabled={false}
-          id="3"
+          id="3Mark"
           onClick={[Function]}
           type="button"
         >
@@ -5344,7 +5539,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
           aria-pressed={false}
           className="c19"
           disabled={false}
-          id="3"
+          id="3Mark"
           onClick={[Function]}
           type="button"
         >
