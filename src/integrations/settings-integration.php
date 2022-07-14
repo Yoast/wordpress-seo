@@ -200,7 +200,8 @@ class Settings_Integration implements Integration_Interface {
 	 * @return array The script data.
 	 */
 	protected function get_script_data() {
-		$settings = $this->get_settings();
+		$settings   = $this->get_settings();
+		$post_types = $this->get_post_types();
 
 		return [
 			'settings'             => $settings,
@@ -211,10 +212,7 @@ class Settings_Integration implements Integration_Interface {
 			'userEditUrl'          => \admin_url( 'user-edit.php' ),
 			'separators'           => WPSEO_Option_Titles::get_instance()->get_separator_options_for_display(),
 			'replacementVariables' => $this->get_replacement_variables(),
-			'schema'               => [
-				'pageTypeOptions'    => $this->schema_types->get_page_type_options(),
-				'articleTypeOptions' => $this->schema_types->get_article_type_options(),
-			],
+			'schema'               => $this->get_schema( $post_types ),
 			'preferences'          => [
 				'isPremium'      => $this->product_helper->is_premium(),
 				'isNetworkAdmin' => \is_network_admin(),
@@ -222,7 +220,7 @@ class Settings_Integration implements Integration_Interface {
 				'siteUrl'        => \get_bloginfo( 'url' ),
 			],
 			'linkParams'           => WPSEO_Shortlinker::get_query_params(),
-			'postTypes'            => $this->get_post_types(),
+			'postTypes'            => $post_types,
 		];
 	}
 
@@ -298,6 +296,38 @@ class Settings_Integration implements Integration_Interface {
 			'specific'    => $specific_replace_vars->get(),
 			'shared'      => $specific_replace_vars->get_generic( $replacement_variables ),
 		];
+	}
+
+	/**
+	 * Retrieves the schema.
+	 *
+	 * @return array The schema.
+	 */
+	protected function get_schema( array $post_types ) {
+		$schema = [];
+
+		foreach ( $this->schema_types->get_article_type_options() as $article_type ) {
+			$schema['articleTypes'][ $article_type['value'] ] = [
+				'label' => $article_type['name'],
+				'value' => $article_type['value'],
+			];
+		}
+
+		foreach ( $this->schema_types->get_page_type_options() as $page_type ) {
+			$schema['pageTypes'][ $page_type['value'] ] = [
+				'label' => $page_type['name'],
+				'value' => $page_type['value'],
+			];
+		}
+
+		$schema['articleTypeDefaults'] = [];
+		$schema['pageTypeDefaults']    = [];
+		foreach ( $post_types as $name => $post_type ) {
+			$schema['articleTypeDefaults'][ $name ] = WPSEO_Options::get_default( 'wpseo_titles', "schema-article-type-$name" );
+			$schema['pageTypeDefaults'][ $name ]    = WPSEO_Options::get_default( 'wpseo_titles', "schema-page-type-$name" );
+		}
+
+		return $schema;
 	}
 
 	/**
