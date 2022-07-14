@@ -1,5 +1,6 @@
 import { useMemo } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
+import { Badge } from "@yoast/ui-library";
 import { get } from "lodash";
 import PropTypes from "prop-types";
 import { useSelectSettings } from "../store";
@@ -22,16 +23,13 @@ const withDisabledMessageSupport = ( Component ) => {
 		const isDisabledTracking = useMemo( () => name === "wpseo.tracking" && ! isNetworkAdmin && ! isMainSite, [ name, isNetworkAdmin, isMainSite ] );
 		const text = useMemo( () => {
 			if ( isDisabledTracking ) {
-				return __( "This feature has been disabled since subsites never send tracking data.", "wordpress-seo" );
+				return __( "Unavailable for sub-sites", "wordpress-seo" );
 			}
-			return __( "This feature has been disabled by the network admin.", "wordpress-seo" );
+			return __( "Network disabled", "wordpress-seo" );
 		}, [ isDisabledTracking ] );
 
 		if ( isDisabledSetting || isDisabledTracking ) {
-			return <div>
-				<Component name={ name } { ...props } disabled={ true } />
-				<p className="yst-mt-2 yst-italic">{ text }</p>
-			</div>;
+			return <Component name={ name } { ...props } disabled={ true } labelSuffix={ <Badge variant="plain" className="yst-ml-1.5">{ text }</Badge> } />;
 		}
 		return <Component name={ name } { ...props } />;
 	};
