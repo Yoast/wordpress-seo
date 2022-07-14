@@ -232,12 +232,18 @@ class Settings_Integration implements Integration_Interface {
 	 * @return array The settings.
 	 */
 	protected function get_settings() {
+		$defaults = [];
 		$settings = [];
 
 		// Add Yoast settings.
 		foreach ( WPSEO_Options::$options as $option_name => $instance ) {
 			if ( \in_array( $option_name, self::ALLOWED_OPTION_GROUPS ) ) {
-				$settings[ $option_name ] = WPSEO_Options::get_option( $option_name );
+				$option_instance = WPSEO_Options::get_option_instance( $option_name );
+				if ( $option_instance ) {
+					$defaults[ $option_name ] = $option_instance->get_defaults();
+				}
+
+				$settings[ $option_name ] = \array_merge( $defaults[ $option_name ], WPSEO_Options::get_option( $option_name ) );
 			}
 		}
 		// Add WP settings.
