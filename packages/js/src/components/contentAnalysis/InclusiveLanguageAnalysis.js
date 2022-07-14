@@ -102,6 +102,7 @@ const InclusiveLanguageAnalysis = ( props ) => {
 							prefixIcon={ getIconForScore( score.className ) }
 							prefixIconCollapsed={ getIconForScore( score.className ) }
 							id={ `yoast-inclusive-language-analysis-collapsible-${ location }` }
+							hasBetaBadgeLabel={ true }
 						>
 							{ props.results.length >= 1 ? renderResults() : renderGoodJob() }
 						</Collapsible>
