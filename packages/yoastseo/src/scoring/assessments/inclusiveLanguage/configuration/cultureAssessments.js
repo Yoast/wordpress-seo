@@ -138,7 +138,7 @@ const cultureAssessments = [
 	},
 	{
 		identifier: "gypsy",
-		nonInclusivePhrases: [ "gypsy", "gipsies" ],
+		nonInclusivePhrases: [ "gypsy", "gypsies" ],
 		inclusiveAlternatives: [ "Romani, Romani person, Romani people", "Traveler, wanderer, free-spirited" ],
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: "Avoid using \"%1$s\" as it is potentially harmful. Unless referring to yourself or " +
