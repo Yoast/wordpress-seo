@@ -24,7 +24,7 @@ const FormLayout = ( {
 				<div className="yst-flex-grow yst-p-8 yst-max-w-5xl">
 					{ children }
 				</div>
-				<footer className="yst-p-8 yst-bg-gray-50">
+				<footer className="yst-rounded-b-lg yst-p-8 yst-bg-gray-50">
 					<Button
 						id="button-submit-settings"
 						type="submit"
