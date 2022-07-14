@@ -13,7 +13,7 @@ const NavigationContext = createContext( { activePath: "" } );
 export const useNavigationContext = () => useContext( NavigationContext );
 
 /**
- * @param {string} label The label.
+ * @param {JSX.node} label The label.
  * @param {JSX.ElementClass} [as] The field component.
  * @param {string} [pathProp] The key of the path in the props. Defaults to `href`.
  * @param {Object} [props] Extra props.
