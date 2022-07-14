@@ -96,7 +96,10 @@ const PostType = ( { name, label, singularLabel } ) => {
 			</FieldsetLayout>
 			<hr className="yst-my-8" />
 			<FieldsetLayout
-				title={ __( "Social appearance", "wordpress-seo" ) }
+				title={ <div className="yst-flex yst-items-center">
+					<span>{ __( "Social appearance", "wordpress-seo" ) }</span>
+					<Badge className="yst-ml-1.5" variant="upsell">Premium</Badge>
+				</div> }
 				description={ sprintf(
 					// translators: %1$s expands to the post type plural, e.g. Posts. %2$s expands to the post type singular, e.g. Post.
 					__( "Choose how your %1$s should look on social media by default. You can always customize this per individual %2$s.", "wordpress-seo" ),
