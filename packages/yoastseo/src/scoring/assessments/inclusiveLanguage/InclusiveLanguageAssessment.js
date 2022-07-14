@@ -31,12 +31,13 @@ export default class InclusiveLanguageAssessment extends Assessment {
 	 * 									should include a `%1$s` placeholder for the non-inclusive phrase
 	 * 									and `%2$s` (and potentially further replacements) for the suggested alternative(s).
 	 * @param {string} config.learnMoreUrl The URL to an article explaining more about this specific assessment.
-	 * @param {function} config.rule A potential additional rule for targeting the non-inclusive phrases.
+	 * @param {function} [config.rule] A potential additional rule for targeting the non-inclusive phrases.
+	 * @param {boolean} [config.caseSensitive=false] If the inclusive phrase is case-sensitive, defaults to `false`.
 	 *
 	 * @returns {void}
 	 */
 	constructor( { identifier, nonInclusivePhrases, inclusiveAlternatives,
-		score, feedbackFormat, learnMoreUrl, rule } ) {
+		score, feedbackFormat, learnMoreUrl, rule, caseSensitive } ) {
 		super();
 
 		this.identifier = identifier;
@@ -49,6 +50,7 @@ export default class InclusiveLanguageAssessment extends Assessment {
 		this.feedbackFormat = feedbackFormat;
 		this.learnMoreUrl = learnMoreUrl;
 		this.rule = rule || includesConsecutiveWords;
+		this.caseSensitive = caseSensitive || false;
 	}
 
 	/**
@@ -67,7 +69,9 @@ export default class InclusiveLanguageAssessment extends Assessment {
 
 		sentences.forEach( sentence => {
 			let words = getWords( sentence );
-			words = words.map( word => word.toLocaleLowerCase() );
+			if ( ! this.caseSensitive ) {
+				words = words.map( word => word.toLocaleLowerCase() );
+			}
 			const foundPhrase = this.nonInclusivePhrases.find( phrase => this.rule( words, phrase.split( " " ) ).length >= 1 );
 
 			if ( foundPhrase ) {
