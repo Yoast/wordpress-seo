@@ -80,7 +80,7 @@
 		}
 
 		.yst-toggle__icon--x {
-			@apply yst-text-gray-500;
+			@apply yst-text-gray-400;
 		}
 	}
 }
