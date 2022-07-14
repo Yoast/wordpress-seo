@@ -57,7 +57,7 @@ $yform->select( 'company_or_person', __( 'Organization or person', 'wordpress-se
 	 */
 	$yoast_seo_company_name = WPSEO_Options::get( 'company_name', '' );
 	$yoast_seo_company_logo = WPSEO_Options::get( 'company_logo', '' );
-	$yoast_seo_person_logo = WPSEO_Options::get( 'person_logo', '' );
+	$yoast_seo_person_logo  = WPSEO_Options::get( 'person_logo', '' );
 
 	$yoast_seo_site_name = ( WPSEO_Options::get( 'company_name', '' ) === '' ) ? get_bloginfo( 'name' ) : '';
 
@@ -70,14 +70,18 @@ $yform->select( 'company_or_person', __( 'Organization or person', 'wordpress-se
 	if ( empty( $yoast_seo_company_name ) || empty( $yoast_seo_company_logo ) ) :
 		?>
 		<div id="knowledge-graph-company-warning"></div>
-	<?php
+		<?php
 	endif;
 
 
-	$yform->textinput( 'company_name', __( 'Organization name', 'wordpress-seo' ), [
-		'autocomplete' => 'organization',
-		'placeholder'  => $yoast_seo_site_name,
-	] );
+	$yform->textinput(
+		'company_name',
+		__( 'Organization name', 'wordpress-seo' ),
+		[
+			'autocomplete' => 'organization',
+			'placeholder'  => $yoast_seo_site_name,
+		]
+	);
 	$yform->hidden( 'company_logo', 'company_logo' );
 	$yform->hidden( 'company_logo_id', 'company_logo_id' );
 	?>
@@ -90,10 +94,10 @@ $yform->select( 'company_or_person', __( 'Organization or person', 'wordpress-se
 	<div id="wpseo-person-selector"></div>
 	<?php
 
-	if ( empty ( $yoast_seo_person_logo ) ) :
-	?>
+	if ( empty( $yoast_seo_person_logo ) ) :
+		?>
 	<div id="knowledge-graph-person-image-info"></div>
-	<?php
+		<?php
 	endif;
 	?>
 
@@ -102,7 +106,7 @@ $yform->select( 'company_or_person', __( 'Organization or person', 'wordpress-se
 	<?php
 
 	$yform->hidden( 'person_logo', 'person_logo' );
-	if ( empty ( $yoast_seo_person_logo ) && $fallback_logo ) {
+	if ( empty( $yoast_seo_person_logo ) && $fallback_logo ) {
 		$yform->hidden( 'person_logo_fallback_id', 'person_logo_fallback_id', $fallback_logo );
 	}
 	$yform->hidden( 'person_logo_id', 'person_logo_id' );
