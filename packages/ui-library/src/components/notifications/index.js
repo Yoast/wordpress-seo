@@ -158,7 +158,7 @@ const Notifications = ( {
 );
 
 Notifications.propTypes = {
-	position: PropTypes.oneOf( [ "bottom-center", "top-center" ] ),
+	position: PropTypes.oneOf( keys( notificationsClassNameMap.position ) ),
 	// eslint-disable-next-line react/forbid-foreign-prop-types
 	notifications: PropTypes.arrayOf( PropTypes.shape( Notification.propTypes ) ).isRequired,
 };
