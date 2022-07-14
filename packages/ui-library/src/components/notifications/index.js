@@ -128,6 +128,7 @@ Notification.propTypes = {
 const notificationsClassNameMap = {
 	position: {
 		"bottom-center": "yst-bottom-8 yst-items-center",
+		"bottom-left": "yst-bottom-8 yst-left-8",
 		"top-center": "yst-top-8 yst-items-center",
 	},
 };

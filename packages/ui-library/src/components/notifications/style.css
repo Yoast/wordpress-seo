@@ -6,11 +6,11 @@
         }
 
         .yst-notification--info .yst-notification__icon {
-            @apply yst-text-blue-500;    
+            @apply yst-text-blue-500;
         }
 
         .yst-notification--warning .yst-notification__icon {
-            @apply yst-text-yellow-500;
+            @apply yst-text-amber-500;
         }
 
         .yst-notification--success .yst-notification__icon {
