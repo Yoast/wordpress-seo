@@ -3,7 +3,7 @@ import { Transition } from "@headlessui/react";
 import PropTypes from "prop-types";
 import { useState, useCallback, useEffect } from "@wordpress/element";
 import { XCircleIcon, CheckCircleIcon, ExclamationIcon, XIcon, InformationCircleIcon } from "@heroicons/react/outline";
-import { isArray } from "lodash";
+import { isArray, keys } from "lodash";
 import classNames from "classnames";
 
 const notificationClassNameMap = {
@@ -15,6 +15,7 @@ const notificationClassNameMap = {
 	},
 	position: {
 		"bottom-center": "yst-translate-y-full",
+		"bottom-left": "yst-translate-y-full",
 		"top-center": "yst--translate-y-full",
 	},
 };
@@ -115,13 +116,13 @@ const Notification = ( {
 
 Notification.propTypes = {
 	id: PropTypes.string.isRequired,
-	variant: PropTypes.oneOf( [ "success", "error", "warning", "info" ] ),
+	variant: PropTypes.oneOf( keys( notificationClassNameMap.position ) ),
 	title: PropTypes.string.isRequired,
 	description: PropTypes.oneOfType( [ PropTypes.string, PropTypes.arrayOf( PropTypes.string ) ] ),
 	onDismiss: PropTypes.func,
 	autoDismiss: PropTypes.number,
 	dismissScreenReaderLabel: PropTypes.string.isRequired,
-	position: PropTypes.oneOf( [ "bottom-center", "top-center" ] ),
+	position: PropTypes.oneOf( keys( notificationClassNameMap.position ) ),
 };
 
 
