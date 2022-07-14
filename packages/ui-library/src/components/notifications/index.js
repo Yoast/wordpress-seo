@@ -116,7 +116,7 @@ const Notification = ( {
 
 Notification.propTypes = {
 	id: PropTypes.string.isRequired,
-	variant: PropTypes.oneOf( keys( notificationClassNameMap.position ) ),
+	variant: PropTypes.oneOf( keys( notificationClassNameMap.variant ) ),
 	title: PropTypes.string.isRequired,
 	description: PropTypes.oneOfType( [ PropTypes.string, PropTypes.arrayOf( PropTypes.string ) ] ),
 	onDismiss: PropTypes.func,
