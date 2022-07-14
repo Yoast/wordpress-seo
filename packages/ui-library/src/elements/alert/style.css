@@ -26,11 +26,11 @@
 
 		.yst-alert--warning {
 			@apply
-			yst-bg-yellow-100
-			yst-text-yellow-800;
+			yst-bg-amber-100
+			yst-text-amber-800;
 
 			.yst-alert__icon {
-				@apply yst-text-yellow-500;
+				@apply yst-text-amber-500;
 			}
 		}
 
