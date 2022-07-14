@@ -88,6 +88,7 @@ class Results extends Component {
 		const keywordKey = this.props.keywordKey;
 		const elementID = keywordKey === "" ? "focus-keyword-input-" + inputFieldLocation
 			: "yoast-keyword-input-" + keywordKey + "-" +  inputFieldLocation;
+		console.log( elementID, "elementID" );
 
 		document.getElementById( elementID ).focus();
 	}
@@ -126,7 +127,7 @@ class Results extends Component {
 		let inputFieldLocation = this.props.location;
 
 		if ( id === "functionWordsInKeyphrase" || id === "keyphraseLength" ) {
-			this.focusOnKeyphraseField( id, inputFieldLocation );
+			this.focusOnKeyphraseField( inputFieldLocation );
 			return;
 		}
 		/*
