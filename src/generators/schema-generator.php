@@ -249,8 +249,8 @@ class Schema_Generator implements Generator_Interface {
 		else {
 			$schema_pieces = [
 				new Schema\Article(),
-				new Schema\Main_Image(),
 				new Schema\WebPage(),
+				new Schema\Main_Image(),
 				new Schema\Breadcrumb(),
 				new Schema\Website(),
 				new Schema\Organization(),
