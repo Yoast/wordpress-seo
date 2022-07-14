@@ -1,8 +1,12 @@
 import { SCORES } from "./scores";
 import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
 import { isFollowedByException } from "../helpers/isFollowedByException";
+import { potentiallyHarmful } from "./feedbackStrings";
 
-const overGeneralizing = "Avoid using \"%1$s\" as it is overgeneralizing. Consider using %2$s instead. ";
+const potentiallyHarmfulUnlessCulture = "Avoid using \"%1$s\" as it is potentially harmful. " +
+										"Consider using an alternative, such as \"%2$s\" instead unless you are referring to the culture " +
+										"in which this term originated.";
+const overgeneralizing = "Avoid using \"%1$s\" as it is overgeneralizing. Consider using %2$s instead. ";
 
 const cultureAssessments = [
 	{
@@ -10,7 +14,7 @@ const cultureAssessments = [
 		nonInclusivePhrases: [ "First World" ],
 		inclusiveAlternatives: "the specific name for the region or country",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: overGeneralizing,
+		feedbackFormat: overgeneralizing,
 		learnMoreUrl: "https://yoa.st/",
 		caseSensitive: true,
 		rule: ( words, inclusivePhrase ) => includesConsecutiveWords( words, inclusivePhrase )
@@ -21,11 +25,249 @@ const cultureAssessments = [
 		nonInclusivePhrases: [ "Third World" ],
 		inclusiveAlternatives: "the specific name for the region or country",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: overGeneralizing,
+		feedbackFormat: overgeneralizing,
 		learnMoreUrl: "https://yoa.st/",
 		caseSensitive: true,
 		rule: ( words, inclusivePhrase ) => includesConsecutiveWords( words, inclusivePhrase )
 			.filter( isFollowedByException( words, inclusivePhrase, [ "War", "war", "Quarterly", "quarterly" ] ) ),
+	},
+	{
+		identifier: "tribe",
+		nonInclusivePhrases: [ "tribe" ],
+		inclusiveAlternatives: "group, cohort, crew, league, guild",
+		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmfulUnlessCulture,
+		learnMoreUrl: "https://yoa.st/",
+	},
+	{
+		identifier: "exotic",
+		nonInclusivePhrases: [ "exotic" ],
+		inclusiveAlternatives: "unfamiliar, foreign, peculiar, fascinating, alluring, bizzarre",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmful,
+		learnMoreUrl: "https://yoa.st/",
+	},
+	{
+		identifier: "sherpa",
+		nonInclusivePhrases: [ "sherpa" ],
+		inclusiveAlternatives: "commander, coach, mastermind, coach, mentor",
+		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmfulUnlessCulture,
+		learnMoreUrl: "https://yoa.st/",
+	},
+	{
+		identifier: "guru",
+		nonInclusivePhrases: [ "guru" ],
+		inclusiveAlternatives: "mentor, doyen, coach, mastermind, virtuoso",
+		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmfulUnlessCulture,
+		learnMoreUrl: "https://yoa.st/",
+	},
+	{
+		identifier: "nonWhite",
+		nonInclusivePhrases: [ "non-white" ],
+		inclusiveAlternatives: "POC, BIPOC, specific racial groups mentioned",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmful,
+		learnMoreUrl: "https://yoa.st/",
+	},
+	{
+		// Should the inclusiveAlternatives be part of the feedback string?
+		identifier: "oriental",
+		nonInclusivePhrases: [ "oriental" ],
+		inclusiveAlternatives: "Asian, or be specific when possible and relevant (e.g. East Asian)",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmful,
+		learnMoreUrl: "https://yoa.st/",
+	},
+	{
+		identifier: "asianAmerican",
+		nonInclusivePhrases: [ "Asian-American" ],
+		inclusiveAlternatives: "Asian American",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmful,
+		learnMoreUrl: "https://yoa.st/",
+	},
+	{
+		identifier: "africanAmerican",
+		nonInclusivePhrases: [ "African-American" ],
+		inclusiveAlternatives: "African American, Black, Americans of African descent",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmful,
+		learnMoreUrl: "https://yoa.st/",
+	},
+	{
+		identifier: "whiteRace",
+		nonInclusivePhrases: [ "the White race" ],
+		inclusiveAlternatives: "",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: "Avoid using \"%1$s\" as it is overgeneralizing and potentially harmful.",
+		learnMoreUrl: "https://yoa.st/",
+	},
+	{
+		identifier: "whitelist",
+		nonInclusivePhrases: [ "whitelist" ],
+		inclusiveAlternatives: "allowlist",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmful,
+		learnMoreUrl: "https://yoa.st/",
+	},
+	{
+		identifier: "blacklist",
+		nonInclusivePhrases: [ "blacklist" ],
+		inclusiveAlternatives: "blocklist, denylist, faillist, redlist",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmful,
+		learnMoreUrl: "https://yoa.st/",
+	},
+	{
+		identifier: "gypVerb",
+		nonInclusivePhrases: [ "gyp" ],
+		inclusiveAlternatives: "to cheat someone",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmful,
+		learnMoreUrl: "https://yoa.st/",
+	},
+	{
+		identifier: "gypNoun",
+		nonInclusivePhrases: [ "gyp" ],
+		inclusiveAlternatives: "a fraud",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmful,
+		learnMoreUrl: "https://yoa.st/",
+	},
+	{
+		identifier: "gypsy",
+		nonInclusivePhrases: [ "gypsy", "gipsies" ],
+		inclusiveAlternatives: [ "Romani, Romani person, Romani people", "Traveler, wanderer, free-spirited" ],
+		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
+		feedbackFormat: "Avoid using \"%1$s\" as it is potentially harmful. Unless referring to yourself or " +
+						"to someone who explicitly wants to be referred to with this term. Consider using an alternative, such as \"%2$s\" " +
+						"if you are referring to the ethnic group or their music and \"%3$s\" if you are referring to a lifestyle.",
+		learnMoreUrl: "https://yoa.st/",
+	},
+	{
+		identifier: "eskimo",
+		nonInclusivePhrases: [ "eskimo" ],
+		inclusiveAlternatives: "specific name of indigenous community (for example, Inuit)",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmful,
+		learnMoreUrl: "https://yoa.st/",
+	},
+	{
+		identifier: "coloredPeople",
+		nonInclusivePhrases: [ "colored people" ],
+		inclusiveAlternatives: "people of color",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmful,
+		learnMoreUrl: "https://yoa.st/",
+	},
+	{
+		identifier: "americanIndians",
+		nonInclusivePhrases: [ "American Indian", "American Indians" ],
+		inclusiveAlternatives: "Native American(s), Indigenous peoples of America",
+		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
+		feedbackFormat: "Avoid using \"%1$s\" as it is potentially harmful. Consider using an alternative, such as \"%2$s\" instead " +
+						"unless referring to yourself " +
+						"or to someone who explicitly wants to be referred to with this term.",
+		learnMoreUrl: "https://yoa.st/",
+	},
+	{
+		identifier: "mulatto",
+		nonInclusivePhrases: [ "mulatto" ],
+		inclusiveAlternatives: "mixed, biracial, multiracial",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmful,
+		learnMoreUrl: "https://yoa.st/",
+	},
+	{
+		identifier: "savage",
+		nonInclusivePhrases: [ "savage" ],
+		inclusiveAlternatives: "severe, dreadful, untamed",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmful,
+		learnMoreUrl: "https://yoa.st/",
+	},
+	{
+		identifier: "civilized",
+		nonInclusivePhrases: [ "civilized" ],
+		inclusiveAlternatives: "proper, well-mannered, enlightened, respectful",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmful,
+		learnMoreUrl: "https://yoa.st/",
+	},
+	{
+		identifier: "primitive",
+		nonInclusivePhrases: [ "primitive" ],
+		inclusiveAlternatives: "early, rudimentary",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmful,
+		learnMoreUrl: "https://yoa.st/",
+	},
+	{
+		identifier: "africanAmericanVernacularEnglish",
+		nonInclusivePhrases: [ "African American Vernacular English" ],
+		inclusiveAlternatives: "African American English, African American Language",
+		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmful,
+		learnMoreUrl: "https://yoa.st/",
+	},
+	{
+		identifier: "ebonics",
+		nonInclusivePhrases: [ "Ebonics" ],
+		inclusiveAlternatives: "African American English, African American Language",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: "Avoid using \"%1$s\" as it is outdated and potentially harmful. Consider using an alternative, such as \"%2$s\" instead.",
+		learnMoreUrl: "https://yoa.st/",
+	},
+	{
+		identifier: "powWow",
+		nonInclusivePhrases: [ "pow-wow" ],
+		inclusiveAlternatives: "chat, brief conversation, brainstorm, huddle",
+		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmfulUnlessCulture,
+		learnMoreUrl: "https://yoa.st/",
+	},
+	{
+		identifier: "lowManOnTheTotemPole",
+		nonInclusivePhrases: [ "low man on the totem pole" ],
+		inclusiveAlternatives: "person of lower rank, junior-level",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmful,
+		learnMoreUrl: "https://yoa.st/",
+	},
+	{
+		identifier: "spiritAnimal",
+		nonInclusivePhrases: [ "spirit animal" ],
+		inclusiveAlternatives: "inspiration, hero, icon, idol",
+		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmfulUnlessCulture,
+		learnMoreUrl: "https://yoa.st/",
+	},
+	{
+		identifier: "firstWorldCountries",
+		nonInclusivePhrases: [ "first world countries" ],
+		inclusiveAlternatives: "specific name for the countries or regions",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: overgeneralizing,
+		learnMoreUrl: "https://yoa.st/",
+	},
+	{
+		identifier: "firstWorld",
+		nonInclusivePhrases: [ "first-world" ],
+		inclusiveAlternatives: "specific name for the country or region",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: overgeneralizing,
+		learnMoreUrl: "https://yoa.st/",
+	},
+	{
+		identifier: "underdevelopedCountry",
+		nonInclusivePhrases: [ "underdeveloped country", "underdeveloped countries" ],
+		inclusiveAlternatives: "developing country/countries",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: "Avoid using \"%1$s\" as it is potentially harmful. Consider using an alternative, " +
+						"such as \"%2$s\" instead or be more specific about what aspect this word refers to.",
+		learnMoreUrl: "https://yoa.st/",
 	},
 ];
 
