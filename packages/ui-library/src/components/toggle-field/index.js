@@ -34,7 +34,7 @@ const ToggleField = ( {
 					<Label as={ Switch.Label } className="yst-toggle-field__label" label={ label } />
 					{ labelSuffix }
 				</div>
-				{ description || children && (
+				{ ( description || children ) && (
 					<Switch.Description className="yst-toggle-field__description">{ description || children }</Switch.Description>
 				) }
 			</div>
