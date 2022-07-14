@@ -78,7 +78,10 @@ export default function AnalysisList( { results, marksButtonActivatedResult, mar
 
 			const editFieldName = result.editFieldName;
 			const ariaLabelEdit = editFieldName === "" ? ""
-				: sprintf( __( "Edit your %1$s", "wordpress-seo" ), editFieldName );
+				: sprintf(
+					/* Translators: %1$s refers to the name of the field that should be edited (keyphrase, meta description,
+					   slug or SEO title). */
+					__( "Edit your %1$s", "wordpress-seo" ), editFieldName );
 
 			return <AnalysisResult
 				key={ result.id }
