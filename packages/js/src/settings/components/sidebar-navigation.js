@@ -14,7 +14,7 @@ const PureSubmenuItem = SidebarNavigation.SubmenuItem;
  */
 const SubmenuItem = ( { to, idSuffix = "", ...props } ) => {
 	const id = useMemo( () => replace( replace( `link-${to}`, "/", "-" ), "--", "-" ), [ to ] );
-	return <PureSubmenuItem as={ Link } pathProp="to" id={ `${ id }${ idSuffix }` } to={ to } { ...props } />;
+	return <PureSubmenuItem as={ Link } pathProp="to" id={ `${ id }${ idSuffix && `-${ idSuffix }` }` } to={ to } { ...props } />;
 };
 
 SubmenuItem.propTypes = {
