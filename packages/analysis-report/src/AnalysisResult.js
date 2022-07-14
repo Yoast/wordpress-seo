@@ -82,7 +82,7 @@ AnalysisResult.propTypes = {
 	suppressedText: PropTypes.bool,
 	bulletColor: PropTypes.string.isRequired,
 	hasMarksButton: PropTypes.bool.isRequired,
-	hasEditButton: PropTypes.bool.isRequired,
+	hasEditButton: PropTypes.bool,
 	buttonIdMarks: PropTypes.string.isRequired,
 	buttonIdEdit: PropTypes.string.isRequired,
 	pressed: PropTypes.bool.isRequired,
@@ -102,6 +102,7 @@ AnalysisResult.defaultProps = {
 	marksButtonClassName: "",
 	editButtonClassName: "",
 	hasBetaBadgeLabel: false,
+	hasEditButton: false,
 };
 
 export default AnalysisResult;
