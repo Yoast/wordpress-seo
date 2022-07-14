@@ -66,6 +66,7 @@ describe( "serialize", () => {
 			_hasJumps: false,
 			_parseClass: "AssessmentResult",
 			_hasBetaBadge: false,
+			editFieldName: "",
 			identifier: "",
 			marks: [],
 			score: 666,
