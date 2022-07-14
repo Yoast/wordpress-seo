@@ -2,7 +2,6 @@ import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Badge, SelectField, TextField, ToggleField } from "@yoast/ui-library";
 import { Field } from "formik";
-import { get, map } from "lodash";
 import PropTypes from "prop-types";
 import { addLinkToString } from "../../../helpers/stringHelpers";
 import {
@@ -16,22 +15,18 @@ import {
 import { useSelectSettings } from "../../store";
 
 /**
- * @param {{name: string, value: (string|number|bool)}[]} types Schema types.
- * @returns {{label: string, value: (string|number|bool)}[]} Options.
- */
-const transformSchemaTypesToOptions = types => map( types, ( { name, value } ) => ( { label: name, value } ) );
-
-/**
  * @param {string} name The post type name.
  * @param {string} label The post type label (plural).
  * @param {string} singularLabel The post type label (singular).
  * @returns {JSX.Element} The post type element.
  */
 const PostType = ( { name, label, singularLabel } ) => {
-	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [], name );
-	const recommendedReplacementVariables = useSelectSettings( "selectRecommendedReplacementVariablesFor", [], name );
+	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [ name ], name );
+	const recommendedReplacementVariables = useSelectSettings( "selectRecommendedReplacementVariablesFor", [ name ], name );
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
 	const customFieldAnalysisLink = useSelectSettings( "selectLink", [], "https://yoa.st/4cr" );
+	const articleTypes = useSelectSettings( "selectArticleTypeValuesFor", [ name ], name );
+	const pageTypes = useSelectSettings( "selectPageTypeValuesFor", [ name ], name );
 
 	const recommendedSize = useMemo( () => createInterpolateElement(
 		sprintf(
@@ -49,8 +44,6 @@ const PostType = ( { name, label, singularLabel } ) => {
 			strong: <strong className="yst-font-semibold" />,
 		}
 	) );
-	const pageTypes = useMemo( () => transformSchemaTypesToOptions( get( window, "wpseoScriptData.schema.pageTypeOptions", [] ) ), [] );
-	const articleTypes = useMemo( () => transformSchemaTypesToOptions( get( window, "wpseoScriptData.schema.articleTypeOptions", [] ) ), [] );
 
 	return (
 		<FormLayout title={ label }>
