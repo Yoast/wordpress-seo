@@ -22,7 +22,7 @@
 @layer components {
 	.yst-root {
 		.yst-mobile-navigation__top {
-			@media (min-width: 600px) and (max-width: 768px) {
+			@media (min-width: 601px) and (max-width: 768px) {
 				top: 46px;
 			}
 		}
