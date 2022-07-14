@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import { noop } from "lodash";
 
 import { SvgIcon, IconButtonToggle, IconCTAEditButton, BetaBadge } from "@yoast/components";
 
@@ -85,12 +86,12 @@ AnalysisResult.propTypes = {
 	hasMarksButton: PropTypes.bool.isRequired,
 	hasEditButton: PropTypes.bool,
 	buttonIdMarks: PropTypes.string.isRequired,
-	buttonIdEdit: PropTypes.string.isRequired,
+	buttonIdEdit: PropTypes.string,
 	pressed: PropTypes.bool.isRequired,
 	ariaLabelMarks: PropTypes.string.isRequired,
-	ariaLabelEdit: PropTypes.string.isRequired,
+	ariaLabelEdit: PropTypes.string,
 	onButtonClickMarks: PropTypes.func.isRequired,
-	onButtonClickEdit: PropTypes.func.isRequired,
+	onButtonClickEdit: PropTypes.func,
 	marksButtonStatus: PropTypes.string,
 	marksButtonClassName: PropTypes.string,
 	editButtonClassName: PropTypes.string,
@@ -105,6 +106,9 @@ AnalysisResult.defaultProps = {
 	editButtonClassName: "",
 	hasBetaBadgeLabel: false,
 	hasEditButton: false,
+	buttonIdEdit: "",
+	ariaLabelEdit: "",
+	onButtonClickEdit: noop,
 };
 
 export default AnalysisResult;
