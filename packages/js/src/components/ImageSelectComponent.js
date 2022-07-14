@@ -11,9 +11,19 @@ import { fetchAttachment, openMedia } from "../helpers/selectMedia";
  *
  * @returns {JSX.Element} The ImageSelectComponent.
  */
-const ImageSelectComponent = ( { hiddenField, hiddenFieldImageId, hasImageValidation, ...imageSelectProps } ) => {
+const ImageSelectComponent = ( { hiddenField, hiddenFieldImageId, hiddenFieldFallbackImageId, hasImageValidation, ...imageSelectProps } ) => {
+
+	const [ usingFallback, setUsingFallback ] = useState( ( document.getElementById( hiddenFieldFallbackImageId  ) !== null ) );
 	const hiddenFieldElement = useMemo( () => document.getElementById( hiddenField ) );
-	const hiddenFieldImageIdElement = useMemo( () => document.getElementById( hiddenFieldImageId ) );
+	const hiddenFieldSelectImageElement = useMemo( () => document.getElementById( hiddenFieldImageId ) );
+
+	let hiddenFieldImageIdElement = null;
+
+	if ( hiddenFieldFallbackImageId && document.getElementById( hiddenFieldFallbackImageId ) ) {
+		hiddenFieldImageIdElement = useMemo( () => document.getElementById( hiddenFieldFallbackImageId ) );
+	} else {
+		hiddenFieldImageIdElement = hiddenFieldSelectImageElement;
+	}
 
 	const [ image, setImage ] = useState( {
 		url: hiddenFieldElement ? hiddenFieldElement.value : "",
@@ -32,17 +42,23 @@ const ImageSelectComponent = ( { hiddenField, hiddenFieldImageId, hasImageValida
 	} );
 
 	const selectImage = useCallback( () => openMedia( data => {
+		hiddenFieldImageIdElement = hiddenFieldSelectImageElement;
 		setImage( data );
 		updateHiddenFields( data );
 		if ( hasImageValidation ) {
 			setWarnings( validateFacebookImage( data ) );
 		}
+
+		setUsingFallback( false );
 	} ), [ hasImageValidation, updateHiddenFields ] );
+
 	const removeImage = useCallback( () => {
+		hiddenFieldImageIdElement = hiddenFieldSelectImageElement;
 		const emptyImage = { url: "", id: "", alt: "" };
 		setImage( emptyImage );
 		updateHiddenFields( emptyImage );
 		setWarnings( [] );
+		setUsingFallback( true );
 	}, [ updateHiddenFields ] );
 
 	useEffect( () => {
@@ -53,6 +69,7 @@ const ImageSelectComponent = ( { hiddenField, hiddenFieldImageId, hasImageValida
 
 	return <ImageSelect
 		{ ...imageSelectProps }
+		usingFallback={ usingFallback }
 		imageUrl={ image.url }
 		imageId={ image.id }
 		imageAltText={ image.alt }
@@ -65,11 +82,13 @@ const ImageSelectComponent = ( { hiddenField, hiddenFieldImageId, hasImageValida
 ImageSelectComponent.propTypes = {
 	hiddenField: PropTypes.string.isRequired,
 	hiddenFieldImageId: PropTypes.string,
+	hiddenFieldFallbackImageId: PropTypes.string,
 	hasImageValidation: PropTypes.bool,
 };
 
 ImageSelectComponent.defaultProps = {
 	hiddenFieldImageId: "",
+	hiddenFieldFallbackImageId: "",
 	hasImageValidation: false,
 };
 
