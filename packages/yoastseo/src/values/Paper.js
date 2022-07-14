@@ -38,7 +38,7 @@ const defaultAttributes = {
 function Paper( text, attributes ) {
 	this._text = text || "";
 	// Unify whitespaces and non-breaking spaces.
-	this._text = unifyNonBreakingSpace( this._text );
+	// this._text = unifyNonBreakingSpace( this._text );
 
 	attributes = attributes || {};
 	defaults( attributes, defaultAttributes );
