@@ -22,9 +22,13 @@ export default function( text ) {
 		"\uff5d\uff5c\uff5e\uff5f\uff60\uff62\uff63\uff64\uff3b\uff3d\uff65\uffe5\uff04\uff05\uff20\uff06\uff07\uff08\uff09\uff0a\uff0f\uff1a" +
 		"\uff1b\uff1c\uff1e\uff3c\\<>";
 
+	// Remove &amp from the string. In some editors (a.o. Block and Elementor) the ampersand (&) is transformed into &amp.
+	// If it would not be removed it is returned as amp and counted as a word in assessments downstream.
+	text = text.replace( "\u0026amp", "" );
 
 	const punctuationRegexStart = new RegExp( "^[" + punctuationRegexString + "]+" );
 	const punctuationRegexEnd = new RegExp( "[" + punctuationRegexString +  "]+$" );
+
 	/*
 	 * Remove backslash from the beginning and end of a word/text.
 	 * When a string such as `This is a \"calico\" cat` enters the Paper,

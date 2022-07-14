@@ -90,32 +90,34 @@ class Yoast_Integration_Toggles {
 			],
 			(object) [
 				/* translators: %s: Zapier. */
-				'name'            => \sprintf( \esc_html__( '%s integration', 'wordpress-seo' ), 'Zapier' ),
-				'premium'         => true,
-				'setting'         => 'zapier_integration_active',
-				'label'           => \sprintf(
+				'name'               => \sprintf( \esc_html__( '%s integration', 'wordpress-seo' ), 'Zapier' ),
+				'premium'            => true,
+				'setting'            => 'zapier_integration_active',
+				'label'              => \sprintf(
 				/* translators: 1: Yoast SEO, 2: Zapier. */
 					\__( 'Set up automated actions when you publish or update your content. By connecting %1$s with %2$s, you can easily send out your published posts to any of its 2000+ destinations, such as Twitter, Facebook and more.', 'wordpress-seo' ),
 					'Yoast SEO',
 					'Zapier'
 				),
 				/* translators: %s: Zapier. */
-				'read_more_label' => \sprintf( \__( 'Find out more about our %s integration.', 'wordpress-seo' ), 'Zapier' ),
-				'read_more_url'   => 'https://yoa.st/4et',
-				'premium_url'     => 'https://yoa.st/46o',
-				'order'           => 20,
+				'read_more_label'    => \sprintf( \__( 'Find out more about our %s integration.', 'wordpress-seo' ), 'Zapier' ),
+				'read_more_url'      => 'https://yoa.st/4et',
+				'premium_url'        => 'https://yoa.st/46o',
+				'premium_upsell_url' => 'https://yoa.st/get-zapier-integration',
+				'order'              => 20,
 			],
 			(object) [
 				/* translators: %s: Algolia. */
-				'name'            => \sprintf( \esc_html__( '%s integration', 'wordpress-seo' ), 'Algolia' ),
-				'premium'         => true,
-				'setting'         => 'algolia_integration_active',
-				'label'           => __( 'Improve the quality of your site search! Automatically helps your users find your cornerstone and most important content in your internal search results. It also removes noindexed posts & pages from your site’s search results.', 'wordpress-seo' ),
+				'name'               => \sprintf( \esc_html__( '%s integration', 'wordpress-seo' ), 'Algolia' ),
+				'premium'            => true,
+				'setting'            => 'algolia_integration_active',
+				'label'              => __( 'Improve the quality of your site search! Automatically helps your users find your cornerstone and most important content in your internal search results. It also removes noindexed posts & pages from your site’s search results.', 'wordpress-seo' ),
 				/* translators: %s: Algolia. */
-				'read_more_label' => \sprintf( \__( 'Find out more about our %s integration.', 'wordpress-seo' ), 'Algolia' ),
-				'read_more_url'   => 'https://yoa.st/4eu',
-				'premium_url'     => 'https://yoa.st/4ex',
-				'order'           => 25,
+				'read_more_label'    => \sprintf( \__( 'Find out more about our %s integration.', 'wordpress-seo' ), 'Algolia' ),
+				'read_more_url'      => 'https://yoa.st/4eu',
+				'premium_url'        => 'https://yoa.st/4ex',
+				'premium_upsell_url' => 'https://yoa.st/get-algolia-integration',
+				'order'              => 25,
 			],
 		];
 

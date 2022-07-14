@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.0
-Stable tag: 19.2
+Stable tag: 19.3
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -55,6 +55,7 @@ We know content is king, that's why Yoast SEO is famous for its **state-of-the-a
 * **[Premium]** Automatic internal linking suggestions: write your article and get automatic suggested posts to link to!
 * **[Premium]** An orphaned content filter to detect posts that have no links pointing towards them!
 * **[Premium]** SEO workouts to make working on your site as easy as ABC. These SEO workflows will get your site into shape in no time!
+* **[Premium]** **New!** Yoast SEO Premium comes with a new word complexity feature that gives you actionable feedback on using difficult words. This feature is in beta and English only for now.
 
 #### KEEP YOUR SITE IN PERFECT SHAPE
 
@@ -239,73 +240,47 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 19.4 =
+Release Date: July 26th, 2022
+
+
+
+
+Enhancements:
+
+* Allows marking inside of Classic editor blocks in the Block/Gutenberg editor.
+* Enhances the Integrations page and relocates it in the Yoast SEO sidebar menu.
+* Improves Schema for archive pages by using the featured image of the first post as `primaryImageOfPage` and by removing `potentialAction`.
+* Improves Schema for attachment pages by setting the proper `primaryImage` attribute.
+* Improves the text analysis by adding curly (“”) and angular quotation marks («»).
+* Improves the text analysis by filtering out all versions of the ampersand (&).
+* Removes the date from the meta description for WooCommerce products.
+
 = 19.3 =
 Release Date: July 12th, 2022
 
-
-
-
-
-
-
-
-
+Yoast SEO 19.3 is out today! In this release, we’ve rolled out some improvements to our Schema structured data implementation. In addition, we also added an Insights tab with information about your content, improved our content analyses and a whole lot more. Read more about what's new in Yoast SEO 19.3 in [our release post in English](https://yoa.st/release-12-7-22) or [our release post in Spanish](https://yoa.st/release-12-7-22-spanish)!
 
 Enhancements:
 
-* Adds an Insights tab to the editors which contains Flesch reading ease score and feedback, (estimated) reading time, and word count.
-* Adds a `wpseo_meta_author` hook to filter the content of the author meta tag.
-* Adds canonical HTTP headers from RSS feeds to their parent URLs (for instance your homepage, or specific categories or tags), so the feeds themselves don't show up in search results.
-* Changes the `@id` of the main schema `WebPage` node to be just the permalink for the current page, for interoperability with other plugins.
-* Improves sentence recognition for German by disregarding ordinal numbers as potential sentence boundaries.
+* Adds an Insights tab to the editors which contains the Flesch reading ease score and feedback, (estimated) reading time, and word count. Since the Flesch reading ease score has been moved to the insights tab, it is removed from the readability analysis.
+* Changes the `@id` of the main Schema `WebPage` node to be just the permalink for the current page, for interoperability with other plugins.
+* Changes the logic of the Schema generation to prefer featured image and in-content images instead of OpenGraph and Twitter images.
+* Uses the site logo set in the customizer as the logo in our Schema `Organization` output when a site has not set a logo in the Yoast SEO settings.
 * Improves the author meta tag to be displayed only on posts.
+* Adds a `wpseo_meta_author` hook to filter the content of the author meta tag.
+* Improves sentence recognition for German by disregarding ordinal numbers as potential sentence boundaries.
+* Adds canonical HTTP headers from RSS feeds to their parent URLs (for instance your homepage, or specific categories or tags), so the feeds themselves don't show up in search results.
 * Makes sure the `link` tag in the RSS feeds' `channel` section links to the most specific URL possible (for instance the category or tag the RSS feed is for) instead of the homepage.
 * Makes sure the title separator chosen in Yoast SEO is used for RSS feed titles too.
-* Prefer featured image and in-content images instead of OpenGraph and Twitter images for Schema output.
-* Removes the Flesch reading ease assessment from the readability analysis, since it is now available in the Insights tab.
-* Updates the Yoast SEO logo.
-* Uses the site logo set in the customizer as the logo in our Schema `Organization` output when a site has not set a logo in the Yoast SEO settings.
 
 Bugfixes:
 
-* Fixes a bug in the Wincher integration table on posts and terms where the focus keyphrase was not marked with an asterisk.
+* Fixes a bug where the focus keyphrase in the Wincher integration table on posts and terms would not be marked with an asterisk.
 * Fixes a bug where a warning would be triggered when author data wasn't available for a post.
 * Fixes a bug where disabled settings in the General page would be set to `Off` upon saving the settings form.
 * Fixes a bug where the desktop preview would show a truncated title, while the title length progress bar and title width assessment would indicate that the title length was still within the limits.
-
-= 19.2 =
-Release Date: June 28th, 2022
-
-Yoast SEO 19.2 is out today! In this release, we've rolled out some improvements to the content and SEO analyses and we've added an integration with WordProof to timestamp privacy pages on the blockchain. Read more about what's new in Yoast SEO 19.2 in [our release post in English](https://yoa.st/release-28-6-22) or [our release post in Spanish](https://yoa.st/release-28-6-22-spanish)!
-
-Enhancements:
-
-* NEW: Adds an integration with WordProof, which allows for improving the trustworthiness of the privacy policy and terms and conditions pages by adding a timestamp.
-* Adds support for `webp` images for OpenGraph output.
-* Adds a notice that displays when Yoast SEO Premium is installed but not activated prompting the user to activate it.
-* Adds a new filter `wpseo_change_home_url` that allows changing the URL checked by the Ryte integration, to support more versatile hosting setups.
-* Adds a `meta author` tag to ensure that LinkedIn picks up the name of a post author properly.
-* Adds the name of the article author to the `author` section of the `Article` schema piece, to ensure that Pinterest picks up the name of a post author properly.
-* Enables sorting on the SEO and readability score columns on the post overview page.
-* Ensures the Bing XML sitemap ping is only sent if IndexNow is disabled.
-* Prevents XML sitemap pings for blogs that aren't public.
-* Improves the content analysis by excluding blockquote HTML elements.
-* Improves the sentence recognition by disregarding abbreviations and initials as potential sentence boundaries.
-* Improves the text analysis by not splitting sentences on semicolon ;.
-* Improves the text analysis by supporting sentence detection for declarative sentences in quotation marks.
-* Improves the text analysis in Elementor by not always splitting on ellipsis &#8230; regardless of whether the next sentence has a valid beginning or not.
-
-Bugfixes:
-
-* Fixes a bug that would cause the First-time configuration to crash when completing indexation with the Yoast admin bar menu hidden.
-* Fixes a bug where filtering the OpenGraph and Twitter image to a URL containing ampersands would lead to encoding issues.
-* Fixes a bug where HTML tags in the `og:description` meta tag would be displayed encoded instead of being removed completely.
-* Fixes a bug where the sitemap `image:loc` URLs containing ampersands would lead to encoding issues.
-* Fixes a bug where notices would show an abnormally large heading in Yoast SEO Premium page.
-
-Other:
-
-* Renames the 'Keyphrase in title' SEO assessment to 'Keyphrase in SEO title'.
+* Fixes a bug where the keyphrase density assessment errors, or fails to mark the found keyphrases in the text, when using keyphrases that include some regular expression control characters, for example brackets.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

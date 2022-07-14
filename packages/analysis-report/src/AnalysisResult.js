@@ -43,7 +43,7 @@ export const AnalysisResult = ( props ) => {
 	return (
 		<AnalysisResultBase>
 			<ScoreIcon
-				icon="circle"
+				icon={ props.icon }
 				color={ props.bulletColor }
 				size="13px"
 			/>
@@ -78,6 +78,7 @@ export const AnalysisResult = ( props ) => {
 };
 
 AnalysisResult.propTypes = {
+	icon: PropTypes.string,
 	text: PropTypes.string.isRequired,
 	suppressedText: PropTypes.bool,
 	bulletColor: PropTypes.string.isRequired,
@@ -97,6 +98,7 @@ AnalysisResult.propTypes = {
 };
 
 AnalysisResult.defaultProps = {
+	icon: "circle",
 	suppressedText: false,
 	marksButtonStatus: "enabled",
 	marksButtonClassName: "",
