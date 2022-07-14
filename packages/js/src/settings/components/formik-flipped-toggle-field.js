@@ -1,6 +1,7 @@
 import { useCallback } from "@wordpress/element";
 import { ToggleField } from "@yoast/ui-library";
 import { useField } from "formik";
+import { isUndefined } from "lodash";
 import PropTypes from "prop-types";
 
 /**
@@ -21,7 +22,7 @@ const FormikFlippedToggleField = props => {
 		<ToggleField
 			{ ...field }
 			{ ...props }
-			checked={ ! field.checked }
+			checked={ isUndefined( props.checked ) ? ! field.checked : ! props.checked }
 			onChange={ handleChange }
 		/>
 	);
