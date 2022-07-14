@@ -1,5 +1,4 @@
 import { defaults, isEmpty, isEqual } from "lodash-es";
-import { unifyNonBreakingSpace } from "../languageProcessing/helpers/sanitize/unifyWhitespace";
 
 /**
  * Default attributes to be used by the Paper if they are left undefined.
@@ -37,8 +36,6 @@ const defaultAttributes = {
  */
 function Paper( text, attributes ) {
 	this._text = text || "";
-	// Unify whitespaces and non-breaking spaces.
-	// this._text = unifyNonBreakingSpace( this._text );
 
 	attributes = attributes || {};
 	defaults( attributes, defaultAttributes );
