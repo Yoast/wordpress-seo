@@ -1,10 +1,9 @@
 import { __, sprintf } from "@wordpress/i18n";
-import { Alert, TextField, ToggleField } from "@yoast/ui-library";
+import { Alert, Badge, TextField, ToggleField } from "@yoast/ui-library";
 import { Field, useFormikContext } from "formik";
 import { addLinkToString } from "../../helpers/stringHelpers";
-import { FieldsetLayout, FormikValueChangeField, FormLayout } from "../components";
+import { FieldsetLayout, FormikFlippedToggleField, FormikValueChangeField, FormLayout } from "../components";
 import { useSelectSettings } from "../store";
-import { FormikFlippedToggleField } from "../components";
 
 /**
  * @returns {JSX.Element} The site preferences route.
@@ -22,7 +21,10 @@ const CrawlSettings = () => {
 
 	return (
 		<FormLayout
-			title={ __( "Crawl settings", "wordpress-seo" ) }
+			title={ <>
+				{ __( "Crawl settings", "wordpress-seo" ) }
+				<Badge variant="info" className="yst-ml-1.5">{ __( "Beta", "wordpress-seo" ) }</Badge>
+			</> }
 			description={ addLinkToString(
 				sprintf(
 					// translators: %1$s and %2$s are replaced by opening and closing <a> tags.

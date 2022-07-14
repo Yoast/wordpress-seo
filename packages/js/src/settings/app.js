@@ -1,6 +1,7 @@
 /* eslint-disable */
 import { AdjustmentsIcon, DesktopComputerIcon, NewspaperIcon } from "@heroicons/react/outline";
 import { __ } from "@wordpress/i18n";
+import { Badge } from "@yoast/ui-library";
 import { map } from "lodash";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { SidebarNavigation, YoastLogo, Notifications } from "./components";
@@ -48,7 +49,14 @@ const Menu = ( { idSuffix = "" } ) => {
 		{ /*	) ) }*/ }
 		{ /* </SidebarNavigation.MenuItem>*/ }
 		<SidebarNavigation.MenuItem id={ `menu-advanced-settings${ idSuffix && `-${idSuffix}` }` } icon={ AdjustmentsIcon } label={ __( "Advanced settings", "wordpress-seo" ) }>
-			<SidebarNavigation.SubmenuItem to="/crawl-settings" label={ __( "Crawl settings", "wordpress-seo" ) } idSuffix={ idSuffix } />
+			<SidebarNavigation.SubmenuItem
+				to="/crawl-settings"
+				label={ <>
+					{ __( "Crawl settings", "wordpress-seo" ) }
+					<Badge variant="info" className="yst-ml-1.5">{ __( "Beta", "wordpress-seo" ) }</Badge>
+				</> }
+				idSuffix={ idSuffix }
+			/>
 			{ /* <SidebarNavigation.SubmenuItem to="/author-archives" label={ __( "Author archives", "wordpress-seo" ) } idSuffix={ idSuffix } />*/ }
 			{ /* <SidebarNavigation.SubmenuItem to="/date-archives" label={ __( "Date archives", "wordpress-seo" ) } idSuffix={ idSuffix } />*/ }
 			{ /* <SidebarNavigation.SubmenuItem to="/search-pages" label={ __( "Search pages", "wordpress-seo" ) } idSuffix={ idSuffix } />*/ }
