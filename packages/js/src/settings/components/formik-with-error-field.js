@@ -8,12 +8,21 @@ import { useFormikError } from "../hooks";
  * @param {JSX.Element} Component The component to wrap.
  * @returns {JSX.Element} The wrapped component.
  */
-// eslint-disable-next-line no-unused-vars
-const withFormikError = ( Component ) => {
+const withFormikError = ( Component ) => { // eslint-disable-line no-unused-vars
+	/**
+	 * @param {string} name The name.
+	 * @param {Object} props The props.
+	 * @returns {JSX.Element} The element.
+	 */
 	const ComponentWithFormikError = ( { name, ...props } ) => {
 		const { isTouched, error } = useFormikError( { name } );
 		return <Component { ...props } name={ name } error={ isTouched && error } />;
 	};
+
+	ComponentWithFormikError.propTypes = {
+		name: PropTypes.string.isRequired,
+	};
+
 	return ComponentWithFormikError;
 };
 
