@@ -21,7 +21,7 @@ const Notifications = () => {
 		dismissScreenReaderLabel: __( "Dismiss", "wordpress-seo" ),
 	} ), [ notifications ] ) );
 
-	return <NotificationsComponent notifications={ enrichedNotifications } />;
+	return <NotificationsComponent notifications={ enrichedNotifications } position="bottom-left" />;
 };
 
 export default Notifications;
