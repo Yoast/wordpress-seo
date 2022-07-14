@@ -1,7 +1,7 @@
 import apiFetch from "@wordpress/api-fetch";
 import { Slot } from "@wordpress/components";
 import { useState, useCallback } from "@wordpress/element";
-import { __, sprintf } from "@wordpress/i18n";
+import { __ } from "@wordpress/i18n";
 import { PropTypes } from "prop-types";
 
 import { Button, Badge, ToggleField } from "@yoast/ui-library";
@@ -15,6 +15,8 @@ import WincherLogo from "../../../images/wincher-logo.svg";
 import ZapierLogo from "../../../images/zapier-logo.svg";
 import WordproofLogo from "../../../images/wordproof-logo.svg";
 import WoocommerceLogo from "../../../images/woocommerce-logo.svg";
+import { ArrowSmRightIcon, CheckIcon, XIcon } from "@heroicons/react/solid";
+import { LockOpenIcon } from "@heroicons/react/outline";
 
 const isPremiumInstalled = Boolean( window.wpseoScriptData.isPremium );
 const upsellLink         = "https://yoa.st/workout-orphaned-content-upsell";
@@ -45,18 +47,6 @@ const SEOTools = [
 		logo: WincherLogo,
 	},
 	{
-		name: "Ryte",
-		claim: __( "Ensure your site is findable", "wordpress-seo" ),
-		learnMoreLink: "#",
-		type: "toggleable",
-		slug: "ryte",
-		description: __( "Ryte in Yoast SEO monitors your site’s findability and lets you know if your site is hidden from search engines.", "wordpress-seo" ),
-		isPremium: false,
-		isNew: false,
-		isMultisiteAvailable: true,
-		logo: RyteLogo,
-	},
-	{
 		name: "WordProof",
 		claim: __( "Put a stamp of trust on your content", "wordpress-seo" ),
 		learnMoreLink: "#",
@@ -80,6 +70,18 @@ const SEOTools = [
 		isNew: false,
 		isMultisiteAvailable: true,
 		logo: ZapierLogo,
+	},
+	{
+		name: "Ryte",
+		claim: __( "Ensure your site is findable", "wordpress-seo" ),
+		learnMoreLink: "#",
+		type: "toggleable",
+		slug: "ryte",
+		description: __( "Ryte in Yoast SEO monitors your site’s findability and lets you know if your site is hidden from search engines.", "wordpress-seo" ),
+		isPremium: false,
+		isNew: false,
+		isMultisiteAvailable: true,
+		logo: RyteLogo,
 	},
 ];
 
@@ -301,15 +303,13 @@ const ToggleableIntegration = ( {
 			</Card.Header>
 			<Card.Content>
 				<div className={ `${ ( getIsCardActive( integration, isActive ) ) ? "" : "yst-opacity-50  yst-filter yst-grayscale" }` }>
-					<h4 className="yst-flex yst-items-center yst-text-base yst-mb-3 yst-font-medium yst-text-[#111827]">
+					<h4 className="yst-flex yst-items-center yst-text-base yst-mb-3 yst-font-medium yst-text-[#111827] yst-leading-tight">
 						<span>{ integration.claim && integration.claim }</span>
 					</h4>
 					<p> { integration.description }
 						{ integration.learnMoreLink && <a href={ integration.learnMoreLink } className={ `yst-flex yst-items-center yst-mt-3 yst-no-underline yst-font-medium ${ ( getIsCardActive( integration, isActive ) ) ? "" : "yst-pointer-events-none" }` }>
 							Learn more
-							<svg xmlns="http://www.w3.org/2000/svg" className="yst-h-4 yst-w-4 yst-ml-1" viewBox="0 0 20 20" fill="currentColor">
-								<path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
-							</svg>
+							<ArrowSmRightIcon  className="yst-h-4 yst-w-4 yst-ml-1" />
 						</a> }
 					</p>
 				</div>
@@ -320,17 +320,17 @@ const ToggleableIntegration = ( {
 			</Card.Content>
 			<Card.Footer>
 				{ ! getIsFreeIntegrationOrPremiumAvailable( integration ) && <Button id={ `${ integration.name }-upsell-button` } type="button" as="a" href={ upsellLink } variant="upsell" className="yst-w-full yst-text-gray-800">
-					<svg xmlns="http://www.w3.org/2000/svg" className="yst--ml-1 yst-mr-2 yst-h-5 yst-w-5 yst-text-yellow-900" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-						<path strokeLinecap="round" strokeLinejoin="round" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z" />
-					</svg>
+					<LockOpenIcon
+						className="yst--ml-1 yst-mr-2 yst-h-5 yst-w-5 yst-text-yellow-900"
+					/>
 					{ __( "Unlock with Premium", "wordpress-seo" ) }
 				</Button>
 				}
 				{ getIsFreeIntegrationOrPremiumAvailable( integration ) && ! getIsMultisiteAvailable( integration ) && <p className="yst-flex yst-items-start yst-justify-between">
 					<span className="yst-text-gray-700 yst-font-medium">{ __( "Integration unavailable for multisites", "wordpress-seo" ) }</span>
-					<svg xmlns="http://www.w3.org/2000/svg" className="yst-h-5 yst-w-5 yst-text-red-500 yst-flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
-						<path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
-					</svg>
+					<XIcon
+						className="yst-h-5 yst-w-5 yst-text-red-500 yst-flex-shrink-0"
+					/>
 				</p>  }
 				{ getIsFreeIntegrationOrPremiumAvailable( integration ) && getIsMultisiteAvailable( integration ) && <ToggleField checked={ isActive } label={ toggleLabel } onChange={ toggleActive } disabled={ ! isNetworkControlEnabled || ! isMultisiteAvailable }  className={ `${ getIsCardActive( integration, isActive ) ? "" : "yst-opacity-50 yst-filter yst-grayscale" }` } /> }
 			</Card.Footer>
@@ -376,7 +376,7 @@ const SimpleIntegration = ( {
 				{ ( integration.isNew ) && <Badge className="yst-absolute yst-top-2 yst-right-2">{ __( "New", "wordpress-seo" ) }</Badge> }
 			</Card.Header>
 			<Card.Content>
-				<h4 className="yst-flex yst-items-center yst-text-base yst-mb-3 yst-font-medium yst-text-[#111827]">
+				<h4 className="yst-flex yst-items-center yst-text-base yst-mb-3 yst-font-medium yst-text-[#111827] yst-leading-tight">
 					<span>{ integration.claim }</span>
 				</h4>
 				{ integration.description && <p> { integration.description } </p> }
@@ -384,9 +384,9 @@ const SimpleIntegration = ( {
 					{ integration.usps.map( ( usp, idx ) => {
 						return (
 							<li key={ idx } className="yst-flex yst-items-start">
-								<svg xmlns="http://www.w3.org/2000/svg" className="yst-h-5 yst-w-5 yst-mr-2 yst-text-green-400 yst-flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
-									<path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-								</svg>
+								<CheckIcon
+									className="yst-h-5 yst-w-5 yst-mr-2 yst-text-green-400 yst-flex-shrink-0"
+								/>
 								<span> { usp } </span>
 							</li>
 						);
@@ -425,19 +425,12 @@ const Section = ( { title, description, elements } ) => {
 	return (
 		<section>
 			<div className="yst-mb-8">
-				<h2 className="yst-mb-2 yst-text-lg">{ title }</h2>
+				<h2 className="yst-mb-2 yst-text-lg yst-font-medium">{ title }</h2>
 				<p className="yst-text-tiny">{ description }</p>
 			</div>
 			<div className="yst-grid yst-grid-cols-1 yst-gap-6 sm:yst-grid-cols-2 md:yst-grid-cols-3 lg:yst-grid-cols-4">
 				{ elements.map( ( integration, index ) => {
-					const label = sprintf(
-						// translators: %1$s expands to the name of the integration
-						__(
-							"Enable %1$s",
-							"wordpress-seo"
-						),
-						integration.name
-					);
+					const label = __( "Enable integration", "wordpress-seo" );
 					switch ( integration.type ) {
 						case "toggleable":
 							return (
@@ -481,7 +474,7 @@ Section.propTypes = {
 */
 export default function IntegrationsGrid() {
 	return (
-		<div className="yst-h-full yst-flex yst-flex-col yst-bg-white">
+		<div className="yst-h-full yst-flex yst-flex-col yst-bg-white yst-rounded-lg yst-shadow">
 			<div className="yst-flex-grow yst-max-w-6xl yst-p-8">
 
 				<Section
