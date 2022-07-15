@@ -1,3 +1,5 @@
+import { ArrowSmRightIcon, CheckIcon, XIcon } from "@heroicons/react/solid";
+import { LockOpenIcon } from "@heroicons/react/outline";
 import apiFetch from "@wordpress/api-fetch";
 import { Slot } from "@wordpress/components";
 import { useState, useCallback } from "@wordpress/element";
@@ -16,8 +18,6 @@ import WincherLogo from "../../images/wincher-logo.svg";
 import ZapierLogo from "../../images/zapier-logo.svg";
 import WordproofLogo from "../../images/wordproof-logo.svg";
 import WoocommerceLogo from "../../images/woocommerce-logo.svg";
-import { ArrowSmRightIcon, CheckIcon, XIcon } from "@heroicons/react/solid";
-import { LockOpenIcon } from "@heroicons/react/outline";
 
 const isPremiumInstalled = Boolean( window.wpseoScriptData.isPremium );
 
