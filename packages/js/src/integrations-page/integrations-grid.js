@@ -2,9 +2,10 @@ import apiFetch from "@wordpress/api-fetch";
 import { Slot } from "@wordpress/components";
 import { useState, useCallback } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
+import classNames from "classnames";
 import { PropTypes } from "prop-types";
 
-import { Button, Badge, ToggleField, Title } from "@yoast/ui-library";
+import { Button, Badge, ToggleField, Title, Link } from "@yoast/ui-library";
 import { Card } from "./tailwind-components/card";
 import AlgoliaLogo from "../../images/algolia-logo.svg";
 import ElementorLogo from "../../images/elementor-logo.svg";
@@ -309,10 +310,19 @@ const ToggleableIntegration = ( {
 						<span>{ integration.claim && integration.claim }</span>
 					</h4>
 					<p> { integration.description }
-						{ integration.learnMoreLink && <a href={ integration.learnMoreLink } className={ `yst-flex yst-items-center yst-mt-3 yst-no-underline yst-font-medium ${ ( getIsCardActive( integration, isActive ) ) ? "" : "yst-pointer-events-none" }` }>
+						{ integration.learnMoreLink && <Link
+							href={ integration.learnMoreLink }
+							className={ classNames( "yst-flex yst-items-center yst-mt-3 yst-no-underline yst-font-medium", ( getIsCardActive( integration, isActive ) ) ? "" : "yst-pointer-events-none" ) }
+							target="_blank"
+						>
 							Learn more
-							<ArrowSmRightIcon  className="yst-h-4 yst-w-4 yst-ml-1" />
-						</a> }
+							<span className="yst-sr-only">
+								{
+									__( "(Opens in a new browser tab)", "wordpress-seo" )
+								}
+							</span>
+							<ArrowSmRightIcon className="yst-h-4 yst-w-4 yst-ml-1" />
+						</Link> }
 					</p>
 				</div>
 				{ isActive &&
@@ -321,11 +331,24 @@ const ToggleableIntegration = ( {
 					/> }
 			</Card.Content>
 			<Card.Footer>
-				{ ! getIsFreeIntegrationOrPremiumAvailable( integration ) && <Button id={ `${ integration.name }-upsell-button` } type="button" as="a" href={ integration.upsellLink } variant="upsell" className="yst-w-full yst-text-gray-800">
+				{ ! getIsFreeIntegrationOrPremiumAvailable( integration ) && <Button
+					id={ `${ integration.name }-upsell-button` }
+					type="button"
+					as="a"
+					href={ integration.upsellLink }
+					variant="upsell"
+					className="yst-w-full yst-text-gray-800"
+					target="_blank"
+				>
 					<LockOpenIcon
 						className="yst--ml-1 yst-mr-2 yst-h-5 yst-w-5 yst-text-yellow-900"
 					/>
 					{ __( "Unlock with Premium", "wordpress-seo" ) }
+					<span className="yst-sr-only">
+						{
+							__( "(Opens in a new browser tab)", "wordpress-seo" )
+						}
+					</span>
 				</Button>
 				}
 				{ getIsFreeIntegrationOrPremiumAvailable( integration ) && ! getIsMultisiteAvailable( integration ) && <p className="yst-flex yst-items-start yst-justify-between">
