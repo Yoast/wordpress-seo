@@ -112,7 +112,7 @@ class Results extends Component {
 
 		if ( id === "metaDescriptionKeyword" || id === "metaDescriptionLength" ) {
 			inputField = "description";
-		} else if ( id === "titleWidth" ) {
+		} else if ( id === "titleWidth" || id === "keyphraseInSEOTitle" ) {
 			inputField = "title";
 		} else {
 			inputField = "slug";
