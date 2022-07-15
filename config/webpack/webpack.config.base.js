@@ -96,3 +96,15 @@ module.exports = function( { entry, output, combinedOutputFile, cssExtractFileNa
 		].filter( Boolean ),
 	};
 };
+
+module.exports.css = function( { entry, output, filename = "[name].css", plugins = [] } ) {
+	return {
+		...defaultConfig,
+		plugins: [
+			new MiniCSSExtractPlugin( { filename } ),
+			...plugins,
+		],
+		entry,
+		output,
+	};
+};

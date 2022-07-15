@@ -1,9 +1,12 @@
 const path = require( "path" );
+const { existsSync, readdirSync } = require( "fs" );
+const { chain } = require( "lodash" );
 
+const cssDistPath = path.resolve( "css", "dist" );
 const jsDistPath = path.resolve( "js", "dist" );
 
 /**
- * Composes a list of entries based on the current NODE_ENV mode.
+ * Composes a list of JS entries.
  *
  * @param {string} sourceDirectory The source path.
  *
@@ -49,6 +52,24 @@ const getEntries = ( sourceDirectory = "./packages/js/src" ) => ( {
 } );
 
 /**
+ * Composes a list of CSS entries.
+ *
+ * @param {string} sourceDirectory The source path.
+ *
+ * @returns {object} A list of entries.
+ */
+const getCssEntries = ( sourceDirectory = "./css/src" ) => {
+	if ( ! existsSync( sourceDirectory ) ) {
+		return {};
+	}
+
+	return chain( readdirSync( sourceDirectory ) )
+		.filter( file => path.extname( file ) === ".css" )
+		.reduce( ( entries, file ) => ( { ...entries, [ file.replace( ".css", "" ) ]: `${ sourceDirectory }/${ file }` } ), {} )
+		.value();
+};
+
+/**
  * Flattens a version for usage in a filename.
  *
  * @param {string} version The version to flatten.
@@ -69,4 +90,6 @@ module.exports = {
 	jsDist: jsDistPath,
 	select2: path.resolve( "node_modules", "select2", "dist" ),
 	flattenVersionForFile,
+	cssDist: cssDistPath,
+	cssEntry: getCssEntries(),
 };

@@ -1,14 +1,15 @@
 // External dependencies
 const { existsSync, readdirSync } = require( "fs" );
 const { join } = require( "path" );
+const CopyPlugin = require( "copy-webpack-plugin" );
 
 // Variables
 const root = join( __dirname, "../../" );
 
 // Internal dependencies
-const paths       = require( "./paths" );
+const paths = require( "./paths" );
 const packageJson = require( root + "package.json" );
-const baseConfig  = require( "./webpack.config.base" );
+const baseConfig = require( "./webpack.config.base" );
 const {
 	yoastPackages,
 	yoastExternals,
@@ -20,52 +21,65 @@ const pluginVersionSlug = paths.flattenVersionForFile( pluginVersion );
 const outputFilename = "[name].js";
 
 module.exports = [
-	baseConfig(
-		{
-			entry: paths.entry,
-			output: {
-				path: paths.jsDist,
-				filename: outputFilename,
-			},
-			combinedOutputFile: root + "src/generated/assets/plugin.php",
-			cssExtractFileName: root + "../../css/dist/plugin-" + pluginVersionSlug + ".css",
-		}
-	),
-	baseConfig(
-		{
-			entry: yoastPackages.reduce( ( memo, packageName ) => {
-				if ( existsSync( "./packages/" + packageName ) ) {
-					memo[ yoastExternals[ packageName ] ] = "./packages/" + packageName;
-					return memo;
-				}
-				memo[ yoastExternals[ packageName ] ] = "./node_modules/" + packageName;
+	baseConfig( {
+		entry: paths.entry,
+		output: {
+			path: paths.jsDist,
+			filename: outputFilename,
+		},
+		combinedOutputFile: root + "src/generated/assets/plugin.php",
+		cssExtractFileName: root + "../../css/dist/plugin-" + pluginVersionSlug + ".css",
+	} ),
+	baseConfig( {
+		entry: yoastPackages.reduce( ( memo, packageName ) => {
+			if ( existsSync( "./packages/" + packageName ) ) {
+				memo[ yoastExternals[ packageName ] ] = "./packages/" + packageName;
 				return memo;
-			}, {} ),
-			output: {
-				path: paths.jsDist + "/externals",
-				filename: outputFilename,
-				library: [ "yoast", "[name]" ],
-				libraryTarget: "window",
-			},
-			combinedOutputFile: root + "src/generated/assets/externals.php",
-			cssExtractFileName: "../../../css/dist/monorepo-" + pluginVersionSlug + ".css",
-		}
-	),
-	baseConfig(
-		{
-			entry: languages.reduce( ( memo, language ) => {
-				const name = ( language === "_default" ) ? "default" : language;
-				memo[ name ] = "./node_modules/yoastseo/src/languageProcessing/languages/" + language + "/Researcher";
-				return memo;
-			}, {} ),
-			output: {
-				path: paths.jsDist + "/languages",
-				filename: outputFilename,
-				library: [ "yoast", "Researcher" ],
-				libraryTarget: "window",
-			},
-			combinedOutputFile: root + "src/generated/assets/languages.php",
-			cssExtractFileName: "../../../css/dist/languages-" + pluginVersionSlug + ".css",
-		}
-	),
+			}
+			memo[ yoastExternals[ packageName ] ] = "./node_modules/" + packageName;
+			return memo;
+		}, {} ),
+		output: {
+			path: paths.jsDist + "/externals",
+			filename: outputFilename,
+			library: [ "yoast", "[name]" ],
+			libraryTarget: "window",
+		},
+		combinedOutputFile: root + "src/generated/assets/externals.php",
+		cssExtractFileName: "../../../css/dist/monorepo-" + pluginVersionSlug + ".css",
+	} ),
+	baseConfig( {
+		entry: languages.reduce( ( memo, language ) => {
+			const name = ( language === "_default" ) ? "default" : language;
+			memo[ name ] = "./node_modules/yoastseo/src/languageProcessing/languages/" + language + "/Researcher";
+			return memo;
+		}, {} ),
+		output: {
+			path: paths.jsDist + "/languages",
+			filename: outputFilename,
+			library: [ "yoast", "Researcher" ],
+			libraryTarget: "window",
+		},
+		combinedOutputFile: root + "src/generated/assets/languages.php",
+		cssExtractFileName: "../../../css/dist/languages-" + pluginVersionSlug + ".css",
+	} ),
+
+	baseConfig.css( {
+		entry: paths.cssEntry,
+		output: {
+			path: paths.cssDist,
+			filename: "[name].ignore.js",
+		},
+		filename: `[name]-${ pluginVersionSlug }.css`,
+		plugins: [
+			new CopyPlugin( {
+				patterns: [
+					{
+						from: "node_modules/select2/dist/css/select2.min.css",
+						to: `${ paths.cssDist }/select2`,
+					},
+				],
+			} ),
+		],
+	} ),
 ];
