@@ -152,7 +152,7 @@ class Results extends Component {
 			// Open the modal.
 			document.getElementById( "yoast-google-preview-modal-open-button" ).click();
 			// Wait for the input field elements to become available, then focus on the relevant field.
-			setTimeout( () => this.focusOnGooglePreviewField( id, inputFieldLocation ), 250 );
+			setTimeout( () => this.focusOnGooglePreviewField( id, inputFieldLocation ), 500 );
 		} else {
 			this.focusOnGooglePreviewField( id, inputFieldLocation );
 		}
