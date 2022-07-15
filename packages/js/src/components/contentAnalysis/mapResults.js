@@ -14,8 +14,6 @@ import { colors } from "@yoast/style-guide";
  * @property {bool} hasBetaBadge
  * @property {bool} hasJumps
  * @property {string} editFieldName
-
-
  */
 
 /**
