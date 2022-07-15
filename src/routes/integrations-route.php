@@ -23,13 +23,6 @@ class Integrations_Route implements Route_Interface {
 	const INTEGRATIONS_ROUTE = '/integrations';
 
 	/**
-	 * Represents a route to check if current user has the correct capabilities.
-	 *
-	 * @var string
-	 */
-	const CHECK_CAPABILITY_ROUTE = '/check_capability';
-
-	/**
 	 * Represents a route to set the state of Semrush integration.
 	 *
 	 * @var string
