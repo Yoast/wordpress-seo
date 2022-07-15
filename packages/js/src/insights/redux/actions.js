@@ -6,6 +6,7 @@ export const LOAD_ESTIMATED_READING_TIME = "LOAD_ESTIMATED_READING_TIME";
 export const SET_FLESCH_READING_EASE = "SET_FLESCH_READING_EASE";
 export const SET_PROMINENT_WORDS = "SET_PROMINENT_WORDS";
 export const SET_TEXT_LENGTH = "SET_TEXT_LENGTH";
+export const SET_TEXT_FORMALITY_LEVEL = "SET_TEXT_FORMALITY_LEVEL";
 
 /**
  * Sets the estimated reading time to the store.
@@ -71,4 +72,16 @@ export const setProminentWords = prominentWords => ( {
 export const setTextLength = textLength => ( {
 	type: SET_TEXT_LENGTH,
 	payload: textLength,
+} );
+
+
+/**
+ * Sets the text formality level on the store.
+ *
+ * @param {string} formalityLevel The formality level of the text, either "formal" or "informal".
+ * @returns {Object} The action.
+ */
+export const setTextFormalityLevel = formalityLevel => ( {
+	type: SET_TEXT_FORMALITY_LEVEL,
+	payload: formalityLevel,
 } );

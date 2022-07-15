@@ -1,8 +1,9 @@
-import { LOAD_ESTIMATED_READING_TIME, SET_ESTIMATED_READING_TIME, SET_FLESCH_READING_EASE, SET_TEXT_LENGTH } from "./actions";
+import { LOAD_ESTIMATED_READING_TIME, SET_ESTIMATED_READING_TIME, SET_FLESCH_READING_EASE, SET_TEXT_LENGTH, SET_TEXT_FORMALITY_LEVEL } from "./actions";
 
 const INITIAL_STATE = {
 	estimatedReadingTime: 0,
 	textLength: {},
+	textFormalityLevel: "",
 };
 
 /**
@@ -37,6 +38,10 @@ const reducer = ( state = INITIAL_STATE, { type, payload } ) => {
 			return {
 				...state,
 				textLength: payload,
+			};
+		case SET_TEXT_FORMALITY_LEVEL:
+			return {
+				textFormalityLevel: payload,
 			};
 		default:
 			return state;
