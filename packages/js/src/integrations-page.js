@@ -2,7 +2,7 @@ import { get } from "lodash";
 import domReady from "@wordpress/dom-ready";
 
 import { Root } from "@yoast/ui-library";
-import IntegrationsGrid from "./integrations-page/tailwind-components/integrations-grid";
+import IntegrationsGrid from "./integrations-page/integrations-grid";
 import { registerReactComponent, renderReactRoot } from "./helpers/reactRoot";
 
 window.YoastSEO = window.YoastSEO || {};

@@ -1,20 +1,20 @@
 import apiFetch from "@wordpress/api-fetch";
 import { Slot } from "@wordpress/components";
 import { useState, useCallback } from "@wordpress/element";
-import { __ } from "@wordpress/i18n";
+import { __, sprintf } from "@wordpress/i18n";
 import { PropTypes } from "prop-types";
 
-import { Button, Badge, ToggleField } from "@yoast/ui-library";
-import { Card } from "./card";
-import AlgoliaLogo from "../../../images/algolia-logo.svg";
-import ElementorLogo from "../../../images/elementor-logo.svg";
-import JetpackLogo from "../../../images/jetpack-logo.svg";
-import RyteLogo from "../../../images/ryte-logo.svg";
-import SemrushLogo from "../../../images/semrush-logo.svg";
-import WincherLogo from "../../../images/wincher-logo.svg";
-import ZapierLogo from "../../../images/zapier-logo.svg";
-import WordproofLogo from "../../../images/wordproof-logo.svg";
-import WoocommerceLogo from "../../../images/woocommerce-logo.svg";
+import { Button, Badge, ToggleField, Title } from "@yoast/ui-library";
+import { Card } from "./tailwind-components/card";
+import AlgoliaLogo from "../../images/algolia-logo.svg";
+import ElementorLogo from "../../images/elementor-logo.svg";
+import JetpackLogo from "../../images/jetpack-logo.svg";
+import RyteLogo from "../../images/ryte-logo.svg";
+import SemrushLogo from "../../images/semrush-logo.svg";
+import WincherLogo from "../../images/wincher-logo.svg";
+import ZapierLogo from "../../images/zapier-logo.svg";
+import WordproofLogo from "../../images/wordproof-logo.svg";
+import WoocommerceLogo from "../../images/woocommerce-logo.svg";
 import { ArrowSmRightIcon, CheckIcon, XIcon } from "@heroicons/react/solid";
 import { LockOpenIcon } from "@heroicons/react/outline";
 
@@ -475,6 +475,27 @@ Section.propTypes = {
 export default function IntegrationsGrid() {
 	return (
 		<div className="yst-h-full yst-flex yst-flex-col yst-bg-white yst-rounded-lg yst-shadow">
+			<header className="yst-border-b yst-border-gray-200">
+				<div className="yst-max-w-screen-sm yst-p-8">
+					<Title
+						as="h1"
+						className="yst-flex yst-items-center"
+					>
+						{
+							__( "Integrations", "wordpress-seo" )
+						}
+					</Title>
+					<p className="yst-text-tiny yst-mt-3">
+						{
+							sprintf(
+								/* translators: 1: Yoast SEO */
+								__( "%s can integrate with third party products. You can enable or disable these integrations below.", "wordpress-seo" ),
+								"Yoast SEO",
+							)
+						}
+					</p>
+				</div>
+			</header>
 			<div className="yst-flex-grow yst-max-w-6xl yst-p-8">
 
 				<Section
