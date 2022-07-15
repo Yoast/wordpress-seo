@@ -23,13 +23,6 @@ class Integrations_Route implements Route_Interface {
 	const INTEGRATIONS_ROUTE = '/integrations';
 
 	/**
-	 * Represents a route to check if current user has the correct capabilities.
-	 *
-	 * @var string
-	 */
-	const CHECK_CAPABILITY_ROUTE = '/check_capability';
-
-	/**
 	 * Represents a route to set the state of Semrush integration.
 	 *
 	 * @var string
@@ -95,18 +88,6 @@ class Integrations_Route implements Route_Interface {
 	 * @return void
 	 */
 	public function register_routes() {
-		$check_capability_route = [
-			'methods'             => 'GET',
-			'callback'            => [ $this, 'check_capability' ],
-			'permission_callback' => [ $this, 'can_manage_options' ],
-			'args'                => [
-				'user_id' => [
-					'required' => true,
-				],
-			],
-		];
-		\register_rest_route( Main::API_V1_NAMESPACE, self::INTEGRATIONS_ROUTE . self::CHECK_CAPABILITY_ROUTE, $check_capability_route );
-
 		$set_semrush_active_route = [
 			'methods'             => 'POST',
 			'callback'            => [ $this, 'set_semrush_active' ],
