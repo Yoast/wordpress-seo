@@ -46,3 +46,12 @@ export const isFleschReadingEaseAvailable = state => {
  * @returns {{ count: number, unit: ("character"|"word") }} The text length.
  */
 export const getTextLength = state => get( state, "insights.textLength", {} );
+
+/**
+ * Gets the formality level of the text.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {string} The formality level of the text, either "formal" or "informal".
+ */
+export const getTextFormalityLevel = state => get( state, "insights.textFormalityLevel", "" );
