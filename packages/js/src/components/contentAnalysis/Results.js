@@ -89,7 +89,14 @@ class Results extends Component {
 		const elementID = keywordKey === "" ? "focus-keyword-input-" + inputFieldLocation
 			: "yoast-keyword-input-" + keywordKey + "-" +  inputFieldLocation;
 
-		document.getElementById( elementID ).focus();
+
+		const element = document.getElementById( elementID )
+		element.focus();
+		element.scrollIntoView( {
+			behavior: 'auto',
+			block: 'center',
+			inline: 'center'
+		} );
 	}
 
 	/**
@@ -111,7 +118,13 @@ class Results extends Component {
 			inputField = "slug";
 		}
 
-		document.getElementById( "yoast-google-preview-" + inputField + "-" + inputFieldLocation ).focus();
+		const element = document.getElementById( "yoast-google-preview-" + inputField + "-" + inputFieldLocation )
+		element.focus();
+		element.scrollIntoView( {
+			behavior: 'auto',
+			block: 'center',
+			inline: 'center'
+		} );
 	}
 
 	/**
