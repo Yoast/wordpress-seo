@@ -19,7 +19,6 @@ import { ArrowSmRightIcon, CheckIcon, XIcon } from "@heroicons/react/solid";
 import { LockOpenIcon } from "@heroicons/react/outline";
 
 const isPremiumInstalled = Boolean( window.wpseoScriptData.isPremium );
-const upsellLink         = "https://yoa.st/workout-orphaned-content-upsell";
 
 const SEOTools = [
 	{
@@ -70,6 +69,7 @@ const SEOTools = [
 		isNew: false,
 		isMultisiteAvailable: true,
 		logo: ZapierLogo,
+		upsellLink: "https://yoa.st/get-zapier-integration",
 	},
 	{
 		name: "Ryte",
@@ -116,6 +116,7 @@ const pluginIntegrations = [
 		isNew: false,
 		isMultisiteAvailable: true,
 		logo: AlgoliaLogo,
+		upsellLink: "https://yoa.st/get-algolia-integration",
 	},
 	{
 		name: "WooCommerce",
@@ -258,6 +259,7 @@ const updateIntegrationState = async( integration, setActive ) => {
  * @param {object}    integration             The integration.
  * @param {bool}      InitialActivationState  True if the integration has been activated by the user.
  * @param {bool}      isNetworkControlEnabled True if the integration is network-enabled.
+ * @param {bool}      isMultisiteAvailable    True if the integration is available on multisites.
  * @param {string}    toggleLabel             The toggle label.
  * @param {function}  beforeToggle            Check function to call before toggling the integration.
  *
@@ -319,7 +321,7 @@ const ToggleableIntegration = ( {
 					/> }
 			</Card.Content>
 			<Card.Footer>
-				{ ! getIsFreeIntegrationOrPremiumAvailable( integration ) && <Button id={ `${ integration.name }-upsell-button` } type="button" as="a" href={ upsellLink } variant="upsell" className="yst-w-full yst-text-gray-800">
+				{ ! getIsFreeIntegrationOrPremiumAvailable( integration ) && <Button id={ `${ integration.name }-upsell-button` } type="button" as="a" href={ integration.upsellLink } variant="upsell" className="yst-w-full yst-text-gray-800">
 					<LockOpenIcon
 						className="yst--ml-1 yst-mr-2 yst-h-5 yst-w-5 yst-text-yellow-900"
 					/>
@@ -332,7 +334,12 @@ const ToggleableIntegration = ( {
 						className="yst-h-5 yst-w-5 yst-text-red-500 yst-flex-shrink-0"
 					/>
 				</p>  }
-				{ getIsFreeIntegrationOrPremiumAvailable( integration ) && getIsMultisiteAvailable( integration ) && <ToggleField checked={ isActive } label={ toggleLabel } onChange={ toggleActive } disabled={ ! isNetworkControlEnabled || ! isMultisiteAvailable }  className={ `${ getIsCardActive( integration, isActive ) ? "" : "yst-opacity-50 yst-filter yst-grayscale" }` } /> }
+				{ getIsFreeIntegrationOrPremiumAvailable( integration ) && getIsMultisiteAvailable( integration ) && <ToggleField
+					checked={ isActive }
+					label={ toggleLabel }
+					onChange={ toggleActive }
+					disabled={ ! isNetworkControlEnabled || ! isMultisiteAvailable }
+				/> }
 			</Card.Footer>
 		</Card>
 	 );
@@ -345,12 +352,13 @@ ToggleableIntegration.propTypes = {
 		learnMoreLink: PropTypes.string,
 		type: PropTypes.string,
 		slug: PropTypes.string,
-		description: __( PropTypes.string, "wordpress-seo" ),
+		description: PropTypes.string,
 		usps: PropTypes.array,
 		logo: PropTypes.string,
 		isPremium: PropTypes.bool,
 		isNew: PropTypes.bool,
 		isMultisiteAvailable: PropTypes.bool,
+		upsellLink: PropTypes.string,
 	} ),
 	InitialActivationState: PropTypes.bool,
 	isNetworkControlEnabled: PropTypes.bool,
@@ -405,7 +413,7 @@ SimpleIntegration.propTypes = {
 		claim: PropTypes.string,
 		type: PropTypes.string,
 		slug: PropTypes.string,
-		description: __( PropTypes.string, "wordpress-seo" ),
+		description: PropTypes.string,
 		usps: PropTypes.array,
 		logo: PropTypes.string,
 		isNew: PropTypes.bool,
@@ -463,7 +471,7 @@ const Section = ( { title, description, elements } ) => {
 
 Section.propTypes = {
 	title: PropTypes.string,
-	description: __( PropTypes.string, "wordpress-seo" ),
+	description: PropTypes.string,
 	elements: PropTypes.array,
 };
 
@@ -490,7 +498,7 @@ export default function IntegrationsGrid() {
 							sprintf(
 								/* translators: 1: Yoast SEO */
 								__( "%s can integrate with third party products. You can enable or disable these integrations below.", "wordpress-seo" ),
-								"Yoast SEO",
+								"Yoast SEO"
 							)
 						}
 					</p>
