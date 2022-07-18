@@ -25,7 +25,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 			},
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/4ly" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/4lz" ),
-			assessVariants: true,
+			assessVariants: false,
 			productIdentifierOrBarcode: {
 				lowercase: "product identifier",
 				uppercase: "",
@@ -63,12 +63,13 @@ export default class ProductIdentifiersAssessment extends Assessment {
 	}
 
 	/**
-	 * Makes the assessment temporarily not applicable, until we have access to the needed data from WooCommerce and Shopify.
+	 * Checks whether the assessment is applicable. Currently it is applicable when variants should be assessed (i.e.
+	 * in WooCommerce, but not in Shopify)
 	 *
-	 * @returns {Boolean} Always returns false.
+	 * @returns {Boolean} Whether the assessment is applicable.
 	 */
 	isApplicable() {
-		return false;
+		return this._config.assessVariants;
 	}
 
 	/**
