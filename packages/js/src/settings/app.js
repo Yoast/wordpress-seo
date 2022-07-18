@@ -51,10 +51,12 @@ const Menu = ( { idSuffix = "" } ) => {
 		<SidebarNavigation.MenuItem id={ `menu-advanced-settings${ idSuffix && `-${idSuffix}` }` } icon={ AdjustmentsIcon } label={ __( "Advanced settings", "wordpress-seo" ) }>
 			<SidebarNavigation.SubmenuItem
 				to="/crawl-settings"
-				label={ <>
-					{ __( "Crawl settings", "wordpress-seo" ) }
-					<Badge variant="info" className="yst-ml-1.5">{ __( "Beta", "wordpress-seo" ) }</Badge>
-				</> }
+				label={
+					<span className="yst-inline-flex yst-items-center yst-gap-1.5">
+						{ __( "Crawl optimization", "wordpress-seo" ) }
+						<Badge variant="info">{ __( "Beta", "wordpress-seo" ) }</Badge>
+					</span>
+				}
 				idSuffix={ idSuffix }
 			/>
 			{ /* <SidebarNavigation.SubmenuItem to="/author-archives" label={ __( "Author archives", "wordpress-seo" ) } idSuffix={ idSuffix } />*/ }

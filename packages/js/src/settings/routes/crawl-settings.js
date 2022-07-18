@@ -21,10 +21,12 @@ const CrawlSettings = () => {
 
 	return (
 		<FormLayout
-			title={ <>
-				{ __( "Crawl settings", "wordpress-seo" ) }
-				<Badge variant="info" className="yst-ml-1.5">{ __( "Beta", "wordpress-seo" ) }</Badge>
-			</> }
+			title={
+				<span className="yst-inline-flex yst-items-center yst-gap-1.5">
+					{ __( "Crawl optimization", "wordpress-seo" ) }
+					<Badge variant="info">{ __( "Beta", "wordpress-seo" ) }</Badge>
+				</span>
+			}
 			description={ addLinkToString(
 				sprintf(
 					// translators: %1$s and %2$s are replaced by opening and closing <a> tags.
@@ -36,8 +38,8 @@ const CrawlSettings = () => {
 			) }
 		>
 			<FieldsetLayout
-				title={ __( "Basic crawl settings", "wordpress-seo" ) }
-				description={ __( "Remove links added by WordPress to the header and <head>.", "wordpress-seo" ) }
+				title={ __( "Crawl efficiency", "wordpress-seo" ) }
+				description={ __( "Disable settings to remove links added by WordPress to the header and <head>.", "wordpress-seo" ) }
 			>
 				<FormikFlippedToggleField
 					name="wpseo.remove_shortlinks"
@@ -82,7 +84,7 @@ const CrawlSettings = () => {
 			</FieldsetLayout>
 			<hr className="yst-my-8" />
 			<FieldsetLayout
-				title={ __( "Feed cleanup settings", "wordpress-seo" ) }
+				title={ __( "Feed cleanup", "wordpress-seo" ) }
 				description={ __( "Remove feed links added by WordPress that aren't needed for this site.", "wordpress-seo" ) }
 			>
 				<FormikFlippedToggleField
@@ -94,7 +96,7 @@ const CrawlSettings = () => {
 					name="wpseo.remove_feed_global_comments"
 					data-id="input-wpseo-remove_feed_global_comments"
 					label={ __( "Global comment feeds", "wordpress-seo" ) }
-					description={ __( "By removing Global comments feed, Post comments feeds will be removed too.", "wordpress-seo" ) }
+					description={ __( "By disabling and removing Global comments feed, Post comments feeds will be disabled and removed too.", "wordpress-seo" ) }
 				/>
 				<FormikFlippedToggleField
 					name="wpseo.remove_feed_post_comments"
@@ -141,8 +143,8 @@ const CrawlSettings = () => {
 			</FieldsetLayout>
 			<hr className="yst-my-8" />
 			<FieldsetLayout
-				title={ __( "Search cleanup settings", "wordpress-seo" ) }
-				description={ __( "Clean up and filter searches to prevent search spam.", "wordpress-seo" ) }
+				title={ __( "Search cleanup", "wordpress-seo" ) }
+				description={ __( "Enable settings to clean up and filter searches to prevent search spam.", "wordpress-seo" ) }
 			>
 				<FormikValueChangeField
 					as={ ToggleField }
@@ -170,8 +172,8 @@ const CrawlSettings = () => {
 			</FieldsetLayout>
 			<hr className="yst-my-8" />
 			<FieldsetLayout
-				title={ __( "Permalink cleanup settings", "wordpress-seo" ) }
-				description={ __( "Remove unwanted URL parameters from your URLs.", "wordpress-seo" ) }
+				title={ __( "Permalink cleanup", "wordpress-seo" ) }
+				description={ __( "Disable settings to remove unwanted URL parameters from your URLs.", "wordpress-seo" ) }
 			>
 				<Alert id="alert-permalink-cleanup-settings" variant="warning">
 					{ addLinkToString(
@@ -200,6 +202,7 @@ const CrawlSettings = () => {
 					name="wpseo.clean_permalinks_extra_variables"
 					id="input-wpseo-clean_permalinks_extra_variables"
 					label={ __( "Additional URL parameters to allow", "wordpress-seo" ) }
+					description={ __( "Please use a comma to separate multiple URL parameters.", "wordpress-seo" ) }
 					disabled={ ! cleanPermalinks }
 				/>
 			</FieldsetLayout>
