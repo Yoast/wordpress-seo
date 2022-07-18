@@ -3,12 +3,12 @@
  *
  * @param {Paper} paper The paper that contains the data.
  *
- * @returns {{hasVariants: (boolean|*), hasGlobalIdentifier: (boolean|*), doAllVariantsHaveIdentifier: (boolean|*) }}
- * The object that contains information whether the product has global identifier or variants.
+ * @returns {{hasVariants: (boolean|*), hasGlobalIdentifier: (boolean|*), doAllVariantsHaveIdentifier: (boolean|*),
+ * 			isVariantIdentifierDataValid: (boolean|*) }}
+ *			The object that contains information whether the product has global identifier or variants.
  */
 export default function( paper ) {
 	const customData = paper.getCustomData();
-	console.log( customData, "customData" );
 	const productData = {
 		hasGlobalIdentifier: customData.hasGlobalIdentifier,
 		hasVariants: customData.hasVariants,

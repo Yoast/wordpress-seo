@@ -115,7 +115,7 @@ describe( "A test to check if the variant identifier data is valid", () => {
 	it( "returns false if the variant identifier data is not valid", function() {
 		const paper = new Paper( "Text.", {
 			customData: {
-				doAllVariantsHaveIdentifier: false,
+				variantIdentifierDataIsValid: false,
 			},
 		} );
 
@@ -125,7 +125,7 @@ describe( "A test to check if the variant identifier data is valid", () => {
 	it( "returns true if the variant identifier data is valid", function() {
 		const paper = new Paper( "Text.", {
 			customData: {
-				doAllVariantsHaveIdentifier: true,
+				variantIdentifierDataIsValid: true,
 			},
 		} );
 

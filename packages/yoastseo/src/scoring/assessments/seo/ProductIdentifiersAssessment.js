@@ -84,7 +84,25 @@ export default class ProductIdentifiersAssessment extends Assessment {
 	 * 													or empty object if no score should be returned.
 	 */
 	scoreProductIdentifier( productIdentifierData, config ) {
-		console.log( productIdentifierData, "productIdentifierData in assessment scoring" );
+		// Return a grey bullet if the variant identifier data is not valid.
+		// This can currently occur in WooCommerce because we cannot know what kind of bulk action the user performed without them reloading the page.
+		if( ! isUndefined( productIdentifierData.isVariantIdentifierDataValid ) && productIdentifierData.isVariantIdentifierDataValid === false  ) {
+			return {
+				score: config.scores.invalidVariantData,
+				text: sprintf(
+					/* Translators: %1$s expands to a link on yoast.com, %3$s expands to the anchor end tag,
+					* %3$s expands to the string "Barcode" or "Product identifier". */
+					__(
+						"%1$s%2$s%3$s: Please save and refresh the page to view the result for this assessment.",
+						"wordpress-seo"
+					),
+					this._config.urlTitle,
+					this._config.productIdentifierOrBarcode.uppercase,
+					"</a>"
+				),
+			};
+		}
+
 		// If a product has no variants, return orange bullet if it has no global identifier, and green bullet if it has one.
 		if ( ! productIdentifierData.hasVariants ) {
 			if ( ! productIdentifierData.hasGlobalIdentifier ) {
@@ -127,24 +145,6 @@ export default class ProductIdentifiersAssessment extends Assessment {
 		// This is currently the case for Shopify products because we don't have access data about product variant identifiers in Shopify.
 		if ( ! config.assessVariants ) {
 			return {};
-		}
-
-		if( ! isUndefined( productIdentifierData.isVariantIdentifierDataValid ) && ! productIdentifierData.isVariantIdentifierDataValid  ) {
-			console.log( "hello" );
-			return {
-				score: config.scores.invalidVariantData,
-				text: sprintf(
-					/* Translators: %1$s expands to a link on yoast.com, %3$s expands to the anchor end tag,
-					* %3$s expands to the string "Barcode" or "Product identifier". */
-					__(
-						"%1$s%2$s%3$s: Sorry, we were unable to give a result for this assessment. Please refresh the page to view the result",
-						"wordpress-seo"
-					),
-					this._config.urlTitle,
-					this._config.productIdentifierOrBarcode.uppercase,
-					"</a>"
-				),
-			};
 		}
 
 		// If we want to assess variants, and if product has variants but not all variants have an identifier, return orange bullet.
