@@ -140,3 +140,28 @@ test( "the AnalysisResult component with a beta badge label matches the snapshot
 	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );
+
+test( "the AnalysisResult component with a activated premium matches the snapshot", () => {
+	const component = renderer.create(
+		<AnalysisResult
+			ariaLabelMarks="SEOResult"
+			ariaLabelEdit="SEOResultEdit"
+			bulletColor="blue"
+			buttonIdMarks="Result button"
+			buttonIdEdit="Result button edit"
+			pressed={ true }
+			hasMarksButton={ true }
+			hasEditButton={ true }
+			onButtonClickMarks={ noop }
+			onButtonClickEdit={ noop }
+			text={ "This is beta!" }
+			score="good"
+			marksButtonStatus={ "hidden" }
+			hasBetaBadgeLabel={ true }
+			isPremium={ true }
+		/>
+	);
+
+	const tree = component.toJSON();
+	expect( tree ).toMatchSnapshot();
+} );
