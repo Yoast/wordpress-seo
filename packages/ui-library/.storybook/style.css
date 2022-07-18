@@ -7,6 +7,7 @@
 @import "../src/elements/progress-bar/style.css";
 @import "../src/elements/radio/style.css";
 @import "../src/elements/select/style.css";
+@import "../src/elements/tag-input/style.css";
 @import "../src/elements/text-input/style.css";
 @import "../src/elements/textarea/style.css";
 @import "../src/elements/title/style.css";
@@ -19,6 +20,7 @@
 @import "../src/components/radio-group/style.css";
 @import "../src/components/root/style.css";
 @import "../src/components/select-field/style.css";
+@import "../src/components/tag-field/style.css";
 @import "../src/components/text-field/style.css";
 @import "../src/components/textarea-field/style.css";
 @import "../src/components/toggle-field/style.css";
