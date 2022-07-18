@@ -29,6 +29,7 @@ const handleSubmit = async( values ) => {
 	const formData = new FormData();
 
 	formData.set( "option_page", "wpseo_settings" );
+	formData.set( "_wp_http_referer", "admin.php?page=wpseo_settings_saved" );
 	formData.set( "action", "update" );
 	formData.set( "_wpnonce", nonce );
 

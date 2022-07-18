@@ -118,6 +118,7 @@ class Settings_Integration implements Integration_Interface {
 	 */
 	public function register_hooks() {
 		\add_filter( 'wpseo_submenu_pages', [ $this, 'add_page' ] );
+		\add_filter( 'admin_menu', [ $this, 'add_settings_saved_page' ] );
 
 		// Check we are either saving the settings or on the settings page before registering.
 		$is_saving_settings = false;
@@ -170,6 +171,29 @@ class Settings_Integration implements Integration_Interface {
 				'wpseo_settings',
 				[ $this, 'display_page' ],
 			]
+		);
+
+		return $pages;
+	}
+
+	/**
+	 * Adds a dummy page.
+	 *
+	 * Because the options route NEEDS to redirect to something.
+	 *
+	 * @param array $pages The pages.
+	 *
+	 * @return array The pages.
+	 */
+	public function add_settings_saved_page( $pages ) {
+		\add_submenu_page(
+			null,
+			"",
+			null,
+			'wpseo_manage_options',
+			'wpseo_settings_saved',
+			static function() {
+			}
 		);
 
 		return $pages;
