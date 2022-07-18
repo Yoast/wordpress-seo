@@ -1,7 +1,7 @@
 import { __ } from "@wordpress/i18n";
 import { Alert, Badge, ToggleField as PureToggleField } from "@yoast/ui-library";
 import { FieldsetLayout, FormikValueChangeField, FormLayout } from "../components";
-import { withDisabledMessageSupport } from "../hoc";
+import { withDisabledMessageSupport } from "../hocs";
 import { useSelectSettings } from "../store";
 
 const ToggleField = withDisabledMessageSupport( PureToggleField );
