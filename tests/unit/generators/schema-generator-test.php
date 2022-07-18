@@ -244,24 +244,6 @@ class Schema_Generator_Test extends TestCase {
 				'@context' => 'https://schema.org',
 				'@graph'   => [
 					[
-						'@type'           => 'WebSite',
-						'@id'             => '#website',
-						'url'             => null,
-						'name'            => '',
-						'description'     => 'description',
-						'potentialAction' => [
-							[
-								'@type'       => 'SearchAction',
-								'target'      => [
-									'@type'       => 'EntryPoint',
-									'urlTemplate' => '?s={search_term_string}',
-								],
-								'query-input' => 'required name=search_term_string',
-							],
-						],
-						'inLanguage'      => 'English',
-					],
-					[
 						'@type'           => null,
 						'@id'             => 'https://example.com/the-post/',
 						'url'             => null,
@@ -279,6 +261,24 @@ class Schema_Generator_Test extends TestCase {
 								],
 							],
 						],
+					],
+					[
+						'@type'           => 'WebSite',
+						'@id'             => '#website',
+						'url'             => null,
+						'name'            => '',
+						'description'     => 'description',
+						'potentialAction' => [
+							[
+								'@type'       => 'SearchAction',
+								'target'      => [
+									'@type'       => 'EntryPoint',
+									'urlTemplate' => '?s={search_term_string}',
+								],
+								'query-input' => 'required name=search_term_string',
+							],
+						],
+						'inLanguage'      => 'English',
 					],
 				],
 			],
@@ -617,7 +617,7 @@ class Schema_Generator_Test extends TestCase {
 				],
 				'inLanguage'      => 'English',
 			],
-			$this->instance->generate( $this->context )['@graph'][0]
+			$this->instance->generate( $this->context )['@graph'][1]
 		);
 	}
 
@@ -711,7 +711,7 @@ class Schema_Generator_Test extends TestCase {
 				],
 				'inLanguage'      => 'English',
 			],
-			$this->instance->generate( $this->context )['@graph'][0]
+			$this->instance->generate( $this->context )['@graph'][1]
 		);
 	}
 
@@ -771,6 +771,7 @@ class Schema_Generator_Test extends TestCase {
 			[
 				'@context' => 'https://schema.org',
 				'@graph'   => [
+					$filtered_webpage_schema,
 					[
 						'@type'           => 'WebSite',
 						'@id'             => '#website',
@@ -789,7 +790,6 @@ class Schema_Generator_Test extends TestCase {
 						],
 						'inLanguage'      => 'English',
 					],
-					$filtered_webpage_schema,
 				],
 			],
 			$this->instance->generate( $this->context )
@@ -865,6 +865,20 @@ class Schema_Generator_Test extends TestCase {
 				'@context' => 'https://schema.org',
 				'@graph'   => [
 					[
+						'@type'           => [
+							'CollectionPage',
+							'SearchResultsPage',
+						],
+						'@id'             => 'https://fake.url/?s=searchterm',
+						'url'             => 'https://fake.url/?s=searchterm',
+						'name'            => '',
+						'isPartOf'        => [
+							'@id' => 'https://fake.url/#website',
+						],
+						'inLanguage'      => 'English',
+						'breadcrumb'      => [ '@id' => '#breadcrumb' ],
+					],
+					[
 						'@type'           => 'WebSite',
 						'@id'             => 'https://fake.url/#website',
 						'url'             => 'https://fake.url/',
@@ -882,20 +896,6 @@ class Schema_Generator_Test extends TestCase {
 						],
 						'inLanguage'      => 'English',
 					],
-					[
-						'@type'           => [
-							'CollectionPage',
-							'SearchResultsPage',
-						],
-						'@id'             => 'https://fake.url/?s=searchterm',
-						'url'             => 'https://fake.url/?s=searchterm',
-						'name'            => '',
-						'isPartOf'        => [
-							'@id' => 'https://fake.url/#website',
-						],
-						'inLanguage'      => 'English',
-						'breadcrumb'      => [ '@id' => '#breadcrumb' ],
-					],
 				],
 			],
 			$this->instance->generate( $this->context )
@@ -911,24 +911,6 @@ class Schema_Generator_Test extends TestCase {
 		return [
 			'@context' => 'https://schema.org',
 			'@graph'   => [
-				[
-					'@type'           => 'WebSite',
-					'@id'             => '#website',
-					'url'             => null,
-					'name'            => '',
-					'description'     => 'description',
-					'potentialAction' => [
-						[
-							'@type'       => 'SearchAction',
-							'target'      => [
-								'@type'       => 'EntryPoint',
-								'urlTemplate' => '?s={search_term_string}',
-							],
-							'query-input' => 'required name=search_term_string',
-						],
-					],
-					'inLanguage'      => 'English',
-				],
 				[
 					'@type'           => [ null, 'FAQPage' ],
 					'@id'             => 'https://example.com/the-post/',
@@ -954,6 +936,24 @@ class Schema_Generator_Test extends TestCase {
 					],
 					'datePublished'   => 'date',
 					'dateModified'    => 'date',
+				],
+				[
+					'@type'           => 'WebSite',
+					'@id'             => '#website',
+					'url'             => null,
+					'name'            => '',
+					'description'     => 'description',
+					'potentialAction' => [
+						[
+							'@type'       => 'SearchAction',
+							'target'      => [
+								'@type'       => 'EntryPoint',
+								'urlTemplate' => '?s={search_term_string}',
+							],
+							'query-input' => 'required name=search_term_string',
+						],
+					],
+					'inLanguage'      => 'English',
 				],
 				[
 					'@type'          => 'Question',
