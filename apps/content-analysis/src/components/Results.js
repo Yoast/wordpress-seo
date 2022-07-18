@@ -11,7 +11,7 @@ import { HorizontalContainer } from "./Container";
 
 
 // Note the `score / 10` is taken from `Yoast SEO`.
-function Results( { seo, readability, activeMarker, onMark, onEdit } ) {
+function Results( { seo, readability, activeMarker, onMark } ) {
 	return <Fragment>
 		<HorizontalContainer marginTop="0">
 			<ScoreIcon score={ readability.score / 10 } />
@@ -33,7 +33,6 @@ function Results( { seo, readability, activeMarker, onMark, onEdit } ) {
 			marksButtonActivatedResult={ activeMarker }
 			marksButtonClassName="yoast-text-mark"
 			onMarksButtonClick={ onMark }
-			onEditButtonClick={ onEdit }
 		/>
 	</Fragment>;
 }
