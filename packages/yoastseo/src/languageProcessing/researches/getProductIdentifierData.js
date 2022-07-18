@@ -8,6 +8,7 @@
  */
 export default function( paper ) {
 	const customData = paper.getCustomData();
+	console.log( customData, "customData" );
 	const productData = {
 		hasGlobalIdentifier: customData.hasGlobalIdentifier,
 		hasVariants: customData.hasVariants,
