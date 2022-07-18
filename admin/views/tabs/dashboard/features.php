@@ -72,7 +72,10 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 		}
 
 		if ( $feature->supported_locales && ! \in_array( \get_locale(), $feature->supported_locales, true ) ) {
-			$disabled = true;
+			$disabled            = true;
+			$show_premium_upsell = false;
+			// Do not show Premium or Beta badge.
+			$name = $feature->name;
 		}
 
 		$preserve_disabled_value = false;
