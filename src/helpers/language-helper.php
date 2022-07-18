@@ -38,6 +38,19 @@ class Language_Helper {
 	}
 
 	/**
+	 * Checks whether the given locale has inclusive language support.
+	 *
+	 * @param string $locale The locale to check if inclusive language is supported.
+	 *
+	 * @return bool Whether the language has inclusive language support.
+	 */
+	public function has_inclusive_language_support( $locale ) {
+		$supported_locales = [ 'en_US' ];
+
+		return \in_array( $locale, $supported_locales, true );
+	}
+
+	/**
 	 * Checks whether we have a specific researcher for the current locale and returns that language.
 	 * If there is no researcher for the current locale, returns default as the researcher.
 	 *

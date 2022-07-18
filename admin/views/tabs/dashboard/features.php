@@ -71,6 +71,10 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 			$premium_upsell_url  = WPSEO_Shortlinker::get( $feature->premium_upsell_url );
 		}
 
+		if ( $feature->supported_locales && ! \in_array( \get_locale(), $feature->supported_locales, true ) ) {
+			$disabled = true;
+		}
+
 		$preserve_disabled_value = false;
 		if ( $disabled ) {
 			$preserve_disabled_value = true;

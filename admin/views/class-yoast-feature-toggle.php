@@ -39,6 +39,16 @@ class Yoast_Feature_Toggle {
 	protected $in_beta = false;
 
 	/**
+	 * The locales in which this feature is supported.
+	 * E.g. for language specific analysis support.
+	 *
+	 * If empty, the feature is considered to have support in all locales.
+	 *
+	 * @var string[]
+	 */
+	protected $supported_locales = [];
+
+	/**
 	 * Feature toggle label.
 	 *
 	 * @var string
@@ -128,7 +138,8 @@ class Yoast_Feature_Toggle {
 	 *                                      a higher priority. Default 100.
 	 *     @type bool   $disabled           Disable the integration toggle. Default false.
 	 *     @type string $new                Whether the feature is new or not.
-	 *     @type bool   $in_beta         Whether the feature is in beta or not.
+	 *     @type bool   $in_beta            Whether the feature is in beta or not.
+	 *     @type array  $supported_locales  The locales that this feature supports.
 	 * }
 	 *
 	 * @throws InvalidArgumentException Thrown when a required argument is missing.
