@@ -201,6 +201,7 @@ class Results extends Component {
 					marksButtonStatus={ this.props.marksButtonStatus }
 					headingLevel={ 3 }
 					keywordKey={ this.props.keywordKey }
+					isPremium={ this.props.isPremium }
 				/>
 			</Fragment>
 		);
@@ -218,6 +219,7 @@ Results.propTypes = {
 	activeMarker: PropTypes.string,
 	keywordKey: PropTypes.string,
 	location: PropTypes.string,
+	isPremium: PropTypes.bool,
 };
 
 Results.defaultProps = {
@@ -229,6 +231,7 @@ Results.defaultProps = {
 	activeMarker: null,
 	keywordKey: "",
 	location: "",
+	isPremium: false,
 };
 
 export default Results;
