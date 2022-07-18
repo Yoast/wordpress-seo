@@ -22,6 +22,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 			scores: {
 				good: 9,
 				ok: 6,
+				invalidVariantData: 0,
 			},
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/4ly" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/4lz" ),
@@ -126,7 +127,26 @@ export default class ProductIdentifiersAssessment extends Assessment {
 			return {};
 		}
 
-		// If we want to assess variants, if product has variants and not all variants have an identifier, return orange bullet.
+		if( ! productIdentifierData.isVariantIdentifierDataValid ) {
+			console.log( "hello" );
+			return {
+				score: config.scores.invalidVariantData,
+				text: sprintf(
+					/* Translators: %1$s expands to a link on yoast.com, %3$s expands to the anchor end tag,
+					* %3$s expands to the string "Barcode" or "Product identifier". */
+					__(
+						"%1$s%2$s%3$s: Sorry, we were unable to give a result for this assessment. Please refresh the page to view the result",
+						"wordpress-seo"
+					),
+					this._config.urlTitle,
+					this._config.productIdentifierOrBarcode.uppercase,
+					this._config.productIdentifierOrBarcode.lowercase,
+					"</a>"
+				),
+			};
+		}
+
+		// If we want to assess variants, and if product has variants but not all variants have an identifier, return orange bullet.
 		// If all variants have an identifier, return green bullet.
 		if ( ! productIdentifierData.doAllVariantsHaveIdentifier ) {
 			return {
