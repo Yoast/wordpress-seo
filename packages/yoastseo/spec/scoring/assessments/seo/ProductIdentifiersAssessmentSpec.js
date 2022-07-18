@@ -6,7 +6,7 @@ const paper = new Paper( "" );
 
 
 describe( "a test for Product identifiers assessment for WooCommerce", function() {
-	const assessment = new ProductIdentifiersAssessment();
+	const assessment = new ProductIdentifiersAssessment( { assessVariants: true } );
 
 	it( "returns the score 9 when a product has a global identifier and no variants", function() {
 		const assessmentResult = assessment.getResult( paper, Factory.buildMockResearcher( {
@@ -61,12 +61,26 @@ describe( "a test for Product identifiers assessment for WooCommerce", function(
 			hasGlobalIdentifier: false,
 			hasVariants: true,
 			doAllVariantsHaveIdentifier: false,
+			isVariantIdentifierDataValid: true
 		} ) );
 
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4ly' target='_blank'>Product identifier</a>:" +
 			" Not all your product variants have a product identifier. <a href='https://yoa.st/4lz' target='_blank'>Include" +
 			" this if you can, as it will help search engines to better understand your content.</a>" );
+	} );
+
+	it( "returns the score 0 when the product variant data is not valid", function() {
+		const assessmentResult = assessment.getResult( paper, Factory.buildMockResearcher( {
+			hasGlobalIdentifier: false,
+			hasVariants: true,
+			doAllVariantsHaveIdentifier: false,
+			isVariantIdentifierDataValid: false
+		} ) );
+
+		expect( assessmentResult.getScore() ).toEqual( 0 );
+		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4ly' target='_blank'>Product identifier</a>:" +
+			" Please save and refresh the page to view the result for this assessment." );
 	} );
 } );
 
