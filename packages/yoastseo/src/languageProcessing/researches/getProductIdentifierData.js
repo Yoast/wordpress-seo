@@ -16,7 +16,7 @@ export default function( paper ) {
 	if ( customData.hasOwnProperty( "doAllVariantsHaveIdentifier" ) ) {
 		productData.doAllVariantsHaveIdentifier = customData.doAllVariantsHaveIdentifier;
 	}
-	if ( customData.hasOwnProperty( "isVariantIdentifierDataValid" ) ) {
+	if ( customData.hasOwnProperty( "variantIdentifierDataIsValid" ) ) {
 		productData.isVariantIdentifierDataValid = customData.isVariantIdentifierDataValid;
 	}
 	return productData;
