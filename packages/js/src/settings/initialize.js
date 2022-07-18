@@ -87,7 +87,7 @@ domReady( () => {
 				<HashRouter>
 					<Formik
 						initialValues={ getInitialValues() }
-						validationSchema={ validationSchema }
+						// ValidationSchema={ validationSchema }
 						onSubmit={ handleSubmit }
 					>
 						<App />
