@@ -104,7 +104,7 @@ class Redirects implements Integration_Interface {
 		\add_action( 'wp', [ $this, 'archive_redirect' ] );
 		\add_action( 'wp', [ $this, 'page_redirect' ], 99 );
 		\add_action( 'template_redirect', [ $this, 'attachment_redirect' ], 1 );
-		\add_action( 'pre_get_posts', [ $this, 'disable_date_queries' ] );
+		\add_action( 'template_redirect', [ $this, 'disable_date_queries' ] );
 	}
 
 	/**
