@@ -24,11 +24,14 @@ var AssessmentResult = function( values ) {
 	this._hasScore = false;
 	this._identifier = "";
 	this._hasMarks = false;
+	this._hasJumps = false;
+	this._hasEditFieldName = false;
 	this._marker = emptyMarker;
 	this._hasBetaBadge = false;
 	this.score = 0;
 	this.text = "";
 	this.marks = [];
+	this.editFieldName = "";
 
 	if ( isUndefined( values ) ) {
 		values = {};
@@ -48,6 +51,14 @@ var AssessmentResult = function( values ) {
 
 	if ( ! isUndefined( values._hasBetaBadge ) ) {
 		this.setHasBetaBadge( values._hasBetaBadge );
+	}
+
+	if ( ! isUndefined( values._hasJumps ) ) {
+		this.setHasJumps( values._hasJumps );
+	}
+
+	if ( ! isUndefined( values.editFieldName ) ) {
+		this.setEditFieldName( values.editFieldName );
 	}
 };
 
@@ -217,6 +228,53 @@ AssessmentResult.prototype.hasBetaBadge = function() {
 };
 
 /**
+ * Sets the value of _hasJumps to determine whether it's needed to jump to a different field.
+ *
+ * @param {boolean} hasJumps Whether this result causes a jump to a different field.
+ * @returns {void}
+ */
+AssessmentResult.prototype.setHasJumps = function( hasJumps ) {
+	this._hasJumps = hasJumps;
+};
+
+/**
+ * Returns the value of _hasJumps to determine whether it's needed to jump to a different field.
+ *
+ * @returns {bool} Whether this result causes a jump to a different field.
+ */
+AssessmentResult.prototype.hasJumps = function() {
+	return this._hasJumps;
+};
+
+/**
+ * Check if an edit field name is available.
+ * @returns {boolean} Whether or not an edit field name is available.
+ */
+AssessmentResult.prototype.hasEditFieldName = function() {
+	return this._hasEditFieldName;
+};
+
+/**
+ * Get the edit field name.
+ * @returns {string} The edit field name associated with the AssessmentResult.
+ */
+AssessmentResult.prototype.getEditFieldName = function() {
+	return this.editFieldName;
+};
+
+/**
+ * Set the edit field name to be used to create the aria label for an edit button.
+ * @param {string} editFieldName The string to be used for the string property
+ * @returns {void}
+ */
+AssessmentResult.prototype.setEditFieldName = function( editFieldName ) {
+	if ( editFieldName !== "" ) {
+		this.editFieldName = editFieldName;
+		this._hasEditFieldName = true;
+	}
+};
+
+/**
  * Serializes the AssessmentResult instance to an object.
  *
  * @returns {Object} The serialized AssessmentResult.
@@ -229,6 +287,8 @@ AssessmentResult.prototype.serialize = function() {
 		text: this.text,
 		marks: this.marks.map( mark => mark.serialize() ),
 		_hasBetaBadge: this._hasBetaBadge,
+		_hasJumps: this._hasJumps,
+		editFieldName: this.editFieldName,
 	};
 };
 
@@ -245,6 +305,8 @@ AssessmentResult.parse = function( serialized ) {
 		score: serialized.score,
 		marks: serialized.marks.map( mark => Mark.parse( mark ) ),
 		_hasBetaBadge: serialized._hasBetaBadge,
+		_hasJumps: serialized._hasJumps,
+		editFieldName: serialized.editFieldName,
 	} );
 	result.setIdentifier( serialized.identifier );
 

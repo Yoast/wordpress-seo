@@ -21,6 +21,9 @@ describe( "creating a new empty assessmentResult", function() {
 		expect( assessmentResult.hasText() ).toBe( false );
 		expect( assessmentResult.getText() ).toBe( "" );
 		expect( assessmentResult.hasBetaBadge() ).toBe( false );
+		expect( assessmentResult.hasJumps() ).toBe( false );
+		expect( assessmentResult.hasEditFieldName() ).toBe( false );
+		expect( assessmentResult.getEditFieldName() ).toBe( "" );
 	} );
 } );
 
@@ -34,6 +37,9 @@ describe( "creating a new empty assessmentResult", function() {
 		expect( assessmentResult.hasText() ).toBe( true );
 		expect( assessmentResult.getText() ).toBe( "this is text" );
 		expect( assessmentResult.hasBetaBadge() ).toBe( false );
+		expect( assessmentResult.hasJumps() ).toBe( false );
+		expect( assessmentResult.hasEditFieldName() ).toBe( false );
+		expect( assessmentResult.getEditFieldName() ).toBe( "" );
 	} );
 } );
 
@@ -72,6 +78,23 @@ describe( "AssessmentResult", function() {
 		} );
 	} );
 
+	describe( "getEditFieldName", function() {
+		it( "default to an empty string", function() {
+			const result = new AssessmentResult();
+
+			expect( result.getEditFieldName() ).toBeDefined();
+			expect( result.getEditFieldName() ).toEqual( "" );
+		} );
+
+		it( "returns the previously set edit field name", function() {
+			const result = new AssessmentResult();
+
+			result.setEditFieldName( "keyphrase" );
+
+			expect( result.getEditFieldName() ).toBe( "keyphrase" );
+		} );
+	} );
+
 	describe( "setHasBetaBadge", function() {
 		it( "defaults to false", function() {
 			const result = new AssessmentResult();
@@ -85,6 +108,22 @@ describe( "AssessmentResult", function() {
 			result.setHasBetaBadge( true );
 
 			expect( result.hasBetaBadge() ).toBe( true );
+		} );
+	} );
+
+	describe( "setHasJumps", function() {
+		it( "defaults to false", function() {
+			const result = new AssessmentResult();
+
+			expect( result.hasJumps() ).toBe( false );
+		} );
+
+		it( "sets the value to true", function() {
+			const result = new AssessmentResult();
+
+			result.setHasJumps( true );
+
+			expect( result.hasJumps() ).toBe( true );
 		} );
 	} );
 } );
