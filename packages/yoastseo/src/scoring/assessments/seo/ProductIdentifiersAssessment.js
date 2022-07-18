@@ -84,6 +84,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 	 * 													or empty object if no score should be returned.
 	 */
 	scoreProductIdentifier( productIdentifierData, config ) {
+		console.log( productIdentifierData, "productIdentifierData in assessment scoring" );
 		// If a product has no variants, return orange bullet if it has no global identifier, and green bullet if it has one.
 		if ( ! productIdentifierData.hasVariants ) {
 			if ( ! productIdentifierData.hasGlobalIdentifier ) {
