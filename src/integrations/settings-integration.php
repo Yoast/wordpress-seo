@@ -146,7 +146,9 @@ class Settings_Integration implements Integration_Interface {
 	 */
 	public function register_setting() {
 		foreach ( WPSEO_Options::$options as $name => $instance ) {
-			\register_setting( 'wpseo_settings', $name );
+			if ( \in_array( $name, self::ALLOWED_OPTION_GROUPS ) ) {
+				\register_setting( 'wpseo_settings', $name );
+			}
 		}
 		foreach ( self::WP_OPTIONS as $name ) {
 			\register_setting( 'wpseo_settings', $name );
