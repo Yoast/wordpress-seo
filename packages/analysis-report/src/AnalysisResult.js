@@ -65,7 +65,7 @@ export const AnalysisResult = ( props ) => {
 				/>
 			}
 			{
-				props.hasEditButton &&
+				props.hasEditButton && props.isPremium &&
 				<IconCTAEditButton
 					className={ props.editButtonClassName }
 					onClick={ props.onButtonClickEdit }
@@ -96,6 +96,7 @@ AnalysisResult.propTypes = {
 	marksButtonClassName: PropTypes.string,
 	editButtonClassName: PropTypes.string,
 	hasBetaBadgeLabel: PropTypes.bool,
+	isPremium: PropTypes.bool,
 };
 
 AnalysisResult.defaultProps = {
@@ -109,6 +110,7 @@ AnalysisResult.defaultProps = {
 	buttonIdEdit: "",
 	ariaLabelEdit: "",
 	onButtonClickEdit: noop,
+	isPremium: false,
 };
 
 export default AnalysisResult;

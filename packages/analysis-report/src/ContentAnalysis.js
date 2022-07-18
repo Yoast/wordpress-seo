@@ -64,6 +64,7 @@ class ContentAnalysis extends React.Component {
 					editButtonClassName={ this.props.editButtonClassName }
 					onMarksButtonClick={ this.props.onMarkButtonClick }
 					onEditButtonClick={ this.props.onEditButtonClick }
+					isPremium={ this.props.isPremium }
 				/>
 			</StyledCollapsible>
 		);
@@ -128,6 +129,7 @@ ContentAnalysis.propTypes = {
 	marksButtonClassName: PropTypes.string,
 	editButtonClassName: PropTypes.string,
 	activeMarker: PropTypes.string,
+	isPremium: PropTypes.bool,
 };
 
 ContentAnalysis.defaultProps = {
@@ -144,6 +146,7 @@ ContentAnalysis.defaultProps = {
 	marksButtonClassName: "",
 	editButtonClassName: "",
 	activeMarker: "",
+	isPremium: false,
 };
 
 export default ContentAnalysis;
