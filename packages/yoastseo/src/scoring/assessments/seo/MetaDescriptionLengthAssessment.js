@@ -81,6 +81,10 @@ export default class MetaDescriptionLengthAssessment extends Assessment {
 
 		assessmentResult.setScore( this.calculateScore( descriptionLength, locale ) );
 		assessmentResult.setText( this.translateScore( descriptionLength, config ) );
+		if ( assessmentResult.getScore() < 9  ) {
+			assessmentResult.setHasJumps( true );
+			assessmentResult.setEditFieldName( __( "meta description", "wordpress-seo" ) );
+		}
 
 		// Max and actual are used in the snippet editor progress bar.
 		assessmentResult.max = config.maximumLength;

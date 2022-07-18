@@ -10,17 +10,20 @@ describe( "The AnalysisList component", () => {
 				score: 9,
 				rating: "good",
 				hasMarks: false,
+				hasJumps: false,
 				id: "sentenceBeginnings",
 				text: "<a href='https://yoa.st/35f?" +
 						"php_version=7.4&platform=wordpress&platform_version=6.0&software=free&software_version=19.1-RC11" +
 						"&days_active=6-30&user_language=en_US' target='_blank'>Consecutive sentences</a>: " +
 						"There is enough variety in your sentences. That's great!",
 				markerId: "sentenceBeginnings",
+				editFieldName: "",
 			},
 			{
 				score: 6,
 				rating: "OK",
 				hasMarks: false,
+				hasJumps: false,
 				id: "imageKeyphrase",
 				text: "<a href='https://yoa.st/4f7?" +
 					  "php_version=7.4&platform=wordpress&platform_version=6.0&software=free&software_version=19.1-RC11" +
@@ -31,11 +34,13 @@ describe( "The AnalysisList component", () => {
 					  "days_active=6-30&user_language=en_US' target='_blank'>" +
 					  "Add your keyphrase or synonyms to the alt tags of relevant images</a>!",
 				markerId: "imageKeyphrase",
+				editFieldName: "",
 			},
 			{
 				score: 3,
 				rating: "bad",
 				hasMarks: false,
+				hasJumps: false,
 				id: "textTransitionWords",
 				text: "<a href='https://yoa.st/34z?" +
 					  "php_version=7.4&platform=wordpress&platform_version=6.0&software=free&software_version=19.1-RC11" +
@@ -44,6 +49,7 @@ describe( "The AnalysisList component", () => {
 					  "platform=wordpress&platform_version=6.0&software=free&software_version=19.1-RC11" +
 					  "&days_active=6-30&user_language=en_US' target='_blank'>Use some</a>.",
 				markerId: "textTransitionWords",
+				editFieldName: "",
 			},
 		];
 
@@ -68,12 +74,14 @@ describe( "The AnalysisList component", () => {
 				score: 9,
 				rating: "good",
 				hasMarks: false,
+				hasJumps: false,
 				id: "sentenceBeginnings",
 				text: "<a href='https://yoa.st/35f?" +
 						"php_version=7.4&platform=wordpress&platform_version=6.0&software=free&software_version=19.1-RC11" +
 						"&days_active=6-30&user_language=en_US' target='_blank'>Consecutive sentences</a>: " +
 						"There is enough variety in your sentences. That's great!",
 				markerId: "sentenceBeginnings",
+				editFieldName: "",
 			},
 		];
 
@@ -82,7 +90,7 @@ describe( "The AnalysisList component", () => {
 
 		expect( analysisResults ).toHaveLength( results.length );
 
-		expect( analysisResults[ 0 ].props.ariaLabel ).toEqual( "Marks are disabled in current view" );
+		expect( analysisResults[ 0 ].props.ariaLabelMarks ).toEqual( "Marks are disabled in current view" );
 	} );
 
 	it( "renders a list of analysis results with one upsell result", () => {
@@ -91,21 +99,25 @@ describe( "The AnalysisList component", () => {
 				score: 0,
 				rating: "upsell",
 				hasMarks: false,
+				hasJumps: false,
 				id: "someUpsell",
 				text: "<span style='text-decoration: underline'>Keyphrase distribution</span>: " +
 						"Have you evenly distributed your focus keyphrase throughout the whole text? Yoast SEO Premium will tell you!",
 				markerId: "someUpsell",
+				editFieldName: "",
 			},
 			{
 				score: 9,
 				rating: "good",
 				hasMarks: false,
+				hasJumps: false,
 				id: "sentenceBeginnings",
 				text: "<a href='https://yoa.st/35f?" +
 						"php_version=7.4&platform=wordpress&platform_version=6.0&software=free&software_version=19.1-RC11" +
 						"&days_active=6-30&user_language=en_US' target='_blank'>Consecutive sentences</a>: " +
 						"There is enough variety in your sentences. That's great!",
 				markerId: "sentenceBeginnings",
+				editFieldName: "",
 			},
 		];
 

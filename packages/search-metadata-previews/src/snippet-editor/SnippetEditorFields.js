@@ -264,6 +264,7 @@ class SnippetEditorFields extends React.Component {
 		const {
 			activeField,
 			hoveredField,
+			onReplacementVariableSearchChange,
 			replacementVariables,
 			recommendedReplacementVariables,
 			titleLengthProgress,
@@ -299,6 +300,7 @@ class SnippetEditorFields extends React.Component {
 					recommendedReplacementVariables={ recommendedReplacementVariables }
 					content={ title }
 					onChange={ this.onChangeTitle }
+					onSearchChange={ onReplacementVariableSearchChange }
 					fieldId={ titleInputId }
 					type="title"
 				/>
@@ -379,6 +381,7 @@ SnippetEditorFields.propTypes = {
 	onChange: PropTypes.func.isRequired,
 	onFocus: PropTypes.func,
 	onBlur: PropTypes.func,
+	onReplacementVariableSearchChange: PropTypes.func,
 	data: PropTypes.shape( {
 		title: PropTypes.string.isRequired,
 		slug: PropTypes.string.isRequired,
@@ -397,8 +400,12 @@ SnippetEditorFields.propTypes = {
 
 SnippetEditorFields.defaultProps = {
 	replacementVariables: [],
+	recommendedReplacementVariables: [],
 	onFocus: () => {},
 	onBlur: () => {},
+	onReplacementVariableSearchChange: null,
+	activeField: null,
+	hoveredField: null,
 	titleLengthProgress: {
 		max: 600,
 		actual: 0,
@@ -409,6 +416,7 @@ SnippetEditorFields.defaultProps = {
 		actual: 0,
 		score: 0,
 	},
+	descriptionEditorFieldPlaceholder: null,
 	containerPadding: "0 20px",
 	titleInputId: "yoast-google-preview-title",
 	slugInputId: "yoast-google-preview-slug",
