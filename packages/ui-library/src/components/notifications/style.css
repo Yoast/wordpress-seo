@@ -1,6 +1,22 @@
 @layer components {
     .yst-root {
 
+        .yst-notifications {
+            @apply yst-fixed yst-w-full yst-z-20 yst-pointer-events-none yst-flex yst-flex-col yst-space-y-4;
+        }
+
+        .yst-notifications--bottom-center {
+            @apply yst-bottom-8 yst-items-center;
+        }
+
+        .yst-notifications--bottom-left {
+            @apply yst-bottom-8 yst-left-8;
+        }
+
+        .yst-notifications--top-center {
+            @apply yst-top-8 yst-items-center;
+        }
+
         .yst-notification {
             @apply yst-w-80 yst-p-4 yst-bg-white yst-shadow-lg yst-rounded-lg yst-ring-1 yst-ring-black yst-ring-opacity-5 yst-z-20 yst-pointer-events-auto;
         }

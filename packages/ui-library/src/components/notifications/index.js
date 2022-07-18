@@ -128,9 +128,9 @@ Notification.propTypes = {
 
 const notificationsClassNameMap = {
 	position: {
-		"bottom-center": "yst-bottom-8 yst-items-center",
-		"bottom-left": "yst-bottom-8 yst-left-8",
-		"top-center": "yst-top-8 yst-items-center",
+		"bottom-center": "yst-notifications--bottom-center",
+		"bottom-left": "yst-notifications--bottom-left",
+		"top-center": "yst-notifications--top-center",
 	},
 };
 
@@ -147,7 +147,7 @@ const Notifications = ( {
 } ) => (
 	<aside
 		className={ classNames(
-			"yst-fixed yst-w-full yst-z-20 yst-pointer-events-none yst-flex yst-flex-col yst-space-y-4",
+			"yst-notifications",
 			notificationsClassNameMap.position[ position ],
 		) }
 	>
