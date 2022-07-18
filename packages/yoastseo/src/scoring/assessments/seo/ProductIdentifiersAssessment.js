@@ -3,6 +3,7 @@ import AssessmentResult from "../../../values/AssessmentResult";
 import { merge } from "lodash-es";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import { __, sprintf } from "@wordpress/i18n";
+import { isUndefined } from "lodash-es";
 
 /**
  * Represents the assessment for the product identifiers.
@@ -127,7 +128,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 			return {};
 		}
 
-		if( ! productIdentifierData.isVariantIdentifierDataValid ) {
+		if( ! isUndefined( productIdentifierData.isVariantIdentifierDataValid ) && ! productIdentifierData.isVariantIdentifierDataValid  ) {
 			console.log( "hello" );
 			return {
 				score: config.scores.invalidVariantData,
@@ -140,7 +141,6 @@ export default class ProductIdentifiersAssessment extends Assessment {
 					),
 					this._config.urlTitle,
 					this._config.productIdentifierOrBarcode.uppercase,
-					this._config.productIdentifierOrBarcode.lowercase,
 					"</a>"
 				),
 			};
