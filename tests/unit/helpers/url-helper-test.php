@@ -541,7 +541,21 @@ class Url_Helper_Test extends TestCase {
 			$this->instance->recreate_current_url( $params['with_request_uri'] )
 		);
 
-		unset( $_SERVER );
+		if ( ! empty( $params['HTTPS'] ) ) {
+			unset( $_SERVER['HTTPS'] );
+		}
+
+		if ( ! empty( $params['REQUEST_URI'] ) ) {
+			unset( $_SERVER['REQUEST_URI'] );
+		}
+
+		if ( ! empty( $params['SERVER_NAME'] ) ) {
+			unset( $_SERVER['SERVER_NAME'] );
+		}
+
+		if ( ! empty( $params['SERVER_PORT'] ) ) {
+			unset( $_SERVER['SERVER_PORT'] );
+		}
 	}
 
 	/**
