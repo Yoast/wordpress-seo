@@ -86,7 +86,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 	scoreProductIdentifier( productIdentifierData, config ) {
 		// Return a grey bullet if the variant identifier data is not valid.
 		// This can currently occur in WooCommerce because we cannot know what kind of bulk action the user performed without them reloading the page.
-		if( ! isUndefined( productIdentifierData.isVariantIdentifierDataValid ) && productIdentifierData.isVariantIdentifierDataValid === false  ) {
+		if ( ! isUndefined( productIdentifierData.isVariantIdentifierDataValid ) && productIdentifierData.isVariantIdentifierDataValid === false  ) {
 			return {
 				score: config.scores.invalidVariantData,
 				text: sprintf(
