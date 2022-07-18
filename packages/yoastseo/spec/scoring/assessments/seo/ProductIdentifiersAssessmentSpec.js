@@ -61,7 +61,7 @@ describe( "a test for Product identifiers assessment for WooCommerce", function(
 			hasGlobalIdentifier: false,
 			hasVariants: true,
 			doAllVariantsHaveIdentifier: false,
-			isVariantIdentifierDataValid: true
+			isVariantIdentifierDataValid: true,
 		} ) );
 
 		expect( assessmentResult.getScore() ).toEqual( 6 );
@@ -75,7 +75,7 @@ describe( "a test for Product identifiers assessment for WooCommerce", function(
 			hasGlobalIdentifier: false,
 			hasVariants: true,
 			doAllVariantsHaveIdentifier: false,
-			isVariantIdentifierDataValid: false
+			isVariantIdentifierDataValid: false,
 		} ) );
 
 		expect( assessmentResult.getScore() ).toEqual( 0 );
