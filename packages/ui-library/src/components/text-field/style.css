@@ -1,7 +1,14 @@
 @layer components {
 	.yst-root {
-		.yst-text-field--disabled .yst-text-field__label {
-			@apply yst-opacity-50 yst-cursor-not-allowed;
+		.yst-text-field--disabled {
+			.yst-text-field__label,
+			.yst-text-field__description {
+				@apply yst-opacity-50;
+			}
+
+			.yst-text-field__label {
+				@apply yst-cursor-not-allowed;
+			}
 		}
 
 		.yst-text-field__input--error {
