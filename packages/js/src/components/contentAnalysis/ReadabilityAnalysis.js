@@ -237,7 +237,7 @@ class ReadabilityAnalysis extends Component {
 								id={ `yoast-readability-analysis-collapsible-${ location }` }
 							>
 								{ this.renderResults( upsellResults ) }
-								{ this.renderFleschReadingEaseNote( location ) }
+								{ this.props.isFleschReadingEaseAvailable && this.renderFleschReadingEaseNote( location ) }
 							</Collapsible>
 						);
 					}
@@ -251,7 +251,7 @@ class ReadabilityAnalysis extends Component {
 										scoreIndicator={ score.className }
 									/>
 									{ this.renderResults( upsellResults ) }
-									{ this.renderFleschReadingEaseNote( location ) }
+									{ this.props.isFleschReadingEaseAvailable && this.renderFleschReadingEaseNote( location ) }
 								</ReadabilityResultsTabContainer>
 							</ReadabilityResultsPortal>
 						);
@@ -270,6 +270,7 @@ ReadabilityAnalysis.propTypes = {
 	isYoastSEOWooActive: PropTypes.bool,
 	isInsightsEnabled: PropTypes.bool,
 	isElementorEditor: PropTypes.bool,
+	isFleschReadingEaseAvailable: PropTypes.bool,
 };
 
 ReadabilityAnalysis.defaultProps = {
@@ -278,6 +279,7 @@ ReadabilityAnalysis.defaultProps = {
 	isYoastSEOWooActive: false,
 	isInsightsEnabled: false,
 	isElementorEditor: false,
+	isFleschReadingEaseAvailable: false,
 };
 
 export default withSelect( select => {
@@ -286,6 +288,7 @@ export default withSelect( select => {
 		getMarkButtonStatus,
 		getPreference,
 		getIsElementorEditor,
+		isFleschReadingEaseAvailable,
 	} = select( "yoast-seo/editor" );
 
 	const isInsightsEnabled = getPreference( "isInsightsEnabled", false );
@@ -295,5 +298,6 @@ export default withSelect( select => {
 		marksButtonStatus: getMarkButtonStatus(),
 		isInsightsEnabled,
 		isElementorEditor: getIsElementorEditor(),
+		isFleschReadingEaseAvailable: isFleschReadingEaseAvailable(),
 	};
 } )( ReadabilityAnalysis );
