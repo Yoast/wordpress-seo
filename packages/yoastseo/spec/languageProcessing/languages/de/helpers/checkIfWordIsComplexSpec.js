@@ -27,4 +27,8 @@ describe( "a test checking if the word is complex in German",  function() {
 	it( "returns plural word as non complex if the word is less than 10 characters", function() {
 		expect( checkIfWordIsComplex( "boxen" ) ).toEqual( false );
 	} );
+
+	it( "recognized contractions when the contraction uses ’ (right single quotation mark) instead of ' (apostrophe)", function() {
+		expect( checkIfWordIsComplex( "l’histoire" ) ).toEqual( false );
+	} );
 } );
