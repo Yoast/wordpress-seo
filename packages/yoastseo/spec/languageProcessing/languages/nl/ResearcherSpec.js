@@ -22,6 +22,7 @@ describe( "a test for the Dutch Researcher", function() {
 
 	it( "returns false if the default research is deleted in the Dutch Researcher", function() {
 		expect( researcher.getResearch( "wordComplexity" ) ).toBe( false );
+		expect( researcher.getResearch( "textFormality" ) ).toBe( false );
 	} );
 
 	it( "returns the Dutch function words", function() {

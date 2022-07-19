@@ -17,6 +17,10 @@ describe( "a test for the Spanish Researcher", function() {
 		expect( researcher.hasResearch( "getParagraphLength" ) ).toBe( true );
 	} );
 
+	it( "returns false if the default research is deleted in the Spanish Researcher", function() {
+		expect( researcher.getResearch( "textFormality" ) ).toBe( false );
+	} );
+
 	it( "returns true if the English Researcher has a specific research", function() {
 		expect( researcher.hasResearch( "getPassiveVoiceResult" ) ).toBe( true );
 	} );

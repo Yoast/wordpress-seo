@@ -23,6 +23,7 @@ describe( "a test for the Hungarian Researcher", function() {
 	it( "returns false if the default research is deleted in the Hungarian Researcher", function() {
 		expect( researcher.getResearch( "getFleschReadingScore" ) ).toBe( false );
 		expect( researcher.getResearch( "wordComplexity" ) ).toBe( false );
+		expect( researcher.getResearch( "textFormality" ) ).toBe( false );
 	} );
 
 	it( "returns Hungarian function words", function() {

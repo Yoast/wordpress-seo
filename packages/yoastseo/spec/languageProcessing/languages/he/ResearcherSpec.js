@@ -23,6 +23,7 @@ describe( "a test for the Hebrew Researcher", function() {
 	it( "returns false if the default research is deleted in the Hebrew Researcher", function() {
 		expect( researcher.getResearch( "getFleschReadingScore" ) ).toBe( false );
 		expect( researcher.getResearch( "wordComplexity" ) ).toBe( false );
+		expect( researcher.getResearch( "textFormality" ) ).toBe( false );
 	} );
 
 	it( "returns false if the Hebrew Researcher doesn't have a certain config", function() {

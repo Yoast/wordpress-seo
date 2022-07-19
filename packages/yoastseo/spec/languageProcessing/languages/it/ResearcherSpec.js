@@ -23,6 +23,7 @@ describe( "a test for the Italian Researcher", function() {
 
 	it( "returns false if the default research is deleted in the Italian Researcher", function() {
 		expect( researcher.getResearch( "wordComplexity" ) ).toBe( false );
+		expect( researcher.getResearch( "textFormality" ) ).toBe( false );
 	} );
 
 	it( "returns the Italian function words filtered at the beginning", function() {

@@ -20,6 +20,7 @@ describe( "a test for the Farsi Researcher", function() {
 	it( "returns false if the default research is deleted in the Farsi Researcher", function() {
 		expect( researcher.getResearch( "getFleschReadingScore" ) ).toBe( false );
 		expect( researcher.getResearch( "wordComplexity" ) ).toBe( false );
+		expect( researcher.getResearch( "textFormality" ) ).toBe( false );
 	} );
 
 	it( "returns false if the Farsi Researcher doesn't have a certain config", function() {

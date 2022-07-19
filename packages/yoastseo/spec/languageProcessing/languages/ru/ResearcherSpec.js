@@ -23,6 +23,7 @@ describe( "a test for the Russian Researcher", function() {
 
 	it( "returns false if the default research is deleted in the Russian Researcher", function() {
 		expect( researcher.getResearch( "wordComplexity" ) ).toBe( false );
+		expect( researcher.getResearch( "textFormality" ) ).toBe( false );
 	} );
 
 	it( "returns false if a specific helper is not available in the Russian Researcher", function() {
