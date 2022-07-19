@@ -39,9 +39,29 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 		"yoast-configuration-rich-text-link"
 	);
 
+	/**
+	 * Determines if the default values notice should be displayed.
+	 *
+	 * @returns {boolean} if the notices should be displayed.
+	 */
+	function shouldDisplayDefaultValuesNotice() {
+		if ( state.companyOrPerson === "company" && state.companyName && state.companyLogo ) {
+			return false;
+		}
+
+		if ( state.companyOrPerson === "company" && ! state.companyLogoFallback ) {
+			return false;
+		}
+		if ( state.companyOrPerson === "person" && state.personLogo ) {
+			return false;
+		}
+
+		return ! ( state.companyOrPerson === "person" && ! state.personLogoFallback );
+	}
+
 	return <Fragment>
-		{  window.wpseoFirstTimeConfigurationData.knowledgeGraphMessage &&  <Alert type="info">
-			{  window.wpseoFirstTimeConfigurationData.knowledgeGraphMessage }
+		{ window.wpseoFirstTimeConfigurationData.knowledgeGraphMessage && <Alert type="info">
+			{ window.wpseoFirstTimeConfigurationData.knowledgeGraphMessage }
 		</Alert> }
 		<p className={ classNames( "yst-text-sm yst-whitespace-pre-line yst-mb-6", state.shouldForceCompany ? "yst-mt-4" : "yst-mt-0" ) }>
 			{
@@ -63,6 +83,11 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 			choices={ state.companyOrPersonOptions }
 			disabled={ !! state.shouldForceCompany }
 		/>
+
+		{ shouldDisplayDefaultValuesNotice() && <Alert type="info" className="yst-mt-6">
+			{ __( "We took the liberty of using your site title and logo for the organization name and logo. Feel free to change them below.", "wordpress-seo" ) }
+		</Alert> }
+
 		<ReactAnimateHeight
 			height={ [ "company", "person" ].includes( state.companyOrPerson ) ? "auto" : 0 }
 			duration={ 400 }
@@ -73,12 +98,15 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 				{ state.companyOrPerson === "company" && <OrganizationSection
 					dispatch={ dispatch }
 					imageUrl={ state.companyLogo }
+					fallbackImageUrl={ state.companyLogoFallback }
 					organizationName={ state.companyName }
+					fallbackOrganizationName={ state.fallbackCompanyName }
 					errorFields={ state.errorFields }
 				/> }
 				{ state.companyOrPerson === "person" && <PersonSection
 					dispatch={ dispatch }
 					imageUrl={ state.personLogo }
+					fallbackImageUrl={ state.personLogoFallback }
 					person={ {
 						id: state.personId,
 						name: state.personName,
