@@ -62,6 +62,7 @@ function IndexablesPage() {
 					ignore: __( "Ignore", "wordpress-seo" ),
 				}
 			}
+			type="least_readability_score"
 		/>
 		<h3 className="yst-my-4 yst-text-xl">Least SEO Score</h3>
 		<IndexablesTable
@@ -74,8 +75,9 @@ function IndexablesPage() {
 					ignore: __( "Ignore", "wordpress-seo" ),
 				}
 			}
+			type="least_seo_score"
 		/>
-		{/* <h3 className="yst-my-4 yst-text-xl">Least Linked To</h3>
+		{ /* <h3 className="yst-my-4 yst-text-xl">Least Linked To</h3>
 		<Table>
 			<Table.Head>
 				<Table.Row>
@@ -128,7 +130,7 @@ function IndexablesPage() {
 					<Table.Cell>test1</Table.Cell>
 				</Table.Row>
 			</Table.Body>
-		</Table> */}
+		</Table> */ }
 	</div>;
 }
 

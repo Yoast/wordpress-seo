@@ -1,8 +1,16 @@
+import apiFetch from "@wordpress/api-fetch";
+
 import PropTypes from "prop-types";
 
 import { Button, Table } from "@yoast/ui-library";
-import { useState, useEffect } from "@wordpress/element";
+import { useState, useEffect, useCallback } from "@wordpress/element";
 
+/**
+ * Renders placeholders rows while loading the indexables table.
+ *
+ * @param {int} conlumnCount The table's number of columns.
+ * @returns {WPElement} Placeholders rows.
+ */
 function PlaceholderRows( { columnCount } ) {
 	const cells = [];
 	const rows = [];
@@ -18,9 +26,12 @@ function PlaceholderRows( { columnCount } ) {
 /**
  * A table with indexables.
  *
+ * @param {array} indexables Theindexables.
+ * @param {array} keyHeaderMap The key header map count.
+
  * @returns {WPElement} A table with the indexables.
  */
-function IndexablesTable( { indexables, keyHeaderMap } ) {
+function IndexablesTable( { indexables, keyHeaderMap, type } ) {
 	const [ isLoading, setIsLoading ] = useState( true );
 
 	useEffect( () => {
@@ -28,6 +39,22 @@ function IndexablesTable( { indexables, keyHeaderMap } ) {
 			setIsLoading( false );
 		}
 	}, [ indexables ] );
+
+	const handleIgnore =  useCallback( async( e ) => {
+		try {
+			const response = await apiFetch( {
+				path: "yoast/v1/ignore_indexable",
+				method: "POST",
+				data: { id: e.currentTarget.dataset.indexableid, type: e.currentTarget.dataset.indexabletype },
+			} );
+
+			const parsedResponse = await response.json;
+		} catch ( error ) {
+			// URL() constructor throws a TypeError exception if url is malformed.
+			console.error( error.message );
+			return false;
+		}
+	}, [ apiFetch ] );
 
 	return (
 		<>
@@ -55,7 +82,7 @@ function IndexablesTable( { indexables, keyHeaderMap } ) {
 												if ( key === "edit" ) {
 													return <Table.Cell key="edit"><Button variant="secondary" data-id={ indexable.id }>Edit</Button></Table.Cell>;
 												} else if ( key === "ignore" ) {
-													return <Table.Cell key="ignore"><Button variant="error" data-id={ indexable.id }>Ignore</Button></Table.Cell>;
+													return <Table.Cell key="ignore"><Button variant="error" data-indexableid={ indexable.id } data-indexabletype={ type } onClick={ handleIgnore }>Ignore</Button></Table.Cell>;
 												}
 												return <Table.Cell key={ `indexable-header-${ index }` }>{ indexable[ key ] }</Table.Cell>;
 											} )
@@ -69,5 +96,11 @@ function IndexablesTable( { indexables, keyHeaderMap } ) {
 		</>
 	);
 }
+
+IndexablesTable.propTypes = {
+	indexables: PropTypes.array,
+	keyHeaderMap: PropTypes.array,
+	type: PropTypes.string,
+};
 
 export default IndexablesTable;
