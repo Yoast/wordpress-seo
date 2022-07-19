@@ -1,4 +1,4 @@
-import { potentiallyHarmful, potentiallyHarmfulUnless } from "./feedbackStrings";
+import { potentiallyHarmful, potentiallyHarmfulUnless, potentiallyHarmfulUnlessNonInclusive } from "./feedbackStrings";
 import { isPrecededByException } from "../helpers/isPrecededByException";
 import { isFollowedByException } from "../helpers/isFollowedByException";
 import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
@@ -21,7 +21,7 @@ const assessments = [
 		nonInclusivePhrases: [ "aging dependants" ],
 		inclusiveAlternatives: "older persons/older people",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: [ potentiallyHarmfulUnless, specificAgeGroup ].join( " " ),
+		feedbackFormat: [ potentiallyHarmfulUnlessNonInclusive, specificAgeGroup ].join( " " ),
 		learnMoreUrl: "https://yoa.st/",
 	},
 	{

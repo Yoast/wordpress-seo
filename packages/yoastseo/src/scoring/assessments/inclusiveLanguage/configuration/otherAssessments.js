@@ -1,5 +1,5 @@
 import { SCORES } from "./scores";
-import { potentiallyHarmful } from "./feedbackStrings";
+import { potentiallyHarmful, potentiallyHarmfulCareful } from "./feedbackStrings";
 
 const otherAssessments = [
 	{
@@ -16,7 +16,7 @@ const otherAssessments = [
 		nonInclusivePhrases: [ "minorities" ],
 		inclusiveAlternatives: [ "underrepresented groups", "gender and sexuality minorities" ],
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: "Avoid using \"%1$s\" as it is potentially overgeneralizing. " +
+		feedbackFormat: "Be careful when using \"%1$s\" as it is potentially overgeneralizing. " +
 						"Consider using an alternative, such as \"%2$s\" or specific minorities, such as \"%3$s\" instead.",
 		learnMoreUrl: "https://yoa.st/",
 	},
@@ -33,7 +33,7 @@ const otherAssessments = [
 		nonInclusivePhrases: [ "felon", "felons" ],
 		inclusiveAlternatives: "people with felony convictions, people who have been incarcerated",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmful,
+		feedbackFormat: potentiallyHarmfulCareful,
 		learnMoreUrl: "https://yoa.st/",
 	},
 	{

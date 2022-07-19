@@ -37,7 +37,7 @@ describe( "Gender assessments", function() {
 		expect( isApplicable ).toBeTruthy();
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual(
-			"Avoid using \"firemen\" as it is exclusionary unless you are sure the group you refer to only consists of \"firemen\". " +
+			"Be careful when using \"firemen\" as it is exclusionary, unless you are sure the group you refer to only consists of \"firemen\". " +
 			"If not, use \"firefighters\" instead. " +
 			"<a href='https://yoa.st/' target='_blank'>Learn more.</a>" );
 		expect( assessmentResult.hasMarks() ).toBeTruthy();

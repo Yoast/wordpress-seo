@@ -1,10 +1,10 @@
 import { SCORES } from "./scores";
 import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
 import { isFollowedByException } from "../helpers/isFollowedByException";
-import { potentiallyHarmful } from "./feedbackStrings";
+import { potentiallyHarmful, potentiallyHarmfulCareful, potentiallyHarmfulUnless } from "./feedbackStrings";
 
-const potentiallyHarmfulUnlessCulture = "Avoid using \"%1$s\" as it is potentially harmful. " +
-										"Consider using an alternative, such as \"%2$s\" instead unless you are referring to the culture " +
+const potentiallyHarmfulUnlessCulture = "Be careful when using \"%1$s\" as it is potentially harmful. " +
+										"Consider using an alternative, such as \"%2$s\" instead, unless you are referring to the culture " +
 										"in which this term originated.";
 const overgeneralizing = "Avoid using \"%1$s\" as it is overgeneralizing. Consider using %2$s instead. ";
 
@@ -141,9 +141,8 @@ const cultureAssessments = [
 		nonInclusivePhrases: [ "gypsy", "gypsies" ],
 		inclusiveAlternatives: [ "Romani, Romani person, Romani people", "Traveler, wanderer, free-spirited" ],
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: "Avoid using \"%1$s\" as it is potentially harmful. Unless referring to yourself or " +
-						"to someone who explicitly wants to be referred to with this term. Consider using an alternative, such as \"%2$s\" " +
-						"if you are referring to the ethnic group or their music and \"%3$s\" if you are referring to a lifestyle.",
+		feedbackFormat: [ potentiallyHarmfulUnless, "Consider using an alternative, such as \"%2$s\" " +
+						"if you are referring to the ethnic group or their music and \"%3$s\" if you are referring to a lifestyle." ].join( " " ),
 		learnMoreUrl: "https://yoa.st/",
 	},
 	{
@@ -167,9 +166,7 @@ const cultureAssessments = [
 		nonInclusivePhrases: [ "American Indian", "American Indians" ],
 		inclusiveAlternatives: "Native American(s), Indigenous peoples of America",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: "Avoid using \"%1$s\" as it is potentially harmful. Consider using an alternative, such as \"%2$s\" instead " +
-						"unless referring to yourself " +
-						"or to someone who explicitly wants to be referred to with this term.",
+		feedbackFormat: potentiallyHarmfulUnless,
 		learnMoreUrl: "https://yoa.st/",
 	},
 	{
@@ -209,7 +206,7 @@ const cultureAssessments = [
 		nonInclusivePhrases: [ "African American Vernacular English" ],
 		inclusiveAlternatives: "African American English, African American Language",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmful,
+		feedbackFormat: potentiallyHarmfulCareful,
 		learnMoreUrl: "https://yoa.st/",
 	},
 	{

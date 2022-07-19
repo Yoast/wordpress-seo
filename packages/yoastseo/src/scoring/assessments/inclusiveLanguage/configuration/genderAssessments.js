@@ -1,10 +1,12 @@
 import { potentiallyHarmful, potentiallyHarmfulUnless } from "./feedbackStrings";
 import { SCORES } from "./scores";
 
-const exclusionary = "Avoid using \"%1$s\" as it is exclusionary. Consider using an alternative, such as \"%2$s\" instead.";
-const potentiallyExclusionary = "Avoid using \"%1$s\" as it is potentially exclusionary.";
-const exclusionaryUnless = "Avoid using \"%1$s\" as it is exclusionary unless you are sure the group you refer to only consists of \"%1$s\". " +
-	"If not, use \"%2$s\" instead.";
+const exclusionary = "Avoid using \"%1$s\" as it is exclusionary. " +
+	"Consider using an alternative, such as \"%2$s\" instead.";
+const potentiallyExclusionary = "Be careful when using \"%1$s\" as it is potentially exclusionary. " +
+	"Consider using an alternative, such as \"%2$s\" instead.";
+const exclusionaryUnless = "Be careful when using \"%1$s\" as it is exclusionary, " +
+	"unless you are sure the group you refer to only consists of \"%1$s\". If not, use \"%2$s\" instead.";
 const derogatory = "Avoid using \"%1$s\" as it is derogatory.";
 
 const genderAssessments = [
@@ -45,7 +47,7 @@ const genderAssessments = [
 		nonInclusivePhrases: [ "he/she", "he or she", "she or he", "(s)he" ],
 		inclusiveAlternatives: "singular \"they\"",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: exclusionary,
+		feedbackFormat: potentiallyExclusionary,
 		learnMoreUrl: "https://yoa.st/",
 	},
 	{
@@ -93,9 +95,9 @@ const genderAssessments = [
 		nonInclusivePhrases: [ "female-bodied", "male-bodied" ],
 		inclusiveAlternatives: "assigned female/male at birth",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: [ potentiallyExclusionary,
-			"Consider using an alternative, such as \"%2$s\" if you are discussing a person based on their sex or assigned gender at birth. " +
-			"If talking about human anatomy, use the specific anatomical phrase as opposed to \"%1$s\"." ].join( " " ),
+		feedbackFormat: potentiallyExclusionary.slice( 0, -1 ) +
+			" if you are discussing a person based on their sex or assigned gender at birth. " +
+			"If talking about human anatomy, use the specific anatomical phrase as opposed to \"%1$s\".",
 		learnMoreUrl: "https://yoa.st/",
 	},
 	{
@@ -127,12 +129,10 @@ const genderAssessments = [
 	{
 		identifier: "husbandAndWife",
 		nonInclusivePhrases: [ "husband and wife" ],
-		// "Married" is not a drop-in replacement. Consider removing it, or replacing it?
-		inclusiveAlternatives: "spouses, partners; married",
+		inclusiveAlternatives: "spouses, partners",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: [ potentiallyExclusionary,
-			"Consider using an alternative, such as \"%2$s\" instead unless referring to yourself or " +
-			"to someone who explicitly wants to be referred to with this term." ].join( " " ),
+		feedbackFormat: potentiallyExclusionary.slice( 0, -1 ) +
+			", unless referring to someone who explicitly wants to be referred to with this term.",
 		learnMoreUrl: "https://yoa.st/",
 	},
 	{
@@ -140,7 +140,8 @@ const genderAssessments = [
 		nonInclusivePhrases: [ "mothers and fathers", "fathers and mothers" ],
 		inclusiveAlternatives: "parents",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: "Avoid using \"%1$s\" as it is exclusionary unless you are sure the group only consists of people who use that term. " +
+		feedbackFormat: "Be careful when using \"%1$s\" as it is exclusionary, " +
+			"unless you are sure the group only consists of people who use that term. " +
 			"If not, use \"%2$s\" instead.",
 		learnMoreUrl: "https://yoa.st/",
 	},
