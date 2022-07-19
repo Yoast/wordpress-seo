@@ -65,6 +65,7 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 		$disabled            = false;
 		$show_premium_upsell = false;
 		$premium_upsell_url  = '';
+		$note_when_disabled  = '';
 		if ( $feature->premium === true && YoastSEO()->helpers->product->is_premium() === false ) {
 			$disabled            = true;
 			$show_premium_upsell = true;
@@ -74,7 +75,7 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 		if ( $feature->supported_locales && ! \in_array( \get_locale(), $feature->supported_locales, true ) ) {
 			$disabled            = true;
 			$show_premium_upsell = false;
-            $note_when_disabled  = __( 'This feature has been disabled, since it is not supported for your region yet.', 'wordpress-seo' );
+			$note_when_disabled  = __( 'This feature has been disabled, since it is not supported for your language yet.', 'wordpress-seo' );
 			// Do not show Premium or Beta badge.
 			$name = $feature->name;
 		}
