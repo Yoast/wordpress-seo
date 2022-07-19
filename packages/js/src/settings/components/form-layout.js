@@ -11,7 +11,7 @@ const FormLayout = ( {
 	title,
 	description = null,
 } ) => {
-	const { isSubmitting, isValid } = useFormikContext();
+	const { isSubmitting } = useFormikContext();
 	return (
 		<div className="yst-rounded-lg yst-bg-white yst-shadow yst-h-full">
 			<Form className="yst-flex yst-flex-col yst-h-full">
@@ -29,7 +29,7 @@ const FormLayout = ( {
 						id="button-submit-settings"
 						type="submit"
 						isLoading={ isSubmitting }
-						disabled={ ! isValid || isSubmitting }
+						disabled={ isSubmitting }
 					>
 						{ __( "Save changes", "wordpress-seo" ) }
 					</Button>
