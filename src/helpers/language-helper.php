@@ -38,16 +38,16 @@ class Language_Helper {
 	}
 
 	/**
-	 * Checks whether the given locale has inclusive language support.
+	 * Checks whether the given language has inclusive language support.
 	 *
-	 * @param string $locale The locale to check if inclusive language is supported.
+	 * @param string $language The language to check if inclusive language is supported.
 	 *
 	 * @return bool Whether the language has inclusive language support.
 	 */
-	public function has_inclusive_language_support( $locale ) {
-		$supported_locales = [ 'en_US' ];
+	public function has_inclusive_language_support( $language ) {
+		$supported_locales = [ 'en' ];
 
-		return \in_array( $locale, $supported_locales, true );
+		return \in_array( $language, $supported_locales, true );
 	}
 
 	/**

@@ -72,7 +72,10 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 			$premium_upsell_url  = WPSEO_Shortlinker::get( $feature->premium_upsell_url );
 		}
 
-		if ( $feature->supported_locales && ! \in_array( \get_locale(), $feature->supported_locales, true ) ) {
+		$current_language                             = WPSEO_Language_Utils::get_language( \get_locale() );
+		$feature_is_not_supported_in_current_language = $feature->supported_languages && \in_array( $current_language, $feature->supported_locales, true );
+
+		if ( $feature_is_not_supported_in_current_language ) {
 			$disabled            = true;
 			$show_premium_upsell = false;
 			$note_when_disabled  = __( 'This feature has been disabled, since it is not supported for your language yet.', 'wordpress-seo' );
