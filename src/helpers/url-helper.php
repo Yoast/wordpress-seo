@@ -234,15 +234,29 @@ class Url_Helper {
 		$current_url .= '://';
 
 		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput -- We know this is scary.
-		$suffix = ( $with_request_uri ) ? $_SERVER['REQUEST_URI'] : '';
+		$suffix = ( $with_request_uri && isset( $_SERVER['REQUEST_URI'] ) ) ? $_SERVER['REQUEST_URI'] : '';
 
+		if ( isset( $_SERVER['SERVER_NAME'] ) && ! empty( $_SERVER['SERVER_NAME'] ) ) {
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput -- We know this is scary.
+			$server_name = $_SERVER['SERVER_NAME'];
+		}
+		else {
+			// Early return with just the path.
+			return $suffix;
+		}
+
+		$server_port = '';
 		if ( isset( $_SERVER['SERVER_PORT'] ) && $_SERVER['SERVER_PORT'] !== '80' && $_SERVER['SERVER_PORT'] !== '443' ) {
 			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput -- We know this is scary.
-			$current_url .= $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . $suffix;
+			$server_port = $_SERVER['SERVER_PORT'];
+		}
+
+		if ( ! empty( $server_port ) ) {
+			$current_url .= $server_name . ':' . $server_port . $suffix;
 		}
 		else {
 			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput -- We know this is scary.
-			$current_url .= $_SERVER['SERVER_NAME'] . $suffix;
+			$current_url .= $server_name . $suffix;
 		}
 
 		return $current_url;
