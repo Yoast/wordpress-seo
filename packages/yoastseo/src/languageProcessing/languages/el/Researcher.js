@@ -27,6 +27,7 @@ export default class Researcher extends AbstractResearcher {
 		// Deletes researches that are not available for languages that we haven't supported yet.
 		delete this.defaultResearches.getFleschReadingScore;
 		delete this.defaultResearches.wordComplexity;
+		delete this.defaultResearches.textFormality;
 
 		Object.assign( this.config, {
 			language: "el",

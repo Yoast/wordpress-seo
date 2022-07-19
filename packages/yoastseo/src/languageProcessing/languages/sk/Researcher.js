@@ -28,6 +28,7 @@ export default class Researcher extends AbstractResearcher {
 		// When the research is available, this line should be removed.
 		delete this.defaultResearches.getFleschReadingScore;
 		delete this.defaultResearches.wordComplexity;
+		delete this.defaultResearches.textFormality;
 
 		Object.assign( this.config, {
 			language: "sk",

@@ -28,6 +28,7 @@ export default class Researcher extends AbstractResearcher {
 		super( paper );
 
 		delete this.defaultResearches.wordComplexity;
+		delete this.defaultResearches.textFormality;
 
 		Object.assign( this.config, {
 			language: "pt",

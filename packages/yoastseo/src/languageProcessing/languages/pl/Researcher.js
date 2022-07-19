@@ -28,6 +28,7 @@ export default class Researcher extends AbstractResearcher {
 		// Delete a research(es) that is not available in Polish
 		delete this.defaultResearches.getFleschReadingScore;
 		delete this.defaultResearches.wordComplexity;
+		delete this.defaultResearches.textFormality;
 
 		Object.assign( this.config, {
 			language: "pl",
