@@ -3,7 +3,6 @@ import AssessmentResult from "../../../values/AssessmentResult";
 import { merge } from "lodash-es";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import { __, sprintf } from "@wordpress/i18n";
-import { isUndefined } from "lodash-es";
 
 /**
  * Represents the assessment for the product identifiers.
