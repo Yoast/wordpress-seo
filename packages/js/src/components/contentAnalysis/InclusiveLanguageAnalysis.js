@@ -16,6 +16,7 @@ import { getIconForScore } from "./mapResults";
 import { LocationConsumer } from "@yoast/externals/contexts";
 import HelpLink from "../HelpLink";
 import ReadabilityResultsPortal from "../portals/ReadabilityResultsPortal";
+import Portal from "../portals/Portal";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
@@ -111,7 +112,7 @@ const InclusiveLanguageAnalysis = ( props ) => {
 
 				if ( location === "metabox" ) {
 					return (
-						<ReadabilityResultsPortal target="wpseo-metabox-inclusive-language-root">
+						<Portal target="wpseo-metabox-inclusive-language-root">
 							<InclusiveLanguageResultsTabContainer>
 								<ScoreIconPortal
 									target="wpseo-inclusive-language-score-icon"
@@ -119,7 +120,7 @@ const InclusiveLanguageAnalysis = ( props ) => {
 								/>
 								{ props.results.length >= 1 ? renderResults() : renderGoodJob() }
 							</InclusiveLanguageResultsTabContainer>
-						</ReadabilityResultsPortal>
+						</Portal>
 					);
 				}
 			} }
