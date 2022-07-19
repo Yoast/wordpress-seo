@@ -1,7 +1,7 @@
 export { default as PostType } from "./templates/post-type";
 export { default as AuthorArchives } from "./author-archives";
 export { default as Breadcrumbs } from "./breadcrumbs";
-export { default as CrawlSettings } from "./crawl-settings";
+export { default as CrawlSettings } from "./crawl-optimization";
 export { default as DateArchives } from "./date-archives";
 export { default as Formats } from "./formats";
 export { default as Homepage } from "./homepage";
