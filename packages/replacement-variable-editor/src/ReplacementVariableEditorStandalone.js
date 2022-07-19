@@ -10,7 +10,7 @@ import includes from "lodash/includes";
 import get from "lodash/get";
 import PropTypes from "prop-types";
 import { speak as a11ySpeak } from "@wordpress/a11y";
-import { applyFilters, addAction } from "@wordpress/hooks";
+import { applyFilters } from "@wordpress/hooks";
 import { __, _n, sprintf } from "@wordpress/i18n";
 import styled from "styled-components";
 import { withTheme } from "styled-components";
@@ -154,11 +154,10 @@ class ReplacementVariableEditorStandalone extends React.Component {
 			} ),
 		};
 
-		addAction( "yoast.draftjs.additionalPluginLoaded", "yoast/yoast-seo/initializeDraftJsPlugins", ( fieldId ) => {
-			if ( fieldId === this.props.fieldId ) {
-				this.setState( { editorKey: this.props.fieldId + "-loaded"  } );
-			}
-		} );
+		this.pluginList = applyFilters(
+			"yoast.replacementVariableEditor.pluginList",
+			this.pluginList
+		);
 	}
 
 	/**
@@ -547,8 +546,7 @@ class ReplacementVariableEditorStandalone extends React.Component {
 					"yoast.replacementVariableEditor.additionalPlugins",
 					<React.Fragment />,
 					this.pluginList,
-					fieldId,
-					this.editor
+					fieldId
 				) }
 
 				<ZIndexOverride>
