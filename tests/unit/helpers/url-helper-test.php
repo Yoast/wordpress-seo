@@ -508,4 +508,140 @@ class Url_Helper_Test extends TestCase {
 			],
 		];
 	}
+
+	/**
+	 * Tests the recreate_current_url function.
+	 *
+	 * @covers ::recreate_current_url
+	 *
+	 * @dataProvider recreate_current_url_test_data
+	 *
+	 * @param array  $params    The input parameters.
+	 * @param string $expected  The expected output.
+	 */
+	public function test_recreate_current_url( $params, $expected ) {
+		if ( ! empty( $params['HTTPS'] ) ) {
+			$_SERVER['HTTPS'] = $params['HTTPS'];
+		}
+
+		if ( ! empty( $params['REQUEST_URI'] ) ) {
+			$_SERVER['REQUEST_URI'] = $params['REQUEST_URI'];
+		}
+
+		if ( ! empty( $params['SERVER_NAME'] ) ) {
+			$_SERVER['SERVER_NAME'] = $params['SERVER_NAME'];
+		}
+
+		if ( ! empty( $params['SERVER_PORT'] ) ) {
+			$_SERVER['SERVER_PORT'] = $params['SERVER_PORT'];
+		}
+
+		$this->assertSame(
+			$expected,
+			$this->instance->recreate_current_url( $params['with_request_uri'] )
+		);
+
+		if ( ! empty( $params['HTTPS'] ) ) {
+			unset( $_SERVER['HTTPS'] );
+		}
+
+		if ( ! empty( $params['REQUEST_URI'] ) ) {
+			unset( $_SERVER['REQUEST_URI'] );
+		}
+
+		if ( ! empty( $params['SERVER_NAME'] ) ) {
+			unset( $_SERVER['SERVER_NAME'] );
+		}
+
+		if ( ! empty( $params['SERVER_PORT'] ) ) {
+			unset( $_SERVER['SERVER_PORT'] );
+		}
+	}
+
+	/**
+	 * Data for the test_recreate_current_url.
+	 *
+	 * @return array The test data.
+	 */
+	public function recreate_current_url_test_data() {
+		return [
+			'HTTP with request uri' => [
+				'params'   => [
+					'with_request_uri' => true,
+					'REQUEST_URI'      => '/path',
+					'SERVER_NAME'      => 'foobar.tld',
+				],
+				'expected' => 'http://foobar.tld/path',
+			],
+			'HTTP without request uri' => [
+				'params'   => [
+					'with_request_uri' => false,
+					'REQUEST_URI'      => '/path',
+					'SERVER_NAME'      => 'foobar.tld',
+				],
+				'expected' => 'http://foobar.tld',
+			],
+			'HTTPS with request uri' => [
+				'params'   => [
+					'with_request_uri' => true,
+					'HTTPS'            => 'on',
+					'REQUEST_URI'      => '/path',
+					'SERVER_NAME'      => 'foobar.tld',
+				],
+				'expected' => 'https://foobar.tld/path',
+			],
+			'HTTPS without request uri' => [
+				'params'   => [
+					'with_request_uri' => false,
+					'HTTPS'            => 'on',
+					'REQUEST_URI'      => '/path',
+					'SERVER_NAME'      => 'foobar.tld',
+				],
+				'expected' => 'https://foobar.tld',
+			],
+			'HTTP with port and request uri' => [
+				'params'   => [
+					'with_request_uri' => true,
+					'REQUEST_URI'      => '/path',
+					'SERVER_NAME'      => 'foobar.tld',
+					'SERVER_PORT'      => '8080',
+				],
+				'expected' => 'http://foobar.tld:8080/path',
+			],
+			'HTTP with port and without request uri' => [
+				'params'   => [
+					'with_request_uri' => false,
+					'REQUEST_URI'      => '/path',
+					'SERVER_NAME'      => 'foobar.tld',
+					'SERVER_PORT'      => '8080',
+				],
+				'expected' => 'http://foobar.tld:8080',
+			],
+			'No server name with request uri' => [
+				'params'   => [
+					'with_request_uri' => true,
+					'REQUEST_URI'      => '/path',
+					'SERVER_PORT'      => '8080',
+				],
+				'expected' => '/path',
+			],
+			'Empty server name with request uri' => [
+				'params'   => [
+					'with_request_uri' => true,
+					'REQUEST_URI'      => '/path',
+					'SERVER_NAME'      => '',
+					'SERVER_PORT'      => '8080',
+				],
+				'expected' => '/path',
+			],
+			'No server name with no request uri' => [
+				'params'   => [
+					'with_request_uri' => false,
+					'REQUEST_URI'      => '/path',
+					'SERVER_PORT'      => '8080',
+				],
+				'expected' => '',
+			],
+		];
+	}
 }
