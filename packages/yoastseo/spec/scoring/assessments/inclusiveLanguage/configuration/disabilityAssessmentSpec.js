@@ -16,7 +16,7 @@ describe( "Disability assessments", function() {
 		expect( isApplicable ).toBeTruthy();
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual(
-			"Avoid using \"sociopath\" unless talking about the specific medical condition " +
+			"Be careful when using \"sociopath\", unless talking about the specific medical condition " +
 			"(in which case, use \"Person with antisocial personality disorder\"). " +
 			"If you are not referencing the medical condition, consider other alternatives " +
 			"to describe the trait or behavior such as \"selfish, toxic, manipulative, wild, " +
@@ -40,8 +40,8 @@ describe( "Disability assessments", function() {
 		expect( isApplicable ).toBeTruthy();
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual(
-			"Avoid using \"an alcoholic\" as it is potentially harmful. " +
-			"Consider using an alternative, such as \"person with alcohol use disorder\" instead unless referring to yourself or to " +
+			"Be careful when using \"an alcoholic\" as it is potentially harmful. " +
+			"Consider using an alternative, such as \"person with alcohol use disorder\" instead, unless referring to " +
 			"someone who explicitly wants to be referred to with this term. " +
 			"<a href='https://yoa.st/' target='_blank'>Learn more.</a>" );
 		expect( assessmentResult.hasMarks() ).toBeTruthy();

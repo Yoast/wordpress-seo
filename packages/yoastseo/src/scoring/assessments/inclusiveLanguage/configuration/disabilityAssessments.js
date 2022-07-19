@@ -1,13 +1,20 @@
-import { potentiallyHarmful, potentiallyHarmfulOrBeSpecific, potentiallyHarmfulUnless } from "./feedbackStrings";
+import {
+	potentiallyHarmful,
+	potentiallyHarmfulCareful,
+	potentiallyHarmfulOrBeSpecific,
+	potentiallyHarmfulUnless,
+	potentiallyHarmfulUnlessNonInclusive,
+} from "./feedbackStrings";
 import { isFollowedByException } from "../helpers/isFollowedByException";
 import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
 import { SCORES } from "./scores";
 
 const derogatory = "Avoid using \"%1$s\" as it is derogatory. Consider using an alternative, such as \"%2$s\" instead.";
 
-const medicalCondition = "Avoid using \"%1$s\" unless talking about the specific medical condition. " +
+const medicalCondition = "Be careful when using \"%1$s\", unless talking about the specific medical condition. " +
 	"If you are not referencing the medical condition, consider other alternatives to describe the trait or behavior such as \"%2$s\".";
-const medicalConditionTwoAlternatives = "Avoid using \"%1$s\" unless talking about the specific medical condition (in which case, use \"%2$s\"). " +
+const medicalConditionTwoAlternatives = "Be careful when using \"%1$s\", unless talking about the specific medical condition " +
+	"(in which case, use \"%2$s\"). " +
 	"If you are not referencing the medical condition, consider other alternatives to describe the trait or behavior such as \"%3$s\".";
 
 const potentiallyHarmfulTwoAlternatives = "Avoid using \"%1$s\" as it is potentially harmful. " +
@@ -88,7 +95,7 @@ const disabilityAssessments =  [
 		nonInclusivePhrases: [ "daft" ],
 		inclusiveAlternatives: "dense, ignorant, foolish",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmful,
+		feedbackFormat: potentiallyHarmfulCareful,
 		learnMoreUrl: "https://yoa.st/",
 	},
 	{
@@ -149,11 +156,12 @@ const disabilityAssessments =  [
 		learnMoreUrl: "https://yoa.st/",
 	},
 	{
+		// This phrase covers the below two phrases as well.
 		identifier: "functioning",
 		nonInclusivePhrases: [ "high functioning", "low functioning" ],
 		inclusiveAlternatives: "",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: "Avoid using \"%1$s\" as it is potentially harmful unless to refer to yourself or how you characterize your condition." +
+		feedbackFormat: "Be careful when using \"%1$s\" as it is potentially harmful, unless to refer how you characterize your condition." +
 			"Consider using a specific characteristic or experience if it is known.",
 		learnMoreUrl: "https://yoa.st/",
 	},
@@ -162,7 +170,7 @@ const disabilityAssessments =  [
 		nonInclusivePhrases: [ "high functioning autism", "high-functioning autism" ],
 		inclusiveAlternatives: "autism with low support needs",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmfulUnless,
+		feedbackFormat: potentiallyHarmfulUnlessNonInclusive,
 		learnMoreUrl: "https://yoa.st/",
 	},
 	{
@@ -170,7 +178,7 @@ const disabilityAssessments =  [
 		nonInclusivePhrases: [ "low functioning autism", "low-functioning autism" ],
 		inclusiveAlternatives: "autism with high support needs",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmfulUnless,
+		feedbackFormat: potentiallyHarmfulUnlessNonInclusive,
 		learnMoreUrl: "https://yoa.st/",
 	},
 	{
