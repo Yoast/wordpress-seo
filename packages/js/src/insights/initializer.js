@@ -35,7 +35,12 @@ const createUpdater = () => {
 			}
 		} );
 		runResearch( "wordCountInText", paper ).then( response => setTextLength( response.result ) );
-		runResearch( "textFormality", paper ).then( response => setTextFormalityLevel( response.result ) );
+		runResearch( "textFormality", paper ).then( response => {
+			// For languages that do not have text formality check support, `false` is returned.
+			if ( response.result ) {
+				setTextFormalityLevel( response.result );
+			}
+		} );
 	};
 };
 
