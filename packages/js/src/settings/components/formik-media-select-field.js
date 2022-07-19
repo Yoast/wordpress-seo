@@ -1,12 +1,12 @@
 /* eslint-disable complexity */
-import { __ } from "@wordpress/i18n";
-import { useState, useCallback, useEffect } from "@wordpress/element";
+import { sprintf, __ } from "@wordpress/i18n";
+import { useState, useCallback, useEffect, useMemo } from "@wordpress/element";
 import { Field, useFormikContext } from "formik";
 import { get, keys } from "lodash";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 import { PhotographIcon } from "@heroicons/react/outline";
-import { Button, Label, Link } from "@yoast/ui-library";
+import { Button, Label, Link, useDescribedBy } from "@yoast/ui-library";
 
 const classNameMap = {
 	variant: {
@@ -16,12 +16,17 @@ const classNameMap = {
 	},
 };
 
+const getSupportedFormats = () => ( {
+	image: __( "JPG, PNG, WEBP and GIF", "wordpress-seo" ),
+} );
+
 /**
  * @param {string} [label] Label.
  * @param {string} [description] Description.
  * @param {JSX.Element} [icon] Icon to show in select.
  * @param {string} id Id.
- * @param {string[]} [libraryType] Media types that should show in WP library, ie. [ "image", "video" ].
+ * @param {boolean} [disabled] Disabled.
+ * @param {string} [libraryType] Media type that should show in WP library, ie. "image" or "video".
  * @param {string} [variant] Variant.
  * @param {string} mediaUrlName Name for the hidden image url field.
  * @param {string} mediaIdName Name for the hidden image id field.
@@ -37,7 +42,8 @@ const FormikMediaSelectField = ( {
 	description = "",
 	icon: Icon = PhotographIcon,
 	id,
-	libraryType = [ "image" ],
+	disabled = false,
+	libraryType = "image",
 	variant = "landscape",
 	mediaUrlName,
 	mediaIdName,
@@ -47,11 +53,13 @@ const FormikMediaSelectField = ( {
 	removeLabel = __( "Remove image", "wordpress-seo" ),
 	className = "",
 } ) => {
-	const { values, setFieldValue, setFieldTouched } = useFormikContext();
+	const { values, setFieldValue, setFieldTouched, setFieldError, errors } = useFormikContext();
 	const [ wpMediaLibrary, setWpMediaLibrary ] = useState( null );
 	const [ mediaMeta, setMediaMeta ] = useState( {} );
-
-	const mediaUrl = get( values, mediaUrlName, "" );
+	const mediaUrl = useMemo( () => get( values, mediaUrlName, "" ), [ errors ] );
+	const error = useMemo( () => get( errors, mediaIdName, "" ), [ errors ] );
+	const { ids, describedBy } = useDescribedBy( id, { description, error } );
+	const supportedFormats = useMemo( () => getSupportedFormats(), [] );
 
 	const handleSelectMediaClick = useCallback( () => wpMediaLibrary?.open(), [ wpMediaLibrary ] );
 	const handleRemoveMediaClick = useCallback( () => {
@@ -86,10 +94,16 @@ const FormikMediaSelectField = ( {
 
 				// Update Formik state.
 				setFieldTouched( mediaUrlName, true, false );
-				setFieldValue( mediaUrlName, media.url );
+				setFieldValue( mediaUrlName, media.url, false );
 
 				setFieldTouched( mediaIdName, true, false );
-				setFieldValue( mediaIdName, media.id );
+				setFieldValue( mediaIdName, media.id, false );
+
+				// Clear or add error based on accepted media types.
+				setFieldError( mediaIdName, libraryType === media?.type ? "" : sprintf(
+					__( "The selected media type is not valid. Supported formats are: %1$s.", "wordpress-seo" ),
+					supportedFormats[ libraryType ]
+				) );
 			} );
 
 			setWpMediaLibrary( mediaLibrary );
@@ -97,9 +111,19 @@ const FormikMediaSelectField = ( {
 	}, [ setFieldTouched, setFieldValue, setMediaMeta, mediaUrlName, mediaIdName, libraryType, label ] );
 
 	return (
-		<fieldset className="yst-w-96">
-			<Field type="hidden" name={ mediaUrlName } id={ `input-${ mediaUrlName }` } />
-			<Field type="hidden" name={ mediaIdName } id={ `input-${ mediaIdName }` } />
+		<fieldset className={ classNames( "yst-w-96", disabled && "yst-opacity-50" ) }>
+			<Field
+				type="hidden"
+				name={ mediaUrlName }
+				id={ `input-${ mediaUrlName }` }
+				aria-describedby={ describedBy }
+			/>
+			<Field
+				type="hidden"
+				name={ mediaIdName }
+				id={ `input-${ mediaIdName }` }
+				aria-describedby={ describedBy }
+			/>
 			{ label && <Label as="legend" className="yst-mb-2">{ label }</Label> }
 			<button
 				type="button"
@@ -140,12 +164,13 @@ const FormikMediaSelectField = ( {
 					</Button>
 				) }
 				{ mediaUrl && (
-					<Link id={ `button-${ id }-remove` } as="button" variant="error" onClick={ handleRemoveMediaClick }>
+					<Link id={ `button-${ id }-remove` } as="button" type="button" variant="error" onClick={ handleRemoveMediaClick }>
 						{ removeLabel }
 					</Link>
 				) }
 			</div>
-			{ description && <p className="yst-mt-4">{ description }</p> }
+			{ error && <p id={ ids.error } className="yst-mt-2 yst-text-sm yst-text-red-600">{ error }</p> }
+			{ description && <p id={ ids.description } className="yst-mt-2">{ description }</p> }
 		</fieldset>
 	);
 };
@@ -155,7 +180,8 @@ FormikMediaSelectField.propTypes = {
 	description: PropTypes.node,
 	icon: PropTypes.elementType,
 	id: PropTypes.string.isRequired,
-	libraryType: PropTypes.arrayOf( PropTypes.string ),
+	disabled: PropTypes.bool,
+	libraryType: PropTypes.string,
 	variant: PropTypes.oneOf( keys( classNameMap.variant ) ),
 	mediaUrlName: PropTypes.string.isRequired,
 	mediaIdName: PropTypes.string.isRequired,
