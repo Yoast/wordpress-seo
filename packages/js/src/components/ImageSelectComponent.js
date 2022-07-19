@@ -12,8 +12,7 @@ import { fetchAttachment, openMedia } from "../helpers/selectMedia";
  * @returns {JSX.Element} The ImageSelectComponent.
  */
 const ImageSelectComponent = ( { hiddenField, hiddenFieldImageId, hiddenFieldFallbackImageId, hasImageValidation, ...imageSelectProps } ) => {
-
-	const [ usingFallback, setUsingFallback ] = useState( ( document.getElementById( hiddenFieldFallbackImageId  ) !== null ) );
+	const [ usingFallback, setUsingFallback ] = useState( ( document.getElementById( hiddenFieldFallbackImageId ) !== null ) );
 	const hiddenFieldElement = useMemo( () => document.getElementById( hiddenField ) );
 	const hiddenFieldSelectImageElement = useMemo( () => document.getElementById( hiddenFieldImageId ) );
 
