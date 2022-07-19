@@ -82,7 +82,7 @@ const InclusiveLanguageAnalysis = ( props ) => {
 	 * @returns {JSX.Element} The feedback string.
 	 */
 	function renderGoodJob() {
-		return <p>{ __( "We did not detect any non-inclusive phrases.", "wordpress-seo" ) }</p>;
+		return <p>{ __( "We haven't detected any potentially non-inclusive phrases. Great work!", "wordpress-seo" ) }</p>;
 	}
 
 	const score = getIndicatorForScore( props.overallScore );
