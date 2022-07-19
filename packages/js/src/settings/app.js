@@ -49,8 +49,8 @@ const Menu = ( { idSuffix = "" } ) => {
 		{ /*	) ) }*/ }
 		{ /* </SidebarNavigation.MenuItem>*/ }
 		<SidebarNavigation.MenuItem id={ `menu-advanced-settings${ idSuffix && `-${idSuffix}` }` } icon={ AdjustmentsIcon } label={ __( "Advanced settings", "wordpress-seo" ) }>
-			<SidebarNavigation.SubmenuItem
-				to="/crawl-settings"
+			{/* <SidebarNavigation.SubmenuItem
+				to="/crawl-optimization"
 				label={
 					<span className="yst-inline-flex yst-items-center yst-gap-1.5">
 						{ __( "Crawl optimization", "wordpress-seo" ) }
@@ -58,7 +58,7 @@ const Menu = ( { idSuffix = "" } ) => {
 					</span>
 				}
 				idSuffix={ idSuffix }
-			/>
+			/> */}
 			{ /* <SidebarNavigation.SubmenuItem to="/author-archives" label={ __( "Author archives", "wordpress-seo" ) } idSuffix={ idSuffix } />*/ }
 			{ /* <SidebarNavigation.SubmenuItem to="/date-archives" label={ __( "Date archives", "wordpress-seo" ) } idSuffix={ idSuffix } />*/ }
 			{ /* <SidebarNavigation.SubmenuItem to="/search-pages" label={ __( "Search pages", "wordpress-seo" ) } idSuffix={ idSuffix } />*/ }
@@ -98,7 +98,7 @@ const App = () => {
 						<Routes>
 							{ /* <Route path="author-archives" element={ <AuthorArchives /> } />*/ }
 							{ /* <Route path="breadcrumbs" element={ <Breadcrumbs /> } />*/ }
-							<Route path="crawl-settings" element={ <CrawlSettings /> } />
+							{/* <Route path="crawl-optimization" element={ <CrawlSettings /> } /> */}
 							{ /* <Route path="date-archives" element={ <DateArchives /> } />*/ }
 							{ /* <Route path="homepage" element={ <Homepage /> } />*/ }
 							{ /* <Route path="formats" element={ <Formats /> } />*/ }
