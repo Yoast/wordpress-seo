@@ -14,6 +14,7 @@ import getClauses from "./helpers/getClauses";
 import getStemmer from "./helpers/getStemmer";
 import fleschReadingScore from "./helpers/calculateFleschReadingScore";
 import checkIfWordIsComplex from "./helpers/checkIfWordIsComplex";
+import checkTextFormality from "./helpers/checkTextFormality";
 
 /**
  * The researches contains all the researches
@@ -43,6 +44,7 @@ export default class Researcher extends AbstractResearcher {
 			getStemmer,
 			fleschReadingScore,
 			checkIfWordIsComplex,
+			checkTextFormality,
 		} );
 	}
 }
