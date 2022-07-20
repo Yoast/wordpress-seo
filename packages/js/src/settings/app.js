@@ -3,7 +3,7 @@ import { AdjustmentsIcon, DesktopComputerIcon, NewspaperIcon } from "@heroicons/
 import { __ } from "@wordpress/i18n";
 import { Badge } from "@yoast/ui-library";
 import { map } from "lodash";
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Route, Routes, useLocation, Navigate } from "react-router-dom";
 import { SidebarNavigation, YoastLogo, Notifications } from "./components";
 import {
 	AuthorArchives,
@@ -113,7 +113,7 @@ const App = () => {
 							{ /* { map( postTypes, postType => (*/ }
 							{ /*	<Route key={ postType.name } path={ postType.route } element={ <PostType { ...postType } /> } />*/ }
 							{ /* ) ) }*/ }
-							<Route path="/" element={ <SitePreferences /> } />
+							<Route path="*" element={ <Navigate to="/site-preferences" replace={ true } /> } />
 						</Routes>
 					</main>
 				</div>
