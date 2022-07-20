@@ -59,7 +59,9 @@ const FormikMediaSelectField = ( {
 	const { values, setFieldValue, setFieldTouched, setFieldError, errors } = useFormikContext();
 	const [ wpMediaLibrary, setWpMediaLibrary ] = useState( null );
 	const [ mediaMeta, setMediaMeta ] = useState( {} );
-	const mediaUrl = useMemo( () => get( values, mediaUrlName, "" ), [ errors ] );
+	const wpMedia = useMemo( ()=> get( window, "wp.media", null ), [] );
+	const mediaId = useMemo( () => get( values, mediaIdName, "" ), [ values, mediaIdName ] );
+	const mediaUrl = useMemo( () => get( values, mediaUrlName, "" ), [ values, mediaUrlName ] );
 	const error = useMemo( () => get( errors, mediaIdName, "" ), [ errors ] );
 	const { ids, describedBy } = useDescribedBy( id, { description, error } );
 	const supportedFormats = useMemo( () => getSupportedFormats(), [] );
@@ -77,9 +79,15 @@ const FormikMediaSelectField = ( {
 		setFieldValue( mediaIdName, "" );
 	}, [ setFieldTouched, setFieldValue, setMediaMeta, mediaUrlName, mediaIdName ] );
 
-	useEffect( () => {
-		const wpMedia = get( window, "wp.media", null );
+	const validateType = useCallback( type => {
+		// Clear or add error based on accepted media types.
+		setFieldError( mediaIdName, libraryType === type ? "" : sprintf(
+			__( "The selected media type is not valid. Supported formats are: %1$s.", "wordpress-seo" ),
+			supportedFormats[ libraryType ]
+		) );
+	}, [ setFieldError, mediaIdName, libraryType, supportedFormats ] );
 
+	useEffect( () => {
 		if ( wpMedia ) {
 			// Use or create WordPress media library instance.
 			const mediaLibrary = wpMediaLibrary || wpMedia( {
@@ -90,7 +98,7 @@ const FormikMediaSelectField = ( {
 
 			// Attach media select event listener.
 			mediaLibrary.on( "select", () => {
-				const media = mediaLibrary.state().get( "selection" ).first().toJSON();
+				const media = mediaLibrary?.state()?.get( "selection" )?.first()?.toJSON() || {};
 
 				// Update local image meta state.
 				setMediaMeta( { alt: media.alt } );
@@ -102,16 +110,18 @@ const FormikMediaSelectField = ( {
 				setFieldTouched( mediaIdName, true, false );
 				setFieldValue( mediaIdName, media.id, false );
 
-				// Clear or add error based on accepted media types.
-				setFieldError( mediaIdName, libraryType === media?.type ? "" : sprintf(
-					__( "The selected media type is not valid. Supported formats are: %1$s.", "wordpress-seo" ),
-					supportedFormats[ libraryType ]
-				) );
+				validateType( media.type );
 			} );
 
 			setWpMediaLibrary( mediaLibrary );
 		}
-	}, [ setFieldTouched, setFieldValue, setMediaMeta, mediaUrlName, mediaIdName, libraryType, label ] );
+	}, [ wpMedia, setFieldTouched, setFieldValue, setMediaMeta, mediaUrlName, mediaIdName, libraryType, label, validateType ] );
+
+	useEffect( () => {
+		if ( wpMedia && mediaId ) {
+			wpMedia.attachment( mediaId ).fetch().then( attachment => validateType( attachment?.type ) );
+		}
+	}, [ wpMedia, mediaId, validateType ] );
 
 	return (
 		<fieldset className={ classNames( "yst-w-96", disabled && "yst-opacity-50" ) }>
