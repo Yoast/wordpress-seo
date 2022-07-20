@@ -67,7 +67,7 @@ const disabilityAssessments =  [
 	{
 		identifier: "alcoholics",
 		nonInclusivePhrases: [ "alcoholics" ],
-		inclusiveAlternatives: "person with alcohol use disorder",
+		inclusiveAlternatives: "people with alcohol use disorder",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulUnless,
 		learnMoreUrl: "https://yoa.st/",
@@ -254,6 +254,7 @@ const disabilityAssessments =  [
 		learnMoreUrl: "https://yoa.st/",
 	},
 	{
+		// Problematic, as it will also target the below phrase
 		identifier: "dumb",
 		nonInclusivePhrases: [ "dumb" ],
 		inclusiveAlternatives: [ "uninformed, ignorant, foolish, inconsiderate, insensible, irrational, reckless " +

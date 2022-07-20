@@ -7,7 +7,7 @@ const otherAssessments = [
 		nonInclusivePhrases: [ "homosexuals" ],
 		inclusiveAlternatives: "gay men, queer people, lesbians",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: "Avoid use of \"%1$s\" as it may overgeneralize or be harmful. " +
+		feedbackFormat: "Be careful when using \"%1$s\" as it may overgeneralize or be harmful. " +
 						"Instead, be specific about the group you are referring to (e.g. \"%2$s\").",
 		learnMoreUrl: "https://yoa.st/",
 	},
