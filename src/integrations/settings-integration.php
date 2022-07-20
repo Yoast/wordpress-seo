@@ -38,6 +38,24 @@ class Settings_Integration implements Integration_Interface {
 	const ALLOWED_OPTION_GROUPS = [ 'wpseo', 'wpseo_titles', 'wpseo_social' ];
 
 	/**
+	 * Holds the disallowed settings, per option group.
+	 *
+	 * Note: these are the settings that hold Objects.
+	 *
+	 * @var array
+	 */
+	const DISALLOWED_SETTINGS = [
+		'wpseo'        => [
+			'custom_taxonomy_slugs',
+			'workouts_data',
+		],
+		'wpseo_titles' => [
+			'company_logo_meta',
+			'person_logo_meta',
+		],
+	];
+
+	/**
 	 * Holds the WPSEO_Admin_Asset_Manager.
 	 *
 	 * @var WPSEO_Admin_Asset_Manager
@@ -200,7 +218,7 @@ class Settings_Integration implements Integration_Interface {
 			null,
 			'wpseo_manage_options',
 			'wpseo_settings_saved',
-			static function() {
+			static function () {
 			}
 		);
 
@@ -277,6 +295,13 @@ class Settings_Integration implements Integration_Interface {
 		// Add WP settings.
 		foreach ( self::WP_OPTIONS as $option_name ) {
 			$settings[ $option_name ] = \get_option( $option_name );
+		}
+
+		// Remove disallowed settings.
+		foreach ( self::DISALLOWED_SETTINGS as $option_name => $disallowed_settings ) {
+			foreach ( $disallowed_settings as $disallowed_setting ) {
+				unset( $settings[ $option_name ][ $disallowed_setting ] );
+			}
 		}
 
 		return $settings;
