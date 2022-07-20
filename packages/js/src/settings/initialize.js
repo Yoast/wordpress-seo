@@ -60,7 +60,7 @@ domReady( () => {
 					initialValues={ getInitialValues() }
 					onSubmit={ handleSubmit }
 				>
-					<div className="yst-flex md:yst-space-x-4">
+					<div className="yst-flex md:yst-gap-4 yst-mt-16 md:yst-mt-0 yst-p-4 md:yst-p-8">
 						<aside className="yst-hidden md:yst-block yst-flex-shrink-0 yst-w-56 lg:yst-w-64">
 							<nav>
 								<Link to="site-preferences">
@@ -72,7 +72,7 @@ domReady( () => {
 								</Link>
 							</nav>
 						</aside>
-						<main>
+						<main className="yst-flex-grow">
 							<Routes>
 								<Route path="site-preferences" element={ <SitePreferences /> } />
 								<Route path="other" element={ <Title>Other</Title> }>

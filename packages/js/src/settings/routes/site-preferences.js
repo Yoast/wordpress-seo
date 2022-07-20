@@ -19,8 +19,8 @@ const SitePreferences = () => {
 					</p>
 				</div>
 			</header>
-			<Form className="yst-max-w-5xl yst-p-8">
-				<div className="lg:yst-grid lg:yst-grid-cols-3 lg:yst-gap-12">
+			<Form>
+				<div className="yst-p-8 lg:yst-grid lg:yst-grid-cols-3 lg:yst-gap-12 yst-max-w-5xl">
 					<div className="lg:yst-col-span-1">
 						<div className="yst-max-w-screen-sm">
 							<Title as="h3" className="yst-text-base yst-mb-2">{ __( "Copywriting", "wordpress-seo" ) }</Title>
@@ -63,7 +63,7 @@ const SitePreferences = () => {
 					</div>
 				</div>
 
-				<footer>
+				<footer className="yst-p-8 yst-bg-gray-50">
 					<Button type="submit" isLoading={ isSubmitting } disabled={ isSubmitting }>
 						{ __( "Save changes", "wordpress-seo" ) }
 					</Button>
