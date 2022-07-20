@@ -143,15 +143,22 @@ class ReplacementVariableEditorStandalone extends React.Component {
 		 * The mentions plugin is used to autocomplete the replacement variable
 		 * names.
 		 */
+		const mentionsPlugin = createMentionPlugin( {
+			mentionTrigger: "%",
+			entityMutability: "IMMUTABLE",
+			mentionComponent: Mention,
+		} );
+
+		const singleLinePlugin = createSingleLinePlugin( {
+			stripEntities: false,
+		} );
+
 		this.pluginList = {
-			mentionsPlugin: createMentionPlugin( {
-				mentionTrigger: "%",
-				entityMutability: "IMMUTABLE",
-				mentionComponent: Mention,
-			} ),
-			singleLinePlugin: createSingleLinePlugin( {
-				stripEntities: false,
-			} ),
+			mentionsPlugin,
+			singleLinePlugin: {
+				...singleLinePlugin,
+				handleReturn: () => {},
+			},
 		};
 
 		this.pluginList = applyFilters(
