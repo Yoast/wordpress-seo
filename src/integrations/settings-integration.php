@@ -11,6 +11,7 @@ use WPSEO_Options;
 use WPSEO_Post_Type;
 use WPSEO_Replace_Vars;
 use WPSEO_Shortlinker;
+use WPSEO_Sitemaps_Router;
 use Yoast\WP\SEO\Conditionals\Settings_Conditional;
 use Yoast\WP\SEO\Config\Schema_Types;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
@@ -249,6 +250,7 @@ class Settings_Integration implements Integration_Interface {
 				'isNetworkAdmin' => \is_network_admin(),
 				'isMainSite'     => \is_main_site(),
 				'siteUrl'        => \get_bloginfo( 'url' ),
+				'sitemapUrl'     => WPSEO_Sitemaps_Router::get_base_url( 'sitemap_index.xml' ),
 			],
 			'linkParams'           => WPSEO_Shortlinker::get_query_params(),
 			'postTypes'            => $post_types,
