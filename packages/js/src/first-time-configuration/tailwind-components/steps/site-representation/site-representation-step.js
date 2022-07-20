@@ -52,11 +52,16 @@ export default function SiteRepresentationStep( { onOrganizationOrPersonChange, 
 		if ( state.companyOrPerson === "company" && ! state.companyLogoFallback ) {
 			return false;
 		}
+
 		if ( state.companyOrPerson === "person" && state.personLogo ) {
 			return false;
 		}
 
-		return ! ( state.companyOrPerson === "person" && ! state.personLogoFallback );
+		if ( state.companyOrPerson === "person" && ! state.personLogoFallback ) {
+			return false;
+		}
+
+		return true;
 	}
 
 	return <Fragment>

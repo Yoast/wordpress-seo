@@ -340,14 +340,14 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Gets the company logo id from the option in the database.
+	 * Gets the company logo url from the option in the database.
 	 *
-	 * @param int|string $company_logo_id The given company logo id by the user, default empty.
+	 * @param string $company_logo The given company logo by the user, default empty.
 	 *
-	 * @return string The company logo id.
+	 * @return {boolean | string} The company logo URL.
 	 */
-	private function get_company_fallback_logo( $company_logo_id ) {
-		if ( $company_logo_id ) {
+	private function get_company_fallback_logo( $company_logo ) {
+		if ( $company_logo ) {
 			return false;
 		}
 		$logo_id = $this->meta_tags_context->fallback_to_site_logo();
@@ -388,14 +388,14 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Gets the company logo id from the option in the database.
+	 * Gets the person logo url from the option in the database.
 	 *
-	 * @param int|string $person_logo_id The given person logo id by the user, default empty.
+	 * @param string $person_logo The given person logo by the user, default empty.
 	 *
-	 * @return string The company logo id.
+	 * @return {boolean | string} The person logo URL.
 	 */
-	private function get_person_fallback_logo( $person_logo_id ) {
-		if ( $person_logo_id ) {
+	private function get_person_fallback_logo( $person_logo ) {
+		if ( $person_logo ) {
 			return false;
 		}
 		$logo_id = $this->meta_tags_context->fallback_to_site_logo();

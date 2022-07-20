@@ -73,7 +73,6 @@ $yform->select( 'company_or_person', __( 'Organization or person', 'wordpress-se
 		<?php
 	endif;
 
-
 	$yform->textinput(
 		'company_name',
 		__( 'Organization name', 'wordpress-seo' ),
