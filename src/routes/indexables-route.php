@@ -218,6 +218,15 @@ class Indexables_Route implements Route_Interface {
 			[ 'json' => $data ]
 		);
 	}
+
+	public function restore_indexable( WP_REST_Request $request ) {
+		$data = $this->remove_indexable_from_ignore_list( $request->get_json_params() );
+
+		return new WP_REST_Response(
+			[ 'json' => $data ]
+		);
+	}
+
 	/**
 	 * Get public sub types.
 	 *
@@ -255,18 +264,35 @@ class Indexables_Route implements Route_Interface {
 
 		$success = $this->options_helper->set( $ignore_list_name, $ignore_list );
 
-		/*
-		// Sanitize input.
-		$finished_steps = \array_map( '\sanitize_text_field', \wp_unslash( $params['finishedSteps'] ) );
-
-		$success = $this->options_helper->set( 'configuration_finished_steps', $finished_steps );
-
-		
-		// If all the five steps of the configuration have been completed, set first_time_install option to false.
-		if ( \count( $params['finishedSteps'] ) === 3 ) {
-			$this->options_helper->set( 'first_time_install', false );
+		if ( ! $success ) {
+			return (object) [
+				'success' => false,
+				'status'  => 500,
+				'error'   => 'Could not save the option in the database',
+			];
 		}
-		*/
+
+		return (object) [
+			'success' => true,
+			'status'  => 200,
+		];
+	}
+
+	/**
+	 * Removes an indexable from its ignore list.
+	 *
+	 * @param array $params The values to store.
+	 *
+	 * @return object The response object.
+	 */
+	protected function remove_indexable_from_ignore_list( $params ) {
+		$ignore_list_name = $params['type'] . "_ignore_list";
+		$ignore_list = $this->options_helper->get( $ignore_list_name, [] );
+		$indexable_to_be_removed = intval( $params['id'] );
+
+		$ignore_list = \array_filter( $ignore_list, function( $indexable ) use ( $indexable_to_be_removed ) { return  $indexable !== $indexable_to_be_removed; } );
+
+		$success = $this->options_helper->set( $ignore_list_name, $ignore_list );
 
 		if ( ! $success ) {
 			return (object) [
