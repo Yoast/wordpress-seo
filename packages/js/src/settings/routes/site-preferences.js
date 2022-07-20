@@ -78,6 +78,12 @@ const SitePreferences = () => {
 		content: __( "The link suggestions metabox contains a list of posts on your blog with similar content that might be interesting to link to. %1$sRead more about how internal linking can improve your site structure%2$s.", "wordpress-seo" ),
 		id: "link-suggestions-link",
 	} );
+	const slackSharingLink = useSelectLink( {
+		link: "https://yoa.st/help-slack-share",
+		/* translators: %1$s expands to an opening tag. %2$s expands to a closing tag. */
+		content: __( "This adds an author byline and reading time estimate to the article’s snippet when shared on Slack. %1$sFind out how a rich snippet can improve visibility and click-through-rate%2$s.", "wordpress-seo" ),
+		id: "link-slack-sharing",
+	} );
 	const xmlSitemapsLink = useMemo( () => createInterpolateElement(
 		[
 			__( "Enable the XML sitemaps that Yoast SEO generates.", "wordpress-seo" ),
@@ -203,7 +209,7 @@ const SitePreferences = () => {
 					name="wpseo.enable_enhanced_slack_sharing"
 					data-id="input-wpseo-enable_enhanced_slack_sharing"
 					label={ __( "Slack sharing", "wordpress-seo" ) }
-					description={ __( "This adds an author byline and reading time estimate to the article’s snippet when shared on Slack.", "wordpress-seo" ) }
+					description={ slackSharingLink }
 				/>
 			</FieldsetLayout>
 			<hr className="yst-my-8" />
