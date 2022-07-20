@@ -1,12 +1,12 @@
 /* eslint-disable complexity */
-import { sprintf, __ } from "@wordpress/i18n";
-import { useState, useCallback, useEffect, useMemo } from "@wordpress/element";
+import { PhotographIcon } from "@heroicons/react/outline";
+import { useCallback, useEffect, useMemo, useState } from "@wordpress/element";
+import { __, sprintf } from "@wordpress/i18n";
+import { Button, Label, Link, useDescribedBy } from "@yoast/ui-library";
+import classNames from "classnames";
 import { Field, useFormikContext } from "formik";
 import { get, keys } from "lodash";
 import PropTypes from "prop-types";
-import classNames from "classnames";
-import { PhotographIcon } from "@heroicons/react/outline";
-import { Button, Label, Link, useDescribedBy } from "@yoast/ui-library";
 
 const classNameMap = {
 	variant: {
@@ -59,7 +59,7 @@ const FormikMediaSelectField = ( {
 	const { values, setFieldValue, setFieldTouched, setFieldError, errors } = useFormikContext();
 	const [ wpMediaLibrary, setWpMediaLibrary ] = useState( null );
 	const [ mediaMeta, setMediaMeta ] = useState( {} );
-	const wpMedia = useMemo( ()=> get( window, "wp.media", null ), [] );
+	const wpMedia = useMemo( () => get( window, "wp.media", null ), [] );
 	const mediaId = useMemo( () => get( values, mediaIdName, "" ), [ values, mediaIdName ] );
 	const mediaUrl = useMemo( () => get( values, mediaUrlName, "" ), [ values, mediaUrlName ] );
 	const error = useMemo( () => get( errors, mediaIdName, "" ), [ errors ] );
@@ -78,7 +78,6 @@ const FormikMediaSelectField = ( {
 		setFieldTouched( mediaIdName, true, false );
 		setFieldValue( mediaIdName, "" );
 	}, [ setFieldTouched, setFieldValue, setMediaMeta, mediaUrlName, mediaIdName ] );
-
 	const validateType = useCallback( type => {
 		// Clear or add error based on accepted media types.
 		setFieldError( mediaIdName, libraryType === type ? "" : sprintf(
@@ -86,36 +85,36 @@ const FormikMediaSelectField = ( {
 			supportedFormats[ libraryType ]
 		) );
 	}, [ setFieldError, mediaIdName, libraryType, supportedFormats ] );
+	const handleMediaSelect = useCallback( () => {
+		const media = wpMediaLibrary.state()?.get( "selection" )?.first()?.toJSON() || {};
+
+		// Update local image meta state.
+		setMediaMeta( { alt: media.alt } );
+
+		// Update Formik state.
+		setFieldTouched( mediaUrlName, true, false );
+		setFieldValue( mediaUrlName, media.url, false );
+
+		setFieldTouched( mediaIdName, true, false );
+		setFieldValue( mediaIdName, media.id, false );
+
+		validateType( media.type );
+	}, [ wpMediaLibrary, setMediaMeta, setFieldTouched, mediaUrlName, setFieldValue, mediaUrlName, mediaIdName, validateType ] );
 
 	useEffect( () => {
 		if ( wpMedia ) {
-			// Use or create WordPress media library instance.
-			const mediaLibrary = wpMediaLibrary || wpMedia( {
+			setWpMediaLibrary( wpMedia( {
 				title: label,
 				multiple: false,
 				library: { type: libraryType },
-			} );
-
-			// Attach media select event listener.
-			mediaLibrary.on( "select", () => {
-				const media = mediaLibrary?.state()?.get( "selection" )?.first()?.toJSON() || {};
-
-				// Update local image meta state.
-				setMediaMeta( { alt: media.alt } );
-
-				// Update Formik state.
-				setFieldTouched( mediaUrlName, true, false );
-				setFieldValue( mediaUrlName, media.url, false );
-
-				setFieldTouched( mediaIdName, true, false );
-				setFieldValue( mediaIdName, media.id, false );
-
-				validateType( media.type );
-			} );
-
-			setWpMediaLibrary( mediaLibrary );
+			} ) );
 		}
-	}, [ wpMedia, setFieldTouched, setFieldValue, setMediaMeta, mediaUrlName, mediaIdName, libraryType, label, validateType ] );
+	}, [ wpMedia, label, libraryType, setWpMediaLibrary ] );
+
+	useEffect( () => {
+		wpMediaLibrary?.on( "select", handleMediaSelect );
+		return () => wpMediaLibrary?.off( "select", handleMediaSelect );
+	}, [ wpMediaLibrary, handleMediaSelect ] );
 
 	useEffect( () => {
 		if ( wpMedia && mediaId ) {
@@ -154,7 +153,10 @@ const FormikMediaSelectField = ( {
 				{ mediaUrl ? (
 					<>
 						<span className="yst-sr-only">{ replaceLabel }</span>
-						<img src={ mediaUrl } alt={ mediaMeta.alt || "" } className="yst-object-cover yst-object-center yst-min-h-full yst-min-w-full" />
+						<img
+							src={ mediaUrl } alt={ mediaMeta.alt || "" }
+							className="yst-object-cover yst-object-center yst-min-h-full yst-min-w-full"
+						/>
 					</>
 				) : (
 					<div className="yst-w-48">
