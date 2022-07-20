@@ -121,7 +121,13 @@ const SitePreferences = () => {
 	const usageTrackingLink = useSelectLink( {
 		link: "https://yoa.st/usage-tracking-2",
 		/* translators: %1$s expands to an opening tag. %2$s expands to a closing tag. */
-		content: __( "Usage tracking allows us to track some data about your site to improve our plugin. %1$sAllow us to track some data about your site to improve our plugin.%2$s.", "wordpress-seo" ),
+		content: __( "Usage tracking allows us to track some data about your site to improve our plugin. %1$sAllow us to track some data about your site to improve our plugin%2$s.", "wordpress-seo" ),
+		id: "link-usage-tracking",
+	} );
+	const indexNowLink = useSelectLink( {
+		link: "https://yoa.st/index-now-feature",
+		/* translators: %1$s expands to an opening tag. %2$s expands to a closing tag. */
+		content: __( "Automatically ping search engines like Bing and Yandex whenever you publish, update or delete a post. %1$sFind out how IndexNow can help your site%2$s.", "wordpress-seo" ),
 		id: "link-usage-tracking",
 	} );
 
@@ -245,6 +251,15 @@ const SitePreferences = () => {
 					label={ __( "XML sitemaps", "wordpress-seo" ) }
 					description={ xmlSitemapsLink }
 				/>
+				{ isPremium && <FormikValueChangeField
+					as={ ToggleField }
+					type="checkbox"
+					name="wpseo.enable_index_now"
+					data-id="input-wpseo-enable_index_now"
+					label={ __( "IndexNow", "wordpress-seo" ) }
+					labelSuffix={ <Badge className="yst-ml-1.5" variant="upsell">Premium</Badge> }
+					description={ indexNowLink }
+				/> }
 			</FieldsetLayout>
 			<hr className="yst-my-8" />
 			<FieldsetLayout title={ __( "Security & privacy", "wordpress-seo" ) }>
