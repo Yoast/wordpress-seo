@@ -4,6 +4,7 @@ import { Alert, Badge, ToggleField as PureToggleField } from "@yoast/ui-library"
 import { useFormikContext } from "formik";
 import { FieldsetLayout, FormikValueChangeField, FormLayout } from "../components";
 import { withDisabledMessageSupport } from "../hocs";
+import { useHashRouterScrollIntoView } from "../hooks";
 import { useSelectSettings } from "../store";
 
 const ToggleField = withDisabledMessageSupport( PureToggleField );
@@ -39,8 +40,10 @@ const SitePreferences = () => {
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
 	const sitemapUrl = useSelectSettings( "selectPreference", [], "sitemapUrl" );
 	const sitemapsLink = useSelectSettings( "selectLink", [], "https://yoa.st/2a-" );
+
 	const { values } = useFormikContext();
 	const { enable_xml_sitemap: enableXmlSitemap } = values.wpseo;
+
 	const seoAnalysisLink = useSelectLink( {
 		link: "https://yoa.st/2ak",
 		/* translators: %1$s expands to an opening tag. %2$s expands to a closing tag. */
@@ -123,6 +126,8 @@ const SitePreferences = () => {
 		id: "link-usage-tracking",
 	} );
 
+	useHashRouterScrollIntoView();
+
 	return (
 		<FormLayout
 			title={ __( "Site preferences", "wordpress-seo" ) }
@@ -183,7 +188,7 @@ const SitePreferences = () => {
 				/> }
 			</FieldsetLayout>
 			<hr className="yst-my-8" />
-			<FieldsetLayout title={ __( "Social sharing", "wordpress-seo" ) }>
+			<FieldsetLayout id="section-social-sharing" title={ __( "Social sharing", "wordpress-seo" ) }>
 				<Alert id="alert-social-sharing">
 					{ __( "Facebook, Twitter and Pinterest all use Facebook's Open Graph data, so be sure to keep the 'Open Graph data' setting below enabled if you want to optimize your site for these social platforms.", "wordpress-seo" ) }
 				</Alert>

@@ -2,20 +2,23 @@ import { Title } from "@yoast/ui-library";
 import PropTypes from "prop-types";
 
 /**
- * @param {JSX.ElementClass} [as] the field component.
+ * @param {string} [id] The ID.
+ * @param {JSX.ElementClass} [as] The field component.
  * @param {JSX.node} children The children nodes.
  * @param {JSX.node} title The title.
  * @param {JSX.node} [description] The description.
  * @returns {JSX.Element} The form layout component.
  */
 const FieldsetLayout = ( {
+	// eslint-disable-next-line no-undefined
+	id = undefined,
 	as: Component = "fieldset",
 	children,
 	title,
 	description = null,
 } ) => {
 	return (
-		<Component className="lg:yst-grid lg:yst-grid-cols-3 lg:yst-gap-12">
+		<Component id={ id } className="lg:yst-grid lg:yst-grid-cols-3 lg:yst-gap-12">
 			<div className="lg:yst-col-span-1">
 				<div className="max-w-screen-sm">
 					<Title as={ Component === "fieldset" ? "legend" : "h4" } size="4">
@@ -32,6 +35,7 @@ const FieldsetLayout = ( {
 };
 
 FieldsetLayout.propTypes = {
+	id: PropTypes.string,
 	as: PropTypes.elementType,
 	children: PropTypes.node.isRequired,
 	title: PropTypes.node.isRequired,
