@@ -24,6 +24,88 @@ function PlaceholderRows( { columnCount } ) {
 }
 
 /**
+ * A row representing an indexables.
+ *
+ * @param {object} indexable The indexable.
+ * @param {array} keyHeaderMap The key header map count.
+
+ * @returns {WPElement} A table with the indexables.
+ */
+const IndexableRow = ( { indexable, keyHeaderMap, type } ) => {
+	const [ ignored, setignored ] = useState( false );
+
+	const handleIgnore =  useCallback( async( e ) => {
+		try {
+			const response = await apiFetch( {
+				path: "yoast/v1/ignore_indexable",
+				method: "POST",
+				data: { id: e.currentTarget.dataset.indexableid, type: e.currentTarget.dataset.indexabletype },
+			} );
+
+			const parsedResponse = await response.json;
+			if ( parsedResponse.success ) {
+				setignored( true );
+				return true;
+			}
+			return false;
+		} catch ( error ) {
+			// URL() constructor throws a TypeError exception if url is malformed.
+			console.error( error.message );
+			return false;
+		}
+	}, [ apiFetch, setignored ] );
+
+	const handleUndo =  useCallback( async( e ) => {
+		try {
+			const response = await apiFetch( {
+				path: "yoast/v1/restore_indexable",
+				method: "POST",
+				data: { id: e.currentTarget.dataset.indexableid, type: e.currentTarget.dataset.indexabletype },
+			} );
+
+			const parsedResponse = await response.json;
+			if ( parsedResponse.success ) {
+				setignored( false );
+				return true;
+			}
+			return false;
+		} catch ( error ) {
+			// URL() constructor throws a TypeError exception if url is malformed.
+			console.error( error.message );
+			return false;
+		}
+	}, [ apiFetch, setignored ] );
+
+	return <Table.Row
+		key={ `indexable-${ indexable.id }-row` }
+	>
+		{
+			Object.keys( keyHeaderMap ).map( ( key, index ) => {
+				if ( key === "edit" ) {
+					return <Table.Cell
+						key="edit"
+						className={ `${ ignored ? "yst-opacity-25" : "" }` }
+					>
+						<Button variant="secondary" disabled={ ignored } data-id={ indexable.id }>Edit</Button>
+					</Table.Cell>;
+				} else if ( key === "ignore" ) {
+					return ignored
+						? <Table.Cell key="undo"><Button variant="error" data-indexableid={ indexable.id } data-indexabletype={ type } onClick={ handleUndo }>Undo</Button></Table.Cell>
+						: <Table.Cell key="ignore"><Button variant="error" data-indexableid={ indexable.id } data-indexabletype={ type } onClick={ handleIgnore }>Ignore</Button></Table.Cell>;
+				}
+				return <Table.Cell className={ `${ ignored ? "yst-opacity-25" : "" }` } key={ `indexable-header-${ index }` }>{ indexable[ key ] }</Table.Cell>;
+			} )
+		}
+	</Table.Row>;
+};
+
+IndexableRow.propTypes = {
+	indexable: PropTypes.object,
+	keyHeaderMap: PropTypes.object,
+	type: PropTypes.string,
+};
+
+/**
  * A table with indexables.
  *
  * @param {array} indexables Theindexables.
@@ -38,23 +120,9 @@ function IndexablesTable( { indexables, keyHeaderMap, type } ) {
 		if ( indexables.length > 0 ) {
 			setIsLoading( false );
 		}
-	}, [ indexables ] );
+	}, [ indexables, setIsLoading ] );
 
-	const handleIgnore =  useCallback( async( e ) => {
-		try {
-			const response = await apiFetch( {
-				path: "yoast/v1/ignore_indexable",
-				method: "POST",
-				data: { id: e.currentTarget.dataset.indexableid, type: e.currentTarget.dataset.indexabletype },
-			} );
-
-			const parsedResponse = await response.json;
-		} catch ( error ) {
-			// URL() constructor throws a TypeError exception if url is malformed.
-			console.error( error.message );
-			return false;
-		}
-	}, [ apiFetch ] );
+	console.log("dio", indexables, type)
 
 	return (
 		<>
@@ -74,20 +142,12 @@ function IndexablesTable( { indexables, keyHeaderMap, type } ) {
 							isLoading
 								? <PlaceholderRows columnCount={ Object.keys( keyHeaderMap ).length } />
 								: indexables.map( ( indexable ) => {
-									return <Table.Row
+									return <IndexableRow
 										key={ `indexable-${ indexable.id }-row` }
-									>
-										{
-											Object.keys( keyHeaderMap ).map( ( key, index ) => {
-												if ( key === "edit" ) {
-													return <Table.Cell key="edit"><Button variant="secondary" data-id={ indexable.id }>Edit</Button></Table.Cell>;
-												} else if ( key === "ignore" ) {
-													return <Table.Cell key="ignore"><Button variant="error" data-indexableid={ indexable.id } data-indexabletype={ type } onClick={ handleIgnore }>Ignore</Button></Table.Cell>;
-												}
-												return <Table.Cell key={ `indexable-header-${ index }` }>{ indexable[ key ] }</Table.Cell>;
-											} )
-										}
-									</Table.Row>;
+										indexable={ indexable }
+										keyHeaderMap={ keyHeaderMap }
+										type={ type }
+									/>;
 								} )
 						}
 					</Table.Body>
@@ -99,7 +159,7 @@ function IndexablesTable( { indexables, keyHeaderMap, type } ) {
 
 IndexablesTable.propTypes = {
 	indexables: PropTypes.array,
-	keyHeaderMap: PropTypes.array,
+	keyHeaderMap: PropTypes.object,
 	type: PropTypes.string,
 };
 
