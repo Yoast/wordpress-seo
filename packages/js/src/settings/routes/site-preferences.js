@@ -57,8 +57,7 @@ const SitePreferences = () => {
 		id: "link-readability-analysis",
 	} );
 	const insightsLink = useSelectLink( {
-		// TODO: is this premium link still needed?
-		link: isPremium ? "https://yoa.st/2ai" : "https://yoa.st/4ew",
+		link: "https://yoa.st/4ew",
 		/* translators: %1$s expands to an opening tag. %2$s expands to a closing tag. */
 		content: __( "Find relevant data about your content right in the Insights section in the Yoast SEO metabox. You’ll see what words you use most often and if they’re a match with your keywords! %1$sFind out how Insights can help you improve your content%2$s.", "wordpress-seo" ),
 		id: "link-insights",
