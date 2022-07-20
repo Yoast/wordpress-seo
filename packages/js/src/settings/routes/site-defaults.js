@@ -3,9 +3,10 @@ import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Alert, RadioGroup, TextField, useSvgAria } from "@yoast/ui-library";
 import classNames from "classnames";
-import { Field } from "formik";
+import { Field, useFormikContext } from "formik";
 import { get, map } from "lodash";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 import { FormikMediaSelectField, FormLayout } from "../components";
 
 /**
@@ -57,17 +58,33 @@ Radio.propTypes = {
  * @returns {JSX.Element} The site defaults route.
  */
 const SiteDefaults = () => {
+	const { values } = useFormikContext();
+	const { opengraph } = values.wpseo_social;
 	const separators = useMemo( () => get( window, "wpseoScriptData.separators", {} ), [] );
-	const alertText = useMemo( () => createInterpolateElement(
+	const siteDefaultsInfoAlertText = useMemo( () => createInterpolateElement(
 		sprintf(
-			// translators: %1$s expands to an opening emphasis tag. %2$s expands to a closing emphasis tag.
+			/* translators: %1$s expands to an opening emphasis tag. %2$s expands to a closing emphasis tag. */
 			__( "You can use %1$sSite title%2$s, %1$sTagline%2$s and %1$sSeparator%2$s as variables when configuring the search appearance of your content.", "wordpress-seo" ),
 			"<em>",
 			"</em>"
 		),
 		{ em: <em /> }
 	), [] );
-	const recommendedSize = useMemo( () => createInterpolateElement(
+	const siteImageOpenGraphDisabledAlertText = useMemo( () => createInterpolateElement(
+		sprintf(
+			/* translators: %1$s expands to an opening emphasis tag. %2$s expands to a closing emphasis tag. */
+			__( "The %1$sSite image%2$s requires Open Graph data, which is currently disabled in the ‘Social sharing’ section in %3$sSite preferences%4$s.", "wordpress-seo" ),
+			"<em>",
+			"</em>",
+			"<link>",
+			"</link>"
+		),
+		{
+			em: <em />,
+			link: <Link to="/site-preferences#section-social-sharing" />,
+		}
+	), [] );
+	const siteImageRecommendedSize = useMemo( () => createInterpolateElement(
 		sprintf(
 			/**
 			 * translators: %1$s expands to an opening strong tag.
@@ -89,7 +106,7 @@ const SiteDefaults = () => {
 			title={ __( "Site defaults", "wordpress-seo" ) }
 		>
 			<div className="yst-max-w-screen-sm">
-				<Alert variant="info" id="alert-site-defaults-variables">{ alertText }</Alert>
+				<Alert variant="info" id="alert-site-defaults-variables">{ siteDefaultsInfoAlertText }</Alert>
 				<hr className="yst-my-8" />
 				<fieldset className="yst-mt-8 lg:yst-mt-0 lg:yst-col-span-2 yst-space-y-8">
 					<Field
@@ -123,13 +140,15 @@ const SiteDefaults = () => {
 					) ) }
 				</RadioGroup>
 				<hr className="yst-my-8" />
+				{ ! opengraph && <Alert variant="info" className="yst-mb-6">{ siteImageOpenGraphDisabledAlertText }</Alert> }
 				<FormikMediaSelectField
 					id="wpseo_social-og_default_image"
 					label={ __( "Site image", "wordpress-seo" ) }
 					description={ __( "This image is used as a fallback for posts/pages that don't have any images set.", "wordpress-seo" ) }
-					previewLabel={ recommendedSize }
+					previewLabel={ siteImageRecommendedSize }
 					mediaUrlName="wpseo_social.og_default_image"
 					mediaIdName="wpseo_social.og_default_image_id"
+					disabled={ ! opengraph }
 				/>
 			</div>
 		</FormLayout>

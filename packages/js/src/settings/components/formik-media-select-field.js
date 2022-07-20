@@ -16,6 +16,9 @@ const classNameMap = {
 	},
 };
 
+/**
+ * @returns {Object} The supported formats.
+ */
 const getSupportedFormats = () => ( {
 	image: __( "JPG, PNG, WEBP and GIF", "wordpress-seo" ),
 } );
@@ -114,14 +117,14 @@ const FormikMediaSelectField = ( {
 		<fieldset className={ classNames( "yst-w-96", disabled && "yst-opacity-50" ) }>
 			<Field
 				type="hidden"
-				name={ mediaUrlName }
-				id={ `input-${ mediaUrlName }` }
+				name={ mediaIdName }
+				id={ `input-${ mediaIdName }` }
 				aria-describedby={ describedBy }
 			/>
 			<Field
 				type="hidden"
-				name={ mediaIdName }
-				id={ `input-${ mediaIdName }` }
+				name={ mediaUrlName }
+				id={ `input-${ mediaUrlName }` }
 				aria-describedby={ describedBy }
 			/>
 			{ label && <Label as="legend" className="yst-mb-2">{ label }</Label> }
@@ -132,9 +135,11 @@ const FormikMediaSelectField = ( {
 				className={ classNames(
 					"yst-overflow-hidden yst-flex yst-justify-center yst-items-center yst-rounded-md yst-mb-4",
 					mediaUrl ? "yst-bg-gray-50" : "yst-border-2 yst-border-gray-300 yst-border-dashed",
+					disabled && "yst-cursor-not-allowed",
 					classNameMap.variant[ variant ],
 					className
 				) }
+				disabled={ disabled }
 			>
 				{ mediaUrl ? (
 					<>
@@ -155,16 +160,32 @@ const FormikMediaSelectField = ( {
 			</button>
 			<div className="yst-flex yst-gap-4">
 				{ mediaUrl ? (
-					<Button id={ `button-${ id }-replace` } variant="secondary" onClick={ handleSelectMediaClick }>
+					<Button
+						id={ `button-${ id }-replace` }
+						variant="secondary" onClick={ handleSelectMediaClick }
+						disabled={ disabled }
+					>
 						{ replaceLabel }
 					</Button>
 				) : (
-					<Button id={ `button-${ id }-select` } variant="secondary" onClick={ handleSelectMediaClick }>
+					<Button
+						id={ `button-${ id }-select` }
+						variant="secondary" onClick={ handleSelectMediaClick }
+						disabled={ disabled }
+					>
 						{ selectLabel }
 					</Button>
 				) }
 				{ mediaUrl && (
-					<Link id={ `button-${ id }-remove` } as="button" type="button" variant="error" onClick={ handleRemoveMediaClick }>
+					<Link
+						id={ `button-${ id }-remove` }
+						as="button"
+						type="button"
+						variant="error"
+						onClick={ handleRemoveMediaClick }
+						className={ disabled ? "yst-cursor-not-allowed" : "" }
+						disabled={ disabled }
+					>
 						{ removeLabel }
 					</Link>
 				) }

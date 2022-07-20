@@ -19,10 +19,6 @@
 			focus:yst-ring-2
 			focus:yst-ring-offset-2
 			focus:yst-ring-indigo-500
-
-			disabled:yst-cursor-not-allowed
-			disabled:yst-pointer-events-none
-			disabled:yst-opacity-50;
 		}
 
 		/* Variants */
@@ -87,7 +83,6 @@
 			@apply
 			yst-opacity-50
 			yst-cursor-not-allowed
-			yst-pointer-events-none
 
 			focus:yst-ring-0;
 		}
