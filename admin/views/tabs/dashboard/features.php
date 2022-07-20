@@ -73,7 +73,7 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 		}
 
 		$current_language                             = WPSEO_Language_Utils::get_language( \get_locale() );
-		$feature_is_not_supported_in_current_language = $feature->supported_languages && \in_array( $current_language, $feature->supported_locales, true );
+		$feature_is_not_supported_in_current_language = $feature->supported_languages && !\in_array( $current_language, $feature->supported_languages, true );
 
 		if ( $feature_is_not_supported_in_current_language ) {
 			$disabled            = true;

@@ -45,9 +45,9 @@ class Language_Helper {
 	 * @return bool Whether the language has inclusive language support.
 	 */
 	public function has_inclusive_language_support( $language ) {
-		$supported_locales = [ 'en' ];
+		$supported_languages = [ 'en' ];
 
-		return \in_array( $language, $supported_locales, true );
+		return \in_array( $language, $supported_languages, true );
 	}
 
 	/**

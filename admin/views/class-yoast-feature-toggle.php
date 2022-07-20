@@ -39,14 +39,14 @@ class Yoast_Feature_Toggle {
 	protected $in_beta = false;
 
 	/**
-	 * The locales in which this feature is supported.
+	 * The languages in which this feature is supported.
 	 * E.g. for language specific analysis support.
 	 *
-	 * If empty, the feature is considered to have support in all locales.
+	 * If empty, the feature is considered to have support in all languages.
 	 *
 	 * @var string[]
 	 */
-	protected $supported_locales = [];
+	protected $supported_languages = [];
 
 	/**
 	 * Feature toggle label.
