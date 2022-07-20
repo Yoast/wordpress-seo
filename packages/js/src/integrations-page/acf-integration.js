@@ -89,6 +89,9 @@ AcfIntegration.propTypes = {
 	} ).isRequired,
 	isActive: PropTypes.bool,
 	isInstalled: PropTypes.bool,
+	isPrerequisiteActive: PropTypes.bool,
+	installationLink: PropTypes.string,
+	activationLink: PropTypes.string,
 };
 
 AcfIntegration.defaultProps = {

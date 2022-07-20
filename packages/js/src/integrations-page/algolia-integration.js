@@ -163,4 +163,5 @@ AlgoliaIntegration.propTypes = {
 	isMultisiteAvailable: PropTypes.bool,
 	toggleLabel: PropTypes.string,
 	beforeToggle: PropTypes.func,
+	isPrerequisiteActive: PropTypes.bool,
 };
