@@ -101,7 +101,6 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 				'preserve_disabled_value' => $preserve_disabled_value,
 				'show_premium_upsell'     => $show_premium_upsell,
 				'premium_upsell_url'      => $premium_upsell_url,
-				'show_disabled_note'      => $disabled,
 				'note_when_disabled'      => $note_when_disabled,
 			]
 		);
