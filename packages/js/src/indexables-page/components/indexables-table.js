@@ -48,6 +48,7 @@ function IndexablesTable( { indexables, keyHeaderMap, type } ) {
 				data: { id: e.currentTarget.dataset.indexableid, type: e.currentTarget.dataset.indexabletype },
 			} );
 
+			/* eslint-disable-next-line no-unused-vars */
 			const parsedResponse = await response.json;
 		} catch ( error ) {
 			// URL() constructor throws a TypeError exception if url is malformed.

@@ -1,7 +1,6 @@
 import apiFetch from "@wordpress/api-fetch";
 import { __ } from "@wordpress/i18n";
 import { useEffect, useState } from "@wordpress/element";
-import { Button, Table } from "@yoast/ui-library";
 import IndexablesTable from "./components/indexables-table";
 
 /**
@@ -71,7 +70,8 @@ function IndexablesPage() {
 			} );
 
 			const parsedResponse = await response.json;
-			const least_linked = JSON.stringify( parsedResponse.least_linked, ( key, value ) =>  ( key === 'incoming_link_count' && value == null ) ? "0" : value );
+			/* eslint-disable-next-line camelcase */
+			const least_linked = JSON.stringify( parsedResponse.least_linked, ( key, value ) =>  ( key === "incoming_link_count" && value === null ) ? "0" : value );
 			setLeastLinkedIndexables( JSON.parse( least_linked ) );
 		} catch ( e ) {
 			// URL() constructor throws a TypeError exception if url is malformed.
@@ -89,10 +89,12 @@ function IndexablesPage() {
 			indexables={ worstReadabilityIndexables }
 			keyHeaderMap={
 				{
+					/* eslint-disable camelcase */
 					breadcrumb_title: __( "Title", "wordpress-seo" ),
 					readability_score: __( "Readability Score", "wordpress-seo" ),
 					edit: __( "Edit", "wordpress-seo" ),
 					ignore: __( "Ignore", "wordpress-seo" ),
+					/* eslint-enable camelcase */
 				}
 			}
 			type="least_readability_score"
@@ -102,10 +104,12 @@ function IndexablesPage() {
 			indexables={ worstSEOIndexables }
 			keyHeaderMap={
 				{
+					/* eslint-disable camelcase */
 					breadcrumb_title: __( "Title", "wordpress-seo" ),
 					primary_focus_keyword_score: __( "SEO Score", "wordpress-seo" ),
 					edit: __( "Edit", "wordpress-seo" ),
 					ignore: __( "Ignore", "wordpress-seo" ),
+					/* eslint-enable camelcase */
 				}
 			}
 			type="least_seo_score"
@@ -115,10 +119,12 @@ function IndexablesPage() {
 			indexables={ leastLinkedIndexables }
 			keyHeaderMap={
 				{
+					/* eslint-disable camelcase */
 					breadcrumb_title: __( "Title", "wordpress-seo" ),
 					incoming_link_count: __( "Incoming links", "wordpress-seo" ),
 					edit: __( "Find posts to link from", "wordpress-seo" ),
 					ignore: __( "Ignore", "wordpress-seo" ),
+					/* eslint-enable camelcase */
 				}
 			}
 			type="least_linked"
@@ -128,10 +134,12 @@ function IndexablesPage() {
 			indexables={ mostLinkedIndexables }
 			keyHeaderMap={
 				{
+					/* eslint-disable camelcase */
 					breadcrumb_title: __( "Title", "wordpress-seo" ),
 					incoming_link_count: __( "Incoming links", "wordpress-seo" ),
 					edit: __( "Find posts to link to", "wordpress-seo" ),
 					ignore: __( "Ignore", "wordpress-seo" ),
+					/* eslint-enable camelcase */
 				}
 			}
 			type="most_linked"

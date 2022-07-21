@@ -195,14 +195,13 @@ class Indexables_Route implements Route_Interface {
 			->find_many();
 
 		$least_readable = \array_map( [ $this->indexable_repository, 'ensure_permalink' ], $least_readable );
-		// $least_readable = \array_map( [ $this, 'map_subtypes_to_singular_name' ], $least_readable );
 
 		$ignore_list = $this->options_helper->get( 'least_readability_score_ignore_list', [] );
 		if ( ! empty( $ignore_list ) ) {
 			$least_readable = \array_filter(
 				$least_readable,
 				function( $indexable ) use ( $ignore_list ) {
-					return ! \in_array( $indexable->id, $ignore_list );
+					return ! \in_array( $indexable->id, $ignore_list, true );
 				}
 			);
 			$least_readable = \array_values( $least_readable );
@@ -234,14 +233,13 @@ class Indexables_Route implements Route_Interface {
 			->find_many();
 
 		$least_seo_score = \array_map( [ $this->indexable_repository, 'ensure_permalink' ], $least_seo_score );
-		// $least_seo_score = \array_map( [ $this, 'map_subtypes_to_singular_name' ], $least_seo_score );
 
 		$ignore_list = $this->options_helper->get( 'least_seo_score_ignore_list', [] );
 		if ( ! empty( $ignore_list ) ) {
 			$least_seo_score = \array_filter(
 				$least_seo_score,
 				function( $indexable ) use ( $ignore_list ) {
-					return ! \in_array( $indexable->id, $ignore_list );
+					return ! \in_array( $indexable->id, $ignore_list, true );
 				}
 			);
 			$least_seo_score = \array_values( $least_seo_score );
@@ -367,7 +365,7 @@ class Indexables_Route implements Route_Interface {
 		$ignore_list      = $this->options_helper->get( $ignore_list_name, [] );
 		$indexable_id     = intval( $params['id'] );
 
-		if ( ! in_array( $indexable_id, $ignore_list ) ) {
+		if ( ! in_array( $indexable_id, $ignore_list, true ) ) {
 			$ignore_list[] = $indexable_id;
 		}
 
