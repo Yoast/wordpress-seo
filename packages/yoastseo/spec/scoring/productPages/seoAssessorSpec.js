@@ -8,6 +8,7 @@ describe( "running assessments in the product page SEO assessor", function() {
 
 	beforeEach( () => {
 		assessor = new Assessor( new DefaultResearcher(), {
+			assessVariants: true,
 			introductionKeyphraseUrlTitle: "https://yoast.com/1",
 			introductionKeyphraseCTAUrl: "https://yoast.com/2",
 			keyphraseLengthUrlTitle: "https://yoast.com/3",
@@ -42,8 +43,10 @@ describe( "running assessments in the product page SEO assessor", function() {
 			imageAltTagsCTAUrl: "https://yoast.com/32",
 			keyphraseDistributionUrlTitle: "https://yoast.com/33",
 			keyphraseDistributionCTAUrl: "https://yoast.com/34",
-			productIdentifierUrlTitle: "https://yoa.st/4ly",
-			productIdentifierCTAUrl: "https://yoa.st/4lz",
+			productIdentifierUrlTitle: "https://yoast.com/35",
+			productIdentifierCTAUrl: "https://yoast.com/36",
+			productSKUUrlTitle: "https://yoast.com/37",
+			productSKUCTAUrl: "https://yoast.com/38",
 		} );
 	} );
 
@@ -404,6 +407,24 @@ describe( "running assessments in the product page SEO assessor", function() {
 			expect( assessment._config ).toBeDefined();
 			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoast.com/33' target='_blank'>" );
 			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/34' target='_blank'>" );
+		} );
+		test( "ProductIdentifierAssessment", () => {
+			const assessment = assessor.getAssessment( "productIdentifier" );
+
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.assessVariants ).toBe( true );
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoast.com/35' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/36' target='_blank'>" );
+		} );
+		test( "ProductSKUAssessment", () => {
+			const assessment = assessor.getAssessment( "productSKU" );
+
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.assessVariants ).toBe( true );
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoast.com/37' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/38' target='_blank'>" );
 		} );
 	} );
 } );
