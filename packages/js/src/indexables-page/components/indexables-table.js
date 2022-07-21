@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 
 import { Button, Table } from "@yoast/ui-library";
 import { useState, useEffect, useCallback } from "@wordpress/element";
+import { LinkButton } from "@yoast/components";
 
 /**
  * Renders placeholders rows while loading the indexables table.
@@ -80,7 +81,7 @@ function IndexablesTable( { indexables, keyHeaderMap, type } ) {
 										{
 											Object.keys( keyHeaderMap ).map( ( key, index ) => {
 												if ( key === "edit" ) {
-													return <Table.Cell key="edit"><Button variant="secondary" data-id={ indexable.id }>Edit</Button></Table.Cell>;
+													return <Table.Cell key="edit"><LinkButton variant="secondary" data-id={ indexable.id } href={ '/wp-admin/post.php?action=edit&post=' + indexable.object_id } target='_blank'>Edit</LinkButton></Table.Cell>;
 												} else if ( key === "ignore" ) {
 													return <Table.Cell key="ignore"><Button variant="error" data-indexableid={ indexable.id } data-indexabletype={ type } onClick={ handleIgnore }>Ignore</Button></Table.Cell>;
 												}
