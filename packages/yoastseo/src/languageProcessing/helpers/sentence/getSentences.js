@@ -5,7 +5,6 @@ import { filter, flatMap, isEmpty, negate, memoize } from "lodash-es";
 import { getBlocks } from "../html/html.js";
 import excludeTableOfContentsTag from "../sanitize/excludeTableOfContentsTag";
 import excludeEstimatedReadingTime from "../sanitize/excludeEstimatedReadingTime";
-import { unifyNonBreakingSpace } from "../sanitize/unifyWhitespace";
 import SentenceTokenizer from "./SentenceTokenizer";
 
 // Character classes.
@@ -52,7 +51,6 @@ export default function( text, memoizedTokenizer ) {
 	// Remove Estimated reading time.
 	text = excludeEstimatedReadingTime( text );
 	// Unify only non-breaking spaces and not the other whitespaces since a whitespace could signify a sentence break or a new line.
-	text = unifyNonBreakingSpace( text );
 
 	let blocks = getBlocks( text );
 
