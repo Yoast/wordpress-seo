@@ -1,4 +1,4 @@
-const estimatedReadingTimeRegex = new RegExp( "(<p className=\"yoast-reading-time__wrapper\">).*?(</p>)",
+const estimatedReadingTimeRegex = new RegExp( "(<p class=\"yoast-reading-time__wrapper\">).*?(</p>)",
 	"igs" );
 
 /**
