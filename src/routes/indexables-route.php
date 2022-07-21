@@ -33,6 +33,20 @@ class Indexables_Route implements Route_Interface {
 	const LEAST_SEO_SCORE_ROUTE = '/least_seo_score';
 
 	/**
+	 * Represents the most linked route.
+	 *
+	 * @var string
+	 */
+	const MOST_LINKED_ROUTE = '/most_linked';
+
+	/**
+	 * Represents the least linked route.
+	 *
+	 * @var string
+	 */
+	const LEAST_LINKED_ROUTE = '/least_linked';
+
+	/**
 	 * Allows to mark an indexable to be ignored.
 	 *
 	 * @var string
@@ -106,6 +120,26 @@ class Indexables_Route implements Route_Interface {
 		];
 
 		\register_rest_route( Main::API_V1_NAMESPACE, self::LEAST_SEO_SCORE_ROUTE, $least_seo_score_route );
+
+		$most_linked_route = [
+			[
+				'methods'             => 'GET',
+				'callback'            => [ $this, 'get_most_linked' ],
+				'permission_callback' => $edit_others_posts,
+			],
+		];
+
+		\register_rest_route( Main::API_V1_NAMESPACE, self::MOST_LINKED_ROUTE, $most_linked_route );
+
+		$least_linked_route = [
+			[
+				'methods'             => 'GET',
+				'callback'            => [ $this, 'get_least_linked' ],
+				'permission_callback' => $edit_others_posts,
+			],
+		];
+
+		\register_rest_route( Main::API_V1_NAMESPACE, self::LEAST_LINKED_ROUTE, $least_linked_route );
 
 		$ignore_indexable_route = [
 			[
@@ -216,6 +250,58 @@ class Indexables_Route implements Route_Interface {
 			[
 				'json' => [
 					'least_seo_score' => $least_seo_score,
+				],
+			]
+		);
+	}
+
+	/**
+	 * Gets the most linked posts.
+	 *
+	 * @return WP_REST_Response The most linked posts.
+	 */
+	public function get_most_linked() {
+		// @TODO: Improve query.
+		$most_linked = $this->indexable_repository->query()
+			->where_gt( 'incoming_link_count', 0 )
+			->where_not_null( 'incoming_link_count' )
+			->where_raw( '( post_status = \'publish\' OR post_status IS NULL )' )
+			->where_in( 'object_sub_type', $this->get_public_sub_types() )
+			->where_in( 'object_type', [ 'post' ] )
+			->order_by_desc( 'incoming_link_count' )
+			->limit( 5 )
+			->find_many();
+		$most_linked = \array_map( [ $this->indexable_repository, 'ensure_permalink' ], $most_linked );
+
+		return new WP_REST_Response(
+			[
+				'json' => [
+					'most_linked' => $most_linked,
+				],
+			]
+		);
+	}
+
+	/**
+	 * Gets the least linked posts.
+	 *
+	 * @return WP_REST_Response The most linked posts.
+	 */
+	public function get_least_linked() {
+		// @TODO: Improve query.
+		$least_linked = $this->indexable_repository->query()
+			->where_raw( '( post_status = \'publish\' OR post_status IS NULL )' )
+			->where_in( 'object_sub_type', $this->get_public_sub_types() )
+			->where_in( 'object_type', [ 'post' ] )
+			->order_by_asc( 'incoming_link_count' )
+			->limit( 5 )
+			->find_many();
+		$least_linked = \array_map( [ $this->indexable_repository, 'ensure_permalink' ], $least_linked );
+
+		return new WP_REST_Response(
+			[
+				'json' => [
+					'least_linked' => $least_linked,
 				],
 			]
 		);
