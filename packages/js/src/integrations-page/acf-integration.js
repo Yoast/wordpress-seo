@@ -86,7 +86,8 @@ export const AcfIntegration = ( {
 				>
 					{
 						sprintf(
-							__( "Activate ACF Content Analysis for Yoast SEO", "wordpress-seo" ),
+							/* translators: 1: ACF, 2: Yoast SEO */
+							__( "Activate %1$s Content Analysis for %2$s", "wordpress-seo" ),
 							"ACF",
 							"Yoast SEO"
 						)
@@ -104,7 +105,8 @@ export const AcfIntegration = ( {
 				>
 					{
 						sprintf(
-							__( "Install ACF Content Analysis for Yoast SEO", "wordpress-seo" ),
+							/* translators: 1: ACF, 2: Yoast SEO */
+							__( "Install %1$s Content Analysis for %2$s", "wordpress-seo" ),
 							"ACF",
 							"Yoast SEO"
 						)

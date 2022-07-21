@@ -1,6 +1,6 @@
 /* eslint-disable complexity */
 import { Button } from "@yoast/ui-library";
-import { __ } from "@wordpress/i18n";
+import { __, sprintf } from "@wordpress/i18n";
 import { CheckIcon, XIcon } from "@heroicons/react/solid";
 import { PropTypes } from "prop-types";
 import { LockOpenIcon } from "@heroicons/react/outline";
@@ -55,7 +55,13 @@ export const WoocommerceIntegration = ( {
 					href={ activationLink }
 					className="yst-w-full yst-text-gray-800 yst-text-center"
 				>
-					{ __( "Activate Yoast WooCommerce SEO", "wordpress-seo" ) }
+					{
+						sprintf(
+							/* translators: 1: Yoast WooCommerce SEO */
+							__( "Activate %s", "wordpress-seo" ),
+							"Yoast WooCommerce SEO"
+						)
+					}
 				</Button>
 			</Fragment> }
 			{ isPrerequisiteActive && ! isActive && ! isInstalled && <Fragment>
@@ -71,7 +77,13 @@ export const WoocommerceIntegration = ( {
 					<LockOpenIcon
 						className="yst--ml-1 yst-mr-2 yst-h-5 yst-w-5 yst-text-yellow-900"
 					/>
-					{ __( "Buy Yoast WooCommerce SEO", "wordpress-seo" ) }
+					{
+						sprintf(
+							/* translators: 1: Yoast WooCommerce SEO */
+							__( "Buy %s", "wordpress-seo" ),
+							"Yoast WooCommerce SEO"
+						)
+					}
 					<span className="yst-sr-only">
 						{
 							__( "(Opens in a new browser tab)", "wordpress-seo" )
