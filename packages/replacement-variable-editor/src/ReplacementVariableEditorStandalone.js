@@ -10,6 +10,7 @@ import includes from "lodash/includes";
 import get from "lodash/get";
 import PropTypes from "prop-types";
 import { speak as a11ySpeak } from "@wordpress/a11y";
+import { applyFilters } from "@wordpress/hooks";
 import { __, _n, sprintf } from "@wordpress/i18n";
 import styled from "styled-components";
 import { withTheme } from "styled-components";
@@ -102,6 +103,7 @@ class ReplacementVariableEditorStandalone extends React.Component {
 			editorState,
 			searchValue: "",
 			isSuggestionsOpen: false,
+			editorKey: this.props.fieldId,
 			suggestions: this.mapReplacementVariablesToSuggestions( currentReplacementVariables ),
 		};
 
@@ -141,15 +143,28 @@ class ReplacementVariableEditorStandalone extends React.Component {
 		 * The mentions plugin is used to autocomplete the replacement variable
 		 * names.
 		 */
-		this.mentionsPlugin = createMentionPlugin( {
+		const mentionsPlugin = createMentionPlugin( {
 			mentionTrigger: "%",
 			entityMutability: "IMMUTABLE",
 			mentionComponent: Mention,
 		} );
 
-		this.singleLinePlugin = createSingleLinePlugin( {
+		const singleLinePlugin = createSingleLinePlugin( {
 			stripEntities: false,
 		} );
+
+		this.pluginList = {
+			mentionsPlugin,
+			singleLinePlugin: {
+				...singleLinePlugin,
+				handleReturn: () => {},
+			},
+		};
+
+		this.pluginList = applyFilters(
+			"yoast.replacementVariableEditor.pluginList",
+			this.pluginList
+		);
 	}
 
 	/**
@@ -272,6 +287,10 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	 * @returns {void}
 	 */
 	onSearchChange( { value } ) {
+		if ( this.props.onSearchChange ) {
+			this.props.onSearchChange( value );
+		}
+
 		const recommendedReplacementVariables = this.determineCurrentReplacementVariables(
 			this.props.replacementVariables,
 			this.props.recommendedReplacementVariables,
@@ -411,25 +430,35 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	componentWillReceiveProps( nextProps ) {
 		const { content, replacementVariables, recommendedReplacementVariables } = this.props;
 		const { searchValue } = this.state;
+		const nextState = {};
 
-		if (
-			( nextProps.content !== this._serializedContent && nextProps.content !== content ) ||
-			nextProps.replacementVariables !== replacementVariables
-		) {
+		if ( nextProps.content !== this._serializedContent && nextProps.content !== content ) {
 			this._serializedContent = nextProps.content;
-			const editorState = unserializeEditor( nextProps.content, nextProps.replacementVariables );
+			nextState.editorState = unserializeEditor( nextProps.content, nextProps.replacementVariables );
+		} else if ( nextProps.replacementVariables !== replacementVariables ) {
+			const newReplacementVariableNames = nextProps.replacementVariables
+				.map( rv => rv.name )
+				.filter( rvName => ! replacementVariables.map( rv => rv.name ).includes( rvName ) );
+
+			if ( newReplacementVariableNames.some( rvName => content.includes( "%%" + rvName + "%%" ) ) ) {
+				this._serializedContent = nextProps.content;
+				nextState.editorState = unserializeEditor( nextProps.content, nextProps.replacementVariables );
+			}
+		}
+
+		if ( nextProps.replacementVariables !== replacementVariables ) {
 			const currentReplacementVariables = this.determineCurrentReplacementVariables(
 				nextProps.replacementVariables,
 				recommendedReplacementVariables,
 				searchValue
 			);
-			const suggestions = this.mapReplacementVariablesToSuggestions( currentReplacementVariables );
-
-			this.setState( {
-				editorState,
-				suggestions: this.suggestionsFilter( searchValue, suggestions ),
-			} );
+			nextState.suggestions = this.suggestionsFilter(
+				searchValue,
+				this.mapReplacementVariablesToSuggestions( currentReplacementVariables )
+			);
 		}
+
+		this.setState( nextState );
 	}
 
 	/**
@@ -498,19 +527,20 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	 * @returns {ReactElement} The rendered element.
 	 */
 	render() {
-		const { MentionSuggestions } = this.mentionsPlugin;
-		const { onFocus, onBlur, ariaLabelledBy, placeholder, theme, isDisabled } = this.props;
+		const { MentionSuggestions } = this.pluginList.mentionsPlugin;
+		const { onFocus, onBlur, ariaLabelledBy, placeholder, theme, isDisabled, fieldId } = this.props;
 		const { editorState, suggestions, isSuggestionsOpen } = this.state;
 
 		return (
 			<React.Fragment>
 				<Editor
+					key={ this.state.editorKey }
 					textDirectionality={ theme.isRtl ? "RTL" : "LTR" }
 					editorState={ editorState }
 					onChange={ this.onChange }
 					onFocus={ onFocus }
 					onBlur={ onBlur }
-					plugins={ [ this.mentionsPlugin, this.singleLinePlugin ] }
+					plugins={ Object.values( this.pluginList ) }
 					ref={ this.setEditorRef }
 					stripPastedStyles={ true }
 					ariaLabelledBy={ ariaLabelledBy }
@@ -518,6 +548,14 @@ class ReplacementVariableEditorStandalone extends React.Component {
 					spellCheck={ true }
 					readOnly={ isDisabled }
 				/>
+
+				{ applyFilters(
+					"yoast.replacementVariableEditor.additionalPlugins",
+					<React.Fragment />,
+					this.pluginList,
+					fieldId
+				) }
+
 				<ZIndexOverride>
 					<MentionSuggestions
 						onSearchChange={ this.onSearchChange }
@@ -536,6 +574,7 @@ ReplacementVariableEditorStandalone.propTypes = {
 	replacementVariables: replacementVariablesShape.isRequired,
 	recommendedReplacementVariables: recommendedReplacementVariablesShape,
 	ariaLabelledBy: PropTypes.string.isRequired,
+	onSearchChange: PropTypes.func,
 	onChange: PropTypes.func.isRequired,
 	onFocus: PropTypes.func,
 	onBlur: PropTypes.func,
@@ -546,6 +585,7 @@ ReplacementVariableEditorStandalone.propTypes = {
 };
 
 ReplacementVariableEditorStandalone.defaultProps = {
+	onSearchChange: null,
 	onFocus: () => {},
 	onBlur: () => {},
 	placeholder: "",

@@ -20,10 +20,6 @@ describe( "a test for the German Researcher", function() {
 		expect( researcher.hasResearch( "getPassiveVoiceResult" ) ).toBe( true );
 	} );
 
-	it( "returns false if the default research is deleted in the German Researcher", function() {
-		expect( researcher.getResearch( "wordComplexity" ) ).toBe( false );
-	} );
-
 	it( "returns the German function words ", function() {
 		expect( researcher.getConfig( "functionWords" ) ).toEqual( functionWords.all );
 	} );
@@ -78,5 +74,10 @@ describe( "a test for the German Researcher", function() {
 			syllablesPer100Words: 200,
 		};
 		expect( researcher.getHelper( "fleschReadingScore" )( testStatistics ) ).toBe( 58 );
+	} );
+
+	it( "checks if a word is complex in German", function() {
+		expect( researcher.getHelper( "checkIfWordIsComplex" )( "optimierungen" ) ).toEqual( true );
+		expect( researcher.getHelper( "checkIfWordIsComplex" )( "boxen" ) ).toEqual( false );
 	} );
 } );

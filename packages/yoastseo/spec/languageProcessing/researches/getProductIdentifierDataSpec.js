@@ -110,3 +110,25 @@ describe( "A test to check if all variants of a product have an identifier", () 
 		expect( productIdentifierData( paper ).doAllVariantsHaveIdentifier ).toEqual( true );
 	} );
 } );
+
+describe( "A test to check if the variant identifier data is valid", () => {
+	it( "returns false if the variant identifier data is not valid", function() {
+		const paper = new Paper( "Text.", {
+			customData: {
+				variantIdentifierDataIsValid: false,
+			},
+		} );
+
+		expect( productIdentifierData( paper ).isVariantIdentifierDataValid ).toEqual( false );
+	} );
+
+	it( "returns true if the variant identifier data is valid", function() {
+		const paper = new Paper( "Text.", {
+			customData: {
+				variantIdentifierDataIsValid: true,
+			},
+		} );
+
+		expect( productIdentifierData( paper ).isVariantIdentifierDataValid ).toEqual( true );
+	} );
+} );

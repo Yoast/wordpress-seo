@@ -16,6 +16,7 @@ import memoizedTokenizer from "./helpers/memoizedSentenceTokenizer";
 import getClauses from "./helpers/getClauses";
 import getStemmer from "./helpers/getStemmer";
 import fleschReadingScore from "./helpers/calculateFleschReadingScore";
+import checkIfWordIsComplex from "./helpers/checkIfWordIsComplex";
 
 /**
  * The researches contains all the researches
@@ -28,8 +29,6 @@ export default class Researcher extends AbstractResearcher {
 	 */
 	constructor( paper ) {
 		super( paper );
-
-		delete this.defaultResearches.wordComplexity;
 
 		Object.assign( this.config, {
 			language: "de",
@@ -48,6 +47,7 @@ export default class Researcher extends AbstractResearcher {
 			getStemmer,
 			fleschReadingScore,
 			memoizedTokenizer,
+			checkIfWordIsComplex,
 		} );
 	}
 }

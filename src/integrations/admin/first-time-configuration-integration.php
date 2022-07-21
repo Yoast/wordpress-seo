@@ -7,13 +7,12 @@ use WPSEO_Admin_Asset_Manager;
 use WPSEO_Shortlinker;
 use WPSEO_Utils;
 use WPSEO_Option_Tab;
-
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
-use Yoast\WP\SEO\Integrations\Admin\Social_Profiles_Helper;
 use Yoast\WP\SEO\Routes\Indexing_Route;
+use Yoast\WP\SEO\Context\Meta_Tags_Context;
 
 /**
  * First_Time_Configuration_Integration class
@@ -63,6 +62,13 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 	private $product_helper;
 
 	/**
+	 * The meta tags context helper.
+	 *
+	 * @var \Yoast\WP\SEO\Context\Meta_Tags_Context
+	 */
+	private $meta_tags_context;
+
+	/**
 	 * {@inheritDoc}
 	 */
 	public static function get_conditionals() {
@@ -78,6 +84,7 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 	 * @param Options_Helper            $options_helper         The options helper.
 	 * @param Social_Profiles_Helper    $social_profiles_helper The social profile helper.
 	 * @param Product_Helper            $product_helper         The product helper.
+	 * @param Meta_Tags_Context         $meta_tags_context      The meta tags context helper.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $admin_asset_manager,
@@ -85,7 +92,8 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 		WPSEO_Shortlinker $shortlinker,
 		Options_Helper $options_helper,
 		Social_Profiles_Helper $social_profiles_helper,
-		Product_Helper $product_helper
+		Product_Helper $product_helper,
+		Meta_Tags_Context $meta_tags_context
 	) {
 		$this->admin_asset_manager    = $admin_asset_manager;
 		$this->addon_manager          = $addon_manager;
@@ -93,6 +101,7 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 		$this->options_helper         = $options_helper;
 		$this->social_profiles_helper = $social_profiles_helper;
 		$this->product_helper         = $product_helper;
+		$this->meta_tags_context      = $meta_tags_context;
 	}
 
 	/**
@@ -182,12 +191,15 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 					"companyOrPerson": "%s",
 					"companyOrPersonLabel": "%s",
 					"companyName": "%s",
+					"fallbackCompanyName": "%s",
 					"companyLogo": "%s",
+					"companyLogoFallback": "%s",
 					"companyLogoId": %d,
 					"finishedSteps": %s,
 					"personId": %d,
 					"personName": "%s",
 					"personLogo": "%s",
+					"personLogoFallback": "%s",
 					"personLogoId": %d,
 					"siteTagline": "%s",
 					"socialProfiles": {
@@ -212,12 +224,15 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 				$this->is_company_or_person(),
 				$selected_option_label,
 				$this->get_company_name(),
+				$this->get_fallback_company_name( $this->get_company_name() ),
 				$this->get_company_logo(),
+				$this->get_company_fallback_logo( $this->get_company_logo() ),
 				$this->get_company_logo_id(),
 				WPSEO_Utils::format_json_encode( $finished_steps ),
 				$person_id,
 				$this->get_person_name(),
 				$this->get_person_logo(),
+				$this->get_person_fallback_logo( $this->get_person_logo() ),
 				$this->get_person_logo_id(),
 				$this->get_site_tagline(),
 				$social_profiles['facebook_url'],
@@ -292,6 +307,21 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 	}
 
 	/**
+	 * Gets the fallback company name from the option in the database if there is no company name.
+	 *
+	 * @param string $company_name The given company name by the user, default empty string.
+	 *
+	 * @return string The company name.
+	 */
+	private function get_fallback_company_name( $company_name ) {
+		if ( $company_name ) {
+			return false;
+		}
+
+		return \get_bloginfo( 'name' );
+	}
+
+	/**
 	 * Gets the company logo from the option in the database.
 	 *
 	 * @return string The company logo.
@@ -307,6 +337,22 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 	 */
 	private function get_company_logo_id() {
 		return $this->options_helper->get( 'company_logo_id', '' );
+	}
+
+	/**
+	 * Gets the company logo url from the option in the database.
+	 *
+	 * @param string $company_logo The given company logo by the user, default empty.
+	 *
+	 * @return {boolean | string} The company logo URL.
+	 */
+	private function get_company_fallback_logo( $company_logo ) {
+		if ( $company_logo ) {
+			return false;
+		}
+		$logo_id = $this->meta_tags_context->fallback_to_site_logo();
+
+		return esc_url( wp_get_attachment_url( $logo_id ) );
 	}
 
 	/**
@@ -328,6 +374,7 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 		if ( $user instanceof \WP_User ) {
 			return $user->get( 'display_name' );
 		}
+
 		return '';
 	}
 
@@ -338,6 +385,22 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 	 */
 	private function get_person_logo() {
 		return $this->options_helper->get( 'person_logo', '' );
+	}
+
+	/**
+	 * Gets the person logo url from the option in the database.
+	 *
+	 * @param string $person_logo The given person logo by the user, default empty.
+	 *
+	 * @return {boolean | string} The person logo URL.
+	 */
+	private function get_person_fallback_logo( $person_logo ) {
+		if ( $person_logo ) {
+			return false;
+		}
+		$logo_id = $this->meta_tags_context->fallback_to_site_logo();
+
+		return esc_url( wp_get_attachment_url( $logo_id ) );
 	}
 
 	/**
