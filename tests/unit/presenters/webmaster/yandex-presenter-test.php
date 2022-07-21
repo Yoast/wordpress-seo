@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Presenters\Webmaster;
 
-use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Presenters\Webmaster\Yandex_Presenter;
@@ -65,8 +64,6 @@ class Yandex_Presenter_Test extends TestCase {
 	public function test_present() {
 		$this->options->expects( 'get' )->with( $this->option_name, '' )->andReturn( 'yandex-ver' );
 
-		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
-
 		$this->assertSame(
 			'<meta name="yandex-verification" content="yandex-ver" />',
 			$this->instance->present()
@@ -99,23 +96,6 @@ class Yandex_Presenter_Test extends TestCase {
 		$this->assertSame(
 			'yandex-ver',
 			$this->instance->get()
-		);
-	}
-
-	/**
-	 * Tests the presentation for a Yandex site verification string when the admin bar is showing a class is added.
-	 *
-	 * @covers ::present
-	 * @covers ::get
-	 */
-	public function test_present_with_class() {
-		$this->options->expects( 'get' )->with( $this->option_name, '' )->andReturn( 'yandex-ver' );
-
-		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( true );
-
-		$this->assertSame(
-			'<meta name="yandex-verification" content="yandex-ver" class="yoast-seo-meta-tag" />',
-			$this->instance->present()
 		);
 	}
 }
