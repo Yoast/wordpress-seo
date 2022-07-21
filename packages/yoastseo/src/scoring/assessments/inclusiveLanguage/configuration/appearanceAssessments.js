@@ -1,4 +1,4 @@
-import { potentiallyHarmful, potentiallyHarmfulNonInclusive, potentiallyHarmfulUnless, preferredDescriptorIfKnown } from "./feedbackStrings";
+import { potentiallyHarmful, potentiallyHarmfulUnless, preferredDescriptorIfKnown } from "./feedbackStrings";
 import { SCORES } from "./scores";
 
 const appearanceAssessments = [
@@ -33,7 +33,7 @@ const appearanceAssessments = [
 		nonInclusivePhrases: [ "vertically challenged" ],
 		inclusiveAlternatives: "little person, has short stature, someone with dwarfism",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmfulNonInclusive,
+		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
 	},
 	{
@@ -41,7 +41,7 @@ const appearanceAssessments = [
 		nonInclusivePhrases: [ "midget" ],
 		inclusiveAlternatives: "little person, has short stature, someone with dwarfism",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmfulNonInclusive,
+		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
 	},
 	{
@@ -49,7 +49,7 @@ const appearanceAssessments = [
 		nonInclusivePhrases: [ "harelip" ],
 		inclusiveAlternatives: "cleft lip, cleft palate",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmfulNonInclusive,
+		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
 	},
 ];
