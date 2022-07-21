@@ -36,23 +36,23 @@ class Rel_Next_Presenter_Test extends TestCase {
 		$this->instance = new Rel_Next_Presenter();
 	}
 
-	/**	
-	 * Tests the presentation of the rel next meta tag.	
-	 *	
-	 * @covers ::present	
-	 * @covers ::get	
-	 */	
-	public function test_present() {	
-		$this->instance->presentation = new Indexable_Presentation();	
-		$presentation                 = $this->instance->presentation;	
+	/**
+	 * Tests the presentation of the rel next meta tag.
+	 *
+	 * @covers ::present
+	 * @covers ::get
+	 */
+	public function test_present() {
+		$this->instance->presentation = new Indexable_Presentation();
+		$presentation                 = $this->instance->presentation;
 
-		$presentation->rel_next = 'https://permalink/post/2';	
-		$presentation->robots   = [];	
+		$presentation->rel_next = 'https://permalink/post/2';
+		$presentation->robots   = [];
 
-		$this->assertEquals(	
-			'<link rel="next" href="https://permalink/post/2" />',	
-			$this->instance->present()	
-		);	
+		$this->assertEquals(
+			'<link rel="next" href="https://permalink/post/2" />',
+			$this->instance->present()
+		);
 	}
 
 	/**

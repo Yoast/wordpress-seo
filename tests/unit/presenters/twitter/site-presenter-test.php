@@ -46,19 +46,19 @@ class Site_Presenter_Test extends TestCase {
 		$this->instance->presentation = $this->presentation;
 	}
 
-	/**	
-	 * Tests the presentation for a set twitter creator.	
-	 *	
-	 * @covers ::present	
-	 * @covers ::get	
-	 */	
-	public function test_present() {	
-		$this->presentation->twitter_site = '@TwitterHandle';	
+	/**
+	 * Tests the presentation for a set twitter creator.
+	 *
+	 * @covers ::present
+	 * @covers ::get
+	 */
+	public function test_present() {
+		$this->presentation->twitter_site = '@TwitterHandle';
 
-		$this->assertEquals(	
-			'<meta name="twitter:site" content="@TwitterHandle" />',	
-			$this->instance->present()	
-		);	
+		$this->assertEquals(
+			'<meta name="twitter:site" content="@TwitterHandle" />',
+			$this->instance->present()
+		);
 	}
 
 	/**
