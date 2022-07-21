@@ -14,7 +14,6 @@ import { SimpleIntegration } from "./simple-integration";
  * @param {boolean} isActive             Whether the integration state is active.
  * @param {boolean} isInstalled          Whether the integration state is active.
  * @param {boolean} isPrerequisiteActive Whether the plugin to which we want to integrate is active.
- * @param {string}  upsellLink           The upsell URL.
  * @param {string}  activationLink       The URL to activate Yoast WooCommerce SEO.
  *
  * @returns {WPElement} A card representing an integration.
@@ -24,7 +23,6 @@ export const WoocommerceIntegration = ( {
 	isActive,
 	isInstalled,
 	isPrerequisiteActive,
-	upsellLink,
 	activationLink,
 } ) => {
 	return (
@@ -65,7 +63,7 @@ export const WoocommerceIntegration = ( {
 					id={ `${ integration.name }-upsell-button` }
 					type="button"
 					as="a"
-					href={ upsellLink }
+					href={ integration.upsellLink }
 					variant="upsell"
 					className="yst-w-full yst-text-gray-800"
 					target="_blank"
@@ -96,11 +94,11 @@ WoocommerceIntegration.propTypes = {
 		usps: PropTypes.array,
 		logo: PropTypes.func,
 		isNew: PropTypes.bool,
+		upsellLink: PropTypes.string,
 	} ).isRequired,
 	isActive: PropTypes.bool,
 	isInstalled: PropTypes.bool,
 	isPrerequisiteActive: PropTypes.bool,
-	upsellLink: PropTypes.string.isRequired,
 	activationLink: PropTypes.string.isRequired,
 };
 

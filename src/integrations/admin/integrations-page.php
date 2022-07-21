@@ -101,7 +101,9 @@ class Integrations_Page implements Integration_Interface {
 
 		$woocommerce_seo_file = 'wpseo-woocommerce/wpseo-woocommerce.php';
 		$acf_seo_file         = 'acf-content-analysis-for-yoast-seo/yoast-acf-analysis.php';
+		$acf_seo_file_github  = 'yoast-acf-analysis/yoast-acf-analysis.php';
 		$algolia_file         = 'wp-search-with-algolia/algolia.php';
+		$old_algolia_file     = 'search-by-algolia-instant-relevant-results/algolia.php';
 
 		$wpseo_plugin_availability_checker = new WPSEO_Plugin_Availability();
 		$woocommerce_seo_installed         = \file_exists( WP_PLUGIN_DIR . '/' . $woocommerce_seo_file );
@@ -109,14 +111,15 @@ class Integrations_Page implements Integration_Interface {
 		$woocommerce_active                = $woocommerce_conditional->is_met();
 		$acf_seo_installed                 = \file_exists( WP_PLUGIN_DIR . '/' . $acf_seo_file );
 		$acf_seo_active                    = $wpseo_plugin_availability_checker->is_active( $acf_seo_file );
+		$acf_seo_github_active             = $wpseo_plugin_availability_checker->is_active( $acf_seo_file_github );
 		$acf_active                        = \class_exists( 'acf' );
 		$algolia_active                    = $wpseo_plugin_availability_checker->is_active( $algolia_file );
+		$old_algolia_active                = $wpseo_plugin_availability_checker->is_active( $old_algolia_file );
 
 		$woocommerce_seo_activate_url = \wp_nonce_url(
 			\self_admin_url( 'plugins.php?action=activate&plugin=' . $woocommerce_seo_file ),
 			'activate-plugin_' . $woocommerce_seo_file
 		);
-		$woocommerce_seo_upsell_url   = '#';
 
 		$acf_seo_activate_url = \wp_nonce_url(
 			\self_admin_url( 'plugins.php?action=activate&plugin=' . $acf_seo_file ),
@@ -149,13 +152,12 @@ class Integrations_Page implements Integration_Interface {
 				'woocommerce_seo_active'         => $woocommerce_seo_active,
 				'woocommerce_active'             => $woocommerce_active,
 				'woocommerce_seo_activate_url'   => $woocommerce_seo_activate_url,
-				'woocommerce_seo_upsell_url'     => $woocommerce_seo_upsell_url,
 				'acf_seo_installed'              => $acf_seo_installed,
-				'acf_seo_active'                 => $acf_seo_active,
+				'acf_seo_active'                 => $acf_seo_active || $acf_seo_github_active,
 				'acf_active'                     => $acf_active,
 				'acf_seo_activate_url'           => $acf_seo_activate_url,
 				'acf_seo_install_url'            => $acf_seo_install_url,
-				'algolia_active'                 => $algolia_active,
+				'algolia_active'                 => $algolia_active || $old_algolia_active,
 				'is_multisite'                   => \is_multisite(),
 			]
 		);

@@ -84,7 +84,7 @@ AcfIntegration.propTypes = {
 		slug: PropTypes.string,
 		description: PropTypes.string,
 		usps: PropTypes.array,
-		logo: PropTypes.element,
+		logo: PropTypes.func,
 		isNew: PropTypes.bool,
 	} ).isRequired,
 	isActive: PropTypes.bool,
