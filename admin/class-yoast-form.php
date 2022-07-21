@@ -874,10 +874,8 @@ class Yoast_Form {
 
 		// Show disabled note if attribute does not exists or does exist and is set to true.
 		if ( ! isset( $attr['show_disabled_note'] ) || ( $attr['show_disabled_note'] === true ) ) {
-			if ( $attr['disabled'] || $this->is_control_disabled( $variable ) ) {
-				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- output escaped before.
-				echo $this->get_disabled_note( $variable, $attr['note_when_disabled'] );
-			}
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- output escaped before.
+			echo $this->get_disabled_note( $variable, $attr['note_when_disabled'] );
 		}
 
 		echo '<div class="switch-toggle switch-candy switch-yoast-seo">';
@@ -1029,6 +1027,9 @@ class Yoast_Form {
 	 * @return string Explanation note HTML string, or empty string if no note necessary.
 	 */
 	protected function get_disabled_note( $variable, $custom_note = '' ) {
+		if ( $custom_note === '' && ! $this->is_control_disabled( $variable ) ) {
+			return '';
+		}
 		$disabled_message = esc_html__( 'This feature has been disabled by the network admin.', 'wordpress-seo' );
 
 		// The explanation to show when disabling the Usage tracking feature for multisite subsites.
