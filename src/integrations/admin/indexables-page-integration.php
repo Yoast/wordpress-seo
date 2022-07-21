@@ -45,8 +45,8 @@ class Indexables_Page_Integration implements Integration_Interface {
 		WPSEO_Admin_Asset_Manager $admin_asset_manager,
 		Product_Helper $product_helper
 	) {
-		$this->admin_asset_manager    = $admin_asset_manager;
-		$this->product_helper         = $product_helper;
+		$this->admin_asset_manager = $admin_asset_manager;
+		$this->product_helper      = $product_helper;
 	}
 
 	/**
