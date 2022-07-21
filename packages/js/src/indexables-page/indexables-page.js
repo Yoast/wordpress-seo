@@ -14,6 +14,8 @@ function IndexablesPage() {
 	const [ worstSEOIndexables, setWorstSEOIndexables ] = useState( [] );
 	const [ leastLinkedIndexables, setLeastLinkedIndexables ] = useState( [] );
 	const [ mostLinkedIndexables, setMostLinkedIndexables ] = useState( [] );
+	const [ worstReadabilityIndexablesIgnoreList, setWorstReadabilityIndexablesIgnoreList ] = useState( null );
+	const [ worstSEOIndexablesIgnoreList, setWorstSEOIndexablesIgnoreList ] = useState( null );
 
 	useEffect( async() => {
 		try {
@@ -29,7 +31,7 @@ function IndexablesPage() {
 			console.error( e.message );
 			return false;
 		}
-	}, [] );
+	}, [ worstReadabilityIndexablesIgnoreList ] );
 
 	useEffect( async() => {
 		try {
@@ -45,8 +47,8 @@ function IndexablesPage() {
 			console.error( e.message );
 			return false;
 		}
-	}, [] );
-
+	}, [ worstSEOIndexablesIgnoreList ] );
+	console.log(worstReadabilityIndexablesIgnoreList);
 	return <div
 		className="yst-bg-white yst-rounded-lg yst-p-6 yst-shadow-md yst-max-w-full yst-mt-6"
 	>
@@ -63,6 +65,7 @@ function IndexablesPage() {
 				}
 			}
 			type="least_readability_score"
+			addToIgnoreList={ setWorstReadabilityIndexablesIgnoreList }
 		/>
 		<h3 className="yst-my-4 yst-text-xl">Least SEO Score</h3>
 		<IndexablesTable
@@ -76,6 +79,7 @@ function IndexablesPage() {
 				}
 			}
 			type="least_seo_score"
+			addToIgnoreList={ setWorstSEOIndexablesIgnoreList }
 		/>
 		{ /* <h3 className="yst-my-4 yst-text-xl">Least Linked To</h3>
 		<Table>

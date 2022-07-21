@@ -31,20 +31,20 @@ function PlaceholderRows( { columnCount } ) {
 
  * @returns {WPElement} A table with the indexables.
  */
-const IndexableRow = ( { indexable, keyHeaderMap, type } ) => {
-	const [ ignored, setignored ] = useState( false );
-
+const IndexableRow = ( { indexable, keyHeaderMap, type, addToIgnoreList } ) => {
 	const handleIgnore =  useCallback( async( e ) => {
+		const id = e.currentTarget.dataset.indexableid;
+		const indexableType = e.currentTarget.dataset.indexabletype;
 		try {
 			const response = await apiFetch( {
 				path: "yoast/v1/ignore_indexable",
 				method: "POST",
-				data: { id: e.currentTarget.dataset.indexableid, type: e.currentTarget.dataset.indexabletype },
+				data: { id: id, type: indexableType },
 			} );
 
 			const parsedResponse = await response.json;
 			if ( parsedResponse.success ) {
-				setignored( true );
+				addToIgnoreList( { id: id, type: indexableType } );
 				return true;
 			}
 			return false;
@@ -53,28 +53,7 @@ const IndexableRow = ( { indexable, keyHeaderMap, type } ) => {
 			console.error( error.message );
 			return false;
 		}
-	}, [ apiFetch, setignored ] );
-
-	const handleUndo =  useCallback( async( e ) => {
-		try {
-			const response = await apiFetch( {
-				path: "yoast/v1/restore_indexable",
-				method: "POST",
-				data: { id: e.currentTarget.dataset.indexableid, type: e.currentTarget.dataset.indexabletype },
-			} );
-
-			const parsedResponse = await response.json;
-			if ( parsedResponse.success ) {
-				setignored( false );
-				return true;
-			}
-			return false;
-		} catch ( error ) {
-			// URL() constructor throws a TypeError exception if url is malformed.
-			console.error( error.message );
-			return false;
-		}
-	}, [ apiFetch, setignored ] );
+	}, [ apiFetch ] );
 
 	return <Table.Row
 		key={ `indexable-${ indexable.id }-row` }
@@ -84,16 +63,13 @@ const IndexableRow = ( { indexable, keyHeaderMap, type } ) => {
 				if ( key === "edit" ) {
 					return <Table.Cell
 						key="edit"
-						className={ `${ ignored ? "yst-opacity-25" : "" }` }
 					>
-						<Button variant="secondary" disabled={ ignored } data-id={ indexable.id }>Edit</Button>
+						<Button variant="secondary" data-id={ indexable.id }>Edit</Button>
 					</Table.Cell>;
 				} else if ( key === "ignore" ) {
-					return ignored
-						? <Table.Cell key="undo"><Button variant="error" data-indexableid={ indexable.id } data-indexabletype={ type } onClick={ handleUndo }>Undo</Button></Table.Cell>
-						: <Table.Cell key="ignore"><Button variant="error" data-indexableid={ indexable.id } data-indexabletype={ type } onClick={ handleIgnore }>Ignore</Button></Table.Cell>;
+					return <Table.Cell key="ignore"><Button variant="error" data-indexableid={ indexable.id } data-indexabletype={ type } onClick={ handleIgnore }>Ignore</Button></Table.Cell>;
 				}
-				return <Table.Cell className={ `${ ignored ? "yst-opacity-25" : "" }` } key={ `indexable-header-${ index }` }>{ indexable[ key ] }</Table.Cell>;
+				return <Table.Cell key={ `indexable-header-${ index }` }>{ indexable[ key ] }</Table.Cell>;
 			} )
 		}
 	</Table.Row>;
@@ -103,6 +79,7 @@ IndexableRow.propTypes = {
 	indexable: PropTypes.object,
 	keyHeaderMap: PropTypes.object,
 	type: PropTypes.string,
+	addToIgnoreList: PropTypes.func,
 };
 
 /**
@@ -113,7 +90,7 @@ IndexableRow.propTypes = {
 
  * @returns {WPElement} A table with the indexables.
  */
-function IndexablesTable( { indexables, keyHeaderMap, type } ) {
+function IndexablesTable( { indexables, keyHeaderMap, type, addToIgnoreList } ) {
 	const [ isLoading, setIsLoading ] = useState( true );
 
 	useEffect( () => {
@@ -121,8 +98,6 @@ function IndexablesTable( { indexables, keyHeaderMap, type } ) {
 			setIsLoading( false );
 		}
 	}, [ indexables, setIsLoading ] );
-
-	console.log("dio", indexables, type)
 
 	return (
 		<>
@@ -147,6 +122,7 @@ function IndexablesTable( { indexables, keyHeaderMap, type } ) {
 										indexable={ indexable }
 										keyHeaderMap={ keyHeaderMap }
 										type={ type }
+										addToIgnoreList= { addToIgnoreList }
 									/>;
 								} )
 						}
@@ -161,6 +137,7 @@ IndexablesTable.propTypes = {
 	indexables: PropTypes.array,
 	keyHeaderMap: PropTypes.object,
 	type: PropTypes.string,
+	addToIgnoreList: PropTypes.func,
 };
 
 export default IndexablesTable;
