@@ -87,7 +87,6 @@ class Meta_Author_Presenter_Test extends TestCase {
 			->once()
 			->with( 'John Doe' )
 			->andReturn( 'John Doe' );
-		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
 
 		$output = '<meta name="author" content="John Doe" />';
 
@@ -109,7 +108,6 @@ class Meta_Author_Presenter_Test extends TestCase {
 			->once()
 			->with( 123 )
 			->andReturnFalse();
-		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
 
 		$this->html
 			->expects( 'smart_strip_tags' )
@@ -138,36 +136,6 @@ class Meta_Author_Presenter_Test extends TestCase {
 			->never();
 
 		$output = '';
-
-		$this->assertSame( $output, $this->instance->present() );
-	}
-
-	/**
-	 * Tests the presenter of the meta description when the admin bar is showing a class is added.
-	 *
-	 * @covers ::present
-	 * @covers ::get
-	 */
-	public function test_present_and_filter_with_class() {
-		$this->indexable_presentation->model                  = new Indexable_Mock();
-		$this->indexable_presentation->model->object_sub_type = 'post';
-
-		$user_mock               = Mockery::mock( \WP_User::class );
-		$user_mock->display_name = 'John Doe';
-
-		Monkey\Functions\expect( 'get_userdata' )
-			->once()
-			->with( 123 )
-			->andReturn( $user_mock );
-
-		$this->html
-			->expects( 'smart_strip_tags' )
-			->once()
-			->with( 'John Doe' )
-			->andReturn( 'John Doe' );
-		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( true );
-
-		$output = '<meta name="author" content="John Doe" class="yoast-seo-meta-tag" />';
 
 		$this->assertSame( $output, $this->instance->present() );
 	}
