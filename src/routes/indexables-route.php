@@ -160,15 +160,20 @@ class Indexables_Route implements Route_Interface {
 			->limit( 5 )
 			->find_many();
 
-			$least_readable = \array_map( [ $this->indexable_repository, 'ensure_permalink' ], $least_readable );
-			// $least_readable = \array_map( [ $this, 'map_subtypes_to_singular_name' ], $least_readable );
-			
-			$ignore_list = $this->options_helper->get( 'least_readability_score_ignore_list', [] );
-			if ( ! empty( $ignore_list ) ) {
-				$least_readable = \array_filter( $least_readable, function( $indexable ) use ($ignore_list) { return ! \in_array( $indexable->id, $ignore_list ); } );
-				$least_readable = \array_values( $least_readable );
-			}
-			
+		$least_readable = \array_map( [ $this->indexable_repository, 'ensure_permalink' ], $least_readable );
+		// $least_readable = \array_map( [ $this, 'map_subtypes_to_singular_name' ], $least_readable );
+
+		$ignore_list = $this->options_helper->get( 'least_readability_score_ignore_list', [] );
+		if ( ! empty( $ignore_list ) ) {
+			$least_readable = \array_filter(
+				$least_readable,
+				function( $indexable ) use ( $ignore_list ) {
+					return ! \in_array( $indexable->id, $ignore_list );
+				}
+			);
+			$least_readable = \array_values( $least_readable );
+		}
+
 		return new WP_REST_Response(
 			[
 				'json' => [
@@ -199,7 +204,12 @@ class Indexables_Route implements Route_Interface {
 
 		$ignore_list = $this->options_helper->get( 'least_seo_score_ignore_list', [] );
 		if ( ! empty( $ignore_list ) ) {
-			$least_seo_score = \array_filter( $least_seo_score, function( $indexable ) use ($ignore_list) { return ! \in_array( $indexable->id, $ignore_list ); } );
+			$least_seo_score = \array_filter(
+				$least_seo_score,
+				function( $indexable ) use ( $ignore_list ) {
+					return ! \in_array( $indexable->id, $ignore_list );
+				}
+			);
 			$least_seo_score = \array_values( $least_seo_score );
 		}
 		return new WP_REST_Response(
@@ -211,6 +221,13 @@ class Indexables_Route implements Route_Interface {
 		);
 	}
 
+	/**
+	 * Adds an indexable id in the ignore list.
+	 *
+	 * @param WP_REST_Request $request The request object.
+	 *
+	 * @return WP_REST_Response The success or failure response.
+	 */
 	public function ignore_indexable( WP_REST_Request $request ) {
 		$data = $this->add_indexable_to_ignore_list( $request->get_json_params() );
 
@@ -219,6 +236,13 @@ class Indexables_Route implements Route_Interface {
 		);
 	}
 
+	/**
+	 * Restores an indexable id from the ignore list.
+	 *
+	 * @param WP_REST_Request $request The request object.
+	 *
+	 * @return WP_REST_Response The success or failure response.
+	 */
 	public function restore_indexable( WP_REST_Request $request ) {
 		$data = $this->remove_indexable_from_ignore_list( $request->get_json_params() );
 
@@ -253,13 +277,12 @@ class Indexables_Route implements Route_Interface {
 	 * @return object The response object.
 	 */
 	protected function add_indexable_to_ignore_list( $params ) {
-		$ignore_list_name = $params['type'] . "_ignore_list";
-		$ignore_list = $this->options_helper->get( $ignore_list_name, [] );
-		$indexable_id = intval( $params['id'] );
+		$ignore_list_name = $params['type'] . '_ignore_list';
+		$ignore_list      = $this->options_helper->get( $ignore_list_name, [] );
+		$indexable_id     = intval( $params['id'] );
 
-		if ( ! in_array( $indexable_id, $ignore_list ) )
-		{
-			$ignore_list[] = $indexable_id; 
+		if ( ! in_array( $indexable_id, $ignore_list ) ) {
+			$ignore_list[] = $indexable_id;
 		}
 
 		$success = $this->options_helper->set( $ignore_list_name, $ignore_list );
@@ -286,11 +309,16 @@ class Indexables_Route implements Route_Interface {
 	 * @return object The response object.
 	 */
 	protected function remove_indexable_from_ignore_list( $params ) {
-		$ignore_list_name = $params['type'] . "_ignore_list";
-		$ignore_list = $this->options_helper->get( $ignore_list_name, [] );
+		$ignore_list_name        = $params['type'] . '_ignore_list';
+		$ignore_list             = $this->options_helper->get( $ignore_list_name, [] );
 		$indexable_to_be_removed = intval( $params['id'] );
 
-		$ignore_list = \array_filter( $ignore_list, function( $indexable ) use ( $indexable_to_be_removed ) { return  $indexable !== $indexable_to_be_removed; } );
+		$ignore_list = \array_filter(
+			$ignore_list,
+			function( $indexable ) use ( $indexable_to_be_removed ) {
+				return $indexable !== $indexable_to_be_removed;
+			}
+		);
 
 		$success = $this->options_helper->set( $ignore_list_name, $ignore_list );
 
