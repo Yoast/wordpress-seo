@@ -26,8 +26,8 @@ function PlaceholderRows( { columnCount } ) {
 /**
  * A table with indexables.
  *
- * @param {array} indexables Theindexables.
- * @param {array} keyHeaderMap The key header map count.
+ * @param {array}  indexables Theindexables.
+ * @param {Object} keyHeaderMap The key header map count.
 
  * @returns {WPElement} A table with the indexables.
  */
@@ -48,6 +48,7 @@ function IndexablesTable( { indexables, keyHeaderMap, type } ) {
 				data: { id: e.currentTarget.dataset.indexableid, type: e.currentTarget.dataset.indexabletype },
 			} );
 
+			/* eslint-disable-next-line no-unused-vars */
 			const parsedResponse = await response.json;
 		} catch ( error ) {
 			// URL() constructor throws a TypeError exception if url is malformed.
@@ -99,7 +100,7 @@ function IndexablesTable( { indexables, keyHeaderMap, type } ) {
 
 IndexablesTable.propTypes = {
 	indexables: PropTypes.array,
-	keyHeaderMap: PropTypes.array,
+	keyHeaderMap: PropTypes.object,
 	type: PropTypes.string,
 };
 
