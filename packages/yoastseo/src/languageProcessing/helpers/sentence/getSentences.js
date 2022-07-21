@@ -6,6 +6,7 @@ import { getBlocks } from "../html/html.js";
 import excludeTableOfContentsTag from "../sanitize/excludeTableOfContentsTag";
 import { unifyNonBreakingSpace } from "../sanitize/unifyWhitespace";
 import SentenceTokenizer from "./SentenceTokenizer";
+import excludeEstimatedReadingTime from "../sanitize/excludeEstimatedReadingTime";
 
 // Character classes.
 const newLines = "\n\r|\n|\r";
@@ -48,6 +49,8 @@ export default function( text, memoizedTokenizer ) {
 	// We don't remove the other HTML tags here since removing them might lead to incorrect results when running the sentence tokenizer.
 	// Remove Table of Contents.
 	text = excludeTableOfContentsTag( text );
+	// Remove Estimated reading time
+	text = excludeEstimatedReadingTime( text );
 	// Unify only non-breaking spaces and not the other whitespaces since a whitespace could signify a sentence break or a new line.
 	text = unifyNonBreakingSpace( text );
 
