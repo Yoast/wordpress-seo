@@ -22,6 +22,7 @@ export default class ProductSKUAssessment extends Assessment {
 			scores: {
 				good: 9,
 				ok: 6,
+				invalidVariantData: 0,
 			},
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/4lw" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/4lx" ),
@@ -56,9 +57,10 @@ export default class ProductSKUAssessment extends Assessment {
 	}
 
 	/**
-	 * Makes the assessment temporarily not applicable, until we have access to the needed data from WooCommerce and Shopify.
+	 * Checks whether the assessment is applicable. Currently it is applicable when variants should be assessed (i.e.
+	 * in WooCommerce, but not in Shopify)
 	 *
-	 * @returns {Boolean} Always returns false.
+	 * @returns {Boolean} Whether the assessment is applicable.
 	 */
 	isApplicable() {
 		return this._config.assessVariants;
@@ -74,6 +76,22 @@ export default class ProductSKUAssessment extends Assessment {
 	 * 													or empty object if no score should be returned.
 	 */
 	scoreProductSKU( productSKUData, config ) {
+		// Return a grey bullet if the variant identifier data is not valid.
+		if ( productSKUData.isVariantIdentifierDataValid === false  ) {
+			return {
+				score: config.scores.invalidVariantData,
+				text: sprintf(
+					/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
+					__(
+						"%1$sSKU%2$s: Please save and refresh the page to view the result for this assessment.",
+						"wordpress-seo"
+					),
+					this._config.urlTitle,
+					"</a>"
+				),
+			};
+		}
+
 		// If a product has no variants, return orange bullet if it has no global SKU, and green bullet if it has one.
 		if ( ! productSKUData.hasVariants ) {
 			if ( ! productSKUData.hasGlobalSKU ) {
