@@ -244,8 +244,6 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 Release Date: July 26th, 2022
 
 
-
-
 Enhancements:
 
 * Allows marking inside of Classic editor blocks in the Block/Gutenberg editor.
@@ -255,6 +253,11 @@ Enhancements:
 * Improves the text analysis by adding curly (“”) and angular quotation marks («»).
 * Improves the text analysis by filtering out all versions of the ampersand (&).
 * Removes the date from the meta description for WooCommerce products.
+
+Bugfixes:
+
+* Fixes a bug where a notice was shown indicating that the Flesch reading ease score has moved from the readability analysis to the Insights for languages that do not have Flesch reading ease support.
+* Fixes a bug where an `Undefined index: SERVER_NAME` warning would be triggered in cronjobs or WP CLI commands.
 
 = 19.3 =
 Release Date: July 12th, 2022

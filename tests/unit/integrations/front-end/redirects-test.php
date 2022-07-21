@@ -104,6 +104,7 @@ class Redirects_Test extends TestCase {
 		$this->assertNotFalse( Monkey\Actions\has( 'wp', [ $this->instance, 'archive_redirect' ] ) );
 		$this->assertNotFalse( Monkey\Actions\has( 'wp', [ $this->instance, 'page_redirect' ] ) );
 		$this->assertNotFalse( Monkey\Actions\has( 'template_redirect', [ $this->instance, 'attachment_redirect' ] ) );
+		$this->assertNotFalse( Monkey\Actions\has( 'template_redirect', [ $this->instance, 'disable_date_queries' ] ) );
 	}
 
 	/**
