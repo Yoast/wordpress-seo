@@ -50,7 +50,6 @@ export default function( text, memoizedTokenizer ) {
 	text = excludeTableOfContentsTag( text );
 	// Remove Estimated reading time.
 	text = excludeEstimatedReadingTime( text );
-	// Unify only non-breaking spaces and not the other whitespaces since a whitespace could signify a sentence break or a new line.
 
 	let blocks = getBlocks( text );
 
