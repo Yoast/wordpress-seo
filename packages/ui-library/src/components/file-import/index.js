@@ -1,7 +1,7 @@
 import { useCallback, useContext, createContext, useMemo } from "@wordpress/element";
 import { values, includes, isEmpty, isNull, capitalize } from "lodash";
 import { DocumentTextIcon, XIcon } from "@heroicons/react/outline";
-import { CheckCircleIcon, ExclamationCircleIcon, StopIcon, InformationCircleIcon } from "@heroicons/react/solid";
+import { CheckCircleIcon, ExclamationCircleIcon, ExclamationIcon, InformationCircleIcon } from "@heroicons/react/solid";
 import PropTypes from "prop-types";
 import { Transition } from "@headlessui/react";
 
@@ -167,7 +167,7 @@ const FileImport = ( {
 									<CheckCircleIcon className="yst-h-5 yst-w-5 yst-text-green-500" />
 								</Transition>
 								<Transition show={ isAborted } { ...statusIconTransitionProps }>
-									<StopIcon className="yst-h-5 yst-w-5 yst-text-gray-500" />
+									<ExclamationIcon className="yst-h-5 yst-w-5 yst-text-amber-500" />
 								</Transition>
 								<Transition show={ isError } { ...statusIconTransitionProps }>
 									<ExclamationCircleIcon className="yst-h-5 yst-w-5 yst-text-red-500" />
