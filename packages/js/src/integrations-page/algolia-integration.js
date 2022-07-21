@@ -61,19 +61,19 @@ export const AlgoliaIntegration = ( {
 	return (
 		<Card>
 			<Card.Header>
-				{ integration.logo && <IntegrationLogo alt={ `${ integration.name } logo` } className={ `${ getIsCardActive( integration, isActive ) ? "" : "yst-opacity-50 yst-filter yst-grayscale" }` } /> }
+				{ integration.logo && <IntegrationLogo alt={ `${ integration.name } logo` } className={ `${ isPrerequisiteActive && getIsCardActive( integration, isActive ) ? "" : "yst-opacity-50 yst-filter yst-grayscale" }` } /> }
 				{ ( ! isNetworkControlEnabled && isMultisiteAvailable ) && <Badge className="yst-absolute yst-top-2 yst-right-2">{ __( "Network Disabled", "wordpress-seo" ) }</Badge> }
 				{ ( isNetworkControlEnabled && integration.isNew ) && <Badge className="yst-absolute yst-top-2 yst-right-2">{ __( "New", "wordpress-seo" ) }</Badge> }
 			</Card.Header>
 			<Card.Content>
-				<div className={ `${ ( getIsCardActive( integration, isActive ) ) ? "" : "yst-opacity-50  yst-filter yst-grayscale" }` }>
+				<div className={ `${ ( isPrerequisiteActive && getIsCardActive( integration, isActive ) ) ? "" : "yst-opacity-50  yst-filter yst-grayscale" }` }>
 					<h4 className="yst-flex yst-items-center yst-text-base yst-mb-3 yst-font-medium yst-text-[#111827] yst-leading-tight">
 						<span>{ integration.claim && integration.claim }</span>
 					</h4>
 					<p> { integration.description }
 						{ integration.learnMoreLink && <Link
 							href={ integration.learnMoreLink }
-							className={ classNames( "yst-flex yst-items-center yst-mt-3 yst-no-underline yst-font-medium", ( getIsCardActive( integration, isActive ) ) ? "" : "yst-pointer-events-none" ) }
+							className={ classNames( "yst-flex yst-items-center yst-mt-3 yst-no-underline yst-font-medium", ( isPrerequisiteActive && getIsCardActive( integration, isActive ) ) ? "" : "yst-pointer-events-none" ) }
 							target="_blank"
 						>
 							Learn more
