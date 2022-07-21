@@ -25,7 +25,7 @@ export default class ProductSKUAssessment extends Assessment {
 			},
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/4lw" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/4lx" ),
-			assessVariants: true,
+			assessVariants: false,
 		};
 
 		this.identifier = "productSKU";
@@ -61,7 +61,7 @@ export default class ProductSKUAssessment extends Assessment {
 	 * @returns {Boolean} Always returns false.
 	 */
 	isApplicable() {
-		return false;
+		return this._config.assessVariants;
 	}
 
 	/**
