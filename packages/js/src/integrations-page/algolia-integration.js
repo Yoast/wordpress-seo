@@ -3,7 +3,6 @@ import { Card } from "./tailwind-components/card";
 import { getIsCardActive, getIsFreeIntegrationOrPremiumAvailable, getIsMultisiteAvailable } from "./helper";
 import { Badge, Button, Link, ToggleField } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
-import classNames from "classnames";
 import { ArrowSmRightIcon, XIcon } from "@heroicons/react/solid";
 import { LockOpenIcon } from "@heroicons/react/outline";
 import { PropTypes } from "prop-types";
@@ -66,14 +65,14 @@ export const AlgoliaIntegration = ( {
 				{ ( isNetworkControlEnabled && integration.isNew ) && <Badge className="yst-absolute yst-top-2 yst-right-2">{ __( "New", "wordpress-seo" ) }</Badge> }
 			</Card.Header>
 			<Card.Content>
-				<div className={ `${ ( isPrerequisiteActive && getIsCardActive( integration, isActive ) ) ? "" : "yst-opacity-50  yst-filter yst-grayscale" }` }>
+				<div>
 					<h4 className="yst-flex yst-items-center yst-text-base yst-mb-3 yst-font-medium yst-text-[#111827] yst-leading-tight">
 						<span>{ integration.claim && integration.claim }</span>
 					</h4>
 					<p> { integration.description }
 						{ integration.learnMoreLink && <Link
 							href={ integration.learnMoreLink }
-							className={ classNames( "yst-flex yst-items-center yst-mt-3 yst-no-underline yst-font-medium", ( isPrerequisiteActive && getIsCardActive( integration, isActive ) ) ? "" : "yst-pointer-events-none" ) }
+							className="yst-flex yst-items-center yst-mt-3 yst-no-underline yst-font-medium"
 							target="_blank"
 						>
 							Learn more

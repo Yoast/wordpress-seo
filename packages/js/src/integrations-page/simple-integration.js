@@ -24,7 +24,7 @@ export const SimpleIntegration = ( { integration, isActive, children } ) => {
 				{ ( integration.isNew ) && <Badge className="yst-absolute yst-top-2 yst-right-2">{ __( "New", "wordpress-seo" ) }</Badge> }
 			</Card.Header>
 			<Card.Content>
-				<div className={ `${ isActive ? "" : "yst-opacity-50  yst-filter yst-grayscale" }` }>
+				<div>
 					<h4 className="yst-flex yst-items-center yst-text-base yst-mb-3 yst-font-medium yst-text-[#111827] yst-leading-tight">
 						<span>{ integration.claim }</span>
 					</h4>
