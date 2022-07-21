@@ -9,8 +9,6 @@ const estimatedReadingTimeRegex = new RegExp( "(<p class='yoast-reading-time__wr
  * @returns {String} The text without table of contents.
  */
 export default function excludeEstimatedReadingTime( text ) {
-	console.log( text );
 	text = text.replace( estimatedReadingTimeRegex, "" );
-	console.log( text );
 	return text.trim();
 }
