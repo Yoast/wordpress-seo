@@ -269,6 +269,10 @@
 /*
  * Custom styles.
  */
+.fieldset-switch-toggle {
+	width: 320px;
+}
+
 .fieldset-switch-toggle label {
 	float: none;
 }
