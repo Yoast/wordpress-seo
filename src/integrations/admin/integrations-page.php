@@ -120,7 +120,7 @@ class Integrations_Page implements Integration_Interface {
 	public function render_target() {
 		?>
 		<div class="wrap yoast wpseo-admin-page page-wpseo">
-			<h1><?php \esc_html_e( 'Integrations', 'wordpress-seo' ); ?></h1>
+			<div class="wp-header-end" style="height: 0; width: 0;"></div>
 			<div id="wpseo-integrations"></div>
 		</div>
 		<?php
