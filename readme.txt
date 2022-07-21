@@ -244,6 +244,7 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 Release Date: July 26th, 2022
 
 
+
 Enhancements:
 
 * Allows marking inside of Classic editor blocks in the Block/Gutenberg editor.
