@@ -210,6 +210,7 @@ class SeoAnalysis extends Component {
 				score: 0,
 				rating: "upsell",
 				hasMarks: false,
+				hasJumps: false,
 				id: "keyphraseDistribution",
 				text: keyphraseDistributionUpsellText,
 				markerId: "keyphraseDistribution",
@@ -264,7 +265,9 @@ class SeoAnalysis extends Component {
 									results={ this.props.results }
 									upsellResults={ upsellResults }
 									marksButtonClassName="yoast-tooltip yoast-tooltip-w"
+									editButtonClassName="yoast-tooltip yoast-tooltip-w"
 									marksButtonStatus={ this.props.marksButtonStatus }
+									location={ location }
 								/>
 							</Collapsible>
 							{ this.renderTabIcon( location, score.className ) }

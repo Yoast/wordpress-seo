@@ -8,6 +8,8 @@ const problemsResults = [
 		id: "1",
 		rating: "bad",
 		hasMarks: true,
+		hasJumps: true,
+		editFieldName: "some field",
 	},
 ];
 
@@ -17,12 +19,16 @@ const goodResults = [
 		id: "2",
 		rating: "good",
 		hasMarks: false,
+		hasJumps: false,
+		editFieldName: "",
 	},
 	{
 		text: "Woohoo!",
 		id: "3",
 		rating: "good",
 		hasMarks: true,
+		hasJumps: false,
+		editFieldName: "",
 	},
 ];
 
@@ -32,6 +38,8 @@ const improvementsResults = [
 		id: "4",
 		rating: "OK",
 		hasMarks: false,
+		hasJumps: false,
+		editFieldName: "",
 	},
 ];
 
@@ -41,6 +49,8 @@ const errorsResults = [
 		id: "5",
 		rating: "feedback",
 		hasMarks: false,
+		hasJumps: false,
+		editFieldName: "",
 	},
 ];
 
@@ -50,6 +60,8 @@ const considerationsResults = [
 		id: "6",
 		rating: "feedback",
 		hasMarks: false,
+		hasJumps: false,
+		editFieldName: "",
 	},
 ];
 
@@ -59,6 +71,8 @@ const upsellResults = [
 		id: "7",
 		rating: "upsell",
 		hasMarks: false,
+		hasJumps: false,
+		editFieldName: "",
 	},
 ];
 

@@ -462,8 +462,7 @@
 		margin: 0 0 0.8em 0;
 	}
 
-	.switch-container .clear {
-		clear: both;
+	.switch-container.premium-upsell .clear {
 		display: none;
 	}
 

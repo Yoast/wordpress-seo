@@ -26,27 +26,6 @@ class Integrations_Action {
 	}
 
 	/**
-	 * Checks if the current user has the capability a specific user.
-	 *
-	 * @param int $user_id The id of the user to be edited.
-	 *
-	 * @return object The response object.
-	 */
-	public function check_capability( $user_id ) {
-		if ( $this->social_profiles_helper->can_edit_profile( $user_id ) ) {
-			return (object) [
-				'success' => true,
-				'status'  => 200,
-			];
-		}
-
-		return (object) [
-			'success' => false,
-			'status'  => 403,
-		];
-	}
-
-	/**
 	 * Sets an integration state.
 	 *
 	 * @param string $integration_name The name of the integration to activate/deactivate.
