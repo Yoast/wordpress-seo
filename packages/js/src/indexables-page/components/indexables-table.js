@@ -122,7 +122,7 @@ function IndexablesTable( { indexables, keyHeaderMap, type, addToIgnoreList } ) 
 										indexable={ indexable }
 										keyHeaderMap={ keyHeaderMap }
 										type={ type }
-										addToIgnoreList= { addToIgnoreList }
+										addToIgnoreList={ addToIgnoreList }
 									/>;
 								} )
 						}
