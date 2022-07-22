@@ -1,4 +1,4 @@
-const estimatedReadingTimeRegex = new RegExp( "<p class='yoast-reading-time__wrapper'>.*?</p>", "igs" );
+const estimatedReadingTimeRegex = new RegExp( "<p class='yoast-reading-time__wrapper.*?</p>", "igs" );
 
 /**
  * Excludes table of contents from text.
