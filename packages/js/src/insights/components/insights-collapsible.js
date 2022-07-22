@@ -15,6 +15,7 @@ import TextFormality from "./text-formality";
  */
 const InsightsCollapsible = ( { location } ) => {
 	const isFleschReadingEaseAvailable = useSelect( select => select( "yoast-seo/editor" ).isFleschReadingEaseAvailable(), [] );
+	const isTextFormalityAvailable = useSelect( select => select( "yoast-seo/editor" ).isTextFormalityAvailable(), [] );
 
 	return (
 		<MetaboxCollapsible
@@ -31,9 +32,9 @@ const InsightsCollapsible = ( { location } ) => {
 					<EstimatedReadingTime />
 					<TextLength />
 				</div>
-				<div>
+				{ isTextFormalityAvailable && <div>
 					<TextFormality />
-				</div>
+				</div> }
 			</div>
 		</MetaboxCollapsible>
 	);

@@ -16,6 +16,7 @@ import TextFormality from "./text-formality";
 const InsightsModal = ( { location } ) => {
 	const isElementorEditor = useSelect( select => select( "yoast-seo/editor" ).getIsElementorEditor(), [] );
 	const isFleschReadingEaseAvailable = useSelect( select => select( "yoast-seo/editor" ).isFleschReadingEaseAvailable(), [] );
+	const isTextFormalityAvailable = useSelect( select => select( "yoast-seo/editor" ).isTextFormalityAvailable(), [] );
 
 	return (
 		<EditorModal
@@ -34,9 +35,9 @@ const InsightsModal = ( { location } ) => {
 						<EstimatedReadingTime />
 						<TextLength />
 					</div>
-					<div>
+					{ isTextFormalityAvailable && <div>
 						<TextFormality />
-					</div>
+					</div> }
 				</div>
 			</div>
 		</EditorModal>
