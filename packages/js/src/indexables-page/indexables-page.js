@@ -90,6 +90,7 @@ function IndexablesPage() {
 		const id = ignored.indexable.id;
 		const type = ignored.type;
 		const indexable = ignored.indexable;
+		const position = ignored.position;
 
 		try {
 			const response = await apiFetch( {
@@ -102,7 +103,13 @@ function IndexablesPage() {
 			if ( parsedResponse.success ) {
 				switch ( type ) {
 					case "least_readability":
-						setWorstReadabilityIndexables( prevState => [ indexable, ...prevState ] );
+						setWorstReadabilityIndexables( prevState =>
+							[
+								...prevState.splice( 0, position ),
+								indexable,
+								...prevState.splice( position, worstReadabilityIndexables.length ),
+							]
+							);
 						break;
 					case "least_seo_score":
 						setWorstSEOIndexables( prevState => [ indexable, ...prevState ] );
@@ -123,7 +130,7 @@ function IndexablesPage() {
 			console.error( error.message );
 			return false;
 		}
-	}, [ apiFetch, setWorstReadabilityIndexables, setWorstSEOIndexables, setMostLinkedIndexables, setLeastLinkedIndexables, setIgnoreIndexable ] );
+	}, [ apiFetch, setWorstReadabilityIndexables, setWorstSEOIndexables, setMostLinkedIndexables, setLeastLinkedIndexables, setIgnoreIndexable, worstReadabilityIndexables ] );
 
 	const onClickUndo = useCallback( ( ignored ) => {
 		return () => handleUndo( ignored );

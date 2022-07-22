@@ -33,7 +33,7 @@ function PlaceholderRows( { columnCount } ) {
 
  * @returns {WPElement} A table with the indexables.
  */
-const IndexableRow = ( { indexable, keyHeaderMap, type, addToIgnoreList } ) => {
+const IndexableRow = ( { indexable, keyHeaderMap, type, addToIgnoreList, position } ) => {
 	const handleIgnore =  useCallback( async( e ) => {
 		const id = e.currentTarget.dataset.indexableid;
 		const indexableType = e.currentTarget.dataset.indexabletype;
@@ -46,7 +46,7 @@ const IndexableRow = ( { indexable, keyHeaderMap, type, addToIgnoreList } ) => {
 
 			const parsedResponse = await response.json;
 			if ( parsedResponse.success ) {
-				addToIgnoreList( { indexable: indexable, type: indexableType } );
+				addToIgnoreList( { indexable: indexable, type: indexableType, position: position } );
 				return true;
 			}
 			return false;
@@ -85,6 +85,7 @@ IndexableRow.propTypes = {
 	keyHeaderMap: PropTypes.object,
 	type: PropTypes.string,
 	addToIgnoreList: PropTypes.func,
+	position: PropTypes.number,
 };
 
 /**
@@ -121,13 +122,14 @@ function IndexablesTable( { indexables, keyHeaderMap, type, addToIgnoreList } ) 
 						{
 							isLoading
 								? <PlaceholderRows columnCount={ Object.keys( keyHeaderMap ).length } />
-								: indexables.slice( 0, 5 ).map( ( indexable ) => {
+								: indexables.slice( 0, 5 ).map( ( indexable, index ) => {
 									return <IndexableRow
 										key={ `indexable-${ indexable.id }-row` }
 										indexable={ indexable }
 										keyHeaderMap={ keyHeaderMap }
 										type={ type }
 										addToIgnoreList={ addToIgnoreList }
+										position={ index }
 									/>;
 								} )
 						}
