@@ -195,7 +195,7 @@ class Indexables_Route implements Route_Interface {
 			->where_not_in( 'id', $ignore_list )
 			->where_not_equal( 'readability_score', 0 )
 			->order_by_asc( 'readability_score' )
-			->limit( 5 )
+			->limit( 100 )
 			->find_many();
 
 		$least_readable = \array_map( [ $this->indexable_repository, 'ensure_permalink' ], $least_readable );
@@ -226,7 +226,7 @@ class Indexables_Route implements Route_Interface {
 			->where_not_in( 'id', $ignore_list )
 			->where_not_equal( 'primary_focus_keyword', 0 )
 			->order_by_asc( 'primary_focus_keyword_score' )
-			->limit( 5 )
+			->limit( 100 )
 			->find_many();
 
 		$least_seo_score = \array_map( [ $this->indexable_repository, 'ensure_permalink' ], $least_seo_score );
@@ -258,7 +258,7 @@ class Indexables_Route implements Route_Interface {
 			->where_in( 'object_type', [ 'post' ] )
 			->where_not_in( 'id', $ignore_list )
 			->order_by_desc( 'incoming_link_count' )
-			->limit( 5 )
+			->limit( 100 )
 			->find_many();
 		$most_linked = \array_map( [ $this->indexable_repository, 'ensure_permalink' ], $most_linked );
 
@@ -287,7 +287,7 @@ class Indexables_Route implements Route_Interface {
 			->where_in( 'object_type', [ 'post' ] )
 			->where_not_in( 'id', $ignore_list )
 			->order_by_asc( 'incoming_link_count' )
-			->limit( 5 )
+			->limit( 100 )
 			->find_many();
 		$least_linked = \array_map( [ $this->indexable_repository, 'ensure_permalink' ], $least_linked );
 		$least_linked = \array_map(

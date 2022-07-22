@@ -46,7 +46,7 @@ const IndexableRow = ( { indexable, keyHeaderMap, type, addToIgnoreList } ) => {
 
 			const parsedResponse = await response.json;
 			if ( parsedResponse.success ) {
-				addToIgnoreList( { id: id, type: indexableType } );
+				addToIgnoreList( { indexable: indexable, type: indexableType } );
 				return true;
 			}
 			return false;
@@ -55,7 +55,7 @@ const IndexableRow = ( { indexable, keyHeaderMap, type, addToIgnoreList } ) => {
 			console.error( error.message );
 			return false;
 		}
-	}, [ apiFetch ] );
+	}, [ apiFetch, addToIgnoreList ] );
 
 	return <Table.Row
 		key={ `indexable-${ indexable.id }-row` }
@@ -121,7 +121,7 @@ function IndexablesTable( { indexables, keyHeaderMap, type, addToIgnoreList } ) 
 						{
 							isLoading
 								? <PlaceholderRows columnCount={ Object.keys( keyHeaderMap ).length } />
-								: indexables.map( ( indexable ) => {
+								: indexables.slice( 0, 5 ).map( ( indexable ) => {
 									return <IndexableRow
 										key={ `indexable-${ indexable.id }-row` }
 										indexable={ indexable }
