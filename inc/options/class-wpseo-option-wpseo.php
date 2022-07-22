@@ -121,7 +121,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'search_cleanup_emoji'                     => false,
 		'search_cleanup_patterns'                  => false,
 		'search_character_limit'                   => 50,
-		'least_readability_score_ignore_list'      => [],
+		'least_readability_ignore_list'            => [],
 		'least_seo_score_ignore_list'              => [],
 	];
 
@@ -386,7 +386,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'wincher_tokens':
 				case 'workouts_data':
 				case 'configuration_finished_steps':
-				case 'least_readability_score_ignore_list':
+				case 'least_readability_ignore_list':
 				case 'least_seo_score_ignore_list':
 					$clean[ $key ] = $old[ $key ];
 

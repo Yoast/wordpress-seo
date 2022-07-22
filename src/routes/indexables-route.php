@@ -151,7 +151,7 @@ class Indexables_Route implements Route_Interface {
 	 */
 	public function get_least_readable() {
 		// where_not_equal needs the set to check against not to be empty
-		$ignore_list = empty( $this->options_helper->get( 'least_readability_score_ignore_list', [] ) ) ? [ -1 ] : $this->options_helper->get( 'least_readability_score_ignore_list', [] );
+		$ignore_list = empty( $this->options_helper->get( 'least_readability_ignore_list', [] ) ) ? [ -1 ] : $this->options_helper->get( 'least_readability_ignore_list', [] );
 
 		// @TODO: Improve query.
 		$least_readable = $this->indexable_repository->query()
@@ -170,7 +170,7 @@ class Indexables_Route implements Route_Interface {
 		return new WP_REST_Response(
 			[
 				'json' => [
-					'least_readable' => $least_readable,
+					'list' => $least_readable,
 				],
 			]
 		);
@@ -202,7 +202,7 @@ class Indexables_Route implements Route_Interface {
 		return new WP_REST_Response(
 			[
 				'json' => [
-					'least_seo_score' => $least_seo_score,
+					'list' => $least_seo_score,
 				],
 			]
 		);
