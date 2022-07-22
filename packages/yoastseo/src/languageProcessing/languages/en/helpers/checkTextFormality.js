@@ -8,9 +8,13 @@ const formalPronouns = [ "we", "they",   "their", "theirs", "themselves", "us", 
  * Calculates the average length of units in an array.
  *
  * @param {Array} array     The array to calculate.
- * @returns {number} The total length of a units in the array.
+ * @returns {number} The total length of a units in the array. If the array is empty, returns 0.
  */
 function calculateTotalLength( array ) {
+	if ( array.length === 0 ) {
+		return 0;
+	}
+
 	return array.map( unit => unit.length ).reduce( ( a, b ) => a + b );
 }
 
@@ -65,7 +69,6 @@ export default function( paper, researcher ) {
 				if ( averageSentenceLength <= 169.375 ) {
 					return "Formal";
 				}
-				return "Informal";
 			}
 			return "Informal";
 		}
@@ -84,7 +87,6 @@ export default function( paper, researcher ) {
 		if ( averageFormalPronouns <= 0.024 ) {
 			return "Informal";
 		}
-		return "Formal";
 	}
 	return "Formal";
 }
