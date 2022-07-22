@@ -85,7 +85,7 @@ function IndexablesTable( { indexables, keyHeaderMap, type } ) {
 												if ( key === "edit" ) {
 													return <Table.Cell key="edit">
 														<Link
-															href={ '/wp-admin/post.php?action=edit&post=' + indexable.object_id }
+															href={ "/wp-admin/post.php?action=edit&post=" + indexable.object_id }
 															className="yst-button yst-button--secondary yst-text-gray-500"
 														>Edit</Link>
 													</Table.Cell>;
