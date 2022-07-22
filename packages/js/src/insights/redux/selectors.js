@@ -55,3 +55,14 @@ export const getTextLength = state => get( state, "insights.textLength", {} );
  * @returns {string} The formality level of the text, either "formal" or "informal".
  */
 export const getTextFormalityLevel = state => get( state, "insights.textFormalityLevel", "" );
+
+/**
+ * Checks if text formality is available.
+ *
+ * @param {Object} state The state.
+ *
+ * @returns {boolean} Whether the text formality is available.
+ */
+export const isTextFormalityAvailable = state => {
+	return getTextFormalityLevel( state ) !== "";
+};
