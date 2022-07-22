@@ -30,14 +30,13 @@ function getPronouns( wordsArray, pronouns ) {
 }
 
 /**
- * Checks if a text is formal or informal.
+ * Gets all the required features for the calculation of the formality level of the text.
  *
  * @param {Object} paper        The paper to analyze.
  * @param {Object} researcher   The researcher object.
- *
- * @returns {string} The string "Formal" if the text is formal, and the string "Informal" if the text is informal.
+ * @returns {Object} The object containing the features needed for the calculation of the formality level of the text.
  */
-export default function( paper, researcher ) {
+function getRequiredFeatures( paper, researcher ) {
 	const passiveSentences = researcher.getResearch( "getPassiveVoiceResult" ).passives;
 	const text = paper.getText();
 	const sentences = getSentences( text );
@@ -63,6 +62,35 @@ export default function( paper, researcher ) {
 	// 5.
 	// Calculate the average number of informal pronouns = the number of occurrences of informal pronouns / the total number of words in the text.
 	const averageInformalPronouns = getPronouns( words, informalPronouns ).length / words.length;
+
+	return {
+		averageSentenceLength,
+		averageWordLengthPerSentence,
+		averageWordLength,
+		averagePassives,
+		averageFormalPronouns,
+		averageInformalPronouns,
+	};
+}
+
+/**
+ * Checks if a text is formal or informal.
+ *
+ * @param {Object} paper        The paper to analyze.
+ * @param {Object} researcher   The researcher object.
+ *
+ * @returns {string} The string "Formal" if the text is formal, and the string "Informal" if the text is informal.
+ */
+export default function( paper, researcher ) {
+	const {
+		averageSentenceLength,
+		averageWordLengthPerSentence,
+		averageWordLength,
+		averagePassives,
+		averageFormalPronouns,
+		averageInformalPronouns,
+	} = getRequiredFeatures( paper, researcher );
+
 	if ( averageWordLength <= 5.948 ) {
 		if ( averageInformalPronouns <= 0.029 ) {
 			if ( averageWordLengthPerSentence <= 31.439 ) {
