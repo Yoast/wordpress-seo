@@ -41,6 +41,7 @@ const reducer = ( state = INITIAL_STATE, { type, payload } ) => {
 			};
 		case SET_TEXT_FORMALITY_LEVEL:
 			return {
+				...state,
 				textFormalityLevel: payload,
 			};
 		default:
