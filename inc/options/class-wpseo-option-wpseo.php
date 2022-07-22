@@ -123,6 +123,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'search_character_limit'                   => 50,
 		'least_readability_ignore_list'            => [],
 		'least_seo_score_ignore_list'              => [],
+		'most_linked_ignore_list'                  => [],
+		'least_linked_ignore_list'                 => [],
 	];
 
 	/**
@@ -388,6 +390,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'configuration_finished_steps':
 				case 'least_readability_ignore_list':
 				case 'least_seo_score_ignore_list':
+				case 'most_linked_ignore_list':
+				case 'least_linked_ignore_list':
 					$clean[ $key ] = $old[ $key ];
 
 					if ( isset( $dirty[ $key ] ) ) {

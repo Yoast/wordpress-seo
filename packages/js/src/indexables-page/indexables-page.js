@@ -54,6 +54,10 @@ function IndexablesPage() {
 				return fetchList( "least_readability", setWorstReadabilityIndexables );
 			case "least_seo_score":
 				return fetchList( "least_seo_score", setWorstSEOIndexables );
+			case "most_linked":
+				return fetchList( "most_linked", setMostLinkedIndexables );
+			case "least_linked":
+				return fetchList( "least_linked", setLeastLinkedIndexables );
 			default:
 				return false;
 		}
@@ -98,44 +102,18 @@ function IndexablesPage() {
 	}, [ ignoreIndexable ] );
 
 	useEffect( async() => {
-		try {
-			const response = await apiFetch( {
-				path: "yoast/v1/most_linked",
-				method: "GET",
-			} );
-
-			const parsedResponse = await response.json;
-			setMostLinkedIndexables( parsedResponse.most_linked );
-		} catch ( e ) {
-			// URL() constructor throws a TypeError exception if url is malformed.
-			console.error( e.message );
-			return false;
-		}
-	}, [] );
+		updateList( "most_linked" );
+	}, [ ] );
 
 	useEffect( async() => {
-		try {
-			const response = await apiFetch( {
-				path: "yoast/v1/least_linked",
-				method: "GET",
-			} );
-
-			const parsedResponse = await response.json;
-			/* eslint-disable-next-line camelcase */
-			const least_linked = JSON.stringify( parsedResponse.least_linked, ( key, value ) =>  ( key === "incoming_link_count" && value === null ) ? "0" : value );
-			setLeastLinkedIndexables( JSON.parse( least_linked ) );
-		} catch ( e ) {
-			// URL() constructor throws a TypeError exception if url is malformed.
-			console.error( e.message );
-			return false;
-		}
+		updateList( "least_linked" );
 	}, [] );
 
 	return <div
 		className="yst-bg-white yst-rounded-lg yst-p-6 yst-shadow-md yst-max-w-full yst-mt-6"
 	>
 
-		{ ignoreIndexable && <Alert><Button onClick={ handleUndo } data-id={ignoreIndexable.id} data-type={ignoreIndexable.type}>{ `Ignore ${ignoreIndexable.id}` }</Button></Alert> }
+		{ ignoreIndexable && <Alert><Button onClick={ handleUndo } data-id={ ignoreIndexable.id } data-type={ ignoreIndexable.type }>{ `Ignore ${ignoreIndexable.id}` }</Button></Alert> }
 		<header className="yst-border-b yst-border-gray-200"><div className="yst-max-w-screen-sm yst-p-8"><h2 className="yst-text-2xl yst-font-bold">{ __( "Indexables page", "wordpress-seo" ) }</h2></div></header>
 		<h3 className="yst-my-4 yst-text-xl">{ __( "Least Readability Score", "wordpress-seo" ) }</h3>
 		<IndexablesTable
@@ -183,6 +161,7 @@ function IndexablesPage() {
 				}
 			}
 			type="least_linked"
+			addToIgnoreList={ setIgnoreIndexable }
 		/>
 		<h3 className="yst-my-4 yst-text-xl">{ __( "Most Linked", "wordpress-seo" ) }</h3>
 		<IndexablesTable
@@ -198,6 +177,7 @@ function IndexablesPage() {
 				}
 			}
 			type="most_linked"
+			addToIgnoreList={ setIgnoreIndexable }
 		/>
 
 	</div>;

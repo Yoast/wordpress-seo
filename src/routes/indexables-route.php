@@ -184,7 +184,7 @@ class Indexables_Route implements Route_Interface {
 	 * @return WP_REST_Response The posts with the smallest readability scores.
 	 */
 	public function get_least_readable() {
-		// where_not_equal needs the set to check against not to be empty
+		// where_not_equal needs the set to check against not to be empty.
 		$ignore_list = empty( $this->options_helper->get( 'least_readability_ignore_list', [] ) ) ? [ -1 ] : $this->options_helper->get( 'least_readability_ignore_list', [] );
 
 		// @TODO: Improve query.
@@ -215,7 +215,7 @@ class Indexables_Route implements Route_Interface {
 	 * @return WP_REST_Response The posts with the smallest readability scores.
 	 */
 	public function get_least_seo_score() {
-		// where_not_equal needs the set to check against not to be empty
+		// where_not_equal needs the set to check against not to be empty.
 		$ignore_list = empty( $this->options_helper->get( 'least_seo_score_ignore_list', [] ) ) ? [ -1 ] : $this->options_helper->get( 'least_seo_score_ignore_list', [] );
 
 		// @TODO: Improve query.
@@ -246,6 +246,9 @@ class Indexables_Route implements Route_Interface {
 	 * @return WP_REST_Response The most linked posts.
 	 */
 	public function get_most_linked() {
+		// where_not_equal needs the set to check against not to be empty.
+		$ignore_list = empty( $this->options_helper->get( 'most_linked_ignore_list', [] ) ) ? [ -1 ] : $this->options_helper->get( 'most_linked_ignore_list', [] );
+
 		// @TODO: Improve query.
 		$most_linked = $this->indexable_repository->query()
 			->where_gt( 'incoming_link_count', 0 )
@@ -253,6 +256,7 @@ class Indexables_Route implements Route_Interface {
 			->where_raw( '( post_status = \'publish\' OR post_status IS NULL )' )
 			->where_in( 'object_sub_type', $this->get_public_sub_types() )
 			->where_in( 'object_type', [ 'post' ] )
+			->where_not_in( 'id', $ignore_list )
 			->order_by_desc( 'incoming_link_count' )
 			->limit( 5 )
 			->find_many();
@@ -261,7 +265,7 @@ class Indexables_Route implements Route_Interface {
 		return new WP_REST_Response(
 			[
 				'json' => [
-					'most_linked' => $most_linked,
+					'list' => $most_linked,
 				],
 			]
 		);
@@ -273,20 +277,34 @@ class Indexables_Route implements Route_Interface {
 	 * @return WP_REST_Response The most linked posts.
 	 */
 	public function get_least_linked() {
+		// where_not_equal needs the set to check against not to be empty.
+		$ignore_list = empty( $this->options_helper->get( 'least_linked_ignore_list', [] ) ) ? [ -1 ] : $this->options_helper->get( 'least_linked_ignore_list', [] );
+
 		// @TODO: Improve query.
 		$least_linked = $this->indexable_repository->query()
 			->where_raw( '( post_status = \'publish\' OR post_status IS NULL )' )
 			->where_in( 'object_sub_type', $this->get_public_sub_types() )
 			->where_in( 'object_type', [ 'post' ] )
+			->where_not_in( 'id', $ignore_list )
 			->order_by_asc( 'incoming_link_count' )
 			->limit( 5 )
 			->find_many();
 		$least_linked = \array_map( [ $this->indexable_repository, 'ensure_permalink' ], $least_linked );
+		$least_linked = \array_map(
+			function ( $indexable ) {
+				$output = $indexable;
+				if ( $indexable->incoming_link_count === null ) {
+					$output->incoming_link_count = 0;
+				}
+				return $output;
+			},
+			$least_linked
+		);
 
 		return new WP_REST_Response(
 			[
 				'json' => [
-					'least_linked' => $least_linked,
+					'list' => $least_linked,
 				],
 			]
 		);
