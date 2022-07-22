@@ -3,7 +3,6 @@ import { PropTypes } from "prop-types";
 
 import { Title  } from "@yoast/ui-library";
 import { getInitialState, getIsNetworkControlEnabled, updateIntegrationState, getIsMultisiteAvailable } from "./helper";
-import { ReactComponent as AcfLogo } from "../../images/acf-logo.svg";
 import { ReactComponent as AlgoliaLogo } from "../../images/algolia-logo.svg";
 import { ReactComponent as ElementorLogo } from "../../images/elementor-logo.svg";
 import { ReactComponent as JetpackLogo } from "../../images/jetpack-logo.svg";
@@ -24,6 +23,7 @@ const SEOTools = [
 		name: "Semrush",
 		claim: __( "Rank for the words your audience uses", "wordpress-seo" ),
 		learnMoreLink: "https://yoa.st/integrations-about-semrush",
+		logoLink: "http://yoa.st/semrush-prices-wordpress",
 		type: "toggleable",
 		slug: "semrush",
 		description: __( "Quickly discover relevant keyphrases that can make your content easy to find!", "wordpress-seo" ),
@@ -36,6 +36,7 @@ const SEOTools = [
 		name: "Wincher",
 		claim: __( "Use data to improve your rankings", "wordpress-seo" ),
 		learnMoreLink: "https://yoa.st/integrations-about-wincher",
+		logoLink: "https://yoa.st/integrations-about-wincher",
 		type: "toggleable",
 		slug: "wincher",
 		description: __( "Track how your content ranks so you can make informed improvements to increase your rankings!", "wordpress-seo" ),
@@ -48,6 +49,7 @@ const SEOTools = [
 		name: "WordProof",
 		claim: __( "Put a stamp of trust on your content", "wordpress-seo" ),
 		learnMoreLink: "https://yoa.st/integrations-about-wordproof",
+		logoLink: "https://yoa.st/integrations-about-wordproof",
 		type: "toggleable",
 		slug: "wordproof",
 		description: __( "Add trustworthiness to your Privacy Policy and Terms of Conditions pages!", "wordpress-seo" ),
@@ -61,6 +63,7 @@ const SEOTools = [
 		name: "Zapier",
 		claim: __( "Automate repetitive tasks and save time", "wordpress-seo" ),
 		learnMoreLink: "https://yoa.st/integrations-about-zapier",
+		logoLink: "https://yoa.st/integrations-about-zapier",
 		type: "toggleable",
 		slug: "zapier",
 		description: __( "Send tweets, trigger emails, and integrate with over 5,000 other apps & tools.", "wordpress-seo" ),
@@ -74,6 +77,7 @@ const SEOTools = [
 		name: "Ryte",
 		claim: __( "Ensure your site is findable", "wordpress-seo" ),
 		learnMoreLink: "https://yoa.st/integrations-about-ryte",
+		logoLink: "https://yoa.st/integrations-about-ryte",
 		type: "toggleable",
 		slug: "ryte",
 		description: sprintf(
@@ -97,6 +101,8 @@ const pluginIntegrations = [
 			__( "Build SEO-proof pages in %s", "wordpress-seo" ),
 			"Elementor"
 		),
+		learnMoreLink: "https://yoa.st/integrations-about-elementor",
+		logoLink: "https://yoa.st/integrations-about-elementor",
 		type: "plugin",
 		slug: "elementor",
 		description: sprintf(
@@ -116,6 +122,8 @@ const pluginIntegrations = [
 			__( "Upgrade the default Open Graph of %s", "wordpress-seo" ),
 			"Jetpack"
 		),
+		learnMoreLink: "https://yoa.st/integrations-about-jetpack",
+		logoLink: "https://yoa.st/integrations-about-jetpack",
 		type: "plugin",
 		slug: "jetpack",
 		description: sprintf(
@@ -131,6 +139,8 @@ const pluginIntegrations = [
 	{
 		name: "Algolia",
 		claim: __( "Improve internal search for better UX", "wordpress-seo" ),
+		learnMoreLink: "https://yoa.st/integrations-about-algolia",
+		logoLink: "https://yoa.st/integrations-about-algolia",
 		type: "algolia",
 		slug: "algolia",
 		description: __( "Have happy website visitors by helping them find what they need!", "wordpress-seo" ),
@@ -147,6 +157,8 @@ const pluginIntegrations = [
 			__( "Upgrade the default SEO output of %s", "wordpress-seo" ),
 			"WooCommerce"
 		),
+		learnMoreLink: "https://yoa.st/integrations-about-woocommerce",
+		logoLink: "https://yoa.st/integrations-about-woocommerce",
 		type: "woocommerce",
 		slug: "woocommerce",
 		description: __( "Improve the titles, meta descriptions, canonicals, and breadcrumbs of your shop pages.", "wordpress-seo" ),
@@ -160,14 +172,16 @@ const pluginIntegrations = [
 		name: "ACF",
 		claim: sprintf(
 			/* translators: 1: ACF */
-			__( "Analyse your %s content", "wordpress-seo" ),
+			__( "Get SEO feedback for your %s content", "wordpress-seo" ),
 			"ACF"
 		),
+		learnMoreLink: "https://yoa.st/integrations-about-acf",
+		logoLink: "https://yoa.st/integrations-about-acf",
 		type: "acf",
 		slug: "acf",
 		description: sprintf(
-			/* translators: 1: ACF, 2: Yoast SEO, 3: Yoast SEO, 4: ACF */
-			__( "%1$s Content Analysis for %2$s ensures that %3$s analyzes all %4$s content including Flexible Content and Repeaters.", "wordpress-seo" ),
+			/* translators: 1: ACF, 2: Yoast SEO */
+			__( "Write excellent SEO content in your %1$s custom fields, flexible content and repeaters with %2$s!", "wordpress-seo" ),
 			"ACF",
 			"Yoast SEO",
 			"Yoast SEO",
@@ -176,7 +190,6 @@ const pluginIntegrations = [
 		isPremium: false,
 		isNew: false,
 		isMultisiteAvailable: true,
-		logo: AcfLogo,
 	},
 ];
 
