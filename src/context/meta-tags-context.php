@@ -621,7 +621,10 @@ class Meta_Tags_Context extends Abstract_Presentation {
 			case is_search():
 			case is_date():
 			case is_post_type_archive():
-				return $this->get_singular_post_image( $GLOBALS['wp_query']->posts[0]->ID );
+				if ( ! empty( $GLOBALS['wp_query']->posts ) ) {
+					return $this->get_singular_post_image( $GLOBALS['wp_query']->posts[0]->ID );
+				}
+				return null;
 			default:
 				return null;
 		}
@@ -653,7 +656,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 *
 	 * @return false|int
 	 */
-	private function fallback_to_site_logo() {
+	public function fallback_to_site_logo() {
 		$logo_id = \get_option( 'site_logo' );
 		if ( ! $logo_id ) {
 			$logo_id = \get_theme_mod( 'custom_logo', false );

@@ -5,6 +5,8 @@
  * @package WPSEO
  */
 
+use Yoast\WP\SEO\Conditionals\Front_End_Inspector_Conditional;
+
 /**
  * Class for the Yoast SEO admin bar menu.
  */
@@ -96,7 +98,9 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 		}
 
 		$this->add_root_menu( $wp_admin_bar );
-		if ( ! is_admin() && YoastSEO()->helpers->product->is_premium() ) {
+
+		$front_end_inspector_conditional = new Front_End_Inspector_Conditional();
+		if ( ! is_admin() && YoastSEO()->helpers->product->is_premium() && $front_end_inspector_conditional->is_met() ) {
 			$this->add_frontend_inspector_submenu( $wp_admin_bar );
 		}
 		$this->add_keyword_research_submenu( $wp_admin_bar );

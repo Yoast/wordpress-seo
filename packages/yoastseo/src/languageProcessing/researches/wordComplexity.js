@@ -3,52 +3,19 @@ import getSentences from "../helpers/sentence/getSentences.js";
 import { flatMap } from "lodash-es";
 
 /**
- * Checks if a word is complex.
- *
- * @param {string} word     The word to check.
- * @param {object} config   The config to use.
- *
- * @returns {boolean}    Whether or not a word is complex.
- */
-const checkIfWordIsComplex = function( word, config ) {
-	const lengthLimit = config.wordLength;
-	const frequencyList = config.frequencyList;
-	// Whether uppercased beginning of a word decreases its complexity.
-	const doesUpperCaseDecreaseComplexity = config.doesUpperCaseDecreasesComplexity;
-
-	let isWordComplex = false;
-
-	/*
-	 * Check for each word whether it is a complex word or not.
-	 * A word is complex if:
-	 * its length is longer than the limit, AND
-	 * the word is not in the frequency list, AND
-	 * if the word does NOT start with a capital letter
-	 * (for languages that see long words to be less complex if they start with a capital letter)
-	 */
-	if ( word.length > lengthLimit && ! frequencyList.includes( word ) ) {
-		if ( doesUpperCaseDecreaseComplexity === true && word[ 0 ].toLowerCase() === word[ 0 ] ) {
-			isWordComplex = true;
-		}
-	}
-	return isWordComplex;
-};
-
-
-/**
  * Gets the complex word, along with the index for the sentence.
  *
  * @param {string} sentence  The sentence to get wordComplexity from.
- * @param {Object} config    The config to pass
+ * @param {function} complexWordsHelper A helper to check if a word is complex.
  *
  * @returns {Array} An array of complex word objects containing the  word, the index and the complexity of the word.
  */
-const getComplexWords = function( sentence, config ) {
+const getComplexWords = function( sentence, complexWordsHelper ) {
 	const words = getWords( sentence );
 	const results = [];
 
 	words.forEach( word => {
-		if ( checkIfWordIsComplex( word, config ) ) {
+		if ( complexWordsHelper( word ) ) {
 			results.push( word );
 		}
 	} );
@@ -91,7 +58,7 @@ const calculateComplexWordsPercentage = function( complexWordsResults, words ) {
  */
 export default function wordComplexity( paper, researcher ) {
 	const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
-	const wordComplexityConfig = researcher.getConfig( "wordComplexity" );
+	const wordComplexityConfig = researcher.getHelper( "checkIfWordIsComplex" );
 
 	const text = paper.getText();
 	const sentences = getSentences( text, memoizedTokenizer );

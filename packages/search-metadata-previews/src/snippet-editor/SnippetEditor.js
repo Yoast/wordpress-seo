@@ -125,6 +125,7 @@ class SnippetEditor extends React.Component {
 	 * @param {Object}   props.titleLengthProgress               The values for the title length assessment.
 	 * @param {Object}   props.descriptionLengthProgress         The values for the description length assessment.
 	 * @param {Function} props.mapEditorDataToPreview            Function to map the editor data to data for the preview.
+	 * @param {Function} props.applyReplacementVariables         Function that overrides default replacement variables application with a custom one.
 	 * @param {string}   props.locale                            The locale of the page.
 	 * @param {string}   props.mobileImageSrc                    Mobile Image source for snippet preview.
 	 * @param {bool}     props.hasPaperStyle                     Whether or not it has paper style.
@@ -248,6 +249,7 @@ class SnippetEditor extends React.Component {
 		const {
 			data,
 			descriptionEditorFieldPlaceholder,
+			onReplacementVariableSearchChange,
 			replacementVariables,
 			recommendedReplacementVariables,
 			hasPaperStyle,
@@ -270,6 +272,7 @@ class SnippetEditor extends React.Component {
 					onChange={ this.handleChange }
 					onFocus={ this.setFieldFocus }
 					onBlur={ this.unsetFieldFocus }
+					onReplacementVariableSearchChange={ onReplacementVariableSearchChange }
 					replacementVariables={ replacementVariables }
 					recommendedReplacementVariables={ recommendedReplacementVariables }
 					titleLengthProgress={ titleLengthProgress }
@@ -399,6 +402,10 @@ class SnippetEditor extends React.Component {
 	 * @returns {string} The processed content.
 	 */
 	processReplacementVariables( content, replacementVariables = this.props.replacementVariables ) {
+		if ( this.props.applyReplacementVariables ) {
+			return this.props.applyReplacementVariables( content );
+		}
+
 		for ( const { name, value } of replacementVariables ) {
 			content = content.replace( new RegExp( "%%" + name + "%%", "g" ), value );
 		}
@@ -584,6 +591,7 @@ class SnippetEditor extends React.Component {
 }
 
 SnippetEditor.propTypes = {
+	onReplacementVariableSearchChange: PropTypes.func,
 	replacementVariables: replacementVariablesShape,
 	recommendedReplacementVariables: recommendedReplacementVariablesShape,
 	data: PropTypes.shape( {
@@ -599,6 +607,7 @@ SnippetEditor.propTypes = {
 	onChangeAnalysisData: PropTypes.func,
 	titleLengthProgress: lengthProgressShape,
 	descriptionLengthProgress: lengthProgressShape,
+	applyReplacementVariables: PropTypes.func,
 	mapEditorDataToPreview: PropTypes.func,
 	keyword: PropTypes.string,
 	wordsToHighlight: PropTypes.array,
@@ -617,6 +626,7 @@ SnippetEditor.defaultProps = {
 	mode: DEFAULT_MODE,
 	date: "",
 	wordsToHighlight: [],
+	onReplacementVariableSearchChange: null,
 	replacementVariables: [],
 	recommendedReplacementVariables: [],
 	titleLengthProgress: {
@@ -629,6 +639,7 @@ SnippetEditor.defaultProps = {
 		actual: 0,
 		score: 0,
 	},
+	applyReplacementVariables: null,
 	mapEditorDataToPreview: null,
 	keyword: "",
 	locale: "en",

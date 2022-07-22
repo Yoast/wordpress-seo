@@ -79,7 +79,7 @@ class WPSEO_Language_Utils {
 			'URL'     => esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/3r3' ) ),
 			/* translators: 1: expands to a link opening tag; 2: expands to a link closing tag */
 			'message' => esc_html__(
-				'A company name and logo need to be set for structured data to work properly. %1$sLearn more about the importance of structured data.%2$s',
+				'A company name and logo need to be set for structured data to work properly. Since you haven’t set these yet, we are using the site name and logo as default values. %1$sLearn more about the importance of structured data.%2$s',
 				'wordpress-seo'
 			),
 		];

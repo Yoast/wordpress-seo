@@ -2,9 +2,11 @@ import apiFetch from "@wordpress/api-fetch";
 
 import PropTypes from "prop-types";
 
+import { makeOutboundLink } from "@yoast/helpers";
 import { Button, Table } from "@yoast/ui-library";
 import { useState, useEffect, useCallback } from "@wordpress/element";
 
+const Link = makeOutboundLink();
 /**
  * Renders placeholders rows while loading the indexables table.
  *
@@ -64,7 +66,10 @@ const IndexableRow = ( { indexable, keyHeaderMap, type, addToIgnoreList } ) => {
 					return <Table.Cell
 						key="edit"
 					>
-						<Button variant="secondary" data-id={ indexable.id }>Edit</Button>
+						<Link
+							href={ "/wp-admin/post.php?action=edit&post=" + indexable.object_id }
+							className="yst-button yst-button--secondary yst-text-gray-500"
+						>Edit</Link>
 					</Table.Cell>;
 				} else if ( key === "ignore" ) {
 					return <Table.Cell key="ignore"><Button variant="error" data-indexableid={ indexable.id } data-indexabletype={ type } onClick={ handleIgnore }>Ignore</Button></Table.Cell>;
@@ -85,8 +90,8 @@ IndexableRow.propTypes = {
 /**
  * A table with indexables.
  *
- * @param {array} indexables Theindexables.
- * @param {array} keyHeaderMap The key header map count.
+ * @param {array}  indexables Theindexables.
+ * @param {Object} keyHeaderMap The key header map count.
 
  * @returns {WPElement} A table with the indexables.
  */

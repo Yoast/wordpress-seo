@@ -22,10 +22,11 @@ export default class ProductIdentifiersAssessment extends Assessment {
 			scores: {
 				good: 9,
 				ok: 6,
+				invalidVariantData: 0,
 			},
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/4ly" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/4lz" ),
-			assessVariants: true,
+			assessVariants: false,
 			productIdentifierOrBarcode: {
 				lowercase: "product identifier",
 				uppercase: "",
@@ -63,12 +64,13 @@ export default class ProductIdentifiersAssessment extends Assessment {
 	}
 
 	/**
-	 * Makes the assessment temporarily not applicable, until we have access to the needed data from WooCommerce and Shopify.
+	 * Checks whether the assessment is applicable. Currently it is applicable when variants should be assessed (i.e.
+	 * in WooCommerce, but not in Shopify)
 	 *
-	 * @returns {Boolean} Always returns false.
+	 * @returns {Boolean} Whether the assessment is applicable.
 	 */
 	isApplicable() {
-		return false;
+		return this._config.assessVariants;
 	}
 
 	/**
@@ -81,6 +83,25 @@ export default class ProductIdentifiersAssessment extends Assessment {
 	 * 													or empty object if no score should be returned.
 	 */
 	scoreProductIdentifier( productIdentifierData, config ) {
+		// Return a grey bullet if the variant identifier data is not valid.
+		// This can currently occur in WooCommerce because we cannot know what kind of bulk action the user performed without them reloading the page.
+		if ( productIdentifierData.isVariantIdentifierDataValid === false  ) {
+			return {
+				score: config.scores.invalidVariantData,
+				text: sprintf(
+					/* Translators: %1$s expands to a link on yoast.com, %3$s expands to the anchor end tag,
+					* %2$s expands to the string "Barcode" or "Product identifier". */
+					__(
+						"%1$s%2$s%3$s: Please save and refresh the page to view the result for this assessment.",
+						"wordpress-seo"
+					),
+					this._config.urlTitle,
+					this._config.productIdentifierOrBarcode.uppercase,
+					"</a>"
+				),
+			};
+		}
+
 		// If a product has no variants, return orange bullet if it has no global identifier, and green bullet if it has one.
 		if ( ! productIdentifierData.hasVariants ) {
 			if ( ! productIdentifierData.hasGlobalIdentifier ) {
@@ -125,7 +146,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 			return {};
 		}
 
-		// If we want to assess variants, if product has variants and not all variants have an identifier, return orange bullet.
+		// If we want to assess variants, and if product has variants but not all variants have an identifier, return orange bullet.
 		// If all variants have an identifier, return green bullet.
 		if ( ! productIdentifierData.doAllVariantsHaveIdentifier ) {
 			return {
