@@ -13,7 +13,7 @@ import { SimpleIntegration } from "./simple-integration";
  *
  * @returns {WPElement} A card representing an integration.
  */
-const AcfLogo = (  props ) => {
+const AcfLogo = ( props ) => {
 	return (
 		<img
 			src={ window.wpseoIntegrationsData.plugin_url + "/images/acf-logo.png" }
