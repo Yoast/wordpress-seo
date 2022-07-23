@@ -12,6 +12,7 @@ import {
 	FormikValueChangeField,
 	FormLayout,
 } from "../../components";
+import FormikTagField from "../../components/formik-tag-field";
 import { useSelectSettings } from "../../store";
 
 /**
@@ -174,16 +175,14 @@ const PostType = ( { name, label, singularLabel, hasArchive } ) => {
 						label
 					) }
 				/>
-				{ isPremium && <Field
-					as={ TextField }
-					type="text"
+				{ isPremium && <FormikTagField
 					name={ `wpseo_titles.page-analyse-extra-${ name }` }
 					id={ `input-wpseo_titles-page-analyse-extra-${ name }` }
 					label={ __( "Add custom fields to page analysis", "wordpress-seo" ) }
 					labelSuffix={ <Badge className="yst-ml-1.5" variant="upsell">Premium</Badge> }
 					description={ addLinkToString(
 						sprintf(
-							__( "You can add multiple custom fields in a comma-separated list. %1$sRead more about our custom field analysis%2$s.", "wordpress-seo" ),
+							__( "You can add multiple custom fields. %1$sRead more about our custom field analysis%2$s.", "wordpress-seo" ),
 							"<a>",
 							"</a>"
 						),
@@ -311,6 +310,7 @@ PostType.propTypes = {
 	name: PropTypes.string.isRequired,
 	label: PropTypes.string.isRequired,
 	singularLabel: PropTypes.string.isRequired,
+	hasArchive: PropTypes.bool.isRequired,
 };
 
 export default PostType;
