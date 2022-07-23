@@ -10,10 +10,14 @@ import IndexablesTable from "./components/indexables-table";
  * @returns {WPElement} A table.
  */
 function IndexablesPage() {
-	const [ worstReadabilityIndexables, setWorstReadabilityIndexables ] = useState( [] );
-	const [ worstSEOIndexables, setWorstSEOIndexables ] = useState( [] );
-	const [ leastLinkedIndexables, setLeastLinkedIndexables ] = useState( [] );
-	const [ mostLinkedIndexables, setMostLinkedIndexables ] = useState( [] );
+	const [ listedIndexables, setlistedIndexables ] = useState(
+		{
+			least_readability: [],
+			least_seo_score: [],
+			most_linked: [],
+			least_linked: []
+		}
+	);
 	const [ ignoreIndexable, setIgnoreIndexable ] = useState( null );
 
 	/**
@@ -24,7 +28,7 @@ function IndexablesPage() {
 	 *
 	 * @returns {boolean} True if the request was successful.
 	 */
-	const fetchList = async( listName, setList ) => {
+	const fetchList = async( listName ) => {
 		try {
 			const response = await apiFetch( {
 				path: `yoast/v1/${ listName }`,
@@ -32,7 +36,12 @@ function IndexablesPage() {
 			} );
 
 			const parsedResponse = await response.json;
-			setList( parsedResponse.list );
+			setlistedIndexables( prevState => {
+				return {
+					...prevState,
+					[listName]: parsedResponse.list
+				}
+			  });
 			return true;
 		} catch ( e ) {
 			// URL() constructor throws a TypeError exception if url is malformed.
@@ -49,17 +58,20 @@ function IndexablesPage() {
 	 *
 	 * @returns {}
 	 */
-	const renderList = ( callback ) => {
+	const renderList = ( listName ) => {
 		if ( ignoreIndexable === null ) {
 			return;
 		}
-		callback( prevState =>
-			prevState.filter( indexable => {
-			  return indexable.id !== ignoreIndexable.indexable.id;
-			}),
-		  );
 
-		console.log( 'Updated Indexables: ', worstReadabilityIndexables );
+		setlistedIndexables( prevState => {
+			return {
+				...prevState,
+				[listName]: prevState[listName].filter( indexable => {
+					return indexable.id !== ignoreIndexable.indexable.id;
+				  })
+			}
+		});
+
 	};
 
 	/* eslint-disable  complexity */
@@ -72,21 +84,10 @@ function IndexablesPage() {
 	 * @returns {boolean} True if the update was successful.
 	 */
 	const updateList = ( listName, indexables ) => {
-		switch ( listName ) {
-			case "least_readability":
-				return ( indexables.length < 7 ) ? fetchList( "least_readability", setWorstReadabilityIndexables ) : renderList( setWorstReadabilityIndexables );
-			case "least_seo_score":
-				return ( indexables.length < 7 ) ? fetchList( "least_seo_score", setWorstSEOIndexables ) : renderList( setWorstSEOIndexables );
-			case "most_linked":
-				return ( indexables.length < 7 ) ? fetchList( "most_linked", setMostLinkedIndexables ) : renderList( setMostLinkedIndexables );
-			case "least_linked":
-				return ( indexables.length < 7 ) ? fetchList( "least_linked", setLeastLinkedIndexables ) : renderList( setLeastLinkedIndexables );
-			default:
-				return false;
-		}
+		return ( indexables.length < 7 ) ? fetchList( listName ) : renderList( listName );
 	};
 
-	const handleUndo =  useCallback( async( ignored ) => {
+	const handleUndo = useCallback( async( ignored ) => {
 		const id = ignored.indexable.id;
 		const type = ignored.type;
 		const indexable = ignored.indexable;
@@ -101,26 +102,18 @@ function IndexablesPage() {
 
 			const parsedResponse = await response.json;
 			if ( parsedResponse.success ) {
-				switch ( type ) {
-					case "least_readability":
-						setWorstReadabilityIndexables( prevState =>
-							[
-								...prevState.splice( 0, position ),
-								indexable,
-								...prevState.splice( position, worstReadabilityIndexables.length ),
-							]
-							);
-						break;
-					case "least_seo_score":
-						setWorstSEOIndexables( prevState => [ indexable, ...prevState ] );
-						break;
-					case "most_linked":
-						setMostLinkedIndexables( prevState => [ indexable, ...prevState ] );
-						break;
-					case "least_linked":
-						setLeastLinkedIndexables( prevState => [ indexable, ...prevState ] );
-						break;
-				}
+				setlistedIndexables( prevState => {
+					let length = prevState[type].length;
+					return {
+						...prevState,
+						[type]: [
+							...prevState[type].splice( 0, position ),
+							indexable,
+							...prevState[type].splice( position, length )
+						]
+					}
+				});
+
 				setIgnoreIndexable( null );
 				return true;
 			}
@@ -130,44 +123,33 @@ function IndexablesPage() {
 			console.error( error.message );
 			return false;
 		}
-	}, [ apiFetch, setWorstReadabilityIndexables, setWorstSEOIndexables, setMostLinkedIndexables, setLeastLinkedIndexables, setIgnoreIndexable, worstReadabilityIndexables ] );
+	}, [ apiFetch, setlistedIndexables, listedIndexables, setIgnoreIndexable ] );
 
 	const onClickUndo = useCallback( ( ignored ) => {
 		return () => handleUndo( ignored );
 	}, [ handleUndo ] );
 
 	useEffect( async() => {
-		updateList( "least_readability", worstReadabilityIndexables );
+		updateList( "least_readability", listedIndexables.least_readability );
 	}, [] );
 
 	useEffect( async() => {
-		updateList( "least_seo_score", worstSEOIndexables );
-	}, [ ] );
+		updateList( "least_seo_score", listedIndexables.least_seo_score );
+	}, [] );
+
+	useEffect( async() => {
+		updateList( "most_linked", listedIndexables.most_linked );
+	}, [] );
+
+	useEffect( async() => {
+		updateList( "least_linked", listedIndexables.least_linked );
+	}, [] );
 
 	useEffect( async() => {
 		if ( ignoreIndexable !== null ) {
-			switch ( ignoreIndexable.type ) {
-				case "least_readability":
-					return updateList( ignoreIndexable.type, worstReadabilityIndexables );
-				case "least_seo_score":
-					return updateList( ignoreIndexable.type, worstSEOIndexables );
-				case "most_linked":
-					return updateList( ignoreIndexable.type, leastLinkedIndexables );
-				case "least_linked":
-					return updateList( ignoreIndexable.type, mostLinkedIndexables );
-				default:
-					return false;
-			}
+			return updateList( ignoreIndexable.type, listedIndexables[ignoreIndexable.type] );
 		}
 	}, [ ignoreIndexable ] );
-
-	useEffect( async() => {
-		updateList( "most_linked", mostLinkedIndexables );
-	}, [ ] );
-
-	useEffect( async() => {
-		updateList( "least_linked", leastLinkedIndexables );
-	}, [] );
 
 	return <div
 		className="yst-bg-white yst-rounded-lg yst-p-6 yst-shadow-md yst-max-w-full yst-mt-6"
@@ -177,7 +159,7 @@ function IndexablesPage() {
 		<header className="yst-border-b yst-border-gray-200"><div className="yst-max-w-screen-sm yst-p-8"><h2 className="yst-text-2xl yst-font-bold">{ __( "Indexables page", "wordpress-seo" ) }</h2></div></header>
 		<h3 className="yst-my-4 yst-text-xl">{ __( "Least Readability Score", "wordpress-seo" ) }</h3>
 		<IndexablesTable
-			indexables={ worstReadabilityIndexables }
+			indexables={ listedIndexables.least_readability }
 			keyHeaderMap={
 				{
 					/* eslint-disable camelcase */
@@ -193,7 +175,7 @@ function IndexablesPage() {
 		/>
 		<h3 className="yst-my-4 yst-text-xl">{ __( "Least SEO Score", "wordpress-seo" ) }</h3>
 		<IndexablesTable
-			indexables={ worstSEOIndexables }
+			indexables={ listedIndexables.least_seo_score }
 			keyHeaderMap={
 				{
 					/* eslint-disable camelcase */
@@ -209,7 +191,7 @@ function IndexablesPage() {
 		/>
 		<h3 className="yst-my-4 yst-text-xl">{ __( "Least Linked", "wordpress-seo" ) }</h3>
 		<IndexablesTable
-			indexables={ leastLinkedIndexables }
+			indexables={ listedIndexables.least_linked }
 			keyHeaderMap={
 				{
 					/* eslint-disable camelcase */
@@ -225,7 +207,7 @@ function IndexablesPage() {
 		/>
 		<h3 className="yst-my-4 yst-text-xl">{ __( "Most Linked", "wordpress-seo" ) }</h3>
 		<IndexablesTable
-			indexables={ mostLinkedIndexables }
+			indexables={ listedIndexables.most_linked }
 			keyHeaderMap={
 				{
 					/* eslint-disable camelcase */
