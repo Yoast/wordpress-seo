@@ -23,10 +23,18 @@ const Tag = ( { tag, index, disabled = false, onRemoveTag, screenReaderRemoveTag
 			case "Delete":
 			case "Backspace":
 				onRemoveTag( index );
-				break;
+				event.preventDefault();
+				return true;
 		}
 	}, [ index, disabled, onRemoveTag ] );
-	const handleClick = useCallback( () => ! disabled && onRemoveTag( index ), [ index, disabled, onRemoveTag ] );
+	const handleClick = useCallback( event => {
+		if ( disabled ) {
+			return;
+		}
+		onRemoveTag( index );
+		event.preventDefault();
+		return true;
+	}, [ index, disabled, onRemoveTag ] );
 
 	return (
 		// eslint-disable-next-line jsx-a11y/no-static-element-interactions
@@ -80,19 +88,20 @@ const TagInput = ( {
 		switch ( event.key ) {
 			case "Enter":
 				// Do not add empty tags.
-				if ( text.length === 0 ) {
-					break;
+				if ( text.length > 0 ) {
+					onAddTag( text );
+					setText( "" );
 				}
-				onAddTag( text );
-				setText( "" );
-				break;
+				event.preventDefault();
+				return true;
 			case "Backspace":
 				// Only when there is text and a tag available.
 				if ( text.length !== 0 || tags.length === 0 ) {
 					break;
 				}
 				onRemoveTag( tags.length - 1 );
-				break;
+				event.preventDefault();
+				return true;
 		}
 	}, [ text, tags, setText, onAddTag ] );
 
