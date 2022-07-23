@@ -6,6 +6,7 @@
 			yst-flex-wrap
 			yst-py-2
 			yst-px-3
+			yst-space-x-1.5
 			yst-border
 			yst-border-gray-300
 			yst-rounded-md
@@ -54,7 +55,6 @@
 			yst-flex
 			yst-py-0.5
 			yst-px-2.5
-			yst-m-0.5
 			yst-rounded-full
 			yst-items-center
 			yst-text-xs
@@ -89,8 +89,6 @@
 			yst-inline-flex
 			yst-flex-1
 			yst-p-0
-			yst-pl-1.5
-			first:yst-pl-0
 			yst-m-0
 			yst-border-none
 			yst-text-sm
