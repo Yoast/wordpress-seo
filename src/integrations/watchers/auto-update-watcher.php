@@ -109,7 +109,7 @@ class Auto_Update_Watcher implements Integration_Interface {
 	protected function should_show_notification() {
 		$core_updates_enabled  = \get_site_option( 'auto_update_core_major' ) === 'enabled';
 		$yoast_updates_enabled = $this->yoast_auto_updates_enabled();
-		$file_mods_enabled     = \defined( 'DISALLOW_FILE_MODS' ) && \constant( 'DISALLOW_FILE_MODS' ) === true;
+		$file_mods_enabled     = \defined( 'DISALLOW_FILE_MODS' ) && ( DISALLOW_FILE_MODS === true );
 
 		return $core_updates_enabled && ! $yoast_updates_enabled && ! $file_mods_enabled;
 	}
