@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback } from "@wordpress/element";
 import { Button, Alert } from "@yoast/ui-library";
 import IndexablesTable from "./components/indexables-table";
 
+/* eslint-disable camelcase */
 /**
  * A table.
  *
@@ -15,7 +16,7 @@ function IndexablesPage() {
 			least_readability: [],
 			least_seo_score: [],
 			most_linked: [],
-			least_linked: []
+			least_linked: [],
 		}
 	);
 	const [ ignoreIndexable, setIgnoreIndexable ] = useState( null );
@@ -39,9 +40,9 @@ function IndexablesPage() {
 			setlistedIndexables( prevState => {
 				return {
 					...prevState,
-					[listName]: parsedResponse.list
-				}
-			  });
+					[ listName ]: parsedResponse.list,
+				};
+			  } );
 			return true;
 		} catch ( e ) {
 			// URL() constructor throws a TypeError exception if url is malformed.
@@ -54,9 +55,8 @@ function IndexablesPage() {
 	 * Fetches a list of indexables.
 	 *
 	 * @param {string} listName The name of the list to fetch.
-	 * @param {function} setList The list setter.
 	 *
-	 * @returns {}
+	 * @returns {void}
 	 */
 	const renderList = ( listName ) => {
 		if ( ignoreIndexable === null ) {
@@ -66,12 +66,11 @@ function IndexablesPage() {
 		setlistedIndexables( prevState => {
 			return {
 				...prevState,
-				[listName]: prevState[listName].filter( indexable => {
+				[ listName ]: prevState[ listName ].filter( indexable => {
 					return indexable.id !== ignoreIndexable.indexable.id;
-				  })
-			}
-		});
-
+				} ),
+			};
+		} );
 	};
 
 	/* eslint-disable  complexity */
@@ -103,16 +102,16 @@ function IndexablesPage() {
 			const parsedResponse = await response.json;
 			if ( parsedResponse.success ) {
 				setlistedIndexables( prevState => {
-					let length = prevState[type].length;
+					const length = prevState[ type ].length;
 					return {
 						...prevState,
-						[type]: [
-							...prevState[type].splice( 0, position ),
+						[ type ]: [
+							...prevState[ type ].splice( 0, position ),
 							indexable,
-							...prevState[type].splice( position, length )
-						]
-					}
-				});
+							...prevState[ type ].splice( position, length ),
+						],
+					};
+				} );
 
 				setIgnoreIndexable( null );
 				return true;
