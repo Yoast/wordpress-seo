@@ -1,9 +1,10 @@
 import apiFetch from "@wordpress/api-fetch";
 import { __ } from "@wordpress/i18n";
 import { useEffect, useState, useCallback } from "@wordpress/element";
-import { Button, Alert } from "@yoast/ui-library";
+import { makeOutboundLink } from "@yoast/helpers";
+import { Button, Alert, Modal } from "@yoast/ui-library";
 import IndexablesTable from "./components/indexables-table";
-
+import SvgIcon from "../../../components/src/SvgIcon";
 /* eslint-disable camelcase */
 /**
  * A table.
@@ -20,6 +21,8 @@ function IndexablesPage() {
 		}
 	);
 	const [ ignoreIndexable, setIgnoreIndexable ] = useState( null );
+	const [ isModalOpen, setIsModalOpen ] = useState( false );
+	const [ suggestedLinksList, setSuggestedLinksList ] = useState( [] );
 
 	/**
 	 * Fetches a list of indexables.
@@ -86,6 +89,34 @@ function IndexablesPage() {
 		return ( indexables.length < 7 ) ? fetchList( listName ) : renderList( listName );
 	};
 
+	const handleOpenModal = useCallback( async( indexableId ) => {
+		setIsModalOpen( true );
+		try {
+			const response = await apiFetch( {
+				path: "yoast/v1/workouts/link_suggestions?indexableId=" + indexableId,
+				method: "GET",
+			} );
+
+			const parsedResponse = await response.json;
+
+			if ( parsedResponse.length > 0 ) {
+				setSuggestedLinksList( parsedResponse );
+				console.log(parsedResponse);
+				return true;
+			}
+			return false;
+		} catch ( error ) {
+			// URL() constructor throws a TypeError exception if url is malformed.
+			console.error( error.message );
+			return false;
+		}
+	}, [ setSuggestedLinksList, setIsModalOpen ] );
+
+	const handleCloseModal = useCallback( () => {
+		setIsModalOpen( false );
+		setSuggestedLinksList( [] );
+	}, [] );
+
 	const handleUndo = useCallback( async( ignored ) => {
 		const id = ignored.indexable.id;
 		const type = ignored.type;
@@ -102,7 +133,7 @@ function IndexablesPage() {
 			const parsedResponse = await response.json;
 			if ( parsedResponse.success ) {
 				setlistedIndexables( prevState => {
-					const newData = prevState[ type ].slice( 0 ); // copy
+					const newData = prevState[ type ].slice( 0 );
 
 					newData.splice( position, 0, indexable );
 					return {
@@ -143,13 +174,28 @@ function IndexablesPage() {
 
 	useEffect( async() => {
 		if ( ignoreIndexable !== null ) {
-			return updateList( ignoreIndexable.type, listedIndexables[ignoreIndexable.type] );
+			return updateList( ignoreIndexable.type, listedIndexables[ ignoreIndexable.type ] );
 		}
 	}, [ ignoreIndexable ] );
 
 	return <div
 		className="yst-bg-white yst-rounded-lg yst-p-6 yst-shadow-md yst-max-w-full yst-mt-6"
 	>
+		<Modal
+			onClose={ handleCloseModal }
+			isOpen={ isModalOpen }
+		>
+			{ suggestedLinksList.length === 0 ? <SvgIcon icon="loading-spinner" /> : <ul>
+				{
+					suggestedLinksList.map( ( link, idx ) => {
+						return <li key={ idx }>
+							{ link.breadcrumb_title }
+						</li>;
+					}
+					)
+				}
+			</ul> }
+		</Modal>
 
 		{ ignoreIndexable && <Alert><Button onClick={ onClickUndo( ignoreIndexable ) }>{ `Ignore ${ignoreIndexable.indexable.id}` }</Button></Alert> }
 		<header className="yst-border-b yst-border-gray-200"><div className="yst-max-w-screen-sm yst-p-8"><h2 className="yst-text-2xl yst-font-bold">{ __( "Indexables page", "wordpress-seo" ) }</h2></div></header>
@@ -163,11 +209,13 @@ function IndexablesPage() {
 					readability_score: __( "Readability Score", "wordpress-seo" ),
 					edit: __( "Edit", "wordpress-seo" ),
 					ignore: __( "Ignore", "wordpress-seo" ),
+					links: __( "Find posts to link to", "wordpress-seo" ),
 					/* eslint-enable camelcase */
 				}
 			}
 			type="least_readability"
 			addToIgnoreList={ setIgnoreIndexable }
+			handleOpenModal={ handleOpenModal }
 		/>
 		<h3 className="yst-my-4 yst-text-xl">{ __( "Least SEO Score", "wordpress-seo" ) }</h3>
 		<IndexablesTable
@@ -179,11 +227,13 @@ function IndexablesPage() {
 					primary_focus_keyword_score: __( "SEO Score", "wordpress-seo" ),
 					edit: __( "Edit", "wordpress-seo" ),
 					ignore: __( "Ignore", "wordpress-seo" ),
+					links: __( "Find posts to link to", "wordpress-seo" ),
 					/* eslint-enable camelcase */
 				}
 			}
 			type="least_seo_score"
 			addToIgnoreList={ setIgnoreIndexable }
+			handleOpenModal={ handleOpenModal }
 		/>
 		<h3 className="yst-my-4 yst-text-xl">{ __( "Least Linked", "wordpress-seo" ) }</h3>
 		<IndexablesTable
@@ -193,13 +243,15 @@ function IndexablesPage() {
 					/* eslint-disable camelcase */
 					breadcrumb_title: __( "Title", "wordpress-seo" ),
 					incoming_link_count: __( "Incoming links", "wordpress-seo" ),
-					edit: __( "Find posts to link from", "wordpress-seo" ),
+					edit: __( "Edit", "wordpress-seo" ),
 					ignore: __( "Ignore", "wordpress-seo" ),
+					links: __( "Find posts to link to", "wordpress-seo" ),
 					/* eslint-enable camelcase */
 				}
 			}
 			type="least_linked"
 			addToIgnoreList={ setIgnoreIndexable }
+			handleOpenModal={ handleOpenModal }
 		/>
 		<h3 className="yst-my-4 yst-text-xl">{ __( "Most Linked", "wordpress-seo" ) }</h3>
 		<IndexablesTable
@@ -209,13 +261,15 @@ function IndexablesPage() {
 					/* eslint-disable camelcase */
 					breadcrumb_title: __( "Title", "wordpress-seo" ),
 					incoming_link_count: __( "Incoming links", "wordpress-seo" ),
-					edit: __( "Find posts to link to", "wordpress-seo" ),
+					edit: __( "Edit", "wordpress-seo" ),
 					ignore: __( "Ignore", "wordpress-seo" ),
+					links: __( "Find posts to link to", "wordpress-seo" ),
 					/* eslint-enable camelcase */
 				}
 			}
 			type="most_linked"
 			addToIgnoreList={ setIgnoreIndexable }
+			handleOpenModal={ handleOpenModal }
 		/>
 
 	</div>;
