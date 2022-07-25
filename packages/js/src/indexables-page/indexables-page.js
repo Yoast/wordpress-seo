@@ -1,3 +1,4 @@
+/* global yoastIndexingData */
 import apiFetch from "@wordpress/api-fetch";
 import { __ } from "@wordpress/i18n";
 import { useEffect, useState, useCallback } from "@wordpress/element";
@@ -11,6 +12,8 @@ import IndexablesTable from "./components/indexables-table";
  * @returns {WPElement} A table.
  */
 function IndexablesPage() {
+	const listSize = parseInt( wpseoIndexablesPageData.listSize, 10 );
+	const minimumIndexablesInBuffer = listSize * 2;
 	const [ listedIndexables, setlistedIndexables ] = useState(
 		{
 			least_readability: [],
@@ -37,10 +40,18 @@ function IndexablesPage() {
 			} );
 
 			const parsedResponse = await response.json;
+			let newList = parsedResponse.list;
+
+			if ( ignoreIndexable !== null ) {
+				newList = newList.filter( indexable => {
+					return indexable.id !== ignoreIndexable.indexable.id;
+				} );
+			}
+
 			setlistedIndexables( prevState => {
 				return {
 					...prevState,
-					[ listName ]: parsedResponse.list,
+					[ listName ]: newList,
 				};
 			  } );
 			return true;
@@ -83,7 +94,10 @@ function IndexablesPage() {
 	 * @returns {boolean} True if the update was successful.
 	 */
 	const updateList = ( listName, indexables ) => {
-		return ( indexables.length < 7 ) ? fetchList( listName ) : renderList( listName );
+		console.log('listName', listName );
+		console.log('indexables', indexables );
+		// @TODO: we have to also check if there are even other posts to re-fetch and if not, let's just render. That information can go into the same endpoints and it can be used upon page load for the initial assesment of whether we have enough data. 
+		return ( indexables.length < minimumIndexablesInBuffer ) ? fetchList( listName ) : renderList( listName );
 	};
 
 	const handleUndo = useCallback( async( ignored ) => {
@@ -175,6 +189,7 @@ function IndexablesPage() {
 			}
 			type="least_readability"
 			addToIgnoreList={ setIgnoreIndexable }
+			listSize={listSize}
 		/>
 		<h3 className="yst-my-4 yst-text-xl">{ __( "Least SEO Score", "wordpress-seo" ) }</h3>
 		<IndexablesTable
@@ -191,6 +206,7 @@ function IndexablesPage() {
 			}
 			type="least_seo_score"
 			addToIgnoreList={ setIgnoreIndexable }
+			listSize={listSize}
 		/>
 		<h3 className="yst-my-4 yst-text-xl">{ __( "Least Linked", "wordpress-seo" ) }</h3>
 		<IndexablesTable
@@ -207,6 +223,7 @@ function IndexablesPage() {
 			}
 			type="least_linked"
 			addToIgnoreList={ setIgnoreIndexable }
+			listSize={listSize}
 		/>
 		<h3 className="yst-my-4 yst-text-xl">{ __( "Most Linked", "wordpress-seo" ) }</h3>
 		<IndexablesTable
@@ -223,6 +240,7 @@ function IndexablesPage() {
 			}
 			type="most_linked"
 			addToIgnoreList={ setIgnoreIndexable }
+			listSize={listSize}
 		/>
 
 	</div>;

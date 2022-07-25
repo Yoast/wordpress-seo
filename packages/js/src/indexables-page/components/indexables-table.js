@@ -13,13 +13,13 @@ const Link = makeOutboundLink();
  * @param {int} conlumnCount The table's number of columns.
  * @returns {WPElement} Placeholders rows.
  */
-function PlaceholderRows( { columnCount } ) {
+function PlaceholderRows( { columnCount, listSize } ) {
 	const cells = [];
 	const rows = [];
 	for ( let i = 0; i < columnCount; i++ ) {
 		cells.push( <Table.Cell key={ `placeholder-column-${ i }` } className="yst-px-6 yst-py-4 yst-animate-pulse"><div className="yst-w-full yst-bg-gray-200 yst-h-3 yst-rounded" /></Table.Cell> );
 	}
-	for ( let i = 0; i < 5; i++ ) {
+	for ( let i = 0; i < listSize; i++ ) {
 		rows.push( <Table.Row key={ `placeholder-row-${ i }` }>{ cells }</Table.Row> );
 	}
 	return rows;
@@ -103,7 +103,7 @@ IndexableRow.propTypes = {
 
  * @returns {WPElement} A table with the indexables.
  */
-function IndexablesTable( { indexables, keyHeaderMap, type, addToIgnoreList } ) {
+function IndexablesTable( { indexables, keyHeaderMap, type, addToIgnoreList, listSize } ) {
 	const [ isLoading, setIsLoading ] = useState( true );
 
 	useEffect( () => {
@@ -128,8 +128,8 @@ function IndexablesTable( { indexables, keyHeaderMap, type, addToIgnoreList } ) 
 					<Table.Body>
 						{
 							isLoading
-								? <PlaceholderRows columnCount={ Object.keys( keyHeaderMap ).length } />
-								: indexables.slice( 0, 5 ).map( ( indexable, index ) => {
+								? <PlaceholderRows columnCount={ Object.keys( keyHeaderMap ).length } listSize={ listSize } />
+								: indexables.slice( 0, listSize ).map( ( indexable, index ) => {
 									return <IndexableRow
 										key={ `indexable-${ indexable.id }-row` }
 										indexable={ indexable }
@@ -152,6 +152,7 @@ IndexablesTable.propTypes = {
 	keyHeaderMap: PropTypes.object,
 	type: PropTypes.string,
 	addToIgnoreList: PropTypes.func,
+	listSize: PropTypes.number,
 };
 
 export default IndexablesTable;
