@@ -12,7 +12,7 @@ import createInterpolateElement from "../../helpers/createInterpolateElement";
 const OutboundLink = makeOutboundLink();
 
 const Badge = styled( BetaBadge )`
-margin: 4px 0 0 0;
+margin: 0 0 0 4px;
 `;
 
 const FormalityLevel = styled.span`
@@ -48,8 +48,8 @@ const TextFormality = ( { location } ) => {
 	}, [] );
 
 	const textFormalityInfo = useMemo( () => {
-		const linkInFree = get( window, "wpseoAdminL10n.shortlinks-insights-text_formality_info_free", "" );
-		const linkInPremium = get( window, "wpseoAdminL10n.shortlinks-insights-text_formality_info_premium", "" );
+		const infoLinkFree = useMemo( () => get( window, `wpseoAdminL10n.shortlinks-insights-${ location }-text_formality_info_free`, "" ), [ location ] );
+		const infoLinkPremium = useMemo( () => get( window, `wpseoAdminL10n.shortlinks-insights-${ location }-text_formality_info_premium`, "" ), [ location ] );
 		return shouldUpsell
 			? createInterpolateElement(
 				sprintf(
@@ -58,7 +58,7 @@ const TextFormality = ( { location } ) => {
 					"</a>"
 				),
 				{
-					a: <OutboundLink href={ linkInFree } />,
+					a: <OutboundLink href={ infoLinkFree } />,
 				}
 			)
 			:  createInterpolateElement(
@@ -68,7 +68,7 @@ const TextFormality = ( { location } ) => {
 					"</a>"
 				),
 				{
-					a: <OutboundLink href={ linkInPremium } />,
+					a: <OutboundLink href={ infoLinkPremium } />,
 				}
 			);
 	}, [] );
