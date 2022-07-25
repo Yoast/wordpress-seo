@@ -36,7 +36,7 @@ const InsightsModal = ( { location } ) => {
 						<TextLength />
 					</div>
 					{ isTextFormalityAvailable && <div>
-						<TextFormality />
+						<TextFormality location={ location } />
 					</div> }
 				</div>
 			</div>

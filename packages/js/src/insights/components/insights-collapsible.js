@@ -33,7 +33,7 @@ const InsightsCollapsible = ( { location } ) => {
 					<TextLength />
 				</div>
 				{ isTextFormalityAvailable && <div>
-					<TextFormality />
+					<TextFormality location={ location } />
 				</div> }
 			</div>
 		</MetaboxCollapsible>
