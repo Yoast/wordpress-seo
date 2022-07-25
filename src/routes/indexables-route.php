@@ -241,7 +241,8 @@ class Indexables_Route implements Route_Interface {
 				[ 'success' => true ],
 				200
 			);
-		} else {
+		}
+		else {
 			return new WP_REST_Response(
 				[
 					'success' => false,
@@ -269,7 +270,8 @@ class Indexables_Route implements Route_Interface {
 				[ 'success' => true ],
 				200
 			);
-		} else {
+		}
+		else {
 			return new WP_REST_Response(
 				[
 					'success' => false,

@@ -77,7 +77,7 @@ class Indexable_Action {
 
 		// @TODO: Improve query.
 		$least_readable = $this->indexable_repository->query()
-			->where_raw( '( post_status= \'publish\' OR post_status IS NULL )' )
+			->where_raw( '( post_status = \'publish\' OR post_status IS NULL )' )
 			->where_in( 'object_type', [ 'post' ] )
 			->where_in( 'object_sub_type', $this->get_public_sub_types() )
 			->where_not_in( 'id', $ignore_list )
@@ -90,9 +90,9 @@ class Indexable_Action {
 	}
 
 	/**
-	 * Gets the posts with the smallest seo scores.
+	 * Gets the posts with the lowest seo scores.
 	 *
-	 * @return array The posts with the smallest seo scores as an array.
+	 * @return array The posts with the lowest seo scores as an array.
 	 */
 	public function get_least_seo_score() {
 		// where_not_equal needs the set to check against not to be empty.
@@ -100,7 +100,7 @@ class Indexable_Action {
 
 		// @TODO: Improve query.
 		$least_seo_score = $this->indexable_repository->query()
-			->where_raw( '( post_status= \'publish\' OR post_status IS NULL )' )
+			->where_raw( '( post_status = \'publish\' OR post_status IS NULL )' )
 			->where_in( 'object_type', [ 'post' ] )
 			->where_in( 'object_sub_type', $this->get_public_sub_types() )
 			->where_not_in( 'id', $ignore_list )
@@ -195,11 +195,13 @@ class Indexable_Action {
 	public function remove_indexable_from_ignore_list( $ignore_list_name, $indexable_id ) {
 		$ignore_list = $this->options_helper->get( $ignore_list_name, [] );
 
-		$ignore_list = \array_filter(
-			$ignore_list,
-			function( $indexable ) use ( $indexable_id ) {
-				return $indexable !== $indexable_id;
-			}
+		$ignore_list = \array_values(
+			\array_filter(
+				$ignore_list,
+				function( $indexable ) use ( $indexable_id ) {
+					return $indexable !== $indexable_id;
+				}
+			)
 		);
 
 		return $this->options_helper->set( $ignore_list_name, $ignore_list );
