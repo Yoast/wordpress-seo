@@ -98,7 +98,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 		}
 
 		$this->add_root_menu( $wp_admin_bar );
-		
+
 		if ( ! is_admin() && YoastSEO()->helpers->product->is_premium() ) {
 			$this->add_frontend_inspector_submenu( $wp_admin_bar );
 		}
