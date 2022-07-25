@@ -95,26 +95,26 @@ export default function( paper, researcher ) {
 		if ( averageInformalPronouns <= 0.029 ) {
 			if ( averageWordLengthPerSentence <= 31.439 ) {
 				if ( averageSentenceLength <= 169.375 ) {
-					return "Formal";
+					return "formal";
 				}
 			}
-			return "Informal";
+			return "informal";
 		}
 		if ( averagePassives <= 0.25 ) {
-			return "Informal";
+			return "informal";
 		}
-		return "Formal";
+		return "formal";
 	}
 	if ( averageWordLengthPerSentence <= 12.731 || averageSentenceLength <= 88.721 ) {
-		return "Informal";
+		return "informal";
 	}
 	if ( averageInformalPronouns <= 0.006 ) {
-		return "Formal";
+		return "formal";
 	}
 	if ( averageWordLength <= 6.129 ) {
 		if ( averageFormalPronouns <= 0.024 ) {
-			return "Informal";
+			return "informal";
 		}
 	}
-	return "Formal";
+	return "formal";
 }
