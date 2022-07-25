@@ -54,7 +54,7 @@ const InclusiveLanguageAnalysis = ( props ) => {
 		return (
 			<Fragment>
 				<AnalysisHeader>
-					{ __( "Problematic phrases", "wordpress-seo" ) }
+					{ __( "Analysis results", "wordpress-seo" ) }
 					<StyledHelpLink
 						href={ wpseoAdminL10n[ "shortlinks.inclusive_language_analysis_info" ] }
 						className="dashicons"
