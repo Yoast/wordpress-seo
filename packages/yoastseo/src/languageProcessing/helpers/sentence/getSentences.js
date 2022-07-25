@@ -49,7 +49,7 @@ export default function( text, memoizedTokenizer ) {
 	// We don't remove the other HTML tags here since removing them might lead to incorrect results when running the sentence tokenizer.
 	// Remove Table of Contents.
 	text = excludeTableOfContentsTag( text );
-	// Remove Estimated reading time
+	// Remove Estimated reading time.
 	text = excludeEstimatedReadingTime( text );
 	// Unify only non-breaking spaces and not the other whitespaces since a whitespace could signify a sentence break or a new line.
 	text = unifyNonBreakingSpace( text );
