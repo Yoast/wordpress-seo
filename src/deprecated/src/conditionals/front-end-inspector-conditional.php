@@ -13,6 +13,7 @@ class Front_End_Inspector_Conditional extends Feature_Flag_Conditional {
 	 * @return string The name of the feature flag.
 	 */
 	protected function get_feature_flag() {
+		\_deprecated_function( __METHOD__, 'WPSEO 19.1' );
 		return 'FRONT_END_INSPECTOR';
 	}
 }
