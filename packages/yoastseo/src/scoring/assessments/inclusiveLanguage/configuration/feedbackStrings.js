@@ -1,5 +1,5 @@
-const alternative = "Consider using an alternative, such as \"%2$s\" instead.";
-const alternativeUnless = "Consider using an alternative, such as \"%2$s\" instead, unless referring to " +
+const alternative = "Consider using an alternative, such as %2$s instead.";
+const alternativeUnless = "Consider using an alternative, such as %2$s instead, unless referring to " +
 	"someone who explicitly wants to be referred to with this term.";
 
 const harmfulNonInclusive = "Avoid using \"%1$s\" as it is potentially harmful.";
