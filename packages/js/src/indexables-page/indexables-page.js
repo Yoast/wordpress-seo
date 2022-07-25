@@ -102,17 +102,14 @@ function IndexablesPage() {
 			const parsedResponse = await response.json;
 			if ( parsedResponse.success ) {
 				setlistedIndexables( prevState => {
-					const length = prevState[ type ].length;
+					const newData = prevState[ type ].slice( 0 ); // copy
+
+					newData.splice( position, 0, indexable );
 					return {
 						...prevState,
-						[ type ]: [
-							...prevState[ type ].splice( 0, position ),
-							indexable,
-							...prevState[ type ].splice( position, length ),
-						],
+						[ type ]: newData,
 					};
 				} );
-
 				setIgnoreIndexable( null );
 				return true;
 			}
