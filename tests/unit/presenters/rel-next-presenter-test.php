@@ -37,25 +37,6 @@ class Rel_Next_Presenter_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the presentation of the rel next meta tag.
-	 *
-	 * @covers ::present
-	 * @covers ::get
-	 */
-	public function test_present() {
-		$this->instance->presentation = new Indexable_Presentation();
-		$presentation                 = $this->instance->presentation;
-
-		$presentation->rel_next = 'https://permalink/post/2';
-		$presentation->robots   = [];
-
-		$this->assertEquals(
-			'<link rel="next" href="https://permalink/post/2" />',
-			$this->instance->present()
-		);
-	}
-
-	/**
 	 * Tests the presentation of the rel prev next tag when it's empty.
 	 *
 	 * @covers ::present
@@ -107,9 +88,31 @@ class Rel_Next_Presenter_Test extends TestCase {
 			->with( 'https://permalink/post/2', 'next' )
 			->once()
 			->andReturn( 'https://filtered' );
+		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
 
 		$this->assertEquals(
 			'<link rel="next" href="https://filtered" />',
+			$this->instance->present()
+		);
+	}
+
+	/**
+	 * Tests the presentation of the rel next meta tag when the admin bar is showing a class is added.
+	 *
+	 * @covers ::present
+	 * @covers ::get
+	 */
+	public function test_present_with_class() {
+		$this->instance->presentation = new Indexable_Presentation();
+		$presentation                 = $this->instance->presentation;
+
+		$presentation->rel_next = 'https://permalink/post/2';
+		$presentation->robots   = [];
+
+		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( true );
+
+		$this->assertEquals(
+			'<link rel="next" href="https://permalink/post/2" class="yoast-seo-meta-tag" />',
 			$this->instance->present()
 		);
 	}
