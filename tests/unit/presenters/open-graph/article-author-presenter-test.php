@@ -53,6 +53,8 @@ class Article_Author_Presenter_Test extends TestCase {
 	public function test_present() {
 		$this->presentation->open_graph_article_author = 'https://facebook.com/author';
 
+		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
+
 		$expected = '<meta property="article:author" content="https://facebook.com/author" />';
 		$actual   = $this->instance->present();
 
@@ -86,8 +88,25 @@ class Article_Author_Presenter_Test extends TestCase {
 			->once()
 			->with( 'https://facebook.com/author', $this->presentation )
 			->andReturn( 'https://facebook.com/newauthor' );
+		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
 
 		$expected = '<meta property="article:author" content="https://facebook.com/newauthor" />';
+		$actual   = $this->instance->present();
+
+		$this->assertEquals( $expected, $actual );
+	}
+
+	/**
+	 * Tests whether the presenter returns the correct title when the admin bar is showing a class is added.
+	 *
+	 * @covers ::present
+	 */
+	public function test_present_with_class() {
+		$this->presentation->open_graph_article_author = 'https://facebook.com/author';
+
+		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( true );
+
+		$expected = '<meta property="article:author" content="https://facebook.com/author" class="yoast-seo-meta-tag" />';
 		$actual   = $this->instance->present();
 
 		$this->assertEquals( $expected, $actual );
