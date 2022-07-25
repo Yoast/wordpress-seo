@@ -92,6 +92,19 @@ function IndexablesPage() {
 		const indexable = ignored.indexable;
 		const position = ignored.position;
 
+		setlistedIndexables( prevState => {
+			const length = prevState[ type ].length;
+			return {
+				...prevState,
+				[ type ]: [
+					...prevState[ type ].splice( 0, position ),
+					indexable,
+					...prevState[ type ].splice( position, length ),
+				],
+			};
+		} );
+		setIgnoreIndexable( null );
+
 		try {
 			const response = await apiFetch( {
 				path: "yoast/v1/restore_indexable",
@@ -101,24 +114,15 @@ function IndexablesPage() {
 
 			const parsedResponse = await response.json;
 			if ( parsedResponse.success ) {
-				setlistedIndexables( prevState => {
-					const length = prevState[ type ].length;
-					return {
-						...prevState,
-						[ type ]: [
-							...prevState[ type ].splice( 0, position ),
-							indexable,
-							...prevState[ type ].splice( position, length ),
-						],
-					};
-				} );
-
-				setIgnoreIndexable( null );
+				console.log( "Undoing post has succeeded." );
 				return true;
 			}
+
+			// @TODO: Throw an error notification, instructing the user to reload.
+			console.error( "Undoing post has failed." );
 			return false;
 		} catch ( error ) {
-			// URL() constructor throws a TypeError exception if url is malformed.
+			// @TODO: Throw an error notification, instructing the user to reload
 			console.error( error.message );
 			return false;
 		}

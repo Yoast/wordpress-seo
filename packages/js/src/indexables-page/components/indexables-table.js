@@ -37,6 +37,9 @@ const IndexableRow = ( { indexable, keyHeaderMap, type, addToIgnoreList, positio
 	const handleIgnore =  useCallback( async( e ) => {
 		const id = e.currentTarget.dataset.indexableid;
 		const indexableType = e.currentTarget.dataset.indexabletype;
+
+		addToIgnoreList( { indexable: indexable, type: indexableType, position: position } );
+
 		try {
 			const response = await apiFetch( {
 				path: "yoast/v1/ignore_indexable",
@@ -46,12 +49,16 @@ const IndexableRow = ( { indexable, keyHeaderMap, type, addToIgnoreList, positio
 
 			const parsedResponse = await response.json;
 			if ( parsedResponse.success ) {
-				addToIgnoreList( { indexable: indexable, type: indexableType, position: position } );
+				console.log( "Ignoring post has succeeded." );
 				return true;
 			}
+
+			// @TODO: Throw an error notification, instructing the user to reload.
+			console.error( "Ignoring post has failed." );
 			return false;
+
 		} catch ( error ) {
-			// URL() constructor throws a TypeError exception if url is malformed.
+			// @TODO: Throw an error notification, instructing the user to reload
 			console.error( error.message );
 			return false;
 		}
