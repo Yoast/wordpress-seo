@@ -47,21 +47,6 @@ class Site_Presenter_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the presentation for a set twitter creator.
-	 *
-	 * @covers ::present
-	 * @covers ::get
-	 */
-	public function test_present() {
-		$this->presentation->twitter_site = '@TwitterHandle';
-
-		$this->assertEquals(
-			'<meta name="twitter:site" content="@TwitterHandle" />',
-			$this->instance->present()
-		);
-	}
-
-	/**
 	 * Tests the presentation of an empty creator.
 	 *
 	 * @covers ::present
@@ -85,6 +70,7 @@ class Site_Presenter_Test extends TestCase {
 			->once()
 			->with( '@TwitterHandle', $this->presentation )
 			->andReturn( '@AlteredTwitterHandle' );
+		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
 
 		$this->assertEquals(
 			'<meta name="twitter:site" content="@AlteredTwitterHandle" />',
@@ -100,6 +86,8 @@ class Site_Presenter_Test extends TestCase {
 	 */
 	public function test_present_with_get_twitter_id_fixing_url_as_input() {
 		$this->presentation->twitter_site = 'http://twitter.com/TwitterHandle';
+
+		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( false );
 
 		$this->assertEquals(
 			'<meta name="twitter:site" content="@TwitterHandle" />',
@@ -151,5 +139,22 @@ class Site_Presenter_Test extends TestCase {
 			->andReturn( '' );
 
 		$this->assertSame( '', $this->instance->get() );
+	}
+
+	/**
+	 * Tests the presentation for a set twitter creator when the admin bar is showing a class is added.
+	 *
+	 * @covers ::present
+	 * @covers ::get
+	 */
+	public function test_present_with_class() {
+		$this->presentation->twitter_site = '@TwitterHandle';
+
+		Monkey\Functions\expect( 'is_admin_bar_showing' )->andReturn( true );
+
+		$this->assertEquals(
+			'<meta name="twitter:site" content="@TwitterHandle" class="yoast-seo-meta-tag" />',
+			$this->instance->present()
+		);
 	}
 }
