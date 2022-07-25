@@ -4,12 +4,9 @@ namespace Yoast\WP\SEO\Routes;
 
 use WP_REST_Request;
 use WP_REST_Response;
+use Yoast\WP\SEO\Actions\Indexables\Indexable_Action;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
-use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Main;
-use Yoast\WP\SEO\Repositories\Indexable_Repository;
-use Yoast\WP\SEO\Routes\Route_Interface;
 
 /**
  * Indexables_Route class.
@@ -61,34 +58,19 @@ class Indexables_Route implements Route_Interface {
 	const RESTORE_INDEXABLE_ROUTE = '/restore_indexable';
 
 	/**
-	 * The indexable repository.
+	 * The indexable actions.
 	 *
-	 * @var Indexable_Repository
+	 * @var Indexable_Action
 	 */
-	private $indexable_repository;
-
-	/**
-	 * The post type helper.
-	 *
-	 * @var Post_Type_Helper
-	 */
-	private $post_type_helper;
+	private $indexable_action;
 
 	/**
 	 * Indexables_Route constructor.
 	 *
-	 * @param Indexable_Repository $indexable_repository The indexable repository.
-	 * @param Post_Type_Helper     $post_type_helper     The post type helper.
-	 * @param Options_Helper       $options_helper       The options helper.
+	 * @param Indexable_Action $indexable_action The indexable actions.
 	 */
-	public function __construct(
-		Indexable_Repository $indexable_repository,
-		Post_Type_Helper $post_type_helper,
-		Options_Helper $options_helper
-	) {
-		$this->indexable_repository = $indexable_repository;
-		$this->post_type_helper     = $post_type_helper;
-		$this->options_helper       = $options_helper;
+	public function __construct( Indexable_Action $indexable_action ) {
+		$this->indexable_action = $indexable_action;
 	}
 
 	/**
@@ -184,22 +166,7 @@ class Indexables_Route implements Route_Interface {
 	 * @return WP_REST_Response The posts with the smallest readability scores.
 	 */
 	public function get_least_readable() {
-		// where_not_equal needs the set to check against not to be empty.
-		$ignore_list = empty( $this->options_helper->get( 'least_readability_ignore_list', [] ) ) ? [ -1 ] : $this->options_helper->get( 'least_readability_ignore_list', [] );
-
-		// @TODO: Improve query.
-		$least_readable = $this->indexable_repository->query()
-			->where_raw( '( post_status= \'publish\' OR post_status IS NULL )' )
-			->where_in( 'object_type', [ 'post' ] )
-			->where_in( 'object_sub_type', $this->get_public_sub_types() )
-			->where_not_in( 'id', $ignore_list )
-			->where_not_equal( 'readability_score', 0 )
-			->order_by_asc( 'readability_score' )
-			->limit( 100 )
-			->find_many();
-
-		$least_readable = \array_map( [ $this->indexable_repository, 'ensure_permalink' ], $least_readable );
-
+		$least_readable = $this->indexable_action->get_least_readable();
 		return new WP_REST_Response(
 			[
 				'json' => [
@@ -215,22 +182,7 @@ class Indexables_Route implements Route_Interface {
 	 * @return WP_REST_Response The posts with the smallest readability scores.
 	 */
 	public function get_least_seo_score() {
-		// where_not_equal needs the set to check against not to be empty.
-		$ignore_list = empty( $this->options_helper->get( 'least_seo_score_ignore_list', [] ) ) ? [ -1 ] : $this->options_helper->get( 'least_seo_score_ignore_list', [] );
-
-		// @TODO: Improve query.
-		$least_seo_score = $this->indexable_repository->query()
-			->where_raw( '( post_status= \'publish\' OR post_status IS NULL )' )
-			->where_in( 'object_type', [ 'post' ] )
-			->where_in( 'object_sub_type', $this->get_public_sub_types() )
-			->where_not_in( 'id', $ignore_list )
-			->where_not_equal( 'primary_focus_keyword', 0 )
-			->order_by_asc( 'primary_focus_keyword_score' )
-			->limit( 100 )
-			->find_many();
-
-		$least_seo_score = \array_map( [ $this->indexable_repository, 'ensure_permalink' ], $least_seo_score );
-
+		$least_seo_score = $this->indexable_action->get_least_seo_score();
 		return new WP_REST_Response(
 			[
 				'json' => [
@@ -246,22 +198,7 @@ class Indexables_Route implements Route_Interface {
 	 * @return WP_REST_Response The most linked posts.
 	 */
 	public function get_most_linked() {
-		// where_not_equal needs the set to check against not to be empty.
-		$ignore_list = empty( $this->options_helper->get( 'most_linked_ignore_list', [] ) ) ? [ -1 ] : $this->options_helper->get( 'most_linked_ignore_list', [] );
-
-		// @TODO: Improve query.
-		$most_linked = $this->indexable_repository->query()
-			->where_gt( 'incoming_link_count', 0 )
-			->where_not_null( 'incoming_link_count' )
-			->where_raw( '( post_status = \'publish\' OR post_status IS NULL )' )
-			->where_in( 'object_sub_type', $this->get_public_sub_types() )
-			->where_in( 'object_type', [ 'post' ] )
-			->where_not_in( 'id', $ignore_list )
-			->order_by_desc( 'incoming_link_count' )
-			->limit( 100 )
-			->find_many();
-		$most_linked = \array_map( [ $this->indexable_repository, 'ensure_permalink' ], $most_linked );
-
+		$most_linked = $this->indexable_action->get_most_linked();
 		return new WP_REST_Response(
 			[
 				'json' => [
@@ -277,30 +214,7 @@ class Indexables_Route implements Route_Interface {
 	 * @return WP_REST_Response The most linked posts.
 	 */
 	public function get_least_linked() {
-		// where_not_equal needs the set to check against not to be empty.
-		$ignore_list = empty( $this->options_helper->get( 'least_linked_ignore_list', [] ) ) ? [ -1 ] : $this->options_helper->get( 'least_linked_ignore_list', [] );
-
-		// @TODO: Improve query.
-		$least_linked = $this->indexable_repository->query()
-			->where_raw( '( post_status = \'publish\' OR post_status IS NULL )' )
-			->where_in( 'object_sub_type', $this->get_public_sub_types() )
-			->where_in( 'object_type', [ 'post' ] )
-			->where_not_in( 'id', $ignore_list )
-			->order_by_asc( 'incoming_link_count' )
-			->limit( 100 )
-			->find_many();
-		$least_linked = \array_map( [ $this->indexable_repository, 'ensure_permalink' ], $least_linked );
-		$least_linked = \array_map(
-			function ( $indexable ) {
-				$output = $indexable;
-				if ( $indexable->incoming_link_count === null ) {
-					$output->incoming_link_count = 0;
-				}
-				return $output;
-			},
-			$least_linked
-		);
-
+		$least_linked = $this->indexable_action->get_least_linked();
 		return new WP_REST_Response(
 			[
 				'json' => [
@@ -318,11 +232,24 @@ class Indexables_Route implements Route_Interface {
 	 * @return WP_REST_Response The success or failure response.
 	 */
 	public function ignore_indexable( WP_REST_Request $request ) {
-		$data = $this->add_indexable_to_ignore_list( $request->get_json_params() );
+		$params           = $request->get_json_params();
+		$ignore_list_name = $params['type'] . '_ignore_list';
+		$indexable_id     = intval( $params['id'] );
 
-		return new WP_REST_Response(
-			[ 'json' => $data ]
-		);
+		if ( $this->indexable_action->add_indexable_to_ignore_list( $ignore_list_name, $indexable_id ) ) {
+			return new WP_REST_Response(
+				[ 'success' => true ],
+				200
+			);
+		} else {
+			return new WP_REST_Response(
+				[
+					'success' => false,
+					'error'   => 'Could not save the option in the database',
+				],
+				500
+			);
+		}
 	}
 
 	/**
@@ -333,95 +260,23 @@ class Indexables_Route implements Route_Interface {
 	 * @return WP_REST_Response The success or failure response.
 	 */
 	public function restore_indexable( WP_REST_Request $request ) {
-		$data = $this->remove_indexable_from_ignore_list( $request->get_json_params() );
-
-		return new WP_REST_Response(
-			[ 'json' => $data ]
-		);
-	}
-
-	/**
-	 * Get public sub types.
-	 *
-	 * @return array The subtypes.
-	 */
-	protected function get_public_sub_types() {
-		$object_sub_types = \array_values(
-			\array_merge(
-				$this->post_type_helper->get_public_post_types(),
-				\get_taxonomies( [ 'public' => true ] )
-			)
-		);
-
-		$excluded_post_types = \apply_filters( 'wpseo_indexable_excluded_post_types', [ 'attachment' ] );
-		$object_sub_types    = \array_diff( $object_sub_types, $excluded_post_types );
-		return $object_sub_types;
-	}
-
-	/**
-	 * Stores an indexable in an ignore list.
-	 *
-	 * @param array $params The values to store.
-	 *
-	 * @return object The response object.
-	 */
-	protected function add_indexable_to_ignore_list( $params ) {
+		$params           = $request->get_json_params();
 		$ignore_list_name = $params['type'] . '_ignore_list';
-		$ignore_list      = $this->options_helper->get( $ignore_list_name, [] );
 		$indexable_id     = intval( $params['id'] );
 
-		if ( ! in_array( $indexable_id, $ignore_list, true ) ) {
-			$ignore_list[] = $indexable_id;
+		if ( $this->indexable_action->remove_indexable_from_ignore_list( $ignore_list_name, $indexable_id ) ) {
+			return new WP_REST_Response(
+				[ 'success' => true ],
+				200
+			);
+		} else {
+			return new WP_REST_Response(
+				[
+					'success' => false,
+					'error'   => 'Could not save the option in the database',
+				],
+				500
+			);
 		}
-
-		$success = $this->options_helper->set( $ignore_list_name, $ignore_list );
-
-		if ( ! $success ) {
-			return (object) [
-				'success' => false,
-				'status'  => 500,
-				'error'   => 'Could not save the option in the database',
-			];
-		}
-
-		return (object) [
-			'success' => true,
-			'status'  => 200,
-		];
-	}
-
-	/**
-	 * Removes an indexable from its ignore list.
-	 *
-	 * @param array $params The values to store.
-	 *
-	 * @return object The response object.
-	 */
-	protected function remove_indexable_from_ignore_list( $params ) {
-		$ignore_list_name        = $params['type'] . '_ignore_list';
-		$ignore_list             = $this->options_helper->get( $ignore_list_name, [] );
-		$indexable_to_be_removed = intval( $params['id'] );
-
-		$ignore_list = \array_filter(
-			$ignore_list,
-			function( $indexable ) use ( $indexable_to_be_removed ) {
-				return $indexable !== $indexable_to_be_removed;
-			}
-		);
-
-		$success = $this->options_helper->set( $ignore_list_name, $ignore_list );
-
-		if ( ! $success ) {
-			return (object) [
-				'success' => false,
-				'status'  => 500,
-				'error'   => 'Could not save the option in the database',
-			];
-		}
-
-		return (object) [
-			'success' => true,
-			'status'  => 200,
-		];
 	}
 }
