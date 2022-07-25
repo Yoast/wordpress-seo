@@ -31,7 +31,7 @@ module.exports = function( { entry, output, combinedOutputFile, cssExtractFileNa
 			...defaultConfig.plugins.filter(
 				( plugin ) =>
 					plugin.constructor.name !== "DependencyExtractionWebpackPlugin" &&
-					plugin.constructor.name !== "MiniCSSExtractPlugin" &&
+					plugin.constructor.name !== "MiniCssExtractPlugin" &&
 					plugin.constructor.name !== "CleanWebpackPlugin" &&
 					plugin.constructor.name !== "BundleAnalyzerPlugin"
 			),

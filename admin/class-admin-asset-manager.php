@@ -684,6 +684,7 @@ class WPSEO_Admin_Asset_Manager {
 			[
 				'name' => 'new-settings',
 				'src'  => 'new-settings-' . $flat_version,
+				'rtl'  => false,
 			],
 			[
 				'name' => 'workouts',

@@ -10,6 +10,7 @@ import { StyleSheetManager } from "styled-components";
 import App from "./app";
 import { validationSchema } from "./helpers/validation";
 import registerStore, { STORE_NAME } from "./store";
+import "./index.css";
 
 /**
  * Retrieves the initial settings.
