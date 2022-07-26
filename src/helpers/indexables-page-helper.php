@@ -1,11 +1,22 @@
 <?php
 
 namespace Yoast\WP\SEO\Helpers;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 
 /**
  * A helper object for the indexable page.
  */
 class Indexables_Page_Helper {
+
+
+	/**
+	 * Indexables_Page_Helper constructor.
+	 *
+	 * @param Options_Helper      $options      The options helper.
+	 */
+	public function __construct( Options_Helper $options ) {
+		$this->options = $options;
+	}
 
 	/**
 	 * Retrieves the size of the Indexables lists. This size is the amount of indexables that are displayed in each list.
@@ -38,5 +49,14 @@ class Indexables_Page_Helper {
 		}
 
 		return ( $this->get_indexables_list_size() * intval( $times ) );
+	}
+
+	/**
+	 * Checks if link suggestions are enabled or not
+	 *
+	 * @return bool Wether enable_link_suggestions is set to true or not.
+	 */
+	public function get_link_suggestions_enabled() {
+		return $this->options->get( 'enable_link_suggestions' ) === true;
 	}
 }
