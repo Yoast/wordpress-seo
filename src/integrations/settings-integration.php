@@ -101,7 +101,11 @@ class Settings_Integration implements Integration_Interface {
 	 * Constructs Settings_Integration.
 	 *
 	 * @param WPSEO_Admin_Asset_Manager $asset_manager       The WPSEO_Admin_Asset_Manager.
+	 * @param WPSEO_Replace_Vars        $replace_vars        The WPSEO_Replace_Vars.
+	 * @param Schema_Types              $schema_types        The Schema_Types.
 	 * @param Current_Page_Helper       $current_page_helper The Current_Page_Helper.
+	 * @param Post_Type_Helper          $post_type_helper    The Post_Type_Helper.
+	 * @param Product_Helper            $product_helper      The Product_Helper.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
@@ -165,7 +169,7 @@ class Settings_Integration implements Integration_Interface {
 	 */
 	public function register_setting() {
 		foreach ( WPSEO_Options::$options as $name => $instance ) {
-			if ( \in_array( $name, self::ALLOWED_OPTION_GROUPS ) ) {
+			if ( \in_array( $name, self::ALLOWED_OPTION_GROUPS, true ) ) {
 				\register_setting( 'wpseo_settings', $name );
 			}
 		}
@@ -214,7 +218,7 @@ class Settings_Integration implements Integration_Interface {
 	public function add_settings_saved_page( $pages ) {
 		\add_submenu_page(
 			null,
-			"",
+			'',
 			null,
 			'wpseo_manage_options',
 			'wpseo_settings_saved',
@@ -287,7 +291,7 @@ class Settings_Integration implements Integration_Interface {
 
 		// Add Yoast settings.
 		foreach ( WPSEO_Options::$options as $option_name => $instance ) {
-			if ( \in_array( $option_name, self::ALLOWED_OPTION_GROUPS ) ) {
+			if ( \in_array( $option_name, self::ALLOWED_OPTION_GROUPS, true ) ) {
 				$option_instance          = WPSEO_Options::get_option_instance( $option_name );
 				$defaults[ $option_name ] = ( $option_instance ) ? $option_instance->get_defaults() : [];
 				$settings[ $option_name ] = \array_merge( $defaults[ $option_name ], WPSEO_Options::get_option( $option_name ) );
@@ -311,13 +315,15 @@ class Settings_Integration implements Integration_Interface {
 	/**
 	 * Retrieves the settings and their values.
 	 *
+	 * @param array $settings The settings.
+	 *
 	 * @return array The settings.
 	 */
 	protected function get_disabled_settings( $settings ) {
 		$disabled_settings = [];
 
 		foreach ( WPSEO_Options::$options as $option_name => $instance ) {
-			if ( ! \in_array( $option_name, self::ALLOWED_OPTION_GROUPS ) ) {
+			if ( ! \in_array( $option_name, self::ALLOWED_OPTION_GROUPS, true ) ) {
 				continue;
 			}
 
@@ -356,6 +362,8 @@ class Settings_Integration implements Integration_Interface {
 
 	/**
 	 * Retrieves the schema.
+	 *
+	 * @param array $post_types The post types.
 	 *
 	 * @return array The schema.
 	 */
