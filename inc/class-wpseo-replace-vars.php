@@ -1319,7 +1319,7 @@ class WPSEO_Replace_Vars {
 						'name'   => $name,
 						'value'  => '',
 						'label'  => $replacement_variable->get_label(),
-						'hidden' => in_array( $name, $hidden ),
+						'hidden' => in_array( $name, $hidden, true ),
 					];
 				},
 				array_merge( $replacement_variables, $custom_variables )
