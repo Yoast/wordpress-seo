@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
 Tested up to: 6.0
-Stable tag: 19.3
+Stable tag: 19.4
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -243,17 +243,14 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 19.4 =
 Release Date: July 26th, 2022
 
-
-
-
-
+Yoast SEO 19.4 is out today! In this release, we’ve rolled out some improvements to our Schema structured data implementation. Additionally, we've fixed several bugs and added a couple of small enhancements to ensure you get the best user experience with Yoast SEO. But that's not all, we also have a new integration page coming in this release. Read more about what's new in Yoast SEO 19.4 in [our release post in English](https://yoa.st/release-26-7-22) or [our release post in Spanish](https://yoa.st/release-26-7-22-spanish)!
 
 Enhancements:
 
-* Allows marking inside of Classic editor blocks in the Block/Gutenberg editor.
 * Enhances the Integrations page and relocates it in the Yoast SEO sidebar menu.
 * Improves Schema for archive pages by using the featured image of the first post as `primaryImageOfPage` and by removing `potentialAction`.
 * Improves Schema for attachment pages by setting the proper `primaryImage` attribute.
+* Allows marking inside of Classic editor blocks in the Block/Gutenberg editor.
 * Improves the text analysis by adding curly (“”) and angular quotation marks («»).
 * Improves the text analysis by filtering out all versions of the ampersand (&).
 * Removes the date from the meta description for WooCommerce products.
