@@ -116,6 +116,15 @@ function IndexablesPage() {
 
 			const parsedResponse = await response.json;
 
+			if ( parsedResponse.length === 0 ) {
+				setSuggestedLinksModalContent( {
+					incomingLinksCount: incomingLinksCount,
+					linksList: [],
+					breadcrumbTitle: breadcrumbTitle,
+					permalink: permalink,
+				 } );
+				 return true;
+			}
 			if ( parsedResponse.length > 0 ) {
 				setSuggestedLinksModalContent( {
 					incomingLinksCount: incomingLinksCount,
@@ -211,10 +220,21 @@ function IndexablesPage() {
 			return <span>You have links suggestion disabled.</span>;
 		}
 
-		return suggestedLinksModalContent === null ? <SvgIcon icon="loading-spinner" /> : <Fragment>
+		if ( suggestedLinksModalContent === null ) {
+			return <SvgIcon icon="loading-spinner" />;
+		} else if ( suggestedLinksModalContent.linksList.length === 0 ) {
+			return <Fragment>
+				<h2>
+					{ suggestedLinksModalContent.breadcrumbTitle }
+					<span className="yst-italic">{ ` - ${suggestedLinksModalContent.incomingLinksCount} ${__( "incoming links", "wordpress-seo" )}` }</span>
+				</h2>
+				<p className="yst-italic yst-mb-2">No suggestions available</p>
+			</Fragment>;
+		}
+		return <Fragment>
 			<h2>
 				{ suggestedLinksModalContent.breadcrumbTitle }
-				<span className="yst-italic">{ ` &ndash; ${suggestedLinksModalContent.incomingLinksCount} ${__( "incoming links", "wordpress-seo" )}` }</span>
+				<span className="yst-italic">{ ` - ${suggestedLinksModalContent.incomingLinksCount} ${__( "incoming links", "wordpress-seo" )}` }</span>
 			</h2>
 			<p className="yst-italic yst-mb-2">{ `(${suggestedLinksModalContent.permalink})` }</p>
 			<ul>
