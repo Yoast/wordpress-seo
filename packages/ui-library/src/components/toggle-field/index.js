@@ -28,7 +28,7 @@ const ToggleField = ( {
 	...props
 } ) => (
 	<Switch.Group as="div" className={ classNames( "yst-toggle-field", disabled && "yst-toggle-field--disabled", className ) }>
-		{ ( label || children ) && (
+		{ ( label || description || children ) && (
 			<div className="yst-toggle-field__text">
 				<div className="yst-flex yst-items-center yst-mb-1">
 					<Label as={ Switch.Label } className="yst-toggle-field__label" label={ label } />
