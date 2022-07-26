@@ -244,6 +244,7 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 Release Date: August 9th, 2022
 
 
+
 Enhancements:
 
 * Adds the site logo and name as default values in the first time configuration and search appearance.

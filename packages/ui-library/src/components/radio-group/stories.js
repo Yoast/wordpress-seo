@@ -66,6 +66,7 @@ export const Variants = ( args ) => (
 			name="name-2"
 			value="2"
 			label="Inline-block Radio Group"
+			description="Radio group with a description."
 			options={ [
 				{ value: "1", label: "1", screenReaderLabel: "Option #1" },
 				{ value: "2", label: "2", screenReaderLabel: "Option #2" },
@@ -74,9 +75,7 @@ export const Variants = ( args ) => (
 			] }
 			onChange={ noop }
 			variant="inline-block"
-		>
-			Radio group with a description.
-		</RadioGroup>
+		/>
 	</div>
 );
 Variants.parameters = {

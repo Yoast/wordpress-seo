@@ -32,12 +32,9 @@ module.exports = {
 					900: "#501434",
 				},
 			},
-		},
-	},
-	variants: {
-		extend: {
-			backgroundColor: [ "active", "group-focus", "disabled" ],
-			textColor: [ "active", "group-focus", "disabled" ],
+			strokeWidth: {
+				3: "3px",
+			},
 		},
 	},
 	important: true,
