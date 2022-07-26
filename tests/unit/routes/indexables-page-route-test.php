@@ -4,27 +4,26 @@ namespace Yoast\WP\SEO\Tests\Unit\Routes;
 
 use Brain\Monkey;
 use Mockery;
-use WP_REST_Response;
-use Yoast\WP\SEO\Actions\Indexables\Indexable_Action;
+use Yoast\WP\SEO\Actions\Indexables_Page_Action;
 use Yoast\WP\SEO\Helpers\Indexables_Page_Helper;
 use Yoast\WP\SEO\Models\Indexable;
-use Yoast\WP\SEO\Routes\Indexables_Route;
+use Yoast\WP\SEO\Routes\Indexables_Page_Route;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Class Indexables_Route_Test.
+ * Class Indexables_Page_Route_Test.
  *
- * @coversDefaultClass \Yoast\WP\SEO\Routes\Indexables_Route
+ * @coversDefaultClass \Yoast\WP\SEO\Routes\Indexables_Page_Route
  *
  * @group routes
  * @group indexables
  */
-class Indexables_Route_Test extends TestCase {
+class Indexables_Page_Route_Test extends TestCase {
 
 	/**
 	 * Represents the indexable action.
 	 *
-	 * @var Mockery\MockInterface|Indexable_Action
+	 * @var Mockery\MockInterface|Indexables_Page_Action
 	 */
 	protected $indexable_action;
 
@@ -38,7 +37,7 @@ class Indexables_Route_Test extends TestCase {
 	/**
 	 * Represents the instance to test.
 	 *
-	 * @var Indexables_Route
+	 * @var Indexables_Page_Route
 	 */
 	protected $instance;
 
@@ -48,9 +47,9 @@ class Indexables_Route_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->indexable_action       = Mockery::mock( Indexable_Action::class );
+		$this->indexable_action       = Mockery::mock( Indexables_Page_Action::class );
 		$this->indexables_page_helper = Mockery::mock( Indexables_Page_Helper::class );
-		$this->instance               = new Indexables_Route( $this->indexable_action, $this->indexables_page_helper );
+		$this->instance               = new Indexables_Page_Route( $this->indexable_action, $this->indexables_page_helper );
 	}
 
 	/**
@@ -60,8 +59,8 @@ class Indexables_Route_Test extends TestCase {
 	 */
 	public function test_construct() {
 		$this->assertInstanceOf(
-			Indexable_Action::class,
-			$this->getPropertyValue( $this->instance, 'indexable_action' )
+			Indexables_Page_Action::class,
+			$this->getPropertyValue( $this->instance, 'indexables_page_action' )
 		);
 		$this->assertInstanceOf(
 			Indexables_Page_Helper::class,

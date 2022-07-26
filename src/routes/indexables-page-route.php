@@ -4,17 +4,15 @@ namespace Yoast\WP\SEO\Routes;
 
 use WP_REST_Request;
 use WP_REST_Response;
-use Yoast\WP\SEO\Actions\Indexables\Indexable_Action;
+use Yoast\WP\SEO\Actions\Indexables_Page_Action;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Helpers\Indexables_Page_Helper;
-use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Main;
 
 /**
- * Indexables_Route class.
+ * Indexables_Page_Route class.
  */
-class Indexables_Route implements Route_Interface {
+class Indexables_Page_Route implements Route_Interface {
 
 	use No_Conditionals;
 
@@ -63,9 +61,9 @@ class Indexables_Route implements Route_Interface {
 	/**
 	 * The indexable actions.
 	 *
-	 * @var Indexable_Action
+	 * @var Indexables_Page_Action
 	 */
-	private $indexable_action;
+	private $indexables_page_action;
 
 	/**
 	 * The indexables page helper.
@@ -77,11 +75,11 @@ class Indexables_Route implements Route_Interface {
 	/**
 	 * Indexables_Route constructor.
 	 *
-	 * @param Indexable_Action       $indexable_action The indexable actions.
+	 * @param Indexables_Page_Action $indexables_page_action The indexable actions.
 	 * @param Indexables_Page_Helper $indexables_page_helper The indexables page helper.
 	 */
-	public function __construct( Indexable_Action $indexable_action, Indexables_Page_Helper $indexables_page_helper ) {
-		$this->indexable_action       = $indexable_action;
+	public function __construct( Indexables_Page_Action $indexables_page_action, Indexables_Page_Helper $indexables_page_helper ) {
+		$this->indexables_page_action = $indexables_page_action;
 		$this->indexables_page_helper = $indexables_page_helper;
 	}
 
@@ -185,7 +183,7 @@ class Indexables_Route implements Route_Interface {
 	 * @return WP_REST_Response The posts with the smallest readability scores.
 	 */
 	public function get_least_readable() {
-		$least_readable = $this->indexable_action->get_least_readable( $this->indexables_page_helper->get_buffer_size() );
+		$least_readable = $this->indexables_page_action->get_least_readable( $this->indexables_page_helper->get_buffer_size() );
 		return new WP_REST_Response(
 			[
 				'json' => [
@@ -201,7 +199,7 @@ class Indexables_Route implements Route_Interface {
 	 * @return WP_REST_Response The posts with the smallest readability scores.
 	 */
 	public function get_least_seo_score() {
-		$least_seo_score = $this->indexable_action->get_least_seo_score( $this->indexables_page_helper->get_buffer_size() );
+		$least_seo_score = $this->indexables_page_action->get_least_seo_score( $this->indexables_page_helper->get_buffer_size() );
 		return new WP_REST_Response(
 			[
 				'json' => [
@@ -217,7 +215,7 @@ class Indexables_Route implements Route_Interface {
 	 * @return WP_REST_Response The most linked posts.
 	 */
 	public function get_most_linked() {
-		$most_linked = $this->indexable_action->get_most_linked( $this->indexables_page_helper->get_buffer_size() );
+		$most_linked = $this->indexables_page_action->get_most_linked( $this->indexables_page_helper->get_buffer_size() );
 		return new WP_REST_Response(
 			[
 				'json' => [
@@ -233,7 +231,7 @@ class Indexables_Route implements Route_Interface {
 	 * @return WP_REST_Response The most linked posts.
 	 */
 	public function get_least_linked() {
-		$least_linked = $this->indexable_action->get_least_linked( $this->indexables_page_helper->get_buffer_size() );
+		$least_linked = $this->indexables_page_action->get_least_linked( $this->indexables_page_helper->get_buffer_size() );
 		return new WP_REST_Response(
 			[
 				'json' => [
@@ -255,7 +253,7 @@ class Indexables_Route implements Route_Interface {
 		$ignore_list_name = $params['type'] . '_ignore_list';
 		$indexable_id     = intval( $params['id'] );
 
-		if ( $this->indexable_action->add_indexable_to_ignore_list( $ignore_list_name, $indexable_id ) ) {
+		if ( $this->indexables_page_action->add_indexable_to_ignore_list( $ignore_list_name, $indexable_id ) ) {
 			return new WP_REST_Response(
 				[
 					'json' => (object) [ 'success' => true ],
@@ -263,17 +261,16 @@ class Indexables_Route implements Route_Interface {
 				200
 			);
 		}
-		else {
-			return new WP_REST_Response(
-				[
-					'json' => (object) [
-						'success' => false,
-						'error'   => 'Could not save the option in the database',
-					],
+
+		return new WP_REST_Response(
+			[
+				'json' => (object) [
+					'success' => false,
+					'error'   => 'Could not save the option in the database',
 				],
-				500
-			);
-		}
+			],
+			500
+		);
 	}
 
 	/**
@@ -288,7 +285,7 @@ class Indexables_Route implements Route_Interface {
 		$ignore_list_name = $params['type'] . '_ignore_list';
 		$indexable_id     = intval( $params['id'] );
 
-		if ( $this->indexable_action->remove_indexable_from_ignore_list( $ignore_list_name, $indexable_id ) ) {
+		if ( $this->indexables_page_action->remove_indexable_from_ignore_list( $ignore_list_name, $indexable_id ) ) {
 			return new WP_REST_Response(
 				[
 					'json' => (object) [ 'success' => true ],
@@ -296,16 +293,15 @@ class Indexables_Route implements Route_Interface {
 				200
 			);
 		}
-		else {
-			return new WP_REST_Response(
-				[
-					'json' => (object) [
-						'success' => false,
-						'error'   => 'Could not save the option in the database',
-					],
+
+		return new WP_REST_Response(
+			[
+				'json' => (object) [
+					'success' => false,
+					'error'   => 'Could not save the option in the database',
 				],
-				500
-			);
-		}
+			],
+			500
+		);
 	}
 }

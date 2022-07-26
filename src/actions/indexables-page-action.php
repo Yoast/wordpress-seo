@@ -1,8 +1,7 @@
 <?php
 
-namespace Yoast\WP\SEO\Actions\Indexables;
+namespace Yoast\WP\SEO\Actions;
 
-use Yoast\WP\SEO\Helpers\Indexables_Page_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
@@ -10,7 +9,7 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 /**
  * Get action for indexables.
  */
-class Indexable_Action {
+class Indexables_Page_Action {
 
 	/**
 	 * The indexable repository.
@@ -76,7 +75,8 @@ class Indexable_Action {
 	 * @return array The posts with the smallest readability scores as an array.
 	 */
 	public function get_least_readable( $limit ) {
-		$ignore_list = empty( $this->options_helper->get( 'least_readability_ignore_list', [] ) ) ? [ -1 ] : $this->options_helper->get( 'least_readability_ignore_list', [] );
+		$least_readability_ignore_list = $this->options_helper->get( 'least_readability_ignore_list', [] );
+		$ignore_list                   = empty( $least_readability_ignore_list ) ? [ -1 ] : $least_readability_ignore_list;
 
 		// @TODO: Improve query.
 		$least_readable = $this->indexable_repository->query()
@@ -101,7 +101,8 @@ class Indexable_Action {
 	 */
 	public function get_least_seo_score( $limit ) {
 		// where_not_equal needs the set to check against not to be empty.
-		$ignore_list = empty( $this->options_helper->get( 'least_seo_score_ignore_list', [] ) ) ? [ -1 ] : $this->options_helper->get( 'least_seo_score_ignore_list', [] );
+		$least_seo_score_ignore_list = $this->options_helper->get( 'least_seo_score_ignore_list', [] );
+		$ignore_list                 = empty( $least_seo_score_ignore_list ) ? [ -1 ] : $least_seo_score_ignore_list;
 
 		// @TODO: Improve query.
 		$least_seo_score = $this->indexable_repository->query()
@@ -126,7 +127,8 @@ class Indexable_Action {
 	 */
 	public function get_most_linked( $limit ) {
 		// where_not_equal needs the set to check against not to be empty.
-		$ignore_list = empty( $this->options_helper->get( 'most_linked_ignore_list', [] ) ) ? [ -1 ] : $this->options_helper->get( 'most_linked_ignore_list', [] );
+		$most_linked_ignore_list = $this->options_helper->get( 'most_linked_ignore_list', [] );
+		$ignore_list             = empty( $most_linked_ignore_list ) ? [ -1 ] : $most_linked_ignore_list;
 
 		// @TODO: Improve query.
 		$most_linked = $this->indexable_repository->query()
@@ -152,7 +154,8 @@ class Indexable_Action {
 	 */
 	public function get_least_linked( $limit ) {
 		// where_not_equal needs the set to check against not to be empty.
-		$ignore_list = empty( $this->options_helper->get( 'least_linked_ignore_list', [] ) ) ? [ -1 ] : $this->options_helper->get( 'least_linked_ignore_list', [] );
+		$least_linked_ignore_list = $this->options_helper->get( 'least_linked_ignore_list', [] );
+		$ignore_list              = empty( $least_linked_ignore_list ) ? [ -1 ] : $least_linked_ignore_list;
 
 		// @TODO: Improve query.
 		$least_linked = $this->indexable_repository->query()

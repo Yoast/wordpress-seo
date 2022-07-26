@@ -1,12 +1,10 @@
 <?php
 
-namespace Yoast\WP\SEO\Tests\Unit\Actions\Indexables;
+namespace Yoast\WP\SEO\Tests\Unit\Actions;
 
-use Brain\Monkey;
 use Mockery;
-use wpdb;
 use Yoast\WP\Lib\ORM;
-use Yoast\WP\SEO\Actions\Indexables\Indexable_Action;
+use Yoast\WP\SEO\Actions\Indexables_Page_Action;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Models\Indexable;
@@ -14,26 +12,26 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Indexable_Action_Test class.
+ * Indexables_Page_Action_Test class.
  *
  * @group actions
  * @group indexables
  *
- * @coversDefaultClass \Yoast\WP\SEO\Actions\Indexables\Indexable_Action
+ * @coversDefaultClass \Yoast\WP\SEO\Actions\Indexables_Page_Action
  */
-class Indexable_Action_Test extends TestCase {
+class Indexables_Page_Action_Test extends TestCase {
 
 	/**
 	 * The instance to test.
 	 *
-	 * @var Indexable_Action
+	 * @var Indexables_Page_Action
 	 */
 	protected $instance;
 
 	/**
 	 * The instance to test.
 	 *
-	 * @var Mockery\MockInterface|Indexable_Action
+	 * @var Mockery\MockInterface|Indexables_Page_Action
 	 */
 	protected $mock_instance;
 
@@ -68,9 +66,9 @@ class Indexable_Action_Test extends TestCase {
 		$this->post_type_helper     = Mockery::mock( Post_Type_Helper::class );
 		$this->options_helper       = Mockery::mock( Options_Helper::class );
 
-		$this->instance      = new Indexable_Action( $this->indexable_repository, $this->post_type_helper, $this->options_helper );
+		$this->instance      = new Indexables_Page_Action( $this->indexable_repository, $this->post_type_helper, $this->options_helper );
 		$this->mock_instance = Mockery::mock(
-			Indexable_Action::class,
+			Indexables_Page_Action::class,
 			[ $this->indexable_repository, $this->post_type_helper, $this->options_helper ]
 		)
 			->makePartial()
@@ -134,7 +132,7 @@ class Indexable_Action_Test extends TestCase {
 		$this->options_helper
 			->expects( 'get' )
 			->with( 'least_readability_ignore_list', [] )
-			->twice()
+			->once()
 			->andReturn( $least_readability_ignore_list );
 
 		$this->mock_instance
@@ -227,7 +225,7 @@ class Indexable_Action_Test extends TestCase {
 		$this->options_helper
 			->expects( 'get' )
 			->with( 'least_seo_score_ignore_list', [] )
-			->twice()
+			->once()
 			->andReturn( $least_seo_score_ignore_list );
 
 		$this->mock_instance
@@ -320,7 +318,7 @@ class Indexable_Action_Test extends TestCase {
 		$this->options_helper
 			->expects( 'get' )
 			->with( 'most_linked_ignore_list', [] )
-			->twice()
+			->once()
 			->andReturn( $most_linked_ignore_list );
 
 		$this->mock_instance
@@ -427,7 +425,7 @@ class Indexable_Action_Test extends TestCase {
 		$this->options_helper
 			->expects( 'get' )
 			->with( 'least_linked_ignore_list', [] )
-			->twice()
+			->once()
 			->andReturn( $least_linked_ignore_list );
 
 		$this->mock_instance
