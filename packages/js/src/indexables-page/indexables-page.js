@@ -22,7 +22,7 @@ function IndexablesPage() {
 	);
 	const [ ignoreIndexable, setIgnoreIndexable ] = useState( null );
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
-	const [ suggestedLinksList, setSuggestedLinksList ] = useState( [] );
+	const [ suggestedLinksModalContent, setSuggestedLinksModalContent ] = useState( null );
 
 	/**
 	 * Fetches a list of indexables.
@@ -89,7 +89,7 @@ function IndexablesPage() {
 		return ( indexables.length < 7 ) ? fetchList( listName ) : renderList( listName );
 	};
 
-	const handleOpenModal = useCallback( async( indexableId ) => {
+	const handleOpenModal = useCallback( async( indexableId, incomingLinksCount ) => {
 		setIsModalOpen( true );
 		try {
 			const response = await apiFetch( {
@@ -100,8 +100,7 @@ function IndexablesPage() {
 			const parsedResponse = await response.json;
 
 			if ( parsedResponse.length > 0 ) {
-				setSuggestedLinksList( parsedResponse );
-				console.log(parsedResponse);
+				setSuggestedLinksModalContent( { incomingLinksCount: incomingLinksCount, linksList: parsedResponse } );
 				return true;
 			}
 			return false;
@@ -110,11 +109,11 @@ function IndexablesPage() {
 			console.error( error.message );
 			return false;
 		}
-	}, [ setSuggestedLinksList, setIsModalOpen ] );
+	}, [ setSuggestedLinksModalContent, setIsModalOpen ] );
 
 	const handleCloseModal = useCallback( () => {
 		setIsModalOpen( false );
-		setSuggestedLinksList( [] );
+		setSuggestedLinksModalContent( null );
 	}, [] );
 
 	const handleUndo = useCallback( async( ignored ) => {
@@ -185,16 +184,20 @@ function IndexablesPage() {
 			onClose={ handleCloseModal }
 			isOpen={ isModalOpen }
 		>
-			{ suggestedLinksList.length === 0 ? <SvgIcon icon="loading-spinner" /> : <ul>
-				{
-					suggestedLinksList.map( ( link, idx ) => {
-						return <li key={ idx }>
-							{ link.breadcrumb_title }
-						</li>;
+			{ suggestedLinksModalContent === null ? <SvgIcon icon="loading-spinner" /> : <fragment>
+				<span>{ `Incoming links: ${suggestedLinksModalContent.incomingLinksCount}` }</span>
+				<ul>
+					{
+						suggestedLinksModalContent.linksList.map( ( link, idx ) => {
+							return <li key={ idx }>
+								{ link.breadcrumb_title }
+							</li>;
+						}
+						)
 					}
-					)
-				}
-			</ul> }
+				</ul>
+			</fragment>
+			}
 		</Modal>
 
 		{ ignoreIndexable && <Alert><Button onClick={ onClickUndo( ignoreIndexable ) }>{ `Ignore ${ignoreIndexable.indexable.id}` }</Button></Alert> }

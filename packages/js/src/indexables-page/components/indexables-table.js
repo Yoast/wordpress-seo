@@ -34,9 +34,8 @@ function PlaceholderRows( { columnCount } ) {
  * @returns {WPElement} A table with the indexables.
  */
 const IndexableRow = ( { indexable, keyHeaderMap, type, addToIgnoreList, position, handleOpenModal } ) => {
-
 	const handleLink = useCallback( ( e ) => {
-		handleOpenModal( e.currentTarget.dataset.indexableid );
+		handleOpenModal( e.currentTarget.dataset.indexableid, e.currentTarget.dataset.incominglinkscount );
 	}, [ handleOpenModal ] );
 
 	const handleIgnore =  useCallback( async( e ) => {
@@ -79,7 +78,7 @@ const IndexableRow = ( { indexable, keyHeaderMap, type, addToIgnoreList, positio
 				} else if ( key === "ignore" ) {
 					return <Table.Cell key="ignore"><Button variant="error" data-indexableid={ indexable.id } data-indexabletype={ type } onClick={ handleIgnore }>Ignore</Button></Table.Cell>;
 				} else if ( key === "links" ) {
-					return <Table.Cell key="links"><Button data-indexableid={ indexable.id } data-indexabletype={ type } onClick={ handleLink }>Links</Button></Table.Cell>;
+					return <Table.Cell key="links"><Button data-indexableid={ indexable.id } data-indexabletype={ type } data-incominglinkscount={ indexable.incoming_link_count === null ? 0 : indexable.incoming_links_count } onClick={ handleLink }>Links</Button></Table.Cell>;
 				}
 				return <Table.Cell key={ `indexable-header-${ index }` }>{ indexable[ key ] }</Table.Cell>;
 			} )
