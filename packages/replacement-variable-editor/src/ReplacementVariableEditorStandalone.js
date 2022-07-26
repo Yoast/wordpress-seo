@@ -34,7 +34,7 @@ import {
 	getAnchorBlock,
 	insertText,
 	removeSelectedText,
-	moveCaret,
+	moveCaret, removeEmojiCompletely,
 } from "./helpers/replaceText";
 import {
 	selectReplacementVariables,
@@ -126,6 +126,7 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	 */
 	initializeBinds() {
 		this.onChange = this.onChange.bind( this );
+		this.handleKeyCommand = this.handleKeyCommand.bind( this );
 		this.onSearchChange = this.onSearchChange.bind( this );
 		this.setEditorRef = this.setEditorRef.bind( this );
 		this.handleCopyCutEvent = this.handleCopyCutEvent.bind( this );
@@ -204,6 +205,54 @@ class ReplacementVariableEditorStandalone extends React.Component {
 				resolve();
 			} );
 		} );
+	}
+
+	/**
+	 * Handles a keystroke for the draft js editor.
+	 *
+	 * @param {string} command The given command key.
+	 * @returns {string} If the keystroke is handled or not.
+	 */
+	handleKeyCommand( command ) {
+		if ( command !== "backspace" ) {
+			return "not-handled";
+		}
+
+		// Regex sources from https://github.com/facebook/draft-js/issues/1105
+		// eslint-disable-next-line max-len
+		const emojiRegExp = new RegExp( "(?:\\p{RI}\\p{RI}|\\p{Emoji}(?:\\p{Emoji_Modifier}|\\u{FE0F}\\u{20E3}?|[\\u{E0020}-\\u{E007E}]+\\u{E007F})?(?:\\u{200D}\\p{Emoji}(?:\\p{Emoji_Modifier}|\\u{FE0F}\\u{20E3}?|[\\u{E0020}-\\u{E007E}]+\\u{E007F})?)*)", "gu" );
+
+		let editorState = removeSelectedText( this.state.editorState );
+		const selection = editorState.getSelection();
+		if ( ! selection.isCollapsed() ) {
+			return "not-handled";
+		}
+
+		const startOffset = selection.getStartOffset();
+
+		if ( startOffset < 0 ) {
+			return "not-handled";
+		}
+
+		const content = editorState.getCurrentContent();
+		const block = content.getBlockForKey( selection.getStartKey() );
+		const blockText = block.getText();
+
+
+		if ( ( blockText.codePointAt( startOffset - 1 ) || 0 ) <= 127 ) {
+			return "not-handled";
+		}
+
+		const lastChars = blockText.slice( 0, startOffset );
+		const match = lastChars.match( emojiRegExp );
+		if ( match ) {
+			editorState = removeEmojiCompletely( editorState, match );
+
+			// Save the editor state and then focus the editor.
+			this.onChange( editorState ).then( () => this.focus() );
+			// This is really important. If this is removed draft js will not do anything.
+			return "handled";
+		}
 	}
 
 	/**
@@ -523,6 +572,7 @@ class ReplacementVariableEditorStandalone extends React.Component {
 					key={ this.state.editorKey }
 					textDirectionality={ theme.isRtl ? "RTL" : "LTR" }
 					editorState={ editorState }
+					handleKeyCommand={ this.handleKeyCommand }
 					onChange={ this.onChange }
 					onFocus={ onFocus }
 					onBlur={ onBlur }
