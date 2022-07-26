@@ -1,17 +1,17 @@
-import { potentiallyHarmful, potentiallyHarmfulUnless, potentiallyHarmfulUnlessNonInclusive } from "./feedbackStrings";
+import { potentiallyHarmful, potentiallyHarmfulUnless, potentiallyHarmfulUnlessNonInclusive, harmfulNonInclusive } from "./feedbackStrings";
 import { isPrecededByException } from "../helpers/isPrecededByException";
 import { isFollowedByException } from "../helpers/isFollowedByException";
 import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
 import { SCORES } from "./scores";
 
 const specificAgeGroup = "Or, if possible, be specific about the group you are referring to (e.g. \"people older than 70\").";
-const characteristicIfKnown = "Consider using an alternative, such as a specific characteristic or experience if it is known.";
+const characteristicIfKnown = "Consider using an alternative, such as a specific characteristic or experience if it is known (e.g. <i>has Alzheimer's</i>).";
 
 const assessments = [
 	{
 		identifier: "seniorCitizens",
 		nonInclusivePhrases: [ "senior citizen", "senior citizens" ],
-		inclusiveAlternatives: "older persons/older people, older citizen(s)",
+		inclusiveAlternatives: "\"older citizen(s)\"",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: [ potentiallyHarmfulUnless, specificAgeGroup ].join( " " ),
 		learnMoreUrl: "https://yoa.st/",
@@ -19,7 +19,7 @@ const assessments = [
 	{
 		identifier: "agingDependants",
 		nonInclusivePhrases: [ "aging dependants" ],
-		inclusiveAlternatives: "older persons/older people",
+		inclusiveAlternatives: "\"older people\"",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: [ potentiallyHarmfulUnlessNonInclusive, specificAgeGroup ].join( " " ),
 		learnMoreUrl: "https://yoa.st/",
@@ -27,7 +27,7 @@ const assessments = [
 	{
 		identifier: "elderly",
 		nonInclusivePhrases: [ "elderly" ],
-		inclusiveAlternatives: "part of the older population, older persons/older people",
+		inclusiveAlternatives: "\"older people\"",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: [ potentiallyHarmfulUnless, specificAgeGroup ].join( " " ),
 		learnMoreUrl: "https://yoa.st/",
@@ -35,15 +35,15 @@ const assessments = [
 	{
 		identifier: "senile",
 		nonInclusivePhrases: [ "senile" ],
-		inclusiveAlternatives: "specify the mental disorder (e.g. has Alzheimer's)",
+		inclusiveAlternatives: "",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: [ potentiallyHarmful, characteristicIfKnown ].join( " " ),
+		feedbackFormat: [ harmfulNonInclusive, characteristicIfKnown ].join( " " ),
 		learnMoreUrl: "https://yoa.st/",
 	},
 	{
 		identifier: "senility",
 		nonInclusivePhrases: [ "senility" ],
-		inclusiveAlternatives: "dementia",
+		inclusiveAlternatives: "\"dementia\"",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
@@ -51,7 +51,7 @@ const assessments = [
 	{
 		identifier: "seniors",
 		nonInclusivePhrases: [ "seniors" ],
-		inclusiveAlternatives: "older persons/people",
+		inclusiveAlternatives: "\"older people\"",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: [ potentiallyHarmfulUnless, specificAgeGroup ].join( " " ),
 		learnMoreUrl: "https://yoa.st/",
