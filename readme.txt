@@ -247,7 +247,8 @@ Release Date: August 9th, 2022
 Enhancements:
 
 * Adds the site logo and name as default values in the first time configuration and search appearance.
-* Change the order in which Schema nodes are output from `Organization / Person > WebSite > WebPage > Article` to `Article > WebPage > WebSite > Organization / Person`. This fixes validation issues for the Schema validator and puts the most important Schema content first.
+* Changes the order in which Schema nodes are output from `Organization / Person > WebSite > WebPage > Article` to `Article > WebPage > WebSite > Organization / Person`. This fixes validation issues for the Schema validator and puts the most important Schema content first.
+* Fixes a performance issue in the meta description editor that would occur when very large amounts of custom fields were used.
 
 Bugfixes:
 
