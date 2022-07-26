@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Routes;
 use WP_REST_Request;
 use WP_REST_Response;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
+use Yoast\WP\SEO\Helpers\Indexables_Page_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Main;
@@ -68,6 +69,13 @@ class Indexables_Route implements Route_Interface {
 	private $indexable_repository;
 
 	/**
+	 * The indexables page helper.
+	 *
+	 * @var Indexables_Page_Helper
+	 */
+	private $indexables_page_helper;
+
+	/**
 	 * The post type helper.
 	 *
 	 * @var Post_Type_Helper
@@ -77,18 +85,21 @@ class Indexables_Route implements Route_Interface {
 	/**
 	 * Indexables_Route constructor.
 	 *
-	 * @param Indexable_Repository $indexable_repository The indexable repository.
-	 * @param Post_Type_Helper     $post_type_helper     The post type helper.
-	 * @param Options_Helper       $options_helper       The options helper.
+	 * @param Indexable_Repository   $indexable_repository   The indexable repository.
+	 * @param Indexables_Page_Helper $indexables_page_helper The indexables page helper.
+	 * @param Post_Type_Helper       $post_type_helper       The post type helper.
+	 * @param Options_Helper         $options_helper         The options helper.
 	 */
 	public function __construct(
 		Indexable_Repository $indexable_repository,
+		Indexables_Page_Helper $indexables_page_helper,
 		Post_Type_Helper $post_type_helper,
 		Options_Helper $options_helper
 	) {
-		$this->indexable_repository = $indexable_repository;
-		$this->post_type_helper     = $post_type_helper;
-		$this->options_helper       = $options_helper;
+		$this->indexable_repository   = $indexable_repository;
+		$this->indexables_page_helper = $indexables_page_helper;
+		$this->post_type_helper       = $post_type_helper;
+		$this->options_helper         = $options_helper;
 	}
 
 	/**
@@ -146,6 +157,7 @@ class Indexables_Route implements Route_Interface {
 				'methods'             => 'POST',
 				'callback'            => [ $this, 'ignore_indexable' ],
 				'permission_callback' => $edit_others_posts,
+				// @TODO: add validation/sanitization.
 				'args'                => [
 					'id' => [
 						'type'     => 'integer',
@@ -164,6 +176,7 @@ class Indexables_Route implements Route_Interface {
 				'methods'             => 'POST',
 				'callback'            => [ $this, 'restore_indexable' ],
 				'permission_callback' => $edit_others_posts,
+				// @TODO: add validation/sanitization.
 				'args'                => [
 					'id' => [
 						'type'     => 'integer',
@@ -186,6 +199,7 @@ class Indexables_Route implements Route_Interface {
 	public function get_least_readable() {
 		// where_not_equal needs the set to check against not to be empty.
 		$ignore_list = empty( $this->options_helper->get( 'least_readability_ignore_list', [] ) ) ? [ -1 ] : $this->options_helper->get( 'least_readability_ignore_list', [] );
+		$limit       = $this->indexables_page_helper->get_buffer_size();
 
 		// @TODO: Improve query.
 		$least_readable = $this->indexable_repository->query()
@@ -195,7 +209,7 @@ class Indexables_Route implements Route_Interface {
 			->where_not_in( 'id', $ignore_list )
 			->where_not_equal( 'readability_score', 0 )
 			->order_by_asc( 'readability_score' )
-			->limit( 100 )
+			->limit( $limit )
 			->find_many();
 
 		$least_readable = \array_map( [ $this->indexable_repository, 'ensure_permalink' ], $least_readable );
@@ -217,6 +231,7 @@ class Indexables_Route implements Route_Interface {
 	public function get_least_seo_score() {
 		// where_not_equal needs the set to check against not to be empty.
 		$ignore_list = empty( $this->options_helper->get( 'least_seo_score_ignore_list', [] ) ) ? [ -1 ] : $this->options_helper->get( 'least_seo_score_ignore_list', [] );
+		$limit       = $this->indexables_page_helper->get_buffer_size();
 
 		// @TODO: Improve query.
 		$least_seo_score = $this->indexable_repository->query()
@@ -226,7 +241,7 @@ class Indexables_Route implements Route_Interface {
 			->where_not_in( 'id', $ignore_list )
 			->where_not_equal( 'primary_focus_keyword', 0 )
 			->order_by_asc( 'primary_focus_keyword_score' )
-			->limit( 100 )
+			->limit( $limit )
 			->find_many();
 
 		$least_seo_score = \array_map( [ $this->indexable_repository, 'ensure_permalink' ], $least_seo_score );
@@ -248,6 +263,7 @@ class Indexables_Route implements Route_Interface {
 	public function get_most_linked() {
 		// where_not_equal needs the set to check against not to be empty.
 		$ignore_list = empty( $this->options_helper->get( 'most_linked_ignore_list', [] ) ) ? [ -1 ] : $this->options_helper->get( 'most_linked_ignore_list', [] );
+		$limit       = $this->indexables_page_helper->get_buffer_size();
 
 		// @TODO: Improve query.
 		$most_linked = $this->indexable_repository->query()
@@ -258,7 +274,7 @@ class Indexables_Route implements Route_Interface {
 			->where_in( 'object_type', [ 'post' ] )
 			->where_not_in( 'id', $ignore_list )
 			->order_by_desc( 'incoming_link_count' )
-			->limit( 100 )
+			->limit( $limit )
 			->find_many();
 		$most_linked = \array_map( [ $this->indexable_repository, 'ensure_permalink' ], $most_linked );
 
@@ -279,6 +295,7 @@ class Indexables_Route implements Route_Interface {
 	public function get_least_linked() {
 		// where_not_equal needs the set to check against not to be empty.
 		$ignore_list = empty( $this->options_helper->get( 'least_linked_ignore_list', [] ) ) ? [ -1 ] : $this->options_helper->get( 'least_linked_ignore_list', [] );
+		$limit       = $this->indexables_page_helper->get_buffer_size();
 
 		// @TODO: Improve query.
 		$least_linked = $this->indexable_repository->query()
@@ -287,7 +304,7 @@ class Indexables_Route implements Route_Interface {
 			->where_in( 'object_type', [ 'post' ] )
 			->where_not_in( 'id', $ignore_list )
 			->order_by_asc( 'incoming_link_count' )
-			->limit( 100 )
+			->limit( $limit )
 			->find_many();
 		$least_linked = \array_map( [ $this->indexable_repository, 'ensure_permalink' ], $least_linked );
 		$least_linked = \array_map(
