@@ -22,11 +22,21 @@ class Indexables_Page_Helper {
 	}
 
 	/**
-	 * Retrieves the size of the buffor for the Indexables lists. This size is the amount of indexables that are fetched upon page load and it's 20 times bigger than the listed items.
+	 * Retrieves the size of the buffer for the Indexables lists. This size is the amount of indexables that are fetched upon page load and it's by default 20 times bigger than the listed items.
 	 *
 	 * @return int The size of the Indexables lists.
 	 */
 	public function get_buffer_size() {
-		return $this->get_indexables_list_size() * 20;
+		/**
+		 * Filter 'wpseo_indexables_buffer_size' - Allow filtering the size of the buffer for the Indexables lists.
+		 *
+		 * @api int The size of the buffer for the Indexables lists.
+		 */
+		$times = \apply_filters( 'wpseo_indexables_buffer_size', 20 );
+		if ( $times < 3 ) {
+			$times = 3;
+		}
+
+		return ( $this->get_indexables_list_size() * intval( $times ) );
 	}
 }

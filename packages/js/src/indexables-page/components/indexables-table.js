@@ -7,6 +7,9 @@ import { Button, Table } from "@yoast/ui-library";
 import { useState, useEffect, useCallback } from "@wordpress/element";
 
 const Link = makeOutboundLink();
+
+/* eslint-disable no-warning-comments */
+
 /**
  * Renders placeholders rows while loading the indexables table.
  *
@@ -53,7 +56,6 @@ const IndexableRow = ( { indexable, keyHeaderMap, type, addToIgnoreList, positio
 			// @TODO: Throw an error notification.
 			console.error( "Ignoring post has failed." );
 			return false;
-
 		} catch ( error ) {
 			// @TODO: Throw an error notification.
 			console.error( error.message );
