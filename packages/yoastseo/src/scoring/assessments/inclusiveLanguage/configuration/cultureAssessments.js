@@ -263,6 +263,22 @@ const cultureAssessments = [
 		learnMoreUrl: "https://yoa.st/",
 	},
 	{
+		identifier: "third-worldCountry",
+		nonInclusivePhrases: [ "third-world country" ],
+		inclusiveAlternatives: "low-income country, developing country",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmful,
+		learnMoreUrl: "https://yoa.st/",
+	},
+	{
+		identifier: "third-worldCountry",
+		nonInclusivePhrases: [ "third world country" ],
+		inclusiveAlternatives: "low-income country, developing country",
+		score: SCORES.NON_INCLUSIVE,
+		feedbackFormat: potentiallyHarmful,
+		learnMoreUrl: "https://yoa.st/",
+	},
+	{
 		identifier: "underdevelopedCountry",
 		nonInclusivePhrases: [ "underdeveloped country", "underdeveloped countries" ],
 		inclusiveAlternatives: "developing country/countries",

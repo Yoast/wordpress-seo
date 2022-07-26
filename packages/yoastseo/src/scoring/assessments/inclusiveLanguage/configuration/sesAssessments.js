@@ -34,14 +34,6 @@ const sesAssessments = [
 		feedbackFormat: potentiallyHarmfulUnless,
 		learnMoreUrl: "https://yoa.st/",
 	},
-	{
-		identifier: "third-worldCountry",
-		nonInclusivePhrases: [ "third-world country" ],
-		inclusiveAlternatives: "low-income country, developing country",
-		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: "https://yoa.st/",
-	},
 ];
 
 export default sesAssessments;
