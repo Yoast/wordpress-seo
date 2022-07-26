@@ -32,6 +32,9 @@ const TextFormality = ( { location } ) => {
 	const formalityLevel = useSelect( select => select( "yoast-seo/editor" ).getTextFormalityLevel(), [] );
 	const textLength = useSelect( select => select( "yoast-seo/editor" ).getTextLength(), [] ).count;
 	const upsellLink = useMemo( () => get( window, `wpseoAdminL10n.shortlinks-insights-upsell-${ location }-text_formality`, "" ), [ location ] );
+	const infoLinkFree = useMemo( () => get( window, `wpseoAdminL10n.shortlinks-insights-${ location }-text_formality_info_free`, "" ), [ location ] );
+	const infoLinkPremium = useMemo( () => get( window, `wpseoAdminL10n.shortlinks-insights-${ location }-text_formality_info_premium`, "" ), [ location ] );
+
 	const upsellDescription = useMemo( () => {
 		return createInterpolateElement(
 			sprintf(
@@ -48,8 +51,6 @@ const TextFormality = ( { location } ) => {
 	}, [] );
 
 	const textFormalityInfo = useMemo( () => {
-		const infoLinkFree = useMemo( () => get( window, `wpseoAdminL10n.shortlinks-insights-${ location }-text_formality_info_free`, "" ), [ location ] );
-		const infoLinkPremium = useMemo( () => get( window, `wpseoAdminL10n.shortlinks-insights-${ location }-text_formality_info_premium`, "" ), [ location ] );
 		return shouldUpsell
 			? createInterpolateElement(
 				sprintf(
