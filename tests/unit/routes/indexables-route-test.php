@@ -300,7 +300,7 @@ class Indexables_Route_Test extends TestCase {
 	 * @param array $params_rest_response the expected parameters passed to the constructor of WP_REST_Response.
 	 * @covers ::ignore_indexable
 	 *
-	 * @dataProvider test_ignore_indexables_provider
+	 * @dataProvider ignore_indexables_provider
 	 */
 	public function test_ignore_indexables( $request_params, $indexable_action_params, $indexable_action_return_value, $params_rest_response ) {
 		$wp_rest_request = Mockery::mock( 'WP_REST_Request' );
@@ -336,7 +336,7 @@ class Indexables_Route_Test extends TestCase {
 	 *
 	 * @return array Data for test_ignore_indexables function.
 	 */
-	public function test_ignore_indexables_provider() {
+	public function ignore_indexables_provider() {
 		$valid_parameter_types = [
 			'request_params'                => [
 				'type' => 'least_readability',
@@ -387,7 +387,7 @@ class Indexables_Route_Test extends TestCase {
 	 * @param array $params_rest_response the expected parameters passed to the constructor of WP_REST_Response.
 	 * @covers ::restore_indexable
 	 *
-	 * @dataProvider test_restore_indexables_provider
+	 * @dataProvider restore_indexables_provider
 	 */
 	public function test_restore_indexables( $request_params, $indexable_action_params, $indexable_action_return_value, $params_rest_response ) {
 		$wp_rest_request = Mockery::mock( 'WP_REST_Request' );
@@ -423,7 +423,7 @@ class Indexables_Route_Test extends TestCase {
 	 *
 	 * @return array Data for test_restore_indexables function.
 	 */
-	public function test_restore_indexables_provider() {
+	public function restore_indexables_provider() {
 		$valid_parameter_types = [
 			'request_params'                => [
 				'type' => 'least_readability',
