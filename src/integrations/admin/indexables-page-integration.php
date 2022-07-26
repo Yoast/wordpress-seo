@@ -6,6 +6,7 @@ use WPSEO_Admin_Asset_Manager;
 use WPSEO_Option_Tab;
 
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Helpers\Indexables_Page_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
@@ -20,6 +21,13 @@ class Indexables_Page_Integration implements Integration_Interface {
 	 * @var WPSEO_Admin_Asset_Manager
 	 */
 	private $admin_asset_manager;
+
+	/**
+	 * The indexables page helper.
+	 *
+	 * @var Indexables_Page_Helper
+	 */
+	private $indexables_page_helper;
 
 	/**
 	 * The product helper.
@@ -39,14 +47,17 @@ class Indexables_Page_Integration implements Integration_Interface {
 	 * Indexables_Page_Integration constructor.
 	 *
 	 * @param WPSEO_Admin_Asset_Manager $admin_asset_manager    The admin asset manager.
+	 * @param Indexables_Page_Helper    $indexables_page_helper The indexables page helper.
 	 * @param Product_Helper            $product_helper         The product helper.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $admin_asset_manager,
+		Indexables_Page_Helper $indexables_page_helper,
 		Product_Helper $product_helper
 	) {
-		$this->admin_asset_manager = $admin_asset_manager;
-		$this->product_helper      = $product_helper;
+		$this->admin_asset_manager    = $admin_asset_manager;
+		$this->indexables_page_helper = $indexables_page_helper;
+		$this->product_helper         = $product_helper;
 	}
 
 	/**
@@ -84,5 +95,12 @@ class Indexables_Page_Integration implements Integration_Interface {
 		$this->admin_asset_manager->enqueue_script( 'indexables-page' );
 		$this->admin_asset_manager->enqueue_style( 'tailwind' );
 		$this->admin_asset_manager->enqueue_style( 'monorepo' );
+		$this->admin_asset_manager->localize_script(
+			'indexables-page',
+			'wpseoIndexablesPageData',
+			[
+				'listSize'   => $this->indexables_page_helper->get_indexables_list_size(),
+			]
+		);
 	}
 }

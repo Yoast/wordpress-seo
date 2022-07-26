@@ -1,17 +1,20 @@
+/* global wpseoIndexablesPageData */
 import apiFetch from "@wordpress/api-fetch";
 import { __ } from "@wordpress/i18n";
-import { useEffect, useState, useCallback } from "@wordpress/element";
-import { makeOutboundLink } from "@yoast/helpers";
+import { useEffect, useState, useCallback, Fragment } from "@wordpress/element";
 import { Button, Alert, Modal } from "@yoast/ui-library";
 import IndexablesTable from "./components/indexables-table";
 import SvgIcon from "../../../components/src/SvgIcon";
 /* eslint-disable camelcase */
+/* eslint-disable no-warning-comments */
 /**
  * A table.
  *
  * @returns {WPElement} A table.
  */
 function IndexablesPage() {
+	const listSize = parseInt( wpseoIndexablesPageData.listSize, 10 );
+	const minimumIndexablesInBuffer = listSize * 2;
 	const [ listedIndexables, setlistedIndexables ] = useState(
 		{
 			least_readability: [],
@@ -40,10 +43,18 @@ function IndexablesPage() {
 			} );
 
 			const parsedResponse = await response.json;
+			let newList = parsedResponse.list;
+
+			if ( ignoreIndexable !== null ) {
+				newList = newList.filter( indexable => {
+					return indexable.id !== ignoreIndexable.indexable.id;
+				} );
+			}
+
 			setlistedIndexables( prevState => {
 				return {
 					...prevState,
-					[ listName ]: parsedResponse.list,
+					[ listName ]: newList,
 				};
 			  } );
 			return true;
@@ -86,7 +97,8 @@ function IndexablesPage() {
 	 * @returns {boolean} True if the update was successful.
 	 */
 	const updateList = ( listName, indexables ) => {
-		return ( indexables.length < 7 ) ? fetchList( listName ) : renderList( listName );
+		// @TODO: we have to also check if there are even other posts to re-fetch and if not, let's just render.
+		return ( indexables.length < minimumIndexablesInBuffer ) ? fetchList( listName ) : renderList( listName );
 	};
 
 	const handleOpenModal = useCallback( async( indexableId, incomingLinksCount ) => {
@@ -143,9 +155,11 @@ function IndexablesPage() {
 				setIgnoreIndexable( null );
 				return true;
 			}
+			// @TODO: Throw an error notification.
+			console.error( "Undoing post has failed." );
 			return false;
 		} catch ( error ) {
-			// URL() constructor throws a TypeError exception if url is malformed.
+			// @TODO: Throw an error notification.
 			console.error( error.message );
 			return false;
 		}
@@ -184,7 +198,7 @@ function IndexablesPage() {
 			onClose={ handleCloseModal }
 			isOpen={ isModalOpen }
 		>
-			{ suggestedLinksModalContent === null ? <SvgIcon icon="loading-spinner" /> : <fragment>
+			{ suggestedLinksModalContent === null ? <SvgIcon icon="loading-spinner" /> : <Fragment>
 				<span>{ `Incoming links: ${suggestedLinksModalContent.incomingLinksCount}` }</span>
 				<ul>
 					{
@@ -196,7 +210,7 @@ function IndexablesPage() {
 						)
 					}
 				</ul>
-			</fragment>
+			</Fragment>
 			}
 		</Modal>
 
@@ -219,6 +233,7 @@ function IndexablesPage() {
 			type="least_readability"
 			addToIgnoreList={ setIgnoreIndexable }
 			handleOpenModal={ handleOpenModal }
+			listSize={ listSize }
 		/>
 		<h3 className="yst-my-4 yst-text-xl">{ __( "Least SEO Score", "wordpress-seo" ) }</h3>
 		<IndexablesTable
@@ -237,6 +252,7 @@ function IndexablesPage() {
 			type="least_seo_score"
 			addToIgnoreList={ setIgnoreIndexable }
 			handleOpenModal={ handleOpenModal }
+			listSize={ listSize }
 		/>
 		<h3 className="yst-my-4 yst-text-xl">{ __( "Least Linked", "wordpress-seo" ) }</h3>
 		<IndexablesTable
@@ -255,6 +271,7 @@ function IndexablesPage() {
 			type="least_linked"
 			addToIgnoreList={ setIgnoreIndexable }
 			handleOpenModal={ handleOpenModal }
+			listSize={ listSize }
 		/>
 		<h3 className="yst-my-4 yst-text-xl">{ __( "Most Linked", "wordpress-seo" ) }</h3>
 		<IndexablesTable
@@ -273,6 +290,7 @@ function IndexablesPage() {
 			type="most_linked"
 			addToIgnoreList={ setIgnoreIndexable }
 			handleOpenModal={ handleOpenModal }
+			listSize={ listSize }
 		/>
 
 	</div>;

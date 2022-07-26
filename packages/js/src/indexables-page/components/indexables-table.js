@@ -7,19 +7,22 @@ import { Button, Table } from "@yoast/ui-library";
 import { useState, useEffect, useCallback } from "@wordpress/element";
 
 const Link = makeOutboundLink();
+
+/* eslint-disable no-warning-comments */
+
 /**
  * Renders placeholders rows while loading the indexables table.
  *
  * @param {int} conlumnCount The table's number of columns.
  * @returns {WPElement} Placeholders rows.
  */
-function PlaceholderRows( { columnCount } ) {
+function PlaceholderRows( { columnCount, listSize } ) {
 	const cells = [];
 	const rows = [];
 	for ( let i = 0; i < columnCount; i++ ) {
 		cells.push( <Table.Cell key={ `placeholder-column-${ i }` } className="yst-px-6 yst-py-4 yst-animate-pulse"><div className="yst-w-full yst-bg-gray-200 yst-h-3 yst-rounded" /></Table.Cell> );
 	}
-	for ( let i = 0; i < 5; i++ ) {
+	for ( let i = 0; i < listSize; i++ ) {
 		rows.push( <Table.Row key={ `placeholder-row-${ i }` }>{ cells }</Table.Row> );
 	}
 	return rows;
@@ -41,6 +44,7 @@ const IndexableRow = ( { indexable, keyHeaderMap, type, addToIgnoreList, positio
 	const handleIgnore =  useCallback( async( e ) => {
 		const id = e.currentTarget.dataset.indexableid;
 		const indexableType = e.currentTarget.dataset.indexabletype;
+
 		try {
 			const response = await apiFetch( {
 				path: "yoast/v1/ignore_indexable",
@@ -53,9 +57,11 @@ const IndexableRow = ( { indexable, keyHeaderMap, type, addToIgnoreList, positio
 				addToIgnoreList( { indexable: indexable, type: indexableType, position: position } );
 				return true;
 			}
+			// @TODO: Throw an error notification.
+			console.error( "Ignoring post has failed." );
 			return false;
 		} catch ( error ) {
-			// URL() constructor throws a TypeError exception if url is malformed.
+			// @TODO: Throw an error notification.
 			console.error( error.message );
 			return false;
 		}
@@ -92,6 +98,7 @@ IndexableRow.propTypes = {
 	type: PropTypes.string,
 	addToIgnoreList: PropTypes.func,
 	position: PropTypes.number,
+	handleOpenModal: PropTypes.func,
 };
 
 /**
@@ -102,7 +109,7 @@ IndexableRow.propTypes = {
 
  * @returns {WPElement} A table with the indexables.
  */
-function IndexablesTable( { indexables, keyHeaderMap, type, addToIgnoreList, handleOpenModal } ) {
+function IndexablesTable( { indexables, keyHeaderMap, type, addToIgnoreList, handleOpenModal, listSize } ) {
 	const [ isLoading, setIsLoading ] = useState( true );
 
 	useEffect( () => {
@@ -127,8 +134,8 @@ function IndexablesTable( { indexables, keyHeaderMap, type, addToIgnoreList, han
 					<Table.Body>
 						{
 							isLoading
-								? <PlaceholderRows columnCount={ Object.keys( keyHeaderMap ).length } />
-								: indexables.slice( 0, 5 ).map( ( indexable, index ) => {
+								? <PlaceholderRows columnCount={ Object.keys( keyHeaderMap ).length } listSize={ listSize } />
+								: indexables.slice( 0, listSize ).map( ( indexable, index ) => {
 									return <IndexableRow
 										key={ `indexable-${ indexable.id }-row` }
 										indexable={ indexable }
@@ -152,6 +159,8 @@ IndexablesTable.propTypes = {
 	keyHeaderMap: PropTypes.object,
 	type: PropTypes.string,
 	addToIgnoreList: PropTypes.func,
+	handleOpenModal: PropTypes.func,
+	listSize: PropTypes.number,
 };
 
 export default IndexablesTable;
