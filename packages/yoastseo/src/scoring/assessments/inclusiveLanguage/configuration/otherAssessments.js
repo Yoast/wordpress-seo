@@ -39,7 +39,7 @@ const otherAssessments = [
 	{
 		identifier: "ex-offender",
 		nonInclusivePhrases: [ "ex-offender", "ex-offenders" ],
-		inclusiveAlternatives: "formally incarcerated person",
+		inclusiveAlternatives: "formerly incarcerated person",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
