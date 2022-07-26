@@ -12,12 +12,12 @@ import createInterpolateElement from "../../helpers/createInterpolateElement";
 const OutboundLink = makeOutboundLink();
 
 const Badge = styled( BetaBadge )`
-margin: 0 0 0 4px;
+	margin: 0 2px 0 4px;
 `;
 
 const FormalityLevel = styled.span`
-color: #a4286a;
-font-weight: 600;
+	color: #a4286a;
+	font-weight: 600;
 `;
 
 /**
@@ -32,8 +32,8 @@ const TextFormality = ( { location } ) => {
 	const formalityLevel = useSelect( select => select( "yoast-seo/editor" ).getTextFormalityLevel(), [] );
 	const textLength = useSelect( select => select( "yoast-seo/editor" ).getTextLength(), [] ).count;
 	const upsellLink = useMemo( () => get( window, `wpseoAdminL10n.shortlinks-insights-upsell-${ location }-text_formality`, "" ), [ location ] );
-	const infoLinkFree = useMemo( () => get( window, `wpseoAdminL10n.shortlinks-insights-${ location }-text_formality_info_free`, "" ), [ location ] );
-	const infoLinkPremium = useMemo( () => get( window, `wpseoAdminL10n.shortlinks-insights-${ location }-text_formality_info_premium`, "" ), [ location ] );
+	const infoLinkFree = get( window, "wpseoAdminL10n.shortlinks-insights-text_formality_info_free", "" );
+	const infoLinkPremium = get( window, "wpseoAdminL10n.shortlinks-insights-text_formality_info_premium", "" );
 
 	const upsellDescription = useMemo( () => {
 		return createInterpolateElement(
@@ -62,7 +62,7 @@ const TextFormality = ( { location } ) => {
 					a: <OutboundLink href={ infoLinkFree } />,
 				}
 			)
-			:  createInterpolateElement(
+			: createInterpolateElement(
 				sprintf(
 					__( "%1$sRead our article on text formality to learn more about how to change the formality level of a text.%2$s", "wordpress-seo" ),
 					"<a>",
@@ -72,7 +72,7 @@ const TextFormality = ( { location } ) => {
 					a: <OutboundLink href={ infoLinkPremium } />,
 				}
 			);
-	}, [] );
+	}, [ shouldUpsell ] );
 
 	return (
 		<div className="yoast-text-formality">
