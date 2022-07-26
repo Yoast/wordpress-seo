@@ -2,9 +2,11 @@
 import apiFetch from "@wordpress/api-fetch";
 import { __ } from "@wordpress/i18n";
 import { useEffect, useState, useCallback, Fragment } from "@wordpress/element";
+import { LockOpenIcon } from "@heroicons/react/outline";
 import { Button, Alert, Modal } from "@yoast/ui-library";
 import IndexablesTable from "./components/indexables-table";
 import SvgIcon from "../../../components/src/SvgIcon";
+
 /* eslint-disable camelcase */
 /* eslint-disable no-warning-comments */
 /**
@@ -14,7 +16,10 @@ import SvgIcon from "../../../components/src/SvgIcon";
  */
 function IndexablesPage() {
 	const listSize = parseInt( wpseoIndexablesPageData.listSize, 10 );
+	const isPremiumInstalled = Boolean( wpseoIndexablesPageData.isPremium );
+	const isLinkSuggestionsEnabled = Boolean( wpseoIndexablesPageData.isLinkSuggestionsEnabled );
 	const minimumIndexablesInBuffer = listSize * 2;
+
 	const [ listedIndexables, setlistedIndexables ] = useState(
 		{
 			least_readability: [],
@@ -101,7 +106,7 @@ function IndexablesPage() {
 		return ( indexables.length < minimumIndexablesInBuffer ) ? fetchList( listName ) : renderList( listName );
 	};
 
-	const handleOpenModal = useCallback( async( indexableId, incomingLinksCount ) => {
+	const handleOpenModal = useCallback( async( indexableId, incomingLinksCount, breadcrumbTitle, permalink ) => {
 		setIsModalOpen( true );
 		try {
 			const response = await apiFetch( {
@@ -112,7 +117,12 @@ function IndexablesPage() {
 			const parsedResponse = await response.json;
 
 			if ( parsedResponse.length > 0 ) {
-				setSuggestedLinksModalContent( { incomingLinksCount: incomingLinksCount, linksList: parsedResponse } );
+				setSuggestedLinksModalContent( {
+					incomingLinksCount: incomingLinksCount,
+					linksList: parsedResponse,
+					breadcrumbTitle: breadcrumbTitle,
+					permalink: permalink,
+				 } );
 				return true;
 			}
 			return false;
@@ -191,6 +201,68 @@ function IndexablesPage() {
 		}
 	}, [ ignoreIndexable ] );
 
+	/**
+	 * Renders the suggested links modal content.
+	 *
+	 * @returns {WPElement} The modal content.
+	 */
+	const renderSuggestedLinksModal = () => {
+		if ( ! isLinkSuggestionsEnabled ) {
+			return <span>You have links suggestion disabled.</span>;
+		}
+
+		return suggestedLinksModalContent === null ? <SvgIcon icon="loading-spinner" /> : <Fragment>
+			<h2>
+				{ suggestedLinksModalContent.breadcrumbTitle }
+				<span className="yst-italic">{ ` &ndash; ${suggestedLinksModalContent.incomingLinksCount} ${__( "incoming links", "wordpress-seo" )}` }</span>
+			</h2>
+			<p className="yst-italic yst-mb-2">{ `(${suggestedLinksModalContent.permalink})` }</p>
+			<ul>
+				{
+					suggestedLinksModalContent.linksList.map( ( link, idx ) => {
+						return <li key={ idx }>
+							{ link.breadcrumb_title }
+							<a href={ link.permalink } target="_blank" rel="noopener noreferrer">{ __( "Edit to add link", "wordpress-seo" ) }<span className="yst-dashicons yst-dashicons-external" /></a>
+						</li>;
+					}
+					)
+				}
+			</ul>
+		</Fragment>;
+	};
+
+	/**
+	 * Renders the upsell content in suggested links modal.
+	 *
+	 * @returns {WPElement} The modal content.
+	 */
+	const renderUpsellLinksModal = () => {
+		return (
+			<div className="yst-max-w-xs">
+				<h2>Upgrade to Yoast SEO Premium</h2>
+				<Button
+					id="indexables-page-suggested-links-upsell-button"
+					type="button"
+					as="a"
+					href="#"
+					variant="upsell"
+					className="yst-w-full yst-text-gray-800"
+					target="_blank"
+				>
+					<LockOpenIcon
+						className="yst--ml-1 yst-mr-2 yst-h-5 yst-w-5 yst-text-yellow-900"
+					/>
+					{ __( "Unlock with Premium", "wordpress-seo" ) }
+					<span className="yst-sr-only">
+						{
+							__( "(Opens in a new browser tab)", "wordpress-seo" )
+						}
+					</span>
+				</Button>
+			</div>
+		);
+	};
+
 	return <div
 		className="yst-bg-white yst-rounded-lg yst-p-6 yst-shadow-md yst-max-w-full yst-mt-6"
 	>
@@ -198,20 +270,7 @@ function IndexablesPage() {
 			onClose={ handleCloseModal }
 			isOpen={ isModalOpen }
 		>
-			{ suggestedLinksModalContent === null ? <SvgIcon icon="loading-spinner" /> : <Fragment>
-				<span>{ `Incoming links: ${suggestedLinksModalContent.incomingLinksCount}` }</span>
-				<ul>
-					{
-						suggestedLinksModalContent.linksList.map( ( link, idx ) => {
-							return <li key={ idx }>
-								{ link.breadcrumb_title }
-							</li>;
-						}
-						)
-					}
-				</ul>
-			</Fragment>
-			}
+			{ isPremiumInstalled ? renderSuggestedLinksModal() : renderUpsellLinksModal() }
 		</Modal>
 
 		{ ignoreIndexable && <Alert><Button onClick={ onClickUndo( ignoreIndexable ) }>{ `Ignore ${ignoreIndexable.indexable.id}` }</Button></Alert> }
