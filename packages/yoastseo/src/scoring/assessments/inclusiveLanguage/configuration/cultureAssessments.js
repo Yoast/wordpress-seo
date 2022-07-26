@@ -2,6 +2,7 @@ import { SCORES } from "./scores";
 import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
 import { isFollowedByException } from "../helpers/isFollowedByException";
 import { potentiallyHarmful, potentiallyHarmfulCareful, potentiallyHarmfulUnless } from "./feedbackStrings";
+import {isPrecededByException} from "../helpers/isPrecededByException";
 
 const potentiallyHarmfulUnlessCulture = "Be careful when using \"%1$s\" as it is potentially harmful. " +
 										"Consider using an alternative, such as \"%2$s\" instead, unless you are referring to the culture " +
@@ -127,10 +128,14 @@ const cultureAssessments = [
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
+		rule: ( words, inclusivePhrases ) => {
+			return includesConsecutiveWords( words, inclusivePhrases )
+				.filter( isPrecededByException( words, [ "a", "the" ] ) )
+		},
 	},
 	{
 		identifier: "gypNoun",
-		nonInclusivePhrases: [ "gyp" ],
+		nonInclusivePhrases: [ "a gyp" ],
 		inclusiveAlternatives: "\"a fraud\"",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
