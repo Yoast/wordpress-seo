@@ -8,7 +8,7 @@ import { forEach, get, isObject, isArray } from "lodash";
 import { HashRouter } from "react-router-dom";
 import { StyleSheetManager } from "styled-components";
 import App from "./app";
-import { validationSchema } from "./helpers/validation";
+// Import { validationSchema } from "./helpers/validation";
 import registerStore, { STORE_NAME } from "./store";
 
 /**
