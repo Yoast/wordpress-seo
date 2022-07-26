@@ -265,7 +265,7 @@ const cultureAssessments = [
 	{
 		identifier: "underdevelopedCountry",
 		nonInclusivePhrases: [ "underdeveloped country", "underdeveloped countries" ],
-		inclusiveAlternatives: "\"developing country/countries\"",
+		inclusiveAlternatives: "developing country/countries",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: "Avoid using \"%1$s\" as it is potentially harmful. Consider using an alternative, " +
 						"such as \"%2$s\" instead or be more specific about what aspect this word refers to.",
