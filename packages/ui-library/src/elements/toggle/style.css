@@ -22,6 +22,9 @@
 		}
 
 		/* States */
+		[dir=rtl] .yst-toggle--checked .yst-toggle__handle {
+			@apply yst--translate-x-5;
+		}
 
 		.yst-toggle--checked {
 			@apply yst-bg-primary-500;
@@ -40,7 +43,6 @@
 		}
 
 		/* Elements */
-
 		.yst-toggle__handle {
 			@apply
 			yst-pointer-events-none
