@@ -16,7 +16,7 @@ const classNameMap = {
  * @param {string} name Name.
  * @param {string} value Value.
  * @param {string} label Label.
- * @param {string} screenReaderLabel Screen reader label.
+ * @param {string} [screenReaderLabel] Screen reader label.
  * @param {string} [variant] Variant.
  * @param {string} [className] CSS class.
  * @returns {JSX.Element} Radio component.

@@ -1,7 +1,9 @@
 // See https://github.com/gruntjs/grunt-contrib-watch for details.
 module.exports = {
 	options: {
-		livereload: true,
+		livereload: {
+			port: 45678,
+		},
 	},
 	grunt: {
 		options: {
@@ -27,8 +29,10 @@ module.exports = {
 		files: [
 			"<%= files.js %>",
 			"<%= paths.js %>/**/*.js",
+			"packages/ui-library/src/**/*.js",
 		],
 		tasks: [
+			"build:packages",
 			"build:js",
 			"eslint:plugin",
 		],
@@ -44,8 +48,10 @@ module.exports = {
 	css: {
 		files: [
 			"<%= files.css %>",
+			"packages/ui-library/src/**/*.css",
 		],
 		tasks: [
+			"build:packages",
 			"build:css",
 		],
 	},
