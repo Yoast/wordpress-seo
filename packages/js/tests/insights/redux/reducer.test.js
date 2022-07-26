@@ -1,4 +1,4 @@
-import { setFleschReadingEase, setTextLength } from "../../../src/insights/redux/actions";
+import { setFleschReadingEase, setTextLength, setTextFormalityLevel } from "../../../src/insights/redux/actions";
 import { DIFFICULTY } from "yoastseo";
 import reducer from "../../../src/insights/redux/reducer";
 
@@ -28,6 +28,24 @@ describe( "The insights reducer", () => {
 				count: 42,
 				unit: "character",
 			},
+		} );
+	} );
+	it( "updates the state given an action to update the text formality level.", () => {
+		const state = {
+			estimatedReadingTime: 3.1,
+			textLength: {
+				count: 42,
+				unit: "character",
+			},
+		};
+		const action = setTextFormalityLevel( "formal" );
+		expect( reducer( state, action ) ).toEqual( {
+			estimatedReadingTime: 3.1,
+			textLength: {
+				count: 42,
+				unit: "character",
+			},
+			textFormalityLevel: "formal",
 		} );
 	} );
 } );

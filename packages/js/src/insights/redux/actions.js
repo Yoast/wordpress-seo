@@ -74,7 +74,6 @@ export const setTextLength = textLength => ( {
 	payload: textLength,
 } );
 
-
 /**
  * Sets the text formality level on the store.
  *
