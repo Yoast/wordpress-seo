@@ -78,7 +78,7 @@ const TextFormality = ( { location } ) => {
 		<div className="yoast-text-formality">
 			<div className="yoast-field-group__title">
 				<b>{ __( "Text formality", "wordpress-seo" ) }</b>
-				<Badge />
+				<Badge className={ "yoast-beta-badge" } />
 			</div>
 			{ ! shouldUpsell && textLength === 0 && <div>
 				<p>{ __(
