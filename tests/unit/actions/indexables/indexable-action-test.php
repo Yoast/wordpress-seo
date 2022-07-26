@@ -485,9 +485,9 @@ class Indexable_Action_Test extends TestCase {
 	 *
 	 * @dataProvider test_add_indexable_to_ignore_list_provider
 	 *
-	 * @param $ignore_list_state array The state of the ignore-list in the database.
-	 * @param $indexable_id int The id of the indexable to add to the ignore-list.
-	 * @param $expected_result array The expected result.
+	 * @param array $ignore_list_state The state of the ignore-list in the database.
+	 * @param int   $indexable_id      The id of the indexable to add to the ignore-list.
+	 * @param array $expected_result   The expected result.
 	 */
 	public function test_add_indexable_to_ignore_list( $ignore_list_state, $indexable_id, $expected_result ) {
 		$this->options_helper
@@ -533,9 +533,9 @@ class Indexable_Action_Test extends TestCase {
 	 *
 	 * @dataProvider test_remove_indexable_from_ignore_list_provider
 	 *
-	 * @param $ignore_list_state array The state of the ignore-list in the database.
-	 * @param $indexable_id int The id of the indexable to remove from the ignore-list.
-	 * @param $expected_result array The expected result.
+	 * @param array $ignore_list_state The state of the ignore-list in the database.
+	 * @param int   $indexable_id      The id of the indexable to remove from the ignore-list.
+	 * @param array $expected_result   The expected result.
 	 */
 	public function test_remove_indexable_from_ignore_list( $ignore_list_state, $indexable_id, $expected_result ) {
 		$this->options_helper
