@@ -265,6 +265,7 @@ class Settings_Integration implements Integration_Interface {
 			'schema'               => $this->get_schema( $post_types ),
 			'preferences'          => [
 				'isPremium'      => $this->product_helper->is_premium(),
+				'isRtl'          => is_rtl(),
 				'isNetworkAdmin' => \is_network_admin(),
 				'isMainSite'     => \is_main_site(),
 				'siteUrl'        => \get_bloginfo( 'url' ),
