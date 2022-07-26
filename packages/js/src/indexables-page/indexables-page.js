@@ -94,9 +94,7 @@ function IndexablesPage() {
 	 * @returns {boolean} True if the update was successful.
 	 */
 	const updateList = ( listName, indexables ) => {
-		console.log('listName', listName );
-		console.log('indexables', indexables );
-		// @TODO: we have to also check if there are even other posts to re-fetch and if not, let's just render. That information can go into the same endpoints and it can be used upon page load for the initial assesment of whether we have enough data. 
+		// @TODO: we have to also check if there are even other posts to re-fetch and if not, let's just render.
 		return ( indexables.length < minimumIndexablesInBuffer ) ? fetchList( listName ) : renderList( listName );
 	};
 
@@ -106,19 +104,6 @@ function IndexablesPage() {
 		const indexable = ignored.indexable;
 		const position = ignored.position;
 
-		setlistedIndexables( prevState => {
-			const length = prevState[ type ].length;
-			return {
-				...prevState,
-				[ type ]: [
-					...prevState[ type ].splice( 0, position ),
-					indexable,
-					...prevState[ type ].splice( position, length ),
-				],
-			};
-		} );
-		setIgnoreIndexable( null );
-
 		try {
 			const response = await apiFetch( {
 				path: "yoast/v1/restore_indexable",
@@ -127,16 +112,27 @@ function IndexablesPage() {
 			} );
 
 			const parsedResponse = await response.json;
-			if ( parsedResponse.success ) {
-				console.log( "Undoing post has succeeded." );
+			if ( parsedResponse.success ) {				
+				setlistedIndexables( prevState => {
+					const length = prevState[ type ].length;
+					return {
+						...prevState,
+						[ type ]: [
+							...prevState[ type ].splice( 0, position ),
+							indexable,
+							...prevState[ type ].splice( position, length ),
+						],
+					};
+				} );
+
+				setIgnoreIndexable( null );
 				return true;
 			}
-
-			// @TODO: Throw an error notification, instructing the user to reload.
+			// @TODO: Throw an error notification.
 			console.error( "Undoing post has failed." );
 			return false;
 		} catch ( error ) {
-			// @TODO: Throw an error notification, instructing the user to reload
+			// @TODO: Throw an error notification.
 			console.error( error.message );
 			return false;
 		}

@@ -38,8 +38,6 @@ const IndexableRow = ( { indexable, keyHeaderMap, type, addToIgnoreList, positio
 		const id = e.currentTarget.dataset.indexableid;
 		const indexableType = e.currentTarget.dataset.indexabletype;
 
-		addToIgnoreList( { indexable: indexable, type: indexableType, position: position } );
-
 		try {
 			const response = await apiFetch( {
 				path: "yoast/v1/ignore_indexable",
@@ -49,16 +47,15 @@ const IndexableRow = ( { indexable, keyHeaderMap, type, addToIgnoreList, positio
 
 			const parsedResponse = await response.json;
 			if ( parsedResponse.success ) {
-				console.log( "Ignoring post has succeeded." );
+				addToIgnoreList( { indexable: indexable, type: indexableType, position: position } );
 				return true;
 			}
-
-			// @TODO: Throw an error notification, instructing the user to reload.
+			// @TODO: Throw an error notification.
 			console.error( "Ignoring post has failed." );
 			return false;
 
 		} catch ( error ) {
-			// @TODO: Throw an error notification, instructing the user to reload
+			// @TODO: Throw an error notification.
 			console.error( error.message );
 			return false;
 		}
