@@ -257,15 +257,19 @@ class Indexables_Route implements Route_Interface {
 
 		if ( $this->indexable_action->add_indexable_to_ignore_list( $ignore_list_name, $indexable_id ) ) {
 			return new WP_REST_Response(
-				[ 'success' => true ],
+				[
+					'json' => (object) [ 'success' => true ],
+				],
 				200
 			);
 		}
 		else {
 			return new WP_REST_Response(
 				[
-					'success' => false,
-					'error'   => 'Could not save the option in the database',
+					'json' => (object) [
+						'success' => false,
+						'error'   => 'Could not save the option in the database',
+					],
 				],
 				500
 			);
@@ -286,15 +290,19 @@ class Indexables_Route implements Route_Interface {
 
 		if ( $this->indexable_action->remove_indexable_from_ignore_list( $ignore_list_name, $indexable_id ) ) {
 			return new WP_REST_Response(
-				[ 'success' => true ],
+				[
+					'json' => (object) [ 'success' => true ],
+				],
 				200
 			);
 		}
 		else {
 			return new WP_REST_Response(
 				[
-					'success' => false,
-					'error'   => 'Could not save the option in the database',
+					'json' => (object) [
+						'success' => false,
+						'error'   => 'Could not save the option in the database',
+					],
 				],
 				500
 			);

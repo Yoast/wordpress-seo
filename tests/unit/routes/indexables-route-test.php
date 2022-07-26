@@ -385,7 +385,7 @@ class Indexables_Route_Test extends TestCase {
 			],
 			'indexable_action_return_value' => true,
 			'params_rest_response'          => [
-				[ 'success' => true ],
+				[ 'json' => (object) [ 'success' => true ] ],
 				200,
 			],
 		];
@@ -402,8 +402,11 @@ class Indexables_Route_Test extends TestCase {
 			'indexable_action_return_value' => false,
 			'params_rest_response'          => [
 				[
-					'success' => false,
-					'error'   => 'Could not save the option in the database',
+					'json' =>
+												(object) [
+													'success' => false,
+													'error'   => 'Could not save the option in the database',
+												],
 				],
 				500,
 			],
@@ -472,7 +475,7 @@ class Indexables_Route_Test extends TestCase {
 			],
 			'indexable_action_return_value' => true,
 			'params_rest_response'          => [
-				[ 'success' => true ],
+				[ 'json' => (object) [ 'success' => true ] ],
 				200,
 			],
 		];
@@ -489,8 +492,11 @@ class Indexables_Route_Test extends TestCase {
 			'indexable_action_return_value' => false,
 			'params_rest_response'          => [
 				[
-					'success' => false,
-					'error'   => 'Could not save the option in the database',
+					'json' =>
+												(object) [
+													'success' => false,
+													'error'   => 'Could not save the option in the database',
+												],
 				],
 				500,
 			],
