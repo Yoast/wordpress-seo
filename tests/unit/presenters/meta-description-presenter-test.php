@@ -74,7 +74,7 @@ class Meta_Description_Presenter_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the presenter of the meta description.
+	 * Tests the presenter of the meta description when the admin bar is showing a class is added.
 	 *
 	 * @covers ::present
 	 * @covers ::get

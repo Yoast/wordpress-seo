@@ -85,11 +85,13 @@ export function serializeBlock( block, getEntity, { start = 0, end = block.getTe
 			if ( inRange( entityStart, start, end ) && inRange( entityEnd, start, end ) ) {
 				const entityData = getEntity( block.getEntityAt( entityStart ) );
 
-				replacements.push( {
-					start: entityStart - start,
-					end: entityEnd - start,
-					replacementText: serializeVariable( entityData.data.mention.replaceName ),
-				} );
+				if ( entityData.data.mention ) {
+					replacements.push( {
+						start: entityStart - start,
+						end: entityEnd - start,
+						replacementText: serializeVariable( entityData.data.mention.replaceName ),
+					} );
+				}
 			}
 		}
 	);

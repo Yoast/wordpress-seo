@@ -1,7 +1,7 @@
-import frequencyList from "../frequencyList.json";
+import frequencyList from "./frequencyList.json";
 
 export default {
 	frequencyList: frequencyList.list,
 	wordLength: 7,
-	doesUpperCaseDecreasesComplexity: true,
+	doesUpperCaseDecreaseComplexity: true,
 };

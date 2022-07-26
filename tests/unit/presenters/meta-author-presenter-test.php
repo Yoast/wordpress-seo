@@ -14,7 +14,7 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
 /**
  * Class Meta_Description_Presenter_Test
  *
- * @coversDefaultClass \Yoast\WP\SEO\Presenters\Meta_Description_Presenter
+ * @coversDefaultClass \Yoast\WP\SEO\Presenters\Meta_Author_Presenter
  *
  * @group presenters
  * @group opengraph

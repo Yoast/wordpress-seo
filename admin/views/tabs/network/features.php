@@ -7,6 +7,8 @@
  * @uses Yoast_Form $yform Form object.
  */
 
+use Yoast\WP\SEO\Presenters\Admin\Premium_Badge_Presenter;
+
 if ( ! defined( 'WPSEO_VERSION' ) ) {
 	header( 'Status: 403 Forbidden' );
 	header( 'HTTP/1.1 403 Forbidden' );
@@ -46,14 +48,40 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 			$help_text
 		);
 
+		$name = $feature->name;
+		if ( ! empty( $feature->premium ) && $feature->premium === true ) {
+			$name .= ' ' . new Premium_Badge_Presenter( $feature->name );
+		}
+
+		$disabled            = false;
+		$show_premium_upsell = false;
+		$premium_upsell_url  = '';
+
+		if ( $feature->premium === true && YoastSEO()->helpers->product->is_premium() === false ) {
+			$disabled            = true;
+			$show_premium_upsell = true;
+			$premium_upsell_url  = WPSEO_Shortlinker::get( $feature->premium_upsell_url );
+		}
+
+		$preserve_disabled_value = false;
+		if ( $disabled ) {
+			$preserve_disabled_value = true;
+		}
+
 		$yform->toggle_switch(
 			WPSEO_Option::ALLOW_KEY_PREFIX . $feature->setting,
 			[
 				'on'  => __( 'Allow Control', 'wordpress-seo' ),
 				'off' => __( 'Disable', 'wordpress-seo' ),
 			],
-			$feature->name,
-			$feature_help->get_button_html() . $feature_help->get_panel_html()
+			$name,
+			$feature_help->get_button_html() . $feature_help->get_panel_html(),
+			[
+				'disabled'                => $disabled,
+				'preserve_disabled_value' => $preserve_disabled_value,
+				'show_premium_upsell'     => $show_premium_upsell,
+				'premium_upsell_url'      => $premium_upsell_url,
+			]
 		);
 	}
 	?>

@@ -593,6 +593,10 @@ class Meta_Tags_Context extends Abstract_Presentation {
 			return $this->image->get_attachment_image_url( $this->main_image_id, 'full' );
 		}
 
+		if ( ! \is_singular() ) {
+			return null;
+		}
+
 		$url = $this->image->get_post_content_image( $this->id );
 		if ( $url === '' ) {
 			return null;
@@ -604,14 +608,26 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	/**
 	 * Gets the main image ID.
 	 *
-	 * @return int|false|null The main image ID.
+	 * @return int|null The main image ID.
 	 */
 	public function generate_main_image_id() {
-		if ( ! \has_post_thumbnail( $this->id ) ) {
-			return null;
+		switch ( true ) {
+			case is_singular():
+				return $this->get_singular_post_image( $this->id );
+			case is_author():
+			case is_tax():
+			case is_tag():
+			case is_category():
+			case is_search():
+			case is_date():
+			case is_post_type_archive():
+				if ( ! empty( $GLOBALS['wp_query']->posts ) ) {
+					return $this->get_singular_post_image( $GLOBALS['wp_query']->posts[0]->ID );
+				}
+				return null;
+			default:
+				return null;
 		}
-
-		return \get_post_thumbnail_id( $this->id );
 	}
 
 	/**
@@ -647,6 +663,29 @@ class Meta_Tags_Context extends Abstract_Presentation {
 		}
 
 		return $logo_id;
+	}
+
+	/**
+	 * Get the ID for a post's featured image.
+	 *
+	 * @param int $id Post ID.
+	 *
+	 * @return int|null
+	 */
+	private function get_singular_post_image( $id ) {
+		if ( \has_post_thumbnail( $id ) ) {
+			$thumbnail_id = \get_post_thumbnail_id( $id );
+			// Prevent returning something else than an int or null.
+			if ( \is_int( $thumbnail_id ) && $thumbnail_id > 0 ) {
+				return $thumbnail_id;
+			}
+		}
+
+		if ( \is_singular( 'attachment' ) ) {
+			return \get_query_var( 'attachment_id' );
+		}
+
+		return null;
 	}
 
 	/* ********************* DEPRECATED METHODS ********************* */

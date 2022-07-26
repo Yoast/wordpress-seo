@@ -863,9 +863,12 @@ class Yoast_Form {
 
 		$help_class = ! empty( $help ) ? ' switch-container__has-help' : '';
 
+		$has_premium_upsell = ( isset( $attr['show_premium_upsell'] ) && $attr['show_premium_upsell'] ) && ( isset( $attr['premium_upsell_url'] ) && ! empty( $attr['premium_upsell_url'] ) );
+		$upsell_class       = $has_premium_upsell ? ' premium-upsell' : '';
+
 		$var_esc = esc_attr( $variable );
 
-		printf( '<div class="%s">', esc_attr( 'switch-container' . $help_class ) );
+		printf( '<div class="%s">', esc_attr( 'switch-container' . $help_class . $upsell_class ) );
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- output escaped before.
 		echo '<fieldset id="', $var_esc, '" class="fieldset-switch-toggle"><legend>', $label, '</legend>', $help;
 
@@ -896,7 +899,14 @@ class Yoast_Form {
 			'<label for="', $for, '">', esc_html( $value ), $screen_reader_text_html, '</label>';
 		}
 
-		echo '<a></a></div></fieldset><div class="clear"></div></div>' . PHP_EOL . PHP_EOL;
+		$upsell_button = '';
+		if ( $has_premium_upsell ) {
+			$upsell_button = '<a class="yoast-button yoast-button--buy yoast-button--small" href=' . esc_url( $attr['premium_upsell_url'] ) . ' target="_blank">' . esc_html__( 'Unlock with Premium!', 'wordpress-seo' ) . '<span class="screen-reader-text">' . esc_html__( '(Opens in a new browser tab)', 'wordpress-seo' ) . '</span>' .
+			'<span aria-hidden="true" class="yoast-button--buy__caret"></span></a>';
+		}
+
+
+		echo '<a></a></div></fieldset><div class="clear"></div>' . $upsell_button . '</div>' . PHP_EOL . PHP_EOL;
 	}
 
 	/**

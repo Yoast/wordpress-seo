@@ -65,6 +65,7 @@ tr.yst_row.even {
   float: left;
   width: 200px;
   margin: 5px 0;
+  word-wrap: break-word;
 }
 
 .wpseo_content_wrapper label.textinput.error,

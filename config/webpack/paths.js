@@ -33,6 +33,7 @@ const getEntries = ( sourceDirectory = "./packages/js/src" ) => ( {
 	"import": `${ sourceDirectory }/import.js`,
 	indexation: `${ sourceDirectory }/indexation.js`,
 	"installation-success": `${ sourceDirectory }/installation-success.js`,
+	"integrations-page": `${ sourceDirectory }/integrations-page.js`,
 	"network-admin": `${ sourceDirectory }/network-admin.js`,
 	"post-edit": `${ sourceDirectory }/post-edit.js`,
 	"quick-edit-handler": `${ sourceDirectory }/quick-edit-handler.js`,
@@ -44,6 +45,7 @@ const getEntries = ( sourceDirectory = "./packages/js/src" ) => ( {
 	"react-select": `${ sourceDirectory }/externals/react-select.js`,
 	workouts: `${ sourceDirectory }/workouts.js`,
 	"wordproof-uikit": `${ sourceDirectory }/wordproof-uikit.js`,
+	"frontend-inspector-resources": `${ sourceDirectory }/frontend-inspector-resources.js`,
 } );
 
 /**

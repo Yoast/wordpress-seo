@@ -20,10 +20,6 @@ describe( "a test for the French Researcher", function() {
 		expect( researcher.hasResearch( "getPassiveVoiceResult" ) ).toBe( true );
 	} );
 
-	it( "returns false if the default research is deleted in the Farsi Researcher", function() {
-		expect( researcher.getResearch( "wordComplexity" ) ).toBe( false );
-	} );
-
 	it( "returns French function words", function() {
 		expect( researcher.getConfig( "functionWords" ) ).toEqual( functionWords.all );
 	} );
@@ -76,5 +72,10 @@ describe( "a test for the French Researcher", function() {
 			numberOfSentences: 20,
 		};
 		expect( researcher.getHelper( "fleschReadingScore" )( statistics ) ).toBe( 76.3 );
+	} );
+
+	it( "checks if a word is complex in French", function() {
+		expect( researcher.getHelper( "checkIfWordIsComplex" )( "continuellement" ) ).toEqual( false );
+		expect( researcher.getHelper( "checkIfWordIsComplex" )( "dictionnaire" ) ).toEqual( true );
 	} );
 } );

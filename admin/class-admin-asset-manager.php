@@ -238,20 +238,32 @@ class WPSEO_Admin_Asset_Manager {
 			'help-scout-beacon',
 		];
 		$additional_dependencies = [
-			'analysis-worker'    => [ self::PREFIX . 'analysis-package' ],
-			'api-client'         => [ 'wp-api' ],
-			'dashboard-widget'   => [ self::PREFIX . 'api-client' ],
-			'elementor'          => [
+			'analysis-worker'          => [ self::PREFIX . 'analysis-package' ],
+			'api-client'               => [ 'wp-api' ],
+			'dashboard-widget'         => [ self::PREFIX . 'api-client' ],
+			'elementor'                => [
 				self::PREFIX . 'api-client',
 				self::PREFIX . 'externals-components',
 				self::PREFIX . 'externals-contexts',
 				self::PREFIX . 'externals-redux',
 			],
-			'indexation'         => [
+			'indexation'               => [
 				'jquery-ui-core',
 				'jquery-ui-progressbar',
 			],
-			'post-edit'          => [
+			'first-time-configuration' => [
+				self::PREFIX . 'api-client',
+				self::PREFIX . 'externals-components',
+				self::PREFIX . 'externals-contexts',
+				self::PREFIX . 'externals-redux',
+			],
+			'integrations-page'        => [
+				self::PREFIX . 'api-client',
+				self::PREFIX . 'externals-components',
+				self::PREFIX . 'externals-contexts',
+				self::PREFIX . 'externals-redux',
+			],
+			'post-edit'                => [
 				self::PREFIX . 'api-client',
 				self::PREFIX . 'block-editor',
 				self::PREFIX . 'externals-components',
@@ -259,11 +271,11 @@ class WPSEO_Admin_Asset_Manager {
 				self::PREFIX . 'externals-redux',
 				self::PREFIX . 'select2',
 			],
-			'reindex-links'      => [
+			'reindex-links'            => [
 				'jquery-ui-core',
 				'jquery-ui-progressbar',
 			],
-			'settings'           => [
+			'settings'                 => [
 				'jquery-ui-core',
 				'jquery-ui-progressbar',
 				self::PREFIX . 'api-client',
@@ -272,7 +284,7 @@ class WPSEO_Admin_Asset_Manager {
 				self::PREFIX . 'externals-redux',
 				self::PREFIX . 'select2',
 			],
-			'term-edit'          => [
+			'term-edit'                => [
 				self::PREFIX . 'api-client',
 				self::PREFIX . 'classic-editor',
 				self::PREFIX . 'externals-components',
@@ -374,30 +386,6 @@ class WPSEO_Admin_Asset_Manager {
 				self::PREFIX . 'yoast-components',
 			],
 			'version' => $scripts['workouts']['version'],
-		];
-
-		$scripts['first-time-configuration'] = [
-			'name'    => 'first-time-configuration',
-			'src'     => 'first-time-configuration.js',
-			'deps'    => [
-				'lodash',
-				'wp-api-fetch',
-				'wp-a11y',
-				'wp-components',
-				'wp-compose',
-				'wp-data',
-				'wp-dom-ready',
-				'wp-element',
-				'wp-i18n',
-				self::PREFIX . 'api-client',
-				self::PREFIX . 'externals-components',
-				self::PREFIX . 'externals-contexts',
-				self::PREFIX . 'externals-redux',
-				self::PREFIX . 'analysis',
-				self::PREFIX . 'react-select',
-				self::PREFIX . 'yoast-components',
-			],
-			'version' => $scripts['first-time-configuration']['version'],
 		];
 
 		// Add the current language to every script that requires the analysis package.
@@ -699,6 +687,10 @@ class WPSEO_Admin_Asset_Manager {
 				'deps' => [
 					self::PREFIX . 'monorepo',
 				],
+			],
+			[
+				'name' => 'inside-editor',
+				'src'  => 'inside-editor-' . $flat_version,
 			],
 		];
 	}

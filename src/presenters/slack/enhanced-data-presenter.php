@@ -31,6 +31,7 @@ class Enhanced_Data_Presenter extends Abstract_Indexable_Presenter {
 			$twitter_tags .= \sprintf( "\t" . '<meta name="twitter:data%1$d" content="%2$s" />' . "\n", $i, $value );
 			++$i;
 		}
+
 		return \trim( $twitter_tags );
 	}
 

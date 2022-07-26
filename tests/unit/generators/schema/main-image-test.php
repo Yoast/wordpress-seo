@@ -158,28 +158,6 @@ class Main_Image_Test extends TestCase {
 	}
 
 	/**
-	 * Tests is needed.
-	 *
-	 * @covers ::is_needed
-	 */
-	public function test_is_needed() {
-		$this->meta_tags_context->indexable->object_type = 'post';
-
-		self::assertTrue( $this->instance->is_needed() );
-	}
-
-	/**
-	 * Tests is not needed.
-	 *
-	 * @covers ::is_needed
-	 */
-	public function test_is_not_needed() {
-		$this->meta_tags_context->indexable->object_type = 'user';
-
-		self::assertFalse( $this->instance->is_needed() );
-	}
-
-	/**
 	 * Generates the image id as the main image class would.
 	 *
 	 * @return string The image id.
