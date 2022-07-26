@@ -20,6 +20,13 @@ class Indexables_Route implements Route_Interface {
 	use No_Conditionals;
 
 	/**
+	 * Represents the route that retrieves the neccessary information for setting up the Indexables Page.
+	 *
+	 * @var string
+	 */
+	const SETUP_INFO = '/setup_info';
+
+	/**
 	 * Represents the least readability route.
 	 *
 	 * @var string
@@ -112,6 +119,16 @@ class Indexables_Route implements Route_Interface {
 			return \current_user_can( 'edit_others_posts' );
 		};
 
+		$setup_info_route = [
+			[
+				'methods'             => 'GET',
+				'callback'            => [ $this, 'get_setup_info' ],
+				'permission_callback' => $edit_others_posts,
+			],
+		];
+
+		\register_rest_route( Main::API_V1_NAMESPACE, self::SETUP_INFO, $setup_info_route );
+
 		$least_readability_route = [
 			[
 				'methods'             => 'GET',
@@ -192,6 +209,52 @@ class Indexables_Route implements Route_Interface {
 	}
 
 	/**
+	 * Gets the neccessary information to set up the indexables page.
+	 *
+	 * @return WP_REST_Response The neccessary information to set up the indexables page.
+	 */
+	public function get_setup_info() {
+		$is_seo_score_enabled   = $this->options_helper->get( 'keyword_analysis_active', true );
+		$is_readability_enabled = $this->options_helper->get( 'content_analysis_active', true );
+		$is_link_count_enabled  = $this->options_helper->get( 'enable_text_link_counter', true );
+
+		if ( ! $is_seo_score_enabled && ! $is_readability_enabled && ! $is_link_count_enabled ) {
+			return new WP_REST_Response(
+				[
+					'json' => [
+						'enabledFeatures' => [
+							'isSeoScoreEnabled'    => false,
+							'isReadabilityEnabled' => false,
+							'isLinkCountEnabled'   => false,
+						],
+						'enoughContent'   => false,
+					],
+				]
+			);
+		}
+
+		$all_posts = $this->indexable_repository->query()
+			->select( 'id' )
+			->where_raw( '( post_status= \'publish\' OR post_status IS NULL )' )
+			->where_in( 'object_type', [ 'post' ] )
+			->where_in( 'object_sub_type', $this->get_sub_types() )
+			->count();
+
+		return new WP_REST_Response(
+			[
+				'json' => [
+					'enabledFeatures' => [
+						'isSeoScoreEnabled'    => $is_seo_score_enabled,
+						'isReadabilityEnabled' => $is_readability_enabled,
+						'isLinkCountEnabled'   => $is_link_count_enabled,
+					],
+					'enoughContent'   => $all_posts > $this->indexables_page_helper->get_minimum_posts_threshold(),
+				],
+			]
+		);
+	}
+
+	/**
 	 * Gets the posts with the smallest readability scores.
 	 *
 	 * @return WP_REST_Response The posts with the smallest readability scores.
@@ -205,7 +268,7 @@ class Indexables_Route implements Route_Interface {
 		$least_readable = $this->indexable_repository->query()
 			->where_raw( '( post_status= \'publish\' OR post_status IS NULL )' )
 			->where_in( 'object_type', [ 'post' ] )
-			->where_in( 'object_sub_type', $this->get_public_sub_types() )
+			->where_in( 'object_sub_type', $this->get_sub_types() )
 			->where_not_in( 'id', $ignore_list )
 			->where_not_equal( 'readability_score', 0 )
 			->order_by_asc( 'readability_score' )
@@ -237,7 +300,7 @@ class Indexables_Route implements Route_Interface {
 		$least_seo_score = $this->indexable_repository->query()
 			->where_raw( '( post_status= \'publish\' OR post_status IS NULL )' )
 			->where_in( 'object_type', [ 'post' ] )
-			->where_in( 'object_sub_type', $this->get_public_sub_types() )
+			->where_in( 'object_sub_type', $this->get_sub_types() )
 			->where_not_in( 'id', $ignore_list )
 			->where_not_equal( 'primary_focus_keyword', 0 )
 			->order_by_asc( 'primary_focus_keyword_score' )
@@ -270,7 +333,7 @@ class Indexables_Route implements Route_Interface {
 			->where_gt( 'incoming_link_count', 0 )
 			->where_not_null( 'incoming_link_count' )
 			->where_raw( '( post_status = \'publish\' OR post_status IS NULL )' )
-			->where_in( 'object_sub_type', $this->get_public_sub_types() )
+			->where_in( 'object_sub_type', $this->get_sub_types() )
 			->where_in( 'object_type', [ 'post' ] )
 			->where_not_in( 'id', $ignore_list )
 			->order_by_desc( 'incoming_link_count' )
@@ -300,7 +363,7 @@ class Indexables_Route implements Route_Interface {
 		// @TODO: Improve query.
 		$least_linked = $this->indexable_repository->query()
 			->where_raw( '( post_status = \'publish\' OR post_status IS NULL )' )
-			->where_in( 'object_sub_type', $this->get_public_sub_types() )
+			->where_in( 'object_sub_type', $this->get_sub_types() )
 			->where_in( 'object_type', [ 'post' ] )
 			->where_not_in( 'id', $ignore_list )
 			->order_by_asc( 'incoming_link_count' )
@@ -362,17 +425,23 @@ class Indexables_Route implements Route_Interface {
 	 *
 	 * @return array The subtypes.
 	 */
-	protected function get_public_sub_types() {
+	protected function get_sub_types() {
 		$object_sub_types = \array_values(
 			\array_merge(
-				$this->post_type_helper->get_public_post_types(),
-				\get_taxonomies( [ 'public' => true ] )
+				$this->post_type_helper->get_public_post_types()
 			)
 		);
 
 		$excluded_post_types = \apply_filters( 'wpseo_indexable_excluded_post_types', [ 'attachment' ] );
 		$object_sub_types    = \array_diff( $object_sub_types, $excluded_post_types );
-		return $object_sub_types;
+
+		$wanted_sub_types = [];
+		foreach ( $object_sub_types as $sub_type ) {
+			if ( $this->post_type_helper->is_indexable( $sub_type ) && $this->post_type_helper->has_metabox( $sub_type ) ) {
+				$wanted_sub_types[] = $sub_type;
+			}
+		}
+		return $wanted_sub_types;
 	}
 
 	/**

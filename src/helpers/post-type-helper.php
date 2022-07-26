@@ -41,6 +41,17 @@ class Post_Type_Helper {
 	}
 
 	/**
+	 * Checks if the request post type has the Yoast Metabox enabled.
+	 *
+	 * @param string $post_type_name The name of the post type to lookup.
+	 *
+	 * @return bool True if metabox is enabled.
+	 */
+	public function has_metabox( $post_type_name ) {
+		return ( $this->options_helper->get( 'display-metabox-pt-' . $post_type_name, true ) === true );
+	}
+
+	/**
 	 * Returns an array with the public post types.
 	 *
 	 * @codeCoverageIgnore It only wraps a WordPress function.
