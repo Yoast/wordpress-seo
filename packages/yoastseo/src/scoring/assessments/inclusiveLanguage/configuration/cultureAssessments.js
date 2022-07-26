@@ -5,7 +5,7 @@ import { potentiallyHarmful, potentiallyHarmfulCareful, potentiallyHarmfulUnless
 import {isPrecededByException} from "../helpers/isPrecededByException";
 
 const potentiallyHarmfulUnlessCulture = "Be careful when using \"%1$s\" as it is potentially harmful. " +
-										"Consider using an alternative, such as \"%2$s\" instead, unless you are referring to the culture " +
+										"Consider using an alternative, such as %2$s instead, unless you are referring to the culture " +
 										"in which this term originated.";
 const overgeneralizing = "Avoid using \"%1$s\" as it is overgeneralizing. Consider using %2$s instead. ";
 
