@@ -73,10 +73,9 @@ const cultureAssessments = [
 		learnMoreUrl: "https://yoa.st/",
 	},
 	{
-		// Should the inclusiveAlternatives be part of the feedback string?
 		identifier: "oriental",
 		nonInclusivePhrases: [ "oriental" ],
-		inclusiveAlternatives: "\"Asian\", or be specific when possible and relevant (e.g. \"East Asian\")",
+		inclusiveAlternatives: "\"Asian\". When possible, be more specific (e.g. \"East Asian\")",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
@@ -153,8 +152,8 @@ const cultureAssessments = [
 	{
 		identifier: "eskimo",
 		nonInclusivePhrases: [ "eskimo" ],
-		inclusiveAlternatives: "the specific name of the Indigenous community (for example, Inuit)",
-		score: SCORES.NON_INCLUSIVE,
+		inclusiveAlternatives: "the specific name of the Indigenous community (for example, \"Inuit\")",
+		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulUnless,
 		learnMoreUrl: "https://yoa.st/",
 	},
@@ -219,7 +218,7 @@ const cultureAssessments = [
 		nonInclusivePhrases: [ "Ebonics" ],
 		inclusiveAlternatives: "\"African American English, African American Language\"",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: "Avoid using \"%1$s\" as it is outdated and potentially harmful. Consider using an alternative, such as \"%2$s\" instead.",
+		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
 	},
 	{
@@ -265,7 +264,7 @@ const cultureAssessments = [
 	{
 		identifier: "third-worldCountry",
 		nonInclusivePhrases: [ "third-world country" ],
-		inclusiveAlternatives: "low-income country, developing country",
+		inclusiveAlternatives: "\"low-income country, developing country\"",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
@@ -273,7 +272,7 @@ const cultureAssessments = [
 	{
 		identifier: "third-worldCountry",
 		nonInclusivePhrases: [ "third world country" ],
-		inclusiveAlternatives: "low-income country, developing country",
+		inclusiveAlternatives: "\"low-income country, developing country\"",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
