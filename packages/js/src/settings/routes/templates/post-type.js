@@ -91,9 +91,9 @@ const PostType = ( { name, label, singularLabel, hasArchive } ) => {
 			</FieldsetLayout>
 			<hr className="yst-my-8" />
 			<FieldsetLayout
-				title={ <div className="yst-flex yst-items-center">
+				title={ <div className="yst-flex yst-items-center yst-gap-1.5">
 					<span>{ __( "Social appearance", "wordpress-seo" ) }</span>
-					<Badge className="yst-ml-1.5" variant="upsell">Premium</Badge>
+					<Badge variant="upsell">Premium</Badge>
 				</div> }
 				description={ sprintf(
 					// translators: %1$s expands to the post type plural, e.g. Posts. %2$s expands to the post type singular, e.g. Post.
@@ -253,9 +253,9 @@ const PostType = ( { name, label, singularLabel, hasArchive } ) => {
 				</FieldsetLayout>
 				<hr className="yst-my-8" />
 				<FieldsetLayout
-					title={ <div className="yst-flex yst-items-center">
+					title={ <div className="yst-flex yst-items-center yst-gap-1.5">
 						<span>{ __( "Social appearance", "wordpress-seo" ) }</span>
-						<Badge className="yst-ml-1.5" variant="upsell">Premium</Badge>
+						<Badge variant="upsell">Premium</Badge>
 					</div> }
 					description={ sprintf(
 						// translators: %1$s expands to the post type plural, e.g. Posts.
