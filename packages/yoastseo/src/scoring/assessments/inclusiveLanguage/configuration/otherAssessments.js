@@ -14,10 +14,10 @@ const otherAssessments = [
 	{
 		identifier: "minorities",
 		nonInclusivePhrases: [ "minorities" ],
-		inclusiveAlternatives: [ "underrepresented groups", "gender and sexuality minorities" ],
+		inclusiveAlternatives: [ "marginalized groups", "underrepresented groups", "gender and sexuality minorities" ],
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: "Be careful when using \"%1$s\" as it is potentially overgeneralizing. " +
-						"Consider using an alternative, such as \"%2$s\" or specific minorities, such as \"%3$s\" instead.",
+						"Consider using an alternative, such as \"%2$s\", \"%3$s\" or specific minorities, such as \"%4$s\" instead.",
 		learnMoreUrl: "https://yoa.st/",
 	},
 	{
@@ -39,7 +39,7 @@ const otherAssessments = [
 	{
 		identifier: "ex-offender",
 		nonInclusivePhrases: [ "ex-offender", "ex-offenders" ],
-		inclusiveAlternatives: "formally incarcerated person",
+		inclusiveAlternatives: "formerly incarcerated person",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
