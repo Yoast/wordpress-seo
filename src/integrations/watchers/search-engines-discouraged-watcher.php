@@ -130,7 +130,18 @@ class Search_Engines_Discouraged_Watcher implements Integration_Interface {
 
 		printf(
 			'<div id="robotsmessage" class="notice notice-error"> %1$s </div>',
-			esc_html( $presenter->present() )
+			wp_kses( $presenter->present(), [
+				'strong' => [],
+				'button' => [
+					'type' => array(),
+					'id' => array(),
+					'class' => array(),
+					'data-nonce' => array(),
+				],
+				'a' => [
+					'href' => array(),
+				]
+			] )
 		);
 	}
 
