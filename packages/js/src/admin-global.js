@@ -16,13 +16,13 @@ import jQuery from "jquery";
 	 */
 	function wpseoSetIgnore( option, hide, nonce ) {
 		const formData = new FormData();
-		let postData = {
+		const postData = {
 			action: "wpseo_set_ignore",
 			option: option,
 			_wpnonce: nonce,
-		}
-		for (const [key, value] of Object.entries(postData)) {
-			formData.append(key, value);
+		};
+		for ( const [ key, value ] of Object.entries( postData ) ) {
+			formData.append( key, value );
 		}
 		return fetch(
 			ajaxurl,
@@ -30,13 +30,13 @@ import jQuery from "jquery";
 				method: "POST",
 				body: formData,
 			}
-		).then(response => {
+		).then( response => {
 			if ( response ) {
 				jQuery( "#" + hide ).hide();
 				jQuery( "#hidden_ignore_" + option ).val( "ignore" );
 			}
 			return response;
-		});
+		} );
 	}
 
 	/**
@@ -99,12 +99,12 @@ import jQuery from "jquery";
 
 		// Dismiss the "search engines discouraged" admin notice.
 		jQuery( "button#robotsmessage-dismiss-button" ).on( "click", function() {
-			wpseoSetIgnore( "search_engines_discouraged_notice", "robotsmessage", jQuery( this ).data( "nonce" ) ).then(_ => {
+			wpseoSetIgnore( "search_engines_discouraged_notice", "robotsmessage", jQuery( this ).data( "nonce" ) ).then( _ => {
 				// If we are on the dashboard, reload because we need to reload notifications as well.
-				if (window.location.href.includes('page=wpseo_dashboard')) {
+				if ( window.location.href.includes( "page=wpseo_dashboard" ) ) {
 					window.location.reload();
 				}
-			});
+			} );
 		} );
 	} );
 
