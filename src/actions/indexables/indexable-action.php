@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Actions\Indexables;
 
+use Yoast\WP\SEO\Helpers\Indexables_Page_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
@@ -70,9 +71,11 @@ class Indexable_Action {
 	/**
 	 * Gets the posts with the smallest readability scores.
 	 *
+	 * @param int $limit The maximum amount of results to return.
+	 *
 	 * @return array The posts with the smallest readability scores as an array.
 	 */
-	public function get_least_readable() {
+	public function get_least_readable( $limit ) {
 		$ignore_list = empty( $this->options_helper->get( 'least_readability_ignore_list', [] ) ) ? [ -1 ] : $this->options_helper->get( 'least_readability_ignore_list', [] );
 
 		// @TODO: Improve query.
@@ -83,7 +86,7 @@ class Indexable_Action {
 			->where_not_in( 'id', $ignore_list )
 			->where_not_equal( 'readability_score', 0 )
 			->order_by_asc( 'readability_score' )
-			->limit( 100 )
+			->limit( $limit )
 			->find_many();
 
 		return \array_map( [ $this->indexable_repository, 'ensure_permalink' ], $least_readable );
@@ -92,9 +95,11 @@ class Indexable_Action {
 	/**
 	 * Gets the posts with the lowest seo scores.
 	 *
+	 * @param int $limit The maximum amount of results to return.
+	 *
 	 * @return array The posts with the lowest seo scores as an array.
 	 */
-	public function get_least_seo_score() {
+	public function get_least_seo_score( $limit ) {
 		// where_not_equal needs the set to check against not to be empty.
 		$ignore_list = empty( $this->options_helper->get( 'least_seo_score_ignore_list', [] ) ) ? [ -1 ] : $this->options_helper->get( 'least_seo_score_ignore_list', [] );
 
@@ -106,7 +111,7 @@ class Indexable_Action {
 			->where_not_in( 'id', $ignore_list )
 			->where_not_equal( 'primary_focus_keyword', 0 )
 			->order_by_asc( 'primary_focus_keyword_score' )
-			->limit( 100 )
+			->limit( $limit )
 			->find_many();
 
 		return \array_map( [ $this->indexable_repository, 'ensure_permalink' ], $least_seo_score );
@@ -115,9 +120,11 @@ class Indexable_Action {
 	/**
 	 * Gets the most linked posts.
 	 *
+	 * @param int $limit The maximum amount of results to return.
+	 *
 	 * @return array The most linked posts as an array.
 	 */
-	public function get_most_linked() {
+	public function get_most_linked( $limit ) {
 		// where_not_equal needs the set to check against not to be empty.
 		$ignore_list = empty( $this->options_helper->get( 'most_linked_ignore_list', [] ) ) ? [ -1 ] : $this->options_helper->get( 'most_linked_ignore_list', [] );
 
@@ -130,7 +137,7 @@ class Indexable_Action {
 			->where_in( 'object_type', [ 'post' ] )
 			->where_not_in( 'id', $ignore_list )
 			->order_by_desc( 'incoming_link_count' )
-			->limit( 100 )
+			->limit( $limit )
 			->find_many();
 
 		return \array_map( [ $this->indexable_repository, 'ensure_permalink' ], $most_linked );
@@ -139,9 +146,11 @@ class Indexable_Action {
 	/**
 	 * Gets the least linked posts.
 	 *
+	 * @param int $limit The maximum amount of results to return.
+	 *
 	 * @return array The most linked posts as an array.
 	 */
-	public function get_least_linked() {
+	public function get_least_linked( $limit ) {
 		// where_not_equal needs the set to check against not to be empty.
 		$ignore_list = empty( $this->options_helper->get( 'least_linked_ignore_list', [] ) ) ? [ -1 ] : $this->options_helper->get( 'least_linked_ignore_list', [] );
 
@@ -152,7 +161,7 @@ class Indexable_Action {
 			->where_in( 'object_type', [ 'post' ] )
 			->where_not_in( 'id', $ignore_list )
 			->order_by_asc( 'incoming_link_count' )
-			->limit( 100 )
+			->limit( $limit )
 			->find_many();
 		$least_linked = \array_map( [ $this->indexable_repository, 'ensure_permalink' ], $least_linked );
 		return \array_map(

@@ -177,7 +177,7 @@ class Indexable_Action_Test extends TestCase {
 
 		$this->indexable_repository
 			->expects( 'limit' )
-			->with( 100 )
+			->with( 20 )
 			->andReturnSelf();
 
 		$this->indexable_repository
@@ -186,7 +186,7 @@ class Indexable_Action_Test extends TestCase {
 
 		$this->assertEquals(
 			$indexables_to_return,
-			$this->mock_instance->get_least_readable()
+			$this->mock_instance->get_least_readable( 20 )
 		);
 	}
 
@@ -270,7 +270,7 @@ class Indexable_Action_Test extends TestCase {
 
 		$this->indexable_repository
 			->expects( 'limit' )
-			->with( 100 )
+			->with( 20 )
 			->andReturnSelf();
 
 		$this->indexable_repository
@@ -279,7 +279,7 @@ class Indexable_Action_Test extends TestCase {
 
 		$this->assertEquals(
 			$indexables_to_return,
-			$this->mock_instance->get_least_seo_score()
+			$this->mock_instance->get_least_seo_score( 20 )
 		);
 	}
 
@@ -368,7 +368,7 @@ class Indexable_Action_Test extends TestCase {
 
 		$this->indexable_repository
 			->expects( 'limit' )
-			->with( 100 )
+			->with( 20 )
 			->andReturnSelf();
 
 		$this->indexable_repository
@@ -377,7 +377,7 @@ class Indexable_Action_Test extends TestCase {
 
 		$this->assertEquals(
 			$indexables_to_return,
-			$this->mock_instance->get_most_linked()
+			$this->mock_instance->get_most_linked( 20 )
 		);
 	}
 
@@ -465,7 +465,7 @@ class Indexable_Action_Test extends TestCase {
 
 		$this->indexable_repository
 			->expects( 'limit' )
-			->with( 100 )
+			->with( 20 )
 			->andReturnSelf();
 
 		$this->indexable_repository
@@ -474,7 +474,7 @@ class Indexable_Action_Test extends TestCase {
 
 		$this->assertEquals(
 			$indexables_to_return,
-			$this->mock_instance->get_least_linked()
+			$this->mock_instance->get_least_linked( 20 )
 		);
 	}
 

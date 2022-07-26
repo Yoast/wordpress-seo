@@ -6,6 +6,7 @@ use Brain\Monkey;
 use Mockery;
 use WP_REST_Response;
 use Yoast\WP\SEO\Actions\Indexables\Indexable_Action;
+use Yoast\WP\SEO\Helpers\Indexables_Page_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Routes\Indexables_Route;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -28,6 +29,13 @@ class Indexables_Route_Test extends TestCase {
 	protected $indexable_action;
 
 	/**
+	 * Represents the indexables page helper.
+	 *
+	 * @var Mockery\MockInterface|Indexables_Page_Helper
+	 */
+	protected $indexables_page_helper;
+
+	/**
 	 * Represents the instance to test.
 	 *
 	 * @var Indexables_Route
@@ -40,8 +48,9 @@ class Indexables_Route_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
-		$this->indexable_action = Mockery::mock( Indexable_Action::class );
-		$this->instance         = new Indexables_Route( $this->indexable_action );
+		$this->indexable_action       = Mockery::mock( Indexable_Action::class );
+		$this->indexables_page_helper = Mockery::mock( Indexables_Page_Helper::class );
+		$this->instance               = new Indexables_Route( $this->indexable_action, $this->indexables_page_helper );
 	}
 
 	/**
@@ -53,6 +62,10 @@ class Indexables_Route_Test extends TestCase {
 		$this->assertInstanceOf(
 			Indexable_Action::class,
 			$this->getPropertyValue( $this->instance, 'indexable_action' )
+		);
+		$this->assertInstanceOf(
+			Indexables_Page_Helper::class,
+			$this->getPropertyValue( $this->instance, 'indexables_page_helper' )
 		);
 	}
 
@@ -171,8 +184,14 @@ class Indexables_Route_Test extends TestCase {
 		];
 		$this->indexable_action
 			->expects( 'get_least_readable' )
+			->with( 20 )
 			->once()
 			->andReturn( $least_readables );
+
+		$this->indexables_page_helper
+			->expects( 'get_buffer_size' )
+			->once()
+			->andReturn( 20 );
 
 		$wp_rest_response_mock = Mockery::mock( 'overload:WP_REST_Response' );
 		$wp_rest_response_mock
@@ -204,8 +223,14 @@ class Indexables_Route_Test extends TestCase {
 		];
 		$this->indexable_action
 			->expects( 'get_least_seo_score' )
+			->with( 20 )
 			->once()
 			->andReturn( $least_seo_score );
+
+		$this->indexables_page_helper
+			->expects( 'get_buffer_size' )
+			->once()
+			->andReturn( 20 );
 
 		$wp_rest_response_mock = Mockery::mock( 'overload:WP_REST_Response' );
 		$wp_rest_response_mock
@@ -237,8 +262,14 @@ class Indexables_Route_Test extends TestCase {
 		];
 		$this->indexable_action
 			->expects( 'get_most_linked' )
+			->with( 20 )
 			->once()
 			->andReturn( $most_linked );
+
+		$this->indexables_page_helper
+			->expects( 'get_buffer_size' )
+			->once()
+			->andReturn( 20 );
 
 		$wp_rest_response_mock = Mockery::mock( 'overload:WP_REST_Response' );
 		$wp_rest_response_mock
@@ -270,8 +301,14 @@ class Indexables_Route_Test extends TestCase {
 		];
 		$this->indexable_action
 			->expects( 'get_least_linked' )
+			->with( 20 )
 			->once()
 			->andReturn( $least_linked );
+
+		$this->indexables_page_helper
+			->expects( 'get_buffer_size' )
+			->once()
+			->andReturn( 20 );
 
 		$wp_rest_response_mock = Mockery::mock( 'overload:WP_REST_Response' );
 		$wp_rest_response_mock
