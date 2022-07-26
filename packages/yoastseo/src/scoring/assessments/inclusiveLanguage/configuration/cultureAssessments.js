@@ -34,7 +34,7 @@ const cultureAssessments = [
 	{
 		identifier: "tribe",
 		nonInclusivePhrases: [ "tribe" ],
-		inclusiveAlternatives: "group, cohort, crew, league, guild",
+		inclusiveAlternatives: "\"group, cohort, crew, league, guild\"",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulUnlessCulture,
 		learnMoreUrl: "https://yoa.st/",
@@ -42,7 +42,7 @@ const cultureAssessments = [
 	{
 		identifier: "exotic",
 		nonInclusivePhrases: [ "exotic" ],
-		inclusiveAlternatives: "unfamiliar, foreign, peculiar, fascinating, alluring, bizzarre",
+		inclusiveAlternatives: "\"unfamiliar, foreign, peculiar, fascinating, alluring, bizzarre\"",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
@@ -50,7 +50,7 @@ const cultureAssessments = [
 	{
 		identifier: "sherpa",
 		nonInclusivePhrases: [ "sherpa" ],
-		inclusiveAlternatives: "commander, coach, mastermind, coach, mentor",
+		inclusiveAlternatives: "\"commander, coach, mastermind, coach, mentor\"",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulUnlessCulture,
 		learnMoreUrl: "https://yoa.st/",
@@ -58,7 +58,7 @@ const cultureAssessments = [
 	{
 		identifier: "guru",
 		nonInclusivePhrases: [ "guru" ],
-		inclusiveAlternatives: "mentor, doyen, coach, mastermind, virtuoso",
+		inclusiveAlternatives: "\"mentor, doyen, coach, mastermind, virtuoso\"",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulUnlessCulture,
 		learnMoreUrl: "https://yoa.st/",
@@ -66,7 +66,7 @@ const cultureAssessments = [
 	{
 		identifier: "nonWhite",
 		nonInclusivePhrases: [ "non-white" ],
-		inclusiveAlternatives: "POC, BIPOC, specific racial groups mentioned",
+		inclusiveAlternatives: "\"people of color, POC, BIPOC\" or specifying the racial groups mentioned",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
@@ -75,7 +75,7 @@ const cultureAssessments = [
 		// Should the inclusiveAlternatives be part of the feedback string?
 		identifier: "oriental",
 		nonInclusivePhrases: [ "oriental" ],
-		inclusiveAlternatives: "Asian, or be specific when possible and relevant (e.g. East Asian)",
+		inclusiveAlternatives: "\"Asian\", or be specific when possible and relevant (e.g. \"East Asian\")",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
@@ -83,7 +83,7 @@ const cultureAssessments = [
 	{
 		identifier: "asianAmerican",
 		nonInclusivePhrases: [ "Asian-American" ],
-		inclusiveAlternatives: "Asian American",
+		inclusiveAlternatives: "\"Asian American\"",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
@@ -91,7 +91,7 @@ const cultureAssessments = [
 	{
 		identifier: "africanAmerican",
 		nonInclusivePhrases: [ "African-American" ],
-		inclusiveAlternatives: "African American, Black, Americans of African descent",
+		inclusiveAlternatives: "\"African American, Black, Americans of African descent\"",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
@@ -107,7 +107,7 @@ const cultureAssessments = [
 	{
 		identifier: "whitelist",
 		nonInclusivePhrases: [ "whitelist" ],
-		inclusiveAlternatives: "allowlist",
+		inclusiveAlternatives: "\"allowlist\"",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
@@ -115,7 +115,7 @@ const cultureAssessments = [
 	{
 		identifier: "blacklist",
 		nonInclusivePhrases: [ "blacklist" ],
-		inclusiveAlternatives: "blocklist, denylist, faillist, redlist",
+		inclusiveAlternatives: "\"blocklist, denylist, faillist, redlist\"",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
@@ -123,7 +123,7 @@ const cultureAssessments = [
 	{
 		identifier: "gypVerb",
 		nonInclusivePhrases: [ "gyp" ],
-		inclusiveAlternatives: "to cheat someone",
+		inclusiveAlternatives: "\"to cheat someone\"",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
@@ -131,7 +131,7 @@ const cultureAssessments = [
 	{
 		identifier: "gypNoun",
 		nonInclusivePhrases: [ "gyp" ],
-		inclusiveAlternatives: "a fraud",
+		inclusiveAlternatives: "\"a fraud\"",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
@@ -139,24 +139,24 @@ const cultureAssessments = [
 	{
 		identifier: "gypsy",
 		nonInclusivePhrases: [ "gypsy", "gypsies" ],
-		inclusiveAlternatives: [ "Romani, Romani person, Romani people", "Traveler, wanderer, free-spirited" ],
+		inclusiveAlternatives: [ "\"Romani, Romani person, Romani people\"", "\"traveler, wanderer, free-spirited\"" ],
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: [ potentiallyHarmfulUnless, "Consider using an alternative, such as \"%2$s\" " +
-						"if you are referring to the ethnic group or their music and \"%3$s\" if you are referring to a lifestyle." ].join( " " ),
+		feedbackFormat: [ potentiallyHarmfulUnless, "If you are referring to a lifestyle rather than the ethnic group or " +
+						"their music, consider using an alternative such as \"%3$s\"." ].join( " " ),
 		learnMoreUrl: "https://yoa.st/",
 	},
 	{
 		identifier: "eskimo",
 		nonInclusivePhrases: [ "eskimo" ],
-		inclusiveAlternatives: "specific name of indigenous community (for example, Inuit)",
+		inclusiveAlternatives: "the specific name of the Indigenous community (for example, Inuit)",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmful,
+		feedbackFormat: potentiallyHarmfulUnless,
 		learnMoreUrl: "https://yoa.st/",
 	},
 	{
 		identifier: "coloredPeople",
 		nonInclusivePhrases: [ "colored people" ],
-		inclusiveAlternatives: "people of color",
+		inclusiveAlternatives: "\"people of color, POC, BIPOC\"",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
@@ -164,7 +164,7 @@ const cultureAssessments = [
 	{
 		identifier: "americanIndians",
 		nonInclusivePhrases: [ "American Indian", "American Indians" ],
-		inclusiveAlternatives: "Native American(s), Indigenous peoples of America",
+		inclusiveAlternatives: "\"Native American(s), Indigenous peoples of America\"",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulUnless,
 		learnMoreUrl: "https://yoa.st/",
@@ -172,7 +172,7 @@ const cultureAssessments = [
 	{
 		identifier: "mulatto",
 		nonInclusivePhrases: [ "mulatto" ],
-		inclusiveAlternatives: "mixed, biracial, multiracial",
+		inclusiveAlternatives: "\"mixed, biracial, multiracial\"",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
@@ -180,7 +180,7 @@ const cultureAssessments = [
 	{
 		identifier: "savage",
 		nonInclusivePhrases: [ "savage" ],
-		inclusiveAlternatives: "severe, dreadful, untamed",
+		inclusiveAlternatives: "\"severe, dreadful, untamed\"",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
@@ -188,7 +188,7 @@ const cultureAssessments = [
 	{
 		identifier: "civilized",
 		nonInclusivePhrases: [ "civilized" ],
-		inclusiveAlternatives: "proper, well-mannered, enlightened, respectful",
+		inclusiveAlternatives: "\"proper, well-mannered, enlightened, respectful\"",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
@@ -196,7 +196,7 @@ const cultureAssessments = [
 	{
 		identifier: "primitive",
 		nonInclusivePhrases: [ "primitive" ],
-		inclusiveAlternatives: "early, rudimentary",
+		inclusiveAlternatives: "\"early, rudimentary\"",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
@@ -204,7 +204,7 @@ const cultureAssessments = [
 	{
 		identifier: "africanAmericanVernacularEnglish",
 		nonInclusivePhrases: [ "African American Vernacular English" ],
-		inclusiveAlternatives: "African American English, African American Language",
+		inclusiveAlternatives: "\"African American English, African American Language\"",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulCareful,
 		learnMoreUrl: "https://yoa.st/",
@@ -212,7 +212,7 @@ const cultureAssessments = [
 	{
 		identifier: "ebonics",
 		nonInclusivePhrases: [ "Ebonics" ],
-		inclusiveAlternatives: "African American English, African American Language",
+		inclusiveAlternatives: "\"African American English, African American Language\"",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: "Avoid using \"%1$s\" as it is outdated and potentially harmful. Consider using an alternative, such as \"%2$s\" instead.",
 		learnMoreUrl: "https://yoa.st/",
@@ -220,7 +220,7 @@ const cultureAssessments = [
 	{
 		identifier: "powWow",
 		nonInclusivePhrases: [ "pow-wow" ],
-		inclusiveAlternatives: "chat, brief conversation, brainstorm, huddle",
+		inclusiveAlternatives: "\"chat, brief conversation, brainstorm, huddle\"",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulUnlessCulture,
 		learnMoreUrl: "https://yoa.st/",
@@ -228,7 +228,7 @@ const cultureAssessments = [
 	{
 		identifier: "lowManOnTheTotemPole",
 		nonInclusivePhrases: [ "low man on the totem pole" ],
-		inclusiveAlternatives: "person of lower rank, junior-level",
+		inclusiveAlternatives: "\"person of lower rank, junior-level\"",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
@@ -236,7 +236,7 @@ const cultureAssessments = [
 	{
 		identifier: "spiritAnimal",
 		nonInclusivePhrases: [ "spirit animal" ],
-		inclusiveAlternatives: "inspiration, hero, icon, idol",
+		inclusiveAlternatives: "\"inspiration, hero, icon, idol\"",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulUnlessCulture,
 		learnMoreUrl: "https://yoa.st/",
@@ -260,7 +260,7 @@ const cultureAssessments = [
 	{
 		identifier: "underdevelopedCountry",
 		nonInclusivePhrases: [ "underdeveloped country", "underdeveloped countries" ],
-		inclusiveAlternatives: "developing country/countries",
+		inclusiveAlternatives: "\"developing country/countries\"",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: "Avoid using \"%1$s\" as it is potentially harmful. Consider using an alternative, " +
 						"such as \"%2$s\" instead or be more specific about what aspect this word refers to.",
