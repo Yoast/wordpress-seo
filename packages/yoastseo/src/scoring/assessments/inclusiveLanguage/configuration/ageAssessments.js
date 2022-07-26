@@ -4,14 +4,14 @@ import { isFollowedByException } from "../helpers/isFollowedByException";
 import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
 import { SCORES } from "./scores";
 
-const specificAgeGroup = "Or, if possible, be specific about the group you are referring to (e.g. \"people older than 70\").";
+const specificAgeGroup = "Or, if possible, be specific about the group you are referring to (e.g. <i>people older than 70</i>).";
 const characteristicIfKnown = "Consider using an alternative, such as a specific characteristic or experience if it is known (e.g. <i>has Alzheimer's</i>).";
 
 const assessments = [
 	{
 		identifier: "seniorCitizens",
 		nonInclusivePhrases: [ "senior citizen", "senior citizens" ],
-		inclusiveAlternatives: "\"older citizen(s)\"",
+		inclusiveAlternatives: "<i>older citizen(s)</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: [ potentiallyHarmfulUnless, specificAgeGroup ].join( " " ),
 		learnMoreUrl: "https://yoa.st/",
@@ -19,7 +19,7 @@ const assessments = [
 	{
 		identifier: "agingDependants",
 		nonInclusivePhrases: [ "aging dependants" ],
-		inclusiveAlternatives: "\"older people\"",
+		inclusiveAlternatives: "<i>older people</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: [ potentiallyHarmfulUnlessNonInclusive, specificAgeGroup ].join( " " ),
 		learnMoreUrl: "https://yoa.st/",
@@ -27,7 +27,7 @@ const assessments = [
 	{
 		identifier: "elderly",
 		nonInclusivePhrases: [ "elderly" ],
-		inclusiveAlternatives: "\"older people\"",
+		inclusiveAlternatives: "<i>older people</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: [ potentiallyHarmfulUnless, specificAgeGroup ].join( " " ),
 		learnMoreUrl: "https://yoa.st/",
@@ -43,7 +43,7 @@ const assessments = [
 	{
 		identifier: "senility",
 		nonInclusivePhrases: [ "senility" ],
-		inclusiveAlternatives: "\"dementia\"",
+		inclusiveAlternatives: "<i>dementia</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
@@ -51,7 +51,7 @@ const assessments = [
 	{
 		identifier: "seniors",
 		nonInclusivePhrases: [ "seniors" ],
-		inclusiveAlternatives: "\"older people\"",
+		inclusiveAlternatives: "<i>older people</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: [ potentiallyHarmfulUnless, specificAgeGroup ].join( " " ),
 		learnMoreUrl: "https://yoa.st/",
