@@ -36,7 +36,7 @@ This PR can be acceptance tested by following these steps:
 #### Relevant test scenarios
 * [ ] Changes should be tested with the browser console open
 * [ ] Changes should be tested on different posts/pages/taxonomies/custom post types/custom taxonomies
-* [ ] Changes should be tested on different editors (Block/Classic/Elementor/Gutenberg)
+* [ ] Changes should be tested on different editors (Block/Classic/Elementor/other)
 * [ ] Changes should be tested on different browsers
 * [ ] Changes should be tested on multisite
 <!--
