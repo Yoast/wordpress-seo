@@ -84,11 +84,11 @@ export default class AbstractResearcher {
 			pageTitleWidth,
 			readingTime,
 			sentences,
+			textFormality,
 			wordCountInText,
 			videoCount,
 			getPassiveVoiceResult,
 			wordComplexity,
-			textFormality,
 		};
 
 		this._data = {};
