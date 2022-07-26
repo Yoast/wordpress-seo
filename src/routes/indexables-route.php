@@ -74,20 +74,25 @@ class Indexables_Route implements Route_Interface {
 	}
 
 	/**
+	 * Permission callback.
+	 *
+	 * @return bool true when user has 'edit_others_posts' permission.
+	 */
+	public static function permission_edit_others_posts() {
+		return \current_user_can( 'edit_others_posts' );
+	}
+
+	/**
 	 * Registers routes with WordPress.
 	 *
 	 * @return void
 	 */
 	public function register_routes() {
-		$edit_others_posts = static function() {
-			return \current_user_can( 'edit_others_posts' );
-		};
-
 		$least_readability_route = [
 			[
 				'methods'             => 'GET',
 				'callback'            => [ $this, 'get_least_readable' ],
-				'permission_callback' => $edit_others_posts,
+				'permission_callback' => [ $this, 'permission_edit_others_posts' ],
 			],
 		];
 
@@ -97,7 +102,7 @@ class Indexables_Route implements Route_Interface {
 			[
 				'methods'             => 'GET',
 				'callback'            => [ $this, 'get_least_seo_score' ],
-				'permission_callback' => $edit_others_posts,
+				'permission_callback' => [ $this, 'permission_edit_others_posts' ],
 			],
 		];
 
@@ -107,7 +112,7 @@ class Indexables_Route implements Route_Interface {
 			[
 				'methods'             => 'GET',
 				'callback'            => [ $this, 'get_most_linked' ],
-				'permission_callback' => $edit_others_posts,
+				'permission_callback' => [ $this, 'permission_edit_others_posts' ],
 			],
 		];
 
@@ -117,7 +122,7 @@ class Indexables_Route implements Route_Interface {
 			[
 				'methods'             => 'GET',
 				'callback'            => [ $this, 'get_least_linked' ],
-				'permission_callback' => $edit_others_posts,
+				'permission_callback' => [ $this, 'permission_edit_others_posts' ],
 			],
 		];
 
@@ -127,7 +132,7 @@ class Indexables_Route implements Route_Interface {
 			[
 				'methods'             => 'POST',
 				'callback'            => [ $this, 'ignore_indexable' ],
-				'permission_callback' => $edit_others_posts,
+				'permission_callback' => [ $this, 'permission_edit_others_posts' ],
 				'args'                => [
 					'id' => [
 						'type'     => 'integer',
@@ -145,7 +150,7 @@ class Indexables_Route implements Route_Interface {
 			[
 				'methods'             => 'POST',
 				'callback'            => [ $this, 'restore_indexable' ],
-				'permission_callback' => $edit_others_posts,
+				'permission_callback' => [ $this, 'permission_edit_others_posts' ],
 				'args'                => [
 					'id' => [
 						'type'     => 'integer',
