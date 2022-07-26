@@ -1,6 +1,6 @@
 import domReady from "@wordpress/dom-ready";
 import { render } from "@wordpress/element";
-import { dispatch } from "@wordpress/data";
+import { dispatch, select } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
 import { Root } from "@yoast/ui-library";
 import { Formik } from "formik";
@@ -78,11 +78,13 @@ domReady( () => {
 
 	registerStore();
 
+	const isRtl = select( STORE_NAME ).selectPreference( "isRtl", false );
+
 	// Prevent Styled Components' styles by adding the stylesheet to a div that is not on the page.
 	const styleDummy = document.createElement( "div" );
 
 	render(
-		<Root>
+		<Root context={ { isRtl } }>
 			<StyleSheetManager target={ styleDummy }>
 				<HashRouter>
 					<Formik
