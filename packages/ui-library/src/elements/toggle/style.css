@@ -22,10 +22,6 @@
 		}
 
 		/* States */
-		[dir=rtl] .yst-toggle--checked .yst-toggle__handle {
-			@apply yst--translate-x-5;
-		}
-
 		.yst-toggle--checked {
 			@apply yst-bg-primary-500;
 
@@ -83,6 +79,13 @@
 
 		.yst-toggle__icon--x {
 			@apply yst-text-gray-400;
+		}
+	}
+
+	/* RTL styles */
+	[dir=rtl] .yst-root {
+		.yst-toggle--checked .yst-toggle__handle {
+			@apply yst--translate-x-5;
 		}
 	}
 }
