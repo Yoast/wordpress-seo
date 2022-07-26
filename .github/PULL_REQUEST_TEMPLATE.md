@@ -33,11 +33,20 @@ This PR can be acceptance tested by following these steps:
 
 *
 
+#### Relevant testing scenarios
+* [ ] Changes should be tested with the browser console open
+* [ ] Changes should be tested on different posts/pages/taxonomies/custom post types/custom taxonomies
+* [ ] Changes should be tested on different editors (Block/Classic/Elementor/Gutenberg)
+* [ ] Changes should be tested on different browsers
+<!--
+If you have checked any of the above cases, please add some context about the reason, what to check in the console,
+which type/editor/browser should be tested in particular, etc.
+-->
 
 ### Test instructions for QA when the code is in the RC
 <!--
 Sometimes some steps from the test instructions for the acceptance test aren't relevant anymore once the code has been merged or the feature is complete. If that is the case, do not check the checkbox below.
-QA is our Quality Assurance team. The RC is the release candidate zip that is tested before a release 
+QA is our Quality Assurance team. The RC is the release candidate zip that is tested before a release
 -->
 
 * [ ] QA should use the same steps as above.
@@ -73,7 +82,7 @@ This PR affects the following parts of the plugin, which may require extra testi
 ## Quality assurance
 
 * [ ] I have tested this code to the best of my abilities
-* [ ] I have added unittests to verify the code works as intended
+* [ ] I have added unit tests to verify the code works as intended
 * [ ] If any part of the code is behind a feature flag, my test instructions also cover cases where the feature flag is switched off.
 * [ ] I have written this PR in accordance with my team's definition of done.
 
