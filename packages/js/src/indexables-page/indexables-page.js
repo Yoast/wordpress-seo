@@ -288,7 +288,7 @@ function IndexablesPage() {
 	};
 
 	return <div
-		className="yst-bg-white yst-rounded-lg yst-p-6 yst-shadow-md yst-max-w-full yst-mt-6"
+		className="yst-max-w-full yst-mt-6"
 	>
 		<Modal
 			onClose={ handleCloseModal }
@@ -296,82 +296,101 @@ function IndexablesPage() {
 		>
 			{ isPremiumInstalled ? renderSuggestedLinksModal() : renderUpsellLinksModal() }
 		</Modal>
-
 		{ ignoreIndexable && <Alert><Button onClick={ onClickUndo( ignoreIndexable ) }>{ `Ignore ${ignoreIndexable.indexable.id}` }</Button></Alert> }
 		<header className="yst-border-b yst-border-gray-200"><div className="yst-max-w-screen-sm yst-p-8"><h2 className="yst-text-2xl yst-font-bold">{ __( "Indexables page", "wordpress-seo" ) }</h2></div></header>
-		<h3 className="yst-my-4 yst-text-xl">{ __( "Least Readability Score", "wordpress-seo" ) }</h3>
-		<IndexablesTable
-			indexables={ listedIndexables.least_readability }
-			keyHeaderMap={
-				{
-					/* eslint-disable camelcase */
-					breadcrumb_title: __( "Title", "wordpress-seo" ),
-					readability_score: __( "Readability Score", "wordpress-seo" ),
-					edit: __( "Edit", "wordpress-seo" ),
-					ignore: __( "Ignore", "wordpress-seo" ),
-					/* eslint-enable camelcase */
-				}
-			}
-			type="least_readability"
-			addToIgnoreList={ setIgnoreIndexable }
-			listSize={ listSize }
-		/>
-		<h3 className="yst-my-4 yst-text-xl">{ __( "Least SEO Score", "wordpress-seo" ) }</h3>
-		<IndexablesTable
-			indexables={ listedIndexables.least_seo_score }
-			keyHeaderMap={
-				{
-					/* eslint-disable camelcase */
-					breadcrumb_title: __( "Title", "wordpress-seo" ),
-					primary_focus_keyword_score: __( "SEO Score", "wordpress-seo" ),
-					edit: __( "Edit", "wordpress-seo" ),
-					ignore: __( "Ignore", "wordpress-seo" ),
-					/* eslint-enable camelcase */
-				}
-			}
-			type="least_seo_score"
-			addToIgnoreList={ setIgnoreIndexable }
-			listSize={ listSize }
-		/>
-		<h3 className="yst-my-4 yst-text-xl">{ __( "Least Linked", "wordpress-seo" ) }</h3>
-		<IndexablesTable
-			indexables={ listedIndexables.least_linked }
-			keyHeaderMap={
-				{
-					/* eslint-disable camelcase */
-					breadcrumb_title: __( "Title", "wordpress-seo" ),
-					incoming_link_count: __( "Incoming links", "wordpress-seo" ),
-					edit: __( "Edit", "wordpress-seo" ),
-					ignore: __( "Ignore", "wordpress-seo" ),
-					links: __( "Find posts to link to", "wordpress-seo" ),
-					/* eslint-enable camelcase */
-				}
-			}
-			type="least_linked"
-			addToIgnoreList={ setIgnoreIndexable }
-			handleOpenModal={ handleOpenModal }
-			listSize={ listSize }
-		/>
-		<h3 className="yst-my-4 yst-text-xl">{ __( "Most Linked", "wordpress-seo" ) }</h3>
-		<IndexablesTable
-			indexables={ listedIndexables.most_linked }
-			keyHeaderMap={
-				{
-					/* eslint-disable camelcase */
-					breadcrumb_title: __( "Title", "wordpress-seo" ),
-					incoming_link_count: __( "Incoming links", "wordpress-seo" ),
-					edit: __( "Edit", "wordpress-seo" ),
-					ignore: __( "Ignore", "wordpress-seo" ),
-					links: __( "Find posts to link to", "wordpress-seo" ),
-					/* eslint-enable camelcase */
-				}
-			}
-			type="most_linked"
-			addToIgnoreList={ setIgnoreIndexable }
-			handleOpenModal={ handleOpenModal }
-			listSize={ listSize }
-		/>
-
+		<div
+			id="indexables-table-grid"
+			className="2xl:yst-grid 2xl:yst-grid-cols-2 2xl:yst-grid-rows-2 2xl:yst-grid-flow-row 2xl:yst-auto-rows-fr 2xl:yst-gap-4"
+		>
+			<div
+				className="yst-bg-white yst-rounded-lg yst-p-6 yst-shadow-md"
+			>
+				<h3 className="yst-my-4 yst-text-xl">{ __( "Least Readability Score", "wordpress-seo" ) }</h3>
+				<IndexablesTable
+					indexables={ listedIndexables.least_readability }
+					keyHeaderMap={
+						{
+							/* eslint-disable camelcase */
+							breadcrumb_title: __( "Title", "wordpress-seo" ),
+							readability_score: __( "Readability Score", "wordpress-seo" ),
+							edit: __( "Edit", "wordpress-seo" ),
+							ignore: __( "Ignore", "wordpress-seo" ),
+							/* eslint-enable camelcase */
+						}
+					}
+					type="least_readability"
+					addToIgnoreList={ setIgnoreIndexable }
+					listSize={ listSize }
+				/>
+			</div>
+			<div
+				className="yst-bg-white yst-rounded-lg yst-p-6 yst-shadow-md"
+			>
+				<h3 className="yst-my-4 yst-text-xl">{ __( "Least SEO Score", "wordpress-seo" ) }</h3>
+				<IndexablesTable
+					indexables={ listedIndexables.least_seo_score }
+					keyHeaderMap={
+						{
+							/* eslint-disable camelcase */
+							breadcrumb_title: __( "Title", "wordpress-seo" ),
+							primary_focus_keyword_score: __( "SEO Score", "wordpress-seo" ),
+							edit: __( "Edit", "wordpress-seo" ),
+							ignore: __( "Ignore", "wordpress-seo" ),
+							/* eslint-enable camelcase */
+						}
+					}
+					type="least_seo_score"
+					addToIgnoreList={ setIgnoreIndexable }
+					listSize={ listSize }
+				/>
+			</div>
+			<div
+				className="yst-bg-white yst-rounded-lg yst-p-6 yst-shadow-md"
+			>
+				<h3 className="yst-my-4 yst-text-xl">{ __( "Least Linked", "wordpress-seo" ) }</h3>
+				<IndexablesTable
+					indexables={ listedIndexables.least_linked }
+					keyHeaderMap={
+						{
+							/* eslint-disable camelcase */
+							breadcrumb_title: __( "Title", "wordpress-seo" ),
+							incoming_link_count: __( "Incoming links", "wordpress-seo" ),
+							edit: __( "Find posts to link from", "wordpress-seo" ),
+							ignore: __( "Ignore", "wordpress-seo" ),
+							links: __( "Find posts to link to", "wordpress-seo" ),
+							/* eslint-enable camelcase */
+						}
+					}
+					type="least_linked"
+					addToIgnoreList={ setIgnoreIndexable }
+					handleOpenModal={ handleOpenModal }
+					listSize={ listSize }
+				/>
+			</div>
+			<div
+				className="yst-bg-white yst-rounded-lg yst-p-6 yst-shadow-md"
+			>
+				<h3 className="yst-my-4 yst-text-xl">{ __( "Most Linked", "wordpress-seo" ) }</h3>
+				<IndexablesTable
+					indexables={ listedIndexables.most_linked }
+					keyHeaderMap={
+						{
+							/* eslint-disable camelcase */
+							breadcrumb_title: __( "Title", "wordpress-seo" ),
+							incoming_link_count: __( "Incoming links", "wordpress-seo" ),
+							edit: __( "Find posts to link to", "wordpress-seo" ),
+							ignore: __( "Ignore", "wordpress-seo" ),
+							links: __( "Find posts to link to", "wordpress-seo" ),
+							/* eslint-enable camelcase */
+						}
+					}
+					type="most_linked"
+					addToIgnoreList={ setIgnoreIndexable }
+					handleOpenModal={ handleOpenModal }
+					listSize={ listSize }
+				/>
+			</div>
+		</div>
 	</div>;
 }
 
