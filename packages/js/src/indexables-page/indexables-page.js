@@ -242,7 +242,7 @@ function IndexablesPage() {
 					suggestedLinksModalContent.linksList.map( ( link, idx ) => {
 						return <li key={ idx }>
 							{ link.breadcrumb_title }
-							<a href={ link.permalink } target="_blank" rel="noopener noreferrer">{ __( "Edit to add link", "wordpress-seo" ) }<span className="yst-dashicons yst-dashicons-external" /></a>
+							<a href={ "/wp-admin/post.php?action=edit&post=" + link.object_id } target="_blank" rel="noopener noreferrer">{ __( "Edit to add link", "wordpress-seo" ) }<span className="yst-dashicons yst-dashicons-external" /></a>
 						</li>;
 					}
 					)
