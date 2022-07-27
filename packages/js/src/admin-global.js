@@ -6,13 +6,13 @@ import jQuery from "jquery";
 
 ( function( $ ) {
 	/**
-	 * Used to remove the admin notices for several purposes, dies on exit.
+	 * Used to remove the admin notices for several purposes.
 	 *
 	 * @param {string} option The option to ignore.
 	 * @param {string} hide   The target element to hide.
 	 * @param {string} nonce  Nonce for verification.
 	 *
-	 * @returns {Promise<Response>}
+	 * @returns {Promise<Response>} The promise resulting from the fetch() call.
 	 */
 	function wpseoSetIgnore( option, hide, nonce ) {
 		const formData = new FormData();
@@ -99,7 +99,7 @@ import jQuery from "jquery";
 
 		// Dismiss the "search engines discouraged" admin notice.
 		jQuery( "button#robotsmessage-dismiss-button" ).on( "click", function() {
-			wpseoSetIgnore( "search_engines_discouraged_notice", "robotsmessage", jQuery( this ).data( "nonce" ) ).then( _ => {
+			wpseoSetIgnore( "search_engines_discouraged_notice", "robotsmessage", jQuery( this ).data( "nonce" ) ).then( () => {
 				// If we are on the dashboard, reload because we need to reload notifications as well.
 				if ( window.location.href.includes( "page=wpseo_dashboard" ) ) {
 					window.location.reload();

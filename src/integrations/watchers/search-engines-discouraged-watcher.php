@@ -5,7 +5,10 @@ namespace Yoast\WP\SEO\Integrations\Watchers;
 use WPSEO_Capability_Utils;
 use WPSEO_Options;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
+use Yoast\WP\SEO\Helpers\Capability_Helper;
+use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Notification_Helper;
+use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Presenters\Admin\Search_Engines_Discouraged_Presenter;
 use Yoast_Notification;
@@ -38,17 +41,57 @@ class Search_Engines_Discouraged_Watcher implements Integration_Interface {
 	protected $notification_helper;
 
 	/**
+	 * The search engines discouraged presenter.
+	 *
+	 * @var Search_Engines_Discouraged_Presenter
+	 */
+	protected $presenter;
+
+	/**
+	 * The current page helper.
+	 *
+	 * @var Current_Page_Helper
+	 */
+	protected $current_page_helper;
+
+	/**
+	 * The options helper.
+	 *
+	 * @var Options_Helper
+	 */
+	protected $options_helper;
+
+	/**
+	 * The capability helper.
+	 *
+	 * @var Capability_Helper
+	 */
+	protected $capability_helper;
+
+	/**
 	 * Auto_Update constructor.
 	 *
-	 * @param Yoast_Notification_Center $notification_center The notification center.
-	 * @param Notification_Helper       $notification_helper The notification helper.
+	 * @param Yoast_Notification_Center            $notification_center The notification center.
+	 * @param Notification_Helper                  $notification_helper The notification helper.
+	 * @param Search_Engines_Discouraged_Presenter $presenter The presenter for the search engines discouraged notification.
+	 * @param Current_Page_Helper                  $current_page_helper The current page helper.
+	 * @param Options_Helper                       $options_helper The options helper.
+	 * @param Capability_Helper                    $capability_helper The capability helper.
 	 */
 	public function __construct(
 		Yoast_Notification_Center $notification_center,
-		Notification_Helper $notification_helper
+		Notification_Helper $notification_helper,
+		Search_Engines_Discouraged_Presenter $presenter,
+		Current_Page_Helper $current_page_helper,
+		Options_Helper $options_helper,
+		Capability_Helper $capability_helper
 	) {
 		$this->notification_center = $notification_center;
 		$this->notification_helper = $notification_helper;
+		$this->presenter           = $presenter;
+		$this->current_page_helper = $current_page_helper;
+		$this->options_helper      = $options_helper;
+		$this->capability_helper   = $capability_helper;
 	}
 
 	/**
@@ -75,17 +118,8 @@ class Search_Engines_Discouraged_Watcher implements Integration_Interface {
 	 *
 	 * @return bool Whether search engines are discouraged from indexing the site.
 	 */
-	private function search_engines_are_discouraged() {
-		return (string) get_option( 'blog_public' ) === '0';
-	}
-
-	/**
-	 * Helper to verify if the user is currently visiting one of our admin pages.
-	 *
-	 * @return bool
-	 */
-	private function on_wpseo_admin_page() {
-		return $GLOBALS['pagenow'] === 'admin.php' && strpos( filter_input( INPUT_GET, 'page' ), 'wpseo' ) === 0;
+	protected function search_engines_are_discouraged() {
+		return (string) \get_option( 'blog_public' ) === '0';
 	}
 
 	/**
@@ -94,7 +128,7 @@ class Search_Engines_Discouraged_Watcher implements Integration_Interface {
 	 * @return bool
 	 */
 	protected function should_show_search_engines_discouraged_notification() {
-		return $this->search_engines_are_discouraged() && WPSEO_Options::get( 'ignore_search_engines_discouraged_notice', false ) === false;
+		return $this->search_engines_are_discouraged() && $this->options_helper->get( 'ignore_search_engines_discouraged_notice', false ) === false;
 	}
 
 	/**
@@ -103,7 +137,7 @@ class Search_Engines_Discouraged_Watcher implements Integration_Interface {
 	 * @return bool
 	 */
 	protected function should_show_search_engines_discouraged_notice() {
-		$discouraged_pages = [
+		$pages_to_show_notice = [
 			'index.php',
 			'plugins.php',
 			'update-core.php',
@@ -111,12 +145,13 @@ class Search_Engines_Discouraged_Watcher implements Integration_Interface {
 
 		return (
 			$this->search_engines_are_discouraged()
-			&& WPSEO_Capability_Utils::current_user_can( 'manage_options' )
-			&& WPSEO_Options::get( 'ignore_search_engines_discouraged_notice', false ) === false
+			&& $this->capability_helper->current_user_can( 'manage_options' )
+			&& $this->options_helper->get( 'ignore_search_engines_discouraged_notice', false ) === false
 			&& (
-				$this->on_wpseo_admin_page()
-				|| in_array( $GLOBALS['pagenow'], $discouraged_pages, true )
+				$this->current_page_helper->is_yoast_seo_page()
+				|| \in_array( $this->current_page_helper->get_current_admin_page(), $pages_to_show_notice, true )
 			)
+			&& $this->current_page_helper->get_current_yoast_seo_page() !== 'wpseo_dashboard'
 		);
 	}
 
@@ -126,12 +161,10 @@ class Search_Engines_Discouraged_Watcher implements Integration_Interface {
 	 * @return void
 	 */
 	public function show_search_engines_discouraged_notice() {
-		$presenter = new Search_Engines_Discouraged_Presenter();
-
-		printf(
+		\printf(
 			'<div id="robotsmessage" class="notice notice-error"> %1$s </div>',
-			wp_kses(
-				$presenter->present(),
+			\wp_kses(
+				$this->presenter->present(),
 				[
 					'strong' => [],
 					'button' => [
@@ -143,6 +176,7 @@ class Search_Engines_Discouraged_Watcher implements Integration_Interface {
 					'a'      => [
 						'href' => [],
 					],
+					'p'      => [],
 				]
 			)
 		);
@@ -204,10 +238,8 @@ class Search_Engines_Discouraged_Watcher implements Integration_Interface {
 	 * @return Yoast_Notification The notification to show.
 	 */
 	protected function notification() {
-		$presenter = new Search_Engines_Discouraged_Presenter();
-
 		return new Yoast_Notification(
-			$presenter->present(),
+			$this->presenter->present(),
 			[
 				'type'         => Yoast_Notification::ERROR,
 				'id'           => self::NOTIFICATION_ID,
