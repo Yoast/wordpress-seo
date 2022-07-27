@@ -124,9 +124,9 @@ const TagInput = ( {
 				className="yst-tag-input__input"
 				tabIndex="1"
 				onKeyDown={ handleKeyDown }
+				{ ...props }
 				onChange={ handleChange }
 				value={ text }
-				{ ...props }
 			/>
 		</div>
 	);
