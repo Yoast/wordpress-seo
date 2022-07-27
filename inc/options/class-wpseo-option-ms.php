@@ -89,7 +89,7 @@ class WPSEO_Option_MS extends WPSEO_Option {
 			"{$allow_prefix}ryte_indexability"                  => true,
 			"{$allow_prefix}content_analysis_active"            => true,
 			"{$allow_prefix}keyword_analysis_active"            => true,
-			"{$allow_prefix}inclusive_language_analysis_active" => true,
+			"{$allow_prefix}inclusive_language_analysis_active" => false,
 			"{$allow_prefix}enable_admin_bar_menu"              => true,
 			"{$allow_prefix}enable_cornerstone_content"         => true,
 			"{$allow_prefix}enable_xml_sitemap"                 => true,
