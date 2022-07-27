@@ -34,7 +34,7 @@ class Integrations_Action {
 	 * @return object The response object.
 	 */
 	public function set_integration_active( $integration_name, $params ) {
-		$option_name  = $this->get_integration_option_name( $integration_name );
+		$option_name  = $integration_name . '_integration_active';
 		$success      = true;
 		$option_value = $this->options_helper->get( $option_name );
 
@@ -53,16 +53,5 @@ class Integrations_Action {
 			'status'  => 500,
 			'error'   => 'Could not save the option in the database',
 		];
-	}
-
-	/**
-	 * Returns the option name associated to a plugin activation status.
-	 *
-	 * @param string $integration_name The name of the integration to activate/deactivate.
-	 *
-	 * @return string The option name.
-	 */
-	private function get_integration_option_name( $integration_name ) {
-		return ( $integration_name === 'ryte' ) ? 'ryte_indexability' : $integration_name . '_integration_active';
 	}
 }
