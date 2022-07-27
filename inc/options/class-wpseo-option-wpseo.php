@@ -41,7 +41,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		// Form fields.
 		'disableadvanced_meta'                     => true,
 		'enable_headless_rest_endpoints'           => true,
-		'ryte_indexability'                        => true,
+		'ryte_indexability'                        => false,
 		'baiduverify'                              => '', // Text field.
 		'googleverify'                             => '', // Text field.
 		'msverify'                                 => '', // Text field.
