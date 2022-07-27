@@ -2,19 +2,19 @@
     .yst-root {
         .yst-file-input {
 			@apply
-                yst-w-full
-                yst-px-6
-                yst-pt-5
-                yst-pb-6
-                yst-border-2
-                yst-border-dashed
-                yst-rounded-md
-                yst-text-center
-                yst-transition-all
-                yst-ease-out
-                yst-duration-300
-                yst-bg-white
-                yst-border-gray-300;
+			yst-w-full
+			yst-px-6
+			yst-pt-5
+			yst-pb-6
+			yst-border-2
+			yst-border-dashed
+			yst-rounded-md
+			yst-text-center
+			yst-transition-all
+			yst-ease-out
+			yst-duration-300
+			yst-bg-white
+			yst-border-gray-300;
 
 			&.yst-is-drag-over {
 				@apply yst-bg-primary-50 yst-border-primary-300;
