@@ -108,6 +108,10 @@ function IndexablesPage() {
 
 	const handleOpenModal = useCallback( async( indexableId, incomingLinksCount, breadcrumbTitle, permalink ) => {
 		setIsModalOpen( true );
+
+		if ( ! isPremiumInstalled ) {
+			return;
+		}
 		try {
 			const response = await apiFetch( {
 				path: "yoast/v1/workouts/link_suggestions?indexableId=" + indexableId,
