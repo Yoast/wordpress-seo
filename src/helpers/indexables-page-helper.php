@@ -1,6 +1,7 @@
 <?php
 
 namespace Yoast\WP\SEO\Helpers;
+
 use Yoast\WP\SEO\Helpers\Options_Helper;
 
 /**
@@ -8,11 +9,10 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
  */
 class Indexables_Page_Helper {
 
-
 	/**
 	 * Indexables_Page_Helper constructor.
 	 *
-	 * @param Options_Helper      $options      The options helper.
+	 * @param Options_Helper $options The options helper.
 	 */
 	public function __construct( Options_Helper $options ) {
 		$this->options = $options;
