@@ -8,6 +8,9 @@ use Yoast\WP\SEO\Presenters\Admin\Alert_Presenter;
 
 /**
  * Presents a set of different messages for the Ryte health check.
+ *
+ * @deprecated 19.6
+ * @codeCoverageIgnore
  */
 class Ryte_Reports {
 	use Reports_Trait;
@@ -21,6 +24,9 @@ class Ryte_Reports {
 
 	/**
 	 * Constructor
+	 *
+	 * @deprecated 19.6
+	 * @codeCoverageIgnore
 	 *
 	 * @param  Report_Builder_Factory $report_builder_factory The factory for result builder objects. This class uses the report builder to generate WordPress-friendly health check results.
 	 * @param  WPSEO_Shortlinker      $shortlinker The WPSEO_Shortlinker object used to generate short links.
@@ -37,6 +43,9 @@ class Ryte_Reports {
 	/**
 	 * Returns the message for a successful health check.
 	 *
+	 * @deprecated 19.6
+	 * @codeCoverageIgnore
+	 *
 	 * @return string[] The message as a WordPress site status report.
 	 */
 	public function get_success_result() {
@@ -52,6 +61,9 @@ class Ryte_Reports {
 	/**
 	 * Returns the report for a health check result in which the site was not indexable.
 	 *
+	 * @deprecated 19.6
+	 * @codeCoverageIgnore
+	 *
 	 * @return string[] The message as a WordPress site status report.
 	 */
 	public function get_not_indexable_result() {
@@ -65,6 +77,9 @@ class Ryte_Reports {
 
 	/**
 	 * Returns the report for when the health check was unable to determine indexability.
+	 *
+	 * @deprecated 19.6
+	 * @codeCoverageIgnore
 	 *
 	 * @return string[] The message as a WordPress site status report.
 	 */
@@ -81,6 +96,9 @@ class Ryte_Reports {
 	/**
 	 * Returns the result for when the health check got an error response from Ryte.
 	 *
+	 * @deprecated 19.6
+	 * @codeCoverageIgnore
+	 *
 	 * @param array $response_error The error response from Ryte.
 	 * @return string[] The message as a WordPress site status report.
 	 */
@@ -96,6 +114,9 @@ class Ryte_Reports {
 	/**
 	 * Returns the description for a successful result.
 	 *
+	 * @deprecated 19.6
+	 * @codeCoverageIgnore
+	 *
 	 * @return string The description for a successful result.
 	 */
 	private function get_success_result_description() {
@@ -109,6 +130,9 @@ class Ryte_Reports {
 
 	/**
 	 * Returns the description for when the site is not indexable.
+	 *
+	 * @deprecated 19.6
+	 * @codeCoverageIgnore
 	 *
 	 * @return string The description for when the site is not indexable.
 	 */
@@ -124,6 +148,9 @@ class Ryte_Reports {
 	/**
 	 * Returns the actions for when the site is not indexable.
 	 *
+	 * @deprecated 19.6
+	 * @codeCoverageIgnore
+	 *
 	 * @return string The actions for when the site is not indexable.
 	 */
 	private function get_not_indexable_result_actions() {
@@ -137,6 +164,9 @@ class Ryte_Reports {
 
 	/**
 	 * Returns the description for when the site's indexability couldn't be determined.
+	 *
+	 * @deprecated 19.6
+	 * @codeCoverageIgnore
 	 *
 	 * @return string The description for when the site's indexability couldn't be determined.
 	 */
@@ -154,6 +184,9 @@ class Ryte_Reports {
 
 	/**
 	 * Returns an alert for when the health check was unable to determine indexability.
+	 *
+	 * @deprecated 19.6
+	 * @codeCoverageIgnore
 	 *
 	 * @return string An alert for when the health check was unable to determine indexability.
 	 */
@@ -178,6 +211,9 @@ class Ryte_Reports {
 
 	/**
 	 * Returns the description for when the health check got an error response from Ryte.
+	 *
+	 * @deprecated 19.6
+	 * @codeCoverageIgnore
 	 *
 	 * @param array $error_response The error response from Ryte.
 	 * @return string The description.
@@ -204,6 +240,9 @@ class Ryte_Reports {
 	/**
 	 * Returns the actions for when the health check got an error response from Ryte.
 	 *
+	 * @deprecated 19.6
+	 * @codeCoverageIgnore
+	 *
 	 * @return string The actions for when the health check got an error response from Ryte.
 	 */
 	private function get_response_error_result_actions() {
@@ -217,6 +256,9 @@ class Ryte_Reports {
 
 	/**
 	 * Returns the link to Ryte that's appended to every report.
+	 *
+	 * @deprecated 19.6
+	 * @codeCoverageIgnore
 	 *
 	 * @return string The link to Ryte as an action.
 	 */
