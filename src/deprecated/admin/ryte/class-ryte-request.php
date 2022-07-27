@@ -9,6 +9,9 @@
  * This class will fetch a new status from Ryte and if it's necessary it will
  * notify the site admin by email and remove the current meta value to hide the
  * notice for all admin users.
+ *
+ * @deprecated 19.6
+ * @codeCoverageIgnore
  */
 class WPSEO_Ryte_Request {
 
@@ -21,6 +24,9 @@ class WPSEO_Ryte_Request {
 
 	/**
 	 * Gets the response from the Ryte API and returns the body.
+	 *
+	 * @deprecated 19.6
+	 * @codeCoverageIgnore
 	 *
 	 * @param string $target_url The URL to check indexability for.
 	 * @param array  $parameters Array of extra parameters to send to the Ryte API.
@@ -47,6 +53,9 @@ class WPSEO_Ryte_Request {
 	/**
 	 * Sends a request to the Ryte API to check whether a URL is indexable.
 	 *
+	 * @deprecated 19.6
+	 * @codeCoverageIgnore
+	 *
 	 * @param string $target_url The URL to check indexability for.
 	 * @param array  $parameters Array of extra parameters to send to the Ryte API.
 	 *
@@ -65,6 +74,9 @@ class WPSEO_Ryte_Request {
 
 	/**
 	 * Processes the given Ryte response.
+	 *
+	 * @deprecated 19.6
+	 * @codeCoverageIgnore
 	 *
 	 * @param array|WP_Error $response The response or WP_Error to process.
 	 *

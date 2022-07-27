@@ -12,6 +12,9 @@ use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
  * Handles the request for getting the Ryte status.
+ *
+ * @deprecated 19.6
+ * @codeCoverageIgnore
  */
 class Ryte_Integration implements Integration_Interface {
 
@@ -32,6 +35,9 @@ class Ryte_Integration implements Integration_Interface {
 	/**
 	 * Constructor.
 	 *
+	 * @deprecated 19.6
+	 * @codeCoverageIgnore
+	 *
 	 * @param Options_Helper $options_helper The options helper object used to determine if Ryte is active or not.
 	 */
 	public function __construct(
@@ -43,6 +49,9 @@ class Ryte_Integration implements Integration_Interface {
 
 	/**
 	 * Sets up the hooks.
+	 *
+	 * @deprecated 19.6
+	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
@@ -60,6 +69,9 @@ class Ryte_Integration implements Integration_Interface {
 	 *
 	 * In this case: only when on an admin page.
 	 *
+	 * @deprecated 19.6
+	 * @codeCoverageIgnore
+	 *
 	 * @return array The conditionals.
 	 */
 	public static function get_conditionals() {
@@ -68,6 +80,9 @@ class Ryte_Integration implements Integration_Interface {
 
 	/**
 	 * Determines if we can use the functionality.
+	 *
+	 * @deprecated 19.6
+	 * @codeCoverageIgnore
 	 *
 	 * @return bool True if this functionality can be used.
 	 */
@@ -85,6 +100,9 @@ class Ryte_Integration implements Integration_Interface {
 
 	/**
 	 * Hooks to run on plugin activation.
+	 *
+	 * @deprecated 19.6
+	 * @codeCoverageIgnore
 	 */
 	public function activate_hooks() {
 		if ( $this->get_option()->is_enabled() ) {
@@ -99,6 +117,9 @@ class Ryte_Integration implements Integration_Interface {
 	/**
 	 * Determines whether to add a custom cron weekly schedule.
 	 *
+	 * @deprecated 19.6
+	 * @codeCoverageIgnore
+	 *
 	 * @return void
 	 */
 	public function maybe_add_weekly_schedule() {
@@ -108,6 +129,9 @@ class Ryte_Integration implements Integration_Interface {
 
 	/**
 	 * Adds a custom weekly cron schedule.
+	 *
+	 * @deprecated 19.6
+	 * @codeCoverageIgnore
 	 *
 	 * @param array $schedules The existing custom cron schedules.
 	 *
@@ -138,6 +162,9 @@ class Ryte_Integration implements Integration_Interface {
 	/**
 	 * Fetches the data from Ryte.
 	 *
+	 * @deprecated 19.6
+	 * @codeCoverageIgnore
+	 *
 	 * @return bool Whether the request ran.
 	 */
 	public function fetch_from_ryte() {
@@ -165,6 +192,9 @@ class Ryte_Integration implements Integration_Interface {
 	/**
 	 * Retrieves the option to use.
 	 *
+	 * @deprecated 19.6
+	 * @codeCoverageIgnore
+	 *
 	 * @return WPSEO_Ryte_Option The option.
 	 */
 	public function get_option() {
@@ -173,6 +203,9 @@ class Ryte_Integration implements Integration_Interface {
 
 	/**
 	 * Sends a request to Ryte to get the indexability status.
+	 *
+	 * @deprecated 19.6
+	 * @codeCoverageIgnore
 	 *
 	 * @return int The indexability status value.
 	 */
@@ -207,6 +240,9 @@ class Ryte_Integration implements Integration_Interface {
 	/**
 	 * Schedules the cronjob to get the new indexability status.
 	 *
+	 * @deprecated 19.6
+	 * @codeCoverageIgnore
+	 *
 	 * @return void
 	 */
 	private function schedule_cron() {
@@ -220,6 +256,9 @@ class Ryte_Integration implements Integration_Interface {
 	/**
 	 * Unschedules the cronjob to get the new indexability status.
 	 *
+	 * @deprecated 19.6
+	 * @codeCoverageIgnore
+	 *
 	 * @return void
 	 */
 	private function unschedule_cron() {
@@ -232,6 +271,9 @@ class Ryte_Integration implements Integration_Interface {
 
 	/**
 	 * Checks if WordFence protects the site against 'fake' Google crawlers.
+	 *
+	 * @deprecated 19.6
+	 * @codeCoverageIgnore
 	 *
 	 * @return bool True if WordFence protects the site.
 	 */
@@ -249,6 +291,9 @@ class Ryte_Integration implements Integration_Interface {
 
 	/**
 	 * Retrieves the Ryte API response property.
+	 *
+	 * @deprecated 19.6
+	 * @codeCoverageIgnore
 	 *
 	 * @return array|WP_Error The response or WP_Error on failure.
 	 */

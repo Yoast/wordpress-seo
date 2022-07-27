@@ -8,6 +8,9 @@ use Yoast\WP\SEO\Integrations\Admin\Ryte_Integration;
 
 /**
  * Runs the Ryte health check.
+ *
+ * @deprecated 19.6
+ * @codeCoverageIgnore
  */
 class Ryte_Runner implements Runner_Interface {
 
@@ -49,6 +52,9 @@ class Ryte_Runner implements Runner_Interface {
 	/**
 	 * Constructor.
 	 *
+	 * @deprecated 19.6
+	 * @codeCoverageIgnore
+	 *
 	 * @param Ryte_Integration $ryte The Ryte_Integration object that the health check uses to check indexability.
 	 * @param WPSEO_Utils      $utils The WPSEO_Utils object used to determine whether the site is in development mode.
 	 */
@@ -64,6 +70,9 @@ class Ryte_Runner implements Runner_Interface {
 
 	/**
 	 * Runs the health check. Checks if Ryte is accessible and whether the site is indexable.
+	 *
+	 * @deprecated 19.6
+	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
@@ -84,6 +93,9 @@ class Ryte_Runner implements Runner_Interface {
 	/**
 	 * Attempts to get a new indexability status from Ryte.
 	 *
+	 * @deprecated 19.6
+	 * @codeCoverageIgnore
+	 *
 	 * @return void
 	 */
 	private function fetch_from_ryte() {
@@ -102,6 +114,9 @@ class Ryte_Runner implements Runner_Interface {
 	/**
 	 * Sets the Ryte option based on the response from Ryte.
 	 *
+	 * @deprecated 19.6
+	 * @codeCoverageIgnore
+	 *
 	 * @return void
 	 */
 	private function set_ryte_option() {
@@ -110,6 +125,9 @@ class Ryte_Runner implements Runner_Interface {
 
 	/**
 	 * Checks if the site is a live production site that has Ryte enabled.
+	 *
+	 * @deprecated 19.6
+	 * @codeCoverageIgnore
 	 *
 	 * @return bool
 	 */
@@ -137,6 +155,9 @@ class Ryte_Runner implements Runner_Interface {
 	/**
 	 * Checks if the site is indexable.
 	 *
+	 * @deprecated 19.6
+	 * @codeCoverageIgnore
+	 *
 	 * @return bool
 	 */
 	public function is_successful() {
@@ -155,6 +176,9 @@ class Ryte_Runner implements Runner_Interface {
 
 	/**
 	 * Checks if the site's indexability is unknown.
+	 *
+	 * @deprecated 19.6
+	 * @codeCoverageIgnore
 	 *
 	 * @return bool Returns true if the site indexability is unknown even though getting a response from Ryte was successful.
 	 */
@@ -180,6 +204,9 @@ class Ryte_Runner implements Runner_Interface {
 	/**
 	 * Checks if the health check was able to get a valid response from Ryte.
 	 *
+	 * @deprecated 19.6
+	 * @codeCoverageIgnore
+	 *
 	 * @return bool
 	 */
 	private function could_fetch() {
@@ -199,6 +226,9 @@ class Ryte_Runner implements Runner_Interface {
 	/**
 	 * Checks whether there was a response error when attempting a request to Ryte.
 	 *
+	 * @deprecated 19.6
+	 * @codeCoverageIgnore
+	 *
 	 * @return bool True if the health check got a valid error response.
 	 */
 	public function got_response_error() {
@@ -207,6 +237,9 @@ class Ryte_Runner implements Runner_Interface {
 
 	/**
 	 * Returns the error response is there was one.
+	 *
+	 * @deprecated 19.6
+	 * @codeCoverageIgnore
 	 *
 	 * @return array|null
 	 */
