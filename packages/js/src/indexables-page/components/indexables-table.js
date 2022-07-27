@@ -3,8 +3,9 @@ import apiFetch from "@wordpress/api-fetch";
 import PropTypes from "prop-types";
 
 import { makeOutboundLink } from "@yoast/helpers";
-import { Button, Table } from "@yoast/ui-library";
+import { Button, Table, Spinner } from "@yoast/ui-library";
 import { useState, useEffect, useCallback } from "@wordpress/element";
+import { EyeOffIcon } from "@heroicons/react/outline";
 
 const Link = makeOutboundLink();
 
@@ -37,6 +38,9 @@ function PlaceholderRows( { columnCount, listSize } ) {
  * @returns {WPElement} A table with the indexables.
  */
 const IndexableRow = ( { indexable, keyHeaderMap, type, addToIgnoreList, position, handleOpenModal } ) => {
+	const [ isHandlingIgnore, setIsHandlingIgnore ] = useState( false );
+	const [ rowAnimationClasses, setRowAnimationClasses ] = useState( "" );
+
 	const handleLink = useCallback( ( e ) => {
 		handleOpenModal(
 			e.currentTarget.dataset.indexableid,
@@ -46,7 +50,12 @@ const IndexableRow = ( { indexable, keyHeaderMap, type, addToIgnoreList, positio
 		);
 	}, [ handleOpenModal ] );
 
+	const addToIgnoreListCallback = useCallback( () => {
+		addToIgnoreList( { indexable, type, position } );
+	}, [ indexable, type, position, addToIgnoreList ] );
+
 	const handleIgnore =  useCallback( async( e ) => {
+		setIsHandlingIgnore( true );
 		const id = e.currentTarget.dataset.indexableid;
 		const indexableType = e.currentTarget.dataset.indexabletype;
 
@@ -59,7 +68,8 @@ const IndexableRow = ( { indexable, keyHeaderMap, type, addToIgnoreList, positio
 
 			const parsedResponse = await response.json;
 			if ( parsedResponse.success ) {
-				addToIgnoreList( { indexable: indexable, type: indexableType, position: position } );
+				setRowAnimationClasses( "yst-animate-slideRight" );
+				setIsHandlingIgnore( false );
 				return true;
 			}
 			// @TODO: Throw an error notification.
@@ -74,6 +84,8 @@ const IndexableRow = ( { indexable, keyHeaderMap, type, addToIgnoreList, positio
 
 	return <Table.Row
 		key={ `indexable-${ indexable.id }-row` }
+		className={ rowAnimationClasses }
+		onAnimationEnd={ addToIgnoreListCallback }
 	>
 		{
 			Object.keys( keyHeaderMap ).map( ( key, index ) => {
@@ -87,7 +99,11 @@ const IndexableRow = ( { indexable, keyHeaderMap, type, addToIgnoreList, positio
 						>Edit</Link>
 					</Table.Cell>;
 				} else if ( key === "ignore" ) {
-					return <Table.Cell key="ignore"><Button variant="error" data-indexableid={ indexable.id } data-indexabletype={ type } onClick={ handleIgnore }>Ignore</Button></Table.Cell>;
+					return <Table.Cell key="ignore">
+						<Button variant="secondary" data-indexableid={ indexable.id } data-indexabletype={ type } onClick={ handleIgnore }>
+							{ isHandlingIgnore ? <Spinner /> : <EyeOffIcon className="yst-w-4 yst-h-4" /> }
+						</Button>
+					</Table.Cell>;
 				} else if ( key === "links" ) {
 					return <Table.Cell key="links"><Button
 						data-indexableid={ indexable.id }
@@ -97,7 +113,7 @@ const IndexableRow = ( { indexable, keyHeaderMap, type, addToIgnoreList, positio
 						onClick={ handleLink }
 					>Links</Button></Table.Cell>;
 				}
-				return <Table.Cell key={ `indexable-header-${ index }` }>{ indexable[ key ] }</Table.Cell>;
+				return <Table.Cell key={ `indexable-header-${ index }` } className="yst-text-ellipsis">{ indexable[ key ] }</Table.Cell>;
 			} )
 		}
 	</Table.Row>;
@@ -130,38 +146,36 @@ function IndexablesTable( { indexables, keyHeaderMap, type, addToIgnoreList, han
 	}, [ indexables, setIsLoading ] );
 
 	return (
-		<>
-			<div className="yst-relative yst-overflow-x-scroll yst-border yst-border-gray-200 yst-shadow-sm yst-rounded-lg">
-				<Table>
-					<Table.Head>
-						<Table.Row>
-							{
-								Object.values( keyHeaderMap ).map( ( header, index ) => {
-									return <Table.Header key={ `indexable-header-${ index }` }>{ header }</Table.Header>;
-								} )
-							}
-						</Table.Row>
-					</Table.Head>
-					<Table.Body>
+		<div className="yst-relative yst-border yst-overflow-x-hidden yst-border-gray-200 yst-shadow-sm yst-rounded-lg">
+			<Table>
+				<Table.Head>
+					<Table.Row>
 						{
-							isLoading
-								? <PlaceholderRows columnCount={ Object.keys( keyHeaderMap ).length } listSize={ listSize } />
-								: indexables.slice( 0, listSize ).map( ( indexable, index ) => {
-									return <IndexableRow
-										key={ `indexable-${ indexable.id }-row` }
-										indexable={ indexable }
-										keyHeaderMap={ keyHeaderMap }
-										type={ type }
-										addToIgnoreList={ addToIgnoreList }
-										position={ index }
-										handleOpenModal={ handleOpenModal }
-									/>;
-								} )
+							Object.values( keyHeaderMap ).map( ( header, index ) => {
+								return <Table.Header key={ `indexable-header-${ index }` }>{ header }</Table.Header>;
+							} )
 						}
-					</Table.Body>
-				</Table>
-			</div>
-		</>
+					</Table.Row>
+				</Table.Head>
+				<Table.Body>
+					{
+						isLoading
+							? <PlaceholderRows columnCount={ Object.keys( keyHeaderMap ).length } listSize={ listSize } />
+							: indexables.slice( 0, listSize ).map( ( indexable, index ) => {
+								return <IndexableRow
+									key={ `indexable-${ indexable.id }-row` }
+									indexable={ indexable }
+									keyHeaderMap={ keyHeaderMap }
+									type={ type }
+									addToIgnoreList={ addToIgnoreList }
+									position={ index }
+									handleOpenModal={ handleOpenModal }
+								/>;
+							} )
+					}
+				</Table.Body>
+			</Table>
+		</div>
 	);
 }
 
