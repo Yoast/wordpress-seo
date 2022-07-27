@@ -1,13 +1,20 @@
 import getSentences from "../../../helpers/sentence/getSentences";
 import getWords from "../../../helpers/word/getWords";
 
+/**
+ * Based on Seraph Jin (2022) https://github.com/Seraaphonano/formal_and_informal_english_classification.
+ *
+ * This implementation is specifically based on the Decision tree model with 6 layers maximum.
+ */
+
 const informalPronouns = [ "I", "you", "me", "my", "mine", "your", "yours", "myself", "yourself", "yourselves" ];
 const formalPronouns = [ "we", "they",   "their", "theirs", "themselves", "us", "our", "ours", "ourselves",  "it", "its", "itself" ];
 
 /**
  * Calculates the average length of units in an array.
  *
- * @param {Array} array     The array to calculate.
+ * @param {Array} array The array to calculate.
+ *
  * @returns {number} The total length of a units in the array. If the array is empty, returns 0.
  */
 function calculateTotalLength( array ) {
@@ -23,6 +30,7 @@ function calculateTotalLength( array ) {
  *
  * @param {Array} wordsArray    The array of words in the text to check.
  * @param {Array} pronouns      The array of pronouns.
+ *
  * @returns {Array} The array of pronouns found.
  */
 function getPronouns( wordsArray, pronouns ) {
@@ -34,6 +42,7 @@ function getPronouns( wordsArray, pronouns ) {
  *
  * @param {Object} paper        The paper to analyze.
  * @param {Object} researcher   The researcher object.
+ *
  * @returns {Object} The object containing the features needed for the calculation of the formality level of the text.
  */
 function getRequiredFeatures( paper, researcher ) {
@@ -93,10 +102,8 @@ export default function( paper, researcher ) {
 
 	if ( averageWordLength <= 5.948 ) {
 		if ( averageInformalPronouns <= 0.029 ) {
-			if ( averageWordLengthPerSentence <= 31.439 ) {
-				if ( averageSentenceLength <= 169.375 ) {
-					return "formal";
-				}
+			if ( averageWordLengthPerSentence <= 31.439 && averageSentenceLength <= 169.375  ) {
+				return "formal";
 			}
 			return "informal";
 		}
@@ -111,10 +118,8 @@ export default function( paper, researcher ) {
 	if ( averageInformalPronouns <= 0.006 ) {
 		return "formal";
 	}
-	if ( averageWordLength <= 6.129 ) {
-		if ( averageFormalPronouns <= 0.024 ) {
-			return "informal";
-		}
+	if ( averageWordLength <= 6.129 && averageFormalPronouns <= 0.024 ) {
+		return "informal";
 	}
 	return "formal";
 }
