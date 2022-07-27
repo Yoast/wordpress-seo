@@ -2,8 +2,6 @@
 
 namespace Yoast\WP\SEO\Integrations\Watchers;
 
-use WPSEO_Capability_Utils;
-use WPSEO_Options;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
@@ -15,7 +13,9 @@ use Yoast_Notification;
 use Yoast_Notification_Center;
 
 /**
- * Shows a notification for users who have WordPress auto updates enabled but not Yoast SEO auto updates.
+ * Shows a notification for users who have access for robots disabled.
+ *
+ * @class Search_Engines_Discouraged_Watcher
  */
 class Search_Engines_Discouraged_Watcher implements Integration_Interface {
 
