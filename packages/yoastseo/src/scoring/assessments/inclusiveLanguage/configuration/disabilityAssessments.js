@@ -6,26 +6,25 @@ import {
 	potentiallyHarmfulUnlessNonInclusive,
 } from "./feedbackStrings";
 import { isFollowedByException } from "../helpers/isFollowedByException";
-import { isPrecededByException } from "../helpers/isPrecededByException";
 import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
 import { SCORES } from "./scores";
 
-const derogatory = "Avoid using <i>%1$s</i> as it is derogatory. Consider using an alternative, such as %2$s instead.";
+const derogatory = "Avoid using \"%1$s\" as it is derogatory. Consider using an alternative, such as \"%2$s\" instead.";
 
-const medicalCondition = "Be careful when using <i>%1$s</i>, unless talking about the specific medical condition. " +
-	"If you are not referencing the medical condition, consider other alternatives to describe the trait or behavior such as %2$s.";
-const medicalConditionTwoAlternatives = "Be careful when using <i>%1$s</i>, unless talking about the specific medical condition " +
-	"(in which case, use <i>%2$s</i>). " +
-	"If you are not referencing the medical condition, consider other alternatives to describe the trait or behavior such as %3$s.";
+const medicalCondition = "Be careful when using \"%1$s\", unless talking about the specific medical condition. " +
+	"If you are not referencing the medical condition, consider other alternatives to describe the trait or behavior such as \"%2$s\".";
+const medicalConditionTwoAlternatives = "Be careful when using \"%1$s\", unless talking about the specific medical condition " +
+	"(in which case, use \"%2$s\"). " +
+	"If you are not referencing the medical condition, consider other alternatives to describe the trait or behavior such as \"%3$s\".";
 
-const potentiallyHarmfulTwoAlternatives = "Avoid using <i>%1$s</i> as it is potentially harmful. " +
-	"Consider using an alternative, such as %2$s instead, or %3$s when using it to describe someone in terms of their disability.";
+const potentiallyHarmfulTwoAlternatives = "Avoid using \"%1$s\" as it is potentially harmful. " +
+	"Consider using an alternative, such as \"%2$s\" instead, or \"%3$s\" when using it to describe someone in terms of their disability.";
 
 const disabilityAssessments =  [
 	{
 		identifier: "binge",
 		nonInclusivePhrases: [ "bingeing", "binge" ],
-		inclusiveAlternatives: "<i>indulging, satuating, wallowing</i>",
+		inclusiveAlternatives: "indulging, satuating, wallowing",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: medicalCondition,
 		learnMoreUrl: "https://yoa.st/",
@@ -33,7 +32,7 @@ const disabilityAssessments =  [
 	{
 		identifier: "wheelchairBound",
 		nonInclusivePhrases: [ "wheelchair-bound", "wheelchair bound", "confined to a wheelchair" ],
-		inclusiveAlternatives: "<i>uses a wheelchair, a wheelchair user</i>",
+		inclusiveAlternatives: "uses a wheelchair/wheelchair user",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
@@ -41,20 +40,19 @@ const disabilityAssessments =  [
 	{
 		identifier: "mentallyRetarded",
 		nonInclusivePhrases: [ "mentally retarded" ],
-		inclusiveAlternatives: "<i>person with an intellectual disability</i>",
+		inclusiveAlternatives: "person with an intellectual disability",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
 	},
 	{
+		// Problematic, as it will also target the above phrase
 		identifier: "retarded",
 		nonInclusivePhrases: [ "retarded" ],
-		inclusiveAlternatives: "<i>uninformed, ignorant, foolish, irrational, insensible</i>",
+		inclusiveAlternatives: "uninformed, ignorant, foolish, irrational, insensible",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: derogatory,
 		learnMoreUrl: "https://yoa.st/",
-		rule: ( words, inclusivePhrase ) => includesConsecutiveWords( words, inclusivePhrase )
-			.filter( isPrecededByException( words, [ "mentally" ] ) ),
 	},
 	{
 		identifier: "alcoholic",
@@ -397,7 +395,7 @@ const disabilityAssessments =  [
 		identifier: "sociopath",
 		nonInclusivePhrases: [ "sociopath" ],
 		inclusiveAlternatives: [ "Person with antisocial personality disorder",
-			"selfish, toxic, manipulative, wild, confusing, unpredictable, impulsive, reckless, out of control" ],
+			"toxic, manipulative, cruel" ],
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: medicalConditionTwoAlternatives,
 		learnMoreUrl: "https://yoa.st/",
