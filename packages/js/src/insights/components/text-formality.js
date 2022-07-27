@@ -102,15 +102,17 @@ const TextFormality = ( { location } ) => {
 					{ "." }
 				</p>
 			</div> }
-			{ shouldUpsell && <p>{ upsellDescription }</p> }
-			{ shouldUpsell && <OutboundLink href={ upsellLink } className="yoast-button yoast-button-upsell">
-				{ sprintf(
-					// translators: %s expands to `Premium` (part of add-on name).
-					__( "Unlock with %s", "wordpress-seo" ),
-					"Premium"
-				) }
-				<span aria-hidden="true" className="yoast-button-upsell__caret" />
-			</OutboundLink> }
+			{ shouldUpsell && <div>
+				<p>{ upsellDescription }</p>
+				<OutboundLink href={ upsellLink } className="yoast-button yoast-button-upsell">
+					{ sprintf(
+						// translators: %s expands to `Premium` (part of add-on name).
+						__( "Unlock with %s", "wordpress-seo" ),
+						"Premium"
+					) }
+					<span aria-hidden="true" className="yoast-button-upsell__caret" />
+				</OutboundLink>
+			</div> }
 			<p>{ textFormalityInfo }</p>
 		</div>
 	);
