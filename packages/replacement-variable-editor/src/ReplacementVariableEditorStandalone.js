@@ -12,21 +12,12 @@ import PropTypes from "prop-types";
 import { speak as a11ySpeak } from "@wordpress/a11y";
 import { applyFilters } from "@wordpress/hooks";
 import { __, _n, sprintf } from "@wordpress/i18n";
-import styled from "styled-components";
-import { withTheme } from "styled-components";
+import styled, { withTheme } from "styled-components";
 
 // Internal dependencies.
-import {
-	replacementVariablesShape,
-	recommendedReplacementVariablesShape,
-} from "./constants";
+import { replacementVariablesShape, recommendedReplacementVariablesShape } from "./constants";
 import { Mention } from "./Mention";
-import {
-	serializeEditor,
-	unserializeEditor,
-	replaceReplacementVariables,
-	serializeSelection,
-} from "./helpers/serialization";
+import { serializeEditor, unserializeEditor, replaceReplacementVariables, serializeSelection } from "./helpers/serialization";
 import {
 	getTrigger,
 	hasWhitespaceAt,
@@ -34,11 +25,10 @@ import {
 	getAnchorBlock,
 	insertText,
 	removeSelectedText,
-	moveCaret, removeEmojiCompletely,
+	moveCaret,
+	removeEmojiCompletely,
 } from "./helpers/replaceText";
-import {
-	selectReplacementVariables,
-} from "./helpers/selection";
+import { selectReplacementVariables } from "./helpers/selection";
 
 /**
  * Needed to avoid styling issues on the settings pages with the
@@ -55,6 +45,10 @@ const ZIndexOverride = styled.div`
 		z-index: 10995;
 	}
 `;
+
+// Regex sources from https://github.com/facebook/draft-js/issues/1105
+// eslint-disable-next-line max-len
+const emojiRegExp = new RegExp( "(?:\\p{RI}\\p{RI}|\\p{Emoji}(?:\\p{Emoji_Modifier}|\\u{FE0F}\\u{20E3}?|[\\u{E0020}-\\u{E007E}]+\\u{E007F})?(?:\\u{200D}\\p{Emoji}(?:\\p{Emoji_Modifier}|\\u{FE0F}\\u{20E3}?|[\\u{E0020}-\\u{E007E}]+\\u{E007F})?)*)", "gu" );
 
 /**
  * A replacement variable editor. It allows replacements variables as tokens in
@@ -158,7 +152,8 @@ class ReplacementVariableEditorStandalone extends React.Component {
 			mentionsPlugin,
 			singleLinePlugin: {
 				...singleLinePlugin,
-				handleReturn: () => {},
+				handleReturn: () => {
+				},
 			},
 		};
 
@@ -214,16 +209,14 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	 * @returns {string} If the keystroke is handled or not.
 	 */
 	handleKeyCommand( command ) {
-		if ( command !== "backspace" ) {
+		if ( command !== "backspace" && command !== "delete" ) {
 			return "not-handled";
 		}
 
-		// Regex sources from https://github.com/facebook/draft-js/issues/1105
-		// eslint-disable-next-line max-len
-		const emojiRegExp = new RegExp( "(?:\\p{RI}\\p{RI}|\\p{Emoji}(?:\\p{Emoji_Modifier}|\\u{FE0F}\\u{20E3}?|[\\u{E0020}-\\u{E007E}]+\\u{E007F})?(?:\\u{200D}\\p{Emoji}(?:\\p{Emoji_Modifier}|\\u{FE0F}\\u{20E3}?|[\\u{E0020}-\\u{E007E}]+\\u{E007F})?)*)", "gu" );
-
 		let editorState = removeSelectedText( this.state.editorState );
+		const content = editorState.getCurrentContent();
 		const selection = editorState.getSelection();
+
 		if ( ! selection.isCollapsed() ) {
 			return "not-handled";
 		}
@@ -234,25 +227,67 @@ class ReplacementVariableEditorStandalone extends React.Component {
 			return "not-handled";
 		}
 
-		const content = editorState.getCurrentContent();
 		const block = content.getBlockForKey( selection.getStartKey() );
 		const blockText = block.getText();
 
+		const startOffsetLocator = ( command === "backspace" ) ? startOffset - 1 : startOffset + 1;
 
-		if ( ( blockText.codePointAt( startOffset - 1 ) || 0 ) <= 127 ) {
+		if ( ( blockText.codePointAt( startOffsetLocator ) || 0 ) <= 127 ) {
 			return "not-handled";
 		}
 
-		const lastChars = blockText.slice( 0, startOffset );
-		const match = lastChars.match( emojiRegExp );
+		let match;
+		if ( command === "backspace" ) {
+			match = this.getBackwardMatch( blockText, startOffset );
+		} else {
+			match = this.getForwardMatch( blockText, startOffset );
+		}
+
 		if ( match ) {
-			editorState = removeEmojiCompletely( editorState, match );
+			editorState = removeEmojiCompletely( editorState, match, command );
 
 			// Save the editor state and then focus the editor.
 			this.onChange( editorState ).then( () => this.focus() );
 			// This is really important. If this is removed draft js will not do anything.
 			return "handled";
 		}
+
+		return "not-handled";
+	}
+
+	/**
+	 * This goes a character forward at a time until there is no emoji found. When this is the case it returns an array of emojis
+	 *
+	 * @param {string} blockText The text to check.
+	 * @param {int} startOffset the point in the string the caret is currently placed.
+	 * @returns {array|null} The list with emojis in the string if they are there.
+	 */
+	getForwardMatch( blockText, startOffset ) {
+		let offset = 1;
+		[ 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 ].every( ( key ) => {
+			const curChar = blockText.slice( startOffset, startOffset + key );
+			if ( curChar.match( emojiRegExp ) === null || curChar.match( emojiRegExp ).length > 1 ) {
+				return false;
+			}
+			offset = key;
+			return true;
+		} );
+
+
+		const lastChars = blockText.slice( startOffset, startOffset + offset );
+		return lastChars.match( emojiRegExp );
+	}
+
+	/**
+	 * This checks the entire string for all emojis
+	 *
+	 * @param {string} blockText The text to check.
+	 * @param {int} startOffset the point in the string the caret is currently placed.
+	 * @returns {array|null} The list with emojis in the string if they are there.
+	 */
+	getBackwardMatch( blockText, startOffset ) {
+		const lastChars = blockText.slice( 0, startOffset );
+		return lastChars.match( emojiRegExp );
 	}
 
 	/**
@@ -620,8 +655,10 @@ ReplacementVariableEditorStandalone.propTypes = {
 };
 
 ReplacementVariableEditorStandalone.defaultProps = {
-	onFocus: () => {},
-	onBlur: () => {},
+	onFocus: () => {
+	},
+	onBlur: () => {
+	},
 	placeholder: "",
 	theme: { isRtl: false },
 	recommendedReplacementVariables: [],
