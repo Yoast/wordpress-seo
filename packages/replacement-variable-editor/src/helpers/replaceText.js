@@ -144,22 +144,24 @@ export const moveCaret = ( editorState, caretIndex, blockKey = "" ) => {
  *
  * @param {EditorState} editorState The Draft.js editor state
  * @param {array} emoji The emoji to delete.
+ * @param {string} command If the button pressed is delete of backspace.
  * @returns {EditorState} The new editor state.
  */
-export const removeEmojiCompletely = ( editorState, emoji ) => {
+export const removeEmojiCompletely = ( editorState, emoji, command ) => {
 	const selection = editorState.getSelection();
 	const contentState = editorState.getCurrentContent();
 	const startOffset = selection.getStartOffset();
 	const block = contentState.getBlockForKey( selection.getStartKey() );
 
-	const anchorOffset = startOffset - emoji[ emoji.length - 1 ].length;
+	const emojiLength = emoji[ emoji.length - 1 ].length;
 
+	const anchorOffset = ( command === "backspace" ) ? startOffset - emojiLength : startOffset + emojiLength;
 	const emojiSelection = new SelectionState( {
 		anchorOffset,
 		anchorKey: block.getKey(),
 		focusOffset: startOffset,
 		focusKey: block.getKey(),
-		isBackward: false,
+		isBackward: ( command === "delete" ),
 		hasFocus: selection.getHasFocus(),
 	} );
 
