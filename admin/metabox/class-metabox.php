@@ -1103,12 +1103,18 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			return $custom_replace_vars;
 		}
 
+		$meta = YoastSEO()->meta->for_post( $post->ID );
+
+		if ( ! $meta ) {
+			return $custom_replace_vars;
+		}
+
 		// Simply concatenate all fields containing replace vars so we can handle them all with a single regex find.
 		$replace_vars_fields = implode(
 			' ',
 			[
-				YoastSEO()->meta->for_post( $post->ID )->presentation->title,
-				YoastSEO()->meta->for_post( $post->ID )->presentation->meta_description,
+				$meta->presentation->title,
+				$meta->presentation->meta_description,
 			]
 		);
 
