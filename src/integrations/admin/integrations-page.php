@@ -146,8 +146,6 @@ class Integrations_Page implements Integration_Interface {
 			[
 				'semrush_integration_active'     => $this->options_helper->get( 'semrush_integration_active', true ),
 				'allow_semrush_integration'      => $this->options_helper->get( 'allow_semrush_integration_active', true ),
-				'ryte_integration_active'        => $this->options_helper->get( 'ryte_indexability', true ),
-				'allow_ryte_integration'         => $this->options_helper->get( 'allow_ryte_indexability', true ),
 				'zapier_integration_active'      => $this->options_helper->get( 'zapier_integration_active', false ),
 				'allow_zapier_integration'       => $this->options_helper->get( 'allow_zapier_integration_active', true ),
 				'algolia_integration_active'     => $this->options_helper->get( 'algolia_integration_active', false ),
