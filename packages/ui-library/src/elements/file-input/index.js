@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import classNames from "classnames";
 import { DocumentAddIcon } from "@heroicons/react/outline";
 
-import { useRootContext } from "../../hooks";
 import Link from "../link";
 
 /**
@@ -36,7 +35,6 @@ const FileInput = ( {
 	...props
 } ) => {
 	const [ isDragOver, setIsDragOver ] = useState( false );
-	const { isRtl } = useRootContext();
 
 	const handleDragEnter = useCallback( ( event ) => {
 		event.preventDefault();
@@ -76,12 +74,7 @@ const FileInput = ( {
 		>
 			<div className="yst-file-input__content">
 				<IconComponent className="yst-file-input__icon" />
-				<div
-					className={ classNames(
-						"yst-file-input__labels", {
-							"yst-flex-row-reverse": isRtl,
-						} ) }
-				>
+				<div className="yst-file-input__labels">
 					<input
 						type="file"
 						id={ id }
