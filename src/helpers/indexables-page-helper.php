@@ -2,6 +2,8 @@
 
 namespace Yoast\WP\SEO\Helpers;
 
+use Yoast\WP\SEO\Helpers\Options_Helper;
+
 /**
  * A helper object for the indexable page.
  */
@@ -27,6 +29,15 @@ class Indexables_Page_Helper {
 	 * @var int
 	 */
 	const POSTS_THRESHOLD = 20;
+
+	/**
+	 * Indexables_Page_Helper constructor.
+	 *
+	 * @param Options_Helper $options The options helper.
+	 */
+	public function __construct( Options_Helper $options ) {
+		$this->options = $options;
+	}
 
 	/**
 	 * Retrieves the size of the Indexables lists. This size is the amount of indexables that are displayed in each list.
@@ -73,5 +84,14 @@ class Indexables_Page_Helper {
 		 * @api int The minimum threshold for the amount of posts in the site, in order for Indexable lists to be relevant.
 		 */
 		return \apply_filters( 'wpseo_posts_threshold', 20 );
+	}
+
+	/**
+	 * Checks if link suggestions are enabled or not
+	 *
+	 * @return bool Wether enable_link_suggestions is set to true or not.
+	 */
+	public function get_link_suggestions_enabled() {
+		return $this->options->get( 'enable_link_suggestions', false ) === true;
 	}
 }
