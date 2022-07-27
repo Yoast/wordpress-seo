@@ -7,6 +7,9 @@
 
 /**
  * This class handles the data for the option where the Ryte data is stored.
+ *
+ * @deprecated 19.6
+ * @codeCoverageIgnore
  */
 class WPSEO_Ryte_Option {
 
@@ -75,6 +78,9 @@ class WPSEO_Ryte_Option {
 
 	/**
 	 * Setting the object by setting the properties.
+	 *
+	 * @deprecated 19.6
+	 * @codeCoverageIgnore
 	 */
 	public function __construct() {
 		$this->ryte_option = $this->get_option();
@@ -82,6 +88,9 @@ class WPSEO_Ryte_Option {
 
 	/**
 	 * Getting the status from the option.
+	 *
+	 * @deprecated 19.6
+	 * @codeCoverageIgnore
 	 *
 	 * @return integer|string
 	 */
@@ -96,6 +105,9 @@ class WPSEO_Ryte_Option {
 	/**
 	 * Saving the status to the options.
 	 *
+	 * @deprecated 19.6
+	 * @codeCoverageIgnore
+	 *
 	 * @param string $status The status to save.
 	 */
 	public function set_status( $status ) {
@@ -104,6 +116,9 @@ class WPSEO_Ryte_Option {
 
 	/**
 	 * Saving the last fetch timestamp to the options.
+	 *
+	 * @deprecated 19.6
+	 * @codeCoverageIgnore
 	 *
 	 * @param int $timestamp Timestamp with the new value.
 	 */
@@ -118,6 +133,9 @@ class WPSEO_Ryte_Option {
 	 * yet and return true. Then, we check whether the last fetch is within the
 	 * FETCH_LIMIT time interval (15 seconds) to avoid too many consecutive API calls.
 	 *
+	 * @deprecated 19.6
+	 * @codeCoverageIgnore
+	 *
 	 * @return bool Whether the indexability status should be fetched.
 	 */
 	public function should_be_fetched() {
@@ -130,6 +148,9 @@ class WPSEO_Ryte_Option {
 
 	/**
 	 * Saving the option with the current data.
+	 *
+	 * @deprecated 19.6
+	 * @codeCoverageIgnore
 	 */
 	public function save_option() {
 		update_option( self::OPTION_NAME, $this->ryte_option );
@@ -137,6 +158,9 @@ class WPSEO_Ryte_Option {
 
 	/**
 	 * Returns the value of the onpage_enabled status.
+	 *
+	 * @deprecated 19.6
+	 * @codeCoverageIgnore
 	 *
 	 * @return bool
 	 */
@@ -146,6 +170,9 @@ class WPSEO_Ryte_Option {
 
 	/**
 	 * Getting the option with the Ryte data.
+	 *
+	 * @deprecated 19.6
+	 * @codeCoverageIgnore
 	 *
 	 * @return array
 	 */
