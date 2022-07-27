@@ -309,13 +309,11 @@ function IndexablesPage() {
 					readability_score: __( "Readability Score", "wordpress-seo" ),
 					edit: __( "Edit", "wordpress-seo" ),
 					ignore: __( "Ignore", "wordpress-seo" ),
-					links: __( "Find posts to link to", "wordpress-seo" ),
 					/* eslint-enable camelcase */
 				}
 			}
 			type="least_readability"
 			addToIgnoreList={ setIgnoreIndexable }
-			handleOpenModal={ handleOpenModal }
 			listSize={ listSize }
 		/>
 		<h3 className="yst-my-4 yst-text-xl">{ __( "Least SEO Score", "wordpress-seo" ) }</h3>
@@ -328,13 +326,11 @@ function IndexablesPage() {
 					primary_focus_keyword_score: __( "SEO Score", "wordpress-seo" ),
 					edit: __( "Edit", "wordpress-seo" ),
 					ignore: __( "Ignore", "wordpress-seo" ),
-					links: __( "Find posts to link to", "wordpress-seo" ),
 					/* eslint-enable camelcase */
 				}
 			}
 			type="least_seo_score"
 			addToIgnoreList={ setIgnoreIndexable }
-			handleOpenModal={ handleOpenModal }
 			listSize={ listSize }
 		/>
 		<h3 className="yst-my-4 yst-text-xl">{ __( "Least Linked", "wordpress-seo" ) }</h3>

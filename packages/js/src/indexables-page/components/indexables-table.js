@@ -91,8 +91,7 @@ const IndexableRow = ( { indexable, keyHeaderMap, type, addToIgnoreList, positio
 				} else if ( key === "links" ) {
 					return <Table.Cell key="links"><Button
 						data-indexableid={ indexable.id }
-						data-indexabletype={ type }
-						data-incominglinkscount={ indexable.incoming_link_count === null ? 0 : indexable.incoming_links_count }
+						data-incominglinkscount={ indexable.incoming_link_count === null ? 0 : indexable.incoming_link_count }
 						data-breadcrumbtitle={ indexable.breadcrumb_title }
 						data-permalink={ indexable.permalink }
 						onClick={ handleLink }

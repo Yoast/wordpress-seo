@@ -57,6 +57,6 @@ class Indexables_Page_Helper {
 	 * @return bool Wether enable_link_suggestions is set to true or not.
 	 */
 	public function get_link_suggestions_enabled() {
-		return $this->options->get( 'enable_link_suggestions' ) === true;
+		return $this->options->get( 'enable_link_suggestions', false ) === true;
 	}
 }
