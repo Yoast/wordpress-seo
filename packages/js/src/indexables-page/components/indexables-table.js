@@ -36,7 +36,16 @@ function PlaceholderRows( { columnCount, listSize } ) {
 
  * @returns {WPElement} A table with the indexables.
  */
-const IndexableRow = ( { indexable, keyHeaderMap, type, addToIgnoreList, position } ) => {
+const IndexableRow = ( { indexable, keyHeaderMap, type, addToIgnoreList, position, handleOpenModal } ) => {
+	const handleLink = useCallback( ( e ) => {
+		handleOpenModal(
+			e.currentTarget.dataset.indexableid,
+			e.currentTarget.dataset.incominglinkscount,
+			e.currentTarget.dataset.breadcrumbtitle,
+			e.currentTarget.dataset.permalink
+		);
+	}, [ handleOpenModal ] );
+
 	const handleIgnore =  useCallback( async( e ) => {
 		const id = e.currentTarget.dataset.indexableid;
 		const indexableType = e.currentTarget.dataset.indexabletype;
@@ -79,6 +88,14 @@ const IndexableRow = ( { indexable, keyHeaderMap, type, addToIgnoreList, positio
 					</Table.Cell>;
 				} else if ( key === "ignore" ) {
 					return <Table.Cell key="ignore"><Button variant="error" data-indexableid={ indexable.id } data-indexabletype={ type } onClick={ handleIgnore }>Ignore</Button></Table.Cell>;
+				} else if ( key === "links" ) {
+					return <Table.Cell key="links"><Button
+						data-indexableid={ indexable.id }
+						data-incominglinkscount={ indexable.incoming_link_count === null ? 0 : indexable.incoming_link_count }
+						data-breadcrumbtitle={ indexable.breadcrumb_title }
+						data-permalink={ indexable.permalink }
+						onClick={ handleLink }
+					>Links</Button></Table.Cell>;
 				}
 				return <Table.Cell key={ `indexable-header-${ index }` }>{ indexable[ key ] }</Table.Cell>;
 			} )
@@ -92,6 +109,7 @@ IndexableRow.propTypes = {
 	type: PropTypes.string,
 	addToIgnoreList: PropTypes.func,
 	position: PropTypes.number,
+	handleOpenModal: PropTypes.func,
 };
 
 /**
@@ -102,7 +120,7 @@ IndexableRow.propTypes = {
 
  * @returns {WPElement} A table with the indexables.
  */
-function IndexablesTable( { indexables, keyHeaderMap, type, addToIgnoreList, listSize } ) {
+function IndexablesTable( { indexables, keyHeaderMap, type, addToIgnoreList, handleOpenModal, listSize } ) {
 	const [ isLoading, setIsLoading ] = useState( true );
 
 	useEffect( () => {
@@ -136,6 +154,7 @@ function IndexablesTable( { indexables, keyHeaderMap, type, addToIgnoreList, lis
 										type={ type }
 										addToIgnoreList={ addToIgnoreList }
 										position={ index }
+										handleOpenModal={ handleOpenModal }
 									/>;
 								} )
 						}
@@ -151,6 +170,7 @@ IndexablesTable.propTypes = {
 	keyHeaderMap: PropTypes.object,
 	type: PropTypes.string,
 	addToIgnoreList: PropTypes.func,
+	handleOpenModal: PropTypes.func,
 	listSize: PropTypes.number,
 };
 
