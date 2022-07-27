@@ -106,7 +106,7 @@ class Indexables_Page_Action_Test extends TestCase {
 			Mockery::mock( Indexable::class ),
 		];
 
-		$public_sub_types = [
+		$sub_types = [
 			'post'        => 'post',
 			'page'        => 'page',
 			'category'    => 'category',
@@ -136,8 +136,8 @@ class Indexables_Page_Action_Test extends TestCase {
 			->andReturn( $least_readability_ignore_list );
 
 		$this->mock_instance
-			->expects( 'get_public_sub_types' )
-			->andReturn( $public_sub_types );
+			->expects( 'get_sub_types' )
+			->andReturn( $sub_types );
 
 		$this->indexable_repository
 			->expects( 'query' )
@@ -155,7 +155,7 @@ class Indexables_Page_Action_Test extends TestCase {
 
 		$this->indexable_repository
 			->expects( 'where_in' )
-			->with( 'object_sub_type', $public_sub_types )
+			->with( 'object_sub_type', $sub_types )
 			->andReturnSelf();
 
 		$this->indexable_repository
@@ -199,7 +199,7 @@ class Indexables_Page_Action_Test extends TestCase {
 			Mockery::mock( Indexable::class ),
 		];
 
-		$public_sub_types = [
+		$sub_types = [
 			'post'        => 'post',
 			'page'        => 'page',
 			'category'    => 'category',
@@ -229,8 +229,8 @@ class Indexables_Page_Action_Test extends TestCase {
 			->andReturn( $least_seo_score_ignore_list );
 
 		$this->mock_instance
-			->expects( 'get_public_sub_types' )
-			->andReturn( $public_sub_types );
+			->expects( 'get_sub_types' )
+			->andReturn( $sub_types );
 
 		$this->indexable_repository
 			->expects( 'query' )
@@ -248,7 +248,7 @@ class Indexables_Page_Action_Test extends TestCase {
 
 		$this->indexable_repository
 			->expects( 'where_in' )
-			->with( 'object_sub_type', $public_sub_types )
+			->with( 'object_sub_type', $sub_types )
 			->andReturnSelf();
 
 		$this->indexable_repository
@@ -292,7 +292,7 @@ class Indexables_Page_Action_Test extends TestCase {
 			Mockery::mock( Indexable::class ),
 		];
 
-		$public_sub_types = [
+		$sub_types = [
 			'post'        => 'post',
 			'page'        => 'page',
 			'category'    => 'category',
@@ -322,8 +322,8 @@ class Indexables_Page_Action_Test extends TestCase {
 			->andReturn( $most_linked_ignore_list );
 
 		$this->mock_instance
-			->expects( 'get_public_sub_types' )
-			->andReturn( $public_sub_types );
+			->expects( 'get_sub_types' )
+			->andReturn( $sub_types );
 
 		$this->indexable_repository
 			->expects( 'query' )
@@ -346,7 +346,7 @@ class Indexables_Page_Action_Test extends TestCase {
 
 		$this->indexable_repository
 			->expects( 'where_in' )
-			->with( 'object_sub_type', $public_sub_types )
+			->with( 'object_sub_type', $sub_types )
 			->andReturnSelf();
 
 		$this->indexable_repository
@@ -399,7 +399,7 @@ class Indexables_Page_Action_Test extends TestCase {
 			$indexable_2,
 		];
 
-		$public_sub_types = [
+		$sub_types = [
 			'post'        => 'post',
 			'page'        => 'page',
 			'category'    => 'category',
@@ -429,8 +429,8 @@ class Indexables_Page_Action_Test extends TestCase {
 			->andReturn( $least_linked_ignore_list );
 
 		$this->mock_instance
-			->expects( 'get_public_sub_types' )
-			->andReturn( $public_sub_types );
+			->expects( 'get_sub_types' )
+			->andReturn( $sub_types );
 
 		$this->indexable_repository
 			->expects( 'query' )
@@ -443,7 +443,7 @@ class Indexables_Page_Action_Test extends TestCase {
 
 		$this->indexable_repository
 			->expects( 'where_in' )
-			->with( 'object_sub_type', $public_sub_types )
+			->with( 'object_sub_type', $sub_types )
 			->andReturnSelf();
 
 		$this->indexable_repository

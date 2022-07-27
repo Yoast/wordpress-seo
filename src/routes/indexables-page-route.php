@@ -17,6 +17,13 @@ class Indexables_Page_Route implements Route_Interface {
 	use No_Conditionals;
 
 	/**
+	 * Represents the route that retrieves the neccessary information for setting up the Indexables Page.
+	 *
+	 * @var string
+	 */
+	const SETUP_INFO = '/setup_info';
+
+	/**
 	 * Represents the least readability route.
 	 *
 	 * @var string
@@ -98,6 +105,16 @@ class Indexables_Page_Route implements Route_Interface {
 	 * @return void
 	 */
 	public function register_routes() {
+		$setup_info_route = [
+			[
+				'methods'             => 'GET',
+				'callback'            => [ $this, 'get_setup_info' ],
+				'permission_callback' => [ $this, 'permission_edit_others_posts' ],
+			],
+		];
+
+		\register_rest_route( Main::API_V1_NAMESPACE, self::SETUP_INFO, $setup_info_route );
+
 		$least_readability_route = [
 			[
 				'methods'             => 'GET',
@@ -147,9 +164,16 @@ class Indexables_Page_Route implements Route_Interface {
 				'args'                => [
 					'id' => [
 						'type'     => 'integer',
+						'minimum'  => 0,
 					],
 					'type' => [
 						'type'     => 'string',
+						'enum'     => [
+							'least_readability',
+							'least_seo_score',
+							'most_linked',
+							'least_linked',
+						],
 					],
 				],
 			],
@@ -162,19 +186,39 @@ class Indexables_Page_Route implements Route_Interface {
 				'methods'             => 'POST',
 				'callback'            => [ $this, 'restore_indexable' ],
 				'permission_callback' => [ $this, 'permission_edit_others_posts' ],
-				// @TODO: add validation/sanitization.
 				'args'                => [
 					'id' => [
 						'type'     => 'integer',
+						'minimum'  => 0,
 					],
 					'type' => [
 						'type'     => 'string',
+						'enum'     => [
+							'least_readability',
+							'least_seo_score',
+							'most_linked',
+							'least_linked',
+						],
 					],
 				],
 			],
 		];
 
 		\register_rest_route( Main::API_V1_NAMESPACE, self::RESTORE_INDEXABLE_ROUTE, $restore_indexable_route );
+	}
+
+	/**
+	 * Gets the neccessary information to set up the indexables page.
+	 *
+	 * @return WP_REST_Response The neccessary information to set up the indexables page.
+	 */
+	public function get_setup_info() {
+		$setup_info = $this->indexables_page_action->get_setup_info( $this->indexables_page_helper->get_minimum_posts_threshold() );
+		return new WP_REST_Response(
+			[
+				'json' => $setup_info,
+			]
+		);
 	}
 
 	/**

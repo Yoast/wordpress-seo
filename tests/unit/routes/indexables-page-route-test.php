@@ -138,9 +138,16 @@ class Indexables_Page_Route_Test extends TestCase {
 						'args'                => [
 							'id' => [
 								'type'     => 'integer',
+								'minimum'  => 0,
 							],
 							'type' => [
 								'type'     => 'string',
+								'enum'     => [
+									'least_readability',
+									'least_seo_score',
+									'most_linked',
+									'least_linked',
+								],
 							],
 						],
 					],
@@ -159,11 +166,31 @@ class Indexables_Page_Route_Test extends TestCase {
 						'args'                => [
 							'id' => [
 								'type'     => 'integer',
+								'minimum'  => 0,
 							],
 							'type' => [
 								'type'     => 'string',
+								'enum'     => [
+									'least_readability',
+									'least_seo_score',
+									'most_linked',
+									'least_linked',
+								],
 							],
 						],
+					],
+				]
+			);
+
+		Monkey\Functions\expect( 'register_rest_route' )
+			->with(
+				'yoast/v1',
+				'/setup_info',
+				[
+					[
+						'methods'             => 'GET',
+						'callback'            => [ $this->instance, 'get_setup_info' ],
+						'permission_callback' => [ $this->instance, 'permission_edit_others_posts' ],
 					],
 				]
 			);
