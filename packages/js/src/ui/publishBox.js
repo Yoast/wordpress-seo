@@ -67,7 +67,7 @@ function createScoresInPublishBox( type, status ) {
 		.attr( "class", imageScoreClass + " na" );
 
 	publishSection.append( imgElem ).append( spanElem );
-	$( "#yoast-seo-publishbox-section" ).prepend( publishSection );
+	$( "#yoast-seo-publishbox-section" ).append( publishSection );
 }
 
 /**
