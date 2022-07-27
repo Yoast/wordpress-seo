@@ -80,4 +80,8 @@
 			@apply yst-rounded-md yst-font-medium;
 		}
     }
+
+	[dir=rtl] .yst-root .yst-file-input__labels {
+		@apply yst-flex-row-reverse;
+	}
 }
