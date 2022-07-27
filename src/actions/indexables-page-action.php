@@ -72,6 +72,8 @@ class Indexables_Page_Action {
 	/**
 	 * Gets the neccessary information to set up the indexables page.
 	 *
+	 * @param int $threshold The threshold to check against for enough content.
+	 *
 	 * @return array The neccessary information to set up the indexables page.
 	 */
 	public function get_setup_info( $threshold ) {
@@ -118,7 +120,6 @@ class Indexables_Page_Action {
 		$least_readability_ignore_list = $this->options_helper->get( 'least_readability_ignore_list', [] );
 		$ignore_list                   = empty( $least_readability_ignore_list ) ? [ -1 ] : $least_readability_ignore_list;
 
-		// @TODO: Improve query.
 		$least_readable = $this->indexable_repository->query()
 			->where_raw( '( post_status = \'publish\' OR post_status IS NULL )' )
 			->where_in( 'object_type', [ 'post' ] )
@@ -144,7 +145,6 @@ class Indexables_Page_Action {
 		$least_seo_score_ignore_list = $this->options_helper->get( 'least_seo_score_ignore_list', [] );
 		$ignore_list                 = empty( $least_seo_score_ignore_list ) ? [ -1 ] : $least_seo_score_ignore_list;
 
-		// @TODO: Improve query.
 		$least_seo_score = $this->indexable_repository->query()
 			->where_raw( '( post_status = \'publish\' OR post_status IS NULL )' )
 			->where_in( 'object_type', [ 'post' ] )
@@ -170,7 +170,6 @@ class Indexables_Page_Action {
 		$most_linked_ignore_list = $this->options_helper->get( 'most_linked_ignore_list', [] );
 		$ignore_list             = empty( $most_linked_ignore_list ) ? [ -1 ] : $most_linked_ignore_list;
 
-		// @TODO: Improve query.
 		$most_linked = $this->indexable_repository->query()
 			->where_gt( 'incoming_link_count', 0 )
 			->where_not_null( 'incoming_link_count' )
@@ -197,7 +196,6 @@ class Indexables_Page_Action {
 		$least_linked_ignore_list = $this->options_helper->get( 'least_linked_ignore_list', [] );
 		$ignore_list              = empty( $least_linked_ignore_list ) ? [ -1 ] : $least_linked_ignore_list;
 
-		// @TODO: Improve query.
 		$least_linked = $this->indexable_repository->query()
 			->where_raw( '( post_status = \'publish\' OR post_status IS NULL )' )
 			->where_in( 'object_sub_type', $this->get_sub_types() )

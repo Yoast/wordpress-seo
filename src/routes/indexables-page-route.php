@@ -164,9 +164,16 @@ class Indexables_Page_Route implements Route_Interface {
 				'args'                => [
 					'id' => [
 						'type'     => 'integer',
+						'minimum'  => 0,
 					],
 					'type' => [
 						'type'     => 'string',
+						'enum'     => [
+							'least_readability',
+							'least_seo_score',
+							'most_linked',
+							'least_linked',
+						],
 					],
 				],
 			],
@@ -179,13 +186,19 @@ class Indexables_Page_Route implements Route_Interface {
 				'methods'             => 'POST',
 				'callback'            => [ $this, 'restore_indexable' ],
 				'permission_callback' => [ $this, 'permission_edit_others_posts' ],
-				// @TODO: add validation/sanitization.
 				'args'                => [
 					'id' => [
 						'type'     => 'integer',
+						'minimum'  => 0,
 					],
 					'type' => [
 						'type'     => 'string',
+						'enum'     => [
+							'least_readability',
+							'least_seo_score',
+							'most_linked',
+							'least_linked',
+						],
 					],
 				],
 			],
