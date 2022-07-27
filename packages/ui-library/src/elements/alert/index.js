@@ -1,4 +1,4 @@
-import { CheckCircleIcon, ExclamationIcon, InformationCircleIcon, XCircleIcon } from "@heroicons/react/solid";
+import { CheckCircleIcon, ExclamationIcon, InformationCircleIcon, ExclamationCircleIcon } from "@heroicons/react/solid";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import { useSvgAria } from "../../hooks";
@@ -16,7 +16,7 @@ const iconMap = {
 	success: CheckCircleIcon,
 	warning: ExclamationIcon,
 	info: InformationCircleIcon,
-	error: XCircleIcon,
+	error: ExclamationCircleIcon,
 };
 
 const roleMap = {
