@@ -36,7 +36,7 @@ CompanyInfoMissing.propTypes = {
 };
 
 CompanyInfoMissing.defaultProps = {
-	type: "warning",
+	type: "info",
 };
 
 export default CompanyInfoMissing;

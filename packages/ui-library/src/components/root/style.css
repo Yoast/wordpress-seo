@@ -418,10 +418,15 @@
 		yst-font-normal
 		yst-font-sans
 		yst-text-gray-500
+		yst-leading-normal
 		yst-antialiased;
 
 		a {
 			@apply yst-text-indigo-600 hover:yst-text-indigo-500 yst-underline;
 		}
+
+		svg path {
+            stroke-width: inherit;
+        }
 	}
 }

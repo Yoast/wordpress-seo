@@ -1,7 +1,7 @@
 import { useCallback, useState } from "@wordpress/element";
-import { noop } from "lodash";
 
 import ToggleField from ".";
+import Badge from "../../elements/badge";
 
 export default {
 	title: "2. Components/Toggle Field",
@@ -43,11 +43,17 @@ WithLabelAndDescription.args = {
 	children: "Toggle field with a description.",
 };
 
-export const Checked = ( args ) => (
-	<ToggleField
-		name="name-2"
-		checked={ true }
-		label="Checked toggle field"
-		onChange={ noop }
-	/>
-);
+export const Checked = Template.bind( {} );
+Checked.args = {
+	name: "name-2",
+	checked: true,
+	label: "Checked toggle field",
+};
+
+export const WithLabelSuffix = Template.bind( {} );
+WithLabelSuffix.args = {
+	name: "name-3",
+	checked: true,
+	label: "Label suffix toggle field",
+	labelSuffix: <Badge className="yst-ml-1.5" variant="upsell">Premium</Badge>,
+};

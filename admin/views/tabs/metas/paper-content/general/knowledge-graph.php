@@ -15,6 +15,20 @@ echo sprintf(
 );
 
 /**
+ * Retrieve the site logo ID from WordPress settings.
+ *
+ * @return false|int
+ */
+function fallback_to_site_logo() {
+	$logo_id = \get_option( 'site_logo' );
+	if ( ! $logo_id ) {
+		$logo_id = \get_theme_mod( 'custom_logo' );
+	}
+
+	return $logo_id;
+}
+
+/**
  * Filter: 'wpseo_knowledge_graph_setting_msg' - Allows adding a message above these settings.
  *
  * @api string unsigned Message.
@@ -43,13 +57,30 @@ $yform->select( 'company_or_person', __( 'Organization or person', 'wordpress-se
 	 */
 	$yoast_seo_company_name = WPSEO_Options::get( 'company_name', '' );
 	$yoast_seo_company_logo = WPSEO_Options::get( 'company_logo', '' );
+	$yoast_seo_person_logo  = WPSEO_Options::get( 'person_logo', '' );
+
+	$yoast_seo_site_name = ( WPSEO_Options::get( 'company_name', '' ) === '' ) ? get_bloginfo( 'name' ) : '';
+
+	$fallback_logo = fallback_to_site_logo();
+
+	if ( empty( $yoast_seo_company_logo ) && $fallback_logo ) {
+		$yform->hidden( 'company_logo_fallback_id', 'company_logo_fallback_id', $fallback_logo );
+	}
+
 	if ( empty( $yoast_seo_company_name ) || empty( $yoast_seo_company_logo ) ) :
 		?>
 		<div id="knowledge-graph-company-warning"></div>
 		<?php
 	endif;
 
-	$yform->textinput( 'company_name', __( 'Organization name', 'wordpress-seo' ), [ 'autocomplete' => 'organization' ] );
+	$yform->textinput(
+		'company_name',
+		__( 'Organization name', 'wordpress-seo' ),
+		[
+			'autocomplete' => 'organization',
+			'placeholder'  => $yoast_seo_site_name,
+		]
+	);
 	$yform->hidden( 'company_logo', 'company_logo' );
 	$yform->hidden( 'company_logo_id', 'company_logo_id' );
 	?>
@@ -60,9 +91,23 @@ $yform->select( 'company_or_person', __( 'Organization or person', 'wordpress-se
 	<h3><?php esc_html_e( 'Personal info', 'wordpress-seo' ); ?></h3>
 
 	<div id="wpseo-person-selector"></div>
-	<div id="yoast-person-image-select"></div>
 	<?php
+
+	if ( empty( $yoast_seo_person_logo ) ) :
+		?>
+	<div id="knowledge-graph-person-image-info"></div>
+		<?php
+	endif;
+	?>
+
+	<div id="yoast-person-image-select"></div>
+
+	<?php
+
 	$yform->hidden( 'person_logo', 'person_logo' );
+	if ( empty( $yoast_seo_person_logo ) && $fallback_logo ) {
+		$yform->hidden( 'person_logo_fallback_id', 'person_logo_fallback_id', $fallback_logo );
+	}
 	$yform->hidden( 'person_logo_id', 'person_logo_id' );
 	$yform->hidden( 'company_or_person_user_id', 'person_id' );
 	?>

@@ -65,7 +65,6 @@ describe( "serialize", () => {
 			_hasBetaBadge: false,
 			_hasJumps: false,
 			_parseClass: "AssessmentResult",
-			_hasBetaBadge: false,
 			editFieldName: "",
 			identifier: "",
 			marks: [],
@@ -82,6 +81,7 @@ describe( "serialize", () => {
 			permalink: "https://example.com/page-0",
 			title: "A text about a keyword.",
 			date: "8 September 2021",
+			customData: { hasGlobalIdentifier: true, hasVariants: true },
 		} );
 
 		expect( serialize( thing ) ).toEqual( {
@@ -96,6 +96,7 @@ describe( "serialize", () => {
 			titleWidth: 0,
 			slug: "",
 			date: "8 September 2021",
+			customData: { hasGlobalIdentifier: true, hasVariants: true },
 		} );
 	} );
 
