@@ -33,7 +33,6 @@ const Template = ( { endStatus, ...args } ) => {
 		setFeedbackTitle( file.name );
 		setFeedbackDescription( `${ Math.round( file.size.toString() / 1024 ) }Kb` );
 		await new Promise( ( resolve, reject ) => {
-			abort = reject;
 			let internalProgress = 0;
 			// Fake progress in 20 steps (5% per interval)
 			const interval = setInterval( () => {
@@ -43,20 +42,22 @@ const Template = ( { endStatus, ...args } ) => {
 				}
 				setProgress( internalProgress++ );
 			}, 20 );
+
+			abort = () => {
+				clearInterval( interval );
+				setStatus( FILE_IMPORT_STATUS.aborted );
+				setProgress( 0 );
+			};
 		} )
-			.then( () => setStatus( endStatus ) )
-			.catch( () => setStatus( FILE_IMPORT_STATUS.idle ) );
+			.then( () => setStatus( endStatus ) );
 	}, [ setStatus, setFeedbackTitle, setFeedbackDescription, progress, setProgress ] );
 
 	const handleAbort = useCallback( () => {
 		// eslint-disable-next-line no-alert
 		if ( window.confirm( "Are you sure you want to abort?" ) ) {
-			abort ? abort() : setStatus( FILE_IMPORT_STATUS.idle );
-			setFeedbackTitle( "" );
-			setFeedbackDescription( "" );
-			setProgress( 0 );
+			abort();
 		}
-	}, [ setStatus, setFeedbackTitle, setFeedbackDescription, setProgress ] );
+	}, [ abort, setStatus, setFeedbackTitle, setFeedbackDescription, setProgress ] );
 
 	return (
 		<FileImport
