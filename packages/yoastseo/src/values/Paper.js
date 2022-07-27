@@ -2,10 +2,11 @@ import { defaults, isEmpty, isEqual } from "lodash-es";
 
 /**
  * Default attributes to be used by the Paper if they are left undefined.
- * @type {{keyword: string, synonyms: string, description: string, title: string, titleWidth: number,
+ * @type {{textTitle: string, keyword: string, synonyms: string, description: string, title: string, titleWidth: number,
  * 		   slug: string, locale: string, permalink: string, date: string}}
  */
 const defaultAttributes = {
+	textTitle: "",
 	keyword: "",
 	synonyms: "",
 	description: "",
@@ -23,6 +24,7 @@ const defaultAttributes = {
  *
  * @param {string} text                     The text to use in the analysis.
  * @param {object} [attributes]             The object containing all attributes.
+ * @param {string} [attributes.textTitle]   The title of the text.
  * @param {string} [attributes.keyword]     The main keyword.
  * @param {string} [attributes.synonyms]    The main keyword's synonyms.
  * @param {string} [attributes.description] The SEO description.
@@ -258,6 +260,21 @@ Paper.prototype.getCustomData = function() {
 	return this._attributes.customData;
 };
 
+/**
+ * Check whether a text title is available.
+ * @returns {boolean} Returns true if the Paper has a text title.
+ */
+Paper.prototype.hasTextTitle = function() {
+	return this._attributes.textTitle !== "";
+};
+
+/**
+ * Returns the text title, or an empty string if no data is available.
+ * @returns {string} Returns the text title.
+ */
+Paper.prototype.getTextTitle = function() {
+	return this._attributes.textTitle;
+};
 /**
  * Serializes the Paper instance to an object.
  *
