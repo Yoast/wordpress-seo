@@ -8,17 +8,17 @@ import { useRootContext } from "../../hooks";
 import Link from "../link";
 
 /**
- * @param {string} id The callback for when a file is uploaded.
- * @param {string} name The callback for when a file is uploaded.
- * @param {string} value The callback for when a file is uploaded.
- * @param {string} selectLabel The callback for when a file is uploaded.
- * @param {string} dropLabel The callback for when a file is uploaded.
- * @param {string} screenReaderLabel The callback for when a file is uploaded.
- * @param {string} selectDescription The callback for when a file is uploaded.
- * @param {boolean} isDisabled The callback for when a file is uploaded.
- * @param {JSX.Element} iconAs The callback for when a file is uploaded.
+ * @param {string} id Id.
+ * @param {string} name Name.
+ * @param {string} value Value.
+ * @param {string} selectLabel Label for default select button.
+ * @param {string} dropLabel Label for drop area.
+ * @param {string} screenReaderLabel Screen reader label.
+ * @param {string} selectDescription Description for select area.
+ * @param {boolean} isDisabled Disabled state.
+ * @param {JSX.Element} iconAs Icon to show in select area.
  * @param {Function} onChange The callback for when a file is uploaded.
- * @param {string} className The callback for when a file is uploaded.
+ * @param {string} className Classname.
  * @returns {JSX.Element} The FileInput component.
  */
 const FileInput = ( {
