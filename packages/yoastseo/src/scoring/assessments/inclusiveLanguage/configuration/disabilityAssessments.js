@@ -1,7 +1,6 @@
 import {
 	potentiallyHarmful,
 	potentiallyHarmfulCareful,
-	potentiallyHarmfulOrBeSpecific,
 	potentiallyHarmfulUnless,
 } from "./feedbackStrings";
 import { isFollowedByException } from "../helpers/isFollowedByException";
@@ -9,13 +8,13 @@ import { isPrecededByException } from "../helpers/isPrecededByException";
 import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
 import { SCORES } from "./scores";
 
-const derogatory = "Avoid using \"%1$s\" as it is derogatory. Consider using an alternative, such as \"%2$s\" instead.";
+const derogatory = "Avoid using <i>%1$s</i> as it is derogatory. Consider using an alternative, such as %2$s instead.";
 
-const medicalCondition = "Be careful when using \"%1$s\", unless talking about the specific medical condition. " +
-	"If you are not referencing the medical condition, consider other alternatives to describe the trait or behavior such as \"%2$s\".";
-const medicalConditionTwoAlternatives = "Be careful when using \"%1$s\", unless talking about the specific medical condition " +
-	"(in which case, use \"%2$s\"). " +
-	"If you are not referencing the medical condition, consider other alternatives to describe the trait or behavior such as \"%3$s\".";
+const medicalCondition = "Be careful when using <i>%1$s</i>, unless talking about the specific medical condition. " +
+	"If you are not referencing the medical condition, consider other alternatives to describe the trait or behavior such as %2$s.";
+const medicalConditionTwoAlternatives = "Be careful when using <i>%1$s</i>, unless talking about the specific medical condition " +
+	"(in which case, use %2$s). " +
+	"If you are not referencing the medical condition, consider other alternatives to describe the trait or behavior such as %3$s.";
 
 const potentiallyHarmfulTwoAlternatives = "Avoid using <i>%1$s</i> as it is potentially harmful. " +
 	"Consider using an alternative, such as %2$s when referring to someone's needs, or %3$s when referring to a person.";
@@ -24,7 +23,7 @@ const disabilityAssessments =  [
 	{
 		identifier: "binge",
 		nonInclusivePhrases: [ "bingeing", "binge" ],
-		inclusiveAlternatives: "indulging, satuating, wallowing",
+		inclusiveAlternatives: "<i>indulging, satuating, wallowing</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: medicalCondition,
 		learnMoreUrl: "https://yoa.st/",
@@ -32,7 +31,7 @@ const disabilityAssessments =  [
 	{
 		identifier: "wheelchairBound",
 		nonInclusivePhrases: [ "wheelchair-bound", "wheelchair bound", "confined to a wheelchair" ],
-		inclusiveAlternatives: "uses a wheelchair/wheelchair user",
+		inclusiveAlternatives: "<i>uses a wheelchair, is a wheelchair user</i>i",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
@@ -40,19 +39,22 @@ const disabilityAssessments =  [
 	{
 		identifier: "mentallyRetarded",
 		nonInclusivePhrases: [ "mentally retarded" ],
-		inclusiveAlternatives: "person with an intellectual disability",
+		inclusiveAlternatives: "<i>person with an intellectual disability</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
 	},
 	{
-		// Problematic, as it will also target the above phrase
 		identifier: "retarded",
 		nonInclusivePhrases: [ "retarded" ],
-		inclusiveAlternatives: "uninformed, ignorant, foolish, irrational, insensible",
+		inclusiveAlternatives: "<i>uninformed, ignorant, foolish, irrational, insensible</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: derogatory,
 		learnMoreUrl: "https://yoa.st/",
+		rule: ( words, inclusivePhrases ) => {
+			return includesConsecutiveWords( words, inclusivePhrases )
+				.filter( isPrecededByException( words, [ "mentally" ] ) )
+		},
 	},
 	{
 		identifier: "alcoholic",
@@ -279,7 +281,7 @@ const disabilityAssessments =  [
 	{
 		identifier: "addict",
 		nonInclusivePhrases: [ "addict" ],
-		inclusiveAlternatives: "person with a (drug, alcohol, ...) addiction / person with substance abuse disorder",
+		inclusiveAlternatives: "<i>person with a (drug, alcohol, ...) addiction, person with substance abuse disorder</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulUnless,
 		learnMoreUrl: "https://yoa.st/",
@@ -287,7 +289,7 @@ const disabilityAssessments =  [
 	{
 		identifier: "addicts",
 		nonInclusivePhrases: [ "addicts" ],
-		inclusiveAlternatives: "people with a (drug, alcohol, ...) addiction / people with substance abuse disorder",
+		inclusiveAlternatives: "<i>people with a (drug, alcohol, ...) addiction, people with substance abuse disorder</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulUnless,
 		learnMoreUrl: "https://yoa.st/",
@@ -295,7 +297,7 @@ const disabilityAssessments =  [
 	{
 		identifier: "brainDamaged",
 		nonInclusivePhrases: [ "brain-damaged" ],
-		inclusiveAlternatives: "person with a (traumatic) brain injury",
+		inclusiveAlternatives: "<i>person with a (traumatic) brain injury</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulUnless,
 		learnMoreUrl: "https://yoa.st/",
@@ -303,7 +305,7 @@ const disabilityAssessments =  [
 	{
 		identifier: "differentlyAbled",
 		nonInclusivePhrases: [ "differently abled", "differently-abled" ],
-		inclusiveAlternatives: "disabled, disabled person, person with a disability",
+		inclusiveAlternatives: "<i>disabled, person with a disability</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulUnless,
 		learnMoreUrl: "https://yoa.st/",
@@ -311,7 +313,7 @@ const disabilityAssessments =  [
 	{
 		identifier: "epilepticFit",
 		nonInclusivePhrases: [ "epileptic fit" ],
-		inclusiveAlternatives: "seizure",
+		inclusiveAlternatives: "<i>epileptic seizure</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
@@ -319,15 +321,15 @@ const disabilityAssessments =  [
 	{
 		identifier: "sanityCheck",
 		nonInclusivePhrases: [ "sanity check" ],
-		inclusiveAlternatives: "final check, confidence check, rationality check, soundness check",
+		inclusiveAlternatives: "<i>final check, confidence check, rationality check, soundness check</i>",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmfulOrBeSpecific,
+		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
 	},
 	{
 		identifier: "crazy",
 		nonInclusivePhrases: [ "crazy" ],
-		inclusiveAlternatives: "baffling, startling, chaotic, shocking, confusing, reckless, unpredictable",
+		inclusiveAlternatives: "<i>wild, baffling, startling, chaotic, shocking, confusing, reckless, unpredictable</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
@@ -335,23 +337,15 @@ const disabilityAssessments =  [
 	{
 		identifier: "psychopathic",
 		nonInclusivePhrases: [ "psychopath", "psychopathic" ],
-		inclusiveAlternatives: "toxic, manipulative, unpredictable, impulsive, reckless, out of control",
+		inclusiveAlternatives: "<i>toxic, manipulative, unpredictable, impulsive, reckless, out of control</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
 	},
 	{
 		identifier: "schizophrenic",
-		nonInclusivePhrases: [ "schizophrenic" ],
-		inclusiveAlternatives: "of two minds, chaotic, confusing",
-		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: medicalCondition,
-		learnMoreUrl: "https://yoa.st/",
-	},
-	{
-		identifier: "bipolar",
-		nonInclusivePhrases: [ "bipolar" ],
-		inclusiveAlternatives: "of two minds, chaotic, confusing",
+		nonInclusivePhrases: [ "schizophrenic", "bipolar" ],
+		inclusiveAlternatives: "<i>of two minds, chaotic, confusing</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: medicalCondition,
 		learnMoreUrl: "https://yoa.st/",
@@ -359,7 +353,7 @@ const disabilityAssessments =  [
 	{
 		identifier: "paranoid",
 		nonInclusivePhrases: [ "paranoid" ],
-		inclusiveAlternatives: "overly suspicious, unreasonable, defensive",
+		inclusiveAlternatives: "<i>overly suspicious, unreasonable, defensive</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: medicalCondition,
 		learnMoreUrl: "https://yoa.st/",
@@ -367,7 +361,7 @@ const disabilityAssessments =  [
 	{
 		identifier: "manic",
 		nonInclusivePhrases: [ "manic" ],
-		inclusiveAlternatives: "excited, raving, unbalanced, wild",
+		inclusiveAlternatives: "<i>excited, raving, unbalanced, wild</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: medicalCondition,
 		learnMoreUrl: "https://yoa.st/",
@@ -375,7 +369,7 @@ const disabilityAssessments =  [
 	{
 		identifier: "hysterical",
 		nonInclusivePhrases: [ "hysterical" ],
-		inclusiveAlternatives: "intense, vehement, piercing, chaotic",
+		inclusiveAlternatives: "<i>intense, vehement, piercing, chaotic</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
@@ -383,7 +377,7 @@ const disabilityAssessments =  [
 	{
 		identifier: "psycho",
 		nonInclusivePhrases: [ "psycho" ],
-		inclusiveAlternatives: "toxic, distraught, unpredictable, reckless, out of control",
+		inclusiveAlternatives: "<i>toxic, distraught, unpredictable, reckless, out of control</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
@@ -391,7 +385,7 @@ const disabilityAssessments =  [
 	{
 		identifier: "neurotic",
 		nonInclusivePhrases: [ "neurotic", "lunatic" ],
-		inclusiveAlternatives: "distraught, unstable, startling, confusing, baffling",
+		inclusiveAlternatives: "<i>distraught, unstable, startling, confusing, baffling</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
@@ -399,8 +393,8 @@ const disabilityAssessments =  [
 	{
 		identifier: "sociopath",
 		nonInclusivePhrases: [ "sociopath" ],
-		inclusiveAlternatives: [ "Person with antisocial personality disorder",
-			"toxic, manipulative, cruel" ],
+		inclusiveAlternatives: [ "<i>person with antisocial personality disorder</i>",
+			"<i>toxic, manipulative, cruel</i>" ],
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: medicalConditionTwoAlternatives,
 		learnMoreUrl: "https://yoa.st/",
@@ -408,7 +402,7 @@ const disabilityAssessments =  [
 	{
 		identifier: "narcissistic",
 		nonInclusivePhrases: [ "narcissistic" ],
-		inclusiveAlternatives: [ "Person with narcissistic personality disorder",
+		inclusiveAlternatives: [ "<i>person with narcissistic personality disorder</i>",
 			"selfish, egotistical, self-centered, self-absorbed, vain, toxic, manipulative" ],
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: medicalConditionTwoAlternatives,
