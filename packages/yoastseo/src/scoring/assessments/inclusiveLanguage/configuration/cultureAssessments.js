@@ -1,7 +1,7 @@
 import { SCORES } from "./scores";
 import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
 import { isFollowedByException } from "../helpers/isFollowedByException";
-import { potentiallyHarmful, potentiallyHarmfulCareful, potentiallyHarmfulUnless } from "./feedbackStrings";
+import { potentiallyHarmful, potentiallyHarmfulCareful, potentiallyHarmfulUnless, harmfulNonInclusive } from "./feedbackStrings";
 import { isPrecededByException } from "../helpers/isPrecededByException";
 
 const potentiallyHarmfulUnlessCulture = "Be careful when using <i>%1$s</i> as it is potentially harmful. " +
@@ -101,7 +101,7 @@ const cultureAssessments = [
 		nonInclusivePhrases: [ "the White race" ],
 		inclusiveAlternatives: "",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: "Avoid using <i>%1$s</i> as it is overgeneralizing and potentially harmful.",
+		feedbackFormat: harmfulNonInclusive,
 		learnMoreUrl: "https://yoa.st/",
 	},
 	{
