@@ -7,7 +7,6 @@ import MetaDescriptionKeywordAssessment from "./assessments/seo/MetaDescriptionK
 import TextCompetingLinksAssessment from "./assessments/seo/TextCompetingLinksAssessment";
 import InternalLinksAssessment from "./assessments/seo/InternalLinksAssessment";
 import KeyphraseInSEOTitleAssessment from "./assessments/seo/KeyphraseInSEOTitleAssessment";
-import TextTitleAssessment from "./assessments/seo/TextTitleAssessment";
 import SlugKeywordAssessment from "./assessments/seo/UrlKeywordAssessment";
 import Assessor from "./assessor";
 import MetaDescriptionLength from "./assessments/seo/MetaDescriptionLengthAssessment";
@@ -55,7 +54,6 @@ const SEOAssessor = function( researcher,  options ) {
 		new SlugKeywordAssessment(),
 		new FunctionWordsInKeyphrase(),
 		new SingleH1Assessment(),
-		new TextTitleAssessment(),
 	];
 };
 

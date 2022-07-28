@@ -25,7 +25,7 @@ class TextTitleAssessment extends Assessment {
 		const defaultConfig = {
 			scores: {
 				good: 9,
-				bad: 3,
+				bad: -10000,
 			},
 			urlTitle: createAnchorOpeningTag( "https://yoast.com" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoast.com" ),

@@ -61,6 +61,7 @@ export default class AnalysisWebWorker {
 			locale: "en_US",
 			customAnalysisType: "",
 			useWordComplexity: false,
+			useTextTitle: false,
 		};
 
 		this._scheduler = new Scheduler();
@@ -454,12 +455,15 @@ export default class AnalysisWebWorker {
 	 */
 	createSEOAssessor() {
 		const keyphraseDistribution = new assessments.seo.KeyphraseDistributionAssessment();
+		let textTitle = new assessments.seo.TextTitleAssessment();
+
 		const {
 			keywordAnalysisActive,
 			useCornerstone,
 			useKeywordDistribution,
 			useTaxonomy,
 			customAnalysisType,
+			useTextTitle,
 		} = this._configuration;
 
 		if ( keywordAnalysisActive === false ) {
@@ -494,6 +498,20 @@ export default class AnalysisWebWorker {
 
 		if ( useKeywordDistribution && isUndefined( assessor.getAssessment( "keyphraseDistribution" ) ) ) {
 			assessor.addAssessment( "keyphraseDistribution", keyphraseDistribution );
+		}
+
+		if ( useTextTitle ) {
+			if ( useCornerstone === true ) {
+				textTitle = new assessments.seo.TextTitleAssessment( {
+					scores: {
+						good: 9,
+						bad: -10000,
+					},
+				} );
+				assessor.addAssessment( "textTitleAssessment", textTitle );
+			} else {
+				assessor.addAssessment( "textTitleAssessment", textTitle );
+			}
 		}
 
 		this._registeredAssessments.forEach( ( { name, assessment } ) => {
@@ -622,6 +640,7 @@ export default class AnalysisWebWorker {
 			"translations",
 			"researchData",
 			"customAnalysisType",
+			"useTextTitle",
 		];
 		const configurationKeys = Object.keys( configuration );
 

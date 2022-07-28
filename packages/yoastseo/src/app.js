@@ -1,3 +1,4 @@
+import * as assessments from "./scoring/assessments";
 import SnippetPreview from "./snippetPreview/snippetPreview.js";
 
 import { setLocaleData } from "@wordpress/i18n";
@@ -7,6 +8,7 @@ import MissingArgument from "./errors/missingArgument";
 import SEOAssessor from "./scoring/seoAssessor.js";
 import KeyphraseDistributionAssessment from "./scoring/assessments/seo/KeyphraseDistributionAssessment.js";
 import WordComplexityAssessment from "./scoring/assessments/readability/WordComplexityAssessment";
+import TextTitleAssessment from "./scoring/assessments/seo/TextTitleAssessment";
 import ContentAssessor from "./scoring/contentAssessor.js";
 import CornerstoneSEOAssessor from "./scoring/cornerstone/seoAssessor.js";
 import CornerstoneContentAssessor from "./scoring/cornerstone/contentAssessor.js";
@@ -19,6 +21,7 @@ import removeHtmlBlocks from "./languageProcessing/helpers/html/htmlParser.js";
 
 const keyphraseDistribution = new KeyphraseDistributionAssessment();
 let wordComplexity = new WordComplexityAssessment();
+let textTitle = new TextTitleAssessment();
 
 var inputDebounceDelay = 800;
 
@@ -289,6 +292,7 @@ var App = function( args ) {
 		useCornerStone: false,
 		useKeywordDistribution: false,
 		useWordComplexity: false,
+		useTextTitle: false
 	};
 
 	this.initSnippetPreview();
@@ -337,11 +341,24 @@ App.prototype.changeAssessorOptions = function( assessorOptions ) {
  * @returns {Assessor} The assessor instance.
  */
 App.prototype.getSeoAssessor = function() {
-	const { useCornerStone, useKeywordDistribution } = this._assessorOptions;
+	const { useCornerStone, useKeywordDistribution, useTextTitle } = this._assessorOptions;
 
 	const assessor = useCornerStone ? this.cornerStoneSeoAssessor : this.defaultSeoAssessor;
 	if ( useKeywordDistribution && isUndefined( assessor.getAssessment( "keyphraseDistribution" ) ) ) {
 		assessor.addAssessment( "keyphraseDistribution", keyphraseDistribution );
+	}
+	if ( useTextTitle ) {
+		if ( useCornerstone === true ) {
+			textTitle = new assessments.seo.TextTitleAssessment( {
+				scores: {
+					good: 9,
+					bad: -10000,
+				},
+			} );
+			assessor.addAssessment( "textTitleAssessment", textTitle );
+		} else {
+			assessor.addAssessment( "textTitleAssessment", textTitle );
+		}
 	}
 
 	return assessor;
