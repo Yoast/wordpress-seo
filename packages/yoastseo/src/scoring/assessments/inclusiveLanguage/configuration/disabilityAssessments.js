@@ -190,7 +190,7 @@ const disabilityAssessments =  [
 	{
 		identifier: "lame",
 		nonInclusivePhrases: [ "lame" ],
-		inclusiveAlternatives: "<i>boring, lousy, unimpressive, sad</i>",
+		inclusiveAlternatives: "<i>boring, lousy, unimpressive, sad, corny</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
