@@ -37,7 +37,7 @@ const Taxonomy = ( { name, label, singularLabel } ) => {
 		{
 			strong: <strong className="yst-font-semibold" />,
 		}
-	) );
+	), [] );
 	const stripCategoryBaseDescription = useMemo( () => createInterpolateElement(
 		sprintf(
 			/* translators: %s expands to <code>/category/</code> */

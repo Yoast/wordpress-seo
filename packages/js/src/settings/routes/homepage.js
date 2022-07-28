@@ -24,7 +24,7 @@ const Homepage = () => {
 		{
 			strong: <strong className="yst-font-semibold" />,
 		}
-	) );
+	), [] );
 
 	return (
 		<FormLayout
