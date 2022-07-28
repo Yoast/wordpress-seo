@@ -76,7 +76,7 @@ class Indexables_Page_Action {
 	 */
 	protected function query() {
 		return $this->indexable_repository->query()
-			->where_raw( '( post_status= \'publish\' OR post_status IS NULL )' )
+			->where_raw( '( post_status = \'publish\' OR post_status IS NULL )' )
 			->where_in( 'object_type', [ 'post' ] )
 			->where_in( 'object_sub_type', $this->get_sub_types() );
 	}
