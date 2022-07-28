@@ -626,7 +626,7 @@ export default class AnalysisWebWorker {
 	 * @param {Assessor} [seoAssessor=null]     The SEO assessor.
 	 * @param {Assessor} [inclusiveLanguageAssessor=null] The inclusive language assessor.
 	 *
-	 * @returns {Object} Containing seo, readability, and inclusive_language with true or false.
+	 * @returns {Object} Containing seo, readability, and inclusiveLanguage with true or false.
 	 */
 	static shouldAssessorsUpdate(
 		configuration,
