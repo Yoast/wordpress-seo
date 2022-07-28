@@ -61,7 +61,8 @@ const PostType = ( { name, label, singularLabel, hasArchive } ) => {
 				description={ sprintf(
 					// translators: %1$s expands to the post type plural, e.g. Posts. %2$s expands to the post type singular, e.g. Post.
 					__( "Choose how your %1$s should look in search engines. You can always customize this per individual %2$s.", "wordpress-seo" ),
-					label
+					label,
+					singularLabel
 				) }
 			>
 				<FormikFlippedToggleField

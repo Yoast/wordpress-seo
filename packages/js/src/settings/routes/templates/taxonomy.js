@@ -67,7 +67,8 @@ const Taxonomy = ( { name, label, singularLabel } ) => {
 				description={ sprintf(
 					// translators: %1$s expands to the post type plural, e.g. Categories. %2$s expands to the post type singular, e.g. Category.
 					__( "Choose how your %1$s should look in search engines. You can always customize this per individual %2$s.", "wordpress-seo" ),
-					label
+					label,
+					singularLabel
 				) }
 			>
 				<FormikFlippedToggleField
