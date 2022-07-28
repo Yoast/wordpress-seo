@@ -87,6 +87,20 @@ class Indexables_Page_Helper {
 	}
 
 	/**
+	 * Retrieves the minimum threshold for the amount of analyzed posts in the site, in order for lists to be relevant.
+	 *
+	 * @return int The size of the Indexables lists.
+	 */
+	public function get_minimum_analyzed_posts_threshold() {
+		/**
+		 * Filter 'wpseo_analyzed_posts_threshold' - Allow filtering the minimum threshold for the amount of analyzed posts in the site, in order for Indexable lists to be relevant.
+		 *
+		 * @api int The minimum threshold for the amount of analyzed posts in the site, in order for Indexable lists to be relevant.
+		 */
+		return \apply_filters( 'wpseo_analyzed_posts_threshold', 0.5 );
+	}
+
+	/**
 	 * Checks if link suggestions are enabled or not
 	 *
 	 * @return bool Wether enable_link_suggestions is set to true or not.

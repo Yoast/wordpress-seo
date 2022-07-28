@@ -213,7 +213,7 @@ class Indexables_Page_Route implements Route_Interface {
 	 * @return WP_REST_Response The neccessary information to set up the indexables page.
 	 */
 	public function get_setup_info() {
-		$setup_info = $this->indexables_page_action->get_setup_info( $this->indexables_page_helper->get_minimum_posts_threshold() );
+		$setup_info = $this->indexables_page_action->get_setup_info( $this->indexables_page_helper->get_minimum_posts_threshold(), $this->indexables_page_helper->get_minimum_analyzed_posts_threshold() );
 		return new WP_REST_Response(
 			[
 				'json' => $setup_info,

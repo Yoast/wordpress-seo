@@ -70,16 +70,32 @@ class Indexables_Page_Action {
 	}
 
 	/**
+	 * Creates a query that can find public indexables.
+	 *
+	 * @return ORM Returns an ORM instance that can be used to execute the query.
+	 */
+	protected function query() {
+		return $this->indexable_repository->query()
+			->where_raw( '( post_status= \'publish\' OR post_status IS NULL )' )
+			->where_in( 'object_type', [ 'post' ] )
+			->where_in( 'object_sub_type', $this->get_sub_types() );
+	}
+
+	/**
 	 * Gets the neccessary information to set up the indexables page.
 	 *
-	 * @param int $threshold The threshold to check against for enough content.
+	 * @param int $content_threshold The threshold to check against for enough content.
+	 * @param int $analysis_threshold The threshold to check against for enough analyzed content.
 	 *
 	 * @return array The neccessary information to set up the indexables page.
 	 */
-	public function get_setup_info( $threshold ) {
+	public function get_setup_info( $content_threshold, $analysis_threshold ) {
 		$is_seo_score_enabled   = $this->options_helper->get( 'keyword_analysis_active', true );
 		$is_readability_enabled = $this->options_helper->get( 'content_analysis_active', true );
 		$is_link_count_enabled  = $this->options_helper->get( 'enable_text_link_counter', true );
+
+		$posts_with_seo_score   = 0;
+		$posts_with_readability = 0;
 
 		if ( ! $is_seo_score_enabled && ! $is_readability_enabled && ! $is_link_count_enabled ) {
 			return [
@@ -92,20 +108,33 @@ class Indexables_Page_Action {
 			];
 		}
 
-		$all_posts = $this->indexable_repository->query()
-			->select( 'id' )
-			->where_raw( '( post_status= \'publish\' OR post_status IS NULL )' )
-			->where_in( 'object_type', [ 'post' ] )
-			->where_in( 'object_sub_type', $this->get_sub_types() )
-			->count();
+		$all_posts = $this->query()->count();
+
+		if ( $is_seo_score_enabled ) {
+			$posts_with_seo_score = $this->query()
+				->where_not_equal( 'primary_focus_keyword', 0 )
+				->count();
+		}
+
+		if ( $is_readability_enabled ) {
+			$posts_with_readability = $this->query()
+				->where_not_equal( 'readability_score', 0 )
+				->count();
+		}
+
+		$enough_analysed_content = ( max( $posts_with_seo_score, $posts_with_readability ) / $all_posts );
+
+		error_log( $posts_with_seo_score );
+		error_log( $posts_with_readability );
 
 		return [
-			'enabledFeatures' => [
+			'enabledFeatures'       => [
 				'isSeoScoreEnabled'    => $is_seo_score_enabled,
 				'isReadabilityEnabled' => $is_readability_enabled,
 				'isLinkCountEnabled'   => $is_link_count_enabled,
 			],
-			'enoughContent'   => $all_posts > $threshold,
+			'enoughContent'         => $all_posts > $content_threshold,
+			'enoughAnalysedContent' => $enough_analysed_content > $analysis_threshold,
 		];
 	}
 
@@ -120,10 +149,7 @@ class Indexables_Page_Action {
 		$least_readability_ignore_list = $this->options_helper->get( 'least_readability_ignore_list', [] );
 		$ignore_list                   = empty( $least_readability_ignore_list ) ? [ -1 ] : $least_readability_ignore_list;
 
-		$least_readable = $this->indexable_repository->query()
-			->where_raw( '( post_status = \'publish\' OR post_status IS NULL )' )
-			->where_in( 'object_type', [ 'post' ] )
-			->where_in( 'object_sub_type', $this->get_sub_types() )
+		$least_readable = $this->query()
 			->where_not_in( 'id', $ignore_list )
 			->where_not_equal( 'readability_score', 0 )
 			->order_by_asc( 'readability_score' )
@@ -145,10 +171,7 @@ class Indexables_Page_Action {
 		$least_seo_score_ignore_list = $this->options_helper->get( 'least_seo_score_ignore_list', [] );
 		$ignore_list                 = empty( $least_seo_score_ignore_list ) ? [ -1 ] : $least_seo_score_ignore_list;
 
-		$least_seo_score = $this->indexable_repository->query()
-			->where_raw( '( post_status = \'publish\' OR post_status IS NULL )' )
-			->where_in( 'object_type', [ 'post' ] )
-			->where_in( 'object_sub_type', $this->get_sub_types() )
+		$least_seo_score = $this->query()
 			->where_not_in( 'id', $ignore_list )
 			->where_not_equal( 'primary_focus_keyword', 0 )
 			->order_by_asc( 'primary_focus_keyword_score' )
@@ -170,12 +193,9 @@ class Indexables_Page_Action {
 		$most_linked_ignore_list = $this->options_helper->get( 'most_linked_ignore_list', [] );
 		$ignore_list             = empty( $most_linked_ignore_list ) ? [ -1 ] : $most_linked_ignore_list;
 
-		$most_linked = $this->indexable_repository->query()
+		$most_linked = $this->query()
 			->where_gt( 'incoming_link_count', 0 )
 			->where_not_null( 'incoming_link_count' )
-			->where_raw( '( post_status = \'publish\' OR post_status IS NULL )' )
-			->where_in( 'object_sub_type', $this->get_sub_types() )
-			->where_in( 'object_type', [ 'post' ] )
 			->where_not_in( 'id', $ignore_list )
 			->order_by_desc( 'incoming_link_count' )
 			->limit( $limit )
@@ -196,14 +216,12 @@ class Indexables_Page_Action {
 		$least_linked_ignore_list = $this->options_helper->get( 'least_linked_ignore_list', [] );
 		$ignore_list              = empty( $least_linked_ignore_list ) ? [ -1 ] : $least_linked_ignore_list;
 
-		$least_linked = $this->indexable_repository->query()
-			->where_raw( '( post_status = \'publish\' OR post_status IS NULL )' )
-			->where_in( 'object_sub_type', $this->get_sub_types() )
-			->where_in( 'object_type', [ 'post' ] )
+		$least_linked = $this->query()
 			->where_not_in( 'id', $ignore_list )
 			->order_by_asc( 'incoming_link_count' )
 			->limit( $limit )
 			->find_many();
+
 		$least_linked = \array_map( [ $this->indexable_repository, 'ensure_permalink' ], $least_linked );
 		return \array_map(
 			function ( $indexable ) {
