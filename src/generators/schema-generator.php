@@ -239,22 +239,22 @@ class Schema_Generator implements Generator_Interface {
 	protected function get_graph_pieces( $context ) {
 		if ( $context->indexable->object_type === 'post' && \post_password_required( $context->post ) ) {
 			$schema_pieces = [
-				new Schema\Organization(),
-				new Schema\Website(),
 				new Schema\WebPage(),
+				new Schema\Website(),
+				new Schema\Organization(),
 			];
 
 			\add_filter( 'wpseo_schema_webpage', [ $this, 'protected_webpage_schema' ], 1 );
 		}
 		else {
 			$schema_pieces = [
+				new Schema\Article(),
+				new Schema\WebPage(),
+				new Schema\Main_Image(),
+				new Schema\Breadcrumb(),
+				new Schema\Website(),
 				new Schema\Organization(),
 				new Schema\Person(),
-				new Schema\Website(),
-				new Schema\Main_Image(),
-				new Schema\WebPage(),
-				new Schema\Breadcrumb(),
-				new Schema\Article(),
 				new Schema\Author(),
 				new Schema\FAQ(),
 				new Schema\HowTo(),

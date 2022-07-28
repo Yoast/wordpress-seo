@@ -1,4 +1,5 @@
 import excludeTableOfContentsTag from "./excludeTableOfContentsTag";
+import excludeEstimatedReadingTime from "../sanitize/excludeEstimatedReadingTime";
 import { stripFullTags as stripTags } from "./stripHTMLTags.js";
 import { unifyAllSpaces } from "./unifyWhitespace";
 
@@ -14,6 +15,8 @@ export default function( text ) {
 	text = unifyAllSpaces( text );
 	// Remove Table of Contents.
 	text = excludeTableOfContentsTag( text );
+	// Remove Estimated reading time
+	text = excludeEstimatedReadingTime( text );
 	// Strip the tags and multiple spaces.
 	text = stripTags( text );
 

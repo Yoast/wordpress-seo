@@ -110,6 +110,7 @@ class Integrations_Page implements Integration_Interface {
 		$woocommerce_seo_active            = $wpseo_plugin_availability_checker->is_active( $woocommerce_seo_file );
 		$woocommerce_active                = $woocommerce_conditional->is_met();
 		$acf_seo_installed                 = \file_exists( WP_PLUGIN_DIR . '/' . $acf_seo_file );
+		$acf_seo_github_installed          = \file_exists( WP_PLUGIN_DIR . '/' . $acf_seo_file_github );
 		$acf_seo_active                    = $wpseo_plugin_availability_checker->is_active( $acf_seo_file );
 		$acf_seo_github_active             = $wpseo_plugin_availability_checker->is_active( $acf_seo_file_github );
 		$acf_active                        = \class_exists( 'acf' );
@@ -121,11 +122,20 @@ class Integrations_Page implements Integration_Interface {
 			'activate-plugin_' . $woocommerce_seo_file
 		);
 
-		$acf_seo_activate_url = \wp_nonce_url(
-			\self_admin_url( 'plugins.php?action=activate&plugin=' . $acf_seo_file ),
-			'activate-plugin_' . $acf_seo_file
-		);
-		$acf_seo_install_url  = \wp_nonce_url(
+		if ( $acf_seo_installed ) {
+			$acf_seo_activate_url = \wp_nonce_url(
+				\self_admin_url( 'plugins.php?action=activate&plugin=' . $acf_seo_file ),
+				'activate-plugin_' . $acf_seo_file
+			);
+		}
+		else {
+			$acf_seo_activate_url = \wp_nonce_url(
+				\self_admin_url( 'plugins.php?action=activate&plugin=' . $acf_seo_file_github ),
+				'activate-plugin_' . $acf_seo_file_github
+			);
+		}
+
+		$acf_seo_install_url = \wp_nonce_url(
 			\self_admin_url( 'update.php?action=install-plugin&plugin=acf-content-analysis-for-yoast-seo' ),
 			'install-plugin_acf-content-analysis-for-yoast-seo'
 		);
@@ -152,13 +162,14 @@ class Integrations_Page implements Integration_Interface {
 				'woocommerce_seo_active'         => $woocommerce_seo_active,
 				'woocommerce_active'             => $woocommerce_active,
 				'woocommerce_seo_activate_url'   => $woocommerce_seo_activate_url,
-				'acf_seo_installed'              => $acf_seo_installed,
+				'acf_seo_installed'              => $acf_seo_installed || $acf_seo_github_installed,
 				'acf_seo_active'                 => $acf_seo_active || $acf_seo_github_active,
 				'acf_active'                     => $acf_active,
 				'acf_seo_activate_url'           => $acf_seo_activate_url,
 				'acf_seo_install_url'            => $acf_seo_install_url,
 				'algolia_active'                 => $algolia_active || $old_algolia_active,
 				'is_multisite'                   => \is_multisite(),
+				'plugin_url'                     => \plugins_url( '', \WPSEO_FILE ),
 			]
 		);
 	}

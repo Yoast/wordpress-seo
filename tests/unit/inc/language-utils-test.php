@@ -79,7 +79,7 @@ class Language_Utils_Test extends TestCase {
 		$this->assertEquals(
 			[
 				'URL'     => 'https://yoast.com',
-				'message' => 'A company name and logo need to be set for structured data to work properly. %1$sLearn more about the importance of structured data.%2$s',
+				'message' => 'A company name and logo need to be set for structured data to work properly. Since you haven’t set these yet, we are using the site name and logo as default values. %1$sLearn more about the importance of structured data.%2$s',
 			],
 			WPSEO_Language_Utils::get_knowledge_graph_company_info_missing_l10n()
 		);

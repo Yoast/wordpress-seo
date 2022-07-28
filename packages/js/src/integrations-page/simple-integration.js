@@ -1,7 +1,7 @@
 import { Card } from "./tailwind-components/card";
-import { Badge } from "@yoast/ui-library";
+import { Badge, Link } from "@yoast/ui-library";
 import { __ } from "@wordpress/i18n";
-import { CheckIcon } from "@heroicons/react/solid";
+import { ArrowSmRightIcon, CheckIcon } from "@heroicons/react/solid";
 import { PropTypes } from "prop-types";
 
 /* eslint-disable complexity */
@@ -20,7 +20,17 @@ export const SimpleIntegration = ( { integration, isActive, children } ) => {
 	return (
 		<Card>
 			<Card.Header>
-				{ integration.logo && <IntegrationLogo alt={ `${integration.name} logo` } className={ `${ isActive ? "" : "yst-opacity-50 yst-filter yst-grayscale" }` } /> }
+				<Link
+					href={ integration.logoLink }
+					target="_blank"
+				>
+					{ integration.logo && <IntegrationLogo alt={ `${integration.name} logo` } className={ `${ isActive ? "" : "yst-opacity-50 yst-filter yst-grayscale" }` } /> }
+					<span className="yst-sr-only">
+						{
+							__( "(Opens in a new browser tab)", "wordpress-seo" )
+						}
+					</span>
+				</Link>
 				{ ( integration.isNew ) && <Badge className="yst-absolute yst-top-2 yst-right-2">{ __( "New", "wordpress-seo" ) }</Badge> }
 			</Card.Header>
 			<Card.Content>
@@ -41,6 +51,19 @@ export const SimpleIntegration = ( { integration, isActive, children } ) => {
 							);
 						} ) }
 					</ul> }
+					{ integration.learnMoreLink && <Link
+						href={ integration.learnMoreLink }
+						className="yst-flex yst-items-center yst-mt-3 yst-no-underline yst-font-medium"
+						target="_blank"
+					>
+						Learn more
+						<span className="yst-sr-only">
+							{
+								__( "(Opens in a new browser tab)", "wordpress-seo" )
+							}
+						</span>
+						<ArrowSmRightIcon className="yst-h-4 yst-w-4 yst-ml-1" />
+					</Link> }
 				</div>
 			</Card.Content>
 			<Card.Footer>
@@ -57,11 +80,13 @@ SimpleIntegration.propTypes = {
 	integration: PropTypes.shape( {
 		name: PropTypes.string,
 		claim: PropTypes.string,
+		learnMoreLink: PropTypes.string,
+		logoLink: PropTypes.string,
 		type: PropTypes.string,
 		slug: PropTypes.string,
 		description: PropTypes.string,
 		usps: PropTypes.array,
-		logo: PropTypes.func,
+		logo: PropTypes.func.isRequired,
 		isNew: PropTypes.bool,
 	} ).isRequired,
 	isActive: PropTypes.bool,

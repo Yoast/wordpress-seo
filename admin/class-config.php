@@ -40,6 +40,12 @@ class WPSEO_Admin_Pages {
 	 * Make sure the needed scripts are loaded for admin pages.
 	 */
 	public function init() {
+		$page = filter_input( INPUT_GET, 'page' );
+		if ( $page === 'wpseo_settings' ) {
+			// Bail, this is managed in `Yoast\WP\SEO\Integrations\Settings_Integration`.
+			return;
+		}
+
 		if ( filter_input( INPUT_GET, 'wpseo_reset_defaults' ) && wp_verify_nonce( filter_input( INPUT_GET, 'nonce' ), 'wpseo_reset_defaults' ) && current_user_can( 'manage_options' ) ) {
 			WPSEO_Options::reset();
 		}

@@ -9,8 +9,8 @@
   },
   "dependencies": {
     "@draft-js-plugins/mention": "^5.0.0",
-    "@headlessui/react": "^1.5",
-    "@heroicons/react": "^1.0.5",
+    "@headlessui/react": "^1.6.6",
+    "@heroicons/react": "^1.0.6",
     "@wordpress/blocks": "^11.1.2",
     "@wordpress/data": "^4.10.0",
     "@wordpress/dom-ready": "^2.10.0",
@@ -45,7 +45,11 @@
     "select2": "4.0.13",
     "styled-components": "^5.2.1",
     "yoast-components": "^5.24.0",
-    "yoastseo": "^1.91.0"
+    "yoastseo": "^1.91.0",
+    "formik": "^2.2.9",
+    "@reduxjs/toolkit": "^1.8.3",
+    "react-router-dom": "^6.3.0",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@babel/core": "^7.17.9",

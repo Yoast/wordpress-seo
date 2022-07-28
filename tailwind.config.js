@@ -5,6 +5,7 @@ module.exports = {
 	content: [
 		"./packages/ui-library/src/**/!(stories).js",
 		"./packages/js/src/**/*.js",
+		"./src/integrations/settings-integration.php",
 	],
 	safelist: process.env.NODE_ENV === "development" ? [ { pattern: /.*/, variants: [ 'sm', 'md', 'lg', 'xl', '2xl' ] } ] : [
 		"yst-border-l",
