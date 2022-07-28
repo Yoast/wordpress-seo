@@ -3,7 +3,6 @@ import {
 	potentiallyHarmfulCareful,
 	potentiallyHarmfulOrBeSpecific,
 	potentiallyHarmfulUnless,
-	potentiallyHarmfulUnlessNonInclusive,
 } from "./feedbackStrings";
 import { isFollowedByException } from "../helpers/isFollowedByException";
 import { isPrecededByException } from "../helpers/isPrecededByException";
