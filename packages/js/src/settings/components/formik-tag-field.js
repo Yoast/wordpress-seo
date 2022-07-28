@@ -12,7 +12,7 @@ import PropTypes from "prop-types";
 const FormikTagField = props => {
 	const [ { value, ...field }, , { setTouched, setValue } ] = useField( props );
 	const tags = useMemo( () => reduce(
-		value.split( "," ),
+		value?.split( "," ) || [],
 		( acc, item ) => {
 			const trimmed = trim( item );
 			return trimmed ? [ ...acc, trimmed ] : acc;
