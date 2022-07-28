@@ -322,7 +322,7 @@ const disabilityAssessments =  [
 	{
 		identifier: "crazy",
 		nonInclusivePhrases: [ "crazy" ],
-		inclusiveAlternatives: "baffling, startling, surprising, shocking, wild, confusing, unpredictable",
+		inclusiveAlternatives: "baffling, startling, chaotic, shocking, confusing, reckless, unpredictable",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
@@ -330,7 +330,7 @@ const disabilityAssessments =  [
 	{
 		identifier: "psychopathic",
 		nonInclusivePhrases: [ "psychopath", "psychopathic" ],
-		inclusiveAlternatives: "selfish, toxic, manipulative, wild, confusing, unpredictable, impulsive, reckless, out of control",
+		inclusiveAlternatives: "toxic, manipulative, unpredictable, impulsive, reckless, out of control",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
@@ -378,7 +378,7 @@ const disabilityAssessments =  [
 	{
 		identifier: "psycho",
 		nonInclusivePhrases: [ "psycho" ],
-		inclusiveAlternatives: "selfish, toxic, manipulative, wild, confusing, unpredictable, impulsive, reckless, out of control",
+		inclusiveAlternatives: "toxic, distraught, unpredictable, reckless, out of control",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
@@ -386,7 +386,7 @@ const disabilityAssessments =  [
 	{
 		identifier: "neurotic",
 		nonInclusivePhrases: [ "neurotic", "lunatic" ],
-		inclusiveAlternatives: "baffling, startling, surprising, shocking, wild, confusing, unpredictable",
+		inclusiveAlternatives: "distraught, unstable, startling, confusing, baffling",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
