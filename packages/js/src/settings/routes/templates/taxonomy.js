@@ -22,8 +22,8 @@ import { useSelectSettings } from "../../store";
  * @returns {JSX.Element} The taxonomy element.
  */
 const Taxonomy = ( { name, label, singularLabel } ) => {
-	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [ name ], name );
-	const recommendedReplacementVariables = useSelectSettings( "selectRecommendedReplacementVariablesFor", [ name ], name );
+	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [ name ], name, "term-in-custom-taxonomy" );
+	const recommendedReplacementVariables = useSelectSettings( "selectRecommendedReplacementVariablesFor", [ name ], name, "term-in-custom-taxonomy" );
 
 	const recommendedSize = useMemo( () => createInterpolateElement(
 		sprintf(
