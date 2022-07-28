@@ -189,9 +189,10 @@ const genderAssessments = [
 	{
 		identifier: "transgendered",
 		nonInclusivePhrases: [ "transgendered" ],
-		inclusiveAlternatives: "transgender, trans",
+		inclusiveAlternatives: [ "<i>transgender, trans</i>", "transitioned, went through a gender transition" ],
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmful,
+		feedbackFormat: [ potentiallyHarmful.slice( 0, -1 ), "if referring to a person. If referring to a transition process," +
+		" consider using an alternative such as <i>%3$s</i>." ].join( " " ),
 		learnMoreUrl: "https://yoa.st/",
 	},
 	{
