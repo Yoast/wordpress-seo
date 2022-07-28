@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Admin\Views;
 use Brain\Monkey\Filters;
 use Brain\Monkey\Functions;
 use Mockery;
+use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast_Feature_Toggle;
 use Yoast_Feature_Toggles;
@@ -196,7 +197,7 @@ class Yoast_Feature_Toggles_Test extends TestCase {
 	 * @param array $toggles Current array with integration toggle objects where each object
 	 *                       should have a `name`, `setting` and `label` property.
 	 *
-	 * @return Adjusted array with integration toggle objects.
+	 * @return array Adjusted array with integration toggle objects.
 	 */
 	public function toggle_filter_callback( $toggles ) {
 		$toggles[0]->order = 50;
