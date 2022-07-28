@@ -144,11 +144,11 @@ const genderAssessments = [
 			"If not, use \"%2$s\" instead.",
 		learnMoreUrl: "https://yoa.st/",
 	},
-	// Second alternative does not show up
+
 	{
 		identifier: "manHours",
 		nonInclusivePhrases: [ "man-hours" ],
-		inclusiveAlternatives: [ "person-hours", "business hours" ],
+		inclusiveAlternatives: "person-hours, business hours",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: exclusionary,
 		learnMoreUrl: "https://yoa.st/",
@@ -165,9 +165,9 @@ const genderAssessments = [
 	{
 		identifier: "transgenders",
 		nonInclusivePhrases: [ "transgenders" ],
-		inclusiveAlternatives: [ "trans people", "transgender people" ],
+		inclusiveAlternatives: "<i>trans people, transgender people</i>",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: derogatory,
+		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
 	},
 	{
