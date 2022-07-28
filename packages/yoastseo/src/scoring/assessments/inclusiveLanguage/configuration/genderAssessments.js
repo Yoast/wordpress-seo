@@ -1,4 +1,4 @@
-import { potentiallyHarmful, potentiallyHarmfulUnless } from "./feedbackStrings";
+import { alternative, potentiallyHarmful, potentiallyHarmfulUnless } from "./feedbackStrings";
 import { SCORES } from "./scores";
 
 const exclusionary = "Avoid using \"%1$s\" as it is exclusionary. " +
@@ -7,7 +7,7 @@ const potentiallyExclusionary = "Be careful when using \"%1$s\" as it is potenti
 	"Consider using an alternative, such as \"%2$s\" instead.";
 const exclusionaryUnless = "Be careful when using \"%1$s\" as it is exclusionary, " +
 	"unless you are sure the group you refer to only consists of \"%1$s\". If not, use \"%2$s\" instead.";
-const derogatory = "Avoid using \"%1$s\" as it is derogatory.";
+const derogatory = "Avoid using <i>%1$s</i> as it is derogatory.";
 
 const genderAssessments = [
 	{
@@ -167,7 +167,7 @@ const genderAssessments = [
 		nonInclusivePhrases: [ "transgenders" ],
 		inclusiveAlternatives: "<i>trans people, transgender people</i>",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmful,
+		feedbackFormat: [ derogatory, alternative ].join( " " ),
 		learnMoreUrl: "https://yoa.st/",
 	},
 	{
