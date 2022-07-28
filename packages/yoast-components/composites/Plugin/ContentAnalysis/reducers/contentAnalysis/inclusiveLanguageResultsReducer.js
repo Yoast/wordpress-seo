@@ -1,4 +1,8 @@
-import { UPDATE_INCLUSIVE_LANGUAGE_RESULT, SET_INCLUSIVE_LANGUAGE_RESULTS, SET_OVERALL_INCLUSIVE_LANGUAGE_SCORE } from "../../actions/contentAnalysis";
+import {
+	UPDATE_INCLUSIVE_LANGUAGE_RESULT,
+	SET_INCLUSIVE_LANGUAGE_RESULTS,
+	SET_OVERALL_INCLUSIVE_LANGUAGE_SCORE,
+} from "../../actions/contentAnalysis";
 import findIndex from "lodash/findIndex";
 import isUndefined from "lodash/isUndefined";
 

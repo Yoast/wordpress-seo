@@ -15,7 +15,6 @@ import getIndicatorForScore from "../../analysis/getIndicatorForScore";
 import { getIconForScore } from "./mapResults";
 import { LocationConsumer } from "@yoast/externals/contexts";
 import HelpLink from "../HelpLink";
-import ReadabilityResultsPortal from "../portals/ReadabilityResultsPortal";
 import Portal from "../portals/Portal";
 
 const AnalysisHeader = styled.span`

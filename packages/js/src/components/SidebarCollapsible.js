@@ -1,6 +1,7 @@
 import { useState } from "@wordpress/element";
 import { BetaBadge, SvgIcon } from "@yoast/components";
 import PropTypes from "prop-types";
+/* eslint-disable complexity */
 
 /**
  * Sidebar Collapsible component with default padding and separator
@@ -54,6 +55,7 @@ const SidebarCollapsible = ( props ) => {
 		{ isOpen && props.children }
 	</div>;
 };
+/* eslint-enable complexity */
 
 export default SidebarCollapsible;
 
