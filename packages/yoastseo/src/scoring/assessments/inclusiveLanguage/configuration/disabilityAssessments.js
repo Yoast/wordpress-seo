@@ -5,6 +5,7 @@ import {
 	potentiallyHarmfulUnless,
 } from "./feedbackStrings";
 import { isFollowedByException } from "../helpers/isFollowedByException";
+import { isPrecededByException } from "../helpers/isPrecededByException";
 import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
 import { SCORES } from "./scores";
 
@@ -256,19 +257,21 @@ const disabilityAssessments =  [
 		learnMoreUrl: "https://yoa.st/",
 	},
 	{
-		// Problematic, as it will also target the below phrase
 		identifier: "dumb",
 		nonInclusivePhrases: [ "dumb" ],
-		inclusiveAlternatives: [ "uninformed, ignorant, foolish, inconsiderate, insensible, irrational, reckless " +
-			"(if used in the same sense as 'stupid')", "deaf people who don't speak" ],
+		inclusiveAlternatives: [ "<i>uninformed, ignorant, foolish, inconsiderate, irrational, reckless</i>" ],
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmfulTwoAlternatives,
+		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
+		rule: ( words, inclusivePhrases ) => {
+			return includesConsecutiveWords( words, inclusivePhrases )
+				.filter( isPrecededByException( words, [ "deaf and" ] ) )
+		},
 	},
 	{
 		identifier: "deaf",
 		nonInclusivePhrases: [ "deaf-mute", "deaf and dumb" ],
-		inclusiveAlternatives: "deaf",
+		inclusiveAlternatives: "<i>deaf</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
