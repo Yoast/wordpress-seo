@@ -6,8 +6,7 @@ import classNames from "classnames";
 import { Field, useFormikContext } from "formik";
 import { get, map } from "lodash";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
-import { FormikMediaSelectField, FormLayout } from "../components";
+import { FormikMediaSelectField, FormLayout, OpenGraphDisabledAlert } from "../components";
 
 /**
  * UI library's inline-block variant Radio, but with a dangerously set inner HTML label.
@@ -58,8 +57,6 @@ Radio.propTypes = {
  * @returns {JSX.Element} The site defaults route.
  */
 const SiteDefaults = () => {
-	const { values } = useFormikContext();
-	const { opengraph } = values.wpseo_social;
 	const separators = useMemo( () => get( window, "wpseoScriptData.separators", {} ), [] );
 	const siteDefaultsInfoAlertText = useMemo( () => createInterpolateElement(
 		sprintf(
@@ -69,20 +66,6 @@ const SiteDefaults = () => {
 			"</em>"
 		),
 		{ em: <em /> }
-	), [] );
-	const siteImageOpenGraphDisabledAlertText = useMemo( () => createInterpolateElement(
-		sprintf(
-			/* translators: %1$s expands to an opening emphasis tag. %2$s expands to a closing emphasis tag. */
-			__( "The %1$sSite image%2$s requires Open Graph data, which is currently disabled in the ‘Social sharing’ section in %3$sSite preferences%4$s.", "wordpress-seo" ),
-			"<em>",
-			"</em>",
-			"<link>",
-			"</link>"
-		),
-		{
-			em: <em />,
-			link: <Link to="/site-preferences#section-social-sharing" />,
-		}
 	), [] );
 	const siteImageRecommendedSize = useMemo( () => createInterpolateElement(
 		sprintf(
@@ -100,6 +83,9 @@ const SiteDefaults = () => {
 			strong: <strong className="yst-font-semibold" />,
 		}
 	), [] );
+
+	const { values } = useFormikContext();
+	const { opengraph } = values.wpseo_social;
 
 	return (
 		<FormLayout
@@ -140,7 +126,13 @@ const SiteDefaults = () => {
 					) ) }
 				</RadioGroup>
 				<hr className="yst-my-8" />
-				{ ! opengraph && <Alert variant="info" className="yst-mb-6">{ siteImageOpenGraphDisabledAlertText }</Alert> }
+				<OpenGraphDisabledAlert
+					isEnabled={ opengraph }
+					text={
+						/* translators: %1$s expands to an opening emphasis tag. %2$s expands to a closing emphasis tag. */
+						__( "The %1$sSite image%2$s requires Open Graph data, which is currently disabled in the ‘Social sharing’ section in %3$sSite preferences%4$s.", "wordpress-seo" )
+					}
+				/>
 				<FormikMediaSelectField
 					id="wpseo_social-og_default_image"
 					label={ __( "Site image", "wordpress-seo" ) }

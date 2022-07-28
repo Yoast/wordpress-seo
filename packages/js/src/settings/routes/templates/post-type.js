@@ -1,7 +1,8 @@
 import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Badge, SelectField, TextField, Title, ToggleField } from "@yoast/ui-library";
-import { Field } from "formik";
+import classNames from "classnames";
+import { Field, useFormikContext } from "formik";
 import PropTypes from "prop-types";
 import { addLinkToString } from "../../../helpers/stringHelpers";
 import {
@@ -11,6 +12,7 @@ import {
 	FormikReplacementVariableEditorField,
 	FormikValueChangeField,
 	FormLayout,
+	OpenGraphDisabledAlert,
 } from "../../components";
 import FormikTagField from "../../components/formik-tag-field";
 import { useSelectSettings } from "../../store";
@@ -46,6 +48,9 @@ const PostType = ( { name, label, singularLabel, hasArchive } ) => {
 			strong: <strong className="yst-font-semibold" />,
 		}
 	), [] );
+
+	const { values } = useFormikContext();
+	const { opengraph } = values.wpseo_social;
 
 	return (
 		<FormLayout title={ label }>
@@ -102,12 +107,14 @@ const PostType = ( { name, label, singularLabel, hasArchive } ) => {
 					singularLabel
 				) }
 			>
+				<OpenGraphDisabledAlert isEnabled={ opengraph } />
 				<FormikMediaSelectField
 					id={ `wpseo_titles-social-image-url-${ name }` }
 					label={ __( "Social image", "wordpress-seo" ) }
 					previewLabel={ recommendedSize }
 					mediaUrlName={ `wpseo_titles.social-image-url-${ name }` }
 					mediaIdName={ `wpseo_titles.social-image-id-${ name }` }
+					disabled={ ! opengraph }
 				/>
 				<FormikReplacementVariableEditorField
 					type="title"
@@ -116,6 +123,8 @@ const PostType = ( { name, label, singularLabel, hasArchive } ) => {
 					label={ __( "Social title", "wordpress-seo" ) }
 					replacementVariables={ replacementVariables }
 					recommendedReplacementVariables={ recommendedReplacementVariables }
+					className={ classNames( ! opengraph && "yst-opacity-50" ) }
+					isDisabled={ ! opengraph }
 				/>
 				<FormikReplacementVariableEditorField
 					type="description"
@@ -124,7 +133,8 @@ const PostType = ( { name, label, singularLabel, hasArchive } ) => {
 					label={ __( "Social description", "wordpress-seo" ) }
 					replacementVariables={ replacementVariables }
 					recommendedReplacementVariables={ recommendedReplacementVariables }
-					className="yst-replacevar--description"
+					className={ classNames( "yst-replacevar--description", ! opengraph && "yst-opacity-50" ) }
+					isDisabled={ ! opengraph }
 				/>
 			</FieldsetLayout>
 			<hr className="yst-my-8" />

@@ -1,6 +1,8 @@
 import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Badge, ToggleField } from "@yoast/ui-library";
+import classNames from "classnames";
+import { useFormikContext } from "formik";
 import PropTypes from "prop-types";
 import {
 	FieldsetLayout,
@@ -9,6 +11,7 @@ import {
 	FormikReplacementVariableEditorField,
 	FormikValueChangeField,
 	FormLayout,
+	OpenGraphDisabledAlert,
 } from "../../components";
 import { useSelectSettings } from "../../store";
 
@@ -48,6 +51,9 @@ const Taxonomy = ( { name, label, singularLabel } ) => {
 			code: <code>/category/</code>,
 		}
 	), [] );
+
+	const { values } = useFormikContext();
+	const { opengraph } = values.wpseo_social;
 
 	return (
 		<FormLayout
@@ -109,12 +115,14 @@ const Taxonomy = ( { name, label, singularLabel } ) => {
 					singularLabel
 				) }
 			>
+				<OpenGraphDisabledAlert isEnabled={ opengraph } />
 				<FormikMediaSelectField
 					id={ `wpseo_titles-social-image-url-tax-${ name }` }
 					label={ __( "Social image", "wordpress-seo" ) }
 					previewLabel={ recommendedSize }
 					mediaUrlName={ `wpseo_titles.social-image-url-tax-${ name }` }
 					mediaIdName={ `wpseo_titles.social-image-id-tax-${ name }` }
+					disabled={ ! opengraph }
 				/>
 				<FormikReplacementVariableEditorField
 					type="title"
@@ -123,6 +131,8 @@ const Taxonomy = ( { name, label, singularLabel } ) => {
 					label={ __( "Social title", "wordpress-seo" ) }
 					replacementVariables={ replacementVariables }
 					recommendedReplacementVariables={ recommendedReplacementVariables }
+					className={ classNames( ! opengraph && "yst-opacity-50" ) }
+					isDisabled={ ! opengraph }
 				/>
 				<FormikReplacementVariableEditorField
 					type="description"
@@ -131,7 +141,8 @@ const Taxonomy = ( { name, label, singularLabel } ) => {
 					label={ __( "Social description", "wordpress-seo" ) }
 					replacementVariables={ replacementVariables }
 					recommendedReplacementVariables={ recommendedReplacementVariables }
-					className="yst-replacevar--description"
+					className={ classNames( "yst-replacevar--description", ! opengraph && "yst-opacity-50" ) }
+					isDisabled={ ! opengraph }
 				/>
 			</FieldsetLayout>
 			<hr className="yst-my-8" />
