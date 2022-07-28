@@ -213,7 +213,7 @@ const disabilityAssessments =  [
 	{
 		identifier: "fellOnDeafEars",
 		nonInclusivePhrases: [ "fell on deaf ears" ],
-		inclusiveAlternatives: "was not addressed",
+		inclusiveAlternatives: "<i>was not addressed, was ignored, was disregarded</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
@@ -221,7 +221,7 @@ const disabilityAssessments =  [
 	{
 		identifier: "turnOnBlindEye",
 		nonInclusivePhrases: [ "turn a blind eye" ],
-		inclusiveAlternatives: "ignore",
+		inclusiveAlternatives: "<i>ignore, pretend not to notice</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
@@ -229,7 +229,7 @@ const disabilityAssessments =  [
 	{
 		identifier: "blindLeadingBlind",
 		nonInclusivePhrases: [ "the blind leading the blind" ],
-		inclusiveAlternatives: "ignorant, insensitive, misguided",
+		inclusiveAlternatives: "<i>ignorant, misguided, incompetent, unqualified, insensitive, unaware</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
@@ -237,7 +237,7 @@ const disabilityAssessments =  [
 	{
 		identifier: "disabledBathroom",
 		nonInclusivePhrases: [ "disabled bathroom", "disabled bathrooms", "handicap bathroom", "handicap bathrooms" ],
-		inclusiveAlternatives: "accessible bathroom(s)",
+		inclusiveAlternatives: "<i>accessible bathroom(s)</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
@@ -245,7 +245,7 @@ const disabilityAssessments =  [
 	{
 		identifier: "disabledToilet",
 		nonInclusivePhrases: [ "disabled toilet", "disabled toilets", "handicap toilet", "handicap toilets" ],
-		inclusiveAlternatives: "accessible toilet(s)",
+		inclusiveAlternatives: "<i>accessible toilet(s)</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
@@ -253,7 +253,7 @@ const disabilityAssessments =  [
 	{
 		identifier: "disabledStall",
 		nonInclusivePhrases: [ "disabled stall", "disabled stalls", "handicap stall", "handicap stalls" ],
-		inclusiveAlternatives: "accessible stall(s)",
+		inclusiveAlternatives: "<i>accessible stall(s)</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
