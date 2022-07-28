@@ -5,25 +5,25 @@ const otherAssessments = [
 	{
 		identifier: "homosexuals",
 		nonInclusivePhrases: [ "homosexuals" ],
-		inclusiveAlternatives: "gay men, queer people, lesbians",
+		inclusiveAlternatives: "<i>gay men, queer people, lesbians</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: "Be careful when using \"%1$s\" as it may overgeneralize or be harmful. " +
-						"Instead, be specific about the group you are referring to (e.g. \"%2$s\").",
+		feedbackFormat: "Be careful when using <i>%1$s</i> as it may overgeneralize or be harmful. " +
+						"Instead, be specific about the group you are referring to (e.g. %2$s).",
 		learnMoreUrl: "https://yoa.st/",
 	},
 	{
 		identifier: "minorities",
 		nonInclusivePhrases: [ "minorities" ],
-		inclusiveAlternatives: [ "marginalized groups", "underrepresented groups", "gender and sexuality minorities" ],
+		inclusiveAlternatives: [ "<i>marginalized groups</i>", "<i>underrepresented groups</i>", "<i>gender and sexuality minorities</i>" ],
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: "Be careful when using \"%1$s\" as it is potentially overgeneralizing. " +
-						"Consider using an alternative, such as \"%2$s\", \"%3$s\" or specific minorities, such as \"%4$s\" instead.",
+		feedbackFormat: "Be careful when using <i>%1$s</i> as it is potentially overgeneralizing. " +
+						"Consider using an alternative, such as %2$s, %3$s or specific minorities, such as %4$s.",
 		learnMoreUrl: "https://yoa.st/",
 	},
 	{
 		identifier: "ex-con",
 		nonInclusivePhrases: [ "ex-con", "ex-cons" ],
-		inclusiveAlternatives: "people who have had felony convictions, people who have been incarcerated",
+		inclusiveAlternatives: "<i>people who have had felony convictions, people who have been incarcerated</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
@@ -31,7 +31,7 @@ const otherAssessments = [
 	{
 		identifier: "felon",
 		nonInclusivePhrases: [ "felon", "felons" ],
-		inclusiveAlternatives: "people with felony convictions, people who have been incarcerated",
+		inclusiveAlternatives: "<i>people with felony convictions, people who have been incarcerated</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulCareful,
 		learnMoreUrl: "https://yoa.st/",
@@ -39,7 +39,7 @@ const otherAssessments = [
 	{
 		identifier: "ex-offender",
 		nonInclusivePhrases: [ "ex-offender", "ex-offenders" ],
-		inclusiveAlternatives: "formerly incarcerated person",
+		inclusiveAlternatives: "<i>formerly incarcerated person</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",

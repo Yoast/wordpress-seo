@@ -5,7 +5,7 @@ const sesAssessments = [
 	{
 		identifier: "illegalImmigrants",
 		nonInclusivePhrases: [ "illegal immigrants", "illegal aliens" ],
-		inclusiveAlternatives: "people who are undocumented, undocumented people",
+		inclusiveAlternatives: "<i>undocumented people</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
@@ -13,7 +13,7 @@ const sesAssessments = [
 	{
 		identifier: "povertyStricken",
 		nonInclusivePhrases: [ "poverty stricken" ],
-		inclusiveAlternatives: "people whose income is below the poverty threshold, people with low-income",
+		inclusiveAlternatives: "<i>people whose income is below the poverty threshold, people with low-income</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
@@ -21,7 +21,7 @@ const sesAssessments = [
 	{
 		identifier: "welfareReliant",
 		nonInclusivePhrases: [ "welfare reliant" ],
-		inclusiveAlternatives: "receiving welfare",
+		inclusiveAlternatives: "<i>receiving welfare</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
@@ -29,7 +29,7 @@ const sesAssessments = [
 	{
 		identifier: "prostitute",
 		nonInclusivePhrases: [ "prostitute" ],
-		inclusiveAlternatives: "sex worker",
+		inclusiveAlternatives: "<i>sex worker</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulUnless,
 		learnMoreUrl: "https://yoa.st/",
