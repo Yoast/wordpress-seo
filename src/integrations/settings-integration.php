@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Integrations;
 
 use WP_Post_Type;
+use WP_Taxonomy;
 use WPSEO_Admin_Asset_Manager;
 use WPSEO_Admin_Editor_Specific_Replace_Vars;
 use WPSEO_Admin_Recommended_Replace_Vars;
@@ -17,6 +18,7 @@ use Yoast\WP\SEO\Config\Schema_Types;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
+use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 
 /**
  * Class Settings_Integration.
@@ -91,6 +93,13 @@ class Settings_Integration implements Integration_Interface {
 	protected $post_type_helper;
 
 	/**
+	 * Holds the Taxonomy_Helper.
+	 *
+	 * @var Taxonomy_Helper
+	 */
+	protected $taxonomy_helper;
+
+	/**
 	 * Holds the Product_Helper.
 	 *
 	 * @var Product_Helper
@@ -105,6 +114,7 @@ class Settings_Integration implements Integration_Interface {
 	 * @param Schema_Types              $schema_types        The Schema_Types.
 	 * @param Current_Page_Helper       $current_page_helper The Current_Page_Helper.
 	 * @param Post_Type_Helper          $post_type_helper    The Post_Type_Helper.
+	 * @param Taxonomy_Helper           $taxonomy_helper     The Taxonomy_Helper.
 	 * @param Product_Helper            $product_helper      The Product_Helper.
 	 */
 	public function __construct(
@@ -113,12 +123,14 @@ class Settings_Integration implements Integration_Interface {
 		Schema_Types $schema_types,
 		Current_Page_Helper $current_page_helper,
 		Post_Type_Helper $post_type_helper,
+		Taxonomy_Helper $taxonomy_helper,
 		Product_Helper $product_helper
 	) {
 		$this->asset_manager       = $asset_manager;
 		$this->replace_vars        = $replace_vars;
 		$this->schema_types        = $schema_types;
 		$this->current_page_helper = $current_page_helper;
+		$this->taxonomy_helper     = $taxonomy_helper;
 		$this->post_type_helper    = $post_type_helper;
 		$this->product_helper      = $product_helper;
 	}
@@ -256,6 +268,7 @@ class Settings_Integration implements Integration_Interface {
 	protected function get_script_data() {
 		$settings   = $this->get_settings();
 		$post_types = $this->get_post_types();
+		$taxonomies = $this->get_taxonomies();
 
 		return [
 			'settings'             => $settings,
@@ -276,6 +289,7 @@ class Settings_Integration implements Integration_Interface {
 			],
 			'linkParams'           => WPSEO_Shortlinker::get_query_params(),
 			'postTypes'            => $post_types,
+			'taxonomies'           => $taxonomies,
 		];
 	}
 
@@ -413,20 +427,60 @@ class Settings_Integration implements Integration_Interface {
 	 * @return array The transformed post type.
 	 */
 	protected function transform_post_type( WP_Post_Type $post_type ) {
-		$route = $post_type->name;
-		if ( $post_type->rewrite ) {
-			$route = $post_type->rewrite['slug'];
-		}
-		if ( $post_type->rest_base ) {
-			$route = $post_type->rest_base;
-		}
-
 		return [
 			'name'          => $post_type->name,
-			'route'         => $route,
+			'route'         => $this->get_route( $post_type->name, $post_type->rewrite, $post_type->rest_base ),
 			'label'         => $post_type->label,
 			'singularLabel' => $post_type->labels->singular_name,
 			'hasArchive'    => $this->post_type_helper->has_archive( $post_type ),
 		];
+	}
+
+	/**
+	 * Creates the taxonomies to represent.
+	 *
+	 * @return array The taxonomies.
+	 */
+	protected function get_taxonomies() {
+		$taxonomies = $this->taxonomy_helper->get_public_taxonomies( 'objects' );
+
+		return \array_map( [ $this, 'transform_taxonomy' ], $taxonomies );
+	}
+
+	/**
+	 * Transforms a WP_Taxonomy to an array with the needed info.
+	 *
+	 * @param WP_Taxonomy $taxonomy The taxonomy.
+	 *
+	 * @return array The transformed taxonomy.
+	 */
+	protected function transform_taxonomy( WP_Taxonomy $taxonomy ) {
+		return [
+			'name'          => $taxonomy->name,
+			'route'         => $this->get_route( $taxonomy->name, $taxonomy->rewrite, $taxonomy->rest_base ),
+			'label'         => $taxonomy->label,
+			'singularLabel' => $taxonomy->labels->singular_name,
+		];
+	}
+
+	/**
+	 * Gets the route from a name, rewrite and rest_base.
+	 *
+	 * @param string $name      The name.
+	 * @param array  $rewrite   The rewrite data.
+	 * @param string $rest_base The rest base.
+	 *
+	 * @return string The route.
+	 */
+	protected function get_route( $name, $rewrite, $rest_base ) {
+		$route = $name;
+		if ( isset( $rewrite['slug'] ) ) {
+			$route = $rewrite['slug'];
+		}
+		if ( ! empty( $rest_base ) ) {
+			$route = $rest_base;
+		}
+
+		return $route;
 	}
 }
