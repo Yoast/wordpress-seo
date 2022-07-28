@@ -79,7 +79,8 @@ const genderAssessments = [
 		nonInclusivePhrases: [ "preferred pronouns" ],
 		inclusiveAlternatives: "<i>pronouns</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: [ potentiallyHarmful.slice( 0, -1 ), ", unless referring to someone who explicitly wants to use this term to describe their own pronouns." ].join( "" ),
+		feedbackFormat: [ potentiallyHarmful.slice( 0, -1 ), ", unless referring to someone who explicitly wants to use" +
+		" this term to describe their own pronouns." ].join( "" ),
 		learnMoreUrl: "https://yoa.st/",
 	},
 	{
@@ -172,7 +173,8 @@ const genderAssessments = [
 		nonInclusivePhrases: [ "preferred name" ],
 		inclusiveAlternatives: "<i>name, affirming name</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: [ potentiallyHarmful.slice( 0, -1 ), ", unless referring to someone who explicitly wants to use this term to describe their own name." ].join( "" ),
+		feedbackFormat: [ potentiallyHarmful.slice( 0, -1 ), ", unless referring to someone who explicitly wants to use" +
+		" this term to describe their own name." ].join( "" ),
 		learnMoreUrl: "https://yoa.st/",
 	},
 	{
