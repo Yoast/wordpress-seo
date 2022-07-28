@@ -10,6 +10,7 @@ import replacementVariables, {
 	replacementVariablesSelectors,
 } from "./replacement-variables";
 import schema, { createInitialSchemaState, schemaActions, schemaSelectors } from "./schema";
+import taxonomies, { createInitialTaxonomiesState, taxonomiesActions, taxonomiesSelectors } from "./taxonomies";
 
 /** @typedef {import("@wordpress/data/src/types").WPDataStore} WPDataStore */
 
@@ -36,6 +37,7 @@ const createStore = ( { initialState } ) => {
 			...preferencesActions,
 			...replacementVariablesActions,
 			...schemaActions,
+			...taxonomiesActions,
 		},
 		selectors: {
 			...linkParamsSelectors,
@@ -44,6 +46,7 @@ const createStore = ( { initialState } ) => {
 			...preferencesSelectors,
 			...replacementVariablesSelectors,
 			...schemaSelectors,
+			...taxonomiesSelectors,
 		},
 		initialState: merge(
 			{},
@@ -54,6 +57,7 @@ const createStore = ( { initialState } ) => {
 				preferences: createInitialPreferencesState(),
 				replacementVariables: createInitialReplacementVariablesState(),
 				schema: createInitialSchemaState(),
+				taxonomies: createInitialTaxonomiesState(),
 			},
 			initialState
 		),
@@ -63,6 +67,7 @@ const createStore = ( { initialState } ) => {
 			preferences,
 			replacementVariables,
 			schema,
+			taxonomies,
 		} ),
 		controls: {},
 	} );
