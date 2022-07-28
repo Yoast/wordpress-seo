@@ -16,12 +16,10 @@ describe( "Disability assessments", function() {
 		expect( isApplicable ).toBeTruthy();
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual(
-			"Be careful when using \"sociopath\", unless talking about the specific medical condition " +
-			"(in which case, use \"Person with antisocial personality disorder\"). " +
-			"If you are not referencing the medical condition, consider other alternatives " +
-			"to describe the trait or behavior such as \"selfish, toxic, manipulative, wild, " +
-			"confusing, unpredictable, impulsive, reckless, out of control\". " +
-			"<a href='https://yoa.st/' target='_blank'>Learn more.</a>" );
+			"Avoid using <i>sociopath</i>, unless talking about the specific medical condition (in which case," +
+			" use <i>person with antisocial personality disorder</i>). If you are not referencing the medical condition," +
+			" consider other alternatives to describe the trait or behavior, such as <i>toxic, manipulative, cruel</i>." +
+			" <a href='https://yoa.st/' target='_blank'>Learn more.</a>" );
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
 		expect( assessor.getMarks() ).toEqual( [ new Mark( {
 			original: "Look at that sociopath.",
@@ -40,10 +38,9 @@ describe( "Disability assessments", function() {
 		expect( isApplicable ).toBeTruthy();
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual(
-			"Be careful when using \"an alcoholic\" as it is potentially harmful. " +
-			"Consider using an alternative, such as \"person with alcohol use disorder\" instead, unless referring to " +
-			"someone who explicitly wants to be referred to with this term. " +
-			"<a href='https://yoa.st/' target='_blank'>Learn more.</a>" );
+			"Be careful when using <i>an alcoholic</i> as it is potentially harmful. Consider using an alternative," +
+			" such as <i>person with alcohol use disorder</i>, unless referring to someone who explicitly wants to be referred" +
+			" to with this term. <a href='https://yoa.st/' target='_blank'>Learn more.</a>" );
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
 		expect( assessor.getMarks() ).toEqual( [ new Mark( {
 			original: "An alcoholic should just drink less.",
