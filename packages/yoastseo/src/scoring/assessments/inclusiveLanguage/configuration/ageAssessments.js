@@ -5,7 +5,8 @@ import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
 import { SCORES } from "./scores";
 
 const specificAgeGroup = "Or, if possible, be specific about the group you are referring to (e.g. <i>people older than 70</i>).";
-const characteristicIfKnown = "Consider using an alternative, such as a specific characteristic or experience if it is known (e.g. <i>has Alzheimer's</i>).";
+const characteristicIfKnown = "Consider using an alternative, such as a specific characteristic or experience if it is known" +
+	" (e.g. <i>has Alzheimer's</i>).";
 
 const assessments = [
 	{
