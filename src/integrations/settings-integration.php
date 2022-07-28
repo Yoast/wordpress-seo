@@ -262,7 +262,6 @@ class Settings_Integration implements Integration_Interface {
 			'disabledSettings'     => $this->get_disabled_settings( $settings ),
 			'endpoint'             => \admin_url( 'options.php' ),
 			'nonce'                => \wp_create_nonce( 'wpseo_settings-options' ),
-			'users'                => \get_users( [ 'fields' => [ 'ID', 'display_name' ] ] ),
 			'userEditUrl'          => \admin_url( 'user-edit.php' ),
 			'separators'           => WPSEO_Option_Titles::get_instance()->get_separator_options_for_display(),
 			'replacementVariables' => $this->get_replacement_variables(),
