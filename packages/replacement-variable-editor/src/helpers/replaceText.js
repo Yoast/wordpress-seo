@@ -138,3 +138,36 @@ export const moveCaret = ( editorState, caretIndex, blockKey = "" ) => {
 
 	return EditorState.acceptSelection( editorState, newSelectionState );
 };
+
+/**
+ * Removes an entire emoji entity instead of 1 character of the emoji instance.
+ *
+ * @param {EditorState} editorState The Draft.js editor state
+ * @param {array} emoji The emoji to delete.
+ * @param {string} command If the button pressed is delete of backspace.
+ * @returns {EditorState} The new editor state.
+ */
+export const removeEmojiCompletely = ( editorState, emoji, command ) => {
+	const selection = editorState.getSelection();
+	const contentState = editorState.getCurrentContent();
+	const startOffset = selection.getStartOffset();
+	const block = contentState.getBlockForKey( selection.getStartKey() );
+
+	const emojiLength = emoji[ emoji.length - 1 ].length;
+
+	const anchorOffset = ( command === "backspace" ) ? startOffset - emojiLength : startOffset + emojiLength;
+	const emojiSelection = new SelectionState( {
+		anchorOffset,
+		anchorKey: block.getKey(),
+		focusOffset: startOffset,
+		focusKey: block.getKey(),
+		isBackward: ( command === "delete" ),
+		hasFocus: selection.getHasFocus(),
+	} );
+
+	return EditorState.push(
+		editorState,
+		Modifier.replaceText( contentState, emojiSelection, "" ),
+		"remove-range"
+	);
+};

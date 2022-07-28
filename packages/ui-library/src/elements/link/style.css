@@ -4,6 +4,7 @@
 			@apply
 			yst-text-indigo-600
 			yst-cursor-pointer
+			yst-underline
 
 			hover:yst-text-indigo-700;
 		}
@@ -15,6 +16,10 @@
 
 		.yst-link--primary {
 			@apply yst-text-primary-500 hover:yst-text-primary-600;
+		}
+
+		.yst-link--error {
+			@apply yst-text-red-600 hover:yst-text-red-700;
 		}
 	}
 }

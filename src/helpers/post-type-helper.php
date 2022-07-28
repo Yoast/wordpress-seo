@@ -116,7 +116,7 @@ class Post_Type_Helper {
 	/**
 	 * Checks if the post type with the given name has an archive page.
 	 *
-	 * @param WP_Post_Type|string $post_type The name of the post type to check.
+	 * @param \WP_Post_Type|string $post_type The name of the post type to check.
 	 *
 	 * @return bool True when the post type has an archive page.
 	 */

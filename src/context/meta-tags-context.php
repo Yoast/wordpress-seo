@@ -656,7 +656,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 *
 	 * @return false|int
 	 */
-	private function fallback_to_site_logo() {
+	public function fallback_to_site_logo() {
 		$logo_id = \get_option( 'site_logo' );
 		if ( ! $logo_id ) {
 			$logo_id = \get_theme_mod( 'custom_logo', false );

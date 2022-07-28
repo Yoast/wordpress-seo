@@ -39,6 +39,7 @@ const getEntries = ( sourceDirectory = "./packages/js/src" ) => ( {
 	"quick-edit-handler": `${ sourceDirectory }/quick-edit-handler.js`,
 	"reindex-links": `${ sourceDirectory }/reindex-links.js`,
 	settings: `${ sourceDirectory }/settings.js`,
+	"new-settings": `${ sourceDirectory }/settings/initialize.js`,
 	"structured-data-blocks": `${ sourceDirectory }/structured-data-blocks.js`,
 	"term-edit": `${ sourceDirectory }/term-edit.js`,
 	"used-keywords-assessment": `${ sourceDirectory }/used-keywords-assessment.js`,

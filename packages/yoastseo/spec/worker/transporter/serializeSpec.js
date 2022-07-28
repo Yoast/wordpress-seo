@@ -65,7 +65,6 @@ describe( "serialize", () => {
 			_hasBetaBadge: false,
 			_hasJumps: false,
 			_parseClass: "AssessmentResult",
-			_hasBetaBadge: false,
 			editFieldName: "",
 			identifier: "",
 			marks: [],

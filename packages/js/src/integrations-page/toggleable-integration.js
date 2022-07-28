@@ -2,7 +2,7 @@ import { useCallback, useState } from "@wordpress/element";
 import { Card } from "./tailwind-components/card";
 import { getIsCardActive, getIsFreeIntegrationOrPremiumAvailable, getIsMultisiteAvailable } from "./helper";
 import { Badge, Button, Link, ToggleField } from "@yoast/ui-library";
-import { __ } from "@wordpress/i18n";
+import { __, sprintf } from "@wordpress/i18n";
 import { ArrowSmRightIcon, XIcon } from "@heroicons/react/solid";
 import { LockOpenIcon } from "@heroicons/react/outline";
 import { PropTypes } from "prop-types";
@@ -57,7 +57,27 @@ export const ToggleableIntegration = ( {
 	return (
 		<Card>
 			<Card.Header>
-				{ integration.logo && <IntegrationLogo alt={ `${ integration.name } logo` } className={ `${ getIsCardActive( integration, isActive ) ? "" : "yst-opacity-50 yst-filter yst-grayscale" }` } /> }
+				<Link
+					href={ integration.logoLink }
+					target="_blank"
+				>
+					{ integration.logo && <IntegrationLogo
+						alt={
+							sprintf(
+								/* translators: 1: Yoast SEO, 2: integration name */
+								__( "%1$s integrates with %2$s", "wordpress-seo" ),
+								"Yoast SEO",
+								integration.name
+							)
+						}
+						className={ `${ getIsCardActive( integration, isActive ) ? "" : "yst-opacity-50 yst-filter yst-grayscale" }` }
+					/> }
+					<span className="yst-sr-only">
+						{
+							__( "(Opens in a new browser tab)", "wordpress-seo" )
+						}
+					</span>
+				</Link>
 				{ ( ! isNetworkControlEnabled && isMultisiteAvailable ) && <Badge className="yst-absolute yst-top-2 yst-right-2">{ __( "Network Disabled", "wordpress-seo" ) }</Badge> }
 				{ ( isNetworkControlEnabled && integration.isNew ) && <Badge className="yst-absolute yst-top-2 yst-right-2">{ __( "New", "wordpress-seo" ) }</Badge> }
 			</Card.Header>
@@ -130,6 +150,7 @@ ToggleableIntegration.propTypes = {
 		name: PropTypes.string,
 		claim: PropTypes.string,
 		learnMoreLink: PropTypes.string,
+		logoLink: PropTypes.string,
 		type: PropTypes.string,
 		slug: PropTypes.string,
 		description: PropTypes.string,
