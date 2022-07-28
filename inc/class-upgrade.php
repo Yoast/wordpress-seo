@@ -945,6 +945,7 @@ class WPSEO_Upgrade {
 	private function upgrade_196() {
 		WPSEO_Options::set( 'ryte_indexability', false );
 		WPSEO_Options::set( 'allow_ryte_indexability', false );
+		wp_clear_scheduled_hook( 'wpseo_ryte_fetch' );
 	}
 
 	/**
