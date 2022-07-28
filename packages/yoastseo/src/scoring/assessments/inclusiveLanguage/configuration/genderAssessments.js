@@ -165,9 +165,9 @@ const genderAssessments = [
 	{
 		identifier: "transgenders",
 		nonInclusivePhrases: [ "transgenders" ],
-		inclusiveAlternatives: "trans people, transgender people",
+		inclusiveAlternatives: "<i>trans people, transgender people</i>",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: derogatory,
+		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
 	},
 	{
