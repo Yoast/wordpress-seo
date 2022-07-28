@@ -1,12 +1,14 @@
 /* eslint-disable complexity */
 import { PhotographIcon } from "@heroicons/react/outline";
+import { useDispatch } from "@wordpress/data";
 import { useCallback, useEffect, useMemo, useState } from "@wordpress/element";
-import { __, sprintf } from "@wordpress/i18n";
+import { __ } from "@wordpress/i18n";
 import { Button, Label, Link, useDescribedBy } from "@yoast/ui-library";
 import classNames from "classnames";
 import { Field, useFormikContext } from "formik";
 import { get, keys } from "lodash";
 import PropTypes from "prop-types";
+import { STORE_NAME, useSelectSettings } from "../store";
 
 const classNameMap = {
 	variant: {
@@ -17,13 +19,6 @@ const classNameMap = {
 };
 
 /**
- * @returns {Object} The supported formats.
- */
-const getSupportedFormats = () => ( {
-	image: __( "JPG, PNG, WEBP and GIF", "wordpress-seo" ),
-} );
-
-/**
  * @param {string} [label] Label.
  * @param {string} [description] Description.
  * @param {JSX.Element} [icon] Icon to show in select.
@@ -31,8 +26,8 @@ const getSupportedFormats = () => ( {
  * @param {boolean} [disabled] Disabled.
  * @param {string} [libraryType] Media type that should show in WP library, ie. "image" or "video".
  * @param {string} [variant] Variant.
- * @param {string} mediaUrlName Name for the hidden image url field.
- * @param {string} mediaIdName Name for the hidden image id field.
+ * @param {string} mediaUrlName Name for the hidden media url field.
+ * @param {string} mediaIdName Name for the hidden media id field.
  * @param {string} previewLabel Label for the preview button.
  * @param {string} [selectLabel] Label for the select button.
  * @param {string} [replaceLabel] Label for the replace button.
@@ -56,50 +51,41 @@ const FormikMediaSelectField = ( {
 	removeLabel = __( "Remove image", "wordpress-seo" ),
 	className = "",
 } ) => {
-	const { values, setFieldValue, setFieldTouched, setFieldError, errors } = useFormikContext();
+	const { values, setFieldValue, setFieldTouched, errors } = useFormikContext();
 	const [ wpMediaLibrary, setWpMediaLibrary ] = useState( null );
-	const [ mediaMeta, setMediaMeta ] = useState( {} );
 	const wpMedia = useMemo( () => get( window, "wp.media", null ), [] );
 	const mediaId = useMemo( () => get( values, mediaIdName, "" ), [ values, mediaIdName ] );
 	const mediaUrl = useMemo( () => get( values, mediaUrlName, "" ), [ values, mediaUrlName ] );
+	const media = useSelectSettings( "selectMediaById", [ mediaId ], mediaId );
+	const { fetchMedia, addOneMedia } = useDispatch( STORE_NAME );
 	const error = useMemo( () => get( errors, mediaIdName, "" ), [ errors ] );
 	const { ids, describedBy } = useDescribedBy( id, { description, error } );
-	const supportedFormats = useMemo( () => getSupportedFormats(), [] );
 
 	const handleSelectMediaClick = useCallback( () => wpMediaLibrary?.open(), [ wpMediaLibrary ] );
 	const handleRemoveMediaClick = useCallback( () => {
-		// Update local image meta state.
-		setMediaMeta( {} );
-
-		// Update Formik state.
+		// Update Formik state, but only validate on type.
 		setFieldTouched( mediaUrlName, true, false );
-		setFieldValue( mediaUrlName, "" );
+		setFieldValue( mediaUrlName, "", false );
 
 		setFieldTouched( mediaIdName, true, false );
 		setFieldValue( mediaIdName, "" );
-	}, [ setFieldTouched, setFieldValue, setMediaMeta, mediaUrlName, mediaIdName ] );
-	const validateType = useCallback( type => {
-		// Clear or add error based on accepted media types.
-		setFieldError( mediaIdName, libraryType === type ? "" : sprintf(
-			__( "The selected media type is not valid. Supported formats are: %1$s.", "wordpress-seo" ),
-			supportedFormats[ libraryType ]
-		) );
-	}, [ setFieldError, mediaIdName, libraryType, supportedFormats ] );
+	}, [ setFieldTouched, setFieldValue, mediaUrlName, mediaIdName ] );
 	const handleMediaSelect = useCallback( () => {
-		const media = wpMediaLibrary.state()?.get( "selection" )?.first()?.toJSON() || {};
+		const selectedMedia = wpMediaLibrary.state()?.get( "selection" )?.first()?.toJSON() || {};
 
-		// Update local image meta state.
-		setMediaMeta( { alt: media.alt } );
-
-		// Update Formik state.
+		// Update Formik state, but only validate on type.
 		setFieldTouched( mediaUrlName, true, false );
-		setFieldValue( mediaUrlName, media.url, false );
+		setFieldValue( mediaUrlName, selectedMedia.url, false );
 
 		setFieldTouched( mediaIdName, true, false );
-		setFieldValue( mediaIdName, media.id, false );
+		setFieldValue( mediaIdName, selectedMedia.id );
 
-		validateType( media.type );
-	}, [ wpMediaLibrary, setMediaMeta, setFieldTouched, mediaUrlName, setFieldValue, mediaUrlName, mediaIdName, validateType ] );
+		// Update Redux state, note that this entity structure is different from what WP API returns.
+		addOneMedia( {
+			...selectedMedia,
+			media_type: selectedMedia.type,
+		} );
+	}, [ wpMediaLibrary, setFieldTouched, setFieldValue, mediaUrlName, mediaIdName ] );
 
 	useEffect( () => {
 		if ( wpMedia ) {
@@ -117,10 +103,11 @@ const FormikMediaSelectField = ( {
 	}, [ wpMediaLibrary, handleMediaSelect ] );
 
 	useEffect( () => {
-		if ( wpMedia && mediaId ) {
-			wpMedia.attachment( mediaId ).fetch().then( attachment => validateType( attachment?.type ) );
+		// Fetch media on mount if missing. No dependencies by design.
+		if ( mediaId && ! media ) {
+			fetchMedia( [ mediaId ] );
 		}
-	}, [ wpMedia, mediaId, validateType ] );
+	}, [] );
 
 	return (
 		<fieldset className={ classNames( "yst-w-96", disabled && "yst-opacity-50" ) }>
@@ -154,7 +141,7 @@ const FormikMediaSelectField = ( {
 					<>
 						<span className="yst-sr-only">{ replaceLabel }</span>
 						<img
-							src={ mediaUrl } alt={ mediaMeta.alt || "" }
+							src={ mediaUrl } alt={ media?.alt || "" }
 							className="yst-object-cover yst-object-center yst-min-h-full yst-min-w-full"
 						/>
 					</>

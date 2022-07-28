@@ -3,7 +3,7 @@ import { TextField } from "@yoast/ui-library";
 import { Field } from "formik";
 import { addLinkToString } from "../../helpers/stringHelpers";
 import { FormLayout } from "../components";
-import { createLink } from "../helpers/url";
+import { createLink } from "../helpers";
 import { useSelectSettings } from "../store";
 
 /**

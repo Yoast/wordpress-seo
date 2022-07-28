@@ -11,6 +11,8 @@ import replacementVariables, {
 } from "./replacement-variables";
 import schema, { createInitialSchemaState, schemaActions, schemaSelectors } from "./schema";
 import taxonomies, { createInitialTaxonomiesState, taxonomiesActions, taxonomiesSelectors } from "./taxonomies";
+import media, { mediaActions, mediaSelectors, FETCH_MEDIA_ACTION_NAME } from "./media";
+import { mediaClient } from "../helpers";
 
 /** @typedef {import("@wordpress/data/src/types").WPDataStore} WPDataStore */
 
@@ -38,6 +40,7 @@ const createStore = ( { initialState } ) => {
 			...replacementVariablesActions,
 			...schemaActions,
 			...taxonomiesActions,
+			...mediaActions,
 		},
 		selectors: {
 			...linkParamsSelectors,
@@ -47,6 +50,7 @@ const createStore = ( { initialState } ) => {
 			...replacementVariablesSelectors,
 			...schemaSelectors,
 			...taxonomiesSelectors,
+			...mediaSelectors,
 		},
 		initialState: merge(
 			{},
@@ -68,8 +72,11 @@ const createStore = ( { initialState } ) => {
 			replacementVariables,
 			schema,
 			taxonomies,
+			media,
 		} ),
-		controls: {},
+		controls: {
+			[ FETCH_MEDIA_ACTION_NAME ]: async( { payload } ) => mediaClient.fetch( { data: { per_page: 100, include: payload } } ),
+		},
 	} );
 };
 
