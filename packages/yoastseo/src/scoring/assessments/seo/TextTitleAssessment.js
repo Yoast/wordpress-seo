@@ -76,19 +76,18 @@ class TextTitleAssessment extends Assessment {
 			};
 		}
 
-		// BAD if the is missing a title.
+		// BAD if the text is missing a title.
 		if ( ! textTitleData ) {
 			return {
 				score: this._config.scores.bad,
 				resultText: sprintf(
 					/**
 					 * Translators:
-					 * %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag,
-					 * %4$s expands to a link on yoast.com, %5$s expands to the anchor end tag.
+					 * %1$s and %3$s expands to a link on yoast.com, %2$s expands to the anchor end tag.
 					 */
 					__(
 						// eslint-disable-next-line max-len
-						"%1$sText title%2$s: It looks like your copy does not have a title yet. %4$sAdd one%5$s!",
+						"%1$sText title%2$s: It looks like your copy does not have a title yet. %3$sAdd one%2$s!",
 						"wordpress-seo"
 					),
 					this._config.urlTitle,
@@ -99,17 +98,6 @@ class TextTitleAssessment extends Assessment {
 			};
 		}
 	}
-
-	// /**
-	//  * Checks whether the paper has a text.
-	//  *
-	//  * @param {Paper} paper The paper to use for the assessment.
-	//  *
-	//  * @returns {boolean} True if the paper has a text.
-	//  */
-	// isApplicable( paper ) {
-	// 	return paper.hasText();
-	// }
 }
 
 export default TextTitleAssessment;
