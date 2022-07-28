@@ -6,7 +6,6 @@ import { useDispatch } from "@wordpress/data";
 import { Notifications as NotificationsComponent } from "@yoast/ui-library";
 import { STORE_NAME, useSelectSettings } from "../store";
 
-
 /**
  * The Notifications component shows general notifications in the top-middle of the window.
  * @returns {JSX.Element} The Notifications component.
@@ -19,7 +18,7 @@ const Notifications = () => {
 		onDismiss: removeNotification,
 		autoDismiss: notification.variant === "success" ? 5000 : null,
 		dismissScreenReaderLabel: __( "Dismiss", "wordpress-seo" ),
-	} ), [ notifications ] ) );
+	} ) ), [ notifications ] );
 
 	return <NotificationsComponent notifications={ enrichedNotifications } position="bottom-left" />;
 };

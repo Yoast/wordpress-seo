@@ -99,7 +99,7 @@ const SiteDefaults = () => {
 		{
 			strong: <strong className="yst-font-semibold" />,
 		}
-	) );
+	), [] );
 
 	return (
 		<FormLayout

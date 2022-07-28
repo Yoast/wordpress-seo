@@ -45,7 +45,7 @@ const PostType = ( { name, label, singularLabel, hasArchive } ) => {
 		{
 			strong: <strong className="yst-font-semibold" />,
 		}
-	) );
+	), [] );
 
 	return (
 		<FormLayout title={ label }>
