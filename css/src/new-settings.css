@@ -41,9 +41,7 @@
 		}
 
 		.yst-replacevar__label {
-			@apply
-			yst-mb-2
-			yst-cursor-pointer;
+			@apply yst-mb-2;
 
 			/* .yst-label */
 			@apply
