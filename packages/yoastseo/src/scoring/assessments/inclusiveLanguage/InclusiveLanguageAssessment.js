@@ -119,6 +119,9 @@ export default class InclusiveLanguageAssessment extends Assessment {
 	 * @returns {Array<Mark>} A list of marks that should be applied.
 	 */
 	getMarks() {
+		if ( ! this.foundPhrases ) {
+			return [];
+		}
 		return this.foundPhrases.map( foundPhrase =>
 			new Mark( {
 				original: foundPhrase.sentence,
