@@ -10,11 +10,11 @@ import { SCORES } from "./scores";
 
 const derogatory = "Avoid using <i>%1$s</i> as it is derogatory. Consider using an alternative, such as %2$s instead.";
 
-const medicalCondition = "Be careful when using <i>%1$s</i>, unless talking about the specific medical condition. " +
-	"If you are not referencing the medical condition, consider other alternatives to describe the trait or behavior such as %2$s.";
-const medicalConditionTwoAlternatives = "Be careful when using <i>%1$s</i>, unless talking about the specific medical condition " +
-	"(in which case, use <i>%2$s</i>). " +
-	"If you are not referencing the medical condition, consider other alternatives to describe the trait or behavior such as %3$s.";
+const medicalCondition = "Avoid using <i>%1$s</i>, unless talking about the specific medical condition. " +
+	"If you are not referencing the medical condition, consider other alternatives to describe the trait or behavior, such as %2$s.";
+const medicalConditionTwoAlternatives = "Avoid using <i>%1$s</i>, unless talking about the specific medical condition " +
+	"(in which case, use %2$s). " +
+	"If you are not referencing the medical condition, consider other alternatives to describe the trait or behavior, such as %3$s.";
 
 const potentiallyHarmfulTwoAlternatives = "Avoid using <i>%1$s</i> as it is potentially harmful. " +
 	"Consider using an alternative, such as %2$s when referring to someone's needs, or %3$s when referring to a person.";
@@ -404,7 +404,7 @@ const disabilityAssessments =  [
 		identifier: "narcissistic",
 		nonInclusivePhrases: [ "narcissistic" ],
 		inclusiveAlternatives: [ "<i>person with narcissistic personality disorder</i>",
-			"selfish, egotistical, self-centered, self-absorbed, vain, toxic, manipulative" ],
+			"<i>selfish, egotistical, self-centered, self-absorbed, vain, toxic, manipulative</i>" ],
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: medicalConditionTwoAlternatives,
 		learnMoreUrl: "https://yoa.st/",
