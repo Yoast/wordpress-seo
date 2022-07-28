@@ -53,7 +53,7 @@ const disabilityAssessments =  [
 		learnMoreUrl: "https://yoa.st/",
 		rule: ( words, inclusivePhrases ) => {
 			return includesConsecutiveWords( words, inclusivePhrases )
-				.filter( isPrecededByException( words, [ "mentally" ] ) )
+				.filter( isPrecededByException( words, [ "mentally" ] ) );
 		},
 	},
 	{
@@ -267,7 +267,7 @@ const disabilityAssessments =  [
 		learnMoreUrl: "https://yoa.st/",
 		rule: ( words, inclusivePhrases ) => {
 			return includesConsecutiveWords( words, inclusivePhrases )
-				.filter( isPrecededByException( words, [ "deaf and" ] ) )
+				.filter( isPrecededByException( words, [ "deaf and" ] ) );
 		},
 	},
 	{

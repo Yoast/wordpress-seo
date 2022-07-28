@@ -129,7 +129,7 @@ const cultureAssessments = [
 		learnMoreUrl: "https://yoa.st/",
 		rule: ( words, inclusivePhrases ) => {
 			return includesConsecutiveWords( words, inclusivePhrases )
-				.filter( isPrecededByException( words, [ "a", "the" ] ) )
+				.filter( isPrecededByException( words, [ "a", "the" ] ) );
 		},
 	},
 	{
