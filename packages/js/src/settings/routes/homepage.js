@@ -1,6 +1,8 @@
 import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { FieldsetLayout, FormikMediaSelectField, FormikReplacementVariableEditorField, FormLayout } from "../components";
+import classNames from "classnames";
+import { useFormikContext } from "formik";
+import { FieldsetLayout, FormikMediaSelectField, FormikReplacementVariableEditorField, FormLayout, OpenGraphDisabledAlert } from "../components";
 import { useSelectSettings } from "../store";
 
 /**
@@ -9,6 +11,7 @@ import { useSelectSettings } from "../store";
 const Homepage = () => {
 	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [], "post" );
 	const recommendedReplacementVariables = useSelectSettings( "selectRecommendedReplacementVariablesFor", [], "homepage" );
+
 	const recommendedSize = useMemo( () => createInterpolateElement(
 		sprintf(
 			/**
@@ -25,6 +28,9 @@ const Homepage = () => {
 			strong: <strong className="yst-font-semibold" />,
 		}
 	), [] );
+
+	const { values } = useFormikContext();
+	const { opengraph } = values.wpseo_social;
 
 	return (
 		<FormLayout
@@ -58,12 +64,18 @@ const Homepage = () => {
 				title={ __( "Social appearance", "wordpress-seo" ) }
 				description={ __( "Choose how your Homepage should look on social media.", "wordpress-seo" ) }
 			>
+				<OpenGraphDisabledAlert
+					isEnabled={ opengraph }
+					/* translators: %1$s expands to an opening emphasis tag. %2$s expands to a closing emphasis tag. */
+					text={ __( "The %1$sSite image%2$s, %1$sSocial title%2$s and %1$sSocial description%2$s require Open Graph data, which is currently disabled in the ‘Social sharing’ section in %3$sSite preferences%4$s.", "wordpress-seo" ) }
+				/>
 				<FormikMediaSelectField
 					id="wpseo_titles-open_graph_frontpage_image"
 					label={ __( "Site image", "wordpress-seo" ) }
 					previewLabel={ recommendedSize }
 					mediaUrlName="wpseo_titles.open_graph_frontpage_image"
 					mediaIdName="wpseo_titles.open_graph_frontpage_image_id"
+					disabled={ ! opengraph }
 				/>
 				<FormikReplacementVariableEditorField
 					type="title"
@@ -72,6 +84,8 @@ const Homepage = () => {
 					label={ __( "Social title", "wordpress-seo" ) }
 					replacementVariables={ replacementVariables }
 					recommendedReplacementVariables={ recommendedReplacementVariables }
+					className={ classNames( ! opengraph && "yst-opacity-50" ) }
+					isDisabled={ ! opengraph }
 				/>
 				<FormikReplacementVariableEditorField
 					type="description"
@@ -80,7 +94,8 @@ const Homepage = () => {
 					label={ __( "Social description", "wordpress-seo" ) }
 					replacementVariables={ replacementVariables }
 					recommendedReplacementVariables={ recommendedReplacementVariables }
-					className="yst-replacevar--description"
+					className={ classNames( "yst-replacevar--description", ! opengraph && "yst-opacity-50" ) }
+					isDisabled={ ! opengraph }
 				/>
 			</FieldsetLayout>
 		</FormLayout>
