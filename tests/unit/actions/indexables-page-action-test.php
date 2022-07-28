@@ -96,6 +96,216 @@ class Indexables_Page_Action_Test extends TestCase {
 	}
 
 	/**
+	 * Tests getting the neccessary information to set up the indexables page.
+	 *
+	 * @covers ::get_setup_info
+	 *
+	 * @dataProvider get_setup_info_provider
+	 *
+	 * @param array $features               Whether each feature is enabled or not.
+	 * @param int   $query_times            The times the count queries will be run.
+	 * @param array $query_results          The results of each count query.
+	 * @param int   $percentage_query_times The times the percentage queries will be run.
+	 * @param array $expected_result        The expected result.
+	 */
+	public function test_get_setup_info( $features, $query_times, $query_results, $percentage_query_times, $expected_result ) {
+		$indexables_to_return = [
+			Mockery::mock( Indexable::class ),
+			Mockery::mock( Indexable::class ),
+		];
+
+		$sub_types = [
+			'post'        => 'post',
+			'page'        => 'page',
+			'category'    => 'category',
+			'post_tag'    => 'post_tag',
+			'post_format' => 'post_format',
+		];
+
+		$this->options_helper
+			->expects( 'get' )
+			->once()
+			->with( 'keyword_analysis_active', true )
+			->andReturn( $features['keyword_analysis_active'] );
+
+		$this->options_helper
+			->expects( 'get' )
+			->once()
+			->with( 'content_analysis_active', true )
+			->andReturn( $features['content_analysis_active'] );
+
+		$this->options_helper
+			->expects( 'get' )
+			->once()
+			->with( 'enable_text_link_counter', true )
+			->andReturn( $features['enable_text_link_counter'] );
+
+		$this->indexable_repository
+			->expects( 'query' )
+			->times( $query_times )
+			->andReturnSelf();
+
+		$this->indexable_repository
+			->expects( 'where_raw' )
+			->times( $query_times )
+			->with( '( post_status = \'publish\' OR post_status IS NULL )' )
+			->andReturnSelf();
+
+		$this->indexable_repository
+			->expects( 'where_in' )
+			->times( $query_times )
+			->with( 'object_type', [ 'post' ] )
+			->andReturnSelf();
+
+		$this->indexable_repository
+			->expects( 'where_in' )
+			->times( $query_times )
+			->with( 'object_sub_type', $sub_types )
+			->andReturnSelf();
+
+		$this->indexable_repository
+			->expects( 'where_not_equal' )
+			->times( $percentage_query_times )
+			->with( 'primary_focus_keyword', 0 )
+			->andReturnSelf();
+
+		$this->indexable_repository
+			->expects( 'where_not_equal' )
+			->times( $percentage_query_times )
+			->with( 'readability_score', 0 )
+			->andReturnSelf();
+
+		$this->mock_instance
+			->expects( 'get_sub_types' )
+			->times( $query_times )
+			->andReturn( $sub_types );
+
+		$this->indexable_repository
+			->expects( 'count' )
+			->times( $query_times )
+			->andReturn( ...$query_results );
+
+		$this->assertEquals(
+			$expected_result,
+			$this->mock_instance->get_setup_info( 20, 0.5 )
+		);
+	}
+
+	/**
+	 * Data provider for test_get_setup_info function.
+	 *
+	 * @return array Data for test_get_setup_info function.
+	 */
+	public function get_setup_info_provider() {
+		$no_features_enabled = [
+			'ignore_list_state'      => [
+				'keyword_analysis_active'  => false,
+				'content_analysis_active'  => false,
+				'enable_text_link_counter' => false,
+			],
+			'query_times'            => 0,
+			'query_results'          => [ 'irrelevant' ],
+			'percentage_query_times' => 0,
+			'expected_result'        => [
+				'enabledFeatures'       => [
+					'isSeoScoreEnabled'    => false,
+					'isReadabilityEnabled' => false,
+					'isLinkCountEnabled'   => false,
+				],
+				'enoughContent'         => false,
+				'enoughAnalysedContent' => false,
+			],
+		];
+
+		$seo_score_enabled_no_posts = [
+			'ignore_list_state'      => [
+				'keyword_analysis_active'  => false,
+				'content_analysis_active'  => true,
+				'enable_text_link_counter' => true,
+			],
+			'query_times'            => 1,
+			'query_results'          => [ 0, 'irrelevant', 'irrelevant' ],
+			'percentage_query_times' => 0,
+			'expected_result'        => [
+				'enabledFeatures'       => [
+					'isSeoScoreEnabled'    => false,
+					'isReadabilityEnabled' => true,
+					'isLinkCountEnabled'   => true,
+				],
+				'enoughContent'         => false,
+				'enoughAnalysedContent' => false,
+			],
+		];
+
+		$not_enough_posts = [
+			'ignore_list_state'      => [
+				'keyword_analysis_active'  => true,
+				'content_analysis_active'  => true,
+				'enable_text_link_counter' => true,
+			],
+			'query_times'            => 3,
+			'query_results'          => [ 7, 7, 7 ],
+			'percentage_query_times' => 1,
+			'expected_result'        => [
+				'enabledFeatures'       => [
+					'isSeoScoreEnabled'    => true,
+					'isReadabilityEnabled' => true,
+					'isLinkCountEnabled'   => true,
+				],
+				'enoughContent'         => false,
+				'enoughAnalysedContent' => true,
+			],
+		];
+
+		$not_enough_analyzed_posts = [
+			'ignore_list_state'      => [
+				'keyword_analysis_active'  => true,
+				'content_analysis_active'  => true,
+				'enable_text_link_counter' => true,
+			],
+			'query_times'            => 3,
+			'query_results'          => [ 25, 12, 12 ],
+			'percentage_query_times' => 1,
+			'expected_result'        => [
+				'enabledFeatures'       => [
+					'isSeoScoreEnabled'    => true,
+					'isReadabilityEnabled' => true,
+					'isLinkCountEnabled'   => true,
+				],
+				'enoughContent'         => true,
+				'enoughAnalysedContent' => false,
+			],
+		];
+
+		$all_threshold_passed = [
+			'ignore_list_state'      => [
+				'keyword_analysis_active'  => true,
+				'content_analysis_active'  => true,
+				'enable_text_link_counter' => true,
+			],
+			'query_times'            => 3,
+			'query_results'          => [ 25, 13, 12 ],
+			'percentage_query_times' => 1,
+			'expected_result'        => [
+				'enabledFeatures'       => [
+					'isSeoScoreEnabled'    => true,
+					'isReadabilityEnabled' => true,
+					'isLinkCountEnabled'   => true,
+				],
+				'enoughContent'         => true,
+				'enoughAnalysedContent' => true,
+			],
+		];
+		return [
+			'No features enabled'            => $no_features_enabled,
+			'SEO score enabled but no posts' => $seo_score_enabled_no_posts,
+			'Not enough posts'               => $not_enough_posts,
+			'Not enough analyzed posts'      => $not_enough_analyzed_posts,
+			'All thresholds passed'          => $all_threshold_passed,
+		];
+	}
+
+	/**
 	 * Tests getting the least readable posts.
 	 *
 	 * @covers ::get_least_readable

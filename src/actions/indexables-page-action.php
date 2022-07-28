@@ -90,33 +90,40 @@ class Indexables_Page_Action {
 	 * @return array The neccessary information to set up the indexables page.
 	 */
 	public function get_setup_info( $content_threshold, $analysis_threshold ) {
-		$is_seo_score_enabled   = $this->options_helper->get( 'keyword_analysis_active', true );
-		$is_readability_enabled = $this->options_helper->get( 'content_analysis_active', true );
-		$is_link_count_enabled  = $this->options_helper->get( 'enable_text_link_counter', true );
+		$features = [
+			'isSeoScoreEnabled'    => $this->options_helper->get( 'keyword_analysis_active', true ),
+			'isReadabilityEnabled' => $this->options_helper->get( 'content_analysis_active', true ),
+			'isLinkCountEnabled'   => $this->options_helper->get( 'enable_text_link_counter', true ),
+		];
 
 		$posts_with_seo_score   = 0;
 		$posts_with_readability = 0;
 
-		if ( ! $is_seo_score_enabled && ! $is_readability_enabled && ! $is_link_count_enabled ) {
+		if ( ! $features['isSeoScoreEnabled'] && ! $features['isReadabilityEnabled'] && ! $features['isLinkCountEnabled'] ) {
 			return [
-				'enabledFeatures' => [
-					'isSeoScoreEnabled'    => false,
-					'isReadabilityEnabled' => false,
-					'isLinkCountEnabled'   => false,
-				],
-				'enoughContent'   => false,
+				'enabledFeatures'       => $features,
+				'enoughContent'         => false,
+				'enoughAnalysedContent' => false,
 			];
 		}
 
 		$all_posts = $this->query()->count();
 
-		if ( $is_seo_score_enabled ) {
+		if ( $all_posts < 1 ) {
+			return [
+				'enabledFeatures'       => $features,
+				'enoughContent'         => false,
+				'enoughAnalysedContent' => false,
+			];
+		}
+
+		if ( $features['isSeoScoreEnabled'] ) {
 			$posts_with_seo_score = $this->query()
 				->where_not_equal( 'primary_focus_keyword', 0 )
 				->count();
 		}
 
-		if ( $is_readability_enabled ) {
+		if ( $features['isReadabilityEnabled'] ) {
 			$posts_with_readability = $this->query()
 				->where_not_equal( 'readability_score', 0 )
 				->count();
@@ -124,15 +131,12 @@ class Indexables_Page_Action {
 
 		$enough_analysed_content = ( max( $posts_with_seo_score, $posts_with_readability ) / $all_posts );
 
-		error_log( $posts_with_seo_score );
-		error_log( $posts_with_readability );
+		// error_log( $posts_with_seo_score );
+		// error_log( $posts_with_readability );
+		// error_log( $enough_analysed_content );
 
 		return [
-			'enabledFeatures'       => [
-				'isSeoScoreEnabled'    => $is_seo_score_enabled,
-				'isReadabilityEnabled' => $is_readability_enabled,
-				'isLinkCountEnabled'   => $is_link_count_enabled,
-			],
+			'enabledFeatures'       => $features,
 			'enoughContent'         => $all_posts > $content_threshold,
 			'enoughAnalysedContent' => $enough_analysed_content > $analysis_threshold,
 		];
