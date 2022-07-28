@@ -29,7 +29,7 @@ const genderAssessments = [
 	{
 		identifier: "menAndWomen",
 		nonInclusivePhrases: [ "men and women", "women and men" ],
-		inclusiveAlternatives: "people, people of all genders, individuals, folks, human beings",
+		inclusiveAlternatives: "people, people of all genders, individuals, human beings",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: exclusionaryUnless,
 		learnMoreUrl: "https://yoa.st/",
@@ -109,11 +109,10 @@ const genderAssessments = [
 		learnMoreUrl: "https://yoa.st/",
 	},
 	{
-		// Long alternative!
 		identifier: "bothGenders",
 		nonInclusivePhrases: [ "both genders" ],
 		inclusiveAlternatives: "people, folks, human beings, all genders, both men and women " +
-			"(if talking specifically about just those who are men and women and not a substitute for people in general)",
+			"(if talking specifically about people who are men and women)",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: exclusionaryUnless,
 		learnMoreUrl: "https://yoa.st/",
@@ -145,10 +144,11 @@ const genderAssessments = [
 			"If not, use \"%2$s\" instead.",
 		learnMoreUrl: "https://yoa.st/",
 	},
+	// Second alternative does not show up
 	{
 		identifier: "manHours",
 		nonInclusivePhrases: [ "man-hours" ],
-		inclusiveAlternatives: "person-hours",
+		inclusiveAlternatives: [ "person-hours", "business hours" ],
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: exclusionary,
 		learnMoreUrl: "https://yoa.st/",
@@ -161,13 +161,13 @@ const genderAssessments = [
 		feedbackFormat: potentiallyHarmfulUnless,
 		learnMoreUrl: "https://yoa.st/",
 	},
+	// Alternatives do not show up
 	{
-		// Feedback missing!
 		identifier: "transgenders",
 		nonInclusivePhrases: [ "transgenders" ],
-		inclusiveAlternatives: "transgender people",
+		inclusiveAlternatives: [ "trans people", "transgender people" ],
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: "",
+		feedbackFormat: derogatory,
 		learnMoreUrl: "https://yoa.st/",
 	},
 	{

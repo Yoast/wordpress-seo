@@ -19,10 +19,6 @@
 			focus:yst-ring-2
 			focus:yst-ring-offset-2
 			focus:yst-ring-indigo-500
-
-			disabled:yst-cursor-not-allowed
-			disabled:yst-pointer-events-none
-			disabled:yst-opacity-50;
 		}
 
 		/* Variants */
@@ -57,11 +53,11 @@
 
 		.yst-button--upsell {
 			@apply
-			yst-text-gray-800
-			yst-bg-amber-400
+			yst-text-amber-900
+			yst-bg-amber-300
 			yst-border-transparent
 
-			hover:yst-bg-amber-500
+			hover:yst-bg-amber-400
 			focus:yst-ring-amber-400;
 		}
 
@@ -87,7 +83,6 @@
 			@apply
 			yst-opacity-50
 			yst-cursor-not-allowed
-			yst-pointer-events-none
 
 			focus:yst-ring-0;
 		}

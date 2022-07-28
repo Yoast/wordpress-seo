@@ -16,6 +16,7 @@ import Spinner from "./spinner";
  * @param {string}   props.id                 Id attribute.
  * @param {string}   props.imageAltText       Alternative text for image.
  * @param {string}   props.url                Url for image.
+ * @param {string}   props.fallbackUrl        Fallback url for image.
  * @param {string}   props.label              Label.
  * @param {function} props.onSelectImageClick Select image handler.
  * @param {function} props.onRemoveImageClick Remove image handler.
@@ -28,6 +29,7 @@ export default function ImageSelect( {
 	id,
 	imageAltText,
 	url,
+	fallbackUrl,
 	label,
 	onSelectImageClick,
 	onRemoveImageClick,
@@ -53,7 +55,10 @@ export default function ImageSelect( {
 			);
 		} else if ( url ) {
 			return <img src={ url } alt={ imageAltText } className="yst-w-full yst-h-full yst-object-contain" />;
+		} else if ( fallbackUrl ) {
+			return <img src={ fallbackUrl } alt={ imageAltText } className="yst-w-full yst-h-full yst-object-contain" />;
 		}
+
 		return <PhotographIcon id={ `${ id }-no-image-svg` } className="yst-w-14 yst-h-14 yst-text-gray-500" />;
 	}, [ status, id, url, imageAltText ] );
 
@@ -98,6 +103,7 @@ ImageSelect.propTypes = {
 	label: PropTypes.string,
 	id: PropTypes.string.isRequired,
 	url: PropTypes.string,
+	fallbackUrl: PropTypes.string,
 	imageAltText: PropTypes.string,
 	onRemoveImageClick: PropTypes.func,
 	onSelectImageClick: PropTypes.func,
@@ -112,6 +118,7 @@ ImageSelect.propTypes = {
 ImageSelect.defaultProps = {
 	label: "",
 	url: "",
+	fallbackUrl: "",
 	imageAltText: "",
 	onRemoveImageClick: noop,
 	onSelectImageClick: noop,
