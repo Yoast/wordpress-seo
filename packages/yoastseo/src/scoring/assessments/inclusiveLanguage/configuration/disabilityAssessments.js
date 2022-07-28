@@ -19,7 +19,7 @@ const medicalConditionTwoAlternatives = "Be careful when using <i>%1$s</i>, unle
 	"If you are not referencing the medical condition, consider other alternatives to describe the trait or behavior such as %3$s.";
 
 const potentiallyHarmfulTwoAlternatives = "Avoid using <i>%1$s</i> as it is potentially harmful. " +
-	"Consider using an alternative, such as %2$s instead, or %3$s when using it to describe someone in terms of their disability.";
+	"Consider using an alternative, such as %2$s when referring to someone's needs, or %3$s when referring to a person.";
 
 const disabilityAssessments =  [
 	{
@@ -59,7 +59,7 @@ const disabilityAssessments =  [
 	{
 		identifier: "alcoholic",
 		nonInclusivePhrases: [ "an alcoholic" ],
-		inclusiveAlternatives: "person with alcohol use disorder",
+		inclusiveAlternatives: "<i>person with alcohol use disorder</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulUnless,
 		learnMoreUrl: "https://yoa.st/",
@@ -69,7 +69,7 @@ const disabilityAssessments =  [
 	{
 		identifier: "alcoholics",
 		nonInclusivePhrases: [ "alcoholics" ],
-		inclusiveAlternatives: "people with alcohol use disorder",
+		inclusiveAlternatives: "<i>people with alcohol use disorder</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulUnless,
 		learnMoreUrl: "https://yoa.st/",
@@ -79,7 +79,7 @@ const disabilityAssessments =  [
 	{
 		identifier: "cripple",
 		nonInclusivePhrases: [ "a cripple" ],
-		inclusiveAlternatives: "person with a physical disability",
+		inclusiveAlternatives: "<i>person with a physical disability, a physically disabled person</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: derogatory,
 		learnMoreUrl: "https://yoa.st/",
@@ -87,7 +87,7 @@ const disabilityAssessments =  [
 	{
 		identifier: "crippled",
 		nonInclusivePhrases: [ "crippled" ],
-		inclusiveAlternatives: "has a physical disability",
+		inclusiveAlternatives: "<i>has a physical disability, is physically disabled</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
@@ -95,7 +95,7 @@ const disabilityAssessments =  [
 	{
 		identifier: "daft",
 		nonInclusivePhrases: [ "daft" ],
-		inclusiveAlternatives: "dense, ignorant, foolish",
+		inclusiveAlternatives: "<i>dense, ignorant, foolish</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulCareful,
 		learnMoreUrl: "https://yoa.st/",
@@ -103,7 +103,7 @@ const disabilityAssessments =  [
 	{
 		identifier: "handicapped",
 		nonInclusivePhrases: [ "handicapped" ],
-		inclusiveAlternatives: "disabled, disabled person, person with a disability",
+		inclusiveAlternatives: "<i>disabled, person with a disability</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
@@ -111,7 +111,7 @@ const disabilityAssessments =  [
 	{
 		identifier: "handicap",
 		nonInclusivePhrases: [ "handicap" ],
-		inclusiveAlternatives: "disability",
+		inclusiveAlternatives: "<i>disability</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
@@ -119,8 +119,8 @@ const disabilityAssessments =  [
 	{
 		identifier: "insane",
 		nonInclusivePhrases: [ "insane" ],
-		inclusiveAlternatives: "wild, confusing, unpredictable, impulsive, reckless, risk-taker, out of control, " +
-			"unbelievable, incomprehensible, irrational, nonsensical, outrageous, ridiculous",
+		inclusiveAlternatives: "<i>wild, confusing, unpredictable, impulsive, reckless, out of control, " +
+			"unbelievable, incomprehensible, irrational, nonsensical, outrageous, ridiculous</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
@@ -128,7 +128,7 @@ const disabilityAssessments =  [
 	{
 		identifier: "imbecile",
 		nonInclusivePhrases: [ "imbecile" ],
-		inclusiveAlternatives: "uninformed, ignorant, foolish",
+		inclusiveAlternatives: "<i>uninformed, ignorant, foolish</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: derogatory,
 		learnMoreUrl: "https://yoa.st/",
@@ -136,7 +136,7 @@ const disabilityAssessments =  [
 	{
 		identifier: "specialNeeds",
 		nonInclusivePhrases: [ "special needs" ],
-		inclusiveAlternatives: [ "functional needs, support needs", "disabled, disabled person, person with a disability" ],
+		inclusiveAlternatives: [ "<i>functional needs, support needs</i>", "<i>disabled, person with a disability</i>" ],
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulTwoAlternatives,
 		learnMoreUrl: "https://yoa.st/",
@@ -144,7 +144,7 @@ const disabilityAssessments =  [
 	{
 		identifier: "hardOfHearing",
 		nonInclusivePhrases: [ "hard-of-hearing" ],
-		inclusiveAlternatives: "hard of hearing, partially deaf, has partial hearing loss",
+		inclusiveAlternatives: "<i>hard of hearing, partially deaf, has partial hearing loss</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
@@ -152,49 +152,52 @@ const disabilityAssessments =  [
 	{
 		identifier: "hearingImpaired",
 		nonInclusivePhrases: [ "hearing impaired" ],
-		inclusiveAlternatives: "deaf or hard of hearing, partially deaf, has partial hearing loss",
+		inclusiveAlternatives: "<i>deaf or hard of hearing, partially deaf, has partial hearing loss</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
 	},
 	{
-		// This phrase covers the below two phrases as well.
 		identifier: "functioning",
 		nonInclusivePhrases: [ "high functioning", "low functioning" ],
-		inclusiveAlternatives: "",
+		inclusiveAlternatives: "describing the specific characteristic or experience",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: "Be careful when using \"%1$s\" as it is potentially harmful, unless to refer how you characterize your condition." +
-			"Consider using a specific characteristic or experience if it is known.",
+		feedbackFormat: "Be careful when using <i>%1$s</i> as it is potentially harmful. " +
+			"Consider using an alternative, such as %2$s, unless referring to how you characterize your own condition.",
 		learnMoreUrl: "https://yoa.st/",
+		rule: ( words, inclusivePhrase ) => includesConsecutiveWords( words, inclusivePhrase )
+			.filter( isFollowedByException( words, inclusivePhrase, [ "autism" ] ) ),
 	},
 	{
 		identifier: "autismHigh",
 		nonInclusivePhrases: [ "high functioning autism", "high-functioning autism" ],
-		inclusiveAlternatives: "autism with low support needs",
+		inclusiveAlternatives: "<i>autism with high support needs</i> or describing the specific characteristic or experience",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmfulUnlessNonInclusive,
+		feedbackFormat: "Avoid using <i>%1$s</i> as it is potentially harmful. " +
+			"Consider using an alternative, such as %2$s, unless referring to how you characterize your own condition.",
 		learnMoreUrl: "https://yoa.st/",
 	},
 	{
 		identifier: "autismLow",
 		nonInclusivePhrases: [ "low functioning autism", "low-functioning autism" ],
-		inclusiveAlternatives: "autism with high support needs",
+		inclusiveAlternatives: "<i>autism with low support needs</i> or describing the specific characteristic or experience",
 		score: SCORES.NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmfulUnlessNonInclusive,
+		feedbackFormat: "Avoid using <i>%1$s</i> as it is potentially harmful. " +
+			"Consider using an alternative, such as %2$s, unless referring to how you characterize your own condition.",
 		learnMoreUrl: "https://yoa.st/",
 	},
 	{
 		identifier: "lame",
 		nonInclusivePhrases: [ "lame" ],
-		inclusiveAlternatives: "boring, uninteresting, uncool",
+		inclusiveAlternatives: "<i>boring, uninteresting, uncool</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
 	},
 	{
 		identifier: "suicide",
-		nonInclusivePhrases: [ "commit suicide", "committed suicide" ],
-		inclusiveAlternatives: "took their life, died by suicide, killed themself",
+		nonInclusivePhrases: [ "commit suicide", "committing suicide", "commits suicide", "committed suicide" ],
+		inclusiveAlternatives: "<i>took their life, died by suicide, killed themself</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
@@ -202,7 +205,7 @@ const disabilityAssessments =  [
 	{
 		identifier: "handicapParking",
 		nonInclusivePhrases: [ "handicap parking", "disabled parking" ],
-		inclusiveAlternatives: "accessible parking",
+		inclusiveAlternatives: "<i>accessible parking</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
