@@ -9,8 +9,8 @@ import { useSelectSettings } from "../store";
  * @returns {JSX.Element} The homepage route.
  */
 const Homepage = () => {
-	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [], "post" );
-	const recommendedReplacementVariables = useSelectSettings( "selectRecommendedReplacementVariablesFor", [], "homepage" );
+	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [], "homepage", "page" );
+	const recommendedReplacementVariables = useSelectSettings( "selectRecommendedReplacementVariablesFor", [], "homepage", "page" );
 
 	const recommendedSize = useMemo( () => createInterpolateElement(
 		sprintf(

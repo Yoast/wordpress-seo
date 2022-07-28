@@ -25,8 +25,10 @@ import { useSelectSettings } from "../../store";
  * @returns {JSX.Element} The post type element.
  */
 const PostType = ( { name, label, singularLabel, hasArchive } ) => {
-	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [ name ], name );
-	const recommendedReplacementVariables = useSelectSettings( "selectRecommendedReplacementVariablesFor", [ name ], name );
+	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [ name ], name, "custom_post_type" );
+	const recommendedReplacementVariables = useSelectSettings( "selectRecommendedReplacementVariablesFor", [ name ], name, "custom_post_type" );
+	const replacementVariablesArchives = useSelectSettings( "selectReplacementVariablesFor", [ name ], `${ name }_archive`, "custom-post-type_archive" );
+	const recommendedReplacementVariablesArchives = useSelectSettings( "selectRecommendedReplacementVariablesFor", [ name ], `${ name }_archive`, "custom-post-type_archive" );
 	const isPremium = useSelectSettings( "selectPreference", [], "isPremium" );
 	const customFieldAnalysisLink = useSelectSettings( "selectLink", [], "https://yoa.st/4cr" );
 	const articleTypes = useSelectSettings( "selectArticleTypeValuesFor", [ name ], name );
@@ -248,16 +250,16 @@ const PostType = ( { name, label, singularLabel, hasArchive } ) => {
 						name={ `wpseo_titles.title-ptarchive-${ name }` }
 						fieldId={ `input-wpseo_titles-title-ptarchive-${ name }` }
 						label={ __( "SEO title", "wordpress-seo" ) }
-						replacementVariables={ replacementVariables }
-						recommendedReplacementVariables={ recommendedReplacementVariables }
+						replacementVariables={ replacementVariablesArchives }
+						recommendedReplacementVariables={ recommendedReplacementVariablesArchives }
 					/>
 					<FormikReplacementVariableEditorField
 						type="description"
 						name={ `wpseo_titles.metadesc-ptarchive-${ name }` }
 						fieldId={ `input-wpseo_titles-metadesc-ptarchive-${ name }` }
 						label={ __( "Meta description", "wordpress-seo" ) }
-						replacementVariables={ replacementVariables }
-						recommendedReplacementVariables={ recommendedReplacementVariables }
+						replacementVariables={ replacementVariablesArchives }
+						recommendedReplacementVariables={ recommendedReplacementVariablesArchives }
 						className="yst-replacevar--description"
 					/>
 				</FieldsetLayout>
@@ -286,16 +288,16 @@ const PostType = ( { name, label, singularLabel, hasArchive } ) => {
 						name={ `wpseo_titles.social-title-ptarchive-${ name }` }
 						fieldId={ `input-wpseo_titles-social-title-ptarchive-${ name }` }
 						label={ __( "Social title", "wordpress-seo" ) }
-						replacementVariables={ replacementVariables }
-						recommendedReplacementVariables={ recommendedReplacementVariables }
+						replacementVariables={ replacementVariablesArchives }
+						recommendedReplacementVariables={ recommendedReplacementVariablesArchives }
 					/>
 					<FormikReplacementVariableEditorField
 						type="description"
 						name={ `wpseo_titles.social-description-ptarchive-${ name }` }
 						fieldId={ `input-wpseo_titles-social-description-ptarchive-${ name }` }
 						label={ __( "Social description", "wordpress-seo" ) }
-						replacementVariables={ replacementVariables }
-						recommendedReplacementVariables={ recommendedReplacementVariables }
+						replacementVariables={ replacementVariablesArchives }
+						recommendedReplacementVariables={ recommendedReplacementVariablesArchives }
 						className="yst-replacevar--description"
 					/>
 				</FieldsetLayout>
