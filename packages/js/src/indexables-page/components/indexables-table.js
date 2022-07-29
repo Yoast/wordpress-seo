@@ -3,7 +3,7 @@ import apiFetch from "@wordpress/api-fetch";
 import PropTypes from "prop-types";
 
 import { makeOutboundLink } from "@yoast/helpers";
-import { Button, Table, Spinner } from "@yoast/ui-library";
+import { Button, Spinner } from "@yoast/ui-library";
 import { useState, useEffect, useCallback } from "@wordpress/element";
 import { EyeOffIcon } from "@heroicons/react/outline";
 
@@ -21,10 +21,10 @@ function PlaceholderRows( { columnCount, listSize } ) {
 	const cells = [];
 	const rows = [];
 	for ( let i = 0; i < columnCount; i++ ) {
-		cells.push( <Table.Cell key={ `placeholder-column-${ i }` } className="yst-px-6 yst-py-4 yst-animate-pulse"><div className="yst-w-full yst-bg-gray-200 yst-h-3 yst-rounded" /></Table.Cell> );
+		cells.push( <div key={ `placeholder-column-${ i }` } className="yst-inline-block yst-animate-pulse"><div className="yst-w-full yst-bg-gray-200 yst-h-3 yst-rounded" /></div> );
 	}
 	for ( let i = 0; i < listSize; i++ ) {
-		rows.push( <Table.Row key={ `placeholder-row-${ i }` }>{ cells }</Table.Row> );
+		rows.push( <li key={ `placeholder-row-${ i }` } className="yst-my-0 yst-h-14 yst-max-w-none yst-grid yst-gap-2 yst-items-center yst-grid-cols-[1fr_8fr_2fr_1fr]">{ cells }</li> );
 	}
 	return rows;
 }
@@ -37,18 +37,9 @@ function PlaceholderRows( { columnCount, listSize } ) {
 
  * @returns {WPElement} A table with the indexables.
  */
-const IndexableRow = ( { indexable, keyHeaderMap, type, addToIgnoreList, position, handleOpenModal } ) => {
+const IndexableRow = ( { indexable, children, type, addToIgnoreList, position } ) => {
 	const [ isHandlingIgnore, setIsHandlingIgnore ] = useState( false );
 	const [ rowAnimationClasses, setRowAnimationClasses ] = useState( "" );
-
-	const handleLink = useCallback( ( e ) => {
-		handleOpenModal(
-			e.currentTarget.dataset.indexableid,
-			e.currentTarget.dataset.incominglinkscount,
-			e.currentTarget.dataset.breadcrumbtitle,
-			e.currentTarget.dataset.permalink
-		);
-	}, [ handleOpenModal ] );
 
 	const addToIgnoreListCallback = useCallback( () => {
 		addToIgnoreList( { indexable, type, position } );
@@ -82,51 +73,28 @@ const IndexableRow = ( { indexable, keyHeaderMap, type, addToIgnoreList, positio
 		}
 	}, [ apiFetch, addToIgnoreList ] );
 
-	return <Table.Row
+	return <li
 		key={ `indexable-${ indexable.id }-row` }
-		className={ rowAnimationClasses }
+		className={ "yst-my-0 yst-max-w-none yst-font-medium yst-text-gray-700 yst-flex yst-flex-row yst-items-center yst-gap-2 yst-h-14 " + rowAnimationClasses }
 		onAnimationEnd={ addToIgnoreListCallback }
 	>
-		{
-			Object.keys( keyHeaderMap ).map( ( key, index ) => {
-				if ( key === "edit" ) {
-					return <Table.Cell
-						key="edit"
-					>
-						<Link
-							href={ "/wp-admin/post.php?action=edit&post=" + indexable.object_id }
-							className="yst-button yst-button--secondary yst-text-gray-500"
-						>Edit</Link>
-					</Table.Cell>;
-				} else if ( key === "ignore" ) {
-					return <Table.Cell key="ignore">
-						<Button variant="secondary" data-indexableid={ indexable.id } data-indexabletype={ type } onClick={ handleIgnore }>
-							{ isHandlingIgnore ? <Spinner /> : <EyeOffIcon className="yst-w-4 yst-h-4" /> }
-						</Button>
-					</Table.Cell>;
-				} else if ( key === "links" ) {
-					return <Table.Cell key="links"><Button
-						data-indexableid={ indexable.id }
-						data-incominglinkscount={ indexable.incoming_link_count === null ? 0 : indexable.incoming_link_count }
-						data-breadcrumbtitle={ indexable.breadcrumb_title }
-						data-permalink={ indexable.permalink }
-						onClick={ handleLink }
-					>Links</Button></Table.Cell>;
-				}
-				return <Table.Cell key={ `indexable-header-${ index }` } className="yst-text-ellipsis">{ indexable[ key ] }</Table.Cell>;
-			} )
-		}
-	</Table.Row>;
+		{ children }
+		<div>
+			<Button variant="secondary" data-indexableid={ indexable.id } data-indexabletype={ type } onClick={ handleIgnore }>
+				{ isHandlingIgnore ? <Spinner /> : <EyeOffIcon className="yst-w-4 yst-h-4" /> }
+			</Button>
+		</div>
+	</li>;
 };
 
 IndexableRow.propTypes = {
 	indexable: PropTypes.object,
-	keyHeaderMap: PropTypes.object,
 	type: PropTypes.string,
 	addToIgnoreList: PropTypes.func,
 	position: PropTypes.number,
-	handleOpenModal: PropTypes.func,
+	children: PropTypes.node,
 };
+
 
 /**
  * A table with indexables.
@@ -136,56 +104,21 @@ IndexableRow.propTypes = {
 
  * @returns {WPElement} A table with the indexables.
  */
-function IndexablesTable( { indexables, keyHeaderMap, type, addToIgnoreList, handleOpenModal, listSize } ) {
-	const [ isLoading, setIsLoading ] = useState( true );
-
-	useEffect( () => {
-		if ( indexables.length > 0 ) {
-			setIsLoading( false );
-		}
-	}, [ indexables, setIsLoading ] );
-
+function IndexablesTable( { children } ) {
 	return (
-		<div className="yst-relative yst-border yst-overflow-x-hidden yst-border-gray-200 yst-shadow-sm yst-rounded-lg">
-			<Table>
-				<Table.Head>
-					<Table.Row>
-						{
-							Object.values( keyHeaderMap ).map( ( header, index ) => {
-								return <Table.Header key={ `indexable-header-${ index }` }>{ header }</Table.Header>;
-							} )
-						}
-					</Table.Row>
-				</Table.Head>
-				<Table.Body>
-					{
-						isLoading
-							? <PlaceholderRows columnCount={ Object.keys( keyHeaderMap ).length } listSize={ listSize } />
-							: indexables.slice( 0, listSize ).map( ( indexable, index ) => {
-								return <IndexableRow
-									key={ `indexable-${ indexable.id }-row` }
-									indexable={ indexable }
-									keyHeaderMap={ keyHeaderMap }
-									type={ type }
-									addToIgnoreList={ addToIgnoreList }
-									position={ index }
-									handleOpenModal={ handleOpenModal }
-								/>;
-							} )
-					}
-				</Table.Body>
-			</Table>
-		</div>
+		<ul className="yst-divide-y yst-divide-gray-200">
+			{ ( children && children.length === 0 ) &&
+				<PlaceholderRows columnCount={ 4 } listSize={ 5 } />
+			}
+			{ children }
+		</ul>
 	);
 }
 
 IndexablesTable.propTypes = {
-	indexables: PropTypes.array,
-	keyHeaderMap: PropTypes.object,
-	type: PropTypes.string,
-	addToIgnoreList: PropTypes.func,
-	handleOpenModal: PropTypes.func,
-	listSize: PropTypes.number,
+	children: PropTypes.node,
 };
+
+IndexablesTable.Row = IndexableRow;
 
 export default IndexablesTable;

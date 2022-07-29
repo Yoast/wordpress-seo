@@ -2,10 +2,13 @@
 import apiFetch from "@wordpress/api-fetch";
 import { __ } from "@wordpress/i18n";
 import { useEffect, useState, useCallback, Fragment } from "@wordpress/element";
-import { LockOpenIcon } from "@heroicons/react/outline";
+import { LockOpenIcon, LinkIcon, ExternalLinkIcon } from "@heroicons/react/outline";
 import { Button, Alert, Modal } from "@yoast/ui-library";
+import { makeOutboundLink } from "@yoast/helpers";
 import IndexablesTable from "./components/indexables-table";
 import SvgIcon from "../../../components/src/SvgIcon";
+
+const Link = makeOutboundLink();
 
 /* eslint-disable camelcase */
 /* eslint-disable no-warning-comments */
@@ -145,6 +148,15 @@ function IndexablesPage() {
 			return false;
 		}
 	}, [ setSuggestedLinksModalContent, setIsModalOpen ] );
+
+	const handleLink = useCallback( ( e ) => {
+		handleOpenModal(
+			e.currentTarget.dataset.indexableid,
+			e.currentTarget.dataset.incominglinkscount,
+			e.currentTarget.dataset.breadcrumbtitle,
+			e.currentTarget.dataset.permalink
+		);
+	}, [ handleOpenModal ] );
 
 	const handleCloseModal = useCallback( () => {
 		setIsModalOpen( false );
@@ -297,7 +309,6 @@ function IndexablesPage() {
 			{ isPremiumInstalled ? renderSuggestedLinksModal() : renderUpsellLinksModal() }
 		</Modal>
 		{ ignoreIndexable && <Alert><Button onClick={ onClickUndo( ignoreIndexable ) }>{ `Ignore ${ignoreIndexable.indexable.id}` }</Button></Alert> }
-		<header className="yst-border-b yst-border-gray-200"><div className="yst-max-w-screen-sm yst-p-8"><h2 className="yst-text-2xl yst-font-bold">{ __( "Indexables page", "wordpress-seo" ) }</h2></div></header>
 		<div
 			id="indexables-table-grid"
 			className="2xl:yst-grid 2xl:yst-grid-cols-2 2xl:yst-grid-rows-2 2xl:yst-grid-flow-row 2xl:yst-auto-rows-fr 2xl:yst-gap-4"
@@ -305,90 +316,180 @@ function IndexablesPage() {
 			<div
 				className="yst-bg-white yst-rounded-lg yst-p-6 yst-shadow-md"
 			>
-				<h3 className="yst-my-4 yst-text-xl">{ __( "Least Readability Score", "wordpress-seo" ) }</h3>
-				<IndexablesTable
-					indexables={ listedIndexables.least_readability }
-					keyHeaderMap={
-						{
-							/* eslint-disable camelcase */
-							breadcrumb_title: __( "Title", "wordpress-seo" ),
-							readability_score: __( "Readability Score", "wordpress-seo" ),
-							edit: __( "Edit", "wordpress-seo" ),
-							ignore: __( "Ignore", "wordpress-seo" ),
-							/* eslint-enable camelcase */
-						}
+				<h3 className="yst-mb-4 yst-text-xl yst-text-gray-900 yst-font-medium">{ __( "Lowest readability scores", "wordpress-seo" ) }</h3>
+				<IndexablesTable>
+					{
+						listedIndexables.least_readability.slice( 0, listSize ).map(
+							indexable => {
+								let colorClass = "yst-text-red-500";
+								const score = indexable.readability_score;
+								if ( score >= 60 ) {
+									colorClass = "yst-text-orange-500";
+								}
+								if ( score >= 90 ) {
+									colorClass = "yst-text-green-500";
+								}
+								return <IndexablesTable.Row
+									key={ `indexable-${ indexable.id }-row` }
+									type="least_readability"
+									indexable={ indexable }
+									addToIgnoreList={ setIgnoreIndexable }
+								>
+									<div key={ `readability-score-${ indexable.id }` } className="yst-min-w-[65px]">
+										<span className={ "yst-font-black yst-text-xl " + colorClass }>{ score }</span>
+										<span className="yst-text-xxs yst-text-gray-500">/100</span>
+									</div>
+									<div key={ `readability-title-${ indexable.id }` } className="yst-grow yst-min-w-0">
+										<Link
+											href={ indexable.permalink }
+											className="yst-flex yst-items-center yst-gap-1 yst-no-underline yst-text-inherit hover:yst-text-blue-500"
+										>
+											<span className="yst-text-ellipsis yst-whitespace-nowrap yst-overflow-hidden">{ indexable.breadcrumb_title }</span><ExternalLinkIcon className="yst-h-4 yst-w-4" />
+										</Link>
+									</div>
+									<div key={ `readability-improve-${ indexable.id }` }>
+										<Link
+											href={ "/wp-admin/post.php?action=edit&post=" + indexable.object_id }
+											className="yst-button yst-button--secondary yst-text-gray-700"
+										>
+											{ __( "Improve", "wordpress-seo" ) }
+										</Link>
+									</div>
+								</IndexablesTable.Row>;
+							}
+						)
 					}
-					type="least_readability"
-					addToIgnoreList={ setIgnoreIndexable }
-					listSize={ listSize }
-				/>
+				</IndexablesTable>
 			</div>
 			<div
 				className="yst-bg-white yst-rounded-lg yst-p-6 yst-shadow-md"
 			>
-				<h3 className="yst-my-4 yst-text-xl">{ __( "Least SEO Score", "wordpress-seo" ) }</h3>
-				<IndexablesTable
-					indexables={ listedIndexables.least_seo_score }
-					keyHeaderMap={
-						{
-							/* eslint-disable camelcase */
-							breadcrumb_title: __( "Title", "wordpress-seo" ),
-							primary_focus_keyword_score: __( "SEO Score", "wordpress-seo" ),
-							edit: __( "Edit", "wordpress-seo" ),
-							ignore: __( "Ignore", "wordpress-seo" ),
-							/* eslint-enable camelcase */
-						}
+				<h3 className="yst-mb-4 yst-text-xl yst-text-gray-900 yst-font-medium">{ __( "Lowest SEO scores", "wordpress-seo" ) }</h3>
+				<IndexablesTable>
+					{
+						listedIndexables.least_seo_score.slice( 0, listSize ).map(
+							indexable => {
+								let colorClass = "yst-text-red-500";
+								const score = indexable.primary_focus_keyword_score;
+								if ( score > 40 ) {
+									colorClass = "yst-text-orange-500";
+								}
+								if ( score > 70 ) {
+									colorClass = "yst-text-green-500";
+								}
+								return <IndexablesTable.Row
+									key={ `indexable-${ indexable.id }-row` }
+									type="least_seo_score"
+									indexable={ indexable }
+									addToIgnoreList={ setIgnoreIndexable }
+								>
+									<div key={ `seo-score-${ indexable.id }` } className="yst-min-w-[65px]">
+										<span className={ "yst-font-black yst-text-xl " + colorClass }>{ score }</span>
+										<span className="yst-text-xxs yst-text-gray-500">/100</span>
+									</div>
+									<div key={ `seo-title-${ indexable.id }` } className="yst-grow yst-min-w-0">
+										<Link
+											href={ indexable.permalink }
+											className="yst-flex yst-items-center yst-gap-1 yst-no-underline yst-text-inherit hover:yst-text-blue-500"
+										>
+											<span className="yst-text-ellipsis yst-whitespace-nowrap yst-overflow-hidden">{ indexable.breadcrumb_title }</span><ExternalLinkIcon className="yst-h-4 yst-w-4" />
+										</Link>
+									</div>
+									<div key={ `seo-improve-${ indexable.id }` }>
+										<Link
+											href={ "/wp-admin/post.php?action=edit&post=" + indexable.object_id }
+											className="yst-button yst-button--secondary yst-text-gray-700"
+										>
+											{ __( "Improve", "wordpress-seo" ) }
+										</Link>
+									</div>
+								</IndexablesTable.Row>;
+							}
+						)
 					}
-					type="least_seo_score"
-					addToIgnoreList={ setIgnoreIndexable }
-					listSize={ listSize }
-				/>
+				</IndexablesTable>
 			</div>
 			<div
 				className="yst-bg-white yst-rounded-lg yst-p-6 yst-shadow-md"
 			>
-				<h3 className="yst-my-4 yst-text-xl">{ __( "Least Linked", "wordpress-seo" ) }</h3>
-				<IndexablesTable
-					indexables={ listedIndexables.least_linked }
-					keyHeaderMap={
-						{
-							/* eslint-disable camelcase */
-							breadcrumb_title: __( "Title", "wordpress-seo" ),
-							incoming_link_count: __( "Incoming links", "wordpress-seo" ),
-							edit: __( "Find posts to link from", "wordpress-seo" ),
-							ignore: __( "Ignore", "wordpress-seo" ),
-							links: __( "Find posts to link to", "wordpress-seo" ),
-							/* eslint-enable camelcase */
-						}
+				<h3 className="yst-mb-4 yst-text-xl yst-text-gray-900 yst-font-medium">{ __( "Lowest number of incoming links", "wordpress-seo" ) }</h3>
+				<IndexablesTable>
+					{
+						listedIndexables.least_linked.slice( 0, listSize ).map(
+							indexable => {
+								return <IndexablesTable.Row
+									key={ `indexable-${ indexable.id }-row` }
+									type="least_linked"
+									indexable={ indexable }
+									addToIgnoreList={ setIgnoreIndexable }
+								>
+									<div key={ `least-linked-score-${ indexable.id }` } className="yst-shrink-0 yst-flex yst-items-center yst-gap-1">
+										<LinkIcon className="yst-h-4 yst-w-4 yst-text-gray-400" />{ indexable.incoming_link_count }
+									</div>
+									<div key={ `least-linked-title-${ indexable.id }` } className="yst-grow yst-min-w-0">
+										<Link
+											href={ indexable.permalink }
+											className="yst-flex yst-items-center yst-gap-1 yst-no-underline yst-text-inherit hover:yst-text-blue-500"
+										>
+											<span className="yst-text-ellipsis yst-whitespace-nowrap yst-overflow-hidden">{ indexable.breadcrumb_title }</span><ExternalLinkIcon className="yst-h-4 yst-w-4" />
+										</Link>
+									</div>
+									<div key={ `least-linked-modal-button-${ indexable.id }` }>
+										<Button
+											data-indexableid={ indexable.id }
+											data-incominglinkscount={ indexable.incoming_link_count === null ? 0 : indexable.incoming_link_count }
+											data-breadcrumbtitle={ indexable.breadcrumb_title }
+											data-permalink={ indexable.permalink }
+											onClick={ handleLink }
+											variant="secondary"
+										>
+											{ __( "Add links", "wordpress-seo" ) }
+										</Button>
+									</div>
+								</IndexablesTable.Row>;
+							}
+						)
 					}
-					type="least_linked"
-					addToIgnoreList={ setIgnoreIndexable }
-					handleOpenModal={ handleOpenModal }
-					listSize={ listSize }
-				/>
+				</IndexablesTable>
 			</div>
 			<div
 				className="yst-bg-white yst-rounded-lg yst-p-6 yst-shadow-md"
 			>
-				<h3 className="yst-my-4 yst-text-xl">{ __( "Most Linked", "wordpress-seo" ) }</h3>
-				<IndexablesTable
-					indexables={ listedIndexables.most_linked }
-					keyHeaderMap={
-						{
-							/* eslint-disable camelcase */
-							breadcrumb_title: __( "Title", "wordpress-seo" ),
-							incoming_link_count: __( "Incoming links", "wordpress-seo" ),
-							edit: __( "Find posts to link to", "wordpress-seo" ),
-							ignore: __( "Ignore", "wordpress-seo" ),
-							links: __( "Find posts to link to", "wordpress-seo" ),
-							/* eslint-enable camelcase */
-						}
+				<h3 className="yst-mb-4 yst-text-xl yst-text-gray-900 yst-font-medium">{ __( "Highest number of incoming links", "wordpress-seo" ) }</h3>
+				<IndexablesTable>
+					{
+						listedIndexables.most_linked.slice( 0, listSize ).map(
+							indexable => {
+								return <IndexablesTable.Row
+									key={ `indexable-${ indexable.id }-row` }
+									type="most_linked"
+									indexable={ indexable }
+									addToIgnoreList={ setIgnoreIndexable }
+								>
+									<div key={ `most-linked-score-${ indexable.id }` } className="yst-shrink-0 yst-flex yst-items-center yst-gap-1">
+										<LinkIcon className="yst-h-4 yst-w-4 yst-text-gray-400" />{ indexable.incoming_link_count }
+									</div>
+									<div key={ `most-linked-title-${ indexable.id }` } className="yst-grow yst-min-w-0">
+										<Link
+											href={ indexable.permalink }
+											className="yst-flex yst-items-center yst-gap-1 yst-no-underline yst-text-inherit hover:yst-text-blue-500"
+										>
+											<span className="yst-text-ellipsis yst-whitespace-nowrap yst-overflow-hidden">{ indexable.breadcrumb_title }</span><ExternalLinkIcon className="yst-h-4 yst-w-4" />
+										</Link>
+									</div>
+									<div key={ `most-linked-edit-${ indexable.id }` }>
+										<Link
+											href={ "/wp-admin/post.php?action=edit&post=" + indexable.object_id }
+											className="yst-button yst-button--secondary yst-text-gray-500"
+										>
+											{ __( "Edit", "wordpress-seo" ) }
+										</Link>
+									</div>
+								</IndexablesTable.Row>;
+							}
+						)
 					}
-					type="most_linked"
-					addToIgnoreList={ setIgnoreIndexable }
-					handleOpenModal={ handleOpenModal }
-					listSize={ listSize }
-				/>
+				</IndexablesTable>
 			</div>
 		</div>
 	</div>;
