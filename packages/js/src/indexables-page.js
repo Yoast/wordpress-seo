@@ -16,7 +16,6 @@ domReady( () => {
 
 	render(
 		<Root context={ context }>
-			<div><h2>Welcome, world!</h2></div>
 			<IndexablesPage />
 		</Root>,
 		root
