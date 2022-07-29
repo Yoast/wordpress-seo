@@ -75,7 +75,7 @@ const IndexableRow = ( { indexable, children, type, addToIgnoreList, position } 
 
 	return <li
 		key={ `indexable-${ indexable.id }-row` }
-		className={ "yst-my-0 yst-max-w-none yst-font-medium yst-text-gray-700 yst-flex yst-flex-row yst-items-center yst-gap-2 yst-h-14 " + rowAnimationClasses }
+		className={ "yst-my-0 yst-max-w-none yst-font-medium yst-text-gray-700 yst-flex yst-flex-row yst-items-center yst-gap-3 yst-h-14 " + rowAnimationClasses }
 		onAnimationEnd={ addToIgnoreListCallback }
 	>
 		{ children }
