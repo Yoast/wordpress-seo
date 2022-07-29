@@ -11,6 +11,8 @@ import { defaults } from "lodash-es";
 function Mark( properties ) {
 	defaults( properties, { original: "", marked: "" } );
 	this._properties = properties;
+	console.log("TEST 2 original", this._properties.original)
+	console.log("TEST 2 marked", this._properties.marked)
 }
 
 
@@ -40,7 +42,18 @@ Mark.prototype.getMarked = function() {
  */
 Mark.prototype.applyWithReplace = function( text ) {
 	// Cute method to replace everything in a string without using regex.
-	return text.split( this._properties.original ).join( this._properties.marked );
+	console.log("TEST 1a", text)
+	console.log("TEST 1b", this._properties.original)
+	const original = this._properties.original.replace("&nbsp;", "\u00A0" )
+	console.log("TEST 1bb", original)
+	console.log("TEST 1c", this._properties.marked)
+	const marked = this._properties.marked.replace("&nbsp;", "\u00A0" )
+	console.log("TEST 1cb", marked)
+	console.log("TEST 1d", text.split( this._properties.original ).join( this._properties.marked ))
+	console.log("TEST 1db", text.split( original ).join( marked ))
+	const marked_text = text.split( original ).join( marked )
+	// return text.split( this._properties.original ).join( this._properties.marked );
+	return marked_text
 };
 
 /**
