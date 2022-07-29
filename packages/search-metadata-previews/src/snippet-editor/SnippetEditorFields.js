@@ -344,6 +344,7 @@ class SnippetEditorFields extends React.Component {
 					recommendedReplacementVariables={ recommendedReplacementVariables }
 					content={ description }
 					onChange={ this.onChangeDescription }
+					onSearchChange={ onReplacementVariableSearchChange }
 					fieldId={ descriptionInputId }
 				/>
 				<ProgressBar
