@@ -247,6 +247,7 @@ Release Date: August 9th, 2022
 
 
 
+
 Enhancements:
 
 * Adds the site logo and name as default values in the first time configuration and search appearance.
@@ -261,6 +262,7 @@ Bugfixes:
 Other:
 
 * Hides the \"Save changes\" button in the \"Integrations\" tab in the \"Yoast SEO  > General\" page.
+*  Sets the minimum supported WordPress version to 5.9.
 
 = 19.4 =
 Release Date: July 26th, 2022
