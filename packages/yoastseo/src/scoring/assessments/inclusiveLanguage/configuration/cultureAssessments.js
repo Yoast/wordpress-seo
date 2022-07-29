@@ -87,6 +87,7 @@ const cultureAssessments = [
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
+		caseSensitive: true,
 	},
 	{
 		identifier: "africanAmerican",
@@ -95,6 +96,7 @@ const cultureAssessments = [
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
+		caseSensitive: true,
 	},
 	{
 		identifier: "whiteRace",
@@ -103,6 +105,7 @@ const cultureAssessments = [
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: harmfulNonInclusive,
 		learnMoreUrl: "https://yoa.st/",
+		caseSensitive: true,
 	},
 	{
 		identifier: "whitelist",
@@ -172,6 +175,7 @@ const cultureAssessments = [
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulUnless,
 		learnMoreUrl: "https://yoa.st/",
+		caseSensitive: true,
 	},
 	{
 		identifier: "mulatto",
@@ -212,6 +216,7 @@ const cultureAssessments = [
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulCareful,
 		learnMoreUrl: "https://yoa.st/",
+		caseSensitive: true,
 	},
 	{
 		identifier: "ebonics",
@@ -220,6 +225,7 @@ const cultureAssessments = [
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
+		caseSensitive: true,
 	},
 	{
 		identifier: "powWow",
