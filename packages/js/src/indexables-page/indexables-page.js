@@ -423,7 +423,7 @@ function IndexablesPage() {
 									indexable={ indexable }
 									addToIgnoreList={ setIgnoreIndexable }
 								>
-									<div key={ `least-linked-score-${ indexable.id }` } className="yst-shrink-0 yst-flex yst-items-center yst-gap-1">
+									<div key={ `least-linked-score-${ indexable.id }` } className="yst-min-w-[65px] yst-shrink-0 yst-flex yst-items-center yst-gap-1">
 										<LinkIcon className="yst-h-4 yst-w-4 yst-text-gray-400" />{ indexable.incoming_link_count }
 									</div>
 									<div key={ `least-linked-title-${ indexable.id }` } className="yst-grow yst-min-w-0">
@@ -466,7 +466,7 @@ function IndexablesPage() {
 									indexable={ indexable }
 									addToIgnoreList={ setIgnoreIndexable }
 								>
-									<div key={ `most-linked-score-${ indexable.id }` } className="yst-shrink-0 yst-flex yst-items-center yst-gap-1">
+									<div key={ `most-linked-score-${ indexable.id }` } className="yst-min-w-[65px] yst-shrink-0 yst-flex yst-items-center yst-gap-1">
 										<LinkIcon className="yst-h-4 yst-w-4 yst-text-gray-400" />{ indexable.incoming_link_count }
 									</div>
 									<div key={ `most-linked-title-${ indexable.id }` } className="yst-grow yst-min-w-0">
