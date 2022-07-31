@@ -9,6 +9,7 @@ use WPSEO_Shortlinker;
  * Presents a set of different messages for the Links_Table health check.
  */
 class Links_Table_Reports {
+
 	use Reports_Trait;
 
 	/**

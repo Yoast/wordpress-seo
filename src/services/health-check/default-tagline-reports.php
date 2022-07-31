@@ -6,6 +6,7 @@ namespace Yoast\WP\SEO\Services\Health_Check;
  * Presents a set of different messages for the Default_Tagline health check.
  */
 class Default_Tagline_Reports {
+
 	use Reports_Trait;
 
 	/**

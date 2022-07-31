@@ -6,6 +6,7 @@ namespace Yoast\WP\SEO\Services\Health_Check;
  * Presents a set of different messages for the Page_Comments health check.
  */
 class Page_Comments_Reports {
+
 	use Reports_Trait;
 
 	/**
