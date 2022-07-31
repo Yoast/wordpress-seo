@@ -45,7 +45,7 @@ class Page_Comments_Check extends Health_Check {
 	 * @return string The human-readable label.
 	 */
 	public function get_test_label() {
-		return __( 'Page comments', 'wordpress-seo' );
+		return \__( 'Page comments', 'wordpress-seo' );
 	}
 
 	/**

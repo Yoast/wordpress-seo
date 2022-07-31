@@ -24,9 +24,9 @@ class Page_Comments_Reports {
 	 */
 	public function get_success_result() {
 		return $this->get_report_builder()
-			->set_label( esc_html__( 'Comments are displayed on a single page', 'wordpress-seo' ) )
+			->set_label( \esc_html__( 'Comments are displayed on a single page', 'wordpress-seo' ) )
 			->set_status_good()
-			->set_description( __( 'Comments on your posts are displayed on a single page. This is just like we\'d suggest it. You\'re doing well!', 'wordpress-seo' ) )
+			->set_description( \__( 'Comments on your posts are displayed on a single page. This is just like we\'d suggest it. You\'re doing well!', 'wordpress-seo' ) )
 			->build();
 	}
 
@@ -37,9 +37,9 @@ class Page_Comments_Reports {
 	 */
 	public function get_has_comments_on_multiple_pages_result() {
 		return $this->get_report_builder()
-			->set_label( __( 'Comments break into multiple pages', 'wordpress-seo' ) )
+			->set_label( \__( 'Comments break into multiple pages', 'wordpress-seo' ) )
 			->set_status_recommended()
-			->set_description( __( 'Comments on your posts break into multiple pages. As this is not needed in 999 out of 1000 cases, we recommend you disable it. To fix this, uncheck "Break comments into pages..." on the Discussion Settings page.', 'wordpress-seo' ) )
+			->set_description( \__( 'Comments on your posts break into multiple pages. As this is not needed in 999 out of 1000 cases, we recommend you disable it. To fix this, uncheck "Break comments into pages..." on the Discussion Settings page.', 'wordpress-seo' ) )
 			->set_actions( $this->get_has_comments_on_multiple_pages_actions() )
 			->build();
 	}
@@ -50,10 +50,10 @@ class Page_Comments_Reports {
 	 * @return string The actions as a string.
 	 */
 	private function get_has_comments_on_multiple_pages_actions() {
-		return sprintf(
+		return \sprintf(
 			/* translators: 1: Opening tag of the link to the discussion settings page, 2: Link closing tag. */
-			esc_html__( '%1$sGo to the Discussion Settings page%2$s', 'wordpress-seo' ),
-			'<a href="' . esc_url( admin_url( 'options-discussion.php' ) ) . '">',
+			\esc_html__( '%1$sGo to the Discussion Settings page%2$s', 'wordpress-seo' ),
+			'<a href="' . \esc_url( \admin_url( 'options-discussion.php' ) ) . '">',
 			'</a>'
 		);
 	}

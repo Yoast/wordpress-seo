@@ -418,7 +418,7 @@ class Indexable_Post_Builder {
 	 * @return string|null The input string or null.
 	 */
 	protected function empty_string_to_null( $string ) {
-		if ( ! is_string( $string ) || $string === '' ) {
+		if ( ! \is_string( $string ) || $string === '' ) {
 			return null;
 		}
 

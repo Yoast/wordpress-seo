@@ -302,7 +302,7 @@ abstract class OAuth_Client {
 
 			throw new Authentication_Failed_Exception( $exception );
 		} finally {
-			delete_transient( $lock_name );
+			\delete_transient( $lock_name );
 		}
 	}
 }

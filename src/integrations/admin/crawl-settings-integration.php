@@ -229,7 +229,7 @@ class Crawl_Settings_Integration implements Integration_Interface {
 			);
 			$yform->hidden( 'clean_permalinks_extra_variables', 'clean_permalinks_extra_variables' );
 			echo '<p class="desc label yoast-extra-variables-label-free">';
-			esc_html_e( 'Please use a comma to separate multiple URL parameters.', 'wordpress-seo' );
+			\esc_html_e( 'Please use a comma to separate multiple URL parameters.', 'wordpress-seo' );
 			echo '</p>';
 			echo '</div>';
 		}
@@ -269,9 +269,9 @@ class Crawl_Settings_Integration implements Integration_Interface {
 			// NOTE: the off/on labels here are flipped from their actual would-be values in premium for cosmetic reasons and limitations with disabled toggles.
 			$toggles = [
 				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch -- Reason: text is originally from Yoast SEO.
-				'off' => __( 'Allow Control', 'wordpress-seo' ),
+				'off' => \__( 'Allow Control', 'wordpress-seo' ),
 				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch -- Reason: text is originally from Yoast SEO.
-				'on'  => __( 'Disable', 'wordpress-seo' ),
+				'on'  => \__( 'Disable', 'wordpress-seo' ),
 			];
 		}
 		foreach ( $settings as $setting => $label ) {

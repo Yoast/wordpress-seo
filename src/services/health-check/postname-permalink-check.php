@@ -45,7 +45,7 @@ class Postname_Permalink_Check extends Health_Check {
 	 * @return string The human-readable label.
 	 */
 	public function get_test_label() {
-		return __( 'Postname permalink', 'wordpress-seo' );
+		return \__( 'Postname permalink', 'wordpress-seo' );
 	}
 
 	/**

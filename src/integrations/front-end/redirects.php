@@ -234,7 +234,7 @@ class Redirects implements Integration_Interface {
 			unset( $query_vars[ $variable ] );
 		}
 		$url = $base_url;
-		if ( count( $query_vars ) > 0 ) {
+		if ( \count( $query_vars ) > 0 ) {
 			$url .= '?' . \http_build_query( $query_vars );
 		}
 

@@ -102,7 +102,7 @@ class Ryte_Runner implements Runner_Interface {
 		$this->ryte->fetch_from_ryte();
 		$response = $this->ryte->get_response();
 
-		if ( is_array( $response ) && isset( $response['is_error'] ) ) {
+		if ( \is_array( $response ) && isset( $response['is_error'] ) ) {
 			$this->got_valid_response = false;
 			$this->response_error     = $response;
 			return;
@@ -132,15 +132,15 @@ class Ryte_Runner implements Runner_Interface {
 	 * @return bool
 	 */
 	public function should_run() {
-		if ( wp_get_environment_type() !== 'production' ) {
+		if ( \wp_get_environment_type() !== 'production' ) {
 			return false;
 		}
 
-		if ( wp_debug_mode() || $this->utils->is_development_mode() ) {
+		if ( \wp_debug_mode() || $this->utils->is_development_mode() ) {
 			return false;
 		}
 
-		if ( get_option( 'blog_public' ) === '0' ) {
+		if ( \get_option( 'blog_public' ) === '0' ) {
 			return false;
 		}
 
