@@ -18,8 +18,6 @@ class Ryte_Check extends Health_Check {
 	 *
 	 * @param Ryte_Runner  $runner  The object that implements the actual health check.
 	 * @param Ryte_Reports $reports The object that generates WordPress-friendly results.
-	 *
-	 * @return void
 	 */
 	public function __construct(
 		Ryte_Runner $runner,

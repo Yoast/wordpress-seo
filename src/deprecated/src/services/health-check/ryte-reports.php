@@ -25,8 +25,6 @@ class Ryte_Reports {
 	 *                                                       WordPress-friendly health check results.
 	 * @param WPSEO_Shortlinker      $shortlinker            The WPSEO_Shortlinker object used to generate short
 	 *                                                       links.
-	 *
-	 * @return void
 	 */
 	public function __construct(
 		Report_Builder_Factory $report_builder_factory,
