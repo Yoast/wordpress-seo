@@ -46,7 +46,7 @@ class Wordproof implements Integration_Interface {
 	/**
 	 * The WordProof integration constructor.
 	 *
-	 * @param Wordproof_Helper          $wordproof The WordProof helper instance.
+	 * @param Wordproof_Helper          $wordproof     The WordProof helper instance.
 	 * @param WPSEO_Admin_Asset_Manager $asset_manager The WPSEO admin asset manager instance.
 	 */
 	public function __construct( Wordproof_Helper $wordproof, WPSEO_Admin_Asset_Manager $asset_manager = null ) {
@@ -237,9 +237,9 @@ class Wordproof implements Integration_Interface {
 	/**
 	 * Adds async to the wordproof-uikit script.
 	 *
-	 * @param string $tag The script tag for the enqueued script.
+	 * @param string $tag    The script tag for the enqueued script.
 	 * @param string $handle The script's registered handle.
-	 * @param string $src The script's source URL.
+	 * @param string $src    The script's source URL.
 	 *
 	 * @return string The script's tag.
 	 *

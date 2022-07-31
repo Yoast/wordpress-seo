@@ -327,7 +327,7 @@ class Aioseo_Validate_Data_Action_Test extends TestCase {
 	 * @param array $pluck_setting_times The times we pluck the robot setting map.
 	 * @param array $aioseo_settings     The AIOSEO settings.
 	 * @param int   $get_option_times    The times we retrieve the AIOSEO settings.
-	 * @param bool  $expected_result    The expected result of the validate_default_robot_settings().
+	 * @param bool  $expected_result     The expected result of the validate_default_robot_settings().
 	 *
 	 * @dataProvider provider_validate_default_robot_settings
 	 * @covers ::validate_default_robot_settings

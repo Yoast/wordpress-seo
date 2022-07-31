@@ -12,7 +12,9 @@ class Default_Tagline_Reports {
 	/**
 	 * Constructor
 	 *
-	 * @param  Report_Builder_Factory $report_builder_factory The factory for result builder objects. This class uses the report builder to generate WordPress-friendly health check results.
+	 * @param  Report_Builder_Factory $report_builder_factory The factory for result builder objects.
+	 *                                                        This class uses the report builder to generate WordPress-friendly
+	 *                                                        health check results.
 	 * @return void
 	 */
 	public function __construct( Report_Builder_Factory $report_builder_factory ) {

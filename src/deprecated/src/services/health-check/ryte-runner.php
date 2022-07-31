@@ -55,7 +55,7 @@ class Ryte_Runner implements Runner_Interface {
 	 * @deprecated 19.6
 	 * @codeCoverageIgnore
 	 *
-	 * @param Ryte_Integration $ryte The Ryte_Integration object that the health check uses to check indexability.
+	 * @param Ryte_Integration $ryte  The Ryte_Integration object that the health check uses to check indexability.
 	 * @param WPSEO_Utils      $utils The WPSEO_Utils object used to determine whether the site is in development mode.
 	 */
 	public function __construct(

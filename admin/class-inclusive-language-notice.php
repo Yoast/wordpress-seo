@@ -36,7 +36,7 @@ class WPSEO_Inclusive_Language_Notice {
 	/**
 	 * WPSEO_Inclusive_Language_Notice constructor.
 	 *
-	 * @param Yoast_Notification_Center $notification_center  The notification center to add notifications to.
+	 * @param Yoast_Notification_Center $notification_center The notification center to add notifications to.
 	 */
 	public function __construct( Yoast_Notification_Center $notification_center ) {
 		$this->notification_center = $notification_center;
