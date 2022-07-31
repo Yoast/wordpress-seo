@@ -864,7 +864,7 @@ class Yoast_Form {
 		$help_class = ! empty( $help ) ? ' switch-container__has-help' : '';
 
 		$has_premium_upsell = ( isset( $attr['show_premium_upsell'] ) && $attr['show_premium_upsell'] && isset( $attr['premium_upsell_url'] ) && ! empty( $attr['premium_upsell_url'] ) );
-		$upsell_class       = $has_premium_upsell ? ' premium-upsell' : '';
+		$upsell_class       = ( $has_premium_upsell ) ? ' premium-upsell' : '';
 
 		$var_esc = esc_attr( $variable );
 
