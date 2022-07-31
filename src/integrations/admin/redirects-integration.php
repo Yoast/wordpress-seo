@@ -60,6 +60,6 @@ class Redirects_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function display() {
-		require WPSEO_PATH . 'admin/pages/redirects.php';
+		require \WPSEO_PATH . 'admin/pages/redirects.php';
 	}
 }

@@ -55,7 +55,7 @@ class Links_Table_Runner implements Runner_Interface {
 			return;
 		}
 
-		$this->links_table_accessible = $this->migration_status->is_version( 'free', WPSEO_VERSION );
+		$this->links_table_accessible = $this->migration_status->is_version( 'free', \WPSEO_VERSION );
 	}
 
 	/**

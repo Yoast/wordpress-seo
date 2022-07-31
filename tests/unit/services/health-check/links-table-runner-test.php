@@ -101,7 +101,7 @@ class Links_Table_Runner_Test extends TestCase {
 			->andReturn( true );
 		$this->migration_status
 			->shouldReceive( 'is_version' )
-			->withArgs( [ 'free', WPSEO_VERSION ] )
+			->withArgs( [ 'free', \WPSEO_VERSION ] )
 			->andReturn( true );
 
 		$this->instance->run();
@@ -125,7 +125,7 @@ class Links_Table_Runner_Test extends TestCase {
 			->andReturn( true );
 		$this->migration_status
 			->shouldReceive( 'is_version' )
-			->withArgs( [ 'free', WPSEO_VERSION ] )
+			->withArgs( [ 'free', \WPSEO_VERSION ] )
 			->andReturn( false );
 
 		$this->instance->run();
