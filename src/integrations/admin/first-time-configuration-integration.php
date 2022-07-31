@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Integrations\Admin;
 
+use WP_User;
 use WPSEO_Addon_Manager;
 use WPSEO_Admin_Asset_Manager;
 use WPSEO_Shortlinker;
@@ -64,7 +65,7 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 	/**
 	 * The meta tags context helper.
 	 *
-	 * @var \Yoast\WP\SEO\Context\Meta_Tags_Context
+	 * @var Meta_Tags_Context
 	 */
 	private $meta_tags_context;
 
@@ -371,7 +372,7 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 	 */
 	private function get_person_name() {
 		$user = \get_userdata( $this->get_person_id() );
-		if ( $user instanceof \WP_User ) {
+		if ( $user instanceof WP_User ) {
 			return $user->get( 'display_name' );
 		}
 

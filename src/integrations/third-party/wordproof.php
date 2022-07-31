@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Integrations\Third_Party;
 
+use WPSEO_Admin_Asset;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Third_Party\Wordproof_Integration_Active_Conditional;
 use YoastSEO_Vendor\WordProof\SDK\Helpers\CertificateHelper;
@@ -220,7 +221,7 @@ class Wordproof implements Integration_Interface {
 			 * We are using the Admin asset manager to register and enqueue a file served for all visitors,
 			 * authenticated and unauthenticated users.
 			 */
-			$script = new \WPSEO_Admin_Asset(
+			$script = new WPSEO_Admin_Asset(
 				[
 					'name'    => 'wordproof-uikit',
 					'src'     => 'wordproof-uikit.js',
