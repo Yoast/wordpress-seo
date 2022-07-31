@@ -5,7 +5,6 @@ namespace Yoast\WP\SEO\Tests\Unit\Services\Health_Check;
 use Mockery;
 use Yoast\WP\SEO\Services\Health_Check\Report_Builder;
 use Yoast\WP\SEO\Services\Health_Check\Report_Builder_Factory;
-use Yoast\WP\SEO\Services\Health_Check\Reports_Trait;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Services\Health_Check\Reports_Trait_Double;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 

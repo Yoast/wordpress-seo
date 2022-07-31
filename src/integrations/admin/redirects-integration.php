@@ -2,8 +2,6 @@
 
 namespace Yoast\WP\SEO\Integrations\Admin;
 
-use WPSEO_Admin_Utils;
-use WPSEO_Shortlinker;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Premium_Inactive_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;

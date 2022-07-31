@@ -2,8 +2,6 @@
 
 namespace Yoast\WP\SEO\Generators\Schema;
 
-use Yoast\WP\SEO\Config\Schema_IDs;
-
 /**
  * Returns schema Author data.
  */

@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Services\Health_Check;
 
-use Brain\Monkey;
 use Mockery;
 use WPSEO_Addon_Manager;
 use WPSEO_MyYoast_Api_Request;
