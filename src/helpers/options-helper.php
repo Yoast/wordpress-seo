@@ -125,7 +125,11 @@ class Options_Helper {
 	 * @return string|false The validated URL or false if the URL is not valid.
 	 */
 	public function validate_social_url( $url ) {
-		return $url === '' || WPSEO_Option_Social::get_instance()->validate_social_url( $url );
+		if ( $url === '' ) {
+			return '';
+		}
+
+		return WPSEO_Option_Social::get_instance()->validate_social_url( $url );
 	}
 
 	/**
