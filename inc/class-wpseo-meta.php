@@ -383,8 +383,6 @@ class WPSEO_Meta {
 					unset( $field_defs['bctitle'] );
 				}
 
-				global $post;
-
 				if ( empty( $post->ID ) || ( ! empty( $post->ID ) && self::get_value( 'redirect', $post->ID ) === '' ) ) {
 					unset( $field_defs['redirect'] );
 				}
