@@ -2,10 +2,10 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Services\Importing;
 
-use Mockery;
 use Brain\Monkey;
-use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Provider_Service;
+use Mockery;
 use Yoast\WP\SEO\Helpers\Aioseo_Helper;
+use Yoast\WP\SEO\Services\Importing\Aioseo\Aioseo_Robots_Provider_Service;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**

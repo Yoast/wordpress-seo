@@ -5,15 +5,15 @@ namespace Yoast\WP\SEO\Integrations\Admin;
 use WP_User;
 use WPSEO_Addon_Manager;
 use WPSEO_Admin_Asset_Manager;
+use WPSEO_Option_Tab;
 use WPSEO_Shortlinker;
 use WPSEO_Utils;
-use WPSEO_Option_Tab;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
+use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast\WP\SEO\Routes\Indexing_Route;
-use Yoast\WP\SEO\Context\Meta_Tags_Context;
 
 /**
  * First_Time_Configuration_Integration class

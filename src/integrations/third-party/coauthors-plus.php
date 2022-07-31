@@ -3,9 +3,9 @@
 namespace Yoast\WP\SEO\Integrations\Third_Party;
 
 use WP_User;
-use Yoast\WP\SEO\Config\Schema_Types;
 use Yoast\WP\SEO\Conditionals\Third_Party\CoAuthors_Plus_Activated_Conditional;
 use Yoast\WP\SEO\Conditionals\Third_Party\CoAuthors_Plus_Flag_Conditional;
+use Yoast\WP\SEO\Config\Schema_Types;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Generators\Schema\Abstract_Schema_Piece;
 use Yoast\WP\SEO\Generators\Schema\Third_Party\CoAuthor;

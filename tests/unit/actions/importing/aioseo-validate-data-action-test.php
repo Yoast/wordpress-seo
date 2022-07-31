@@ -2,8 +2,8 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Actions\Importing;
 
-use Mockery;
 use Brain\Monkey;
+use Mockery;
 use wpdb;
 use Yoast\WP\SEO\Actions\Importing\Aioseo\Aioseo_Custom_Archive_Settings_Importing_Action;
 use Yoast\WP\SEO\Actions\Importing\Aioseo\Aioseo_Default_Archive_Settings_Importing_Action;
