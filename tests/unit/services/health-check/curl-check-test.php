@@ -57,9 +57,10 @@ class Curl_Check_Test extends TestCase {
 	/**
 	 * Checks if the health check returns the correct label.
 	 *
-	 * @return void
 	 * @covers ::__construct
 	 * @covers ::get_test_label
+	 *
+	 * @return void
 	 */
 	public function test_returns_correct_label() {
 		$expected_label = 'cURL';
@@ -71,11 +72,12 @@ class Curl_Check_Test extends TestCase {
 	/**
 	 * Checks if the health check returns the correct report when the health check's runner was successful.
 	 *
-	 * @return void
 	 * @covers ::__construct
 	 * @covers ::run_and_get_result
 	 * @covers ::get_result
 	 * @covers ::set_runner
+	 *
+	 * @return void
 	 */
 	public function test_returns_success_report() {
 		$expected_result = [ 'correct' ];
@@ -104,11 +106,12 @@ class Curl_Check_Test extends TestCase {
 	/**
 	 * Checks if the health check returns an empty report when the health check's runner didn't find any premium plugins.
 	 *
-	 * @return void
 	 * @covers ::__construct
 	 * @covers ::run_and_get_result
 	 * @covers ::get_result
 	 * @covers ::set_runner
+	 *
+	 * @return void
 	 */
 	public function test_returns_no_result() {
 		$expected_result = [];
@@ -129,11 +132,12 @@ class Curl_Check_Test extends TestCase {
 	/**
 	 * Checks if the health check returns the correct report when the health check's runner didn't find a recent cURL verison.
 	 *
-	 * @return void
 	 * @covers ::__construct
 	 * @covers ::run_and_get_result
 	 * @covers ::get_result
 	 * @covers ::set_runner
+	 *
+	 * @return void
 	 */
 	public function test_returns_no_recent_curl_version_installed_result() {
 		$expected_result = [ 'correct' ];
@@ -166,11 +170,12 @@ class Curl_Check_Test extends TestCase {
 	/**
 	 * Checks if the health check returns the correct report when the health check's runner couldn't reach the MyYoast API.
 	 *
-	 * @return void
 	 * @covers ::__construct
 	 * @covers ::run_and_get_result
 	 * @covers ::get_result
 	 * @covers ::set_runner
+	 *
+	 * @return void
 	 */
 	public function test_returns_my_yoast_api_not_reachable_result() {
 
@@ -208,11 +213,12 @@ class Curl_Check_Test extends TestCase {
 	/**
 	 * Checks if the health check returns an empty report when there aren't any conditions left to check.
 	 *
-	 * @return void
 	 * @covers ::__construct
 	 * @covers ::run_and_get_result
 	 * @covers ::get_result
 	 * @covers ::set_runner
+	 *
+	 * @return void
 	 */
 	public function test_returns_nothing_after_all_cases() {
 		$expected_result = [];
