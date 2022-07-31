@@ -32,7 +32,7 @@ class Wordproof implements Integration_Interface {
 	/**
 	 * The WordProof helper instance.
 	 *
-	 * @var Wordproof_Helper $wordproof The helper instance.
+	 * @var Wordproof_Helper
 	 */
 	protected $wordproof;
 
