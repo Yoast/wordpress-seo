@@ -7,6 +7,7 @@
  */
 export function update( indicator ) {
 	jQuery( "#wp-admin-bar-wpseo-menu .wpseo-score-icon" )
+		.attr( "title", indicator.screenReaderText )
 		.attr( "class", "wpseo-score-icon " + indicator.className )
 		.find( ".wpseo-score-text" ).text( indicator.screenReaderText );
 }
