@@ -23,39 +23,6 @@
   border-top: 1px solid #eee;
 }
 
-#yoast-seo-ryte-assessment {
-  margin: 12px -12px 0;
-  padding: 12px 12px 0;
-  border-top: 1px solid #eee;
-}
-
-#yoast-seo-ryte-assessment .button {
-  margin-right: 8px;
-}
-
-#yoast-seo-ryte-assessment .button.landing-page {
-  border-color: #7b1e4f #6f1b47 #6f1b47;
-  color: #fff;
-  background: #a4286a;
-  box-shadow: 0 1px 0 #6f1b47;
-}
-
-#yoast-seo-ryte-assessment .button.landing-page:hover, #yoast-seo-ryte-assessment .button.landing-page:focus {
-  background: #90235d;
-  border-color: #6f1b47;
-}
-
-#yoast-seo-ryte-assessment .button.landing-page:focus {
-  box-shadow: 0 1px 0 #7b1e4f, 0 0 2px 1px #a35685;
-}
-
-#yoast-seo-ryte-assessment .button.landing-page:active {
-  background: #7b1e4f;
-  border-color: #6f1b47;
-  box-shadow: inset 0 2px 0 #6f1b47;
-  vertical-align: top;
-}
-
 #yoast-seo-dashboard-widget:empty:before {
   display: block;
   content: "";
