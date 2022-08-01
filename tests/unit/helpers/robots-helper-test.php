@@ -7,6 +7,7 @@ use Mockery;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Helpers\Robots_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
+use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -49,6 +50,78 @@ class Robots_Helper_Test extends TestCase {
 		$this->taxonomy_helper  = Mockery::mock( Taxonomy_Helper::class );
 
 		$this->instance = new Robots_Helper( $this->post_type_helper, $this->taxonomy_helper );
+	}
+
+	/**
+	 * Tests if the needed attributes are set correctly.
+	 *
+	 * @covers ::__construct
+	 */
+	public function test_constructor() {
+		$this->assertInstanceOf(
+			Post_Type_Helper::class,
+			$this->getPropertyValue( $this->instance, 'post_type_helper' )
+		);
+		$this->assertInstanceOf(
+			Taxonomy_Helper::class,
+			$this->getPropertyValue( $this->instance, 'taxonomy_helper' )
+		);
+	}
+
+	/**
+	 * Tests that the indexable returns true when `is_robots_noindex` is false.
+	 *
+	 * @covers ::is_indexable
+	 */
+	public function test_is_indexable_true() {
+		$indexable                    = Mockery::mock( Indexable_Mock::class );
+		$indexable->is_robots_noindex = false;
+
+		$this->assertTrue( $this->instance->is_indexable( $indexable ) );
+	}
+
+	/**
+	 * Tests that the indexable returns false when `is_robots_noindex` is true.
+	 *
+	 * @covers ::is_indexable
+	 */
+	public function test_is_indexable_false() {
+		$indexable                    = Mockery::mock( Indexable_Mock::class );
+		$indexable->is_robots_noindex = true;
+
+		$this->assertFalse( $this->instance->is_indexable( $indexable ) );
+	}
+
+	/**
+	 * Tests that the post type setting is checked when the indexable does not have an override.
+	 *
+	 * @covers ::is_indexable
+	 */
+	public function test_is_indexable_post_type() {
+		$indexable                    = Mockery::mock( Indexable_Mock::class );
+		$indexable->is_robots_noindex = null;
+		$indexable->object_type       = 'post';
+		$indexable->object_sub_type   = 'post';
+
+		$this->post_type_helper->expects( 'is_indexable' )->with( $indexable->object_sub_type )->andReturns( true );
+
+		$this->assertTrue( $this->instance->is_indexable( $indexable ) );
+	}
+
+	/**
+	 * Tests that the taxonomy setting is checked when the indexable does not have an override.
+	 *
+	 * @covers ::is_indexable
+	 */
+	public function test_is_indexable_taxonomy() {
+		$indexable                    = Mockery::mock( Indexable_Mock::class );
+		$indexable->is_robots_noindex = null;
+		$indexable->object_type       = 'term';
+		$indexable->object_sub_type   = 'category';
+
+		$this->taxonomy_helper->expects( 'is_indexable' )->with( $indexable->object_sub_type )->andReturns( true );
+
+		$this->assertTrue( $this->instance->is_indexable( $indexable ) );
 	}
 
 	/**

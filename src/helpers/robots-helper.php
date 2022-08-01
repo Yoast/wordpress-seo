@@ -44,25 +44,18 @@ class Robots_Helper {
 	 *
 	 * @return bool Whether the Indexable is indexable.
 	 */
-	public function is_indexable( $indexable ) {
-		$is_indexable = $indexable->is_robots_noindex === false;
-
+	public function is_indexable( Indexable $indexable ) {
 		if ( $indexable->is_robots_noindex === null ) {
 			// No individual value set, check the global setting.
 			switch ( $indexable->object_type ) {
 				case 'post':
-					$is_indexable = $this->post_type_helper->is_indexable( $indexable->object_sub_type );
-					break;
+					return $this->post_type_helper->is_indexable( $indexable->object_sub_type );
 				case 'term':
-					$is_indexable = $this->taxonomy_helper->is_indexable( $indexable->object_sub_type );
-					break;
-				default:
-					$is_indexable = true;
-					break;
+					return $this->taxonomy_helper->is_indexable( $indexable->object_sub_type );
 			}
 		}
 
-		return $is_indexable;
+		return $indexable->is_robots_noindex === false;
 	}
 
 	/**
