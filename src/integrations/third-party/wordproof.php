@@ -154,10 +154,10 @@ class Wordproof implements Integration_Interface {
 	/**
 	 * Return the Yoast post meta key for the SDK to determine if the post should be timestamped.
 	 *
-	 * @param array $array The array containing meta keys that should be used.
+	 * @param array $meta_keys The array containing meta keys that should be used.
 	 * @return array
 	 */
-	public function add_post_meta_key( $array ) {
+	public function add_post_meta_key( $meta_keys ) {
 		return [ $this->post_meta_key ];
 	}
 
