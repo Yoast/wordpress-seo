@@ -1,6 +1,7 @@
 import { __, _n, sprintf } from "@wordpress/i18n";
-import { filter, merge } from "lodash-es";
-
+import { filter, map, merge } from "lodash-es";
+import marker from "../../../../src/markers/addMark";
+import Mark from "../../../../src/values/Mark";
 import Assessment from "../assessment";
 import { inRangeEndInclusive as inRange } from "../../helpers/assessments/inRange";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
@@ -78,11 +79,15 @@ class SubheadingsDistributionTooLong extends Assessment {
 
 		const customCountLength = researcher.getHelper( "customCountLength" );
 		this._textLength = customCountLength ? customCountLength( paper.getText() ) : getWords( paper.getText() ).length;
-
 		const calculatedResult = this.calculateResult();
 		calculatedResult.resultTextPlural = calculatedResult.resultTextPlural || "";
 		assessmentResult.setScore( calculatedResult.score );
 		assessmentResult.setText( calculatedResult.resultText );
+
+		if ( calculatedResult.score > 2 && calculatedResult.score < 7 ) {
+			assessmentResult.setHasMarks( true );
+			assessmentResult.setMarker( this.getMarks() );
+		}
 
 		return assessmentResult;
 	}
@@ -146,6 +151,12 @@ class SubheadingsDistributionTooLong extends Assessment {
 		return subheadings.length > 0;
 	}
 
+	/**
+	 * Creates a marker for each subheading that precedes a text that is too long.
+	 * @returns {Array} All markers for the current text.
+	 */
+	getMarks() {
+	}
 	/**
 	 * Counts the number of subheading texts that are too long.
 	 *
