@@ -10,7 +10,7 @@ addMethod( number, "isMediaTypeImage", function( isRequired = false ) {
 		"isMediaTypeImage",
 		__( "The selected media type is not valid. Supported types are: JPG, PNG, WEBP and GIF.", "wordpress-seo" ),
 		mediaId => {
-			if ( mediaId ) {
+			if ( ! mediaId ) {
 				return ! isRequired;
 			}
 			const media = select( STORE_NAME ).selectMediaById( mediaId );
