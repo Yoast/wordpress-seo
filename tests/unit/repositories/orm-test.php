@@ -70,6 +70,10 @@ class Orm_Test extends TestCase {
 	 * @covers ::insert_many
 	 */
 	public function test_insert_many_throws_on_not_new_model() {
+		if ( \getenv( 'CI' ) === false ) {
+			$this->markTestSkipped('This test triggers a bug with __debugInfo() vs Mockery. Skipping for now.');
+		}
+
 		// Arrange.
 		$orm = Mockery::mock( ORM::class );
 		$orm->expects( 'is_new' )
