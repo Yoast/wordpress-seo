@@ -482,12 +482,13 @@ function IndexablesPage() {
 				<IndexablesTable>
 					{
 						listedIndexables.least_readability.slice( 0, listSize ).map(
-							indexable => {
+							( indexable, position ) => {
 								return <IndexablesTable.Row
 									key={ `indexable-${ indexable.id }-row` }
 									type="least_readability"
 									indexable={ indexable }
 									addToIgnoreList={ setIgnoreIndexable }
+									position={ position }
 								>
 									<IndexableScore
 										key={ `readability-score-${ indexable.id }` }
@@ -514,12 +515,13 @@ function IndexablesPage() {
 				<IndexablesTable>
 					{
 						listedIndexables.least_linked.slice( 0, listSize ).map(
-							indexable => {
+							( indexable, position ) => {
 								return <IndexablesTable.Row
 									key={ `indexable-${ indexable.id }-row` }
 									type="least_linked"
 									indexable={ indexable }
 									addToIgnoreList={ setIgnoreIndexable }
+									position={ position }
 								>
 									<IndexableLinkCount key={ `least-linked-score-${ indexable.id }` } count={ parseInt( indexable.incoming_link_count, 10 ) } />
 									<IndexableTitleLink key={ `least-linked-title-${ indexable.id }` } indexable={ indexable } />
@@ -545,12 +547,13 @@ function IndexablesPage() {
 				<IndexablesTable>
 					{
 						listedIndexables.most_linked.slice( 0, listSize ).map(
-							indexable => {
+							( indexable, position ) => {
 								return <IndexablesTable.Row
 									key={ `indexable-${ indexable.id }-row` }
 									type="most_linked"
 									indexable={ indexable }
 									addToIgnoreList={ setIgnoreIndexable }
+									position={ position }
 								>
 									<IndexableLinkCount key={ `most-linked-score-${ indexable.id }` } count={ parseInt( indexable.incoming_link_count, 10 ) } />
 									<IndexableTitleLink key={ `most-linked-title-${ indexable.id }` } indexable={ indexable } />
