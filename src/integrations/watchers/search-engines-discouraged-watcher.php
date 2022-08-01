@@ -71,27 +71,25 @@ class Search_Engines_Discouraged_Watcher implements Integration_Interface {
 	/**
 	 * Auto_Update constructor.
 	 *
-	 * @param Yoast_Notification_Center            $notification_center The notification center.
-	 * @param Notification_Helper                  $notification_helper The notification helper.
-	 * @param Search_Engines_Discouraged_Presenter $presenter The presenter for the search engines discouraged notification.
-	 * @param Current_Page_Helper                  $current_page_helper The current page helper.
-	 * @param Options_Helper                       $options_helper The options helper.
-	 * @param Capability_Helper                    $capability_helper The capability helper.
+	 * @param Yoast_Notification_Center $notification_center The notification center.
+	 * @param Notification_Helper       $notification_helper The notification helper.
+	 * @param Current_Page_Helper       $current_page_helper The current page helper.
+	 * @param Options_Helper            $options_helper      The options helper.
+	 * @param Capability_Helper         $capability_helper   The capability helper.
 	 */
 	public function __construct(
 		Yoast_Notification_Center $notification_center,
 		Notification_Helper $notification_helper,
-		Search_Engines_Discouraged_Presenter $presenter,
 		Current_Page_Helper $current_page_helper,
 		Options_Helper $options_helper,
 		Capability_Helper $capability_helper
 	) {
 		$this->notification_center = $notification_center;
 		$this->notification_helper = $notification_helper;
-		$this->presenter           = $presenter;
 		$this->current_page_helper = $current_page_helper;
 		$this->options_helper      = $options_helper;
 		$this->capability_helper   = $capability_helper;
+		$this->presenter           = new Search_Engines_Discouraged_Presenter();
 	}
 
 	/**
