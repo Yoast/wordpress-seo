@@ -52,13 +52,13 @@ class Robots_Txt_Integration implements Integration_Interface {
 	 * Filters the robots.txt output.
 	 *
 	 * @param string $robots_txt The robots.txt output from WordPress.
-	 * @param string $public     Option that says whether the site is public or not.
+	 * @param string $is_public  Option that says whether the site is public or not.
 	 *
 	 * @return string $output Filtered robots.txt output.
 	 */
-	public function filter_robots( $robots_txt, $public ) {
+	public function filter_robots( $robots_txt, $is_public ) {
 		// If the site isn't public, bail.
-		if ( $public === '0' ) {
+		if ( $is_public === '0' ) {
 			return $robots_txt;
 		}
 
