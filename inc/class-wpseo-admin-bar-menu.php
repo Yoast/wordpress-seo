@@ -6,6 +6,8 @@
  */
 
 use Yoast\WP\SEO\Conditionals\Front_End_Inspector_Conditional;
+use Yoast\WP\SEO\Helpers\Score_Icon_Helper;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
  * Class for the Yoast SEO admin bar menu.
@@ -62,18 +64,44 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	protected $asset_manager;
 
 	/**
-	 * Constructor.
+	 * Holds the Score_Icon_Helper instance.
 	 *
-	 * Sets the asset manager to use.
-	 *
-	 * @param WPSEO_Admin_Asset_Manager|null $asset_manager Optional. Asset manager to use.
+	 * @var Score_Icon_Helper
 	 */
-	public function __construct( WPSEO_Admin_Asset_Manager $asset_manager = null ) {
+	protected $indexable_repository;
+
+	/**
+	 * Holds the Score_Icon_Helper instance.
+	 *
+	 * @var Score_Icon_Helper
+	 */
+	protected $score_icon_helper;
+
+	/**
+	 * Constructs the WPSEO_Admin_Bar_Menu.
+	 *
+	 * @param WPSEO_Admin_Asset_Manager|null $asset_manager        Optional. Asset manager to use.
+	 * @param Indexable_Repository|null      $indexable_repository Optional. The Indexable_Repository.
+	 * @param Score_Icon_Helper|null         $score_icon_helper    Optional. The Score_Icon_Helper.
+	 */
+	public function __construct(
+		WPSEO_Admin_Asset_Manager $asset_manager = null,
+		Indexable_Repository $indexable_repository = null,
+		Score_Icon_Helper $score_icon_helper = null
+	) {
 		if ( ! $asset_manager ) {
 			$asset_manager = new WPSEO_Admin_Asset_Manager();
 		}
+		if ( ! $indexable_repository ) {
+			$indexable_repository = YoastSEO()->classes->get( Indexable_Repository::class );
+		}
+		if ( ! $score_icon_helper ) {
+			$score_icon_helper = YoastSEO()->helpers->score_icon;
+		}
 
-		$this->asset_manager = $asset_manager;
+		$this->asset_manager        = $asset_manager;
+		$this->indexable_repository = $indexable_repository;
+		$this->score_icon_helper    = $score_icon_helper;
 	}
 
 	/**
@@ -569,18 +597,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 			return '';
 		}
 
-		$analysis_seo         = new WPSEO_Metabox_Analysis_SEO();
-		$analysis_readability = new WPSEO_Metabox_Analysis_Readability();
-
-		if ( $analysis_seo->is_enabled() ) {
-			return $this->get_score( WPSEO_Meta::get_value( 'linkdex', $post->ID ) );
-		}
-
-		if ( $analysis_readability->is_enabled() ) {
-			return $this->get_score( WPSEO_Meta::get_value( 'content_score', $post->ID ) );
-		}
-
-		return '';
+		return $this->get_score_icon();
 	}
 
 	/**
@@ -618,36 +635,34 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 			return '';
 		}
 
-		$analysis_seo         = new WPSEO_Metabox_Analysis_SEO();
-		$analysis_readability = new WPSEO_Metabox_Analysis_Readability();
-
-		if ( $analysis_seo->is_enabled() ) {
-			return $this->get_score( WPSEO_Taxonomy_Meta::get_term_meta( $term->term_id, $term->taxonomy, 'linkdex' ) );
-		}
-
-		if ( $analysis_readability->is_enabled() ) {
-			return $this->get_score( WPSEO_Taxonomy_Meta::get_term_meta( $term->term_id, $term->taxonomy, 'content_score' ) );
-		}
-
-		return '';
+		return $this->get_score_icon();
 	}
 
 	/**
-	 * Takes the SEO score and makes the score icon for the admin bar for it.
+	 * Create the score icon.
 	 *
-	 * @param int $score The 0-100 rating of the score. Can be either SEO score or content score.
-	 *
-	 * @return string Score markup.
+	 * @return string The score icon, or empty string.
 	 */
-	protected function get_score( $score ) {
-		$score_class      = WPSEO_Utils::translate_score( $score );
-		$translated_score = WPSEO_Utils::translate_score( $score, false );
-		/* translators: %s expands to the SEO score. */
-		$screen_reader_text = sprintf( __( 'SEO score: %s', 'wordpress-seo' ), $translated_score );
+	protected function get_score_icon() {
+		$is_seo_enabled         = ( new WPSEO_Metabox_Analysis_SEO() )->is_enabled();
+		$is_readability_enabled = ( new WPSEO_Metabox_Analysis_Readability() )->is_enabled();
 
-		$score_adminbar_element = '<div class="wpseo-score-icon adminbar-seo-score ' . $score_class . '"><span class="adminbar-seo-score-text screen-reader-text">' . $screen_reader_text . '</span></div>';
+		if ( ! $is_seo_enabled && ! $is_readability_enabled ) {
+			return '';
+		}
 
-		return $score_adminbar_element;
+		$indexable = $this->indexable_repository->for_current_page();
+
+		if ( $is_seo_enabled ) {
+			return $this->score_icon_helper->for_seo( $indexable, 'adminbar-seo-score' )->present();
+		}
+
+		if ( $is_readability_enabled ) {
+			return $this->score_icon_helper->for_readability( $indexable->readability_score, 'adminbar-seo-score' )
+				->present();
+		}
+
+		return '';
 	}
 
 	/**
