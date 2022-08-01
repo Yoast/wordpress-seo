@@ -164,10 +164,10 @@ class Wordproof implements Integration_Interface {
 	/**
 	 * Return an empty array to disable automatically timestamping selected post types.
 	 *
-	 * @param array $array The array containing post types that should be automatically timestamped.
+	 * @param array $post_types The array containing post types that should be automatically timestamped.
 	 * @return array
 	 */
-	public function wordproof_timestamp_post_types( $array ) {
+	public function wordproof_timestamp_post_types( $post_types ) {
 		return [];
 	}
 
