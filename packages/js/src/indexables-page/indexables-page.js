@@ -14,7 +14,9 @@ const Link = makeOutboundLink();
 /**
  * A score representation.
  *
- * @param {Object} props The props
+ * @param {int} score The indexable score.
+ * @param {int} mediumThreshold The threshold to render a score as medium
+ * @param {int} goodThreshold The threshold to render a score as good
  *
  * @returns {WPElement} A div with a styled score representation.
  */
@@ -42,7 +44,7 @@ IndexableScore.propTypes = {
 /**
  * A link count representation.
  *
- * @param {Object} props The props
+ * @param {int} count The number of links.
  *
  * @returns {WPElement} A div with a styled link count representation.
  */
@@ -59,7 +61,7 @@ IndexableLinkCount.propTypes = {
 /**
  * A link to the indexable.
  *
- * @param {Object} props The props
+ * @param {object} indexable The indexable.
  *
  * @returns {WPElement} A div with a styled link to the indexable.
  */
@@ -85,7 +87,9 @@ IndexableTitleLink.propTypes = {
 /**
  * A card for the indexables page.
  *
- * @param {Object} props The props
+ * @param {string}   title     The indexable title.
+ * @param {boolean}  isLoading Wether the card is loading or not.
+ * @param {JSX.node} children  The React children.
  *
  * @returns {WPElement} A div with a styled link to the indexable.
  */
@@ -113,9 +117,9 @@ IndexablesPageCard.propTypes = {
 /* eslint-disable no-warning-comments */
 /* eslint-disable complexity */
 /**
- * A table.
+ * Renders the four indexable tables.
  *
- * @returns {WPElement} A table.
+ * @returns {WPElement} A div containing the main indexables page.
  */
 function IndexablesPage() {
 	const listSize = parseInt( wpseoIndexablesPageData.listSize, 10 );
@@ -139,7 +143,6 @@ function IndexablesPage() {
 	 * Fetches a list of indexables.
 	 *
 	 * @param {string} listName The name of the list to fetch.
-	 * @param {function} setList The list setter.
 	 *
 	 * @returns {boolean} True if the request was successful.
 	 */
@@ -174,7 +177,7 @@ function IndexablesPage() {
 	};
 
 	/**
-	 * Fetches a list of indexables.
+	 * Updates a list in case an indexable has been ignored.
 	 *
 	 * @param {string} listName The name of the list to fetch.
 	 *
@@ -199,8 +202,8 @@ function IndexablesPage() {
 	/**
 	 * Updates the content of a list of indexables.
 	 *
-	 * @param {string} listName The name of the list to fetch.
-	 * @param {array} indexables The name of the list to fetch.
+	 * @param {string} listName   The name of the list to fetch.
+	 * @param {array}  indexables The name of the list to fetch.
 	 *
 	 * @returns {boolean} True if the update was successful.
 	 */
@@ -209,6 +212,16 @@ function IndexablesPage() {
 		return ( indexables.length < minimumIndexablesInBuffer ) ? fetchList( listName ) : renderList( listName );
 	};
 
+	/**
+	 * Handles the rendering of the links modal.
+	 *
+	 * @param {int}   indexableId         The id of the indexable.
+	 * @param {int}    incomingLinksCount The number of incoming links.
+	 * @param {string} breadcrumbTitle    The title of the indexable.
+	 * @param {string} permalink          The link to the indexable.
+	 *
+	 * @returns {boolean} True if the update was successful.
+	 */
 	const handleOpenModal = useCallback( async( indexableId, incomingLinksCount, breadcrumbTitle, permalink ) => {
 		setIsModalOpen( true );
 
@@ -249,6 +262,13 @@ function IndexablesPage() {
 		}
 	}, [ setSuggestedLinksModalContent, setIsModalOpen ] );
 
+	/**
+	 * Handles the click event of the link button.
+	 *
+	 * @param {event} e The click event.
+	 *
+	 * @returns {void}
+	 */
 	const handleLink = useCallback( ( e ) => {
 		handleOpenModal(
 			e.currentTarget.dataset.indexableid,
@@ -258,11 +278,22 @@ function IndexablesPage() {
 		);
 	}, [ handleOpenModal ] );
 
+	/**
+	 * Handles the closing of the modal.
+	 *
+	 * @returns {void}
+	 */
 	const handleCloseModal = useCallback( () => {
 		setIsModalOpen( false );
 		setSuggestedLinksModalContent( null );
 	}, [] );
 
+	/**
+	 * Handles the undo action
+	 * @param {object} ignored The ignored indexable.
+	 *
+	 * @returns {boolean} True if the action was successful.
+	 */
 	const handleUndo = useCallback( async( ignored ) => {
 		const id = ignored.indexable.id;
 		const type = ignored.type;
@@ -320,6 +351,7 @@ function IndexablesPage() {
 		updateList( "least_linked", listedIndexables.least_linked );
 	}, [] );
 
+	// We update a list each time the content of ignoreIndexable changes
 	useEffect( async() => {
 		if ( ignoreIndexable !== null ) {
 			return updateList( ignoreIndexable.type, listedIndexables[ ignoreIndexable.type ] );

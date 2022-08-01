@@ -2,12 +2,9 @@ import apiFetch from "@wordpress/api-fetch";
 
 import PropTypes from "prop-types";
 
-import { makeOutboundLink } from "@yoast/helpers";
 import { Button, Spinner } from "@yoast/ui-library";
-import { useState, useEffect, useCallback } from "@wordpress/element";
+import { useState, useCallback } from "@wordpress/element";
 import { EyeOffIcon } from "@heroicons/react/outline";
-
-const Link = makeOutboundLink();
 
 /* eslint-disable no-warning-comments */
 
@@ -15,6 +12,8 @@ const Link = makeOutboundLink();
  * Renders placeholders rows while loading the indexables table.
  *
  * @param {int} conlumnCount The table's number of columns.
+ * @param {int} listSize     The number of indexables in the list.
+ *
  * @returns {WPElement} Placeholders rows.
  */
 function PlaceholderRows( { columnCount, listSize } ) {
@@ -32,9 +31,12 @@ function PlaceholderRows( { columnCount, listSize } ) {
 /**
  * A row representing an indexables.
  *
- * @param {object} indexable The indexable.
- * @param {array} keyHeaderMap The key header map count.
-
+ * @param {object}   indexable       The indexable.
+ * @param {JSX.node} children        The React children.
+ * @param {string}   type            The indexable type.
+ * @param {function} addToIgnoreList The indexable type.
+ * @param {int}      position        The original position of the indexable in the list.
+ *
  * @returns {WPElement} A table with the indexables.
  */
 const IndexableRow = ( { indexable, children, type, addToIgnoreList, position } ) => {
@@ -99,8 +101,7 @@ IndexableRow.propTypes = {
 /**
  * A table with indexables.
  *
- * @param {array}  indexables Theindexables.
- * @param {Object} keyHeaderMap The key header map count.
+ * @param {JSX.node} children The React children.
 
  * @returns {WPElement} A table with the indexables.
  */
