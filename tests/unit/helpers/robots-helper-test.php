@@ -3,7 +3,10 @@
 namespace Yoast\WP\SEO\Tests\Unit\Helpers;
 
 use Brain\Monkey;
+use Mockery;
+use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Helpers\Robots_Helper;
+use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -23,12 +26,29 @@ class Robots_Helper_Test extends TestCase {
 	private $instance;
 
 	/**
+	 * Represents the Post_Type_Helper.
+	 *
+	 * @var Mockery\MockInterface|Post_Type_Helper
+	 */
+	protected $post_type_helper;
+
+	/**
+	 * Represents the Taxonomy_Helper.
+	 *
+	 * @var Mockery\MockInterface|Taxonomy_Helper
+	 */
+	protected $taxonomy_helper;
+
+	/**
 	 * Sets up the test class.
 	 */
 	protected function set_up() {
 		parent::set_up();
 
-		$this->instance = new Robots_Helper();
+		$this->post_type_helper = Mockery::mock( Post_Type_Helper::class );
+		$this->taxonomy_helper  = Mockery::mock( Taxonomy_Helper::class );
+
+		$this->instance = new Robots_Helper( $this->post_type_helper, $this->taxonomy_helper );
 	}
 
 	/**
