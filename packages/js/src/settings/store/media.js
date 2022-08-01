@@ -1,4 +1,6 @@
+/* eslint-disable camelcase */
 import { createSlice, createEntityAdapter } from "@reduxjs/toolkit";
+import { map } from "lodash";
 import { ASYNC_ACTION_NAMES, ASYNC_ACTION_STATUS } from "./constants";
 
 const mediaAdapter = createEntityAdapter();
@@ -12,12 +14,29 @@ export const FETCH_MEDIA_ACTION_NAME = "fetchMedia";
 export function* fetchMedia( ids ) {
 	yield{ type: `${FETCH_MEDIA_ACTION_NAME}/${ASYNC_ACTION_NAMES.request}` };
 	try {
-		const media = yield{ type: FETCH_MEDIA_ACTION_NAME, payload: ids };
+		// Trigger the fetch media control flow.
+		const media = yield{
+			type: FETCH_MEDIA_ACTION_NAME,
+			payload: {
+				data: {
+					per_page: 100,
+					include: ids,
+				},
+			},
+		};
 		return { type: `${FETCH_MEDIA_ACTION_NAME}/${ASYNC_ACTION_NAMES.success}`, payload: media };
 	} catch ( error ) {
 		return { type: `${FETCH_MEDIA_ACTION_NAME}/${ASYNC_ACTION_NAMES.error}`, payload: error };
 	}
 }
+
+const prepareMediaPayload = media => ( {
+	payload: {
+		...media,
+		type: media.type || media.media_type,
+		alt: media.alt || media.alt_text,
+	},
+} );
 
 const mediaSlice = createSlice( {
 	name: "media",
@@ -26,8 +45,14 @@ const mediaSlice = createSlice( {
 		error: "",
 	} ),
 	reducers: {
-		addOneMedia: mediaAdapter.addOne,
-		addManyMedia: mediaAdapter.addMany,
+		addOneMedia: {
+			reducer: mediaAdapter.addOne,
+			prepare: ( payload ) => prepareMediaPayload( payload ),
+		},
+		addManyMedia: {
+			reducer: mediaAdapter.addMany,
+			prepare: ( payload ) => map( payload, prepareMediaPayload ),
+		},
 	},
 	extraReducers: ( builder ) => {
 		builder.addCase( `${FETCH_MEDIA_ACTION_NAME}/${ASYNC_ACTION_NAMES.request}`, ( state ) => {
