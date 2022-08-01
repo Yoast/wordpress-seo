@@ -8,7 +8,7 @@ import { forEach, get, isObject, isArray, chunk, includes, reduce, filter } from
 import { HashRouter } from "react-router-dom";
 import { StyleSheetManager } from "styled-components";
 import App from "./app";
-import { validationSchema } from "./helpers";
+import { createValidationSchema } from "./helpers";
 import registerStore, { STORE_NAME } from "./store";
 
 /**
@@ -94,7 +94,7 @@ domReady( () => {
 	const settings = get( window, "wpseoScriptData.settings", {} );
 
 	registerStore();
-	// preloadMedia( settings );
+	preloadMedia( settings );
 
 	const isRtl = select( STORE_NAME ).selectPreference( "isRtl", false );
 
@@ -104,7 +104,7 @@ domReady( () => {
 				<HashRouter>
 					<Formik
 						initialValues={ settings }
-						validationSchema={ validationSchema }
+						validationSchema={ createValidationSchema( settings ) }
 						onSubmit={ handleSubmit }
 					>
 						<App />

@@ -70,7 +70,7 @@ const FormikMediaSelectField = ( {
 		setFieldTouched( mediaIdName, true, false );
 		setFieldValue( mediaIdName, "" );
 	}, [ setFieldTouched, setFieldValue, mediaUrlName, mediaIdName ] );
-	const handleMediaSelect = useCallback( () => {
+	const handleSelectMedia = useCallback( () => {
 		const selectedMedia = wpMediaLibrary.state()?.get( "selection" )?.first()?.toJSON() || {};
 
 		// Update Formik state, but only validate on type.
@@ -81,10 +81,7 @@ const FormikMediaSelectField = ( {
 		setFieldValue( mediaIdName, selectedMedia.id );
 
 		// Update Redux state, note that this entity structure is different from what WP API returns.
-		addOneMedia( {
-			...selectedMedia,
-			media_type: selectedMedia.type,
-		} );
+		addOneMedia( selectedMedia );
 	}, [ wpMediaLibrary, setFieldTouched, setFieldValue, mediaUrlName, mediaIdName ] );
 
 	useEffect( () => {
@@ -98,9 +95,9 @@ const FormikMediaSelectField = ( {
 	}, [ wpMedia, label, libraryType, setWpMediaLibrary ] );
 
 	useEffect( () => {
-		wpMediaLibrary?.on( "select", handleMediaSelect );
-		return () => wpMediaLibrary?.off( "select", handleMediaSelect );
-	}, [ wpMediaLibrary, handleMediaSelect ] );
+		wpMediaLibrary?.on( "select", handleSelectMedia );
+		return () => wpMediaLibrary?.off( "select", handleSelectMedia );
+	}, [ wpMediaLibrary, handleSelectMedia ] );
 
 	useEffect( () => {
 		// Fetch media on mount if missing. No dependencies by design.

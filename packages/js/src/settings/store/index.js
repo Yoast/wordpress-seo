@@ -75,7 +75,7 @@ const createStore = ( { initialState } ) => {
 			media,
 		} ),
 		controls: {
-			[ FETCH_MEDIA_ACTION_NAME ]: async( { payload } ) => mediaClient.fetch( { data: { per_page: 100, include: payload } } ),
+			[ FETCH_MEDIA_ACTION_NAME ]: async( { payload } ) => mediaClient.fetch( payload ),
 		},
 	} );
 };
