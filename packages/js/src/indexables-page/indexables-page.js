@@ -215,7 +215,7 @@ function IndexablesPage() {
 	/**
 	 * Handles the rendering of the links modal.
 	 *
-	 * @param {int}   indexableId         The id of the indexable.
+	 * @param {int}    indexableId         The id of the indexable.
 	 * @param {int}    incomingLinksCount The number of incoming links.
 	 * @param {string} breadcrumbTitle    The title of the indexable.
 	 * @param {string} permalink          The link to the indexable.
@@ -440,7 +440,7 @@ function IndexablesPage() {
 		>
 			{ isPremiumInstalled ? renderSuggestedLinksModal() : renderUpsellLinksModal() }
 		</Modal>
-		{ ignoreIndexable && <Alert><Button onClick={ onClickUndo( ignoreIndexable ) }>{ `Ignore ${ignoreIndexable.indexable.id}` }</Button></Alert> }
+		{ ignoreIndexable && <Alert><Button onClick={ onClickUndo( ignoreIndexable ) }>{ `Undo ignore ${ignoreIndexable.indexable.id}` }</Button></Alert> }
 		<div
 			id="indexables-table-grid"
 			className="yst-max-w-7xl yst-grid yst-grid-cols-1 2xl:yst-grid-cols-2 2xl:yst-grid-rows-2 2xl:yst-grid-flow-row 2xl:yst-auto-rows-fr yst-gap-6"
@@ -449,12 +449,13 @@ function IndexablesPage() {
 				<IndexablesTable>
 					{
 						listedIndexables.least_seo_score.slice( 0, listSize ).map(
-							indexable => {
+							( indexable, position ) => {
 								return <IndexablesTable.Row
 									key={ `indexable-${ indexable.id }-row` }
 									type="least_seo_score"
 									indexable={ indexable }
 									addToIgnoreList={ setIgnoreIndexable }
+									position={ position }
 								>
 									<IndexableScore
 										key={ `seo-score-${ indexable.id }` }

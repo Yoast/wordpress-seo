@@ -35,7 +35,7 @@ function PlaceholderRows( { columnCount, listSize } ) {
  * @param {JSX.node} children        The React children.
  * @param {string}   type            The indexable type.
  * @param {function} addToIgnoreList The indexable type.
- * @param {int}      position        The original position of the indexable in the list.
+ * @param {int}      position        The position of the indexable in the list.
  *
  * @returns {WPElement} A table with the indexables.
  */
