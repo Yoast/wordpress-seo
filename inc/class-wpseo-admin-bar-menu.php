@@ -5,7 +5,6 @@
  * @package WPSEO
  */
 
-use Yoast\WP\SEO\Conditionals\Front_End_Inspector_Conditional;
 use Yoast\WP\SEO\Helpers\Score_Icon_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
@@ -282,19 +281,19 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 
 		$submenu_items = [
 			[
-				'id'     => 'wpseo-kwresearchtraining',
-				'title'  => __( 'Keyword research training', 'wordpress-seo' ),
-				'href'   => WPSEO_Shortlinker::get( 'https://yoa.st/wp-admin-bar' ),
+				'id'    => 'wpseo-kwresearchtraining',
+				'title' => __( 'Keyword research training', 'wordpress-seo' ),
+				'href'  => WPSEO_Shortlinker::get( 'https://yoa.st/wp-admin-bar' ),
 			],
 			[
-				'id'     => 'wpseo-adwordsexternal',
-				'title'  => __( 'Google Ads', 'wordpress-seo' ),
-				'href'   => $adwords_url,
+				'id'    => 'wpseo-adwordsexternal',
+				'title' => __( 'Google Ads', 'wordpress-seo' ),
+				'href'  => $adwords_url,
 			],
 			[
-				'id'     => 'wpseo-googleinsights',
-				'title'  => __( 'Google Trends', 'wordpress-seo' ),
-				'href'   => $trends_url,
+				'id'    => 'wpseo-googleinsights',
+				'title' => __( 'Google Trends', 'wordpress-seo' ),
+				'href'  => $trends_url,
 			],
 		];
 
@@ -371,55 +370,55 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 		$encoded_url   = rawurlencode( $url );
 		$submenu_items = [
 			[
-				'id'     => 'wpseo-inlinks',
-				'title'  => __( 'Check links to this URL', 'wordpress-seo' ),
-				'href'   => 'https://search.google.com/search-console/links/drilldown?resource_id=' . rawurlencode( get_option( 'siteurl' ) ) . '&type=EXTERNAL&target=' . $encoded_url . '&domain=',
+				'id'    => 'wpseo-inlinks',
+				'title' => __( 'Check links to this URL', 'wordpress-seo' ),
+				'href'  => 'https://search.google.com/search-console/links/drilldown?resource_id=' . rawurlencode( get_option( 'siteurl' ) ) . '&type=EXTERNAL&target=' . $encoded_url . '&domain=',
 			],
 			[
-				'id'     => 'wpseo-kwdensity',
-				'title'  => __( 'Check Keyphrase Density', 'wordpress-seo' ),
+				'id'    => 'wpseo-kwdensity',
+				'title' => __( 'Check Keyphrase Density', 'wordpress-seo' ),
 				// HTTPS not available.
-				'href'   => 'http://www.zippy.co.uk/keyworddensity/index.php?url=' . $encoded_url . '&keyword=' . rawurlencode( $focus_keyword ),
+				'href'  => 'http://www.zippy.co.uk/keyworddensity/index.php?url=' . $encoded_url . '&keyword=' . rawurlencode( $focus_keyword ),
 			],
 			[
-				'id'     => 'wpseo-cache',
-				'title'  => __( 'Check Google Cache', 'wordpress-seo' ),
-				'href'   => '//webcache.googleusercontent.com/search?strip=1&q=cache:' . $encoded_url,
+				'id'    => 'wpseo-cache',
+				'title' => __( 'Check Google Cache', 'wordpress-seo' ),
+				'href'  => '//webcache.googleusercontent.com/search?strip=1&q=cache:' . $encoded_url,
 			],
 			[
-				'id'     => 'wpseo-structureddata',
-				'title'  => __( 'Google Rich Results Test', 'wordpress-seo' ),
-				'href'   => 'https://search.google.com/test/rich-results?url=' . $encoded_url,
+				'id'    => 'wpseo-structureddata',
+				'title' => __( 'Google Rich Results Test', 'wordpress-seo' ),
+				'href'  => 'https://search.google.com/test/rich-results?url=' . $encoded_url,
 			],
 			[
-				'id'     => 'wpseo-facebookdebug',
-				'title'  => __( 'Facebook Debugger', 'wordpress-seo' ),
-				'href'   => '//developers.facebook.com/tools/debug/?q=' . $encoded_url,
+				'id'    => 'wpseo-facebookdebug',
+				'title' => __( 'Facebook Debugger', 'wordpress-seo' ),
+				'href'  => '//developers.facebook.com/tools/debug/?q=' . $encoded_url,
 			],
 			[
-				'id'     => 'wpseo-pinterestvalidator',
-				'title'  => __( 'Pinterest Rich Pins Validator', 'wordpress-seo' ),
-				'href'   => 'https://developers.pinterest.com/tools/url-debugger/?link=' . $encoded_url,
+				'id'    => 'wpseo-pinterestvalidator',
+				'title' => __( 'Pinterest Rich Pins Validator', 'wordpress-seo' ),
+				'href'  => 'https://developers.pinterest.com/tools/url-debugger/?link=' . $encoded_url,
 			],
 			[
-				'id'     => 'wpseo-htmlvalidation',
-				'title'  => __( 'HTML Validator', 'wordpress-seo' ),
-				'href'   => '//validator.w3.org/check?uri=' . $encoded_url,
+				'id'    => 'wpseo-htmlvalidation',
+				'title' => __( 'HTML Validator', 'wordpress-seo' ),
+				'href'  => '//validator.w3.org/check?uri=' . $encoded_url,
 			],
 			[
-				'id'     => 'wpseo-cssvalidation',
-				'title'  => __( 'CSS Validator', 'wordpress-seo' ),
-				'href'   => '//jigsaw.w3.org/css-validator/validator?uri=' . $encoded_url,
+				'id'    => 'wpseo-cssvalidation',
+				'title' => __( 'CSS Validator', 'wordpress-seo' ),
+				'href'  => '//jigsaw.w3.org/css-validator/validator?uri=' . $encoded_url,
 			],
 			[
-				'id'     => 'wpseo-pagespeed',
-				'title'  => __( 'Google Page Speed Test', 'wordpress-seo' ),
-				'href'   => '//developers.google.com/speed/pagespeed/insights/?url=' . $encoded_url,
+				'id'    => 'wpseo-pagespeed',
+				'title' => __( 'Google Page Speed Test', 'wordpress-seo' ),
+				'href'  => '//developers.google.com/speed/pagespeed/insights/?url=' . $encoded_url,
 			],
 			[
-				'id'     => 'wpseo-google-mobile-friendly',
-				'title'  => __( 'Mobile-Friendly Test', 'wordpress-seo' ),
-				'href'   => 'https://www.google.com/webmasters/tools/mobile-friendly/?url=' . $encoded_url,
+				'id'    => 'wpseo-google-mobile-friendly',
+				'title' => __( 'Mobile-Friendly Test', 'wordpress-seo' ),
+				'href'  => 'https://www.google.com/webmasters/tools/mobile-friendly/?url=' . $encoded_url,
 			],
 		];
 
