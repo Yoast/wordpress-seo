@@ -140,46 +140,6 @@ class Search_Engines_Discouraged_Watcher_Test extends TestCase {
 	}
 
 	/**
-	 * Tests show_search_engines_discouraged_notice().
-	 *
-	 * @covers ::show_search_engines_discouraged_notice
-	 */
-	public function test_show_search_engines_discouraged_notice() {
-		$this->presenter
-			->expects( 'present' )
-			->once()
-			->andReturn( 'Test Notification' );
-
-		Monkey\Functions\expect( 'wp_kses' )
-			->with(
-				'Test Notification',
-				[
-					'strong' => [],
-					'button' => [
-						'type'       => [],
-						'id'         => [],
-						'class'      => [],
-						'data-nonce' => [],
-					],
-					'a'      => [
-						'href' => [],
-					],
-					'p'      => [],
-				]
-			)
-			->once()
-			->andReturn( 'Test Notification' );
-
-		ob_start();
-		$this->instance->show_search_engines_discouraged_notice();
-		$output = ob_get_clean();
-		self::assertEquals(
-			'<div id="robotsmessage" class="notice notice-error"> Test Notification </div>',
-			$output
-		);
-	}
-
-	/**
 	 * Tests maybe_show_search_engines_discouraged_notice.
 	 *
 	 * @param string $blog_public_option_value The option value for blog_public.
