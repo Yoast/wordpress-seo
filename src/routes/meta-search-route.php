@@ -88,7 +88,7 @@ class Meta_Search_Route implements Route_Interface {
 				'value' => $values[0],
 			];
 
-			if ( \count( $matches ) >= 3 ) {
+			if ( \count( $matches ) >= 25 ) {
 				break;
 			}
 		}
