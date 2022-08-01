@@ -9,6 +9,7 @@ use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Helpers\Indexables_Page_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
+use Yoast\WP\SEO\Routes\Indexing_Route;
 
 /**
  * Indexables_Page_Integration class
@@ -95,6 +96,29 @@ class Indexables_Page_Integration implements Integration_Interface {
 		$this->admin_asset_manager->enqueue_script( 'indexables-page' );
 		$this->admin_asset_manager->enqueue_style( 'tailwind' );
 		$this->admin_asset_manager->enqueue_style( 'monorepo' );
+		$this->admin_asset_manager->enqueue_script( 'indexation' );
+
+		$data = [
+			'disabled'     => ! \YoastSEO()->helpers->indexable->should_index_indexables(),
+			'amount'       => \YoastSEO()->helpers->indexing->get_filtered_unindexed_count(),
+			'firstTime'    => "0", //( \YoastSEO()->helpers->indexing->is_initial_indexing() === true ),
+			'errorMessage' => '',
+			'restApi'      => [
+				'root'               => \esc_url_raw( \rest_url() ),
+				'indexing_endpoints' => $this->get_endpoints(),
+				'nonce'              => \wp_create_nonce( 'wp_rest' ),
+			],
+		];
+
+		/**
+		 * Filter: 'wpseo_indexing_data' Filter to adapt the data used in the indexing process.
+		 *
+		 * @param array $data The indexing data to adapt.
+		 */
+		$data = \apply_filters( 'wpseo_indexing_data', $data );
+
+		$this->admin_asset_manager->localize_script( 'indexation', 'yoastIndexingData', $data );
+
 		$this->admin_asset_manager->localize_script(
 			'indexables-page',
 			'wpseoIndexablesPageData',
@@ -104,5 +128,29 @@ class Indexables_Page_Integration implements Integration_Interface {
 				'isPremium'                => $this->product_helper->is_premium(),
 			]
 		);
+	}
+
+	/**
+	 * Retrieves a list of the endpoints to use.
+	 *
+	 * @return array The endpoints.
+	 */
+	protected function get_endpoints() {
+		$endpoints = [
+			'prepare'            => Indexing_Route::FULL_PREPARE_ROUTE,
+			'terms'              => Indexing_Route::FULL_TERMS_ROUTE,
+			'posts'              => Indexing_Route::FULL_POSTS_ROUTE,
+			'archives'           => Indexing_Route::FULL_POST_TYPE_ARCHIVES_ROUTE,
+			'general'            => Indexing_Route::FULL_GENERAL_ROUTE,
+			'indexablesComplete' => Indexing_Route::FULL_INDEXABLES_COMPLETE_ROUTE,
+			'post_link'          => Indexing_Route::FULL_POST_LINKS_INDEXING_ROUTE,
+			'term_link'          => Indexing_Route::FULL_TERM_LINKS_INDEXING_ROUTE,
+		];
+
+		$endpoints = \apply_filters( 'wpseo_indexing_endpoints', $endpoints );
+
+		$endpoints['complete'] = Indexing_Route::FULL_COMPLETE_ROUTE;
+
+		return $endpoints;
 	}
 }
