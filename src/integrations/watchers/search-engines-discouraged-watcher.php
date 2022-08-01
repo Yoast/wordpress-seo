@@ -69,7 +69,7 @@ class Search_Engines_Discouraged_Watcher implements Integration_Interface {
 	protected $capability_helper;
 
 	/**
-	 * Auto_Update constructor.
+	 * Search_Engines_Discouraged_Watcher constructor.
 	 *
 	 * @param Yoast_Notification_Center $notification_center The notification center.
 	 * @param Notification_Helper       $notification_helper The notification helper.
@@ -106,18 +106,37 @@ class Search_Engines_Discouraged_Watcher implements Integration_Interface {
 		/*
 		 * The `admin_notices` hook fires on single site admin pages vs.
 		 * `network_admin_notices` which fires on multisite admin pages and
-		 * `user_admin_notices` which fires on multisite user admin pagss.
+		 * `user_admin_notices` which fires on multisite user admin pages.
 		 */
 		\add_action( 'admin_notices', [ $this, 'maybe_show_search_engines_discouraged_notice' ] );
 	}
 
 	/**
-	 * Checks whether search engines are discouraged from indexing the site.
+	 * Manage the search engines discouraged notification.
 	 *
-	 * @return bool Whether search engines are discouraged from indexing the site.
+	 * Shows the notification if needed and deletes it if needed.
+	 *
+	 * @return void
 	 */
-	protected function search_engines_are_discouraged() {
-		return (string) \get_option( 'blog_public' ) === '0';
+	public function manage_search_engines_discouraged_notification() {
+		if ( ! $this->should_show_search_engines_discouraged_notification() ) {
+			$this->remove_search_engines_discouraged_notification_if_exists();
+		}
+		else {
+			$this->maybe_add_search_engines_discouraged_notification();
+		}
+	}
+
+	/**
+	 * Show the search engine discouraged notice when needed.
+	 *
+	 * @return void
+	 */
+	public function maybe_show_search_engines_discouraged_notice() {
+		if ( ! $this->should_show_search_engines_discouraged_notice() ) {
+			return;
+		}
+		$this->show_search_engines_discouraged_notice();
 	}
 
 	/**
@@ -127,6 +146,37 @@ class Search_Engines_Discouraged_Watcher implements Integration_Interface {
 	 */
 	protected function should_show_search_engines_discouraged_notification() {
 		return $this->search_engines_are_discouraged() && $this->options_helper->get( 'ignore_search_engines_discouraged_notice', false ) === false;
+	}
+
+	/**
+	 * Remove the search engines discouraged notification if it exists.
+	 *
+	 * @return void
+	 */
+	protected function remove_search_engines_discouraged_notification_if_exists() {
+		$this->notification_center->remove_notification_by_id( self::NOTIFICATION_ID );
+	}
+
+	/**
+	 * Add the search engines discouraged notification if it does not exist yet.
+	 *
+	 * @return void
+	 */
+	protected function maybe_add_search_engines_discouraged_notification() {
+		if ( ! $this->notification_center->get_notification_by_id( self::NOTIFICATION_ID ) ) {
+			$notification = $this->notification();
+			$this->notification_helper->restore_notification( $notification );
+			$this->notification_center->add_notification( $notification );
+		}
+	}
+
+	/**
+	 * Checks whether search engines are discouraged from indexing the site.
+	 *
+	 * @return bool Whether search engines are discouraged from indexing the site.
+	 */
+	protected function search_engines_are_discouraged() {
+		return (string) \get_option( 'blog_public' ) === '0';
 	}
 
 	/**
@@ -158,7 +208,7 @@ class Search_Engines_Discouraged_Watcher implements Integration_Interface {
 	 *
 	 * @return void
 	 */
-	public function show_search_engines_discouraged_notice() {
+	protected function show_search_engines_discouraged_notice() {
 		\printf(
 			'<div id="robotsmessage" class="notice notice-error"> %1$s </div>',
 			\wp_kses(
@@ -178,56 +228,6 @@ class Search_Engines_Discouraged_Watcher implements Integration_Interface {
 				]
 			)
 		);
-	}
-
-	/**
-	 * Show the search engine discouraged notice when needed.
-	 *
-	 * @return void
-	 */
-	public function maybe_show_search_engines_discouraged_notice() {
-		if ( ! $this->should_show_search_engines_discouraged_notice() ) {
-			return;
-		}
-		$this->show_search_engines_discouraged_notice();
-	}
-
-	/**
-	 * Remove the search engines discouraged notification if it exists.
-	 *
-	 * @return void
-	 */
-	protected function remove_search_engines_discouraged_notification_if_exists() {
-		$this->notification_center->remove_notification_by_id( self::NOTIFICATION_ID );
-	}
-
-	/**
-	 * Add the search engines discouraged notification if it does not exist yet.
-	 *
-	 * @return void
-	 */
-	protected function maybe_add_search_engines_discouraged_notification() {
-		if ( ! $this->notification_center->get_notification_by_id( self::NOTIFICATION_ID ) ) {
-			$notification = $this->notification();
-			$this->notification_helper->restore_notification( $notification );
-			$this->notification_center->add_notification( $notification );
-		}
-	}
-
-	/**
-	 * Manage the search engines discouraged notification.
-	 *
-	 * Shows the notification if needed and deletes it if needed.
-	 *
-	 * @return void
-	 */
-	public function manage_search_engines_discouraged_notification() {
-		if ( ! $this->should_show_search_engines_discouraged_notification() ) {
-			$this->remove_search_engines_discouraged_notification_if_exists();
-		}
-		else {
-			$this->maybe_add_search_engines_discouraged_notification();
-		}
 	}
 
 	/**
