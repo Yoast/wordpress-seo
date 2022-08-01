@@ -9,7 +9,6 @@ use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Notification_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Watchers\Search_Engines_Discouraged_Watcher;
-use Yoast\WP\SEO\Presenters\Admin\Search_Engines_Discouraged_Presenter;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast_Notification_Center;
 
@@ -36,13 +35,6 @@ class Search_Engines_Discouraged_Watcher_Test extends TestCase {
 	 * @var Mockery\MockInterface|Notification_Helper
 	 */
 	protected $notification_helper;
-
-	/**
-	 * Search_Engines_Discouraged_Presenter mock.
-	 *
-	 * @var Mockery\MockInterface|Search_Engines_Discouraged_Presenter
-	 */
-	protected $presenter;
 
 	/**
 	 * Current_Page_Helper mock.
@@ -87,7 +79,6 @@ class Search_Engines_Discouraged_Watcher_Test extends TestCase {
 
 		$this->notification_center = Mockery::mock( Yoast_Notification_Center::class );
 		$this->notification_helper = Mockery::mock( Notification_Helper::class );
-		$this->presenter           = Mockery::mock( Search_Engines_Discouraged_Presenter::class );
 		$this->current_page_helper = Mockery::mock( Current_Page_Helper::class );
 		$this->options_helper      = Mockery::mock( Options_Helper::class );
 		$this->capability_helper   = Mockery::mock( Capability_Helper::class );
@@ -95,7 +86,6 @@ class Search_Engines_Discouraged_Watcher_Test extends TestCase {
 		$this->instance = new Search_Engines_Discouraged_Watcher(
 			$this->notification_center,
 			$this->notification_helper,
-			$this->presenter,
 			$this->current_page_helper,
 			$this->options_helper,
 			$this->capability_helper
@@ -103,7 +93,7 @@ class Search_Engines_Discouraged_Watcher_Test extends TestCase {
 
 		$this->mocked_instance = Mockery::mock(
 			Search_Engines_Discouraged_Watcher::class,
-			[ $this->notification_center, $this->notification_helper, $this->presenter, $this->current_page_helper, $this->options_helper, $this->capability_helper ]
+			[ $this->notification_center, $this->notification_helper, $this->current_page_helper, $this->options_helper, $this->capability_helper ]
 		)
 			->makePartial()
 			->shouldAllowMockingProtectedMethods();
@@ -122,10 +112,6 @@ class Search_Engines_Discouraged_Watcher_Test extends TestCase {
 		self::assertInstanceOf(
 			Notification_Helper::class,
 			self::getPropertyValue( $this->instance, 'notification_helper' )
-		);
-		self::assertInstanceOf(
-			Search_Engines_Discouraged_Presenter::class,
-			self::getPropertyValue( $this->instance, 'presenter' )
 		);
 		self::assertInstanceOf(
 			Current_Page_Helper::class,
