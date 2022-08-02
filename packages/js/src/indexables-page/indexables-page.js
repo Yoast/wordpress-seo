@@ -8,6 +8,7 @@ import { Button, Alert, Modal } from "@yoast/ui-library";
 import { makeOutboundLink } from "@yoast/helpers";
 import IndexablesTable from "./components/indexables-table";
 import SvgIcon from "../../../components/src/SvgIcon";
+import NotEnoughContent from "./components/not-enough-content";
 
 const Link = makeOutboundLink();
 
@@ -138,6 +139,23 @@ function IndexablesPage() {
 	const [ ignoreIndexable, setIgnoreIndexable ] = useState( null );
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
 	const [ suggestedLinksModalContent, setSuggestedLinksModalContent ] = useState( null );
+	const [ setupInfo, setSetupInfo ] = useState( null );
+
+	useEffect( async() => {
+		try {
+			const response = await apiFetch( {
+				path: "yoast/v1/setup_info",
+				method: "GET",
+			} );
+
+			const parsedResponse = await response.json;
+			setSetupInfo( parsedResponse );
+		} catch ( error ) {
+			// @TODO: Throw an error notification.
+			console.error( error.message );
+			return false;
+		}
+	}, [] );
 
 	/**
 	 * Fetches a list of indexables.
@@ -431,7 +449,15 @@ function IndexablesPage() {
 		);
 	};
 
-	return <div
+	if ( setupInfo && setupInfo.enoughContent === true ) { // Change back to false!
+		return <NotEnoughContent />;
+	} else if ( setupInfo && setupInfo.enoughAnalysedContent === false ) {
+		return <div>
+			Not enough analysed content
+		</div>;
+	}
+
+	return setupInfo && <div
 		className="yst-max-w-full yst-mt-6"
 	>
 		<Modal
