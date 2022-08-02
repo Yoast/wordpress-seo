@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import { __ } from "@wordpress/i18n";
 import { select } from "@wordpress/data";
-import { object, string, number, addMethod } from "yup";
+import { object, number, addMethod } from "yup";
 import { includes, get, reduce } from "lodash";
 import { STORE_NAME } from "../store";
 
