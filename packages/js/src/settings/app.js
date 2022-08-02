@@ -1,8 +1,8 @@
-/* eslint-disable */
 import { AdjustmentsIcon, DesktopComputerIcon, NewspaperIcon } from "@heroicons/react/outline";
 import { __ } from "@wordpress/i18n";
 import { Badge } from "@yoast/ui-library";
 import { map } from "lodash";
+import PropTypes from "prop-types";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { Notifications, SidebarNavigation, YoastLogo } from "./components";
 import {
@@ -26,13 +26,12 @@ import {
 import { useSelectSettings } from "./store";
 
 /**
+ * @param {Object[]} postTypes The post types to present.
+ * @param {Object[]} taxonomies The taxonomies to present.
  * @param {string} [idSuffix] Extra id suffix. Can prevent double IDs on the page.
  * @returns {JSX.Element} The menu element.
  */
-const Menu = ( { idSuffix = "" } ) => {
-	const postTypes = useSelectSettings( "selectPostTypes" );
-	const taxonomies = useSelectSettings( "selectTaxonomies" );
-
+const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 	return <>
 		<figure className="yst-w-44 yst-px-3 yst-mb-12">
 			<YoastLogo />
@@ -87,6 +86,12 @@ const Menu = ( { idSuffix = "" } ) => {
 	</>;
 };
 
+Menu.propTypes = {
+	postTypes: PropTypes.object.isRequired,
+	taxonomies: PropTypes.object.isRequired,
+	idSuffix: PropTypes.string,
+};
+
 /**
  * @returns {JSX.Element} The app component.
  */
@@ -94,7 +99,6 @@ const App = () => {
 	const { pathname } = useLocation();
 	const postTypes = useSelectSettings( "selectPostTypes" );
 	const taxonomies = useSelectSettings( "selectTaxonomies" );
-	const notifications = useSelectSettings( "selectNotifications" );
 
 	return (
 		<>
@@ -104,12 +108,12 @@ const App = () => {
 					openButtonScreenReaderText={ __( "Open sidebar", "wordpress-seo" ) }
 					closeButtonScreenReaderText={ __( "Close sidebar", "wordpress-seo" ) }
 				>
-					<Menu idSuffix="mobile" />
+					<Menu idSuffix="mobile" postTypes={ postTypes } taxonomies={ taxonomies } />
 				</SidebarNavigation.Mobile>
 				<div className="yst-flex md:yst-gap-4 yst-p-4 md:yst-p-8">
 					<aside className="yst-hidden md:yst-block yst-flex-shrink-0 yst-w-56 lg:yst-w-64">
 						<SidebarNavigation.Sidebar>
-							<Menu />
+							<Menu postTypes={ postTypes } taxonomies={ taxonomies } />
 						</SidebarNavigation.Sidebar>
 					</aside>
 					<main className="yst-flex-grow">
@@ -148,5 +152,3 @@ const App = () => {
 };
 
 export default App;
-
-/* eslint-enable */
