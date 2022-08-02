@@ -48,6 +48,7 @@ class WPSEO_Admin_Init {
 		$this->load_admin_user_class();
 		$this->load_xml_sitemaps_admin();
 		$this->load_plugin_suggestions();
+		$this->set_inclusive_language_notice();
 	}
 
 	/**
@@ -186,6 +187,15 @@ class WPSEO_Admin_Init {
 			$upsell_block = new WPSEO_Premium_Upsell_Admin_Block( 'wpseo_admin_promo_footer' );
 			$upsell_block->register_hooks();
 		}
+	}
+
+	/**
+	 * Sets the inclusive language notice.
+	 */
+	protected function set_inclusive_language_notice() {
+		$inclusive = new WPSEO_Inclusive_Language_Notice();
+		$inclusive->dismiss_notice_listener();
+		$inclusive->initialize();
 	}
 
 	/**
