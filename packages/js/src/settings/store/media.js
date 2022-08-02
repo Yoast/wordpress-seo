@@ -1,4 +1,4 @@
-/* eslint-disable camelcase */
+/* eslint-disable camelcase, complexity */
 import { createSlice, createEntityAdapter } from "@reduxjs/toolkit";
 import { map } from "lodash";
 import { ASYNC_ACTION_NAMES, ASYNC_ACTION_STATUS } from "./constants";
@@ -30,12 +30,20 @@ export function* fetchMedia( ids ) {
 	}
 }
 
-const prepareMediaPayload = media => ( {
-	payload: {
-		...media,
-		type: media.type || media.media_type,
-		alt: media.alt || media.alt_text,
-	},
+/**
+ * Prepares a media object to a predictable structure.
+ * @param {Object} media The original media object.
+ * @returns {Object} The prepared and predictable media.
+ */
+const prepareMedia = media => ( {
+	id: media?.id,
+	title: media?.title || media?.title?.rendered,
+	slug: media?.name || media?.slug,
+	alt: media?.alt || media?.alt_text,
+	url: media?.url || media?.source_url,
+	type: media?.type || media?.media_type,
+	mime: media?.mime || media?.mime_type,
+	author: media?.author,
 } );
 
 const mediaSlice = createSlice( {
@@ -47,11 +55,11 @@ const mediaSlice = createSlice( {
 	reducers: {
 		addOneMedia: {
 			reducer: mediaAdapter.addOne,
-			prepare: ( payload ) => prepareMediaPayload( payload ),
+			prepare: ( media ) => ( { payload: prepareMedia( media ) } ),
 		},
 		addManyMedia: {
 			reducer: mediaAdapter.addMany,
-			prepare: ( payload ) => map( payload, prepareMediaPayload ),
+			prepare: ( media ) => ( { payload: map( media, prepareMedia ) } ),
 		},
 	},
 	extraReducers: ( builder ) => {
@@ -60,7 +68,9 @@ const mediaSlice = createSlice( {
 		} );
 		builder.addCase( `${FETCH_MEDIA_ACTION_NAME}/${ASYNC_ACTION_NAMES.success}`, ( state, action ) => {
 			state.status = ASYNC_ACTION_STATUS.success;
-			mediaAdapter.addMany( state, action.payload );
+			console.warn( "original", action.payload );
+			console.warn( "prepared", map( action.payload, prepareMedia ) );
+			mediaAdapter.addMany( state, map( action.payload, prepareMedia ) );
 		} );
 		builder.addCase( `${FETCH_MEDIA_ACTION_NAME}/${ASYNC_ACTION_NAMES.error}`, ( state, action ) => {
 			state.status = ASYNC_ACTION_STATUS.error;
