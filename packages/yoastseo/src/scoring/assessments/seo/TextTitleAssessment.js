@@ -67,7 +67,7 @@ class TextTitleAssessment extends Assessment {
 				resultText: sprintf(
 					/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
 					__(
-						"%1$sText title%2$s: Your copy has a title. Well done!",
+						"%1$sTitle%2$s: Your page has a title. Well done!",
 						"wordpress-seo"
 					),
 					this._config.urlTitle,
@@ -87,7 +87,7 @@ class TextTitleAssessment extends Assessment {
 					 */
 					__(
 						// eslint-disable-next-line max-len
-						"%1$sText title%2$s: It looks like your copy does not have a title yet. %3$sAdd one%2$s!",
+						"%1$sPage title%2$s: Your page does not have a title yet. %3$sAdd one%2$s!",
 						"wordpress-seo"
 					),
 					this._config.urlTitle,

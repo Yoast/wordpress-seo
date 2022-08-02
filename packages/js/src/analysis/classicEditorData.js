@@ -435,6 +435,7 @@ export default class ClassicEditorData {
 
 		// Set isDirty to true if the current data and editor data are unequal.
 		const isDirty = ! this.isShallowEqual( this._previousData, newData );
+
 		if ( isDirty ) {
 			this.handleEditorChange( newData );
 			this._previousData = newData;
