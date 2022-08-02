@@ -25,6 +25,20 @@ class Meta_Author_Presenter_Test extends TestCase {
 	/**
 	 * Holds the instance of the class being tested.
 	 *
+	 * @var HTML_Helper|Mockery\MockInterface
+	 */
+	protected $html;
+
+	/**
+	 * Holds the instance of the class being tested.
+	 *
+	 * @var Meta_Tags_Context_Mock|Mockery\MockInterface
+	 */
+	protected $context;
+
+	/**
+	 * Holds the instance of the class being tested.
+	 *
 	 * @var Meta_Author_Presenter
 	 */
 	protected $instance;
