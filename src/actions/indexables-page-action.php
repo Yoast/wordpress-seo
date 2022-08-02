@@ -278,4 +278,24 @@ class Indexables_Page_Action {
 
 		return $this->options_helper->set( $ignore_list_name, $ignore_list );
 	}
+
+	/**
+	 * Gets the reading list state.
+	 *
+	 * @return array The state of each element in the reading list.
+	 */
+	public function get_reading_list() {
+		return $this->options_helper->get( 'indexables_page_reading_list', [ false, false, false, false, false ] );
+	}
+
+	/**
+	 * Sets the reading list state.
+	 *
+	 * @param array $state The state to be saved.
+	 *
+	 * @return boolean Whether saving the reading list state succeeded.
+	 */
+	public function set_reading_list( $state ) {
+		return $this->options_helper->set( 'indexables_page_reading_list', $state );
+	}
 }
