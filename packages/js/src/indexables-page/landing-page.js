@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 
 import { useState } from "@wordpress/element";
 
-import EmptyState from "./empty-state";
+import EmptyState from "./components/empty-state";
 import IndexablesPage from "./indexables-page";
 
 /* eslint-disable camelcase */
