@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Integrations;
 
 use WP_Post_Type;
-use WP_Taxonomy;
 use WPSEO_Admin_Asset_Manager;
 use WPSEO_Admin_Editor_Specific_Replace_Vars;
 use WPSEO_Admin_Recommended_Replace_Vars;
@@ -269,7 +268,7 @@ class Settings_Integration implements Integration_Interface {
 	protected function get_script_data() {
 		$settings   = $this->get_settings();
 		$post_types = $this->get_post_types();
-		$taxonomies = $this->get_taxonomies();
+		$taxonomies = $this->get_taxonomies( \array_keys( $post_types ) );
 
 		return [
 			'settings'             => $settings,
@@ -440,29 +439,30 @@ class Settings_Integration implements Integration_Interface {
 	/**
 	 * Creates the taxonomies to represent.
 	 *
+	 * @param string[] $post_type_names The post type names.
+	 *
 	 * @return array The taxonomies.
 	 */
-	protected function get_taxonomies() {
+	protected function get_taxonomies( $post_type_names ) {
 		$taxonomies = $this->taxonomy_helper->get_public_taxonomies( 'objects' );
 
-		return \array_map( [ $this, 'transform_taxonomy' ], $taxonomies );
-	}
+		$transformed = [];
+		foreach ( $taxonomies as $name => $taxonomy ) {
+			$transformed[ $name ] = [
+				'name'          => $taxonomy->name,
+				'route'         => $this->get_route( $taxonomy->name, $taxonomy->rewrite, $taxonomy->rest_base ),
+				'label'         => $taxonomy->label,
+				'singularLabel' => $taxonomy->labels->singular_name,
+				'postTypes'     => \array_filter(
+					$taxonomy->object_type,
+					static function ( $object_type ) use ( $post_type_names ) {
+						return \in_array( $object_type, $post_type_names, true );
+					}
+				),
+			];
+		}
 
-	/**
-	 * Transforms a WP_Taxonomy to an array with the needed info.
-	 *
-	 * @param WP_Taxonomy $taxonomy The taxonomy.
-	 *
-	 * @return array The transformed taxonomy.
-	 */
-	protected function transform_taxonomy( WP_Taxonomy $taxonomy ) {
-		return [
-			'name'          => $taxonomy->name,
-			'route'         => $this->get_route( $taxonomy->name, $taxonomy->rewrite, $taxonomy->rest_base ),
-			'label'         => $taxonomy->label,
-			'singularLabel' => $taxonomy->labels->singular_name,
-			'postTypes'     => $taxonomy->object_type,
-		];
+		return $transformed;
 	}
 
 	/**

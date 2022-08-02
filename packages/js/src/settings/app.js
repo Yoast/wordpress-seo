@@ -1,4 +1,4 @@
-import { AdjustmentsIcon, DesktopComputerIcon, NewspaperIcon, ColorSwatchIcon } from "@heroicons/react/outline";
+import { AdjustmentsIcon, ColorSwatchIcon, DesktopComputerIcon, NewspaperIcon } from "@heroicons/react/outline";
 import { __ } from "@wordpress/i18n";
 import { Badge } from "@yoast/ui-library";
 import { first, map } from "lodash";
@@ -68,7 +68,9 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 					to={ `/taxonomy/${ route }` }
 					label={ <div className="yst-flex yst-items-center yst-gap-1.5">
 						<span>{ label }</span>
-						<Badge variant="plain" size="small" className="yst-border yst-border-gray-300">{ postTypes[ first( postTypeNames ) ].label }</Badge>
+						<Badge variant="plain" size="small" className="yst-border yst-border-gray-300">
+							{ postTypes[ first( postTypeNames ) ].label }
+						</Badge>
 						{ postTypeNames.length > 1 && <Badge variant="plain" size="small" className="yst-border yst-border-gray-300">...</Badge> }
 					</div> }
 					idSuffix={ idSuffix }
