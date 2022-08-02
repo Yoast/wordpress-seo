@@ -1,11 +1,8 @@
 
 import PropTypes from "prop-types";
 
-import { Alert } from "@yoast/ui-library";
-import { Transition } from "@headlessui/react";
 import IconSearch from "../../images/icon-search.svg";
 import Indexation from "../components/indexation";
-import { __ } from "@wordpress/i18n";
 
 /* eslint-disable camelcase */
 /* eslint-disable no-warning-comments */
