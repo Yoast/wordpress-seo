@@ -33,3 +33,11 @@ export const Variants = ( args ) => (
 		<Badge variant="plain">Plain</Badge>
 	</div>
 );
+
+export const Sizes = ( args ) => (
+	<div className="yst-flex yst-items-end yst-gap-2">
+		<Badge size="large">Large</Badge>
+		<Badge>Default</Badge>
+		<Badge size="small">Small</Badge>
+	</div>
+);

@@ -34,5 +34,18 @@
 			yst-bg-gray-100
 			yst-text-gray-800;
 		}
+
+		/* Sizes */
+
+		.yst-badge--small {
+			@apply
+			yst-text-xxs;
+		}
+
+		.yst-badge--large {
+			@apply
+			yst-px-3
+			yst-text-base;
+		}
 	}
 }
