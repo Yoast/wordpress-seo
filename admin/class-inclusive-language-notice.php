@@ -35,10 +35,19 @@ class WPSEO_Inclusive_Language_Notice {
 	protected $options;
 
 	/**
-	 * Sets the options, because they always have to be there on instance.
+	 * Holds the notification center.
+	 *
+	 * @var Yoast_Notification_Center
 	 */
-	public function __construct() {
-		$this->options = $this->get_options();
+	protected $notification_center;
+
+	/**
+	 * Sets the options, because they always have to be there on instance.
+	 * @param Yoast_Notification_Center $notification_center  The notification center to add notifications to.
+	 */
+	public function __construct( Yoast_Notification_Center $notification_center ) {
+		$this->options              = $this->get_options();
+		$this->notification_center  = $notification_center;
 	}
 
 	/**
@@ -63,32 +72,17 @@ class WPSEO_Inclusive_Language_Notice {
 	}
 
 	/**
-	 * When the notice should be shown.
-	 *
-	 * @return bool
-	 */
-	protected function should_add_notification() {
-		$site_language = Utils::get_language( \get_locale() );
-		if ( YoastSEO()->helpers->product->is_premium() && $site_language === 'en') {
-			return true;
-		}
-		return false;
-	}
-
-	/**
 	 * Adds a notification to the notification center.
 	 */
-	protected function add_notification() {
-		$notification_center = Yoast_Notification_Center::get();
-		$notification_center->add_notification( $this->get_notification() );
+	public function add_notification() {
+		$this->notification_center->add_notification( $this->get_notification() );
 	}
 
 	/**
-	 * Removes a notification to the notification center.
+	 * Removes a notification from the notification center.
 	 */
 	protected function remove_notification() {
-		$notification_center = Yoast_Notification_Center::get();
-		$notification_center->remove_notification( $this->get_notification() );
+		$this->notification_center->remove_notification( $this->get_notification() );
 	}
 
 	/**
@@ -103,9 +97,7 @@ class WPSEO_Inclusive_Language_Notice {
 				'<a href="' . admin_url( '?page=' . WPSEO_Admin::PAGE_IDENTIFIER . '#top#features' ) . '">',
 				'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/rate-yoast-seo' ) . '">',
 				'</a>'
-			) . "\n\n";
-
-		$message .= '<a class="button" href="' . admin_url( '?page=' . WPSEO_Admin::PAGE_IDENTIFIER . '&yoast_dismiss=upsell' ) . '">' . __( 'Please don\'t show me this notification anymore', 'wordpress-seo' ) . '</a>';
+			);
 
 		$notification = new Yoast_Notification(
 			$message,
