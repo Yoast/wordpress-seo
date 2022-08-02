@@ -1,7 +1,7 @@
 import { AdjustmentsIcon, DesktopComputerIcon, NewspaperIcon } from "@heroicons/react/outline";
 import { __ } from "@wordpress/i18n";
 import { Badge } from "@yoast/ui-library";
-import { map } from "lodash";
+import { first, map } from "lodash";
 import PropTypes from "prop-types";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { Notifications, SidebarNavigation, YoastLogo } from "./components";
@@ -56,8 +56,23 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 			{ map( postTypes, ( { route, label } ) => (
 				<SidebarNavigation.SubmenuItem key={ route } to={ `/post-type/${ route }` } label={ label } idSuffix={ idSuffix } />
 			) ) }
-			{ map( taxonomies, ( { route, label } ) => (
-				<SidebarNavigation.SubmenuItem key={ route } to={ `/taxonomy/${ route }` } label={ label } idSuffix={ idSuffix } />
+		</SidebarNavigation.MenuItem>
+		<SidebarNavigation.MenuItem
+			id={ `menu-content-settings${ idSuffix && `-${ idSuffix }` }` }
+			icon={ NewspaperIcon }
+			label={ __( "Taxonomy settings", "wordpress-seo" ) }
+		>
+			{ map( taxonomies, ( { route, label, postTypes: postTypeNames } ) => (
+				<SidebarNavigation.SubmenuItem
+					key={ route }
+					to={ `/taxonomy/${ route }` }
+					label={ <div className="yst-flex yst-items-center yst-gap-1.5">
+						<span>{ label }</span>
+						<Badge variant="plain" className="yst-border yst-border-gray-300">{ postTypes[ first( postTypeNames ) ].label }</Badge>
+						{ postTypeNames.length > 1 && <Badge variant="plain" className="yst-border yst-border-gray-300">...</Badge> }
+					</div> }
+					idSuffix={ idSuffix }
+				/>
 			) ) }
 		</SidebarNavigation.MenuItem>
 		<SidebarNavigation.MenuItem

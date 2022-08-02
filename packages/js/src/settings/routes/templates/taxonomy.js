@@ -3,6 +3,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { Badge, ToggleField } from "@yoast/ui-library";
 import classNames from "classnames";
 import { useFormikContext } from "formik";
+import { map } from "lodash";
 import PropTypes from "prop-types";
 import {
 	FieldsetLayout,
@@ -19,9 +20,11 @@ import { useSelectSettings } from "../../store";
  * @param {string} name The taxonomy name.
  * @param {string} label The taxonomy label (plural).
  * @param {string} singularLabel The taxonomy label (singular).
+ * @param {string[]} postTypes The connected post types.
  * @returns {JSX.Element} The taxonomy element.
  */
-const Taxonomy = ( { name, label, singularLabel } ) => {
+const Taxonomy = ( { name, label, singularLabel, postTypes: postTypeNames } ) => {
+	const postTypes = useSelectSettings( "selectPostTypes", [], postTypeNames );
 	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [ name ], name, "term-in-custom-taxonomy" );
 	const recommendedReplacementVariables = useSelectSettings( "selectRecommendedReplacementVariablesFor", [ name ], name, "term-in-custom-taxonomy" );
 
@@ -59,7 +62,10 @@ const Taxonomy = ( { name, label, singularLabel } ) => {
 		<FormLayout
 			title={ <div className="yst-flex yst-items-center yst-gap-1.5">
 				<span>{ label }</span>
-				<Badge variant="plain">{ name }</Badge>
+				{ map(
+					postTypes,
+					( { name: postTypeName, label: postTypeLabel } ) => <Badge key={ postTypeName } variant="plain">{ postTypeLabel }</Badge>
+				) }
 			</div> }
 		>
 			<FieldsetLayout
@@ -187,6 +193,7 @@ Taxonomy.propTypes = {
 	name: PropTypes.string.isRequired,
 	label: PropTypes.string.isRequired,
 	singularLabel: PropTypes.string.isRequired,
+	postTypes: PropTypes.arrayOf( PropTypes.string ).isRequired,
 };
 
 export default Taxonomy;

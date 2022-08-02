@@ -461,6 +461,7 @@ class Settings_Integration implements Integration_Interface {
 			'route'         => $this->get_route( $taxonomy->name, $taxonomy->rewrite, $taxonomy->rest_base ),
 			'label'         => $taxonomy->label,
 			'singularLabel' => $taxonomy->labels->singular_name,
+			'postTypes'     => $taxonomy->object_type,
 		];
 	}
 
