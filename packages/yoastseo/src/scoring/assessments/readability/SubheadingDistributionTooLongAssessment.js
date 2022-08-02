@@ -8,6 +8,8 @@ import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import { getSubheadings } from "../../../languageProcessing/helpers/html/getSubheadings";
 import getWords from "../../../languageProcessing/helpers/word/getWords";
 import AssessmentResult from "../../../values/AssessmentResult";
+import { stripIncompleteTags as stripTags } from "../../../languageProcessing/helpers/sanitize/stripHTMLTags";
+import addMark from "../../../markers/addMark";
 
 /**
  * Represents the assessment for calculating the text after each subheading.
@@ -155,7 +157,14 @@ class SubheadingsDistributionTooLong extends Assessment {
 	 * Creates a marker for each subheading that precedes a text that is too long.
 	 * @returns {Array} All markers for the current text.
 	 */
-	getMarks() {
+	getMarks( paper, researcher ) {
+		const subheadingsCount = researcher.getResearch( "getSubheadingTextLength" );
+		// gets subheadings preceded by long texts
+		const subheadingsForLongTexts = getSubheadings( this._tooLongTextsNumber );
+		return new Mark( {
+			original: subheadingsForLongTexts,
+			marked: addMark( subheadingsForLongTexts ),
+		} );
 	}
 	/**
 	 * Counts the number of subheading texts that are too long.
