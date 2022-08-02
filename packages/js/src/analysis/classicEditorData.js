@@ -435,7 +435,6 @@ export default class ClassicEditorData {
 
 		// Set isDirty to true if the current data and editor data are unequal.
 		const isDirty = ! this.isShallowEqual( this._previousData, newData );
-
 		if ( isDirty ) {
 			this.handleEditorChange( newData );
 			this._previousData = newData;
@@ -465,6 +464,10 @@ export default class ClassicEditorData {
 		// Handle slug change.
 		if ( this._previousData.slug !== newData.slug ) {
 			this._store.dispatch( setEditorDataSlug( newData.slug ) );
+		}
+		// Handle the text title (different than the SEO title) change.
+		if ( this._previousData.title !== newData.title ) {
+			this._store.dispatch( setEditorDataTitle( newData.title ) );
 		}
 	}
 
@@ -513,6 +516,7 @@ export default class ClassicEditorData {
 	getData() {
 		return {
 			...this._store.getState().snippetEditor.data,
+			title: this.getTitle(),
 			content: this.getContent(),
 			excerpt: this.getExcerpt(),
 			// eslint-disable-next-line
