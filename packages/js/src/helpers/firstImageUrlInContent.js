@@ -9,22 +9,18 @@ import { languageProcessing } from "yoastseo";
  */
 export default function firstImageUrlInContent( content ) {
 	const images = languageProcessing.imageInText( content );
-	let image = "";
 
 	if ( images.length === 0 ) {
 		return "";
 	}
 
-	do {
-		let currentImage = images.shift();
-		currentImage = jQuery( currentImage );
+	const imageElements = $.parseHTML( images.join( "" ) );
 
-		const imageSource = currentImage.prop( "src" );
-
-		if ( imageSource ) {
-			image = imageSource;
+	for ( const imageElement of imageElements ) {
+		if ( imageElement.src ) {
+			return imageElement.src;
 		}
-	} while ( "" === image && images.length > 0 );
+	}
 
-	return image;
+	return "";
 }
