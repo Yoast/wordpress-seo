@@ -1294,6 +1294,44 @@ class WPSEO_Replace_Vars {
 	 *
 	 * @return array List of replace vars.
 	 */
+	public function get_replacement_variables_with_labels() {
+		self::setup_statics_once();
+
+		$custom_variables = [];
+		foreach ( array_merge( WPSEO_Custom_Fields::get_custom_fields(), WPSEO_Custom_Taxonomies::get_custom_taxonomies() ) as $custom_variable ) {
+			$custom_variables[ $custom_variable ] = new WPSEO_Replacement_Variable( $custom_variable, $this->get_label( $custom_variable ), '' );
+		}
+
+		$replacement_variables = array_filter(
+			array_merge( self::$help_texts['basic'], self::$help_texts['advanced'] ),
+			[ $this, 'is_not_prefixed' ],
+			ARRAY_FILTER_USE_KEY
+		);
+
+		$hidden = $this->get_hidden_replace_vars();
+
+		return array_values(
+			array_map(
+				static function ( WPSEO_Replacement_Variable $replacement_variable ) use ( $hidden ) {
+					$name = $replacement_variable->get_variable();
+
+					return [
+						'name'   => $name,
+						'value'  => '',
+						'label'  => $replacement_variable->get_label(),
+						'hidden' => in_array( $name, $hidden, true ),
+					];
+				},
+				array_merge( $replacement_variables, $custom_variables )
+			)
+		);
+	}
+
+	/**
+	 * Generates a list of replacement variables based on the help texts.
+	 *
+	 * @return array List of replace vars.
+	 */
 	public function get_replacement_variables_list() {
 		self::setup_statics_once();
 

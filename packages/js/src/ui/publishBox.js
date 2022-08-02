@@ -134,6 +134,9 @@ export function initialize() {
 	$( "#keyword-score" ).on( "click", "[href='#yoast-seo-analysis-collapsible-metabox']", function( event ) {
 		event.preventDefault();
 
+		// Pretend to click on the SEO tab to make it focused.
+		document.querySelector( "#wpseo-meta-tab-content" ).click();
+
 		scrollToCollapsible( "#yoast-seo-analysis-collapsible-metabox" );
 	} );
 }

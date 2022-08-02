@@ -414,7 +414,13 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			];
 		}
 
-		return $links;
+		/**
+		 * Filters the first post type links.
+		 *
+		 * @param array $links      The first post type links.
+		 * @param string $post_type The post type this archive is for.
+		 */
+		return apply_filters( 'wpseo_sitemap_post_type_first_links', $links, $post_type );
 	}
 
 	/**
