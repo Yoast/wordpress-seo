@@ -41,7 +41,7 @@ const NotEnoughContent = () => {
 
 	const flagArticleAsRead = useCallback( async( e ) => {
 		const index = parseInt( e.currentTarget.dataset.index, 10 );
-		const oldState = [ ...readingListState ]
+		const oldState = [ ...readingListState ];
 		const newState = [ ...readingListState ];
 		newState[ index ] = e.target.checked;
 		setReadingListState( newState );
@@ -54,7 +54,7 @@ const NotEnoughContent = () => {
 
 			const parsedResponse = await response.json;
 
-			if (! parsedResponse.success ) {
+			if ( ! parsedResponse.success ) {
 				setReadingListState( oldState );
 				return false;
 			}
@@ -134,10 +134,7 @@ const NotEnoughContent = () => {
 										<span className="yst-font-medium yst-text-gray-400 yst-text-sm yst-line-through yst-mr-2">{ article.title }</span>
 										<ExternalLinkIcon className="yst-shrink-0 yst-h-[13px] yst-w-[13px] yst-text-gray-400" />
 									</Fragment>
-									: <Link
-										href={ article.link }
-										className="yst-min-w-0 yst-rounded-md focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-primary-500 yst-flex yst-items-center yst-gap-2 yst-no-underline yst-text-inherit hover:yst-text-indigo-500"
-									>
+									: <Link href={ article.link } className="yst-min-w-0 yst-rounded-md focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-primary-500 yst-flex yst-items-center yst-gap-2 yst-no-underline yst-text-inherit hover:yst-text-indigo-500">
 										<span className="yst-text-ellipsis yst-whitespace-nowrap yst-overflow-hidden">{ article.title }</span><ExternalLinkIcon className="yst-shrink-0 yst-h-[13px] yst-w-[13px]" />
 									</Link>
 								}
