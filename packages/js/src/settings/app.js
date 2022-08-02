@@ -68,8 +68,8 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 					to={ `/taxonomy/${ route }` }
 					label={ <div className="yst-flex yst-items-center yst-gap-1.5">
 						<span>{ label }</span>
-						<Badge variant="plain" className="yst-border yst-border-gray-300">{ postTypes[ first( postTypeNames ) ].label }</Badge>
-						{ postTypeNames.length > 1 && <Badge variant="plain" className="yst-border yst-border-gray-300">...</Badge> }
+						<Badge variant="plain" size="small" className="yst-border yst-border-gray-300">{ postTypes[ first( postTypeNames ) ].label }</Badge>
+						{ postTypeNames.length > 1 && <Badge variant="plain" size="small" className="yst-border yst-border-gray-300">...</Badge> }
 					</div> }
 					idSuffix={ idSuffix }
 				/>
