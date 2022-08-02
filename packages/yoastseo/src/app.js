@@ -1,23 +1,34 @@
-import * as assessments from "./scoring/assessments";
-import SnippetPreview from "./snippetPreview/snippetPreview.js";
-
 import { setLocaleData } from "@wordpress/i18n";
-import { debounce, defaultsDeep, forEach, isArray, isEmpty, isFunction, isObject, isString, isUndefined, merge, throttle } from "lodash-es";
+import {
+	debounce,
+	defaultsDeep,
+	forEach,
+	isArray,
+	isEmpty,
+	isFunction,
+	isObject,
+	isString,
+	isUndefined,
+	merge,
+	throttle
+} from "lodash-es";
 import MissingArgument from "./errors/missingArgument";
-
-import SEOAssessor from "./scoring/seoAssessor.js";
-import KeyphraseDistributionAssessment from "./scoring/assessments/seo/KeyphraseDistributionAssessment.js";
-import WordComplexityAssessment from "./scoring/assessments/readability/WordComplexityAssessment";
-import TextTitleAssessment from "./scoring/assessments/seo/TextTitleAssessment";
-import ContentAssessor from "./scoring/contentAssessor.js";
-import CornerstoneSEOAssessor from "./scoring/cornerstone/seoAssessor.js";
-import CornerstoneContentAssessor from "./scoring/cornerstone/contentAssessor.js";
-import AssessorPresenter from "./scoring/renderers/AssessorPresenter.js";
-import Pluggable from "./pluggable.js";
-import Paper from "./values/Paper.js";
 import { measureTextWidth } from "./helpers/createMeasurementElement.js";
 
 import removeHtmlBlocks from "./languageProcessing/helpers/html/htmlParser.js";
+import Pluggable from "./pluggable.js";
+import * as assessments from "./scoring/assessments";
+import WordComplexityAssessment from "./scoring/assessments/readability/WordComplexityAssessment";
+import KeyphraseDistributionAssessment from "./scoring/assessments/seo/KeyphraseDistributionAssessment.js";
+import TextTitleAssessment from "./scoring/assessments/seo/TextTitleAssessment";
+import ContentAssessor from "./scoring/contentAssessor.js";
+import CornerstoneContentAssessor from "./scoring/cornerstone/contentAssessor.js";
+import CornerstoneSEOAssessor from "./scoring/cornerstone/seoAssessor.js";
+import AssessorPresenter from "./scoring/renderers/AssessorPresenter.js";
+
+import SEOAssessor from "./scoring/seoAssessor.js";
+import SnippetPreview from "./snippetPreview/snippetPreview.js";
+import Paper from "./values/Paper.js";
 
 const keyphraseDistribution = new KeyphraseDistributionAssessment();
 let wordComplexity = new WordComplexityAssessment();
@@ -292,7 +303,7 @@ var App = function( args ) {
 		useCornerStone: false,
 		useKeywordDistribution: false,
 		useWordComplexity: false,
-		useTextTitle: false
+		useTextTitle: false,
 	};
 
 	this.initSnippetPreview();
@@ -347,8 +358,8 @@ App.prototype.getSeoAssessor = function() {
 	if ( useKeywordDistribution && isUndefined( assessor.getAssessment( "keyphraseDistribution" ) ) ) {
 		assessor.addAssessment( "keyphraseDistribution", keyphraseDistribution );
 	}
-	if ( useTextTitle ) {
-		if ( useCornerstone === true ) {
+	if ( useTextTitle && isUndefined( assessor.getAssessment( "textTitleAssessment" ) ) ) {
+		if ( assessor === true ) {
 			textTitle = new assessments.seo.TextTitleAssessment( {
 				scores: {
 					good: 9,

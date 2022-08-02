@@ -516,6 +516,7 @@ export default class ClassicEditorData {
 	getData() {
 		return {
 			...this._store.getState().snippetEditor.data,
+			// Overwrites the title stored in the previous line, which contains data for the SEO title.
 			title: this.getTitle(),
 			content: this.getContent(),
 			excerpt: this.getExcerpt(),
