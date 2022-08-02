@@ -9,6 +9,7 @@ import { makeOutboundLink } from "@yoast/helpers";
 import IndexablesTable from "./components/indexables-table";
 import SvgIcon from "../../../components/src/SvgIcon";
 import NotEnoughContent from "./components/not-enough-content";
+import NotEnoughAnalysedContent from "./components/not-enough-analysed-content";
 
 const Link = makeOutboundLink();
 
@@ -49,7 +50,7 @@ IndexableScore.propTypes = {
  *
  * @returns {WPElement} A div with a styled link count representation.
  */
-function IndexableLinkCount( { count } ) {
+export function IndexableLinkCount( { count } ) {
 	return 	<div className="yst-min-w-[40px] yst-shrink-0 yst-flex yst-items-center yst-gap-1">
 		<LinkIcon className="yst-h-4 yst-w-4 yst-text-gray-400" />
 		{ count }
@@ -452,9 +453,7 @@ function IndexablesPage() {
 	if ( setupInfo && setupInfo.enoughContent === false ) {
 		return <NotEnoughContent />;
 	} else if ( setupInfo && setupInfo.enoughAnalysedContent === false ) {
-		return <div>
-			Not enough analysed content
-		</div>;
+		return <NotEnoughAnalysedContent indexablesList={ setupInfo.postsWithoutKeyphrase } />;
 	}
 
 	return setupInfo && <div
