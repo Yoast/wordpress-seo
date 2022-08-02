@@ -101,6 +101,7 @@ class Indexables_Page_Integration implements Integration_Interface {
 		$data = [
 			'disabled'     => ! \YoastSEO()->helpers->indexable->should_index_indexables(),
 			'amount'       => \YoastSEO()->helpers->indexing->get_filtered_unindexed_count(),
+			// Forcing this to 0 to not display the initial alert notice
 			'firstTime'    => "0", //( \YoastSEO()->helpers->indexing->is_initial_indexing() === true ),
 			'errorMessage' => '',
 			'restApi'      => [
