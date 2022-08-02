@@ -55,6 +55,13 @@ trait Presentation_Instance_Builder {
 	protected $post_type;
 
 	/**
+	 * Holds the Author_Archive_Helper instance.
+	 *
+	 * @var Author_Archive_Helper|Mockery\MockInterface
+	 */
+	protected $author_archive;
+
+	/**
 	 * Holds the Pagination_Helper instance.
 	 *
 	 * @var Pagination_Helper|Mockery\MockInterface
