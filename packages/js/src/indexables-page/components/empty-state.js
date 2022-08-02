@@ -8,7 +8,7 @@ import Indexation from "../../components/indexation";
 /* eslint-disable no-warning-comments */
 /* eslint-disable complexity */
 /**
- * Renders the four indexable tables.
+ * Renders a page in case the SEO optimization process has not been performed.
  *
  * @returns {WPElement} A div containing the empty state page.
  */
