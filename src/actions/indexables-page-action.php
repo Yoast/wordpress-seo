@@ -96,8 +96,9 @@ class Indexables_Page_Action {
 			'isLinkCountEnabled'   => $this->options_helper->get( 'enable_text_link_counter', true ),
 		];
 
-		$posts_with_seo_score   = 0;
-		$posts_with_readability = 0;
+		$posts_with_seo_score    = 0;
+		$posts_with_readability  = 0;
+		$posts_without_keyphrase = [];
 
 		if ( ! $features['isSeoScoreEnabled'] && ! $features['isReadabilityEnabled'] && ! $features['isLinkCountEnabled'] ) {
 			return [
@@ -121,6 +122,10 @@ class Indexables_Page_Action {
 			$posts_with_seo_score = $this->query()
 				->where_not_equal( 'primary_focus_keyword', 0 )
 				->count();
+
+			$posts_without_keyphrase = $this->query()
+				->where_null( 'primary_focus_keyword' )
+				->find_many();
 		}
 
 		if ( $features['isReadabilityEnabled'] ) {
@@ -139,6 +144,16 @@ class Indexables_Page_Action {
 			'enabledFeatures'       => $features,
 			'enoughContent'         => $all_posts > $content_threshold,
 			'enoughAnalysedContent' => $enough_analysed_content > $analysis_threshold,
+			'postsWithoutKeyphrase' => \array_map(
+				function ( $indexable ) {
+					$output = $indexable;
+					if ( $indexable->incoming_link_count === null ) {
+						$output->incoming_link_count = 0;
+					}
+					return $output;
+				},
+				$posts_without_keyphrase
+			),
 		];
 	}
 
