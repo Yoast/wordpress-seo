@@ -2,8 +2,8 @@ import PropTypes from "prop-types";
 
 import { useState } from "@wordpress/element";
 
-import IndexablesPage from "./indexables-page";
 import EmptyState from "./empty-state";
+import IndexablesPage from "./indexables-page";
 
 /* eslint-disable camelcase */
 /* eslint-disable no-warning-comments */
