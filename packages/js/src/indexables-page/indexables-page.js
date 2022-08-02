@@ -449,7 +449,7 @@ function IndexablesPage() {
 		);
 	};
 
-	if ( setupInfo && setupInfo.enoughContent === true ) { // Change back to false!
+	if ( setupInfo && setupInfo.enoughContent === false ) {
 		return <NotEnoughContent />;
 	} else if ( setupInfo && setupInfo.enoughAnalysedContent === false ) {
 		return <div>
