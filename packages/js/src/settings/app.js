@@ -1,4 +1,4 @@
-import { AdjustmentsIcon, DesktopComputerIcon, NewspaperIcon } from "@heroicons/react/outline";
+import { AdjustmentsIcon, DesktopComputerIcon, NewspaperIcon, ColorSwatchIcon } from "@heroicons/react/outline";
 import { __ } from "@wordpress/i18n";
 import { Badge } from "@yoast/ui-library";
 import { first, map } from "lodash";
@@ -59,7 +59,7 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 		</SidebarNavigation.MenuItem>
 		<SidebarNavigation.MenuItem
 			id={ `menu-content-settings${ idSuffix && `-${ idSuffix }` }` }
-			icon={ NewspaperIcon }
+			icon={ ColorSwatchIcon }
 			label={ __( "Taxonomy settings", "wordpress-seo" ) }
 		>
 			{ map( taxonomies, ( { route, label, postTypes: postTypeNames } ) => (
