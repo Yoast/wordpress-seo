@@ -126,8 +126,8 @@ const FormikMediaSelectField = ( {
 				id={ `button-${ id }-preview` }
 				onClick={ handleSelectMediaClick }
 				className={ classNames(
-					"yst-overflow-hidden yst-flex yst-justify-center yst-items-center yst-rounded-md yst-mb-4",
-					mediaUrl ? "yst-bg-gray-50" : "yst-border-2 yst-border-gray-300 yst-border-dashed",
+					"yst-overflow-hidden yst-flex yst-justify-center yst-items-center yst-rounded-md yst-mb-4 yst-border-gray-300",
+					mediaUrl ? "yst-bg-gray-50 yst-border" : "yst-border-2 yst-border-dashed",
 					disabled && "yst-cursor-not-allowed",
 					classNameMap.variant[ variant ],
 					className
