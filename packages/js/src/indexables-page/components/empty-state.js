@@ -2,7 +2,7 @@
 import PropTypes from "prop-types";
 
 import IconSearch from "../../../images/icon-search.svg";
-import Indexation from "../../components/indexation";
+import Indexation from "./indexation";
 
 /* eslint-disable camelcase */
 /* eslint-disable no-warning-comments */
