@@ -523,8 +523,28 @@ describe( "a test for when texts containing sentence delimiter", () => {
 	} );
 
 	it( "can deal with the edge case of quotes around initials.", ()=>{
-		expect( getSentences( "The reprint was favourably reviewed by \"A. B.\" in The Musical Times in 1935, who commented \"Praise is due to Mr Mercer." ) ).toEqual(
+		const text = "The reprint was favourably reviewed by \"A. B.\" in The Musical Times in 1935, who commented \"Praise is due to Mr Mercer.";
+		expect( getSentences( text ) ).toEqual(
 			[ "The reprint was favourably reviewed by \"A. B.\" in The Musical Times in 1935, who commented \"Praise is due to Mr Mercer." ] );
+	} );
+
+	it( "should not break when the text starts with double quotation mark followed by space", ()=>{
+		let text = "\" This is a text with double quotation mark.";
+		expect( getSentences( text ) ).toEqual( [ "\"", "This is a text with double quotation mark." ] );
+		text = "\" \"This is a text with double quotation mark.";
+		expect( getSentences( text ) ).toEqual(  [ "\"", "\"This is a text with double quotation mark." ] );
+
+		text = "” This is a text with double quotation mark.";
+		expect( getSentences( text ) ).toEqual( [ "”", "This is a text with double quotation mark." ] );
+
+		text = "„ This is a text with double quotation mark.";
+		expect( getSentences( text ) ).toEqual( [ "„", "This is a text with double quotation mark." ] );
+
+		text = "» This is a text with double quotation mark.";
+		expect( getSentences( text ) ).toEqual( [ "»", "This is a text with double quotation mark." ] );
+
+		text = "« »This is a text with double quotation mark.";
+		expect( getSentences( text ) ).toEqual( [ "« »This is a text with double quotation mark." ] );
 	} );
 } );
 
