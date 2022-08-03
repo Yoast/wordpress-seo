@@ -23,8 +23,8 @@ const Notifications = () => {
 	return (
 		<NotificationsUi notifications={ enrichedNotifications } position="bottom-left">
 			{ enrichedNotifications.map( ( notification ) => (
-				<NotificationsUi.Notification key={ notification.id } { ...notification } /> )
-			) }
+				<NotificationsUi.Notification key={ notification.id } { ...notification } />
+			) ) }
 		</NotificationsUi>
 	);
 };

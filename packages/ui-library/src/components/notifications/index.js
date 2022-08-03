@@ -25,6 +25,10 @@ const notificationClassNameMap = {
 		"bottom-left": "yst-translate-y-full",
 		"top-center": "yst--translate-y-full",
 	},
+	size: {
+		"default": "",
+		large: "yst-notification--large",
+	},
 };
 
 const notificationsIconMap = {
@@ -48,6 +52,7 @@ const notificationsIconMap = {
 const Notification = ( {
 	id,
 	variant = "info",
+	size = "default",
 	title,
 	description = "",
 	onDismiss = null,
@@ -90,7 +95,11 @@ const Notification = ( {
 			leave={ "yst-transition yst-ease-in-out yst-duration-150" }
 			leaveFrom="yst-translate-y-0"
 			leaveTo={ notificationClassNameMap.position[ position ] }
-			className={ classNames( "yst-notification", notificationClassNameMap.variant[ variant ] ) }
+			className={ classNames(
+				"yst-notification",
+				notificationClassNameMap.variant[ variant ],
+				notificationClassNameMap.size[ size ],
+			) }
 			role="alert"
 		>
 			<div className="yst-flex yst-items-start yst-gap-3">
@@ -123,6 +132,7 @@ const Notification = ( {
 Notification.propTypes = {
 	id: PropTypes.string.isRequired,
 	variant: PropTypes.oneOf( keys( notificationClassNameMap.variant ) ),
+	size: PropTypes.oneOf( keys( notificationClassNameMap.size ) ),
 	title: PropTypes.string.isRequired,
 	description: PropTypes.oneOfType( [ PropTypes.string, PropTypes.arrayOf( PropTypes.string ) ] ),
 	onDismiss: PropTypes.func,
