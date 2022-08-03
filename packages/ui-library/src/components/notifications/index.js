@@ -1,10 +1,17 @@
 /* eslint-disable complexity */
 import { Transition } from "@headlessui/react";
 import PropTypes from "prop-types";
-import { useState, useCallback, useEffect } from "@wordpress/element";
+import { useState, useCallback, useEffect, useContext, createContext } from "@wordpress/element";
 import { XCircleIcon, CheckCircleIcon, ExclamationIcon, XIcon, InformationCircleIcon } from "@heroicons/react/outline";
 import { isArray, keys } from "lodash";
 import classNames from "classnames";
+
+const NotificationsContext = createContext( { position: "bottom-left" } );
+
+/**
+ * @returns {Object} Value of the notifications context.
+ */
+const useNotificationsContext = () => useContext( NotificationsContext );
 
 const notificationClassNameMap = {
 	variant: {
@@ -36,7 +43,6 @@ const notificationsIconMap = {
  * @param {Function} [onDismiss] Function to trigger on dismissal.
  * @param {number} [autoDismiss] Amount of milliseconds after which the message should auto dismiss, 0 indicating no auto dismiss.
  * @param {string} dismissScreenReaderLabel Screen reader label for dismiss button.
- * @param {string} position Position on screen for transition.
  * @returns {JSX.Element} The Notification component.
  */
 const Notification = ( {
@@ -47,8 +53,8 @@ const Notification = ( {
 	onDismiss = null,
 	autoDismiss = null,
 	dismissScreenReaderLabel,
-	position = "bottom-center",
 } ) => {
+	const { position } = useNotificationsContext();
 	const [ isVisible, setIsVisible ] = useState( false );
 	const Icon = notificationsIconMap[ variant ];
 
@@ -122,9 +128,7 @@ Notification.propTypes = {
 	onDismiss: PropTypes.func,
 	autoDismiss: PropTypes.number,
 	dismissScreenReaderLabel: PropTypes.string.isRequired,
-	position: PropTypes.oneOf( keys( notificationClassNameMap.position ) ),
 };
-
 
 const notificationsClassNameMap = {
 	position: {
@@ -134,33 +138,33 @@ const notificationsClassNameMap = {
 	},
 };
 
-
 /**
  * The Notifications component shows notifications on a specified position on the screen.
+ * @param {JSX.Element} children The children.
  * @param {string} position Position on screen.
- * @param {Object[]} notifications Notifications.
  * @returns {JSX.Element} The Notifications element.
  */
 const Notifications = ( {
-	position = "bottom-center",
-	notifications,
+	children,
+	position = "bottom-left",
 } ) => (
-	<aside
-		className={ classNames(
-			"yst-notifications",
-			notificationsClassNameMap.position[ position ],
-		) }
-	>
-		{ notifications.map( ( notification ) => (
-			<Notification key={ notification.id } position={ position } { ...notification } /> ),
-		) }
-	</aside>
+	<NotificationsContext.Provider value={ { position } }>
+		<aside
+			className={ classNames(
+				"yst-notifications",
+				notificationsClassNameMap.position[ position ],
+			) }
+		>
+			{ children }
+		</aside>
+	</NotificationsContext.Provider>
 );
 
 Notifications.propTypes = {
+	children: PropTypes.node,
 	position: PropTypes.oneOf( keys( notificationsClassNameMap.position ) ),
-	// eslint-disable-next-line react/forbid-foreign-prop-types
-	notifications: PropTypes.arrayOf( PropTypes.shape( Notification.propTypes ) ).isRequired,
 };
+
+Notifications.Notification = Notification;
 
 export default Notifications;
