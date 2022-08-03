@@ -27,6 +27,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/4ly" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/4lz" ),
 			assessVariants: false,
+			isPluginShopify:false,
 			productIdentifierOrBarcode: {
 				lowercase: "product identifier",
 				uppercase: "",
@@ -105,16 +106,35 @@ export default class ProductIdentifiersAssessment extends Assessment {
 		// If a product has no variants, return orange bullet if it has no global identifier.
 		if ( ! productIdentifierData.hasVariants ) {
 			if ( ! productIdentifierData.hasGlobalIdentifier ) {
-				return {
+				if ( productIdentifierData.isPluginShopify ){
+					return {
+						score: config.scores.ok,
+						text: sprintf(
+							/* Translators: %1$s and %4$s expand to links on yoast.com, %5$s expands to the anchor end tag,
+							* %2$s expands to the string "Barcode" or "Product identifier", %3$s expands to the string "barcode"
+							* or "product identifier" */
+							__(
+								"%1$s%2$s%5$s: Your product is missing a product identifier (like a GTIN code). %4$sInclude this if you can, as it" +
+								" will help search engines to better understand your content.%5$s",
+								"wordpress-seo"
+							),
+							this._config.urlTitle,
+							this._config.productIdentifierOrBarcode.uppercase,
+							this._config.productIdentifierOrBarcode.lowercase,
+							this._config.urlCallToAction,
+							"</a>"
+						),
+					};
+				} else return {
 					score: config.scores.ok,
 					text: sprintf(
 						/* Translators: %1$s and %4$s expand to links on yoast.com, %5$s expands to the anchor end tag,
 						* %2$s expands to the string "Barcode" or "Product identifier", %3$s expands to the string "barcode"
 						* or "product identifier" */
 						__(
-							"%1$s%2$s%5$s: Your product is missing a %3$s (like a GTIN code). %4$sInclude this if you can, as it" +
+							"%1$s%2$s%5$s: Your product is missing a barcode (like a GTIN code). %4$sInclude this if you can, as it" +
 							" will help search engines to better understand your content.%5$s",
-							"wordpress-seo"
+							"shopify-seo"
 						),
 						this._config.urlTitle,
 						this._config.productIdentifierOrBarcode.uppercase,
@@ -122,23 +142,40 @@ export default class ProductIdentifiersAssessment extends Assessment {
 						this._config.urlCallToAction,
 						"</a>"
 					),
-				};
+
+				}
 			}
-			// If a product has no variants, return green bullet if it has a global identifier or barcode.
-			return {
+			if ( productIdentifierData.isPluginShopify ) {
+				// If a product has no variants, return green bullet if it has a global identifier or barcode.
+				return {
+					score: config.scores.good,
+					text: sprintf(
+						/* Translators: %1$s expands to a link on yoast.com, %3$s expands to the anchor end tag,
+						* %2$s expands to the string "Barcode" or "Product identifier" */
+						__(
+							"%1$s%2$s%3$s: Your product has a product identifier. Good job!",
+							"wordpress-seo"
+						),
+						this._config.urlTitle,
+						this._config.productIdentifierOrBarcode.uppercase,
+						"</a>"
+					),
+				};
+			} else return {
 				score: config.scores.good,
 				text: sprintf(
 					/* Translators: %1$s expands to a link on yoast.com, %3$s expands to the anchor end tag,
 					* %2$s expands to the string "Barcode" or "Product identifier" */
 					__(
-						"%1$s%2$s%3$s: Your product has a %2$s. Good job!",
-						"wordpress-seo"
+						"%1$s%2$s%3$s: Your product has a barcode. Good job!",
+						"shopify-seo"
 					),
 					this._config.urlTitle,
 					this._config.productIdentifierOrBarcode.uppercase,
 					"</a>"
 				),
-			};
+
+			}
 		}
 
 		// Don't return a score if the product has variants but we don't want to assess variants for this product.
