@@ -461,7 +461,7 @@ function IndexablesPage() {
 		return <span>All features deactivated.</span>;
 	} else if ( setupInfo && setupInfo.enoughContent === false ) {
 		return <NotEnoughContent />;
-	} else if ( setupInfo && setupInfo.enoughAnalysedContent === false && setSetupInfo.enabledFeatures.isSeoScoreEnabled ) {
+	} else if ( setupInfo && setupInfo.enoughAnalysedContent === false && setupInfo.enabledFeatures.isSeoScoreEnabled ) {
 		return <NotEnoughAnalysedContent indexablesList={ setupInfo.postsWithoutKeyphrase } />;
 	}
 
