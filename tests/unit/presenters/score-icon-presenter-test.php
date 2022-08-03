@@ -1,0 +1,80 @@
+<?php
+
+namespace Yoast\WP\SEO\Tests\Unit\Presenters;
+
+use Brain\Monkey;
+use Mockery;
+use Yoast\WP\SEO\Presenters\Score_Icon_Presenter;
+use Yoast\WP\SEO\Tests\Unit\TestCase;
+
+/**
+ * Class Score_Icon_Presenter_Test
+ *
+ * @coversDefaultClass \Yoast\WP\SEO\Presenters\Score_Icon_Presenter
+ *
+ * @group presenters
+ */
+class Score_Icon_Presenter_Test extends TestCase {
+
+	/**
+	 * Sets up the test class.
+	 */
+	protected function set_up() {
+		parent::set_up();
+		$this->stubEscapeFunctions();
+	}
+
+	/**
+	 * Tests if the needed attributes are set correctly.
+	 *
+	 * @covers ::__construct
+	 */
+	public function test_constructor() {
+		$instance = new Score_Icon_Presenter( 'foo', 'bar' );
+
+		$this->assertSame( 'foo', $this->getPropertyValue( $instance, 'title' ) );
+		$this->assertSame( 'bar', $this->getPropertyValue( $instance, 'class' ) );
+	}
+
+	/**
+	 * Tests whether the presenter returns the correct title.
+	 *
+	 * @dataProvider present_provider
+	 *
+	 * @covers ::present
+	 *
+	 * @param string $title    The title and screen reader text.
+	 * @param string $class    The class.
+	 * @param string $expected The expected present output.
+	 */
+	public function test_present( $title, $class, $expected ) {
+		$instance = new Score_Icon_Presenter( $title, $class );
+
+		$this->assertEquals( $expected, $instance->present() );
+	}
+
+	/**
+	 * Provides the test data.
+	 *
+	 * @return array The test data.
+	 */
+	public function present_provider() {
+		return [
+			'title and class' => [
+				'title'    => 'title',
+				'class'    => 'class',
+				'expected' => '<div aria-hidden="true" title="title" class="wpseo-score-icon class"><span class="wpseo-score-text screen-reader-text">title</span></div>',
+			],
+			'empty title' => [
+				'title'    => '',
+				'class'    => 'class',
+				'expected' => '<div aria-hidden="true" title="" class="wpseo-score-icon class"><span class="wpseo-score-text screen-reader-text"></span></div>',
+			],
+			'empty class' => [
+				'title'    => 'title',
+				'class'    => '',
+				'expected' => '<div aria-hidden="true" title="title" class="wpseo-score-icon "><span class="wpseo-score-text screen-reader-text">title</span></div>',
+			],
+		];
+	}
+}
