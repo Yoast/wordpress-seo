@@ -1,0 +1,99 @@
+@layer components {
+	.yst-root {
+		.yst-tag-input {
+			@apply
+			yst-flex
+			yst-flex-wrap
+			yst-py-2
+			yst-px-3
+			yst-space-x-1.5
+			yst-border
+			yst-border-gray-300
+			yst-rounded-md
+			yst-shadow-sm
+			yst-bg-white
+			yst-text-sm
+			yst-text-gray-700
+			yst-placeholder-gray-500
+			yst-leading-6
+			focus-within:yst-ring-1
+			focus-within:yst-ring-primary-500
+			focus-within:yst-border-primary-500;
+		}
+
+		.yst-tag-input--disabled {
+			@apply
+			yst-opacity-50
+			yst-cursor-not-allowed
+			focus-within:yst-ring-0
+			focus-within:yst-border-gray-300;
+
+			.yst-tag-input__tag {
+				@apply
+				yst-cursor-not-allowed
+				focus:yst-outline-none
+				focus:yst-ring-0
+				focus-visible:yst-outline-none
+				focus-visible:yst-ring-0;
+			}
+
+			.yst-tag-input__remove-tag {
+				@apply
+				yst-cursor-not-allowed
+				hover:yst-text-gray-400
+				focus:yst-outline-none
+				focus:yst-ring-0;
+			}
+
+			.yst-tag-input__input {
+				@apply yst-cursor-not-allowed;
+			}
+		}
+
+		.yst-tag-input__tag {
+			@apply
+			yst-flex
+			yst-py-0.5
+			yst-px-2.5
+			yst-rounded-full
+			yst-items-center
+			yst-text-xs
+			yst-font-medium
+			yst-bg-gray-100
+			yst-text-gray-800
+			yst-cursor-pointer
+			focus:yst-outline-none
+			focus:yst-ring-2
+			focus:yst-ring-primary-500
+			focus-visible:yst-outline-none
+			focus-visible:yst-ring-2
+			focus-visible:yst-ring-primary-500;
+		}
+
+		.yst-tag-input__remove-tag {
+			@apply
+			yst-rounded-md
+			yst-inline-flex
+			yst-ml-0.5
+			yst--mr-1
+			yst-bg-gray-100
+			yst-text-gray-400
+			hover:yst-text-gray-500
+			focus:yst-outline-none
+			focus:yst-ring-2
+			focus:yst-ring-primary-500;
+		}
+
+		.yst-tag-input__input {
+			@apply
+			yst-inline-flex
+			yst-flex-1
+			yst-p-0
+			yst-m-0
+			yst-border-none
+			yst-text-sm
+			focus:yst-outline-none
+			focus:yst-ring-0;
+		}
+	}
+}
