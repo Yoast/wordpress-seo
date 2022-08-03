@@ -6,9 +6,6 @@ import SimpleCard from "./simple-card";
 import { useState, useCallback } from "@wordpress/element";
 import { Button, Link } from "@yoast/ui-library";
 import { IndexableLinkCount } from "../indexables-page";
-/* eslint-disable camelcase */
-/* eslint-disable no-warning-comments */
-/* eslint-disable complexity */
 
 /**
  * Renders the four indexable tables.
@@ -16,12 +13,15 @@ import { IndexableLinkCount } from "../indexables-page";
  * @returns {WPElement} A div containing the empty state page.
  */
 const NotEnoughAnalysedContent = ( { indexablesList } ) => {
-	const [ numberOfVisibleIndexables, setNumberOfVisibleIndexables ] = useState( 5 );
+	const [ step, setStep ] = useState( 5 );
+	const [ numberOfVisibleIndexables, setNumberOfVisibleIndexables ] = useState( step );
 
 	const handleShowMore = useCallback( ( e ) => {
 		e.preventDefault();
-		const number = numberOfVisibleIndexables + 5 > indexablesList.length ? indexablesList.length : numberOfVisibleIndexables + 5;
+		const number = numberOfVisibleIndexables + step > indexablesList.length ? indexablesList.length : numberOfVisibleIndexables + step;
+		const newStep = indexablesList.length - number > step ? step :  indexablesList.length - number;
 		setNumberOfVisibleIndexables( number );
+		setStep( newStep );
 	}, [ numberOfVisibleIndexables, setNumberOfVisibleIndexables ] );
 	return <div className="yst-max-w-full yst-mt-6">
 		<div
@@ -66,13 +66,24 @@ const NotEnoughAnalysedContent = ( { indexablesList } ) => {
 					)
 					}
 				</ul>
-				<div className="yst-flex yst-justify-center">
-					<Link as="button" onClick={ handleShowMore }>
-						Show 5 more...
-					</Link>
-				</div>
+				{
+					( numberOfVisibleIndexables < indexablesList.length ) &&
+					<div className="yst-flex yst-justify-center">
+						<Link as="button" onClick={ handleShowMore }>
+							{
+								/* translators: %1$s expands to the step value (i.e. the number of posts to be added to the visible list) */
+								sprintf(
+									__(
+										"Show %1$s more...",
+										"wordpress-seo"
+									),
+									step
+								)
+							}
+						</Link>
+					</div>
+				}
 			</SimpleCard>
-
 		</div>
 	</div>;
 };
