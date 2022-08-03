@@ -131,7 +131,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 					/* Translators: %1$s expands to a link on yoast.com, %3$s expands to the anchor end tag,
 					* %2$s expands to the string "Barcode" or "Product identifier" */
 					__(
-						"%1$s%2$s%3$s: Your product has a %2$s. Good job!",
+						"%1$s%2$s%3$s: Your AMAZING product has a %2$s. Good job!",
 						"wordpress-seo"
 					),
 					this._config.urlTitle,
