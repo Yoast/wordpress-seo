@@ -1,3 +1,5 @@
+import { unifyWhiteSpace } from "../helpers/sanitize/unifyWhitespace";
+
 /**
  * Gets the title data from the paper.
  *
@@ -6,6 +8,10 @@
  * @returns {boolean} Whether the text (e.g., post, page or CPT) has a title.
  */
 export default function( paper ) {
-	const textTitle = paper.getTextTitle();
-	return textTitle !== "";
+	let textTitle = paper.getTextTitle();
+	textTitle = unifyWhiteSpace( textTitle );
+	console.log(textTitle, "whitespace");
+	textTitle = textTitle.trim();
+	console.log(textTitle, "trimmed");
+	return textTitle > 0;
 }
