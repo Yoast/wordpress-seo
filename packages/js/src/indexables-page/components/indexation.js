@@ -10,6 +10,7 @@ import Alert from "../../first-time-configuration/tailwind-components/base/alert
 import RequestError from "../../../../js/src/errors/RequestError";
 import ParseError from "../../../../js/src/errors/ParseError";
 
+/* eslint-disable no-console*/
 const STATE = {
 	/**
 	 * When the process has not started yet, or has been stopped manually.
