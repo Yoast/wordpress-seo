@@ -168,6 +168,7 @@ class WPSEO_Taxonomy {
 				'metabox'          => $this->localize_term_scraper_script(),
 				'userLanguageCode' => WPSEO_Language_Utils::get_language( \get_user_locale() ),
 				'isTerm'           => true,
+				'postId'           => $tag_id,
 			];
 			$asset_manager->localize_script( 'term-edit', 'wpseoScriptData', $script_data );
 			$asset_manager->enqueue_user_language_script();

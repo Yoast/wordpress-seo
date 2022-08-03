@@ -165,11 +165,9 @@ async function saveFinishedSteps( finishedSteps ) {
 function calculateInitialState( windowObject, isStepFinished ) {
 	let { companyOrPerson, companyName, companyLogo, companyOrPersonOptions, shouldForceCompany } = windowObject; // eslint-disable-line prefer-const
 
-	if ( shouldForceCompany ) {
+	if ( ( companyOrPerson === "company" && ( ! companyName && ! companyLogo ) && ! isStepFinished( STEPS.siteRepresentation ) ) || shouldForceCompany ) {
+		// Set the stage for a prefilled step 2 in case the customer does seem to have consciously finished step 2 without setting data.
 		companyOrPerson = "company";
-	} else if ( companyOrPerson === "company" && ( ! companyName && ! companyLogo ) && ! isStepFinished( STEPS.siteRepresentation ) ) {
-		// Set the stage for an empty step 2 in case the customer does seem to have consciously finished step 2 without setting data.
-		companyOrPerson = "emptyChoice";
 	}
 
 	return {
