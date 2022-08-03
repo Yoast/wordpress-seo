@@ -196,10 +196,12 @@ class WPSEO_Admin_Init {
 	 */
 	protected function set_inclusive_language_notice() {
 		$site_language = Utils::get_language( \get_locale() );
+		$inclusive = new WPSEO_Inclusive_Language_Notice( Yoast_Notification_Center::get() );
 		if ( YoastSEO()->helpers->product->is_premium() && $site_language === 'en') {
-			$inclusive = new WPSEO_Inclusive_Language_Notice( Yoast_Notification_Center::get() );
 			$inclusive->add_notification();
 			$inclusive->dismiss_notice_listener();
+		} else {
+			$inclusive->initialize();
 		}
 	}
 

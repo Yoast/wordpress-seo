@@ -93,7 +93,7 @@ class WPSEO_Inclusive_Language_Notice {
 	protected function get_notification() {
 		$message = sprintf(
 			/* translators: %1$s expands to Yoast SEO, %2$s is a link start tag to the plugin page on WordPress.org, %3$s is the link closing tag. */
-				__( 'New in Yoast SEO Premium 19.2: Did you know that you can now enable the %1$sinclusive language feature%2$s to retrieve feedback on inclusive language use? %3$sLearn more about this feature.%2$s', 'wordpress-seo' ),
+				__( '<strong>New in Yoast SEO Premium 19.2:</strong> Did you know that you can now enable the %1$sinclusive language feature%3$s to retrieve feedback on inclusive language use? %2$sLearn more about this feature.%3$s', 'wordpress-seo' ),
 				'<a href="' . admin_url( '?page=' . WPSEO_Admin::PAGE_IDENTIFIER . '#top#features' ) . '">',
 				'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/rate-yoast-seo' ) . '">',
 				'</a>'
