@@ -74,7 +74,7 @@ export default class ProductSKUAssessment extends Assessment {
 	 * 													or empty object if no score should be returned.
 	 */
 	scoreProductSKU( productSKUData, config ) {
-		// If a product has no variants, return orange bullet if it has no global SKU, and green bullet if it has one.
+		// If a product has no variants, return orange bullet if it has no global SKU.
 		if ( ! productSKUData.hasVariants ) {
 			if ( ! productSKUData.hasGlobalSKU ) {
 				return {
@@ -92,12 +92,13 @@ export default class ProductSKUAssessment extends Assessment {
 					),
 				};
 			}
+			// If a product has no variants, return green bullet if it has a global SKU.
 			return {
 				score: config.scores.good,
 				text: sprintf(
 					// Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag.
 					__(
-						"%1$sSKU%2$s: Good job!",
+						"%1$sSKU%2$s: Your product has a SKU. Good job!",
 						"wordpress-seo"
 					),
 					this._config.urlTitle,
@@ -113,7 +114,6 @@ export default class ProductSKUAssessment extends Assessment {
 		}
 
 		// If we want to assess variants, if product has variants and not all variants have a SKU, return orange bullet.
-		// If all variants have a SKU, return green bullet.
 		if ( ! productSKUData.doAllVariantsHaveSKU ) {
 			return {
 				score: config.scores.ok,
@@ -130,13 +130,13 @@ export default class ProductSKUAssessment extends Assessment {
 				),
 			};
 		}
-
+		// If all variants have a SKU, return green bullet.
 		return {
 			score: config.scores.good,
 			text: sprintf(
 				// Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag.
 				__(
-					"%1$sSKU%2$s: Good job!",
+					"%1$sSKU%2$s: All your product variants have a SKU. Good job!",
 					"wordpress-seo"
 				),
 				this._config.urlTitle,

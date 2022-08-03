@@ -102,7 +102,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 			};
 		}
 
-		// If a product has no variants, return orange bullet if it has no global identifier, and green bullet if it has one.
+		// If a product has no variants, return orange bullet if it has no global identifier.
 		if ( ! productIdentifierData.hasVariants ) {
 			if ( ! productIdentifierData.hasGlobalIdentifier ) {
 				return {
@@ -124,13 +124,14 @@ export default class ProductIdentifiersAssessment extends Assessment {
 					),
 				};
 			}
+			// If a product has no variants, return green bullet if it has a global identifier or barcode.
 			return {
 				score: config.scores.good,
 				text: sprintf(
 					/* Translators: %1$s expands to a link on yoast.com, %3$s expands to the anchor end tag,
 					* %2$s expands to the string "Barcode" or "Product identifier" */
 					__(
-						"%1$s%2$s%3$s: Good job!",
+						"%1$s%2$s%3$s: Your product has a %2$s. Good job!",
 						"wordpress-seo"
 					),
 					this._config.urlTitle,
@@ -146,8 +147,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 			return {};
 		}
 
-		// If we want to assess variants, and if product has variants but not all variants have an identifier, return orange bullet.
-		// If all variants have an identifier, return green bullet.
+		// If we want to assess variants, and if product has variants but not all variants have an identifier or barcode, return orange bullet.
 		if ( ! productIdentifierData.doAllVariantsHaveIdentifier ) {
 			return {
 				score: config.scores.ok,
@@ -168,14 +168,14 @@ export default class ProductIdentifiersAssessment extends Assessment {
 				),
 			};
 		}
-
+		// If all variants have an identifier or barcode, return green bullet.
 		return {
 			score: config.scores.good,
 			text: sprintf(
 				/* Translators: %1$s expands to a link on yoast.com, %3$s expands to the anchor end tag,
 				* %2$s expands to the string "Barcode" or "Product identifier" */
 				__(
-					"%1$s%2$s%3$s: Good job!",
+					"%1$s%2$s%3$s: All your product variants have a %2$s. Good job!",
 					"wordpress-seo"
 				),
 				this._config.urlTitle,
