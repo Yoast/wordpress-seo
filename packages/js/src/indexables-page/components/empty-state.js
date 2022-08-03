@@ -4,9 +4,6 @@ import PropTypes from "prop-types";
 import IconSearch from "../../../images/icon-search.svg";
 import Indexation from "./indexation";
 
-/* eslint-disable camelcase */
-/* eslint-disable no-warning-comments */
-/* eslint-disable complexity */
 /**
  * Renders a page in case the SEO optimization process has not been performed.
  *

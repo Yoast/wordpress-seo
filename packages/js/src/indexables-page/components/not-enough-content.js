@@ -6,9 +6,7 @@ import { makeOutboundLink } from "@yoast/helpers";
 import { Checkbox } from "@yoast/ui-library";
 
 import SimpleCard from "./simple-card";
-/* eslint-disable camelcase */
 /* eslint-disable no-warning-comments */
-/* eslint-disable complexity */
 
 const Link = makeOutboundLink();
 
