@@ -11,7 +11,7 @@ import PropTypes from "prop-types";
 const SimpleCard = ( { title, children } ) => {
 	return <div className="yst-bg-white yst-rounded-lg yst-px-8 yst-py-6 yst-shadow">
 		<h3 className="yst-mb-4 yst-text-xl yst-text-gray-900 yst-font-medium">
-			{title }
+			{ title }
 		</h3>
 		{ children }
 	</div>;
