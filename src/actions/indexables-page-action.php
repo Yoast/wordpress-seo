@@ -136,10 +136,6 @@ class Indexables_Page_Action {
 
 		$enough_analysed_content = ( max( $posts_with_seo_score, $posts_with_readability ) / $all_posts );
 
-		// error_log( $posts_with_seo_score );
-		// error_log( $posts_with_readability );
-		// error_log( $enough_analysed_content );
-
 		return [
 			'enabledFeatures'       => $features,
 			'enoughContent'         => $all_posts > $content_threshold,

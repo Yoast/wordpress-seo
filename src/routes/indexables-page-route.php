@@ -229,7 +229,7 @@ class Indexables_Page_Route implements Route_Interface {
 		];
 
 		\register_rest_route( Main::API_V1_NAMESPACE, self::GET_READING_LIST_STATE, $get_reading_list_route );
-	
+
 		$set_reading_list_route = [
 			[
 				'methods'             => 'POST',
