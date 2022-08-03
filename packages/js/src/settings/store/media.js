@@ -37,12 +37,12 @@ export function* fetchMedia( ids ) {
  */
 const prepareMedia = media => ( {
 	id: media?.id,
-	title: media?.title || media?.title?.rendered,
-	slug: media?.name || media?.slug,
-	alt: media?.alt || media?.alt_text,
-	url: media?.url || media?.source_url,
-	type: media?.type || media?.media_type,
-	mime: media?.mime || media?.mime_type,
+	title: media?.title?.rendered || media?.title,
+	slug: media?.slug || media?.name,
+	alt: media?.alt_text || media?.alt,
+	url: media?.source_url || media?.url,
+	type: media?.media_type || media?.type,
+	mime: media?.mime_type || media?.mime,
 	author: media?.author,
 } );
 
@@ -68,8 +68,6 @@ const mediaSlice = createSlice( {
 		} );
 		builder.addCase( `${FETCH_MEDIA_ACTION_NAME}/${ASYNC_ACTION_NAMES.success}`, ( state, action ) => {
 			state.status = ASYNC_ACTION_STATUS.success;
-			console.warn( "original", action.payload );
-			console.warn( "prepared", map( action.payload, prepareMedia ) );
 			mediaAdapter.addMany( state, map( action.payload, prepareMedia ) );
 		} );
 		builder.addCase( `${FETCH_MEDIA_ACTION_NAME}/${ASYNC_ACTION_NAMES.error}`, ( state, action ) => {
