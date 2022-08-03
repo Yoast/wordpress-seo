@@ -4,7 +4,7 @@ import apiFetch from "@wordpress/api-fetch";
 import { __ } from "@wordpress/i18n";
 import { useEffect, useState, useCallback, Fragment } from "@wordpress/element";
 import { LockOpenIcon, LinkIcon, ExternalLinkIcon } from "@heroicons/react/outline";
-import { Button, Alert, Modal } from "@yoast/ui-library";
+import { Button, Modal } from "@yoast/ui-library";
 import { makeOutboundLink } from "@yoast/helpers";
 import IndexablesTable from "./components/indexables-table";
 import SvgIcon from "../../../components/src/SvgIcon";
@@ -227,7 +227,6 @@ function IndexablesPage() {
 			} );
 
 			const parsedResponse = await response.json;
-			console.log( parsedResponse );
 			setSetupInfo( parsedResponse );
 		} catch ( error ) {
 			// @TODO: Throw an error notification.
@@ -474,7 +473,6 @@ function IndexablesPage() {
 		>
 			{ isPremiumInstalled ? renderSuggestedLinksModal() : renderUpsellLinksModal() }
 		</Modal>
-		{ ignoreIndexable && <Alert><Button onClick={ onClickUndo( ignoreIndexable ) }>{ `Undo ignore ${ignoreIndexable.indexable.id}` }</Button></Alert> }
 		<div
 			id="indexables-table-grid"
 			className="yst-max-w-7xl yst-grid yst-grid-cols-1 2xl:yst-grid-cols-2 2xl:yst-grid-rows-2 2xl:yst-grid-flow-row 2xl:yst-auto-rows-fr yst-gap-6"
@@ -614,6 +612,7 @@ function IndexablesPage() {
 				</IndexablesPageCard>
 			}
 		</div>
+		{ ignoreIndexable && <div className="yst-flex yst-justify-center"><Button className="yst-button yst-button--primary" onClick={ onClickUndo( ignoreIndexable ) }>{ `Undo ignore ${ignoreIndexable.indexable.id}` }</Button></div> }
 	</div>;
 }
 
