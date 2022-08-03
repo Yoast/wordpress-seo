@@ -5,7 +5,6 @@
  * @package WPSEO\Admin
  */
 
-use \WPSEO_Language_Utils as Utils;
 /**
  * Represents the notice for the Inclusive language feature.
  */
@@ -43,18 +42,12 @@ class WPSEO_Inclusive_Language_Notice {
 
 	/**
 	 * Sets the options, because they always have to be there on instance.
+	 *
 	 * @param Yoast_Notification_Center $notification_center  The notification center to add notifications to.
 	 */
 	public function __construct( Yoast_Notification_Center $notification_center ) {
 		$this->options              = $this->get_options();
 		$this->notification_center  = $notification_center;
-	}
-
-	/**
-	 * Checks if the notice should be added or removed.
-	 */
-	public function initialize() {
-		$this->remove_notification();
 	}
 
 	/**
@@ -81,7 +74,7 @@ class WPSEO_Inclusive_Language_Notice {
 	/**
 	 * Removes a notification from the notification center.
 	 */
-	protected function remove_notification() {
+	public function remove_notification() {
 		$this->notification_center->remove_notification( $this->get_notification() );
 	}
 
@@ -92,10 +85,10 @@ class WPSEO_Inclusive_Language_Notice {
 	 */
 	protected function get_notification() {
 		$message = sprintf(
-			/* translators: %1$s expands to Yoast SEO, %2$s is a link start tag to the plugin page on WordPress.org, %3$s is the link closing tag. */
-				__( '<strong>New in Yoast SEO Premium 19.2:</strong> Did you know that you can now enable the %1$sinclusive language feature%3$s to retrieve feedback on inclusive language use? %2$sLearn more about this feature.%3$s', 'wordpress-seo' ),
-				'<a href="' . admin_url( '?page=' . WPSEO_Admin::PAGE_IDENTIFIER . '#top#features' ) . '">',
-				'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/rate-yoast-seo' ) . '">',
+			/* translators: %1$s is a link to the Features tab on the Yoast Dashboard page, %2$s is a link to the blog post about this feature, %3$s is the link closing tag. */
+				__( '<strong>New in Yoast SEO Premium 19.2:</strong> Did you know that you can now enable the %1$sinclusive language feature%3$s to retrieve feedback on inclusive language use? %2$sLearn more about this feature%3$s.', 'wordpress-seo' ),
+				'<a href="' . admin_url( 'admin.php?page=wpseo_dashboard#top#features' ) . '">',
+				'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/inclusive-language-analysis' ) . '">',
 				'</a>'
 			);
 
@@ -110,15 +103,6 @@ class WPSEO_Inclusive_Language_Notice {
 		);
 
 		return $notification;
-	}
-
-	/**
-	 * Dismisses the notice.
-	 *
-	 * @return bool
-	 */
-	protected function is_notice_dismissed() {
-		return get_user_meta( get_current_user_id(), self::USER_META_DISMISSED, true ) === '1';
 	}
 
 	/**
