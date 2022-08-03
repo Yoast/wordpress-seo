@@ -125,38 +125,22 @@ IndexablesPageCard.propTypes = {
  */
 function IndexablesPage() {
 	const listSize = parseInt( wpseoIndexablesPageData.listSize, 10 );
+	const minimumIndexablesInBuffer = listSize * 2;
 	const isPremiumInstalled = Boolean( wpseoIndexablesPageData.isPremium );
 	const isLinkSuggestionsEnabled = Boolean( wpseoIndexablesPageData.isLinkSuggestionsEnabled );
-	const minimumIndexablesInBuffer = listSize * 2;
 
 	const [ listedIndexables, setlistedIndexables ] = useState(
 		{
-			least_readability: [],
-			least_seo_score: [],
-			most_linked: [],
-			least_linked: [],
+			least_readability: null,
+			least_seo_score: null,
+			most_linked: null,
+			least_linked: null,
 		}
 	);
 	const [ ignoreIndexable, setIgnoreIndexable ] = useState( null );
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
 	const [ suggestedLinksModalContent, setSuggestedLinksModalContent ] = useState( null );
 	const [ setupInfo, setSetupInfo ] = useState( null );
-
-	useEffect( async() => {
-		try {
-			const response = await apiFetch( {
-				path: "yoast/v1/setup_info",
-				method: "GET",
-			} );
-
-			const parsedResponse = await response.json;
-			setSetupInfo( parsedResponse );
-		} catch ( error ) {
-			// @TODO: Throw an error notification.
-			console.error( error.message );
-			return false;
-		}
-	}, [] );
 
 	/**
 	 * Fetches a list of indexables.
@@ -228,9 +212,48 @@ function IndexablesPage() {
 	 */
 	const updateList = ( listName, indexables ) => {
 		// @TODO: we have to also check if there are even other posts to re-fetch and if not, let's just render.
+		if ( indexables === null ) {
+			return fetchList( listName );
+		}
+
 		return ( indexables.length < minimumIndexablesInBuffer ) ? fetchList( listName ) : renderList( listName );
 	};
 
+	useEffect( async() => {
+		try {
+			const response = await apiFetch( {
+				path: "yoast/v1/setup_info",
+				method: "GET",
+			} );
+
+			const parsedResponse = await response.json;
+			console.log( parsedResponse );
+			setSetupInfo( parsedResponse );
+		} catch ( error ) {
+			// @TODO: Throw an error notification.
+			console.error( error.message );
+			return false;
+		}
+	}, [] );
+
+	useEffect( async() => {
+		if ( setupInfo ) {
+			if ( setupInfo.enoughContent && setupInfo.enoughAnalysedContent ) {
+				if ( setupInfo.enabledFeatures.isReadabilityEnabled ) {
+					updateList( "least_readability", listedIndexables.least_readability );
+				}
+
+				if ( setupInfo.enabledFeatures.isSeoScoreEnabled ) {
+					updateList( "least_seo_score", listedIndexables.least_seo_score );
+				}
+
+				if ( setupInfo.enabledFeatures.isLinkCountEnabled ) {
+					updateList( "most_linked", listedIndexables.most_linked );
+					updateList( "least_linked", listedIndexables.least_linked );
+				}
+			}
+		}
+	}, [ setupInfo ] );
 	/**
 	 * Handles the rendering of the links modal.
 	 *
@@ -354,22 +377,6 @@ function IndexablesPage() {
 		return () => handleUndo( ignored );
 	}, [ handleUndo ] );
 
-	useEffect( async() => {
-		updateList( "least_readability", listedIndexables.least_readability );
-	}, [] );
-
-	useEffect( async() => {
-		updateList( "least_seo_score", listedIndexables.least_seo_score );
-	}, [] );
-
-	useEffect( async() => {
-		updateList( "most_linked", listedIndexables.most_linked );
-	}, [] );
-
-	useEffect( async() => {
-		updateList( "least_linked", listedIndexables.least_linked );
-	}, [] );
-
 	// We update a list each time the content of ignoreIndexable changes
 	useEffect( async() => {
 		if ( ignoreIndexable !== null ) {
@@ -450,9 +457,11 @@ function IndexablesPage() {
 		);
 	};
 
-	if ( setupInfo && setupInfo.enoughContent === false ) {
+	if ( setupInfo && Object.values( setupInfo.enabledFeatures ).every( value => value === false ) ) {
+		return <span>All features deactivated.</span>;
+	} else if ( setupInfo && setupInfo.enoughContent === false ) {
 		return <NotEnoughContent />;
-	} else if ( setupInfo && setupInfo.enoughAnalysedContent === false ) {
+	} else if ( setupInfo && setupInfo.enoughAnalysedContent === false && setSetupInfo.enabledFeatures.isSeoScoreEnabled ) {
 		return <NotEnoughAnalysedContent indexablesList={ setupInfo.postsWithoutKeyphrase } />;
 	}
 
@@ -470,132 +479,140 @@ function IndexablesPage() {
 			id="indexables-table-grid"
 			className="yst-max-w-7xl yst-grid yst-grid-cols-1 2xl:yst-grid-cols-2 2xl:yst-grid-rows-2 2xl:yst-grid-flow-row 2xl:yst-auto-rows-fr yst-gap-6"
 		>
-			<IndexablesPageCard title={ __( "Lowest SEO scores", "wordpress-seo" ) } isLoading={ listedIndexables.least_seo_score.length > 0 }>
-				<IndexablesTable>
-					{
-						listedIndexables.least_seo_score.slice( 0, listSize ).map(
-							( indexable, position ) => {
-								return <IndexablesTable.Row
-									key={ `indexable-${ indexable.id }-row` }
-									type="least_seo_score"
-									indexable={ indexable }
-									addToIgnoreList={ setIgnoreIndexable }
-									position={ position }
-								>
-									<IndexableScore
-										key={ `seo-score-${ indexable.id }` }
-										score={ parseInt( indexable.primary_focus_keyword_score, 10 ) }
-										mediumThreshold={ 40 }
-										goodThreshold={ 70 }
-									/>
-									<IndexableTitleLink key={ `seo-title-${ indexable.id }` } indexable={ indexable } />
-									<div key={ `seo-improve-${ indexable.id }` }>
-										<Link
-											href={ "/wp-admin/post.php?action=edit&post=" + indexable.object_id }
-											className="yst-button yst-button--secondary yst-text-gray-700"
-										>
-											{ __( "Improve", "wordpress-seo" ) }
-										</Link>
-									</div>
-								</IndexablesTable.Row>;
-							}
-						)
-					}
-				</IndexablesTable>
-			</IndexablesPageCard>
-			<IndexablesPageCard title={ __( "Lowest readability scores", "wordpress-seo" ) } isLoading={ listedIndexables.least_readability.length > 0 }>
-				<IndexablesTable>
-					{
-						listedIndexables.least_readability.slice( 0, listSize ).map(
-							( indexable, position ) => {
-								return <IndexablesTable.Row
-									key={ `indexable-${ indexable.id }-row` }
-									type="least_readability"
-									indexable={ indexable }
-									addToIgnoreList={ setIgnoreIndexable }
-									position={ position }
-								>
-									<IndexableScore
-										key={ `readability-score-${ indexable.id }` }
-										score={ parseInt( indexable.readability_score, 10 ) }
-										mediumThreshold={ 59 }
-										goodThreshold={ 89 }
-									/>
-									<IndexableTitleLink key={ `readability-title-${ indexable.id }` } indexable={ indexable } />
-									<div key={ `readability-improve-${ indexable.id }` }>
-										<Link
-											href={ "/wp-admin/post.php?action=edit&post=" + indexable.object_id }
-											className="yst-button yst-button--secondary yst-text-gray-700"
-										>
-											{ __( "Improve", "wordpress-seo" ) }
-										</Link>
-									</div>
-								</IndexablesTable.Row>;
-							}
-						)
-					}
-				</IndexablesTable>
-			</IndexablesPageCard>
-			<IndexablesPageCard title={ __( "Lowest number of incoming links", "wordpress-seo" ) } isLoading={ listedIndexables.least_linked.length > 0 }>
-				<IndexablesTable>
-					{
-						listedIndexables.least_linked.slice( 0, listSize ).map(
-							( indexable, position ) => {
-								return <IndexablesTable.Row
-									key={ `indexable-${ indexable.id }-row` }
-									type="least_linked"
-									indexable={ indexable }
-									addToIgnoreList={ setIgnoreIndexable }
-									position={ position }
-								>
-									<IndexableLinkCount key={ `least-linked-score-${ indexable.id }` } count={ parseInt( indexable.incoming_link_count, 10 ) } />
-									<IndexableTitleLink key={ `least-linked-title-${ indexable.id }` } indexable={ indexable } />
-									<div key={ `least-linked-modal-button-${ indexable.id }` }>
-										<Button
-											data-indexableid={ indexable.id }
-											data-incominglinkscount={ indexable.incoming_link_count === null ? 0 : indexable.incoming_link_count }
-											data-breadcrumbtitle={ indexable.breadcrumb_title }
-											data-permalink={ indexable.permalink }
-											onClick={ handleLink }
-											variant="secondary"
-										>
-											{ __( "Add links", "wordpress-seo" ) }
-										</Button>
-									</div>
-								</IndexablesTable.Row>;
-							}
-						)
-					}
-				</IndexablesTable>
-			</IndexablesPageCard>
-			<IndexablesPageCard title={ __( "Highest number of incoming links", "wordpress-seo" ) } isLoading={ listedIndexables.most_linked.length > 0 }>
-				<IndexablesTable>
-					{
-						listedIndexables.most_linked.slice( 0, listSize ).map(
-							( indexable, position ) => {
-								return <IndexablesTable.Row
-									key={ `indexable-${ indexable.id }-row` }
-									type="most_linked"
-									indexable={ indexable }
-									addToIgnoreList={ setIgnoreIndexable }
-									position={ position }
-								>
-									<IndexableLinkCount key={ `most-linked-score-${ indexable.id }` } count={ parseInt( indexable.incoming_link_count, 10 ) } />
-									<IndexableTitleLink key={ `most-linked-title-${ indexable.id }` } indexable={ indexable } />
-									<div key={ `most-linked-edit-${ indexable.id }` }>
-										<Link
-											href={ "/wp-admin/post.php?action=edit&post=" + indexable.object_id }
-											className="yst-button yst-button--secondary yst-text-gray-500"
-										>
-											{ __( "Edit", "wordpress-seo" ) }
-										</Link>
-									</div>
-								</IndexablesTable.Row>;
-							}
-						)
-					}
-				</IndexablesTable>
-			</IndexablesPageCard>
+			{
+				( listedIndexables.least_seo_score && listedIndexables.least_seo_score.length > 0 ) && <IndexablesPageCard title={ __( "Lowest SEO scores", "wordpress-seo" ) } isLoading={ listedIndexables.least_seo_score !== null }>
+					<IndexablesTable>
+						{
+							listedIndexables.least_seo_score.slice( 0, listSize ).map(
+								( indexable, position ) => {
+									return <IndexablesTable.Row
+										key={ `indexable-${ indexable.id }-row` }
+										type="least_seo_score"
+										indexable={ indexable }
+										addToIgnoreList={ setIgnoreIndexable }
+										position={ position }
+									>
+										<IndexableScore
+											key={ `seo-score-${ indexable.id }` }
+											score={ parseInt( indexable.primary_focus_keyword_score, 10 ) }
+											mediumThreshold={ 40 }
+											goodThreshold={ 70 }
+										/>
+										<IndexableTitleLink key={ `seo-title-${ indexable.id }` } indexable={ indexable } />
+										<div key={ `seo-improve-${ indexable.id }` }>
+											<Link
+												href={ "/wp-admin/post.php?action=edit&post=" + indexable.object_id }
+												className="yst-button yst-button--secondary yst-text-gray-700"
+											>
+												{ __( "Improve", "wordpress-seo" ) }
+											</Link>
+										</div>
+									</IndexablesTable.Row>;
+								}
+							)
+						}
+					</IndexablesTable>
+				</IndexablesPageCard>
+			}
+			{
+				( listedIndexables.least_readability && listedIndexables.least_readability.length > 0 ) && <IndexablesPageCard title={ __( "Lowest readability scores", "wordpress-seo" ) } isLoading={ listedIndexables.least_readability !== null }>
+					<IndexablesTable>
+						{
+							listedIndexables.least_readability.slice( 0, listSize ).map(
+								( indexable, position ) => {
+									return <IndexablesTable.Row
+										key={ `indexable-${ indexable.id }-row` }
+										type="least_readability"
+										indexable={ indexable }
+										addToIgnoreList={ setIgnoreIndexable }
+										position={ position }
+									>
+										<IndexableScore
+											key={ `readability-score-${ indexable.id }` }
+											score={ parseInt( indexable.readability_score, 10 ) }
+											mediumThreshold={ 59 }
+											goodThreshold={ 89 }
+										/>
+										<IndexableTitleLink key={ `readability-title-${ indexable.id }` } indexable={ indexable } />
+										<div key={ `readability-improve-${ indexable.id }` }>
+											<Link
+												href={ "/wp-admin/post.php?action=edit&post=" + indexable.object_id }
+												className="yst-button yst-button--secondary yst-text-gray-700"
+											>
+												{ __( "Improve", "wordpress-seo" ) }
+											</Link>
+										</div>
+									</IndexablesTable.Row>;
+								}
+							)
+						}
+					</IndexablesTable>
+				</IndexablesPageCard>
+			}
+			{
+				( listedIndexables.least_linked && listedIndexables.least_linked.length > 0 ) && <IndexablesPageCard title={ __( "Lowest number of incoming links", "wordpress-seo" ) } isLoading={ listedIndexables.least_linked !== null }>
+					<IndexablesTable>
+						{
+							listedIndexables.least_linked.slice( 0, listSize ).map(
+								( indexable, position ) => {
+									return <IndexablesTable.Row
+										key={ `indexable-${ indexable.id }-row` }
+										type="least_linked"
+										indexable={ indexable }
+										addToIgnoreList={ setIgnoreIndexable }
+										position={ position }
+									>
+										<IndexableLinkCount key={ `least-linked-score-${ indexable.id }` } count={ parseInt( indexable.incoming_link_count, 10 ) } />
+										<IndexableTitleLink key={ `least-linked-title-${ indexable.id }` } indexable={ indexable } />
+										<div key={ `least-linked-modal-button-${ indexable.id }` }>
+											<Button
+												data-indexableid={ indexable.id }
+												data-incominglinkscount={ indexable.incoming_link_count === null ? 0 : indexable.incoming_link_count }
+												data-breadcrumbtitle={ indexable.breadcrumb_title }
+												data-permalink={ indexable.permalink }
+												onClick={ handleLink }
+												variant="secondary"
+											>
+												{ __( "Add links", "wordpress-seo" ) }
+											</Button>
+										</div>
+									</IndexablesTable.Row>;
+								}
+							)
+						}
+					</IndexablesTable>
+				</IndexablesPageCard>
+			}
+			{
+				( listedIndexables.most_linked && listedIndexables.most_linked.length > 0 ) && <IndexablesPageCard title={ __( "Highest number of incoming links", "wordpress-seo" ) } isLoading={ listedIndexables.most_linked !== null }>
+					<IndexablesTable>
+						{
+							listedIndexables.most_linked.slice( 0, listSize ).map(
+								( indexable, position ) => {
+									return <IndexablesTable.Row
+										key={ `indexable-${ indexable.id }-row` }
+										type="most_linked"
+										indexable={ indexable }
+										addToIgnoreList={ setIgnoreIndexable }
+										position={ position }
+									>
+										<IndexableLinkCount key={ `most-linked-score-${ indexable.id }` } count={ parseInt( indexable.incoming_link_count, 10 ) } />
+										<IndexableTitleLink key={ `most-linked-title-${ indexable.id }` } indexable={ indexable } />
+										<div key={ `most-linked-edit-${ indexable.id }` }>
+											<Link
+												href={ "/wp-admin/post.php?action=edit&post=" + indexable.object_id }
+												className="yst-button yst-button--secondary yst-text-gray-500"
+											>
+												{ __( "Edit", "wordpress-seo" ) }
+											</Link>
+										</div>
+									</IndexablesTable.Row>;
+								}
+							)
+						}
+					</IndexablesTable>
+				</IndexablesPageCard>
+			}
 		</div>
 	</div>;
 }
