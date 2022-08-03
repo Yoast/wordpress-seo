@@ -53,6 +53,7 @@ const NotEnoughAnalysedContent = ( { indexablesList } ) => {
 								</span>
 								<Button
 									as="a"
+									type="button"
 									href={ "/wp-admin/post.php?action=edit&post=" + indexable.object_id }
 									target="_blank"
 									rel="noopener noreferrer"
