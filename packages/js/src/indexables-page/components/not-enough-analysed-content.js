@@ -57,7 +57,7 @@ const NotEnoughAnalysedContent = ( { indexablesList } ) => {
 									target="_blank"
 									rel="noopener noreferrer"
 									variant="secondary"
-									className="yst-shrink-0"
+									className="yst-button yst-button--secondary yst-text-gray-700 yst-shrink-0"
 								>
 									{ __( "Add focus keyphrase", "wordpress-seo" ) }
 								</Button>
