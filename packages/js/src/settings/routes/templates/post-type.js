@@ -33,6 +33,10 @@ const PostType = ( { name, label, singularLabel, hasArchive } ) => {
 	const customFieldAnalysisLink = useSelectSettings( "selectLink", [], "https://yoa.st/4cr" );
 	const articleTypes = useSelectSettings( "selectArticleTypeValuesFor", [ name ], name );
 	const pageTypes = useSelectSettings( "selectPageTypeValuesFor", [ name ], name );
+	const isWooCommerceActive = useSelectSettings( "selectPreference", [], "isWooCommerceActive" );
+	const hasWooCommerceShopPage = useSelectSettings( "selectPreference", [], "hasWooCommerceShopPage" );
+	const editWooCommerceShopPageUrl = useSelectSettings( "selectPreference", [], "editWooCommerceShopPageUrl" );
+	const wooCommerceShopPageSettingUrl = useSelectSettings( "selectPreference", [], "wooCommerceShopPageSettingUrl" );
 
 	const recommendedSize = useMemo( () => createInterpolateElement(
 		sprintf(
@@ -50,6 +54,32 @@ const PostType = ( { name, label, singularLabel, hasArchive } ) => {
 			strong: <strong className="yst-font-semibold" />,
 		}
 	), [] );
+	const isWooCommerceProduct = useMemo( () => isWooCommerceActive && name === "product", [ name, isWooCommerceActive ] );
+	const wooCommerceArchiveDescription = useMemo( () => {
+		if ( ! hasWooCommerceShopPage ) {
+			return addLinkToString(
+				sprintf(
+					/* translators: %1$s expands to an opening tag. %2$s expands to a closing tag. */
+					__( "You haven't set a Shop page in your WooCommerce settings. %1$sPlease do this first%2$s.", "wordpress-seo" ),
+					"<a>",
+					"</a>"
+				),
+				wooCommerceShopPageSettingUrl,
+				"link-woocommerce-shop-page-setting"
+			);
+		}
+
+		return addLinkToString(
+			sprintf(
+				/* translators: %1$s expands to an opening tag. %2$s expands to a closing tag. */
+				__( "You can edit the SEO metadata for this custom type on the %1$sShop page%2$s.", "wordpress-seo" ),
+				"<a>",
+				"</a>"
+			),
+			editWooCommerceShopPageUrl,
+			"link-edit-woocommerce-shop-page"
+		);
+	}, [ hasWooCommerceShopPage, wooCommerceShopPageSettingUrl, editWooCommerceShopPageUrl ] );
 
 	const { values } = useFormikContext();
 	const { opengraph } = values.wpseo_social;
@@ -216,104 +246,107 @@ const PostType = ( { name, label, singularLabel, hasArchive } ) => {
 						) }
 					</Title>
 					<p className="yst-text-tiny">
-						{ sprintf(
+						{ isWooCommerceProduct && wooCommerceArchiveDescription }
+						{ ! isWooCommerceProduct && sprintf(
 							/* translators: %1$s expands to the post type plural, e.g. Posts. */
 							__( "These settings are specifically for optimizing your %1$s archive.", "wordpress-seo" ),
 							label
 						) }
 					</p>
 				</div>
-				<hr className="yst-my-8" />
-				<FieldsetLayout
-					title={ __( "Search appearance", "wordpress-seo" ) }
-					description={ sprintf(
-						// translators: %1$s expands to the post type plural, e.g. Posts.
-						__( "Choose how your %1$s archive should look in search engines.", "wordpress-seo" ),
-						label
-					) }
-				>
-					<FormikFlippedToggleField
-						name={ `wpseo_titles.noindex-ptarchive-${ name }` }
-						data-id={ `input-wpseo_titles-noindex-ptarchive-${ name }` }
-						label={ sprintf(
-							// translators: %1$s expands to the post type plural, e.g. Posts.
-							__( "Show the archive for %1$s in search results", "wordpress-seo" ),
-							label
-						) }
+				{ ! isWooCommerceProduct && <>
+					<hr className="yst-my-8" />
+					<FieldsetLayout
+						title={ __( "Search appearance", "wordpress-seo" ) }
 						description={ sprintf(
 							// translators: %1$s expands to the post type plural, e.g. Posts.
-							__( "Disabling this means that the archive for %1$s will not be indexed by search engines and will be excluded from XML sitemaps.", "wordpress-seo" ),
+							__( "Choose how your %1$s archive should look in search engines.", "wordpress-seo" ),
 							label
 						) }
-					/>
-					<FormikReplacementVariableEditorField
-						type="title"
-						name={ `wpseo_titles.title-ptarchive-${ name }` }
-						fieldId={ `input-wpseo_titles-title-ptarchive-${ name }` }
-						label={ __( "SEO title", "wordpress-seo" ) }
-						replacementVariables={ replacementVariablesArchives }
-						recommendedReplacementVariables={ recommendedReplacementVariablesArchives }
-					/>
-					<FormikReplacementVariableEditorField
-						type="description"
-						name={ `wpseo_titles.metadesc-ptarchive-${ name }` }
-						fieldId={ `input-wpseo_titles-metadesc-ptarchive-${ name }` }
-						label={ __( "Meta description", "wordpress-seo" ) }
-						replacementVariables={ replacementVariablesArchives }
-						recommendedReplacementVariables={ recommendedReplacementVariablesArchives }
-						className="yst-replacevar--description"
-					/>
-				</FieldsetLayout>
-				<hr className="yst-my-8" />
-				<FieldsetLayout
-					title={ <div className="yst-flex yst-items-center yst-gap-1.5">
-						<span>{ __( "Social appearance", "wordpress-seo" ) }</span>
-						<Badge variant="upsell">Premium</Badge>
-					</div> }
-					description={ sprintf(
-						// translators: %1$s expands to the post type plural, e.g. Posts.
-						__( "Choose how your %1$s archive should look on social media.", "wordpress-seo" ),
-						label,
-						singularLabel
-					) }
-				>
-					<FormikMediaSelectField
-						id={ `wpseo_titles-social-image-url-ptarchive-${ name }` }
-						label={ __( "Social image", "wordpress-seo" ) }
-						previewLabel={ recommendedSize }
-						mediaUrlName={ `wpseo_titles.social-image-url-ptarchive-${ name }` }
-						mediaIdName={ `wpseo_titles.social-image-id-ptarchive-${ name }` }
-					/>
-					<FormikReplacementVariableEditorField
-						type="title"
-						name={ `wpseo_titles.social-title-ptarchive-${ name }` }
-						fieldId={ `input-wpseo_titles-social-title-ptarchive-${ name }` }
-						label={ __( "Social title", "wordpress-seo" ) }
-						replacementVariables={ replacementVariablesArchives }
-						recommendedReplacementVariables={ recommendedReplacementVariablesArchives }
-					/>
-					<FormikReplacementVariableEditorField
-						type="description"
-						name={ `wpseo_titles.social-description-ptarchive-${ name }` }
-						fieldId={ `input-wpseo_titles-social-description-ptarchive-${ name }` }
-						label={ __( "Social description", "wordpress-seo" ) }
-						replacementVariables={ replacementVariablesArchives }
-						recommendedReplacementVariables={ recommendedReplacementVariablesArchives }
-						className="yst-replacevar--description"
-					/>
-				</FieldsetLayout>
-				<hr className="yst-my-8" />
-				<FieldsetLayout
-					title={ __( "Additional settings", "wordpress-seo" ) }
-				>
-					<Field
-						as={ TextField }
-						type="text"
-						name={ `wpseo_titles.bctitle-ptarchive-${ name }` }
-						id={ `input-wpseo_titles-bctitle-ptarchive-${ name }` }
-						label={ __( "Breadcrumbs title", "wordpress-seo" ) }
-					/>
-				</FieldsetLayout>
+					>
+						<FormikFlippedToggleField
+							name={ `wpseo_titles.noindex-ptarchive-${ name }` }
+							data-id={ `input-wpseo_titles-noindex-ptarchive-${ name }` }
+							label={ sprintf(
+								// translators: %1$s expands to the post type plural, e.g. Posts.
+								__( "Show the archive for %1$s in search results", "wordpress-seo" ),
+								label
+							) }
+							description={ sprintf(
+								// translators: %1$s expands to the post type plural, e.g. Posts.
+								__( "Disabling this means that the archive for %1$s will not be indexed by search engines and will be excluded from XML sitemaps.", "wordpress-seo" ),
+								label
+							) }
+						/>
+						<FormikReplacementVariableEditorField
+							type="title"
+							name={ `wpseo_titles.title-ptarchive-${ name }` }
+							fieldId={ `input-wpseo_titles-title-ptarchive-${ name }` }
+							label={ __( "SEO title", "wordpress-seo" ) }
+							replacementVariables={ replacementVariablesArchives }
+							recommendedReplacementVariables={ recommendedReplacementVariablesArchives }
+						/>
+						<FormikReplacementVariableEditorField
+							type="description"
+							name={ `wpseo_titles.metadesc-ptarchive-${ name }` }
+							fieldId={ `input-wpseo_titles-metadesc-ptarchive-${ name }` }
+							label={ __( "Meta description", "wordpress-seo" ) }
+							replacementVariables={ replacementVariablesArchives }
+							recommendedReplacementVariables={ recommendedReplacementVariablesArchives }
+							className="yst-replacevar--description"
+						/>
+					</FieldsetLayout>
+					<hr className="yst-my-8" />
+					<FieldsetLayout
+						title={ <div className="yst-flex yst-items-center yst-gap-1.5">
+							<span>{ __( "Social appearance", "wordpress-seo" ) }</span>
+							<Badge variant="upsell">Premium</Badge>
+						</div> }
+						description={ sprintf(
+							// translators: %1$s expands to the post type plural, e.g. Posts.
+							__( "Choose how your %1$s archive should look on social media.", "wordpress-seo" ),
+							label,
+							singularLabel
+						) }
+					>
+						<FormikMediaSelectField
+							id={ `wpseo_titles-social-image-url-ptarchive-${ name }` }
+							label={ __( "Social image", "wordpress-seo" ) }
+							previewLabel={ recommendedSize }
+							mediaUrlName={ `wpseo_titles.social-image-url-ptarchive-${ name }` }
+							mediaIdName={ `wpseo_titles.social-image-id-ptarchive-${ name }` }
+						/>
+						<FormikReplacementVariableEditorField
+							type="title"
+							name={ `wpseo_titles.social-title-ptarchive-${ name }` }
+							fieldId={ `input-wpseo_titles-social-title-ptarchive-${ name }` }
+							label={ __( "Social title", "wordpress-seo" ) }
+							replacementVariables={ replacementVariablesArchives }
+							recommendedReplacementVariables={ recommendedReplacementVariablesArchives }
+						/>
+						<FormikReplacementVariableEditorField
+							type="description"
+							name={ `wpseo_titles.social-description-ptarchive-${ name }` }
+							fieldId={ `input-wpseo_titles-social-description-ptarchive-${ name }` }
+							label={ __( "Social description", "wordpress-seo" ) }
+							replacementVariables={ replacementVariablesArchives }
+							recommendedReplacementVariables={ recommendedReplacementVariablesArchives }
+							className="yst-replacevar--description"
+						/>
+					</FieldsetLayout>
+					<hr className="yst-my-8" />
+					<FieldsetLayout
+						title={ __( "Additional settings", "wordpress-seo" ) }
+					>
+						<Field
+							as={ TextField }
+							type="text"
+							name={ `wpseo_titles.bctitle-ptarchive-${ name }` }
+							id={ `input-wpseo_titles-bctitle-ptarchive-${ name }` }
+							label={ __( "Breadcrumbs title", "wordpress-seo" ) }
+						/>
+					</FieldsetLayout>
+				</> }
 			</> }
 		</FormLayout>
 	);

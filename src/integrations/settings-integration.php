@@ -18,6 +18,7 @@ use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
+use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
 
 /**
  * Class Settings_Integration.
@@ -106,6 +107,13 @@ class Settings_Integration implements Integration_Interface {
 	protected $product_helper;
 
 	/**
+	 * Holds the Woocommerce_Helper.
+	 *
+	 * @var Woocommerce_Helper
+	 */
+	protected $woocommerce_helper;
+
+	/**
 	 * Constructs Settings_Integration.
 	 *
 	 * @param WPSEO_Admin_Asset_Manager $asset_manager       The WPSEO_Admin_Asset_Manager.
@@ -123,7 +131,8 @@ class Settings_Integration implements Integration_Interface {
 		Current_Page_Helper $current_page_helper,
 		Post_Type_Helper $post_type_helper,
 		Taxonomy_Helper $taxonomy_helper,
-		Product_Helper $product_helper
+		Product_Helper $product_helper,
+		Woocommerce_Helper $woocommerce_helper
 	) {
 		$this->asset_manager       = $asset_manager;
 		$this->replace_vars        = $replace_vars;
@@ -132,6 +141,7 @@ class Settings_Integration implements Integration_Interface {
 		$this->taxonomy_helper     = $taxonomy_helper;
 		$this->post_type_helper    = $post_type_helper;
 		$this->product_helper      = $product_helper;
+		$this->woocommerce_helper  = $woocommerce_helper;
 	}
 
 	/**
@@ -266,9 +276,10 @@ class Settings_Integration implements Integration_Interface {
 	 * @return array The script data.
 	 */
 	protected function get_script_data() {
-		$settings   = $this->get_settings();
-		$post_types = $this->get_post_types();
-		$taxonomies = $this->get_taxonomies( \array_keys( $post_types ) );
+		$settings     = $this->get_settings();
+		$post_types   = $this->get_post_types();
+		$taxonomies   = $this->get_taxonomies( \array_keys( $post_types ) );
+		$shop_page_id = $this->woocommerce_helper->get_shop_page_id();
 
 		return [
 			'settings'             => $settings,
@@ -280,12 +291,16 @@ class Settings_Integration implements Integration_Interface {
 			'replacementVariables' => $this->get_replacement_variables(),
 			'schema'               => $this->get_schema( $post_types ),
 			'preferences'          => [
-				'isPremium'      => $this->product_helper->is_premium(),
-				'isRtl'          => is_rtl(),
-				'isNetworkAdmin' => \is_network_admin(),
-				'isMainSite'     => \is_main_site(),
-				'siteUrl'        => \get_bloginfo( 'url' ),
-				'sitemapUrl'     => WPSEO_Sitemaps_Router::get_base_url( 'sitemap_index.xml' ),
+				'isPremium'                     => $this->product_helper->is_premium(),
+				'isRtl'                         => is_rtl(),
+				'isNetworkAdmin'                => \is_network_admin(),
+				'isMainSite'                    => \is_main_site(),
+				'isWooCommerceActive'           => $this->woocommerce_helper->is_active(),
+				'siteUrl'                       => \get_bloginfo( 'url' ),
+				'sitemapUrl'                    => WPSEO_Sitemaps_Router::get_base_url( 'sitemap_index.xml' ),
+				'hasWooCommerceShopPage'        => $shop_page_id !== -1,
+				'editWooCommerceShopPageUrl'    => \get_edit_post_link( $shop_page_id, 'js' ),
+				'wooCommerceShopPageSettingUrl' => \get_admin_url( null, 'admin.php?page=wc-settings&tab=products' ),
 			],
 			'linkParams'           => WPSEO_Shortlinker::get_query_params(),
 			'postTypes'            => $post_types,
