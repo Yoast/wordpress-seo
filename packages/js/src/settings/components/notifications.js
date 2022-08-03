@@ -3,7 +3,7 @@ import { __ } from "@wordpress/i18n";
 import { useMemo } from "@wordpress/element";
 import { map } from "lodash";
 import { useDispatch } from "@wordpress/data";
-import { Notifications as NotificationsComponent } from "@yoast/ui-library";
+import { Notifications as NotificationsUi } from "@yoast/ui-library";
 import { STORE_NAME, useSelectSettings } from "../store";
 
 /**
@@ -20,7 +20,13 @@ const Notifications = () => {
 		dismissScreenReaderLabel: __( "Dismiss", "wordpress-seo" ),
 	} ) ), [ notifications ] );
 
-	return <NotificationsComponent notifications={ enrichedNotifications } position="bottom-left" />;
+	return (
+		<NotificationsUi notifications={ enrichedNotifications } position="bottom-left">
+			{ enrichedNotifications.map( ( notification ) => (
+				<NotificationsUi.Notification key={ notification.id } { ...notification } /> )
+			) }
+		</NotificationsUi>
+	);
 };
 
 export default Notifications;
