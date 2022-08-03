@@ -5,7 +5,7 @@
  * @package WPSEO\Admin
  */
 
-use WPSEO_Language_Utils as Utils;
+
 
 /**
  * Performs the load on admin side.
@@ -199,16 +199,16 @@ class WPSEO_Admin_Init {
 	}
 
 	/**
-	 * Sets the inclusive language notice.
+	 * Sets the inclusive language notification.
 	 */
 	protected function set_inclusive_language_notice() {
-		$site_language = Utils::get_language( \get_locale() );
-		$inclusive = new WPSEO_Inclusive_Language_Notice( Yoast_Notification_Center::get() );
-		if ( YoastSEO()->helpers->product->is_premium() && $site_language === 'en') {
-			$inclusive->add_notification();
-			$inclusive->dismiss_notice_listener();
+		$site_language             = WPSEO_Language_Utils::get_language( \get_locale() );
+		$inclusive_language 	   = new WPSEO_Inclusive_Language_Notice( Yoast_Notification_Center::get() );
+		if ( YoastSEO()->helpers->product->is_premium() && $site_language === 'en' ) {
+			$inclusive_language->add_notification();
+			$inclusive_language->dismiss_notice_listener();
 		} else {
-			$inclusive->initialize();
+			$inclusive_language->remove_notification();
 		}
 	}
 
