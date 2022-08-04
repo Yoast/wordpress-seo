@@ -62,26 +62,12 @@ describe( "a test for SKU assessment for WooCommerce", function() {
 			hasGlobalSKU: false,
 			hasVariants: true,
 			doAllVariantsHaveSKU: false,
-			isVariantIdentifierDataValid: true,
 		} ) );
 
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4lw' target='_blank'>SKU</a>:" +
 			" Not all your product variants have a SKU. <a href='https://yoa.st/4lx' target='_blank'>Include" +
 			" this if you can, as it will help search engines to better understand your content.</a>" );
-	} );
-
-	it( "returns the score 0 when the product variant data is not valid", function() {
-		const assessmentResult = assessment.getResult( paper, Factory.buildMockResearcher( {
-			hasGlobalIdentifier: false,
-			hasVariants: true,
-			doAllVariantsHaveIdentifier: false,
-			isVariantIdentifierDataValid: false,
-		} ) );
-
-		expect( assessmentResult.getScore() ).toEqual( 0 );
-		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4lw' target='_blank'>SKU</a>:" +
-			" Please save and refresh the page to view the result for this assessment." );
 	} );
 } );
 
