@@ -14,6 +14,7 @@ import { update as updateTrafficLight } from "../ui/trafficLight";
 import * as tmceHelper from "../lib/tinymce";
 import getIndicatorForScore from "./getIndicatorForScore";
 import isKeywordAnalysisActive from "./isKeywordAnalysisActive";
+import isContentAnalysisActive from "./isContentAnalysisActive";
 
 const { tmceId } = tmceHelper;
 const $ = jQuery;
@@ -414,6 +415,25 @@ PostDataCollector.prototype.saveContentScore = function( score ) {
 	}
 
 	$( "#yoast_wpseo_content_score" ).val( score );
+};
+
+/**
+ * Saves the inclusive language score to a hidden field.
+ *
+ * @param {number} score The score to save.
+ *
+ * @returns {void}
+ */
+PostDataCollector.prototype.saveInclusiveLanguageScore = function( score ) {
+	const indicator = getIndicatorForScore( score );
+	publishBox.updateScore( "inclusive_language", indicator.className );
+
+	if ( ! isKeywordAnalysisActive() && ! isContentAnalysisActive() ) {
+		updateTrafficLight( indicator );
+		updateAdminBar( indicator );
+	}
+
+	$( "#yoast_wpseo_inclusive_language_score" ).val( score );
 };
 
 export default PostDataCollector;

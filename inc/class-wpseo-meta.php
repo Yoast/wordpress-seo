@@ -137,6 +137,12 @@ class WPSEO_Meta {
 				'default_value' => '0',
 				'description'   => '',
 			],
+			'inclusive_language_score' => [
+				'type'          => 'hidden',
+				'title'         => 'inclusive_language_score',
+				'default_value' => '0',
+				'description'   => '',
+			],
 			'is_cornerstone' => [
 				'type'          => 'hidden',
 				'title'         => 'is_cornerstone',

@@ -11,6 +11,13 @@ use Yoast\WP\SEO\Config\Researcher_Languages;
 class Language_Helper {
 
 	/**
+	 * The languages with inclusive language analysis support.
+	 *
+	 * @var string[]
+	 */
+	public static $languages_with_inclusive_language_support = [ 'en' ];
+
+	/**
 	 * Checks whether word form recognition is active for the used language.
 	 *
 	 * @param string $language The used language.
@@ -35,6 +42,17 @@ class Language_Helper {
 		$supported_languages = [ 'en', 'de', 'nl', 'fr', 'es', 'it', 'pt', 'ru', 'pl', 'sv', 'id', 'he', 'ar', 'hu', 'nb', 'tr', 'cs', 'sk', 'fa', 'el', 'ja' ];
 
 		return \in_array( $language, $supported_languages, true );
+	}
+
+	/**
+	 * Checks whether the given language has inclusive language support.
+	 *
+	 * @param string $language The language to check if inclusive language is supported.
+	 *
+	 * @return bool Whether the language has inclusive language support.
+	 */
+	public function has_inclusive_language_support( $language ) {
+		return \in_array( $language, self::$languages_with_inclusive_language_support, true );
 	}
 
 	/**
