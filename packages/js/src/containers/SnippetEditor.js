@@ -3,7 +3,7 @@ import { withDispatch, withSelect } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
 import { SnippetEditor } from "@yoast/search-metadata-previews";
 import { LocationConsumer } from "@yoast/externals/contexts";
-import { debounce, memoize } from "lodash-es";
+import { debounce } from "lodash-es";
 import SnippetPreviewSection from "../components/SnippetPreviewSection";
 import { applyReplaceUsingPlugin } from "../helpers/replacementVariableHelpers";
 
@@ -118,16 +118,6 @@ export function mapSelectToProps( select ) {
 	};
 }
 
-// Memoize this so that prop changes of the container don't lead to a new debounce working on a different timer than the previous one.
-const getMemoizedFindCustomFields = memoize(
-	( postId, findCustomFields ) => {
-		return debounce(
-			value => findCustomFields( value, postId ),
-			500
-		);
-	}
-);
-
 /**
  * Maps the dispatch function to props.
  *
@@ -145,7 +135,10 @@ export function mapDispatchToProps( dispatch, ownProps, { select } ) {
 		findCustomFields,
 	} = dispatch( "yoast-seo/editor" );
 	const coreEditorDispatch = dispatch( "core/editor" );
-	const postId = select( "yoast-seo/editor" ).getPostId();
+	const onReplacementVariableSearchChange = debounce(
+		value => findCustomFields( value, select( "yoast-seo/editor" ).getPostId() ),
+		500
+	);
 
 	return {
 		onChange: ( key, value ) => {
@@ -172,7 +165,7 @@ export function mapDispatchToProps( dispatch, ownProps, { select } ) {
 			}
 		},
 		onChangeAnalysisData: updateAnalysisData,
-		onReplacementVariableSearchChange: getMemoizedFindCustomFields( postId, findCustomFields ),
+		onReplacementVariableSearchChange,
 	};
 }
 
