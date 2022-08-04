@@ -94,12 +94,12 @@ const expectedResults = {
 	productIdentifiers: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/shopify81' target='_blank'>Barcode</a>: Good job!",
+		resultText: "<a href='https://yoa.st/4ly' target='_blank'>Product identifier</a>: Good job!",
 	},
 	productSKU: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/shopify79' target='_blank'>SKU</a>: Good job!",
+		resultText: "<a href='https://yoa.st/4lw' target='_blank'>SKU</a>: Good job!",
 	},
 	imageKeyphrase: {
 		isApplicable: true,
