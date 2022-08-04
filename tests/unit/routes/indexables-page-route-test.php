@@ -195,6 +195,36 @@ class Indexables_Page_Route_Test extends TestCase {
 				]
 			);
 
+			Monkey\Functions\expect( 'register_rest_route' )
+			->with(
+				'yoast/v1',
+				'/get_reading_list',
+				[
+					[
+						'methods'             => 'GET',
+						'callback'            => [ $this->instance, 'get_reading_list' ],
+						'permission_callback' => [ $this->instance, 'permission_edit_others_posts' ],
+					],
+				]
+			);
+
+			Monkey\Functions\expect( 'register_rest_route' )
+			->with(
+				'yoast/v1',
+				'/set_reading_list',
+				[
+					[
+						'methods'             => 'POST',
+						'callback'            => [ $this->instance, 'set_reading_list' ],
+						'permission_callback' => [ $this->instance, 'permission_edit_others_posts' ],
+						'args'                => [
+							'state' => [
+								'type'     => 'array',
+							],
+						],
+					],
+				]
+			);
 		$this->instance->register_routes();
 	}
 
