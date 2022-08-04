@@ -3,6 +3,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Actions;
 
 use Mockery;
+use Prophecy\PhpDocumentor\ClassAndInterfaceTagRetriever;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Actions\Indexables_Page_Action;
 use Yoast\WP\SEO\Helpers\Options_Helper;
@@ -102,18 +103,15 @@ class Indexables_Page_Action_Test extends TestCase {
 	 *
 	 * @dataProvider get_setup_info_provider
 	 *
-	 * @param array $features               Whether each feature is enabled or not.
-	 * @param int   $query_times            The times the count queries will be run.
-	 * @param array $query_results          The results of each count query.
-	 * @param int   $percentage_query_times The times the percentage queries will be run.
-	 * @param array $expected_result        The expected result.
+	 * @param array $features                 Whether each feature is enabled or not.
+	 * @param int   $query_times              The times the queries will be run.
+	 * @param array $query_results            The results of each count query.
+	 * @param array $count_times              The times the count queries will be run.
+	 * @param int   $percentage_query_times   The times the percentage queries will be run.
+	 * @param int   $no_keyphrase_query_times The times the query to get the indexables without key-phrases will be run.
+	 * @param array $expected_result          The expected result.
 	 */
-	public function test_get_setup_info( $features, $query_times, $query_results, $percentage_query_times, $expected_result ) {
-		$indexables_to_return = [
-			Mockery::mock( Indexable::class ),
-			Mockery::mock( Indexable::class ),
-		];
-
+	public function test_get_setup_info( $features, $query_times, $query_results, $count_times, $percentage_query_times, $no_keyphrase_query_times, $expected_result ) {
 		$sub_types = [
 			'post'        => 'post',
 			'page'        => 'page',
@@ -182,8 +180,24 @@ class Indexables_Page_Action_Test extends TestCase {
 
 		$this->indexable_repository
 			->expects( 'count' )
-			->times( $query_times )
+			->times( $count_times )
 			->andReturn( ...$query_results );
+
+		$this->indexable_repository
+			->expects( 'where_null' )
+			->times( $no_keyphrase_query_times )
+			->with( 'primary_focus_keyword' )
+			->andReturnSelf();
+
+		$this->indexable_repository
+			->expects( 'order_by_desc' )
+			->times( $no_keyphrase_query_times )
+			->andReturnSelf();
+
+		$this->indexable_repository
+			->expects( 'find_many' )
+			->times( $no_keyphrase_query_times )
+			->andReturn( [] );
 
 		$this->assertEquals(
 			$expected_result,
@@ -198,15 +212,17 @@ class Indexables_Page_Action_Test extends TestCase {
 	 */
 	public function get_setup_info_provider() {
 		$no_features_enabled = [
-			'ignore_list_state'      => [
+			'ignore_list_state'        => [
 				'keyword_analysis_active'  => false,
 				'content_analysis_active'  => false,
 				'enable_text_link_counter' => false,
 			],
-			'query_times'            => 0,
-			'query_results'          => [ 'irrelevant' ],
-			'percentage_query_times' => 0,
-			'expected_result'        => [
+			'query_times'              => 0,
+			'query_results'            => [ 'irrelevant' ],
+			'count_times'              => 0,
+			'percentage_query_times'   => 0,
+			'no_keyphrase_query_times' => 0,
+			'expected_result'          => [
 				'enabledFeatures'       => [
 					'isSeoScoreEnabled'    => false,
 					'isReadabilityEnabled' => false,
@@ -218,15 +234,17 @@ class Indexables_Page_Action_Test extends TestCase {
 		];
 
 		$seo_score_enabled_no_posts = [
-			'ignore_list_state'      => [
+			'ignore_list_state'        => [
 				'keyword_analysis_active'  => false,
 				'content_analysis_active'  => true,
 				'enable_text_link_counter' => true,
 			],
-			'query_times'            => 1,
-			'query_results'          => [ 0, 'irrelevant', 'irrelevant' ],
-			'percentage_query_times' => 0,
-			'expected_result'        => [
+			'query_times'              => 1,
+			'query_results'            => [ 0, 'irrelevant', 'irrelevant' ],
+			'count_times'              => 1,
+			'percentage_query_times'   => 0,
+			'no_keyphrase_query_times' => 0,
+			'expected_result'          => [
 				'enabledFeatures'       => [
 					'isSeoScoreEnabled'    => false,
 					'isReadabilityEnabled' => true,
@@ -238,15 +256,17 @@ class Indexables_Page_Action_Test extends TestCase {
 		];
 
 		$not_enough_posts = [
-			'ignore_list_state'      => [
+			'ignore_list_state'        => [
 				'keyword_analysis_active'  => true,
 				'content_analysis_active'  => true,
 				'enable_text_link_counter' => true,
 			],
-			'query_times'            => 3,
-			'query_results'          => [ 7, 7, 7 ],
-			'percentage_query_times' => 1,
-			'expected_result'        => [
+			'query_times'              => 4,
+			'query_results'            => [ 7, 7, 7 ],
+			'count_times'              => 3,
+			'percentage_query_times'   => 1,
+			'no_keyphrase_query_times' => 1,
+			'expected_result'          => [
 				'enabledFeatures'       => [
 					'isSeoScoreEnabled'    => true,
 					'isReadabilityEnabled' => true,
@@ -254,19 +274,22 @@ class Indexables_Page_Action_Test extends TestCase {
 				],
 				'enoughContent'         => false,
 				'enoughAnalysedContent' => true,
+				'postsWithoutKeyphrase' => [],
 			],
 		];
 
 		$not_enough_analyzed_posts = [
-			'ignore_list_state'      => [
+			'ignore_list_state'        => [
 				'keyword_analysis_active'  => true,
 				'content_analysis_active'  => true,
 				'enable_text_link_counter' => true,
 			],
-			'query_times'            => 3,
-			'query_results'          => [ 25, 12, 12 ],
-			'percentage_query_times' => 1,
-			'expected_result'        => [
+			'query_times'              => 4,
+			'query_results'            => [ 25, 12, 12 ],
+			'count_times'              => 3,
+			'percentage_query_times'   => 1,
+			'no_keyphrase_query_times' => 1,
+			'expected_result'          => [
 				'enabledFeatures'       => [
 					'isSeoScoreEnabled'    => true,
 					'isReadabilityEnabled' => true,
@@ -274,19 +297,22 @@ class Indexables_Page_Action_Test extends TestCase {
 				],
 				'enoughContent'         => true,
 				'enoughAnalysedContent' => false,
+				'postsWithoutKeyphrase' => [],
 			],
 		];
 
 		$all_threshold_passed = [
-			'ignore_list_state'      => [
+			'ignore_list_state'        => [
 				'keyword_analysis_active'  => true,
 				'content_analysis_active'  => true,
 				'enable_text_link_counter' => true,
 			],
-			'query_times'            => 3,
-			'query_results'          => [ 25, 13, 12 ],
-			'percentage_query_times' => 1,
-			'expected_result'        => [
+			'query_times'              => 4,
+			'query_results'            => [ 25, 13, 12 ],
+			'count_times'              => 3,
+			'percentage_query_times'   => 1,
+			'no_keyphrase_query_times' => 1,
+			'expected_result'          => [
 				'enabledFeatures'       => [
 					'isSeoScoreEnabled'    => true,
 					'isReadabilityEnabled' => true,
@@ -294,6 +320,7 @@ class Indexables_Page_Action_Test extends TestCase {
 				],
 				'enoughContent'         => true,
 				'enoughAnalysedContent' => true,
+				'postsWithoutKeyphrase' => [],
 			],
 		];
 		return [
