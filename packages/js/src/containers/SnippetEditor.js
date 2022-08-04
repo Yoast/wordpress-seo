@@ -136,7 +136,7 @@ export function mapDispatchToProps( dispatch, ownProps, { select } ) {
 	} = dispatch( "yoast-seo/editor" );
 	const coreEditorDispatch = dispatch( "core/editor" );
 	const onReplacementVariableSearchChange = debounce(
-		value => findCustomFields( value, select( "yoast-seo/editor" ).getPostId() ),
+		value => findCustomFields( value, select( "core/editor" ).getCurrentPostId() ),
 		500
 	);
 
