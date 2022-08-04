@@ -2,7 +2,7 @@
 /* External components */
 import { withSelect } from "@wordpress/data";
 import { Fragment } from "@wordpress/element";
-import { __ } from "@wordpress/i18n";
+import { __, sprintf } from "@wordpress/i18n";
 import { isNil } from "lodash-es";
 import PropTypes from "prop-types";
 import styled from "styled-components";
@@ -16,6 +16,7 @@ import { getIconForScore } from "./mapResults";
 import { LocationConsumer } from "@yoast/externals/contexts";
 import HelpLink from "../HelpLink";
 import Portal from "../portals/Portal";
+import { SvgIcon } from "@yoast/components";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
@@ -32,6 +33,17 @@ const StyledHelpLink = styled( HelpLink )`
 	margin: -8px 0 -4px 4px;
 `;
 
+const GoodJobAnalysisResult = styled.div`
+	min-height: 24px;
+	margin: 12px 0 0 0;
+	padding: 0;
+	display: flex;
+	align-items: flex-start;
+`;
+const ScoreIcon = styled( SvgIcon )`
+	margin: 3px 11px 0 0; // icon 13 + 11 right margin = 24 for the 8px grid.
+`;
+
 /**
  * The inclusive language analysis component.
  *
@@ -44,6 +56,7 @@ const StyledHelpLink = styled( HelpLink )`
  * @returns {JSX.Element} The inclusive language analysis component.
  */
 const InclusiveLanguageAnalysis = ( props ) => {
+	const analysisInfoLink = wpseoAdminL10n[ "shortlinks.inclusive_language_analysis_info" ];
 	/**
 	 * Renders the results of the analysis.
 	 *
@@ -55,7 +68,7 @@ const InclusiveLanguageAnalysis = ( props ) => {
 				<AnalysisHeader>
 					{ __( "Analysis results", "wordpress-seo" ) }
 					<StyledHelpLink
-						href={ wpseoAdminL10n[ "shortlinks.inclusive_language_analysis_info" ] }
+						href={ analysisInfoLink }
 						className="dashicons"
 					>
 						<span className="screen-reader-text">
@@ -76,13 +89,36 @@ const InclusiveLanguageAnalysis = ( props ) => {
 		);
 	}
 
+	const goodJobFeedback = sprintf(
+		/* Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag. */
+		__( "%1$sInclusive language%2$s: We haven't detected any potentially non-inclusive phrases. Great work!",
+			"wordpress-seo"
+		),
+		`<a href="${ analysisInfoLink }">`,
+		"</a>"
+	);
+
 	/**
 	 * Renders a feedback string for when no non-inclusive phrases are detected.
 	 *
 	 * @returns {JSX.Element} The feedback string.
 	 */
 	function renderGoodJob() {
-		return <p>{ __( "We haven't detected any potentially non-inclusive phrases. Great work!", "wordpress-seo" ) }</p>;
+		return (
+			<Fragment>
+				<AnalysisHeader>
+					{ __( "Analysis results", "wordpress-seo" ) }
+				</AnalysisHeader>
+				<GoodJobAnalysisResult>
+					<ScoreIcon
+						icon={ "circle" }
+						color={ "#7ad03a" }
+						size="13px"
+					/>
+					<span dangerouslySetInnerHTML={ { __html: goodJobFeedback } } />
+				</GoodJobAnalysisResult>
+			</Fragment>
+		);
 	}
 
 	const score = getIndicatorForScore( props.overallScore );
