@@ -235,6 +235,11 @@ class Indexables_Page_Route implements Route_Interface {
 				'methods'             => 'POST',
 				'callback'            => [ $this, 'set_reading_list' ],
 				'permission_callback' => [ $this, 'permission_edit_others_posts' ],
+				'args'                => [
+					'state' => [
+						'type'     => 'array',
+					],
+				],
 			],
 		];
 
