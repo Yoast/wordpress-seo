@@ -46,12 +46,12 @@ class WPSEO_Inclusive_Language_Notice {
 	 * @param Yoast_Notification_Center $notification_center  The notification center to add notifications to.
 	 */
 	public function __construct( Yoast_Notification_Center $notification_center ) {
-		$this->options              = $this->get_options();
-		$this->notification_center  = $notification_center;
+		$this->options             = $this->get_options();
+		$this->notification_center = $notification_center;
 	}
 
 	/**
-	 * Listener for the upsell notice.
+	 * Listener for the notice.
 	 */
 	public function dismiss_notice_listener() {
 		if ( filter_input( INPUT_GET, 'yoast_dismiss' ) !== 'upsell' ) {
@@ -85,12 +85,12 @@ class WPSEO_Inclusive_Language_Notice {
 	 */
 	protected function get_notification() {
 		$message = sprintf(
-			/* translators: %1$s is a link to the Features tab on the Yoast Dashboard page, %2$s is a link to the blog post about this feature, %3$s is the link closing tag. */
-				__( '<strong>New in Yoast SEO Premium 19.2:</strong> Did you know that you can now enable the %1$sinclusive language feature%3$s to retrieve feedback on inclusive language use? %2$sLearn more about this feature%3$s.', 'wordpress-seo' ),
-				'<a href="' . admin_url( 'admin.php?page=wpseo_dashboard#top#features' ) . '">',
-				'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/inclusive-language-analysis' ) . '">',
-				'</a>'
-			);
+			/* translators: %1$s is a link to the Features tab on the Yoast SEO Dashboard page, %2$s is a link to the blog post about this feature, %3$s is the link closing tag. */
+			__( '<strong>New in Yoast SEO Premium 19.2:</strong> Did you know that you can now enable the %1$sinclusive language feature%3$s to retrieve feedback on inclusive language use? %2$sLearn more about this feature%3$s.', 'wordpress-seo' ),
+			'<a href="' . admin_url( 'admin.php?page=wpseo_dashboard#top#features' ) . '">',
+			'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/inclusive-language-analysis' ) . '">',
+			'</a>'
+		);
 
 		$notification = new Yoast_Notification(
 			$message,
