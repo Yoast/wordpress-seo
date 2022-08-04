@@ -70,7 +70,7 @@ function registerFormats() {
  * @returns {void}
  */
 function initiallyOpenDocumentSettings() {
-	const firstLoad = ! select( "core/edit-post" ).getPreferences().panels[ "yoast-seo/document-panel" ];
+	const firstLoad = ! select( 'core/preferences' ).get.panels[ "yoast-seo/document-panel" ];
 	if ( firstLoad ) {
 		dispatch( "core/edit-post" ).toggleEditorPanelOpened( "yoast-seo/document-panel" );
 	}
