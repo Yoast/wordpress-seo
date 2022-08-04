@@ -8,7 +8,9 @@ import classNames from "classnames";
 import { Field, useFormikContext } from "formik";
 import { get, keys } from "lodash";
 import PropTypes from "prop-types";
-import { STORE_NAME, useSelectSettings } from "../store";
+import { useConvertNamesToIds } from "../hooks";
+import { useSelectSettings } from "../store";
+import { STORE_NAME } from "../constants";
 
 const classNameMap = {
 	variant: {
@@ -22,7 +24,6 @@ const classNameMap = {
  * @param {string} [label] Label.
  * @param {string} [description] Description.
  * @param {JSX.Element} [icon] Icon to show in select.
- * @param {string} id Id.
  * @param {boolean} [disabled] Disabled.
  * @param {string} [libraryType] Media type that should show in WP library, ie. "image" or "video".
  * @param {string} [variant] Variant.
@@ -39,7 +40,6 @@ const FormikMediaSelectField = ( {
 	label = "",
 	description = "",
 	icon: Icon = PhotographIcon,
-	id,
 	disabled = false,
 	libraryType = "image",
 	variant = "landscape",
@@ -59,7 +59,14 @@ const FormikMediaSelectField = ( {
 	const media = useSelectSettings( "selectMediaById", [ mediaId ], mediaId );
 	const { fetchMedia, addOneMedia } = useDispatch( STORE_NAME );
 	const error = useMemo( () => get( errors, mediaIdName, "" ), [ errors ] );
-	const { ids, describedBy } = useDescribedBy( id, { description, error } );
+	const fieldIds = useConvertNamesToIds( [ mediaUrlName, mediaIdName ] );
+	const buttonIds = useConvertNamesToIds( [
+		`${mediaIdName}-preview`,
+		`${mediaIdName}-replace`,
+		`${mediaIdName}-select`,
+		`${mediaIdName}-remove`,
+	], "button" );
+	const { ids: describedByIds, describedBy } = useDescribedBy( fieldIds[ mediaIdName ], { description, error } );
 
 	const handleSelectMediaClick = useCallback( () => wpMediaLibrary?.open(), [ wpMediaLibrary ] );
 	const handleRemoveMediaClick = useCallback( () => {
@@ -111,19 +118,19 @@ const FormikMediaSelectField = ( {
 			<Field
 				type="hidden"
 				name={ mediaIdName }
-				id={ `input-${ mediaIdName }` }
+				id={ fieldIds[ mediaIdName ] }
 				aria-describedby={ describedBy }
 			/>
 			<Field
 				type="hidden"
 				name={ mediaUrlName }
-				id={ `input-${ mediaUrlName }` }
+				id={ fieldIds[ mediaUrlName ] }
 				aria-describedby={ describedBy }
 			/>
 			{ label && <Label as="legend" className="yst-mb-2">{ label }</Label> }
 			<button
 				type="button"
-				id={ `button-${ id }-preview` }
+				id={ buttonIds[ `${mediaUrlName}-preview` ] }
 				onClick={ handleSelectMediaClick }
 				className={ classNames(
 					"yst-overflow-hidden yst-flex yst-justify-center yst-items-center yst-rounded-md yst-mb-4 yst-border-gray-300",
@@ -157,7 +164,7 @@ const FormikMediaSelectField = ( {
 			<div className="yst-flex yst-gap-4">
 				{ mediaUrl ? (
 					<Button
-						id={ `button-${ id }-replace` }
+						id={ buttonIds[ `${mediaUrlName}-replace` ] }
 						variant="secondary" onClick={ handleSelectMediaClick }
 						disabled={ disabled }
 					>
@@ -165,7 +172,7 @@ const FormikMediaSelectField = ( {
 					</Button>
 				) : (
 					<Button
-						id={ `button-${ id }-select` }
+						id={ buttonIds[ `${mediaUrlName}-select` ] }
 						variant="secondary" onClick={ handleSelectMediaClick }
 						disabled={ disabled }
 					>
@@ -174,7 +181,7 @@ const FormikMediaSelectField = ( {
 				) }
 				{ mediaUrl && (
 					<Link
-						id={ `button-${ id }-remove` }
+						id={ buttonIds[ `${mediaUrlName}-remove` ] }
 						as="button"
 						type="button"
 						variant="error"
@@ -186,8 +193,8 @@ const FormikMediaSelectField = ( {
 					</Link>
 				) }
 			</div>
-			{ error && <p id={ ids.error } className="yst-mt-2 yst-text-sm yst-text-red-600">{ error }</p> }
-			{ description && <p id={ ids.description } className="yst-mt-2">{ description }</p> }
+			{ error && <p id={ describedByIds.error } className="yst-mt-2 yst-text-sm yst-text-red-600">{ error }</p> }
+			{ description && <p id={ describedByIds.description } className="yst-mt-2">{ description }</p> }
 		</fieldset>
 	);
 };
@@ -196,7 +203,6 @@ FormikMediaSelectField.propTypes = {
 	label: PropTypes.string,
 	description: PropTypes.node,
 	icon: PropTypes.elementType,
-	id: PropTypes.string.isRequired,
 	disabled: PropTypes.bool,
 	libraryType: PropTypes.string,
 	variant: PropTypes.oneOf( keys( classNameMap.variant ) ),

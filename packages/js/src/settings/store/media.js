@@ -1,7 +1,7 @@
 /* eslint-disable camelcase, complexity */
 import { createSlice, createEntityAdapter } from "@reduxjs/toolkit";
 import { map } from "lodash";
-import { ASYNC_ACTION_NAMES, ASYNC_ACTION_STATUS } from "./constants";
+import { ASYNC_ACTION_NAMES, ASYNC_ACTION_STATUS } from "../constants";
 
 const mediaAdapter = createEntityAdapter();
 

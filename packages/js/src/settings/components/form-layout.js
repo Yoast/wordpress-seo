@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import { Form, useFormikContext } from "formik";
 import { __ } from "@wordpress/i18n";
 import { Title, Button } from "@yoast/ui-library";
+import { useValidationErrorsNotification } from "../hooks";
 
 /**
  * @returns {JSX.Element} The form layout component.
@@ -11,6 +12,7 @@ const FormLayout = ( {
 	title,
 	description = null,
 } ) => {
+	useValidationErrorsNotification();
 	const { isSubmitting } = useFormikContext();
 	return (
 		<div className="yst-rounded-lg yst-bg-white yst-shadow yst-h-full">

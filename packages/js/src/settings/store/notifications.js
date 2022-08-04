@@ -14,15 +14,17 @@ const slice = createSlice( {
 			reducer: ( state, { payload } ) => {
 				state[ payload.id ] = {
 					id: payload.id,
-					variant: payload.variant || "info",
+					variant: payload.variant,
+					size: payload.size,
 					title: payload.title,
 					description: payload.description,
 				};
 			},
-			prepare: ( { variant, title, description } ) => ( {
+			prepare: ( { variant = "info", size = "default", title, description } ) => ( {
 				payload: {
 					id: nanoid(),
 					variant,
+					size,
 					title,
 					description,
 				},
