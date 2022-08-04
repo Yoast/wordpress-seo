@@ -10,9 +10,6 @@ import Indexation from "./indexation";
  * @returns {WPElement} A div containing the empty state page.
  */
 function EmptyState( { setIndexingState } ) {
-	const preIndexingActions = {};
-	const indexingActions = {};
-
 	return <div
 		className="yst-max-w-full yst-mt-6 yst-flex"
 	>
@@ -30,8 +27,8 @@ function EmptyState( { setIndexingState } ) {
 			</span>
 			<div className="yst-grid yst-grid-cols-1 yst-justify-items-center yst-w-1/3">
 				<Indexation
-					preIndexingActions={ preIndexingActions }
-					indexingActions={ indexingActions }
+					preIndexingActions={ window.yoast.indexing.preIndexingActions }
+					indexingActions={ window.yoast.indexing.indexingActions }
 					indexingStateCallback={ setIndexingState }
 				/>
 			</div>
