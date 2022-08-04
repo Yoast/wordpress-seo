@@ -83,6 +83,7 @@ const PostType = ( { name, label, singularLabel, hasArchive } ) => {
 
 	const { values } = useFormikContext();
 	const { opengraph } = values.wpseo_social;
+	const { "breadcrumbs-enable": isBreadcrumbsEnabled } = values.wpseo_titles;
 
 	return (
 		<FormLayout title={ label }>
@@ -335,7 +336,7 @@ const PostType = ( { name, label, singularLabel, hasArchive } ) => {
 						/>
 					</FieldsetLayout>
 					<hr className="yst-my-8" />
-					<FieldsetLayout
+					{ isBreadcrumbsEnabled && <FieldsetLayout
 						title={ __( "Additional settings", "wordpress-seo" ) }
 					>
 						<Field
@@ -345,7 +346,7 @@ const PostType = ( { name, label, singularLabel, hasArchive } ) => {
 							id={ `input-wpseo_titles-bctitle-ptarchive-${ name }` }
 							label={ __( "Breadcrumbs title", "wordpress-seo" ) }
 						/>
-					</FieldsetLayout>
+					</FieldsetLayout> }
 				</> }
 			</> }
 		</FormLayout>
