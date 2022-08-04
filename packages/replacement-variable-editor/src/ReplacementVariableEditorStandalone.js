@@ -287,10 +287,6 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	 * @returns {void}
 	 */
 	onSearchChange( { value } ) {
-		if ( this.props.onSearchChange ) {
-			this.props.onSearchChange( value );
-		}
-
 		const recommendedReplacementVariables = this.determineCurrentReplacementVariables(
 			this.props.replacementVariables,
 			this.props.recommendedReplacementVariables,
@@ -430,35 +426,25 @@ class ReplacementVariableEditorStandalone extends React.Component {
 	componentWillReceiveProps( nextProps ) {
 		const { content, replacementVariables, recommendedReplacementVariables } = this.props;
 		const { searchValue } = this.state;
-		const nextState = {};
 
-		if ( nextProps.content !== this._serializedContent && nextProps.content !== content ) {
+		if (
+			( nextProps.content !== this._serializedContent && nextProps.content !== content ) ||
+			nextProps.replacementVariables !== replacementVariables
+		) {
 			this._serializedContent = nextProps.content;
-			nextState.editorState = unserializeEditor( nextProps.content, nextProps.replacementVariables );
-		} else if ( nextProps.replacementVariables !== replacementVariables ) {
-			const newReplacementVariableNames = nextProps.replacementVariables
-				.map( rv => rv.name )
-				.filter( rvName => ! replacementVariables.map( rv => rv.name ).includes( rvName ) );
-
-			if ( newReplacementVariableNames.some( rvName => content.includes( "%%" + rvName + "%%" ) ) ) {
-				this._serializedContent = nextProps.content;
-				nextState.editorState = unserializeEditor( nextProps.content, nextProps.replacementVariables );
-			}
-		}
-
-		if ( nextProps.replacementVariables !== replacementVariables ) {
+			const editorState = unserializeEditor( nextProps.content, nextProps.replacementVariables );
 			const currentReplacementVariables = this.determineCurrentReplacementVariables(
 				nextProps.replacementVariables,
 				recommendedReplacementVariables,
 				searchValue
 			);
-			nextState.suggestions = this.suggestionsFilter(
-				searchValue,
-				this.mapReplacementVariablesToSuggestions( currentReplacementVariables )
-			);
-		}
+			const suggestions = this.mapReplacementVariablesToSuggestions( currentReplacementVariables );
 
-		this.setState( nextState );
+			this.setState( {
+				editorState,
+				suggestions: this.suggestionsFilter( searchValue, suggestions ),
+			} );
+		}
 	}
 
 	/**
@@ -574,7 +560,6 @@ ReplacementVariableEditorStandalone.propTypes = {
 	replacementVariables: replacementVariablesShape.isRequired,
 	recommendedReplacementVariables: recommendedReplacementVariablesShape,
 	ariaLabelledBy: PropTypes.string.isRequired,
-	onSearchChange: PropTypes.func,
 	onChange: PropTypes.func.isRequired,
 	onFocus: PropTypes.func,
 	onBlur: PropTypes.func,
@@ -585,7 +570,6 @@ ReplacementVariableEditorStandalone.propTypes = {
 };
 
 ReplacementVariableEditorStandalone.defaultProps = {
-	onSearchChange: null,
 	onFocus: () => {},
 	onBlur: () => {},
 	placeholder: "",
