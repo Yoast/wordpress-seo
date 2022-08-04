@@ -7,9 +7,6 @@ use WP_REST_Response;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Main;
 
-/**
- * Meta_Search_Route class
- */
 class Meta_Search_Route implements Route_Interface {
 
 	use No_Conditionals;
