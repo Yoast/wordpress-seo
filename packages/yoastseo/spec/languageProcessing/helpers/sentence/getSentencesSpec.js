@@ -531,8 +531,9 @@ describe( "a test for when texts containing sentence delimiter", () => {
 	it( "should not break when the text starts with double quotation mark followed by space", ()=>{
 		let text = "\" This is a text with double quotation mark.";
 		expect( getSentences( text ) ).toEqual( [ "\"", "This is a text with double quotation mark." ] );
-		text = "\" \"This is a text with double quotation mark.";
-		expect( getSentences( text ) ).toEqual(  [ "\"", "\"This is a text with double quotation mark." ] );
+
+		text = "\" \"This is a text with two double quotation marks.";
+		expect( getSentences( text ) ).toEqual(  [ "\"", "\"This is a text with two double quotation marks." ] );
 
 		text = "” This is a text with double quotation mark.";
 		expect( getSentences( text ) ).toEqual( [ "”", "This is a text with double quotation mark." ] );
@@ -543,8 +544,8 @@ describe( "a test for when texts containing sentence delimiter", () => {
 		text = "» This is a text with double quotation mark.";
 		expect( getSentences( text ) ).toEqual( [ "»", "This is a text with double quotation mark." ] );
 
-		text = "« »This is a text with double quotation mark.";
-		expect( getSentences( text ) ).toEqual( [ "« »This is a text with double quotation mark." ] );
+		text = "« »This is a text with two double quotation marks.";
+		expect( getSentences( text ) ).toEqual( [ "« »This is a text with two double quotation marks." ] );
 	} );
 } );
 
