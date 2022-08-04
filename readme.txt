@@ -251,6 +251,7 @@ Release Date: August 9th, 2022
 
 
 
+
 Enhancements:
 
 * Adds the site logo and name as default values in the first time configuration and search appearance.
