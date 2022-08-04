@@ -276,10 +276,8 @@ class Settings_Integration implements Integration_Interface {
 	 * @return array The script data.
 	 */
 	protected function get_script_data() {
-		$settings     = $this->get_settings();
-		$post_types   = $this->get_post_types();
-		$taxonomies   = $this->get_taxonomies( \array_keys( $post_types ) );
-		$shop_page_id = $this->woocommerce_helper->get_shop_page_id();
+		$settings   = $this->get_settings();
+		$post_types = $this->get_post_types();
 
 		return [
 			'settings'             => $settings,
@@ -290,21 +288,42 @@ class Settings_Integration implements Integration_Interface {
 			'separators'           => WPSEO_Option_Titles::get_instance()->get_separator_options_for_display(),
 			'replacementVariables' => $this->get_replacement_variables(),
 			'schema'               => $this->get_schema( $post_types ),
-			'preferences'          => [
-				'isPremium'                     => $this->product_helper->is_premium(),
-				'isRtl'                         => is_rtl(),
-				'isNetworkAdmin'                => \is_network_admin(),
-				'isMainSite'                    => \is_main_site(),
-				'isWooCommerceActive'           => $this->woocommerce_helper->is_active(),
-				'siteUrl'                       => \get_bloginfo( 'url' ),
-				'sitemapUrl'                    => WPSEO_Sitemaps_Router::get_base_url( 'sitemap_index.xml' ),
-				'hasWooCommerceShopPage'        => $shop_page_id !== -1,
-				'editWooCommerceShopPageUrl'    => \get_edit_post_link( $shop_page_id, 'js' ),
-				'wooCommerceShopPageSettingUrl' => \get_admin_url( null, 'admin.php?page=wc-settings&tab=products' ),
-			],
+			'preferences'          => $this->get_preferences(),
 			'linkParams'           => WPSEO_Shortlinker::get_query_params(),
 			'postTypes'            => $post_types,
-			'taxonomies'           => $taxonomies,
+			'taxonomies'           => $this->get_taxonomies( \array_keys( $post_types ) ),
+		];
+	}
+
+	/**
+	 * Retrieves the preferences.
+	 *
+	 * @return array The preferences.
+	 */
+	protected function get_preferences() {
+		$shop_page_id             = $this->woocommerce_helper->get_shop_page_id();
+		$homepage_is_latest_posts = \get_option( 'show_on_front' ) === 'posts';
+		$page_on_front            = \get_option( 'page_on_front' );
+		$page_for_posts           = \get_option( 'page_for_posts' );
+
+		if ( empty ( $page_on_front ) ) {
+			$page_on_front = $page_for_posts;
+		}
+
+		return [
+			'isPremium'                     => $this->product_helper->is_premium(),
+			'isRtl'                         => is_rtl(),
+			'isNetworkAdmin'                => \is_network_admin(),
+			'isMainSite'                    => \is_main_site(),
+			'isWooCommerceActive'           => $this->woocommerce_helper->is_active(),
+			'siteUrl'                       => \get_bloginfo( 'url' ),
+			'sitemapUrl'                    => WPSEO_Sitemaps_Router::get_base_url( 'sitemap_index.xml' ),
+			'hasWooCommerceShopPage'        => $shop_page_id !== -1,
+			'editWooCommerceShopPageUrl'    => \get_edit_post_link( $shop_page_id, 'js' ),
+			'wooCommerceShopPageSettingUrl' => \get_admin_url( null, 'admin.php?page=wc-settings&tab=products' ),
+			'homepageIsLatestPosts'         => $homepage_is_latest_posts,
+			'homepagePageEditUrl'           => \get_edit_post_link( $page_on_front, 'js' ),
+			'homepagePostsEditUrl'          => \get_edit_post_link( $page_for_posts, 'js' ),
 		];
 	}
 
