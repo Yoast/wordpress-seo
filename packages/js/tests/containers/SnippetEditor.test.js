@@ -101,13 +101,7 @@ describe( "SnippetEditor container", () => {
 			}
 		} );
 
-		const result = mapDispatchToProps( dispatch, null, { select: jest.fn(
-			() => {
-				return {
-					getPostId: jest.fn(),
-				};
-			}
-		) } );
+		const result = mapDispatchToProps( dispatch, null, { select: jest.fn() } );
 
 		expect( typeof result.onChange ).toEqual( "function" );
 		expect( result.onChangeAnalysisData ).toBe( yoastEditorDispatch.updateAnalysisData );
