@@ -9,7 +9,8 @@ import { HashRouter } from "react-router-dom";
 import { StyleSheetManager } from "styled-components";
 import App from "./app";
 import { createValidationSchema } from "./helpers";
-import registerStore, { STORE_NAME } from "./store";
+import registerStore from "./store";
+import { STORE_NAME } from "./constants";
 
 /**
  * @param {Object} settings The settings.

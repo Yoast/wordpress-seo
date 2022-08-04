@@ -4,7 +4,8 @@ import { useMemo } from "@wordpress/element";
 import { map } from "lodash";
 import { useDispatch } from "@wordpress/data";
 import { Notifications as NotificationsUi } from "@yoast/ui-library";
-import { STORE_NAME, useSelectSettings } from "../store";
+import { useSelectSettings } from "../store";
+import { STORE_NAME } from "../constants";
 
 /**
  * The Notifications component shows general notifications in the top-middle of the window.
