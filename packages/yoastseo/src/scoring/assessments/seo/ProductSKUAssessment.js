@@ -97,7 +97,7 @@ export default class ProductSKUAssessment extends Assessment {
 				text: sprintf(
 					// Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag.
 					__(
-						"%1$sSKU%2$s: Good job!",
+						"%1$sSKU%2$s: Your product has a SKU. Good job!",
 						"wordpress-seo"
 					),
 					this._config.urlTitle,
@@ -136,7 +136,7 @@ export default class ProductSKUAssessment extends Assessment {
 			text: sprintf(
 				// Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag.
 				__(
-					"%1$sSKU%2$s: Good job!",
+					"%1$sSKU%2$s: All your product variants have a SKU. Good job!",
 					"wordpress-seo"
 				),
 				this._config.urlTitle,
