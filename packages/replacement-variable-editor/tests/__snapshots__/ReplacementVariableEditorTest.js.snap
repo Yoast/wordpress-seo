@@ -8,7 +8,6 @@ exports[`ReplacementVariableEditor wraps a Draft.js editor instance 1`] = `
   onBlur={[Function]}
   onChange={[Function]}
   onFocus={[Function]}
-  onSearchChange={null}
   placeholder=""
   recommendedReplacementVariables={Array []}
   replacementVariables={Array []}
