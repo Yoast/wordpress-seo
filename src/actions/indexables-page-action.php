@@ -118,21 +118,18 @@ class Indexables_Page_Action {
 			];
 		}
 
-		if ( $features['isSeoScoreEnabled'] ) {
-			$posts_with_seo_score = $this->query()
-				->where_not_equal( 'primary_focus_keyword', 0 )
-				->count();
+		$posts_with_seo_score = $this->query()
+			->where_not_equal( 'primary_focus_keyword', 0 )
+			->count();
 
-			$posts_without_keyphrase = $this->query()
-				->where_null( 'primary_focus_keyword' )
-				->find_many();
-		}
+		$posts_without_keyphrase = $this->query()
+			->where_null( 'primary_focus_keyword' )
+			->order_by_desc( 'incoming_link_count' )
+			->find_many();
 
-		if ( $features['isReadabilityEnabled'] ) {
-			$posts_with_readability = $this->query()
-				->where_not_equal( 'readability_score', 0 )
-				->count();
-		}
+		$posts_with_readability = $this->query()
+			->where_not_equal( 'readability_score', 0 )
+			->count();
 
 		$enough_analysed_content = ( max( $posts_with_seo_score, $posts_with_readability ) / $all_posts );
 
