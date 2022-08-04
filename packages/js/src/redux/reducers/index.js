@@ -11,7 +11,6 @@ import editorModals from "./editorModals";
 import facebookEditor from "./facebookEditor";
 import focusKeyword from "./focusKeyword";
 import isPremium from "./isPremium";
-import postId from "./postId";
 import marksButtonStatus from "./markerButtons";
 import isMarkerPaused from "./markerPauseStatus";
 import preferences from "./preferences";
@@ -43,7 +42,6 @@ export default {
 	isCornerstone,
 	isMarkerPaused,
 	isPremium,
-	postId,
 	marksButtonStatus,
 	preferences,
 	primaryTaxonomies,
