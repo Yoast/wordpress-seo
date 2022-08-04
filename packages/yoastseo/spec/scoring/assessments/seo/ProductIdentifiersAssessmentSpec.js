@@ -17,7 +17,7 @@ describe( "a test for Product identifiers assessment for WooCommerce", function(
 		} ) );
 
 		expect( assessmentResult.getScore() ).toEqual( 9 );
-		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4ly' target='_blank'>Product identifier</a>: Good job!" );
+		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4ly' target='_blank'>Product identifier</a>: Your has a product identifier. Good job!" );
 	} );
 
 	it( "returns the score 9 when a product has no global identifier, but has variants and all variants have an identifier", function() {
@@ -28,7 +28,7 @@ describe( "a test for Product identifiers assessment for WooCommerce", function(
 		} ) );
 
 		expect( assessmentResult.getScore() ).toEqual( 9 );
-		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4ly' target='_blank'>Product identifier</a>: Good job!" );
+		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4ly' target='_blank'>Product identifier</a>: All your product variants have a product identifier. Good job!" );
 	} );
 
 	it( "returns the score 6 when a product has no global identifier and no variants", function() {
@@ -84,7 +84,7 @@ describe( "a test for Product identifiers assessment for Shopify", () => {
 		} ) );
 
 		expect( assessmentResult.getScore() ).toEqual( 9 );
-		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/shopify81' target='_blank'>Barcode</a>: Good job!" );
+		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/shopify81' target='_blank'>Barcode</a>: Your product has a barcode. Good job!" );
 	} );
 
 	it( "returns with score 6 when the product doesn't have a global identifier nor variants", () => {

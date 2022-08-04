@@ -1,3 +1,4 @@
+import { defaultConfig } from "eslint-plugin-react/lib/rules/sort-comp";
 import Assessment from "../assessment";
 import AssessmentResult from "../../../values/AssessmentResult";
 import { merge } from "lodash-es";
@@ -27,6 +28,8 @@ export default class ProductIdentifiersAssessment extends Assessment {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/4ly" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/4lz" ),
 			assessVariants: false,
+			// In which plugin the strings will be output. If isWoo is false, then it is Shopify.
+			isWoo: true,
 			productIdentifierOrBarcode: {
 				lowercase: "product identifier",
 				uppercase: "",
@@ -84,6 +87,13 @@ export default class ProductIdentifiersAssessment extends Assessment {
 	 */
 	scoreProductIdentifier( productIdentifierData, config ) {
 		// If a product has no variants, return orange bullet if it has no global identifier, and green bullet if it has one.
+		let feedbackString;
+		if ( this.isWoo ) {
+			feedbackString = "%1$s%2$s%4$s: Your product is missing a product identifier (like a GTIN code). %3$sInclude this if you can, as it " +
+				"will help search engines to better understand your content.%4$s"
+		} else {
+			feedbackString = "%1$s%2$s%4$s: Your product is missing a barcode (like a GTIN code). %3$sInclude this if you can, as it " +
+				"will help search engines to better understand your content.%4$s" }
 		if ( ! productIdentifierData.hasVariants ) {
 			if ( ! productIdentifierData.hasGlobalIdentifier ) {
 				return {
@@ -93,8 +103,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 						* %2$s expands to the string "Barcode" or "Product identifier", %3$s expands to the string "barcode"
 						* or "product identifier" */
 						__(
-							"%1$s%2$s%5$s: Your product is missing a %3$s (like a GTIN code). %4$sInclude this if you can, as it" +
-							" will help search engines to better understand your content.%5$s",
+							feedbackString,
 							"wordpress-seo"
 						),
 						this._config.urlTitle,
@@ -105,13 +114,18 @@ export default class ProductIdentifiersAssessment extends Assessment {
 					),
 				};
 			}
+			let feedbackString;
+			if ( this.isWoo ) {
+				feedbackString = "%1$s%2$s%3$s: Your product has a product identifier. Good job!";
+			} else {
+				feedbackString = "%1$s%2$s%3$s: Your product has a barcode. Good job!" }
 			return {
 				score: config.scores.good,
 				text: sprintf(
 					/* Translators: %1$s expands to a link on yoast.com, %3$s expands to the anchor end tag,
 					* %2$s expands to the string "Barcode" or "Product identifier" */
 					__(
-						"%1$s%2$s%3$s: Good job!",
+						feedbackString,
 						"wordpress-seo"
 					),
 					this._config.urlTitle,
@@ -129,6 +143,12 @@ export default class ProductIdentifiersAssessment extends Assessment {
 
 		// If we want to assess variants, and if product has variants but not all variants have an identifier, return orange bullet.
 		// If all variants have an identifier, return green bullet.
+		if ( this.isWoo ) {
+			feedbackString = "%1$s%2$s%4$s: Not all your product variants have a product identifier. %3$sInclude this if you can, as it" +
+				" will help search engines to better understand your content.%5$s";
+		} else {
+			feedbackString = "%1$s%2$s%4$s: Not all your product variants have a barcode. %3$sInclude this if you can, as it" +
+				" will help search engines to better understand your content.%5$s" }
 		if ( ! productIdentifierData.doAllVariantsHaveIdentifier ) {
 			return {
 				score: config.scores.ok,
@@ -137,8 +157,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 					* %2$s expands to the string "Barcode" or "Product identifier", %3$s expands to the string "barcode"
 					* or "product identifier" */
 					__(
-						"%1$s%2$s%5$s: Not all your product variants have a %3$s. %4$sInclude this if you can, as it" +
-						" will help search engines to better understand your content.%5$s",
+						feedbackString,
 						"wordpress-seo"
 					),
 					this._config.urlTitle,
@@ -149,14 +168,17 @@ export default class ProductIdentifiersAssessment extends Assessment {
 				),
 			};
 		}
-
+		if ( this.isWoo ) {
+			feedbackString = "%1$s%2$s%3$s: All your product variants have a product identifier. Good job!";
+		} else {
+			feedbackString = "%1$s%2$s%3$s: All your product variants have a barcode. Good job!" }
 		return {
 			score: config.scores.good,
 			text: sprintf(
 				/* Translators: %1$s expands to a link on yoast.com, %3$s expands to the anchor end tag,
 				* %2$s expands to the string "Barcode" or "Product identifier" */
 				__(
-					"%1$s%2$s%3$s: Good job!",
+					feedbackString,
 					"wordpress-seo"
 				),
 				this._config.urlTitle,
