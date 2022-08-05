@@ -118,6 +118,8 @@ const disabilityAssessments =  [
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: learnMoreUrl,
+		rule: ( words, inclusivePhrase ) => includesConsecutiveWords( words, inclusivePhrase )
+			.filter( isFollowedByException( words, inclusivePhrase, [ "toilet", "toilets", "parking" ] ) ),
 	},
 	{
 		identifier: "insane",
