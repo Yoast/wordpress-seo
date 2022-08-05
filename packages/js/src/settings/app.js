@@ -42,11 +42,11 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 			icon={ DesktopComputerIcon }
 			label={ __( "Site settings", "wordpress-seo" ) }
 		>
-			<SidebarNavigation.SubmenuItem to="/site-representation" label={ __( "Site representation", "wordpress-seo" ) } idSuffix={ idSuffix } />
+			{ /* <SidebarNavigation.SubmenuItem to="/site-representation" label={ __( "Site representation", "wordpress-seo" ) } idSuffix={ idSuffix } /> */ }
 			<SidebarNavigation.SubmenuItem to="/site-defaults" label={ __( "Site defaults", "wordpress-seo" ) } idSuffix={ idSuffix } />
 			<SidebarNavigation.SubmenuItem to="/site-preferences" label={ __( "Site preferences", "wordpress-seo" ) } idSuffix={ idSuffix } />
-			<SidebarNavigation.SubmenuItem to="/webmaster-tools" label={ __( "Webmaster tools", "wordpress-seo" ) } idSuffix={ idSuffix } />
-			<SidebarNavigation.SubmenuItem to="/breadcrumbs" label={ __( "Breadcrumbs", "wordpress-seo" ) } idSuffix={ idSuffix } />
+			{ /* <SidebarNavigation.SubmenuItem to="/webmaster-tools" label={ __( "Webmaster tools", "wordpress-seo" ) } idSuffix={ idSuffix } /> */ }
+			{ /* <SidebarNavigation.SubmenuItem to="/breadcrumbs" label={ __( "Breadcrumbs", "wordpress-seo" ) } idSuffix={ idSuffix } /> */ }
 		</SidebarNavigation.MenuItem>
 		<SidebarNavigation.MenuItem
 			id={ `menu-content-settings${ idSuffix && `-${ idSuffix }` }` }
@@ -83,7 +83,7 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 			icon={ AdjustmentsIcon }
 			label={ __( "Advanced settings", "wordpress-seo" ) }
 		>
-			<SidebarNavigation.SubmenuItem
+			{ /* <SidebarNavigation.SubmenuItem
 				to="/crawl-optimization"
 				label={
 					<span className="yst-inline-flex yst-items-center yst-gap-1.5">
@@ -92,13 +92,13 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 					</span>
 				}
 				idSuffix={ idSuffix }
-			/>
-			<SidebarNavigation.SubmenuItem to="/author-archives" label={ __( "Author archives", "wordpress-seo" ) } idSuffix={ idSuffix } />
-			<SidebarNavigation.SubmenuItem to="/date-archives" label={ __( "Date archives", "wordpress-seo" ) } idSuffix={ idSuffix } />
-			<SidebarNavigation.SubmenuItem to="/search-pages" label={ __( "Search pages", "wordpress-seo" ) } idSuffix={ idSuffix } />
-			<SidebarNavigation.SubmenuItem to="/not-found-pages" label={ __( "404 pages", "wordpress-seo" ) } idSuffix={ idSuffix } />
-			<SidebarNavigation.SubmenuItem to="/media" label={ __( "Media", "wordpress-seo" ) } idSuffix={ idSuffix } />
-			<SidebarNavigation.SubmenuItem to="/formats" label={ __( "Formats", "wordpress-seo" ) } idSuffix={ idSuffix } />
+			/> */ }
+			{ /* <SidebarNavigation.SubmenuItem to="/author-archives" label={ __( "Author archives", "wordpress-seo" ) } idSuffix={ idSuffix } /> */ }
+			{ /* <SidebarNavigation.SubmenuItem to="/date-archives" label={ __( "Date archives", "wordpress-seo" ) } idSuffix={ idSuffix } /> */ }
+			{ /* <SidebarNavigation.SubmenuItem to="/search-pages" label={ __( "Search pages", "wordpress-seo" ) } idSuffix={ idSuffix } /> */ }
+			{ /* <SidebarNavigation.SubmenuItem to="/not-found-pages" label={ __( "404 pages", "wordpress-seo" ) } idSuffix={ idSuffix } /> */ }
+			{ /* <SidebarNavigation.SubmenuItem to="/media" label={ __( "Media", "wordpress-seo" ) } idSuffix={ idSuffix } /> */ }
+			{ /* <SidebarNavigation.SubmenuItem to="/formats" label={ __( "Formats", "wordpress-seo" ) } idSuffix={ idSuffix } /> */ }
 			<SidebarNavigation.SubmenuItem to="/rss" label={ __( "RSS", "wordpress-seo" ) } idSuffix={ idSuffix } />
 		</SidebarNavigation.MenuItem>
 	</>;
@@ -118,7 +118,7 @@ const App = () => {
 	const postTypes = useSelectSettings( "selectPostTypes" );
 	const taxonomies = useSelectSettings( "selectTaxonomies" );
 
-	useValidationErrorsNotification();
+	// useValidationErrorsNotification();
 
 	return (
 		<>
@@ -138,20 +138,20 @@ const App = () => {
 					</aside>
 					<main className="yst-flex-grow">
 						<Routes>
-							<Route path="author-archives" element={ <AuthorArchives /> } />
-							<Route path="breadcrumbs" element={ <Breadcrumbs /> } />
-							<Route path="crawl-optimization" element={ <CrawlSettings /> } />
-							<Route path="date-archives" element={ <DateArchives /> } />
+							{ /* <Route path="author-archives" element={ <AuthorArchives /> } /> */ }
+							{ /* <Route path="breadcrumbs" element={ <Breadcrumbs /> } /> */ }
+							{ /* <Route path="crawl-optimization" element={ <CrawlSettings /> } /> */ }
+							{ /* <Route path="date-archives" element={ <DateArchives /> } /> */ }
 							<Route path="homepage" element={ <Homepage /> } />
-							<Route path="formats" element={ <Formats /> } />
-							<Route path="media" element={ <Media /> } />
-							<Route path="not-found-pages" element={ <NotFoundPages /> } />
+							{ /* <Route path="formats" element={ <Formats /> } /> */ }
+							{ /* <Route path="media" element={ <Media /> } /> */ }
+							{ /* <Route path="not-found-pages" element={ <NotFoundPages /> } /> */ }
 							<Route path="rss" element={ <Rss /> } />
-							<Route path="search-pages" element={ <SearchPages /> } />
+							{ /* <Route path="search-pages" element={ <SearchPages /> } /> */ }
 							<Route path="site-defaults" element={ <SiteDefaults /> } />
-							<Route path="site-representation" element={ <SiteRepresentation /> } />
+							{ /* <Route path="site-representation" element={ <SiteRepresentation /> } /> */ }
 							<Route path="site-preferences" element={ <SitePreferences /> } />
-							<Route path="webmaster-tools" element={ <WebmasterTools /> } />
+							{ /* <Route path="webmaster-tools" element={ <WebmasterTools /> } /> */ }
 							<Route path="post-type">
 								{ map( postTypes, postType => (
 									<Route key={ postType.name } path={ postType.route } element={ <PostType { ...postType } /> } />
