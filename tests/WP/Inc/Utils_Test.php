@@ -55,36 +55,6 @@ final class Utils_Test extends TestCase {
 	}
 
 	/**
-	 * Provides test data for test_translate_score().
-	 *
-	 * @return array
-	 */
-	public static function translate_score_provider() {
-		return [
-			[ 0, true, 'na' ],
-			[ 1, true, 'bad' ],
-			[ 23, true, 'bad' ],
-			[ 40, true, 'bad' ],
-			[ 41, true, 'ok' ],
-			[ 55, true, 'ok' ],
-			[ 70, true, 'ok' ],
-			[ 71, true, 'good' ],
-			[ 83, true, 'good' ],
-			[ 100, true, 'good' ],
-			[ 0, false, 'Not available' ],
-			[ 1, false, 'Needs improvement' ],
-			[ 23, false, 'Needs improvement' ],
-			[ 40, false, 'Needs improvement' ],
-			[ 41, false, 'OK' ],
-			[ 55, false, 'OK' ],
-			[ 70, false, 'OK' ],
-			[ 71, false, 'Good' ],
-			[ 83, false, 'Good' ],
-			[ 100, false, 'Good' ],
-		];
-	}
-
-	/**
 	 * When current page is not in the list of Yoast SEO Free, is_yoast_seo_free_page() should return false.
 	 *
 	 * @covers WPSEO_Utils::is_yoast_seo_free_page
