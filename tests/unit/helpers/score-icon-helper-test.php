@@ -118,6 +118,9 @@ class Score_Icon_Helper_Test extends TestCase {
 	 *
 	 * @covers ::for_seo
 	 *
+	 * @param bool   $is_indexable   Whether we're dealing with an indexable.
+	 * @param string $keyphrase      The keyphrase.
+	 * @param int    $score          The score.
 	 * @param string $extra_class    The extra class.
 	 * @param string $no_index_title The title when noindex.
 	 * @param string $expected       The expected present output.
@@ -204,6 +207,15 @@ class Score_Icon_Helper_Test extends TestCase {
 		];
 	}
 
+	/**
+	 * Creates an indexable mock.
+	 *
+	 * @param bool   $is_indexable Whether we're dealing with an indexable.
+	 * @param string $keyphrase    The keyphrase.
+	 * @param int    $score        The score.
+	 *
+	 * @return \Mockery\LegacyMockInterface|\Mockery\MockInterface|\Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock
+	 */
 	protected function create_indexable_and_set_mocks_for_seo( $is_indexable, $keyphrase, $score ) {
 		$this->robots_helper->expects( 'is_indexable' )->andReturn( $is_indexable );
 

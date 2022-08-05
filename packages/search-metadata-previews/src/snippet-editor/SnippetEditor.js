@@ -249,7 +249,6 @@ class SnippetEditor extends React.Component {
 		const {
 			data,
 			descriptionEditorFieldPlaceholder,
-			onReplacementVariableSearchChange,
 			replacementVariables,
 			recommendedReplacementVariables,
 			hasPaperStyle,
@@ -272,7 +271,6 @@ class SnippetEditor extends React.Component {
 					onChange={ this.handleChange }
 					onFocus={ this.setFieldFocus }
 					onBlur={ this.unsetFieldFocus }
-					onReplacementVariableSearchChange={ onReplacementVariableSearchChange }
 					replacementVariables={ replacementVariables }
 					recommendedReplacementVariables={ recommendedReplacementVariables }
 					titleLengthProgress={ titleLengthProgress }
@@ -591,7 +589,6 @@ class SnippetEditor extends React.Component {
 }
 
 SnippetEditor.propTypes = {
-	onReplacementVariableSearchChange: PropTypes.func,
 	replacementVariables: replacementVariablesShape,
 	recommendedReplacementVariables: recommendedReplacementVariablesShape,
 	data: PropTypes.shape( {
@@ -626,7 +623,6 @@ SnippetEditor.defaultProps = {
 	mode: DEFAULT_MODE,
 	date: "",
 	wordsToHighlight: [],
-	onReplacementVariableSearchChange: null,
 	replacementVariables: [],
 	recommendedReplacementVariables: [],
 	titleLengthProgress: {

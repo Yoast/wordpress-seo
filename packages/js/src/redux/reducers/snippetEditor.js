@@ -5,13 +5,11 @@ import {
 	UPDATE_REPLACEMENT_VARIABLE,
 	HIDE_REPLACEMENT_VARIABLES,
 	REMOVE_REPLACEMENT_VARIABLE,
-	CUSTOM_FIELD_RESULTS,
 	REFRESH,
 	UPDATE_WORDS_TO_HIGHLIGHT,
 	LOAD_SNIPPET_EDITOR_DATA,
 } from "../actions/snippetEditor";
-import { pushNewReplaceVar, replaceSpaces } from "../../helpers/replacementVariableHelpers";
-import { firstToUpperCase } from "../../helpers/stringHelpers";
+import { pushNewReplaceVar } from "../../helpers/replacementVariableHelpers";
 
 /**
  * Returns the initial state for the snippetEditorReducer.
@@ -34,74 +32,6 @@ function getInitialState() {
 			description: "",
 		},
 		isLoading: true,
-	};
-}
-
-/**
- * Updates a replacement variable, adding it if it doesn't exist.
- *
- * @param {Object} state The current state.
- * @param {Object} action The action that was just dispatched.
- *
- * @returns {Object} The new state.
- */
-function updateReplacementVariable( state, action ) {
-	let isNewReplaceVar = true;
-	let nextReplacementVariables = state.replacementVariables.map( ( replaceVar ) => {
-		if ( replaceVar.name === action.name ) {
-			isNewReplaceVar = false;
-			return {
-				name: action.name,
-				label: action.label || replaceVar.label,
-				value: action.value,
-				hidden: replaceVar.hidden,
-			};
-		}
-		return replaceVar;
-	} );
-
-	if ( isNewReplaceVar ) {
-		nextReplacementVariables = pushNewReplaceVar( nextReplacementVariables, action );
-	}
-
-	return {
-		...state,
-		replacementVariables: nextReplacementVariables,
-	};
-}
-
-/**
- * Updates replacement variables based off search results.
- *
- * @param {Object} state The current state.
- * @param {Object} action The action that was just dispatched.
- *
- * @returns {Object} The new state.
- */
-function customFieldResults( state, action ) {
-	// Filter out any already existing custom fields as data from server is outdated by default.
-	const results = action.results.filter( meta => {
-		return ! state.replacementVariables.some( replaceVar => replaceVar.name === ( "cf_" + meta.key ) );
-	} );
-
-	if ( results.length === 0 ) {
-		return state;
-	}
-
-	const nextReplacementVariables = [
-		...results.map( meta => ( {
-			name: "cf_" + replaceSpaces( meta.key ),
-			label: firstToUpperCase( meta.key + " (custom field)" ),
-			value: meta.value,
-			hidden: false,
-		} ) ),
-		...state.replacementVariables,
-	];
-
-
-	return {
-		...state,
-		replacementVariables: nextReplacementVariables,
 	};
 }
 
@@ -130,11 +60,30 @@ function snippetEditorReducer( state = getInitialState(), action ) {
 				},
 			};
 
-		case UPDATE_REPLACEMENT_VARIABLE:
-			return updateReplacementVariable( state, action );
+		case UPDATE_REPLACEMENT_VARIABLE: {
+			let isNewReplaceVar = true;
+			let nextReplacementVariables = state.replacementVariables.map( ( replaceVar ) => {
+				if ( replaceVar.name === action.name ) {
+					isNewReplaceVar = false;
+					return {
+						name: action.name,
+						label: action.label || replaceVar.label,
+						value: action.value,
+						hidden: replaceVar.hidden,
+					};
+				}
+				return replaceVar;
+			} );
 
-		case CUSTOM_FIELD_RESULTS:
-			return customFieldResults( state, action );
+			if ( isNewReplaceVar ) {
+				nextReplacementVariables = pushNewReplaceVar( nextReplacementVariables, action );
+			}
+
+			return {
+				...state,
+				replacementVariables: nextReplacementVariables,
+			};
+		}
 
 		case HIDE_REPLACEMENT_VARIABLES: {
 			const nextReplacementVariables = state.replacementVariables.map( ( replaceVar ) => {

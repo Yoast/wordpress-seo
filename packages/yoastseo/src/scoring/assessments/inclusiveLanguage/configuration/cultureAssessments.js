@@ -30,7 +30,7 @@ const cultureAssessments = [
 		learnMoreUrl: "https://yoa.st/",
 		caseSensitive: true,
 		rule: ( words, inclusivePhrase ) => includesConsecutiveWords( words, inclusivePhrase )
-			.filter( isFollowedByException( words, inclusivePhrase, [ "War", "war", "Quarterly", "quarterly" ] ) ),
+			.filter( isFollowedByException( words, inclusivePhrase, [ "War", "war", "Quarterly", "quarterly", "country" ] ) ),
 	},
 	{
 		identifier: "tribe",

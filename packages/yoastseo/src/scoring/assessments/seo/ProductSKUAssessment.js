@@ -22,10 +22,11 @@ export default class ProductSKUAssessment extends Assessment {
 			scores: {
 				good: 9,
 				ok: 6,
+				invalidVariantData: 0,
 			},
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/4lw" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/4lx" ),
-			assessVariants: true,
+			assessVariants: false,
 		};
 
 		this.identifier = "productSKU";
@@ -56,12 +57,13 @@ export default class ProductSKUAssessment extends Assessment {
 	}
 
 	/**
-	 * Makes the assessment temporarily not applicable, until we have access to the needed data from WooCommerce and Shopify.
+	 * Checks whether the assessment is applicable. Currently it is applicable when variants should be assessed (i.e.
+	 * in WooCommerce, but not in Shopify)
 	 *
-	 * @returns {Boolean} Always returns false.
+	 * @returns {Boolean} Whether the assessment is applicable.
 	 */
 	isApplicable() {
-		return false;
+		return this._config.assessVariants;
 	}
 
 	/**
