@@ -2,7 +2,6 @@ import Paper from "../../../../../src/values/Paper";
 import EnglishResearcher from "../../../../../src/languageProcessing/languages/en/Researcher";
 import InclusiveLanguageAssessment from "../../../../../src/scoring/assessments/inclusiveLanguage/InclusiveLanguageAssessment";
 import assessments from "../../../../../src/scoring/assessments/inclusiveLanguage/configuration/appearanceAssessments";
-import Mark from "../../../../../src/values/Mark";
 
 describe( "Age assessments", function() {
 	it( "should target non-inclusive phrases",
