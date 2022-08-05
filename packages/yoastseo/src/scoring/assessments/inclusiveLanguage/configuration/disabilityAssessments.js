@@ -12,10 +12,6 @@ const derogatory = "Avoid using <i>%1$s</i> as it is derogatory. Consider using 
 
 const medicalCondition = "Avoid using <i>%1$s</i>, unless talking about the specific medical condition. " +
 	"If you are not referencing the medical condition, consider other alternatives to describe the trait or behavior, such as %2$s.";
-const medicalConditionTwoAlternatives = "Avoid using <i>%1$s</i>, unless talking about the specific medical condition " +
-	"(in which case, use %2$s). " +
-	"If you are not referencing the medical condition, consider other alternatives to describe the trait or behavior, such as %3$s.";
-
 const potentiallyHarmfulTwoAlternatives = "Avoid using <i>%1$s</i> as it is potentially harmful. " +
 	"Consider using an alternative, such as %2$s when referring to someone's needs, or %3$s when referring to a person.";
 
@@ -398,7 +394,9 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: [ "<i>person with antisocial personality disorder</i>",
 			"<i>toxic, manipulative, cruel</i>" ],
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: medicalConditionTwoAlternatives,
+		feedbackFormat: "Be careful when using <i>%1$s</i> as it is potentially harmful. If you are referencing the " +
+			"medical condition, use %2$s instead, unless referring to someone who explicitly wants to be referred to with this term. " +
+			"If you are not referencing the medical condition, consider other alternatives to describe the trait or behavior, such as %3$s.",
 		learnMoreUrl: "https://yoa.st/",
 	},
 	{
@@ -407,7 +405,9 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: [ "<i>person with narcissistic personality disorder</i>",
 			"<i>selfish, egotistical, self-centered, self-absorbed, vain, toxic, manipulative</i>" ],
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: medicalConditionTwoAlternatives,
+		feedbackFormat: "Be careful when using <i>%1$s</i> as it is potentially harmful. If you are referencing the " +
+			"medical condition, use %2$s instead. If you are not referencing the medical condition, consider other" +
+			" alternatives to describe the trait or behavior, such as %3$s.",
 		learnMoreUrl: "https://yoa.st/",
 	},
 ];
