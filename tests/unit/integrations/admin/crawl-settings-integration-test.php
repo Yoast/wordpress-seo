@@ -2,11 +2,11 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Integrations\Admin;
 
-use Mockery;
 use Brain\Monkey;
+use Mockery;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
-use Yoast\WP\SEO\Integrations\Admin\Crawl_Settings_Integration;
 use Yoast\WP\SEO\Helpers\Product_Helper;
+use Yoast\WP\SEO\Integrations\Admin\Crawl_Settings_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**

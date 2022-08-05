@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Services\Health_Check;
 
-use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Config\Migration_Status;
 use Yoast\WP\SEO\Helpers\Options_Helper;

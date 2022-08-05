@@ -2,8 +2,6 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Presenters;
 
-use Brain\Monkey;
-use Mockery;
 use Yoast\WP\SEO\Presenters\Score_Icon_Presenter;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 

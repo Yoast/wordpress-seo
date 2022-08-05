@@ -2,8 +2,9 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Actions\Importing;
 
-use Mockery;
 use Brain\Monkey;
+use Mockery;
+use wpdb;
 use Yoast\WP\SEO\Actions\Importing\Aioseo\Aioseo_Custom_Archive_Settings_Importing_Action;
 use Yoast\WP\SEO\Actions\Importing\Aioseo\Aioseo_Default_Archive_Settings_Importing_Action;
 use Yoast\WP\SEO\Actions\Importing\Aioseo\Aioseo_General_Settings_Importing_Action;
@@ -36,7 +37,7 @@ class Aioseo_Validate_Data_Action_Test extends TestCase {
 	/**
 	 * The mocked WordPress database object.
 	 *
-	 * @var Mockery\MockInterface|\wpdb
+	 * @var Mockery\MockInterface|wpdb
 	 */
 	protected $wpdb;
 

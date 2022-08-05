@@ -2,11 +2,11 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Services\Health_Check;
 
+use Mockery;
 use Yoast\WP\SEO\Services\Health_Check\Curl_Check;
 use Yoast\WP\SEO\Services\Health_Check\Curl_Reports;
 use Yoast\WP\SEO\Services\Health_Check\Curl_Runner;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Mockery;
 
 /**
  * Curl_Check

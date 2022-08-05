@@ -2,11 +2,9 @@
 // @phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- This namespace should reflect the namespace of the tested class.
 namespace Yoast\WP\SEO\Tests\Unit\Generators\Schema\Third_Party;
 
-use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\User_Helper;
-use Yoast\WP\SEO\Generators\Schema\Third_Party\CoAuthor;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Generators\Schema\Third_Party\CoAuthor_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 

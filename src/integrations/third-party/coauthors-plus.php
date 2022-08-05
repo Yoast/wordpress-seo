@@ -2,9 +2,10 @@
 
 namespace Yoast\WP\SEO\Integrations\Third_Party;
 
-use Yoast\WP\SEO\Config\Schema_Types;
+use WP_User;
 use Yoast\WP\SEO\Conditionals\Third_Party\CoAuthors_Plus_Activated_Conditional;
 use Yoast\WP\SEO\Conditionals\Third_Party\CoAuthors_Plus_Flag_Conditional;
+use Yoast\WP\SEO\Config\Schema_Types;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Generators\Schema\Abstract_Schema_Piece;
 use Yoast\WP\SEO\Generators\Schema\Third_Party\CoAuthor;
@@ -102,7 +103,7 @@ class CoAuthors_Plus implements Integration_Interface {
 		/**
 		 * Contains the authors from the CoAuthors Plus plugin.
 		 *
-		 * @var \WP_User[] $author_objects
+		 * @var WP_User[] $author_objects
 		 */
 		$author_objects = \get_coauthors( $context->post->ID );
 		if ( \count( $author_objects ) <= 1 ) {
