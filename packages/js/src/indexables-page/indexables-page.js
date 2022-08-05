@@ -129,7 +129,7 @@ function IndexablesPage() {
 	const isPremiumInstalled = Boolean( wpseoIndexablesPageData.isPremium );
 	const isLinkSuggestionsEnabled = Boolean( wpseoIndexablesPageData.isLinkSuggestionsEnabled );
 
-	const [ listedIndexables, setlistedIndexables ] = useState(
+	const [ indexablesLists, setIndexablesLists ] = useState(
 		{
 			least_readability: null,
 			least_seo_score: null,
@@ -137,7 +137,17 @@ function IndexablesPage() {
 			least_linked: null,
 		}
 	);
-	const [ ignoreIndexable, setIgnoreIndexable ] = useState( null );
+
+	const [ indexablesListsFetchLength, setIndexablesListsFetchLength ] = useState(
+		{
+			least_readability: null,
+			least_seo_score: null,
+			most_linked: null,
+			least_linked: null,
+		}
+	);
+
+	const [ ignoredIndexable, setIgnoredIndexable ] = useState( null );
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
 	const [ suggestedLinksModalContent, setSuggestedLinksModalContent ] = useState( null );
 	const [ setupInfo, setSetupInfo ] = useState( null );
@@ -157,20 +167,20 @@ function IndexablesPage() {
 			} );
 
 			const parsedResponse = await response.json;
-			let newList = parsedResponse.list;
 
-			if ( ignoreIndexable !== null ) {
-				newList = newList.filter( indexable => {
-					return indexable.id !== ignoreIndexable.indexable.id;
-				} );
-			}
-
-			setlistedIndexables( prevState => {
+			setIndexablesLists( prevState => {
 				return {
 					...prevState,
-					[ listName ]: newList,
+					[ listName ]: parsedResponse.list,
 				};
-			  } );
+			} );
+
+			setIndexablesListsFetchLength( prevState => {
+				return {
+					...prevState,
+					[ listName ]: parsedResponse.list.length,
+				};
+			} );
 			return true;
 		} catch ( e ) {
 			// URL() constructor throws a TypeError exception if url is malformed.
@@ -186,16 +196,16 @@ function IndexablesPage() {
 	 *
 	 * @returns {void}
 	 */
-	const renderList = ( listName ) => {
-		if ( ignoreIndexable === null ) {
+	const maybeRemoveIgnored = ( listName ) => {
+		if ( ignoredIndexable === null ) {
 			return;
 		}
 
-		setlistedIndexables( prevState => {
+		setIndexablesLists( prevState => {
 			return {
 				...prevState,
 				[ listName ]: prevState[ listName ].filter( indexable => {
-					return indexable.id !== ignoreIndexable.indexable.id;
+					return indexable.id !== ignoredIndexable.indexable.id;
 				} ),
 			};
 		} );
@@ -205,18 +215,19 @@ function IndexablesPage() {
 	/**
 	 * Updates the content of a list of indexables.
 	 *
-	 * @param {string} listName   The name of the list to fetch.
-	 * @param {array}  indexables The name of the list to fetch.
+	 * @param {string} listName       The name of the list to fetch.
+	 * @param {array}  indexablesList The current content of the list.
 	 *
 	 * @returns {boolean} True if the update was successful.
 	 */
-	const updateList = ( listName, indexables ) => {
-		// @TODO: we have to also check if there are even other posts to re-fetch and if not, let's just render.
-		if ( indexables === null ) {
+	const updateList = ( listName, indexablesList ) => {
+		if ( indexablesList === null ) {
 			return fetchList( listName );
 		}
 
-		return ( indexables.length < minimumIndexablesInBuffer ) ? fetchList( listName ) : renderList( listName );
+		return ( indexablesList.length < minimumIndexablesInBuffer  && indexablesListsFetchLength[ listName ] >= minimumIndexablesInBuffer )
+			? fetchList( listName )
+			: maybeRemoveIgnored( listName );
 	};
 
 	useEffect( async() => {
@@ -239,20 +250,28 @@ function IndexablesPage() {
 		if ( setupInfo ) {
 			if ( setupInfo.enoughContent && setupInfo.enoughAnalysedContent ) {
 				if ( setupInfo.enabledFeatures.isReadabilityEnabled ) {
-					updateList( "least_readability", listedIndexables.least_readability );
+					updateList( "least_readability", indexablesLists.least_readability );
 				}
 
 				if ( setupInfo.enabledFeatures.isSeoScoreEnabled ) {
-					updateList( "least_seo_score", listedIndexables.least_seo_score );
+					updateList( "least_seo_score", indexablesLists.least_seo_score );
 				}
 
 				if ( setupInfo.enabledFeatures.isLinkCountEnabled ) {
-					updateList( "most_linked", listedIndexables.most_linked );
-					updateList( "least_linked", listedIndexables.least_linked );
+					updateList( "most_linked", indexablesLists.most_linked );
+					updateList( "least_linked", indexablesLists.least_linked );
 				}
 			}
 		}
 	}, [ setupInfo ] );
+
+	// We update a list each time the content of ignoredIndexable changes
+	useEffect( async() => {
+		if ( ignoredIndexable !== null ) {
+			return updateList( ignoredIndexable.type, indexablesLists[ ignoredIndexable.type ] );
+		}
+	}, [ ignoredIndexable ] );
+
 	/**
 	 * Handles the rendering of the links modal.
 	 *
@@ -350,7 +369,7 @@ function IndexablesPage() {
 
 			const parsedResponse = await response.json;
 			if ( parsedResponse.success ) {
-				setlistedIndexables( prevState => {
+				setIndexablesLists( prevState => {
 					const newData = prevState[ type ].slice( 0 );
 
 					newData.splice( position, 0, indexable );
@@ -359,7 +378,7 @@ function IndexablesPage() {
 						[ type ]: newData,
 					};
 				} );
-				setIgnoreIndexable( null );
+				setIgnoredIndexable( null );
 				return true;
 			}
 			// @TODO: Throw an error notification.
@@ -370,18 +389,11 @@ function IndexablesPage() {
 			console.error( error.message );
 			return false;
 		}
-	}, [ apiFetch, setlistedIndexables, listedIndexables, setIgnoreIndexable ] );
+	}, [ apiFetch, setIndexablesLists, indexablesLists, setIgnoredIndexable ] );
 
 	const onClickUndo = useCallback( ( ignored ) => {
 		return () => handleUndo( ignored );
 	}, [ handleUndo ] );
-
-	// We update a list each time the content of ignoreIndexable changes
-	useEffect( async() => {
-		if ( ignoreIndexable !== null ) {
-			return updateList( ignoreIndexable.type, listedIndexables[ ignoreIndexable.type ] );
-		}
-	}, [ ignoreIndexable ] );
 
 	/**
 	 * Renders the suggested links modal content.
@@ -390,6 +402,7 @@ function IndexablesPage() {
 	 */
 	const renderSuggestedLinksModal = () => {
 		if ( ! isLinkSuggestionsEnabled ) {
+			// @TODO: needs UX
 			return <span>You have links suggestion disabled.</span>;
 		}
 
@@ -457,6 +470,7 @@ function IndexablesPage() {
 	};
 
 	if ( setupInfo && Object.values( setupInfo.enabledFeatures ).every( value => value === false ) ) {
+		// @TODO: needs UX
 		return <span>All features deactivated.</span>;
 	} else if ( setupInfo && setupInfo.enoughContent === false ) {
 		return <NotEnoughContent />;
@@ -478,16 +492,16 @@ function IndexablesPage() {
 			className="yst-max-w-7xl yst-grid yst-grid-cols-1 2xl:yst-grid-cols-2 2xl:yst-grid-rows-2 2xl:yst-grid-flow-row 2xl:yst-auto-rows-fr yst-gap-6"
 		>
 			{
-				( listedIndexables.least_seo_score && listedIndexables.least_seo_score.length > 0 ) && <IndexablesPageCard title={ __( "Lowest SEO scores", "wordpress-seo" ) } isLoading={ listedIndexables.least_seo_score !== null }>
+				( indexablesLists.least_seo_score && indexablesLists.least_seo_score.length > 0 ) && <IndexablesPageCard title={ __( "Lowest SEO scores", "wordpress-seo" ) } isLoading={ indexablesLists.least_seo_score !== null }>
 					<IndexablesTable>
 						{
-							listedIndexables.least_seo_score.slice( 0, listSize ).map(
+							indexablesLists.least_seo_score.slice( 0, listSize ).map(
 								( indexable, position ) => {
 									return <IndexablesTable.Row
 										key={ `indexable-${ indexable.id }-row` }
 										type="least_seo_score"
 										indexable={ indexable }
-										addToIgnoreList={ setIgnoreIndexable }
+										addToIgnoreList={ setIgnoredIndexable }
 										position={ position }
 									>
 										<IndexableScore
@@ -513,16 +527,16 @@ function IndexablesPage() {
 				</IndexablesPageCard>
 			}
 			{
-				( listedIndexables.least_readability && listedIndexables.least_readability.length > 0 ) && <IndexablesPageCard title={ __( "Lowest readability scores", "wordpress-seo" ) } isLoading={ listedIndexables.least_readability !== null }>
+				( indexablesLists.least_readability && indexablesLists.least_readability.length > 0 ) && <IndexablesPageCard title={ __( "Lowest readability scores", "wordpress-seo" ) } isLoading={ indexablesLists.least_readability !== null }>
 					<IndexablesTable>
 						{
-							listedIndexables.least_readability.slice( 0, listSize ).map(
+							indexablesLists.least_readability.slice( 0, listSize ).map(
 								( indexable, position ) => {
 									return <IndexablesTable.Row
 										key={ `indexable-${ indexable.id }-row` }
 										type="least_readability"
 										indexable={ indexable }
-										addToIgnoreList={ setIgnoreIndexable }
+										addToIgnoreList={ setIgnoredIndexable }
 										position={ position }
 									>
 										<IndexableScore
@@ -548,16 +562,16 @@ function IndexablesPage() {
 				</IndexablesPageCard>
 			}
 			{
-				( listedIndexables.least_linked && listedIndexables.least_linked.length > 0 ) && <IndexablesPageCard title={ __( "Lowest number of incoming links", "wordpress-seo" ) } isLoading={ listedIndexables.least_linked !== null }>
+				( indexablesLists.least_linked && indexablesLists.least_linked.length > 0 ) && <IndexablesPageCard title={ __( "Lowest number of incoming links", "wordpress-seo" ) } isLoading={ indexablesLists.least_linked !== null }>
 					<IndexablesTable>
 						{
-							listedIndexables.least_linked.slice( 0, listSize ).map(
+							indexablesLists.least_linked.slice( 0, listSize ).map(
 								( indexable, position ) => {
 									return <IndexablesTable.Row
 										key={ `indexable-${ indexable.id }-row` }
 										type="least_linked"
 										indexable={ indexable }
-										addToIgnoreList={ setIgnoreIndexable }
+										addToIgnoreList={ setIgnoredIndexable }
 										position={ position }
 									>
 										<IndexableLinkCount key={ `least-linked-score-${ indexable.id }` } count={ parseInt( indexable.incoming_link_count, 10 ) } />
@@ -582,16 +596,16 @@ function IndexablesPage() {
 				</IndexablesPageCard>
 			}
 			{
-				( listedIndexables.most_linked && listedIndexables.most_linked.length > 0 ) && <IndexablesPageCard title={ __( "Highest number of incoming links", "wordpress-seo" ) } isLoading={ listedIndexables.most_linked !== null }>
+				( indexablesLists.most_linked && indexablesLists.most_linked.length > 0 ) && <IndexablesPageCard title={ __( "Highest number of incoming links", "wordpress-seo" ) } isLoading={ indexablesLists.most_linked !== null }>
 					<IndexablesTable>
 						{
-							listedIndexables.most_linked.slice( 0, listSize ).map(
+							indexablesLists.most_linked.slice( 0, listSize ).map(
 								( indexable, position ) => {
 									return <IndexablesTable.Row
 										key={ `indexable-${ indexable.id }-row` }
 										type="most_linked"
 										indexable={ indexable }
-										addToIgnoreList={ setIgnoreIndexable }
+										addToIgnoreList={ setIgnoredIndexable }
 										position={ position }
 									>
 										<IndexableLinkCount key={ `most-linked-score-${ indexable.id }` } count={ parseInt( indexable.incoming_link_count, 10 ) } />
@@ -612,7 +626,7 @@ function IndexablesPage() {
 				</IndexablesPageCard>
 			}
 		</div>
-		{ ignoreIndexable && <div className="yst-flex yst-justify-center"><Button className="yst-button yst-button--primary" onClick={ onClickUndo( ignoreIndexable ) }>{ `Undo ignore ${ignoreIndexable.indexable.id}` }</Button></div> }
+		{ ignoredIndexable && <div className="yst-flex yst-justify-center"><Button className="yst-button yst-button--primary" onClick={ onClickUndo( ignoredIndexable ) }>{ `Undo ignore ${ignoredIndexable.indexable.id}` }</Button></div> }
 	</div>;
 }
 
