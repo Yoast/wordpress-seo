@@ -108,6 +108,14 @@ const InclusiveLanguageAnalysis = ( props ) => {
 			<Fragment>
 				<AnalysisHeader>
 					{ __( "Analysis results", "wordpress-seo" ) }
+					<StyledHelpLink
+						href={ analysisInfoLink }
+						className="dashicons"
+					>
+						<span className="screen-reader-text">
+							{ __( "Learn more about the inclusive language analysis", "wordpress-seo" ) }
+						</span>
+					</StyledHelpLink>
 				</AnalysisHeader>
 				<GoodJobAnalysisResult>
 					<ScoreIcon
