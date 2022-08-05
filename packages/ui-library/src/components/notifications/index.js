@@ -2,7 +2,7 @@
 import { Transition } from "@headlessui/react";
 import PropTypes from "prop-types";
 import { useState, useCallback, useEffect, useContext, createContext } from "@wordpress/element";
-import { XCircleIcon, CheckCircleIcon, ExclamationIcon, XIcon, InformationCircleIcon } from "@heroicons/react/outline";
+import { ExclamationCircleIcon, CheckCircleIcon, ExclamationIcon, XIcon, InformationCircleIcon } from "@heroicons/react/outline";
 import { isArray, keys } from "lodash";
 import classNames from "classnames";
 
@@ -35,7 +35,7 @@ const notificationsIconMap = {
 	info: InformationCircleIcon,
 	warning: ExclamationIcon,
 	success: CheckCircleIcon,
-	error: XCircleIcon,
+	error: ExclamationCircleIcon,
 };
 
 /**

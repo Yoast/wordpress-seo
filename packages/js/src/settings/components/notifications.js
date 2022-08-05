@@ -59,7 +59,7 @@ const ValidationErrorsNotification = ( { id, onDismiss, ...props } ) => {
 						<Link to={ `${ get( searchIndex, `${ name }.route`, "404" ) }#${ get( searchIndex, `${ name }.fieldId`, "" ) }` }>
 							{ `${get( searchIndex, `${ name }.routeLabel`, "" )} - ${get( searchIndex, `${ name }.fieldLabel`, "" )}:` }
 						</Link>
-					&nbsp;
+						&nbsp;
 						{ error }
 					</li>
 				) ) }
