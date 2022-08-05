@@ -27,13 +27,6 @@ class WPSEO_Inclusive_Language_Notice {
 	const OPTION_NAME = 'wpseo';
 
 	/**
-	 * Holds the options.
-	 *
-	 * @var array
-	 */
-	protected $options;
-
-	/**
 	 * Holds the notification center.
 	 *
 	 * @var Yoast_Notification_Center
@@ -41,12 +34,11 @@ class WPSEO_Inclusive_Language_Notice {
 	protected $notification_center;
 
 	/**
-	 * Sets the options, because they always have to be there on instance.
+	 * WPSEO_Inclusive_Language_Notice constructor.
 	 *
 	 * @param Yoast_Notification_Center $notification_center  The notification center to add notifications to.
 	 */
 	public function __construct( Yoast_Notification_Center $notification_center ) {
-		$this->options             = $this->get_options();
 		$this->notification_center = $notification_center;
 	}
 
@@ -110,21 +102,5 @@ class WPSEO_Inclusive_Language_Notice {
 	 */
 	protected function dismiss_notice() {
 		update_user_meta( get_current_user_id(), self::USER_META_DISMISSED, true );
-	}
-
-	/**
-	 * Returns the set options.
-	 *
-	 * @return mixed
-	 */
-	protected function get_options() {
-		return get_option( self::OPTION_NAME );
-	}
-
-	/**
-	 * Saves the options to the database.
-	 */
-	protected function save_options() {
-		update_option( self::OPTION_NAME, $this->options );
 	}
 }
