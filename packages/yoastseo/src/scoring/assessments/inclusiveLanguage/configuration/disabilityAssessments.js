@@ -112,7 +112,8 @@ const disabilityAssessments =  [
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: "https://yoa.st/",
 		rule: ( words, inclusivePhrase ) => includesConsecutiveWords( words, inclusivePhrase )
-			.filter( isFollowedByException( words, inclusivePhrase, [ "toilet", "toilets", "parking", "bathroom", "bathrooms" ] ) ),
+			.filter( isFollowedByException( words, inclusivePhrase, [ "toilet", "toilets", "parking", "bathroom",
+				"bathrooms", "stall", "stalls" ] ) ),
 	},
 	{
 		identifier: "insane",
@@ -249,8 +250,8 @@ const disabilityAssessments =  [
 		learnMoreUrl: "https://yoa.st/",
 	},
 	{
-		identifier: "disabledStall",
-		nonInclusivePhrases: [ "disabled stall", "disabled stalls", "handicap stall", "handicap stalls" ],
+		identifier: "handicapStall",
+		nonInclusivePhrases: [ "handicap stall", "handicap stalls" ],
 		inclusiveAlternatives: "<i>accessible stall(s)</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
