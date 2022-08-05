@@ -58,7 +58,7 @@ describe( "a test for SKU assessment for WooCommerce", function() {
 			" this if you can, as it will help search engines to better understand your content.</a>" );
 	} );
 
-	it( "returns the score 6 when a product has no global SKU, but has variants and not all variants have an SKU", function() {
+	it( "returns the score 6 when a product has no global SKU, but has variants and not all variants have a SKU", function() {
 		const assessmentResult = assessment.getResult( paper, Factory.buildMockResearcher( {
 			hasGlobalSKU: false,
 			hasVariants: true,
