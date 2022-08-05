@@ -1,5 +1,6 @@
 import { createInterpolateElement, useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
+import { Alert } from "@yoast/ui-library";
 import classNames from "classnames";
 import { useFormikContext } from "formik";
 import { addLinkToString } from "../../helpers/stringHelpers";
@@ -126,10 +127,14 @@ const PageAndPosts = () => {
 		"link-homepage-posts-page-edit"
 	) );
 
-	return <>
-		<p>{ homepagePageEditDescription }</p>
-		{ homepagePostsEditUrl && <p className="yst-pt-2">{ homepagePostsEditDescription }</p> }
-	</>;
+	return (
+		<div className="yst-max-w-screen-sm">
+			<Alert>
+				<p>{ homepagePageEditDescription }</p>
+				{ homepagePostsEditUrl && <p className="yst-pt-2">{ homepagePostsEditDescription }</p> }
+			</Alert>
+		</div>
+	);
 };
 
 /**
