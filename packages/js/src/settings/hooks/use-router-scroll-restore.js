@@ -6,20 +6,21 @@ import { useLocation } from "react-router-dom";
  * @returns {void}
  */
 const useHashRouterScrollIntoView = () => {
-	const location = useLocation();
+	const { hash, pathname } = useLocation();
 
 	useEffect( () => {
-		if ( ! location.hash ) {
+		if ( ! hash ) {
+			setTimeout( () => window.scrollTo( 0, 0 ), 100 );
 			return;
 		}
 
 		setTimeout( () => {
-			const element = document.getElementById( location.hash.replace( "#", "" ) );
+			const element = document.getElementById( hash.replace( "#", "" ) );
 			if ( element ) {
-				element.scrollIntoView();
+				element.scrollIntoView( { behavior: "smooth" } );
 			}
 		}, 100 );
-	}, [ location ] );
+	}, [ pathname, hash ] );
 };
 
 export default useHashRouterScrollIntoView;

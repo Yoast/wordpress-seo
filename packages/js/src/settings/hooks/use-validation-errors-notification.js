@@ -51,6 +51,8 @@ const useValidationErrorsNotification = () => {
 				title: __( "Oh no! It seems your form contains invalid data. Please review the following fields to get that sorted:", "wordpress-seo" ),
 				description,
 			} );
+		}
+		if ( submitCount > prevSubmitCount ) {
 			setPrevSubmitCount( submitCount );
 		}
 	}, [ submitCount, errors ] );

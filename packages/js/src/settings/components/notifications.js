@@ -6,12 +6,14 @@ import { useDispatch } from "@wordpress/data";
 import { Notifications as NotificationsUi } from "@yoast/ui-library";
 import { useSelectSettings } from "../store";
 import { STORE_NAME } from "../constants";
+// import { useValidationErrorsNotification } from "../hooks";
 
 /**
  * The Notifications component shows general notifications in the top-middle of the window.
  * @returns {JSX.Element} The Notifications component.
  */
 const Notifications = () => {
+	// useValidationErrorsNotification();
 	const { removeNotification } = useDispatch( STORE_NAME );
 	const notifications = useSelectSettings( "selectNotifications" );
 	const enrichedNotifications = useMemo( () => map( notifications, notification => ( {
