@@ -9,6 +9,7 @@ use WPSEO_Shortlinker;
  * Presents a set of different messages for the cURL health check.
  */
 class Curl_Reports {
+
 	use Reports_Trait;
 
 	/**

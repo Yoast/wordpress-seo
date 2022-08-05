@@ -101,7 +101,7 @@ class Robots_Txt_Integration implements Integration_Interface {
 		// If our sitemap is already output, bail.
 		if ( \strpos( $robots_txt, $sitemap ) !== false ) {
 			return $robots_txt;
-		};
+		}
 
 		return \trim( $robots_txt ) . "\n\n" . $sitemap . "\n";
 	}
@@ -131,7 +131,7 @@ class Robots_Txt_Integration implements Integration_Interface {
 			// If our sitemap is already output, bail.
 			if ( \strpos( $robots_txt, $sitemap ) !== false ) {
 				continue;
-			};
+			}
 
 			$sitemaps .= $sitemap . "\n";
 		}

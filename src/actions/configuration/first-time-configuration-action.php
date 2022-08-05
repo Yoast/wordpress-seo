@@ -129,7 +129,7 @@ class First_Time_Configuration_Action {
 	public function set_person_social_profiles( $params ) {
 		$social_profiles = \array_filter(
 			$params,
-			function ( $key ) {
+			static function ( $key ) {
 				return $key !== 'user_id';
 			},
 			ARRAY_FILTER_USE_KEY

@@ -13,6 +13,7 @@ use Yoast\WP\SEO\Presenters\Admin\Alert_Presenter;
  * @codeCoverageIgnore
  */
 class Ryte_Reports {
+
 	use Reports_Trait;
 
 	/**

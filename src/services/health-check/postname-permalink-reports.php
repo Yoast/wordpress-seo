@@ -6,6 +6,7 @@ namespace Yoast\WP\SEO\Services\Health_Check;
  * Presents a set of different messages for the Postname_Permalink health check.
  */
 class Postname_Permalink_Reports {
+
 	use Reports_Trait;
 
 	/**
