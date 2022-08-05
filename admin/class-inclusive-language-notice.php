@@ -76,7 +76,7 @@ class WPSEO_Inclusive_Language_Notice {
 	 * @return bool Whether or not the notification should be shown.
 	 */
 	public function should_show_notification() {
-		$availability  = new WPSEO_Metabox_Analysis_Inclusive_Language();
+		$availability = new WPSEO_Metabox_Analysis_Inclusive_Language();
 
 		return YoastSEO()->helpers->product->is_premium()
 			&& YoastSEO()->helpers->language->has_inclusive_language_support( \WPSEO_Language_Utils::get_language( \get_locale() ) )
