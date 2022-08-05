@@ -195,12 +195,9 @@ class WPSEO_Admin_Init {
 	 * Notification should pop up if user has Premium activated, the site language is English and the feature toggle is not switched on.
 	 */
 	protected function set_inclusive_language_notice() {
-		$site_language             = WPSEO_Language_Utils::get_language( \get_locale() );
-		$inclusive_language        = new WPSEO_Inclusive_Language_Notice( Yoast_Notification_Center::get() );
-		$availability              = new WPSEO_Metabox_Analysis_Inclusive_Language();
-		$inclusive_enabled_by_user = $availability->is_globally_enabled();
+		$inclusive_language = new WPSEO_Inclusive_Language_Notice( Yoast_Notification_Center::get() );
 
-		if ( YoastSEO()->helpers->product->is_premium() && $site_language === 'en' && ! $inclusive_enabled_by_user ) {
+		if ( $inclusive_language->should_show_notification() ) {
 			$inclusive_language->add_notification();
 			$inclusive_language->dismiss_notice_listener();
 		}
