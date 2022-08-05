@@ -9,14 +9,11 @@ const useHashRouterScrollIntoView = () => {
 	const { hash, pathname } = useLocation();
 
 	useEffect( () => {
-		if ( ! hash ) {
-			window.scrollTo( 0, 0 );
-			return;
-		}
+		// Auto-scroll to hash or root element.
+		const target = hash ? document.getElementById( hash.replace( "#", "" ) ) : document.getElementById( "yoast-seo-settings" );
 
-		const element = document.getElementById( hash.replace( "#", "" ) );
-		if ( element ) {
-			element.scrollIntoView( { behavior: "smooth" } );
+		if ( target ) {
+			target.scrollIntoView( { behavior: "smooth" } );
 		}
 	}, [ pathname, hash ] );
 };
