@@ -11,7 +11,7 @@ const otherAssessments = [
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: "Be careful when using <i>%1$s</i> as it may overgeneralize or be harmful. " +
 						"Instead, be specific about the group you are referring to (e.g. %2$s).",
-		learnMoreUrl: "https://yoa.st/4ls",
+		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "minorities",
