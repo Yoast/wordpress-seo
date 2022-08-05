@@ -26,6 +26,7 @@ const slice = createSlice( {
 
 export const searchSelectors = {
 	selectSearchIndex: ( state ) => get( state, "search.index", {} ),
+	// selectFlatSearchIndex: ( state ) => get( state, "search.ndex", {} ),
 };
 
 export const searchActions = slice.actions;

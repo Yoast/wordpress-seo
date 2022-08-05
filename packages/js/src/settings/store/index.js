@@ -12,7 +12,7 @@ import replacementVariables, {
 import schema, { createInitialSchemaState, schemaActions, schemaSelectors } from "./schema";
 import taxonomies, { createInitialTaxonomiesState, taxonomiesActions, taxonomiesSelectors } from "./taxonomies";
 import media, { mediaActions, mediaSelectors, FETCH_MEDIA_ACTION_NAME } from "./media";
-import search, { searchActions } from "./search";
+import search, { searchActions, searchSelectors } from "./search";
 import { STORE_NAME } from "../constants";
 import { mediaClient } from "../helpers";
 
@@ -52,6 +52,7 @@ const createStore = ( { initialState } ) => {
 			...schemaSelectors,
 			...taxonomiesSelectors,
 			...mediaSelectors,
+			...searchSelectors,
 		},
 		initialState: merge(
 			{},
