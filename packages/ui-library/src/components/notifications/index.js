@@ -41,6 +41,7 @@ const notificationsIconMap = {
 /**
  *
  * @param {Object} props The props object.
+ * @param {JSX.node} children The children.
  * @param {string} [variant] The message variant. Either success or error.
  * @param {string} title The message title.
  * @param {string|string[]} [description] The message description.
@@ -50,6 +51,7 @@ const notificationsIconMap = {
  * @returns {JSX.Element} The Notification component.
  */
 const Notification = ( {
+	children,
 	id,
 	variant = "info",
 	size = "default",
@@ -90,11 +92,11 @@ const Notification = ( {
 		<Transition
 			show={ isVisible }
 			enter={ "yst-transition yst-ease-in-out yst-duration-150" }
-			enterFrom={ notificationClassNameMap.position[ position ] }
+			enterFrom={ classNames( "yst-opacity-0", notificationClassNameMap.position[ position ] ) }
 			enterTo="yst-translate-y-0"
 			leave={ "yst-transition yst-ease-in-out yst-duration-150" }
 			leaveFrom="yst-translate-y-0"
-			leaveTo={ notificationClassNameMap.position[ position ] }
+			leaveTo={ classNames( "yst-opacity-0", notificationClassNameMap.position[ position ] ) }
 			className={ classNames(
 				"yst-notification",
 				notificationClassNameMap.variant[ variant ],
@@ -110,11 +112,13 @@ const Notification = ( {
 					<p className="yst-text-sm yst-font-medium yst-text-gray-700">
 						{ title }
 					</p>
-					{ description && ( isArray( description ) ? (
-						<ul className="yst-list-disc yst-ml-4">{ description.map( ( text ) => <li className="yst-pt-1" key={ text }>{ text }</li> ) }</ul>
-					) : (
-						<p>{ description }</p>
-					) ) }
+					{ children || (
+						description && ( isArray( description ) ? (
+							<ul className="yst-list-disc yst-ml-4">{ description.map( ( text, index ) => <li className="yst-pt-1" key={ `${ text }-${ index }` }>{ text }</li> ) }</ul>
+						) : (
+							<p>{ description }</p>
+						) )
+					) }
 				</div>
 				{ onDismiss && (
 					<div className="yst-flex-shrink-0 yst-flex">
@@ -130,6 +134,7 @@ const Notification = ( {
 };
 
 Notification.propTypes = {
+	children: PropTypes.node,
 	id: PropTypes.string.isRequired,
 	variant: PropTypes.oneOf( keys( notificationClassNameMap.variant ) ),
 	size: PropTypes.oneOf( keys( notificationClassNameMap.size ) ),

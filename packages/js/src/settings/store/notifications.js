@@ -20,9 +20,9 @@ const slice = createSlice( {
 					description: payload.description,
 				};
 			},
-			prepare: ( { variant = "info", size = "default", title, description } ) => ( {
+			prepare: ( { id, variant = "info", size = "default", title, description } ) => ( {
 				payload: {
-					id: nanoid(),
+					id: id || nanoid(),
 					variant,
 					size,
 					title,
@@ -30,13 +30,13 @@ const slice = createSlice( {
 				},
 			} ),
 		},
-		removeNotification: ( state, { payload } ) => omit( state, payload?.id ),
+		removeNotification: ( state, { payload } ) => omit( state, payload ),
 	},
 } );
 
 export const notificationsSelectors = {
 	selectNotifications: ( state ) => get( state, "notifications", {} ),
-	selectNotification: ( state, id ) => get( state, `notifications.${ id }`, {} ),
+	selectNotification: ( state, id ) => get( state, `notifications.${ id }`, null ),
 };
 
 export const notificationsActions = slice.actions;
