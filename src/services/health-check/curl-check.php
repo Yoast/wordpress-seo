@@ -45,7 +45,7 @@ class Curl_Check extends Health_Check {
 	 * @return string The human-readable label.
 	 */
 	public function get_test_label() {
-		return __( 'cURL', 'wordpress-seo' );
+		return \__( 'cURL', 'wordpress-seo' );
 	}
 
 	/**

@@ -41,9 +41,9 @@ class Curl_Reports {
 	public function get_success_result() {
 		return $this->get_report_builder()
 			/* translators: %1$s expands to 'Yoast'. */
-			->set_label( sprintf( __( '%1$s premium plugin updates work fine', 'wordpress-seo' ), 'Yoast' ) )
+			->set_label( \sprintf( \__( '%1$s premium plugin updates work fine', 'wordpress-seo' ), 'Yoast' ) )
 			->set_status_good()
-			->set_description( __( 'Great! You can activate your premium plugin(s) and receive updates.', 'wordpress-seo' ) )
+			->set_description( \__( 'Great! You can activate your premium plugin(s) and receive updates.', 'wordpress-seo' ) )
 			->build();
 	}
 
@@ -55,7 +55,7 @@ class Curl_Reports {
 	public function get_my_yoast_api_not_reachable_result() {
 		return $this->get_report_builder()
 			/* translators: %1$s expands to 'Yoast'. */
-			->set_label( sprintf( __( '%1$s premium plugins cannot update', 'wordpress-seo' ), 'Yoast' ) )
+			->set_label( \sprintf( \__( '%1$s premium plugins cannot update', 'wordpress-seo' ), 'Yoast' ) )
 			->set_status_critical()
 			->set_description( $this->get_my_yoast_api_not_reachable_description() )
 			->build();
@@ -67,12 +67,12 @@ class Curl_Reports {
 	 * @return string The description containing a link to a Yoast help page about keeping cURL up to date.
 	 */
 	private function get_my_yoast_api_not_reachable_description() {
-		return sprintf(
+		return \sprintf(
 			/* translators: %1$s Emphasis open tag, %2$s: Emphasis close tag, %3$s Link start tag to the Yoast help center, %4$s Link closing tag, %5$s to Yoast SEO, %6$s to my.yoast.com. */
-			esc_html__( 'You can %1$snot%2$s activate your premium plugin(s) and receive updates because %5$s cannot connect to %6$s. A common cause for not being able to connect is an out-of-date version of cURL, software used to connect to other servers. However, your cURL version seems fine. Please talk to your host and, if needed, the Yoast support team to figure out what is broken. %3$sRead more about cURL in our help center%4$s.', 'wordpress-seo' ),
+			\esc_html__( 'You can %1$snot%2$s activate your premium plugin(s) and receive updates because %5$s cannot connect to %6$s. A common cause for not being able to connect is an out-of-date version of cURL, software used to connect to other servers. However, your cURL version seems fine. Please talk to your host and, if needed, the Yoast support team to figure out what is broken. %3$sRead more about cURL in our help center%4$s.', 'wordpress-seo' ),
 			'<em>',
 			'</em>',
-			'<a href="' . esc_url( $this->shortlinker->get( 'https://yoa.st/3u8' ) ) . '" target="_blank">',
+			'<a href="' . \esc_url( $this->shortlinker->get( 'https://yoa.st/3u8' ) ) . '" target="_blank">',
 			WPSEO_Admin_Utils::get_new_tab_message() . '</a>',
 			'Yoast SEO',
 			'my.yoast.com'
@@ -87,7 +87,7 @@ class Curl_Reports {
 	public function get_no_recent_curl_version_installed_result() {
 		return $this->get_report_builder()
 			/* translators: %1$s expands to 'Yoast'. */
-			->set_label( sprintf( __( '%1$s premium plugins cannot update', 'wordpress-seo' ), 'Yoast' ) )
+			->set_label( \sprintf( \__( '%1$s premium plugins cannot update', 'wordpress-seo' ), 'Yoast' ) )
 			->set_status_critical()
 			->set_description( $this->get_no_recent_curl_version_installed_description() )
 			->build();
@@ -99,12 +99,12 @@ class Curl_Reports {
 	 * @return string The description containing a link to a Yoast help page about keeping cURL up to date.
 	 */
 	private function get_no_recent_curl_version_installed_description() {
-		return sprintf(
+		return \sprintf(
 			/* translators: %1$s Emphasis open tag, %2$s: Emphasis close tag, %3$s Link start tag to the Yoast help center, %4$s Link closing tag, %5$s to Yoast SEO, %6$s to my.yoast.com. */
-			esc_html__( 'You can %1$snot%2$s activate your premium plugin(s) and receive updates because %5$s cannot connect to %6$s. The cause for this error is probably that the cURL software on your server is too old. Please contact your host and ask them to update it to at least version 7.34. %3$sRead more about cURL in our help center%4$s.', 'wordpress-seo' ),
+			\esc_html__( 'You can %1$snot%2$s activate your premium plugin(s) and receive updates because %5$s cannot connect to %6$s. The cause for this error is probably that the cURL software on your server is too old. Please contact your host and ask them to update it to at least version 7.34. %3$sRead more about cURL in our help center%4$s.', 'wordpress-seo' ),
 			'<em>',
 			'</em>',
-			'<a href="' . esc_url( $this->shortlinker->get( 'https://yoa.st/3u8' ) ) . '" target="_blank">',
+			'<a href="' . \esc_url( $this->shortlinker->get( 'https://yoa.st/3u8' ) ) . '" target="_blank">',
 			WPSEO_Admin_Utils::get_new_tab_message() . '</a>',
 			'Yoast SEO',
 			'my.yoast.com'

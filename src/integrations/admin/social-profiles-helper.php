@@ -63,7 +63,7 @@ class Social_Profiles_Helper {
 	 */
 	public function get_person_social_profiles( $person_id ) {
 		$social_profiles_fields = \array_keys( $this->person_social_profile_fields );
-		$person_social_profiles = \array_combine( $social_profiles_fields, \array_fill( 0, count( $social_profiles_fields ), '' ) );
+		$person_social_profiles = \array_combine( $social_profiles_fields, \array_fill( 0, \count( $social_profiles_fields ), '' ) );
 
 		// If no person has been selected, $person_id is set to false.
 		if ( \is_numeric( $person_id ) ) {

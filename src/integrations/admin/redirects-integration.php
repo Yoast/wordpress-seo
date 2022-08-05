@@ -47,7 +47,7 @@ class Redirects_Integration implements Integration_Interface {
 		$submenu_pages[] = [
 			'wpseo_dashboard',
 			'',
-			__( 'Redirects', 'wordpress-seo' ) . ' <span class="yoast-badge yoast-premium-badge"></span>',
+			\__( 'Redirects', 'wordpress-seo' ) . ' <span class="yoast-badge yoast-premium-badge"></span>',
 			'edit_others_posts',
 			'wpseo_redirects',
 			[ $this, 'display' ],

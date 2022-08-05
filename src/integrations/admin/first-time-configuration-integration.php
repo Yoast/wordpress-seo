@@ -121,7 +121,7 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 		$dashboard_tabs->add_tab(
 			new WPSEO_Option_Tab(
 				'first-time-configuration',
-				__( 'First-time configuration', 'wordpress-seo' ),
+				\__( 'First-time configuration', 'wordpress-seo' ),
 				[ 'save_button' => false ]
 			)
 		);
@@ -352,7 +352,7 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 		}
 		$logo_id = $this->meta_tags_context->fallback_to_site_logo();
 
-		return esc_url( wp_get_attachment_url( $logo_id ) );
+		return \esc_url( \wp_get_attachment_url( $logo_id ) );
 	}
 
 	/**
@@ -400,7 +400,7 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 		}
 		$logo_id = $this->meta_tags_context->fallback_to_site_logo();
 
-		return esc_url( wp_get_attachment_url( $logo_id ) );
+		return \esc_url( \wp_get_attachment_url( $logo_id ) );
 	}
 
 	/**

@@ -135,7 +135,7 @@ class Curl_Runner implements Runner_Interface {
 			return;
 		}
 
-		$this->curl_is_recent = version_compare( $version, self::MINIMUM_CURL_VERSION, '>=' );
+		$this->curl_is_recent = \version_compare( $version, self::MINIMUM_CURL_VERSION, '>=' );
 	}
 
 	/**
