@@ -118,13 +118,27 @@ class Results extends Component {
 			inputField = "slug";
 		}
 
-		const element = document.getElementById( "yoast-google-preview-" + inputField + "-" + inputFieldLocation );
-		element.focus();
-		element.scrollIntoView( {
-			behavior: "auto",
-			block: "center",
-			inline: "center",
-		} );
+		// Open the Google Preview collapsible first (for when it is closed).
+		const googlePreviewCollapsible = document.getElementById( "yoast-snippet-editor-metabox" );
+		googlePreviewCollapsible.click();
+
+		/**
+		 * Focuses the Google Preview field (as defined in `inputLField` and `inputFieldLocation`).
+		 *
+		 * @returns {void}
+		 */
+		const focusGooglePreviewField = () => {
+			const element = document.getElementById( "yoast-google-preview-" + inputField + "-" + inputFieldLocation );
+			element.focus();
+			element.scrollIntoView( {
+				behavior: "auto",
+				block: "center",
+				inline: "center",
+			} );
+		};
+
+		// Wait a bit to be sure that the collapsible is opened and fully loaded.
+		setTimeout( focusGooglePreviewField, 100 );
 	}
 
 	/**
