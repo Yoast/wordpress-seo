@@ -2,7 +2,7 @@
 /**
  * Posts the dismissal to the API.
  *
- * @param {string} alertKey The key of the Alert that needs to be dismissed.
+ * @param {String} alertKey The key of the Alert that needs to be dismissed.
  *
  * @returns {Object} The API Post followed by a resolve.
  */
