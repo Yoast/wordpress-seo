@@ -243,22 +243,12 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 19.5 =
 Release Date: August 9th, 2022
 
-
-
-
-
-
-
-
-
-
-
-
+Read more about what's new in Yoast SEO 19.5 in [our release post in English](https://yoa.st/release-9-8-22) or [our release post in Spanish](https://yoa.st/release-9-8-22-spanish)!
 
 Enhancements:
 
-* Adds the site logo and name as default values in the first time configuration and search appearance.
 * Changes the order in which Schema nodes are output from `Organization / Person > WebSite > WebPage > Article` to `Article > WebPage > WebSite > Organization / Person`. This fixes validation issues for the Schema validator and puts the most important Schema content first.
+* Adds the site logo and name as default values in the first time configuration and search appearance.
 
 Bugfixes:
 
@@ -270,7 +260,7 @@ Bugfixes:
 
 Other:
 
-* Hides the \"Save changes\" button in the \"Integrations\" tab in the \"Yoast SEO  > General\" page.
+* Hides the "Save changes" button in the "Integrations" tab in the "Yoast SEO  > General" page.
 * Sets the minimum supported WordPress version to 5.9.
 
 = 19.4 =
