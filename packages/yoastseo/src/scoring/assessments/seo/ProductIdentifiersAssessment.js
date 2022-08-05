@@ -86,25 +86,6 @@ export default class ProductIdentifiersAssessment extends Assessment {
 	 * 													or empty object if no score should be returned.
 	 */
 	scoreProductIdentifier( productIdentifierData, config ) {
-		// Return a grey bullet if the variant identifier data is not valid.
-		// This can currently occur in WooCommerce because we cannot know what kind of bulk action the user performed without them reloading the page.
-		if ( productIdentifierData.isVariantIdentifierDataValid === false  ) {
-			return {
-				score: config.scores.invalidVariantData,
-				text: sprintf(
-					/* Translators: %1$s expands to a link on yoast.com, %3$s expands to the anchor end tag,
-					* %2$s expands to the string "Barcode" or "Product identifier". */
-					__(
-						"%1$s%2$s%3$s: Please save and refresh the page to view the result for this assessment.",
-						"wordpress-seo"
-					),
-					this._config.urlTitle,
-					this._config.productIdentifierOrBarcode.uppercase,
-					"</a>"
-				),
-			};
-		}
-
 		// If a product has no variants, return orange bullet if it has no global identifier, and green bullet if it has one.
 		let feedbackString;
 		if ( this.isWoo ) {
