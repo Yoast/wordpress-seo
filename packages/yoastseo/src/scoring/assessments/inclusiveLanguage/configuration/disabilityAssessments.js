@@ -204,7 +204,7 @@ const disabilityAssessments =  [
 	},
 	{
 		identifier: "handicapParking",
-		nonInclusivePhrases: [ "handicap parking", "disabled parking" ],
+		nonInclusivePhrases: [ "handicap parking" ],
 		inclusiveAlternatives: "<i>accessible parking</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
@@ -243,8 +243,8 @@ const disabilityAssessments =  [
 		learnMoreUrl: "https://yoa.st/",
 	},
 	{
-		identifier: "disabledToilet",
-		nonInclusivePhrases: [ "disabled toilet", "disabled toilets", "handicap toilet", "handicap toilets" ],
+		identifier: "handicapToilet",
+		nonInclusivePhrases: [ "handicap toilet", "handicap toilets" ],
 		inclusiveAlternatives: "<i>accessible toilet(s)</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
