@@ -13,6 +13,11 @@ const paper = new Paper( content, {
 	locale: "en_EN",
 	permalink: "https://en.wikipedia.org/wiki/Cat_play_and_toys",
 	slug: "Cat_play_and_toys",
+	customData: {
+		hasGlobalSKU: true,
+		hasGlobalIdentifier: true,
+		hasVariants: false,
+	},
 } );
 
 const expectedResults = {
@@ -86,6 +91,16 @@ const expectedResults = {
 		score: 0,
 		resultText: "",
 	},
+	productIdentifiers: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/4ly' target='_blank'>Product identifier</a>: Good job!",
+	},
+	productSKU: {
+		isApplicable: true,
+		score: 9,
+		resultText: "<a href='https://yoa.st/4lw' target='_blank'>SKU</a>: Good job!",
+	},
 	imageKeyphrase: {
 		isApplicable: true,
 		score: 9,
@@ -146,8 +161,9 @@ const expectedResults = {
 	wordComplexity: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/shopify77' target='_blank'>Word complexity</a>: 11.52% of the words in your text are considered complex. " +
-			"<a href='https://yoa.st/shopify78' target='_blank'>Try to use shorter and more familiar words to improve readability</a>.",
+		resultText: "<a href='https://yoa.st/shopify77' target='_blank'>Word complexity</a>: 11.52% of the words in your " +
+			"text are considered complex. <a href='https://yoa.st/shopify78' target='_blank'>Try to use shorter and more" +
+			" familiar words to improve readability</a>.",
 	},
 };
 

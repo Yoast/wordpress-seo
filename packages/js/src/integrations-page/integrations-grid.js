@@ -6,7 +6,6 @@ import { getInitialState, getIsNetworkControlEnabled, updateIntegrationState, ge
 import { ReactComponent as AlgoliaLogo } from "../../images/algolia-logo.svg";
 import { ReactComponent as ElementorLogo } from "../../images/elementor-logo.svg";
 import { ReactComponent as JetpackLogo } from "../../images/jetpack-logo.svg";
-import { ReactComponent as RyteLogo } from "../../images/ryte-logo.svg";
 import { ReactComponent as SemrushLogo } from "../../images/semrush-logo.svg";
 import { ReactComponent as WincherLogo } from "../../images/wincher-logo.svg";
 import { ReactComponent as ZapierLogo } from "../../images/zapier-logo.svg";
@@ -72,24 +71,6 @@ const SEOTools = [
 		isMultisiteAvailable: true,
 		logo: ZapierLogo,
 		upsellLink: "https://yoa.st/get-zapier-integration",
-	},
-	{
-		name: "Ryte",
-		claim: __( "Ensure your site is findable", "wordpress-seo" ),
-		learnMoreLink: "https://yoa.st/integrations-about-ryte",
-		logoLink: "https://yoa.st/integrations-about-ryte",
-		type: "toggleable",
-		slug: "ryte",
-		description: sprintf(
-			/* translators: 1: Ryte, 2: Yoast SEO */
-			__( "%1$s in %2$s monitors your site’s findability and lets you know if your site is hidden from search engines.", "wordpress-seo" ),
-			"Ryte",
-			"Yoast SEO"
-		),
-		isPremium: false,
-		isNew: false,
-		isMultisiteAvailable: true,
-		logo: RyteLogo,
 	},
 ];
 

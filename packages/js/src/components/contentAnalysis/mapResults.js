@@ -97,7 +97,7 @@ export function getIconForScore( score ) { // eslint-disable-line complexity
 	switch ( score ) {
 		case "loading":
 			return { icon: "loading-spinner", color: colors.$color_green_medium_light };
-		case "na":
+		case "not-set":
 			return { icon: "seo-score-none", color: colors.$color_score_icon };
 		case "noindex":
 			return { icon: "seo-score-none", color: colors.$color_noindex };

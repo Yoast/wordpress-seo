@@ -3,7 +3,6 @@ import { withDispatch, withSelect } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
 import { SnippetEditor } from "@yoast/search-metadata-previews";
 import { LocationConsumer } from "@yoast/externals/contexts";
-import { debounce } from "lodash-es";
 import SnippetPreviewSection from "../components/SnippetPreviewSection";
 import { applyReplaceUsingPlugin } from "../helpers/replacementVariableHelpers";
 
@@ -122,23 +121,16 @@ export function mapSelectToProps( select ) {
  * Maps the dispatch function to props.
  *
  * @param {function} dispatch The dispatch function.
- * @param {Object}   ownProps The component's own props.
- * @param {function} select   The select function.
  *
  * @returns {Object} The props.
  */
-export function mapDispatchToProps( dispatch, ownProps, { select } ) {
+export function mapDispatchToProps( dispatch ) {
 	const {
 		updateData,
 		switchMode,
 		updateAnalysisData,
-		findCustomFields,
 	} = dispatch( "yoast-seo/editor" );
 	const coreEditorDispatch = dispatch( "core/editor" );
-	const onReplacementVariableSearchChange = debounce(
-		value => findCustomFields( value, select( "yoast-seo/editor" ).getPostId() ),
-		500
-	);
 
 	return {
 		onChange: ( key, value ) => {
@@ -165,7 +157,6 @@ export function mapDispatchToProps( dispatch, ownProps, { select } ) {
 			}
 		},
 		onChangeAnalysisData: updateAnalysisData,
-		onReplacementVariableSearchChange,
 	};
 }
 

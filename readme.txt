@@ -250,14 +250,19 @@ Release Date: August 9th, 2022
 
 
 
+
+
+
+
+
 Enhancements:
 
 * Adds the site logo and name as default values in the first time configuration and search appearance.
 * Changes the order in which Schema nodes are output from `Organization / Person > WebSite > WebPage > Article` to `Article > WebPage > WebSite > Organization / Person`. This fixes validation issues for the Schema validator and puts the most important Schema content first.
-* Fixes a performance issue in the meta description editor that would occur when very large amounts of custom fields were used.
 
 Bugfixes:
 
+* Fixes a bug where a text starting with a double quotation mark followed by a space(s) broke the analysis.
 * Fixes a bug where text which includes the non-breaking space character (`&nbsp;`) is not highlighted correctly.
 * Fixes a bug where the Algolia integration could not be controlled at network level.
 * Fixes a bug where the score indicator in the classic editor would not update the hovering text when the score changed.
@@ -266,7 +271,7 @@ Bugfixes:
 Other:
 
 * Hides the \"Save changes\" button in the \"Integrations\" tab in the \"Yoast SEO  > General\" page.
-*  Sets the minimum supported WordPress version to 5.9.
+* Sets the minimum supported WordPress version to 5.9.
 
 = 19.4 =
 Release Date: July 26th, 2022
