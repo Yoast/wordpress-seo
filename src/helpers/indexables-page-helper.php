@@ -83,7 +83,7 @@ class Indexables_Page_Helper {
 		 *
 		 * @api int The minimum threshold for the amount of posts in the site, in order for Indexable lists to be relevant.
 		 */
-		return \apply_filters( 'wpseo_posts_threshold', 20 );
+		return \apply_filters( 'wpseo_posts_threshold', self::POSTS_THRESHOLD );
 	}
 
 	/**
