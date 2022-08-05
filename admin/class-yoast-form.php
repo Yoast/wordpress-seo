@@ -874,8 +874,14 @@ class Yoast_Form {
 
 		// Show disabled note if attribute does not exists or does exist and is set to true.
 		if ( ! isset( $attr['show_disabled_note'] ) || ( $attr['show_disabled_note'] === true ) ) {
-			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- output escaped before.
-			echo $this->get_disabled_note( $variable, $attr['note_when_disabled'] );
+			if ( isset( $attr['note_when_disabled'] ) ) {
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- output escaped before.
+				echo $this->get_disabled_note( $variable, $attr['note_when_disabled'] );
+			}
+			else {
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- output escaped before.
+				echo $this->get_disabled_note( $variable );
+			}
 		}
 
 		echo '<div class="switch-toggle switch-candy switch-yoast-seo">';
