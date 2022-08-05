@@ -19,7 +19,7 @@ describe( "Disability assessments", function() {
 			"Avoid using <i>sociopath</i>, unless talking about the specific medical condition (in which case," +
 			" use <i>person with antisocial personality disorder</i>). If you are not referencing the medical condition," +
 			" consider other alternatives to describe the trait or behavior, such as <i>toxic, manipulative, cruel</i>." +
-			" <a href='https://yoa.st/' target='_blank'>Learn more.</a>" );
+			" <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>" );
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
 		expect( assessor.getMarks() ).toEqual( [ new Mark( {
 			original: "Look at that sociopath.",
@@ -40,7 +40,7 @@ describe( "Disability assessments", function() {
 		expect( assessmentResult.getText() ).toEqual(
 			"Be careful when using <i>an alcoholic</i> as it is potentially harmful. Consider using an alternative," +
 			" such as <i>person with alcohol use disorder</i>, unless referring to someone who explicitly wants to be referred" +
-			" to with this term. <a href='https://yoa.st/' target='_blank'>Learn more.</a>" );
+			" to with this term. <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>" );
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
 		expect( assessor.getMarks() ).toEqual( [ new Mark( {
 			original: "An alcoholic should just drink less.",

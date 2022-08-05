@@ -8,6 +8,8 @@ const specificAgeGroup = "Or, if possible, be specific about the group you are r
 const characteristicIfKnown = "Consider using an alternative, such as a specific characteristic or experience if it is known" +
 	" (e.g. <i>has Alzheimer's</i>).";
 
+const learnMoreUrl = "https://yoa.st/inclusive-language-age";
+
 const assessments = [
 	{
 		identifier: "seniorCitizens",
@@ -15,7 +17,7 @@ const assessments = [
 		inclusiveAlternatives: "<i>older citizen(s)</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: [ potentiallyHarmfulUnless, specificAgeGroup ].join( " " ),
-		learnMoreUrl: "https://yoa.st/",
+		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "agingDependants",
@@ -23,7 +25,7 @@ const assessments = [
 		inclusiveAlternatives: "<i>older people</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: [ potentiallyHarmfulUnlessNonInclusive, specificAgeGroup ].join( " " ),
-		learnMoreUrl: "https://yoa.st/",
+		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "elderly",
@@ -31,7 +33,7 @@ const assessments = [
 		inclusiveAlternatives: "<i>older people</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: [ potentiallyHarmfulUnless, specificAgeGroup ].join( " " ),
-		learnMoreUrl: "https://yoa.st/",
+		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "senile",
@@ -39,7 +41,7 @@ const assessments = [
 		inclusiveAlternatives: "",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: [ harmfulNonInclusive, characteristicIfKnown ].join( " " ),
-		learnMoreUrl: "https://yoa.st/",
+		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "senility",
@@ -47,7 +49,7 @@ const assessments = [
 		inclusiveAlternatives: "<i>dementia</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: "https://yoa.st/",
+		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "seniors",
@@ -55,7 +57,7 @@ const assessments = [
 		inclusiveAlternatives: "<i>older people</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: [ potentiallyHarmfulUnless, specificAgeGroup ].join( " " ),
-		learnMoreUrl: "https://yoa.st/",
+		learnMoreUrl: learnMoreUrl,
 		rule: ( words, inclusivePhrases ) => {
 			return includesConsecutiveWords( words, inclusivePhrases )
 				.filter( isPrecededByException( words, [ "high school", "college", "graduating", "juniors and" ] ) )
