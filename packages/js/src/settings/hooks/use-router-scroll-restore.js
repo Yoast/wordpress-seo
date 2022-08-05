@@ -10,16 +10,14 @@ const useHashRouterScrollIntoView = () => {
 
 	useEffect( () => {
 		if ( ! hash ) {
-			setTimeout( () => window.scrollTo( 0, 0 ), 100 );
+			window.scrollTo( 0, 0 );
 			return;
 		}
 
-		setTimeout( () => {
-			const element = document.getElementById( hash.replace( "#", "" ) );
-			if ( element ) {
-				element.scrollIntoView( { behavior: "smooth" } );
-			}
-		}, 100 );
+		const element = document.getElementById( hash.replace( "#", "" ) );
+		if ( element ) {
+			element.scrollIntoView( { behavior: "smooth" } );
+		}
 	}, [ pathname, hash ] );
 };
 

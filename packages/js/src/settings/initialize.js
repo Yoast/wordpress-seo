@@ -65,6 +65,7 @@ const handleSubmit = async( values ) => {
 		} );
 
 		addNotification( {
+			id: "submit-success",
 			variant: "success",
 			title: __( "Great! Your settings were saved successfully.", "wordpress-seo" ),
 		} );
@@ -72,6 +73,7 @@ const handleSubmit = async( values ) => {
 		return true;
 	} catch ( error ) {
 		addNotification( {
+			id: "submit-error",
 			variant: "error",
 			title: __( "Oops! Something went wrong while saving.", "wordpress-seo" ),
 		} );

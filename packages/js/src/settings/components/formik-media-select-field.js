@@ -58,7 +58,7 @@ const FormikMediaSelectField = ( {
 	const mediaUrl = useMemo( () => get( values, mediaUrlName, "" ), [ values, mediaUrlName ] );
 	const media = useSelectSettings( "selectMediaById", [ mediaId ], mediaId );
 	const { fetchMedia, addOneMedia } = useDispatch( STORE_NAME );
-	const error = useMemo( () => get( errors, mediaIdName, "" ), [ errors ] );
+	const error = useMemo( () => get( errors, mediaIdName, "" ), [ errors, mediaIdName ] );
 	const fieldIds = useConvertNamesToIds( [ mediaUrlName, mediaIdName ] );
 	const buttonIds = useConvertNamesToIds( [
 		`${mediaIdName}-preview`,
@@ -115,11 +115,15 @@ const FormikMediaSelectField = ( {
 
 	return (
 		<fieldset className={ classNames( "yst-w-96", disabled && "yst-opacity-50" ) }>
+			{ /**
+			   * Below field needs to be screen reader only and not of type hidden
+			   * because we need to be able to calculate positioning of this element.
+			   */ }
 			<Field
-				type="hidden"
 				name={ mediaIdName }
 				id={ fieldIds[ mediaIdName ] }
 				aria-describedby={ describedBy }
+				className="yst-sr-only"
 			/>
 			<Field
 				type="hidden"
