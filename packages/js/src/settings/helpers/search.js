@@ -232,7 +232,13 @@ export const createSearchIndex = ( settings, postTypes, taxonomies ) => ( {
 		og_default_image_id: {
 			route: "/site-defaults",
 			routeLabel: __( "Site defaults", "wordpress-seo" ),
-			fieldId: convertNameToId( "og_default_image_id" ),
+			fieldId: convertNameToId( "wpseo_social.og_default_image_id" ),
+			fieldLabel: __( "Site image", "wordpress-seo" ),
+		},
+		og_default_image_url: {
+			route: "/site-defaults",
+			routeLabel: __( "Site defaults", "wordpress-seo" ),
+			fieldId: convertNameToId( "wpseo_social.og_default_image_url" ),
 			fieldLabel: __( "Site image", "wordpress-seo" ),
 		},
 	},

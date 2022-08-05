@@ -134,7 +134,7 @@ Notification.propTypes = {
 	variant: PropTypes.oneOf( keys( notificationClassNameMap.variant ) ),
 	size: PropTypes.oneOf( keys( notificationClassNameMap.size ) ),
 	title: PropTypes.string.isRequired,
-	description: PropTypes.oneOfType( [ PropTypes.string, PropTypes.arrayOf( PropTypes.string ) ] ),
+	description: PropTypes.oneOfType( [ PropTypes.node, PropTypes.arrayOf( PropTypes.node ) ] ),
 	onDismiss: PropTypes.func,
 	autoDismiss: PropTypes.number,
 	dismissScreenReaderLabel: PropTypes.string.isRequired,

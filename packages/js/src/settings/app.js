@@ -5,6 +5,7 @@ import { first, map } from "lodash";
 import PropTypes from "prop-types";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { Notifications, SidebarNavigation, YoastLogo } from "./components";
+import { useValidationErrorsNotification } from "./hooks";
 import {
 	AuthorArchives,
 	Breadcrumbs,
@@ -116,6 +117,8 @@ const App = () => {
 	const { pathname } = useLocation();
 	const postTypes = useSelectSettings( "selectPostTypes" );
 	const taxonomies = useSelectSettings( "selectTaxonomies" );
+
+	useValidationErrorsNotification();
 
 	return (
 		<>
