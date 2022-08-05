@@ -270,7 +270,8 @@ class Indexables_Page_Route implements Route_Interface {
 		return new WP_REST_Response(
 			[
 				'json' => [
-					'list' => $least_readable,
+					'list'   => $least_readable,
+					'length' => \count( $least_readable ),
 				],
 			]
 		);
@@ -286,7 +287,8 @@ class Indexables_Page_Route implements Route_Interface {
 		return new WP_REST_Response(
 			[
 				'json' => [
-					'list' => $least_seo_score,
+					'list'   => $least_seo_score,
+					'length' => \count( $least_seo_score ),
 				],
 			]
 		);
@@ -302,7 +304,8 @@ class Indexables_Page_Route implements Route_Interface {
 		return new WP_REST_Response(
 			[
 				'json' => [
-					'list' => $most_linked,
+					'list'   => $most_linked,
+					'length' => \count( $most_linked ),
 				],
 			]
 		);
@@ -318,7 +321,8 @@ class Indexables_Page_Route implements Route_Interface {
 		return new WP_REST_Response(
 			[
 				'json' => [
-					'list' => $least_linked,
+					'list'   => $least_linked,
+					'length' => \count( $least_linked ),
 				],
 			]
 		);
