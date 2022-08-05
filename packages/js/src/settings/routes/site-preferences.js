@@ -4,7 +4,6 @@ import { Alert, Badge, ToggleField as PureToggleField } from "@yoast/ui-library"
 import { useFormikContext } from "formik";
 import { FieldsetLayout, FormikValueChangeField, FormLayout } from "../components";
 import { withDisabledMessageSupport } from "../hocs";
-import { useHashRouterScrollIntoView } from "../hooks";
 import { useSelectSettings } from "../store";
 
 const ToggleField = withDisabledMessageSupport( PureToggleField );
@@ -130,8 +129,6 @@ const SitePreferences = () => {
 		content: __( "Automatically ping search engines like Bing and Yandex whenever you publish, update or delete a post. %1$sFind out how IndexNow can help your site%2$s.", "wordpress-seo" ),
 		id: "link-usage-tracking",
 	} );
-
-	useHashRouterScrollIntoView();
 
 	return (
 		<FormLayout
