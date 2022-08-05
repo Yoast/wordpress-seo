@@ -114,7 +114,7 @@ const disabilityAssessments =  [
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: learnMoreUrl,
 		rule: ( words, inclusivePhrase ) => includesConsecutiveWords( words, inclusivePhrase )
-			.filter( isFollowedByException( words, inclusivePhrase, [ "toilet", "toilets", "parking" ] ) ),
+			.filter( isFollowedByException( words, inclusivePhrase, [ "toilet", "toilets", "parking", "bathroom", "bathrooms" ] ) ),
 	},
 	{
 		identifier: "insane",
@@ -235,8 +235,8 @@ const disabilityAssessments =  [
 		learnMoreUrl: learnMoreUrl,
 	},
 	{
-		identifier: "disabledBathroom",
-		nonInclusivePhrases: [ "disabled bathroom", "disabled bathrooms", "handicap bathroom", "handicap bathrooms" ],
+		identifier: "handicapBathroom",
+		nonInclusivePhrases: [ "handicap bathroom", "handicap bathrooms" ],
 		inclusiveAlternatives: "<i>accessible bathroom(s)</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
