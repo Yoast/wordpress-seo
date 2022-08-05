@@ -1,7 +1,7 @@
 import { AdjustmentsIcon, ColorSwatchIcon, DesktopComputerIcon, NewspaperIcon } from "@heroicons/react/outline";
 import { __ } from "@wordpress/i18n";
 import { Badge } from "@yoast/ui-library";
-import { first, map } from "lodash";
+import { first, map, isEmpty } from "lodash";
 import PropTypes from "prop-types";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { Notifications, SidebarNavigation, YoastLogo } from "./components";
@@ -69,9 +69,11 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 					to={ `/taxonomy/${ route }` }
 					label={ <div className="yst-flex yst-items-center yst-gap-1.5">
 						<span>{ label }</span>
-						<Badge variant="plain" size="small" className="yst-border yst-border-gray-300">
-							{ postTypes[ first( postTypeNames ) ].label }
-						</Badge>
+						{ ! isEmpty( postTypeNames ) && (
+							<Badge variant="plain" size="small" className="yst-border yst-border-gray-300">
+								{ postTypes[ first( postTypeNames ) ].label }
+							</Badge>
+						) }
 						{ postTypeNames.length > 1 && <Badge variant="plain" size="small" className="yst-border yst-border-gray-300">...</Badge> }
 					</div> }
 					idSuffix={ idSuffix }
