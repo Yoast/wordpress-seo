@@ -14,11 +14,11 @@ describe( "a test for Product identifiers assessment for WooCommerce", function(
 			hasGlobalIdentifier: true,
 			hasVariants: false,
 			doAllVariantsHaveIdentifier: false,
-			isWoo: true,
 		} ) );
 
 		expect( assessmentResult.getScore() ).toEqual( 9 );
-		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4ly' target='_blank'>Product identifier</a>: Your has a product identifier. Good job!" );
+		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4ly' target='_blank'>Product identifier</a>: " +
+			"Your product has a product identifier. Good job!" );
 	} );
 
 	it( "returns the score 9 when a product has no global identifier, but has variants and all variants have an identifier", function() {
@@ -26,11 +26,11 @@ describe( "a test for Product identifiers assessment for WooCommerce", function(
 			hasGlobalIdentifier: false,
 			hasVariants: true,
 			doAllVariantsHaveIdentifier: true,
-			isWoo:true,
 		} ) );
 
 		expect( assessmentResult.getScore() ).toEqual( 9 );
-		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4ly' target='_blank'>Product identifier</a>: All your product variants have a product identifier. Good job!" );
+		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4ly' target='_blank'>Product identifier</a>: " +
+			"All your product variants have a product identifier. Good job!" );
 	} );
 
 	it( "returns the score 6 when a product has no global identifier and no variants", function() {
@@ -38,7 +38,6 @@ describe( "a test for Product identifiers assessment for WooCommerce", function(
 			hasGlobalIdentifier: false,
 			hasVariants: false,
 			doAllVariantsHaveIdentifier: false,
-			isWoo: true,
 		} ) );
 
 		expect( assessmentResult.getScore() ).toEqual( 6 );
@@ -52,7 +51,6 @@ describe( "a test for Product identifiers assessment for WooCommerce", function(
 			hasGlobalIdentifier: true,
 			hasVariants: true,
 			doAllVariantsHaveIdentifier: false,
-			isWoo: true,
 		} ) );
 
 		expect( assessmentResult.getScore() ).toEqual( 6 );
@@ -66,28 +64,12 @@ describe( "a test for Product identifiers assessment for WooCommerce", function(
 			hasGlobalIdentifier: false,
 			hasVariants: true,
 			doAllVariantsHaveIdentifier: false,
-			isVariantIdentifierDataValid: true,
-			isWoo: true,
 		} ) );
 
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4ly' target='_blank'>Product identifier</a>:" +
 			" Not all your product variants have a product identifier. <a href='https://yoa.st/4lz' target='_blank'>Include" +
 			" this if you can, as it will help search engines to better understand your content.</a>" );
-	} );
-
-	it( "returns the score 0 when the product variant data is not valid", function() {
-		const assessmentResult = assessment.getResult( paper, Factory.buildMockResearcher( {
-			hasGlobalIdentifier: false,
-			hasVariants: true,
-			doAllVariantsHaveIdentifier: false,
-			isVariantIdentifierDataValid: false,
-			isWoo: true,
-		} ) );
-
-		expect( assessmentResult.getScore() ).toEqual( 0 );
-		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4ly' target='_blank'>Product identifier</a>:" +
-			" Please save and refresh the page to view the result for this assessment." );
 	} );
 } );
 
@@ -101,18 +83,17 @@ describe( "a test for Product identifiers assessment for Shopify", () => {
 		const assessmentResult = assessment.getResult( paper, Factory.buildMockResearcher( {
 			hasGlobalIdentifier: true,
 			hasVariants: false,
-			isWoo: false,
 		} ) );
 
 		expect( assessmentResult.getScore() ).toEqual( 9 );
-		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/shopify81' target='_blank'>Barcode</a>: Your product has a barcode. Good job!" );
+		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/shopify81' target='_blank'>Barcode</a>: " +
+			"Your product has a barcode. Good job!" );
 	} );
 
 	it( "returns with score 6 when the product doesn't have a global identifier nor variants", () => {
 		const assessmentResult = assessment.getResult( paper, Factory.buildMockResearcher( {
 			hasGlobalIdentifier: false,
 			hasVariants: false,
-			isWoo: false,
 		} ) );
 
 		expect( assessmentResult.getScore() ).toEqual( 6 );
@@ -125,7 +106,6 @@ describe( "a test for Product identifiers assessment for Shopify", () => {
 		const assessmentResult = assessment.getResult( paper, Factory.buildMockResearcher( {
 			hasGlobalIdentifier: false,
 			hasVariants: true,
-			isWoo: false,
 		} ) );
 
 		expect( assessmentResult.hasScore() ).toEqual( false );

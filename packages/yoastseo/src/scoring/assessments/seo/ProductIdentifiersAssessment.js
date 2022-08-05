@@ -1,4 +1,3 @@
-import { defaultConfig } from "eslint-plugin-react/lib/rules/sort-comp";
 import Assessment from "../assessment";
 import AssessmentResult from "../../../values/AssessmentResult";
 import { merge } from "lodash-es";
@@ -23,13 +22,10 @@ export default class ProductIdentifiersAssessment extends Assessment {
 			scores: {
 				good: 9,
 				ok: 6,
-				invalidVariantData: 0,
 			},
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/4ly" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/4lz" ),
 			assessVariants: false,
-			// In which plugin the strings will be output. If isWoo is false, then it is Shopify.
-			isWoo: true,
 			productIdentifierOrBarcode: {
 				lowercase: "product identifier",
 				uppercase: "",
@@ -86,50 +82,57 @@ export default class ProductIdentifiersAssessment extends Assessment {
 	 * 													or empty object if no score should be returned.
 	 */
 	scoreProductIdentifier( productIdentifierData, config ) {
-		// If a product has no variants, return orange bullet if it has no global identifier, and green bullet if it has one.
-		let feedbackString;
-		if ( this.isWoo ) {
-			feedbackString = "%1$s%2$s%4$s: Your product is missing a product identifier (like a GTIN code). %3$sInclude this if you can, as it " +
-				"will help search engines to better understand your content.%4$s"
+		const feedbackStrings = { okNoVariants: "", okWithVariants: "", goodNoVariants: "", goodWithVariants: "" };
+
+		if ( this._config.productIdentifierOrBarcode.lowercase === "product identifier" ) {
+			feedbackStrings.okNoVariants = __( "Your product is missing a product identifier (like a GTIN code)", "wordpress-seo" );
+			feedbackStrings.goodNoVariants = __( "Your product has a product identifier", "wordpress-seo" );
+			feedbackStrings.okWithVariants = __( "Not all your product variants have a product identifier", "wordpress-seo" );
+			feedbackStrings.goodWithVariants = __( "All your product variants have a product identifier", "wordpress-seo" );
 		} else {
-			feedbackString = "%1$s%2$s%4$s: Your product is missing a barcode (like a GTIN code). %3$sInclude this if you can, as it " +
-				"will help search engines to better understand your content.%4$s" }
+			feedbackStrings.okNoVariants = __( "Your product is missing a barcode (like a GTIN code)", "wordpress-seo" );
+			feedbackStrings.goodNoVariants = __( "Your product has a barcode", "wordpress-seo" );
+			feedbackStrings.okWithVariants = __( "Not all your product variants have a barcode", "wordpress-seo" );
+			feedbackStrings.goodWithVariants = __( "All your product variants have a barcode", "wordpress-seo" );
+		}
+
+		// If a product has no variants, return orange bullet if it has no global identifier, and green bullet if it has one.
 		if ( ! productIdentifierData.hasVariants ) {
 			if ( ! productIdentifierData.hasGlobalIdentifier ) {
 				return {
 					score: config.scores.ok,
 					text: sprintf(
 						/* Translators: %1$s and %4$s expand to links on yoast.com, %5$s expands to the anchor end tag,
-						* %2$s expands to the string "Barcode" or "Product identifier", %3$s expands to the string "barcode"
-						* or "product identifier" */
+						* %2$s expands to the string "Barcode" or "Product identifier", %3$s expands to the feedback string
+						* "Your product is missing a product identifier (like a GTIN code)"
+						* or "Your product is missing a barcode (like a GTIN code)" */
 						__(
-							feedbackString,
+							"%1$s%2$s%5$s: %3$s. %4$sInclude this if you can, as it " +
+							"will help search engines to better understand your content.%5$s",
 							"wordpress-seo"
 						),
 						this._config.urlTitle,
 						this._config.productIdentifierOrBarcode.uppercase,
-						this._config.productIdentifierOrBarcode.lowercase,
+						feedbackStrings.okNoVariants,
 						this._config.urlCallToAction,
 						"</a>"
 					),
 				};
 			}
-			let feedbackString;
-			if ( this.isWoo ) {
-				feedbackString = "%1$s%2$s%3$s: Your product has a product identifier. Good job!";
-			} else {
-				feedbackString = "%1$s%2$s%3$s: Your product has a barcode. Good job!" }
+
 			return {
 				score: config.scores.good,
 				text: sprintf(
-					/* Translators: %1$s expands to a link on yoast.com, %3$s expands to the anchor end tag,
-					* %2$s expands to the string "Barcode" or "Product identifier" */
+					/* Translators: %1$s expands to a link on yoast.com, %4$s expands to the anchor end tag,
+					* %2$s expands to the string "Barcode" or "Product identifier", %3$s expands to the feedback string
+					* "Your product has a product identifier" or "Your product has a barcode" */
 					__(
-						feedbackString,
+						"%1$s%2$s%4$s: %3$s. Good job!",
 						"wordpress-seo"
 					),
 					this._config.urlTitle,
 					this._config.productIdentifierOrBarcode.uppercase,
+					feedbackStrings.goodNoVariants,
 					"</a>"
 				),
 			};
@@ -143,46 +146,40 @@ export default class ProductIdentifiersAssessment extends Assessment {
 
 		// If we want to assess variants, and if product has variants but not all variants have an identifier, return orange bullet.
 		// If all variants have an identifier, return green bullet.
-		if ( this.isWoo ) {
-			feedbackString = "%1$s%2$s%4$s: Not all your product variants have a product identifier. %3$sInclude this if you can, as it" +
-				" will help search engines to better understand your content.%5$s";
-		} else {
-			feedbackString = "%1$s%2$s%4$s: Not all your product variants have a barcode. %3$sInclude this if you can, as it" +
-				" will help search engines to better understand your content.%5$s" }
 		if ( ! productIdentifierData.doAllVariantsHaveIdentifier ) {
 			return {
 				score: config.scores.ok,
 				text: sprintf(
 					/* Translators: %1$s and %4$s expand to links on yoast.com, %5$s expands to the anchor end tag,
-					* %2$s expands to the string "Barcode" or "Product identifier", %3$s expands to the string "barcode"
-					* or "product identifier" */
+					* %2$s expands to the string "Barcode" or "Product identifier", %3$s expands to the string
+					* "Not all your product variants have a product identifier"
+					* or "ot all your product variants have a barcode" */
 					__(
-						feedbackString,
+						"%1$s%2$s%5$s: %3$s. %4$sInclude this if you can, as it will help search engines to better understand your content.%5$s",
 						"wordpress-seo"
 					),
 					this._config.urlTitle,
 					this._config.productIdentifierOrBarcode.uppercase,
-					this._config.productIdentifierOrBarcode.lowercase,
+					feedbackStrings.okWithVariants,
 					this._config.urlCallToAction,
 					"</a>"
 				),
 			};
 		}
-		if ( this.isWoo ) {
-			feedbackString = "%1$s%2$s%3$s: All your product variants have a product identifier. Good job!";
-		} else {
-			feedbackString = "%1$s%2$s%3$s: All your product variants have a barcode. Good job!" }
+
 		return {
 			score: config.scores.good,
 			text: sprintf(
-				/* Translators: %1$s expands to a link on yoast.com, %3$s expands to the anchor end tag,
-				* %2$s expands to the string "Barcode" or "Product identifier" */
+				/* Translators: %1$s expands to a link on yoast.com, %4$s expands to the anchor end tag,
+				* %2$s expands to the string "Barcode" or "Product identifier" , %3$s expands to the feedback string
+				* "All your product variants have a product identifier" or "All your product variants have a barcode" */
 				__(
-					feedbackString,
+					"%1$s%2$s%4$s: %3$s. Good job!",
 					"wordpress-seo"
 				),
 				this._config.urlTitle,
 				this._config.productIdentifierOrBarcode.uppercase,
+				feedbackStrings.goodWithVariants,
 				"</a>"
 			),
 		};
