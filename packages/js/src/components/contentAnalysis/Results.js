@@ -154,7 +154,10 @@ class Results extends Component {
 			// Wait for the input field elements to become available, then focus on the relevant field.
 			setTimeout( () => this.focusOnGooglePreviewField( id, inputFieldLocation ), 500 );
 		} else {
-			this.focusOnGooglePreviewField( id, inputFieldLocation );
+			// Open the Google Preview collapsible first (for when it is closed).
+			const googlePreviewCollapsible = document.getElementById( "yoast-snippet-editor-metabox" );
+			googlePreviewCollapsible.click();
+			setTimeout( () => this.focusOnGooglePreviewField( id, inputFieldLocation ), 100 );
 		}
 	}
 
