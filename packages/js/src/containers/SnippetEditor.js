@@ -5,6 +5,7 @@ import { SnippetEditor } from "@yoast/search-metadata-previews";
 import { LocationConsumer } from "@yoast/externals/contexts";
 import SnippetPreviewSection from "../components/SnippetPreviewSection";
 import { applyReplaceUsingPlugin } from "../helpers/replacementVariableHelpers";
+import getMemoizedFindCustomFields from "../helpers/getMemoizedFindCustomFields";
 
 /**
  * Process the snippet editor form data before it's being displayed in the snippet preview.
