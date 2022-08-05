@@ -37,7 +37,7 @@ const cultureAssessments = [
 		nonInclusivePhrases: [ "tribe" ],
 		inclusiveAlternatives: "<i>group, cohort, crew, league, guild</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: potentiallyHarmfulUnlessCulture,
+		feedbackFormat: potentiallyHarmfulUnlessCulture.slice( 0, -42 ) + "a culture that uses this term.",
 		learnMoreUrl: "https://yoa.st/",
 	},
 	{
