@@ -118,27 +118,13 @@ class Results extends Component {
 			inputField = "slug";
 		}
 
-		// Open the Google Preview collapsible first (for when it is closed).
-		const googlePreviewCollapsible = document.getElementById( "yoast-snippet-editor-metabox" );
-		googlePreviewCollapsible.click();
-
-		/**
-		 * Focuses the Google Preview field (as defined in `inputLField` and `inputFieldLocation`).
-		 *
-		 * @returns {void}
-		 */
-		const focusGooglePreviewField = () => {
-			const element = document.getElementById( "yoast-google-preview-" + inputField + "-" + inputFieldLocation );
-			element.focus();
-			element.scrollIntoView( {
-				behavior: "auto",
-				block: "center",
-				inline: "center",
-			} );
-		};
-
-		// Wait a bit to be sure that the collapsible is opened and fully loaded.
-		setTimeout( focusGooglePreviewField, 100 );
+		const element = document.getElementById( "yoast-google-preview-" + inputField + "-" + inputFieldLocation );
+		element.focus();
+		element.scrollIntoView( {
+			behavior: "auto",
+			block: "center",
+			inline: "center",
+		} );
 	}
 
 	/**
@@ -168,7 +154,10 @@ class Results extends Component {
 			// Wait for the input field elements to become available, then focus on the relevant field.
 			setTimeout( () => this.focusOnGooglePreviewField( id, inputFieldLocation ), 500 );
 		} else {
-			this.focusOnGooglePreviewField( id, inputFieldLocation );
+			// Open the Google Preview collapsible first (for when it is closed).
+			const googlePreviewCollapsible = document.getElementById( "yoast-snippet-editor-metabox" );
+			googlePreviewCollapsible.click();
+			setTimeout( () => this.focusOnGooglePreviewField( id, inputFieldLocation ), 100 );
 		}
 	}
 
