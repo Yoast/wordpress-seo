@@ -33,7 +33,7 @@ const StyledHelpLink = styled( HelpLink )`
 	margin: -8px 0 -4px 4px;
 `;
 
-const GoodJobAnalysisResult = styled.div`
+const GoodJobAnalysisResult = styled.p`
 	min-height: 24px;
 	margin: 12px 0 0 0;
 	padding: 0;
