@@ -98,69 +98,18 @@ jobs:
           ini-values: zend.assertions=1, error_reporting=-1, display_errors=On
           coverage: none
 
-      # Determine the type of Composer install which is needed.
-      # 1: WP 5.9 or higher - all PHPUnit versions needed are supported, use the most appropriate one.
-      # 2. WP < 5.9 with PHP 8.0 or higher - PHPUnit 5 - 7 supported, locked at 5.x, but needs upgrade to 7 for PHP >= 8.0.
-      # 3. WP < 5.9 with PHP < 8.0 - just use the locked PHPUnit 5 version.
-      - name: Determine the type of Composer install to use
-        id: composer_toggle
-        run: |
-          if [[ "${{ matrix.wp_version }}" =~ ^(trunk|latest|5\.9|[6789]\.[0-9])$ ]]; then
-            echo '::set-output name=TYPE::1'
-          elif [[ "${{ matrix.php_version }}" > "7.4" ]]; then
-            echo '::set-output name=TYPE::2'
-          else
-            echo '::set-output name=TYPE::3'
-          fi
-
-      - name: Debug info - show type determined
-        run: echo ${{ steps.composer_toggle.outputs.TYPE }}
-
       # Install dependencies and handle caching in one go.
-      # Includes updating the test dependencies to the most appropriate version
-      # for the PHP/WP version combination on which the tests will be run.
       # @link https://github.com/marketplace/actions/install-composer-dependencies
-
-      ### Install type 1.
-      - name: "Install type 1: remove PHPUnit root requirement"
-        if: ${{ steps.composer_toggle.outputs.TYPE == '1' }}
+      - name: "Composer: remove PHPUnit root requirement"
         run: composer remove --dev phpunit/phpunit --no-update --no-scripts
 
-      - name: "Install type 1: install Composer dependencies - WP 5.9 or higher"
-        if: ${{ steps.composer_toggle.outputs.TYPE == '1' }}
+      - name: "Install Composer dependencies"
         uses: ramsey/composer-install@v2
         with:
           # Force a `composer update` run.
           dependency-versions: "highest"
           # But make it selective.
           composer-options: "yoast/wp-test-utils --with-dependencies --no-scripts"
-
-      ### Install type 2.
-      - name: "Install type 2: conditionally require a higher PHPUnit version"
-        if: ${{ steps.composer_toggle.outputs.TYPE == '2' }}
-        run: composer require --dev phpunit/phpunit:"^7.5" --no-update --ignore-platform-req=php --no-scripts
-
-      - name: "Install type 2: install Composer dependencies - WP < 5.9 with PHP >= 8.0"
-        if: ${{ steps.composer_toggle.outputs.TYPE == '2' }}
-        uses: ramsey/composer-install@v2
-        with:
-          # Force a `composer update` run.
-          dependency-versions: "highest"
-          # But make it selective.
-          composer-options: "yoast/wp-test-utils phpunit/phpunit --with-dependencies --no-scripts --ignore-platform-req=php"
-
-      ### Install type 3.
-      #   As PHPUnit is a root requirement and some of the PHPUnit dependencies are locked at versions incompatible
-      #   with all supported PHP versions, the PHPUnit dependency needs to explicitly also be allowed to update
-      #   (within the version constraints as per the `composer.json` file, i.e. PHPUnit 5.7).
-      - name: "Install type 3: install Composer dependencies - WP < 5.9 with PHP < 8.0"
-        if: ${{ steps.composer_toggle.outputs.TYPE == '3' }}
-        uses: ramsey/composer-install@v2
-        with:
-          # Force a `composer update` run.
-          dependency-versions: "highest"
-          # But make it selective.
-          composer-options: "yoast/wp-test-utils phpunit/phpunit --with-dependencies --no-scripts"
 
       - name: Install WP
         shell: bash
