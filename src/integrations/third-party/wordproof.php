@@ -215,7 +215,7 @@ class Wordproof implements Integration_Interface {
 	 */
 	public function enqueue_assets() {
 		if ( CertificateHelper::show() ) {
-			$flat_version = $this->asset_manager->flatten_version( WPSEO_VERSION );
+			$flat_version = $this->asset_manager->flatten_version( \WPSEO_VERSION );
 
 			/**
 			 * We are using the Admin asset manager to register and enqueue a file served for all visitors,
