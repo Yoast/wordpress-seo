@@ -35,7 +35,7 @@ class Links_Table_Runner implements Runner_Interface {
 	 * Constructor.
 	 *
 	 * @param Migration_Status $migration_status Object used to determine whether the links table is accessible.
-	 * @param Options_Helper   $options_helper Object used to determine whether the health check should run.
+	 * @param Options_Helper   $options_helper   Object used to determine whether the health check should run.
 	 */
 	public function __construct(
 		Migration_Status $migration_status,

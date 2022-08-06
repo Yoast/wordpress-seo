@@ -224,8 +224,8 @@ class Redirects implements Integration_Interface {
 	/**
 	 * Redirects away query variables that shouldn't work.
 	 *
-	 * @param array  $query_vars   The query variables in the current URL.
-	 * @param string $base_url     The base URL without query string.
+	 * @param array  $query_vars The query variables in the current URL.
+	 * @param string $base_url   The base URL without query string.
 	 *
 	 * @return void
 	 */

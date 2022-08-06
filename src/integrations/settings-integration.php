@@ -192,7 +192,7 @@ class Settings_Integration implements Integration_Interface {
 				'wpseo_dashboard',
 				'',
 				\sprintf(
-				// translators: %1$s expands to the opening span tag (styling). %2$s expands to the closing span tag.
+					/* translators: %1$s expands to the opening span tag (styling). %2$s expands to the closing span tag. */
 					\__( 'Settings %1$sBeta%2$s', 'wordpress-seo' ),
 					'<span class="yoast-badge yoast-beta-badge">',
 					'</span>'

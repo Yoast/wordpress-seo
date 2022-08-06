@@ -58,7 +58,7 @@ class Social_Profiles_Helper {
 	 * Gets the person social profiles stored in the database.
 	 *
 	 * @param int $person_id The id of the person.
-
+	 *
 	 * @return array The person's social profiles.
 	 */
 	public function get_person_social_profiles( $person_id ) {

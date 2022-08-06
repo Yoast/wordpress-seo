@@ -154,7 +154,7 @@ class First_Time_Configuration_Action {
 	/**
 	 * Gets the values for the social profiles.
 	 *
-	 * @param int $user_id the person id.
+	 * @param int $user_id The person ID.
 	 *
 	 * @return object The response object.
 	 */

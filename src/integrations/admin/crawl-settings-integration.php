@@ -179,8 +179,8 @@ class Crawl_Settings_Integration implements Integration_Interface {
 	/**
 	 * Print the settings sections.
 	 *
-	 * @param Yoast_Form $yform        The Yoast form class.
-	 * @param boolean    $is_network   Whether we're on the network site.
+	 * @param Yoast_Form $yform      The Yoast form class.
+	 * @param bool       $is_network Whether we're on the network site.
 	 *
 	 * @return void
 	 */
@@ -238,12 +238,12 @@ class Crawl_Settings_Integration implements Integration_Interface {
 	/**
 	 * Prints a list of toggles for an array of settings with labels.
 	 *
-	 * @param array      $settings     The settings being displayed.
-	 * @param Yoast_Form $yform        The Yoast form class.
-	 * @param boolean    $is_network   Whether we're on the network site.
-	 * @param string     $title        Optional title for the settings being displayed.
-	 * @param string     $description  Optional description of the settings being displayed.
-	 * @param array      $toggles      Optional naming of the toggle buttons.
+	 * @param array      $settings    The settings being displayed.
+	 * @param Yoast_Form $yform       The Yoast form class.
+	 * @param bool       $is_network  Whether we're on the network site.
+	 * @param string     $title       Optional title for the settings being displayed.
+	 * @param string     $description Optional description of the settings being displayed.
+	 * @param array      $toggles     Optional naming of the toggle buttons.
 	 *
 	 * @return void
 	 */

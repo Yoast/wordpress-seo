@@ -205,7 +205,7 @@ abstract class OAuth_Client {
 	/**
 	 * Clears the stored token from storage.
 	 *
-	 * @return boolean The stored token.
+	 * @return bool The stored token.
 	 *
 	 * @throws Failed_Storage_Exception Exception thrown if clearing of the token fails.
 	 */
