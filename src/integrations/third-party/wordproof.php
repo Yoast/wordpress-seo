@@ -154,20 +154,20 @@ class Wordproof implements Integration_Interface {
 	/**
 	 * Return the Yoast post meta key for the SDK to determine if the post should be timestamped.
 	 *
-	 * @param array $array The array containing meta keys that should be used.
+	 * @param array $meta_keys The array containing meta keys that should be used.
 	 * @return array
 	 */
-	public function add_post_meta_key( $array ) {
+	public function add_post_meta_key( $meta_keys ) {
 		return [ $this->post_meta_key ];
 	}
 
 	/**
 	 * Return an empty array to disable automatically timestamping selected post types.
 	 *
-	 * @param array $array The array containing post types that should be automatically timestamped.
+	 * @param array $post_types The array containing post types that should be automatically timestamped.
 	 * @return array
 	 */
-	public function wordproof_timestamp_post_types( $array ) {
+	public function wordproof_timestamp_post_types( $post_types ) {
 		return [];
 	}
 
