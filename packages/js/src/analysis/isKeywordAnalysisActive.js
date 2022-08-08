@@ -9,6 +9,6 @@ import { get } from "lodash-es";
  */
 export default function isKeywordAnalysisActive() {
 	const l10nObject = getL10nObject();
-
+	console.log("TEST l10n", l10nObject)
 	return get( l10nObject, "keywordAnalysisActive", 0 ) === 1;
 }

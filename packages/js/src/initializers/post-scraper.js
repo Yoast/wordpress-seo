@@ -33,6 +33,7 @@ import getIndicatorForScore from "../analysis/getIndicatorForScore";
 import getTranslations from "../analysis/getTranslations";
 import isKeywordAnalysisActive from "../analysis/isKeywordAnalysisActive";
 import isContentAnalysisActive from "../analysis/isContentAnalysisActive";
+import isInclusiveLanguageAnalysisActive from "../analysis/isInclusiveLanguageAnalysisActive";
 import snippetEditorHelpers from "../analysis/snippetEditor";
 import CustomAnalysisData from "../analysis/CustomAnalysisData";
 import getApplyMarks from "../analysis/getApplyMarks";
@@ -45,6 +46,7 @@ import { actions } from "@yoast/externals/redux";
 
 // Helper dependencies.
 import isBlockEditor from "../helpers/isBlockEditor";
+
 
 const {
 	setFocusKeyword,
@@ -175,10 +177,28 @@ export default function initPostScraper( $, store, editorData ) {
 		const savedContentScore = $( "#yoast_wpseo_content_score" ).val();
 
 		const indicator = getIndicatorForScore( savedContentScore );
-
+		console.log( "TEST content", indicator );
 		updateAdminBar( indicator );
 
 		publishBox.updateScore( "content", indicator.className );
+	}
+
+
+	/**
+	 * Initializes readability analysis in the classic-editor publish box.
+	 *
+	 * @param {Object} publishBox The publish box object.
+	 *
+	 * @returns {void}
+	 */
+	function initializeReadabilityAnalysis( publishBox ) {
+		const savedContentScore = $( "#yoast_wpseo_inclusive_language_score" ).val();
+
+		const indicator = getIndicatorForScore( savedContentScore );
+
+		updateAdminBar( indicator );
+
+		publishBox.updateScore( "inclusive-language", indicator.className );
 	}
 
 	/**
@@ -300,6 +320,10 @@ export default function initPostScraper( $, store, editorData ) {
 
 		if ( isContentAnalysisActive() ) {
 			initializeContentAnalysis( publishBox );
+		}
+
+		if ( isInclusiveLanguageAnalysisActive() ) {
+			initializeReadabilityAnalysis( publishBox );
 		}
 	}
 
