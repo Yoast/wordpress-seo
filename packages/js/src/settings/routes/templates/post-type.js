@@ -144,7 +144,7 @@ const PostType = ( { name, label, singularLabel, hasArchive } ) => {
 			>
 				<OpenGraphDisabledAlert isEnabled={ opengraph } />
 				<FormikMediaSelectField
-					id={ `wpseo_titles-social-image-url-${ name }` }
+					id={ `wpseo_titles-social-image-${ name }` }
 					label={ __( "Social image", "wordpress-seo" ) }
 					previewLabel={ recommendedSize }
 					mediaUrlName={ `wpseo_titles.social-image-url-${ name }` }
@@ -312,7 +312,7 @@ const PostType = ( { name, label, singularLabel, hasArchive } ) => {
 						) }
 					>
 						<FormikMediaSelectField
-							id={ `wpseo_titles-social-image-url-ptarchive-${ name }` }
+							id={ `wpseo_titles-social-image-ptarchive-${ name }` }
 							label={ __( "Social image", "wordpress-seo" ) }
 							previewLabel={ recommendedSize }
 							mediaUrlName={ `wpseo_titles.social-image-url-ptarchive-${ name }` }

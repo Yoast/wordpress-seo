@@ -8,7 +8,6 @@ import classNames from "classnames";
 import { Field, useFormikContext } from "formik";
 import { get, keys } from "lodash";
 import PropTypes from "prop-types";
-import { useConvertNamesToIds } from "../hooks";
 import { useSelectSettings } from "../store";
 import { STORE_NAME } from "../constants";
 
@@ -27,6 +26,7 @@ const classNameMap = {
  * @param {boolean} [disabled] Disabled.
  * @param {string} [libraryType] Media type that should show in WP library, ie. "image" or "video".
  * @param {string} [variant] Variant.
+ * @param {string} id Id.
  * @param {string} mediaUrlName Name for the hidden media url field.
  * @param {string} mediaIdName Name for the hidden media id field.
  * @param {string} previewLabel Label for the preview button.
@@ -43,6 +43,7 @@ const FormikMediaSelectField = ( {
 	disabled = false,
 	libraryType = "image",
 	variant = "landscape",
+	id,
 	mediaUrlName,
 	mediaIdName,
 	previewLabel = "",
@@ -59,14 +60,7 @@ const FormikMediaSelectField = ( {
 	const media = useSelectSettings( "selectMediaById", [ mediaId ], mediaId );
 	const { fetchMedia, addOneMedia } = useDispatch( STORE_NAME );
 	const error = useMemo( () => get( errors, mediaIdName, "" ), [ errors, mediaIdName ] );
-	const fieldIds = useConvertNamesToIds( [ mediaUrlName, mediaIdName ] );
-	const buttonIds = useConvertNamesToIds( [
-		`${mediaIdName}-preview`,
-		`${mediaIdName}-replace`,
-		`${mediaIdName}-select`,
-		`${mediaIdName}-remove`,
-	], "button" );
-	const { ids: describedByIds, describedBy } = useDescribedBy( fieldIds[ mediaIdName ], { description, error } );
+	const { ids: describedByIds, describedBy } = useDescribedBy( `field-${ id }-id`, { description, error } );
 
 	const handleSelectMediaClick = useCallback( () => wpMediaLibrary?.open(), [ wpMediaLibrary ] );
 	const handleRemoveMediaClick = useCallback( () => {
@@ -114,30 +108,26 @@ const FormikMediaSelectField = ( {
 	}, [] );
 
 	return (
-		<fieldset className={ classNames( "yst-w-96", disabled && "yst-opacity-50" ) }>
-			{ /**
-			   * Below field needs to be screen reader only and not of type hidden
-			   * because we need to be able to calculate positioning of this element.
-			   */ }
+		<fieldset id={ id } className={ classNames( "yst-w-96", disabled && "yst-opacity-50" ) }>
 			<Field
+				type="hidden"
 				name={ mediaIdName }
-				id={ fieldIds[ mediaIdName ] }
+				id={ `field-${ id }-id` }
 				aria-describedby={ describedBy }
-				className="yst-sr-only"
 			/>
 			<Field
 				type="hidden"
 				name={ mediaUrlName }
-				id={ fieldIds[ mediaUrlName ] }
+				id={ `field-${ id }-url` }
 				aria-describedby={ describedBy }
 			/>
 			{ label && <Label as="legend" className="yst-mb-2">{ label }</Label> }
 			<button
 				type="button"
-				id={ buttonIds[ `${mediaUrlName}-preview` ] }
+				id={ `button-${ id }-preview` }
 				onClick={ handleSelectMediaClick }
 				className={ classNames(
-					"yst-overflow-hidden yst-flex yst-justify-center yst-items-center yst-rounded-md yst-mb-4 yst-border-gray-300",
+					"yst-overflow-hidden yst-flex yst-justify-center yst-items-center yst-rounded-md yst-mb-4 yst-border-gray-300 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-primary-500",
 					mediaUrl ? "yst-bg-gray-50 yst-border" : "yst-border-2 yst-border-dashed",
 					disabled && "yst-cursor-not-allowed",
 					classNameMap.variant[ variant ],
@@ -168,7 +158,7 @@ const FormikMediaSelectField = ( {
 			<div className="yst-flex yst-gap-4">
 				{ mediaUrl ? (
 					<Button
-						id={ buttonIds[ `${mediaUrlName}-replace` ] }
+						id={ `button-${ id }-replace` }
 						variant="secondary" onClick={ handleSelectMediaClick }
 						disabled={ disabled }
 					>
@@ -176,7 +166,7 @@ const FormikMediaSelectField = ( {
 					</Button>
 				) : (
 					<Button
-						id={ buttonIds[ `${mediaUrlName}-select` ] }
+						id={ `button-${ id }-select` }
 						variant="secondary" onClick={ handleSelectMediaClick }
 						disabled={ disabled }
 					>
@@ -185,7 +175,7 @@ const FormikMediaSelectField = ( {
 				) }
 				{ mediaUrl && (
 					<Link
-						id={ buttonIds[ `${mediaUrlName}-remove` ] }
+						id={ `button-${ id }-remove` }
 						as="button"
 						type="button"
 						variant="error"
@@ -210,6 +200,7 @@ FormikMediaSelectField.propTypes = {
 	disabled: PropTypes.bool,
 	libraryType: PropTypes.string,
 	variant: PropTypes.oneOf( keys( classNameMap.variant ) ),
+	id: PropTypes.string.isRequired,
 	mediaUrlName: PropTypes.string.isRequired,
 	mediaIdName: PropTypes.string.isRequired,
 	previewLabel: PropTypes.node,

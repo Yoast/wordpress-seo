@@ -124,7 +124,7 @@ const Taxonomy = ( { name, label, singularLabel, postTypes: postTypeNames } ) =>
 			>
 				<OpenGraphDisabledAlert isEnabled={ opengraph } />
 				<FormikMediaSelectField
-					id={ `wpseo_titles-social-image-url-tax-${ name }` }
+					id={ `wpseo_titles-social-image-tax-${ name }` }
 					label={ __( "Social image", "wordpress-seo" ) }
 					previewLabel={ recommendedSize }
 					mediaUrlName={ `wpseo_titles.social-image-url-tax-${ name }` }

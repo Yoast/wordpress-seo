@@ -122,7 +122,7 @@ const Notification = ( {
 				</div>
 				{ onDismiss && (
 					<div className="yst-flex-shrink-0 yst-flex">
-						<button onClick={ handleDismiss } className="yst-bg-white yst-rounded-md yst-inline-flex yst-text-gray-400 hover:yst-text-gray-500 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-indigo-500">
+						<button onClick={ handleDismiss } className="yst-bg-white yst-rounded-md yst-inline-flex yst-text-gray-400 hover:yst-text-gray-500 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-primary-500">
 							<span className="yst-sr-only">{ dismissScreenReaderLabel }</span>
 							<XIcon className="yst-h-5 yst-w-5" />
 						</button>
