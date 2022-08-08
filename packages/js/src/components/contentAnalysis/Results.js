@@ -156,8 +156,14 @@ class Results extends Component {
 		} else {
 			// Open the Google Preview collapsible first (for when it is closed).
 			const googlePreviewCollapsible = document.getElementById( "yoast-snippet-editor-metabox" );
-			googlePreviewCollapsible.click();
-			setTimeout( () => this.focusOnGooglePreviewField( id, inputFieldLocation ), 100 );
+			// Check if the collapsible is closed before clicking on it.
+			if ( googlePreviewCollapsible && googlePreviewCollapsible.getAttribute( "aria-expanded" ) === "false" ) {
+				googlePreviewCollapsible.click();
+				setTimeout( () => this.focusOnGooglePreviewField( id, inputFieldLocation ), 100 );
+			} else {
+				// Collapsible already open, we can click on the field directly.
+				this.focusOnGooglePreviewField( id, inputFieldLocation );
+			}
 		}
 	}
 
