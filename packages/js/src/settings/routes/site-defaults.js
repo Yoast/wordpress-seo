@@ -132,6 +132,7 @@ const SiteDefaults = () => {
 					}
 				/>
 				<FormikMediaSelectField
+					id="wpseo_social-og_default_image"
 					label={ __( "Site image", "wordpress-seo" ) }
 					description={ __( "This image is used as a fallback for posts/pages that don't have any images set.", "wordpress-seo" ) }
 					previewLabel={ siteImageRecommendedSize }

@@ -10,10 +10,18 @@ const useRouterScrollRestore = () => {
 
 	useEffect( () => {
 		// Auto-scroll to hash or root element.
-		const target = hash ? document.getElementById( hash.replace( "#", "" ) ) : document.getElementById( "yoast-seo-settings" );
+		const target = document.getElementById( hash.replace( "#", "" ) );
 
 		if ( target ) {
-			target.scrollIntoView( { behavior: "smooth" } );
+			window.scrollTo( {
+				top: ( target.getBoundingClientRect().top + window.scrollY ) - 96,
+				behavior: "smooth",
+			} );
+			// Try to add focus to target after scrolling is done.
+			setTimeout( () => target.focus(), 1000 );
+		} else {
+			const root = document.getElementById( "yoast-seo-settings" );
+			root?.scrollIntoView( { behavior: "smooth" } );
 		}
 	}, [ pathname, hash ] );
 };

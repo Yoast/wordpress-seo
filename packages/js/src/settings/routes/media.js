@@ -124,7 +124,7 @@ const Media = () => {
 					>
 						<OpenGraphDisabledAlert isEnabled={ opengraph } />
 						<FormikMediaSelectField
-							id={ `wpseo_titles-social-image-url-${ name }` }
+							id={ `wpseo_titles-social-image-${ name }` }
 							label={ __( "Social image", "wordpress-seo" ) }
 							previewLabel={ recommendedSize }
 							mediaUrlName={ `wpseo_titles.social-image-url-${ name }` }
