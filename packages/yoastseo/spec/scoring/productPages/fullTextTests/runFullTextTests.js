@@ -22,9 +22,8 @@ import ImageKeyphraseAssessment from "../../../../src/scoring/assessments/seo/Ke
 import ImageCountAssessment from "../../../../src/scoring/assessments/seo/ImageCountAssessment";
 import ImageAltTags from "../../../../src/scoring/assessments/seo/ImageAltTagsAssessment";
 import KeyphraseDistribution from "../../../../src/scoring/assessments/seo/KeyphraseDistributionAssessment";
-// eslint-disable-next-line max-len
-// 	Add back once the assessment is enabled: import ProductIdentifiersAssessment from "../../../../src/scoring/assessments/seo/ProductIdentifiersAssessment";
-// 	Add back once the assessment is enabled: import ProductSKUAssessment from "../../../../src/scoring/assessments/seo/ProductSKUAssessment";
+import ProductIdentifiersAssessment from "../../../../src/scoring/assessments/seo/ProductIdentifiersAssessment";
+import ProductSKUAssessment from "../../../../src/scoring/assessments/seo/ProductSKUAssessment";
 
 // Import Readability assessments.
 import SubheadingDistributionTooLongAssessment
@@ -118,19 +117,16 @@ testPapers.forEach( function( testPaper ) {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify54" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify55" ),
 		} );
-		/*	Add back once the assessment is enabled:
 		const productIdentifiersAssessment = new ProductIdentifiersAssessment( {
-		urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify81" ),
-		urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify82" ),
-		assessVariants: false,
-		productIdentifierOrBarcode: { lowercase: "barcode" },
-		} );*/
-		/*	Add back once the assessment is enabled:
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/4ly" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/4lz" ),
+			assessVariants: true,
+		} );
 		const productSKUAssessment = new ProductSKUAssessment( {
-			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify79" ),
-			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify80" ),
-			assessVariants: false,
-		} );*/
+			urlTitle: createAnchorOpeningTag( "https://yoa.st/4lw" ),
+			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/4lx" ),
+			assessVariants: true,
+		} );
 		const imageKeyphraseAssessment = new ImageKeyphraseAssessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify22" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify23" ),
@@ -338,7 +334,6 @@ testPapers.forEach( function( testPaper ) {
 			}
 		} );
 
-		/* Add back once the assessment is enabled:
 		it( "returns a score and the associated feedback text for the product identifiers assessment", function() {
 			const isApplicable = productIdentifiersAssessment.isApplicable( paper );
 			expect( isApplicable ).toBe( expectedResults.productIdentifiers.isApplicable );
@@ -348,8 +343,8 @@ testPapers.forEach( function( testPaper ) {
 				expect( result.productIdentifiers.getScore() ).toBe( expectedResults.productIdentifiers.score );
 				expect( result.productIdentifiers.getText() ).toBe( expectedResults.productIdentifiers.resultText );
 			}
-		} );*/
-		/* Add back once the assessment is enabled:
+		} );
+
 		it( "returns a score and the associated feedback text for the SKU assessment", function() {
 			const isApplicable = productSKUAssessment.isApplicable();
 			expect( isApplicable ).toBe( expectedResults.productSKU.isApplicable );
@@ -359,7 +354,7 @@ testPapers.forEach( function( testPaper ) {
 				expect( result.productSKU.getScore() ).toBe( expectedResults.productSKU.score );
 				expect( result.productSKU.getText() ).toBe( expectedResults.productSKU.resultText );
 			}
-		} );*/
+		} );
 
 		// Images-related assessments
 		it( "returns a score and the associated feedback text for the imageKeyphrase assessment", function() {

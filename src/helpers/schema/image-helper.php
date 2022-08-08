@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Helpers\Schema;
 
-use Yoast\WP\SEO\Config\Schema_IDs;
 use Yoast\WP\SEO\Helpers\Image_Helper as Main_Image_Helper;
 
 /**

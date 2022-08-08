@@ -431,10 +431,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 
 
 				/*
-				* Boolean (checkbox) fields.
-				*/
-
-				/*
+				 * Boolean (checkbox) fields.
+				 *
 				 * Covers:
 				 *  'disableadvanced_meta'
 				 *  'enable_headless_rest_endpoints'
@@ -533,7 +531,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 			'search_cleanup'                     => false,
 			'search_cleanup_emoji'               => false,
 			'search_cleanup_patterns'            => false,
-			'algolia_integration_active'     => false,
+			'algolia_integration_active'         => false,
 		];
 
 		// We can reuse this logic from the base class with the above defaults to parse with the correct feature values.

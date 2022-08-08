@@ -12,10 +12,6 @@ const derogatory = "Avoid using <i>%1$s</i> as it is derogatory. Consider using 
 
 const medicalCondition = "Avoid using <i>%1$s</i>, unless talking about the specific medical condition. " +
 	"If you are not referencing the medical condition, consider other alternatives to describe the trait or behavior, such as %2$s.";
-const medicalConditionTwoAlternatives = "Avoid using <i>%1$s</i>, unless talking about the specific medical condition " +
-	"(in which case, use %2$s). " +
-	"If you are not referencing the medical condition, consider other alternatives to describe the trait or behavior, such as %3$s.";
-
 const potentiallyHarmfulTwoAlternatives = "Avoid using <i>%1$s</i> as it is potentially harmful. " +
 	"Consider using an alternative, such as %2$s when referring to someone's needs, or %3$s when referring to a person.";
 
@@ -116,6 +112,9 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: "<i>disability</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
+		rule: ( words, inclusivePhrase ) => includesConsecutiveWords( words, inclusivePhrase )
+			.filter( isFollowedByException( words, inclusivePhrase, [ "toilet", "toilets", "parking", "bathroom",
+				"bathrooms", "stall", "stalls" ] ) ),
 		learnMoreUrl: learnMoreUrl,
 	},
 	{
@@ -206,7 +205,7 @@ const disabilityAssessments =  [
 	},
 	{
 		identifier: "handicapParking",
-		nonInclusivePhrases: [ "handicap parking", "disabled parking" ],
+		nonInclusivePhrases: [ "handicap parking" ],
 		inclusiveAlternatives: "<i>accessible parking</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
@@ -237,24 +236,24 @@ const disabilityAssessments =  [
 		learnMoreUrl: learnMoreUrl,
 	},
 	{
-		identifier: "disabledBathroom",
-		nonInclusivePhrases: [ "disabled bathroom", "disabled bathrooms", "handicap bathroom", "handicap bathrooms" ],
+		identifier: "handicapBathroom",
+		nonInclusivePhrases: [ "handicap bathroom", "handicap bathrooms" ],
 		inclusiveAlternatives: "<i>accessible bathroom(s)</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: learnMoreUrl,
 	},
 	{
-		identifier: "disabledToilet",
-		nonInclusivePhrases: [ "disabled toilet", "disabled toilets", "handicap toilet", "handicap toilets" ],
+		identifier: "handicapToilet",
+		nonInclusivePhrases: [ "handicap toilet", "handicap toilets" ],
 		inclusiveAlternatives: "<i>accessible toilet(s)</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
 		learnMoreUrl: learnMoreUrl,
 	},
 	{
-		identifier: "disabledStall",
-		nonInclusivePhrases: [ "disabled stall", "disabled stalls", "handicap stall", "handicap stalls" ],
+		identifier: "handicapStall",
+		nonInclusivePhrases: [ "handicap stall", "handicap stalls" ],
 		inclusiveAlternatives: "<i>accessible stall(s)</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
@@ -398,7 +397,9 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: [ "<i>person with antisocial personality disorder</i>",
 			"<i>toxic, manipulative, cruel</i>" ],
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: medicalConditionTwoAlternatives,
+		feedbackFormat: "Be careful when using <i>%1$s</i> as it is potentially harmful. If you are referencing the " +
+			"medical condition, use %2$s instead, unless referring to someone who explicitly wants to be referred to with this term. " +
+			"If you are not referencing the medical condition, consider other alternatives to describe the trait or behavior, such as %3$s.",
 		learnMoreUrl: learnMoreUrl,
 	},
 	{
@@ -407,7 +408,9 @@ const disabilityAssessments =  [
 		inclusiveAlternatives: [ "<i>person with narcissistic personality disorder</i>",
 			"<i>selfish, egotistical, self-centered, self-absorbed, vain, toxic, manipulative</i>" ],
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
-		feedbackFormat: medicalConditionTwoAlternatives,
+		feedbackFormat: "Be careful when using <i>%1$s</i> as it is potentially harmful. If you are referencing the " +
+			"medical condition, use %2$s instead. If you are not referencing the medical condition, consider other" +
+			" alternatives to describe the trait or behavior, such as %3$s.",
 		learnMoreUrl: learnMoreUrl,
 	},
 ];

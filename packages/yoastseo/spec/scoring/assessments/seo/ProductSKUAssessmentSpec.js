@@ -7,7 +7,7 @@ const paper = new Paper( "" );
 
 
 describe( "a test for SKU assessment for WooCommerce", function() {
-	const assessment = new ProductSKUAssessment();
+	const assessment = new ProductSKUAssessment( { assessVariants: true } );
 
 	it( "returns the score 9 when a product has a global SKU and no variants", function() {
 		const assessmentResult = assessment.getResult( paper, Factory.buildMockResearcher( {

@@ -16,10 +16,11 @@ describe( "Disability assessments", function() {
 		expect( isApplicable ).toBeTruthy();
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual(
-			"Avoid using <i>sociopath</i>, unless talking about the specific medical condition (in which case," +
-			" use <i>person with antisocial personality disorder</i>). If you are not referencing the medical condition," +
-			" consider other alternatives to describe the trait or behavior, such as <i>toxic, manipulative, cruel</i>." +
-			" <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>" );
+			"Be careful when using <i>sociopath</i> as it is potentially harmful. If you are referencing the" +
+			" medical condition, use <i>person with antisocial personality disorder</i> instead, unless referring to" +
+			" someone who explicitly wants to be referred to with this term. If you are not referencing the medical" +
+			" condition, consider other alternatives to describe the trait or behavior, such as <i>toxic, manipulative," +
+			" cruel</i>. <a href='https://yoa.st/inclusive-language-disability' target='_blank'>Learn more.</a>" );
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
 		expect( assessor.getMarks() ).toEqual( [ new Mark( {
 			original: "Look at that sociopath.",
