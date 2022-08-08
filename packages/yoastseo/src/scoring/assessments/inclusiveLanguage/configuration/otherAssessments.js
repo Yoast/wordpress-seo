@@ -1,6 +1,8 @@
 import { SCORES } from "./scores";
 import { potentiallyHarmful, potentiallyHarmfulCareful } from "./feedbackStrings";
 
+const learnMoreUrl = "https://yoa.st/inclusive-language-other";
+
 const otherAssessments = [
 	{
 		identifier: "homosexuals",
@@ -9,7 +11,7 @@ const otherAssessments = [
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: "Be careful when using <i>%1$s</i> as it may overgeneralize or be harmful. " +
 						"Instead, be specific about the group you are referring to (e.g. %2$s).",
-		learnMoreUrl: "https://yoa.st/",
+		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "minorities",
@@ -18,7 +20,7 @@ const otherAssessments = [
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: "Be careful when using <i>%1$s</i> as it is potentially overgeneralizing. " +
 						"Consider using an alternative, such as %2$s, %3$s or specific minorities, such as %4$s.",
-		learnMoreUrl: "https://yoa.st/",
+		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "ex-con",
@@ -26,7 +28,7 @@ const otherAssessments = [
 		inclusiveAlternatives: "<i>people who have had felony convictions, people who have been incarcerated</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: "https://yoa.st/",
+		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "felon",
@@ -34,7 +36,7 @@ const otherAssessments = [
 		inclusiveAlternatives: "<i>people with felony convictions, people who have been incarcerated</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmfulCareful,
-		learnMoreUrl: "https://yoa.st/",
+		learnMoreUrl: learnMoreUrl,
 	},
 	{
 		identifier: "ex-offender",
@@ -42,7 +44,7 @@ const otherAssessments = [
 		inclusiveAlternatives: "<i>formerly incarcerated person</i>",
 		score: SCORES.NON_INCLUSIVE,
 		feedbackFormat: potentiallyHarmful,
-		learnMoreUrl: "https://yoa.st/",
+		learnMoreUrl: learnMoreUrl,
 	},
 ];
 

@@ -17,7 +17,7 @@ describe( "Gender assessments", function() {
 		expect( assessmentResult.getScore() ).toEqual( 3 );
 		expect( assessmentResult.getText() ).toEqual(
 			"Avoid using <i>mankind</i> as it is exclusionary. Consider using an alternative, such as <i>individuals," +
-			" people, persons, human beings, humanity</i>. <a href='https://yoa.st/' target='_blank'>Learn more.</a>" );
+			" people, persons, human beings, humanity</i>. <a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>" );
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
 		expect( assessor.getMarks() ).toEqual( [ new Mark( {
 			original: "Mankind is so great!",
@@ -38,7 +38,7 @@ describe( "Gender assessments", function() {
 		expect( assessmentResult.getText() ).toEqual(
 			"Be careful when using <i>firemen</i> as it can be exclusionary. Unless you are sure that the group" +
 			" you refer to only consists of men, use an alternative, such as <i>firefighters</i>." +
-			" <a href='https://yoa.st/' target='_blank'>Learn more.</a>" );
+			" <a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>" );
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
 		expect( assessor.getMarks() ).toEqual( [ new Mark( {
 			original: "Look at those firemen!",
@@ -68,7 +68,7 @@ describe( "Gender assessments", function() {
 		expect( isApplicable ).toBeTruthy();
 		expect( assessmentResult.getScore() ).toEqual( 3 );
 		expect( assessmentResult.getText() ).toEqual(
-			"Avoid using <i>shemale</i> as it is derogatory. <a href='https://yoa.st/' target='_blank'>Learn more.</a>" );
+			"Avoid using <i>shemale</i> as it is derogatory. <a href='https://yoa.st/inclusive-language-gender' target='_blank'>Learn more.</a>" );
 		expect( assessmentResult.hasMarks() ).toBeTruthy();
 		expect( assessor.getMarks() ).toEqual( [ new Mark( {
 			original: "She's acting like a shemale.",
