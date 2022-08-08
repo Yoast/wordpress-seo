@@ -516,8 +516,8 @@ class Url_Helper_Test extends TestCase {
 	 *
 	 * @dataProvider recreate_current_url_test_data
 	 *
-	 * @param array  $params    The input parameters.
-	 * @param string $expected  The expected output.
+	 * @param array  $params   The input parameters.
+	 * @param string $expected The expected output.
 	 */
 	public function test_recreate_current_url( $params, $expected ) {
 		if ( ! empty( $params['HTTPS'] ) ) {

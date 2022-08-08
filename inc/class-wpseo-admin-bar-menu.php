@@ -643,8 +643,8 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	 * @return string The score icon, or empty string.
 	 */
 	protected function get_score_icon() {
-		$is_seo_enabled                = ( new WPSEO_Metabox_Analysis_SEO() )->is_enabled();
-		$is_readability_enabled        = ( new WPSEO_Metabox_Analysis_Readability() )->is_enabled();
+		$is_seo_enabled         = ( new WPSEO_Metabox_Analysis_SEO() )->is_enabled();
+		$is_readability_enabled = ( new WPSEO_Metabox_Analysis_Readability() )->is_enabled();
 
 		$indexable = $this->indexable_repository->for_current_page();
 

@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Helpers;
 
-use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Helpers\Robots_Helper;
 use Yoast\WP\SEO\Helpers\Score_Icon_Helper;
@@ -214,7 +213,7 @@ class Score_Icon_Helper_Test extends TestCase {
 	 * @param string $keyphrase    The keyphrase.
 	 * @param int    $score        The score.
 	 *
-	 * @return \Mockery\LegacyMockInterface|\Mockery\MockInterface|\Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock
+	 * @return Mockery\LegacyMockInterface|Mockery\MockInterface|Indexable_Mock
 	 */
 	protected function create_indexable_and_set_mocks_for_seo( $is_indexable, $keyphrase, $score ) {
 		$this->robots_helper->expects( 'is_indexable' )->andReturn( $is_indexable );

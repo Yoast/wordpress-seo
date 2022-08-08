@@ -142,17 +142,17 @@ class Search_Engines_Discouraged_Watcher_Test extends TestCase {
 	/**
 	 * Tests maybe_show_search_engines_discouraged_notice.
 	 *
-	 * @param string $blog_public_option_value The option value for blog_public.
-	 * @param bool   $current_user_can_manage_options Whether the current user has manage_options permissions.
-	 * @param bool   $ignore_notice Whether the user ignored the notice before.
-	 * @param bool   $is_on_yoast_seo_page Whether the user is on a Yoast SEO admin page.
-	 * @param string $current_page_file The php file loaded for the current page.
-	 * @param string $current_yoast_page The current Yoast admin page.
-	 * @param bool   $expect_called Whether the notice show function should have been called.
-	 *
 	 * @dataProvider maybe_show_search_engines_discouraged_notice_dataprovider
 	 *
 	 * @covers ::maybe_show_search_engines_discouraged_notice
+	 *
+	 * @param string $blog_public_option_value        The option value for blog_public.
+	 * @param bool   $current_user_can_manage_options Whether the current user has manage_options permissions.
+	 * @param bool   $ignore_notice                   Whether the user ignored the notice before.
+	 * @param bool   $is_on_yoast_seo_page            Whether the user is on a Yoast SEO admin page.
+	 * @param string $current_page_file               The php file loaded for the current page.
+	 * @param string $current_yoast_page              The current Yoast admin page.
+	 * @param bool   $expect_called                   Whether the notice show function should have been called.
 	 */
 	public function test_maybe_show_search_engines_discouraged_notice(
 		$blog_public_option_value,
@@ -287,14 +287,14 @@ class Search_Engines_Discouraged_Watcher_Test extends TestCase {
 	/**
 	 * Tests manage_search_engines_discouraged_notification.
 	 *
-	 * @param string $blog_public_option_value The option value for blog_public.
-	 * @param bool   $ignore_notice Whether the user ignored the notice before.
-	 * @param bool   $remove_notification_called Whether the remove notification function should be called.
-	 * @param bool   $add_notification_called Whether the add notification function should be called.
-	 *
 	 * @dataProvider manage_search_engines_discouraged_notification_dataprovider
 	 *
 	 * @covers ::manage_search_engines_discouraged_notification
+	 *
+	 * @param string $blog_public_option_value   The option value for blog_public.
+	 * @param bool   $ignore_notice              Whether the user ignored the notice before.
+	 * @param bool   $remove_notification_called Whether the remove notification function should be called.
+	 * @param bool   $add_notification_called    Whether the add notification function should be called.
 	 */
 	public function test_manage_search_engines_discouraged_notification( $blog_public_option_value, $ignore_notice, $remove_notification_called, $add_notification_called ) {
 		Monkey\Functions\expect( 'get_option' )

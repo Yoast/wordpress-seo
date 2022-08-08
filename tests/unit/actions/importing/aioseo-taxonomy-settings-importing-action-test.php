@@ -369,11 +369,11 @@ class Aioseo_Taxonomy_Settings_Importing_Action_Test extends TestCase {
 	/**
 	 * Tests checking if the settings tab subsetting is set in the AIOSEO option.
 	 *
-	 * @param array $aioseo_settings The AIOSEO settings.
-	 * @param bool  $expected_result The expected result.
-	 *
 	 * @dataProvider provider_isset_settings_tab
 	 * @covers ::isset_settings_tab
+	 *
+	 * @param array $aioseo_settings The AIOSEO settings.
+	 * @param bool  $expected_result The expected result.
 	 */
 	public function test_isset_settings_tab( $aioseo_settings, $expected_result ) {
 		$isset_settings_tab = $this->instance->isset_settings_tab( $aioseo_settings );

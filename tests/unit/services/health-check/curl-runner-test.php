@@ -2,14 +2,13 @@
 
 namespace Yoast\WP\SEO\Tests\Unit\Services\Health_Check;
 
-use Brain\Monkey;
 use Mockery;
 use WPSEO_Addon_Manager;
 use WPSEO_MyYoast_Api_Request;
 use Yoast\WP\SEO\Helpers\Curl_Helper;
+use Yoast\WP\SEO\Services\Health_Check\Curl_Runner;
 use Yoast\WP\SEO\Services\Health_Check\MyYoast_Api_Request_Factory;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
-use Yoast\WP\SEO\Services\Health_Check\Curl_Runner;
 
 /**
  * Curl_Runner

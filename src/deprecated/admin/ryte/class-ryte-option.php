@@ -92,7 +92,7 @@ class WPSEO_Ryte_Option {
 	 * @deprecated 19.6
 	 * @codeCoverageIgnore
 	 *
-	 * @return integer|string
+	 * @return int|string
 	 */
 	public function get_status() {
 		if ( array_key_exists( self::STATUS, $this->ryte_option ) ) {

@@ -192,8 +192,8 @@ class Settings_Integration implements Integration_Interface {
 				'wpseo_dashboard',
 				'',
 				\sprintf(
-				// translators: %1$s expands to the opening span tag (styling). %2$s expands to the closing span tag.
-					__( 'Settings %1$sBeta%2$s', 'wordpress-seo' ),
+					/* translators: %1$s expands to the opening span tag (styling). %2$s expands to the closing span tag. */
+					\__( 'Settings %1$sBeta%2$s', 'wordpress-seo' ),
 					'<span class="yoast-badge yoast-beta-badge">',
 					'</span>'
 				),
@@ -268,7 +268,7 @@ class Settings_Integration implements Integration_Interface {
 			'schema'               => $this->get_schema( $post_types ),
 			'preferences'          => [
 				'isPremium'      => $this->product_helper->is_premium(),
-				'isRtl'          => is_rtl(),
+				'isRtl'          => \is_rtl(),
 				'isNetworkAdmin' => \is_network_admin(),
 				'isMainSite'     => \is_main_site(),
 				'siteUrl'        => \get_bloginfo( 'url' ),

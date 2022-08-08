@@ -58,12 +58,12 @@ class Social_Profiles_Helper {
 	 * Gets the person social profiles stored in the database.
 	 *
 	 * @param int $person_id The id of the person.
-
+	 *
 	 * @return array The person's social profiles.
 	 */
 	public function get_person_social_profiles( $person_id ) {
 		$social_profiles_fields = \array_keys( $this->person_social_profile_fields );
-		$person_social_profiles = \array_combine( $social_profiles_fields, \array_fill( 0, count( $social_profiles_fields ), '' ) );
+		$person_social_profiles = \array_combine( $social_profiles_fields, \array_fill( 0, \count( $social_profiles_fields ), '' ) );
 
 		// If no person has been selected, $person_id is set to false.
 		if ( \is_numeric( $person_id ) ) {

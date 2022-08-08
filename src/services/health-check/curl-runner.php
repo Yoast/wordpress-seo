@@ -73,9 +73,10 @@ class Curl_Runner implements Runner_Interface {
 	 * Constructor.
 	 *
 	 * @psalm-suppress InvalidClass MyYoast is a product name, so it's an exception to the class naming conventions.
-	 * @param WPSEO_Addon_Manager         $addon_manager The add-on manager.
+	 * @param WPSEO_Addon_Manager         $addon_manager                The add-on manager.
 	 * @param MyYoast_Api_Request_Factory $my_yoast_api_request_factory A MyYoast API request object.
-	 * @param Curl_Helper                 $curl_helper A cURL helper object for obtaining cURL installation information.
+	 * @param Curl_Helper                 $curl_helper                  A cURL helper object for obtaining
+	 *                                                                  cURL installation information.
 	 */
 	public function __construct(
 		WPSEO_Addon_Manager $addon_manager,
@@ -135,7 +136,7 @@ class Curl_Runner implements Runner_Interface {
 			return;
 		}
 
-		$this->curl_is_recent = version_compare( $version, self::MINIMUM_CURL_VERSION, '>=' );
+		$this->curl_is_recent = \version_compare( $version, self::MINIMUM_CURL_VERSION, '>=' );
 	}
 
 	/**

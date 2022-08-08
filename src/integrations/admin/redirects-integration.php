@@ -2,8 +2,6 @@
 
 namespace Yoast\WP\SEO\Integrations\Admin;
 
-use WPSEO_Admin_Utils;
-use WPSEO_Shortlinker;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Conditionals\Premium_Inactive_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -47,7 +45,7 @@ class Redirects_Integration implements Integration_Interface {
 		$submenu_pages[] = [
 			'wpseo_dashboard',
 			'',
-			__( 'Redirects', 'wordpress-seo' ) . ' <span class="yoast-badge yoast-premium-badge"></span>',
+			\__( 'Redirects', 'wordpress-seo' ) . ' <span class="yoast-badge yoast-premium-badge"></span>',
 			'edit_others_posts',
 			'wpseo_redirects',
 			[ $this, 'display' ],
@@ -62,6 +60,6 @@ class Redirects_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function display() {
-		require WPSEO_PATH . 'admin/pages/redirects.php';
+		require \WPSEO_PATH . 'admin/pages/redirects.php';
 	}
 }

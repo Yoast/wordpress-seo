@@ -155,7 +155,16 @@ class Results extends Component {
 			// Wait for the input field elements to become available, then focus on the relevant field.
 			setTimeout( () => this.focusOnGooglePreviewField( id, inputFieldLocation ), 500 );
 		} else {
-			this.focusOnGooglePreviewField( id, inputFieldLocation );
+			const googlePreviewCollapsible = document.getElementById( "yoast-snippet-editor-metabox" );
+			// Check if the collapsible is closed before clicking on it.
+			if ( googlePreviewCollapsible && googlePreviewCollapsible.getAttribute( "aria-expanded" ) === "false" ) {
+				// If it is closed, click on it to open it, and wait a bit before focusing on the edit field.
+				googlePreviewCollapsible.click();
+				setTimeout( () => this.focusOnGooglePreviewField( id, inputFieldLocation ), 100 );
+			} else {
+				// Collapsible already open, we can click on the field directly.
+				this.focusOnGooglePreviewField( id, inputFieldLocation );
+			}
 		}
 	}
 
