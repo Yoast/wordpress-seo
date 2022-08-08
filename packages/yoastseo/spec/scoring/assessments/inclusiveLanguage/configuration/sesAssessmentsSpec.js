@@ -27,7 +27,7 @@ describe( "SES assessments", function() {
 						} } ] );
 		} );
 
-	it( "should target potentially non-inclusive phrases", function() {
+	it( "should target non-inclusive phrases", function() {
 		const mockPaper = new Paper( "This ad is aimed at poverty stricken." );
 		const mockResearcher = new EnglishResearcher( mockPaper );
 		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "povertyStricken" )  );
