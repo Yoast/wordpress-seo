@@ -26,17 +26,12 @@ export default class ProductIdentifiersAssessment extends Assessment {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/4ly" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/4lz" ),
 			assessVariants: false,
-			productIdentifierOrBarcode: {
-				lowercase: "product identifier",
-				uppercase: "",
-			},
+			productIdentifierOrBarcode: "Product identifier",
 		};
 
 		this.identifier = "productIdentifier";
 		this._config = merge( defaultConfig, config );
-		this._config.productIdentifierOrBarcode.lowercase = __( this._config.productIdentifierOrBarcode.lowercase, "wordpress-seo" );
-		this._config.productIdentifierOrBarcode.uppercase =
-			this._config.productIdentifierOrBarcode.lowercase[ 0 ].toUpperCase() + this._config.productIdentifierOrBarcode.lowercase.slice( 1 );
+		this.name = __( this._config.productIdentifierOrBarcode, "wordpress-seo" );
 	}
 
 	/**
@@ -82,18 +77,22 @@ export default class ProductIdentifiersAssessment extends Assessment {
 	 * 													or empty object if no score should be returned.
 	 */
 	scoreProductIdentifier( productIdentifierData, config ) {
-		const feedbackStrings = { okNoVariants: "", okWithVariants: "", goodNoVariants: "", goodWithVariants: "" };
+		let feedbackStrings;
 
-		if ( this._config.productIdentifierOrBarcode.lowercase === "product identifier" ) {
-			feedbackStrings.okNoVariants = __( "Your product is missing a product identifier (like a GTIN code)", "wordpress-seo" );
-			feedbackStrings.goodNoVariants = __( "Your product has a product identifier", "wordpress-seo" );
-			feedbackStrings.okWithVariants = __( "Not all your product variants have a product identifier", "wordpress-seo" );
-			feedbackStrings.goodWithVariants = __( "All your product variants have a product identifier", "wordpress-seo" );
+		if ( this._config.productIdentifierOrBarcode === "Product identifier" ) {
+			feedbackStrings = {
+				okNoVariants: __( "Your product is missing an identifier (like a GTIN code)", "wordpress-seo" ),
+				goodNoVariants: __( "Your product has an identifier", "wordpress-seo" ),
+				okWithVariants: __( "Not all your product variants have an identifier", "wordpress-seo" ),
+				goodWithVariants: __( "All your product variants have an identifier", "wordpress-seo" ),
+			};
 		} else {
-			feedbackStrings.okNoVariants = __( "Your product is missing a barcode (like a GTIN code)", "wordpress-seo" );
-			feedbackStrings.goodNoVariants = __( "Your product has a barcode", "wordpress-seo" );
-			feedbackStrings.okWithVariants = __( "Not all your product variants have a barcode", "wordpress-seo" );
-			feedbackStrings.goodWithVariants = __( "All your product variants have a barcode", "wordpress-seo" );
+			feedbackStrings = {
+				okNoVariants: __( "Your product is missing a barcode (like a GTIN code)", "wordpress-seo" ),
+				goodNoVariants: __( "Your product has a barcode", "wordpress-seo" ),
+				okWithVariants: __( "Not all your product variants have a barcode", "wordpress-seo" ),
+				goodWithVariants: __( "All your product variants have a barcode", "wordpress-seo" ),
+			};
 		}
 
 		// If a product has no variants, return orange bullet if it has no global identifier, and green bullet if it has one.
@@ -112,7 +111,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 							"wordpress-seo"
 						),
 						this._config.urlTitle,
-						this._config.productIdentifierOrBarcode.uppercase,
+						this.name,
 						feedbackStrings.okNoVariants,
 						this._config.urlCallToAction,
 						"</a>"
@@ -131,7 +130,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 						"wordpress-seo"
 					),
 					this._config.urlTitle,
-					this._config.productIdentifierOrBarcode.uppercase,
+					this.name,
 					feedbackStrings.goodNoVariants,
 					"</a>"
 				),
@@ -159,7 +158,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 						"wordpress-seo"
 					),
 					this._config.urlTitle,
-					this._config.productIdentifierOrBarcode.uppercase,
+					this.name,
 					feedbackStrings.okWithVariants,
 					this._config.urlCallToAction,
 					"</a>"
@@ -178,7 +177,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 					"wordpress-seo"
 				),
 				this._config.urlTitle,
-				this._config.productIdentifierOrBarcode.uppercase,
+				this.name,
 				feedbackStrings.goodWithVariants,
 				"</a>"
 			),
