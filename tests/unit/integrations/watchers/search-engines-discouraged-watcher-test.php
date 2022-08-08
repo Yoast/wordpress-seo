@@ -4,7 +4,6 @@ namespace Yoast\WP\SEO\Tests\Unit\Integrations\Watchers;
 
 use Brain\Monkey;
 use Mockery;
-use ParagonIE\Sodium\Core\Curve25519\Ge\P1p1;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Notification_Helper;
