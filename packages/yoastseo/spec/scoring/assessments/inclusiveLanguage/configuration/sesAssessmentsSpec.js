@@ -59,26 +59,4 @@ describe( "Age assessments", function() {
 		expect( isApplicable ).toBeFalsy();
 		expect( assessor.getMarks() ).toEqual( [] );
 	} );
-
-	it( "should not target phrases followed by by certain words", function() {
-		const mockPaper = new Paper( "This ad is aimed at seniors who are graduating." );
-		const mockResearcher = new EnglishResearcher( mockPaper );
-		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "prostitute" )  );
-
-		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
-
-		expect( isApplicable ).toBeFalsy();
-		expect( assessor.getMarks() ).toEqual( [] );
-	} );
-
-	it( "should not target other phrases", function() {
-		const mockPaper = new Paper( "This ad is aimed at the youth" );
-		const mockResearcher = new EnglishResearcher( mockPaper );
-		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "prostitute" )  );
-
-		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
-
-		expect( isApplicable ).toBeFalsy();
-		expect( assessor.getMarks() ).toEqual( [] );
-	} );
 } );

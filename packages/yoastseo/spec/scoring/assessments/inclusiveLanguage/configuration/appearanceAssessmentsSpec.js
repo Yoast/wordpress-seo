@@ -52,18 +52,21 @@ describe( "Age assessments", function() {
 	} );
 
 	it( "should not target phrases preceded by certain words", function() {
-		const mockPaper = new Paper( "This ad is aimed at high school seniors." );
+		const mockPaper = new Paper( "This ad is aimed at high vertically challenged." );
 		const mockResearcher = new EnglishResearcher( mockPaper );
 		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "verticallyChallenged" )  );
 
 		const isApplicable = assessor.isApplicable( mockPaper, mockResearcher );
 
-		expect( isApplicable ).toBeFalsy();
-		expect( assessor.getMarks() ).toEqual( [] );
+		expect( isApplicable ).toBeTruthy();
+		expect( assessor.getMarks() ).toEqual(  [
+			{ _properties: {
+				marked: "<yoastmark class='yoast-text-mark'>This ad is aimed at high vertically challenged.</yoastmark>",
+				original: "This ad is aimed at high vertically challenged." } } ] );
 	} );
 
 	it( "should not target phrases followed by by certain words", function() {
-		const mockPaper = new Paper( "This ad is aimed at seniors who are graduating." );
+		const mockPaper = new Paper( "This ad is aimed at seniors midgets." );
 		const mockResearcher = new EnglishResearcher( mockPaper );
 		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "midget" )  );
 
@@ -74,7 +77,7 @@ describe( "Age assessments", function() {
 	} );
 
 	it( "should not target other phrases", function() {
-		const mockPaper = new Paper( "This ad is aimed at the youth" );
+		const mockPaper = new Paper( "This ad is aimed at harelips" );
 		const mockResearcher = new EnglishResearcher( mockPaper );
 		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "harelip" )  );
 
