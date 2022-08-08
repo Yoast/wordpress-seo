@@ -4,7 +4,7 @@ import InclusiveLanguageAssessment from "../../../../../src/scoring/assessments/
 import assessments from "../../../../../src/scoring/assessments/inclusiveLanguage/configuration/otherAssessments";
 
 describe( "Other assessments", function() {
-	it( "should target potentially non-inclusive phrases",
+	it( "should target non-inclusive phrases",
 		function() {
 			const mockPaper = new Paper( "This ad is aimed at homosexuals" );
 			const mockResearcher = new EnglishResearcher( mockPaper );
