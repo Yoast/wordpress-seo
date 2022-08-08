@@ -3,7 +3,7 @@ import EnglishResearcher from "../../../../../src/languageProcessing/languages/e
 import InclusiveLanguageAssessment from "../../../../../src/scoring/assessments/inclusiveLanguage/InclusiveLanguageAssessment";
 import assessments from "../../../../../src/scoring/assessments/inclusiveLanguage/configuration/sesAssessments";
 
-describe( "Age assessments", function() {
+describe( "SES assessments", function() {
 	it( "should target non-inclusive phrases",
 		function() {
 			const mockPaper = new Paper( "This ad is aimed at illegal immigrants" );
@@ -27,7 +27,7 @@ describe( "Age assessments", function() {
 						} } ] );
 		} );
 
-	it( "should target potentially non-inclusive phrases", function() {
+	it( "should target non-inclusive phrases", function() {
 		const mockPaper = new Paper( "This ad is aimed at poverty stricken." );
 		const mockResearcher = new EnglishResearcher( mockPaper );
 		const assessor = new InclusiveLanguageAssessment( assessments.find( obj => obj.identifier === "povertyStricken" )  );
