@@ -94,7 +94,7 @@ const expectedResults = {
 	productIdentifiers: {
 		isApplicable: true,
 		score: 9,
-		resultText: "<a href='https://yoa.st/4ly' target='_blank'>Product identifier</a>: Your product has a product identifier. Good job!",
+		resultText: "<a href='https://yoa.st/4ly' target='_blank'>Product identifier</a>: Your product has an identifier. Good job!",
 	},
 	productSKU: {
 		isApplicable: true,
