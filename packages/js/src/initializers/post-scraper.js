@@ -151,11 +151,12 @@ export default function initPostScraper( $, store, editorData ) {
 	/**
 	 * Initializes keyword analysis.
 	 *
-	 * @param {Object} publishBox             The publish box object.
+	 * @param {Object} activePublishBox             The publish box object.
 	 *
 	 * @returns {void}
 	 */
-	function initializeKeywordAnalysis( publishBox ) {
+	// eslint-disable-next-line no-shadow
+	function initializeKeywordAnalysis( activePublishBox ) {
 		const savedKeywordScore = $( "#yoast_wpseo_linkdex" ).val();
 
 		const indicator = getIndicatorForScore( savedKeywordScore );
@@ -163,42 +164,42 @@ export default function initPostScraper( $, store, editorData ) {
 		updateTrafficLight( indicator );
 		updateAdminBar( indicator );
 
-		publishBox.updateScore( "keyword", indicator.className );
+		activePublishBox.updateScore( "keyword", indicator.className );
 	}
 
 	/**
 	 * Initializes content analysis
 	 *
-	 * @param {Object} publishBox The publish box object.
+	 * @param {Object} activePublishBox The publish box object.
 	 *
 	 * @returns {void}
 	 */
-	function initializeContentAnalysis( publishBox ) {
+	function initializeContentAnalysis( activePublishBox ) {
 		const savedContentScore = $( "#yoast_wpseo_content_score" ).val();
 
 		const indicator = getIndicatorForScore( savedContentScore );
 
 		updateAdminBar( indicator );
 
-		publishBox.updateScore( "content", indicator.className );
+		activePublishBox.updateScore( "content", indicator.className );
 	}
 
 
 	/**
 	 * Initializes readability analysis in the classic-editor publish box.
 	 *
-	 * @param {Object} publishBox The publish box object.
+	 * @param {Object} activePublishBox The publish box object.
 	 *
 	 * @returns {void}
 	 */
-	function initializeReadabilityAnalysis( publishBox ) {
+	function initializeReadabilityAnalysis( activePublishBox ) {
 		const savedContentScore = $( "#yoast_wpseo_inclusive_language_score" ).val();
 
 		const indicator = getIndicatorForScore( savedContentScore );
 
 		updateAdminBar( indicator );
 
-		publishBox.updateScore( "inclusive-language", indicator.className );
+		activePublishBox.updateScore( "inclusive-language", indicator.className );
 	}
 
 	/**
