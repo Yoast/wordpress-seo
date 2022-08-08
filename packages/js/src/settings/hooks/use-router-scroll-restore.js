@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom";
  * Restores scroll into view for React Router DOM with hash routes.
  * @returns {void}
  */
-const useHashRouterScrollIntoView = () => {
+const useRouterScrollRestore = () => {
 	const { hash, pathname } = useLocation();
 
 	useEffect( () => {
@@ -18,4 +18,4 @@ const useHashRouterScrollIntoView = () => {
 	}, [ pathname, hash ] );
 };
 
-export default useHashRouterScrollIntoView;
+export default useRouterScrollRestore;
