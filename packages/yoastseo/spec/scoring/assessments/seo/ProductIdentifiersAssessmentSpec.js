@@ -17,7 +17,8 @@ describe( "a test for Product identifiers assessment for WooCommerce", function(
 		} ) );
 
 		expect( assessmentResult.getScore() ).toEqual( 9 );
-		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4ly' target='_blank'>Product identifier</a>: Good job!" );
+		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4ly' target='_blank'>Product identifier</a>: " +
+			"Your product has an identifier. Good job!" );
 	} );
 
 	it( "returns the score 9 when a product has no global identifier, but has variants and all variants have an identifier", function() {
@@ -28,7 +29,8 @@ describe( "a test for Product identifiers assessment for WooCommerce", function(
 		} ) );
 
 		expect( assessmentResult.getScore() ).toEqual( 9 );
-		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4ly' target='_blank'>Product identifier</a>: Good job!" );
+		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4ly' target='_blank'>Product identifier</a>: " +
+			"All your product variants have an identifier. Good job!" );
 	} );
 
 	it( "returns the score 6 when a product has no global identifier and no variants", function() {
@@ -40,7 +42,7 @@ describe( "a test for Product identifiers assessment for WooCommerce", function(
 
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4ly' target='_blank'>Product identifier</a>:" +
-			" Your product is missing a product identifier (like a GTIN code). <a href='https://yoa.st/4lz' target='_blank'>Include" +
+			" Your product is missing an identifier (like a GTIN code). <a href='https://yoa.st/4lz' target='_blank'>Include" +
 			" this if you can, as it will help search engines to better understand your content.</a>" );
 	} );
 
@@ -53,7 +55,7 @@ describe( "a test for Product identifiers assessment for WooCommerce", function(
 
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4ly' target='_blank'>Product identifier</a>:" +
-			" Not all your product variants have a product identifier. <a href='https://yoa.st/4lz' target='_blank'>Include" +
+			" Not all your product variants have an identifier. <a href='https://yoa.st/4lz' target='_blank'>Include" +
 			" this if you can, as it will help search engines to better understand your content.</a>" );
 	} );
 
@@ -66,7 +68,7 @@ describe( "a test for Product identifiers assessment for WooCommerce", function(
 
 		expect( assessmentResult.getScore() ).toEqual( 6 );
 		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/4ly' target='_blank'>Product identifier</a>:" +
-			" Not all your product variants have a product identifier. <a href='https://yoa.st/4lz' target='_blank'>Include" +
+			" Not all your product variants have an identifier. <a href='https://yoa.st/4lz' target='_blank'>Include" +
 			" this if you can, as it will help search engines to better understand your content.</a>" );
 	} );
 } );
@@ -75,7 +77,7 @@ describe( "a test for Product identifiers assessment for Shopify", () => {
 	const assessment = new ProductIdentifiersAssessment( { urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify81" ),
 		urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify82" ),
 		assessVariants: false,
-		productIdentifierOrBarcode: { lowercase: "barcode" } } );
+		productIdentifierOrBarcode: "Barcode" } );
 
 	it( "returns with score 9 when the product has global identifier and no variants", () => {
 		const assessmentResult = assessment.getResult( paper, Factory.buildMockResearcher( {
@@ -84,7 +86,8 @@ describe( "a test for Product identifiers assessment for Shopify", () => {
 		} ) );
 
 		expect( assessmentResult.getScore() ).toEqual( 9 );
-		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/shopify81' target='_blank'>Barcode</a>: Good job!" );
+		expect( assessmentResult.getText() ).toEqual( "<a href='https://yoa.st/shopify81' target='_blank'>Barcode</a>: " +
+			"Your product has a barcode. Good job!" );
 	} );
 
 	it( "returns with score 6 when the product doesn't have a global identifier nor variants", () => {

@@ -98,7 +98,7 @@ const expectedResults = {
 		isApplicable: true,
 		score: 6,
 		resultText: "<a href='https://yoa.st/4ly' target='_blank'>Product identifier</a>: Not all your product variants" +
-			" have a product identifier. <a href='https://yoa.st/4lz' target='_blank'>Include this if you can, as it" +
+			" have an identifier. <a href='https://yoa.st/4lz' target='_blank'>Include this if you can, as it" +
 			" will help search engines to better understand your content.</a>",
 	},
 	productSKU: {
