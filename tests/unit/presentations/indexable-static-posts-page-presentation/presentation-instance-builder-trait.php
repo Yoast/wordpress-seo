@@ -53,7 +53,7 @@ trait Presentation_Instance_Builder {
 	 *
 	 * @var Date_Helper
 	 */
-	protected $date_helper;
+	protected $date;
 
 	/**
 	 * Holds the Pagination_Helper instance.
