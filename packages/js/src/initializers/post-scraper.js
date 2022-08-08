@@ -155,7 +155,6 @@ export default function initPostScraper( $, store, editorData ) {
 	 *
 	 * @returns {void}
 	 */
-	// eslint-disable-next-line no-shadow
 	function initializeKeywordAnalysis( activePublishBox ) {
 		const savedKeywordScore = $( "#yoast_wpseo_linkdex" ).val();
 
