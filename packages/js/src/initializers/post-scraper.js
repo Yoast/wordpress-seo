@@ -177,7 +177,7 @@ export default function initPostScraper( $, store, editorData ) {
 		const savedContentScore = $( "#yoast_wpseo_content_score" ).val();
 
 		const indicator = getIndicatorForScore( savedContentScore );
-		console.log( "TEST content", indicator );
+
 		updateAdminBar( indicator );
 
 		publishBox.updateScore( "content", indicator.className );
