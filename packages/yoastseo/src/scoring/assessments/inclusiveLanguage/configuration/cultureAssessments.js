@@ -39,6 +39,10 @@ const cultureAssessments = [
 		nonInclusivePhrases: [ "tribe" ],
 		inclusiveAlternatives: "<i>group, cohort, crew, league, guild</i>",
 		score: SCORES.POTENTIALLY_NON_INCLUSIVE,
+		/*
+		 * Replace 'the culture in which this term originated' with 'a culture that uses this term' in the 'unless you are
+		 * referring to...' part of the potentiallyHarmfulUnlessCulture string.
+		 */
 		feedbackFormat: potentiallyHarmfulUnlessCulture.slice( 0, -42 ) + "a culture that uses this term.",
 		learnMoreUrl: learnMoreUrl,
 	},
