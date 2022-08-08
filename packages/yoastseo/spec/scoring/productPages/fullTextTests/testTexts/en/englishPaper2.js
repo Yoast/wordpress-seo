@@ -97,7 +97,7 @@ const expectedResults = {
 	productIdentifiers: {
 		isApplicable: true,
 		score: 6,
-		resultText: "<a href='https://yoa.st/4ly' target='_blank'>Product identifier</a>: Your product is missing a product identifier " +
+		resultText: "<a href='https://yoa.st/4ly' target='_blank'>Product identifier</a>: Your product is missing an identifier " +
 			"(like a GTIN code). <a href='https://yoa.st/4lz' target='_blank'>Include this if you can, as it will " +
 			"help search engines to better understand your content.</a>",
 	},
