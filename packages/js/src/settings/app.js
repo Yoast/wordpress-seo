@@ -54,8 +54,8 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 			label={ __( "Content settings", "wordpress-seo" ) }
 		>
 			<SidebarNavigation.SubmenuItem to="/homepage" label={ __( "Homepage", "wordpress-seo" ) } idSuffix={ idSuffix } />
-			{ map( postTypes, ( { route, label } ) => (
-				<SidebarNavigation.SubmenuItem key={ route } to={ `/post-type/${ route }` } label={ label } idSuffix={ idSuffix } />
+			{ map( postTypes, ( { name, route, label } ) => (
+				<SidebarNavigation.SubmenuItem key={ `link-post-type-${name}` } to={ `/post-type/${ route }` } label={ label } idSuffix={ idSuffix } />
 			) ) }
 		</SidebarNavigation.MenuItem>
 		<SidebarNavigation.MenuItem
@@ -63,19 +63,11 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 			icon={ ColorSwatchIcon }
 			label={ __( "Taxonomy settings", "wordpress-seo" ) }
 		>
-			{ map( taxonomies, ( { route, label, postTypes: postTypeNames, ...rest } ) => {
+			{ map( taxonomies, ( { name, route, label, postTypes: postTypeNames } ) => {
 				const firstPostType = get( postTypes, head( postTypeNames ), null );
-
-				if ( ! firstPostType ) {
-					console.warn( "tax", label );
-					console.warn( "tax route", route );
-					console.warn( "tax postTypeNames", postTypeNames );
-					console.warn( "tax rest", rest );
-				}
-
 				return (
 					<SidebarNavigation.SubmenuItem
-						key={ route }
+						key={ `link-taxonomy-${name}` }
 						to={ `/taxonomy/${ route }` }
 						label={ <div className="yst-flex yst-items-center yst-gap-1.5">
 							<span>{ label }</span>
@@ -166,12 +158,12 @@ const App = () => {
 							{ /* <Route path="webmaster-tools" element={ <WebmasterTools /> } /> */ }
 							<Route path="post-type">
 								{ map( postTypes, postType => (
-									<Route key={ postType.name } path={ postType.route } element={ <PostType { ...postType } /> } />
+									<Route key={ `route-post-type-${postType.name}` } path={ postType.route } element={ <PostType { ...postType } /> } />
 								) ) }
 							</Route>
 							<Route path="taxonomy">
 								{ map( taxonomies, taxonomy => (
-									<Route key={ taxonomy.name } path={ taxonomy.route } element={ <Taxonomy { ...taxonomy } /> } />
+									<Route key={ `route-taxonomy-${taxonomy.name}` } path={ taxonomy.route } element={ <Taxonomy { ...taxonomy } /> } />
 								) ) }
 							</Route>
 							<Route path="*" element={ <Navigate to="/site-preferences" replace={ true } /> } />
