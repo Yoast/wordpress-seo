@@ -95,6 +95,13 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 	protected $post_helper;
 
 	/**
+	 * The post helper
+	 *
+	 * @var Indexable_Builder_Versions|Mockery\MockInterface
+	 */
+	protected $versions;
+
+	/**
 	 * The wpdb instance
 	 *
 	 * @var wpdb|Mockery\MockInterface
