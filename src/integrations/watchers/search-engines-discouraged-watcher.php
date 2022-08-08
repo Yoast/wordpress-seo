@@ -211,22 +211,8 @@ class Search_Engines_Discouraged_Watcher implements Integration_Interface {
 	protected function show_search_engines_discouraged_notice() {
 		\printf(
 			'<div id="robotsmessage" class="notice notice-error"> %1$s </div>',
-			\wp_kses(
-				$this->presenter->present(),
-				[
-					'strong' => [],
-					'button' => [
-						'type'       => [],
-						'id'         => [],
-						'class'      => [],
-						'data-nonce' => [],
-					],
-					'a'      => [
-						'href' => [],
-					],
-					'p'      => [],
-				]
-			)
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			$this->presenter->present()
 		);
 	}
 
