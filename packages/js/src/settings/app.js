@@ -63,13 +63,14 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 			icon={ ColorSwatchIcon }
 			label={ __( "Taxonomy settings", "wordpress-seo" ) }
 		>
-			{ map( taxonomies, ( { route, label, postTypes: postTypeNames } ) => {
+			{ map( taxonomies, ( { route, label, postTypes: postTypeNames, ...rest } ) => {
 				const firstPostType = get( postTypes, head( postTypeNames ), null );
 
 				if ( ! firstPostType ) {
 					console.warn( "tax", label );
+					console.warn( "tax route", route );
 					console.warn( "tax postTypeNames", postTypeNames );
-					console.warn( "postTypes", postTypes );
+					console.warn( "tax rest", rest );
 				}
 
 				return (
