@@ -18,7 +18,7 @@ describe( "Other assessments", function() {
 			expect( assessmentResult.getText() ).toEqual(
 				"Be careful when using <i>homosexuals</i> as it may overgeneralize or be harmful. " +
 				"Instead, be specific about the group you are referring to (e.g. <i>gay men, queer people, lesbians</i>). " +
-				"<a href='https://yoa.st/4ls' target='_blank'>Learn more.</a>" );
+				"<a href='https://yoa.st/inclusive-language-other' target='_blank'>Learn more.</a>" );
 			expect( assessmentResult.hasMarks() ).toBeTruthy();
 			expect( assessor.getMarks() ).toEqual( [
 				{ _properties: {
