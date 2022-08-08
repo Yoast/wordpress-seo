@@ -1,7 +1,7 @@
 import { AdjustmentsIcon, ColorSwatchIcon, DesktopComputerIcon, NewspaperIcon } from "@heroicons/react/outline";
 import { __ } from "@wordpress/i18n";
 import { Badge } from "@yoast/ui-library";
-import { first, map, isEmpty } from "lodash";
+import { head, map, isEmpty, get } from "lodash";
 import PropTypes from "prop-types";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { Notifications, SidebarNavigation, YoastLogo } from "./components";
@@ -63,22 +63,32 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 			icon={ ColorSwatchIcon }
 			label={ __( "Taxonomy settings", "wordpress-seo" ) }
 		>
-			{ map( taxonomies, ( { route, label, postTypes: postTypeNames } ) => (
-				<SidebarNavigation.SubmenuItem
-					key={ route }
-					to={ `/taxonomy/${ route }` }
-					label={ <div className="yst-flex yst-items-center yst-gap-1.5">
-						<span>{ label }</span>
-						{ ! isEmpty( postTypeNames ) && (
-							<Badge variant="plain" size="small" className="yst-border yst-border-gray-300">
-								{ postTypes[ first( postTypeNames ) ].label }
-							</Badge>
-						) }
-						{ postTypeNames.length > 1 && <Badge variant="plain" size="small" className="yst-border yst-border-gray-300">...</Badge> }
-					</div> }
-					idSuffix={ idSuffix }
-				/>
-			) ) }
+			{ map( taxonomies, ( { route, label, postTypes: postTypeNames } ) => {
+				const firstPostType = get( postTypes, head( postTypeNames ), null );
+
+				if ( ! firstPostType ) {
+					console.warn( "tax", label );
+					console.warn( "tax postTypeNames", postTypeNames );
+					console.warn( "postTypes", postTypes );
+				}
+
+				return (
+					<SidebarNavigation.SubmenuItem
+						key={ route }
+						to={ `/taxonomy/${ route }` }
+						label={ <div className="yst-flex yst-items-center yst-gap-1.5">
+							<span>{ label }</span>
+							{ firstPostType && (
+								<Badge variant="plain" size="small" className="yst-border yst-border-gray-300">
+									{ postTypes[ head( postTypeNames ) ]?.label }
+								</Badge>
+							) }
+							{ postTypeNames.length > 1 && <Badge variant="plain" size="small" className="yst-border yst-border-gray-300">...</Badge> }
+						</div> }
+						idSuffix={ idSuffix }
+					/>
+				);
+			} ) }
 		</SidebarNavigation.MenuItem>
 		<SidebarNavigation.MenuItem
 			id={ `menu-advanced-settings${ idSuffix && `-${ idSuffix }` }` }
