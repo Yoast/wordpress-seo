@@ -426,7 +426,7 @@ PostDataCollector.prototype.saveContentScore = function( score ) {
  */
 PostDataCollector.prototype.saveInclusiveLanguageScore = function( score ) {
 	const indicator = getIndicatorForScore( score );
-	publishBox.updateScore( "inclusive_language", indicator.className );
+	publishBox.updateScore( "inclusive-language", indicator.className );
 
 	if ( ! isKeywordAnalysisActive() && ! isContentAnalysisActive() ) {
 		updateTrafficLight( indicator );

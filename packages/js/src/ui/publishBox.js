@@ -35,9 +35,6 @@ function createSEOScoreLabel( scoreType, status ) {
  * @returns {void}
  */
 export function updateScore( type, status ) {
-	// For some unknown reason, the dash gets replaced by an underscore. Here we replace it back.
-	type = type.replace("_", "-")
-	console.log("TEST", type, status);
 	var publishSection = $( "#" + type + "-score" );
 
 	var imageClass = imageScoreClass + " " + status;
