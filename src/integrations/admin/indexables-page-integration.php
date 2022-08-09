@@ -124,6 +124,7 @@ class Indexables_Page_Integration implements Integration_Interface {
 			'indexables-page',
 			'wpseoIndexablesPageData',
 			[
+				'environment'              => \wp_get_environment_type(),
 				'listSize'                 => $this->indexables_page_helper->get_indexables_list_size(),
 				'isLinkSuggestionsEnabled' => $this->indexables_page_helper->get_link_suggestions_enabled(),
 				'isPremium'                => $this->product_helper->is_premium(),
