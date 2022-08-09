@@ -240,6 +240,12 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 19.5.1 =
+Release Date: August 9th, 2022
+
+
+
+
 = 19.5 =
 Release Date: August 9th, 2022
 
