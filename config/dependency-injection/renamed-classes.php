@@ -20,13 +20,11 @@
  * @var $container \Symfony\Component\DependencyInjection\ContainerBuilder
  */
 
-use Yoast\WP\SEO\Conditionals\Front_End_Inspector_Conditional;
 use Yoast\WP\SEO\Integrations\Third_Party\Elementor_Exclude_Post_Types;
 use Yoast\WP\SEO\Integrations\Third_Party\Exclude_Elementor_Post_Types as Renamed_To_Exclude_Elementor_Post_Types;
 
 $renamed_classes = [
-	Elementor_Exclude_Post_Types::class    => [ Renamed_To_Exclude_Elementor_Post_Types::class, '16.7' ],
-	Front_End_Inspector_Conditional::class => [ Front_End_Inspector_Conditional::class, '19.5' ],
+	Elementor_Exclude_Post_Types::class => [ Renamed_To_Exclude_Elementor_Post_Types::class, '16.7' ],
 ];
 
 foreach ( $renamed_classes as $original_class => $replacement ) {
