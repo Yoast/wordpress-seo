@@ -21,12 +21,9 @@
  */
 
 use Yoast\WP\SEO\Conditionals\Front_End_Inspector_Conditional;
-use Yoast\WP\SEO\Integrations\Third_Party\Elementor_Exclude_Post_Types;
-use Yoast\WP\SEO\Integrations\Third_Party\Exclude_Elementor_Post_Types as Renamed_To_Exclude_Elementor_Post_Types;
 
-$renamed_classes = [
-	Elementor_Exclude_Post_Types::class    => [ Renamed_To_Exclude_Elementor_Post_Types::class, '16.7' ],
-	Front_End_Inspector_Conditional::class => [ Front_End_Inspector_Conditional::class, '19.5' ],
+$deprecated_classes = [
+	Front_End_Inspector_Conditional::class => '19.5',
 ];
 
 foreach ( $renamed_classes as $original_class => $replacement ) {
@@ -35,7 +32,7 @@ foreach ( $renamed_classes as $original_class => $replacement ) {
 		->setAutowired( true )
 		->setAutoconfigured( true )
 		->setPublic( true )
-		->setDeprecated( true, "%service_id% is deprecated since version $version! Use $renamed_class instead." );
+		->setDeprecated( true, "%service_id% is deprecated since version $version!" );
 }
 
 // If the DI container is built by Composer this WordPress function will not exist.
