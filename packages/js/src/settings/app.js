@@ -57,7 +57,7 @@ const TaxonomySubmenuItem = ( { postTypes, taxonomies, taxonomyName, idSuffix = 
 						<Badge variant="plain" size="small" className="yst-border yst-border-gray-300">
 							{ postTypes[ head( taxonomy.postTypes ) ]?.label }
 						</Badge>
-						{ taxonomy.postTypes.length > 1 && <Badge variant="plain" size="small" className="yst-border yst-border-gray-300">+ { taxonomy.postTypes.length - 1 }</Badge> }
+						{ taxonomy.postTypes.length > 1 && <Badge variant="plain" size="small" className="yst-border yst-border-gray-300">+{ taxonomy.postTypes.length - 1 }</Badge> }
 					</div>
 				) }
 			</div> }
