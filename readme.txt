@@ -243,8 +243,9 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 19.5.1 =
 Release Date: August 9th, 2022
 
+Bugfixes:
 
-
+* Fixes a bug where a fatal error would be thrown on the front-end when Yoast SEO 19.5 was used with an older version of Yoast SEO Premium.
 
 = 19.5 =
 Release Date: August 9th, 2022
