@@ -47,7 +47,7 @@ const Taxonomy = ( { name, label, singularLabel, postTypes: postTypeNames } ) =>
 	const stripCategoryBaseDescription = useMemo( () => createInterpolateElement(
 		sprintf(
 			/* translators: %s expands to <code>/category/</code> */
-			__( "Category URLs in WordPress contain a prefix, usually %s, this feature removes that prefix, for categories only.", "wordpress-seo" ),
+			__( "Category URLs in WordPress contain a prefix, usually %s. This feature removes that prefix, for categories only.", "wordpress-seo" ),
 			"<code />"
 		),
 		{
