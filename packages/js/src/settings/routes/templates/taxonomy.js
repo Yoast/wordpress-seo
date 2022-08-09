@@ -24,7 +24,7 @@ import { useSelectSettings } from "../../store";
  * @returns {JSX.Element} The taxonomy element.
  */
 const Taxonomy = ( { name, label, singularLabel, postTypes: postTypeNames } ) => {
-	const postTypes = useSelectSettings( "selectPostTypes", [], postTypeNames );
+	const postTypes = useSelectSettings( "selectPostTypes", [ postTypeNames ], postTypeNames );
 	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [ name ], name, "term-in-custom-taxonomy" );
 	const recommendedReplacementVariables = useSelectSettings( "selectRecommendedReplacementVariablesFor", [ name ], name, "term-in-custom-taxonomy" );
 
