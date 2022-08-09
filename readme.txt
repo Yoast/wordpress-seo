@@ -240,6 +240,20 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
+= 19.6 =
+Release Date: August 23rd, 2022
+
+
+Bugfixes:
+
+* Fixes a bug in the Classic Editor where clicking on the SEO link inside of the Publish box would not scroll the SEO analysis into view when the SEO tab inside of the Yoast metabox was not already open.
+* Fixes a bug where an emoji is not entirely removed when the backspace/delete button is hit.
+
+Other:
+
+* Adds a \"Search engines discouraged\" notification in the Yoast SEO dashboard when indexability is turned off in WordPress settings.
+* Removes the Ryte integration and deprecates all the relevant classes
+
 = 19.5.1 =
 Release Date: August 9th, 2022
 
@@ -270,26 +284,6 @@ Other:
 
 * Hides the \"Save changes\" button in the \"Integrations\" tab in the \"Yoast SEO  > General\" page.
 * Sets the minimum supported WordPress version to 5.9.
-
-= 19.4 =
-Release Date: July 26th, 2022
-
-Yoast SEO 19.4 is out today! In this release, we’ve rolled out some improvements to our Schema structured data implementation. Additionally, we've fixed several bugs and added a couple of small enhancements to ensure you get the best user experience with Yoast SEO. But that's not all, we also have a new integration page coming in this release. Read more about what's new in Yoast SEO 19.4 in [our release post in English](https://yoa.st/release-26-7-22) or [our release post in Spanish](https://yoa.st/release-26-7-22-spanish)!
-
-Enhancements:
-
-* Enhances the Integrations page and relocates it in the Yoast SEO sidebar menu.
-* Improves Schema for archive pages by using the featured image of the first post as `primaryImageOfPage` and by removing `potentialAction`.
-* Improves Schema for attachment pages by setting the proper `primaryImage` attribute.
-* Allows marking inside of Classic editor blocks in the Block/Gutenberg editor.
-* Improves the text analysis by adding curly (“”) and angular quotation marks («»).
-* Improves the text analysis by filtering out all versions of the ampersand (&).
-* Removes the date from the meta description for WooCommerce products.
-
-Bugfixes:
-
-* Fixes a bug where a notice was shown indicating that the Flesch reading ease score has moved from the readability analysis to the Insights for languages that do not have Flesch reading ease support.
-* Fixes a bug where an `Undefined index: SERVER_NAME` warning would be triggered in cronjobs or WP CLI commands.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
