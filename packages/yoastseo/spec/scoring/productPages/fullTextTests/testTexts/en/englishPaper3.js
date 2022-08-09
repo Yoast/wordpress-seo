@@ -15,6 +15,7 @@ const paper = new Paper( content, {
 	permalink: "https://en.wikipedia.org/wiki/Cat_tree",
 	slug: "Cat_tree",
 	customData: {
+		hasPrice: false,
 		hasGlobalSKU: true,
 		hasGlobalIdentifier: true,
 		hasVariants: true,

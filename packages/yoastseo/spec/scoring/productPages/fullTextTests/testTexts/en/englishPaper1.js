@@ -14,6 +14,7 @@ const paper = new Paper( content, {
 	permalink: "https://en.wikipedia.org/wiki/Cat_play_and_toys",
 	slug: "Cat_play_and_toys",
 	customData: {
+		hasPrice: true,
 		hasGlobalSKU: true,
 		hasGlobalIdentifier: true,
 		hasVariants: false,
