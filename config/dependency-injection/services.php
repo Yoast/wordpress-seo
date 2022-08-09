@@ -45,6 +45,7 @@ $container->register( Adapter::class, Adapter::class )->setAutowired( true )->se
 
 // Elegantly deprecate renamed classes.
 include __DIR__ . '/renamed-classes.php';
+include __DIR__ . '/deprecated-classes.php';
 
 $yoast_seo_excluded_files = [
 	'main.php',
