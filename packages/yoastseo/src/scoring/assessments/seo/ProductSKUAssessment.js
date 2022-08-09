@@ -56,13 +56,16 @@ export default class ProductSKUAssessment extends Assessment {
 	}
 
 	/**
-	 * Checks whether the assessment is applicable. Currently it is applicable when variants should be assessed (i.e.
-	 * in WooCommerce, but not in Shopify)
+	 * Checks whether the assessment is applicable.
+	 *
+	 * @param {Paper} paper The paper to check.
 	 *
 	 * @returns {Boolean} Whether the assessment is applicable.
 	 */
-	isApplicable() {
-		return this._config.assessVariants;
+	isApplicable( paper ) {
+		const customData = paper.getCustomData();
+		// Product should either be a simple product with a price, or a product with variants.
+		return this._config.assessVariants && ( customData.hasPrice || customData.hasVariants );
 	}
 
 	/**

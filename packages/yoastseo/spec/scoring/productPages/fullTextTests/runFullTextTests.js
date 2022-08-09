@@ -346,7 +346,7 @@ testPapers.forEach( function( testPaper ) {
 		} );
 
 		it( "returns a score and the associated feedback text for the SKU assessment", function() {
-			const isApplicable = productSKUAssessment.isApplicable();
+			const isApplicable = productSKUAssessment.isApplicable( paper, researcher );
 			expect( isApplicable ).toBe( expectedResults.productSKU.isApplicable );
 
 			if ( isApplicable ) {

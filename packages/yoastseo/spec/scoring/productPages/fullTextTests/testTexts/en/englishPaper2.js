@@ -15,6 +15,7 @@ const paper = new Paper( content, {
 	permalink: "https://en.wikipedia.org/wiki/Monstera_deliciosa",
 	slug: "Monstera_deliciosa",
 	customData: {
+		hasPrice: true,
 		hasGlobalSKU: false,
 		hasGlobalIdentifier: false,
 		hasVariants: false,

@@ -112,3 +112,43 @@ describe( "a test for Product identifiers assessment for Shopify", () => {
 	} );
 } );
 
+describe( "a test for the applicability of the assessment", function() {
+	const assessment = new ProductIdentifiersAssessment( { assessVariants: true }, );
+
+	it( "is not applicable when there is no price and no variants", function() {
+		const customData = {
+			hasPrice: false,
+			hasGlobalIdentifier: true,
+			hasVariants: false,
+		};
+		const paperWithCustomData = new Paper( "", { customData } );
+		const isApplicable = assessment.isApplicable( paperWithCustomData );
+
+		expect( isApplicable ).toBe( false );
+	} );
+
+	it( "is applicable when there is a price and no variants", function() {
+		const customData = {
+			hasPrice: true,
+			hasGlobalIdentifier: true,
+			hasVariants: false,
+		};
+		const paperWithCustomData = new Paper( "", { customData } );
+		const isApplicable = assessment.isApplicable( paperWithCustomData );
+
+		expect( isApplicable ).toBe( true );
+	} );
+
+	it( "is applicable when there is no price but there are variants", function() {
+		const customData = {
+			hasPrice: false,
+			hasGlobalIdentifier: false,
+			hasVariants: true,
+		};
+		const paperWithCustomData = new Paper( "", { customData } );
+		const isApplicable = assessment.isApplicable( paperWithCustomData );
+
+		expect( isApplicable ).toBe( true );
+	} );
+} );
+
