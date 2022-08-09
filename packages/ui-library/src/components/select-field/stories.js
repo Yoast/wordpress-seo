@@ -5,8 +5,8 @@ export default {
 	title: "2. Components/Select Field",
 	component: SelectField,
 	argTypes: {
-		children: { control: "text" },
 		error: { control: "text" },
+		children: { description: "Alternative to options." },
 	},
 	parameters: {
 		docs: {
@@ -51,13 +51,13 @@ WithLabelAndDescription.args = {
 	id: "select-field-1",
 	name: "name-1",
 	label: "Select field with a label",
+	description: "Select field with a description.",
 	options: [
 		{ value: "1", label: "Option 1" },
 		{ value: "2", label: "Option 2" },
 		{ value: "3", label: "Option 3" },
 		{ value: "4", label: "Option 4" },
 	],
-	children: "Select field with a description.",
 };
 
 export const WithError = Template.bind( {} );

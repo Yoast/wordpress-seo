@@ -682,6 +682,10 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'tailwind-' . $flat_version,
 			],
 			[
+				'name' => 'new-settings',
+				'src'  => 'new-settings-' . $flat_version,
+			],
+			[
 				'name' => 'workouts',
 				'src'  => 'workouts-' . $flat_version,
 				'deps' => [

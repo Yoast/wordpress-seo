@@ -7,20 +7,22 @@ import { useSvgAria } from "../../hooks";
 
 /**
  * @param {string|JSX.Element} [as="button"] Base component.
- * @param {boolean} [checked] Default state.
+ * @param {boolean} checked Default state.
  * @param {string} screenReaderLabel The label for screen readers.
  * @param {Function} onChange Change callback.
  * @param {boolean} [disabled] Disabled flag.
+ * @param {string} [type] Type.
  * @param {string} [className] CSS class.
  * @returns {JSX.Element} Toggle component.
  */
 const Toggle = ( {
-	as: Component,
+	as: Component = "button",
 	checked,
 	screenReaderLabel,
 	onChange,
-	disabled,
-	className,
+	disabled = false,
+	className = "",
+	type = "",
 	...props
 } ) => {
 	const svgAriaProps = useSvgAria();
@@ -38,6 +40,8 @@ const Toggle = ( {
 				className,
 			) }
 			{ ...props }
+			// Force type button when component is button for proper behavior in HTML forms.
+			type={ Component === "button" ? "button" : type }
 		>
 			<span className="yst-sr-only">{ screenReaderLabel }</span>
 			<span className="yst-toggle__handle">
@@ -77,14 +81,8 @@ Toggle.propTypes = {
 	screenReaderLabel: PropTypes.string.isRequired,
 	onChange: PropTypes.func.isRequired,
 	disabled: PropTypes.bool,
+	type: PropTypes.string,
 	className: PropTypes.string,
-};
-
-Toggle.defaultProps = {
-	as: "button",
-	checked: false,
-	disabled: false,
-	className: "",
 };
 
 export default Toggle;

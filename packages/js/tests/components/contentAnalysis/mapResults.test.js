@@ -10,36 +10,48 @@ const analysisResults = [
 		score: -1,
 		text: "feedback string",
 		_hasBetaBadge: false,
+		_hasJumps: false,
+		editFieldName: "keyphrase",
 	} ),
 	new AssessmentResult( {
 		_identifier: "problem",
 		score: 0,
 		text: "feedback string",
 		_hasBetaBadge: false,
+		_hasJumps: false,
+		editFieldName: "keyphrase",
 	} ),
 	new AssessmentResult( {
 		_identifier: "improvement",
 		score: 3,
 		text: "feedback string",
 		_hasBetaBadge: false,
+		_hasJumps: false,
+		editFieldName: "keyphrase",
 	} ),
 	new AssessmentResult( {
 		_identifier: "consideration",
 		score: 6,
 		text: "feedback string",
 		_hasBetaBadge: true,
+		_hasJumps: true,
+		editFieldName: "keyphrase",
 	} ),
 	new AssessmentResult( {
 		_identifier: "good",
 		score: 9,
 		text: "feedback string",
 		_hasBetaBadge: false,
+		_hasJumps: false,
+		editFieldName: "",
 	} ),
 	new AssessmentResult( {
 		_identifier: "empty text",
 		score: 0,
 		text: "",
 		_hasBetaBadge: false,
+		_hasJumps: false,
+		editFieldName: "",
 	} ),
 ];
 
@@ -92,6 +104,8 @@ describe( "mapResults", () => {
 		expect( result.text ).toBe( expectedResult.text );
 		expect( result.markerId ).toBe( expectedResult._identifier );
 		expect( result.hasBetaBadge ).toBe( expectedResult._hasBetaBadge );
+		expect( result.hasJumps ).toBe( expectedResult._hasJumps );
+		expect( result.editFieldName ).toBe( expectedResult.editFieldName );
 	} );
 
 	it( "maps a result, using a keywordKey", () => {
@@ -108,6 +122,8 @@ describe( "mapResults", () => {
 		expect( result.text ).toBe( expectedResult.text );
 		expect( result.markerId ).toBe( `something:${expectedResult._identifier}` );
 		expect( result.hasBetaBadge ).toBe( expectedResult._hasBetaBadge );
+		expect( result.hasJumps ).toBe( expectedResult._hasJumps );
+		expect( result.editFieldName ).toBe( expectedResult.editFieldName );
 	} );
 } );
 

@@ -5,7 +5,8 @@
  * @package WPSEO
  */
 
-use Yoast\WP\SEO\Conditionals\Front_End_Inspector_Conditional;
+use Yoast\WP\SEO\Helpers\Score_Icon_Helper;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
  * Class for the Yoast SEO admin bar menu.
@@ -62,18 +63,44 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	protected $asset_manager;
 
 	/**
-	 * Constructor.
+	 * Holds the Score_Icon_Helper instance.
 	 *
-	 * Sets the asset manager to use.
-	 *
-	 * @param WPSEO_Admin_Asset_Manager|null $asset_manager Optional. Asset manager to use.
+	 * @var Score_Icon_Helper
 	 */
-	public function __construct( WPSEO_Admin_Asset_Manager $asset_manager = null ) {
+	protected $indexable_repository;
+
+	/**
+	 * Holds the Score_Icon_Helper instance.
+	 *
+	 * @var Score_Icon_Helper
+	 */
+	protected $score_icon_helper;
+
+	/**
+	 * Constructs the WPSEO_Admin_Bar_Menu.
+	 *
+	 * @param WPSEO_Admin_Asset_Manager|null $asset_manager        Optional. Asset manager to use.
+	 * @param Indexable_Repository|null      $indexable_repository Optional. The Indexable_Repository.
+	 * @param Score_Icon_Helper|null         $score_icon_helper    Optional. The Score_Icon_Helper.
+	 */
+	public function __construct(
+		WPSEO_Admin_Asset_Manager $asset_manager = null,
+		Indexable_Repository $indexable_repository = null,
+		Score_Icon_Helper $score_icon_helper = null
+	) {
 		if ( ! $asset_manager ) {
 			$asset_manager = new WPSEO_Admin_Asset_Manager();
 		}
+		if ( ! $indexable_repository ) {
+			$indexable_repository = YoastSEO()->classes->get( Indexable_Repository::class );
+		}
+		if ( ! $score_icon_helper ) {
+			$score_icon_helper = YoastSEO()->helpers->score_icon;
+		}
 
-		$this->asset_manager = $asset_manager;
+		$this->asset_manager        = $asset_manager;
+		$this->indexable_repository = $indexable_repository;
+		$this->score_icon_helper    = $score_icon_helper;
 	}
 
 	/**
@@ -99,8 +126,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 
 		$this->add_root_menu( $wp_admin_bar );
 
-		$front_end_inspector_conditional = new Front_End_Inspector_Conditional();
-		if ( ! is_admin() && YoastSEO()->helpers->product->is_premium() && $front_end_inspector_conditional->is_met() ) {
+		if ( ! is_admin() && YoastSEO()->helpers->product->is_premium() ) {
 			$this->add_frontend_inspector_submenu( $wp_admin_bar );
 		}
 		$this->add_keyword_research_submenu( $wp_admin_bar );
@@ -255,19 +281,19 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 
 		$submenu_items = [
 			[
-				'id'     => 'wpseo-kwresearchtraining',
-				'title'  => __( 'Keyword research training', 'wordpress-seo' ),
-				'href'   => WPSEO_Shortlinker::get( 'https://yoa.st/wp-admin-bar' ),
+				'id'    => 'wpseo-kwresearchtraining',
+				'title' => __( 'Keyword research training', 'wordpress-seo' ),
+				'href'  => WPSEO_Shortlinker::get( 'https://yoa.st/wp-admin-bar' ),
 			],
 			[
-				'id'     => 'wpseo-adwordsexternal',
-				'title'  => __( 'Google Ads', 'wordpress-seo' ),
-				'href'   => $adwords_url,
+				'id'    => 'wpseo-adwordsexternal',
+				'title' => __( 'Google Ads', 'wordpress-seo' ),
+				'href'  => $adwords_url,
 			],
 			[
-				'id'     => 'wpseo-googleinsights',
-				'title'  => __( 'Google Trends', 'wordpress-seo' ),
-				'href'   => $trends_url,
+				'id'    => 'wpseo-googleinsights',
+				'title' => __( 'Google Trends', 'wordpress-seo' ),
+				'href'  => $trends_url,
 			],
 		];
 
@@ -296,7 +322,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 			'id'     => self::FRONTEND_INSPECTOR_SUBMENU_IDENTIFIER,
 			'title'  => sprintf(
 				'%1$s <span class="yoast-badge yoast-beta-badge">%2$s</span>',
-				__( 'Inspect', 'wordpress-seo' ),
+				__( 'Front-end SEO inspector', 'wordpress-seo' ),
 				__( 'Beta', 'wordpress-seo' )
 			),
 			'href'   => '#wpseo-frontend-inspector',
@@ -344,55 +370,55 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 		$encoded_url   = rawurlencode( $url );
 		$submenu_items = [
 			[
-				'id'     => 'wpseo-inlinks',
-				'title'  => __( 'Check links to this URL', 'wordpress-seo' ),
-				'href'   => 'https://search.google.com/search-console/links/drilldown?resource_id=' . rawurlencode( get_option( 'siteurl' ) ) . '&type=EXTERNAL&target=' . $encoded_url . '&domain=',
+				'id'    => 'wpseo-inlinks',
+				'title' => __( 'Check links to this URL', 'wordpress-seo' ),
+				'href'  => 'https://search.google.com/search-console/links/drilldown?resource_id=' . rawurlencode( get_option( 'siteurl' ) ) . '&type=EXTERNAL&target=' . $encoded_url . '&domain=',
 			],
 			[
-				'id'     => 'wpseo-kwdensity',
-				'title'  => __( 'Check Keyphrase Density', 'wordpress-seo' ),
+				'id'    => 'wpseo-kwdensity',
+				'title' => __( 'Check Keyphrase Density', 'wordpress-seo' ),
 				// HTTPS not available.
-				'href'   => 'http://www.zippy.co.uk/keyworddensity/index.php?url=' . $encoded_url . '&keyword=' . rawurlencode( $focus_keyword ),
+				'href'  => 'http://www.zippy.co.uk/keyworddensity/index.php?url=' . $encoded_url . '&keyword=' . rawurlencode( $focus_keyword ),
 			],
 			[
-				'id'     => 'wpseo-cache',
-				'title'  => __( 'Check Google Cache', 'wordpress-seo' ),
-				'href'   => '//webcache.googleusercontent.com/search?strip=1&q=cache:' . $encoded_url,
+				'id'    => 'wpseo-cache',
+				'title' => __( 'Check Google Cache', 'wordpress-seo' ),
+				'href'  => '//webcache.googleusercontent.com/search?strip=1&q=cache:' . $encoded_url,
 			],
 			[
-				'id'     => 'wpseo-structureddata',
-				'title'  => __( 'Google Rich Results Test', 'wordpress-seo' ),
-				'href'   => 'https://search.google.com/test/rich-results?url=' . $encoded_url,
+				'id'    => 'wpseo-structureddata',
+				'title' => __( 'Google Rich Results Test', 'wordpress-seo' ),
+				'href'  => 'https://search.google.com/test/rich-results?url=' . $encoded_url,
 			],
 			[
-				'id'     => 'wpseo-facebookdebug',
-				'title'  => __( 'Facebook Debugger', 'wordpress-seo' ),
-				'href'   => '//developers.facebook.com/tools/debug/?q=' . $encoded_url,
+				'id'    => 'wpseo-facebookdebug',
+				'title' => __( 'Facebook Debugger', 'wordpress-seo' ),
+				'href'  => '//developers.facebook.com/tools/debug/?q=' . $encoded_url,
 			],
 			[
-				'id'     => 'wpseo-pinterestvalidator',
-				'title'  => __( 'Pinterest Rich Pins Validator', 'wordpress-seo' ),
-				'href'   => 'https://developers.pinterest.com/tools/url-debugger/?link=' . $encoded_url,
+				'id'    => 'wpseo-pinterestvalidator',
+				'title' => __( 'Pinterest Rich Pins Validator', 'wordpress-seo' ),
+				'href'  => 'https://developers.pinterest.com/tools/url-debugger/?link=' . $encoded_url,
 			],
 			[
-				'id'     => 'wpseo-htmlvalidation',
-				'title'  => __( 'HTML Validator', 'wordpress-seo' ),
-				'href'   => '//validator.w3.org/check?uri=' . $encoded_url,
+				'id'    => 'wpseo-htmlvalidation',
+				'title' => __( 'HTML Validator', 'wordpress-seo' ),
+				'href'  => '//validator.w3.org/check?uri=' . $encoded_url,
 			],
 			[
-				'id'     => 'wpseo-cssvalidation',
-				'title'  => __( 'CSS Validator', 'wordpress-seo' ),
-				'href'   => '//jigsaw.w3.org/css-validator/validator?uri=' . $encoded_url,
+				'id'    => 'wpseo-cssvalidation',
+				'title' => __( 'CSS Validator', 'wordpress-seo' ),
+				'href'  => '//jigsaw.w3.org/css-validator/validator?uri=' . $encoded_url,
 			],
 			[
-				'id'     => 'wpseo-pagespeed',
-				'title'  => __( 'Google Page Speed Test', 'wordpress-seo' ),
-				'href'   => '//developers.google.com/speed/pagespeed/insights/?url=' . $encoded_url,
+				'id'    => 'wpseo-pagespeed',
+				'title' => __( 'Google Page Speed Test', 'wordpress-seo' ),
+				'href'  => '//developers.google.com/speed/pagespeed/insights/?url=' . $encoded_url,
 			],
 			[
-				'id'     => 'wpseo-google-mobile-friendly',
-				'title'  => __( 'Mobile-Friendly Test', 'wordpress-seo' ),
-				'href'   => 'https://www.google.com/webmasters/tools/mobile-friendly/?url=' . $encoded_url,
+				'id'    => 'wpseo-google-mobile-friendly',
+				'title' => __( 'Mobile-Friendly Test', 'wordpress-seo' ),
+				'href'  => 'https://www.google.com/webmasters/tools/mobile-friendly/?url=' . $encoded_url,
 			],
 		];
 
@@ -570,18 +596,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 			return '';
 		}
 
-		$analysis_seo         = new WPSEO_Metabox_Analysis_SEO();
-		$analysis_readability = new WPSEO_Metabox_Analysis_Readability();
-
-		if ( $analysis_seo->is_enabled() ) {
-			return $this->get_score( WPSEO_Meta::get_value( 'linkdex', $post->ID ) );
-		}
-
-		if ( $analysis_readability->is_enabled() ) {
-			return $this->get_score( WPSEO_Meta::get_value( 'content_score', $post->ID ) );
-		}
-
-		return '';
+		return $this->get_score_icon();
 	}
 
 	/**
@@ -619,36 +634,34 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 			return '';
 		}
 
-		$analysis_seo         = new WPSEO_Metabox_Analysis_SEO();
-		$analysis_readability = new WPSEO_Metabox_Analysis_Readability();
-
-		if ( $analysis_seo->is_enabled() ) {
-			return $this->get_score( WPSEO_Taxonomy_Meta::get_term_meta( $term->term_id, $term->taxonomy, 'linkdex' ) );
-		}
-
-		if ( $analysis_readability->is_enabled() ) {
-			return $this->get_score( WPSEO_Taxonomy_Meta::get_term_meta( $term->term_id, $term->taxonomy, 'content_score' ) );
-		}
-
-		return '';
+		return $this->get_score_icon();
 	}
 
 	/**
-	 * Takes the SEO score and makes the score icon for the admin bar for it.
+	 * Create the score icon.
 	 *
-	 * @param int $score The 0-100 rating of the score. Can be either SEO score or content score.
-	 *
-	 * @return string Score markup.
+	 * @return string The score icon, or empty string.
 	 */
-	protected function get_score( $score ) {
-		$score_class      = WPSEO_Utils::translate_score( $score );
-		$translated_score = WPSEO_Utils::translate_score( $score, false );
-		/* translators: %s expands to the SEO score. */
-		$screen_reader_text = sprintf( __( 'SEO score: %s', 'wordpress-seo' ), $translated_score );
+	protected function get_score_icon() {
+		$is_seo_enabled         = ( new WPSEO_Metabox_Analysis_SEO() )->is_enabled();
+		$is_readability_enabled = ( new WPSEO_Metabox_Analysis_Readability() )->is_enabled();
 
-		$score_adminbar_element = '<div class="wpseo-score-icon adminbar-seo-score ' . $score_class . '"><span class="adminbar-seo-score-text screen-reader-text">' . $screen_reader_text . '</span></div>';
+		if ( ! $is_seo_enabled && ! $is_readability_enabled ) {
+			return '';
+		}
 
-		return $score_adminbar_element;
+		$indexable = $this->indexable_repository->for_current_page();
+
+		if ( $is_seo_enabled ) {
+			return $this->score_icon_helper->for_seo( $indexable, 'adminbar-seo-score' )->present();
+		}
+
+		if ( $is_readability_enabled ) {
+			return $this->score_icon_helper->for_readability( $indexable->readability_score, 'adminbar-seo-score' )
+				->present();
+		}
+
+		return '';
 	}
 
 	/**

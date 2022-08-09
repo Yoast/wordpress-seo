@@ -198,12 +198,12 @@ class ReadabilityAnalysis extends Component {
 			<AnalysisResult
 				icon="alert-info"
 				pressed={ false }
-				onButtonClick={ noop }
+				onButtonClickMarks={ noop }
 				bulletColor="gray"
-				buttonId={ "" }
+				buttonIdMarks={ "" }
 				text={ text }
 				hasMarksButton={ false }
-				ariaLabel={ "" }
+				ariaLabelMarks={ "" }
 			/>
 		</ul>;
 	}

@@ -1,5 +1,6 @@
 @import url(../src/score_icon.css);
-.adminbar-seo-score {
+
+#wp-admin-bar-wpseo-menu .wpseo-score-icon {
   margin: 10px 0 0 4px !important;
 }
 
@@ -56,7 +57,7 @@
 }
 
 @media screen and (max-width: 782px) {
-  .adminbar-seo-score {
+  #wp-admin-bar-wpseo-menu .wpseo-score-icon {
     margin: 16px 10px 0 2px !important;
   }
   #wpadminbar #wp-admin-bar-wpseo-menu {
