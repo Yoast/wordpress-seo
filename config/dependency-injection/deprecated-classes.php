@@ -26,8 +26,7 @@ $deprecated_classes = [
 	Front_End_Inspector_Conditional::class => '19.5',
 ];
 
-foreach ( $renamed_classes as $original_class => $replacement ) {
-	list( $renamed_class, $version ) = $replacement;
+foreach ( $deprecated_classes as $original_class => $version ) {
 	$container->register( $original_class, $original_class )
 		->setAutowired( true )
 		->setAutoconfigured( true )
