@@ -1,14 +1,17 @@
 import { createSelector, createSlice } from "@reduxjs/toolkit";
-import { get, omit, map, values } from "lodash";
+import { get, omit, reduce, values } from "lodash";
 
 /**
  * @returns {Object} The initial state.
  */
-export const createInitialTaxonomiesState = () => map( get( window, "wpseoScriptData.taxonomies", {} ), ( { postTypes, ...taxonomy } ) => ( {
-	...taxonomy,
-	// Ensure array type of taxonomy post types.
-	postTypes: values( postTypes ),
-} ) );
+export const createInitialTaxonomiesState = () => reduce( get( window, "wpseoScriptData.taxonomies", {} ), ( acc, { postTypes, ...taxonomy }, name ) => ( {
+	...acc,
+	[ name ]: {
+		...taxonomy,
+		// Ensure array type of taxonomy post types.
+		postTypes: values( postTypes ),
+	},
+} ), {} );
 
 const slice = createSlice( {
 	name: "taxonomies",
