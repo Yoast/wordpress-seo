@@ -35,6 +35,8 @@ import ProductSKUAssessment from "./seo/ProductSKUAssessment";
 
 import InclusiveLanguageAssessment from "./inclusiveLanguage/InclusiveLanguageAssessment";
 
+import InclusiveLanguageAssessment from "./inclusiveLanguage/InclusiveLanguageAssessment";
+
 const readability = {
 	ListAssessment,
 	ParagraphTooLongAssessment,
@@ -71,6 +73,10 @@ const seo = {
 	ImageAltTagsAssessment,
 	ProductIdentifiersAssessment,
 	ProductSKUAssessment,
+};
+
+const inclusiveLanguage = {
+	InclusiveLanguageAssessment,
 };
 
 const inclusiveLanguage = {
