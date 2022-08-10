@@ -20,7 +20,7 @@ function LandingPage() {
 			<Alert variant="info">{ __( "This functionality is disabled in staging environments.", "wordpress-seo" ) }</Alert>
 		</div>;
 	}
-	return ( indexingState === "already_done" || indexingState === "completed" ) ? <IndexablesPage /> : <EmptyState setIndexingState={ setIndexingState } />;
+	return ( indexingState === "already_done" || indexingState === "completed" ) ? <IndexablesPage /> : <IndexationView setIndexingState={ setIndexingState } />;
 }
 
 export default LandingPage;
