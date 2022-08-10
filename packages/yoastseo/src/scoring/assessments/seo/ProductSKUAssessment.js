@@ -3,7 +3,7 @@ import AssessmentResult from "../../../values/AssessmentResult";
 import { merge } from "lodash-es";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import { __, sprintf } from "@wordpress/i18n";
-console.log("ProductSKU is loaded")
+console.log( "ProductSKU is loaded" );
 /**
  * Represents the assessment for the product SKU.
  */
@@ -41,7 +41,7 @@ export default class ProductSKUAssessment extends Assessment {
 	 * @returns {AssessmentResult} An assessment result with the score and formatted text.
 	 */
 	getResult( paper, researcher ) {
-		console.log("HELLO WORLD", this._config)
+		console.log( "TEST8", this._config );
 		const productSKUData = researcher.getResearch( "getProductSKUData" );
 
 		const result = this.scoreProductSKU( productSKUData, this._config );
@@ -57,6 +57,31 @@ export default class ProductSKUAssessment extends Assessment {
 	}
 
 	/**
+	 *
+	 * @param customData
+	 * @private
+	 */
+	applicabilityHelper( customData ) {
+		console.log( "TEST (not) hasvariants: ", ! customData.hasVariants );
+		// Checks if we are in Woo or Shopify. assessVariants is always true in Woo
+		if ( ! this._config.assessVariants ) {
+			return false;
+		}
+		// If we have a variable product with no (active) variants. (active variant = variant with a price)
+		if (  customData.productType === "variable" && ! customData.hasVariants  ) {
+			console.log( "NOT APPLICABLE" );
+			return false;
+		}
+		// } else if ( customData.productType === "simple" ) {
+		//
+		// } else {
+		// 	Console.log( "undefined case" );
+		// }
+
+		return ( customData.hasPrice || customData.hasVariants );
+	}
+
+	/**
 	 * Checks whether the assessment is applicable.
 	 *
 	 * @param {Paper} paper The paper to check.
@@ -64,10 +89,11 @@ export default class ProductSKUAssessment extends Assessment {
 	 * @returns {Boolean} Whether the assessment is applicable.
 	 */
 	isApplicable( paper ) {
-		console.log("HELLO isApplicable")
+
 		const customData = paper.getCustomData();
+		console.log( "HELLO isApplicable" );
 		// Product should either be a simple product with a price, or a product with variants.
-		return this._config.assessVariants && ( customData.hasPrice || customData.hasVariants );
+		return this.applicabilityHelper( customData );
 	}
 
 	/**
@@ -81,8 +107,8 @@ export default class ProductSKUAssessment extends Assessment {
 	 */
 	scoreProductSKU( productSKUData, config ) {
 		// If a product has no variants, return orange bullet if it has no global SKU, and green bullet if it has one.
-		console.log("TEST6", productSKUData)
-		console.log("TEST7", config)
+		console.log( "TEST6", productSKUData );
+		console.log( "TEST7", config );
 		if ( ! productSKUData.hasVariants ) {
 			if ( ! productSKUData.hasGlobalSKU ) {
 				return {
