@@ -2,7 +2,7 @@
 import { useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 
-import EmptyState from "./components/empty-state";
+import IndexationView from "./components/indexation-view";
 import IndexablesPage from "./indexables-page";
 import { Alert } from "@yoast/ui-library";
 
