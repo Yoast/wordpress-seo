@@ -12,6 +12,7 @@ import SvgIcon from "../../../components/src/SvgIcon";
 import NotEnoughContent from "./components/not-enough-content";
 import NotEnoughAnalysedContent from "./components/not-enough-analysed-content";
 import { addLinkToString } from "../helpers/stringHelpers";
+import SuggestedLinksModalContent from "./components/suggested-links-modal";
 import SuggestedLinksModal from "./components/suggested-links-modal";
 
 const Link = makeOutboundLink();
@@ -150,7 +151,7 @@ function IndexablesPage() {
 
 	const [ ignoredIndexable, setIgnoredIndexable ] = useState( null );
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
-	const [ suggestedLinksModalContent, setSuggestedLinksModalContent ] = useState( null );
+	const [ suggestedLinksModalData, setSuggestedLinksModalData ] = useState( null );
 	const [ setupInfo, setSetupInfo ] = useState( null );
 
 	/**
@@ -287,7 +288,7 @@ function IndexablesPage() {
 		setIsModalOpen( true );
 
 		if ( ! isPremiumInstalled ) {
-			setSuggestedLinksModalContent( {
+			setSuggestedLinksModalData( {
 				incomingLinksCount: incomingLinksCount,
 				linksList: null,
 				breadcrumbTitle: breadcrumbTitle,
@@ -304,7 +305,7 @@ function IndexablesPage() {
 			const parsedResponse = await response.json;
 
 			if ( parsedResponse.length === 0 ) {
-				setSuggestedLinksModalContent( {
+				setSuggestedLinksModalData( {
 					incomingLinksCount: incomingLinksCount,
 					linksList: [],
 					breadcrumbTitle: breadcrumbTitle,
@@ -313,7 +314,7 @@ function IndexablesPage() {
 				 return true;
 			}
 			if ( parsedResponse.length > 0 ) {
-				setSuggestedLinksModalContent( {
+				setSuggestedLinksModalData( {
 					incomingLinksCount: incomingLinksCount,
 					linksList: parsedResponse,
 					breadcrumbTitle: breadcrumbTitle,
@@ -327,7 +328,7 @@ function IndexablesPage() {
 			console.error( error.message );
 			return false;
 		}
-	}, [ setSuggestedLinksModalContent, setIsModalOpen ] );
+	}, [ setSuggestedLinksModalData, setIsModalOpen ] );
 
 	/**
 	 * Handles the click event of the link button.
@@ -352,7 +353,7 @@ function IndexablesPage() {
 	 */
 	const handleCloseModal = useCallback( () => {
 		setIsModalOpen( false );
-		setSuggestedLinksModalContent( null );
+		setSuggestedLinksModalData( null );
 	}, [] );
 
 	/**
@@ -402,113 +403,6 @@ function IndexablesPage() {
 		return () => handleUndo( ignored );
 	}, [ handleUndo ] );
 
-	/**
-	 * Renders the suggested links modal content.
-	 *
-	 * @returns {WPElement} The modal content.
-	 */
-	const renderSuggestedLinksModal = () => {
-		if ( ! isLinkSuggestionsEnabled ) {
-			// @TODO: needs UX
-			return <span>You have links suggestion disabled.</span>;
-		}
-
-		if ( suggestedLinksModalContent === null ) {
-			return <SvgIcon icon="loading-spinner" />;
-		} else if ( suggestedLinksModalContent.linksList.length === 0 ) {
-			return <Fragment>
-				<SuggestedLinksModal suggestedLinksModalContent={ suggestedLinksModalContent }>
-					<p className="yst-italic yst-mb-2">No suggestions available</p>
-				</SuggestedLinksModal>
-			</Fragment>;
-		}
-		return (
-			<SuggestedLinksModal suggestedLinksModalContent={ suggestedLinksModalContent }>
-				<ul className="yst-divide-y yst-divide-gray-200">
-					{
-						suggestedLinksModalContent.linksList.map( ( link, idx ) => {
-							return <li
-								key={ `suggested-${idx}` }
-								className="yst-my-0 yst-max-w-none yst-font-medium yst-text-gray-700 yst-flex yst-flex-row yst-items-center yst-gap-3 yst-h-14"
-							>
-								<span className=" yst-flex yst-grow">
-									<IndexableTitleLink showType={ false } indexable={ link } />
-								</span>
-								<Button className="yst-items-end" as="a" href={ "/wp-admin/post.php?action=edit&post=" + link.object_id } target="_blank" rel="noopener noreferrer" variant="secondary">Edit</Button>
-							</li>;
-						}
-						)
-					}
-				</ul>
-			</SuggestedLinksModal>
-		);
-	};
-
-	/**
-	 * Renders the upsell content in suggested links modal.
-	 *
-	 * @returns {WPElement} The modal content.
-	 */
-	const renderUpsellLinksModal = () => {
-		if ( suggestedLinksModalContent === null ) {
-			return <SvgIcon icon="loading-spinner" />;
-		}
-		return (
-			<SuggestedLinksModal suggestedLinksModalContent={ suggestedLinksModalContent }>
-				<div className="yst-mb-3.5 yst-text-justify">
-					{
-						addLinkToString(
-							// translators: %1$s and %2$s are replaced by opening and closing anchor tags.
-							sprintf(
-								__( "Get relevant internal linking suggestions with Yoast SEO Premium! " +
-									"This feature will show you posts on your site with similar content that might be interesting to link from. " +
-									"%1$sRead more about how internal linking can improve your site structure%2$s.", "wordpress-seo" ),
-								"<a>",
-								"</a>" ),
-							"https://www.yoast.com"
-						)
-					}
-				</div>
-				<div className="yst-grow-0 yst-mb-4">
-					<Button
-						id="indexables-page-suggested-links-upsell-button"
-						type="button"
-						as="a"
-						href="#"
-						variant="upsell"
-						className="yst-text-gray-800"
-						target="_blank"
-					>
-						{ __( "Unlock with Premium!", "wordpress-seo" ) }
-						<span className="yst-sr-only">
-							{
-								__( "(Opens in a new browser tab)", "wordpress-seo" )
-							}
-						</span>
-						<ArrowNarrowRightIcon
-							className="yst-ml-2 yst-h-5 yst-w-5 yst-text-yellow-900"
-						/>
-					</Button>
-				</div>
-				<ul className="yst-divide-y yst-divide-gray-200">
-					{ range( 1, 6 ).map( ( elem, idx ) => {
-						return <li
-							key={ `suggested-${idx}` }
-							className="yst-my-0 yst-max-w-none yst-font-medium yst-text-gray-400 yst-flex yst-flex-row yst-items-center yst-gap-3 yst-h-14"
-						>
-							<span className=" yst-flex yst-grow">
-								{ `Suggested post to link from ${elem}` }
-								<ExternalLinkIcon className="yst-h-4 yst-w- yst-ml-2" />
-							</span>
-							<Button className="yst-items-end" variant="secondary" disabled={ true }>Edit</Button>
-						</li>;
-					} )
-					}
-				</ul>
-			</SuggestedLinksModal>
-		);
-	};
-
 	if ( setupInfo && Object.values( setupInfo.enabledFeatures ).every( value => value === false ) ) {
 		// @TODO: needs UX
 		return <span>All features deactivated.</span>;
@@ -525,7 +419,11 @@ function IndexablesPage() {
 			onClose={ handleCloseModal }
 			isOpen={ isModalOpen }
 		>
-			{ isPremiumInstalled ? renderSuggestedLinksModal() : renderUpsellLinksModal() }
+			 <SuggestedLinksModal
+				isLinkSuggestionsEnabled={ isLinkSuggestionsEnabled }
+				isPremium={ isPremiumInstalled }
+				suggestedLinksModalData={ suggestedLinksModalData }
+			 />
 		</Modal>
 		<div
 			id="indexables-table-grid"
