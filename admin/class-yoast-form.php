@@ -6,6 +6,7 @@
  */
 
 use Yoast\WP\SEO\Presenters\Admin\Light_Switch_Presenter;
+use Yoast\WP\SEO\Presenters\Admin\Sidebar_Presenter;
 
 /**
  * Admin form class.
@@ -189,7 +190,8 @@ class Yoast_Form {
 			return;
 		}
 
-		require_once 'views/sidebar.php';
+		$sidebar_presenter = new Sidebar_Presenter();
+		echo $sidebar_presenter->present();
 	}
 
 	/**
