@@ -1,9 +1,10 @@
 /* global wpseoIndexablesPageData */
 import PropTypes from "prop-types";
+import { range } from "lodash";
 import apiFetch from "@wordpress/api-fetch";
 import { __, sprintf } from "@wordpress/i18n";
 import { useEffect, useState, useCallback, Fragment } from "@wordpress/element";
-import { LockOpenIcon, LinkIcon, ExternalLinkIcon } from "@heroicons/react/outline";
+import { ArrowNarrowRightIcon, LinkIcon, ExternalLinkIcon } from "@heroicons/react/outline";
 import { Badge, Button, Modal } from "@yoast/ui-library";
 import { makeOutboundLink } from "@yoast/helpers";
 import IndexablesTable from "./components/indexables-table";
@@ -11,6 +12,7 @@ import SvgIcon from "../../../components/src/SvgIcon";
 import NotEnoughContent from "./components/not-enough-content";
 import NotEnoughAnalysedContent from "./components/not-enough-analysed-content";
 import { addLinkToString } from "../helpers/stringHelpers";
+import SuggestedLinksModal from "./components/suggested-links-modal";
 
 const Link = makeOutboundLink();
 
@@ -58,7 +60,7 @@ IndexableLinkCount.propTypes = {
  *
  * @returns {WPElement} A div with a styled link to the indexable.
  */
-function IndexableTitleLink( { indexable } ) {
+export function IndexableTitleLink( { indexable, showType } ) {
 	return <div className="yst-grow yst-min-w-0 yst-flex yst-h-3/5">
 		<Link
 			href={ indexable.permalink }
@@ -66,7 +68,7 @@ function IndexableTitleLink( { indexable } ) {
 		>
 			<span className="yst-text-ellipsis yst-whitespace-nowrap yst-overflow-hidden">{ indexable.breadcrumb_title }</span><ExternalLinkIcon className="yst-shrink-0 yst-h-[13px] yst-w-[13px]" />
 		</Link>
-		<Badge variant="plain" className="yst-text-gray-800 yst-text-[10px] yst-self-center yst-h-4 yst-ml-2">{ indexable.object_sub_type }</Badge>
+		{ ( showType ) && <Badge variant="plain" className="yst-text-gray-800 yst-text-[10px] yst-self-center yst-h-4 yst-ml-2">{ indexable.object_sub_type }</Badge> }
 	</div>;
 }
 
@@ -75,9 +77,14 @@ IndexableTitleLink.propTypes = {
 		permalink: PropTypes.string.isRequired,
 		/* eslint-disable camelcase */
 		breadcrumb_title: PropTypes.string.isRequired,
-		object_sub_type: PropTypes.string.isRequired,
+		object_sub_type: PropTypes.string,
 		/* eslint-enable camelcase */
 	} ).isRequired,
+	showType: PropTypes.bool,
+};
+
+IndexableTitleLink.defaultProps = {
+	showType: true,
 };
 
 /**
@@ -280,7 +287,13 @@ function IndexablesPage() {
 		setIsModalOpen( true );
 
 		if ( ! isPremiumInstalled ) {
-			return;
+			setSuggestedLinksModalContent( {
+				incomingLinksCount: incomingLinksCount,
+				linksList: null,
+				breadcrumbTitle: breadcrumbTitle,
+				permalink: permalink,
+			 } );
+			 return true;
 		}
 		try {
 			const response = await apiFetch( {
@@ -437,29 +450,62 @@ function IndexablesPage() {
 	 * @returns {WPElement} The modal content.
 	 */
 	const renderUpsellLinksModal = () => {
+		if ( suggestedLinksModalContent === null ) {
+			return <SvgIcon icon="loading-spinner" />;
+		}
 		return (
-			<div className="yst-max-w-xs">
-				<h2>Upgrade to Yoast SEO Premium</h2>
-				<Button
-					id="indexables-page-suggested-links-upsell-button"
-					type="button"
-					as="a"
-					href="#"
-					variant="upsell"
-					className="yst-w-full yst-text-gray-800"
-					target="_blank"
-				>
-					<LockOpenIcon
-						className="yst--ml-1 yst-mr-2 yst-h-5 yst-w-5 yst-text-yellow-900"
-					/>
-					{ __( "Unlock with Premium", "wordpress-seo" ) }
-					<span className="yst-sr-only">
-						{
-							__( "(Opens in a new browser tab)", "wordpress-seo" )
-						}
-					</span>
-				</Button>
-			</div>
+			<SuggestedLinksModal suggestedLinksModalContent={ suggestedLinksModalContent }>
+				<div className="yst-mb-3.5 yst-text-justify">
+					{
+						addLinkToString(
+							// translators: %1$s and %2$s are replaced by opening and closing anchor tags.
+							sprintf(
+								__( "Get relevant internal linking suggestions with Yoast SEO Premium! " +
+									"This feature will show you posts on your site with similar content that might be interesting to link from. " +
+									"%1$sRead more about how internal linking can improve your site structure%2$s.", "wordpress-seo" ),
+								"<a>",
+								"</a>" ),
+							"https://www.yoast.com"
+						)
+					}
+				</div>
+				<div className="yst-grow-0 yst-mb-4">
+					<Button
+						id="indexables-page-suggested-links-upsell-button"
+						type="button"
+						as="a"
+						href="#"
+						variant="upsell"
+						className="yst-text-gray-800"
+						target="_blank"
+					>
+						{ __( "Unlock with Premium!", "wordpress-seo" ) }
+						<span className="yst-sr-only">
+							{
+								__( "(Opens in a new browser tab)", "wordpress-seo" )
+							}
+						</span>
+						<ArrowNarrowRightIcon
+							className="yst-ml-2 yst-h-5 yst-w-5 yst-text-yellow-900"
+						/>
+					</Button>
+				</div>
+				<ul className="yst-divide-y yst-divide-gray-200">
+					{ range( 1, 6 ).map( ( elem, idx ) => {
+						return <li
+							key={ `suggested-${idx}` }
+							className="yst-my-0 yst-max-w-none yst-font-medium yst-text-gray-400 yst-flex yst-flex-row yst-items-center yst-gap-3 yst-h-14"
+						>
+							<span className=" yst-flex yst-grow">
+								{ `Suggested post to link from ${elem}` }
+								<ExternalLinkIcon className="yst-h-4 yst-w- yst-ml-2" />
+							</span>
+							<Button className="yst-items-end" variant="secondary" disabled={ true }>Edit</Button>
+						</li>;
+					} )
+					}
+				</ul>
+			</SuggestedLinksModal>
 		);
 	};
 
