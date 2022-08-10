@@ -10,6 +10,29 @@ import SimpleCard from "./simple-card";
 
 const Link = makeOutboundLink();
 
+const readingList = [
+	{
+		title: "Blogging: The ultimate guide",
+		link: "#",
+	},
+	{
+		title: "10 tips for an awesome and SEO-friendly blog post",
+		link: "#",
+	},
+	{
+		title: "How to optimize a blog post for search engines: a checklist!",
+		link: "#",
+	},
+	{
+		title: "Why the purpose of your text is important for SEO",
+		link: "#",
+	},
+	{
+		title: "How to write an SEO-friendly introduction for a blog post",
+		link: "#",
+	},
+];
+
 /**
  * Renders the four indexable tables.
  *
@@ -63,29 +86,6 @@ const NotEnoughContent = () => {
 			return false;
 		}
 	}, [ readingListState, setReadingListState, apiFetch ] );
-
-	const readingList = [
-		{
-			title: "Blogging: The ultimate guide",
-			link: "#",
-		},
-		{
-			title: "10 tips for an awesome and SEO-friendly blog post",
-			link: "#",
-		},
-		{
-			title: "How to optimize a blog post for search engines: a checklist!",
-			link: "#",
-		},
-		{
-			title: "Why the purpose of your text is important for SEO",
-			link: "#",
-		},
-		{
-			title: "How to write an SEO-friendly introduction for a blog post",
-			link: "#",
-		},
-	];
 
 	return <div className="yst-max-w-full yst-mt-6">
 		<div
