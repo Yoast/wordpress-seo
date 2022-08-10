@@ -90,7 +90,7 @@ const NotEnoughContent = () => {
 	return <div className="yst-max-w-full yst-mt-6">
 		<div
 			id="start-writing-content"
-			className="yst-max-w-7xl yst-grid yst-grid-cols-1 2xl:yst-grid-cols-2 2xl:yst-grid-rows-2 2xl:yst-grid-flow-row 2xl:yst-auto-rows-fr yst-gap-6"
+			className="yst-max-w-7xl yst-grid yst-grid-cols-1 2xl:yst-grid-cols-2 2xl:yst-grid-flow-row yst-gap-6"
 		>
 			<SimpleCard title={ __( "Start writing content!", "wordpress-seo" ) }>
 				<div className="yst-mb-6 yst-text-gray-500">
@@ -108,7 +108,6 @@ const NotEnoughContent = () => {
 					<PlusIcon className="yst-w-4 yst-h-4 yst-mr-1" />{ __( "Start writing a new post", "wordpress-seo" ) }
 				</Link>
 			</SimpleCard>
-
 			<SimpleCard title={ __( "Recommended reading list", "wordpress-seo" ) }>
 				<ul className="yst-divide-y yst-divide-gray-200">
 					{ readingList.map(
@@ -142,7 +141,6 @@ const NotEnoughContent = () => {
 					}
 				</ul>
 			</SimpleCard>
-
 		</div>
 	</div>;
 };
