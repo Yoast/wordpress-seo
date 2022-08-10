@@ -143,6 +143,10 @@
 					hover:yst-bg-gray-100
 					hover:yst-text-gray-900
 					yst-cursor-pointer;
+
+					&[aria-selected] {
+						@apply yst-bg-gray-100 yst-text-gray-900
+					}
 				}
 			}
 		}
@@ -166,3 +170,5 @@
 		}
 	}
 }
+
+
