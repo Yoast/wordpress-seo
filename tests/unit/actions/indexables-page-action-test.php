@@ -3,7 +3,6 @@
 namespace Yoast\WP\SEO\Tests\Unit\Actions;
 
 use Mockery;
-use Prophecy\PhpDocumentor\ClassAndInterfaceTagRetriever;
 use Yoast\WP\Lib\ORM;
 use Yoast\WP\SEO\Actions\Indexables_Page_Action;
 use Yoast\WP\SEO\Helpers\Options_Helper;
