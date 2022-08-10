@@ -58,6 +58,30 @@ export default class ProductIdentifiersAssessment extends Assessment {
 	}
 
 	/**
+	 *
+	 * @param customData
+	 * @private
+	 */
+	applicabilityHelper( customData ) {
+		console.log( "TEST (not) hasvariants: ", ! customData.hasVariants );
+		// Checks if we are in Woo or Shopify. assessVariants is always true in Woo
+		// TODO: check how this influences shopify: not totally accurate. (Possibly find other solution). Minimal solution: document
+		if ( ! this._config.assessVariants ) {
+			console.log( "condition 1" );
+			return false;
+		}
+
+		// If we have a variable product with no (active) variants. (active variant = variant with a price)
+		if (  customData.productType === "variable" && ! customData.hasVariants  ) {
+			console.log( "condition 2" );
+			return false;
+		}
+
+		console.log( "condition 3" );
+		return ( customData.hasPrice || customData.hasVariants );
+	}
+
+	/**
 	 * Checks whether the assessment is applicable.
 	 *
 	 * @param {Paper} paper The paper to check.
@@ -67,7 +91,7 @@ export default class ProductIdentifiersAssessment extends Assessment {
 	isApplicable( paper ) {
 		const customData = paper.getCustomData();
 		// Product should either be a simple product with a price, or a product with variants.
-		return this._config.assessVariants && ( customData.hasPrice || customData.hasVariants );
+		return this.applicabilityHelper( customData );
 	}
 
 	/**
