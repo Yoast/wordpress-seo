@@ -1,6 +1,6 @@
 
 import PropTypes from "prop-types";
-import { __ } from "@worpdress/i18n";
+import { __ } from "@wordpress/i18n";
 
 import IconSearch from "../../../images/icon-search.svg";
 import Indexation from "./indexation";
