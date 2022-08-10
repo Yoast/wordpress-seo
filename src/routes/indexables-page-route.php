@@ -66,6 +66,20 @@ class Indexables_Page_Route implements Route_Interface {
 	const RESTORE_INDEXABLE_ROUTE = '/restore_indexable';
 
 	/**
+	 * Gets the reading list state.
+	 *
+	 * @var string
+	 */
+	const GET_READING_LIST_STATE = '/get_reading_list';
+
+	/**
+	 * Sets the reading list state.
+	 *
+	 * @var string
+	 */
+	const SET_READING_LIST_STATE = '/set_reading_list';
+
+	/**
 	 * The indexable actions.
 	 *
 	 * @var Indexables_Page_Action
@@ -205,6 +219,31 @@ class Indexables_Page_Route implements Route_Interface {
 		];
 
 		\register_rest_route( Main::API_V1_NAMESPACE, self::RESTORE_INDEXABLE_ROUTE, $restore_indexable_route );
+
+		$get_reading_list_route = [
+			[
+				'methods'             => 'GET',
+				'callback'            => [ $this, 'get_reading_list' ],
+				'permission_callback' => [ $this, 'permission_edit_others_posts' ],
+			],
+		];
+
+		\register_rest_route( Main::API_V1_NAMESPACE, self::GET_READING_LIST_STATE, $get_reading_list_route );
+
+		$set_reading_list_route = [
+			[
+				'methods'             => 'POST',
+				'callback'            => [ $this, 'set_reading_list' ],
+				'permission_callback' => [ $this, 'permission_edit_others_posts' ],
+				'args'                => [
+					'state' => [
+						'type'     => 'array',
+					],
+				],
+			],
+		];
+
+		\register_rest_route( Main::API_V1_NAMESPACE, self::SET_READING_LIST_STATE, $set_reading_list_route );
 	}
 
 	/**
@@ -213,7 +252,7 @@ class Indexables_Page_Route implements Route_Interface {
 	 * @return WP_REST_Response The neccessary information to set up the indexables page.
 	 */
 	public function get_setup_info() {
-		$setup_info = $this->indexables_page_action->get_setup_info( $this->indexables_page_helper->get_minimum_posts_threshold() );
+		$setup_info = $this->indexables_page_action->get_setup_info( $this->indexables_page_helper->get_minimum_posts_threshold(), $this->indexables_page_helper->get_minimum_analyzed_posts_threshold() );
 		return new WP_REST_Response(
 			[
 				'json' => $setup_info,
@@ -231,7 +270,8 @@ class Indexables_Page_Route implements Route_Interface {
 		return new WP_REST_Response(
 			[
 				'json' => [
-					'list' => $least_readable,
+					'list'   => $least_readable,
+					'length' => \count( $least_readable ),
 				],
 			]
 		);
@@ -247,7 +287,8 @@ class Indexables_Page_Route implements Route_Interface {
 		return new WP_REST_Response(
 			[
 				'json' => [
-					'list' => $least_seo_score,
+					'list'   => $least_seo_score,
+					'length' => \count( $least_seo_score ),
 				],
 			]
 		);
@@ -263,7 +304,8 @@ class Indexables_Page_Route implements Route_Interface {
 		return new WP_REST_Response(
 			[
 				'json' => [
-					'list' => $most_linked,
+					'list'   => $most_linked,
+					'length' => \count( $most_linked ),
 				],
 			]
 		);
@@ -279,7 +321,8 @@ class Indexables_Page_Route implements Route_Interface {
 		return new WP_REST_Response(
 			[
 				'json' => [
-					'list' => $least_linked,
+					'list'   => $least_linked,
+					'length' => \count( $least_linked ),
 				],
 			]
 		);
@@ -330,6 +373,53 @@ class Indexables_Page_Route implements Route_Interface {
 		$indexable_id     = intval( $params['id'] );
 
 		if ( $this->indexables_page_action->remove_indexable_from_ignore_list( $ignore_list_name, $indexable_id ) ) {
+			return new WP_REST_Response(
+				[
+					'json' => (object) [ 'success' => true ],
+				],
+				200
+			);
+		}
+
+		return new WP_REST_Response(
+			[
+				'json' => (object) [
+					'success' => false,
+					'error'   => 'Could not save the option in the database',
+				],
+			],
+			500
+		);
+	}
+
+	/**
+	 * Gets the state of the reading list.
+	 *
+	 * @return WP_REST_Response A list of boolean values which are true if an article has been flagged as read.
+	 */
+	public function get_reading_list() {
+		$reading_list = $this->indexables_page_action->get_reading_list();
+		return new WP_REST_Response(
+			[
+				'json' => [
+					'state' => $reading_list,
+				],
+			]
+		);
+	}
+
+	/**
+	 * Sets the state of the reading list.
+	 *
+	 * @param WP_REST_Request $request The request object.
+	 *
+	 * @return WP_REST_Response The success or failure response.
+	 */
+	public function set_reading_list( WP_REST_Request $request ) {
+		$params             = $request->get_json_params();
+		$reading_list_state = $params['state'];
+
+		if ( $this->indexables_page_action->set_reading_list( $reading_list_state ) ) {
 			return new WP_REST_Response(
 				[
 					'json' => (object) [ 'success' => true ],

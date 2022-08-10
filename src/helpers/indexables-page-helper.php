@@ -31,6 +31,13 @@ class Indexables_Page_Helper {
 	const POSTS_THRESHOLD = 20;
 
 	/**
+	 * The default minimum threshold for the amount of analysed posts in the site, as a fraction of the total posts.
+	 *
+	 * @var float
+	 */
+	const ANALYSED_POSTS_THRESHOLD = 0.5;
+
+	/**
 	 * Indexables_Page_Helper constructor.
 	 *
 	 * @param Options_Helper $options The options helper.
@@ -83,7 +90,21 @@ class Indexables_Page_Helper {
 		 *
 		 * @api int The minimum threshold for the amount of posts in the site, in order for Indexable lists to be relevant.
 		 */
-		return \apply_filters( 'wpseo_posts_threshold', 20 );
+		return \apply_filters( 'wpseo_posts_threshold', self::POSTS_THRESHOLD );
+	}
+
+	/**
+	 * Retrieves the minimum threshold for the amount of analyzed posts in the site, in order for lists to be relevant.
+	 *
+	 * @return int The size of the Indexables lists.
+	 */
+	public function get_minimum_analyzed_posts_threshold() {
+		/**
+		 * Filter 'wpseo_analyzed_posts_threshold' - Allow filtering the minimum threshold for the amount of analyzed posts in the site, in order for Indexable lists to be relevant.
+		 *
+		 * @api int The minimum threshold for the amount of analyzed posts in the site, in order for Indexable lists to be relevant.
+		 */
+		return \apply_filters( 'wpseo_analyzed_posts_threshold',self::ANALYSED_POSTS_THRESHOLD );
 	}
 
 	/**

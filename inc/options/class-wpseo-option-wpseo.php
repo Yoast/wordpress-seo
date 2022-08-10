@@ -125,6 +125,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'least_seo_score_ignore_list'              => [],
 		'most_linked_ignore_list'                  => [],
 		'least_linked_ignore_list'                 => [],
+		'indexables_page_reading_list'             => [ false, false, false, false, false ],
 	];
 
 	/**
@@ -392,6 +393,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'least_seo_score_ignore_list':
 				case 'most_linked_ignore_list':
 				case 'least_linked_ignore_list':
+				case 'indexables_page_reading_list':
 					$clean[ $key ] = $old[ $key ];
 
 					if ( isset( $dirty[ $key ] ) ) {

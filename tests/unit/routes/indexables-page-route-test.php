@@ -195,6 +195,36 @@ class Indexables_Page_Route_Test extends TestCase {
 				]
 			);
 
+			Monkey\Functions\expect( 'register_rest_route' )
+				->with(
+					'yoast/v1',
+					'/get_reading_list',
+					[
+						[
+							'methods'             => 'GET',
+							'callback'            => [ $this->instance, 'get_reading_list' ],
+							'permission_callback' => [ $this->instance, 'permission_edit_others_posts' ],
+						],
+					]
+				);
+
+			Monkey\Functions\expect( 'register_rest_route' )
+				->with(
+					'yoast/v1',
+					'/set_reading_list',
+					[
+						[
+							'methods'             => 'POST',
+							'callback'            => [ $this->instance, 'set_reading_list' ],
+							'permission_callback' => [ $this->instance, 'permission_edit_others_posts' ],
+							'args'                => [
+								'state' => [
+									'type'     => 'array',
+								],
+							],
+						],
+					]
+				);
 		$this->instance->register_routes();
 	}
 
@@ -225,7 +255,8 @@ class Indexables_Page_Route_Test extends TestCase {
 			->with(
 				[
 					'json' => [
-						'list' => $least_readables,
+						'list'   => $least_readables,
+						'length' => \count( $least_readables ),
 					],
 				]
 			)
@@ -264,7 +295,8 @@ class Indexables_Page_Route_Test extends TestCase {
 			->with(
 				[
 					'json' => [
-						'list' => $least_seo_score,
+						'list'   => $least_seo_score,
+						'length' => \count( $least_seo_score ),
 					],
 				]
 			)
@@ -303,7 +335,8 @@ class Indexables_Page_Route_Test extends TestCase {
 			->with(
 				[
 					'json' => [
-						'list' => $most_linked,
+						'list'   => $most_linked,
+						'length' => \count( $most_linked ),
 					],
 				]
 			)
@@ -342,7 +375,8 @@ class Indexables_Page_Route_Test extends TestCase {
 			->with(
 				[
 					'json' => [
-						'list' => $least_linked,
+						'list'   => $least_linked,
+						'length' => \count( $least_linked ),
 					],
 				]
 			)

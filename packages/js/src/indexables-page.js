@@ -2,7 +2,7 @@ import domReady from "@wordpress/dom-ready";
 import { render } from "@wordpress/element";
 import { Root } from "@yoast/ui-library";
 import { get } from "lodash";
-import IndexablesPage from "./indexables-page/indexables-page";
+import LandingPage from "./indexables-page/landing-page";
 
 domReady( () => {
 	console.warn( "REMEMBER TO FIX RTL IN INDEXABLES-PAGE.JS" );
@@ -16,7 +16,7 @@ domReady( () => {
 
 	render(
 		<Root context={ context }>
-			<IndexablesPage />
+			<LandingPage />
 		</Root>,
 		root
 	);

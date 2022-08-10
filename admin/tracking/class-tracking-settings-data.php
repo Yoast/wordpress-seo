@@ -58,6 +58,7 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'least_seo_score_ignore_list',
 		'most_linked_ignore_list',
 		'least_linked_ignore_list',
+		'indexables_page_reading_list',
 	];
 
 	/**
