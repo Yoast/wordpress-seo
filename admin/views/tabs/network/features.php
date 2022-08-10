@@ -56,6 +56,7 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 		$disabled            = false;
 		$show_premium_upsell = false;
 		$premium_upsell_url  = '';
+		$note_when_disabled  = '';
 
 		if ( $feature->premium === true && YoastSEO()->helpers->product->is_premium() === false ) {
 			$disabled            = true;
@@ -81,6 +82,7 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 				'preserve_disabled_value' => $preserve_disabled_value,
 				'show_premium_upsell'     => $show_premium_upsell,
 				'premium_upsell_url'      => $premium_upsell_url,
+				'note_when_disabled'      => $note_when_disabled,
 			]
 		);
 	}

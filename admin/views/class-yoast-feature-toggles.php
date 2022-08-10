@@ -87,6 +87,17 @@ class Yoast_Feature_Toggles {
 				'order'           => 20,
 			],
 			(object) [
+				'name'                => __( 'Inclusive language analysis', 'wordpress-seo' ),
+				'premium'             => true,
+				'in_beta'             => true,
+				'supported_languages' => [ 'en' ],
+				'setting'             => 'inclusive_language_analysis_active',
+				'label'               => __( 'The inclusive language analysis offers suggestions to write more inclusive copy.', 'wordpress-seo' ),
+				'read_more_label'     => __( 'Discover why inclusive language is important for SEO.', 'wordpress-seo' ),
+				'read_more_url'       => 'https://yoa.st/2ao',
+				'order'               => 25,
+			],
+			(object) [
 				'name'            => __( 'Cornerstone content', 'wordpress-seo' ),
 				'setting'         => 'enable_cornerstone_content',
 				'label'           => __( 'The cornerstone content feature lets you to mark and filter cornerstone content on your website.', 'wordpress-seo' ),
