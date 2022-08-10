@@ -3,7 +3,7 @@ import styled from "styled-components";
 import React from "react";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
-import { noop } from "lodash";
+import { escapeRegExp, noop } from "lodash";
 
 /* Yoast dependencies */
 import { assessments, languageProcessing, helpers } from "yoastseo";
@@ -407,7 +407,7 @@ class SnippetEditor extends React.Component {
 		}
 
 		for ( const { name, value } of replacementVariables ) {
-			content = content.replace( new RegExp( "%%" + name + "%%", "g" ), value );
+			content = content.replace( new RegExp( "%%" + escapeRegExp( name ) + "%%", "g" ), value );
 		}
 
 		return content;
