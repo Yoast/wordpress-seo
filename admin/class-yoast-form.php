@@ -191,6 +191,7 @@ class Yoast_Form {
 		}
 
 		$sidebar_presenter = new Sidebar_Presenter();
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped in presenter.
 		echo $sidebar_presenter->present();
 	}
 
