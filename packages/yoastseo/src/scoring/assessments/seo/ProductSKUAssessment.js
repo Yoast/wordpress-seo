@@ -3,7 +3,7 @@ import AssessmentResult from "../../../values/AssessmentResult";
 import { merge } from "lodash-es";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import { __, sprintf } from "@wordpress/i18n";
-
+console.log("ProductSKU is loaded")
 /**
  * Represents the assessment for the product SKU.
  */
@@ -41,6 +41,7 @@ export default class ProductSKUAssessment extends Assessment {
 	 * @returns {AssessmentResult} An assessment result with the score and formatted text.
 	 */
 	getResult( paper, researcher ) {
+		console.log("HELLO WORLD", this._config)
 		const productSKUData = researcher.getResearch( "getProductSKUData" );
 
 		const result = this.scoreProductSKU( productSKUData, this._config );
@@ -63,6 +64,7 @@ export default class ProductSKUAssessment extends Assessment {
 	 * @returns {Boolean} Whether the assessment is applicable.
 	 */
 	isApplicable( paper ) {
+		console.log("HELLO isApplicable")
 		const customData = paper.getCustomData();
 		// Product should either be a simple product with a price, or a product with variants.
 		return this._config.assessVariants && ( customData.hasPrice || customData.hasVariants );
@@ -79,6 +81,8 @@ export default class ProductSKUAssessment extends Assessment {
 	 */
 	scoreProductSKU( productSKUData, config ) {
 		// If a product has no variants, return orange bullet if it has no global SKU, and green bullet if it has one.
+		console.log("TEST6", productSKUData)
+		console.log("TEST7", config)
 		if ( ! productSKUData.hasVariants ) {
 			if ( ! productSKUData.hasGlobalSKU ) {
 				return {
@@ -86,7 +90,7 @@ export default class ProductSKUAssessment extends Assessment {
 					text: sprintf(
 						// Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag.
 						__(
-							"%1$sSKU%3$s: Your product is missing a SKU. %2$sInclude this if you can, as it" +
+							"%1$sSKU%3$s: Your product is missing a dadaSKU. %2$sInclude this if you can, as it" +
 							" will help search engines to better understand your content.%3$s",
 							"wordpress-seo"
 						),
@@ -124,7 +128,7 @@ export default class ProductSKUAssessment extends Assessment {
 				text: sprintf(
 					// Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag.
 					__(
-						"%1$sSKU%3$s: Not all your product variants have a SKU. %2$sInclude this if you can, as it" +
+						"%1$sSKU%3$s: Not all your product variants have a SKUUUU. %2$sInclude this if you can, as it" +
 						" will help search engines to better understand your content.%3$s",
 						"wordpress-seo"
 					),
