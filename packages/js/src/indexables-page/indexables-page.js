@@ -417,31 +417,31 @@ function IndexablesPage() {
 			return <SvgIcon icon="loading-spinner" />;
 		} else if ( suggestedLinksModalContent.linksList.length === 0 ) {
 			return <Fragment>
-				<h2>
-					{ suggestedLinksModalContent.breadcrumbTitle }
-					<span className="yst-italic">{ ` - ${suggestedLinksModalContent.incomingLinksCount} ${__( "incoming links", "wordpress-seo" )}` }</span>
-				</h2>
-				<p className="yst-italic yst-mb-2">No suggestions available</p>
+				<SuggestedLinksModal suggestedLinksModalContent={ suggestedLinksModalContent }>
+					<p className="yst-italic yst-mb-2">No suggestions available</p>
+				</SuggestedLinksModal>
 			</Fragment>;
 		}
-		return <Fragment>
-			<h2>
-				{ suggestedLinksModalContent.breadcrumbTitle }
-				<span className="yst-italic">{ ` - ${suggestedLinksModalContent.incomingLinksCount} ${__( "incoming links", "wordpress-seo" )}` }</span>
-			</h2>
-			<p className="yst-italic yst-mb-2">{ `(${suggestedLinksModalContent.permalink})` }</p>
-			<ul>
-				{
-					suggestedLinksModalContent.linksList.map( ( link, idx ) => {
-						return <li key={ idx }>
-							{ link.breadcrumb_title }
-							<a href={ "/wp-admin/post.php?action=edit&post=" + link.object_id } target="_blank" rel="noopener noreferrer">{ __( "Edit to add link", "wordpress-seo" ) }<span className="yst-dashicons yst-dashicons-external" /></a>
-						</li>;
+		return (
+			<SuggestedLinksModal suggestedLinksModalContent={ suggestedLinksModalContent }>
+				<ul className="yst-divide-y yst-divide-gray-200">
+					{
+						suggestedLinksModalContent.linksList.map( ( link, idx ) => {
+							return <li
+								key={ `suggested-${idx}` }
+								className="yst-my-0 yst-max-w-none yst-font-medium yst-text-gray-700 yst-flex yst-flex-row yst-items-center yst-gap-3 yst-h-14"
+							>
+								<span className=" yst-flex yst-grow">
+									<IndexableTitleLink showType={ false } indexable={ link } />
+								</span>
+								<Button className="yst-items-end" as="a" href={ "/wp-admin/post.php?action=edit&post=" + link.object_id } target="_blank" rel="noopener noreferrer" variant="secondary">Edit</Button>
+							</li>;
+						}
+						)
 					}
-					)
-				}
-			</ul>
-		</Fragment>;
+				</ul>
+			</SuggestedLinksModal>
+		);
 	};
 
 	/**
