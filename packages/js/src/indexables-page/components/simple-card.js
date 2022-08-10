@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
  * @param {string} title The card title.
  * @param {Node}   childred The card content.
  *
- * @returns {WPElement} A div containing the empty state page.
+ * @returns {WPElement} A card component for the indexables page.
  */
 const SimpleCard = ( { title, children } ) => {
 	return <div className="yst-bg-white yst-rounded-lg yst-px-8 yst-py-6 yst-shadow">
