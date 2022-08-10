@@ -1,4 +1,3 @@
-/* global yoastIndexingData */
 import domReady from "@wordpress/dom-ready";
 import { render } from "@wordpress/element";
 import { Root } from "@yoast/ui-library";
@@ -17,7 +16,7 @@ domReady( () => {
 
 	render(
 		<Root context={ context }>
-			<LandingPage amount={ parseInt( yoastIndexingData.amount, 10 ) } />
+			<LandingPage />
 		</Root>,
 		root
 	);
