@@ -64,12 +64,15 @@ export default class ProductSKUAssessment extends Assessment {
 	applicabilityHelper( customData ) {
 		console.log( "TEST (not) hasvariants: ", ! customData.hasVariants );
 		// Checks if we are in Woo or Shopify. assessVariants is always true in Woo
+		// TODO: check how this influences shopify: not totally accurate. (Possibly find other solution). Minimal solution: document
 		if ( ! this._config.assessVariants ) {
+			console.log("condition 1")
 			return false;
 		}
+
 		// If we have a variable product with no (active) variants. (active variant = variant with a price)
 		if (  customData.productType === "variable" && ! customData.hasVariants  ) {
-			console.log( "NOT APPLICABLE" );
+			console.log("condition 2")
 			return false;
 		}
 		// } else if ( customData.productType === "simple" ) {
@@ -77,7 +80,7 @@ export default class ProductSKUAssessment extends Assessment {
 		// } else {
 		// 	Console.log( "undefined case" );
 		// }
-
+		console.log("condition 3")
 		return ( customData.hasPrice || customData.hasVariants );
 	}
 
@@ -89,9 +92,7 @@ export default class ProductSKUAssessment extends Assessment {
 	 * @returns {Boolean} Whether the assessment is applicable.
 	 */
 	isApplicable( paper ) {
-
 		const customData = paper.getCustomData();
-		console.log( "HELLO isApplicable" );
 		// Product should either be a simple product with a price, or a product with variants.
 		return this.applicabilityHelper( customData );
 	}
@@ -109,7 +110,9 @@ export default class ProductSKUAssessment extends Assessment {
 		// If a product has no variants, return orange bullet if it has no global SKU, and green bullet if it has one.
 		console.log( "TEST6", productSKUData );
 		console.log( "TEST7", config );
-		if ( ! productSKUData.hasVariants ) {
+
+		// TODO: in shopify there are different product types.
+		if (  [ "simple", "external" ].contains( productSKUData.productType ) ) {
 			if ( ! productSKUData.hasGlobalSKU ) {
 				return {
 					score: config.scores.ok,
@@ -138,44 +141,39 @@ export default class ProductSKUAssessment extends Assessment {
 					"</a>"
 				),
 			};
-		}
-
-		// Don't return a score if the product has variants but we don't want to assess variants for this product.
-		// This is currently the case for Shopify products because we don't have access data about product variant identifiers in Shopify.
-		if ( ! config.assessVariants ) {
-			return {};
-		}
-
-		// If we want to assess variants, if product has variants and not all variants have a SKU, return orange bullet.
-		// If all variants have a SKU, return green bullet.
-		if ( ! productSKUData.doAllVariantsHaveSKU ) {
+		} else if ( productSKUData.productType === "variable" ) {
+			// If we want to assess variants, if product has variants and not all variants have a SKU, return orange bullet.
+			// If all variants have a SKU, return green bullet.
+			if ( ! productSKUData.doAllVariantsHaveSKU ) {
+				return {
+					score: config.scores.ok,
+					text: sprintf(
+						// Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag.
+						__(
+							"%1$sSKU%3$s: Not all your product variants have a SKUUUU. %2$sInclude this if you can, as it" +
+							" will help search engines to better understand your content.%3$s",
+							"wordpress-seo"
+						),
+						this._config.urlTitle,
+						this._config.urlCallToAction,
+						"</a>"
+					),
+				};
+			}
 			return {
-				score: config.scores.ok,
+				score: config.scores.good,
 				text: sprintf(
-					// Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag.
+					// Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag.
 					__(
-						"%1$sSKU%3$s: Not all your product variants have a SKUUUU. %2$sInclude this if you can, as it" +
-						" will help search engines to better understand your content.%3$s",
+						"%1$sSKU%2$s: All your product variants have a SKU. Good job!",
 						"wordpress-seo"
 					),
 					this._config.urlTitle,
-					this._config.urlCallToAction,
 					"</a>"
 				),
 			};
 		}
-
-		return {
-			score: config.scores.good,
-			text: sprintf(
-				// Translators: %1$s expands to a link on yoast.com, %2$s expands to the anchor end tag.
-				__(
-					"%1$sSKU%2$s: All your product variants have a SKU. Good job!",
-					"wordpress-seo"
-				),
-				this._config.urlTitle,
-				"</a>"
-			),
-		};
+		//TODO: document that for grouped product we never show assessment.
+		return {};
 	}
 }
