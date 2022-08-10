@@ -118,6 +118,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'clean_campaign_tracking_urls'             => false,
 		'clean_permalinks'                         => false,
 		'clean_permalinks_extra_variables'         => '',
+		'deny_search_crawling'                     => false,
 		'search_cleanup'                           => false,
 		'search_cleanup_emoji'                     => false,
 		'search_cleanup_patterns'                  => false,
@@ -461,6 +462,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				 *  'clean_campaign_tracking_urls'
 				 *  'clean_permalinks'
 				 *  'clean_permalinks_extra_variables'
+				 *  'deny_search_crawling'
 				 *  'search_cleanup'
 				 *  'search_cleanup_emoji'
 				 *  'search_cleanup_patterns'
