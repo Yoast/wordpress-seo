@@ -148,16 +148,16 @@ class Yoast_Feature_Toggles_Test extends TestCase {
 	 */
 	public function test_toggle_sorting() {
 		$expected_names = [
-			0  => 'Admin bar menu',
+			0  => 'XML sitemaps',
 			1  => 'Readability analysis',
-			2  => 'Inclusive language analysis',
-			3  => 'Security: no advanced or schema settings for authors',
+			2  => 'Admin bar menu',
+			3  => 'Cornerstone content',
 			4  => 'Text link counter',
 			5  => 'Insights',
 			6  => 'Link suggestions',
 			7  => 'SEO analysis',
-			8  => 'XML sitemaps',
-			9  => 'Cornerstone content',
+			8  => 'Security: no advanced or schema settings for authors',
+			9  => 'Inclusive language analysis',
 			10 => 'Usage tracking',
 			11 => 'REST API: Head endpoint',
 			12 => 'Enhanced Slack sharing',
@@ -200,9 +200,9 @@ class Yoast_Feature_Toggles_Test extends TestCase {
 	 */
 	public function toggle_filter_callback( $toggles ) {
 		$toggles[0]->order = 50;
-		$toggles[3]->order = 92;
-		$toggles[8]->order = 0;
-		$toggles[9]->order = 25;
+		$toggles[2]->order = 92;
+		$toggles[7]->order = 0;
+		$toggles[8]->order = 25;
 
 		return $toggles;
 	}
