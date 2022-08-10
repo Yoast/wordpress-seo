@@ -255,7 +255,8 @@ class Indexables_Page_Route_Test extends TestCase {
 			->with(
 				[
 					'json' => [
-						'list' => $least_readables,
+						'list'   => $least_readables,
+						'length' => \count( $least_readables ),
 					],
 				]
 			)
@@ -294,7 +295,8 @@ class Indexables_Page_Route_Test extends TestCase {
 			->with(
 				[
 					'json' => [
-						'list' => $least_seo_score,
+						'list'   => $least_seo_score,
+						'length' => \count( $least_seo_score ),
 					],
 				]
 			)
@@ -333,7 +335,8 @@ class Indexables_Page_Route_Test extends TestCase {
 			->with(
 				[
 					'json' => [
-						'list' => $most_linked,
+						'list'   => $most_linked,
+						'length' => \count( $most_linked ),
 					],
 				]
 			)
@@ -372,7 +375,8 @@ class Indexables_Page_Route_Test extends TestCase {
 			->with(
 				[
 					'json' => [
-						'list' => $least_linked,
+						'list'   => $least_linked,
+						'length' => \count( $least_linked ),
 					],
 				]
 			)
