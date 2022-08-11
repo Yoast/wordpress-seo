@@ -18,6 +18,7 @@ const paper = new Paper( content, {
 		hasGlobalSKU: true,
 		hasGlobalIdentifier: true,
 		hasVariants: false,
+		productType: "simple",
 	},
 } );
 
