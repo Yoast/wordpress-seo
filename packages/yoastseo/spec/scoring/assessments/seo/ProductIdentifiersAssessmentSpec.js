@@ -119,9 +119,8 @@ xdescribe( "a test for Product identifiers assessment for Shopify", () => {
 } );
 
 describe( "a test for the applicability of the assessment", function() {
-	const assessment = new ProductIdentifiersAssessment( { assessVariants: true } );
-
 	it( "is not applicable when there is no price and no variants", function() {
+		const assessment = new ProductIdentifiersAssessment( { assessVariants: true } );
 		const customData = {
 			hasPrice: false,
 			hasGlobalIdentifier: true,
@@ -134,6 +133,7 @@ describe( "a test for the applicability of the assessment", function() {
 	} );
 
 	it( "is applicable when there is a price and no variants", function() {
+		const assessment = new ProductIdentifiersAssessment( { assessVariants: true } );
 		const customData = {
 			hasPrice: true,
 			hasGlobalIdentifier: true,
@@ -146,6 +146,7 @@ describe( "a test for the applicability of the assessment", function() {
 	} );
 
 	it( "is applicable when there is no price but there are variants", function() {
+		const assessment = new ProductIdentifiersAssessment( { assessVariants: true } );
 		const customData = {
 			hasPrice: false,
 			hasGlobalIdentifier: false,

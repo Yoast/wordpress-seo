@@ -14,7 +14,7 @@ describe( "a test for SKU assessment for WooCommerce", function() {
 			hasGlobalSKU: true,
 			hasVariants: false,
 			doAllVariantsHaveSKU: false,
-			productType: "simple"
+			productType: "simple",
 		} ) );
 
 		expect( assessmentResult.getScore() ).toEqual( 9 );
@@ -118,9 +118,8 @@ xdescribe( "a test for SKU assessment for Shopify", () => {
 } );
 
 describe( "a test for the applicability of the assessment", function() {
-	const assessment = new ProductSKUAssessment( { assessVariants: true }, );
-
 	it( "is not applicable when there is no price and no variants", function() {
+		const assessment = new ProductSKUAssessment( { assessVariants: true } );
 		const customData = {
 			hasPrice: false,
 			hasGlobalIdentifier: true,
@@ -133,6 +132,7 @@ describe( "a test for the applicability of the assessment", function() {
 	} );
 
 	it( "is applicable when there is a price and no variants", function() {
+		const assessment = new ProductSKUAssessment( { assessVariants: true } );
 		const customData = {
 			hasPrice: true,
 			hasGlobalIdentifier: true,
@@ -145,6 +145,7 @@ describe( "a test for the applicability of the assessment", function() {
 	} );
 
 	it( "is applicable when there is no price but there are variants", function() {
+		const assessment = new ProductSKUAssessment( { assessVariants: true } );
 		const customData = {
 			hasPrice: false,
 			hasGlobalIdentifier: false,
