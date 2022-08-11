@@ -150,7 +150,7 @@ const ProductCornerstoneSEOAssessor = function( researcher, options ) {
 		new ProductSKUAssessment( {
 			urlTitle: createAnchorOpeningTag( options.productSKUUrlTitle ),
 			urlCallToAction: createAnchorOpeningTag( options.productSKUCTAUrl ),
-			assessVariants: options.console.log("HELLO WORLD", this._config),
+			assessVariants: options.assessVariants,
 		} ),
 	];
 };
