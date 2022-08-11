@@ -1,5 +1,6 @@
 import productIdentifierData from "../../../src/languageProcessing/researches/getProductIdentifierData.js";
 import Paper from "../../../src/values/Paper.js";
+import productSKUData from "../../../src/languageProcessing/researches/getProductSKUData";
 
 describe( "A test to check if at least one global product barcode is filled in", () => {
 	it( "returns true if at least one barcode is filled in", function() {
@@ -108,5 +109,20 @@ describe( "A test to check if all variants of a product have an identifier", () 
 		} );
 
 		expect( productIdentifierData( paper ).doAllVariantsHaveIdentifier ).toEqual( true );
+	} );
+} );
+
+
+describe( "correctly adds productType to data", () => {
+	it( "correctly adds productType to data", () => {
+		[ "simple", "variable", "grouped", "external" ].forEach( productType => {
+			const paper = new Paper( "Text.", {
+				customData: {
+					doAllVariantsHaveSKU: true,
+					productType: productType,
+				},
+			} );
+			expect( productIdentifierData( paper ).productType ).toEqual( productType );
+		} );
 	} );
 } );
