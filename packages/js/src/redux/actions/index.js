@@ -30,6 +30,7 @@ export * from "./WincherModal";
 export * from "./WincherRequest";
 export * from "./WincherSEOPerformance";
 export * from "./isPremium";
+export * from "./postId";
 
 /**
  * A wrapper function so that we can wrap the field helper to the monorepo action.
