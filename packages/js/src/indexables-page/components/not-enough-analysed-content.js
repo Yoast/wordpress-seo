@@ -12,7 +12,7 @@ import { IndexableLinkCount } from "../indexables-page";
  *
  * @returns {WPElement} A div containing the empty state page.
  */
-const NotEnoughAnalysedContent = ( { indexablesList } ) => {
+const NotEnoughAnalysedContent = ( { indexablesList, seoEnabled } ) => {
 	const [ step, setStep ] = useState( 5 );
 	const [ numberOfVisibleIndexables, setNumberOfVisibleIndexables ] = useState( step );
 
@@ -41,12 +41,15 @@ const NotEnoughAnalysedContent = ( { indexablesList } ) => {
 					)
 				}
 			>
+				{
+					! seoEnabled && <p>{ __( "Most of your post haven't been analyzed yet. Help us to analyze your content by opening and updating your posts. Clicking the 'Open editor' button will open the post editor in a new browser tab. Make sure to click 'Update' at the top of that page.", "wordpress-seo" ) }</p>
+				}
 				<ul className="yst-divide-y yst-divide-gray-200">
 					{ indexablesList.slice( 0, numberOfVisibleIndexables ).map(
 						( indexable, index ) => {
 							return <li
 								key={ `article-${ index }-li` }
-								className={ "yst-my-0 yst-max-w-none yst-font-medium yst-text-gray-700 yst-flex yst-flex-row yst-items-center yst-h-14 " }
+								className={ "yst-my-0 yst-max-w-none yst-font-medium yst-text-gray-700 yst-flex yst-flex-row yst-items-center yst-h-14 last:yst-border-b-gray-200 last:border-b-1" }
 							>
 								<IndexableLinkCount key={ `no-keyphrase-indexable-${ indexable.id }` } count={ parseInt( indexable.incoming_link_count, 10 ) } />
 								<span className="yst-min-w-0 yst-rounded-md yst-flex yst-items-center yst-gap-2 yst-no-underline yst-text-inherit yst-grow">
@@ -61,7 +64,7 @@ const NotEnoughAnalysedContent = ( { indexablesList } ) => {
 									variant="secondary"
 									className="yst-button yst-button--secondary yst-text-gray-700 yst-shrink-0"
 								>
-									{ __( "Add focus keyphrase", "wordpress-seo" ) }
+									{ seoEnabled ? __( "Add focus keyphrase", "wordpress-seo" ) : __( "Open editor", "wordpress-seo" ) }
 								</Button>
 							</li>;
 						}

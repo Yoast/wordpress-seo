@@ -95,7 +95,7 @@ IndexableTitleLink.defaultProps = {
  * @returns {WPElement} A div with a styled link to the indexable.
  */
 function IndexablesPageCard( { title, isLoading, children } ) {
-	return <div>
+	return <div className="yst-inline-block">
 		<div
 			className="yst-bg-white yst-rounded-lg yst-px-8 yst-py-6 yst-shadow"
 		>
@@ -408,7 +408,10 @@ function IndexablesPage() {
 	} else if ( setupInfo && setupInfo.enoughContent === false ) {
 		return <NotEnoughContent />;
 	} else if ( setupInfo && setupInfo.enoughAnalysedContent === false ) {
-		return <NotEnoughAnalysedContent indexablesList={ setupInfo.postsWithoutKeyphrase } />;
+		return <NotEnoughAnalysedContent
+			indexablesList={ setupInfo.postsWithoutKeyphrase }
+			seoEnabled={ setupInfo.enabledFeatures.isSeoScoreEnabled }
+		/>;
 	}
 
 	return setupInfo && <div
