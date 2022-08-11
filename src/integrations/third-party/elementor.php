@@ -10,7 +10,6 @@ use WPSEO_Admin_Asset_Manager;
 use WPSEO_Admin_Recommended_Replace_Vars;
 use WPSEO_Language_Utils;
 use WPSEO_Meta;
-use WPSEO_Metabox_Analysis_Inclusive_Language;
 use WPSEO_Metabox_Analysis_Readability;
 use WPSEO_Metabox_Analysis_SEO;
 use WPSEO_Metabox_Analysis_Inclusive_Language;
