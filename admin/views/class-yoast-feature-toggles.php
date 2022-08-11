@@ -95,7 +95,9 @@ class Yoast_Feature_Toggles {
 				'setting'             => 'inclusive_language_analysis_active',
 				'label'               => __( 'The inclusive language analysis offers suggestions to write more inclusive copy.', 'wordpress-seo' ),
 				'read_more_label'     => __( 'Discover why inclusive language is important for SEO.', 'wordpress-seo' ),
-				'read_more_url'       => 'https://yoa.st/2ao',
+				'read_more_url'       => 'https://yoa.st/inclusive-language-features-free',
+				'premium_url'         => 'https://yoa.st/inclusive-language-features-premium',
+				'premium_upsell_url'  => 'https://yoa.st/get-inclusive-language',
 				'order'               => 25,
 			],
 			(object) [
