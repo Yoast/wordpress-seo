@@ -126,6 +126,7 @@ testPapers.forEach( function( testPaper ) {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/4lw" ),
 			urlCallToAction: createAnchorOpeningTag( "https://yoa.st/4lx" ),
 			assessVariants: true,
+			productType: "simple",
 		} );
 		const imageKeyphraseAssessment = new ImageKeyphraseAssessment( {
 			urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify22" ),
