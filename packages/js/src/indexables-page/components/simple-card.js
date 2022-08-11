@@ -9,11 +9,13 @@ import PropTypes from "prop-types";
  * @returns {WPElement} A card component for the indexables page.
  */
 const SimpleCard = ( { title, children } ) => {
-	return <div className="yst-bg-white yst-rounded-lg yst-px-8 yst-py-6 yst-shadow">
-		<h3 className="yst-mb-4 yst-text-xl yst-text-gray-900 yst-font-medium">
-			{ title }
-		</h3>
-		{ children }
+	return <div className="yst-inline-block">
+		<div className="yst-bg-white yst-rounded-lg yst-p-8 yst-shadow">
+			<h3 className="yst-mb-4 yst-text-base yst-text-gray-900 yst-font-medium">
+				{ title }
+			</h3>
+			{ children }
+		</div>
 	</div>;
 };
 
