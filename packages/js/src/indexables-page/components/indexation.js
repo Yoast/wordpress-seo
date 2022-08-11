@@ -296,7 +296,7 @@ export class Indexation extends Component {
 	renderStopButton() {
 		return <button
 			type="button"
-			className="yst-button yst-button--primary"
+			className="yst-button yst-button--secondary"
 			onClick={ this.stopIndexing }
 		>
 			{ __( "Stop SEO data optimization", "wordpress-seo" ) }
@@ -372,25 +372,15 @@ export class Indexation extends Component {
 		}
 
 		return (
-			<div className="yst-relative">
+			<div className="yst-relative yst-w-full yst-flex yst-flex-col yst-items-center">
 				{ this.props.children }
-				<Transition
-					unmount={ false }
-					show={ this.isState( STATE.ERRORED ) ||
-						this.isState( STATE.IN_PROGRESS ) ||
-						( this.isState( STATE.IDLE ) && this.state.amount > 0 ) }
-					leave="yst-transition-opacity yst-duration-1000"
-					leaveFrom="yst-opacity-100"
-					leaveTo="yst-opacity-0"
-				>
-					{ this.isState( STATE.IN_PROGRESS ) && this.renderProgressBar() }
-					{ this.isState( STATE.ERRORED ) && this.renderErrorAlert() }
-					{ this.isState( STATE.IN_PROGRESS )
-						? this.renderStopButton()
-						: this.renderStartButton()
-					}
-					{ this.isState( STATE.IDLE ) && this.state.firstTime && this.renderFirstIndexationNotice() }
-				</Transition>
+				{ this.renderProgressBar() }
+				{ this.isState( STATE.ERRORED ) && this.renderErrorAlert() }
+				{ this.isState( STATE.IN_PROGRESS )
+					? this.renderStopButton()
+					: this.renderStartButton()
+				}
+				{ this.isState( STATE.IDLE ) && this.state.firstTime && this.renderFirstIndexationNotice() }
 			</div>
 		);
 	}
