@@ -172,6 +172,7 @@ describe( "running assessments in the product page SEO assessor", function() {
 		const customData = {
 			hasVariants: true,
 			hasPrice: false,
+			productType: "simple",
 		};
 		assessor.assess( new Paper( "", { customData } ) );
 		const AssessmentResults = assessor.getValidResults();
