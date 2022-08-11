@@ -3,11 +3,7 @@ import ProductIdentifiersAssessment from "../../../../src/scoring/assessments/se
 import Paper from "../../../../src/values/Paper";
 import Factory from "../../../specHelpers/factory";
 
-const paper = new Paper( "", {
-	customData: {
-		productType: "simple",
-	},
-} );
+const paper = new Paper( "" );
 
 
 describe( "a test for Product identifiers assessment for WooCommerce", function() {
@@ -83,13 +79,13 @@ describe( "a test for Product identifiers assessment for WooCommerce", function(
 } );
 
 // Ignore the shopify specs as long as it is not yet implemented for shopify.
-describe( "a test for Product identifiers assessment for Shopify", () => {
+xdescribe( "a test for Product identifiers assessment for Shopify", () => {
 	const assessment = new ProductIdentifiersAssessment( { urlTitle: createAnchorOpeningTag( "https://yoa.st/shopify81" ),
 		urlCallToAction: createAnchorOpeningTag( "https://yoa.st/shopify82" ),
 		assessVariants: false,
 		productIdentifierOrBarcode: "Barcode" } );
 
-	xit( "returns with score 9 when the product has global identifier and no variants", () => {
+	it( "returns with score 9 when the product has global identifier and no variants", () => {
 		const assessmentResult = assessment.getResult( paper, Factory.buildMockResearcher( {
 			hasGlobalIdentifier: true,
 			hasVariants: false,
@@ -100,7 +96,7 @@ describe( "a test for Product identifiers assessment for Shopify", () => {
 			"Your product has a barcode. Good job!" );
 	} );
 
-	xit( "returns with score 6 when the product doesn't have a global identifier nor variants", () => {
+	it( "returns with score 6 when the product doesn't have a global identifier nor variants", () => {
 		const assessmentResult = assessment.getResult( paper, Factory.buildMockResearcher( {
 			hasGlobalIdentifier: false,
 			hasVariants: false,
@@ -112,7 +108,7 @@ describe( "a test for Product identifiers assessment for Shopify", () => {
 			" this if you can, as it will help search engines to better understand your content.</a>" );
 	} );
 
-	xit( "should not return a score if the product has variants", () => {
+	it( "should not return a score if the product has variants", () => {
 		const assessmentResult = assessment.getResult( paper, Factory.buildMockResearcher( {
 			hasGlobalIdentifier: false,
 			hasVariants: true,
@@ -122,7 +118,7 @@ describe( "a test for Product identifiers assessment for Shopify", () => {
 	} );
 } );
 
-xdescribe( "a test for the applicability of the assessment", function() {
+describe( "a test for the applicability of the assessment", function() {
 	const assessment = new ProductIdentifiersAssessment( { assessVariants: true } );
 
 	it( "is not applicable when there is no price and no variants", function() {
