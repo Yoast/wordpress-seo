@@ -110,3 +110,17 @@ describe( "A test to check if all variants of a product have a SKU", () => {
 		expect( productSKUData( paper ).doAllVariantsHaveSKU ).toEqual( true );
 	} );
 } );
+
+describe( "correctly adds productType to data", () => {
+	it( "correctly adds productType to data", () => {
+		[ "simple", "variable", "grouped", "external" ].forEach( productType => {
+			const paper = new Paper( "Text.", {
+				customData: {
+					doAllVariantsHaveSKU: true,
+					productType: productType,
+				},
+			} );
+			expect( productSKUData( paper ).productType ).toEqual( productType );
+		} );
+	} );
+} );
