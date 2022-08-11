@@ -23,10 +23,11 @@ const NotEnoughAnalysedContent = ( { indexablesList } ) => {
 		setNumberOfVisibleIndexables( number );
 		setStep( newStep );
 	}, [ numberOfVisibleIndexables, setNumberOfVisibleIndexables ] );
+
 	return <div className="yst-max-w-full yst-mt-6">
 		<div
 			id="start-writing-content"
-			className="yst-max-w-7xl yst-grid yst-grid-cols-1 2xl:yst-grid-cols-2 2xl:yst-grid-rows-2 2xl:yst-grid-flow-row 2xl:yst-auto-rows-fr yst-gap-6"
+			className="yst-max-w-3xl"
 		>
 			<SimpleCard
 				title={

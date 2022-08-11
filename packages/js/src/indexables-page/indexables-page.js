@@ -98,16 +98,18 @@ IndexableTitleLink.defaultProps = {
  * @returns {WPElement} A div with a styled link to the indexable.
  */
 function IndexablesPageCard( { title, isLoading, children } ) {
-	return <div
-		className="yst-bg-white yst-rounded-lg yst-px-8 yst-py-6 yst-shadow"
-	>
-		<h3 className="yst-mb-4 yst-text-xl yst-text-gray-900 yst-font-medium">
-			{ isLoading
-				? title
-				: <div className="yst-flex yst-items-center yst-h-8 yst-animate-pulse"><div className="yst-w-3/5 yst-bg-gray-200 yst-h-3 yst-rounded" /></div>
-			}
-		</h3>
-		{ children }
+	return <div>
+		<div
+			className="yst-bg-white yst-rounded-lg yst-px-8 yst-py-6 yst-shadow"
+		>
+			<h3 className="yst-mb-4 yst-text-xl yst-text-gray-900 yst-font-medium">
+				{ isLoading
+					? title
+					: <div className="yst-flex yst-items-center yst-h-8 yst-animate-pulse"><div className="yst-w-3/5 yst-bg-gray-200 yst-h-3 yst-rounded" /></div>
+				}
+			</h3>
+			{ children }
+		</div>
 	</div>;
 }
 
@@ -408,7 +410,7 @@ function IndexablesPage() {
 		return <span>All features deactivated.</span>;
 	} else if ( setupInfo && setupInfo.enoughContent === false ) {
 		return <NotEnoughContent />;
-	} else if ( setupInfo && setupInfo.enoughAnalysedContent === false && setupInfo.enabledFeatures.isSeoScoreEnabled ) {
+	} else if ( setupInfo && setupInfo.enoughAnalysedContent === false ) {
 		return <NotEnoughAnalysedContent indexablesList={ setupInfo.postsWithoutKeyphrase } />;
 	}
 
@@ -427,7 +429,7 @@ function IndexablesPage() {
 		</Modal>
 		<div
 			id="indexables-table-grid"
-			className="yst-max-w-7xl yst-grid yst-grid-cols-1 2xl:yst-grid-cols-2 2xl:yst-grid-rows-2 2xl:yst-grid-flow-row 2xl:yst-auto-rows-fr yst-gap-6"
+			className="yst-max-w-7xl yst-grid yst-grid-cols-1 2xl:yst-grid-cols-2 2xl:yst-grid-flow-row 2xl:yst-auto-rows-auto yst-gap-6"
 		>
 			{
 				( indexablesLists.least_seo_score && indexablesLists.least_seo_score.length > 0 ) && <IndexablesPageCard title={ __( "Lowest SEO scores", "wordpress-seo" ) } isLoading={ indexablesLists.least_seo_score !== null }>

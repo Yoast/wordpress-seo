@@ -10,6 +10,29 @@ import SimpleCard from "./simple-card";
 
 const Link = makeOutboundLink();
 
+const readingList = [
+	{
+		title: "Blogging: The ultimate guide",
+		link: "#",
+	},
+	{
+		title: "10 tips for an awesome and SEO-friendly blog post",
+		link: "#",
+	},
+	{
+		title: "How to optimize a blog post for search engines: a checklist!",
+		link: "#",
+	},
+	{
+		title: "Why the purpose of your text is important for SEO",
+		link: "#",
+	},
+	{
+		title: "How to write an SEO-friendly introduction for a blog post",
+		link: "#",
+	},
+];
+
 /**
  * Renders the four indexable tables.
  *
@@ -64,42 +87,19 @@ const NotEnoughContent = () => {
 		}
 	}, [ readingListState, setReadingListState, apiFetch ] );
 
-	const readingList = [
-		{
-			title: "Blogging: The ultimate guide",
-			link: "#",
-		},
-		{
-			title: "10 tips for an awesome and SEO-friendly blog post",
-			link: "#",
-		},
-		{
-			title: "How to optimize a blog post for search engines: a checklist!",
-			link: "#",
-		},
-		{
-			title: "Why the purpose of your text is important for SEO",
-			link: "#",
-		},
-		{
-			title: "How to write an SEO-friendly introduction for a blog post",
-			link: "#",
-		},
-	];
-
 	return <div className="yst-max-w-full yst-mt-6">
 		<div
 			id="start-writing-content"
-			className="yst-max-w-7xl yst-grid yst-grid-cols-1 2xl:yst-grid-cols-2 2xl:yst-grid-rows-2 2xl:yst-grid-flow-row 2xl:yst-auto-rows-fr yst-gap-6"
+			className="yst-max-w-7xl yst-grid yst-grid-cols-1 2xl:yst-grid-cols-2 2xl:yst-grid-flow-row yst-gap-6"
 		>
 			<SimpleCard title={ __( "Start writing content!", "wordpress-seo" ) }>
 				<div className="yst-mb-6 yst-text-gray-500">
-					<p>You need to have more content on your site to make your website rank well in the search engines.</p><br />
+					<p>{ __( "You need to have more content on your site to make your website rank well in the search engines.", "wordpress-seo" ) }</p><br />
 					<p>
-						There are three major elements you need to consider when writing good content for SEO:
-						keyword strategy, site structure and copywriting.
+						{ __( "There are three major elements you need to consider when writing good content for SEO:", "wordpress-seo" ) }
+						{ __( "keyword strategy, site structure and copywriting.", "wordpress-seo" ) }
 					</p><br />
-					<p>Don&apos;t know where to start? Have a look at our recommended reading list!</p>
+					<p>{ __( "Don't know where to start? Have a look at our recommended reading list!", "wordpress-seo" ) }</p>
 				</div>
 				<Link
 					href={ "/wp-admin/post-new.php" }
@@ -108,7 +108,6 @@ const NotEnoughContent = () => {
 					<PlusIcon className="yst-w-4 yst-h-4 yst-mr-1" />{ __( "Start writing a new post", "wordpress-seo" ) }
 				</Link>
 			</SimpleCard>
-
 			<SimpleCard title={ __( "Recommended reading list", "wordpress-seo" ) }>
 				<ul className="yst-divide-y yst-divide-gray-200">
 					{ readingList.map(
@@ -142,7 +141,6 @@ const NotEnoughContent = () => {
 					}
 				</ul>
 			</SimpleCard>
-
 		</div>
 	</div>;
 };
