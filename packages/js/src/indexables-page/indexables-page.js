@@ -1,18 +1,15 @@
 /* global wpseoIndexablesPageData */
 import PropTypes from "prop-types";
-import { range } from "lodash";
 import apiFetch from "@wordpress/api-fetch";
 import { __, sprintf } from "@wordpress/i18n";
-import { useEffect, useState, useCallback, Fragment } from "@wordpress/element";
-import { ArrowNarrowRightIcon, LinkIcon, ExternalLinkIcon } from "@heroicons/react/outline";
+import { useEffect, useState, useCallback } from "@wordpress/element";
+import { LinkIcon, ExternalLinkIcon } from "@heroicons/react/outline";
 import { Badge, Button, Modal } from "@yoast/ui-library";
 import { makeOutboundLink } from "@yoast/helpers";
 import IndexablesTable from "./components/indexables-table";
-import SvgIcon from "../../../components/src/SvgIcon";
 import NotEnoughContent from "./components/not-enough-content";
 import NotEnoughAnalysedContent from "./components/not-enough-analysed-content";
 import { addLinkToString } from "../helpers/stringHelpers";
-import SuggestedLinksModalContent from "./components/suggested-links-modal";
 import SuggestedLinksModal from "./components/suggested-links-modal";
 
 const Link = makeOutboundLink();
@@ -279,7 +276,7 @@ function IndexablesPage() {
 	/**
 	 * Handles the rendering of the links modal.
 	 *
-	 * @param {int}    indexableId         The id of the indexable.
+	 * @param {int}    indexableId        The id of the indexable.
 	 * @param {int}    incomingLinksCount The number of incoming links.
 	 * @param {string} breadcrumbTitle    The title of the indexable.
 	 * @param {string} permalink          The link to the indexable.
