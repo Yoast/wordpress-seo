@@ -3,6 +3,7 @@ import AssessmentResult from "../../../values/AssessmentResult";
 import { merge } from "lodash-es";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import { __, sprintf } from "@wordpress/i18n";
+
 /**
  * Represents the assessment for the product SKU.
  */
@@ -58,7 +59,6 @@ export default class ProductSKUAssessment extends Assessment {
 	 * Contains extra logic for the isApplicable method.
 	 *
 	 * @param {object} customData The custom data part of the Paper object.
-	 * @private
 	 *
 	 * @returns {bool} Whether the productSKUAssessment is applicable.
 	 */
@@ -84,7 +84,6 @@ export default class ProductSKUAssessment extends Assessment {
 	 */
 	isApplicable( paper ) {
 		const customData = paper.getCustomData();
-		// Product should either be a simple product with a price, or a product with variants.
 		return this.applicabilityHelper( customData );
 	}
 
@@ -98,7 +97,6 @@ export default class ProductSKUAssessment extends Assessment {
 	 * 													or empty object if no score should be returned.
 	 */
 	scoreProductSKU( productSKUData, config ) {
-		// If a product has no variants, return orange bullet if it has no global SKU, and green bullet if it has one.
 		// NOTE: product types might not be available in shopify or they might differ.
 		// So take this into account when implementing SKUAssessment for shopify.
 		if (  [ "simple", "external" ].includes( productSKUData.productType ) ) {

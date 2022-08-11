@@ -61,7 +61,6 @@ export default class ProductIdentifiersAssessment extends Assessment {
 	 * Contains extra logic for the isApplicable method.
 	 *
 	 * @param {object} customData The custom data part of the Paper object.
-	 * @private
 	 *
 	 * @returns {bool} Whether the productIdentifierAssessment is applicable.
 	 */
@@ -90,7 +89,6 @@ export default class ProductIdentifiersAssessment extends Assessment {
 	 */
 	isApplicable( paper ) {
 		const customData = paper.getCustomData();
-		// Product should either be a simple product with a price, or a product with variants.
 		return this.applicabilityHelper( customData );
 	}
 
@@ -122,7 +120,6 @@ export default class ProductIdentifiersAssessment extends Assessment {
 			};
 		}
 
-		// If a product has no variants, return orange bullet if it has no global identifier, and green bullet if it has one.
 		if ( [ "simple", "external" ].includes( productIdentifierData.productType ) ) {
 			if ( ! productIdentifierData.hasGlobalIdentifier ) {
 				return {
