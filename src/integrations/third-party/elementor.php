@@ -13,7 +13,6 @@ use WPSEO_Meta;
 use WPSEO_Metabox_Analysis_Inclusive_Language;
 use WPSEO_Metabox_Analysis_Readability;
 use WPSEO_Metabox_Analysis_SEO;
-use WPSEO_Metabox_Analysis_Inclusive_Language;
 use WPSEO_Metabox_Formatter;
 use WPSEO_Post_Metabox_Formatter;
 use WPSEO_Replace_Vars;
