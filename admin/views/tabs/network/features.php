@@ -7,6 +7,7 @@
  * @uses Yoast_Form $yform Form object.
  */
 
+use Yoast\WP\SEO\Presenters\Admin\Beta_Badge_Presenter;
 use Yoast\WP\SEO\Presenters\Admin\Premium_Badge_Presenter;
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
@@ -51,6 +52,10 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 		$name = $feature->name;
 		if ( ! empty( $feature->premium ) && $feature->premium === true ) {
 			$name .= ' ' . new Premium_Badge_Presenter( $feature->name );
+		}
+
+		if ( ! empty( $feature->in_beta ) && $feature->in_beta === true ) {
+			$name .= ' ' . new Beta_Badge_Presenter( $feature->name );
 		}
 
 		$disabled            = false;

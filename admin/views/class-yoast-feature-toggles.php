@@ -5,6 +5,7 @@
  * @package WPSEO\Admin
  */
 
+use Yoast\WP\SEO\Helpers\Language_Helper;
 use Yoast\WP\SEO\Presenters\Admin\Alert_Presenter;
 
 /**
@@ -90,7 +91,7 @@ class Yoast_Feature_Toggles {
 				'name'                => __( 'Inclusive language analysis', 'wordpress-seo' ),
 				'premium'             => true,
 				'in_beta'             => true,
-				'supported_languages' => [ 'en' ],
+				'supported_languages' => Language_Helper::$languages_with_inclusive_language_support,
 				'setting'             => 'inclusive_language_analysis_active',
 				'label'               => __( 'The inclusive language analysis offers suggestions to write more inclusive copy.', 'wordpress-seo' ),
 				'read_more_label'     => __( 'Discover why inclusive language is important for SEO.', 'wordpress-seo' ),
