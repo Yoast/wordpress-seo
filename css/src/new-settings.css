@@ -111,6 +111,7 @@
 			yst-shadow-sm
 			yst-bg-white
 			yst-text-sm
+			yst-leading-6
 			yst-text-gray-700
 			yst-placeholder-gray-500
 			focus-within:yst-outline-none
@@ -160,9 +161,10 @@
 			yst-inline-flex
 			yst-py-0.5
 			yst-px-2.5
-			yst-m-0.5
+			yst-mx-0.5
 			yst-rounded-full
 			yst-items-center
+			yst-leading-tight
 			yst-text-xs
 			yst-font-medium
 			yst-bg-gray-100
