@@ -112,14 +112,16 @@ export default class ProductSKUAssessment extends Assessment {
 		console.log( "TEST7", config );
 
 		// TODO: in shopify there are different product types.
-		if (  [ "simple", "external" ].contains( productSKUData.productType ) ) {
+		// NOTE: product types might not be available in shopify or they might differ.
+		// So take this into account when implementing SKUAssessment for shopify.
+		if (  [ "simple", "external" ].includes( productSKUData.productType ) ) {
 			if ( ! productSKUData.hasGlobalSKU ) {
 				return {
 					score: config.scores.ok,
 					text: sprintf(
 						// Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag.
 						__(
-							"%1$sSKU%3$s: Your product is missing a dadaSKU. %2$sInclude this if you can, as it" +
+							"%1$sSKU%3$s: Your product is missing a SKU. %2$sInclude this if you can, as it" +
 							" will help search engines to better understand your content.%3$s",
 							"wordpress-seo"
 						),
@@ -150,7 +152,7 @@ export default class ProductSKUAssessment extends Assessment {
 					text: sprintf(
 						// Translators: %1$s and %2$s expand to links on yoast.com, %3$s expands to the anchor end tag.
 						__(
-							"%1$sSKU%3$s: Not all your product variants have a SKUUUU. %2$sInclude this if you can, as it" +
+							"%1$sSKU%3$s: Not all your product variants have a SKU. %2$sInclude this if you can, as it" +
 							" will help search engines to better understand your content.%3$s",
 							"wordpress-seo"
 						),
