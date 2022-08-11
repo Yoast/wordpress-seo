@@ -156,9 +156,7 @@ describe( "a test for the applicability of the assessment", function() {
 
 		expect( isApplicable ).toBe( true );
 	} );
-} );
 
-describe( "test the applicabilityHelper", () => {
 	it( "returns false when assessVariants is false", () => {
 		const assessment = new ProductIdentifiersAssessment( { assessVariants: false } );
 		const customData = {
@@ -214,3 +212,4 @@ describe( "test the applicabilityHelper", () => {
 		expect( isApplicable ).toBe( false );
 	} );
 } );
+
