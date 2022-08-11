@@ -27,7 +27,7 @@ const NotEnoughAnalysedContent = ( { indexablesList, seoEnabled } ) => {
 	return <div className="yst-max-w-full yst-mt-6">
 		<div
 			id="start-writing-content"
-			className="yst-max-w-3xl"
+			className="yst-max-w-2xl"
 		>
 			<SimpleCard
 				title={
