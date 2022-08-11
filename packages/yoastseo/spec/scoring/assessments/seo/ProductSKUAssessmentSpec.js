@@ -2,7 +2,6 @@ import { createAnchorOpeningTag } from "../../../../src/helpers/shortlinker";
 import ProductSKUAssessment from "../../../../src/scoring/assessments/seo/ProductSKUAssessment";
 import Paper from "../../../../src/values/Paper";
 import Factory from "../../../specHelpers/factory";
-import ProductIdentifiersAssessment from "../../../../src/scoring/assessments/seo/ProductIdentifiersAssessment";
 
 const paper = new Paper( "" );
 
@@ -156,10 +155,7 @@ describe( "a test for the applicability of the assessment", function() {
 
 		expect( isApplicable ).toBe( true );
 	} );
-} );
 
-
-describe( "test the applicabilityHelper", () => {
 	it( "returns false when assessVariants is false", () => {
 		const assessment = new ProductSKUAssessment( { assessVariants: false } );
 		const customData = {

@@ -1,6 +1,5 @@
 import productIdentifierData from "../../../src/languageProcessing/researches/getProductIdentifierData.js";
 import Paper from "../../../src/values/Paper.js";
-import productSKUData from "../../../src/languageProcessing/researches/getProductSKUData";
 
 describe( "A test to check if at least one global product barcode is filled in", () => {
 	it( "returns true if at least one barcode is filled in", function() {
