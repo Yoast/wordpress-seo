@@ -3,7 +3,6 @@ import AssessmentResult from "../../../values/AssessmentResult";
 import { merge } from "lodash-es";
 import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
 import { __, sprintf } from "@wordpress/i18n";
-console.log( "ProductSKU is loaded" );
 /**
  * Represents the assessment for the product SKU.
  */
@@ -41,7 +40,6 @@ export default class ProductSKUAssessment extends Assessment {
 	 * @returns {AssessmentResult} An assessment result with the score and formatted text.
 	 */
 	getResult( paper, researcher ) {
-		console.log( "TEST8", this._config );
 		const productSKUData = researcher.getResearch( "getProductSKUData" );
 
 		const result = this.scoreProductSKU( productSKUData, this._config );
@@ -57,30 +55,23 @@ export default class ProductSKUAssessment extends Assessment {
 	}
 
 	/**
+	 * Contains extra logic for the isApplicable method.
 	 *
-	 * @param customData
+	 * @param {object} customData The custom data part of the Paper object.
 	 * @private
+	 *
+	 * @returns {bool} Whether the productSKUAssessment is applicable.
 	 */
 	applicabilityHelper( customData ) {
-		console.log( "TEST (not) hasvariants: ", ! customData.hasVariants );
 		// Checks if we are in Woo or Shopify. assessVariants is always true in Woo
-		// TODO: check how this influences shopify: not totally accurate. (Possibly find other solution). Minimal solution: document
 		if ( ! this._config.assessVariants ) {
-			console.log("condition 1")
 			return false;
 		}
 
 		// If we have a variable product with no (active) variants. (active variant = variant with a price)
-		if (  customData.productType === "variable" && ! customData.hasVariants  ) {
-			console.log("condition 2")
+		if (  customData.productType === "variable" && ! customData.hasVariants ) {
 			return false;
 		}
-		// } else if ( customData.productType === "simple" ) {
-		//
-		// } else {
-		// 	Console.log( "undefined case" );
-		// }
-		console.log("condition 3")
 		return ( customData.hasPrice || customData.hasVariants );
 	}
 
@@ -108,10 +99,6 @@ export default class ProductSKUAssessment extends Assessment {
 	 */
 	scoreProductSKU( productSKUData, config ) {
 		// If a product has no variants, return orange bullet if it has no global SKU, and green bullet if it has one.
-		console.log( "TEST6", productSKUData );
-		console.log( "TEST7", config );
-
-		// TODO: in shopify there are different product types.
 		// NOTE: product types might not be available in shopify or they might differ.
 		// So take this into account when implementing SKUAssessment for shopify.
 		if (  [ "simple", "external" ].includes( productSKUData.productType ) ) {
@@ -175,7 +162,6 @@ export default class ProductSKUAssessment extends Assessment {
 				),
 			};
 		}
-		//TODO: document that for grouped product we never show assessment.
 		return {};
 	}
 }

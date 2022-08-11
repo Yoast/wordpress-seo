@@ -58,28 +58,26 @@ export default class ProductIdentifiersAssessment extends Assessment {
 	}
 
 	/**
+	 * Contains extra logic for the isApplicable method.
 	 *
-	 * @param customData
+	 * @param {object} customData The custom data part of the Paper object.
 	 * @private
+	 *
+	 * @returns {bool} Whether the productIdentifierAssessment is applicable.
 	 */
 	applicabilityHelper( customData ) {
-		console.log( "TEST (not) hasvariants identifier: ", ! customData.hasVariants );
 		// Checks if we are in Woo or Shopify. assessVariants is always true in Woo
 		// Don't return a score if the product has variants but we don't want to assess variants for this product.
 		// This is currently the case for Shopify products because we don't have access data about product variant identifiers in Shopify.
-		// TODO: check how this influences shopify: not totally accurate. (Possibly find other solution). Minimal solution: document
 		if ( ! this._config.assessVariants ) {
-			console.log( "condition 1" );
 			return false;
 		}
 
 		// If we have a variable product with no (active) variants. (active variant = variant with a price)
 		if (  customData.productType === "variable" && ! customData.hasVariants  ) {
-			console.log( "condition 2" );
 			return false;
 		}
 
-		console.log( "condition 3" );
 		return ( customData.hasPrice || customData.hasVariants );
 	}
 
@@ -126,7 +124,6 @@ export default class ProductIdentifiersAssessment extends Assessment {
 
 		// If a product has no variants, return orange bullet if it has no global identifier, and green bullet if it has one.
 		if ( [ "simple", "external" ].includes( productIdentifierData.productType ) ) {
-			console.log("TEST simple")
 			if ( ! productIdentifierData.hasGlobalIdentifier ) {
 				return {
 					score: config.scores.ok,
@@ -166,7 +163,6 @@ export default class ProductIdentifiersAssessment extends Assessment {
 				),
 			};
 		} else if ( productIdentifierData.productType === "variable" ) {
-			console.log("test variable")
 			if ( ! productIdentifierData.doAllVariantsHaveIdentifier ) {
 				// If we want to assess variants, and if product has variants but not all variants have an identifier, return orange bullet.
 				// If all variants have an identifier, return green bullet.
