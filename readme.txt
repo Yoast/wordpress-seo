@@ -243,14 +243,12 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 19.6 =
 Release Date: August 23rd, 2022
 
-Enhancements:
-
-* Fixes a performance issue in the meta description, SEO title and social meta field editors that would occur when very large amounts of custom fields were used.
 
 Bugfixes:
-* Fixes a bug where the inclusive language feedback in the publish box was not synchronized with the metabox in the classic editor.
+
 * Fixes a bug in the Classic Editor where clicking on the SEO link inside of the Publish box would not scroll the SEO analysis into view when the SEO tab inside of the Yoast metabox was not already open.
 * Fixes a bug where an emoji is not entirely removed when the backspace/delete button is hit.
+* Fixes a bug where the inclusive language feedback in the publish box was not synchronized with the metabox in the classic editor.
 
 Other:
 
