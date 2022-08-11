@@ -97,8 +97,11 @@ const NotEnoughContent = () => {
 					<p>{ __( "You need to have more content on your site to make your website rank well in the search engines.", "wordpress-seo" ) }</p><br />
 					<p>
 						{ __( "There are three major elements you need to consider when writing good content for SEO:", "wordpress-seo" ) }
+					</p>
+					<p>
 						{ __( "keyword strategy, site structure and copywriting.", "wordpress-seo" ) }
-					</p><br />
+					</p>
+					<br />
 					<p>{ __( "Don't know where to start? Have a look at our recommended reading list!", "wordpress-seo" ) }</p>
 				</div>
 				<Link
