@@ -526,7 +526,7 @@ function IndexablesPage() {
 										<IndexableScore colorClass={ "yst-bg-emerald-500" } />
 										<IndexableLinkCount key={ `least-linked-score-${ indexable.id }` } count={ parseInt( indexable.incoming_link_count, 10 ) } />
 										<IndexableTitleLink key={ `least-linked-title-${ indexable.id }` } indexable={ indexable } />
-										<div key={ `least-linked-modal-button-${ indexable.id }` }>
+										<div key={ `least-linked-modal-button-${ indexable.id }` }  className="yst-shrink-0">
 											<Button
 												data-indexableid={ indexable.id }
 												data-incominglinkscount={ indexable.incoming_link_count === null ? 0 : indexable.incoming_link_count }
