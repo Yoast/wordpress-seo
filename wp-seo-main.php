@@ -443,7 +443,7 @@ if ( ! $filter_exists ) {
 	add_action( 'admin_init', 'yoast_wpseo_missing_filter', 1 );
 }
 
-if ( ! wp_installing() && ( $spl_autoload_exists && $filter_exists ) ) {
+if ( ! wp_installing() && stripos( wp_login_url(), $_SERVER['SCRIPT_NAME'] ) === false && ( $spl_autoload_exists && $filter_exists ) ) {
 	add_action( 'plugins_loaded', 'wpseo_init', 14 );
 	add_action( 'rest_api_init', 'wpseo_init_rest_api' );
 
