@@ -123,14 +123,14 @@ IndexablesLinksCard.propTypes = {
 	listKey: PropTypes.string.isRequired,
 	setIgnoredIndexable: PropTypes.func,
 	scoreThresholds: PropTypes.shape( { medium: PropTypes.number.isRequired } ),
-	indexablesLists: PropTypes.array,
+	indexablesLists: PropTypes.object,
 	handleLink: PropTypes.func,
 };
 
 IndexablesLinksCard.defaultProps = {
 	setIgnoredIndexable: () => {},
 	handleLink: () => {},
-	indexablesLists: [],
+	indexablesLists: {},
 	intro: null,
 	outro: null,
 };

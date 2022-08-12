@@ -107,12 +107,12 @@ IndexablesScoreCard.propTypes = {
 	listKey: PropTypes.string.isRequired,
 	setIgnoredIndexable: PropTypes.func,
 	scoreThresholds: PropTypes.shape( { medium: PropTypes.number.isRequired } ),
-	indexablesLists: PropTypes.array,
+	indexablesLists: PropTypes.object,
 };
 
 IndexablesScoreCard.defaultProps = {
 	setIgnoredIndexable: () => {},
-	indexablesLists: [],
+	indexablesLists: {},
 };
 
 export default IndexablesScoreCard;
