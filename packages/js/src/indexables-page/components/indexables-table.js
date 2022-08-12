@@ -1,12 +1,9 @@
 import apiFetch from "@wordpress/api-fetch";
-
 import PropTypes from "prop-types";
-
-import { Button, Spinner } from "@yoast/ui-library";
 import { useState, useCallback } from "@wordpress/element";
 import { EyeOffIcon } from "@heroicons/react/outline";
 
-/* eslint-disable no-warning-comments */
+import { Button, Spinner } from "@yoast/ui-library";
 
 /**
  * Renders placeholders rows while loading the indexables table.
@@ -23,7 +20,7 @@ function PlaceholderRows( { columnCount, listSize } ) {
 		cells.push( <div key={ `placeholder-column-${ i }` } className="yst-inline-block yst-animate-pulse"><div className="yst-w-full yst-bg-gray-200 yst-h-3 yst-rounded" /></div> );
 	}
 	for ( let i = 0; i < listSize; i++ ) {
-		rows.push( <li key={ `placeholder-row-${ i }` } className="yst-my-0 yst-h-14 yst-max-w-none yst-grid yst-gap-2 yst-items-center yst-grid-cols-[1fr_8fr_2fr_1fr]">{ cells }</li> );
+		rows.push( <li key={ `placeholder-row-${ i }` } className="yst-w-full yst-my-0 yst-h-14 yst-max-w-none yst-grid yst-gap-2 yst-items-center yst-grid-cols-[1fr_8fr_2fr_1fr]">{ cells }</li> );
 	}
 	return rows;
 }
@@ -96,7 +93,6 @@ IndexableRow.propTypes = {
 	position: PropTypes.number,
 	children: PropTypes.node,
 };
-
 
 /**
  * A table with indexables.
