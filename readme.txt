@@ -243,9 +243,6 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 = 19.6 =
 Release Date: August 23rd, 2022
 
-Enhancements:
-
-* Fixes a performance issue in the meta description, SEO title and social meta field editors that would occur when very large amounts of custom fields were used.
 
 Bugfixes:
 
