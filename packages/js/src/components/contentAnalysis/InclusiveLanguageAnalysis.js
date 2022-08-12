@@ -94,7 +94,7 @@ const InclusiveLanguageAnalysis = ( props ) => {
 		__( "%1$sInclusive language%2$s: We haven't detected any potentially non-inclusive phrases. Great work!",
 			"wordpress-seo"
 		),
-		`<a href="${ analysisInfoLink }">`,
+		`<a href="${ analysisInfoLink }" target="_blank">`,
 		"</a>"
 	);
 
