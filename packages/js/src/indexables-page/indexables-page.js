@@ -1,120 +1,63 @@
 /* global wpseoIndexablesPageData */
-import PropTypes from "prop-types";
 import apiFetch from "@wordpress/api-fetch";
 import { __, sprintf } from "@wordpress/i18n";
 import { useEffect, useState, useCallback } from "@wordpress/element";
-import { LinkIcon, ExternalLinkIcon } from "@heroicons/react/outline";
-import { Badge, Button, Modal } from "@yoast/ui-library";
-import { makeOutboundLink } from "@yoast/helpers";
-import IndexablesTable from "./components/indexables-table";
+import { Button, Modal } from "@yoast/ui-library";
 import NotEnoughContent from "./components/not-enough-content";
 import NotEnoughAnalysedContent from "./components/not-enough-analysed-content";
 import { addLinkToString } from "../helpers/stringHelpers";
 import SuggestedLinksModal from "./components/suggested-links-modal";
-
-const Link = makeOutboundLink();
+import IndexablesScoreCard from "./components/indexables-score-card";
+import IndexablesLinksCard from "./components/indexables-links-card";
 
 const SEOScoreThresholds = { medium: 40, good: 70 };
 const readabilityScoreThresholds = { medium: 59, good: 89 };
 
-/**
- * A score representation.
- *
- * @param {string} colorClass The color of the bullet.
- *
- * @returns {WPElement} A div with a styled score representation.
- */
-function IndexableScore( { colorClass } ) {
-	return <div className="yst-flex yst-items-center">
-		<span className={ "yst-rounded-full yst-w-3 yst-h-3 " + colorClass } />
-	</div>;
-}
+const leastLinkedIntro = addLinkToString(
+	// translators: %1$s and %2$s are replaced by opening and closing anchor tags.
+	sprintf(
+		__(
+			"If you want to prevent your content from being orphaned, you need to make sure to link to that content. " +
+			"Linking to it from other places on your site will help Google and your audience reach it. " +
+			"%1$sLearn more about orphaned content%2$s.",
+			"wordpress-seo"
+		),
+		"<a>",
+		"</a>"
+	),
+	"https://www.yoast.com"
+);
 
-IndexableScore.propTypes = {
-	colorClass: PropTypes.string.isRequired,
-};
+const leastLinkedOutro = addLinkToString(
+	// translators: %1$s and %2$s are replaced by opening and closing anchor tags.
+	sprintf( __( "Find and fix any orphaned content on your site by using this %1$sstep-by-step workout%2$s!", "wordpress-seo" ),
+		"<a>",
+		"</a>" ),
+	"https://www.yoast.com"
+);
 
-/**
- * A link count representation.
- *
- * @param {int} count The number of links.
- *
- * @returns {WPElement} A div with a styled link count representation.
- */
-export function IndexableLinkCount( { count } ) {
-	return 	<div className="yst-min-w-[36px] yst-shrink-0 yst-flex yst-items-center yst-gap-1.5">
-		<LinkIcon className="yst-h-4 yst-w-4 yst-text-gray-400" />
-		{ count }
-	</div>;
-}
-IndexableLinkCount.propTypes = {
-	count: PropTypes.number.isRequired,
-};
+const mostLinkedIntro = addLinkToString(
+	// translators: %1$s and %2$s are replaced by opening and closing anchor tags.
+	sprintf(
+		__(
+			"The content below is supposed to be your cornerstone content: the most important and extensive articles on your site. " +
+			"Make sure to mark this content as cornerstone content to get all bullets green. " +
+			"%1$sLearn more about cornerstone content%2$s.",
+			"wordpress-seo"
+		),
+		"<a>",
+		"</a>"
+	),
+	"https://www.yoast.com"
+);
 
-/**
- * A link to the indexable.
- *
- * @param {object} indexable The indexable.
- *
- * @returns {WPElement} A div with a styled link to the indexable.
- */
-export function IndexableTitleLink( { indexable, showType } ) {
-	return <div className="yst-grow yst-min-w-0 yst-flex yst-h-3/5">
-		<Link
-			href={ indexable.permalink }
-			className="yst-min-w-0 yst-rounded-md focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-primary-500 yst-flex yst-items-center yst-gap-2 yst-no-underline yst-text-inherit hover:yst-text-indigo-500"
-		>
-			<span className="yst-text-ellipsis yst-whitespace-nowrap yst-overflow-hidden">{ indexable.breadcrumb_title }</span><ExternalLinkIcon className="yst-shrink-0 yst-h-[13px] yst-w-[13px]" />
-		</Link>
-		{ ( showType ) && <Badge variant="plain" className="yst-text-gray-800 yst-text-[10px] yst-self-center yst-h-4 yst-ml-2">{ indexable.object_sub_type }</Badge> }
-	</div>;
-}
-
-IndexableTitleLink.propTypes = {
-	indexable: PropTypes.shape( {
-		permalink: PropTypes.string.isRequired,
-		/* eslint-disable camelcase */
-		breadcrumb_title: PropTypes.string.isRequired,
-		object_sub_type: PropTypes.string,
-		/* eslint-enable camelcase */
-	} ).isRequired,
-	showType: PropTypes.bool,
-};
-
-IndexableTitleLink.defaultProps = {
-	showType: true,
-};
-
-/**
- * A card for the indexables page.
- *
- * @param {string}   title     The indexable title.
- * @param {boolean}  isLoading Wether the card is loading or not.
- * @param {JSX.node} children  The React children.
- *
- * @returns {WPElement} A div with a styled link to the indexable.
- */
-function IndexablesPageCard( { title, isLoading, children } ) {
-	return <div className="yst-inline-block">
-		<div
-			className="yst-bg-white yst-rounded-lg yst-px-8 yst-py-6 yst-shadow"
-		>
-			<h3 className="yst-mb-4 yst-text-xl yst-text-gray-900 yst-font-medium">
-				{ isLoading
-					? title
-					: <div className="yst-flex yst-items-center yst-h-8 yst-animate-pulse"><div className="yst-w-3/5 yst-bg-gray-200 yst-h-3 yst-rounded" /></div>
-				}
-			</h3>
-			{ children }
-		</div>
-	</div>;
-}
-
-IndexablesPageCard.propTypes = {
-	title: PropTypes.string.isRequired,
-	isLoading: PropTypes.bool.isRequired,
-	children: PropTypes.node.isRequired,
-};
+const mostLinkedOutro = addLinkToString(
+	// translators: %1$s and %2$s are replaced by opening and closing anchor tags.
+	sprintf( __( "Improve rankings for all your cornerstones by using this %1$sstep-by-step workout%2$s!", "wordpress-seo" ),
+		"<a>",
+		"</a>" ),
+	"https://www.yoast.com"
+);
 
 /* eslint-disable camelcase */
 /* eslint-disable no-warning-comments */
@@ -428,192 +371,49 @@ function IndexablesPage() {
 			 />
 		</Modal>
 		<div
-			id="indexables-table-grid"
-			className="yst-max-w-7xl yst-grid yst-grid-cols-1 2xl:yst-grid-cols-2 2xl:yst-grid-flow-row 2xl:yst-auto-rows-auto yst-gap-6"
+			id="indexables-table-columns"
+			className="yst-max-w-7xl 2xl:yst-columns-2 yst-gap-6"
 		>
-			{
-				( indexablesLists.least_seo_score && indexablesLists.least_seo_score.length > 0 ) && <IndexablesPageCard title={ __( "Lowest SEO scores", "wordpress-seo" ) } isLoading={ indexablesLists.least_seo_score !== null }>
-					<IndexablesTable>
-						{
-							indexablesLists.least_seo_score.slice( 0, listSize ).map(
-								( indexable, position ) => {
-									const score = parseInt( indexable.primary_focus_keyword_score, 10 );
-									return <IndexablesTable.Row
-										key={ `indexable-${ indexable.id }-row` }
-										type="least_seo_score"
-										indexable={ indexable }
-										addToIgnoreList={ setIgnoredIndexable }
-										position={ position }
-									>
-										<IndexableScore
-											key={ `seo-score-${ indexable.id }` }
-											colorClass={ score > SEOScoreThresholds.medium ? "yst-bg-amber-500" : "yst-bg-red-500" }
-										/>
-										<IndexableTitleLink key={ `seo-title-${ indexable.id }` } indexable={ indexable } />
-										<div key={ `seo-improve-${ indexable.id }` }>
-											<Link
-												href={ "/wp-admin/post.php?action=edit&post=" + indexable.object_id }
-												className="yst-button yst-button--secondary yst-text-gray-700"
-											>
-												{ __( "Improve", "wordpress-seo" ) }
-											</Link>
-										</div>
-									</IndexablesTable.Row>;
-								}
-							)
-						}
-					</IndexablesTable>
-				</IndexablesPageCard>
-			}
-			{
-				( indexablesLists.least_readability && indexablesLists.least_readability.length > 0 ) && <IndexablesPageCard title={ __( "Lowest readability scores", "wordpress-seo" ) } isLoading={ indexablesLists.least_readability !== null }>
-					<IndexablesTable>
-						{
-							indexablesLists.least_readability.slice( 0, listSize ).map(
-								( indexable, position ) => {
-									const score = parseInt( indexable.readability_score, 10 );
-									return <IndexablesTable.Row
-										key={ `indexable-${ indexable.id }-row` }
-										type="least_readability"
-										indexable={ indexable }
-										addToIgnoreList={ setIgnoredIndexable }
-										position={ position }
-									>
-										<IndexableScore
-											key={ `readability-score-${ indexable.id }` }
-											colorClass={ score > readabilityScoreThresholds.medium ? "yst-bg-amber-500" : "yst-bg-red-500" }
-										/>
-										<IndexableTitleLink key={ `readability-title-${ indexable.id }` } indexable={ indexable } />
-										<div key={ `readability-improve-${ indexable.id }` }>
-											<Link
-												href={ "/wp-admin/post.php?action=edit&post=" + indexable.object_id }
-												className="yst-button yst-button--secondary yst-text-gray-700"
-											>
-												{ __( "Improve", "wordpress-seo" ) }
-											</Link>
-										</div>
-									</IndexablesTable.Row>;
-								}
-							)
-						}
-					</IndexablesTable>
-				</IndexablesPageCard>
-			}
-			{
-				( indexablesLists.least_linked && indexablesLists.least_linked.length > 0 ) && <IndexablesPageCard title={ __( "Lowest number of incoming links", "wordpress-seo" ) } isLoading={ indexablesLists.least_linked !== null }>
-					<div className="yst-mb-3 yst-text-justify yst-pr-6">
-						{
-							addLinkToString(
-								// translators: %1$s and %2$s are replaced by opening and closing anchor tags.
-								sprintf( __( "If you want to prevent your content from being orphaned, you need to make sure to link to that content. " +
-							"Linking to it from other places on your site will help Google and your audience reach it. " +
-							"%1$sLearn more about orphaned content%2$s.", "wordpress-seo" ),
-								"<a>",
-								"</a>" ),
-								"https://www.yoast.com"
-							)
-						}
-					</div>
-					<IndexablesTable>
-						{
-							indexablesLists.least_linked.slice( 0, listSize ).map(
-								( indexable, position ) => {
-									return <IndexablesTable.Row
-										key={ `indexable-${ indexable.id }-row` }
-										type="least_linked"
-										indexable={ indexable }
-										addToIgnoreList={ setIgnoredIndexable }
-										position={ position }
-									>
-										{ /* @TODO: needs to be calculated */ }
-										<IndexableScore colorClass={ "yst-bg-emerald-500" } />
-										<IndexableLinkCount key={ `least-linked-score-${ indexable.id }` } count={ parseInt( indexable.incoming_link_count, 10 ) } />
-										<IndexableTitleLink key={ `least-linked-title-${ indexable.id }` } indexable={ indexable } />
-										<div key={ `least-linked-modal-button-${ indexable.id }` }  className="yst-shrink-0">
-											<Button
-												data-indexableid={ indexable.id }
-												data-incominglinkscount={ indexable.incoming_link_count === null ? 0 : indexable.incoming_link_count }
-												data-breadcrumbtitle={ indexable.breadcrumb_title }
-												data-permalink={ indexable.permalink }
-												onClick={ handleLink }
-												variant="secondary"
-											>
-												{ __( "Add links", "wordpress-seo" ) }
-											</Button>
-										</div>
-									</IndexablesTable.Row>;
-								}
-							)
-						}
-					</IndexablesTable>
-					<div className="yst-mt-3 yst-text-justify yst-pr-6">
-						{
-							addLinkToString(
-								// translators: %1$s and %2$s are replaced by opening and closing anchor tags.
-								sprintf( __( "Find and fix any orphaned content on your site by using this %1$sstep-by-step workout%2$s!", "wordpress-seo" ),
-									"<a>",
-									"</a>" ),
-								"https://www.yoast.com"
-							)
-						}
-					</div>
-				</IndexablesPageCard>
-			}
-			{
-				( indexablesLists.most_linked && indexablesLists.most_linked.length > 0 ) && <IndexablesPageCard title={ __( "Highest number of incoming links", "wordpress-seo" ) } isLoading={ indexablesLists.most_linked !== null }>
-					<div className="yst-mb-3 yst-text-justify yst-pr-6">
-						{
-							addLinkToString(
-								// translators: %1$s and %2$s are replaced by opening and closing anchor tags.
-								sprintf( __( "The content below is supposed to be your cornerstone content: the most important and extensive articles on your site. " +
-							"Make sure to mark this content as cornerstone content to get all bullets green. " +
-							"%1$sLearn more about cornerstone content%2$s.", "wordpress-seo" ),
-								"<a>",
-								"</a>" ),
-								"https://www.yoast.com"
-							)
-						}
-					</div>
-					<IndexablesTable>
-						{
-							indexablesLists.most_linked.slice( 0, listSize ).map(
-								( indexable, position ) => {
-									return <IndexablesTable.Row
-										key={ `indexable-${ indexable.id }-row` }
-										type="most_linked"
-										indexable={ indexable }
-										addToIgnoreList={ setIgnoredIndexable }
-										position={ position }
-									>
-										<IndexableScore colorClass={ parseInt( indexable.is_cornerstone, 10 ) ? "yst-bg-emerald-500" : "yst-bg-red-500" } />
-										<IndexableLinkCount key={ `most-linked-score-${ indexable.id }` } count={ parseInt( indexable.incoming_link_count, 10 ) } />
-										<IndexableTitleLink key={ `most-linked-title-${ indexable.id }` } indexable={ indexable } />
-										<div key={ `most-linked-edit-${ indexable.id }` }>
-											<Link
-												href={ "/wp-admin/post.php?action=edit&post=" + indexable.object_id }
-												className="yst-button yst-button--secondary yst-text-gray-500"
-											>
-												{ __( "Edit", "wordpress-seo" ) }
-											</Link>
-										</div>
-									</IndexablesTable.Row>;
-								}
-							)
-						}
-					</IndexablesTable>
-					<div className="yst-mt-3 yst-text-justify yst-pr-6">
-						{
-							addLinkToString(
-								// translators: %1$s and %2$s are replaced by opening and closing anchor tags.
-								sprintf( __( "Improve rankings for all your cornerstones by using this %1$sstep-by-step workout%2$s!", "wordpress-seo" ),
-									"<a>",
-									"</a>" ),
-								"https://www.yoast.com"
-							)
-						}
-					</div>
-				</IndexablesPageCard>
-			}
+			<IndexablesScoreCard
+				title={ __( "Lowest SEO scores", "wordpress-seo" ) }
+				setIgnoredIndexable={ setIgnoredIndexable }
+				scoreThresholds={ SEOScoreThresholds }
+				indexablesLists={ indexablesLists }
+				scoreKey={ "primary_focus_keyword_score" }
+				listKey={ "least_seo_score" }
+				listSize={ listSize }
+			/>
+			<IndexablesScoreCard
+				title={ __( "Lowest readability scores", "wordpress-seo" ) }
+				setIgnoredIndexable={ setIgnoredIndexable }
+				scoreThresholds={ readabilityScoreThresholds }
+				indexablesLists={ indexablesLists }
+				scoreKey={ "readability_score" }
+				listKey={ "least_readability" }
+				listSize={ listSize }
+			/>
+			<IndexablesLinksCard
+				title={ __( "Lowest number of incoming links", "wordpress-seo" ) }
+				intro={ leastLinkedIntro }
+				outro={ leastLinkedOutro }
+				setIgnoredIndexable={ setIgnoredIndexable }
+				indexablesLists={ indexablesLists }
+				countKey={ "incoming_link_count" }
+				listKey={ "least_linked" }
+				listSize={ listSize }
+				handleLink={ handleLink }
+			/>
+			<IndexablesLinksCard
+				title={ __( "Highest number of incoming links", "wordpress-seo" ) }
+				intro={ mostLinkedIntro }
+				outro={ mostLinkedOutro }
+				setIgnoredIndexable={ setIgnoredIndexable }
+				indexablesLists={ indexablesLists }
+				countKey={ "incoming_link_count" }
+				listKey={ "most_linked" }
+				listSize={ listSize }
+				handleLink={ handleLink }
+			/>
 		</div>
 		{ ignoredIndexable && <div className="yst-flex yst-justify-center"><Button className="yst-button yst-button--primary" onClick={ onClickUndo( ignoredIndexable ) }>{ `Undo ignore ${ignoredIndexable.indexable.id}` }</Button></div> }
 	</div>;
