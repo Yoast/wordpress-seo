@@ -57,17 +57,18 @@ const mostLinkedOutro = addLinkToString(
 	"https://www.yoast.com"
 );
 
+const setupInfo = wpseoIndexablesPageData.setupInfo;
+
 /* eslint-disable camelcase */
 /* eslint-disable no-warning-comments */
 /* eslint-disable complexity */
-/* eslint-disable max-statements */
 
 /**
  * Renders the four indexable tables.
  *
  * @returns {WPElement} A div containing the main indexables page.
  */
-function IndexablesPage( { setupInfo } ) {
+function IndexablesPage() {
 	const listSize = parseInt( wpseoIndexablesPageData.listSize, 10 );
 	const minimumIndexablesInBuffer = listSize * 2;
 	const isPremiumInstalled = Boolean( wpseoIndexablesPageData.isPremium );
@@ -172,24 +173,22 @@ function IndexablesPage( { setupInfo } ) {
 			: maybeRemoveIgnored( listName );
 	};
 
-	useEffect( async() => {
-		if ( setupInfo ) {
-			if ( setupInfo.enoughContent && setupInfo.enoughAnalysedContent ) {
-				if ( setupInfo.enabledFeatures.isReadabilityEnabled ) {
-					updateList( "least_readability", indexablesLists.least_readability );
-				}
+	useEffect( () => {
+		if ( setupInfo.enoughContent && setupInfo.enoughAnalysedContent ) {
+			if ( setupInfo.enabledFeatures.isReadabilityEnabled ) {
+				updateList( "least_readability", indexablesLists.least_readability );
+			}
 
-				if ( setupInfo.enabledFeatures.isSeoScoreEnabled ) {
-					updateList( "least_seo_score", indexablesLists.least_seo_score );
-				}
+			if ( setupInfo.enabledFeatures.isSeoScoreEnabled ) {
+				updateList( "least_seo_score", indexablesLists.least_seo_score );
+			}
 
-				if ( setupInfo.enabledFeatures.isLinkCountEnabled ) {
-					updateList( "most_linked", indexablesLists.most_linked );
-					updateList( "least_linked", indexablesLists.least_linked );
-				}
+			if ( setupInfo.enabledFeatures.isLinkCountEnabled ) {
+				updateList( "most_linked", indexablesLists.most_linked );
+				updateList( "least_linked", indexablesLists.least_linked );
 			}
 		}
-	}, [ setupInfo ] );
+	}, [] );
 
 	// We update a list each time the content of ignoredIndexable changes
 	useEffect( async() => {
@@ -328,6 +327,7 @@ function IndexablesPage( { setupInfo } ) {
 	}, [ handleUndo ] );
 
 	const seoScoresCard = <IndexablesScoreCard
+		key="lowest-seo-scores"
 		title={ __( "Lowest SEO scores", "wordpress-seo" ) }
 		setIgnoredIndexable={ setIgnoredIndexable }
 		scoreThresholds={ SEOScoreThresholds }
@@ -338,6 +338,7 @@ function IndexablesPage( { setupInfo } ) {
 	/>;
 
 	const readabilityScoresCard = <IndexablesScoreCard
+		key="lowest-readability-scores"
 		title={ __( "Lowest readability scores", "wordpress-seo" ) }
 		setIgnoredIndexable={ setIgnoredIndexable }
 		scoreThresholds={ readabilityScoreThresholds }
@@ -348,6 +349,7 @@ function IndexablesPage( { setupInfo } ) {
 	/>;
 
 	const leastLinksCard = <IndexablesLinksCard
+		key="lowest-link-count"
 		title={ __( "Lowest number of incoming links", "wordpress-seo" ) }
 		intro={ leastLinkedIntro }
 		outro={ leastLinkedOutro }
@@ -360,6 +362,7 @@ function IndexablesPage( { setupInfo } ) {
 	/>;
 
 	const mostLinksCard = <IndexablesLinksCard
+		key="highest-link-count"
 		title={ __( "Highest number of incoming links", "wordpress-seo" ) }
 		intro={ mostLinkedIntro }
 		outro={ mostLinkedOutro }
