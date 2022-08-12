@@ -5,7 +5,7 @@ import { __ } from "@wordpress/i18n";
 import { makeOutboundLink } from "@yoast/helpers";
 import { Checkbox } from "@yoast/ui-library";
 
-import SimpleCard from "./simple-card";
+import IndexablesPageCard from "./indexables-card";
 /* eslint-disable no-warning-comments */
 
 const Link = makeOutboundLink();
@@ -92,7 +92,7 @@ const NotEnoughContent = () => {
 			id="start-writing-content"
 			className="yst-max-w-7xl yst-grid yst-grid-cols-1 2xl:yst-grid-cols-2 2xl:yst-grid-flow-row yst-gap-6"
 		>
-			<SimpleCard title={ __( "Start writing content!", "wordpress-seo" ) }>
+			<IndexablesPageCard title={ __( "Start writing content!", "wordpress-seo" ) }>
 				<div className="yst-mb-6 yst-text-gray-500">
 					<p>{ __( "You need to have more content on your site to make your website rank well in the search engines.", "wordpress-seo" ) }</p><br />
 					<p>
@@ -110,8 +110,8 @@ const NotEnoughContent = () => {
 				>
 					<PlusIcon className="yst-w-4 yst-h-4 yst-mr-1" />{ __( "Start writing a new post", "wordpress-seo" ) }
 				</Link>
-			</SimpleCard>
-			<SimpleCard title={ __( "Recommended reading list", "wordpress-seo" ) }>
+			</IndexablesPageCard>
+			<IndexablesPageCard title={ __( "Recommended reading list", "wordpress-seo" ) }>
 				<ul className="yst-divide-y yst-divide-gray-200">
 					{ readingList.map(
 						( article, index ) => {
@@ -143,7 +143,7 @@ const NotEnoughContent = () => {
 					)
 					}
 				</ul>
-			</SimpleCard>
+			</IndexablesPageCard>
 		</div>
 	</div>;
 };

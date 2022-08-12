@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 
 import { __, sprintf } from "@wordpress/i18n";
 
-import SimpleCard from "./simple-card";
+import IndexablesPageCard from "./indexables-card";
 import { useState, useCallback } from "@wordpress/element";
 import { Button, Link } from "@yoast/ui-library";
 import { IndexableLinkCount } from "../indexables-page";
@@ -29,7 +29,7 @@ const NotEnoughAnalysedContent = ( { indexablesList, seoEnabled } ) => {
 			id="start-writing-content"
 			className="yst-max-w-2xl"
 		>
-			<SimpleCard
+			<IndexablesPageCard
 				title={
 					/* translators: %1$s expands to the number of posts without a focus keyphrase */
 					sprintf(
@@ -88,13 +88,14 @@ const NotEnoughAnalysedContent = ( { indexablesList, seoEnabled } ) => {
 						</Link>
 					</div>
 				}
-			</SimpleCard>
+			</IndexablesPageCard>
 		</div>
 	</div>;
 };
 
 NotEnoughAnalysedContent.propTypes = {
 	indexablesList: PropTypes.arrayOf( PropTypes.object ).isRequired,
+	seoEnabled: PropTypes.bool.isRequired,
 };
 
 export default NotEnoughAnalysedContent;
