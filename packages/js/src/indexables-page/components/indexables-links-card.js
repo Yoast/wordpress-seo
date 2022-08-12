@@ -31,8 +31,8 @@ IndexableLinkCount.propTypes = {
 /* eslint-disable complexity */
 
 /**
- * 
- * @param {*} props 
+ *
+ * @param {*} props The Props object.
  *
  * @returns {WPElement} The Indexables Links Card.
  */
@@ -114,5 +114,25 @@ function IndexablesLinksCard( {
 	</IndexablesPageCard>;
 }
 
+IndexablesLinksCard.propTypes = {
+	title: PropTypes.oneOfType( [ PropTypes.node, PropTypes.string ] ).isRequired,
+	intro: PropTypes.oneOfType( [ PropTypes.node, PropTypes.string ] ),
+	outro: PropTypes.oneOfType( [ PropTypes.node, PropTypes.string ] ),
+	countKey: PropTypes.string.isRequired,
+	listSize: PropTypes.number.isRequired,
+	listKey: PropTypes.string.isRequired,
+	setIgnoredIndexable: PropTypes.func,
+	scoreThresholds: PropTypes.shape( { medium: PropTypes.number.isRequired } ),
+	indexablesLists: PropTypes.array,
+	handleLink: PropTypes.func,
+};
+
+IndexablesLinksCard.defaultProps = {
+	setIgnoredIndexable: () => {},
+	handleLink: () => {},
+	indexablesLists: [],
+	intro: null,
+	outro: null,
+};
 
 export default IndexablesLinksCard;

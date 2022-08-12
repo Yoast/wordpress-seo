@@ -27,7 +27,8 @@ IndexableScore.propTypes = {
 };
 
 /**
- * 
+ * @param {Object} props The props object.
+ *
  * @returns {WPElement} The indexables score card.
  */
 function IndexablesScoreCard( {
@@ -98,5 +99,20 @@ function IndexablesScoreCard( {
 		</IndexablesPageCard>
 	);
 }
+
+IndexablesScoreCard.propTypes = {
+	title: PropTypes.oneOfType( [ PropTypes.node, PropTypes.string ] ).isRequired,
+	scoreKey: PropTypes.string.isRequired,
+	listSize: PropTypes.number.isRequired,
+	listKey: PropTypes.string.isRequired,
+	setIgnoredIndexable: PropTypes.func,
+	scoreThresholds: PropTypes.shape( { medium: PropTypes.number.isRequired } ),
+	indexablesLists: PropTypes.array,
+};
+
+IndexablesScoreCard.defaultProps = {
+	setIgnoredIndexable: () => {},
+	indexablesLists: [],
+};
 
 export default IndexablesScoreCard;
