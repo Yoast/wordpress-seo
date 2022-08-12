@@ -67,23 +67,23 @@ export default function ElementorFill( { isLoading, onLoad, settings } ) {
 						<SEMrushRelatedKeyphrases />
 					</Fill> }
 				</SidebarItem> }
-				<SidebarItem renderPriority={ 23 }>
+				<SidebarItem renderPriority={ 25 }>
 					<GooglePreviewModal />
 				</SidebarItem>
-				{ settings.displayFacebook && <SidebarItem renderPriority={ 24 }>
+				{ settings.displayFacebook && <SidebarItem renderPriority={ 26 }>
 					<FacebookPreviewModal />
 				</SidebarItem> }
-				{ settings.displayTwitter && <SidebarItem renderPriority={ 25 }>
+				{ settings.displayTwitter && <SidebarItem renderPriority={ 27 }>
 					<TwitterPreviewModal />
 				</SidebarItem> }
-				{ settings.displaySchemaSettings && <SidebarItem renderPriority={ 26 }>
+				{ settings.displaySchemaSettings && <SidebarItem renderPriority={ 28 }>
 					<SidebarCollapsible
 						title={ __( "Schema", "wordpress-seo" ) }
 					>
 						<SchemaTabContainer />
 					</SidebarCollapsible>
 				</SidebarItem> }
-				{ settings.displayAdvancedTab && <SidebarItem renderPriority={ 27 }>
+				{ settings.displayAdvancedTab && <SidebarItem renderPriority={ 29 }>
 					<SidebarCollapsible
 						title={ __( "Advanced", "wordpress-seo" ) }
 					>
