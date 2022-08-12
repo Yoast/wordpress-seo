@@ -3,8 +3,6 @@ import apiFetch from "@wordpress/api-fetch";
 import { __, sprintf } from "@wordpress/i18n";
 import { useEffect, useState, useCallback } from "@wordpress/element";
 import { Button, Modal } from "@yoast/ui-library";
-import NotEnoughContent from "./components/not-enough-content";
-import NotEnoughAnalysedContent from "./components/not-enough-analysed-content";
 import { addLinkToString } from "../helpers/stringHelpers";
 import SuggestedLinksModal from "./components/suggested-links-modal";
 import IndexablesScoreCard from "./components/indexables-score-card";
@@ -62,12 +60,14 @@ const mostLinkedOutro = addLinkToString(
 /* eslint-disable camelcase */
 /* eslint-disable no-warning-comments */
 /* eslint-disable complexity */
+/* eslint-disable max-statements */
+
 /**
  * Renders the four indexable tables.
  *
  * @returns {WPElement} A div containing the main indexables page.
  */
-function IndexablesPage() {
+function IndexablesPage( { setupInfo } ) {
 	const listSize = parseInt( wpseoIndexablesPageData.listSize, 10 );
 	const minimumIndexablesInBuffer = listSize * 2;
 	const isPremiumInstalled = Boolean( wpseoIndexablesPageData.isPremium );
@@ -94,7 +94,6 @@ function IndexablesPage() {
 	const [ ignoredIndexable, setIgnoredIndexable ] = useState( null );
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
 	const [ suggestedLinksModalData, setSuggestedLinksModalData ] = useState( null );
-	const [ setupInfo, setSetupInfo ] = useState( null );
 
 	/**
 	 * Fetches a list of indexables.
@@ -155,7 +154,6 @@ function IndexablesPage() {
 		} );
 	};
 
-	/* eslint-disable  complexity */
 	/**
 	 * Updates the content of a list of indexables.
 	 *
@@ -173,22 +171,6 @@ function IndexablesPage() {
 			? fetchList( listName )
 			: maybeRemoveIgnored( listName );
 	};
-
-	useEffect( async() => {
-		try {
-			const response = await apiFetch( {
-				path: "yoast/v1/setup_info",
-				method: "GET",
-			} );
-
-			const parsedResponse = await response.json;
-			setSetupInfo( parsedResponse );
-		} catch ( error ) {
-			// @TODO: Throw an error notification.
-			console.error( error.message );
-			return false;
-		}
-	}, [] );
 
 	useEffect( async() => {
 		if ( setupInfo ) {
@@ -345,17 +327,51 @@ function IndexablesPage() {
 		return () => handleUndo( ignored );
 	}, [ handleUndo ] );
 
-	if ( setupInfo && Object.values( setupInfo.enabledFeatures ).every( value => value === false ) ) {
-		// @TODO: needs UX
-		return <span>All features deactivated.</span>;
-	} else if ( setupInfo && setupInfo.enoughContent === false ) {
-		return <NotEnoughContent />;
-	} else if ( setupInfo && setupInfo.enoughAnalysedContent === false ) {
-		return <NotEnoughAnalysedContent
-			indexablesList={ setupInfo.postsWithoutKeyphrase }
-			seoEnabled={ setupInfo.enabledFeatures.isSeoScoreEnabled }
-		/>;
-	}
+	const seoScoresCard = <IndexablesScoreCard
+		title={ __( "Lowest SEO scores", "wordpress-seo" ) }
+		setIgnoredIndexable={ setIgnoredIndexable }
+		scoreThresholds={ SEOScoreThresholds }
+		indexablesLists={ indexablesLists }
+		scoreKey={ "primary_focus_keyword_score" }
+		listKey={ "least_seo_score" }
+		listSize={ listSize }
+	/>;
+
+	const readabilityScoresCard = <IndexablesScoreCard
+		title={ __( "Lowest readability scores", "wordpress-seo" ) }
+		setIgnoredIndexable={ setIgnoredIndexable }
+		scoreThresholds={ readabilityScoreThresholds }
+		indexablesLists={ indexablesLists }
+		scoreKey={ "readability_score" }
+		listKey={ "least_readability" }
+		listSize={ listSize }
+	/>;
+
+	const leastLinksCard = <IndexablesLinksCard
+		title={ __( "Lowest number of incoming links", "wordpress-seo" ) }
+		intro={ leastLinkedIntro }
+		outro={ leastLinkedOutro }
+		setIgnoredIndexable={ setIgnoredIndexable }
+		indexablesLists={ indexablesLists }
+		countKey={ "incoming_link_count" }
+		listKey={ "least_linked" }
+		listSize={ listSize }
+		handleLink={ handleLink }
+	/>;
+
+	const mostLinksCard = <IndexablesLinksCard
+		title={ __( "Highest number of incoming links", "wordpress-seo" ) }
+		intro={ mostLinkedIntro }
+		outro={ mostLinkedOutro }
+		setIgnoredIndexable={ setIgnoredIndexable }
+		indexablesLists={ indexablesLists }
+		countKey={ "incoming_link_count" }
+		listKey={ "most_linked" }
+		listSize={ listSize }
+		handleLink={ handleLink }
+	/>;
+
+	const orderedCards = [ seoScoresCard, leastLinksCard, readabilityScoresCard, mostLinksCard ];
 
 	return setupInfo && <div
 		className="yst-max-w-full yst-mt-6"
@@ -374,46 +390,7 @@ function IndexablesPage() {
 			id="indexables-table-columns"
 			className="yst-max-w-7xl 2xl:yst-columns-2 yst-gap-6"
 		>
-			<IndexablesScoreCard
-				title={ __( "Lowest SEO scores", "wordpress-seo" ) }
-				setIgnoredIndexable={ setIgnoredIndexable }
-				scoreThresholds={ SEOScoreThresholds }
-				indexablesLists={ indexablesLists }
-				scoreKey={ "primary_focus_keyword_score" }
-				listKey={ "least_seo_score" }
-				listSize={ listSize }
-			/>
-			<IndexablesScoreCard
-				title={ __( "Lowest readability scores", "wordpress-seo" ) }
-				setIgnoredIndexable={ setIgnoredIndexable }
-				scoreThresholds={ readabilityScoreThresholds }
-				indexablesLists={ indexablesLists }
-				scoreKey={ "readability_score" }
-				listKey={ "least_readability" }
-				listSize={ listSize }
-			/>
-			<IndexablesLinksCard
-				title={ __( "Lowest number of incoming links", "wordpress-seo" ) }
-				intro={ leastLinkedIntro }
-				outro={ leastLinkedOutro }
-				setIgnoredIndexable={ setIgnoredIndexable }
-				indexablesLists={ indexablesLists }
-				countKey={ "incoming_link_count" }
-				listKey={ "least_linked" }
-				listSize={ listSize }
-				handleLink={ handleLink }
-			/>
-			<IndexablesLinksCard
-				title={ __( "Highest number of incoming links", "wordpress-seo" ) }
-				intro={ mostLinkedIntro }
-				outro={ mostLinkedOutro }
-				setIgnoredIndexable={ setIgnoredIndexable }
-				indexablesLists={ indexablesLists }
-				countKey={ "incoming_link_count" }
-				listKey={ "most_linked" }
-				listSize={ listSize }
-				handleLink={ handleLink }
-			/>
+			{ orderedCards }
 		</div>
 		{ ignoredIndexable && <div className="yst-flex yst-justify-center"><Button className="yst-button yst-button--primary" onClick={ onClickUndo( ignoredIndexable ) }>{ `Undo ignore ${ignoredIndexable.indexable.id}` }</Button></div> }
 	</div>;
