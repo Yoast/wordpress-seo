@@ -4,6 +4,8 @@ export const SET_PAGE_TYPE = "SET_PAGE_TYPE";
 export const SET_ARTICLE_TYPE = "SET_ARTICLE_TYPE";
 export const GET_SCHEMA_PAGE_DATA = "GET_SCHEMA_PAGE_DATA";
 export const GET_SCHEMA_ARTICLE_DATA = "GET_SCHEMA_ARTICLE_DATA";
+export const SET_DISCOVERY_IMAGE = "SET_DISCOVERY_IMAGE";
+export const CLEAR_DISCOVERY_IMAGE = "CLEAR_DISCOVERY_IMAGE";
 
 /**
  * An action creator for setting the Page type.
@@ -53,4 +55,28 @@ export const getSchemaArticleData = () => {
 		articleType: SchemaFields.articleType,
 		defaultArticleType: SchemaFields.defaultArticleType,
 	};
+};
+
+/**
+ * An action creator for setting the google discovery image.
+ *
+ * @param {String} image The image object.
+ *
+ * @returns {object} The action object.
+ */
+export const setDiscoveryPreviewImage = ( image ) => {
+	SchemaFields.imageUrl = image.url;
+	SchemaFields.imageId = image.id;
+	return { type: SET_DISCOVERY_IMAGE, image };
+};
+
+/**
+ * An action creator for setting the socialPreview image.
+ *
+ * @returns {object} The action object.
+ */
+export const clearDiscoveryPreviewImage = () => {
+	SchemaFields.imageUrl = "";
+	SchemaFields.imageId = "";
+	return { type: CLEAR_DISCOVERY_IMAGE };
 };

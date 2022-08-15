@@ -2,7 +2,7 @@ import {
 	GET_SCHEMA_PAGE_DATA,
 	GET_SCHEMA_ARTICLE_DATA,
 	SET_PAGE_TYPE,
-	SET_ARTICLE_TYPE,
+	SET_ARTICLE_TYPE, SET_DISCOVERY_IMAGE, CLEAR_DISCOVERY_IMAGE,
 } from "../actions/schemaTab";
 
 const initialState = {
@@ -10,6 +10,11 @@ const initialState = {
 	defaultPageType: "",
 	articleType: "",
 	defaultArticleType: "",
+	discoveryImage: {
+		url: "",
+		id: "",
+		alt: "",
+	},
 };
 
 /**
@@ -34,6 +39,26 @@ const schemaTabReducer = ( state = initialState, action ) => {
 			articleType: action.articleType,
 			defaultArticleType: action.defaultArticleType,
 		};
+		case SET_DISCOVERY_IMAGE:
+			return {
+				...state,
+				warnings: action.image.warnings,
+				image: {
+					id: action.image.id,
+					url: action.image.url,
+					alt: action.image.alt || "",
+				},
+			};
+		case CLEAR_DISCOVERY_IMAGE :
+			return {
+				...state,
+				image: {
+					url: "",
+					id: "",
+					alt: "",
+				},
+				warnings: [],
+			};
 		default: {
 			return state;
 		}

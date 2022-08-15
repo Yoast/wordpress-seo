@@ -8,6 +8,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { schemaTypeOptionsPropType } from "./SchemaSettings";
 import { isFeatureEnabled } from "@yoast/feature-flag";
+import ImageSelectPortal from "./portals/ImageSelectPortal";
 
 const NewsLandingPageLink = makeOutboundLink();
 
@@ -220,6 +221,15 @@ const Content = ( props ) => {
 				selected={ props.schemaArticleTypeSelected }
 				onOptionFocus={ handleOptionChange }
 			/> }
+			<ImageSelectPortal
+				title="Facebook image"
+				socialMediumName="facebook"
+				isPremium={ true }
+				imageUrlInputId="facebook-url-input"
+				selectImageButtonId="facebook-select-button"
+				replaceImageButtonId="facebook-replace-button"
+				removeImageButtonId="facebook-remove-button"
+			/>
 			<NewsAlert
 				location={ props.location }
 				show={ ! props.isNewsEnabled && isNewsArticleType( focusedArticleType, props.defaultArticleType ) }
@@ -250,9 +260,11 @@ Content.propTypes = {
 };
 
 Content.defaultProps = {
-	schemaPageTypeChange: () => {},
+	schemaPageTypeChange: () => {
+	},
 	schemaPageTypeSelected: null,
-	schemaArticleTypeChange: () => {},
+	schemaArticleTypeChange: () => {
+	},
 	schemaArticleTypeSelected: null,
 	displayFooter: false,
 	isNewsEnabled: false,
