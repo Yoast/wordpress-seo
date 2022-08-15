@@ -41,10 +41,7 @@ const TaxonomySubmenuItem = ( { postTypes, taxonomies, taxonomyName, idSuffix = 
 	// Check if taxonomy label is unique.
 	const isLabelUnique = useMemo( () => {
 		const taxonomyLabels = map( taxonomies, "label" );
-		if ( indexOf( taxonomyLabels, taxonomy.label ) !== lastIndexOf( taxonomyLabels, taxonomy.label ) ) {
-			return false;
-		}
-		return true;
+		return indexOf( taxonomyLabels, taxonomy.label ) === lastIndexOf( taxonomyLabels, taxonomy.label );
 	}, [ taxonomies, taxonomy ] );
 
 	return (
