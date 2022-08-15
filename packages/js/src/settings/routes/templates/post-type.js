@@ -23,9 +23,10 @@ import { useSelectSettings } from "../../store";
  * @param {string} label The post type label (plural).
  * @param {string} singularLabel The post type label (singular).
  * @param {boolean} hasArchive Whether the post type has archive support.
+ * @param {boolean} hasSchemaArticleType Whether the post type has schema article type support.
  * @returns {JSX.Element} The post type element.
  */
-const PostType = ( { name, label, singularLabel, hasArchive } ) => {
+const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleType } ) => {
 	const replacementVariables = useSelectSettings( "selectReplacementVariablesFor", [ name ], name, "custom_post_type" );
 	const recommendedReplacementVariables = useSelectSettings( "selectRecommendedReplacementVariablesFor", [ name ], name, "custom_post_type" );
 	const replacementVariablesArchives = useSelectSettings( "selectReplacementVariablesFor", [ name ], `${ name }_archive`, "custom-post-type_archive" );
@@ -190,14 +191,16 @@ const PostType = ( { name, label, singularLabel, hasArchive } ) => {
 					label={ __( "Page type", "wordpress-seo" ) }
 					options={ pageTypes }
 				/>
-				<FormikValueChangeField
-					as={ SelectField }
-					type="select"
-					name={ `wpseo_titles.schema-article-type-${ name }` }
-					id={ `input-wpseo_titles-schema-article-type-${ name }` }
-					label={ __( "Article type", "wordpress-seo" ) }
-					options={ articleTypes }
-				/>
+				{ hasSchemaArticleType && (
+					<FormikValueChangeField
+						as={ SelectField }
+						type="select"
+						name={ `wpseo_titles.schema-article-type-${ name }` }
+						id={ `input-wpseo_titles-schema-article-type-${ name }` }
+						label={ __( "Article type", "wordpress-seo" ) }
+						options={ articleTypes }
+					/>
+				) }
 			</FieldsetLayout>
 			<hr className="yst-my-8" />
 			<FieldsetLayout

@@ -19,6 +19,7 @@ use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
+use Yoast\WP\SEO\Helpers\Schema\Article_Helper;
 
 /**
  * Class Settings_Integration.
@@ -114,6 +115,13 @@ class Settings_Integration implements Integration_Interface {
 	protected $woocommerce_helper;
 
 	/**
+	 * Holds the Article_Helper.
+	 *
+	 * @var Article_Helper
+	 */
+	protected $article_helper;
+
+	/**
 	 * Constructs Settings_Integration.
 	 *
 	 * @param WPSEO_Admin_Asset_Manager $asset_manager       The WPSEO_Admin_Asset_Manager.
@@ -123,6 +131,7 @@ class Settings_Integration implements Integration_Interface {
 	 * @param Post_Type_Helper          $post_type_helper    The Post_Type_Helper.
 	 * @param Taxonomy_Helper           $taxonomy_helper     The Taxonomy_Helper.
 	 * @param Product_Helper            $product_helper      The Product_Helper.
+	 * @param Article_Helper            $article_helper      The Article_Helper.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
@@ -132,7 +141,8 @@ class Settings_Integration implements Integration_Interface {
 		Post_Type_Helper $post_type_helper,
 		Taxonomy_Helper $taxonomy_helper,
 		Product_Helper $product_helper,
-		Woocommerce_Helper $woocommerce_helper
+		Woocommerce_Helper $woocommerce_helper,
+		Article_Helper $article_helper
 	) {
 		$this->asset_manager       = $asset_manager;
 		$this->replace_vars        = $replace_vars;
@@ -142,6 +152,7 @@ class Settings_Integration implements Integration_Interface {
 		$this->post_type_helper    = $post_type_helper;
 		$this->product_helper      = $product_helper;
 		$this->woocommerce_helper  = $woocommerce_helper;
+		$this->article_helper      = $article_helper;
 	}
 
 	/**
@@ -462,11 +473,12 @@ class Settings_Integration implements Integration_Interface {
 	 */
 	protected function transform_post_type( WP_Post_Type $post_type ) {
 		return [
-			'name'          => $post_type->name,
-			'route'         => $this->get_route( $post_type->name, $post_type->rewrite, $post_type->rest_base ),
-			'label'         => $post_type->label,
-			'singularLabel' => $post_type->labels->singular_name,
-			'hasArchive'    => $this->post_type_helper->has_archive( $post_type ),
+			'name'                 => $post_type->name,
+			'route'                => $this->get_route( $post_type->name, $post_type->rewrite, $post_type->rest_base ),
+			'label'                => $post_type->label,
+			'singularLabel'        => $post_type->labels->singular_name,
+			'hasArchive'           => $this->post_type_helper->has_archive( $post_type ),
+			'hasSchemaArticleType' => $this->article_helper->is_article_post_type( $post_type->name ),
 		];
 	}
 
