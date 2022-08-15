@@ -1,4 +1,4 @@
-import { useCallback, useState } from "@wordpress/element";
+import { useCallback, useState, useMemo } from "@wordpress/element";
 import { ReplacementVariableEditor } from "@yoast/replacement-variable-editor";
 import { useField } from "formik";
 import PropTypes from "prop-types";
@@ -13,19 +13,21 @@ const FormikReplacementVariableEditorField = ( { className = "", ...props } ) =>
 	const [ editorRef, setEditorRef ] = useState( null );
 	const [ field, , { setTouched, setValue } ] = useField( props );
 
-	const handleChange = useCallback( value => {
+	const handleChange = useCallback( newValue => {
 		setTouched( true, false );
-		setValue( value );
+		setValue( newValue );
 	}, [ props.name ] );
 
 	const handleFocus = useCallback( () => editorRef?.focus(), [ editorRef ] );
+
+	const value = useMemo( () => ( field.value?.match( /%%\w+%%$/ ) ? `${ field.value } ` : field.value ) || "", [ field.value ] );
 
 	return (
 		<div className={ className }>
 			<ReplacementVariableEditor
 				{ ...field }
 				{ ...props }
-				content={ field?.value ?? "" }
+				content={ value }
 				onChange={ handleChange }
 				editorRef={ setEditorRef }
 				onFocus={ handleFocus }
