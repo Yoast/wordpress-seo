@@ -39,8 +39,7 @@
 		/* Sizes */
 
 		.yst-badge--small {
-			@apply
-			yst-text-xxs;
+			@apply yst-text-xxs;
 		}
 
 		.yst-badge--large {

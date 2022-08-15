@@ -45,7 +45,7 @@ const Tag = ( { tag, index, disabled = false, onRemoveTag, screenReaderRemoveTag
 				onClick={ handleClick }
 			>
 				<span className="yst-sr-only">{ screenReaderRemoveTag }</span>
-				<XIcon className="yst-h-5 yst-w-5" />
+				<XIcon className="yst-h-4 yst-w-4" />
 			</button>
 		</div>
 	);
