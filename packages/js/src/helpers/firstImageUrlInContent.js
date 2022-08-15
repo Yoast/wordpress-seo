@@ -14,7 +14,7 @@ export default function firstImageUrlInContent( content ) {
 		return "";
 	}
 
-	const imageElements = $.parseHTML( images.join( "" ) );
+	const imageElements = jQuery.parseHTML( images.join( "" ) );
 
 	for ( const imageElement of imageElements ) {
 		if ( imageElement.src ) {
