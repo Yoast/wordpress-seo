@@ -90,6 +90,7 @@ class Yoast_Feature_Toggles {
 			(object) [
 				'name'                => __( 'Inclusive language analysis', 'wordpress-seo' ),
 				'premium'             => true,
+				'premium_version'     => '19.2-RC1',
 				'in_beta'             => true,
 				'supported_languages' => Language_Helper::$languages_with_inclusive_language_support,
 				'setting'             => 'inclusive_language_analysis_active',
