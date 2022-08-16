@@ -66,19 +66,19 @@ class Loader_Test extends TestCase {
 	 * @covers ::load
 	 */
 	public function test_loading_unconditional_integration() {
-		$integration_mock = Mockery::mock( 'alias:Unconditional_Integration', Integration_Interface::class );
+		$integration_mock = Mockery::mock( Integration_Interface::class );
 		$integration_mock->expects( 'get_conditionals' )->once()->andReturn( [] );
 		$integration_mock->expects( 'register_hooks' )->once();
 
 		$container_mock = Mockery::mock( ContainerInterface::class );
-		$container_mock->expects( 'get' )->once()->with( 'Unconditional_Integration' )->andReturn( $integration_mock );
+		$container_mock->expects( 'get' )->once()->with( \get_class( $integration_mock ), ContainerInterface::NULL_ON_INVALID_REFERENCE )->andReturn( $integration_mock );
 
 		Monkey\Functions\expect( 'did_action' )
 			->with( 'init' )
 			->andReturn( 1 );
 
 		$loader = new Loader( $container_mock );
-		$loader->register_integration( 'Unconditional_Integration' );
+		$loader->register_integration( \get_class( $integration_mock ) );
 		$loader->load();
 	}
 
@@ -93,20 +93,20 @@ class Loader_Test extends TestCase {
 		$conditional_mock = Mockery::mock( Conditional::class );
 		$conditional_mock->expects( 'is_met' )->once()->andReturn( true );
 
-		$integration_mock = Mockery::mock( 'alias:Met_Conditional_Integration', Integration_Interface::class );
+		$integration_mock = Mockery::mock( Integration_Interface::class );
 		$integration_mock->expects( 'get_conditionals' )->once()->andReturn( [ 'Conditional_Class' ] );
 		$integration_mock->expects( 'register_hooks' )->once();
 
 		$container_mock = Mockery::mock( ContainerInterface::class );
-		$container_mock->expects( 'get' )->once()->with( 'Conditional_Class' )->andReturn( $conditional_mock );
-		$container_mock->expects( 'get' )->once()->with( 'Met_Conditional_Integration' )->andReturn( $integration_mock );
+		$container_mock->expects( 'get' )->once()->with( 'Conditional_Class', ContainerInterface::NULL_ON_INVALID_REFERENCE )->andReturn( $conditional_mock );
+		$container_mock->expects( 'get' )->once()->with( \get_class( $integration_mock ), ContainerInterface::NULL_ON_INVALID_REFERENCE )->andReturn( $integration_mock );
 
 		Monkey\Functions\expect( 'did_action' )
 			->with( 'init' )
 			->andReturn( 1 );
 
 		$loader = new Loader( $container_mock );
-		$loader->register_integration( 'Met_Conditional_Integration' );
+		$loader->register_integration( \get_class( $integration_mock ) );
 		$loader->load();
 	}
 
@@ -121,20 +121,45 @@ class Loader_Test extends TestCase {
 		$conditional_mock = Mockery::mock( Conditional::class );
 		$conditional_mock->expects( 'is_met' )->once()->andReturn( false );
 
-		$integration_mock = Mockery::mock( 'alias:Unmet_Conditional_Integration', Integration_Interface::class );
+		$integration_mock = Mockery::mock( Integration_Interface::class );
 		$integration_mock->expects( 'get_conditionals' )->once()->andReturn( [ 'Conditional_Class' ] );
 		$integration_mock->expects( 'register_hooks' )->never();
 
 		$container_mock = Mockery::mock( ContainerInterface::class );
-		$container_mock->expects( 'get' )->once()->with( 'Conditional_Class' )->andReturn( $conditional_mock );
-		$container_mock->expects( 'get' )->never()->with( 'Unmet_Conditional_Integration' );
+		$container_mock->expects( 'get' )->once()->with( 'Conditional_Class', ContainerInterface::NULL_ON_INVALID_REFERENCE )->andReturn( $conditional_mock );
+		$container_mock->expects( 'get' )->never()->with( \get_class( $integration_mock ), ContainerInterface::NULL_ON_INVALID_REFERENCE );
 
 		Monkey\Functions\expect( 'did_action' )
 			->with( 'init' )
 			->andReturn( 1 );
 
 		$loader = new Loader( $container_mock );
-		$loader->register_integration( 'Unmet_Conditional_Integration' );
+		$loader->register_integration( \get_class( $integration_mock ) );
+		$loader->load();
+	}
+
+	/**
+	 * Tests loading an integration with an conditional that doesn't exist.
+	 *
+	 * @covers ::__construct
+	 * @covers ::register_integration
+	 * @covers ::load
+	 */
+	public function test_loading_not_exisisting_conditional_integration() {
+		$integration_mock = Mockery::mock( Integration_Interface::class );
+		$integration_mock->expects( 'get_conditionals' )->once()->andReturn( [ 'Conditional_Class' ] );
+		$integration_mock->expects( 'register_hooks' )->never();
+
+		$container_mock = Mockery::mock( ContainerInterface::class );
+		$container_mock->expects( 'get' )->once()->with( 'Conditional_Class', ContainerInterface::NULL_ON_INVALID_REFERENCE )->andReturn( null );
+		$container_mock->expects( 'get' )->never()->with( \get_class( $integration_mock ), ContainerInterface::NULL_ON_INVALID_REFERENCE );
+
+		Monkey\Functions\expect( 'did_action' )
+			->with( 'init' )
+			->andReturn( 1 );
+
+		$loader = new Loader( $container_mock );
+		$loader->register_integration( \get_class( $integration_mock ) );
 		$loader->load();
 	}
 
@@ -146,15 +171,15 @@ class Loader_Test extends TestCase {
 	 * @covers ::load
 	 */
 	public function test_loading_unconditional_initializer() {
-		$integration_mock = Mockery::mock( 'alias:Unconditional_Initializer', Initializer_Interface::class );
-		$integration_mock->expects( 'get_conditionals' )->once()->andReturn( [] );
-		$integration_mock->expects( 'initialize' )->once();
+		$initializer_mock = Mockery::mock( Initializer_Interface::class );
+		$initializer_mock->expects( 'get_conditionals' )->once()->andReturn( [] );
+		$initializer_mock->expects( 'initialize' )->once();
 
 		$container_mock = Mockery::mock( ContainerInterface::class );
-		$container_mock->expects( 'get' )->once()->with( 'Unconditional_Initializer' )->andReturn( $integration_mock );
+		$container_mock->expects( 'get' )->once()->with( \get_class( $initializer_mock ), ContainerInterface::NULL_ON_INVALID_REFERENCE )->andReturn( $initializer_mock );
 
 		$loader = new Loader( $container_mock );
-		$loader->register_initializer( 'Unconditional_Initializer' );
+		$loader->register_initializer( \get_class( $initializer_mock ) );
 		$loader->load();
 	}
 
@@ -169,16 +194,16 @@ class Loader_Test extends TestCase {
 		$conditional_mock = Mockery::mock( Conditional::class );
 		$conditional_mock->expects( 'is_met' )->once()->andReturn( true );
 
-		$integration_mock = Mockery::mock( 'alias:Met_Conditional_Initializer', Initializer_Interface::class );
-		$integration_mock->expects( 'get_conditionals' )->once()->andReturn( [ 'Conditional_Class' ] );
-		$integration_mock->expects( 'initialize' )->once();
+		$initializer_mock = Mockery::mock( Initializer_Interface::class );
+		$initializer_mock->expects( 'get_conditionals' )->once()->andReturn( [ 'Conditional_Class' ] );
+		$initializer_mock->expects( 'initialize' )->once();
 
 		$container_mock = Mockery::mock( ContainerInterface::class );
-		$container_mock->expects( 'get' )->once()->with( 'Conditional_Class' )->andReturn( $conditional_mock );
-		$container_mock->expects( 'get' )->once()->with( 'Met_Conditional_Initializer' )->andReturn( $integration_mock );
+		$container_mock->expects( 'get' )->once()->with( 'Conditional_Class', ContainerInterface::NULL_ON_INVALID_REFERENCE )->andReturn( $conditional_mock );
+		$container_mock->expects( 'get' )->once()->with( \get_class( $initializer_mock ), ContainerInterface::NULL_ON_INVALID_REFERENCE )->andReturn( $initializer_mock );
 
 		$loader = new Loader( $container_mock );
-		$loader->register_initializer( 'Met_Conditional_Initializer' );
+		$loader->register_initializer( \get_class( $initializer_mock ) );
 		$loader->load();
 	}
 
@@ -193,16 +218,52 @@ class Loader_Test extends TestCase {
 		$conditional_mock = Mockery::mock( Conditional::class );
 		$conditional_mock->expects( 'is_met' )->once()->andReturn( false );
 
-		$integration_mock = Mockery::mock( 'alias:Unmet_Conditional_Initializer', Initializer_Interface::class );
-		$integration_mock->expects( 'get_conditionals' )->once()->andReturn( [ 'Conditional_Class' ] );
-		$integration_mock->expects( 'initialize' )->never();
+		$initializer_mock = Mockery::mock( Initializer_Interface::class );
+		$initializer_mock->expects( 'get_conditionals' )->once()->andReturn( [ 'Conditional_Class' ] );
+		$initializer_mock->expects( 'initialize' )->never();
 
 		$container_mock = Mockery::mock( ContainerInterface::class );
-		$container_mock->expects( 'get' )->once()->with( 'Conditional_Class' )->andReturn( $conditional_mock );
-		$container_mock->expects( 'get' )->never()->with( 'Unmet_Conditional_Initializer' );
+		$container_mock->expects( 'get' )->once()->with( 'Conditional_Class', ContainerInterface::NULL_ON_INVALID_REFERENCE )->andReturn( $conditional_mock );
+		$container_mock->expects( 'get' )->never()->with( \get_class( $initializer_mock ), ContainerInterface::NULL_ON_INVALID_REFERENCE );
 
 		$loader = new Loader( $container_mock );
-		$loader->register_initializer( 'Unmet_Conditional_Initializer' );
+		$loader->register_initializer( \get_class( $initializer_mock ) );
+		$loader->load();
+	}
+
+	/**
+	 * Tests loading an initializer with an conditional that doesn't exist.
+	 *
+	 * @covers ::__construct
+	 * @covers ::register_initializer
+	 * @covers ::load
+	 */
+	public function test_loading_not_exisisting_conditional_initializer() {
+		$initializer_mock = Mockery::mock( Initializer_Interface::class );
+		$initializer_mock->expects( 'get_conditionals' )->once()->andReturn( [ 'Conditional_Class' ] );
+		$initializer_mock->expects( 'initialize' )->never();
+
+		$container_mock = Mockery::mock( ContainerInterface::class );
+		$container_mock->expects( 'get' )->once()->with( 'Conditional_Class', ContainerInterface::NULL_ON_INVALID_REFERENCE )->andReturn( null );
+		$container_mock->expects( 'get' )->never()->with( \get_class( $initializer_mock ), ContainerInterface::NULL_ON_INVALID_REFERENCE );
+
+		$loader = new Loader( $container_mock );
+		$loader->register_initializer( \get_class( $initializer_mock ) );
+		$loader->load();
+	}
+
+	/**
+	 * Tests loading an initializer that doesn't exist.
+	 *
+	 * @covers ::__construct
+	 * @covers ::register_initializer
+	 * @covers ::load
+	 */
+	public function test_loading_not_exisisting_initializer() {
+		$container_mock = Mockery::mock( ContainerInterface::class );
+
+		$loader = new Loader( $container_mock );
+		$loader->register_initializer( 'Not_Existing_Conditional_Initializer' );
 		$loader->load();
 	}
 }
