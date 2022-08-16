@@ -104,7 +104,7 @@ class Indexables_Page_Helper {
 		 *
 		 * @api int The minimum threshold for the amount of analyzed posts in the site, in order for Indexable lists to be relevant.
 		 */
-		return \apply_filters( 'wpseo_analyzed_posts_threshold',self::ANALYSED_POSTS_THRESHOLD );
+		return \apply_filters( 'wpseo_analyzed_posts_threshold', self::ANALYSED_POSTS_THRESHOLD );
 	}
 
 	/**
