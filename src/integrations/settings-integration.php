@@ -17,9 +17,9 @@ use Yoast\WP\SEO\Config\Schema_Types;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
+use Yoast\WP\SEO\Helpers\Schema\Article_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
-use Yoast\WP\SEO\Helpers\Schema\Article_Helper;
 
 /**
  * Class Settings_Integration.
@@ -131,6 +131,7 @@ class Settings_Integration implements Integration_Interface {
 	 * @param Post_Type_Helper          $post_type_helper    The Post_Type_Helper.
 	 * @param Taxonomy_Helper           $taxonomy_helper     The Taxonomy_Helper.
 	 * @param Product_Helper            $product_helper      The Product_Helper.
+	 * @param Woocommerce_Helper        $woocommerce_helper  The Woocommerce_Helper.
 	 * @param Article_Helper            $article_helper      The Article_Helper.
 	 */
 	public function __construct(
@@ -319,7 +320,7 @@ class Settings_Integration implements Integration_Interface {
 		$page_on_front            = \get_option( 'page_on_front' );
 		$page_for_posts           = \get_option( 'page_for_posts' );
 
-		if ( empty ( $page_on_front ) ) {
+		if ( empty( $page_on_front ) ) {
 			$page_on_front = $page_for_posts;
 		}
 
@@ -531,7 +532,7 @@ class Settings_Integration implements Integration_Interface {
 			$route = $rest_base;
 		}
 		// Always strip leading slashes.
-		while ( substr( $route, 0, 1 ) === "/" ) {
+		while ( substr( $route, 0, 1 ) === '/' ) {
 			$route = substr( $route, 1 );
 		}
 
