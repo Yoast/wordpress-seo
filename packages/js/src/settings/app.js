@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { AdjustmentsIcon, ColorSwatchIcon, DesktopComputerIcon, NewspaperIcon } from "@heroicons/react/outline";
 import { __ } from "@wordpress/i18n";
 import { useMemo } from "@wordpress/element";
@@ -202,3 +203,4 @@ const App = () => {
 };
 
 export default App;
+/* eslint-enable */
