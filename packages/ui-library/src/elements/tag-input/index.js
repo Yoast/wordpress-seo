@@ -66,6 +66,7 @@ Tag.propTypes = {
  * @param {boolean} [disabled] Whether the input is disabled.
  * @param {function} [onAddTag] Add tag handler.
  * @param {function} [onRemoveTag] Remove tag handler.
+ * @param {function} [onBlur] Blur handler.
  * @param {string} [screenReaderRemoveTag] Screen reader text for the remove tag button.
  * @param {object} [props] Extra properties.
  * @returns {JSX.Element} The element.
@@ -77,6 +78,7 @@ const TagInput = ( {
 	disabled = false,
 	onAddTag = noop,
 	onRemoveTag = noop,
+	onBlur = noop,
 	screenReaderRemoveTag = "Remove tag",
 	...props
 } ) => {
@@ -86,6 +88,7 @@ const TagInput = ( {
 	}, [ setText ] );
 	const handleKeyDown = useCallback( event => {
 		switch ( event.key ) {
+			case ",":
 			case "Enter":
 				// Do not add empty tags.
 				if ( text.length > 0 ) {
@@ -104,6 +107,13 @@ const TagInput = ( {
 				return true;
 		}
 	}, [ text, tags, setText, onAddTag ] );
+	const handleBlur = useCallback( event => {
+		if ( text.length > 0 ) {
+			onAddTag( text );
+			setText( "" );
+		}
+		onBlur( event );
+	}, [ text, onAddTag, setText, onBlur ] );
 
 	return (
 		<div className={ classNames( "yst-tag-input", disabled && "yst-tag-input--disabled", className ) }>
@@ -126,6 +136,7 @@ const TagInput = ( {
 				onKeyDown={ handleKeyDown }
 				{ ...props }
 				onChange={ handleChange }
+				onBlur={ handleBlur }
 				value={ text }
 			/>
 		</div>
@@ -139,6 +150,7 @@ TagInput.propTypes = {
 	disabled: PropTypes.bool,
 	onAddTag: PropTypes.func,
 	onRemoveTag: PropTypes.func,
+	onBlur: PropTypes.func,
 	screenReaderRemoveTag: PropTypes.string,
 };
 
