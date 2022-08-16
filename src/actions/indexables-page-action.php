@@ -187,7 +187,7 @@ class Indexables_Page_Action {
 		$least_seo_score = $this->query()
 			->where_not_in( 'id', $ignore_list )
 			->where_not_equal( 'primary_focus_keyword', 0 )
-			->where_lte('primary_focus_keyword_score', 70 )
+			->where_lte( 'primary_focus_keyword_score', 70 )
 			->order_by_asc( 'primary_focus_keyword_score' )
 			->limit( $limit )
 			->find_many();
