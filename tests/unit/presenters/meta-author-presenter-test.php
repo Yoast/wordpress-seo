@@ -4,6 +4,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Presenters;
 
 use Brain\Monkey;
 use Mockery;
+use WP_User;
 use Yoast\WP\SEO\Helpers\Schema\HTML_Helper;
 use Yoast\WP\SEO\Presentations\Indexable_Presentation;
 use Yoast\WP\SEO\Presenters\Meta_Author_Presenter;
@@ -20,6 +21,20 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group opengraph
  */
 class Meta_Author_Presenter_Test extends TestCase {
+
+	/**
+	 * Holds the instance of the class being tested.
+	 *
+	 * @var HTML_Helper|Mockery\MockInterface
+	 */
+	protected $html;
+
+	/**
+	 * Holds the instance of the class being tested.
+	 *
+	 * @var Meta_Tags_Context_Mock|Mockery\MockInterface
+	 */
+	protected $context;
 
 	/**
 	 * Holds the instance of the class being tested.
@@ -74,7 +89,7 @@ class Meta_Author_Presenter_Test extends TestCase {
 		$this->indexable_presentation->model                  = new Indexable_Mock();
 		$this->indexable_presentation->model->object_sub_type = 'post';
 
-		$user_mock               = Mockery::mock( \WP_User::class );
+		$user_mock               = Mockery::mock( WP_User::class );
 		$user_mock->display_name = 'John Doe';
 
 		Monkey\Functions\expect( 'get_userdata' )
@@ -152,7 +167,7 @@ class Meta_Author_Presenter_Test extends TestCase {
 		$this->indexable_presentation->model                  = new Indexable_Mock();
 		$this->indexable_presentation->model->object_sub_type = 'post';
 
-		$user_mock               = Mockery::mock( \WP_User::class );
+		$user_mock               = Mockery::mock( WP_User::class );
 		$user_mock->display_name = 'John Doe';
 
 		Monkey\Functions\expect( 'get_userdata' )

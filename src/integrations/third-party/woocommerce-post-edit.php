@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\SEO\Integrations\Third_Party;
 
+use WP_Post;
 use Yoast\WP\SEO\Conditionals\Admin\Post_Conditional;
 use Yoast\WP\SEO\Conditionals\WooCommerce_Conditional;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
@@ -33,8 +34,8 @@ class WooCommerce_Post_Edit implements Integration_Interface {
 	 * Don't show the date in the Google preview for WooCommerce products,
 	 * since Google does not show dates for product pages in the search results.
 	 *
-	 * @param array    $values Key-value map of variables we enqueue in the JavaScript of the post editor.
-	 * @param \WP_Post $post   The post currently opened in the editor.
+	 * @param array   $values Key-value map of variables we enqueue in the JavaScript of the post editor.
+	 * @param WP_Post $post   The post currently opened in the editor.
 	 *
 	 * @return array The values, where the `metaDescriptionDate` is set to the empty string.
 	 */

@@ -671,10 +671,8 @@ ReplacementVariableEditorStandalone.propTypes = {
 
 ReplacementVariableEditorStandalone.defaultProps = {
 	onSearchChange: null,
-	onFocus: () => {
-	},
-	onBlur: () => {
-	},
+	onFocus: () => {},
+	onBlur: () => {},
 	placeholder: "",
 	theme: { isRtl: false },
 	recommendedReplacementVariables: [],

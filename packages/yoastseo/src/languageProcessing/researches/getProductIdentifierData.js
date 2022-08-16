@@ -3,8 +3,7 @@
  *
  * @param {Paper} paper The paper that contains the data.
  *
- * @returns {{hasVariants: (boolean|*), hasGlobalIdentifier: (boolean|*), doAllVariantsHaveIdentifier: (boolean|*),
- * 			isVariantIdentifierDataValid: (boolean|*) }}
+ * @returns {{hasVariants: (boolean|*), hasGlobalIdentifier: (boolean|*), doAllVariantsHaveIdentifier: (boolean|*)}}
  *			The object that contains information whether the product has global identifier or variants.
  */
 export default function( paper ) {
@@ -16,8 +15,8 @@ export default function( paper ) {
 	if ( customData.hasOwnProperty( "doAllVariantsHaveIdentifier" ) ) {
 		productData.doAllVariantsHaveIdentifier = customData.doAllVariantsHaveIdentifier;
 	}
-	if ( customData.hasOwnProperty( "variantIdentifierDataIsValid" ) ) {
-		productData.isVariantIdentifierDataValid = customData.variantIdentifierDataIsValid;
+	if ( customData.hasOwnProperty( "productType" ) ) {
+		productData.productType = customData.productType;
 	}
 	return productData;
 }

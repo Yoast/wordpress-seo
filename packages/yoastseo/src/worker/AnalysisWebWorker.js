@@ -30,6 +30,7 @@ import wrapTryCatchAroundAction from "./wrapTryCatchAroundAction";
 
 // Tree assessor functionality.
 import { ReadabilityScoreAggregator, SEOScoreAggregator } from "../parsedPaper/assess/scoreAggregators";
+import InclusiveLanguageAssessor from "../scoring/inclusiveLanguageAssessor";
 
 const logger = getLogger( "yoast-analysis-worker" );
 logger.setDefaultLevel( "error" );
@@ -54,6 +55,7 @@ export default class AnalysisWebWorker {
 		this._configuration = {
 			contentAnalysisActive: true,
 			keywordAnalysisActive: true,
+			inclusiveLanguageAnalysisActive: true,
 			useCornerstone: false,
 			useTaxonomy: false,
 			useKeywordDistribution: false,
@@ -86,6 +88,7 @@ export default class AnalysisWebWorker {
 		 * {Object} 				seo         		SEO assessor results, per keyword identifier or empty string for the main.
 		 * {Object} 				seo[ "" ]  			The result of the paper analysis for the main keyword.
 		 * {Object} 				seo[ key ]  		Same as above, but instead for a related keyword.
+		 * {Object} 				inclusive_language 	Inclusive language assessor results.
 		 */
 		this._results = {
 			readability: {
@@ -97,6 +100,10 @@ export default class AnalysisWebWorker {
 					results: [],
 					score: 0,
 				},
+			},
+			inclusiveLanguage: {
+				results: [],
+				score: 0,
 			},
 		};
 		this._registeredAssessments = [];
@@ -240,7 +247,7 @@ export default class AnalysisWebWorker {
 	 *
 	 * @returns {void}
 	 */
-	setCustomCornerstoneRelatedKeywordAssessorClass( CornerstoneRelatedKeywordAssessorClass, customAnalysisType, customAssessorOptions  ) {
+	setCustomCornerstoneRelatedKeywordAssessorClass( CornerstoneRelatedKeywordAssessorClass, customAnalysisType, customAssessorOptions ) {
 		this._CustomCornerstoneRelatedKeywordAssessorClasses[ customAnalysisType ] = CornerstoneRelatedKeywordAssessorClass;
 		this._CustomCornerstoneRelatedKeywordAssessorOptions[ customAnalysisType ] = customAssessorOptions;
 		this._relatedKeywordAssessor = this.createRelatedKeywordsAssessor();
@@ -480,10 +487,10 @@ export default class AnalysisWebWorker {
 						this._CustomCornerstoneSEOAssessorOptions[ customAnalysisType ] )
 					: new CornerstoneSEOAssessor( this._researcher );
 			} else {
-			/*
-			 * For non-cornerstone content, use a custom SEO assessor if available,
-			 * otherwise use the default SEO assessor.
-			 */
+				/*
+				 * For non-cornerstone content, use a custom SEO assessor if available,
+				 * otherwise use the default SEO assessor.
+				 */
 				assessor = this._CustomSEOAssessorClasses[ customAnalysisType ]
 					? new this._CustomSEOAssessorClasses[ customAnalysisType ](
 						this._researcher,
@@ -503,6 +510,21 @@ export default class AnalysisWebWorker {
 		} );
 
 		return assessor;
+	}
+
+	/**
+	 * Initializes the appropriate inclusive language assessor.
+	 *
+	 * @returns {null|Assessor} The chosen inclusive language assessor.
+	 */
+	createInclusiveLanguageAssessor() {
+		const { inclusiveLanguageAnalysisActive } = this._configuration;
+
+		if ( inclusiveLanguageAnalysisActive === false ) {
+			return null;
+		}
+
+		return new InclusiveLanguageAssessor( this._researcher );
 	}
 
 	/**
@@ -536,10 +558,10 @@ export default class AnalysisWebWorker {
 						this._CustomCornerstoneRelatedKeywordAssessorOptions[ customAnalysisType ] )
 					: new CornerstoneRelatedKeywordAssessor( this._researcher );
 			} else {
-			/*
-			 * For non-cornerstone content, use a custom related keyword assessor if available,
-			 * otherwise use the default related keyword assessor.
-			 */
+				/*
+				 * For non-cornerstone content, use a custom related keyword assessor if available,
+				 * otherwise use the default related keyword assessor.
+				 */
 				assessor = this._CustomRelatedKeywordAssessorClasses[ customAnalysisType ]
 					? new this._CustomRelatedKeywordAssessorClasses[ customAnalysisType ](
 						this._researcher,
@@ -567,6 +589,7 @@ export default class AnalysisWebWorker {
 	 *
 	 * @returns {module:parsedPaper/assess.TreeAssessor} The created tree assessor.
 	 */
+
 	/*
 	 * Disabled code:
 	 * createSEOTreeAssessor( assessorConfig ) {
@@ -601,10 +624,16 @@ export default class AnalysisWebWorker {
 	 * @param {Object}   configuration          The configuration to check.
 	 * @param {Assessor} [contentAssessor=null] The content assessor.
 	 * @param {Assessor} [seoAssessor=null]     The SEO assessor.
+	 * @param {Assessor} [inclusiveLanguageAssessor=null] The inclusive language assessor.
 	 *
-	 * @returns {Object} Containing seo and readability with true or false.
+	 * @returns {Object} Containing seo, readability, and inclusiveLanguage with true or false.
 	 */
-	static shouldAssessorsUpdate( configuration, contentAssessor = null, seoAssessor = null ) {
+	static shouldAssessorsUpdate(
+		configuration,
+		contentAssessor = null,
+		seoAssessor = null,
+		inclusiveLanguageAssessor = null
+	) {
 		const readability = [
 			"contentAnalysisActive",
 			"useCornerstone",
@@ -623,11 +652,17 @@ export default class AnalysisWebWorker {
 			"researchData",
 			"customAnalysisType",
 		];
+		const inclusiveLanguage = [
+			"inclusiveLanguageAnalysisActive",
+			"locale",
+			"translations",
+		];
 		const configurationKeys = Object.keys( configuration );
 
 		return {
 			readability: isNull( contentAssessor ) || includesAny( configurationKeys, readability ),
 			seo: isNull( seoAssessor ) || includesAny( configurationKeys, seo ),
+			inclusiveLanguage: isNull( inclusiveLanguageAssessor ) || includesAny( configurationKeys, inclusiveLanguage ),
 		};
 	}
 
@@ -651,7 +686,12 @@ export default class AnalysisWebWorker {
 	 * @returns {void}
 	 */
 	initialize( id, configuration ) {
-		const update = AnalysisWebWorker.shouldAssessorsUpdate( configuration, this._contentAssessor, this._seoAssessor );
+		const update = AnalysisWebWorker.shouldAssessorsUpdate(
+			configuration,
+			this._contentAssessor,
+			this._seoAssessor,
+			this._inclusiveLanguageAssessor
+		);
 
 		if ( has( configuration, "translations.locale_data.wordpress-seo" ) ) {
 			setLocaleData( configuration.translations.locale_data[ "wordpress-seo" ], "wordpress-seo" );
@@ -677,7 +717,7 @@ export default class AnalysisWebWorker {
 		if ( has( configuration, "enabledFeatures" ) ) {
 			// Make feature flags available inside of the web worker.
 			enableFeatures( configuration.enabledFeatures );
-			delete  configuration.enabledFeatures;
+			delete configuration.enabledFeatures;
 		}
 
 		this._configuration = merge( this._configuration, configuration );
@@ -705,6 +745,9 @@ export default class AnalysisWebWorker {
 			 * } );
 			 */
 		}
+		if ( update.inclusiveLanguage ) {
+			this._inclusiveLanguageAssessor = this.createInclusiveLanguageAssessor();
+		}
 
 		// Reset the paper in order to not use the cached results on analyze.
 		this.clearCache();
@@ -728,12 +771,12 @@ export default class AnalysisWebWorker {
 
 		if ( ! isObject( assessment ) ) {
 			throw new InvalidTypeError( "Failed to register assessment for plugin " + pluginName +
-				". Expected parameter `assessment` to be a function." );
+										". Expected parameter `assessment` to be a function." );
 		}
 
 		if ( ! isString( pluginName ) ) {
 			throw new InvalidTypeError( "Failed to register assessment for plugin " + pluginName +
-				". Expected parameter `pluginName` to be a string." );
+										". Expected parameter `pluginName` to be a string." );
 		}
 
 		// Prefix the name with the pluginName so the test name is always unique.
@@ -765,12 +808,12 @@ export default class AnalysisWebWorker {
 
 		if ( ! isObject( handler ) ) {
 			throw new InvalidTypeError( "Failed to register handler for plugin " + pluginName +
-				". Expected parameter `handler` to be a function." );
+										". Expected parameter `handler` to be a function." );
 		}
 
 		if ( ! isString( pluginName ) ) {
 			throw new InvalidTypeError( "Failed to register handler for plugin " + pluginName +
-				". Expected parameter `pluginName` to be a string." );
+										". Expected parameter `pluginName` to be a string." );
 		}
 
 		// Prefix the name with the pluginName so the test name is always unique.
@@ -797,7 +840,7 @@ export default class AnalysisWebWorker {
 
 		if ( ! isString( pluginName ) ) {
 			throw new InvalidTypeError( "Failed to refresh assessment for plugin " + pluginName +
-				". Expected parameter `pluginName` to be a string." );
+										". Expected parameter `pluginName` to be a string." );
 		}
 
 		this.clearCache();
@@ -929,7 +972,7 @@ export default class AnalysisWebWorker {
 				 */
 			} catch ( exception ) {
 				logger.debug( "Yoast SEO and readability analysis: " +
-					"An error occurred during the building of the tree structure used for some assessments.\n\n", exception );
+							  "An error occurred during the building of the tree structure used for some assessments.\n\n", exception );
 				this._tree = null;
 			}
 
@@ -981,6 +1024,14 @@ export default class AnalysisWebWorker {
 			this._results.readability = await this.assess( this._paper, this._tree, analysisCombination );
 		}
 
+		if ( this._configuration.inclusiveLanguageAnalysisActive && this._inclusiveLanguageAssessor && shouldReadabilityUpdate ) {
+			this._inclusiveLanguageAssessor.assess( this._paper );
+			this._results.inclusiveLanguage = {
+				results: this._inclusiveLanguageAssessor.results,
+				score: this._inclusiveLanguageAssessor.calculateOverallScore(),
+			};
+		}
+
 		return this._results;
 	}
 
@@ -1027,7 +1078,7 @@ export default class AnalysisWebWorker {
 		 */
 
 		// Combine the results of the tree assessor and old assessor.
-		const results = [ ...treeAssessmentResults, ... oldAssessmentResults ];
+		const results = [ ...treeAssessmentResults, ...oldAssessmentResults ];
 
 		// Aggregate the results.
 		const score = scoreAggregator.aggregate( results );
@@ -1089,7 +1140,9 @@ export default class AnalysisWebWorker {
 
 			// We need to remember the key, since the SEO results are stored in an object, not an array.
 			return this.assess( relatedPaper, tree, analysisCombination ).then(
-				results => ( { key: key, results: results } )
+				results => (
+					{ key: key, results: results }
+				)
 			);
 		} ) );
 	}

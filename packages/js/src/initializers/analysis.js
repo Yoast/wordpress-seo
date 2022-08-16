@@ -22,7 +22,7 @@ async function runAnalysis( worker, data ) {
 
 	try {
 		const results = await worker.analyze( paper );
-		const { seo, readability } = results.result;
+		const { seo, readability, inclusiveLanguage } = results.result;
 
 		if ( seo ) {
 			// Only update the main results, which are located under the empty string key.
@@ -39,6 +39,13 @@ async function runAnalysis( worker, data ) {
 
 			dispatch( "yoast-seo/editor" ).setReadabilityResults( readability.results );
 			dispatch( "yoast-seo/editor" ).setOverallReadabilityScore( readability.score );
+		}
+
+		if ( inclusiveLanguage ) {
+			inclusiveLanguage.results = sortResultsByIdentifier( inclusiveLanguage.results );
+
+			dispatch( "yoast-seo/editor" ).setInclusiveLanguageResults( inclusiveLanguage.results );
+			dispatch( "yoast-seo/editor" ).setOverallInclusiveLanguageScore( inclusiveLanguage.score );
 		}
 	} catch ( error ) {
 		handleWorkerError();

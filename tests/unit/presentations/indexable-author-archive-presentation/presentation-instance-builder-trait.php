@@ -10,7 +10,6 @@ use Yoast\WP\SEO\Presentations\Indexable_Author_Archive_Presentation;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Context\Meta_Tags_Context_Mock;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\Presentations\Presentation_Instance_Dependencies;
-use Yoast\WP\SEO\Wrappers\WP_Query_Wrapper;
 
 /**
  * Trait Presentation_Instance_Builder
@@ -41,18 +40,18 @@ trait Presentation_Instance_Builder {
 	protected $context;
 
 	/**
-	 * Holds the WP_Query_Wrapper instance.
-	 *
-	 * @var WP_Query_Wrapper|Mockery\MockInterface
-	 */
-	protected $wp_query_wrapper;
-
-	/**
 	 * Holds the Post_Type_Helper instance.
 	 *
 	 * @var Post_Type_Helper|Mockery\MockInterface
 	 */
 	protected $post_type;
+
+	/**
+	 * Holds the Author_Archive_Helper instance.
+	 *
+	 * @var Author_Archive_Helper|Mockery\MockInterface
+	 */
+	protected $author_archive;
 
 	/**
 	 * Holds the Pagination_Helper instance.

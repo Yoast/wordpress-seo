@@ -2,6 +2,8 @@
 
 namespace Yoast\WP\SEO\Presentations;
 
+use Yoast\WP\SEO\Helpers\Pagination_Helper;
+
 /**
  * Class Indexable_Home_Page_Presentation.
  *
@@ -10,6 +12,13 @@ namespace Yoast\WP\SEO\Presentations;
 class Indexable_Home_Page_Presentation extends Indexable_Presentation {
 
 	use Archive_Adjacent;
+
+	/**
+	 * Holds the Pagination_Helper instance.
+	 *
+	 * @var Pagination_Helper
+	 */
+	protected $pagination;
 
 	/**
 	 * Generates the canonical.

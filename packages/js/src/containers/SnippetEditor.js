@@ -3,9 +3,9 @@ import { withDispatch, withSelect } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
 import { SnippetEditor } from "@yoast/search-metadata-previews";
 import { LocationConsumer } from "@yoast/externals/contexts";
-import { debounce } from "lodash-es";
 import SnippetPreviewSection from "../components/SnippetPreviewSection";
 import { applyReplaceUsingPlugin } from "../helpers/replacementVariableHelpers";
+import getMemoizedFindCustomFields from "../helpers/getMemoizedFindCustomFields";
 
 /**
  * Process the snippet editor form data before it's being displayed in the snippet preview.
@@ -135,10 +135,7 @@ export function mapDispatchToProps( dispatch, ownProps, { select } ) {
 		findCustomFields,
 	} = dispatch( "yoast-seo/editor" );
 	const coreEditorDispatch = dispatch( "core/editor" );
-	const onReplacementVariableSearchChange = debounce(
-		value => findCustomFields( value, select( "yoast-seo/editor" ).getPostId() ),
-		500
-	);
+	const postId = select( "yoast-seo/editor" ).getPostId();
 
 	return {
 		onChange: ( key, value ) => {
@@ -165,7 +162,7 @@ export function mapDispatchToProps( dispatch, ownProps, { select } ) {
 			}
 		},
 		onChangeAnalysisData: updateAnalysisData,
-		onReplacementVariableSearchChange,
+		onReplacementVariableSearchChange: getMemoizedFindCustomFields( postId, findCustomFields ),
 	};
 }
 

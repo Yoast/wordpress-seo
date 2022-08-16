@@ -179,8 +179,8 @@ class Crawl_Settings_Integration implements Integration_Interface {
 	/**
 	 * Print the settings sections.
 	 *
-	 * @param Yoast_Form $yform        The Yoast form class.
-	 * @param boolean    $is_network   Whether we're on the network site.
+	 * @param Yoast_Form $yform      The Yoast form class.
+	 * @param bool       $is_network Whether we're on the network site.
 	 *
 	 * @return void
 	 */
@@ -229,7 +229,7 @@ class Crawl_Settings_Integration implements Integration_Interface {
 			);
 			$yform->hidden( 'clean_permalinks_extra_variables', 'clean_permalinks_extra_variables' );
 			echo '<p class="desc label yoast-extra-variables-label-free">';
-			esc_html_e( 'Please use a comma to separate multiple URL parameters.', 'wordpress-seo' );
+			\esc_html_e( 'Please use a comma to separate multiple URL parameters.', 'wordpress-seo' );
 			echo '</p>';
 			echo '</div>';
 		}
@@ -238,12 +238,12 @@ class Crawl_Settings_Integration implements Integration_Interface {
 	/**
 	 * Prints a list of toggles for an array of settings with labels.
 	 *
-	 * @param array      $settings     The settings being displayed.
-	 * @param Yoast_Form $yform        The Yoast form class.
-	 * @param boolean    $is_network   Whether we're on the network site.
-	 * @param string     $title        Optional title for the settings being displayed.
-	 * @param string     $description  Optional description of the settings being displayed.
-	 * @param array      $toggles      Optional naming of the toggle buttons.
+	 * @param array      $settings    The settings being displayed.
+	 * @param Yoast_Form $yform       The Yoast form class.
+	 * @param bool       $is_network  Whether we're on the network site.
+	 * @param string     $title       Optional title for the settings being displayed.
+	 * @param string     $description Optional description of the settings being displayed.
+	 * @param array      $toggles     Optional naming of the toggle buttons.
 	 *
 	 * @return void
 	 */
@@ -269,9 +269,9 @@ class Crawl_Settings_Integration implements Integration_Interface {
 			// NOTE: the off/on labels here are flipped from their actual would-be values in premium for cosmetic reasons and limitations with disabled toggles.
 			$toggles = [
 				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch -- Reason: text is originally from Yoast SEO.
-				'off' => __( 'Allow Control', 'wordpress-seo' ),
+				'off' => \__( 'Allow Control', 'wordpress-seo' ),
 				// phpcs:ignore WordPress.WP.I18n.TextDomainMismatch -- Reason: text is originally from Yoast SEO.
-				'on'  => __( 'Disable', 'wordpress-seo' ),
+				'on'  => \__( 'Disable', 'wordpress-seo' ),
 			];
 		}
 		foreach ( $settings as $setting => $label ) {

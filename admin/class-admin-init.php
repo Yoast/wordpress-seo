@@ -42,19 +42,13 @@ class WPSEO_Admin_Init {
 		add_action( 'admin_notices', [ $this, 'permalink_settings_notice' ] );
 		add_action( 'post_submitbox_misc_actions', [ $this, 'add_publish_box_section' ] );
 
-		/*
-		 * The `admin_notices` hook fires on single site admin pages vs.
-		 * `network_admin_notices` which fires on multisite admin pages and
-		 * `user_admin_notices` which fires on multisite user admin pagss.
-		 */
-		add_action( 'admin_notices', [ $this, 'search_engines_discouraged_notice' ] );
-
 		$this->load_meta_boxes();
 		$this->load_taxonomy_class();
 		$this->load_admin_page_class();
 		$this->load_admin_user_class();
 		$this->load_xml_sitemaps_admin();
 		$this->load_plugin_suggestions();
+		$this->set_inclusive_language_notice();
 	}
 
 	/**
@@ -196,6 +190,23 @@ class WPSEO_Admin_Init {
 	}
 
 	/**
+	 * Sets the inclusive language notification.
+	 *
+	 * Notification should pop up if user has Premium activated, the site language is English and the feature toggle is not switched on.
+	 */
+	protected function set_inclusive_language_notice() {
+		$inclusive_language = new WPSEO_Inclusive_Language_Notice( Yoast_Notification_Center::get() );
+
+		if ( $inclusive_language->should_show_notification() ) {
+			$inclusive_language->add_notification();
+			$inclusive_language->dismiss_notice_listener();
+		}
+		else {
+			$inclusive_language->remove_notification();
+		}
+	}
+
+	/**
 	 * Registers the promotion class for our GlotPress instance, then creates a notification with the i18n promo.
 	 *
 	 * @link https://github.com/Yoast/i18n-module
@@ -243,15 +254,6 @@ class WPSEO_Admin_Init {
 		if ( WPSEO_Options::get( 'enable_xml_sitemap', false ) ) {
 			new WPSEO_Sitemaps_Admin();
 		}
-	}
-
-	/**
-	 * Checks whether search engines are discouraged from indexing the site.
-	 *
-	 * @return bool Whether search engines are discouraged from indexing the site.
-	 */
-	private function are_search_engines_discouraged() {
-		return (string) get_option( 'blog_public' ) === '0';
 	}
 
 	/**
@@ -349,53 +351,6 @@ class WPSEO_Admin_Init {
 				esc_html__( 'Learn about why permalinks are important for SEO.', 'wordpress-seo' )
 			);
 		}
-	}
-
-	/**
-	 * Determines whether and where the "search engines discouraged" admin notice should be displayed.
-	 *
-	 * @return bool Whether the "search engines discouraged" admin notice should be displayed.
-	 */
-	private function should_display_search_engines_discouraged_notice() {
-		$discouraged_pages = [
-			'index.php',
-			'plugins.php',
-			'update-core.php',
-		];
-
-		return (
-			$this->are_search_engines_discouraged()
-			&& WPSEO_Capability_Utils::current_user_can( 'manage_options' )
-			&& WPSEO_Options::get( 'ignore_search_engines_discouraged_notice', false ) === false
-			&& (
-				$this->on_wpseo_admin_page()
-				|| in_array( $this->pagenow, $discouraged_pages, true )
-			)
-		);
-	}
-
-	/**
-	 * Displays an admin notice when WordPress is set to discourage search engines from indexing the site.
-	 *
-	 * @return void
-	 */
-	public function search_engines_discouraged_notice() {
-		if ( ! $this->should_display_search_engines_discouraged_notice() ) {
-			return;
-		}
-
-		printf(
-			'<div id="robotsmessage" class="notice notice-error"><p><strong>%1$s</strong> %2$s <button type="button" id="robotsmessage-dismiss-button" class="button-link hide-if-no-js" data-nonce="%3$s">%4$s</button></p></div>',
-			esc_html__( 'Huge SEO Issue: You\'re blocking access to robots.', 'wordpress-seo' ),
-			sprintf(
-				/* translators: 1: Link start tag to the WordPress Reading Settings page, 2: Link closing tag. */
-				esc_html__( 'If you want search engines to show this site in their results, you must %1$sgo to your Reading Settings%2$s and uncheck the box for Search Engine Visibility.', 'wordpress-seo' ),
-				'<a href="' . esc_url( admin_url( 'options-reading.php' ) ) . '">',
-				'</a>'
-			),
-			esc_js( wp_create_nonce( 'wpseo-ignore' ) ),
-			esc_html__( 'I don\'t want this site to show in the search results.', 'wordpress-seo' )
-		);
 	}
 
 	/**
