@@ -1,4 +1,5 @@
 /* global wpseoIndexablesPageData */
+import PropTypes from "prop-types";
 import apiFetch from "@wordpress/api-fetch";
 import { __, sprintf } from "@wordpress/i18n";
 import { useEffect, useState, useCallback } from "@wordpress/element";
@@ -56,8 +57,6 @@ const mostLinkedOutro = addLinkToString(
 		"</a>" ),
 	"https://www.yoast.com"
 );
-
-const setupInfo = wpseoIndexablesPageData.setupInfo;
 
 /* eslint-disable camelcase */
 /* eslint-disable no-warning-comments */
@@ -398,5 +397,9 @@ function IndexablesPage( { setupInfo } ) {
 		{ ignoredIndexable && <div className="yst-flex yst-justify-center"><Button className="yst-button yst-button--primary" onClick={ onClickUndo( ignoredIndexable ) }>{ `Undo ignore ${ignoredIndexable.indexable.id}` }</Button></div> }
 	</div>;
 }
+
+IndexablesPage.propTypes = {
+	setupInfo: PropTypes.object.isRequired,
+};
 
 export default IndexablesPage;
