@@ -1,5 +1,6 @@
-/* global yoastIndexingData, wpseoIndexablesPageData */
-import { useState } from "@wordpress/element";
+/* global yoastIndexingData */
+import apiFetch from "@wordpress/api-fetch";
+import { useState, useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 
 import NotEnoughContent from "./components/not-enough-content";
@@ -10,6 +11,7 @@ import { Alert } from "@yoast/ui-library";
 
 /* eslint-disable complexity */
 
+
 /**
  * Renders the four indexable tables.
  *
@@ -17,7 +19,26 @@ import { Alert } from "@yoast/ui-library";
  */
 function LandingPage() {
 	const [ indexingState, setIndexingState ] = useState( () => parseInt( yoastIndexingData.amount, 10 ) === 0 ? "already_done" : "idle" );
-	const setupInfo = wpseoIndexablesPageData.setupInfo;
+	const [ setupInfo, setSetupInfo ] = useState( null );
+
+	useEffect( async() => {
+		if ( ( window.wpseoIndexablesPageData?.environment !== "staging" ) &&
+		 ( indexingState === "already_done" || indexingState === "completed" ) ) {
+			try {
+				const response = await apiFetch( {
+					path: "yoast/v1/setup_info",
+					method: "GET",
+				} );
+
+				const parsedResponse = await response.json;
+				setSetupInfo( parsedResponse );
+			} catch ( error ) {
+				// @TODO: Throw an error notification.
+				console.error( error.message );
+				return false;
+			}
+		}
+	}, [ window.wpseoIndexablesPageData, indexingState ] );
 
 	if ( window.wpseoIndexablesPageData?.environment === "staging" ) {
 		return <div
@@ -25,6 +46,8 @@ function LandingPage() {
 		>
 			<Alert variant="info">{ __( "This functionality is disabled in staging environments.", "wordpress-seo" ) }</Alert>
 		</div>;
+	} else if  ( indexingState !== "already_done" && indexingState !== "completed" ) {
+		return <IndexationView setIndexingState={ setIndexingState } />;
 	} else if ( setupInfo && Object.values( setupInfo.enabledFeatures ).every( value => value === false ) ) {
 		// @TODO: needs UX
 		return <span>All features deactivated.</span>;
@@ -36,7 +59,7 @@ function LandingPage() {
 			seoEnabled={ setupInfo.enabledFeatures.isSeoScoreEnabled }
 		/>;
 	}
-	return ( indexingState === "already_done" || indexingState === "completed" ) ? <IndexablesPage setupInfo={ setupInfo } /> : <IndexationView setIndexingState={ setIndexingState } />;
+	return setupInfo && <IndexablesPage setupInfo={ setupInfo } />;
 }
 
 export default LandingPage;

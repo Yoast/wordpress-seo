@@ -68,7 +68,7 @@ const setupInfo = wpseoIndexablesPageData.setupInfo;
  *
  * @returns {WPElement} A div containing the main indexables page.
  */
-function IndexablesPage() {
+function IndexablesPage( { setupInfo } ) {
 	const listSize = parseInt( wpseoIndexablesPageData.listSize, 10 );
 	const minimumIndexablesInBuffer = listSize * 2;
 	const isPremiumInstalled = Boolean( wpseoIndexablesPageData.isPremium );

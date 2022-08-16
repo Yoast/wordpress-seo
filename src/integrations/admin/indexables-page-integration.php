@@ -34,20 +34,6 @@ class Indexables_Page_Integration implements Integration_Interface {
 	private $indexables_page_helper;
 
 	/**
-	 * The indexable repository.
-	 *
-	 * @var Indexable_Repository
-	 */
-	private $indexable_repository;
-
-	/**
-	 * The post type helper.
-	 *
-	 * @var Post_Type_Helper
-	 */
-	private $post_type_helper;
-
-	/**
 	 * The product helper.
 	 *
 	 * @var Product_Helper
@@ -69,19 +55,13 @@ class Indexables_Page_Integration implements Integration_Interface {
 	 * @param Product_Helper            $product_helper         The product helper.
 	 */
 	public function __construct(
-		Indexable_Repository $indexable_repository,
 		WPSEO_Admin_Asset_Manager $admin_asset_manager,
 		Indexables_Page_Helper $indexables_page_helper,
-		Post_Type_Helper $post_type_helper,
-		Product_Helper $product_helper,
-		Options_Helper $options_helper
+		Product_Helper $product_helper
 	) {
-		$this->indexable_repository = $indexable_repository;
 		$this->admin_asset_manager    = $admin_asset_manager;
 		$this->indexables_page_helper = $indexables_page_helper;
-		$this->post_type_helper     = $post_type_helper;
 		$this->product_helper         = $product_helper;
-		$this->options_helper       = $options_helper;
 	}
 
 	/**
@@ -151,7 +131,6 @@ class Indexables_Page_Integration implements Integration_Interface {
 				'listSize'                 => $this->indexables_page_helper->get_indexables_list_size(),
 				'isLinkSuggestionsEnabled' => $this->indexables_page_helper->get_link_suggestions_enabled(),
 				'isPremium'                => $this->product_helper->is_premium(),
-				'setupInfo'                => $this->get_setup_info(),
 			]
 		);
 	}
@@ -178,101 +157,5 @@ class Indexables_Page_Integration implements Integration_Interface {
 		$endpoints['complete'] = Indexing_Route::FULL_COMPLETE_ROUTE;
 
 		return $endpoints;
-	}
-
-	/**
-	 * Get public sub types that are relevant for the indexable page.
-	 *
-	 * @return array The subtypes.
-	 */
-	protected function get_sub_types() {
-		$object_sub_types = \array_values( $this->post_type_helper->get_public_post_types() );
-
-		$excluded_post_types = \apply_filters( 'wpseo_indexable_excluded_post_types', [ 'attachment' ] );
-		$object_sub_types    = \array_diff( $object_sub_types, $excluded_post_types );
-
-		$wanted_sub_types = [];
-		foreach ( $object_sub_types as $sub_type ) {
-			if ( $this->post_type_helper->is_indexable( $sub_type ) && $this->post_type_helper->has_metabox( $sub_type ) ) {
-				$wanted_sub_types[] = $sub_type;
-			}
-		}
-		return $wanted_sub_types;
-	}
-
-	/**
-	 * Creates a query that can find public indexables.
-	 *
-	 * @return ORM Returns an ORM instance that can be used to execute the query.
-	 */
-	protected function query() {
-		return $this->indexable_repository->query()
-			->where_raw( '( post_status = \'publish\' OR post_status IS NULL )' )
-			->where_in( 'object_type', [ 'post' ] )
-			->where_in( 'object_sub_type', $this->get_sub_types() );
-	}
-
-	/**
-	 * 
-	 */
-	protected function get_setup_info() {
-		$features = [
-			'isSeoScoreEnabled'    => $this->options_helper->get( 'keyword_analysis_active', true ),
-			'isReadabilityEnabled' => $this->options_helper->get( 'content_analysis_active', true ),
-			'isLinkCountEnabled'   => $this->options_helper->get( 'enable_text_link_counter', true ),
-		];
-
-		$posts_with_seo_score    = 0;
-		$posts_with_readability  = 0;
-		$posts_without_keyphrase = [];
-
-		if ( ! $features['isSeoScoreEnabled'] && ! $features['isReadabilityEnabled'] && ! $features['isLinkCountEnabled'] ) {
-			return [
-				'enabledFeatures'       => $features,
-				'enoughContent'         => false,
-				'enoughAnalysedContent' => false,
-			];
-		}
-
-		$all_posts = $this->query()->count();
-
-		if ( $all_posts < 1 ) {
-			return [
-				'enabledFeatures'       => $features,
-				'enoughContent'         => false,
-				'enoughAnalysedContent' => false,
-			];
-		}
-
-		$posts_with_seo_score = $this->query()
-			->where_not_equal( 'primary_focus_keyword', 0 )
-			->count();
-
-		$posts_without_keyphrase = $this->query()
-			->where_null( 'primary_focus_keyword' )
-			->order_by_desc( 'incoming_link_count' )
-			->find_many();
-
-		$posts_with_readability = $this->query()
-			->where_not_equal( 'readability_score', 0 )
-			->count();
-
-		$enough_analysed_content = ( max( $posts_with_seo_score, $posts_with_readability ) / $all_posts );
-
-		return [
-			'enabledFeatures'       => $features,
-			'enoughContent'         => $all_posts > $this->indexables_page_helper->get_minimum_posts_threshold(),
-			'enoughAnalysedContent' => $enough_analysed_content > $this->indexables_page_helper->get_minimum_analyzed_posts_threshold(),
-			'postsWithoutKeyphrase' => \array_map(
-				function ( $indexable ) {
-					$output = $indexable;
-					if ( $indexable->incoming_link_count === null ) {
-						$output->incoming_link_count = 0;
-					}
-					return $output;
-				},
-				$posts_without_keyphrase
-			),
-		];
 	}
 }
