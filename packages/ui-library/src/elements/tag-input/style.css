@@ -51,6 +51,8 @@
 		}
 
 		.yst-tag-input__tag {
+			min-height: 30px;
+
 			@apply
 			yst-inline-flex
 			yst-py-0.5
