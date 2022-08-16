@@ -172,11 +172,11 @@ class Import_Integration implements Integration_Interface {
 
 		foreach ( $available_actions as $plugin => $plugin_available_actions ) {
 
-			$validate_action_position = array_search( $first_action, $plugin_available_actions, true );
+			$validate_action_position = \array_search( $first_action, $plugin_available_actions, true );
 
 			if ( ! empty( $validate_action_position ) ) {
 				unset( $plugin_available_actions[ $validate_action_position ] );
-				array_unshift( $plugin_available_actions, $first_action );
+				\array_unshift( $plugin_available_actions, $first_action );
 			}
 
 			$available_sorted_actions[ $plugin ] = $plugin_available_actions;

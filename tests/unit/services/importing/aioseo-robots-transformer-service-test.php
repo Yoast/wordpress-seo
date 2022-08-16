@@ -23,7 +23,7 @@ class Aioseo_Robots_Transformer_Service_Test extends TestCase {
 	 *
 	 * @var Mockery\MockInterface|Aioseo_Robots_Provider_Service
 	 */
-	protected $aioseo_robots_provider_service;
+	protected $robots_provider;
 
 	/**
 	 * The class under test.

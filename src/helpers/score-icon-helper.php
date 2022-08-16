@@ -63,7 +63,7 @@ class Score_Icon_Helper {
 		}
 		elseif ( empty( $indexable && $indexable->primary_focus_keyword ) ) {
 			$rank  = new WPSEO_Rank( WPSEO_Rank::BAD );
-			$title = __( 'Focus keyphrase not set', 'wordpress-seo' );
+			$title = \__( 'Focus keyphrase not set', 'wordpress-seo' );
 		}
 		else {
 			$rank  = WPSEO_Rank::from_numeric_score( ( $indexable ) ? $indexable->primary_focus_keyword_score : 0 );

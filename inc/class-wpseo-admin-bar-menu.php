@@ -322,7 +322,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 			'id'     => self::FRONTEND_INSPECTOR_SUBMENU_IDENTIFIER,
 			'title'  => sprintf(
 				'%1$s <span class="yoast-badge yoast-beta-badge">%2$s</span>',
-				__( 'Inspect', 'wordpress-seo' ),
+				__( 'Front-end SEO inspector', 'wordpress-seo' ),
 				__( 'Beta', 'wordpress-seo' )
 			),
 			'href'   => '#wpseo-frontend-inspector',
@@ -645,10 +645,6 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	protected function get_score_icon() {
 		$is_seo_enabled         = ( new WPSEO_Metabox_Analysis_SEO() )->is_enabled();
 		$is_readability_enabled = ( new WPSEO_Metabox_Analysis_Readability() )->is_enabled();
-
-		if ( ! $is_seo_enabled && ! $is_readability_enabled ) {
-			return '';
-		}
 
 		$indexable = $this->indexable_repository->for_current_page();
 

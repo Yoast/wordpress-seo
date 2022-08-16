@@ -13,7 +13,7 @@ class Curl_Helper {
 	 * @return bool Returns true if cURL is installed.
 	 */
 	public function is_installed() {
-		return function_exists( 'curl_version' );
+		return \function_exists( 'curl_version' );
 	}
 
 	/**
@@ -22,7 +22,7 @@ class Curl_Helper {
 	 * @return string|null Returns a string containing the cURL version, or null if cURL is not installed.
 	 */
 	public function get_version() {
-		$version = curl_version();
+		$version = \curl_version();
 
 		if ( ! isset( $version['version'] ) ) {
 			return null;

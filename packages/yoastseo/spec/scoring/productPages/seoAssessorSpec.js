@@ -8,6 +8,7 @@ describe( "running assessments in the product page SEO assessor", function() {
 
 	beforeEach( () => {
 		assessor = new Assessor( new DefaultResearcher(), {
+			assessVariants: true,
 			introductionKeyphraseUrlTitle: "https://yoast.com/1",
 			introductionKeyphraseCTAUrl: "https://yoast.com/2",
 			keyphraseLengthUrlTitle: "https://yoast.com/3",
@@ -42,8 +43,10 @@ describe( "running assessments in the product page SEO assessor", function() {
 			imageAltTagsCTAUrl: "https://yoast.com/32",
 			keyphraseDistributionUrlTitle: "https://yoast.com/33",
 			keyphraseDistributionCTAUrl: "https://yoast.com/34",
-			productIdentifierUrlTitle: "https://yoa.st/4ly",
-			productIdentifierCTAUrl: "https://yoa.st/4lz",
+			productIdentifierUrlTitle: "https://yoast.com/35",
+			productIdentifierCTAUrl: "https://yoast.com/36",
+			productSKUUrlTitle: "https://yoast.com/37",
+			productSKUCTAUrl: "https://yoast.com/38",
 		} );
 	} );
 
@@ -57,8 +60,6 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"metaDescriptionLength",
 			"textLength",
 			"titleWidth",
-			// Add after assessment becomes enabled: "productIdentifier",
-			// Add after assessment becomes enabled: "productSKU",
 		] );
 	} );
 
@@ -73,8 +74,6 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"textLength",
 			"titleWidth",
 			"images",
-			// Add after assessment becomes enabled: "productIdentifier",
-			// Add after assessment becomes enabled: "productSKU",
 		] );
 	} );
 
@@ -90,8 +89,6 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"titleWidth",
 			"singleH1",
 			"images",
-			// Add after assessment becomes enabled: "productIdentifier",
-			// Add after assessment becomes enabled: "productSKU",
 		] );
 	} );
 
@@ -107,8 +104,6 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"textLength",
 			"titleWidth",
 			"images",
-			// Add after assessment becomes enabled: "productIdentifier",
-			// Add after assessment becomes enabled: "productSKU",
 		] );
 	} );
 
@@ -122,8 +117,6 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"metaDescriptionLength",
 			"textLength",
 			"titleWidth",
-			// Add after assessment becomes enabled: "productIdentifier",
-			// Add after assessment becomes enabled: "productSKU",
 		] );
 	} );
 
@@ -139,8 +132,6 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"textLength",
 			"titleWidth",
 			"images",
-			// Add after assessment becomes enabled: "productIdentifier",
-			// Add after assessment becomes enabled: "productSKU",
 		] );
 	} );
 
@@ -158,8 +149,6 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"textLength",
 			"titleWidth",
 			"images",
-			// Add after assessment becomes enabled: "productIdentifier",
-			// Add after assessment becomes enabled: "productSKU",
 		] );
 	} );
 
@@ -175,8 +164,6 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"textLength",
 			"titleWidth",
 			"images",
-			// Add after assessment becomes enabled: "productIdentifier",
-			// Add after assessment becomes enabled: "productSKU",
 		] );
 	} );
 
@@ -193,26 +180,24 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"titleWidth",
 			"slugKeyword",
 			"images",
-			// Add after assessment becomes enabled: "productIdentifier",
-			// Add after assessment becomes enabled: "productSKU",
 		] );
 	} );
 
 	// These specifications will additionally trigger the largest keyword distance assessment.
 	it( "additionally runs assessments that require a long enough text and two keyword occurrences", function() {
 		assessor.assess( new Paper( "This is a keyword and a keyword. Lorem ipsum dolor sit amet, vim illum aeque" +
-			" constituam at. Id latine tritani alterum pro. Ei quod stet affert sed. Usu putent fabellas suavitate id." +
-			" Quo ut stet recusabo torquatos. Eum ridens possim expetenda te. Ex per putant comprehensam. At vel utinam" +
-			" cotidieque, at erat brute eum, velit percipit ius et. Has vidit accusata deterruisset ea, quod facete te" +
-			" vis. Vix ei duis dolor, id eum sonet fabulas. Id vix imperdiet efficiantur. Percipit probatus pertinax te" +
-			" sit. Putant intellegebat eu sit. Vix reque tation prompta id, ea quo labore viderer definiebas." +
-			" Oratio vocibus offendit an mei, est esse pericula liberavisse. Lorem ipsum dolor sit amet, vim illum aeque" +
-			" constituam at. Id latine tritani alterum pro. Ei quod stet affert sed. Usu putent fabellas suavitate id." +
-			" Quo ut stet recusabo torquatos. Eum ridens possim expetenda te. Ex per putant comprehensam. At vel utinam" +
-			" cotidieque, at erat brute eum, velit percipit ius et. Has vidit accusata deterruisset ea, quod facete te" +
-			" vis. Vix ei duis dolor, id eum sonet fabulas. Id vix imperdiet efficiantur. Percipit probatus pertinax te" +
-			" sit. Putant intellegebat eu sit. Vix reque tation prompta id, ea quo labore viderer definiebas." +
-			" Oratio vocibus offendit an mei, est esse pericula liberavisse.", { keyword: "keyword" } ) );
+									" constituam at. Id latine tritani alterum pro. Ei quod stet affert sed. Usu putent fabellas suavitate id." +
+									" Quo ut stet recusabo torquatos. Eum ridens possim expetenda te. Ex per putant comprehensam. At vel utinam" +
+									" cotidieque, at erat brute eum, velit percipit ius et. Has vidit accusata deterruisset ea, quod facete te" +
+									" vis. Vix ei duis dolor, id eum sonet fabulas. Id vix imperdiet efficiantur. Percipit probatus pertinax te" +
+									" sit. Putant intellegebat eu sit. Vix reque tation prompta id, ea quo labore viderer definiebas." +
+									" Oratio vocibus offendit an mei, est esse pericula liberavisse. Lorem ipsum dolor sit amet, vim illum aeque" +
+									" constituam at. Id latine tritani alterum pro. Ei quod stet affert sed. Usu putent fabellas suavitate id." +
+									" Quo ut stet recusabo torquatos. Eum ridens possim expetenda te. Ex per putant comprehensam. At vel utinam" +
+									" cotidieque, at erat brute eum, velit percipit ius et. Has vidit accusata deterruisset ea, quod facete te" +
+									" vis. Vix ei duis dolor, id eum sonet fabulas. Id vix imperdiet efficiantur. Percipit probatus pertinax te" +
+									" sit. Putant intellegebat eu sit. Vix reque tation prompta id, ea quo labore viderer definiebas." +
+									" Oratio vocibus offendit an mei, est esse pericula liberavisse.", { keyword: "keyword" } ) );
 		const AssessmentResults = assessor.getValidResults();
 		const assessments = getResults( AssessmentResults );
 
@@ -225,8 +210,6 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"titleWidth",
 			"images",
 			"keyphraseDistribution",
-			// Add after assessment becomes enabled: "productIdentifier",
-			// Add after assessment becomes enabled: "productSKU",
 		] );
 	} );
 
@@ -256,9 +239,21 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"titleWidth",
 			"images",
 			"keyphraseDistribution",
-			// Add after assessment becomes enabled: "productIdentifier",
-			// Add after assessment becomes enabled: "productSKU",
 		] );
+	} );
+
+	it( "additionally runs assessments that require a product with variants or a price", function() {
+		const customData = {
+			hasVariants: true,
+			hasPrice: false,
+			productType: "simple",
+		};
+		assessor.assess( new Paper( "", { customData } ) );
+		const AssessmentResults = assessor.getValidResults();
+		const assessments = getResults( AssessmentResults );
+
+		expect( assessments ).toContain( "productIdentifier" );
+		expect( assessments ).toContain( "productSKU" );
 	} );
 
 	describe( "has configuration overrides", () => {
@@ -426,6 +421,24 @@ describe( "running assessments in the product page SEO assessor", function() {
 			expect( assessment._config ).toBeDefined();
 			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoast.com/33' target='_blank'>" );
 			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/34' target='_blank'>" );
+		} );
+		test( "ProductIdentifierAssessment", () => {
+			const assessment = assessor.getAssessment( "productIdentifier" );
+
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.assessVariants ).toBe( true );
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoast.com/35' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/36' target='_blank'>" );
+		} );
+		test( "ProductSKUAssessment", () => {
+			const assessment = assessor.getAssessment( "productSKU" );
+
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.assessVariants ).toBe( true );
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoast.com/37' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/38' target='_blank'>" );
 		} );
 	} );
 } );

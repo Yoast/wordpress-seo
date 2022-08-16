@@ -329,7 +329,6 @@ class Indexable_Repository_Test extends TestCase {
 		$indexable              = Mockery::mock( Indexable_Mock::class );
 		$indexable->object_type = 'post';
 
-
 		$orm_object = Mockery::mock();
 
 		$this->instance

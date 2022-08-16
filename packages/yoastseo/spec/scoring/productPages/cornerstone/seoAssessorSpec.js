@@ -7,7 +7,9 @@ describe( "running assessments in the product page SEO assessor", function() {
 	let assessor;
 
 	beforeEach( () => {
-		assessor = new Assessor( new EnglishResearcher(), { introductionKeyphraseUrlTitle: "https://yoast.com/1",
+		assessor = new Assessor( new EnglishResearcher(), {
+			assessVariants: true,
+			introductionKeyphraseUrlTitle: "https://yoast.com/1",
 			introductionKeyphraseCTAUrl: "https://yoast.com/2",
 			keyphraseLengthUrlTitle: "https://yoast.com/3",
 			keyphraseLengthCTAUrl: "https://yoast.com/4",
@@ -41,10 +43,10 @@ describe( "running assessments in the product page SEO assessor", function() {
 			imageAltTagsCTAUrl: "https://yoast.com/32",
 			keyphraseDistributionUrlTitle: "https://yoast.com/33",
 			keyphraseDistributionCTAUrl: "https://yoast.com/34",
-			productIdentifierUrlTitle: "https://yoa.st/4ly",
-			productIdentifierCTAUrl: "https://yoa.st/4lz",
-			productSKUUrlTitle: "https://yoa.st/4lw",
-			productSKUCTAUrl: "https://yoa.st/4lx",
+			productIdentifierUrlTitle: "https://yoast.com/35",
+			productIdentifierCTAUrl: "https://yoast.com/36",
+			productSKUUrlTitle: "https://yoast.com/37",
+			productSKUCTAUrl: "https://yoast.com/38",
 		} );
 	} );
 
@@ -58,8 +60,6 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"metaDescriptionLength",
 			"textLength",
 			"titleWidth",
-			// Add after assessment becomes enabled: "productIdentifier",
-			// Add after assessment becomes enabled: "productSKU",
 		] );
 	} );
 
@@ -74,8 +74,6 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"textLength",
 			"titleWidth",
 			"images",
-			// Add after assessment becomes enabled: "productIdentifier",
-			// Add after assessment becomes enabled: "productSKU",
 		] );
 	} );
 
@@ -91,8 +89,6 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"titleWidth",
 			"singleH1",
 			"images",
-			// Add after assessment becomes enabled: "productIdentifier",
-			// Add after assessment becomes enabled: "productSKU",
 		] );
 	} );
 
@@ -108,8 +104,6 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"textLength",
 			"titleWidth",
 			"images",
-			// Add after assessment becomes enabled: "productIdentifier",
-			// Add after assessment becomes enabled: "productSKU",
 		] );
 	} );
 
@@ -123,8 +117,6 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"textLength",
 			"titleWidth",
 			"functionWordsInKeyphrase",
-			// Add after assessment becomes enabled: "productIdentifier",
-			// Add after assessment becomes enabled: "productSKU",
 		] );
 	} );
 
@@ -142,8 +134,6 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"textLength",
 			"titleWidth",
 			"images",
-			// Add after assessment becomes enabled: "productIdentifier",
-			// Add after assessment becomes enabled: "productSKU",
 		] );
 	} );
 
@@ -159,8 +149,6 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"textLength",
 			"titleWidth",
 			"images",
-			// Add after assessment becomes enabled: "productIdentifier",
-			// Add after assessment becomes enabled: "productSKU",
 		] );
 	} );
 
@@ -177,9 +165,21 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"titleWidth",
 			"slugKeyword",
 			"images",
-			// Add after assessment becomes enabled: "productIdentifier",
-			// Add after assessment becomes enabled: "productSKU",
 		] );
+	} );
+
+	it( "additionally runs assessments that require a product with variants or a price", function() {
+		const customData = {
+			hasVariants: true,
+			hasPrice: false,
+			productType: "simple",
+		};
+		assessor.assess( new Paper( "", { customData } ) );
+		const AssessmentResults = assessor.getValidResults();
+		const assessments = getResults( AssessmentResults );
+
+		expect( assessments ).toContain( "productIdentifier" );
+		expect( assessments ).toContain( "productSKU" );
 	} );
 
 	// These specifications will additionally trigger the largest keyword distance assessment.
@@ -209,8 +209,6 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"titleWidth",
 			"images",
 			"keyphraseDistribution",
-			// Add after assessment becomes enabled: "productIdentifier",
-			// Add after assessment becomes enabled: "productSKU",
 		] );
 	} );
 
@@ -240,8 +238,6 @@ describe( "running assessments in the product page SEO assessor", function() {
 			"titleWidth",
 			"images",
 			"keyphraseDistribution",
-			// Add after assessment becomes enabled: "productIdentifier",
-			// Add after assessment becomes enabled: "productSKU",
 		] );
 	} );
 
@@ -413,6 +409,24 @@ describe( "running assessments in the product page SEO assessor", function() {
 			expect( assessment._config ).toBeDefined();
 			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoast.com/33' target='_blank'>" );
 			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/34' target='_blank'>" );
+		} );
+		test( "ProductIdentifierAssessment", () => {
+			const assessment = assessor.getAssessment( "productIdentifier" );
+
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.assessVariants ).toBe( true );
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoast.com/35' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/36' target='_blank'>" );
+		} );
+		test( "ProductSKUAssessment", () => {
+			const assessment = assessor.getAssessment( "productSKU" );
+
+			expect( assessment ).toBeDefined();
+			expect( assessment._config ).toBeDefined();
+			expect( assessment._config.assessVariants ).toBe( true );
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoast.com/37' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoast.com/38' target='_blank'>" );
 		} );
 	} );
 } );
