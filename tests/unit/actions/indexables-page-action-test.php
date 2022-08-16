@@ -405,6 +405,11 @@ class Indexables_Page_Action_Test extends TestCase {
 			->andReturnSelf();
 
 		$this->indexable_repository
+			->expects( 'where_lt' )
+			->with( 'readability_score', 90 )
+			->andReturnSelf();
+
+		$this->indexable_repository
 			->expects( 'order_by_asc' )
 			->with( 'readability_score' )
 			->andReturnSelf();
@@ -495,6 +500,11 @@ class Indexables_Page_Action_Test extends TestCase {
 		$this->indexable_repository
 			->expects( 'where_not_equal' )
 			->with( 'primary_focus_keyword', 0 )
+			->andReturnSelf();
+
+		$this->indexable_repository
+			->expects( 'where_lte' )
+			->with( 'primary_focus_keyword_score', 70 )
 			->andReturnSelf();
 
 		$this->indexable_repository
