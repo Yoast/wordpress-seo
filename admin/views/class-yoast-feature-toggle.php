@@ -39,6 +39,13 @@ class Yoast_Feature_Toggle {
 	protected $in_beta = false;
 
 	/**
+	 * The Premium version in which this feature has been added.
+	 *
+	 * @var string
+	 */
+	protected $premium_version = '';
+
+	/**
 	 * The languages in which this feature is supported.
 	 * E.g. for language specific analysis support.
 	 *
@@ -140,6 +147,7 @@ class Yoast_Feature_Toggle {
 	 *     @type string $new                 Whether the feature is new or not.
 	 *     @type bool   $in_beta             Whether the feature is in beta or not.
 	 *     @type array  $supported_languages The languages that this feature supports.
+	 *     @type string $premium_version     The Premium version in which this feature was added.
 	 * }
 	 *
 	 * @throws InvalidArgumentException Thrown when a required argument is missing.
