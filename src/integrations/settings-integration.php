@@ -274,6 +274,8 @@ class Settings_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function enqueue_assets() {
+		// Remove the emoji script as it is incompatible with both React and any contenteditable fields.
+		\remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
 		\wp_enqueue_media();
 		\wp_enqueue_script( 'wp-api' );
 		$this->asset_manager->enqueue_script( 'new-settings' );
