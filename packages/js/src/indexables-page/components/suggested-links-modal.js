@@ -1,11 +1,11 @@
 import PropTypes from "prop-types";
-import { IndexableLinkCount } from "../indexables-page";
-import { IndexableTitleLink } from "../indexables-page";
+import { IndexableLinkCount } from "./indexables-links-card";
+import { IndexableTitleLink } from "./indexable-title-link";
 import SvgIcon from "../../../../components/src/SvgIcon";
 import { range } from "lodash";
 import { __, sprintf } from "@wordpress/i18n";
 import { ArrowNarrowRightIcon, ExternalLinkIcon } from "@heroicons/react/outline";
-import { Badge, Button } from "@yoast/ui-library";
+import { Alert, Badge, Button } from "@yoast/ui-library";
 import { addLinkToString } from "../../helpers/stringHelpers";
 
 /* eslint-disable camelcase */
@@ -72,15 +72,27 @@ SuggestedLinksModalContent.propTypes = {
 
  * @returns {WPElement} A modal showing either the links suggestions.
  */
-const SuggestedLinksModal = ( { isLinkSuggestionsEnabled, isPremium, suggestedLinksModalData } ) =>
-{
-	if ( ! isLinkSuggestionsEnabled ) {
-		// @TODO: needs UX
-		return <span>You have links suggestion disabled.</span>;
-	}
-
+const SuggestedLinksModal = ( { isLinkSuggestionsEnabled, isPremium, suggestedLinksModalData } ) => {
 	if ( suggestedLinksModalData === null ) {
 		return <SvgIcon icon="loading-spinner" />;
+	}
+
+	if ( ! isLinkSuggestionsEnabled ) {
+		return <SuggestedLinksModalContent suggestedLinksModalData={ suggestedLinksModalData } isPremium={ isPremium }>
+			<Alert>
+				{
+					addLinkToString(
+						// translators: %1$s and %2$s are replaced by opening and closing anchor tags.
+						sprintf(
+							__( "You've disabled the 'Link suggestions' feature. " +
+								"Enable this feature on the %1$sFeatures tab%2$s if you want to see suggested posts to link from.", "wordpress-seo" ),
+							"<a>",
+							"</a>" ),
+						"/wp-admin/admin.php?page=wpseo_dashboard#top#features"
+					)
+				}
+			</Alert>
+		</SuggestedLinksModalContent>;
 	}
 
 	if ( ! isPremium ) {
@@ -166,6 +178,14 @@ const SuggestedLinksModal = ( { isLinkSuggestionsEnabled, isPremium, suggestedLi
 			</ul>
 		</SuggestedLinksModalContent>
 	);
+};
+
+SuggestedLinksModal.propTypes = {
+	isLinkSuggestionsEnabled: PropTypes.bool,
+	isPremium: PropTypes.bool,
+	suggestedLinksModalData: PropTypes.shape( {
+		linksList: PropTypes.arrayOf( PropTypes.object ),
+	} ),
 };
 
 /* eslint-enable camelcase */
