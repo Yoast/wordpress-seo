@@ -82,6 +82,21 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 			"link-edit-woocommerce-shop-page"
 		);
 	}, [ hasWooCommerceShopPage, wooCommerceShopPageSettingUrl, editWooCommerceShopPageUrl ] );
+	const customFieldsDescription = useMemo( () => createInterpolateElement(
+		sprintf(
+			// translators: %1$s and %2$s are replaced by opening and closing <a> tags. %3$s and %4$s are replaced by opening and closing <em> tags.
+			__( "You can add multiple custom fields and separate them by using %3$sEnter%4$s or %3$scomma%4$s. %1$sRead more about our custom field analysis%2$s.", "wordpress-seo" ),
+			"<a>",
+			"</a>",
+			"<em>",
+			"</em>"
+		),
+		{
+			// eslint-disable-next-line jsx-a11y/anchor-has-content
+			a: <a id={ `link-custom-fields-page-analysis-${ name }` } href={ customFieldAnalysisLink } target="_blank" rel="noopener noreferrer" />,
+			em: <em />,
+		}
+	), [] );
 
 	const { values } = useFormikContext();
 	const { opengraph } = values.wpseo_social;
@@ -228,15 +243,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 					id={ `input-wpseo_titles-page-analyse-extra-${ name }` }
 					label={ __( "Add custom fields to page analysis", "wordpress-seo" ) }
 					labelSuffix={ <Badge className="yst-ml-1.5" size="small" variant="upsell">Premium</Badge> }
-					description={ addLinkToString(
-						sprintf(
-							__( "You can add multiple custom fields. %1$sRead more about our custom field analysis%2$s.", "wordpress-seo" ),
-							"<a>",
-							"</a>"
-						),
-						customFieldAnalysisLink,
-						`link-custom-fields-page-analysis-${ name }`
-					) }
+					description={ customFieldsDescription }
 				/> }
 			</FieldsetLayout>
 
