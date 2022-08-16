@@ -165,8 +165,8 @@ const SitePreferences = () => {
 					data-id="input-wpseo-inclusive_language_analysis_active"
 					label={ __( "Inclusive language analysis", "wordpress-seo" ) }
 					labelSuffix={ <>
-						<Badge className="yst-ml-1.5" size="default" variant="upsell">Premium</Badge>
-						<Badge className="yst-ml-1.5" size="default" variant="info">Beta</Badge>
+						<Badge className="yst-ml-1.5" size="small" variant="upsell">Premium</Badge>
+						<Badge className="yst-ml-1.5" size="small" variant="info">Beta</Badge>
 					</> }
 					description={ inclusiveLanguageAnalysisLink }
 				/>
