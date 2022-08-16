@@ -63,7 +63,9 @@ export default class InclusiveLanguageAssessment extends Assessment {
 	 */
 	isApplicable( paper, researcher ) {
 		const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
-		const sentences = getSentences( paper.getText(), memoizedTokenizer );
+		const text = paper.getText();
+		const textTitle = paper.getTextTitle();
+		const sentences = getSentences( textTitle + text, memoizedTokenizer );
 
 		this.foundPhrases = [];
 
