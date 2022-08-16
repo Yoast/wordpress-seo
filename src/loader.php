@@ -166,7 +166,11 @@ class Loader {
 	 */
 	protected function load_commands() {
 		foreach ( $this->commands as $class ) {
-			$command = $this->container->get( $class );
+			$command = $this->container->get( $class, ContainerInterface::NULL_ON_INVALID_REFERENCE );
+
+			if ( $command === null ) {
+				continue;
+			}
 
 			WP_CLI::add_command( $class::get_namespace(), $command );
 		}
@@ -183,7 +187,13 @@ class Loader {
 				continue;
 			}
 
-			$this->container->get( $class )->initialize();
+			$initializer = $this->container->get( $class, ContainerInterface::NULL_ON_INVALID_REFERENCE );
+
+			if ( $initializer === null ) {
+				continue;
+			}
+
+			$initializer->initialize();
 		}
 	}
 
@@ -198,7 +208,13 @@ class Loader {
 				continue;
 			}
 
-			$this->container->get( $class )->register_hooks();
+			$integration = $this->container->get( $class, ContainerInterface::NULL_ON_INVALID_REFERENCE );
+
+			if ( $integration === null ) {
+				continue;
+			}
+
+			$integration->register_hooks();
 		}
 	}
 
@@ -213,21 +229,32 @@ class Loader {
 				continue;
 			}
 
-			$this->container->get( $class )->register_routes();
+			$route = $this->container->get( $class, ContainerInterface::NULL_ON_INVALID_REFERENCE );
+
+			if ( $route === null ) {
+				continue;
+			}
+
+			$route->register_routes();
 		}
 	}
 
 	/**
-	 * Checks if all conditionals of a given integration are met.
+	 * Checks if all conditionals of a given loadable are met.
 	 *
-	 * @param Loadable_Interface $integration_class The class name of the integration.
+	 * @param string $loadable_class The class name of the loadable.
 	 *
-	 * @return bool Whether or not all conditionals of the integration are met.
+	 * @return bool Whether or not all conditionals of the loadable are met.
 	 */
-	protected function conditionals_are_met( $integration_class ) {
-		$conditionals = $integration_class::get_conditionals();
-		foreach ( $conditionals as $conditional ) {
-			if ( ! $this->container->get( $conditional )->is_met() ) {
+	protected function conditionals_are_met( $loadable_class ) {
+		if ( ! \class_exists( $loadable_class ) ) {
+			return false;
+		}
+
+		$conditionals = $loadable_class::get_conditionals();
+		foreach ( $conditionals as $class ) {
+			$conditional = $this->container->get( $class, ContainerInterface::NULL_ON_INVALID_REFERENCE );
+			if ( $conditional === null || ! $conditional->is_met() ) {
 				return false;
 			}
 		}
