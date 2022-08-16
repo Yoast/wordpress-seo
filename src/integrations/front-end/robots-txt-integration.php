@@ -45,7 +45,7 @@ class Robots_Txt_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
-		\add_filter( 'robots_txt', [ $this, 'filter_robots' ], 99999, 2 );
+		\add_filter( 'robots_txt', [ $this, 'filter_robots' ], 99998, 2 );
 	}
 
 	/**
