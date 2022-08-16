@@ -130,7 +130,7 @@ const SitePreferences = () => {
 		id: "link-usage-tracking",
 	} );
 	const inclusiveLanguageAnalysisLink = useSelectLink( {
-		link: "https://yoa.st/",
+		link: "https://yoa.st/inclusive-language-analysis",
 		/* translators: %1$s expands to an opening tag. %2$s expands to a closing tag. */
 		content: __( "The inclusive language analysis offers suggestions to write more inclusive copy. %1$sDiscover why inclusive language is important for SEO%2$s.", "wordpress-seo" ),
 		id: "link-inclusive-language-analysis",
