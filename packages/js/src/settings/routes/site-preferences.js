@@ -129,6 +129,12 @@ const SitePreferences = () => {
 		content: __( "Automatically ping search engines like Bing and Yandex whenever you publish, update or delete a post. %1$sFind out how IndexNow can help your site%2$s.", "wordpress-seo" ),
 		id: "link-usage-tracking",
 	} );
+	const inclusiveLanguageAnalysisLink = useSelectLink( {
+		link: "https://yoa.st/",
+		/* translators: %1$s expands to an opening tag. %2$s expands to a closing tag. */
+		content: __( "The inclusive language analysis offers suggestions to write more inclusive copy. %1$sDiscover why inclusive language is important for SEO%2$s.", "wordpress-seo" ),
+		id: "link-inclusive-language-analysis",
+	} );
 
 	return (
 		<FormLayout
@@ -151,6 +157,18 @@ const SitePreferences = () => {
 					data-id="input-wpseo-content_analysis_active"
 					label={ __( "Readability analysis", "wordpress-seo" ) }
 					description={ readabilityAnalysisLink }
+				/>
+				<FormikValueChangeField
+					as={ ToggleField }
+					type="checkbox"
+					name="wpseo.inclusive_language_analysis_active"
+					data-id="input-wpseo-inclusive_language_analysis_active"
+					label={ __( "Inclusive language analysis", "wordpress-seo" ) }
+					labelSuffix={ <>
+						<Badge className="yst-ml-1.5" size="default" variant="upsell">Premium</Badge>
+						<Badge className="yst-ml-1.5" size="default" variant="info">Beta</Badge>
+					</> }
+					description={ inclusiveLanguageAnalysisLink }
 				/>
 				<FormikValueChangeField
 					as={ ToggleField }
@@ -185,7 +203,7 @@ const SitePreferences = () => {
 					name="wpseo.enable_link_suggestions"
 					data-id="input-wpseo-enable_link_suggestions"
 					label={ __( "Link suggestions", "wordpress-seo" ) }
-					labelSuffix={ <Badge className="yst-ml-1.5" variant="upsell">Premium</Badge> }
+					labelSuffix={ <Badge className="yst-ml-1.5" size="small" variant="upsell">Premium</Badge> }
 					description={ linkSuggestionsLink }
 				/> }
 			</FieldsetLayout>
@@ -254,7 +272,7 @@ const SitePreferences = () => {
 					name="wpseo.enable_index_now"
 					data-id="input-wpseo-enable_index_now"
 					label={ __( "IndexNow", "wordpress-seo" ) }
-					labelSuffix={ <Badge className="yst-ml-1.5" variant="upsell">Premium</Badge> }
+					labelSuffix={ <Badge className="yst-ml-1.5" size="small" variant="upsell">Premium</Badge> }
 					description={ indexNowLink }
 				/> }
 			</FieldsetLayout>

@@ -227,7 +227,7 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 					name={ `wpseo_titles.page-analyse-extra-${ name }` }
 					id={ `input-wpseo_titles-page-analyse-extra-${ name }` }
 					label={ __( "Add custom fields to page analysis", "wordpress-seo" ) }
-					labelSuffix={ <Badge className="yst-ml-1.5" variant="upsell">Premium</Badge> }
+					labelSuffix={ <Badge className="yst-ml-1.5" size="small" variant="upsell">Premium</Badge> }
 					description={ addLinkToString(
 						sprintf(
 							__( "You can add multiple custom fields. %1$sRead more about our custom field analysis%2$s.", "wordpress-seo" ),
