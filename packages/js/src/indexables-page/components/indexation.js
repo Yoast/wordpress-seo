@@ -1,6 +1,5 @@
 /* global yoastIndexingData */
 import { Component, Fragment } from "@wordpress/element";
-import { Transition } from "@headlessui/react";
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 
