@@ -156,7 +156,7 @@ const Taxonomy = ( { name, label, singularLabel, postTypes: postTypeNames } ) =>
 			<FieldsetLayout
 				title={ __( "Additional settings", "wordpress-seo" ) }
 			>
-				{ name !== "post_format" && <FormikValueChangeField
+				<FormikValueChangeField
 					as={ ToggleField }
 					type="checkbox"
 					name={ `wpseo_titles.display-metabox-tax-${ name }` }
@@ -172,17 +172,12 @@ const Taxonomy = ( { name, label, singularLabel, postTypes: postTypeNames } ) =>
 						__( "This enables SEO metadata editing and our SEO - and Readability analysis for individual %1$s", "wordpress-seo" ),
 						label
 					) }
-				/> }
+				/>
 				{ name === "category" && <FormikFlippedToggleField
 					name="wpseo_titles.stripcategorybase"
 					data-id="input-wpseo_titles-stripcategorybase"
 					label={ __( "Keep the categories prefix in the slug", "wordpress-seo" ) }
 					description={ stripCategoryBaseDescription }
-				/> }
-				{ name === "post_format" && <FormikFlippedToggleField
-					name={ "wpseo_titles.disable-post_format" }
-					data-id={ "input-wpseo_titles-disable-post_format" }
-					label={ __( "Format-based archives", "wordpress-seo" ) }
 				/> }
 			</FieldsetLayout>
 		</FormLayout>
