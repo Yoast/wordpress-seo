@@ -16,6 +16,7 @@ const defaultAttributes = {
 	permalink: "",
 	date: "",
 	customData: {},
+	textTitle: "",
 };
 
 /**
@@ -256,6 +257,22 @@ Paper.prototype.hasCustomData = function() {
  */
 Paper.prototype.getCustomData = function() {
 	return this._attributes.customData;
+};
+
+/**
+ * Check whether a text title is available.
+ * @returns {boolean} Returns true if the Paper has a text title.
+ */
+Paper.prototype.hasTextTitle = function() {
+	return this._attributes.textTitle !== "";
+};
+
+/**
+ * Returns the text title, or an empty string if no data is available.
+ * @returns {string} Returns the text title.
+ */
+Paper.prototype.getTextTitle = function() {
+	return this._attributes.textTitle;
 };
 
 /**
