@@ -65,11 +65,11 @@ const LatestPosts = () => {
 			<OpenGraphDisabledAlert
 				isEnabled={ opengraph }
 				/* translators: %1$s expands to an opening emphasis tag. %2$s expands to a closing emphasis tag. */
-				text={ __( "The %1$sSite image%2$s, %1$sSocial title%2$s and %1$sSocial description%2$s require Open Graph data, which is currently disabled in the ‘Social sharing’ section in %3$sSite preferences%4$s.", "wordpress-seo" ) }
+				text={ __( "The %1$sSocial image%2$s, %1$sSocial title%2$s and %1$sSocial description%2$s require Open Graph data, which is currently disabled in the ‘Social sharing’ section in %3$sSite preferences%4$s.", "wordpress-seo" ) }
 			/>
 			<FormikMediaSelectField
 				id="wpseo_titles-open_graph_frontpage_image"
-				label={ __( "Site image", "wordpress-seo" ) }
+				label={ __( "Social image", "wordpress-seo" ) }
 				previewLabel={ recommendedSize }
 				mediaUrlName="wpseo_titles.open_graph_frontpage_image"
 				mediaIdName="wpseo_titles.open_graph_frontpage_image_id"
