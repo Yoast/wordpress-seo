@@ -27,6 +27,11 @@ class WPSEO_Inclusive_Language_Notice {
 	const OPTION_NAME = 'wpseo';
 
 	/**
+	 * The Premium version in which the Inclusive language feature was added.
+	 */
+	const PREMIUM_VERSION_ADDED = '19.2-RC1';
+
+	/**
 	 * Holds the notification center.
 	 *
 	 * @var Yoast_Notification_Center
@@ -80,7 +85,8 @@ class WPSEO_Inclusive_Language_Notice {
 
 		return YoastSEO()->helpers->product->is_premium()
 			&& YoastSEO()->helpers->language->has_inclusive_language_support( \WPSEO_Language_Utils::get_language( \get_locale() ) )
-			&& ! $availability->is_globally_enabled();
+			&& ! $availability->is_globally_enabled()
+			&& \version_compare( YoastSEO()->helpers->product->get_premium_version(), self::PREMIUM_VERSION_ADDED, '>=' );
 	}
 
 	/**
