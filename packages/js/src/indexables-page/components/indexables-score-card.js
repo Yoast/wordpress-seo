@@ -1,11 +1,13 @@
-import { __ } from "@wordpress/i18n";
+import { __, sprintf } from "@wordpress/i18n";
 import { useState, useEffect } from "@wordpress/element";
 import PropTypes from "prop-types";
 import { makeOutboundLink } from "@yoast/helpers";
+import { Alert } from "@yoast/ui-library";
 
 import IndexablesPageCard from "./indexables-card";
 import IndexablesTable from "./indexables-table";
 import IndexableTitleLink from "./indexable-title-link";
+import { addLinkToString } from "../../helpers/stringHelpers";
 
 const Link = makeOutboundLink();
 
@@ -39,8 +41,11 @@ function IndexablesScoreCard( {
 	scoreKey,
 	listSize,
 	listKey,
+	isDisabled,
+	feature,
+	metric,
 } ) {
-	const [ isLoading, setIsLoading ] = useState( true );
+	const [ isLoading, setIsLoading ] = useState( ! isDisabled );
 	const [ oldListLength, setOldListLength ] = useState( indexablesLists[ listKey ]?.length );
 
 	const newLength = indexablesLists[ listKey ]?.length;
@@ -67,33 +72,55 @@ function IndexablesScoreCard( {
 		>
 			<IndexablesTable>
 				{
-					isLoading
-						? []
-						: indexablesLists[ listKey ].slice( 0, listSize ).map(
-							( indexable, position ) => {
-								const score = parseInt( indexable[ scoreKey ], 10 );
-								return <IndexablesTable.Row
-									key={ `indexable-${ indexable.id }-row` }
-									type={ listKey }
-									indexable={ indexable }
-									addToIgnoreList={ setIgnoredIndexable }
-									position={ position }
-								>
-									<IndexableScore
-										colorClass={ score > scoreThresholds.medium ? "yst-bg-amber-500" : "yst-bg-red-500" }
-									/>
-									<IndexableTitleLink indexable={ indexable } />
-									<div>
-										<Link
-											href={ "/wp-admin/post.php?action=edit&post=" + indexable.object_id }
-											className="yst-button yst-button--secondary yst-text-gray-700"
-										>
-											{ __( "Improve", "wordpress-seo" ) }
-										</Link>
-									</div>
-								</IndexablesTable.Row>;
+					/* eslint-disable max-len, no-nested-ternary */
+					isDisabled
+						? <Alert type={ "info" }>
+							{
+								addLinkToString(
+									// translators: %2$s is the name of the disabled feature, %2$s and %3$s are the opening and closing anchor tags, %4$s is the score of the disabled feature.
+									sprintf(
+										__(
+											"You've disabled the '%1$s' feature. " +
+											"Enable this feature on the %2$sFeatures tab%3$s if you want us to calculate the %4$s of your content",
+											"wordpress-seo"
+										),
+										feature,
+										"<a>",
+										"</a>",
+										metric
+									), "/wp-admin/admin.php?page=wpseo_dashboard#top#features"
+
+								)
+								/* eslint-enable max-len, no-nested-ternary */
 							}
-						)
+						</Alert>
+						: isLoading
+							? []
+							: indexablesLists[ listKey ].slice( 0, listSize ).map(
+								( indexable, position ) => {
+									const score = parseInt( indexable[ scoreKey ], 10 );
+									return <IndexablesTable.Row
+										key={ `indexable-${ indexable.id }-row` }
+										type={ listKey }
+										indexable={ indexable }
+										addToIgnoreList={ setIgnoredIndexable }
+										position={ position }
+									>
+										<IndexableScore
+											colorClass={ score > scoreThresholds.medium ? "yst-bg-amber-500" : "yst-bg-red-500" }
+										/>
+										<IndexableTitleLink indexable={ indexable } />
+										<div>
+											<Link
+												href={ "/wp-admin/post.php?action=edit&post=" + indexable.object_id }
+												className="yst-button yst-button--secondary yst-text-gray-700"
+											>
+												{ __( "Improve", "wordpress-seo" ) }
+											</Link>
+										</div>
+									</IndexablesTable.Row>;
+								}
+							)
 				}
 			</IndexablesTable>
 		</IndexablesPageCard>
@@ -108,11 +135,17 @@ IndexablesScoreCard.propTypes = {
 	setIgnoredIndexable: PropTypes.func,
 	scoreThresholds: PropTypes.shape( { medium: PropTypes.number.isRequired } ),
 	indexablesLists: PropTypes.object,
+	isDisabled: PropTypes.bool,
+	feature: PropTypes.string,
+	metric: PropTypes.string,
 };
 
 IndexablesScoreCard.defaultProps = {
 	setIgnoredIndexable: () => {},
 	indexablesLists: {},
+	isDisabled: false,
+	feature: "",
+	metric: "",
 };
 
 export default IndexablesScoreCard;
