@@ -319,7 +319,7 @@ class WPSEO_Metabox_Formatter {
 		$polylang_active       = YoastSEO()->classes->get( Polylang_Conditional::class )->is_met();
 		$translatepress_active = YoastSEO()->classes->get( TranslatePress_Conditional::class )->is_met();
 
-		return $wpml_active || $polylang_active || $translatepress_active;
+		return ( $wpml_active || $polylang_active || $translatepress_active );
 	}
 
 	/* ********************* DEPRECATED METHODS ********************* */
