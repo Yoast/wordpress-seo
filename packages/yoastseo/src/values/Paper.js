@@ -1,4 +1,4 @@
-import { defaults, isEmpty, isEqual } from "lodash-es";
+import { defaults, isEmpty, isEqual, isNil } from "lodash-es";
 
 /**
  * Default attributes to be used by the Paper if they are left undefined.
@@ -264,7 +264,7 @@ Paper.prototype.getCustomData = function() {
  * @returns {boolean} Returns true if the Paper has a text title.
  */
 Paper.prototype.hasTextTitle = function() {
-	return this._attributes.textTitle !== "" && ! isNil(this._attributes.textTitle);
+	return this._attributes.textTitle !== "" && ! isNil( this._attributes.textTitle );
 };
 
 /**
