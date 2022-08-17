@@ -77,9 +77,14 @@ function applyAnalysisModifications( analysisData ) {
  * @returns {Object} The analysis data.
  */
 export function collectData() {
-	const { getAnalysisData } = select( "yoast-seo/editor" );
+	const { getAnalysisData, getEditorDataTitle } = select( "yoast-seo/editor" );
+	let data = getAnalysisData();
+	data = {
+		...data,
+		textTitle: getEditorDataTitle(),
+	};
 
-	const analysisData = applyAnalysisModifications( getAnalysisData() );
+	const analysisData = applyAnalysisModifications( data );
 
 	return applyFilters( "yoast.analysis.data", analysisData );
 }
