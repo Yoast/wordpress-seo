@@ -114,7 +114,6 @@ function IndexablesLinksCard( {
 									addToIgnoreList={ setIgnoredIndexable }
 									position={ position }
 								>
-									{ /* @TODO: needs to be calculated */ }
 									<IndexableScore colorClass={ assessmentFunction( indexable ) } />
 									<IndexableLinkCount count={ parseInt( indexable[ countKey ], 10 ) } />
 									<IndexableTitleLink indexable={ indexable } />
