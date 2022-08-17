@@ -63,7 +63,7 @@ class Sidebar_Presenter extends Abstract_Presenter {
 						<div class="review-container">
 							<a href="https://www.g2.com/products/yoast-yoast/reviews" target="_blank" rel="noopener">
 								<h3 class="title">
-									<?php echo \esc_html__( 'Read reviews from real users', 'wordpress-seo' ); ?>
+									<?php \esc_html_e( 'Read reviews from real users', 'wordpress-seo' ); ?>
 								</h3>
 								<span class="rating">
 								<img alt="" loading="lazy" fetchpriorty="low" decoding="async" height="22" width="22" src="<?php echo \esc_url( $assets_uri . 'packages/js/images/logo-g2-white.svg' ); ?>">
@@ -89,7 +89,7 @@ class Sidebar_Presenter extends Abstract_Presenter {
 						$academy_shortlink = WPSEO_Shortlinker::get( 'https://yoa.st/3t6' );
 
 						/* translators: %1$s expands to Yoast SEO academy, which is a clickable link. */
-						\printf( \esc_html__( 'Want to learn SEO from Team Yoast? Check out our %1$s!', 'wordpress-seo' ), '<a href="' . \esc_url( $buy_yoast_seo_shortlink ) . '"><strong>Yoast SEO academy</strong></a>' );
+						\printf( \esc_html__( 'Want to learn SEO from Team Yoast? Check out our %1$s!', 'wordpress-seo' ), '<a href="' . \esc_url( $academy_shortlink ) . '" target="_blank"><strong>Yoast SEO academy</strong></a>' );
 						echo '<br/>';
 						\esc_html_e( 'We have both free and premium online courses to learn everything you need to know about SEO.', 'wordpress-seo' );
 						?>
