@@ -5,6 +5,7 @@
  * @package WPSEO\Admin\Formatter
  */
 
+use Yoast\WP\SEO\Conditionals\Third_Party\WPML_Conditional;
 use Yoast\WP\SEO\Config\Schema_Types;
 use Yoast\WP\SEO\Config\SEMrush_Client;
 use Yoast\WP\SEO\Exceptions\OAuth\Authentication_Failed_Exception;
@@ -204,7 +205,7 @@ class WPSEO_Metabox_Formatter {
 			'wincherWebsiteId'                => WPSEO_Options::get( 'wincher_website_id', '' ),
 			'wincherAutoAddKeyphrases'        => WPSEO_Options::get( 'wincher_automatically_add_keyphrases', false ),
 			'wordproofIntegrationActive'      => YoastSEO()->helpers->wordproof->is_active() ? 1 : 0,
-
+			'multilingualPluginActive'        => $this->multilingual_plugin_active(),
 			/**
 			 * Filter to determine whether the PreviouslyUsedKeyword assessment should run.
 			 *
@@ -304,6 +305,16 @@ class WPSEO_Metabox_Formatter {
 		}
 
 		return $semrush_client->has_valid_tokens();
+	}
+
+	/**
+	 * Whether a multilingual plugin is currently active.
+	 *
+	 * @return bool Whether a multilingual plugin is currently active.
+	 */
+	private function multilingual_plugin_active() {
+		$wpml_active = YoastSEO()->classes->get( WPML_Conditional::class )->is_met();
+		return $wpml_active;
 	}
 
 	/* ********************* DEPRECATED METHODS ********************* */
