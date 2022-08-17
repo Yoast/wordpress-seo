@@ -44,9 +44,7 @@ const DateArchives = () => {
 	const { "disable-date": disableDate } = values.wpseo_titles;
 
 	return (
-		<FormLayout
-			title={ __( "Date archives", "wordpress-seo" ) }
-		>
+		<FormLayout title={ label }>
 			<fieldset className="yst-space-y-8">
 				<FormikFlippedToggleField
 					name={ "wpseo_titles.disable-date" }
