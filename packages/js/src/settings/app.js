@@ -1,9 +1,8 @@
-/* eslint-disable */
 import { AdjustmentsIcon, ColorSwatchIcon, DesktopComputerIcon, NewspaperIcon } from "@heroicons/react/outline";
-import { __ } from "@wordpress/i18n";
 import { useMemo } from "@wordpress/element";
+import { __ } from "@wordpress/i18n";
 import { Badge } from "@yoast/ui-library";
-import { head, map, get, indexOf, lastIndexOf } from "lodash";
+import { get, head, indexOf, lastIndexOf, map } from "lodash";
 import PropTypes from "prop-types";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { Notifications, SidebarNavigation, YoastLogo } from "./components";
@@ -55,7 +54,12 @@ const TaxonomySubmenuItem = ( { postTypes, taxonomies, taxonomyName, idSuffix = 
 						<Badge variant="plain" size="small" className="yst-border yst-border-gray-300">
 							{ postTypes[ head( taxonomy.postTypes ) ]?.label }
 						</Badge>
-						{ taxonomy.postTypes.length > 1 && <Badge variant="plain" size="small" className="yst-border yst-border-gray-300">+{ taxonomy.postTypes.length - 1 }</Badge> }
+						{ taxonomy.postTypes.length > 1 && <Badge
+							variant="plain" size="small"
+							className="yst-border yst-border-gray-300"
+						>
+							+{ taxonomy.postTypes.length - 1 }
+						</Badge> }
 					</div>
 				) }
 			</div> }
@@ -87,11 +91,11 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 			icon={ DesktopComputerIcon }
 			label={ __( "Site settings", "wordpress-seo" ) }
 		>
-			{ /* <SidebarNavigation.SubmenuItem to="/site-representation" label={ __( "Site representation", "wordpress-seo" ) } idSuffix={ idSuffix } /> */ }
+			<SidebarNavigation.SubmenuItem to="/site-representation" label={ __( "Site representation", "wordpress-seo" ) } idSuffix={ idSuffix } />
 			<SidebarNavigation.SubmenuItem to="/site-defaults" label={ __( "Site defaults", "wordpress-seo" ) } idSuffix={ idSuffix } />
 			<SidebarNavigation.SubmenuItem to="/site-preferences" label={ __( "Site preferences", "wordpress-seo" ) } idSuffix={ idSuffix } />
-			{ /* <SidebarNavigation.SubmenuItem to="/webmaster-tools" label={ __( "Webmaster tools", "wordpress-seo" ) } idSuffix={ idSuffix } /> */ }
-			{ /* <SidebarNavigation.SubmenuItem to="/breadcrumbs" label={ __( "Breadcrumbs", "wordpress-seo" ) } idSuffix={ idSuffix } /> */ }
+			<SidebarNavigation.SubmenuItem to="/webmaster-tools" label={ __( "Webmaster tools", "wordpress-seo" ) } idSuffix={ idSuffix } />
+			<SidebarNavigation.SubmenuItem to="/breadcrumbs" label={ __( "Breadcrumbs", "wordpress-seo" ) } idSuffix={ idSuffix } />
 		</SidebarNavigation.MenuItem>
 		<SidebarNavigation.MenuItem
 			id={ `menu-content-settings${ idSuffix && `-${ idSuffix }` }` }
@@ -100,7 +104,10 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 		>
 			<SidebarNavigation.SubmenuItem to="/homepage" label={ __( "Homepage", "wordpress-seo" ) } idSuffix={ idSuffix } />
 			{ map( postTypes, ( { name, route, label } ) => (
-				<SidebarNavigation.SubmenuItem key={ `link-post-type-${name}` } to={ `/post-type/${ route }` } label={ label } idSuffix={ idSuffix } />
+				<SidebarNavigation.SubmenuItem
+					key={ `link-post-type-${ name }` } to={ `/post-type/${ route }` } label={ label }
+					idSuffix={ idSuffix }
+				/>
 			) ) }
 		</SidebarNavigation.MenuItem>
 		<SidebarNavigation.MenuItem
@@ -108,14 +115,17 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 			icon={ ColorSwatchIcon }
 			label={ __( "Taxonomy settings", "wordpress-seo" ) }
 		>
-			{ map( taxonomies, ( { name } ) => <TaxonomySubmenuItem key={ `link-taxonomy-${name}` } postTypes={ postTypes } taxonomies={ taxonomies } taxonomyName={ name } /> ) }
+			{ map( taxonomies, ( { name } ) => <TaxonomySubmenuItem
+				key={ `link-taxonomy-${ name }` } postTypes={ postTypes }
+				taxonomies={ taxonomies } taxonomyName={ name }
+			/> ) }
 		</SidebarNavigation.MenuItem>
 		<SidebarNavigation.MenuItem
 			id={ `menu-advanced-settings${ idSuffix && `-${ idSuffix }` }` }
 			icon={ AdjustmentsIcon }
 			label={ __( "Advanced settings", "wordpress-seo" ) }
 		>
-			{ /* <SidebarNavigation.SubmenuItem
+			<SidebarNavigation.SubmenuItem
 				to="/crawl-optimization"
 				label={
 					<span className="yst-inline-flex yst-items-center yst-gap-1.5">
@@ -124,13 +134,13 @@ const Menu = ( { postTypes, taxonomies, idSuffix = "" } ) => {
 					</span>
 				}
 				idSuffix={ idSuffix }
-			/> */ }
-			{ /* <SidebarNavigation.SubmenuItem to="/author-archives" label={ __( "Author archives", "wordpress-seo" ) } idSuffix={ idSuffix } /> */ }
-			{ /* <SidebarNavigation.SubmenuItem to="/date-archives" label={ __( "Date archives", "wordpress-seo" ) } idSuffix={ idSuffix } /> */ }
-			{ /* <SidebarNavigation.SubmenuItem to="/search-pages" label={ __( "Search pages", "wordpress-seo" ) } idSuffix={ idSuffix } /> */ }
-			{ /* <SidebarNavigation.SubmenuItem to="/not-found-pages" label={ __( "404 pages", "wordpress-seo" ) } idSuffix={ idSuffix } /> */ }
-			{ /* <SidebarNavigation.SubmenuItem to="/media" label={ __( "Media", "wordpress-seo" ) } idSuffix={ idSuffix } /> */ }
-			{ /* <SidebarNavigation.SubmenuItem to="/formats" label={ __( "Formats", "wordpress-seo" ) } idSuffix={ idSuffix } /> */ }
+			/>
+			<SidebarNavigation.SubmenuItem to="/author-archives" label={ __( "Author archives", "wordpress-seo" ) } idSuffix={ idSuffix } />
+			<SidebarNavigation.SubmenuItem to="/date-archives" label={ __( "Date archives", "wordpress-seo" ) } idSuffix={ idSuffix } />
+			<SidebarNavigation.SubmenuItem to="/search-pages" label={ __( "Search pages", "wordpress-seo" ) } idSuffix={ idSuffix } />
+			<SidebarNavigation.SubmenuItem to="/not-found-pages" label={ __( "404 pages", "wordpress-seo" ) } idSuffix={ idSuffix } />
+			<SidebarNavigation.SubmenuItem to="/media" label={ __( "Media", "wordpress-seo" ) } idSuffix={ idSuffix } />
+			<SidebarNavigation.SubmenuItem to="/formats" label={ __( "Formats", "wordpress-seo" ) } idSuffix={ idSuffix } />
 			<SidebarNavigation.SubmenuItem to="/rss" label={ __( "RSS", "wordpress-seo" ) } idSuffix={ idSuffix } />
 		</SidebarNavigation.MenuItem>
 	</>;
@@ -169,28 +179,34 @@ const App = () => {
 					</aside>
 					<main className="yst-flex-grow">
 						<Routes>
-							{ /* <Route path="author-archives" element={ <AuthorArchives /> } /> */ }
-							{ /* <Route path="breadcrumbs" element={ <Breadcrumbs /> } /> */ }
-							{ /* <Route path="crawl-optimization" element={ <CrawlSettings /> } /> */ }
-							{ /* <Route path="date-archives" element={ <DateArchives /> } /> */ }
+							<Route path="author-archives" element={ <AuthorArchives /> } />
+							<Route path="breadcrumbs" element={ <Breadcrumbs /> } />
+							<Route path="crawl-optimization" element={ <CrawlSettings /> } />
+							<Route path="date-archives" element={ <DateArchives /> } />
 							<Route path="homepage" element={ <Homepage /> } />
-							{ /* <Route path="formats" element={ <Formats /> } /> */ }
-							{ /* <Route path="media" element={ <Media /> } /> */ }
-							{ /* <Route path="not-found-pages" element={ <NotFoundPages /> } /> */ }
+							<Route path="formats" element={ <Formats /> } />
+							<Route path="media" element={ <Media /> } />
+							<Route path="not-found-pages" element={ <NotFoundPages /> } />
 							<Route path="rss" element={ <Rss /> } />
-							{ /* <Route path="search-pages" element={ <SearchPages /> } /> */ }
+							<Route path="search-pages" element={ <SearchPages /> } />
 							<Route path="site-defaults" element={ <SiteDefaults /> } />
-							{ /* <Route path="site-representation" element={ <SiteRepresentation /> } /> */ }
+							<Route path="site-representation" element={ <SiteRepresentation /> } />
 							<Route path="site-preferences" element={ <SitePreferences /> } />
-							{ /* <Route path="webmaster-tools" element={ <WebmasterTools /> } /> */ }
+							<Route path="webmaster-tools" element={ <WebmasterTools /> } />
 							<Route path="post-type">
 								{ map( postTypes, postType => (
-									<Route key={ `route-post-type-${postType.name}` } path={ postType.route } element={ <PostType { ...postType } /> } />
+									<Route
+										key={ `route-post-type-${ postType.name }` } path={ postType.route }
+										element={ <PostType { ...postType } /> }
+									/>
 								) ) }
 							</Route>
 							<Route path="taxonomy">
 								{ map( taxonomies, taxonomy => (
-									<Route key={ `route-taxonomy-${taxonomy.name}` } path={ taxonomy.route } element={ <Taxonomy { ...taxonomy } /> } />
+									<Route
+										key={ `route-taxonomy-${ taxonomy.name }` } path={ taxonomy.route }
+										element={ <Taxonomy { ...taxonomy } /> }
+									/>
 								) ) }
 							</Route>
 							<Route path="*" element={ <Navigate to="/site-preferences" replace={ true } /> } />
@@ -203,4 +219,3 @@ const App = () => {
 };
 
 export default App;
-/* eslint-enable */
