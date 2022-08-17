@@ -346,18 +346,20 @@ const PostType = ( { name, label, singularLabel, hasArchive, hasSchemaArticleTyp
 							className="yst-replacevar--description"
 						/>
 					</FieldsetLayout>
-					<hr className="yst-my-8" />
-					{ isBreadcrumbsEnabled && <FieldsetLayout
-						title={ __( "Additional settings", "wordpress-seo" ) }
-					>
-						<Field
-							as={ TextField }
-							type="text"
-							name={ `wpseo_titles.bctitle-ptarchive-${ name }` }
-							id={ `input-wpseo_titles-bctitle-ptarchive-${ name }` }
-							label={ __( "Breadcrumbs title", "wordpress-seo" ) }
-						/>
-					</FieldsetLayout> }
+					{ isBreadcrumbsEnabled && <>
+						<hr className="yst-my-8" />
+						<FieldsetLayout
+							title={ __( "Additional settings", "wordpress-seo" ) }
+						>
+							<Field
+								as={ TextField }
+								type="text"
+								name={ `wpseo_titles.bctitle-ptarchive-${ name }` }
+								id={ `input-wpseo_titles-bctitle-ptarchive-${ name }` }
+								label={ __( "Breadcrumbs title", "wordpress-seo" ) }
+							/>
+						</FieldsetLayout>
+					</> }
 				</> }
 			</> }
 		</FormLayout>
