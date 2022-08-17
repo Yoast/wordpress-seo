@@ -26,8 +26,8 @@ const SubmenuItem = ( { as: Component = "a", pathProp = "href", label, ...props 
 		<li>
 			<Component
 				className={ classNames(
-					"yst-group yst-flex yst-items-center yst-px-3 yst-py-2 yst-text-sm yst-font-medium yst-rounded-md hover:yst-text-gray-900 hover:yst-bg-gray-50 yst-no-underline focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-primary-500",
-					activePath === props[ pathProp ] ? "yst-bg-gray-200 yst-text-gray-900" : "yst-text-gray-600",
+					"yst-group yst-flex yst-items-center yst-px-3 yst-py-2 yst-text-sm yst-font-medium yst-rounded-md yst-no-underline focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-primary-500",
+					activePath === props[ pathProp ] ? "yst-bg-gray-200 yst-text-gray-900" : "yst-text-gray-600 hover:yst-text-gray-900 hover:yst-bg-gray-50",
 				) }
 				{ ...props }
 			>

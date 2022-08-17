@@ -1,6 +1,7 @@
 import { useCallback, useMemo } from "@wordpress/element";
 import { TagField } from "@yoast/ui-library";
 import { useField } from "formik";
+import { trim, reduce } from "lodash";
 import PropTypes from "prop-types";
 
 /**
@@ -9,8 +10,15 @@ import PropTypes from "prop-types";
  * @returns {JSX.Element} The Formik compatible element.
  */
 const FormikTagField = props => {
-	const [ { value, onBlur }, , { setTouched, setValue } ] = useField( props );
-	const tags = useMemo( () => ( value && value.split( "," ) ) || [], [ value ] );
+	const [ { value, ...field }, , { setTouched, setValue } ] = useField( props );
+	const tags = useMemo( () => reduce(
+		value?.split( "," ) || [],
+		( acc, item ) => {
+			const trimmed = trim( item );
+			return trimmed ? [ ...acc, trimmed ] : acc;
+		},
+		[]
+	), [ value ] );
 
 	const handleAddTag = useCallback( tag => {
 		setTouched( true, false );
@@ -23,7 +31,7 @@ const FormikTagField = props => {
 
 	return (
 		<TagField
-			onBlur={ onBlur }
+			{ ...field }
 			{ ...props }
 			tags={ tags }
 			onAddTag={ handleAddTag }

@@ -17,6 +17,9 @@ use Yoast\WP\SEO\Config\Schema_Types;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
+use Yoast\WP\SEO\Helpers\Schema\Article_Helper;
+use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
+use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
 
 /**
  * Class Settings_Integration.
@@ -91,11 +94,32 @@ class Settings_Integration implements Integration_Interface {
 	protected $post_type_helper;
 
 	/**
+	 * Holds the Taxonomy_Helper.
+	 *
+	 * @var Taxonomy_Helper
+	 */
+	protected $taxonomy_helper;
+
+	/**
 	 * Holds the Product_Helper.
 	 *
 	 * @var Product_Helper
 	 */
 	protected $product_helper;
+
+	/**
+	 * Holds the Woocommerce_Helper.
+	 *
+	 * @var Woocommerce_Helper
+	 */
+	protected $woocommerce_helper;
+
+	/**
+	 * Holds the Article_Helper.
+	 *
+	 * @var Article_Helper
+	 */
+	protected $article_helper;
 
 	/**
 	 * Constructs Settings_Integration.
@@ -105,7 +129,10 @@ class Settings_Integration implements Integration_Interface {
 	 * @param Schema_Types              $schema_types        The Schema_Types.
 	 * @param Current_Page_Helper       $current_page_helper The Current_Page_Helper.
 	 * @param Post_Type_Helper          $post_type_helper    The Post_Type_Helper.
+	 * @param Taxonomy_Helper           $taxonomy_helper     The Taxonomy_Helper.
 	 * @param Product_Helper            $product_helper      The Product_Helper.
+	 * @param Woocommerce_Helper        $woocommerce_helper  The Woocommerce_Helper.
+	 * @param Article_Helper            $article_helper      The Article_Helper.
 	 */
 	public function __construct(
 		WPSEO_Admin_Asset_Manager $asset_manager,
@@ -113,14 +140,20 @@ class Settings_Integration implements Integration_Interface {
 		Schema_Types $schema_types,
 		Current_Page_Helper $current_page_helper,
 		Post_Type_Helper $post_type_helper,
-		Product_Helper $product_helper
+		Taxonomy_Helper $taxonomy_helper,
+		Product_Helper $product_helper,
+		Woocommerce_Helper $woocommerce_helper,
+		Article_Helper $article_helper
 	) {
 		$this->asset_manager       = $asset_manager;
 		$this->replace_vars        = $replace_vars;
 		$this->schema_types        = $schema_types;
 		$this->current_page_helper = $current_page_helper;
+		$this->taxonomy_helper     = $taxonomy_helper;
 		$this->post_type_helper    = $post_type_helper;
 		$this->product_helper      = $product_helper;
+		$this->woocommerce_helper  = $woocommerce_helper;
+		$this->article_helper      = $article_helper;
 	}
 
 	/**
@@ -242,7 +275,10 @@ class Settings_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function enqueue_assets() {
+		// Remove the emoji script as it is incompatible with both React and any contenteditable fields.
+		\remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
 		\wp_enqueue_media();
+		\wp_enqueue_script( 'wp-api' );
 		$this->asset_manager->enqueue_script( 'new-settings' );
 		$this->asset_manager->enqueue_style( 'new-settings' );
 		$this->asset_manager->localize_script( 'new-settings', 'wpseoScriptData', $this->get_script_data() );
@@ -266,16 +302,42 @@ class Settings_Integration implements Integration_Interface {
 			'separators'           => WPSEO_Option_Titles::get_instance()->get_separator_options_for_display(),
 			'replacementVariables' => $this->get_replacement_variables(),
 			'schema'               => $this->get_schema( $post_types ),
-			'preferences'          => [
-				'isPremium'      => $this->product_helper->is_premium(),
-				'isRtl'          => is_rtl(),
-				'isNetworkAdmin' => \is_network_admin(),
-				'isMainSite'     => \is_main_site(),
-				'siteUrl'        => \get_bloginfo( 'url' ),
-				'sitemapUrl'     => WPSEO_Sitemaps_Router::get_base_url( 'sitemap_index.xml' ),
-			],
+			'preferences'          => $this->get_preferences(),
 			'linkParams'           => WPSEO_Shortlinker::get_query_params(),
 			'postTypes'            => $post_types,
+			'taxonomies'           => $this->get_taxonomies( \array_keys( $post_types ) ),
+		];
+	}
+
+	/**
+	 * Retrieves the preferences.
+	 *
+	 * @return array The preferences.
+	 */
+	protected function get_preferences() {
+		$shop_page_id             = $this->woocommerce_helper->get_shop_page_id();
+		$homepage_is_latest_posts = \get_option( 'show_on_front' ) === 'posts';
+		$page_on_front            = \get_option( 'page_on_front' );
+		$page_for_posts           = \get_option( 'page_for_posts' );
+
+		if ( empty( $page_on_front ) ) {
+			$page_on_front = $page_for_posts;
+		}
+
+		return [
+			'isPremium'                     => $this->product_helper->is_premium(),
+			'isRtl'                         => is_rtl(),
+			'isNetworkAdmin'                => \is_network_admin(),
+			'isMainSite'                    => \is_main_site(),
+			'isWooCommerceActive'           => $this->woocommerce_helper->is_active(),
+			'siteUrl'                       => \get_bloginfo( 'url' ),
+			'sitemapUrl'                    => WPSEO_Sitemaps_Router::get_base_url( 'sitemap_index.xml' ),
+			'hasWooCommerceShopPage'        => $shop_page_id !== -1,
+			'editWooCommerceShopPageUrl'    => \get_edit_post_link( $shop_page_id, 'js' ),
+			'wooCommerceShopPageSettingUrl' => \get_admin_url( null, 'admin.php?page=wc-settings&tab=products' ),
+			'homepageIsLatestPosts'         => $homepage_is_latest_posts,
+			'homepagePageEditUrl'           => \get_edit_post_link( $page_on_front, 'js' ),
+			'homepagePostsEditUrl'          => \get_edit_post_link( $page_for_posts, 'js' ),
 		];
 	}
 
@@ -413,20 +475,67 @@ class Settings_Integration implements Integration_Interface {
 	 * @return array The transformed post type.
 	 */
 	protected function transform_post_type( WP_Post_Type $post_type ) {
-		$route = $post_type->name;
-		if ( $post_type->rewrite ) {
-			$route = $post_type->rewrite['slug'];
-		}
-		if ( $post_type->rest_base ) {
-			$route = $post_type->rest_base;
+		return [
+			'name'                 => $post_type->name,
+			'route'                => $this->get_route( $post_type->name, $post_type->rewrite, $post_type->rest_base ),
+			'label'                => $post_type->label,
+			'singularLabel'        => $post_type->labels->singular_name,
+			'hasArchive'           => $this->post_type_helper->has_archive( $post_type ),
+			'hasSchemaArticleType' => $this->article_helper->is_article_post_type( $post_type->name ),
+		];
+	}
+
+	/**
+	 * Creates the taxonomies to represent.
+	 *
+	 * @param string[] $post_type_names The post type names.
+	 *
+	 * @return array The taxonomies.
+	 */
+	protected function get_taxonomies( $post_type_names ) {
+		$taxonomies = $this->taxonomy_helper->get_public_taxonomies( 'objects' );
+
+		$transformed = [];
+		foreach ( $taxonomies as $name => $taxonomy ) {
+			$transformed[ $name ] = [
+				'name'          => $taxonomy->name,
+				'route'         => $this->get_route( $taxonomy->name, $taxonomy->rewrite, $taxonomy->rest_base ),
+				'label'         => $taxonomy->label,
+				'singularLabel' => $taxonomy->labels->singular_name,
+				'postTypes'     => \array_filter(
+					$taxonomy->object_type,
+					static function ( $object_type ) use ( $post_type_names ) {
+						return \in_array( $object_type, $post_type_names, true );
+					}
+				),
+			];
 		}
 
-		return [
-			'name'          => $post_type->name,
-			'route'         => $route,
-			'label'         => $post_type->label,
-			'singularLabel' => $post_type->labels->singular_name,
-			'hasArchive'    => $this->post_type_helper->has_archive( $post_type ),
-		];
+		return $transformed;
+	}
+
+	/**
+	 * Gets the route from a name, rewrite and rest_base.
+	 *
+	 * @param string $name      The name.
+	 * @param array  $rewrite   The rewrite data.
+	 * @param string $rest_base The rest base.
+	 *
+	 * @return string The route.
+	 */
+	protected function get_route( $name, $rewrite, $rest_base ) {
+		$route = $name;
+		if ( isset( $rewrite['slug'] ) ) {
+			$route = $rewrite['slug'];
+		}
+		if ( ! empty( $rest_base ) ) {
+			$route = $rest_base;
+		}
+		// Always strip leading slashes.
+		while ( substr( $route, 0, 1 ) === '/' ) {
+			$route = substr( $route, 1 );
+		}
+
+		return $route;
 	}
 }
