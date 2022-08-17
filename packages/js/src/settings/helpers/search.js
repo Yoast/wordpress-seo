@@ -218,6 +218,18 @@ export const createTaxonomySearchIndex = ( { name, label, route } ) => ( {
 export const createSearchIndex = ( settings, postTypes, taxonomies ) => ( {
 	wpseo: {},
 	wpseo_titles: {
+		open_graph_frontpage_image_id: {
+			route: "/homepage",
+			routeLabel: __( "Homepage", "wordpress-seo" ),
+			fieldId: "button-wpseo_titles-open_graph_frontpage_image-preview",
+			fieldLabel: __( "Social image", "wordpress-seo" ),
+		},
+		open_graph_frontpage_image: {
+			route: "/homepage",
+			routeLabel: __( "Homepage", "wordpress-seo" ),
+			fieldId: "button-wpseo_titles-open_graph_frontpage_image-preview",
+			fieldLabel: __( "Social image", "wordpress-seo" ),
+		},
 		...reduce( postTypes, ( acc, postType ) => ( {
 			...acc,
 			...createPostTypeSearchIndex( postType ),
@@ -231,13 +243,13 @@ export const createSearchIndex = ( settings, postTypes, taxonomies ) => ( {
 		og_default_image_id: {
 			route: "/site-defaults",
 			routeLabel: __( "Site defaults", "wordpress-seo" ),
-			fieldId: "wpseo_social.og_default_image_id",
+			fieldId: "button-wpseo_social-og_default_image-preview",
 			fieldLabel: __( "Site image", "wordpress-seo" ),
 		},
 		og_default_image_url: {
 			route: "/site-defaults",
 			routeLabel: __( "Site defaults", "wordpress-seo" ),
-			fieldId: "wpseo_social.og_default_image_url",
+			fieldId: "button-wpseo_social-og_default_image-preview",
 			fieldLabel: __( "Site image", "wordpress-seo" ),
 		},
 	},
