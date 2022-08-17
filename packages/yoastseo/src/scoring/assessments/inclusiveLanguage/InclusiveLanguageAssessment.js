@@ -65,7 +65,9 @@ export default class InclusiveLanguageAssessment extends Assessment {
 		const memoizedTokenizer = researcher.getHelper( "memoizedTokenizer" );
 		const text = paper.getText();
 		const textTitle = paper.getTextTitle();
-		const sentences = getSentences( textTitle + text, memoizedTokenizer );
+		const sentences = getSentences( text, memoizedTokenizer );
+		// Also include the text title in the analysis as a separate sentence.
+		sentences.push( textTitle );
 
 		this.foundPhrases = [];
 
@@ -115,6 +117,7 @@ export default class InclusiveLanguageAssessment extends Assessment {
 
 		return result;
 	}
+
 	/**
 	 * Marks text for the inclusive language assessment.
 	 *
