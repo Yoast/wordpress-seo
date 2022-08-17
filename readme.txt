@@ -245,10 +245,12 @@ Release Date: August 23rd, 2022
 
 
 
+
 Bugfixes:
 
 * Fixes a bug in the Classic Editor where clicking on the SEO link inside of the Publish box would not scroll the SEO analysis into view when the SEO tab inside of the Yoast metabox was not already open.
 * Fixes a bug where an emoji is not entirely removed when the backspace/delete button is hit.
+* Fixes a bug where a redirect to our installation success page could happen on admin ajax calls.
 
 Other:
 
