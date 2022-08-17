@@ -5,7 +5,9 @@ namespace Yoast\WP\SEO\Integrations\Front_End;
 use WPSEO_Sitemaps_Router;
 use Yoast\WP\SEO\Conditionals\Robots_Txt_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Robots_Txt_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
+use Yoast\WP\SEO\Presenters\Robots_Txt_Presenter;
 
 /**
  * Handles adding the sitemap to the `robots.txt`.
@@ -20,12 +22,30 @@ class Robots_Txt_Integration implements Integration_Interface {
 	protected $options_helper;
 
 	/**
+	 * Holds the robots txt helper.
+	 *
+	 * @var Robots_Txt_Helper
+	 */
+	protected $robots_txt_helper;
+
+	/**
+	 * Holds the robots txt presenter.
+	 *
+	 * @var Robots_Txt_Presenter
+	 */
+	protected $robots_txt_presenter;
+
+	/**
 	 * Sets the helpers.
 	 *
-	 * @param Options_Helper $options_helper Options helper.
+	 * @param Options_Helper       $options_helper Options helper.
+	 * @param Robots_Txt_Helper    $robots_txt_helper Robots txt helper.
+	 * @param Robots_Txt_Presenter $robots_txt_presenter Robots txt presenter.
 	 */
-	public function __construct( Options_Helper $options_helper ) {
-		$this->options_helper = $options_helper;
+	public function __construct( Options_Helper $options_helper, Robots_Txt_Helper $robots_txt_helper, Robots_Txt_Presenter $robots_txt_presenter ) {
+		$this->options_helper       = $options_helper;
+		$this->robots_txt_helper    = $robots_txt_helper;
+		$this->robots_txt_presenter = $robots_txt_presenter;
 	}
 
 	/**
@@ -63,9 +83,17 @@ class Robots_Txt_Integration implements Integration_Interface {
 		}
 
 		$robots_txt = $this->change_default_robots( $robots_txt );
-		$robots_txt = $this->add_xml_sitemap( $robots_txt );
+		$this->maybe_add_xml_sitemap();
+		$this->add_subdirectory_multisite_xml_sitemaps();
 
-		return $this->add_subdirectory_multisite_xml_sitemaps( $robots_txt );
+		/**
+		 * Allow registering custom robots rules to be outputted within the Yoast content block in robots.txt.
+		 *
+		 * @param Robots_Txt_Helper $robots_txt_helper The Robots_Txt_Helper object.
+		 */
+		do_action( 'Yoast\WP\SEO\register_robots_rules', $this->robots_txt_helper );
+
+		return $robots_txt . "\n" . $this->robots_txt_presenter->present();
 	}
 
 	/**
@@ -86,57 +114,35 @@ class Robots_Txt_Integration implements Integration_Interface {
 	/**
 	 * Adds XML sitemap reference to robots.txt.
 	 *
-	 * @param string $robots_txt Robots.txt input.
-	 *
-	 * @return string
+	 * @return void
 	 */
-	protected function add_xml_sitemap( $robots_txt ) {
+	protected function maybe_add_xml_sitemap() {
 		// If the XML sitemap is disabled, bail.
 		if ( ! $this->options_helper->get( 'enable_xml_sitemap', false ) ) {
-			return $robots_txt;
+			return;
 		}
-
-		$sitemap = 'Sitemap: ' . \esc_url( WPSEO_Sitemaps_Router::get_base_url( 'sitemap_index.xml' ) );
-
-		// If our sitemap is already output, bail.
-		if ( \strpos( $robots_txt, $sitemap ) !== false ) {
-			return $robots_txt;
-		}
-
-		return \trim( $robots_txt ) . "\n\n" . $sitemap . "\n";
+		$this->robots_txt_helper->add_sitemap( \esc_url( WPSEO_Sitemaps_Router::get_base_url( 'sitemap_index.xml' ) ) );
 	}
 
 	/**
 	 * Adds subdomain multisite' XML sitemap references to robots.txt.
 	 *
-	 * @param string $robots_txt Robots.txt input.
-	 *
-	 * @return string
+	 * @return void
 	 */
-	protected function add_subdirectory_multisite_xml_sitemaps( $robots_txt ) {
+	protected function add_subdirectory_multisite_xml_sitemaps() {
 		// If not on a multisite subdirectory, bail.
 		if ( ! \is_multisite() || \is_subdomain_install() ) {
-			return $robots_txt;
+			return;
 		}
 
 		$sitemaps_enabled = $this->get_xml_sitemaps_enabled();
-		$sitemaps         = "\n\n";
+
 		foreach ( $sitemaps_enabled as $blog_id => $is_sitemap_enabled ) {
 			if ( ! $is_sitemap_enabled ) {
 				continue;
 			}
-
-			$sitemap = 'Sitemap: ' . \esc_url( \get_home_url( $blog_id, 'sitemap_index.xml' ) );
-
-			// If our sitemap is already output, bail.
-			if ( \strpos( $robots_txt, $sitemap ) !== false ) {
-				continue;
-			}
-
-			$sitemaps .= $sitemap . "\n";
+			$this->robots_txt_helper->add_sitemap( \esc_url( \get_home_url( $blog_id, 'sitemap_index.xml' ) ) );
 		}
-
-		return \trim( $robots_txt ) . $sitemaps;
 	}
 
 	/**
