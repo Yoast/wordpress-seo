@@ -29,6 +29,17 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 	);
 
 	foreach ( $feature_toggles as $feature ) {
+		$is_premium      = YoastSEO()->helpers->product->is_premium();
+		$premium_version = YoastSEO()->helpers->product->get_premium_version();
+
+		if ( $feature->premium && $feature->premium_version ) {
+			$not_supported_in_current_premium_version = $is_premium && \version_compare( $premium_version, $feature->premium_version, '<' );
+
+			if ( $not_supported_in_current_premium_version ) {
+				continue;
+			}
+		}
+
 		$help_text = esc_html( $feature->label );
 		if ( ! empty( $feature->extra ) ) {
 			$help_text .= ' ' . $feature->extra;

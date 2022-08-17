@@ -40,9 +40,13 @@ import { selectReplacementVariables } from "./helpers/selection";
  * WordPress admin menu. The admin menu has a z-index of 9990. Therefor we add
  * an extra 9990 to our z-index value.
  */
-const ZIndexOverride = styled.div`
+const MentionSuggestionsStyleWrapper = styled.div`
 	div {
 		z-index: 10995;
+	}
+	> div {
+		max-height: 450px;
+		overflow-y: auto;
 	}
 `;
 
@@ -641,14 +645,14 @@ class ReplacementVariableEditorStandalone extends React.Component {
 					fieldId
 				) }
 
-				<ZIndexOverride>
+				<MentionSuggestionsStyleWrapper>
 					<MentionSuggestions
 						onSearchChange={ this.onSearchChange }
 						suggestions={ suggestions }
 						onOpenChange={ this.onSuggestionsOpenChange }
 						open={ isSuggestionsOpen }
 					/>
-				</ZIndexOverride>
+				</MentionSuggestionsStyleWrapper>
 			</React.Fragment>
 		);
 	}
