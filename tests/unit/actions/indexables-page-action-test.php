@@ -210,27 +210,6 @@ class Indexables_Page_Action_Test extends TestCase {
 	 * @return array Data for test_get_setup_info function.
 	 */
 	public function get_setup_info_provider() {
-		$no_features_enabled = [
-			'ignore_list_state'        => [
-				'keyword_analysis_active'  => false,
-				'content_analysis_active'  => false,
-				'enable_text_link_counter' => false,
-			],
-			'query_times'              => 0,
-			'query_results'            => [ 'irrelevant' ],
-			'count_times'              => 0,
-			'percentage_query_times'   => 0,
-			'no_keyphrase_query_times' => 0,
-			'expected_result'          => [
-				'enabledFeatures'       => [
-					'isSeoScoreEnabled'    => false,
-					'isReadabilityEnabled' => false,
-					'isLinkCountEnabled'   => false,
-				],
-				'enoughContent'         => false,
-				'enoughAnalysedContent' => false,
-			],
-		];
 
 		$seo_score_enabled_no_posts = [
 			'ignore_list_state'        => [
@@ -323,7 +302,6 @@ class Indexables_Page_Action_Test extends TestCase {
 			],
 		];
 		return [
-			'No features enabled'            => $no_features_enabled,
 			'SEO score enabled but no posts' => $seo_score_enabled_no_posts,
 			'Not enough posts'               => $not_enough_posts,
 			'Not enough analyzed posts'      => $not_enough_analyzed_posts,
